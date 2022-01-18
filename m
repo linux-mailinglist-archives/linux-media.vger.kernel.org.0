@@ -2,151 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9EC4492962
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 16:07:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 258D64929DA
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 16:49:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242496AbiARPH2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jan 2022 10:07:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37484 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242180AbiARPH1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jan 2022 10:07:27 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7FEEC061574;
-        Tue, 18 Jan 2022 07:07:26 -0800 (PST)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:5aac:9ca0:e459:1f09])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 094531F43FCF;
-        Tue, 18 Jan 2022 15:07:25 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1642518445;
-        bh=kcrKD5Lb4gNWfTjfNnB/gFNCNh+zasxQp0W3HPwbaz0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=DGAF/BR7fGDn8mG6BppEiTu3g4eO7nd/N7901D40JmjlHXP8s2AU804QYHmPXOSkc
-         JsTU06IBE5hKL0L9Eb8T02BULIzirVylDOGndQg/H6/ZUWVfQFZk9GLBd8w3H1+wot
-         fFRP1xDFK1R5ehrgfPeBS+W837CnWvlsjvWt9S/c2ZMyuxYCiDFpOPcrVYQzln2Tk7
-         LIb2oH15UTwNTbTK4kulQOQMAToRMqrfiePaxEhwhMcNZcM7HbjYkMHE/IvJahSa08
-         Cl37Z6HWc6kvWvt07UiMnZY+5Z//dShe02vWHyUKYpzIM1ow1DiPHp01gBjC/HNRO9
-         +i25L23fssfMg==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-        mchehab@kernel.org, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.co.uk
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH] media: platform: mtk-vcodec: Do not force /dev/videoX node number
-Date:   Tue, 18 Jan 2022 16:07:17 +0100
-Message-Id: <20220118150717.706074-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.30.2
+        id S1345901AbiARPtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jan 2022 10:49:00 -0500
+Received: from mga05.intel.com ([192.55.52.43]:39701 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1345834AbiARPs7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 18 Jan 2022 10:48:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642520939; x=1674056939;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n2HdvlkezkO7MNNO0epANEP8x/sWSiaZABc03KE2VuQ=;
+  b=mC3AfNMRImOOLVpVRKqF5GTZuFauoPWY2pbXLTi5m8azD63K9WpUIfgB
+   7GvhB7HtFX2y3OXUS6j1FBle50FStlLgUk1OtakO8SOg83i3seTtIAcz8
+   TrO/9EUzjGo+iL6sK/sUDXmGN4cAnkEKA3OxVLgf6AmhqaB4NE9P6IcC3
+   D7ikgy0Qta/lCMTXbSCd1G++ALeMSvH0K63xs1igL1iwYG5CRUeXkQZ6h
+   e1Woux8OxSFBKGVTSXHAto+fKlcqjZLpz2ogBAAvcEnDQRWMTuYGc6CHw
+   dr84VJi064OsLDCB6K3/Uc+7WRDWv+dcfL+r3A1mpoCKanwGd6jyvZNX7
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="331194297"
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; 
+   d="scan'208";a="331194297"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2022 07:48:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; 
+   d="scan'208";a="625547181"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 18 Jan 2022 07:48:57 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1n9qjA-000Cig-O3; Tue, 18 Jan 2022 15:48:56 +0000
+Date:   Tue, 18 Jan 2022 23:48:12 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: drivers/media/i2c/ov8865.c:2799 ov8865_get_selection() warn:
+ inconsistent indenting
+Message-ID: <202201182306.qGenOYaU-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Let's v4l2 framework use a free /dev/videoX node for decode and encoder.
-For the decoder call video_register_device() before register the media
-controller device so the mapping between ins correctly done.
-Since the registering sequence has changed rework exiting errors case too.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fe81ba137ebcc7f236780996a0b375732c07e85c
+commit: acd25e220921de232b027c677668c93aa6ba5d15 media: i2c: Add .get_selection() support to ov8865
+date:   7 weeks ago
+config: x86_64-randconfig-m001-20220117 (https://download.01.org/0day-ci/archive/20220118/202201182306.qGenOYaU-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+smatch warnings:
+drivers/media/i2c/ov8865.c:2799 ov8865_get_selection() warn: inconsistent indenting
+
+vim +2799 drivers/media/i2c/ov8865.c
+
+  2787	
+  2788	static int ov8865_get_selection(struct v4l2_subdev *subdev,
+  2789					struct v4l2_subdev_state *state,
+  2790					struct v4l2_subdev_selection *sel)
+  2791	{
+  2792		struct ov8865_sensor *sensor = ov8865_subdev_sensor(subdev);
+  2793	
+  2794		switch (sel->target) {
+  2795		case V4L2_SEL_TGT_CROP:
+  2796			mutex_lock(&sensor->mutex);
+  2797				__ov8865_get_pad_crop(sensor, state, sel->pad,
+  2798						      sel->which, &sel->r);
+> 2799			mutex_unlock(&sensor->mutex);
+  2800			break;
+  2801		case V4L2_SEL_TGT_NATIVE_SIZE:
+  2802			sel->r.top = 0;
+  2803			sel->r.left = 0;
+  2804			sel->r.width = OV8865_NATIVE_WIDTH;
+  2805			sel->r.height = OV8865_NATIVE_HEIGHT;
+  2806			break;
+  2807		case V4L2_SEL_TGT_CROP_BOUNDS:
+  2808		case V4L2_SEL_TGT_CROP_DEFAULT:
+  2809			sel->r.top = OV8865_ACTIVE_START_TOP;
+  2810			sel->r.left = OV8865_ACTIVE_START_LEFT;
+  2811			sel->r.width = OV8865_ACTIVE_WIDTH;
+  2812			sel->r.height = OV8865_ACTIVE_HEIGHT;
+  2813			break;
+  2814		default:
+  2815			return -EINVAL;
+  2816		}
+  2817	
+  2818		return 0;
+  2819	}
+  2820	
+
 ---
- .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 27 +++++++++----------
- .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  2 +-
- 2 files changed, 13 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-index 86b639d82be8..a4a3f9631d04 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-@@ -374,7 +374,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 	if (IS_ERR((__force void *)dev->m2m_dev_dec)) {
- 		mtk_v4l2_err("Failed to init mem2mem dec device");
- 		ret = PTR_ERR((__force void *)dev->m2m_dev_dec);
--		goto err_dec_mem_init;
-+		goto err_dec_alloc;
- 	}
- 
- 	dev->decode_workqueue =
-@@ -391,10 +391,16 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 					   &pdev->dev);
- 		if (ret) {
- 			mtk_v4l2_err("Main device of_platform_populate failed.");
--			goto err_event_workq;
-+			goto err_reg_cont;
- 		}
- 	}
- 
-+	ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, -1);
-+	if (ret) {
-+		mtk_v4l2_err("Failed to register video device");
-+		goto err_reg_cont;
-+	}
-+
- 	if (dev->vdec_pdata->uses_stateless_api) {
- 		dev->mdev_dec.dev = &pdev->dev;
- 		strscpy(dev->mdev_dec.model, MTK_VCODEC_DEC_NAME,
-@@ -408,7 +414,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 							 MEDIA_ENT_F_PROC_VIDEO_DECODER);
- 		if (ret) {
- 			mtk_v4l2_err("Failed to register media controller");
--			goto err_reg_cont;
-+			goto err_dec_mem_init;
- 		}
- 
- 		ret = media_device_register(&dev->mdev_dec);
-@@ -419,30 +425,21 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 
- 		mtk_v4l2_debug(0, "media registered as /dev/media%d", vfd_dec->minor);
- 	}
--	ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, 0);
--	if (ret) {
--		mtk_v4l2_err("Failed to register video device");
--		goto err_dec_reg;
--	}
- 
- 	mtk_v4l2_debug(0, "decoder registered as /dev/video%d", vfd_dec->minor);
- 
- 	return 0;
- 
--err_dec_reg:
--	if (dev->vdec_pdata->uses_stateless_api)
--		media_device_unregister(&dev->mdev_dec);
- err_media_reg:
--	if (dev->vdec_pdata->uses_stateless_api)
--		v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
-+	v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
-+err_dec_mem_init:
-+	video_unregister_device(vfd_dec);
- err_reg_cont:
- 	if (dev->vdec_pdata->uses_stateless_api)
- 		media_device_cleanup(&dev->mdev_dec);
- 	destroy_workqueue(dev->decode_workqueue);
- err_event_workq:
- 	v4l2_m2m_release(dev->m2m_dev_dec);
--err_dec_mem_init:
--	video_unregister_device(vfd_dec);
- err_dec_alloc:
- 	v4l2_device_unregister(&dev->v4l2_dev);
- err_core_workq:
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-index 507ad1ea2104..3975613b75b3 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-@@ -350,7 +350,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
- 		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
- 
--	ret = video_register_device(vfd_enc, VFL_TYPE_VIDEO, 1);
-+	ret = video_register_device(vfd_enc, VFL_TYPE_VIDEO, -1);
- 	if (ret) {
- 		mtk_v4l2_err("Failed to register video device");
- 		goto err_enc_reg;
--- 
-2.30.2
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
