@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 652C8491E17
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 04:47:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B36CC491B07
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jan 2022 04:03:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347226AbiARDqt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jan 2022 22:46:49 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:48216 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347237AbiARClB (ORCPT
+        id S241411AbiARDDh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jan 2022 22:03:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346427AbiARCtB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jan 2022 21:41:01 -0500
+        Mon, 17 Jan 2022 21:49:01 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30463C061759;
+        Mon, 17 Jan 2022 18:41:11 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 57D7AB811CC;
-        Tue, 18 Jan 2022 02:40:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B427BC36AE3;
-        Tue, 18 Jan 2022 02:40:56 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 82A4A612D4;
+        Tue, 18 Jan 2022 02:41:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F31C5C36AE3;
+        Tue, 18 Jan 2022 02:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642473658;
-        bh=1b6YLDjsUCQzFUYs8Px5c2cq/w57NeG2Q6+eG+HGcOs=;
+        s=k20201202; t=1642473669;
+        bh=c48g0P2kXom32ZkWk2oniIOiwrvvjuNKadW20KYAa4o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ubem+bjQl2Ugmvv7y22ehJLM/9P72vmfBOC8zcQmJIscbTQMG6fsg7KWwm6fbOiJe
-         Rznj+tCHQS8SzhZAgLb3uwCZZCXP72o1w2G3v3kvlmhs7dmhHXgWRpKXo911MslDUH
-         uSwh2F8JNxPXFJAI+8UR8okmBmgkvCkC5w/iHj6Y2RggWvgBSzaCyPs2T28Fh0RgwZ
-         TA/o0eK8QwzngaEoDOBYWGSjBMxLWEvISDDiuWIw/x7aMjQmZBH2uoJRpfgesKO+ok
-         ACvkdWd8QH6XRidKEISnkmUrJ3sjNclsH8eCrik3mORjhAEUl+PRGUTFy4ZOeBX0AD
-         mPD74rHwjMjhg==
+        b=fAGzBbw7WRYmQUzS2PJ1W72vkKGve4Dc7ZQyqHsTS1zZ5aEQwXIwu3IzZBTBFC2WH
+         wdedIL0AGqkvbgUjzoW4PGc805UAlwfLgkjeyAZ9DXI7ZdUY9MO6rIZS2N5b1XmKgP
+         pK8KdeVLiGeQTMA5r8/P2s7bOgRHbe4A40inU8cLtfej4NWeFGr679SFsn0whoJFfy
+         AM2xPKN3gjxiGZZjYJWdHadcuOmu2NilkQPX6R0mGEPaWIrMdzWVv8emOgckG4/NGO
+         Feb0w131yMndkquENlYu46rG8fXxBGwEH8nq4RrquJan7tY3tnhVFhp6Af1nOIHJfG
+         U44c3YmkHfRyw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
+Cc:     Zheyu Ma <zheyuma97@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, ndesaulniers@google.com, drv@mailo.com,
-        abaci-bugfix@linux.alibaba.com, colin.i.king@googlemail.com,
-        dingxiang@cmss.chinamobile.com, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 014/116] media: atomisp: handle errors at sh_css_create_isp_params()
-Date:   Mon, 17 Jan 2022 21:38:25 -0500
-Message-Id: <20220118024007.1950576-14-sashal@kernel.org>
+        arnd@arndb.de, sean@mess.org, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 019/116] media: b2c2: Add missing check in flexcop_pci_isr:
+Date:   Mon, 17 Jan 2022 21:38:30 -0500
+Message-Id: <20220118024007.1950576-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118024007.1950576-1-sashal@kernel.org>
 References: <20220118024007.1950576-1-sashal@kernel.org>
@@ -52,51 +52,161 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: Zheyu Ma <zheyuma97@gmail.com>
 
-[ Upstream commit 58043dbf6d1ae9deab4f5aa1e039c70112017682 ]
+[ Upstream commit b13203032e679674c7c518f52a7ec0801ca3a829 ]
 
-The succ var tracks memory allocation erros on this function.
+A out-of-bounds bug can be triggered by an interrupt, the reason for
+this bug is the lack of checking of register values.
 
-Fix it, in order to stop this W=1 Werror in clang:
+In flexcop_pci_isr, the driver reads value from a register and uses it as
+a dma address. Finally, this address will be passed to the count parameter
+of find_next_packet. If this value is larger than the size of dma, the
+index of buffer will be out-of-bounds.
 
-drivers/staging/media/atomisp/pci/sh_css_params.c:2430:7: error: variable 'succ' set but not used [-Werror,-Wunused-but-set-variable]
-        bool succ = true;
-             ^
+Fix this by adding a check after reading the value of the register.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+The following KASAN report reveals it:
+
+BUG: KASAN: slab-out-of-bounds in find_next_packet
+drivers/media/dvb-core/dvb_demux.c:528 [inline]
+BUG: KASAN: slab-out-of-bounds in _dvb_dmx_swfilter
+drivers/media/dvb-core/dvb_demux.c:572 [inline]
+BUG: KASAN: slab-out-of-bounds in dvb_dmx_swfilter+0x3fa/0x420
+drivers/media/dvb-core/dvb_demux.c:603
+Read of size 1 at addr ffff8880608c00a0 by task swapper/2/0
+
+CPU: 2 PID: 0 Comm: swapper/2 Not tainted 4.19.177-gdba4159c14ef #25
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0xec/0x156 lib/dump_stack.c:118
+ print_address_description+0x78/0x290 mm/kasan/report.c:256
+ kasan_report_error mm/kasan/report.c:354 [inline]
+ kasan_report+0x25b/0x380 mm/kasan/report.c:412
+ __asan_report_load1_noabort+0x19/0x20 mm/kasan/report.c:430
+ find_next_packet drivers/media/dvb-core/dvb_demux.c:528 [inline]
+ _dvb_dmx_swfilter drivers/media/dvb-core/dvb_demux.c:572 [inline]
+ dvb_dmx_swfilter+0x3fa/0x420 drivers/media/dvb-core/dvb_demux.c:603
+ flexcop_pass_dmx_data+0x2e/0x40 drivers/media/common/b2c2/flexcop.c:167
+ flexcop_pci_isr+0x3d1/0x5d0 drivers/media/pci/b2c2/flexcop-pci.c:212
+ __handle_irq_event_percpu+0xfb/0x770 kernel/irq/handle.c:149
+ handle_irq_event_percpu+0x79/0x150 kernel/irq/handle.c:189
+ handle_irq_event+0xac/0x140 kernel/irq/handle.c:206
+ handle_fasteoi_irq+0x232/0x5c0 kernel/irq/chip.c:725
+ generic_handle_irq_desc include/linux/irqdesc.h:155 [inline]
+ handle_irq+0x230/0x3a0 arch/x86/kernel/irq_64.c:87
+ do_IRQ+0xa7/0x1e0 arch/x86/kernel/irq.c:247
+ common_interrupt+0xf/0xf arch/x86/entry/entry_64.S:670
+ </IRQ>
+RIP: 0010:native_safe_halt+0x28/0x30 arch/x86/include/asm/irqflags.h:61
+Code: 00 00 55 be 04 00 00 00 48 c7 c7 00 62 2f 8c 48 89 e5 e8 fb 31
+e8 f8 8b 05 75 4f 8e 03 85 c0 7e 07 0f 00 2d 8a 61 66 00 fb f4 <5d> c3
+90 90 90 90 90 90 0f 1f 44 00 00 55 48 89 e5 41 57 41 56 41
+RSP: 0018:ffff88806b71fcc8 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffde
+RAX: 0000000000000000 RBX: ffffffff8bde44c8 RCX: ffffffff88a11285
+RDX: 0000000000000000 RSI: 0000000000000004 RDI: ffffffff8c2f6200
+RBP: ffff88806b71fcc8 R08: fffffbfff185ec40 R09: fffffbfff185ec40
+R10: 0000000000000001 R11: fffffbfff185ec40 R12: 0000000000000002
+R13: ffffffff8be9d6e0 R14: 0000000000000000 R15: 0000000000000000
+ arch_safe_halt arch/x86/include/asm/paravirt.h:94 [inline]
+ default_idle+0x6f/0x360 arch/x86/kernel/process.c:557
+ arch_cpu_idle+0xf/0x20 arch/x86/kernel/process.c:548
+ default_idle_call+0x3b/0x60 kernel/sched/idle.c:93
+ cpuidle_idle_call kernel/sched/idle.c:153 [inline]
+ do_idle+0x2ab/0x3c0 kernel/sched/idle.c:263
+ cpu_startup_entry+0xcb/0xe0 kernel/sched/idle.c:369
+ start_secondary+0x3b8/0x4e0 arch/x86/kernel/smpboot.c:271
+ secondary_startup_64+0xa4/0xb0 arch/x86/kernel/head_64.S:243
+
+Allocated by task 1:
+ save_stack+0x43/0xd0 mm/kasan/kasan.c:448
+ set_track mm/kasan/kasan.c:460 [inline]
+ kasan_kmalloc+0xad/0xe0 mm/kasan/kasan.c:553
+ kasan_slab_alloc+0x11/0x20 mm/kasan/kasan.c:490
+ slab_post_alloc_hook mm/slab.h:445 [inline]
+ slab_alloc_node mm/slub.c:2741 [inline]
+ slab_alloc mm/slub.c:2749 [inline]
+ kmem_cache_alloc+0xeb/0x280 mm/slub.c:2754
+ kmem_cache_zalloc include/linux/slab.h:699 [inline]
+ __kernfs_new_node+0xe2/0x6f0 fs/kernfs/dir.c:633
+ kernfs_new_node+0x9a/0x120 fs/kernfs/dir.c:693
+ __kernfs_create_file+0x5f/0x340 fs/kernfs/file.c:992
+ sysfs_add_file_mode_ns+0x22a/0x4e0 fs/sysfs/file.c:306
+ create_files fs/sysfs/group.c:63 [inline]
+ internal_create_group+0x34e/0xc30 fs/sysfs/group.c:147
+ sysfs_create_group fs/sysfs/group.c:173 [inline]
+ sysfs_create_groups+0x9c/0x140 fs/sysfs/group.c:200
+ driver_add_groups+0x3e/0x50 drivers/base/driver.c:129
+ bus_add_driver+0x3a5/0x790 drivers/base/bus.c:684
+ driver_register+0x1cd/0x410 drivers/base/driver.c:170
+ __pci_register_driver+0x197/0x200 drivers/pci/pci-driver.c:1411
+ cx88_audio_pci_driver_init+0x23/0x25 drivers/media/pci/cx88/cx88-alsa.c:
+ 1017
+ do_one_initcall+0xe0/0x610 init/main.c:884
+ do_initcall_level init/main.c:952 [inline]
+ do_initcalls init/main.c:960 [inline]
+ do_basic_setup init/main.c:978 [inline]
+ kernel_init_freeable+0x4d0/0x592 init/main.c:1145
+ kernel_init+0x18/0x190 init/main.c:1062
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:415
+
+Freed by task 0:
+(stack is not available)
+
+The buggy address belongs to the object at ffff8880608c0000
+ which belongs to the cache kernfs_node_cache of size 160
+The buggy address is located 0 bytes to the right of
+ 160-byte region [ffff8880608c0000, ffff8880608c00a0)
+The buggy address belongs to the page:
+page:ffffea0001823000 count:1 mapcount:0 mapping:ffff88806bed1e00
+index:0x0 compound_mapcount: 0
+flags: 0x100000000008100(slab|head)
+raw: 0100000000008100 dead000000000100 dead000000000200 ffff88806bed1e00
+raw: 0000000000000000 0000000000240024 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff8880608bff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff8880608c0000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffff8880608c0080: 00 00 00 00 fc fc fc fc fc fc fc fc 00 00 00 00
+                               ^
+ ffff8880608c0100: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff8880608c0180: fc fc fc fc fc fc fc fc 00 00 00 00 00 00 00 00
+==================================================================
+
+Link: https://lore.kernel.org/linux-media/1620723603-30912-1-git-send-email-zheyuma97@gmail.com
+Reported-by: Zheyu Ma <zheyuma97@gmail.com>
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/atomisp/pci/sh_css_params.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/media/pci/b2c2/flexcop-pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 24fc497bd4915..8d6514c45eeb6 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -2437,7 +2437,7 @@ sh_css_create_isp_params(struct ia_css_stream *stream,
- 	unsigned int i;
- 	struct sh_css_ddr_address_map *ddr_ptrs;
- 	struct sh_css_ddr_address_map_size *ddr_ptrs_size;
--	int err = 0;
-+	int err;
- 	size_t params_size;
- 	struct ia_css_isp_parameters *params =
- 	kvmalloc(sizeof(struct ia_css_isp_parameters), GFP_KERNEL);
-@@ -2482,7 +2482,11 @@ sh_css_create_isp_params(struct ia_css_stream *stream,
- 	succ &= (ddr_ptrs->macc_tbl != mmgr_NULL);
+diff --git a/drivers/media/pci/b2c2/flexcop-pci.c b/drivers/media/pci/b2c2/flexcop-pci.c
+index a9d9520a94c6d..c9e6c7d663768 100644
+--- a/drivers/media/pci/b2c2/flexcop-pci.c
++++ b/drivers/media/pci/b2c2/flexcop-pci.c
+@@ -185,6 +185,8 @@ static irqreturn_t flexcop_pci_isr(int irq, void *dev_id)
+ 		dma_addr_t cur_addr =
+ 			fc->read_ibi_reg(fc,dma1_008).dma_0x8.dma_cur_addr << 2;
+ 		u32 cur_pos = cur_addr - fc_pci->dma[0].dma_addr0;
++		if (cur_pos > fc_pci->dma[0].size * 2)
++			goto error;
  
- 	*isp_params_out = params;
--	return err;
-+
-+	if (!succ)
-+		return -ENOMEM;
-+
-+	return 0;
+ 		deb_irq("%u irq: %08x cur_addr: %llx: cur_pos: %08x, last_cur_pos: %08x ",
+ 				jiffies_to_usecs(jiffies - fc_pci->last_irq),
+@@ -225,6 +227,7 @@ static irqreturn_t flexcop_pci_isr(int irq, void *dev_id)
+ 		ret = IRQ_NONE;
+ 	}
+ 
++error:
+ 	spin_unlock_irqrestore(&fc_pci->irq_lock, flags);
+ 	return ret;
  }
- 
- static bool
 -- 
 2.34.1
 
