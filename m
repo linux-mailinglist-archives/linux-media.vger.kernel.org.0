@@ -2,142 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB930493FD3
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 19:25:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F65B4941EA
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 21:37:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356738AbiASSZL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jan 2022 13:25:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43256 "EHLO
+        id S244786AbiASUhm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 15:37:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356689AbiASSZK (ORCPT
+        with ESMTP id S240237AbiASUhl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jan 2022 13:25:10 -0500
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D6E4C06173E
-        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 10:25:10 -0800 (PST)
-Received: by mail-yb1-xb32.google.com with SMTP id r65so6518002ybc.11
-        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 10:25:10 -0800 (PST)
+        Wed, 19 Jan 2022 15:37:41 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C532C06161C
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 12:37:41 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id x7so12984000lfu.8
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 12:37:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qhZUjSqSQkfhZLoYn5e7bhCr/SYhnGpXe4Qg5Zbv7IY=;
-        b=KcjIc7Fy7AyXlztjvbf4TXqfnkrciDNXOMtpFzvtF3QorWdBdCJcZNxXQir+xqCgM/
-         vhWvU4puaDNNHZIf8tBZKxSuEwQBcTPRaILKpqqMlp0EO0agvObWm58HneQ/F52afxd+
-         6yk9sB6uJI4kgfYa9xXzLl1IhZoi8Xr/g+mGUrRUzF3gyQ9ppLz97Lc6tXjX5m/whFY+
-         ECRNg2HIhE2665MiG3OSXjnIgdouodrSJyK4mwNzw4KfTZvN2jBb+EzlnKNLhNJrQzDp
-         62ZPButvLcfnCM8PWDujKudROIKqyKSbycC36/wmwUvk0cT2ZnfhnIf8hQfmUytuiq2F
-         Dvuw==
+        bh=SVNoxQMp637bgUGyLKUQMTT6jCUfGMhBKrAhjOzC1jA=;
+        b=Vw/hy5bg5C+CCYO+oJtgWYZCGRowuXfpuM1y/pli43kr+OiB3OWzkR6ZyW+nfXxt/s
+         VAn2AjX3mL+nlHsEF9z/pBhrlFgPcsEA0h1sAo1ZC4YcWsIWZ0jeb+wpDXa+U2omlUCF
+         pf/73OVbaBLU61/xMVSHktQI827IhnQn2hI4w8Tkbj/fmE8A6Xntpo4ktyfN/ATLaSyR
+         OmbGO1wuYpDN6JCPJ6apqXqpoeOCB/ZbqWFXSeJZIDyaqZ4S0vxFtOgFaUm3xw+cnlGx
+         I1oFnxocUDYadU9R73MgSd6PbQAJyeaWf6JpFnbLe1rT3w0y4YtI4EsZ5WHxq0hL/Blm
+         wwzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qhZUjSqSQkfhZLoYn5e7bhCr/SYhnGpXe4Qg5Zbv7IY=;
-        b=ZaC3zFcjA7RR/CatePnTspA8BwbnQ7DVX4sQ7JRIXHrN+SDoGlDBC+dhhpXgT74T1r
-         qjEO5XvtMegyRYFl/Lacqrx1JbOaoLF/nJSejVcyN+3Paon9RweVy1SOzM6rpH8NGUsG
-         /IeUsMZrnAKgKF15xmFS3E8Cwy/8/Fp6pHE7hooSmjcMn5qCQTe+r9ddygotpivwWI46
-         59jAaZ44/hBe7pi+4vF85dbnbDNFCEWInmzQkFtRr9CM9CYbhktvNHJIrFJHd1M5+xYr
-         0lJ570DyNU7xrLrN0mm0vFv1b4Q8iog9ofkQXsW9LOxDWw2TJngKLvGYZsVPKi3XWC0q
-         G3Yg==
-X-Gm-Message-State: AOAM532b4+urO5+K/gqaFi5OsykCOFdizGAXHEINyaNGayO2s19RhNBN
-        m5GvajZc/yUbtkYZluKGHUucGh+ShGcjfMkaF8P8tA==
-X-Google-Smtp-Source: ABdhPJyn4giiiq8ubwJREn+9rcxttcLhxnSzBFBbGPyp4Qw1J6vVVbQT+Fu9+AYAHNXgggW+6+BF7t8OrokPelbULGw=
-X-Received: by 2002:a5b:586:: with SMTP id l6mr28353208ybp.322.1642616709101;
- Wed, 19 Jan 2022 10:25:09 -0800 (PST)
+        bh=SVNoxQMp637bgUGyLKUQMTT6jCUfGMhBKrAhjOzC1jA=;
+        b=zjtYYNEZHJHD0L5l/ZXgdQsGxZ1eI6jgbZxTBZPqeMBiUFn4OkWDBYhxOfiLHrd3Gz
+         yh1hQqVZOCjmgQO/GOdKV6ewRhdrsvBeKwAJBHcAKEqOZtTa+9i6v6HIeIKS2MOcZOrY
+         x9COIxECBBDpLeo0PV09ukTzzgLYPEEwpKn4cPl6yFv+bAtJoiqzZqIGqK/CxhlMh9Jq
+         gKgc3oaThR/SAAxAZ84bCv7VTR4/vgmX+beYh5zSFMUQR+LIyzOFrdQ0SClSnanmQWk8
+         i+C0RX+ns7CXMhLZmu/r2yU5dd9KrHUXKCd0HTprIufQUvlnEp5HTZ/92AwEL+2Ds5jP
+         BM2A==
+X-Gm-Message-State: AOAM530CDYoT7A0MmophqOYSNYAJXHlP61ePh38usyT92tAloGdBt/vJ
+        s1DYqINKxJTn+UjkRQgDnJxWiUUl8xPIId2ggr/ePw==
+X-Google-Smtp-Source: ABdhPJwjspQiMNHOBlTaaj+hdTY9hJrpsFobebo94UsQ78o3vrS70VesOp4vSiK9m1G+NqmP7oa+dvJBc2Sn675qSo0=
+X-Received: by 2002:a05:6512:329b:: with SMTP id p27mr30040874lfe.36.1642624659492;
+ Wed, 19 Jan 2022 12:37:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20220115010622.3185921-1-hridya@google.com> <20220115010622.3185921-3-hridya@google.com>
- <aea5b741-c994-4007-156e-d8a3a5b9bbcc@infradead.org>
-In-Reply-To: <aea5b741-c994-4007-156e-d8a3a5b9bbcc@infradead.org>
-From:   Hridya Valsaraju <hridya@google.com>
-Date:   Wed, 19 Jan 2022 10:24:33 -0800
-Message-ID: <CA+wgaPNqXSCxhby8xzQGCZ-GGJQ475Nx==ki63=DR_i25P_PiA@mail.gmail.com>
-Subject: Re: [RFC 2/6] cgroup: gpu: Add a cgroup controller for allocator
- attribution of GPU memory
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <christian@brauner.io>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Dave Airlie <airlied@redhat.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Matthew Auld <matthew.auld@intel.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Li Li <dualli@google.com>, Marco Ballesio <balejs@google.com>,
-        Hang Lu <hangl@codeaurora.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Vipin Sharma <vipinsh@google.com>,
-        Chris Down <chris@chrisdown.name>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        cgroups@vger.kernel.org, Kenny.Ho@amd.com, daniels@collabora.com,
-        kaleshsingh@google.com, tjmercier@google.com
+References: <CAO_48GF=ttKqSOm9GRoA3Mq+-RQOtRjWp449XPcz-wH=kjaTjw@mail.gmail.com>
+ <20220113123406.11520-1-guangming.cao@mediatek.com> <4f88205c1b344aea8608960e2f85b8f4@intel.com>
+ <e657f5257cbf4955817b0bbf037de9f9@intel.com> <24157767-dc29-bbdd-5428-d89ecc6b9606@amd.com>
+ <CALAqxLXRtYDNQ8y1efVGa4SwUH_oAaHviZFjsOVSNFmUHnCCeQ@mail.gmail.com>
+ <6b8182a1-7cdc-7369-5c34-e6d0c24efcca@amd.com> <82faa62f1bc946cf2f9ee2f7d15c567162238eab.camel@mediatek.com>
+ <CALAqxLUSjHoLpgFLcvqmDfv7Uip2VwHS5d_5x2nzw=P3rA2NDA@mail.gmail.com> <f09938519f1fcf51f20a0de5eb4063b0ff1a1e87.camel@mediatek.com>
+In-Reply-To: <f09938519f1fcf51f20a0de5eb4063b0ff1a1e87.camel@mediatek.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Wed, 19 Jan 2022 12:37:27 -0800
+Message-ID: <CALAqxLUtK8V9LgC-DY+tkzFYyWfzF+JhbrLZk6UhEG57HQBDSA@mail.gmail.com>
+Subject: Re: [PATCH v3] dma-buf: dma-heap: Add a size check for allocation
+To:     "Guangming.Cao" <guangming.cao@mediatek.com>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "wsd_upstream@mediatek.com" <wsd_upstream@mediatek.com>,
+        "libo.kang@mediatek.com" <libo.kang@mediatek.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "yf.wang@mediatek.com" <yf.wang@mediatek.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "lmark@codeaurora.org" <lmark@codeaurora.org>,
+        "benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
+        "bo.song@mediatek.com" <bo.song@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "labbott@redhat.com" <labbott@redhat.com>,
+        "mingyuan.ma@mediatek.com" <mingyuan.ma@mediatek.com>,
+        "jianjiao.zeng@mediatek.com" <jianjiao.zeng@mediatek.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 19, 2022 at 7:40 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Hi--
->
-> On 1/14/22 17:06, Hridya Valsaraju wrote:
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index cd23faa163d1..408910b21387 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -990,6 +990,13 @@ config BLK_CGROUP
+On Wed, Jan 19, 2022 at 1:58 AM Guangming.Cao
+<guangming.cao@mediatek.com> wrote:
+> On Fri, 2022-01-14 at 17:17 -0800, John Stultz wrote:
+> > If the max value is per-heap, why not enforce that value in the
+> > per-heap allocation function?
 > >
-> >       See Documentation/admin-guide/cgroup-v1/blkio-controller.rst for more information.
+> > Moving the check to the heap alloc to me seems simpler to me than
+> > adding complexity to the infrastructure to add a heap max_size
+> > callback. Is there some other use for the callback that you envision?
 > >
-> > +config CGROUP_GPU
-> > +       bool "gpu cgroup controller (EXPERIMENTAL)"
-> > +       select PAGE_COUNTER
-> > +       help
-> > +     Provides accounting and limit setting for memory allocations by the GPU
-> > +     and GPU-related subsystems.
 >
-> Please follow coding-style for Kconfig files:
->
-> (from Documentation/process/coding-style.rst, section 10):
->
-> For all of the Kconfig* configuration files throughout the source tree,
-> the indentation is somewhat different.  Lines under a ``config`` definition
-> are indented with one tab, while help text is indented an additional two
-> spaces.
+> If you think max the value is per-heap, why not add an optional
+> callback for dma-heap to solve this issue(prevent consuming too much
+> time for a doomed to fail allocation), if the dma-heap doesn't have a
+> special size check, just use the default value(totalram) in dma-heap
+> framework to do the size check.
 
-Thanks Randy, sounds good! Will fix it in the next version!
+As the totalram default isn't correct for all heaps (or necessarily
+even most heaps), so those heaps would need to implement the callback.
 
->
->
-> thanks.
+I'm just not sure adding complexity to the framework to address this
+is useful. Instead of an additional check in the allocation function,
+heap implementers will need to assess if the default logic in a
+framework is correct, and then possibly implement the callback.
 
->
-> --
-> ~Randy
+> Yes, for linux dma-heaps, only system-heap needs it, so adding it in
+> system heap is the simplest. However, there are many vendor dma-heaps
+> like system-heap which won't be uploaded to linux codebase, and maybe
+> have same limitation, all these heaps need to add the same limitation.
+
+My worry is that without seeing these vendor heaps, this is a bit of a
+theoretical concern. We don't have the data on how common this is.
+I very much hope that vendors can start submitting their heaps
+upstream (along with drivers that benefit from the heaps). Then we can
+really assess what makes the most sense for the community maintained
+code.
+
+
+> I just think it's boring. However, If you think discussing these absent
+> cases based on current linux code is meaningless, I also agree to it.
+
+So, as a rule, the upstream kernel doesn't create/maintain logic to
+accommodate out of tree code.
+
+Now, I agree there is the potential for some duplication in the checks
+in the allocation logic, but until it affects the upstream kernel,
+community maintainers can't really make an appropriate evaluation.
+
+As a contra-example, if the allocation is some extreme hotpath, adding
+an extra un-inlinable function pointer traversal for the size callback
+may actually have a negative impact. This isn't likely but again, if
+we cannot demonstrate it one way or the other against the upstream
+tree, we can't figure out what the best solution might be.
+
+
+> So, to summarize, if you still think adding it in system_heap.c is
+> better, I also agree and I will update the patch to add it in
+> system_heap.c
+
+I think this is the best solution for now. As this is not part of an
+userland ABI, we can always change it in the future once we see the
+need.
+
+thanks
+-john
