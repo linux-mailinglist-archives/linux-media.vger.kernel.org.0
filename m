@@ -2,370 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AAE084939EA
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 12:51:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DEF24939FE
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 13:00:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354329AbiASLuw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jan 2022 06:50:52 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48900 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241852AbiASLus (ORCPT
+        id S1354382AbiASMAJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 07:00:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39278 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240846AbiASMAJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jan 2022 06:50:48 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id D56AC1F41B72
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1642593047;
-        bh=ZDXusnKss3SgqSE9L3JA19reKc+Pw1Zd9j8G4yPKtAI=;
-        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
-        b=M4+gNzJ15og4zljTpYBotnMchN5cQKChFRvyR5ASSshs9VUJKYR4YdkLx7uQ3uRoS
-         zeRPLhF29Nuptro6qDkxhyi4wMoIUpJTA/vBhyf8aJW9iBfsD5/bXEUw8AXdiS/bi6
-         0nxlSzGQfoFrFLpQau6wq+7AfabYS3bLGrlTZBuJS5Oc18J4+UBMKB0nTGVgBlQ7Vb
-         PDrq6q6fSNbEg1QwwON2yrMsVbTZO0uwmK8ZJrYpak9ARwwUxHDBZRt95bcU0D0Npx
-         N+ivniF1PUxR8E6ohCrSiWgTy7+lspqYvMLCR0zUtiZ5nWAg7AMyL9fMOhWVL6I1uf
-         ybUE0eJPjwHTg==
-Subject: Re: [PATCH v5, 15/15] media: mtk-vcodec: support stateless VP9
- decoding
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20220117094001.20049-1-yunfei.dong@mediatek.com>
- <20220117094001.20049-16-yunfei.dong@mediatek.com>
- <275affff-12d9-4659-e900-aa9c306e6701@collabora.com>
-Message-ID: <eaf4f649-89fc-77ff-dab1-2c837cd8c877@collabora.com>
-Date:   Wed, 19 Jan 2022 12:50:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Wed, 19 Jan 2022 07:00:09 -0500
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7F2EC061574
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 04:00:08 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id z22so9944249edd.12
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 04:00:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8BZXEWpLZHNGFLnHvF+VUrdwjsLd9cNgSucSnPROzJ4=;
+        b=OzbGVXBL5geph+h5UpYKQFMaYOvOFUNOW9r1GtHvF42MqCILSEJuzWweeMYMiVywz2
+         HIWYHcUvDh8D1JM1GPIIqNL+UYPrBNH/BN0Vx+hhuAGi8Rd/QYIjii/K81k0nSBGY9qg
+         tEdOi9gydP/ZKVyHMhD5nflgNWmoOZ7EC4sRylfCwNI0OjBN9xqW8/fOuBaNXFFHDevA
+         TDloC4Lcx9EsoIL0rl+Vq05B6PQLVDuFpLcBbEG6f6jOa1KsyGRDyuIfg+eiyizj0GvX
+         163UvWCZZZtx7r6z9TIn0lwEGPQpbvJpa9NEEtZ3NPCKKce9ZLL6B3X5/opzn/anpWK9
+         HwMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8BZXEWpLZHNGFLnHvF+VUrdwjsLd9cNgSucSnPROzJ4=;
+        b=tHUfkrgYAKJtW04n3kteWWNGBb8wJv1m0+ECeCpURDjPavT2zpRiN0eRoinqs0JPCA
+         gVuvQRpBOe2CRdc3au6hkpZHkLAcXJVWRoSE/Azmc+vr/j5MPetA1PMBnAMGIP4ZOvzN
+         ZRWYRwChGKnX3UtxEZzrQZxLjOQuUxHUdAyM0EyIKGF9s+5/X4vg4vemGd1dEMjhdZJ9
+         JkL7HCe2CgYTxcX+dgjOhSs5R+qVmsQAGDUd+JBOoFQw+U9uuH9T/qgsSiZ1YSKhwSuT
+         4ljEhDrOuSih+jxppxR5Hwy3gUje5MQ3wUcEFNACRVhhyQ6QvCkyRxvlr282XGLF5r3F
+         p9SQ==
+X-Gm-Message-State: AOAM533q6g6YH1SGvXoSvkKENY4i8sW/HuGcsuDJYjRClyFq1M3uHXjx
+        OA7N65NnYVNzhm7/NiqAfRcdUjXX3B4CFQvg+f8zIA==
+X-Google-Smtp-Source: ABdhPJx698OCGgL9gobCcTHcx/x3zyqw6IuDjzeKHZeQHHEMq40nl0OIDYQzfYebVsR+hUN+VulaPBPAjUESyzV4Gqc=
+X-Received: by 2002:a17:907:972a:: with SMTP id jg42mr25276206ejc.757.1642593607306;
+ Wed, 19 Jan 2022 04:00:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <275affff-12d9-4659-e900-aa9c306e6701@collabora.com>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20220107093455.73766-1-wenst@chromium.org> <20220107093455.73766-2-wenst@chromium.org>
+ <Yecq111pZDP9XFNO@eze-laptop> <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
+In-Reply-To: <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Wed, 19 Jan 2022 08:59:51 -0300
+Message-ID: <CAAEAJfBM4d4hd1Av_TO-WVXQoUCNUckm+YHawdg6PY3urkB9nA@mail.gmail.com>
+Subject: Re: [PATCH RFT v2 1/8] media: hantro: jpeg: Relax register writes
+ before write starting hardware
+To:     Chen-Yu Tsai <wenst@chromium.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 19/01/22 12:28, AngeloGioacchino Del Regno ha scritto:
-> Il 17/01/22 10:40, Yunfei Dong ha scritto:
->> Add support for VP9 decoding using the stateless API,
->> as supported by MT8192. And the drivers is lat and core architecture.
->>
->> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
->> Signed-off-by: George Sun <george.sun@mediatek.com>
->> ---
->>   drivers/media/platform/mtk-vcodec/Makefile    |    1 +
->>   .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |   26 +-
->>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |    1 +
->>   .../mtk-vcodec/vdec/vdec_vp9_req_lat_if.c     | 1973 +++++++++++++++++
->>   .../media/platform/mtk-vcodec/vdec_drv_if.c   |    4 +
->>   .../media/platform/mtk-vcodec/vdec_drv_if.h   |    1 +
->>   6 files changed, 2003 insertions(+), 3 deletions(-)
->>   create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
->>
-> 
-> Hello Yunfei,
-> this driver is based on an older version of the VP9 stateless decoder uAPI,
-> hence this is not applicable upstream.
-> 
-> The latest linux-next tag (as of today) already contains the new and
-> accepted code; can you please rebase over that one?
-> 
-> Thanks,
-> Angelo
-
-While finishing a rebase, I had time to do a fast port of this patch; in hopes
-to spare you some time, I'm giving you my (fast) take at this.
-
-Feel free to use it as you wish!
-
-
- From 5f329ad271c94bf82d2dd12075372159466c28f9 Mon Sep 17 00:00:00 2001
-
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-Date: Wed, 19 Jan 2022 12:45:18 +0100
-
-Subject: [PATCH] media: mtk-vcodec: Port VP9 stateless driver to upstream uAPI
-
-
-
-This driver was written based on an old VP9 uAPI, but that code
-
-changed over time: port this over the newest, and upstream accepted,
-
-VP9 uAPI.
-
-
-
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
----
-
-  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  2 +-
-
-  .../mtk-vcodec/vdec/vdec_vp9_req_lat_if.c     | 29 +++++++------------
-
-  2 files changed, 12 insertions(+), 19 deletions(-)
-
-
-
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c 
-b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
-
-index 26fd97d867e9..7f4baa39bf6c 100644
-
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
-
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
-
-@@ -94,7 +94,7 @@ static const struct mtk_stateless_control 
-mtk_stateless_controls[] = {
-
-  	},
-
-  	{
-
-  		.cfg = {
-
--			.id = V4L2_CID_MPEG_VIDEO_VP9_FRAME_DECODE_PARAMS,
-
-+			.id = V4L2_CID_STATELESS_VP9_FRAME,
-
-  			},
-
-  		.codec_type = V4L2_PIX_FMT_VP9_FRAME,
-
-  	},
-
-diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c 
-b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
-
-index 92cd39f00840..8caf4f28db29 100644
-
---- a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
-
-+++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
-
-@@ -711,7 +711,7 @@ static int vdec_vp9_slice_setup_lat_from_src_buf(struct 
-vdec_vp9_slice_instance
-
-
-
-  static void vdec_vp9_slice_setup_hdr(struct vdec_vp9_slice_instance *instance,
-
-  				     struct vdec_vp9_slice_uncompressed_header *uh,
-
--				     struct v4l2_ctrl_vp9_frame_decode_params *hdr)
-
-+				     struct v4l2_ctrl_vp9_frame *hdr)
-
-  {
-
-  	int i;
-
-
-
-@@ -749,13 +749,13 @@ static void vdec_vp9_slice_setup_hdr(struct 
-vdec_vp9_slice_instance *instance,
-
-  	 * - LAST_FRAME = 1,
-
-  	 * - GOLDEN_FRAME = 2,
-
-  	 * - ALTREF_FRAME = 3,
-
--	 * ref_frame_sign_biases[INTRA_FRAME] is always 0
-
-+	 * ref_frame_sign_bias[INTRA_FRAME] is always 0
-
-  	 * and VDA only passes another 3 directions
-
-  	 */
-
-  	uh->ref_frame_sign_bias[0] = 0;
-
-  	for (i = 0; i < 3; i++)
-
-  		uh->ref_frame_sign_bias[i + 1] =
-
--			!!(hdr->ref_frame_sign_biases & (1 << i));
-
-+			!!(hdr->ref_frame_sign_bias & (1 << i));
-
-  	uh->allow_high_precision_mv = HDR_FLAG(ALLOW_HIGH_PREC_MV);
-
-  	uh->interpolation_filter = hdr->interpolation_filter;
-
-  	uh->refresh_frame_context = HDR_FLAG(REFRESH_FRAME_CTX);
-
-@@ -772,7 +772,7 @@ static void vdec_vp9_slice_setup_hdr(struct 
-vdec_vp9_slice_instance *instance,
-
-
-
-  static void vdec_vp9_slice_setup_frame_ctx(struct vdec_vp9_slice_instance *instance,
-
-  					   struct vdec_vp9_slice_uncompressed_header *uh,
-
--					   struct v4l2_ctrl_vp9_frame_decode_params *hdr)
-
-+					   struct v4l2_ctrl_vp9_frame *hdr)
-
-  {
-
-  	int error_resilient_mode;
-
-  	int reset_frame_context;
-
-@@ -857,7 +857,7 @@ static void vdec_vp9_slice_setup_segmentation(struct 
-vdec_vp9_slice_uncompressed
-
-  }
-
-
-
-  static int vdec_vp9_slice_setup_tile(struct vdec_vp9_slice_vsi *vsi,
-
--				     struct v4l2_ctrl_vp9_frame_decode_params *hdr)
-
-+				     struct v4l2_ctrl_vp9_frame *hdr)
-
-  {
-
-  	unsigned int rows_log2;
-
-  	unsigned int cols_log2;
-
-@@ -909,19 +909,10 @@ static void vdec_vp9_slice_setup_state(struct 
-vdec_vp9_slice_vsi *vsi)
-
-  	memset(&vsi->state, 0, sizeof(vsi->state));
-
-  }
-
-
-
--static void vdec_vp9_slice_setup_ref_idx(struct vdec_vp9_slice_pfc *pfc,
-
--					 struct v4l2_ctrl_vp9_frame_decode_params *hdr)
-
--{
-
--	int i;
-
--
-
--	for (i = 0; i < 3; i++)
-
--		pfc->ref_idx[i] = hdr->refs[i];
-
--}
-
--
-
-  static int vdec_vp9_slice_setup_pfc(struct vdec_vp9_slice_instance *instance,
-
-  				    struct vdec_vp9_slice_pfc *pfc)
-
-  {
-
--	struct v4l2_ctrl_vp9_frame_decode_params *hdr;
-
-+	struct v4l2_ctrl_vp9_frame *hdr;
-
-  	struct vdec_vp9_slice_uncompressed_header *uh;
-
-  	struct v4l2_ctrl *hdr_ctrl;
-
-  	struct vdec_vp9_slice_vsi *vsi;
-
-@@ -929,7 +920,7 @@ static int vdec_vp9_slice_setup_pfc(struct 
-vdec_vp9_slice_instance *instance,
-
-
-
-  	/* frame header */
-
-  	hdr_ctrl = v4l2_ctrl_find(&instance->ctx->ctrl_hdl,
-
--				  V4L2_CID_MPEG_VIDEO_VP9_FRAME_DECODE_PARAMS);
-
-+				  V4L2_CID_STATELESS_VP9_FRAME);
-
-  	if (!hdr_ctrl || !hdr_ctrl->p_cur.p)
-
-  		return -EINVAL;
-
-
-
-@@ -949,7 +940,9 @@ static int vdec_vp9_slice_setup_pfc(struct 
-vdec_vp9_slice_instance *instance,
-
-  	vdec_vp9_slice_setup_state(vsi);
-
-
-
-  	/* core stage needs buffer index to get ref y/c ... */
-
--	vdec_vp9_slice_setup_ref_idx(pfc, hdr);
-
-+	pfc->ref_idx[0] = hdr->last_frame_ts;
-
-+	pfc->ref_idx[1] = hdr->golden_frame_ts;
-
-+	pfc->ref_idx[2] = hdr->alt_frame_ts;
-
-
-
-  	pfc->seq = instance->seq;
-
-  	instance->seq++;
-
-@@ -1789,7 +1782,7 @@ static void vdec_vp9_slice_get_crop_info(struct 
-vdec_vp9_slice_instance *instanc
-
-  			 cr->left, cr->top, cr->width, cr->height);
-
-  }
-
-
-
--static int vdec_vp9_slice_get_param(void *h_vdec, vdec_get_param_type type, void *out)
-
-+static int vdec_vp9_slice_get_param(void *h_vdec, enum vdec_get_param_type type, 
-void *out)
-
-  {
-
-  	struct vdec_vp9_slice_instance *instance = h_vdec;
-
-
-
--- 
-
-2.33.1
-
+On Wed, 19 Jan 2022 at 07:09, Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> Hi,
+>
+> On Wed, Jan 19, 2022 at 5:02 AM Ezequiel Garcia
+> <ezequiel@vanguardiasur.com.ar> wrote:
+> >
+> > Hi Chen-Yu,
+> >
+> > The series looks good, thanks for picking up this task.
+> >
+> > Just a one comment.
+> >
+> > On Fri, Jan 07, 2022 at 05:34:48PM +0800, Chen-Yu Tsai wrote:
+> > > In the earlier submissions of the Hantro/Rockchip JPEG encoder driver, a
+> > > wmb() was inserted before the final register write that starts the
+> > > encoder. In v11, it was removed and the second-to-last register write
+> > > was changed to a non-relaxed write, which has an implicit wmb() [1].
+> > > The rockchip_vpu2 (then rk3399_vpu) variant is even weirder as there
+> > > is another writel_relaxed() following the non-relaxed one.
+> > >
+> > > Turns out only the last writel() needs to be non-relaxed. Device I/O
+> > > mappings already guarantee strict ordering to the same endpoint, and
+> > > the writel() triggering the hardware would force all writes to memory
+> > > to be observed before the writel() to the hardware is observed.
+> > >
+> > > [1] https://lore.kernel.org/linux-media/CAAFQd5ArFG0hU6MgcyLd+_UOP3+T_U-aw2FXv6sE7fGqVCVGqw@mail.gmail.com/
+> > >
+> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > ---
+> > >  drivers/staging/media/hantro/hantro_h1_jpeg_enc.c        | 3 +--
+> > >  drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c | 3 +--
+> > >  2 files changed, 2 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> > > index 1450013d3685..03db1c3444f8 100644
+> > > --- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> > > +++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> > > @@ -123,8 +123,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+> > >               | H1_REG_AXI_CTRL_INPUT_SWAP32
+> > >               | H1_REG_AXI_CTRL_OUTPUT_SWAP8
+> > >               | H1_REG_AXI_CTRL_INPUT_SWAP8;
+> > > -     /* Make sure that all registers are written at this point. */
+> > > -     vepu_write(vpu, reg, H1_REG_AXI_CTRL);
+> > > +     vepu_write_relaxed(vpu, reg, H1_REG_AXI_CTRL);
+> > >
+> >
+> > As far as I can remember, this logic comes from really old Chromium Kernels.
+> > You might be right, and this barrier isn't needed... but then OTOH the comment
+> > is here for a reason, so maybe it is needed (or was needed on some RK3288 SoC revision).
+>
+> I just realized that my commit log is wrong.
+>
+> " ... a wmb() was inserted before the final register write that starts the
+> encoder. ... " . It is actually before the second-to-last register write.
+>
+> > I don't have RK3288 boards near me, but in any case, I'm not sure
+> > we'd be able to test this easily (maybe there are issues that only
+> > trigger under a certain load).
+>
+> I see. I do have a Veyron around that I haven't used in awhile. But as you
+> said, it might not be an obvious hardware limitation.
+>
+> > I'd personally avoid this one change, but if you are confident enough with it
+> > that's fine too.
+>
+> Unfortunately they didn't leave a whole lot of clues around. For most hardware,
+> as I mentioned in the commit log, I think the final non-relaxed write should
+> suffice. I'd point to the decoder drivers not having any barriers or
+> non-relaxed writes except the final one, but IIUC they are actually two
+> distinct pieces of hardware.
+>
+> I suspect we will never know. This JPEG encoder doesn't seem to get used
+> a lot. The VP8 and H.264 encoders on ChromeOS work correctly without the
+> extra barrier and get tested a lot, but that's only testing the RK3399.
+>
+> Hans, would it be possible for you to skip this patch and pick the rest?
+> Or would you like me to resent without this one?
+>
+
+If you decide to resend, feel free to add:
+
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+to the whole series.
+
+Thanks,
+Ezequiel
