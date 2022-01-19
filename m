@@ -2,145 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E66364935B8
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 08:44:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAE5F493600
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 09:06:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352140AbiASHoF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jan 2022 02:44:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351526AbiASHoE (ORCPT
+        id S1346549AbiASIG1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 03:06:27 -0500
+Received: from mail-il1-f197.google.com ([209.85.166.197]:42892 "EHLO
+        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239002AbiASIG0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jan 2022 02:44:04 -0500
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 893F2C06173E
-        for <linux-media@vger.kernel.org>; Tue, 18 Jan 2022 23:44:03 -0800 (PST)
-Received: by mail-pg1-x536.google.com with SMTP id h23so1635963pgk.11
-        for <linux-media@vger.kernel.org>; Tue, 18 Jan 2022 23:44:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=wgsNFzNpSSdccSgxfw+zCKaHdZrvmLN4TxH4pmEqHFM=;
-        b=p+cHoZyZ/KxchMwriiVowMDalr/duztSsP8wupwGCXnhLANZc8nlOxi8DRiXRCJMIe
-         ThXD3VtztapjDQndPVMlgQCNBGdaB/6GtGter/A53dpnPy0/ro9sY23pR2hrOCNdpJ6x
-         A4o4u75fhuW3Mo06+JGLmcZyvqLXji4TLjjrijhdVwv1S53EEBqkn8vl1ndTRxbd3dZz
-         uybHANAtOcV/NY4/riEthmOAO/ZD0wmVB13Z8eWzwiHuCL/kM8zjRhZyQ+O10QzOw4WU
-         8T8YqXxpWNqIHjpyLGArRjsnP8Y9EWKTmKSTB1lK98Rd0uAtb5HaP0a2q3DyQSfNmTwM
-         RKFA==
+        Wed, 19 Jan 2022 03:06:26 -0500
+Received: by mail-il1-f197.google.com with SMTP id a1-20020a92c541000000b002b7380b0279so1106454ilj.9
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 00:06:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wgsNFzNpSSdccSgxfw+zCKaHdZrvmLN4TxH4pmEqHFM=;
-        b=aogwUfpeXPyLf3rZLRrdhA648mmpO3s4gIVx9FOtDHKz1IACMWZLdOzSR+lbcGLIlX
-         au4wyIxGI9OGcA89JkmhI+7HM46bMsYWuU3eS4BY+RsINrAB4xZ9UbIYpJAcISyjB7uo
-         eh1ECaXQgexfVcKXf0Rt7/X+5OPudWABE/wHv1WKaSR/JpXCn2XSAhxxsAYHk1/ED581
-         e3dPJrjtbGVsAIoHeorlzF8SmfZN0lQbEKc5AcvGM+/KZNtTW98HocGxp9I+SXF3az4k
-         sORSvbVdY/mzJ1Pqi3SxNeFBuhoWarVBrboG97QUy3ULu1haJHy3lHkO7ciWUXDhoaJs
-         B8JQ==
-X-Gm-Message-State: AOAM533IhcK8VIuR8iuszV8E109uEhw9Lv5csFJsTr3UEA3O54kaV0Nj
-        QmGzi19TapV52R8OnfkXmVzyFA==
-X-Google-Smtp-Source: ABdhPJyNKcbiEGUcgkz9zXpAgkBgubu/10nRg7X8eh23rlI2iY9kKxwwNMydTTsODjGuMFGY0jhtqA==
-X-Received: by 2002:a05:6a00:88f:b0:4bc:3b4e:255a with SMTP id q15-20020a056a00088f00b004bc3b4e255amr29453525pfj.79.1642578242462;
-        Tue, 18 Jan 2022 23:44:02 -0800 (PST)
-Received: from localhost ([223.184.90.234])
-        by smtp.gmail.com with ESMTPSA id g14sm16984301pgp.76.2022.01.18.23.44.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jan 2022 23:44:01 -0800 (PST)
-Date:   Wed, 19 Jan 2022 13:14:00 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Georgi Djakov <djakov@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, dmaengine@vger.kernel.org,
-        linux-pm@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
-Message-ID: <20220119074400.rqldtq6wqo73lqqg@vireshk-i7>
-References: <20220119015038.2433585-1-robh@kernel.org>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=DNq767sr2vzH/mc1BMvkTTk2NAnMTQrmyg2+/t2GQ5g=;
+        b=KClfVAFVcLEi5qsEVJKXuQS/u5sOh8JfVKcc6xQsgR9ANxzl+SJld0Euy8gBdW+H7S
+         yEyk0AihP8hvjtOi+o730XZmHDSAICjFxzJEkkwp6N1rst92wcPPIQEubP1mlrDEXdL4
+         qV80bjoPcStanqkYiTXeD0TY+5kNQc/7+MlPGdy6KKhlarJI6vzme5wm+iqUABek5rwb
+         YYmTqL3IRb9EqVkL5oXtaJBaHciq+DMf7r0U5YPnrghYs5ZOTVv+Ek4zCahPSvVUtQWv
+         NTjpdv2RRPS/1qzd9nxz67886n2Mf/zX+zzXyVsk2XEqc58u3PrJAFPoU4LjE8YPFoWl
+         7/Uw==
+X-Gm-Message-State: AOAM531yt35cu9Yaok+zkJbl7yYu2XQNzuZ7yjva6CpZqLCtu2JSuvEF
+        4VedSZxk4l5syHvx85wHDIHmCPFVYquKTL8EQBF5vHHW9dNZ
+X-Google-Smtp-Source: ABdhPJyfZigFvDwpNaXo0/u8QRJ0t40ZgMCwC0RXrVBm4c0RHaBOx2Yxq+wS1Sc6dP5gqLXb/pQI/TZc64iETd8A3dirMJOngEiT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
-User-Agent: NeoMutt/20180716-391-311a52
+X-Received: by 2002:a05:6638:3824:: with SMTP id i36mr9576040jav.258.1642579585393;
+ Wed, 19 Jan 2022 00:06:25 -0800 (PST)
+Date:   Wed, 19 Jan 2022 00:06:25 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000b3eab705d5eadc8b@google.com>
+Subject: [syzbot] general protection fault in dvb_create_media_graph
+From:   syzbot <syzbot+0d6a22bbfd17e8c94788@syzkaller.appspotmail.com>
+To:     caihuoqing@baidu.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com,
+        yepeilin.cs@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18-01-22, 19:50, Rob Herring wrote:
-> The 'phandle-array' type is a bit ambiguous. It can be either just an
-> array of phandles or an array of phandles plus args. Many schemas for
-> phandle-array properties aren't clear in the schema which case applies
-> though the description usually describes it.
-> 
-> The array of phandles case boils down to needing:
-> 
-> items:
->   maxItems: 1
-> 
-> The phandle plus args cases should typically take this form:
-> 
-> items:
->   - items:
->       - description: A phandle
->       - description: 1st arg cell
->       - description: 2nd arg cell
-> 
-> With this change, some examples need updating so that the bracketing of
-> property values matches the schema.
-> 
+Hello,
 
->  .../devicetree/bindings/opp/opp-v2-base.yaml  |  2 +
->  .../bindings/power/power-domain.yaml          |  4 +
+syzbot found the following issue on:
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+HEAD commit:    455e73a07f6e Merge tag 'clk-for-linus' of git://git.kernel..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=129fa2dfb00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=465c0933df32e292
+dashboard link: https://syzkaller.appspot.com/bug?extid=0d6a22bbfd17e8c94788
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
--- 
-viresh
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0d6a22bbfd17e8c94788@syzkaller.appspotmail.com
+
+usb 5-1: media controller created
+dvbdev: dvb_create_media_entity: media entity 'dvb-demux' registered.
+gp8psk_fe: Frontend attached
+usb 5-1: DVB: registering adapter 0 frontend 0 (Genpix DVB-S)...
+dvbdev: dvb_create_media_entity: media entity 'Genpix DVB-S' registered.
+general protection fault, probably for non-canonical address 0xe37ffbf11022d58a: 0000 [#1] PREEMPT SMP KASAN
+KASAN: maybe wild-memory-access in range [0x1bffff888116ac50-0x1bffff888116ac57]
+CPU: 1 PID: 4412 Comm: kworker/1:2 Not tainted 5.16.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:dvb_create_media_graph+0x115/0xbc0 drivers/media/dvb-core/dvbdev.c:628
+Code: 3c 20 00 0f 85 d7 09 00 00 48 8b 43 10 48 8d 58 f0 49 39 c6 0f 84 87 00 00 00 e8 36 0f 2d fd 48 8d 7b 2c 48 89 f8 48 c1 e8 03 <42> 0f b6 14 20 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85
+RSP: 0018:ffffc90005696f70 EFLAGS: 00010203
+RAX: 037ffff11022d58a RBX: 1bffff888116ac28 RCX: ffffc9000a361000
+RDX: 0000000000040000 RSI: ffffffff84167e6a RDI: 1bffff888116ac54
+RBP: 0000000000000000 R08: ffffffff86a4b8e0 R09: ffffffff84167ea1
+R10: 0000000000000004 R11: 0000000080ffff88 R12: dffffc0000000000
+R13: 0000000000000000 R14: ffff888116ac3908 R15: 0000000080ffff88
+FS:  0000000000000000(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f0d80901110 CR3: 000000010c0c2000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ dvb_usb_adapter_frontend_init+0x3b7/0x5b0 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:327
+ dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:90 [inline]
+ dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
+ dvb_usb_device_init.cold+0xcdd/0x1483 drivers/media/usb/dvb-usb/dvb-usb-init.c:308
+ gp8psk_usb_probe+0x46/0x70 drivers/media/usb/dvb-usb/gp8psk.c:304
+ usb_probe_interface+0x315/0x7f0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:517 [inline]
+ really_probe+0x245/0xcc0 drivers/base/dd.c:596
+ __driver_probe_device+0x338/0x4d0 drivers/base/dd.c:752
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:782
+ __device_attach_driver+0x20b/0x2f0 drivers/base/dd.c:899
+ bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
+ __device_attach+0x228/0x4a0 drivers/base/dd.c:970
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
+ device_add+0xc17/0x1ee0 drivers/base/core.c:3409
+ usb_set_configuration+0x101e/0x1900 drivers/usb/core/message.c:2170
+ usb_generic_driver_probe+0xba/0x100 drivers/usb/core/generic.c:238
+ usb_probe_device+0xd9/0x2c0 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:517 [inline]
+ really_probe+0x245/0xcc0 drivers/base/dd.c:596
+ __driver_probe_device+0x338/0x4d0 drivers/base/dd.c:752
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:782
+ __device_attach_driver+0x20b/0x2f0 drivers/base/dd.c:899
+ bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
+ __device_attach+0x228/0x4a0 drivers/base/dd.c:970
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
+ device_add+0xc17/0x1ee0 drivers/base/core.c:3409
+ usb_new_device.cold+0x63f/0x108e drivers/usb/core/hub.c:2566
+ hub_port_connect drivers/usb/core/hub.c:5358 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5502 [inline]
+ port_event drivers/usb/core/hub.c:5660 [inline]
+ hub_event+0x2585/0x44d0 drivers/usb/core/hub.c:5742
+ process_one_work+0x9ac/0x1650 kernel/workqueue.c:2307
+ process_scheduled_works kernel/workqueue.c:2370 [inline]
+ worker_thread+0x833/0x1110 kernel/workqueue.c:2456
+ kthread+0x40b/0x500 kernel/kthread.c:327
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+ </TASK>
+Modules linked in:
+---[ end trace 89cde2584ae9d86b ]---
+RIP: 0010:dvb_create_media_graph+0x115/0xbc0 drivers/media/dvb-core/dvbdev.c:628
+Code: 3c 20 00 0f 85 d7 09 00 00 48 8b 43 10 48 8d 58 f0 49 39 c6 0f 84 87 00 00 00 e8 36 0f 2d fd 48 8d 7b 2c 48 89 f8 48 c1 e8 03 <42> 0f b6 14 20 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85
+RSP: 0018:ffffc90005696f70 EFLAGS: 00010203
+RAX: 037ffff11022d58a RBX: 1bffff888116ac28 RCX: ffffc9000a361000
+RDX: 0000000000040000 RSI: ffffffff84167e6a RDI: 1bffff888116ac54
+RBP: 0000000000000000 R08: ffffffff86a4b8e0 R09: ffffffff84167ea1
+R10: 0000000000000004 R11: 0000000080ffff88 R12: dffffc0000000000
+R13: 0000000000000000 R14: ffff888116ac3908 R15: 0000000080ffff88
+FS:  0000000000000000(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f0d80901110 CR3: 000000010c0c2000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	3c 20                	cmp    $0x20,%al
+   2:	00 0f                	add    %cl,(%rdi)
+   4:	85 d7                	test   %edx,%edi
+   6:	09 00                	or     %eax,(%rax)
+   8:	00 48 8b             	add    %cl,-0x75(%rax)
+   b:	43 10 48 8d          	rex.XB adc %cl,-0x73(%r8)
+   f:	58                   	pop    %rax
+  10:	f0 49 39 c6          	lock cmp %rax,%r14
+  14:	0f 84 87 00 00 00    	je     0xa1
+  1a:	e8 36 0f 2d fd       	callq  0xfd2d0f55
+  1f:	48 8d 7b 2c          	lea    0x2c(%rbx),%rdi
+  23:	48 89 f8             	mov    %rdi,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 0f b6 14 20       	movzbl (%rax,%r12,1),%edx <-- trapping instruction
+  2f:	48 89 f8             	mov    %rdi,%rax
+  32:	83 e0 07             	and    $0x7,%eax
+  35:	83 c0 03             	add    $0x3,%eax
+  38:	38 d0                	cmp    %dl,%al
+  3a:	7c 08                	jl     0x44
+  3c:	84 d2                	test   %dl,%dl
+  3e:	0f                   	.byte 0xf
+  3f:	85                   	.byte 0x85
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
