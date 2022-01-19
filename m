@@ -2,110 +2,252 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13001493EEF
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 18:20:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00B12493FC3
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 19:22:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356353AbiASRUG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jan 2022 12:20:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56212 "EHLO
+        id S1356696AbiASSWi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 13:22:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345023AbiASRUD (ORCPT
+        with ESMTP id S1356689AbiASSWd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jan 2022 12:20:03 -0500
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FBBBC061574
-        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 09:20:03 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id e9-20020a05600c4e4900b0034d23cae3f0so6941392wmq.2
-        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 09:20:03 -0800 (PST)
+        Wed, 19 Jan 2022 13:22:33 -0500
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A100C06161C
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 10:22:33 -0800 (PST)
+Received: by mail-yb1-xb36.google.com with SMTP id m6so10024417ybc.9
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 10:22:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=x1K+9XuZnU2QXSiIOenVV/0BbioWKHd2vi7gWIUztz4=;
-        b=ZjDcbktQX1wrIfebPiKigKTZKneWJd4ErYnf1dt5pNy9Jtv+LToiiIVncgX0W4YBXJ
-         WHNrl6WoAOT5RHKyYTIRNkCY95mR+MSqAkbhxhgNxsoQ64IkTvrE4NpPR9/UJm4T40QM
-         Ib41oXpbBcJ34yd7Fu2m115MV2byinCv02T54=
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ow/r3jR/x5GfOuGnuaEDOpHXZ2D5zk6XSR55QH2bw2k=;
+        b=FLI8i7I5yY8vnry+xbaYi6fdQCzv/or9KmsXB8RqqToh1UZrTutJ8AvfQ35vIwRpaZ
+         ZVIDvaMC9WrXJlmNwtpWjHaWlh2hOUrkwFG7C3i2Gjctt+KKhjxyftX7F345XteoowUn
+         tmj3k+QHGMBCEsEd1hH7U0I28J5nEx8e5PpVhVuGXuhCte6lCImn19BiZqTDEqOw/Fdg
+         fvcYZ8Aq05r+5q6HwLuIb9fePc6b1rxye0TZ4rjMY47us1/36Bhlc7LrAw524c1oJWJz
+         AMiicIHHXoNcakeFhzP4hNVTgux4URUiw4uTdMc92CXEM0fnjkPofkv52VCekSlDs/yT
+         fqqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=x1K+9XuZnU2QXSiIOenVV/0BbioWKHd2vi7gWIUztz4=;
-        b=hedAmbWyeFmrRFmmbBhgOflYvn9mwroSnAIVYdvBdVXnlsfXS3uZ5U5hykxj9lUZ5X
-         WtXGgL+i5joLH2iM5NU5Y82xN280GAHXowCXjanlpdzKbHQMPr9J6DjGV30/S3RQCmnx
-         7HbvkmG4qiQwAEWN2wY85R4eldIpMO8GH///xi8VTPBd6dB/hv0nv4ixrFzMak20DIAR
-         GDiZ4myHI2zvqU00eimCi83wEGllo4fvsUSAGhnp2IkpKnIIzTUS5mJGwdBMtXCDyYps
-         mjJ7EApbMsOdZXraqfwWXbWnMYsf+hFGThgglxyllSdUZglbOIr//Q27aupe0bDo7GyH
-         8BRA==
-X-Gm-Message-State: AOAM5336wm61DMwNGUah8BdSA72O6hn3TuOTVVpZMCy+WotIfi/+VbkA
-        OqcI090WpcRuXpPWTNlkhjuqPWPFDEe0ng==
-X-Google-Smtp-Source: ABdhPJwpJ/+gWlQUuTp3j3mXrLlbARjuqjVzw39wNQS0Ltl/R0eyrvLAkK+eazHap9QqPxuGOwVN3Q==
-X-Received: by 2002:a05:600c:2216:: with SMTP id z22mr4628205wml.119.1642612801812;
-        Wed, 19 Jan 2022 09:20:01 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id x13sm427589wru.28.2022.01.19.09.20.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jan 2022 09:20:01 -0800 (PST)
-Date:   Wed, 19 Jan 2022 18:19:59 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     sumit.semwal@linaro.org, gustavo@padovan.org,
-        daniel.vetter@ffwll.ch, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 4/4] dma-buf: warn about containers in dma_resv object
-Message-ID: <YehIP4zMfcO79Zrl@phenom.ffwll.local>
-References: <20220119134339.3102-1-christian.koenig@amd.com>
- <20220119134339.3102-4-christian.koenig@amd.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ow/r3jR/x5GfOuGnuaEDOpHXZ2D5zk6XSR55QH2bw2k=;
+        b=RxcsMEsKMit1sldFBs1ZCVWGiBn36MHn6adV3cAp6E7JK2+ybLJTLXq4US1w2cKPu/
+         ynbjj8E02ZnLEkbKOa9YtiWNBU4DFYsOeFxFF4xJVvSOwdgQdvVofB2bi4EYMTkGIuBS
+         kqcgExset0tXJbarPJRr8FFh7RapiQ8tligyUvyvSzAgLsesRem0A+rTnWsHofcw/hxV
+         czeRZedytY1srUtagqGtC/1Q2xDNWJbc1Uvqy11uIy9oHV1yXs2TyH6XDVPIN/SRPuiF
+         pzgupQ/SnZ5MGx92vLrSf8fshh79fzJobG0+k+fj347PyIhuO5H2lJ0WDUmoHyY+g8C4
+         Ia9Q==
+X-Gm-Message-State: AOAM533HpabkS1ymPGQ3G6tMjoTozNb9KvmTzz8wrk9wnCodP2GV2ytn
+        ZWNIh2M4evoTM3ZTmAYUq5NsjWQ9fnNlHI6ssVyyIg==
+X-Google-Smtp-Source: ABdhPJyjjX5Kb9HEVQzIWK6/hD7hnVoGUHZFYjjUqWfesM5kj11GBi5GykhCeEhYDzwi5M4A2l0fMwN4mb/19ZPJHfM=
+X-Received: by 2002:a5b:550:: with SMTP id r16mr38968597ybp.403.1642616552050;
+ Wed, 19 Jan 2022 10:22:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220119134339.3102-4-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20220115010622.3185921-1-hridya@google.com> <20220115010622.3185921-5-hridya@google.com>
+ <f8c8b196-7d12-6242-97ac-38149f3a3ba3@amd.com> <CA+wgaPMjCfjQS4LA8hmVwAaGfXZhoJvvTUnOGt3duOhFb3orTw@mail.gmail.com>
+ <Yeg0GGi0tdnnCLHg@phenom.ffwll.local> <5cc27a05-8131-ce9b-dea1-5c75e994216d@amd.com>
+In-Reply-To: <5cc27a05-8131-ce9b-dea1-5c75e994216d@amd.com>
+From:   Hridya Valsaraju <hridya@google.com>
+Date:   Wed, 19 Jan 2022 10:21:56 -0800
+Message-ID: <CA+wgaPMqN6HYfx4Abb=be0zN1BytyoP3jEWgaAW-x+POY0SgTQ@mail.gmail.com>
+Subject: Re: [RFC 4/6] dma-buf: Add DMA-BUF exporter op to charge a DMA-BUF to
+ a cgroup.
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <christian@brauner.io>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Dave Airlie <airlied@redhat.com>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        Matthew Auld <matthew.auld@intel.com>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Li Li <dualli@google.com>, Marco Ballesio <balejs@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Hang Lu <hangl@codeaurora.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Chris Down <chris@chrisdown.name>,
+        Vipin Sharma <vipinsh@google.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        cgroups@vger.kernel.org, Kenny.Ho@amd.com, daniels@collabora.com,
+        kaleshsingh@google.com, tjmercier@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 19, 2022 at 02:43:39PM +0100, Christian König wrote:
-> Drivers should not add containers as shared fences to the dma_resv
-> object, instead each fence should be added individually.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/dma-buf/dma-resv.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 6dd9a40b55d4..e8a0c1d51da2 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -256,6 +256,11 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
->  
->  	dma_resv_assert_held(obj);
->  
-> +	/* Drivers should not add containers here, instead add each fence
-> +	 * individually.
-> +	 */
-> +	WARN_ON(dma_fence_is_container(fence));
+On Wed, Jan 19, 2022 at 7:58 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 19.01.22 um 16:54 schrieb Daniel Vetter:
+> > On Tue, Jan 18, 2022 at 10:54:16AM -0800, Hridya Valsaraju wrote:
+> >> On Sun, Jan 16, 2022 at 11:46 PM Christian K=C3=B6nig
+> >> <christian.koenig@amd.com> wrote:
+> >>> Am 15.01.22 um 02:06 schrieb Hridya Valsaraju:
+> >>>> The optional exporter op provides a way for processes to transfer
+> >>>> charge of a buffer to a different process. This is essential for the
+> >>>> cases where a central allocator process does allocations for various
+> >>>> subsystems, hands over the fd to the client who
+> >>>> requested the memory and drops all references to the allocated memor=
+y.
+> >>>>
+> >>>> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> >>>> ---
+> >>>>    include/linux/dma-buf.h | 18 ++++++++++++++++++
+> >>>>    1 file changed, 18 insertions(+)
+> >>>>
+> >>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> >>>> index 7ab50076e7a6..d5e52f81cc6f 100644
+> >>>> --- a/include/linux/dma-buf.h
+> >>>> +++ b/include/linux/dma-buf.h
+> >>>> @@ -13,6 +13,7 @@
+> >>>>    #ifndef __DMA_BUF_H__
+> >>>>    #define __DMA_BUF_H__
+> >>>>
+> >>>> +#include <linux/cgroup_gpu.h>
+> >>>>    #include <linux/dma-buf-map.h>
+> >>>>    #include <linux/file.h>
+> >>>>    #include <linux/err.h>
+> >>>> @@ -285,6 +286,23 @@ struct dma_buf_ops {
+> >>>>
+> >>>>        int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> >>>>        void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *ma=
+p);
+> >>>> +
+> >>>> +     /**
+> >>>> +      * @charge_to_cgroup:
+> >>>> +      *
+> >>>> +      * This is called by an exporter to charge a buffer to the spe=
+cified
+> >>>> +      * cgroup.
+> >>> Well that sentence makes absolutely no sense at all.
+> >>>
+> >>> The dma_buf_ops are supposed to be called by the DMA-buf subsystem on
+> >>> behalves of the importer and never by the exporter itself.
+> >>>
+> >>> I hope that this is just a documentation mixup.
+> >> Thank you for taking a look Christian!
+> >>
+> >> Yes, that was poor wording, sorry about that. It should instead say
+> >> that the op would be called by the process the buffer is currently
+> >> charged to in order to transfer the buffer's charge to a different
+> >> cgroup. This is helpful in the case where a process acts as an
+> >> allocator for multiple client processes and we would like the
+> >> allocated buffers to be charged to the clients who requested their
+> >> allocation(instead of the allocating process as is the default
+> >> behavior). In Android, the graphics allocator HAL process[1] does
+> >> most of the graphics allocations on behalf of various clients. After
+> >> allocation, the HAL process passes the fd to the client over binder
+> >> IPC and the binder driver invokes the charge_to_cgroup() DMA-BUF op to
+> >> uncharge the buffer from the HAL process and charge it to the client
+> >> process instead.
+> >>
+> >> [1]: https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F=
+%2Fsource.android.com%2Fdevices%2Fgraphics%2Farch-bq-gralloc&amp;data=3D04%=
+7C01%7Cchristian.koenig%40amd.com%7C838d25da974d4ea4257508d9db63eb70%7C3dd8=
+961fe4884e608e11a82d994e183d%7C0%7C0%7C637782044488604857%7CUnknown%7CTWFpb=
+GZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7=
+C3000&amp;sdata=3DQn7JeyF5Rq9tnrGw1KgNuQkpu5RbcrvPhDOa1OBJ6TU%3D&amp;reserv=
+ed=3D0
+> > For that use-case, do we really need to have the vfunc abstraction and
+> > force all exporters to do something reasonable with it?
+>
+> I was about to write up a similar answer, but more from the technical sid=
+e.
+>
+> Why in the world should that be done on the DMA-buf object as a
+> communication function between importer and exporter?
+>
+> That design makes absolutely no sense at all to me.
+>
+> Regards,
+> Christian.
+>
+> >
+> > I think just storing the cgrpus gpu memory bucket this is charged again=
+st
+> > and doing this in a generic way would be a lot better.
+> >
+> > That way we can also easily add other neat features in the future, like
+> > e.g. ttm could take care of charge-assignement automatically maybe, or =
+we
+> > could print the current cgroups charge relationship in the sysfs info
+> > file. Or anything else really.
 
-I'm honestly not sure whether this could go boom, so good if we push this
-asap and let it soak in linux-next for the entire release cycle.
+Thank you for the comments Daniel and Christian! I made the
+charge/uncharge/transfer part of the exporter implementation since it
+provided exporters a choice on whether they wanted to enable cgroup
+memory accounting for the buffers they were exporting. I also see the
+benefits of making the charge/uncharge/transfer generic by moving it
+to the DMA-BUF framework like you are suggesting though. We will move
+to a more generic design in the next version of the RFC.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Regards,
+Hridya
 
-On the change itself, we'll see what it brings.
--Daniel
-
-> +
->  	fobj = dma_resv_shared_list(obj);
->  	count = fobj->shared_count;
->  
-> -- 
-> 2.25.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> >
+> > I do feel that in general for gpu memory cgroups to be useful, we shoul=
+d
+> > really have memory pools as a fairly strong concept. Otherwise every
+> > driver/allocator/thing is going to come up with their own, and very lik=
+ely
+> > incompatible interpretation. And we end up with a supposed generic cgro=
+ups
+> > interface which cannot actually be used in a driver/vendor agnostic way=
+ at
+> > all.
+> > -Daniel
+> >
+> >> Regards,
+> >> Hridya
+> >>
+> >>
+> >>> Regards,
+> >>> Christian.
+> >>>
+> >>>>    The caller must hold a reference to @gpucg obtained via
+> >>>> +      * gpucg_get(). The DMA-BUF will be uncharged from the cgroup =
+it is
+> >>>> +      * currently charged to before being charged to @gpucg. The ca=
+ller must
+> >>>> +      * belong to the cgroup the buffer is currently charged to.
+> >>>> +      *
+> >>>> +      * This callback is optional.
+> >>>> +      *
+> >>>> +      * Returns:
+> >>>> +      *
+> >>>> +      * 0 on success or negative error code on failure.
+> >>>> +      */
+> >>>> +     int (*charge_to_cgroup)(struct dma_buf *dmabuf, struct gpucg *=
+gpucg);
+> >>>>    };
+> >>>>
+> >>>>    /**
+>
