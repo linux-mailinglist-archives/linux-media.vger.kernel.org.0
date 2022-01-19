@@ -2,68 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8EF549359C
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 08:41:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E66364935B8
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 08:44:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352112AbiASHlE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jan 2022 02:41:04 -0500
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:54876
-        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1352110AbiASHlD (ORCPT
+        id S1352140AbiASHoF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 02:44:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351526AbiASHoE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jan 2022 02:41:03 -0500
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id BBDD53F1DD
-        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 07:41:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1642578062;
-        bh=KOwrbfmVaaY4sfUgcL8mu/NpRfAwFGVtSAETT0kqBAg=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=tM4hYFUmnVKwE6JtmTgY2vHw1PlK/BJcgXkScI3R6HS5KGJFxTgLLpAdWyovVJAm1
-         xW3fXPKfjneZ5tun3ELc++2tlgnenxd8vXA4YGe5tI661o8vzIu+vZLlj5C55JcSdm
-         +NG3SXq9rdN7ul3MviN9y3h7uRQmpQwfIlIbWlkESXcRbVNK0Z2RVt/nrC/mETjTLr
-         gkuyV4fXRsL6lg8U7LL1Mk3weGsDERUtcwFxDV6fmPlCFPd89xxzDAOXzrmjl/STGE
-         c2y+KggX0wjG28JBpDLhmML72Co2pWizSlAqCr5t4iJuawalNjYtpqToLwvbyiM3iW
-         tVPFETDBZ5eUA==
-Received: by mail-ed1-f69.google.com with SMTP id j1-20020aa7c341000000b0040417b84efeso1354304edr.21
-        for <linux-media@vger.kernel.org>; Tue, 18 Jan 2022 23:41:02 -0800 (PST)
+        Wed, 19 Jan 2022 02:44:04 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 893F2C06173E
+        for <linux-media@vger.kernel.org>; Tue, 18 Jan 2022 23:44:03 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id h23so1635963pgk.11
+        for <linux-media@vger.kernel.org>; Tue, 18 Jan 2022 23:44:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wgsNFzNpSSdccSgxfw+zCKaHdZrvmLN4TxH4pmEqHFM=;
+        b=p+cHoZyZ/KxchMwriiVowMDalr/duztSsP8wupwGCXnhLANZc8nlOxi8DRiXRCJMIe
+         ThXD3VtztapjDQndPVMlgQCNBGdaB/6GtGter/A53dpnPy0/ro9sY23pR2hrOCNdpJ6x
+         A4o4u75fhuW3Mo06+JGLmcZyvqLXji4TLjjrijhdVwv1S53EEBqkn8vl1ndTRxbd3dZz
+         uybHANAtOcV/NY4/riEthmOAO/ZD0wmVB13Z8eWzwiHuCL/kM8zjRhZyQ+O10QzOw4WU
+         8T8YqXxpWNqIHjpyLGArRjsnP8Y9EWKTmKSTB1lK98Rd0uAtb5HaP0a2q3DyQSfNmTwM
+         RKFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=KOwrbfmVaaY4sfUgcL8mu/NpRfAwFGVtSAETT0kqBAg=;
-        b=PeiWzmqxSO+QE1FO5+l65uSRJ8vrQ+Gg0TJ+Ij/urLEvM8Pd09CLKNpmgz54vTwMfK
-         VG46XW5uyuPCtyxah+gOXwgN7fJjTiL6ry9Z4xTB3KUiTQMBdQvfHFHigfGyp5+leldE
-         0zMH3JuMwRZpEwaoygem2R7gp/XotuDcVIqBO8F2DKx7uXU2Kll5L0GPnyyzC4p5jbTi
-         UHEs4+Ml/d6BUYW4Qmaoy143N7tZ7RYO1WUNfllhT4ZRWqOE2W6qactvNjRSSYXJrHI7
-         9uQCjpDrAz14flHPViUaDA6VgCHX8AHI4jn0ACGzHJc8tEY84mugZFJGrkrGSjxkw7yw
-         2leg==
-X-Gm-Message-State: AOAM532gqj3t4u5YbPvu/2uaiI6JCjwyhLwTPHyCw+AjYt5u5q54BIsh
-        qRWHsoj36S3ZbZAX1kpA1gUCmecWCCi55D6MpuabX3eXEAKW8MruFrmkI4H3u3xQBHv4jO7ToWk
-        V5UfnBvzKygT+pEtTkrjgt3ofTMkEQkmZzWLXy13H
-X-Received: by 2002:a17:907:7ea6:: with SMTP id qb38mr23673603ejc.557.1642578052260;
-        Tue, 18 Jan 2022 23:40:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwcC/F4TT/k1wEFa2HsX2oDgdxrLKxkyNjrLq8ReErAXQsVWpB2ePW4VmJCVcsiAdC0JWuWGg==
-X-Received: by 2002:a17:907:7ea6:: with SMTP id qb38mr23673541ejc.557.1642578052033;
-        Tue, 18 Jan 2022 23:40:52 -0800 (PST)
-Received: from [192.168.0.42] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id d2sm791994edy.86.2022.01.18.23.40.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jan 2022 23:40:51 -0800 (PST)
-Message-ID: <21b72055-e158-6586-f48a-17695128b507@canonical.com>
-Date:   Wed, 19 Jan 2022 08:40:48 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wgsNFzNpSSdccSgxfw+zCKaHdZrvmLN4TxH4pmEqHFM=;
+        b=aogwUfpeXPyLf3rZLRrdhA648mmpO3s4gIVx9FOtDHKz1IACMWZLdOzSR+lbcGLIlX
+         au4wyIxGI9OGcA89JkmhI+7HM46bMsYWuU3eS4BY+RsINrAB4xZ9UbIYpJAcISyjB7uo
+         eh1ECaXQgexfVcKXf0Rt7/X+5OPudWABE/wHv1WKaSR/JpXCn2XSAhxxsAYHk1/ED581
+         e3dPJrjtbGVsAIoHeorlzF8SmfZN0lQbEKc5AcvGM+/KZNtTW98HocGxp9I+SXF3az4k
+         sORSvbVdY/mzJ1Pqi3SxNeFBuhoWarVBrboG97QUy3ULu1haJHy3lHkO7ciWUXDhoaJs
+         B8JQ==
+X-Gm-Message-State: AOAM533IhcK8VIuR8iuszV8E109uEhw9Lv5csFJsTr3UEA3O54kaV0Nj
+        QmGzi19TapV52R8OnfkXmVzyFA==
+X-Google-Smtp-Source: ABdhPJyNKcbiEGUcgkz9zXpAgkBgubu/10nRg7X8eh23rlI2iY9kKxwwNMydTTsODjGuMFGY0jhtqA==
+X-Received: by 2002:a05:6a00:88f:b0:4bc:3b4e:255a with SMTP id q15-20020a056a00088f00b004bc3b4e255amr29453525pfj.79.1642578242462;
+        Tue, 18 Jan 2022 23:44:02 -0800 (PST)
+Received: from localhost ([223.184.90.234])
+        by smtp.gmail.com with ESMTPSA id g14sm16984301pgp.76.2022.01.18.23.44.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jan 2022 23:44:01 -0800 (PST)
+Date:   Wed, 19 Jan 2022 13:14:00 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Damien Le Moal <damien.lemoal@opensource.wdc.com>,
         Herbert Xu <herbert@gondor.apana.org.au>,
         "David S. Miller" <davem@davemloft.net>,
@@ -79,6 +67,7 @@ Cc:     linux-kernel@vger.kernel.org,
         Daniel Thompson <daniel.thompson@linaro.org>,
         Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Wolfgang Grandegger <wg@grandegger.com>,
         Marc Kleine-Budde <mkl@pengutronix.de>,
@@ -113,16 +102,19 @@ Cc:     linux-kernel@vger.kernel.org,
         linux-gpio@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
         linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
+Message-ID: <20220119074400.rqldtq6wqo73lqqg@vireshk-i7>
 References: <20220119015038.2433585-1-robh@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/01/2022 02:50, Rob Herring wrote:
+On 18-01-22, 19:50, Rob Herring wrote:
 > The 'phandle-array' type is a bit ambiguous. It can be either just an
 > array of phandles or an array of phandles plus args. Many schemas for
 > phandle-array properties aren't clear in the schema which case applies
@@ -145,10 +137,10 @@ On 19/01/2022 02:50, Rob Herring wrote:
 > property values matches the schema.
 > 
 
-Samsung and memory controller bits look good:
+>  .../devicetree/bindings/opp/opp-v2-base.yaml  |  2 +
+>  .../bindings/power/power-domain.yaml          |  4 +
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-
-Best regards,
-Krzysztof
+-- 
+viresh
