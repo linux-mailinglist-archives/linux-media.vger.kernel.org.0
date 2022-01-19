@@ -2,176 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90AF6493640
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 09:25:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F25A749365D
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 09:33:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352365AbiASIY4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jan 2022 03:24:56 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:42970 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346595AbiASIYx (ORCPT
+        id S1352506AbiASIdC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 03:33:02 -0500
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:21400 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351933AbiASIdA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jan 2022 03:24:53 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 579E5B81906;
-        Wed, 19 Jan 2022 08:24:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A35DAC004E1;
-        Wed, 19 Jan 2022 08:24:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1642580689;
-        bh=+aAjJqYgCB6wYsQ+TkHIz5BRkQQLBlav51rmak29+GE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cHtItM4mbfYOPuPhhPbkJhoJxiHZDumIyowKutBRkwdRAonHQ67rICg6LsPDCfHbA
-         QZbjt+9O/l+cvixjJDghPIFQOSzFWgJIJvP8UJlpTRsxxWB39t3m3AvKMSAFq8CBPt
-         bRA3U40sQfvuaUThRuNLKopLBDpeH18K4EpKopH4=
-Date:   Wed, 19 Jan 2022 09:24:45 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Georgi Djakov <djakov@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, dmaengine@vger.kernel.org,
-        linux-pm@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
-Message-ID: <YefKzYIDUFC3NW7e@kroah.com>
-References: <20220119015038.2433585-1-robh@kernel.org>
+        Wed, 19 Jan 2022 03:33:00 -0500
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20220119083258euoutp020afce3ed833d83f772a82f20957c133c~LnuEEXmBp2577925779euoutp02R
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 08:32:58 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20220119083258euoutp020afce3ed833d83f772a82f20957c133c~LnuEEXmBp2577925779euoutp02R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1642581178;
+        bh=7PC9bmfxlBSCF7k36OSQOIqNBLsSmFfnE+giFS1uhX4=;
+        h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+        b=MQjXBZfvU7Gcvddea/zVAWQE7lIQygyObkdYYKTA+URpfDFT4TtgRmFVCgmmw1OJ+
+         WW2yFiathsfJF+fJ/btIJzVZaFBw7SdtuR0XKs82nXkqZdFnd2ENztkDgeofU3o4mj
+         BTdFdd2xSagwV0oHkBTIczlk7lPK4ObvIedppdeI=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20220119083258eucas1p13532fe48b6a1e13007f57c93e41aac5f~LnuDvwH322985729857eucas1p1k;
+        Wed, 19 Jan 2022 08:32:58 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id F8.E4.10260.9BCC7E16; Wed, 19
+        Jan 2022 08:32:57 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20220119083257eucas1p1f4ba3fca2d85c786e73284fbcfcf6a98~LnuDYy64z2703427034eucas1p1s;
+        Wed, 19 Jan 2022 08:32:57 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20220119083257eusmtrp24ea3e5b51e195638b935ced9ce1b5527~LnuDYG6e70619406194eusmtrp27;
+        Wed, 19 Jan 2022 08:32:57 +0000 (GMT)
+X-AuditID: cbfec7f5-bf3ff70000002814-f7-61e7ccb9f7f3
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 1D.22.09522.9BCC7E16; Wed, 19
+        Jan 2022 08:32:57 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20220119083257eusmtip2a4d02a3aa0ce0c9ae2b08ecd7b91dfef~LnuC6iX3_1993419934eusmtip2B;
+        Wed, 19 Jan 2022 08:32:57 +0000 (GMT)
+Message-ID: <4b337d6c-fac5-5c12-7f62-f70c09fc2518@samsung.com>
+Date:   Wed, 19 Jan 2022 09:32:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+        Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [PATCH] media: videobuf2-dma-contig: Invalidate vmap range
+ before DMA range
+Content-Language: en-US
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20220119081417.20604-1-senozhatsky@chromium.org>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEKsWRmVeSWpSXmKPExsWy7djPc7o7zzxPNJjRY2Zxct0bFouVq48y
+        WVyceZfF4vKuOWwWPRu2slo0TT/IZrF74yI2i8+t/9gcODxmN1xk8dhxdwmjx+6bDWwenzfJ
+        eZz6+pk9gDWKyyYlNSezLLVI3y6BK+Py6a9sBd38FYt/NDI3MO7m6WLk5JAQMJH4fm0Ncxcj
+        F4eQwApGiaYps1ggnC+MEhtffmKHcD4zSizfvQ+ojAOs5dIVZYj4ckaJVf3fWCGcj4wSP8/O
+        YgaZyytgJ/Fu/x5WEJtFQFVi3p817BBxQYmTM5+wgAwSFUiS6GlxBgkLC0RJ3GtdyQZiMwuI
+        S9x6Mp8JxBYRqJP4+n0p2EXMAnsYJW5s+gxWxCZgKNH1tgvM5gTatfXxJVaIZnmJ7W/nMEP8
+        9oJDYtMZGQjbReLhzS+sELawxKvjW9ghbBmJ/ztBlnEB2c2MEg/PrWWHcHoYJS43zWCEqLKW
+        uHPuFxvI1cwCmhLrd+lDhB0l/s8+xgYJFT6JG28FIW7gk5i0bTo0sHglOtqEIKrVJGYdXwe3
+        9uCFS8wTGJVmIYXKLCTvz0LyzSyEvQsYWVYxiqeWFuempxYb56WW6xUn5haX5qXrJefnbmIE
+        JqPT/45/3cG44tVHvUOMTByMhxglOJiVRHil6p8lCvGmJFZWpRblxxeV5qQWH2KU5mBREudN
+        ztyQKCSQnliSmp2aWpBaBJNl4uCUamDamm/5Z1J4fendeVWLXzg+3rr0plrAnrNCW5tm/Hs3
+        Lcn3iqYCl7306sZSYdbEr7XbJ3Ik3ltyMLpmM6PInzfTeKOZFIWZT+tkf9HsPu1y+Mj7d1X7
+        z3EYz3Y4uqywY45HgKkJY86RrXZ3lBr3/Yx9Mfv0Ceuas5q/f0nt/cnydFVnyqXnsoEic8qz
+        DB7rP9m/LZUnyYeD/WL39Xcb3LMbMhoeP2d7Eq3lvcpk3dX2GY/3ln24qvHdrvF5y/Sd7P99
+        Ba3nTD2TcCS2vutyufGp+0L9T5WCpn1Ikppy4qycaFv6njs3VtaoTfivzb7oUq1tWrKJv/UC
+        mT/HOHPbE7WE7ysrLImZesG1dMaudNMjSizFGYmGWsxFxYkAlqro+LUDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKIsWRmVeSWpSXmKPExsVy+t/xe7o7zzxPNJj+W8ni5Lo3LBYrVx9l
+        srg48y6LxeVdc9gsejZsZbVomn6QzWL3xkVsFp9b/7E5cHjMbrjI4rHj7hJGj903G9g8Pm+S
+        8zj19TN7AGuUnk1RfmlJqkJGfnGJrVK0oYWRnqGlhZ6RiaWeobF5rJWRqZK+nU1Kak5mWWqR
+        vl2CXsbl01/ZCrr5Kxb/aGRuYNzN08XIwSEhYCJx6YpyFyMnh5DAUkaJt322ILaEgIzEyWkN
+        rBC2sMSfa11sXYxcQDXvGSW+7T7KApLgFbCTeLd/D1gRi4CqxLw/a9gh4oISJ2c+AasRFUiS
+        aDjWzQZiCwtESTzoXQ0WZxYQl7j1ZD4TiC0iUCcxZd1bdpAFzAL7GCU6311nhNg2kVGibVor
+        WDebgKFE19suMJsTaPPWx5dYISaZSXRt7WKEsOUltr+dwzyBUWgWkkNmIVk4C0nLLCQtCxhZ
+        VjGKpJYW56bnFhvqFSfmFpfmpesl5+duYgTG37ZjPzfvYJz36qPeIUYmDsZDjBIczEoivFL1
+        zxKFeFMSK6tSi/Lji0pzUosPMZoCQ2Mis5Rocj4wAeSVxBuaGZgamphZGphamhkrifN6FnQk
+        CgmkJ5akZqemFqQWwfQxcXBKNTD1zjv+3Sug1JyrMM/yv8jCC6XLRcUX1HxMsd5cnXDvk6zG
+        0sKsJoaNM9p+yB3n32qooaHxZP3DWZyrfLpu2f9p3nl0J4PV2RWKWnp7HuwMWr2mTOBf/46E
+        nbXsLGukny44fcxordQPNbs7Fi5rpQ/OP/xsu5nDh3mlLm+/Rn2+FqV6Sks2569kgsRu9fdZ
+        VV0tOiZe+39Gr5x0c27eEa6MR/6PF7ssutVnLJUSKWO8W37Hko54Xnah1okCUXPOL72/XuPP
+        zIkisd0lT2b8fLw80+pdT+12OYNHTo+iLpnaXo9m7jxYejo2JMjr1iPGsDln3wruvjJZ+GtI
+        h5qy0bE7Z8/7dy1aXJ/usV3tQnm3EktxRqKhFnNRcSIAc1Le4kgDAAA=
+X-CMS-MailID: 20220119083257eucas1p1f4ba3fca2d85c786e73284fbcfcf6a98
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20220119081426eucas1p14b7ae75dfefd3a268fc7d5b4e5d84eb2
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220119081426eucas1p14b7ae75dfefd3a268fc7d5b4e5d84eb2
+References: <CGME20220119081426eucas1p14b7ae75dfefd3a268fc7d5b4e5d84eb2@eucas1p1.samsung.com>
+        <20220119081417.20604-1-senozhatsky@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 18, 2022 at 07:50:38PM -0600, Rob Herring wrote:
-> The 'phandle-array' type is a bit ambiguous. It can be either just an
-> array of phandles or an array of phandles plus args. Many schemas for
-> phandle-array properties aren't clear in the schema which case applies
-> though the description usually describes it.
-> 
-> The array of phandles case boils down to needing:
-> 
-> items:
->   maxItems: 1
-> 
-> The phandle plus args cases should typically take this form:
-> 
-> items:
->   - items:
->       - description: A phandle
->       - description: 1st arg cell
->       - description: 2nd arg cell
-> 
-> With this change, some examples need updating so that the bracketing of
-> property values matches the schema.
-> 
-> Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Georgi Djakov <djakov@kernel.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Wolfgang Grandegger <wg@grandegger.com>
-> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-> Cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: Vivien Didelot <vivien.didelot@gmail.com>
-> Cc: Florian Fainelli <f.fainelli@gmail.com>
-> Cc: Vladimir Oltean <olteanv@gmail.com>
-> Cc: Kalle Valo <kvalo@kernel.org>
-> Cc: Viresh Kumar <vireshk@kernel.org>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Kishon Vijay Abraham I <kishon@ti.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Kevin Hilman <khilman@kernel.org>
-> Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Sudeep Holla <sudeep.holla@arm.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: linux-ide@vger.kernel.org
-> Cc: linux-crypto@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: dmaengine@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: iommu@lists.linux-foundation.org
-> Cc: linux-leds@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-can@vger.kernel.org
-> Cc: linux-wireless@vger.kernel.org
-> Cc: linux-phy@lists.infradead.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-riscv@lists.infradead.org
-> Cc: linux-remoteproc@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-usb@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On 19.01.2022 09:14, Sergey Senozhatsky wrote:
+> Christoph suggests [1] that invalidating vmap range before
+> direct mapping range makes more sense.
+>
+> [1]: https://lore.kernel.org/all/20220111085958.GA22795@lst.de/
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Right.
+
+Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
+
+> ---
+>   .../media/common/videobuf2/videobuf2-dma-contig.c    | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index 7c4096e62173..0e3f264122af 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -132,12 +132,12 @@ static void vb2_dc_prepare(void *buf_priv)
+>   	if (!buf->non_coherent_mem)
+>   		return;
+>   
+> -	/* For both USERPTR and non-coherent MMAP */
+> -	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+> -
+>   	/* Non-coherent MMAP only */
+>   	if (buf->vaddr)
+>   		flush_kernel_vmap_range(buf->vaddr, buf->size);
+> +
+> +	/* For both USERPTR and non-coherent MMAP */
+> +	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+>   }
+>   
+>   static void vb2_dc_finish(void *buf_priv)
+> @@ -152,12 +152,12 @@ static void vb2_dc_finish(void *buf_priv)
+>   	if (!buf->non_coherent_mem)
+>   		return;
+>   
+> -	/* For both USERPTR and non-coherent MMAP */
+> -	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+> -
+>   	/* Non-coherent MMAP only */
+>   	if (buf->vaddr)
+>   		invalidate_kernel_vmap_range(buf->vaddr, buf->size);
+> +
+> +	/* For both USERPTR and non-coherent MMAP */
+> +	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+>   }
+>   
+>   /*********************************************/
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
