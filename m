@@ -2,171 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8AE94938A6
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 11:36:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9552349391F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 12:01:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353805AbiASKfv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jan 2022 05:35:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348607AbiASKfs (ORCPT
+        id S1353917AbiASLBb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 06:01:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23900 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1353670AbiASLAp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jan 2022 05:35:48 -0500
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A4DCC061574;
-        Wed, 19 Jan 2022 02:35:48 -0800 (PST)
-Received: by mail-ed1-x531.google.com with SMTP id m11so8934533edi.13;
-        Wed, 19 Jan 2022 02:35:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=OSDFZdcVmsxc9n5bq5153WrX2NPdR5H36ptL4DF/Ld8=;
-        b=YzN3hIDiV3bsIYsBRldtIUseIA+Xg7yiUwxhkQBN4CpuDkGRGuFL7tAwCFTPYxhsRL
-         HPHBSnHmlPJjpHnwXFn3XLaO3n9wa1rhK6vn59VsHIzMFUB6Jaq/3jsmguiQSKRchg1F
-         Rt8vJSiYrulpQPWwPqPi3M8d7DsPrMLpe1PuuNpPMpczmmAtVSklZu+pQaTuoZw/CFJz
-         zmTnBvK6MUoD+sXbx5PZpdbapVrA4zutuPKb+I0hcI1WoSE1tZMwas+pgK6nHJrD6hKt
-         eeU6QEdcKx7a9glyGv2v53ut+S9OpX/JqVokRLDZ4YgZwe4DtxLJ2DYjxyR/R4KjvJPB
-         tM2w==
+        Wed, 19 Jan 2022 06:00:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1642590044;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=d2m48mn80jDKDCnE2rawlNHY8eHCKj6fdtri+LMOkmo=;
+        b=bH0YdNl3gROqzED72yvrb4OtQaPtn4d2qV6Esdl/e6gkmTkElwyuWCjRTjIgpSfkb9fcCA
+        SMGKCOiLmyetsmdMSVol5Dot8i/CVc7EFQZ1dcOqNgyqw1VvlfV97XkOv+yVGl1DCiAW96
+        zbLsEkDT4EEyfVjE/c74Gdhs4w5oKOw=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-191-GWvn_zqPMHysmjWZRgc3aw-1; Wed, 19 Jan 2022 06:00:42 -0500
+X-MC-Unique: GWvn_zqPMHysmjWZRgc3aw-1
+Received: by mail-ed1-f72.google.com with SMTP id ej6-20020a056402368600b00402b6f12c3fso1954453edb.8
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 03:00:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=OSDFZdcVmsxc9n5bq5153WrX2NPdR5H36ptL4DF/Ld8=;
-        b=DBjtVoWcNr/kqj3BWH6XNdTL4pmhrF90JG/EZtgC7boQa/08IcD8rpxiWq/zlWx/VI
-         hnbtbUlYQDS8ioChF5I0H7MN2IMWQ0/tpc6Icuzi+AKOBy6sAxRHCaF8H0T0KaUqIL+k
-         +VFYAW8wqY7pnYM0MFUEBeXpXjQEAZfMDW5DuSYmGgLj10A3G2+KBua9qT5oSzIoQUrj
-         e41d6WX0U1dRGCYtQeSTH3Psvw36x7GjuBMyIA9Mgns2yfs0iNSyOIggeQ7n4kqaccn/
-         4w0WSo4OkqYdgXLvOllUlFXwgGuo5EpiAEX62vqot39F8UFLvqW8nzUZLBhwMWXCATh0
-         ALAg==
-X-Gm-Message-State: AOAM533cM4yUAB0Wyi2CH9YokUaZltYgQQtEqVrywxgPnDZM2/qxvx/L
-        GmTPiRRGivP2II1MhA8bnMZaTjlJwMd0Sw==
-X-Google-Smtp-Source: ABdhPJxftTapCLkxAI0MUlBNg1QEZq+09+lN2uAiNmyiN4LnLKb1WAquBvnPN+ndGN2eyHqbgIspAw==
-X-Received: by 2002:a05:6402:4310:: with SMTP id m16mr13576339edc.344.1642588546591;
-        Wed, 19 Jan 2022 02:35:46 -0800 (PST)
-Received: from skbuf ([188.25.255.2])
-        by smtp.gmail.com with ESMTPSA id go41sm6349344ejc.200.2022.01.19.02.35.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jan 2022 02:35:46 -0800 (PST)
-Date:   Wed, 19 Jan 2022 12:35:42 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Georgi Djakov <djakov@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, dmaengine@vger.kernel.org,
-        linux-pm@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
-Message-ID: <20220119103542.el3yuqds6ihpkthn@skbuf>
-References: <20220119015038.2433585-1-robh@kernel.org>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=d2m48mn80jDKDCnE2rawlNHY8eHCKj6fdtri+LMOkmo=;
+        b=rH8MBxEnPlWfqCMIULa4NuiN9rE3+cmAbQLTXiyYoTsG/RDfvMgALwqrjZ4B+o6bDF
+         6oi9JTwDCaXc7CDkut3Oj58M/0QE6bOQQqGD1kf+Y8GLMVomm5eBCWOWZNZuN4oOWEXF
+         dUM1jrZ+leE3CMzl4Qv8tPFMk+KL/PwZLyzi3NF4noDTnvAN1BDxdhvYWBIvOT7p18+D
+         OKkQHoDEDnliuthGNuBcJnrHzpeV69WEcb99zMUaiYPtsQesueHzxiMFrsOtHQ4T5DGZ
+         Xjt6+BAi5pP+9Twtf/pvlLvw+J7RpP+2PPJRjFolWsYiXdcz5I6J5dMuK444GW1IxRt8
+         a9tg==
+X-Gm-Message-State: AOAM533bicXUCXNVn0Wb+AQlQGlKjEGmLivL4XfwurLRZppCOhj6Pbwk
+        UhaQDaHX/Eg3bleBrQI8EvxDCuBpEUW107khjsYgFg0kp2V6ODoBgWtalG3PNwPmF8GfiLgyWzi
+        hTxv2yfjJqURaAbruM7s1ce8=
+X-Received: by 2002:a17:906:2f08:: with SMTP id v8mr23230707eji.708.1642590041274;
+        Wed, 19 Jan 2022 03:00:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxCmB/YHMJKgLCZ28d1HocJEFO46QAhgLYaXKV9pdmjmCPFl1oKfHvRv/RgnoI+8rcGchE17Q==
+X-Received: by 2002:a17:906:2f08:: with SMTP id v8mr23230691eji.708.1642590041054;
+        Wed, 19 Jan 2022 03:00:41 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+        by smtp.gmail.com with ESMTPSA id l1sm6224345ejh.57.2022.01.19.03.00.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Jan 2022 03:00:40 -0800 (PST)
+Message-ID: <24b78ce0-dd6c-dcdb-ecdd-3f8e27debd9b@redhat.com>
+Date:   Wed, 19 Jan 2022 12:00:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: Firmware (devicetree/ACPI interface) for marking camera sensors
+ being on the front/back of a device
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        libcamera devel <libcamera-devel@lists.libcamera.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <31c05526-f6fc-f48f-a900-8103ac5c4215@redhat.com>
+ <YeSaFXO1Z+F088LR@pendragon.ideasonboard.com>
+ <179e8c32-a5f5-48a5-8410-e4f0a8f73bd2@redhat.com>
+ <YeWMzbq70ZDcWUB2@pendragon.ideasonboard.com>
+ <5dbbba6c-9036-a104-d6a6-483fa621c0b6@redhat.com>
+ <Yea3NFdjXmrhkVum@pendragon.ideasonboard.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Yea3NFdjXmrhkVum@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 18, 2022 at 07:50:38PM -0600, Rob Herring wrote:
-> The 'phandle-array' type is a bit ambiguous. It can be either just an
-> array of phandles or an array of phandles plus args. Many schemas for
-> phandle-array properties aren't clear in the schema which case applies
-> though the description usually describes it.
-> 
-> The array of phandles case boils down to needing:
-> 
-> items:
->   maxItems: 1
-> 
-> The phandle plus args cases should typically take this form:
-> 
-> items:
->   - items:
->       - description: A phandle
->       - description: 1st arg cell
->       - description: 2nd arg cell
-> 
-> With this change, some examples need updating so that the bracketing of
-> property values matches the schema.
-> ---
-(...)
-> diff --git a/Documentation/devicetree/bindings/net/dsa/dsa-port.yaml b/Documentation/devicetree/bindings/net/dsa/dsa-port.yaml
-> index 702df848a71d..c504feeec6db 100644
-> --- a/Documentation/devicetree/bindings/net/dsa/dsa-port.yaml
-> +++ b/Documentation/devicetree/bindings/net/dsa/dsa-port.yaml
-> @@ -34,6 +34,8 @@ properties:
->        full routing information must be given, not just the one hop
->        routes to neighbouring switches
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      maxItems: 1
->  
->    ethernet:
->      description:
+Hi Laurent,
 
-For better or worse, the mainline cases of this property all take the
-form of:
+On 1/18/22 13:48, Laurent Pinchart wrote:
 
-arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dts
-				link = <&switch1port9 &switch2port9>;
-				link = <&switch1port10 &switch0port10>;
-arch/arm/boot/dts/vf610-zii-dev-rev-b.dts
-						link = <&switch1port6
-							&switch2port9>;
-						link = <&switch1port5
-							&switch0port5>;
-arch/arm/boot/dts/vf610-zii-scu4-aib.dts
-						link = <&switch1port10
-							&switch3port10
-							&switch2port10>;
-						link = <&switch3port10
-							&switch2port10>;
-						link = <&switch1port9
-							&switch0port10>;
+<snip>
 
-So not really an array of phandles.
+>>> I wonder if the atomisp2 driver will ever get out of staging. There's so
+>>> much work to be done there.
+>>
+>> I would be more then happy if we can get it mostly functional, ever
+>> getting it out of staging indeed is unlikely.
+> 
+> :-)
+> 
+> Does it require image processing algorithms in userspace, or is it all
+> handled by firmware ?
+
+I believe it will require 3A stuff in userspace, so the plan is to
+write a libcamera pipeline handler for it eventually. ATM my focus
+is on just getting a picture out of it, setting e.g. exposure + gain
+manually for now.  We do have it working on some Cherry Trail devices
+now, but I would really like to also get it to work on Bay Trail devices,
+because the more work we do on improving it while only CHT is supported
+to bigger the chance that we introduce changes which cause (more)
+brokenness on BYT.
+
+So my plan (for the weekends) is to get the @#%$#@! piece of code to
+produce an image on BYT hw :)
+
+Regards,
+
+Hans
+
