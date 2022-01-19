@@ -2,166 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 891EE4937F2
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 11:11:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 535C949386A
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 11:28:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353446AbiASKJK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jan 2022 05:09:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41764 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237542AbiASKJK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jan 2022 05:09:10 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD576C061574
-        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 02:09:09 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id x22so7173568lfd.10
-        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 02:09:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Mp8cMbcJDEiYzY+0yULuk+0IcGw5L33ZvIFmWfHUqAU=;
-        b=CQvRhkfnbC+xD8QF/rVpqr3rywffgrz1rcm8TJg2p+6bTu3kG30nI17/JHEnfynDsf
-         I8kq5s8xsY/LoxUk82328JCQ29XQ0FWGLnpoTGfWTP7M4F8bBb+2vTWmj4KT2oaiAWCF
-         z853+DhFFiedtMMyOhmrHprbwX9L0OWxfRbCM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Mp8cMbcJDEiYzY+0yULuk+0IcGw5L33ZvIFmWfHUqAU=;
-        b=iywYhWrxWG1prt2aK8sANF87cX5cO6HSduRWX0OAY37jcFYJvkDPPuw242fM3ceZvI
-         pIH9igMTZ+d8r9gaJmpE01F+QLEDz0YCAhGw17syq93h7v4GvncotqXc+0opgNEnGYV+
-         y68EXCA4encDVIYUhOt7tyU/a17qZVMrElR1nFU+YU6HWRnpozrsoPP1zjRSxCjhlTFD
-         mJkdYyRG1fAtR8S69BPaV0CxA1E2RBCBOLNpgmFsCdI6by1rGvF7tqWFdxEdlUI/Nwka
-         pAtEs2yiGLstew4jRdqk4i0x+zwFL5TKXg0omK5HyJw9BOyISdONwsMzc8+rSx6dbWej
-         UpWQ==
-X-Gm-Message-State: AOAM532CH0ogTs7vGIaqke8s4OwQQ9wGxowvIjxjNnNk3umD3c7PCvm7
-        pZ7O4kB2NUFLPQoEKfTYdRQ7TIqKEotzeUR81NexQg==
-X-Google-Smtp-Source: ABdhPJzzCt9OqNfhyesxI3ZvR/vgllDW+/NJmVfRwMNDy+lAtRJIOv/McQhcCJ+BEdYu/p5s21P0oPy1na3quUG/R40=
-X-Received: by 2002:a2e:2285:: with SMTP id i127mr13773495lji.414.1642586948036;
- Wed, 19 Jan 2022 02:09:08 -0800 (PST)
+        id S240421AbiASK2e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 05:28:34 -0500
+Received: from meesny.iki.fi ([195.140.195.201]:59144 "EHLO meesny.iki.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240412AbiASK2d (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 Jan 2022 05:28:33 -0500
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4AD6820208
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 12:28:31 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1642588111;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=QBIyyctWMG97WOlyRfXilee+Z5tQMN8+XYdyj4Nc2Mg=;
+        b=uUjpS2IsUeEeBkFlakHeSPNH+Z1jj3fJExXaJhD51vuqOuXzbgDlzSfTREIMlrqz4YW9u4
+        XCkU5D1J5VdXHZy81NIs2LFkS5pDoTcMx8iSylyb85iRZbCQ/8ZylJOZBztDrMIWQD9+xx
+        9Iw3oCEUa5TJHo9pRPsBCEsHdQT2Uk0=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id D73AE634C93
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 12:28:30 +0200 (EET)
+Date:   Wed, 19 Jan 2022 12:28:30 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 5.18] V4L2 patches
+Message-ID: <Yefnzk4ndvoxGEB+@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-References: <20220107093455.73766-1-wenst@chromium.org> <20220107093455.73766-2-wenst@chromium.org>
- <Yecq111pZDP9XFNO@eze-laptop>
-In-Reply-To: <Yecq111pZDP9XFNO@eze-laptop>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Wed, 19 Jan 2022 18:08:57 +0800
-Message-ID: <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
-Subject: Re: [PATCH RFT v2 1/8] media: hantro: jpeg: Relax register writes
- before write starting hardware
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1642588111; a=rsa-sha256; cv=none;
+        b=A+16FvqVGRc9XRl8gJTerqjFIs1nJvKR6xTrs4iBaqF8JOVv0LVqPPIhTZ6P8FyXL2ZNd7
+        Ojrex1WcQdNtp8jBUO98/QMS9bdSidsd4uBOL38FFIz0lLeRvAKAswjK2gG7K6EufAhpny
+        G/AZ374j8WTQWB0QQUxxrixwarUcjzo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1642588111;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=QBIyyctWMG97WOlyRfXilee+Z5tQMN8+XYdyj4Nc2Mg=;
+        b=SGr8hv2BSfvGE1htgHYncOga4BGksCbq+RH3bvfWMWnMdUlm36FRiGOCB19q5bVocDm5y8
+        0HNFvptG1WoO9tKGrUKnN8kLXqDBjCG/Ima+vJl9ag5cBSofMSDpXCqFsd3XtdRuATxnuD
+        M8nwSCOZbWKOlF1q/7XXxa6xHX8D8qU=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Mauro,
 
-On Wed, Jan 19, 2022 at 5:02 AM Ezequiel Garcia
-<ezequiel@vanguardiasur.com.ar> wrote:
->
-> Hi Chen-Yu,
->
-> The series looks good, thanks for picking up this task.
->
-> Just a one comment.
->
-> On Fri, Jan 07, 2022 at 05:34:48PM +0800, Chen-Yu Tsai wrote:
-> > In the earlier submissions of the Hantro/Rockchip JPEG encoder driver, a
-> > wmb() was inserted before the final register write that starts the
-> > encoder. In v11, it was removed and the second-to-last register write
-> > was changed to a non-relaxed write, which has an implicit wmb() [1].
-> > The rockchip_vpu2 (then rk3399_vpu) variant is even weirder as there
-> > is another writel_relaxed() following the non-relaxed one.
-> >
-> > Turns out only the last writel() needs to be non-relaxed. Device I/O
-> > mappings already guarantee strict ordering to the same endpoint, and
-> > the writel() triggering the hardware would force all writes to memory
-> > to be observed before the writel() to the hardware is observed.
-> >
-> > [1] https://lore.kernel.org/linux-media/CAAFQd5ArFG0hU6MgcyLd+_UOP3+T_U-aw2FXv6sE7fGqVCVGqw@mail.gmail.com/
-> >
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > ---
-> >  drivers/staging/media/hantro/hantro_h1_jpeg_enc.c        | 3 +--
-> >  drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c | 3 +--
-> >  2 files changed, 2 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> > index 1450013d3685..03db1c3444f8 100644
-> > --- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> > +++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> > @@ -123,8 +123,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
-> >               | H1_REG_AXI_CTRL_INPUT_SWAP32
-> >               | H1_REG_AXI_CTRL_OUTPUT_SWAP8
-> >               | H1_REG_AXI_CTRL_INPUT_SWAP8;
-> > -     /* Make sure that all registers are written at this point. */
-> > -     vepu_write(vpu, reg, H1_REG_AXI_CTRL);
-> > +     vepu_write_relaxed(vpu, reg, H1_REG_AXI_CTRL);
-> >
->
-> As far as I can remember, this logic comes from really old Chromium Kernels.
-> You might be right, and this barrier isn't needed... but then OTOH the comment
-> is here for a reason, so maybe it is needed (or was needed on some RK3288 SoC revision).
+Here's a bunch of patches again for 5.18. Most notably there's V4L2 fwnode
+/ mbus_config cleanup by Laurent, the hi847 camera sensor driver from Shawn
+Tu and the od08d10 camera sensor driver by Jimmy Su. Fixes elsewhere are
+included, too.
 
-I just realized that my commit log is wrong.
-
-" ... a wmb() was inserted before the final register write that starts the
-encoder. ... " . It is actually before the second-to-last register write.
-
-> I don't have RK3288 boards near me, but in any case, I'm not sure
-> we'd be able to test this easily (maybe there are issues that only
-> trigger under a certain load).
-
-I see. I do have a Veyron around that I haven't used in awhile. But as you
-said, it might not be an obvious hardware limitation.
-
-> I'd personally avoid this one change, but if you are confident enough with it
-> that's fine too.
-
-Unfortunately they didn't leave a whole lot of clues around. For most hardware,
-as I mentioned in the commit log, I think the final non-relaxed write should
-suffice. I'd point to the decoder drivers not having any barriers or
-non-relaxed writes except the final one, but IIUC they are actually two
-distinct pieces of hardware.
-
-I suspect we will never know. This JPEG encoder doesn't seem to get used
-a lot. The VP8 and H.264 encoders on ChromeOS work correctly without the
-extra barrier and get tested a lot, but that's only testing the RK3399.
-
-Hans, would it be possible for you to skip this patch and pick the rest?
-Or would you like me to resent without this one?
+Please pull.
 
 
-Thanks
-ChenYu
+The following changes since commit 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c:
 
-> Thanks!
-> Ezequiel
->
-> >       reg = H1_REG_ENC_CTRL_WIDTH(MB_WIDTH(ctx->src_fmt.width))
-> >               | H1_REG_ENC_CTRL_HEIGHT(MB_HEIGHT(ctx->src_fmt.height))
-> > diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> > index 4df16f59fb97..b931fc5fa1a9 100644
-> > --- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> > +++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> > @@ -152,8 +152,7 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
-> >               | VEPU_REG_INPUT_SWAP8
-> >               | VEPU_REG_INPUT_SWAP16
-> >               | VEPU_REG_INPUT_SWAP32;
-> > -     /* Make sure that all registers are written at this point. */
-> > -     vepu_write(vpu, reg, VEPU_REG_DATA_ENDIAN);
-> > +     vepu_write_relaxed(vpu, reg, VEPU_REG_DATA_ENDIAN);
-> >
-> >       reg = VEPU_REG_AXI_CTRL_BURST_LEN(16);
-> >       vepu_write_relaxed(vpu, reg, VEPU_REG_AXI_CTRL);
-> > --
-> > 2.34.1.575.g55b058a8bb-goog
-> >
+  media: ipu3-cio2: Add support for instantiating i2c-clients for VCMs (2021-12-16 20:58:56 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.18-1-signed
+
+for you to fetch changes up to dd19217c0d6aa5fc90a89ebd01968a3e299232a3:
+
+  media: i2c: Add ov08d10 camera sensor driver (2022-01-19 12:19:35 +0200)
+
+----------------------------------------------------------------
+V4L2 patches for 5.18
+
+----------------------------------------------------------------
+Janusz Krzysztofik (4):
+      media: ov6650: Fix set format try processing path
+      media: ov6650: Add try support to selection API operations
+      media: ov6650: Fix crop rectangle affected by set format
+      media: ov6650: Fix missing frame interval enumeration support
+
+Jimmy Su (1):
+      media: i2c: Add ov08d10 camera sensor driver
+
+Laurent Pinchart (8):
+      media: pxa_camera: Drop usage of .set_mbus_config()
+      media: i2c: ov6650: Drop implementation of .set_mbus_config()
+      media: v4l2-subdev: Drop .set_mbus_config() operation
+      media: v4l2-fwnode: Move bus config structure to v4l2_mediabus.h
+      media: v4l2-mediabus: Use structures to describe bus configuration
+      media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_*_LANE flags
+      media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_CHANNEL_* flags
+      media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
+
+Robert Foss (2):
+      media: camss: csiphy: Move to hardcode CSI Clock Lane number
+      media: dt-bindings: media: camss: Remove clock-lane property
+
+Sakari Ailus (3):
+      v4l: Avoid unaligned access warnings when printing 4cc modifiers
+      ov5648: Don't pack controls struct
+      ov8865: Fix indentation in set_selection callback
+
+Shawn Tu (1):
+      media: hi847: Add support for Hi-847 sensor
+
+ .../bindings/media/qcom,msm8916-camss.yaml         |   10 -
+ .../bindings/media/qcom,msm8996-camss.yaml         |   20 -
+ .../bindings/media/qcom,sdm660-camss.yaml          |   20 -
+ .../bindings/media/qcom,sdm845-camss.yaml          |   17 -
+ MAINTAINERS                                        |   13 +
+ drivers/gpu/ipu-v3/ipu-csi.c                       |    6 +-
+ drivers/media/i2c/Kconfig                          |   26 +
+ drivers/media/i2c/Makefile                         |    2 +
+ drivers/media/i2c/adv7180.c                        |   10 +-
+ drivers/media/i2c/adv748x/adv748x-csi2.c           |   18 +-
+ drivers/media/i2c/hi847.c                          | 3012 ++++++++++++++++++++
+ drivers/media/i2c/ml86v7667.c                      |    5 +-
+ drivers/media/i2c/mt9m001.c                        |    8 +-
+ drivers/media/i2c/mt9m111.c                        |   14 +-
+ drivers/media/i2c/ov08d10.c                        | 1526 ++++++++++
+ drivers/media/i2c/ov5648.c                         |    6 +-
+ drivers/media/i2c/ov6650.c                         |  206 +-
+ drivers/media/i2c/ov8865.c                         |    8 +-
+ drivers/media/i2c/ov9640.c                         |    8 +-
+ drivers/media/i2c/tc358743.c                       |   26 +-
+ drivers/media/i2c/tvp5150.c                        |    6 +-
+ drivers/media/platform/pxa_camera.c                |   21 +-
+ .../platform/qcom/camss/camss-csiphy-2ph-1-0.c     |   19 +-
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     |   17 +-
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |   21 +-
+ drivers/media/platform/qcom/camss/camss-csiphy.h   |    7 +
+ drivers/media/platform/qcom/camss/camss.c          |    2 +-
+ drivers/media/platform/rcar-vin/rcar-csi2.c        |   16 +-
+ drivers/media/platform/rcar-vin/rcar-vin.h         |    2 +-
+ drivers/media/platform/stm32/stm32-dcmi.c          |    2 +-
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h |    2 +-
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c |    2 +-
+ drivers/media/platform/ti-vpe/cal-camerarx.c       |    6 +-
+ drivers/media/v4l2-core/v4l2-fwnode.c              |   18 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c               |   12 +-
+ drivers/media/v4l2-core/v4l2-subdev.c              |    8 -
+ drivers/staging/media/imx/imx-media-csi.c          |    7 +-
+ drivers/staging/media/imx/imx6-mipi-csi2.c         |   25 +-
+ drivers/staging/media/imx/imx7-mipi-csis.c         |    2 +-
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c       |    2 +-
+ drivers/staging/media/max96712/max96712.c          |    2 +-
+ include/media/v4l2-fwnode.h                        |   61 +-
+ include/media/v4l2-mediabus.h                      |  104 +-
+ include/media/v4l2-subdev.h                        |   13 -
+ 44 files changed, 4902 insertions(+), 436 deletions(-)
+ create mode 100644 drivers/media/i2c/hi847.c
+ create mode 100644 drivers/media/i2c/ov08d10.c
+
+-- 
+Kind regards,
+
+Sakari Ailus
