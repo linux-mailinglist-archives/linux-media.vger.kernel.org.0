@@ -2,146 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 380B5493797
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 10:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 891EE4937F2
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 11:11:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353164AbiASJnV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jan 2022 04:43:21 -0500
-Received: from mail-vk1-f170.google.com ([209.85.221.170]:37799 "EHLO
-        mail-vk1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353101AbiASJnH (ORCPT
+        id S1353446AbiASKJK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 05:09:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41764 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237542AbiASKJK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jan 2022 04:43:07 -0500
-Received: by mail-vk1-f170.google.com with SMTP id v192so1145095vkv.4;
-        Wed, 19 Jan 2022 01:43:06 -0800 (PST)
+        Wed, 19 Jan 2022 05:09:10 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD576C061574
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 02:09:09 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id x22so7173568lfd.10
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 02:09:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Mp8cMbcJDEiYzY+0yULuk+0IcGw5L33ZvIFmWfHUqAU=;
+        b=CQvRhkfnbC+xD8QF/rVpqr3rywffgrz1rcm8TJg2p+6bTu3kG30nI17/JHEnfynDsf
+         I8kq5s8xsY/LoxUk82328JCQ29XQ0FWGLnpoTGfWTP7M4F8bBb+2vTWmj4KT2oaiAWCF
+         z853+DhFFiedtMMyOhmrHprbwX9L0OWxfRbCM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Dbd6K2EXZQ3nddK61UlQKh6WscvPVU8DNsk9wwBVt84=;
-        b=CdpmIfi33wXFvj6oI3MxXGL+FxzZpJx2O4Bh8b/I7vQz6YBlG8hQaoseqpSUd+xhyh
-         51nHp3MgcAGh4ksYKj30x2uNkAu0AllR81Jn+csdOnbVYGC5khg9AJnalqS7TRmpP1WV
-         lKhCucCe6AeWWhtzK7WP25kUyZLLHTzL7qydbVfk87NxFvCtugyPiCTVex26eICglrqP
-         j/GpB0Bij8gYXbleMIaabYXNuqyEAtZ3xdxTluPsvNp0ltL8IRuUIqE/YWbOPEAayFyZ
-         v73XzUgP2YnS6q2vlHtuK16hbq67OhkwaQK4T1is6aboUqssGVKNQty1o7yaJx4UU+Xr
-         +dvg==
-X-Gm-Message-State: AOAM532k5oVd8oHrFJ1+dbjpDdCU95yB0aP4bv7xHhDKx87u9sE/MDPq
-        JQGejnSYa0EoKItvHxK55VobS+Vv9SdsGdeh
-X-Google-Smtp-Source: ABdhPJzCPMW4zH5y1Y5cNilAV02ZCJKMDBENeXiX1EkWR3rcLe9IH033mhRn+oDaSuzTE3AAm5il8g==
-X-Received: by 2002:a1f:a6d7:: with SMTP id p206mr11805978vke.31.1642585386061;
-        Wed, 19 Jan 2022 01:43:06 -0800 (PST)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
-        by smtp.gmail.com with ESMTPSA id p142sm1584040vkp.2.2022.01.19.01.43.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Jan 2022 01:43:04 -0800 (PST)
-Received: by mail-vk1-f178.google.com with SMTP id w5so1120624vke.12;
-        Wed, 19 Jan 2022 01:43:04 -0800 (PST)
-X-Received: by 2002:a1f:384b:: with SMTP id f72mr11960099vka.0.1642585384422;
- Wed, 19 Jan 2022 01:43:04 -0800 (PST)
+        bh=Mp8cMbcJDEiYzY+0yULuk+0IcGw5L33ZvIFmWfHUqAU=;
+        b=iywYhWrxWG1prt2aK8sANF87cX5cO6HSduRWX0OAY37jcFYJvkDPPuw242fM3ceZvI
+         pIH9igMTZ+d8r9gaJmpE01F+QLEDz0YCAhGw17syq93h7v4GvncotqXc+0opgNEnGYV+
+         y68EXCA4encDVIYUhOt7tyU/a17qZVMrElR1nFU+YU6HWRnpozrsoPP1zjRSxCjhlTFD
+         mJkdYyRG1fAtR8S69BPaV0CxA1E2RBCBOLNpgmFsCdI6by1rGvF7tqWFdxEdlUI/Nwka
+         pAtEs2yiGLstew4jRdqk4i0x+zwFL5TKXg0omK5HyJw9BOyISdONwsMzc8+rSx6dbWej
+         UpWQ==
+X-Gm-Message-State: AOAM532CH0ogTs7vGIaqke8s4OwQQ9wGxowvIjxjNnNk3umD3c7PCvm7
+        pZ7O4kB2NUFLPQoEKfTYdRQ7TIqKEotzeUR81NexQg==
+X-Google-Smtp-Source: ABdhPJzzCt9OqNfhyesxI3ZvR/vgllDW+/NJmVfRwMNDy+lAtRJIOv/McQhcCJ+BEdYu/p5s21P0oPy1na3quUG/R40=
+X-Received: by 2002:a2e:2285:: with SMTP id i127mr13773495lji.414.1642586948036;
+ Wed, 19 Jan 2022 02:09:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20220119015038.2433585-1-robh@kernel.org>
-In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 19 Jan 2022 10:42:53 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVdja+XaXGP7YFfSgFCTHzOHQkuV5EF_9AFWY2tppyRWA@mail.gmail.com>
-Message-ID: <CAMuHMdVdja+XaXGP7YFfSgFCTHzOHQkuV5EF_9AFWY2tppyRWA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
-To:     Rob Herring <robh@kernel.org>
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Georgi Djakov <djakov@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+References: <20220107093455.73766-1-wenst@chromium.org> <20220107093455.73766-2-wenst@chromium.org>
+ <Yecq111pZDP9XFNO@eze-laptop>
+In-Reply-To: <Yecq111pZDP9XFNO@eze-laptop>
+From:   Chen-Yu Tsai <wenst@chromium.org>
+Date:   Wed, 19 Jan 2022 18:08:57 +0800
+Message-ID: <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
+Subject: Re: [PATCH RFT v2 1/8] media: hantro: jpeg: Relax register writes
+ before write starting hardware
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, dmaengine@vger.kernel.org,
-        linux-pm@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-usb@vger.kernel.org
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Hi,
 
-On Wed, Jan 19, 2022 at 2:50 AM Rob Herring <robh@kernel.org> wrote:
-
-> The 'phandle-array' type is a bit ambiguous. It can be either just an
-> array of phandles or an array of phandles plus args. Many schemas for
-> phandle-array properties aren't clear in the schema which case applies
-> though the description usually describes it.
+On Wed, Jan 19, 2022 at 5:02 AM Ezequiel Garcia
+<ezequiel@vanguardiasur.com.ar> wrote:
 >
-> The array of phandles case boils down to needing:
+> Hi Chen-Yu,
 >
-> items:
->   maxItems: 1
+> The series looks good, thanks for picking up this task.
 >
-> The phandle plus args cases should typically take this form:
+> Just a one comment.
 >
-> items:
->   - items:
->       - description: A phandle
->       - description: 1st arg cell
->       - description: 2nd arg cell
+> On Fri, Jan 07, 2022 at 05:34:48PM +0800, Chen-Yu Tsai wrote:
+> > In the earlier submissions of the Hantro/Rockchip JPEG encoder driver, a
+> > wmb() was inserted before the final register write that starts the
+> > encoder. In v11, it was removed and the second-to-last register write
+> > was changed to a non-relaxed write, which has an implicit wmb() [1].
+> > The rockchip_vpu2 (then rk3399_vpu) variant is even weirder as there
+> > is another writel_relaxed() following the non-relaxed one.
+> >
+> > Turns out only the last writel() needs to be non-relaxed. Device I/O
+> > mappings already guarantee strict ordering to the same endpoint, and
+> > the writel() triggering the hardware would force all writes to memory
+> > to be observed before the writel() to the hardware is observed.
+> >
+> > [1] https://lore.kernel.org/linux-media/CAAFQd5ArFG0hU6MgcyLd+_UOP3+T_U-aw2FXv6sE7fGqVCVGqw@mail.gmail.com/
+> >
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> >  drivers/staging/media/hantro/hantro_h1_jpeg_enc.c        | 3 +--
+> >  drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c | 3 +--
+> >  2 files changed, 2 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> > index 1450013d3685..03db1c3444f8 100644
+> > --- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> > +++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> > @@ -123,8 +123,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+> >               | H1_REG_AXI_CTRL_INPUT_SWAP32
+> >               | H1_REG_AXI_CTRL_OUTPUT_SWAP8
+> >               | H1_REG_AXI_CTRL_INPUT_SWAP8;
+> > -     /* Make sure that all registers are written at this point. */
+> > -     vepu_write(vpu, reg, H1_REG_AXI_CTRL);
+> > +     vepu_write_relaxed(vpu, reg, H1_REG_AXI_CTRL);
+> >
 >
-> With this change, some examples need updating so that the bracketing of
-> property values matches the schema.
+> As far as I can remember, this logic comes from really old Chromium Kernels.
+> You might be right, and this barrier isn't needed... but then OTOH the comment
+> is here for a reason, so maybe it is needed (or was needed on some RK3288 SoC revision).
 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+I just realized that my commit log is wrong.
 
-The Renesas parts look good to me.
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+" ... a wmb() was inserted before the final register write that starts the
+encoder. ... " . It is actually before the second-to-last register write.
 
-Gr{oetje,eeting}s,
+> I don't have RK3288 boards near me, but in any case, I'm not sure
+> we'd be able to test this easily (maybe there are issues that only
+> trigger under a certain load).
 
-                        Geert
+I see. I do have a Veyron around that I haven't used in awhile. But as you
+said, it might not be an obvious hardware limitation.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> I'd personally avoid this one change, but if you are confident enough with it
+> that's fine too.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Unfortunately they didn't leave a whole lot of clues around. For most hardware,
+as I mentioned in the commit log, I think the final non-relaxed write should
+suffice. I'd point to the decoder drivers not having any barriers or
+non-relaxed writes except the final one, but IIUC they are actually two
+distinct pieces of hardware.
+
+I suspect we will never know. This JPEG encoder doesn't seem to get used
+a lot. The VP8 and H.264 encoders on ChromeOS work correctly without the
+extra barrier and get tested a lot, but that's only testing the RK3399.
+
+Hans, would it be possible for you to skip this patch and pick the rest?
+Or would you like me to resent without this one?
+
+
+Thanks
+ChenYu
+
+> Thanks!
+> Ezequiel
+>
+> >       reg = H1_REG_ENC_CTRL_WIDTH(MB_WIDTH(ctx->src_fmt.width))
+> >               | H1_REG_ENC_CTRL_HEIGHT(MB_HEIGHT(ctx->src_fmt.height))
+> > diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+> > index 4df16f59fb97..b931fc5fa1a9 100644
+> > --- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+> > +++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+> > @@ -152,8 +152,7 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
+> >               | VEPU_REG_INPUT_SWAP8
+> >               | VEPU_REG_INPUT_SWAP16
+> >               | VEPU_REG_INPUT_SWAP32;
+> > -     /* Make sure that all registers are written at this point. */
+> > -     vepu_write(vpu, reg, VEPU_REG_DATA_ENDIAN);
+> > +     vepu_write_relaxed(vpu, reg, VEPU_REG_DATA_ENDIAN);
+> >
+> >       reg = VEPU_REG_AXI_CTRL_BURST_LEN(16);
+> >       vepu_write_relaxed(vpu, reg, VEPU_REG_AXI_CTRL);
+> > --
+> > 2.34.1.575.g55b058a8bb-goog
+> >
