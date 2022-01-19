@@ -2,105 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03ABD4933F6
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 05:08:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12A4B49342F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jan 2022 06:00:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243116AbiASEH7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jan 2022 23:07:59 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:41312 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1351481AbiASEHh (ORCPT
+        id S229549AbiASFAr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 00:00:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56784 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229448AbiASFAo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jan 2022 23:07:37 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20INx5iq012817;
-        Wed, 19 Jan 2022 04:06:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2021-07-09;
- bh=bGCfCt6vCAi9RXyrfJqfylamdOtbNoBkaaat0IE/Mnw=;
- b=lJnCGbChCBWiNCJ81/oD1H2AgQZqUQa5nCeYEKv3GgIDNnniyAqdpYR6Amtq5UVy85+S
- bSf1F6fc782Zb3Hp+C/dNgfwXSix7WwLstwfNiw/46TSej1TijDQQYxcpVwee5QgPbXs
- 7qRvvqYwp1E1ZgJdwTidvqkrmMa2mDn9jRoaeO55cbOsT0QqUIBAR9kF8p5ggelQCa3G
- c12qT81DvBC9DrU2d50H1hksN5JKryq7e54/MdXUueGoXHOe0qsRXmf5/407TnolSx/k
- mH6KSOS3qms9+4ReTKr2kzH+nGTE/NnAmFSQ7vRhRr/fL6whaOCHGPK4AnnXhPGdKH9a 5A== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3dnc4q3wwt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 Jan 2022 04:06:19 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20J42AEu091613;
-        Wed, 19 Jan 2022 04:06:18 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3020.oracle.com with ESMTP id 3dkqqpnr7j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 Jan 2022 04:06:18 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 20J46HPx110383;
-        Wed, 19 Jan 2022 04:06:17 GMT
-Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
-        by userp3020.oracle.com with ESMTP id 3dkqqpnr68-1;
-        Wed, 19 Jan 2022 04:06:17 +0000
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-To:     sreekanth.reddy@broadcom.com, mchehab@kernel.org, mdf@kernel.org,
-        mpe@ellerman.id.au, mporter@kernel.crashing.org, hch@infradead.org,
-        bhelgaas@google.com, airlied@linux.ie,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        benh@kernel.crashing.org, ink@jurassic.park.msu.ru,
-        davem@davemloft.net, akpm@linux-foundation.org, hao.wu@intel.com,
-        vkoul@kernel.org, sathya.prakash@broadcom.com, paulus@samba.org,
-        trix@redhat.com, arnd@arndb.de, yilun.xu@intel.com,
-        suganath-prabu.subramani@broadcom.com, alex.bou9@gmail.com,
-        awalls@md.metrocast.net, rth@twiddle.net, mattst88@gmail.com
-Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-alpha@vger.kernel.org, linux-fpga@vger.kernel.org,
-        MPT-FusionLinux.pdl@broadcom.com, linux-media@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-scsi@vger.kernel.org, dmaengine@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 00/16] Remove usage of the deprecated "pci-dma-compat.h" API
-Date:   Tue, 18 Jan 2022 23:06:09 -0500
-Message-Id: <164256513502.31841.5177778968152773786.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
-References: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: kv-6XMqJc6gHKjMkAhgWOkvxgVt6FLHh
-X-Proofpoint-ORIG-GUID: kv-6XMqJc6gHKjMkAhgWOkvxgVt6FLHh
+        Wed, 19 Jan 2022 00:00:44 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00765C061574
+        for <linux-media@vger.kernel.org>; Tue, 18 Jan 2022 21:00:43 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 916356157B
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 05:00:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7138C004E1
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 05:00:42 +0000 (UTC)
+Date:   Wed, 19 Jan 2022 06:00:40 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220119050042.A7138C004E1@smtp.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 6 Jan 2022 22:45:13 +0100, Christophe JAILLET wrote:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-> This serie axes all the remaining usages of the deprecated "pci-dma-compat.h"
-> API.
-> 
-> All these patches have already been posted.
-> 
-> They have been generated with a coccinelle script.
-> The tricky parts are patches that use dma_alloc_coherent() because the correct
-> GFP flag has to be used in place of the previous embedded GFP_ATOMIC.
-> 
-> [...]
+Results of the daily build of media_tree:
 
-Applied to 5.17/scsi-queue, thanks!
+date:			Wed Jan 19 05:00:11 CET 2022
+media-tree git hash:	5da908b7af4c3ebd6748069d7223dc7a1a98d834
+media_build git hash:	2fa76ec062aeaf93b647edbad1dd606e49fca4b3
+v4l-utils git hash:	9f0eab72e17e4167c2d4df790c7e384240ce5c37
+edid-decode git hash:	6514c9d9b18160fe9f09d3d70f99dda85d6fca71
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 563fd38b0ffa4952759ae8f89bfece067e99581d
+host hardware:		x86_64
+host os:		5.15.0-2-amd64
 
-[10/16] scsi: message: fusion: Remove usage of the deprecated "pci-dma-compat.h" API
-        https://git.kernel.org/mkp/scsi/c/b114dda6f2f1
-[11/16] scsi: mptbase: Use dma_alloc_coherent() in 'mpt_alloc_fw_memory()'
-        https://git.kernel.org/mkp/scsi/c/2d50607260a6
-[12/16] scsi: mptbase: Use dma_alloc_coherent()
-        https://git.kernel.org/mkp/scsi/c/5c5e6b6f61e0
-[13/16] scsi: mptsas: Use dma_alloc_coherent() in mptsas_exp_repmanufacture_info()
-        https://git.kernel.org/mkp/scsi/c/7a960b3a5e37
-[14/16] scsi: mptsas: Use dma_alloc_coherent()
-        https://git.kernel.org/mkp/scsi/c/76a334d756c5
-[15/16] scsi: mptctl: Use dma_alloc_coherent()
-        https://git.kernel.org/mkp/scsi/c/706dc3b91989
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16.1-i686: OK
+linux-5.16.1-x86_64: OK
+apps: OK
+spec-git: OK
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Detailed results are available here:
+
+http://www.xs4all.nl/WWW/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/WWW/logs/Wednesday-test-media.log
+http://www.xs4all.nl/WWW/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/WWW/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/WWW/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/WWW/spec/index.html
