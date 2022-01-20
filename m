@@ -2,156 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15586494A34
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 09:59:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B321B494A83
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 10:15:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236504AbiATI7U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jan 2022 03:59:20 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59158 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238241AbiATI7S (ORCPT
+        id S237469AbiATJOt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jan 2022 04:14:49 -0500
+Received: from mail-vk1-f176.google.com ([209.85.221.176]:41684 "EHLO
+        mail-vk1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1359644AbiATJOr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jan 2022 03:59:18 -0500
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:3368:5e43:a228:ee75])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 668331F44C70;
-        Thu, 20 Jan 2022 08:59:16 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1642669156;
-        bh=70J/M3Mn2wuN/O5yaZDjpp/xB3BHC/zkHmIcZktdScY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ZO8Jmz4j0cx8AicUqq06pX/TskR7JHRp/Q1GVsO9dQou6RdjZ79D8dDzmeBKhXD6R
-         cRrLyTQC1rBbV2kYb61ZWuP4kxkgY39mpa+8M4zz+n24Lbz1BcvWOEoOh/JDubO7Im
-         3mh765ifD5U/1ch+i/uyY7bD6drbjTz3LvACB/pgwvzvFAnUjUe20e4Uk1bDy9+VJd
-         N7wXwUCFU1teeNPJeZKEvzaAaJBFE3hGh4SwKp6Uhp+krOCvWbnBpT4qkLOEyu/9+h
-         57IHZCu2wK9AMTdWI++wbVJJ0c8L/Mi03LQDfP+kjA8Mzn3SmYO+lsPQd6ZcR9X3Xh
-         n/N9teIDupRxA==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-        mchehab@kernel.org, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.co.uk
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v2] media: platform: mtk-vcodec: Do not force /dev/videoX node number
-Date:   Thu, 20 Jan 2022 09:59:09 +0100
-Message-Id: <20220120085909.103886-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.30.2
+        Thu, 20 Jan 2022 04:14:47 -0500
+Received: by mail-vk1-f176.google.com with SMTP id n9so3180970vkq.8;
+        Thu, 20 Jan 2022 01:14:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FYed4oykOu+z8FFFs3tPnhUXUrhEGjETr77TsDFO7y8=;
+        b=Q4fDn0EIMGsfnX6dDdMqRj79U3E67LF8V9vXBmgXXflTqL66Sz/hIWD3Fljb2IRNsY
+         6qRN82rfQpn5WhlMCfBZVa5X4PvgvRqdhsNjskohNNoxGNgwU3MeaMhcq/zr/zHkJ8m4
+         h9vp/WmS3TgsbAPmQpFvwdHruonfaogs266wWmoJjGwAuaxf2WzINkBUXR9w5Z7YMlpR
+         o/onRI8+kWKx6urUezkHs1w2ocJWqN2eoiHZy707rZZJrGc0wkRD02hWgIULIWpJaJJr
+         xl2kgIt33y8LAchvrNIPoYFL1LRI1lSJ+VxOojRhoGErEgFhjUeMEzINdDiqDRIUKlGP
+         Asjw==
+X-Gm-Message-State: AOAM533jv4IWpkXKxag1Ff2HROUmXL4QHamD/HY+wo8zIZWbqSREuQCB
+        X5Zh5oSsvQr3BICSdoUVG1sY5CNfL5gLUw==
+X-Google-Smtp-Source: ABdhPJwFSV8MYzVQ9/K6ZsbQ9V8e6x59Syi1cvf3GEXN4epoFXdsxthSaV9Ij7kfD7jknS8UrwvU+w==
+X-Received: by 2002:a05:6122:2186:: with SMTP id j6mr1467730vkd.41.1642670086365;
+        Thu, 20 Jan 2022 01:14:46 -0800 (PST)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id k12sm438131vki.50.2022.01.20.01.14.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Jan 2022 01:14:45 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id p7so2410544uao.6;
+        Thu, 20 Jan 2022 01:14:45 -0800 (PST)
+X-Received: by 2002:a9f:3d89:: with SMTP id c9mr2447588uai.78.1642670085582;
+ Thu, 20 Jan 2022 01:14:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211216163439.139579-1-jacopo+renesas@jmondi.org> <20211216163439.139579-5-jacopo+renesas@jmondi.org>
+In-Reply-To: <20211216163439.139579-5-jacopo+renesas@jmondi.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 20 Jan 2022 10:14:34 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXyXwDiTpLACKdyoimtia3KS8A94qD-Ryi=r=6pj79D1A@mail.gmail.com>
+Message-ID: <CAMuHMdXyXwDiTpLACKdyoimtia3KS8A94qD-Ryi=r=6pj79D1A@mail.gmail.com>
+Subject: Re: [PATCH v8 4/7] arm64: dts: renesas: condor: Enable MAX9286
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Let's v4l2 framework use a free /dev/videoX node for decode and encoder.
-For the decoder call video_register_device() before register the media
-controller device so the mapping between ins correctly done.
-Since the registering sequence has changed rework exiting errors case too.
+Hi Jacopo,
 
-Fixes: 590577a4e525 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Decoder Driver")
-Fixes: 4e855a6efa54 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Encoder Driver")
+On Thu, Dec 16, 2021 at 5:34 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> Enable the MAX9286 GMSL deserializers on Condor-V3H board.
+>
+> Connected cameras should be defined in a device-tree overlay or included
+> after these definitions.
+>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
-version 2:
- - add Fixes and Reviewed-by tags as suggested by Angelo
- .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 27 +++++++++----------
- .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  2 +-
- 2 files changed, 13 insertions(+), 16 deletions(-)
+Thanks for your patch!
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-index 86b639d82be8..a4a3f9631d04 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-@@ -374,7 +374,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 	if (IS_ERR((__force void *)dev->m2m_dev_dec)) {
- 		mtk_v4l2_err("Failed to init mem2mem dec device");
- 		ret = PTR_ERR((__force void *)dev->m2m_dev_dec);
--		goto err_dec_mem_init;
-+		goto err_dec_alloc;
- 	}
- 
- 	dev->decode_workqueue =
-@@ -391,10 +391,16 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 					   &pdev->dev);
- 		if (ret) {
- 			mtk_v4l2_err("Main device of_platform_populate failed.");
--			goto err_event_workq;
-+			goto err_reg_cont;
- 		}
- 	}
- 
-+	ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, -1);
-+	if (ret) {
-+		mtk_v4l2_err("Failed to register video device");
-+		goto err_reg_cont;
-+	}
-+
- 	if (dev->vdec_pdata->uses_stateless_api) {
- 		dev->mdev_dec.dev = &pdev->dev;
- 		strscpy(dev->mdev_dec.model, MTK_VCODEC_DEC_NAME,
-@@ -408,7 +414,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 							 MEDIA_ENT_F_PROC_VIDEO_DECODER);
- 		if (ret) {
- 			mtk_v4l2_err("Failed to register media controller");
--			goto err_reg_cont;
-+			goto err_dec_mem_init;
- 		}
- 
- 		ret = media_device_register(&dev->mdev_dec);
-@@ -419,30 +425,21 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 
- 		mtk_v4l2_debug(0, "media registered as /dev/media%d", vfd_dec->minor);
- 	}
--	ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, 0);
--	if (ret) {
--		mtk_v4l2_err("Failed to register video device");
--		goto err_dec_reg;
--	}
- 
- 	mtk_v4l2_debug(0, "decoder registered as /dev/video%d", vfd_dec->minor);
- 
- 	return 0;
- 
--err_dec_reg:
--	if (dev->vdec_pdata->uses_stateless_api)
--		media_device_unregister(&dev->mdev_dec);
- err_media_reg:
--	if (dev->vdec_pdata->uses_stateless_api)
--		v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
-+	v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
-+err_dec_mem_init:
-+	video_unregister_device(vfd_dec);
- err_reg_cont:
- 	if (dev->vdec_pdata->uses_stateless_api)
- 		media_device_cleanup(&dev->mdev_dec);
- 	destroy_workqueue(dev->decode_workqueue);
- err_event_workq:
- 	v4l2_m2m_release(dev->m2m_dev_dec);
--err_dec_mem_init:
--	video_unregister_device(vfd_dec);
- err_dec_alloc:
- 	v4l2_device_unregister(&dev->v4l2_dev);
- err_core_workq:
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-index 507ad1ea2104..3975613b75b3 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-@@ -350,7 +350,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
- 		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
- 
--	ret = video_register_device(vfd_enc, VFL_TYPE_VIDEO, 1);
-+	ret = video_register_device(vfd_enc, VFL_TYPE_VIDEO, -1);
- 	if (ret) {
- 		mtk_v4l2_err("Failed to register video device");
- 		goto err_enc_reg;
--- 
-2.30.2
+> --- a/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
+> @@ -6,6 +6,8 @@
+>   * Copyright (C) 2018 Cogent Embedded, Inc.
+>   */
+>
+> +#include <dt-bindings/gpio/gpio.h>
 
+Already included below.
+
+> +
+>  /dts-v1/;
+>  #include "r8a77980.dtsi"
+>  #include <dt-bindings/gpio/gpio.h>
+
+I can fix that while applying, but I'm interested in hearing the answer
+to Kieran's question first.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
