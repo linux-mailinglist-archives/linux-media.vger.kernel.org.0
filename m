@@ -2,177 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8168B49522E
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 17:16:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E605495298
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 17:49:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376954AbiATQQR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jan 2022 11:16:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57306 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376946AbiATQQR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jan 2022 11:16:17 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C03C4C061574
-        for <linux-media@vger.kernel.org>; Thu, 20 Jan 2022 08:16:16 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 19F96101C5F; Thu, 20 Jan 2022 16:16:14 +0000 (UTC)
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH 2/2] media: lirc: report ir receiver overflow
-Date:   Thu, 20 Jan 2022 16:16:14 +0000
-Message-Id: <20220120161614.328202-2-sean@mess.org>
+        id S1377104AbiATQtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jan 2022 11:49:00 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:53262 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1377101AbiATQs7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Jan 2022 11:48:59 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nAacM-000Iuk-0l; Thu, 20 Jan 2022 16:48:58 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nAacJ-00Doy8-Lf; Thu, 20 Jan 2022 16:48:55 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.18] rc core patches (#80128)
+Date:   Thu, 20 Jan 2022 16:48:55 +0000
+Message-Id: <20220120164855.3294142-1-jenkins@linuxtv.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220120161614.328202-1-sean@mess.org>
-References: <20220120161614.328202-1-sean@mess.org>
+In-Reply-To: <YemJ7jU3oKJHvfnV@gofer.mess.org>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the driver reports that the hardware had an overflow, report this to
-userspace. It would be nice to know when this happens, and not just get
-a long space.
+From: builder@linuxtv.org
 
-This change has been tested with lircd, ir-ctl, and ir-keytable.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YemJ7jU3oKJHvfnV@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/175777/
+Build time: 00:31:52
+Link: https://lore.kernel.org/linux-media/YemJ7jU3oKJHvfnV@gofer.mess.org
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- .../userspace-api/media/lirc.h.rst.exceptions         |  3 +++
- .../userspace-api/media/rc/lirc-dev-intro.rst         | 11 +++++++++--
- drivers/media/rc/lirc_dev.c                           | 11 +++++------
- drivers/media/rc/rc-loopback.c                        |  6 +++++-
- include/uapi/linux/lirc.h                             |  3 +++
- 5 files changed, 25 insertions(+), 9 deletions(-)
+gpg: Signature made Thu 20 Jan 2022 03:59:01 PM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: A624 251A 2608 4A9E D9E4  C8B6 425F 639D 3960 FA9E
 
-diff --git a/Documentation/userspace-api/media/lirc.h.rst.exceptions b/Documentation/userspace-api/media/lirc.h.rst.exceptions
-index ec86e82d026d..5f31e967bc50 100644
---- a/Documentation/userspace-api/media/lirc.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/lirc.h.rst.exceptions
-@@ -11,12 +11,14 @@ ignore define LIRC_SPACE
- ignore define LIRC_PULSE
- ignore define LIRC_FREQUENCY
- ignore define LIRC_TIMEOUT
-+ignore define LIRC_OVERFLOW
- ignore define LIRC_VALUE
- ignore define LIRC_MODE2
- ignore define LIRC_IS_SPACE
- ignore define LIRC_IS_PULSE
- ignore define LIRC_IS_FREQUENCY
- ignore define LIRC_IS_TIMEOUT
-+ignore define LIRC_IS_OVERFLOW
- 
- ignore define LIRC_MODE2SEND
- ignore define LIRC_SEND2MODE
-@@ -75,6 +77,7 @@ ignore define PULSE_MASK
- ignore define LIRC_MODE2_SPACE
- ignore define LIRC_MODE2_PULSE
- ignore define LIRC_MODE2_TIMEOUT
-+ignore define LIRC_MODE2_OVERFLOW
- 
- ignore define LIRC_VALUE_MASK
- ignore define LIRC_MODE2_MASK
-diff --git a/Documentation/userspace-api/media/rc/lirc-dev-intro.rst b/Documentation/userspace-api/media/rc/lirc-dev-intro.rst
-index 9a5e5f0aae11..d899331b943f 100644
---- a/Documentation/userspace-api/media/rc/lirc-dev-intro.rst
-+++ b/Documentation/userspace-api/media/rc/lirc-dev-intro.rst
-@@ -103,11 +103,11 @@ on the following table.
- 
-     ``LIRC_MODE2_PULSE``
- 
--        Signifies the presence of IR in microseconds.
-+        Signifies the presence of IR in microseconds, also known as *flash*.
- 
-     ``LIRC_MODE2_SPACE``
- 
--        Signifies absence of IR in microseconds.
-+        Signifies absence of IR in microseconds, also known as *gap*.
- 
-     ``LIRC_MODE2_FREQUENCY``
- 
-@@ -121,6 +121,13 @@ on the following table.
-         to no IR being detected, this packet will be sent, with the number
-         of microseconds with no IR.
- 
-+    ``LIRC_MODE2_OVERFLOW``
-+
-+        Signifies that the IR receiver encounter an overflow, and some IR
-+        is missing. The IR data after this should be correct again. The
-+        actual value is not important, but this is set to 0xffffff by the
-+        kernel for compatibility with lircd.
-+
- .. _lirc-mode-pulse:
- 
- ``LIRC_MODE_PULSE``
-diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
-index fa4671fc92be..4d13486924fc 100644
---- a/drivers/media/rc/lirc_dev.c
-+++ b/drivers/media/rc/lirc_dev.c
-@@ -44,13 +44,12 @@ void lirc_raw_event(struct rc_dev *dev, struct ir_raw_event ev)
- 	/* Receiver overflow, data missing */
- 	if (ev.overflow) {
- 		/*
--		 * Userspace expects a long space event before the start of
--		 * the signal to use as a sync.  This may be done with repeat
--		 * packets and normal samples.  But if an overflow has been sent
--		 * then we assume that a long time has passed, so we send a
--		 * space with the maximum time value.
-+		 * Send lirc overflow message. This message is unknown to
-+		 * lircd, but it will interpret this as a long space as
-+		 * long as the value is set to high value. This resets its
-+		 * decoder state.
- 		 */
--		sample = LIRC_SPACE(LIRC_VALUE_MASK);
-+		sample = LIRC_OVERFLOW(LIRC_VALUE_MASK);
- 		dev_dbg(&dev->dev, "delivering overflow space to lirc_dev\n");
- 
- 	/* Carrier reports */
-diff --git a/drivers/media/rc/rc-loopback.c b/drivers/media/rc/rc-loopback.c
-index 6441879fcba1..b356041c5c00 100644
---- a/drivers/media/rc/rc-loopback.c
-+++ b/drivers/media/rc/rc-loopback.c
-@@ -112,7 +112,11 @@ static int loop_tx_ir(struct rc_dev *dev, unsigned *txbuf, unsigned count)
- 		rawir.pulse = i % 2 ? false : true;
- 		rawir.duration = txbuf[i];
- 
--		ir_raw_event_store_with_filter(dev, &rawir);
-+		/* simulate overflow if ridiculously long pulse was sent */
-+		if (rawir.pulse && rawir.duration > MS_TO_US(50))
-+			ir_raw_event_overflow(dev);
-+		else
-+			ir_raw_event_store_with_filter(dev, &rawir);
- 	}
- 
- 	if (lodev->carrierreport) {
-diff --git a/include/uapi/linux/lirc.h b/include/uapi/linux/lirc.h
-index a1f9c26ea537..807306d6928c 100644
---- a/include/uapi/linux/lirc.h
-+++ b/include/uapi/linux/lirc.h
-@@ -16,6 +16,7 @@
- #define LIRC_MODE2_PULSE     0x01000000
- #define LIRC_MODE2_FREQUENCY 0x02000000
- #define LIRC_MODE2_TIMEOUT   0x03000000
-+#define LIRC_MODE2_OVERFLOW  0x04000000
- 
- #define LIRC_VALUE_MASK      0x00FFFFFF
- #define LIRC_MODE2_MASK      0xFF000000
-@@ -24,6 +25,7 @@
- #define LIRC_PULSE(val) (((val)&LIRC_VALUE_MASK) | LIRC_MODE2_PULSE)
- #define LIRC_FREQUENCY(val) (((val)&LIRC_VALUE_MASK) | LIRC_MODE2_FREQUENCY)
- #define LIRC_TIMEOUT(val) (((val)&LIRC_VALUE_MASK) | LIRC_MODE2_TIMEOUT)
-+#define LIRC_OVERFLOW(val) (((val)&LIRC_VALUE_MASK) | LIRC_MODE2_OVERFLOW)
- 
- #define LIRC_VALUE(val) ((val)&LIRC_VALUE_MASK)
- #define LIRC_MODE2(val) ((val)&LIRC_MODE2_MASK)
-@@ -32,6 +34,7 @@
- #define LIRC_IS_PULSE(val) (LIRC_MODE2(val) == LIRC_MODE2_PULSE)
- #define LIRC_IS_FREQUENCY(val) (LIRC_MODE2(val) == LIRC_MODE2_FREQUENCY)
- #define LIRC_IS_TIMEOUT(val) (LIRC_MODE2(val) == LIRC_MODE2_TIMEOUT)
-+#define LIRC_IS_OVERFLOW(val) (LIRC_MODE2(val) == LIRC_MODE2_OVERFLOW)
- 
- /* used heavily by lirc userspace */
- #define lirc_t int
--- 
-2.34.1
+Summary: got 3/6 patches with issues, being 3 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-ir_toy-free-before-error-exiting.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+
+patches/0002-media-lirc-remove-unused-lirc-features.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2894 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0003-media-lirc-simplify-gap-calculation.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+
+Error #512 when building PDF docs
 
