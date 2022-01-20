@@ -2,86 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8F97494589
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 02:26:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0804749462A
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 04:34:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358052AbiATB0G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jan 2022 20:26:06 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:17820 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1345516AbiATB0D (ORCPT
+        id S1358379AbiATDeH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 22:34:07 -0500
+Received: from mailgw01.mediatek.com ([60.244.123.138]:41472 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234287AbiATDeG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jan 2022 20:26:03 -0500
-X-IronPort-AV: E=Sophos;i="5.88,300,1635174000"; 
-   d="scan'208";a="107627278"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 20 Jan 2022 10:26:01 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B9A7C416F260;
-        Thu, 20 Jan 2022 10:25:58 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] media: dt-bindings: media: renesas,csi2: Update data-lanes property
-Date:   Thu, 20 Jan 2022 01:25:53 +0000
-Message-Id: <20220120012553.23295-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Wed, 19 Jan 2022 22:34:06 -0500
+X-UUID: 0e3172ea1eef46cebc6361e5b4b2992f-20220120
+X-UUID: 0e3172ea1eef46cebc6361e5b4b2992f-20220120
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1117506135; Thu, 20 Jan 2022 11:34:01 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Thu, 20 Jan 2022 11:34:00 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 20 Jan 2022 11:33:59 +0800
+From:   <guangming.cao@mediatek.com>
+To:     <john.stultz@linaro.org>
+CC:     <benjamin.gaignard@linaro.org>, <bo.song@mediatek.com>,
+        <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+        <guangming.cao@mediatek.com>, <jianjiao.zeng@mediatek.com>,
+        <labbott@redhat.com>, <libo.kang@mediatek.com>,
+        <linaro-mm-sig@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <lmark@codeaurora.org>,
+        <matthias.bgg@gmail.com>, <michael.j.ruhl@intel.com>,
+        <mingyuan.ma@mediatek.com>, <sumit.semwal@linaro.org>,
+        <wsd_upstream@mediatek.com>, <yf.wang@mediatek.com>,
+        <caoguangming34@gmail.com>, Guangming <Guangming.Cao@mediatek.com>
+Subject: [PATCH v4] dma-buf: system_heap: Add a size check for allocation
+Date:   Thu, 20 Jan 2022 11:34:50 +0800
+Message-ID: <20220120033450.90164-1-guangming.cao@mediatek.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CALAqxLUtK8V9LgC-DY+tkzFYyWfzF+JhbrLZk6UhEG57HQBDSA@mail.gmail.com>
+References: <CALAqxLUtK8V9LgC-DY+tkzFYyWfzF+JhbrLZk6UhEG57HQBDSA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-CSI-2 (CSI4LNK0) on R-Car and RZ/G2 supports 4-lane mode which is already
-handled by rcar-csi2.c driver. This patch updates the data-lanes property
-to describe the same.
+From: Guangming <Guangming.Cao@mediatek.com>
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Add a size check for allocation since the allocation size should be
+always less than the total DRAM size on system heap.
+And it can prevent consuming too much time for invalid allocations.
+
+Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
 ---
-Hi All,
+ drivers/dma-buf/heaps/system_heap.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Instead of adding uniqueItems:true into SoC binding doc's I think we could
-add this in video-interfaces.yaml for data-lanes property. Any thoughts on this?
-
-Cheers,
-Prabhakar
-
-v1->v2
-* Dropped const items
-* Added uniqueItems
-
-v1:
-https://lore.kernel.org/lkml/20220118163413.ge2b4g75yhfqvq3x@uno.localdomain/T/
----
- Documentation/devicetree/bindings/media/renesas,csi2.yaml | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-index e6a036721082..a5a1b570025a 100644
---- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-@@ -67,7 +67,11 @@ properties:
-                 maxItems: 1
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 23a7e74ef966..bd6f255620e2 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -347,6 +347,13 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+ 	struct page *page, *tmp_page;
+ 	int i, ret = -ENOMEM;
  
-               data-lanes:
--                maxItems: 1
-+                minItems: 1
-+                maxItems: 4
-+                uniqueItems: true
-+                items:
-+                  maximum: 4
- 
-             required:
-               - clock-lanes
++	/*
++	 * Size check. The "len" should be less than totalram since system_heap
++	 * memory is comes from system. Adding check here can prevent consuming
++	 * too much time for invalid allocations.
++	 */
++	if (len >> PAGE_SHIFT > totalram_pages())
++		return -EINVAL;
+ 	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+ 	if (!buffer)
+ 		return ERR_PTR(-ENOMEM);
 -- 
 2.17.1
 
