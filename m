@@ -2,168 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20175494EF5
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 14:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09894494FFF
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 15:20:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235822AbiATN2A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jan 2022 08:28:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46206 "EHLO
+        id S1344431AbiATOUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jan 2022 09:20:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235902AbiATN16 (ORCPT
+        with ESMTP id S234745AbiATOUi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jan 2022 08:27:58 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26694C061574
-        for <linux-media@vger.kernel.org>; Thu, 20 Jan 2022 05:27:58 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id j5-20020a05600c1c0500b0034d2e956aadso13683449wms.4
-        for <linux-media@vger.kernel.org>; Thu, 20 Jan 2022 05:27:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=ZOOWkC73PSVhRT0FPLika7h1bqOJ9nqV8+v2bYOzvlk=;
-        b=UBR2K0LXvA6q899ewEbk5cHXPN48CBhwnITW5+jzl0QjmWV4iUrZb/m03lc7Gtr95N
-         mSQGCb5n/WTibjCZila+49evvjycum7p6RnIs9Ql+cd8XjbQneAgi8RyXTKFvsr6sVAG
-         JZ5Kx1SyVFNKI4FpZTIrFXExgq4ffuW5MLys+9mhhflDP4wkEoKN1bv6CbvK1jdqTXYj
-         MM1rvnDpr+lmWbvTDIGoUonqrRWpeHZ6x/KibtCpJ5inlWamxxvdvnYHUfMk75BzTJRO
-         nKTmjOIf8CMk/ILyJMF+6GX4QkCRot2n37FZpHQaJYKwGzMpHNggsSgJS4HrQKVtbYbg
-         jqvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZOOWkC73PSVhRT0FPLika7h1bqOJ9nqV8+v2bYOzvlk=;
-        b=o9PL2IkvyjbpZAmqP4nQxIZxPKgeHdPKgOocTtEtdUY18rIkgQHPDNpTu7v6stACr9
-         BzUUS73SRfTGILafA4WbKmEEN7oiLfkJO3kMw/DoR6m6z1ZhrN1bIfvo05DOmxGa1KwE
-         0xWp57ExMoTrMlTzoXrvO8n6I2MOtroGmFuiRw+IbYgD059Xc81gpBZK8s8/4LoWj0Dx
-         /r8XxMAa98K+cEOWGVBIxdiRVPUG3zAfyB06A3te+44cdiVRwzlbluuphS8OFaqKhVsT
-         LzQ7DN0gHWltGg2myljFN56UZYscfKMdy6ufWU+2l1uWTPzbSrjeKoUr4U0kso64Z+C0
-         5ssg==
-X-Gm-Message-State: AOAM533WVuAj4D5IcR+TnUf9Lr26BFcS00LZzHTcm3Rzu/w0pgwphSeD
-        1QxaCAMzcwn8c0+7+OHUeys=
-X-Google-Smtp-Source: ABdhPJwbsld08mlMfr/IBFDjNumOb6sFSstlPEWRopfXeMgcdFI3eq3KdHI69f9plBqiIWu/mX9OQQ==
-X-Received: by 2002:a5d:6e83:: with SMTP id k3mr7256083wrz.506.1642685276730;
-        Thu, 20 Jan 2022 05:27:56 -0800 (PST)
-Received: from abel.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
-        by smtp.gmail.com with ESMTPSA id a9sm2658454wmm.32.2022.01.20.05.27.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jan 2022 05:27:56 -0800 (PST)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     sumit.semwal@linaro.org, gustavo@padovan.org,
-        daniel.vetter@ffwll.ch, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 9/9] drm/vmwgfx: remove vmw_wait_dma_fence
-Date:   Thu, 20 Jan 2022 14:27:47 +0100
-Message-Id: <20220120132747.2348-10-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220120132747.2348-1-christian.koenig@amd.com>
-References: <20220120132747.2348-1-christian.koenig@amd.com>
+        Thu, 20 Jan 2022 09:20:38 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 405F3C061574;
+        Thu, 20 Jan 2022 06:20:38 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id ECE87B81CD9;
+        Thu, 20 Jan 2022 14:20:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5746C340E0;
+        Thu, 20 Jan 2022 14:20:33 +0000 (UTC)
+Message-ID: <7b0ac4d2-a78e-f1be-e7ee-6f4c69acc386@xs4all.nl>
+Date:   Thu, 20 Jan 2022 15:20:31 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH RFT v2 1/8] media: hantro: jpeg: Relax register writes
+ before write starting hardware
+Content-Language: en-US
+To:     Chen-Yu Tsai <wenst@chromium.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220107093455.73766-1-wenst@chromium.org>
+ <20220107093455.73766-2-wenst@chromium.org> <Yecq111pZDP9XFNO@eze-laptop>
+ <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Decomposing fence containers don't seem to make any sense here.
+Hi Chen-Yu,
 
-So just remove the function entirely and call dma_fence_wait() directly.
+I'll take patches 2-8.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
-Cc: Zack Rusin <zackr@vmware.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c   | 46 -------------------------
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.h   |  3 --
- 3 files changed, 1 insertion(+), 50 deletions(-)
+So should I mark patch 1/8 as 'Rejected' or 'Changes Requested' in patchwork?
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-index 44ca23b0ea4e..0ff28f0e3eb4 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -4500,7 +4500,7 @@ int vmw_execbuf_ioctl(struct drm_device *dev, void *data,
- 			goto mksstats_out;
- 		}
- 
--		ret = vmw_wait_dma_fence(dev_priv->fman, in_fence);
-+		ret = dma_fence_wait(in_fence, true);
- 		if (ret)
- 			goto out;
- 	}
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-index c60d395f9e2e..430f83a1847c 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -621,52 +621,6 @@ int vmw_user_fence_create(struct drm_file *file_priv,
- 	return ret;
- }
- 
--
--/**
-- * vmw_wait_dma_fence - Wait for a dma fence
-- *
-- * @fman: pointer to a fence manager
-- * @fence: DMA fence to wait on
-- *
-- * This function handles the case when the fence is actually a fence
-- * array.  If that's the case, it'll wait on each of the child fence
-- */
--int vmw_wait_dma_fence(struct vmw_fence_manager *fman,
--		       struct dma_fence *fence)
--{
--	struct dma_fence_array *fence_array;
--	int ret = 0;
--	int i;
--
--
--	if (dma_fence_is_signaled(fence))
--		return 0;
--
--	if (!dma_fence_is_array(fence))
--		return dma_fence_wait(fence, true);
--
--	/* From i915: Note that if the fence-array was created in
--	 * signal-on-any mode, we should *not* decompose it into its individual
--	 * fences. However, we don't currently store which mode the fence-array
--	 * is operating in. Fortunately, the only user of signal-on-any is
--	 * private to amdgpu and we should not see any incoming fence-array
--	 * from sync-file being in signal-on-any mode.
--	 */
--
--	fence_array = to_dma_fence_array(fence);
--	for (i = 0; i < fence_array->num_fences; i++) {
--		struct dma_fence *child = fence_array->fences[i];
--
--		ret = dma_fence_wait(child, true);
--
--		if (ret < 0)
--			return ret;
--	}
--
--	return 0;
--}
--
--
- /*
-  * vmw_fence_fifo_down - signal all unsignaled fence objects.
-  */
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
-index 079ab4f3ba51..a7eee579c76a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.h
-@@ -104,9 +104,6 @@ extern int vmw_user_fence_create(struct drm_file *file_priv,
- 				 struct vmw_fence_obj **p_fence,
- 				 uint32_t *p_handle);
- 
--extern int vmw_wait_dma_fence(struct vmw_fence_manager *fman,
--			      struct dma_fence *fence);
--
- extern void vmw_fence_fifo_up(struct vmw_fence_manager *fman);
- 
- extern void vmw_fence_fifo_down(struct vmw_fence_manager *fman);
--- 
-2.25.1
+Regards,
 
+	Hans
+
+On 1/19/22 11:08, Chen-Yu Tsai wrote:
+> Hi,
+> 
+> On Wed, Jan 19, 2022 at 5:02 AM Ezequiel Garcia
+> <ezequiel@vanguardiasur.com.ar> wrote:
+>>
+>> Hi Chen-Yu,
+>>
+>> The series looks good, thanks for picking up this task.
+>>
+>> Just a one comment.
+>>
+>> On Fri, Jan 07, 2022 at 05:34:48PM +0800, Chen-Yu Tsai wrote:
+>>> In the earlier submissions of the Hantro/Rockchip JPEG encoder driver, a
+>>> wmb() was inserted before the final register write that starts the
+>>> encoder. In v11, it was removed and the second-to-last register write
+>>> was changed to a non-relaxed write, which has an implicit wmb() [1].
+>>> The rockchip_vpu2 (then rk3399_vpu) variant is even weirder as there
+>>> is another writel_relaxed() following the non-relaxed one.
+>>>
+>>> Turns out only the last writel() needs to be non-relaxed. Device I/O
+>>> mappings already guarantee strict ordering to the same endpoint, and
+>>> the writel() triggering the hardware would force all writes to memory
+>>> to be observed before the writel() to the hardware is observed.
+>>>
+>>> [1] https://lore.kernel.org/linux-media/CAAFQd5ArFG0hU6MgcyLd+_UOP3+T_U-aw2FXv6sE7fGqVCVGqw@mail.gmail.com/
+>>>
+>>> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+>>> ---
+>>>  drivers/staging/media/hantro/hantro_h1_jpeg_enc.c        | 3 +--
+>>>  drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c | 3 +--
+>>>  2 files changed, 2 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+>>> index 1450013d3685..03db1c3444f8 100644
+>>> --- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+>>> +++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+>>> @@ -123,8 +123,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+>>>               | H1_REG_AXI_CTRL_INPUT_SWAP32
+>>>               | H1_REG_AXI_CTRL_OUTPUT_SWAP8
+>>>               | H1_REG_AXI_CTRL_INPUT_SWAP8;
+>>> -     /* Make sure that all registers are written at this point. */
+>>> -     vepu_write(vpu, reg, H1_REG_AXI_CTRL);
+>>> +     vepu_write_relaxed(vpu, reg, H1_REG_AXI_CTRL);
+>>>
+>>
+>> As far as I can remember, this logic comes from really old Chromium Kernels.
+>> You might be right, and this barrier isn't needed... but then OTOH the comment
+>> is here for a reason, so maybe it is needed (or was needed on some RK3288 SoC revision).
+> 
+> I just realized that my commit log is wrong.
+> 
+> " ... a wmb() was inserted before the final register write that starts the
+> encoder. ... " . It is actually before the second-to-last register write.
+> 
+>> I don't have RK3288 boards near me, but in any case, I'm not sure
+>> we'd be able to test this easily (maybe there are issues that only
+>> trigger under a certain load).
+> 
+> I see. I do have a Veyron around that I haven't used in awhile. But as you
+> said, it might not be an obvious hardware limitation.
+> 
+>> I'd personally avoid this one change, but if you are confident enough with it
+>> that's fine too.
+> 
+> Unfortunately they didn't leave a whole lot of clues around. For most hardware,
+> as I mentioned in the commit log, I think the final non-relaxed write should
+> suffice. I'd point to the decoder drivers not having any barriers or
+> non-relaxed writes except the final one, but IIUC they are actually two
+> distinct pieces of hardware.
+> 
+> I suspect we will never know. This JPEG encoder doesn't seem to get used
+> a lot. The VP8 and H.264 encoders on ChromeOS work correctly without the
+> extra barrier and get tested a lot, but that's only testing the RK3399.
+> 
+> Hans, would it be possible for you to skip this patch and pick the rest?
+> Or would you like me to resent without this one?
+> 
+> 
+> Thanks
+> ChenYu
+> 
+>> Thanks!
+>> Ezequiel
+>>
+>>>       reg = H1_REG_ENC_CTRL_WIDTH(MB_WIDTH(ctx->src_fmt.width))
+>>>               | H1_REG_ENC_CTRL_HEIGHT(MB_HEIGHT(ctx->src_fmt.height))
+>>> diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+>>> index 4df16f59fb97..b931fc5fa1a9 100644
+>>> --- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+>>> +++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+>>> @@ -152,8 +152,7 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
+>>>               | VEPU_REG_INPUT_SWAP8
+>>>               | VEPU_REG_INPUT_SWAP16
+>>>               | VEPU_REG_INPUT_SWAP32;
+>>> -     /* Make sure that all registers are written at this point. */
+>>> -     vepu_write(vpu, reg, VEPU_REG_DATA_ENDIAN);
+>>> +     vepu_write_relaxed(vpu, reg, VEPU_REG_DATA_ENDIAN);
+>>>
+>>>       reg = VEPU_REG_AXI_CTRL_BURST_LEN(16);
+>>>       vepu_write_relaxed(vpu, reg, VEPU_REG_AXI_CTRL);
+>>> --
+>>> 2.34.1.575.g55b058a8bb-goog
+>>>
