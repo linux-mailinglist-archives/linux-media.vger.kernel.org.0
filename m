@@ -2,532 +2,379 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43C0149507C
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 15:44:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE2254950D4
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 16:02:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346481AbiATOoc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jan 2022 09:44:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35602 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355000AbiATOob (ORCPT
+        id S242413AbiATPCu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jan 2022 10:02:50 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35290 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233409AbiATPCt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jan 2022 09:44:31 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B44DC061574;
-        Thu, 20 Jan 2022 06:44:31 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B014A617D1;
-        Thu, 20 Jan 2022 14:44:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FDE9C340E0;
-        Thu, 20 Jan 2022 14:44:27 +0000 (UTC)
-Message-ID: <d0540f65-ccc8-cfc8-d5c6-8dc40603b18d@xs4all.nl>
-Date:   Thu, 20 Jan 2022 15:44:26 +0100
+        Thu, 20 Jan 2022 10:02:49 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 364241F452FB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1642690968;
+        bh=UCYAYN1otaB6DgQDjiu+pKsBQqT4D0xd+V8HgSZi97s=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=bwh2Ak0PNsoNN13HwbrW7GMrQIXxOH1U2BbGmXsIpGVaoEtPvBCshBivGhjAsBiRw
+         DPpe96LO9+m4ZXCZFY1rkv9o4gFVovnGJRk5UcPDVKfai/ZuA4SqQeCBthPkex/BgD
+         qEmgdTFv4R1oOADx/CwuEnJK4umtN15o0O/1mp3bWP80XD7+/4grkexxOso+rZDQok
+         N1TOfDlHKdSRMMKewy93ovBaOFVvXJuTlngYURGC7VaUCLmDciSxRUVH/KMDN0fVmn
+         0yXCwwpSJHepNdQdussTpXNhuFL1LgWOCoZ05UI/8Isoj/lh7c9aC6lrnTXY8Dw8np
+         UXRtI8tDcO0LQ==
+Subject: Re: [PATCH v5, 14/15] media: mtk-vcodec: support stateless VP8
+ decoding
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20220117094001.20049-1-yunfei.dong@mediatek.com>
+ <20220117094001.20049-15-yunfei.dong@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Message-ID: <ce69e326-04b7-6866-92c3-50745b3a3d01@collabora.com>
+Date:   Thu, 20 Jan 2022 16:02:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v14 00/13] amphion video decoder/encoder driver
+In-Reply-To: <20220117094001.20049-15-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
 Content-Language: en-US
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de
-Cc:     kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        aisheng.dong@nxp.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <cover.1638865027.git.ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <cover.1638865027.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ming,
+Il 17/01/22 10:40, Yunfei Dong ha scritto:
+> Add support for VP8 decoding using the stateless API,
+> as supported by MT8192.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>   drivers/media/platform/mtk-vcodec/Makefile    |   1 +
+>   .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  24 +-
+>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   1 +
+>   .../mtk-vcodec/vdec/vdec_vp8_req_if.c         | 440 ++++++++++++++++++
+>   .../media/platform/mtk-vcodec/vdec_drv_if.c   |   4 +
+>   .../media/platform/mtk-vcodec/vdec_drv_if.h   |   1 +
+>   6 files changed, 469 insertions(+), 2 deletions(-)
+>   create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_req_if.c
+> 
 
-Running 'scripts/checkpatch.pl --strict' over the patches gives me lots
-of issues, most of them easily fixed.
+Hello Yunfei,
+I've found some issues in this patch, and there are also some other considerations
+to tidy it up.
 
-As always with checkpatch, use common sense since not everything can be
-fixed.
+(....snip....)
 
-You probably ran checkpatch.pl without the --strict option, but in the media
-subsystem we use that option.
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_req_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_req_if.c
+> new file mode 100644
+> index 000000000000..969568b98251
+> --- /dev/null
+> +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_req_if.c
+> @@ -0,0 +1,440 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2021 MediaTek Inc.
+> + * Author: Yunfei Dong <yunfei.dong@mediatek.com>
+> + */
+> +
+> +#include <linux/slab.h>
+> +#include <media/v4l2-mem2mem.h>
+> +#include <media/videobuf2-dma-contig.h>
+> +#include <uapi/linux/v4l2-controls.h>
+> +
+> +#include "../mtk_vcodec_util.h"
+> +#include "../mtk_vcodec_dec.h"
+> +#include "../mtk_vcodec_intr.h"
+> +#include "../vdec_drv_base.h"
+> +#include "../vdec_drv_if.h"
+> +#include "../vdec_vpu_if.h"
+> +
+> +/* Decoding picture buffer size (3 reference frames plus current frame) */
+> +#define VP8_DPB_SIZE			4
+> +
+> +/* HW working buffer size (bytes) */
+> +#define VP8_SEG_ID_SZ		(256 * 1024)
 
-Note that sparse and smatch are happy, so it is just the checkpatch issues
-that need to be improved.
+This is SZ_256K
 
-On 12/7/21 09:24, Ming Qian wrote:
-> Hi all,
-> 
-> This patch series adds support for
-> the amphion video encoder and decoder
-> via the VPU block present in imx8q platforms.
-> Currently, support for IMX8QXP and IMX8QM is included.
-> 
-> It features decoding for the following formats:
-> - H.264
-> - HEVC
-> - MPEG4
-> - MPEG2
-> - VC1
-> - VP8
-> 
-> It features encoding for the following formats:
-> - H.264
-> 
-> The driver creates a separate device node for the encoder and decoder.
-> 
-> This driver is dependent on vpu firmwares.
-> The firmwares have been submitted to linux-firmware.
-> The firmware patch is since commit
-> b563148fd28623f6b6ce68bb06c3dd3bd138b058:
-> linux-firmware: Update firmware file for Intel Bluetooth 9462
-> (Fri Oct 8 16:30:14 2021 +0530)
-> 
-> and it's available in the git repository at:
->     https://github.com/mingqian-0/linux-firmware.git
-> 
-> for you to fetch changes up to bb3eee4f99589d4910dee4c053a3a685546b5dbb:
-> amphion: add VPU firmwares for NXP i.MX8Q SoCs
-> (Tue Oct 12 15:09:57 2021 +0800)
-> 
-> encoder is tested with gstreamer
-> decoder is tested with gstreamer, but the following patches are required:
-> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1379
-> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1381
-> 
-> 
-> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> +#define VP8_PP_WRAPY_SZ		(64 * 1024)
+> +#define VP8_PP_WRAPC_SZ		(64 * 1024)
+> +#define VP8_VLD_PRED_SZ		(64 * 1024)
 
-For v15 please add this tag from Nicolas to the patch(es) that it applies to.
-Tags in the cover letter are ignored.
+And these are all SZ_64K.
 
-Regarding patch 12/13 (firmware patch): who will take that? I think it should
-go through Shawn Guo, or if he can Ack it, then I can take it with the rest of
-the series as well.
+> +
+> +/**
+> + * struct vdec_vp8_slice_info - decode misc information
+> + * @vld_wrapper_dma   : vld wrapper dma address
+> + * @seg_id_buf_dma    : seg id dma address
+> + * @wrap_y_dma        : wrap y dma address
+> + * @wrap_c_dma        : wrap y dma address
+> + * @cur_y_fb_dma      : current plane Y frame buffer dma address
+> + * @cur_c_fb_dma      : current plane C frame buffer dma address
+> + * @bs_dma            : bitstream dma address
+> + * @bs_sz             : bitstream size
+> + * @resolution_changed: resolution change flag 1 - changed,  0 - not change
+> + * @frame_header_type : current frame header type
+> + * @wait_key_frame    : wait key frame coming
+> + * @crc               : used to check whether hardware's status is right
+> + * @timeout           : decode timeout: 1 timeout, 0 no timeount
+
+There's no `timeout` in this structure, did you forget to remove the
+documentation for this one?
+
+> + * @reserved:         : reserved, currently unused
+> + */
+> +struct vdec_vp8_slice_info {
+> +	u64 vld_wrapper_dma;
+> +	u64 seg_id_buf_dma;
+> +	u64 wrap_y_dma;
+> +	u64 wrap_c_dma;
+> +	u64 cur_y_fb_dma;
+> +	u64 cur_c_fb_dma;
+> +	u64 bs_dma;
+> +	u32 bs_sz;
+> +	u32 resolution_changed;
+> +	u32 frame_header_type;
+> +	u32 crc[8];
+> +	u32 reserved;
+> +};
+> +
+> +/**
+> + * struct vdec_vp8_slice_dpb_info  - vp8 reference information
+> + * @y_dma_addr    : Y bitstream physical address
+> + * @c_dma_addr    : CbCr bitstream physical address
+> + * @reference_flag: reference picture flag
+> + * @reserved      : 64bit align
+> + */
+> +struct vdec_vp8_slice_dpb_info {
+> +	dma_addr_t y_dma_addr;
+> +	dma_addr_t c_dma_addr;
+> +	int reference_flag;
+> +	int reserved;
+> +};
+> +
+> +/**
+> + * struct vdec_vp8_slice_vsi - VPU shared information
+> + * @dec          : decoding information
+> + * @pic          : picture information
+> + * @vp8_dpb_info : reference buffer information
+> + */
+> +struct vdec_vp8_slice_vsi {
+> +	struct vdec_vp8_slice_info dec;
+> +	struct vdec_pic_info pic;
+> +	struct vdec_vp8_slice_dpb_info vp8_dpb_info[3];
+> +};
+> +
+> +/**
+> + * struct vdec_vp8_slice_inst - VP8 decoder instance
+> + * @seg_id_buf     : seg buffer
+> + * @wrap_y_buf     : wrapper y buffer
+> + * @wrap_c_buf     : wrapper c buffer
+> + * @vld_wrapper_buf: vld wrapper buffer
+> + * @ctx            : V4L2 context
+> + * @vpu            : VPU instance for decoder
+> + * @vsi            : VPU share information
+> + */
+> +struct vdec_vp8_slice_inst {
+> +	struct mtk_vcodec_mem seg_id_buf;
+> +	struct mtk_vcodec_mem wrap_y_buf;
+> +	struct mtk_vcodec_mem wrap_c_buf;
+> +	struct mtk_vcodec_mem vld_wrapper_buf;
+> +	struct mtk_vcodec_ctx *ctx;
+> +	struct vdec_vpu_inst vpu;
+> +	struct vdec_vp8_slice_vsi *vsi;
+> +};
+> +
+> +static void *vdec_vp8_slice_get_ctrl_ptr(struct mtk_vcodec_ctx *ctx, int id)
+> +{
+> +	struct v4l2_ctrl *ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl, id);
+> +
+
+You should check if ctrl is NULL here, and eventually return a ERR_PTR(-EINVAL)
+if that ever occurs... or you may get a NULL pointer kernel panic...
+
+> +	return ctrl->p_cur.p;
+> +}
+> +
+
+...snip...
+
+> +
+> +static void vdec_vp8_slice_get_decode_parameters(struct vdec_vp8_slice_inst *inst)
+
+static int ..... ?
+
+> +{
+> +	const struct v4l2_ctrl_vp8_frame *frame_header =
+> +		vdec_vp8_slice_get_ctrl_ptr(inst->ctx, V4L2_CTRL_TYPE_VP8_FRAME);
+
+This is crashing the kernel, because it ends up being NULL...
+... the solution to that is to look for V4L2_CID_STATELESS_VP8_FRAME instead of
+V4L2_CTRL_TYPE_VP8_FRAME, but you should really do an error check here and
+eventually bail out, in case anything goes horribly wrong...
+
+> +	struct mtk_vcodec_ctx *ctx = inst->ctx;
+> +	struct vb2_queue *vq;
+> +	struct vb2_buffer *vb;
+> +	u64 referenct_ts;
+> +	int index, vb2_index;
+> +
+
+...so you'd be checking for error pointer of frame_header here and returning.
+
+> +	vq = v4l2_m2m_get_vq(ctx->m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+> +	for (index = 0; index < 3; index++) {
+> +		referenct_ts = vdec_vp8_slice_get_ref_by_ts(frame_header, index);
+> +		vb2_index = vb2_find_timestamp(vq, referenct_ts, 0);
+> +		if (vb2_index < 0) {
+> +			if (!V4L2_VP8_FRAME_IS_KEY_FRAME(frame_header))
+> +				mtk_vcodec_err(inst, "reference invalid: index(%d) ts(%lld)",
+> +					       index, referenct_ts);
+> +			inst->vsi->vp8_dpb_info[index].reference_flag = 0;
+> +			continue;
+> +		}
+> +		inst->vsi->vp8_dpb_info[index].reference_flag = 1;
+> +
+> +		vb = vq->bufs[vb2_index];
+> +		inst->vsi->vp8_dpb_info[index].y_dma_addr =
+> +			vb2_dma_contig_plane_dma_addr(vb, 0);
+> +		if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 2)
+> +			inst->vsi->vp8_dpb_info[index].c_dma_addr =
+> +				vb2_dma_contig_plane_dma_addr(vb, 1);
+> +		else
+> +			inst->vsi->vp8_dpb_info[index].c_dma_addr =
+> +				inst->vsi->vp8_dpb_info[index].y_dma_addr +
+> +				ctx->picinfo.fb_sz[0];
+> +	}
+> +
+> +	inst->vsi->dec.frame_header_type = frame_header->flags >> 1;
+> +}
+> +
+> +static int vdec_vp8_slice_init(struct mtk_vcodec_ctx *ctx)
+> +{
+> +	struct vdec_vp8_slice_inst *inst;
+> +	int err;
+> +
+> +	inst = kzalloc(sizeof(*inst), GFP_KERNEL);
+> +	if (!inst)
+> +		return -ENOMEM;
+> +
+> +	inst->ctx = ctx;
+> +
+> +	inst->vpu.id = SCP_IPI_VDEC_LAT;
+> +	inst->vpu.core_id = SCP_IPI_VDEC_CORE;
+> +	inst->vpu.ctx = ctx;
+> +	inst->vpu.codec_type = ctx->current_codec;
+> +	inst->vpu.capture_type = ctx->capture_fourcc;
+> +
+> +	err = vpu_dec_init(&inst->vpu);
+> +	if (err) {
+> +		mtk_vcodec_err(inst, "vdec_vp8 init err=%d", err);
+> +		goto error_free_inst;
+> +	}
+> +
+> +	inst->vsi = inst->vpu.vsi;
+> +	err = vdec_vp8_slice_alloc_working_buf(inst);
+> +	if (err)
+> +		goto error_deinit;
+> +
+> +	mtk_vcodec_debug(inst, "vp8 struct size = %d vsi: %d\n",
+> +			 (int)sizeof(struct v4l2_ctrl_vp8_frame),
+> +			 (int)sizeof(struct vdec_vp8_slice_vsi));
+> +	mtk_vcodec_debug(inst, "vp8:%p, codec_type = 0x%x vsi: 0x%p",
+> +			 inst, inst->vpu.codec_type, inst->vpu.vsi);
+> +
+> +	ctx->drv_handle = inst;
+> +	return 0;
+> +
+> +error_deinit:
+> +	vpu_dec_deinit(&inst->vpu);
+> +error_free_inst:
+> +	kfree(inst);
+> +	return err;
+> +}
+> +
+> +static int vdec_vp8_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+> +				 struct vdec_fb *fb, bool *res_chg)
+> +{
+> +	struct vdec_vp8_slice_inst *inst = h_vdec;
+> +	struct vdec_vpu_inst *vpu = &inst->vpu;
+> +	struct mtk_video_dec_buf *src_buf_info, *dst_buf_info;
+> +	unsigned int data;
+> +	u64 y_fb_dma, c_fb_dma;
+> +	int err, timeout;
+> +
+> +	/* Resolution changes are never initiated by us */
+> +	*res_chg = false;
+> +
+> +	/* bs NULL means flush decoder */
+> +	if (!bs)
+> +		return vpu_dec_reset(vpu);
+> +
+> +	src_buf_info = container_of(bs, struct mtk_video_dec_buf, bs_buffer);
+> +
+> +	fb = inst->ctx->dev->vdec_pdata->get_cap_buffer(inst->ctx);
+> +	dst_buf_info = container_of(fb, struct mtk_video_dec_buf, frame_buffer);
+> +
+> +	y_fb_dma = fb ? (u64)fb->base_y.dma_addr : 0;
+> +	if (inst->ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 1)
+> +		c_fb_dma = y_fb_dma +
+> +			inst->ctx->picinfo.buf_w * inst->ctx->picinfo.buf_h;
+> +	else
+> +		c_fb_dma = fb ? (u64)fb->base_c.dma_addr : 0;
+> +
+> +	inst->vsi->dec.bs_dma = (unsigned long)bs->dma_addr;
+
+inst->vsi->dec.bs_dma is u64... so please cast to u64.
+
+> +	inst->vsi->dec.bs_sz = bs->size;
+> +	inst->vsi->dec.cur_y_fb_dma = y_fb_dma;
+> +	inst->vsi->dec.cur_c_fb_dma = c_fb_dma;
+> +
+> +	mtk_vcodec_debug(inst, "frame[%d] bs(%zu 0x%lx) y/c(0x%llx 0x%llx)",
+> +			 inst->ctx->decoded_frame_cnt,
+> +			 bs->size, (unsigned long)bs->dma_addr,
+
+...and it would be useful if it was u64 here too, obviously.
+
+> +			 y_fb_dma, c_fb_dma);
+> +
+> +	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb,
+> +				   &dst_buf_info->m2m_buf.vb, true);
+> +
+> +	vdec_vp8_slice_get_decode_parameters(inst);
+> +	err = vpu_dec_start(vpu, &data, 1);
+> +	if (err) {
+> +		mtk_vcodec_debug(inst, "vp8 dec start err!");
+> +		goto error;
+> +	}
 
 Regards,
+Angelo
 
-	Hans
-
-> 
-> 
-> Changelog:
-> 
-> v14
-> - fix some errors according to Hans's comments
-> 
-> v13
-> - make a workaround that avoid firmware entering wfi wrongly
-> 
-> v12
-> - support reset decoder when starting a new stream
-> - don't append an empty last buffer, set last_buffer_dequeued
-> - improve the resolution change flow
-> - return all buffers if start_streaming fail
-> - fill encoder capture buffer's filed to none
-> - fix a bug in calculating bytesperline
-> 
-> v11
-> - fix dt_binding_check error after upgrade dtschema
-> - remove "default y"
-> - add media device
-> 
-> v10
-> - refine vpu log, remove custom logging infrastructure
-> - support non contiguous planes format nv12m instead of nv12
-> - rename V4L2_PIX_FMT_NV12_8L128 to V4L2_PIX_FMT_NV12MT_8L128
-> - rename V4L2_PIX_FMT_NV12_10BE_8L128 to V4L2_PIX_FMT_NV12MT_10BE_8L128
-> - merge two module into one
-> - fix kernel panic in rmmod
-> 
-> v9
-> - drop V4L2_BUF_FLAG_CODECCONFIG
-> - drop V4L2_EVENT_CODEC_ERROR
-> - drop V4L2_EVENT_SKIP - use the v4l2_buffer.sequence counter
-> - fix some build warnings with W=1 reported by kernel test robot
-> 
-> v8
-> - move driver from driver/media/platform/imx/vpu-8q to
->   driver/media/platform/amphion
-> - rename driver name to amphion
-> - remove imx_vpu.h
-> - move the definition of V4L2_EVENT_CODEC_ERROR to videodev2.h
-> - move the definition of V4L2_EVENT_SKIP to videodev2.h
-> 
-> v7
-> - fix build warnings with W=1 reported by kernel test robot
-> 
-> v6:
-> - rename V4L2_PIX_FMT_NT8 to V4L2_PIX_FMT_NV12_8L128
-> - rename V4L2_PIX_FMT_NT10 to V4L2_PIX_FMT_NV12_10BE_8L128
-> 
-> v5:
-> - move some definition from imx_vph.h to videodev2.h
-> - remove some unnecessary content
-> - add some documentation descriptions
-> - pass the lateset v4l2-compliance test
-> 
-> v4:
-> - redefine the memory-region in devicetree bindings documentation
-> - use v4l2's mechanism to implement synchronize queuing ioctl
-> - remove the unnecessary mutex ioctl_sync
-> - don't notify source change event if the parameters are same as previously established
-> - add flag V4L2_FMT_FLAG_DYN_RESOLUTION to decoder's capture format
-> 
-> v3:
-> - don't make vpu device node a simple-bus
-> - trigger probing vpu core in the driver
-> - remove unnecessary vpu core index property
-> 
-> v2:
-> - fix dt bindings build error
-> - split driver patch into several parts to avoid exceeding bytes limit
-> 
-> Compliance
-> ==========
-> # v4l2-compliance -d /dev/video0
-> v4l2-compliance 1.21.0-4859, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: 493af03f3c57 2021-10-08 17:23:11
-> 
-> Compliance test for amphion-vpu device /dev/video0:
-> 
-> Driver Info:
-> 	Driver name      : amphion-vpu
-> 	Card type        : amphion vpu decoder
-> 	Bus info         : platform: amphion-vpu
-> 	Driver version   : 5.15.0
-> 	Capabilities     : 0x84204000
-> 		Video Memory-to-Memory Multiplanar
-> 		Streaming
-> 		Extended Pix Format
-> 		Device Capabilities
-> 	Device Caps      : 0x04204000
-> 		Video Memory-to-Memory Multiplanar
-> 		Streaming
-> 		Extended Pix Format
-> 	Detected Stateful Decoder
-> Media Driver Info:
-> 	Driver name      : amphion-vpu
-> 	Model            : amphion-vpu
-> 	Serial           :
-> 	Bus info         : platform: amphion-vpu
-> 	Media version    : 5.15.0
-> 	Hardware revision: 0x00000000 (0)
-> 	Driver version   : 5.15.0
-> Interface Info:
-> 	ID               : 0x0300000c
-> 	Type             : V4L Video
-> Entity Info:
-> 	ID               : 0x00000001 (1)
-> 	Name             : amphion-vpu-decoder-source
-> 	Function         : V4L2 I/O
-> 	Pad 0x01000002   : 0: Source
-> 	  Link 0x02000008: to remote pad 0x1000004 of entity 'amphion-vpu-decoder-proc' (Video Decoder): Data, Enabled, Immutable
-> 
-> Required ioctls:
-> 	test MC information (see 'Media Driver Info' above): OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test invalid ioctls: OK
-> 
-> Allow for multiple opens:
-> 	test second /dev/video0 open: OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test VIDIOC_G/S_PRIORITY: OK
-> 	test for unlimited opens: OK
-> 
-> Debug ioctls:
-> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> 	test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> 	test VIDIOC_QUERYCTRL: OK
-> 	test VIDIOC_G/S_CTRL: OK
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 3 Private Controls: 0
-> 
-> Format ioctls:
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> 	test VIDIOC_G/S_PARM: OK (Not Supported)
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK
-> 	test VIDIOC_TRY_FMT: OK
-> 	test VIDIOC_S_FMT: OK
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 	test Cropping: OK (Not Supported)
-> 	test Composing: OK
-> 	test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK
-> 
-> Buffer ioctls:
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> 	test VIDIOC_EXPBUF: OK
-> 	test Requests: OK (Not Supported)
-> 
-> Total for amphion-vpu device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 0
-> 
-> # v4l2-compliance -d /dev/video1
-> v4l2-compliance 1.21.0-4859, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: 493af03f3c57 2021-10-08 17:23:11
-> 
-> Compliance test for amphion-vpu device /dev/video1:
-> 
-> Driver Info:
-> 	Driver name      : amphion-vpu
-> 	Card type        : amphion vpu encoder
-> 	Bus info         : platform: amphion-vpu
-> 	Driver version   : 5.15.0
-> 	Capabilities     : 0x84204000
-> 		Video Memory-to-Memory Multiplanar
-> 		Streaming
-> 		Extended Pix Format
-> 		Device Capabilities
-> 	Device Caps      : 0x04204000
-> 		Video Memory-to-Memory Multiplanar
-> 		Streaming
-> 		Extended Pix Format
-> 	Detected Stateful Encoder
-> Media Driver Info:
-> 	Driver name      : amphion-vpu
-> 	Model            : amphion-vpu
-> 	Serial           :
-> 	Bus info         : platform: amphion-vpu
-> 	Media version    : 5.15.0
-> 	Hardware revision: 0x00000000 (0)
-> 	Driver version   : 5.15.0
-> Interface Info:
-> 	ID               : 0x0300001a
-> 	Type             : V4L Video
-> Entity Info:
-> 	ID               : 0x0000000f (15)
-> 	Name             : amphion-vpu-encoder-source
-> 	Function         : V4L2 I/O
-> 	Pad 0x01000010   : 0: Source
-> 	  Link 0x02000016: to remote pad 0x1000012 of entity 'amphion-vpu-encoder-proc' (Video Encoder): Data, Enabled, Immutable
-> 
-> Required ioctls:
-> 	test MC information (see 'Media Driver Info' above): OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test invalid ioctls: OK
-> 
-> Allow for multiple opens:
-> 	test second /dev/video1 open: OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test VIDIOC_G/S_PRIORITY: OK
-> 	test for unlimited opens: OK
-> 
-> Debug ioctls:
-> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> 	test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> 	test VIDIOC_QUERYCTRL: OK
-> 	test VIDIOC_G/S_CTRL: OK
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 20 Private Controls: 0
-> 
-> Format ioctls:
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> 	test VIDIOC_G/S_PARM: OK
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK
-> 	test VIDIOC_TRY_FMT: OK
-> 	test VIDIOC_S_FMT: OK
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 	test Cropping: OK
-> 	test Composing: OK (Not Supported)
-> 	test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> 	test VIDIOC_EXPBUF: OK
-> 	test Requests: OK (Not Supported)
-> 
-> Total for amphion-vpu device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
-> 
-> # v4l2-compliance -d /dev/media0
-> v4l2-compliance 1.21.0-4859, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: 493af03f3c57 2021-10-08 17:23:11
-> 
-> Compliance test for amphion-vpu device /dev/media0:
-> 
-> Media Driver Info:
-> 	Driver name      : amphion-vpu
-> 	Model            : amphion-vpu
-> 	Serial           :
-> 	Bus info         : platform: amphion-vpu
-> 	Media version    : 5.15.0
-> 	Hardware revision: 0x00000000 (0)
-> 	Driver version   : 5.15.0
-> 
-> Required ioctls:
-> 	test MEDIA_IOC_DEVICE_INFO: OK
-> 	test invalid ioctls: OK
-> 
-> Allow for multiple opens:
-> 	test second /dev/media0 open: OK
-> 	test MEDIA_IOC_DEVICE_INFO: OK
-> 	test for unlimited opens: OK
-> 
-> Media Controller ioctls:
-> 	test MEDIA_IOC_G_TOPOLOGY: OK
-> 	Entities: 6 Interfaces: 2 Pads: 8 Links: 8
-> 	test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
-> 	test MEDIA_IOC_SETUP_LINK: OK
-> 
-> Total for amphion-vpu device /dev/media0: 8, Succeeded: 8, Failed: 0, Warnings: 0
-> 
-> Ming Qian (13):
->   dt-bindings: media: amphion: add amphion video codec bindings
->   media: add nv12m_8l128 and nv12m_10be_8l128 video format.
->   media: amphion: add amphion vpu device driver
->   media: amphion: add vpu core driver
->   media: amphion: implement vpu core communication based on mailbox
->   media: amphion: add vpu v4l2 m2m support
->   media: amphion: add v4l2 m2m vpu encoder stateful driver
->   media: amphion: add v4l2 m2m vpu decoder stateful driver
->   media: amphion: implement windsor encoder rpc interface
->   media: amphion: implement malone decoder rpc interface
->   ARM64: dts: freescale: imx8q: add imx vpu codec entries
->   firmware: imx: scu-pd: imx8q: add vpu mu resources
->   MAINTAINERS: add AMPHION VPU CODEC V4L2 driver entry
-> 
->  .../bindings/media/amphion,vpu.yaml           |  180 ++
->  .../media/v4l/pixfmt-yuv-planar.rst           |   28 +-
->  MAINTAINERS                                   |    9 +
->  .../arm64/boot/dts/freescale/imx8-ss-vpu.dtsi |   72 +
->  arch/arm64/boot/dts/freescale/imx8qxp-mek.dts |   17 +
->  arch/arm64/boot/dts/freescale/imx8qxp.dtsi    |   24 +
->  arch/arm64/configs/defconfig                  |    1 +
->  drivers/firmware/imx/scu-pd.c                 |    4 +
->  drivers/media/platform/Kconfig                |   19 +
->  drivers/media/platform/Makefile               |    2 +
->  drivers/media/platform/amphion/Makefile       |   20 +
->  drivers/media/platform/amphion/vdec.c         | 1692 +++++++++++++++++
->  drivers/media/platform/amphion/venc.c         | 1354 +++++++++++++
->  drivers/media/platform/amphion/vpu.h          |  356 ++++
->  drivers/media/platform/amphion/vpu_cmds.c     |  437 +++++
->  drivers/media/platform/amphion/vpu_cmds.h     |   25 +
->  drivers/media/platform/amphion/vpu_codec.h    |   67 +
->  drivers/media/platform/amphion/vpu_color.c    |  186 ++
->  drivers/media/platform/amphion/vpu_core.c     |  872 +++++++++
->  drivers/media/platform/amphion/vpu_core.h     |   15 +
->  drivers/media/platform/amphion/vpu_dbg.c      |  497 +++++
->  drivers/media/platform/amphion/vpu_defs.h     |  186 ++
->  drivers/media/platform/amphion/vpu_drv.c      |  260 +++
->  drivers/media/platform/amphion/vpu_helpers.c  |  416 ++++
->  drivers/media/platform/amphion/vpu_helpers.h  |   70 +
->  drivers/media/platform/amphion/vpu_imx8q.c    |  271 +++
->  drivers/media/platform/amphion/vpu_imx8q.h    |  116 ++
->  drivers/media/platform/amphion/vpu_malone.c   | 1630 ++++++++++++++++
->  drivers/media/platform/amphion/vpu_malone.h   |   42 +
->  drivers/media/platform/amphion/vpu_mbox.c     |  118 ++
->  drivers/media/platform/amphion/vpu_mbox.h     |   16 +
->  drivers/media/platform/amphion/vpu_msgs.c     |  388 ++++
->  drivers/media/platform/amphion/vpu_msgs.h     |   14 +
->  drivers/media/platform/amphion/vpu_rpc.c      |  265 +++
->  drivers/media/platform/amphion/vpu_rpc.h      |  453 +++++
->  drivers/media/platform/amphion/vpu_v4l2.c     |  733 +++++++
->  drivers/media/platform/amphion/vpu_v4l2.h     |   56 +
->  drivers/media/platform/amphion/vpu_windsor.c  | 1207 ++++++++++++
->  drivers/media/platform/amphion/vpu_windsor.h  |   39 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
->  include/uapi/linux/videodev2.h                |    2 +
->  41 files changed, 12158 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/amphion,vpu.yaml
->  create mode 100644 arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
->  create mode 100644 drivers/media/platform/amphion/Makefile
->  create mode 100644 drivers/media/platform/amphion/vdec.c
->  create mode 100644 drivers/media/platform/amphion/venc.c
->  create mode 100644 drivers/media/platform/amphion/vpu.h
->  create mode 100644 drivers/media/platform/amphion/vpu_cmds.c
->  create mode 100644 drivers/media/platform/amphion/vpu_cmds.h
->  create mode 100644 drivers/media/platform/amphion/vpu_codec.h
->  create mode 100644 drivers/media/platform/amphion/vpu_color.c
->  create mode 100644 drivers/media/platform/amphion/vpu_core.c
->  create mode 100644 drivers/media/platform/amphion/vpu_core.h
->  create mode 100644 drivers/media/platform/amphion/vpu_dbg.c
->  create mode 100644 drivers/media/platform/amphion/vpu_defs.h
->  create mode 100644 drivers/media/platform/amphion/vpu_drv.c
->  create mode 100644 drivers/media/platform/amphion/vpu_helpers.c
->  create mode 100644 drivers/media/platform/amphion/vpu_helpers.h
->  create mode 100644 drivers/media/platform/amphion/vpu_imx8q.c
->  create mode 100644 drivers/media/platform/amphion/vpu_imx8q.h
->  create mode 100644 drivers/media/platform/amphion/vpu_malone.c
->  create mode 100644 drivers/media/platform/amphion/vpu_malone.h
->  create mode 100644 drivers/media/platform/amphion/vpu_mbox.c
->  create mode 100644 drivers/media/platform/amphion/vpu_mbox.h
->  create mode 100644 drivers/media/platform/amphion/vpu_msgs.c
->  create mode 100644 drivers/media/platform/amphion/vpu_msgs.h
->  create mode 100644 drivers/media/platform/amphion/vpu_rpc.c
->  create mode 100644 drivers/media/platform/amphion/vpu_rpc.h
->  create mode 100644 drivers/media/platform/amphion/vpu_v4l2.c
->  create mode 100644 drivers/media/platform/amphion/vpu_v4l2.h
->  create mode 100644 drivers/media/platform/amphion/vpu_windsor.c
->  create mode 100644 drivers/media/platform/amphion/vpu_windsor.h
-> 
-> 
-> base-commit: 1f1517fafda598839a02e39968c5063ddcfa51fc
