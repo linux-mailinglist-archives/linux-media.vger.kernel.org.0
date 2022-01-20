@@ -2,93 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E605495298
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 17:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 634F7495364
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 18:37:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377104AbiATQtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jan 2022 11:49:00 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:53262 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1377101AbiATQs7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jan 2022 11:48:59 -0500
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nAacM-000Iuk-0l; Thu, 20 Jan 2022 16:48:58 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nAacJ-00Doy8-Lf; Thu, 20 Jan 2022 16:48:55 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.18] rc core patches (#80128)
-Date:   Thu, 20 Jan 2022 16:48:55 +0000
-Message-Id: <20220120164855.3294142-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YemJ7jU3oKJHvfnV@gofer.mess.org>
-References: 
+        id S231896AbiATRgm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jan 2022 12:36:42 -0500
+Received: from mail-ot1-f43.google.com ([209.85.210.43]:44613 "EHLO
+        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231818AbiATRgl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Jan 2022 12:36:41 -0500
+Received: by mail-ot1-f43.google.com with SMTP id a10-20020a9d260a000000b005991bd6ae3eso8456217otb.11;
+        Thu, 20 Jan 2022 09:36:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WrX4RV5ysW0eX2CGJIXQSl/WeTomxdQMP58KeR+spxE=;
+        b=I9OX+pEOqCIGnHNJ4+9sFjgWb1cKv9Jp+HnNOhFqQ40IvHxk/SLubcNmfRayl2rTMo
+         m3uDqQbmVSzLPaG1Ay/PFOL1j38m+Njzu66Z0HtbXr4fld2AxEOFUaPwrbYre1Wugg6a
+         0wPzwAj+EkCNROqR2UhVgBoNweqVbwwBdoBAcqwKfTTTxwV6ldCwzImUMo2uAhKOClAN
+         CzFrDcP99ftupja08jUO6k4TGqX4TvPVAEQ7CwB0N7ohE0eIR+I/x5PjKfgwn9ZisU8d
+         LReZp2eom3c44GQ7zolnD3SVdqaToROjM3Imi/H+NWWnWAUOZ69DZkEV6zkcMmTsX6aF
+         j12w==
+X-Gm-Message-State: AOAM533wLTARc7WbMK1xaGtjlZw9F/ktjt05hqmM+MfXTSOozhYzPqJL
+        p7ZW0c6Vbt5Bt4TwrWWMjQ==
+X-Google-Smtp-Source: ABdhPJxDTZOBw8MHBl2N7Vjg2CtBXyfBif+NH70e74zuFxGUs8bgC25UKRzfIjDXQ/+mTARQ5fTp6w==
+X-Received: by 2002:a9d:75d6:: with SMTP id c22mr9166540otl.273.1642700200671;
+        Thu, 20 Jan 2022 09:36:40 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id h5sm1446668oor.4.2022.01.20.09.36.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jan 2022 09:36:39 -0800 (PST)
+Received: (nullmailer pid 1649046 invoked by uid 1000);
+        Thu, 20 Jan 2022 17:36:38 -0000
+Date:   Thu, 20 Jan 2022 11:36:38 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     netdev@vger.kernel.org, Wolfgang Grandegger <wg@grandegger.com>,
+        linux-kernel@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
+        Sriram Dash <sriram.dash@samsung.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-arm-kernel@lists.infradead.org,
+        Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        linux-can@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Fix array schemas encoded as matrices
+Message-ID: <YemdpgQqS8FX9/5g@robh.at.kernel.org>
+References: <20220119015627.2443334-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220119015627.2443334-1-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On Tue, 18 Jan 2022 19:56:26 -0600, Rob Herring wrote:
+> The YAML DT encoding has leaked into some array properties. Properties
+> which are defined as an array should have a schema that's just an array.
+> That means there should only be a single level of 'minItems',
+> 'maxItems', and/or 'items'.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 12 ++--
+>  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 12 ++--
+>  .../bindings/net/can/bosch,m_can.yaml         | 52 ++++++++--------
+>  .../bindings/net/ethernet-controller.yaml     | 59 +++++++++----------
+>  4 files changed, 62 insertions(+), 73 deletions(-)
+> 
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YemJ7jU3oKJHvfnV@gofer.mess.org/
-Build log: https://builder.linuxtv.org/job/patchwork/175777/
-Build time: 00:31:52
-Link: https://lore.kernel.org/linux-media/YemJ7jU3oKJHvfnV@gofer.mess.org
-
-gpg: Signature made Thu 20 Jan 2022 03:59:01 PM UTC
-gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
-gpg:                issuer "sean@mess.org"
-gpg: Good signature from "Sean Young <sean@mess.org>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: A624 251A 2608 4A9E D9E4  C8B6 425F 639D 3960 FA9E
-
-Summary: got 3/6 patches with issues, being 3 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-ir_toy-free-before-error-exiting.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-
-patches/0002-media-lirc-remove-unused-lirc-features.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2894 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0003-media-lirc-simplify-gap-calculation.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-
-Error #512 when building PDF docs
-
+Applied, thanks!
