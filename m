@@ -2,104 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5298549463C
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 04:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7535E49466F
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 05:27:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358395AbiATDtK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jan 2022 22:49:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56362 "EHLO
+        id S234640AbiATE0w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jan 2022 23:26:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358387AbiATDtJ (ORCPT
+        with ESMTP id S233536AbiATE0n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jan 2022 22:49:09 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2317EC06173E
-        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 19:49:09 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id p27so16689448lfa.1
-        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 19:49:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AZnU5cEeFyaFBnpj/0CbEtA8JHuWrnQecXMIYCnzB/o=;
-        b=ErV1kJfadCu1b5wgD6aEviZCSAk41KIjnGh8WYn8aHbrfBmz/Z03LAGBXFW2rQaPAJ
-         8nUEBpkWeomoODmY334NhCZOU+o0EljJbg8u2iyiFqhQzZA+efnPNwuXwUbmf0s5v/T1
-         kCYeVe9Uk4rKeiAhQV0qJH3LNcIRAZLLfIB4l+8HBTpN2EbhE7OMo9MsZ1jJFtNumTI7
-         6nq4zktXZrLgMTkM/3rhi6H2v1j+XohmCPmuRZ67scdSpSHYsD2JZXkUmKHOEB9cL3zx
-         lOz0lnwWIRRBoK8mzCl56IReSHCns1DzoysZ5ToPrtmXJlo7ywMjgvALaTMfHs/M01U3
-         VAsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AZnU5cEeFyaFBnpj/0CbEtA8JHuWrnQecXMIYCnzB/o=;
-        b=snF1AdZBFODcPkH+1glxdx5FH98kaifyu1knPkSyNhbqLBQXsxTIhLvAC+D8hjWLH/
-         a+g66DKBiNycLMTzuB/sVY3aTPrGlu06fDDHCd3JZOE8REXTvN4fTKFBbG3cJuGYw9a5
-         95GkDzwUJh73iRGEsq/erj4R7gLeBAYfFtgj0/xybylFxqbGmt9pwCEd1fqYBKlKuP1M
-         l/DbE5Sn6WrTJ5YyWPEkcv1adAbGL+kqSyE81np83p2+iXw3p46wYk6523y8kUrQwrmh
-         E63X7GPLfhRbQrKguyS4cm/Eb8Npzbqbsg/A3dJyOyH5nPZt6ZnarwyVgztfPh0gEhv6
-         qdeQ==
-X-Gm-Message-State: AOAM5338QcLnJ8ZNV6PHTxCQS6tJl0pvKQVI2qZK0PJLCzcb9cj9qtM6
-        m0+3cDXLz5NSo+ZwJGOrFZv4jQWl+YgGuhIzHBS5pQ==
-X-Google-Smtp-Source: ABdhPJx0/Bt4Fv7Zhtxsw2WH0QARsie3jQTiwGG/ZBJTXsXxHRBXcquj3uP0/ZLAIBtBfzPMkNDAYvLD72ukCtWU1g8=
-X-Received: by 2002:a05:6512:3e1f:: with SMTP id i31mr25221311lfv.661.1642650547311;
- Wed, 19 Jan 2022 19:49:07 -0800 (PST)
-MIME-Version: 1.0
-References: <CALAqxLUtK8V9LgC-DY+tkzFYyWfzF+JhbrLZk6UhEG57HQBDSA@mail.gmail.com>
- <20220120033450.90164-1-guangming.cao@mediatek.com>
-In-Reply-To: <20220120033450.90164-1-guangming.cao@mediatek.com>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Wed, 19 Jan 2022 19:48:55 -0800
-Message-ID: <CALAqxLW5uEZCGHGk3rYoiOGzN5XMKb39JzoPB1iEX9k3UsiT-A@mail.gmail.com>
-Subject: Re: [PATCH v4] dma-buf: system_heap: Add a size check for allocation
-To:     guangming.cao@mediatek.com
-Cc:     benjamin.gaignard@linaro.org, bo.song@mediatek.com,
-        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        jianjiao.zeng@mediatek.com, labbott@redhat.com,
-        libo.kang@mediatek.com, linaro-mm-sig@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        lmark@codeaurora.org, matthias.bgg@gmail.com,
-        michael.j.ruhl@intel.com, mingyuan.ma@mediatek.com,
-        sumit.semwal@linaro.org, wsd_upstream@mediatek.com,
-        yf.wang@mediatek.com, caoguangming34@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 19 Jan 2022 23:26:43 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 519F7C061574
+        for <linux-media@vger.kernel.org>; Wed, 19 Jan 2022 20:26:43 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E291A614EB
+        for <linux-media@vger.kernel.org>; Thu, 20 Jan 2022 04:26:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C8BC340E0
+        for <linux-media@vger.kernel.org>; Thu, 20 Jan 2022 04:26:41 +0000 (UTC)
+Date:   Thu, 20 Jan 2022 05:26:39 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220120042641.D8C8BC340E0@smtp.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 19, 2022 at 7:34 PM <guangming.cao@mediatek.com> wrote:
->
-> From: Guangming <Guangming.Cao@mediatek.com>
->
-> Add a size check for allocation since the allocation size should be
-> always less than the total DRAM size on system heap.
-> And it can prevent consuming too much time for invalid allocations.
->
-> Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
-> ---
->  drivers/dma-buf/heaps/system_heap.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 23a7e74ef966..bd6f255620e2 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -347,6 +347,13 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
->         struct page *page, *tmp_page;
->         int i, ret = -ENOMEM;
->
-> +       /*
-> +        * Size check. The "len" should be less than totalram since system_heap
-> +        * memory is comes from system. Adding check here can prevent consuming
-> +        * too much time for invalid allocations.
-> +        */
-> +       if (len >> PAGE_SHIFT > totalram_pages())
-> +               return -EINVAL;
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thanks so much for revising and sending this along! It looks good to me.
+Results of the daily build of media_tree:
 
-Acked-by: John Stultz <john.stultz@linaro.org>
+date:			Thu Jan 20 05:00:12 CET 2022
+media-tree git hash:	5da908b7af4c3ebd6748069d7223dc7a1a98d834
+media_build git hash:	2fa76ec062aeaf93b647edbad1dd606e49fca4b3
+v4l-utils git hash:	9f0eab72e17e4167c2d4df790c7e384240ce5c37
+edid-decode git hash:	6514c9d9b18160fe9f09d3d70f99dda85d6fca71
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5f5b438852acd7412b4bf7d0bdbe50a7cdd9a2f0
+host hardware:		x86_64
+host os:		5.15.0-2-amd64
 
-thanks again
--john
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16.1-i686: OK
+linux-5.16.1-x86_64: OK
+apps: OK
+spec-git: OK
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
