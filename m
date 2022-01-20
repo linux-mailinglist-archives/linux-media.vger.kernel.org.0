@@ -2,84 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 634F7495364
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 18:37:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B10354954E0
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 20:29:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231896AbiATRgm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jan 2022 12:36:42 -0500
-Received: from mail-ot1-f43.google.com ([209.85.210.43]:44613 "EHLO
-        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231818AbiATRgl (ORCPT
+        id S1347053AbiATT34 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jan 2022 14:29:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45152 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231733AbiATT34 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jan 2022 12:36:41 -0500
-Received: by mail-ot1-f43.google.com with SMTP id a10-20020a9d260a000000b005991bd6ae3eso8456217otb.11;
-        Thu, 20 Jan 2022 09:36:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WrX4RV5ysW0eX2CGJIXQSl/WeTomxdQMP58KeR+spxE=;
-        b=I9OX+pEOqCIGnHNJ4+9sFjgWb1cKv9Jp+HnNOhFqQ40IvHxk/SLubcNmfRayl2rTMo
-         m3uDqQbmVSzLPaG1Ay/PFOL1j38m+Njzu66Z0HtbXr4fld2AxEOFUaPwrbYre1Wugg6a
-         0wPzwAj+EkCNROqR2UhVgBoNweqVbwwBdoBAcqwKfTTTxwV6ldCwzImUMo2uAhKOClAN
-         CzFrDcP99ftupja08jUO6k4TGqX4TvPVAEQ7CwB0N7ohE0eIR+I/x5PjKfgwn9ZisU8d
-         LReZp2eom3c44GQ7zolnD3SVdqaToROjM3Imi/H+NWWnWAUOZ69DZkEV6zkcMmTsX6aF
-         j12w==
-X-Gm-Message-State: AOAM533wLTARc7WbMK1xaGtjlZw9F/ktjt05hqmM+MfXTSOozhYzPqJL
-        p7ZW0c6Vbt5Bt4TwrWWMjQ==
-X-Google-Smtp-Source: ABdhPJxDTZOBw8MHBl2N7Vjg2CtBXyfBif+NH70e74zuFxGUs8bgC25UKRzfIjDXQ/+mTARQ5fTp6w==
-X-Received: by 2002:a9d:75d6:: with SMTP id c22mr9166540otl.273.1642700200671;
-        Thu, 20 Jan 2022 09:36:40 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id h5sm1446668oor.4.2022.01.20.09.36.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jan 2022 09:36:39 -0800 (PST)
-Received: (nullmailer pid 1649046 invoked by uid 1000);
-        Thu, 20 Jan 2022 17:36:38 -0000
-Date:   Thu, 20 Jan 2022 11:36:38 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     netdev@vger.kernel.org, Wolfgang Grandegger <wg@grandegger.com>,
-        linux-kernel@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
-        Sriram Dash <sriram.dash@samsung.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-arm-kernel@lists.infradead.org,
-        Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        linux-can@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Fix array schemas encoded as matrices
-Message-ID: <YemdpgQqS8FX9/5g@robh.at.kernel.org>
-References: <20220119015627.2443334-1-robh@kernel.org>
+        Thu, 20 Jan 2022 14:29:56 -0500
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [IPv6:2001:67c:2050::465:102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F68AC061574
+        for <linux-media@vger.kernel.org>; Thu, 20 Jan 2022 11:29:55 -0800 (PST)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4Jfsz26tQNz9slP;
+        Thu, 20 Jan 2022 20:29:50 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elbmurf.de; s=MBO0001;
+        t=1642706989;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=lPQ0rxyD2d3Wrq7ZjXM380GpTrZiFKf4VKEuPW8wzaE=;
+        b=Ab31eOp9OD43M+j3ZAZo86AwzhEHXoyDS76T/anE+DpXdAumd7yRqU/7sTqDyQBiHeY9DY
+        TriteUYFCaKEBCcJjI/pAEAWnTRCYCdZekt5WQv6nk53sE2i1ZC1y22g5ce+5xi90Tlg4O
+        GpuDG8LnjIHzP5uRSs9A5erMmgHsTCHig7frBPtrcTCjo9YhV+BhjJhe+wVHd326Jojmli
+        uyCApt7MnEP3PiJtxuTMhjD/1n0+aLBS9DVlBnu0yVZcMK7dV59nab3TfdtmGolyIwu0vd
+        bSEBS/HG03CB2xQzASqW8Tn/Vw0WODmTQWvKZkYqOI/2IhJul2O3014T2Nx9vw==
+Message-ID: <a0ba3685-8c59-cb89-7f81-280c38a92c40@elbmurf.de>
+Date:   Thu, 20 Jan 2022 20:29:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220119015627.2443334-1-robh@kernel.org>
+Subject: Re: Kernel hangs after DVB patch from July 2021 with Hauppauge WinTV
+ dualHD
+Content-Language: en-US-large
+To:     Pavel Skripkin <paskripkin@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     hverkuil-cisco@xs4all.nl, sashal@kernel.org,
+        linux-media@vger.kernel.org, Brad Love <brad@nextdimension.cc>
+References: <6a72a37b-e972-187d-0322-16336e12bdc5@elbmurf.de>
+ <20211218101519.756c027d@coco.lan>
+ <45306193-deec-d1a3-d74d-41dc361b36d9@gmail.com>
+ <e7c54b23-d163-ef33-3f62-c25b72e30aa8@elbmurf.de>
+ <c6dcf627-047f-8726-0c4e-aa2a9ae12da9@gmail.com>
+ <5c891c4a-7a02-18b7-c4c1-8429fcd3366f@elbmurf.de>
+ <12440c22-9f69-740d-bcfd-3b6bf0e4dcc1@gmail.com>
+ <23b3f65c-8f52-6109-d5ca-52ee12da6115@elbmurf.de>
+ <afdd8f33-9d75-7e73-b7b6-a0363e316beb@gmail.com>
+ <a0e25415-2db7-bea0-b00c-f1b4bf84d0d6@gmail.com>
+From:   =?UTF-8?Q?Maximilian_B=c3=b6hm?= <maximilian.boehm@elbmurf.de>
+In-Reply-To: <a0e25415-2db7-bea0-b00c-f1b4bf84d0d6@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 18 Jan 2022 19:56:26 -0600, Rob Herring wrote:
-> The YAML DT encoding has leaked into some array properties. Properties
-> which are defined as an array should have a schema that's just an array.
-> That means there should only be a single level of 'minItems',
-> 'maxItems', and/or 'items'.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 12 ++--
->  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 12 ++--
->  .../bindings/net/can/bosch,m_can.yaml         | 52 ++++++++--------
->  .../bindings/net/ethernet-controller.yaml     | 59 +++++++++----------
->  4 files changed, 62 insertions(+), 73 deletions(-)
-> 
+Hey Pavel,
 
-Applied, thanks!
+I would prefer reverting your use-after-free change. I’m still on Linux 5.15.2 to avoid this issue. I’m not sure if I understand your last mails correctly, did you already revert the change or did you just offer to do it? Anyway, reverting locally wouldn’t be feasible long-term.
+If I could help eliminating this bug, I would gladly offer my system for a remote hacking session via ssh or Teamviewer or try other patch ideas.
+
+Btw, found this forum thread describing the same original problem (which is forcing me to use usbreset after standby) on Windows, so this probably is a bug in the tuner hardware, not in the Linux driver: https://www.dvbviewer.tv/forum/topic/63002-hauppauge-wintv-dualhd-stick-geht-oft-nicht-nach-standby/
+
+If I were to submit an official "device quirk" for the Linux kernel, would it be affected of your use-after-free change too? Nobody knows, I guess?
+
+Regards
+Maximilian Böhm
+
+Am 06.01.22 um 12:57 schrieb Pavel Skripkin:
+>> Anyway, you can revert my patch locally and use your device. I
+>> understand, that this approach is the best one, but anyway revert will
+> 				
+> 				 ^^^^
+>
+> I've missed "not". Please, don't get me wrong :) Reverting something
+> locally to work with upstream device is never a good thing.
+>
+>
+>
+> With regards,
+> Pavel Skripkin
