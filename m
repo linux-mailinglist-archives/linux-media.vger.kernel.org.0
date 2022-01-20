@@ -2,76 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B458D4955E3
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 22:18:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 179454956ED
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 00:23:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347516AbiATVSA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jan 2022 16:18:00 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:60290 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242456AbiATVSA (ORCPT
+        id S244278AbiATXWl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jan 2022 18:22:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244267AbiATXWk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jan 2022 16:18:00 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D998861884;
-        Thu, 20 Jan 2022 21:17:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07916C340E3;
-        Thu, 20 Jan 2022 21:17:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642713479;
-        bh=8vLe+3vRBl+4dO3EZ6a5gaJmwld5AtI9w7i6K+Ckdy0=;
-        h=Date:From:To:Cc:Subject:From;
-        b=mrufb3EIK+jrdzU98CNotfSYG0SuglkelIIFpndca12AIJ+9QDHSEq/W4479rv4Aw
-         7aSLJeCXAjywAGYvb74in0EArJpEEBuY5qJknlCg1FSfOqoAUjIjYYeyU0NLpdcPDw
-         NnEPqcBEZfve1AC/vODlv6lapkB7hsXN9WCg/MxXfLEa7Dh9NbC38te3C92yeFw3JY
-         TJ0Ola9vr6DCSR2UNWk6/Az4VBVNaS8nWaKpDWKEX14yD8nv/NqML1RA+rA/tt8RcT
-         T6zzCs/6rxx5IqSPpXYjipW6BdMJ7kSFhLVLBnN5CnFSph7JRLZCAn+/vxq9DuWXlZ
-         jJehLgHLdDRuw==
-Date:   Thu, 20 Jan 2022 15:24:34 -0600
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Thu, 20 Jan 2022 18:22:40 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 146ABC06173F
+        for <linux-media@vger.kernel.org>; Thu, 20 Jan 2022 15:22:40 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id d12-20020a17090a628c00b001b4f47e2f51so8885073pjj.3
+        for <linux-media@vger.kernel.org>; Thu, 20 Jan 2022 15:22:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=imN5PvVtPTz2YcP5NQPt/W/LDan5J3d7+b7lwRKpENs=;
+        b=AN6zfpw2dGiH7CaaVqKo/sucWFrKdxQ/1YfXRrsCEBa4kx4FvfZZeOFgMoiQM90Vbz
+         bk7WWPVYlxjtIEC1Jmvt0lu5xh0R9aft0AcZGQ81jlCGvAz1/evPqoJ6kncr9XSNoxGg
+         DZveYAmqzk+c+1wi7JZYxvblHWFiaO9yw72eo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=imN5PvVtPTz2YcP5NQPt/W/LDan5J3d7+b7lwRKpENs=;
+        b=44j1ZuZ79vsWHZGzRbvQ4k2hMme72ZdBjm+3ZBsBJZFYeKZYVVRiCGXTr1FLh9SINo
+         Abo7XvX+zhynkz7a3QKOka3mnmxYQVmwArkG8VVLnYlR+fUQldsuov+iNqI8i5ujU7aO
+         G+a4gm/vLox1QBAvpcIF99QQvrRnEBjNVeO/3SCZ+GaBS63sJFiz/QSpSgchqk/HroWJ
+         jTndXfQDwg9JiaV9qAbzKa+9+xPSdQ8OGl8XVHsbnTqXQG2y8BH0xKMV0jEaCEGSSTEa
+         /7hygsbjPb9eEwNTLdD2bWkd+vTXT1pJw9szQwmY+KzK9uFed59bHtSC5jhmZkVKfE19
+         WoCg==
+X-Gm-Message-State: AOAM531kNwwAS/i8UebKrQl3tOBd/kP7VdoCnee53Pq3sqxiTo5AWmnQ
+        bkqEEyiNaOcFDVLHsg3OFuOHxw==
+X-Google-Smtp-Source: ABdhPJxFUkCilitPM/r52/bO/XBRSO8oRJNM0M+icyWtgSsISI2hz/KfSO+jmh2S9hRYUi1cvSV2pQ==
+X-Received: by 2002:a17:90b:1806:: with SMTP id lw6mr13495356pjb.210.1642720959577;
+        Thu, 20 Jan 2022 15:22:39 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g19sm4655451pfv.11.2022.01.20.15.22.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jan 2022 15:22:39 -0800 (PST)
+Date:   Thu, 20 Jan 2022 15:22:38 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hardening@vger.kernel.org
-Subject: [PATCH][next] media: usb: pwc-uncompress: Use struct_size() helper
- in pwc_decompress()
-Message-ID: <20220120212434.GA30630@embeddedor>
+Subject: Re: [PATCH][next] media: usb: pwc-uncompress: Use struct_size()
+ helper in pwc_decompress()
+Message-ID: <202201201522.7BEEF4E@keescook>
+References: <20220120212434.GA30630@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20220120212434.GA30630@embeddedor>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make use of the struct_size() helper instead of an open-coded version,
-in order to avoid any potential type mistakes or integer overflows that,
-in the worst scenario, could lead to heap overflows.
+On Thu, Jan 20, 2022 at 03:24:34PM -0600, Gustavo A. R. Silva wrote:
+> Make use of the struct_size() helper instead of an open-coded version,
+> in order to avoid any potential type mistakes or integer overflows that,
+> in the worst scenario, could lead to heap overflows.
+> 
+> Also, address the following sparse warnings:
+> drivers/media/usb/pwc/pwc-uncompress.c:44:44: warning: using sizeof on a flexible structure
+> 
+> Link: https://github.com/KSPP/linux/issues/174
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-Also, address the following sparse warnings:
-drivers/media/usb/pwc/pwc-uncompress.c:44:44: warning: using sizeof on a flexible structure
+Yup, happy to see these getting changed.
 
-Link: https://github.com/KSPP/linux/issues/174
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/media/usb/pwc/pwc-uncompress.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-diff --git a/drivers/media/usb/pwc/pwc-uncompress.c b/drivers/media/usb/pwc/pwc-uncompress.c
-index 68bc3829c6b3..faf44cdeb268 100644
---- a/drivers/media/usb/pwc/pwc-uncompress.c
-+++ b/drivers/media/usb/pwc/pwc-uncompress.c
-@@ -41,7 +41,7 @@ int pwc_decompress(struct pwc_device *pdev, struct pwc_frame_buf *fbuf)
- 		memcpy(raw_frame->cmd, pdev->cmd_buf, 4);
- 		memcpy(raw_frame+1, yuv, pdev->frame_size);
- 		vb2_set_plane_payload(&fbuf->vb.vb2_buf, 0,
--			pdev->frame_size + sizeof(struct pwc_raw_frame));
-+			struct_size(raw_frame, rawframe, pdev->frame_size));
- 		return 0;
- 	}
- 
+> ---
+>  drivers/media/usb/pwc/pwc-uncompress.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/pwc/pwc-uncompress.c b/drivers/media/usb/pwc/pwc-uncompress.c
+> index 68bc3829c6b3..faf44cdeb268 100644
+> --- a/drivers/media/usb/pwc/pwc-uncompress.c
+> +++ b/drivers/media/usb/pwc/pwc-uncompress.c
+> @@ -41,7 +41,7 @@ int pwc_decompress(struct pwc_device *pdev, struct pwc_frame_buf *fbuf)
+>  		memcpy(raw_frame->cmd, pdev->cmd_buf, 4);
+>  		memcpy(raw_frame+1, yuv, pdev->frame_size);
+>  		vb2_set_plane_payload(&fbuf->vb.vb2_buf, 0,
+> -			pdev->frame_size + sizeof(struct pwc_raw_frame));
+> +			struct_size(raw_frame, rawframe, pdev->frame_size));
+>  		return 0;
+>  	}
+>  
+> -- 
+> 2.27.0
+> 
+
 -- 
-2.27.0
-
+Kees Cook
