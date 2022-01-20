@@ -2,197 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 489CF494B3F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 10:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EC7B494B47
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 11:00:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240841AbiATJ6H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jan 2022 04:58:07 -0500
-Received: from mga01.intel.com ([192.55.52.88]:44111 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236220AbiATJ6E (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jan 2022 04:58:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642672684; x=1674208684;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=raqwXEEy2MRn+bbuViAO9MIejxyTxPocYNFdzQABk90=;
-  b=do2qPzkPUhDRJ1IHLuu+NPx+FxUwFes/Vwmj1suT5824zwb9tdqmxwP1
-   VBcFFIUmoFzcJ9lHUsQXrHX+9n5yi9vdY+iyidF+s/vDpLtRFMAlFIIg+
-   cLB+TK/biYhWwVd+8A+Z/snLXiL67xH6wnftKcRAplFJMXEFFQkxsPgOZ
-   PwRPEEkl0w3Za/ZHwlmRD3DhbN3ELfa6N23mrJeLhYwo4vdP1JESmRqCD
-   FIXrfnRFS0S+d5xcsDxJWtAd7kLOvKTkkWzY/R/RmTmTXhmBkZOb0zm8l
-   gKKqElQdTaeAhnfyE/LCT6mI47vskXru4f8H4drm3/jINxge5abpqrsIf
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="269714204"
-X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; 
-   d="scan'208";a="269714204"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2022 01:58:04 -0800
-X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; 
-   d="scan'208";a="518553733"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2022 01:57:57 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id DEEF4203C8;
-        Thu, 20 Jan 2022 11:57:24 +0200 (EET)
-Date:   Thu, 20 Jan 2022 11:57:24 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     broonie@kernel.org, angus@akkea.ca, kernel@puri.sm,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pm@vger.kernel.org, mchehab@kernel.org
-Subject: Re: [PATCH v3] media: i2c: dw9714: add optional regulator support
-Message-ID: <YekyBKHYqo0vrQ0k@paasikivi.fi.intel.com>
-References: <20211129120754.1766570-1-martin.kepplinger@puri.sm>
- <8f4c0f74523ea615786942fe2a30f83a2d0e8c16.camel@puri.sm>
- <98d12c1acaf77772f51361b079dde7e982a6dafd.camel@puri.sm>
+        id S1359702AbiATJ7n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jan 2022 04:59:43 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:54940 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S241779AbiATJ7m (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Jan 2022 04:59:42 -0500
+X-UUID: fd05882b4df84d1e9a1d3b7ebbe5731f-20220120
+X-UUID: fd05882b4df84d1e9a1d3b7ebbe5731f-20220120
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <guangming.cao@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1198683157; Thu, 20 Jan 2022 17:59:40 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Thu, 20 Jan 2022 17:59:38 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 20 Jan 2022 17:59:37 +0800
+From:   <guangming.cao@mediatek.com>
+To:     <christian.koenig@amd.com>
+CC:     <benjamin.gaignard@linaro.org>, <bo.song@mediatek.com>,
+        <caoguangming34@gmail.com>, <dri-devel@lists.freedesktop.org>,
+        <guangming.cao@mediatek.com>, <jianjiao.zeng@mediatek.com>,
+        <john.stultz@linaro.org>, <labbott@redhat.com>,
+        <libo.kang@mediatek.com>, <linaro-mm-sig@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <lmark@codeaurora.org>,
+        <matthias.bgg@gmail.com>, <michael.j.ruhl@intel.com>,
+        <mingyuan.ma@mediatek.com>, <sumit.semwal@linaro.org>,
+        <wsd_upstream@mediatek.com>, <yf.wang@mediatek.com>,
+        Guangming <Guangming.Cao@mediatek.com>
+Subject: [PATCH v6 RESEND] dma-buf: system_heap: Add a size check for allocation
+Date:   Thu, 20 Jan 2022 18:00:36 +0800
+Message-ID: <20220120100036.99867-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220120085259.98147-1-guangming.cao@mediatek.com>
+References: <20220120085259.98147-1-guangming.cao@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <98d12c1acaf77772f51361b079dde7e982a6dafd.camel@puri.sm>
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 20, 2022 at 09:04:17AM +0100, Martin Kepplinger wrote:
-> Am Dienstag, dem 21.12.2021 um 18:33 +0100 schrieb Martin Kepplinger:
-> > Am Montag, dem 29.11.2021 um 13:07 +0100 schrieb Martin Kepplinger:
-> > > From: Angus Ainslie <angus@akkea.ca>
-> > > 
-> > > Allow the dw9714 to control a regulator and adjust suspend() and
-> > > resume()
-> > > to support both runtime and system pm.
-> > > 
-> > > Signed-off-by: Angus Ainslie <angus@akkea.ca>
-> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > ---
-> > > 
-> > > 
-> > > revision history
-> > > ----------------
-> > > v3: (thank you Mark and Sakari)
-> > >  * use regulator_get() instead of regulator_get_optional()
-> > > 
-> > > v2: (thank you Mark)
-> > >  * simplify the regulator_get_optional() error path
-> > >  * fix regulator usage during probe()
-> > > https://lore.kernel.org/linux-media/20211126090107.1243558-1-martin.kepplinger@puri.sm/
-> > > 
-> > > v1:
-> > > https://lore.kernel.org/linux-media/20211125080922.978583-1-martin.kepplinger@puri.sm/
-> > > 
-> > > 
-> > > 
-> > >  drivers/media/i2c/dw9714.c | 32 +++++++++++++++++++++++++++++++-
-> > >  1 file changed, 31 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/media/i2c/dw9714.c
-> > > b/drivers/media/i2c/dw9714.c
-> > > index 3863dfeb8293..81170bbe0e55 100644
-> > > --- a/drivers/media/i2c/dw9714.c
-> > > +++ b/drivers/media/i2c/dw9714.c
-> > > @@ -5,6 +5,7 @@
-> > >  #include <linux/i2c.h>
-> > >  #include <linux/module.h>
-> > >  #include <linux/pm_runtime.h>
-> > > +#include <linux/regulator/consumer.h>
-> > >  #include <media/v4l2-ctrls.h>
-> > >  #include <media/v4l2-device.h>
-> > >  #include <media/v4l2-event.h>
-> > > @@ -36,6 +37,7 @@ struct dw9714_device {
-> > >         struct v4l2_ctrl_handler ctrls_vcm;
-> > >         struct v4l2_subdev sd;
-> > >         u16 current_val;
-> > > +       struct regulator *vcc;
-> > >  };
-> > >  
-> > >  static inline struct dw9714_device *to_dw9714_vcm(struct v4l2_ctrl
-> > > *ctrl)
-> > > @@ -145,6 +147,16 @@ static int dw9714_probe(struct i2c_client
-> > > *client)
-> > >         if (dw9714_dev == NULL)
-> > >                 return -ENOMEM;
-> > >  
-> > > +       dw9714_dev->vcc = devm_regulator_get(&client->dev, "vcc");
-> > > +       if (IS_ERR(dw9714_dev->vcc))
-> > > +               return PTR_ERR(dw9714_dev->vcc);
-> > > +
-> > > +       rval = regulator_enable(dw9714_dev->vcc);
-> > > +       if (rval < 0) {
-> > > +               dev_err(&client->dev, "failed to enable vcc: %d\n",
-> > > rval);
-> > > +               return rval;
-> > > +       }
-> > > +
-> > >         v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
-> > >         dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> > >                                 V4L2_SUBDEV_FL_HAS_EVENTS;
-> > > @@ -200,6 +212,9 @@ static int __maybe_unused
-> > > dw9714_vcm_suspend(struct device *dev)
-> > >         struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
-> > >         int ret, val;
-> > >  
-> > > +       if (pm_runtime_suspended(&client->dev))
-> > > +               return 0;
-> > > +
-> > >         for (val = dw9714_dev->current_val & ~(DW9714_CTRL_STEPS -
-> > > 1);
-> > >              val >= 0; val -= DW9714_CTRL_STEPS) {
-> > >                 ret = dw9714_i2c_write(client,
-> > > @@ -208,7 +223,12 @@ static int __maybe_unused
-> > > dw9714_vcm_suspend(struct device *dev)
-> > >                         dev_err_once(dev, "%s I2C failure: %d",
-> > > __func__, ret);
-> > >                 usleep_range(DW9714_CTRL_DELAY_US,
-> > > DW9714_CTRL_DELAY_US + 10);
-> > >         }
-> > > -       return 0;
-> > > +
-> > > +       ret = regulator_disable(dw9714_dev->vcc);
-> > > +       if (ret)
-> > > +               dev_err(dev, "Failed to disable vcc: %d\n", ret);
-> > > +
-> > > +       return ret;
-> > >  }
-> > >  
-> > >  /*
-> > > @@ -224,6 +244,16 @@ static int  __maybe_unused
-> > > dw9714_vcm_resume(struct device *dev)
-> > >         struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
-> > >         int ret, val;
-> > >  
-> > > +       if (pm_runtime_suspended(&client->dev))
-> > > +               return 0;
-> > > +
-> > > +       ret = regulator_enable(dw9714_dev->vcc);
-> > > +       if (ret) {
-> > > +               dev_err(dev, "Failed to enable vcc: %d\n", ret);
-> > > +               return ret;
-> > > +       }
-> > > +       usleep_range(1000, 2000);
-> > > +
-> > >         for (val = dw9714_dev->current_val % DW9714_CTRL_STEPS;
-> > >              val < dw9714_dev->current_val + DW9714_CTRL_STEPS - 1;
-> > >              val += DW9714_CTRL_STEPS) {
-> > 
-> > hi Sakari and all interested,
-> > 
-> > any objection to this addition? I run it for a long time now.
-> > 
-> > thank you,
-> > 
-> >                               martin
-> > 
-> > 
-> 
-> hi all, patchwork marked this as "changes requested":
-> https://patchwork.linuxtv.org/project/linux-media/patch/20211129120754.1766570-1-martin.kepplinger@puri.sm/
-> 
-> I'm not aware of changes you wish to this. What do you think?
+From: Guangming <Guangming.Cao@mediatek.com>
 
-Oops! I wrote a reply but forgot to send it. I've just sent that.
+Add a size check for allocation since the allocation size should be
+always less than the total DRAM size on system heap.
+Adding this check can prevent comsuming too much time for invalid allocations.
 
+Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
+Acked-by: John Stultz <john.stultz@linaro.org>
+---
+ drivers/dma-buf/heaps/system_heap.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 23a7e74ef966..b65e597a742f 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -347,6 +347,14 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+ 	struct page *page, *tmp_page;
+ 	int i, ret = -ENOMEM;
+ 
++	/*
++	 * Size check. The "len" should be less than totalram since system_heap
++	 * memory is comes from system. Adding check here can prevent comsuming
++	 * too much time for invalid allocations.
++	 */
++	if (PFN_DOWN(len) > totalram_pages())
++		return ERR_PTR(-EINVAL);
++
+ 	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+ 	if (!buffer)
+ 		return ERR_PTR(-ENOMEM);
 -- 
-Sakari Ailus
+2.17.1
+
