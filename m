@@ -2,177 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBBA7494912
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 09:06:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3791494931
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jan 2022 09:15:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358323AbiATIEt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jan 2022 03:04:49 -0500
-Received: from comms.puri.sm ([159.203.221.185]:39846 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1358348AbiATIEZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jan 2022 03:04:25 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id E17D9DF89E;
-        Thu, 20 Jan 2022 00:04:23 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id TEDNyp5EBpIu; Thu, 20 Jan 2022 00:04:23 -0800 (PST)
-Message-ID: <98d12c1acaf77772f51361b079dde7e982a6dafd.camel@puri.sm>
-Subject: Re: [PATCH v3] media: i2c: dw9714: add optional regulator support
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     broonie@kernel.org, sakari.ailus@linux.intel.com
-Cc:     angus@akkea.ca, kernel@puri.sm, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
-        mchehab@kernel.org
-Date:   Thu, 20 Jan 2022 09:04:17 +0100
-In-Reply-To: <8f4c0f74523ea615786942fe2a30f83a2d0e8c16.camel@puri.sm>
-References: <20211129120754.1766570-1-martin.kepplinger@puri.sm>
-         <8f4c0f74523ea615786942fe2a30f83a2d0e8c16.camel@puri.sm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        id S1359083AbiATIPm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jan 2022 03:15:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58644 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1358230AbiATIPl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Jan 2022 03:15:41 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DE93C061574
+        for <linux-media@vger.kernel.org>; Thu, 20 Jan 2022 00:15:41 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id b14so18626131lff.3
+        for <linux-media@vger.kernel.org>; Thu, 20 Jan 2022 00:15:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sib8izoQ9eM4SRQulajhHuimJ4bCOoY1cAsE3mXLijw=;
+        b=cVi5tRo5LKxaE/draeqa23ThRc1zLD/EOl6OpV9w8ozAxf67/DF0nGKqjFnZsnDexb
+         1LKikEEweQcsCflg0Grc8QWMmuvvVaoGQr02rFJu5XMWTHoYHxs3Xe2PNUHAHfth+B/r
+         H+wgpoa9pNEgY6H2mMx9hXCPsoKRM/2yeHkr/uytMw7X9E4uYF+frspvRvyqLw4eI1fa
+         RZq5iXy4MoXo4qPBtZBFcH59C1Cjzt8rKWUcFY5Y/VtKOwagmuF64s5I/2hRP9adRcvs
+         qdMLTme3U1xpZoc2HYF1xwb5enuPGO8wVFoVvR+d9JDDya6spVTVKDQO3dj+BV/5To6P
+         Zt0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sib8izoQ9eM4SRQulajhHuimJ4bCOoY1cAsE3mXLijw=;
+        b=Hu/nBNluUo2f462b7mRnAi+bKnZmZkcNn0aRjgjxoxZhLIBHoQ8rZ7CdjKNByMzxtF
+         47zjXj7NtQ7N5uyc4eGfGBTBwSvAt/sAtQ/ttYFmg/3zO4SDPqjBvrsFdK4CfSTxxtbr
+         pNsSOl8dttW+C51XoeO2TonVI+u5JIlYVGyClmvZnBDLUTCFvYGYv0rQ1n04NnbDG1qt
+         1QMZIRWo/IMePDzHiyJikV2Scnw4XYkLW6KrHQnu21g3dektWmg43yGNQT5YZnsQOx76
+         mJjC9f5M2zcMSxh+O980q32UOoYTF3qKKVRA90rO6gL2zW2dq/dgFVEKR/xZjYEci5o1
+         L4CQ==
+X-Gm-Message-State: AOAM5335JFuXwSdxIpzgb/WUjRvdZOnee0p/fNGvMeiZXrEPpo6B4hLm
+        O5HWEj6mGpEkNeWLy8fLEJnotZUOq+xDsn+v
+X-Google-Smtp-Source: ABdhPJz8BthKaQA4pVNnRkvyJXRmB13KbgzAbkPDhbFQYvav/zKSvQu+oPPe37XrqBuQIIp2d8N8oQ==
+X-Received: by 2002:a2e:a7ca:: with SMTP id x10mr13034714ljp.259.1642666539292;
+        Thu, 20 Jan 2022 00:15:39 -0800 (PST)
+Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id k3sm208951lji.96.2022.01.20.00.15.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jan 2022 00:15:38 -0800 (PST)
+From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH v2] media: vsp1: mask interrupts before enabling
+Date:   Thu, 20 Jan 2022 11:15:30 +0300
+Message-Id: <20220120081530.799399-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, dem 21.12.2021 um 18:33 +0100 schrieb Martin Kepplinger:
-> Am Montag, dem 29.11.2021 um 13:07 +0100 schrieb Martin Kepplinger:
-> > From: Angus Ainslie <angus@akkea.ca>
-> > 
-> > Allow the dw9714 to control a regulator and adjust suspend() and
-> > resume()
-> > to support both runtime and system pm.
-> > 
-> > Signed-off-by: Angus Ainslie <angus@akkea.ca>
-> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > ---
-> > 
-> > 
-> > revision history
-> > ----------------
-> > v3: (thank you Mark and Sakari)
-> >  * use regulator_get() instead of regulator_get_optional()
-> > 
-> > v2: (thank you Mark)
-> >  * simplify the regulator_get_optional() error path
-> >  * fix regulator usage during probe()
-> > https://lore.kernel.org/linux-media/20211126090107.1243558-1-martin.kepplinger@puri.sm/
-> > 
-> > v1:
-> > https://lore.kernel.org/linux-media/20211125080922.978583-1-martin.kepplinger@puri.sm/
-> > 
-> > 
-> > 
-> >  drivers/media/i2c/dw9714.c | 32 +++++++++++++++++++++++++++++++-
-> >  1 file changed, 31 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/i2c/dw9714.c
-> > b/drivers/media/i2c/dw9714.c
-> > index 3863dfeb8293..81170bbe0e55 100644
-> > --- a/drivers/media/i2c/dw9714.c
-> > +++ b/drivers/media/i2c/dw9714.c
-> > @@ -5,6 +5,7 @@
-> >  #include <linux/i2c.h>
-> >  #include <linux/module.h>
-> >  #include <linux/pm_runtime.h>
-> > +#include <linux/regulator/consumer.h>
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/v4l2-event.h>
-> > @@ -36,6 +37,7 @@ struct dw9714_device {
-> >         struct v4l2_ctrl_handler ctrls_vcm;
-> >         struct v4l2_subdev sd;
-> >         u16 current_val;
-> > +       struct regulator *vcc;
-> >  };
-> >  
-> >  static inline struct dw9714_device *to_dw9714_vcm(struct v4l2_ctrl
-> > *ctrl)
-> > @@ -145,6 +147,16 @@ static int dw9714_probe(struct i2c_client
-> > *client)
-> >         if (dw9714_dev == NULL)
-> >                 return -ENOMEM;
-> >  
-> > +       dw9714_dev->vcc = devm_regulator_get(&client->dev, "vcc");
-> > +       if (IS_ERR(dw9714_dev->vcc))
-> > +               return PTR_ERR(dw9714_dev->vcc);
-> > +
-> > +       rval = regulator_enable(dw9714_dev->vcc);
-> > +       if (rval < 0) {
-> > +               dev_err(&client->dev, "failed to enable vcc: %d\n",
-> > rval);
-> > +               return rval;
-> > +       }
-> > +
-> >         v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
-> >         dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> >                                 V4L2_SUBDEV_FL_HAS_EVENTS;
-> > @@ -200,6 +212,9 @@ static int __maybe_unused
-> > dw9714_vcm_suspend(struct device *dev)
-> >         struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
-> >         int ret, val;
-> >  
-> > +       if (pm_runtime_suspended(&client->dev))
-> > +               return 0;
-> > +
-> >         for (val = dw9714_dev->current_val & ~(DW9714_CTRL_STEPS -
-> > 1);
-> >              val >= 0; val -= DW9714_CTRL_STEPS) {
-> >                 ret = dw9714_i2c_write(client,
-> > @@ -208,7 +223,12 @@ static int __maybe_unused
-> > dw9714_vcm_suspend(struct device *dev)
-> >                         dev_err_once(dev, "%s I2C failure: %d",
-> > __func__, ret);
-> >                 usleep_range(DW9714_CTRL_DELAY_US,
-> > DW9714_CTRL_DELAY_US + 10);
-> >         }
-> > -       return 0;
-> > +
-> > +       ret = regulator_disable(dw9714_dev->vcc);
-> > +       if (ret)
-> > +               dev_err(dev, "Failed to disable vcc: %d\n", ret);
-> > +
-> > +       return ret;
-> >  }
-> >  
-> >  /*
-> > @@ -224,6 +244,16 @@ static int  __maybe_unused
-> > dw9714_vcm_resume(struct device *dev)
-> >         struct dw9714_device *dw9714_dev = sd_to_dw9714_vcm(sd);
-> >         int ret, val;
-> >  
-> > +       if (pm_runtime_suspended(&client->dev))
-> > +               return 0;
-> > +
-> > +       ret = regulator_enable(dw9714_dev->vcc);
-> > +       if (ret) {
-> > +               dev_err(dev, "Failed to enable vcc: %d\n", ret);
-> > +               return ret;
-> > +       }
-> > +       usleep_range(1000, 2000);
-> > +
-> >         for (val = dw9714_dev->current_val % DW9714_CTRL_STEPS;
-> >              val < dw9714_dev->current_val + DW9714_CTRL_STEPS - 1;
-> >              val += DW9714_CTRL_STEPS) {
-> 
-> hi Sakari and all interested,
-> 
-> any objection to this addition? I run it for a long time now.
-> 
-> thank you,
-> 
->                               martin
-> 
-> 
+VSP hardware could be used (e.g. by the bootloader) before driver load,
+and some interrupts could be left in enabled and pending state. In this
+case, setting up VSP interrupt handler without masking interrupts before
+causes interrupt handler to be immediately called (and crash due to null
+vsp->info dereference).
 
-hi all, patchwork marked this as "changes requested":
-https://patchwork.linuxtv.org/project/linux-media/patch/20211129120754.1766570-1-martin.kepplinger@puri.sm/
+Fix that by explicitly masking all interrupts before setting the interrupt
+handler. To do so, have to set the interrupt handler later, after hw
+revision is already detected and number of interrupts to mask gets
+known.
 
-I'm not aware of changes you wish to this. What do you think?
+Based on patch by Koji Matsuoka <koji.matsuoka.xm@renesas.com> included
+in the Renesas BSP kernel.
 
-thank you,
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+v1: https://lore.kernel.org/all/20210926155356.23861-1-nikita.yoush@cogentembedded.com/
+Changes since v1:
+- move interrupt masking to a dedicated routine
+- update comments and patch description
 
-                           martin
+> I think I would rather see the code to reset them done in
+> vsp1_reset_wpf(), rather than in probe directly as that is what we are
+> doing, and is I believe already in the call path.
 
+First, vsp1_reset_wpf() does not get called on driver early init.
+
+It is normally called from within vsp1_device_get() when device is powered
+on, but vsp1_probe() calls vsp1_device_get() when vsp1->info is not yet set,
+and in this case call from vsp1_pm_runtime_resume() to vsp1_device_init() 
+is skipped.
+
+I've tried to add extra vsp1_device_put() / vsp1_device_get() calls to the
+probe path, and dumped related registers in vsp1_pm_runtime_resume() after
+return from vsp1_device_init(), and got
+
+[    2.477315][    T1] vsp1 fea28000.vsp: VI6_DISP_IRQ_ENB(0) = 0x00000100
+[    2.483933][    T1] vsp1 fea28000.vsp: VI6_DISP_IRQ_STA(0) = 0x00000121
+[    2.490556][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_ENB(0) = 0x00010002
+[    2.497088][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_STA(0) = 0x00010003
+[    2.503618][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_ENB(1) = 0x00000000
+[    2.510148][    T1] vsp1 fea28000.vsp: VI6_WPF_IRQ_STA(1) = 0x00000000
+
+which shows that
+(1) WPF interrupt is not cleared by WPF reset,
+(2) also DISP interrupt is enabled and pending, and driver does not seem
+to control it at all.
+
+Given that, I think it is safer to explicitly mask all interrupts before
+setting the handler. I've moved interrupt masking to a separate routine.
+
+> (But I'm reallly ... reallly concerned that the hardware is not really
+> getting reset when it should, and that might merit some further
+> investigation).
+
+The documentation for WFP reset bit has notes that under some situations,
+reset is postponed for a long time, and reported via interrupt. I'm not
+sure what exactly goes on there, but I'd assume that such logic implies
+that interrupt subsystem is not reset.
+
+I agree that not having exact understand of hardware state is not good.
+But, given that no signs of misfunction have been detected for a long time
+(the patch was in vendor BSP for years), I think we can assume it is
+"safe enough".
+
+ drivers/media/platform/vsp1/vsp1_drv.c | 34 ++++++++++++++++++++------
+ 1 file changed, 26 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+index c9044785b903..92a95e2c21c7 100644
+--- a/drivers/media/platform/vsp1/vsp1_drv.c
++++ b/drivers/media/platform/vsp1/vsp1_drv.c
+@@ -550,6 +550,16 @@ static int vsp1_device_init(struct vsp1_device *vsp1)
+ 	return 0;
+ }
+ 
++static void vsp1_mask_all_interrupts(struct vsp1_device *vsp1)
++{
++	int i;
++
++	for (i = 0; i < vsp1->info->lif_count; ++i)
++		vsp1_write(vsp1, VI6_DISP_IRQ_ENB(i), 0);
++	for (i = 0; i < vsp1->info->wpf_count; ++i)
++		vsp1_write(vsp1, VI6_WPF_IRQ_ENB(i), 0);
++}
++
+ /*
+  * vsp1_device_get - Acquire the VSP1 device
+  *
+@@ -819,13 +829,6 @@ static int vsp1_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
+-	ret = devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
+-			      IRQF_SHARED, dev_name(&pdev->dev), vsp1);
+-	if (ret < 0) {
+-		dev_err(&pdev->dev, "failed to request IRQ\n");
+-		return ret;
+-	}
+-
+ 	/* FCP (optional). */
+ 	fcp_node = of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0);
+ 	if (fcp_node) {
+@@ -855,7 +858,6 @@ static int vsp1_probe(struct platform_device *pdev)
+ 		goto done;
+ 
+ 	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+-	vsp1_device_put(vsp1);
+ 
+ 	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+ 		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+@@ -868,12 +870,28 @@ static int vsp1_probe(struct platform_device *pdev)
+ 	if (!vsp1->info) {
+ 		dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
+ 			vsp1->version);
++		vsp1_device_put(vsp1);
+ 		ret = -ENXIO;
+ 		goto done;
+ 	}
+ 
+ 	dev_dbg(&pdev->dev, "IP version 0x%08x\n", vsp1->version);
+ 
++	/*
++	 * Previous use of the hardware (e.g. by the bootloader) could leave
++	 * some interrupts enabled and pending.
++	 */
++	vsp1_mask_all_interrupts(vsp1);
++
++	vsp1_device_put(vsp1);
++
++	ret = devm_request_irq(&pdev->dev, irq->start, vsp1_irq_handler,
++			       IRQF_SHARED, dev_name(&pdev->dev), vsp1);
++	if (ret < 0) {
++		dev_err(&pdev->dev, "failed to request IRQ\n");
++		goto done;
++	}
++
+ 	/* Instantiate entities. */
+ 	ret = vsp1_create_entities(vsp1);
+ 	if (ret < 0) {
+-- 
+2.30.2
 
