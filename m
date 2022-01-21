@@ -2,54 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE841495ABD
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 08:33:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDDE3495B24
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 08:48:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343953AbiAUHdD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jan 2022 02:33:03 -0500
-Received: from mga03.intel.com ([134.134.136.65]:55741 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239626AbiAUHdB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jan 2022 02:33:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642750381; x=1674286381;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=j6D2M5eJcGFfscpsShMvN4Ex93Qg3ANgb4qLkoAi0Oo=;
-  b=F3xTLLyXF4ymflBvktbFW40W6ArYre7GBuCXRoVztRVU8TxpmnPlkGrM
-   vz+gCQZlDKOEUJHMGA6oK8c5jrQdv255VRyJSaZgUjBPAruUWjsCbF+1K
-   +5GsU8HR5JEbga0W+riebIoaqTUcRAIrXByc+Qu6fJGkwW4YOLa2XCLjY
-   rFXm8hDQo49a4F1YS/x62bqP9r8WfuRD/NpK6vnBC7WUWJ9yR8rGwSfn7
-   o1ZfHN218MkotbPUY18Rxs+/xw5u11PkBe/Ud1gDvoqtF/IbVcPEWQg3J
-   nqV6aRw6ROj8vGpfRcdt6Ap7b9CMw6WxSb9rMZJCcTDw3UOJhJZjrYIqi
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245538635"
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; 
-   d="scan'208";a="245538635"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2022 23:33:01 -0800
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; 
-   d="scan'208";a="533168548"
-Received: from hekner-mobl5.ger.corp.intel.com (HELO [10.249.254.132]) ([10.249.254.132])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2022 23:32:59 -0800
-Message-ID: <ca907ad0-9199-d13e-5033-7113d732d476@linux.intel.com>
-Date:   Fri, 21 Jan 2022 08:32:58 +0100
+        id S1349116AbiAUHsq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jan 2022 02:48:46 -0500
+Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:8222 "EHLO
+        ste-pvt-msa1.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231417AbiAUHsq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 Jan 2022 02:48:46 -0500
+X-Greylist: delayed 447 seconds by postgrey-1.27 at vger.kernel.org; Fri, 21 Jan 2022 02:48:46 EST
+Received: from localhost (localhost [127.0.0.1])
+        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 74DAC3F52F;
+        Fri, 21 Jan 2022 08:41:16 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+        URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: ste-pvt-msa1.bahnhof.se (amavisd-new);
+        dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+        by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Ztpjkw7MC_nI; Fri, 21 Jan 2022 08:41:15 +0100 (CET)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 911D73F36E;
+        Fri, 21 Jan 2022 08:41:13 +0100 (CET)
+Received: from [192.168.0.209] (unknown [192.55.55.53])
+        by mail1.shipmail.org (Postfix) with ESMTPSA id EF55B36021F;
+        Fri, 21 Jan 2022 08:41:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+        t=1642750873; bh=J7x+B28uN49SMZuI8wIJMtVPVYV8cmBtaTSP49CgU8E=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=Eq4Y1IVj9UYOnrhtdi2e8lLF6MPhqGF+hPWmTPfZBnV3zX0ibuSqtZNeFkIqJrJ0+
+         jgFZ0b0cM4SLYurhMy77RlYA+uvfMI5Pw5vG2Bc3x4bMiLZlhroI3feoN5FU0YOcWo
+         SEIrAYTKUMjED9moHyHSCsQxVxnqiGYglb4giZiE=
+Message-ID: <93c4213e-41ff-1afa-be40-7ec6789c63da@shipmail.org>
+Date:   Fri, 21 Jan 2022 08:41:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [Linaro-mm-sig] [PATCH 3/9] dma-buf: Warn about dma_fence_chain
- container rules
+Subject: Re: [Linaro-mm-sig] [PATCH 1/9] dma-buf: consolidate dma_fence
+ subclass checking
 Content-Language: en-US
 To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
         sumit.semwal@linaro.org, gustavo@padovan.org,
         daniel.vetter@ffwll.ch, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 References: <20220120132747.2348-1-christian.koenig@amd.com>
- <20220120132747.2348-4-christian.koenig@amd.com>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= 
-        <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20220120132747.2348-4-christian.koenig@amd.com>
+ <20220120132747.2348-2-christian.koenig@amd.com>
+From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>
+In-Reply-To: <20220120132747.2348-2-christian.koenig@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -58,37 +65,128 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On 1/20/22 14:27, Christian König wrote:
-> Chaining of dma_fence_chain objects is only allowed through the prev
-> fence and not through the contained fence.
+> Consolidate the wrapper functions to check for dma_fence
+> subclasses in the dma_fence header.
 >
-> Warn about that when we create a dma_fence_chain.
+> This makes it easier to document and also check the different
+> requirements for fence containers in the subclasses.
 >
 > Signed-off-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > ---
->   drivers/dma-buf/dma-fence-chain.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>   include/linux/dma-fence-array.h | 15 +------------
+>   include/linux/dma-fence-chain.h |  3 +--
+>   include/linux/dma-fence.h       | 38 +++++++++++++++++++++++++++++++++
+>   3 files changed, 40 insertions(+), 16 deletions(-)
 >
-> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-> index 1b4cb3e5cec9..fa33f6b7f77b 100644
-> --- a/drivers/dma-buf/dma-fence-chain.c
-> +++ b/drivers/dma-buf/dma-fence-chain.c
-> @@ -254,5 +254,13 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+> index 303dd712220f..fec374f69e12 100644
+> --- a/include/linux/dma-fence-array.h
+> +++ b/include/linux/dma-fence-array.h
+> @@ -45,19 +45,6 @@ struct dma_fence_array {
+>   	struct irq_work work;
+>   };
 >   
->   	dma_fence_init(&chain->base, &dma_fence_chain_ops,
->   		       &chain->lock, context, seqno);
+> -extern const struct dma_fence_ops dma_fence_array_ops;
+> -
+> -/**
+> - * dma_fence_is_array - check if a fence is from the array subsclass
+> - * @fence: fence to test
+> - *
+> - * Return true if it is a dma_fence_array and false otherwise.
+> - */
+> -static inline bool dma_fence_is_array(struct dma_fence *fence)
+> -{
+> -	return fence->ops == &dma_fence_array_ops;
+> -}
+> -
+>   /**
+>    * to_dma_fence_array - cast a fence to a dma_fence_array
+>    * @fence: fence to cast to a dma_fence_array
+> @@ -68,7 +55,7 @@ static inline bool dma_fence_is_array(struct dma_fence *fence)
+>   static inline struct dma_fence_array *
+>   to_dma_fence_array(struct dma_fence *fence)
+>   {
+> -	if (fence->ops != &dma_fence_array_ops)
+> +	if (!fence || !dma_fence_is_array(fence))
+>   		return NULL;
+>   
+>   	return container_of(fence, struct dma_fence_array, base);
+> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+> index 54fe3443fd2c..ee906b659694 100644
+> --- a/include/linux/dma-fence-chain.h
+> +++ b/include/linux/dma-fence-chain.h
+> @@ -49,7 +49,6 @@ struct dma_fence_chain {
+>   	spinlock_t lock;
+>   };
+>   
+> -extern const struct dma_fence_ops dma_fence_chain_ops;
+>   
+>   /**
+>    * to_dma_fence_chain - cast a fence to a dma_fence_chain
+> @@ -61,7 +60,7 @@ extern const struct dma_fence_ops dma_fence_chain_ops;
+>   static inline struct dma_fence_chain *
+>   to_dma_fence_chain(struct dma_fence *fence)
+>   {
+> -	if (!fence || fence->ops != &dma_fence_chain_ops)
+> +	if (!fence || !dma_fence_is_chain(fence))
+>   		return NULL;
+>   
+>   	return container_of(fence, struct dma_fence_chain, base);
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 1ea691753bd3..775cdc0b4f24 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -587,4 +587,42 @@ struct dma_fence *dma_fence_get_stub(void);
+>   struct dma_fence *dma_fence_allocate_private_stub(void);
+>   u64 dma_fence_context_alloc(unsigned num);
+>   
+> +extern const struct dma_fence_ops dma_fence_array_ops;
+> +extern const struct dma_fence_ops dma_fence_chain_ops;
 > +
-> +	/* Chaining dma_fence_chain container together is only allowed through
+> +/**
+> + * dma_fence_is_array - check if a fence is from the array subclass
+> + * @fence: the fence to test
+> + *
+> + * Return true if it is a dma_fence_array and false otherwise.
+> + */
+> +static inline bool dma_fence_is_array(struct dma_fence *fence)
+> +{
+> +	return fence->ops == &dma_fence_array_ops;
+> +}
+> +
+> +/**
+> + * dma_fence_is_chain - check if a fence is from the chain subclass
+> + * @fence: the fence to test
+> + *
+> + * Return true if it is a dma_fence_chain and false otherwise.
+> + */
+> +static inline bool dma_fence_is_chain(struct dma_fence *fence)
+> +{
+> +	return fence->ops == &dma_fence_chain_ops;
+> +}
+> +
+> +/**
+> + * dma_fence_is_container - check if a fence is a container for other fences
+> + * @fence: the fence to test
+> + *
+> + * Return true if this fence is a container for other fences, false otherwise.
+> + * This is important since we can't build up large fence structure or otherwise
+> + * we run into recursion during operation on those fences.
+> + */
+> +static inline bool dma_fence_is_container(struct dma_fence *fence)
+> +{
+> +	return dma_fence_is_array(fence) || dma_fence_is_chain(fence);
+> +}
 
-Nit: Multi-line comment.
+What's the strategy here moving forward if we add more dma_resv 
+containers, or if a driver adds a container that similarly has risc of 
+recursion? Should we perhaps add an ops bool for this, or require that 
+all dma_resv containers that has this limitation be part of the dma-buf 
+subsystem rather than driver-specific?
 
-Otherwise, Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Thanks,
+/Thomas
 
-> +	 * the prev fence and not through the contained fence.
-> +	 *
-> +	 * The correct way of handling this is to flatten out the fence
-> +	 * structure into a dma_fence_array by the caller instead.
-> +	 */
-> +	WARN_ON(dma_fence_is_chain(fence));
->   }
->   EXPORT_SYMBOL(dma_fence_chain_init);
+
+> +
+>   #endif /* __LINUX_DMA_FENCE_H */
