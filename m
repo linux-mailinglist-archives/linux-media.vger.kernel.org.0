@@ -2,189 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEFA1495BBB
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 09:18:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21A5D495BEB
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 09:28:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379513AbiAUISr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jan 2022 03:18:47 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48796 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379488AbiAUISd (ORCPT
+        id S1349730AbiAUI2r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jan 2022 03:28:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47540 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349535AbiAUI2q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jan 2022 03:18:33 -0500
-Received: from tatooine.ideasonboard.com (unknown [IPv6:2a01:e0a:169:7140:d916:876:fa52:7241])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B21D21BE5;
-        Fri, 21 Jan 2022 09:18:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642753102;
-        bh=lBC5b4kV8HrL/lrzJBBA+UGHFsGP4j1YLwAfhDKoIbQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eMu71+o9LBUCQWsyI2dP21AxrgDjEXHdjzjC0W98UHi4RqkzLtWGgOL6sRqYdHKOA
-         FKEfdXg8PE0dg7l0RObJxnaXOvwHizzz+t2Uj3FVMquun5vHzjGT+T/A62mGppy3um
-         dzbnHqSCgbU7paQCUV19DO7TxTSZeVVtzEuDW5LY=
-From:   Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-To:     jeanmichel.hautbois@ideasonboard.com
-Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
-        robh@kernel.org, tomi.valkeinen@ideasonboard.com
-Subject: [RFC PATCH v2 7/7] media: bcm283x: Include the imx219 node
-Date:   Fri, 21 Jan 2022 09:18:10 +0100
-Message-Id: <20220121081810.155500-8-jeanmichel.hautbois@ideasonboard.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220121081810.155500-1-jeanmichel.hautbois@ideasonboard.com>
-References: <20220121081810.155500-1-jeanmichel.hautbois@ideasonboard.com>
+        Fri, 21 Jan 2022 03:28:46 -0500
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D05EC061574
+        for <linux-media@vger.kernel.org>; Fri, 21 Jan 2022 00:28:46 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 35F4C240002;
+        Fri, 21 Jan 2022 08:28:42 +0000 (UTC)
+Date:   Fri, 21 Jan 2022 09:29:46 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 0/2] staging: media: imx7-mipi-csis: Two small fixes
+Message-ID: <20220121082946.iucsh2czf6ltmg75@uno.localdomain>
+References: <20220119112024.11339-1-jacopo@jmondi.org>
+ <CH9SE3SLDYEU.2M560Q0RQ0L3C@arch-thunder>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CH9SE3SLDYEU.2M560Q0RQ0L3C@arch-thunder>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Configure the csi1 endpoint, add the imx219 node and connect it through
-the i2c mux.
+Hi Rui
 
-Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
----
- MAINTAINERS                               |   1 +
- arch/arm/boot/dts/bcm2711-rpi-4-b.dts     |   1 +
- arch/arm/boot/dts/bcm283x-rpi-imx219.dtsi | 102 ++++++++++++++++++++++
- 3 files changed, 104 insertions(+)
- create mode 100644 arch/arm/boot/dts/bcm283x-rpi-imx219.dtsi
+On Wed, Jan 19, 2022 at 04:21:15PM +0000, Rui Miguel Silva wrote:
+> Hey Jacopo,
+> both patches LGTM.
+>
+> I only have one nit with them...
+>
+> On Wed Jan 19, 2022 at 11:20 AM WET, Jacopo Mondi wrote:
+>
+> > Two small fixes for the imx7-mipi-csis driver.
+> >
+> > The second patch is required to correctly capture in packed YUV422 formats
+> >
+> > Thanks
+> >    j
+> >
+> > Jacopo Mondi (2):
+> >   staging: media: imx: imx7-mipi-csic: Resume on debug
+> >   staging: media: imx: imx7-mipi-csic: Set PIXEL_MODE for YUV422
+>                                       ^
+>                    here should be s (imx7-mipi-csis) on both patches
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b17bb533e007..56544ac98d69 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3684,6 +3684,7 @@ M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-+F:	arch/arm/boot/dts/bcm283x*
- F:	drivers/media/platform/bcm2835/
- 
- BROADCOM BCM47XX MIPS ARCHITECTURE
-diff --git a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-index 4432412044de..f7625b70fe57 100644
---- a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-+++ b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-@@ -4,6 +4,7 @@
- #include "bcm2711-rpi.dtsi"
- #include "bcm283x-rpi-usb-peripheral.dtsi"
- #include "bcm283x-rpi-wifi-bt.dtsi"
-+#include "bcm283x-rpi-imx219.dtsi"
- 
- / {
- 	compatible = "raspberrypi,4-model-b", "brcm,bcm2711";
-diff --git a/arch/arm/boot/dts/bcm283x-rpi-imx219.dtsi b/arch/arm/boot/dts/bcm283x-rpi-imx219.dtsi
-new file mode 100644
-index 000000000000..f2c6a85fd731
---- /dev/null
-+++ b/arch/arm/boot/dts/bcm283x-rpi-imx219.dtsi
-@@ -0,0 +1,102 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <dt-bindings/clock/bcm2835.h>
-+
-+/ {
-+	compatible = "brcm,bcm2835";
-+
-+	imx219_vdig: fixedregulator@1 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "imx219_vdig";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+	};
-+
-+	imx219_vddl: fixedregulator@2 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "imx219_vddl";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+	};
-+
-+	imx219_clk: imx219_clk {
-+		#clock-cells = <0>;
-+		compatible = "fixed-clock";
-+		clock-frequency = <24000000>;
-+		clock-output-names = "24MHz-clock";
-+	};
-+
-+	cam1_reg: cam1_reg {
-+		compatible = "regulator-fixed";
-+		regulator-name = "imx219_vana";
-+		enable-active-high;
-+		status = "okay";
-+		gpio = <&expgpio 5 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	i2c0mux {
-+		compatible = "i2c-mux-pinctrl";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		i2c-parent = <&i2c0>;
-+
-+		pinctrl-names = "i2c0", "i2c_csi_dsi";
-+		pinctrl-0 = <&i2c0_gpio0>;
-+		pinctrl-1 = <&i2c0_gpio44>;
-+
-+		i2c@0 {
-+			reg = <0>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
-+		i2c@1 {
-+			reg = <1>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			imx219: sensor@10 {
-+				compatible = "sony,imx219";
-+				reg = <0x10>;
-+				status = "okay";
-+
-+				clocks = <&imx219_clk>;
-+				clock-names = "xclk";
-+
-+				VANA-supply = <&cam1_reg>;   /* 2.8v */
-+				VDIG-supply = <&imx219_vdig>;   /* 1.8v */
-+				VDDL-supply = <&imx219_vddl>;   /* 1.2v */
-+
-+				rotation = <0>;
-+				orientation = <0>;
-+
-+				port {
-+					imx219_0: endpoint {
-+						remote-endpoint = <&csi1_ep>;
-+						clock-lanes = <0>;
-+						data-lanes = <1 2>;
-+						clock-noncontinuous;
-+						link-frequencies = /bits/ 64 <456000000>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&csi1 {
-+	status="okay";
-+	num-data-lanes = <2>;
-+	port {
-+		csi1_ep: endpoint {
-+			remote-endpoint = <&imx219_0>;
-+			data-lanes = <1 2>;
-+			clock-lanes = <0>;
-+		};
-+	};
-+};
-+
-+&i2c0 {
-+	/delete-property/ pinctrl-names;
-+	/delete-property/ pinctrl-0;
-+};
-+
--- 
-2.32.0
+Oh ups, I honestly thought at the time the IP core was called csic...
 
+>
+> Maybe Laurent could fix the typo on the pull, other than that:
+
+I owe an update to add an error check to 1/2 once Laurent (or someone
+with an i.MX8MM) tests 2/2, so I can fix the subject in v2.
+
+>
+> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+
+Thanks
+   j
+
+>
+> Cheers,
+>    Rui
+>
+> >
+> >  drivers/staging/media/imx/imx7-mipi-csis.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >
+> > --
+> > 2.34.1
+>
+>
+>
