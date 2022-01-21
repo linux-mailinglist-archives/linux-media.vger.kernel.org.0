@@ -2,149 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F8E74964C2
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 19:06:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B46749650C
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 19:30:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381782AbiAUSGf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jan 2022 13:06:35 -0500
-Received: from gofer.mess.org ([88.97.38.141]:49121 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1381885AbiAUSGd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jan 2022 13:06:33 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 5A26810008D; Fri, 21 Jan 2022 18:06:31 +0000 (UTC)
-Date:   Fri, 21 Jan 2022 18:06:31 +0000
-From:   Sean Young <sean@mess.org>
-To:     Luiz Sampaio <sampaio.ime@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        David =?iso-8859-1?Q?H=E4rdeman?= <david@hardeman.nu>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 11/31] media: rc: changing LED_* from enum led_brightness
- to actual value
-Message-ID: <Yer2J+96wy7wSDSs@gofer.mess.org>
-References: <20220121165436.30956-1-sampaio.ime@gmail.com>
- <20220121165436.30956-12-sampaio.ime@gmail.com>
+        id S1382122AbiAUSaO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jan 2022 13:30:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43380 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1382129AbiAUSaN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 Jan 2022 13:30:13 -0500
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [IPv6:2001:67c:2050::465:201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 291D4C061401;
+        Fri, 21 Jan 2022 10:30:13 -0800 (PST)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4JgSbj1788z9slT;
+        Fri, 21 Jan 2022 19:30:09 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elbmurf.de; s=MBO0001;
+        t=1642789807;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=UXTtNq6dUV4ZB4z8zbGTA1s1E1gY0IC3MSZJKXa0W2k=;
+        b=lQ/TKH95MTzwOEMNBNSg1zEfE8wFqtc+kRubJ6UfO7DbZygav0oFoZji/1JRdqcrQ56Cwc
+        6C+Ya4dz8JYk0KYd0jnxC5qH3iyGKXuHHnPuZnTiHbrcdCDu/FMaZFzPBDXUkWihc6y25B
+        JzA34URxlIeRJ7uI3rzgLt1d0DY95Lt0d2/y82iEQv2cMP8bvETw5xsIP7mYN25MV+rzs1
+        ONmNCORiS7r8vCYHG3X0oAstL61nMgDmrQ6gt75lhEsZqAIJXo2T2NKojg/poaR7bYBHcW
+        vOQRhFOZJbn5G2F6FO3EiWCK7KfHHEcM5jG0tb84hZfrOzVDkI66h6VJoOqy5Q==
+Message-ID: <12d7f37f-340f-f316-f876-b62a1bd20c52@elbmurf.de>
+Date:   Fri, 21 Jan 2022 19:30:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220121165436.30956-12-sampaio.ime@gmail.com>
+Subject: Re: [PATCH] Revert "media: em28xx: add missing
+ em28xx_close_extension"
+Content-Language: de-DE
+To:     Pavel Skripkin <paskripkin@gmail.com>, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <a0ba3685-8c59-cb89-7f81-280c38a92c40@elbmurf.de>
+ <20220120193730.28155-1-paskripkin@gmail.com>
+From:   =?UTF-8?Q?Maximilian_B=c3=b6hm?= <maximilian.boehm@elbmurf.de>
+In-Reply-To: <20220120193730.28155-1-paskripkin@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 21, 2022 at 01:54:16PM -0300, Luiz Sampaio wrote:
-> The enum led_brightness, which contains the declaration of LED_OFF,
-> LED_ON, LED_HALF and LED_FULL is obsolete, as the led class now supports
-> max_brightness.
+Tested-by: Maximilian Böhm, kernelml@elbmurf.de
+
+Am 20.01.22 um 20:37 schrieb Pavel Skripkin:
+> This reverts commit 2c98b8a3458df03abdc6945bbef67ef91d181938.
+>
+> Reverted patch causes problems with Hauppauge WinTV dualHD as Maximilian
+> reported [1]. Since quick solution didn't come up let's just revert it
+> to make this device work with upstream kernels.
+>
+> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Link: https://lore.kernel.org/all/6a72a37b-e972-187d-0322-16336e12bdc5@elbmurf.de/ [1]
+> Reported-by: Maximilian Böhm <maximilian.boehm@elbmurf.de>
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 > ---
->  drivers/media/rc/rc-main.c     | 4 ++--
->  drivers/media/rc/redrat3.c     | 4 ++--
->  drivers/media/rc/ttusbir.c     | 4 ++--
->  drivers/media/rc/winbond-cir.c | 6 +++---
->  4 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-> index b90438a71c80..76580f1920e2 100644
-> --- a/drivers/media/rc/rc-main.c
-> +++ b/drivers/media/rc/rc-main.c
-> @@ -641,7 +641,7 @@ static void ir_do_keyup(struct rc_dev *dev, bool sync)
->  	dev_dbg(&dev->dev, "keyup key 0x%04x\n", dev->last_keycode);
->  	del_timer(&dev->timer_repeat);
->  	input_report_key(dev->input_dev, dev->last_keycode, 0);
-> -	led_trigger_event(led_feedback, LED_OFF);
-> +	led_trigger_event(led_feedback, 0);
->  	if (sync)
->  		input_sync(dev->input_dev);
->  	dev->keypressed = false;
-> @@ -812,7 +812,7 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
->  			dev->device_name, keycode, protocol, scancode);
->  		input_report_key(dev->input_dev, keycode, 1);
->  
-> -		led_trigger_event(led_feedback, LED_FULL);
-> +		led_trigger_event(led_feedback, 255);
->  	}
->  
->  	/*
-> diff --git a/drivers/media/rc/redrat3.c b/drivers/media/rc/redrat3.c
-> index cb22316b3f00..7c255f7d790c 100644
-> --- a/drivers/media/rc/redrat3.c
-> +++ b/drivers/media/rc/redrat3.c
-> @@ -855,7 +855,7 @@ static void redrat3_brightness_set(struct led_classdev *led_dev, enum
->  	struct redrat3_dev *rr3 = container_of(led_dev, struct redrat3_dev,
->  									led);
->  
-> -	if (brightness != LED_OFF && atomic_cmpxchg(&rr3->flash, 0, 1) == 0) {
-> +	if (brightness != 0 && atomic_cmpxchg(&rr3->flash, 0, 1) == 0) {
->  		int ret = usb_submit_urb(rr3->flash_urb, GFP_ATOMIC);
->  		if (ret != 0) {
->  			dev_dbg(rr3->dev, "%s: unexpected ret of %d\n",
-> @@ -919,7 +919,7 @@ static void redrat3_led_complete(struct urb *urb)
->  		break;
->  	}
->  
-> -	rr3->led.brightness = LED_OFF;
-> +	rr3->led.brightness = 0;
->  	atomic_dec(&rr3->flash);
->  }
->  
-> diff --git a/drivers/media/rc/ttusbir.c b/drivers/media/rc/ttusbir.c
-> index 629787d53ee1..a295112644c3 100644
-> --- a/drivers/media/rc/ttusbir.c
-> +++ b/drivers/media/rc/ttusbir.c
-> @@ -44,7 +44,7 @@ static enum led_brightness ttusbir_brightness_get(struct led_classdev *led_dev)
->  {
->  	struct ttusbir *tt = container_of(led_dev, struct ttusbir, led);
->  
-> -	return tt->led_on ? LED_FULL : LED_OFF;
-> +	return tt->led_on ? 255 : 0;
->  }
->  
->  static void ttusbir_set_led(struct ttusbir *tt)
-> @@ -70,7 +70,7 @@ static void ttusbir_brightness_set(struct led_classdev *led_dev, enum
->  {
->  	struct ttusbir *tt = container_of(led_dev, struct ttusbir, led);
->  
-> -	tt->led_on = brightness != LED_OFF;
-> +	tt->led_on = brightness != 0;
->  
->  	ttusbir_set_led(tt);
->  }
-> diff --git a/drivers/media/rc/winbond-cir.c b/drivers/media/rc/winbond-cir.c
-> index 94efb035d21b..d14e495a8641 100644
-> --- a/drivers/media/rc/winbond-cir.c
-> +++ b/drivers/media/rc/winbond-cir.c
-> @@ -265,7 +265,7 @@ wbcir_led_brightness_get(struct led_classdev *led_cdev)
->  	if (inb(data->ebase + WBCIR_REG_ECEIR_CTS) & WBCIR_LED_ENABLE)
->  		return LED_FULL;
-
-You missed this one.
-
-Thanks
-Sean
-
->  	else
-> -		return LED_OFF;
-> +		return 0;
->  }
->  
->  static void
-> @@ -277,7 +277,7 @@ wbcir_led_brightness_set(struct led_classdev *led_cdev,
->  					       led);
->  
->  	wbcir_set_bits(data->ebase + WBCIR_REG_ECEIR_CTS,
-> -		       brightness == LED_OFF ? 0x00 : WBCIR_LED_ENABLE,
-> +		       brightness == 0 ? 0x00 : WBCIR_LED_ENABLE,
->  		       WBCIR_LED_ENABLE);
->  }
->  
-> @@ -1167,7 +1167,7 @@ wbcir_remove(struct pnp_dev *device)
->  	led_classdev_unregister(&data->led);
->  
->  	/* This is ok since &data->led isn't actually used */
-> -	wbcir_led_brightness_set(&data->led, LED_OFF);
-> +	wbcir_led_brightness_set(&data->led, 0);
->  
->  	release_region(data->wbase, WAKEUP_IOMEM_LEN);
->  	release_region(data->ebase, EHFUNC_IOMEM_LEN);
-> -- 
-> 2.34.1
+>   drivers/media/usb/em28xx/em28xx-cards.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
+> index b451ce3cb169..4a46ef50baf9 100644
+> --- a/drivers/media/usb/em28xx/em28xx-cards.c
+> +++ b/drivers/media/usb/em28xx/em28xx-cards.c
+> @@ -4150,11 +4150,8 @@ static void em28xx_usb_disconnect(struct usb_interface *intf)
+>   
+>   	em28xx_close_extension(dev);
+>   
+> -	if (dev->dev_next) {
+> -		em28xx_close_extension(dev->dev_next);
+> +	if (dev->dev_next)
+>   		em28xx_release_resources(dev->dev_next);
+> -	}
+> -
+>   	em28xx_release_resources(dev);
+>   
+>   	if (dev->dev_next) {
