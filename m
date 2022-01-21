@@ -2,134 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3134F495EB4
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 12:58:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D3FA495EDF
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 13:06:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346898AbiAUL62 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jan 2022 06:58:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38166 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346500AbiAUL61 (ORCPT
+        id S1380248AbiAUMGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jan 2022 07:06:41 -0500
+Received: from mail-vk1-f177.google.com ([209.85.221.177]:40694 "EHLO
+        mail-vk1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1380308AbiAUMGc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jan 2022 06:58:27 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD2BC06173F;
-        Fri, 21 Jan 2022 03:58:26 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id C608D1F452FD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1642766305;
-        bh=sve0CVVBkT42bUYJR3+ftznqAKSkXJa/FBYt+PZbAAw=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=J+sk2ZTFVI1EG9Pgo8xj/GoOcEC+Zk981jYXrwz0V4a8/PPTgCVdBUw1bzubErSo8
-         Xfh+zOWj4NsU6sb/XWAi0q/tFkWul03sOgHfl7WUGd39TXyzIz8ZHShWy09iyK+0a/
-         xiiNaHIfpx7dgd2NvJ1wZZj4niROw1byWj5TbvQHk2Fy6RzjbF7C3raUcH1TZqIcKf
-         yLZVyWgLQzMoZhdX4hZTA+H6mRdPoUFWZdT6njhP/Ao3YW63dfoWnMPUj05DU3v22V
-         7/f2sDyDraE0b1+II1nfHrWMe/ZKiNpz0aruAxOK391XNUxbzQQy/nWNWTNhb1ZEDl
-         ZCDx5f3Ov8V0A==
-Subject: Re: [PATCH v11 2/3] dts: arm64: mt8183: add Mediatek MDP3 nodes
-To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Fri, 21 Jan 2022 07:06:32 -0500
+Received: by mail-vk1-f177.google.com with SMTP id m131so5418310vkm.7;
+        Fri, 21 Jan 2022 04:06:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qqRduQ6pwUJD4EpwWXKwPFy7ze+L3+n5fzGWCVuYmuA=;
+        b=zadp1B942ts+pMZ0SHxYHgQLaB8AmwSQvDDIwN2f6mgenyHwxcVGE0/4GrHDkkBXpu
+         S2grFfOiQJQFeXqZECXDmfREotELYfB85oWXWrQMzos71KdU5I8sACdMlT1bKkd3PuJY
+         x5h7BxIVTPMSZzlX0TMBYLQ5A2LpIPq2LXAfOw/44wByuHR4SmQWNkt9ZSvu3qB+sLK9
+         o9rYwXoSyLnOH8HFuJpUND8R5bcyhuJ2v49EP3f1MFc6LMmfEpeTDnI+hGwm7zCOICL2
+         zfALxG8iRl/Sr6ZZ+lLgti+/Cn8tJHTv2lEnFBMA6wQrfBB1YBB5Kl9pZc4dNYA1eEoz
+         dHdA==
+X-Gm-Message-State: AOAM532XGTA6chej/7unkLIg3wHviJ5eEpWApDJLqHxoNkIKzeAvnCV0
+        g+VOJc0Q7ciNGow9R7CZEUJE8UxbiO1p+A==
+X-Google-Smtp-Source: ABdhPJySuSXhU1uqTjc5OWSdzaHpeaGRIWpzV+aFOvDDnso2UKdcS4RXi/C/O3HngK/rDjAAqPkFoA==
+X-Received: by 2002:a05:6122:221d:: with SMTP id bb29mr1428075vkb.30.1642766791744;
+        Fri, 21 Jan 2022 04:06:31 -0800 (PST)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id 4sm950583vsv.22.2022.01.21.04.06.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Jan 2022 04:06:31 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id 2so16465737uax.10;
+        Fri, 21 Jan 2022 04:06:30 -0800 (PST)
+X-Received: by 2002:a67:e905:: with SMTP id c5mr1616195vso.68.1642766790659;
+ Fri, 21 Jan 2022 04:06:30 -0800 (PST)
+MIME-Version: 1.0
+References: <20220121010543.31385-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220121010543.31385-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdWnTxxXz-aBL10nSiQt67bm93yXHbSvFtrs3Yme9ZQcpg@mail.gmail.com> <CA+V-a8v1to4w0yw17DgbQic2nkX4s+W3ZxPEdp89=9SLxwvBMg@mail.gmail.com>
+In-Reply-To: <CA+V-a8v1to4w0yw17DgbQic2nkX4s+W3ZxPEdp89=9SLxwvBMg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 21 Jan 2022 13:06:19 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVJvTyEOy1LS_8QbeLbBRb1vOB_Fy-LX4gf0GXta0mn=Q@mail.gmail.com>
+Message-ID: <CAMuHMdVJvTyEOy1LS_8QbeLbBRb1vOB_Fy-LX4gf0GXta0mn=Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/4] media: dt-bindings: media: Document RZ/G2L
+ CSI-2 block
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
-        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        menghui.lin@mediatek.com, sj.huang@mediatek.com,
-        allen-kh.cheng@mediatek.com, randy.wu@mediatek.com,
-        jason-jh.lin@mediatek.com, roy-cw.yeh@mediatek.com,
-        river.cheng@mediatek.com, srv_heupstream@mediatek.com
-References: <20220105093758.6850-1-moudy.ho@mediatek.com>
- <20220105093758.6850-3-moudy.ho@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Message-ID: <d61ec481-8059-a897-504a-0125f88fad61@collabora.com>
-Date:   Fri, 21 Jan 2022 12:58:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <20220105093758.6850-3-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 05/01/22 10:37, Moudy Ho ha scritto:
-> Add device nodes for Media Data Path 3 (MDP3) modules.
-> 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
->   arch/arm64/boot/dts/mediatek/mt8183.dtsi | 108 ++++++++++++++++++++++-
->   1 file changed, 107 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> index ba4584faca5a..b872ef1ff6b3 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> @@ -1325,6 +1325,79 @@
->   			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
->   		};
->   
-> +		mdp3_rdma0: mdp3_rdma0@14001000 {
-> +			compatible = "mediatek,mt8183-mdp3",
-> +				     "mediatek,mt8183-mdp3-rdma0";
-> +			mediatek,scp = <&scp>;
-> +			mediatek,mdp3-comps = "mediatek,mt8183-mdp3-dl1",
-> +					      "mediatek,mt8183-mdp3-dl2",
-> +					      "mediatek,mt8183-mdp3-path1",
-> +					      "mediatek,mt8183-mdp3-path2",
-> +					      "mediatek,mt8183-mdp3-imgi",
-> +					      "mediatek,mt8183-mdp3-exto";
-> +			reg = <0 0x14001000 0 0x1000>,
-> +			      <0 0x14000000 0 0x1000>,
-> +			      <0 0x14005000 0 0x1000>,
-> +			      <0 0x14006000 0 0x1000>,
-> +			      <0 0x15020000 0 0x1000>;
-> +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x1000 0x1000>,
-> +						  <&gce SUBSYS_1400XXXX 0 0x1000>,
-> +						  <&gce SUBSYS_1400XXXX 0x5000 0x1000>,
-> +						  <&gce SUBSYS_1400XXXX 0x6000 0x1000>,
-> +						  <&gce SUBSYS_1502XXXX 0 0x1000>;
-> +			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
-> +			clocks = <&mmsys CLK_MM_MDP_RDMA0>,
-> +				 <&mmsys CLK_MM_MDP_RSZ1>,
-> +				 <&mmsys CLK_MM_MDP_DL_TXCK>,
-> +				 <&mmsys CLK_MM_MDP_DL_RX>,
-> +				 <&mmsys CLK_MM_IPU_DL_TXCK>,
-> +				 <&mmsys CLK_MM_IPU_DL_RX>;
-> +			iommus = <&iommu M4U_PORT_MDP_RDMA0>;
-> +			mediatek,mmsys = <&mmsys>;
-> +			mediatek,mm-mutex = <&mutex>;
-> +			mediatek,mailbox-gce = <&gce>;
-> +			mboxes = <&gce 20 CMDQ_THR_PRIO_LOWEST 0>,
-> +				 <&gce 21 CMDQ_THR_PRIO_LOWEST>,
-> +				 <&gce 22 CMDQ_THR_PRIO_LOWEST>,
-> +				 <&gce 23 CMDQ_THR_PRIO_LOWEST>;
+Hi Prabhakar,
 
-Hello Moudy,
-the mboxes for gce 21, 22, 23 are missing the third cell. Please fix.
+On Fri, Jan 21, 2022 at 12:52 PM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Fri, Jan 21, 2022 at 9:26 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Fri, Jan 21, 2022 at 2:06 AM Lad Prabhakar
+> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > Document the CSI-2 block which is part of CRU found in Renesas
+> > > RZ/G2L SoC.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> > > ---
+> > > Hi Geert/All,
+> > >
+> > > vclk and pclk clocks are shared with CRU both CSI and CRU driver are using
+> > > pm_runtime. pclk clock is necessary for register access where as vclk clock
+> > > is only used for calculations. So would you suggest passing vclk as part of
+> >
+> > What do you mean by "calculations"?
+> To set the CSI2nMCT2 register bits (FRRSKW/FRRCLK), vclk clock rate is used.
 
-Regards,
-Angelo
+Ah, clock rate calculations.  I (mis)understood that vclk clocked
+a hardware calculation block, and was wondering what kind of heavy
+calculations were involved ;-)
 
-> +			gce-subsys = <&gce 0x14000000 SUBSYS_1400XXXX>,
-> +				     <&gce 0x14010000 SUBSYS_1401XXXX>,
-> +				     <&gce 0x14020000 SUBSYS_1402XXXX>,
-> +				     <&gce 0x15020000 SUBSYS_1502XXXX>;
-> +		};
-> +
+> > The bindings say this is the main clock?
+> >
+> That is because the RZG2L_clock_list_r02_02.xlsx mentions it as the main clock.
+>
+> > > clocks (as currently implemented) or pass the vclk clock rate as a dt property.
+> >
+> > Please do not specify clock rates in DT, but always pass clock
+> > specifiers instead.
+> > The clock subsystem handles sharing of clocks just fine.
+> >
+> Agreed.
 
+So doing clk_get_rate() is fine.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
