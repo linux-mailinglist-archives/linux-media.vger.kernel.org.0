@@ -2,27 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD85D496836
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jan 2022 00:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D179496839
+	for <lists+linux-media@lfdr.de>; Sat, 22 Jan 2022 00:30:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbiAUX2I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jan 2022 18:28:08 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55754 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbiAUX2H (ORCPT
+        id S229665AbiAUXaj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jan 2022 18:30:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229502AbiAUXai (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jan 2022 18:28:07 -0500
+        Fri, 21 Jan 2022 18:30:38 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB910C06173B;
+        Fri, 21 Jan 2022 15:30:37 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89CB3E51;
-        Sat, 22 Jan 2022 00:28:05 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEDB2E51;
+        Sat, 22 Jan 2022 00:30:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642807685;
-        bh=WBsVLZLHVoz+Srdhcn8MwEJ8reYksppYcP6TQmVP9AA=;
+        s=mail; t=1642807834;
+        bh=KQ0Hr6Z8amphyQBRIxQGNR2EMiK2F+TIpQNXyIvXSnU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=r8xmmdsCQ7Y7+7qNuDh5sUuslgpi9UD/ovQS3MS1y1wRuY2/9Z3DNfDBVvi5qeibW
-         GLZGLMUeEesIAQFrNWFTAkNBoY9WyhMg5NT8K+OkGHrNLupOoAp7CeH0ToKPTL6dpC
-         x2T3Kn5fXCcO4yJ2msyU+1gxm7JHSUBn8ltTrjds=
-Date:   Sat, 22 Jan 2022 01:27:49 +0200
+        b=JIimzzy/LjjhsE3p8veM0Sm4rXiTtpXNGJLkP1CAs50k152YuJNikpAe1c3lwISU+
+         JFi3wApfsc1aACQDKyg0HF2Xo179226KiFpwY7XCmcsiZtFbJzRvrQFxxj0Ovf0QqD
+         I3z3PxeANtDBd75h0bAWq5UupifCqpAvsM6MN+eM=
+Date:   Sat, 22 Jan 2022 01:30:17 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
 Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
@@ -31,16 +34,14 @@ Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
         linux-rpi-kernel@lists.infradead.org, lukasz@jany.st,
         mchehab@kernel.org, naush@raspberrypi.com, robh@kernel.org,
         tomi.valkeinen@ideasonboard.com
-Subject: Re: [RFC PATCH v2 3/7] media: dt-bindings: media: Add bindings for
- bcm2835-unicam
-Message-ID: <YetBdVY57T3QrUNa@pendragon.ideasonboard.com>
+Subject: Re: [RFC PATCH v2 7/7] media: bcm283x: Include the imx219 node
+Message-ID: <YetCCUFd1F0yTJgU@pendragon.ideasonboard.com>
 References: <20220121081810.155500-1-jeanmichel.hautbois@ideasonboard.com>
- <20220121081810.155500-4-jeanmichel.hautbois@ideasonboard.com>
+ <20220121081810.155500-8-jeanmichel.hautbois@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220121081810.155500-4-jeanmichel.hautbois@ideasonboard.com>
+In-Reply-To: <20220121081810.155500-8-jeanmichel.hautbois@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -49,196 +50,160 @@ Hi Jean-Michel,
 
 Thank you for the patch.
 
-On Fri, Jan 21, 2022 at 09:18:06AM +0100, Jean-Michel Hautbois wrote:
-> Introduce the dt-bindinds documentation for bcm2835 CCP2/CSI2 camera
+On Fri, Jan 21, 2022 at 09:18:10AM +0100, Jean-Michel Hautbois wrote:
+> Configure the csi1 endpoint, add the imx219 node and connect it through
+> the i2c mux.
 
-s/bindinds/bindings/
+This is not meant to be upstreamed, is it ? Please say so very loudly in
+the commit message.
 
-I'd mention "Unicam" somewhere here.
-
-> interface. Also add a MAINTAINERS entry for it.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
 > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
 > ---
-> Dave: I assumed you were the maintainer for this file, as I based it on the
-> bcm2835-unicam.txt file. Are  you happy to be added directly as the
-> maintainer, or should this be specified as "Raspberry Pi Kernel
-> Maintenance <kernel-list@raspberrypi.com>"
-> - in v2: multiple corrections to pass the bot checking as Rob kindly
->   told me.
-> ---
->  .../bindings/media/brcm,bcm2835-unicam.yaml   | 103 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 109 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+>  MAINTAINERS                               |   1 +
+>  arch/arm/boot/dts/bcm2711-rpi-4-b.dts     |   1 +
+>  arch/arm/boot/dts/bcm283x-rpi-imx219.dtsi | 102 ++++++++++++++++++++++
+>  3 files changed, 104 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/bcm283x-rpi-imx219.dtsi
 > 
-> diff --git a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> new file mode 100644
-> index 000000000000..1427514142cf
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> @@ -0,0 +1,103 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Broadcom BCM283x Camera Interface (Unicam)
-> +
-> +maintainers:
-> +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
-> +
-> +description: |-
-> +  The Unicam block on BCM283x SoCs is the receiver for either
-> +  CSI-2 or CCP2 data from image sensors or similar devices.
-> +
-> +  The main platform using this SoC is the Raspberry Pi family of boards.
-> +  On the Pi the VideoCore firmware can also control this hardware block,
-> +  and driving it from two different processors will cause issues.
-> +  To avoid this, the firmware checks the device tree configuration
-> +  during boot. If it finds device tree nodes called csi0 or csi1 then
-> +  it will stop the firmware accessing the block, and it can then
-> +  safely be used via the device tree binding.
-
-As mentioned in the review of the DT integration, the nodes should
-ideally be called just "csi", not "csi0" and "csi1" (maybe Rob could
-confirm this ?). Dave, is there a way the firmware could be updated to
-also hand over control of the Unicam instances to Linux when a "csi"
-node is found, not just "csi0" or "csi1" ?
-
-Given that the node names are significant, they should be enforced in
-the YAML schema.
-
-> +
-> +properties:
-> +  compatible:
-> +    const: brcm,bcm2835-unicam
-> +
-> +  reg:
-> +    description:
-> +      physical base address and length of the register sets for the device.
-
-This can be dropped.
-
-> +    maxItems: 1
-
-There are two items in the example below. How does this validate ?
-
-> +
-> +  interrupts:
-> +    description: the IRQ line for this Unicam instance.
-
-This can be dropped.
-
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: |-
-> +      list of clock specifiers, corresponding to entries in clock-names
-> +      property.
-
-  clocks:
-    items:
-      - description: The clock for ...
-      - description: The clock for ...
-
-(with the two descriptions matching the LP and VPU clocks, I don't know
-what they are).
-
-> +
-> +  clock-names:
-> +    items:
-> +      - const: lp
-> +      - const: vpu
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - port
-> +
-> +additionalProperties: False
-> +
-> +examples:
-> +  - |
-> +    csi1: csi1@7e801000 {
-> +        compatible = "brcm,bcm2835-unicam";
-> +        reg = <0x7e801000 0x800>,
-> +              <0x7e802004 0x4>;
-> +        interrupts = <2 7>;
-
-Let's use the Pi 4 device tree as an example, as that's what we're
-upstreaming first.
-
-> +        clocks = <&clocks BCM2835_CLOCK_CAM1>,
-
-This will fail to compile without a proper #include, did you get this to
-pass validation ?
-
-> +                 <&firmware_clocks 4>;
-> +        clock-names = "lp", "vpu";
-> +        port {
-> +                csi1_ep: endpoint {
-> +                        remote-endpoint = <&tc358743_0>;
-> +                        data-lanes = <1 2>;
-> +                };
-> +        };
-> +    };
-> +
-> +    i2c0: i2c@7e205000 {
-> +        tc358743: csi-hdmi-bridge@0f {
-> +            compatible = "toshiba,tc358743";
-> +            reg = <0x0f>;
-> +            clocks = <&tc358743_clk>;
-> +            clock-names = "refclk";
-> +
-> +            tc358743_clk: bridge-clk {
-> +                    compatible = "fixed-clock";
-> +                    #clock-cells = <0>;
-> +                    clock-frequency = <27000000>;
-> +            };
-> +
-> +            port {
-> +                    tc358743_0: endpoint {
-> +                            remote-endpoint = <&csi1_ep>;
-> +                            clock-lanes = <0>;
-> +                            data-lanes = <1 2>;
-> +                            clock-noncontinuous;
-> +                            link-frequencies =
-> +                                /bits/ 64 <297000000>;
-> +                    };
-> +            };
-> +        };
-> +    };
-
-I'd drop this node completely.
-
-> +...
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 33f75892f98e..07f238fd5ff9 100644
+> index b17bb533e007..56544ac98d69 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -3679,6 +3679,12 @@ F:	Documentation/media/v4l-drivers/bcm2835-isp.rst
->  F:	drivers/staging/vc04_services/bcm2835-isp
->  F:	include/uapi/linux/bcm2835-isp.h
+> @@ -3684,6 +3684,7 @@ M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> +F:	arch/arm/boot/dts/bcm283x*
+>  F:	drivers/media/platform/bcm2835/
 >  
-> +BROADCOM BCM2835 CAMERA DRIVER
-> +M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> +
 >  BROADCOM BCM47XX MIPS ARCHITECTURE
->  M:	Hauke Mehrtens <hauke@hauke-m.de>
->  M:	Rafał Miłecki <zajec5@gmail.com>
+> diff --git a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
+> index 4432412044de..f7625b70fe57 100644
+> --- a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
+> +++ b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
+> @@ -4,6 +4,7 @@
+>  #include "bcm2711-rpi.dtsi"
+>  #include "bcm283x-rpi-usb-peripheral.dtsi"
+>  #include "bcm283x-rpi-wifi-bt.dtsi"
+> +#include "bcm283x-rpi-imx219.dtsi"
+
+Let's use an overlay instead.
+
+>  
+>  / {
+>  	compatible = "raspberrypi,4-model-b", "brcm,bcm2711";
+> diff --git a/arch/arm/boot/dts/bcm283x-rpi-imx219.dtsi b/arch/arm/boot/dts/bcm283x-rpi-imx219.dtsi
+> new file mode 100644
+> index 000000000000..f2c6a85fd731
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/bcm283x-rpi-imx219.dtsi
+> @@ -0,0 +1,102 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include <dt-bindings/clock/bcm2835.h>
+> +
+> +/ {
+> +	compatible = "brcm,bcm2835";
+> +
+> +	imx219_vdig: fixedregulator@1 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "imx219_vdig";
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
+> +	};
+> +
+> +	imx219_vddl: fixedregulator@2 {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "imx219_vddl";
+> +		regulator-min-microvolt = <1200000>;
+> +		regulator-max-microvolt = <1200000>;
+> +	};
+> +
+> +	imx219_clk: imx219_clk {
+> +		#clock-cells = <0>;
+> +		compatible = "fixed-clock";
+> +		clock-frequency = <24000000>;
+> +		clock-output-names = "24MHz-clock";
+> +	};
+> +
+> +	cam1_reg: cam1_reg {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "imx219_vana";
+> +		enable-active-high;
+> +		status = "okay";
+> +		gpio = <&expgpio 5 GPIO_ACTIVE_HIGH>;
+> +	};
+
+This regulator belongs to the board dtsi. Same for the I2C mux below
+(but not the imx219 of course).
+
+> +
+> +	i2c0mux {
+> +		compatible = "i2c-mux-pinctrl";
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		i2c-parent = <&i2c0>;
+> +
+> +		pinctrl-names = "i2c0", "i2c_csi_dsi";
+> +		pinctrl-0 = <&i2c0_gpio0>;
+> +		pinctrl-1 = <&i2c0_gpio44>;
+> +
+> +		i2c@0 {
+> +			reg = <0>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +		};
+> +
+> +		i2c@1 {
+> +			reg = <1>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			imx219: sensor@10 {
+> +				compatible = "sony,imx219";
+> +				reg = <0x10>;
+> +				status = "okay";
+> +
+> +				clocks = <&imx219_clk>;
+> +				clock-names = "xclk";
+> +
+> +				VANA-supply = <&cam1_reg>;   /* 2.8v */
+> +				VDIG-supply = <&imx219_vdig>;   /* 1.8v */
+> +				VDDL-supply = <&imx219_vddl>;   /* 1.2v */
+> +
+> +				rotation = <0>;
+> +				orientation = <0>;
+> +
+> +				port {
+> +					imx219_0: endpoint {
+> +						remote-endpoint = <&csi1_ep>;
+> +						clock-lanes = <0>;
+> +						data-lanes = <1 2>;
+> +						clock-noncontinuous;
+> +						link-frequencies = /bits/ 64 <456000000>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&csi1 {
+> +	status="okay";
+> +	num-data-lanes = <2>;
+> +	port {
+> +		csi1_ep: endpoint {
+> +			remote-endpoint = <&imx219_0>;
+> +			data-lanes = <1 2>;
+> +			clock-lanes = <0>;
+> +		};
+> +	};
+> +};
+> +
+> +&i2c0 {
+> +	/delete-property/ pinctrl-names;
+> +	/delete-property/ pinctrl-0;
+> +};
+> +
 
 -- 
 Regards,
