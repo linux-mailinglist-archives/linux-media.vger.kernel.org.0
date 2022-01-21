@@ -2,168 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E16A9495C74
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 10:00:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B13D495CC3
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 10:23:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232965AbiAUJAm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jan 2022 04:00:42 -0500
-Received: from mga06.intel.com ([134.134.136.31]:3233 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232303AbiAUJAm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jan 2022 04:00:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642755642; x=1674291642;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=21CMLn71YOKj9m6GaWOC+42pZ6Zz+kQ90yryYj+k9Ic=;
-  b=gZWvLpyInBPT2LA0JpgLBufQjJxEq641SIR4WO5IFG2XqzfiFPSRLHhN
-   4DWqvBvZYTDBaur1B+a8Y5MziZlQ7GvcSFWgbBalGMKlUjx1Fivz+HdSB
-   b5QMm2gNgA6yIuB2poagzpgAvQhZkmM4gACj5XVpTjtAUQHAfnfJFaqpC
-   pbEcLlMKOZB/J5ap5KK8bmWSbXX6gF/nkWGd5qfdGaKPsAOmBtxHDEBW7
-   vw+NWYfG5r5LmWkpdsuibY2LhlfNDAUYtUYVRYT01F9U9RjqV0DjcAyOq
-   +Tprysvy8LRoTo+3MOht87Qsh4BzSbiG1vLv2C4u57L1eEfYkbBq8PZV4
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="306329791"
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; 
-   d="scan'208";a="306329791"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2022 01:00:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; 
-   d="scan'208";a="531327131"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Jan 2022 01:00:40 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nApmh-000F8X-Jo; Fri, 21 Jan 2022 09:00:39 +0000
-Date:   Fri, 21 Jan 2022 16:59:50 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org
-Subject: Re: [PATCH 1/2] media: rc-core: rename ir_raw_event_reset to
- ir_raw_event_overflow
-Message-ID: <202201211605.1ccb0HNg-lkp@intel.com>
-References: <20220120161614.328202-1-sean@mess.org>
+        id S1379732AbiAUJXA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jan 2022 04:23:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59722 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238087AbiAUJW7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 Jan 2022 04:22:59 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 853D3C061574;
+        Fri, 21 Jan 2022 01:22:59 -0800 (PST)
+Received: from [IPv6:2a00:c281:14a3:8100:790d:f8e9:248f:920d] (unknown [IPv6:2a00:c281:14a3:8100:790d:f8e9:248f:920d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D983E1F45A16;
+        Fri, 21 Jan 2022 09:22:55 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1642756977;
+        bh=0TIsGlnLKMUom5ggVD25li7Cq1Lj4YN0nlzLub4RZbg=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=nVulpkLIhGN9sTcIsd5KLT+Adyk/QC0TpLFvujsCBEcTYb8KUIC45depU9jw339/d
+         wopGCXMlnuhvdRNgxyonIAoyUDeY09/DkB8g0r1n/bLIs71L0cIoA/PQo9n+y26w6w
+         9CduqbwQ2xCgYMyN8K+RNlXIPAs1ae9uEdTVwLnxYW/NY6+PKkLfJG2sIfPSQRJi+X
+         5orh1aDF87gohud81DWvXNHaWI8dJzrIAKuMloNitj2ZR+0JPv8mR2TYwSE6gMAYyZ
+         m9swsXbFw57OFW78PbnfT/DG+cPF+BG1X08OUyV+UFShBSEXwEKxtgAT/9aHabUJx3
+         dICyRaWXR01EQ==
+Subject: Re: [PATCH v4 1/6] staging: media: wave5: Add vpuapi layer
+To:     Daniel Palmer <daniel@0x0f.com>
+Cc:     "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        Robert Beckett <bob.beckett@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        open list <linux-kernel@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        kiril.bicevski@collabora.com,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
+        olivier.crete@collabora.com, dan.carpenter@oracle.com,
+        Randy Dunlap <rdunlap@infradead.org>
+References: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
+ <20211201175613.13710-2-dafna.hirschfeld@collabora.com>
+ <CAFr9PX=6Pd1Rg=wJvpuX6WX63L=iAnwPA24e59An3Kac5f_vzA@mail.gmail.com>
+ <cdd9b485-364f-c6bd-776f-a0ca2d260762@collabora.com>
+ <e9905774-a994-6311-7b53-b40588d4f6ec@collabora.com>
+ <CAFr9PXnnGc1TUQBeW8JW9qGewhU99gmRbvzZEsZaDmr12jMg0A@mail.gmail.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <25e7d6db-1cff-6fd5-1071-1f21c5ff7a8a@collabora.com>
+Date:   Fri, 21 Jan 2022 11:22:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220120161614.328202-1-sean@mess.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAFr9PXnnGc1TUQBeW8JW9qGewhU99gmRbvzZEsZaDmr12jMg0A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sean,
-
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on next-20220121]
-[cannot apply to sunxi/sunxi/for-next v5.16]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Sean-Young/media-rc-core-rename-ir_raw_event_reset-to-ir_raw_event_overflow/20220121-001937
-base:   git://linuxtv.org/media_tree.git master
-config: hexagon-randconfig-r041-20220120 (https://download.01.org/0day-ci/archive/20220121/202201211605.1ccb0HNg-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f7b7138a62648f4019c55e4671682af1f851f295)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/5b0115b915832b54ebe085c923d73209b1abb364
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Sean-Young/media-rc-core-rename-ir_raw_event_reset-to-ir_raw_event_overflow/20220121-001937
-        git checkout 5b0115b915832b54ebe085c923d73209b1abb364
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/rc/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/media/rc/mtk-cir.c:220:2: error: implicit declaration of function 'ir_raw_event_reset' [-Werror,-Wimplicit-function-declaration]
-           ir_raw_event_reset(ir->rc);
-           ^
-   drivers/media/rc/mtk-cir.c:220:2: note: did you mean 'ir_raw_event_store'?
-   include/media/rc-core.h:317:5: note: 'ir_raw_event_store' declared here
-   int ir_raw_event_store(struct rc_dev *dev, struct ir_raw_event *ev);
-       ^
-   1 error generated.
 
 
-vim +/ir_raw_event_reset +220 drivers/media/rc/mtk-cir.c
+On 14.12.21 12:20, Daniel Palmer wrote:
+> Hi Dafna,
+> 
+> On Tue, 14 Dec 2021 at 16:48, Dafna Hirschfeld
+> <dafna.hirschfeld@collabora.com> wrote:
+>>>>> +static int wave5_wait_bus_busy(struct vpu_device *vpu_dev, int timeout, unsigned int addr)
+>>>>> +{
+>>>>> +       u32 gdi_status_check_value = 0x3f;
+>>>>> +       u32 data;
+>>>>> +
+>>>>> +       if (vpu_dev->product_code == WAVE521C_CODE ||
+>>>>> +           vpu_dev->product_code == WAVE521_CODE ||
+>>>>> +        vpu_dev->product_code == WAVE521E1_CODE)
+>>>>> +               gdi_status_check_value = 0x00ff1f3f;
+>>>>> +
+>>>>> +       return read_poll_timeout(wave5_vdi_read_register, data, data == gdi_status_check_value,
+>>>>> +                                0, timeout * 1000, false, vpu_dev, addr);
+>>>>> +}
+>>>>> +
+>>>>
+>>>> This looks like it should be s/wave5_vdi_read_register/wave5_read_register/.
+>>>> For wave511 addr passed in here is 0x8e14 so well outside of what is
+>>>> directly accessible.
+>>>
+>>> Hi, I didn't understand this explanation. I see that
+>>> wave5_read_register eventually calls 'wave5_vdi_read_register'.
+>>> Could you please explain in more detail why you think
+>>> calling wave5_vdi_read_register is wrong?
+> 
+> Mainly because the address accessed 0x8e14 but on my machine the
+> directly accessible registers end at 0x800.
+> 
+>> hi, I see know that those backbone address are indeed not read and written directly but
+>> the address should be first written to a regsiter W5_VPU_FIO_CTRL_ADDR,
+>> and then the content is returned from W5_VPU_FIO_DATA.
+> 
+> I think so. But as I can't get this driver to fully work yet I can
+> only say I think so.
 
-6691e7b9a57c24 Sean Wang  2017-01-13  202  
-6691e7b9a57c24 Sean Wang  2017-01-13  203  static irqreturn_t mtk_ir_irq(int irqno, void *dev_id)
-6691e7b9a57c24 Sean Wang  2017-01-13  204  {
-6691e7b9a57c24 Sean Wang  2017-01-13  205  	struct mtk_ir *ir = dev_id;
-6691e7b9a57c24 Sean Wang  2017-01-13  206  	u8  wid = 0;
-6691e7b9a57c24 Sean Wang  2017-01-13  207  	u32 i, j, val;
-183e19f5b9ee18 Sean Young 2018-08-21  208  	struct ir_raw_event rawir = {};
-6691e7b9a57c24 Sean Wang  2017-01-13  209  
-6691e7b9a57c24 Sean Wang  2017-01-13  210  	/*
-6691e7b9a57c24 Sean Wang  2017-01-13  211  	 * Reset decoder state machine explicitly is required
-6691e7b9a57c24 Sean Wang  2017-01-13  212  	 * because 1) the longest duration for space MTK IR hardware
-6691e7b9a57c24 Sean Wang  2017-01-13  213  	 * could record is not safely long. e.g  12ms if rx resolution
-6691e7b9a57c24 Sean Wang  2017-01-13  214  	 * is 46us by default. There is still the risk to satisfying
-6691e7b9a57c24 Sean Wang  2017-01-13  215  	 * every decoder to reset themselves through long enough
-6691e7b9a57c24 Sean Wang  2017-01-13  216  	 * trailing spaces and 2) the IRQ handler guarantees that
-6691e7b9a57c24 Sean Wang  2017-01-13  217  	 * start of IR message is always contained in and starting
-50c3c1ba171f3f Sean Wang  2017-06-30  218  	 * from register mtk_chkdata_reg(ir, i).
-6691e7b9a57c24 Sean Wang  2017-01-13  219  	 */
-6691e7b9a57c24 Sean Wang  2017-01-13 @220  	ir_raw_event_reset(ir->rc);
-6691e7b9a57c24 Sean Wang  2017-01-13  221  
-6691e7b9a57c24 Sean Wang  2017-01-13  222  	/* First message must be pulse */
-6691e7b9a57c24 Sean Wang  2017-01-13  223  	rawir.pulse = false;
-6691e7b9a57c24 Sean Wang  2017-01-13  224  
-6691e7b9a57c24 Sean Wang  2017-01-13  225  	/* Handle all pulse and space IR controller captures */
-6691e7b9a57c24 Sean Wang  2017-01-13  226  	for (i = 0 ; i < MTK_CHKDATA_SZ ; i++) {
-50c3c1ba171f3f Sean Wang  2017-06-30  227  		val = mtk_r32(ir, mtk_chkdata_reg(ir, i));
-6691e7b9a57c24 Sean Wang  2017-01-13  228  		dev_dbg(ir->dev, "@reg%d=0x%08x\n", i, val);
-6691e7b9a57c24 Sean Wang  2017-01-13  229  
-6691e7b9a57c24 Sean Wang  2017-01-13  230  		for (j = 0 ; j < 4 ; j++) {
-6691e7b9a57c24 Sean Wang  2017-01-13  231  			wid = (val & (MTK_WIDTH_MASK << j * 8)) >> j * 8;
-6691e7b9a57c24 Sean Wang  2017-01-13  232  			rawir.pulse = !rawir.pulse;
-6691e7b9a57c24 Sean Wang  2017-01-13  233  			rawir.duration = wid * (MTK_IR_SAMPLE + 1);
-6691e7b9a57c24 Sean Wang  2017-01-13  234  			ir_raw_event_store_with_filter(ir->rc, &rawir);
-6691e7b9a57c24 Sean Wang  2017-01-13  235  		}
-6691e7b9a57c24 Sean Wang  2017-01-13  236  	}
-6691e7b9a57c24 Sean Wang  2017-01-13  237  
-6691e7b9a57c24 Sean Wang  2017-01-13  238  	/*
-6691e7b9a57c24 Sean Wang  2017-01-13  239  	 * The maximum number of edges the IR controller can
-6691e7b9a57c24 Sean Wang  2017-01-13  240  	 * hold is MTK_CHKDATA_SZ * 4. So if received IR messages
-6691e7b9a57c24 Sean Wang  2017-01-13  241  	 * is over the limit, the last incomplete IR message would
-6691e7b9a57c24 Sean Wang  2017-01-13  242  	 * be appended trailing space and still would be sent into
-6691e7b9a57c24 Sean Wang  2017-01-13  243  	 * ir-rc-raw to decode. That helps it is possible that it
-6691e7b9a57c24 Sean Wang  2017-01-13  244  	 * has enough information to decode a scancode even if the
-6691e7b9a57c24 Sean Wang  2017-01-13  245  	 * trailing end of the message is missing.
-6691e7b9a57c24 Sean Wang  2017-01-13  246  	 */
-6691e7b9a57c24 Sean Wang  2017-01-13  247  	if (!MTK_IR_END(wid, rawir.pulse)) {
-6691e7b9a57c24 Sean Wang  2017-01-13  248  		rawir.pulse = false;
-6691e7b9a57c24 Sean Wang  2017-01-13  249  		rawir.duration = MTK_MAX_SAMPLES * (MTK_IR_SAMPLE + 1);
-6691e7b9a57c24 Sean Wang  2017-01-13  250  		ir_raw_event_store_with_filter(ir->rc, &rawir);
-6691e7b9a57c24 Sean Wang  2017-01-13  251  	}
-6691e7b9a57c24 Sean Wang  2017-01-13  252  
-6691e7b9a57c24 Sean Wang  2017-01-13  253  	ir_raw_event_handle(ir->rc);
-6691e7b9a57c24 Sean Wang  2017-01-13  254  
-6691e7b9a57c24 Sean Wang  2017-01-13  255  	/*
-6691e7b9a57c24 Sean Wang  2017-01-13  256  	 * Restart controller for the next receive that would
-6691e7b9a57c24 Sean Wang  2017-01-13  257  	 * clear up all CHKDATA registers
-6691e7b9a57c24 Sean Wang  2017-01-13  258  	 */
-50c3c1ba171f3f Sean Wang  2017-06-30  259  	mtk_w32_mask(ir, 0x1, MTK_IRCLR, ir->data->regs[MTK_IRCLR_REG]);
-6691e7b9a57c24 Sean Wang  2017-01-13  260  
-6691e7b9a57c24 Sean Wang  2017-01-13  261  	/* Clear interrupt status */
-50c3c1ba171f3f Sean Wang  2017-06-30  262  	mtk_w32_mask(ir, 0x1, MTK_IRINT_CLR,
-50c3c1ba171f3f Sean Wang  2017-06-30  263  		     ir->data->regs[MTK_IRINT_CLR_REG]);
-6691e7b9a57c24 Sean Wang  2017-01-13  264  
-6691e7b9a57c24 Sean Wang  2017-01-13  265  	return IRQ_HANDLED;
-6691e7b9a57c24 Sean Wang  2017-01-13  266  }
-6691e7b9a57c24 Sean Wang  2017-01-13  267  
+Hi,
+Thanks a lot for helping me with compiling the kernel and booting the smart display 'ido-sbc2d70-v1b'.
+I am now at a point where the probe of the driver on that board fails with:
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+[   30.710385] write --> 0x000000f0:0x00000001
+[   30.727445] wave5_vpu_reset:1594
+[   30.730712] write --> 0x00000070:0x00000000
+[   30.734944] wave5_vpu_reset:1652
+[   30.738186] write --> 0x00000024:0x00000007
+[   30.742382] write --> 0x00000020:0x00018e10
+[   40.746598] wave5_vpu_reset:1656
+[   40.749849] CPU: 1 PID: 1 Comm: sh Not tainted 5.16.0-11196-gd076cd89f795-dirty #14
+[   40.757531] Hardware name: MStar/Sigmastar Armv7 (Device Tree)
+[   40.763389]  unwind_backtrace from show_stack+0x10/0x14
+[   40.768647]  show_stack from dump_stack_lvl+0x40/0x4c
+[   40.773720]  dump_stack_lvl from wave5_wait_bus_busy+0x10/0x44
+[   40.779579]  wave5_wait_bus_busy from wave5_vpu_reset+0x28c/0x584
+[   40.785696]  wave5_vpu_reset from wave5_vpu_init_with_bitcode+0x58/0xe8
+[   40.792337]  wave5_vpu_init_with_bitcode from wave5_vpu_probe+0x2b0/0x560
+[   40.799153]  wave5_vpu_probe from platform_probe+0x5c/0xb8
+[   40.804663]  platform_probe from really_probe+0xc0/0x2fc
+[   40.809998]  really_probe from __driver_probe_device+0x84/0xe4
+[   40.815854]  __driver_probe_device from device_driver_attach+0x24/0x50
+[   40.822407]  device_driver_attach from bind_store+0x80/0xec
+[   40.828002]  bind_store from kernfs_fop_write_iter+0x118/0x1b4
+[   40.833860]  kernfs_fop_write_iter from vfs_write+0x308/0x3fc
+[   40.839631]  vfs_write from ksys_write+0xa4/0xd4
+[   40.844268]  ksys_write from ret_fast_syscall+0x0/0x54
+[   40.849427] Exception stack(0xc189dfa8 to 0xc189dff0)
+[   40.854497] dfa0:                   004751a8 00000015 00000001 004751a8 00000015 00000001
+[   40.862700] dfc0: 004751a8 00000015 00000001 00000004 00000015 bea7eb50 00460a6d 004745e4
+[   40.870900] dfe0: 00000000 bea7e924 0045d43f b6f71cf6
+[   40.875987] write --> 0x00000020:0x00008e14
+[   50.880186] write --> 0x00000024:0x00000000
+[   50.884397] write --> 0x00000020:0x00018e10
+[   60.888598] vdec 1f344800.video-codec: wave5_vpu_reset failed -16
+[   60.894726] vdec 1f344800.video-codec: vpu_init_with_bitcode fail
+[   60.900889] vcc_5v: disabling
+[   60.903890] vcc_sd: disabling
+[   60.904026] vdec 1f344800.video-codec: failed to wave5_vpu_load_firmware: -16
+[   60.906869] vcc_4g: disabling
+[   60.914729] vdec: probe of 1f344800.video-codec failed with error -16
+
+Were you able to reach a point where the probe succeed ?
+Could you write in more detail to which point were you able to make the driver work?
+Does the driver code in https://github.com/linux-chenxing/linux/tree/mstar_v5_17_rebase includes a fix to the bug you mentioned above?
+
+Thanks,
+Dafna
+
+> 
+> Cheers,
+> 
+> Daniel
+> 
