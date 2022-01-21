@@ -2,127 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0FF7495DF2
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 11:51:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D892D495E10
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 12:01:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234812AbiAUKvo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jan 2022 05:51:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51344 "EHLO
+        id S1344686AbiAULBD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jan 2022 06:01:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234802AbiAUKvl (ORCPT
+        with ESMTP id S237704AbiAULBC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jan 2022 05:51:41 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5758C061574;
-        Fri, 21 Jan 2022 02:51:40 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id n8so17134908wmk.3;
-        Fri, 21 Jan 2022 02:51:40 -0800 (PST)
+        Fri, 21 Jan 2022 06:01:02 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB10C061574
+        for <linux-media@vger.kernel.org>; Fri, 21 Jan 2022 03:01:02 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id f202-20020a1c1fd3000000b0034dd403f4fbso18217858wmf.1
+        for <linux-media@vger.kernel.org>; Fri, 21 Jan 2022 03:01:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7spPZrufXw4sf1roZSdir53an3GNlXPUdV7xMDTORmE=;
-        b=WX7I0gy8D0IJYOXvF2aChYR+3mR4ETAnJQlro1TUA8aIXGOc/YiHizXLlJ7fgWst/E
-         6UbeqfgaahUdKD5E4I2i/uGZVzShz7xeVDqbM6YOvKd41kg3JGS7UNq6tzGSR6fLCAS0
-         s+ar5K4bvD0r41ph1RlysUCBQmFxUItycWh/LYomwVf7pJV6SJWhI2tiQBsJ7up3n30z
-         Ctsacxv+TuK6a3cZjRbQoegvV7y0tl3oUOv7Ysm7iIi0oiFDo+IR0JiH//fb/LVcIXpK
-         Qyy8YWCyHZE+EXlnHOEv9z5thzOA2KlCViyFwklm0qnTRqOxgBUSLtrifpzNty+KFsaw
-         hSaQ==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=lLGSMeSTcWsRfSp17dIUaYIF6uHiKPgnKaoYj+UhetE=;
+        b=Da5Q19RT9sKauGiAg5uihyv17alwbZ54wgYoty71gfOKsgSjcvl1QHE0j4h/QF3sSE
+         LQdHA++y5BYhw2crsgOCTleptiWVqyIPKhQ67FssaZ/1omNhKwc82xeH6Wf/sxMQZvjw
+         aZJ/hYUXAPRkLnb+dTyQbSOvyzJKWSrLUeFtpZeZqJmHe7yew+23KbEnRE19L+2LVxFK
+         NYCgwz6eRJPUP3Hnz+DyqNlRKXjJ+G2H9MQOliWMo3D90paFHLfBltJX8UrYNERUKH8x
+         tDTHsqQgQJem97kuDbPtDgtsyYstcE5VOZAlbHOl9Po1hd+vxtf/F5ZUJ2twkH/9c0On
+         QGWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7spPZrufXw4sf1roZSdir53an3GNlXPUdV7xMDTORmE=;
-        b=RRZvVC2oMk6EM2q5ILS3r/Flev8d+L2CzcaIHJNWqR70XPXzkFcA0ceutrJzp6IAvF
-         vLzbjFmvpHaqJcYpGIFb9t71dIDUVOLYqDKVuxkZKN5RllYj/E0DWt9bvg+kadYP81cM
-         eB+olZIEp25sj68R92WLiwgJF+iwEDvfhBsAQWiDH88w6ZBR0KbwQGHxCT4ysLKNlEAv
-         6J/ry/z9PBOH0nkvuJzyP5hD71TAMLPXncbALoVgctCGycK0b1TrlpgOQF2EmvJSXdA8
-         tSUVkdn4xOqAPlwn/MESdbNJQYL1BZek0os4U+8O+Tub5I88BVbW4ChnwMpo0Lw3j6HJ
-         yrRA==
-X-Gm-Message-State: AOAM531e2h+q8+N4drrfNKSaAFtclbGhfpr/2YWUwrPywoia43GaXse3
-        +wMVMqCrt5HqXo/CARbtWH8=
-X-Google-Smtp-Source: ABdhPJxH9fuDLmee6jplGsAtCTa4HiUxWetXO2h6TOrKdp7ZKDUViWTXNvKov37kTzEMiMtJNzBHnA==
-X-Received: by 2002:adf:fa8a:: with SMTP id h10mr3324208wrr.372.1642762299281;
-        Fri, 21 Jan 2022 02:51:39 -0800 (PST)
-Received: from localhost.localdomain ([141.72.243.13])
-        by smtp.gmail.com with ESMTPSA id n8sm4794532wmq.43.2022.01.21.02.51.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jan 2022 02:51:38 -0800 (PST)
-From:   Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-To:     mosescb.dev@gmail.com
-Cc:     gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, mchehab@kernel.org,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH v3] drivers: staging: media: omap4iss: Use BIT macro instead of left shifting
-Date:   Fri, 21 Jan 2022 11:51:11 +0100
-Message-Id: <20220121105111.2651-1-mosescb.dev@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220121100837.337094-2-mosescb.dev@gmail.com>
-References: <20220121100837.337094-2-mosescb.dev@gmail.com>
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=lLGSMeSTcWsRfSp17dIUaYIF6uHiKPgnKaoYj+UhetE=;
+        b=TWjl8ic65LaPz2sslg8bx3Z7Qud91BfUnOHHHaCkrDY+uVICvGh1di0h31zGJoECeo
+         Wmqnf+8j4NnNfOOSRK9rdGRNHTCA25nMK3Oec8XiuzcHWx1TfV06ls+/T5kYsrzY3e80
+         DbrM7+4F1Q0mxjYWK4bCbnvPTqImY/nb+EuAP4At9h1K2BXLoBA+HdnN67vTrr0dpU6s
+         jrCqy1wwjdf2zfZDardqc0uSYkj6LNhnUmK9MyEgZclQyunsIUA6nNv9UxMw87KUbEbi
+         PRzMDdJDndCl+Y+WojdKd+dCMH13PPyz4lDlC7fEVTiuIWgstKG9Kj9s0MOr51Dkb8gu
+         +aYg==
+X-Gm-Message-State: AOAM532Hg0Z11mdCN5+DsQwlwzFBQjzmrMctIny6YzwsomjgbKpu5w3j
+        IQRNg2+3xtt3T3h8ziTV5DI=
+X-Google-Smtp-Source: ABdhPJz/O/FAYxlPiiHWdB2t6V7yRcg/qlKlC3RhCYLkPqf5aKGXjCIDlVZU18GNA+ObqNxaxYjeyw==
+X-Received: by 2002:adf:f94e:: with SMTP id q14mr3328004wrr.526.1642762860852;
+        Fri, 21 Jan 2022 03:01:00 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:5ab7:6e01:32ef:2782? ([2a02:908:1252:fb60:5ab7:6e01:32ef:2782])
+        by smtp.gmail.com with ESMTPSA id y15sm2413366wry.36.2022.01.21.03.00.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Jan 2022 03:01:00 -0800 (PST)
+Subject: Re: [Linaro-mm-sig] [PATCH 2/9] dma-buf: warn about dma_fence_array
+ container rules
+To:     =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= 
+        <thomas.hellstrom@linux.intel.com>, sumit.semwal@linaro.org,
+        gustavo@padovan.org, daniel.vetter@ffwll.ch,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20220120132747.2348-1-christian.koenig@amd.com>
+ <20220120132747.2348-3-christian.koenig@amd.com>
+ <be78e61c-992c-4fa6-7a2b-b9b93310a34d@linux.intel.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <532d9358-f5b2-73fb-5931-f14b2c264169@gmail.com>
+Date:   Fri, 21 Jan 2022 12:00:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <be78e61c-992c-4fa6-7a2b-b9b93310a34d@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is a BIT(nr) macro available in Linux Kernel,
-which does the same thing.
 
-Example:  1 << 7  is same as BIT(7)
 
-Signed-off-by: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- V2 -> V3: Add Dan's Reviewed-by tag to commit message
- V1 -> V2: Use BIT(0) instead of 1
+Am 21.01.22 um 08:31 schrieb Thomas Hellström:
+>
+> On 1/20/22 14:27, Christian König wrote:
+>> It's not allowed to nest another dma_fence container into a 
+>> dma_fence_array
+>> or otherwise we can run into recursion.
+>>
+>> Warn about that when we create a dma_fence_array.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> ---
+>>   drivers/dma-buf/dma-fence-array.c | 13 +++++++++++++
+>>   1 file changed, 13 insertions(+)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence-array.c 
+>> b/drivers/dma-buf/dma-fence-array.c
+>> index 3e07f961e2f3..4bfbcb885bbc 100644
+>> --- a/drivers/dma-buf/dma-fence-array.c
+>> +++ b/drivers/dma-buf/dma-fence-array.c
+>> @@ -176,6 +176,19 @@ struct dma_fence_array 
+>> *dma_fence_array_create(int num_fences,
+>>         array->base.error = PENDING_ERROR;
+>>   +    /* dma_fence_array objects should never contain any other fence
+> Nit: First comment line of multi-line comments shouldn't contain text.
+>> +     * containers or otherwise we run into recursion and potential 
+>> kernel
+>> +     * stack overflow on operations on the dma_fence_array.
+>> +     *
+>> +     * The correct way of handling this is to flatten out the array 
+>> by the
+>> +     * caller instead.
+>> +     *
+>> +     * Enforce this here by checking that we don't create a 
+>> dma_fence_array
+>> +     * with any container inside.
+>> +     */
+>> +    while (seqno--)
+>> +        WARN_ON(dma_fence_is_container(fences[seqno]));
+>> +
+>
+> s/seqno/num_fences/g ?
 
- drivers/staging/media/omap4iss/iss_video.h | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Ah, of course! Typing to fast.
 
-diff --git a/drivers/staging/media/omap4iss/iss_video.h b/drivers/staging/media/omap4iss/iss_video.h
-index 526281bf0051..1724ed03ce9d 100644
---- a/drivers/staging/media/omap4iss/iss_video.h
-+++ b/drivers/staging/media/omap4iss/iss_video.h
-@@ -53,19 +53,19 @@ enum iss_pipeline_stream_state {
- 
- enum iss_pipeline_state {
- 	/* The stream has been started on the input video node. */
--	ISS_PIPELINE_STREAM_INPUT = 1,
-+	ISS_PIPELINE_STREAM_INPUT = BIT(0),
- 	/* The stream has been started on the output video node. */
--	ISS_PIPELINE_STREAM_OUTPUT = (1 << 1),
-+	ISS_PIPELINE_STREAM_OUTPUT = BIT(1),
- 	/* At least one buffer is queued on the input video node. */
--	ISS_PIPELINE_QUEUE_INPUT = (1 << 2),
-+	ISS_PIPELINE_QUEUE_INPUT = BIT(2),
- 	/* At least one buffer is queued on the output video node. */
--	ISS_PIPELINE_QUEUE_OUTPUT = (1 << 3),
-+	ISS_PIPELINE_QUEUE_OUTPUT = BIT(3),
- 	/* The input entity is idle, ready to be started. */
--	ISS_PIPELINE_IDLE_INPUT = (1 << 4),
-+	ISS_PIPELINE_IDLE_INPUT = BIT(4),
- 	/* The output entity is idle, ready to be started. */
--	ISS_PIPELINE_IDLE_OUTPUT = (1 << 5),
-+	ISS_PIPELINE_IDLE_OUTPUT = BIT(5),
- 	/* The pipeline is currently streaming. */
--	ISS_PIPELINE_STREAM = (1 << 6),
-+	ISS_PIPELINE_STREAM = BIT(6),
- };
- 
- /*
-@@ -119,9 +119,9 @@ struct iss_buffer {
- 
- enum iss_video_dmaqueue_flags {
- 	/* Set if DMA queue becomes empty when ISS_PIPELINE_STREAM_CONTINUOUS */
--	ISS_VIDEO_DMAQUEUE_UNDERRUN = (1 << 0),
-+	ISS_VIDEO_DMAQUEUE_UNDERRUN = BIT(0),
- 	/* Set when queuing buffer to an empty DMA queue */
--	ISS_VIDEO_DMAQUEUE_QUEUED = (1 << 1),
-+	ISS_VIDEO_DMAQUEUE_QUEUED = BIT(1),
- };
- 
- #define iss_video_dmaqueue_flags_clr(video)	\
--- 
-2.30.2
+Thanks,
+Christian.
+
+>
+> Thanks,
+>
+> Thomas
+>
+>
+>
+>>       return array;
+>>   }
+>>   EXPORT_SYMBOL(dma_fence_array_create);
+>
 
