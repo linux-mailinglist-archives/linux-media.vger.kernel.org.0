@@ -2,133 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 636C7495D84
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 11:14:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1F5C495D86
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 11:15:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349960AbiAUKOz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jan 2022 05:14:55 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:58888 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240651AbiAUKOy (ORCPT
+        id S1379950AbiAUKPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jan 2022 05:15:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43200 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1379952AbiAUKPC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jan 2022 05:14:54 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6FE5FB81ED6;
-        Fri, 21 Jan 2022 10:14:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F5C9C340E1;
-        Fri, 21 Jan 2022 10:14:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1642760092;
-        bh=OxfqaqrpAaOv9SLpAlG2G9A4RfcC3FPdy8OzW+VRIo4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DqpDeTuXotaXme9Cb7YBjcXjYxmRDW3DqVaPf8On8G90RNfUKL1MbunQQIP20fJQi
-         DcBRcpvzEOZ/aPQMbCg0QOvLhYqf5YWnwixDwY4aN1wVCBM07MyDJ+YkoOPWn9GSLm
-         tPRPNI/1Z6CG61Wiee3sTreO90dOJKi5MeEF/Hao=
-Date:   Fri, 21 Jan 2022 11:14:48 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-Cc:     laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        mchehab@kernel.org
-Subject: Re: [PATCH v2] drivers: staging: media: omap4iss: Use BIT macro
- instead of left shifting
-Message-ID: <YeqHmEPE695vZ3Tt@kroah.com>
-References: <20220121093722.320082-1-mosescb.dev@gmail.com>
- <20220121100837.337094-1-mosescb.dev@gmail.com>
- <20220121100837.337094-2-mosescb.dev@gmail.com>
+        Fri, 21 Jan 2022 05:15:02 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2FFC061574
+        for <linux-media@vger.kernel.org>; Fri, 21 Jan 2022 02:15:02 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 9573310008D; Fri, 21 Jan 2022 10:15:00 +0000 (UTC)
+Date:   Fri, 21 Jan 2022 10:15:00 +0000
+From:   Sean Young <sean@mess.org>
+To:     kernel test robot <lkp@intel.com>
+Cc:     linux-media@vger.kernel.org, llvm@lists.linux.dev,
+        kbuild-all@lists.01.org
+Subject: Re: [PATCH 1/2] media: rc-core: rename ir_raw_event_reset to
+ ir_raw_event_overflow
+Message-ID: <YeqHpGe61ApoeYHX@gofer.mess.org>
+References: <20220120161614.328202-1-sean@mess.org>
+ <202201211605.1ccb0HNg-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220121100837.337094-2-mosescb.dev@gmail.com>
+In-Reply-To: <202201211605.1ccb0HNg-lkp@intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 21, 2022 at 11:08:37AM +0100, Moses Christopher Bollavarapu wrote:
-> There is a BIT(nr) macro available in Linux Kernel,
-> which does the same thing.
+Hi Bot,
+
+On Fri, Jan 21, 2022 at 04:59:50PM +0800, kernel test robot wrote:
+> Hi Sean,
 > 
-> Example:  1 << 7  is same as BIT(7)
+> I love your patch! Yet something to improve:
 > 
-> Signed-off-by: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-> ---
->  drivers/staging/media/omap4iss/iss_video.h | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
+> [auto build test ERROR on media-tree/master]
+> [also build test ERROR on next-20220121]
+> [cannot apply to sunxi/sunxi/for-next v5.16]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
 > 
-> diff --git a/drivers/staging/media/omap4iss/iss_video.h b/drivers/staging/media/omap4iss/iss_video.h
-> index 526281bf0051..1724ed03ce9d 100644
-> --- a/drivers/staging/media/omap4iss/iss_video.h
-> +++ b/drivers/staging/media/omap4iss/iss_video.h
-> @@ -53,19 +53,19 @@ enum iss_pipeline_stream_state {
->  
->  enum iss_pipeline_state {
->  	/* The stream has been started on the input video node. */
-> -	ISS_PIPELINE_STREAM_INPUT = 1,
-> +	ISS_PIPELINE_STREAM_INPUT = BIT(0),
->  	/* The stream has been started on the output video node. */
-> -	ISS_PIPELINE_STREAM_OUTPUT = (1 << 1),
-> +	ISS_PIPELINE_STREAM_OUTPUT = BIT(1),
->  	/* At least one buffer is queued on the input video node. */
-> -	ISS_PIPELINE_QUEUE_INPUT = (1 << 2),
-> +	ISS_PIPELINE_QUEUE_INPUT = BIT(2),
->  	/* At least one buffer is queued on the output video node. */
-> -	ISS_PIPELINE_QUEUE_OUTPUT = (1 << 3),
-> +	ISS_PIPELINE_QUEUE_OUTPUT = BIT(3),
->  	/* The input entity is idle, ready to be started. */
-> -	ISS_PIPELINE_IDLE_INPUT = (1 << 4),
-> +	ISS_PIPELINE_IDLE_INPUT = BIT(4),
->  	/* The output entity is idle, ready to be started. */
-> -	ISS_PIPELINE_IDLE_OUTPUT = (1 << 5),
-> +	ISS_PIPELINE_IDLE_OUTPUT = BIT(5),
->  	/* The pipeline is currently streaming. */
-> -	ISS_PIPELINE_STREAM = (1 << 6),
-> +	ISS_PIPELINE_STREAM = BIT(6),
->  };
->  
->  /*
-> @@ -119,9 +119,9 @@ struct iss_buffer {
->  
->  enum iss_video_dmaqueue_flags {
->  	/* Set if DMA queue becomes empty when ISS_PIPELINE_STREAM_CONTINUOUS */
-> -	ISS_VIDEO_DMAQUEUE_UNDERRUN = (1 << 0),
-> +	ISS_VIDEO_DMAQUEUE_UNDERRUN = BIT(0),
->  	/* Set when queuing buffer to an empty DMA queue */
-> -	ISS_VIDEO_DMAQUEUE_QUEUED = (1 << 1),
-> +	ISS_VIDEO_DMAQUEUE_QUEUED = BIT(1),
->  };
->  
->  #define iss_video_dmaqueue_flags_clr(video)	\
-> -- 
-> 2.30.2
+> url:    https://github.com/0day-ci/linux/commits/Sean-Young/media-rc-core-rename-ir_raw_event_reset-to-ir_raw_event_overflow/20220121-001937
+> base:   git://linuxtv.org/media_tree.git master
+> config: hexagon-randconfig-r041-20220120 (https://download.01.org/0day-ci/archive/20220121/202201211605.1ccb0HNg-lkp@intel.com/config)
+> compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f7b7138a62648f4019c55e4671682af1f851f295)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/0day-ci/linux/commit/5b0115b915832b54ebe085c923d73209b1abb364
+>         git remote add linux-review https://github.com/0day-ci/linux
+>         git fetch --no-tags linux-review Sean-Young/media-rc-core-rename-ir_raw_event_reset-to-ir_raw_event_overflow/20220121-001937
+>         git checkout 5b0115b915832b54ebe085c923d73209b1abb364
+>         # save the config file to linux build tree
+>         mkdir build_dir
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/rc/
 > 
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
 > 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/media/rc/mtk-cir.c:220:2: error: implicit declaration of function 'ir_raw_event_reset' [-Werror,-Wimplicit-function-declaration]
+>            ir_raw_event_reset(ir->rc);
+>            ^
+>    drivers/media/rc/mtk-cir.c:220:2: note: did you mean 'ir_raw_event_store'?
+>    include/media/rc-core.h:317:5: note: 'ir_raw_event_store' declared here
+>    int ir_raw_event_store(struct rc_dev *dev, struct ir_raw_event *ev);
+>        ^
+>    1 error generated.
 
-Hi,
+This patch depends on:
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+https://patchwork.linuxtv.org/project/linux-media/patch/20220114150353.195192-2-sean@mess.org/
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+With that patch it should build fine.
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Sean
