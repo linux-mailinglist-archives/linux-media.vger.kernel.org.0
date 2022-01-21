@@ -2,114 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A751D495E9F
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 12:53:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81841495EA7
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 12:56:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349955AbiAULxH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jan 2022 06:53:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36862 "EHLO
+        id S237650AbiAUL4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jan 2022 06:56:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350282AbiAULwl (ORCPT
+        with ESMTP id S233354AbiAUL4P (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jan 2022 06:52:41 -0500
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CB4AC061748;
-        Fri, 21 Jan 2022 03:52:41 -0800 (PST)
-Received: by mail-yb1-xb2c.google.com with SMTP id c6so26885765ybk.3;
-        Fri, 21 Jan 2022 03:52:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LrBn+sU3xPZoZbTSmClVWFWVTh+PkU+kyY1fOibG0gY=;
-        b=iuUsnLya38oBI1uiUxjA+G4adtFWjuN4RaUaz12XN4S4gO7rOFWYTcC0xu2ekXcaQB
-         2z4/iCBIbHCI1uUx9KsY5PK35P9mQVt/inLseRUMEU3M1q2QRIKWh97hLTXNzBpgV2ma
-         9GCWiy1eLXB9hmWk2sCg8oVxJ3Nk/E/MsormuboHFSiha1U/oiuWAIgSfosvnffVVIMC
-         0+DBqqUcqirKwNX0/CsQkFTx8DReumsp3+BpThGtsjdQMSjRj2gX2t7Bg5Zxq1Adk97s
-         pGphh9R51SdvkatJSH4eJxAJpZutGTQAd5obfe/R/H1KUxwXMrLoJKgHpC3orQaf6uHt
-         I+NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LrBn+sU3xPZoZbTSmClVWFWVTh+PkU+kyY1fOibG0gY=;
-        b=5FP735qyV1q4Fajh8SsaKlu/Yx8dpF3C9S9VVNkkTKtt3bEFES6KblEQ3Yt4EmBwXx
-         Ujc/IHeWbfg8s1hgHXckENfwSXClJt4E9BQA6yKfG7EQC+B+8Hh4k1KlNz9rf9bw5N/P
-         llC/HaR4sRE8lpb0P2rWdyg/+x4w1IRMcjqALDDCnE4bYlaUFwEpM3Z8fKw9BRISHIOk
-         fZKS2geOVfuVgmEA0l948Nm5hJc2Q38tqptFTex0X7KUJDXlfebSADLrGkJ4KWPqBPLR
-         zbG0PNH80v7+6WDiOJlfvxuB+wblvOGiIq2y/ynTouDTLx4u14B3ENwJkklq0OF+v8i9
-         qemg==
-X-Gm-Message-State: AOAM531eNwRezzWqOzE9fwR4Ja/3pUE8EO4bTa5w/ly4CF/3fIEhNBud
-        C/7W2F50spdoNdiiNzBRX+nYkrdR5VHAujmlHXY=
-X-Google-Smtp-Source: ABdhPJwaVi6bL3tdEnFpuAYqAHdaIPzzSS54Nqi7mflfgR2h5hylh5RUqvkMoYxLnrhDs1qG+tnh28EFGBw0nfV/hDs=
-X-Received: by 2002:a25:3716:: with SMTP id e22mr5445974yba.690.1642765960295;
- Fri, 21 Jan 2022 03:52:40 -0800 (PST)
+        Fri, 21 Jan 2022 06:56:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB28FC061574;
+        Fri, 21 Jan 2022 03:56:14 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6CB7961A8B;
+        Fri, 21 Jan 2022 11:56:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A35AC340E1;
+        Fri, 21 Jan 2022 11:56:07 +0000 (UTC)
+Message-ID: <8ae4a49a-4abf-be55-f6c8-9fc4ffd02fc8@xs4all.nl>
+Date:   Fri, 21 Jan 2022 12:56:05 +0100
 MIME-Version: 1.0
-References: <20220121010543.31385-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220121010543.31385-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWnTxxXz-aBL10nSiQt67bm93yXHbSvFtrs3Yme9ZQcpg@mail.gmail.com>
-In-Reply-To: <CAMuHMdWnTxxXz-aBL10nSiQt67bm93yXHbSvFtrs3Yme9ZQcpg@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 21 Jan 2022 11:52:14 +0000
-Message-ID: <CA+V-a8v1to4w0yw17DgbQic2nkX4s+W3ZxPEdp89=9SLxwvBMg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/4] media: dt-bindings: media: Document RZ/G2L
- CSI-2 block
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v9 12/15] media: mtk-vcodec: enc: Remove
+ mtk_vcodec_release_enc_pm
+Content-Language: en-US
+To:     Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        dri-devel@lists.freedesktop.org, yf.wang@mediatek.com,
+        anthony.huang@mediatek.com, youlin.pei@mediatek.com,
+        Irui Wang <irui.wang@mediatek.com>,
+        Evan Green <evgreen@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        linux-arm-kernel@lists.infradead.org, mingyuan.ma@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, libo.kang@mediatek.com,
+        yi.kuo@mediatek.com, linux-mediatek@lists.infradead.org,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>, anan.sun@mediatek.com,
+        srv_heupstream@mediatek.com, acourbot@chromium.org,
+        linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
+        Robin Murphy <robin.murphy@arm.com>
+References: <20211112105509.12010-1-yong.wu@mediatek.com>
+ <20211112105509.12010-13-yong.wu@mediatek.com>
+ <68c3a573-8453-38e9-93b2-2067bedcd06f@collabora.com>
+ <4bd9e849-96dd-6f1c-2841-979459366ee5@collabora.com>
+ <fa9b2b73-c6bb-5737-93ac-ba2ab6b3b771@xs4all.nl>
+ <e940d705-2057-4d5e-0a21-8464ca04caaf@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <e940d705-2057-4d5e-0a21-8464ca04caaf@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+Hi Matthias,
 
-On Fri, Jan 21, 2022 at 9:26 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, Jan 21, 2022 at 2:06 AM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Document the CSI-2 block which is part of CRU found in Renesas
-> > RZ/G2L SoC.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > ---
-> > Hi Geert/All,
-> >
-> > vclk and pclk clocks are shared with CRU both CSI and CRU driver are using
-> > pm_runtime. pclk clock is necessary for register access where as vclk clock
-> > is only used for calculations. So would you suggest passing vclk as part of
->
-> What do you mean by "calculations"?
-To set the CSI2nMCT2 register bits (FRRSKW/FRRCLK), vclk clock rate is used.
+On 1/13/22 17:10, Matthias Brugger wrote:
+> Hi Hans,
+> 
+> On 13/01/2022 11:15, Hans Verkuil wrote:
+>> On 13/01/2022 11:11, AngeloGioacchino Del Regno wrote:
+>>> Il 11/01/22 11:57, AngeloGioacchino Del Regno ha scritto:
+>>>> Il 12/11/21 11:55, Yong Wu ha scritto:
+>>>>> After this patchset, mtk_vcodec_release_enc_pm has only one line.
+>>>>> then remove that function, use pm_runtime_disable instead.
+>>>>>
+>>>>> meanwhile, mtk_vcodec_init_enc_pm only operate for the clocks,
+>>>>> rename it from the _pm to _clk.
+>>>>>
+>>>>> No functional change.
+>>>>>
+>>>>> CC: Tiffany Lin <tiffany.lin@mediatek.com>
+>>>>> CC: Irui Wang <irui.wang@mediatek.com>
+>>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>>>
+>>>> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>>
+>>>
+>>> Hello Yong,
+>>> the mtk-vcodec patches were merged in Yunfei's vcodec patch series and Hans has
+>>> scheduled that for v5.18.
+>>>
+>>> Can you please send a v10 and drop patches 10/15, 11/15, 12/15 (all of the
+>>> media: mtk-vcodec: *) from this series?
+>>>
+>>> For the records, I think that after sending v10 this series is ready to be merged,
+>>> as it was well reviewed and also tested on many MTK platforms.
+>>
+>> Good to know. When I have the v10 I'll try to prioritize reviewing it and running
+>> my usual tests.
+>>
+>> Yong, please make sure you run 'checkpatch.pl --strict' over the v10 patches and fix
+>> any issues (using common sense).
+>>
+> 
+> Can you please take me in the look when you take the patches. I'll take the DTS related as soon as you queue up the others.
 
-> The bindings say this is the main clock?
->
-That is because the RZG2L_clock_list_r02_02.xlsx mentions it as the main clock.
+This just got merged into our tree.
 
-> > clocks (as currently implemented) or pass the vclk clock rate as a dt property.
->
-> Please do not specify clock rates in DT, but always pass clock
-> specifiers instead.
-> The clock subsystem handles sharing of clocks just fine.
->
-Agreed.
+Regards,
 
-Cheers,
-Prabhakar
+	Hans
