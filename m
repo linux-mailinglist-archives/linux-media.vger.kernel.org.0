@@ -2,293 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6F47496086
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 15:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD9FF4960C2
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jan 2022 15:29:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380989AbiAUOMi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Jan 2022 09:12:38 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:36736 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1380987AbiAUOMh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Jan 2022 09:12:37 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nAuea-001cUl-Dr; Fri, 21 Jan 2022 14:12:36 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nAueY-00AKAc-H1; Fri, 21 Jan 2022 14:12:34 +0000
-Date:   Fri, 21 Jan 2022 14:12:33 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1682432619.0.1642774353901@builder.linuxtv.org>
-Subject: Build failed in Jenkins: linux-media #266
+        id S231265AbiAUO3l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jan 2022 09:29:41 -0500
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:58846 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350941AbiAUO3S (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 21 Jan 2022 09:29:18 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 20LET9WE075995;
+        Fri, 21 Jan 2022 08:29:09 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1642775349;
+        bh=x6XFXUl3lDkNJKmVjOJ6yOUcmnPEPwpeNe+jkll+ans=;
+        h=From:To:CC:Subject:Date;
+        b=tL6lMpwvXFUvScakBTa2v9H1k/SLt1LKfXsF2eH/Pods5NS6YkkLOjbjKHX/Uis6a
+         rqwgn1U7llaEd5nqLshqtsN3WzlDZhh6QtnR0TA1VPvpYQzESfLnDKacrRv7z8GRnu
+         Dv0AorqostUhUul/S0/FHzhEEb4Nhto8CZkoTLss=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 20LET9Vt075585
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 21 Jan 2022 08:29:09 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Fri, 21
+ Jan 2022 08:29:08 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Fri, 21 Jan 2022 08:29:08 -0600
+Received: from pratyush-4F-325.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 20LET4Hl072129;
+        Fri, 21 Jan 2022 08:29:05 -0600
+From:   Pratyush Yadav <p.yadav@ti.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     Pratyush Yadav <p.yadav@ti.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nikhil Devshatwar <nikhil.nd@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+Subject: [PATCH v6 00/14] CSI2RX support on J721E
+Date:   Fri, 21 Jan 2022 19:58:50 +0530
+Message-ID: <20220121142904.4091481-1-p.yadav@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: linux-media
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/linux-media/266/display/redirect>
+Hi,
 
-Changes:
+This series adds support for CSI2 capture on J721E. It includes some
+fixes to the Cadence CSI2RX driver, re-structures the TI platform
+drivers, and finally adds the TI CSI2RX wrapper driver.
 
+This series used to include the DPHY and DMA engine patches as well, but
+they have been split off to facilitate easier merging.
 
-------------------------------------------
-[...truncated 22782 lines...]
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_core.o
-  CC      drivers/iio/pressure/st_pressure_core.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_pwr_seq.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalPhyRf.o
-  CC      drivers/iio/pressure/st_pressure_buffer.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.o
-  CC      drivers/iio/light/vcnl4000.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm.o
-  CC      drivers/iio/pressure/t5403.o
-  CC      drivers/iio/pressure/hp206c.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_debug.o
-  CC      drivers/iio/pressure/zpa2326.o
-  CC      drivers/iio/pressure/zpa2326_i2c.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_dm.o
-  CC      drivers/iio/light/vcnl4035.o
-  CC      drivers/iio/pressure/zpa2326_spi.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_CfoTracking.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_DIG.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_DynamicBBPowerSaving.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_DynamicTxPower.o
-  CC      drivers/iio/light/veml6030.o
-  CC      drivers/iio/light/veml6070.o
-  CC      drivers/iio/pressure/st_pressure_i2c.o
-  CC      drivers/iio/light/vl6180.o
-  CC      drivers/iio/light/zopt2201.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_interface.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_eeprom.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_HWConfig.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.o
-  CC      drivers/iio/pressure/st_pressure_spi.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_RegConfig8188E.o
-  AR      drivers/iio/light/built-in.a
-  CC [M]  drivers/staging/r8188eu/hal/odm_RTL8188E.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_cmd.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_ethtool.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_dm.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_HWConfig.o
-  AR      drivers/iio/pressure/built-in.a
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_hal_init.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_phycfg.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_pci.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_rf6052.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_rxdesc.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.o
-  CC [M]  drivers/staging/vt6655/device_main.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_sreset.o
-  CC [M]  drivers/staging/vt6655/card.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_pm.o
-  CC      drivers/iio/proximity/as3935.o
-  CC      drivers/iio/proximity/cros_ec_mkbp_proximity.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_ps.o
-  CC [M]  drivers/staging/vt6656/main_usb.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_RegConfig8723B.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_xmit.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188eu_led.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188eu_recv.o
-  CC      drivers/iio/proximity/isl29501.o
-  CC      drivers/iio/proximity/pulsedlight-lidar-lite-v2.o
-  CC [M]  drivers/staging/vt6655/channel.o
-  CC [M]  drivers/staging/vt6656/card.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_wx.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_dm.o
-  CC [M]  drivers/staging/vt6655/mac.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188eu_xmit.o
-  CC      drivers/iio/proximity/mb1232.o
-  CC      drivers/iio/proximity/ping.o
-  CC [M]  drivers/staging/vt6656/mac.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.o
-  CC [M]  drivers/staging/vt6655/baseband.o
-  CC      drivers/iio/proximity/rfd77402.o
-  CC [M]  drivers/staging/r8188eu/hal/usb_halinit.o
-  CC      drivers/iio/proximity/srf04.o
-  LD [M]  drivers/staging/rtl8192e/rtl8192e/r8192e_pci.o
-  CC [M]  drivers/staging/r8188eu/hal/usb_ops_linux.o
-  LD [M]  drivers/staging/rtl8192e/rtllib.o
-  CC [M]  drivers/staging/r8188eu/os_dep/ioctl_linux.o
-  CC [M]  drivers/staging/r8188eu/os_dep/mlme_linux.o
-  CC [M]  drivers/staging/r8188eu/os_dep/os_intfs.o
-  CC      drivers/iio/proximity/srf08.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.o
-  CC [M]  drivers/staging/r8188eu/os_dep/osdep_service.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723bs_recv.o
-  CC [M]  drivers/staging/vt6656/baseband.o
-  CC [M]  drivers/staging/vt6655/rxtx.o
-  CC [M]  drivers/staging/r8188eu/os_dep/recv_linux.o
-  CC      drivers/iio/proximity/sx9310.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.o
-  CC [M]  drivers/staging/r8188eu/os_dep/usb_intf.o
-  CC [M]  drivers/staging/rtl8723bs/hal/sdio_halinit.o
-  CC [M]  drivers/staging/r8188eu/os_dep/usb_ops_linux.o
-  CC [M]  drivers/staging/vt6656/wcmd.o
-  CC [M]  drivers/staging/r8188eu/os_dep/xmit_linux.o
-  CC [M]  drivers/staging/vt6655/dpc.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_ap.o
-  CC      drivers/iio/proximity/sx9500.o
-  CC [M]  drivers/staging/rtl8723bs/hal/sdio_ops.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.o
-  CC      drivers/iio/proximity/vcnl3020.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_br_ext.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.o
-  CC [M]  drivers/staging/vt6656/rxtx.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.o
-  CC [M]  drivers/staging/vt6655/power.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.o
-  CC      drivers/iio/proximity/vl53l0x-i2c.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_cmd.o
-  CC [M]  drivers/staging/vt6655/srom.o
-  CC [M]  drivers/staging/vt6656/power.o
-  CC [M]  drivers/staging/vt6656/key.o
-  CC [M]  drivers/staging/vt6656/rf.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.o
-  CC [M]  drivers/staging/vt6656/usbpipe.o
-  AR      drivers/iio/proximity/built-in.a
-  CC [M]  drivers/staging/vt6655/key.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_efuse.o
-  CC [M]  drivers/staging/vt6656/channel.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/ioctl_linux.o
-  CC      drivers/iio/resolver/ad2s90.o
-  CC      drivers/iio/resolver/ad2s1200.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/mlme_linux.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/osdep_service.o
-  CC [M]  drivers/staging/vt6655/rf.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_ieee80211.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/os_intfs.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/recv_linux.o
-  AR      drivers/iio/resolver/built-in.a
-  CC [M]  drivers/staging/rtl8723bs/os_dep/sdio_intf.o
-  LD [M]  drivers/staging/vt6656/vt6656_stage.o
-  LD [M]  drivers/staging/vt6655/vt6655_stage.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.o
-  CC      drivers/iio/test/iio-test-format.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/wifi_regd.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/xmit_linux.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_ioctl_set.o
-  CC      drivers/iio/trigger/iio-trig-hrtimer.o
-  CC      drivers/iio/trigger/iio-trig-interrupt.o
-  CC [M]  drivers/staging/gdm724x/gdm_lte.o
-  CC      drivers/iio/temperature/iqs620at-temp.o
-  AR      drivers/iio/test/built-in.a
-  CC      drivers/iio/temperature/ltc2983.o
-  CC      drivers/iio/temperature/hid-sensor-temperature.o
-  CC      drivers/iio/trigger/stm32-lptimer-trigger.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_iol.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_led.o
-  LD [M]  drivers/staging/rtl8723bs/r8723bs.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_mlme.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_mlme_ext.o
-  CC      drivers/iio/temperature/maxim_thermocouple.o
-  CC [M]  drivers/staging/gdm724x/netlink_k.o
-  CC      drivers/iio/trigger/stm32-timer-trigger.o
-  CC      drivers/iio/trigger/iio-trig-sysfs.o
-  CC      drivers/iio/trigger/iio-trig-loop.o
-  CC [M]  drivers/staging/gdm724x/gdm_usb.o
-  AR      drivers/staging/built-in.a
-  CC [M]  drivers/staging/gdm724x/gdm_endian.o
-  CC      drivers/iio/temperature/max31856.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_pwrctrl.o
-  CC [M]  drivers/staging/gdm724x/gdm_tty.o
-  CC [M]  drivers/staging/gdm724x/gdm_mux.o
-  CC      drivers/iio/temperature/max31865.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_p2p.o
-  CC      drivers/iio/temperature/mlx90614.o
-  AR      drivers/iio/trigger/built-in.a
-  CC      drivers/iio/temperature/mlx90632.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_recv.o
-  LD [M]  drivers/staging/gdm724x/gdmulte.o
-  LD [M]  drivers/staging/gdm724x/gdmtty.o
-  CC      drivers/iio/temperature/tmp006.o
-  CC      drivers/iio/temperature/tmp007.o
-  CC      drivers/iio/temperature/tmp117.o
-  CC      drivers/iio/temperature/tsys01.o
-  CC      drivers/iio/temperature/tsys02d.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_rf.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_security.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_sta_mgt.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_wlan_util.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_xmit.o
-  AR      drivers/iio/temperature/built-in.a
-  AR      drivers/iio/built-in.a
-  LD [M]  drivers/staging/r8188eu/r8188eu.o
-  AR      drivers/built-in.a
-  GEN     .version
-  CHK     include/generated/compile.h
-  UPD     include/generated/compile.h
-  CC      init/version.o
-  AR      init/built-in.a
-  LD      vmlinux.o
-  LD [M]  kernel/kheaders.ko
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_mod'
-+ make O=x86_64_yes allyesconfig
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-  GEN     Makefile
-#
-# configuration written to .config
-#
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-+ ./scripts/config --file x86_64_yes/.config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-+ make O=x86_64_yes -j9
-make[1]: Entering directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-  SYNC    include/config/auto.conf.cmd
-  GEN     Makefile
-  GEN     Makefile
-  DESCEND objtool
-  CALL    ../scripts/atomic/check-atomics.sh
-  CALL    ../scripts/checksyscalls.sh
-  CHK     include/generated/compile.h
-  CHK     kernel/kheaders_data.tar.xz
-  GEN     kernel/kheaders_data.tar.xz
-  CC      kernel/kheaders.o
-  AR      kernel/built-in.a
-  GEN     .version
-  CHK     include/generated/compile.h
-  UPD     include/generated/compile.h
-  CC      init/version.o
-  AR      init/built-in.a
-  LD      vmlinux.o
-  OBJTOOL vmlinux.o
-Killed
-make[1]: *** [/var/lib/jenkins/workspace/linux-media@2/Makefile:1161: vmlinux] Error 137
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media@2/arm_yes'
-make: *** [Makefile:219: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch arm/aarch64 (builtin)
-  OBJTOOL vmlinux.o
-Killed
-make[1]: *** [/var/lib/jenkins/workspace/linux-media/Makefile:1161: vmlinux] Error 137
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-make: *** [Makefile:219: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch x86_64 (builtin/mod)
-[Pipeline] // parallel
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Declarative: Post Actions)
-[Pipeline] step
+Tested on TI's J721E with OV5640 sensor.
+
+The branch with all the patches needed to enable testing (dts nodes,
+OV5640 dropped patch, etc.) can be found here at
+https://github.com/prati0100/linux-next/ branch "capture".
+
+Changes in v6:
+- Move the lock around the dereference for framefmt in
+  csi2rx_{get,set}_fmt() instead of when we get the pointer.
+- Do not return an error when an unsupported format is set. Instead
+  adjust the code to the first format in the list.
+- Drop variable bpp and use fmt->bpp directly.
+- Drop variable got_pm. Call phy_pm_runtime_put() unconditionally since
+  it will just return an error if runtime PM is not enabled.
+- Drop transcoding from the commit message.
+- Make csi2rx_media_ops const.
+
+Changes in v5:
+- Cleanup notifier in csi2rx_parse_dt() after the call to
+  v4l2_async_nf_add_fwnode_remote().
+- Use YUV 1X16 formats instead of 2X8.
+- Only error out when phy_pm_runtime_get_sync() returns a negative
+  value. A positive value can be returned if the phy was already
+  resumed.
+- Do not query the source subdev for format. Use the newly added
+  internal format instead.
+- Make i unsigned.
+- Change %d to %u
+- Add dependency on PHY_CADENCE_DPHY_RX instead of PHY_CADENCE_DPHY
+  since the Rx mode DPHY now has a separate driver.
+- Drop ti_csi2rx_validate_pipeline(). Pipeline validation should be done
+  at media_pipeline_start().
+- Do not assign flags.
+- Fix error handling in ti_csi2rx_start_streaming(). Free up vb2 buffers
+  when media_pipeline_start() fails.
+- Move clock description in comments under the clocks property.
+- Make ports required.
+- Add link validation to cdns-csi2rx driver.
+
+Changes in v4:
+- Drop the call to set PHY submode. It is now being done via compatible
+  on the DPHY side.
+- Acquire the media device's graph_mutex before starting the graph walk.
+- Call media_graph_walk_init() and media_graph_walk_cleanup() when
+  starting and ending the graph walk respectively.
+- Reduce max frame height and width in enum_framesizes. Currently they
+  are set to UINT_MAX but they must be a multiple of step_width, so they
+  need to be rounded down. Also, these values are absurdly large which
+  causes some userspace applications like gstreamer to trip up. While it
+  is not generally right to change the kernel for an application bug, it
+  is not such a big deal here. This change is replacing one set of
+  absurdly large arbitrary values with another set of smaller but still
+  absurdly large arbitrary values. Both limits are unlikely to be hit in
+  practice.
+- Add power-domains property.
+- Drop maxItems from clock-names.
+- Drop the type for data-lanes.
+- Drop uniqueItems from data-lanes. Move it to video-interfaces.yaml
+  instead.
+- Drop OV5640 runtime pm patch. It seems to be a bit complicated and it
+  is not exactly necessary for this series. Any CSI-2 camera will work
+  just fine, OV5640 just happens to be the one I tested with. I don't
+  want it to block this series. I will submit it as a separate patch
+  later.
+
+Changes in v3:
+- Use v4l2_get_link_freq() to calculate pixel clock.
+- Move DMA related fields in struct ti_csi2rx_dma.
+- Protect DMA buffer queue with a spinlock to make sure the queue buffer
+  and DMA callback don't race on it.
+- Track the current DMA state. It might go idle because of a lack of
+  buffers. This state can be used to restart it if needed.
+- Do not include the current buffer in the pending queue. It is slightly
+  better modelling than leaving it at the head of the pending queue.
+- Use the buffer as the callback argument, and add a reference to csi in it.
+- If queueing a buffer to DMA fails, the buffer gets leaked and DMA gets
+  stalled with. Instead, report the error to vb2 and queue the next
+  buffer in the pending queue.
+- DMA gets stalled if we run out of buffers since the callback is the
+  only one that fires subsequent transfers and it is no longer being
+  called. Check for that when queueing buffers and restart DMA if
+  needed.
+- Do not put of node until we are done using the fwnode.
+- Set inital format to UYVY 640x480.
+- Add compatible: contains: const: cdns,csi2rx to allow SoC specific
+  compatible.
+- Add more constraints for data-lanes property.
+
+Changes in v2:
+- Use phy_pm_runtime_get_sync() and phy_pm_runtime_put() before making
+  calls to set PHY mode, etc. to make sure it is ready.
+- Use dmaengine_get_dma_device() instead of directly accessing
+  dma->device->dev.
+- Do not set dst_addr_width when configuring slave DMA.
+- Move to a separate subdir and rename to j721e-csi2rx.c
+- Convert compatible to ti,j721e-csi2rx.
+- Move to use Media Controller centric APIs.
+- Improve cleanup in probe when one of the steps fails.
+- Add colorspace to formats database.
+- Set hw_revision on media_device.
+- Move video device initialization to probe time instead of register time.
+- Rename to ti,j721e-csi2rx.yaml
+- Add an entry in MAINTAINERS.
+- Add a description for the binding.
+- Change compatible to ti,j721e-csi2rx to make it SoC specific.
+- Remove description from dmas, reg, power-domains.
+- Remove a limit of 2 from #address-cells and #size-cells.
+- Fix add ^ to csi-bridge subnode regex.
+- Make ranges mandatory.
+- Add unit address in example.
+- Add a reference to cdns,csi2rx in csi-bridge subnode.
+- Expand the example to include the csi-bridge subnode as well.
+- Re-order subject prefixes.
+- Convert OV5640 to use runtime PM and drop Cadence CSI2RX s_power patch.
+- Drop subdev call wrappers from cdns-csi2rx.
+- Move VPE and CAL to a separate subdir.
+- Rename ti-csi2rx.c to j721e-csi2rx.c
+
+Pratyush Yadav (14):
+  media: cadence: csi2rx: Unregister v4l2 async notifier
+  media: cadence: csi2rx: Cleanup media entity properly
+  media: cadence: csi2rx: Add get_fmt and set_fmt pad ops
+  media: cadence: csi2rx: Add external DPHY support
+  media: cadence: csi2rx: Soft reset the streams before starting capture
+  media: cadence: csi2rx: Set the STOP bit when stopping a stream
+  media: cadence: csi2rx: Fix stream data configuration
+  media: cadence: csi2rx: Populate subdev devnode
+  media: cadence: csi2rx: Add link validation
+  media: Re-structure TI platform drivers
+  media: ti: Add CSI2RX support for J721E
+  media: dt-bindings: Make sure items in data-lanes are unique
+  media: dt-bindings: Add DT bindings for TI J721E CSI2RX driver
+  media: dt-bindings: Convert Cadence CSI2RX binding to YAML
+
+ .../devicetree/bindings/media/cdns,csi2rx.txt | 100 --
+ .../bindings/media/cdns,csi2rx.yaml           | 176 ++++
+ .../bindings/media/ti,j721e-csi2rx.yaml       | 101 ++
+ .../bindings/media/video-interfaces.yaml      |   1 +
+ MAINTAINERS                                   |  10 +-
+ drivers/media/platform/Kconfig                |  12 +
+ drivers/media/platform/Makefile               |   2 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c  | 274 +++++-
+ drivers/media/platform/ti/Makefile            |   4 +
+ drivers/media/platform/ti/cal/Makefile        |   3 +
+ .../{ti-vpe => ti/cal}/cal-camerarx.c         |   0
+ .../platform/{ti-vpe => ti/cal}/cal-video.c   |   0
+ .../media/platform/{ti-vpe => ti/cal}/cal.c   |   0
+ .../media/platform/{ti-vpe => ti/cal}/cal.h   |   0
+ .../platform/{ti-vpe => ti/cal}/cal_regs.h    |   0
+ .../media/platform/ti/j721e-csi2rx/Makefile   |   2 +
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 913 ++++++++++++++++++
+ .../platform/{ti-vpe => ti/vpe}/Makefile      |   4 -
+ .../media/platform/{ti-vpe => ti/vpe}/csc.c   |   0
+ .../media/platform/{ti-vpe => ti/vpe}/csc.h   |   0
+ .../media/platform/{ti-vpe => ti/vpe}/sc.c    |   0
+ .../media/platform/{ti-vpe => ti/vpe}/sc.h    |   0
+ .../platform/{ti-vpe => ti/vpe}/sc_coeff.h    |   0
+ .../media/platform/{ti-vpe => ti/vpe}/vpdma.c |   0
+ .../media/platform/{ti-vpe => ti/vpe}/vpdma.h |   0
+ .../platform/{ti-vpe => ti/vpe}/vpdma_priv.h  |   0
+ .../media/platform/{ti-vpe => ti/vpe}/vpe.c   |   0
+ .../platform/{ti-vpe => ti/vpe}/vpe_regs.h    |   0
+ 28 files changed, 1481 insertions(+), 121 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.txt
+ create mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/ti,j721e-csi2rx.yaml
+ create mode 100644 drivers/media/platform/ti/Makefile
+ create mode 100644 drivers/media/platform/ti/cal/Makefile
+ rename drivers/media/platform/{ti-vpe => ti/cal}/cal-camerarx.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/cal}/cal-video.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/cal}/cal.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/cal}/cal.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/cal}/cal_regs.h (100%)
+ create mode 100644 drivers/media/platform/ti/j721e-csi2rx/Makefile
+ create mode 100644 drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/Makefile (78%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/csc.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/csc.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/sc.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/sc.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/sc_coeff.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpdma_priv.h (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpe.c (100%)
+ rename drivers/media/platform/{ti-vpe => ti/vpe}/vpe_regs.h (100%)
+
+-- 
+2.34.1
+
