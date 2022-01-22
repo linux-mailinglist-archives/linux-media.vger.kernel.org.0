@@ -2,92 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BB32496ACE
+	by mail.lfdr.de (Postfix) with ESMTP id 21F6B496ACD
 	for <lists+linux-media@lfdr.de>; Sat, 22 Jan 2022 08:56:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233658AbiAVH4T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S233651AbiAVH4T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Sat, 22 Jan 2022 02:56:19 -0500
-Received: from mail.hust.edu.cn ([202.114.0.240]:21730 "EHLO hust.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233642AbiAVH4Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Jan 2022 02:56:16 -0500
-X-Greylist: delayed 606 seconds by postgrey-1.27 at vger.kernel.org; Sat, 22 Jan 2022 02:56:16 EST
-Received: from localhost.localdomain ([172.16.0.254])
-        (user=dzm91@hust.edu.cn mech=LOGIN bits=0)
-        by mx1.hust.edu.cn  with ESMTP id 20M7jB3L020639-20M7jB3O020639
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Sat, 22 Jan 2022 15:45:16 +0800
-From:   Dongliang Mu <dzm91@hust.edu.cn>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?q?Frank=20Sch=C3=A4fer?= <fschaefer.oss@googlemail.com>
-Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
-        syzkaller <syzkaller@googlegroups.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: em28xx: initialize refcount before kref_get
-Date:   Sat, 22 Jan 2022 15:44:59 +0800
-Message-Id: <20220122074500.429184-1-dzm91@hust.edu.cn>
+Received: from mailgw02.mediatek.com ([210.61.82.184]:41072 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233629AbiAVH4P (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 22 Jan 2022 02:56:15 -0500
+X-UUID: ea73b5345319419fa94d0185be6b4199-20220122
+X-UUID: ea73b5345319419fa94d0185be6b4199-20220122
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1991601799; Sat, 22 Jan 2022 15:56:11 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Sat, 22 Jan 2022 15:56:10 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sat, 22 Jan
+ 2022 15:56:09 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 22 Jan 2022 15:56:08 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Tzung-Bi Shih" <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Steve Cho <stevecho@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v1, 0/3] support mt8186 decoder
+Date:   Sat, 22 Jan 2022 15:56:03 +0800
+Message-ID: <20220122075606.19373-1-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-FEAS-AUTH-USER: dzm91@hust.edu.cn
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dongliang Mu <mudongliangabcd@gmail.com>
+Firstly, add mt8186 compatible and private data, then add document for
+compatible "mediatek,mt8186-vcodec-dec". For mt8186 is single core
+architecture, need to add new interface for h264 hardware decoder.
 
-The commit 47677e51e2a4("[media] em28xx: Only deallocate struct
-em28xx after finishing all extensions") adds kref_get to many init
-functions (e.g., em28xx_audio_init). However, kref_init is called too
-late in em28xx_usb_probe, since em28xx_init_dev before will invoke
-those init functions and call kref_get function. Then refcount bug
-occurs in my local syzkaller instance.
-
-Fix it by moving kref_init before em28xx_init_dev. This issue occurs
-not only in dev but also dev->dev_next.
-
-Fixes: 47677e51e2a4 ("[media] em28xx: Only deallocate struct em28xx after finishing all extensions")
-Reported-by: syzkaller <syzkaller@googlegroups.com>
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+Patche 1 add mt8186 compatible and private data.
+Patche 2 add mt8186 compatible document.
+Patche 3 add h264 single core driver.
 ---
- drivers/media/usb/em28xx/em28xx-cards.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+This patch depends on "support for MT8192 decoder"[1]
 
-diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-index b451ce3cb169..f3b56c065ee1 100644
---- a/drivers/media/usb/em28xx/em28xx-cards.c
-+++ b/drivers/media/usb/em28xx/em28xx-cards.c
-@@ -3936,6 +3936,8 @@ static int em28xx_usb_probe(struct usb_interface *intf,
- 		goto err_free;
- 	}
- 
-+	kref_init(&dev->ref);
-+
- 	dev->devno = nr;
- 	dev->model = id->driver_info;
- 	dev->alt   = -1;
-@@ -4036,6 +4038,8 @@ static int em28xx_usb_probe(struct usb_interface *intf,
- 	}
- 
- 	if (dev->board.has_dual_ts && em28xx_duplicate_dev(dev) == 0) {
-+		kref_init(&dev->dev_next->ref);
-+
- 		dev->dev_next->ts = SECONDARY_TS;
- 		dev->dev_next->alt   = -1;
- 		dev->dev_next->is_audio_only = has_vendor_audio &&
-@@ -4090,12 +4094,8 @@ static int em28xx_usb_probe(struct usb_interface *intf,
- 			em28xx_write_reg(dev, 0x0b, 0x82);
- 			mdelay(100);
- 		}
--
--		kref_init(&dev->dev_next->ref);
- 	}
- 
--	kref_init(&dev->ref);
--
- 	request_modules(dev);
- 
- 	/*
+[1]  https://patchwork.kernel.org/project/linux-mediatek/patch/20220122035316.18179-1-yunfei.dong@mediatek.com/
+---
+Yunfei Dong (3):
+  mtk-vcodec: Support MT8186
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8186
+  mtk-vcodec: add h264 decoder driver for mt8186
+
+ .../media/mediatek,vcodec-subdev-decoder.yaml |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   1 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |   4 +
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  19 ++
+ .../mtk-vcodec/vdec/vdec_h264_req_multi_if.c  | 164 ++++++++++++++++++
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |   5 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.h   |   1 +
+ 7 files changed, 196 insertions(+), 2 deletions(-)
+
 -- 
 2.25.1
 
