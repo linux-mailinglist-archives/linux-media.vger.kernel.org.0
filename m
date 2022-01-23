@@ -2,150 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02A3C4970CF
-	for <lists+linux-media@lfdr.de>; Sun, 23 Jan 2022 10:50:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC333497144
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jan 2022 12:18:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232558AbiAWJub (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jan 2022 04:50:31 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:33348 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232476AbiAWJua (ORCPT
+        id S232580AbiAWLSu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Jan 2022 06:18:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38896 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232629AbiAWLSt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jan 2022 04:50:30 -0500
-Received: from [IPv6:2a00:c281:1137:e00:a5d3:cad8:aea5:8082] (unknown [IPv6:2a00:c281:1137:e00:a5d3:cad8:aea5:8082])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D5A8C1F40AC5;
-        Sun, 23 Jan 2022 09:50:28 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1642931429;
-        bh=+eQA0k87rkrro6eXxggh6SN73i8YssjGx7BFERBAy3Q=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=jeaTKRdqmGRpw6CMPpecqzrEqUJGMb3CC0Y5XwIOgNEGSA+oGJnSaZYApygx4ix6d
-         B/qKzGRtVTBuErJkqgVjM3fEKxH4A8rof83BzTHPQyi4iyXDDnQo0jkaLrgYhaD26I
-         C5IeZW7SRnPJPb4Tlce5FdJo5eBvQxhgIEGwq6zD+ddpPgJ42gtZu2Vaxstzmv4tWm
-         ptwQOx1vVbOe4kBTvw3VkTaSjgtKbw6xSFmVKDswN4in7UIpdqIPj13zuFt24n+IVa
-         7A+DA2iKeZ4zRN2ALqlXlelBg4DcfX/jQwPe65tfqohlnWyz3nVJQ/MpVaiv9uXF3y
-         JzJMx2SIaSj1w==
-Subject: Re: [PATCH v2] media: rkisp1: fix grey format iommu page faults
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     nicolas.dufresne@collabora.com, laurent.pinchart@ideasonboard.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, mchehab@kernel.org
-References: <20211207115923.13639-1-dafna.hirschfeld@collabora.com>
- <164241927947.10801.12217816997308426483@Monstersaurus>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <1f8350f4-a2dc-5405-b48b-e657124f119d@collabora.com>
-Date:   Sun, 23 Jan 2022 11:50:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Sun, 23 Jan 2022 06:18:49 -0500
+Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC5A8C06173B
+        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 03:18:48 -0800 (PST)
+Received: by mail-vk1-xa35.google.com with SMTP id w5so8333536vke.12
+        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 03:18:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=uxF4C70BGh1p4gymtTkbdQp4WM0vS7/g8ye4ukOpm1Y=;
+        b=j7t2KokOWCfUwxbL+cWPozW6GRiRaBQyT0LcdLP/PDvNIUPw/tD21pMBHbqpEvgsDF
+         cvUiUbY4RMzqmlyo1chx90eDQjk+3M6Sd1vgsbGNZ+79H6bdWv1WPokcZIP6sLmIcHQ8
+         zHPsOSRaQkLpZPtvSBIIfnXTmo5oVa78MGvHkQb1rXPG06PLe1laJlnmYMCCE8G7yPgL
+         gzhYnsfUp9aR5av005TqaWfXO3L0s+ktEeSB7ezU+QgEx6ZVqABujQfNUq+UByUebAWj
+         r8P8BSMAlAIzpqxAuRVSt1vP8jaNe8AKGR3Qx7gds+IE9M4Bh6y+pmMpWDvxkXBZly2r
+         ss1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=uxF4C70BGh1p4gymtTkbdQp4WM0vS7/g8ye4ukOpm1Y=;
+        b=wYPgbyCAmjuQPJIWbV0MdydenASMQE4S+cxUACe11iTlOuwtVQj8+PK3SRkyUr5xBS
+         Preg8IwMhspm/4ufASnOdAgDRdzwFgBEGEEpzT+2LqaokHYiJJyJza835Daze6nmlAHj
+         GTa7/nt3/MGSIcnUWlnc0JDRVjlC8EnwxBeSwDUp+C/zucfuHZKk9Zo1toDnLQ5DQ450
+         4KyQqAEV/uX2M3mBMuxxSvJLlEWDoFBOGhZgI1o4XbjlqlQkiRv4Be9OQp2dDCTo6oen
+         wdwOJSLTtYk613veswnZ9PWpvumW6YmSzpneZikNWjc/eoKtnelMS0cyfVfj+UQHqGPN
+         HIKQ==
+X-Gm-Message-State: AOAM531l0xT3RGz2rX28lIJQuMDDqjiRTqbN8hjipap3fz4ZlwF+Av0B
+        rDmgw4KzhhCmrvBZ0TlR8JLGykEfi0GiQwu/ZG0=
+X-Google-Smtp-Source: ABdhPJyr6l0bFPzS5JMr8j7YPQ2yji0bqSz0/RSgkBL70++uwPLXGnFp+E0KeIq5VJcOkkzSIQ8gA6mSHC2EWOiWQzc=
+X-Received: by 2002:a05:6122:1813:: with SMTP id ay19mr3922899vkb.5.1642936727663;
+ Sun, 23 Jan 2022 03:18:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <164241927947.10801.12217816997308426483@Monstersaurus>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Sender: mrsnicolemarois8@gmail.com
+Received: by 2002:a59:cb28:0:b0:27e:b664:9a5b with HTTP; Sun, 23 Jan 2022
+ 03:18:47 -0800 (PST)
+From:   Miss Qing Yu <qing9560yu@gmail.com>
+Date:   Sun, 23 Jan 2022 11:18:47 +0000
+X-Google-Sender-Auth: GS_wioqOFnNuiiAuCwSJD0RSTt8
+Message-ID: <CAAadsjvb0vzYPJg8fZN2hujH3CXBWUFgzE+wDc1KXe80BigkJw@mail.gmail.com>
+Subject: Hello Dear,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+I am Mrs Yu. Ging Yunnan, and i have Covid-19 and the doctor said I
+will not survive it because all vaccines has been given to me but to
+no avian, am a China
 
+woman but I base here in France because am married here and I have no
+child for my late husband and now am a widow.
 
-On 17.01.22 13:34, Kieran Bingham wrote:
-> Hi Dafna,
-> 
-> Quoting Dafna Hirschfeld (2021-12-07 11:59:23)
->> Currently capturing grey format produces page faults
->> on both selfpath and mainpath. To support greyscale
->> we can capture YUV422 planar format and configure the U, V
->> buffers to the dummy buffer.
->>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> ---
->> This is v2 of the patch "media: rkisp1: remove support for V4L2_PIX_FMT_GREY"
->> In v1 I removed the grey format. In this version it is 'fixed'
->>
->>   .../platform/rockchip/rkisp1/rkisp1-capture.c | 28 ++++++++++++++-----
->>   1 file changed, 21 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> index 768987d5f2dd..8e982dd0c740 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> @@ -249,7 +249,7 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
->>                  .fourcc = V4L2_PIX_FMT_GREY,
->>                  .uv_swap = 0,
->>                  .write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
->> -               .output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV400,
->> +               .output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
->>                  .mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->>          },
->>          /* rgb */
->> @@ -631,12 +631,26 @@ static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
->>                  rkisp1_write(cap->rkisp1,
->>                               buff_addr[RKISP1_PLANE_Y],
->>                               cap->config->mi.y_base_ad_init);
->> -               rkisp1_write(cap->rkisp1,
->> -                            buff_addr[RKISP1_PLANE_CB],
->> -                            cap->config->mi.cb_base_ad_init);
->> -               rkisp1_write(cap->rkisp1,
->> -                            buff_addr[RKISP1_PLANE_CR],
->> -                            cap->config->mi.cr_base_ad_init);
->> +               /*
->> +                * In order to support grey format we capture
->> +                * YUV422 planar format from the camera and
->> +                * set the U and V planes to the dummy buffer
->> +                */
->> +               if (cap->pix.cfg->fourcc == V4L2_PIX_FMT_GREY) {
->> +                       rkisp1_write(cap->rkisp1,
->> +                                    cap->buf.dummy.dma_addr,
->> +                                    cap->config->mi.cb_base_ad_init);
->> +                       rkisp1_write(cap->rkisp1,
->> +                                    cap->buf.dummy.dma_addr,
->> +                                    cap->config->mi.cr_base_ad_init);
->> +               } else {
->> +                       rkisp1_write(cap->rkisp1,
->> +                                    buff_addr[RKISP1_PLANE_CB],
->> +                                    cap->config->mi.cb_base_ad_init);
->> +                       rkisp1_write(cap->rkisp1,
->> +                                    buff_addr[RKISP1_PLANE_CR],
->> +                                    cap->config->mi.cr_base_ad_init);
->> +               }
->>          } else {
-> 
-> Looking at this function, I think I would have initialised a local array
-> of addresses (either to zero, or to the dummy address?) to then set
-> values when appropriate, and reduce the number of calls to
-> rkisp1_write() to a single set of three after the processing.
-> 
-> It might make the function simpler, and more readable, but it's more
-> effort, and this does look like it will solve the greyscale format issue
-> as discussed in earlier threads so I'd leave it up to you if you want to
-> refactor.
+My reason of communicating you is that i have $9.2million USD which
+was deposited in BNP Paribas Bank here in France by my late husband
+which am the next of
 
-Hi,
-Yes, I'll do that.
-Interestingly I found out that the patch causing the iommu page fault is
+kin to and I want you to stand as the beneficiary for the claim now
+that am about to end my race according to my doctor.
 
-https://www.spinics.net/lists/linux-media/msg176089.html
+I will want you to use the fund to build an orphanage home in my name
+there in your country, please kindly reply to this message urgently if
+willing to handle this project.
 
-Before that patch there are no iommu page faults but the video is corrupted.
+God bless you and i wait your swift response asap.
 
-I can't explain how I didn't find it before, I clearly remember testing the grey format.
+Yours fairly friend,
 
-Thanks,
-Dafna
-
-
-
-
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> 
->>                  /*
->>                   * Use the dummy space allocated by dma_alloc_coherent to
->> -- 
->> 2.17.1
->>
+Mrs Yu. Ging Yunnan.
