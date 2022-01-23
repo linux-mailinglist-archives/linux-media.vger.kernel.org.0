@@ -2,173 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAE3F4971FF
-	for <lists+linux-media@lfdr.de>; Sun, 23 Jan 2022 15:20:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2C56497205
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jan 2022 15:21:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236721AbiAWOUU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jan 2022 09:20:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49850 "EHLO
+        id S233494AbiAWOVn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Jan 2022 09:21:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233464AbiAWOUT (ORCPT
+        with ESMTP id S232277AbiAWOVn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jan 2022 09:20:19 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EDB3C06173B;
-        Sun, 23 Jan 2022 06:20:19 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3B7125E;
-        Sun, 23 Jan 2022 15:20:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642947616;
-        bh=dYUGttap102WggVh/bUheWp/AKyFOFEz5Xjcvb1Fz3o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JOlhHQLN1gBh7W3CEKHN/PBkSMPo83gMWnmdxfwiMdQRNwHFwJPiKcYSSoHXzyqKe
-         ltevzgKHr30LwyRCA+sLkgEWEudhs78pvD2kfXc3L3olgp9pxory8g3IJ/7GS68b1m
-         pbl1Ega26Uv/10aosA3685fh1sMjwk9YVxSI8FvI=
-Date:   Sun, 23 Jan 2022 16:19:59 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
-        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 10/13] media: rcar-csi2: Move format to subdev state
-Message-ID: <Ye1kD2rROMYTFE/X@pendragon.ideasonboard.com>
-References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
- <20211017182449.64192-11-jacopo+renesas@jmondi.org>
- <Ye1j4vOaGW60FZIY@pendragon.ideasonboard.com>
+        Sun, 23 Jan 2022 09:21:43 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C71E5C06173B
+        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 06:21:42 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id p15so14138428ejc.7
+        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 06:21:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BjGVNSzNwjAE+Vn3RXe8iOrWczsdtRqJy4ELA3RuEEY=;
+        b=E92mjIG9/8A3/0dQhkLtkc1QViIf8ze4ELv+PoCAaATL60UdUneenDrxlm2gIgWz/s
+         xQsNuqmLzeHOLNe0AzJeEqlR3FRZKlHb+taFsT0L4sHrd4K5Fva+v0Hebo7tJ84a8fHN
+         dsVxTRtnUM9eJv/B1YAfsTrl5l64+64+vwlvg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BjGVNSzNwjAE+Vn3RXe8iOrWczsdtRqJy4ELA3RuEEY=;
+        b=LhJsfn0tcry4M6EQFnAudKpZUgxlQ+D9sYcTNAE1Q3nWlcRFcDEQV4qwyFxPbpT2Rn
+         6PxNV213b2/04gK7Vsv/h+AyFW5wf5UbW8weySY/Fma9E+2RRnoFov9rCqfwNoXZopRm
+         dY5fiiZMrumd4kSlad7Fy6tY5dTYBqajsVqeGqz1k3T6brTpl4TY4airIuoaAnW4IaNT
+         8Ngsj32HqsEpR6zxayRCVpIDdwXE62MQ7DrVbW72TJ5zeRUobJdFGUnXyEF+xl87Ewix
+         dJMD3EjflDGoHMZQXNmkTictaOb2nkb51a8qu5u3j8Zblz18vZuio2ILtQjXWSYHu1bO
+         sn1A==
+X-Gm-Message-State: AOAM532TXtu1wPMKYoIwDXE4RoGXpyFUhBtqixFAHP1PrviQoD4Cw6RW
+        21tpRUWVYcU4N+4il2vInnhoaqasYy/l0w==
+X-Google-Smtp-Source: ABdhPJxVjQSYBVRmtUfIwuyFPiK0vBcXMLpMfcaJ0unlFTQ2lTyOireqQhg1Ui+je9sBth9kzIUjXw==
+X-Received: by 2002:a17:907:1b21:: with SMTP id mp33mr9299015ejc.580.1642947701243;
+        Sun, 23 Jan 2022 06:21:41 -0800 (PST)
+Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id k6sm5114767edx.41.2022.01.23.06.21.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jan 2022 06:21:40 -0800 (PST)
+From:   Petko Manolov <petko.manolov@konsulko.com>
+To:     linux-media@vger.kernel.org
+Cc:     Petko Manolov <petko.manolov@konsulko.com>
+Subject: [PATCH v4 0/1] media: ovm6211: Adds support for OVM6211
+Date:   Sun, 23 Jan 2022 16:21:33 +0200
+Message-Id: <20220123142134.3074180-1-petko.manolov@konsulko.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Ye1j4vOaGW60FZIY@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jan 23, 2022 at 04:19:16PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
-> 
-> Thank you for the patch.
-> 
-> On Sun, Oct 17, 2021 at 08:24:46PM +0200, Jacopo Mondi wrote:
-> > Move format handling to the v4l2_subdev state and store it per
-> > (pad, stream) combination.
-> > 
-> > Now that the image format is stored in the subdev state, it can be
-> > accessed through v4l2_subdev_get_fmt() instead of open-coding it.
-> > 
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 50 ++++++++++++---------
-> >  1 file changed, 29 insertions(+), 21 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > index 451a6da26e03..b60845b1e563 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > @@ -722,34 +722,42 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
-> >  				struct v4l2_subdev_state *sd_state,
-> >  				struct v4l2_subdev_format *format)
-> >  {
-> > -	struct rcar_csi2 *priv = sd_to_csi2(sd);
-> > -	struct v4l2_mbus_framefmt *framefmt;
-> > +	struct v4l2_mbus_framefmt *fmt;
-> > +	struct v4l2_subdev_state *state;
-> > +	int ret = 0;
-> >  
-> >  	if (!rcsi2_code_to_fmt(format->format.code))
-> >  		format->format.code = rcar_csi2_formats[0].code;
-> >  
-> > -	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > -		priv->mf = format->format;
-> > -	} else {
-> > -		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> > -		*framefmt = format->format;
-> > -	}
-> > +	/*
-> > +	 * Format is propagated from sink streams to source streams, so
-> > +	 * disallow setting format on the source pads.
-> > +	 */
-> > +	if (format->pad > RCAR_CSI2_SINK)
-> > +		return -EINVAL;
-> 
-> You should return v4l2_subdev_get_fmt() instead.
-> 
-> >  
-> > -	return 0;
-> > -}
-> > +	state = v4l2_subdev_validate_and_lock_state(sd, sd_state);
-> 
-> With v10 of the streams series I think you can use
-> v4l2_subdev_lock_state().
-> 
-> > +	fmt = v4l2_state_get_stream_format(state, format->pad,
-> > +					   format->stream);
-> > +	if (!fmt) {
-> > +		ret = -EINVAL;
-> > +		goto out;
-> > +	}
-> > +	*fmt = format->format;
-> 
-> I would get the pointers to both formats before updating any of them, to
-> avoid a partial update in case of error:
-> 
-> 	sink_fmt = v4l2_state_get_stream_format(state, format->pad,
-> 						format->stream);
-> 	source_fmt = v4l2_state_get_opposite_stream_format(state, format->pad,
-> 							   format->stream);
-> 	if (!sink_fmt || !source_fmt) {
-> 		ret = -EINVAL;
-> 		goto out;
-> 	}
-> 
-> 	*sink_fmt = format->format;
-> 	*source_fmt = format->format;
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+v4: More unused header files removed, use media_entity_cleanup() where
+necessary and some other minor cleanups.
 
-Actually, the rest of the driver still uses priv->mf, so this patch will
-cause a breakage. You can squash it with 11/13.
+v3: As usual, not everything is perfect, hence v3.  The patch set is now merged
+into one big patch, redundant code was removed and the end result tested on the
+board.  DT bindings are coming some time later.
 
-> >  
-> > -static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
-> > -				struct v4l2_subdev_state *sd_state,
-> > -				struct v4l2_subdev_format *format)
-> > -{
-> > -	struct rcar_csi2 *priv = sd_to_csi2(sd);
-> > +	/* Propagate format to the other end of the route. */
-> > +	fmt = v4l2_state_get_opposite_stream_format(state, format->pad,
-> > +						    format->stream);
-> > +	if (!fmt) {
-> > +		ret = -EINVAL;
-> > +		goto out;
-> > +	}
-> > +	*fmt = format->format;
-> >  
-> > -	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> > -		format->format = priv->mf;
-> > -	else
-> > -		format->format = *v4l2_subdev_get_try_format(sd, sd_state, 0);
-> > +out:
-> > +	v4l2_subdev_unlock_state(state);
-> >  
-> > -	return 0;
-> > +	return ret;
-> >  }
-> >  
-> >  static int _rcsi2_set_routing(struct v4l2_subdev *sd,
-> > @@ -829,7 +837,7 @@ static const struct v4l2_subdev_video_ops rcar_csi2_video_ops = {
-> >  static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
-> >  	.init_cfg = rcsi2_init_cfg,
-> >  	.set_fmt = rcsi2_set_pad_format,
-> > -	.get_fmt = rcsi2_get_pad_format,
-> > +	.get_fmt = v4l2_subdev_get_fmt,
-> >  	.set_routing = rcsi2_set_routing,
-> >  };
-> >  
+v2: Removes an unused function (ovm6211_set_pix_clk) and this patch series is
+now based on media/master; Didn't receive any comments about the RFC version,
+thus i assume everything is perfect... :P
 
+This patch adds ovm6211 driver into the staging directory.  It also creates
+media/i2c entry, where ovm6211.c lives for now, to mimic the generic media
+source tree.
+
+Petko Manolov (1):
+  media: ovm6211: Adds support for OVM6211
+
+ drivers/media/i2c/Kconfig   |   10 +
+ drivers/media/i2c/Makefile  |    1 +
+ drivers/media/i2c/ovm6211.c | 1032 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 1043 insertions(+)
+ create mode 100644 drivers/media/i2c/ovm6211.c
+
+
+base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
