@@ -2,211 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 568DF4972DD
-	for <lists+linux-media@lfdr.de>; Sun, 23 Jan 2022 17:09:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88A40497301
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jan 2022 17:31:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238457AbiAWQJ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jan 2022 11:09:29 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42268 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238436AbiAWQJZ (ORCPT
+        id S238324AbiAWQbV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Jan 2022 11:31:21 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:34872 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238314AbiAWQbU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jan 2022 11:09:25 -0500
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1026C25E;
-        Sun, 23 Jan 2022 17:09:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642954163;
-        bh=T+iFp7uvzgCQ0YDPo4+gQB7BP6eBxcoY4JB0H2R7/MU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GLNg5zGbPBiXGzbKM7/FkdqdzqLKCI0EBtzTh7XQMeyz9q3eiFKG8v4G2HZ17f+jw
-         U3VEMan9vWlBQpbMc2RmjosauxFM4ljMKedEPGosQcW1hxZCJhsYxZSylLAPjchFXF
-         6wGnwNA+G4lTzRdL1VuaWDsBETJe88Y5RgcETeUo=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: [PATCH 6/6] media: xilinx: csi2rxss: Use mipi-csi2.h
-Date:   Sun, 23 Jan 2022 18:08:57 +0200
-Message-Id: <20220123160857.24161-7-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220123160857.24161-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20220123160857.24161-1-laurent.pinchart+renesas@ideasonboard.com>
+        Sun, 23 Jan 2022 11:31:20 -0500
+Received: from [IPv6:2a00:c281:1137:e00:10b6:f074:cd3:20ae] (unknown [IPv6:2a00:c281:1137:e00:10b6:f074:cd3:20ae])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9E45E1F43637;
+        Sun, 23 Jan 2022 16:31:18 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1642955479;
+        bh=md0xp/AGdMiZMYjcnuuDrbPzJyr4QBDP+UpMtq+KUNU=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=KSyZ96uuz/ZHBO++CzBfy9c7tKYewL5BCZ4IM03weCdTdQRCDhYCxZpQBBA8mGC0r
+         QqF/BRXbjUMynu316mMPdtKERcyBtz5jBpxR8ldXFE8ZcqY8AiubPaR6TpI8ktGE6J
+         Ygp1oxbHQ+t3LpT2zHRZZIjzzJ0LOmx8B8GCTGmA0lq1A0Ysd7ZsWbfCKLUj3JuJ4I
+         jsus7zbLxpC5nRZx+uGmUDO9jKAKQqJWiUnNXw9QUiT35UAHz1LbV9lYkoTI/Ahkvx
+         Yl49dJOdwvFGWUklzYSZFrdvyBUYPhsG6Zd6QXGnllIqUm++XXfKOOIkDm1DSyGBQk
+         O9cw8HtuXl5CA==
+Subject: Re: [PATCH v2] media: rkisp1: fix grey format iommu page faults
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, mchehab@kernel.org
+References: <20211207115923.13639-1-dafna.hirschfeld@collabora.com>
+ <164241927947.10801.12217816997308426483@Monstersaurus>
+ <1f8350f4-a2dc-5405-b48b-e657124f119d@collabora.com>
+ <Ye1nFVYP8/GS6UBC@pendragon.ideasonboard.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <e1acdb99-759d-6efe-ec5e-c07f2cd81cda@collabora.com>
+Date:   Sun, 23 Jan 2022 18:31:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <Ye1nFVYP8/GS6UBC@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace the driver-specific definitions of MIPI CSI-2 data types with
-macros from mipi-csi2.h.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- .../media/platform/xilinx/xilinx-csi2rxss.c   | 106 ++++++++----------
- 1 file changed, 45 insertions(+), 61 deletions(-)
 
-diff --git a/drivers/media/platform/xilinx/xilinx-csi2rxss.c b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
-index b1baf9d7b6ec..051c60cba1e0 100644
---- a/drivers/media/platform/xilinx/xilinx-csi2rxss.c
-+++ b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
-@@ -18,6 +18,7 @@
- #include <linux/platform_device.h>
- #include <linux/v4l2-subdev.h>
- #include <media/media-entity.h>
-+#include <media/mipi-csi2.h>
- #include <media/v4l2-common.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-fwnode.h>
-@@ -115,23 +116,6 @@
- #define XCSI_DEFAULT_WIDTH	1920
- #define XCSI_DEFAULT_HEIGHT	1080
- 
--/* MIPI CSI-2 Data Types from spec */
--#define XCSI_DT_YUV4228B	0x1e
--#define XCSI_DT_YUV42210B	0x1f
--#define XCSI_DT_RGB444		0x20
--#define XCSI_DT_RGB555		0x21
--#define XCSI_DT_RGB565		0x22
--#define XCSI_DT_RGB666		0x23
--#define XCSI_DT_RGB888		0x24
--#define XCSI_DT_RAW6		0x28
--#define XCSI_DT_RAW7		0x29
--#define XCSI_DT_RAW8		0x2a
--#define XCSI_DT_RAW10		0x2b
--#define XCSI_DT_RAW12		0x2c
--#define XCSI_DT_RAW14		0x2d
--#define XCSI_DT_RAW16		0x2e
--#define XCSI_DT_RAW20		0x2f
--
- #define XCSI_VCX_START		4
- #define XCSI_MAX_VC		4
- #define XCSI_MAX_VCX		16
-@@ -183,32 +167,32 @@ static const struct xcsi2rxss_event xcsi2rxss_events[] = {
-  * and media bus formats
-  */
- static const u32 xcsi2dt_mbus_lut[][2] = {
--	{ XCSI_DT_YUV4228B, MEDIA_BUS_FMT_UYVY8_1X16 },
--	{ XCSI_DT_YUV42210B, MEDIA_BUS_FMT_UYVY10_1X20 },
--	{ XCSI_DT_RGB444, 0 },
--	{ XCSI_DT_RGB555, 0 },
--	{ XCSI_DT_RGB565, 0 },
--	{ XCSI_DT_RGB666, 0 },
--	{ XCSI_DT_RGB888, MEDIA_BUS_FMT_RBG888_1X24 },
--	{ XCSI_DT_RAW6, 0 },
--	{ XCSI_DT_RAW7, 0 },
--	{ XCSI_DT_RAW8, MEDIA_BUS_FMT_SRGGB8_1X8 },
--	{ XCSI_DT_RAW8, MEDIA_BUS_FMT_SBGGR8_1X8 },
--	{ XCSI_DT_RAW8, MEDIA_BUS_FMT_SGBRG8_1X8 },
--	{ XCSI_DT_RAW8, MEDIA_BUS_FMT_SGRBG8_1X8 },
--	{ XCSI_DT_RAW10, MEDIA_BUS_FMT_SRGGB10_1X10 },
--	{ XCSI_DT_RAW10, MEDIA_BUS_FMT_SBGGR10_1X10 },
--	{ XCSI_DT_RAW10, MEDIA_BUS_FMT_SGBRG10_1X10 },
--	{ XCSI_DT_RAW10, MEDIA_BUS_FMT_SGRBG10_1X10 },
--	{ XCSI_DT_RAW12, MEDIA_BUS_FMT_SRGGB12_1X12 },
--	{ XCSI_DT_RAW12, MEDIA_BUS_FMT_SBGGR12_1X12 },
--	{ XCSI_DT_RAW12, MEDIA_BUS_FMT_SGBRG12_1X12 },
--	{ XCSI_DT_RAW12, MEDIA_BUS_FMT_SGRBG12_1X12 },
--	{ XCSI_DT_RAW16, MEDIA_BUS_FMT_SRGGB16_1X16 },
--	{ XCSI_DT_RAW16, MEDIA_BUS_FMT_SBGGR16_1X16 },
--	{ XCSI_DT_RAW16, MEDIA_BUS_FMT_SGBRG16_1X16 },
--	{ XCSI_DT_RAW16, MEDIA_BUS_FMT_SGRBG16_1X16 },
--	{ XCSI_DT_RAW20, 0 },
-+	{ MIPI_CSI2_DT_YUV422_8B, MEDIA_BUS_FMT_UYVY8_1X16 },
-+	{ MIPI_CSI2_DT_YUV422_10B, MEDIA_BUS_FMT_UYVY10_1X20 },
-+	{ MIPI_CSI2_DT_RGB444, 0 },
-+	{ MIPI_CSI2_DT_RGB555, 0 },
-+	{ MIPI_CSI2_DT_RGB565, 0 },
-+	{ MIPI_CSI2_DT_RGB666, 0 },
-+	{ MIPI_CSI2_DT_RGB888, MEDIA_BUS_FMT_RBG888_1X24 },
-+	{ MIPI_CSI2_DT_RAW6, 0 },
-+	{ MIPI_CSI2_DT_RAW7, 0 },
-+	{ MIPI_CSI2_DT_RAW8, MEDIA_BUS_FMT_SRGGB8_1X8 },
-+	{ MIPI_CSI2_DT_RAW8, MEDIA_BUS_FMT_SBGGR8_1X8 },
-+	{ MIPI_CSI2_DT_RAW8, MEDIA_BUS_FMT_SGBRG8_1X8 },
-+	{ MIPI_CSI2_DT_RAW8, MEDIA_BUS_FMT_SGRBG8_1X8 },
-+	{ MIPI_CSI2_DT_RAW10, MEDIA_BUS_FMT_SRGGB10_1X10 },
-+	{ MIPI_CSI2_DT_RAW10, MEDIA_BUS_FMT_SBGGR10_1X10 },
-+	{ MIPI_CSI2_DT_RAW10, MEDIA_BUS_FMT_SGBRG10_1X10 },
-+	{ MIPI_CSI2_DT_RAW10, MEDIA_BUS_FMT_SGRBG10_1X10 },
-+	{ MIPI_CSI2_DT_RAW12, MEDIA_BUS_FMT_SRGGB12_1X12 },
-+	{ MIPI_CSI2_DT_RAW12, MEDIA_BUS_FMT_SBGGR12_1X12 },
-+	{ MIPI_CSI2_DT_RAW12, MEDIA_BUS_FMT_SGBRG12_1X12 },
-+	{ MIPI_CSI2_DT_RAW12, MEDIA_BUS_FMT_SGRBG12_1X12 },
-+	{ MIPI_CSI2_DT_RAW16, MEDIA_BUS_FMT_SRGGB16_1X16 },
-+	{ MIPI_CSI2_DT_RAW16, MEDIA_BUS_FMT_SBGGR16_1X16 },
-+	{ MIPI_CSI2_DT_RAW16, MEDIA_BUS_FMT_SGBRG16_1X16 },
-+	{ MIPI_CSI2_DT_RAW16, MEDIA_BUS_FMT_SGRBG16_1X16 },
-+	{ MIPI_CSI2_DT_RAW20, 0 },
- };
- 
- /**
-@@ -791,7 +775,7 @@ static int xcsi2rxss_set_format(struct v4l2_subdev *sd,
- 	 * other RAW, YUV422 8/10 or RGB888, set appropriate media bus format.
- 	 */
- 	dt = xcsi2rxss_get_dt(fmt->format.code);
--	if (dt != xcsi2rxss->datatype && dt != XCSI_DT_RAW8) {
-+	if (dt != xcsi2rxss->datatype && dt != MIPI_CSI2_DT_RAW8) {
- 		dev_dbg(xcsi2rxss->dev, "Unsupported media bus format");
- 		/* set the default format for the data type */
- 		fmt->format.code = xcsi2rxss_get_nth_mbus(xcsi2rxss->datatype,
-@@ -823,8 +807,8 @@ static int xcsi2rxss_enum_mbus_code(struct v4l2_subdev *sd,
- 	/* RAW8 dt packets are available in all DT configurations */
- 	if (code->index < 4) {
- 		n = code->index;
--		dt = XCSI_DT_RAW8;
--	} else if (state->datatype != XCSI_DT_RAW8) {
-+		dt = MIPI_CSI2_DT_RAW8;
-+	} else if (state->datatype != MIPI_CSI2_DT_RAW8) {
- 		n = code->index - 4;
- 		dt = state->datatype;
- 	} else {
-@@ -895,22 +879,22 @@ static int xcsi2rxss_parse_of(struct xcsi2rxss_state *xcsi2rxss)
- 	}
- 
- 	switch (xcsi2rxss->datatype) {
--	case XCSI_DT_YUV4228B:
--	case XCSI_DT_RGB444:
--	case XCSI_DT_RGB555:
--	case XCSI_DT_RGB565:
--	case XCSI_DT_RGB666:
--	case XCSI_DT_RGB888:
--	case XCSI_DT_RAW6:
--	case XCSI_DT_RAW7:
--	case XCSI_DT_RAW8:
--	case XCSI_DT_RAW10:
--	case XCSI_DT_RAW12:
--	case XCSI_DT_RAW14:
-+	case MIPI_CSI2_DT_YUV422_8B:
-+	case MIPI_CSI2_DT_RGB444:
-+	case MIPI_CSI2_DT_RGB555:
-+	case MIPI_CSI2_DT_RGB565:
-+	case MIPI_CSI2_DT_RGB666:
-+	case MIPI_CSI2_DT_RGB888:
-+	case MIPI_CSI2_DT_RAW6:
-+	case MIPI_CSI2_DT_RAW7:
-+	case MIPI_CSI2_DT_RAW8:
-+	case MIPI_CSI2_DT_RAW10:
-+	case MIPI_CSI2_DT_RAW12:
-+	case MIPI_CSI2_DT_RAW14:
- 		break;
--	case XCSI_DT_YUV42210B:
--	case XCSI_DT_RAW16:
--	case XCSI_DT_RAW20:
-+	case MIPI_CSI2_DT_YUV422_10B:
-+	case MIPI_CSI2_DT_RAW16:
-+	case MIPI_CSI2_DT_RAW20:
- 		if (!en_csi_v20) {
- 			ret = -EINVAL;
- 			dev_dbg(dev, "enable csi v2 for this pixel format");
--- 
-Regards,
+On 23.01.22 16:32, Laurent Pinchart wrote:
+> Hi Dafna,
+> 
+> On Sun, Jan 23, 2022 at 11:50:26AM +0200, Dafna Hirschfeld wrote:
+>> On 17.01.22 13:34, Kieran Bingham wrote:
+>>> Quoting Dafna Hirschfeld (2021-12-07 11:59:23)
+>>>> Currently capturing grey format produces page faults
+>>>> on both selfpath and mainpath. To support greyscale
+>>>> we can capture YUV422 planar format and configure the U, V
+>>>> buffers to the dummy buffer.
+>>>>
+>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>>> ---
+>>>> This is v2 of the patch "media: rkisp1: remove support for V4L2_PIX_FMT_GREY"
+>>>> In v1 I removed the grey format. In this version it is 'fixed'
+>>>>
+>>>>    .../platform/rockchip/rkisp1/rkisp1-capture.c | 28 ++++++++++++++-----
+>>>>    1 file changed, 21 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>>>> index 768987d5f2dd..8e982dd0c740 100644
+>>>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>>>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>>>> @@ -249,7 +249,7 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
+>>>>                   .fourcc = V4L2_PIX_FMT_GREY,
+>>>>                   .uv_swap = 0,
+>>>>                   .write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
+>>>> -               .output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV400,
+>>>> +               .output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
+>>>>                   .mbus = MEDIA_BUS_FMT_YUYV8_2X8,
+>>>>           },
+>>>>           /* rgb */
+>>>> @@ -631,12 +631,26 @@ static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
+>>>>                   rkisp1_write(cap->rkisp1,
+>>>>                                buff_addr[RKISP1_PLANE_Y],
+>>>>                                cap->config->mi.y_base_ad_init);
+>>>> -               rkisp1_write(cap->rkisp1,
+>>>> -                            buff_addr[RKISP1_PLANE_CB],
+>>>> -                            cap->config->mi.cb_base_ad_init);
+>>>> -               rkisp1_write(cap->rkisp1,
+>>>> -                            buff_addr[RKISP1_PLANE_CR],
+>>>> -                            cap->config->mi.cr_base_ad_init);
+>>>> +               /*
+>>>> +                * In order to support grey format we capture
+>>>> +                * YUV422 planar format from the camera and
+>>>> +                * set the U and V planes to the dummy buffer
+>>>> +                */
+>>>> +               if (cap->pix.cfg->fourcc == V4L2_PIX_FMT_GREY) {
+>>>> +                       rkisp1_write(cap->rkisp1,
+>>>> +                                    cap->buf.dummy.dma_addr,
+>>>> +                                    cap->config->mi.cb_base_ad_init);
+>>>> +                       rkisp1_write(cap->rkisp1,
+>>>> +                                    cap->buf.dummy.dma_addr,
+>>>> +                                    cap->config->mi.cr_base_ad_init);
+>>>> +               } else {
+>>>> +                       rkisp1_write(cap->rkisp1,
+>>>> +                                    buff_addr[RKISP1_PLANE_CB],
+>>>> +                                    cap->config->mi.cb_base_ad_init);
+>>>> +                       rkisp1_write(cap->rkisp1,
+>>>> +                                    buff_addr[RKISP1_PLANE_CR],
+>>>> +                                    cap->config->mi.cr_base_ad_init);
+>>>> +               }
+>>>>           } else {
+>>>
+>>> Looking at this function, I think I would have initialised a local array
+>>> of addresses (either to zero, or to the dummy address?) to then set
+>>> values when appropriate, and reduce the number of calls to
+>>> rkisp1_write() to a single set of three after the processing.
+>>>
+>>> It might make the function simpler, and more readable, but it's more
+>>> effort, and this does look like it will solve the greyscale format issue
+>>> as discussed in earlier threads so I'd leave it up to you if you want to
+>>> refactor.
+>>
+>> Hi,
+>> Yes, I'll do that.
+>> Interestingly I found out that the patch causing the iommu page fault is
+>>
+>> https://www.spinics.net/lists/linux-media/msg176089.html
+>>
+>> Before that patch there are no iommu page faults but the video is corrupted.
+>>
+>> I can't explain how I didn't find it before, I clearly remember testing the grey format.
+> 
+> It seems really weird indeed.
+> 
+> Are you getting IOMMU faults on both the main and self paths ?
 
-Laurent Pinchart
+Yes, both pathes. I get the page faults when checking out to this commit.
+Maybe when I tested back then, the iommu was somehow disabled?
 
+> 
+>>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>>
+>>>>                   /*
+>>>>                    * Use the dummy space allocated by dma_alloc_coherent to
+> 
