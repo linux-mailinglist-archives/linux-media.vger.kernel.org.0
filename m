@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FDCA4971EA
-	for <lists+linux-media@lfdr.de>; Sun, 23 Jan 2022 15:13:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D451A4971FD
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jan 2022 15:19:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236698AbiAWONb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jan 2022 09:13:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48368 "EHLO
+        id S236721AbiAWOTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Jan 2022 09:19:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236678AbiAWONa (ORCPT
+        with ESMTP id S236719AbiAWOTk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jan 2022 09:13:30 -0500
+        Sun, 23 Jan 2022 09:19:40 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96CC3C06173B;
-        Sun, 23 Jan 2022 06:13:30 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85497C06173B;
+        Sun, 23 Jan 2022 06:19:39 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2CF3125E;
-        Sun, 23 Jan 2022 15:13:29 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC15725E;
+        Sun, 23 Jan 2022 15:19:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1642947209;
-        bh=47P3YfcXCcgPCK6z/c9ZNbPd6O4dI41T3XLuSPjigy4=;
+        s=mail; t=1642947571;
+        bh=SL++mh8QMec1SF3lvlJulzmzPbOYX1m1SgTsf7yLzI0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZqFvJLznQVdNpMXtux8xjDLwpkiVb2Exk5Xd+XunPMe30xjn2doKyHjcuzAF4RMG4
-         RMc+6nojKw2rNLZMH3bAQd4yDGZt2xluzxkLSNc44A+HKwjnPgQ/tJuqSA8PA1mpCg
-         2LeFbjowBR9pL1VNirlxj1hsJ7FNy4qk/gLE9r9o=
-Date:   Sun, 23 Jan 2022 16:13:13 +0200
+        b=K1hB1oxf17SACQx5FY4YKdrexOawYiJXXrx3lFIWYBxPJISFyNZBZPgBvnFnOoTNZ
+         BTe9tsVnunrhPyAJWjOl9Gdy76UfTHOlgJHF18zu2O0qI+PYMxbLM+qcW5cvKrmBzd
+         rJntSRfH4Llzo/fy4z3+u7OOQHMU0zsCPDtQGYHY=
+Date:   Sun, 23 Jan 2022 16:19:14 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
@@ -33,14 +33,14 @@ Cc:     tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 09/13] media: rcar-csi2: Implement set_routing
-Message-ID: <Ye1ieevqEBfOJHKy@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 10/13] media: rcar-csi2: Move format to subdev state
+Message-ID: <Ye1j4vOaGW60FZIY@pendragon.ideasonboard.com>
 References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
- <20211017182449.64192-10-jacopo+renesas@jmondi.org>
+ <20211017182449.64192-11-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211017182449.64192-10-jacopo+renesas@jmondi.org>
+In-Reply-To: <20211017182449.64192-11-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -49,85 +49,119 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Sun, Oct 17, 2021 at 08:24:45PM +0200, Jacopo Mondi wrote:
-> Add the set_routing() subdev operation to allow userspace to configure
-> routing on the R-Car CSI-2 receiver.
+On Sun, Oct 17, 2021 at 08:24:46PM +0200, Jacopo Mondi wrote:
+> Move format handling to the v4l2_subdev state and store it per
+> (pad, stream) combination.
+> 
+> Now that the image format is stored in the subdev state, it can be
+> accessed through v4l2_subdev_get_fmt() instead of open-coding it.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 40 +++++++++++++++------
->  1 file changed, 29 insertions(+), 11 deletions(-)
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 50 ++++++++++++---------
+>  1 file changed, 29 insertions(+), 21 deletions(-)
 > 
 > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index a74087b49e71..451a6da26e03 100644
+> index 451a6da26e03..b60845b1e563 100644
 > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
 > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -752,6 +752,33 @@ static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
->  	return 0;
->  }
+> @@ -722,34 +722,42 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+>  				struct v4l2_subdev_state *sd_state,
+>  				struct v4l2_subdev_format *format)
+>  {
+> -	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> -	struct v4l2_mbus_framefmt *framefmt;
+> +	struct v4l2_mbus_framefmt *fmt;
+> +	struct v4l2_subdev_state *state;
+> +	int ret = 0;
 >  
-> +static int _rcsi2_set_routing(struct v4l2_subdev *sd,
+>  	if (!rcsi2_code_to_fmt(format->format.code))
+>  		format->format.code = rcar_csi2_formats[0].code;
+>  
+> -	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> -		priv->mf = format->format;
+> -	} else {
+> -		framefmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> -		*framefmt = format->format;
+> -	}
+> +	/*
+> +	 * Format is propagated from sink streams to source streams, so
+> +	 * disallow setting format on the source pads.
+> +	 */
+> +	if (format->pad > RCAR_CSI2_SINK)
+> +		return -EINVAL;
 
-__ is more customary.
+You should return v4l2_subdev_get_fmt() instead.
+
+>  
+> -	return 0;
+> -}
+> +	state = v4l2_subdev_validate_and_lock_state(sd, sd_state);
+
+With v10 of the streams series I think you can use
+v4l2_subdev_lock_state().
+
+> +	fmt = v4l2_state_get_stream_format(state, format->pad,
+> +					   format->stream);
+> +	if (!fmt) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +	*fmt = format->format;
+
+I would get the pointers to both formats before updating any of them, to
+avoid a partial update in case of error:
+
+	sink_fmt = v4l2_state_get_stream_format(state, format->pad,
+						format->stream);
+	source_fmt = v4l2_state_get_opposite_stream_format(state, format->pad,
+							   format->stream);
+	if (!sink_fmt || !source_fmt) {
+		ret = -EINVAL;
+		goto out;
+	}
+
+	*sink_fmt = format->format;
+	*source_fmt = format->format;
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> +			      struct v4l2_subdev_state *state,
-> +			      struct v4l2_subdev_krouting *routing)
-> +{
-> +	int ret;
-> +
-> +	ret = v4l2_routing_simple_verify(routing);
-> +	if (ret)
-> +		return ret;
-> +
-> +	state = v4l2_subdev_validate_and_lock_state(sd, state);
-> +
-> +	ret = v4l2_subdev_set_routing(sd, state, routing);
-> +
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return ret;
-> +}
-> +
-> +static int rcsi2_set_routing(struct v4l2_subdev *sd,
-> +			     struct v4l2_subdev_state *state,
-> +			     enum v4l2_subdev_format_whence which,
-> +			     struct v4l2_subdev_krouting *routing)
-> +{
-> +	return _rcsi2_set_routing(sd, state, routing);
-> +}
-> +
->  static int rcsi2_init_cfg(struct v4l2_subdev *sd,
->  			  struct v4l2_subdev_state *state)
->  {
-> @@ -792,17 +819,7 @@ static int rcsi2_init_cfg(struct v4l2_subdev *sd,
->  		.routes = routes,
->  	};
 >  
-> -	int ret = v4l2_routing_simple_verify(&routing);
-> -	if (ret)
-> -		return ret;
-> -
-> -	state = v4l2_subdev_validate_and_lock_state(sd, state);
-> -
-> -	ret = v4l2_subdev_set_routing(sd, state, &routing);
-> -
-> -	v4l2_subdev_unlock_state(state);
-> -
-> -	return ret;
-> +	return _rcsi2_set_routing(sd, state, &routing);
+> -static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+> -				struct v4l2_subdev_state *sd_state,
+> -				struct v4l2_subdev_format *format)
+> -{
+> -	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> +	/* Propagate format to the other end of the route. */
+> +	fmt = v4l2_state_get_opposite_stream_format(state, format->pad,
+> +						    format->stream);
+> +	if (!fmt) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +	*fmt = format->format;
+>  
+> -	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> -		format->format = priv->mf;
+> -	else
+> -		format->format = *v4l2_subdev_get_try_format(sd, sd_state, 0);
+> +out:
+> +	v4l2_subdev_unlock_state(state);
+>  
+> -	return 0;
+> +	return ret;
 >  }
 >  
->  static const struct v4l2_subdev_video_ops rcar_csi2_video_ops = {
-> @@ -813,6 +830,7 @@ static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
+>  static int _rcsi2_set_routing(struct v4l2_subdev *sd,
+> @@ -829,7 +837,7 @@ static const struct v4l2_subdev_video_ops rcar_csi2_video_ops = {
+>  static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
 >  	.init_cfg = rcsi2_init_cfg,
 >  	.set_fmt = rcsi2_set_pad_format,
->  	.get_fmt = rcsi2_get_pad_format,
-> +	.set_routing = rcsi2_set_routing,
+> -	.get_fmt = rcsi2_get_pad_format,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+>  	.set_routing = rcsi2_set_routing,
 >  };
 >  
->  static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
 
 -- 
 Regards,
