@@ -2,133 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F29B499CAE
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 23:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39A3A499F66
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 00:19:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354125AbiAXWG3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 17:06:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53818 "EHLO
+        id S1841190AbiAXW5u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 17:57:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1454634AbiAXVdT (ORCPT
+        with ESMTP id S1588120AbiAXWbl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 16:33:19 -0500
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21882C075D13
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 12:21:21 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id a203-20020a1c98d4000000b0034d2956eb04so193976wme.5
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 12:21:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=L7Z367An0XQXA3IfS2t7lE/P4WVIsL4Rvo0sJu7Bhew=;
-        b=YrSUTbiCwqvog8COCITrB6k/QYeDJXuqk+SVZOh8RbNO+GyZIT/ywoyyBt6fsiBbD3
-         KLJeIZRuXVeczNbCXanWH1GsuM8dOUTpNrEcvfYg3tb8eN5gd2REjJ5jNY3dGunqbDxn
-         BmfSVoEw/Fn80x1B/TnvPohOqAMZrKk9IFn3bKt5sDoyniiQ0/8lzAQGBQABJ5kky95/
-         EQcfWUdv09295PwsRgPpLC2O/Lth1h7nkDINx9EZX3Cfbv9QKBKVdVVEQG/skbIoQn3x
-         KtWj7RMvuniJBx5ZuUWfiB+KJsV1nzBt3SXwKqCaPrjbL8m7wB7ClDlt3nFYBi3y7OP0
-         B+gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=L7Z367An0XQXA3IfS2t7lE/P4WVIsL4Rvo0sJu7Bhew=;
-        b=U/xibGCE/oAEPV73aHwCscSPj3KYE2nf3I2LvzFxljvIWAvpqwGwhu8fmsY+yZ/eUw
-         VxfKzYndcqDyknWB5G+fNqvgtFGyxXQjHq+mmli6EreXE9ceDzLEJ3dY+pmwPxEdmdXK
-         ink/dzMefq/qpnH/iSO3k7JE6PVuxIErVVDp9kP3IriheEVyTwPEoxwmk6W383Nq1J30
-         TMjPtOHropgsmS369Bzmoz2rRNDrue84SPWhVByZpfujcgDSzohtYLHcCXHTVDGfGvxH
-         oNBZhvTZAGNjI+7DHROCOt0OjtaiHFIGehA0pJoL4/Jy7M46feiQuRytNF/MM4Vh2ytb
-         kegA==
-X-Gm-Message-State: AOAM532g7zYrILpBTuzh2XBSzaQ1ITJywATLgJ9YDEs9Y2rMvMaFKP4o
-        uSe1FVI+QzNuCSIzxgy08AQ=
-X-Google-Smtp-Source: ABdhPJxMGwE8fCxmF8kobgHSMo2QP5IbtpBQv55xLXDJrSWmJKgFjF06ZYZ1tpyQo7cdwBcn7FSKlg==
-X-Received: by 2002:a7b:c20a:: with SMTP id x10mr16078wmi.141.1643055679673;
-        Mon, 24 Jan 2022 12:21:19 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:139c:f8a8:1313:ffa0? ([2a02:908:1252:fb60:139c:f8a8:1313:ffa0])
-        by smtp.gmail.com with ESMTPSA id m8sm5983411wrn.106.2022.01.24.12.21.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jan 2022 12:21:19 -0800 (PST)
-Subject: Re: [PATCH 01/11] drm/radeon: use ttm_resource_manager_debug
-To:     =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= 
-        <thomas.hellstrom@linux.intel.com>, sumit.semwal@linaro.org,
-        gustavo@padovan.org, daniel.vetter@ffwll.ch, zackr@vmware.com,
+        Mon, 24 Jan 2022 17:31:41 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE4D0C02B86A;
+        Mon, 24 Jan 2022 12:56:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 95EE3B81057;
+        Mon, 24 Jan 2022 20:56:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F31AC340E5;
+        Mon, 24 Jan 2022 20:56:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1643057770;
+        bh=N7iqN2dtcEyo4qkf5F6uhGxw3W2pDTN7WGAfMlTzNYY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=IrqhCDvN3D6GkybQ/t4A0pjuPiwZNT4EQoSLlWhpdVesneLqn/fGx+uKxvTrX+wak
+         b4osQ9NHnty/dpTYVGsN32BXVcgjT7s+XzkBFGzyI6cpdEdbDpE/eUIwDpQ2gWm4Yn
+         7rbPu1Emv18NKdo3Hnoa+7vcKerJCyQ59CD4oHLI=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org
-References: <20220124130328.2376-1-christian.koenig@amd.com>
- <20220124130328.2376-2-christian.koenig@amd.com>
- <e0138a97e91678c0bd8d06071b6398c09d9c4142.camel@linux.intel.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <f10e56a4-4ade-a7c4-8ce7-caff821a4a02@gmail.com>
-Date:   Mon, 24 Jan 2022 21:21:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        linaro-mm-sig@lists.linaro.org,
+        =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= 
+        <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 5.16 0073/1039] dma_fence_array: Fix PENDING_ERROR leak in dma_fence_array_signaled()
+Date:   Mon, 24 Jan 2022 19:31:02 +0100
+Message-Id: <20220124184127.628739269@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220124184125.121143506@linuxfoundation.org>
+References: <20220124184125.121143506@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-In-Reply-To: <e0138a97e91678c0bd8d06071b6398c09d9c4142.camel@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 24.01.22 um 17:33 schrieb Thomas Hellström:
-> On Mon, 2022-01-24 at 14:03 +0100, Christian König wrote:
->> Instead of calling the debug operation directly.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Reviewed-by: Huang Rui <ray.huang@amd.com>
-> The first two patches seem unrelated to the series.
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-No idea what happened here, those two are already upstream.
+commit 95d35838880fb040ccb9fe4a48816bd0c8b62df5 upstream.
 
-I probably just forgot to pull drm-misc-next changes from a different 
-system.
+If a dma_fence_array is reported signaled by a call to
+dma_fence_is_signaled(), it may leak the PENDING_ERROR status.
 
-> Also is there a chance of a series cover-letter?
+Fix this by clearing the PENDING_ERROR status if we return true in
+dma_fence_array_signaled().
 
-Going to add one the next time, but I though it would be pretty clear 
-what this is now about.
+v2:
+- Update Cc list, and add R-b.
 
-Thanks,
-Christian.
+Fixes: 1f70b8b812f3 ("dma-fence: Propagate errors to dma-fence-array container")
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Gustavo Padovan <gustavo@padovan.org>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: <stable@vger.kernel.org> # v5.4+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20211129152727.448908-1-thomas.hellstrom@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/dma-buf/dma-fence-array.c |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
->
-> Thanks,
-> Thomas
->
->
->
->> ---
->>   drivers/gpu/drm/radeon/radeon_ttm.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c
->> b/drivers/gpu/drm/radeon/radeon_ttm.c
->> index 11b21d605584..0d1283cdc8fb 100644
->> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
->> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
->> @@ -802,7 +802,7 @@ static int radeon_mm_vram_dump_table_show(struct
->> seq_file *m, void *unused)
->>                                                             
->> TTM_PL_VRAM);
->>          struct drm_printer p = drm_seq_file_printer(m);
->>   
->> -       man->func->debug(man, &p);
->> +       ttm_resource_manager_debug(man, &p);
->>          return 0;
->>   }
->>   
->> @@ -820,7 +820,7 @@ static int radeon_mm_gtt_dump_table_show(struct
->> seq_file *m, void *unused)
->>                                                             
->> TTM_PL_TT);
->>          struct drm_printer p = drm_seq_file_printer(m);
->>   
->> -       man->func->debug(man, &p);
->> +       ttm_resource_manager_debug(man, &p);
->>          return 0;
->>   }
->>   
->
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -104,7 +104,11 @@ static bool dma_fence_array_signaled(str
+ {
+ 	struct dma_fence_array *array = to_dma_fence_array(fence);
+ 
+-	return atomic_read(&array->num_pending) <= 0;
++	if (atomic_read(&array->num_pending) > 0)
++		return false;
++
++	dma_fence_array_clear_pending_error(array);
++	return true;
+ }
+ 
+ static void dma_fence_array_release(struct dma_fence *fence)
+
 
