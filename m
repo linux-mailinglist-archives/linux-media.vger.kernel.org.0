@@ -2,41 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D96C4976CE
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 01:54:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A2E64976CF
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 01:56:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240671AbiAXAyY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jan 2022 19:54:24 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:60656 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235269AbiAXAyV (ORCPT
+        id S240677AbiAXA4V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Jan 2022 19:56:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50840 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235417AbiAXA4V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jan 2022 19:54:21 -0500
+        Sun, 23 Jan 2022 19:56:21 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3BDEC06173B
+        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 16:56:20 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D0AEAB80CD1
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 00:54:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0652C340E3;
-        Mon, 24 Jan 2022 00:54:17 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8FEE0611EA
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 00:56:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4605DC340E3;
+        Mon, 24 Jan 2022 00:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642985658;
-        bh=GuzTEz3ZCbG6YELYbo0PmFYDtwKYQ1wYCSsfG2WMvnQ=;
+        s=k20201202; t=1642985779;
+        bh=FPwGCSRtEcpp/2O8UuQi0yF+SRZORjFHX421dhsUA/I=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=OpJVgy6SrxeGnnSChs9KKp9fzmkr3g2ICOHiILyzXrcfuG5ZxXAiMCzu13dXQePWG
-         7bIfA5ZgZFiABinWug33a3eLwazCb+JIa3FOGldIhHhEcSOewujzMZ/BNYx4JATSbC
-         BLJdfYGat5TKoiox33Q6NlSqpRRMnrs6WAAuj3l5xxNzLsyR4GVU5/wiCBKT/N/t2z
-         EX5abJxJ3VUG833/jbJ6siVIaQIKWGazT7liAJQ2wTtnKirbJoqnZHPKylILG9wKHE
-         qzgHXIEtaWYUpc770jVBbfsPTDCTFR0sCWvtc5ZbViLjqPh2g3TsjlCV8zDWbElxUb
-         IvGjBszvHDGrQ==
-Date:   Mon, 24 Jan 2022 01:54:12 +0100
+        b=qWgK8q16U/qiJuaaq4LefLOqMGxg9bbTk/HOCfa4FIL8D5lrWVsHhNl9S4wYPm+yo
+         6Ofy38jqc1zAxL9YJ6v8HD6UCYkYeV5JWkr5QUgyh5X6pvsxfd6sXQXZE1qWZOEZhS
+         I2lsK1lAlq3G3E0SSZZ6reOtJfslMn40XnKY8ErCwyTahC/eRsIVfnAwwgE7uaPfhV
+         z0AMvothQ8KubxoBxXB4VlHDfVNj0uuEWvLolykro9ROPE9aIjzapGLAHhlpM61tZ6
+         fYyXuJC9vABdw7ZKDUkK8iP7ocHYJykXcRaY3bjIyduxMpqkjuD8RNJzgNtkuO+KkR
+         awz0OIOT/ITBg==
+Date:   Mon, 24 Jan 2022 01:56:15 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Sean Young <sean@mess.org>
 Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: lirc: remove unused lirc features
-Message-ID: <20220124015412.4affbefe@coco.lan>
-In-Reply-To: <20220113104757.179130-1-sean@mess.org>
-References: <20220113104757.179130-1-sean@mess.org>
+Subject: Re: [GIT PULL FOR v5.18] rc core patches
+Message-ID: <20220124015609.268b6938@coco.lan>
+In-Reply-To: <YemJ7jU3oKJHvfnV@gofer.mess.org>
+References: <YemJ7jU3oKJHvfnV@gofer.mess.org>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -45,166 +48,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 13 Jan 2022 10:47:57 +0000
+Em Thu, 20 Jan 2022 16:12:30 +0000
 Sean Young <sean@mess.org> escreveu:
 
-> These features have never been implemented by any lirc driver, including
-> staging or out of tree drivers. The ioctls for these feaures were removed
-> in commit d55f09abe24b ("[media] lirc.h: remove several unused ioctls").
+> Hi Mauro,
 > 
-> So, we can safely remove them.
+> A few small changes, mostly simplifying things.
 > 
-> Also ensure that the lirc.h files in tools directory is synced.
+> Sean
 > 
-> Signed-off-by: Sean Young <sean@mess.org>
-> ---
->  .../media/rc/lirc-get-features.rst             | 18 ------------------
->  include/uapi/linux/lirc.h                      |  4 ----
->  tools/include/uapi/linux/lirc.h                | 11 +++++------
->  3 files changed, 5 insertions(+), 28 deletions(-)
+> The following changes since commit ef483454f92bb2b8fe9ac4ec64cb00de61b87724:
 > 
-> diff --git a/Documentation/userspace-api/media/rc/lirc-get-features.rst b/Documentation/userspace-api/media/rc/lirc-get-features.rst
-> index 4bf25860f932..545137620ead 100644
-> --- a/Documentation/userspace-api/media/rc/lirc-get-features.rst
-> +++ b/Documentation/userspace-api/media/rc/lirc-get-features.rst
-> @@ -102,12 +102,6 @@ LIRC features
->      The driver supports setting the receive carrier frequency using
->      :ref:`ioctl LIRC_SET_REC_CARRIER <LIRC_SET_REC_CARRIER>`.
->  
-> -.. _LIRC-CAN-SET-REC-DUTY-CYCLE-RANGE:
-> -
-> -``LIRC_CAN_SET_REC_DUTY_CYCLE_RANGE``
-> -
-> -    Unused. Kept just to avoid breaking uAPI.
-> -
->  .. _LIRC-CAN-SET-REC-CARRIER-RANGE:
->  
->  ``LIRC_CAN_SET_REC_CARRIER_RANGE``
-> @@ -129,12 +123,6 @@ LIRC features
->      The driver supports
->      :ref:`ioctl LIRC_SET_REC_TIMEOUT <LIRC_SET_REC_TIMEOUT>`.
->  
-> -.. _LIRC-CAN-SET-REC-FILTER:
-> -
-> -``LIRC_CAN_SET_REC_FILTER``
-> -
-> -    Unused. Kept just to avoid breaking uAPI.
-> -
->  .. _LIRC-CAN-MEASURE-CARRIER:
->  
->  ``LIRC_CAN_MEASURE_CARRIER``
-> @@ -149,12 +137,6 @@ LIRC features
->      The driver supports learning mode using
->      :ref:`ioctl LIRC_SET_WIDEBAND_RECEIVER <LIRC_SET_WIDEBAND_RECEIVER>`.
->  
-> -.. _LIRC-CAN-NOTIFY-DECODE:
-> -
-> -``LIRC_CAN_NOTIFY_DECODE``
-> -
-> -    Unused. Kept just to avoid breaking uAPI.
-> -
->  .. _LIRC-CAN-SEND-RAW:
->  
->  ``LIRC_CAN_SEND_RAW``
-> diff --git a/include/uapi/linux/lirc.h b/include/uapi/linux/lirc.h
-> index 9919f2062b14..a1f9c26ea537 100644
-> --- a/include/uapi/linux/lirc.h
-> +++ b/include/uapi/linux/lirc.h
-> @@ -72,11 +72,9 @@
->  #define LIRC_CAN_SET_REC_CARRIER       (LIRC_CAN_SET_SEND_CARRIER << 16)
->  #define LIRC_CAN_SET_REC_DUTY_CYCLE    (LIRC_CAN_SET_SEND_DUTY_CYCLE << 16)
->  
-> -#define LIRC_CAN_SET_REC_DUTY_CYCLE_RANGE 0x40000000
->  #define LIRC_CAN_SET_REC_CARRIER_RANGE    0x80000000
->  #define LIRC_CAN_GET_REC_RESOLUTION       0x20000000
->  #define LIRC_CAN_SET_REC_TIMEOUT          0x10000000
-> -#define LIRC_CAN_SET_REC_FILTER           0x08000000
->  
->  #define LIRC_CAN_MEASURE_CARRIER          0x02000000
->  #define LIRC_CAN_USE_WIDEBAND_RECEIVER    0x04000000
-> @@ -84,8 +82,6 @@
->  #define LIRC_CAN_SEND(x) ((x)&LIRC_CAN_SEND_MASK)
->  #define LIRC_CAN_REC(x) ((x)&LIRC_CAN_REC_MASK)
->  
-> -#define LIRC_CAN_NOTIFY_DECODE            0x01000000
-> -
->  /*** IOCTL commands for lirc driver ***/
->  
->  #define LIRC_GET_FEATURES              _IOR('i', 0x00000000, __u32)
-> diff --git a/tools/include/uapi/linux/lirc.h b/tools/include/uapi/linux/lirc.h
-> index 45fcbf99d72e..a1f9c26ea537 100644
-> --- a/tools/include/uapi/linux/lirc.h
-> +++ b/tools/include/uapi/linux/lirc.h
-> @@ -1,7 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->  /*
->   * lirc.h - linux infrared remote control header file
-> - * last modified 2010/07/13 by Jarod Wilson
->   */
->  
->  #ifndef _LINUX_LIRC_H
-> @@ -73,11 +72,9 @@
->  #define LIRC_CAN_SET_REC_CARRIER       (LIRC_CAN_SET_SEND_CARRIER << 16)
->  #define LIRC_CAN_SET_REC_DUTY_CYCLE    (LIRC_CAN_SET_SEND_DUTY_CYCLE << 16)
->  
-> -#define LIRC_CAN_SET_REC_DUTY_CYCLE_RANGE 0x40000000
->  #define LIRC_CAN_SET_REC_CARRIER_RANGE    0x80000000
->  #define LIRC_CAN_GET_REC_RESOLUTION       0x20000000
->  #define LIRC_CAN_SET_REC_TIMEOUT          0x10000000
-> -#define LIRC_CAN_SET_REC_FILTER           0x08000000
->  
->  #define LIRC_CAN_MEASURE_CARRIER          0x02000000
->  #define LIRC_CAN_USE_WIDEBAND_RECEIVER    0x04000000
-> @@ -85,8 +82,6 @@
->  #define LIRC_CAN_SEND(x) ((x)&LIRC_CAN_SEND_MASK)
->  #define LIRC_CAN_REC(x) ((x)&LIRC_CAN_REC_MASK)
->  
-> -#define LIRC_CAN_NOTIFY_DECODE            0x01000000
-> -
->  /*** IOCTL commands for lirc driver ***/
->  
->  #define LIRC_GET_FEATURES              _IOR('i', 0x00000000, __u32)
-> @@ -139,7 +134,7 @@
->   */
->  #define LIRC_GET_REC_TIMEOUT	       _IOR('i', 0x00000024, __u32)
->  
-> -/*
-> +/**
->   * struct lirc_scancode - decoded scancode with protocol for use with
->   *	LIRC_MODE_SCANCODE
->   *
+>   media: staging: media: zoran: drop read/write support (2022-01-12 07:11:58 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/syoung/media_tree.git tags/v5.18a
+> 
+> for you to fetch changes up to 40edd4dd217a080cb5b7d5af9da04fd773234d10:
+> 
+>   media: mtk-cir: simplify code (2022-01-15 11:45:38 +0000)
+> 
+> ----------------------------------------------------------------
+> v5.18a
+> 
+> ----------------------------------------------------------------
+> Peiwei Hu (1):
+>       media: ir_toy: free before error exiting
+> 
+> Sean Young (5):
+>       media: lirc: remove unused lirc features
 
+See my comments with regards to this one.
 
-
-> @@ -195,6 +190,8 @@ struct lirc_scancode {
->   * @RC_PROTO_RCMM12: RC-MM protocol 12 bits
->   * @RC_PROTO_RCMM24: RC-MM protocol 24 bits
->   * @RC_PROTO_RCMM32: RC-MM protocol 32 bits
-> + * @RC_PROTO_XBOX_DVD: Xbox DVD Movie Playback Kit protocol
-> + * @RC_PROTO_MAX: Maximum value of enum rc_proto
->   */
->  enum rc_proto {
->  	RC_PROTO_UNKNOWN	= 0,
-> @@ -224,6 +221,8 @@ enum rc_proto {
->  	RC_PROTO_RCMM12		= 24,
->  	RC_PROTO_RCMM24		= 25,
->  	RC_PROTO_RCMM32		= 26,
-> +	RC_PROTO_XBOX_DVD	= 27,
-> +	RC_PROTO_MAX		= RC_PROTO_XBOX_DVD,
->  };
->  
->  #endif
-
-Hmm... that doesn't seem to match the patch description.
-So, I'm dropping it, for now.
-
-Btw, why are we keeping two copies of the same file, one for
-tools? Couldn't we change the tools/ makefile to just include
-the one from include/uapi/linux/lirc.h?
-
-That would avoid having to keep both in sync.
+The remaining patches were applied, thanks!
 
 Regards,
+Mauro
+
+>       media: lirc: simplify gap calculation
+>       media: mtk-cir: reduce message end to fix nec repeats
+>       media: mtk-cir: remove superfluous ir_raw_event_reset()
+>       media: mtk-cir: simplify code
+> 
+>  .../userspace-api/media/rc/lirc-get-features.rst   | 18 ----------
+>  drivers/media/rc/ir_toy.c                          |  2 +-
+>  drivers/media/rc/lirc_dev.c                        | 19 ++++-------
+>  drivers/media/rc/mtk-cir.c                         | 39 +++++++++++-----------
+>  include/media/rc-core.h                            |  6 +---
+>  include/uapi/linux/lirc.h                          |  4 ---
+>  tools/include/uapi/linux/lirc.h                    | 11 +++---
+>  7 files changed, 33 insertions(+), 66 deletions(-)
+
+
 
 Thanks,
 Mauro
