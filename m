@@ -2,122 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F218498548
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 17:52:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35D12498555
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 17:55:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243945AbiAXQwj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 11:52:39 -0500
-Received: from mga06.intel.com ([134.134.136.31]:35216 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241226AbiAXQwj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 11:52:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643043158; x=1674579158;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=fu1nTdM6Ey9Y88os1dkd6NMK6cktB4QUGnnOy1VQzQ4=;
-  b=Z2BFUoofV5ZiGK+4Cy8Pxk4jye4d+vRviDmtT+Ka9x2THw0pt+OdnEXL
-   D7XOj+4s+rUthJtcV265/vllJmbdepOxzZuiFLdK6Ntyv5+JPYRVAsRpS
-   grMFXQOhcj8lV/buuQ9pjaORT2gI3yMruXkimCDh5dX2O9E6lN/i6mz48
-   WVwUI+NQXrxgn4c8vVkK4rfMLzOXy4jv3Fop1hb/kRARI1B2VPlBOiGxV
-   B3dmdrvBju0QINvX+3WCMg4UoOEXiLsTbIhTzd1BYYdBM9waGewO7imyo
-   96kYPb0IXlDMclikcaPKrLoL4L5VpZv/ggr4QilvNzZTK0FgQJr33pWsp
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="306805218"
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
-   d="scan'208";a="306805218"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 08:52:38 -0800
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
-   d="scan'208";a="624141222"
-Received: from olindum-mobl1.ger.corp.intel.com (HELO [10.249.254.70]) ([10.249.254.70])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 08:52:34 -0800
-Message-ID: <b609fb36-b4e0-738c-01d3-b74c760a9e82@linux.intel.com>
-Date:   Mon, 24 Jan 2022 17:52:30 +0100
+        id S243826AbiAXQze (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 11:55:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43218 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236053AbiAXQzd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 Jan 2022 11:55:33 -0500
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7FDDC06173B;
+        Mon, 24 Jan 2022 08:55:32 -0800 (PST)
+Received: by mail-oi1-x22b.google.com with SMTP id y23so8106969oia.13;
+        Mon, 24 Jan 2022 08:55:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nb+0LTfVaj8me5eEZibYeHxpIZnXgwjVRTYa6w5qhzY=;
+        b=mId1FuR9s6iKVTGZis7QAHMNjgq7+dmxtx/O71+f5srxsDXSAkHFST2U7qaAE1kNKU
+         b68G9KgODou9xVptCUToGPQpslvdwRVol6TpamJN6hmMthG18HbvI6GvZabmSM/G7nxm
+         kYTIJeE57ooqyCTgFg0aYJiKAWA7K1JLqxZkUlsQ1VxliaoH9d+FBVdelrVrJ5wxPoNX
+         4cTN+ko0ZhN3WFK4dIffP4OoVUN02j+8Mk2DTVGzuWxkKcptVIo6klSNBhMffK1n7lYc
+         PL53hKQ2x/HL1U7kQTplFtNWX9YzGDtVjrlAyPXk/5VuHvegYexKV+eCXfm3s/Qag5bV
+         5ICA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nb+0LTfVaj8me5eEZibYeHxpIZnXgwjVRTYa6w5qhzY=;
+        b=mvhcpK+AEGRhNvrH/CpTRkZSbgVpVv9Vcf4XfzHpFp/DEbRk3eBHaZSnSsGqxZJQnA
+         gCdRniiuRy+cQWA1l+3gGGPVICjbV7glSpcBQzBjAoFpCsIkYje72ipv2dJ9h3OQyOTU
+         GL+KOTRJWPfp+VDhQkJkx6UlUDVskXv6Fzu0VtNlgDtheH011lskMo4HX97gR8up6ucD
+         bwU48Z17y09SrZ+AuLu6pVqpwkPLcZhVf5OUlNs8QaJQ5UsAQY+6c0+NkMsEFtVGCxip
+         /1ofsRGPO+SzYzpg2wy8J3nWyKnSHUrnAOogX5qOMMoSLtlB3ZUpYmGFg781j2yGHnFj
+         jaZQ==
+X-Gm-Message-State: AOAM533zUB0Jxcv2NpvOVWSSVU4bdf11WnNHQj2bsMm4GTBve0SgsT/j
+        2VGPpAgdoZ3CKtC8Wvn9FDk=
+X-Google-Smtp-Source: ABdhPJz48xQEpDnzAfNH9d2m9/rNA2fDFnsYAKb2fr0KpNIVlYrxB0yJfhNQ/UdiZjS7xIh3hv7VLg==
+X-Received: by 2002:a05:6808:120a:: with SMTP id a10mr2166141oil.160.1643043332255;
+        Mon, 24 Jan 2022 08:55:32 -0800 (PST)
+Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com. [76.183.134.35])
+        by smtp.gmail.com with ESMTPSA id v22sm4418370oot.10.2022.01.24.08.55.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jan 2022 08:55:31 -0800 (PST)
+From:   Chris Morgan <macroalpha82@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     devicetree@vger.kernel.org, thierry.reding@gmail.com,
+        sam@ravnborg.org, airlied@linux.ie, daniel@ffwll.ch,
+        robh+dt@kernel.org, mchehab@kernel.org, emma@anholt.net,
+        mripard@kernel.org, linux-media@vger.kernel.org,
+        Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH 0/6 v2] Support Geekworm MZP280 Panel for Raspberry Pi
+Date:   Mon, 24 Jan 2022 10:55:20 -0600
+Message-Id: <20220124165526.1104-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 08/11] dma-buf: add dma_fence_chain_contained helper
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        sumit.semwal@linaro.org, gustavo@padovan.org,
-        daniel.vetter@ffwll.ch, zackr@vmware.com,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org
-References: <20220124130328.2376-1-christian.koenig@amd.com>
- <20220124130328.2376-9-christian.koenig@amd.com>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= 
-        <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20220124130328.2376-9-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Chris Morgan <macromorgan@hotmail.com>
 
-On 1/24/22 14:03, Christian König wrote:
-> It's a reoccurring pattern that we need to extract the fence
-> from a dma_fence_chain object. Add a helper for this.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+This patch series is to add support for the MZP280 panel for the
+Raspberry Pi. This panel requires adding support for Mode 3 of the
+Raspberry Pi DPI connector, which necessitates a new media bus format.
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+This patch series has been tested on my Raspberry Pi 4 with version 1
+of the panel in question.
 
+Changes since V1:
 
-> ---
->   drivers/dma-buf/dma-fence-chain.c |  6 ++----
->   include/linux/dma-fence-chain.h   | 15 +++++++++++++++
->   2 files changed, 17 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-> index 084c6927b735..06f8ef97c6e8 100644
-> --- a/drivers/dma-buf/dma-fence-chain.c
-> +++ b/drivers/dma-buf/dma-fence-chain.c
-> @@ -148,8 +148,7 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
->   
->   	dma_fence_get(&head->base);
->   	dma_fence_chain_for_each(fence, &head->base) {
-> -		struct dma_fence_chain *chain = to_dma_fence_chain(fence);
-> -		struct dma_fence *f = chain ? chain->fence : fence;
-> +		struct dma_fence *f = dma_fence_chain_contained(fence);
->   
->   		dma_fence_get(f);
->   		if (!dma_fence_add_callback(f, &head->cb, dma_fence_chain_cb)) {
-> @@ -165,8 +164,7 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
->   static bool dma_fence_chain_signaled(struct dma_fence *fence)
->   {
->   	dma_fence_chain_for_each(fence, fence) {
-> -		struct dma_fence_chain *chain = to_dma_fence_chain(fence);
-> -		struct dma_fence *f = chain ? chain->fence : fence;
-> +		struct dma_fence *f = dma_fence_chain_contained(fence);
->   
->   		if (!dma_fence_is_signaled(f)) {
->   			dma_fence_put(fence);
-> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
-> index ee906b659694..10d51bcdf7b7 100644
-> --- a/include/linux/dma-fence-chain.h
-> +++ b/include/linux/dma-fence-chain.h
-> @@ -66,6 +66,21 @@ to_dma_fence_chain(struct dma_fence *fence)
->   	return container_of(fence, struct dma_fence_chain, base);
->   }
->   
-> +/**
-> + * dma_fence_chain_contained - return the contained fence
-> + * @fence: the fence to test
-> + *
-> + * If the fence is a dma_fence_chain the function returns the fence contained
-> + * inside the chain object, otherwise it returns the fence itself.
-> + */
-> +static inline struct dma_fence *
-> +dma_fence_chain_contained(struct dma_fence *fence)
-> +{
-> +	struct dma_fence_chain *chain = to_dma_fence_chain(fence);
-> +
-> +	return chain ? chain->fence : fence;
-> +}
-> +
->   /**
->    * dma_fence_chain_alloc
->    *
+ - Added documentation for vendor string.
+
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+
+Chris Morgan (6):
+  dt-bindings: vendor-prefixes: Add Geekworm
+  media: uapi: Document format MEDIA_BUS_FMT_RGB565_1X24_CPADHI
+  media: uapi: add MEDIA_BUS_FMT_RGB565_1X24_CPADHI
+  dt-bindings: display: simple: add Geekworm MZP280 Panel
+  drm/panel: simple: add Geekworm MZP280 Panel
+  drm/vc4: dpi: Support DPI interface in mode3 for RGB565
+
+ .../bindings/display/panel/panel-simple.yaml  |  2 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ .../media/v4l/subdev-formats.rst              | 37 +++++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c          | 29 +++++++++++++++
+ drivers/gpu/drm/vc4/vc4_dpi.c                 |  4 ++
+ include/uapi/linux/media-bus-format.h         |  3 +-
+ 6 files changed, 76 insertions(+), 1 deletion(-)
+
+-- 
+2.25.1
+
