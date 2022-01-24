@@ -2,200 +2,892 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FA6C4987EF
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 19:11:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA95B49884C
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 19:27:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245002AbiAXSLD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 13:11:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33730 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241408AbiAXSLB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 13:11:01 -0500
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7152FC06173D
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 10:11:01 -0800 (PST)
-Received: by mail-oi1-x22b.google.com with SMTP id x193so26877404oix.0
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 10:11:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=bLjR18B4+O+BIq4G++lcJm85fWQaGrH2dHhZhdZDiNg=;
-        b=4Pwvu6wbVKNMT1IIQfGgwf/cWB5DOhgoxtmYK9b6CJBDR/cUI8aLbOZCfdjQK3m8Oy
-         fYczIA0hgH9T+qPlgcE6d5o896j4zVri+HqCwa1ld7/XoTdCR1F2qd4oNDAFDyCAyjfc
-         1e91X48DOh4n4D+LcPA17yp8DIYCconJ51xP7BnflNfJ/vSnPtRWU0GSjkiDJU0kV4Kc
-         XLMa7fgbCO8Vyns+V1qjIAnOKSZGIDxf96+kQ+kHGz3tIBpgAFuflEDcENF7GRTgSxR5
-         WzSvGjETaJE1YsmuJ2b0vU2pJw1+fsx0n5zBJrd+KI4zrRBgmZDKsqTWwd0R8IyjQGp3
-         oGdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bLjR18B4+O+BIq4G++lcJm85fWQaGrH2dHhZhdZDiNg=;
-        b=Dbhr2QVxsj7U420WumXP7GzgGIs2lfDJUqUSZtQMlLfIGnzWUJPXWEBxmSGWMQWu/x
-         ObErbSl0KuskxOdhhKJrNGMaue9EUB7MNNFmbKiQlHtsvV1Oi7fGHVaRQnDrtGIWXb6r
-         UGenpxFAI8M7d1eVzfOUHVDlKr/C0Ky6406uxjq1yVP81K5AUH3Ci9XrY1gXdZeguYkY
-         mejT4vIsq7ovXK6ghjxQM9mmgXrsahFA1Jqm7btVzV11FmLZpAFekinVSIDqrIolScAm
-         09uQWerCZNc2BBJnLDXM7NWMQc473cb8D5rWt6pd/8dfjSyjXK8D92+5fUfMNM1x/pLe
-         GgEA==
-X-Gm-Message-State: AOAM533oVRZk0/c3s/JcAkiko9vFBR6TGmw4fiKVDvV06dx4Fyn8ImDD
-        fDgfKBj0iSeRts6lPi09GZffPQ==
-X-Google-Smtp-Source: ABdhPJxJ2boFuR0dh+CNPK3ZdaELWLmFBxuDXsa8zlM+dj8aIG0igVhT92WI5bJwXPs1aRkb87N7PQ==
-X-Received: by 2002:a05:6808:1644:: with SMTP id az4mr2599697oib.18.1643047860800;
-        Mon, 24 Jan 2022 10:11:00 -0800 (PST)
-Received: from eze-laptop ([190.194.87.200])
-        by smtp.gmail.com with ESMTPSA id b7sm4602674ooq.30.2022.01.24.10.10.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 10:10:59 -0800 (PST)
-Date:   Mon, 24 Jan 2022 15:10:53 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        shawnguo@kernel.org, aford@beaconembedded.com,
-        Rob Herring <robh@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH V3 04/10] dt-bindings: media: nxp, imx8mq-vpu: Split G1
- and G2 nodes
-Message-ID: <Ye7rrQHtu1rnbdHm@eze-laptop>
-References: <20220124023125.414794-1-aford173@gmail.com>
- <20220124023125.414794-5-aford173@gmail.com>
+        id S241830AbiAXS1d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 13:27:33 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:44148 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241827AbiAXS1c (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 Jan 2022 13:27:32 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nC43u-006YiP-1E; Mon, 24 Jan 2022 18:27:30 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nC43q-00EyQI-R9; Mon, 24 Jan 2022 18:27:26 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL v2 FOR 5.18] V4L2 patches (#80275)
+Date:   Mon, 24 Jan 2022 18:27:26 +0000
+Message-Id: <20220124182726.3568812-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <Ye7QMv0OBntzuC1C@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220124023125.414794-5-aford173@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jan 23, 2022 at 08:31:18PM -0600, Adam Ford wrote:
-> The G1 and G2 are independent and separate decoder blocks
-> that are enabled by the vpu-blk-ctrl power-domain controller,
-> which now has a proper driver.
-> 
-> Because these blocks only share the power-domain, and can be
-> independently fused out, update the bindings to support separate
-> nodes for the G1 and G2 decoders with vpu-blk-ctrl power-domain
-> support.
-> 
-> The new DT + old kernel isn't a supported configuration.
-> 
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> 
+From: builder@linuxtv.org
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/Ye7QMv0OBntzuC1C@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/176915/
+Build time: 00:00:33
+Link: https://lore.kernel.org/linux-media/Ye7QMv0OBntzuC1C@valkosipuli.retiisi.eu
 
-Thanks,
-Ezequiel
+gpg: Signature made Mon 24 Jan 2022 03:31:27 PM UTC
+gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: F0D0 377A 0D4F 25A7 9238  EFE5 6D40 361B 6E28 C193
 
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> index 762be3f96ce9..9c28d562112b 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> @@ -15,33 +15,20 @@ description:
->  
->  properties:
->    compatible:
-> -    const: nxp,imx8mq-vpu
-> +    oneOf:
-> +      - const: nxp,imx8mq-vpu
-> +        deprecated: true
-> +      - const: nxp,imx8mq-vpu-g1
-> +      - const: nxp,imx8mq-vpu-g2
->  
->    reg:
-> -    maxItems: 3
-> -
-> -  reg-names:
-> -    items:
-> -      - const: g1
-> -      - const: g2
-> -      - const: ctrl
-> +    maxItems: 1
->  
->    interrupts:
-> -    maxItems: 2
-> -
-> -  interrupt-names:
-> -    items:
-> -      - const: g1
-> -      - const: g2
-> +    maxItems: 1
->  
->    clocks:
-> -    maxItems: 3
-> -
-> -  clock-names:
-> -    items:
-> -      - const: g1
-> -      - const: g2
-> -      - const: bus
-> +    maxItems: 1
->  
->    power-domains:
->      maxItems: 1
-> @@ -49,31 +36,33 @@ properties:
->  required:
->    - compatible
->    - reg
-> -  - reg-names
->    - interrupts
-> -  - interrupt-names
->    - clocks
-> -  - clock-names
->  
->  additionalProperties: false
->  
->  examples:
->    - |
->          #include <dt-bindings/clock/imx8mq-clock.h>
-> +        #include <dt-bindings/power/imx8mq-power.h>
-> +        #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +        vpu_g1: video-codec@38300000 {
-> +                compatible = "nxp,imx8mq-vpu-g1";
-> +                reg = <0x38300000 0x10000>;
-> +                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> +                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
-> +                power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
-> +        };
-> +  - |
-> +        #include <dt-bindings/clock/imx8mq-clock.h>
-> +        #include <dt-bindings/power/imx8mq-power.h>
->          #include <dt-bindings/interrupt-controller/arm-gic.h>
->  
-> -        vpu: video-codec@38300000 {
-> -                compatible = "nxp,imx8mq-vpu";
-> -                reg = <0x38300000 0x10000>,
-> -                      <0x38310000 0x10000>,
-> -                      <0x38320000 0x10000>;
-> -                reg-names = "g1", "g2", "ctrl";
-> -                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> -                             <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-> -                interrupt-names = "g1", "g2";
-> -                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-> -                         <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
-> -                         <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-> -                clock-names = "g1", "g2", "bus";
-> -                power-domains = <&pgc_vpu>;
-> +        vpu_g2: video-codec@38300000 {
-> +                compatible = "nxp,imx8mq-vpu-g2";
-> +                reg = <0x38310000 0x10000>;
-> +                interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-> +                clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-> +                power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G2>;
->          };
-> -- 
-> 2.32.0
-> 
+Summary: got 23/25 patches with issues, being 23 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-dt-bindings-media-camss-Remove-clock-lane-prop.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2894 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0004-media-v4l2-subdev-Drop-.set_mbus_config-operation.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0005-media-v4l2-fwnode-Move-bus-config-structure-to-v4l2_.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0006-media-v4l2-mediabus-Use-structures-to-describe-bus-c.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2888 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0007-media-v4l2-mediabus-Drop-legacy-V4L2_MBUS_CSI2_-_LAN.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2900 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0008-media-v4l2-mediabus-Drop-legacy-V4L2_MBUS_CSI2_CHANN.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0009-media-v4l2-mediabus-Drop-V4L2_MBUS_CSI2_CONTINUOUS_C.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0010-media-ov6650-Fix-set-format-try-processing-path.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0011-media-ov6650-Add-try-support-to-selection-API-operat.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0012-media-ov6650-Fix-crop-rectangle-affected-by-set-form.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0013-media-ov6650-Fix-missing-frame-interval-enumeration-.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0013-media-ov6650-Fix-missing-frame-interval-enumeration-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:37: CHECK: Alignment should match open parenthesis
+
+patches/0014-v4l-Avoid-unaligned-access-warnings-when-printing-4c.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0014-v4l-Avoid-unaligned-access-warnings-when-printing-4c.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:53: WARNING: Avoid logging continuation uses where feasible
+
+patches/0015-ov5648-Don-t-pack-controls-struct.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0016-ov8865-Fix-indentation-in-set_selection-callback.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0017-media-hi847-Add-support-for-Hi-847-sensor.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0017-media-hi847-Add-support-for-Hi-847-sensor.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:2703: CHECK: Alignment should match open parenthesis
+
+patches/0018-media-i2c-Add-ov08d10-camera-sensor-driver.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/i2c/ov08d10.c: ../drivers/media/i2c/ov08d10.c:1276 ov08d10_enum_frame_size() warn: inconsistent returns '&ov08d10->mutex'.
+	  Locked on  : 1268
+	  Unlocked on: 1276
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0019-media-ov5693-fix-boolconv.cocci-warnings.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0020-media-ov5693-fix-returnvar.cocci-warnings.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0021-media-i2c-max9286-Implement-media-entity-.link_valid.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0022-MAINTAINERS-Update-Benjamin-Gaignard-maintainer-stat.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0023-MAINTAINERS-update-drm-stm-drm-sti-and-cec-sti-maint.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0024-media-ov2740-identify-module-after-subdev-initialisa.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0025-media-i2c-dw9714-add-optional-regulator-support.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:17: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: ‘V4L2_MBUS_CSI2_CHANNEL_0’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:360:26: note: each undeclared identifier is reported only once for each function it appears in
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_1’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_2’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:22: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	../drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: ‘V4L2_MBUS_CSI2_CHANNEL_3’ undeclared (first use in this function); did you mean ‘V4L2_MBUS_CSI2_CPHY’?
+	../drivers/media/platform/atmel/microchip-csi2dc.c:371:33: error: ‘struct v4l2_mbus_config’ has no member named ‘flags’
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/platform] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1831: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+
+Error #512 when building PDF docs
+
