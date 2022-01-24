@@ -2,125 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17CE14986A6
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 18:26:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 766014986CB
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 18:29:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244529AbiAXR0e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 12:26:34 -0500
-Received: from mta-p5.oit.umn.edu ([134.84.196.205]:54662 "EHLO
-        mta-p5.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241604AbiAXR0d (ORCPT
+        id S244585AbiAXR3z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 12:29:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52008 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244577AbiAXR3z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 12:26:33 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by mta-p5.oit.umn.edu (Postfix) with ESMTP id 4JjH2w3DHmz9vCBk
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 17:26:32 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p5.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id XIiPNDiQuU29 for <linux-media@vger.kernel.org>;
-        Mon, 24 Jan 2022 11:26:32 -0600 (CST)
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 4JjH2w16z5z9vCBB
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 11:26:32 -0600 (CST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 4JjH2w16z5z9vCBB
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 4JjH2w16z5z9vCBB
-Received: by mail-pf1-f197.google.com with SMTP id m200-20020a628cd1000000b004c7473d8cb5so4932297pfd.5
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 09:26:32 -0800 (PST)
+        Mon, 24 Jan 2022 12:29:55 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D9F2C061744
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 09:29:55 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id o64so17120859pjo.2
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 09:29:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
+        d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=czqapdsjldzHDHmZDh77wEKUMnkRN/WzBeGiMFeLjy4=;
-        b=jIcOOx28BTqEC2howlRgn7j2iZaxT80LHLhIl/uZJgOAZ6l8DDOTB0U/ZVASRVtGwK
-         2xQBXx8BXKaOzKZb2HeWkPx89o4Wk+IHULaPk2E6cjNZb1xvK0fmxntsFkces8PWsXb8
-         AEQVI0AnnA6f0/ZEqE1qWkuesh4kaQ5ILBXWAEFHC8GTFuM97mHeZThgGEiK62QJrSOv
-         oSCt+HzgRwlfipa20IyQgVEcbLkyVrrgdyl0P5YFaXFi0m2xpPTaKUu5PVRuBFjszsG5
-         pTF33XwqE9uwC8Vj4yKd1m5HWoAMdSyAefETDtOSsBR0/iPHvbXYf0M90YmFkluhV23o
-         TCMA==
+        bh=DgXlun9btBBSUmiix9Clp2ASfQHzqDBGv3T/rV7kA6I=;
+        b=JkumDcRfVORGI60Me6r9fp0pjugDK3oZgO25wFWH/YEXPurm8Fe6n5j18sH9Sl/ie1
+         vWyrA8CYQftFH7g3nJopJLp8uMliN4dKpSolzj08mg3/1J96ACuGwC7iHZSOoUOtcIGP
+         jC3/4buu9+q+Mbd6+aJDI07lPkJB0Mcc/dlWo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=czqapdsjldzHDHmZDh77wEKUMnkRN/WzBeGiMFeLjy4=;
-        b=4IrrziDp1n6waMPHaAcBTH8hYqa+Am1PCNosxawi48FWpnUNXp22Mu+nf8XunDzdds
-         fAwC4a/JyT3VYE7fXHp3hGgYMHtjTNeNYP/Ta40Jws89wyDVR47Op6wBazLWraYWdyCn
-         11f+yISKRR/zOSwwQHuPQS+Al+1rQJ9E1HG0VotNPJmn23mOh5qoS5ill2nEplVpPRpe
-         BTjdwst07BJGtkuEXuFoaOdQ4Ywyg7taceOedNqGOS213PbOw5kxJ40SQyMgcbJUMCVc
-         wwSF4H64FjTiUPMbVxBO+G2LpkA5cZfkHxoBvxIvXuY5wM5qGSLFfNukcIN8cukx/iOS
-         +qrA==
-X-Gm-Message-State: AOAM53150UN1FAPT9Arky38BMyOKUDCoABp3S2iPA7WvslxQGhWwTLi2
-        k7+aoObWp7UBV3KiaA+Dfys0Rk1rSO+O5z8X3uxiwszkRQUteh78tt4siT2HHr4fArAf+W1lgHt
-        9ORgPgM5Clta9XXsBlDpj2ofgF6c=
-X-Received: by 2002:a65:56cd:: with SMTP id w13mr3795006pgs.605.1643045191403;
-        Mon, 24 Jan 2022 09:26:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxwypVNOTlfSfn3SeS469NjBrw2g3mHUY2qLM9l4nD+JzlTRAJNJyYPlPCGnPkUH9FyanFoCQ==
-X-Received: by 2002:a65:56cd:: with SMTP id w13mr3794981pgs.605.1643045191152;
-        Mon, 24 Jan 2022 09:26:31 -0800 (PST)
-Received: from zqy787-GE5S.lan ([36.4.61.248])
-        by smtp.gmail.com with ESMTPSA id q17sm184958pfk.108.2022.01.24.09.26.28
+        bh=DgXlun9btBBSUmiix9Clp2ASfQHzqDBGv3T/rV7kA6I=;
+        b=oZeXkWnwmTxO306L1LvtIQKotdJu6WEZDuqPzV0cQyaty0dE9pU6E2ozdfHQ3ya/Lq
+         goBzknvDIEgEf9O/V8bZyn61YUciftP140vDKHSd8MybbNrbPvhIWQTg1cT/oSkWDkoV
+         buukfQvKB5+7hH2P33WHJa9fMwKKSJqgyS1YEmLDPbMIb0EBGNoagQY/6/jE3EuJLQ0q
+         YDENC7K4W3MHerO4MVWOdwInNIdIooc2aFpIabhe1KerVz1oSY4dSm31DCv5rYxGXCCk
+         jZAsYyYo1TFZo7UW0nKIdlKCTuhKUaTY9NxfMv8jXMHDH3P+AxFQFdvQMht571uPlDy9
+         TGjA==
+X-Gm-Message-State: AOAM533B7DsPfiA7HG74YNHFFq89Y5Dfj2C/6n8rcdfZa6lQQbDlpdzv
+        9npzm2uX+LpomNizps8NGt6/BQ==
+X-Google-Smtp-Source: ABdhPJw1hNa+nUhKIFuxRF9/rNyBIxX7tebJ+rW86YIOIZa0zebC4dL/dbia5M4QCW+YxCH+QwCb/w==
+X-Received: by 2002:a17:902:a408:b0:14a:d2ea:5a2b with SMTP id p8-20020a170902a40800b0014ad2ea5a2bmr14988773plq.115.1643045394651;
+        Mon, 24 Jan 2022 09:29:54 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id m17sm17337679pfk.62.2022.01.24.09.29.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 09:26:30 -0800 (PST)
-From:   Zhou Qingyang <zhou1615@umn.edu>
-To:     zhou1615@umn.edu
-Cc:     kjlu@umn.edu, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mon, 24 Jan 2022 09:29:54 -0800 (PST)
+From:   Kees Cook <keescook@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Robert Fitzsimons <robfitz@273k.net>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: bttv: Fix a NULL pointer dereference in bttv_overlay()
-Date:   Tue, 25 Jan 2022 01:26:24 +0800
-Message-Id: <20220124172626.64077-1-zhou1615@umn.edu>
-X-Mailer: git-send-email 2.25.1
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, stable@vger.kernel.org,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH RESEND] media: omap3isp: Use struct_group() for memcpy() region
+Date:   Mon, 24 Jan 2022 09:29:52 -0800
+Message-Id: <20220124172952.2411764-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4705; h=from:subject; bh=oa/cUXWpSfkCxLLoNQotX2hWIvBBQ2nEDbLhRiHg/WI=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBh7uIQfzKSQEGnylISh8uJvLEpO6KrYu+j+JmXGK0U KMX/pYqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYe7iEAAKCRCJcvTf3G3AJhJIEA CKE5Tih0LP/9wjDJ1lHDwtZWeWaNtsCb2YeF/Fauxgfc/i5vsuphJ3AIjY5r8dlJGf5r9/nUL91itR YWf+B0JLXk0y4tNbpupUpiZ+3wZ2kYCHkGaOB7SQWBrpLJGbhD2C+Q7K3LoijhJsxqQpP2gj6wwFc2 b9dqBsSXFalfJtl35JE88x7cizoyId34lN6AemDI5l58Hd2BTWInhTLhlVTbyge3hA3Rp6QWlmaoZi NBOfXwjIVHH6H4XOSg80i+SPrtQwLsRk8v/3GeCWVzeVlqN75VVzLIyp/mPWZ3srogmdlCN9PpN0Sz klWIwEu4YAzhleo4W4Rwwu7Y6W6cayH2zel6xaH+iRT0W90i4Pybh2ipwJEF3cIJodmoZVPilp+7Ya 4MqRgqtNJ2qfi8BZx7i+oXx468EnElS3oAE7gETDt2q90WUjAU15tQxV4Zz2FRsX7NFwP2Pe0y9UD2 AiWEFWDpbe3RImfxJvQussi/IMejMVb6AEFSpXS+0uJnxiXoEj+HrT2A9HqlU1FzR3ape+r1sTNA6E UcpA3EfGy7kvdUpDHAtRFSpsqw21lYoo7Ry3fwIZTkcwhFlbNobsMC//KW3OvRG9aEYH7Il0yUrUqI bMxQZ5MBsUeCuAJt2KsMZDuFntvD1ibeSXNFj3nbkLOuCpIcpESC7cAklhoQ==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In bttv_overlay(), the return value of videobuf_sg_alloc() is assigned
-to variable new and there is a dereference of it after that. the return
-value of videobuf_sg_alloc() could be NULL on failure of allocation,
-which could lead to a NULL pointer dereference.
+In preparation for FORTIFY_SOURCE performing compile-time and run-time
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields. Wrap the target region
+in struct_group(). This additionally fixes a theoretical misalignment
+of the copy (since the size of "buf" changes between 64-bit and 32-bit,
+but this is likely never built for 64-bit).
 
-Fix this bug by adding a NULL check of new.
+FWIW, I think this code is totally broken on 64-bit (which appears to
+not be a "real" build configuration): it would either always fail (with
+an uninitialized data->buf_size) or would cause corruption in userspace
+due to the copy_to_user() in the call path against an uninitialized
+data->buf value:
 
-This bug was found by a static analyzer.
+omap3isp_stat_request_statistics_time32(...)
+    struct omap3isp_stat_data data64;
+    ...
+    omap3isp_stat_request_statistics(stat, &data64);
 
-Builds with 'make allyesconfig' show no new warnings,
-and our static analyzer no longer warns about this code.
+int omap3isp_stat_request_statistics(struct ispstat *stat,
+                                     struct omap3isp_stat_data *data)
+    ...
+    buf = isp_stat_buf_get(stat, data);
 
-Fixes: 7c018804c090 ("V4L/DVB (7197): bttv: Fix overlay divide error")
-Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
+                                               struct omap3isp_stat_data *data)
+...
+    if (buf->buf_size > data->buf_size) {
+            ...
+            return ERR_PTR(-EINVAL);
+    }
+    ...
+    rval = copy_to_user(data->buf,
+                        buf->virt_addr,
+                        buf->buf_size);
+
+Regardless, additionally initialize data64 to be zero-filled to avoid
+undefined behavior.
+
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
+Cc: stable@vger.kernel.org
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Link: https://lore.kernel.org/lkml/20211215220505.GB21862@embeddedor
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
-The analysis employs differential checking to identify inconsistent 
-security operations (e.g., checks or kfrees) between two code paths 
-and confirms that the inconsistent operations are not recovered in the
-current function or the callers, so they constitute bugs. 
+I will carry this in my tree unless someone else wants to pick it up. It's
+one of the last remaining clean-ups needed for the next step in memcpy()
+hardening.
+---
+ drivers/media/platform/omap3isp/ispstat.c |  5 +++--
+ include/uapi/linux/omap3isp.h             | 21 +++++++++++++--------
+ 2 files changed, 16 insertions(+), 10 deletions(-)
 
-Note that, as a bug found by static analysis, it can be a false
-positive or hard to trigger. Multiple researchers have cross-reviewed
-the bug.
-
- drivers/media/pci/bt8xx/bttv-driver.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
-index 6338f98d845d..5aa46593ddc6 100644
---- a/drivers/media/pci/bt8xx/bttv-driver.c
-+++ b/drivers/media/pci/bt8xx/bttv-driver.c
-@@ -2552,6 +2552,8 @@ static int bttv_overlay(struct file *file, void *f, unsigned int on)
- 	if (on) {
- 		fh->ov.tvnorm = btv->tvnorm;
- 		new = videobuf_sg_alloc(sizeof(*new));
-+		if (!new)
-+			return -ENOMEM;
- 		new->crop = btv->crop[!!fh->do_crop].rect;
- 		bttv_overlay_risc(btv, &fh->ov, fh->ovfmt, new);
- 	} else {
+diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+index 5b9b57f4d9bf..68cf68dbcace 100644
+--- a/drivers/media/platform/omap3isp/ispstat.c
++++ b/drivers/media/platform/omap3isp/ispstat.c
+@@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+ 					struct omap3isp_stat_data_time32 *data)
+ {
+-	struct omap3isp_stat_data data64;
++	struct omap3isp_stat_data data64 = { };
+ 	int ret;
+ 
+ 	ret = omap3isp_stat_request_statistics(stat, &data64);
+@@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+ 
+ 	data->ts.tv_sec = data64.ts.tv_sec;
+ 	data->ts.tv_usec = data64.ts.tv_usec;
+-	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
++	data->buf = (uintptr_t)data64.buf;
++	memcpy(&data->frame, &data64.frame, sizeof(data->frame));
+ 
+ 	return 0;
+ }
+diff --git a/include/uapi/linux/omap3isp.h b/include/uapi/linux/omap3isp.h
+index 87b55755f4ff..d9db7ad43890 100644
+--- a/include/uapi/linux/omap3isp.h
++++ b/include/uapi/linux/omap3isp.h
+@@ -162,6 +162,7 @@ struct omap3isp_h3a_aewb_config {
+  * struct omap3isp_stat_data - Statistic data sent to or received from user
+  * @ts: Timestamp of returned framestats.
+  * @buf: Pointer to pass to user.
++ * @buf_size: Size of buffer.
+  * @frame_number: Frame number of requested stats.
+  * @cur_frame: Current frame number being processed.
+  * @config_counter: Number of the configuration associated with the data.
+@@ -176,10 +177,12 @@ struct omap3isp_stat_data {
+ 	struct timeval ts;
+ #endif
+ 	void __user *buf;
+-	__u32 buf_size;
+-	__u16 frame_number;
+-	__u16 cur_frame;
+-	__u16 config_counter;
++	__struct_group(/* no tag */, frame, /* no attrs */,
++		__u32 buf_size;
++		__u16 frame_number;
++		__u16 cur_frame;
++		__u16 config_counter;
++	);
+ };
+ 
+ #ifdef __KERNEL__
+@@ -189,10 +192,12 @@ struct omap3isp_stat_data_time32 {
+ 		__s32	tv_usec;
+ 	} ts;
+ 	__u32 buf;
+-	__u32 buf_size;
+-	__u16 frame_number;
+-	__u16 cur_frame;
+-	__u16 config_counter;
++	__struct_group(/* no tag */, frame, /* no attrs */,
++		__u32 buf_size;
++		__u16 frame_number;
++		__u16 cur_frame;
++		__u16 config_counter;
++	);
+ };
+ #endif
+ 
 -- 
-2.25.1
+2.30.2
 
