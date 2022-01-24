@@ -2,160 +2,479 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE5214982A4
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 15:44:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 889994982A9
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 15:45:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232037AbiAXOoD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 09:44:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40508 "EHLO
+        id S233669AbiAXOpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 09:45:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230300AbiAXOoD (ORCPT
+        with ESMTP id S229649AbiAXOpo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 09:44:03 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA68CC06173B
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 06:44:02 -0800 (PST)
-Received: from [IPv6:2a00:c281:1137:e00:5903:19ba:8e99:7984] (unknown [IPv6:2a00:c281:1137:e00:5903:19ba:8e99:7984])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0DDFD1F43871;
-        Mon, 24 Jan 2022 14:43:59 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1643035440;
-        bh=jPAzy1ewDSNoKBjRpfOQQoe2kl5I2JwThADGY/r2Snc=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=KN2J5dABfn9ac/Negk9KnKkxmCncc4701TjTm1QGlgOn6EH4FWj2NGSh5UGrFBUmD
-         qaD97+BW8t9JIWXEqS8UFznRVWvUH1aXQIu1zB2x5rb2qJADNHtv89i/ZRSL50UKvl
-         Hx6IprdnR6WD6arDdxxYHIuuv03BAoK5QVCLFwkTuJaehYpkd3MLnkyYm0Wse+zHWC
-         y5eJcqNFHnwDDRSxxnPXG1GVdfpLZmJrEbwXvnCh6BGaVpdsp5YQGqMaFP86wisr5V
-         8qbCCzo3y8jxw5RznPlVcTnjrQd38NWlrmcMzI6M/1muvSCbjmXeg3/8zFDqRJ9SBO
-         Ddaels9tkXLmQ==
-Subject: Re: [PATCH 3/3] media: stk1160: use dma_alloc_noncontiguous API
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        hverkuil@xs4all.nl, ribalda@chromium.org, tfiga@chromium.org,
-        senozhatsky@google.com, hch@lst.de, kernel@collabora.com
-References: <20220111065505.6323-1-dafna.hirschfeld@collabora.com>
- <20220111065505.6323-4-dafna.hirschfeld@collabora.com>
- <Yd16PXCDGwF5V7aK@eze-laptop>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <7f64ed7f-5076-1d22-1922-9d39515125a0@collabora.com>
-Date:   Mon, 24 Jan 2022 16:43:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Mon, 24 Jan 2022 09:45:44 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE46C06173B
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 06:45:44 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id d10so22023822eje.10
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 06:45:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZpQbWZ+JTkACiDmZD+LAvxo3JaqqSt7Srp5VsXHUSsQ=;
+        b=Zv/RlaPtfHo4JfLO0+O1F2xoIW3bdj8DFPxhRnTPt7uQHanNAN5vhb0J6r1TG1GqOY
+         Qb6+7p8p5FYfQIEAQ5LRLk5z3c0e7fG2BfqOAqr39zUU/Xs1zWjx8dKJ7zh2vmnomg/O
+         h7J92j2s9+Hyfh0rQbjSMSqgq3Gon9biJKP2o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZpQbWZ+JTkACiDmZD+LAvxo3JaqqSt7Srp5VsXHUSsQ=;
+        b=IRT45tSlkwle0EctAlGQVzGMdt9ISZZE7G93CqUgKvbUGLPk/MKlaRAqgQKeGmdTkF
+         OLGx4EO1Jpew7dx4aVNpttYz00F77W3caByiZBpR63/3xNKbpnqaYlp16z4ccj+QeuMa
+         gBZv9KvideoMX1tdxTR1xPY3N63+KhJxNvQovK1FlxvVivwSJLBMW18OJnpcU3c5q/GL
+         pRf+B18/R5EMM6eNOTql1qN48NWYXpuajCEjguVx+3rLfu2EM7n6c4o+38h9h6In0PRE
+         I/IUlzA+YPvyAyeHiEqHqJLfhO1BsXqy3LUUP+rO+fPqtNlJfCxxvUfiDIgd8cnNsi/B
+         zHhg==
+X-Gm-Message-State: AOAM533ZSu3zX+ftEgDe+WrWEtvZyJBUuP/5Xetqg1J704/LjI1+viSN
+        3q74A8hjf6NpCk4Ai6dhE5lpPQ==
+X-Google-Smtp-Source: ABdhPJwTW9FqeQqTqG6/DYBGRdZhXLjNabI6nhEewlV+UCh+Jz5o436VwM8vJ1EM1vf6nTSDx743yQ==
+X-Received: by 2002:a17:906:608:: with SMTP id s8mr13427331ejb.754.1643035542959;
+        Mon, 24 Jan 2022 06:45:42 -0800 (PST)
+Received: from alco.corp.google.com ([2620:0:1059:10:e91e:8e09:e688:e30c])
+        by smtp.gmail.com with ESMTPSA id h19sm377060edv.90.2022.01.24.06.45.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jan 2022 06:45:42 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH] media: uvcvideo: Do power management granularly
+Date:   Mon, 24 Jan 2022 15:45:39 +0100
+Message-Id: <20220124144539.180822-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.35.0.rc0.227.g00780c9af4-goog
 MIME-Version: 1.0
-In-Reply-To: <Yd16PXCDGwF5V7aK@eze-laptop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Instead of suspending/resume the USB device at open()/close(), do it
+when the device is actually used.
 
+This way we can reduce the power consumption when a service is holding
+the video device and leaving it in an idle state.
 
-On 11.01.22 14:38, Ezequiel Garcia wrote:
-> Hi Dafna,
-> 
-> Very nice work.
-> 
-> I specially like all the testing that you mentioned in the cover-letter.
-> 
-> Back in the day, there were a few users trying to use STK1160 (Easycap)
-> with Beaglebone boards, without success due to lack of USB throughput.
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/media/usb/uvc/uvc_v4l2.c | 191 +++++++++++++++++++++++++------
+ drivers/media/usb/uvc/uvcvideo.h |   1 +
+ 2 files changed, 156 insertions(+), 36 deletions(-)
 
-Hi, what do you mean by "USB throughput" ?
-I see that the FPS does not change with this patchset and stands on about 25 frames/sec
-So this patchset only improve cpu time.
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 711556d13d03..4fcfc9a24e7f 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -25,6 +25,55 @@
+ 
+ #include "uvcvideo.h"
+ 
++/* ------------------------------------------------------------------------
++ * UVC power management
++ */
++
++static int uvc_pm_get(struct uvc_streaming *stream)
++{
++	int ret = 0;
++
++	if (!video_is_registered(&stream->vdev))
++		return -ENODEV;
++
++	/*
++	 * We cannot hold dev->lock when calling autopm_get_interface.
++	 */
++	ret = usb_autopm_get_interface(stream->dev->intf);
++	if (ret)
++		return ret;
++
++	mutex_lock(&stream->dev->lock);
++	if (!stream->dev->users)
++		ret = uvc_status_start(stream->dev, GFP_KERNEL);
++	if (!ret)
++		stream->dev->users++;
++	mutex_unlock(&stream->dev->lock);
++
++	if (ret)
++		usb_autopm_put_interface(stream->dev->intf);
++
++	return ret;
++}
++
++static void uvc_pm_put(struct uvc_streaming *stream)
++{
++	if (!video_is_registered(&stream->vdev))
++		return;
++
++	mutex_lock(&stream->dev->lock);
++	if (WARN_ON(!stream->dev->users)) {
++		mutex_unlock(&stream->dev->lock);
++		return;
++	}
++	stream->dev->users--;
++	if (!stream->dev->users)
++		uvc_status_stop(stream->dev);
++	mutex_unlock(&stream->dev->lock);
++
++	usb_autopm_put_interface(stream->dev->intf);
++}
++
+ /* ------------------------------------------------------------------------
+  * UVC ioctls
+  */
+@@ -251,8 +300,14 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+ 			stream->ctrl.dwMaxVideoFrameSize;
+ 
+ 	/* Probe the device. */
++	ret = uvc_pm_get(stream);
++	if (ret) {
++		mutex_unlock(&stream->mutex);
++		goto done;
++	}
+ 	ret = uvc_probe_video(stream, probe);
+ 	mutex_unlock(&stream->mutex);
++	uvc_pm_put(stream);
+ 	if (ret < 0)
+ 		goto done;
+ 
+@@ -464,7 +519,13 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
+ 	}
+ 
+ 	/* Probe the device with the new settings. */
++	ret = uvc_pm_get(stream);
++	if (ret) {
++		mutex_unlock(&stream->mutex);
++		return ret;
++	}
+ 	ret = uvc_probe_video(stream, &probe);
++	uvc_pm_put(stream);
+ 	if (ret < 0) {
+ 		mutex_unlock(&stream->mutex);
+ 		return ret;
+@@ -555,35 +616,14 @@ static int uvc_v4l2_open(struct file *file)
+ {
+ 	struct uvc_streaming *stream;
+ 	struct uvc_fh *handle;
+-	int ret = 0;
+ 
+ 	stream = video_drvdata(file);
+ 	uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
+ 
+-	ret = usb_autopm_get_interface(stream->dev->intf);
+-	if (ret < 0)
+-		return ret;
+-
+ 	/* Create the device handle. */
+ 	handle = kzalloc(sizeof(*handle), GFP_KERNEL);
+-	if (handle == NULL) {
+-		usb_autopm_put_interface(stream->dev->intf);
++	if (!handle)
+ 		return -ENOMEM;
+-	}
+-
+-	mutex_lock(&stream->dev->lock);
+-	if (stream->dev->users == 0) {
+-		ret = uvc_status_start(stream->dev, GFP_KERNEL);
+-		if (ret < 0) {
+-			mutex_unlock(&stream->dev->lock);
+-			usb_autopm_put_interface(stream->dev->intf);
+-			kfree(handle);
+-			return ret;
+-		}
+-	}
+-
+-	stream->dev->users++;
+-	mutex_unlock(&stream->dev->lock);
+ 
+ 	v4l2_fh_init(&handle->vfh, &stream->vdev);
+ 	v4l2_fh_add(&handle->vfh);
+@@ -606,6 +646,9 @@ static int uvc_v4l2_release(struct file *file)
+ 	if (uvc_has_privileges(handle))
+ 		uvc_queue_release(&stream->queue);
+ 
++	if (handle->is_streaming)
++		uvc_pm_put(stream);
++
+ 	/* Release the file handle. */
+ 	uvc_dismiss_privileges(handle);
+ 	v4l2_fh_del(&handle->vfh);
+@@ -613,12 +656,6 @@ static int uvc_v4l2_release(struct file *file)
+ 	kfree(handle);
+ 	file->private_data = NULL;
+ 
+-	mutex_lock(&stream->dev->lock);
+-	if (--stream->dev->users == 0)
+-		uvc_status_stop(stream->dev);
+-	mutex_unlock(&stream->dev->lock);
+-
+-	usb_autopm_put_interface(stream->dev->intf);
+ 	return 0;
+ }
+ 
+@@ -842,7 +879,21 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
+ 		return -EBUSY;
+ 
+ 	mutex_lock(&stream->mutex);
++	if (!handle->is_streaming) {
++		ret = uvc_pm_get(stream);
++		if (ret)
++			goto unlock;
++	}
++
+ 	ret = uvc_queue_streamon(&stream->queue, type);
++
++	if (ret && !handle->is_streaming)
++		uvc_pm_put(stream);
++
++	if (!ret)
++		handle->is_streaming = true;
++
++unlock:
+ 	mutex_unlock(&stream->mutex);
+ 
+ 	return ret;
+@@ -859,6 +910,10 @@ static int uvc_ioctl_streamoff(struct file *file, void *fh,
+ 
+ 	mutex_lock(&stream->mutex);
+ 	uvc_queue_streamoff(&stream->queue, type);
++	if (handle->is_streaming) {
++		handle->is_streaming = false;
++		uvc_pm_put(stream);
++	}
+ 	mutex_unlock(&stream->mutex);
+ 
+ 	return 0;
+@@ -909,6 +964,7 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
+ {
+ 	struct uvc_fh *handle = fh;
+ 	struct uvc_video_chain *chain = handle->chain;
++	struct uvc_streaming *stream = handle->stream;
+ 	u8 *buf;
+ 	int ret;
+ 
+@@ -922,9 +978,16 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
+ 	if (!buf)
+ 		return -ENOMEM;
+ 
++	ret = uvc_pm_get(stream);
++	if (ret) {
++		kfree(buf);
++		return ret;
++	}
++
+ 	ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, chain->selector->id,
+ 			     chain->dev->intfnum,  UVC_SU_INPUT_SELECT_CONTROL,
+ 			     buf, 1);
++	uvc_pm_put(stream);
+ 	if (!ret)
+ 		*input = *buf - 1;
+ 
+@@ -937,6 +1000,7 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
+ {
+ 	struct uvc_fh *handle = fh;
+ 	struct uvc_video_chain *chain = handle->chain;
++	struct uvc_streaming *stream = handle->stream;
+ 	u8 *buf;
+ 	int ret;
+ 
+@@ -958,10 +1022,17 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
+ 	if (!buf)
+ 		return -ENOMEM;
+ 
++	ret = uvc_pm_get(stream);
++	if (ret) {
++		kfree(buf);
++		return ret;
++	}
++
+ 	*buf = input + 1;
+ 	ret = uvc_query_ctrl(chain->dev, UVC_SET_CUR, chain->selector->id,
+ 			     chain->dev->intfnum, UVC_SU_INPUT_SELECT_CONTROL,
+ 			     buf, 1);
++	uvc_pm_put(stream);
+ 	kfree(buf);
+ 
+ 	return ret;
+@@ -972,8 +1043,15 @@ static int uvc_ioctl_queryctrl(struct file *file, void *fh,
+ {
+ 	struct uvc_fh *handle = fh;
+ 	struct uvc_video_chain *chain = handle->chain;
++	struct uvc_streaming *stream = handle->stream;
++	int ret;
+ 
+-	return uvc_query_v4l2_ctrl(chain, qc);
++	ret = uvc_pm_get(stream);
++	if (ret)
++		return ret;
++	ret = uvc_query_v4l2_ctrl(chain, qc);
++	uvc_pm_put(stream);
++	return ret;
+ }
+ 
+ static int uvc_ioctl_query_ext_ctrl(struct file *file, void *fh,
+@@ -981,10 +1059,15 @@ static int uvc_ioctl_query_ext_ctrl(struct file *file, void *fh,
+ {
+ 	struct uvc_fh *handle = fh;
+ 	struct uvc_video_chain *chain = handle->chain;
++	struct uvc_streaming *stream = handle->stream;
+ 	struct v4l2_queryctrl qc = { qec->id };
+ 	int ret;
+ 
++	ret = uvc_pm_get(stream);
++	if (ret)
++		return ret;
+ 	ret = uvc_query_v4l2_ctrl(chain, &qc);
++	uvc_pm_put(stream);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1030,6 +1113,7 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+ {
+ 	struct uvc_fh *handle = fh;
+ 	struct uvc_video_chain *chain = handle->chain;
++	struct uvc_streaming *stream = handle->stream;
+ 	struct v4l2_ext_control *ctrl = ctrls->controls;
+ 	unsigned int i;
+ 	int ret;
+@@ -1054,22 +1138,30 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+ 		return 0;
+ 	}
+ 
++	ret = uvc_pm_get(stream);
++	if (ret)
++		return ret;
+ 	ret = uvc_ctrl_begin(chain);
+-	if (ret < 0)
++	if (ret < 0) {
++		uvc_pm_put(stream);
+ 		return ret;
++	}
+ 
+ 	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+ 		ret = uvc_ctrl_get(chain, ctrl);
+ 		if (ret < 0) {
+ 			uvc_ctrl_rollback(handle);
+ 			ctrls->error_idx = i;
++			uvc_pm_put(stream);
+ 			return ret;
+ 		}
+ 	}
+ 
+ 	ctrls->error_idx = 0;
+ 
+-	return uvc_ctrl_rollback(handle);
++	ret = uvc_ctrl_rollback(handle);
++	uvc_pm_put(stream);
++	return ret;
+ }
+ 
+ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+@@ -1078,6 +1170,7 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+ {
+ 	struct v4l2_ext_control *ctrl = ctrls->controls;
+ 	struct uvc_video_chain *chain = handle->chain;
++	struct uvc_streaming *stream = handle->stream;
+ 	unsigned int i;
+ 	int ret;
+ 
+@@ -1085,9 +1178,15 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	ret = uvc_pm_get(stream);
++	if (ret)
++		return ret;
++
+ 	ret = uvc_ctrl_begin(chain);
+-	if (ret < 0)
++	if (ret < 0) {
++		uvc_pm_put(stream);
+ 		return ret;
++	}
+ 
+ 	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+ 		ret = uvc_ctrl_set(handle, ctrl);
+@@ -1095,6 +1194,7 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+ 			uvc_ctrl_rollback(handle);
+ 			ctrls->error_idx = ioctl == VIDIOC_S_EXT_CTRLS ?
+ 						    ctrls->count : i;
++			uvc_pm_put(stream);
+ 			return ret;
+ 		}
+ 	}
+@@ -1102,9 +1202,12 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+ 	ctrls->error_idx = 0;
+ 
+ 	if (ioctl == VIDIOC_S_EXT_CTRLS)
+-		return uvc_ctrl_commit(handle, ctrls);
++		ret = uvc_ctrl_commit(handle, ctrls);
+ 	else
+-		return uvc_ctrl_rollback(handle);
++		ret = uvc_ctrl_rollback(handle);
++
++	uvc_pm_put(stream);
++	return ret;
+ }
+ 
+ static int uvc_ioctl_s_ext_ctrls(struct file *file, void *fh,
+@@ -1119,8 +1222,16 @@ static int uvc_ioctl_try_ext_ctrls(struct file *file, void *fh,
+ 				   struct v4l2_ext_controls *ctrls)
+ {
+ 	struct uvc_fh *handle = fh;
++	struct uvc_streaming *stream = handle->stream;
++	int ret;
++
++	ret = uvc_pm_get(stream);
++	if (ret)
++		return ret;
++	ret = uvc_ioctl_s_try_ext_ctrls(handle, ctrls, VIDIOC_TRY_EXT_CTRLS);
++	uvc_pm_put(stream);
+ 
+-	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, VIDIOC_TRY_EXT_CTRLS);
++	return ret;
+ }
+ 
+ static int uvc_ioctl_querymenu(struct file *file, void *fh,
+@@ -1128,8 +1239,16 @@ static int uvc_ioctl_querymenu(struct file *file, void *fh,
+ {
+ 	struct uvc_fh *handle = fh;
+ 	struct uvc_video_chain *chain = handle->chain;
++	struct uvc_streaming *stream = handle->stream;
++	int ret;
+ 
+-	return uvc_query_v4l2_menu(chain, qm);
++	ret = uvc_pm_get(stream);
++	if (ret)
++		return ret;
++	ret = uvc_query_v4l2_menu(chain, qm);
++	uvc_pm_put(stream);
++
++	return ret;
+ }
+ 
+ static int uvc_ioctl_g_selection(struct file *file, void *fh,
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 143230b3275b..5958b2a54dab 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -720,6 +720,7 @@ enum uvc_handle_state {
+ 
+ struct uvc_fh {
+ 	struct v4l2_fh vfh;
++	bool is_streaming;
+ 	struct uvc_video_chain *chain;
+ 	struct uvc_streaming *stream;
+ 	enum uvc_handle_state state;
+-- 
+2.35.0.rc0.227.g00780c9af4-goog
 
-> 
-> If anything else, I think it's good to see additional noncontiguous API users.
-> 
-> On Tue, Jan 11, 2022 at 08:55:05AM +0200, Dafna Hirschfeld wrote:
->> Replace the urb buffers allocation to
->> use the noncontiguous API. This improve performance
->> on Arm.
->> The noncontiguous API require handling
->> synchronization.
->> This commit is similar to the one sent to
->> uvc: [1]
->>
->> [1] https://lkml.org/lkml/2021/3/12/1506
->>
-> 
-> This commit description needs lots of attention. In particular,
-> please add the test results here.
-> 
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> ---
->>   drivers/media/usb/stk1160/stk1160-v4l.c   |   3 +
->>   drivers/media/usb/stk1160/stk1160-video.c | 109 +++++++++++++---------
->>   drivers/media/usb/stk1160/stk1160.h       |  10 ++
->>   3 files changed, 79 insertions(+), 43 deletions(-)
->>
-> [..]
->> @@ -501,7 +524,7 @@ int stk1160_alloc_isoc(struct stk1160 *dev)
->>   
->>   free_i_bufs:
->>   	/* Save the allocated buffers so far, so we can properly free them */
->> -	dev->isoc_ctl.num_bufs = i+1;
->> +	dev->isoc_ctl.num_bufs = i;
-> 
-> This looks like a separate fix, similar to 1/3 ?
-> 
->>   	stk1160_free_isoc(dev);
->>   	return -ENOMEM;
->>   }
->> diff --git a/drivers/media/usb/stk1160/stk1160.h b/drivers/media/usb/stk1160/stk1160.h
->> index 1ffca1343d88..52bea7815ae5 100644
->> --- a/drivers/media/usb/stk1160/stk1160.h
->> +++ b/drivers/media/usb/stk1160/stk1160.h
->> @@ -16,6 +16,8 @@
->>   #include <media/videobuf2-v4l2.h>
->>   #include <media/v4l2-device.h>
->>   #include <media/v4l2-ctrls.h>
->> +#include <linux/usb.h>
->> +#include <linux/usb/hcd.h>
->>   
->>   #define STK1160_VERSION		"0.9.5"
->>   #define STK1160_VERSION_NUM	0x000905
->> @@ -87,6 +89,9 @@ struct stk1160_buffer {
->>   struct stk1160_urb {
->>   	struct urb *urb;
->>   	char *transfer_buffer;
->> +	struct sg_table *sgt;
->> +	struct stk1160 *dev;
->> +	dma_addr_t dma;
->>   };
->>   
->>   struct stk1160_isoc_ctl {
->> @@ -190,3 +195,8 @@ void stk1160_select_input(struct stk1160 *dev);
->>   
->>   /* Provided by stk1160-ac97.c */
->>   void stk1160_ac97_setup(struct stk1160 *dev);
->> +
->> +static inline struct device *stk1160_get_dmadev(struct stk1160 *dev)
->> +{
->> +	return bus_to_hcd(dev->udev->bus)->self.sysdev;
-> 
-> This function looks truly horrible, is there no other way to get the device ?
-> 
-> I suppose this function return something different than (struct stk1160*)dev->dev ?
-
-I remember I tried using this device and got an error that it is not cable of doing dma
-allocations or something like that. The function "stk1160_get_dmadev" is a copy-paste from the
-uvc equivalent:
-
-static inline struct device *uvc_stream_to_dmadev(struct uvc_streaming *stream)
-{
-         return bus_to_hcd(stream->dev->udev->bus)->self.sysdev;
-}
-
-Thanks,
-Dafna
-
-> 
-> Thanks,
-> Ezequiel
-> 
