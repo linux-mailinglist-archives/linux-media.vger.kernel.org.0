@@ -2,94 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8880D498078
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 14:08:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB58B4981D9
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 15:16:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242891AbiAXNI4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 08:08:56 -0500
-Received: from mga04.intel.com ([192.55.52.120]:13552 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239858AbiAXNIz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 08:08:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643029735; x=1674565735;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ay7yonqcYw4lzgc0ZRVBIAGCdvzjkwmkD2+ZbM7lxsE=;
-  b=WyX+yqLY8OCsk7US92OAJxT3Ooh6bDtr0YU61YFX0CTJczjY5GyHowsN
-   Yx44JIMZVB3GcL6duz06cC0mcuy1acSDGaqkwg9qBDprxevd8O2F0PTip
-   LkoKK9ULxvJGTYj9Tt3KJLbnv+n6iSsOoOmLee15m1i9+omQNDaPoZSYT
-   6MGPZ84BiFd/toMF0iA7ZGEvNNCRIzS1o5lgJv/8Rkr0zuXjFZGi/Sj1U
-   2zn9jXZy0JVHo5a+QYbjGvJ3wrp8u6EmMw2FL0bTFUGsKBrE0rRt82nhI
-   cnu2nOYBYzVP3izU/xjOV6UoANlsbUAFIAC7sT7yel3dE9LvhjfySueDF
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="244873526"
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
-   d="scan'208";a="244873526"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 05:08:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
-   d="scan'208";a="562651153"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 24 Jan 2022 05:08:41 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nBz5M-000ILj-JB; Mon, 24 Jan 2022 13:08:40 +0000
-Date:   Mon, 24 Jan 2022 21:08:14 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, linux-arm-kernel@lists.infradead.org,
-        shawnguo@kernel.org, aford@beaconembedded.com,
-        Adam Ford <aford173@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH V3 06/10] arm64: dts: imx8mq: Enable both G1 and G2 VPU's
- with vpu-blk-ctrl
-Message-ID: <202201242024.Xqet4cvg-lkp@intel.com>
-References: <20220124023125.414794-7-aford173@gmail.com>
+        id S234153AbiAXOQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 09:16:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33812 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232346AbiAXOQ0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 Jan 2022 09:16:26 -0500
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 235A2C06173B
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 06:16:26 -0800 (PST)
+Received: by mail-ua1-x92d.google.com with SMTP id y4so31255007uad.1
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 06:16:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=g2P4czsD/jHcELV54eJpKw2NLdJ/Z9cXtukElq+F6DQ=;
+        b=f6UO6n2Wfzw2lnXLSrWcpa90gAQmdRQoltYKZNgKY5GDbtk+clpOWu8ud7d3OlX9kr
+         TwLYsXvYw+PN8B4hG4NU4DMZ/kw94odPsZq9rHhNXJYAO5xCkhyZtirtzjyV09zR10Gm
+         kYqGSQME1vEhFUHchCcYE1VtkWbH33IwMOAmLlisp7ZeeqIxkEfSY57wb8KdA1X09mL1
+         mURiY/s6uF5WOM5NAUZc2MvOtzMK/JJnsUnlLgAiPi9mXBGKuTW54StRWgdMLFzAFgPz
+         YBLfq6u8r5mpFwyR0m0WmikuCHfbCImajZMQmyGuq63530lV70DyehkZSH2zpknZnIBp
+         syxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=g2P4czsD/jHcELV54eJpKw2NLdJ/Z9cXtukElq+F6DQ=;
+        b=D8VehSOqW9QtBD61vMacOtpiWQor8kbH8ye4GhK5Dceg0EeOGhw835vRFt0XEW4OB9
+         xEjz6wCNdAUiVGB+ARDMYxLA3mPVtVIBMCPTiuzZ5bQ0eXQvKCamxMcgoghfpJSQqdtT
+         pixPwHpT2l9++aoM21RGrYQi/Vo8v3Boo1n9KTI2DU1v5SrhZCQE57STAlIJyIWyNhrf
+         W4yl3IdooEGeFXQOzxRyrbw01neEYvCpKCQ0gwiYDWMbLjZDjn7QLCciqMtUfLDHepED
+         Iehs/KqE5HngLQG49NvO9a7ZpTQXXLxG07/NfgFdI2RSoyDrpM6q6NgaaNCTadc8YVt4
+         NUHg==
+X-Gm-Message-State: AOAM53228pjOlpQOGUt79OAIRS8BWO3BLsQi32ZNU3mEaFXNsMbyQ+5M
+        zX1Cn4s96CZ8dtxJL0xnS9WnT/lTLP7LWqPwPbs=
+X-Google-Smtp-Source: ABdhPJw1oy7JuACXapXR0OIQIioz08UKjb9D+UjukMvQW6oDUkBgEsJeDZIvN/g7A6h1xWn6jzZRqxEgrHD5FvUlcLE=
+X-Received: by 2002:a67:f404:: with SMTP id p4mr888788vsn.19.1643033785307;
+ Mon, 24 Jan 2022 06:16:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220124023125.414794-7-aford173@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a9f:2c48:0:0:0:0:0 with HTTP; Mon, 24 Jan 2022 06:16:24
+ -0800 (PST)
+Reply-To: mrsrow68@gmail.com
+From:   "Mrs. Rosaline Owens. " <anitafrank589@gmail.com>
+Date:   Mon, 24 Jan 2022 13:16:25 -0100
+Message-ID: <CADPCGNe5sZPHrTdiPSJdVa43pQzDjGvTgUkfyFYBtn+AkPbrpw@mail.gmail.com>
+Subject: Greetings to you
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
+Greetings to you
 
-Thank you for the patch! Yet something to improve:
+My name is Mrs. Rosaline Owens. I am compelled by my present painful
+health  condition to send this message to you with higher expectation
+of acceptance  of my proposal as a very urgent matter. Please I will
+need your urgent  assistance to implement charity projects on my
+behalf.
 
-[auto build test ERROR on e783362eb54cd99b2cac8b3a9aeac942e6f6ac07]
+I was diagnosed with cancer 5 years ago after the death of my husband
+and  our only son Jeff. Please I want you to receive (1,550,000 USD )
+I have in  my account before I go for a second major heart surgery as
+I have no one to  inherit if I die.
 
-url:    https://github.com/0day-ci/linux/commits/Adam-Ford/media-hantro-imx8mq-imx8mm-Let-VPU-decoders-get-controlled-by-vpu-blk-ctrl/20220124-103340
-base:   e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
-config: arm64-buildonly-randconfig-r001-20220124 (https://download.01.org/0day-ci/archive/20220124/202201242024.Xqet4cvg-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/a74e6df1159d70d74f2a6988748f8e9648478d86
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Adam-Ford/media-hantro-imx8mq-imx8mm-Let-VPU-decoders-get-controlled-by-vpu-blk-ctrl/20220124-103340
-        git checkout a74e6df1159d70d74f2a6988748f8e9648478d86
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash
+I want you to take this money, invest and manage it and to use the
+profits  you will generate to do charitable projects to help other
+cancer patients  in hospitals and charities.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Please, I need your immediate assistance to implement charity projects
+on  my behalf as my last dying wish on earth. Upon receipt of your
+acceptance,  I will instruct my bank to open an Online Banking Account
+and give you  access to a secret login and password to have access to
+transfer money to  another account for the charity projects.
 
-All errors (new ones prefixed by >>):
+I'm waiting for your urgent answer. Via my private email: (
+mrsrow68@gmail.com )
 
->> Error: arch/arm64/boot/dts/freescale/imx8mq-tqma8mq.dtsi:275.1-5 Label or path vpu not found
-   FATAL ERROR: Syntax error parsing input tree
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Best Regards,
+Mrs. Rosaline Owens.
