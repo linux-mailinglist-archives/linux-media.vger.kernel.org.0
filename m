@@ -2,497 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC0014983F9
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 17:00:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6023D498421
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 17:02:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240911AbiAXQAV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 11:00:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58234 "EHLO
+        id S240846AbiAXQCz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 11:02:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234579AbiAXQAU (ORCPT
+        with ESMTP id S240811AbiAXQCz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 11:00:20 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE1CEC06173B
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 08:00:19 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id j23so52299603edp.5
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 08:00:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1q4McnS0ov9h2pYZrj2eRtX1C/s0FxI9oyP4oEu9sbc=;
-        b=jZaZaGKL2RenkVyCAjQUXTBJRexQiMMCa/MUbSeZHJmPCIFelXocg6HTYXyV9RxUyC
-         AEJU51T3TcX9KcNLJy0hVXTrJqxe5L6Xzv7G3k33uQxyLe5VU0lbjMrNQXC48GQEBW7Q
-         oEEjNcaOJLJrI2HOitdTwr1YB2n7jGC3ujCzQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1q4McnS0ov9h2pYZrj2eRtX1C/s0FxI9oyP4oEu9sbc=;
-        b=VOycQf5A5ywXmcSoZS6ViBZAMeTG4VIAx4t/jU3wE/soDRJEfaHk0XbBZXUmjS8wMy
-         TABnssu3bTnsf2r/E7XNryJYKB1v1Ha/xUmBqr11tyq22RLwF+vEFeqbisoALkqTIlfB
-         /dFGUJH/drwUN4Vmvw9LhiwnJD7cuytTFovXwPtGHg7G9tl5IS3539R2p+lQkvLBrBeY
-         Nbpg2AL3pllNC7VeKhcuxqfPgyjqY8uus5tPJZ5fOLDbf51Bxz/PYTu0mfWU4NgPLpC7
-         ZBLvWZNECstmEEsWUkemyR8eeEFSkVyYo5pYwQg6N6EVF9/LeZGbgACRAMCNbmKlYiHw
-         Mxlw==
-X-Gm-Message-State: AOAM5315PKmL3akuLDxtgtEWzSWEpnvNnEAIuIlU0HYKDA3Io10MNvOv
-        MIxN54L0nc5zcGdgs7g+UjuK75Az5ZwJkw==
-X-Google-Smtp-Source: ABdhPJzlml3BLXXG6rY1NyWKTtDVOwE8L+emUtYkyv9ddETuj9gn99dxgSix7CjhebBXJ65ezhA1Pg==
-X-Received: by 2002:a05:6402:1347:: with SMTP id y7mr16503639edw.208.1643040018267;
-        Mon, 24 Jan 2022 08:00:18 -0800 (PST)
-Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id m13sm5023011eja.160.2022.01.24.08.00.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 08:00:17 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v2] media: uvcvideo: Do power management granularly
-Date:   Mon, 24 Jan 2022 17:00:16 +0100
-Message-Id: <20220124160016.192081-1-ribalda@chromium.org>
-X-Mailer: git-send-email 2.35.0.rc0.227.g00780c9af4-goog
+        Mon, 24 Jan 2022 11:02:55 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8406C06173B
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 08:02:54 -0800 (PST)
+Received: from [IPv6:2a00:c281:1137:e00:5903:19ba:8e99:7984] (unknown [IPv6:2a00:c281:1137:e00:5903:19ba:8e99:7984])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0A9D31F43A42;
+        Mon, 24 Jan 2022 16:02:51 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1643040172;
+        bh=UhneTR5I18LoK6uCIUQm4le1tw3fEW+s/V2SM3/xU0Y=;
+        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+        b=QX9l//U85ddcVx8VsJNNrQy7QDmbaZ2ZvI+NSct3/xCP7ghYWfXB9f0aqSv7QBSrO
+         pLSLehGjzpI6XBZhIPW0y1mVltBsbAdUTiCq1/EfcRMRSpx2Iyr/ojKLrFT3AaUP/K
+         Ygr3a/RDOqPAcTNA1zb0z+WYwm+VXI75/zlsxObJIpSKWG/89sqeXVsqJEjYkq0GFW
+         Drsaw86nepPMYcvanJBR6nT2sTQrNEk8Qh3imrJTfTL+2C7+wg63CcSSQv4p+EoI4s
+         N0t/cTgrilk2+9HIzaSXjKDlJ8htemzKRtiEccO3OSPgoLqanmrASugmkSzVo0y192
+         NTxTk95NEmZrg==
+Subject: Re: [PATCH 3/3] media: stk1160: use dma_alloc_noncontiguous API
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        hverkuil@xs4all.nl, ribalda@chromium.org, tfiga@chromium.org,
+        senozhatsky@google.com, hch@lst.de, kernel@collabora.com
+References: <20220111065505.6323-1-dafna.hirschfeld@collabora.com>
+ <20220111065505.6323-4-dafna.hirschfeld@collabora.com>
+ <Yd16PXCDGwF5V7aK@eze-laptop>
+ <7f64ed7f-5076-1d22-1922-9d39515125a0@collabora.com>
+Message-ID: <45e206c0-bb83-66dd-df92-613c99495e75@collabora.com>
+Date:   Mon, 24 Jan 2022 18:02:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <7f64ed7f-5076-1d22-1922-9d39515125a0@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Instead of suspending/resume the USB device at open()/close(), do it
-when the device is actually used.
 
-This way we can reduce the power consumption when a service is holding
-the video device and leaving it in an idle state.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
+On 24.01.22 16:43, Dafna Hirschfeld wrote:
+> 
+> 
+> On 11.01.22 14:38, Ezequiel Garcia wrote:
+>> Hi Dafna,
+>>
+>> Very nice work.
+>>
+>> I specially like all the testing that you mentioned in the cover-letter.
+>>
+>> Back in the day, there were a few users trying to use STK1160 (Easycap)
+>> with Beaglebone boards, without success due to lack of USB throughput.
+> 
+> Hi, what do you mean by "USB throughput" ?
+> I see that the FPS does not change with this patchset and stands on about 25 frames/sec
+> So this patchset only improve cpu time.
+> 
+>>
+>> If anything else, I think it's good to see additional noncontiguous API users.
+>>
+>> On Tue, Jan 11, 2022 at 08:55:05AM +0200, Dafna Hirschfeld wrote:
+>>> Replace the urb buffers allocation to
+>>> use the noncontiguous API. This improve performance
+>>> on Arm.
+>>> The noncontiguous API require handling
+>>> synchronization.
+>>> This commit is similar to the one sent to
+>>> uvc: [1]
+>>>
+>>> [1] https://lkml.org/lkml/2021/3/12/1506
+>>>
+>>
+>> This commit description needs lots of attention. In particular,
+>> please add the test results here.
+>>
+>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>> ---
+>>>   drivers/media/usb/stk1160/stk1160-v4l.c   |   3 +
+>>>   drivers/media/usb/stk1160/stk1160-video.c | 109 +++++++++++++---------
+>>>   drivers/media/usb/stk1160/stk1160.h       |  10 ++
+>>>   3 files changed, 79 insertions(+), 43 deletions(-)
+>>>
+>> [..]
+>>> @@ -501,7 +524,7 @@ int stk1160_alloc_isoc(struct stk1160 *dev)
+>>>   free_i_bufs:
+>>>       /* Save the allocated buffers so far, so we can properly free them */
+>>> -    dev->isoc_ctl.num_bufs = i+1;
+>>> +    dev->isoc_ctl.num_bufs = i;
+>>
+>> This looks like a separate fix, similar to 1/3 ?
+>>
+>>>       stk1160_free_isoc(dev);
+>>>       return -ENOMEM;
+>>>   }
+>>> diff --git a/drivers/media/usb/stk1160/stk1160.h b/drivers/media/usb/stk1160/stk1160.h
+>>> index 1ffca1343d88..52bea7815ae5 100644
+>>> --- a/drivers/media/usb/stk1160/stk1160.h
+>>> +++ b/drivers/media/usb/stk1160/stk1160.h
+>>> @@ -16,6 +16,8 @@
+>>>   #include <media/videobuf2-v4l2.h>
+>>>   #include <media/v4l2-device.h>
+>>>   #include <media/v4l2-ctrls.h>
+>>> +#include <linux/usb.h>
+>>> +#include <linux/usb/hcd.h>
+>>>   #define STK1160_VERSION        "0.9.5"
+>>>   #define STK1160_VERSION_NUM    0x000905
+>>> @@ -87,6 +89,9 @@ struct stk1160_buffer {
+>>>   struct stk1160_urb {
+>>>       struct urb *urb;
+>>>       char *transfer_buffer;
+>>> +    struct sg_table *sgt;
+>>> +    struct stk1160 *dev;
+>>> +    dma_addr_t dma;
+>>>   };
+>>>   struct stk1160_isoc_ctl {
+>>> @@ -190,3 +195,8 @@ void stk1160_select_input(struct stk1160 *dev);
+>>>   /* Provided by stk1160-ac97.c */
+>>>   void stk1160_ac97_setup(struct stk1160 *dev);
+>>> +
+>>> +static inline struct device *stk1160_get_dmadev(struct stk1160 *dev)
+>>> +{
+>>> +    return bus_to_hcd(dev->udev->bus)->self.sysdev;
+>>
+>> This function looks truly horrible, is there no other way to get the device ?
+>>
+>> I suppose this function return something different than (struct stk1160*)dev->dev ?
+> 
+> I remember I tried using this device and got an error that it is not cable of doing dma
+> allocations or something like that. The function "stk1160_get_dmadev" is a copy-paste from the
+> uvc equivalent:
+> 
+> static inline struct device *uvc_stream_to_dmadev(struct uvc_streaming *stream)
+> {
+>          return bus_to_hcd(stream->dev->udev->bus)->self.sysdev;
+> }
+> 
+> Thanks,
+> Dafna
 
-v2: Kudos to Laurent!
+There are 3 'struct device' related, when printing their names with:
 
-We cannot suspend if we can read events from the video device.
+         pr_err("dmadev device is %s\n", dev_name(stk1160_get_dmadev(dev)));
+         pr_err("udev->dev device is %s\n", dev_name(&dev->udev->dev));
+         pr_err("dev device is %s\n", dev_name(dev->dev));
 
- drivers/media/usb/uvc/uvc_v4l2.c | 202 +++++++++++++++++++++++++------
- drivers/media/usb/uvc/uvcvideo.h |   1 +
- 2 files changed, 169 insertions(+), 34 deletions(-)
+I get:
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 711556d13d03..f557ba0daa46 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -25,6 +25,55 @@
- 
- #include "uvcvideo.h"
- 
-+/* ------------------------------------------------------------------------
-+ * UVC power management
-+ */
-+
-+static int uvc_pm_get(struct uvc_streaming *stream)
-+{
-+	int ret = 0;
-+
-+	if (!video_is_registered(&stream->vdev))
-+		return -ENODEV;
-+
-+	/*
-+	 * We cannot hold dev->lock when calling autopm_get_interface.
-+	 */
-+	ret = usb_autopm_get_interface(stream->dev->intf);
-+	if (ret)
-+		return ret;
-+
-+	mutex_lock(&stream->dev->lock);
-+	if (!stream->dev->users)
-+		ret = uvc_status_start(stream->dev, GFP_KERNEL);
-+	if (!ret)
-+		stream->dev->users++;
-+	mutex_unlock(&stream->dev->lock);
-+
-+	if (ret)
-+		usb_autopm_put_interface(stream->dev->intf);
-+
-+	return ret;
-+}
-+
-+static void uvc_pm_put(struct uvc_streaming *stream)
-+{
-+	if (!video_is_registered(&stream->vdev))
-+		return;
-+
-+	mutex_lock(&stream->dev->lock);
-+	if (WARN_ON(!stream->dev->users)) {
-+		mutex_unlock(&stream->dev->lock);
-+		return;
-+	}
-+	stream->dev->users--;
-+	if (!stream->dev->users)
-+		uvc_status_stop(stream->dev);
-+	mutex_unlock(&stream->dev->lock);
-+
-+	usb_autopm_put_interface(stream->dev->intf);
-+}
-+
- /* ------------------------------------------------------------------------
-  * UVC ioctls
-  */
-@@ -251,8 +300,14 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
- 			stream->ctrl.dwMaxVideoFrameSize;
- 
- 	/* Probe the device. */
-+	ret = uvc_pm_get(stream);
-+	if (ret) {
-+		mutex_unlock(&stream->mutex);
-+		goto done;
-+	}
- 	ret = uvc_probe_video(stream, probe);
- 	mutex_unlock(&stream->mutex);
-+	uvc_pm_put(stream);
- 	if (ret < 0)
- 		goto done;
- 
-@@ -464,7 +519,13 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
- 	}
- 
- 	/* Probe the device with the new settings. */
-+	ret = uvc_pm_get(stream);
-+	if (ret) {
-+		mutex_unlock(&stream->mutex);
-+		return ret;
-+	}
- 	ret = uvc_probe_video(stream, &probe);
-+	uvc_pm_put(stream);
- 	if (ret < 0) {
- 		mutex_unlock(&stream->mutex);
- 		return ret;
-@@ -555,35 +616,25 @@ static int uvc_v4l2_open(struct file *file)
- {
- 	struct uvc_streaming *stream;
- 	struct uvc_fh *handle;
--	int ret = 0;
- 
- 	stream = video_drvdata(file);
- 	uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
- 
--	ret = usb_autopm_get_interface(stream->dev->intf);
--	if (ret < 0)
--		return ret;
--
- 	/* Create the device handle. */
- 	handle = kzalloc(sizeof(*handle), GFP_KERNEL);
--	if (handle == NULL) {
--		usb_autopm_put_interface(stream->dev->intf);
-+	if (!handle)
- 		return -ENOMEM;
--	}
- 
--	mutex_lock(&stream->dev->lock);
--	if (stream->dev->users == 0) {
--		ret = uvc_status_start(stream->dev, GFP_KERNEL);
--		if (ret < 0) {
--			mutex_unlock(&stream->dev->lock);
--			usb_autopm_put_interface(stream->dev->intf);
--			kfree(handle);
--			return ret;
--		}
-+	/*
-+	 * If the uvc evdev exists we cannot suspend when the device
-+	 * is idle. Otherwise we will miss button actions.
-+	 */
-+#ifdef CONFIG_USB_VIDEO_CLASS_INPUT_EVDEV
-+	if (uvc_pm_get(stream)) {
-+		kfree(handle);
-+		return -ENODEV;
- 	}
--
--	stream->dev->users++;
--	mutex_unlock(&stream->dev->lock);
-+#endif
- 
- 	v4l2_fh_init(&handle->vfh, &stream->vdev);
- 	v4l2_fh_add(&handle->vfh);
-@@ -606,6 +657,13 @@ static int uvc_v4l2_release(struct file *file)
- 	if (uvc_has_privileges(handle))
- 		uvc_queue_release(&stream->queue);
- 
-+	if (handle->is_streaming)
-+		uvc_pm_put(stream);
-+
-+#ifdef CONFIG_USB_VIDEO_CLASS_INPUT_EVDEV
-+	uvc_pm_put(stream);
-+#endif
-+
- 	/* Release the file handle. */
- 	uvc_dismiss_privileges(handle);
- 	v4l2_fh_del(&handle->vfh);
-@@ -613,12 +671,6 @@ static int uvc_v4l2_release(struct file *file)
- 	kfree(handle);
- 	file->private_data = NULL;
- 
--	mutex_lock(&stream->dev->lock);
--	if (--stream->dev->users == 0)
--		uvc_status_stop(stream->dev);
--	mutex_unlock(&stream->dev->lock);
--
--	usb_autopm_put_interface(stream->dev->intf);
- 	return 0;
- }
- 
-@@ -842,7 +894,21 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
- 		return -EBUSY;
- 
- 	mutex_lock(&stream->mutex);
-+	if (!handle->is_streaming) {
-+		ret = uvc_pm_get(stream);
-+		if (ret)
-+			goto unlock;
-+	}
-+
- 	ret = uvc_queue_streamon(&stream->queue, type);
-+
-+	if (ret && !handle->is_streaming)
-+		uvc_pm_put(stream);
-+
-+	if (!ret)
-+		handle->is_streaming = true;
-+
-+unlock:
- 	mutex_unlock(&stream->mutex);
- 
- 	return ret;
-@@ -859,6 +925,10 @@ static int uvc_ioctl_streamoff(struct file *file, void *fh,
- 
- 	mutex_lock(&stream->mutex);
- 	uvc_queue_streamoff(&stream->queue, type);
-+	if (handle->is_streaming) {
-+		handle->is_streaming = false;
-+		uvc_pm_put(stream);
-+	}
- 	mutex_unlock(&stream->mutex);
- 
- 	return 0;
-@@ -909,6 +979,7 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
- 	u8 *buf;
- 	int ret;
- 
-@@ -922,9 +993,16 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
- 	if (!buf)
- 		return -ENOMEM;
- 
-+	ret = uvc_pm_get(stream);
-+	if (ret) {
-+		kfree(buf);
-+		return ret;
-+	}
-+
- 	ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, chain->selector->id,
- 			     chain->dev->intfnum,  UVC_SU_INPUT_SELECT_CONTROL,
- 			     buf, 1);
-+	uvc_pm_put(stream);
- 	if (!ret)
- 		*input = *buf - 1;
- 
-@@ -937,6 +1015,7 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
- 	u8 *buf;
- 	int ret;
- 
-@@ -958,10 +1037,17 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
- 	if (!buf)
- 		return -ENOMEM;
- 
-+	ret = uvc_pm_get(stream);
-+	if (ret) {
-+		kfree(buf);
-+		return ret;
-+	}
-+
- 	*buf = input + 1;
- 	ret = uvc_query_ctrl(chain->dev, UVC_SET_CUR, chain->selector->id,
- 			     chain->dev->intfnum, UVC_SU_INPUT_SELECT_CONTROL,
- 			     buf, 1);
-+	uvc_pm_put(stream);
- 	kfree(buf);
- 
- 	return ret;
-@@ -972,8 +1058,15 @@ static int uvc_ioctl_queryctrl(struct file *file, void *fh,
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
-+	int ret;
- 
--	return uvc_query_v4l2_ctrl(chain, qc);
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
-+	ret = uvc_query_v4l2_ctrl(chain, qc);
-+	uvc_pm_put(stream);
-+	return ret;
- }
- 
- static int uvc_ioctl_query_ext_ctrl(struct file *file, void *fh,
-@@ -981,10 +1074,15 @@ static int uvc_ioctl_query_ext_ctrl(struct file *file, void *fh,
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
- 	struct v4l2_queryctrl qc = { qec->id };
- 	int ret;
- 
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
- 	ret = uvc_query_v4l2_ctrl(chain, &qc);
-+	uvc_pm_put(stream);
- 	if (ret)
- 		return ret;
- 
-@@ -1030,6 +1128,7 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
- 	struct v4l2_ext_control *ctrl = ctrls->controls;
- 	unsigned int i;
- 	int ret;
-@@ -1054,22 +1153,30 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
- 		return 0;
- 	}
- 
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
- 	ret = uvc_ctrl_begin(chain);
--	if (ret < 0)
-+	if (ret < 0) {
-+		uvc_pm_put(stream);
- 		return ret;
-+	}
- 
- 	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
- 		ret = uvc_ctrl_get(chain, ctrl);
- 		if (ret < 0) {
- 			uvc_ctrl_rollback(handle);
- 			ctrls->error_idx = i;
-+			uvc_pm_put(stream);
- 			return ret;
- 		}
- 	}
- 
- 	ctrls->error_idx = 0;
- 
--	return uvc_ctrl_rollback(handle);
-+	ret = uvc_ctrl_rollback(handle);
-+	uvc_pm_put(stream);
-+	return ret;
- }
- 
- static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
-@@ -1078,6 +1185,7 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
- {
- 	struct v4l2_ext_control *ctrl = ctrls->controls;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
- 	unsigned int i;
- 	int ret;
- 
-@@ -1085,9 +1193,15 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
-+
- 	ret = uvc_ctrl_begin(chain);
--	if (ret < 0)
-+	if (ret < 0) {
-+		uvc_pm_put(stream);
- 		return ret;
-+	}
- 
- 	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
- 		ret = uvc_ctrl_set(handle, ctrl);
-@@ -1095,6 +1209,7 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
- 			uvc_ctrl_rollback(handle);
- 			ctrls->error_idx = ioctl == VIDIOC_S_EXT_CTRLS ?
- 						    ctrls->count : i;
-+			uvc_pm_put(stream);
- 			return ret;
- 		}
- 	}
-@@ -1102,9 +1217,12 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
- 	ctrls->error_idx = 0;
- 
- 	if (ioctl == VIDIOC_S_EXT_CTRLS)
--		return uvc_ctrl_commit(handle, ctrls);
-+		ret = uvc_ctrl_commit(handle, ctrls);
- 	else
--		return uvc_ctrl_rollback(handle);
-+		ret = uvc_ctrl_rollback(handle);
-+
-+	uvc_pm_put(stream);
-+	return ret;
- }
- 
- static int uvc_ioctl_s_ext_ctrls(struct file *file, void *fh,
-@@ -1119,8 +1237,16 @@ static int uvc_ioctl_try_ext_ctrls(struct file *file, void *fh,
- 				   struct v4l2_ext_controls *ctrls)
- {
- 	struct uvc_fh *handle = fh;
-+	struct uvc_streaming *stream = handle->stream;
-+	int ret;
-+
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
-+	ret = uvc_ioctl_s_try_ext_ctrls(handle, ctrls, VIDIOC_TRY_EXT_CTRLS);
-+	uvc_pm_put(stream);
- 
--	return uvc_ioctl_s_try_ext_ctrls(handle, ctrls, VIDIOC_TRY_EXT_CTRLS);
-+	return ret;
- }
- 
- static int uvc_ioctl_querymenu(struct file *file, void *fh,
-@@ -1128,8 +1254,16 @@ static int uvc_ioctl_querymenu(struct file *file, void *fh,
- {
- 	struct uvc_fh *handle = fh;
- 	struct uvc_video_chain *chain = handle->chain;
-+	struct uvc_streaming *stream = handle->stream;
-+	int ret;
- 
--	return uvc_query_v4l2_menu(chain, qm);
-+	ret = uvc_pm_get(stream);
-+	if (ret)
-+		return ret;
-+	ret = uvc_query_v4l2_menu(chain, qm);
-+	uvc_pm_put(stream);
-+
-+	return ret;
- }
- 
- static int uvc_ioctl_g_selection(struct file *file, void *fh,
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 143230b3275b..5958b2a54dab 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -720,6 +720,7 @@ enum uvc_handle_state {
- 
- struct uvc_fh {
- 	struct v4l2_fh vfh;
-+	bool is_streaming;
- 	struct uvc_video_chain *chain;
- 	struct uvc_streaming *stream;
- 	enum uvc_handle_state state;
--- 
-2.35.0.rc0.227.g00780c9af4-goog
+[  107.770870] dmadev device is fe900000.usb
+[  107.771253] udev->dev device is 7-1
+[  107.771561] dev device is 7-1:1.0
 
+If I try to use 'dev->dev' instead of the above stk1160_get_dmadev,
+streaming fails and I get two warnings. The first one is originated from:
+
+https://elixir.bootlin.com/linux/v5.16-rc4/source/kernel/dma/mapping.c#L546
+
+Which is:
+WARN_ON_ONCE(!dev->coherent_dma_mask)
+
+I wonder if that warning is required in our case since we remove the alloc_coherent usage.
+
+The second warning in videobuf2-core.c:1612 seems to be a bug in the driver itself.
+I'll look at that.
+
+
+[   65.554406] ------------[ cut here ]------------
+[   65.554815] WARNING: CPU: 1 PID: 593 at /home/dafna/git/easycap_media_tree/kernel/dma/mapping.c:546 __dma_alloc_pages+0x78/0xc8
+[   65.555836] Modules linked in: snd_usb_audio snd_hwdep snd_usbmidi_lib snd_rawmidi snd_soc_hdmi_codec dw_hdmi_i2s_audio saa7115 stk1160 videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc crct10dif_ce panfrost snd_soc_simple_card snd_soc_audio_graph_card snd_soc_spdif_tx snd_soc_simple_card_utils gpu_sched phy_rockchip_pcie snd_soc_rockchip_i2s rockchipdrm analogix_dp dw_mipi_dsi dw_hdmi cec drm_kms_helper drm rtc_rk808 rockchip_saradc industrialio_triggered_buffer kfifo_buf rockchip_thermal pcie_rockchip_host ip_tables x_tables ipv6
+[   65.560265] CPU: 1 PID: 593 Comm: v4l2src0:src Not tainted 5.16.0-rc4-62408-g32447129cb30-dirty #14
+[   65.561269] Hardware name: Radxa ROCK Pi 4B (DT)
+[   65.561676] pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   65.562288] pc : __dma_alloc_pages+0x78/0xc8
+[   65.562849] lr : dma_alloc_noncontiguous+0x128/0x1a8
+[   65.563288] sp : ffff800012bc39b0
+[   65.563579] x29: ffff800012bc39b0 x28: 0000000000000000 x27: 0000000000030000
+[   65.564213] x26: ffff00000908a950 x25: ffff0000018af830 x24: 0000000000410080
+[   65.564843] x23: 0000000000000002 x22: ffff000005c88090 x21: 0000000000000cc0
+[   65.565473] x20: ffff0000018af830 x19: 0000000000030000 x18: ffffffffffffffff
+[   65.566103] x17: 000000040044ffff x16: 00400032b5503510 x15: ffff800011323f78
+[   65.566735] x14: 0000000000000000 x13: 302e313a312d3720 x12: 7369206563697665
+[   65.567366] x11: 0000000005f5e0ff x10: 000000000000005d x9 : 00000000ffffffd0
+[   65.567997] x8 : ffff000005c880a0 x7 : 0000000000000000 x6 : ffff800012bc3750
+[   65.568628] x5 : ffff800011b671f8 x4 : 0000000000000cc0 x3 : 0000000000000002
+[   65.569259] x2 : ffff000005c88090 x1 : 0000000000030000 x0 : 0000000000000000
+[   65.569891] Call trace:
+[   65.570110]  __dma_alloc_pages+0x78/0xc8
+[   65.570459]  dma_alloc_noncontiguous+0x128/0x1a8
+[   65.570868]  stk1160_alloc_isoc+0xf0/0x2b0 [stk1160]
+[   65.571318]  start_streaming+0xfc/0x250 [stk1160]
+[   65.571740]  vb2_start_streaming+0x6c/0x160 [videobuf2_common]
+[   65.572273]  vb2_core_streamon+0x17c/0x1a8 [videobuf2_common]
+[   65.572794]  vb2_streamon+0x54/0x88 [videobuf2_v4l2]
+[   65.573244]  vb2_ioctl_streamon+0x54/0x60 [videobuf2_v4l2]
+[   65.573736]  v4l_streamon+0x3c/0x50 [videodev]
+[   65.574195]  __video_do_ioctl+0x1a4/0x428 [videodev]
+[   65.574684]  video_usercopy+0x320/0x828 [videodev]
+[   65.575158]  video_ioctl2+0x3c/0x58 [videodev]
+[   65.575603]  v4l2_ioctl+0x60/0x90 [videodev]
+[   65.576031]  __arm64_sys_ioctl+0xa8/0xe0
+[   65.576381]  invoke_syscall+0x54/0x118
+[   65.576718]  el0_svc_common.constprop.3+0x84/0x100
+[   65.577144]  do_el0_svc+0x34/0xa0
+[   65.577441]  el0_svc+0x1c/0x50
+[   65.577716]  el0t_64_sync_handler+0x88/0xb0
+[   65.578086]  el0t_64_sync+0x16c/0x170
+[   65.578413] ---[ end trace 578e0ba07742170c ]---
+[   65.583222] ------------[ cut here ]------------
+[   65.583633] WARNING: CPU: 5 PID: 593 at /home/dafna/git/easycap_media_tree/drivers/media/common/videobuf2/videobuf2-core.c:1612 vb2_start_streaming+0xd4/0x160 [videobuf2_common]
+[   65.585027] Modules linked in: snd_usb_audio snd_hwdep snd_usbmidi_lib snd_rawmidi snd_soc_hdmi_codec dw_hdmi_i2s_audio saa7115 stk1160 videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc crct10dif_ce panfrost snd_soc_simple_card snd_soc_audio_graph_card snd_soc_spdif_tx snd_soc_simple_card_utils gpu_sched phy_rockchip_pcie snd_soc_rockchip_i2s rockchipdrm analogix_dp dw_mipi_dsi dw_hdmi cec drm_kms_helper drm rtc_rk808 rockchip_saradc industrialio_triggered_buffer kfifo_buf rockchip_thermal pcie_rockchip_host ip_tables x_tables ipv6
+[   65.589383] CPU: 5 PID: 593 Comm: v4l2src0:src Tainted: G        W         5.16.0-rc4-62408-g32447129cb30-dirty #14
+[   65.590293] Hardware name: Radxa ROCK Pi 4B (DT)
+[   65.590696] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   65.591304] pc : vb2_start_streaming+0xd4/0x160 [videobuf2_common]
+[   65.591850] lr : vb2_start_streaming+0x6c/0x160 [videobuf2_common]
+[   65.592395] sp : ffff800012bc3ad0
+[   65.592685] x29: ffff800012bc3ad0 x28: 0000000000000000 x27: ffff800012bc3cd8
+[   65.593312] x26: 0000000000000000 x25: ffff00000d8a7800 x24: 0000000040045612
+[   65.593938] x23: ffff800011323000 x22: ffff800012bc3cd8 x21: ffff00000908a8b0
+[   65.594562] x20: ffff00000908a8c8 x19: 00000000fffffff4 x18: ffffffffffffffff
+[   65.595188] x17: 000000040044ffff x16: 00400034b5503510 x15: ffff800011323f78
+[   65.595813] x14: ffff000013163886 x13: ffff000013163885 x12: 00000000000002ce
+[   65.596439] x11: 0000000000000028 x10: 0000000000000001 x9 : 0000000000000228
+[   65.597064] x8 : 0101010101010101 x7 : 7f7f7f7f7f7f7f7f x6 : fefefeff726c5e78
+[   65.597690] x5 : ffff800012bc3990 x4 : 0000000000000000 x3 : ffff000009a34880
+[   65.598315] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000007cd99f0
+[   65.598940] Call trace:
+[   65.599155]  vb2_start_streaming+0xd4/0x160 [videobuf2_common]
+[   65.599672]  vb2_core_streamon+0x17c/0x1a8 [videobuf2_common]
+[   65.600179]  vb2_streamon+0x54/0x88 [videobuf2_v4l2]
+[   65.600619]  vb2_ioctl_streamon+0x54/0x60 [videobuf2_v4l2]
+[   65.601103]  v4l_streamon+0x3c/0x50 [videodev]
+[   65.601521]  __video_do_ioctl+0x1a4/0x428 [videodev]
+[   65.601977]  video_usercopy+0x320/0x828 [videodev]
+[   65.602419]  video_ioctl2+0x3c/0x58 [videodev]
+[   65.602830]  v4l2_ioctl+0x60/0x90 [videodev]
+[   65.603227]  __arm64_sys_ioctl+0xa8/0xe0
+[   65.603576]  invoke_syscall+0x54/0x118
+[   65.603911]  el0_svc_common.constprop.3+0x84/0x100
+[   65.604332]  do_el0_svc+0x34/0xa0
+[   65.604625]  el0_svc+0x1c/0x50
+[   65.604897]  el0t_64_sync_handler+0x88/0xb0
+[   65.605264]  el0t_64_sync+0x16c/0x170
+[   65.605587] ---[ end trace 578e0ba07742170d ]---
+
+Thanks,
+Dafna
+
+> 
+>>
+>> Thanks,
+>> Ezequiel
+>>
+> 
