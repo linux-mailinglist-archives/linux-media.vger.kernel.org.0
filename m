@@ -2,100 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2DF9498D39
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 20:33:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 154FC498ADE
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 20:08:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345763AbiAXT3R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 14:29:17 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:50512 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348040AbiAXT1N (ORCPT
+        id S1344599AbiAXTHd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 14:07:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46096 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346231AbiAXTFN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 14:27:13 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F0C9FB8122C;
-        Mon, 24 Jan 2022 19:27:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12A7FC340E7;
-        Mon, 24 Jan 2022 19:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1643052425;
-        bh=N7iqN2dtcEyo4qkf5F6uhGxw3W2pDTN7WGAfMlTzNYY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uwjxEx33cAJEo04u3CviaqKIkkt/EeUeWYu/1EKatk4nX10lJR5Tse7yr06AMzKkc
-         mo+vGraQvEIbHUDTLnz01EL58NFJZegSs1g0e5v1wtXKFygYxkOSUWzLLBS+IV6p0p
-         V339z8RN/lXTyk/NHwul0hYIAI+PHU5z1N+qyAXE=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= 
-        <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH 5.4 027/320] dma_fence_array: Fix PENDING_ERROR leak in dma_fence_array_signaled()
-Date:   Mon, 24 Jan 2022 19:40:11 +0100
-Message-Id: <20220124183954.683526569@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220124183953.750177707@linuxfoundation.org>
-References: <20220124183953.750177707@linuxfoundation.org>
-User-Agent: quilt/0.66
+        Mon, 24 Jan 2022 14:05:13 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72D56C0613E6
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 11:00:16 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id m4so24149944ejb.9
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 11:00:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nT/ZnOHsKJlxYz4RqSgPwsd6TUWvpfzybqxkqHLwAN4=;
+        b=k9IWBrqvExqU3irvTU/m+erA5ybtTbL59pFHFgYqkP57ohTZ/v3GlH9Tu7iUlhg6hG
+         a/TNhyk/+HHdmMH/HYBmjBFQuKCdgJCKebYkoDz3tOkFFaZye31lrvmlV+MEUvZuBgug
+         PfEsTeO1eGfHVbT+6Gl68gmAEz54KK/oow/vQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nT/ZnOHsKJlxYz4RqSgPwsd6TUWvpfzybqxkqHLwAN4=;
+        b=MoYwx+EshTB3+2Qwk3MKJUdpTsRWOfo4/ppTgrLRuP8+St9PVoPJqKmFQ8k6iQfPDJ
+         l9/c0WWbFJsXIKp96jXnJqLpWz0mhH3htvc4wIlgzlaYLE9Skf5IXtN9TWlmjn71XyIZ
+         uzNZjg8LyXKdqOyA3rP0L7IBrAdO8VGd43fN0HpyfGqKh9TcLbex9LbRBjPAhNYVBV70
+         NWxLLd/N4WY225XD1hcuLzPMxYeS3HqsBiX/OIFxfg7+mdQrLyM8WF3ew/r9piRZHlwi
+         H4IxiaZJ4dTkVuE4QbnLnkaxL55JR1LS6l1N74ehJtTdjnQ+9CsTFP2I6ufPPcqFalK1
+         3+mw==
+X-Gm-Message-State: AOAM532Coj0BZuzKzwVmtNarePm2dkO5Ny2phbVPJpMvkvMjuOvvI5DW
+        1lLCFdY8SkxC6O5A+IgVOtbzsw==
+X-Google-Smtp-Source: ABdhPJwYGNun9Hzk3k6pwp4tGzmkEh86jeWwUHDIfzQx2wPsTL5GWj1R20Vl0XN/0YmqK56g5Z7M/w==
+X-Received: by 2002:a17:906:4acd:: with SMTP id u13mr13618410ejt.563.1643050814994;
+        Mon, 24 Jan 2022 11:00:14 -0800 (PST)
+Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id by22sm5221518ejb.84.2022.01.24.11.00.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jan 2022 11:00:14 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v3 1/2] media: uvcvideo: Only create input devs if hw supports it
+Date:   Mon, 24 Jan 2022 20:00:12 +0100
+Message-Id: <20220124190013.221601-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.35.0.rc0.227.g00780c9af4-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Examine the stream headers to figure out if the device has a GPIO and
+can be used as an input.
 
-commit 95d35838880fb040ccb9fe4a48816bd0c8b62df5 upstream.
-
-If a dma_fence_array is reported signaled by a call to
-dma_fence_is_signaled(), it may leak the PENDING_ERROR status.
-
-Fix this by clearing the PENDING_ERROR status if we return true in
-dma_fence_array_signaled().
-
-v2:
-- Update Cc list, and add R-b.
-
-Fixes: 1f70b8b812f3 ("dma-fence: Propagate errors to dma-fence-array container")
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Gustavo Padovan <gustavo@padovan.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: <stable@vger.kernel.org> # v5.4+
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20211129152727.448908-1-thomas.hellstrom@linux.intel.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/dma-buf/dma-fence-array.c |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/media/usb/uvc/uvc_status.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
---- a/drivers/dma-buf/dma-fence-array.c
-+++ b/drivers/dma-buf/dma-fence-array.c
-@@ -104,7 +104,11 @@ static bool dma_fence_array_signaled(str
- {
- 	struct dma_fence_array *array = to_dma_fence_array(fence);
- 
--	return atomic_read(&array->num_pending) <= 0;
-+	if (atomic_read(&array->num_pending) > 0)
-+		return false;
+diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+index 753c8226db70..3ef0b281ffc5 100644
+--- a/drivers/media/usb/uvc/uvc_status.c
++++ b/drivers/media/usb/uvc/uvc_status.c
+@@ -18,11 +18,34 @@
+  * Input device
+  */
+ #ifdef CONFIG_USB_VIDEO_CLASS_INPUT_EVDEV
 +
-+	dma_fence_array_clear_pending_error(array);
-+	return true;
- }
++static bool uvc_input_has_button(struct uvc_device *dev)
++{
++	struct uvc_streaming *stream;
++
++	/*
++	 * The device has GPIO button event if both bTriggerSupport and
++	 * bTriggerUsage are one. Otherwise the camera button does not
++	 * exist or is handled automatically by the camera without host
++	 * driver or client application intervention.
++	 */
++	list_for_each_entry(stream, &dev->streams, list) {
++		if (stream->header.bTriggerSupport == 1 &&
++		    stream->header.bTriggerUsage == 1)
++			return true;
++	}
++
++	return false;
++}
++
+ static int uvc_input_init(struct uvc_device *dev)
+ {
+ 	struct input_dev *input;
+ 	int ret;
  
- static void dma_fence_array_release(struct dma_fence *fence)
-
++	if (!uvc_input_has_button(dev))
++		return 0;
++
+ 	input = input_allocate_device();
+ 	if (input == NULL)
+ 		return -ENOMEM;
+-- 
+2.35.0.rc0.227.g00780c9af4-goog
 
