@@ -2,105 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C41C49798D
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 08:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D62249799C
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 08:40:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241893AbiAXHgB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 02:36:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53586 "EHLO
+        id S241831AbiAXHku (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 02:40:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241901AbiAXHgA (ORCPT
+        with ESMTP id S241806AbiAXHkt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 02:36:00 -0500
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B74E0C061747
-        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 23:36:00 -0800 (PST)
-Received: by mail-ot1-x32b.google.com with SMTP id m8-20020a9d4c88000000b00592bae7944bso21128438otf.1
-        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 23:36:00 -0800 (PST)
+        Mon, 24 Jan 2022 02:40:49 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60CD9C06173B
+        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 23:40:49 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id v13so11812728wrv.10
+        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 23:40:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zOHJbgxEeKcTUS1M3dbg/CCHL8zxNc7o7Y1pwSiNVNQ=;
-        b=nnn9LtLwXfk7cnMsheBf/i/NrLocB5ZH4T6337Dpv82Oj2Low4So95DhYusrDqfQgr
-         ZrLtE7d2iUqFHmJDVdjrO2lhVt84Rj3bVKKjPcdlzLgauycE0b8EIJKKuAmdJ4unjYYn
-         7LZiBTfpZ06IW4qOFLzIvb+X+r0FDlTMkNqwBORskjKlVZFUi3Mbw7YG/3W7xT95PB1G
-         gEucmzF7XRcFKikid2+aCrVKzSZJxXvj3lNKDY6VjjwJKCjEjiYizx7yXNl8Ju3zMgUb
-         qbwzpRhjz4zunCqbBLFND+/0JzIkiV06okLrB6LSyHL1PcDAH1lKt3t06T48eImwZJ+U
-         ieHg==
+        bh=nkHC8QZFOIHT45+bm5mbkRLb4msTxzU2f5F+QSxdoAg=;
+        b=Qj2yBp4MqQ7KNASeGTANOuELaoriQPEus+Y5WG9R1BeNlKfWpoIpNdldl25Dp739sv
+         Az06vMnMIfiC9jcFemaGJdxt4ksPV3D8IgfABi+dTcLwDcZqSLP7Vwff05NY1nIIgwB7
+         FsEk327TEn7KK6LOlZL9hEkNA5+JAXfVE2iVj5qvBHsgqjzsdkq1s8DqvXnR3vmUCKbR
+         sKpTRuGMUEw5CVwsUHzceA0paF3lWmzHi84RljO6OMZlo15XXlrylqjBucdtB8Vnvt92
+         6nI85ykpmGtgGonR1HfNg8as0g/v75cbSo+t5WzkOHO4sdrYNuW8HTIb651QRaqtDXTq
+         LYGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=zOHJbgxEeKcTUS1M3dbg/CCHL8zxNc7o7Y1pwSiNVNQ=;
-        b=a+cLtHXmL3lMgefCIrSVbcDZnFJluBDeSmfWA5M3pIXdIlaKBtPxdMSj7LEf9002xD
-         XDHMywiGA51qW66A8hZAMyid9iFwolcOXa56GCl/PqIvGACD+TDdJj/qbiy3myrV4GrY
-         c+mtkmodsg+m4H7baX6rItz/g5lOphObgS/2xY2y7VHVxA172LwG56glPAEci9a7SPNu
-         3aSl0NKDPAb3+bv6mJe3QVeQtQH9Ec8RBFINqA4K73fOQuWTxVkOXh2k+Ry2oSOf1DFs
-         Gqd71yia/T+jI2KAb3ggzKY1S7zebzUF06FHEHEcAvtyk5T6ds/JvcQpv538hKF/cOMq
-         f1vA==
-X-Gm-Message-State: AOAM531f59K0hm5tYLRVxTiI44rZC0xl+y28tlRomr+SXMaQ7Pa4cacO
-        B/b1ei4ShvlIYM56J73T0YH3lbbqi2SsEXOdUt4=
-X-Google-Smtp-Source: ABdhPJxU32YNupNleWFwExE5RevdgxxJdX62CTXPJWdkWrogcDbY/DYawRwnrsfoV4yZFjQ3D3ASXj0PQ/lX2NfdHp4=
-X-Received: by 2002:a9d:64c3:: with SMTP id n3mr6167493otl.49.1643009759871;
- Sun, 23 Jan 2022 23:35:59 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nkHC8QZFOIHT45+bm5mbkRLb4msTxzU2f5F+QSxdoAg=;
+        b=zEx0XxV5tGEoqOapuTtZ8wvPhViONm7agnDqLd+cWweHLfElGguN/n2KXyhtwGfaLu
+         NktHkAFA5KkxoZ+mYMarfRBZkgVseEqcR5FxoDjVdw73Qqs99Edwcz5O1PjpabF1y8Zo
+         mjuCFCzimnEC8oOfO3kXEQAY6zg5RJ4jWxgvDHMTex12TTpf/hl5kqCs9b6Igz1fgr3+
+         JqT7YfJlYUDM0g/zj1LHeMmQfhTlldqKJFkbPT6csJlg0n8Haia8yvYtwDeI1LPdr2iz
+         1N9LuJ161R1mmuz1yPo5UEk698LFuII5cy9a/RqwKipz1vAdi2OZ5Hs+fB6HYFUdTnJj
+         gU6g==
+X-Gm-Message-State: AOAM531djZIofnLRyqeA1nO4Q9AXx54AzbmKtuLMxL0k1OgacT4xCYJ1
+        BaOQNFMKJgJAr28qq7sqn8E=
+X-Google-Smtp-Source: ABdhPJzhRxuEYmrw3Ii07RY11RBs/o/Fq2cYVaEP6QMU32uHoHeBFsvH7w6OILGVbItZxRNvx2es8Q==
+X-Received: by 2002:adf:d1c2:: with SMTP id b2mr6047282wrd.411.1643010047896;
+        Sun, 23 Jan 2022 23:40:47 -0800 (PST)
+Received: from abel.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
+        by smtp.gmail.com with ESMTPSA id u15sm516370wrs.17.2022.01.23.23.40.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jan 2022 23:40:47 -0800 (PST)
+From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
+        <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To:     thomas.hellstrom@linux.intel.com, sumit.semwal@linaro.org,
+        gustavo@padovan.org, daniel.vetter@ffwll.ch,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 1/9] dma-buf: consolidate dma_fence subclass checking
+Date:   Mon, 24 Jan 2022 08:40:38 +0100
+Message-Id: <20220124074046.4865-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Sender: blessmegod87@gmail.com
-Received: by 2002:a05:6838:441f:0:0:0:0 with HTTP; Sun, 23 Jan 2022 23:35:59
- -0800 (PST)
-From:   DINA MCKENNA <dinamckennahowley@gmail.com>
-Date:   Mon, 24 Jan 2022 07:35:59 +0000
-X-Google-Sender-Auth: wXyhnIu9y8GFI4qBrYQUoqbJ-7s
-Message-ID: <CACOw96=7fxdoYVHW5DfJjR3jV3BmUng0T67PKJYsv4-uH9ZOzQ@mail.gmail.com>
-Subject: Calvary greetings.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello my dear,
+Consolidate the wrapper functions to check for dma_fence
+subclasses in the dma_fence header.
 
- I sent this mail praying it will get to you in a good condition of
-health, since I myself are in a very critical health condition in
-which I sleep every night without knowing if I may be alive to see the
-next day. I bring peace and love to you. It is by the grace of God, I
-had no choice than to do what is lawful and right in the sight of God
-for eternal life and in the sight of man, for witness of God=E2=80=99s merc=
-y
-and glory upon my life. I am Mrs. Dina. Howley Mckenna, a widow. I am
-suffering from a long time brain tumor, It has defiled all forms of
-medical treatment, and right now I have about a few months to leave,
-according to medical experts. The situation has gotten complicated
-recently with my inability to hear proper, am communicating with you
-with the help of the chief nurse herein the hospital, from all
-indication my conditions is really deteriorating and it is quite
-obvious that, according to my doctors they have advised me that I may
-not live too long, Because this illness has gotten to a very bad
-stage. I plead that you will not expose or betray this trust and
-confidence that I am about to repose on you for the mutual benefit of
-the orphans and the less privilege. I have some funds I inherited from
-my late husband, the sum of ($ 11,000,000.00, Eleven Million Dollars).
-Having known my condition, I decided to donate this fund to you
-believing that you will utilize it the way i am going to instruct
-herein. I need you to assist me and reclaim this money and use it for
-Charity works therein your country  for orphanages and gives justice
-and help to the poor, needy and widows says The Lord." Jeremiah
-22:15-16.=E2=80=9C and also build schools for less privilege that will be
-named after my late husband if possible and to promote the word of God
-and the effort that the house of God is maintained. I do not want a
-situation where this money will be used in an ungodly manner. That's
-why I'm taking this decision. I'm not afraid of death, so I know where
-I'm going. I accept this decision because I do not have any child who
-will inherit this money after I die.. Please I want your sincerely and
-urgent answer to know if you will be able to execute this project for
-the glory of God, and I will give you more information on how the fund
-will be transferred to your bank account. May the grace, peace, love
-and the truth in the Word of God be with you and all those that you
-love and care for.
+This makes it easier to document and also check the different
+requirements for fence containers in the subclasses.
 
-I'm waiting for your immediate reply..
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ include/linux/dma-fence-array.h | 15 +------------
+ include/linux/dma-fence-chain.h |  3 +--
+ include/linux/dma-fence.h       | 38 +++++++++++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+), 16 deletions(-)
 
-May God Bless you,
-Mrs. Dina. Howley Mckenna.
+diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+index 303dd712220f..fec374f69e12 100644
+--- a/include/linux/dma-fence-array.h
++++ b/include/linux/dma-fence-array.h
+@@ -45,19 +45,6 @@ struct dma_fence_array {
+ 	struct irq_work work;
+ };
+ 
+-extern const struct dma_fence_ops dma_fence_array_ops;
+-
+-/**
+- * dma_fence_is_array - check if a fence is from the array subsclass
+- * @fence: fence to test
+- *
+- * Return true if it is a dma_fence_array and false otherwise.
+- */
+-static inline bool dma_fence_is_array(struct dma_fence *fence)
+-{
+-	return fence->ops == &dma_fence_array_ops;
+-}
+-
+ /**
+  * to_dma_fence_array - cast a fence to a dma_fence_array
+  * @fence: fence to cast to a dma_fence_array
+@@ -68,7 +55,7 @@ static inline bool dma_fence_is_array(struct dma_fence *fence)
+ static inline struct dma_fence_array *
+ to_dma_fence_array(struct dma_fence *fence)
+ {
+-	if (fence->ops != &dma_fence_array_ops)
++	if (!fence || !dma_fence_is_array(fence))
+ 		return NULL;
+ 
+ 	return container_of(fence, struct dma_fence_array, base);
+diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+index 54fe3443fd2c..ee906b659694 100644
+--- a/include/linux/dma-fence-chain.h
++++ b/include/linux/dma-fence-chain.h
+@@ -49,7 +49,6 @@ struct dma_fence_chain {
+ 	spinlock_t lock;
+ };
+ 
+-extern const struct dma_fence_ops dma_fence_chain_ops;
+ 
+ /**
+  * to_dma_fence_chain - cast a fence to a dma_fence_chain
+@@ -61,7 +60,7 @@ extern const struct dma_fence_ops dma_fence_chain_ops;
+ static inline struct dma_fence_chain *
+ to_dma_fence_chain(struct dma_fence *fence)
+ {
+-	if (!fence || fence->ops != &dma_fence_chain_ops)
++	if (!fence || !dma_fence_is_chain(fence))
+ 		return NULL;
+ 
+ 	return container_of(fence, struct dma_fence_chain, base);
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 1ea691753bd3..775cdc0b4f24 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -587,4 +587,42 @@ struct dma_fence *dma_fence_get_stub(void);
+ struct dma_fence *dma_fence_allocate_private_stub(void);
+ u64 dma_fence_context_alloc(unsigned num);
+ 
++extern const struct dma_fence_ops dma_fence_array_ops;
++extern const struct dma_fence_ops dma_fence_chain_ops;
++
++/**
++ * dma_fence_is_array - check if a fence is from the array subclass
++ * @fence: the fence to test
++ *
++ * Return true if it is a dma_fence_array and false otherwise.
++ */
++static inline bool dma_fence_is_array(struct dma_fence *fence)
++{
++	return fence->ops == &dma_fence_array_ops;
++}
++
++/**
++ * dma_fence_is_chain - check if a fence is from the chain subclass
++ * @fence: the fence to test
++ *
++ * Return true if it is a dma_fence_chain and false otherwise.
++ */
++static inline bool dma_fence_is_chain(struct dma_fence *fence)
++{
++	return fence->ops == &dma_fence_chain_ops;
++}
++
++/**
++ * dma_fence_is_container - check if a fence is a container for other fences
++ * @fence: the fence to test
++ *
++ * Return true if this fence is a container for other fences, false otherwise.
++ * This is important since we can't build up large fence structure or otherwise
++ * we run into recursion during operation on those fences.
++ */
++static inline bool dma_fence_is_container(struct dma_fence *fence)
++{
++	return dma_fence_is_array(fence) || dma_fence_is_chain(fence);
++}
++
+ #endif /* __LINUX_DMA_FENCE_H */
+-- 
+2.25.1
+
