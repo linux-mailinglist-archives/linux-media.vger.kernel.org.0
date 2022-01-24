@@ -2,101 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27164498564
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 17:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B6894985A9
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 18:04:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243981AbiAXQzl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 11:55:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43270 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241260AbiAXQzk (ORCPT
+        id S243944AbiAXREV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 12:04:21 -0500
+Received: from mta-p7.oit.umn.edu ([134.84.196.207]:46408 "EHLO
+        mta-p7.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241254AbiAXRET (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 11:55:40 -0500
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C31BC06173B;
-        Mon, 24 Jan 2022 08:55:40 -0800 (PST)
-Received: by mail-ot1-x330.google.com with SMTP id z25-20020a0568301db900b005946f536d85so23039068oti.9;
-        Mon, 24 Jan 2022 08:55:40 -0800 (PST)
+        Mon, 24 Jan 2022 12:04:19 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by mta-p7.oit.umn.edu (Postfix) with ESMTP id 4JjGYG5Jd9z9vYdB
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 17:04:18 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p7.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id h0nLMaSWsGWk for <linux-media@vger.kernel.org>;
+        Mon, 24 Jan 2022 11:04:18 -0600 (CST)
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 4JjGYG3GFrz9vYdL
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 11:04:18 -0600 (CST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p7.oit.umn.edu 4JjGYG3GFrz9vYdL
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p7.oit.umn.edu 4JjGYG3GFrz9vYdL
+Received: by mail-pj1-f70.google.com with SMTP id m21-20020a17090b069500b001b532620cd9so7139048pjz.1
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 09:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eDj9YtrL+ME/X2nogJu52e1JjwHXOpFB8AWWGPpN1JI=;
-        b=mFvJkRflVMDxfhilop3n9rxvfDmP9BLPXOUunIlHCZ0Xb9y9Ct8IxqFF8rwK469lCm
-         KNd50fy+6iX6SJc4AnCBNCrWinPWrZllHsjTCq/S2JBPLb1Fh0Xi6tATKKE7erd/KEop
-         Q895XDQnVqwakbu7dAG+gaEyBVuv5/uHjtGQquhJ0ZAuMd8FGRlNp3JsZ+WddCEvdc2o
-         SA4cUOrs3H6g5jKBY4lJc0Byhcri9T6H5g0YhQIrR/7VCnw3atyr03X9NzMu8tURvqBm
-         KgSjAKpZXzdR18JFpsLFpX2/2YiqEPZAATvRYBEx3OhedscwGW4cfcSYTbOEvCE2AhDD
-         D3VQ==
+        d=umn.edu; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FazSFMA+aZ9XoPqirxdQTRfh3CfesxK/5V0htIJuY88=;
+        b=PaWfKa1kKN2Zof2lfwbFJNDiHyqysB22EEnId9NaRlB/MV9/MtE+ezuNu9UyLZhJue
+         /iaiiqYVttjLceS5I7CQtz6z7dNPpfkFqKof/GWZnMhOpgb74L06Dusu+lfOAu3gW8td
+         /uXwRlFQ8hJkujrg8/1fsE2avXJgPCPlI5lDS7G4zjVeDfq14gTJ9wHtBGkypE/WYFvq
+         184zXbzKNFXzvicSjZcP1kqeIhoF6v+6ERwi3Mmrcd5drW+aLqXR1xEFLAEgaKVfScg9
+         cFo2jjjbpD5FID1+JIfNzvntGnp8PZEK06wM9ImCb7BXCdza/KjBTZ4t8SIipDmVNmn5
+         /J+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eDj9YtrL+ME/X2nogJu52e1JjwHXOpFB8AWWGPpN1JI=;
-        b=IV1mKm2BcHE/LJs/RA0nn9YWaQ8NqTWGPx+9Q8nfx62gaVP5MzZwUJCft7i0VzvFbE
-         WZgM4Pw3GWq9kXrllCkUDoXSJTSnt0iYkG4NGBBu6U18QhKTWvoPAdpQQf7btv4oDE9g
-         TeCyZN7BnZ13J8zhz5viA66PKWIbwzNViQ5gjBsKUpSZW2NIRBfgTTjOQdhgiCeTSKmB
-         1IJ18koBdcxzlCduLx6wmwhVEDsQUX0vCmUrQvgz7qD6atKas5dQ2S13jr5bUQwbHKBr
-         mJdcZ/1dpIOOr5Jt9vfNn+5p3aHUl1W5e6Ath13opcXJy0tywISf0wmlmGrHqm2BDdW4
-         5zhg==
-X-Gm-Message-State: AOAM533sW4sdDBclaU9u+uwvVMJeQzxTUKDaB0mIm2+tnUghzsfZzqd8
-        /4LrAnLbGao8XH3RTwvDCh0=
-X-Google-Smtp-Source: ABdhPJxc+R5TUybGMgkLTdOCbd88m7UuIygCYWDxjJSp/RRfiTE1CbDPHurAbusUCHTR37gsZpmKdw==
-X-Received: by 2002:a05:6830:2461:: with SMTP id x33mr2805442otr.368.1643043339780;
-        Mon, 24 Jan 2022 08:55:39 -0800 (PST)
-Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com. [76.183.134.35])
-        by smtp.gmail.com with ESMTPSA id v22sm4418370oot.10.2022.01.24.08.55.38
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FazSFMA+aZ9XoPqirxdQTRfh3CfesxK/5V0htIJuY88=;
+        b=KffKgYG8AoZ4tgojo+tzJx7qGrPvH+W5+UAPYJdNM5eShr2J3+Qfeoaq/tL+xCq5Fy
+         l3zn6flvkOvqNBu3pGLCXH7dLCNANQCdyoSjUPoAypj01/QrC8PAPKEDVv0rJqlrH6n2
+         lTtc8eiUwImwKsKsbgCqQVadR5nxaegml18ajfYbHX3Wx0HqEj1UA+Z4+03G9hjS3RGk
+         2t6ivfEyMiAlmlqF7fAjajG5NymJFGx6v8WJXL1zLeRJhE2Ajmjg5Dys7jxiRzIOfYBc
+         +iOCpoJDAj5RVMMOIv2AmVG1VwaLnyHgZiZp+OaSrX9+p+CAZHr9oAFCaz3TlpSEELwC
+         1KcA==
+X-Gm-Message-State: AOAM533Ir7oSqxYP9ehvAkxBS4ZvYIc/mfcw/7gAlIeV0Q/MdWifm7I/
+        VXTy7ceVavWmJgsTAClx/YuVn4qjAhLt7xRD2vETI58LX/dyq+dmQ6wFfJxDJTv4EgQORbxlcqW
+        DHKy9GM5W8aarBSs/YokpUe6xf4g=
+X-Received: by 2002:a17:90a:77c8:: with SMTP id e8mr2786746pjs.111.1643043857703;
+        Mon, 24 Jan 2022 09:04:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy7YNZc6mTIEdSdNIs3FzgPra3yoffvTnmNwSImjoKYeOXmKfcLsHqlEVt2QCw16aOAEFawTA==
+X-Received: by 2002:a17:90a:77c8:: with SMTP id e8mr2786724pjs.111.1643043857463;
+        Mon, 24 Jan 2022 09:04:17 -0800 (PST)
+Received: from zqy787-GE5S.lan ([36.4.61.248])
+        by smtp.gmail.com with ESMTPSA id 25sm20665228pje.22.2022.01.24.09.04.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 08:55:39 -0800 (PST)
-From:   Chris Morgan <macroalpha82@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     devicetree@vger.kernel.org, thierry.reding@gmail.com,
-        sam@ravnborg.org, airlied@linux.ie, daniel@ffwll.ch,
-        robh+dt@kernel.org, mchehab@kernel.org, emma@anholt.net,
-        mripard@kernel.org, linux-media@vger.kernel.org,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 6/6 v2] drm/vc4: dpi: Support DPI interface in mode3 for RGB565
-Date:   Mon, 24 Jan 2022 10:55:26 -0600
-Message-Id: <20220124165526.1104-7-macroalpha82@gmail.com>
+        Mon, 24 Jan 2022 09:04:17 -0800 (PST)
+From:   Zhou Qingyang <zhou1615@umn.edu>
+To:     zhou1615@umn.edu
+Cc:     kjlu@umn.edu, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Douglas Schilling Landgraf <dougsland@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: bttv: Fix a NULL pointer dereference in bttv_s_fbuf()
+Date:   Tue, 25 Jan 2022 01:04:09 +0800
+Message-Id: <20220124170411.58169-1-zhou1615@umn.edu>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220124165526.1104-1-macroalpha82@gmail.com>
-References: <20220124165526.1104-1-macroalpha82@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Chris Morgan <macromorgan@hotmail.com>
+In bttv_s_fbuf(), the return value of videobuf_sg_alloc() is assigned
+to variable new and there is a dereference of it after that. the return
+value of videobuf_sg_alloc() could be NULL on failure of allocation,
+which could lead to a NULL pointer dereference.
 
-Add support for the VC4 DPI driver to utilize DPI mode 3. This is
-defined here as xxxRRRRRxxGGGGGGxxxBBBBB:
-https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#parallel-display-interface-dpi
+Fix this bug by adding a NULL check of new.
 
-This mode is required to use the Geekworm MZP280 DPI display.
+This bug was found by a static analyzer.
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Builds with 'make allyesconfig' show no new warnings,
+and our static analyzer no longer warns about this code
+
+Fixes: 402aa76aa5e5 ("V4L/DVB (6911): Converted bttv to use video_ioctl2")
+Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
 ---
- drivers/gpu/drm/vc4/vc4_dpi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+The analysis employs differential checking to identify inconsistent 
+security operations (e.g., checks or kfrees) between two code paths 
+and confirms that the inconsistent operations are not recovered in the
+current function or the callers, so they constitute bugs. 
 
-diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index c180eb60b..3c58ade25 100644
---- a/drivers/gpu/drm/vc4/vc4_dpi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -173,6 +173,10 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
- 			dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_3,
- 					       DPI_FORMAT);
- 			break;
-+		case MEDIA_BUS_FMT_RGB565_1X24_CPADHI:
-+			dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_2,
-+					       DPI_FORMAT);
-+			break;
- 		default:
- 			DRM_ERROR("Unknown media bus format %d\n", bus_format);
- 			break;
+Note that, as a bug found by static analysis, it can be a false
+positive or hard to trigger. Multiple researchers have cross-reviewed
+the bug.
+
+ drivers/media/pci/bt8xx/bttv-driver.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+index 5aa46593ddc6..c0664cffb881 100644
+--- a/drivers/media/pci/bt8xx/bttv-driver.c
++++ b/drivers/media/pci/bt8xx/bttv-driver.c
+@@ -2627,6 +2627,8 @@ static int bttv_s_fbuf(struct file *file, void *f,
+ 			struct bttv_buffer *new;
+ 
+ 			new = videobuf_sg_alloc(sizeof(*new));
++			if (!new)
++				return -ENOMEM;
+ 			new->crop = btv->crop[!!fh->do_crop].rect;
+ 			bttv_overlay_risc(btv, &fh->ov, fh->ovfmt, new);
+ 			retval = bttv_switch_overlay(btv, fh, new);
 -- 
 2.25.1
 
