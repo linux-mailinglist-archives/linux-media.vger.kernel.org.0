@@ -2,78 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30B6E497847
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 05:58:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BED94978C4
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 07:02:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241517AbiAXE6f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jan 2022 23:58:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47284 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235690AbiAXE6f (ORCPT
+        id S235535AbiAXGCp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 01:02:45 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:53766 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230091AbiAXGCp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jan 2022 23:58:35 -0500
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5430C06173B
-        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 20:58:34 -0800 (PST)
-Received: by mail-lj1-x231.google.com with SMTP id d13so9377643ljl.5
-        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 20:58:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=FXFmxDQy5UQl/OJS+xVXq8kS8ITCXJeU6yfRYQPHIR4=;
-        b=IAAnzfbBZCvY6XrMxJf/FhkYFyrrQ6JcDQXvBwGTARxIhvIqMQIz+jx3CkiD3bAYZC
-         tZSuk9frdxlLTmnD7yahnmXJVib6LlaRdAa9TBotdxZ82vMZtCBNHcehk2nHPQqlhSlC
-         MQ4trjLAxNNjQjvwEjudMSZHC+iF+k/4U06BZXs4t+iKsBG+TMhMtQt1X+ie9XPEw8yC
-         y0fsZ5Anfpe7CBfTE8C2pDERPM3lTZkTuWDI1n56EgFya4NHxFCfKGwR7gTswW1ti+nv
-         WAXBChFefvkRifmQbK7p+3+J/6GHeVxGzhlryrtWEqX1Ille/IiN+GyhhwSAQvoi8WmX
-         XDDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=FXFmxDQy5UQl/OJS+xVXq8kS8ITCXJeU6yfRYQPHIR4=;
-        b=lE4Bwbpmt6Tj+lVwfZXycJ5fC12gecypdpj3tn63fE3LGg4Kx+0UJlMHo7rPgKNaXL
-         I/pxrKqZ6pzHrDfAdCb4JfWBk4AC0hlqCp4WMJEcj88zTTZ+H9ZXzmIHm0KP/6PDk5Ea
-         y8X9h6+Bs2V6OrcckyHBLbtkEBP1uvtq1YizeJNkYdGl4ZtkYH1WPUyQLz/Q0+UDga56
-         o6R68XBcXjuacEkTEdDqLlN46MdfrkAEVeRnHraSYdshTqO72PNbunRFjT3I93bo4xXu
-         wNyrWvrM3LhDGlVx8v2rf6nbbmfXIq8CklhMNX+VawsYqiWkEmnB69FpoQXodbKxzgui
-         8MWg==
-X-Gm-Message-State: AOAM53057+ch6OlqHV0RJxqYeDzqFAnWWWaP0DTefbXNE8afRbqsQVmo
-        LUyWrxHwwyzuGWFbzhpIqkF+Ew==
-X-Google-Smtp-Source: ABdhPJzSmjj79qwcfBkc9iBrhtt2KBsfla9CnBnKbXJdkyL4UZY6dx7csn18EoOVBXcyDKHOgdGYKQ==
-X-Received: by 2002:a2e:9001:: with SMTP id h1mr5355353ljg.273.1643000312478;
-        Sun, 23 Jan 2022 20:58:32 -0800 (PST)
-Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id r13sm1044312lfi.238.2022.01.23.20.58.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Jan 2022 20:58:31 -0800 (PST)
-Message-ID: <7bfc1e3e-c4e4-cdde-6e2a-0f05369b6af5@cogentembedded.com>
-Date:   Mon, 24 Jan 2022 07:58:31 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2] media: vsp1: mask interrupts before enabling
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220120081530.799399-1-nikita.yoush@cogentembedded.com>
- <Ye3MfnICIv0PeqT9@pendragon.ideasonboard.com>
-From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-In-Reply-To: <Ye3MfnICIv0PeqT9@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Mon, 24 Jan 2022 01:02:45 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 194D5B80DF2
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 06:02:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 456D1C340E1
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 06:02:42 +0000 (UTC)
+Date:   Mon, 24 Jan 2022 07:02:40 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220124060242.456D1C340E1@smtp.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> If you're fine with those two changes, there's no need for a v3, I can
-> handle this when applying the patch.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Ok, please do that.
+Results of the daily build of media_tree:
 
-Nikita
+date:			Mon Jan 24 05:00:13 CET 2022
+media-tree git hash:	7dc5fc6d3bd6779c4859d888221f47e986cb45b5
+media_build git hash:	2fa76ec062aeaf93b647edbad1dd606e49fca4b3
+v4l-utils git hash:	9f0eab72e17e4167c2d4df790c7e384240ce5c37
+edid-decode git hash:	6514c9d9b18160fe9f09d3d70f99dda85d6fca71
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5f5b438852acd7412b4bf7d0bdbe50a7cdd9a2f0
+host hardware:		x86_64
+host os:		5.15.0-2-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16.1-i686: OK
+linux-5.16.1-x86_64: OK
+linux-5.17-rc1-i686: OK
+linux-5.17-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Monday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Monday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Monday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
