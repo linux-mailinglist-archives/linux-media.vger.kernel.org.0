@@ -2,53 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C543C497BB2
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 10:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7FCD497C0D
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 10:34:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231222AbiAXJQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 04:16:47 -0500
-Received: from mail.portyid.pl ([192.36.61.58]:54920 "EHLO mail.portyid.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230520AbiAXJQr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 04:16:47 -0500
-Received: by mail.portyid.pl (Postfix, from userid 1001)
-        id A0C664146B; Mon, 24 Jan 2022 10:16:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=portyid.pl; s=mail;
-        t=1643015805; bh=+PMi7irkA4XlRgpdW2HqpqcJeZNxKGysf407T0katTE=;
-        h=Date:From:To:Subject:From;
-        b=IEWLxdfkgZXoIKsXolfErjJV69kF4nB+piFiTt5AoDBvJE2/rJp+d8OyORaYlcUyA
-         +mT+a/wloBFl2Vs7OKeNaqrSXZE3FunpmAQkgZBxHy170A/E4lMW0JyRWu9iqcDcRg
-         /4kOUVRgKrjHGBLrHJNQ5XEBu2UU14n6d7VqckB2iLDcTIObTi4DpxOHfufLdjyGXX
-         40cxD+EZxfmo+TtkLdZwbW68JctdBWoDl2LoQFO4gXMotpc1bq4AhDjqhJ1onshc2J
-         UIumC9ZoYB1n96fH1HNxO0lijw+YOonIIlp0IcPZ6aF2SauSaxSeEv/LgjDbf81J+k
-         JthB8N/PujAKg==
-Received: by mail.portyid.pl for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 09:16:23 GMT
-Message-ID: <20220124084500-0.1.1b.5g2e.0.jrkjhbwugd@portyid.pl>
-Date:   Mon, 24 Jan 2022 09:16:23 GMT
-From:   =?UTF-8?Q? "Pawe=C5=82_Jasi=C5=84ski" ?= 
-        <pawel.jasinski@portyid.pl>
-To:     <linux-media@vger.kernel.org>
-Subject: Fotowoltaika - nowe warunki
-X-Mailer: mail.portyid.pl
+        id S231178AbiAXJei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 04:34:38 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:38171 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232146AbiAXJee (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 Jan 2022 04:34:34 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 20O9QVf4054145;
+        Mon, 24 Jan 2022 17:26:31 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 24 Jan
+ 2022 17:33:47 +0800
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
+        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 0/4] Correct timing report
+Date:   Mon, 24 Jan 2022 17:33:41 +0800
+Message-ID: <20220124093345.3935-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 20O9QVf4054145
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dzie=C5=84 dobry,
+This series will correct the value of timing detected.
 
-jeszcze w pierwszej po=C5=82owie 2022 roku wzrosn=C4=85 ceny za wykup ene=
-rgii dla posiadaczy fotowoltaiki.=20
+Changes in v3:
+ - Add API, aspeed_video_get_timings(), for the calculation of timings
+ - Use active rather than 'total/2' as critera for sync polarity workaround
+Changes in v2:
+ - code refined to improve readability
 
-Aby unikn=C4=85=C4=87 umowy na nowych zasadach trzeba zdecydowa=C4=87 si=C4=
-=99 na instalacj=C4=99 paneli PV do ko=C5=84ca marca.=20
+Jammy Huang (4):
+  media: aspeed: Correct value for h-total-pixels
+  media: aspeed: Use FIELD_GET to improve readability
+  media: aspeed: Correct values for detected timing
+  media: aspeed: Fix timing polarity incorrect
 
-Jako firma specjalizuj=C4=85ca si=C4=99 w monta=C5=BCu i serwisie fotowol=
-taiki ch=C4=99tnie podejmiemy si=C4=99 realizacji ca=C5=82ego projektu. S=
-=C4=85 Pa=C5=84stwo zainteresowani?
+ drivers/media/platform/aspeed-video.c | 139 ++++++++++++++++++++------
+ 1 file changed, 111 insertions(+), 28 deletions(-)
 
+-- 
+2.25.1
 
-Pozdrawiam
-Pawe=C5=82 Jasi=C5=84ski
