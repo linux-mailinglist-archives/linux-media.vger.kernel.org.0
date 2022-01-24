@@ -2,150 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEDAC4983E3
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 16:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A06E4983F4
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 16:59:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240862AbiAXPzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 10:55:37 -0500
-Received: from mga12.intel.com ([192.55.52.136]:11356 "EHLO mga12.intel.com"
+        id S240889AbiAXP7l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 10:59:41 -0500
+Received: from mga05.intel.com ([192.55.52.43]:24272 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240865AbiAXPzg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 10:55:36 -0500
+        id S243302AbiAXP7j (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 Jan 2022 10:59:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643039736; x=1674575736;
+  t=1643039979; x=1674575979;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YDy3AVbxNVr/JSzauME9AvSD0cvkPq0Xv8PDw6peN9s=;
-  b=QfUZmYvaIrRu/S1FR2rO5coQ/YyD22nxWGPwP+PhKlujNc2+KkvjTd9U
-   alhEJxih96eGIkuobQ/GvOBUgSwKVXneOFUZqtY0EJKdjMienoQw+XQRh
-   v2N5WygYanrrIk49caq31ryc0XLioEkd8KnIAfnG3ny5eARrxyurtuK4U
-   PDiPULWNFJe16R+JMBBgRqP75L9V8G+ZGpg4/xh1jCNZWHKaUiICRh1Ok
-   rzbFxEDZ95QqCunCagnMr9v8kYz6BruH50z47c7inJtkQsRYHQQGkIc60
-   Z7sySeY/TGttMwx7B5cIBa4+t03PatTagNI21pLXhPFqYJn5HLV8EGu+R
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="226055374"
+  bh=ATtImYcfl+wFHFeFDm3P0OooQ2uFcGDZLXDo793q6C8=;
+  b=MtS0yv5CRBQVwYbXcc21tTeBVtFZynpMbwk0NPxR68oOFLxzt1pZo32L
+   5DTz8tnCPqbI/g4q6+5yuMuw45aDC7jC5oHQ6pjX/rDA2w1q9JaXSuEVt
+   tzuXE7OuIeKZsKE2tpp65y1lIFTMldwyWuAVavetEz2AFZw/PIMUxokpU
+   q+11CDEGRtw2Pgz+3EakolkpndF8EnS3f9xI/ctPhf8o6gz+WOOXMCPJ+
+   OaesmUtd+T02f6PBxvG+X7Yih1K602WW0TUHMIYKv7vQHGF+1fo6hkWAn
+   SYd4V5gRP68af5a8UEzAMmk+bXi8IsFCZCH5GEEsc+Ky2EP0zrNxADnAf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="332428895"
 X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
-   d="scan'208";a="226055374"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 07:55:36 -0800
+   d="scan'208";a="332428895"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 07:59:35 -0800
 X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
-   d="scan'208";a="627538598"
+   d="scan'208";a="580429018"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 07:55:34 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 07:59:34 -0800
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id E44CB20287;
-        Mon, 24 Jan 2022 17:55:32 +0200 (EET)
-Date:   Mon, 24 Jan 2022 17:55:32 +0200
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 9EA5C20287;
+        Mon, 24 Jan 2022 17:59:32 +0200 (EET)
+Date:   Mon, 24 Jan 2022 17:59:32 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH 1/3] media: Provide a helper for setting bus_info field
-Message-ID: <Ye7L9My5CmarNMLB@paasikivi.fi.intel.com>
+Subject: Re: [PATCH 2/3] media: Set bus_info in media_device_init()
+Message-ID: <Ye7M5EjPEVq6VwfZ@paasikivi.fi.intel.com>
 References: <20220122163656.168440-1-sakari.ailus@linux.intel.com>
- <20220122163656.168440-2-sakari.ailus@linux.intel.com>
- <YeyWwp/0lmfImJ7t@pendragon.ideasonboard.com>
+ <20220122163656.168440-3-sakari.ailus@linux.intel.com>
+ <YeyXwO1AwD5IhaUz@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YeyWwp/0lmfImJ7t@pendragon.ideasonboard.com>
+In-Reply-To: <YeyXwO1AwD5IhaUz@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-Thanks for the review.
-
-On Sun, Jan 23, 2022 at 01:44:02AM +0200, Laurent Pinchart wrote:
+On Sun, Jan 23, 2022 at 01:48:16AM +0200, Laurent Pinchart wrote:
 > Hi Sakari,
 > 
 > Thank you for the patch.
 > 
-> On Sat, Jan 22, 2022 at 06:36:54PM +0200, Sakari Ailus wrote:
-> > The bus_info or a similar field exists in a lot of structs, yet drivers
-> > tend to set the value of that field by themselves in a determinable way.
-> > Thus provide a helper for doing this. To be used in subsequent patches.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  include/media/media-device.h | 30 +++++++++++++++++++++++++++---
-> >  1 file changed, 27 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/include/media/media-device.h b/include/media/media-device.h
-> > index 1345e6da688a..9f0458068196 100644
-> > --- a/include/media/media-device.h
-> > +++ b/include/media/media-device.h
-> > @@ -13,12 +13,13 @@
-> >  
-> >  #include <linux/list.h>
-> >  #include <linux/mutex.h>
-> > +#include <linux/pci.h>
-> > +#include <linux/platform_device.h>
-> >  
-> >  #include <media/media-devnode.h>
-> >  #include <media/media-entity.h>
-> >  
-> >  struct ida;
-> > -struct device;
-> >  struct media_device;
-> >  
-> >  /**
-> > @@ -181,8 +182,7 @@ struct media_device {
-> >  	atomic_t request_id;
-> >  };
-> >  
-> > -/* We don't need to include pci.h or usb.h here */
-> > -struct pci_dev;
-> > +/* We don't need to include usb.h here */
-> >  struct usb_device;
-> >  
-> >  #ifdef CONFIG_MEDIA_CONTROLLER
-> > @@ -496,4 +496,28 @@ static inline void __media_device_usb_init(struct media_device *mdev,
-> >  #define media_device_usb_init(mdev, udev, name) \
-> >  	__media_device_usb_init(mdev, udev, name, KBUILD_MODNAME)
-> >  
-> > +static inline void
-> > +__media_set_bus_info(char *bus_info, size_t bus_info_size, struct device *dev)
-> > +{
-> > +	if (!dev || *bus_info)
-> > +		return;
-> > +
-> > +	if (dev_is_platform(dev))
-> > +		snprintf(bus_info, bus_info_size, "platform:%s", dev_name(dev));
-> > +	else if (dev_is_pci(dev))
-> > +		snprintf(bus_info, bus_info_size, "PCI:%s", dev_name(dev));
-> > +}
+> On Sat, Jan 22, 2022 at 06:36:55PM +0200, Sakari Ailus wrote:
+> > Set bus_info field based on struct device in media_device_init(). Also
+> > remove corresponding code from drivers.
 > 
-> Does this have to be inline ?
+> This looks fine to me, but the documentation should be updated to
+> explain that bus_info will be set by media_device_init(), and that
+> driver may then override the value if desired (and probably also list
+> the rules under which such an override is allowed).
 
-Not necessarily. But we'll need a new module if it isn't --- this code will
-be needed in both MC and V4L2 separately.
-
-> 
-> > +
-> > +/**
-> > + * media_set_bus_info() - Conditionally set bus_info
-> > + *
-> > + * @bus_info:	Variable where to write the bus info (char array)
-> > + * @dev:	Related struct device
-> > + *
-> > + * Sets bus information based on device conditionally, if the first character of
-> > + * &bus_info is not '\0' and dev is non-NULL.
-> > + */
-> > +#define media_set_bus_info(bus_info, dev) \
-> > +	__media_set_bus_info(bus_info, sizeof(bus_info), dev)
-> 
-> I like the idea, but if the bus_info passed to the macro is a char *
-> instead of a char[], I think this will still compile, with
-> sizeof(bus_info) not giving the expected value. Could we either get a
-> compilation failure in that case, of maybe turn this into two inline
-> functions, one for media_device and the other one for v4l2_capability,
-> that would both call __media_set_bus_info() ? The latter may be better.
-
-The latter, yes. There will be so few users that's entirely fine.
+We haven't really documented that for other fields either and rather relied
+more on examples. I can add that if you still think so though.
 
 -- 
-Kind regards,
-
 Sakari Ailus
