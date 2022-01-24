@@ -2,96 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A15DE4979F9
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 09:06:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49B54497A6F
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 09:41:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242008AbiAXIGU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 03:06:20 -0500
-Received: from mail-ua1-f49.google.com ([209.85.222.49]:45047 "EHLO
-        mail-ua1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233770AbiAXIGS (ORCPT
+        id S242184AbiAXIl3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 03:41:29 -0500
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:41985 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236237AbiAXIl2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 03:06:18 -0500
-Received: by mail-ua1-f49.google.com with SMTP id f24so29265117uab.11;
-        Mon, 24 Jan 2022 00:06:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=f2tIXgru6KSjoHEY08c/9t4jD7pdITrEPHWFSQkXS0Y=;
-        b=DTI/Yjds3ScGk3jA9/9Srj1zXWSb0csmQFPNnoC1m6nOCtDSAJg1dMjtiBnOxpyC1g
-         IrWFedE2cveeqJi4Pqd3X6uBQqPHI40jIgrryIca3RIHT9+Lp7NbyRMllmGg1FKdZLEX
-         MD7Su8AwOInwoX6Ia4mjdoW3ApNVmaqNEuFig9KNh70JFm/HKh1OVojkAMcjgTDz8zKC
-         xCNBikcbNdDAXs2BmCte9jyMt7G/+j+p4aMffAIQo7J1lHOS1/zL3jVHkqVxt7udHpJ/
-         yf9UijkK7/SSuaTGbo1mi3jesY8hpkuZm3d94R70UrjsXtWa5vcU85kL0gq5FDLXEdU+
-         8SRw==
-X-Gm-Message-State: AOAM5316kwbmIPDgbTjFJJ0ZAsuU2zAj8SpwMeY9ae/ew+QwGyYeqZMH
-        bsXsVH5paOzmTvXsewhVSbCuRYeNWWUpcg==
-X-Google-Smtp-Source: ABdhPJyL8SI4kAAwpJEm0n1bgdFMdSPN4sEGWxh9ZZE5dBD0EDoTBOtUR43do6zhYVRzMhYeJ6/vIQ==
-X-Received: by 2002:a67:f8cc:: with SMTP id c12mr1069128vsp.63.1643011577441;
-        Mon, 24 Jan 2022 00:06:17 -0800 (PST)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id f68sm2820415vke.55.2022.01.24.00.06.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jan 2022 00:06:17 -0800 (PST)
-Received: by mail-ua1-f49.google.com with SMTP id 2so29376975uax.10;
-        Mon, 24 Jan 2022 00:06:17 -0800 (PST)
-X-Received: by 2002:a9f:3d89:: with SMTP id c9mr5323806uai.78.1643011576863;
- Mon, 24 Jan 2022 00:06:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
- <20220112174612.10773-21-biju.das.jz@bp.renesas.com> <YeyuqbNfETGOxzfZ@pendragon.ideasonboard.com>
- <OS0PR01MB592252F975741BFF56CAFEFE865D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592252F975741BFF56CAFEFE865D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 24 Jan 2022 09:06:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX1-TNGmH0a6i6DKcsvk2VEeFyOvkyOaq0V5KDR-4kO1Q@mail.gmail.com>
-Message-ID: <CAMuHMdX1-TNGmH0a6i6DKcsvk2VEeFyOvkyOaq0V5KDR-4kO1Q@mail.gmail.com>
-Subject: Re: [RFC 20/28] media: vsp1: Add support for the RZ/G2L VSPD
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mon, 24 Jan 2022 03:41:28 -0500
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 650CC1BF20D;
+        Mon, 24 Jan 2022 08:41:24 +0000 (UTC)
+Date:   Mon, 24 Jan 2022 09:42:28 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        tomi.valkeinen@ideasonboard.com, sakari.ailus@linux.intel.com,
+        niklas.soderlund@ragnatech.se, kieran.bingham@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 08/13] media: rcar-csi2: Add support for
+ v4l2_subdev_state
+Message-ID: <20220124084228.ax7aa66fc7kn2nub@uno.localdomain>
+References: <20211017182449.64192-1-jacopo+renesas@jmondi.org>
+ <20211017182449.64192-9-jacopo+renesas@jmondi.org>
+ <Ye1iLKDWseZInfnR@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Ye1iLKDWseZInfnR@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
+Hi Laurent,
 
-On Sun, Jan 23, 2022 at 4:20 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > On Wed, Jan 12, 2022 at 05:46:04PM +0000, Biju Das wrote:
-> > > The RZ/G2L VSPD provides a single VSPD instance. it has the following
-> > > sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
-> > >
-> > > It does not have version register, so added a new compatible string to
-> > > match to get the version value. Also the reset is shared with DU
-> > > module.
-> >
-> > Does it really lack the version register, or is it just not documented ?
-> > It hasn't been documented on all R-Car variants, but has consistently been
-> > present.
+On Sun, Jan 23, 2022 at 04:11:56PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
 >
-> No, it is not present on RZ/G2L. the read value of this register is 0x0.
+> Thank you for the patch.
+>
+> On Sun, Oct 17, 2021 at 08:24:44PM +0200, Jacopo Mondi wrote:
+> > Create and initialize the v4l2_subdev_state for the R-Car CSI-2 receiver
+> > rder to prepare to support routing operations and multiplexed streams.
+>
+> s/rder/in order/ ?
+>
 
-Just to be sure: you did check that while the module clock is enabled and
-the module reset is deasserted?
+Thanks for review, but please be aware that patches to the R-Car CSI-2
+and VIN drivers are not required if Niklas' VIN channel rework gets in
+https://patchwork.linuxtv.org/project/linux-media/patch/20211127164135.2617686-4-niklas.soderlund+renesas@ragnatech.se/
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> >
+> > Create the subdevice state with v4l2_subdev_init_finalize() and
+> > implement the init_cfg() operation to guarantee the state is initialized
+> > correctly with a set of default routes.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 68 ++++++++++++++++++++-
+> >  1 file changed, 66 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > index e28eff039688..a74087b49e71 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > @@ -752,11 +752,65 @@ static int rcsi2_get_pad_format(struct v4l2_subdev *sd,
+> >  	return 0;
+> >  }
+> >
+> > +static int rcsi2_init_cfg(struct v4l2_subdev *sd,
+> > +			  struct v4l2_subdev_state *state)
+>
+> This could be moved before rcsi2_set_pad_format() to match the order in
+> rcar_csi2_pad_ops. Up to you.
+>
+> > +{
+> > +	/* Initialize 4 routes from each source pad to the single sink pad. */
+> > +	struct v4l2_subdev_route routes[] = {
+> > +		{
+> > +			.sink_pad = RCAR_CSI2_SINK,
+> > +			.sink_stream = 0,
+> > +			.source_pad = RCAR_CSI2_SOURCE_VC0,
+> > +			.source_stream = 0,
+> > +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> > +		},
+> > +		{
+> > +			.sink_pad = RCAR_CSI2_SINK,
+> > +			.sink_stream = 1,
+> > +			.source_pad = RCAR_CSI2_SOURCE_VC1,
+> > +			.source_stream = 0,
+> > +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> > +		},
+> > +		{
+> > +			.sink_pad = RCAR_CSI2_SINK,
+> > +			.sink_stream = 2,
+> > +			.source_pad = RCAR_CSI2_SOURCE_VC2,
+> > +			.source_stream = 0,
+> > +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> > +		},
+> > +		{
+> > +			.sink_pad = RCAR_CSI2_SINK,
+> > +			.sink_stream = 3,
+> > +			.source_pad = RCAR_CSI2_SOURCE_VC3,
+> > +			.source_stream = 0,
+> > +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> > +		},
+> > +	};
+> > +
+> > +	struct v4l2_subdev_krouting routing = {
+> > +		.num_routes = ARRAY_SIZE(routes),
+> > +		.routes = routes,
+> > +	};
+> > +
+> > +	int ret = v4l2_routing_simple_verify(&routing);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	state = v4l2_subdev_validate_and_lock_state(sd, state);
+> > +
+> > +	ret = v4l2_subdev_set_routing(sd, state, &routing);
+> > +
+> > +	v4l2_subdev_unlock_state(state);
+>
+> I would squash this with 09/13 to avoid this intermediate state of
+> dealing with routes manually in the .init_cfg() operation. The patch
+> otherwise looks good to me.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static const struct v4l2_subdev_video_ops rcar_csi2_video_ops = {
+> >  	.s_stream = rcsi2_s_stream,
+> >  };
+> >
+> >  static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
+> > +	.init_cfg = rcsi2_init_cfg,
+> >  	.set_fmt = rcsi2_set_pad_format,
+> >  	.get_fmt = rcsi2_get_pad_format,
+> >  };
+> > @@ -1260,7 +1314,8 @@ static int rcsi2_probe(struct platform_device *pdev)
+> >  	v4l2_set_subdevdata(&priv->subdev, &pdev->dev);
+> >  	snprintf(priv->subdev.name, V4L2_SUBDEV_NAME_SIZE, "%s %s",
+> >  		 KBUILD_MODNAME, dev_name(&pdev->dev));
+> > -	priv->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > +	priv->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE |
+> > +			     V4L2_SUBDEV_FL_MULTIPLEXED;
+> >
+> >  	priv->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
+> >  	priv->subdev.entity.ops = &rcar_csi2_entity_ops;
+> > @@ -1276,14 +1331,22 @@ static int rcsi2_probe(struct platform_device *pdev)
+> >
+> >  	pm_runtime_enable(&pdev->dev);
+> >
+> > +	ret = v4l2_subdev_init_finalize(&priv->subdev);
+> > +	if (ret)
+> > +		goto error_pm;
+> > +
+> >  	ret = v4l2_async_register_subdev(&priv->subdev);
+> >  	if (ret < 0)
+> > -		goto error;
+> > +		goto error_subdev;
+> >
+> >  	dev_info(priv->dev, "%d lanes found\n", priv->lanes);
+> >
+> >  	return 0;
+> >
+> > +error_subdev:
+> > +	v4l2_subdev_cleanup(&priv->subdev);
+> > +error_pm:
+> > +	pm_runtime_disable(&pdev->dev);
+> >  error:
+> >  	v4l2_async_notifier_unregister(&priv->notifier);
+> >  	v4l2_async_notifier_cleanup(&priv->notifier);
+> > @@ -1298,6 +1361,7 @@ static int rcsi2_remove(struct platform_device *pdev)
+> >  	v4l2_async_notifier_unregister(&priv->notifier);
+> >  	v4l2_async_notifier_cleanup(&priv->notifier);
+> >  	v4l2_async_unregister_subdev(&priv->subdev);
+> > +	v4l2_subdev_cleanup(&priv->subdev);
+> >
+> >  	pm_runtime_disable(&pdev->dev);
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
