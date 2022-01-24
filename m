@@ -2,105 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A2E64976CF
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 01:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AC0D497740
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 03:30:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240677AbiAXA4V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jan 2022 19:56:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50840 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235417AbiAXA4V (ORCPT
+        id S240805AbiAXCaw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Jan 2022 21:30:52 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:53591 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235437AbiAXCav (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jan 2022 19:56:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3BDEC06173B
-        for <linux-media@vger.kernel.org>; Sun, 23 Jan 2022 16:56:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8FEE0611EA
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 00:56:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4605DC340E3;
-        Mon, 24 Jan 2022 00:56:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642985779;
-        bh=FPwGCSRtEcpp/2O8UuQi0yF+SRZORjFHX421dhsUA/I=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qWgK8q16U/qiJuaaq4LefLOqMGxg9bbTk/HOCfa4FIL8D5lrWVsHhNl9S4wYPm+yo
-         6Ofy38jqc1zAxL9YJ6v8HD6UCYkYeV5JWkr5QUgyh5X6pvsxfd6sXQXZE1qWZOEZhS
-         I2lsK1lAlq3G3E0SSZZ6reOtJfslMn40XnKY8ErCwyTahC/eRsIVfnAwwgE7uaPfhV
-         z0AMvothQ8KubxoBxXB4VlHDfVNj0uuEWvLolykro9ROPE9aIjzapGLAHhlpM61tZ6
-         fYyXuJC9vABdw7ZKDUkK8iP7ocHYJykXcRaY3bjIyduxMpqkjuD8RNJzgNtkuO+KkR
-         awz0OIOT/ITBg==
-Date:   Mon, 24 Jan 2022 01:56:15 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [GIT PULL FOR v5.18] rc core patches
-Message-ID: <20220124015609.268b6938@coco.lan>
-In-Reply-To: <YemJ7jU3oKJHvfnV@gofer.mess.org>
-References: <YemJ7jU3oKJHvfnV@gofer.mess.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        Sun, 23 Jan 2022 21:30:51 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 20O2MTxZ016108;
+        Mon, 24 Jan 2022 10:22:29 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 24 Jan
+ 2022 10:29:45 +0800
+Message-ID: <b8707885-c10c-ca19-3f2c-f19f567e1f92@aspeedtech.com>
+Date:   Mon, 24 Jan 2022 10:29:46 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 4/4] media: aspeed: Fix timing polarity incorrect
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <eajames@linux.ibm.com>,
+        <mchehab@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+        <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+References: <20211222082139.26933-1-jammy_huang@aspeedtech.com>
+ <20211222082139.26933-5-jammy_huang@aspeedtech.com>
+ <418fc1b2-ddbe-24e3-82cc-aa8ce74f4507@xs4all.nl>
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <418fc1b2-ddbe-24e3-82cc-aa8ce74f4507@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 20O2MTxZ016108
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 20 Jan 2022 16:12:30 +0000
-Sean Young <sean@mess.org> escreveu:
 
-> Hi Mauro,
-> 
-> A few small changes, mostly simplifying things.
-> 
-> Sean
-> 
-> The following changes since commit ef483454f92bb2b8fe9ac4ec64cb00de61b87724:
-> 
->   media: staging: media: zoran: drop read/write support (2022-01-12 07:11:58 +0100)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/syoung/media_tree.git tags/v5.18a
-> 
-> for you to fetch changes up to 40edd4dd217a080cb5b7d5af9da04fd773234d10:
-> 
->   media: mtk-cir: simplify code (2022-01-15 11:45:38 +0000)
-> 
-> ----------------------------------------------------------------
-> v5.18a
-> 
-> ----------------------------------------------------------------
-> Peiwei Hu (1):
->       media: ir_toy: free before error exiting
-> 
-> Sean Young (5):
->       media: lirc: remove unused lirc features
+On 2022/1/21 下午 03:30, Hans Verkuil wrote:
+> On 12/22/21 09:21, Jammy Huang wrote:
+>> This is a workaround for sync polarity unstable.
+>> Sync value get by VR09C counts from sync's rising edge, which means
+>> sync's polarity is negative if sync value is bigger than total/2.
+> Do you have an example of such a format, or is this mostly theoretical?
+>
+> Either provide the example or make a note that it is theoretical.
 
-See my comments with regards to this one.
+OK, I will update an example in next patch. Let me explain first.
 
-The remaining patches were applied, thanks!
+This is a must-be result. Please refer to the graph below as I sent in 
+3/4 of this
+series. For negative sync, sync width equals to back porch + data enable 
++ front porch.
+Thus, sync would be bigger than 90% of total in most cases.
 
-Regards,
-Mauro
-
->       media: lirc: simplify gap calculation
->       media: mtk-cir: reduce message end to fix nec repeats
->       media: mtk-cir: remove superfluous ir_raw_event_reset()
->       media: mtk-cir: simplify code
-> 
->  .../userspace-api/media/rc/lirc-get-features.rst   | 18 ----------
->  drivers/media/rc/ir_toy.c                          |  2 +-
->  drivers/media/rc/lirc_dev.c                        | 19 ++++-------
->  drivers/media/rc/mtk-cir.c                         | 39 +++++++++++-----------
->  include/media/rc-core.h                            |  6 +---
->  include/uapi/linux/lirc.h                          |  4 ---
->  tools/include/uapi/linux/lirc.h                    | 11 +++---
->  7 files changed, 33 insertions(+), 66 deletions(-)
+                   +-------------------+
+                   |    v i d e o      |
+       +--+  +-----+                   +-----+  +---+
+          |  |                               |  |
+          +--+                               +--+
+        vsync+-------------------------------+
+    frame_top+-----+
+frame_bottom+-------------------------+
 
 
+Following registers are what I got for 1920x1200@60.
 
-Thanks,
-Mauro
+1e700090: 07ee206f 04c9001a c4d3efff 04cc001f
+
+1e7000a0: 0000081f 00000000 00000000 00000000
+
+vertical total = 0x4D3 (VR098[27:16]) = 1235
+vertical sync = 0x4CC (VR09C[27:16]) = 1228
+
+>
+> Regards,
+>
+> 	Hans
+>
+>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>> ---
+>>   v2:
+>>    - Use 'total/2' rather than 'total<<1'
+>>    - Update comment
+>> ---
+>>   drivers/media/platform/aspeed-video.c | 20 ++++++++++++++++++++
+>>   1 file changed, 20 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+>> index 7c50567f5ab0..c3e3343d91e1 100644
+>> --- a/drivers/media/platform/aspeed-video.c
+>> +++ b/drivers/media/platform/aspeed-video.c
+>> @@ -989,6 +989,16 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>>   
+>>   		video->frame_bottom = FIELD_GET(VE_SRC_TB_EDGE_DET_BOT, src_tb_edge);
+>>   		video->frame_top = FIELD_GET(VE_SRC_TB_EDGE_DET_TOP, src_tb_edge);
+>> +
+>> +		/*
+>> +		 * This is a workaround for polarity detection when the sync
+>> +		 * value is larger than half.
+>> +		 */
+>> +		if (vsync > (vtotal / 2))
+>> +			det->polarities &= ~V4L2_DV_VSYNC_POS_POL;
+>> +		else
+>> +			det->polarities |= V4L2_DV_VSYNC_POS_POL;
+>> +
+>>   		if (det->polarities & V4L2_DV_VSYNC_POS_POL) {
+>>   			det->vbackporch = video->frame_top - vsync;
+>>   			det->vfrontporch = vtotal - video->frame_bottom;
+>> @@ -1003,6 +1013,16 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>>   
+>>   		video->frame_right = FIELD_GET(VE_SRC_LR_EDGE_DET_RT, src_lr_edge);
+>>   		video->frame_left = FIELD_GET(VE_SRC_LR_EDGE_DET_LEFT, src_lr_edge);
+>> +
+>> +		/*
+>> +		 * This is a workaround for polarity detection when the sync
+>> +		 * value is larger than half.
+>> +		 */
+>> +		if (hsync > (htotal / 2))
+>> +			det->polarities &= ~V4L2_DV_HSYNC_POS_POL;
+>> +		else
+>> +			det->polarities |= V4L2_DV_HSYNC_POS_POL;
+>> +
+>>   		if (det->polarities & V4L2_DV_HSYNC_POS_POL) {
+>>   			det->hbackporch = video->frame_left - hsync;
+>>   			det->hfrontporch = htotal - video->frame_right;
+
+-- 
+Best Regards
+Jammy
+
