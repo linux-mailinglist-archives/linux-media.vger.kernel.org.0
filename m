@@ -2,100 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C068B498529
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 17:47:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F218498548
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jan 2022 17:52:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243424AbiAXQrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 11:47:55 -0500
-Received: from mga07.intel.com ([134.134.136.100]:28979 "EHLO mga07.intel.com"
+        id S243945AbiAXQwj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jan 2022 11:52:39 -0500
+Received: from mga06.intel.com ([134.134.136.31]:35216 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235273AbiAXQrx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 11:47:53 -0500
+        id S241226AbiAXQwj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 Jan 2022 11:52:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643042873; x=1674578873;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TgPmsrSb/R55h1wIMFatBL4XL6tX+UDBIGle7w4IA5o=;
-  b=XsiSbgsr/ZTN7w0BKzn5zYHxLt9kymWXVB/3TxfE+Q6znPGBq4iEwlFF
-   laO52oNMopvS4mzkWJ8HqVbYdnhEhN3L7VYfePcHIOD+wqst1aTyhTFcn
-   MhM2SwOguO3+dbzeSz7YaBMGbtjBCtycCfM+ohAh/vLXHjscjwLah/W0z
-   9oQg/2JeLyJrENVFK2gNVkd6B0QFAzSoasufwTn3ZYwJbnTtsa6AqW+I6
-   LyyfHnfoE2gIIRGrVGuEkPnuT/5f53DoLiZiBOIdgPvQ7dUl1R6DG+lw5
-   uUfMHrmNOEqHocTQf7GBbGgG+an3TUurz33EWZwxFPnKWsf8prhCJidNK
+  t=1643043158; x=1674579158;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=fu1nTdM6Ey9Y88os1dkd6NMK6cktB4QUGnnOy1VQzQ4=;
+  b=Z2BFUoofV5ZiGK+4Cy8Pxk4jye4d+vRviDmtT+Ka9x2THw0pt+OdnEXL
+   D7XOj+4s+rUthJtcV265/vllJmbdepOxzZuiFLdK6Ntyv5+JPYRVAsRpS
+   grMFXQOhcj8lV/buuQ9pjaORT2gI3yMruXkimCDh5dX2O9E6lN/i6mz48
+   WVwUI+NQXrxgn4c8vVkK4rfMLzOXy4jv3Fop1hb/kRARI1B2VPlBOiGxV
+   B3dmdrvBju0QINvX+3WCMg4UoOEXiLsTbIhTzd1BYYdBM9waGewO7imyo
+   96kYPb0IXlDMclikcaPKrLoL4L5VpZv/ggr4QilvNzZTK0FgQJr33pWsp
    g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="309409537"
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="306805218"
 X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
-   d="scan'208";a="309409537"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 08:47:52 -0800
+   d="scan'208";a="306805218"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 08:52:38 -0800
 X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
-   d="scan'208";a="520014410"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 08:47:51 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 163CA2036B;
-        Mon, 24 Jan 2022 18:47:49 +0200 (EET)
-Date:   Mon, 24 Jan 2022 18:47:49 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH 3/3] v4l: ioctl: Set bus_info in v4l_querycap()
-Message-ID: <Ye7YNcIoge5rjIae@paasikivi.fi.intel.com>
-References: <20220122163656.168440-1-sakari.ailus@linux.intel.com>
- <20220122163656.168440-4-sakari.ailus@linux.intel.com>
- <YeyYbk5hBodwa0FH@pendragon.ideasonboard.com>
- <Ye7Ns4UMUUDpB3AM@paasikivi.fi.intel.com>
- <Ye7ScPzWH20vDv3Z@pendragon.ideasonboard.com>
+   d="scan'208";a="624141222"
+Received: from olindum-mobl1.ger.corp.intel.com (HELO [10.249.254.70]) ([10.249.254.70])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 08:52:34 -0800
+Message-ID: <b609fb36-b4e0-738c-01d3-b74c760a9e82@linux.intel.com>
+Date:   Mon, 24 Jan 2022 17:52:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ye7ScPzWH20vDv3Z@pendragon.ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 08/11] dma-buf: add dma_fence_chain_contained helper
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        sumit.semwal@linaro.org, gustavo@padovan.org,
+        daniel.vetter@ffwll.ch, zackr@vmware.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org
+References: <20220124130328.2376-1-christian.koenig@amd.com>
+ <20220124130328.2376-9-christian.koenig@amd.com>
+From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= 
+        <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20220124130328.2376-9-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jan 24, 2022 at 06:23:12PM +0200, Laurent Pinchart wrote:
-> On Mon, Jan 24, 2022 at 06:02:59PM +0200, Sakari Ailus wrote:
-> > Hi Laurent,
-> > 
-> > On Sun, Jan 23, 2022 at 01:51:10AM +0200, Laurent Pinchart wrote:
-> > 
-> > ...
-> > 
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > index 642cb90f457c..81ebf6cca522 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > @@ -18,6 +18,7 @@
-> > > >  
-> > > >  #include <linux/videodev2.h>
-> > > >  
-> > > > +#include <media/media-device.h> /* for media_set_bus_info() */
-> > > >  #include <media/v4l2-common.h>
-> > > >  #include <media/v4l2-ioctl.h>
-> > > >  #include <media/v4l2-ctrls.h>
-> > > > @@ -1069,6 +1070,8 @@ static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
-> > > >  	cap->capabilities |= V4L2_CAP_EXT_PIX_FORMAT;
-> > > >  	cap->device_caps |= V4L2_CAP_EXT_PIX_FORMAT;
-> > > >  
-> > > > +	media_set_bus_info(cap->bus_info, vfd->dev_parent);
-> > > > +
-> > > 
-> > > Shouldn't you do this before calling the driver operation, if you want
-> > > to allow driver overrides ?
-> > 
-> > This is done conditionally based on the value of the first byte.
-> 
-> I had missed that.
-> 
-> Isn't it still better to call media_set_bus_info() first, instead of
-> checking the first byte ?
 
-The result would be no different although it's easier to see what's going
-on. This approach would work for querycap but not for media device init.
+On 1/24/22 14:03, Christian König wrote:
+> It's a reoccurring pattern that we need to extract the fence
+> from a dma_fence_chain object. Add a helper for this.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-I'll take this into account in v2.
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
--- 
-Sakari Ailus
+
+> ---
+>   drivers/dma-buf/dma-fence-chain.c |  6 ++----
+>   include/linux/dma-fence-chain.h   | 15 +++++++++++++++
+>   2 files changed, 17 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+> index 084c6927b735..06f8ef97c6e8 100644
+> --- a/drivers/dma-buf/dma-fence-chain.c
+> +++ b/drivers/dma-buf/dma-fence-chain.c
+> @@ -148,8 +148,7 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
+>   
+>   	dma_fence_get(&head->base);
+>   	dma_fence_chain_for_each(fence, &head->base) {
+> -		struct dma_fence_chain *chain = to_dma_fence_chain(fence);
+> -		struct dma_fence *f = chain ? chain->fence : fence;
+> +		struct dma_fence *f = dma_fence_chain_contained(fence);
+>   
+>   		dma_fence_get(f);
+>   		if (!dma_fence_add_callback(f, &head->cb, dma_fence_chain_cb)) {
+> @@ -165,8 +164,7 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
+>   static bool dma_fence_chain_signaled(struct dma_fence *fence)
+>   {
+>   	dma_fence_chain_for_each(fence, fence) {
+> -		struct dma_fence_chain *chain = to_dma_fence_chain(fence);
+> -		struct dma_fence *f = chain ? chain->fence : fence;
+> +		struct dma_fence *f = dma_fence_chain_contained(fence);
+>   
+>   		if (!dma_fence_is_signaled(f)) {
+>   			dma_fence_put(fence);
+> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+> index ee906b659694..10d51bcdf7b7 100644
+> --- a/include/linux/dma-fence-chain.h
+> +++ b/include/linux/dma-fence-chain.h
+> @@ -66,6 +66,21 @@ to_dma_fence_chain(struct dma_fence *fence)
+>   	return container_of(fence, struct dma_fence_chain, base);
+>   }
+>   
+> +/**
+> + * dma_fence_chain_contained - return the contained fence
+> + * @fence: the fence to test
+> + *
+> + * If the fence is a dma_fence_chain the function returns the fence contained
+> + * inside the chain object, otherwise it returns the fence itself.
+> + */
+> +static inline struct dma_fence *
+> +dma_fence_chain_contained(struct dma_fence *fence)
+> +{
+> +	struct dma_fence_chain *chain = to_dma_fence_chain(fence);
+> +
+> +	return chain ? chain->fence : fence;
+> +}
+> +
+>   /**
+>    * dma_fence_chain_alloc
+>    *
