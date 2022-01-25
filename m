@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED0DF49B9F7
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 18:17:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 653FF49B9FA
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 18:17:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1456866AbiAYRPx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 12:15:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46810 "EHLO
+        id S1457615AbiAYRP5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 12:15:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239900AbiAYRNk (ORCPT
+        with ESMTP id S239715AbiAYRNk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 25 Jan 2022 12:13:40 -0500
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74035C06178A;
-        Tue, 25 Jan 2022 09:12:27 -0800 (PST)
-Received: by mail-io1-xd2f.google.com with SMTP id e79so24458327iof.13;
-        Tue, 25 Jan 2022 09:12:27 -0800 (PST)
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55184C06175F;
+        Tue, 25 Jan 2022 09:12:30 -0800 (PST)
+Received: by mail-il1-x132.google.com with SMTP id i1so11406559ils.5;
+        Tue, 25 Jan 2022 09:12:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fa6XTevFEqtbC/DVeN/V/vlo7FN29Xl+JkqDuO3dnjc=;
-        b=W9ap+qvkTCG8bjc0uQsVrBYvZj+B6Rvoq6pwWYTLVUoilzUICwT2AXwpniH10xZ1uq
-         fUKZ9RiQFWI2INOumUpsFdJ92qRdGBLlMC4sgcC7hexgQX8yoIqWQmi2+sEuAUEOowIR
-         DZOI45GDFr2y8nALDb+hk9VuaZy/4zTuvZpI6tDFuWiZincB1L8RfzNkOaLhFVTvyGct
-         TUu8dM/96xsrK0KNQd5MSsZL6cWEQfq0p5q7/DQ9tISr37V9Dlt7RwoKaXJT/V17C8Wu
-         sVcNjMdhPdt8gMTRuqr7NtOX6PwxTafeRjOWDmZVOzM0kr4LFQ29VVSmSED74t6HxJ9/
-         G3jg==
+        bh=kTohMKJe6b+aS5nC8tVrcxj3aKt5LtNCUkDL666J3iI=;
+        b=QeCaqLi/Vdl2SNgeMJQrOfBtxIr4UZDZ4m8KOqBa5Jo25eO2GPgIXXHU7lbQxpdZZ4
+         TAOo6NqJpNZ3BmR+trzJyR6/kxmGKXnTmFycHCze6HpEXCRabRXx61GrM5Hmlnrt67KR
+         t15NtCQKz2Z5wxZN59dOontiWBvQTb4/jwPlxBelRKaZ0XL1Kht0x2HOKvCMBy/+OsLf
+         DUQlNSgI5Hu+GY1sHd2ZY3HDPJ0BfVmXJTSZZVz0t1NY76A7uiVidaVEkqJ7jxbML0S9
+         MzmVZaROeMepmwMdOD//zFDxp1NS1HLDT/RjFmkA9Jbyj2+YL+wZ5WL9slRoucfKJkHU
+         lObg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fa6XTevFEqtbC/DVeN/V/vlo7FN29Xl+JkqDuO3dnjc=;
-        b=tKpgQyTiJeG2JAZONRr0GipmZ0RzRNzfGsLfB79mdB6TwALtHOD8d14uE5wHFxrFmw
-         91W1dK7EGKzTUtkTYn2WquUINf9Wg/QASbmMp193l0NFY7xxDJVytLNWscZ2+gbFX/CN
-         CoN+1g4V7zPZoWCeK6ZJH1pzjR2MndslrOC6s7pS3SterMsVJ4yVUe1lEvk6+46EmdH8
-         +/s3/DRCWodXF15OnL1f7dn/pUjozY4qt3rRppn1SFqvrCiSpS9DQ7c7GC42G872nV6U
-         pSYezubRR2tRzM2jfeDmR1OFygevOGLFAgI0dIrk34ZvpbQ5XOgptfHv4rYnycu4XHUr
-         QxUw==
-X-Gm-Message-State: AOAM5312lWkGe5G5ZfPnth3C8VyHSN3w+l5iQpDHl1MjTvmgFXA09n2M
-        PwIvHQXJzkK6GfNmcKX0OyBvTufvfGg=
-X-Google-Smtp-Source: ABdhPJye5D11pR1pHEM0xttSm1nhgngvx9EPzIDrdcN8uSOlWKpqZa7TaFWo9wUdt1OTEK1fxYrw6Q==
-X-Received: by 2002:a5e:de4a:: with SMTP id e10mr5353405ioq.51.1643130746425;
-        Tue, 25 Jan 2022 09:12:26 -0800 (PST)
+        bh=kTohMKJe6b+aS5nC8tVrcxj3aKt5LtNCUkDL666J3iI=;
+        b=kxxfcZuUopMVoknbLd5DgykR35i6ocqkWJTLsoTtVZy2bYA8AFTI53hv7YshdhmWKO
+         cvayw3UBCgMHQOM22Gg1UdqAPRTztMWOm/d79vbUag3jc16wX6UHFIX471yDUlUGJAZG
+         H+qQip4Y82T5Ugi6/CZv1GonZ7nxVWg4YxLfINjWpUPtnkNvwH94jYvKVFIhrvpmk8An
+         VBpc1LUbhxxwhs0E5HS2EEa/ePSNsFyNg+cCwAboVPNzx+gu/DJQDef2QGPfnG+RrkMp
+         NFbOsYpCtrdLnqQYZaOI2fIB7iGGwCT8bPJwHl0nu/yny4buhZ9LD8lGEEgTM9Eq8ZPt
+         FMLA==
+X-Gm-Message-State: AOAM532vFFVZw81zEcy7ZMw/tnYM5IJ5bP43r8VLbSMTpXW78oYpYdN7
+        WgDH/LXBXx1GZd0b5slkV3/FjYPsch0=
+X-Google-Smtp-Source: ABdhPJwMsq6K5oOSCTxFn77d9mDIztu5yGqMpSFtPQ+fssC6hzOmTp+S1h0capLNnz4toG+uZaagdg==
+X-Received: by 2002:a05:6e02:19cc:: with SMTP id r12mr12812738ill.246.1643130749159;
+        Tue, 25 Jan 2022 09:12:29 -0800 (PST)
 Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:6592:b6fe:71b1:9f4c])
-        by smtp.gmail.com with ESMTPSA id m14sm8090291iov.0.2022.01.25.09.12.25
+        by smtp.gmail.com with ESMTPSA id m14sm8090291iov.0.2022.01.25.09.12.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jan 2022 09:12:25 -0800 (PST)
+        Tue, 25 Jan 2022 09:12:28 -0800 (PST)
 From:   Adam Ford <aford173@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     aford@beaconembedded.com, cphealy@gmail.com,
         Lucas Stach <l.stach@pengutronix.de>,
-        Rob Herring <robh@kernel.org>,
+        Adam Ford <aford173@gmail.com>, Rob Herring <robh@kernel.org>,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -66,9 +66,9 @@ Cc:     aford@beaconembedded.com, cphealy@gmail.com,
         linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH V4 02/11] dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
-Date:   Tue, 25 Jan 2022 11:11:19 -0600
-Message-Id: <20220125171129.472775-3-aford173@gmail.com>
+Subject: [PATCH V4 03/11] dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
+Date:   Tue, 25 Jan 2022 11:11:20 -0600
+Message-Id: <20220125171129.472775-4-aford173@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220125171129.472775-1-aford173@gmail.com>
 References: <20220125171129.472775-1-aford173@gmail.com>
@@ -80,24 +80,89 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Lucas Stach <l.stach@pengutronix.de>
 
-This adds the defines for the power domains provided by the VPU
-blk-ctrl on the i.MX8MQ.
+This adds the DT binding for the i.MX8MQ VPU blk-ctrl.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Adam Ford <aford173@gmail.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-diff --git a/include/dt-bindings/power/imx8mq-power.h b/include/dt-bindings/power/imx8mq-power.h
-index 8a513bd9166e..9f7d0f1e7c32 100644
---- a/include/dt-bindings/power/imx8mq-power.h
-+++ b/include/dt-bindings/power/imx8mq-power.h
-@@ -18,4 +18,7 @@
- #define IMX8M_POWER_DOMAIN_MIPI_CSI2	9
- #define IMX8M_POWER_DOMAIN_PCIE2	10
- 
-+#define IMX8MQ_VPUBLK_PD_G1		0
-+#define IMX8MQ_VPUBLK_PD_G2		1
+diff --git a/Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml b/Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
+new file mode 100644
+index 000000000000..7263ebedf09f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- #endif
++title: NXP i.MX8MQ VPU blk-ctrl
++
++maintainers:
++  - Lucas Stach <l.stach@pengutronix.de>
++
++description:
++  The i.MX8MQ VPU blk-ctrl is a top-level peripheral providing access to
++  the NoC and ensuring proper power sequencing of the VPU peripherals
++  located in the VPU domain of the SoC.
++
++properties:
++  compatible:
++    items:
++      - const: fsl,imx8mq-vpu-blk-ctrl
++
++  reg:
++    maxItems: 1
++
++  '#power-domain-cells':
++    const: 1
++
++  power-domains:
++    minItems: 3
++    maxItems: 3
++
++  power-domain-names:
++    items:
++      - const: bus
++      - const: g1
++      - const: g2
++
++  clocks:
++    minItems: 2
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: g1
++      - const: g2
++
++required:
++  - compatible
++  - reg
++  - power-domains
++  - power-domain-names
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx8mq-clock.h>
++    #include <dt-bindings/power/imx8mq-power.h>
++
++    vpu_blk_ctrl: blk-ctrl@38320000 {
++      compatible = "fsl,imx8mq-vpu-blk-ctrl";
++      reg = <0x38320000 0x100>;
++      power-domains = <&pgc_vpu>, <&pgc_vpu>, <&pgc_vpu>;
++      power-domain-names = "bus", "g1", "g2";
++      clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
++               <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
++      clock-names = "g1", "g2";
++      #power-domain-cells = <1>;
++    };
 -- 
 2.32.0
 
