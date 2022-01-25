@@ -2,165 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D196A49ADEE
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 09:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30E6F49ADF9
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 09:27:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346151AbiAYIZO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 03:25:14 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:39130 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1449797AbiAYIUS (ORCPT
+        id S1450282AbiAYI0l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 03:26:41 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:32952 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1450168AbiAYIYk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jan 2022 03:20:18 -0500
-X-UUID: 54edde21346943f9a2d85f5a21796c96-20220125
-X-UUID: 54edde21346943f9a2d85f5a21796c96-20220125
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 588502847; Tue, 25 Jan 2022 16:20:07 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 25 Jan 2022 16:20:05 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 25 Jan 2022 16:20:05 +0800
-Message-ID: <356f512b549f90b329775e249fd48eb2954ade02.camel@mediatek.com>
-Subject: Re: [PATCH v11 2/3] dts: arm64: mt8183: add Mediatek MDP3 nodes
-From:   moudy ho <moudy.ho@mediatek.com>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        <tfiga@chromium.org>, <drinkcat@chromium.org>,
-        <pihsun@chromium.org>, <hsinyi@google.com>,
-        "Maoguang Meng" <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        <menghui.lin@mediatek.com>, <sj.huang@mediatek.com>,
-        <allen-kh.cheng@mediatek.com>, <randy.wu@mediatek.com>,
-        <jason-jh.lin@mediatek.com>, <roy-cw.yeh@mediatek.com>,
-        <river.cheng@mediatek.com>, <srv_heupstream@mediatek.com>
-Date:   Tue, 25 Jan 2022 16:20:05 +0800
-In-Reply-To: <d61ec481-8059-a897-504a-0125f88fad61@collabora.com>
-References: <20220105093758.6850-1-moudy.ho@mediatek.com>
-         <20220105093758.6850-3-moudy.ho@mediatek.com>
-         <d61ec481-8059-a897-504a-0125f88fad61@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Tue, 25 Jan 2022 03:24:40 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6FB50B8162C;
+        Tue, 25 Jan 2022 08:24:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 222ABC340E0;
+        Tue, 25 Jan 2022 08:24:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643099071;
+        bh=zhEJSMgOmCREgcS8sTDwVMLZTw5f5ROgOOgi3EInTqM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nEaLL1TsOZ2wtCC/6Mf+UAQCuY4QNAw0sIrT9MvRW7X7+caQDud1ootEMANZobvtK
+         k56VZpKRFr4yGNOCvdaLOek5b1F4cJMuGjTiZyA264g8hNxFFrGpbxIR+JNlPqzWNu
+         ykLGyFflEv1C2BAEFOqC5Soh7Yoi1vyIF4vB22VKqMgXI9WQTnEjErtgE2Tfy1q7wp
+         57QM/qVfiDXjL9R7l1GjZJyWPRWpCaAv7wFej2WT/NzkuiJjSTD6coMsno4dfC0MgO
+         e0EHbSSFCPFGKWl3DxThy6imvbDbJ0+WwxN2Ve7fedGSchV6Xf4KFG+AL/gfEQXd+J
+         RwekOcxv3E7TA==
+Date:   Tue, 25 Jan 2022 09:24:26 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, stable@vger.kernel.org,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH RESEND] media: omap3isp: Use struct_group() for memcpy()
+ region
+Message-ID: <20220125092426.7bdfba8f@coco.lan>
+In-Reply-To: <20220124172952.2411764-1-keescook@chromium.org>
+References: <20220124172952.2411764-1-keescook@chromium.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2022-01-21 at 12:58 +0100, AngeloGioacchino Del Regno wrote:
-> Il 05/01/22 10:37, Moudy Ho ha scritto:
-> > Add device nodes for Media Data Path 3 (MDP3) modules.
-> > 
-> > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> > ---
-> >   arch/arm64/boot/dts/mediatek/mt8183.dtsi | 108
-> > ++++++++++++++++++++++-
-> >   1 file changed, 107 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> > b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> > index ba4584faca5a..b872ef1ff6b3 100644
-> > --- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> > +++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-> > @@ -1325,6 +1325,79 @@
-> >   			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX
-> > 0 0x1000>;
-> >   		};
-> >   
-> > +		mdp3_rdma0: mdp3_rdma0@14001000 {
-> > +			compatible = "mediatek,mt8183-mdp3",
-> > +				     "mediatek,mt8183-mdp3-rdma0";
-> > +			mediatek,scp = <&scp>;
-> > +			mediatek,mdp3-comps = "mediatek,mt8183-mdp3-
-> > dl1",
-> > +					      "mediatek,mt8183-mdp3-
-> > dl2",
-> > +					      "mediatek,mt8183-mdp3-
-> > path1",
-> > +					      "mediatek,mt8183-mdp3-
-> > path2",
-> > +					      "mediatek,mt8183-mdp3-
-> > imgi",
-> > +					      "mediatek,mt8183-mdp3-
-> > exto";
-> > +			reg = <0 0x14001000 0 0x1000>,
-> > +			      <0 0x14000000 0 0x1000>,
-> > +			      <0 0x14005000 0 0x1000>,
-> > +			      <0 0x14006000 0 0x1000>,
-> > +			      <0 0x15020000 0 0x1000>;
-> > +			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX
-> > 0x1000 0x1000>,
-> > +						  <&gce SUBSYS_1400XXXX
-> > 0 0x1000>,
-> > +						  <&gce SUBSYS_1400XXXX
-> > 0x5000 0x1000>,
-> > +						  <&gce SUBSYS_1400XXXX
-> > 0x6000 0x1000>,
-> > +						  <&gce SUBSYS_1502XXXX
-> > 0 0x1000>;
-> > +			power-domains = <&spm
-> > MT8183_POWER_DOMAIN_DISP>;
-> > +			clocks = <&mmsys CLK_MM_MDP_RDMA0>,
-> > +				 <&mmsys CLK_MM_MDP_RSZ1>,
-> > +				 <&mmsys CLK_MM_MDP_DL_TXCK>,
-> > +				 <&mmsys CLK_MM_MDP_DL_RX>,
-> > +				 <&mmsys CLK_MM_IPU_DL_TXCK>,
-> > +				 <&mmsys CLK_MM_IPU_DL_RX>;
-> > +			iommus = <&iommu M4U_PORT_MDP_RDMA0>;
-> > +			mediatek,mmsys = <&mmsys>;
-> > +			mediatek,mm-mutex = <&mutex>;
-> > +			mediatek,mailbox-gce = <&gce>;
-> > +			mboxes = <&gce 20 CMDQ_THR_PRIO_LOWEST 0>,
-> > +				 <&gce 21 CMDQ_THR_PRIO_LOWEST>,
-> > +				 <&gce 22 CMDQ_THR_PRIO_LOWEST>,
-> > +				 <&gce 23 CMDQ_THR_PRIO_LOWEST>;
-> 
-> Hello Moudy,
-> the mboxes for gce 21, 22, 23 are missing the third cell. Please fix.
-> 
-> Regards,
-> Angelo
+Em Mon, 24 Jan 2022 09:29:52 -0800
+Kees Cook <keescook@chromium.org> escreveu:
 
-Hi Angelo,
-Thanks for the reminder, but I'm a bit confused, the previous
-version(v10) mentioned that the current upstream mbox has only 2
-cells.
-So I should follow this rule to remove the extra 0 in the first item as
-follows:
- +			mboxes = <&gce 20 CMDQ_THR_PRIO_LOWEST>,
- +				 <&gce 21 CMDQ_THR_PRIO_LOWEST>,
- +				 <&gce 22 CMDQ_THR_PRIO_LOWEST>,
- +				 <&gce 23 CMDQ_THR_PRIO_LOWEST>;
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memcpy(), memmove(), and memset(), avoid
+> intentionally writing across neighboring fields. Wrap the target region
+> in struct_group(). This additionally fixes a theoretical misalignment
+> of the copy (since the size of "buf" changes between 64-bit and 32-bit,
+> but this is likely never built for 64-bit).
+
+
+> FWIW, I think this code is totally broken on 64-bit (which appears to
+> not be a "real" build configuration): it would either always fail (with
+> an uninitialized data->buf_size) or would cause corruption in userspace
+> due to the copy_to_user() in the call path against an uninitialized
+> data->buf value:
+
+It doesn't matter. This driver is specific for TI OMAP3 SoC, which
+is Cortex-A8 (32-bits). It only builds on 64 bit due to COMPILE_TEST.
+
+Regards,
+Mauro
+
+> 
+> omap3isp_stat_request_statistics_time32(...)
+>     struct omap3isp_stat_data data64;
+>     ...
+>     omap3isp_stat_request_statistics(stat, &data64);
+> 
+> int omap3isp_stat_request_statistics(struct ispstat *stat,
+>                                      struct omap3isp_stat_data *data)
+>     ...
+>     buf = isp_stat_buf_get(stat, data);
+> 
+> static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
+>                                                struct omap3isp_stat_data *data)
+> ...
+>     if (buf->buf_size > data->buf_size) {
+>             ...
+>             return ERR_PTR(-EINVAL);
+>     }
+>     ...
+>     rval = copy_to_user(data->buf,
+>                         buf->virt_addr,
+>                         buf->buf_size);
+> 
+> Regardless, additionally initialize data64 to be zero-filled to avoid
+> undefined behavior.
+> 
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: linux-media@vger.kernel.org
+> Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Link: https://lore.kernel.org/lkml/20211215220505.GB21862@embeddedor
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+> I will carry this in my tree unless someone else wants to pick it up. It's
+> one of the last remaining clean-ups needed for the next step in memcpy()
+> hardening.
+> ---
+>  drivers/media/platform/omap3isp/ispstat.c |  5 +++--
+>  include/uapi/linux/omap3isp.h             | 21 +++++++++++++--------
+>  2 files changed, 16 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+> index 5b9b57f4d9bf..68cf68dbcace 100644
+> --- a/drivers/media/platform/omap3isp/ispstat.c
+> +++ b/drivers/media/platform/omap3isp/ispstat.c
+> @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+>  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+>  					struct omap3isp_stat_data_time32 *data)
+>  {
+> -	struct omap3isp_stat_data data64;
+> +	struct omap3isp_stat_data data64 = { };
+>  	int ret;
+>  
+>  	ret = omap3isp_stat_request_statistics(stat, &data64);
+> @@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+>  
+>  	data->ts.tv_sec = data64.ts.tv_sec;
+>  	data->ts.tv_usec = data64.ts.tv_usec;
+> -	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
+> +	data->buf = (uintptr_t)data64.buf;
+> +	memcpy(&data->frame, &data64.frame, sizeof(data->frame));
+>  
+>  	return 0;
+>  }
+> diff --git a/include/uapi/linux/omap3isp.h b/include/uapi/linux/omap3isp.h
+> index 87b55755f4ff..d9db7ad43890 100644
+> --- a/include/uapi/linux/omap3isp.h
+> +++ b/include/uapi/linux/omap3isp.h
+> @@ -162,6 +162,7 @@ struct omap3isp_h3a_aewb_config {
+>   * struct omap3isp_stat_data - Statistic data sent to or received from user
+>   * @ts: Timestamp of returned framestats.
+>   * @buf: Pointer to pass to user.
+> + * @buf_size: Size of buffer.
+>   * @frame_number: Frame number of requested stats.
+>   * @cur_frame: Current frame number being processed.
+>   * @config_counter: Number of the configuration associated with the data.
+> @@ -176,10 +177,12 @@ struct omap3isp_stat_data {
+>  	struct timeval ts;
+>  #endif
+>  	void __user *buf;
+> -	__u32 buf_size;
+> -	__u16 frame_number;
+> -	__u16 cur_frame;
+> -	__u16 config_counter;
+> +	__struct_group(/* no tag */, frame, /* no attrs */,
+> +		__u32 buf_size;
+> +		__u16 frame_number;
+> +		__u16 cur_frame;
+> +		__u16 config_counter;
+> +	);
+>  };
+>  
+>  #ifdef __KERNEL__
+> @@ -189,10 +192,12 @@ struct omap3isp_stat_data_time32 {
+>  		__s32	tv_usec;
+>  	} ts;
+>  	__u32 buf;
+> -	__u32 buf_size;
+> -	__u16 frame_number;
+> -	__u16 cur_frame;
+> -	__u16 config_counter;
+> +	__struct_group(/* no tag */, frame, /* no attrs */,
+> +		__u32 buf_size;
+> +		__u16 frame_number;
+> +		__u16 cur_frame;
+> +		__u16 config_counter;
+> +	);
+>  };
+>  #endif
+>  
+
+
 
 Thanks,
-Moudy Ho
-> 
-> > +			gce-subsys = <&gce 0x14000000 SUBSYS_1400XXXX>,
-> > +				     <&gce 0x14010000 SUBSYS_1401XXXX>,
-> > +				     <&gce 0x14020000 SUBSYS_1402XXXX>,
-> > +				     <&gce 0x15020000 SUBSYS_1502XXXX>;
-> > +		};
-> > +
-> 
-> 
-
+Mauro
