@@ -2,111 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD3F749AB16
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 05:45:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA43D49AB85
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 06:16:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S250056AbiAYEP0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jan 2022 23:15:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37368 "EHLO
+        id S1353122AbiAYFQQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 00:16:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S3422143AbiAYCaV (ORCPT
+        with ESMTP id S3416773AbiAYElL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jan 2022 21:30:21 -0500
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C26AC06137F
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 18:07:01 -0800 (PST)
-Received: by mail-lj1-x22a.google.com with SMTP id c15so8824655ljf.11
-        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 18:07:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=03gjQlgR5Dxhb9WkNowyotEgdW202c8d1VlLtX85qok=;
-        b=Du4AGA7nF/W00f2LVQw8lhgAnoO0ZwqlUuMelw6cNUYR5/Ma2Fv7dOVrFjkwmLv6Qm
-         tmohqjX9pW0GxAkpVFO2yqIFbr7Nn51fCIXPrGKKKwnKLMIjo9hcUhIyqcbEodsHKY1p
-         G7o2jGSo/tgkX3bveHJcQeRdM56Va17Jrnhpm+Io2lffnZBEezWiiA4ijZvN04Buv5PT
-         3iTCUueNEw6iiJTuwv394C7St1sNAYYPasKNopsuMIqG5BoKjgx97YiOcl5IvhSYtLL3
-         7vEIy5hPLu9VYpqIsIawF/tuXJW8MoS4YH3DhddGH3aPL/QEatiy8exUSejEhJmFEbQh
-         x0pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=03gjQlgR5Dxhb9WkNowyotEgdW202c8d1VlLtX85qok=;
-        b=ZozRycFni0BWfyyjUguWyVInHACu6rMjsynSpBxCG9gqstFPDlpOkDB/U6BSc/JuMd
-         gxdFQ/LUOa7o6pRWQAn3OB6EkX6MH3sx225IjGOVMRmN/tBsd2ibfZkg0eeKgsb7ocFa
-         h1C1pauUX8ixAABwcQ7cJh3HChJTcEW3R4hDc3skUv0tvjJWUgI77DcPn2kqmAO4Y9Xx
-         6OQIBc/49FqWy6Hp+sA+ZhLnxZOAOxSN84hNiu+SXO0FSWRPvpjko7YkHG89j3lZB+Ut
-         RRSNTovee4evFkFCCE+KdTPCoZrBOngotpJ5JJH71Vyuwas8deQhlHM3dxOImXmq6EJW
-         yRjA==
-X-Gm-Message-State: AOAM531HN3rR/W9rsSsB6iLClZvMFunPk5eqtJpXsDZZwi5r0V65DZTm
-        tIJTLjpWIzlHMjAeHu3dE0LZVQ==
-X-Google-Smtp-Source: ABdhPJwpuM9KRu0Rv7HDlKS2t+F8icSc/PHdc4SswuzcxRomivyaxQfI2OVr7fcX9oboDIopEgrk0g==
-X-Received: by 2002:a2e:9148:: with SMTP id q8mr7558833ljg.258.1643076419522;
-        Mon, 24 Jan 2022 18:06:59 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
-        by smtp.gmail.com with ESMTPSA id i18sm1339400lfv.257.2022.01.24.18.06.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jan 2022 18:06:58 -0800 (PST)
-Message-ID: <c4c56b0f-84ca-0a56-6618-73e24f4bfd46@linaro.org>
-Date:   Tue, 25 Jan 2022 05:06:58 +0300
+        Mon, 24 Jan 2022 23:41:11 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF35C02980B
+        for <linux-media@vger.kernel.org>; Mon, 24 Jan 2022 19:18:48 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 039BE2A5;
+        Tue, 25 Jan 2022 04:18:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1643080725;
+        bh=kq/YcczClwL0g8yWEvbG+MZ+YFNBn4xuwrJqeN4xocY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qJRZIGsdbRXawv4BQiMiQEt8U554FXFPldJRrrQxKwQmMGlyetf/6i5Bq6Y9CTSKS
+         gN24dF4AWP4QNS/4c5g/oxZ+q4upumDm8FoCA0Yz3BP3Cl78By2eozHkcsBwlRcjDO
+         KzmLj7iAvJTDqS/TKj6K5AeMquVXQ5vppabTJpsM=
+Date:   Tue, 25 Jan 2022 05:18:26 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jerome Brunet <jbrunet@baylibre.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/2] staging: media: imx: imx7-mipi-csic: Resume on debug
+Message-ID: <Ye9sAv5lAMUydPbK@pendragon.ideasonboard.com>
+References: <20220119112024.11339-1-jacopo@jmondi.org>
+ <20220119112024.11339-2-jacopo@jmondi.org>
+ <YegfMf2UNxU8IjwZ@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/msm: Fix wrong size calculation
-Content-Language: en-GB
-To:     Xianting Tian <xianting.tian@linux.alibaba.com>,
-        robdclark@gmail.com, sean@poorly.run, airlied@linux.ie,
-        daniel@ffwll.ch, sumit.semwal@linaro.org, christian.koenig@amd.com
-Cc:     linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20220112123334.749776-1-xianting.tian@linux.alibaba.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220112123334.749776-1-xianting.tian@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YegfMf2UNxU8IjwZ@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/01/2022 15:33, Xianting Tian wrote:
-> For example, memory-region in .dts as below,
-> 	reg = <0x0 0x50000000 0x0 0x20000000>
-> 
-> We can get below values,
-> struct resource r;
-> r.start = 0x50000000;
-> r.end	= 0x6fffffff;
-> 
-> So the size should be:
-> size = r.end - r.start + 1 = 0x20000000
-> 
-> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
+Hi Jacopo,
 
-Fixes: 072f1f9168ed ("drm/msm: add support for "stolen" mem")
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-> ---
->   drivers/gpu/drm/msm/msm_drv.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Jan 19, 2022 at 04:24:51PM +0200, Laurent Pinchart wrote:
+> On Wed, Jan 19, 2022 at 12:20:23PM +0100, Jacopo Mondi wrote:
+> > The mipi_csis_dump_regs() function reads and printout the interface
+> > registers for debugging purposes.
+> > 
+> > Trying to access the registers without proper powering up the interface
+> > causes the chip to hang.
+> > 
+> > Fix that by increasing the pm runtime usage count which, if necessary,
+> > resumes the interface.
+> > 
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  drivers/staging/media/imx/imx7-mipi-csis.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+> > index 2b73fa55c938..cb54bb7491d9 100644
+> > --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> > +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> > @@ -780,11 +780,15 @@ static int mipi_csis_dump_regs(struct csi_state *state)
+> >  
+> >  	dev_info(state->dev, "--- REGISTERS ---\n");
+> >  
+> > +	pm_runtime_resume_and_get(state->dev);
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 892c04365..f04a2337d 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -466,7 +466,7 @@ static int msm_init_vram(struct drm_device *dev)
->   		of_node_put(node);
->   		if (ret)
->   			return ret;
-> -		size = r.end - r.start;
-> +		size = r.end - r.start + 1;
->   		DRM_INFO("using VRAM carveout: %lx@%pa\n", size, &r.start);
->   
->   		/* if we have no IOMMU, then we need to use carveout allocator.
+> Should this have an error check ? With that,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+I just noticed that the call to mipi_csis_dump_regs() in
+mipi_csis_log_status() is conditioned by state->state & ST_POWERED. An
+alternative would thus be to add the same condition to
+mipi_csis_dump_regs_show() (or to move it to mipi_csis_dump_regs()), as
+dumping the register when then hardware is turned off is quite
+pointeless. Up to you.
+
+> > +
+> >  	for (i = 0; i < ARRAY_SIZE(registers); i++) {
+> >  		cfg = mipi_csis_read(state, registers[i].offset);
+> >  		dev_info(state->dev, "%14s: 0x%08x\n", registers[i].name, cfg);
+> >  	}
+> >  
+> > +	pm_runtime_put(state->dev);
+> > +
+> >  	return 0;
+> >  }
+> >  
 
 -- 
-With best wishes
-Dmitry
+Regards,
+
+Laurent Pinchart
