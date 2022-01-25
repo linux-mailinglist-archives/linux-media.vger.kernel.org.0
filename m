@@ -2,109 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DE9D49BD40
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 21:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22FCD49BFB1
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 00:46:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232237AbiAYUhQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 15:37:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38324 "EHLO
+        id S234423AbiAYXqL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 18:46:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232216AbiAYUhN (ORCPT
+        with ESMTP id S230472AbiAYXqK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jan 2022 15:37:13 -0500
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5437C061744
-        for <linux-media@vger.kernel.org>; Tue, 25 Jan 2022 12:37:12 -0800 (PST)
-Received: by mail-qt1-x836.google.com with SMTP id r14so5542783qtt.5
-        for <linux-media@vger.kernel.org>; Tue, 25 Jan 2022 12:37:12 -0800 (PST)
+        Tue, 25 Jan 2022 18:46:10 -0500
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782FDC06161C;
+        Tue, 25 Jan 2022 15:46:09 -0800 (PST)
+Received: by mail-lj1-x229.google.com with SMTP id z20so8307621ljo.6;
+        Tue, 25 Jan 2022 15:46:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=+JbdAIL0dHyu/M74p8aA5YjzfndB90rS3t+uZU/cRXU=;
-        b=gCddeVXrtQ7+W7o/2Ko4QmrY/BNb9ES0f4KiJhyudrPTflhDjql1piebHPEv4SGzL4
-         qcCowEutu1cEkwHQf65JrBiPw0FmGP+5P1GIfR4ejHnGJ9h8ZHtfzCbwldCpDvdsZxRn
-         BFlctXIIcTNRfxLZrpkUrF/zlgB6qDXnRvq25J/TLY25qU26m1W6MKuoNS8t8JlBT7En
-         TnJ9ZsUf3nNy20c0hKjqFw5UvO49GOuct8zrcINVsxsYv7vwrQ8fBe/Ivc5FLEvXX/Mv
-         dWMY+TovISqsN7YPTr9yiyYjE6PhUtwMdN+izjdxIgQ2sNXhJovxkJXtEEr5/fYn0q86
-         7Bog==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zaINez3rSSjlWvImf4qb8L/2ha5D25vy6vOExgL5WaQ=;
+        b=iV2aH8lTgzOeF0OfA9lwfhljizJow9SpdPc45/DZRASudSweStW612jn+PZ/SLp1iM
+         PkFIPw+KeTj3jctJArVvg40BhNj9efuvDxUAj99GkzbheimDRi3Db7xMMbeVQl3JE0d/
+         +YYv2PdLlgBLI2N4zigOsoa3y6nR+qFWEhOQVB7hZTFr0HFWlmdpWW8KTvbbb+9zkC9j
+         BIVnY5qViAXQvKir3vwPjuIqBYI0X2Zt8WqAakV09DDTG+q1g/aq1CHiJg9WbIdm9kVm
+         J+ReF+9GDJuIs4W5VxGBPnlMNod9ddq+uDmP1cGgn3K9lU4DdvGGfveo5IcDYqsVBv0L
+         sRhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=+JbdAIL0dHyu/M74p8aA5YjzfndB90rS3t+uZU/cRXU=;
-        b=vMZr7vnW6dIibeoqLvRYzfmKH6sKcZcdUfv+yR5PtbbaIV0JOtKSrE+Zdx5zzKyWP5
-         5awj8B9UmWX38Gkr/buq6qx2aaqPnraIyeVaI0ROyAGG3VI+OwXS7E6GcRCJKoEb3xKu
-         6Mpezk7Csr8hNlN4TOLXR0sZBtAZWOH5YSefhgMvfiGwQXP7J5NkOjfmqOUhfSik7aeE
-         +R9/QRIBUsKPU4O1/9VVboguLe+4vph9v6P0AfVoojGaUVJieyedkUTsmpZExYesZkIx
-         A9+HScHI+AxW/7YVg43BZOPp486MAvo69B9MBpnCrfrpdBEKwXuNpfnhXPErRklVkdq6
-         5c0g==
-X-Gm-Message-State: AOAM531g9ojDWMkpNfYTPuJZ4WvPdPIXfGz9RV8jApDK7bIc040KUR3F
-        6uiMOsXmd+HZvIJWpFuWwIsGfA==
-X-Google-Smtp-Source: ABdhPJzOnHSEe2sQobYdCVpNGc6vOQyPkuT9p1HchozV1ea6U6F7yfbM6V2pUl0cETahJ/Y0Gl/uuw==
-X-Received: by 2002:a05:622a:14c9:: with SMTP id u9mr3342837qtx.677.1643143031929;
-        Tue, 25 Jan 2022 12:37:11 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id o10sm9467348qtx.33.2022.01.25.12.37.10
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zaINez3rSSjlWvImf4qb8L/2ha5D25vy6vOExgL5WaQ=;
+        b=AsgWOrru6ZYd26D4Ym+9uxsi5fe0d7U/fqqKGCJNd+tJwxWRQg2eFPQrWoMnFofJDT
+         nDsTu/OLGqhb9oVZJEd4Xn7P4Q7S0TYxmyZm1FuQ3RgsqsrFbAiP6ukhDG1+dPRw9Pvk
+         mbazXz7Ap+pQpCMrgkZS1eiZPh/Gj9+pn+ovECCl4ZSpZU2hDAap7XOFrPlGrXfw72A5
+         ca2HtyggrSP30qZ6HtQ9DZGJWtWcpqKJ4efp7qNF2FLm/TH3p+jVtoenE+VI1VqKvREL
+         q8JstKHKuCNTc/siGHmhcSuFHOL4owjOf874PG/PBGDNpFOgGDQp70WJkZdEHi2+XOnP
+         8rWw==
+X-Gm-Message-State: AOAM532hSV0ho1hKMgtkvbUAIyENKSlJSmhpLfG49N5fkQF5tvuS75m8
+        /0D5kEojldORt9obbYrWpFU=
+X-Google-Smtp-Source: ABdhPJzguO9tzrOFKU/gflOLSpo2MsfX3F0pmTBxx/6XNlHW1oZOrdA/q/xNp6vlajb3Tox4CbN8rg==
+X-Received: by 2002:a2e:96cf:: with SMTP id d15mr2043717ljj.342.1643154367641;
+        Tue, 25 Jan 2022 15:46:07 -0800 (PST)
+Received: from localhost.localdomain (h-155-4-221-129.NA.cust.bahnhof.se. [155.4.221.129])
+        by smtp.gmail.com with ESMTPSA id k3sm900383lfo.127.2022.01.25.15.46.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jan 2022 12:37:11 -0800 (PST)
-Message-ID: <8be37d34b7090e3d3adca5b0d298c4b1b5639fa1.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 3/3] media: docs: dev-stateless-decoder: Document
- frame type flags
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        kernel <kernel@collabora.com>
-Date:   Tue, 25 Jan 2022 15:37:10 -0500
-In-Reply-To: <20220116185556.10657-4-digetx@gmail.com>
-References: <20220116185556.10657-1-digetx@gmail.com>
-         <20220116185556.10657-4-digetx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+        Tue, 25 Jan 2022 15:46:07 -0800 (PST)
+From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Subject: [PATCH] media: go7007: Constify static struct snd_device_ops
+Date:   Wed, 26 Jan 2022 00:46:02 +0100
+Message-Id: <20220125234602.10481-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.35.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le dimanche 16 janvier 2022 à 21:55 +0300, Dmitry Osipenko a écrit :
-> Document that frame type flags must be set for the coded buffer.
-> Decoders, like NVIDIA Tegra h264 decoder for example, won't work
-> properly without these flags.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  .../userspace-api/media/v4l/dev-stateless-decoder.rst          | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst b/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
-> index 4a26646eeec5..845f4481d34f 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
-> @@ -271,6 +271,9 @@ A typical frame would thus be decoded using the following sequence:
->            we are not sure that the current decode request is the last one needed
->            to produce a fully decoded frame, then
->            ``V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF`` must also be set.
-> +          ``V4L2_BUF_FLAG_KEYFRAME``, ``V4L2_BUF_FLAG_PFRAME`` and
-> +          ``V4L2_BUF_FLAG_BFRAME`` must be set if relevant to the coded
-> +          format.
+The only usage of go7007_snd_device_ops is to pass its address to
+snd_device_new() which takes a pointer to const struct snd_device_ops.
+Make it const to allow the compiler to put it in read-only memory.
 
-I think I would rather keep this in the CODEC specific APIs (BFrame being an
-MPEG specific concept). If I knew about this before we made the API final, I
-would have added the slice_type bitstream parameter in the
-v4l2_h264_decode_params structure. But as the types are rather limited, I would
-preserve our "reservered" space and make that part of the
-V4L2_H264_DECODE_PARAM_FLAGS_{} instead. Do you also need that for HEVC ? (do
-you have HEVC on that generation of tegra ?)
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+---
+ drivers/media/usb/go7007/snd-go7007.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->  
->        ``request_fd``
->            must be set to the file descriptor of the decoding request.
+diff --git a/drivers/media/usb/go7007/snd-go7007.c b/drivers/media/usb/go7007/snd-go7007.c
+index 2ce85ab38db5..9a6bd87fce03 100644
+--- a/drivers/media/usb/go7007/snd-go7007.c
++++ b/drivers/media/usb/go7007/snd-go7007.c
+@@ -191,7 +191,7 @@ static int go7007_snd_free(struct snd_device *device)
+ 	return 0;
+ }
+ 
+-static struct snd_device_ops go7007_snd_device_ops = {
++static const struct snd_device_ops go7007_snd_device_ops = {
+ 	.dev_free	= go7007_snd_free,
+ };
+ 
+-- 
+2.35.0
 
