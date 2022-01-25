@@ -2,194 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30E6F49ADF9
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 09:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5116049AF0E
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 10:09:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1450282AbiAYI0l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 03:26:41 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:32952 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1450168AbiAYIYk (ORCPT
+        id S1454398AbiAYI7W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 03:59:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44336 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1453990AbiAYI47 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jan 2022 03:24:40 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 25 Jan 2022 03:56:59 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34AD5C049659
+        for <linux-media@vger.kernel.org>; Tue, 25 Jan 2022 00:02:54 -0800 (PST)
+Received: from localhost.localdomain (unknown [IPv6:2a00:c281:1137:e00:5903:19ba:8e99:7984])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6FB50B8162C;
-        Tue, 25 Jan 2022 08:24:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 222ABC340E0;
-        Tue, 25 Jan 2022 08:24:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643099071;
-        bh=zhEJSMgOmCREgcS8sTDwVMLZTw5f5ROgOOgi3EInTqM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=nEaLL1TsOZ2wtCC/6Mf+UAQCuY4QNAw0sIrT9MvRW7X7+caQDud1ootEMANZobvtK
-         k56VZpKRFr4yGNOCvdaLOek5b1F4cJMuGjTiZyA264g8hNxFFrGpbxIR+JNlPqzWNu
-         ykLGyFflEv1C2BAEFOqC5Soh7Yoi1vyIF4vB22VKqMgXI9WQTnEjErtgE2Tfy1q7wp
-         57QM/qVfiDXjL9R7l1GjZJyWPRWpCaAv7wFej2WT/NzkuiJjSTD6coMsno4dfC0MgO
-         e0EHbSSFCPFGKWl3DxThy6imvbDbJ0+WwxN2Ve7fedGSchV6Xf4KFG+AL/gfEQXd+J
-         RwekOcxv3E7TA==
-Date:   Tue, 25 Jan 2022 09:24:26 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, stable@vger.kernel.org,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH RESEND] media: omap3isp: Use struct_group() for memcpy()
- region
-Message-ID: <20220125092426.7bdfba8f@coco.lan>
-In-Reply-To: <20220124172952.2411764-1-keescook@chromium.org>
-References: <20220124172952.2411764-1-keescook@chromium.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 902951F43DF6;
+        Tue, 25 Jan 2022 08:02:51 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1643097772;
+        bh=mRWyYPD25EmQc8phqM/FG1Cd29sqr2lIW7VOtpB6p6U=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=W7zkI2X11EdZoIdo0toBM55Khwb2tJrA/TMJ5ewsll4zrUkikOb2cIpUhinP5+T2k
+         nl228PrkYZVRRzDG5+AbVTM4IjrEjnhRw0X11A//SWjgvB/+ebnPkzkNDN1C9VSsgE
+         8vsEdXnnWkgH8LbXK1GKpYB2SBMNlFO4faTHrIlbrbjq1iw/xBIwhoaemQeh9SCMuN
+         VZNS4huGNe0P0zi+as+7bjkGx7SZKZMPVoCWsgCNqqRuDv6L9346K3kJZ2+QQDRkBa
+         atE546op7lZlZK89Oz2V1/vOyZnn/cu8bx12mZAAkd0LVhayhTPFDUcylHFbqK0rTp
+         zMW4teGscCSlg==
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        kernel@collabora.com, linux-media@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
+        ribalda@chromium.org, tfiga@chromium.org, senozhatsky@google.com,
+        hch@lst.de, dafna3@gmail.com
+Subject: [PATCH v2 2/4] media: stk1160: If start stream fails, return buffers with VB2_BUF_STATE_QUEUED
+Date:   Tue, 25 Jan 2022 10:02:11 +0200
+Message-Id: <20220125080213.30090-3-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220125080213.30090-1-dafna.hirschfeld@collabora.com>
+References: <20220125080213.30090-1-dafna.hirschfeld@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 24 Jan 2022 09:29:52 -0800
-Kees Cook <keescook@chromium.org> escreveu:
+If the callback 'start_streaming' fails, then all
+queued buffers in the driver should be returned with
+state 'VB2_BUF_STATE_QUEUED'. Currently, they are
+returned with 'VB2_BUF_STATE_ERROR' which is wrong.
+Fix this. This also fixes the warning:
 
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memcpy(), memmove(), and memset(), avoid
-> intentionally writing across neighboring fields. Wrap the target region
-> in struct_group(). This additionally fixes a theoretical misalignment
-> of the copy (since the size of "buf" changes between 64-bit and 32-bit,
-> but this is likely never built for 64-bit).
+[   65.583633] WARNING: CPU: 5 PID: 593 at drivers/media/common/videobuf2/videobuf2-core.c:1612 vb2_start_streaming+0xd4/0x160 [videobuf2_common]
+[   65.585027] Modules linked in: snd_usb_audio snd_hwdep snd_usbmidi_lib snd_rawmidi snd_soc_hdmi_codec dw_hdmi_i2s_audio saa7115 stk1160 videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc crct10dif_ce panfrost snd_soc_simple_card snd_soc_audio_graph_card snd_soc_spdif_tx snd_soc_simple_card_utils gpu_sched phy_rockchip_pcie snd_soc_rockchip_i2s rockchipdrm analogix_dp dw_mipi_dsi dw_hdmi cec drm_kms_helper drm rtc_rk808 rockchip_saradc industrialio_triggered_buffer kfifo_buf rockchip_thermal pcie_rockchip_host ip_tables x_tables ipv6
+[   65.589383] CPU: 5 PID: 593 Comm: v4l2src0:src Tainted: G        W         5.16.0-rc4-62408-g32447129cb30-dirty #14
+[   65.590293] Hardware name: Radxa ROCK Pi 4B (DT)
+[   65.590696] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   65.591304] pc : vb2_start_streaming+0xd4/0x160 [videobuf2_common]
+[   65.591850] lr : vb2_start_streaming+0x6c/0x160 [videobuf2_common]
+[   65.592395] sp : ffff800012bc3ad0
+[   65.592685] x29: ffff800012bc3ad0 x28: 0000000000000000 x27: ffff800012bc3cd8
+[   65.593312] x26: 0000000000000000 x25: ffff00000d8a7800 x24: 0000000040045612
+[   65.593938] x23: ffff800011323000 x22: ffff800012bc3cd8 x21: ffff00000908a8b0
+[   65.594562] x20: ffff00000908a8c8 x19: 00000000fffffff4 x18: ffffffffffffffff
+[   65.595188] x17: 000000040044ffff x16: 00400034b5503510 x15: ffff800011323f78
+[   65.595813] x14: ffff000013163886 x13: ffff000013163885 x12: 00000000000002ce
+[   65.596439] x11: 0000000000000028 x10: 0000000000000001 x9 : 0000000000000228
+[   65.597064] x8 : 0101010101010101 x7 : 7f7f7f7f7f7f7f7f x6 : fefefeff726c5e78
+[   65.597690] x5 : ffff800012bc3990 x4 : 0000000000000000 x3 : ffff000009a34880
+[   65.598315] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000007cd99f0
+[   65.598940] Call trace:
+[   65.599155]  vb2_start_streaming+0xd4/0x160 [videobuf2_common]
+[   65.599672]  vb2_core_streamon+0x17c/0x1a8 [videobuf2_common]
+[   65.600179]  vb2_streamon+0x54/0x88 [videobuf2_v4l2]
+[   65.600619]  vb2_ioctl_streamon+0x54/0x60 [videobuf2_v4l2]
+[   65.601103]  v4l_streamon+0x3c/0x50 [videodev]
+[   65.601521]  __video_do_ioctl+0x1a4/0x428 [videodev]
+[   65.601977]  video_usercopy+0x320/0x828 [videodev]
+[   65.602419]  video_ioctl2+0x3c/0x58 [videodev]
+[   65.602830]  v4l2_ioctl+0x60/0x90 [videodev]
+[   65.603227]  __arm64_sys_ioctl+0xa8/0xe0
+[   65.603576]  invoke_syscall+0x54/0x118
+[   65.603911]  el0_svc_common.constprop.3+0x84/0x100
+[   65.604332]  do_el0_svc+0x34/0xa0
+[   65.604625]  el0_svc+0x1c/0x50
+[   65.604897]  el0t_64_sync_handler+0x88/0xb0
+[   65.605264]  el0t_64_sync+0x16c/0x170
+[   65.605587] ---[ end trace 578e0ba07742170d ]---
 
+Fixes: 8ac456495a33d ("[media] stk1160: Stop device and unqueue buffers when start_streaming() fails")
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+ drivers/media/usb/stk1160/stk1160-core.c |  2 +-
+ drivers/media/usb/stk1160/stk1160-v4l.c  | 10 +++++-----
+ drivers/media/usb/stk1160/stk1160.h      |  2 +-
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-> FWIW, I think this code is totally broken on 64-bit (which appears to
-> not be a "real" build configuration): it would either always fail (with
-> an uninitialized data->buf_size) or would cause corruption in userspace
-> due to the copy_to_user() in the call path against an uninitialized
-> data->buf value:
+diff --git a/drivers/media/usb/stk1160/stk1160-core.c b/drivers/media/usb/stk1160/stk1160-core.c
+index 4e1698f78818..ce717502ea4c 100644
+--- a/drivers/media/usb/stk1160/stk1160-core.c
++++ b/drivers/media/usb/stk1160/stk1160-core.c
+@@ -403,7 +403,7 @@ static void stk1160_disconnect(struct usb_interface *interface)
+ 	/* Here is the only place where isoc get released */
+ 	stk1160_uninit_isoc(dev);
+ 
+-	stk1160_clear_queue(dev);
++	stk1160_clear_queue(dev, VB2_BUF_STATE_ERROR);
+ 
+ 	video_unregister_device(&dev->vdev);
+ 	v4l2_device_disconnect(&dev->v4l2_dev);
+diff --git a/drivers/media/usb/stk1160/stk1160-v4l.c b/drivers/media/usb/stk1160/stk1160-v4l.c
+index 6a4eb616d516..1aa953469402 100644
+--- a/drivers/media/usb/stk1160/stk1160-v4l.c
++++ b/drivers/media/usb/stk1160/stk1160-v4l.c
+@@ -258,7 +258,7 @@ static int stk1160_start_streaming(struct stk1160 *dev)
+ 	stk1160_uninit_isoc(dev);
+ out_stop_hw:
+ 	usb_set_interface(dev->udev, 0, 0);
+-	stk1160_clear_queue(dev);
++	stk1160_clear_queue(dev, VB2_BUF_STATE_QUEUED);
+ 
+ 	mutex_unlock(&dev->v4l_lock);
+ 
+@@ -306,7 +306,7 @@ static int stk1160_stop_streaming(struct stk1160 *dev)
+ 
+ 	stk1160_stop_hw(dev);
+ 
+-	stk1160_clear_queue(dev);
++	stk1160_clear_queue(dev, VB2_BUF_STATE_ERROR);
+ 
+ 	stk1160_dbg("streaming stopped\n");
+ 
+@@ -745,7 +745,7 @@ static const struct video_device v4l_template = {
+ /********************************************************************/
+ 
+ /* Must be called with both v4l_lock and vb_queue_lock hold */
+-void stk1160_clear_queue(struct stk1160 *dev)
++void stk1160_clear_queue(struct stk1160 *dev, enum vb2_buffer_state vb2_state)
+ {
+ 	struct stk1160_buffer *buf;
+ 	unsigned long flags;
+@@ -756,7 +756,7 @@ void stk1160_clear_queue(struct stk1160 *dev)
+ 		buf = list_first_entry(&dev->avail_bufs,
+ 			struct stk1160_buffer, list);
+ 		list_del(&buf->list);
+-		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++		vb2_buffer_done(&buf->vb.vb2_buf, vb2_state);
+ 		stk1160_dbg("buffer [%p/%d] aborted\n",
+ 			    buf, buf->vb.vb2_buf.index);
+ 	}
+@@ -766,7 +766,7 @@ void stk1160_clear_queue(struct stk1160 *dev)
+ 		buf = dev->isoc_ctl.buf;
+ 		dev->isoc_ctl.buf = NULL;
+ 
+-		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++		vb2_buffer_done(&buf->vb.vb2_buf, vb2_state);
+ 		stk1160_dbg("buffer [%p/%d] aborted\n",
+ 			    buf, buf->vb.vb2_buf.index);
+ 	}
+diff --git a/drivers/media/usb/stk1160/stk1160.h b/drivers/media/usb/stk1160/stk1160.h
+index a31ea1c80f25..a70963ce8753 100644
+--- a/drivers/media/usb/stk1160/stk1160.h
++++ b/drivers/media/usb/stk1160/stk1160.h
+@@ -166,7 +166,7 @@ struct regval {
+ int stk1160_vb2_setup(struct stk1160 *dev);
+ int stk1160_video_register(struct stk1160 *dev);
+ void stk1160_video_unregister(struct stk1160 *dev);
+-void stk1160_clear_queue(struct stk1160 *dev);
++void stk1160_clear_queue(struct stk1160 *dev, enum vb2_buffer_state vb2_state);
+ 
+ /* Provided by stk1160-video.c */
+ int stk1160_alloc_isoc(struct stk1160 *dev);
+-- 
+2.17.1
 
-It doesn't matter. This driver is specific for TI OMAP3 SoC, which
-is Cortex-A8 (32-bits). It only builds on 64 bit due to COMPILE_TEST.
-
-Regards,
-Mauro
-
-> 
-> omap3isp_stat_request_statistics_time32(...)
->     struct omap3isp_stat_data data64;
->     ...
->     omap3isp_stat_request_statistics(stat, &data64);
-> 
-> int omap3isp_stat_request_statistics(struct ispstat *stat,
->                                      struct omap3isp_stat_data *data)
->     ...
->     buf = isp_stat_buf_get(stat, data);
-> 
-> static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
->                                                struct omap3isp_stat_data *data)
-> ...
->     if (buf->buf_size > data->buf_size) {
->             ...
->             return ERR_PTR(-EINVAL);
->     }
->     ...
->     rval = copy_to_user(data->buf,
->                         buf->virt_addr,
->                         buf->buf_size);
-> 
-> Regardless, additionally initialize data64 to be zero-filled to avoid
-> undefined behavior.
-> 
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: linux-media@vger.kernel.org
-> Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> Link: https://lore.kernel.org/lkml/20211215220505.GB21862@embeddedor
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
-> I will carry this in my tree unless someone else wants to pick it up. It's
-> one of the last remaining clean-ups needed for the next step in memcpy()
-> hardening.
-> ---
->  drivers/media/platform/omap3isp/ispstat.c |  5 +++--
->  include/uapi/linux/omap3isp.h             | 21 +++++++++++++--------
->  2 files changed, 16 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
-> index 5b9b57f4d9bf..68cf68dbcace 100644
-> --- a/drivers/media/platform/omap3isp/ispstat.c
-> +++ b/drivers/media/platform/omap3isp/ispstat.c
-> @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
->  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
->  					struct omap3isp_stat_data_time32 *data)
->  {
-> -	struct omap3isp_stat_data data64;
-> +	struct omap3isp_stat_data data64 = { };
->  	int ret;
->  
->  	ret = omap3isp_stat_request_statistics(stat, &data64);
-> @@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
->  
->  	data->ts.tv_sec = data64.ts.tv_sec;
->  	data->ts.tv_usec = data64.ts.tv_usec;
-> -	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
-> +	data->buf = (uintptr_t)data64.buf;
-> +	memcpy(&data->frame, &data64.frame, sizeof(data->frame));
->  
->  	return 0;
->  }
-> diff --git a/include/uapi/linux/omap3isp.h b/include/uapi/linux/omap3isp.h
-> index 87b55755f4ff..d9db7ad43890 100644
-> --- a/include/uapi/linux/omap3isp.h
-> +++ b/include/uapi/linux/omap3isp.h
-> @@ -162,6 +162,7 @@ struct omap3isp_h3a_aewb_config {
->   * struct omap3isp_stat_data - Statistic data sent to or received from user
->   * @ts: Timestamp of returned framestats.
->   * @buf: Pointer to pass to user.
-> + * @buf_size: Size of buffer.
->   * @frame_number: Frame number of requested stats.
->   * @cur_frame: Current frame number being processed.
->   * @config_counter: Number of the configuration associated with the data.
-> @@ -176,10 +177,12 @@ struct omap3isp_stat_data {
->  	struct timeval ts;
->  #endif
->  	void __user *buf;
-> -	__u32 buf_size;
-> -	__u16 frame_number;
-> -	__u16 cur_frame;
-> -	__u16 config_counter;
-> +	__struct_group(/* no tag */, frame, /* no attrs */,
-> +		__u32 buf_size;
-> +		__u16 frame_number;
-> +		__u16 cur_frame;
-> +		__u16 config_counter;
-> +	);
->  };
->  
->  #ifdef __KERNEL__
-> @@ -189,10 +192,12 @@ struct omap3isp_stat_data_time32 {
->  		__s32	tv_usec;
->  	} ts;
->  	__u32 buf;
-> -	__u32 buf_size;
-> -	__u16 frame_number;
-> -	__u16 cur_frame;
-> -	__u16 config_counter;
-> +	__struct_group(/* no tag */, frame, /* no attrs */,
-> +		__u32 buf_size;
-> +		__u16 frame_number;
-> +		__u16 cur_frame;
-> +		__u16 config_counter;
-> +	);
->  };
->  #endif
->  
-
-
-
-Thanks,
-Mauro
