@@ -2,73 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DD6349BA50
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 18:27:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B704149BACF
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 18:58:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236843AbiAYR0S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 12:26:18 -0500
-Received: from relay031.a.hostedemail.com ([64.99.140.31]:63473 "EHLO
-        relay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1380798AbiAYRT1 (ORCPT
+        id S1387360AbiAYR6m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 12:58:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57584 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245231AbiAYR4h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jan 2022 12:19:27 -0500
-Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay07.hostedemail.com (Postfix) with ESMTP id 3182320C1C;
-        Tue, 25 Jan 2022 17:19:07 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf18.hostedemail.com (Postfix) with ESMTPA id 4035D42;
-        Tue, 25 Jan 2022 17:18:51 +0000 (UTC)
-Message-ID: <afcc70baa10003ce89c70b7b310981672547218b.camel@perches.com>
-Subject: Re: [PATCH v15 13/13] MAINTAINERS: add AMPHION VPU CODEC V4L2
- driver entry
-From:   Joe Perches <joe@perches.com>
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de
-Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Date:   Tue, 25 Jan 2022 09:19:02 -0800
-In-Reply-To: <2f695f6a597a4372842d75105b654fba6db27d59.1643077283.git.ming.qian@nxp.com>
-References: <cover.1643077283.git.ming.qian@nxp.com>
-         <2f695f6a597a4372842d75105b654fba6db27d59.1643077283.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+        Tue, 25 Jan 2022 12:56:37 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 482D9C061763
+        for <linux-media@vger.kernel.org>; Tue, 25 Jan 2022 09:56:35 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id e79so24618211iof.13
+        for <linux-media@vger.kernel.org>; Tue, 25 Jan 2022 09:56:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:references:cc:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=XIy/5ol+iJbfqfFds9B7Vb2QXVBHhtczKhdcN9qlULI=;
+        b=KELgZvGwlOONd5Dg6uFQB4FQy8vdDg+arfoBd3+rSDcHudWW2XjiIJcmVveEDRjzNM
+         cYxLNbpvE9Nid9F10teVG4fs7CDJwzf8A0iaNLz9p/3F3ShyIQoBRl1l3rmEOYrJMsCC
+         Jo3l2XUf2oXyZmlORhLW1HKyjEZ5rlKVIfFY4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XIy/5ol+iJbfqfFds9B7Vb2QXVBHhtczKhdcN9qlULI=;
+        b=1JT2e+p5kNE+gxvoduvzUx2ecj0gSW3QdGPRWxPeLFXIQ3allgJbiUYGyPmPXiqvx4
+         d6zWFjJKhFeXEh47QCc7yatu0SKfHmyee7gdLk399RjEJgqIO9hoJVIJKAOCB69+1TA9
+         SdDnOxIpuXeXpBHYmkTvexhl+UcksRKhFJ042FvSAZlJZRyZQMnA1M8jwwed6sV4lJzR
+         fbmRCX6VczkT30N5PfWAfwTiritSt7ZBXF0+8x5Nf0stBuZHkRw4RfLlpW5rxm4NHg4l
+         6hDkEoqfJ7bZyHdiYCnGVzosC/xXvVBU60dsNQJFg6BBaKIH0SsJEShkcjhD5zVqif73
+         rZhg==
+X-Gm-Message-State: AOAM53010x9rXHSxgWDP2m1+idmNEQ1apf6Gl2/YvjQGNIBWxNjrIgKN
+        Uc6D4Tm/GQyS2U6N0EcR7ds2Bw==
+X-Google-Smtp-Source: ABdhPJxUQ6g+VkFiG2Iheaiac7jFFC/ckNeDntOOHZeUSMcRYMLPZr5vhJq62DWnKF7vyGTG/oWpNQ==
+X-Received: by 2002:a05:6602:2a45:: with SMTP id k5mr11552759iov.140.1643133394587;
+        Tue, 25 Jan 2022 09:56:34 -0800 (PST)
+Received: from ?IPv6:2601:282:8200:4c:4ef8:d404:554b:9671? ([2601:282:8200:4c:4ef8:d404:554b:9671])
+        by smtp.gmail.com with ESMTPSA id y2sm598571ilj.29.2022.01.25.09.56.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Jan 2022 09:56:34 -0800 (PST)
+Subject: Re: [PATCH] tools headers UAPI: remove stale lirc.h
+To:     Sean Young <sean@mess.org>, Shuah Khan <shuah@kernel.org>,
+        linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        bpf@vger.kernel.org,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Daniel Borkmann <daniel@iogearbox.net>
+References: <20220124153028.394409-1-sean@mess.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <22f46323-4443-4253-7153-546fbbbdf40f@linuxfoundation.org>
+Date:   Tue, 25 Jan 2022 10:56:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20220124153028.394409-1-sean@mess.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Stat-Signature: qd8yigbcjnn7odxdizrocdsn51sg6mrd
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 4035D42
-X-Spam-Status: No, score=-0.34
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19qj9D5y8YasMCA8MRO8wfsgSoZYAra1qc=
-X-HE-Tag: 1643131131-328248
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2022-01-25 at 15:11 +0800, Ming Qian wrote:
-> Add AMPHION VPU CODEC v4l2 driver entry
-[]
-> diff --git a/MAINTAINERS b/MAINTAINERS
-[]
-> @@ -13913,6 +13913,15 @@ S:	Maintained
->  F:	Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
->  F:	drivers/media/platform/imx-jpeg
->  
-> +AMPHION VPU CODEC V4L2 DRIVER
-> +M:	Ming Qian <ming.qian@nxp.com>
-> +M:	Shijie Qin <shijie.qin@nxp.com>
-> +M:	Zhou Peng <eagle.zhou@nxp.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/amphion,vpu.yaml
-> +F:	drivers/media/platform/amphion/
-> +
+On 1/24/22 8:30 AM, Sean Young wrote:
+> The lirc.h file is an old copy of lirc.h from the kernel sources. It is
+> out of date, and the bpf lirc tests don't need a new copy anyway. As
+> long as /usr/include/linux/lirc.h is from kernel v5.2 or newer, the tests
+> will compile fine.
+> 
+> Signed-off-by: Sean Young <sean@mess.org>
+> ---
+>   tools/include/uapi/linux/lirc.h               | 229 ------------------
+>   .../selftests/bpf/test_lirc_mode2_user.c      |   1 -
+>   2 files changed, 230 deletions(-)
+>   delete mode 100644 tools/include/uapi/linux/lirc.h
+> 
 
-Alphabetic section ordering please.
+Thank you for cleaning this up. I think this will go through
+bpf tree. Adding bpf maintainers.
 
->  NZXT-KRAKEN2 HARDWARE MONITORING DRIVER
->  M:	Jonas Malaco <jonas@protocubo.io>
->  L:	linux-hwmon@vger.kernel.org
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+
+thanks,
+-- Shuah
 
 
