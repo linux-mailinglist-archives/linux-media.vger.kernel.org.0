@@ -2,140 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56DC249B338
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 12:49:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F198049B369
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 13:01:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356250AbiAYLqt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 06:46:49 -0500
-Received: from mga01.intel.com ([192.55.52.88]:23799 "EHLO mga01.intel.com"
+        id S1384846AbiAYL5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 06:57:19 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:44766 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1382426AbiAYLjC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jan 2022 06:39:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643110742; x=1674646742;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1crJBsNkMAG/0BQ4hPNjEd25TkNlOtaGQ1ACRmLhDzg=;
-  b=nq2FNrbLWp481Y/HzgmacHDS57Fqzdz4hFy6y1O138/wuuqv5vaYsjOn
-   GbuBWq48VOKoc/FtuPw68EbmuYaa1MeL9etz80LlKqo71cgNH8OAonNNR
-   Kw6GtTqdVRaxWdoXTfXmU3h/o2klQZ7LlzfTO1cZRU/wVK2pv5ISBOu2v
-   42mXuRc3JObQGZFH76OYBWENF7a8rqtqUUO9cWQpBBb2Q1gISyBXjCkg5
-   hAmvxzAFHB42HGxHRmB62cyjXbZaa1Q1WAp3QpVumLEfr1en6cvv+KSak
-   4q0xhVFm3393BbIDnxLMvQsdAmyT3X/yhZtpGJzwYANm1nfpYpyW4vJBV
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="270726208"
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; 
-   d="scan'208";a="270726208"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2022 03:34:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; 
-   d="scan'208";a="695804699"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 25 Jan 2022 03:34:51 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nCK67-000Jp6-2s; Tue, 25 Jan 2022 11:34:51 +0000
-Date:   Tue, 25 Jan 2022 19:34:45 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de
-Cc:     kbuild-all@lists.01.org, hverkuil-cisco@xs4all.nl,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        aisheng.dong@nxp.com, linux-media@vger.kernel.org
-Subject: Re: [PATCH v15 07/13] media: amphion: add v4l2 m2m vpu encoder
- stateful driver
-Message-ID: <202201251914.xAqudfEM-lkp@intel.com>
-References: <b42d02b6572468483da10acb41807df8ed7ff8cd.1643077283.git.ming.qian@nxp.com>
+        id S1387232AbiAYLyL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 Jan 2022 06:54:11 -0500
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nCKOk-007pQ6-HD; Tue, 25 Jan 2022 11:54:06 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nCKOi-000yPU-EU; Tue, 25 Jan 2022 11:54:04 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.18] v2: aspeed fixes (#80324)
+Date:   Tue, 25 Jan 2022 11:54:04 +0000
+Message-Id: <20220125115404.232170-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <db684064-5069-76cd-39a9-c22b2381ba42@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b42d02b6572468483da10acb41807df8ed7ff8cd.1643077283.git.ming.qian@nxp.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ming,
+From: builder@linuxtv.org
 
-Thank you for the patch! Perhaps something to improve:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/db684064-5069-76cd-39a9-c22b2381ba42@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/177119/
+Build time: 00:16:39
+Link: https://lore.kernel.org/linux-media/db684064-5069-76cd-39a9-c22b2381ba42@xs4all.nl
 
-[auto build test WARNING on e783362eb54cd99b2cac8b3a9aeac942e6f6ac07]
+gpg: Signature made Tue 25 Jan 2022 11:27:20 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Can't check signature: No public key
 
-url:    https://github.com/0day-ci/linux/commits/Ming-Qian/amphion-video-decoder-encoder-driver/20220125-152112
-base:   e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20220125/202201251914.xAqudfEM-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/0d6244aad6fd7e7c377163865a29319cb2a6df84
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Ming-Qian/amphion-video-decoder-encoder-driver/20220125-152112
-        git checkout 0d6244aad6fd7e7c377163865a29319cb2a6df84
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=alpha SHELL=/bin/bash drivers/media/platform/amphion/
+Summary: got 1/6 patches with issues, being 1 at build time
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Error/warnings:
 
-All warnings (new ones prefixed by >>):
+patches/0001-media-aspeed-use-v4l2_info-v4l2_warn-v4l2_dbg-for-lo.patch:
 
-   drivers/media/platform/amphion/venc.c: In function 'venc_get_encoded_frames':
-   drivers/media/platform/amphion/venc.c:832:17: error: implicit declaration of function 'vfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
-     832 |                 vfree(frame);
-         |                 ^~~~~
-         |                 kvfree
-   drivers/media/platform/amphion/venc.c: In function 'venc_frame_encoded':
-   drivers/media/platform/amphion/venc.c:848:17: error: implicit declaration of function 'vzalloc'; did you mean 'kvzalloc'? [-Werror=implicit-function-declaration]
-     848 |         frame = vzalloc(sizeof(*frame));
-         |                 ^~~~~~~
-         |                 kvzalloc
->> drivers/media/platform/amphion/venc.c:848:15: warning: assignment to 'struct venc_frame_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     848 |         frame = vzalloc(sizeof(*frame));
-         |               ^
-   drivers/media/platform/amphion/venc.c: In function 'venc_open':
->> drivers/media/platform/amphion/venc.c:1321:14: warning: assignment to 'struct vpu_inst *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1321 |         inst = vzalloc(sizeof(*inst));
-         |              ^
->> drivers/media/platform/amphion/venc.c:1325:14: warning: assignment to 'struct venc_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1325 |         venc = vzalloc(sizeof(*venc));
-         |              ^
-   cc1: some warnings being treated as errors
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/i2c/ov8865.c: ../drivers/media/i2c/ov8865.c:2843 ov8865_get_selection() warn: inconsistent indenting
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-vim +848 drivers/media/platform/amphion/venc.c
-
-   837	
-   838	static int venc_frame_encoded(struct vpu_inst *inst, void *arg)
-   839	{
-   840		struct vpu_enc_pic_info *info = arg;
-   841		struct venc_frame_t *frame;
-   842		struct venc_t *venc;
-   843		int ret = 0;
-   844	
-   845		if (!inst || !info)
-   846			return -EINVAL;
-   847		venc = inst->priv;
- > 848		frame = vzalloc(sizeof(*frame));
-   849		if (!frame)
-   850			return -ENOMEM;
-   851	
-   852		memcpy(&frame->info, info, sizeof(frame->info));
-   853		frame->bytesused = info->frame_size;
-   854	
-   855		vpu_inst_lock(inst);
-   856		list_add_tail(&frame->list, &venc->frames);
-   857		venc->encode_count++;
-   858		venc_get_encoded_frames(inst);
-   859		vpu_inst_unlock(inst);
-   860	
-   861		return ret;
-   862	}
-   863	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
