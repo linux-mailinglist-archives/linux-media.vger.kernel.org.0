@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8B2B49BA05
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 18:17:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A215249BA0A
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 18:17:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1578644AbiAYRQM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 12:16:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47620 "EHLO
+        id S1388214AbiAYRQg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 12:16:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351300AbiAYRNs (ORCPT
+        with ESMTP id S1351700AbiAYRNu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jan 2022 12:13:48 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E455AC06179A;
-        Tue, 25 Jan 2022 09:12:43 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id z199so9995348iof.10;
-        Tue, 25 Jan 2022 09:12:43 -0800 (PST)
+        Tue, 25 Jan 2022 12:13:50 -0500
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCF8C0617A3;
+        Tue, 25 Jan 2022 09:12:46 -0800 (PST)
+Received: by mail-il1-x12b.google.com with SMTP id y17so5866180ilm.1;
+        Tue, 25 Jan 2022 09:12:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mMhTEWTe94/lxvR3iguUuMULiaaMgsYkOT2qY7s3xZk=;
-        b=qB2b/OBznQg3vk7eTmRQbFKLqe2+4F4LAv/FT+/VISI9E/t+vC7+NkOzq4wv+6QySV
-         +744jOtOv+sGHlR0nyyGUM0vxeC0TxpFCud4vSJkeK5RakqjjuqgLuv3H/5RqiWEnQ9n
-         wYYm2OY31foCQJse4oYNYs8J2ESDsDSEFBQHUzB3uf4bWrHji3edtox6F5a4svB4Wjq8
-         JLEBOG/bZOtR9A7GcF4dYJ1oig7VxKh2r/jo1dRLXKKWInGd7g80fCgs30ktZC9yU4Rm
-         J8sv2RMlprVUsLHlCHYOyDvTfFnHpFNcwHRT693mwN5qw77AoZfNk1EtdYbG1vh42FZQ
-         c2nw==
+        bh=RU3KIa4qrZXY9R48xjJEZLxL91fbwb33hYcDZGPVEeA=;
+        b=KHvX4bjGcFWJPXQ91el6u/lSljusxx8pbcvu7lMe5WJ9FwnlTXtJ69WFqEVLsE4976
+         RuF7fIouyHo1iSezLZbFkPem8wnA2SDnrF6rDwwnYZfdIbwv1dXNCkLCBTy+WpJydfm5
+         EqcVwTs5S1iFUN1XY7i4NIgw7SCwiNg0+j7y7/lWwOjBk3HPSxr9t9cYTZpcSGbPaIIq
+         or0eYS9JxmErq4ojq2ZQyvjFRmkcNA8Ava9Sm0s2Jg//dgpzGKZYQtbJibU+RLiyb1jV
+         SHJnDa+wuTcz0PNhOea/uzau8fwSq0CQtWw5Q1KBWhJunAzkSrfVScL4LrwCdHeluWx8
+         /w7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mMhTEWTe94/lxvR3iguUuMULiaaMgsYkOT2qY7s3xZk=;
-        b=JOcdAq5XawIvdpwzD4YyYQM1YDn9JUJPyp+9+t/SaFZ1QC3V0hU97ACMJLQ42nRKxG
-         NGl2JChKdiRk/JAzZOpY0xl/MxcWRmyZ931AJG1FfDi1E6s5JT0AOwNZrxiEQQlvn2YX
-         MUc8DNZe0s3r0K2ha7sFkiYTosEVoIWewalFSv3APHWkughzPQXvTgmnXovJzy4CiFAw
-         PUOkBBfEWiqJuQNvxyYiBFb+Nf7bg4/Dg520LqdxaQBrf/+YFLHxcC9RhnWPcxlmpyyg
-         s4e13UGSE6n3+6DQQ2oawax0FglXVpjIsCkLmgBfd+NbZtZXKRt35LRSRpdph3Emd+GB
-         4sEQ==
-X-Gm-Message-State: AOAM530fIublLzT2kpB5mODNSknObyVOl6O+HoXjNZFoEfmqyLeIktTz
-        RJKihDBMXJFT4mc/y2ndtTq8tIPpLWc=
-X-Google-Smtp-Source: ABdhPJy1nwamHHzfnVEdxv0YvhkimiB59p6R05mZq7ZjaEJgqSMeDW2gAxduxonHAE26uHuWpAonqQ==
-X-Received: by 2002:a02:5b0a:: with SMTP id g10mr9341784jab.169.1643130762991;
-        Tue, 25 Jan 2022 09:12:42 -0800 (PST)
+        bh=RU3KIa4qrZXY9R48xjJEZLxL91fbwb33hYcDZGPVEeA=;
+        b=xyR5r63bt2pPc/8yClL1+QKFsEPo2dcV3FyR24eQHpIiblNiU+tK7Ckh1qcGqFza2n
+         DwUlIv1jO/ym/Phc3bjTMbS1yHvQHG+EApyEsjZh7wrM9c1rGSEr460JI7Ylxw2+gh29
+         Ia9c+fY3PIfgzVol37oD13NpTDWMIOgCzAuVf2ncyXYvWkZcjJL/cy8dvZT+VSk6Io3Z
+         DqTp1iM6xgCIWWdxEt8PAjkxzih81bE1JeeU49bn+ZftGXyxO+B3p/aCNgmMQQP+QRqD
+         2KYVl5BLR12CHQBb7GnGZ9m1TK2bbgFbLMoFd3x0agb1gJ7BGCoXkags8ENUGyd/nBHg
+         QffQ==
+X-Gm-Message-State: AOAM532jnmVVANLINwaTxH8h3xGWBB3hej8a2zIqejcg+PMPOGxohls0
+        Ee0phqnxv6bZMK3IL0qShOraQJcD1e8=
+X-Google-Smtp-Source: ABdhPJysd/AktlKpxM3/2Jwk3iYtFwARQhWgrwR964Q7bKGasZLBkRVo7UQcFFUdCsdTaVEYa5IG8A==
+X-Received: by 2002:a92:cd85:: with SMTP id r5mr12345147ilb.182.1643130765506;
+        Tue, 25 Jan 2022 09:12:45 -0800 (PST)
 Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:6592:b6fe:71b1:9f4c])
-        by smtp.gmail.com with ESMTPSA id m14sm8090291iov.0.2022.01.25.09.12.41
+        by smtp.gmail.com with ESMTPSA id m14sm8090291iov.0.2022.01.25.09.12.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jan 2022 09:12:42 -0800 (PST)
+        Tue, 25 Jan 2022 09:12:44 -0800 (PST)
 From:   Adam Ford <aford173@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     aford@beaconembedded.com, cphealy@gmail.com,
@@ -66,9 +66,9 @@ Cc:     aford@beaconembedded.com, cphealy@gmail.com,
         linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: [PATCH V4 08/11] arm64: dts: imx8mm: Fix VPU Hanging
-Date:   Tue, 25 Jan 2022 11:11:25 -0600
-Message-Id: <20220125171129.472775-9-aford173@gmail.com>
+Subject: [PATCH V4 09/11] dt-bindings: media: nxp, imx8mq-vpu: Add support for G1 on imx8mm
+Date:   Tue, 25 Jan 2022 11:11:26 -0600
+Message-Id: <20220125171129.472775-10-aford173@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220125171129.472775-1-aford173@gmail.com>
 References: <20220125171129.472775-1-aford173@gmail.com>
@@ -78,25 +78,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The vpumix power domain has a reset assigned to it, however
-when used, it causes a system hang.  Testing has shown that
-it does not appear to be needed anywhere.
+The i.MX8M mini appears to have a similar G1 decoder but the
+post-processing isn't present, so different compatible flag is required.
+Since all the other parameters are the same with imx8mq, just add
+the new compatible flag to nxp,imx8mq-vpu.yaml.
 
-Fixes: d39d4bb15310 ("arm64: dts: imx8mm: add GPC node")
 Signed-off-by: Adam Ford <aford173@gmail.com>
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-index f77f90ed416f..0c7a72c51a31 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-@@ -707,7 +707,6 @@ pgc_vpumix: power-domain@6 {
- 						clocks = <&clk IMX8MM_CLK_VPU_DEC_ROOT>;
- 						assigned-clocks = <&clk IMX8MM_CLK_VPU_BUS>;
- 						assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_800M>;
--						resets = <&src IMX8MQ_RESET_VPU_RESET>;
- 					};
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+index 9c28d562112b..7dc13a4b1805 100644
+--- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+@@ -5,7 +5,7 @@
+ $id: "http://devicetree.org/schemas/media/nxp,imx8mq-vpu.yaml#"
+ $schema: "http://devicetree.org/meta-schemas/core.yaml#"
  
- 					pgc_vpu_g1: power-domain@7 {
+-title: Hantro G1/G2 VPU codecs implemented on i.MX8MQ SoCs
++title: Hantro G1/G2 VPU codecs implemented on i.MX8M SoCs
+ 
+ maintainers:
+   - Philipp Zabel <p.zabel@pengutronix.de>
+@@ -20,6 +20,7 @@ properties:
+         deprecated: true
+       - const: nxp,imx8mq-vpu-g1
+       - const: nxp,imx8mq-vpu-g2
++      - const: nxp,imx8mm-vpu-g1
+ 
+   reg:
+     maxItems: 1
 -- 
 2.32.0
 
