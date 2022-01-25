@@ -2,67 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14CB549B2F6
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 12:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56DC249B338
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jan 2022 12:49:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348891AbiAYLcf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 06:32:35 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:39076 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348883AbiAYLaS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jan 2022 06:30:18 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B5E7D616A5
-        for <linux-media@vger.kernel.org>; Tue, 25 Jan 2022 11:30:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E2D7C340E0;
-        Tue, 25 Jan 2022 11:30:09 +0000 (UTC)
-Message-ID: <db684064-5069-76cd-39a9-c22b2381ba42@xs4all.nl>
-Date:   Tue, 25 Jan 2022 12:30:08 +0100
+        id S1356250AbiAYLqt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 06:46:49 -0500
+Received: from mga01.intel.com ([192.55.52.88]:23799 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1382426AbiAYLjC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 Jan 2022 06:39:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643110742; x=1674646742;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1crJBsNkMAG/0BQ4hPNjEd25TkNlOtaGQ1ACRmLhDzg=;
+  b=nq2FNrbLWp481Y/HzgmacHDS57Fqzdz4hFy6y1O138/wuuqv5vaYsjOn
+   GbuBWq48VOKoc/FtuPw68EbmuYaa1MeL9etz80LlKqo71cgNH8OAonNNR
+   Kw6GtTqdVRaxWdoXTfXmU3h/o2klQZ7LlzfTO1cZRU/wVK2pv5ISBOu2v
+   42mXuRc3JObQGZFH76OYBWENF7a8rqtqUUO9cWQpBBb2Q1gISyBXjCkg5
+   hAmvxzAFHB42HGxHRmB62cyjXbZaa1Q1WAp3QpVumLEfr1en6cvv+KSak
+   4q0xhVFm3393BbIDnxLMvQsdAmyT3X/yhZtpGJzwYANm1nfpYpyW4vJBV
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="270726208"
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; 
+   d="scan'208";a="270726208"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2022 03:34:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; 
+   d="scan'208";a="695804699"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 25 Jan 2022 03:34:51 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nCK67-000Jp6-2s; Tue, 25 Jan 2022 11:34:51 +0000
+Date:   Tue, 25 Jan 2022 19:34:45 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de
+Cc:     kbuild-all@lists.01.org, hverkuil-cisco@xs4all.nl,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        aisheng.dong@nxp.com, linux-media@vger.kernel.org
+Subject: Re: [PATCH v15 07/13] media: amphion: add v4l2 m2m vpu encoder
+ stateful driver
+Message-ID: <202201251914.xAqudfEM-lkp@intel.com>
+References: <b42d02b6572468483da10acb41807df8ed7ff8cd.1643077283.git.ming.qian@nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.18] v2: aspeed fixes
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Jammy Huang <jammy_huang@aspeedtech.com>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b42d02b6572468483da10acb41807df8ed7ff8cd.1643077283.git.ming.qian@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hopefully this uses the correct signingkey (trying with a ed25519 key, as
-recommended by kernel.org). No other changes.
+Hi Ming,
 
-	Hans
+Thank you for the patch! Perhaps something to improve:
 
-The following changes since commit 7dc5fc6d3bd6779c4859d888221f47e986cb45b5:
+[auto build test WARNING on e783362eb54cd99b2cac8b3a9aeac942e6f6ac07]
 
-  media: mtk-cir: simplify code (2022-01-24 01:38:32 +0100)
+url:    https://github.com/0day-ci/linux/commits/Ming-Qian/amphion-video-decoder-encoder-driver/20220125-152112
+base:   e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20220125/202201251914.xAqudfEM-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/0d6244aad6fd7e7c377163865a29319cb2a6df84
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Ming-Qian/amphion-video-decoder-encoder-driver/20220125-152112
+        git checkout 0d6244aad6fd7e7c377163865a29319cb2a6df84
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=alpha SHELL=/bin/bash drivers/media/platform/amphion/
 
-are available in the Git repository at:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18f
+All warnings (new ones prefixed by >>):
 
-for you to fetch changes up to f32c439a8b0f86eceafef8073e65b732c4207ab0:
+   drivers/media/platform/amphion/venc.c: In function 'venc_get_encoded_frames':
+   drivers/media/platform/amphion/venc.c:832:17: error: implicit declaration of function 'vfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
+     832 |                 vfree(frame);
+         |                 ^~~~~
+         |                 kvfree
+   drivers/media/platform/amphion/venc.c: In function 'venc_frame_encoded':
+   drivers/media/platform/amphion/venc.c:848:17: error: implicit declaration of function 'vzalloc'; did you mean 'kvzalloc'? [-Werror=implicit-function-declaration]
+     848 |         frame = vzalloc(sizeof(*frame));
+         |                 ^~~~~~~
+         |                 kvzalloc
+>> drivers/media/platform/amphion/venc.c:848:15: warning: assignment to 'struct venc_frame_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     848 |         frame = vzalloc(sizeof(*frame));
+         |               ^
+   drivers/media/platform/amphion/venc.c: In function 'venc_open':
+>> drivers/media/platform/amphion/venc.c:1321:14: warning: assignment to 'struct vpu_inst *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1321 |         inst = vzalloc(sizeof(*inst));
+         |              ^
+>> drivers/media/platform/amphion/venc.c:1325:14: warning: assignment to 'struct venc_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1325 |         venc = vzalloc(sizeof(*venc));
+         |              ^
+   cc1: some warnings being treated as errors
 
-  media: aspeed: Correct values for detected timing (2022-01-25 11:31:48 +0100)
 
-----------------------------------------------------------------
-Tag branch
+vim +848 drivers/media/platform/amphion/venc.c
 
-----------------------------------------------------------------
-Jammy Huang (6):
-      media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg for log
-      media: aspeed: add more debug log messages
-      media: aspeed: Fix no complete irq for non-64-aligned width
-      media: aspeed: Correct value for h-total-pixels
-      media: aspeed: Use FIELD_GET to improve readability
-      media: aspeed: Correct values for detected timing
+   837	
+   838	static int venc_frame_encoded(struct vpu_inst *inst, void *arg)
+   839	{
+   840		struct vpu_enc_pic_info *info = arg;
+   841		struct venc_frame_t *frame;
+   842		struct venc_t *venc;
+   843		int ret = 0;
+   844	
+   845		if (!inst || !info)
+   846			return -EINVAL;
+   847		venc = inst->priv;
+ > 848		frame = vzalloc(sizeof(*frame));
+   849		if (!frame)
+   850			return -ENOMEM;
+   851	
+   852		memcpy(&frame->info, info, sizeof(frame->info));
+   853		frame->bytesused = info->frame_size;
+   854	
+   855		vpu_inst_lock(inst);
+   856		list_add_tail(&frame->list, &venc->frames);
+   857		venc->encode_count++;
+   858		venc_get_encoded_frames(inst);
+   859		vpu_inst_unlock(inst);
+   860	
+   861		return ret;
+   862	}
+   863	
 
- drivers/media/platform/aspeed-video.c | 219 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------
- 1 file changed, 165 insertions(+), 54 deletions(-)
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
