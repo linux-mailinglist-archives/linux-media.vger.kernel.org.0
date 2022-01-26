@@ -2,132 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72B1349CFD7
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 17:38:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26B4049D1F2
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 19:43:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243200AbiAZQiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jan 2022 11:38:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33100 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243194AbiAZQiX (ORCPT
+        id S244264AbiAZSnF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jan 2022 13:43:05 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59600 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232675AbiAZSnF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jan 2022 11:38:23 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36AD2C06161C;
-        Wed, 26 Jan 2022 08:38:23 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id f17so83020wrx.1;
-        Wed, 26 Jan 2022 08:38:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8j/hotkBfcfAC9fYYJI4N9sX0l/gsHzV5UvDB38KzlI=;
-        b=VXMrJJW+pQ42RG4deEVvp+yFWc6bkaLR9wDqTO5gHUjOT5VmjxbyheIeIVbFf7MR6f
-         EvmVfpHadJ47gNlfj803NNiGTltsWtQA6UR7rO6DFAWUxEb5kb56jURIWjaGXWAydXDA
-         uYfAn9Qvx7SJ4PHN54n3ddikbnyaCy6kOzDITttyZ5oKBSCp2llFa3pJnLOy1JCgFfuY
-         kTXDxwpJBvAmJIOT9hRIBTOSiFtc+kPCbJ+KkJSL3g8fRq2iG1SofcwkPB8KKss56Cgc
-         MMcvz+CT5jX0gV+ZCzSHVlSk6aKzUeSukaBh2Pqy5P0HZt58HDDLB/qZkYcIXn7u5bzC
-         Xxcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8j/hotkBfcfAC9fYYJI4N9sX0l/gsHzV5UvDB38KzlI=;
-        b=YcKrRLjlRncuSkOAyCk6CbqDboxhcgj+A7f4eg1acb0xOEjRk5WVcgOcyjvHd9kZDV
-         YfFQSrrwGbhvnCCB0nZZB1/DaPrTGIPG9+sJfqTOmhgQr2EDx/ZiKNYQiC2RsjL/VVBg
-         7ooXJ8s0E7zvXUD74Tf29mZ9cSr1YWVU0tqYZQp0ZuKeVAt9/KIZZSUfjFbLSC9VSzxm
-         h6LxIVm7si4oUBOuhKlXwcGQdAd695m+Kar5tfMESwqCvE2IDRAH7gK3+7UhtcbJ4plt
-         uz7xzvN/OcefX3g4or5KMuKiSRo+MH9wmLLpmYFvKyaNzDdecbb8cfooUOdJnIYxl37O
-         hLQg==
-X-Gm-Message-State: AOAM530XrKy87r4zNYIs7hMXMUWAw189ksdzEeOloK5fc3RTdAd1/7sd
-        DmpDu7n3Mx1NaLxeqrnGV1rrLY8ve/0=
-X-Google-Smtp-Source: ABdhPJwXkZ0z4nkzvw+UKERVJcFgweC/xWst69C+dJ+2zbylWTo/Pk2Fe7DTYafmMFwKaerx9Z4sSw==
-X-Received: by 2002:a5d:64c8:: with SMTP id f8mr10223002wri.498.1643215101681;
-        Wed, 26 Jan 2022 08:38:21 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id o15sm4415607wms.9.2022.01.26.08.38.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jan 2022 08:38:21 -0800 (PST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
-        Florian Fainelli <f.fainelli@gmail.com>, 5kft <5kft@5kft.org>,
-        Corentin Labbe <clabbe.montjoie@gmail.com>
-Subject: Re: [PATCH for 5.17] pinctrl-sunxi: sunxi_pinctrl_gpio_direction_in/output: use correct offset
-Date:   Wed, 26 Jan 2022 17:38:20 +0100
-Message-ID: <2613560.mvXUDI8C0e@kista>
-In-Reply-To: <0f536cd8-01db-5d16-2cec-ec6d19409a49@xs4all.nl>
-References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl> <0f536cd8-01db-5d16-2cec-ec6d19409a49@xs4all.nl>
+        Wed, 26 Jan 2022 13:43:05 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98174478;
+        Wed, 26 Jan 2022 19:43:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1643222583;
+        bh=OQdRRRosc11uNWOuLj5jqmGwXoA/tFPMxlELYBf15x8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lPr6nQhbEN9FuSAD0Bq21gKEl98hBluP29CjVbcvdVRKHFOkfj3sqD339dSvZi0Wz
+         K95X6egke6JgCKxKpD5njaIi+vLbYftJ99b07XYd8oJ90yr85HoTcHlJHKJcGThvdd
+         wuB4zJPLLzWemgGZRaubns85RRYuA08eOHvW9mYI=
+Date:   Wed, 26 Jan 2022 20:42:44 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        devicetree@vger.kernel.org, kernel-list@raspberrypi.com,
+        linux-arm-kernel@lists.infradead.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-rpi-kernel@lists.infradead.org, lukasz@jany.st,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Naushir Patuck <naush@raspberrypi.com>, robh@kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [RFC PATCH v2 5/7] ARM: dts: bcm2711: Add unicam CSI nodes
+Message-ID: <YfGWJCReevd752++@pendragon.ideasonboard.com>
+References: <20220121081810.155500-1-jeanmichel.hautbois@ideasonboard.com>
+ <20220121081810.155500-6-jeanmichel.hautbois@ideasonboard.com>
+ <Yes3c1v+V1hMlWfW@pendragon.ideasonboard.com>
+ <CAPY8ntDR5AsxGE5fh_KHMonoZait9evxQkpidu10F7EY9CPxZA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntDR5AsxGE5fh_KHMonoZait9evxQkpidu10F7EY9CPxZA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans!
+Hi Dave,
 
-Dne sreda, 26. januar 2022 ob 12:02:04 CET je Hans Verkuil napisal(a):
-> The commit that sets the direction directly without calling
-> pinctrl_gpio_direction(), forgot to add chip->base to the offset when
-> calling sunxi_pmx_gpio_set_direction().
+On Mon, Jan 24, 2022 at 12:31:34PM +0000, Dave Stevenson wrote:
+> On Fri, 21 Jan 2022 at 22:45, Laurent Pinchart wrote:
+> > On Fri, Jan 21, 2022 at 09:18:08AM +0100, Jean-Michel Hautbois wrote:
+> > > Add both MIPI CSI-2 nodes in the core bcm2711 tree. Use the 3-cells
+> > > interrupt declaration, corresponding clocks and default as disabled.
+> > >
+> > > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> > > ---
+> > >  arch/arm/boot/dts/bcm2711.dtsi | 31 +++++++++++++++++++++++++++++++
+> > >  1 file changed, 31 insertions(+)
+> > >
+> > > diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
+> > > index dff18fc9a906..077141df7024 100644
+> > > --- a/arch/arm/boot/dts/bcm2711.dtsi
+> > > +++ b/arch/arm/boot/dts/bcm2711.dtsi
+> > > @@ -3,6 +3,7 @@
+> > >
+> > >  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > >  #include <dt-bindings/soc/bcm2835-pm.h>
+> > > +#include <dt-bindings/power/raspberrypi-power.h>
+> > >
+> > >  / {
+> > >       compatible = "brcm,bcm2711";
+> > > @@ -293,6 +294,36 @@ hvs: hvs@7e400000 {
+> > >                       interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
+> > >               };
+> > >
+> > > +             csi0: csi1@7e800000 {
+> >
+> > The node name should be csi@7e800000, not csi1@7e800000. Now, this will
+> > probably cause issues with the firmware that looks for csi1 (and csi0 ?)
+> > to hand over control of the Unicam CSI-2 receiver to the kernel. I
+> > wonder if this is something that could be handled by a firmware update,
+> > to also recognize nodes named "csi" ?
 > 
-> This caused failures for various Allwinner boards which have two
-> GPIO blocks.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Reported-by: 5kft <5kft@5kft.org>
-> Suggested-by: 5kft <5kft@5kft.org>
-> Reported-by: Corentin Labbe <clabbe.montjoie@gmail.com>
-> Fixes: 8df89a7cbc63 (pinctrl-sunxi: don't call pinctrl_gpio_direction())
-> Tested-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+> It already looks for any node starting "csi". If you check the
+> downstream DT [1], then the nodes are "csi0: csi@7e800000" and "csi1:
+> csi@7e801000".
 
-Next time please send to all sunxi maintainers/reviewers and mailing list.
+Oops, indeed. I think I was misled by
+https://github.com/raspberrypi/linux/blob/rpi-5.10.y/Documentation/devicetree/bindings/media/bcm2835-unicam.txt
+that mentions "csi0" and "csi1".
 
-Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+It's all good then. Jean-Michel, can you update the DT bindings in the
+next iteration of the series to correct the DT node naming ?
 
-Best regards,
-Jernej
+> There is no actual action required to hand the peripheral over to the
+> kernel, it just prevents the firmware from using it and causing
+> problems (it masks out the interrupt, and that's checked as part of
+> the firmware initialising the peripheral).
+> 
+> If using imx219 or one of the other sensors supported by the firmware,
+> "vcgencmd get_camera" should report that the sensor isn't detected,
+> and "sudo vcdbg log msg" should have a line similar to
+> "020174.613: camsubs: Ignoring camera 0 as unicam device not available"
+> 
+>   Dave
+> 
+> [1] https://github.com/raspberrypi/linux/blob/rpi-5.10.y/arch/arm/boot/dts/bcm270x.dtsi#L88
+> 
+> > > +                     compatible = "brcm,bcm2835-unicam";
+> > > +                     reg = <0x7e800000 0x800>,
+> > > +                           <0x7e802000 0x4>;
+> > > +                     interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
+> > > +                     clocks = <&clocks BCM2835_CLOCK_CAM0>,
+> > > +                              <&firmware_clocks 4>;
+> > > +                     clock-names = "lp", "vpu";
+> > > +                     power-domains = <&power RPI_POWER_DOMAIN_UNICAM0>;
+> > > +                     #address-cells = <1>;
+> > > +                     #size-cells = <0>;
+> > > +                     #clock-cells = <1>;
+> >
+> > Why do you need #address-cells, #size-cells and #clock-cells ? They're
+> > not mentioned in the binding.
+> >
+> > > +                     status="disabled";
+> >
+> > Missing spaces around the =.
+> >
+> > Same comment for the next node.
+> >
+> > > +             };
+> > > +
+> > > +             csi1: csi1@7e801000 {
+> > > +                     compatible = "brcm,bcm2835-unicam";
+> > > +                     reg = <0x7e801000 0x800>,
+> > > +                           <0x7e802004 0x4>;
+> > > +                     interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> > > +                     clocks = <&clocks BCM2835_CLOCK_CAM1>,
+> > > +                              <&firmware_clocks 4>;
+> > > +                     clock-names = "lp", "vpu";
+> > > +                     power-domains = <&power RPI_POWER_DOMAIN_UNICAM1>;
+> > > +                     #address-cells = <1>;
+> > > +                     #size-cells = <0>;
+> > > +                     #clock-cells = <1>;
+> > > +                     status="disabled";
+> > > +             };
+> > > +
+> > >               pixelvalve3: pixelvalve@7ec12000 {
+> > >                       compatible = "brcm,bcm2711-pixelvalve3";
+> > >                       reg = <0x7ec12000 0x100>;
 
-> ---
-> Corentin, can you please test this patch to verify that this fixes your
-> issue on the orangepiPC?
-> ---
-> 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/
-pinctrl-sunxi.c
-> index 80d6750c74a6..061323eab8b1 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> @@ -837,7 +837,8 @@ static int sunxi_pinctrl_gpio_direction_input(struct 
-gpio_chip *chip,
->  {
->  	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
-> 
-> -	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL, offset, 
-true);
-> +	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL,
-> +					    chip->base + offset, 
-true);
->  }
-> 
->  static int sunxi_pinctrl_gpio_get(struct gpio_chip *chip, unsigned offset)
-> @@ -890,7 +891,8 @@ static int sunxi_pinctrl_gpio_direction_output(struct 
-gpio_chip *chip,
->  	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
-> 
->  	sunxi_pinctrl_gpio_set(chip, offset, value);
-> -	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL, offset, 
-false);
-> +	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL,
-> +					    chip->base + offset, 
-false);
->  }
-> 
->  static int sunxi_pinctrl_gpio_of_xlate(struct gpio_chip *gc,
-> 
+-- 
+Regards,
 
-
+Laurent Pinchart
