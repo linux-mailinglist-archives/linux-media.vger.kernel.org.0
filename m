@@ -2,163 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38FA649C935
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 12:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B2A049C9BF
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 13:33:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241031AbiAZL7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jan 2022 06:59:51 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50682 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241020AbiAZL7v (ORCPT
+        id S241343AbiAZMdJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jan 2022 07:33:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59172 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241330AbiAZMdI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jan 2022 06:59:51 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84D7A478;
-        Wed, 26 Jan 2022 12:59:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643198389;
-        bh=TO0FVhpUW0h+fe2AQn3u9bRgCqshN6cd/ZVa1OnEU/o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t2mUCw01AtCZGF3qYlgCC/PRa+zPG+CVfJ3A9JoSSLTFDLJ609dLn+9/Evy6EDBZY
-         P3OCKB01d6+zWuS9REBzN0apsQ6foBiy6W3afH2kaNLJyII51XbZTyLloSP34BqUM3
-         JbVvOQHwedsULl4cJPYt/lV7MzKCOMxiJISUeLwM=
-Date:   Wed, 26 Jan 2022 13:59:30 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Pratyush Yadav <p.yadav@ti.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Subject: Re: [PATCH 1/6] media: Define MIPI CSI-2 data types in a shared
- header file
-Message-ID: <YfE3oqVXCIhMZf+D@pendragon.ideasonboard.com>
-References: <20220123160857.24161-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220123160857.24161-2-laurent.pinchart+renesas@ideasonboard.com>
- <20220124152224.o46gxdxp3polw2eu@ti.com>
- <CAPY8ntBFfpdp4f3oqxV0-d=EiB=xgz4WxMpR6ZQAa1SHwSUFsQ@mail.gmail.com>
+        Wed, 26 Jan 2022 07:33:08 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 568B0C06161C;
+        Wed, 26 Jan 2022 04:33:08 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id x23so15765733lfc.0;
+        Wed, 26 Jan 2022 04:33:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=6OXgethaEVSuGUoIJLKI5iFIA2Ipk0lRmZ63qBolC2U=;
+        b=bjzIM842rRwvViFamRup3z3aJEBDNp7tCRmFuDoDFiae+gjUp/49PjKa6CKTbB7yYv
+         7Z1SNIrNyT0oiEKpdGzIWY9S4DYtb6f2jcALkn5pfIduq0u9DAcszAiVaHtLj2TcWVtY
+         9/hRDuojtmeYIAYlGpFABxXn1+j9bxJX282Z+TmzV4lz3kDfX4Q0L6j0wGVZYAGlrnp8
+         LFnDKoCNuDDGK98uR5kJOB+1zUWNaGTXbJ66kpocACrDYHIROvr/KU9gC1JM0TL0q/oC
+         v7kAsj6beUP8QzdL4Vk83pv4lkG9tD3VcWiYQKFZHJ/FdCSK4HPIIvVman6zEztEb5vs
+         TtBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=6OXgethaEVSuGUoIJLKI5iFIA2Ipk0lRmZ63qBolC2U=;
+        b=WKkVKD0eKAMUDkYtzqTaxy4vjOZ/ZumMGisvMmc2g2Kknp8W4ki21232OtjdeoD1Pe
+         YL8+1HpP2Sh4jkzj6Kr7YC+CuXPeaZl8vxvjZYiouVihYBQyTO1SjpNmdyV1TFd3Wgdm
+         +4IhP/3E4SGUgEU/CsPjF0tdAuf1v+Np0Ai7msOUQvOlDtK9CdPMGUUq+fnFpWOm0iTv
+         CHqkUnsOJtZV04mW8kajdyahOmtRE0qBB14qqfEO8lx5u6shVeAFc1995il++m1lLGDO
+         7cHvodNwEMAGw6ziJgFDuElVdfSenNAryMwvF2wUW7rEyrUBHDIX1/dE5h5rzlkbCkfI
+         Egeg==
+X-Gm-Message-State: AOAM530u1vPS2cnFZLpzYL028GC090eoOPDhdSkEHdBDTBesx1J+W0J2
+        LFt2Pbd6qceRl2JTybD0wKw=
+X-Google-Smtp-Source: ABdhPJwNnXi9wLqx15NOubuOprn7fwXwbrmrm5p4w3yPdbLl0N6yVTJHJzunjw70CL9Fl5B0tHa8IQ==
+X-Received: by 2002:a05:6512:3d12:: with SMTP id d18mr20260673lfv.213.1643200386593;
+        Wed, 26 Jan 2022 04:33:06 -0800 (PST)
+Received: from [192.168.2.145] (109-252-138-126.dynamic.spd-mgts.ru. [109.252.138.126])
+        by smtp.googlemail.com with ESMTPSA id y11sm74999ljj.69.2022.01.26.04.33.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jan 2022 04:33:05 -0800 (PST)
+Message-ID: <ceedff4c-3233-23c7-41f0-183fa8d75c9a@gmail.com>
+Date:   Wed, 26 Jan 2022 15:33:03 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntBFfpdp4f3oqxV0-d=EiB=xgz4WxMpR6ZQAa1SHwSUFsQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 3/3] media: docs: dev-stateless-decoder: Document frame
+ type flags
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        kernel <kernel@collabora.com>
+References: <20220116185556.10657-1-digetx@gmail.com>
+ <20220116185556.10657-4-digetx@gmail.com>
+ <8be37d34b7090e3d3adca5b0d298c4b1b5639fa1.camel@ndufresne.ca>
+From:   Dmitry Osipenko <digetx@gmail.com>
+In-Reply-To: <8be37d34b7090e3d3adca5b0d298c4b1b5639fa1.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-
-On Wed, Jan 26, 2022 at 11:50:21AM +0000, Dave Stevenson wrote:
-> On Mon, 24 Jan 2022 at 15:22, Pratyush Yadav <p.yadav@ti.com> wrote:
-> > On 23/01/22 06:08PM, Laurent Pinchart wrote:
-> > > There are many CSI-2-related drivers in the media subsystem that come
-> > > with their own macros to handle the CSI-2 data types (or just hardcode
-> > > the numerical values). Provide a shared header with definitions for
-> > > those data types that driver can use.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > ---
-> > >  include/media/mipi-csi2.h | 45 +++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 45 insertions(+)
-> > >  create mode 100644 include/media/mipi-csi2.h
-> > >
-> > > diff --git a/include/media/mipi-csi2.h b/include/media/mipi-csi2.h
-> > > new file mode 100644
-> > > index 000000000000..392794e5badd
-> > > --- /dev/null
-> > > +++ b/include/media/mipi-csi2.h
-> > > @@ -0,0 +1,45 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > > +/*
-> > > + * MIPI CSI-2 Data Types
-> > > + *
-> > > + * Copyright (C) 2022 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > + */
-> > > +
-> > > +#ifndef _MEDIA_MIPI_CSI2_H
-> > > +#define _MEDIA_MIPI_CSI2_H
-> > > +
-> > > +/* Short packet data types */
-> > > +#define MIPI_CSI2_DT_FS                      0x00
-> > > +#define MIPI_CSI2_DT_FE                      0x01
-> > > +#define MIPI_CSI2_DT_LS                      0x02
-> > > +#define MIPI_CSI2_DT_LE                      0x03
-> > > +#define MIPI_CSI2_DT_GENERIC_SHORT(n)        (0x08 + (n))    /* 0..7 */
-> >
-> > IIUC there is currently no way to actually capture packets with these
-> > data types, and these are added here for completeness's sake, right?
+25.01.2022 23:37, Nicolas Dufresne пишет:
+> Le dimanche 16 janvier 2022 à 21:55 +0300, Dmitry Osipenko a écrit :
+>> Document that frame type flags must be set for the coded buffer.
+>> Decoders, like NVIDIA Tegra h264 decoder for example, won't work
+>> properly without these flags.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  .../userspace-api/media/v4l/dev-stateless-decoder.rst          | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst b/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
+>> index 4a26646eeec5..845f4481d34f 100644
+>> --- a/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
+>> +++ b/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
+>> @@ -271,6 +271,9 @@ A typical frame would thus be decoded using the following sequence:
+>>            we are not sure that the current decode request is the last one needed
+>>            to produce a fully decoded frame, then
+>>            ``V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF`` must also be set.
+>> +          ``V4L2_BUF_FLAG_KEYFRAME``, ``V4L2_BUF_FLAG_PFRAME`` and
+>> +          ``V4L2_BUF_FLAG_BFRAME`` must be set if relevant to the coded
+>> +          format.
 > 
-> They aren't generally captured, but are of use.
-> For Unicam we have a packet compare & capture trigger generally used
-> for debug. However it can also be used for capturing the 16bit frame
-> number attached to FS and FE events.
-> It's been of use for devices such as Analog Devices ADV728[0|2]M which
-> use the frame number to identify the field when sending interlaced
-> content.
-> 
-> > > +
-> > > +/* Long packet data types */
-> > > +#define MIPI_CSI2_DT_NULL            0x10
-> > > +#define MIPI_CSI2_DT_BLANKING                0x11
-> > > +#define MIPI_CSI2_DT_EMBEDDED_8B     0x12
-> > > +#define MIPI_CSI2_DT_YUV420_8B               0x18
-> > > +#define MIPI_CSI2_DT_YUV420_10B              0x19
-> > > +#define MIPI_CSI2_DT_YUV420_8B_LEGACY        0x1a
-> > > +#define MIPI_CSI2_DT_YUV420_8B_CS    0x1c
-> > > +#define MIPI_CSI2_DT_YUV420_10B_CS   0x1d
-> > > +#define MIPI_CSI2_DT_YUV422_8B               0x1e
-> > > +#define MIPI_CSI2_DT_YUV422_10B              0x1f
-> > > +#define MIPI_CSI2_DT_RGB444          0x20
-> > > +#define MIPI_CSI2_DT_RGB555          0x21
-> > > +#define MIPI_CSI2_DT_RGB565          0x22
-> > > +#define MIPI_CSI2_DT_RGB666          0x23
-> > > +#define MIPI_CSI2_DT_RGB888          0x24
-> > > +#define MIPI_CSI2_DT_RAW24           0x27
-> >
-> > I have the CSI-2 spec v1.3, and it lists 0x27 as reserved under RGB
-> > Image data, and I don't see a data type value for RAW24. Where did you
-> > get this value from?
-> >
-> > > +#define MIPI_CSI2_DT_RAW6            0x28
-> > > +#define MIPI_CSI2_DT_RAW7            0x29
-> > > +#define MIPI_CSI2_DT_RAW8            0x2a
-> > > +#define MIPI_CSI2_DT_RAW10           0x2b
-> > > +#define MIPI_CSI2_DT_RAW12           0x2c
-> > > +#define MIPI_CSI2_DT_RAW14           0x2d
-> > > +#define MIPI_CSI2_DT_RAW16           0x2e
-> > > +#define MIPI_CSI2_DT_RAW20           0x2f
-> >
-> > These two are also listed as reserved in the spec I have. Rest of the
-> > values look good to me.
-> 
-> I'm also only on v1.3, but otherwise agree that all the other values match.
-> I see that MIPI are now up to v4.0, and their performance
-> highlights[1] include RAW16 and RAW24 support, so I assume they have
-> been added in a later revision.
+> I think I would rather keep this in the CODEC specific APIs (BFrame being an
+> MPEG specific concept). If I knew about this before we made the API final, I
+> would have added the slice_type bitstream parameter in the
+> v4l2_h264_decode_params structure. But as the types are rather limited, I would
+> preserve our "reservered" space and make that part of the
+> V4L2_H264_DECODE_PARAM_FLAGS_{} instead. Do you also need that for HEVC ? (do
+> you have HEVC on that generation of tegra ?)
 
-I don't have access to more a more recent version of the CSI-2
-specification, but I've gathered RAW16, RAW20 and RAW24 from out-of-tree
-code. Sakari, could you confirm those values ?
-
-> [1] https://www.mipi.org/specifications/csi-2
-> 
-> > > +#define MIPI_CSI2_DT_USER_DEFINED(n) (0x30 + (n))    /* 0..7 */
-> > > +
-> > > +#endif /* _MEDIA_MIPI_CSI2_H */
-> >
-> > I think this patch is a good idea in general, and it should remove a lot
-> > of repetition in the drivers.
-> >
-> > BTW, I also see lots of drivers adding tables having mapping between
-> > MBUS formats, FOURCC formats, bpp, data type, etc. It would be useful to
-> > have those in a central place IMO.
-
-I agree. Patches are welcome :-)
-
--- 
-Regards,
-
-Laurent Pinchart
+That generation of Tegra doesn't support HEVC. I'll try to move frame
+type to v4l2_h264_decode_params, thank you.
