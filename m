@@ -2,115 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A08849C022
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 01:28:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4220949C02E
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 01:34:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235273AbiAZA25 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 19:28:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34918 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235260AbiAZA24 (ORCPT
+        id S235306AbiAZAej (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 19:34:39 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43710 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235320AbiAZAeg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jan 2022 19:28:56 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 440B1C06161C
-        for <linux-media@vger.kernel.org>; Tue, 25 Jan 2022 16:28:56 -0800 (PST)
+        Tue, 25 Jan 2022 19:34:36 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3716871;
-        Wed, 26 Jan 2022 01:28:53 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A905771;
+        Wed, 26 Jan 2022 01:34:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643156933;
-        bh=NueSv6vKG4GXBykEREe7r07qfG2X/NP6wWAzN47j+K8=;
+        s=mail; t=1643157274;
+        bh=lUX+kFPnDrnpFIwRLB+0ea+BzHc8BeXdjxjNfpaQf8o=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LHerEtGPt1tGTLWokPTyjf3+TMVDbsaOYX6Sb+nIDyPTviyfcp+cNfXwr2QiNSrSy
-         tiau4A886jlInTHkHtG916bJRnpxJ667PcHmhuO9eZG/ReBKNn2OGhTCoULJAQP/+x
-         TntIZ8m8+06iI9DMvrJzX9wTbwHKOR1tn/HbL9f4=
-Date:   Wed, 26 Jan 2022 02:28:34 +0200
+        b=WSd3MCZcI+qCUvtATN5gB1lFpUqU1+Q+c83YGWkknRH05LoWGRMzUCvn8qBCeICPV
+         /8sMCyWIsZKlV+NNBsIZikbz/z8ME8t8AQtX3RdgVKUm/MCepvjrOpbTu6voN00GGy
+         pzaooN0jnvnmfvYRhUvLVgIERMErGpOsfRnAs+ZQ=
+Date:   Wed, 26 Jan 2022 02:34:15 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jerome Brunet <jbrunet@baylibre.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: media: imx: imx7-mipi-csic: Resume on debug
-Message-ID: <YfCVslLYx115/Tv1@pendragon.ideasonboard.com>
-References: <20220119112024.11339-1-jacopo@jmondi.org>
- <20220119112024.11339-2-jacopo@jmondi.org>
- <YegfMf2UNxU8IjwZ@pendragon.ideasonboard.com>
- <Ye9sAv5lAMUydPbK@pendragon.ideasonboard.com>
- <20220125102257.7kziixej2c5k7fss@uno.localdomain>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, stable@vger.kernel.org,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH RESEND] media: omap3isp: Use struct_group() for memcpy()
+ region
+Message-ID: <YfCXB7+XOJ8Ue+rR@pendragon.ideasonboard.com>
+References: <20220124172952.2411764-1-keescook@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220125102257.7kziixej2c5k7fss@uno.localdomain>
+In-Reply-To: <20220124172952.2411764-1-keescook@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Kees,
 
-On Tue, Jan 25, 2022 at 11:22:57AM +0100, Jacopo Mondi wrote:
-> On Tue, Jan 25, 2022 at 05:18:26AM +0200, Laurent Pinchart wrote:
-> > On Wed, Jan 19, 2022 at 04:24:51PM +0200, Laurent Pinchart wrote:
-> > > On Wed, Jan 19, 2022 at 12:20:23PM +0100, Jacopo Mondi wrote:
-> > > > The mipi_csis_dump_regs() function reads and printout the interface
-> > > > registers for debugging purposes.
-> > > >
-> > > > Trying to access the registers without proper powering up the interface
-> > > > causes the chip to hang.
-> > > >
-> > > > Fix that by increasing the pm runtime usage count which, if necessary,
-> > > > resumes the interface.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > ---
-> > > >  drivers/staging/media/imx/imx7-mipi-csis.c | 4 ++++
-> > > >  1 file changed, 4 insertions(+)
-> > > >
-> > > > diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-> > > > index 2b73fa55c938..cb54bb7491d9 100644
-> > > > --- a/drivers/staging/media/imx/imx7-mipi-csis.c
-> > > > +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-> > > > @@ -780,11 +780,15 @@ static int mipi_csis_dump_regs(struct csi_state *state)
-> > > >
-> > > >  	dev_info(state->dev, "--- REGISTERS ---\n");
-> > > >
-> > > > +	pm_runtime_resume_and_get(state->dev);
-> > >
-> > > Should this have an error check ? With that,
-> > >
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > I just noticed that the call to mipi_csis_dump_regs() in
-> > mipi_csis_log_status() is conditioned by state->state & ST_POWERED. An
-> > alternative would thus be to add the same condition to
-> > mipi_csis_dump_regs_show() (or to move it to mipi_csis_dump_regs()), as
-> > dumping the register when then hardware is turned off is quite
-> > pointeless. Up to you.
+Thank you for the patch.
+
+On Mon, Jan 24, 2022 at 09:29:52AM -0800, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memcpy(), memmove(), and memset(), avoid
+> intentionally writing across neighboring fields. Wrap the target region
+> in struct_group(). This additionally fixes a theoretical misalignment
+> of the copy (since the size of "buf" changes between 64-bit and 32-bit,
+> but this is likely never built for 64-bit).
 > 
-> Tbh, I would drop this custom sysfs attribute completely.
-> It should serve the purpose to easily dump the reg value, but it is
-> either accessed at the right time (ie during the streaming session)
-> otherwise all you get is POR default values (or a hang, without this
-> patch)
+> FWIW, I think this code is totally broken on 64-bit (which appears to
+> not be a "real" build configuration): it would either always fail (with
+> an uninitialized data->buf_size) or would cause corruption in userspace
+> due to the copy_to_user() in the call path against an uninitialized
+> data->buf value:
+> 
+> omap3isp_stat_request_statistics_time32(...)
+>     struct omap3isp_stat_data data64;
+>     ...
+>     omap3isp_stat_request_statistics(stat, &data64);
+> 
+> int omap3isp_stat_request_statistics(struct ispstat *stat,
+>                                      struct omap3isp_stat_data *data)
+>     ...
+>     buf = isp_stat_buf_get(stat, data);
+> 
+> static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
+>                                                struct omap3isp_stat_data *data)
+> ...
+>     if (buf->buf_size > data->buf_size) {
+>             ...
+>             return ERR_PTR(-EINVAL);
+>     }
+>     ...
+>     rval = copy_to_user(data->buf,
+>                         buf->virt_addr,
+>                         buf->buf_size);
+> 
+> Regardless, additionally initialize data64 to be zero-filled to avoid
+> undefined behavior.
+> 
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: linux-media@vger.kernel.org
+> Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Link: https://lore.kernel.org/lkml/20211215220505.GB21862@embeddedor
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+> I will carry this in my tree unless someone else wants to pick it up. It's
+> one of the last remaining clean-ups needed for the next step in memcpy()
+> hardening.
 
-The debugfs interface has served me before to diagnose problems, as it
-allows checking how the register values change during streaming, in
-particular the DPHY status. I'd like to keep it if possible.
+I don't mind either way. Sakari, do you want to pick the patch up ?
 
-> > > > +
-> > > >  	for (i = 0; i < ARRAY_SIZE(registers); i++) {
-> > > >  		cfg = mipi_csis_read(state, registers[i].offset);
-> > > >  		dev_info(state->dev, "%14s: 0x%08x\n", registers[i].name, cfg);
-> > > >  	}
-> > > >
-> > > > +	pm_runtime_put(state->dev);
-> > > > +
-> > > >  	return 0;
-> > > >  }
-> > > >
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/platform/omap3isp/ispstat.c |  5 +++--
+>  include/uapi/linux/omap3isp.h             | 21 +++++++++++++--------
+>  2 files changed, 16 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+> index 5b9b57f4d9bf..68cf68dbcace 100644
+> --- a/drivers/media/platform/omap3isp/ispstat.c
+> +++ b/drivers/media/platform/omap3isp/ispstat.c
+> @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+>  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+>  					struct omap3isp_stat_data_time32 *data)
+>  {
+> -	struct omap3isp_stat_data data64;
+> +	struct omap3isp_stat_data data64 = { };
+>  	int ret;
+>  
+>  	ret = omap3isp_stat_request_statistics(stat, &data64);
+> @@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+>  
+>  	data->ts.tv_sec = data64.ts.tv_sec;
+>  	data->ts.tv_usec = data64.ts.tv_usec;
+> -	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
+> +	data->buf = (uintptr_t)data64.buf;
+> +	memcpy(&data->frame, &data64.frame, sizeof(data->frame));
+>  
+>  	return 0;
+>  }
+> diff --git a/include/uapi/linux/omap3isp.h b/include/uapi/linux/omap3isp.h
+> index 87b55755f4ff..d9db7ad43890 100644
+> --- a/include/uapi/linux/omap3isp.h
+> +++ b/include/uapi/linux/omap3isp.h
+> @@ -162,6 +162,7 @@ struct omap3isp_h3a_aewb_config {
+>   * struct omap3isp_stat_data - Statistic data sent to or received from user
+>   * @ts: Timestamp of returned framestats.
+>   * @buf: Pointer to pass to user.
+> + * @buf_size: Size of buffer.
+>   * @frame_number: Frame number of requested stats.
+>   * @cur_frame: Current frame number being processed.
+>   * @config_counter: Number of the configuration associated with the data.
+> @@ -176,10 +177,12 @@ struct omap3isp_stat_data {
+>  	struct timeval ts;
+>  #endif
+>  	void __user *buf;
+> -	__u32 buf_size;
+> -	__u16 frame_number;
+> -	__u16 cur_frame;
+> -	__u16 config_counter;
+> +	__struct_group(/* no tag */, frame, /* no attrs */,
+> +		__u32 buf_size;
+> +		__u16 frame_number;
+> +		__u16 cur_frame;
+> +		__u16 config_counter;
+> +	);
+>  };
+>  
+>  #ifdef __KERNEL__
+> @@ -189,10 +192,12 @@ struct omap3isp_stat_data_time32 {
+>  		__s32	tv_usec;
+>  	} ts;
+>  	__u32 buf;
+> -	__u32 buf_size;
+> -	__u16 frame_number;
+> -	__u16 cur_frame;
+> -	__u16 config_counter;
+> +	__struct_group(/* no tag */, frame, /* no attrs */,
+> +		__u32 buf_size;
+> +		__u16 frame_number;
+> +		__u16 cur_frame;
+> +		__u16 config_counter;
+> +	);
+>  };
+>  #endif
+>  
 
 -- 
 Regards,
