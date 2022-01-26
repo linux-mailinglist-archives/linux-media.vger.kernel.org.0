@@ -2,144 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D8A149C6C6
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 10:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE34C49C6E4
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 10:54:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232241AbiAZJrS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jan 2022 04:47:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232049AbiAZJrR (ORCPT
+        id S239403AbiAZJyF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jan 2022 04:54:05 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49212 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230405AbiAZJyF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jan 2022 04:47:17 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C17DC06161C;
-        Wed, 26 Jan 2022 01:47:17 -0800 (PST)
+        Wed, 26 Jan 2022 04:54:05 -0500
 Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07F52478;
-        Wed, 26 Jan 2022 10:47:14 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADA8C478;
+        Wed, 26 Jan 2022 10:54:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643190435;
-        bh=2WiLyVTUBql9jQVHlWK4OlGsUtAPEUzER6s1TGfqyFA=;
+        s=mail; t=1643190843;
+        bh=iLM6jdz5tSf/N9ab0QRjzNVKhobs+OBHrKTySNPB7cI=;
         h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=tqBU+M/Nd+vwCmriWIsMMIxc25UhD2vnwfKcZ9JBzDOJhn3xxCFiMaen48j3ftJjN
-         AtrNAJigUiPq9PpF23ZSxjvCiMoHMlFXHz/sD99CoHZLrwD0eA8X3M9snqmBz5dH1/
-         zHZtTRR/sJtHfypjn56hQihcjnu/hXaGNPWmyDvk=
+        b=pHI3yBOYRVhO9YuTQMOXOFpscZgjOZ/80GoBW8KyMJm2Muy9A2oCnbxLV6XMDK6NU
+         34WeXoRHYxyC24Vlroh4H6nlQ/opYZyQoqUqfxi23maVIeYTWK36S0ZS6Tw8n6qlSo
+         GY/XmivD0dUELXefM/E8ars/hAFBRfwFWGJUYf4s=
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220123160857.24161-2-laurent.pinchart+renesas@ideasonboard.com>
-References: <20220123160857.24161-1-laurent.pinchart+renesas@ideasonboard.com> <20220123160857.24161-2-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH 1/6] media: Define MIPI CSI-2 data types in a shared header file
+In-Reply-To: <20220113205150.6533-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20220113205150.6533-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] media: i2c: max9286: Implement media entity .link_validate() operation
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Jacopo Mondi <jacopo@jmondi.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Pratyush Yadav <p.yadav@ti.com>
+        Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         linux-media@vger.kernel.org
-Date:   Wed, 26 Jan 2022 09:47:12 +0000
-Message-ID: <164319043247.533872.16458073657870076497@Monstersaurus>
+Date:   Wed, 26 Jan 2022 09:54:01 +0000
+Message-ID: <164319084133.533872.7177686214935761792@Monstersaurus>
 User-Agent: alot/0.10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Laurent,
 
-Quoting Laurent Pinchart (2022-01-23 16:08:52)
-> There are many CSI-2-related drivers in the media subsystem that come
-> with their own macros to handle the CSI-2 data types (or just hardcode
-> the numerical values). Provide a shared header with definitions for
-> those data types that driver can use.
+Quoting Laurent Pinchart (2022-01-13 20:51:50)
+> The MAX9286 has sink pads, so it should implement .link_validate(). Do
+> so.
 >=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
-> ---
->  include/media/mipi-csi2.h | 45 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 45 insertions(+)
->  create mode 100644 include/media/mipi-csi2.h
->=20
-> diff --git a/include/media/mipi-csi2.h b/include/media/mipi-csi2.h
-> new file mode 100644
-> index 000000000000..392794e5badd
-> --- /dev/null
-> +++ b/include/media/mipi-csi2.h
-> @@ -0,0 +1,45 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * MIPI CSI-2 Data Types
-> + *
-> + * Copyright (C) 2022 Laurent Pinchart <laurent.pinchart@ideasonboard.co=
-m>
-> + */
-> +
-> +#ifndef _MEDIA_MIPI_CSI2_H
-> +#define _MEDIA_MIPI_CSI2_H
-> +
-> +/* Short packet data types */
-> +#define MIPI_CSI2_DT_FS                        0x00
-> +#define MIPI_CSI2_DT_FE                        0x01
-> +#define MIPI_CSI2_DT_LS                        0x02
-> +#define MIPI_CSI2_DT_LE                        0x03
-> +#define MIPI_CSI2_DT_GENERIC_SHORT(n)  (0x08 + (n))    /* 0..7 */
-> +
-> +/* Long packet data types */
-> +#define MIPI_CSI2_DT_NULL              0x10
-> +#define MIPI_CSI2_DT_BLANKING          0x11
-> +#define MIPI_CSI2_DT_EMBEDDED_8B       0x12
-> +#define MIPI_CSI2_DT_YUV420_8B         0x18
-> +#define MIPI_CSI2_DT_YUV420_10B                0x19
-> +#define MIPI_CSI2_DT_YUV420_8B_LEGACY  0x1a
-> +#define MIPI_CSI2_DT_YUV420_8B_CS      0x1c
-> +#define MIPI_CSI2_DT_YUV420_10B_CS     0x1d
-> +#define MIPI_CSI2_DT_YUV422_8B         0x1e
-> +#define MIPI_CSI2_DT_YUV422_10B                0x1f
-> +#define MIPI_CSI2_DT_RGB444            0x20
-> +#define MIPI_CSI2_DT_RGB555            0x21
-> +#define MIPI_CSI2_DT_RGB565            0x22
-> +#define MIPI_CSI2_DT_RGB666            0x23
-> +#define MIPI_CSI2_DT_RGB888            0x24
-> +#define MIPI_CSI2_DT_RAW24             0x27
-> +#define MIPI_CSI2_DT_RAW6              0x28
-> +#define MIPI_CSI2_DT_RAW7              0x29
-> +#define MIPI_CSI2_DT_RAW8              0x2a
-> +#define MIPI_CSI2_DT_RAW10             0x2b
-> +#define MIPI_CSI2_DT_RAW12             0x2c
-> +#define MIPI_CSI2_DT_RAW14             0x2d
-> +#define MIPI_CSI2_DT_RAW16             0x2e
-> +#define MIPI_CSI2_DT_RAW20             0x2f
-> +#define MIPI_CSI2_DT_USER_DEFINED(n)   (0x30 + (n))    /* 0..7 */
 
-I don't have an easy way to validate those values right now so as with
-Niklas I'll leave those to your judgement, and Pratyush's review.
+I hope none of my scripts got by working because of the lack of this
+check ;-)
 
-Also along side Pratyush's comment, I concur that the mapping tables too
-could be common, but I suspect that's an even bigger topic as maybe that
-falls into the trap of also being common to DRM formats...
-
-And finally, are these defines in a location that can be accessible from
-device tree? Or would it have to be further duplicated there still?
-
-For instance, the bindings for the Xilinx CSI2 RX explicitly list DT
-values to specify as the xlnx,csi-pxl-format which I think should also
-come from this common header definition.
-
-For the patches here so far, I can't see anything stark that is wrong
-so for the series:
-
+But I agree it should be added.
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-as further extending this to the device tree bindings can be done on
-top.
+I'll aim to test it next time I boot up the Salvator-X or Eagle.
+
+--
+Kieran
 
 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
+m>
+> ---
+>  drivers/media/i2c/max9286.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index eb2b8e42335b..b4885d3b3059 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -846,6 +846,10 @@ static const struct v4l2_subdev_internal_ops max9286=
+_subdev_internal_ops =3D {
+>         .open =3D max9286_open,
+>  };
+> =20
+> +static const struct media_entity_operations max9286_media_ops =3D {
+> +       .link_validate =3D v4l2_subdev_link_validate
+> +};
 > +
-> +#endif /* _MEDIA_MIPI_CSI2_H */
+>  static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>         switch (ctrl->id) {
+> @@ -895,6 +899,7 @@ static int max9286_v4l2_register(struct max9286_priv =
+*priv)
+>                 goto err_async;
+> =20
+>         priv->sd.entity.function =3D MEDIA_ENT_F_VID_IF_BRIDGE;
+> +       priv->sd.entity.ops =3D &max9286_media_ops;
+> =20
+>         priv->pads[MAX9286_SRC_PAD].flags =3D MEDIA_PAD_FL_SOURCE;
+>         for (i =3D 0; i < MAX9286_SRC_PAD; i++)
 > --=20
 > Regards,
 >=20
