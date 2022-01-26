@@ -2,89 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22FCD49BFB1
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 00:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A08849C022
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 01:28:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234423AbiAYXqL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 18:46:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53506 "EHLO
+        id S235273AbiAZA25 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 19:28:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230472AbiAYXqK (ORCPT
+        with ESMTP id S235260AbiAZA24 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jan 2022 18:46:10 -0500
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782FDC06161C;
-        Tue, 25 Jan 2022 15:46:09 -0800 (PST)
-Received: by mail-lj1-x229.google.com with SMTP id z20so8307621ljo.6;
-        Tue, 25 Jan 2022 15:46:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zaINez3rSSjlWvImf4qb8L/2ha5D25vy6vOExgL5WaQ=;
-        b=iV2aH8lTgzOeF0OfA9lwfhljizJow9SpdPc45/DZRASudSweStW612jn+PZ/SLp1iM
-         PkFIPw+KeTj3jctJArVvg40BhNj9efuvDxUAj99GkzbheimDRi3Db7xMMbeVQl3JE0d/
-         +YYv2PdLlgBLI2N4zigOsoa3y6nR+qFWEhOQVB7hZTFr0HFWlmdpWW8KTvbbb+9zkC9j
-         BIVnY5qViAXQvKir3vwPjuIqBYI0X2Zt8WqAakV09DDTG+q1g/aq1CHiJg9WbIdm9kVm
-         J+ReF+9GDJuIs4W5VxGBPnlMNod9ddq+uDmP1cGgn3K9lU4DdvGGfveo5IcDYqsVBv0L
-         sRhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zaINez3rSSjlWvImf4qb8L/2ha5D25vy6vOExgL5WaQ=;
-        b=AsgWOrru6ZYd26D4Ym+9uxsi5fe0d7U/fqqKGCJNd+tJwxWRQg2eFPQrWoMnFofJDT
-         nDsTu/OLGqhb9oVZJEd4Xn7P4Q7S0TYxmyZm1FuQ3RgsqsrFbAiP6ukhDG1+dPRw9Pvk
-         mbazXz7Ap+pQpCMrgkZS1eiZPh/Gj9+pn+ovECCl4ZSpZU2hDAap7XOFrPlGrXfw72A5
-         ca2HtyggrSP30qZ6HtQ9DZGJWtWcpqKJ4efp7qNF2FLm/TH3p+jVtoenE+VI1VqKvREL
-         q8JstKHKuCNTc/siGHmhcSuFHOL4owjOf874PG/PBGDNpFOgGDQp70WJkZdEHi2+XOnP
-         8rWw==
-X-Gm-Message-State: AOAM532hSV0ho1hKMgtkvbUAIyENKSlJSmhpLfG49N5fkQF5tvuS75m8
-        /0D5kEojldORt9obbYrWpFU=
-X-Google-Smtp-Source: ABdhPJzguO9tzrOFKU/gflOLSpo2MsfX3F0pmTBxx/6XNlHW1oZOrdA/q/xNp6vlajb3Tox4CbN8rg==
-X-Received: by 2002:a2e:96cf:: with SMTP id d15mr2043717ljj.342.1643154367641;
-        Tue, 25 Jan 2022 15:46:07 -0800 (PST)
-Received: from localhost.localdomain (h-155-4-221-129.NA.cust.bahnhof.se. [155.4.221.129])
-        by smtp.gmail.com with ESMTPSA id k3sm900383lfo.127.2022.01.25.15.46.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jan 2022 15:46:07 -0800 (PST)
-From:   Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Subject: [PATCH] media: go7007: Constify static struct snd_device_ops
-Date:   Wed, 26 Jan 2022 00:46:02 +0100
-Message-Id: <20220125234602.10481-1-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.35.0
+        Tue, 25 Jan 2022 19:28:56 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 440B1C06161C
+        for <linux-media@vger.kernel.org>; Tue, 25 Jan 2022 16:28:56 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3716871;
+        Wed, 26 Jan 2022 01:28:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1643156933;
+        bh=NueSv6vKG4GXBykEREe7r07qfG2X/NP6wWAzN47j+K8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LHerEtGPt1tGTLWokPTyjf3+TMVDbsaOYX6Sb+nIDyPTviyfcp+cNfXwr2QiNSrSy
+         tiau4A886jlInTHkHtG916bJRnpxJ667PcHmhuO9eZG/ReBKNn2OGhTCoULJAQP/+x
+         TntIZ8m8+06iI9DMvrJzX9wTbwHKOR1tn/HbL9f4=
+Date:   Wed, 26 Jan 2022 02:28:34 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jerome Brunet <jbrunet@baylibre.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/2] staging: media: imx: imx7-mipi-csic: Resume on debug
+Message-ID: <YfCVslLYx115/Tv1@pendragon.ideasonboard.com>
+References: <20220119112024.11339-1-jacopo@jmondi.org>
+ <20220119112024.11339-2-jacopo@jmondi.org>
+ <YegfMf2UNxU8IjwZ@pendragon.ideasonboard.com>
+ <Ye9sAv5lAMUydPbK@pendragon.ideasonboard.com>
+ <20220125102257.7kziixej2c5k7fss@uno.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220125102257.7kziixej2c5k7fss@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The only usage of go7007_snd_device_ops is to pass its address to
-snd_device_new() which takes a pointer to const struct snd_device_ops.
-Make it const to allow the compiler to put it in read-only memory.
+Hi Jacopo,
 
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
----
- drivers/media/usb/go7007/snd-go7007.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Jan 25, 2022 at 11:22:57AM +0100, Jacopo Mondi wrote:
+> On Tue, Jan 25, 2022 at 05:18:26AM +0200, Laurent Pinchart wrote:
+> > On Wed, Jan 19, 2022 at 04:24:51PM +0200, Laurent Pinchart wrote:
+> > > On Wed, Jan 19, 2022 at 12:20:23PM +0100, Jacopo Mondi wrote:
+> > > > The mipi_csis_dump_regs() function reads and printout the interface
+> > > > registers for debugging purposes.
+> > > >
+> > > > Trying to access the registers without proper powering up the interface
+> > > > causes the chip to hang.
+> > > >
+> > > > Fix that by increasing the pm runtime usage count which, if necessary,
+> > > > resumes the interface.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > ---
+> > > >  drivers/staging/media/imx/imx7-mipi-csis.c | 4 ++++
+> > > >  1 file changed, 4 insertions(+)
+> > > >
+> > > > diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+> > > > index 2b73fa55c938..cb54bb7491d9 100644
+> > > > --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> > > > +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> > > > @@ -780,11 +780,15 @@ static int mipi_csis_dump_regs(struct csi_state *state)
+> > > >
+> > > >  	dev_info(state->dev, "--- REGISTERS ---\n");
+> > > >
+> > > > +	pm_runtime_resume_and_get(state->dev);
+> > >
+> > > Should this have an error check ? With that,
+> > >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > I just noticed that the call to mipi_csis_dump_regs() in
+> > mipi_csis_log_status() is conditioned by state->state & ST_POWERED. An
+> > alternative would thus be to add the same condition to
+> > mipi_csis_dump_regs_show() (or to move it to mipi_csis_dump_regs()), as
+> > dumping the register when then hardware is turned off is quite
+> > pointeless. Up to you.
+> 
+> Tbh, I would drop this custom sysfs attribute completely.
+> It should serve the purpose to easily dump the reg value, but it is
+> either accessed at the right time (ie during the streaming session)
+> otherwise all you get is POR default values (or a hang, without this
+> patch)
 
-diff --git a/drivers/media/usb/go7007/snd-go7007.c b/drivers/media/usb/go7007/snd-go7007.c
-index 2ce85ab38db5..9a6bd87fce03 100644
---- a/drivers/media/usb/go7007/snd-go7007.c
-+++ b/drivers/media/usb/go7007/snd-go7007.c
-@@ -191,7 +191,7 @@ static int go7007_snd_free(struct snd_device *device)
- 	return 0;
- }
- 
--static struct snd_device_ops go7007_snd_device_ops = {
-+static const struct snd_device_ops go7007_snd_device_ops = {
- 	.dev_free	= go7007_snd_free,
- };
- 
+The debugfs interface has served me before to diagnose problems, as it
+allows checking how the register values change during streaming, in
+particular the DPHY status. I'd like to keep it if possible.
+
+> > > > +
+> > > >  	for (i = 0; i < ARRAY_SIZE(registers); i++) {
+> > > >  		cfg = mipi_csis_read(state, registers[i].offset);
+> > > >  		dev_info(state->dev, "%14s: 0x%08x\n", registers[i].name, cfg);
+> > > >  	}
+> > > >
+> > > > +	pm_runtime_put(state->dev);
+> > > > +
+> > > >  	return 0;
+> > > >  }
+> > > >
+
 -- 
-2.35.0
+Regards,
 
+Laurent Pinchart
