@@ -2,157 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26B4049D1F2
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 19:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7256F49D233
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 20:03:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244264AbiAZSnF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jan 2022 13:43:05 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:59600 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232675AbiAZSnF (ORCPT
+        id S230175AbiAZTDB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jan 2022 14:03:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38668 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229451AbiAZTDB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jan 2022 13:43:05 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98174478;
-        Wed, 26 Jan 2022 19:43:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643222583;
-        bh=OQdRRRosc11uNWOuLj5jqmGwXoA/tFPMxlELYBf15x8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lPr6nQhbEN9FuSAD0Bq21gKEl98hBluP29CjVbcvdVRKHFOkfj3sqD339dSvZi0Wz
-         K95X6egke6JgCKxKpD5njaIi+vLbYftJ99b07XYd8oJ90yr85HoTcHlJHKJcGThvdd
-         wuB4zJPLLzWemgGZRaubns85RRYuA08eOHvW9mYI=
-Date:   Wed, 26 Jan 2022 20:42:44 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        devicetree@vger.kernel.org, kernel-list@raspberrypi.com,
-        linux-arm-kernel@lists.infradead.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-rpi-kernel@lists.infradead.org, lukasz@jany.st,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Naushir Patuck <naush@raspberrypi.com>, robh@kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [RFC PATCH v2 5/7] ARM: dts: bcm2711: Add unicam CSI nodes
-Message-ID: <YfGWJCReevd752++@pendragon.ideasonboard.com>
-References: <20220121081810.155500-1-jeanmichel.hautbois@ideasonboard.com>
- <20220121081810.155500-6-jeanmichel.hautbois@ideasonboard.com>
- <Yes3c1v+V1hMlWfW@pendragon.ideasonboard.com>
- <CAPY8ntDR5AsxGE5fh_KHMonoZait9evxQkpidu10F7EY9CPxZA@mail.gmail.com>
+        Wed, 26 Jan 2022 14:03:01 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5648C06161C
+        for <linux-media@vger.kernel.org>; Wed, 26 Jan 2022 11:03:00 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id u18so512852edt.6
+        for <linux-media@vger.kernel.org>; Wed, 26 Jan 2022 11:03:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=wNS6i0JkwH6rl5Cb/oQjjWAuKKUfR/NgAywIYY564Po=;
+        b=Jqe91YAXDuXrLP4iSSyuTCRi21fxuNI6Ld04u4d9mVEa4yChybxm/c3a4tZVx19Wa8
+         pJXgswBiYx3HEOEhFJbBRwYnlonFq/8tm24DbAMbEh71DunlgqFFKPqFF7UZAqJgks/e
+         Dwfzvx1jlBgCXKmY483aaB8UQrqG/97EsDCbwxII+RepPEPVDq4Lp4fP/CayHONA4lYY
+         h8AghmuiVJa0NBkZZB/+wF4HHYTf61z3ZsFNLET8TN0+R5LXab88KZEuIu24n5tMgZJc
+         89Egi4FJCFlil5OvDE6qaTchADk4jcrBBW/GVvLcBsANv/tIg0pNQ8xlQgBHavPtsAe7
+         UA/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=wNS6i0JkwH6rl5Cb/oQjjWAuKKUfR/NgAywIYY564Po=;
+        b=rF9Z1AE4fQDzhKY03IuPwnqPDK2UfmFGf6ZaWnELOHBISuhIJtNPSlwuQqIIp1fYdu
+         VEutG18CrUkq7c65Tpy78PtASnWSP1r9PH8OsmylfOnpK9WJ9Pxmmkqh+8TRyD1WZddG
+         RfS+zEKCZTBp6tZIMOCbUuzaOFs9VbpOWFBUlpDZAk5aYZBh2n3FqtxDcXYq/Qd/N6oH
+         zooVYxafCXawmYdFybv6OI735sMFJFA9Qp4vqneXqKtsMXKVh5/y+/du6DJVni8PQ5v7
+         PNYXMvVQvwWZNJC2Z8NxNF7HDNedfjlIgYvrFlvaEra9R56nePbe90HAc5aXuh3m70hl
+         VhjQ==
+X-Gm-Message-State: AOAM5319NsJx7PvHzEJYhkJWTJr0CUKdCaI2YL/6dvlmhZyQtOzczUhq
+        H3AZyRzo4WbynBN+uPQnmuhZIi916JrWjWm/zmk=
+X-Google-Smtp-Source: ABdhPJxMVbJHKbsXKMqDaO6UOljYkcIxfkqoyjAIB+aG3WnzrQ+Os8qZiyiW3z4cf20/ziS/lUMom0ewjal2uPBBuxs=
+X-Received: by 2002:a05:6402:34d5:: with SMTP id w21mr327524edc.361.1643223779404;
+ Wed, 26 Jan 2022 11:02:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntDR5AsxGE5fh_KHMonoZait9evxQkpidu10F7EY9CPxZA@mail.gmail.com>
+Received: by 2002:a17:907:3dab:0:0:0:0 with HTTP; Wed, 26 Jan 2022 11:02:58
+ -0800 (PST)
+From:   "Capt. Sherri " <sherrigallagher205@gmail.com>
+Date:   Wed, 26 Jan 2022 19:02:58 +0000
+Message-ID: <CAK7nrJM0cQfUOPV78kVgCp2O1tN++4vOs7PzHZ0JseFWWjeuTQ@mail.gmail.com>
+Subject: Re: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+Hallo,
 
-On Mon, Jan 24, 2022 at 12:31:34PM +0000, Dave Stevenson wrote:
-> On Fri, 21 Jan 2022 at 22:45, Laurent Pinchart wrote:
-> > On Fri, Jan 21, 2022 at 09:18:08AM +0100, Jean-Michel Hautbois wrote:
-> > > Add both MIPI CSI-2 nodes in the core bcm2711 tree. Use the 3-cells
-> > > interrupt declaration, corresponding clocks and default as disabled.
-> > >
-> > > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> > > ---
-> > >  arch/arm/boot/dts/bcm2711.dtsi | 31 +++++++++++++++++++++++++++++++
-> > >  1 file changed, 31 insertions(+)
-> > >
-> > > diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-> > > index dff18fc9a906..077141df7024 100644
-> > > --- a/arch/arm/boot/dts/bcm2711.dtsi
-> > > +++ b/arch/arm/boot/dts/bcm2711.dtsi
-> > > @@ -3,6 +3,7 @@
-> > >
-> > >  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > >  #include <dt-bindings/soc/bcm2835-pm.h>
-> > > +#include <dt-bindings/power/raspberrypi-power.h>
-> > >
-> > >  / {
-> > >       compatible = "brcm,bcm2711";
-> > > @@ -293,6 +294,36 @@ hvs: hvs@7e400000 {
-> > >                       interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
-> > >               };
-> > >
-> > > +             csi0: csi1@7e800000 {
-> >
-> > The node name should be csi@7e800000, not csi1@7e800000. Now, this will
-> > probably cause issues with the firmware that looks for csi1 (and csi0 ?)
-> > to hand over control of the Unicam CSI-2 receiver to the kernel. I
-> > wonder if this is something that could be handled by a firmware update,
-> > to also recognize nodes named "csi" ?
-> 
-> It already looks for any node starting "csi". If you check the
-> downstream DT [1], then the nodes are "csi0: csi@7e800000" and "csi1:
-> csi@7e801000".
+Sie haben meine vorherige Nachricht erhalten? Ich habe Sie schon
+einmal kontaktiert, aber die Nachricht ist fehlgeschlagen, also habe
+ich beschlossen, noch einmal zu schreiben. Bitte best=C3=A4tigen Sie, ob
+Sie dies erhalten, damit ich fortfahren kann.
 
-Oops, indeed. I think I was misled by
-https://github.com/raspberrypi/linux/blob/rpi-5.10.y/Documentation/devicetree/bindings/media/bcm2835-unicam.txt
-that mentions "csi0" and "csi1".
+warte auf deine Antwort.
 
-It's all good then. Jean-Michel, can you update the DT bindings in the
-next iteration of the series to correct the DT node naming ?
-
-> There is no actual action required to hand the peripheral over to the
-> kernel, it just prevents the firmware from using it and causing
-> problems (it masks out the interrupt, and that's checked as part of
-> the firmware initialising the peripheral).
-> 
-> If using imx219 or one of the other sensors supported by the firmware,
-> "vcgencmd get_camera" should report that the sensor isn't detected,
-> and "sudo vcdbg log msg" should have a line similar to
-> "020174.613: camsubs: Ignoring camera 0 as unicam device not available"
-> 
->   Dave
-> 
-> [1] https://github.com/raspberrypi/linux/blob/rpi-5.10.y/arch/arm/boot/dts/bcm270x.dtsi#L88
-> 
-> > > +                     compatible = "brcm,bcm2835-unicam";
-> > > +                     reg = <0x7e800000 0x800>,
-> > > +                           <0x7e802000 0x4>;
-> > > +                     interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
-> > > +                     clocks = <&clocks BCM2835_CLOCK_CAM0>,
-> > > +                              <&firmware_clocks 4>;
-> > > +                     clock-names = "lp", "vpu";
-> > > +                     power-domains = <&power RPI_POWER_DOMAIN_UNICAM0>;
-> > > +                     #address-cells = <1>;
-> > > +                     #size-cells = <0>;
-> > > +                     #clock-cells = <1>;
-> >
-> > Why do you need #address-cells, #size-cells and #clock-cells ? They're
-> > not mentioned in the binding.
-> >
-> > > +                     status="disabled";
-> >
-> > Missing spaces around the =.
-> >
-> > Same comment for the next node.
-> >
-> > > +             };
-> > > +
-> > > +             csi1: csi1@7e801000 {
-> > > +                     compatible = "brcm,bcm2835-unicam";
-> > > +                     reg = <0x7e801000 0x800>,
-> > > +                           <0x7e802004 0x4>;
-> > > +                     interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> > > +                     clocks = <&clocks BCM2835_CLOCK_CAM1>,
-> > > +                              <&firmware_clocks 4>;
-> > > +                     clock-names = "lp", "vpu";
-> > > +                     power-domains = <&power RPI_POWER_DOMAIN_UNICAM1>;
-> > > +                     #address-cells = <1>;
-> > > +                     #size-cells = <0>;
-> > > +                     #clock-cells = <1>;
-> > > +                     status="disabled";
-> > > +             };
-> > > +
-> > >               pixelvalve3: pixelvalve@7ec12000 {
-> > >                       compatible = "brcm,bcm2711-pixelvalve3";
-> > >                       reg = <0x7ec12000 0x100>;
-
--- 
-Regards,
-
-Laurent Pinchart
+Gr=C3=BC=C3=9Fe,
+Kapit=C3=A4n Sherri
