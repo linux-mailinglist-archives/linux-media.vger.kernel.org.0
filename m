@@ -2,100 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3279249C041
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 01:40:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FECF49C0D1
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 02:42:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235383AbiAZAkE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 19:40:04 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43758 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235377AbiAZAkC (ORCPT
+        id S235917AbiAZBmS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 20:42:18 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:3433 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235863AbiAZBmR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jan 2022 19:40:02 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DD9A71;
-        Wed, 26 Jan 2022 01:40:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643157600;
-        bh=39YQOO8kiCwng87xf7Zi6eCskEERmKQqrn0Nu4BVpXo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=r5GW3Mw0xK410gpYL/hg5EKhG13Pk5J9eQsuwXEGGwu3iWTpk5ztm3RaWKR5iJWK+
-         Ul7h8kQgjTaHfgRMYLCqTgvEckdp7PU/9Nnu4/eHfhuqjILkkBrj1L6NWqvLVDk/r5
-         ssOGzA/8uQYPMtpDmnMFlTcxOtyabQXxEac5qMVM=
-Date:   Wed, 26 Jan 2022 02:39:41 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Zhou Qingyang <zhou1615@umn.edu>
-Cc:     kjlu@umn.edu, Benoit Parrot <bparrot@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: ti-vpe: cal: Fix a NULL pointer dereference in
- cal_ctx_v4l2_init_formats()
-Message-ID: <YfCYTfnQQx8wuoD3@pendragon.ideasonboard.com>
-References: <20220124172001.62457-1-zhou1615@umn.edu>
+        Tue, 25 Jan 2022 20:42:17 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 20Q1Y3Zk090248;
+        Wed, 26 Jan 2022 09:34:03 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 26 Jan
+ 2022 09:41:26 +0800
+Message-ID: <8681fe29-69c2-f701-aff4-c27cef2d32d7@aspeedtech.com>
+Date:   Wed, 26 Jan 2022 09:41:27 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220124172001.62457-1-zhou1615@umn.edu>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 0/2] Fix incorrect resolution detected
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20220118100729.7651-1-jammy_huang@aspeedtech.com>
+ <c3202b1f-ff8f-8108-e8a3-8710c8c74d10@xs4all.nl>
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <c3202b1f-ff8f-8108-e8a3-8710c8c74d10@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 20Q1Y3Zk090248
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Zhou,
 
-Thank you for the patch.
+On 2022/1/25 下午 06:43, Hans Verkuil wrote:
+> Hi Jammy,
+>
+> On 18/01/2022 11:07, Jammy Huang wrote:
+>> This series fixes incorrect resolution detected.
+>> We found this problem happened occasionally in the switch between bios
+>> and bootloader.
+> Can you rebase this on top of:
+>
+> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.18f
+>
+> This series doesn't apply cleanly.
 
-On Tue, Jan 25, 2022 at 01:20:01AM +0800, Zhou Qingyang wrote:
-> In cal_ctx_v4l2_init_formats(), devm_kzalloc() is assigned to fw and there
+OK, I will update patch based on this code base.
 
-What do you mean by "fw" here ? It could be replaced with "is assigned
-to ctx->active_fmt". If you're fine with this change, there's no need to
-resend, I can fix this when applying.
-
-> is a dereference of it after that, which could lead to NULL pointer
-> dereference on failure of devm_kzalloc().
-> 
-> Fix this bug by adding a NULL check of ctx->active_fmt.
-> 
-> This bug was found by a static analyzer.
-> 
-> Builds with 'make allyesconfig' show no new warnings,
-> and our static analyzer no longer warns about this code.
-> 
-> Fixes: 7168155002cf ("media: ti-vpe: cal: Move format handling to cal.c and expose helpers")
-> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> --
-> The analysis employs differential checking to identify inconsistent 
-> security operations (e.g., checks or kfrees) between two code paths 
-> and confirms that the inconsistent operations are not recovered in the
-> current function or the callers, so they constitute bugs. 
-> 
-> Note that, as a bug found by static analysis, it can be a false
-> positive or hard to trigger. Multiple researchers have cross-reviewed
-> the bug.
-> 
->  drivers/media/platform/ti-vpe/cal-video.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-> index 7799da1cc261..3e936a2ca36c 100644
-> --- a/drivers/media/platform/ti-vpe/cal-video.c
-> +++ b/drivers/media/platform/ti-vpe/cal-video.c
-> @@ -823,6 +823,9 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
->  	/* Enumerate sub device formats and enable all matching local formats */
->  	ctx->active_fmt = devm_kcalloc(ctx->cal->dev, cal_num_formats,
->  				       sizeof(*ctx->active_fmt), GFP_KERNEL);
-> +	if (!ctx->active_fmt)
-> +		return -ENOMEM;
-> +
->  	ctx->num_active_fmt = 0;
->  
->  	for (j = 0, i = 0; ; ++j) {
-
--- 
 Regards,
 
-Laurent Pinchart
+	Jammy
+
+>
+> Regards,
+>
+> 	Hans
+>
+>> Changes in v4:
+>>   - Correct the subject of patch
+>>
+>> Changes in v3:
+>>   - In v2, we tried to increase the min-required-count of stable signal
+>>     to avoid incorrect transient state in timing detection. But it is
+>>     not working for all conditions.
+>>     Thus, we go another way in v3. Use regs, which can represent the
+>>     signal status, to decide if we needs to do detection again.
+>>   
+>> Changes in v2:
+>>   - Separate the patch into two patches
+>>
+>> Jammy Huang (2):
+>>    media: aspeed: Add macro for the fields of the mode-detect registers
+>>    media: aspeed: Fix unstable timing detection
+>>
+>>   drivers/media/platform/aspeed-video.c | 25 ++++++++++++++++++++++++-
+>>   1 file changed, 24 insertions(+), 1 deletion(-)
+>>
+-- 
+Best Regards
+Jammy
+
