@@ -2,94 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2D4849CE1C
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 16:24:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 099F849CF31
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 17:07:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242761AbiAZPXj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jan 2022 10:23:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43372 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242797AbiAZPWl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jan 2022 10:22:41 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4FCAC06161C;
-        Wed, 26 Jan 2022 07:22:40 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id f17so26385488wrx.1;
-        Wed, 26 Jan 2022 07:22:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=FviLrQkCsJVY66DcQYmSOXStFC1ZeJMY5L+q++TsbLw=;
-        b=iayd+iNmW9wlQqK7Equ/0gDV+6rsOYcZ6sCb1cbM1TforyOWMUJrdQMXV52+HAdxYG
-         FJx5K2tRyFuc3dXgg+qeQPTlYDM85S75HZb+CYrrIz6Ap65xuHGRccXR9wkax9zCP8Yo
-         Y4E8pciw0OTBw52S/bRW5l1mxQSqvHbFsSVu8wIYNTYXW+7eodqj2ZSmUV1XnZ3FuVdn
-         AalAK/Bn6GojY0Z4ndO6j1HtpSCO5lXXfXzWf7aott2G/dldlGXrhVCEJCLvLx1naQ6C
-         1pXRT8GS/dO3X41XQGIYKgBBNGrb1sYCWp5MApjQlTeNCpSzh59HuoLV6MlW1/gucXj/
-         ddDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=FviLrQkCsJVY66DcQYmSOXStFC1ZeJMY5L+q++TsbLw=;
-        b=aoumyimOn6Uqjp55Hflpqygmaepee4vlsglyf1ZEM4pOpogDxtA2KuGBiGs3jCTzOf
-         sxWvn/6OqufSp9Mz/FItKDTmC2zcOghYSFs3xJd1IMgFAY7nbMG60n8ITlaj2stiI/uI
-         fYh5wXsJWx4g5W+7MjqYi06+BWm3+Sw96Cq6txEc8uROeCf8fL6hDJR5MUhLQeFqzct7
-         CjiMAyfFbG4KBWdFf8WlH9HD4Kz2N5gHY8iWOL957DVrxdfDMSVrPgKnyV8keW9yVChu
-         1mztI7WVuAG+eW2Pp/HM6jw04sWp71mNuLEFwaYBdU5soO00yYwzylP34EyDR0pnaF8x
-         6ptw==
-X-Gm-Message-State: AOAM532kSOEzXMajG/HbsDemyhjhqainT8toyCyNYxWiZ6X0cU1MqCAZ
-        MWwLn3K8vXKZXoLP2GSgGp9nFqro0Gw=
-X-Google-Smtp-Source: ABdhPJzxp+geoofOQCKKc0yi+8cSVXQryt7Reg5UqHY10vd45BR113XwOoUIF68OF9sbgEWRP7u9kg==
-X-Received: by 2002:a5d:47a8:: with SMTP id 8mr1853007wrb.261.1643210559251;
-        Wed, 26 Jan 2022 07:22:39 -0800 (PST)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id u3sm10157385wrs.55.2022.01.26.07.22.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jan 2022 07:22:38 -0800 (PST)
-Date:   Wed, 26 Jan 2022 16:22:35 +0100
-From:   Corentin Labbe <clabbe.montjoie@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
-        Florian Fainelli <f.fainelli@gmail.com>, 5kft <5kft@5kft.org>
-Subject: Re: [PATCH for 5.17] pinctrl-sunxi:
- sunxi_pinctrl_gpio_direction_in/output: use correct offset
-Message-ID: <YfFnO2+/3J4pxoa+@Red>
-References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl>
- <0f536cd8-01db-5d16-2cec-ec6d19409a49@xs4all.nl>
+        id S236370AbiAZQHO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jan 2022 11:07:14 -0500
+Received: from mga09.intel.com ([134.134.136.24]:58123 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236333AbiAZQHN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 Jan 2022 11:07:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643213233; x=1674749233;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j/16QzoSfLPJOKBRLnhpNcSSA3m/BtG6mHlRtW3opZM=;
+  b=ZSbKKCp/z6yaNczAFLs9lDEZyob7+eSpxsqxKC4LuFRkwF0gPde+ovUV
+   3tNejSxLPx37zQCzYg8VruI2jItmUL+2GltBYkZ22fDcnYol3uAk4MTxK
+   DuQaDVoeChgVyF2q/09iWazEvNkm39IjsDwh8/FxcMf3itbgxYBfUu05y
+   gePY/oKb12ylrBIfP/JzzuE2vaqhRxl5zHqvSoi+Q8qi5EF/Cbo1C7dIS
+   R5XNxMZ7xfvXzeePot1/UKodtQnWC2h5Wv7ImL6SBBDbLkqdxhURlyZxh
+   HjSIbwl7jswGxELGg4U3lVVJFYDuBG09UKxcv10Gzh3nqmHTFHJCYaB5l
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="246359609"
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
+   d="scan'208";a="246359609"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 08:07:13 -0800
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
+   d="scan'208";a="674398113"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 08:07:12 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id D5A102012F;
+        Wed, 26 Jan 2022 18:07:09 +0200 (EET)
+Date:   Wed, 26 Jan 2022 18:07:09 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 1/3] media: Provide a helper for setting bus_info field
+Message-ID: <YfFxrdCCR4UOkBiT@paasikivi.fi.intel.com>
+References: <20220122163656.168440-1-sakari.ailus@linux.intel.com>
+ <20220122163656.168440-2-sakari.ailus@linux.intel.com>
+ <1266d262-526e-1244-d49b-c5778d2d7729@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0f536cd8-01db-5d16-2cec-ec6d19409a49@xs4all.nl>
+In-Reply-To: <1266d262-526e-1244-d49b-c5778d2d7729@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le Wed, Jan 26, 2022 at 12:02:04PM +0100, Hans Verkuil a écrit :
-> The commit that sets the direction directly without calling
-> pinctrl_gpio_direction(), forgot to add chip->base to the offset when
-> calling sunxi_pmx_gpio_set_direction().
+Hi Hans,
+
+On Tue, Jan 25, 2022 at 01:54:45PM +0100, Hans Verkuil wrote:
+> Hi Sakari,
 > 
-> This caused failures for various Allwinner boards which have two
-> GPIO blocks.
+> On 22/01/2022 17:36, Sakari Ailus wrote:
+> > The bus_info or a similar field exists in a lot of structs, yet drivers
+> > tend to set the value of that field by themselves in a determinable way.
+> > Thus provide a helper for doing this. To be used in subsequent patches.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  include/media/media-device.h | 30 +++++++++++++++++++++++++++---
+> >  1 file changed, 27 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/include/media/media-device.h b/include/media/media-device.h
+> > index 1345e6da688a..9f0458068196 100644
+> > --- a/include/media/media-device.h
+> > +++ b/include/media/media-device.h
+> > @@ -13,12 +13,13 @@
+> >  
+> >  #include <linux/list.h>
+> >  #include <linux/mutex.h>
+> > +#include <linux/pci.h>
+> > +#include <linux/platform_device.h>
+> >  
+> >  #include <media/media-devnode.h>
+> >  #include <media/media-entity.h>
+> >  
+> >  struct ida;
+> > -struct device;
+> >  struct media_device;
+> >  
+> >  /**
+> > @@ -181,8 +182,7 @@ struct media_device {
+> >  	atomic_t request_id;
+> >  };
+> >  
+> > -/* We don't need to include pci.h or usb.h here */
+> > -struct pci_dev;
+> > +/* We don't need to include usb.h here */
+> >  struct usb_device;
+> >  
+> >  #ifdef CONFIG_MEDIA_CONTROLLER
+> > @@ -496,4 +496,28 @@ static inline void __media_device_usb_init(struct media_device *mdev,
+> >  #define media_device_usb_init(mdev, udev, name) \
+> >  	__media_device_usb_init(mdev, udev, name, KBUILD_MODNAME)
+> >  
+> > +static inline void
+> > +__media_set_bus_info(char *bus_info, size_t bus_info_size, struct device *dev)
+> > +{
+> > +	if (!dev || *bus_info)
+> > +		return;
+> > +
+> > +	if (dev_is_platform(dev))
+> > +		snprintf(bus_info, bus_info_size, "platform:%s", dev_name(dev));
+> > +	else if (dev_is_pci(dev))
+> > +		snprintf(bus_info, bus_info_size, "PCI:%s", dev_name(dev));
+> > +}
+> > +
+> > +/**
+> > + * media_set_bus_info() - Conditionally set bus_info
+> > + *
+> > + * @bus_info:	Variable where to write the bus info (char array)
+> > + * @dev:	Related struct device
+> > + *
+> > + * Sets bus information based on device conditionally, if the first character of
+> > + * &bus_info is not '\0' and dev is non-NULL.
+> > + */
+> > +#define media_set_bus_info(bus_info, dev) \
+> > +	__media_set_bus_info(bus_info, sizeof(bus_info), dev)
 > 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Reported-by: 5kft <5kft@5kft.org>
-> Suggested-by: 5kft <5kft@5kft.org>
-> Reported-by: Corentin Labbe <clabbe.montjoie@gmail.com>
-> Fixes: 8df89a7cbc63 (pinctrl-sunxi: don't call pinctrl_gpio_direction())
-> ---
-> Corentin, can you please test this patch to verify that this fixes your
-> issue on the orangepiPC?
+> Wouldn't it be simpler to make two #defines:
+> 
+> #define media_set_bus_info(mdev, dev) \
+> 	__media_set_bus_info(mdev->bus_info, sizeof(mdev->bus_info), dev)
+> 
+> and:
+> 
+> #define v4l2_cap_set_bus_info(cap, dev) \
+> 	__media_set_bus_info(cap->bus_info, sizeof(cap->bus_info), dev)
+> 
+> That way the sizeof() always works correctly.
+> 
+> This could also be static inlines to have better type checking, of course.
+> 
+> Another option is:
+> 
+> #define media_set_bus_info(s, dev) \
+> 	__media_set_bus_info((s)->bus_info, sizeof((s)->bus_info), dev)
+> 
+> That's more generic, but it does make the assumption that the struct s
+> has a field bus_info. Which is a reasonable assumption IMHO.
+> 
+> I do like the idea of this series.
 
-Hello
+Thanks for the comments.
 
-Yes, it fixes the issue.
-Tested-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+I prefer Laurent's suggestion of removing the macro and simply using
+sizeof() in the caller. Note that there will be a very small number of
+these calls and so far none in the drivers (nor there should be any).
 
-Thanks
+-- 
+Kind regards,
+
+Sakari Ailus
