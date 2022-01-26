@@ -2,160 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 099F849CF31
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 17:07:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2231B49CF8E
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 17:24:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236370AbiAZQHO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jan 2022 11:07:14 -0500
-Received: from mga09.intel.com ([134.134.136.24]:58123 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236333AbiAZQHN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jan 2022 11:07:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643213233; x=1674749233;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j/16QzoSfLPJOKBRLnhpNcSSA3m/BtG6mHlRtW3opZM=;
-  b=ZSbKKCp/z6yaNczAFLs9lDEZyob7+eSpxsqxKC4LuFRkwF0gPde+ovUV
-   3tNejSxLPx37zQCzYg8VruI2jItmUL+2GltBYkZ22fDcnYol3uAk4MTxK
-   DuQaDVoeChgVyF2q/09iWazEvNkm39IjsDwh8/FxcMf3itbgxYBfUu05y
-   gePY/oKb12ylrBIfP/JzzuE2vaqhRxl5zHqvSoi+Q8qi5EF/Cbo1C7dIS
-   R5XNxMZ7xfvXzeePot1/UKodtQnWC2h5Wv7ImL6SBBDbLkqdxhURlyZxh
-   HjSIbwl7jswGxELGg4U3lVVJFYDuBG09UKxcv10Gzh3nqmHTFHJCYaB5l
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="246359609"
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
-   d="scan'208";a="246359609"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 08:07:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
-   d="scan'208";a="674398113"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 08:07:12 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id D5A102012F;
-        Wed, 26 Jan 2022 18:07:09 +0200 (EET)
-Date:   Wed, 26 Jan 2022 18:07:09 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 1/3] media: Provide a helper for setting bus_info field
-Message-ID: <YfFxrdCCR4UOkBiT@paasikivi.fi.intel.com>
-References: <20220122163656.168440-1-sakari.ailus@linux.intel.com>
- <20220122163656.168440-2-sakari.ailus@linux.intel.com>
- <1266d262-526e-1244-d49b-c5778d2d7729@xs4all.nl>
+        id S236694AbiAZQYI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jan 2022 11:24:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58014 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236445AbiAZQYH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 Jan 2022 11:24:07 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53E17C06161C
+        for <linux-media@vger.kernel.org>; Wed, 26 Jan 2022 08:24:07 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id j2so69423543edj.8
+        for <linux-media@vger.kernel.org>; Wed, 26 Jan 2022 08:24:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hFSfHysSt/TEJp53DfQbM674LCf5MMeKjoUR3QbAsnA=;
+        b=jJJT2DO3zZ4THh1nhrXHp3COcV9z0Ta/vU9epMck6jFQLYM9UqUtY7DNG1CN4gukv6
+         +3Sb6DsUDn5HnLn3fESD6PLpTZNUL7MLC4zDOAYNX5vYnE3Cl0Ld0RNQBYF1bRvN7Ygs
+         TCe5S26C4GoUl/G6IYV0yGtyt1Q26HmkVEvKY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hFSfHysSt/TEJp53DfQbM674LCf5MMeKjoUR3QbAsnA=;
+        b=uosSlJJcRKM40vbYnF2mWfq32c1K7yDDmBROu2ZvTrOt5iARebJD6WDgpRC9F3FqZT
+         Y5W2gtK/TpHR2fYsWCipL7UEs8IfJsbXSDLiqxx1t8uPfnICz959EMP6cwNr4TEpLgL2
+         Nir2PWCTHgsjH2cXObY7YnenbV/gvTjL78kqW/KOxh7pbFNI7Guy3H7ObkK8irD3njGU
+         FjntQuNsSkf/dy0vhESZyLALeng9BkTsd4SZQUuH/HFB0EhRG2rG2/ETV/c8E3nws9GN
+         J3a3oHU+CqWtfmHkdndej/bXaQ0y7qP1VbcnX1RmoaU9GanjXaT/fVaERj3idMdxwyIV
+         7FiQ==
+X-Gm-Message-State: AOAM531QctV3rwFI03EOdXqe9BlnmapH8kOhQ6PpGFOvPS3PvDEQEMZG
+        trGOsP+1J6FBcKP+A4XGrk1tfJAjDYz2Rg==
+X-Google-Smtp-Source: ABdhPJy2ukOBh9oDKPZryi2tzp/kHdsUWDVAItNeWMENjIyPp/6GBir5Fx1swaScfAufBwrsp/POFw==
+X-Received: by 2002:aa7:cf0c:: with SMTP id a12mr24983048edy.185.1643214245766;
+        Wed, 26 Jan 2022 08:24:05 -0800 (PST)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
+        by smtp.gmail.com with ESMTPSA id by16sm7629564ejb.73.2022.01.26.08.24.05
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jan 2022 08:24:05 -0800 (PST)
+Received: by mail-ej1-f41.google.com with SMTP id h7so40233672ejf.1
+        for <linux-media@vger.kernel.org>; Wed, 26 Jan 2022 08:24:05 -0800 (PST)
+X-Received: by 2002:a17:906:2cd5:: with SMTP id r21mr21127790ejr.435.1643214245062;
+ Wed, 26 Jan 2022 08:24:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1266d262-526e-1244-d49b-c5778d2d7729@xs4all.nl>
+References: <a7e0c40f-3bf7-b564-c182-88bbb5d4b188@librem.one>
+In-Reply-To: <a7e0c40f-3bf7-b564-c182-88bbb5d4b188@librem.one>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 26 Jan 2022 17:23:53 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvbuUHU40CE+uGT56VUDMnLifTw7yAN+HD4WJVTyAg+Aw@mail.gmail.com>
+Message-ID: <CANiDSCvbuUHU40CE+uGT56VUDMnLifTw7yAN+HD4WJVTyAg+Aw@mail.gmail.com>
+Subject: Re: Get j5 WebCam JVCU100 supported by Linux UVC driver
+To:     Mohammad <moin@librem.one>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Mohammad
 
-On Tue, Jan 25, 2022 at 01:54:45PM +0100, Hans Verkuil wrote:
-> Hi Sakari,
-> 
-> On 22/01/2022 17:36, Sakari Ailus wrote:
-> > The bus_info or a similar field exists in a lot of structs, yet drivers
-> > tend to set the value of that field by themselves in a determinable way.
-> > Thus provide a helper for doing this. To be used in subsequent patches.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  include/media/media-device.h | 30 +++++++++++++++++++++++++++---
-> >  1 file changed, 27 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/include/media/media-device.h b/include/media/media-device.h
-> > index 1345e6da688a..9f0458068196 100644
-> > --- a/include/media/media-device.h
-> > +++ b/include/media/media-device.h
-> > @@ -13,12 +13,13 @@
-> >  
-> >  #include <linux/list.h>
-> >  #include <linux/mutex.h>
-> > +#include <linux/pci.h>
-> > +#include <linux/platform_device.h>
-> >  
-> >  #include <media/media-devnode.h>
-> >  #include <media/media-entity.h>
-> >  
-> >  struct ida;
-> > -struct device;
-> >  struct media_device;
-> >  
-> >  /**
-> > @@ -181,8 +182,7 @@ struct media_device {
-> >  	atomic_t request_id;
-> >  };
-> >  
-> > -/* We don't need to include pci.h or usb.h here */
-> > -struct pci_dev;
-> > +/* We don't need to include usb.h here */
-> >  struct usb_device;
-> >  
-> >  #ifdef CONFIG_MEDIA_CONTROLLER
-> > @@ -496,4 +496,28 @@ static inline void __media_device_usb_init(struct media_device *mdev,
-> >  #define media_device_usb_init(mdev, udev, name) \
-> >  	__media_device_usb_init(mdev, udev, name, KBUILD_MODNAME)
-> >  
-> > +static inline void
-> > +__media_set_bus_info(char *bus_info, size_t bus_info_size, struct device *dev)
-> > +{
-> > +	if (!dev || *bus_info)
-> > +		return;
-> > +
-> > +	if (dev_is_platform(dev))
-> > +		snprintf(bus_info, bus_info_size, "platform:%s", dev_name(dev));
-> > +	else if (dev_is_pci(dev))
-> > +		snprintf(bus_info, bus_info_size, "PCI:%s", dev_name(dev));
-> > +}
-> > +
-> > +/**
-> > + * media_set_bus_info() - Conditionally set bus_info
-> > + *
-> > + * @bus_info:	Variable where to write the bus info (char array)
-> > + * @dev:	Related struct device
-> > + *
-> > + * Sets bus information based on device conditionally, if the first character of
-> > + * &bus_info is not '\0' and dev is non-NULL.
-> > + */
-> > +#define media_set_bus_info(bus_info, dev) \
-> > +	__media_set_bus_info(bus_info, sizeof(bus_info), dev)
-> 
-> Wouldn't it be simpler to make two #defines:
-> 
-> #define media_set_bus_info(mdev, dev) \
-> 	__media_set_bus_info(mdev->bus_info, sizeof(mdev->bus_info), dev)
-> 
-> and:
-> 
-> #define v4l2_cap_set_bus_info(cap, dev) \
-> 	__media_set_bus_info(cap->bus_info, sizeof(cap->bus_info), dev)
-> 
-> That way the sizeof() always works correctly.
-> 
-> This could also be static inlines to have better type checking, of course.
-> 
-> Another option is:
-> 
-> #define media_set_bus_info(s, dev) \
-> 	__media_set_bus_info((s)->bus_info, sizeof((s)->bus_info), dev)
-> 
-> That's more generic, but it does make the assumption that the struct s
-> has a field bus_info. Which is a reasonable assumption IMHO.
-> 
-> I do like the idea of this series.
+Could you share the output of dmesg when you connect the device?
 
-Thanks for the comments.
+And also lsusb -vvvv -d 0711:3108
 
-I prefer Laurent's suggestion of removing the macro and simply using
-sizeof() in the caller. Note that there will be a very small number of
-these calls and so far none in the drivers (nor there should be any).
+
+Thanks!
+
+On Wed, 26 Jan 2022 at 17:20, Mohammad <moin@librem.one> wrote:
+>
+> Greetings,
+>
+> I have been trying to use the j5 WebCam JVCU100 on Linux and it doesn't
+> function properly.  Cheese cannot seem to find it, and I did not see it
+> listed on your list of supported devices, so I thought I would bring it
+> to your attention.  Here is what I see from running lsusb:
+>
+> Bus 001 Device 006: ID 0711:3108 Magic Control Technology Corp. j5
+> WebCam JVCU100
+>
+> Also, running lsusb -d 0711:3108 -v | grep "14 Video" returns
+>
+> Couldn't open device, some information will be missing
+>       bFunctionClass         14 Video
+>       bInterfaceClass        14 Video
+>       bInterfaceClass        14 Video
+>       bInterfaceClass        14 Video
+>       bInterfaceClass        14 Video
+>
+> So, looks like the Linux UVC driver at least recognizes the webcam.
+> Please let me know if you can help with this, thanks!
+>
+> Regards,
+>
+> Mohammad
+>
+
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Ricardo Ribalda
