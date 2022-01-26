@@ -2,107 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2231B49CF8E
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 17:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72B1349CFD7
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 17:38:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236694AbiAZQYI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jan 2022 11:24:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58014 "EHLO
+        id S243200AbiAZQiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jan 2022 11:38:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236445AbiAZQYH (ORCPT
+        with ESMTP id S243194AbiAZQiX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jan 2022 11:24:07 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53E17C06161C
-        for <linux-media@vger.kernel.org>; Wed, 26 Jan 2022 08:24:07 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id j2so69423543edj.8
-        for <linux-media@vger.kernel.org>; Wed, 26 Jan 2022 08:24:07 -0800 (PST)
+        Wed, 26 Jan 2022 11:38:23 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36AD2C06161C;
+        Wed, 26 Jan 2022 08:38:23 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id f17so83020wrx.1;
+        Wed, 26 Jan 2022 08:38:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hFSfHysSt/TEJp53DfQbM674LCf5MMeKjoUR3QbAsnA=;
-        b=jJJT2DO3zZ4THh1nhrXHp3COcV9z0Ta/vU9epMck6jFQLYM9UqUtY7DNG1CN4gukv6
-         +3Sb6DsUDn5HnLn3fESD6PLpTZNUL7MLC4zDOAYNX5vYnE3Cl0Ld0RNQBYF1bRvN7Ygs
-         TCe5S26C4GoUl/G6IYV0yGtyt1Q26HmkVEvKY=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8j/hotkBfcfAC9fYYJI4N9sX0l/gsHzV5UvDB38KzlI=;
+        b=VXMrJJW+pQ42RG4deEVvp+yFWc6bkaLR9wDqTO5gHUjOT5VmjxbyheIeIVbFf7MR6f
+         EvmVfpHadJ47gNlfj803NNiGTltsWtQA6UR7rO6DFAWUxEb5kb56jURIWjaGXWAydXDA
+         uYfAn9Qvx7SJ4PHN54n3ddikbnyaCy6kOzDITttyZ5oKBSCp2llFa3pJnLOy1JCgFfuY
+         kTXDxwpJBvAmJIOT9hRIBTOSiFtc+kPCbJ+KkJSL3g8fRq2iG1SofcwkPB8KKss56Cgc
+         MMcvz+CT5jX0gV+ZCzSHVlSk6aKzUeSukaBh2Pqy5P0HZt58HDDLB/qZkYcIXn7u5bzC
+         Xxcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hFSfHysSt/TEJp53DfQbM674LCf5MMeKjoUR3QbAsnA=;
-        b=uosSlJJcRKM40vbYnF2mWfq32c1K7yDDmBROu2ZvTrOt5iARebJD6WDgpRC9F3FqZT
-         Y5W2gtK/TpHR2fYsWCipL7UEs8IfJsbXSDLiqxx1t8uPfnICz959EMP6cwNr4TEpLgL2
-         Nir2PWCTHgsjH2cXObY7YnenbV/gvTjL78kqW/KOxh7pbFNI7Guy3H7ObkK8irD3njGU
-         FjntQuNsSkf/dy0vhESZyLALeng9BkTsd4SZQUuH/HFB0EhRG2rG2/ETV/c8E3nws9GN
-         J3a3oHU+CqWtfmHkdndej/bXaQ0y7qP1VbcnX1RmoaU9GanjXaT/fVaERj3idMdxwyIV
-         7FiQ==
-X-Gm-Message-State: AOAM531QctV3rwFI03EOdXqe9BlnmapH8kOhQ6PpGFOvPS3PvDEQEMZG
-        trGOsP+1J6FBcKP+A4XGrk1tfJAjDYz2Rg==
-X-Google-Smtp-Source: ABdhPJy2ukOBh9oDKPZryi2tzp/kHdsUWDVAItNeWMENjIyPp/6GBir5Fx1swaScfAufBwrsp/POFw==
-X-Received: by 2002:aa7:cf0c:: with SMTP id a12mr24983048edy.185.1643214245766;
-        Wed, 26 Jan 2022 08:24:05 -0800 (PST)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
-        by smtp.gmail.com with ESMTPSA id by16sm7629564ejb.73.2022.01.26.08.24.05
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jan 2022 08:24:05 -0800 (PST)
-Received: by mail-ej1-f41.google.com with SMTP id h7so40233672ejf.1
-        for <linux-media@vger.kernel.org>; Wed, 26 Jan 2022 08:24:05 -0800 (PST)
-X-Received: by 2002:a17:906:2cd5:: with SMTP id r21mr21127790ejr.435.1643214245062;
- Wed, 26 Jan 2022 08:24:05 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8j/hotkBfcfAC9fYYJI4N9sX0l/gsHzV5UvDB38KzlI=;
+        b=YcKrRLjlRncuSkOAyCk6CbqDboxhcgj+A7f4eg1acb0xOEjRk5WVcgOcyjvHd9kZDV
+         YfFQSrrwGbhvnCCB0nZZB1/DaPrTGIPG9+sJfqTOmhgQr2EDx/ZiKNYQiC2RsjL/VVBg
+         7ooXJ8s0E7zvXUD74Tf29mZ9cSr1YWVU0tqYZQp0ZuKeVAt9/KIZZSUfjFbLSC9VSzxm
+         h6LxIVm7si4oUBOuhKlXwcGQdAd695m+Kar5tfMESwqCvE2IDRAH7gK3+7UhtcbJ4plt
+         uz7xzvN/OcefX3g4or5KMuKiSRo+MH9wmLLpmYFvKyaNzDdecbb8cfooUOdJnIYxl37O
+         hLQg==
+X-Gm-Message-State: AOAM530XrKy87r4zNYIs7hMXMUWAw189ksdzEeOloK5fc3RTdAd1/7sd
+        DmpDu7n3Mx1NaLxeqrnGV1rrLY8ve/0=
+X-Google-Smtp-Source: ABdhPJwXkZ0z4nkzvw+UKERVJcFgweC/xWst69C+dJ+2zbylWTo/Pk2Fe7DTYafmMFwKaerx9Z4sSw==
+X-Received: by 2002:a5d:64c8:: with SMTP id f8mr10223002wri.498.1643215101681;
+        Wed, 26 Jan 2022 08:38:21 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id o15sm4415607wms.9.2022.01.26.08.38.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jan 2022 08:38:21 -0800 (PST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
+        Florian Fainelli <f.fainelli@gmail.com>, 5kft <5kft@5kft.org>,
+        Corentin Labbe <clabbe.montjoie@gmail.com>
+Subject: Re: [PATCH for 5.17] pinctrl-sunxi: sunxi_pinctrl_gpio_direction_in/output: use correct offset
+Date:   Wed, 26 Jan 2022 17:38:20 +0100
+Message-ID: <2613560.mvXUDI8C0e@kista>
+In-Reply-To: <0f536cd8-01db-5d16-2cec-ec6d19409a49@xs4all.nl>
+References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl> <0f536cd8-01db-5d16-2cec-ec6d19409a49@xs4all.nl>
 MIME-Version: 1.0
-References: <a7e0c40f-3bf7-b564-c182-88bbb5d4b188@librem.one>
-In-Reply-To: <a7e0c40f-3bf7-b564-c182-88bbb5d4b188@librem.one>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 26 Jan 2022 17:23:53 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvbuUHU40CE+uGT56VUDMnLifTw7yAN+HD4WJVTyAg+Aw@mail.gmail.com>
-Message-ID: <CANiDSCvbuUHU40CE+uGT56VUDMnLifTw7yAN+HD4WJVTyAg+Aw@mail.gmail.com>
-Subject: Re: Get j5 WebCam JVCU100 supported by Linux UVC driver
-To:     Mohammad <moin@librem.one>
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mohammad
+Hi Hans!
 
-Could you share the output of dmesg when you connect the device?
+Dne sreda, 26. januar 2022 ob 12:02:04 CET je Hans Verkuil napisal(a):
+> The commit that sets the direction directly without calling
+> pinctrl_gpio_direction(), forgot to add chip->base to the offset when
+> calling sunxi_pmx_gpio_set_direction().
+> 
+> This caused failures for various Allwinner boards which have two
+> GPIO blocks.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Reported-by: 5kft <5kft@5kft.org>
+> Suggested-by: 5kft <5kft@5kft.org>
+> Reported-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+> Fixes: 8df89a7cbc63 (pinctrl-sunxi: don't call pinctrl_gpio_direction())
+> Tested-by: Corentin Labbe <clabbe.montjoie@gmail.com>
 
-And also lsusb -vvvv -d 0711:3108
+Next time please send to all sunxi maintainers/reviewers and mailing list.
+
+Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
+> ---
+> Corentin, can you please test this patch to verify that this fixes your
+> issue on the orangepiPC?
+> ---
+> 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/
+pinctrl-sunxi.c
+> index 80d6750c74a6..061323eab8b1 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> @@ -837,7 +837,8 @@ static int sunxi_pinctrl_gpio_direction_input(struct 
+gpio_chip *chip,
+>  {
+>  	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
+> 
+> -	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL, offset, 
+true);
+> +	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL,
+> +					    chip->base + offset, 
+true);
+>  }
+> 
+>  static int sunxi_pinctrl_gpio_get(struct gpio_chip *chip, unsigned offset)
+> @@ -890,7 +891,8 @@ static int sunxi_pinctrl_gpio_direction_output(struct 
+gpio_chip *chip,
+>  	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
+> 
+>  	sunxi_pinctrl_gpio_set(chip, offset, value);
+> -	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL, offset, 
+false);
+> +	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL,
+> +					    chip->base + offset, 
+false);
+>  }
+> 
+>  static int sunxi_pinctrl_gpio_of_xlate(struct gpio_chip *gc,
+> 
 
 
-Thanks!
-
-On Wed, 26 Jan 2022 at 17:20, Mohammad <moin@librem.one> wrote:
->
-> Greetings,
->
-> I have been trying to use the j5 WebCam JVCU100 on Linux and it doesn't
-> function properly.  Cheese cannot seem to find it, and I did not see it
-> listed on your list of supported devices, so I thought I would bring it
-> to your attention.  Here is what I see from running lsusb:
->
-> Bus 001 Device 006: ID 0711:3108 Magic Control Technology Corp. j5
-> WebCam JVCU100
->
-> Also, running lsusb -d 0711:3108 -v | grep "14 Video" returns
->
-> Couldn't open device, some information will be missing
->       bFunctionClass         14 Video
->       bInterfaceClass        14 Video
->       bInterfaceClass        14 Video
->       bInterfaceClass        14 Video
->       bInterfaceClass        14 Video
->
-> So, looks like the Linux UVC driver at least recognizes the webcam.
-> Please let me know if you can help with this, thanks!
->
-> Regards,
->
-> Mohammad
->
-
-
--- 
-Ricardo Ribalda
