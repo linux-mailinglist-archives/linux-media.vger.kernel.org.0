@@ -2,143 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3C1649C7A9
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 11:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA13F49C837
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 12:02:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239679AbiAZKhU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jan 2022 05:37:20 -0500
-Received: from mail-bmxind01olkn2040.outbound.protection.outlook.com ([40.92.103.40]:63299
-        "EHLO IND01-BMX-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232441AbiAZKhS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jan 2022 05:37:18 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fpBdKL6dAwi4Vq6TlaHmYMrgG5hsY+GppU+VXubt3xbib0Gj2XdOKqJfXgqi7vEbw1ZGFNB2DGKesUFhSzzn9Lw4z4J7Dnil6Q0hR60dAUB489ftTrJwLMC/HNggSOhlghkWeSTj+4YznMoLHMPx7sMF17BxHdJoEkqKJ8uNlnD8gu/gS09r9QOdD6TURQgPg1zFU7/4Z6Hle2VfbZmr6skmRpva6cGGs2Lis8Uwd++pYbf7e1vw14RChhZULWhRfYDYDu/b451I5qSdhz4dZvgRF5ylPYwNdOy9YDJymNy2Soz3gyWbOk9Uyf3VlmnQHr5L/IvhT6FHSIFfOdSG4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V/kMTFG8OMmTFpRBz5T9Ud641V/Oq/od8Ewz9EOvGic=;
- b=EK3Fs7zq5DZ3BdZNQXL+/44uNafVQ9rtL60bmyUUeMR0BDxU4rk7hpKzNRj3SoWa/v/nbuP9IFMDhygFNaYz3UbJrAg7cyG27F4wheolbTWl7xrmSvc8itMOX2s3mP/UnvCGtSGxzLm/nxoSwkPUCDcprP5yaq3x/wPvaOpuOG1ek+Ik4W8ShbRFQXSR2Oka0u1rwbHI4FJ2KIP58wkdLVPPrryJ7Jg2ExrtqWnUpVVWHYQS1Ae+TwOPE0jDLD+rYU1dkoBl3wHvBqcUc/fpyBVLEWaxE9j63e+qym8s4Yj4tF73L3cPQ9BvuvhPu0OP9z4gmE7olhnarNOFLyHq/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V/kMTFG8OMmTFpRBz5T9Ud641V/Oq/od8Ewz9EOvGic=;
- b=V7GTsBKD8TPXEEmKpOlMcqnaGjlyJ7ipDVIfQ8eeSOa7wH2fMPAYMsCYJoY28JKjiyLU6e9jaCfCn1DeqwY1VNIRj+K+x3gWY1W+9s8vyFp6RmNW+lLrHIRHR/cu4LeGGvu/8oX7nT9hjT1f2+3/WCpiMOTU/VTNHTIL8ji3PP6m8C1qGmau5Sls2xPmRQArLOZ0NwPTLfSyYkY5fflRljPb/DUJL10HxvFXeObBnAJQmA/YCx7WEMkhsEwoLPWe5YSHphKTThw5wT2EZuG5ohac+6/WqVB68W8XDAgre1zEMhxh9lASiUaYalvb+edzI/OdVgxurDJYJedMR3qIRA==
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1b::13)
- by PN3PR01MB7190.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:ae::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.7; Wed, 26 Jan
- 2022 10:37:13 +0000
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d19b:7cd1:3760:b055]) by PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d19b:7cd1:3760:b055%9]) with mapi id 15.20.4930.015; Wed, 26 Jan 2022
- 10:37:13 +0000
-From:   Aditya Garg <gargaditya08@live.com>
-To:     "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-        "sergey.senozhatsky@gmail.com" <sergey.senozhatsky@gmail.com>,
-        "ribalda@chromium.org" <ribalda@chromium.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-CC:     Orlando Chamberlain <redecorating@protonmail.com>,
-        "paul@mrarm.io" <paul@mrarm.io>, Aun-Ali Zaidi <admin@kodeit.net>
-Subject: [PATCH RESEND] media: uvcvideo: Add support for Apple T2-attached
- FaceTime HD Camera
-Thread-Topic: [PATCH RESEND] media: uvcvideo: Add support for Apple
- T2-attached FaceTime HD Camera
-Thread-Index: AQHYEqCu2WK4czRdOkWdIOo6RfyQ3g==
-Date:   Wed, 26 Jan 2022 10:37:13 +0000
-Message-ID: <527C2E71-12E2-45D1-9B50-5A413B6920A1@live.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [i8j6DwbTZhYkJ+m9MaQRIoUWll/KIucxzuuqEom2+lp2GkMdiC7u8yH4NXC2+nzZ]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4fdf6894-e121-4f63-c829-08d9e0b7d08c
-x-ms-traffictypediagnostic: PN3PR01MB7190:EE_
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NchfHwMStjH/BJuygeLLr/4l+CuIJgRxr4CEPtMd6UVJ3t02Ac0GGCswWFBJ9uT4oVA9cpqoERsuUk7teb77BYhCoVaxr6qHhQkbymoQeqSunGCpzodtZrDfeLahTKQQw3PxwUIPSvtLZZRY6ozj4MrI5g/aoO0xnCxtYxJO4xDnIVfStTHjbOrJyP3AzwMm3QBQTrr1ds+Zy6PNVLKvgTQbUs9H6YDXZRlmfGyWqbqAMIQHa17mSBwuRSNj4QK0J6YoA41Kmur+rl6vRUfNOF5mw3i65IVP0nH9dZNQMkomVioKFtWKmwYP9hsAlTR/xHva04JI21igHdSBHhYTaqfafNH7DyAn0L74dTVDyEfILaTq/Y/ga9q3rKQDWy86gUNYNEfXY+MOgsK13AYjOUD5TqlU8ZBF49CSQpuH0iz6GXQ5jeN1EjSxzBRnPDPEz5ibIqvjQVvvZwaEzckyVdIRVpa4LOId4Ckp5S5cevGsZU/r/zgfOb5kwP1ma0FpxMEUQjRfvaMG0duCtE89tNZFetEAKx9tAnBg9t8hfQsynLq8ZBlzHWo2iFv1n7/6nYAJnpcLBdkGBbUfwU/ORw==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?uEJQCvfUUiuf+XzIZ/FuyZBPso5Oe0UkdIzxzd5WhEQ6Gj6oDfnL8rrCwBrL?=
- =?us-ascii?Q?/oQpFvHz622ktsfMCxdwKePRmjZBEjUEv4vwB3wzb9LfTN5XhWNETT4XFymZ?=
- =?us-ascii?Q?AB17w9/We0D+R/1mcxMr/aoA56Hiz5TR34rUBlxAVJQkzpT9mBhHt4fF8gNU?=
- =?us-ascii?Q?BoK8WjEmMCChAHkuv6FQyeYvhbAbloNn2oey/ukfrOmQP52/Y5ShwoFo74md?=
- =?us-ascii?Q?O2XTZpvrwnj7ir1QkOgoX8bo3ndPVGr6sED6hACRjNFDYcMJnam10jgRqWUr?=
- =?us-ascii?Q?2j0SwM0Tk5VAUU27GHiDdN++9PNpf8G+SU8izQSz7RDYWVoEeugt30lw5EsV?=
- =?us-ascii?Q?CFkfJzaMK/hE4cEHI+c9N9Z0l05yiipL2Kocb8tmVFC3CjjVXHRkHIsWbErp?=
- =?us-ascii?Q?gZEMqlAqkbpBlEFFbx/y6IMlOmwlZWDhP37PsxtTVD0bQzStfKzVK3RKBKoR?=
- =?us-ascii?Q?tZphCkeaaCq695O2hotAVN6x2NRMa+zFqne9GgyR+ZvM8jG+drts3+CJ4y+R?=
- =?us-ascii?Q?633a/3skhRTfow8lPVh2Igl8kZSV6IWcKEVRDIngXmJ3xXQBkYerm8owuRuX?=
- =?us-ascii?Q?7snj9GMy50pwMU95f/UoXIPCwc1j+iT50Q03FlXI+HGGYl59DLLCIVWV5HIU?=
- =?us-ascii?Q?0ReQm/MxjpQfym9OfqReEToeM44lbGYYlDRFnFbt4BAPqLMR10PZLVLPaKAJ?=
- =?us-ascii?Q?rMPv47MiRy/FRVZAKAR0/2cdnhiRvkIvuHn4Y9sxmbsO5UNMTC0DhnK+mK4l?=
- =?us-ascii?Q?0M+uMRg+80UjcoVThY6Brzg6cE6tA7m7WgrEgIgSJaZWdL8qXD6FNUu7bflD?=
- =?us-ascii?Q?jA4DcPYVQHU1aYnaalBW+gUc9k1GAaTqPI1x4SjWCpQHFVjPXudRZn6PMzC8?=
- =?us-ascii?Q?IJNIAV4dzRek7/0gGmgtwjpV4sZrezZNLb9szOWtoaqiMIRhQF017qsd7eo0?=
- =?us-ascii?Q?dfZhnPrJ6jY9Wmm7vKukMGL18P8EJiRaLeS+B5yM0top1CzKZPphC/NgfdGM?=
- =?us-ascii?Q?+iF0O6pMDGdfHPf+Ljoabr0BnQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <7DE2D59C604185469F68BE6EE2523BEC@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+        id S240419AbiAZLCH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jan 2022 06:02:07 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.183]:23190 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240416AbiAZLCG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 Jan 2022 06:02:06 -0500
+X-KPN-MessageId: 668bfd3f-7e97-11ec-a7c6-005056992ed3
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 668bfd3f-7e97-11ec-a7c6-005056992ed3;
+        Wed, 26 Jan 2022 12:02:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:to:subject:from:mime-version:date:message-id;
+        bh=4x3cthZyPSyklwuCW6G09I7Tgeak4a48kh8iaIfkmag=;
+        b=JVOe0eic/2Vydr+8GQYeCqHmsh/nILgAxgEg4LQcWhYrA33ECaMTaGSQkrBiYugVVRyLpadNNsNHD
+         MbpILyNjUcaMwE5eAEtbVSqWVlzSVwOtPoNLmwzwOefxpE5n4YdEm+xDaQYQp/hHCAEzCCrhmAJ0oa
+         9MIBdJzd8lHVGy3PWYbdGutt5N24jsQBQPnZLJqewsCnPUJhB4CNPj4veoXOy00o9JkoCVE9XK9aiP
+         YSy2ne8RB8ND5ZyYluPA3+4+VLpgSI0HoJoEKJqNACiPkHmZKALcIGv1BWJqmaM+WwqSRIuRR1YaCI
+         6WiJ5KgB8IBOtqqwkbprEWVGR2SRIsw==
+X-KPN-VerifiedSender: No
+X-CMASSUN: 33|WQ1Kr7QFYOHHRhCBRHmXWYu3tAWZhafWefmF1aAE9OJ8jVimcx1354jXk+WTSiX
+ 0FcHsVfZPZvHTbT9FYjVSiw==
+X-Originating-IP: 80.101.105.217
+Received: from [192.168.1.10] (marune.xs4all.nl [80.101.105.217])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 65701bce-7e97-11ec-8459-005056998788;
+        Wed, 26 Jan 2022 12:02:05 +0100 (CET)
+Message-ID: <0f536cd8-01db-5d16-2cec-ec6d19409a49@xs4all.nl>
+Date:   Wed, 26 Jan 2022 12:02:04 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fdf6894-e121-4f63-c829-08d9e0b7d08c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jan 2022 10:37:13.1535
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB7190
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH for 5.17] pinctrl-sunxi:
+ sunxi_pinctrl_gpio_direction_in/output: use correct offset
+To:     linux-media@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
+        Florian Fainelli <f.fainelli@gmail.com>, 5kft <5kft@5kft.org>,
+        Corentin Labbe <clabbe.montjoie@gmail.com>
+References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl>
+Content-Language: en-US
+In-Reply-To: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Paul Pawlowski <paul@mrarm.io>
+The commit that sets the direction directly without calling
+pinctrl_gpio_direction(), forgot to add chip->base to the offset when
+calling sunxi_pmx_gpio_set_direction().
 
-Adds the requisite device id to support detection of the Apple FaceTime
-HD webcam exposed over the T2 BCE VHCI interface.
+This caused failures for various Allwinner boards which have two
+GPIO blocks.
 
-Tested-by: Aun-Ali Zaidi <admin@kodeit.net>
-Signed-off-by: Paul Pawlowski <paul@mrarm.io>
-Signed-off-by: Aun-Ali Zaidi <admin@kodeit.net>
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reported-by: 5kft <5kft@5kft.org>
+Suggested-by: 5kft <5kft@5kft.org>
+Reported-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+Fixes: 8df89a7cbc63 (pinctrl-sunxi: don't call pinctrl_gpio_direction())
 ---
- drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Corentin, can you please test this patch to verify that this fixes your
+issue on the orangepiPC?
+---
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index 80d6750c74a6..061323eab8b1 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -837,7 +837,8 @@ static int sunxi_pinctrl_gpio_direction_input(struct gpio_chip *chip,
+ {
+ 	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc=
-_driver.c
-index 7c007426e..88dc9e7aa 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2848,6 +2848,15 @@ static const struct usb_device_id uvc_ids[] =3D {
- 	  .bInterfaceProtocol	=3D 0,
- 	  .driver_info		=3D UVC_INFO_QUIRK(UVC_QUIRK_PROBE_MINMAX
- 					| UVC_QUIRK_BUILTIN_ISIGHT) },
-+	/* Apple FaceTime HD Camera (Built-In) */
-+	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		=3D 0x05ac,
-+	  .idProduct		=3D 0x8514,
-+	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	=3D 1,
-+	  .bInterfaceProtocol	=3D 0,
-+	  .driver_info		=3D (kernel_ulong_t)&uvc_quirk_probe_def },
- 	/* Apple Built-In iSight via iBridge */
- 	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
---=20
-2.25.1
+-	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL, offset, true);
++	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL,
++					    chip->base + offset, true);
+ }
 
+ static int sunxi_pinctrl_gpio_get(struct gpio_chip *chip, unsigned offset)
+@@ -890,7 +891,8 @@ static int sunxi_pinctrl_gpio_direction_output(struct gpio_chip *chip,
+ 	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
 
+ 	sunxi_pinctrl_gpio_set(chip, offset, value);
+-	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL, offset, false);
++	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL,
++					    chip->base + offset, false);
+ }
+
+ static int sunxi_pinctrl_gpio_of_xlate(struct gpio_chip *gc,
