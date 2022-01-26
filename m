@@ -2,99 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94E5749C0E0
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 02:49:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49CA049C0F5
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 02:58:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235991AbiAZBtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jan 2022 20:49:06 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:53037 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235998AbiAZBtB (ORCPT
+        id S236066AbiAZB6q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jan 2022 20:58:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55092 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236062AbiAZB6p (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jan 2022 20:49:01 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 20Q1eoOV090812;
-        Wed, 26 Jan 2022 09:40:50 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 26 Jan
- 2022 09:48:13 +0800
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
-        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 2/2] media: aspeed: Fix unstable timing detection
-Date:   Wed, 26 Jan 2022 09:47:25 +0800
-Message-ID: <20220126014725.1511-3-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220126014725.1511-1-jammy_huang@aspeedtech.com>
-References: <20220126014725.1511-1-jammy_huang@aspeedtech.com>
+        Tue, 25 Jan 2022 20:58:45 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D309C06173B;
+        Tue, 25 Jan 2022 17:58:45 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id d12-20020a17090a628c00b001b4f47e2f51so3378897pjj.3;
+        Tue, 25 Jan 2022 17:58:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7l440JU9yQL9C6gxms9696YV0ZqO0kyEY+YBmxF5sM4=;
+        b=HwY0hkZToWD1ibN4/TJjzeu//YMYeW1l5caQpPLfCapOarxdUJYiSND3g8ecslD7FJ
+         7MDytKmxvLrLNCQ1OjBypu9cwGbiCTdauBEPSH7plX5wOgl718BkmChrHMpMkquWLYd2
+         yK9z0z9d+1hGnjJDTzfVlG1EZi7wNkBItYwlZZ+IRAiZ391ZE2hdabJI+D1lHIDqP9m2
+         RxjC5GkbrZ5tc4s/O7ckvjgZhD7CnEhv9QMAXNk+n+dBZgctnls0EPeXBst4xpGS+eo+
+         DkJNe6yL5pydzu4BNBvYUxwO4SH8MEIKn27J0nVdipR4OUp2OwGDp9TIGEY4pVW7t/Zy
+         P8ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7l440JU9yQL9C6gxms9696YV0ZqO0kyEY+YBmxF5sM4=;
+        b=weovfgLg0hH6cC9h8HyOOS5qIfgI47qy5oVh3kCh0eJww9HCtVKExZfDx3K1E5YuOr
+         XRs6QlzINtMfM+hkDiJgW/zWYdzYSm1g3mzmAbLlxlrXrRvGGREbuZbVnMZjlUSYvE9a
+         u/LVBFfmbF0SSc8f6bATZCrWT6Augy9GoF3kD7hqQdkIKL4g6Tf9CA0+DhiwfrYLRcMF
+         pZ2HBPqPeVh1gX2JKukF1hAEmr7esnLFI+5rBX7PLEzSN+O1iV4DZaJcb71H4jX7gfZv
+         6WqXy+zGBAvvzDq4w0v1PV1uGZKkulL/hBAKtz1DRJFwjQnaGH90MvZ3i6E3JWmE0FWF
+         XR0Q==
+X-Gm-Message-State: AOAM531/+woZ3/slsFD0sfsabqIjnrYbDRzIFwRi2IQGy8tgteKKeVNG
+        tLDy8CtCG80KKssyBOdFz1BngqaSRZC5hF5Tka0=
+X-Google-Smtp-Source: ABdhPJxmHmHSN4JMY9df8KA8bRi9AAxpqYVqGcEil4jbcmX+K4D2hm7cKe1r+FVuvJ62eQMwklwNEB9jwZ/E5geYRjE=
+X-Received: by 2002:a17:90a:c78b:: with SMTP id gn11mr6527653pjb.138.1643162325125;
+ Tue, 25 Jan 2022 17:58:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 20Q1eoOV090812
+References: <20220124153028.394409-1-sean@mess.org> <22f46323-4443-4253-7153-546fbbbdf40f@linuxfoundation.org>
+In-Reply-To: <22f46323-4443-4253-7153-546fbbbdf40f@linuxfoundation.org>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Tue, 25 Jan 2022 17:58:33 -0800
+Message-ID: <CAADnVQLCQ-benqrbwBrM2VUuSPd5Nv6Au2W-j7uJKhrsEUDjwg@mail.gmail.com>
+Subject: Re: [PATCH] tools headers UAPI: remove stale lirc.h
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Sean Young <sean@mess.org>, Shuah Khan <shuah@kernel.org>,
+        linux-media@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Using stable-signal in resolution detection, and try detection again
-if unstable.
+On Tue, Jan 25, 2022 at 9:56 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>
+> On 1/24/22 8:30 AM, Sean Young wrote:
+> > The lirc.h file is an old copy of lirc.h from the kernel sources. It is
+> > out of date, and the bpf lirc tests don't need a new copy anyway. As
+> > long as /usr/include/linux/lirc.h is from kernel v5.2 or newer, the tests
+> > will compile fine.
+> >
+> > Signed-off-by: Sean Young <sean@mess.org>
+> > ---
+> >   tools/include/uapi/linux/lirc.h               | 229 ------------------
+> >   .../selftests/bpf/test_lirc_mode2_user.c      |   1 -
+> >   2 files changed, 230 deletions(-)
+> >   delete mode 100644 tools/include/uapi/linux/lirc.h
+> >
+>
+> Thank you for cleaning this up. I think this will go through
+> bpf tree. Adding bpf maintainers.
 
-VE_MODE_DETECT_EXTSRC_ADC: 1 if video source is from ADC output.
-VE_MODE_DETECT_H_STABLE: 1 if horizontal signal detection is stable.
-VE_MODE_DETECT_V_STABLE: 1 if vertical signal detection is stable.
-
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- drivers/media/platform/aspeed-video.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 5d1ec3de50ad..eb9c17ac0e14 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -153,9 +153,14 @@
- 
- #define VE_MODE_DETECT_STATUS		0x098
- #define  VE_MODE_DETECT_H_PERIOD	GENMASK(11, 0)
-+#define  VE_MODE_DETECT_EXTSRC_ADC	BIT(12)
-+#define  VE_MODE_DETECT_H_STABLE	BIT(13)
-+#define  VE_MODE_DETECT_V_STABLE	BIT(14)
- #define  VE_MODE_DETECT_V_LINES		GENMASK(27, 16)
- #define  VE_MODE_DETECT_STATUS_VSYNC	BIT(28)
- #define  VE_MODE_DETECT_STATUS_HSYNC	BIT(29)
-+#define  VE_MODE_DETECT_VSYNC_RDY	BIT(30)
-+#define  VE_MODE_DETECT_HSYNC_RDY	BIT(31)
- 
- #define VE_SYNC_STATUS			0x09c
- #define  VE_SYNC_STATUS_HSYNC		GENMASK(11, 0)
-@@ -909,6 +914,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 	bool invalid_resolution = true;
- 	int rc;
- 	int tries = 0;
-+	u32 mds;
- 	u32 src_lr_edge;
- 	u32 src_tb_edge;
- 	struct v4l2_bt_timings *det = &video->detected_timings;
-@@ -939,6 +945,13 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 			return;
- 		}
- 
-+		mds = aspeed_video_read(video, VE_MODE_DETECT_STATUS);
-+		// try detection again if current signal isn't stable
-+		if (!(mds & VE_MODE_DETECT_H_STABLE) ||
-+		    !(mds & VE_MODE_DETECT_V_STABLE) ||
-+		    (mds & VE_MODE_DETECT_EXTSRC_ADC))
-+			continue;
-+
- 		aspeed_video_check_and_set_polarity(video);
- 
- 		aspeed_video_enable_mode_detect(video);
--- 
-2.25.1
-
+Yes. Applied to bpf tree.
+Thanks everyone.
