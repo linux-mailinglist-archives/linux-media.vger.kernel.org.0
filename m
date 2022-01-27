@@ -2,73 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EC6A49E24E
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jan 2022 13:24:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 226AC49E35E
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jan 2022 14:26:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231901AbiA0MYt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jan 2022 07:24:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48528 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231196AbiA0MYt (ORCPT
+        id S231760AbiA0N0V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jan 2022 08:26:21 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:36914 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229576AbiA0N0V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jan 2022 07:24:49 -0500
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCA84C061747
-        for <linux-media@vger.kernel.org>; Thu, 27 Jan 2022 04:24:48 -0800 (PST)
-Received: by mail-ej1-x643.google.com with SMTP id d10so5363537eje.10
-        for <linux-media@vger.kernel.org>; Thu, 27 Jan 2022 04:24:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=mTe6rsF1WlocKfWRCIawejpNJl6lRYSIlYxDz8jltlQ=;
-        b=RNkBMJX5OBLb6wLPiisN9rzGH0ZVqe1LZ77jzAg03D+ShcacV1jr8rRvTQZeEHa+me
-         otR3GFgmleRamalfEd7CbEsZQZrJ7avq2hZDeemGZeaMWgGkZE7KpK7BR0flcRtAD1UQ
-         CPDrj/Q2I4KD8Jyr6KYCdTI1YhiX0YFekqLoCZ9WgSc0bhPI3hqtqUm+av/l/dY4U9YW
-         fADfQMJjJ+q9NivbwM2Wf6ydPmnb484QyyyhNfZ4UFhFsk6TR6+xjRyLtRAk0gFCBSKA
-         jwvoM2E/o5Vlr6sY697y8BD6Ib0cwHtnLWK3CFJqhdgu/8myDl08HAnecCGKYrZbVZ1B
-         pukQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=mTe6rsF1WlocKfWRCIawejpNJl6lRYSIlYxDz8jltlQ=;
-        b=5t7ejB5SpRE6tqSWHil+uEoo+7lRfs2vvZms1dOqqmqKR+tf2sv714I3YNWY52bZcA
-         dZo8Bx2plnnFk7sC1oefWI85vWIyM+aOvDohr2w0VtBLbumX7CpFUCVzfieYhprRFuzI
-         QJePvcng/mLWD8zZbGfQj3zXM19tNlg2HLGT3D0KdyRseb+DPEmTse3uG2EPQZat8cw4
-         NUdZYUwo/qmUFgxoV2aUMtY+ftAMW+7vPyt/SUsI0BlRh6fpGhO3EdPLGSK+NuoxSjZK
-         bPCtqTb+xEJ8C3r32kf5tKFxTgcwFAP+C+I5sNo2PR6NJ8LWa4f6rZHGHTea2JfbHsWS
-         lsZw==
-X-Gm-Message-State: AOAM531JOO3ZDlckvFwiVHgnSYJqtI9wnCAjPkr/Mye0U7VAnKIhxkUa
-        V5D8DrAo+2RqfEG6da2RZ8sj0bCMycjoI/eyRWs=
-X-Google-Smtp-Source: ABdhPJzGelxdI8t6xP8gm8/oW5fBbMatJqYEDvckz/KcyFtX8CB3utb+dP15Odf30g3hhA45YSMm18iACQNhFRXJ9fc=
-X-Received: by 2002:a17:906:cf9d:: with SMTP id um29mr2841277ejb.740.1643286286768;
- Thu, 27 Jan 2022 04:24:46 -0800 (PST)
+        Thu, 27 Jan 2022 08:26:21 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DAD8461BB5;
+        Thu, 27 Jan 2022 13:26:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE17CC340E4;
+        Thu, 27 Jan 2022 13:26:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1643289980;
+        bh=07AsLnVk//JpBUNSbc03oRChtRXFN3tesPvzeOtsc/k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AJ7v2xXoLXwPX+M9jhIMP2f0PezmrQzXM8urvMKhPIDsDW/t6Jorqf69sqppAqNJs
+         ihcpPPL1Y7zwpkTDEDYIcXR+Vj/bcNTtA6uKa4gLOTcLTr5R6B6UM+C+eEoHJBL54A
+         es7rJfiAuY0I68pTaIdvMGX+VakAIjz2SyvtEap4=
+Date:   Thu, 27 Jan 2022 14:26:17 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mathias Krause <minipli@grsecurity.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] misc: fastrpc: avoid double fput() on failed usercopy
+Message-ID: <YfKdeQ+rMRR8y97b@kroah.com>
+References: <20220127130218.809261-1-minipli@grsecurity.net>
+ <YfKdDUxj2wpglXQI@kroah.com>
 MIME-Version: 1.0
-Reply-To: zahirikeen@gmail.com
-Sender: aliwattara01@gmail.com
-Received: by 2002:a17:907:7283:0:0:0:0 with HTTP; Thu, 27 Jan 2022 04:24:45
- -0800 (PST)
-From:   Zahiri Keen <zahirikeen2@gmail.com>
-Date:   Thu, 27 Jan 2022 12:24:45 +0000
-X-Google-Sender-Auth: d3rOdLoURdjB5A9uB6F1tLZXAnw
-Message-ID: <CAPCupSxVUUNUAjEt1U7+SRyF8J-6CC93405VuVjt+CEgRwLzFw@mail.gmail.com>
-Subject: Very Urgent Please.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YfKdDUxj2wpglXQI@kroah.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Good Day,
+On Thu, Jan 27, 2022 at 02:24:29PM +0100, Greg Kroah-Hartman wrote:
+> On Thu, Jan 27, 2022 at 02:02:18PM +0100, Mathias Krause wrote:
+> > If the copy back to userland fails for the FASTRPC_IOCTL_ALLOC_DMA_BUFF
+> > ioctl(), we shouldn't assume that 'buf->dmabuf' is still valid. In fact,
+> > dma_buf_fd() called fd_install() before, i.e. "consumed" one reference,
+> > leaving us with none.
+> > 
+> > Calling dma_buf_put() will therefore put a reference we no longer own,
+> > leading to a valid file descritor table entry for an already released
+> > 'file' object which is a straight use-after-free.
+> > 
+> > Simply avoid calling dma_buf_put() and rely on the process exit code to
+> > do the necessary cleanup, if needed, i.e. if the file descriptor is
+> > still valid.
+> > 
+> > Fixes: 6cffd79504ce ("misc: fastrpc: Add support for dmabuf exporter")
+> > Signed-off-by: Mathias Krause <minipli@grsecurity.net>
+> > ---
+> >  drivers/misc/fastrpc.c | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> > index 4ccbf43e6bfa..aa1682b94a23 100644
+> > --- a/drivers/misc/fastrpc.c
+> > +++ b/drivers/misc/fastrpc.c
+> > @@ -1288,7 +1288,14 @@ static int fastrpc_dmabuf_alloc(struct fastrpc_user *fl, char __user *argp)
+> >  	}
+> >  
+> >  	if (copy_to_user(argp, &bp, sizeof(bp))) {
+> > -		dma_buf_put(buf->dmabuf);
+> > +		/*
+> > +		 * The usercopy failed, but we can't do much about it, as
+> > +		 * dma_buf_fd() already called fd_install() and made the
+> > +		 * file descriptor accessible for the current process. It
+> > +		 * might already be closed and dmabuf no longer valid when
+> > +		 * we reach this point. Therefore "leak" the fd and rely on
+> > +		 * the process exit path to do any required cleanup.
+> > +		 */
+> >  		return -EFAULT;
+> >  	}
+> >  
+> 
+> This feels wrong.  How do all other dma buf users handle this?
+> 
+> And you forgot to cc: the dmabuf developers, I think get_maintainers.pl
+> should have caught them on this patch.
 
-I know this email might come to you as a surprise because is coming
-from someone you haven=E2=80=99t met with before.
+Odd, it didn't, not your fault, my apologies.
 
-I am Mr. Zahiri Keen, the bank manager with BOA bank i contact you for
-a deal relating to the funds which are in my position I shall furnish
-you with more detail once your response.
+DMA BUFFER maintainers, what happened to the MAINTAINERS regex that
+caused the above patch to not catch you all?
 
-Regards,
-Mr.Zahiri
+thanks,
+
+greg k-h
