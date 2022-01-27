@@ -2,73 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8210849E55A
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jan 2022 16:02:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 253C749E63D
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jan 2022 16:38:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242733AbiA0PCt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jan 2022 10:02:49 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:54436 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237314AbiA0PCt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jan 2022 10:02:49 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 21B551F403B9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1643295768;
-        bh=di0QlooY9Xo01DVMWIhw7aG/KryjQggrU+H4kEUJCBs=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=aGTgsniM1VQF3R1ga0HwRknNztMGKeXKiZ1fuXUfZIxEzqSbVbHW6EmIUbz+3bX5E
-         rAOC8sqSNdnChw1Y+L0XhoiLpv0yYFj+XEuWELPt/day6gpS9SvG7StaTcetw33syR
-         BJfmf5Q9VcLes8Z/xNaUfWt7FwVRZluWopfwuotYZlLvdnlrpC2lu3jkXSig3banzg
-         hKQ+cDD1XeEX9V9yrYiQ0TVpIX5XI27FukUzwcr63FHc0T64zWufYtIMJWdUBQDoEt
-         fs+/mT1Rkf7B1D0iB1EIOrsYHOSmEFTBmcNH3YvcxphMJL6Arp+9c2uGCUcUDmeadR
-         DJOSTr2ufubKQ==
-Subject: Re: [PATCH v1 06/14] media: platform: mtk-mdp3: Modify mtk-img-ipi.h
- for MT8195 SCP
-To:     "roy-cw.yeh" <roy-cw.yeh@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fabien Parent <fparent@baylibre.com>,
-        "jason-jh . lin" <jason-jh.lin@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        "river . cheng" <river.cheng@mediatek.com>,
-        Yongqiang Niu <yongqiang.niu@mediatek.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-References: <20220117055254.9777-1-roy-cw.yeh@mediatek.com>
- <20220117055254.9777-7-roy-cw.yeh@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Message-ID: <f6bbe7ff-1487-0ed1-595d-2449d57098ca@collabora.com>
-Date:   Thu, 27 Jan 2022 16:02:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S240146AbiA0Pin (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jan 2022 10:38:43 -0500
+Received: from mga12.intel.com ([192.55.52.136]:51298 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237732AbiA0Pik (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Jan 2022 10:38:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643297920; x=1674833920;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=m6hvK8EvrQklv7boMPwOjx9XYUIbfEG+A3JROTW3WAY=;
+  b=Et3yLFUsDxh1zEgBrQCoCE2/mrc+x4rSvpAFefm3cDopXVzxDQKzg4dX
+   tzr5SDO88H9jfwnJTpRnztvUeuQxucyk6DlY2wqPNHXM2qoTtnc72OHE0
+   C+Z2mBV2uSDGXVGyq5J2APf/+V9Qk89ere1y/pO0uGCMupTmyaH338Ijz
+   SLtHT/5ZefPOMdQri3LxsyGQM8oE15wVGgWKK9Dfod2Gc2iSBODxR1QxO
+   kC7ix0Yys/KLm3CMK90TVAweDAHfq7VXeVozn0oyhR4AH0Qygq9ztgD+r
+   ucVoI4bNUXvbl/s7yRj0v1za1nKVNc8Ag/aUj3gUkDJknonv6YFCQwquk
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="226862372"
+X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
+   d="scan'208";a="226862372"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 07:38:39 -0800
+X-IronPort-AV: E=Sophos;i="5.88,321,1635231600"; 
+   d="scan'208";a="767547488"
+Received: from anithaha-mobl.amr.corp.intel.com (HELO ldmartin-desk2) ([10.212.224.126])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2022 07:38:39 -0800
+Date:   Thu, 27 Jan 2022 07:38:38 -0800
+From:   Lucas De Marchi <lucas.demarchi@intel.com>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [Intel-gfx] [PATCH 09/19] dma-buf-map: Add wrapper over memset
+Message-ID: <20220127153838.eefwiqkljdplyfd4@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
+ <20220126203702.1784589-10-lucas.demarchi@intel.com>
+ <7cb8a8a2-718d-6d5c-5de6-05bf990dd479@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20220117055254.9777-7-roy-cw.yeh@mediatek.com>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7cb8a8a2-718d-6d5c-5de6-05bf990dd479@suse.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 17/01/22 06:52, roy-cw.yeh ha scritto:
-> From: "Roy-CW.Yeh" <roy-cw.yeh@mediatek.com>
-> 
-> 1. Modify struct member to 4 byte-alignment for MT8195 SCP limitation
-> 2. Add new struct for hw engine adding in MT8195
-> 
-> Signed-off-by: Roy-CW.Yeh <roy-cw.yeh@mediatek.com>
+On Thu, Jan 27, 2022 at 03:54:21PM +0100, Thomas Zimmermann wrote:
+>Hi
+>
+>Am 26.01.22 um 21:36 schrieb Lucas De Marchi:
+>>Just like memcpy_toio(), there is also need to write a direct value to a
+>>memory block. Add dma_buf_map_memset() to abstract memset() vs memset_io()
+>>
+>>Cc: Matt Roper <matthew.d.roper@intel.com>
+>>Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>>Cc: Christian König <christian.koenig@amd.com>
+>>Cc: linux-media@vger.kernel.org
+>>Cc: dri-devel@lists.freedesktop.org
+>>Cc: linaro-mm-sig@lists.linaro.org
+>>Cc: linux-kernel@vger.kernel.org
+>>Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>>---
+>>  include/linux/dma-buf-map.h | 17 +++++++++++++++++
+>>  1 file changed, 17 insertions(+)
+>>
+>>diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
+>>index 3514a859f628..c9fb04264cd0 100644
+>>--- a/include/linux/dma-buf-map.h
+>>+++ b/include/linux/dma-buf-map.h
+>>@@ -317,6 +317,23 @@ static inline void dma_buf_map_memcpy_to(struct dma_buf_map *dst, const void *sr
+>>  		memcpy(dst->vaddr, src, len);
+>>  }
+>>+/**
+>>+ * dma_buf_map_memset - Memset into dma-buf mapping
+>>+ * @dst:	The dma-buf mapping structure
+>>+ * @value:	The value to set
+>>+ * @len:	The number of bytes to set in dst
+>>+ *
+>>+ * Set value in dma-buf mapping. Depending on the buffer's location, the helper
+>>+ * picks the correct method of accessing the memory.
+>>+ */
+>>+static inline void dma_buf_map_memset(struct dma_buf_map *dst, int value, size_t len)
+>>+{
+>>+	if (dst->is_iomem)
+>>+		memset_io(dst->vaddr_iomem, value, len);
+>>+	else
+>>+		memset(dst->vaddr, value, len);
+>>+}
+>
+>Maybe add an offset parameter here.
 
-This will break MT8183; is there any new firmware for that SoC that will
-synchronize these structures?
+yep, on v2 I will have 2 APIs, one with and one without offset.
 
-Alternatively, you should add a new version of these structures and select
-them with a wrapper function on a per-SoC basis, or per firmware version.
+thanks
+Lucas De Marchi
+
+>
+>Best regards
+>Thomas
+>
+>>+
+>>  /**
+>>   * dma_buf_map_incr - Increments the address stored in a dma-buf mapping
+>>   * @map:	The dma-buf mapping structure
+>
+>-- 
+>Thomas Zimmermann
+>Graphics Driver Developer
+>SUSE Software Solutions Germany GmbH
+>Maxfeldstr. 5, 90409 Nürnberg, Germany
+>(HRB 36809, AG Nürnberg)
+>Geschäftsführer: Ivo Totev
+
+
+
