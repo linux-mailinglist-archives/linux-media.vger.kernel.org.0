@@ -2,92 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0943149DBA1
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jan 2022 08:31:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD25349DBC9
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jan 2022 08:42:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234082AbiA0HbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jan 2022 02:31:14 -0500
-Received: from mga05.intel.com ([192.55.52.43]:36655 "EHLO mga05.intel.com"
+        id S237434AbiA0HmV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jan 2022 02:42:21 -0500
+Received: from mga01.intel.com ([192.55.52.88]:58629 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233852AbiA0HbN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jan 2022 02:31:13 -0500
+        id S237428AbiA0HmU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Jan 2022 02:42:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643268673; x=1674804673;
+  t=1643269340; x=1674805340;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WpZCIaQ7itXdEHKPHwyl50Sh+SYGiZNsmk7z77SYSFU=;
-  b=SqFZaHwJ2RHCsPEcBprIekNJeS0VQWWvB8thqkDmzS3aS+/PnHfmiuhC
-   DfUIKWzaCAPm7hPiPy85QQwNCC+KfkRNK5jyDRkRU0v+JN1f7vcq3avvr
-   HxfjKPuey42K6FMQTD7WPa61Vn+pNwOQWzCVCvBXa9lsCZI4XL2o2yPlQ
-   eBgZBXwuF7Yr3gSTN4Pz2UpqZw6Je4yEmhzgfEziIOvJ3x7loPJeRbpPp
-   ayXhn0WIvDwTqP0eKR0PSBLMM7A9QUmjXmG2JvTSs9MaTN34sFmpw718v
-   Sej+/f8avqXwK55ifrjH6cpn7LuKGEyyVTYRMogrlF6GE/1cRCjXzM9VD
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="333129883"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=mPi71fris68ShFSFX7NPuifeZxZK9rkUhwdbL0MGzp4=;
+  b=AB/DCPa1F/6Jsy+GhUGfob7OWK7GCV4w1ilA5AMhHcFRzaHD+m8uDNQv
+   i41gpjXBhKgxjcRfNMo37JoGqsjRHDthz8UGuVYwOrvpD+SoYuhmlb3GC
+   ME5UK00mG/+pn1cLU5nZ3IAyn8H2RTtHWFqo8qbT+hLNrZG7Oa1xJSLuO
+   gDKsi/pFvb9FMGVSnlCD3xssAyg/42FUL6Sy/w6huSHlUQ/4DK6LQPtMo
+   tm4EvEFfE5YqqtbEKCT/nhtUNZ3vvlGIBq0ErdeNZ+z4XnRE+7VdNQObW
+   Uk3OHUYbVbcsn91q2sKBEQcw+y7Yz+vuKk3SHLS0k2mb2Rb0Xt4vsyXg4
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="271230966"
 X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; 
-   d="scan'208";a="333129883"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 23:31:13 -0800
+   d="scan'208";a="271230966"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 23:42:20 -0800
 X-IronPort-AV: E=Sophos;i="5.88,320,1635231600"; 
-   d="scan'208";a="625125127"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 23:31:11 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id D0DD6202F2;
-        Thu, 27 Jan 2022 09:31:08 +0200 (EET)
-Date:   Thu, 27 Jan 2022 09:31:08 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
-        stable@vger.kernel.org,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH RESEND] media: omap3isp: Use struct_group() for memcpy()
- region
-Message-ID: <YfJKPCXr4RjPL6lc@paasikivi.fi.intel.com>
-References: <20220124172952.2411764-1-keescook@chromium.org>
- <20220125092426.7bdfba8f@coco.lan>
+   d="scan'208";a="480191093"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box) ([10.1.27.20])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 23:42:19 -0800
+Date:   Wed, 26 Jan 2022 23:36:37 -0800
+From:   Matthew Brost <matthew.brost@intel.com>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Lucas De Marchi <lucas.demarchi@intel.com>,
+        intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 01/19] dma-buf-map: Add read/write helpers
+Message-ID: <20220127073637.GA17282@jons-linux-dev-box>
+References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
+ <20220126203702.1784589-2-lucas.demarchi@intel.com>
+ <91bfa9d4-99fc-767e-5ba2-a2643cf585f5@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220125092426.7bdfba8f@coco.lan>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <91bfa9d4-99fc-767e-5ba2-a2643cf585f5@amd.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
-
-On Tue, Jan 25, 2022 at 09:24:26AM +0100, Mauro Carvalho Chehab wrote:
-> Em Mon, 24 Jan 2022 09:29:52 -0800
-> Kees Cook <keescook@chromium.org> escreveu:
+On Thu, Jan 27, 2022 at 08:24:04AM +0100, Christian König wrote:
+> Am 26.01.22 um 21:36 schrieb Lucas De Marchi:
+> > In certain situations it's useful to be able to read or write to an
+> > offset that is calculated by having the memory layout given by a struct
+> > declaration. Usually we are going to read/write a u8, u16, u32 or u64.
+> > 
+> > Add a pair of macros dma_buf_map_read_field()/dma_buf_map_write_field()
+> > to calculate the offset of a struct member and memcpy the data from/to
+> > the dma_buf_map. We could use readb, readw, readl, readq and the write*
+> > counterparts, however due to alignment issues this may not work on all
+> > architectures. If alignment needs to be checked to call the right
+> > function, it's not possible to decide at compile-time which function to
+> > call: so just leave the decision to the memcpy function that will do
+> > exactly that on IO memory or dereference the pointer.
+> > 
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Christian König <christian.koenig@amd.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> > ---
+> >   include/linux/dma-buf-map.h | 81 +++++++++++++++++++++++++++++++++++++
+> >   1 file changed, 81 insertions(+)
+> > 
+> > diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
+> > index 19fa0b5ae5ec..65e927d9ce33 100644
+> > --- a/include/linux/dma-buf-map.h
+> > +++ b/include/linux/dma-buf-map.h
+> > @@ -6,6 +6,7 @@
+> >   #ifndef __DMA_BUF_MAP_H__
+> >   #define __DMA_BUF_MAP_H__
+> > +#include <linux/kernel.h>
+> >   #include <linux/io.h>
+> >   #include <linux/string.h>
+> > @@ -229,6 +230,46 @@ static inline void dma_buf_map_clear(struct dma_buf_map *map)
+> >   	}
+> >   }
+> > +/**
+> > + * dma_buf_map_memcpy_to_offset - Memcpy into offset of dma-buf mapping
+> > + * @dst:	The dma-buf mapping structure
+> > + * @offset:	The offset from which to copy
+> > + * @src:	The source buffer
+> > + * @len:	The number of byte in src
+> > + *
+> > + * Copies data into a dma-buf mapping with an offset. The source buffer is in
+> > + * system memory. Depending on the buffer's location, the helper picks the
+> > + * correct method of accessing the memory.
+> > + */
+> > +static inline void dma_buf_map_memcpy_to_offset(struct dma_buf_map *dst, size_t offset,
+> > +						const void *src, size_t len)
+> > +{
+> > +	if (dst->is_iomem)
+> > +		memcpy_toio(dst->vaddr_iomem + offset, src, len);
+> > +	else
+> > +		memcpy(dst->vaddr + offset, src, len);
+> > +}
+> > +
+> > +/**
+> > + * dma_buf_map_memcpy_from_offset - Memcpy from offset of dma-buf mapping into system memory
+> > + * @dst:	Destination in system memory
+> > + * @src:	The dma-buf mapping structure
+> > + * @src:	The offset from which to copy
+> > + * @len:	The number of byte in src
+> > + *
+> > + * Copies data from a dma-buf mapping with an offset. The dest buffer is in
+> > + * system memory. Depending on the mapping location, the helper picks the
+> > + * correct method of accessing the memory.
+> > + */
+> > +static inline void dma_buf_map_memcpy_from_offset(void *dst, const struct dma_buf_map *src,
+> > +						  size_t offset, size_t len)
+> > +{
+> > +	if (src->is_iomem)
+> > +		memcpy_fromio(dst, src->vaddr_iomem + offset, len);
+> > +	else
+> > +		memcpy(dst, src->vaddr + offset, len);
+> > +}
+> > +
 > 
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memcpy(), memmove(), and memset(), avoid
-> > intentionally writing across neighboring fields. Wrap the target region
-> > in struct_group(). This additionally fixes a theoretical misalignment
-> > of the copy (since the size of "buf" changes between 64-bit and 32-bit,
-> > but this is likely never built for 64-bit).
+> Well that's certainly a valid use case, but I suggest to change the
+> implementation of the existing functions to call the new ones with offset=0.
 > 
+> This way we only have one implementation.
 > 
-> > FWIW, I think this code is totally broken on 64-bit (which appears to
-> > not be a "real" build configuration): it would either always fail (with
-> > an uninitialized data->buf_size) or would cause corruption in userspace
-> > due to the copy_to_user() in the call path against an uninitialized
-> > data->buf value:
+Trivial - but agree with Christian that is a good cleanup.
+
+> >   /**
+> >    * dma_buf_map_memcpy_to - Memcpy into dma-buf mapping
+> >    * @dst:	The dma-buf mapping structure
+> > @@ -263,4 +304,44 @@ static inline void dma_buf_map_incr(struct dma_buf_map *map, size_t incr)
+> >   		map->vaddr += incr;
+> >   }
+> > +/**
+> > + * dma_buf_map_read_field - Read struct member from dma-buf mapping with
+> > + * arbitrary size and handling un-aligned accesses
+> > + *
+> > + * @map__:	The dma-buf mapping structure
+> > + * @type__:	The struct to be used containing the field to read
+> > + * @field__:	Member from struct we want to read
+> > + *
+> > + * Read a value from dma-buf mapping calculating the offset and size: this assumes
+> > + * the dma-buf mapping is aligned with a a struct type__. A single u8, u16, u32
+> > + * or u64 can be read, based on the offset and size of type__.field__.
+> > + */
+> > +#define dma_buf_map_read_field(map__, type__, field__) ({				\
+> > +	type__ *t__;									\
+> > +	typeof(t__->field__) val__;							\
+> > +	dma_buf_map_memcpy_from_offset(&val__, map__, offsetof(type__, field__),	\
+> > +				       sizeof(t__->field__));				\
+> > +	val__;										\
+> > +})
+> > +
+> > +/**
+> > + * dma_buf_map_write_field - Write struct member to the dma-buf mapping with
+> > + * arbitrary size and handling un-aligned accesses
+> > + *
+> > + * @map__:	The dma-buf mapping structure
+> > + * @type__:	The struct to be used containing the field to write
+> > + * @field__:	Member from struct we want to write
+> > + * @val__:	Value to be written
+> > + *
+> > + * Write a value to the dma-buf mapping calculating the offset and size.
+> > + * A single u8, u16, u32 or u64 can be written based on the offset and size of
+> > + * type__.field__.
+> > + */
+> > +#define dma_buf_map_write_field(map__, type__, field__, val__) ({			\
+> > +	type__ *t__;									\
+> > +	typeof(t__->field__) val____ = val__;						\
+> > +	dma_buf_map_memcpy_to_offset(map__, offsetof(type__, field__),			\
+> > +				     &val____, sizeof(t__->field__));			\
+> > +})
+> > +
 > 
-> It doesn't matter. This driver is specific for TI OMAP3 SoC, which
-> is Cortex-A8 (32-bits). It only builds on 64 bit due to COMPILE_TEST.
+> Uff well that absolutely looks like overkill to me.
+> 
 
-I agree that "it doesn't matter" in any real configuration. But if it's
-this easy to address omap3isp driver behaving nicely with compile test,
-then this is definitely worth merging.
+Hold on...
 
-I'll pick the patch to my tree.
+> That's a rather special use case as far as I can see and I think we should
+> only have this in the common framework if more than one driver is using it.
+>
 
--- 
-Kind regards,
+I disagree, this is rather elegant.
 
-Sakari Ailus
+The i915 can't be the *only* driver that defines a struct which
+describes the layout of a dma_buf object.  
+
+IMO this base macro allows *all* other drivers to build on this write
+directly to fields in structures those drivers have defined. Patches
+later in this series do this for the GuC ads.
+
+Matt
+ 
+> Regards,
+> Christian.
+> 
+> >   #endif /* __DMA_BUF_MAP_H__ */
+> 
