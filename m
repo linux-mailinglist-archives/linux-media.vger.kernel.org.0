@@ -2,101 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD48C49D394
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jan 2022 21:36:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93FC749D88C
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jan 2022 03:55:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231203AbiAZUgg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jan 2022 15:36:36 -0500
-Received: from mga01.intel.com ([192.55.52.88]:9982 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230527AbiAZUge (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jan 2022 15:36:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643229394; x=1674765394;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=IrlXjlrSWxXOy2UwGYcFGyJqa/q0NhSjnDXBLVc54aM=;
-  b=FqpofSRbgvaR6lMfozaw2Cl3YmTpyQoogo2Tjh4B2IIk0Q7jiUQS7CgT
-   BTiUBCIDogOC9z2N0VmjOwM/GzDRrpilbyVdV0orqlUrKZ8782oJE179V
-   uu1IovWSYNWYcMClPD7LEuHZWeRTWDwzkYO4FcPNq9vTPEqkAzAOG9P9H
-   1faxjSWQgiVk6wCWUAUQtoljkp/gvVlRDwuCVZ/StkMGvFh7oYCRvYJgp
-   3c9mb/rm3FdLGTAEzhyKveBPz8TMiUFeePuMRl4jtEtgS8Og78pgJXTWS
-   E2u8uDoIDprkByqGv/jTdS6Uamz9XG6kA7oIcT5kgXtIPGODgULJpr9NU
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="271098470"
-X-IronPort-AV: E=Sophos;i="5.88,319,1635231600"; 
-   d="scan'208";a="271098470"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 12:36:26 -0800
-X-IronPort-AV: E=Sophos;i="5.88,319,1635231600"; 
-   d="scan'208";a="581221519"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 12:36:23 -0800
-From:   Lucas De Marchi <lucas.demarchi@intel.com>
-To:     intel-gfx@lists.freedesktop.org
-Cc:     dri-devel@lists.freedesktop.org,
-        Matt Roper <matthew.d.roper@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 09/19] dma-buf-map: Add wrapper over memset
-Date:   Wed, 26 Jan 2022 12:36:52 -0800
-Message-Id: <20220126203702.1784589-10-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220126203702.1784589-1-lucas.demarchi@intel.com>
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
+        id S235346AbiA0Czy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jan 2022 21:55:54 -0500
+Received: from mailgw01.mediatek.com ([60.244.123.138]:49158 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229484AbiA0Czx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 Jan 2022 21:55:53 -0500
+X-UUID: 2cf5e01efea04e7cbe281ef5d3d22368-20220127
+X-UUID: 2cf5e01efea04e7cbe281ef5d3d22368-20220127
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1380015724; Thu, 27 Jan 2022 10:55:50 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 27 Jan 2022 10:55:49 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 27 Jan 2022 10:55:46 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v1, 0/8] support mt8195 decoder
+Date:   Thu, 27 Jan 2022 10:55:36 +0800
+Message-ID: <20220127025544.10854-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Just like memcpy_toio(), there is also need to write a direct value to a
-memory block. Add dma_buf_map_memset() to abstract memset() vs memset_io()
+Firstly, add mt8195 soc lat hardware and compatible, then add documents.
+For vp8 only support MM21 mode, H264/vp9 support MT21C, need to separate
+them. Next, initialize vp9 stateless decoder parameters. Lastly, enable
+H264 inner racing mode to reduce hardware latency.
 
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Patch 1~4 add mt8195 soc lat hardware and compatible, then add documents.
+Patch 5 using different format for different codecs.
+Patch 6 prevent kernel crash when scp reboot.
+Patch 7 init vp9 stateless decoder parameters.
+Patch 8 enable H264 inner racing mode to reduce hardware latency.
 ---
- include/linux/dma-buf-map.h | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+This patch depends on "support mt8186 decoder"[1]
 
-diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
-index 3514a859f628..c9fb04264cd0 100644
---- a/include/linux/dma-buf-map.h
-+++ b/include/linux/dma-buf-map.h
-@@ -317,6 +317,23 @@ static inline void dma_buf_map_memcpy_to(struct dma_buf_map *dst, const void *sr
- 		memcpy(dst->vaddr, src, len);
- }
- 
-+/**
-+ * dma_buf_map_memset - Memset into dma-buf mapping
-+ * @dst:	The dma-buf mapping structure
-+ * @value:	The value to set
-+ * @len:	The number of bytes to set in dst
-+ *
-+ * Set value in dma-buf mapping. Depending on the buffer's location, the helper
-+ * picks the correct method of accessing the memory.
-+ */
-+static inline void dma_buf_map_memset(struct dma_buf_map *dst, int value, size_t len)
-+{
-+	if (dst->is_iomem)
-+		memset_io(dst->vaddr_iomem, value, len);
-+	else
-+		memset(dst->vaddr, value, len);
-+}
-+
- /**
-  * dma_buf_map_incr - Increments the address stored in a dma-buf mapping
-  * @map:	The dma-buf mapping structure
+[1]  https://patchwork.kernel.org/project/linux-mediatek/cover/20220122075606.19373-1-yunfei.dong@mediatek.com
+---
+Tinghan Shen (1):
+  media: mtk-vcodec: prevent kernel crash when scp ipi timeout
+
+Yunfei Dong (7):
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for lat soc
+  media: mtk-vcodec: Add to support lat soc hardware
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8195
+  media: mtk-vcodec: Adds compatible for mt8195
+  media: mtk-vcodec: Different codec using different capture format
+  media: uapi: Init VP9 stateless decode params
+  media: mtk-vcodec: Add to support H264 inner racing mode
+
+ .../media/mediatek,vcodec-subdev-decoder.yaml | 50 +++++++++++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 41 +++++++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  8 +++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 12 +++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  2 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 50 +++++++++++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      | 11 ++++
+ .../mtk-vcodec/vdec/vdec_h264_req_multi_if.c  | 23 +++++++--
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  5 ++
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |  8 +++
+ 10 files changed, 202 insertions(+), 8 deletions(-)
+
 -- 
-2.35.0
+2.25.1
 
