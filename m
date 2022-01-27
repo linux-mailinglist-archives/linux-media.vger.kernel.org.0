@@ -2,147 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 034F149D91E
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jan 2022 04:20:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 672DD49D911
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jan 2022 04:15:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235702AbiA0DUh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jan 2022 22:20:37 -0500
-Received: from mga18.intel.com ([134.134.136.126]:16135 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232984AbiA0DUg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jan 2022 22:20:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643253636; x=1674789636;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=sVvu/HYEe/5dS/kX4S/iQn3lKM/CG5DiH/gZLFvkpNI=;
-  b=iWlbPdRYyvfZ/hPH3IuuKsD11wAtivMGKfNcf2HmC4SwhMhCJLK96YPo
-   +lWXk3ag2uCAysTU18c/Henp7qOKkvKA8L1OWrnr+kGsPetjEF3VvoHWj
-   XNgKcWaFTBP+71kCXmyDhKQVV7Wqr5SaW0WvFnVSywYDDifULOBom4xla
-   mbAjVTKi/oqHMioAUNJt+gs4lMHbsgHlW7dAQZ1BphusiS1cSw52WQiZx
-   YJz04SWs4jphpSC48BmUzw7CjcE/b3VUrAXg/FHma5lwaR8NXbj/6rIAu
-   znJYzGldaP8rOzjw481SdyZWK3Sn9Vw963Fz31K2QeVU/SI9dzyrhNyU3
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="230309014"
-X-IronPort-AV: E=Sophos;i="5.88,319,1635231600"; 
-   d="scan'208";a="230309014"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 19:20:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,319,1635231600"; 
-   d="scan'208";a="535457309"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.188]) ([10.238.232.188])
-  by orsmga008.jf.intel.com with ESMTP; 26 Jan 2022 19:20:33 -0800
-Subject: Re: [PATCH] media: ov5675: use group write to update digital gain
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     "Cao, Bingbu" <bingbu.cao@intel.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Tu, ShawnX" <shawnx.tu@intel.com>,
-        "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-        "Yeh, Andy" <andy.yeh@intel.com>
-References: <1640768259-18070-1-git-send-email-bingbu.cao@intel.com>
- <YcwtTaenpE1OK0TP@paasikivi.fi.intel.com>
- <DM8PR11MB565373D28B23D9D36C0560EE99449@DM8PR11MB5653.namprd11.prod.outlook.com>
- <YdwZUqoXnTmlveF6@paasikivi.fi.intel.com>
- <CAAFQd5CqEcLOvKsOchB29KzazAUh+hK2HWbqq+67fOhS4ydqEA@mail.gmail.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <c52bf111-41c3-4591-cc0e-1c64d7ec6e41@linux.intel.com>
-Date:   Thu, 27 Jan 2022 11:14:56 +0800
+        id S235639AbiA0DPS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jan 2022 22:15:18 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:57124 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229997AbiA0DPO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 Jan 2022 22:15:14 -0500
+X-UUID: 0b38b9e9e9654f7dbdc1c4993f352262-20220127
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:Subject; bh=sSmNaj2Cf5aK0r0+S1x/FHcyLBp62rFR+5TzQWIoaDY=;
+        b=VmwJjVUyoJp7TYq/1ouJWxRDN2oRrbxLZrccJhbEVORpgSoXFvUG9g1i9LtI48FelTQPCGAslFpJS8C7qmeY872g5FXSZ718iRZrCv4tppa9sVyQKjHdLtVuhIDV0RMEwbVBBrFDlAlFewWI90rkBghd1BowaSmvJl7R7/ZOU8U=;
+X-UUID: 0b38b9e9e9654f7dbdc1c4993f352262-20220127
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+        (envelope-from <macpaul.lin@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1126821713; Thu, 27 Jan 2022 11:15:12 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Thu, 27 Jan 2022 11:15:11 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 27 Jan 2022 11:15:11 +0800
+Subject: Re: [PATCH v1, 6/8] media: mtk-vcodec: prevent kernel crash when scp
+ ipi timeout
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Tzung-Bi Shih" <tzungbi@chromium.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        Fabien Parent <fparent@baylibre.com>,
+        Macross Chen <macross.chen@mediatek.com>
+References: <20220127025544.10854-1-yunfei.dong@mediatek.com>
+ <20220127025544.10854-7-yunfei.dong@mediatek.com>
+From:   Macpaul Lin <macpaul.lin@mediatek.com>
+Message-ID: <220f3e0a-3203-6f6f-8cc6-b5f24bc1feed@mediatek.com>
+Date:   Thu, 27 Jan 2022 11:15:11 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5CqEcLOvKsOchB29KzazAUh+hK2HWbqq+67fOhS4ydqEA@mail.gmail.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20220127025544.10854-7-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sakari,
+DQoNCk9uIDEvMjcvMjIgMTA6NTUgQU0sIFl1bmZlaSBEb25nIHdyb3RlOg0KPiBGcm9tOiBUaW5n
+aGFuIFNoZW4gPHRpbmdoYW4uc2hlbkBtZWRpYXRlay5jb20+DQo+IA0KPiBXaGVuIFNDUCB0aW1l
+b3V0IGR1cmluZyBwbGF5aW5nIHZpZGVvLCBrZXJuZWwgY3Jhc2hlcyB3aXRoIGZvbGxvd2luZw0K
+PiBtZXNzYWdlLiBJdCdzIGNhdXNlZCBieSBhY2Nlc3NpbmcgTlVMTCBwb2ludGVyIGluIHZwdV9k
+ZWNfaXBpX2hhbmRsZXIuDQo+IFRoaXMgcGF0Y2ggZG9lc24ndCBzb2x2ZSB0aGUgcm9vdCBjYXVz
+ZSBvZiBOVUxMIHBvaW50ZXIsIGJ1dCBtZXJlbHkNCj4gcHJldmVudCBrZXJuZWwgY3Jhc2hlZCB3
+aGVuIGVuY291bnRlciB0aGUgTlVMTCBwb2ludGVyLg0KPiANCj4gQWZ0ZXIgYXBwbGllZCB0aGlz
+IHBhdGNoLCBrZXJuZWwga2VlcHMgYWxpdmUsIG9ubHkgdGhlIHZpZGVvIHBsYXllciB0dXJucw0K
+PiB0byBncmVlbiBzY3JlZW4uDQo+IA0KPiBbNjcyNDIuMDY1NDc0XSBwYyA6IHZwdV9kZWNfaXBp
+X2hhbmRsZXIrMHhhMC8weGIyMCBbbXRrX3Zjb2RlY19kZWNdDQo+IFs2NzI0Mi4wNjU0ODVdIFtN
+VEtfVjRMMl0gbGV2ZWw9MCBmb3BzX3Zjb2RlY19vcGVuKCksMzM0Og0KPiAxODAwMDAwMC52Y29k
+ZWNfZGVjIGRlY29kZXIgWzEzNV0NCj4gWzY3MjQyLjA2NTUyM10gbHIgOiBzY3BfaXBpX2hhbmRs
+ZXIrMHgxMWMvMHgyNDQgW210a19zY3BdDQo+IFs2NzI0Mi4wNjU1NDBdIHNwIDogZmZmZmZmYmI0
+MjA3ZmIxMA0KPiBbNjcyNDIuMDY1NTU3XSB4Mjk6IGZmZmZmZmJiNDIwN2ZiMzAgeDI4OiBmZmZm
+ZmZkMDBhMWQ1MDAwDQo+IFs2NzI0Mi4wNjU1OTJdIHgyNzogMWZmZmZmZmEwMTQzYWEyNCB4MjY6
+IDAwMDAwMDAwMDAwMDAwMDANCj4gWzY3MjQyLjA2NTYyNV0geDI1OiBkZmZmZmZkMDAwMDAwMDAw
+IHgyNDogZmZmZmZmZDAxNjhiZmRiMA0KPiBbNjcyNDIuMDY1NjU5XSB4MjM6IDFmZmZmZmY3Njg0
+MGZmNzQgeDIyOiBmZmZmZmZiYjQxZmE4YTg4DQo+IFs2NzI0Mi4wNjU2OTJdIHgyMTogZmZmZmZm
+YmI0MjA3ZmI5YyB4MjA6IGZmZmZmZmJiNDIwN2ZiYTANCj4gWzY3MjQyLjA2NTcyNV0geDE5OiBm
+ZmZmZmZiYjQyMDdmYjk4IHgxODogMDAwMDAwMDAwMDAwMDAwMA0KPiBbNjcyNDIuMDY1NzU4XSB4
+MTc6IDAwMDAwMDAwMDAwMDAwMDAgeDE2OiBmZmZmZmZkMDQyMDIyMDk0DQo+IFs2NzI0Mi4wNjU3
+OTFdIHgxNTogMWZmZmZmZjc3ZWQ0YjcxYSB4MTQ6IDFmZmZmZmY3N2VkNGI3MTkNCj4gWzY3MjQy
+LjA2NTgyNF0geDEzOiAwMDAwMDAwMDAwMDAwMDAwIHgxMjogMDAwMDAwMDAwMDAwMDAwMA0KPiBb
+NjcyNDIuMDY1ODU3XSB4MTE6IDAwMDAwMDAwMDAwMDAwMDAgeDEwOiBkZmZmZmZkMDAwMDAwMDAx
+DQo+IFs2NzI0Mi4wNjU4OTBdIHg5IDogMDAwMDAwMDAwMDAwMDAwMCB4OCA6IDAwMDAwMDAwMDAw
+MDAwMDINCj4gWzY3MjQyLjA2NTkyM10geDcgOiAwMDAwMDAwMDAwMDAwMDAwIHg2IDogMDAwMDAw
+MDAwMDAwMDAzZg0KPiBbNjcyNDIuMDY1OTU2XSB4NSA6IDAwMDAwMDAwMDAwMDAwNDAgeDQgOiBm
+ZmZmZmZmZmZmZmZmZmUwDQo+IFs2NzI0Mi4wNjU5ODldIHgzIDogZmZmZmZmZDA0M2I4NDFiOCB4
+MiA6IDAwMDAwMDAwMDAwMDAwMDANCj4gWzY3MjQyLjA2NjAyMV0geDEgOiAwMDAwMDAwMDAwMDAw
+MDEwIHgwIDogMDAwMDAwMDAwMDAwMDAxMA0KPiBbNjcyNDIuMDY2MDU1XSBDYWxsIHRyYWNlOg0K
+PiBbNjcyNDIuMDY2MDkyXSAgdnB1X2RlY19pcGlfaGFuZGxlcisweGEwLzB4YjIwIFttdGtfdmNv
+ZGVjX2RlYw0KPiAxMjIyMGQyMzBkODNhNzQyNmZjMzhjNTZiM2U3YmM2MDY2OTU1YmFlXQ0KPiBb
+NjcyNDIuMDY2MTE5XSAgc2NwX2lwaV9oYW5kbGVyKzB4MTFjLzB4MjQ0IFttdGtfc2NwDQo+IDhm
+YjY5YzJlZjE0MWRkMzE5MjUxOGI5NTJiNjVhYmEzNTYyN2I4YmZdDQo+IFs2NzI0Mi4wNjYxNDVd
+ICBtdDgxOTJfc2NwX2lycV9oYW5kbGVyKzB4NzAvMHgxMjggW210a19zY3ANCj4gOGZiNjljMmVm
+MTQxZGQzMTkyNTE4Yjk1MmI2NWFiYTM1NjI3YjhiZl0NCj4gWzY3MjQyLjA2NjE3Ml0gIHNjcF9p
+cnFfaGFuZGxlcisweGEwLzB4MTE0IFttdGtfc2NwDQo+IDhmYjY5YzJlZjE0MWRkMzE5MjUxOGI5
+NTJiNjVhYmEzNTYyN2I4YmZdDQo+IFs2NzI0Mi4wNjYyMDBdICBpcnFfdGhyZWFkX2ZuKzB4ODQv
+MHhmOA0KPiBbNjcyNDIuMDY2MjIwXSAgaXJxX3RocmVhZCsweDE3MC8weDFlYw0KPiBbNjcyNDIu
+MDY2MjQyXSAga3RocmVhZCsweDJmOC8weDNiOA0KPiBbNjcyNDIuMDY2MjY0XSAgcmV0X2Zyb21f
+Zm9yaysweDEwLzB4MzANCj4gWzY3MjQyLjA2NjI5Ml0gQ29kZTogMzhmOTY5MDggMzUwMDM2Mjgg
+OTEwMDQzNDAgZDM0M2ZjMDggKDM4Zjk2OTA4KQ0KPiANCj4gU2lnbmVkLW9mZi1ieTogVGluZ2hh
+biBTaGVuIDx0aW5naGFuLnNoZW5AbWVkaWF0ZWsuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBZdW5m
+ZWkgRG9uZyA8eXVuZmVpLmRvbmdAbWVkaWF0ZWsuY29tPg0KPiAtLS0NCj4gICBkcml2ZXJzL21l
+ZGlhL3BsYXRmb3JtL210ay12Y29kZWMvdmRlY192cHVfaWYuYyB8IDUgKysrKysNCj4gICAxIGZp
+bGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9t
+ZWRpYS9wbGF0Zm9ybS9tdGstdmNvZGVjL3ZkZWNfdnB1X2lmLmMgYi9kcml2ZXJzL21lZGlhL3Bs
+YXRmb3JtL210ay12Y29kZWMvdmRlY192cHVfaWYuYw0KPiBpbmRleCAzNWY0ZDU1ODMwODQuLjEw
+NDFkZDY2M2U3NiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdmNv
+ZGVjL3ZkZWNfdnB1X2lmLmMNCj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdmNv
+ZGVjL3ZkZWNfdnB1X2lmLmMNCj4gQEAgLTkxLDYgKzkxLDExIEBAIHN0YXRpYyB2b2lkIHZwdV9k
+ZWNfaXBpX2hhbmRsZXIodm9pZCAqZGF0YSwgdW5zaWduZWQgaW50IGxlbiwgdm9pZCAqcHJpdikN
+Cj4gICAJc3RydWN0IHZkZWNfdnB1X2luc3QgKnZwdSA9IChzdHJ1Y3QgdmRlY192cHVfaW5zdCAq
+KQ0KPiAgIAkJCQkJKHVuc2lnbmVkIGxvbmcpbXNnLT5hcF9pbnN0X2FkZHI7DQo+ICAgDQo+ICsJ
+aWYgKCF2cHUpIHsNCj4gKwkJbXRrX3Y0bDJfZXJyKCJhcF9pbnN0X2FkZHIgaXMgTlVMTCIpOw0K
+PiArCQlyZXR1cm47DQo+ICsJfQ0KPiArDQo+ICAgCW10a192Y29kZWNfZGVidWcodnB1LCAiKyBp
+ZD0lWCIsIG1zZy0+bXNnX2lkKTsNCj4gICANCj4gICAJdnB1LT5mYWlsdXJlID0gbXNnLT5zdGF0
+dXM7DQo+IA0KDQpSZXZpZXdlZC1ieTogTWFjcGF1bCBMaW4gPG1hY3BhdWwubGluQG1lZGlhdGVr
+LmNvbT4NCg0KUmVnYXJkcywNCk1hY3BhdWwgTGlu
 
-I agree with Tomasz, the group write will not cause timing issues, instead it will help
-on that. So we did not need to group hold exposure and digital gain along with analog
-gain. Driver can not make the policy that the exposure, a-gain and d-gain are applied
-together.
-
-
-On 1/11/22 12:27 PM, Tomasz Figa wrote:
-> Hi Sakari,
-> 
-> On Mon, Jan 10, 2022 at 8:32 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
->>
->> On Wed, Dec 29, 2021 at 10:00:43AM +0000, Cao, Bingbu wrote:
->>> Hi Sakari,
->>>
->>> Thanks for your review.
->>>
->>> ________________________
->>> BRs,
->>> Bingbu Cao
->>>
->>>> -----Original Message-----
->>>> From: Sakari Ailus <sakari.ailus@linux.intel.com>
->>>> Sent: Wednesday, December 29, 2021 5:42 PM
->>>> To: Cao, Bingbu <bingbu.cao@intel.com>
->>>> Cc: linux-media@vger.kernel.org; Tu, ShawnX <shawnx.tu@intel.com>;
->>>> senozhatsky@chromium.org; tfiga@chromium.org; bingbu.cao@linux.intel.com;
->>>> Yeh, Andy <andy.yeh@intel.com>
->>>> Subject: Re: [PATCH] media: ov5675: use group write to update digital
->>>> gain
->>>>
->>>> Hi Bingbu,
->>>>
->>>> On Wed, Dec 29, 2021 at 04:57:39PM +0800, Bingbu Cao wrote:
->>>>> MWB gain register are used to set gain for each mwb channel mannually.
->>>>> However, it will involve some artifacts at low light environment as
->>>>> gain cannot be applied to each channel synchronously. Update the
->>>>> driver to use group write for digital gain to make the sure RGB
->>>>> digital gain be applied together at frame boundary.
->>>>
->>>> How about the analogue gain and exposure time?
->>>>
->>>> Shouldn't they be applied similarly as well? Adding two more writes
->>>> increases the probability of missing a frame there.
->>>
->>> We did not meet issue related to analog gain as the it was applied by only
->>> 1 reg write, it looks like same issue we found on ov8856, changing to set
->>> digital gain by only 1 global gain write will fix the problem.
->>
->> That device is different in its support for global digital gain. This patch
->> sets the gain for each component separately.
-> 
-> That's not what the patch does. The existing code programs the 3
-> per-component registers separately. This patch made it happen under
-> one write group. It doesn't increase the likelihood of the frame
-> having wrong parameters - given the same timeline, before this patch,
-> the frame would just have an even worse, partial gain setting, while
-> with this patch it can either have the old or new gain.
-> 
-> Best regards,
-> Tomasz
-> 
->>
->> Adding more writes on a given frame increases the probability of slipping
->> to the following frame. Doing the exposure and gain updates in the same
->> group write would alleviate that a little.
->>
->>>
->>>>
->>>> This is of course a trick since the control framework doesn't really
->>>> support this, but I think this support should be added.
->>>>
->>>> --
->>>> Regards,
->>>>
->>>> Sakari Ailus
->>
->> --
->> Sakari Ailus
-
--- 
-Best regards,
-Bingbu Cao
