@@ -2,150 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E38EB49E538
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jan 2022 15:54:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8210849E55A
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jan 2022 16:02:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235655AbiA0OyX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jan 2022 09:54:23 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:38468 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232133AbiA0OyX (ORCPT
+        id S242733AbiA0PCt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jan 2022 10:02:49 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54436 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237314AbiA0PCt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jan 2022 09:54:23 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id F04DC218DF;
-        Thu, 27 Jan 2022 14:54:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1643295261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=v8fWXhbyoXcazfhZo3hv5O1RuBmr1XMNYj+pSAtIS1Q=;
-        b=BgYzEH4XlP9nGQv8GoiDP1R0T9x0TU5+PNYjxGsTuPXTOc0O/MCDbwVDHY1m18+mma9RC3
-        KCzUw6JuwXWyAwkdRqq8NyvfewUFS7+9eOmNp/hPsL4rAwBm7PhrAAn6tNvpqaedYWR+LH
-        u8i3/lyUwVdhDlro16DpS2lfGJWZfRI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1643295261;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=v8fWXhbyoXcazfhZo3hv5O1RuBmr1XMNYj+pSAtIS1Q=;
-        b=ljw22gscG6ryGrzLVqc+LdSSJVRgkn0lrv1cKXmS5NEDQEZRo+Rzz9zGKUzU9qolDWbW5v
-        jCTRD/SYlTy66zDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C4E3213C03;
-        Thu, 27 Jan 2022 14:54:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id r00TLx2y8mFsUAAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 27 Jan 2022 14:54:21 +0000
-Message-ID: <7cb8a8a2-718d-6d5c-5de6-05bf990dd479@suse.de>
-Date:   Thu, 27 Jan 2022 15:54:21 +0100
+        Thu, 27 Jan 2022 10:02:49 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 21B551F403B9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1643295768;
+        bh=di0QlooY9Xo01DVMWIhw7aG/KryjQggrU+H4kEUJCBs=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=aGTgsniM1VQF3R1ga0HwRknNztMGKeXKiZ1fuXUfZIxEzqSbVbHW6EmIUbz+3bX5E
+         rAOC8sqSNdnChw1Y+L0XhoiLpv0yYFj+XEuWELPt/day6gpS9SvG7StaTcetw33syR
+         BJfmf5Q9VcLes8Z/xNaUfWt7FwVRZluWopfwuotYZlLvdnlrpC2lu3jkXSig3banzg
+         hKQ+cDD1XeEX9V9yrYiQ0TVpIX5XI27FukUzwcr63FHc0T64zWufYtIMJWdUBQDoEt
+         fs+/mT1Rkf7B1D0iB1EIOrsYHOSmEFTBmcNH3YvcxphMJL6Arp+9c2uGCUcUDmeadR
+         DJOSTr2ufubKQ==
+Subject: Re: [PATCH v1 06/14] media: platform: mtk-mdp3: Modify mtk-img-ipi.h
+ for MT8195 SCP
+To:     "roy-cw.yeh" <roy-cw.yeh@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Fabien Parent <fparent@baylibre.com>,
+        "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        Moudy Ho <moudy.ho@mediatek.com>,
+        "river . cheng" <river.cheng@mediatek.com>,
+        Yongqiang Niu <yongqiang.niu@mediatek.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+References: <20220117055254.9777-1-roy-cw.yeh@mediatek.com>
+ <20220117055254.9777-7-roy-cw.yeh@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Message-ID: <f6bbe7ff-1487-0ed1-595d-2449d57098ca@collabora.com>
+Date:   Thu, 27 Jan 2022 16:02:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 09/19] dma-buf-map: Add wrapper over memset
+In-Reply-To: <20220117055254.9777-7-roy-cw.yeh@mediatek.com>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
 Content-Language: en-US
-To:     Lucas De Marchi <lucas.demarchi@intel.com>,
-        intel-gfx@lists.freedesktop.org
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-10-lucas.demarchi@intel.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220126203702.1784589-10-lucas.demarchi@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------qRmQ02gbb1I86kFPwqzaVpbh"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------qRmQ02gbb1I86kFPwqzaVpbh
-Content-Type: multipart/mixed; boundary="------------nI0Yh6km02ArpMTUoS57PPJq";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-Message-ID: <7cb8a8a2-718d-6d5c-5de6-05bf990dd479@suse.de>
-Subject: Re: [PATCH 09/19] dma-buf-map: Add wrapper over memset
-References: <20220126203702.1784589-1-lucas.demarchi@intel.com>
- <20220126203702.1784589-10-lucas.demarchi@intel.com>
-In-Reply-To: <20220126203702.1784589-10-lucas.demarchi@intel.com>
+Il 17/01/22 06:52, roy-cw.yeh ha scritto:
+> From: "Roy-CW.Yeh" <roy-cw.yeh@mediatek.com>
+> 
+> 1. Modify struct member to 4 byte-alignment for MT8195 SCP limitation
+> 2. Add new struct for hw engine adding in MT8195
+> 
+> Signed-off-by: Roy-CW.Yeh <roy-cw.yeh@mediatek.com>
 
---------------nI0Yh6km02ArpMTUoS57PPJq
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+This will break MT8183; is there any new firmware for that SoC that will
+synchronize these structures?
 
-SGkNCg0KQW0gMjYuMDEuMjIgdW0gMjE6MzYgc2NocmllYiBMdWNhcyBEZSBNYXJjaGk6DQo+
-IEp1c3QgbGlrZSBtZW1jcHlfdG9pbygpLCB0aGVyZSBpcyBhbHNvIG5lZWQgdG8gd3JpdGUg
-YSBkaXJlY3QgdmFsdWUgdG8gYQ0KPiBtZW1vcnkgYmxvY2suIEFkZCBkbWFfYnVmX21hcF9t
-ZW1zZXQoKSB0byBhYnN0cmFjdCBtZW1zZXQoKSB2cyBtZW1zZXRfaW8oKQ0KPiANCj4gQ2M6
-IE1hdHQgUm9wZXIgPG1hdHRoZXcuZC5yb3BlckBpbnRlbC5jb20+DQo+IENjOiBTdW1pdCBT
-ZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPg0KPiBDYzogQ2hyaXN0aWFuIEvDtm5p
-ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiBDYzogbGludXgtbWVkaWFAdmdlci5r
-ZXJuZWwub3JnDQo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IENj
-OiBsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmcNCj4gQ2M6IGxpbnV4LWtlcm5lbEB2
-Z2VyLmtlcm5lbC5vcmcNCj4gU2lnbmVkLW9mZi1ieTogTHVjYXMgRGUgTWFyY2hpIDxsdWNh
-cy5kZW1hcmNoaUBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgIGluY2x1ZGUvbGludXgvZG1hLWJ1
-Zi1tYXAuaCB8IDE3ICsrKysrKysrKysrKysrKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDE3
-IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2RtYS1i
-dWYtbWFwLmggYi9pbmNsdWRlL2xpbnV4L2RtYS1idWYtbWFwLmgNCj4gaW5kZXggMzUxNGE4
-NTlmNjI4Li5jOWZiMDQyNjRjZDAgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvbGludXgvZG1h
-LWJ1Zi1tYXAuaA0KPiArKysgYi9pbmNsdWRlL2xpbnV4L2RtYS1idWYtbWFwLmgNCj4gQEAg
-LTMxNyw2ICszMTcsMjMgQEAgc3RhdGljIGlubGluZSB2b2lkIGRtYV9idWZfbWFwX21lbWNw
-eV90byhzdHJ1Y3QgZG1hX2J1Zl9tYXAgKmRzdCwgY29uc3Qgdm9pZCAqc3INCj4gICAJCW1l
-bWNweShkc3QtPnZhZGRyLCBzcmMsIGxlbik7DQo+ICAgfQ0KPiAgIA0KPiArLyoqDQo+ICsg
-KiBkbWFfYnVmX21hcF9tZW1zZXQgLSBNZW1zZXQgaW50byBkbWEtYnVmIG1hcHBpbmcNCj4g
-KyAqIEBkc3Q6CVRoZSBkbWEtYnVmIG1hcHBpbmcgc3RydWN0dXJlDQo+ICsgKiBAdmFsdWU6
-CVRoZSB2YWx1ZSB0byBzZXQNCj4gKyAqIEBsZW46CVRoZSBudW1iZXIgb2YgYnl0ZXMgdG8g
-c2V0IGluIGRzdA0KPiArICoNCj4gKyAqIFNldCB2YWx1ZSBpbiBkbWEtYnVmIG1hcHBpbmcu
-IERlcGVuZGluZyBvbiB0aGUgYnVmZmVyJ3MgbG9jYXRpb24sIHRoZSBoZWxwZXINCj4gKyAq
-IHBpY2tzIHRoZSBjb3JyZWN0IG1ldGhvZCBvZiBhY2Nlc3NpbmcgdGhlIG1lbW9yeS4NCj4g
-KyAqLw0KPiArc3RhdGljIGlubGluZSB2b2lkIGRtYV9idWZfbWFwX21lbXNldChzdHJ1Y3Qg
-ZG1hX2J1Zl9tYXAgKmRzdCwgaW50IHZhbHVlLCBzaXplX3QgbGVuKQ0KPiArew0KPiArCWlm
-IChkc3QtPmlzX2lvbWVtKQ0KPiArCQltZW1zZXRfaW8oZHN0LT52YWRkcl9pb21lbSwgdmFs
-dWUsIGxlbik7DQo+ICsJZWxzZQ0KPiArCQltZW1zZXQoZHN0LT52YWRkciwgdmFsdWUsIGxl
-bik7DQo+ICt9DQoNCk1heWJlIGFkZCBhbiBvZmZzZXQgcGFyYW1ldGVyIGhlcmUuDQoNCkJl
-c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gKw0KPiAgIC8qKg0KPiAgICAqIGRtYV9idWZfbWFw
-X2luY3IgLSBJbmNyZW1lbnRzIHRoZSBhZGRyZXNzIHN0b3JlZCBpbiBhIGRtYS1idWYgbWFw
-cGluZw0KPiAgICAqIEBtYXA6CVRoZSBkbWEtYnVmIG1hcHBpbmcgc3RydWN0dXJlDQoNCi0t
-IA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0Ug
-U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkg
-TsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOk
-ZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
-
---------------nI0Yh6km02ArpMTUoS57PPJq--
-
---------------qRmQ02gbb1I86kFPwqzaVpbh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHysh0FAwAAAAAACgkQlh/E3EQov+A3
-ZxAAr5VXWQlRsbS8cSvWZ6EQYkXbTAu3e9bmzCT4dEaTn9l/lcOs50+nU1tOts6eCL57N8BpE6JL
-ALTmdjZ4uTYn5JubCyVECPZmqVH81qPPJoPHoX5moiJon+jcc7YYohAbrTS0nR5MIV/AKucZiY6f
-6SJfryLv6CcKytF+2DP7ebPyneXG5e4nyQC7ar4f839YaXcKkcmsJSFDVI6b3jwpYw7Pvv4uJ/6m
-o8SRUzSq0I+7vvtS0kuQB1SY8RHEMEr1hmw0IO5K15Eu0XIltumaATF5hbe/pikfJZRxNBjoT/6X
-g3alHMsJhKcL4GFpeZzQIhYAhO59zlrTr6GWVxOa+MSXC5K8v0YeGaHwFEMDID30qO5r22Sd+Qya
-8i7ntYy+VdcbdBf0IiLmwAVgRZdfnI1CNeV2Q+TKGAp2YUd+7re9A32gSKoWmy47788MrEzOU2UM
-S8m/xSL2Yftwdczy5UerUUCgjzT9qibXCjRrS9xXW2uUSeQvyO2tv7Mu0qPTTQODwJfVCsZVqxHR
-YKi1a4bc6voQau/OfByZr/hIaQEJzu1N7z5LeIPQsAXTnyr0+MF5T5GKfrrESODLSKl0x1vQwbpF
-6VxFzz/gcIoU0GfoLVBzoaXMdGNswoxbjBT4v3D6iNpNL7GF1MPTDDR506W6BqbfpJe4Hkgp1NsL
-jH8=
-=gmeQ
------END PGP SIGNATURE-----
-
---------------qRmQ02gbb1I86kFPwqzaVpbh--
+Alternatively, you should add a new version of these structures and select
+them with a wrapper function on a per-SoC basis, or per firmware version.
