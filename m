@@ -2,308 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CB5949F68F
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 10:40:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D860849F696
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 10:43:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347686AbiA1JkU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 04:40:20 -0500
-Received: from mga04.intel.com ([192.55.52.120]:21498 "EHLO mga04.intel.com"
+        id S237104AbiA1JnD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 04:43:03 -0500
+Received: from mga12.intel.com ([192.55.52.136]:52370 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243738AbiA1JkT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 04:40:19 -0500
+        id S229745AbiA1JnC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 Jan 2022 04:43:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643362819; x=1674898819;
+  t=1643362982; x=1674898982;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=zbgjyRc44apVTbxnAhpECGtNLRdQVV6U+CLlN1kWDdw=;
-  b=WVaEpS/q4ukTxJ5020C4R2OLqNsVAZXdTymxjfGeGYJZjzl6h+gf0XvI
-   i5MPSr7WXFiDlpZR4MNs7DOPwUM2TAkdoucrm0t9X3h7lj3JuzYTX5laI
-   XtQ9/W68Rxph8/7cSmxAI+ABGEIU6XMMepnZ2KMwkq058o1CPVccOb7mb
-   gyYIhM6vxHTyltmtTGmJZt3iUfIe7mCdBaZnRR4hUIokbG9VLA6eXYIO4
-   9yX1D57Jg038JMv4TAGqlZboBkZGfHVoxWUlIUnbfL1ID8TpcFdAQvKW0
-   P5ypS6j/gacm64lu5LaffoFCGtncVa7GPgcrS1NKbIuBvYIKmfZZcYsiJ
+   mime-version:in-reply-to;
+  bh=vf1ex+cEDcYWqEQ5cawGNksagGQxN4lCqrxOdgPVmAw=;
+  b=ficQ7WMpXF4aRaaa3NUpW1phF4QpGVOzxDRhYPtC09Gb64gK8JqW5vRw
+   XXAu0QIkEFDfDJ5UwoQp1s8cfLSDY8KaxMmSTJzcvKzLQ8l9bK7CqE2Np
+   htQiKnO1G8w8bBlL5gnLmTtkFHGWZZqTNoYK3tFpOupMw6VqgEFGk5e/u
+   tn7n29OVHEJ+aSdA9ZpZrRg8MJShd6gYpOHm/3b7uAdDs9OMnMCvypBSb
+   mL0zoExhPmovSi7KmEdQ0uXp1wggMgDSuZFY/tStzkjhvmhBFHvKqYH9d
+   H7+w7dA74GsdpT7jAxq7PrzRhrMFMHqXO1obVIVnxA0MA2+Jfan2hcOnE
    Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="245929067"
+X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="227067008"
 X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; 
-   d="scan'208";a="245929067"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 01:40:19 -0800
+   d="scan'208";a="227067008"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 01:43:01 -0800
 X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; 
-   d="scan'208";a="536067660"
-Received: from weif1-mobl.amr.corp.intel.com (HELO ldmartin-desk2) ([10.251.10.48])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 01:40:18 -0800
-Date:   Fri, 28 Jan 2022 01:40:18 -0800
-From:   Lucas De Marchi <lucas.demarchi@intel.com>
-To:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        srinivas.kandagatla@linaro.org, gregkh@linuxfoundation.org,
-        sumit.semwal@linaro.org, daniel.vetter@ffwll.ch, airlied@linux.ie,
-        lyude@redhat.com, tzimmermann@suse.de, linux-media@vger.kernel.org,
-        nouveau@lists.freedesktop.org
-Subject: Re: [PATCH 00/14] Rename dma-buf-map
-Message-ID: <20220128094018.m7pixeznedoa47gb@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20220128083626.3012259-1-lucas.demarchi@intel.com>
- <a45a8cef-f5e7-604c-64f1-e893ec9ba8af@amd.com>
- <20220128091213.qaq6v4vbeerzvd3f@ldmartin-desk2>
- <27870484-6d16-5bd4-aa06-0ec513111d99@amd.com>
+   d="scan'208";a="564146441"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 01:42:59 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 6A2CD20139;
+        Fri, 28 Jan 2022 11:42:57 +0200 (EET)
+Date:   Fri, 28 Jan 2022 11:42:57 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        "Cao, Bingbu" <bingbu.cao@intel.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Tu, ShawnX" <shawnx.tu@intel.com>,
+        "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+        "Yeh, Andy" <andy.yeh@intel.com>
+Subject: Re: [PATCH] media: ov5675: use group write to update digital gain
+Message-ID: <YfO6ofAOSwquG2FW@paasikivi.fi.intel.com>
+References: <1640768259-18070-1-git-send-email-bingbu.cao@intel.com>
+ <YcwtTaenpE1OK0TP@paasikivi.fi.intel.com>
+ <DM8PR11MB565373D28B23D9D36C0560EE99449@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <YdwZUqoXnTmlveF6@paasikivi.fi.intel.com>
+ <CAAFQd5CqEcLOvKsOchB29KzazAUh+hK2HWbqq+67fOhS4ydqEA@mail.gmail.com>
+ <c52bf111-41c3-4591-cc0e-1c64d7ec6e41@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <27870484-6d16-5bd4-aa06-0ec513111d99@amd.com>
+In-Reply-To: <c52bf111-41c3-4591-cc0e-1c64d7ec6e41@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 28, 2022 at 10:22:00AM +0100, Christian König wrote:
->Am 28.01.22 um 10:12 schrieb Lucas De Marchi:
->>On Fri, Jan 28, 2022 at 09:41:14AM +0100, Christian König wrote:
->>>Rule #1 is to never ever break the build.
->>>
->>>Because of this all those patches needs to be squashed into a 
->>>single one as far as I can see.
->>
->>what config are you building on?
->
->Well I'm not building at all, I'm just looking at the patches as an 
->engineer with 25 years of experience with Linux patches.
->
->Just take a look at patch number 2:
->
->-static int fastrpc_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
->+static int fastrpc_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
->
->You are changing the functions signature without changing any of the 
->callers.
->
->At bare minimum that causes a warning and on runtime this only works 
->by coincident now because the structure pointers just happen to have 
->the same layout. This is not something we usually do.
+Hi Bingbu,
 
-you missed the magic/hack on patch 1:
+On Thu, Jan 27, 2022 at 11:14:56AM +0800, Bingbu Cao wrote:
+> Sakari,
+> 
+> I agree with Tomasz, the group write will not cause timing issues, instead it will help
+> on that. So we did not need to group hold exposure and digital gain along with analog
+> gain. Driver can not make the policy that the exposure, a-gain and d-gain are applied
+> together.
 
-1) dma-buf-map.h includes iosys-map.h _at the end_
-2) iosys-map.h includes dma-buf-map.h at the beginning
-    and initially does a "define iosys_map dma_buf_map".
+I'll take the patch but we're leaving some technical debt here, admittedly
+much of which was there to begin with.
 
-So, it doesn't work by coincidence, It's because it was done to allow
-converting it piecemeal.
+Please wrap before 80.
 
-But as I said, I don't really have a preference. When crossing
-subsystems one thing that is hard is that different people have different
-preferences on these things. At least squashing now is much easier than
-if I had to split it
+-- 
+Kind regards,
 
-Try to imagine how much complain I received on going the other way in
-25985edcedea6396277003854657b5f3cb31a628 with
-2463 files changed, 4252 insertions(+), 4252 deletions(-)
-:)
-
-
-Lucas De Marchi
-
->
->Regards,
->Christian.
->
->>I built this series, full config with
->>CONFIG_COMPILE_TEST and doing:
->>
->>    git rebase -i <base> -x "make -j$(nproc)"
->>
->>I split these patches in a way that wouldn't break the build on purpose.
->>There were a couple that I couldn't build without cross compiling: tegra
->>and rockchip. The others were ok.
->>
->>I'm not really against squashing everything in one to merge, though.
->>It will be hard on the conflicts later, but should get the job done much
->>quicker.
->>
->>Lucas De Marchi
->>
->>>
->>>Regards,
->>>Christian.
->>>
->>>Am 28.01.22 um 09:36 schrieb Lucas De Marchi:
->>>>Motivation for this started in
->>>>https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2F20220126203702.1784589-1-lucas.demarchi%40intel.com%2F&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C15bd6767b2fb4b2c027e08d9e23e46af%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637789579371467295%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=yAllbKjW29SsXA0CMrhK%2BDDvZ1A5CrSptshmsh5vYNQ%3D&amp;reserved=0
->>>>
->>>>when trying to extend the dma-buf-map API to cover new use 
->>>>cases: help a
->>>>single driver with allocations and sharing code paths for IO and system
->>>>memory. I'm leaving the API additions aside and first renaming the
->>>>interface as requested.
->>>>
->>>>There are already some users in tree outside the context of dma-buf
->>>>importer/exporter. So before extending the API, let's dissociate 
->>>>it from
->>>>dma-buf.
->>>>
->>>>The iosys-map.h is introduced in the first patch in a way that allows
->>>>the conversion of each driver to happen separately. After all the
->>>>conversions are done we can remove the old one, which is the 
->>>>last patch.
->>>>Another possible way is to squash everything and merge together,
->>>>but I believe this would make much harder for review.
->>>>
->>>>The conversion was done with the following semantic patch:
->>>>
->>>>    @r1@
->>>>    @@
->>>>    - struct dma_buf_map
->>>>    + struct iosys_map
->>>>
->>>>    @r2@
->>>>    @@
->>>>    (
->>>>    - DMA_BUF_MAP_INIT_VADDR
->>>>    + IOSYS_MAP_INIT_VADDR
->>>>    |
->>>>    - dma_buf_map_set_vaddr
->>>>    + iosys_map_set_vaddr
->>>>    |
->>>>    - dma_buf_map_set_vaddr_iomem
->>>>    + iosys_map_set_vaddr_iomem
->>>>    |
->>>>    - dma_buf_map_is_equal
->>>>    + iosys_map_is_equal
->>>>    |
->>>>    - dma_buf_map_is_null
->>>>    + iosys_map_is_null
->>>>    |
->>>>    - dma_buf_map_is_set
->>>>    + iosys_map_is_set
->>>>    |
->>>>    - dma_buf_map_clear
->>>>    + iosys_map_clear
->>>>    |
->>>>    - dma_buf_map_memcpy_to
->>>>    + iosys_map_memcpy_to
->>>>    |
->>>>    - dma_buf_map_incr
->>>>    + iosys_map_incr
->>>>    )
->>>>
->>>>    @@
->>>>    @@
->>>>    - #include <linux/dma-buf-map.h>
->>>>    + #include <linux/iosys-map.h>
->>>>
->>>>and then some files had their includes adjusted so we can build
->>>>everything on each commit in this series. Also some comments 
->>>>were update
->>>>to remove mentions to dma-buf-map. Simply doing a sed to rename didn't
->>>>work as dma-buf has some APIs using the dma_buf_map prefix.
->>>>
->>>>Once finalized, I think most of this, if not all, could go through the
->>>>drm-misc-next branch. I split i915, msm, nouveau, and radeon in their
->>>>own patches in case it's preferred to take those through their own
->>>>trees.
->>>>
->>>>Lucas De Marchi
->>>>
->>>>Lucas De Marchi (14):
->>>>  iosys-map: Introduce renamed dma-buf-map
->>>>  misc: fastrpc: Replace dma-buf-map with iosys-map
->>>>  dma-buf: Replace dma-buf-map with iosys-map
->>>>  media: Replace dma-buf-map with iosys-map
->>>>  drm/ttm: Replace dma-buf-map with iosys-map
->>>>  drm: Replace dma-buf-map with iosys-map in drivers
->>>>  drm/i915: Replace dma-buf-map with iosys-map
->>>>  drm/msm: Replace dma-buf-map with iosys-map
->>>>  drm/nouveau: Replace dma-buf-map with iosys-map
->>>>  drm/tegra: Replace dma-buf-map with iosys-map
->>>>  drm/radeon: Replace dma-buf-map with iosys-map
->>>>  drm: Replace dma-buf-map with iosys-map in common code
->>>>  Documentation: Refer to iosys-map instead of dma-buf-map
->>>>  dma-buf-map: Remove API in favor of iosys-map
->>>>
->>>> Documentation/driver-api/dma-buf.rst          |   4 +-
->>>> Documentation/gpu/todo.rst                    |  20 +-
->>>> MAINTAINERS                                   |   2 +-
->>>> drivers/dma-buf/dma-buf.c                     |  22 +-
->>>> drivers/dma-buf/heaps/cma_heap.c              |  10 +-
->>>> drivers/dma-buf/heaps/system_heap.c           |  10 +-
->>>> drivers/gpu/drm/ast/ast_drv.h                 |   2 +-
->>>> drivers/gpu/drm/ast/ast_mode.c                |   8 +-
->>>> drivers/gpu/drm/drm_cache.c                   |  18 +-
->>>> drivers/gpu/drm/drm_client.c                  |   9 +-
->>>> drivers/gpu/drm/drm_fb_helper.c               |  12 +-
->>>> drivers/gpu/drm/drm_gem.c                     |  12 +-
->>>> drivers/gpu/drm/drm_gem_cma_helper.c          |   9 +-
->>>> drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  16 +-
->>>> drivers/gpu/drm/drm_gem_shmem_helper.c        |  15 +-
->>>> drivers/gpu/drm/drm_gem_ttm_helper.c          |   4 +-
->>>> drivers/gpu/drm/drm_gem_vram_helper.c         |  25 +-
->>>> drivers/gpu/drm/drm_internal.h                |   6 +-
->>>> drivers/gpu/drm/drm_mipi_dbi.c                |   8 +-
->>>> drivers/gpu/drm/drm_prime.c                   |   4 +-
->>>> drivers/gpu/drm/etnaviv/etnaviv_drv.h         |   2 +-
->>>> drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   8 +-
->>>> drivers/gpu/drm/gud/gud_pipe.c                |   4 +-
->>>> drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   5 +-
->>>> drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   8 +-
->>>> .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   6 +-
->>>> .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |   6 +-
->>>> drivers/gpu/drm/lima/lima_gem.c               |   3 +-
->>>> drivers/gpu/drm/lima/lima_sched.c             |   4 +-
->>>> drivers/gpu/drm/mediatek/mtk_drm_gem.c        |   7 +-
->>>> drivers/gpu/drm/mediatek/mtk_drm_gem.h        |   5 +-
->>>> drivers/gpu/drm/mgag200/mgag200_mode.c        |   4 +-
->>>> drivers/gpu/drm/msm/msm_drv.h                 |   4 +-
->>>> drivers/gpu/drm/msm/msm_gem_prime.c           |   6 +-
->>>> drivers/gpu/drm/nouveau/nouveau_gem.c         |   2 +
->>>> drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  13 +-
->>>> drivers/gpu/drm/qxl/qxl_display.c             |   8 +-
->>>> drivers/gpu/drm/qxl/qxl_draw.c                |   6 +-
->>>> drivers/gpu/drm/qxl/qxl_drv.h                 |  10 +-
->>>> drivers/gpu/drm/qxl/qxl_object.c              |   8 +-
->>>> drivers/gpu/drm/qxl/qxl_object.h              |   4 +-
->>>> drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
->>>> drivers/gpu/drm/radeon/radeon_gem.c           |   1 +
->>>> drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |   9 +-
->>>> drivers/gpu/drm/rockchip/rockchip_drm_gem.h   |   5 +-
->>>> drivers/gpu/drm/tegra/gem.c                   |  10 +-
->>>> drivers/gpu/drm/tiny/cirrus.c                 |   8 +-
->>>> drivers/gpu/drm/tiny/gm12u320.c               |   7 +-
->>>> drivers/gpu/drm/ttm/ttm_bo_util.c             |  16 +-
->>>> drivers/gpu/drm/ttm/ttm_resource.c            |  26 +-
->>>> drivers/gpu/drm/ttm/ttm_tt.c                  |   6 +-
->>>> drivers/gpu/drm/udl/udl_modeset.c             |   3 +-
->>>> drivers/gpu/drm/vboxvideo/vbox_mode.c         |   4 +-
->>>> drivers/gpu/drm/virtio/virtgpu_prime.c        |   1 +
->>>> drivers/gpu/drm/vkms/vkms_composer.c          |   4 +-
->>>> drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
->>>> drivers/gpu/drm/vkms/vkms_plane.c             |   2 +-
->>>> drivers/gpu/drm/vkms/vkms_writeback.c         |   2 +-
->>>> drivers/gpu/drm/xen/xen_drm_front_gem.c       |   7 +-
->>>> drivers/gpu/drm/xen/xen_drm_front_gem.h       |   6 +-
->>>> .../common/videobuf2/videobuf2-dma-contig.c   |   8 +-
->>>> .../media/common/videobuf2/videobuf2-dma-sg.c |   9 +-
->>>> .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
->>>> drivers/misc/fastrpc.c                        |   4 +-
->>>> include/drm/drm_cache.h                       |   6 +-
->>>> include/drm/drm_client.h                      |   7 +-
->>>> include/drm/drm_gem.h                         |   6 +-
->>>> include/drm/drm_gem_atomic_helper.h           |   6 +-
->>>> include/drm/drm_gem_cma_helper.h              |   6 +-
->>>> include/drm/drm_gem_framebuffer_helper.h      |   8 +-
->>>> include/drm/drm_gem_shmem_helper.h            |  12 +-
->>>> include/drm/drm_gem_ttm_helper.h              |   6 +-
->>>> include/drm/drm_gem_vram_helper.h             |   9 +-
->>>> include/drm/drm_prime.h                       |   6 +-
->>>> include/drm/ttm/ttm_bo_api.h                  |  10 +-
->>>> include/drm/ttm/ttm_kmap_iter.h               |  10 +-
->>>> include/drm/ttm/ttm_resource.h                |   6 +-
->>>> include/linux/dma-buf-map.h                   | 266 ------------------
->>>> include/linux/dma-buf.h                       |  12 +-
->>>> include/linux/iosys-map.h                     | 257 +++++++++++++++++
->>>> 80 files changed, 579 insertions(+), 552 deletions(-)
->>>> delete mode 100644 include/linux/dma-buf-map.h
->>>> create mode 100644 include/linux/iosys-map.h
->>>>
->>>
->
+Sakari Ailus
