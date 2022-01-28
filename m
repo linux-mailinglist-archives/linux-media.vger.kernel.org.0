@@ -2,163 +2,416 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 463764A0291
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 22:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09DE54A032E
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 22:49:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239231AbiA1VL5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 16:11:57 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44488 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351334AbiA1VL4 (ORCPT
+        id S235428AbiA1Vt1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 16:49:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229608AbiA1VtZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 16:11:56 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E3AA471;
-        Fri, 28 Jan 2022 22:11:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643404315;
-        bh=3RP0KZlqBg6gAHtq91vqwCX0wJm5HFwIHhBxEPi+fKI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=byJs3D9hwnfIZFoWRU7zt4+/tQ6Wsck7lDNA+3w2Vb50yPMmNZQQ3kXveeqY5ekq6
-         Zi/TeGYl0dSuENZpe31kTPkP3orpN3PeZxveijxJCbzOUwBT9us/o3Qjh7aOA1IV3f
-         gFhj6J6jC3mntSda6s5//lOwz9roSOWMpZWA2Rhc=
-Date:   Fri, 28 Jan 2022 23:11:33 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>, Sean Young <sean@mess.org>
-Subject: Re: [GIT PULL v2 FOR 5.18] V4L2 patches
-Message-ID: <YfRcBaVnWCkd+AF3@pendragon.ideasonboard.com>
-References: <Ye7QMv0OBntzuC1C@valkosipuli.retiisi.eu>
- <20220128195312.092b1d3d@coco.lan>
- <YfQ9eMB2aP5iH6AZ@valkosipuli.retiisi.eu>
- <20220128215713.1abef17b@coco.lan>
+        Fri, 28 Jan 2022 16:49:25 -0500
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2F6FC06173B
+        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 13:49:24 -0800 (PST)
+Received: by mail-qt1-x82d.google.com with SMTP id k25so1396888qtp.4
+        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 13:49:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=4f73Gjx8q8oCSIE0UST+SjPZgCcwyOYgI8hgnMKdaZU=;
+        b=LSuKzT1rAlE8szDIsl8voOrH37/K6bU/27qyOtUKhBV1oVMlIaZWv+L2rMx5FEVmwn
+         ZHZD71YoDSBhJ1OqPV7RdOBkWcdpkG6AgO7a1w0aDzfC1ywdt41AzpE1PXhOF3jP6dmy
+         xPFOY0ztJJmIl4T5iSgr0CRjyC4WEDzeDVFxV1cSICrU44Y5sFREcjKIXVKE6DTBtsxy
+         OMIEBQs1gzkaRbqB3UqDj0N/q6XSb5/04lBqxFs0nxVJBMNU/V8LvFICg+ItYp5baqUR
+         TT7n3eLdTlfMgm0jFTCQuV9QUTilQX3IGCuWU3vvXeykZBQVKSjf73HcX1qY6U5dpIfQ
+         s3WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=4f73Gjx8q8oCSIE0UST+SjPZgCcwyOYgI8hgnMKdaZU=;
+        b=jQTOWj7QmzsPV8kapYUjEoXJtm6Vgs/4pdeJAuWh4CkRKXxSLqFrnVX1GrIDCP0pQQ
+         nwJL4iAeSa4sutKrPu6TY0P2iJy+RuXyW4Ytv6JDMhPgt8mVanZ0kZrkUb8sRJsOFRai
+         u5+lxj7WQukXH7oPO2i5G8SFk+7lOy6psjOCaUrQSDp+Z/HXdTEz82KCVhJsJfgMGG0V
+         wV90e4Fr96VV6D+fYWKPdlRP3TjH6QRIUZT3yRm06yErIOSEFK5ZeRaduFRJUoq8ywGa
+         5sNH1T/vVKGAm81pHH9E69RmFi6w7nR/+uhj9YvFuRIYzjfSGzyuyQ5d9SCmNBt0myEs
+         XwUg==
+X-Gm-Message-State: AOAM530Mf4cW1IvxiC+0oTiW0+yz+4WrnsHDP4Ge9W7VCTMbiKcy2oEe
+        +WbZjJg1JaHnIgNey+EyUHFaLw==
+X-Google-Smtp-Source: ABdhPJwOWamI9wacS3sulGfb4sGJ3X3Hz1FTA1DmLTSwxU94yEZ1MQEkQGEVjt/Z/Jjp4kzOfvKapg==
+X-Received: by 2002:ac8:4b48:: with SMTP id e8mr7799346qts.462.1643406563916;
+        Fri, 28 Jan 2022 13:49:23 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id bi30sm3975442qkb.132.2022.01.28.13.49.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jan 2022 13:49:23 -0800 (PST)
+Message-ID: <b07ac9bebb1d2ecef8ddb1426f16f4ff3218a131.camel@ndufresne.ca>
+Subject: Re: [PATCH v6, 06/15] media: mtk-vcodec: Refactor get and put
+ capture buffer flow
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Date:   Fri, 28 Jan 2022 16:49:21 -0500
+In-Reply-To: <20220122035316.18179-7-yunfei.dong@mediatek.com>
+References: <20220122035316.18179-1-yunfei.dong@mediatek.com>
+         <20220122035316.18179-7-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220128215713.1abef17b@coco.lan>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Yunfei,
 
-Glad to see you're still alive :-)
+thanks for you work, see comments below...
 
-On Fri, Jan 28, 2022 at 09:57:13PM +0100, Mauro Carvalho Chehab wrote:
-> Em Fri, 28 Jan 2022 21:01:12 +0200 Sakari Ailus escreveu:
-> > On Fri, Jan 28, 2022 at 07:53:12PM +0100, Mauro Carvalho Chehab wrote:
-> > > Em Mon, 24 Jan 2022 18:13:38 +0200 Sakari Ailus escreveu:
-> > >   
-> > > > Hi Mauro,
-> > > > 
-> > > > Here's a bunch of patches again for 5.18. Most notably there's V4L2 fwnode
-> > > > / mbus_config cleanup by Laurent, the hi847 camera sensor driver from Shawn
-> > > > Tu and the od08d10 camera sensor driver by Jimmy Su. Fixes elsewhere are
-> > > > included, too.
-> > > > 
-> > > > Since v1, a few more patches have been added and I've dropped a camss patch
-> > > > already picked by Hans.
-> > > > 
-> > > > Please pull.
-> > > > 
-> > > > 
-> > > > The following changes since commit 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c:
-> > > > 
-> > > >   media: ipu3-cio2: Add support for instantiating i2c-clients for VCMs (2021-12-16 20:58:56 +0100)
-> > > > 
-> > > > are available in the Git repository at:
-> > > > 
-> > > >   git://linuxtv.org/sailus/media_tree.git tags/for-5.18-1.1-signed
-> > > > 
-> > > > for you to fetch changes up to a6876b00e5daa786a406db09f214bbbb4d1f200c:
-> > > > 
-> > > >   media: i2c: dw9714: add optional regulator support (2022-01-22 18:27:43 +0200)
-> > > > 
-> > > > ----------------------------------------------------------------
-> > > > V4L2 patches for 5.18
-> > > > 
-> > > > ----------------------------------------------------------------
-> > > > Angus Ainslie (1):
-> > > >       media: i2c: dw9714: add optional regulator support
-> > > > 
-> > > > Benjamin Gaignard (1):
-> > > >       MAINTAINERS: Update Benjamin Gaignard maintainer status
-> > > > 
-> > > > Bingbu Cao (1):
-> > > >       media: ov2740: identify module after subdev initialisation
-> > > > 
-> > > > Janusz Krzysztofik (4):
-> > > >       media: ov6650: Fix set format try processing path
-> > > >       media: ov6650: Add try support to selection API operations
-> > > >       media: ov6650: Fix crop rectangle affected by set format
-> > > >       media: ov6650: Fix missing frame interval enumeration support
-> > > > 
-> > > > Jimmy Su (1):
-> > > >       media: i2c: Add ov08d10 camera sensor driver
-> > > > 
-> > > > Laurent Pinchart (9):
-> > > >       media: pxa_camera: Drop usage of .set_mbus_config()
-> > > >       media: i2c: ov6650: Drop implementation of .set_mbus_config()
-> > > >       media: v4l2-subdev: Drop .set_mbus_config() operation
-> > > >       media: v4l2-fwnode: Move bus config structure to v4l2_mediabus.h  
-> > > >       media: v4l2-mediabus: Use structures to describe bus configuration
-> > > >       media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_*_LANE flags
-> > > >       media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_CHANNEL_* flags
-> > > >       media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag  
-> > > 
-> > > (Some of?) those broke build today:
-> > > 	https://builder.linuxtv.org/job/media_stage_clang/412/
-> > > 
-> > > Probably due to a conflict some other pull request.
-> > > 
-> > > So, I dropped them. Please rebase and re-submit.  
-> > 
-> > It seems patches got merged that make use of [gs]et_mbus_config that is
-> > changed by the patches. This isn't a very commonly used interface so
-> > there's a bit of bad luck here.
-> > 
-> > I'll see what needs to be changed there.
+Le samedi 22 janvier 2022 à 11:53 +0800, Yunfei Dong a écrit :
+> For lat and core decode in parallel, need to get capture buffer
+> when core start to decode and put capture buffer to display
+> list when core decode done.
 > 
-> Yeah, patches that change kAPI have the potential of getting
-> such kind of conflicts. Thankfully we have now the media_stage
-> tree, and Jenkins builds are working properly. So we were able to 
-> solve it before reaching linux-next. No harm done.
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     | 121 ++++++++++++------
+>  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   5 +-
+>  .../mtk-vcodec/vdec/vdec_h264_req_if.c        |  16 ++-
+>  3 files changed, 102 insertions(+), 40 deletions(-)
 > 
-> > Please prioritise these on the next time, if possible.
-> 
-> (c/c the other media maintainers)
-> 
-> Sure. I usually priorize PRs that solve issues on previous one.
-> 
-> Yet, the order is not really important. I mean, if I end merging 
-> two PRs again at the same day and one causes breakage on another
-> due to kAPI changes, no matter where PR gets merged early, I 
-> would still get a Jenkins compilation error again, and the 
-> sanest way to solve such kind of conflicts is to drop the 
-> kAPI changes.
-> 
-> So, what we need to do, instead, is to coordinate such changes
-> with other maintainers and developers in order to ensure that 
-> everyone that would rely on a deprecated kAPI that will be
-> dropped will base their series on the top of the tree with the
-> replacement kAPI.
-> 
-> Maybe we could start doing some annotations at the kAPI docs
-> about any plans to deprecate such interfaces at least one
-> or two kernel versions before actually applying the old
-> API removal.
-> 
-> Comments?
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+> index 23a154c4e321..6d481410bf89 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+> @@ -108,37 +108,87 @@ static const struct mtk_codec_framesizes mtk_vdec_framesizes[] = {
+>  
+>  #define NUM_SUPPORTED_FRAMESIZE ARRAY_SIZE(mtk_vdec_framesizes)
+>  
+> -static void mtk_vdec_stateless_set_dst_payload(struct mtk_vcodec_ctx *ctx,
+> -					       struct vdec_fb *fb)
+> +static void mtk_vdec_stateless_out_to_done(struct mtk_vcodec_ctx *ctx,
+> +					   struct mtk_vcodec_mem *bs, int error)
+>  {
+> -	struct mtk_video_dec_buf *vdec_frame_buf =
+> -		container_of(fb, struct mtk_video_dec_buf, frame_buffer);
+> -	struct vb2_v4l2_buffer *vb = &vdec_frame_buf->m2m_buf.vb;
+> -	unsigned int cap_y_size = ctx->q_data[MTK_Q_DATA_DST].sizeimage[0];
+> +	struct mtk_video_dec_buf *out_buf;
+> +	struct vb2_v4l2_buffer *vb;
+>  
+> -	vb2_set_plane_payload(&vb->vb2_buf, 0, cap_y_size);
+> -	if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 2) {
+> -		unsigned int cap_c_size =
+> -			ctx->q_data[MTK_Q_DATA_DST].sizeimage[1];
+> +	if (!bs) {
+> +		mtk_v4l2_err("Free bitstream buffer fail.");
+> +		return;
+> +	}
+> +	out_buf = container_of(bs, struct mtk_video_dec_buf, bs_buffer);
+> +	vb = &out_buf->m2m_buf.vb;
+>  
+> -		vb2_set_plane_payload(&vb->vb2_buf, 1, cap_c_size);
+> +	mtk_v4l2_debug(2, "Free bitsteam buffer id = %d to done_list",
+> +		       vb->vb2_buf.index);
+> +
+> +	v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+> +	if (error) {
+> +		v4l2_m2m_buf_done(vb, VB2_BUF_STATE_ERROR);
+> +		if (error == -EIO)
+> +			out_buf->error = true;
+> +	} else {
+> +		v4l2_m2m_buf_done(vb, VB2_BUF_STATE_DONE);
+>  	}
+>  }
+>  
+> -static struct vdec_fb *vdec_get_cap_buffer(struct mtk_vcodec_ctx *ctx,
+> -					   struct vb2_v4l2_buffer *vb2_v4l2)
+> +static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_ctx *ctx,
+> +					   struct vdec_fb *fb, int error)
+>  {
+> -	struct mtk_video_dec_buf *framebuf =
+> -		container_of(vb2_v4l2, struct mtk_video_dec_buf, m2m_buf.vb);
+> -	struct vdec_fb *pfb = &framebuf->frame_buffer;
+> -	struct vb2_buffer *dst_buf = &vb2_v4l2->vb2_buf;
+> +	struct mtk_video_dec_buf *vdec_frame_buf;
+> +	struct vb2_v4l2_buffer *vb;
+> +	unsigned int cap_y_size, cap_c_size;
+> +
+> +	if (!fb) {
+> +		mtk_v4l2_err("Free frame buffer fail.");
+> +		return;
+> +	}
+> +	vdec_frame_buf = container_of(fb, struct mtk_video_dec_buf,
+> +				      frame_buffer);
+> +	vb = &vdec_frame_buf->m2m_buf.vb;
+> +
+> +	cap_y_size = ctx->q_data[MTK_Q_DATA_DST].sizeimage[0];
+> +	cap_c_size = ctx->q_data[MTK_Q_DATA_DST].sizeimage[1];
+> +
+> +	v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
+>  
+> -	pfb->base_y.va = NULL;
+> +	vb2_set_plane_payload(&vb->vb2_buf, 0, cap_y_size);
+> +	if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 2)
+> +		vb2_set_plane_payload(&vb->vb2_buf, 1, cap_c_size);
+> +
+> +	mtk_v4l2_debug(2, "Free frame buffer id = %d to done_list",
+> +		       vb->vb2_buf.index);
+> +	if (error)
+> +		v4l2_m2m_buf_done(vb, VB2_BUF_STATE_ERROR);
+> +	else
+> +		v4l2_m2m_buf_done(vb, VB2_BUF_STATE_DONE);
+> +}
+> +
+> +static struct vdec_fb *vdec_get_cap_buffer(struct mtk_vcodec_ctx *ctx)
+> +{
+> +	struct mtk_video_dec_buf *framebuf;
+> +	struct vb2_v4l2_buffer *vb2_v4l2;
+> +	struct vb2_buffer *dst_buf;
+> +	struct vdec_fb *pfb;
+> +
+> +	vb2_v4l2 = v4l2_m2m_next_dst_buf(ctx->m2m_ctx);
+> +	if (!vb2_v4l2) {
+> +		mtk_v4l2_debug(1, "[%d] dst_buf empty!!", ctx->id);
+> +		return NULL;
+> +	}
+> +
+> +	dst_buf = &vb2_v4l2->vb2_buf;
+> +	framebuf = container_of(vb2_v4l2, struct mtk_video_dec_buf, m2m_buf.vb);
+> +
+> +	pfb = &framebuf->frame_buffer;
+> +	pfb->base_y.va = vb2_plane_vaddr(dst_buf, 0);
+>  	pfb->base_y.dma_addr = vb2_dma_contig_plane_dma_addr(dst_buf, 0);
+>  	pfb->base_y.size = ctx->q_data[MTK_Q_DATA_DST].sizeimage[0];
+>  
+>  	if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 2) {
+> -		pfb->base_c.va = NULL;
+> +		pfb->base_c.va = vb2_plane_vaddr(dst_buf, 1);
+>  		pfb->base_c.dma_addr =
+>  			vb2_dma_contig_plane_dma_addr(dst_buf, 1);
+>  		pfb->base_c.size = ctx->q_data[MTK_Q_DATA_DST].sizeimage[1];
+> @@ -162,12 +212,11 @@ static void mtk_vdec_worker(struct work_struct *work)
+>  	struct mtk_vcodec_ctx *ctx =
+>  		container_of(work, struct mtk_vcodec_ctx, decode_work);
+>  	struct mtk_vcodec_dev *dev = ctx->dev;
+> -	struct vb2_v4l2_buffer *vb2_v4l2_src, *vb2_v4l2_dst;
+> +	struct vb2_v4l2_buffer *vb2_v4l2_src;
+>  	struct vb2_buffer *vb2_src;
+>  	struct mtk_vcodec_mem *bs_src;
+>  	struct mtk_video_dec_buf *dec_buf_src;
+>  	struct media_request *src_buf_req;
+> -	struct vdec_fb *dst_buf;
+>  	bool res_chg = false;
+>  	int ret;
+>  
+> @@ -178,13 +227,6 @@ static void mtk_vdec_worker(struct work_struct *work)
+>  		return;
+>  	}
+>  
+> -	vb2_v4l2_dst = v4l2_m2m_next_dst_buf(ctx->m2m_ctx);
+> -	if (!vb2_v4l2_dst) {
+> -		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+> -		mtk_v4l2_debug(1, "[%d] no available destination buffer", ctx->id);
+> -		return;
+> -	}
+> -
+>  	vb2_src = &vb2_v4l2_src->vb2_buf;
+>  	dec_buf_src = container_of(vb2_v4l2_src, struct mtk_video_dec_buf,
+>  				   m2m_buf.vb);
+> @@ -193,9 +235,15 @@ static void mtk_vdec_worker(struct work_struct *work)
+>  	mtk_v4l2_debug(3, "[%d] (%d) id=%d, vb=%p", ctx->id,
+>  		       vb2_src->vb2_queue->type, vb2_src->index, vb2_src);
+>  
+> -	bs_src->va = NULL;
+> +	bs_src->va = vb2_plane_vaddr(vb2_src, 0);
+>  	bs_src->dma_addr = vb2_dma_contig_plane_dma_addr(vb2_src, 0);
+>  	bs_src->size = (size_t)vb2_src->planes[0].bytesused;
+> +	if (!bs_src->va) {
+> +		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+> +		mtk_v4l2_err("[%d] id=%d source buffer is NULL", ctx->id,
+> +			     vb2_src->index);
+> +		return;
+> +	}
+>  
+>  	mtk_v4l2_debug(3, "[%d] Bitstream VA=%p DMA=%pad Size=%zx vb=%p",
+>  		       ctx->id, bs_src->va, &bs_src->dma_addr, bs_src->size, vb2_src);
+> @@ -206,9 +254,7 @@ static void mtk_vdec_worker(struct work_struct *work)
+>  	else
+>  		mtk_v4l2_err("vb2 buffer media request is NULL");
+>  
+> -	dst_buf = vdec_get_cap_buffer(ctx, vb2_v4l2_dst);
+> -	v4l2_m2m_buf_copy_metadata(vb2_v4l2_src, vb2_v4l2_dst, true);
 
-That would slow down development.
+Please keep using this helper, it is specially crafted to ease maintenance.
 
-I think this could be caught easily if we all merged pull requests in
-the stage tree, in a -next branch. Jenkins should build that, and once
-the build completes without errors, it could be merged in the master
-branch, which you could then pull.
+> -	ret = vdec_if_decode(ctx, bs_src, dst_buf, &res_chg);
+> +	ret = vdec_if_decode(ctx, bs_src, NULL, &res_chg);
+>  	if (ret) {
+>  		mtk_v4l2_err(" <===[%d], src_buf[%d] sz=0x%zx pts=%llu vdec_if_decode() ret=%d res_chg=%d===>",
+>  			     ctx->id, vb2_src->index, bs_src->size,
+> @@ -220,12 +266,9 @@ static void mtk_vdec_worker(struct work_struct *work)
+>  		}
+>  	}
+>  
+> -	mtk_vdec_stateless_set_dst_payload(ctx, dst_buf);
+> -
+> -	v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx,
+> -					 ret ? VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
+> -
+> +	mtk_vdec_stateless_out_to_done(ctx, bs_src, ret);
 
--- 
-Regards,
+v4l2_m2m_buf_done_and_job_finish() was specially crafted to prevent developer
+from implementing the signalling of the request at the wrong moment. This patch
+broke this strict ordering. The relevant comment in the helper function:
 
-Laurent Pinchart
+
+	/*
+	 * If the request API is being used, returning the OUTPUT
+	 * (src) buffer will wake-up any process waiting on the
+	 * request file descriptor.
+	 *
+	 * Therefore, return the CAPTURE (dst) buffer first,
+	 * to avoid signalling the request file descriptor
+	 * before the CAPTURE buffer is done.
+	 */
+
+In short, as request signalling is bound to the src buffer, with this change you
+signal the request too early, which may lead userland to think it can DQ the
+capture buffer. I see exactly that happening when running with GStreamer, which
+strictly rely on the request polling. Please keep using
+v4l2_m2m_buf_done_and_job_finish(), and move it into
+mtk_vdec_stateless_cap_to_disp(). 
+
+
+>  	v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
+> +	v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+>  }
+>  
+>  static void vb2ops_vdec_stateless_buf_queue(struct vb2_buffer *vb)
+> @@ -358,6 +401,8 @@ const struct mtk_vcodec_dec_pdata mtk_vdec_8183_pdata = {
+>  	.uses_stateless_api = true,
+>  	.worker = mtk_vdec_worker,
+>  	.flush_decoder = mtk_vdec_flush_decoder,
+> +	.cap_to_disp = mtk_vdec_stateless_cap_to_disp,
+> +	.get_cap_buffer = vdec_get_cap_buffer,
+>  	.is_subdev_supported = false,
+>  	.hw_arch = MTK_VDEC_PURE_SINGLE_CORE,
+>  };
+> @@ -376,6 +421,8 @@ const struct mtk_vcodec_dec_pdata mtk_lat_sig_core_pdata = {
+>  	.uses_stateless_api = true,
+>  	.worker = mtk_vdec_worker,
+>  	.flush_decoder = mtk_vdec_flush_decoder,
+> +	.cap_to_disp = mtk_vdec_stateless_cap_to_disp,
+> +	.get_cap_buffer = vdec_get_cap_buffer,
+>  	.is_subdev_supported = true,
+>  	.hw_arch = MTK_VDEC_LAT_SINGLE_CORE,
+>  };
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> index 2d1d878692ca..e0b7d2fda632 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> @@ -353,7 +353,8 @@ enum mtk_vdec_hw_arch {
+>   * @ctrls_setup: init vcodec dec ctrls
+>   * @worker: worker to start a decode job
+>   * @flush_decoder: function that flushes the decoder
+> - *
+> + * @get_cap_buffer: get capture buffer from capture queue
+> + * @cap_to_disp: put capture buffer to disp list
+>   * @vdec_vb2_ops: struct vb2_ops
+>   *
+>   * @vdec_formats: supported video decoder formats
+> @@ -375,6 +376,8 @@ struct mtk_vcodec_dec_pdata {
+>  	int (*ctrls_setup)(struct mtk_vcodec_ctx *ctx);
+>  	void (*worker)(struct work_struct *work);
+>  	int (*flush_decoder)(struct mtk_vcodec_ctx *ctx);
+> +	struct vdec_fb *(*get_cap_buffer)(struct mtk_vcodec_ctx *ctx);
+> +	void (*cap_to_disp)(struct mtk_vcodec_ctx *ctx, struct vdec_fb *fb, int error);
+>  
+>  	struct vb2_ops *vdec_vb2_ops;
+>  
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+> index 43542de11e9c..36f3dc1fbe3b 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+> @@ -670,32 +670,42 @@ static void vdec_h264_slice_deinit(void *h_vdec)
+>  }
+>  
+>  static int vdec_h264_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+> -				  struct vdec_fb *fb, bool *res_chg)
+> +				  struct vdec_fb *unused, bool *res_chg)
+>  {
+>  	struct vdec_h264_slice_inst *inst = h_vdec;
+>  	const struct v4l2_ctrl_h264_decode_params *dec_params =
+>  		get_ctrl_ptr(inst->ctx, V4L2_CID_STATELESS_H264_DECODE_PARAMS);
+>  	struct vdec_vpu_inst *vpu = &inst->vpu;
+> +	struct mtk_video_dec_buf *src_buf_info;
+> +	struct mtk_video_dec_buf *dst_buf_info;
+> +	struct vdec_fb *fb;
+>  	u32 data[2];
+>  	u64 y_fb_dma;
+>  	u64 c_fb_dma;
+>  	int err;
+>  
+> +	inst->num_nalu++;
+>  	/* bs NULL means flush decoder */
+>  	if (!bs)
+>  		return vpu_dec_reset(vpu);
+>  
+> +	fb = inst->ctx->dev->vdec_pdata->get_cap_buffer(inst->ctx);
+> +	src_buf_info = container_of(bs, struct mtk_video_dec_buf, bs_buffer);
+> +	dst_buf_info = container_of(fb, struct mtk_video_dec_buf, frame_buffer);
+> +
+>  	y_fb_dma = fb ? (u64)fb->base_y.dma_addr : 0;
+>  	c_fb_dma = fb ? (u64)fb->base_c.dma_addr : 0;
+>  
+>  	mtk_vcodec_debug(inst, "+ [%d] FB y_dma=%llx c_dma=%llx va=%p",
+> -			 ++inst->num_nalu, y_fb_dma, c_fb_dma, fb);
+> +			 inst->num_nalu, y_fb_dma, c_fb_dma, fb);
+>  
+>  	inst->vsi_ctx.dec.bs_dma = (uint64_t)bs->dma_addr;
+>  	inst->vsi_ctx.dec.y_fb_dma = y_fb_dma;
+>  	inst->vsi_ctx.dec.c_fb_dma = c_fb_dma;
+>  	inst->vsi_ctx.dec.vdec_fb_va = (u64)(uintptr_t)fb;
+>  
+> +	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb,
+> +				   &dst_buf_info->m2m_buf.vb, true);
+>  	get_vdec_decode_parameters(inst);
+>  	data[0] = bs->size;
+>  	/*
+> @@ -734,6 +744,8 @@ static int vdec_h264_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+>  
+>  	memcpy(&inst->vsi_ctx, inst->vpu.vsi, sizeof(inst->vsi_ctx));
+>  	mtk_vcodec_debug(inst, "\n - NALU[%d]", inst->num_nalu);
+> +
+> +	inst->ctx->dev->vdec_pdata->cap_to_disp(inst->ctx, fb, 0);
+>  	return 0;
+>  
+>  err_free_fb_out:
+
