@@ -2,113 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A38749F7D0
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 12:05:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ACC049F9AB
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 13:41:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347994AbiA1LFV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 06:05:21 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:56522 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347954AbiA1LFU (ORCPT
+        id S1348603AbiA1MlI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 07:41:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45566 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237505AbiA1MlH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 06:05:20 -0500
+        Fri, 28 Jan 2022 07:41:07 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BEE9C061714;
+        Fri, 28 Jan 2022 04:41:07 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EB25EB82522;
-        Fri, 28 Jan 2022 11:05:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C09BEC340E6;
-        Fri, 28 Jan 2022 11:05:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1643367917;
-        bh=Fy8fSwWrO9PBF9y7AwCtzfTK3/Gmd6gbNMF0WbTJoOc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aT7G6qWBv7DTguP2bNkQQg5HB8sAURSvsjzkw7GB+s7SeIyA+UjSCNaRE1oRIS/QU
-         vrAeiR7AaRcx4hr+CMDMTAs7uoJNMofgoxLaPZtPwGyrL1Ta7Bmm7by+iK5jGz67pS
-         tF+pdQZv9VCgZbiifFveRtGj1yYXMPSEtVQuyqsw=
-Date:   Fri, 28 Jan 2022 12:05:14 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Zhou Qingyang <zhou1615@umn.edu>, kjlu@umn.edu,
-        Benoit Parrot <bparrot@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: ti-vpe: cal: Fix a NULL pointer dereference in
- cal_ctx_v4l2_init_formats()
-Message-ID: <YfPN6u4LGufH2gLe@kroah.com>
-References: <20220124172001.62457-1-zhou1615@umn.edu>
- <YfPDOOtlGPRfp3Vo@kroah.com>
- <YfPGPssBW5l1r8ew@pendragon.ideasonboard.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0ACE2619B9;
+        Fri, 28 Jan 2022 12:41:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA84CC340E6;
+        Fri, 28 Jan 2022 12:40:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643373666;
+        bh=QTzghuuSPtxJUTuUKx+W2/InQdxW15PSFwUv7VwUABw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=fDDCmQCAaMcJEavgtcJqwJ2QJDBq3pXRsPPc/l3by+2yESxDGmW5Kc9OAQqn3MlGS
+         9u8Jv1ppUGuCND2rokmY9SaMNtaybtUEWIbP9oXZ0jFRJDx82sG3zyppd2O0w9G76o
+         Uf6erkYS+tgPQeVG5Z4aajPuWDNl06NAHpm7V+osyHiEA1BafH1iqrwBRt4Nwh5f7b
+         wTP3ylF7iEUpGtGw+XjQr3MkFPOrG30hsWP/p9VE+pXFzTebvsbCxultxHFmtTO7Ho
+         qvm2eN+tw7ziwQofhdfjUSM4ZDTzEncDr5Kmwnm/HUP8sHcsjZTVNARCCP6qFvyT/z
+         eHYTGTk6Yk5gg==
+Date:   Fri, 28 Jan 2022 13:40:55 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, Joerg Roedel <jroedel@suse.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <iommu@lists.linux-foundation.org>, <youlin.pei@mediatek.com>,
+        Matthias Kaehlcke <mka@chromium.org>, <anan.sun@mediatek.com>,
+        <yi.kuo@mediatek.com>, <acourbot@chromium.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        "Dafna Hirschfeld" <dafna.hirschfeld@collabora.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        <anthony.huang@mediatek.com>,
+        Frank Wunderlich <frank-w@public-files.de>,
+        <mingyuan.ma@mediatek.com>, <yf.wang@mediatek.com>,
+        <libo.kang@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v10 02/13] iommu/mediatek-v1: Free the existed fwspec if
+ the master dev already has
+Message-ID: <20220128134055.720bb43c@coco.lan>
+In-Reply-To: <20220117070510.17642-3-yong.wu@mediatek.com>
+References: <20220117070510.17642-1-yong.wu@mediatek.com>
+        <20220117070510.17642-3-yong.wu@mediatek.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YfPGPssBW5l1r8ew@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 28, 2022 at 12:32:30PM +0200, Laurent Pinchart wrote:
-> Hi Greg,
+Hi Matthias/Yong,
+
+Are you ok if this patch gets merged via the media tree together with the
+remaining series, or do you prefer to apply it via SoC tree instead?
+
+Regards,
+Mauro
+
+
+Em Mon, 17 Jan 2022 15:04:59 +0800
+Yong Wu <yong.wu@mediatek.com> escreveu:
+
+> When the iommu master device enters of_iommu_xlate, the ops may be
+> NULL(iommu dev is defered), then it will initialize the fwspec here:
 > 
-> On Fri, Jan 28, 2022 at 11:19:36AM +0100, Greg KH wrote:
-> > On Tue, Jan 25, 2022 at 01:20:01AM +0800, Zhou Qingyang wrote:
-> > > In cal_ctx_v4l2_init_formats(), devm_kzalloc() is assigned to fw and there
-> > > is a dereference of it after that, which could lead to NULL pointer
-> > > dereference on failure of devm_kzalloc().
-> > > 
-> > > Fix this bug by adding a NULL check of ctx->active_fmt.
-> > > 
-> > > This bug was found by a static analyzer.
-> > > 
-> > > Builds with 'make allyesconfig' show no new warnings,
-> > > and our static analyzer no longer warns about this code.
-> > > 
-> > > Fixes: 7168155002cf ("media: ti-vpe: cal: Move format handling to cal.c and expose helpers")
-> > > Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
-> > > --
-> > > The analysis employs differential checking to identify inconsistent 
-> > > security operations (e.g., checks or kfrees) between two code paths 
-> > > and confirms that the inconsistent operations are not recovered in the
-> > > current function or the callers, so they constitute bugs. 
-> > > 
-> > > Note that, as a bug found by static analysis, it can be a false
-> > > positive or hard to trigger. Multiple researchers have cross-reviewed
-> > > the bug.
-> > > 
-> > >  drivers/media/platform/ti-vpe/cal-video.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-> > > index 7799da1cc261..3e936a2ca36c 100644
-> > > --- a/drivers/media/platform/ti-vpe/cal-video.c
-> > > +++ b/drivers/media/platform/ti-vpe/cal-video.c
-> > > @@ -823,6 +823,9 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
-> > >  	/* Enumerate sub device formats and enable all matching local formats */
-> > >  	ctx->active_fmt = devm_kcalloc(ctx->cal->dev, cal_num_formats,
-> > >  				       sizeof(*ctx->active_fmt), GFP_KERNEL);
-> > > +	if (!ctx->active_fmt)
-> > > +		return -ENOMEM;
-> > > +
-> > >  	ctx->num_active_fmt = 0;
-> > >  
-> > >  	for (j = 0, i = 0; ; ++j) {
-> > 
-> > As stated before, umn.edu is still not allowed to contribute to the
-> > Linux kernel.  Please work with your administration to resolve this
-> > issue.
+> [<c0c9c5bc>] (dev_iommu_fwspec_set) from [<c06bda80>]
+> (iommu_fwspec_init+0xbc/0xd4)
+> [<c06bd9c4>] (iommu_fwspec_init) from [<c06c0db4>]
+> (of_iommu_xlate+0x7c/0x12c)
+> [<c06c0d38>] (of_iommu_xlate) from [<c06c10e8>]
+> (of_iommu_configure+0x144/0x1e8)
 > 
-> I thought this had been resolved, my bad. I can drop the patch, but it
-> fixes a real bug (although unlikely). Should I re-author this fix ?
+> BUT the mtk_iommu_v1.c only supports arm32, the probing flow still is a bit
+> weird. We always expect create the fwspec internally. otherwise it will
+> enter here and return fail.
+> 
+> static int mtk_iommu_create_mapping(struct device *dev,
+> 				    struct of_phandle_args *args)
+> {
+>         ...
+> 	if (!fwspec) {
+> 	        ....
+> 	} else if (dev_iommu_fwspec_get(dev)->ops != &mtk_iommu_ops) {
+>                 >>>>>>>>>>Enter here. return fail.<<<<<<<<<<<<  
+> 		return -EINVAL;
+> 	}
+> 	...
+> }
+> 
+> Thus, Free the existed fwspec if the master device already has fwspec.
+> 
+> This issue is reported at:
+> https://lore.kernel.org/linux-mediatek/trinity-7d9ebdc9-4849-4d93-bfb5-429dcb4ee449-1626253158870@3c-app-gmx-bs01/
+> 
+> Reported-by: Frank Wunderlich <frank-w@public-files.de>
+> Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Acked-by: Joerg Roedel <jroedel@suse.de>
+> Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  drivers/iommu/mtk_iommu_v1.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+> index be22fcf988ce..1467ba1e4417 100644
+> --- a/drivers/iommu/mtk_iommu_v1.c
+> +++ b/drivers/iommu/mtk_iommu_v1.c
+> @@ -425,6 +425,15 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+>  	struct mtk_iommu_data *data;
+>  	int err, idx = 0;
+>  
+> +	/*
+> +	 * In the deferred case, free the existed fwspec.
+> +	 * Always initialize the fwspec internally.
+> +	 */
+> +	if (fwspec) {
+> +		iommu_fwspec_free(dev);
+> +		fwspec = dev_iommu_fwspec_get(dev);
+> +	}
+> +
+>  	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
+>  					   "#iommu-cells",
+>  					   idx, &iommu_spec)) {
 
-If you think it actually fixes something, and does not cause a leak,
-yes, please re-author it and feel free to take it.
 
-But be aware that other submissions in this "set" are incorrect, and the
-process we were working on with umn.edu was totally ignored, so feel
-free to just drop it if you don't want to worry about it.  Failures of
-kcalloc are pretty much impossible to hit as we all know.
 
-thanks,
-
-greg k-h
+Thanks,
+Mauro
