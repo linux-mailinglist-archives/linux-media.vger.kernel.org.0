@@ -2,668 +2,344 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C18C49FC44
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 15:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AE6D49FC95
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 16:16:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346083AbiA1O7D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 09:59:03 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:40852 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346152AbiA1O7C (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 09:59:02 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58AA4471;
-        Fri, 28 Jan 2022 15:59:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643381941;
-        bh=01rl9VzqC0Lg3J1Ymfn5yg9r6ezU867pAEhR4wYWnxU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Sq4TFSyIjpT8VAIi1ivQJQYUA7ybJeY5VHPTzn6jMjSdaHp/kdwmIMA8D+Sn6HdE6
-         RAtYtQJmzehzeS27ArjKAkg1G87bv3w5R0G2ZlbP/EZo7TqubiXhlSLFP1ZmIoaRVN
-         /i+HYHXeizRl1VeokGpv+JgPVLIYG7bqAsLjO3tY=
-Date:   Fri, 28 Jan 2022 16:58:40 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH v2 4/4] v4l: ioctl: Set bus_info in v4l_querycap()
-Message-ID: <YfQEoJIA9Tm5wRbF@pendragon.ideasonboard.com>
-References: <20220128083309.213122-1-sakari.ailus@linux.intel.com>
- <20220128083309.213122-5-sakari.ailus@linux.intel.com>
+        id S240420AbiA1PQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 10:16:27 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:52226 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240716AbiA1PQZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 Jan 2022 10:16:25 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nDSz4-00CJA6-Vq; Fri, 28 Jan 2022 15:16:19 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nDSz2-004ehi-Gu; Fri, 28 Jan 2022 15:16:16 +0000
+Date:   Fri, 28 Jan 2022 15:16:15 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        mchehab@linuxtv.org
+Message-ID: <1554577671.0.1643382975915@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media_stage_clang #411
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220128083309.213122-5-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media_stage_clang
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+See <https://builder.linuxtv.org/job/media_stage_clang/411/display/redirect?page=changes>
 
-Thank you for the patch.
+Changes:
 
-On Fri, Jan 28, 2022 at 10:33:09AM +0200, Sakari Ailus wrote:
-> The bus_info field is set by most drivers based on the type of the device
-> bus as well as the name of the device. Do this in v4l_querycap() so
-> drivers don't need to. This keeps compatibility with non-default and silly
-> bus_info.
+[Mauro Carvalho Chehab] media: dt-bindings: media: camss: Remove clock-lane property
 
-Do we have many PCI or platform drivers with non-default bus_info ?
+[Mauro Carvalho Chehab] media: pxa_camera: Drop usage of .set_mbus_config()
 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+[Mauro Carvalho Chehab] media: i2c: ov6650: Drop implementation of .set_mbus_config()
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+[Mauro Carvalho Chehab] media: v4l2-subdev: Drop .set_mbus_config() operation
 
-> ---
->  drivers/media/common/saa7146/saa7146_video.c        | 1 -
->  drivers/media/pci/bt8xx/bttv-driver.c               | 2 --
->  drivers/media/pci/cx18/cx18-ioctl.c                 | 2 --
->  drivers/media/pci/cx88/cx88-blackbird.c             | 1 -
->  drivers/media/pci/cx88/cx88-video.c                 | 1 -
->  drivers/media/pci/dt3155/dt3155.c                   | 3 ---
->  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c       | 4 ----
->  drivers/media/pci/ivtv/ivtv-ioctl.c                 | 1 -
->  drivers/media/pci/meye/meye.c                       | 1 -
->  drivers/media/pci/saa7134/saa7134-video.c           | 1 -
->  drivers/media/pci/saa7164/saa7164-encoder.c         | 1 -
->  drivers/media/pci/saa7164/saa7164-vbi.c             | 1 -
->  drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c      | 2 --
->  drivers/media/pci/solo6x10/solo6x10-v4l2.c          | 2 --
->  drivers/media/pci/sta2x11/sta2x11_vip.c             | 2 --
->  drivers/media/pci/tw5864/tw5864-video.c             | 1 -
->  drivers/media/pci/tw68/tw68-video.c                 | 3 ---
->  drivers/media/pci/tw686x/tw686x-video.c             | 2 --
->  drivers/media/platform/allegro-dvt/allegro-core.c   | 5 -----
->  drivers/media/platform/davinci/vpbe_display.c       | 2 --
->  drivers/media/platform/davinci/vpif_capture.c       | 2 --
->  drivers/media/platform/davinci/vpif_display.c       | 2 --
->  drivers/media/platform/exynos-gsc/gsc-m2m.c         | 5 -----
->  drivers/media/platform/exynos4-is/common.c          | 2 --
->  drivers/media/platform/exynos4-is/fimc-lite.c       | 4 ----
->  drivers/media/platform/imx-jpeg/mxc-jpeg.c          | 4 ----
->  drivers/media/platform/marvell-ccic/cafe-driver.c   | 1 -
->  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c     | 2 --
->  drivers/media/platform/qcom/camss/camss-video.c     | 4 ----
->  drivers/media/platform/rcar-vin/rcar-v4l2.c         | 4 ----
->  drivers/media/platform/rcar_jpu.c                   | 2 --
->  drivers/media/platform/s5p-jpeg/jpeg-core.c         | 2 --
->  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c        | 2 --
->  drivers/media/platform/s5p-mfc/s5p_mfc_enc.c        | 2 --
->  drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c | 4 ----
->  drivers/media/platform/ti-vpe/cal-video.c           | 4 ----
->  drivers/media/platform/vsp1/vsp1_histo.c            | 2 --
->  drivers/media/platform/vsp1/vsp1_video.c            | 2 --
->  drivers/media/radio/radio-maxiradio.c               | 2 --
->  drivers/media/v4l2-core/v4l2-ioctl.c                | 4 ++++
->  40 files changed, 4 insertions(+), 90 deletions(-)
-> 
-> diff --git a/drivers/media/common/saa7146/saa7146_video.c b/drivers/media/common/saa7146/saa7146_video.c
-> index 66215d9106a4..2296765079a4 100644
-> --- a/drivers/media/common/saa7146/saa7146_video.c
-> +++ b/drivers/media/common/saa7146/saa7146_video.c
-> @@ -443,7 +443,6 @@ static int vidioc_querycap(struct file *file, void *fh, struct v4l2_capability *
->  
->  	strscpy((char *)cap->driver, "saa7146 v4l2", sizeof(cap->driver));
->  	strscpy((char *)cap->card, dev->ext->name, sizeof(cap->card));
-> -	sprintf((char *)cap->bus_info, "PCI:%s", pci_name(dev->pci));
->  	cap->capabilities = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OVERLAY |
->  			    V4L2_CAP_READWRITE | V4L2_CAP_STREAMING |
->  			    V4L2_CAP_DEVICE_CAPS;
-> diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
-> index 8cc9bec43688..c3512299794c 100644
-> --- a/drivers/media/pci/bt8xx/bttv-driver.c
-> +++ b/drivers/media/pci/bt8xx/bttv-driver.c
-> @@ -2435,8 +2435,6 @@ static int bttv_querycap(struct file *file, void  *priv,
->  
->  	strscpy(cap->driver, "bttv", sizeof(cap->driver));
->  	strscpy(cap->card, btv->video_dev.name, sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info),
-> -		 "PCI:%s", pci_name(btv->c.pci));
->  	cap->capabilities = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_READWRITE |
->  			    V4L2_CAP_STREAMING | V4L2_CAP_DEVICE_CAPS;
->  	if (no_overlay <= 0)
-> diff --git a/drivers/media/pci/cx18/cx18-ioctl.c b/drivers/media/pci/cx18/cx18-ioctl.c
-> index ce3f0141f94e..c8ba7841c720 100644
-> --- a/drivers/media/pci/cx18/cx18-ioctl.c
-> +++ b/drivers/media/pci/cx18/cx18-ioctl.c
-> @@ -389,8 +389,6 @@ static int cx18_querycap(struct file *file, void *fh,
->  
->  	strscpy(vcap->driver, CX18_DRIVER_NAME, sizeof(vcap->driver));
->  	strscpy(vcap->card, cx->card_name, sizeof(vcap->card));
-> -	snprintf(vcap->bus_info, sizeof(vcap->bus_info),
-> -		 "PCI:%s", pci_name(cx->pci_dev));
->  	vcap->capabilities = cx->v4l2_cap | V4L2_CAP_DEVICE_CAPS;
->  	return 0;
->  }
-> diff --git a/drivers/media/pci/cx88/cx88-blackbird.c b/drivers/media/pci/cx88/cx88-blackbird.c
-> index d5da3bd5695d..c1b41a9283c1 100644
-> --- a/drivers/media/pci/cx88/cx88-blackbird.c
-> +++ b/drivers/media/pci/cx88/cx88-blackbird.c
-> @@ -796,7 +796,6 @@ static int vidioc_querycap(struct file *file, void  *priv,
->  	struct cx88_core *core = dev->core;
->  
->  	strscpy(cap->driver, "cx88_blackbird", sizeof(cap->driver));
-> -	sprintf(cap->bus_info, "PCI:%s", pci_name(dev->pci));
->  	return cx88_querycap(file, core, cap);
->  }
->  
-> diff --git a/drivers/media/pci/cx88/cx88-video.c b/drivers/media/pci/cx88/cx88-video.c
-> index c17ad9f7d822..d3729be89252 100644
-> --- a/drivers/media/pci/cx88/cx88-video.c
-> +++ b/drivers/media/pci/cx88/cx88-video.c
-> @@ -808,7 +808,6 @@ static int vidioc_querycap(struct file *file, void  *priv,
->  	struct cx88_core *core = dev->core;
->  
->  	strscpy(cap->driver, "cx8800", sizeof(cap->driver));
-> -	sprintf(cap->bus_info, "PCI:%s", pci_name(dev->pci));
->  	return cx88_querycap(file, core, cap);
->  }
->  
-> diff --git a/drivers/media/pci/dt3155/dt3155.c b/drivers/media/pci/dt3155/dt3155.c
-> index 961f844de99c..548156b199cc 100644
-> --- a/drivers/media/pci/dt3155/dt3155.c
-> +++ b/drivers/media/pci/dt3155/dt3155.c
-> @@ -292,11 +292,8 @@ static const struct v4l2_file_operations dt3155_fops = {
->  static int dt3155_querycap(struct file *filp, void *p,
->  			   struct v4l2_capability *cap)
->  {
-> -	struct dt3155_priv *pd = video_drvdata(filp);
-> -
->  	strscpy(cap->driver, DT3155_NAME, sizeof(cap->driver));
->  	strscpy(cap->card, DT3155_NAME " frame grabber", sizeof(cap->card));
-> -	sprintf(cap->bus_info, "PCI:%s", pci_name(pd->pdev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-> index b15fac775e14..0975a069bd38 100644
-> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-> @@ -1046,12 +1046,8 @@ static const struct vb2_ops cio2_vb2_ops = {
->  static int cio2_v4l2_querycap(struct file *file, void *fh,
->  			      struct v4l2_capability *cap)
->  {
-> -	struct cio2_device *cio2 = video_drvdata(file);
-> -
->  	strscpy(cap->driver, CIO2_NAME, sizeof(cap->driver));
->  	strscpy(cap->card, CIO2_DEVICE_NAME, sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info),
-> -		 "PCI:%s", pci_name(cio2->pci_dev));
->  
->  	return 0;
->  }
-> diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.c b/drivers/media/pci/ivtv/ivtv-ioctl.c
-> index 0cdf6b3210c2..e5bc581ee464 100644
-> --- a/drivers/media/pci/ivtv/ivtv-ioctl.c
-> +++ b/drivers/media/pci/ivtv/ivtv-ioctl.c
-> @@ -732,7 +732,6 @@ static int ivtv_querycap(struct file *file, void *fh, struct v4l2_capability *vc
->  
->  	strscpy(vcap->driver, IVTV_DRIVER_NAME, sizeof(vcap->driver));
->  	strscpy(vcap->card, itv->card_name, sizeof(vcap->card));
-> -	snprintf(vcap->bus_info, sizeof(vcap->bus_info), "PCI:%s", pci_name(itv->pdev));
->  	vcap->capabilities = itv->v4l2_cap | V4L2_CAP_DEVICE_CAPS;
->  	return 0;
->  }
-> diff --git a/drivers/media/pci/meye/meye.c b/drivers/media/pci/meye/meye.c
-> index 8944e4bd4638..5d87efd9b95c 100644
-> --- a/drivers/media/pci/meye/meye.c
-> +++ b/drivers/media/pci/meye/meye.c
-> @@ -1012,7 +1012,6 @@ static int vidioc_querycap(struct file *file, void *fh,
->  {
->  	strscpy(cap->driver, "meye", sizeof(cap->driver));
->  	strscpy(cap->card, "meye", sizeof(cap->card));
-> -	sprintf(cap->bus_info, "PCI:%s", pci_name(meye.mchip_dev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
-> index 374c8e1087de..013314d6d78b 100644
-> --- a/drivers/media/pci/saa7134/saa7134-video.c
-> +++ b/drivers/media/pci/saa7134/saa7134-video.c
-> @@ -1478,7 +1478,6 @@ int saa7134_querycap(struct file *file, void *priv,
->  	strscpy(cap->driver, "saa7134", sizeof(cap->driver));
->  	strscpy(cap->card, saa7134_boards[dev->board].name,
->  		sizeof(cap->card));
-> -	sprintf(cap->bus_info, "PCI:%s", pci_name(dev->pci));
->  	cap->capabilities = V4L2_CAP_READWRITE | V4L2_CAP_STREAMING |
->  			    V4L2_CAP_RADIO | V4L2_CAP_VIDEO_CAPTURE |
->  			    V4L2_CAP_VBI_CAPTURE | V4L2_CAP_DEVICE_CAPS;
-> diff --git a/drivers/media/pci/saa7164/saa7164-encoder.c b/drivers/media/pci/saa7164/saa7164-encoder.c
-> index 1d1d32e043f1..c1b6a0596801 100644
-> --- a/drivers/media/pci/saa7164/saa7164-encoder.c
-> +++ b/drivers/media/pci/saa7164/saa7164-encoder.c
-> @@ -490,7 +490,6 @@ static int vidioc_querycap(struct file *file, void  *priv,
->  	strscpy(cap->driver, dev->name, sizeof(cap->driver));
->  	strscpy(cap->card, saa7164_boards[dev->board].name,
->  		sizeof(cap->card));
-> -	sprintf(cap->bus_info, "PCI:%s", pci_name(dev->pci));
->  	cap->capabilities = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_READWRITE |
->  			    V4L2_CAP_TUNER | V4L2_CAP_VBI_CAPTURE |
->  			    V4L2_CAP_DEVICE_CAPS;
-> diff --git a/drivers/media/pci/saa7164/saa7164-vbi.c b/drivers/media/pci/saa7164/saa7164-vbi.c
-> index cb2e09f0841d..a6738baab688 100644
-> --- a/drivers/media/pci/saa7164/saa7164-vbi.c
-> +++ b/drivers/media/pci/saa7164/saa7164-vbi.c
-> @@ -201,7 +201,6 @@ static int vidioc_querycap(struct file *file, void  *priv,
->  	strscpy(cap->driver, dev->name, sizeof(cap->driver));
->  	strscpy(cap->card, saa7164_boards[dev->board].name,
->  		sizeof(cap->card));
-> -	sprintf(cap->bus_info, "PCI:%s", pci_name(dev->pci));
->  	cap->capabilities = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_READWRITE |
->  			    V4L2_CAP_TUNER | V4L2_CAP_VBI_CAPTURE |
->  			    V4L2_CAP_DEVICE_CAPS;
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> index 7766cadb73ea..956b2bbe9b71 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> @@ -769,8 +769,6 @@ static int solo_enc_querycap(struct file *file, void  *priv,
->  	strscpy(cap->driver, SOLO6X10_NAME, sizeof(cap->driver));
->  	snprintf(cap->card, sizeof(cap->card), "Softlogic 6x10 Enc %d",
->  		 solo_enc->ch);
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "PCI:%s",
-> -		 pci_name(solo_dev->pdev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2.c b/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> index 24ef0c446bef..f0c0e66a9d58 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> @@ -376,8 +376,6 @@ static int solo_querycap(struct file *file, void  *priv,
->  
->  	strscpy(cap->driver, SOLO6X10_NAME, sizeof(cap->driver));
->  	strscpy(cap->card, "Softlogic 6x10", sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "PCI:%s",
-> -		 pci_name(solo_dev->pdev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/pci/sta2x11/sta2x11_vip.c b/drivers/media/pci/sta2x11/sta2x11_vip.c
-> index 524912f20d9f..9365ffd271c2 100644
-> --- a/drivers/media/pci/sta2x11/sta2x11_vip.c
-> +++ b/drivers/media/pci/sta2x11/sta2x11_vip.c
-> @@ -405,8 +405,6 @@ static int vidioc_querycap(struct file *file, void *priv,
->  
->  	strscpy(cap->driver, KBUILD_MODNAME, sizeof(cap->driver));
->  	strscpy(cap->card, KBUILD_MODNAME, sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "PCI:%s",
-> -		 pci_name(vip->pdev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/pci/tw5864/tw5864-video.c b/drivers/media/pci/tw5864/tw5864-video.c
-> index 9131265c2b87..197ed8978102 100644
-> --- a/drivers/media/pci/tw5864/tw5864-video.c
-> +++ b/drivers/media/pci/tw5864/tw5864-video.c
-> @@ -604,7 +604,6 @@ static int tw5864_querycap(struct file *file, void *priv,
->  	strscpy(cap->driver, "tw5864", sizeof(cap->driver));
->  	snprintf(cap->card, sizeof(cap->card), "TW5864 Encoder %d",
->  		 input->nr);
-> -	sprintf(cap->bus_info, "PCI:%s", pci_name(input->root->pci));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/pci/tw68/tw68-video.c b/drivers/media/pci/tw68/tw68-video.c
-> index fe94944d0531..0cbc5b038073 100644
-> --- a/drivers/media/pci/tw68/tw68-video.c
-> +++ b/drivers/media/pci/tw68/tw68-video.c
-> @@ -712,12 +712,9 @@ static int tw68_s_input(struct file *file, void *priv, unsigned int i)
->  static int tw68_querycap(struct file *file, void  *priv,
->  					struct v4l2_capability *cap)
->  {
-> -	struct tw68_dev *dev = video_drvdata(file);
-> -
->  	strscpy(cap->driver, "tw68", sizeof(cap->driver));
->  	strscpy(cap->card, "Techwell Capture Card",
->  		sizeof(cap->card));
-> -	sprintf(cap->bus_info, "PCI:%s", pci_name(dev->pci));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
-> index b227e9e78ebd..6344a479119f 100644
-> --- a/drivers/media/pci/tw686x/tw686x-video.c
-> +++ b/drivers/media/pci/tw686x/tw686x-video.c
-> @@ -762,8 +762,6 @@ static int tw686x_querycap(struct file *file, void *priv,
->  
->  	strscpy(cap->driver, "tw686x", sizeof(cap->driver));
->  	strscpy(cap->card, dev->name, sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info),
-> -		 "PCI:%s", pci_name(dev->pci_dev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
-> index 4a3d06c70e34..2423714afcb9 100644
-> --- a/drivers/media/platform/allegro-dvt/allegro-core.c
-> +++ b/drivers/media/platform/allegro-dvt/allegro-core.c
-> @@ -3249,13 +3249,8 @@ static int allegro_release(struct file *file)
->  static int allegro_querycap(struct file *file, void *fh,
->  			    struct v4l2_capability *cap)
->  {
-> -	struct video_device *vdev = video_devdata(file);
-> -	struct allegro_dev *dev = video_get_drvdata(vdev);
-> -
->  	strscpy(cap->driver, KBUILD_MODNAME, sizeof(cap->driver));
->  	strscpy(cap->card, "Allegro DVT Video Encoder", sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(&dev->plat_dev->dev));
->  
->  	return 0;
->  }
-> diff --git a/drivers/media/platform/davinci/vpbe_display.c b/drivers/media/platform/davinci/vpbe_display.c
-> index bf3c3e76b921..9ea70817538e 100644
-> --- a/drivers/media/platform/davinci/vpbe_display.c
-> +++ b/drivers/media/platform/davinci/vpbe_display.c
-> @@ -630,8 +630,6 @@ static int vpbe_display_querycap(struct file *file, void  *priv,
->  
->  	snprintf(cap->driver, sizeof(cap->driver), "%s",
->  		dev_name(vpbe_dev->pdev));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(vpbe_dev->pdev));
->  	strscpy(cap->card, vpbe_dev->cfg->module_name, sizeof(cap->card));
->  
->  	return 0;
-> diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
-> index 8fe55374c5a3..d4def719b71b 100644
-> --- a/drivers/media/platform/davinci/vpif_capture.c
-> +++ b/drivers/media/platform/davinci/vpif_capture.c
-> @@ -1067,8 +1067,6 @@ static int vpif_querycap(struct file *file, void  *priv,
->  	struct vpif_capture_config *config = vpif_dev->platform_data;
->  
->  	strscpy(cap->driver, VPIF_DRIVER_NAME, sizeof(cap->driver));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(vpif_dev));
->  	strscpy(cap->card, config->card_name, sizeof(cap->card));
->  
->  	return 0;
-> diff --git a/drivers/media/platform/davinci/vpif_display.c b/drivers/media/platform/davinci/vpif_display.c
-> index 59f6b782e104..dfd4693ce67f 100644
-> --- a/drivers/media/platform/davinci/vpif_display.c
-> +++ b/drivers/media/platform/davinci/vpif_display.c
-> @@ -585,8 +585,6 @@ static int vpif_querycap(struct file *file, void  *priv,
->  	struct vpif_display_config *config = vpif_dev->platform_data;
->  
->  	strscpy(cap->driver, VPIF_DRIVER_NAME, sizeof(cap->driver));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(vpif_dev));
->  	strscpy(cap->card, config->card_name, sizeof(cap->card));
->  
->  	return 0;
-> diff --git a/drivers/media/platform/exynos-gsc/gsc-m2m.c b/drivers/media/platform/exynos-gsc/gsc-m2m.c
-> index f1cf847d1cc2..b7854ce5fb8e 100644
-> --- a/drivers/media/platform/exynos-gsc/gsc-m2m.c
-> +++ b/drivers/media/platform/exynos-gsc/gsc-m2m.c
-> @@ -285,13 +285,8 @@ static const struct vb2_ops gsc_m2m_qops = {
->  static int gsc_m2m_querycap(struct file *file, void *fh,
->  			   struct v4l2_capability *cap)
->  {
-> -	struct gsc_ctx *ctx = fh_to_ctx(fh);
-> -	struct gsc_dev *gsc = ctx->gsc_dev;
-> -
->  	strscpy(cap->driver, GSC_MODULE_NAME, sizeof(cap->driver));
->  	strscpy(cap->card, GSC_MODULE_NAME " gscaler", sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(&gsc->pdev->dev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/platform/exynos4-is/common.c b/drivers/media/platform/exynos4-is/common.c
-> index 944b224eb621..cc1dc620d758 100644
-> --- a/drivers/media/platform/exynos4-is/common.c
-> +++ b/drivers/media/platform/exynos4-is/common.c
-> @@ -38,8 +38,6 @@ void __fimc_vidioc_querycap(struct device *dev, struct v4l2_capability *cap)
->  {
->  	strscpy(cap->driver, dev->driver->name, sizeof(cap->driver));
->  	strscpy(cap->card, dev->driver->name, sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info),
-> -				"platform:%s", dev_name(dev));
->  }
->  EXPORT_SYMBOL(__fimc_vidioc_querycap);
->  
-> diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
-> index aaa3af0493ce..aaf500bb0cff 100644
-> --- a/drivers/media/platform/exynos4-is/fimc-lite.c
-> +++ b/drivers/media/platform/exynos4-is/fimc-lite.c
-> @@ -646,12 +646,8 @@ static void fimc_lite_try_compose(struct fimc_lite *fimc, struct v4l2_rect *r)
->  static int fimc_lite_querycap(struct file *file, void *priv,
->  					struct v4l2_capability *cap)
->  {
-> -	struct fimc_lite *fimc = video_drvdata(file);
-> -
->  	strscpy(cap->driver, FIMC_LITE_DRV_NAME, sizeof(cap->driver));
->  	strscpy(cap->card, FIMC_LITE_DRV_NAME, sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -					dev_name(&fimc->pdev->dev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-> index 4ca96cf9def7..4f253d83ef2d 100644
-> --- a/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-> +++ b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-> @@ -1527,12 +1527,8 @@ static int mxc_jpeg_open(struct file *file)
->  static int mxc_jpeg_querycap(struct file *file, void *priv,
->  			     struct v4l2_capability *cap)
->  {
-> -	struct mxc_jpeg_dev *mxc_jpeg = video_drvdata(file);
-> -
->  	strscpy(cap->driver, MXC_JPEG_NAME " codec", sizeof(cap->driver));
->  	strscpy(cap->card, MXC_JPEG_NAME " codec", sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(mxc_jpeg->dev));
->  	cap->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_M2M_MPLANE;
->  	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
->  
-> diff --git a/drivers/media/platform/marvell-ccic/cafe-driver.c b/drivers/media/platform/marvell-ccic/cafe-driver.c
-> index 03dcf8bf705e..ae97ce4ead98 100644
-> --- a/drivers/media/platform/marvell-ccic/cafe-driver.c
-> +++ b/drivers/media/platform/marvell-ccic/cafe-driver.c
-> @@ -497,7 +497,6 @@ static int cafe_pci_probe(struct pci_dev *pdev,
->  	mcam->plat_power_up = cafe_ctlr_power_up;
->  	mcam->plat_power_down = cafe_ctlr_power_down;
->  	mcam->dev = &pdev->dev;
-> -	snprintf(mcam->bus_info, sizeof(mcam->bus_info), "PCI:%s", pci_name(pdev));
->  	/*
->  	 * Vmalloc mode for buffers is traditional with this driver.
->  	 * We *might* be able to run DMA_contig, especially on a system
-> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-> index f332beb06d51..97afa57a165e 100644
-> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-> @@ -138,8 +138,6 @@ static int mtk_jpeg_querycap(struct file *file, void *priv,
->  
->  	strscpy(cap->driver, jpeg->variant->dev_name, sizeof(cap->driver));
->  	strscpy(cap->card, jpeg->variant->dev_name, sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(jpeg->dev));
->  
->  	return 0;
->  }
-> diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-> index f282275af626..8e7d44248f46 100644
-> --- a/drivers/media/platform/qcom/camss/camss-video.c
-> +++ b/drivers/media/platform/qcom/camss/camss-video.c
-> @@ -574,12 +574,8 @@ static const struct vb2_ops msm_video_vb2_q_ops = {
->  static int video_querycap(struct file *file, void *fh,
->  			  struct v4l2_capability *cap)
->  {
-> -	struct camss_video *video = video_drvdata(file);
-> -
->  	strscpy(cap->driver, "qcom-camss", sizeof(cap->driver));
->  	strscpy(cap->card, "Qualcomm Camera Subsystem", sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(video->camss->dev));
->  
->  	return 0;
->  }
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 2e60b9fce03b..287fbf2e52b3 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -307,12 +307,8 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
->  static int rvin_querycap(struct file *file, void *priv,
->  			 struct v4l2_capability *cap)
->  {
-> -	struct rvin_dev *vin = video_drvdata(file);
-> -
->  	strscpy(cap->driver, KBUILD_MODNAME, sizeof(cap->driver));
->  	strscpy(cap->card, "R_Car_VIN", sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(vin->dev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/platform/rcar_jpu.c b/drivers/media/platform/rcar_jpu.c
-> index 56bb464629ed..776e21491506 100644
-> --- a/drivers/media/platform/rcar_jpu.c
-> +++ b/drivers/media/platform/rcar_jpu.c
-> @@ -670,8 +670,6 @@ static int jpu_querycap(struct file *file, void *priv,
->  		strscpy(cap->card, DRV_NAME " decoder", sizeof(cap->card));
->  
->  	strscpy(cap->driver, DRV_NAME, sizeof(cap->driver));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(ctx->jpu->dev));
->  	memset(cap->reserved, 0, sizeof(cap->reserved));
->  
->  	return 0;
-> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.c b/drivers/media/platform/s5p-jpeg/jpeg-core.c
-> index a8d9159d5ed8..73d05bc904f2 100644
-> --- a/drivers/media/platform/s5p-jpeg/jpeg-core.c
-> +++ b/drivers/media/platform/s5p-jpeg/jpeg-core.c
-> @@ -1257,8 +1257,6 @@ static int s5p_jpeg_querycap(struct file *file, void *priv,
->  		strscpy(cap->card, S5P_JPEG_M2M_NAME " decoder",
->  			sizeof(cap->card));
->  	}
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(ctx->jpeg->dev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-> index c1d3bda8385b..2f41feb07902 100644
-> --- a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-> @@ -270,8 +270,6 @@ static int vidioc_querycap(struct file *file, void *priv,
->  
->  	strscpy(cap->driver, S5P_MFC_NAME, sizeof(cap->driver));
->  	strscpy(cap->card, dev->vfd_dec->name, sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(&dev->plat_dev->dev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
-> index 1fad99edb091..6678d551ae37 100644
-> --- a/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
-> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
-> @@ -1309,8 +1309,6 @@ static int vidioc_querycap(struct file *file, void *priv,
->  
->  	strscpy(cap->driver, S5P_MFC_NAME, sizeof(cap->driver));
->  	strscpy(cap->card, dev->vfd_enc->name, sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(&dev->plat_dev->dev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-> index 3872027ed2fa..48702134ccc5 100644
-> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-> @@ -53,12 +53,8 @@ const struct sun4i_csi_format *sun4i_csi_find_format(const u32 *fourcc,
->  static int sun4i_csi_querycap(struct file *file, void *priv,
->  			      struct v4l2_capability *cap)
->  {
-> -	struct sun4i_csi *csi = video_drvdata(file);
-> -
->  	strscpy(cap->driver, KBUILD_MODNAME, sizeof(cap->driver));
->  	strscpy(cap->card, "sun4i-csi", sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(csi->dev));
->  
->  	return 0;
->  }
-> diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-> index 7799da1cc261..04e9a40061f3 100644
-> --- a/drivers/media/platform/ti-vpe/cal-video.c
-> +++ b/drivers/media/platform/ti-vpe/cal-video.c
-> @@ -47,13 +47,9 @@ static char *fourcc_to_str(u32 fmt)
->  static int cal_querycap(struct file *file, void *priv,
->  			struct v4l2_capability *cap)
->  {
-> -	struct cal_ctx *ctx = video_drvdata(file);
-> -
->  	strscpy(cap->driver, CAL_MODULE_NAME, sizeof(cap->driver));
->  	strscpy(cap->card, CAL_MODULE_NAME, sizeof(cap->card));
->  
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info),
-> -		 "platform:%s", dev_name(ctx->cal->dev));
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/platform/vsp1/vsp1_histo.c b/drivers/media/platform/vsp1/vsp1_histo.c
-> index 5e5013d2cd2a..f22449dd654c 100644
-> --- a/drivers/media/platform/vsp1/vsp1_histo.c
-> +++ b/drivers/media/platform/vsp1/vsp1_histo.c
-> @@ -434,8 +434,6 @@ static int histo_v4l2_querycap(struct file *file, void *fh,
->  
->  	strscpy(cap->driver, "vsp1", sizeof(cap->driver));
->  	strscpy(cap->card, histo->video.name, sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(histo->entity.vsp1->dev));
->  
->  	return 0;
->  }
-> diff --git a/drivers/media/platform/vsp1/vsp1_video.c b/drivers/media/platform/vsp1/vsp1_video.c
-> index 044eb5778820..497f352e9f8c 100644
-> --- a/drivers/media/platform/vsp1/vsp1_video.c
-> +++ b/drivers/media/platform/vsp1/vsp1_video.c
-> @@ -959,8 +959,6 @@ vsp1_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
->  
->  	strscpy(cap->driver, "vsp1", sizeof(cap->driver));
->  	strscpy(cap->card, video->video.name, sizeof(cap->card));
-> -	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> -		 dev_name(video->vsp1->dev));
->  
->  	return 0;
->  }
-> diff --git a/drivers/media/radio/radio-maxiradio.c b/drivers/media/radio/radio-maxiradio.c
-> index de107e2cbcd6..1a5dbae24ef4 100644
-> --- a/drivers/media/radio/radio-maxiradio.c
-> +++ b/drivers/media/radio/radio-maxiradio.c
-> @@ -144,8 +144,6 @@ static int maxiradio_probe(struct pci_dev *pdev,
->  	dev->tea.v4l2_dev = v4l2_dev;
->  	dev->tea.radio_nr = radio_nr;
->  	strscpy(dev->tea.card, "Maxi Radio FM2000", sizeof(dev->tea.card));
-> -	snprintf(dev->tea.bus_info, sizeof(dev->tea.bus_info),
-> -			"PCI:%s", pci_name(pdev));
->  
->  	retval = -ENODEV;
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 642cb90f457c..aaa5ef5e706c 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -18,6 +18,7 @@
->  
->  #include <linux/videodev2.h>
->  
-> +#include <media/media-device.h> /* for media_set_bus_info() */
->  #include <media/v4l2-common.h>
->  #include <media/v4l2-ioctl.h>
->  #include <media/v4l2-ctrls.h>
-> @@ -1052,6 +1053,9 @@ static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
->  	cap->device_caps = vfd->device_caps;
->  	cap->capabilities = vfd->device_caps | V4L2_CAP_DEVICE_CAPS;
->  
-> +	media_set_bus_info(cap->bus_info, sizeof(cap->bus_info),
-> +			   vfd->dev_parent);
-> +
->  	ret = ops->vidioc_querycap(file, fh, cap);
->  
->  	/*
+[Mauro Carvalho Chehab] media: v4l2-fwnode: Move bus config structure to v4l2_mediabus.h
 
--- 
-Regards,
+[Mauro Carvalho Chehab] media: v4l2-mediabus: Use structures to describe bus configuration
 
-Laurent Pinchart
+[Mauro Carvalho Chehab] media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_*_LANE flags
+
+[Mauro Carvalho Chehab] media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_CHANNEL_* flags
+
+[Mauro Carvalho Chehab] media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
+
+[Mauro Carvalho Chehab] media: ov6650: Fix set format try processing path
+
+[Mauro Carvalho Chehab] media: ov6650: Add try support to selection API operations
+
+[Mauro Carvalho Chehab] media: ov6650: Fix crop rectangle affected by set format
+
+[Mauro Carvalho Chehab] media: ov6650: Fix missing frame interval enumeration support
+
+[Mauro Carvalho Chehab] media: v4l: Avoid unaligned access warnings when printing 4cc modifiers
+
+[Mauro Carvalho Chehab] media: ov5648: Don't pack controls struct
+
+[Mauro Carvalho Chehab] media: ov8865: Fix indentation in set_selection callback
+
+[Mauro Carvalho Chehab] media: hi847: Add support for Hi-847 sensor
+
+[Mauro Carvalho Chehab] media: i2c: Add ov08d10 camera sensor driver
+
+[Mauro Carvalho Chehab] media: ov5693: fix boolconv.cocci warnings
+
+[Mauro Carvalho Chehab] media: ov5693: fix returnvar.cocci warnings
+
+[Mauro Carvalho Chehab] media: i2c: max9286: Implement media entity .link_validate() operation
+
+[Mauro Carvalho Chehab] media: MAINTAINERS: Update Benjamin Gaignard maintainer status
+
+[Mauro Carvalho Chehab] media: MAINTAINERS: update drm/stm drm/sti and cec/sti maintainers
+
+[Mauro Carvalho Chehab] media: ov2740: identify module after subdev initialisation
+
+[Mauro Carvalho Chehab] media: i2c: dw9714: add optional regulator support
+
+
+------------------------------------------
+[...truncated 47.85 KB...]
+  CC      drivers/media/i2c/s5c73m3/s5c73m3-ctrls.o
+  CC      drivers/media/pci/tw68/tw68-video.o
+  CC      drivers/media/platform/vsp1/vsp1_histo.o
+  CC      drivers/media/platform/vsp1/vsp1_lif.o
+  CC      drivers/media/platform/vsp1/vsp1_uif.o
+  CC      drivers/media/pci/tw68/tw68-risc.o
+  CC      drivers/media/usb/au0828/au0828-input.o
+  CC      drivers/media/i2c/lm3646.o
+  CC      drivers/media/i2c/ak881x.o
+  CC      drivers/media/pci/tw686x/tw686x-core.o
+  CC      drivers/media/pci/tw686x/tw686x-video.o
+  AR      drivers/media/i2c/s5c73m3/built-in.a
+  CC      drivers/media/pci/dt3155/dt3155.o
+  CC      drivers/media/pci/meye/meye.o
+  AR      drivers/media/pci/tw68/built-in.a
+  CC      drivers/media/pci/tw686x/tw686x-audio.o
+  AR      drivers/media/platform/vsp1/built-in.a
+  CC      drivers/media/platform/am437x/am437x-vpfe.o
+  CC      drivers/media/platform/xilinx/xilinx-dma.o
+  AR      drivers/media/usb/au0828/built-in.a
+  CC      drivers/media/usb/hdpvr/hdpvr-control.o
+  CC      drivers/media/i2c/video-i2c.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-i2c-core.o
+  CC      drivers/media/i2c/ml86v7667.o
+  AR      drivers/media/pci/dt3155/built-in.a
+  CC      drivers/media/i2c/ov2659.o
+  AR      drivers/media/pci/tw686x/built-in.a
+  CC      drivers/media/usb/hdpvr/hdpvr-core.o
+  AR      drivers/media/pci/meye/built-in.a
+  CC      drivers/media/pci/sta2x11/sta2x11_vip.o
+  CC      drivers/media/platform/xilinx/xilinx-vip.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-audio.o
+  CC      drivers/media/platform/xilinx/xilinx-vipp.o
+  AR      drivers/media/platform/am437x/built-in.a
+  CC      drivers/media/i2c/tc358743.o
+  CC      drivers/media/usb/hdpvr/hdpvr-video.o
+  CC      drivers/media/usb/hdpvr/hdpvr-i2c.o
+  CC      drivers/media/platform/rcar-isp.o
+  CC      drivers/media/i2c/hi556.o
+  CC      drivers/media/platform/rcar-vin/rcar-csi2.o
+  AR      drivers/media/pci/sta2x11/built-in.a
+  CC      drivers/media/pci/solo6x10/solo6x10-core.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-encoder.o
+  CC      drivers/media/pci/cobalt/cobalt-driver.o
+  CC      drivers/media/platform/rcar-vin/rcar-core.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-video-v4l.o
+  AR      drivers/media/usb/hdpvr/built-in.a
+  CC      drivers/media/i2c/hi846.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-eeprom.o
+  CC      drivers/media/platform/xilinx/xilinx-csi2rxss.o
+  CC      drivers/media/platform/xilinx/xilinx-tpg.o
+  CC      drivers/media/pci/solo6x10/solo6x10-i2c.o
+  CC      drivers/media/pci/cobalt/cobalt-irq.o
+  CC      drivers/media/pci/cobalt/cobalt-v4l2.o
+  CC      drivers/media/platform/rcar-vin/rcar-dma.o
+  CC      drivers/media/i2c/imx208.o
+  CC      drivers/media/i2c/imx214.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-hdw.o
+  CC      drivers/media/platform/xilinx/xilinx-vtc.o
+  CC      drivers/media/i2c/imx219.o
+  CC      drivers/media/pci/solo6x10/solo6x10-p2m.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-v4l2.o
+  CC      drivers/media/i2c/imx258.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-ctrl.o
+  CC      drivers/media/platform/rcar-vin/rcar-v4l2.o
+  AR      drivers/media/platform/xilinx/built-in.a
+  CC      drivers/media/pci/cobalt/cobalt-i2c.o
+  CC      drivers/media/pci/cobalt/cobalt-omnitek.o
+  CC      drivers/media/i2c/imx274.o
+  CC      drivers/media/i2c/imx290.o
+  CC      drivers/media/i2c/imx319.o
+  CC      drivers/media/pci/solo6x10/solo6x10-v4l2.o
+  CC      drivers/media/platform/atmel/atmel-isi.o
+  AR      drivers/media/platform/rcar-vin/built-in.a
+  CC      drivers/media/usb/pvrusb2/pvrusb2-devattr.o
+  CC      drivers/media/i2c/imx334.o
+  CC      drivers/media/i2c/imx335.o
+  CC      drivers/media/pci/cobalt/cobalt-flash.o
+  CC      drivers/media/platform/atmel/atmel-isc-base.o
+  CC      drivers/media/i2c/imx355.o
+  CC      drivers/media/platform/atmel/atmel-isc-clk.o
+  CC      drivers/media/pci/solo6x10/solo6x10-tw28.o
+  CC      drivers/media/platform/atmel/atmel-sama5d2-isc.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-cx2584x-v4l.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-wm8775.o
+  CC      drivers/media/pci/cobalt/cobalt-cpld.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-cs53l32a.o
+  CC      drivers/media/usb/pvrusb2/pvrusb2-dvb.o
+  CC      drivers/media/i2c/imx412.o
+  CC      drivers/media/pci/solo6x10/solo6x10-gpio.o
+  CC      drivers/media/platform/atmel/atmel-sama7g5-isc.o
+  CC      drivers/media/platform/atmel/microchip-csi2dc.o
+  CC      drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.o
+  CC      drivers/media/pci/cobalt/cobalt-alsa-main.o
+  CC      drivers/media/platform/mtk-mdp/mtk_mdp_core.o
+  CC      drivers/media/i2c/max9286.o
+  CC      drivers/media/platform/mtk-mdp/mtk_mdp_m2m.o
+  AR      drivers/media/usb/pvrusb2/built-in.a
+  CC      drivers/media/usb/stk1160/stk1160-core.o
+  CC      drivers/media/platform/mtk-mdp/mtk_mdp_regs.o
+  CC      drivers/media/pci/solo6x10/solo6x10-disp.o
+  CC      drivers/media/pci/cobalt/cobalt-alsa-pcm.o
+  CC      drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.o
+drivers/media/platform/atmel/microchip-csi2dc.c:360:18: error: no member named 'flags' in 'struct v4l2_mbus_config'
+        if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_0)
+            ~~~~~~~~~~~ ^
+  CC      drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.o
+drivers/media/platform/atmel/microchip-csi2dc.c:360:26: error: use of undeclared identifier 'V4L2_MBUS_CSI2_CHANNEL_0'; did you mean 'V4L2_MBUS_CSI2_CPHY'?
+        if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_0)
+                                ^~~~~~~~~~~~~~~~~~~~~~~~
+                                V4L2_MBUS_CSI2_CPHY
+./include/media/v4l2-mediabus.h:141:2: note: 'V4L2_MBUS_CSI2_CPHY' declared here
+        V4L2_MBUS_CSI2_CPHY,
+        ^
+drivers/media/platform/atmel/microchip-csi2dc.c:362:23: error: no member named 'flags' in 'struct v4l2_mbus_config'
+        else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_1)
+                 ~~~~~~~~~~~ ^
+drivers/media/platform/atmel/microchip-csi2dc.c:362:31: error: use of undeclared identifier 'V4L2_MBUS_CSI2_CHANNEL_1'; did you mean 'V4L2_MBUS_CSI2_CPHY'?
+        else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_1)
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+                                     V4L2_MBUS_CSI2_CPHY
+./include/media/v4l2-mediabus.h:141:2: note: 'V4L2_MBUS_CSI2_CPHY' declared here
+        V4L2_MBUS_CSI2_CPHY,
+        ^
+drivers/media/platform/atmel/microchip-csi2dc.c:364:23: error: no member named 'flags' in 'struct v4l2_mbus_config'
+        else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_2)
+                 ~~~~~~~~~~~ ^
+drivers/media/platform/atmel/microchip-csi2dc.c:364:31: error: use of undeclared identifier 'V4L2_MBUS_CSI2_CHANNEL_2'; did you mean 'V4L2_MBUS_CSI2_CPHY'?
+        else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_2)
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+                                     V4L2_MBUS_CSI2_CPHY
+./include/media/v4l2-mediabus.h:141:2: note: 'V4L2_MBUS_CSI2_CPHY' declared here
+        V4L2_MBUS_CSI2_CPHY,
+        ^
+drivers/media/platform/atmel/microchip-csi2dc.c:366:23: error: no member named 'flags' in 'struct v4l2_mbus_config'
+        else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_3)
+                 ~~~~~~~~~~~ ^
+drivers/media/platform/atmel/microchip-csi2dc.c:366:31: error: use of undeclared identifier 'V4L2_MBUS_CSI2_CHANNEL_3'; did you mean 'V4L2_MBUS_CSI2_CPHY'?
+        else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_3)
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~
+                                     V4L2_MBUS_CSI2_CPHY
+./include/media/v4l2-mediabus.h:141:2: note: 'V4L2_MBUS_CSI2_CPHY' declared here
+        V4L2_MBUS_CSI2_CPHY,
+        ^
+drivers/media/platform/atmel/microchip-csi2dc.c:371:34: error: no member named 'flags' in 'struct v4l2_mbus_config'
+        csi2dc->clk_gated = mbus_config.flags &
+                            ~~~~~~~~~~~ ^
+9 errors generated.
+make[4]: *** [scripts/Makefile.build:288: drivers/media/platform/atmel/microchip-csi2dc.o] Error 1
+make[3]: *** [scripts/Makefile.build:550: drivers/media/platform/atmel] Error 2
+make[3]: *** Waiting for unfinished jobs....
+  CC      drivers/media/platform/mtk-mdp/mtk_mdp_vpu.o
+  CC      drivers/media/usb/stk1160/stk1160-v4l.o
+  CC      drivers/media/i2c/rdacm20.o
+  CC      drivers/media/i2c/rdacm21.o
+  CC      drivers/media/usb/stk1160/stk1160-video.o
+  CC      drivers/media/pci/solo6x10/solo6x10-enc.o
+  AR      drivers/media/pci/cobalt/built-in.a
+  CC      drivers/media/usb/stk1160/stk1160-i2c.o
+  CC      drivers/media/usb/stk1160/stk1160-ac97.o
+  AR      drivers/media/platform/mtk-mdp/built-in.a
+  CC      drivers/media/i2c/st-mipid02.o
+  CC      drivers/media/i2c/max2175.o
+  CC      drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.o
+  CC      drivers/media/i2c/ov08d10.o
+  CC      drivers/media/i2c/hi847.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.o
+  CC      drivers/media/platform/mtk-vcodec/vdec_drv_if.o
+  CC      drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o
+  AR      drivers/media/usb/stk1160/built-in.a
+  CC      drivers/media/pci/solo6x10/solo6x10-g723.o
+  CC      drivers/media/usb/cx231xx/cx231xx-video.o
+  CC      drivers/media/usb/cx231xx/cx231xx-i2c.o
+  CC      drivers/media/usb/cx231xx/cx231xx-cards.o
+  CC      drivers/media/usb/cx231xx/cx231xx-core.o
+  AR      drivers/media/i2c/built-in.a
+  CC      drivers/media/usb/cx231xx/cx231xx-avcore.o
+  CC      drivers/media/usb/cx231xx/cx231xx-417.o
+  CC      drivers/media/platform/mtk-vcodec/vdec_vpu_if.o
+  CC      drivers/media/usb/cx231xx/cx231xx-pcb-cfg.o
+  CC      drivers/media/pci/solo6x10/solo6x10-eeprom.o
+  CC      drivers/media/platform/mtk-vcodec/vdec_msg_queue.o
+  CC      drivers/media/usb/cx231xx/cx231xx-vbi.o
+  CC      drivers/media/pci/tw5864/tw5864-core.o
+  CC      drivers/media/usb/cx231xx/cx231xx-input.o
+  CC      drivers/media/usb/cx231xx/cx231xx-audio.o
+  CC      drivers/media/pci/tw5864/tw5864-video.o
+  CC      drivers/media/usb/cx231xx/cx231xx-dvb.o
+  CC      drivers/media/pci/tw5864/tw5864-h264.o
+  AR      drivers/media/pci/solo6x10/built-in.a
+  CC      drivers/media/pci/tw5864/tw5864-util.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.o
+  CC      drivers/media/usb/tm6000/tm6000-cards.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.o
+  CC      drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.o
+  CC      drivers/media/usb/tm6000/tm6000-core.o
+  AR      drivers/media/usb/cx231xx/built-in.a
+  CC      drivers/media/usb/tm6000/tm6000-i2c.o
+  CC      drivers/media/platform/mtk-vcodec/venc/venc_h264_if.o
+  CC      drivers/media/usb/tm6000/tm6000-video.o
+  CC      drivers/media/usb/tm6000/tm6000-stds.o
+  AR      drivers/media/pci/tw5864/built-in.a
+  AR      drivers/media/pci/built-in.a
+  CC      drivers/media/usb/tm6000/tm6000-input.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.o
+  CC      drivers/media/usb/tm6000/tm6000-alsa.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.o
+  CC      drivers/media/platform/mtk-vcodec/venc_drv_if.o
+  CC      drivers/media/usb/em28xx/em28xx-core.o
+  CC      drivers/media/usb/tm6000/tm6000-dvb.o
+  CC      drivers/media/usb/em28xx/em28xx-i2c.o
+  CC      drivers/media/platform/mtk-vcodec/venc_vpu_if.o
+  CC      drivers/media/usb/em28xx/em28xx-cards.o
+  CC      drivers/media/usb/em28xx/em28xx-camera.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_intr.o
+  CC      drivers/media/usb/em28xx/em28xx-video.o
+  CC      drivers/media/usb/em28xx/em28xx-vbi.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_util.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.o
+  AR      drivers/media/usb/tm6000/built-in.a
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.o
+  CC      drivers/media/usb/em28xx/em28xx-audio.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_scp.o
+  CC      drivers/media/usb/em28xx/em28xx-dvb.o
+  CC      drivers/media/usb/em28xx/em28xx-input.o
+  CC      drivers/media/usb/usbtv/usbtv-core.o
+  CC      drivers/media/usb/go7007/go7007-v4l2.o
+  CC      drivers/media/usb/go7007/go7007-driver.o
+  CC      drivers/media/usb/go7007/go7007-i2c.o
+  CC      drivers/media/usb/go7007/go7007-fw.o
+  CC      drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.o
+  CC      drivers/media/usb/go7007/snd-go7007.o
+  CC      drivers/media/usb/usbtv/usbtv-video.o
+  CC      drivers/media/usb/usbtv/usbtv-audio.o
+  CC      drivers/media/usb/go7007/go7007-usb.o
+  CC      drivers/media/usb/go7007/s2250-board.o
+  AR      drivers/media/usb/em28xx/built-in.a
+  AR      drivers/media/platform/mtk-vcodec/built-in.a
+make[2]: *** [scripts/Makefile.build:550: drivers/media/platform] Error 2
+make[2]: *** Waiting for unfinished jobs....
+  AR      drivers/media/usb/go7007/built-in.a
+  AR      drivers/media/usb/usbtv/built-in.a
+  AR      drivers/media/usb/built-in.a
+make[1]: *** [scripts/Makefile.build:550: drivers/media] Error 2
+make: *** [Makefile:1831: drivers] Error 2
+Build step 'Execute shell' marked build as failure
