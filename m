@@ -2,60 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BAE94A0088
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 19:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9F8B4A0092
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 20:01:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233548AbiA1S7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 13:59:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49376 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231216AbiA1S7F (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 13:59:05 -0500
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65443C061714
-        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 10:59:05 -0800 (PST)
-Received: by mail-qt1-x82e.google.com with SMTP id y17so5968184qtx.9
-        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 10:59:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=DkhOJxPGb96XhBNxvczEuJ4p+whH3mGtofLewGhWrCU=;
-        b=Z6G7Ef6PLujlKfAGhhW5+gwQmeqkdrVdJBgyi6GquvzqWT8BCqXXCVJuWRysRQI3nU
-         H8WONHUzAH6m5usqgL90c09K6+NxeeG5I0XvtPXGHICdZ3EiktQa3SxIDe/guaKNlZ6s
-         l83W0iGB51VmtrF+lZMvo3EM7xoLjyh43X0Onq97UR9he8wEhyaoH7aJESUJK0FTDfQW
-         gAAljF6vVOkN6MATD4lshh/+9m4oHmCMHQIO5UTEvujkVRwViB78Ny5e46VHpR+MLr0X
-         PnKktI1J98Q1/QS8Dv7pd2te+B5kRG/L+QaeyUSlzQi0oT9lRo8QNg6AgTJjeQ4o1pZI
-         1TKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=DkhOJxPGb96XhBNxvczEuJ4p+whH3mGtofLewGhWrCU=;
-        b=i4VaIMDBBs1DPSqoCoDSIE2/F3tb4NQzGHKHuAr+CaEoIhzsUhBrkijK+66Xv2e7YR
-         /qJs0afTuI5yitFiay2dJjaJsj8wpurkRCWjAabJ4ESXDufPR095yq7eqM6c9C/HmShC
-         EVHsxLzRJdkiVdhGjhNjLLDXQHbD/sAi4FshALipqicSSfzunGepTuxBa9JxJfKtMi5b
-         gymJB9Cwb8cm09dAmpIjzbW/FSvgvhwgYEZIPGxChn1JJE4bFqQOukcWp4KGO/qfIpA9
-         BnOcT4ri7VlFF9I9L1XYTKQcqMt4xaIuZfQVNY7DXBUexGF1x6BXs2idTogk/eNzs1n+
-         wUzA==
-X-Gm-Message-State: AOAM530qCuEXQR/Zl42kyAPwvwcB8KTQpPKt/KdG9xWJT4RXvR2MjjM8
-        Yv5L9rse47jfAB6i7SjPnYV2N0IY6KpBnCtoKO4cUPja710=
-X-Google-Smtp-Source: ABdhPJxgUujZ2R6SCRWk6kpyvs4L/ONnCM34xSW9TfaBBO4ugSSMjdpvghpP5gSutYKzJaIM6TyQU5UpARG5dnha3Rk=
-X-Received: by 2002:a05:622a:14d4:: with SMTP id u20mr5640426qtx.262.1643396344365;
- Fri, 28 Jan 2022 10:59:04 -0800 (PST)
+        id S1350700AbiA1TBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 14:01:16 -0500
+Received: from meesny.iki.fi ([195.140.195.201]:59134 "EHLO meesny.iki.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233548AbiA1TBQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 Jan 2022 14:01:16 -0500
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 8AC082005D;
+        Fri, 28 Jan 2022 21:01:13 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1643396473;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KLYLDHjWR/WaUfpGcms73tXXOgAtasYqQ4MORqEJT58=;
+        b=ZzB/AjvOeWKt6CO22pOw5HVvSNx5t7nncMbgD4AyONrGvnsx+StvAcdS/jKmf/FNG8jgIH
+        Muywk+KQUkk3t4oJ7NQ0cyFRW/Owe2NiThL/4zR3hr8v8Ds3X7Nydp0QzBviON3BXLAzya
+        KaaRPDlt4OsL7jIpu+PlWz9wJjBbbjA=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 078EA634C90;
+        Fri, 28 Jan 2022 21:01:13 +0200 (EET)
+Date:   Fri, 28 Jan 2022 21:01:12 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [GIT PULL v2 FOR 5.18] V4L2 patches
+Message-ID: <YfQ9eMB2aP5iH6AZ@valkosipuli.retiisi.eu>
+References: <Ye7QMv0OBntzuC1C@valkosipuli.retiisi.eu>
+ <20220128195312.092b1d3d@coco.lan>
 MIME-Version: 1.0
-Received: by 2002:a05:6214:2529:0:0:0:0 with HTTP; Fri, 28 Jan 2022 10:59:03
- -0800 (PST)
-Reply-To: fionahill.usa@outlook.com
-From:   Fiona Hill <ivanroberti284@gmail.com>
-Date:   Fri, 28 Jan 2022 10:59:03 -0800
-Message-ID: <CAKp8dfpJetKvA4p5Gik8Qy3mVcTOX3tV4sDpu7zNAHjFVK6cYg@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220128195312.092b1d3d@coco.lan>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1643396473; a=rsa-sha256; cv=none;
+        b=ft3ninm2gMC5HHPkFnVMhOTOvlOMivb4Gu88K1fGff87Ur98BcXmTHUGimKXZjck1wjmcd
+        6HjqeAtu5Nx7DnHd9hXK9Qwd2XuAB8fjqPyfGAM2la6XScsMbu86pRUlLYPkbj6e5i+/w6
+        KTwEoanx2IJEMmUxF0gjHfecvOE3g6o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1643396473;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KLYLDHjWR/WaUfpGcms73tXXOgAtasYqQ4MORqEJT58=;
+        b=dI552XTOd+uZuIc3oAb1XABpoObs0DxKSgqNvRysVJqJ4ivZ6ID6N1kUJACDwTR1h5/qkk
+        +Ft7VpXqXSUdyyC//b9sOejHq960n4pXWfdAfSmij/oOj3HHtf/SbHRid5vYuyYuenLQMH
+        kwtoCZl7WTythkin8oExvgbb/yhaslU=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Mauro,
+
+On Fri, Jan 28, 2022 at 07:53:12PM +0100, Mauro Carvalho Chehab wrote:
+> Em Mon, 24 Jan 2022 18:13:38 +0200
+> Sakari Ailus <sakari.ailus@iki.fi> escreveu:
+> 
+> > Hi Mauro,
+> > 
+> > Here's a bunch of patches again for 5.18. Most notably there's V4L2 fwnode
+> > / mbus_config cleanup by Laurent, the hi847 camera sensor driver from Shawn
+> > Tu and the od08d10 camera sensor driver by Jimmy Su. Fixes elsewhere are
+> > included, too.
+> > 
+> > Since v1, a few more patches have been added and I've dropped a camss patch
+> > already picked by Hans.
+> > 
+> > Please pull.
+> > 
+> > 
+> > The following changes since commit 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c:
+> > 
+> >   media: ipu3-cio2: Add support for instantiating i2c-clients for VCMs (2021-12-16 20:58:56 +0100)
+> > 
+> > are available in the Git repository at:
+> > 
+> >   git://linuxtv.org/sailus/media_tree.git tags/for-5.18-1.1-signed
+> > 
+> > for you to fetch changes up to a6876b00e5daa786a406db09f214bbbb4d1f200c:
+> > 
+> >   media: i2c: dw9714: add optional regulator support (2022-01-22 18:27:43 +0200)
+> > 
+> > ----------------------------------------------------------------
+> > V4L2 patches for 5.18
+> > 
+> > ----------------------------------------------------------------
+> > Angus Ainslie (1):
+> >       media: i2c: dw9714: add optional regulator support
+> > 
+> > Benjamin Gaignard (1):
+> >       MAINTAINERS: Update Benjamin Gaignard maintainer status
+> > 
+> > Bingbu Cao (1):
+> >       media: ov2740: identify module after subdev initialisation
+> > 
+> > Janusz Krzysztofik (4):
+> >       media: ov6650: Fix set format try processing path
+> >       media: ov6650: Add try support to selection API operations
+> >       media: ov6650: Fix crop rectangle affected by set format
+> >       media: ov6650: Fix missing frame interval enumeration support
+> > 
+> > Jimmy Su (1):
+> >       media: i2c: Add ov08d10 camera sensor driver
+> > 
+> > Laurent Pinchart (9):
+> >       media: pxa_camera: Drop usage of .set_mbus_config()
+> >       media: i2c: ov6650: Drop implementation of .set_mbus_config()
+> >       media: v4l2-subdev: Drop .set_mbus_config() operation
+> >       media: v4l2-fwnode: Move bus config structure to v4l2_mediabus.h
+> 
+> >       media: v4l2-mediabus: Use structures to describe bus configuration
+> >       media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_*_LANE flags
+> >       media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_CHANNEL_* flags
+> >       media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
+> 
+> (Some of?) those broke build today:
+> 	https://builder.linuxtv.org/job/media_stage_clang/412/
+> 
+> Probably due to a conflict some other pull request.
+> 
+> So, I dropped them. Please rebase and re-submit.
+
+It seems patches got merged that make use of [gs]et_mbus_config that is
+changed by the patches. This isn't a very commonly used interface so
+there's a bit of bad luck here.
+
+I'll see what needs to be changed there.
+
+Please prioritise these on the next time, if possible.
+
 -- 
-did you receive my message i send to you?
+Kind regards,
+
+Sakari Ailus
