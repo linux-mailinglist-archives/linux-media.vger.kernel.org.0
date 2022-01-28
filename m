@@ -2,103 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7155649FE98
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 18:02:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D0CC49FEA4
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 18:07:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350406AbiA1RCi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 12:02:38 -0500
-Received: from mga03.intel.com ([134.134.136.65]:46953 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350396AbiA1RCi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 12:02:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643389358; x=1674925358;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GYoFI9P8ZZZ1SAE7QhIHccNEewDDCpIE4xkkoSvxBqU=;
-  b=jwIED/dN/gmHqIP3MV3n9kH7pNBBTmEJqsw3r82Yaoiwpy+ERkYuAqmY
-   9bbhVPx0TPDffQ9QSa5yGxtdSoPlWDkueDWqPB+03K3Xk36RiQh/3LIVE
-   EOJ4FFVPwc5MKMo5+RMiZ14MXmHkrBLNUfHAvT6PkqBmbotRz1McK0Pmq
-   D1XbreZ0Thi45xvzwu9c/fLbx12MXRMgHBAxywjQbcV0zRjVPvJI+b+dm
-   51e1qWPHE1zKFDUfJuXdtZpb8HEFK+FRhc5DfUg5TuNZTX7ntdbkqMWFY
-   9qOFJp0Ueba0fSpua1FMlUrjI3fOMlpIW34W9D5EO1oXE/G/dGaWl4xpp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="247106790"
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; 
-   d="scan'208";a="247106790"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 09:01:03 -0800
-X-IronPort-AV: E=Sophos;i="5.88,324,1635231600"; 
-   d="scan'208";a="697148744"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 09:01:01 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 970A6202F2;
-        Fri, 28 Jan 2022 19:00:59 +0200 (EET)
-Date:   Fri, 28 Jan 2022 19:00:59 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH v2 4/4] v4l: ioctl: Set bus_info in v4l_querycap()
-Message-ID: <YfQhS3Eik/6lgYqM@paasikivi.fi.intel.com>
-References: <20220128083309.213122-1-sakari.ailus@linux.intel.com>
- <20220128083309.213122-5-sakari.ailus@linux.intel.com>
- <YfQEoJIA9Tm5wRbF@pendragon.ideasonboard.com>
- <YfQUyEq8yGtBx9jB@paasikivi.fi.intel.com>
- <YfQaKV0OVe43ZZvD@pendragon.ideasonboard.com>
- <YfQbb94fKQG4ycDs@paasikivi.fi.intel.com>
- <YfQdaAQgWTRTtNgq@pendragon.ideasonboard.com>
+        id S1350433AbiA1RHz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 12:07:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51902 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245669AbiA1RHy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 Jan 2022 12:07:54 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B717C061714;
+        Fri, 28 Jan 2022 09:07:54 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: usama.anjum)
+        with ESMTPSA id ADBB31F4077C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1643389673;
+        bh=2xFNiO6fHDHvRM3tapKHLsYU7C7r1NhK4zVmOUghfCE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Nwgn/t3yPevwc+QMOee9BE3udvMx3HsLC2z6iuM3Uq0Y3ce6lPVjevczDXYE1xVVs
+         Xl/ZRFFrEv+iBexE6jFPJxEa9NwGL32JCA5R+MlzKNOvl+4KhiMdMrKEiEeWNzAZjq
+         sqA3UoILhalDrutVLIdnJMni1fepuo9Ev9PQlUJUe9Nb7QT7PZjYJKsmbH5NjUgLpg
+         wb1pcQC6bAjUStGxTdSCUttcqqcOnF6MKwI8eEoIxLAZAbBr6rdB+jlIo8WIzbk3H/
+         4rb49pRgXp8F50LxOP347ilePuLB7YXWRvNm1l74L2Z25hObVhq9mbLA+Wu/sn8scC
+         48jolvItzDYPQ==
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org (open list:MEDIA DRIVERS FOR FREESCALE IMX),
+        linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX
+        / MXC ARM ARCHITECTURE), linux-kernel@vger.kernel.org (open list),
+        mkl@pengutronix.de
+Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        kernel@collabora.com, kernel-janitors@vger.kernel.org
+Subject: [PATCH V2] media: imx: imx8mq-mipi_csi2: Remove unneeded code
+Date:   Fri, 28 Jan 2022 22:07:22 +0500
+Message-Id: <20220128170722.1624767-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YfQdaAQgWTRTtNgq@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 28, 2022 at 06:44:24PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Fri, Jan 28, 2022 at 06:35:59PM +0200, Sakari Ailus wrote:
-> > On Fri, Jan 28, 2022 at 06:30:33PM +0200, Laurent Pinchart wrote:
-> > > On Fri, Jan 28, 2022 at 06:07:36PM +0200, Sakari Ailus wrote:
-> > > > On Fri, Jan 28, 2022 at 04:58:40PM +0200, Laurent Pinchart wrote:
-> > > > > Hi Sakari,
-> > > > > 
-> > > > > Thank you for the patch.
-> > > > 
-> > > > And thanks for the review!
-> > > > 
-> > > > > On Fri, Jan 28, 2022 at 10:33:09AM +0200, Sakari Ailus wrote:
-> > > > > > The bus_info field is set by most drivers based on the type of the device
-> > > > > > bus as well as the name of the device. Do this in v4l_querycap() so
-> > > > > > drivers don't need to. This keeps compatibility with non-default and silly
-> > > > > > bus_info.
-> > > > > 
-> > > > > Do we have many PCI or platform drivers with non-default bus_info ?
-> > > > 
-> > > > Quite a few actually. Most have something static in bus_info and there are
-> > > > also PCI Express devices that use "PCIe:" prefix. These are mostly old
-> > > > drivers though. I've left them as-is.
-> > > > 
-> > > > New drivers shouldn't bother changing the default unless there's a good
-> > > > reason to do that.
-> > > 
-> > > Let's make it very clear in the documentation then.
-> > 
-> > Right now there's no place for documenting this. Basically this is about
-> > what IOCTL argument struct fields are set in the framework and which ones
-> > the driver is responsible for. I don't think addressing that belongs to
-> > this set.
-> 
-> As this sets tries to fix the mess caused by drivers using semi-random
-> bus_info, I'd like to disagree :-) It can be done in a patch on top.
+ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
+return error. Remove the return variable. Simplify other functions which
+are using this function.
 
-Well I think starting to document where the responsibility of filling IOCTL
-argument structs fields is definitely does not belong here.
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+---
+Changes in V2:
+Removed fixes tag
+---
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-Maybe Hans has an opinion? :-)
-
+diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+index 3b9fa75efac6b..c992b845e63d1 100644
+--- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
++++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+@@ -693,11 +693,10 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
+  * Suspend/resume
+  */
+ 
+-static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
++static void imx8mq_mipi_csi_pm_suspend(struct device *dev)
+ {
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+-	int ret = 0;
+ 
+ 	mutex_lock(&state->lock);
+ 
+@@ -708,8 +707,6 @@ static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
+ 	}
+ 
+ 	mutex_unlock(&state->lock);
+-
+-	return ret ? -EAGAIN : 0;
+ }
+ 
+ static int imx8mq_mipi_csi_pm_resume(struct device *dev)
+@@ -742,15 +739,12 @@ static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
+ {
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+-	int ret;
+ 
+-	ret = imx8mq_mipi_csi_pm_suspend(dev);
+-	if (ret)
+-		return ret;
++	imx8mq_mipi_csi_pm_suspend(dev);
+ 
+ 	state->state |= ST_SUSPENDED;
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int __maybe_unused imx8mq_mipi_csi_resume(struct device *dev)
+@@ -770,9 +764,7 @@ static int __maybe_unused imx8mq_mipi_csi_runtime_suspend(struct device *dev)
+ 	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+ 	int ret;
+ 
+-	ret = imx8mq_mipi_csi_pm_suspend(dev);
+-	if (ret)
+-		return ret;
++	imx8mq_mipi_csi_pm_suspend(dev);
+ 
+ 	ret = icc_set_bw(state->icc_path, 0, 0);
+ 	if (ret)
 -- 
-Sakari Ailus
+2.30.2
+
