@@ -2,149 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9F8B4A0092
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 20:01:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 324C54A00BE
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 20:17:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350700AbiA1TBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 14:01:16 -0500
-Received: from meesny.iki.fi ([195.140.195.201]:59134 "EHLO meesny.iki.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233548AbiA1TBQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 14:01:16 -0500
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 8AC082005D;
-        Fri, 28 Jan 2022 21:01:13 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1643396473;
+        id S1344167AbiA1TRP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 14:17:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45559 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239389AbiA1TRP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 Jan 2022 14:17:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1643397434;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=KLYLDHjWR/WaUfpGcms73tXXOgAtasYqQ4MORqEJT58=;
-        b=ZzB/AjvOeWKt6CO22pOw5HVvSNx5t7nncMbgD4AyONrGvnsx+StvAcdS/jKmf/FNG8jgIH
-        Muywk+KQUkk3t4oJ7NQ0cyFRW/Owe2NiThL/4zR3hr8v8Ds3X7Nydp0QzBviON3BXLAzya
-        KaaRPDlt4OsL7jIpu+PlWz9wJjBbbjA=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 078EA634C90;
-        Fri, 28 Jan 2022 21:01:13 +0200 (EET)
-Date:   Fri, 28 Jan 2022 21:01:12 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [GIT PULL v2 FOR 5.18] V4L2 patches
-Message-ID: <YfQ9eMB2aP5iH6AZ@valkosipuli.retiisi.eu>
-References: <Ye7QMv0OBntzuC1C@valkosipuli.retiisi.eu>
- <20220128195312.092b1d3d@coco.lan>
+        bh=eO1UXFuFc6XDm59y7eIl2dtM6a/z0pBy0qGOEAiugBI=;
+        b=c8iWQcuZvRTLEwe5kXcTTna0eo+znPw+8ex8obIRugEgFvsdAlWmHf/ePulVbWZFvvc0+6
+        tuN3AjXQEgVu4bjPPIiZTOWQhYyJkVmqM5L0cQARR+JBYpAQgF2ZfJUxxPsDSaZQxLOSkg
+        bc0F09HwyoxIpiG7L0lxTG8N4EwJSPw=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-615-TOouzqI5NfmLtQieiCm7jQ-1; Fri, 28 Jan 2022 14:17:13 -0500
+X-MC-Unique: TOouzqI5NfmLtQieiCm7jQ-1
+Received: by mail-qv1-f69.google.com with SMTP id bx10-20020a056214058a00b00424e90c0dc4so6985354qvb.6
+        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 11:17:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:organization:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=eO1UXFuFc6XDm59y7eIl2dtM6a/z0pBy0qGOEAiugBI=;
+        b=Id3yHQkurh1EQp1CL1iimBK9VkB25x83CL4zw40PbbrNfVSpQ1escJ8HQYOjwCPQaR
+         VWoZWMkmjuPgrNnR3xeClLU3nuW9u8i+6OrclwarDFh+Rak2ThBJHwSoiDf3ErJAYPXx
+         6mjZ+ZFfpqRk3hnyVek/lwMetKNwF84oku8Ew0Gbi+5g08g1pLlHS/r5UvtFhXxAmzMW
+         4SQFDm81RbRYiuwyhuzVz+YOQOc/0rJuTivLZy5OFshoCpU8S7Ds4BXTgRlgaZT9FoSe
+         CJDEBH5GvWqMhZShI68NhhKN68TnHYtMtVgsogg2EMNr8zYveORsrRdKXM0JuPH9bX0c
+         6jMg==
+X-Gm-Message-State: AOAM530dSTiJRmEGaWaXKeVDi0pNdanOVoW1SneizfwHZ/4FI9q2O3et
+        MhTI6ZZkHYVGc0O210MbsTIx2WCvPeXPtyUEQKFtE3kUrsT4K9Tk/TZ87AON+pZrsd86J+tJ6hs
+        NyC164xvbuVCwAPLoLDvv90g=
+X-Received: by 2002:a05:622a:ca:: with SMTP id p10mr2002425qtw.123.1643397432670;
+        Fri, 28 Jan 2022 11:17:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwYaAdUDE5W566fq77+INMNx47zILwdtqN04KYzsDT/UoGpKgB0OvZw6qO3zCtXnbY/NcpCYg==
+X-Received: by 2002:a05:622a:ca:: with SMTP id p10mr2002408qtw.123.1643397432443;
+        Fri, 28 Jan 2022 11:17:12 -0800 (PST)
+Received: from [192.168.8.138] (pool-98-118-105-43.bstnma.ftas.verizon.net. [98.118.105.43])
+        by smtp.gmail.com with ESMTPSA id u17sm3548025qkj.44.2022.01.28.11.17.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jan 2022 11:17:11 -0800 (PST)
+Message-ID: <67747024d7b3e1904d639e5877a580a0af32d855.camel@redhat.com>
+Subject: Re: [PATCH 09/14] drm/nouveau: Replace dma-buf-map with iosys-map
+From:   Lyude Paul <lyude@redhat.com>
+To:     Lucas De Marchi <lucas.demarchi@intel.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc:     srinivas.kandagatla@linaro.org, gregkh@linuxfoundation.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        daniel.vetter@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de,
+        linux-media@vger.kernel.org, nouveau@lists.freedesktop.org
+Date:   Fri, 28 Jan 2022 14:17:09 -0500
+In-Reply-To: <20220128083626.3012259-10-lucas.demarchi@intel.com>
+References: <20220128083626.3012259-1-lucas.demarchi@intel.com>
+         <20220128083626.3012259-10-lucas.demarchi@intel.com>
+Organization: Red Hat Inc.
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.2 (3.42.2-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220128195312.092b1d3d@coco.lan>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1643396473; a=rsa-sha256; cv=none;
-        b=ft3ninm2gMC5HHPkFnVMhOTOvlOMivb4Gu88K1fGff87Ur98BcXmTHUGimKXZjck1wjmcd
-        6HjqeAtu5Nx7DnHd9hXK9Qwd2XuAB8fjqPyfGAM2la6XScsMbu86pRUlLYPkbj6e5i+/w6
-        KTwEoanx2IJEMmUxF0gjHfecvOE3g6o=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1643396473;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=KLYLDHjWR/WaUfpGcms73tXXOgAtasYqQ4MORqEJT58=;
-        b=dI552XTOd+uZuIc3oAb1XABpoObs0DxKSgqNvRysVJqJ4ivZ6ID6N1kUJACDwTR1h5/qkk
-        +Ft7VpXqXSUdyyC//b9sOejHq960n4pXWfdAfSmij/oOj3HHtf/SbHRid5vYuyYuenLQMH
-        kwtoCZl7WTythkin8oExvgbb/yhaslU=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+For this patch:
 
-On Fri, Jan 28, 2022 at 07:53:12PM +0100, Mauro Carvalho Chehab wrote:
-> Em Mon, 24 Jan 2022 18:13:38 +0200
-> Sakari Ailus <sakari.ailus@iki.fi> escreveu:
-> 
-> > Hi Mauro,
-> > 
-> > Here's a bunch of patches again for 5.18. Most notably there's V4L2 fwnode
-> > / mbus_config cleanup by Laurent, the hi847 camera sensor driver from Shawn
-> > Tu and the od08d10 camera sensor driver by Jimmy Su. Fixes elsewhere are
-> > included, too.
-> > 
-> > Since v1, a few more patches have been added and I've dropped a camss patch
-> > already picked by Hans.
-> > 
-> > Please pull.
-> > 
-> > 
-> > The following changes since commit 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c:
-> > 
-> >   media: ipu3-cio2: Add support for instantiating i2c-clients for VCMs (2021-12-16 20:58:56 +0100)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git://linuxtv.org/sailus/media_tree.git tags/for-5.18-1.1-signed
-> > 
-> > for you to fetch changes up to a6876b00e5daa786a406db09f214bbbb4d1f200c:
-> > 
-> >   media: i2c: dw9714: add optional regulator support (2022-01-22 18:27:43 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > V4L2 patches for 5.18
-> > 
-> > ----------------------------------------------------------------
-> > Angus Ainslie (1):
-> >       media: i2c: dw9714: add optional regulator support
-> > 
-> > Benjamin Gaignard (1):
-> >       MAINTAINERS: Update Benjamin Gaignard maintainer status
-> > 
-> > Bingbu Cao (1):
-> >       media: ov2740: identify module after subdev initialisation
-> > 
-> > Janusz Krzysztofik (4):
-> >       media: ov6650: Fix set format try processing path
-> >       media: ov6650: Add try support to selection API operations
-> >       media: ov6650: Fix crop rectangle affected by set format
-> >       media: ov6650: Fix missing frame interval enumeration support
-> > 
-> > Jimmy Su (1):
-> >       media: i2c: Add ov08d10 camera sensor driver
-> > 
-> > Laurent Pinchart (9):
-> >       media: pxa_camera: Drop usage of .set_mbus_config()
-> >       media: i2c: ov6650: Drop implementation of .set_mbus_config()
-> >       media: v4l2-subdev: Drop .set_mbus_config() operation
-> >       media: v4l2-fwnode: Move bus config structure to v4l2_mediabus.h
-> 
-> >       media: v4l2-mediabus: Use structures to describe bus configuration
-> >       media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_*_LANE flags
-> >       media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_CHANNEL_* flags
-> >       media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
-> 
-> (Some of?) those broke build today:
-> 	https://builder.linuxtv.org/job/media_stage_clang/412/
-> 
-> Probably due to a conflict some other pull request.
-> 
-> So, I dropped them. Please rebase and re-submit.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-It seems patches got merged that make use of [gs]et_mbus_config that is
-changed by the patches. This isn't a very commonly used interface so
-there's a bit of bad luck here.
-
-I'll see what needs to be changed there.
-
-Please prioritise these on the next time, if possible.
+On Fri, 2022-01-28 at 00:36 -0800, Lucas De Marchi wrote:
+> iosys-map is the new name for dma-buf-map and will gain new
+> capabitilities. Replace with the new API in nouveau.
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_gem.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c
+> b/drivers/gpu/drm/nouveau/nouveau_gem.c
+> index 9416bee92141..ad0527bdaadf 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+> @@ -24,6 +24,8 @@
+>   *
+>   */
+>  
+> +#include <linux/iosys-map.h>
+> +
+>  #include <drm/drm_gem_ttm_helper.h>
+>  
+>  #include "nouveau_drv.h"
 
 -- 
-Kind regards,
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
-Sakari Ailus
