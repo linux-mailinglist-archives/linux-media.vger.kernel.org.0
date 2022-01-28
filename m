@@ -2,101 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB14249FC1D
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 15:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB50249FC24
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 15:51:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245327AbiA1Otm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 09:49:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47854 "EHLO
+        id S1349471AbiA1Ov2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 09:51:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244950AbiA1Otm (ORCPT
+        with ESMTP id S231968AbiA1OvY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 09:49:42 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43409C061714
-        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 06:49:42 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34BFF471;
-        Fri, 28 Jan 2022 15:49:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643381379;
-        bh=VXx/xwMMErnkZJ+iy2FMUb3APvQAcOFnJkoG0cGGTn8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=m8eDNgDcc6U3L6DcrX7wo2lvPny+5/dw29KCkk8KRqotq12GZvTvelBk6AggBH58H
-         C+fJGwJRUcLelCiEoVs2SykNZFIMiaWFoQ9xFRD3nfQJSXAtkQtDbYAC2CoSd5O0aP
-         TzbzlRtdvbZebScFtDvRcUUIVjjgCaz30gyqRf20=
-Date:   Fri, 28 Jan 2022 16:49:17 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH v2 1/4] mc: Remove redundant documentation
-Message-ID: <YfQCbW2X/lSbhd9T@pendragon.ideasonboard.com>
-References: <20220128083309.213122-1-sakari.ailus@linux.intel.com>
- <20220128083309.213122-2-sakari.ailus@linux.intel.com>
+        Fri, 28 Jan 2022 09:51:24 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2310C061714;
+        Fri, 28 Jan 2022 06:51:24 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: usama.anjum)
+        with ESMTPSA id A3E141F460DD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1643381483;
+        bh=6wPdzXaH8f6GblGOZIXEb8xAztd6pZNs7b+ck+XJb6Y=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=Pcq2GzngcDwmdv7f6o62VSZCrE4VV8uE6ax3TobmwwqsYX3yDyNcDwSfxKU5mjGKf
+         QfXhP6yrGJF1yEBoeZjoNjNJdvRi4ky3ZyMzPCpcFYeiJg4kTM5KI5AT+XQwBwEtTb
+         88tR5I73XIDB1C+jVWP+2X5s2qrQemZiPfhNCSKb1DhYoZYv5sCz/xogA4VOljLGR2
+         NfH1L8Y/zDFQLlYWnCzPpE3CCQ+zCptrFu0XoR7q/qbjKYA26cpbom1rMrqClM8xL7
+         XTZjO1dxANhGNl+heWpqjnNQf5sRz4ptLpvXsN+8aQ6hqd1ZHoIZESXpsnud5Jra72
+         2/mEvuyDIhLog==
+Message-ID: <61220daf-ff1e-0c5d-b89e-9325625417ae@collabora.com>
+Date:   Fri, 28 Jan 2022 19:51:13 +0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220128083309.213122-2-sakari.ailus@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Cc:     usama.anjum@collabora.com,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Martin Kepplinger <martink@posteo.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: imx: imx8mq-mipi_csi2: Remove unneeded code
+Content-Language: en-US
+To:     Marc Kleine-Budde <mkl@pengutronix.de>
+References: <20220128133649.1393201-1-usama.anjum@collabora.com>
+ <20220128135217.ncvjlffzpxxmqbjo@pengutronix.de>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <20220128135217.ncvjlffzpxxmqbjo@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Fri, Jan 28, 2022 at 10:33:06AM +0200, Sakari Ailus wrote:
-> Remove redundant kerneldoc documentation in mc-device.c. The functions are
-> already documented in media-device.h.
+On 1/28/22 6:52 PM, Marc Kleine-Budde wrote:
+> On 28.01.2022 18:36:49, Muhammad Usama Anjum wrote:
+>> ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
+>> return error. Remove the return variable. Simplify other functions which
+>> are using this function.
+>>
+>> Fixes: f0c2ba1ed4ad ("media: imx: imx8mq-mipi_csi2: fix system resume")
+>> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+>> ---
+>>  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 16 ++++------------
+>>  1 file changed, 4 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+>> index 3b9fa75efac6b..c992b845e63d1 100644
+>> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+>> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> [...]
+>>  static int imx8mq_mipi_csi_pm_resume(struct device *dev)
+>> @@ -742,15 +739,12 @@ static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
+>>  {
+>>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>>  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+>> -	int ret;
+>>  
+>> -	ret = imx8mq_mipi_csi_pm_suspend(dev);
+>> -	if (ret)
+>> -		return ret;
+>> +	imx8mq_mipi_csi_pm_suspend(dev);
+>>  
+>>  	state->state |= ST_SUSPENDED;
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/mc/mc-device.c | 15 ---------------
->  1 file changed, 15 deletions(-)
 > 
-> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-> index cf5e459b1d96..094647fdb866 100644
-> --- a/drivers/media/mc/mc-device.c
-> +++ b/drivers/media/mc/mc-device.c
-> @@ -608,11 +608,6 @@ static void __media_device_unregister_entity(struct media_entity *entity)
->  	entity->graph_obj.mdev = NULL;
->  }
->  
-> -/**
-> - * media_device_register_entity - Register an entity with a media device
-> - * @mdev:	The media device
-> - * @entity:	The entity
-> - */
+> what about this flag?
+Now that no error is possible inside this function. The state is being
+updated each time. This seems correct logically.
 
-Looks good.
-
->  int __must_check media_device_register_entity(struct media_device *mdev,
->  					      struct media_entity *entity)
->  {
-> @@ -691,16 +686,6 @@ void media_device_unregister_entity(struct media_entity *entity)
->  }
->  EXPORT_SYMBOL_GPL(media_device_unregister_entity);
->  
-> -/**
-> - * media_device_init() - initialize a media device
-> - * @mdev:	The media device
-> - *
-> - * The caller is responsible for initializing the media device before
-> - * registration. The following fields must be set:
-> - *
-> - * - dev must point to the parent device
-> - * - model must be filled with the device model name
-
-This is not captured in media-device.h. With this fixed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> - */
->  void media_device_init(struct media_device *mdev)
->  {
->  	INIT_LIST_HEAD(&mdev->entities);
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Usama
