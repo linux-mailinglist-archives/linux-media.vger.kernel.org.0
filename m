@@ -2,340 +2,255 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1C8E49F5B0
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 09:54:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8544649F607
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 10:12:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347437AbiA1IyB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 03:54:01 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:38034 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347361AbiA1IyB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 03:54:01 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id D5F1D2171F;
-        Fri, 28 Jan 2022 08:53:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1643360039; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=PO6usuBPgu42kFpaPErIWVGEk71cslDkAObZVvHh1D0=;
-        b=OfTj6DY4nylRJlNmraDtdMbwJQGajV6ylP3ZJxSDKmO5RxvLwZf+BtDlD95R8/cSgKB0Ww
-        SCCsi2eftWh4FhDPa8/ZhHUaP5bTEib2Huj2+bErgrxJ57nLOckQdBmBKlRNgjRQh4hZBG
-        k6iJ0xOR7EeAnZJupwuW/W3ZUJW4b9E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1643360039;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=PO6usuBPgu42kFpaPErIWVGEk71cslDkAObZVvHh1D0=;
-        b=Vm+gZrKqmYcR4151OFeLKGfuzPdLL8vXP0gbj/P6xvF560GgqZ04Fs3x+hR71YBYBkXXrn
-        ruEgsSM4aIF9c1Bw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9FDB313A66;
-        Fri, 28 Jan 2022 08:53:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id HPEOJiev82FQaAAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Fri, 28 Jan 2022 08:53:59 +0000
-Message-ID: <37e3c34b-6fe3-5270-2128-40158b6e0c9e@suse.de>
-Date:   Fri, 28 Jan 2022 09:53:59 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 01/14] iosys-map: Introduce renamed dma-buf-map
-Content-Language: en-US
-To:     Lucas De Marchi <lucas.demarchi@intel.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc:     airlied@linux.ie, daniel.vetter@ffwll.ch, christian.koenig@amd.com,
+        id S240703AbiA1JMP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 04:12:15 -0500
+Received: from mga03.intel.com ([134.134.136.65]:13015 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234281AbiA1JMO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 Jan 2022 04:12:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643361134; x=1674897134;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Urk9Fx5Hd5Js/YOOHw/RPA40Ql9fdsPvt6tLp2JZQZM=;
+  b=afrePYJLcMzOli0+B2KUaelQg3zDAExsPnyBzw5CkcyIh9i9getGmgD2
+   S5M1kY/deiKeUul9xECaGGhTALGU/llS4Z2l4fUwDSMbRcdtwTEjd8XG6
+   C6yAY9uNMAIDcCYV41AOGf7cI5yY0dQah6HvjYyC9vXNEXknIzhMGxxU8
+   b4RFsCeLx3vzjjSQRFtw2V674LhpVvuDH02oDB3WI63Xfb3for7qgNzYI
+   R36BYbvO1fXfNY+422NdM3bYU8OGvd6bFMJGC48NHfz7vg/HIMlOET1mn
+   zVpV8CehQInCzYGSPBYv3OhHzrY1mecf5Y6PFPxOW4qTCAbvpfsMlLn1W
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10240"; a="247030716"
+X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; 
+   d="scan'208";a="247030716"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 01:12:14 -0800
+X-IronPort-AV: E=Sophos;i="5.88,323,1635231600"; 
+   d="scan'208";a="625576326"
+Received: from jsstout-mobl.amr.corp.intel.com (HELO ldmartin-desk2) ([10.212.160.158])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 01:12:13 -0800
+Date:   Fri, 28 Jan 2022 01:12:13 -0800
+From:   Lucas De Marchi <lucas.demarchi@intel.com>
+To:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
         srinivas.kandagatla@linaro.org, gregkh@linuxfoundation.org,
-        nouveau@lists.freedesktop.org, linux-media@vger.kernel.org
+        sumit.semwal@linaro.org, daniel.vetter@ffwll.ch, airlied@linux.ie,
+        lyude@redhat.com, tzimmermann@suse.de, linux-media@vger.kernel.org,
+        nouveau@lists.freedesktop.org
+Subject: Re: [PATCH 00/14] Rename dma-buf-map
+Message-ID: <20220128091213.qaq6v4vbeerzvd3f@ldmartin-desk2>
+X-Patchwork-Hint: comment
 References: <20220128083626.3012259-1-lucas.demarchi@intel.com>
- <20220128083626.3012259-2-lucas.demarchi@intel.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220128083626.3012259-2-lucas.demarchi@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------FZcYPgZj4AoPaeahM800i0iC"
+ <a45a8cef-f5e7-604c-64f1-e893ec9ba8af@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a45a8cef-f5e7-604c-64f1-e893ec9ba8af@amd.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------FZcYPgZj4AoPaeahM800i0iC
-Content-Type: multipart/mixed; boundary="------------Nm0B5mtWID9gqdDH2ws81wVT";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: airlied@linux.ie, daniel.vetter@ffwll.ch, christian.koenig@amd.com,
- srinivas.kandagatla@linaro.org, gregkh@linuxfoundation.org,
- nouveau@lists.freedesktop.org, linux-media@vger.kernel.org
-Message-ID: <37e3c34b-6fe3-5270-2128-40158b6e0c9e@suse.de>
-Subject: Re: [PATCH 01/14] iosys-map: Introduce renamed dma-buf-map
-References: <20220128083626.3012259-1-lucas.demarchi@intel.com>
- <20220128083626.3012259-2-lucas.demarchi@intel.com>
-In-Reply-To: <20220128083626.3012259-2-lucas.demarchi@intel.com>
+On Fri, Jan 28, 2022 at 09:41:14AM +0100, Christian König wrote:
+>Rule #1 is to never ever break the build.
+>
+>Because of this all those patches needs to be squashed into a single 
+>one as far as I can see.
 
---------------Nm0B5mtWID9gqdDH2ws81wVT
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+what config are you building on? I built this series, full config with
+CONFIG_COMPILE_TEST and doing:
 
-SGkNCg0KQW0gMjguMDEuMjIgdW0gMDk6MzYgc2NocmllYiBMdWNhcyBEZSBNYXJjaGk6DQo+
-IEFkZCBhIG5ldyB0eXBlLCBzdHJ1Y3QgaW9zeXNfbWFwLCB0byBldmVudHVhbGx5IHJlcGxh
-Y2UNCj4gc3RydWN0IGRtYV9idWZfbWFwIGFuZCBpdHMgaGVscGVycyBkZWZpZW5kIGluDQo+
-IGluY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaC4NCj4gDQo+IFRoaXMgaXMgbW9zdGx5IGEg
-Y29weSBvZiBkbWEtYnVmLW1hcCB3aXRoIHRoZSByZW5hbWVzIGluIHBsYWNlIGFuZA0KPiBz
-bGlnaHRseSBkaWZmZXJlbnQgd29yZGluZyB0byBhdm9pZCB0eWluZyBpb3N5c19tYXAgdG8g
-ZG1hLWJ1ZjogaW4gZmFjdA0KPiBpdCdzIGp1c3QgYSBzaGltIGxheWVyIHRvIGFic3RyYWN0
-IHN5c3RlbSBtZW1vcnksIHRoYXQgY2FuIGJlIGFjY2Vzc2VkDQo+IHZpYSByZWd1bGFyIGxv
-YWQgYW5kIHN0b3JlLCBmcm9tIElPIG1lbW9yeSB0aGF0IG5lZWRzIHRvIGJlIGFjZXNzZWQg
-dmlhDQo+IGFyY2ggaGVscGVycy4gT3ZlciB0aW1lIHRoZSBkbWEtYnVmLW1hcCBwcm92ZWQg
-dXNlZnVsIG91dHNpZGUgb2YgYnVmZmVyDQo+IHNoYXJpbmcgYW1vbmcgZHJpdmVycyBhbmQg
-c3RhcnRlZCB0byBiZSB1c2VkIGluIGhlbHBlciBmdW5jdGlvbnMgZm9yDQo+IGFsbG9jYXRp
-b24gYW5kIGdlbmVyaWMgdXNlLiBTZWUgZS5nLg0KPiANCj4gCWRyaXZlcnMvZ3B1L2RybS9k
-cm1fZ2VtX3NobWVtX2hlbHBlci5jDQo+IAlkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9mcmFt
-ZWJ1ZmZlcl9oZWxwZXIuYw0KPiAJZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYw0K
-DQpXZWxsLCB0aGF0IHdhcyB0aGUgb3JpZ2luYWwgbW90aXZhdGlvbjogZnJhbWVidWZmZXIg
-bWVtb3J5IGNhbiBiZSANCmxvY2F0ZWQgaW4gc3lzdGVtIG9yIEkvTyBtZW1vcnksIGFuZCBl
-dmVuIGNoYW5nZSB0aGVpciBsb2NhdGlvbi4gRm9yIA0Kc29tZSBhcmNoaXRlY3R1cmVzIHRo
-aXMgbWFrZXMgZGlmZmVyZW5jZS4gSUlSQyB0aGUgZnJhbWVidWZmZXIgY29uc29sZSANCmNy
-YXNoZWQgb24gc3BhcmM2NCBiZWNhdXNlIHdlIGRpZG4ndCBhY2Nlc3MgSS9PIG1lbW9yeSBp
-biB0aGUgY29ycmVjdCANCndheS4gSGVuY2UsIHdlIGFkZGVkIGRtYV9idWZfbWFwIHRvIHJl
-dHVybiB0aGUgdHlwZSBvZiBtZW1vcnkgZnJvbSANCmRtYV9idWZfdm1hcC9kbWFfYnVmX3Z1
-bm1hcC4gIEFuZCBiZWNhdXNlIGV2ZXJ5dGhpbmcgaXMgdGllZCB0b2dldGhlciwgDQp3ZSBo
-YWQgcXVpdGUgYSBiaXQgb2YgY2h1cm4gdGhyb3VnaG91dCB0aGUgRFJNL21lZGlhIGNvZGUu
-IFRoZXJlIGFyZSANCnN0aWxsIHBsYWNlcyBpbiBEUk0gd2hlcmUgd2UgYWNjZXNzIHRoZSBy
-YXcgcG9pbnRlcnMgd2l0aGluIGRtYV9idWZfbWFwLiANCldlIG5lZWQgdG8gY2xlYW4gdGhp
-cyB1cCBhdCBzb21lIHBvaW50Lg0KDQo+IA0KPiBJbiB0aGUgaTkxNSBkcml2ZXIgaXQncyBh
-bHNvIGRlc2lyZWQgdG8gc2hhcmUgdGhlIGltcGxlbWVudGF0aW9uIGZvcg0KPiBpbnRlZ3Jh
-dGVkIGdyYXBoaWNzLCB3aGljaCB1c2VzIG1vc3RseSBzeXN0ZW0gbWVtb3J5LCB3aXRoIGRp
-c2NyZXRlDQo+IGdyYXBoaWNzLCB3aGljaCBtYXkgbmVlZCB0byBhY2Nlc3MgSU8gbWVtb3J5
-Lg0KPiANCj4gT25jZSBhbGwgdGhlIGRyaXZlcnMgdXNpbmcgZG1hX2J1Zl9tYXAgYXJlIGNv
-bnZlcnRlZCwgdGhlIGRtYV9idWZfbWFwDQo+IGNhbiBiZSByZXRpcmVkIGFuZCBpb3N5c19t
-YXAgZXh0ZW5kZWQgdG8gY292ZXIgbmV3IHVzZSBjYXNlcy4NCg0KV3J0IHRoZSByZW5hbWlu
-ZzogdGhlIG9sZCBuYW1lIGlzbid0IGdvb2QgYW5kIHRoZSBuZXcgb25lIGlzbid0IGdvb2Qg
-DQplaXRoZXIuIEJ1dCBJIGRvbid0IGhhdmUgc3Ryb25nIGZlZWxpbmdzIGZvciBlaXRoZXIg
-b2YgdGhlbS4NCg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTHVjYXMgRGUgTWFyY2hpIDxsdWNh
-cy5kZW1hcmNoaUBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgIE1BSU5UQUlORVJTICAgICAgICAg
-ICAgICAgICB8ICAgMSArDQo+ICAgaW5jbHVkZS9saW51eC9kbWEtYnVmLW1hcC5oIHwgICAz
-ICsNCj4gICBpbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oICAgfCAyNTQgKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrDQo+ICAgMyBmaWxlcyBjaGFuZ2VkLCAyNTggaW5z
-ZXJ0aW9ucygrKQ0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2xpbnV4L2lvc3lz
-LW1hcC5oDQo+IA0KPiBkaWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMgYi9NQUlOVEFJTkVSUw0K
-PiBpbmRleCBlYTNlNmM5MTQzODQuLjI3ZWJhZGVkODVmOCAxMDA2NDQNCj4gLS0tIGEvTUFJ
-TlRBSU5FUlMNCj4gKysrIGIvTUFJTlRBSU5FUlMNCj4gQEAgLTU3MzQsNiArNTczNCw3IEBA
-IEY6CURvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEtYnVmLnJzdA0KPiAgIEY6CWRyaXZl
-cnMvZG1hLWJ1Zi8NCj4gICBGOglpbmNsdWRlL2xpbnV4LypmZW5jZS5oDQo+ICAgRjoJaW5j
-bHVkZS9saW51eC9kbWEtYnVmKg0KPiArRjoJaW5jbHVkZS9saW51eC9pb3N5cy1tYXAuaA0K
-DQpJZiBhbnl0aGluZywgSSdkIGNvbXBsYWluIHRoYSB0d2Ugbm93IGhhdmUgc29tZXRoaW5n
-IGluIGRtYS1idWYgdGhhdCANCmlzbid0IG9idmlvdXNseSBjb25uZWN0ZWQgdG8gZG1hLWJ1
-Zi4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAgIEY6CWluY2x1ZGUvbGludXgvZG1h
-LXJlc3YuaA0KPiAgIEs6CVxiZG1hXyg/OmJ1ZnxmZW5jZXxyZXN2KVxiDQo+ICAgDQo+IGRp
-ZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2RtYS1idWYtbWFwLmggYi9pbmNsdWRlL2xpbnV4
-L2RtYS1idWYtbWFwLmgNCj4gaW5kZXggMTlmYTBiNWFlNWVjLi40YjRiMjkzMDY2MGIgMTAw
-NjQ0DQo+IC0tLSBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaA0KPiArKysgYi9pbmNs
-dWRlL2xpbnV4L2RtYS1idWYtbWFwLmgNCj4gQEAgLTI2Myw0ICsyNjMsNyBAQCBzdGF0aWMg
-aW5saW5lIHZvaWQgZG1hX2J1Zl9tYXBfaW5jcihzdHJ1Y3QgZG1hX2J1Zl9tYXAgKm1hcCwg
-c2l6ZV90IGluY3IpDQo+ICAgCQltYXAtPnZhZGRyICs9IGluY3I7DQo+ICAgfQ0KPiAgIA0K
-PiArLyogVGVtcG9yYXJ5IGluY2x1ZGUgZm9yIEFQSSBtaWdyYXRpb24gKi8NCj4gKyNpbmNs
-dWRlIDxsaW51eC9pb3N5cy1tYXAuaD4NCj4gKw0KPiAgICNlbmRpZiAvKiBfX0RNQV9CVUZf
-TUFQX0hfXyAqLw0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9pb3N5cy1tYXAuaCBi
-L2luY2x1ZGUvbGludXgvaW9zeXMtbWFwLmgNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4g
-aW5kZXggMDAwMDAwMDAwMDAwLi5hZDFmMDhmOGY5N2YNCj4gLS0tIC9kZXYvbnVsbA0KPiAr
-KysgYi9pbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oDQo+IEBAIC0wLDAgKzEsMjU0IEBADQo+
-ICsvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vbmx5ICovDQo+ICsvKg0K
-PiArICogUG9pbnRlciBhYnN0cmFjdGlvbiBmb3IgSU8vc3lzdGVtIG1lbW9yeQ0KPiArICov
-DQo+ICsNCj4gKyNpZm5kZWYgX19JT1NZU19NQVBfSF9fDQo+ICsjZGVmaW5lIF9fSU9TWVNf
-TUFQX0hfXw0KPiArDQo+ICsjaW5jbHVkZSA8bGludXgvaW8uaD4NCj4gKyNpbmNsdWRlIDxs
-aW51eC9zdHJpbmcuaD4NCj4gKw0KPiArLyogVGVtcG9yYXJ5IGluY2x1ZGUgd2hpbGUgdXNl
-ciBvZiBkbWEtYnVmLW1hcCBhcmUgY29udmVydGVkIHRvIGlvc3lzLW1hcCAqLw0KPiArI2lu
-Y2x1ZGUgPGxpbnV4L2RtYS1idWYtbWFwLmg+DQo+ICsNCj4gKy8qKg0KPiArICogRE9DOiBv
-dmVydmlldw0KPiArICoNCj4gKyAqIFdoZW4gYWNjZXNzaW5nIGEgbWVtb3J5IHJlZ2lvbiwg
-ZGVwZW5kaW5nIG9uIHRoZSBpdHMgbG9jYXRpb24sIHVzZXJzIG1heSBoYXZlDQo+ICsgKiB0
-byBhY2Nlc3MgaXQgd2l0aCBJL08gb3BlcmF0aW9ucyBvciBtZW1vcnkgbG9hZC9zdG9yZSBv
-cGVyYXRpb25zLiBGb3INCj4gKyAqIGV4YW1wbGUsIGNvcHlpbmcgdG8gc3lzdGVtIG1lbW9y
-eSBjb3VsZCBiZSBkb25lIHdpdGggbWVtY3B5KCksIGNvcHlpbmcgdG8gSS9PDQo+ICsgKiBt
-ZW1vcnkgd291bGQgYmUgZG9uZSB3aXRoIG1lbWNweV90b2lvKCkuDQo+ICsgKg0KPiArICog
-Li4gY29kZS1ibG9jazo6IGMNCj4gKyAqDQo+ICsgKgl2b2lkICp2YWRkciA9IC4uLjsgLy8g
-cG9pbnRlciB0byBzeXN0ZW0gbWVtb3J5DQo+ICsgKgltZW1jcHkodmFkZHIsIHNyYywgbGVu
-KTsNCj4gKyAqDQo+ICsgKgl2b2lkICp2YWRkcl9pb21lbSA9IC4uLjsgLy8gcG9pbnRlciB0
-byBJL08gbWVtb3J5DQo+ICsgKgltZW1jcHlfdG9pbyh2YWRkciwgX2lvbWVtLCBzcmMsIGxl
-bik7DQo+ICsgKg0KPiArICogVGhlIHVzZXIgb2Ygc3VjaCBwb2ludGVyIG1heSBub3QgaGF2
-ZSBpbmZvcm1hdGlvbiBhYm91dCB0aGUgbWFwcGluZyBvZiB0aGF0DQo+ICsgKiByZWdpb24g
-b3IgbWF5IHdhbnQgdG8gaGF2ZSBhIHNpbmdsZSBjb2RlIHBhdGggdG8gaGFuZGxlIG9wZXJh
-dGlvbnMgb24gdGhhdA0KPiArICogYnVmZmVyLCByZWdhcmRsZXNzIGlmIGl0J3MgbG9jYXRl
-ZCBpbiBzeXN0ZW0gb3IgSU8gbWVtb3J5LiBUaGUgdHlwZQ0KPiArICogOmM6dHlwZTpgc3Ry
-dWN0IGlvc3lzX21hcCA8aW9zeXNfbWFwPmAgYW5kIGl0cyBoZWxwZXJzIGFic3RyYWN0IHRo
-YXQgc28gdGhlDQo+ICsgKiBidWZmZXIgY2FuIGJlIHBhc3NlZCBhcm91bmQgdG8gb3RoZXIg
-ZHJpdmVycyBvciBoYXZlIHNlcGFyYXRlIGR1dGllcyBpbnNpZGUNCj4gKyAqIHRoZSBzYW1l
-IGRyaXZlciBmb3IgYWxsb2NhdGlvbiwgcmVhZCBhbmQgd3JpdGUgb3BlcmF0aW9ucy4NCj4g
-KyAqDQo+ICsgKiBPcGVuLWNvZGluZyBhY2Nlc3MgdG8gOmM6dHlwZTpgc3RydWN0IGlvc3lz
-X21hcCA8aW9zeXNfbWFwPmAgaXMgY29uc2lkZXJlZA0KPiArICogYmFkIHN0eWxlLiBSYXRo
-ZXIgdGhlbiBhY2Nlc3NpbmcgaXRzIGZpZWxkcyBkaXJlY3RseSwgdXNlIG9uZSBvZiB0aGUg
-cHJvdmlkZWQNCj4gKyAqIGhlbHBlciBmdW5jdGlvbnMsIG9yIGltcGxlbWVudCB5b3VyIG93
-bi4gRm9yIGV4YW1wbGUsIGluc3RhbmNlcyBvZg0KPiArICogOmM6dHlwZTpgc3RydWN0IGlv
-c3lzX21hcCA8aW9zeXNfbWFwPmAgY2FuIGJlIGluaXRpYWxpemVkIHN0YXRpY2FsbHkgd2l0
-aA0KPiArICogSU9TWVNfTUFQX0lOSVRfVkFERFIoKSwgb3IgYXQgcnVudGltZSB3aXRoIGlv
-c3lzX21hcF9zZXRfdmFkZHIoKS4gVGhlc2UNCj4gKyAqIGhlbHBlcnMgd2lsbCBzZXQgYW4g
-YWRkcmVzcyBpbiBzeXN0ZW0gbWVtb3J5Lg0KPiArICoNCj4gKyAqIC4uIGNvZGUtYmxvY2s6
-OiBjDQo+ICsgKg0KPiArICoJc3RydWN0IGlvc3lzX21hcCBtYXAgPSBJT1NZU19NQVBfSU5J
-VF9WQUREUigweGRlYWRiZWFmKTsNCj4gKyAqDQo+ICsgKglpb3N5c19tYXBfc2V0X3ZhZGRy
-KCZtYXAsIDB4ZGVhZGJlYWYpOw0KPiArICoNCj4gKyAqIFRvIHNldCBhbiBhZGRyZXNzIGlu
-IEkvTyBtZW1vcnksIHVzZSBpb3N5c19tYXBfc2V0X3ZhZGRyX2lvbWVtKCkuDQo+ICsgKg0K
-PiArICogLi4gY29kZS1ibG9jazo6IGMNCj4gKyAqDQo+ICsgKglpb3N5c19tYXBfc2V0X3Zh
-ZGRyX2lvbWVtKCZtYXAsIDB4ZGVhZGJlYWYpOw0KPiArICoNCj4gKyAqIEluc3RhbmNlcyBv
-ZiBzdHJ1Y3QgaW9zeXNfbWFwIGRvIG5vdCBoYXZlIHRvIGJlIGNsZWFuZWQgdXAsIGJ1dA0K
-PiArICogY2FuIGJlIGNsZWFyZWQgdG8gTlVMTCB3aXRoIGlvc3lzX21hcF9jbGVhcigpLiBD
-bGVhcmVkIG1hcHBpbmdzDQo+ICsgKiBhbHdheXMgcmVmZXIgdG8gc3lzdGVtIG1lbW9yeS4N
-Cj4gKyAqDQo+ICsgKiAuLiBjb2RlLWJsb2NrOjogYw0KPiArICoNCj4gKyAqCWlvc3lzX21h
-cF9jbGVhcigmbWFwKTsNCj4gKyAqDQo+ICsgKiBUZXN0IGlmIGEgbWFwcGluZyBpcyB2YWxp
-ZCB3aXRoIGVpdGhlciBpb3N5c19tYXBfaXNfc2V0KCkgb3INCj4gKyAqIGlvc3lzX21hcF9p
-c19udWxsKCkuDQo+ICsgKg0KPiArICogLi4gY29kZS1ibG9jazo6IGMNCj4gKyAqDQo+ICsg
-KglpZiAoaW9zeXNfbWFwX2lzX3NldCgmbWFwKSAhPSBpb3N5c19tYXBfaXNfbnVsbCgmbWFw
-KSkNCj4gKyAqCQkvLyBhbHdheXMgdHJ1ZQ0KPiArICoNCj4gKyAqIEluc3RhbmNlcyBvZiA6
-Yzp0eXBlOmBzdHJ1Y3QgaW9zeXNfbWFwIDxpb3N5c19tYXA+YCBjYW4gYmUgY29tcGFyZWQg
-Zm9yDQo+ICsgKiBlcXVhbGl0eSB3aXRoIGlvc3lzX21hcF9pc19lcXVhbCgpLiBNYXBwaW5n
-cyB0aGF0IHBvaW50IHRvIGRpZmZlcmVudCBtZW1vcnkNCj4gKyAqIHNwYWNlcywgc3lzdGVt
-IG9yIEkvTywgYXJlIG5ldmVyIGVxdWFsLiBUaGF0J3MgZXZlbiB0cnVlIGlmIGJvdGggc3Bh
-Y2VzIGFyZQ0KPiArICogbG9jYXRlZCBpbiB0aGUgc2FtZSBhZGRyZXNzIHNwYWNlLCBib3Ro
-IG1hcHBpbmdzIGNvbnRhaW4gdGhlIHNhbWUgYWRkcmVzcw0KPiArICogdmFsdWUsIG9yIGJv
-dGggbWFwcGluZ3MgcmVmZXIgdG8gTlVMTC4NCj4gKyAqDQo+ICsgKiAuLiBjb2RlLWJsb2Nr
-OjogYw0KPiArICoNCj4gKyAqCXN0cnVjdCBpb3N5c19tYXAgc3lzX21hcDsgLy8gcmVmZXJz
-IHRvIHN5c3RlbSBtZW1vcnkNCj4gKyAqCXN0cnVjdCBpb3N5c19tYXAgaW9fbWFwOyAvLyBy
-ZWZlcnMgdG8gSS9PIG1lbW9yeQ0KPiArICoNCj4gKyAqCWlmIChpb3N5c19tYXBfaXNfZXF1
-YWwoJnN5c19tYXAsICZpb19tYXApKQ0KPiArICoJCS8vIGFsd2F5cyBmYWxzZQ0KPiArICoN
-Cj4gKyAqIEEgc2V0IHVwIGluc3RhbmNlIG9mIHN0cnVjdCBpb3N5c19tYXAgY2FuIGJlIHVz
-ZWQgdG8gYWNjZXNzIG9yIG1hbmlwdWxhdGUgdGhlDQo+ICsgKiBidWZmZXIgbWVtb3J5LiBE
-ZXBlbmRpbmcgb24gdGhlIGxvY2F0aW9uIG9mIHRoZSBtZW1vcnksIHRoZSBwcm92aWRlZCBo
-ZWxwZXJzDQo+ICsgKiB3aWxsIHBpY2sgdGhlIGNvcnJlY3Qgb3BlcmF0aW9ucy4gRGF0YSBj
-YW4gYmUgY29waWVkIGludG8gdGhlIG1lbW9yeSB3aXRoDQo+ICsgKiBpb3N5c19tYXBfbWVt
-Y3B5X3RvKCkuIFRoZSBhZGRyZXNzIGNhbiBiZSBtYW5pcHVsYXRlZCB3aXRoIGlvc3lzX21h
-cF9pbmNyKCkuDQo+ICsgKg0KPiArICogLi4gY29kZS1ibG9jazo6IGMNCj4gKyAqDQo+ICsg
-Kgljb25zdCB2b2lkICpzcmMgPSAuLi47IC8vIHNvdXJjZSBidWZmZXINCj4gKyAqCXNpemVf
-dCBsZW4gPSAuLi47IC8vIGxlbmd0aCBvZiBzcmMNCj4gKyAqDQo+ICsgKglpb3N5c19tYXBf
-bWVtY3B5X3RvKCZtYXAsIHNyYywgbGVuKTsNCj4gKyAqCWlvc3lzX21hcF9pbmNyKCZtYXAs
-IGxlbik7IC8vIGdvIHRvIGZpcnN0IGJ5dGUgYWZ0ZXIgdGhlIG1lbWNweQ0KPiArICovDQo+
-ICsNCj4gKy8qKg0KPiArICogc3RydWN0IGlvc3lzX21hcCAtIFBvaW50ZXIgdG8gSU8vc3lz
-dGVtIG1lbW9yeQ0KPiArICogQHZhZGRyX2lvbWVtOglUaGUgYnVmZmVyJ3MgYWRkcmVzcyBp
-ZiBpbiBJL08gbWVtb3J5DQo+ICsgKiBAdmFkZHI6CQlUaGUgYnVmZmVyJ3MgYWRkcmVzcyBp
-ZiBpbiBzeXN0ZW0gbWVtb3J5DQo+ICsgKiBAaXNfaW9tZW06CQlUcnVlIGlmIHRoZSBidWZm
-ZXIgaXMgbG9jYXRlZCBpbiBJL08gbWVtb3J5LCBvciBmYWxzZQ0KPiArICoJCQlvdGhlcndp
-c2UuDQo+ICsgKi8NCj4gKyNkZWZpbmUgaW9zeXNfbWFwIGRtYV9idWZfbWFwDQo+ICsNCj4g
-Ky8qKg0KPiArICogSU9TWVNfTUFQX0lOSVRfVkFERFIgLSBJbml0aWFsaXplcyBzdHJ1Y3Qg
-aW9zeXNfbWFwIHRvIGFuIGFkZHJlc3MgaW4gc3lzdGVtIG1lbW9yeQ0KPiArICogQHZhZGRy
-XzoJQSBzeXN0ZW0tbWVtb3J5IGFkZHJlc3MNCj4gKyAqLw0KPiArI2RlZmluZSBJT1NZU19N
-QVBfSU5JVF9WQUREUih2YWRkcl8pCVwNCj4gKwl7CQkJCVwNCj4gKwkJLnZhZGRyID0gKHZh
-ZGRyXyksCVwNCj4gKwkJLmlzX2lvbWVtID0gZmFsc2UsCVwNCj4gKwl9DQo+ICsNCj4gKy8q
-Kg0KPiArICogaW9zeXNfbWFwX3NldF92YWRkciAtIFNldHMgYSBpb3N5cyBtYXBwaW5nIHN0
-cnVjdHVyZSB0byBhbiBhZGRyZXNzIGluIHN5c3RlbSBtZW1vcnkNCj4gKyAqIEBtYXA6CVRo
-ZSBpb3N5c19tYXAgc3RydWN0dXJlDQo+ICsgKiBAdmFkZHI6CUEgc3lzdGVtLW1lbW9yeSBh
-ZGRyZXNzDQo+ICsgKg0KPiArICogU2V0cyB0aGUgYWRkcmVzcyBhbmQgY2xlYXJzIHRoZSBJ
-L08tbWVtb3J5IGZsYWcuDQo+ICsgKi8NCj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBpb3N5c19t
-YXBfc2V0X3ZhZGRyKHN0cnVjdCBpb3N5c19tYXAgKm1hcCwgdm9pZCAqdmFkZHIpDQo+ICt7
-DQo+ICsJbWFwLT52YWRkciA9IHZhZGRyOw0KPiArCW1hcC0+aXNfaW9tZW0gPSBmYWxzZTsN
-Cj4gK30NCj4gKw0KPiArLyoqDQo+ICsgKiBpb3N5c19tYXBfc2V0X3ZhZGRyX2lvbWVtIC0g
-U2V0cyBhIGlvc3lzIG1hcHBpbmcgc3RydWN0dXJlIHRvIGFuIGFkZHJlc3MgaW4gSS9PIG1l
-bW9yeQ0KPiArICogQG1hcDoJCVRoZSBpb3N5c19tYXAgc3RydWN0dXJlDQo+ICsgKiBAdmFk
-ZHJfaW9tZW06CUFuIEkvTy1tZW1vcnkgYWRkcmVzcw0KPiArICoNCj4gKyAqIFNldHMgdGhl
-IGFkZHJlc3MgYW5kIHRoZSBJL08tbWVtb3J5IGZsYWcuDQo+ICsgKi8NCj4gK3N0YXRpYyBp
-bmxpbmUgdm9pZCBpb3N5c19tYXBfc2V0X3ZhZGRyX2lvbWVtKHN0cnVjdCBpb3N5c19tYXAg
-Km1hcCwNCj4gKwkJCQkJICAgICB2b2lkIF9faW9tZW0gKnZhZGRyX2lvbWVtKQ0KPiArew0K
-PiArCW1hcC0+dmFkZHJfaW9tZW0gPSB2YWRkcl9pb21lbTsNCj4gKwltYXAtPmlzX2lvbWVt
-ID0gdHJ1ZTsNCj4gK30NCj4gKw0KPiArLyoqDQo+ICsgKiBpb3N5c19tYXBfaXNfZXF1YWwg
-LSBDb21wYXJlcyB0d28gaW9zeXMgbWFwcGluZyBzdHJ1Y3R1cmVzIGZvciBlcXVhbGl0eQ0K
-PiArICogQGxoczoJVGhlIGlvc3lzX21hcCBzdHJ1Y3R1cmUNCj4gKyAqIEByaHM6CUEgaW9z
-eXNfbWFwIHN0cnVjdHVyZSB0byBjb21wYXJlIHdpdGgNCj4gKyAqDQo+ICsgKiBUd28gaW9z
-eXMgbWFwcGluZyBzdHJ1Y3R1cmVzIGFyZSBlcXVhbCBpZiB0aGV5IGJvdGggcmVmZXIgdG8g
-dGhlIHNhbWUgdHlwZSBvZiBtZW1vcnkNCj4gKyAqIGFuZCB0byB0aGUgc2FtZSBhZGRyZXNz
-IHdpdGhpbiB0aGF0IG1lbW9yeS4NCj4gKyAqDQo+ICsgKiBSZXR1cm5zOg0KPiArICogVHJ1
-ZSBpcyBib3RoIHN0cnVjdHVyZXMgYXJlIGVxdWFsLCBvciBmYWxzZSBvdGhlcndpc2UuDQo+
-ICsgKi8NCj4gK3N0YXRpYyBpbmxpbmUgYm9vbCBpb3N5c19tYXBfaXNfZXF1YWwoY29uc3Qg
-c3RydWN0IGlvc3lzX21hcCAqbGhzLA0KPiArCQkJCSAgICAgIGNvbnN0IHN0cnVjdCBpb3N5
-c19tYXAgKnJocykNCj4gK3sNCj4gKwlpZiAobGhzLT5pc19pb21lbSAhPSByaHMtPmlzX2lv
-bWVtKQ0KPiArCQlyZXR1cm4gZmFsc2U7DQo+ICsJZWxzZSBpZiAobGhzLT5pc19pb21lbSkN
-Cj4gKwkJcmV0dXJuIGxocy0+dmFkZHJfaW9tZW0gPT0gcmhzLT52YWRkcl9pb21lbTsNCj4g
-KwllbHNlDQo+ICsJCXJldHVybiBsaHMtPnZhZGRyID09IHJocy0+dmFkZHI7DQo+ICt9DQo+
-ICsNCj4gKy8qKg0KPiArICogaW9zeXNfbWFwX2lzX251bGwgLSBUZXN0cyBmb3IgYSBpb3N5
-cyBtYXBwaW5nIHRvIGJlIE5VTEwNCj4gKyAqIEBtYXA6CVRoZSBpb3N5c19tYXAgc3RydWN0
-dXJlDQo+ICsgKg0KPiArICogRGVwZW5kaW5nIG9uIHRoZSBzdGF0ZSBvZiBzdHJ1Y3QgaW9z
-eXNfbWFwLmlzX2lvbWVtLCB0ZXN0cyBpZiB0aGUNCj4gKyAqIG1hcHBpbmcgaXMgTlVMTC4N
-Cj4gKyAqDQo+ICsgKiBSZXR1cm5zOg0KPiArICogVHJ1ZSBpZiB0aGUgbWFwcGluZyBpcyBO
-VUxMLCBvciBmYWxzZSBvdGhlcndpc2UuDQo+ICsgKi8NCj4gK3N0YXRpYyBpbmxpbmUgYm9v
-bCBpb3N5c19tYXBfaXNfbnVsbChjb25zdCBzdHJ1Y3QgaW9zeXNfbWFwICptYXApDQo+ICt7
-DQo+ICsJaWYgKG1hcC0+aXNfaW9tZW0pDQo+ICsJCXJldHVybiAhbWFwLT52YWRkcl9pb21l
-bTsNCj4gKwlyZXR1cm4gIW1hcC0+dmFkZHI7DQo+ICt9DQo+ICsNCj4gKy8qKg0KPiArICog
-aW9zeXNfbWFwX2lzX3NldCAtIFRlc3RzIGlmIHRoZSBpb3N5cyBtYXBwaW5nIGhhcyBiZWVu
-IHNldA0KPiArICogQG1hcDoJVGhlIGlvc3lzX21hcCBzdHJ1Y3R1cmUNCj4gKyAqDQo+ICsg
-KiBEZXBlbmRpbmcgb24gdGhlIHN0YXRlIG9mIHN0cnVjdCBpb3N5c19tYXAuaXNfaW9tZW0s
-IHRlc3RzIGlmIHRoZQ0KPiArICogbWFwcGluZyBoYXMgYmVlbiBzZXQuDQo+ICsgKg0KPiAr
-ICogUmV0dXJuczoNCj4gKyAqIFRydWUgaWYgdGhlIG1hcHBpbmcgaXMgYmVlbiBzZXQsIG9y
-IGZhbHNlIG90aGVyd2lzZS4NCj4gKyAqLw0KPiArc3RhdGljIGlubGluZSBib29sIGlvc3lz
-X21hcF9pc19zZXQoY29uc3Qgc3RydWN0IGlvc3lzX21hcCAqbWFwKQ0KPiArew0KPiArCXJl
-dHVybiAhaW9zeXNfbWFwX2lzX251bGwobWFwKTsNCj4gK30NCj4gKw0KPiArLyoqDQo+ICsg
-KiBpb3N5c19tYXBfY2xlYXIgLSBDbGVhcnMgYSBpb3N5cyBtYXBwaW5nIHN0cnVjdHVyZQ0K
-PiArICogQG1hcDoJVGhlIGlvc3lzX21hcCBzdHJ1Y3R1cmUNCj4gKyAqDQo+ICsgKiBDbGVh
-cnMgYWxsIGZpZWxkcyB0byB6ZXJvLCBpbmNsdWRpbmcgc3RydWN0IGlvc3lzX21hcC5pc19p
-b21lbSwgc28NCj4gKyAqIG1hcHBpbmcgc3RydWN0dXJlcyB0aGF0IHdlcmUgc2V0IHRvIHBv
-aW50IHRvIEkvTyBtZW1vcnkgYXJlIHJlc2V0IGZvcg0KPiArICogc3lzdGVtIG1lbW9yeS4g
-UG9pbnRlcnMgYXJlIGNsZWFyZWQgdG8gTlVMTC4gVGhpcyBpcyB0aGUgZGVmYXVsdC4NCj4g
-KyAqLw0KPiArc3RhdGljIGlubGluZSB2b2lkIGlvc3lzX21hcF9jbGVhcihzdHJ1Y3QgaW9z
-eXNfbWFwICptYXApDQo+ICt7DQo+ICsJaWYgKG1hcC0+aXNfaW9tZW0pIHsNCj4gKwkJbWFw
-LT52YWRkcl9pb21lbSA9IE5VTEw7DQo+ICsJCW1hcC0+aXNfaW9tZW0gPSBmYWxzZTsNCj4g
-Kwl9IGVsc2Ugew0KPiArCQltYXAtPnZhZGRyID0gTlVMTDsNCj4gKwl9DQo+ICt9DQo+ICsN
-Cj4gKy8qKg0KPiArICogaW9zeXNfbWFwX21lbWNweV90byAtIE1lbWNweSBpbnRvIGlvc3lz
-IG1hcHBpbmcNCj4gKyAqIEBkc3Q6CVRoZSBpb3N5c19tYXAgc3RydWN0dXJlDQo+ICsgKiBA
-c3JjOglUaGUgc291cmNlIGJ1ZmZlcg0KPiArICogQGxlbjoJVGhlIG51bWJlciBvZiBieXRl
-IGluIHNyYw0KPiArICoNCj4gKyAqIENvcGllcyBkYXRhIGludG8gYSBpb3N5cyBtYXBwaW5n
-LiBUaGUgc291cmNlIGJ1ZmZlciBpcyBpbiBzeXN0ZW0NCj4gKyAqIG1lbW9yeS4gRGVwZW5k
-aW5nIG9uIHRoZSBidWZmZXIncyBsb2NhdGlvbiwgdGhlIGhlbHBlciBwaWNrcyB0aGUgY29y
-cmVjdA0KPiArICogbWV0aG9kIG9mIGFjY2Vzc2luZyB0aGUgbWVtb3J5Lg0KPiArICovDQo+
-ICtzdGF0aWMgaW5saW5lIHZvaWQgaW9zeXNfbWFwX21lbWNweV90byhzdHJ1Y3QgaW9zeXNf
-bWFwICpkc3QsIGNvbnN0IHZvaWQgKnNyYywNCj4gKwkJCQkgICAgICAgc2l6ZV90IGxlbikN
-Cj4gK3sNCj4gKwlpZiAoZHN0LT5pc19pb21lbSkNCj4gKwkJbWVtY3B5X3RvaW8oZHN0LT52
-YWRkcl9pb21lbSwgc3JjLCBsZW4pOw0KPiArCWVsc2UNCj4gKwkJbWVtY3B5KGRzdC0+dmFk
-ZHIsIHNyYywgbGVuKTsNCj4gK30NCj4gKw0KPiArLyoqDQo+ICsgKiBpb3N5c19tYXBfaW5j
-ciAtIEluY3JlbWVudHMgdGhlIGFkZHJlc3Mgc3RvcmVkIGluIGEgaW9zeXMgbWFwcGluZw0K
-PiArICogQG1hcDoJVGhlIGlvc3lzX21hcCBzdHJ1Y3R1cmUNCj4gKyAqIEBpbmNyOglUaGUg
-bnVtYmVyIG9mIGJ5dGVzIHRvIGluY3JlbWVudA0KPiArICoNCj4gKyAqIEluY3JlbWVudHMg
-dGhlIGFkZHJlc3Mgc3RvcmVkIGluIGEgaW9zeXMgbWFwcGluZy4gRGVwZW5kaW5nIG9uIHRo
-ZQ0KPiArICogYnVmZmVyJ3MgbG9jYXRpb24sIHRoZSBjb3JyZWN0IHZhbHVlIHdpbGwgYmUg
-dXBkYXRlZC4NCj4gKyAqLw0KPiArc3RhdGljIGlubGluZSB2b2lkIGlvc3lzX21hcF9pbmNy
-KHN0cnVjdCBpb3N5c19tYXAgKm1hcCwgc2l6ZV90IGluY3IpDQo+ICt7DQo+ICsJaWYgKG1h
-cC0+aXNfaW9tZW0pDQo+ICsJCW1hcC0+dmFkZHJfaW9tZW0gKz0gaW5jcjsNCj4gKwllbHNl
-DQo+ICsJCW1hcC0+dmFkZHIgKz0gaW5jcjsNCj4gK30NCj4gKw0KPiArI2VuZGlmIC8qIF9f
-SU9TWVNfTUFQX0hfXyAqLw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBE
-cml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgN
-Ck1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwg
-QUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+	git rebase -i <base> -x "make -j$(nproc)"
 
---------------Nm0B5mtWID9gqdDH2ws81wVT--
+I split these patches in a way that wouldn't break the build on purpose.
+There were a couple that I couldn't build without cross compiling: tegra
+and rockchip. The others were ok.
 
---------------FZcYPgZj4AoPaeahM800i0iC
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+I'm not really against squashing everything in one to merge, though.
+It will be hard on the conflicts later, but should get the job done much
+quicker.
 
------BEGIN PGP SIGNATURE-----
+Lucas De Marchi
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHzrycFAwAAAAAACgkQlh/E3EQov+BZ
-Lg//fCFlKiK6RXWD7g3KXNOMQGEAg43saPEmM3hibJ1684HbGiGdv9cXRZ/EzhFCZpao6MAaXSWF
-teRNGKzYL/mfO7N1zuMfsA9S25fDvl45SYfcZ18X8vD3PXQG/6CCcdBa81x7SGy2coDLNbp+K4fS
-EhUM5PcJtS26gEu4ymCe7VJ1MXqjr9zhdT/Knn/1bBMTjU5TBvvu8+vxhN0UJ5uZdInoPz7J6ABl
-uP3qef/wZwqWgphRyw5M3fJZJ5XLFoy1htqayvJnQTYs5d8sLHEPw7k375IQAWLvxepjsc7IJP1k
-BgGqNOilz1b6HowIzHCr9kHkPnHskJ9wmtn56RwEub1nJOXBEWWV4XD2953pe5G2YVR2RLGIHJdb
-jFf1GsrAooDLZgE+EzFgCJ6QeGMAgJVADrC1OoX2HCBlNx5Pzs0h4wEV75KmCmqs7RROLVjohNeg
-2laKt5J/tpdh3jfEcHK3OoslxW9Rd3xK8kbOwiey9Ckhm0pekvVbHlL9S4zRcvlL1yvG8pmJnxsV
-MWTPaMQP1OXGH1V9BsiLzVfxPzUTUX68swZult8FMOXGIJgG3HfmTqJTPs4oFk/gzeTXL2Zure6y
-LxiyDle2QOYn00N54uIGJ9BIfF3WOH7e3XW7Ipi045b76/9vFelJ6AXWi4h/pJUjAL0zaCsuIjyV
-kLw=
-=grqi
------END PGP SIGNATURE-----
-
---------------FZcYPgZj4AoPaeahM800i0iC--
+>
+>Regards,
+>Christian.
+>
+>Am 28.01.22 um 09:36 schrieb Lucas De Marchi:
+>>Motivation for this started in
+>>https://lore.kernel.org/lkml/20220126203702.1784589-1-lucas.demarchi@intel.com/
+>>when trying to extend the dma-buf-map API to cover new use cases: help a
+>>single driver with allocations and sharing code paths for IO and system
+>>memory. I'm leaving the API additions aside and first renaming the
+>>interface as requested.
+>>
+>>There are already some users in tree outside the context of dma-buf
+>>importer/exporter. So before extending the API, let's dissociate it from
+>>dma-buf.
+>>
+>>The iosys-map.h is introduced in the first patch in a way that allows
+>>the conversion of each driver to happen separately. After all the
+>>conversions are done we can remove the old one, which is the last patch.
+>>Another possible way is to squash everything and merge together,
+>>but I believe this would make much harder for review.
+>>
+>>The conversion was done with the following semantic patch:
+>>
+>>	@r1@
+>>	@@
+>>	- struct dma_buf_map
+>>	+ struct iosys_map
+>>
+>>	@r2@
+>>	@@
+>>	(
+>>	- DMA_BUF_MAP_INIT_VADDR
+>>	+ IOSYS_MAP_INIT_VADDR
+>>	|
+>>	- dma_buf_map_set_vaddr
+>>	+ iosys_map_set_vaddr
+>>	|
+>>	- dma_buf_map_set_vaddr_iomem
+>>	+ iosys_map_set_vaddr_iomem
+>>	|
+>>	- dma_buf_map_is_equal
+>>	+ iosys_map_is_equal
+>>	|
+>>	- dma_buf_map_is_null
+>>	+ iosys_map_is_null
+>>	|
+>>	- dma_buf_map_is_set
+>>	+ iosys_map_is_set
+>>	|
+>>	- dma_buf_map_clear
+>>	+ iosys_map_clear
+>>	|
+>>	- dma_buf_map_memcpy_to
+>>	+ iosys_map_memcpy_to
+>>	|
+>>	- dma_buf_map_incr
+>>	+ iosys_map_incr
+>>	)
+>>
+>>	@@
+>>	@@
+>>	- #include <linux/dma-buf-map.h>
+>>	+ #include <linux/iosys-map.h>
+>>
+>>and then some files had their includes adjusted so we can build
+>>everything on each commit in this series. Also some comments were update
+>>to remove mentions to dma-buf-map. Simply doing a sed to rename didn't
+>>work as dma-buf has some APIs using the dma_buf_map prefix.
+>>
+>>Once finalized, I think most of this, if not all, could go through the
+>>drm-misc-next branch. I split i915, msm, nouveau, and radeon in their
+>>own patches in case it's preferred to take those through their own
+>>trees.
+>>
+>>Lucas De Marchi
+>>
+>>Lucas De Marchi (14):
+>>   iosys-map: Introduce renamed dma-buf-map
+>>   misc: fastrpc: Replace dma-buf-map with iosys-map
+>>   dma-buf: Replace dma-buf-map with iosys-map
+>>   media: Replace dma-buf-map with iosys-map
+>>   drm/ttm: Replace dma-buf-map with iosys-map
+>>   drm: Replace dma-buf-map with iosys-map in drivers
+>>   drm/i915: Replace dma-buf-map with iosys-map
+>>   drm/msm: Replace dma-buf-map with iosys-map
+>>   drm/nouveau: Replace dma-buf-map with iosys-map
+>>   drm/tegra: Replace dma-buf-map with iosys-map
+>>   drm/radeon: Replace dma-buf-map with iosys-map
+>>   drm: Replace dma-buf-map with iosys-map in common code
+>>   Documentation: Refer to iosys-map instead of dma-buf-map
+>>   dma-buf-map: Remove API in favor of iosys-map
+>>
+>>  Documentation/driver-api/dma-buf.rst          |   4 +-
+>>  Documentation/gpu/todo.rst                    |  20 +-
+>>  MAINTAINERS                                   |   2 +-
+>>  drivers/dma-buf/dma-buf.c                     |  22 +-
+>>  drivers/dma-buf/heaps/cma_heap.c              |  10 +-
+>>  drivers/dma-buf/heaps/system_heap.c           |  10 +-
+>>  drivers/gpu/drm/ast/ast_drv.h                 |   2 +-
+>>  drivers/gpu/drm/ast/ast_mode.c                |   8 +-
+>>  drivers/gpu/drm/drm_cache.c                   |  18 +-
+>>  drivers/gpu/drm/drm_client.c                  |   9 +-
+>>  drivers/gpu/drm/drm_fb_helper.c               |  12 +-
+>>  drivers/gpu/drm/drm_gem.c                     |  12 +-
+>>  drivers/gpu/drm/drm_gem_cma_helper.c          |   9 +-
+>>  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  16 +-
+>>  drivers/gpu/drm/drm_gem_shmem_helper.c        |  15 +-
+>>  drivers/gpu/drm/drm_gem_ttm_helper.c          |   4 +-
+>>  drivers/gpu/drm/drm_gem_vram_helper.c         |  25 +-
+>>  drivers/gpu/drm/drm_internal.h                |   6 +-
+>>  drivers/gpu/drm/drm_mipi_dbi.c                |   8 +-
+>>  drivers/gpu/drm/drm_prime.c                   |   4 +-
+>>  drivers/gpu/drm/etnaviv/etnaviv_drv.h         |   2 +-
+>>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   8 +-
+>>  drivers/gpu/drm/gud/gud_pipe.c                |   4 +-
+>>  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   5 +-
+>>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   8 +-
+>>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   6 +-
+>>  .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |   6 +-
+>>  drivers/gpu/drm/lima/lima_gem.c               |   3 +-
+>>  drivers/gpu/drm/lima/lima_sched.c             |   4 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_gem.c        |   7 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_gem.h        |   5 +-
+>>  drivers/gpu/drm/mgag200/mgag200_mode.c        |   4 +-
+>>  drivers/gpu/drm/msm/msm_drv.h                 |   4 +-
+>>  drivers/gpu/drm/msm/msm_gem_prime.c           |   6 +-
+>>  drivers/gpu/drm/nouveau/nouveau_gem.c         |   2 +
+>>  drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  13 +-
+>>  drivers/gpu/drm/qxl/qxl_display.c             |   8 +-
+>>  drivers/gpu/drm/qxl/qxl_draw.c                |   6 +-
+>>  drivers/gpu/drm/qxl/qxl_drv.h                 |  10 +-
+>>  drivers/gpu/drm/qxl/qxl_object.c              |   8 +-
+>>  drivers/gpu/drm/qxl/qxl_object.h              |   4 +-
+>>  drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
+>>  drivers/gpu/drm/radeon/radeon_gem.c           |   1 +
+>>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |   9 +-
+>>  drivers/gpu/drm/rockchip/rockchip_drm_gem.h   |   5 +-
+>>  drivers/gpu/drm/tegra/gem.c                   |  10 +-
+>>  drivers/gpu/drm/tiny/cirrus.c                 |   8 +-
+>>  drivers/gpu/drm/tiny/gm12u320.c               |   7 +-
+>>  drivers/gpu/drm/ttm/ttm_bo_util.c             |  16 +-
+>>  drivers/gpu/drm/ttm/ttm_resource.c            |  26 +-
+>>  drivers/gpu/drm/ttm/ttm_tt.c                  |   6 +-
+>>  drivers/gpu/drm/udl/udl_modeset.c             |   3 +-
+>>  drivers/gpu/drm/vboxvideo/vbox_mode.c         |   4 +-
+>>  drivers/gpu/drm/virtio/virtgpu_prime.c        |   1 +
+>>  drivers/gpu/drm/vkms/vkms_composer.c          |   4 +-
+>>  drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
+>>  drivers/gpu/drm/vkms/vkms_plane.c             |   2 +-
+>>  drivers/gpu/drm/vkms/vkms_writeback.c         |   2 +-
+>>  drivers/gpu/drm/xen/xen_drm_front_gem.c       |   7 +-
+>>  drivers/gpu/drm/xen/xen_drm_front_gem.h       |   6 +-
+>>  .../common/videobuf2/videobuf2-dma-contig.c   |   8 +-
+>>  .../media/common/videobuf2/videobuf2-dma-sg.c |   9 +-
+>>  .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
+>>  drivers/misc/fastrpc.c                        |   4 +-
+>>  include/drm/drm_cache.h                       |   6 +-
+>>  include/drm/drm_client.h                      |   7 +-
+>>  include/drm/drm_gem.h                         |   6 +-
+>>  include/drm/drm_gem_atomic_helper.h           |   6 +-
+>>  include/drm/drm_gem_cma_helper.h              |   6 +-
+>>  include/drm/drm_gem_framebuffer_helper.h      |   8 +-
+>>  include/drm/drm_gem_shmem_helper.h            |  12 +-
+>>  include/drm/drm_gem_ttm_helper.h              |   6 +-
+>>  include/drm/drm_gem_vram_helper.h             |   9 +-
+>>  include/drm/drm_prime.h                       |   6 +-
+>>  include/drm/ttm/ttm_bo_api.h                  |  10 +-
+>>  include/drm/ttm/ttm_kmap_iter.h               |  10 +-
+>>  include/drm/ttm/ttm_resource.h                |   6 +-
+>>  include/linux/dma-buf-map.h                   | 266 ------------------
+>>  include/linux/dma-buf.h                       |  12 +-
+>>  include/linux/iosys-map.h                     | 257 +++++++++++++++++
+>>  80 files changed, 579 insertions(+), 552 deletions(-)
+>>  delete mode 100644 include/linux/dma-buf-map.h
+>>  create mode 100644 include/linux/iosys-map.h
+>>
+>
