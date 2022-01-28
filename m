@@ -2,70 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1EE04A0075
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 19:53:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BAE94A0088
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 19:59:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350700AbiA1Sxa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 13:53:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48052 "EHLO
+        id S233548AbiA1S7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 13:59:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238277AbiA1Sx3 (ORCPT
+        with ESMTP id S231216AbiA1S7F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 13:53:29 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EF96C061714
-        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 10:53:28 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id s5so19020487ejx.2
-        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 10:53:28 -0800 (PST)
+        Fri, 28 Jan 2022 13:59:05 -0500
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65443C061714
+        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 10:59:05 -0800 (PST)
+Received: by mail-qt1-x82e.google.com with SMTP id y17so5968184qtx.9
+        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 10:59:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Wc0QLIJu1VUjGzH4iIPBkbL5jNsigDdz9QByWAzScI0=;
-        b=lSoIhV1R5SKAQhLiMiPNOxNrH7AP1r+JUJa326A3IJ7ewrEAOSL1OAy0+TLNuFVw9w
-         vgJKFokqAZT482jU5BYsurUGU8Xnr1UV+go1WQpNRQAxwmEgag5PMZ5GiThqE9Ci5Z93
-         x9JHA6XyNypl1voLGIuUIXzbWKDaOo+QxALQ4sMwpJJo+73Pa4Pt8PRx9RzdKalVIx++
-         Q86WF/IrL1WwdZIwFKFXfkmTSIvKTaHxzRymGIQHa5oP6xxodTZUEAUNFcuDppP8GTGd
-         FQCD9osUFsMWbP4v2UFfTMKP/nbxbFd5T6X5bEaqcNOyyF5q8wEN7wmKuRrHDF5MUz98
-         yuHQ==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=DkhOJxPGb96XhBNxvczEuJ4p+whH3mGtofLewGhWrCU=;
+        b=Z6G7Ef6PLujlKfAGhhW5+gwQmeqkdrVdJBgyi6GquvzqWT8BCqXXCVJuWRysRQI3nU
+         H8WONHUzAH6m5usqgL90c09K6+NxeeG5I0XvtPXGHICdZ3EiktQa3SxIDe/guaKNlZ6s
+         l83W0iGB51VmtrF+lZMvo3EM7xoLjyh43X0Onq97UR9he8wEhyaoH7aJESUJK0FTDfQW
+         gAAljF6vVOkN6MATD4lshh/+9m4oHmCMHQIO5UTEvujkVRwViB78Ny5e46VHpR+MLr0X
+         PnKktI1J98Q1/QS8Dv7pd2te+B5kRG/L+QaeyUSlzQi0oT9lRo8QNg6AgTJjeQ4o1pZI
+         1TKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Wc0QLIJu1VUjGzH4iIPBkbL5jNsigDdz9QByWAzScI0=;
-        b=ckxaNJzWMBg/JF19CDleBYKCt7l1iZEa6BPNWBu2u7cQIFY+NUJwTh2rBHEqdGaMvA
-         vQ8JmWPqilfseETj/BFUXvfn/7SqIgwFTUERwvC8p7Moa3TI5yzVgmYx8PqIES9tr2lM
-         XkvlGbsf4VVwa2ZeaQ9wNQ/7lAFX6hU54nRmiHWbfjrtMsQcQIx+s51Artj/hawBVs1T
-         RqfR85J0Rijo6IGkH5erd0za1WLaIFlQBwUPr2WjyYhlwsKNzgScqtOafYqoCXgODnsl
-         EngMOW6MA7vbChW7ImShaLIFXktnRbFw4TszjIz1a6/zqUw6Qdr5UY/X2XHSRkfamCsk
-         nlGQ==
-X-Gm-Message-State: AOAM530RjI9ZBlYH5QZFLBe3PkVDHcuNuxAfHrQqYr01RnbkUbcCD10x
-        Ilpc2sac2auwhd2XrQhB1tkQbDVw6dv3PhgtSAU=
-X-Google-Smtp-Source: ABdhPJxtDx7DHO9B/Na75vR0+uL2k3wNM4pAH2VqDz4MyrlYjuHBNQ26fOtS+W0j8QlmcuRHX1WzO8IoxDsDEpmm+BU=
-X-Received: by 2002:a17:907:3da5:: with SMTP id he37mr8298015ejc.591.1643396006865;
- Fri, 28 Jan 2022 10:53:26 -0800 (PST)
+         :subject:to;
+        bh=DkhOJxPGb96XhBNxvczEuJ4p+whH3mGtofLewGhWrCU=;
+        b=i4VaIMDBBs1DPSqoCoDSIE2/F3tb4NQzGHKHuAr+CaEoIhzsUhBrkijK+66Xv2e7YR
+         /qJs0afTuI5yitFiay2dJjaJsj8wpurkRCWjAabJ4ESXDufPR095yq7eqM6c9C/HmShC
+         EVHsxLzRJdkiVdhGjhNjLLDXQHbD/sAi4FshALipqicSSfzunGepTuxBa9JxJfKtMi5b
+         gymJB9Cwb8cm09dAmpIjzbW/FSvgvhwgYEZIPGxChn1JJE4bFqQOukcWp4KGO/qfIpA9
+         BnOcT4ri7VlFF9I9L1XYTKQcqMt4xaIuZfQVNY7DXBUexGF1x6BXs2idTogk/eNzs1n+
+         wUzA==
+X-Gm-Message-State: AOAM530qCuEXQR/Zl42kyAPwvwcB8KTQpPKt/KdG9xWJT4RXvR2MjjM8
+        Yv5L9rse47jfAB6i7SjPnYV2N0IY6KpBnCtoKO4cUPja710=
+X-Google-Smtp-Source: ABdhPJxgUujZ2R6SCRWk6kpyvs4L/ONnCM34xSW9TfaBBO4ugSSMjdpvghpP5gSutYKzJaIM6TyQU5UpARG5dnha3Rk=
+X-Received: by 2002:a05:622a:14d4:: with SMTP id u20mr5640426qtx.262.1643396344365;
+ Fri, 28 Jan 2022 10:59:04 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a55:a6c4:0:b0:12c:4aba:b572 with HTTP; Fri, 28 Jan 2022
- 10:53:26 -0800 (PST)
-Reply-To: godk52512t@gmail.com
-From:   Mr Seyba <mmrpaul370@gmail.com>
-Date:   Fri, 28 Jan 2022 18:53:26 +0000
-Message-ID: <CAC9NB6oz=usckYkD8y5=EbSUm=mwyuJJFZm73NUaqT2LXgbhRg@mail.gmail.com>
-Subject: Good day
+Received: by 2002:a05:6214:2529:0:0:0:0 with HTTP; Fri, 28 Jan 2022 10:59:03
+ -0800 (PST)
+Reply-To: fionahill.usa@outlook.com
+From:   Fiona Hill <ivanroberti284@gmail.com>
+Date:   Fri, 28 Jan 2022 10:59:03 -0800
+Message-ID: <CAKp8dfpJetKvA4p5Gik8Qy3mVcTOX3tV4sDpu7zNAHjFVK6cYg@mail.gmail.com>
+Subject: 
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-Dear Good Friend
-My Name Is Mr. Seyba. I have a business proposal
-for you that involve $5.5 Million Dollars No risk
-involved. Contact me for more details
-It=E2=80=99s 100% risk free.
-Please reply me here email address:
-godk52512t@gmail.com
-Regards,
-Mr.Seyba.
+-- 
+did you receive my message i send to you?
