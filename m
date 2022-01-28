@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7C9F49F6DC
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 11:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2AE949F6EA
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 11:13:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237790AbiA1KKx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 05:10:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38630 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229747AbiA1KKx (ORCPT
+        id S244603AbiA1KNQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 05:13:16 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:37538 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244542AbiA1KNO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 05:10:53 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AC4FC061714
-        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 02:10:53 -0800 (PST)
+        Fri, 28 Jan 2022 05:13:14 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 912BB61DE2
-        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 10:10:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50A03C340E0;
-        Fri, 28 Jan 2022 10:10:51 +0000 (UTC)
-Message-ID: <614a766a-2669-1141-732f-9f11c952fbda@xs4all.nl>
-Date:   Fri, 28 Jan 2022 11:10:50 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id E136CB818E0;
+        Fri, 28 Jan 2022 10:13:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 358F4C340E0;
+        Fri, 28 Jan 2022 10:13:10 +0000 (UTC)
+Message-ID: <040ba85c-6cdd-8053-30ed-194548d23a18@xs4all.nl>
+Date:   Fri, 28 Jan 2022 11:13:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCHv3 04/12] media: s5p_mfc_dec: set flags for OUTPUT coded
- formats
+Subject: Re: [PATCH] media: s5p-mfc: set V4L2_BUF_FLAG_LAST flag on final
+ buffer
 Content-Language: en-US
-To:     linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Maxime Jourdan <mjourdan@baylibre.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-References: <20190815144456.54583-1-hverkuil-cisco@xs4all.nl>
- <20190815144456.54583-5-hverkuil-cisco@xs4all.nl>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20190815144456.54583-5-hverkuil-cisco@xs4all.nl>
+To:     Andriy Gelman <andriy.gelman@gmail.com>
+Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Jeongtae Park <jtp.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200502194052.485-1-andriy.gelman@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20200502194052.485-1-andriy.gelman@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -48,142 +48,37 @@ Hi all,
 
 I'm going through a bunch of (very) old patches in my patchwork TODO list
 that for one reason or another I never processed. This patch is one of
-them. I'd like to merge this if there are no objections.
+them.
+
+I don't feel comfortable merging this, given the follow-ups that were posted.
+
+If someone wants to get this in anyway, then please make a new patch. I'm
+marking it as 'Changes Requested' in patchwork.
 
 Regards,
 
 	Hans
 
-On 15/08/2019 16:44, Hans Verkuil wrote:
-> From: Maxime Jourdan <mjourdan@baylibre.com>
+On 02/05/2020 21:40, Andriy Gelman wrote:
+> From: Andriy Gelman <andriy.gelman@gmail.com>
 > 
-> Tag all the coded formats where the s5p_mfc decoder supports dynamic
-> resolution switching or has a bytestream parser.
+> As per V4L2 api, the final buffer should set V4L2_BUF_FLAG_LAST flag.
 > 
-> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
-> Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Andriy Gelman <andriy.gelman@gmail.com>
 > ---
->  .../media/platform/s5p-mfc/s5p_mfc_common.h    |  1 +
->  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c   | 18 ++++++++++++++++++
->  2 files changed, 19 insertions(+)
+>  drivers/media/platform/s5p-mfc/s5p_mfc.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_common.h b/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
-> index 96d1ecd1521b..31b133af91eb 100644
-> --- a/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
-> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
-> @@ -723,6 +723,7 @@ struct s5p_mfc_fmt {
->  	enum s5p_mfc_fmt_type type;
->  	u32 num_planes;
->  	u32 versions;
-> +	u32 flags;
->  };
->  
->  /**
-> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-> index 61e144a35201..1423c33c70cb 100644
-> --- a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-> @@ -62,6 +62,8 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V5PLUS_BITS,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +				  V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->  	},
->  	{
->  		.fourcc		= V4L2_PIX_FMT_H264_MVC,
-> @@ -69,6 +71,8 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V6PLUS_BITS,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +				  V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->  	},
->  	{
->  		.fourcc		= V4L2_PIX_FMT_H263,
-> @@ -76,6 +80,7 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V5PLUS_BITS,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
->  	},
->  	{
->  		.fourcc		= V4L2_PIX_FMT_MPEG1,
-> @@ -83,6 +88,8 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V5PLUS_BITS,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +				  V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->  	},
->  	{
->  		.fourcc		= V4L2_PIX_FMT_MPEG2,
-> @@ -90,6 +97,8 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V5PLUS_BITS,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +				  V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->  	},
->  	{
->  		.fourcc		= V4L2_PIX_FMT_MPEG4,
-> @@ -97,6 +106,8 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V5PLUS_BITS,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +				  V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->  	},
->  	{
->  		.fourcc		= V4L2_PIX_FMT_XVID,
-> @@ -104,6 +115,7 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V5PLUS_BITS,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
->  	},
->  	{
->  		.fourcc		= V4L2_PIX_FMT_VC1_ANNEX_G,
-> @@ -111,6 +123,7 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V5PLUS_BITS,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
->  	},
->  	{
->  		.fourcc		= V4L2_PIX_FMT_VC1_ANNEX_L,
-> @@ -118,6 +131,7 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V5PLUS_BITS,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
->  	},
->  	{
->  		.fourcc		= V4L2_PIX_FMT_VP8,
-> @@ -125,6 +139,7 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V6PLUS_BITS,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
->  	},
->  	{
->  		.fourcc		= V4L2_PIX_FMT_HEVC,
-> @@ -132,6 +147,8 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V10_BIT,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +				  V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->  	},
->  	{
->  		.fourcc		= V4L2_PIX_FMT_VP9,
-> @@ -139,6 +156,7 @@ static struct s5p_mfc_fmt formats[] = {
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
->  		.versions	= MFC_V10_BIT,
-> +		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
->  	},
->  };
+> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/platform/s5p-mfc/s5p_mfc.c
+> index 5c2a23b953a4..b3d9b3a523fe 100644
+> --- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
+> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
+> @@ -614,6 +614,7 @@ static void s5p_mfc_handle_stream_complete(struct s5p_mfc_ctx *ctx)
+>  		list_del(&mb_entry->list);
+>  		ctx->dst_queue_cnt--;
+>  		vb2_set_plane_payload(&mb_entry->b->vb2_buf, 0, 0);
+> +		mb_entry->b->flags |= V4L2_BUF_FLAG_LAST;
+>  		vb2_buffer_done(&mb_entry->b->vb2_buf, VB2_BUF_STATE_DONE);
+>  	}
 >  
 
