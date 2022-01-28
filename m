@@ -2,34 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 236BC49FAE8
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 14:38:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56AFE49FB17
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 14:52:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348991AbiA1NiV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 08:38:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59546 "EHLO
+        id S240739AbiA1Nwl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 08:52:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245248AbiA1NiU (ORCPT
+        with ESMTP id S244197AbiA1Nwk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 08:38:20 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1FA9C061714;
-        Fri, 28 Jan 2022 05:38:20 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: usama.anjum)
-        with ESMTPSA id 6B9981F459D4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1643377099;
-        bh=tjEk8d0FDgHsxlcZ3Ake1MkPBeCUhxnRcVA14+aoN30=;
-        h=From:To:Cc:Subject:Date:From;
-        b=d9lQkqYsjK6BwmwbxdMHe3LfiS7qUPiwGC6pD2+LSsYvTtEWivRtbDbBCcCfYqYvL
-         kqjHwe7IuAtqzqf9QbP2T8naH351qtq6RBM8vWCvRyuByo4EzC3vZEiFS81xKpUYpU
-         RnaTewMPNjKPKEFQhKiFnv+50oz3FMefbFtEt0yEJFd2X2o1B+ADjOjJf/vdyDOLby
-         t19SBvaHO2dMeSwkPyrxRCnD4ruZDvAoBPKB4BCzd9HfszerxidPbkqUjmeb5JNDfo
-         ZFOApVnJcpOetTB4bIgMTn0+5rGM+kWc2MR0jm2+emn0K705vwG9svpzfU78263kJx
-         0D0G+BgWCIIrQ==
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Fri, 28 Jan 2022 08:52:40 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38E30C061714
+        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 05:52:40 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1nDRft-000104-Ul; Fri, 28 Jan 2022 14:52:25 +0100
+Received: from pengutronix.de (unknown [195.138.59.174])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id B752525D63;
+        Fri, 28 Jan 2022 13:52:23 +0000 (UTC)
+Date:   Fri, 28 Jan 2022 14:52:17 +0100
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -39,86 +40,93 @@ To:     Steve Longerbeam <slongerbeam@gmail.com>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
         Martin Kepplinger <martink@posteo.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        kernel@collabora.com, kernel-janitors@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: imx: imx8mq-mipi_csi2: Remove unneeded code
-Date:   Fri, 28 Jan 2022 18:36:49 +0500
-Message-Id: <20220128133649.1393201-1-usama.anjum@collabora.com>
-X-Mailer: git-send-email 2.30.2
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: imx: imx8mq-mipi_csi2: Remove unneeded code
+Message-ID: <20220128135217.ncvjlffzpxxmqbjo@pengutronix.de>
+References: <20220128133649.1393201-1-usama.anjum@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="dx5rohrd5cck77jd"
+Content-Disposition: inline
+In-Reply-To: <20220128133649.1393201-1-usama.anjum@collabora.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
-return error. Remove the return variable. Simplify other functions which
-are using this function.
 
-Fixes: f0c2ba1ed4ad ("media: imx: imx8mq-mipi_csi2: fix system resume")
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
----
- drivers/staging/media/imx/imx8mq-mipi-csi2.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+--dx5rohrd5cck77jd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-index 3b9fa75efac6b..c992b845e63d1 100644
---- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-@@ -693,11 +693,10 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
-  * Suspend/resume
-  */
- 
--static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
-+static void imx8mq_mipi_csi_pm_suspend(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct csi_state *state = mipi_sd_to_csi2_state(sd);
--	int ret = 0;
- 
- 	mutex_lock(&state->lock);
- 
-@@ -708,8 +707,6 @@ static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
- 	}
- 
- 	mutex_unlock(&state->lock);
--
--	return ret ? -EAGAIN : 0;
- }
- 
- static int imx8mq_mipi_csi_pm_resume(struct device *dev)
-@@ -742,15 +739,12 @@ static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct csi_state *state = mipi_sd_to_csi2_state(sd);
--	int ret;
- 
--	ret = imx8mq_mipi_csi_pm_suspend(dev);
--	if (ret)
--		return ret;
-+	imx8mq_mipi_csi_pm_suspend(dev);
- 
- 	state->state |= ST_SUSPENDED;
- 
--	return ret;
-+	return 0;
- }
- 
- static int __maybe_unused imx8mq_mipi_csi_resume(struct device *dev)
-@@ -770,9 +764,7 @@ static int __maybe_unused imx8mq_mipi_csi_runtime_suspend(struct device *dev)
- 	struct csi_state *state = mipi_sd_to_csi2_state(sd);
- 	int ret;
- 
--	ret = imx8mq_mipi_csi_pm_suspend(dev);
--	if (ret)
--		return ret;
-+	imx8mq_mipi_csi_pm_suspend(dev);
- 
- 	ret = icc_set_bw(state->icc_path, 0, 0);
- 	if (ret)
--- 
-2.30.2
+On 28.01.2022 18:36:49, Muhammad Usama Anjum wrote:
+> ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
+> return error. Remove the return variable. Simplify other functions which
+> are using this function.
+>=20
+> Fixes: f0c2ba1ed4ad ("media: imx: imx8mq-mipi_csi2: fix system resume")
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> ---
+>  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 16 ++++------------
+>  1 file changed, 4 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/stagi=
+ng/media/imx/imx8mq-mipi-csi2.c
+> index 3b9fa75efac6b..c992b845e63d1 100644
+> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+[...]
+>  static int imx8mq_mipi_csi_pm_resume(struct device *dev)
+> @@ -742,15 +739,12 @@ static int __maybe_unused imx8mq_mipi_csi_suspend(s=
+truct device *dev)
+>  {
+>  	struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
+>  	struct csi_state *state =3D mipi_sd_to_csi2_state(sd);
+> -	int ret;
+> =20
+> -	ret =3D imx8mq_mipi_csi_pm_suspend(dev);
+> -	if (ret)
+> -		return ret;
+> +	imx8mq_mipi_csi_pm_suspend(dev);
+> =20
+>  	state->state |=3D ST_SUSPENDED;
 
+
+what about this flag?
+
+Marc
+> =20
+> -	return ret;
+> +	return 0;
+>  }
+
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--dx5rohrd5cck77jd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmHz9Q4ACgkQqclaivrt
+76lVnwf+NtLWUcGwRaQU8qVIfD2JIN5aGN77aOgc7JGPbxiAkgkUykI369EyomLn
+oYXYq5vqJBX028EJq7ON0lPwN89keJ0eK/zIUns+iwNq8qeKeiT0tdZEIcF7zSkN
+zbwTw8HScw962Js4SOlDqK2HZdnTq27zkI3H4EVxKwu6UWxfHnJjwU0nwDVIt3vQ
+o+YOvYGjRqYeDZpGgyBOvbVRVI8Q19wSa9HxSLbYqOkJCQ7LWm3NTuNIZ2dUiuHi
+UqjO12a7S4bUnW8u7tOIFh1IxMH8wfoV4icv+EcDFgdM4ucEkkyVD81xChU8PY/P
+okLuFoWo4I1iCaTY+Ucelrmx7to+OQ==
+=yv42
+-----END PGP SIGNATURE-----
+
+--dx5rohrd5cck77jd--
