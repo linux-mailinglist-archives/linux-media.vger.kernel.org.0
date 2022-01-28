@@ -2,87 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6A9E49FE47
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 17:44:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C48249FE94
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 18:01:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349979AbiA1Qos (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 11:44:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46480 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349936AbiA1Qor (ORCPT
+        id S1350398AbiA1RBN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 12:01:13 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:38294 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350394AbiA1RBN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 11:44:47 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41EC4C061714
-        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 08:44:47 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEC76471;
-        Fri, 28 Jan 2022 17:44:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643388285;
-        bh=1BP+xM3NmwJuDPbSDyg66dXpCLJ8Rv9fowjr6lUWXtw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=M+czletftaff4a4aIigLQ9sTxIvx7Q+dFzey5mTJ8Ae6GMlvOOWCqjLLvCUlR8KFl
-         /3sElbJIx/H5Hqb6O0Cvz5nZ6kRqTqqmQkdauw3ilHsAJJjxwlP+87lQOV3ViT81Lw
-         pNrtxeOtHiMTlMRgKid76qh5LIwu7rlkCMFhlacs=
-Date:   Fri, 28 Jan 2022 18:44:24 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH v2 4/4] v4l: ioctl: Set bus_info in v4l_querycap()
-Message-ID: <YfQdaAQgWTRTtNgq@pendragon.ideasonboard.com>
-References: <20220128083309.213122-1-sakari.ailus@linux.intel.com>
- <20220128083309.213122-5-sakari.ailus@linux.intel.com>
- <YfQEoJIA9Tm5wRbF@pendragon.ideasonboard.com>
- <YfQUyEq8yGtBx9jB@paasikivi.fi.intel.com>
- <YfQaKV0OVe43ZZvD@pendragon.ideasonboard.com>
- <YfQbb94fKQG4ycDs@paasikivi.fi.intel.com>
+        Fri, 28 Jan 2022 12:01:13 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: usama.anjum)
+        with ESMTPSA id D8AC11F46392
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1643389272;
+        bh=HcvGQIq3fvQYfjKx8yTy+bAX9ZDUMawBDHbxMWj950E=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=DxSLK81NgXLNHJdDzNjkSeN6KC6c+7RJmMh02ayrUFsCCU6kYJ2O1EhAhSkbMTLk9
+         fH1+qyCaLHEQRZE3Wk10iew8DQrLfd2IWFAR/G3tQzUftJzWEyvZg+98h1MI7vITSu
+         ARsacZ7SN96lfy6dIc/cObMGtxW0Hccye88uE98Zu2YSmmtHXMUq2PA0McIhuoGPr7
+         yTOAOmovRfB1jlojgKnCPN4v2nimKHwvLedNoAfu+/PvuQqcgsRZUv2bbfII0XaHyg
+         xJ3LEMR83OTAEB+5+FLa6DKKz36gIAWY+vgg8ckvDMQuMnWja3FlDHfoakpkyK4O3k
+         2XYjihUlGIo8A==
+Message-ID: <ab0b6146-d8ab-b9f5-4dea-99849a0f5ee4@collabora.com>
+Date:   Fri, 28 Jan 2022 22:01:03 +0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YfQbb94fKQG4ycDs@paasikivi.fi.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Cc:     usama.anjum@collabora.com,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Martin Kepplinger <martink@posteo.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
+        kernel-janitors@vger.kernel.org,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-staging@lists.linux.dev,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: imx: imx8mq-mipi_csi2: Remove unneeded code
+Content-Language: en-US
+To:     Fabio Estevam <festevam@gmail.com>
+References: <20220128133649.1393201-1-usama.anjum@collabora.com>
+ <CAOMZO5DaNpZbO2JS7KUOHJLAZNqpnY_ub8H_UF2sSHuQp-Ki0g@mail.gmail.com>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <CAOMZO5DaNpZbO2JS7KUOHJLAZNqpnY_ub8H_UF2sSHuQp-Ki0g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
 
-On Fri, Jan 28, 2022 at 06:35:59PM +0200, Sakari Ailus wrote:
-> On Fri, Jan 28, 2022 at 06:30:33PM +0200, Laurent Pinchart wrote:
-> > On Fri, Jan 28, 2022 at 06:07:36PM +0200, Sakari Ailus wrote:
-> > > On Fri, Jan 28, 2022 at 04:58:40PM +0200, Laurent Pinchart wrote:
-> > > > Hi Sakari,
-> > > > 
-> > > > Thank you for the patch.
-> > > 
-> > > And thanks for the review!
-> > > 
-> > > > On Fri, Jan 28, 2022 at 10:33:09AM +0200, Sakari Ailus wrote:
-> > > > > The bus_info field is set by most drivers based on the type of the device
-> > > > > bus as well as the name of the device. Do this in v4l_querycap() so
-> > > > > drivers don't need to. This keeps compatibility with non-default and silly
-> > > > > bus_info.
-> > > > 
-> > > > Do we have many PCI or platform drivers with non-default bus_info ?
-> > > 
-> > > Quite a few actually. Most have something static in bus_info and there are
-> > > also PCI Express devices that use "PCIe:" prefix. These are mostly old
-> > > drivers though. I've left them as-is.
-> > > 
-> > > New drivers shouldn't bother changing the default unless there's a good
-> > > reason to do that.
-> > 
-> > Let's make it very clear in the documentation then.
+On 1/28/22 9:23 PM, Fabio Estevam wrote:
+> Hi Muhammad,
 > 
-> Right now there's no place for documenting this. Basically this is about
-> what IOCTL argument struct fields are set in the framework and which ones
-> the driver is responsible for. I don't think addressing that belongs to
-> this set.
+> On Fri, Jan 28, 2022 at 10:38 AM Muhammad Usama Anjum
+> <usama.anjum@collabora.com> wrote:
+>>
+>> ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
+>> return error. Remove the return variable. Simplify other functions which
+>> are using this function.
+>>
+>> Fixes: f0c2ba1ed4ad ("media: imx: imx8mq-mipi_csi2: fix system resume")
+> 
+> The patch looks good.
+> 
+> I would suggest removing the Fixes tag though as this is more of a
+> clean-up rather than a bug fix.
+I'll send a V2.
 
-As this sets tries to fix the mess caused by drivers using semi-random
-bus_info, I'd like to disagree :-) It can be done in a patch on top.
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Usama
