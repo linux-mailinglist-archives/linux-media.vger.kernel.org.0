@@ -2,126 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D0CC49FEA4
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 18:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 794C64A0035
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 19:35:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350433AbiA1RHz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 12:07:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51902 "EHLO
+        id S1343654AbiA1SfY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 13:35:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245669AbiA1RHy (ORCPT
+        with ESMTP id S1350667AbiA1SfS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 12:07:54 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B717C061714;
-        Fri, 28 Jan 2022 09:07:54 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: usama.anjum)
-        with ESMTPSA id ADBB31F4077C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1643389673;
-        bh=2xFNiO6fHDHvRM3tapKHLsYU7C7r1NhK4zVmOUghfCE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Nwgn/t3yPevwc+QMOee9BE3udvMx3HsLC2z6iuM3Uq0Y3ce6lPVjevczDXYE1xVVs
-         Xl/ZRFFrEv+iBexE6jFPJxEa9NwGL32JCA5R+MlzKNOvl+4KhiMdMrKEiEeWNzAZjq
-         sqA3UoILhalDrutVLIdnJMni1fepuo9Ev9PQlUJUe9Nb7QT7PZjYJKsmbH5NjUgLpg
-         wb1pcQC6bAjUStGxTdSCUttcqqcOnF6MKwI8eEoIxLAZAbBr6rdB+jlIo8WIzbk3H/
-         4rb49pRgXp8F50LxOP347ilePuLB7YXWRvNm1l74L2Z25hObVhq9mbLA+Wu/sn8scC
-         48jolvItzDYPQ==
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org (open list:MEDIA DRIVERS FOR FREESCALE IMX),
-        linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX
-        / MXC ARM ARCHITECTURE), linux-kernel@vger.kernel.org (open list),
-        mkl@pengutronix.de
-Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        kernel@collabora.com, kernel-janitors@vger.kernel.org
-Subject: [PATCH V2] media: imx: imx8mq-mipi_csi2: Remove unneeded code
-Date:   Fri, 28 Jan 2022 22:07:22 +0500
-Message-Id: <20220128170722.1624767-1-usama.anjum@collabora.com>
-X-Mailer: git-send-email 2.30.2
+        Fri, 28 Jan 2022 13:35:18 -0500
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2FC2C06174A
+        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 10:35:17 -0800 (PST)
+Received: by mail-qt1-x832.google.com with SMTP id j12so5649011qtr.2
+        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 10:35:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=0ejhGzWx3KuN6toGyoNuAcAKGEjB+tNQt5hfYsRmLzY=;
+        b=Dc/Q5aRQQW/FYNuWI64tLLhpsXU8U49S18ok3jtKhmPdY7qwNshd3KD9+hWmsdHbnW
+         mItaNCzF0W3wTR7QZ626zWodJTt8/3plDEJ9Wye63GMlaZOTyr+TvoJw1YwNT4c8fPj9
+         cnWYu7CRqvMcAZOT5ppXRbiQDJrzzYA6VOhR+/xepgyu9PelcHbZHecVcDF2xha8gbO2
+         fEjiCs4Fgs5OpT2pDNAQmTUAbBJd/5OF8j0bjgtq56kzoDJA9jdKIuvz4N+q22P6yrhU
+         lNzui1LSlc7Qc+NfjExJqvx9/kl/fBn/le9RhoTzbEBU3rVrTc1QYWHP2C0n5s8RFLRY
+         DmZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=0ejhGzWx3KuN6toGyoNuAcAKGEjB+tNQt5hfYsRmLzY=;
+        b=sh1levYUrdrtfdzDFgd1fTFqzTRn2VpNQ2YeaVFzNbqKbsvpcA0GsLze339FAscnRP
+         pRiCNbdbkLWj0KAl91VFmGv/F6xFOVUcxUW6C/48+RizB649zLu1tV1Hkc0MtkwDguIT
+         K1V2pcsq0Ai4898yKCkIlmhIVnT7w2sUppeaKoSydomONZsnYMhI3mMZXe2uwPVINuxg
+         GkAT0itu2mgvN2LFJbDkXspRZbDMqPnajV97lN6FZBgHdzOOaERKzljAYTlOH5UIghEb
+         u07SPlY/n6+Aa+kXOuYO7FGOdH1ENsGm2U5f9ClpPcKGvy1l6992W2qE0SawbgocofD0
+         8P2Q==
+X-Gm-Message-State: AOAM5334dX+8D8a5/uGTOC1IqqqRoiWedIbuTkt/AvKjI0st19ReIn/0
+        9NNbvoAPn86YHZSRAC861O/e9A==
+X-Google-Smtp-Source: ABdhPJwvp0xZAHLLIXerkW19P2csCt0EFoQSNrhpfj5zjnQfu3eeiysbuUz+PTXAxMIqJgOVNtPXhQ==
+X-Received: by 2002:ac8:5aca:: with SMTP id d10mr7170984qtd.565.1643394917103;
+        Fri, 28 Jan 2022 10:35:17 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id y16sm3524331qtw.4.2022.01.28.10.35.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jan 2022 10:35:16 -0800 (PST)
+Message-ID: <c86506596c9126da6f2df02eb6680759064774f2.camel@ndufresne.ca>
+Subject: hantro: g2: Does the postprocessor needs 32byte aligned width ?
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Adam Ford <aford173@gmail.com>
+Cc:     "jernej.skrabec" <jernej.skrabec@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        kernel <kernel@collabora.com>, Chris Healy <cphealy@gmail.com>
+Date:   Fri, 28 Jan 2022 13:35:15 -0500
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
-return error. Remove the return variable. Simplify other functions which
-are using this function.
+Hi Adam,
 
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
----
-Changes in V2:
-Removed fixes tag
----
- drivers/staging/media/imx/imx8mq-mipi-csi2.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+Jernej and I had to deal with user report which show a stride issue with the G2
+on Allwinner H6.
 
-diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-index 3b9fa75efac6b..c992b845e63d1 100644
---- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-@@ -693,11 +693,10 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
-  * Suspend/resume
-  */
- 
--static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
-+static void imx8mq_mipi_csi_pm_suspend(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct csi_state *state = mipi_sd_to_csi2_state(sd);
--	int ret = 0;
- 
- 	mutex_lock(&state->lock);
- 
-@@ -708,8 +707,6 @@ static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
- 	}
- 
- 	mutex_unlock(&state->lock);
--
--	return ret ? -EAGAIN : 0;
- }
- 
- static int imx8mq_mipi_csi_pm_resume(struct device *dev)
-@@ -742,15 +739,12 @@ static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct csi_state *state = mipi_sd_to_csi2_state(sd);
--	int ret;
- 
--	ret = imx8mq_mipi_csi_pm_suspend(dev);
--	if (ret)
--		return ret;
-+	imx8mq_mipi_csi_pm_suspend(dev);
- 
- 	state->state |= ST_SUSPENDED;
- 
--	return ret;
-+	return 0;
- }
- 
- static int __maybe_unused imx8mq_mipi_csi_resume(struct device *dev)
-@@ -770,9 +764,7 @@ static int __maybe_unused imx8mq_mipi_csi_runtime_suspend(struct device *dev)
- 	struct csi_state *state = mipi_sd_to_csi2_state(sd);
- 	int ret;
- 
--	ret = imx8mq_mipi_csi_pm_suspend(dev);
--	if (ret)
--		return ret;
-+	imx8mq_mipi_csi_pm_suspend(dev);
- 
- 	ret = icc_set_bw(state->icc_path, 0, 0);
- 	if (ret)
--- 
-2.30.2
+https://forum.libreelec.tv/thread/17565-nightly-images-for-a64-h3-h5-h6-and-r40-boards/?postID=166086#post166086
 
+We quickly found that the stride alignment set to 16 needs to be 32. Though we
+noticed that this is only needed when using the G2 postprocessor (NV12), while
+it worked fine with tiles (NV12_4L4).
+
+We were wondering if you, or anyone here on the list could test this on IMX8MQ
+and IMX8MM. We'd like know if this is specific to the older G2 on H6. To trigger
+this, you need a video with a resolution like 1552x1080 as used in the report.
+We can help you get one if needed.
+
+regards,
+Nicolas
