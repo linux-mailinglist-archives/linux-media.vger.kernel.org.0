@@ -2,70 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AAF3E49F70D
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 11:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBB7749F72A
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 11:19:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238524AbiA1KRt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 05:17:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347813AbiA1KRn (ORCPT
+        id S244145AbiA1KTn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 05:19:43 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:57838 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244125AbiA1KTm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 05:17:43 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C162C06175C;
-        Fri, 28 Jan 2022 02:17:43 -0800 (PST)
+        Fri, 28 Jan 2022 05:19:42 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1AE1261E45;
-        Fri, 28 Jan 2022 10:17:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7FE2C340E0;
-        Fri, 28 Jan 2022 10:17:41 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3F3EF61DE2;
+        Fri, 28 Jan 2022 10:19:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0060BC340E0;
+        Fri, 28 Jan 2022 10:19:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1643365062;
-        bh=55Yrs/fyGEbyWpCkjmNkgtBfGfMz8DsMaElA9YrhRoM=;
+        s=korg; t=1643365179;
+        bh=ZH9rmx9Q+0dQimBRliRAOB9/hhg4360bakM3y/qowXE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A9rGfzrwztkrVnLvQ5llmUSVejcD4H7+DZNjbtlQ+vDdqG9GiCFMUAIcbSVT+4LOt
-         Rj7Gc0KfNMgoIgXHF0mGzbfNJRV0C1u2lnXzeugSzGUXEIRNPXXOXTJR46ZMjPJ4cd
-         y2eHc8d7Y9VhIGiwM5ZoJKu8XhcbxnnEr+fCIMag=
-Date:   Fri, 28 Jan 2022 11:17:36 +0100
+        b=hwNamkS7wIAp2FbQaa2QHXrxJPmY7SNK5dJs3Y+ExSLnnsF84KiiCbegD9Xf3FnmV
+         mFjQwl+hHWuGsQilhg+3P/Guwqv0PGaZ44ISK9RWy1ewK9zS/GW+oqZeBtW3NPRnlD
+         ICKQ5jgjVT8t5dqc0vH+Hc20Bnl05ZSXSLhQZ0G0=
+Date:   Fri, 28 Jan 2022 11:19:36 +0100
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Zhou Qingyang <zhou1615@umn.edu>
-Cc:     kjlu@umn.edu, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
+Cc:     kjlu@umn.edu, Benoit Parrot <bparrot@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Robert Fitzsimons <robfitz@273k.net>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: bttv: Fix a NULL pointer dereference in
- bttv_overlay()
-Message-ID: <YfPCwFs6RXj5KgLt@kroah.com>
-References: <20220124172626.64077-1-zhou1615@umn.edu>
+Subject: Re: [PATCH] media: ti-vpe: cal: Fix a NULL pointer dereference in
+ cal_ctx_v4l2_init_formats()
+Message-ID: <YfPDOOtlGPRfp3Vo@kroah.com>
+References: <20220124172001.62457-1-zhou1615@umn.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220124172626.64077-1-zhou1615@umn.edu>
+In-Reply-To: <20220124172001.62457-1-zhou1615@umn.edu>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 25, 2022 at 01:26:24AM +0800, Zhou Qingyang wrote:
-> In bttv_overlay(), the return value of videobuf_sg_alloc() is assigned
-> to variable new and there is a dereference of it after that. the return
-> value of videobuf_sg_alloc() could be NULL on failure of allocation,
-> which could lead to a NULL pointer dereference.
+On Tue, Jan 25, 2022 at 01:20:01AM +0800, Zhou Qingyang wrote:
+> In cal_ctx_v4l2_init_formats(), devm_kzalloc() is assigned to fw and there
+> is a dereference of it after that, which could lead to NULL pointer
+> dereference on failure of devm_kzalloc().
 > 
-> Fix this bug by adding a NULL check of new.
+> Fix this bug by adding a NULL check of ctx->active_fmt.
 > 
 > This bug was found by a static analyzer.
 > 
 > Builds with 'make allyesconfig' show no new warnings,
 > and our static analyzer no longer warns about this code.
 > 
-> Fixes: 7c018804c090 ("V4L/DVB (7197): bttv: Fix overlay divide error")
+> Fixes: 7168155002cf ("media: ti-vpe: cal: Move format handling to cal.c and expose helpers")
 > Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
-> ---
+> --
 > The analysis employs differential checking to identify inconsistent 
 > security operations (e.g., checks or kfrees) between two code paths 
 > and confirms that the inconsistent operations are not recovered in the
@@ -75,22 +70,23 @@ On Tue, Jan 25, 2022 at 01:26:24AM +0800, Zhou Qingyang wrote:
 > positive or hard to trigger. Multiple researchers have cross-reviewed
 > the bug.
 > 
->  drivers/media/pci/bt8xx/bttv-driver.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/media/platform/ti-vpe/cal-video.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
-> index 6338f98d845d..5aa46593ddc6 100644
-> --- a/drivers/media/pci/bt8xx/bttv-driver.c
-> +++ b/drivers/media/pci/bt8xx/bttv-driver.c
-> @@ -2552,6 +2552,8 @@ static int bttv_overlay(struct file *file, void *f, unsigned int on)
->  	if (on) {
->  		fh->ov.tvnorm = btv->tvnorm;
->  		new = videobuf_sg_alloc(sizeof(*new));
-> +		if (!new)
-> +			return -ENOMEM;
->  		new->crop = btv->crop[!!fh->do_crop].rect;
->  		bttv_overlay_risc(btv, &fh->ov, fh->ovfmt, new);
->  	} else {
+> diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
+> index 7799da1cc261..3e936a2ca36c 100644
+> --- a/drivers/media/platform/ti-vpe/cal-video.c
+> +++ b/drivers/media/platform/ti-vpe/cal-video.c
+> @@ -823,6 +823,9 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
+>  	/* Enumerate sub device formats and enable all matching local formats */
+>  	ctx->active_fmt = devm_kcalloc(ctx->cal->dev, cal_num_formats,
+>  				       sizeof(*ctx->active_fmt), GFP_KERNEL);
+> +	if (!ctx->active_fmt)
+> +		return -ENOMEM;
+> +
+>  	ctx->num_active_fmt = 0;
+>  
+>  	for (j = 0, i = 0; ; ++j) {
 > -- 
 > 2.25.1
 > 
