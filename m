@@ -2,83 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2AE949F6EA
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 11:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A90DD49F6FA
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 11:16:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244603AbiA1KNQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 05:13:16 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:37538 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244542AbiA1KNO (ORCPT
+        id S1344028AbiA1KQz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 05:16:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39992 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344358AbiA1KQl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 05:13:14 -0500
+        Fri, 28 Jan 2022 05:16:41 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AAA5C061756;
+        Fri, 28 Jan 2022 02:16:40 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E136CB818E0;
-        Fri, 28 Jan 2022 10:13:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 358F4C340E0;
-        Fri, 28 Jan 2022 10:13:10 +0000 (UTC)
-Message-ID: <040ba85c-6cdd-8053-30ed-194548d23a18@xs4all.nl>
-Date:   Fri, 28 Jan 2022 11:13:09 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DF9CE61E48;
+        Fri, 28 Jan 2022 10:16:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC425C340E0;
+        Fri, 28 Jan 2022 10:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1643364999;
+        bh=wY+NiK6roLe1EU72IIk54Y7t84UzbEvYs0eZ/MvO+Wc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SA9Wl11f0x3s7zm7GRHpMCu36U3aKJ+Jr85DTfWJeYln1c7lurpgWa0b7d2l1xgTX
+         X+MXOIveTsJugQIWPu6iyhSHbR4wNVYb5URfmCKy/wLnsDm0W3apB4bwpUS84piZ7C
+         QdiXCsd/tIKw/BKioo/XzezHKwWeuyRODCvSlpCI=
+Date:   Fri, 28 Jan 2022 11:16:36 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Zhou Qingyang <zhou1615@umn.edu>
+Cc:     kjlu@umn.edu, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Douglas Schilling Landgraf <dougsland@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: bttv: Fix a NULL pointer dereference in
+ bttv_s_fbuf()
+Message-ID: <YfPChJvNqzPhrdRX@kroah.com>
+References: <20220124170411.58169-1-zhou1615@umn.edu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] media: s5p-mfc: set V4L2_BUF_FLAG_LAST flag on final
- buffer
-Content-Language: en-US
-To:     Andriy Gelman <andriy.gelman@gmail.com>
-Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Jeongtae Park <jtp.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200502194052.485-1-andriy.gelman@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20200502194052.485-1-andriy.gelman@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220124170411.58169-1-zhou1615@umn.edu>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
-
-I'm going through a bunch of (very) old patches in my patchwork TODO list
-that for one reason or another I never processed. This patch is one of
-them.
-
-I don't feel comfortable merging this, given the follow-ups that were posted.
-
-If someone wants to get this in anyway, then please make a new patch. I'm
-marking it as 'Changes Requested' in patchwork.
-
-Regards,
-
-	Hans
-
-On 02/05/2020 21:40, Andriy Gelman wrote:
-> From: Andriy Gelman <andriy.gelman@gmail.com>
+On Tue, Jan 25, 2022 at 01:04:09AM +0800, Zhou Qingyang wrote:
+> In bttv_s_fbuf(), the return value of videobuf_sg_alloc() is assigned
+> to variable new and there is a dereference of it after that. the return
+> value of videobuf_sg_alloc() could be NULL on failure of allocation,
+> which could lead to a NULL pointer dereference.
 > 
-> As per V4L2 api, the final buffer should set V4L2_BUF_FLAG_LAST flag.
+> Fix this bug by adding a NULL check of new.
 > 
-> Signed-off-by: Andriy Gelman <andriy.gelman@gmail.com>
+> This bug was found by a static analyzer.
+> 
+> Builds with 'make allyesconfig' show no new warnings,
+> and our static analyzer no longer warns about this code
+> 
+> Fixes: 402aa76aa5e5 ("V4L/DVB (6911): Converted bttv to use video_ioctl2")
+> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
 > ---
->  drivers/media/platform/s5p-mfc/s5p_mfc.c | 1 +
->  1 file changed, 1 insertion(+)
+> The analysis employs differential checking to identify inconsistent 
+> security operations (e.g., checks or kfrees) between two code paths 
+> and confirms that the inconsistent operations are not recovered in the
+> current function or the callers, so they constitute bugs. 
 > 
-> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> index 5c2a23b953a4..b3d9b3a523fe 100644
-> --- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> @@ -614,6 +614,7 @@ static void s5p_mfc_handle_stream_complete(struct s5p_mfc_ctx *ctx)
->  		list_del(&mb_entry->list);
->  		ctx->dst_queue_cnt--;
->  		vb2_set_plane_payload(&mb_entry->b->vb2_buf, 0, 0);
-> +		mb_entry->b->flags |= V4L2_BUF_FLAG_LAST;
->  		vb2_buffer_done(&mb_entry->b->vb2_buf, VB2_BUF_STATE_DONE);
->  	}
+> Note that, as a bug found by static analysis, it can be a false
+> positive or hard to trigger. Multiple researchers have cross-reviewed
+> the bug.
+> 
+>  drivers/media/pci/bt8xx/bttv-driver.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+> index 5aa46593ddc6..c0664cffb881 100644
+> --- a/drivers/media/pci/bt8xx/bttv-driver.c
+> +++ b/drivers/media/pci/bt8xx/bttv-driver.c
+> @@ -2627,6 +2627,8 @@ static int bttv_s_fbuf(struct file *file, void *f,
+>  			struct bttv_buffer *new;
 >  
+>  			new = videobuf_sg_alloc(sizeof(*new));
+> +			if (!new)
+> +				return -ENOMEM;
+>  			new->crop = btv->crop[!!fh->do_crop].rect;
+>  			bttv_overlay_risc(btv, &fh->ov, fh->ovfmt, new);
+>  			retval = bttv_switch_overlay(btv, fh, new);
+> -- 
+> 2.25.1
+> 
+
+As stated before, umn.edu is still not allowed to contribute to the
+Linux kernel.  Please work with your administration to resolve this
+issue.
 
