@@ -2,121 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 846E14A0238
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 21:41:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C73A4A0262
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jan 2022 21:57:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344515AbiA1UlU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jan 2022 15:41:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44014 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351449AbiA1Ukj (ORCPT
+        id S239235AbiA1U5V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jan 2022 15:57:21 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:40176 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236759AbiA1U5T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jan 2022 15:40:39 -0500
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55BB3C061760;
-        Fri, 28 Jan 2022 12:40:39 -0800 (PST)
-Received: by mail-oo1-xc34.google.com with SMTP id o188-20020a4a44c5000000b002e6c0c05892so309ooa.13;
-        Fri, 28 Jan 2022 12:40:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Fg9QaVeDlSVPFTJDgiWGqYioChAVJcY9O6iWSNFuU2s=;
-        b=Xp5SRSRbuUVe8aVez9u9IeWplh6j1Q/UvjhKyENHpXHbKTbXzJ64fUc3Tqxl3MZcOv
-         K7OHWqKY4wT+100+0V+8IyIcQ6Se8Up4V8H1F8GQOTVUrntzDEHl0El44pQBMNy6onBj
-         tfVE7aSbw0VhG7vqUb//YA0JGi8iE0jMMgXoq0EO0TZROcAaGQ9XUaPiaQ+Z/RMn7AXu
-         tgYicuut+lg9vETUtekjIf5g/oR0VKnBi0ogyFT5UGeIuUINweBRfirs/zICmYYduY11
-         +9Vkaj9ManxBSH2LonV3lAWPX5e0KZSYPn9U+nd5/sFY7OLrwd9vtcl11ew9jEjp1T3K
-         DAhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=Fg9QaVeDlSVPFTJDgiWGqYioChAVJcY9O6iWSNFuU2s=;
-        b=Yo5EqIYtGKjbpo5EFk4o/xZMSEJSKKJi8M2Om+KFYaHSydMrZNmqyomHc7lw2LgP3c
-         85WpjPG1sa3RJrcz6bYfXkaxI+Lvptcl/TmDjeDjmpvPWABEU3xWW8mgiRyTlUDCG9fg
-         YFtW8gIV4FlkiCL9atqvxoWQhM6qUOQY1f/UuBsFSzuCToPdqPajsfoimec4PgYzR3Vo
-         vTVb5SGfd+94Syp1PFMcd6d/UyrHxWydZ4J13762YOhRr2gBf/BlPOlyqkrcNYOlHX6t
-         ndzKMMheHHHB0up9ZeeKH1ja51UqJbwzQa58ISMm2hCppnPXxG5NDKkrtDXf4vGvpbEK
-         Qjcw==
-X-Gm-Message-State: AOAM532cSfHs/f6F76xEzN1AkB8tG8jhDLwvHhWCXQvgGhwgb0ktEsLA
-        6jTSLu5CWys/NcbEaa7TbZw=
-X-Google-Smtp-Source: ABdhPJyYDk+MBJcku5rv4QX55U83Jdlo7+HrAdvMz/x+QLI1+YLJU8hDOvLPlfEUXL9K4cfYbEwBlg==
-X-Received: by 2002:a4a:bc91:: with SMTP id m17mr5161876oop.86.1643402438711;
-        Fri, 28 Jan 2022 12:40:38 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p5sm5703516oou.39.2022.01.28.12.40.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jan 2022 12:40:37 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 28 Jan 2022 12:40:36 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
-        Florian Fainelli <f.fainelli@gmail.com>, 5kft <5kft@5kft.org>,
-        Corentin Labbe <clabbe.montjoie@gmail.com>
-Subject: Re: [PATCH for 5.17] pinctrl-sunxi:
- sunxi_pinctrl_gpio_direction_in/output: use correct offset
-Message-ID: <20220128204036.GA1798576@roeck-us.net>
-References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl>
- <0f536cd8-01db-5d16-2cec-ec6d19409a49@xs4all.nl>
+        Fri, 28 Jan 2022 15:57:19 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 536D261E49
+        for <linux-media@vger.kernel.org>; Fri, 28 Jan 2022 20:57:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C2FAC340E7;
+        Fri, 28 Jan 2022 20:57:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643403438;
+        bh=sHKUbvK0RtlvkjpzfaWOCBoO/D18zt7Hz2IXrrbXzxg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KcKrGmjr/JdJz40u0AT9WjcT0TeV68HYqk3iy1kgVgRIxMObHYFBw9YsS6IiEhED8
+         BsLJN600nort8AO0tmMmmEtmdgwkU2k3Fp5KuqBKpwMSX/iCDhDowxysecGVjrNZ2H
+         N0er+MfeAhqImC2xSqMbYGhkiIjldjHOt9PLVqf0oVBkBhAjq1+wgeUePvGtYXBY5U
+         7qalWdwSXClbRzpS1jbPPJ7D6GycnxjE9Y05I/gNCr6VhirF3+Jp4uFLUyaZVQW6my
+         Aw7Ahexyu/JBusmFuy7uL11FR8fxHiamSh/DcF4xzyG772JBvEuJ3zFlKQCduF+/hb
+         fZrIZO7sKC3Cw==
+Date:   Fri, 28 Jan 2022 21:57:13 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sean Young <sean@mess.org>
+Subject: Re: [GIT PULL v2 FOR 5.18] V4L2 patches
+Message-ID: <20220128215713.1abef17b@coco.lan>
+In-Reply-To: <YfQ9eMB2aP5iH6AZ@valkosipuli.retiisi.eu>
+References: <Ye7QMv0OBntzuC1C@valkosipuli.retiisi.eu>
+        <20220128195312.092b1d3d@coco.lan>
+        <YfQ9eMB2aP5iH6AZ@valkosipuli.retiisi.eu>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0f536cd8-01db-5d16-2cec-ec6d19409a49@xs4all.nl>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 26, 2022 at 12:02:04PM +0100, Hans Verkuil wrote:
-> The commit that sets the direction directly without calling
-> pinctrl_gpio_direction(), forgot to add chip->base to the offset when
-> calling sunxi_pmx_gpio_set_direction().
-> 
-> This caused failures for various Allwinner boards which have two
-> GPIO blocks.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Reported-by: 5kft <5kft@5kft.org>
-> Suggested-by: 5kft <5kft@5kft.org>
-> Reported-by: Corentin Labbe <clabbe.montjoie@gmail.com>
-> Fixes: 8df89a7cbc63 (pinctrl-sunxi: don't call pinctrl_gpio_direction())
-> Tested-by: Corentin Labbe <clabbe.montjoie@gmail.com>
-> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Em Fri, 28 Jan 2022 21:01:12 +0200
+Sakari Ailus <sakari.ailus@iki.fi> escreveu:
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
+> Hi Mauro,
+> 
+> On Fri, Jan 28, 2022 at 07:53:12PM +0100, Mauro Carvalho Chehab wrote:
+> > Em Mon, 24 Jan 2022 18:13:38 +0200
+> > Sakari Ailus <sakari.ailus@iki.fi> escreveu:
+> >   
+> > > Hi Mauro,
+> > > 
+> > > Here's a bunch of patches again for 5.18. Most notably there's V4L2 fwnode
+> > > / mbus_config cleanup by Laurent, the hi847 camera sensor driver from Shawn
+> > > Tu and the od08d10 camera sensor driver by Jimmy Su. Fixes elsewhere are
+> > > included, too.
+> > > 
+> > > Since v1, a few more patches have been added and I've dropped a camss patch
+> > > already picked by Hans.
+> > > 
+> > > Please pull.
+> > > 
+> > > 
+> > > The following changes since commit 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c:
+> > > 
+> > >   media: ipu3-cio2: Add support for instantiating i2c-clients for VCMs (2021-12-16 20:58:56 +0100)
+> > > 
+> > > are available in the Git repository at:
+> > > 
+> > >   git://linuxtv.org/sailus/media_tree.git tags/for-5.18-1.1-signed
+> > > 
+> > > for you to fetch changes up to a6876b00e5daa786a406db09f214bbbb4d1f200c:
+> > > 
+> > >   media: i2c: dw9714: add optional regulator support (2022-01-22 18:27:43 +0200)
+> > > 
+> > > ----------------------------------------------------------------
+> > > V4L2 patches for 5.18
+> > > 
+> > > ----------------------------------------------------------------
+> > > Angus Ainslie (1):
+> > >       media: i2c: dw9714: add optional regulator support
+> > > 
+> > > Benjamin Gaignard (1):
+> > >       MAINTAINERS: Update Benjamin Gaignard maintainer status
+> > > 
+> > > Bingbu Cao (1):
+> > >       media: ov2740: identify module after subdev initialisation
+> > > 
+> > > Janusz Krzysztofik (4):
+> > >       media: ov6650: Fix set format try processing path
+> > >       media: ov6650: Add try support to selection API operations
+> > >       media: ov6650: Fix crop rectangle affected by set format
+> > >       media: ov6650: Fix missing frame interval enumeration support
+> > > 
+> > > Jimmy Su (1):
+> > >       media: i2c: Add ov08d10 camera sensor driver
+> > > 
+> > > Laurent Pinchart (9):
+> > >       media: pxa_camera: Drop usage of .set_mbus_config()
+> > >       media: i2c: ov6650: Drop implementation of .set_mbus_config()
+> > >       media: v4l2-subdev: Drop .set_mbus_config() operation
+> > >       media: v4l2-fwnode: Move bus config structure to v4l2_mediabus.h  
+> >   
+> > >       media: v4l2-mediabus: Use structures to describe bus configuration
+> > >       media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_*_LANE flags
+> > >       media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_CHANNEL_* flags
+> > >       media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag  
+> > 
+> > (Some of?) those broke build today:
+> > 	https://builder.linuxtv.org/job/media_stage_clang/412/
+> > 
+> > Probably due to a conflict some other pull request.
+> > 
+> > So, I dropped them. Please rebase and re-submit.  
+> 
+> It seems patches got merged that make use of [gs]et_mbus_config that is
+> changed by the patches. This isn't a very commonly used interface so
+> there's a bit of bad luck here.
+> 
+> I'll see what needs to be changed there.
 
-Guenter
+Yeah, patches that change kAPI have the potential of getting
+such kind of conflicts. Thankfully we have now the media_stage
+tree, and Jenkins builds are working properly. So we were able to 
+solve it before reaching linux-next. No harm done.
 
-> ---
-> Corentin, can you please test this patch to verify that this fixes your
-> issue on the orangepiPC?
-> ---
-> 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> index 80d6750c74a6..061323eab8b1 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> @@ -837,7 +837,8 @@ static int sunxi_pinctrl_gpio_direction_input(struct gpio_chip *chip,
->  {
->  	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
-> 
-> -	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL, offset, true);
-> +	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL,
-> +					    chip->base + offset, true);
->  }
-> 
->  static int sunxi_pinctrl_gpio_get(struct gpio_chip *chip, unsigned offset)
-> @@ -890,7 +891,8 @@ static int sunxi_pinctrl_gpio_direction_output(struct gpio_chip *chip,
->  	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
-> 
->  	sunxi_pinctrl_gpio_set(chip, offset, value);
-> -	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL, offset, false);
-> +	return sunxi_pmx_gpio_set_direction(pctl->pctl_dev, NULL,
-> +					    chip->base + offset, false);
->  }
-> 
->  static int sunxi_pinctrl_gpio_of_xlate(struct gpio_chip *gc,
+> Please prioritise these on the next time, if possible.
+
+(c/c the other media maintainers)
+
+Sure. I usually priorize PRs that solve issues on previous one.
+
+Yet, the order is not really important. I mean, if I end merging 
+two PRs again at the same day and one causes breakage on another
+due to kAPI changes, no matter where PR gets merged early, I 
+would still get a Jenkins compilation error again, and the 
+sanest way to solve such kind of conflicts is to drop the 
+kAPI changes.
+
+So, what we need to do, instead, is to coordinate such changes
+with other maintainers and developers in order to ensure that 
+everyone that would rely on a deprecated kAPI that will be
+dropped will base their series on the top of the tree with the
+replacement kAPI.
+
+Maybe we could start doing some annotations at the kAPI docs
+about any plans to deprecate such interfaces at least one
+or two kernel versions before actually applying the old
+API removal.
+
+Comments?
+
+Thanks,
+Mauro
