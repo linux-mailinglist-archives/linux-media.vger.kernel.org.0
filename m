@@ -2,76 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83EFB4A3017
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jan 2022 15:47:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 071124A3037
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jan 2022 16:16:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242009AbiA2Or3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jan 2022 09:47:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56886 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230431AbiA2Or2 (ORCPT
+        id S241290AbiA2PQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Jan 2022 10:16:31 -0500
+Received: from h4.fbrelay.privateemail.com ([131.153.2.45]:35915 "EHLO
+        h4.fbrelay.privateemail.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232848AbiA2PQa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jan 2022 09:47:28 -0500
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E308C061714
-        for <linux-media@vger.kernel.org>; Sat, 29 Jan 2022 06:47:28 -0800 (PST)
-Received: by mail-io1-xd2e.google.com with SMTP id q204so11256581iod.8
-        for <linux-media@vger.kernel.org>; Sat, 29 Jan 2022 06:47:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=CMzdAZWvSREUxL9gyi7ZDNRKXhnPhof45SdOgpKoP4Q=;
-        b=UZfAqwVZaEOKRZqIxY7b44cPaZj0OhO0ywTmqxvHzgOAUZ/ald2GR4F9z6X9kZ2Nqa
-         jybFNOIaN7oHrwjHkGg+68GvBhMjcSFEYkHNTR/8BWCqN9BVASetwVfNlmqkIGXDW7lP
-         t9RQkmDVT+cedK17PywJ9CdprNhuSnDvSE8l7Ncxd1FxRHJfnMRtCsAYuLVcQqYfDkos
-         q9zhtwO7nRBye7EUBavuAZBGCQHDK2po+9XcOKacVo+Mk87iZm0OOGvl4SUQ/V0tz6lb
-         Zh9y3ZQhoBT9GvLX6/M60skVzNNQHQXPVWMCGpUdaMTi24+AIkOy0VpMjIUC8lTHsxWo
-         5+8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=CMzdAZWvSREUxL9gyi7ZDNRKXhnPhof45SdOgpKoP4Q=;
-        b=TewyWp53cp2J3o7U1zIyxIsTkSUMUod2s5cIT32MlBrhNSER16+J94bS+RPk1ObrVI
-         M5GlLYqIV/RtQFbHS7/iOpAPkHkiTn7LQmhujgdDYUH7is0tODw8w3R0ADC0jRgFq5kq
-         YBSybxl6w2lAj8kR6YFpMWpyciaP08SQwKkDERVLAmb9XPNmoruODF1diQCjGHTeQEPA
-         ylyonWRpGRK2gJsv6ceeHfkcEa4rF42Jp+b3vUVZODDJjFnafS3+u0stdIOlWzcKfozb
-         +AdH+VqmsFsn/Asn7jmGloRRD+yrnTaqW2Z7GSJy8nJcnieXmMrEiHaVOL9Y5z3/KRlk
-         4gxQ==
-X-Gm-Message-State: AOAM530PF3lfbXj885/x/jqzYYYFfUzs5ncEu8oCMtnuqG6GYOfEMG2P
-        yHqlJeALpgx4lzs0Cb5Vf5N2nhcgr46XWPOvtVo=
-X-Google-Smtp-Source: ABdhPJz3tUSS9ktxlJbKt8O+IJ0Nn8aL8VsX7rxn1JSkBSVukDTeODP63umJ7sYyK9gplv7zXPEXp1ACT0PljEY+W7E=
-X-Received: by 2002:a05:6638:94a:: with SMTP id f10mr7376789jad.280.1643467647524;
- Sat, 29 Jan 2022 06:47:27 -0800 (PST)
+        Sat, 29 Jan 2022 10:16:30 -0500
+X-Greylist: delayed 587 seconds by postgrey-1.27 at vger.kernel.org; Sat, 29 Jan 2022 10:16:30 EST
+Received: from MTA-13-4.privateemail.com (mta-13-1.privateemail.com [198.54.122.107])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by h3.fbrelay.privateemail.com (Postfix) with ESMTPS id 2AD2318000A2
+        for <linux-media@vger.kernel.org>; Sat, 29 Jan 2022 10:06:43 -0500 (EST)
+Received: from mta-13.privateemail.com (localhost [127.0.0.1])
+        by mta-13.privateemail.com (Postfix) with ESMTP id D991818000BE;
+        Sat, 29 Jan 2022 10:06:40 -0500 (EST)
+Received: from localhost.localdomain (unknown [10.20.151.172])
+        by mta-13.privateemail.com (Postfix) with ESMTPA id 3071B18000A5;
+        Sat, 29 Jan 2022 10:06:37 -0500 (EST)
+From:   Jordy Zomer <jordy@pwning.systems>
+To:     linux-kernel@vger.kernel.org
+Cc:     Jordy Zomer <jordy@pwning.systems>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] dma-buf: heaps: Fix potential spectre v1 gadget
+Date:   Sat, 29 Jan 2022 16:06:04 +0100
+Message-Id: <20220129150604.3461652-1-jordy@pwning.systems>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Received: by 2002:a02:a808:0:0:0:0:0 with HTTP; Sat, 29 Jan 2022 06:47:27
- -0800 (PST)
-Reply-To: lisahugh159@gmail.com
-From:   LISA HUGH <mrssafi.kabore2@gmail.com>
-Date:   Sat, 29 Jan 2022 15:47:27 +0100
-Message-ID: <CACP6L_gcr1GKwyemFignmgCG591FtzqvSYpNRFe37edOKmWBuw@mail.gmail.com>
-Subject: ATTENTION FROM Ms Lisa Hugh.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Friend,
+It appears like nr could be a Spectre v1 gadget as it's supplied by a
+user and used as an array index. Prevent the contents
+of kernel memory from being leaked to userspace via speculative
+execution by using array_index_nospec.
 
-I am Ms Lisa Hugh accountant and files keeping by profession with the bank.
+Signed-off-by: Jordy Zomer <jordy@pwning.systems>
+---
+ drivers/dma-buf/dma-heap.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I need your co-operation for the  transferring of
-($4,500,000,00,U.S.DOLLARS)to your bank account for both of us
-benefit.
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 56bf5ad01ad5..8f5848aa144f 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -14,6 +14,7 @@
+ #include <linux/xarray.h>
+ #include <linux/list.h>
+ #include <linux/slab.h>
++#include <linux/nospec.h>
+ #include <linux/uaccess.h>
+ #include <linux/syscalls.h>
+ #include <linux/dma-heap.h>
+@@ -135,6 +136,7 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+ 	if (nr >= ARRAY_SIZE(dma_heap_ioctl_cmds))
+ 		return -EINVAL;
+ 
++	nr = array_index_nospec(nr, ARRAY_SIZE(dma_heap_ioctl_cmds));
+ 	/* Get the kernel ioctl cmd that matches */
+ 	kcmd = dma_heap_ioctl_cmds[nr];
+ 
+-- 
+2.27.0
 
-Please send the follow below,
-
-1)AGE....
-2)TELEPHONE NUMBER,,,,,...
-3)COUNTRY.....
-4)OCCUPATION..
-....
-Thanks.
-
-Ms Lisa Hugh
