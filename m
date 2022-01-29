@@ -2,146 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E2544A30A8
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jan 2022 17:36:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 680FA4A30AB
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jan 2022 17:37:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352711AbiA2QgI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jan 2022 11:36:08 -0500
-Received: from mga18.intel.com ([134.134.136.126]:28556 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229975AbiA2QgH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jan 2022 11:36:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643474167; x=1675010167;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NeN+U8iKMJdDOcMiYQHwhsKC4blyvRV8SKBOfqOcU+4=;
-  b=g3UMNyPMjRQLa4CRSF4wM9kWg+HLuSxbX6gqbcKRbDwwME7YpMxpQh6F
-   zjZDBt13tVbt6uxuTE2Mc5KOQwQDpqTfSX1MZ+ivaPIYf+jYi5e74vYiL
-   FMx5oLE8Vkgw/qjMrI4ZwPVxl8eVImhNXvGRH0s+nOaGQRer+i+9kQbTD
-   LWQbCV2yFAcpkM3OAqDdxfGH+saQj/46ppG1Fgl/SqvkpFrmJ+QGW05AK
-   cOgnqjzm/tY/fxGbrQQGUcvU2Ed7Rof16SZSH4dwXI6V1iNe9QgaYXdUm
-   UALg8wOA2xtMdDQdzNBf+KJw5vNr9TWmw3G4ReEAacG6AjBTRvKnpwui0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10242"; a="230856813"
-X-IronPort-AV: E=Sophos;i="5.88,327,1635231600"; 
-   d="scan'208";a="230856813"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2022 08:36:07 -0800
-X-IronPort-AV: E=Sophos;i="5.88,327,1635231600"; 
-   d="scan'208";a="496431763"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2022 08:36:04 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nDqgm-00FxsL-CB;
-        Sat, 29 Jan 2022 18:35:00 +0200
-Date:   Sat, 29 Jan 2022 18:35:00 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>
+        id S1352738AbiA2Qh0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Jan 2022 11:37:26 -0500
+Received: from relay036.a.hostedemail.com ([64.99.140.36]:34737 "EHLO
+        relay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1352705AbiA2QhZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Jan 2022 11:37:25 -0500
+Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay13.hostedemail.com (Postfix) with ESMTP id 0E75360C6F;
+        Sat, 29 Jan 2022 16:37:12 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id A7ADA3C;
+        Sat, 29 Jan 2022 16:37:00 +0000 (UTC)
+Message-ID: <17bc03b62ebb71ca8d80f0e7ad0c6a7a7ea96d0c.camel@perches.com>
 Subject: Re: [PATCH] staging: media: atomisp: Use BIT macro instead of left
  shifting
-Message-ID: <YfVstOJ38OTtd43n@smile.fi.intel.com>
-References: <20220129113821.324180-1-mosescb.dev@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From:   Joe Perches <joe@perches.com>
+To:     Moses Christopher Bollavarapu <mosescb.dev@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yizhuo <yzhai003@ucr.edu>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Colin Ian King <colin.king@intel.com>,
+        Kaixu Xia <kaixuxia@tencent.com>,
+        Baokun Li <libaokun1@huawei.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Aditya Srivastava <yashsri421@gmail.com>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Alan <alan@linux.intel.com>,
+        Souptick Joarder <jrdr.linux@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Date:   Sat, 29 Jan 2022 08:36:59 -0800
 In-Reply-To: <20220129113821.324180-1-mosescb.dev@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220129113821.324180-1-mosescb.dev@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: f7hho91x7ghyxojz4sfacmj81jcsayi1
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: A7ADA3C
+X-Spam-Status: No, score=-3.39
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/iKUfIN/lCXEcN3DWYYXRCadUaTK5AfDE=
+X-HE-Tag: 1643474220-22022
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jan 29, 2022 at 12:38:04PM +0100, Moses Christopher Bollavarapu wrote:
-
-It's a bit too many people in Cc list (I dropped more than a half in this reply).
-I would suggest to use my script [1] or look into it for a hint how to reduce it.
-
-[1]: https://github.com/andy-shev/home-bin-tools/blob/master/ge2maintainer.sh
-
+On Sat, 2022-01-29 at 12:38 +0100, Moses Christopher Bollavarapu wrote:
 > There is a BIT(nr) macro available in Linux Kernel,
 > which does the same thing.
-
-In some cases it might fix a (theoretical) UB issue.
-
+> 
 > Example: BIT(7) = (1UL << 7)
+[]
+> diff --git a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
+[]
+> @@ -548,7 +548,7 @@ static long __ov5693_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
+>  	 * The way is to write coarse_itg/2 to the reg, meanwhile write 2*hts
+>  	 * to the reg.
+>  	 */
+> -	if (coarse_itg > (1 << 15)) {
+> +	if (coarse_itg > BIT(15)) {
 
-...
+Not all uses of 1 left shift should be converted to BIT
+Especially when used with a non-bit value comparison test.
 
+This is a size and not a bit position so this is likely not appropriate.
+
+It'd probably be better as
+	if (coarse_itg > 0x8000)
+or
+	if (coarse_itg > 32768)
+or
+	if (coarse_itg > SOME_CONSTANT_DEFINE)
+
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+[]
+> @@ -1913,11 +1913,11 @@ void atomisp_css_input_set_mode(struct atomisp_sub_device *asd,
+>  			    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream_config;
+>  		s_config->mode = IA_CSS_INPUT_MODE_TPG;
+>  		s_config->source.tpg.mode = IA_CSS_TPG_MODE_CHECKERBOARD;
+> -		s_config->source.tpg.x_mask = (1 << 4) - 1;
 > +		s_config->source.tpg.x_mask = BIT(4) - 1;
 
-> +		s_config->source.tpg.y_mask = BIT(4) - 1;
+These should probably use GENMASK
 
-> +		s_config->source.tpg.xy_mask = BIT(8) - 1;
-
-For masks you may use GENMASK().
-
-...
-
-> -		irq = irq & 1 << INTR_IIR;
-> +		irq = irq & BIT(INTR_IIR);
-
-It may be:
-
-	irq &= BIT(...);
-
-...
-
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+[]
+> @@ -626,11 +626,11 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
+>  	 * IRQ, if so, waiting for it to be served
+>  	 */
+>  	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
 > -	irq = irq & 1 << INTR_IIR;
 > +	irq = irq & BIT(INTR_IIR);
 
-Ditto.
-
-...
-
-> -		virt += (1 << PAGE_SHIFT);
-> +		virt += BIT(PAGE_SHIFT);
-
-This is weird. Shouldn't be as simple as
-
-	virt += PAGE_SIZE;
-
-?
-
-...
-
->  enum ia_css_sp_sleep_mode {
->  	SP_DISABLE_SLEEP_MODE = 0,
-> -	SP_SLEEP_AFTER_FRAME = 1 << 0,
-> -	SP_SLEEP_AFTER_IRQ = 1 << 1
-> +	SP_SLEEP_AFTER_FRAME  = BIT(0),
-
-> +	SP_SLEEP_AFTER_IRQ    = BIT(1)
-
-While at it, add a comma here.
-
->  };
-
-...
-
-> +	IA_CSS_DEBUG_DUMP_ALL = BIT(14)  /** Dump all device parameters */
-
-Ditto.
-
-...
-
-On top of this don't forget to add
-
-	#include <linux/bits.h>
-
-to the modified header files.
-
--- 
-With Best Regards,
-Andy Shevchenko
+The rest seems sensible.
 
 
