@@ -2,60 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FFA34A3AB5
-	for <lists+linux-media@lfdr.de>; Sun, 30 Jan 2022 23:31:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8FD74A3ADD
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 00:11:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356576AbiA3WbI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Jan 2022 17:31:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48082 "EHLO
+        id S1356803AbiA3XLO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Jan 2022 18:11:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233616AbiA3WbH (ORCPT
+        with ESMTP id S233819AbiA3XLO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Jan 2022 17:31:07 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EB21C061714;
-        Sun, 30 Jan 2022 14:31:06 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id e2so21917461wra.2;
-        Sun, 30 Jan 2022 14:31:06 -0800 (PST)
+        Sun, 30 Jan 2022 18:11:14 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B682BC061714;
+        Sun, 30 Jan 2022 15:11:13 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id u15so21972129wrt.3;
+        Sun, 30 Jan 2022 15:11:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Qfnq3r8dUjy2WwJMiSILTPUFk/Rn2N79sVKgYgCfIA8=;
-        b=CGrLjjxbIwaiJ0QiDWj4HjawyTXS9SUyVIle+XCoCYYseCvw/4WIpZ7H/Cv3AK+w/e
-         iibmB4C3IVTsXAqIv4laompEA61HpuyW07KLJ6iUe9xEd5RYQBHL3mCU1XQO14AuLqK5
-         8kSFAEnJa2ZFr9byADJCHRPK1QcbQDM/8tTGTor0mOH5IkIdUQeXZslCcG7euzESIkxU
-         ZjP/tAsdMCO7UJO3n2MeyC++CbA4jQrDIu1NNo3ZxiDVQUY9o/ebkE2rSVuBGI74jX/r
-         PpMUMa6LUSuaFWXCeQwzv/hIDWHgjHqQD8DuXgwExaF7AwET+/zydvRkKH8pnlzT5ujd
-         u+nw==
+        bh=yIdPqYs8pcB/F7X2IthUrwmWJbc2O1lsmbqHpZXh+GI=;
+        b=XjyGAy2uvlKwAUCs5+9yzRDXlMoY/j1Fhlmo2d66/Vlw6KVNcUKS2FZ/9pvNCr7MZx
+         BlwFU03OlwWLausgmgG7ICtMVATz2iG4/WtA5brbo2hw2/MPEyJ769oW406pMTtU4UF8
+         E4s5KTB2dbJKbAQ1LqCE7f4y7nM3UmC0rq6dL/DXbNI/iK4MEFA1Slbo4KmHrOGE/0S9
+         4wCqVkqsv5VWLK7z7sPBUGpyJdxy0fVOs1rElhZIxtcQaR5uZiJCgk3WrEJ4uVMZzEDQ
+         TqW0PgK3eRH+AnfbYBOGyMM6hGog/VHUbStj6jm2G9hhaNG3qGkjxIynljciYHYtMJlE
+         FY8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Qfnq3r8dUjy2WwJMiSILTPUFk/Rn2N79sVKgYgCfIA8=;
-        b=wuspglm2SojoSW8AUs+dOJwAE6GTt1ydc/TIV8VB1qEKCjZ5SOX733QBcFnjonrOH9
-         /y7JDnyUTx9WrjluNFa7FBngm5Zm/m3dwvxb4Zsqv7bMMj3mIySJfbLszKj+DZai0S1T
-         tD+VKQGf+Ix/+Jllr/BTNhv09FuVr0VFZZEE7I3sSCRnBumVipRk/HeVh0O/Kmv2D9HH
-         rgjRVdvqxDHpB6acts4dRGEhVZBkzZQ8P34Jgtvp4ec/Km89kTB2kGYJldnsf++NXtXx
-         dnXM6wfj4waKvOE0ys2bU0D2XM6OYnszmIWNgei+HQUcd/AgqpPaI8Dc9n2F+6a7uIc8
-         LmRA==
-X-Gm-Message-State: AOAM530eQlosXPGpTPrVlwtdP0CJiaicC/H529pSEGKEOSD+YadhdF8k
-        7Hc4mZPyoXJKkzXYvJLbJBc=
-X-Google-Smtp-Source: ABdhPJztqKfhsF0N16NIMVCPm96w/hpZCjhyrZZ8DoCY7fiG0BGbxtI+3WycgftZRZW5I73lu0DSaQ==
-X-Received: by 2002:adf:aad4:: with SMTP id i20mr15166391wrc.463.1643581865204;
-        Sun, 30 Jan 2022 14:31:05 -0800 (PST)
+        bh=yIdPqYs8pcB/F7X2IthUrwmWJbc2O1lsmbqHpZXh+GI=;
+        b=a6J/txaPTP4BTs+Wie+R+od0nS7jhWQiONlh8OHGgdrT3OyU0JTalt9/trdxDsxa4L
+         wVK1xvRspq/UhUx1bb/ZTwAjflDNmggWrT5Hpsb5M2AU5FQYTahiE0OIP8nUp8zcfBLE
+         mQhO93I8MFrROci9NFGyb5ln6CboqNNo8MocCFE40fSfnVkfKqU6ss8zV47ND0jd7dt0
+         peaH+MbnMvFjQyqowfrdpKzhglqhoeR+dXR2jF41peyMAKX2wTSMGOTQbwsSBig9zQA0
+         0KICPH65D2t6y6MKJ1Rrjq9dsb4ZpmfbOyFVooUT8XVOmeZzBpJIYeglsqLnJNQ6a3sX
+         /Few==
+X-Gm-Message-State: AOAM531a6bpNkeefOWEfRSvLXEUiq3riLTCckZjH0Ly+07y7OTlz5YCG
+        jSdGXHhA42YUOF8F98lv47E=
+X-Google-Smtp-Source: ABdhPJw9oOFK6pyGWIH/2GPlhXou3jJsuUPf6+NVS+34/TUD9G3Tzw+tqYsd85BYIPXisSnWQkiZXQ==
+X-Received: by 2002:adf:f045:: with SMTP id t5mr14744801wro.383.1643584272372;
+        Sun, 30 Jan 2022 15:11:12 -0800 (PST)
 Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id a15sm10089489wrp.41.2022.01.30.14.31.04
+        by smtp.gmail.com with ESMTPSA id p15sm10018366wrq.66.2022.01.30.15.11.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jan 2022 14:31:04 -0800 (PST)
+        Sun, 30 Jan 2022 15:11:11 -0800 (PST)
 From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
+To:     Rick Chang <rick.chang@mediatek.com>,
+        Bin Liu <bin.liu@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
 Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: gspca: remove redundant assignment of variable n
-Date:   Sun, 30 Jan 2022 22:31:03 +0000
-Message-Id: <20220130223103.6754-1-colin.i.king@gmail.com>
+Subject: [PATCH] media: mtk-jpeg: remove redundant initialization of variable plane_fmt
+Date:   Sun, 30 Jan 2022 23:11:11 +0000
+Message-Id: <20220130231111.8563-1-colin.i.king@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -64,27 +67,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The variable n is being assigned a value that is never read, it is
-being reassigned a different value a few statements later. The
-assignment is redundant and can be removed.
+The variable plane_fmt is being initialized with a value that is never
+read, it is being re-assigned a new value on each iteration of a for
+loop. The initialization is redundant and can be removed.
 
 Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/media/usb/gspca/pac7302.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/gspca/pac7302.c b/drivers/media/usb/gspca/pac7302.c
-index 2e8c3ef51ca3..608be0d64f94 100644
---- a/drivers/media/usb/gspca/pac7302.c
-+++ b/drivers/media/usb/gspca/pac7302.c
-@@ -794,7 +794,6 @@ static void sd_pkt_scan(struct gspca_dev *gspca_dev,
- 		n = (sof - data) - (footer_length + sizeof pac_sof_marker);
- 		if (n < 0) {
- 			gspca_dev->image_len += n;
--			n = 0;
- 		} else {
- 			gspca_frame_add(gspca_dev, INTER_PACKET, data, n);
- 		}
+diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+index f332beb06d51..b334bbb2e682 100644
+--- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+@@ -681,7 +681,7 @@ static int mtk_jpeg_buf_prepare(struct vb2_buffer *vb)
+ {
+ 	struct mtk_jpeg_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+ 	struct mtk_jpeg_q_data *q_data = NULL;
+-	struct v4l2_plane_pix_format plane_fmt = {};
++	struct v4l2_plane_pix_format plane_fmt;
+ 	int i;
+ 
+ 	q_data = mtk_jpeg_get_q_data(ctx, vb->vb2_queue->type);
 -- 
 2.34.1
 
