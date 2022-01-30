@@ -2,63 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8FD74A3ADD
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 00:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0E5F4A3AE4
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 00:15:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356803AbiA3XLO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Jan 2022 18:11:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56730 "EHLO
+        id S233993AbiA3XP0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Jan 2022 18:15:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233819AbiA3XLO (ORCPT
+        with ESMTP id S233966AbiA3XPX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Jan 2022 18:11:14 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B682BC061714;
-        Sun, 30 Jan 2022 15:11:13 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id u15so21972129wrt.3;
-        Sun, 30 Jan 2022 15:11:13 -0800 (PST)
+        Sun, 30 Jan 2022 18:15:23 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70350C061714;
+        Sun, 30 Jan 2022 15:15:23 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id a13so21955121wrh.9;
+        Sun, 30 Jan 2022 15:15:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=yIdPqYs8pcB/F7X2IthUrwmWJbc2O1lsmbqHpZXh+GI=;
-        b=XjyGAy2uvlKwAUCs5+9yzRDXlMoY/j1Fhlmo2d66/Vlw6KVNcUKS2FZ/9pvNCr7MZx
-         BlwFU03OlwWLausgmgG7ICtMVATz2iG4/WtA5brbo2hw2/MPEyJ769oW406pMTtU4UF8
-         E4s5KTB2dbJKbAQ1LqCE7f4y7nM3UmC0rq6dL/DXbNI/iK4MEFA1Slbo4KmHrOGE/0S9
-         4wCqVkqsv5VWLK7z7sPBUGpyJdxy0fVOs1rElhZIxtcQaR5uZiJCgk3WrEJ4uVMZzEDQ
-         TqW0PgK3eRH+AnfbYBOGyMM6hGog/VHUbStj6jm2G9hhaNG3qGkjxIynljciYHYtMJlE
-         FY8w==
+        bh=HQzOpjN4jpynU13c99nks/ZsXDYZn3CGAw5YdJAL/50=;
+        b=G22ikONgvyleMpBATP4ER6XpwoglCzlAaOsHMPEHY4q2tzIQFYZpjWtB5OFVPFPzh8
+         KR4QxGZ5WWdxDhkGWf8lMcbLUXIWRd6mEYzFpEneYIte7rw/WT29ENxQ8LW0+q0vEGqB
+         G8Jej4Ao5o4HYcScuur+iI3dyE7ApK+pwAWsJiBJcq2an8SmVwFghRmsZo6g/qHGQw3E
+         Xi8l19XRinATB+duyRMdzRot08AZ6Fb5ubeEZI0ZLPrCycF3WA36Wr5vGPT3wMyqvOX7
+         oGW3JUfPs/2qFCfulo5kspeKmhnCrsQNrDS8HkRbKy/yBBeI17vx9CzQPmd+9k8Vjb5G
+         vFLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=yIdPqYs8pcB/F7X2IthUrwmWJbc2O1lsmbqHpZXh+GI=;
-        b=a6J/txaPTP4BTs+Wie+R+od0nS7jhWQiONlh8OHGgdrT3OyU0JTalt9/trdxDsxa4L
-         wVK1xvRspq/UhUx1bb/ZTwAjflDNmggWrT5Hpsb5M2AU5FQYTahiE0OIP8nUp8zcfBLE
-         mQhO93I8MFrROci9NFGyb5ln6CboqNNo8MocCFE40fSfnVkfKqU6ss8zV47ND0jd7dt0
-         peaH+MbnMvFjQyqowfrdpKzhglqhoeR+dXR2jF41peyMAKX2wTSMGOTQbwsSBig9zQA0
-         0KICPH65D2t6y6MKJ1Rrjq9dsb4ZpmfbOyFVooUT8XVOmeZzBpJIYeglsqLnJNQ6a3sX
-         /Few==
-X-Gm-Message-State: AOAM531a6bpNkeefOWEfRSvLXEUiq3riLTCckZjH0Ly+07y7OTlz5YCG
-        jSdGXHhA42YUOF8F98lv47E=
-X-Google-Smtp-Source: ABdhPJw9oOFK6pyGWIH/2GPlhXou3jJsuUPf6+NVS+34/TUD9G3Tzw+tqYsd85BYIPXisSnWQkiZXQ==
-X-Received: by 2002:adf:f045:: with SMTP id t5mr14744801wro.383.1643584272372;
-        Sun, 30 Jan 2022 15:11:12 -0800 (PST)
+        bh=HQzOpjN4jpynU13c99nks/ZsXDYZn3CGAw5YdJAL/50=;
+        b=IuLi8pMF6oEEG6v5eLNYskHBk2mZHXQEBffaqQx8mCjg7di3XRS3tVSeIjbiooilqI
+         k4I/mybk3vHdrs5uB/wKGQsc+XC4kkQdm/9wz+cYbrBiJMJHhx3mVUOz5fLPQHYaukik
+         hOCK5Kf570Xt7DUNFE7YlMZkn2m4gODQ4a4Hkjjzo8Nlk3IET1UiQsZu1VF7wZuQTLPX
+         Qo9OtLDLVb/9Vt/UeeBc3+Mxk6YyZRaOcP6jsCMy8e/C8EGvR++qpxPmMt/TiguR/sby
+         NJ2Iz1D190g/Nf6ucMCQdIGb8FNrE8oi1136uz8PhZYx25KMGXMRE7G2iQOcXkjBWrXN
+         FXCw==
+X-Gm-Message-State: AOAM531E5hYLoRTtA7f+8euzCHm7OZ8hUTEvdTQO4t8lRCCeOULoOWdJ
+        nKtIgnujPA7YMcJGGI22qds=
+X-Google-Smtp-Source: ABdhPJz4t5PWEY7rzyZ8lAe1gm5TbbOpIDWuK3JLRzkWTP957SBb9P+Q9hpAXxWC3Odf0/HECyJJ2Q==
+X-Received: by 2002:adf:f9c9:: with SMTP id w9mr14736464wrr.15.1643584521962;
+        Sun, 30 Jan 2022 15:15:21 -0800 (PST)
 Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id p15sm10018366wrq.66.2022.01.30.15.11.11
+        by smtp.gmail.com with ESMTPSA id p8sm11079205wrr.16.2022.01.30.15.15.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jan 2022 15:11:11 -0800 (PST)
+        Sun, 30 Jan 2022 15:15:21 -0800 (PST)
 From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Rick Chang <rick.chang@mediatek.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
 Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: mtk-jpeg: remove redundant initialization of variable plane_fmt
-Date:   Sun, 30 Jan 2022 23:11:11 +0000
-Message-Id: <20220130231111.8563-1-colin.i.king@gmail.com>
+Subject: [PATCH] media: saa7134: remove redundant assignment to variable id
+Date:   Sun, 30 Jan 2022 23:15:20 +0000
+Message-Id: <20220130231520.8800-1-colin.i.king@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -67,28 +64,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The variable plane_fmt is being initialized with a value that is never
-read, it is being re-assigned a new value on each iteration of a for
-loop. The initialization is redundant and can be removed.
+Variable id is being assigned a value that is never read. The
+assignment is redundant and can be removed.
 
 Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/pci/saa7134/saa7134-video.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-index f332beb06d51..b334bbb2e682 100644
---- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-@@ -681,7 +681,7 @@ static int mtk_jpeg_buf_prepare(struct vb2_buffer *vb)
- {
- 	struct mtk_jpeg_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
- 	struct mtk_jpeg_q_data *q_data = NULL;
--	struct v4l2_plane_pix_format plane_fmt = {};
-+	struct v4l2_plane_pix_format plane_fmt;
- 	int i;
+diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
+index 7bc4c7709f4d..48543ad3d595 100644
+--- a/drivers/media/pci/saa7134/saa7134-video.c
++++ b/drivers/media/pci/saa7134/saa7134-video.c
+@@ -1535,8 +1535,6 @@ int saa7134_s_std(struct file *file, void *priv, v4l2_std_id id)
+ 			return -EINVAL;
+ 	}
  
- 	q_data = mtk_jpeg_get_q_data(ctx, vb->vb2_queue->type);
+-	id = tvnorms[i].id;
+-
+ 	if (!is_empress(file) && fh == dev->overlay_owner) {
+ 		spin_lock_irqsave(&dev->slock, flags);
+ 		stop_preview(dev);
 -- 
 2.34.1
 
