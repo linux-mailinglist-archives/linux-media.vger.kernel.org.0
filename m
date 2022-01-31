@@ -2,121 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D38F4A494F
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 15:29:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2CE84A4957
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 15:32:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236123AbiAaO3H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jan 2022 09:29:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36728 "EHLO
+        id S236812AbiAaOcF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jan 2022 09:32:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234840AbiAaO3G (ORCPT
+        with ESMTP id S234026AbiAaOcE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jan 2022 09:29:06 -0500
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDEBAC061714
-        for <linux-media@vger.kernel.org>; Mon, 31 Jan 2022 06:29:06 -0800 (PST)
-Received: by mail-qk1-x72a.google.com with SMTP id o12so12151105qke.5
-        for <linux-media@vger.kernel.org>; Mon, 31 Jan 2022 06:29:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=EJDdBaZCJYnGSSHu5glZ7ZbWH/ryTD9xMdaecF2NgSY=;
-        b=XahVcL8Ld98cmF6RcHTWC2zR+O4NcJaaNoNukzknBpKGDfsE2S+Lo40JnKuJcBP1Ls
-         JKyfCrvwv+Vl8+j+Qy2SZPGJ4xBJ05HyWTtRABpY3nu8KHGisVqJ4O8eHa0+YL3nHhcp
-         w28fl+iJMILvF+cW9lsZdFAfSEWRZvi74X/0yURFllkESg/QLqRT0/AooYWmY696SH7X
-         MUfC9VSCQU/DlN029YbmJDxzK5QgGvWE5a3kH7scYbtI7l8lh5bNkvos7u4XD8cgvL7n
-         sn9W3QqocNVO/lDIn5b50OjREAfdhtMLP6Z7LTeTNnyWveqPWNdQkyJVyuyKpiuI+Aoi
-         72jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=EJDdBaZCJYnGSSHu5glZ7ZbWH/ryTD9xMdaecF2NgSY=;
-        b=Gcwspb7W5vpVvhAY5SyXWc3ZLtvswQ0isvuxDZrOsBeL+SJr1qyWG/A62lYNaXjneu
-         +nvdchGImyyKbz+h7WpG0UmiXDAFEJSBhdWcb5oSXDlpa6s4jDwWK1Q9dqYEDYXjjF9r
-         6egOTMxqeh63tHirw7oKfa/O2jBJ71F3tGIcO7KBeqpDSdRQeuGws4FZZrqxOcuycLUf
-         8ZCehRijiLy+hD9DlJTA1uATk1nEEbGDWVPMoSiVBmZjWrvenp/HGMODTSPYvNRYjd7e
-         nBZBg/9JKRvLOp3GRs/SGqjPUTBdhJx3yYxJJpYNZlz5d1H0DvgQMa915cxC43y0jszc
-         IUuQ==
-X-Gm-Message-State: AOAM530OP/4EpbFEgQnr/C2TTNUb2ZygqSXhpR3pnS4dOSdSEgl6jMrm
-        YNiNWyk4jPgen6Hl8XIMpteMBA==
-X-Google-Smtp-Source: ABdhPJzMTTLBhN++GA1x4qwul7iQLmUiGpX/urDmEGYiLbJoQH1uyFpaZN+6Y1twwxpHYk8sfV//mA==
-X-Received: by 2002:a37:9b96:: with SMTP id d144mr13115527qke.164.1643639345360;
-        Mon, 31 Jan 2022 06:29:05 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id 18sm7865382qka.126.2022.01.31.06.29.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jan 2022 06:29:04 -0800 (PST)
-Message-ID: <3fd135621147ae938c357931579ec1110c935afa.camel@ndufresne.ca>
-Subject: Re: hantro: g2: Does the postprocessor needs 32byte aligned width ?
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     "jernej.skrabec" <jernej.skrabec@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        kernel <kernel@collabora.com>, Chris Healy <cphealy@gmail.com>
-Date:   Mon, 31 Jan 2022 09:29:03 -0500
-In-Reply-To: <CAHCN7xKxyZGoQdQ=6uOHpd4COV2CV5b=bbCAhv5cyQCspPf8QQ@mail.gmail.com>
-References: <c86506596c9126da6f2df02eb6680759064774f2.camel@ndufresne.ca>
-         <CAHCN7xKxyZGoQdQ=6uOHpd4COV2CV5b=bbCAhv5cyQCspPf8QQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+        Mon, 31 Jan 2022 09:32:04 -0500
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06673C061714
+        for <linux-media@vger.kernel.org>; Mon, 31 Jan 2022 06:32:03 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 810C4FF811;
+        Mon, 31 Jan 2022 14:31:58 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
+        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
+        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        aford173@gmail.com, festevam@gmail.com,
+        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH 00/17] media: ov5640: Rework the clock tree programming for MIPI
+Date:   Mon, 31 Jan 2022 15:32:24 +0100
+Message-Id: <20220131143245.128089-1-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.35.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 28 janvier 2022 à 12:43 -0600, Adam Ford a écrit :
-> On Fri, Jan 28, 2022 at 12:35 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
-> > 
-> > Hi Adam,
-> > 
-> > Jernej and I had to deal with user report which show a stride issue with the G2
-> > on Allwinner H6.
-> > 
-> > https://forum.libreelec.tv/thread/17565-nightly-images-for-a64-h3-h5-h6-and-r40-boards/?postID=166086#post166086
-> > 
-> > We quickly found that the stride alignment set to 16 needs to be 32. Though we
-> > noticed that this is only needed when using the G2 postprocessor (NV12), while
-> > it worked fine with tiles (NV12_4L4).
-> 
-> Out of curiosity, would it hurt to make the G2 alignment to be 32 even
-> if it's not required?
+Heya
+   this series changes the way the ov5640 clock tree is programmed and moves the
+driver to control frame rate by changing the vertical blanking when used in MIPI
+mode.
 
-Aligning tile to 32 can be complex, I don't think the code is ready to handle
-padded tiled buffers. About the post-prob, I'd like to first understand why is
-this.
+A bit of background:
+The OV5640 is -everywhere-. After a long long time since it has been put on the
+market it still is one of the most common sensors found in EVKs from several
+several vendors. Touching it is scary, it will likely make a lot of people
+complain as there are a lot of active users out there.
 
-> 
-> > 
-> > We were wondering if you, or anyone here on the list could test this on IMX8MQ
-> > and IMX8MM. We'd like know if this is specific to the older G2 on H6. To trigger
-> > this, you need a video with a resolution like 1552x1080 as used in the report.
-> > We can help you get one if needed.
-> 
-> If you have a video you want me to try and instructions on how you
-> want me to test it, I can give it a shot. The imx8mm doesn't have a
-> video display driver yet, but I think the imx8mq does.  I am not as
-> familiar with that board as I am with the 8mm.  The testing I have
-> done to date has only been done with fluster.
+The current driver implementation as it is barely works at least here. Testing
+in UYVY mode I can only capture in 1080p from the few tests I've run. Other
+resolutions do not work or have a completely off frame rate.
 
-If you have fluster/gstreamer ready, and some display, I suppose you can try and
-kmssink (worked for me with the vendor display driver). To get the same video,
-you can probably download temporarily that youtube video with youtube-dl,
-careful not to share the file, this is copyrighted content, but it ease testing
-and debugging, so I suspect it falls in fair use (INAL). 
+The current implementation operates in the following way:
 
-youtube-dl -f 248 https://www.youtube.com/watch?v=TUVcZfQe-Kw
-gst-launch-1.0 filesrc location="Dua Lipa - Levitating Featuring DaBaby (Official Music Video)-TUVcZfQe-Kw.webm" ! parsebin ! v4l2slvp9dec ! videoconvert ! kmssink
+- it allows to control frame rate through the s_frame_interval operation
+- fixes a set of frame rates supported by each mode (15, 30 or 60FPS)
+- tries to adjust the pixel rate to comply with the configured frame rate
+  and capture resolution
 
-regards,
-Nicolas
+The idea is then to fix the frame size (visible and blanking) and compute
+the pixel rate dynamically and adjust the clock tree accordingly.
 
-> 
-> adam
-> 
-> > 
-> > regards,
-> > Nicolas
+As it was hard to obtain correct operations in that way, and that frame rates
+were fixed to only a few of the achievable ones I have decided to flip the table
+and move to an opposite model:
 
+- Set a fixed pixel clock per each supported mode according to the indications
+  reported in the chip manual
+- Program the clock tree according to the above pixel rate
+- Adjust the frame rate by controlling the frame vertical blankings
+
+With this new configuration I can capture in all the sensor supported modes in
+YUYV, RGB565, RGB888 and SBGGR modes with the following limitations:
+
+- 16bpp modes works in all resolutions
+- RAW 8bpp mode works for high resolutions from 1280x720 up
+- RGB888 mode works for low resolutions up to 1280x720
+
+The blankings for each mode have been adjusted to work by default at 30FPS
+in YUYV/RGB565 mode, and can be adjusted to precisely obtain the desired frame
+rate. Unfortunately the minimum blanking values are not documented so shrinking
+them too much might hinder capture operations.
+
+I tested the series on both i.MX6Q and i.MX8MP and I get the same results on
+both platforms.
+
+There remain two issues:
+
+- RGB888 colors are off, both on imx6 and imx8. I tested all the RGB color
+  permutations the chip can perform and I am not able to get the color
+  ordering "right". It might be due to how I perform decoding or to a bug in
+  the sensor manual.
+
+- I was not able to test JPEG, which I would like to support next. If anyone
+  has been able to test JPEG capture in the past and would like to share it's
+  setup I would be very glad.
+
+Are we there yet ? No, I don't think so. My main concern at the moment is that
+this sensor supports -a lot- of different formats, and the pixel rates I
+have fixed are compromises to a have all formats working. In example, for
+640x480 I could have gone for 96MHz instead of 48. This would allow to
+push the sensor up to 60FPS per second in YUYV/RGB565 mode, but would break
+capturing in RGB888 mode, for which 96Mhz @24bpp is too high as a pixel rate.
+-Ideally-  userspace should be able to select the pixel rate which is
+ideal for the mode currently in use. The PIXEL_RATE control is however marked
+as READ_ONLY by the framework, and the only alternative I'm left with is to
+create per-mode pixel rates but this would make the driver a lot mode
+complicated... Ideas ?
+
+The series changes the clock tree programming for MIPI only. I have not tried
+to maintain the current behaviour for parallel mode which, as far as I'm aware,
+works correctly. As I cannot test parallel, I would really appreciate a
+confirmation I have not broken parallel mode :)
+
+Ah, v4l2-compliance seems happy too:
+Total for device /dev/v4l-subdev3: 43, Succeeded: 43, Failed: 0, Warnings: 0
+
+Thanks
+   j
+
+Jacopo Mondi (21):
+  media: ov5640: Add pixel rate to modes
+  media: ov5604: Re-arrange modes definition
+  media: ov5640: Add is_mipi() function
+  media: ov5640: Associate bpp with formats
+  media: ov5640: Update pixel_rate and link_freq
+  media: ov5640: Rework CSI-2 clock tree
+  media: ov5640: Rework timings programming
+  media: ov5640: Re-sort per-mode register tables
+  media: ov5640: Remove ov5640_mode_init_data
+  media: ov5640: Add HBLANK control
+  media: ov5640: Add VBLANK control
+  media: ov5640: Fix durations to comply with FPS
+  media: ov5640: Initialize try format
+  media: ov5640: Implement get_selection
+  media: ov5640: Limit format to FPS in DVP mode only
+  media: ov5640: Disable s_frame_interval in MIPI mode
+  media: ov5640: Register device properties
+  media: ov5640: Add RGB565_1X16 format
+  media: ov5640: Add RGB888/BGR888 formats
+  media: ov5640: Restrict sizes to mbus code
+  media: ov5640: Adjust format to bpp in s_fmt
+
+ drivers/media/i2c/ov5640.c | 1063 ++++++++++++++++++++++++++----------
+ 1 file changed, 778 insertions(+), 285 deletions(-)
+
+--
+2.35.0
