@@ -2,174 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B73C64A4A94
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 16:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9318C4A4B29
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 17:01:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379622AbiAaPbd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jan 2022 10:31:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50926 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379587AbiAaPbT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jan 2022 10:31:19 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7DAEC06173E
-        for <linux-media@vger.kernel.org>; Mon, 31 Jan 2022 07:31:18 -0800 (PST)
-Received: from [IPv6:2a00:c281:1137:e00:60e7:5304:2903:88eb] (unknown [IPv6:2a00:c281:1137:e00:60e7:5304:2903:88eb])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3370B1F43517;
-        Mon, 31 Jan 2022 15:31:16 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1643643077;
-        bh=SoUeB3/dzGLUDXB0VJzIg/VUFpvVhHer6Xa+zvn4vn0=;
-        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
-        b=IEZj+GnGCI5UyoBj6nkYraMwAPl33C+8XWtsBTpoygZyW+d8gdJnJ5+FEGsRyjAcd
-         +t1ug14HLu1rjYhFxizgr8Kt/MsNfdplrpYkjtWe7z9kOnpWdI9JYwAu0ZQYtlGwdm
-         El2rFpdJX3muG4YDOL1BYDHGkNoirkld2/UZySK8aZMGPSCNiht3u4nYiVglaTxN1N
-         30ySNCAYIDAk22fX4JgMOhizNV6ErYi9LHsK/I8TA6QR5Q2sxPnN65BLY/JtSM5Hwy
-         l2apl8WcWcTi2Xs8pAwrNSvc6a+yIU7OWLzvdW3cTX68ynvONswuvvzcjmVnIbJvGh
-         koIBniOIldMjA==
-Subject: Re: [PATCH v2] media: rkisp1: fix grey format iommu page faults
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, mchehab@kernel.org
-References: <20211207115923.13639-1-dafna.hirschfeld@collabora.com>
- <164241927947.10801.12217816997308426483@Monstersaurus>
- <1f8350f4-a2dc-5405-b48b-e657124f119d@collabora.com>
- <Ye1nFVYP8/GS6UBC@pendragon.ideasonboard.com>
- <e1acdb99-759d-6efe-ec5e-c07f2cd81cda@collabora.com>
- <efb77bbf-6b04-6d37-1555-363d8c6e1cf6@collabora.com>
-Message-ID: <3b687e83-cdf8-8e10-0d41-a623eacafdb3@collabora.com>
-Date:   Mon, 31 Jan 2022 17:31:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S1349518AbiAaQBm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jan 2022 11:01:42 -0500
+Received: from mga01.intel.com ([192.55.52.88]:11219 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231828AbiAaQBm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 31 Jan 2022 11:01:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643644902; x=1675180902;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TicKd4P+h5PhqRQkwsLkviKMfF72vF63G9NpY9Gv5HY=;
+  b=iaKTjOqqndvNIsW/QkUAm9MLYiad1xRGzEyC1DdIQACiC30iacoQ7vth
+   zD1uLiBbp2OlI5MIFdzGrndKKBmp978gmutRnEv5B/EZOgzCe/SBePHm0
+   eDNdvbcCUXKWPoO02xFIQUYYvs8cAhjjHtWjQQQB+MV+KymuG8aasQJF5
+   bKSrOZ1bWfh4H1HLZ/bl1HfjDbIPUCPaSstBie5Ca1VkOn707/uRbKsGM
+   MsKVIeoNBx8kOMpOyYuLs42PlwtbMHyC7SiDD6CMmdUarQAbT1me4MFU6
+   WSFNTO2+Uf+xveJodTo8E72Fwk+Et3CoGF/tMoLhUPzCWr1kpAIF6OfEY
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="271957012"
+X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
+   d="scan'208";a="271957012"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 08:01:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
+   d="scan'208";a="565164185"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 31 Jan 2022 08:01:37 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nEZ7Z-000S7H-B4; Mon, 31 Jan 2022 16:01:37 +0000
+Date:   Tue, 1 Feb 2022 00:00:58 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Daniel Scally <djrscally@gmail.com>, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org
+Cc:     kbuild-all@lists.01.org, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com, hanlinchen@chromium.org,
+        tfiga@chromium.org, hdegoede@redhat.com,
+        kieran.bingham@ideasonboard.com, hpa@redhat.com
+Subject: Re: [PATCH v2 5/6] media: entity: Add support for ancillary links
+Message-ID: <202201312326.TkliJ318-lkp@intel.com>
+References: <20220130235821.48076-6-djrscally@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <efb77bbf-6b04-6d37-1555-363d8c6e1cf6@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220130235821.48076-6-djrscally@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Daniel,
 
+I love your patch! Perhaps something to improve:
 
-On 23.01.22 18:55, Dafna Hirschfeld wrote:
-> 
-> 
-> On 23.01.22 18:31, Dafna Hirschfeld wrote:
->>
->>
->> On 23.01.22 16:32, Laurent Pinchart wrote:
->>> Hi Dafna,
->>>
->>> On Sun, Jan 23, 2022 at 11:50:26AM +0200, Dafna Hirschfeld wrote:
->>>> On 17.01.22 13:34, Kieran Bingham wrote:
->>>>> Quoting Dafna Hirschfeld (2021-12-07 11:59:23)
->>>>>> Currently capturing grey format produces page faults
->>>>>> on both selfpath and mainpath. To support greyscale
->>>>>> we can capture YUV422 planar format and configure the U, V
->>>>>> buffers to the dummy buffer.
->>>>>>
->>>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>>>> ---
->>>>>> This is v2 of the patch "media: rkisp1: remove support for V4L2_PIX_FMT_GREY"
->>>>>> In v1 I removed the grey format. In this version it is 'fixed'
->>>>>>
->>>>>>    .../platform/rockchip/rkisp1/rkisp1-capture.c | 28 ++++++++++++++-----
->>>>>>    1 file changed, 21 insertions(+), 7 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->>>>>> index 768987d5f2dd..8e982dd0c740 100644
->>>>>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->>>>>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->>>>>> @@ -249,7 +249,7 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
->>>>>>                   .fourcc = V4L2_PIX_FMT_GREY,
->>>>>>                   .uv_swap = 0,
->>>>>>                   .write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
->>>>>> -               .output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV400,
->>>>>> +               .output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
->>>>>>                   .mbus = MEDIA_BUS_FMT_YUYV8_2X8,
->>>>>>           },
->>>>>>           /* rgb */
->>>>>> @@ -631,12 +631,26 @@ static void rkisp1_set_next_buf(struct rkisp1_capture *cap)
->>>>>>                   rkisp1_write(cap->rkisp1,
->>>>>>                                buff_addr[RKISP1_PLANE_Y],
->>>>>>                                cap->config->mi.y_base_ad_init);
->>>>>> -               rkisp1_write(cap->rkisp1,
->>>>>> -                            buff_addr[RKISP1_PLANE_CB],
->>>>>> -                            cap->config->mi.cb_base_ad_init);
->>>>>> -               rkisp1_write(cap->rkisp1,
->>>>>> -                            buff_addr[RKISP1_PLANE_CR],
->>>>>> -                            cap->config->mi.cr_base_ad_init);
->>>>>> +               /*
->>>>>> +                * In order to support grey format we capture
->>>>>> +                * YUV422 planar format from the camera and
->>>>>> +                * set the U and V planes to the dummy buffer
->>>>>> +                */
->>>>>> +               if (cap->pix.cfg->fourcc == V4L2_PIX_FMT_GREY) {
->>>>>> +                       rkisp1_write(cap->rkisp1,
->>>>>> +                                    cap->buf.dummy.dma_addr,
->>>>>> +                                    cap->config->mi.cb_base_ad_init);
->>>>>> +                       rkisp1_write(cap->rkisp1,
->>>>>> +                                    cap->buf.dummy.dma_addr,
->>>>>> +                                    cap->config->mi.cr_base_ad_init);
->>>>>> +               } else {
->>>>>> +                       rkisp1_write(cap->rkisp1,
->>>>>> +                                    buff_addr[RKISP1_PLANE_CB],
->>>>>> +                                    cap->config->mi.cb_base_ad_init);
->>>>>> +                       rkisp1_write(cap->rkisp1,
->>>>>> +                                    buff_addr[RKISP1_PLANE_CR],
->>>>>> +                                    cap->config->mi.cr_base_ad_init);
->>>>>> +               }
->>>>>>           } else {
->>>>>
->>>>> Looking at this function, I think I would have initialised a local array
->>>>> of addresses (either to zero, or to the dummy address?) to then set
->>>>> values when appropriate, and reduce the number of calls to
->>>>> rkisp1_write() to a single set of three after the processing.
->>>>>
->>>>> It might make the function simpler, and more readable, but it's more
->>>>> effort, and this does look like it will solve the greyscale format issue
->>>>> as discussed in earlier threads so I'd leave it up to you if you want to
->>>>> refactor.
->>>>
->>>> Hi,
->>>> Yes, I'll do that.
->>>> Interestingly I found out that the patch causing the iommu page fault is
->>>>
->>>> https://www.spinics.net/lists/linux-media/msg176089.html
->>>>
->>>> Before that patch there are no iommu page faults but the video is corrupted.
->>>>
->>>> I can't explain how I didn't find it before, I clearly remember testing the grey format.
->>>
->>> It seems really weird indeed.
->>>
->>> Are you getting IOMMU faults on both the main and self paths ?
->>
->> Yes, both pathes. I get the page faults when checking out to this commit.
->> Maybe when I tested back then, the iommu was somehow disabled?
-> 
-> I see now that it works "fine" if CONFIG_ROCKCHIP_IOMMU is turned off, so
-> it might be that I tested without iommu, though it is set in arch/arm64/configs/defconfig
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on v5.17-rc2 next-20220131]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-I have a script that iterates all supported formats and stream them.
-I see that when running the script, streaming gray format succeed, but when
-testing grey format alone I get those page faults. I guess somehow buffers happen
-to be mapped when running the script so it misses the faults.
+url:    https://github.com/0day-ci/linux/commits/Daniel-Scally/Introduce-ancillary-links/20220131-080041
+base:   git://linuxtv.org/media_tree.git master
+reproduce: make htmldocs
 
-> 
->>
->>>
->>>>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->>>>>
->>>>>>                   /*
->>>>>>                    * Use the dummy space allocated by dma_alloc_coherent to
->>>
->>
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> include/media/media-entity.h:1126: warning: expecting prototype for media_entity_call(). Prototype was for media_create_ancillary_link() instead
+
+vim +1126 include/media/media-entity.h
+
+  1094	
+  1095	/**
+  1096	 * media_entity_call - Calls a struct media_entity_operations operation on
+  1097	 *	an entity
+  1098	 *
+  1099	 * @entity: entity where the @operation will be called
+  1100	 * @operation: type of the operation. Should be the name of a member of
+  1101	 *	struct &media_entity_operations.
+  1102	 *
+  1103	 * This helper function will check if @operation is not %NULL. On such case,
+  1104	 * it will issue a call to @operation\(@entity, @args\).
+  1105	 */
+  1106	
+  1107	/**
+  1108	 * media_create_ancillary_link() - create an ancillary link between two
+  1109	 *				   instances of &media_entity
+  1110	 *
+  1111	 * @primary:	pointer to the primary &media_entity
+  1112	 * @ancillary:	pointer to the ancillary &media_entity
+  1113	 *
+  1114	 * Create an ancillary link between two entities, indicating that they
+  1115	 * represent two connected pieces of hardware that form a single logical unit.
+  1116	 * A typical example is a camera lens being linked to the sensor that it is
+  1117	 * supporting.
+  1118	 *
+  1119	 * The function sets both MEDIA_LNK_FL_ENABLED and MEDIA_LNK_FL_IMMUTABLE for
+  1120	 * the new link. This behaviour may be subject to change in the future, so
+  1121	 * userspace applications using ancillary links should ensure that ancillary
+  1122	 * links are enabled when in use.
+  1123	 */
+  1124	struct media_link *
+  1125	media_create_ancillary_link(struct media_entity *primary,
+> 1126				    struct media_entity *ancillary);
+  1127	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
