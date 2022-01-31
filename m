@@ -2,231 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 000984A3F85
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 10:48:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C3AE4A4000
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 11:20:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239292AbiAaJsF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jan 2022 04:48:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54632 "EHLO
+        id S1358081AbiAaKUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jan 2022 05:20:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232052AbiAaJsE (ORCPT
+        with ESMTP id S1348432AbiAaKUY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jan 2022 04:48:04 -0500
+        Mon, 31 Jan 2022 05:20:24 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD06BC061714;
-        Mon, 31 Jan 2022 01:48:04 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F1D0C061714;
+        Mon, 31 Jan 2022 02:20:24 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3E12061345;
-        Mon, 31 Jan 2022 09:48:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7552DC340E8;
-        Mon, 31 Jan 2022 09:47:57 +0000 (UTC)
-Message-ID: <79fbb665-25b4-9b54-7bf6-2caa69e10778@xs4all.nl>
-Date:   Mon, 31 Jan 2022 10:47:55 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CBA3761363;
+        Mon, 31 Jan 2022 10:20:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E24C340E8;
+        Mon, 31 Jan 2022 10:20:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643624423;
+        bh=3FvrwIVyIouUVvMJY8LZ5TVwk/lR4V0MKYC+KqrJ+kI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b0xlS4YrpJ3Vgc9idqkgKGGjX9wev/5R4y/UjXEOFbxutTMyYxOq6TgtyC0WT18xE
+         Uo94rf2TZKDhOJR3an+0gBMPYIzsNe/XbZ0apYWFyaofsT8ncT/E1AkZQTOiB1E5UP
+         rpeEd9xtiASUFZRllfSpwBMJbGJvnLGWEUQmO/bxZMfWav7qm5C5WtWq0rf/2+T2dK
+         xlY40sbr5kFKuSD77j/aSc13UPHp4PU3FxAGVvWlg0NVoSylXZrsUhog88+LpFbbGF
+         nrsTPTUfETH3uH0pSPrq9n78u4/v322lQYV2bNg84jretTeWT+yo5YyNVTKCApReHM
+         E0iU+s1qo+j6A==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1nETn6-0002DQ-7P; Mon, 31 Jan 2022 11:20:08 +0100
+Date:   Mon, 31 Jan 2022 11:20:08 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH 2/4] media: davinci: vpif: fix unbalanced runtime PM
+ enable
+Message-ID: <Yfe32PGiFNYvr2hh@hovoldconsulting.com>
+References: <20211222142025.30364-1-johan@kernel.org>
+ <20211222142025.30364-3-johan@kernel.org>
+ <CA+V-a8thJtWjL+2-TNdbZTe=hKCVYz2vwAL-uCNeW+-TmVKPVg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v10 00/13] Clean up "mediatek,larb"
-Content-Language: en-US
-To:     Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <jroedel@suse.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        David Airlie <airlied@linux.ie>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Evan Green <evgreen@chromium.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Will Deacon <will.deacon@arm.com>,
-        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
-        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
-        yi.kuo@mediatek.com, acourbot@chromium.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Eizan Miyamoto <eizan@chromium.org>,
-        anthony.huang@mediatek.com,
-        Frank Wunderlich <frank-w@public-files.de>,
-        mingyuan.ma@mediatek.com, yf.wang@mediatek.com,
-        libo.kang@mediatek.com
-References: <20220117070510.17642-1-yong.wu@mediatek.com>
- <06e5e76c-557a-20a5-b8dd-37b25b3384a3@collabora.com>
- <c8fc24a2-9ee3-75a2-0928-95a217d9dfdf@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <c8fc24a2-9ee3-75a2-0928-95a217d9dfdf@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8thJtWjL+2-TNdbZTe=hKCVYz2vwAL-uCNeW+-TmVKPVg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Lad,
 
+and sorry about the late reply.
 
-On 1/17/22 12:49, Matthias Brugger wrote:
+On Tue, Jan 04, 2022 at 06:11:08PM +0000, Lad, Prabhakar wrote:
+> Hi Johan,
 > 
+> Thank you for the patch.
 > 
-> On 17/01/2022 11:27, AngeloGioacchino Del Regno wrote:
->> Il 17/01/22 08:04, Yong Wu ha scritto:
->>> MediaTek IOMMU block diagram always like below:
->>>
->>>          M4U
->>>           |
->>>      smi-common
->>>           |
->>>    -------------
->>>    |         |  ...
->>>    |         |
->>> larb1     larb2
->>>    |         |
->>> vdec       venc
->>>
->>> All the consumer connect with smi-larb, then connect with smi-common.
->>>
->>> When the consumer works, it should enable the smi-larb's power which also
->>> need enable the smi-common's power firstly.
->>>
->>> Thus, Firstly, use the device link connect the consumer and the
->>> smi-larbs. then add device link between the smi-larb and smi-common.
->>>
->>> After adding the device_link, then "mediatek,larb" property can be removed.
->>> the iommu consumer don't need call the mtk_smi_larb_get/put to enable
->>> the power and clock of smi-larb and smi-common.
->>>
->>> Base on the media branch [1] and a jpeg dtbinding patchset[2] that already got
->>> the necessary R-b.
->>>
->>> [1] git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18d
->>> [2] https://lore.kernel.org/linux-mediatek/20211206130425.184420-1-hsinyi@chromium.org/
->>>
->>> Change notes:
->>> v10: a) Rebase on the media tree. Respin the "media: mtk-vcodec:" patches.
->>>       b) Add Joerg's Ack for iommu patches.
->>>
->>> v9: https://lore.kernel.org/linux-mediatek/20211112105509.12010-1-yong.wu@mediatek.com/
->>>      1) Add return -ENODEV when the dev is null.
->>>      2) Add more strict about the case that a iommu consume device use the ports in
->>>      different larbs. Don't allow this case.
->>>      3) Remove two codec interface: mtk_vcodec_release_enc/dec_pm since it only has one
->>>      line now.
->>>
->>> v8: https://lore.kernel.org/linux-mediatek/20210929013719.25120-1-yong.wu@mediatek.com/
->>>      1) Rebase on v5.15-rc1.
->>>      2) Don't rebase the below mdp patchset that may still need more discuss.
->>>      https://lore.kernel.org/linux-mediatek/20210709022324.1607884-1-eizan@chromium.org/
->>>      3) Add Frank's Tested-by. Remove Dafna's Tested-by as he requested.
->>>
->>> v7: https://lore.kernel.org/linux-mediatek/20210730025238.22456-1-yong.wu@mediatek.com/
->>>      1) Fix a arm32 boot fail issue. reported from Frank.
->>>      2) Add a return fail in the mtk drm. suggested by Dafna.
->>>
->>> v6: https://lore.kernel.org/linux-mediatek/20210714025626.5528-1-yong.wu@mediatek.com/
->>>      1) rebase on v5.14-rc1.
->>>      2) Fix the issue commented in v5 from Dafna and Hsin-Yi.
->>>      3) Remove the patches about using pm_runtime_resume_and_get since they have
->>>         already been merged by other patches.
->>>
->>> v5: https://lore.kernel.org/linux-mediatek/20210410091128.31823-1-yong.wu@mediatek.com/
->>>      1) Base v5.12-rc2.
->>>      2) Remove changing the mtk-iommu to module_platform_driver patch, It have already been a
->>>      independent patch.
->>>
->>> v4: https://lore.kernel.org/linux-mediatek/1590826218-23653-1-git-send-email-yong.wu@mediatek.com/
->>>      base on v5.7-rc1.
->>>    1) Move drm PM patch before smi patchs.
->>>    2) Change builtin_platform_driver to module_platform_driver since we may need
->>>       build as module.
->>>    3) Rebase many patchset as above.
->>>
->>> v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
->>>      1) rebase on v5.3-rc1 and the latest mt8183 patchset.
->>>      2) Use device_is_bound to check whether the driver is ready from Matthias.
->>>      3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
->>>     reason in the commit message[3/14].
->>>      4) Add a display patch[12/14] into this series. otherwise it may affect
->>>     display HW fastlogo even though it don't happen in mt8183.
->>> v2: https://lore.kernel.org/linux-iommu/1560171313-28299-1-git-send-email-yong.wu@mediatek.com/
->>>     1) rebase on v5.2-rc1.
->>>     2) Move adding device_link between the consumer and smi-larb into
->>> iommu_add_device from Robin.
->>>     3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
->>>     4) Remove the shutdown callback in iommu.
->>>
->>> v1: https://lore.kernel.org/linux-iommu/1546318276-18993-1-git-send-email-yong.wu@mediatek.com/
->>>
->>> Yong Wu (12):
->>>    dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
->>>    iommu/mediatek-v1: Free the existed fwspec if the master dev already
->>>      has
->>>    iommu/mediatek: Return ENODEV if the device is NULL
->>>    iommu/mediatek: Add probe_defer for smi-larb
->>>    iommu/mediatek: Add device_link between the consumer and the larb
->>>      devices
->>>    media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
->>>    media: mtk-mdp: Get rid of mtk_smi_larb_get/put
->>>    drm/mediatek: Get rid of mtk_smi_larb_get/put
->>>    media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
->>>    memory: mtk-smi: Get rid of mtk_smi_larb_get/put
->>>    arm: dts: mediatek: Get rid of mediatek,larb for MM nodes
->>>    arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
->>>
->>> Yongqiang Niu (1):
->>>    drm/mediatek: Add pm runtime support for ovl and rdma
->>>
->>>   .../display/mediatek/mediatek,disp.txt        |  9 ----
->>>   .../media/mediatek,vcodec-decoder.yaml        |  7 ---
->>>   .../media/mediatek,vcodec-encoder.yaml        |  8 ----
->>>   .../bindings/media/mediatek-jpeg-decoder.yaml |  9 ----
->>>   .../bindings/media/mediatek-jpeg-encoder.yaml |  9 ----
->>>   .../bindings/media/mediatek-mdp.txt           |  8 ----
->>>   arch/arm/boot/dts/mt2701.dtsi                 |  2 -
->>>   arch/arm/boot/dts/mt7623n.dtsi                |  5 ---
->>>   arch/arm64/boot/dts/mediatek/mt8173.dtsi      | 16 -------
->>>   arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  6 ---
->>>   drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  8 +++-
->>>   drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  9 +++-
->>>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 15 ++++---
->>>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 36 +--------------
->>>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  1 -
->>>   drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 +--
->>>   drivers/iommu/mtk_iommu.c                     | 34 ++++++++++++++
->>>   drivers/iommu/mtk_iommu_v1.c                  | 42 ++++++++++++++++-
->>>   .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 45 +------------------
->>>   .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  2 -
->>>   drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 40 -----------------
->>>   drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
->>>   drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
->>>   .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  2 -
->>>   .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   |  1 -
->>>   .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 41 +++--------------
->>>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
->>>   .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
->>>   .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  2 -
->>>   .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 45 +++----------------
->>>   drivers/memory/mtk-smi.c                      | 14 ------
->>>   include/soc/mediatek/smi.h                    | 20 ---------
->>>   32 files changed, 115 insertions(+), 333 deletions(-)
->>>
->>
->> Hello Hans, Matthias,
->> on my side, this series is totally ready for merge, hence, green light from here.
->>
->> Can you please take it for 5.18?
->>
-> 
-> @Hans: I understand you take the series through your tree. Please let me know when you do so. I'll take care of patch 12 and 13, which should go through my tree.
+> On Wed, Dec 22, 2021 at 2:20 PM Johan Hovold <johan@kernel.org> wrote:
+> >
+> > Make sure to disable runtime PM before returning on probe errors.
+> >
+> > Fixes: 479f7a118105 ("[media] davinci: vpif: adaptions for DT support")
+> > Cc: stable@vger.kernel.org      # 4.12: 4024d6f601e3c
+> > Cc: Kevin Hilman <khilman@baylibre.com>
+> > Signed-off-by: Johan Hovold <johan@kernel.org>
+> > ---
+> >  drivers/media/platform/davinci/vpif.c | 11 +++++++++--
+> >  1 file changed, 9 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/davinci/vpif.c b/drivers/media/platform/davinci/vpif.c
+> > index 9752a5ec36f7..1f5eacf48580 100644
+> > --- a/drivers/media/platform/davinci/vpif.c
+> > +++ b/drivers/media/platform/davinci/vpif.c
+> > @@ -428,6 +428,7 @@ static int vpif_probe(struct platform_device *pdev)
+> >         static struct resource *res_irq;
+> >         struct platform_device *pdev_capture, *pdev_display;
+> >         struct device_node *endpoint = NULL;
+> > +       int ret;
+> >
+> >         vpif_base = devm_platform_ioremap_resource(pdev, 0);
+> >         if (IS_ERR(vpif_base))
+> > @@ -456,8 +457,8 @@ static int vpif_probe(struct platform_device *pdev)
+> >         res_irq = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+> >         if (!res_irq) {
+> >                 dev_warn(&pdev->dev, "Missing IRQ resource.\n");
+> > -               pm_runtime_put(&pdev->dev);
+> Maybe just add pm_runtime_disable(&pdev->dev); here, rest diff won't
+> be required.
 
-FYI: this series has been merged into the media tree, so you can go ahead with patches 12 and 13.
+I chose to do it this way in order to make the following patches
+smaller and easier to review.
 
-Regards,
+Thanks for reviewing.
 
-	Hans
+Johan
