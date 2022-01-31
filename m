@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E330C4A4993
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 15:44:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1AC24A4994
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 15:44:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241014AbiAaOo2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jan 2022 09:44:28 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:50421 "EHLO
+        id S241029AbiAaOob (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jan 2022 09:44:31 -0500
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:54707 "EHLO
         relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241007AbiAaOoM (ORCPT
+        with ESMTP id S241187AbiAaOoM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 31 Jan 2022 09:44:12 -0500
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 0BA69C0008;
-        Mon, 31 Jan 2022 14:44:04 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 61707C0004;
+        Mon, 31 Jan 2022 14:44:08 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     slongerbeam@gmail.com
 Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
@@ -25,9 +25,9 @@ Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
         eugen.hristev@microchip.com, jbrunet@baylibre.com,
         mchehab@kernel.org, linux-media@vger.kernel.org,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH 15/21] media: ov5640: Limit format to FPS in DVP mode only
-Date:   Mon, 31 Jan 2022 15:44:43 +0100
-Message-Id: <20220131144444.129036-4-jacopo@jmondi.org>
+Subject: [PATCH 16/21] media: ov5640: Disable s_frame_interval in MIPI mode
+Date:   Mon, 31 Jan 2022 15:44:44 +0100
+Message-Id: <20220131144444.129036-5-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220131144444.129036-1-jacopo@jmondi.org>
 References: <20220131143245.128089-1-jacopo@jmondi.org>
@@ -38,37 +38,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In MIPI mode the frame rate control is performed by adjusting the
-frame blankings and the s_frame_interval function is not used anymore.
+When the sensor is operated in MIPI mode, the frame rate configuration
+is performed by tuning the frame blanking times and not by the
+s_frame_interval subdev operation.
 
-Only check for the per-mode supported frame rate in DVP mode and do not
-restrict MIPI mode.
+Disallow enum/s/g_frame_interval if the chip is used in MIPI mode.
+
+While at it re-indent one function which whose parameters were wrongly
+aligned.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/i2c/ov5640.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov5640.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index ae22300b9655..ec46e16223af 100644
+index ec46e16223af..28da0ddd2a06 100644
 --- a/drivers/media/i2c/ov5640.c
 +++ b/drivers/media/i2c/ov5640.c
-@@ -1845,8 +1845,13 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
- 	     (mode->crop.width != width || mode->crop.height != height)))
- 		return NULL;
+@@ -3275,15 +3275,17 @@ static int ov5640_enum_frame_size(struct v4l2_subdev *sd,
+ 	return 0;
+ }
  
--	/* Check to see if the current mode exceeds the max frame rate */
--	if (ov5640_framerates[fr] > ov5640_framerates[mode->max_fps])
-+	/*
-+	 * Check to see if the current mode exceeds the max frame rate.
-+	 * Only DVP mode uses the frame rate set by s_frame_interval, MIPI
-+	 * mode controls framerate by setting blankings.
-+	 */
-+	if (!ov5640_is_mipi(sensor) &&
-+	    ov5640_framerates[fr] > ov5640_framerates[mode->max_fps])
- 		return NULL;
+-static int ov5640_enum_frame_interval(
+-	struct v4l2_subdev *sd,
+-	struct v4l2_subdev_state *sd_state,
+-	struct v4l2_subdev_frame_interval_enum *fie)
++static int ov5640_enum_frame_interval(struct v4l2_subdev *sd,
++				      struct v4l2_subdev_state *sd_state,
++				      struct v4l2_subdev_frame_interval_enum *fie)
+ {
+ 	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+ 	struct v4l2_fract tpf;
+ 	int ret;
  
- 	return mode;
++	if (ov5640_is_mipi(sensor))
++		return -EINVAL;
++
+ 	if (fie->pad != 0)
+ 		return -EINVAL;
+ 	if (fie->index >= OV5640_NUM_FRAMERATES)
+@@ -3306,6 +3308,9 @@ static int ov5640_g_frame_interval(struct v4l2_subdev *sd,
+ {
+ 	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+ 
++	if (ov5640_is_mipi(sensor))
++		return -EINVAL;
++
+ 	mutex_lock(&sensor->lock);
+ 	fi->interval = sensor->frame_interval;
+ 	mutex_unlock(&sensor->lock);
+@@ -3320,6 +3325,9 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
+ 	const struct ov5640_mode_info *mode;
+ 	int frame_rate, ret = 0;
+ 
++	if (ov5640_is_mipi(sensor))
++		return -EINVAL;
++
+ 	if (fi->pad != 0)
+ 		return -EINVAL;
+ 
 -- 
 2.35.0
 
