@@ -2,160 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD51F4A3F12
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 10:12:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 000984A3F85
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 10:48:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236449AbiAaJM1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jan 2022 04:12:27 -0500
-Received: from mail-ma1ind01olkn0166.outbound.protection.outlook.com ([104.47.100.166]:24096
-        "EHLO IND01-MA1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234358AbiAaJM1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jan 2022 04:12:27 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CE+8GdQDF7Kg22UklnWIS61fL8M31NShhiFt6HogqLyaeD0fjF16TMCGFrGvEIu9zwD4hSKfWwuyUj3mOYQRjj6+4lwWJf4aZPzZ6nrWtbOqgFNRwDaUT3x/4M4l9+iaTEHrjwtT/vEjd7g2gfSowZ2+4Vl7ZKBMBGt9HM5qdamG1C7fvj6dZs/OfOu5WZMVuQthaKtMjsg1ycGgGu0vOcrz/T98koQJ5NVuen/0InhgVWgKjX6O4U9UNTymYXyOxrE/buyWwoATq8RpfXs8oPrto0IV+eAqEBbH3wluA7JEizMQxchA+5Tv8p7ZYaKeI2NJPSAOBG2C1NZv4Ku43Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ut/jOtQM5LCb8mFPta98FQAA/quSe1o5jhYRMGHmOkQ=;
- b=Dz1v+MM3FjBj7G4iQLz6kNJviMuxqP2F/RPwS9LCZc/XH2sHQdnhUMBW58Yq5mJfq1ntg+VDOuES5mCP8dEqkhQ2j478aD/Ra2QFBwPcvXufJOY+2jQxPrswj+V24d2/jYYjrs3WQVrcjWk8yxD3HVQWgvA8xndy9FoNLuoNS/ijBWG9+KFbJjW8EnqSyELH4sKgPZU9Z668u8zrkpG/imKZBauxjhvuQEWrJrQZei29CB3CgD3Y3rVIOA4/lNYsx6t3V20/GyHc3wALPJWqbutlS/TDunoXAFMNwpWNCUrV24syHbFxiM+RFSdLR+VCUrhk079ghR9WylY9UhUx6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ut/jOtQM5LCb8mFPta98FQAA/quSe1o5jhYRMGHmOkQ=;
- b=gXXBC8u+DV3JR/ipV7e1fJVlSh6pDhP90bABspiPhAD7jZ9DfJJjIundoHtH2EwnV4RBjkf6/q5xAnQpf+4p+87F8znirM/ygEhv1GRbEVa2XznXelLAXEnKEFS2FapkM+FWM+2Ht7Nt09S7uNFoQbGLnZCGWz15xphLtApM65B73SgmB78T0dbMs1ojRdjbnbaNr2AwkbwpF+RCpzDEiHW0xm7dXByJXxxdi1MCWYq9aGVcJa5C81znHdQkrpOgouxzE1j8G4XXpRfoNpEjmsnln0bLaUgDv6mLVLjXjS0DNTkn1Pm4YgkGsPA7uwM09U3OZRIA1fqJuR6BJw8rlw==
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1b::13)
- by PN0PR01MB7800.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:b0::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.18; Mon, 31 Jan
- 2022 09:12:20 +0000
-Received: from PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d19b:7cd1:3760:b055]) by PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d19b:7cd1:3760:b055%9]) with mapi id 15.20.4930.021; Mon, 31 Jan 2022
- 09:12:20 +0000
-From:   Aditya Garg <gargaditya08@live.com>
-To:     "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-        "sergey.senozhatsky@gmail.com" <sergey.senozhatsky@gmail.com>,
-        "ribalda@chromium.org" <ribalda@chromium.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-CC:     Orlando Chamberlain <redecorating@protonmail.com>,
-        "paul@mrarm.io" <paul@mrarm.io>, Aun-Ali Zaidi <admin@kodeit.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH RESEND] media: uvcvideo: Add support for Apple T2-attached
- FaceTime HD Camera
-Thread-Topic: [PATCH RESEND] media: uvcvideo: Add support for Apple
- T2-attached FaceTime HD Camera
-Thread-Index: AQHYEqCuFa0IUQWRI0uS4fqZrMlb86x84AqA
-Date:   Mon, 31 Jan 2022 09:12:20 +0000
-Message-ID: <9BD1D373-F588-44EE-AFC0-3D691B4134DA@live.com>
-References: <527C2E71-12E2-45D1-9B50-5A413B6920A1@live.com>
-In-Reply-To: <527C2E71-12E2-45D1-9B50-5A413B6920A1@live.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [LfaQ6fnhm/9MEVCpIA596LzhoRqO/QbO]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8893891f-548d-44a1-78a7-08d9e499c91d
-x-ms-traffictypediagnostic: PN0PR01MB7800:EE_
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: v2EXFYp/1f/wqo1IiqIx1Hf9a665j+Yk8o6zI3Os4jv1tqqiNJFkvuF5BYM80PxLzYnyqC6wUtOYOpNxIQ1ZttmOCbdDFXCWQjwy3Rob4ID4PbRN3xfVyDRqmJhg0KbjcR6SEqduSJnsr7k4QfUbz2Mh6FFUZkOiY4r3ALayeXmsoY1d6CGh4h4sVuvs2+v6wQgys420CjAeFst+9qJMb3qTprr9k9aDrGmGNJcUOG7wZdyBZ1Yw8cdKYQZgpb8K89KX41kzzIz2IqiFfKIrQIPHOQF8ysRxn/2jND43AbWRUYTD4+2ky7wuo05vP0eMqB3LrTcBr/n88ootkcB+Jtyb015cQqks0QRBVJIAQDZ8CHB0uo3jFoa9Ihxbzm5QZvr1d+dnNLFqjePxU4bNBtc4UQn1O7FvwSSUm7RH7Kii5CjPoMhiELJo8qOG4hFpJTpyeQjsBqmcoYuLobZs9UtCYh8RDURIeDg24wox0y/+J1eKTfY1EyRGhGwqIcdOnOZM5se+ZxqQe/sdlCcP6CnIzPhop8+psk48hwcGmRMvhaS58bSAv44emq30aW/HQ3r1oyyz9GkXGenSVb1+aw==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?mizWvnyulvGqPH1o5LqRidsX7Y17ngWi5Q/rqZwcOfFyxN5tYGnHkMp+s5uR?=
- =?us-ascii?Q?G3YnN+V2hZBpMDO40qJ2mELzFV87ueMAbL6KE0+gV0xAPZRG+2je1JUmJ0mj?=
- =?us-ascii?Q?CTi5L0TNSW5kFDiCeiURjPaB+lsvQM3vYnFwQG5fNvNcw0qNnTFxdasC/Ddd?=
- =?us-ascii?Q?RCAmI15E9CZ1hkae8f2crJnPODieo9LXZuvZsXIzhg7RV89pjGyA/daYAwW8?=
- =?us-ascii?Q?BIJHtHbf9PPaxKLSPUpVlLyOEuJxVUj/s4SFFsj1ipgL/6jh6Ml1CBwy+YRK?=
- =?us-ascii?Q?QdZ+2eOAmSvEGdgl/vLM9NMYR4pSXbRUmJe+Pi7f54wtAqn8CpEnro/qkPkC?=
- =?us-ascii?Q?4tBfqVipkZFDWprURHzoIMnDQShjqLXhWUpn1vSsM5khdUNfTvQqieq0FOSD?=
- =?us-ascii?Q?g5OiCtz/+kehCmn1BE5MIXi2T53RUVWrZI345XMNduNBuCyyI3UpTD22eT+f?=
- =?us-ascii?Q?GZkrSWfgxAdX8OXvI6r0wOkD0YpK6jPSRwpZ+azawBpJ55R0wGKWeHjrjNUm?=
- =?us-ascii?Q?HRrKqbZBgWpCxOJDD+HZZWr4kPg/tnE72z/vJq7eLvAHzrTerFQU1tu3moxB?=
- =?us-ascii?Q?bmiqE49U4/5Gd5MbNb94WP/kbtbrjs8bVPX6TCpXHS69kpWbw+BAhTKmdoUa?=
- =?us-ascii?Q?GtB01kc1z40SY4i22JSazrJBmSsuk1W8KtPmrnXWv8O3bdM2wfz09WRywtUi?=
- =?us-ascii?Q?K2FsGou+/JAlChBU5FGwqFibyv5kqaDy1H7pmQboxaKdS5q39XikGj7Whs5t?=
- =?us-ascii?Q?ahQNVddYK6ueYTFeBk2HMdjX21akgHp73YxWUTzk1rBpKg8/Z54dXNNQ7JgH?=
- =?us-ascii?Q?/XVZ3kekx6T2p7A3zkN4EQkDTe8A1RdQ37fYuxsNfWvFO/xN850lKd0kZVox?=
- =?us-ascii?Q?CJmTzByBACtJqvgGyQbNEJTS5EVRCnASIwDDr13NQYlTV3ugspINXQXLQ7lX?=
- =?us-ascii?Q?UHDSSqrBzfhmIx6aGzKFPg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <C8E79CAD9CAAA94C96A3D626DAD9BE18@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+        id S239292AbiAaJsF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jan 2022 04:48:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54632 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232052AbiAaJsE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 31 Jan 2022 04:48:04 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD06BC061714;
+        Mon, 31 Jan 2022 01:48:04 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3E12061345;
+        Mon, 31 Jan 2022 09:48:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7552DC340E8;
+        Mon, 31 Jan 2022 09:47:57 +0000 (UTC)
+Message-ID: <79fbb665-25b4-9b54-7bf6-2caa69e10778@xs4all.nl>
+Date:   Mon, 31 Jan 2022 10:47:55 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4415.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8893891f-548d-44a1-78a7-08d9e499c91d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jan 2022 09:12:20.1635
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB7800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v10 00/13] Clean up "mediatek,larb"
+Content-Language: en-US
+To:     Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <jroedel@suse.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        David Airlie <airlied@linux.ie>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Evan Green <evgreen@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
+        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
+        yi.kuo@mediatek.com, acourbot@chromium.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        anthony.huang@mediatek.com,
+        Frank Wunderlich <frank-w@public-files.de>,
+        mingyuan.ma@mediatek.com, yf.wang@mediatek.com,
+        libo.kang@mediatek.com
+References: <20220117070510.17642-1-yong.wu@mediatek.com>
+ <06e5e76c-557a-20a5-b8dd-37b25b3384a3@collabora.com>
+ <c8fc24a2-9ee3-75a2-0928-95a217d9dfdf@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <c8fc24a2-9ee3-75a2-0928-95a217d9dfdf@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maintainers
 
-I sent this patch on 12.01.22 and then resent it on 26.01.22. I still haven=
-'t received a reply yet. Maybe I am not sending the mail to the correct mai=
-ntainer? I request someone to reply cause no reply seems to create a confus=
-ion.
 
-Linus, I am sending this mail to you too, since you are the ultimate mainta=
-iner.
+On 1/17/22 12:49, Matthias Brugger wrote:
+> 
+> 
+> On 17/01/2022 11:27, AngeloGioacchino Del Regno wrote:
+>> Il 17/01/22 08:04, Yong Wu ha scritto:
+>>> MediaTek IOMMU block diagram always like below:
+>>>
+>>>          M4U
+>>>           |
+>>>      smi-common
+>>>           |
+>>>    -------------
+>>>    |         |  ...
+>>>    |         |
+>>> larb1     larb2
+>>>    |         |
+>>> vdec       venc
+>>>
+>>> All the consumer connect with smi-larb, then connect with smi-common.
+>>>
+>>> When the consumer works, it should enable the smi-larb's power which also
+>>> need enable the smi-common's power firstly.
+>>>
+>>> Thus, Firstly, use the device link connect the consumer and the
+>>> smi-larbs. then add device link between the smi-larb and smi-common.
+>>>
+>>> After adding the device_link, then "mediatek,larb" property can be removed.
+>>> the iommu consumer don't need call the mtk_smi_larb_get/put to enable
+>>> the power and clock of smi-larb and smi-common.
+>>>
+>>> Base on the media branch [1] and a jpeg dtbinding patchset[2] that already got
+>>> the necessary R-b.
+>>>
+>>> [1] git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18d
+>>> [2] https://lore.kernel.org/linux-mediatek/20211206130425.184420-1-hsinyi@chromium.org/
+>>>
+>>> Change notes:
+>>> v10: a) Rebase on the media tree. Respin the "media: mtk-vcodec:" patches.
+>>>       b) Add Joerg's Ack for iommu patches.
+>>>
+>>> v9: https://lore.kernel.org/linux-mediatek/20211112105509.12010-1-yong.wu@mediatek.com/
+>>>      1) Add return -ENODEV when the dev is null.
+>>>      2) Add more strict about the case that a iommu consume device use the ports in
+>>>      different larbs. Don't allow this case.
+>>>      3) Remove two codec interface: mtk_vcodec_release_enc/dec_pm since it only has one
+>>>      line now.
+>>>
+>>> v8: https://lore.kernel.org/linux-mediatek/20210929013719.25120-1-yong.wu@mediatek.com/
+>>>      1) Rebase on v5.15-rc1.
+>>>      2) Don't rebase the below mdp patchset that may still need more discuss.
+>>>      https://lore.kernel.org/linux-mediatek/20210709022324.1607884-1-eizan@chromium.org/
+>>>      3) Add Frank's Tested-by. Remove Dafna's Tested-by as he requested.
+>>>
+>>> v7: https://lore.kernel.org/linux-mediatek/20210730025238.22456-1-yong.wu@mediatek.com/
+>>>      1) Fix a arm32 boot fail issue. reported from Frank.
+>>>      2) Add a return fail in the mtk drm. suggested by Dafna.
+>>>
+>>> v6: https://lore.kernel.org/linux-mediatek/20210714025626.5528-1-yong.wu@mediatek.com/
+>>>      1) rebase on v5.14-rc1.
+>>>      2) Fix the issue commented in v5 from Dafna and Hsin-Yi.
+>>>      3) Remove the patches about using pm_runtime_resume_and_get since they have
+>>>         already been merged by other patches.
+>>>
+>>> v5: https://lore.kernel.org/linux-mediatek/20210410091128.31823-1-yong.wu@mediatek.com/
+>>>      1) Base v5.12-rc2.
+>>>      2) Remove changing the mtk-iommu to module_platform_driver patch, It have already been a
+>>>      independent patch.
+>>>
+>>> v4: https://lore.kernel.org/linux-mediatek/1590826218-23653-1-git-send-email-yong.wu@mediatek.com/
+>>>      base on v5.7-rc1.
+>>>    1) Move drm PM patch before smi patchs.
+>>>    2) Change builtin_platform_driver to module_platform_driver since we may need
+>>>       build as module.
+>>>    3) Rebase many patchset as above.
+>>>
+>>> v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
+>>>      1) rebase on v5.3-rc1 and the latest mt8183 patchset.
+>>>      2) Use device_is_bound to check whether the driver is ready from Matthias.
+>>>      3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
+>>>     reason in the commit message[3/14].
+>>>      4) Add a display patch[12/14] into this series. otherwise it may affect
+>>>     display HW fastlogo even though it don't happen in mt8183.
+>>> v2: https://lore.kernel.org/linux-iommu/1560171313-28299-1-git-send-email-yong.wu@mediatek.com/
+>>>     1) rebase on v5.2-rc1.
+>>>     2) Move adding device_link between the consumer and smi-larb into
+>>> iommu_add_device from Robin.
+>>>     3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
+>>>     4) Remove the shutdown callback in iommu.
+>>>
+>>> v1: https://lore.kernel.org/linux-iommu/1546318276-18993-1-git-send-email-yong.wu@mediatek.com/
+>>>
+>>> Yong Wu (12):
+>>>    dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
+>>>    iommu/mediatek-v1: Free the existed fwspec if the master dev already
+>>>      has
+>>>    iommu/mediatek: Return ENODEV if the device is NULL
+>>>    iommu/mediatek: Add probe_defer for smi-larb
+>>>    iommu/mediatek: Add device_link between the consumer and the larb
+>>>      devices
+>>>    media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
+>>>    media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+>>>    drm/mediatek: Get rid of mtk_smi_larb_get/put
+>>>    media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
+>>>    memory: mtk-smi: Get rid of mtk_smi_larb_get/put
+>>>    arm: dts: mediatek: Get rid of mediatek,larb for MM nodes
+>>>    arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
+>>>
+>>> Yongqiang Niu (1):
+>>>    drm/mediatek: Add pm runtime support for ovl and rdma
+>>>
+>>>   .../display/mediatek/mediatek,disp.txt        |  9 ----
+>>>   .../media/mediatek,vcodec-decoder.yaml        |  7 ---
+>>>   .../media/mediatek,vcodec-encoder.yaml        |  8 ----
+>>>   .../bindings/media/mediatek-jpeg-decoder.yaml |  9 ----
+>>>   .../bindings/media/mediatek-jpeg-encoder.yaml |  9 ----
+>>>   .../bindings/media/mediatek-mdp.txt           |  8 ----
+>>>   arch/arm/boot/dts/mt2701.dtsi                 |  2 -
+>>>   arch/arm/boot/dts/mt7623n.dtsi                |  5 ---
+>>>   arch/arm64/boot/dts/mediatek/mt8173.dtsi      | 16 -------
+>>>   arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  6 ---
+>>>   drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  8 +++-
+>>>   drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  9 +++-
+>>>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 15 ++++---
+>>>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 36 +--------------
+>>>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  1 -
+>>>   drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 +--
+>>>   drivers/iommu/mtk_iommu.c                     | 34 ++++++++++++++
+>>>   drivers/iommu/mtk_iommu_v1.c                  | 42 ++++++++++++++++-
+>>>   .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 45 +------------------
+>>>   .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  2 -
+>>>   drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 40 -----------------
+>>>   drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
+>>>   drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
+>>>   .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  2 -
+>>>   .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   |  1 -
+>>>   .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 41 +++--------------
+>>>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
+>>>   .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
+>>>   .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  2 -
+>>>   .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 45 +++----------------
+>>>   drivers/memory/mtk-smi.c                      | 14 ------
+>>>   include/soc/mediatek/smi.h                    | 20 ---------
+>>>   32 files changed, 115 insertions(+), 333 deletions(-)
+>>>
+>>
+>> Hello Hans, Matthias,
+>> on my side, this series is totally ready for merge, hence, green light from here.
+>>
+>> Can you please take it for 5.18?
+>>
+> 
+> @Hans: I understand you take the series through your tree. Please let me know when you do so. I'll take care of patch 12 and 13, which should go through my tree.
 
-Regards
-Aditya
-> On 26-Jan-2022, at 4:07 PM, Aditya Garg <gargaditya08@live.com> wrote:
->=20
-> From: Paul Pawlowski <paul@mrarm.io>
->=20
-> Adds the requisite device id to support detection of the Apple FaceTime
-> HD webcam exposed over the T2 BCE VHCI interface.
->=20
-> Tested-by: Aun-Ali Zaidi <admin@kodeit.net>
-> Signed-off-by: Paul Pawlowski <paul@mrarm.io>
-> Signed-off-by: Aun-Ali Zaidi <admin@kodeit.net>
-> Signed-off-by: Aditya Garg <gargaditya08@live.com>
-> ---
-> drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
-> 1 file changed, 9 insertions(+)
->=20
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/u=
-vc_driver.c
-> index 7c007426e..88dc9e7aa 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2848,6 +2848,15 @@ static const struct usb_device_id uvc_ids[] =3D {
-> 	  .bInterfaceProtocol	=3D 0,
-> 	  .driver_info		=3D UVC_INFO_QUIRK(UVC_QUIRK_PROBE_MINMAX
-> 					| UVC_QUIRK_BUILTIN_ISIGHT) },
-> +	/* Apple FaceTime HD Camera (Built-In) */
-> +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-> +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> +	  .idVendor		=3D 0x05ac,
-> +	  .idProduct		=3D 0x8514,
-> +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
-> +	  .bInterfaceSubClass	=3D 1,
-> +	  .bInterfaceProtocol	=3D 0,
-> +	  .driver_info		=3D (kernel_ulong_t)&uvc_quirk_probe_def },
-> 	/* Apple Built-In iSight via iBridge */
-> 	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
-> 				| USB_DEVICE_ID_MATCH_INT_INFO,
-> --=20
-> 2.25.1
->=20
->=20
+FYI: this series has been merged into the media tree, so you can go ahead with patches 12 and 13.
 
+Regards,
+
+	Hans
