@@ -2,97 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 195424A4726
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 13:29:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 691DD4A4802
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 14:24:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236792AbiAaM34 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Jan 2022 07:29:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37568 "EHLO
+        id S1378684AbiAaNYw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Jan 2022 08:24:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229786AbiAaM3z (ORCPT
+        with ESMTP id S1349080AbiAaNYk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Jan 2022 07:29:55 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63448C061714;
-        Mon, 31 Jan 2022 04:29:55 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id k18so25103422wrg.11;
-        Mon, 31 Jan 2022 04:29:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=XfDEtvQ/tzVD1YeBowq1DH94HINF3JBGxRgfDDz4P9Q=;
-        b=W4NHjEA+9XVVL8xz6qTEqQvruINpNG1pl5p/yaTwPsUbqDWoTdwk6B90cytFkMTHZT
-         lrQuJGMCrkrs3FC5BaobUmorxlxni/0C26+D4VsSXYqKlUY8Ar8xiHI3b74c2sMVkTLU
-         gSKadOZdH4vnOVfaH7dEpE2s9zlDj36v/3eMYHeSfAyUcZJ1HDwwiM1nyWsQnV4O0yRb
-         O1xd+UqJM3rUINASsACdI5OKMhaHlXLsyvVO9ERwrZUlIgIG7kIn8nF6cUlGtvVMzycp
-         83qu/fIP/2WVZAxPlTcZxmh9pHc3byTUiIOGNQbWxrf5VMQI0tURoHxAzof9DE6mx1vg
-         FIAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=XfDEtvQ/tzVD1YeBowq1DH94HINF3JBGxRgfDDz4P9Q=;
-        b=pB+fn8DDCI07v69lujnSCYAORy8YAhCznFgb57yOEw39spEtyPA8G+/pvj1b8TnRPI
-         hQFQIJeSBbq5ik0BDH49jl49fCSrAWo4RIdxUnJOGy6YTetfuB+UvnRYgggXINwSlpXm
-         brcmVg+N8XWgimjSEPTlEgfpa54RRafXCKUSIuj4ZLR59ROeaa3z/DtzaYhir1EpxoII
-         6J6QDlMkbcLVHuag+FwRkgxzv9JfvjQYUYO/G3rM1DQOwyDaT3enZn5AMoZW2R/kmgt5
-         Gje0TY4sfzgWPzDJKFlbjsd9dQmFn81aI9AH+fZis5d3Fsg8Of7P2pz6zslBhYnE4V+b
-         V/Mw==
-X-Gm-Message-State: AOAM531p10YYEUPiYv3Rz/m+8wBmQktZy86pwFLk9dRDHhUhI08IMMoe
-        oy8OdpBiNG6Qlsgy56OiLR8=
-X-Google-Smtp-Source: ABdhPJwKPAOlfE8A7dNEWpNDKJVV/rApo0lar6YbP+IVu/WUEb/GzeZxyimip5vdiaqDYs3eC4tjRQ==
-X-Received: by 2002:a05:6000:1548:: with SMTP id 8mr16792438wry.504.1643632193762;
-        Mon, 31 Jan 2022 04:29:53 -0800 (PST)
-Received: from [192.168.0.14] ([37.223.145.74])
-        by smtp.gmail.com with ESMTPSA id m12sm13729547wrp.61.2022.01.31.04.29.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jan 2022 04:29:53 -0800 (PST)
-Message-ID: <5991ad51-4181-d445-284c-386447cffb95@gmail.com>
-Date:   Mon, 31 Jan 2022 13:29:51 +0100
+        Mon, 31 Jan 2022 08:24:40 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7422DC061714;
+        Mon, 31 Jan 2022 05:24:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=gLpx9hy/oiTEly0zb70xuTv8+vbtKCxmHi4U36k1x0I=; b=VhFXysylwTUhplXWCWTvvNJTfw
+        wNNPEko4h4jazxU2xoTkBfinjKWRend9jxNmttkHXb7NNR8+Qp9FuUzlBWxR7HxaeiB9KoWWQG5Cy
+        TcF9W8RkRcQGIEJkVtY+V4tIUFTAYroBqLhiHQRcRRiORQ2g83hdFUVfYpIakJNSTt5mBTZ+rz+KI
+        n+iAjZRlRUHBg8ucSU/k0YEwH2qnciKsdps63WU4pTUdOGTrnySLHSHa6Hqe4bu8TBobo0mtx6saM
+        KmBEFq+1VAVmfEYuJwgXZzVeDuEYEQLRWHolLzGBhtOUlF4RT06YYSN3iMqv7gwq+pXGhnEeZLHk+
+        4YnjY/bw==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nEWfU-009tds-5Z; Mon, 31 Jan 2022 13:24:28 +0000
+Message-ID: <747b437d-6d7d-e35f-c7e8-79f81ad2e691@infradead.org>
+Date:   Mon, 31 Jan 2022 05:24:21 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v10 02/13] iommu/mediatek-v1: Free the existed fwspec if
- the master dev already has
+Subject: Re: [PATCH v2] staging: media: atomisp: Use BIT macro instead of left
+ shifting
 Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Yong Wu <yong.wu@mediatek.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, Joerg Roedel <jroedel@suse.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        David Airlie <airlied@linux.ie>,
-        Evan Green <evgreen@chromium.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Will Deacon <will.deacon@arm.com>,
-        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org, youlin.pei@mediatek.com,
-        Matthias Kaehlcke <mka@chromium.org>, anan.sun@mediatek.com,
-        yi.kuo@mediatek.com, acourbot@chromium.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Eizan Miyamoto <eizan@chromium.org>,
-        anthony.huang@mediatek.com,
-        Frank Wunderlich <frank-w@public-files.de>,
-        mingyuan.ma@mediatek.com, yf.wang@mediatek.com,
-        libo.kang@mediatek.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-References: <20220117070510.17642-1-yong.wu@mediatek.com>
- <20220117070510.17642-3-yong.wu@mediatek.com>
- <20220128134055.720bb43c@coco.lan> <20220128134540.00c6c380@coco.lan>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220128134540.00c6c380@coco.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
+Cc:     andriy.shevchenko@linux.intel.com, gregkh@linuxfoundation.org,
+        kitakar@gmail.com, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, tomi.valkeinen@ideasonboard.com,
+        joe@perches.com
+References: <YfVstOJ38OTtd43n@smile.fi.intel.com>
+ <20220130180655.22970-1-mosescb.dev@gmail.com> <20220131073624.GH1951@kadam>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220131073624.GH1951@kadam>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -100,114 +56,70 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On 28/01/2022 13:45, Mauro Carvalho Chehab wrote:
-> Em Fri, 28 Jan 2022 13:40:55 +0100
-> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
-> 
->> Hi Matthias/Yong,
+On 1/30/22 23:36, Dan Carpenter wrote:
+> On Sun, Jan 30, 2022 at 07:06:55PM +0100, Moses Christopher Bollavarapu wrote:
+>> There is a BIT(nr) macro available in Linux Kernel,
+>> which does the same thing.
+>> Example: BIT(7) = (1UL << 7)
 >>
->> Are you ok if this patch gets merged via the media tree together with the
->> remaining series, or do you prefer to apply it via SoC tree instead?
-> 
-> Same questions for other patches touching files outside drivers/media
-> on this pull request:
-> 
-> 	https://patchwork.kernel.org/project/linux-mediatek/patch/7af52d61-47c7-581d-62ed-76a7f8315b16@xs4all.nl/
+>> Also use GENMASK for masking
+>> Example: GENMASK(3, 0) = 0b00001111 (same as (1 << 4) - 1)
+>>
+>> Signed-off-by: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
 > 
 
-Looks good to me.
+>> diff --git a/drivers/staging/media/atomisp/pci/ia_css_env.h b/drivers/staging/media/atomisp/pci/ia_css_env.h
+>> index 3b89bbd837a0..b9ebc14441a1 100644
+>> --- a/drivers/staging/media/atomisp/pci/ia_css_env.h
+>> +++ b/drivers/staging/media/atomisp/pci/ia_css_env.h
+>> @@ -18,6 +18,7 @@
+>>  
+>>  #include <type_support.h>
+>>  #include <linux/stdarg.h> /* va_list */
+>> +#include <linux/bits.h> /* BIT(nr) */
+> 
+> This comment is not required.
+> 
+>>  enum ia_css_rx_irq_info {
+>> -	IA_CSS_RX_IRQ_INFO_BUFFER_OVERRUN   = 1U << 0, /** buffer overrun */
+>> -	IA_CSS_RX_IRQ_INFO_ENTER_SLEEP_MODE = 1U << 1, /** entering sleep mode */
+>> -	IA_CSS_RX_IRQ_INFO_EXIT_SLEEP_MODE  = 1U << 2, /** exited sleep mode */
+>> -	IA_CSS_RX_IRQ_INFO_ECC_CORRECTED    = 1U << 3, /** ECC corrected */
+>> -	IA_CSS_RX_IRQ_INFO_ERR_SOT          = 1U << 4,
+>> +	IA_CSS_RX_IRQ_INFO_BUFFER_OVERRUN   = BIT(0), /** buffer overrun */
+>> +	IA_CSS_RX_IRQ_INFO_ENTER_SLEEP_MODE = BIT(1), /** entering sleep mode */
+>> +	IA_CSS_RX_IRQ_INFO_EXIT_SLEEP_MODE  = BIT(2), /** exited sleep mode */
+>> +	IA_CSS_RX_IRQ_INFO_ECC_CORRECTED    = BIT(3), /** ECC corrected */
+>> +	IA_CSS_RX_IRQ_INFO_ERR_SOT          = BIT(4),
+>>  	/** Start of transmission */
+>> -	IA_CSS_RX_IRQ_INFO_ERR_SOT_SYNC     = 1U << 5, /** SOT sync (??) */
+>> -	IA_CSS_RX_IRQ_INFO_ERR_CONTROL      = 1U << 6, /** Control (??) */
+>> -	IA_CSS_RX_IRQ_INFO_ERR_ECC_DOUBLE   = 1U << 7, /** Double ECC */
+>> -	IA_CSS_RX_IRQ_INFO_ERR_CRC          = 1U << 8, /** CRC error */
+>> -	IA_CSS_RX_IRQ_INFO_ERR_UNKNOWN_ID   = 1U << 9, /** Unknown ID */
+>> -	IA_CSS_RX_IRQ_INFO_ERR_FRAME_SYNC   = 1U << 10,/** Frame sync error */
+>> -	IA_CSS_RX_IRQ_INFO_ERR_FRAME_DATA   = 1U << 11,/** Frame data error */
+>> -	IA_CSS_RX_IRQ_INFO_ERR_DATA_TIMEOUT = 1U << 12,/** Timeout occurred */
+>> -	IA_CSS_RX_IRQ_INFO_ERR_UNKNOWN_ESC  = 1U << 13,/** Unknown escape seq. */
+>> -	IA_CSS_RX_IRQ_INFO_ERR_LINE_SYNC    = 1U << 14,/** Line Sync error */
+>> -	IA_CSS_RX_IRQ_INFO_INIT_TIMEOUT     = 1U << 15,
+>> +	IA_CSS_RX_IRQ_INFO_ERR_SOT_SYNC     = BIT(5), /** SOT sync (??) */
+>> +	IA_CSS_RX_IRQ_INFO_ERR_CONTROL      = BIT(6), /** Control (??) */
+>> +	IA_CSS_RX_IRQ_INFO_ERR_ECC_DOUBLE   = BIT(7), /** Double ECC */
+>> +	IA_CSS_RX_IRQ_INFO_ERR_CRC          = BIT(8), /** CRC error */
+>> +	IA_CSS_RX_IRQ_INFO_ERR_UNKNOWN_ID   = BIT(9), /** Unknown ID */
+>> +	IA_CSS_RX_IRQ_INFO_ERR_FRAME_SYNC   = BIT(10),/** Frame sync error */
+>> +	IA_CSS_RX_IRQ_INFO_ERR_FRAME_DATA   = BIT(11),/** Frame data error */
+>> +	IA_CSS_RX_IRQ_INFO_ERR_DATA_TIMEOUT = BIT(12),/** Timeout occurred */
+>> +	IA_CSS_RX_IRQ_INFO_ERR_UNKNOWN_ESC  = BIT(13),/** Unknown escape seq. */
+>> +	IA_CSS_RX_IRQ_INFO_ERR_LINE_SYNC    = BIT(14),/** Line Sync error */
+> 
+> The comment is kind of messed up.  There should be a space after the
+> comma and just /* Line Sync error */
 
-Please let me know once you accepted the pull request and I'll queue the DTS 
-related changes from this series.
+Yeah, all of those /** should just be /*
 
-Regards,
-Matthias
+thanks.
 
-> Like those:
-> 	0004-0013-iommu-mediatek-v1-Free-the-existed-fwspec-if-the-mas.patch
-> 	0005-0013-iommu-mediatek-Return-ENODEV-if-the-device-is-NULL.patch
-> 	0006-0013-iommu-mediatek-Add-probe_defer-for-smi-larb.patch
-> 	0007-0013-iommu-mediatek-Add-device_link-between-the-consumer-.patch
-> 
-> Regards,
-> Mauro
-> 
->>
->> Regards,
->> Mauro
->>
->>
->> Em Mon, 17 Jan 2022 15:04:59 +0800
->> Yong Wu <yong.wu@mediatek.com> escreveu:
->>
->>> When the iommu master device enters of_iommu_xlate, the ops may be
->>> NULL(iommu dev is defered), then it will initialize the fwspec here:
->>>
->>> [<c0c9c5bc>] (dev_iommu_fwspec_set) from [<c06bda80>]
->>> (iommu_fwspec_init+0xbc/0xd4)
->>> [<c06bd9c4>] (iommu_fwspec_init) from [<c06c0db4>]
->>> (of_iommu_xlate+0x7c/0x12c)
->>> [<c06c0d38>] (of_iommu_xlate) from [<c06c10e8>]
->>> (of_iommu_configure+0x144/0x1e8)
->>>
->>> BUT the mtk_iommu_v1.c only supports arm32, the probing flow still is a bit
->>> weird. We always expect create the fwspec internally. otherwise it will
->>> enter here and return fail.
->>>
->>> static int mtk_iommu_create_mapping(struct device *dev,
->>> 				    struct of_phandle_args *args)
->>> {
->>>          ...
->>> 	if (!fwspec) {
->>> 	        ....
->>> 	} else if (dev_iommu_fwspec_get(dev)->ops != &mtk_iommu_ops) {
->>>                  >>>>>>>>>>Enter here. return fail.<<<<<<<<<<<<
->>> 		return -EINVAL;
->>> 	}
->>> 	...
->>> }
->>>
->>> Thus, Free the existed fwspec if the master device already has fwspec.
->>>
->>> This issue is reported at:
->>> https://lore.kernel.org/linux-mediatek/trinity-7d9ebdc9-4849-4d93-bfb5-429dcb4ee449-1626253158870@3c-app-gmx-bs01/
->>>
->>> Reported-by: Frank Wunderlich <frank-w@public-files.de>
->>> Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
->>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
->>> Acked-by: Joerg Roedel <jroedel@suse.de>
->>> Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>> ---
->>>   drivers/iommu/mtk_iommu_v1.c | 9 +++++++++
->>>   1 file changed, 9 insertions(+)
->>>
->>> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
->>> index be22fcf988ce..1467ba1e4417 100644
->>> --- a/drivers/iommu/mtk_iommu_v1.c
->>> +++ b/drivers/iommu/mtk_iommu_v1.c
->>> @@ -425,6 +425,15 @@ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
->>>   	struct mtk_iommu_data *data;
->>>   	int err, idx = 0;
->>>   
->>> +	/*
->>> +	 * In the deferred case, free the existed fwspec.
->>> +	 * Always initialize the fwspec internally.
->>> +	 */
->>> +	if (fwspec) {
->>> +		iommu_fwspec_free(dev);
->>> +		fwspec = dev_iommu_fwspec_get(dev);
->>> +	}
->>> +
->>>   	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
->>>   					   "#iommu-cells",
->>>   					   idx, &iommu_spec)) {
->>
->>
->>
->> Thanks,
->> Mauro
-> 
-> 
-> 
-> Thanks,
-> Mauro
+-- 
+~Randy
