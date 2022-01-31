@@ -2,166 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D38784A3BF7
-	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 00:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DBAD4A3C08
+	for <lists+linux-media@lfdr.de>; Mon, 31 Jan 2022 01:01:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244077AbiA3X7O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Jan 2022 18:59:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39064 "EHLO
+        id S235063AbiAaABE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Jan 2022 19:01:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241651AbiA3X7N (ORCPT
+        with ESMTP id S235023AbiAaABC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Jan 2022 18:59:13 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6956C06173B
-        for <linux-media@vger.kernel.org>; Sun, 30 Jan 2022 15:59:12 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id u15so22090564wrt.3
-        for <linux-media@vger.kernel.org>; Sun, 30 Jan 2022 15:59:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TsRQ3SVohkOtQPdF+FWJeJ2VqSG/vDGg0tiEtAOREIM=;
-        b=aohO9Go1mMW0DmLUPrYqXyicUFMJyZx4iDGeZkMMH8GF1eUI891taRf+dpuYnTxhEX
-         ZFRrGidCc9f73wRKfXxEhsjQS0qStKvs17lQwTHDBiEy8fI3K8PuS2qSFmgyw/sRJGdC
-         Zm2rx+Kj2uhaOtV03ubWuiu3LVs2QKTchhGZ1bXO8WD+VkaEgBOCpvjdqghPrenpEysp
-         KUMhdmDBMZRvjCv8bwRrf+M2A5eU0uJouxa3FlY72PHTjKKz6ElsQ5GQ9Ka6aeOuKMB5
-         HUtsfgsFtsMtQfpgty6LXJLLUoOBhINN7GHBNpRAOidPljzo6NT9SknApF3l9J6wTqDn
-         c+KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TsRQ3SVohkOtQPdF+FWJeJ2VqSG/vDGg0tiEtAOREIM=;
-        b=WAE8nGLWMJEhzhm/D27Cs5N05PzU6+iZ/upwfDr/N2Ky2CfqXBfzhe9xPKuEdK+A9/
-         5X+j71UMlA8y3iCHh6NEztDdx3qTcG1czx9ngMrMMNA52tyYkHv0XvA79FusAmgZ9OWa
-         D88wkR+CYH7y5eAjZBiW2D5toUEBqf4iSnsjZ/4aDUZumPH8+KFp5sMEUchLAPvJTDR2
-         PSuBtmu1Sdy5G8yLBjvIiPtVQk9I1q384uQ0NydVay7GzbJg1FdPOBASlqrEsexHZcbC
-         nBNFw4Ag6eTzisQBbA+cUZhoXBq/oYACjoI8NyjoMBRtOhfH72IYac4DoYbvf7+a8fOK
-         Yq6Q==
-X-Gm-Message-State: AOAM532VPY6htI//BOsDuPKR8uxdJcZQbhcQq5yjLO5BlvVEslinK7gS
-        K0dPmhY2ItSCwfznhB9ntjNyX1ASnqM=
-X-Google-Smtp-Source: ABdhPJwo/8lAg1VcbfXGIKrXktZ/0c3eyIE8YP3e9uMMRaMJeJw2RBTuNYgQGzIvJ8PpwWybXlIm4w==
-X-Received: by 2002:a5d:4889:: with SMTP id g9mr14979816wrq.400.1643587151468;
-        Sun, 30 Jan 2022 15:59:11 -0800 (PST)
-Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id 11sm11993663wrb.30.2022.01.30.15.59.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jan 2022 15:59:11 -0800 (PST)
-From:   Daniel Scally <djrscally@gmail.com>
-To:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
-Cc:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        hanlinchen@chromium.org, tfiga@chromium.org, hdegoede@redhat.com,
-        kieran.bingham@ideasonboard.com, hpa@redhat.com
-Subject: [PATCH v2 6/6] media: v4l2-async: Create links during v4l2_async_match_notify()
-Date:   Sun, 30 Jan 2022 23:58:21 +0000
-Message-Id: <20220130235821.48076-7-djrscally@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220130235821.48076-1-djrscally@gmail.com>
-References: <20220130235821.48076-1-djrscally@gmail.com>
+        Sun, 30 Jan 2022 19:01:02 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3AA7C061714
+        for <linux-media@vger.kernel.org>; Sun, 30 Jan 2022 16:01:01 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37160A4D;
+        Mon, 31 Jan 2022 01:00:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1643587259;
+        bh=cGIgkW2eXZW3tt9h7LPwc7bV+MpONBqLi7VC9Oaa2MA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oK1rX3hmAJk/gd6tZ2yqcNh8bJIcUGSmDP0vJyjTB7lJEvfTG3x/q/tV2jZIRjEaz
+         t+tbzYI4m63udQ6MIilfO2e+Qq7YFYoNh2DNPbZT7pLuQ8VwsYOAqcDu5k/zuNYPWR
+         PSXFK/kjf7jwlEzteF3EzlGmRbuIa0e8KNo/SmHw=
+Date:   Mon, 31 Jan 2022 02:00:37 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Mohammad <moin@librem.one>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org
+Subject: Re: Get j5 WebCam JVCU100 supported by Linux UVC driver
+Message-ID: <YfbjyZ8aeJsNGoIm@pendragon.ideasonboard.com>
+References: <a7e0c40f-3bf7-b564-c182-88bbb5d4b188@librem.one>
+ <CANiDSCvbuUHU40CE+uGT56VUDMnLifTw7yAN+HD4WJVTyAg+Aw@mail.gmail.com>
+ <CANiDSCuLQWFxMLKj9no7-qdZMRp3AJdgZ=u8356hc7mf-6fQyA@mail.gmail.com>
+ <YfPJree+wFQ1869W@pendragon.ideasonboard.com>
+ <38609c2c-8b15-4aa1-a1a1-c219d4ff4e83@librem.one>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <38609c2c-8b15-4aa1-a1a1-c219d4ff4e83@librem.one>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Upon an async fwnode match, there's some typical behaviour that the
-notifier and matching subdev will want to do. For example, a notifier
-representing a sensor matching to an async subdev representing its
-VCM will want to create an ancillary link to expose that relationship
-to userspace.
+Hi Mohammad,
 
-To avoid lots of code in individual drivers, try to build these links
-within v4l2 core.
+On Sun, Jan 30, 2022 at 12:12:53PM -0600, Mohammad wrote:
+> Is there a way around this problem?  Would I have to reach out to the
+> device manufacturer?
 
-Signed-off-by: Daniel Scally <djrscally@gmail.com>
----
-Changes since v1:
+If you have access to a Windows machine, it could be useful to check if
+it works there. If it doesn't, the device is likely faulty. If it does,
+then a debugging session would be required, which could involve
+capturing a USB trace when using the camera under Windows, to figure out
+what is different between Windows and Linux.
 
-	- Added #ifdef guards for CONFIG_MEDIA_CONTROLLER
-	- Some spelling and nomenclature cleanup (Laurent)
+> On 1/28/22 4:47 AM, Laurent Pinchart wrote:
+> > On Fri, Jan 28, 2022 at 09:31:43AM +0100, Ricardo Ribalda wrote:
+> >> I received out of list the dmesg output from Mohammad
+> >>
+> >> It looks like a hardware error to me:
+> >>
+> >> [   48.729618] iTCO_wdt: unable to reset NO_REBOOT flag, device disabled by hardware/BIOS
+> >> [   48.749361] uvcvideo: Found UVC 1.00 device j5 WebCam JVCU100 (0711:3108)
+> >> [   48.751876] uvcvideo: Failed to query (129) UVC probe control : -32 (exp. 26).
+> >
+> > A GET_CUR failure on the video probe control is indeed fairly bad. If I
+> > had to guess, I would suspect either an issue at the USB level, or a
+> > firmware bug in the webcam.
+> >
+> >> [   48.751879] uvcvideo: Failed to initialize the device (-5).
+> >> [   48.751930] usbcore: registered new interface driver uvcvideo
+> >>
+> >> On Wed, 26 Jan 2022 at 17:23, Ricardo Ribalda wrote:
+> >>> Hi Mohammad
+> >>>
+> >>> Could you share the output of dmesg when you connect the device?
+> >>>
+> >>> And also lsusb -vvvv -d 0711:3108
+> >>>
+> >>>
+> >>> Thanks!
+> >>>
+> >>> On Wed, 26 Jan 2022 at 17:20, Mohammad wrote:
+> >>>> Greetings,
+> >>>>
+> >>>> I have been trying to use the j5 WebCam JVCU100 on Linux and it doesn't
+> >>>> function properly.  Cheese cannot seem to find it, and I did not see it
+> >>>> listed on your list of supported devices, so I thought I would bring it
+> >>>> to your attention.  Here is what I see from running lsusb:
+> >>>>
+> >>>> Bus 001 Device 006: ID 0711:3108 Magic Control Technology Corp. j5
+> >>>> WebCam JVCU100
+> >>>>
+> >>>> Also, running lsusb -d 0711:3108 -v | grep "14 Video" returns
+> >>>>
+> >>>> Couldn't open device, some information will be missing
+> >>>>       bFunctionClass         14 Video
+> >>>>       bInterfaceClass        14 Video
+> >>>>       bInterfaceClass        14 Video
+> >>>>       bInterfaceClass        14 Video
+> >>>>       bInterfaceClass        14 Video
+> >>>>
+> >>>> So, looks like the Linux UVC driver at least recognizes the webcam.
+> >>>> Please let me know if you can help with this, thanks!
 
-Changes since the rfc:
-
-	- None
-
- drivers/media/v4l2-core/v4l2-async.c | 56 ++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
-
-diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index 0404267f1ae4..8980534e755e 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -275,6 +275,50 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
- static int
- v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
- 
-+static int
-+__v4l2_async_create_ancillary_link(struct v4l2_async_notifier *notifier,
-+				   struct v4l2_subdev *sd)
-+{
-+	struct media_link *link = NULL;
-+
-+#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
-+
-+	if (sd->entity.function != MEDIA_ENT_F_LENS &&
-+	    sd->entity.function != MEDIA_ENT_F_FLASH)
-+		return -EINVAL;
-+
-+	link = media_create_ancillary_link(&notifier->sd->entity, &sd->entity);
-+
-+#endif
-+
-+	return IS_ERR(link) ? PTR_ERR(link) : 0;
-+}
-+
-+/*
-+ * Create links on behalf of the notifier and subdev, where it's obvious what
-+ * should be done. At the moment, we only support cases where the notifier
-+ * is a camera sensor and the subdev is a lens controller.
-+ *
-+ * TODO: Create data links if the notifier's function is
-+ * MEDIA_ENT_F_VID_IF_BRIDGE and the subdev's is MEDIA_ENT_F_CAM_SENSOR.
-+ */
-+static int v4l2_async_try_create_links(struct v4l2_async_notifier *notifier,
-+				       struct v4l2_subdev *sd)
-+{
-+#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
-+
-+	if (!notifier->sd)
-+		return 0;
-+
-+	switch (notifier->sd->entity.function) {
-+	case MEDIA_ENT_F_CAM_SENSOR:
-+		return __v4l2_async_create_ancillary_link(notifier, sd);
-+	}
-+
-+#endif
-+	return 0;
-+}
-+
- static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
- 				   struct v4l2_device *v4l2_dev,
- 				   struct v4l2_subdev *sd,
-@@ -293,6 +337,18 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
- 		return ret;
- 	}
- 
-+	/*
-+	 * Depending of the function of the entities involved, we may want to
-+	 * create links between them (for example between a sensor and its lens
-+	 * or between a sensor's source pad and the connected device's sink
-+	 * pad).
-+	 */
-+	ret = v4l2_async_try_create_links(notifier, sd);
-+	if (ret) {
-+		v4l2_device_unregister_subdev(sd);
-+		return ret;
-+	}
-+
- 	/* Remove from the waiting list */
- 	list_del(&asd->list);
- 	sd->asd = asd;
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
