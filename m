@@ -2,62 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B12954A5720
-	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 07:08:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E051E4A57B3
+	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 08:23:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233883AbiBAGIF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Feb 2022 01:08:05 -0500
-Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:36415 "EHLO
-        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229866AbiBAGIB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Feb 2022 01:08:01 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0V3MZg10_1643695678;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0V3MZg10_1643695678)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 01 Feb 2022 14:07:59 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     mirela.rabulea@nxp.com
-Cc:     mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        linux-imx@nxp.com, kernel@pengutronix.de, festevam@gmail.com,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] media: imx-jpeg: Remove unnecessary print function dev_err()
-Date:   Tue,  1 Feb 2022 14:07:57 +0800
-Message-Id: <20220201060757.89837-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+        id S234680AbiBAHXy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Feb 2022 02:23:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41364 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233720AbiBAHXx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Feb 2022 02:23:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64AE6C061714
+        for <linux-media@vger.kernel.org>; Mon, 31 Jan 2022 23:23:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2876AB80A7C
+        for <linux-media@vger.kernel.org>; Tue,  1 Feb 2022 07:23:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7219AC340EB;
+        Tue,  1 Feb 2022 07:23:50 +0000 (UTC)
+Message-ID: <d301d968-df95-244d-088e-c11674bb7b36@xs4all.nl>
+Date:   Tue, 1 Feb 2022 08:23:48 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Content-Language: en-US
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc:     Frank Barchard <fbarchard@google.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] pixfmt-yuv-planar.rst: fix typo: 'Cr, Cr' -> 'Cr, Cb'
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The print function dev_err() is redundant because platform_get_irq()
-already prints an error.
+Several NV formats incorrectly described the Chroma order as
+Cr, Cr when it actually is Cr, Cb.
 
-Eliminate the follow coccicheck warning:
-./drivers/media/platform/imx-jpeg/mxc-jpeg.c:2025:3-10: line 2025 is
-redundant because platform_get_irq() already prints an error
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reported-by: Frank Barchard <fbarchard@google.com>
 ---
- drivers/media/platform/imx-jpeg/mxc-jpeg.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-index fed762491379..77c5134739ea 100644
---- a/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
-@@ -2022,7 +2022,6 @@ static int mxc_jpeg_probe(struct platform_device *pdev)
- 	for (slot = 0; slot < MXC_MAX_SLOTS; slot++) {
- 		dec_irq = platform_get_irq(pdev, slot);
- 		if (dec_irq < 0) {
--			dev_err(&pdev->dev, "Failed to get irq %d\n", dec_irq);
- 			ret = dec_irq;
- 			goto err_irq;
- 		}
--- 
-2.20.1.7.g153144c
-
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+index 3a09d93d405b..85615981faaa 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+@@ -76,7 +76,7 @@ All components are stored with the same number of bits per component.
+       - 'NV21'
+       - 8
+       - 4:2:0
+-      - Cr, Cr
++      - Cr, Cb
+       - Yes
+       - Linear
+     * - V4L2_PIX_FMT_NV12M
+@@ -90,7 +90,7 @@ All components are stored with the same number of bits per component.
+       - 'NM21'
+       - 8
+       - 4:2:0
+-      - Cr, Cr
++      - Cr, Cb
+       - No
+       - Linear
+     * - V4L2_PIX_FMT_NV12MT
+@@ -120,7 +120,7 @@ All components are stored with the same number of bits per component.
+       - 'NV61'
+       - 8
+       - 4:2:2
+-      - Cr, Cr
++      - Cr, Cb
+       - Yes
+       - Linear
+     * - V4L2_PIX_FMT_NV16M
+@@ -134,7 +134,7 @@ All components are stored with the same number of bits per component.
+       - 'NM61'
+       - 8
+       - 4:2:2
+-      - Cr, Cr
++      - Cr, Cb
+       - No
+       - Linear
+     * - V4L2_PIX_FMT_NV24
+@@ -148,7 +148,7 @@ All components are stored with the same number of bits per component.
+       - 'NV42'
+       - 8
+       - 4:4:4
+-      - Cr, Cr
++      - Cr, Cb
+       - Yes
+       - Linear
+ 
