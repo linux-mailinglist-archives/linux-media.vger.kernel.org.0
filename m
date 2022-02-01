@@ -2,78 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35D134A5ED8
-	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 16:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D6804A61A1
+	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 17:52:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239673AbiBAPCz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Feb 2022 10:02:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239674AbiBAPCq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Feb 2022 10:02:46 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE18CC06173B
-        for <linux-media@vger.kernel.org>; Tue,  1 Feb 2022 07:02:45 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id i34so14147140lfv.2
-        for <linux-media@vger.kernel.org>; Tue, 01 Feb 2022 07:02:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=qq9wIiVWHN2WAUtj0B7xD2yz2moOuwSz6aN0pUPieSs=;
-        b=fMapvbJiHmjTkNsa7yBUFLSJIA+MTw6A1MbkA2b2rQQQo+Wob0zTbkeeEbfQPYGIQf
-         U4sk4G90IXofoUHL7XE+VEVpAZnQbCP/QZg0Wbl+Q1sdgz8Yi4Y7Zw5xlkZB3g0BcYNr
-         053gUmJHk781tNJOr1hIDcENWimzXXx50S/ksy+aIXm/xpyeqWuUfEeubbL6TONIVJra
-         4O7rX28q2NXLNN7SrnWsLwGRZ+vDssoJDVrRGyeXvE+SgRWUKW0M2N4NA5+jml/NLKyP
-         5NdFsA+bFO7MJlBz4xAsvx8m/InEXlJhdXqVqgdpMqTJEHOeVIbSB4kMjyqBPtZKM9z2
-         EUIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=qq9wIiVWHN2WAUtj0B7xD2yz2moOuwSz6aN0pUPieSs=;
-        b=PwMAjK+GDWcNFR//9mfvwsdHzLsrupu5FyBDdaCy+pMSsjmh9CRDoVkkTMH/HvJvD9
-         A3ULQmooDqGW8LzoabHUPPPC/3p8Sz3cHsPxSwAaubNi0MUVrQHNVco00zOHLMdMYAzB
-         xG/KuGhLh18ih8sZKgVXdq4bcFh3m3njXYReF3Ko0D7lDZXXv8lEzGITguPQbcYnD3+B
-         j1Lr5Gh+rTuvwGKq3ZxD5qvoHs94R07FCG1rrSPrZgSiu/eSPZo7MnSbFUIg6WuLKdu+
-         Vt5UlVvF7bt7G1GFvuFwRW9VoA50Crc853ZlLxBVkg1tj1xh0FKUIcDqvlVttp4UQQwd
-         +0Zw==
-X-Gm-Message-State: AOAM5306y8e7azYZl3cv7GybGXTwToAlN2fsWxi2/bp6V/T6UdBrkG+n
-        YGQGW7kPVlkETICD0rXUmcS/sBklmziWV3UGlzE=
-X-Google-Smtp-Source: ABdhPJw/kHI0JPnhnq6C7SG3auwrRNfiX1R9F6LVV5RQucbRe1+Vjtlhosrdz53WnfHrz370fFvzPmJXfcjRUF0rgKE=
-X-Received: by 2002:a05:6512:3da5:: with SMTP id k37mr10482818lfv.511.1643727764237;
- Tue, 01 Feb 2022 07:02:44 -0800 (PST)
+        id S241251AbiBAQwe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Feb 2022 11:52:34 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37620 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241244AbiBAQwd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Feb 2022 11:52:33 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43303332;
+        Tue,  1 Feb 2022 17:52:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1643734351;
+        bh=9Y1wC3Ca8CQak3AuAVPM/pxuBTPn1WBx0eKv4RbJ+ps=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jB9NiMRKSDJ42U1ODfPN38syxumv9XArfoou7QlTsK2NTd5T/W2WBwkiwHwUzsV9M
+         xH5ch5FBEDdTkhY3IIK0kRigLOkB//IoDWPW0qqnJMDCSQwAYiNf/+Hu5lVYaEDFLj
+         1k4019YW9xwyXwNlgt9xXHx9KL/PVwStVuJ1U0rI=
+Date:   Tue, 1 Feb 2022 18:52:08 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
+        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
+        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
+        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        aford173@gmail.com, festevam@gmail.com,
+        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 05/21] media: ov5640: Update pixel_rate and link_freq
+Message-ID: <YfllONKz/aWNMv/0@pendragon.ideasonboard.com>
+References: <20220131143245.128089-1-jacopo@jmondi.org>
+ <20220131143245.128089-6-jacopo@jmondi.org>
 MIME-Version: 1.0
-Received: by 2002:a05:6504:3067:0:0:0:0 with HTTP; Tue, 1 Feb 2022 07:02:43
- -0800 (PST)
-Reply-To: attorneyjoel4ever1@gmail.com
-From:   Felix Joel <aldewshpoi@gmail.com>
-Date:   Tue, 1 Feb 2022 15:02:43 +0000
-Message-ID: <CABv=ag58g9myeQwFREq5+L9fE=2eNB0PixN4=TKs8SW6fDo0tQ@mail.gmail.com>
-Subject: =?UTF-8?Q?jeg_venter_p=C3=A5_svaret_ditt?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220131143245.128089-6-jacopo@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-Hallo,
-V=C3=A6r s=C3=A5 snill, godta mine unnskyldninger. Jeg =C3=B8nsker ikke =C3=
-=A5 invadere
-privatlivet ditt, jeg er Felix Joel, en advokat av yrke. Jeg har
-skrevet en tidligere e-post til deg, men uten svar, og i min f=C3=B8rste
-e-post nevnte jeg til deg om min avd=C3=B8de klient, som har samme
-etternavn som deg. Siden hans d=C3=B8d har jeg mottatt flere brev fra
-banken hans hvor han foretok et innskudd f=C3=B8r hans d=C3=B8d, banken har=
- bedt
-meg om =C3=A5 gi hans n=C3=A6rmeste p=C3=A5r=C3=B8rende eller noen av hans =
-slektninger som
-kan gj=C3=B8re krav p=C3=A5 hans midler, ellers vil de bli konfiskert og si=
-den
-Jeg kunne ikke finne noen av hans slektninger. Jeg bestemte meg for =C3=A5
-kontakte deg for denne p=C3=A5standen, derfor har du samme etternavn som
-ham. kontakt meg snarest for mer informasjon.
-Vennlig hilsen,
-Barrister Felix Joel.
+Hi Jacopo,
+
+Thank you for the patch.
+
+On Mon, Jan 31, 2022 at 03:32:29PM +0100, Jacopo Mondi wrote:
+> After having set a new format re-calculate the pixel_rate and link_freq
+> control values and update them when in MIPI mode.
+> 
+> Take into account the limitation of the link frequency having to be
+> strictly smaller than 1GHz when computing the desired link_freq, and
+> adjust the resulting pixel_rate acounting for the clock tree
+> configuration.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  drivers/media/i2c/ov5640.c | 63 ++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 61 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 8322b99eb2b7..457f76030163 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -2375,6 +2375,65 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
+> +{
+> +	const struct ov5640_mode_info *mode = sensor->current_mode;
+> +	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
+> +	enum ov5640_pixel_rate_id pixel_rate_id = mode->pixel_rate;
+> +	u32 num_lanes = sensor->ep.bus.mipi_csi2.num_data_lanes;
+
+As this is only valid for CSI-2, I'd move the initialization of the
+variable after the !ov5640_is_mipi() check.
+
+> +	unsigned int i = 0;
+> +	u32 pixel_rate;
+> +	s64 link_freq;
+> +	u32 bpp;
+> +
+> +	/*
+> +	 * Update the pixel rate control value.
+> +	 *
+> +	 * For DVP mode, maintain the pixel rate calculation using fixed FPS.
+> +	 */
+> +	if (!ov5640_is_mipi(sensor)) {
+> +		__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
+> +					 ov5640_calc_pixel_rate(sensor));
+> +
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * The MIPI CSI-2 link frequency should comply with the CSI-2
+> +	 * specifications and be lower than 1GHz.
+
+s/specifications/specification/
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +	 *
+> +	 * Start from the suggested pixel_rate for the current mode and
+> +	 * progressively slow it down if it exceeds 1GHz.
+> +	 */
+> +	bpp = ov5640_code_to_bpp(fmt->code);
+> +	do {
+> +		pixel_rate = ov5640_pixel_rates[pixel_rate_id];
+> +		link_freq = pixel_rate * bpp / (2 * num_lanes);
+> +	} while (link_freq >= 1000000000U &&
+> +		 ++pixel_rate_id < OV5640_NUM_PIXEL_RATES);
+> +
+> +	/*
+> +	 * Higher link rates require the clock tree to be programmed with
+> +	 * 'mipi_div' = 1; this has the effect of halving the actual output
+> +	 * pixel rate in the MIPI domain.
+> +	 *
+> +	 * Adjust the pixel rate control value to report it correctly to
+> +	 * userspace.
+> +	 */
+> +	if (link_freq > OV5640_LINK_RATE_MAX)
+> +		pixel_rate /= 2;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ov5640_csi2_link_freqs); ++i) {
+> +		if (ov5640_csi2_link_freqs[i] == link_freq)
+> +			break;
+> +	}
+> +
+> +	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate, pixel_rate);
+> +	__v4l2_ctrl_s_ctrl(sensor->ctrls.link_freq, i);
+> +
+> +	return 0;
+> +}
+> +
+>  static int ov5640_set_fmt(struct v4l2_subdev *sd,
+>  			  struct v4l2_subdev_state *sd_state,
+>  			  struct v4l2_subdev_format *format)
+> @@ -2414,8 +2473,8 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+>  	/* update format even if code is unchanged, resolution might change */
+>  	sensor->fmt = *mbus_fmt;
+>  
+> -	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
+> -				 ov5640_calc_pixel_rate(sensor));
+> +	ov5640_update_pixel_rate(sensor);
+> +
+>  out:
+>  	mutex_unlock(&sensor->lock);
+>  	return ret;
+
+-- 
+Regards,
+
+Laurent Pinchart
