@@ -2,186 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 015CA4A63F8
-	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 19:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 785614A6411
+	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 19:37:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241285AbiBASeO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Feb 2022 13:34:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54294 "EHLO
+        id S236866AbiBAShy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Feb 2022 13:37:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233694AbiBASeO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Feb 2022 13:34:14 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9900C061714;
-        Tue,  1 Feb 2022 10:34:13 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id u15so33769189wrt.3;
-        Tue, 01 Feb 2022 10:34:13 -0800 (PST)
+        with ESMTP id S233585AbiBAShy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Feb 2022 13:37:54 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A943C061714;
+        Tue,  1 Feb 2022 10:37:53 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id m14so33527893wrg.12;
+        Tue, 01 Feb 2022 10:37:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sCvk2JEkTN7cJ4ViA/+Q1mWtijvqc6HlgVsE2fUttPE=;
-        b=f9KQw0SsHC3XwbxZLFi5HTOVXULq8GAA1T7SheswJwe3Uh7T4s0oHTCBJ20O/+5/c0
-         FENox8mAvJOm99Z1qV/+bR2axUNOfR68w/KjC7ClaWJIkwjtsW5vq71YHkz8AIsFzr+T
-         cnzHsdUIwLH2eoQeln95eAHirPnE1Q9gbvOZG6DVwusrD38a47+n8RBqroFuywu59U9u
-         iw/ME37+LwcIGcWpEBQnXM8PMGhX9exRPQYtq/32fa93yKENBWWy8h+JT4ATH0Hjtk8v
-         19aIdSj/wpyMXDWZVr9FoyhtpxfPo6g6sIbNVklpmsQyXuQZV4IIQgKxOVVNp3iP810H
-         W4nw==
+        bh=ZBgIRjkLbdJ2d0JKunAU5CVspXUyqLqEcOx1cV1Rqi0=;
+        b=ADplcVBVhMGRkw3euwY7PCXGhCj3or3MlkY5dUqJOErcGOKgAFHScCUQpSJPIU7y/z
+         4T4/KxQhcGRIGd9Xpejgn9OFVMgkMlgugIWCrOPwOttGmOfpDYjuW2v+XFpXGGSWEhDU
+         M93s5ggQSEZnWjTHvUWSCl7EnfvCt4jp2n6OTHV3lvomWsQy/IK/C39ZndiuVcfpfOFI
+         wPBUq82D5coZTxJk7SYnCtD0GX5FZj5OTmZca1TIi3Pv3LKDGjGouUNRcmUq0Mc21vFc
+         oAZSobWTI9EB9ZYMKBPNuv4tTj0L2b6GQ/H9w++7pv/weoFJXYAHnVV8e88Ym6Grgyxf
+         5yhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sCvk2JEkTN7cJ4ViA/+Q1mWtijvqc6HlgVsE2fUttPE=;
-        b=sIauA3kl8RUNihqT9TaM4PYCMsI6lmASZPZgU+ICrU9KvKNB7IWVCUSSSSrFRwvb0s
-         u67ONImFi3FNcITCBuLuOVoIKuxJpTP9jaNfYLhDvvtOclGYeH0rikGOfmudJ/+kgF1w
-         Y8V2lU3b0hGHUIk0piqDFE6eU+VoO2+0DFAaZWqr50WMeRnllOgROlJyhHqCQrzdqqQ0
-         hCPdtxVpe3OYMDKeVCoXbV5DxVZVwEk2+uvofTJcyFr0QaLeZQBuiPgbYK0no0DKjYiZ
-         M69D+zAvc1pqEw6bjrS88GSicvz4nKytw2QTKEh/YM0x+sT0Yg9sJoZjlQ76T3BqJeLZ
-         oebQ==
-X-Gm-Message-State: AOAM533X4C1o91BxPWf+zySNqtLkHckHAB0YK2PtgtH3mkjZcnKIHSnz
-        oEANCT0i1pfc59PS2dogEB4=
-X-Google-Smtp-Source: ABdhPJxBKiYspzokfHzLalKSOyfp5oCM2yFNJiRRUv2fby6NHl0LPyRTYyGimtWMvaAdY7iHePaqKw==
-X-Received: by 2002:adf:ef88:: with SMTP id d8mr21442184wro.419.1643740452368;
-        Tue, 01 Feb 2022 10:34:12 -0800 (PST)
-Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id x13sm15307236wru.28.2022.02.01.10.34.11
+        bh=ZBgIRjkLbdJ2d0JKunAU5CVspXUyqLqEcOx1cV1Rqi0=;
+        b=R7nwk/oeZZ15+JIoo6L8ne+eeH2koayS8d6XrF0vx3JYuemukfjTYvvEqEs4EwJNsH
+         XTIwLLphTcrUB5/T7owu4PjHGamAEG3CKXs/KmKpWh93rfIzOqXi+uwDICwWHGm2HU45
+         6uMsNJw6gCbPusXqXCVnwfa38IuKVYO27x0IkYKm4SJAmjRCET2YYblA8bXltMjVmHOi
+         vJ6ExzhUpeErzvDX7lrTnGI7jrkZZuIW4C8NnQ8dyKAc5GGsRXoNb0JEbyGQKhqe2RWm
+         szfMCwr9HBjb+ny8axd4di7Gcd/MN6I4ffSONzlFABks0mWfyUEcCVUnGQYlCD1lF1qc
+         bETA==
+X-Gm-Message-State: AOAM53014Ye96Jw05er2azmb5qYskNZOy4VJDmBsQh7u1qwsk5JxhHNw
+        T8W9J14BKD4UqxlEnyvpcGE=
+X-Google-Smtp-Source: ABdhPJylqxJAG6vxPPgBx1ChtN9Ev87MhPK++TZI/mYaHI3wX+fD+XxLGh/Luu5GLdmGSuYOd+yvyQ==
+X-Received: by 2002:adf:f006:: with SMTP id j6mr22303058wro.444.1643740671775;
+        Tue, 01 Feb 2022 10:37:51 -0800 (PST)
+Received: from X1C7EK5.wind3.hub ([151.40.130.120])
+        by smtp.gmail.com with ESMTPSA id j19sm3097477wmq.17.2022.02.01.10.37.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Feb 2022 10:34:11 -0800 (PST)
-From:   Jernej Skrabec <jernej.skrabec@gmail.com>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.org, wens@csie.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] media: cedrus: Add watchdog for job completion
-Date:   Tue,  1 Feb 2022 19:33:24 +0100
-Message-Id: <20220201183324.493542-1-jernej.skrabec@gmail.com>
+        Tue, 01 Feb 2022 10:37:51 -0800 (PST)
+From:   ektor5 <ek5.chimenti@gmail.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ettore Chimenti <ek5.chimenti@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linuxfancy@googlegroups.com
+Subject: [PATCH 0/2] Add SECO CEC driver for MEC Based boards
+Date:   Tue,  1 Feb 2022 19:37:32 +0100
+Message-Id: <20220201183734.224756-1-ek5.chimenti@gmail.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently, if job is not completed for whatever reason, userspace
-application can hang on ioctl and thus become unkillable.
+From: Ettore Chimenti <ek5.chimenti@gmail.com>
 
-In order to prevent that, implement watchdog, which will complete job
-after 2 seconds with error state.
+Hi all,
 
-Concept is borrowed from hantro driver.
+This series adds the SECO CEC driver for MAC-based Boards. The
+boards have a Microchip MEC microcontroller as a general-purpose
+Embedded Controller, and they communicate through a mailbox interface.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus.c   |  2 ++
- drivers/staging/media/sunxi/cedrus/cedrus.h   |  3 +++
- .../staging/media/sunxi/cedrus/cedrus_dec.c   |  4 +++
- .../staging/media/sunxi/cedrus/cedrus_hw.c    | 25 +++++++++++++++++++
- .../staging/media/sunxi/cedrus/cedrus_hw.h    |  2 ++
- 5 files changed, 36 insertions(+)
+The EC used is more powerful and enables management of several CEC lines
+at once (up to 4). The focus is on Intel-based SBC-D61 board and UDOO
+Vision (SBC-D02) in this version, as the UDOO BOLT firmware
+implementation is still ongoing. Moreover, there is no CEC Notifier
+functionality inside amdgpu yet.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 4a4b714b0f26..68b3dcdb5df3 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -439,6 +439,8 @@ static int cedrus_probe(struct platform_device *pdev)
- 
- 	mutex_init(&dev->dev_mutex);
- 
-+	INIT_DELAYED_WORK(&dev->watchdog_work, cedrus_watchdog);
-+
- 	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register V4L2 device\n");
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-index c345f2984041..3bc094eb497f 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -24,6 +24,7 @@
- 
- #include <linux/iopoll.h>
- #include <linux/platform_device.h>
-+#include <linux/workqueue.h>
- 
- #define CEDRUS_NAME			"cedrus"
- 
-@@ -194,6 +195,8 @@ struct cedrus_dev {
- 	struct reset_control	*rstc;
- 
- 	unsigned int		capabilities;
-+
-+	struct delayed_work	watchdog_work;
- };
- 
- extern struct cedrus_dec_ops cedrus_dec_ops_mpeg2;
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-index a16c1422558f..9c7200299465 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-@@ -97,4 +97,8 @@ void cedrus_device_run(void *priv)
- 		v4l2_ctrl_request_complete(src_req, &ctx->hdl);
- 
- 	dev->dec_ops[ctx->current_codec]->trigger(ctx);
-+
-+	/* Start the watchdog timer. */
-+	schedule_delayed_work(&dev->watchdog_work,
-+			      msecs_to_jiffies(2000));
- }
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-index 2d7663726467..a6470a89851e 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-@@ -118,6 +118,13 @@ static irqreturn_t cedrus_irq(int irq, void *data)
- 	enum vb2_buffer_state state;
- 	enum cedrus_irq_status status;
- 
-+	/*
-+	 * If cancel_delayed_work returns false it means watchdog already
-+	 * executed and finished the job.
-+	 */
-+	if (!cancel_delayed_work(&dev->watchdog_work))
-+		return IRQ_HANDLED;
-+
- 	ctx = v4l2_m2m_get_curr_priv(dev->m2m_dev);
- 	if (!ctx) {
- 		v4l2_err(&dev->v4l2_dev,
-@@ -143,6 +150,24 @@ static irqreturn_t cedrus_irq(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
-+void cedrus_watchdog(struct work_struct *work)
-+{
-+	struct cedrus_dev *dev;
-+	struct cedrus_ctx *ctx;
-+
-+	dev = container_of(to_delayed_work(work),
-+			   struct cedrus_dev, watchdog_work);
-+
-+	ctx = v4l2_m2m_get_curr_priv(dev->m2m_dev);
-+	if (!ctx)
-+		return;
-+
-+	v4l2_err(&dev->v4l2_dev, "frame processing timed out!\n");
-+	reset_control_reset(dev->rstc);
-+	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
-+					 VB2_BUF_STATE_ERROR);
-+}
-+
- int cedrus_hw_suspend(struct device *device)
- {
- 	struct cedrus_dev *dev = dev_get_drvdata(device);
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-index 45f641f0bfa2..7c92f00e36da 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-@@ -28,4 +28,6 @@ int cedrus_hw_resume(struct device *device);
- int cedrus_hw_probe(struct cedrus_dev *dev);
- void cedrus_hw_remove(struct cedrus_dev *dev);
- 
-+void cedrus_watchdog(struct work_struct *work);
-+
- #endif
+Similarly to the previous implementation, there are several commands
+that can be issued, like WRITE and READ commands for sending and
+receiving CEC messages. The retrieval and send confirmation are
+triggered by a single GPIO interrupt connected directly to the SoC.
+
+After every STATUS command, the MEC returns a data struct with all the
+channels status, and it automatically clears the interrupt state afterwards.
+
+In this implementation, the driver sends also the physical address to
+the EC. This way it is possible to wake up the board upon receiving an
+SET_STREAM_PATH with the matching physical address when the CPU is in S3
+or S5 (depending on BIOS settings). The only time that it seems to be
+already set is in the LA assignment (in the .enable callback it is not
+set yet).
+
+The last patch adds missing newlines to debug prints in the previous
+driver seco-cec.
+
+Best Regards,
+	Ettore
+
+Ettore Chimenti (2):
+  media: cec: add SECO MEC-based cec driver
+  media: cec: seco: add newlines in debug messages
+
+ MAINTAINERS                                   |   2 +
+ drivers/media/cec/platform/Kconfig            |  22 +-
+ drivers/media/cec/platform/seco/Makefile      |   3 +-
+ drivers/media/cec/platform/seco/seco-cec.c    |  54 +-
+ drivers/media/cec/platform/seco/seco-meccec.c | 821 ++++++++++++++++++
+ drivers/media/cec/platform/seco/seco-meccec.h | 130 +++
+ 6 files changed, 1002 insertions(+), 30 deletions(-)
+ create mode 100644 drivers/media/cec/platform/seco/seco-meccec.c
+ create mode 100644 drivers/media/cec/platform/seco/seco-meccec.h
+
 -- 
-2.35.1
+2.17.1
 
