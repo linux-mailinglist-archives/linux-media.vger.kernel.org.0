@@ -2,302 +2,776 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7614E4A6416
-	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 19:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D4034A648D
+	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 20:03:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241985AbiBASiA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Feb 2022 13:38:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55278 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240143AbiBASiA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Feb 2022 13:38:00 -0500
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5DA0C061714;
-        Tue,  1 Feb 2022 10:37:59 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id j5-20020a05600c1c0500b0034d2e956aadso2238497wms.4;
-        Tue, 01 Feb 2022 10:37:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ve8tBclI5IMrrMI15B03jvD+eu/iK6m1qrk9Pz//fBI=;
-        b=lFfSrnIIiNiQ9HzJ7/WifUaPADKRkkv+F3hqEDj0Jn9XW84XpBgFQbIMqpTr7/urD+
-         YO6bYyWaiAOVo0Mun2QQ3wXa/eJFfmhy+GjW0FNeD5y8ZrTQC4PWkJhxHRmoLWIn8gfI
-         sxewSoTkQHlDS36c6E8dYKP8E+0noOceVjOoUu5CxKvs6bO9GYmjWijoO9FvJKzrb7At
-         CdrlfBmKwnxraAm2WQX5r+N+4hNai/jUk4G+NHJ1jXejeeuJxZNjdg8/OnCqZYa1/u2E
-         85I/KW9EX0/SfGgISkhYMMANYaoxEgsLhmMLMC1B0B7OppI62gL83WZOreOXz3ulLF1K
-         IuAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ve8tBclI5IMrrMI15B03jvD+eu/iK6m1qrk9Pz//fBI=;
-        b=daRtCnFYkgNMw4fM/7nQLoTcZb+mJYzd02P+uNNtVDmBzlUgGkGS9pCIhYmEQm42JY
-         1CwZmRL8SsmleLF0fXZJt2fiCYo3oQOjgDkXJFaMwATzS7VJCiHQRgZHYD5VX5Ew8VL8
-         PWXJothBBCJ/RwV5zphrmZZe68Og97cywd0qHZnXBiDhLjwrSvMjP9An3Fn//ThKxqgl
-         gl6nolmDnaURPF8iYs3fNpr3hchM1q0ZwanZfDKRQmyk9mOtF6zPswcOSfA3X5BMu/jz
-         BEhaUHMRq4EGX6YmirjOS9pyLrEicuSrkV9Lk/RTVmbUfNXEpYPQrcIDSZ7WOgjxSrTe
-         cT+w==
-X-Gm-Message-State: AOAM5336lsovmmw2MjlxK26wASeUrphZ7mQXZkG9FmuopswvVzMD/+Sh
-        s/y34+yPLAuMtOoHtBA56zPahvy+efrpdw==
-X-Google-Smtp-Source: ABdhPJwI6E3HElHpzSsZnZmMM8bQrF62l2ToUjMY8b8KAp0cybrgUDH9guSk/WKKQnqpcg75zMvrzQ==
-X-Received: by 2002:a05:600c:3505:: with SMTP id h5mr2978052wmq.122.1643740678276;
-        Tue, 01 Feb 2022 10:37:58 -0800 (PST)
-Received: from X1C7EK5.wind3.hub ([151.40.130.120])
-        by smtp.gmail.com with ESMTPSA id j19sm3097477wmq.17.2022.02.01.10.37.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Feb 2022 10:37:57 -0800 (PST)
-From:   ektor5 <ek5.chimenti@gmail.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        id S242174AbiBATDu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Feb 2022 14:03:50 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:39296 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242224AbiBATDt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Feb 2022 14:03:49 -0500
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC18B332;
+        Tue,  1 Feb 2022 20:03:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1643742228;
+        bh=BOLacS0UXk8ULERLajyQEpKUjjaW/nbOYdMdEerKIuQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FG8BsIYLHBNE9RMsJMf19guehp5hQD/n5LbhIe5UIMpo9EMMKzcDU8mOIqAvggfWA
+         sQR4o+xeSMv/9+6g48K0KPaDaJYxIDCN/ZPpG9kPQybtxGTCx95grvuYxVlWMG+Rb2
+         uDGSHVi1DORUCO+Gpi/QgLNW/BTO+YqqEUbEBl8Y=
+Date:   Tue, 1 Feb 2022 21:03:25 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
+        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
+        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
+        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        aford173@gmail.com, festevam@gmail.com,
+        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linuxfancy@googlegroups.com
-Subject: [PATCH 2/2] media: cec: seco: add newlines in debug messages
-Date:   Tue,  1 Feb 2022 19:37:34 +0100
-Message-Id: <20220201183734.224756-3-ek5.chimenti@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220201183734.224756-1-ek5.chimenti@gmail.com>
-References: <20220201183734.224756-1-ek5.chimenti@gmail.com>
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 07/21] media: ov5640: Rework timings programming
+Message-ID: <YfmD/UF8s8i+axUr@pendragon.ideasonboard.com>
+References: <20220131143245.128089-1-jacopo@jmondi.org>
+ <20220131143245.128089-8-jacopo@jmondi.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220131143245.128089-8-jacopo@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ettore Chimenti <ek5.chimenti@gmail.com>
+Hi Jacopo,
 
-Newlines were missing in almost all regular and debug printk.
+Thank you for the patch.
 
-Signed-off-by: Ettore Chimenti <ek5.chimenti@gmail.com>
----
- drivers/media/cec/platform/seco/seco-cec.c | 54 +++++++++++-----------
- 1 file changed, 27 insertions(+), 27 deletions(-)
+On Mon, Jan 31, 2022 at 03:32:31PM +0100, Jacopo Mondi wrote:
+> The current definition of a sensor mode defines timings as follows:
+> 
+> - hact, vact: Visible width and height
+> - htot, vtot: Total sizes invluding blankings
 
-diff --git a/drivers/media/cec/platform/seco/seco-cec.c b/drivers/media/cec/platform/seco/seco-cec.c
-index ae138cc253fd..78856a55e637 100644
---- a/drivers/media/cec/platform/seco/seco-cec.c
-+++ b/drivers/media/cec/platform/seco/seco-cec.c
-@@ -129,7 +129,7 @@ static int secocec_adap_enable(struct cec_adapter *adap, bool enable)
- 		if (status)
- 			goto err;
- 
--		dev_dbg(dev, "Device enabled");
-+		dev_dbg(dev, "Device enabled\n");
- 	} else {
- 		/* Clear the status register */
- 		status = smb_rd16(SECOCEC_STATUS_REG_1, &val);
-@@ -141,7 +141,7 @@ static int secocec_adap_enable(struct cec_adapter *adap, bool enable)
- 				  ~SECOCEC_ENABLE_REG_1_CEC &
- 				  ~SECOCEC_ENABLE_REG_1_IR);
- 
--		dev_dbg(dev, "Device disabled");
-+		dev_dbg(dev, "Device disabled\n");
- 	}
- 
- 	return 0;
-@@ -264,12 +264,12 @@ static void secocec_rx_done(struct cec_adapter *adap, u16 status_val)
- 
- 	if (status_val & SECOCEC_STATUS_RX_OVERFLOW_MASK) {
- 		/* NOTE: Untested, it also might not be necessary */
--		dev_warn(dev, "Received more than 16 bytes. Discarding");
-+		dev_warn(dev, "Received more than 16 bytes. Discarding\n");
- 		flag_overflow = true;
- 	}
- 
- 	if (status_val & SECOCEC_STATUS_RX_ERROR_MASK) {
--		dev_warn(dev, "Message received with errors. Discarding");
-+		dev_warn(dev, "Message received with errors. Discarding\n");
- 		status = -EIO;
- 		goto rxerr;
- 	}
-@@ -390,12 +390,12 @@ static int secocec_ir_probe(void *priv)
- 	if (status != 0)
- 		goto err;
- 
--	dev_dbg(dev, "IR enabled");
-+	dev_dbg(dev, "IR enabled\n");
- 
- 	status = devm_rc_register_device(dev, cec->ir);
- 
- 	if (status) {
--		dev_err(dev, "Failed to prepare input device");
-+		dev_err(dev, "Failed to prepare input device\n");
- 		cec->ir = NULL;
- 		goto err;
- 	}
-@@ -408,7 +408,7 @@ static int secocec_ir_probe(void *priv)
- 	smb_wr16(SECOCEC_ENABLE_REG_1,
- 		 val & ~SECOCEC_ENABLE_REG_1_IR);
- 
--	dev_dbg(dev, "IR disabled");
-+	dev_dbg(dev, "IR disabled\n");
- 	return status;
- }
- 
-@@ -431,13 +431,13 @@ static int secocec_ir_rx(struct secocec_data *priv)
- 
- 	rc_keydown(cec->ir, RC_PROTO_RC5, RC_SCANCODE_RC5(addr, key), toggle);
- 
--	dev_dbg(dev, "IR key pressed: 0x%02x addr 0x%02x toggle 0x%02x", key,
-+	dev_dbg(dev, "IR key pressed: 0x%02x addr 0x%02x toggle 0x%02x\n", key,
- 		addr, toggle);
- 
- 	return 0;
- 
- err:
--	dev_err(dev, "IR Receive message failed (%d)", status);
-+	dev_err(dev, "IR Receive message failed (%d)\n", status);
- 	return -EIO;
- }
- #else
-@@ -497,7 +497,7 @@ static irqreturn_t secocec_irq_handler(int irq, void *priv)
- 	return IRQ_HANDLED;
- 
- err:
--	dev_err_once(dev, "IRQ: R/W SMBus operation failed (%d)", status);
-+	dev_err_once(dev, "IRQ: R/W SMBus operation failed %d\n", status);
- 
- 	/*  Reset status register */
- 	val = SECOCEC_STATUS_REG_1_CEC | SECOCEC_STATUS_REG_1_IR;
-@@ -553,16 +553,16 @@ static int secocec_acpi_probe(struct secocec_data *sdev)
- 
- 	gpio = devm_gpiod_get(dev, NULL, GPIOF_IN);
- 	if (IS_ERR(gpio)) {
--		dev_err(dev, "Cannot request interrupt gpio");
-+		dev_err(dev, "Cannot request interrupt gpio\n");
- 		return PTR_ERR(gpio);
- 	}
- 
- 	irq = gpiod_to_irq(gpio);
- 	if (irq < 0) {
--		dev_err(dev, "Cannot find valid irq");
-+		dev_err(dev, "Cannot find valid irq\n");
- 		return -ENODEV;
- 	}
--	dev_dbg(dev, "irq-gpio is bound to IRQ %d", irq);
-+	dev_dbg(dev, "irq-gpio is bound to IRQ %d\n", irq);
- 
- 	sdev->irq = irq;
- 
-@@ -590,7 +590,7 @@ static int secocec_probe(struct platform_device *pdev)
- 
- 	/* Request SMBus regions */
- 	if (!request_muxed_region(BRA_SMB_BASE_ADDR, 7, "CEC00001")) {
--		dev_err(dev, "Request memory region failed");
-+		dev_err(dev, "Request memory region failed\n");
- 		return -ENXIO;
- 	}
- 
-@@ -598,14 +598,14 @@ static int secocec_probe(struct platform_device *pdev)
- 	secocec->dev = dev;
- 
- 	if (!has_acpi_companion(dev)) {
--		dev_dbg(dev, "Cannot find any ACPI companion");
-+		dev_dbg(dev, "Cannot find any ACPI companion\n");
- 		ret = -ENODEV;
- 		goto err;
- 	}
- 
- 	ret = secocec_acpi_probe(secocec);
- 	if (ret) {
--		dev_err(dev, "Cannot assign gpio to IRQ");
-+		dev_err(dev, "Cannot assign gpio to IRQ\n");
- 		ret = -ENODEV;
- 		goto err;
- 	}
-@@ -613,11 +613,11 @@ static int secocec_probe(struct platform_device *pdev)
- 	/* Firmware version check */
- 	ret = smb_rd16(SECOCEC_VERSION, &val);
- 	if (ret) {
--		dev_err(dev, "Cannot check fw version");
-+		dev_err(dev, "Cannot check fw version\n");
- 		goto err;
- 	}
- 	if (val < SECOCEC_LATEST_FW) {
--		dev_err(dev, "CEC Firmware not supported (v.%04x). Use ver > v.%04x",
-+		dev_err(dev, "CEC Firmware not supported (v.%04x). Use ver > v.%04x\n",
- 			val, SECOCEC_LATEST_FW);
- 		ret = -EINVAL;
- 		goto err;
-@@ -631,7 +631,7 @@ static int secocec_probe(struct platform_device *pdev)
- 					dev_name(&pdev->dev), secocec);
- 
- 	if (ret) {
--		dev_err(dev, "Cannot request IRQ %d", secocec->irq);
-+		dev_err(dev, "Cannot request IRQ %d\n", secocec->irq);
- 		ret = -EIO;
- 		goto err;
- 	}
-@@ -666,7 +666,7 @@ static int secocec_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, secocec);
- 
--	dev_dbg(dev, "Device registered");
-+	dev_dbg(dev, "Device registered\n");
- 
- 	return ret;
- 
-@@ -691,14 +691,14 @@ static int secocec_remove(struct platform_device *pdev)
- 
- 		smb_wr16(SECOCEC_ENABLE_REG_1, val & ~SECOCEC_ENABLE_REG_1_IR);
- 
--		dev_dbg(&pdev->dev, "IR disabled");
-+		dev_dbg(&pdev->dev, "IR disabled\n");
- 	}
- 	cec_notifier_cec_adap_unregister(secocec->notifier, secocec->cec_adap);
- 	cec_unregister_adapter(secocec->cec_adap);
- 
- 	release_region(BRA_SMB_BASE_ADDR, 7);
- 
--	dev_dbg(&pdev->dev, "CEC device removed");
-+	dev_dbg(&pdev->dev, "CEC device removed\n");
- 
- 	return 0;
- }
-@@ -709,7 +709,7 @@ static int secocec_suspend(struct device *dev)
- 	int status;
- 	u16 val;
- 
--	dev_dbg(dev, "Device going to suspend, disabling");
-+	dev_dbg(dev, "Device going to suspend, disabling\n");
- 
- 	/* Clear the status register */
- 	status = smb_rd16(SECOCEC_STATUS_REG_1, &val);
-@@ -733,7 +733,7 @@ static int secocec_suspend(struct device *dev)
- 	return 0;
- 
- err:
--	dev_err(dev, "Suspend failed (err: %d)", status);
-+	dev_err(dev, "Suspend failed: %d\n", status);
- 	return status;
- }
- 
-@@ -742,7 +742,7 @@ static int secocec_resume(struct device *dev)
- 	int status;
- 	u16 val;
- 
--	dev_dbg(dev, "Resuming device from suspend");
-+	dev_dbg(dev, "Resuming device from suspend\n");
- 
- 	/* Clear the status register */
- 	status = smb_rd16(SECOCEC_STATUS_REG_1, &val);
-@@ -762,12 +762,12 @@ static int secocec_resume(struct device *dev)
- 	if (status)
- 		goto err;
- 
--	dev_dbg(dev, "Device resumed from suspend");
-+	dev_dbg(dev, "Device resumed from suspend\n");
- 
- 	return 0;
- 
- err:
--	dev_err(dev, "Resume failed (err: %d)", status);
-+	dev_err(dev, "Resume failed: %d\n", status);
- 	return status;
- }
- 
+s/invluding/including/
+
+> This makes difficult to clearly separate the visible sizes from the
+> blankings and to make the vertical blanking programmable.
+> 
+> Rework the sensor modes sizes definition to:
+> - Report the analog crop sizes
+> - Report the visible crop size
+> - Report the total pixels per line as HBLANK is fixed
+> - Report the VBLANK value to make it programmable
+> 
+> Also modify the ov5640_set_timings() function to program all the
+> windowing registers are remove them from the per-mode register-value
+> tables.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  drivers/media/i2c/ov5640.c | 451 +++++++++++++++++++++++++------------
+>  1 file changed, 304 insertions(+), 147 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index acc636500907..bd14e2ad22f6 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -61,10 +61,16 @@
+>  #define OV5640_REG_AEC_PK_MANUAL	0x3503
+>  #define OV5640_REG_AEC_PK_REAL_GAIN	0x350a
+>  #define OV5640_REG_AEC_PK_VTS		0x350c
+> +#define OV5640_REG_TIMING_HS		0x3800
+> +#define OV5640_REG_TIMING_VS		0x3802
+> +#define OV5640_REG_TIMING_HW		0x3804
+> +#define OV5640_REG_TIMING_VH		0x3806
+>  #define OV5640_REG_TIMING_DVPHO		0x3808
+>  #define OV5640_REG_TIMING_DVPVO		0x380a
+>  #define OV5640_REG_TIMING_HTS		0x380c
+>  #define OV5640_REG_TIMING_VTS		0x380e
+> +#define OV5640_REG_TIMING_HOFFS		0x3810
+> +#define OV5640_REG_TIMING_VOFFS		0x3812
+>  #define OV5640_REG_TIMING_TC_REG20	0x3820
+>  #define OV5640_REG_TIMING_TC_REG21	0x3821
+>  #define OV5640_REG_AEC_CTRL00		0x3a00
+> @@ -242,12 +248,17 @@ struct ov5640_mode_info {
+>  	enum ov5640_mode_id id;
+>  	enum ov5640_downsize_mode dn_mode;
+>  	enum ov5640_pixel_rate_id pixel_rate;
+> -	u32 hact;
+> -	u32 htot;
+> -	u32 vact;
+> -	u32 vtot;
+> +	/*  Analog crop rectangle. */
+> +	struct v4l2_rect analog_crop;
+> +	/* Visibile crop: from analog crop top-left corner. */
+> +	struct v4l2_rect crop;
+> +	/* Total pixels per line: crop.width + fixed hblank. */
+> +	u32 ppl;
+
+ppl is a fairly uncommon term when it comes to sensor configuration. I'd
+rather keep hact, or use a hblank value.
+
+> +	/* Total frame height = crop.height + vblank. */
+> +	u32 vblank_def;
+
+The comment doesn't seem to match the field.
+
+>  	const struct reg_value *reg_data;
+>  	u32 reg_data_size;
+> +	/* DVP only; ignored in MIPI mode. */
+>  	u32 max_fps;
+>  };
+>  
+> @@ -353,11 +364,7 @@ static const struct reg_value ov5640_init_setting_30fps_VGA[] = {
+>  	{0x3c06, 0x00, 0, 0}, {0x3c07, 0x08, 0, 0}, {0x3c08, 0x00, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+>  	{0x3820, 0x41, 0, 0}, {0x3821, 0x07, 0, 0}, {0x3814, 0x31, 0, 0},
+> -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
+> -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
+> -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
+> -	{0x3810, 0x00, 0, 0},
+> -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
+> +	{0x3815, 0x31, 0, 0},
+>  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+>  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+>  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+> @@ -425,11 +432,7 @@ static const struct reg_value ov5640_setting_VGA_640_480[] = {
+>  	{0x3c07, 0x08, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+>  	{0x3814, 0x31, 0, 0},
+> -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
+> -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
+> -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
+> -	{0x3810, 0x00, 0, 0},
+> -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
+> +	{0x3815, 0x31, 0, 0},
+>  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+>  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+>  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+> @@ -444,11 +447,7 @@ static const struct reg_value ov5640_setting_XGA_1024_768[] = {
+>  	{0x3c07, 0x08, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+>  	{0x3814, 0x31, 0, 0},
+> -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
+> -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
+> -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
+> -	{0x3810, 0x00, 0, 0},
+> -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
+> +	{0x3815, 0x31, 0, 0},
+>  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+>  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+>  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+> @@ -463,11 +462,7 @@ static const struct reg_value ov5640_setting_QVGA_320_240[] = {
+>  	{0x3c07, 0x08, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+>  	{0x3814, 0x31, 0, 0},
+> -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
+> -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
+> -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
+> -	{0x3810, 0x00, 0, 0},
+> -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
+> +	{0x3815, 0x31, 0, 0},
+>  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+>  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+>  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+> @@ -482,11 +477,7 @@ static const struct reg_value ov5640_setting_QQVGA_160_120[] = {
+>  	{0x3c07, 0x08, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+>  	{0x3814, 0x31, 0, 0},
+> -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
+> -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
+> -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
+> -	{0x3810, 0x00, 0, 0},
+> -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
+> +	{0x3815, 0x31, 0, 0},
+>  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+>  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+>  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+> @@ -500,11 +491,7 @@ static const struct reg_value ov5640_setting_QCIF_176_144[] = {
+>  	{0x3c07, 0x08, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+>  	{0x3814, 0x31, 0, 0},
+> -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
+> -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
+> -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
+> -	{0x3810, 0x00, 0, 0},
+> -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
+> +	{0x3815, 0x31, 0, 0},
+>  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+>  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+>  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+> @@ -519,11 +506,7 @@ static const struct reg_value ov5640_setting_NTSC_720_480[] = {
+>  	{0x3c07, 0x08, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+>  	{0x3814, 0x31, 0, 0},
+> -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
+> -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
+> -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
+> -	{0x3810, 0x00, 0, 0},
+> -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x3c, 0, 0},
+> +	{0x3815, 0x31, 0, 0},
+>  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+>  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+>  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+> @@ -538,11 +521,7 @@ static const struct reg_value ov5640_setting_PAL_720_576[] = {
+>  	{0x3c07, 0x08, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+>  	{0x3814, 0x31, 0, 0},
+> -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
+> -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
+> -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
+> -	{0x3810, 0x00, 0, 0},
+> -	{0x3811, 0x38, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
+> +	{0x3815, 0x31, 0, 0},
+>  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+>  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
+>  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+> @@ -557,11 +536,7 @@ static const struct reg_value ov5640_setting_720P_1280_720[] = {
+>  	{0x3c07, 0x07, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+>  	{0x3814, 0x31, 0, 0},
+> -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
+> -	{0x3802, 0x00, 0, 0}, {0x3803, 0xfa, 0, 0}, {0x3804, 0x0a, 0, 0},
+> -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x06, 0, 0}, {0x3807, 0xa9, 0, 0},
+> -	{0x3810, 0x00, 0, 0},
+> -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x04, 0, 0},
+> +	{0x3815, 0x31, 0, 0},
+>  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
+>  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x02, 0, 0},
+>  	{0x3a03, 0xe4, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0xbc, 0, 0},
+> @@ -576,11 +551,7 @@ static const struct reg_value ov5640_setting_1080P_1920_1080[] = {
+>  	{0x3c07, 0x08, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+>  	{0x3814, 0x11, 0, 0},
+> -	{0x3815, 0x11, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
+> -	{0x3802, 0x00, 0, 0}, {0x3803, 0x00, 0, 0}, {0x3804, 0x0a, 0, 0},
+> -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9f, 0, 0},
+> -	{0x3810, 0x00, 0, 0},
+> -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x04, 0, 0},
+> +	{0x3815, 0x11, 0, 0},
+>  	{0x3618, 0x04, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x21, 0, 0},
+>  	{0x3709, 0x12, 0, 0}, {0x370c, 0x00, 0, 0}, {0x3a02, 0x03, 0, 0},
+>  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+> @@ -591,9 +562,6 @@ static const struct reg_value ov5640_setting_1080P_1920_1080[] = {
+>  	{0x3824, 0x02, 0, 0}, {0x5001, 0x83, 0, 0},
+>  	{0x3c07, 0x07, 0, 0}, {0x3c08, 0x00, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+> -	{0x3800, 0x01, 0, 0}, {0x3801, 0x50, 0, 0}, {0x3802, 0x01, 0, 0},
+> -	{0x3803, 0xb2, 0, 0}, {0x3804, 0x08, 0, 0}, {0x3805, 0xef, 0, 0},
+> -	{0x3806, 0x05, 0, 0}, {0x3807, 0xf1, 0, 0},
+>  	{0x3612, 0x2b, 0, 0}, {0x3708, 0x64, 0, 0},
+>  	{0x3a02, 0x04, 0, 0}, {0x3a03, 0x60, 0, 0}, {0x3a08, 0x01, 0, 0},
+>  	{0x3a09, 0x50, 0, 0}, {0x3a0a, 0x01, 0, 0}, {0x3a0b, 0x18, 0, 0},
+> @@ -607,11 +575,7 @@ static const struct reg_value ov5640_setting_QSXGA_2592_1944[] = {
+>  	{0x3c07, 0x08, 0, 0},
+>  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+>  	{0x3814, 0x11, 0, 0},
+> -	{0x3815, 0x11, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
+> -	{0x3802, 0x00, 0, 0}, {0x3803, 0x00, 0, 0}, {0x3804, 0x0a, 0, 0},
+> -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9f, 0, 0},
+> -	{0x3810, 0x00, 0, 0},
+> -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x04, 0, 0},
+> +	{0x3815, 0x11, 0, 0},
+>  	{0x3618, 0x04, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x21, 0, 0},
+>  	{0x3709, 0x12, 0, 0}, {0x370c, 0x00, 0, 0}, {0x3a02, 0x03, 0, 0},
+>  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
+> @@ -624,96 +588,250 @@ static const struct reg_value ov5640_setting_QSXGA_2592_1944[] = {
+>  
+>  /* power-on sensor init reg table */
+>  static const struct ov5640_mode_info ov5640_mode_init_data = {
+> -	0, SUBSAMPLING,
+> -	OV5640_PIXEL_RATE_96M,
+> -	640, 1896, 480, 984,
+> -	ov5640_init_setting_30fps_VGA,
+> -	ARRAY_SIZE(ov5640_init_setting_30fps_VGA),
+> -	OV5640_30_FPS,
+> +		.id		= 0,
+
+Ah there we go, named field initializers :-) It would be nice to move
+them to patch 02/21 to minimize the changes here.
+
+> +		.dn_mode	= SUBSAMPLING,
+> +		.pixel_rate	= OV5640_PIXEL_RATE_96M,
+> +		.analog_crop = {
+> +			.left	= 0,
+> +			.top	= 4,
+> +			.width	= 2623,
+> +			.height	= 1947,
+
+I don't think that's right. The TIMING_HW and TIMING_VH registers store
+the end X and Y values respectively, so here width should be 2624 and
+height 1944. Same below, and you'll need to update the register writes
+accordingly (left + width - 1 and top + height - 1).
+
+> +		},
+> +		.crop = {
+> +			.left	= 16,
+> +			.top	= 6,
+> +			.width	= 640,
+> +			.height	= 480,
+> +		},
+> +		.ppl		= 1896,
+> +		.vblank_def	= 504,
+> +		.reg_data	= ov5640_init_setting_30fps_VGA,
+> +		.reg_data_size	= ARRAY_SIZE(ov5640_init_setting_30fps_VGA),
+> +		.max_fps	= OV5640_30_FPS
+>  };
+>  
+>  static const struct ov5640_mode_info
+>  ov5640_mode_data[OV5640_NUM_MODES] = {
+>  	{
+>  		/* 160x120 */
+> -		OV5640_MODE_QQVGA_160_120, SUBSAMPLING,
+> -		OV5640_PIXEL_RATE_48M,
+> -		160, 1896, 120, 984,
+> -		ov5640_setting_QQVGA_160_120,
+> -		ARRAY_SIZE(ov5640_setting_QQVGA_160_120),
+> -		OV5640_30_FPS
+> +		.id		= OV5640_MODE_QQVGA_160_120,
+> +		.dn_mode	= SUBSAMPLING,
+> +		.pixel_rate	= OV5640_PIXEL_RATE_48M,
+> +		.analog_crop = {
+> +			.left	= 0,
+> +			.top	= 4,
+> +			.width	= 2623,
+> +			.height	= 1947,
+> +		},
+> +		.crop = {
+> +			.left	= 16,
+> +			.top	= 6,
+> +			.width	= 160,
+> +			.height	= 120,
+> +		},
+> +		.ppl		= 1896,
+> +		.vblank_def	= 864,
+> +		.reg_data	= ov5640_setting_QQVGA_160_120,
+> +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QQVGA_160_120),
+> +		.max_fps	= OV5640_30_FPS
+>  	}, {
+>  		/* 176x144 */
+> -		OV5640_MODE_QCIF_176_144, SUBSAMPLING,
+> -		OV5640_PIXEL_RATE_48M,
+> -		176, 1896, 144, 984,
+> -		ov5640_setting_QCIF_176_144,
+> -		ARRAY_SIZE(ov5640_setting_QCIF_176_144),
+> -		OV5640_30_FPS
+> +		.id		= OV5640_MODE_QCIF_176_144,
+> +		.dn_mode	= SUBSAMPLING,
+> +		.pixel_rate	= OV5640_PIXEL_RATE_48M,
+> +		.analog_crop = {
+> +			.left	= 0,
+> +			.top	= 4,
+> +			.width	= 2623,
+> +			.height	= 1947,
+> +		},
+> +		.crop = {
+> +			.left	= 16,
+> +			.top	= 6,
+> +			.width	= 176,
+> +			.height	= 144,
+> +		},
+> +		.ppl		= 1896,
+> +		.vblank_def	= 840,
+> +		.reg_data	= ov5640_setting_QCIF_176_144,
+> +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QCIF_176_144),
+> +		.max_fps	= OV5640_30_FPS
+>  	}, {
+>  		/* 320x240 */
+> -		OV5640_MODE_QVGA_320_240, SUBSAMPLING,
+> -		OV5640_PIXEL_RATE_48M,
+> -		320, 1896, 240, 984,
+> -		ov5640_setting_QVGA_320_240,
+> -		ARRAY_SIZE(ov5640_setting_QVGA_320_240),
+> -		OV5640_30_FPS
+> +		.id		= OV5640_MODE_QVGA_320_240,
+> +		.dn_mode	= SUBSAMPLING,
+> +		.pixel_rate	= OV5640_PIXEL_RATE_48M,
+> +		.analog_crop = {
+> +			.left	= 0,
+> +			.top	= 4,
+> +			.width	= 2623,
+> +			.height	= 1947,
+> +		},
+> +		.crop = {
+> +			.left	= 16,
+> +			.top	= 6,
+> +			.width	= 320,
+> +			.height	= 240,
+> +		},
+> +		.ppl		= 1896,
+> +		.vblank_def	= 744,
+> +		.reg_data	= ov5640_setting_QVGA_320_240,
+> +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QVGA_320_240),
+> +		.max_fps	= OV5640_30_FPS
+>  	}, {
+>  		/* 640x480 */
+> -		OV5640_MODE_VGA_640_480, SUBSAMPLING,
+> -		OV5640_PIXEL_RATE_48M,
+> -		640, 1896, 480, 1080,
+> -		ov5640_setting_VGA_640_480,
+> -		ARRAY_SIZE(ov5640_setting_VGA_640_480),
+> -		OV5640_60_FPS
+> +		.id		= OV5640_MODE_VGA_640_480,
+> +		.dn_mode	= SUBSAMPLING,
+> +		.pixel_rate	= OV5640_PIXEL_RATE_48M,
+> +		.analog_crop = {
+> +			.left	= 0,
+> +			.top	= 4,
+> +			.width	= 2623,
+> +			.height	= 1947,
+> +		},
+> +		.crop = {
+> +			.left	= 16,
+> +			.top	= 6,
+> +			.width	= 640,
+> +			.height	= 480,
+> +		},
+> +		.ppl		= 1896,
+> +		.vblank_def	= 600,
+> +		.reg_data	= ov5640_setting_VGA_640_480,
+> +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_VGA_640_480),
+> +		.max_fps	= OV5640_60_FPS
+>  	}, {
+>  		/* 720x480 */
+> -		OV5640_MODE_NTSC_720_480, SUBSAMPLING,
+> -		OV5640_PIXEL_RATE_96M,
+> -		720, 1896, 480, 984,
+> -		ov5640_setting_NTSC_720_480,
+> -		ARRAY_SIZE(ov5640_setting_NTSC_720_480),
+> -		OV5640_30_FPS
+> +		.id		= OV5640_MODE_NTSC_720_480,
+> +		.dn_mode	= SUBSAMPLING,
+> +		.pixel_rate	= OV5640_PIXEL_RATE_96M,
+> +		.analog_crop = {
+> +			.left	= 0,
+> +			.top	= 4,
+> +			.width	= 2623,
+> +			.height	= 1947,
+> +		},
+> +		.crop = {
+> +			.left	= 56,
+
+I think this one should be 16.
+
+> +			.top	= 60,
+> +			.width	= 720,
+> +			.height	= 480,
+> +		},
+> +		.ppl		= 1896,
+> +		.vblank_def	= 504,
+> +		.reg_data	= ov5640_setting_NTSC_720_480,
+> +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_NTSC_720_480),
+> +		.max_fps	= OV5640_30_FPS
+>  	}, {
+>  		/* 720x576 */
+> -		OV5640_MODE_PAL_720_576, SUBSAMPLING,
+> -		OV5640_PIXEL_RATE_96M,
+> -		720, 1896, 576, 984,
+> -		ov5640_setting_PAL_720_576,
+> -		ARRAY_SIZE(ov5640_setting_PAL_720_576),
+> -		OV5640_30_FPS
+> +		.id		= OV5640_MODE_PAL_720_576,
+> +		.dn_mode	= SUBSAMPLING,
+> +		.pixel_rate	= OV5640_PIXEL_RATE_96M,
+> +		.analog_crop = {
+> +			.left	= 0,
+> +			.top	= 4,
+> +			.width	= 2623,
+> +			.height	= 1947,
+> +		},
+> +		.crop = {
+> +			.left	= 56,
+> +			.top	= 60,
+
+And this should be 6.
+
+> +			.width	= 720,
+> +			.height	= 576,
+> +		},
+> +		.ppl		= 1896,
+> +		.vblank_def	= 408,
+> +		.reg_data	= ov5640_setting_PAL_720_576,
+> +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_PAL_720_576),
+> +		.max_fps	= OV5640_30_FPS
+>  	}, {
+>  		/* 1024x768 */
+> -		OV5640_MODE_XGA_1024_768, SUBSAMPLING,
+> -		OV5640_PIXEL_RATE_96M,
+> -		1024, 1896, 768, 1080,
+> -		ov5640_setting_XGA_1024_768,
+> -		ARRAY_SIZE(ov5640_setting_XGA_1024_768),
+> -		OV5640_30_FPS
+> +		.id		= OV5640_MODE_XGA_1024_768,
+> +		.dn_mode	= SUBSAMPLING,
+> +		.pixel_rate	= OV5640_PIXEL_RATE_96M,
+> +		.analog_crop = {
+> +			.left	= 0,
+> +			.top	= 4,
+> +			.width	= 2623,
+> +			.height	= 1947,
+> +		},
+> +		.crop = {
+> +			.left	= 16,
+> +			.top	= 6,
+> +			.width	= 1024,
+> +			.height	= 768,
+> +		},
+> +		.ppl		= 1896,
+> +		.vblank_def	= 312,
+> +		.reg_data	= ov5640_setting_XGA_1024_768,
+> +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_XGA_1024_768),
+> +		.max_fps	= OV5640_30_FPS
+>  	}, {
+>  		/* 1280x720 */
+> -		OV5640_MODE_720P_1280_720, SUBSAMPLING,
+> -		OV5640_PIXEL_RATE_124M,
+> -		1280, 1892, 720, 740,
+> -		ov5640_setting_720P_1280_720,
+> -		ARRAY_SIZE(ov5640_setting_720P_1280_720),
+> -		OV5640_30_FPS
+> +		.id		= OV5640_MODE_720P_1280_720,
+> +		.dn_mode	= SUBSAMPLING,
+> +		.pixel_rate	= OV5640_PIXEL_RATE_124M,
+> +		.analog_crop = {
+> +			.left	= 0,
+> +			.top	= 250,
+> +			.width	= 2623,
+> +			.height	= 1705,
+> +		},
+> +		.crop = {
+> +			.left	= 16,
+> +			.top	= 4,
+> +			.width	= 1280,
+> +			.height	= 720,
+> +		},
+> +		.ppl		= 1896,
+
+1892 ?
+
+> +		.vblank_def	= 20,
+> +		.reg_data	= ov5640_setting_720P_1280_720,
+> +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_720P_1280_720),
+> +		.max_fps	= OV5640_30_FPS
+>  	}, {
+>  		/* 1920x1080 */
+> -		OV5640_MODE_1080P_1920_1080, SCALING,
+> -		OV5640_PIXEL_RATE_148M,
+> -		1920, 2500, 1080, 1120,
+> -		ov5640_setting_1080P_1920_1080,
+> -		ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
+> -		OV5640_30_FPS
+> +		.id		= OV5640_MODE_1080P_1920_1080,
+> +		.dn_mode	= SCALING,
+> +		.pixel_rate	= OV5640_PIXEL_RATE_148M,
+> +		.analog_crop = {
+> +			.left	= 336,
+> +			.top	= 434,
+> +			.width	= 2287,
+> +			.height	= 1521,
+> +		},
+> +		.crop = {
+> +			.left	= 16,
+> +			.top	= 4,
+> +			.width	= 1920,
+> +			.height	= 1080,
+> +		},
+> +		.ppl		= 2500,
+> +		.vblank_def	= 40,
+> +		.reg_data	= ov5640_setting_1080P_1920_1080,
+> +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
+> +		.max_fps	= OV5640_30_FPS
+>  	}, {
+>  		/* 2592x1944 */
+> -		OV5640_MODE_QSXGA_2592_1944, SCALING,
+> -		OV5640_PIXEL_RATE_168M,
+> -		2592, 2844, 1944, 1968,
+> -		ov5640_setting_QSXGA_2592_1944,
+> -		ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944),
+> -		OV5640_15_FPS
+> +		.id		= OV5640_MODE_QSXGA_2592_1944,
+> +		.dn_mode	= SCALING,
+> +		.pixel_rate	= OV5640_PIXEL_RATE_168M,
+> +		.analog_crop = {
+> +			.left	= 0,
+> +			.top	= 0,
+> +			.width	= 2623,
+> +			.height	= 1951,
+> +		},
+> +		.crop = {
+> +			.left	= 16,
+> +			.top	= 4,
+> +			.width	= 2592,
+> +			.height	= 1944,
+> +		},
+> +		.ppl		= 2844,
+> +		.vblank_def	= 24,
+> +		.reg_data	= ov5640_setting_QSXGA_2592_1944,
+> +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944),
+> +		.max_fps	= OV5640_15_FPS
+>  	},
+>  };
+>  
+> @@ -1136,7 +1254,8 @@ static u64 ov5640_calc_pixel_rate(struct ov5640_dev *sensor)
+>  {
+>  	u64 rate;
+>  
+> -	rate = sensor->current_mode->vtot * sensor->current_mode->htot;
+> +	rate = sensor->current_mode->ppl
+> +	     * (sensor->current_mode->crop.height + sensor->current_mode->vblank_def);
+>  	rate *= ov5640_framerates[sensor->current_fr];
+>  
+>  	return rate;
+> @@ -1220,17 +1339,21 @@ static int ov5640_set_jpeg_timings(struct ov5640_dev *sensor,
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = ov5640_write_reg16(sensor, OV5640_REG_VFIFO_HSIZE, mode->hact);
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_VFIFO_HSIZE,
+> +				 mode->crop.width);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	return ov5640_write_reg16(sensor, OV5640_REG_VFIFO_VSIZE, mode->vact);
+> +	return ov5640_write_reg16(sensor, OV5640_REG_VFIFO_VSIZE,
+> +				  mode->crop.height);
+>  }
+>  
+>  /* download ov5640 settings to sensor through i2c */
+>  static int ov5640_set_timings(struct ov5640_dev *sensor,
+>  			      const struct ov5640_mode_info *mode)
+>  {
+> +	const struct v4l2_rect *analog_crop = &mode->analog_crop;
+> +	const struct v4l2_rect *crop = &mode->crop;
+>  	int ret;
+>  
+>  	if (sensor->fmt.code == MEDIA_BUS_FMT_JPEG_1X8) {
+> @@ -1239,19 +1362,54 @@ static int ov5640_set_timings(struct ov5640_dev *sensor,
+>  			return ret;
+>  	}
+>  
+> -	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPHO, mode->hact);
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HS,
+> +				 analog_crop->left);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_VS,
+> +				 analog_crop->top);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HW,
+> +				 analog_crop->width);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_VH,
+> +				 analog_crop->height);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPHO, crop->width);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPVO, crop->height);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HTS, mode->ppl);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_VTS,
+> +				 crop->height + mode->vblank_def);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPVO, mode->vact);
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HOFFS,
+> +				 crop->left);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HTS, mode->htot);
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_VOFFS,
+> +				 crop->top);
+>  	if (ret < 0)
+>  		return ret;
+
+Maybe you could order the crop writes as the analog crop writes, with
+left, top, width and height ?
+
+>  
+> -	return ov5640_write_reg16(sensor, OV5640_REG_TIMING_VTS, mode->vtot);
+> +	return 0;
+>  }
+>  
+>  static int ov5640_load_regs(struct ov5640_dev *sensor,
+> @@ -1679,11 +1837,11 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
+>  
+>  	mode = v4l2_find_nearest_size(ov5640_mode_data,
+>  				      ARRAY_SIZE(ov5640_mode_data),
+> -				      hact, vact,
+> -				      width, height);
+> +				      crop.width, crop.height, width, height);
+>  
+>  	if (!mode ||
+> -	    (!nearest && (mode->hact != width || mode->vact != height)))
+> +	    (!nearest &&
+> +	     (mode->crop.width != width || mode->crop.height != height)))
+>  		return NULL;
+>  
+>  	/* Check to see if the current mode exceeds the max frame rate */
+> @@ -2367,8 +2525,8 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
+>  	mode = ov5640_find_mode(sensor, fr, fmt->width, fmt->height, true);
+>  	if (!mode)
+>  		return -EINVAL;
+> -	fmt->width = mode->hact;
+> -	fmt->height = mode->vact;
+> +	fmt->width = mode->crop.width;
+> +	fmt->height = mode->crop.height;
+>  
+>  	if (new_mode)
+>  		*new_mode = mode;
+> @@ -2999,11 +3157,9 @@ static int ov5640_enum_frame_size(struct v4l2_subdev *sd,
+>  	if (fse->index >= OV5640_NUM_MODES)
+>  		return -EINVAL;
+>  
+> -	fse->min_width =
+> -		ov5640_mode_data[fse->index].hact;
+> +	fse->min_width = ov5640_mode_data[fse->index].crop.width;
+>  	fse->max_width = fse->min_width;
+> -	fse->min_height =
+> -		ov5640_mode_data[fse->index].vact;
+> +	fse->min_height = ov5640_mode_data[fse->index].crop.height;
+>  	fse->max_height = fse->min_height;
+>  
+>  	return 0;
+> @@ -3067,15 +3223,16 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
+>  	mode = sensor->current_mode;
+>  
+>  	frame_rate = ov5640_try_frame_interval(sensor, &fi->interval,
+> -					       mode->hact, mode->vact);
+> +					       mode->crop.width,
+> +					       mode->crop.height);
+>  	if (frame_rate < 0) {
+>  		/* Always return a valid frame interval value */
+>  		fi->interval = sensor->frame_interval;
+>  		goto out;
+>  	}
+>  
+> -	mode = ov5640_find_mode(sensor, frame_rate, mode->hact,
+> -				mode->vact, true);
+> +	mode = ov5640_find_mode(sensor, frame_rate, mode->crop.width,
+> +				mode->crop.height, true);
+>  	if (!mode) {
+>  		ret = -EINVAL;
+>  		goto out;
+
 -- 
-2.17.1
+Regards,
 
+Laurent Pinchart
