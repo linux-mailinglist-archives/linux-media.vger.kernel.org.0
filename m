@@ -2,75 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E2FA4A6CCC
-	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 09:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 058AA4A6F59
+	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 12:02:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238078AbiBBIUM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Feb 2022 03:20:12 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:60766 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231461AbiBBIUL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 03:20:11 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7D69561791
-        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 08:20:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A99C004E1
-        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 08:20:10 +0000 (UTC)
-Message-ID: <ada5c02d-6a53-c5f0-e62d-f87ec259c5db@xs4all.nl>
-Date:   Wed, 2 Feb 2022 09:20:08 +0100
+        id S1343657AbiBBLCM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Feb 2022 06:02:12 -0500
+Received: from mail.profitfirm24.com.pl ([212.237.10.110]:58954 "EHLO
+        mail.profitfirm24.com.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343617AbiBBLCL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 06:02:11 -0500
+Received: by mail.profitfirm24.com.pl (Postfix, from userid 1001)
+        id 04B6CA8125; Tue,  1 Feb 2022 09:17:37 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitfirm24.com.pl;
+        s=mail; t=1643707405;
+        bh=M1ZVeu3q6Upppe+FUx/3rgI7MKJXh389NZDbgCK1SX4=;
+        h=Date:From:To:Subject:From;
+        b=ybSjuIVNzxsNBIMGCZUY5MyqX+lRSH5JjAp0hyATDFAnqN4ybuzm5qKRFqtWk29J2
+         L2h0VYiICtlRLoW+m4+t5SEBEOr1XvRTglNEAp12nz0L/fanUoEYVr5rLwGrrpFBBB
+         Tow0dC+4WU1pX4dw4RN4V3icgz+SrcOqFSQmJmtm0lFveq1Pr02RREYr3mhRmfp1NV
+         8Hh9afns4D7fkR655Tn7eP3OzbheHhK08qFJj8rmwv2hvlRKuvYwNpOJt7RagQqVTl
+         vYEoDZKm6SPrHARsOdqIJjL5aH20yTNGpGbYXsKrfdT0Gxeqki8Qvc7E2knBmSOXjU
+         YBsjZEHxfQAgw==
+Received: by profitfirm24.com.pl for <linux-media@vger.kernel.org>; Tue,  1 Feb 2022 09:17:20 GMT
+Message-ID: <20220201074652-0.1.b.2z0v.0.k140lbvpnj@profitfirm24.com.pl>
+Date:   Tue,  1 Feb 2022 09:17:20 GMT
+From:   =?UTF-8?Q? "Arkadiusz_Soko=C5=82owski" ?= 
+        <arkadiusz.sokolowski@profitfirm24.com.pl>
+To:     <linux-media@vger.kernel.org>
+Subject: Koszty instalacji fotowoltaicznej
+X-Mailer: mail.profitfirm24.com.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: cron job: media_tree daily build: ERRORS
-Content-Language: en-US
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-References: <20220202050530.2B5DAC004E1@smtp.kernel.org>
-In-Reply-To: <20220202050530.2B5DAC004E1@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Dzie=C5=84 dobry,
+
+stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
+ obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
+
+Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
+acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
+ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
+
+Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
+=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
+=2E
+
+Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
+temacie?
 
 
-On 2/2/22 06:05, Hans Verkuil wrote:
-> This message is generated daily by a cron job that builds media_tree for
-> the kernels and architectures in the list below.
-> 
-> Results of the daily build of media_tree:
-> 
-> date:			Wed Feb  2 05:00:11 CET 2022
-> media-tree git hash:	68a99f6a0ebfe9101ea79ba5af1c407a5ad4f629
-> media_build git hash:	16aa07924e1199cddb79a739ab46fb904851003e
-> v4l-utils git hash:	d124ef52870a0f627d206db31c1b1a59f4c876ed
-> edid-decode git hash:	6514c9d9b18160fe9f09d3d70f99dda85d6fca71
-> gcc version:		i686-linux-gcc (GCC) 11.2.0
-> sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-> sparse version:		0.6.3
-> smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-> smatch version:		0.6.3
-> build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-> build-scripts git hash: 5f5b438852acd7412b4bf7d0bdbe50a7cdd9a2f0
-> host hardware:		x86_64
-> host os:		5.15.0-3-amd64
-
-<snip>
-
-> virtme: ERRORS
-> virtme-32: ERRORS
-
-Something weird is going on, the virtme-based regression tests actually pass,
-but for some reason the logs of the regression tests couldn't be 'scp'ied from
-the VM to the host, which shows up incorrectly as 'ERRORS'.
-
-I'm debugging this, but it might take a bit of time before this is resolved.
-
-Really still a fall-out from when my old PC died and I had to rebuild everything.
-
-Regards,
-
-	Hans
+Pozdrawiam
+Arkadiusz Soko=C5=82owski
