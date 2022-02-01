@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FE474A5E31
-	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 15:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 482684A5E3D
+	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 15:28:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239240AbiBAOZp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Feb 2022 09:25:45 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36040 "EHLO
+        id S239246AbiBAO2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Feb 2022 09:28:10 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36088 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239222AbiBAOZo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Feb 2022 09:25:44 -0500
+        with ESMTP id S233570AbiBAO2J (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Feb 2022 09:28:09 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09790332;
-        Tue,  1 Feb 2022 15:25:42 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B8C97332;
+        Tue,  1 Feb 2022 15:28:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643725543;
-        bh=8+vCXJCUrXzkqDJvd8ITDcepkOEUoVQ5YeO7odhIlMI=;
+        s=mail; t=1643725688;
+        bh=k5LKeZ/XslWExSvtlkn/l8oX8y/xq5u4d/tB2j4p+V0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MotEUBTbUmdlt/l5/Gw9h9JPAOhd9s6FGkGNbQn8IuN9bCu8SpjO5voh9Dk2iGAsz
-         wPzK9VouSBOzGWibRfHJ79N5ENdC1r3nQVA+a4QFmOxcCIW1XyNxjpsWfGr3j8AoFl
-         kQDiLTea8Vz1M+9TkJcB0g+OU9KI+zRJqzC8/JgI=
-Date:   Tue, 1 Feb 2022 16:25:20 +0200
+        b=v63YnPeuWAr4t+vzo4e2JCtyhtw6EK4jjM6GPswQBVWhEXnavYzmhO6xCBsfJpa8U
+         bjKOJJaYbv4UZSMdKvpMfzIdy/+Xj9j/soaUhDv0LHuhL6gx9P3JeLw0mF0LKDliIr
+         E+9K34LLljaPhdpNtzl372/9/Id959DyCGmnWRbg=
+Date:   Tue, 1 Feb 2022 16:27:44 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
@@ -32,14 +32,14 @@ Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
         Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH 03/21] media: ov5640: Add is_mipi() function
-Message-ID: <YflC0PwlJ4OQeR5a@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 04/21] media: ov5640: Associate bpp with formats
+Message-ID: <YflDYLjZXw1T/Dcz@pendragon.ideasonboard.com>
 References: <20220131143245.128089-1-jacopo@jmondi.org>
- <20220131143245.128089-4-jacopo@jmondi.org>
+ <20220131143245.128089-5-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220131143245.128089-4-jacopo@jmondi.org>
+In-Reply-To: <20220131143245.128089-5-jacopo@jmondi.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -48,67 +48,85 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-s/is_mipi/ov5640_is_mipi/
-
-On Mon, Jan 31, 2022 at 03:32:27PM +0100, Jacopo Mondi wrote:
-> Checking if the sensor is used in DVP or MIPI mode is a repeated
-> pattern which is about to be repeated more often.
+On Mon, Jan 31, 2022 at 03:32:28PM +0100, Jacopo Mondi wrote:
+> Associate the bit depth to each format supported by the sensor.
 > 
-> Provide an inline function to shortcut that.
+> The bpp will be used to calculate the line length.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->  drivers/media/i2c/ov5640.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
+>  drivers/media/i2c/ov5640.c | 39 ++++++++++++++++++++++++--------------
+>  1 file changed, 25 insertions(+), 14 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 7e7732f30486..fc3e4f61709c 100644
+> index fc3e4f61709c..8322b99eb2b7 100644
 > --- a/drivers/media/i2c/ov5640.c
 > +++ b/drivers/media/i2c/ov5640.c
-> @@ -310,6 +310,11 @@ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
->  			     ctrls.handler)->sd;
->  }
+> @@ -165,24 +165,35 @@ enum ov5640_format_mux {
+>  	OV5640_FMT_MUX_RAW_CIP,
+>  };
 >  
-> +static inline bool ov5640_is_mipi(struct ov5640_dev *sensor)
+> -struct ov5640_pixfmt {
+> +static const struct ov5640_pixfmt {
+>  	u32 code;
+>  	u32 colorspace;
+> +	u8 bpp;
+> +} ov5640_formats[] = {
+> +	{ MEDIA_BUS_FMT_JPEG_1X8, V4L2_COLORSPACE_JPEG, 16},
 
-I'd name is ov5640_is_csi2() as MIPI is more than just CSI-2. Up to you.
+s/}/ }/
+
+and possibly
+
+	{
+		.code = MEDIA_BUS_FMT_JPEG_1X8,
+		.colorspace = V4L2_COLORSPACE_JPEG,
+		.bpp = 16,
+	},
+
+One day we'll have centralized data...
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+> +	{ MEDIA_BUS_FMT_UYVY8_2X8, V4L2_COLORSPACE_SRGB, 16},
+> +	{ MEDIA_BUS_FMT_UYVY8_1X16, V4L2_COLORSPACE_SRGB, 16},
+> +	{ MEDIA_BUS_FMT_YUYV8_2X8, V4L2_COLORSPACE_SRGB, 16},
+> +	{ MEDIA_BUS_FMT_YUYV8_1X16, V4L2_COLORSPACE_SRGB, 16,},
+> +	{ MEDIA_BUS_FMT_RGB565_2X8_LE, V4L2_COLORSPACE_SRGB, 16},
+> +	{ MEDIA_BUS_FMT_RGB565_2X8_BE, V4L2_COLORSPACE_SRGB, 16},
+> +	{ MEDIA_BUS_FMT_SBGGR8_1X8, V4L2_COLORSPACE_SRGB, 8},
+> +	{ MEDIA_BUS_FMT_SGBRG8_1X8, V4L2_COLORSPACE_SRGB, 8},
+> +	{ MEDIA_BUS_FMT_SGRBG8_1X8, V4L2_COLORSPACE_SRGB, 8},
+> +	{ MEDIA_BUS_FMT_SRGGB8_1X8, V4L2_COLORSPACE_SRGB, 8},
+>  };
+>  
+> -static const struct ov5640_pixfmt ov5640_formats[] = {
+> -	{ MEDIA_BUS_FMT_JPEG_1X8, V4L2_COLORSPACE_JPEG, },
+> -	{ MEDIA_BUS_FMT_UYVY8_2X8, V4L2_COLORSPACE_SRGB, },
+> -	{ MEDIA_BUS_FMT_UYVY8_1X16, V4L2_COLORSPACE_SRGB, },
+> -	{ MEDIA_BUS_FMT_YUYV8_2X8, V4L2_COLORSPACE_SRGB, },
+> -	{ MEDIA_BUS_FMT_YUYV8_1X16, V4L2_COLORSPACE_SRGB, },
+> -	{ MEDIA_BUS_FMT_RGB565_2X8_LE, V4L2_COLORSPACE_SRGB, },
+> -	{ MEDIA_BUS_FMT_RGB565_2X8_BE, V4L2_COLORSPACE_SRGB, },
+> -	{ MEDIA_BUS_FMT_SBGGR8_1X8, V4L2_COLORSPACE_SRGB, },
+> -	{ MEDIA_BUS_FMT_SGBRG8_1X8, V4L2_COLORSPACE_SRGB, },
+> -	{ MEDIA_BUS_FMT_SGRBG8_1X8, V4L2_COLORSPACE_SRGB, },
+> -	{ MEDIA_BUS_FMT_SRGGB8_1X8, V4L2_COLORSPACE_SRGB, },
+> -};
+> +static u32 ov5640_code_to_bpp(u32 code)
 > +{
-> +	return sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY;
-> +}
+> +	unsigned int i;
 > +
+> +	for (i = 0; i < ARRAY_SIZE(ov5640_formats); ++i) {
+> +		if (ov5640_formats[i].code == code)
+> +			return ov5640_formats[i].bpp;
+> +	}
+> +
+> +	return 0;
+> +}
+>  
 >  /*
->   * FIXME: all of these register tables are likely filled with
->   * entries that set the register to their power-on default values,
-> @@ -1224,7 +1229,7 @@ static int ov5640_load_regs(struct ov5640_dev *sensor,
->  		/* remain in power down mode for DVP */
->  		if (regs->reg_addr == OV5640_REG_SYS_CTRL0 &&
->  		    val == OV5640_REG_SYS_CTRL0_SW_PWUP &&
-> -		    sensor->ep.bus_type != V4L2_MBUS_CSI2_DPHY)
-> +		    !ov5640_is_mipi(sensor))
->  			continue;
->  
->  		if (mask)
-> @@ -1859,7 +1864,7 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
->  	 * the same rate than YUV, so we can just use 16 bpp all the time.
->  	 */
->  	rate = ov5640_calc_pixel_rate(sensor) * 16;
-> -	if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY) {
-> +	if (ov5640_is_mipi(sensor)) {
->  		rate = rate / sensor->ep.bus.mipi_csi2.num_data_lanes;
->  		ret = ov5640_set_mipi_pclk(sensor, rate);
->  	} else {
-> @@ -3042,7 +3047,7 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
->  			sensor->pending_fmt_change = false;
->  		}
->  
-> -		if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
-> +		if (ov5640_is_mipi(sensor))
->  			ret = ov5640_set_stream_mipi(sensor, enable);
->  		else
->  			ret = ov5640_set_stream_dvp(sensor, enable);
+>   * FIXME: remove this when a subdev API becomes available
 
 -- 
 Regards,
