@@ -2,358 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40E214A6262
-	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 18:27:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 015CA4A63F8
+	for <lists+linux-media@lfdr.de>; Tue,  1 Feb 2022 19:34:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238738AbiBAR14 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Feb 2022 12:27:56 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38128 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241496AbiBAR1z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Feb 2022 12:27:55 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 390F1332;
-        Tue,  1 Feb 2022 18:27:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643736474;
-        bh=usrFuuMLUXsnzUU4GoArimCJ9LqsUNgb2RGaJgHV8+I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Kq64YtZhwgomUfgrForlRokzEhUF8Vx1UA66m9JYp54Bn6NV8f4IPvz6T6Ym1k26k
-         XaUC8rhxI8uyJLtTStDKM+hZLFQF6nU4iWw5rn7TKwERHjnjglGLrEoZxIXBhQAr6H
-         TlBlS7dHRakZo36b2eA1xiRBXNxF66/EjwTYyKyM=
-Date:   Tue, 1 Feb 2022 19:27:31 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
-        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
-        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
-        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        aford173@gmail.com, festevam@gmail.com,
-        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 06/21] media: ov5640: Rework CSI-2 clock tree
-Message-ID: <YfltgzUdzbQjmLyt@pendragon.ideasonboard.com>
-References: <20220131143245.128089-1-jacopo@jmondi.org>
- <20220131143245.128089-7-jacopo@jmondi.org>
+        id S241285AbiBASeO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Feb 2022 13:34:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233694AbiBASeO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Feb 2022 13:34:14 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9900C061714;
+        Tue,  1 Feb 2022 10:34:13 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id u15so33769189wrt.3;
+        Tue, 01 Feb 2022 10:34:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sCvk2JEkTN7cJ4ViA/+Q1mWtijvqc6HlgVsE2fUttPE=;
+        b=f9KQw0SsHC3XwbxZLFi5HTOVXULq8GAA1T7SheswJwe3Uh7T4s0oHTCBJ20O/+5/c0
+         FENox8mAvJOm99Z1qV/+bR2axUNOfR68w/KjC7ClaWJIkwjtsW5vq71YHkz8AIsFzr+T
+         cnzHsdUIwLH2eoQeln95eAHirPnE1Q9gbvOZG6DVwusrD38a47+n8RBqroFuywu59U9u
+         iw/ME37+LwcIGcWpEBQnXM8PMGhX9exRPQYtq/32fa93yKENBWWy8h+JT4ATH0Hjtk8v
+         19aIdSj/wpyMXDWZVr9FoyhtpxfPo6g6sIbNVklpmsQyXuQZV4IIQgKxOVVNp3iP810H
+         W4nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sCvk2JEkTN7cJ4ViA/+Q1mWtijvqc6HlgVsE2fUttPE=;
+        b=sIauA3kl8RUNihqT9TaM4PYCMsI6lmASZPZgU+ICrU9KvKNB7IWVCUSSSSrFRwvb0s
+         u67ONImFi3FNcITCBuLuOVoIKuxJpTP9jaNfYLhDvvtOclGYeH0rikGOfmudJ/+kgF1w
+         Y8V2lU3b0hGHUIk0piqDFE6eU+VoO2+0DFAaZWqr50WMeRnllOgROlJyhHqCQrzdqqQ0
+         hCPdtxVpe3OYMDKeVCoXbV5DxVZVwEk2+uvofTJcyFr0QaLeZQBuiPgbYK0no0DKjYiZ
+         M69D+zAvc1pqEw6bjrS88GSicvz4nKytw2QTKEh/YM0x+sT0Yg9sJoZjlQ76T3BqJeLZ
+         oebQ==
+X-Gm-Message-State: AOAM533X4C1o91BxPWf+zySNqtLkHckHAB0YK2PtgtH3mkjZcnKIHSnz
+        oEANCT0i1pfc59PS2dogEB4=
+X-Google-Smtp-Source: ABdhPJxBKiYspzokfHzLalKSOyfp5oCM2yFNJiRRUv2fby6NHl0LPyRTYyGimtWMvaAdY7iHePaqKw==
+X-Received: by 2002:adf:ef88:: with SMTP id d8mr21442184wro.419.1643740452368;
+        Tue, 01 Feb 2022 10:34:12 -0800 (PST)
+Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id x13sm15307236wru.28.2022.02.01.10.34.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Feb 2022 10:34:11 -0800 (PST)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
+Cc:     mchehab@kernel.org, wens@csie.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] media: cedrus: Add watchdog for job completion
+Date:   Tue,  1 Feb 2022 19:33:24 +0100
+Message-Id: <20220201183324.493542-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220131143245.128089-7-jacopo@jmondi.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Currently, if job is not completed for whatever reason, userspace
+application can hang on ioctl and thus become unkillable.
 
-Thank you for the patch.
+In order to prevent that, implement watchdog, which will complete job
+after 2 seconds with error state.
 
-On Mon, Jan 31, 2022 at 03:32:30PM +0100, Jacopo Mondi wrote:
-> Re-work the ov5640_set_mipi_pclk() function to calculate the
-> PLL configuration using the pixel_rate and link_freq values set at
-> s_fmt time.
-> 
-> Rework the DVP clock mode settings to calculate the pixel clock
-> internally and remove the assumption on the 16bpp format.
-> 
-> Tested in MIPI CSI-2 mode with 2 data lanes with:
-> - all the sensor supported resolutions in UYVY and RGB565 formats.
-> - resolutions >= 1280x720 in RAW Bayer format.
-> - resolutions < 1280x720 in RGB888 format.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> 
-> ---
-> 
-> Not tested with JPEG.
-> Not tested with 1 data lane.
-> Not tested in DVP mode.
-> 
-> If I get come Tested-by: tags for the above use cases, it would be
-> great.
-> ---
->  drivers/media/i2c/ov5640.c | 175 ++++++++++++++++++++-----------------
->  1 file changed, 94 insertions(+), 81 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 457f76030163..acc636500907 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -29,6 +29,8 @@
->  #define OV5640_XCLK_MIN  6000000
->  #define OV5640_XCLK_MAX 54000000
->  
-> +#define OV5640_LINK_RATE_MAX	490000000U
-> +
->  #define OV5640_DEFAULT_SLAVE_ID 0x3c
->  
->  #define OV5640_REG_SYS_RESET02		0x3002
-> @@ -88,6 +90,7 @@
->  #define OV5640_REG_POLARITY_CTRL00	0x4740
->  #define OV5640_REG_MIPI_CTRL00		0x4800
->  #define OV5640_REG_DEBUG_MODE		0x4814
-> +#define OV5640_REG_PCLK_PERIOD		0x4837
->  #define OV5640_REG_ISP_FORMAT_MUX_CTRL	0x501f
->  #define OV5640_REG_PRE_ISP_TEST_SET1	0x503d
->  #define OV5640_REG_SDE_CTRL0		0x5580
-> @@ -1035,69 +1038,80 @@ static unsigned long ov5640_calc_sys_clk(struct ov5640_dev *sensor,
->   * ov5640_set_mipi_pclk() - Calculate the clock tree configuration values
->   *			    for the MIPI CSI-2 output.
->   *
-> - * @rate: The requested bandwidth per lane in bytes per second.
-> - *	  'Bandwidth Per Lane' is calculated as:
-> - *	  bpl = HTOT * VTOT * FPS * bpp / num_lanes;
-> - *
-> - * This function use the requested bandwidth to calculate:
-> - * - sample_rate = bpl / (bpp / num_lanes);
-> - *	         = bpl / (PLL_RDIV * BIT_DIV * PCLK_DIV * MIPI_DIV / num_lanes);
-> - *
-> - * - mipi_sclk   = bpl / MIPI_DIV / 2; ( / 2 is for CSI-2 DDR)
+Concept is borrowed from hantro driver.
 
-It would be useful to have the update formula either here or in the code
-below.
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  2 ++
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |  3 +++
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  4 +++
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    | 25 +++++++++++++++++++
+ .../staging/media/sunxi/cedrus/cedrus_hw.h    |  2 ++
+ 5 files changed, 36 insertions(+)
 
-> - *
-> - * with these fixed parameters:
-> - *	PLL_RDIV	= 2;
-> - *	BIT_DIVIDER	= 2; (MIPI_BIT_MODE == 8 ? 2 : 2,5);
-> - *	PCLK_DIV	= 1;
-> - *
-> - * The MIPI clock generation differs for modes that use the scaler and modes
-> - * that do not. In case the scaler is in use, the MIPI_SCLK generates the MIPI
-> - * BIT CLk, and thus:
-> - *
-> - * - mipi_sclk = bpl / MIPI_DIV / 2;
-> - *   MIPI_DIV = 1;
-> - *
-> - * For modes that do not go through the scaler, the MIPI BIT CLOCK is generated
-> - * from the pixel clock, and thus:
-> - *
-> - * - sample_rate = bpl / (bpp / num_lanes);
-> - *	         = bpl / (2 * 2 * 1 * MIPI_DIV / num_lanes);
-> - *		 = bpl / (4 * MIPI_DIV / num_lanes);
-> - * - MIPI_DIV	 = bpp / (4 * num_lanes);
-> - *
-> - * FIXME: this have been tested with 16bpp and 2 lanes setup only.
-> - * MIPI_DIV is fixed to value 2, but it -might- be changed according to the
-> - * above formula for setups with 1 lane or image formats with different bpp.
-> - *
-> - * FIXME: this deviates from the sensor manual documentation which is quite
-> - * thin on the MIPI clock tree generation part.
-> + * FIXME: tested with 2 lanes only.
->   */
-> -static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor,
-> -				unsigned long rate)
-> +static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor)
->  {
-> -	const struct ov5640_mode_info *mode = sensor->current_mode;
-> +	u8 bit_div, mipi_div, pclk_div, sclk_div, sclk2x_div, root_div;
-> +	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
->  	u8 prediv, mult, sysdiv;
-> -	u8 mipi_div;
-> +	unsigned long sysclk;
-> +	unsigned long sample_rate;
-> +	u8 pclk_period;
-> +	s64 link_freq;
->  	int ret;
->  
-> +	/* Use the link frequency computed at s_fmt time. */
-> +	link_freq = ov5640_csi2_link_freqs[sensor->ctrls.link_freq->cur.val];
-> +
->  	/*
-> -	 * 1280x720 is reported to use 'SUBSAMPLING' only,
-> -	 * but according to the sensor manual it goes through the
-> -	 * scaler before subsampling.
-> +	 * - mipi_div - Additional divider for the MIPI lane clock.
-> +	 *
-> +	 * Higher link frequencies would make sysclk > 1GHz.
-> +	 * Keep the sysclk low and do not divide in the MIPI domain.
->  	 */
-> -	if (mode->dn_mode == SCALING ||
-> -	   (mode->id == OV5640_MODE_720P_1280_720))
-> -		mipi_div = OV5640_MIPI_DIV_SCLK;
-> +	if (link_freq > OV5640_LINK_RATE_MAX)
-> +		mipi_div = 1;
->  	else
-> -		mipi_div = OV5640_MIPI_DIV_PCLK;
-> +		mipi_div = 2;
->  
-> -	ov5640_calc_sys_clk(sensor, rate, &prediv, &mult, &sysdiv);
-> +	sysclk = link_freq * mipi_div;
-> +	ov5640_calc_sys_clk(sensor, sysclk, &prediv, &mult, &sysdiv);
->  
-> -	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL0,
-> -			     0x0f, OV5640_PLL_CTRL0_MIPI_MODE_8BIT);
-> +	/*
-> +	 * Adjust PLL parameters to maintain the MIPI_SCLK-to-PCLK ratio;
-> +	 *
-> +	 * - root_div = 2 (fixed)
-> +	 * - bit_div : MIPI 8-bit = 2
-> +	 *	       MIPI 10-bit = 2,5
-
-s/2,5/2.5/
-
-> +	 * - pclk_div = 1 (fixed)
-> +	 * - pll_div  = (2 lanes ? mipi_div : 2 * mipi_div)
-
-What's pll_div here ? There's no corresponding variable. It would be
-nice to name it according to the clock tree diagram located above in the
-driver.
-
-> +	 *   2 lanes: MIPI_SCLK = (4 or 5) * PCLK
-> +	 *   1 lanes: MIPI_SCLK = (8 or 10) * PCLK
-> +	 *
-> +	 * TODO: support 10-bit formats
-> +	 * TODO: test with 1 data lane
-> +	 */
-> +	root_div = OV5640_PLL_CTRL3_PLL_ROOT_DIV_2;
-> +	bit_div =  OV5640_PLL_CTRL0_MIPI_MODE_8BIT;
-> +	pclk_div = OV5640_PLL_SYS_ROOT_DIVIDER_BYPASS;
->  
-> -	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL1,
-> -			     0xff, sysdiv << 4 | mipi_div);
-> +	/*
-> +	 * Scaler clock:
-> +	 * - YUV: PCLK >= 2 * SCLK
-> +	 * - RAW or JPEG: PCLK >= SCLK
-> +	 * - sclk2x_div = sclk_div / 2
-> +	 *
-> +	 * TODO: test with JPEG.
-> +	 */
-> +	sclk_div = ilog2(OV5640_SCLK_ROOT_DIV);
-> +	sclk2x_div = ilog2(OV5640_SCLK2X_ROOT_DIV);
-> +
-> +	/*
-> +	 * Set the sample period expressed in ns with 1-bit decimal
-> +	 * (0x01=0.5ns).
-> +	 */
-> +	sample_rate = ov5640_pixel_rates[sensor->current_mode->pixel_rate]
-> +		    * (ov5640_code_to_bpp(fmt->code) / 8);
-
-Won't this cause rouding errors for bpp values that are not multiples of
-8 ?
-
-> +	pclk_period = 2000000000U / sample_rate;
-> +
-> +	/* Program the clock tree registers. */
-> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL0, 0x0f, bit_div);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL1, 0xff,
-> +			     sysdiv << 4 | mipi_div);
-
-Here you don't use parentheses around (sysdiv << 4), and below you do
-when writing OV5640_REG_SYS_ROOT_DIVIDER. They're not necessary, but it
-could be clearer to add parentheses here.
-
->  	if (ret)
->  		return ret;
->  
-> @@ -1105,13 +1119,27 @@ static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor,
->  	if (ret)
->  		return ret;
->  
-> -	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL3,
-> -			     0x1f, OV5640_PLL_CTRL3_PLL_ROOT_DIV_2 | prediv);
-> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL3, 0x1f,
-> +			     root_div | prediv);
->  	if (ret)
->  		return ret;
->  
-> -	return ov5640_mod_reg(sensor, OV5640_REG_SYS_ROOT_DIVIDER,
-> -			      0x30, OV5640_PLL_SYS_ROOT_DIVIDER_BYPASS);
-> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SYS_ROOT_DIVIDER, 0x3f,
-> +			     (pclk_div << 4) | (sclk2x_div << 2) | sclk_div);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return ov5640_write_reg(sensor, OV5640_REG_PCLK_PERIOD, pclk_period);
-> +}
-> +
-> +static u64 ov5640_calc_pixel_rate(struct ov5640_dev *sensor)
-> +{
-> +	u64 rate;
-> +
-> +	rate = sensor->current_mode->vtot * sensor->current_mode->htot;
-> +	rate *= ov5640_framerates[sensor->current_fr];
-> +
-> +	return rate;
->  }
->  
->  static unsigned long ov5640_calc_pclk(struct ov5640_dev *sensor,
-> @@ -1131,11 +1159,16 @@ static unsigned long ov5640_calc_pclk(struct ov5640_dev *sensor,
->  	return _rate / *pll_rdiv / *bit_div / *pclk_div;
->  }
->  
-> -static int ov5640_set_dvp_pclk(struct ov5640_dev *sensor, unsigned long rate)
-> +static int ov5640_set_dvp_pclk(struct ov5640_dev *sensor)
->  {
->  	u8 prediv, mult, sysdiv, pll_rdiv, bit_div, pclk_div;
-> +	u64 rate;
-
-Do you need a 64-bit integer here, or can the calculation fit in 32-bit?
-
->  	int ret;
->  
-> +	rate = ov5640_calc_pixel_rate(sensor);
-> +	rate *= ov5640_code_to_bpp(sensor->fmt.code);
-> +	do_div(rate, sensor->ep.bus.parallel.bus_width);
-> +
->  	ov5640_calc_pclk(sensor, rate, &prediv, &mult, &sysdiv, &pll_rdiv,
->  			 &bit_div, &pclk_div);
->  
-> @@ -1660,16 +1693,6 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
->  	return mode;
->  }
->  
-> -static u64 ov5640_calc_pixel_rate(struct ov5640_dev *sensor)
-> -{
-> -	u64 rate;
-> -
-> -	rate = sensor->current_mode->vtot * sensor->current_mode->htot;
-> -	rate *= ov5640_framerates[sensor->current_fr];
-> -
-> -	return rate;
-> -}
-> -
->  /*
->   * sensor changes between scaling and subsampling, go through
->   * exposure calculation
-> @@ -1851,7 +1874,6 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
->  	enum ov5640_downsize_mode dn_mode, orig_dn_mode;
->  	bool auto_gain = sensor->ctrls.auto_gain->val == 1;
->  	bool auto_exp =  sensor->ctrls.auto_exp->val == V4L2_EXPOSURE_AUTO;
-> -	unsigned long rate;
->  	int ret;
->  
->  	dn_mode = mode->dn_mode;
-> @@ -1870,19 +1892,10 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
->  			goto restore_auto_gain;
->  	}
->  
-> -	/*
-> -	 * All the formats we support have 16 bits per pixel, seems to require
-> -	 * the same rate than YUV, so we can just use 16 bpp all the time.
-> -	 */
-> -	rate = ov5640_calc_pixel_rate(sensor) * 16;
-> -	if (ov5640_is_mipi(sensor)) {
-> -		rate = rate / sensor->ep.bus.mipi_csi2.num_data_lanes;
-> -		ret = ov5640_set_mipi_pclk(sensor, rate);
-> -	} else {
-> -		rate = rate / sensor->ep.bus.parallel.bus_width;
-> -		ret = ov5640_set_dvp_pclk(sensor, rate);
-> -	}
-> -
-> +	if (ov5640_is_mipi(sensor))
-> +		ret = ov5640_set_mipi_pclk(sensor);
-> +	else
-> +		ret = ov5640_set_dvp_pclk(sensor);
->  	if (ret < 0)
->  		return 0;
->  
-
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 4a4b714b0f26..68b3dcdb5df3 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -439,6 +439,8 @@ static int cedrus_probe(struct platform_device *pdev)
+ 
+ 	mutex_init(&dev->dev_mutex);
+ 
++	INIT_DELAYED_WORK(&dev->watchdog_work, cedrus_watchdog);
++
+ 	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Failed to register V4L2 device\n");
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
+index c345f2984041..3bc094eb497f 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+@@ -24,6 +24,7 @@
+ 
+ #include <linux/iopoll.h>
+ #include <linux/platform_device.h>
++#include <linux/workqueue.h>
+ 
+ #define CEDRUS_NAME			"cedrus"
+ 
+@@ -194,6 +195,8 @@ struct cedrus_dev {
+ 	struct reset_control	*rstc;
+ 
+ 	unsigned int		capabilities;
++
++	struct delayed_work	watchdog_work;
+ };
+ 
+ extern struct cedrus_dec_ops cedrus_dec_ops_mpeg2;
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+index a16c1422558f..9c7200299465 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+@@ -97,4 +97,8 @@ void cedrus_device_run(void *priv)
+ 		v4l2_ctrl_request_complete(src_req, &ctx->hdl);
+ 
+ 	dev->dec_ops[ctx->current_codec]->trigger(ctx);
++
++	/* Start the watchdog timer. */
++	schedule_delayed_work(&dev->watchdog_work,
++			      msecs_to_jiffies(2000));
+ }
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+index 2d7663726467..a6470a89851e 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+@@ -118,6 +118,13 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+ 	enum vb2_buffer_state state;
+ 	enum cedrus_irq_status status;
+ 
++	/*
++	 * If cancel_delayed_work returns false it means watchdog already
++	 * executed and finished the job.
++	 */
++	if (!cancel_delayed_work(&dev->watchdog_work))
++		return IRQ_HANDLED;
++
+ 	ctx = v4l2_m2m_get_curr_priv(dev->m2m_dev);
+ 	if (!ctx) {
+ 		v4l2_err(&dev->v4l2_dev,
+@@ -143,6 +150,24 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
++void cedrus_watchdog(struct work_struct *work)
++{
++	struct cedrus_dev *dev;
++	struct cedrus_ctx *ctx;
++
++	dev = container_of(to_delayed_work(work),
++			   struct cedrus_dev, watchdog_work);
++
++	ctx = v4l2_m2m_get_curr_priv(dev->m2m_dev);
++	if (!ctx)
++		return;
++
++	v4l2_err(&dev->v4l2_dev, "frame processing timed out!\n");
++	reset_control_reset(dev->rstc);
++	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
++					 VB2_BUF_STATE_ERROR);
++}
++
+ int cedrus_hw_suspend(struct device *device)
+ {
+ 	struct cedrus_dev *dev = dev_get_drvdata(device);
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+index 45f641f0bfa2..7c92f00e36da 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+@@ -28,4 +28,6 @@ int cedrus_hw_resume(struct device *device);
+ int cedrus_hw_probe(struct cedrus_dev *dev);
+ void cedrus_hw_remove(struct cedrus_dev *dev);
+ 
++void cedrus_watchdog(struct work_struct *work);
++
+ #endif
 -- 
-Regards,
+2.35.1
 
-Laurent Pinchart
