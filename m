@@ -1,157 +1,96 @@
 Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 586964A6B2A
-	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 06:05:36 +0100 (CET)
-Received: (majordomo@0.0.0.0) by vger.kernel.org via listexpand
-        id S231490AbiBBFFd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Feb 2022 00:05:33 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:47306 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbiBBFFd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 00:05:33 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DF1D6B82FB6
-        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 05:05:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B5DAC004E1
-        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 05:05:29 +0000 (UTC)
-Date:   Wed, 02 Feb 2022 06:05:28 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-Message-Id: <20220202050530.2B5DAC004E1@smtp.kernel.org>
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 11DE44A6BE1
+	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 07:53:30 +0100 (CET)
+Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
+        id S244841AbiBBGwp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Feb 2022 01:52:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244780AbiBBGwk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 01:52:40 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A047EC061772;
+        Tue,  1 Feb 2022 22:38:02 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 260032F3;
+        Wed,  2 Feb 2022 07:37:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1643783879;
+        bh=r7oPY8EgqItgv6YCn6zBalF5PLzzR/lsj6VuIS++Yos=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FLOCGme6aMq06je0Lu1485Xqfm7daGDbIMPkjYd6z2/1J38MsLOKvWawioFIFgMhN
+         DxkYmPPDtx8NiDxJRBYB5+7Z6dVAIqn+OwMRmZg/ualZvvPOG4QKZwwU9p6hIMLScy
+         yhqIUNDQ4ewYg1lhLkXzT4ypXKUrMotK3DV1XZJc=
+Date:   Wed, 2 Feb 2022 08:37:35 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Aditya Garg <gargaditya08@live.com>
+Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+        "sergey.senozhatsky@gmail.com" <sergey.senozhatsky@gmail.com>,
+        "ribalda@chromium.org" <ribalda@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Orlando Chamberlain <redecorating@protonmail.com>,
+        "paul@mrarm.io" <paul@mrarm.io>, Aun-Ali Zaidi <admin@kodeit.net>
+Subject: Re: [PATCH RESEND] media: uvcvideo: Add support for Apple
+ T2-attached FaceTime HD Camera
+Message-ID: <Yfomr83ol/1iGRSv@pendragon.ideasonboard.com>
+References: <527C2E71-12E2-45D1-9B50-5A413B6920A1@live.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <527C2E71-12E2-45D1-9B50-5A413B6920A1@live.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Aditya,
 
-Results of the daily build of media_tree:
+Thank you for the patch, and sorry for the late reply.
 
-date:			Wed Feb  2 05:00:11 CET 2022
-media-tree git hash:	68a99f6a0ebfe9101ea79ba5af1c407a5ad4f629
-media_build git hash:	16aa07924e1199cddb79a739ab46fb904851003e
-v4l-utils git hash:	d124ef52870a0f627d206db31c1b1a59f4c876ed
-edid-decode git hash:	6514c9d9b18160fe9f09d3d70f99dda85d6fca71
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5f5b438852acd7412b4bf7d0bdbe50a7cdd9a2f0
-host hardware:		x86_64
-host os:		5.15.0-3-amd64
+On Wed, Jan 26, 2022 at 10:37:13AM +0000, Aditya Garg wrote:
+> From: Paul Pawlowski <paul@mrarm.io>
+> 
+> Adds the requisite device id to support detection of the Apple FaceTime
+> HD webcam exposed over the T2 BCE VHCI interface.
+> 
+> Tested-by: Aun-Ali Zaidi <admin@kodeit.net>
+> Signed-off-by: Paul Pawlowski <paul@mrarm.io>
+> Signed-off-by: Aun-Ali Zaidi <admin@kodeit.net>
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 7c007426e..88dc9e7aa 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2848,6 +2848,15 @@ static const struct usb_device_id uvc_ids[] = {
+>  	  .bInterfaceProtocol	= 0,
+>  	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_PROBE_MINMAX
+>  					| UVC_QUIRK_BUILTIN_ISIGHT) },
+> +	/* Apple FaceTime HD Camera (Built-In) */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x05ac,
+> +	  .idProduct		= 0x8514,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= (kernel_ulong_t)&uvc_quirk_probe_def },
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16.1-i686: OK
-linux-5.16.1-x86_64: OK
-linux-5.17-rc1-i686: OK
-linux-5.17-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS
-virtme-32: ERRORS
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Have you tested that the device doesn't work without this quirk ?
 
-Detailed results are available here:
+>  	/* Apple Built-In iSight via iBridge */
+>  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+>  				| USB_DEVICE_ID_MATCH_INT_INFO,
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday.log
+-- 
+Regards,
 
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Laurent Pinchart
