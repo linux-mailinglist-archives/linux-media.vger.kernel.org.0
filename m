@@ -2,147 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38E944A72E9
-	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 15:23:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C91D14A7329
+	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 15:32:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233716AbiBBOWS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Feb 2022 09:22:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40082 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229775AbiBBOWR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 09:22:17 -0500
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23637C061714
-        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 06:22:17 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 9DAA02004C
-        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 16:22:15 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1643811735;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=zC1TjTj4KlJ13TohuUK0XoOCh6PMWpRPDMvLTLlYsi4=;
-        b=gSp1dZ5DB7ffGYC/MK1XNAY4J+5ANDwXlY8/r8SqEBr5OdREPWrSrhNeIBp5x+tGUTHazg
-        thPYdTaQOdi1r30T+f5umMYB653+6fdfKl9+rjKPlQEEiQS8JP0gPmw+nq3sOYv98kVD+j
-        LTqwebrZjwltLzFzBJPw7UNUKOapirE=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 35C03634C90
-        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 16:22:15 +0200 (EET)
-Date:   Wed, 2 Feb 2022 16:22:15 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL v3 FOR 5.18] V4L2 patches
-Message-ID: <YfqTl5GBCDRDLXl1@valkosipuli.retiisi.eu>
+        id S1344996AbiBBOcV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Feb 2022 09:32:21 -0500
+Received: from mga09.intel.com ([134.134.136.24]:30924 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230290AbiBBOcU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Feb 2022 09:32:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643812340; x=1675348340;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=v3aLHoe8SF3yWsYVZzRl5M96PSKGbJ0p82qUxrK2yeE=;
+  b=QDJ2YkUIbnWJJ565xGKoKxm4DisJ+BdNHCSzJlbVs0iGtni7DL/zaC8S
+   zqDyuHEk4wHMrssqH3bqhjW6Lku4ieWhGusGo+i6GjvJKH3tT8wAxY1vl
+   Zf4uBApWDu5scASvbjt/V+SC3TUbDUCq0pOrTAFUcDHy20XXAmYJ5mQ91
+   OKb7Je4qQEjUHK1+qnpja+JIo9wFlH76vmBv+d/Mpk/mQlSQffrZTsfCn
+   mYvFIHxGWkmHZBOTwfkpGuzOvosVJQnKd1dRHX9oUDhukhlLFGheRZOZZ
+   Gfd+9wXv6Hi4qzPbRyvcUJrT+Ssm7CGpsBRJu7BPqTE/nQLpYEkFi40It
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="247693940"
+X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; 
+   d="scan'208";a="247693940"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 06:32:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; 
+   d="scan'208";a="627083947"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 02 Feb 2022 06:32:03 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nFGfz-000UhI-9E; Wed, 02 Feb 2022 14:32:03 +0000
+Date:   Wed, 2 Feb 2022 22:31:18 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     ektor5 <ek5.chimenti@gmail.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Ettore Chimenti <ek5.chimenti@gmail.com>,
+        linux-kernel@vger.kernel.org, linuxfancy@googlegroups.com
+Subject: Re: [PATCH 1/2] media: cec: add SECO MEC-based cec driver
+Message-ID: <202202022216.MCt6c52g-lkp@intel.com>
+References: <20220201183734.224756-2-ek5.chimenti@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1643811735; a=rsa-sha256; cv=none;
-        b=FblsCyVE7NaOBzD7HlmREjIwyPQPS9VJsz4uvUAqu6fb9C78ZT/EEsGa4LfAihFnmlbC1R
-        dMIstCZkEnBSlhGR2WoRVn+p9tdR19N8NMWwSZwtny481mh9ZU6kbrXoYVIodRnm1pd0Yq
-        woJM+Pd5K/IkhBFeeM7IH6Zdaxdkhho=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1643811735;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=zC1TjTj4KlJ13TohuUK0XoOCh6PMWpRPDMvLTLlYsi4=;
-        b=ZabfSh7DQgNp8qZIYGIE9LrJzD8orArjELsvNULaITL6n6tOnOPRKYTD+xBvaflWdDO4qj
-        eTsiDmI/q2i9ePe65LCasgHAb60Xn8rJrx7s5Yv+KqUAQl7FVrbM2LxCO1nUoPTUdkOn0o
-        mu0dMUh+ONgFonS3DOQ9vhU38VIGhqA=
+In-Reply-To: <20220201183734.224756-2-ek5.chimenti@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi ektor5,
 
-Here's a bunch of patches again for 5.18. Most notably there's V4L2 fwnode
-/ mbus_config cleanup by Laurent, the hi847 camera sensor driver from Shawn
-Tu and the od08d10 camera sensor driver by Jimmy Su. Fixes elsewhere are
-included, too.
+I love your patch! Perhaps something to improve:
 
-Since v1, a few more patches have been added and I've dropped a camss patch
-already picked by Hans.
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linux/master linus/master v5.17-rc2 next-20220202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Since v2, I've added a new patch to prepare the ov6650 driver for
-get_mbus_config() changes by Laurent. Also other fixes have been added,
-effectively the rest of the patches. This is now on the media stage tree as
-it depends on other patches there.
+url:    https://github.com/0day-ci/linux/commits/ektor5/Add-SECO-CEC-driver-for-MEC-Based-boards/20220202-023834
+base:   git://linuxtv.org/media_tree.git master
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20220202/202202022216.MCt6c52g-lkp@intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 6b1e844b69f15bb7dffaf9365cd2b355d2eb7579)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/8960cb39808a004dee84a2f955ed949b1a4da7a8
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review ektor5/Add-SECO-CEC-driver-for-MEC-Based-boards/20220202-023834
+        git checkout 8960cb39808a004dee84a2f955ed949b1a4da7a8
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/cec/platform/seco/ drivers/net/wireless/ath/
 
-Please pull.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/cec/platform/seco/seco-meccec.c:735:8: warning: variable 'adaps' is uninitialized when used here [-Wuninitialized]
+                           if (adaps--)
+                               ^~~~~
+   drivers/media/cec/platform/seco/seco-meccec.c:634:11: note: initialize the variable 'adaps' to silence this warning
+           int adaps, notifs = 0;
+                    ^
+                     = 0
+   1 warning generated.
 
 
-The following changes since commit 68a99f6a0ebfe9101ea79ba5af1c407a5ad4f629:
+vim +/adaps +735 drivers/media/cec/platform/seco/seco-meccec.c
 
-  media: lirc: report ir receiver overflow (2022-01-28 19:32:50 +0100)
+   626	
+   627	static int seco_meccec_probe(struct platform_device *pdev)
+   628	{
+   629		struct seco_meccec_data *meccec;
+   630		struct device *dev = &pdev->dev;
+   631		struct device *hdmi_dev;
+   632		const char * const *conn;
+   633		int ret, idx;
+   634		int adaps, notifs = 0;
+   635	
+   636		meccec = devm_kzalloc(dev, sizeof(*meccec), GFP_KERNEL);
+   637		if (!meccec)
+   638			return -ENOMEM;
+   639	
+   640		dev_set_drvdata(dev, meccec);
+   641	
+   642		meccec->pdev = pdev;
+   643		meccec->dev = dev;
+   644	
+   645		ret = ec_get_version(meccec);
+   646		if (ret) {
+   647			dev_err(dev, "Get version failed\n");
+   648			goto err;
+   649		}
+   650	
+   651		if (!has_acpi_companion(dev)) {
+   652			dev_err(dev, "Cannot find any ACPI companion\n");
+   653			ret = -ENODEV;
+   654			goto err;
+   655		}
+   656	
+   657		ret = seco_meccec_acpi_probe(meccec);
+   658		if (ret) {
+   659			dev_err(dev, "ACPI probe failed\n");
+   660			goto err;
+   661		}
+   662	
+   663		ret = devm_request_threaded_irq(dev,
+   664						meccec->irq,
+   665						NULL,
+   666						seco_meccec_irq_handler,
+   667						IRQF_TRIGGER_RISING | IRQF_ONESHOT,
+   668						dev_name(&pdev->dev), meccec);
+   669	
+   670		if (ret) {
+   671			dev_err(dev, "Cannot request IRQ %d\n", meccec->irq);
+   672			ret = -EIO;
+   673			goto err;
+   674		}
+   675	
+   676		hdmi_dev = seco_meccec_find_hdmi_dev(&pdev->dev, &conn);
+   677		if (IS_ERR(hdmi_dev)) {
+   678			dev_err(dev, "Cannot find HDMI Device\n");
+   679			return PTR_ERR(hdmi_dev);
+   680		}
+   681		dev_dbg(dev, "HDMI device found\n");
+   682	
+   683		for (idx = 0; idx < MECCEC_MAX_CEC_ADAP; idx++) {
+   684			if (meccec->channels & BIT_MASK(idx)) {
+   685				ret = meccec_create_adapter(meccec, idx);
+   686				if (ret)
+   687					goto err_delete_adapter;
+   688				dev_dbg(dev, "CEC adapter #%d allocated\n", idx);
+   689			}
+   690		}
+   691	
+   692		for (idx = 0; idx < MECCEC_MAX_CEC_ADAP; idx++) {
+   693			if (meccec->channels & BIT_MASK(idx)) {
+   694				struct cec_adapter *acec = meccec->cec_adap[idx];
+   695				struct cec_notifier *ncec;
+   696	
+   697				if (!acec) {
+   698					ret = -EINVAL;
+   699					goto err_notifier;
+   700				}
+   701	
+   702				ncec = cec_notifier_cec_adap_register(hdmi_dev,
+   703								      conn[idx], acec);
+   704	
+   705				dev_dbg(dev, "CEC notifier #%d allocated %s\n", idx, conn[idx]);
+   706	
+   707				if (IS_ERR(ncec)) {
+   708					ret = PTR_ERR(ncec);
+   709					goto err_notifier;
+   710				}
+   711	
+   712				meccec->notifier[idx] = ncec;
+   713				notifs++;
+   714			}
+   715		}
+   716	
+   717		for (idx = 0; idx < MECCEC_MAX_CEC_ADAP; idx++) {
+   718			if (meccec->channels & BIT_MASK(idx)) {
+   719				ret = cec_register_adapter(meccec->cec_adap[idx], dev);
+   720				if (ret)
+   721					goto err_notifier;
+   722	
+   723				dev_dbg(dev, "CEC adapter #%d registered\n", idx);
+   724			}
+   725		}
+   726	
+   727		platform_set_drvdata(pdev, meccec);
+   728		dev_dbg(dev, "Device registered\n");
+   729	
+   730		return ret;
+   731	
+   732	err_notifier:
+   733		for (idx = 0; idx < MECCEC_MAX_CEC_ADAP; idx++) {
+   734			if (meccec->channels & BIT_MASK(idx)) {
+ > 735				if (adaps--)
+   736					return ret;
+   737	
+   738				cec_notifier_cec_adap_unregister(meccec->notifier[idx],
+   739								 meccec->cec_adap[idx]);
+   740			}
+   741		}
+   742	err_delete_adapter:
+   743		for (idx = 0; idx < MECCEC_MAX_CEC_ADAP; idx++) {
+   744			if (meccec->channels & BIT_MASK(idx)) {
+   745				if (notifs--)
+   746					return ret;
+   747	
+   748				cec_delete_adapter(meccec->cec_adap[idx]);
+   749			}
+   750		}
+   751	err:
+   752		dev_err(dev, "%s device probe failed: %d\n", dev_name(dev), ret);
+   753	
+   754		return ret;
+   755	}
+   756	
 
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-5.18-1.2-signed
-
-for you to fetch changes up to 63e1437181c45a2b74d2e1f2c852381f0ccff20b:
-
-  media: i2c: ov08d10: Unlock on error in ov08d10_enum_frame_size() (2022-02-02 15:44:33 +0200)
-
-----------------------------------------------------------------
-More V4L2 camera patches
-
-----------------------------------------------------------------
-Bingbu Cao (1):
-      media: ov5675: use group write to update digital gain
-
-Dan Carpenter (1):
-      media: i2c: ov08d10: Unlock on error in ov08d10_enum_frame_size()
-
-Kees Cook (1):
-      media: omap3isp: Use struct_group() for memcpy() region
-
-Laurent Pinchart (4):
-      media: v4l2-mediabus: Use structures to describe bus configuration
-      media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_*_LANE flags
-      media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_CHANNEL_* flags
-      media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
-
-Martin Kepplinger (2):
-      dt-binding: media: hynix,hi846: use $defs/port-base port description
-      dt-bindings: media: hynix,hi846: add link-frequencies description
-
-Sakari Ailus (1):
-      microchip-csi2dc: Remove VC support for now
-
- .../devicetree/bindings/media/i2c/hynix,hi846.yaml |  6 ++-
- drivers/gpu/ipu-v3/ipu-csi.c                       |  6 +--
- drivers/media/i2c/adv7180.c                        | 10 ++---
- drivers/media/i2c/adv748x/adv748x-csi2.c           | 18 +--------
- drivers/media/i2c/ml86v7667.c                      |  5 ++-
- drivers/media/i2c/mt9m001.c                        |  8 ++--
- drivers/media/i2c/mt9m111.c                        | 14 ++++---
- drivers/media/i2c/ov08d10.c                        |  4 +-
- drivers/media/i2c/ov5675.c                         | 32 ++++++++++++++--
- drivers/media/i2c/ov6650.c                         | 14 +++----
- drivers/media/i2c/ov9640.c                         |  8 ++--
- drivers/media/i2c/tc358743.c                       | 24 ++----------
- drivers/media/i2c/tvp5150.c                        |  6 ++-
- drivers/media/platform/atmel/microchip-csi2dc.c    | 20 ++--------
- drivers/media/platform/omap3isp/ispstat.c          |  5 ++-
- drivers/media/platform/pxa_camera.c                | 12 +++---
- drivers/media/platform/rcar-vin/rcar-csi2.c        | 16 ++------
- drivers/media/v4l2-core/v4l2-fwnode.c              |  6 +--
- drivers/staging/media/imx/imx-media-csi.c          |  7 ++--
- drivers/staging/media/imx/imx6-mipi-csi2.c         | 25 ++----------
- include/media/v4l2-mediabus.h                      | 44 +++++++++-------------
- include/uapi/linux/omap3isp.h                      | 21 +++++++----
- 22 files changed, 138 insertions(+), 173 deletions(-)
-
--- 
-Kind regards,
-
-Sakari Ailus
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
