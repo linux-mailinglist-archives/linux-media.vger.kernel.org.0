@@ -2,176 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F1034A7A9E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 22:49:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC2E54A7A9D
+	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 22:49:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235569AbiBBVtS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Feb 2022 16:49:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59068 "EHLO
+        id S232562AbiBBVtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Feb 2022 16:49:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbiBBVtR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 16:49:17 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 599D3C061714
-        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 13:49:17 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 87243D88;
-        Wed,  2 Feb 2022 22:49:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643838555;
-        bh=Tir5GDClBCcI2RsnPBtze3+Pm/KDE9b44Hfcb33QIWA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HCUV7j6EGQCgPuCAt84sT0xENa27pffAn0huwGwT/MseJNqFtF0JvyGs/3KEV/xpl
-         eczowPet95mEeeWP5PtZTF0JMwEKFU6j6S22zAsDaMsxTzjFodpWgsTTkIaekBrh4C
-         Qz23EhhLT/wgSaeHuwRKDpPMH9FYJsc6Mq5vgpgg=
-Date:   Wed, 2 Feb 2022 23:48:52 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     slongerbeam@gmail.com, sakari.ailus@iki.fi,
-        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
-        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
-        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        aford173@gmail.com, festevam@gmail.com,
-        eugen.hristev@microchip.com, jbrunet@baylibre.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 12/21] media: ov5640: Fix durations to comply with FPS
-Message-ID: <Yfr8RIRGiSs89D4z@pendragon.ideasonboard.com>
-References: <20220131143245.128089-1-jacopo@jmondi.org>
- <20220131144444.129036-1-jacopo@jmondi.org>
+        with ESMTP id S229437AbiBBVs7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 16:48:59 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ECC6C061714
+        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 13:48:59 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id g18so728451wrb.6
+        for <linux-media@vger.kernel.org>; Wed, 02 Feb 2022 13:48:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=dKrNhjxZnRr3GwmN4wC37geXc+8FzlBlTKhpm5ZdPiA=;
+        b=B6+pONywolt9Yo5cnElNiTpbB52ukKio34H/oBcksKnyE44krUh/rD+EVfAcOuQMgW
+         Y1G8D/DHqcxXdUo315NNC8tjgKpv9XjO+W2jthjZFmXJrmUX0wKKdl85JW7UhQogi5Au
+         HqQa1TfTgh/Z56811acw1F3thoLTSYIPor9bb5o9t8stMNOeRNe3dPH0Av76F1vT8xhi
+         ItnFqmu9MesIfD9i5v1+snO1400MZjyR4o47WmzI2Xy2OioY7x/mhnOI+04RAun4D6pt
+         JJ4OgscsFegmTOGCKWmPJ8mZqpObeluX6kMTyLzYDYWXl3XKpY4kElVwie/ztu5ZY4Ls
+         jz5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=dKrNhjxZnRr3GwmN4wC37geXc+8FzlBlTKhpm5ZdPiA=;
+        b=Ww5S0c3qqFSDdgzB6rTv1oQHzD2eKpOmu9+9bnZ2BpIKxSgJ68+PvLP6kD1n1BlLM0
+         3RIwQwT6Mt3bk9QHL9sVfHJAuOYg7JFIBfcsY7EuqvpC2v6PXbnL7OBgaGTjHv8iRUL2
+         XIKfrRQGi6JxpY8XlT9TUrORs2xPKGGBj5i8SvH3cEFHb/yhj9s9qB0YFfOq5pHM9wWw
+         LrErp0OHxUSKcibYLXKOY7os4g1qP2xmlcVOkKu8LLCKTeg9PZx+wkwJG3tZ0FzdJV9B
+         yHm3CL9Zl5kuLzbCmPUrB8ZzbqP6dBuMCzfMckonf1ElIqd/RsB4a7hYYM1z4pY0hsdR
+         NRBQ==
+X-Gm-Message-State: AOAM531D8+NtWbPAZIonSH5u4x6JyliJcFQqnudrsc/GjVh9MB4H3JG9
+        Yx31qSeFIBP+dK3OkAJrtPE=
+X-Google-Smtp-Source: ABdhPJwKoeMKgAp8csdr5fFOVxx3u6CBPGynoORELFM56rZyMjvEZAQyu4d6h5m//kK9g3ZATpw2Ug==
+X-Received: by 2002:a5d:5352:: with SMTP id t18mr17353429wrv.247.1643838537796;
+        Wed, 02 Feb 2022 13:48:57 -0800 (PST)
+Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id z6sm5497243wmf.37.2022.02.02.13.48.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Feb 2022 13:48:57 -0800 (PST)
+Message-ID: <a535c8c6-b09f-5be3-5465-9ea3be38bc02@gmail.com>
+Date:   Wed, 2 Feb 2022 21:48:56 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220131144444.129036-1-jacopo@jmondi.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 6/6] media: v4l2-async: Create links during
+ v4l2_async_match_notify()
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
+        laurent.pinchart@ideasonboard.com, hanlinchen@chromium.org,
+        tfiga@chromium.org, hdegoede@redhat.com,
+        kieran.bingham@ideasonboard.com, hpa@redhat.com
+References: <20220130235821.48076-1-djrscally@gmail.com>
+ <20220130235821.48076-7-djrscally@gmail.com>
+ <YfqzdowSDlF9VwFP@paasikivi.fi.intel.com>
+From:   Daniel Scally <djrscally@gmail.com>
+In-Reply-To: <YfqzdowSDlF9VwFP@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Sakari
 
-Thank you for the patch.
+On 02/02/2022 16:38, Sakari Ailus wrote:
+> Hi Daniel,
+>
+> Thanks for the update.
+>
+> On Sun, Jan 30, 2022 at 11:58:21PM +0000, Daniel Scally wrote:
+>> Upon an async fwnode match, there's some typical behaviour that the
+>> notifier and matching subdev will want to do. For example, a notifier
+>> representing a sensor matching to an async subdev representing its
+>> VCM will want to create an ancillary link to expose that relationship
+>> to userspace.
+>>
+>> To avoid lots of code in individual drivers, try to build these links
+>> within v4l2 core.
+>>
+>> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+>> ---
+>> Changes since v1:
+>>
+>> 	- Added #ifdef guards for CONFIG_MEDIA_CONTROLLER
+>> 	- Some spelling and nomenclature cleanup (Laurent)
+>>
+>> Changes since the rfc:
+>>
+>> 	- None
+>>
+>>  drivers/media/v4l2-core/v4l2-async.c | 56 ++++++++++++++++++++++++++++
+>>  1 file changed, 56 insertions(+)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+>> index 0404267f1ae4..8980534e755e 100644
+>> --- a/drivers/media/v4l2-core/v4l2-async.c
+>> +++ b/drivers/media/v4l2-core/v4l2-async.c
+>> @@ -275,6 +275,50 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
+>>  static int
+>>  v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
+>>  
+>> +static int
+>> +__v4l2_async_create_ancillary_link(struct v4l2_async_notifier *notifier,
+>> +				   struct v4l2_subdev *sd)
+>> +{
+>> +	struct media_link *link = NULL;
+>> +
+>> +#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
+>> +
+>> +	if (sd->entity.function != MEDIA_ENT_F_LENS &&
+>> +	    sd->entity.function != MEDIA_ENT_F_FLASH)
+>> +		return -EINVAL;
+>> +
+>> +	link = media_create_ancillary_link(&notifier->sd->entity, &sd->entity);
+>> +
+>> +#endif
+>> +
+>> +	return IS_ERR(link) ? PTR_ERR(link) : 0;
+>> +}
+>> +
+>> +/*
+>> + * Create links on behalf of the notifier and subdev, where it's obvious what
+>> + * should be done. At the moment, we only support cases where the notifier
+>> + * is a camera sensor and the subdev is a lens controller.
+> I think I'd rather change this so that ancillary links are created for lens
+> and flash subdevs, independently of the function of the notifier subdev.
+>
+> Are there cases where this would go wrong currently, or in the future? I
+> can't think of any right now at least. I guess we could add more
+> information in the future to convey here if needed.
+I don't think doing that would go wrong anyhow...at least not that I
+could think of at the minute. My plan was to add a new function like
+__v4l2_async_create_data_links() and call that (from
+v4l2_async_try_create_links()) where the function of the notifier subdev
+was MEDIA_ENT_F_VID_IF_BRIDGE...you think we shouldn't be doing that? Or
+just that it should be separate?
+>> + *
+>> + * TODO: Create data links if the notifier's function is
+>> + * MEDIA_ENT_F_VID_IF_BRIDGE and the subdev's is MEDIA_ENT_F_CAM_SENSOR.
+>> + */
+>> +static int v4l2_async_try_create_links(struct v4l2_async_notifier *notifier,
+>> +				       struct v4l2_subdev *sd)
+> How about calling this v4l2_async_create_ancillary_links()?
 
-On Mon, Jan 31, 2022 at 03:44:40PM +0100, Jacopo Mondi wrote:
-> Now that the frame duration can be controlled by tuning the VBLANK
-> duration, fix all modes to comply with the reported FPS.
-> 
-> All modes run at 30 FPS except for full-resolution mode 2592x1944
-> which runs at 15FPS.
-> 
-> Tested on a 2 data lanes setup in UYVY and RGB565 modes.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/media/i2c/ov5640.c | 30 +++++++++++++++---------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 6eeb50724195..2176fa0b8eae 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -611,8 +611,8 @@ ov5640_mode_data[OV5640_NUM_MODES] = {
->  			.width	= 160,
->  			.height	= 120,
->  		},
-> -		.ppl		= 1896,
-> -		.vblank_def	= 864,
-> +		.ppl		= 1600,
-> +		.vblank_def	= 878,
 
-The total number of pixels is changed from 1896 * (120+864) = 1865664 to
-1600 * (120+878) = 1596800. The latter produces 30.06fps with a 48 Mp/s
-rate, which certainly seems better than the 25.73fps produced by the
-format. I wonder, though, if this has always been wrong, or if the
-incorrect frame rate got introduced earlier in this series.
+Sure
 
-Also, how did you pick a htot value of 1600 ?
+>
+>> +{
+>> +#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
+>> +
+>> +	if (!notifier->sd)
+>> +		return 0;
+>> +
+>> +	switch (notifier->sd->entity.function) {
+>> +	case MEDIA_ENT_F_CAM_SENSOR:
+>> +		return __v4l2_async_create_ancillary_link(notifier, sd);
+>> +	}
+>> +
+>> +#endif
+>> +	return 0;
+>> +}
+>> +
+>>  static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
+>>  				   struct v4l2_device *v4l2_dev,
+>>  				   struct v4l2_subdev *sd,
+>> @@ -293,6 +337,18 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
+>>  		return ret;
+>>  	}
+>>  
+>> +	/*
+>> +	 * Depending of the function of the entities involved, we may want to
+>> +	 * create links between them (for example between a sensor and its lens
+>> +	 * or between a sensor's source pad and the connected device's sink
+>> +	 * pad).
+>> +	 */
+>> +	ret = v4l2_async_try_create_links(notifier, sd);
+>> +	if (ret) {
+> The notifier's bound function has been called already. The unbound function
+> needs to be thus called here, too.
 
->  		.reg_data	= ov5640_setting_QQVGA_160_120,
->  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QQVGA_160_120),
->  		.max_fps	= OV5640_30_FPS
-> @@ -633,8 +633,8 @@ ov5640_mode_data[OV5640_NUM_MODES] = {
->  			.width	= 176,
->  			.height	= 144,
->  		},
-> -		.ppl		= 1896,
-> -		.vblank_def	= 840,
-> +		.ppl		= 1600,
-> +		.vblank_def	= 854,
->  		.reg_data	= ov5640_setting_QCIF_176_144,
->  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QCIF_176_144),
->  		.max_fps	= OV5640_30_FPS
-> @@ -655,8 +655,8 @@ ov5640_mode_data[OV5640_NUM_MODES] = {
->  			.width	= 320,
->  			.height	= 240,
->  		},
-> -		.ppl		= 1896,
-> -		.vblank_def	= 744,
-> +		.ppl		= 1600,
-> +		.vblank_def	= 760,
->  		.reg_data	= ov5640_setting_QVGA_320_240,
->  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QVGA_320_240),
->  		.max_fps	= OV5640_30_FPS
-> @@ -677,8 +677,8 @@ ov5640_mode_data[OV5640_NUM_MODES] = {
->  			.width	= 640,
->  			.height	= 480,
->  		},
-> -		.ppl		= 1896,
-> -		.vblank_def	= 600,
-> +		.ppl		= 1600,
-> +		.vblank_def	= 520,
->  		.reg_data	= ov5640_setting_VGA_640_480,
->  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_VGA_640_480),
->  		.max_fps	= OV5640_60_FPS
-> @@ -700,7 +700,7 @@ ov5640_mode_data[OV5640_NUM_MODES] = {
->  			.height	= 480,
->  		},
->  		.ppl		= 1896,
-> -		.vblank_def	= 504,
-> +		.vblank_def	= 1206,
->  		.reg_data	= ov5640_setting_NTSC_720_480,
->  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_NTSC_720_480),
->  		.max_fps	= OV5640_30_FPS
-> @@ -722,7 +722,7 @@ ov5640_mode_data[OV5640_NUM_MODES] = {
->  			.height	= 576,
->  		},
->  		.ppl		= 1896,
-> -		.vblank_def	= 408,
-> +		.vblank_def	= 1110,
->  		.reg_data	= ov5640_setting_PAL_720_576,
->  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_PAL_720_576),
->  		.max_fps	= OV5640_30_FPS
-> @@ -744,7 +744,7 @@ ov5640_mode_data[OV5640_NUM_MODES] = {
->  			.height	= 768,
->  		},
->  		.ppl		= 1896,
-> -		.vblank_def	= 312,
-> +		.vblank_def	= 918,
->  		.reg_data	= ov5640_setting_XGA_1024_768,
->  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_XGA_1024_768),
->  		.max_fps	= OV5640_30_FPS
-> @@ -765,8 +765,8 @@ ov5640_mode_data[OV5640_NUM_MODES] = {
->  			.width	= 1280,
->  			.height	= 720,
->  		},
-> -		.ppl		= 1896,
-> -		.vblank_def	= 20,
-> +		.ppl		= 1600,
-> +		.vblank_def	= 560,
->  		.reg_data	= ov5640_setting_720P_1280_720,
->  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_720P_1280_720),
->  		.max_fps	= OV5640_30_FPS
-> @@ -787,8 +787,8 @@ ov5640_mode_data[OV5640_NUM_MODES] = {
->  			.width	= 1920,
->  			.height	= 1080,
->  		},
-> -		.ppl		= 2500,
-> -		.vblank_def	= 40,
-> +		.ppl		= 2234,
-> +		.vblank_def	= 24,
->  		.reg_data	= ov5640_setting_1080P_1920_1080,
->  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
->  		.max_fps	= OV5640_30_FPS
 
--- 
-Regards,
+Thank you, I'll do that in the next version
 
-Laurent Pinchart
+>
+>> +		v4l2_device_unregister_subdev(sd);
+>> +		return ret;
+>> +	}
+>> +
+>>  	/* Remove from the waiting list */
+>>  	list_del(&asd->list);
+>>  	sd->asd = asd;
