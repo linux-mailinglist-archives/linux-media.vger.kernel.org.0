@@ -2,19 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A07DF4A77DB
-	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 19:24:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36A924A77FB
+	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 19:34:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346631AbiBBSY1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 2 Feb 2022 13:24:27 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:41103 "EHLO
+        id S1346655AbiBBSdh convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 2 Feb 2022 13:33:37 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:43885 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346432AbiBBSY0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 13:24:26 -0500
+        with ESMTP id S230086AbiBBSdg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 13:33:36 -0500
 Received: from [192.168.1.107] ([37.4.249.169]) by mrelayeu.kundenserver.de
  (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MCKSA-1n60uL2ncw-009T5h; Wed, 02 Feb 2022 19:24:07 +0100
-Subject: Re: [RFC PATCH v3 05/11] ARM: dts: bcm2711: Add unicam CSI nodes
+ 1MAOeB-1n44xm1GjD-00Bvtg; Wed, 02 Feb 2022 19:33:21 +0100
+Subject: Re: [RFC PATCH v3 03/11] media: dt-bindings: media: Add bindings for
+ bcm2835-unicam
 To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
 Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
         kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
@@ -23,7 +24,7 @@ Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
         lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
         robh@kernel.org, tomi.valkeinen@ideasonboard.com
 References: <20220202175639.149681-1-jeanmichel.hautbois@ideasonboard.com>
- <20220202175639.149681-6-jeanmichel.hautbois@ideasonboard.com>
+ <20220202175639.149681-4-jeanmichel.hautbois@ideasonboard.com>
 From:   Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
@@ -155,98 +156,194 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <84291425-6c7b-256a-24b6-c61197944211@i2se.com>
-Date:   Wed, 2 Feb 2022 19:24:06 +0100
+Message-ID: <cfa2f751-2988-c372-4bcb-30080efed587@i2se.com>
+Date:   Wed, 2 Feb 2022 19:33:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20220202175639.149681-6-jeanmichel.hautbois@ideasonboard.com>
+In-Reply-To: <20220202175639.149681-4-jeanmichel.hautbois@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8BIT
 Content-Language: en-US
-X-Provags-ID: V03:K1:rJlmDmj+jpWen5kOBtIXH9zKd5MyUuZxzIyZiK1l/PwEMsMgEa+
- y4b2yeczSsUklBnqucuA7mwmV6d+eUdrlVdCClzC6ex6cgmXSECrz+n/6Z5dM1SgnNUWhl8
- RA1slzv1WZUb9nnRa5c1v/UIMNdf/xtV/Tvzqhb0T1GT/Sz6RxSc5tSd3mJG8P4cSU5KhMd
- kCwMIrTAkHsFxK6EspJvg==
+X-Provags-ID: V03:K1:EmiHuu+kLsfPvwOVxU0JUkwzCNlNyHA1qDDAEpQl7oFt/l9O7oh
+ hNJa2Q6wzXQ1IC2mCQ2iXBERBBy9ICzur2n8kt3esv9kEWEGuWSF0/mtnyU4FQ1mNJtktXy
+ hZWvchL6sy/3WMvG/mK554GT4jdpW8jyVp4xRLu5OEW0XevOZw/iWBWl35oURB4wXr8mrDc
+ i7s5TPOIaK8S2dtj8a77Q==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jHcfnsiocQM=:xF3hmCR+hmODlDipCSJITB
- MMjsLNgsuzfRWAqnMQVHNRLLAENKitb+5vSdJgwc41WUGMiCRf9l3LQsGwt8u4ywsQJmtZPvl
- CBjhkddvcSLGX5aGrg+2MtxW7iD1FTZezNBoPkZMjkuYVpFGbsfe9ZxVd8RZk1y1CKnRQJHvs
- rB+P1GY+/SonVIaM58GLIwQTjoEf0fN9gR2NxEIlj10tx9iEHGq8a9oErKscr03Ai4VqeBsLR
- HTTRGbsa2aK+HMhmr9yi6sYaLEIo2G3ZqjJZyK+piOCK9h74oYwInZ3AY620I301n3T2KWVox
- Sf95zFpN8hwJAGmNY0PE9/afUiKPm5m8TK5YvE9owxLOoM0XDBE3JP1ZxcVZod+5T6OgAXVfJ
- 2OlKbolvCxcAjbmb6N1v3Kr/BfeZmM+MLu3QF3mrIgeTPpEm2enxEZ1M7PPuz9ciHOMOI7bjL
- Mixbwto8gUdzBrrtiicl+Ylbl+vxIJfLesK2+kKkkPi1+72v9LmUGWcoeCVjPnpQOTgbLfGaB
- Bx1lqCiaqfGwtL7e6iFg00JPX2p76j+RM32hZ4Be/MyTd1IOAtqeZ4VUIWiSZV3dKzO7tA2I0
- K1HeEruSnL89LuH50qQ3D0i8HoTtIkDQqxn9nNu7nodeBQ5M4DdpaBcFJLc/x7DlGRjo9pmm6
- cl+MR6W1Q1T/yOb/38azKbEKn7GAnFDpCGjDBFAWtkMR3sAj+YofuA92+wXxxnwY8YEKEJLpr
- 3Q27UnJKYWWjIZRd
+X-UI-Out-Filterresults: notjunk:1;V03:K0:s5q3OHshx40=:WPCyfNVnIsvWWm9mEvYwl6
+ /rVa7C+8KiHhNo9z8Ej/rvEcfi3H9P0L+PTMTDuq16ZiE4O8B8TWmULC1QF33vi4siCp42wFM
+ f+knlCnDYfsAdQ1Fr3MVM4pIUCD7zCFWuxfXsAOfyHKdCS2RlF1c3lxJOBh5ge8lQnnJtc1N4
+ zdZXayISe6CpPpsEWh7qa5r4W6seSEHOyi9n/vKkM12s2W3cKNTa2MwU1GGUjmo27OO89cA38
+ Y1zjPTQy4ZKTY61WkJau8eXgscU/nnxEAyjngx9SAh7CoBO5R8A8VW7OYTM4pKglnzxTotbWD
+ Dxz6FAaeGg/YSHlufSzTXtisEMvPFEsuSEqutgrPm8IwD2rTya+k9fP7HzRgHSfJ0piqG/SR0
+ 8xsn90hVpqZYqG+CXRRkkGSLyxgxWGccpahNzRUcYuaQfJvLyxwKagrqBhwSqmNCw2T3LCNOP
+ Bg/zBaLfaGUGwgUclI7K19k2jFIGUOdvNVrRMKna8/DwMtEMRZRTrINjjyE5SjuscTn3ZWZSX
+ MOi1oQSKYxYY3jkV5UV9v9cmQHiN+retVqju3P9JjmSlNKzXDERCf3gZ9rJgxQ+imUOn3KB4N
+ 6alQfF9yOI3r4FX++PGw16WknnMx92SNFs+DWKH/2GNLmuMQhRcrk0Va/tlIZIvs+ve0yLVnD
+ MDI7CSy93Xbv57boUhBqZKSIeBxRo43GraIpplPN6Hg7NTZtcTytggYNR4kOkqFW7G8wHequf
+ OWZfhtZ5iT2M70vz
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jean-Michel,
 
-Am 02.02.22 um 18:56 schrieb Jean-Michel Hautbois:
-> Add both MIPI CSI-2 nodes in the core bcm2711 tree. Use the 3-cells
-> interrupt declaration, corresponding clocks and default as disabled.
->
-> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-this patch needs an Ack from the BCM2835 maintainer(s), so please
-include them. scripts/get_maintainers.pl is your friend.
-> ---
->  arch/arm/boot/dts/bcm2711.dtsi | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-> index dff18fc9a906..9ad50d4c0c16 100644
-> --- a/arch/arm/boot/dts/bcm2711.dtsi
-> +++ b/arch/arm/boot/dts/bcm2711.dtsi
-> @@ -3,6 +3,7 @@
->  
->  #include <dt-bindings/interrupt-controller/arm-gic.h>
->  #include <dt-bindings/soc/bcm2835-pm.h>
-> +#include <dt-bindings/power/raspberrypi-power.h>
-The file bcm2711.dtsi is reserved for the BCM2711 SoC and shouldn't used
-for board specific stuff. So please ...
->  
->  / {
->  	compatible = "brcm,bcm2711";
-> @@ -293,6 +294,30 @@ hvs: hvs@7e400000 {
->  			interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
->  		};
->  
-> +		csi0: csi@7e800000 {
-> +			compatible = "brcm,bcm2835-unicam";
-> +			reg = <0x7e800000 0x800>,
-> +			      <0x7e802000 0x4>;
-> +			interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&clocks BCM2835_CLOCK_CAM0>,
-> +				 <&firmware_clocks 4>;
-> +			clock-names = "lp", "vpu";
-> +			power-domains = <&power RPI_POWER_DOMAIN_UNICAM0>;
-move clocks property & power-domains property from this node and
-> +			status = "disabled";
-> +		};
-> +
-> +		csi1: csi@7e801000 {
-> +			compatible = "brcm,bcm2835-unicam";
-> +			reg = <0x7e801000 0x800>,
-> +			      <0x7e802004 0x4>;
-> +			interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&clocks BCM2835_CLOCK_CAM1>,
-> +				 <&firmware_clocks 4>;
-> +			clock-names = "lp", "vpu";
-> +			power-domains = <&power RPI_POWER_DOMAIN_UNICAM1>;
+please drop the first "media:" before dt-bindings.
 
-from this node to bcm2711-rpi.dtsi.
+Am 02.02.22 um 18:56 schrieb Jean-Michel Hautbois:
+> Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
+> camera interface. Also add a MAINTAINERS entry for it.
+>
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> ---
+> Dave: I assumed you were the maintainer for this file, as I based it on the
+> bcm2835-unicam.txt file. Are  you happy to be added directly as the
+> maintainer, or should this be specified as "Raspberry Pi Kernel
+> Maintenance <kernel-list@raspberrypi.com>"
+> ---
+>  .../bindings/media/brcm,bcm2835-unicam.yaml   | 107 ++++++++++++++++++
+>  MAINTAINERS                                   |   7 ++
+>  2 files changed, 114 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> new file mode 100644
+> index 000000000000..5bf41a8834fa
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> @@ -0,0 +1,107 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Broadcom BCM283x Camera Interface (Unicam)
+> +
+> +maintainers:
+> +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
+> +
+> +description: |-
+> +  The Unicam block on BCM283x SoCs is the receiver for either
+> +  CSI-2 or CCP2 data from image sensors or similar devices.
+> +
+> +  The main platform using this SoC is the Raspberry Pi family of boards.
+> +  On the Pi the VideoCore firmware can also control this hardware block,
+> +  and driving it from two different processors will cause issues.
+> +  To avoid this, the firmware checks the device tree configuration
+> +  during boot. If it finds device tree nodes starting by csi then
+> +  it will stop the firmware accessing the block, and it can then
+> +  safely be used via the device tree binding.
+> +
+> +properties:
+> +  compatible:
+> +    const: brcm,bcm2835-unicam
+> +
+> +  reg:
+> +    maxItems: 2
+I would be nice to have reg-names here similar to the clocks.
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Clock for the camera.
+> +      - description: Clock for the vpu.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: lp
+> +      - const: vpu
+> +
+> +  power-domains:
+> +    items:
+> +      - description: Unicam power domain
+> +
+> +  num-data-lanes:
+> +    items:
+> +      - enum: [ 2, 4 ]
+> +
+> +  port:
+> +    additionalProperties: false
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes: true
+> +          link-frequencies: true
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - num-data-lanes
+> +  - port
+> +
+> +additionalProperties: False
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/bcm2835.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/raspberrypi-power.h>
+> +    csi1: csi@7e801000 {
+> +        compatible = "brcm,bcm2835-unicam";
+> +        reg = <0x7e801000 0x800>,
+> +              <0x7e802004 0x4>;
+> +        interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&clocks BCM2835_CLOCK_CAM1>,
+> +                 <&firmware_clocks 4>;
+> +        clock-names = "lp", "vpu";
+> +        power-domains = <&power RPI_POWER_DOMAIN_UNICAM1>;
+> +        num-data-lanes = <2>;
+> +        port {
+> +                csi1_ep: endpoint {
+> +                        remote-endpoint = <&imx219_0>;
+> +                        data-lanes = <1 2>;
+> +                        link-frequencies = /bits/ 64 <456000000>;
+> +                };
+> +        };
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a0770a861ca4..29344ea86847 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3670,6 +3670,13 @@ N:	bcm113*
+>  N:	bcm216*
+>  N:	kona
+>  
+> +BROADCOM BCM2835 CAMERA DRIVER
+> +M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> +F:	arch/arm/boot/dts/bcm283x*
+> +
+
+I suggest to make the MAINTAINERS changes a single separate patch
+instead of small incremental changes.
 
 Best regards
 
-> +			status = "disabled";
-> +		};
-> +
->  		pixelvalve3: pixelvalve@7ec12000 {
->  			compatible = "brcm,bcm2711-pixelvalve3";
->  			reg = <0x7ec12000 0x100>;
+>  BROADCOM BCM47XX MIPS ARCHITECTURE
+>  M:	Hauke Mehrtens <hauke@hauke-m.de>
+>  M:	Rafał Miłecki <zajec5@gmail.com>
 
