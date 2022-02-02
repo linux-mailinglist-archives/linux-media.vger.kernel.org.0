@@ -2,111 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 376E54A6F25
-	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 11:48:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A1C34A6F4D
+	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 12:01:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244174AbiBBKrT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Feb 2022 05:47:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47356 "EHLO
+        id S245663AbiBBLBX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Feb 2022 06:01:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240121AbiBBKrS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 05:47:18 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF88BC061714
-        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 02:47:17 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id o12so39692869lfg.12
-        for <linux-media@vger.kernel.org>; Wed, 02 Feb 2022 02:47:17 -0800 (PST)
+        with ESMTP id S232455AbiBBLBX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 06:01:23 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3310DC061714
+        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 03:01:23 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id g15-20020a17090a67cf00b001b7d5b6bedaso5646009pjm.4
+        for <linux-media@vger.kernel.org>; Wed, 02 Feb 2022 03:01:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Yv9CJkTA34A5RzRG7XItJLyzPP8c4yOqEtb0dgEMVtA=;
-        b=hsRBWewEhi0L0fXWokAVChGocpjD1gZcIoNItYN1sx8yfacO5cc1QO7CKZ4GqmiZ6a
-         vPl6SJMkQPrFXUJNcA0HInSJ6LKBwRXxhXxAtAVWubQI0RGaCZfjqDHtvbRHIxwbkocZ
-         9IlEHxnDjHkABfVU8cFBrdMvMbfrRkq/PtiFHyVfC63aj1PCOfk5x5+lsJXLsRCjYRTp
-         6MPa8KTyYH+QyL7N9j2nXwi++h1CHxaUL4AjKWVKm5uQ3n+Yu0UtiiuoKEoxpzwa2lJB
-         uAVGjKKwi+TEOLeCET+XtyY7bHcVcSMUyn4Gq9urNk2S9ledKWmnyBTSCC6JlUcjRWjo
-         Ue2w==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qyYOsEOUq36I4BRWfhOWsG13whbc23zT0YarYsaZNnw=;
+        b=XbMhdnOmtyjukFBxlZzVW708GqcsW4IaiHe4xQzd3WzPrjHBluEzGeTakgCDBTfRnj
+         SwAeT5Vyga+c9jmoVOpGRWlLPcMXf3jGYSFLX8E+HjrK/fLlpB5QkNbViYsrjjlI7ttm
+         eph6kMQHu66UeZE9/a+tJn8xaVYcw1HuIdAQXw7jizodHdXIdjYJvmEC+2vIXMApx6nN
+         1jiKFN+nk3b4FGK+aAEQGnBO/OJS2MYpRlAHH2T0QUdnSF0bdwE+Y2bSuYPvd9pwZOri
+         y42ZC+MGHz/+883/RYKDa5R9mfix3tkzA9cwVKw05QFa7xWDx+A8VUJFDpDHzHKx4MyF
+         X+yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Yv9CJkTA34A5RzRG7XItJLyzPP8c4yOqEtb0dgEMVtA=;
-        b=JCG+G+3Oh0hqYcLxy7WC+5S5mIp/7MLtovY+9JyLGhZur1B1xLgqXAEf3PXUg+lp5Y
-         TbaBnEboWOSGDmWsJW6nSFral0wE+uDyFm6iO/V1H1/azTVx9lCTQefFAoU92wClEEiH
-         U8wvkUwp0cUL5IvrtCKmBdXUsG8x0cBUcb1xAos8Uk5fx5suNke/g2jIMiJTjxuhnBVT
-         wx4TLyqxF7eqChSt4IVGJXcyZTNmqcf3LGMtW+yfhWn0GoTf0/GJrGEPKbXazAga6+2j
-         0vpOGHKqmR8R06xoTPKJvkbZEQg7L/LrNpV60YcPvLOqWKgExIRmE+Ga0Pt5K9LRZVVv
-         t1aA==
-X-Gm-Message-State: AOAM533yrjq6Y/9U994aZOYE2TVRdjTvTjcTzzYoCYgd6apb0pvLIn6r
-        k/2dfl6XKx0JZCjt586DWGznkQ==
-X-Google-Smtp-Source: ABdhPJwmRvDR5kh3gu0N9Ob6zzWoEJRtqALJTSm03MXoav1csitHbCd7sukTsMwhJozmjUDTr7584Q==
-X-Received: by 2002:a05:6512:2821:: with SMTP id cf33mr22093956lfb.37.1643798836263;
-        Wed, 02 Feb 2022 02:47:16 -0800 (PST)
-Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id v5sm2844143lfg.124.2022.02.02.02.47.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 02:47:15 -0800 (PST)
-From:   Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vladimir Barinov <vladimir.barinov@cogentembedded.com>,
-        Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH] media: rcar-vin: require master VIN only for CSI source
-Date:   Wed,  2 Feb 2022 13:47:00 +0300
-Message-Id: <20220202104700.3329055-1-nikita.yoush@cogentembedded.com>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qyYOsEOUq36I4BRWfhOWsG13whbc23zT0YarYsaZNnw=;
+        b=BPxbnCtmwT4qRFD/TJpGnjtaS4BEvFOXKGs4vwMXTyMGFvhUbop8gSzUOAZu3aNU+f
+         8zQV6LSReuCP5gfJstMua01pxQ4d7fDmyiiUO4D5EyEJ+ZyE5vhyJAdg3KEgg6y7DewI
+         RBIEXSpADcUDqpMRzxlAqgpwDmn0Ly36VnOsQVChaIhrss+t1HxbvvsBJriR0C5t4QzS
+         k8sz2VIWqpNLV90sUZCia6BqT8IwAYoZcY1Yw+b733j7W1SM6iIIztw/0F0kv2pl14pe
+         vVaEj/RoZhVKXOZ35A2pi3OG93KqoE+rH/IPLadBBPbl5Qgwhkpai4YHoC6tEQoQjrNN
+         U8VA==
+X-Gm-Message-State: AOAM53277MKQcTgabqYFIzIwWzX3g2CRV8vZuz7eFn/r640WEMYh+tRd
+        uXgWOiRhpcoXsxkdEdScOSobS/o3xJCkdFkEg8oblKOK
+X-Google-Smtp-Source: ABdhPJzjjOrrXoSjyQ03OxynLYMxWx9FOCtVo+gdKMr2Mu7Qxc3ME8YmRntb/VR7muBBDv3pkYixzEjhW1Uz0LkC7Ks=
+X-Received: by 2002:a17:903:1104:: with SMTP id n4mr29881365plh.10.1643799682516;
+ Wed, 02 Feb 2022 03:01:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <c86506596c9126da6f2df02eb6680759064774f2.camel@ndufresne.ca>
+ <CAHCN7xKxyZGoQdQ=6uOHpd4COV2CV5b=bbCAhv5cyQCspPf8QQ@mail.gmail.com>
+ <3fd135621147ae938c357931579ec1110c935afa.camel@ndufresne.ca> <CAHCN7xKHPPDPeN2q3uD8b_Wzs_6KrO+_Qh2zHh4id8YZJJjPcw@mail.gmail.com>
+In-Reply-To: <CAHCN7xKHPPDPeN2q3uD8b_Wzs_6KrO+_Qh2zHh4id8YZJJjPcw@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 2 Feb 2022 05:01:11 -0600
+Message-ID: <CAHCN7xKSwdmPYXcQ24dpUyapOP8+54pc3YJZgj74opTneocujw@mail.gmail.com>
+Subject: Re: hantro: g2: Does the postprocessor needs 32byte aligned width ?
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     "jernej.skrabec" <jernej.skrabec@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        kernel <kernel@collabora.com>, Chris Healy <cphealy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hardware limitations on VINs that can be used at the same time cover only
-CSI data source. For parallel source, any single VIN can work.
+On Mon, Jan 31, 2022 at 8:33 AM Adam Ford <aford173@gmail.com> wrote:
+>
+> On Mon, Jan 31, 2022 at 8:29 AM Nicolas Dufresne <nicolas@ndufresne.ca> w=
+rote:
+> >
+> > Le vendredi 28 janvier 2022 =C3=A0 12:43 -0600, Adam Ford a =C3=A9crit =
+:
+> > > On Fri, Jan 28, 2022 at 12:35 PM Nicolas Dufresne <nicolas@ndufresne.=
+ca> wrote:
+> > > >
+> > > > Hi Adam,
+> > > >
+> > > > Jernej and I had to deal with user report which show a stride issue=
+ with the G2
+> > > > on Allwinner H6.
+> > > >
+> > > > https://forum.libreelec.tv/thread/17565-nightly-images-for-a64-h3-h=
+5-h6-and-r40-boards/?postID=3D166086#post166086
+> > > >
+> > > > We quickly found that the stride alignment set to 16 needs to be 32=
+. Though we
+> > > > noticed that this is only needed when using the G2 postprocessor (N=
+V12), while
+> > > > it worked fine with tiles (NV12_4L4).
+> > >
+> > > Out of curiosity, would it hurt to make the G2 alignment to be 32 eve=
+n
+> > > if it's not required?
+> >
+> > Aligning tile to 32 can be complex, I don't think the code is ready to =
+handle
+> > padded tiled buffers. About the post-prob, I'd like to first understand=
+ why is
+> > this.
+> >
+> > >
+> > > >
+> > > > We were wondering if you, or anyone here on the list could test thi=
+s on IMX8MQ
+> > > > and IMX8MM. We'd like know if this is specific to the older G2 on H=
+6. To trigger
+> > > > this, you need a video with a resolution like 1552x1080 as used in =
+the report.
+> > > > We can help you get one if needed.
+> > >
+> > > If you have a video you want me to try and instructions on how you
+> > > want me to test it, I can give it a shot. The imx8mm doesn't have a
+> > > video display driver yet, but I think the imx8mq does.  I am not as
+> > > familiar with that board as I am with the 8mm.  The testing I have
+> > > done to date has only been done with fluster.
+> >
+> > If you have fluster/gstreamer ready, and some display, I suppose you ca=
+n try and
+> > kmssink (worked for me with the vendor display driver). To get the same=
+ video,
+> > you can probably download temporarily that youtube video with youtube-d=
+l,
+> > careful not to share the file, this is copyrighted content, but it ease=
+ testing
+> > and debugging, so I suspect it falls in fair use (INAL).
+> >
+> > youtube-dl -f 248 https://www.youtube.com/watch?v=3DTUVcZfQe-Kw
+> > gst-launch-1.0 filesrc location=3D"Dua Lipa - Levitating Featuring DaBa=
+by (Official Music Video)-TUVcZfQe-Kw.webm" ! parsebin ! v4l2slvp9dec ! vid=
+eoconvert ! kmssink
+>
+> Sounds good.  I have a few tasks to do before I can get back to this,
+> but I'll try to do it later today or tonight.
 
-This patch moves check for master VIN availability in
-rvin_csi2_link_notify() below processing the parallel case.
+From what I can see, the HDMI driver for the imx8mq isn't available in
+the kernel, so I cannot get video.  The NXP branch which has video
+doesn't have the hantro drivers in question, so this isn't going to be
+an easy task, because I cannot get video out of the imx8mq right now.
 
-This fixes media-ctl usage on KF board when both CSI and parallel cameras
-are in use on the same system. In such a setup, VINs 0-3 are used for
-CSI cameras and VIN5 is used for parallel camera.
+On the i.MX8M Mini, it's missing the DSI driver which is the only
+video output supported by the Mini, so I can't get video out of it
+either.  The NXP branch has the same limitations.
 
-Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
----
- drivers/media/platform/rcar-vin/rcar-core.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+I could potentially attempt to run the video through the decoder and
+then video convert to some still images or a different video format to
+playback or review on a different device.  Let me know your thoughts
+on that.  i am downloading the Dua Lipa video now, so I could
+potentially try something when its finished.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 0186ae235113..038ee187f95a 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -826,11 +826,6 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
- 	vin = container_of(vdev, struct rvin_dev, vdev);
- 	master_id = rvin_group_id_to_master(vin->id);
- 
--	if (WARN_ON(!group->vin[master_id])) {
--		ret = -ENODEV;
--		goto out;
--	}
--
- 	/* Build a mask for already enabled links. */
- 	for (i = master_id; i < master_id + 4; i++) {
- 		if (!group->vin[i])
-@@ -878,6 +873,11 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
- 		goto out;
- 	}
- 
-+	if (WARN_ON(!group->vin[master_id])) {
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
- 	channel = rvin_group_csi_pad_to_channel(link->source->index);
- 	mask_new = mask & rvin_csi2_get_mask(vin, csi_id, channel);
- 	vin_dbg(vin, "Try link change mask: 0x%x new: 0x%x\n", mask, mask_new);
--- 
-2.30.2
-
+adam
+>
+> adam
+> >
+> > regards,
+> > Nicolas
+> >
+> > >
+> > > adam
+> > >
+> > > >
+> > > > regards,
+> > > > Nicolas
+> >
