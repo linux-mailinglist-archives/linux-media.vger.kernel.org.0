@@ -2,75 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 191124A74C8
-	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 16:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47EAC4A74BD
+	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 16:37:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345516AbiBBPld (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Feb 2022 10:41:33 -0500
-Received: from mga07.intel.com ([134.134.136.100]:39227 "EHLO mga07.intel.com"
+        id S232858AbiBBPhn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Feb 2022 10:37:43 -0500
+Received: from retiisi.eu ([95.216.213.190]:43488 "EHLO hillosipuli.retiisi.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233663AbiBBPld (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Feb 2022 10:41:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643816493; x=1675352493;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+XL8sWExGlCQGYkjQU1CnSiqHxTBUAUpqgt+jvAsg64=;
-  b=UxQFLGV89xpcqZ4uItwswAPTjpAFGbUrXbXzKWcPcEeFSDH318sEGWtT
-   VsrGFssX/HNDiSeRRmR+wbt7dlYXUjnR/osMby+kBKNrwVrQ8cIM+WjH/
-   AEN9uBJnl+S1ynUMKi+QeL4xE2WJmdm3YyDMEAn9SJR1E/h9P+lIm52am
-   hHBeiXtYF0MmO24b7dpH6jgVQiiKstpD4gPSfkjiwgRJV7fia4STypz3r
-   SuJYyI1MK0KsxALaaMaJUkwiwFVln37HCbcmq4nkJ7qtWCA7CyA2Os9kB
-   5STXSJM8qUvBV3pVOOX3WxFT4YwfNNkx+kSZqpvyYPljIB0UzMo1626R/
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="311249800"
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; 
-   d="scan'208";a="311249800"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 07:36:11 -0800
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; 
-   d="scan'208";a="698929339"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 07:36:11 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id CCDC520482;
-        Wed,  2 Feb 2022 17:36:08 +0200 (EET)
-Date:   Wed, 2 Feb 2022 17:36:08 +0200
+        id S230205AbiBBPhm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Feb 2022 10:37:42 -0500
+Received: from lanttu.localdomain (unknown [192.168.2.193])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 8D38F634C90;
+        Wed,  2 Feb 2022 17:37:41 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/1] media: i2c: ov08d10: Unlock on error in
- ov08d10_enum_frame_size()
-Message-ID: <Yfqk6HYZalUyAWPW@paasikivi.fi.intel.com>
-References: <20220202141121.238930-1-sakari.ailus@linux.intel.com>
- <YfqWzIyK+dX4+AVf@pendragon.ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com
+Subject: [PATCH 1/1] microchip-csi2dc: Remove VC support for now
+Date:   Wed,  2 Feb 2022 17:36:09 +0200
+Message-Id: <20220202153609.240387-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YfqWzIyK+dX4+AVf@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+As part of removing mbus config flags, remove VC flag use in the
+microchip-csi2dc driver. The support can be reintroduced later on as part
+of the streams patches.
 
-On Wed, Feb 02, 2022 at 04:35:56PM +0200, Laurent Pinchart wrote:
-> On Wed, Feb 02, 2022 at 04:11:21PM +0200, Sakari Ailus wrote:
-> > From: Dan Carpenter <dan.carpenter@oracle.com>
-> > 
-> > This error path needs to drop the mutex to avoid a deadlock.
-> > 
-> > Fixes: 7be91e02ed57 ("media: i2c: Add ov08d10 camera sensor driver")
-> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> I want RAII in C :-)
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Eugen Hristev <eugen.hristev@microchip.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ .../media/platform/atmel/microchip-csi2dc.c    | 18 ++----------------
+ 1 file changed, 2 insertions(+), 16 deletions(-)
 
-Oops. This wasn't the patch I intended to send. But thanks for the
-Reviewed-by: nonetheless. :-)
-
+diff --git a/drivers/media/platform/atmel/microchip-csi2dc.c b/drivers/media/platform/atmel/microchip-csi2dc.c
+index 6bc549c28e05..6a7f5b4b0e3b 100644
+--- a/drivers/media/platform/atmel/microchip-csi2dc.c
++++ b/drivers/media/platform/atmel/microchip-csi2dc.c
+@@ -348,24 +348,15 @@ static int csi2dc_get_mbus_config(struct csi2dc_device *csi2dc)
+ 	if (ret == -ENOIOCTLCMD) {
+ 		dev_dbg(csi2dc->dev,
+ 			"no remote mbus configuration available\n");
+-		goto csi2dc_get_mbus_config_defaults;
++		return 0;
+ 	}
+ 
+ 	if (ret) {
+ 		dev_err(csi2dc->dev,
+ 			"failed to get remote mbus configuration\n");
+-		goto csi2dc_get_mbus_config_defaults;
++		return 0;
+ 	}
+ 
+-	if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_0)
+-		csi2dc->vc = 0;
+-	else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_1)
+-		csi2dc->vc = 1;
+-	else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_2)
+-		csi2dc->vc = 2;
+-	else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_3)
+-		csi2dc->vc = 3;
+-
+ 	dev_dbg(csi2dc->dev, "subdev sending on channel %d\n", csi2dc->vc);
+ 
+ 	csi2dc->clk_gated = mbus_config.flags &
+@@ -375,11 +366,6 @@ static int csi2dc_get_mbus_config(struct csi2dc_device *csi2dc)
+ 		csi2dc->clk_gated ? "gated" : "free running");
+ 
+ 	return 0;
+-
+-csi2dc_get_mbus_config_defaults:
+-	csi2dc->vc = 0; /* Virtual ID 0 by default */
+-
+-	return 0;
+ }
+ 
+ static void csi2dc_vp_update(struct csi2dc_device *csi2dc)
 -- 
-Sakari Ailus
+2.30.2
+
