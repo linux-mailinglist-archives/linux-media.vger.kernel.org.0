@@ -2,236 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C91D14A7329
-	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 15:32:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 513184A734F
+	for <lists+linux-media@lfdr.de>; Wed,  2 Feb 2022 15:36:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344996AbiBBOcV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Feb 2022 09:32:21 -0500
-Received: from mga09.intel.com ([134.134.136.24]:30924 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230290AbiBBOcU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Feb 2022 09:32:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643812340; x=1675348340;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v3aLHoe8SF3yWsYVZzRl5M96PSKGbJ0p82qUxrK2yeE=;
-  b=QDJ2YkUIbnWJJ565xGKoKxm4DisJ+BdNHCSzJlbVs0iGtni7DL/zaC8S
-   zqDyuHEk4wHMrssqH3bqhjW6Lku4ieWhGusGo+i6GjvJKH3tT8wAxY1vl
-   Zf4uBApWDu5scASvbjt/V+SC3TUbDUCq0pOrTAFUcDHy20XXAmYJ5mQ91
-   OKb7Je4qQEjUHK1+qnpja+JIo9wFlH76vmBv+d/Mpk/mQlSQffrZTsfCn
-   mYvFIHxGWkmHZBOTwfkpGuzOvosVJQnKd1dRHX9oUDhukhlLFGheRZOZZ
-   Gfd+9wXv6Hi4qzPbRyvcUJrT+Ssm7CGpsBRJu7BPqTE/nQLpYEkFi40It
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="247693940"
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; 
-   d="scan'208";a="247693940"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 06:32:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; 
-   d="scan'208";a="627083947"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 02 Feb 2022 06:32:03 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nFGfz-000UhI-9E; Wed, 02 Feb 2022 14:32:03 +0000
-Date:   Wed, 2 Feb 2022 22:31:18 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     ektor5 <ek5.chimenti@gmail.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        linux-kernel@vger.kernel.org, linuxfancy@googlegroups.com
-Subject: Re: [PATCH 1/2] media: cec: add SECO MEC-based cec driver
-Message-ID: <202202022216.MCt6c52g-lkp@intel.com>
-References: <20220201183734.224756-2-ek5.chimenti@gmail.com>
+        id S235226AbiBBOgV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Feb 2022 09:36:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43448 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229610AbiBBOgU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 09:36:20 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D1CC061714
+        for <linux-media@vger.kernel.org>; Wed,  2 Feb 2022 06:36:20 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57C37D88;
+        Wed,  2 Feb 2022 15:36:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1643812579;
+        bh=1I+wo8Dk6fkDf7t67WQ0GtJVsAfCRsrAUD4/Al4W38M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UfzB0mZqK/Ct/nKJSFgl1s8L0Pb5Gjp178QVWgRu9kjKJifrBuZn1SaJtVeNuO4Gx
+         IRpW2QYO/SSjLz6lumuYJEDXglwm6oZfIakXrH7tqi6m0xKstiMZORnGRf83tcNhyg
+         gYygOu99RKTJvim1RLQOwVlqAwLFun56SlS0GTog=
+Date:   Wed, 2 Feb 2022 16:35:56 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/1] media: i2c: ov08d10: Unlock on error in
+ ov08d10_enum_frame_size()
+Message-ID: <YfqWzIyK+dX4+AVf@pendragon.ideasonboard.com>
+References: <20220202141121.238930-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220201183734.224756-2-ek5.chimenti@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220202141121.238930-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi ektor5,
+On Wed, Feb 02, 2022 at 04:11:21PM +0200, Sakari Ailus wrote:
+> From: Dan Carpenter <dan.carpenter@oracle.com>
+> 
+> This error path needs to drop the mutex to avoid a deadlock.
+> 
+> Fixes: 7be91e02ed57 ("media: i2c: Add ov08d10 camera sensor driver")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-I love your patch! Perhaps something to improve:
+I want RAII in C :-)
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linux/master linus/master v5.17-rc2 next-20220202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-url:    https://github.com/0day-ci/linux/commits/ektor5/Add-SECO-CEC-driver-for-MEC-Based-boards/20220202-023834
-base:   git://linuxtv.org/media_tree.git master
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20220202/202202022216.MCt6c52g-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 6b1e844b69f15bb7dffaf9365cd2b355d2eb7579)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/8960cb39808a004dee84a2f955ed949b1a4da7a8
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review ektor5/Add-SECO-CEC-driver-for-MEC-Based-boards/20220202-023834
-        git checkout 8960cb39808a004dee84a2f955ed949b1a4da7a8
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/cec/platform/seco/ drivers/net/wireless/ath/
+> ---
+>  drivers/media/i2c/ov08d10.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ov08d10.c b/drivers/media/i2c/ov08d10.c
+> index 1f42dd714ef6..e5ef6466a3ec 100644
+> --- a/drivers/media/i2c/ov08d10.c
+> +++ b/drivers/media/i2c/ov08d10.c
+> @@ -1264,8 +1264,10 @@ static int ov08d10_enum_frame_size(struct v4l2_subdev *sd,
+>  		return -EINVAL;
+>  
+>  	mutex_lock(&ov08d10->mutex);
+> -	if (fse->code != ov08d10_get_format_code(ov08d10))
+> +	if (fse->code != ov08d10_get_format_code(ov08d10)) {
+> +		mutex_unlock(&ov08d10->mutex);
+>  		return -EINVAL;
+> +	}
+>  	mutex_unlock(&ov08d10->mutex);
+>  
+>  	fse->min_width = ov08d10->priv_lane->sp_modes[fse->index].width;
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+-- 
+Regards,
 
-All warnings (new ones prefixed by >>):
-
->> drivers/media/cec/platform/seco/seco-meccec.c:735:8: warning: variable 'adaps' is uninitialized when used here [-Wuninitialized]
-                           if (adaps--)
-                               ^~~~~
-   drivers/media/cec/platform/seco/seco-meccec.c:634:11: note: initialize the variable 'adaps' to silence this warning
-           int adaps, notifs = 0;
-                    ^
-                     = 0
-   1 warning generated.
-
-
-vim +/adaps +735 drivers/media/cec/platform/seco/seco-meccec.c
-
-   626	
-   627	static int seco_meccec_probe(struct platform_device *pdev)
-   628	{
-   629		struct seco_meccec_data *meccec;
-   630		struct device *dev = &pdev->dev;
-   631		struct device *hdmi_dev;
-   632		const char * const *conn;
-   633		int ret, idx;
-   634		int adaps, notifs = 0;
-   635	
-   636		meccec = devm_kzalloc(dev, sizeof(*meccec), GFP_KERNEL);
-   637		if (!meccec)
-   638			return -ENOMEM;
-   639	
-   640		dev_set_drvdata(dev, meccec);
-   641	
-   642		meccec->pdev = pdev;
-   643		meccec->dev = dev;
-   644	
-   645		ret = ec_get_version(meccec);
-   646		if (ret) {
-   647			dev_err(dev, "Get version failed\n");
-   648			goto err;
-   649		}
-   650	
-   651		if (!has_acpi_companion(dev)) {
-   652			dev_err(dev, "Cannot find any ACPI companion\n");
-   653			ret = -ENODEV;
-   654			goto err;
-   655		}
-   656	
-   657		ret = seco_meccec_acpi_probe(meccec);
-   658		if (ret) {
-   659			dev_err(dev, "ACPI probe failed\n");
-   660			goto err;
-   661		}
-   662	
-   663		ret = devm_request_threaded_irq(dev,
-   664						meccec->irq,
-   665						NULL,
-   666						seco_meccec_irq_handler,
-   667						IRQF_TRIGGER_RISING | IRQF_ONESHOT,
-   668						dev_name(&pdev->dev), meccec);
-   669	
-   670		if (ret) {
-   671			dev_err(dev, "Cannot request IRQ %d\n", meccec->irq);
-   672			ret = -EIO;
-   673			goto err;
-   674		}
-   675	
-   676		hdmi_dev = seco_meccec_find_hdmi_dev(&pdev->dev, &conn);
-   677		if (IS_ERR(hdmi_dev)) {
-   678			dev_err(dev, "Cannot find HDMI Device\n");
-   679			return PTR_ERR(hdmi_dev);
-   680		}
-   681		dev_dbg(dev, "HDMI device found\n");
-   682	
-   683		for (idx = 0; idx < MECCEC_MAX_CEC_ADAP; idx++) {
-   684			if (meccec->channels & BIT_MASK(idx)) {
-   685				ret = meccec_create_adapter(meccec, idx);
-   686				if (ret)
-   687					goto err_delete_adapter;
-   688				dev_dbg(dev, "CEC adapter #%d allocated\n", idx);
-   689			}
-   690		}
-   691	
-   692		for (idx = 0; idx < MECCEC_MAX_CEC_ADAP; idx++) {
-   693			if (meccec->channels & BIT_MASK(idx)) {
-   694				struct cec_adapter *acec = meccec->cec_adap[idx];
-   695				struct cec_notifier *ncec;
-   696	
-   697				if (!acec) {
-   698					ret = -EINVAL;
-   699					goto err_notifier;
-   700				}
-   701	
-   702				ncec = cec_notifier_cec_adap_register(hdmi_dev,
-   703								      conn[idx], acec);
-   704	
-   705				dev_dbg(dev, "CEC notifier #%d allocated %s\n", idx, conn[idx]);
-   706	
-   707				if (IS_ERR(ncec)) {
-   708					ret = PTR_ERR(ncec);
-   709					goto err_notifier;
-   710				}
-   711	
-   712				meccec->notifier[idx] = ncec;
-   713				notifs++;
-   714			}
-   715		}
-   716	
-   717		for (idx = 0; idx < MECCEC_MAX_CEC_ADAP; idx++) {
-   718			if (meccec->channels & BIT_MASK(idx)) {
-   719				ret = cec_register_adapter(meccec->cec_adap[idx], dev);
-   720				if (ret)
-   721					goto err_notifier;
-   722	
-   723				dev_dbg(dev, "CEC adapter #%d registered\n", idx);
-   724			}
-   725		}
-   726	
-   727		platform_set_drvdata(pdev, meccec);
-   728		dev_dbg(dev, "Device registered\n");
-   729	
-   730		return ret;
-   731	
-   732	err_notifier:
-   733		for (idx = 0; idx < MECCEC_MAX_CEC_ADAP; idx++) {
-   734			if (meccec->channels & BIT_MASK(idx)) {
- > 735				if (adaps--)
-   736					return ret;
-   737	
-   738				cec_notifier_cec_adap_unregister(meccec->notifier[idx],
-   739								 meccec->cec_adap[idx]);
-   740			}
-   741		}
-   742	err_delete_adapter:
-   743		for (idx = 0; idx < MECCEC_MAX_CEC_ADAP; idx++) {
-   744			if (meccec->channels & BIT_MASK(idx)) {
-   745				if (notifs--)
-   746					return ret;
-   747	
-   748				cec_delete_adapter(meccec->cec_adap[idx]);
-   749			}
-   750		}
-   751	err:
-   752		dev_err(dev, "%s device probe failed: %d\n", dev_name(dev), ret);
-   753	
-   754		return ret;
-   755	}
-   756	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Laurent Pinchart
