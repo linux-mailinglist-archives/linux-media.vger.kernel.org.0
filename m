@@ -2,266 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E553E4A8CED
-	for <lists+linux-media@lfdr.de>; Thu,  3 Feb 2022 21:07:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C7CB4A8E08
+	for <lists+linux-media@lfdr.de>; Thu,  3 Feb 2022 21:35:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353939AbiBCUGt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Feb 2022 15:06:49 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:42817 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240874AbiBCUGs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Feb 2022 15:06:48 -0500
-Received: from [192.168.1.107] ([37.4.249.169]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N2m3G-1mCziC0Kho-0133Ej; Thu, 03 Feb 2022 21:06:28 +0100
-Subject: Re: [RFC PATCH v4 06/12] ARM: dts: bcm2711: Add unicam CSI nodes
-To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
-        robh@kernel.org, tomi.valkeinen@ideasonboard.com,
-        nsaenz@kernel.org, bcm-kernel-feedback-list@broadcom.com
-References: <20220203175009.558868-1-jeanmichel.hautbois@ideasonboard.com>
- <20220203175009.558868-7-jeanmichel.hautbois@ideasonboard.com>
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-Autocrypt: addr=stefan.wahren@i2se.com; keydata=
- LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
- CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
- bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
- TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
- NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
- MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
- by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
- MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
- VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
- aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
- OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
- bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
- Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
- ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
- bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
- dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
- QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
- UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
- SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
- VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
- akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
- NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
- RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
- QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
- ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
- cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
- R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
- aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
- NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
- SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
- TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
- TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
- NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
- YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
- SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
- KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
- ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
- VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
- SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
- d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
- UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
- c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
- a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
- anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
- WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
- Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
- QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
- Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
- K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
- aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
- dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
- TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
- SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
- U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
- VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
- OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
- Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
- eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
- MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
- SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
- Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
- WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
- Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
- OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
- TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
- eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
- WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
- cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
- QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
- Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
- RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
- SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
- cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
- dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
- RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
- SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
- WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
- VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
- am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
- OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
- L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
- aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
- cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
- WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
- MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
- RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
- RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
- TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
- SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
- M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
- VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
- MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
- bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
- NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
- ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
- Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
- eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
- QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
- TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
- dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
- S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
- VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
- QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
- ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
- UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
- SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
- UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
- N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
- dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
- MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
- d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
- WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
- MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
- MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
- TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
- NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
- MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
- RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
- VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
- WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
- ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
- SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
- MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
- M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
- dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
- CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
- VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
- bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
- LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <cb9f24bd-3352-279b-0667-d56bd2aefdd5@i2se.com>
-Date:   Thu, 3 Feb 2022 21:06:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1355187AbiBCUfE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Feb 2022 15:35:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57836 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243317AbiBCUdo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Feb 2022 15:33:44 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9925C061794
+        for <linux-media@vger.kernel.org>; Thu,  3 Feb 2022 12:33:09 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id u24so8432672eds.11
+        for <linux-media@vger.kernel.org>; Thu, 03 Feb 2022 12:33:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=5oNl6s957qlPTmERZqTbxGOneWeouvQaTRsBpRS3u6I=;
+        b=K/yCIjj0sjCFks6s8dssWbsBPGd9NCm2rBMDaBBw6sGIqdVn6wqS3SYZxw3h7bHkzA
+         T0OD+1pLp/wsTF24lSDrdO1A3gQOs830qmK2YxqJjeoWrOgWJciX3zDUzuYgJUITCDWv
+         S4A1JFw5nVHkNr91AFcCd3UfSsdI+fdjP8Q29qrwOwZ8g+mfIiAYcYPfty4473qbjzod
+         3nud0P94A8pEnd31Ud3AjMUAMPiVt42ZUO5yCTwgIpxqNfdl5Rue9fWcNWI2I3fsQ7aC
+         oYRYrLkFQfW2uCN8fyGW2GWQe//MXK7WhwEpsH2wySjIo2KYGeim6iZQURS+ePV6nloi
+         szFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5oNl6s957qlPTmERZqTbxGOneWeouvQaTRsBpRS3u6I=;
+        b=QORE8adxCxwCDCr6t0J4Z4uXdTLa1c2I4Lq+we0fVGs28drqTQYcB9vNYSpwQmSr2j
+         R8NpFeg5OpZJZmFy0HMKGdFq/LX7XreohgwH2LxeeFcle7/auuEW3mEXpCRjWB+vXPs/
+         sElG6ZiDoRrAtV47c0nq3pJXnOgT30FPuoj3A0gMyXycrCHuFTcuTwEIBY9+Z2yuX6wS
+         hYF0e0dXkTfAoM5kEKW4iM2EzlSFdcUG1CMR3c6y61PPznB48OpWAotgBBaGfIy7pVgY
+         E3Zi6VDA4vOXGqyZAfbymyiLuSGkZm+fru3uWcReHFMf2StRXiidLJ+QFIYPhNRaniL5
+         2Qlw==
+X-Gm-Message-State: AOAM530BYpWWkZxrzrlO3wyL20tAbkg+9UUZ14e4Rxn6YT6OGpgso9vd
+        bpWSiGwWMfEN1TRK6Rs2Vu2u01bzwSxpOveU0aJTgCCG608=
+X-Google-Smtp-Source: ABdhPJzR52ZTnRaUhgSxkAF6qgyIHTJTwiD3Ykrf1OzRQXUvPtT7x/i95hOfL+YlVXYOLTml6AaLztXNDr/WAofE2fQ=
+X-Received: by 2002:aa7:cfd1:: with SMTP id r17mr15531654edy.439.1643920387874;
+ Thu, 03 Feb 2022 12:33:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220203175009.558868-7-jeanmichel.hautbois@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Provags-ID: V03:K1:HFO6GGzxVqA8YAey//wJUn6WBeSMmO6GiZFgNLK8NQcapi6NH+y
- PwedTk9LwoWL4QndGBmjoQHZ/ambBMkBIv7PZ056UOw20xS+vatKKJslCi3QcIZN3GXMwjs
- Cb/ZUecbZr95+3GjATSeLYAkKBOXfl3EyRQuo7G4HJ/I6HOxnqzQnW8yUv/DwMbv6+s/d+G
- HFZ7kKangCu2VbsHUgUGQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+EVRAF8hAFE=:m++eOP7+nxrS+qZInZQPTP
- NOVvzHTpMGSq6v720P9Vy9mwHx2wKHlRjZ/mOMhKHCrzOnPuvrV26ItwbRpGqWaJKnAR07DHw
- B5ldKga/kxhYdkZLWN2cFjV5EA6KNlNFTiollfzwDypG6ilSmek6t7H3Jj1+H7sWqZ9ws5Lto
- Jgsl/unBH35xZaV0BWrmzwZfzo8W+QHQ3wc78ieOzJyxXbjL4IZwkBUyDr7stv0LTgi9OaIq2
- S+9b2UTorbhLfDrTS8RMoqAmjARhqzetfNu1869ThrpR2Z8XABUx+1f01xqpz0VaJ2tM7hYYQ
- ezrSFDPrYkk5MiElDuKejWch28qOwc/GRohIfJUs+3pwd+vQhpaZjJR2PbUQXS9a09njXT1VK
- DnwqjxIpU8cAOCp5EiY2b38VmvAIXbGZ3uz/op2c40AhrSh6DG7+zn7V1jfq9MRzyiMNSZphO
- U0XzZF24APhGttl+dDLGyxRfBfhvDveVhMZaDcoH6QsJKa0jiUQHw8b0V/gkZr5lwp2D/WILf
- DUwZMUIvi9XuRpSLgsoAYCbCfywnyPLwQUG3ImDJ8lvUiXFl9uA3eCikz8GQoiju1bGQPlMay
- 7xbe6kTJz0SEo9Ax3nko0Jd0Tjksg67+3V2wo7JVrd1WkamA1CNIu2sg3Zc3xkWv5xFKE0wLz
- b3+L5pn0xh0pMvdO7eaR4FKMyC3yPod1MZN36FNobBFOhi6mj+d8ePLw04I74WONqGEdvVbB2
- lse8P7o9u8KOiRgG
+References: <c86506596c9126da6f2df02eb6680759064774f2.camel@ndufresne.ca>
+ <CAHCN7xKxyZGoQdQ=6uOHpd4COV2CV5b=bbCAhv5cyQCspPf8QQ@mail.gmail.com>
+ <3fd135621147ae938c357931579ec1110c935afa.camel@ndufresne.ca>
+ <CAHCN7xKHPPDPeN2q3uD8b_Wzs_6KrO+_Qh2zHh4id8YZJJjPcw@mail.gmail.com>
+ <CAHCN7xKSwdmPYXcQ24dpUyapOP8+54pc3YJZgj74opTneocujw@mail.gmail.com> <ea89b3035a34ce017057439fef42ea7884967955.camel@ndufresne.ca>
+In-Reply-To: <ea89b3035a34ce017057439fef42ea7884967955.camel@ndufresne.ca>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Thu, 3 Feb 2022 14:32:56 -0600
+Message-ID: <CAHCN7xLODYVO9ZZZV42RMU1oRCYKhTBiCSnT-6-_uSWH3b77WQ@mail.gmail.com>
+Subject: Re: hantro: g2: Does the postprocessor needs 32byte aligned width ?
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     "jernej.skrabec" <jernej.skrabec@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        kernel <kernel@collabora.com>, Chris Healy <cphealy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jean-Michel,
-
-Am 03.02.22 um 18:50 schrieb Jean-Michel Hautbois:
-> Add both MIPI CSI-2 nodes in the core bcm2711 tree. Use the 3-cells
-> interrupt declaration, corresponding clocks and default as disabled.
+On Wed, Feb 2, 2022 at 7:39 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrot=
+e:
 >
-> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> ---
->  arch/arm/boot/dts/bcm2711-rpi.dtsi | 15 +++++++++++++++
->  arch/arm/boot/dts/bcm2711.dtsi     | 16 ++++++++++++++++
->  2 files changed, 31 insertions(+)
+> Le mercredi 02 f=C3=A9vrier 2022 =C3=A0 05:01 -0600, Adam Ford a =C3=A9cr=
+it :
+> > On Mon, Jan 31, 2022 at 8:33 AM Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > On Mon, Jan 31, 2022 at 8:29 AM Nicolas Dufresne <nicolas@ndufresne.c=
+a> wrote:
+> > > >
+> > > > Le vendredi 28 janvier 2022 =C3=A0 12:43 -0600, Adam Ford a =C3=A9c=
+rit :
+> > > > > On Fri, Jan 28, 2022 at 12:35 PM Nicolas Dufresne <nicolas@ndufre=
+sne.ca> wrote:
+> > > > > >
+> > > > > > Hi Adam,
+> > > > > >
+> > > > > > Jernej and I had to deal with user report which show a stride i=
+ssue with the G2
+> > > > > > on Allwinner H6.
+> > > > > >
+> > > > > > https://forum.libreelec.tv/thread/17565-nightly-images-for-a64-=
+h3-h5-h6-and-r40-boards/?postID=3D166086#post166086
+> > > > > >
+> > > > > > We quickly found that the stride alignment set to 16 needs to b=
+e 32. Though we
+> > > > > > noticed that this is only needed when using the G2 postprocesso=
+r (NV12), while
+> > > > > > it worked fine with tiles (NV12_4L4).
+> > > > >
+> > > > > Out of curiosity, would it hurt to make the G2 alignment to be 32=
+ even
+> > > > > if it's not required?
+> > > >
+> > > > Aligning tile to 32 can be complex, I don't think the code is ready=
+ to handle
+> > > > padded tiled buffers. About the post-prob, I'd like to first unders=
+tand why is
+> > > > this.
+> > > >
+> > > > >
+> > > > > >
+> > > > > > We were wondering if you, or anyone here on the list could test=
+ this on IMX8MQ
+> > > > > > and IMX8MM. We'd like know if this is specific to the older G2 =
+on H6. To trigger
+> > > > > > this, you need a video with a resolution like 1552x1080 as used=
+ in the report.
+> > > > > > We can help you get one if needed.
+> > > > >
+> > > > > If you have a video you want me to try and instructions on how yo=
+u
+> > > > > want me to test it, I can give it a shot. The imx8mm doesn't have=
+ a
+> > > > > video display driver yet, but I think the imx8mq does.  I am not =
+as
+> > > > > familiar with that board as I am with the 8mm.  The testing I hav=
+e
+> > > > > done to date has only been done with fluster.
+> > > >
+> > > > If you have fluster/gstreamer ready, and some display, I suppose yo=
+u can try and
+> > > > kmssink (worked for me with the vendor display driver). To get the =
+same video,
+> > > > you can probably download temporarily that youtube video with youtu=
+be-dl,
+> > > > careful not to share the file, this is copyrighted content, but it =
+ease testing
+> > > > and debugging, so I suspect it falls in fair use (INAL).
+> > > >
+> > > > youtube-dl -f 248 https://www.youtube.com/watch?v=3DTUVcZfQe-Kw
+> > > > gst-launch-1.0 filesrc location=3D"Dua Lipa - Levitating Featuring =
+DaBaby (Official Music Video)-TUVcZfQe-Kw.webm" ! parsebin ! v4l2slvp9dec !=
+ videoconvert ! kmssink
+> > >
+> > > Sounds good.  I have a few tasks to do before I can get back to this,
+> > > but I'll try to do it later today or tonight.
+> >
+> > From what I can see, the HDMI driver for the imx8mq isn't available in
+> > the kernel, so I cannot get video.  The NXP branch which has video
+> > doesn't have the hantro drivers in question, so this isn't going to be
+> > an easy task, because I cannot get video out of the imx8mq right now.
+> >
+> > On the i.MX8M Mini, it's missing the DSI driver which is the only
+> > video output supported by the Mini, so I can't get video out of it
+> > either.  The NXP branch has the same limitations.
+> >
+> > I could potentially attempt to run the video through the decoder and
+> > then video convert to some still images or a different video format to
+> > playback or review on a different device.  Let me know your thoughts
+> > on that.  i am downloading the Dua Lipa video now, so I could
+> > potentially try something when its finished.
 >
-> diff --git a/arch/arm/boot/dts/bcm2711-rpi.dtsi b/arch/arm/boot/dts/bcm2711-rpi.dtsi
-> index ca266c5d9f9b..97ee494891af 100644
-> --- a/arch/arm/boot/dts/bcm2711-rpi.dtsi
-> +++ b/arch/arm/boot/dts/bcm2711-rpi.dtsi
-> @@ -1,6 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0
->  #include "bcm2835-rpi.dtsi"
->  
-> +#include <dt-bindings/power/raspberrypi-power.h>
->  #include <dt-bindings/reset/raspberrypi,firmware-reset.h>
->  
->  / {
-> @@ -18,6 +19,20 @@ aliases {
->  	};
->  };
->  
-> +&csi0 {
-> +	clocks = <&clocks BCM2835_CLOCK_CAM0>,
-> +		 <&firmware_clocks 4>;
-> +	clock-names = "lp", "vpu";
-> +	power-domains = <&power RPI_POWER_DOMAIN_UNICAM0>;
-> +};
-> +
-> +&csi1 {
-> +	clocks = <&clocks BCM2835_CLOCK_CAM1>,
-> +		 <&firmware_clocks 4>;
-> +	clock-names = "lp", "vpu";
-> +	power-domains = <&power RPI_POWER_DOMAIN_UNICAM1>;
-> +};
-> +
->  &firmware {
->  	firmware_clocks: clocks {
->  		compatible = "raspberrypi,firmware-clocks";
-> diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-> index dff18fc9a906..312a74601839 100644
-> --- a/arch/arm/boot/dts/bcm2711.dtsi
-> +++ b/arch/arm/boot/dts/bcm2711.dtsi
-> @@ -293,6 +293,22 @@ hvs: hvs@7e400000 {
->  			interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
->  		};
->  
-> +		csi0: csi@7e800000 {
-> +			compatible = "brcm,bcm2835-unicam";
-> +			reg = <0x7e800000 0x800>,
-> +			      <0x7e802000 0x4>;
-after you added the reg-names to the binding, please don't forget to add
-them here ...
-> +			interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
-> +			status = "disabled";
-> +		};
-> +
-> +		csi1: csi@7e801000 {
-> +			compatible = "brcm,bcm2835-unicam";
-> +			reg = <0x7e801000 0x800>,
-> +			      <0x7e802004 0x4>;
+> Ok, that would be best you can try indeed, normally running few frames th=
+rough
+> software converter and recording as mjpeg could work to reproduce this. T=
+hanks a
+> lot of this and sorry for the difficulty, let's hope the display driver
+> situation on these boards get better soon.
 
-and here. Otherwise this looks good to me.
+I ran about 15 seconds of the video through the decoder, then encoded
+it with the JPEG encoder into an avi.
 
-Best regards
+gst-launch-1.0 filesrc location=3D~/dl.webm ! parsebin ! v4l2slvp9dec !
+videoconvert ! jpegenc ! avimux ! filesink location=3Dmjpeg.avi
 
-> +			interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> +			status = "disabled";
-> +		};
-> +
->  		pixelvalve3: pixelvalve@7ec12000 {
->  			compatible = "brcm,bcm2711-pixelvalve3";
->  			reg = <0x7ec12000 0x100>;
+I can send you the AVI if you like, but the output image looked good
+to me when I played it back on my desktop computer.
+
+Please let me know if there is anything else you need me to do.
+
+thanks,
+
+adam
+
+>
+> >
+> > adam
+> > >
+> > > adam
+> > > >
+> > > > regards,
+> > > > Nicolas
+> > > >
+> > > > >
+> > > > > adam
+> > > > >
+> > > > > >
+> > > > > > regards,
+> > > > > > Nicolas
+> > > >
+>
