@@ -2,106 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E304F4A7C1C
-	for <lists+linux-media@lfdr.de>; Thu,  3 Feb 2022 00:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A5444A7CE5
+	for <lists+linux-media@lfdr.de>; Thu,  3 Feb 2022 01:32:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348223AbiBBX7r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Feb 2022 18:59:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60404 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233189AbiBBX7r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 18:59:47 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F370C061714;
-        Wed,  2 Feb 2022 15:59:47 -0800 (PST)
+        id S239323AbiBCAcP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Feb 2022 19:32:15 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38204 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229976AbiBCAcO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Feb 2022 19:32:14 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 283D349C;
-        Thu,  3 Feb 2022 00:59:44 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 548A249C;
+        Thu,  3 Feb 2022 01:32:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643846384;
-        bh=Y2/calNJ4NZSqNPD6NtTHVhrK+72wYv7CuqinZ68NdY=;
+        s=mail; t=1643848333;
+        bh=MA6aa4PX/lCOD/3MBoHp78BO/rTeZi5gvad3SqveS2Y=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GT0UYMc+JVzQ6sWGsqVFdLiNOUyhbB0wvhIONT0mHlBjpH8uBlgXJ7avcd33xaddb
-         wtgOmrZ0hBrOwd6gfOvX3KQPONaKJgHwf/cYUAYWa94naB4Ckxvdl4n+3t2sF+SX7z
-         jvLnIcZGY4poCz9zqBMxGNj6XWuBQUsI+EIW7+4A=
-Date:   Thu, 3 Feb 2022 01:59:20 +0200
+        b=DTnYta1scQQSSSE1jAZdr9ysLNyKhtumYqmNkcB0LrTvJcdsNVuy7h7t3U/qUOYTm
+         CNi/xZZInodMrUxhpy2rWm56pSsyoM8UbPGDUMZd4HbXi9jxVrfUcyWtFBnRP53gih
+         VA+GEnX9ZXT7fktkfAN0vN68cN+/Ew/NYDbfnNI8=
+Date:   Thu, 3 Feb 2022 02:31:49 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Aditya Garg <gargaditya08@live.com>
-Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-        "sergey.senozhatsky@gmail.com" <sergey.senozhatsky@gmail.com>,
-        "ribalda@chromium.org" <ribalda@chromium.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Orlando Chamberlain <redecorating@protonmail.com>,
-        "paul@mrarm.io" <paul@mrarm.io>, Aun-Ali Zaidi <admin@kodeit.net>
-Subject: Re: [PATCH RESEND] media: uvcvideo: Add support for Apple
- T2-attached FaceTime HD Camera
-Message-ID: <Yfsa2JUiEf74gBbQ@pendragon.ideasonboard.com>
-References: <527C2E71-12E2-45D1-9B50-5A413B6920A1@live.com>
- <Yfomr83ol/1iGRSv@pendragon.ideasonboard.com>
- <951C1FB9-9709-4CB3-8DD7-703900FE56FD@live.com>
+To:     Mohammad <moin@librem.one>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org
+Subject: Re: Get j5 WebCam JVCU100 supported by Linux UVC driver
+Message-ID: <YfsidYtBQhhlP4Ab@pendragon.ideasonboard.com>
+References: <a7e0c40f-3bf7-b564-c182-88bbb5d4b188@librem.one>
+ <CANiDSCvbuUHU40CE+uGT56VUDMnLifTw7yAN+HD4WJVTyAg+Aw@mail.gmail.com>
+ <CANiDSCuLQWFxMLKj9no7-qdZMRp3AJdgZ=u8356hc7mf-6fQyA@mail.gmail.com>
+ <YfPJree+wFQ1869W@pendragon.ideasonboard.com>
+ <38609c2c-8b15-4aa1-a1a1-c219d4ff4e83@librem.one>
+ <YfbjyZ8aeJsNGoIm@pendragon.ideasonboard.com>
+ <6cc718e4-87ee-cc91-1208-6f48419bad31@librem.one>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <951C1FB9-9709-4CB3-8DD7-703900FE56FD@live.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6cc718e4-87ee-cc91-1208-6f48419bad31@librem.one>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Aditya,
+Hi Mohammad,
 
-On Wed, Feb 02, 2022 at 07:08:21AM +0000, Aditya Garg wrote:
-> > On 02-Feb-2022, at 12:07 PM, Laurent Pinchart wrote:
-> > On Wed, Jan 26, 2022 at 10:37:13AM +0000, Aditya Garg wrote:
-> >> From: Paul Pawlowski <paul@mrarm.io>
-> >> 
-> >> Adds the requisite device id to support detection of the Apple FaceTime
-> >> HD webcam exposed over the T2 BCE VHCI interface.
-> >> 
-> >> Tested-by: Aun-Ali Zaidi <admin@kodeit.net>
-> >> Signed-off-by: Paul Pawlowski <paul@mrarm.io>
-> >> Signed-off-by: Aun-Ali Zaidi <admin@kodeit.net>
-> >> Signed-off-by: Aditya Garg <gargaditya08@live.com>
-> >> ---
-> >> drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
-> >> 1 file changed, 9 insertions(+)
-> >> 
-> >> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> >> index 7c007426e..88dc9e7aa 100644
-> >> --- a/drivers/media/usb/uvc/uvc_driver.c
-> >> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> >> @@ -2848,6 +2848,15 @@ static const struct usb_device_id uvc_ids[] = {
-> >> 	  .bInterfaceProtocol	= 0,
-> >> 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_PROBE_MINMAX
-> >> 					| UVC_QUIRK_BUILTIN_ISIGHT) },
-> >> +	/* Apple FaceTime HD Camera (Built-In) */
-> >> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-> >> +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> >> +	  .idVendor		= 0x05ac,
-> >> +	  .idProduct		= 0x8514,
-> >> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
-> >> +	  .bInterfaceSubClass	= 1,
-> >> +	  .bInterfaceProtocol	= 0,
-> >> +	  .driver_info		= (kernel_ulong_t)&uvc_quirk_probe_def },
-> > 
-> > Have you tested that the device doesn't work without this quirk ?
->
-> uvcvideo 1-2:1.1: Failed to query (129) UVC probe control : -110 (exp. 48).
-> uvcvideo 1-2:1.1: Failed to initialize the device (-5).
+On Sun, Jan 30, 2022 at 09:18:32PM -0600, Mohammad wrote:
+> Hi Laurent,
 > 
-> These errors are encountered without this patch
+> As it happens, I have two Windows machines; one with Windows 7 and
+> another with Windows 10.  Which version of Windows should I test it on,
+> and how do I capture a USB trace in Windows?  I appreciate the help!
 
-Thank you for the confirmation.
+I don't think the version matters too much. If you can test it on both
+(just plugging it in and checking if it works), it's even better.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+When it comes to capturing USB traces, I haven't tried that for probably
+at least 15 years, so I'm afraid I can't help.
 
-and applied to my tree.
-
-> >> 	/* Apple Built-In iSight via iBridge */
-> >> 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-> >> 				| USB_DEVICE_ID_MATCH_INT_INFO,
+> On 1/30/22 6:00 PM, Laurent Pinchart wrote:
+> > On Sun, Jan 30, 2022 at 12:12:53PM -0600, Mohammad wrote:
+> >> Is there a way around this problem?  Would I have to reach out to the
+> >> device manufacturer?
+> >
+> > If you have access to a Windows machine, it could be useful to check if
+> > it works there. If it doesn't, the device is likely faulty. If it does,
+> > then a debugging session would be required, which could involve
+> > capturing a USB trace when using the camera under Windows, to figure out
+> > what is different between Windows and Linux.
+> >
+> >> On 1/28/22 4:47 AM, Laurent Pinchart wrote:
+> >>> On Fri, Jan 28, 2022 at 09:31:43AM +0100, Ricardo Ribalda wrote:
+> >>>> I received out of list the dmesg output from Mohammad
+> >>>>
+> >>>> It looks like a hardware error to me:
+> >>>>
+> >>>> [   48.729618] iTCO_wdt: unable to reset NO_REBOOT flag, device disabled by hardware/BIOS
+> >>>> [   48.749361] uvcvideo: Found UVC 1.00 device j5 WebCam JVCU100 (0711:3108)
+> >>>> [   48.751876] uvcvideo: Failed to query (129) UVC probe control : -32 (exp. 26).
+> >>>
+> >>> A GET_CUR failure on the video probe control is indeed fairly bad. If I
+> >>> had to guess, I would suspect either an issue at the USB level, or a
+> >>> firmware bug in the webcam.
+> >>>
+> >>>> [   48.751879] uvcvideo: Failed to initialize the device (-5).
+> >>>> [   48.751930] usbcore: registered new interface driver uvcvideo
+> >>>>
+> >>>> On Wed, 26 Jan 2022 at 17:23, Ricardo Ribalda wrote:
+> >>>>> Hi Mohammad
+> >>>>>
+> >>>>> Could you share the output of dmesg when you connect the device?
+> >>>>>
+> >>>>> And also lsusb -vvvv -d 0711:3108
+> >>>>>
+> >>>>>
+> >>>>> Thanks!
+> >>>>>
+> >>>>> On Wed, 26 Jan 2022 at 17:20, Mohammad wrote:
+> >>>>>> Greetings,
+> >>>>>>
+> >>>>>> I have been trying to use the j5 WebCam JVCU100 on Linux and it doesn't
+> >>>>>> function properly.  Cheese cannot seem to find it, and I did not see it
+> >>>>>> listed on your list of supported devices, so I thought I would bring it
+> >>>>>> to your attention.  Here is what I see from running lsusb:
+> >>>>>>
+> >>>>>> Bus 001 Device 006: ID 0711:3108 Magic Control Technology Corp. j5
+> >>>>>> WebCam JVCU100
+> >>>>>>
+> >>>>>> Also, running lsusb -d 0711:3108 -v | grep "14 Video" returns
+> >>>>>>
+> >>>>>> Couldn't open device, some information will be missing
+> >>>>>>       bFunctionClass         14 Video
+> >>>>>>       bInterfaceClass        14 Video
+> >>>>>>       bInterfaceClass        14 Video
+> >>>>>>       bInterfaceClass        14 Video
+> >>>>>>       bInterfaceClass        14 Video
+> >>>>>>
+> >>>>>> So, looks like the Linux UVC driver at least recognizes the webcam.
+> >>>>>> Please let me know if you can help with this, thanks!
 
 -- 
 Regards,
