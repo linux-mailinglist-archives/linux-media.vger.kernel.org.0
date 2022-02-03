@@ -2,20 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A68A74A8CD9
-	for <lists+linux-media@lfdr.de>; Thu,  3 Feb 2022 21:02:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E553E4A8CED
+	for <lists+linux-media@lfdr.de>; Thu,  3 Feb 2022 21:07:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348072AbiBCUCD convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 3 Feb 2022 15:02:03 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:43019 "EHLO
+        id S1353939AbiBCUGt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Feb 2022 15:06:49 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:42817 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231187AbiBCUCC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Feb 2022 15:02:02 -0500
+        with ESMTP id S240874AbiBCUGs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Feb 2022 15:06:48 -0500
 Received: from [192.168.1.107] ([37.4.249.169]) by mrelayeu.kundenserver.de
  (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MxUjv-1mIn5h1DmD-00xu3e; Thu, 03 Feb 2022 21:01:48 +0100
-Subject: Re: [RFC PATCH v4 03/12] dt-bindings: media: Add bindings for
- bcm2835-unicam
+ 1N2m3G-1mCziC0Kho-0133Ej; Thu, 03 Feb 2022 21:06:28 +0100
+Subject: Re: [RFC PATCH v4 06/12] ARM: dts: bcm2711: Add unicam CSI nodes
 To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
 Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
         kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
@@ -25,7 +24,7 @@ Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
         robh@kernel.org, tomi.valkeinen@ideasonboard.com,
         nsaenz@kernel.org, bcm-kernel-feedback-list@broadcom.com
 References: <20220203175009.558868-1-jeanmichel.hautbois@ideasonboard.com>
- <20220203175009.558868-4-jeanmichel.hautbois@ideasonboard.com>
+ <20220203175009.558868-7-jeanmichel.hautbois@ideasonboard.com>
 From:   Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
@@ -157,32 +156,32 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <e78fd121-460f-ffc9-02ca-a50a4aa88771@i2se.com>
-Date:   Thu, 3 Feb 2022 21:01:47 +0100
+Message-ID: <cb9f24bd-3352-279b-0667-d56bd2aefdd5@i2se.com>
+Date:   Thu, 3 Feb 2022 21:06:27 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20220203175009.558868-4-jeanmichel.hautbois@ideasonboard.com>
+In-Reply-To: <20220203175009.558868-7-jeanmichel.hautbois@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-Provags-ID: V03:K1:rcC3IoipVtPgtMk/t3RvWG/KPfef8CE0jyRPdF02+20FZZmykf0
- 2K7JrFw07gkbGkO+fogP+K5NgpKwknPiuER5RBDp3QXS5/mA5MOk5ptEry7Ux1gmSD0Lo9H
- RsPeGrp/lfC9oo8fCqeU1QoZqYB7J7yXU97MuZy4KW3z9b2rbrHpitKHJe1MtbJ095cOzQO
- 0mlRWN9WbTHUeF0OnOzwA==
+X-Provags-ID: V03:K1:HFO6GGzxVqA8YAey//wJUn6WBeSMmO6GiZFgNLK8NQcapi6NH+y
+ PwedTk9LwoWL4QndGBmjoQHZ/ambBMkBIv7PZ056UOw20xS+vatKKJslCi3QcIZN3GXMwjs
+ Cb/ZUecbZr95+3GjATSeLYAkKBOXfl3EyRQuo7G4HJ/I6HOxnqzQnW8yUv/DwMbv6+s/d+G
+ HFZ7kKangCu2VbsHUgUGQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:877/ijKsp34=:oz+nxe18IhDdgBfdv+xMp1
- WPE0UgF2k3GOaj0nXX/MQEPI9Y11V8KV0Bng+pcfKO4OK/GpeQv/7R1vYBn6QPIaWBdOhOsvO
- SjM2i/Fwc+18AAWC1P9WUJ5eokD7UDF3bDjHYCRB4oURdL5n+GEu+TjGOKBVRazJtcm2cOG/X
- x1XXdYNz3xh7Iin/RT7BMVwV0zXKMbRFa0/doCplxnqRDbiOfR56ifskiZHHg4wO3W3drW3Ma
- wi5sf4OidhWyNreBvUTNRH7o++tJAM4MUKGjdP4fpQe0cHk/LqvYEzM/JXWMCEXqSFZ6A/Hqs
- 5dPiT16EQ0NvuxBJ1U08Oarx5KyuF2OH+okj8xUap/O8C0kz1TS0/c6XIab+4JZwwbZrSsj2Q
- iLGjiLvyDvGUwGM0bSElu4HEpNZDD9yYqIlL4FL/II2tb3SI2QAeI4EVKreTtGuZQWGbtjG5e
- /oueYyEYjCU1D5DnBBYwOAPFUGHawKkNzn0DAPHddHSdvoGxnOegDObuqzQTYf7ps6U96pbu8
- PNvJNbGsZQBzab8xH7/wIwP8NneM/SpErJHx4sFxa0IkmmKBjCJrYOvz6m/GcjYtVOOrK/GW6
- 6tujk4V/doapH7i9r3npe5jirokhWvG64Yc5ZBXvHosH9/Wctc1ySaRn3Qec1bq85J9Lfo8rP
- nu55aJJPIUf6REzgbv2eXpWd/OH9r1qJC2RVno781+ykRnc2WZqxaox84hhVNnck/+LujRAq1
- 4VTPn3csx4ga/9YQ
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+EVRAF8hAFE=:m++eOP7+nxrS+qZInZQPTP
+ NOVvzHTpMGSq6v720P9Vy9mwHx2wKHlRjZ/mOMhKHCrzOnPuvrV26ItwbRpGqWaJKnAR07DHw
+ B5ldKga/kxhYdkZLWN2cFjV5EA6KNlNFTiollfzwDypG6ilSmek6t7H3Jj1+H7sWqZ9ws5Lto
+ Jgsl/unBH35xZaV0BWrmzwZfzo8W+QHQ3wc78ieOzJyxXbjL4IZwkBUyDr7stv0LTgi9OaIq2
+ S+9b2UTorbhLfDrTS8RMoqAmjARhqzetfNu1869ThrpR2Z8XABUx+1f01xqpz0VaJ2tM7hYYQ
+ ezrSFDPrYkk5MiElDuKejWch28qOwc/GRohIfJUs+3pwd+vQhpaZjJR2PbUQXS9a09njXT1VK
+ DnwqjxIpU8cAOCp5EiY2b38VmvAIXbGZ3uz/op2c40AhrSh6DG7+zn7V1jfq9MRzyiMNSZphO
+ U0XzZF24APhGttl+dDLGyxRfBfhvDveVhMZaDcoH6QsJKa0jiUQHw8b0V/gkZr5lwp2D/WILf
+ DUwZMUIvi9XuRpSLgsoAYCbCfywnyPLwQUG3ImDJ8lvUiXFl9uA3eCikz8GQoiju1bGQPlMay
+ 7xbe6kTJz0SEo9Ax3nko0Jd0Tjksg67+3V2wo7JVrd1WkamA1CNIu2sg3Zc3xkWv5xFKE0wLz
+ b3+L5pn0xh0pMvdO7eaR4FKMyC3yPod1MZN36FNobBFOhi6mj+d8ePLw04I74WONqGEdvVbB2
+ lse8P7o9u8KOiRgG
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -190,76 +189,79 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi Jean-Michel,
 
 Am 03.02.22 um 18:50 schrieb Jean-Michel Hautbois:
-> Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
-> camera interface. Also add a MAINTAINERS entry for it.
+> Add both MIPI CSI-2 nodes in the core bcm2711 tree. Use the 3-cells
+> interrupt declaration, corresponding clocks and default as disabled.
 >
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
 > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
->
 > ---
-> v4:
-> - make MAINTAINERS its own patch
-> - describe the reg and clocks correctly
-> - use a vendor entry for the number of data lanes
-> ---
->  .../bindings/media/brcm,bcm2835-unicam.yaml   | 110 ++++++++++++++++++
->  1 file changed, 110 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+>  arch/arm/boot/dts/bcm2711-rpi.dtsi | 15 +++++++++++++++
+>  arch/arm/boot/dts/bcm2711.dtsi     | 16 ++++++++++++++++
+>  2 files changed, 31 insertions(+)
 >
-> diff --git a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> new file mode 100644
-> index 000000000000..0725a0267c60
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> @@ -0,0 +1,110 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/arch/arm/boot/dts/bcm2711-rpi.dtsi b/arch/arm/boot/dts/bcm2711-rpi.dtsi
+> index ca266c5d9f9b..97ee494891af 100644
+> --- a/arch/arm/boot/dts/bcm2711-rpi.dtsi
+> +++ b/arch/arm/boot/dts/bcm2711-rpi.dtsi
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  #include "bcm2835-rpi.dtsi"
+>  
+> +#include <dt-bindings/power/raspberrypi-power.h>
+>  #include <dt-bindings/reset/raspberrypi,firmware-reset.h>
+>  
+>  / {
+> @@ -18,6 +19,20 @@ aliases {
+>  	};
+>  };
+>  
+> +&csi0 {
+> +	clocks = <&clocks BCM2835_CLOCK_CAM0>,
+> +		 <&firmware_clocks 4>;
+> +	clock-names = "lp", "vpu";
+> +	power-domains = <&power RPI_POWER_DOMAIN_UNICAM0>;
+> +};
 > +
-> +title: Broadcom BCM283x Camera Interface (Unicam)
+> +&csi1 {
+> +	clocks = <&clocks BCM2835_CLOCK_CAM1>,
+> +		 <&firmware_clocks 4>;
+> +	clock-names = "lp", "vpu";
+> +	power-domains = <&power RPI_POWER_DOMAIN_UNICAM1>;
+> +};
 > +
-> +maintainers:
-> +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+>  &firmware {
+>  	firmware_clocks: clocks {
+>  		compatible = "raspberrypi,firmware-clocks";
+> diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
+> index dff18fc9a906..312a74601839 100644
+> --- a/arch/arm/boot/dts/bcm2711.dtsi
+> +++ b/arch/arm/boot/dts/bcm2711.dtsi
+> @@ -293,6 +293,22 @@ hvs: hvs@7e400000 {
+>  			interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
+>  		};
+>  
+> +		csi0: csi@7e800000 {
+> +			compatible = "brcm,bcm2835-unicam";
+> +			reg = <0x7e800000 0x800>,
+> +			      <0x7e802000 0x4>;
+after you added the reg-names to the binding, please don't forget to add
+them here ...
+> +			interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
+> +			status = "disabled";
+> +		};
 > +
-> +description: |-
-> +  The Unicam block on BCM283x SoCs is the receiver for either
-> +  CSI-2 or CCP2 data from image sensors or similar devices.
-> +
-> +  The main platform using this SoC is the Raspberry Pi family of boards.
-> +  On the Pi the VideoCore firmware can also control this hardware block,
-> +  and driving it from two different processors will cause issues.
-> +  To avoid this, the firmware checks the device tree configuration
-> +  during boot. If it finds device tree nodes starting by csi then
-> +  it will stop the firmware accessing the block, and it can then
-> +  safely be used via the device tree binding.
-> +
-> +properties:
-> +  compatible:
-> +    const: brcm,bcm2835-unicam
-> +
-> +  reg:
-> +    items:
-> +      - description: Unicam block.
-> +      - description: Clock Manager Image (CMI) block.
-thanks for describing the registers, but this is not what i meant with
-adding "reg-names" in my last comment. Please look at the clocks below ...
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Clock to drive the LP state machine of Unicam.
-> +      - description: Clock for the vpu (core clock).
-> +
-> +  clock-names:
-> +    items:
-> +      - const: lp
-> +      - const: vpu
-> +
-> +  
+> +		csi1: csi@7e801000 {
+> +			compatible = "brcm,bcm2835-unicam";
+> +			reg = <0x7e801000 0x800>,
+> +			      <0x7e802004 0x4>;
+
+and here. Otherwise this looks good to me.
+
 Best regards
 
+> +			interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> +			status = "disabled";
+> +		};
+> +
+>  		pixelvalve3: pixelvalve@7ec12000 {
+>  			compatible = "brcm,bcm2711-pixelvalve3";
+>  			reg = <0x7ec12000 0x100>;
