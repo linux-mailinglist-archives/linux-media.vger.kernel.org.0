@@ -2,246 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F5284A9066
-	for <lists+linux-media@lfdr.de>; Thu,  3 Feb 2022 23:03:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BC4E4A9075
+	for <lists+linux-media@lfdr.de>; Thu,  3 Feb 2022 23:10:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355644AbiBCWCF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Feb 2022 17:02:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51388 "EHLO
+        id S235373AbiBCWKQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Feb 2022 17:10:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230230AbiBCWCE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Feb 2022 17:02:04 -0500
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5416CC061714
-        for <linux-media@vger.kernel.org>; Thu,  3 Feb 2022 14:02:04 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 14C0D20151;
-        Fri,  4 Feb 2022 00:02:00 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1643925720;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=bzVyjkFvE6/9m6bk6bTw4QL+j9Zvxo5qLtPkv/HAMIs=;
-        b=fNSR2E1ggbYlJN5AOZvG16fItfB/0DoILaWM6WKj+SZka/G1U/1KPgk9sdQrkNLCiVmMhL
-        R3DRMzgaooT16YEMKP0fH+HQANdI/E7KlRL6D1yyROwafqI2mTNmk1iuxk4xrMsiGwLHRc
-        rslX96lPXFK9QbQpmcBpfO/2cGMUcJQ=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 999AA634C90;
-        Fri,  4 Feb 2022 00:01:59 +0200 (EET)
-Date:   Fri, 4 Feb 2022 00:01:59 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Arducam info <info@arducam.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: Add IMX519 CMOS sensor
- binding
-Message-ID: <YfxQ18Yb8e62YOAF@valkosipuli.retiisi.eu>
-References: <38FCC5C9-9D03-4C8B-9ADF-896AE2BD90DE@arducam.com>
+        with ESMTP id S233513AbiBCWKP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Feb 2022 17:10:15 -0500
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30A28C061714
+        for <linux-media@vger.kernel.org>; Thu,  3 Feb 2022 14:10:15 -0800 (PST)
+Received: by mail-qv1-xf36.google.com with SMTP id s7so1195004qvb.0
+        for <linux-media@vger.kernel.org>; Thu, 03 Feb 2022 14:10:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=7VjpD+SP2BAig8TNSDuuwH4CnhdEhM40oUJnZpFP4TU=;
+        b=4Zw26Fk2nBNu5XqRdkCqJWkMJ52dWD5x642Ok6JPOT+1X7k+DVt7hqzccCGjh/b5JN
+         faOwhp4dBwJ7Ii/C4YTv+YgOF8xF9ZU5PXxp/m8z60iObXmkpb3/6Z7eW2gQKRSvmbsP
+         +B+65PnzHQSb+mt1o9iZFZD0hmwkQxao74KruJcU55rscBrH2T5Ho9Wo4I8Lrwu5yhWg
+         HM5W2ANb3grNjR9J0vLQ/eDWlLKgD9W1dLeF/noN9pHRNn7STo2LstWqOfvJhZyjEEob
+         GWrzajexDhiQrLQdAD/yvAKu/xUM0ECDiMe4copGFB5bAsUhHfYWUUtnYozOD89Ey082
+         oavg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=7VjpD+SP2BAig8TNSDuuwH4CnhdEhM40oUJnZpFP4TU=;
+        b=23NWYvGAAB9q8ZA9ewNCgPVIErdptTBcjkJX15UWJaaYEjPpICrVKqSmo2bYgrukf1
+         Eg4uqSlH2oL0OYqaOKGLiHUfOb8VKHmOG54o+Bg+sZPC7+bI2OsHdY/qSNyFSAP3xJZ5
+         ZOFYYV9F8MW1scwxJBQzJaHv+3wMrCXvHFD0+oHkoREDcQOZdbt7iIjE41jfDO6dx7Ad
+         hQilY6T1k1fUQ2f2zTfZpIVaVcvPPel9/333/C00Ihj9aG3dPdP/IxRyenX2M1w0lJ2x
+         cl+4Q1SMjyq4Sug/EFkU1ZZ3yxI5fTW3fkdYfcZeiNbUuTvZkGc9+J/6lgkW0CWc0zI6
+         ZHVg==
+X-Gm-Message-State: AOAM531Fya0AEQIJdNagIsOZIblzQOZjmwtr66m9WszeLPAUlsZbiPzE
+        /yF2AdtXAhpb3wEEJ6nSV6GXPQ==
+X-Google-Smtp-Source: ABdhPJx3KFNdWtGCFpfP6JyL2GonyUec/q9jhKhdKz4cr7sD6OHpyBS0woN6paRnNwhmyTcxV4CDpg==
+X-Received: by 2002:ad4:5f49:: with SMTP id p9mr13476qvg.18.1643926214100;
+        Thu, 03 Feb 2022 14:10:14 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id s1sm74097qkp.40.2022.02.03.14.10.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Feb 2022 14:10:13 -0800 (PST)
+Message-ID: <bcb5629b5d4d19068d5309e2b66597ea258c1f50.camel@ndufresne.ca>
+Subject: Re: hantro: g2: Does the postprocessor needs 32byte aligned width ?
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Adam Ford <aford173@gmail.com>
+Cc:     "jernej.skrabec" <jernej.skrabec@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        kernel <kernel@collabora.com>, Chris Healy <cphealy@gmail.com>
+Date:   Thu, 03 Feb 2022 17:10:12 -0500
+In-Reply-To: <CAHCN7xLODYVO9ZZZV42RMU1oRCYKhTBiCSnT-6-_uSWH3b77WQ@mail.gmail.com>
+References: <c86506596c9126da6f2df02eb6680759064774f2.camel@ndufresne.ca>
+         <CAHCN7xKxyZGoQdQ=6uOHpd4COV2CV5b=bbCAhv5cyQCspPf8QQ@mail.gmail.com>
+         <3fd135621147ae938c357931579ec1110c935afa.camel@ndufresne.ca>
+         <CAHCN7xKHPPDPeN2q3uD8b_Wzs_6KrO+_Qh2zHh4id8YZJJjPcw@mail.gmail.com>
+         <CAHCN7xKSwdmPYXcQ24dpUyapOP8+54pc3YJZgj74opTneocujw@mail.gmail.com>
+         <ea89b3035a34ce017057439fef42ea7884967955.camel@ndufresne.ca>
+         <CAHCN7xLODYVO9ZZZV42RMU1oRCYKhTBiCSnT-6-_uSWH3b77WQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <38FCC5C9-9D03-4C8B-9ADF-896AE2BD90DE@arducam.com>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1643925720; a=rsa-sha256; cv=none;
-        b=CxE7Q3r0NoKAcWJ9k2/CJNWx3X0PksCv9AiN870Khp7UqUEaz3UhpE+Nuvx6Tm8LzM9/+F
-        ALNwZpPCVA9kH3JIXKF51i5DKIjL1Pg1tjkzZkRr0JhuakaCOGk/Fsi9MHhNPNaOvisLCn
-        9swb0zVeVcPW69T8u5molVDSiGfz8TA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1643925720;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=bzVyjkFvE6/9m6bk6bTw4QL+j9Zvxo5qLtPkv/HAMIs=;
-        b=jyEjtELeG80mVdAkvgSFQld5jq/ykKOeDnEOAjwbmHB0EQNu+81iiyYP/XAz0CyuEFIlp5
-        KbiXn02xmS2E8Cjmfm5r/BzcEUFpqWIt55hb9p+ScEmTdiRh7qn72jJjYP74p8DFeNX/S5
-        7zcp8yeUZ02Dfgu9E7xsez6MHJSjvow=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lee,
-
-Thanks for the patches. Please see my comments below.
-
-On Tue, Nov 02, 2021 at 04:19:12PM +0800, Arducam info wrote:
-> Add YAML device tree binding for IMX519 CMOS image sensor, and
-> the relevant MAINTAINERS entries.
+Le jeudi 03 février 2022 à 14:32 -0600, Adam Ford a écrit :
+> On Wed, Feb 2, 2022 at 7:39 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+> > 
+> > Le mercredi 02 février 2022 à 05:01 -0600, Adam Ford a écrit :
+> > > On Mon, Jan 31, 2022 at 8:33 AM Adam Ford <aford173@gmail.com> wrote:
+> > > > 
+> > > > On Mon, Jan 31, 2022 at 8:29 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+> > > > > 
+> > > > > Le vendredi 28 janvier 2022 à 12:43 -0600, Adam Ford a écrit :
+> > > > > > On Fri, Jan 28, 2022 at 12:35 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+> > > > > > > 
+> > > > > > > Hi Adam,
+> > > > > > > 
+> > > > > > > Jernej and I had to deal with user report which show a stride issue with the G2
+> > > > > > > on Allwinner H6.
+> > > > > > > 
+> > > > > > > https://forum.libreelec.tv/thread/17565-nightly-images-for-a64-h3-h5-h6-and-r40-boards/?postID=166086#post166086
+> > > > > > > 
+> > > > > > > We quickly found that the stride alignment set to 16 needs to be 32. Though we
+> > > > > > > noticed that this is only needed when using the G2 postprocessor (NV12), while
+> > > > > > > it worked fine with tiles (NV12_4L4).
+> > > > > > 
+> > > > > > Out of curiosity, would it hurt to make the G2 alignment to be 32 even
+> > > > > > if it's not required?
+> > > > > 
+> > > > > Aligning tile to 32 can be complex, I don't think the code is ready to handle
+> > > > > padded tiled buffers. About the post-prob, I'd like to first understand why is
+> > > > > this.
+> > > > > 
+> > > > > > 
+> > > > > > > 
+> > > > > > > We were wondering if you, or anyone here on the list could test this on IMX8MQ
+> > > > > > > and IMX8MM. We'd like know if this is specific to the older G2 on H6. To trigger
+> > > > > > > this, you need a video with a resolution like 1552x1080 as used in the report.
+> > > > > > > We can help you get one if needed.
+> > > > > > 
+> > > > > > If you have a video you want me to try and instructions on how you
+> > > > > > want me to test it, I can give it a shot. The imx8mm doesn't have a
+> > > > > > video display driver yet, but I think the imx8mq does.  I am not as
+> > > > > > familiar with that board as I am with the 8mm.  The testing I have
+> > > > > > done to date has only been done with fluster.
+> > > > > 
+> > > > > If you have fluster/gstreamer ready, and some display, I suppose you can try and
+> > > > > kmssink (worked for me with the vendor display driver). To get the same video,
+> > > > > you can probably download temporarily that youtube video with youtube-dl,
+> > > > > careful not to share the file, this is copyrighted content, but it ease testing
+> > > > > and debugging, so I suspect it falls in fair use (INAL).
+> > > > > 
+> > > > > youtube-dl -f 248 https://www.youtube.com/watch?v=TUVcZfQe-Kw
+> > > > > gst-launch-1.0 filesrc location="Dua Lipa - Levitating Featuring DaBaby (Official Music Video)-TUVcZfQe-Kw.webm" ! parsebin ! v4l2slvp9dec ! videoconvert ! kmssink
+> > > > 
+> > > > Sounds good.  I have a few tasks to do before I can get back to this,
+> > > > but I'll try to do it later today or tonight.
+> > > 
+> > > From what I can see, the HDMI driver for the imx8mq isn't available in
+> > > the kernel, so I cannot get video.  The NXP branch which has video
+> > > doesn't have the hantro drivers in question, so this isn't going to be
+> > > an easy task, because I cannot get video out of the imx8mq right now.
+> > > 
+> > > On the i.MX8M Mini, it's missing the DSI driver which is the only
+> > > video output supported by the Mini, so I can't get video out of it
+> > > either.  The NXP branch has the same limitations.
+> > > 
+> > > I could potentially attempt to run the video through the decoder and
+> > > then video convert to some still images or a different video format to
+> > > playback or review on a different device.  Let me know your thoughts
+> > > on that.  i am downloading the Dua Lipa video now, so I could
+> > > potentially try something when its finished.
+> > 
+> > Ok, that would be best you can try indeed, normally running few frames through
+> > software converter and recording as mjpeg could work to reproduce this. Thanks a
+> > lot of this and sorry for the difficulty, let's hope the display driver
+> > situation on these boards get better soon.
 > 
-> Signed-off-by: Lee Jackson <info@arducam.com>
-
-Is this your real e-mail address?
-
-The From: header and the Signed-off-by: tags should match.
-
-Please also cc v2 to Rob Herring and the devicetree list.
-
-> ---
->  .../devicetree/bindings/media/i2c/imx519.yaml | 113 ++++++++++++++++++
->  MAINTAINERS                                   |   8 ++
->  2 files changed, 121 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx519.yaml
+> I ran about 15 seconds of the video through the decoder, then encoded
+> it with the JPEG encoder into an avi.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/imx519.yaml b/Documentation/devicetree/bindings/media/i2c/imx519.yaml
-> new file mode 100644
-> index 000000000000..717230a21764
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/imx519.yaml
-> @@ -0,0 +1,113 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/imx519.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony 1/2.5-Inch 16Mpixel CMOS Digital Image Sensor
-> +
-> +maintainers:
-> +  - Lee Jackson <info@arducam.com>
-> +
-> +description: |-
-> +  The Sony IMX519 is a 1/2.5-inch CMOS active pixel digital image sensor
-> +  with an active array size of 4656H x 3496V. It is programmable through
-> +  I2C interface. The I2C address is fixed to 0x1A as per sensor data sheet.
-> +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
-> +  4 data lanes.
-> +
-> +properties:
-> +  compatible:
-> +    const: sony,imx519
-> +
-> +  reg:
-> +    description: I2C device address
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  VDIG-supply:
-> +    description:
-> +      Digital I/O voltage supply, 1.05 volts
-> +
-> +  VANA-supply:
-> +    description:
-> +      Analog voltage supply, 2.8 volts
-> +
-> +  VDDL-supply:
-> +    description:
-> +      Digital core voltage supply, 1.8 volts
-> +
-> +  reset-gpios:
-> +    description: |-
-> +      Reference to the GPIO connected to the xclr pin, if any.
-> +      Must be released (set high) after all supplies and INCK are applied.
-> +
-> +  # See ../video-interfaces.txt for more details
+> gst-launch-1.0 filesrc location=~/dl.webm ! parsebin ! v4l2slvp9dec !
+> videoconvert ! jpegenc ! avimux ! filesink location=mjpeg.avi
+> 
+> I can send you the AVI if you like, but the output image looked good
+> to me when I played it back on my desktop computer.
+> 
+> Please let me know if there is anything else you need me to do.
 
-Please refer to video-interfaces.yaml schema instead. See e.g.
-Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml .
+Thanks, this should be enough. It would seem like this is a limitation of older
+G2. Unless it is a limitation of the display on Allwinner, and the stride is not
+being validated.
 
-> +  port:
-> +    type: object
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +        properties:
-> +          data-lanes:
-> +            description: |-
-> +              The sensor supports either two-lane, or four-lane operation.
-> +              For two-lane operation the property must be set to <1 2>.
-> +            items:
-> +              - const: 1
-> +              - const: 2
+> 
+> thanks,
+> 
+> adam
+> 
+> > 
+> > > 
+> > > adam
+> > > > 
+> > > > adam
+> > > > > 
+> > > > > regards,
+> > > > > Nicolas
+> > > > > 
+> > > > > > 
+> > > > > > adam
+> > > > > > 
+> > > > > > > 
+> > > > > > > regards,
+> > > > > > > Nicolas
+> > > > > 
+> > 
 
-Four lanes are also supported. You could simply use minItems and maxItems
-here, as other bindings do.		
-
-> +
-> +          clock-noncontinuous:
-> +            type: boolean
-> +            description: |-
-> +              MIPI CSI-2 clock is non-continuous if this property is present,
-> +              otherwise it's continuous.
-
-No need for a description, this is in schema. The same for other
-properties, too, if there isn't something device specific to say.
-
-> +
-> +          link-frequencies:
-> +            allOf:
-> +              - $ref: /schemas/types.yaml#/definitions/uint64-array
-> +            description:
-> +              Allowed data bus frequencies.
-> +
-> +        required:
-> +          - link-frequencies
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - VANA-supply
-> +  - VDIG-supply
-> +  - VDDL-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        imx519: sensor@1a {
-> +            compatible = "sony,imx519";
-> +            reg = <0x1a>;
-> +            clocks = <&imx519_clk>;
-> +            VANA-supply = <&imx519_vana>;   /* 2.8v */
-> +            VDIG-supply = <&imx519_vdig>;   /* 1.05v */
-> +            VDDL-supply = <&imx519_vddl>;   /* 1.8v */
-> +
-> +            port {
-> +                imx519_0: endpoint {
-> +                    remote-endpoint = <&csi1_ep>;
-> +                    data-lanes = <1 2>;
-> +                    clock-noncontinuous;
-> +                    link-frequencies = /bits/ 64 <493500000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ee91c5472bc1..5db23bde7e73 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17492,6 +17492,14 @@ T:	git git://linuxtv.org/media_tree.git
->  F:	Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
->  F:	drivers/media/i2c/imx412.c
->  
-> +SONY IMX519 SENSOR DRIVER
-> +M:	Arducam Kernel Maintenance <info@arducam.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/devicetree/bindings/media/i2c/imx519.yaml
-> +F:	drivers/media/i2c/imx519.c
-> +
->  SONY MEMORYSTICK SUBSYSTEM
->  M:	Maxim Levitsky <maximlevitsky@gmail.com>
->  M:	Alex Dubov <oakad@yahoo.com>
-
--- 
-Kind regards,
-
-Sakari Ailus
