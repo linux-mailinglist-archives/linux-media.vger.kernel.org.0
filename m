@@ -2,169 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E33544A958A
-	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 09:50:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 246914A95B5
+	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 10:04:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239817AbiBDIuM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Feb 2022 03:50:12 -0500
-Received: from mx1.tq-group.com ([93.104.207.81]:64161 "EHLO mx1.tq-group.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231864AbiBDIuL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Feb 2022 03:50:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1643964611; x=1675500611;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=FEiAmArkdBv5Nr5bScLf7yMPKGQOzBiK4SXXg3DXbKc=;
-  b=hJvlIiATsOH6y0o2tsbPCNNCwuZtlPYLuly5juQI1cgjyPmArLv23hFe
-   cOjScsDFGLfy58b87SjqtD5YwRonXX1g91PEO/M5mm+Lm2bbkXn5cWU7e
-   ozrCfqj+ryVgtuN4hjgm116411kREwCc1S4F1+Md2NUahIEnw/g/uIOIz
-   t3tc+Uyf3oPV1+Vln4dzn3R1sQm+n4mpQzBxPYmRGihdgEvVuOlWwYhOn
-   Hr9XN8cpOKTgkt6e/7OJin3qGwLDCRJdWF/njKm2l94Glw9VxaIXDoMVh
-   nmsWjL0Q9vLUnrGt3NE3LjmC1RycsPvn6G1OqOpzN5NQrh54WMDJSWttq
-   A==;
-X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
-   d="scan'208";a="21897267"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 04 Feb 2022 09:50:09 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 04 Feb 2022 09:50:10 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Fri, 04 Feb 2022 09:50:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1643964609; x=1675500609;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=FEiAmArkdBv5Nr5bScLf7yMPKGQOzBiK4SXXg3DXbKc=;
-  b=m1ad6t2Ae689xQbgfWogQCOFihM9WrlUxXEoa3w0WyqOZDiY6vkjDsFK
-   QqofJ9ZQ6wcSCiVh+E2anFAB1KUfiE/0/m8FK8ahMvRNED7No8X2B1QML
-   Snk9bdFBDN4RusocIG+CbfZVmpUEOyLsxcsujY3DXHeTRKJviyqG/ap+e
-   SSMIaVyWoFeElJ9PasthFKePt67Nq3golZgKUsMZq/kPni02McM7kxaN+
-   3lw/AHYPMsiAWq3ivDy465Wo5nPki36DB6wsmc3ptqmqXcc6gMsC+My4z
-   QRTrqWRUdGlu73ywySvLozh2o1t5asAjGrtwNwxoJbmd5NfAxhbb7rNAT
-   g==;
-X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
-   d="scan'208";a="21897266"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 04 Feb 2022 09:50:09 +0100
-Received: from steina-w.localnet (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 5F866280065;
-        Fri,  4 Feb 2022 09:50:09 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     jeanmichel.hautbois@ideasonboard.com,
+        id S240986AbiBDJEd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Feb 2022 04:04:33 -0500
+Received: from relay10.mail.gandi.net ([217.70.178.230]:49537 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229705AbiBDJEb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Feb 2022 04:04:31 -0500
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id C55EC240006;
+        Fri,  4 Feb 2022 09:04:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1643965467;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=G9dI6OMW3Cy5MmYGRDLK8UzEGwe9kyx3ckqsq6r+kHE=;
+        b=f6kc1N7JBlgEeDJ09jtJz2ZXUur8lNWzG8WZAxtfIWl7ANe3m/piu0au7Js28hHi60zKSz
+        1wwovHFgg52lsUZSH/9Dyph96BRYFzKHPhPSS45inZWQBKN++tuj82o+pui2zycPfe6lit
+        mpO9VO8LaxdIpW67HodZcmEiUsSw6px82WUXIK7FdVfZZSDXzh1gSymmR8+g2BjDALAQql
+        0e3y2eFe1H3cVfgosLdHPy+O2EgPHR6cSzICbBrTx2Y2IaZ9jqlhurC5ZVGNSVeUwV6Rxq
+        MV/fFQgzIfh2OOYo3OsqZHQB6TZZwR/bU3LllRo6vKnAr9Ynk8c7+3rjm1jerA==
+Date:   Fri, 4 Feb 2022 10:04:26 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
-        robh@kernel.org, tomi.valkeinen@ideasonboard.com,
-        nsaenz@kernel.org, bcm-kernel-feedback-list@broadcom.com
-Subject: Re: (EXT) [RFC PATCH v4 03/12] dt-bindings: media: Add bindings for bcm2835-unicam
-Date:   Fri, 04 Feb 2022 09:50:06 +0100
-Message-ID: <7954256.DvuYhMxLoT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20220203175009.558868-4-jeanmichel.hautbois@ideasonboard.com>
-References: <20220203175009.558868-1-jeanmichel.hautbois@ideasonboard.com> <20220203175009.558868-4-jeanmichel.hautbois@ideasonboard.com>
+Subject: Re: [PATCH RESEND] media: i2c: Fix pixel array positions in ov8865
+Message-ID: <YfzsGpgmEh12OJNm@aptenodytes>
+References: <20220203213344.863433-1-djrscally@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="AMBbhWCU1Ngv5M4U"
+Content-Disposition: inline
+In-Reply-To: <20220203213344.863433-1-djrscally@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Donnerstag, 3. Februar 2022, 18:50:00 CET schrieb Jean-Michel Hautbois:
-> Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
-> camera interface. Also add a MAINTAINERS entry for it.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> 
+
+--AMBbhWCU1Ngv5M4U
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Daniel,
+
+On Thu 03 Feb 22, 21:33, Daniel Scally wrote:
+> The ov8865's datasheet gives the pixel array as 3296x2528, and the
+> active portion as the centre 3264x2448. This makes for a top offset
+> of 40 and a left offset of 16, not 32 and 80.
+
+Yep that makes better sense to me!
+
+Could you also invert the lines so we have left first, matching
+width being defined first in other instances?
+
+Thanks!
+
+Paul
+
+> Fixes: acd25e220921 ("media: i2c: Add .get_selection() support to ov8865")
+>=20
+> Reported-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> Signed-off-by: Daniel Scally <djrscally@gmail.com>
 > ---
-> v4:
-> - make MAINTAINERS its own patch
-> - describe the reg and clocks correctly
-> - use a vendor entry for the number of data lanes
-> ---
->  .../bindings/media/brcm,bcm2835-unicam.yaml   | 110 ++++++++++++++++++
->  1 file changed, 110 insertions(+)
->  create mode 100644
-> Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> 
-> diff --git
-> a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml new file
-> mode 100644
-> index 000000000000..0725a0267c60
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> @@ -0,0 +1,110 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Broadcom BCM283x Camera Interface (Unicam)
-> +
-> +maintainers:
-> +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-> +
-> +description: |-
-> +  The Unicam block on BCM283x SoCs is the receiver for either
-> +  CSI-2 or CCP2 data from image sensors or similar devices.
-> +
-> +  The main platform using this SoC is the Raspberry Pi family of boards.
-> +  On the Pi the VideoCore firmware can also control this hardware block,
-> +  and driving it from two different processors will cause issues.
-> +  To avoid this, the firmware checks the device tree configuration
-> +  during boot. If it finds device tree nodes starting by csi then
-> +  it will stop the firmware accessing the block, and it can then
-> +  safely be used via the device tree binding.
-> +
-> +properties:
-> +  compatible:
-> +    const: brcm,bcm2835-unicam
-> +
-> +  reg:
-> +    items:
-> +      - description: Unicam block.
-> +      - description: Clock Manager Image (CMI) block.
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Clock to drive the LP state machine of Unicam.
-> +      - description: Clock for the vpu (core clock).
-> +
-> +  clock-names:
-> +    items:
-> +      - const: lp
-> +      - const: vpu
-> +
-> +  power-domains:
-> +    items:
-> +      - description: Unicam power domain
-> +
-> +  brcm,num-data-lanes:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [ 2, 4 ]
-> +    description: Number of data lanes on the csi bus
+>=20
+> Apologies; sent to the wrong list initially
+>=20
+>  drivers/media/i2c/ov8865.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+> index d9d016cfa9ac..53e21ae8e886 100644
+> --- a/drivers/media/i2c/ov8865.c
+> +++ b/drivers/media/i2c/ov8865.c
+> @@ -457,8 +457,8 @@
+> =20
+>  #define OV8865_NATIVE_WIDTH			3296
+>  #define OV8865_NATIVE_HEIGHT			2528
+> -#define OV8865_ACTIVE_START_TOP			32
+> -#define OV8865_ACTIVE_START_LEFT		80
+> +#define OV8865_ACTIVE_START_TOP			40
+> +#define OV8865_ACTIVE_START_LEFT		16
+>  #define OV8865_ACTIVE_WIDTH			3264
+>  #define OV8865_ACTIVE_HEIGHT			2448
+> =20
+> --=20
+> 2.25.1
+>=20
 
-There is already data-lanes in Documentation/devicetree/bindings/media/video-
-interfaces.yaml. AFAICS these two are identical. Can't the video-
-interface.yaml be used for this? I'm no expert TBH.
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-Regards,
-Alexander
+--AMBbhWCU1Ngv5M4U
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmH87BoACgkQ3cLmz3+f
+v9EUjAf+M6dOmFL6/Q5O3DrPYKfupAw1pMNBYcwzrjPEz0npXdEd9P666UDRn9w9
+O3s13pG8XpcfBGff9/tOpmpGxN/pmuarRo3tYTy8EMCJ8brmdX987uKxSEOIVOvf
+0oIH8GVrARshNv1O21BpCregc2rek6JqgOpe7oCmt4W3WXeELR1nSofBuQUKeY+P
+2PaJ6Uwx5La5z1C5T38IWdhZbvZYyIAeMP7PVTGiiAW4HgUvEBaodF948re6Vd18
+6gSdUay0f2extvEx6t2TwuFpAAaM18AjYUDQOLWBbc7/YTtQ8Z9ykm8RJXd8N3/4
+ji8wk5LPkjVWBd4ny9EwRKVC6Y7aQg==
+=o0br
+-----END PGP SIGNATURE-----
+
+--AMBbhWCU1Ngv5M4U--
