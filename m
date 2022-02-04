@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FD294A9767
-	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 11:04:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B4F14A9768
+	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 11:04:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358106AbiBDKEp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Feb 2022 05:04:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43004 "EHLO
+        id S1358143AbiBDKEq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Feb 2022 05:04:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358123AbiBDKEl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Feb 2022 05:04:41 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA94FC06173E
-        for <linux-media@vger.kernel.org>; Fri,  4 Feb 2022 02:04:41 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id b13so12151443edn.0
-        for <linux-media@vger.kernel.org>; Fri, 04 Feb 2022 02:04:41 -0800 (PST)
+        with ESMTP id S1358124AbiBDKEm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Feb 2022 05:04:42 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C642C06173D
+        for <linux-media@vger.kernel.org>; Fri,  4 Feb 2022 02:04:42 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id d10so17784425eje.10
+        for <linux-media@vger.kernel.org>; Fri, 04 Feb 2022 02:04:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ZqHQbmrfkSeH45/mViZpX0rM/1+Zya9JLAfRq+Wk+m8=;
-        b=UTfcjAcYMTX22h1fkYsOiRByUelnx3X3bl0rl1ikR/aJO6QvD61verYKIzZSBf9eVH
-         XMqkOwE5kUkib2ogQLmu9HTN+sqxX1DA8ZPCtSCYN5iqJXLrxhoFmdQ3aNSg/D68jcQv
-         sk+hn2kTdnDJHyibjVdqeJ3b5uXROQUOHxgr/rVe55bsaZEUijn8ZKNW33JUzpRjrlCk
-         yLpLk8j7YMqZmdFpktDAjs/2waxkOlWZ1MBtbrrkfOmigChFnQ0dpfADIXLTo/ahqMOs
-         tb2ROlq3i1TYTKTd8NNDQIXQazEVb/bLBK/xrNsifZJPasNxltUuj2JFQ2/T18LSIdhV
-         Xt8g==
+        bh=Rx5rKIs1h4pkPPx07vOixo6aKMAm9lXxnCcc7E9V7dU=;
+        b=V4HxWMBwmSqyCzF0puYOm75Pg4LHlZZd73dPSvLtWqQfaGywaL9ENrwR6EEhNWIATA
+         PAE0aikq8WPBTui6YjH5O9t3lZML+wi4Nv5h8iP+mWG7RG5Kh6MOBNXec5UsqlRNpntP
+         qc34PH94usI9h2CCHb6VTnBY/Z8ZtG5+aQU5PPt6kv/RbHa2vNu1my44LwHUTx3OkK2H
+         J3Zm8SwAGRLQRsUr0lBZdiOSg+oGsyPhfpzPgMAL0MR6K+fnuesYR+kLAsjeC1S40k2b
+         PK5gW9WEIUq21kGYU2NPSkxpJA0SMDTafKYAeFKmWAwSxRV5aKYT31ijCHFY/memfmpw
+         +VsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZqHQbmrfkSeH45/mViZpX0rM/1+Zya9JLAfRq+Wk+m8=;
-        b=LxcQvWm7zrqRWmVZqKq9BFGuiuGZT5/lrOllZCt+voWyz5MpWrJhtTptYKqnSr+wHm
-         MOj/BiJfImH90nNgTLbpLW0ICvw8z9s3TGX14/OXl0sdU8irXF5jjHsofWj9iw5/FJW0
-         Ww8xPl0gOueT5/Rpm3Brju1nokMz5j8RbJPPJTyjs60HtXcMHwwrihvW+Et8zTx+cTFS
-         E/KJcTuzIE9kIgzCNh9O+8Ji0j3R37IkJmzwO5T18nKRoCeotG6FcIPuQtaTA+tq1yxD
-         YebkWn3jp0ltPDDTb9jXpfQahizH/9DTfZ6s+/fN5DqLFuy6Gwvd9LekTObOegyx7tCM
-         V8bw==
-X-Gm-Message-State: AOAM530i+KJU3CCveMNnF6nNJV8JzMhSbMjeT525NRlba0xJnEIWqddO
-        f0tVYcgZVf8bsnpxS5aT6H4=
-X-Google-Smtp-Source: ABdhPJzUVDomn6G0+FigRIR9w/gc5i6WBR+Ya0Sw2HySaEeAG3c5vDogUicENinZmg6AI0M2qES/dQ==
-X-Received: by 2002:a05:6402:510b:: with SMTP id m11mr2158175edd.203.1643969080332;
-        Fri, 04 Feb 2022 02:04:40 -0800 (PST)
+        bh=Rx5rKIs1h4pkPPx07vOixo6aKMAm9lXxnCcc7E9V7dU=;
+        b=Xm9GVRjHFTirysT0IC4sCLO06LM0o/z92Bgp8YjtJuS6x9An8NdoYVZlmlmO2nBCm3
+         pLvdrnMN2GRCy0OJNz+k6EvfNV0GjlKh1zhR/9Kt5dppHWVllQepIsnb1k1Csq6o3pZm
+         vGrKoGxA1c8CmDGg+i4lMs43Jsre1IVVtj5Ep9VO4djo7qXq8KPyOoOXbPNTP0LZgFW8
+         TQugjMW0Z0XSBTapGMZjq1wslvjOROZTD2+eyjUlvesDx2lqwC/+f8OoaeOC0kt+ZuoH
+         iZHSTh+ShxS5PX8DkMnp6IBGIUnx6aCDMQ8HdW/2VxcfGUvd4AqcnF+hQysGn1Luiwle
+         KX2A==
+X-Gm-Message-State: AOAM533xNkXcnGHm07FmLwjPrUidnYU/xK6ENJ+Bhc5Z/884/Pp7wdyJ
+        z2DtIJGM8say1OvxD+61prs=
+X-Google-Smtp-Source: ABdhPJztBHmTGU6YkwToxZohDq0/Ut4O8GCLLrmJNsoENbA0aLh4NmlUkJR6QhSWUvCE7XuAmCh5IA==
+X-Received: by 2002:a17:907:7f8f:: with SMTP id qk15mr1799850ejc.287.1643969081145;
+        Fri, 04 Feb 2022 02:04:41 -0800 (PST)
 Received: from able.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
-        by smtp.gmail.com with ESMTPSA id z10sm633943edl.54.2022.02.04.02.04.39
+        by smtp.gmail.com with ESMTPSA id z10sm633943edl.54.2022.02.04.02.04.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 04 Feb 2022 02:04:40 -0800 (PST)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
@@ -53,9 +53,9 @@ X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd
 To:     sumit.semwal@linaro.org, thomas.hellstrom@linux.intel.com,
         daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/6] dma-buf: warn about containers in dma_resv object
-Date:   Fri,  4 Feb 2022 11:04:27 +0100
-Message-Id: <20220204100429.2049-5-christian.koenig@amd.com>
+Subject: [PATCH 5/6] dma-buf: add dma_fence_chain_contained helper
+Date:   Fri,  4 Feb 2022 11:04:28 +0100
+Message-Id: <20220204100429.2049-6-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220204100429.2049-1-christian.koenig@amd.com>
 References: <20220204100429.2049-1-christian.koenig@amd.com>
@@ -66,32 +66,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Drivers should not add containers as shared fences to the dma_resv
-object, instead each fence should be added individually.
+It's a reoccurring pattern that we need to extract the fence
+from a dma_fence_chain object. Add a helper for this.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/dma-buf/dma-resv.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/dma-buf/dma-fence-chain.c |  6 ++----
+ include/linux/dma-fence-chain.h   | 15 +++++++++++++++
+ 2 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index ee31f15d633a..b51416405e86 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -256,6 +256,11 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
+diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+index 084c6927b735..06f8ef97c6e8 100644
+--- a/drivers/dma-buf/dma-fence-chain.c
++++ b/drivers/dma-buf/dma-fence-chain.c
+@@ -148,8 +148,7 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
  
- 	dma_resv_assert_held(obj);
+ 	dma_fence_get(&head->base);
+ 	dma_fence_chain_for_each(fence, &head->base) {
+-		struct dma_fence_chain *chain = to_dma_fence_chain(fence);
+-		struct dma_fence *f = chain ? chain->fence : fence;
++		struct dma_fence *f = dma_fence_chain_contained(fence);
  
-+	/* Drivers should not add containers here, instead add each fence
-+	 * individually.
-+	 */
-+	WARN_ON(dma_fence_is_container(fence));
+ 		dma_fence_get(f);
+ 		if (!dma_fence_add_callback(f, &head->cb, dma_fence_chain_cb)) {
+@@ -165,8 +164,7 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
+ static bool dma_fence_chain_signaled(struct dma_fence *fence)
+ {
+ 	dma_fence_chain_for_each(fence, fence) {
+-		struct dma_fence_chain *chain = to_dma_fence_chain(fence);
+-		struct dma_fence *f = chain ? chain->fence : fence;
++		struct dma_fence *f = dma_fence_chain_contained(fence);
+ 
+ 		if (!dma_fence_is_signaled(f)) {
+ 			dma_fence_put(fence);
+diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+index ee906b659694..10d51bcdf7b7 100644
+--- a/include/linux/dma-fence-chain.h
++++ b/include/linux/dma-fence-chain.h
+@@ -66,6 +66,21 @@ to_dma_fence_chain(struct dma_fence *fence)
+ 	return container_of(fence, struct dma_fence_chain, base);
+ }
+ 
++/**
++ * dma_fence_chain_contained - return the contained fence
++ * @fence: the fence to test
++ *
++ * If the fence is a dma_fence_chain the function returns the fence contained
++ * inside the chain object, otherwise it returns the fence itself.
++ */
++static inline struct dma_fence *
++dma_fence_chain_contained(struct dma_fence *fence)
++{
++	struct dma_fence_chain *chain = to_dma_fence_chain(fence);
 +
- 	fobj = dma_resv_shared_list(obj);
- 	count = fobj->shared_count;
- 
++	return chain ? chain->fence : fence;
++}
++
+ /**
+  * dma_fence_chain_alloc
+  *
 -- 
 2.25.1
 
