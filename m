@@ -2,100 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDE6C4A9465
-	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 08:17:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E33544A958A
+	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 09:50:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349330AbiBDHRy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Feb 2022 02:17:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60832 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245020AbiBDHRx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Feb 2022 02:17:53 -0500
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D98D5C06173D
-        for <linux-media@vger.kernel.org>; Thu,  3 Feb 2022 23:17:52 -0800 (PST)
-Received: by mail-lj1-x234.google.com with SMTP id q22so7270845ljh.7
-        for <linux-media@vger.kernel.org>; Thu, 03 Feb 2022 23:17:52 -0800 (PST)
+        id S239817AbiBDIuM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Feb 2022 03:50:12 -0500
+Received: from mx1.tq-group.com ([93.104.207.81]:64161 "EHLO mx1.tq-group.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231864AbiBDIuL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 4 Feb 2022 03:50:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=QBhPBgEherimIGZgK6u1u1J4jQoQqrfPzu4TsRicrdU=;
-        b=Klx+cha5El9xIZx9Yw6vj3tiH96+Ne0Kb0LdgK0yv7tpzBMDMuM3u1rlDgJ+O2TxU2
-         bVUDS3Hi/aILxDws83bWnyF38+id8SupMuPd5JD4ri58GztW5jQ+MD9636HW2a1GXAGw
-         RUTjsq+NgujTcyC8kuBal3uIh1QCrkbOm6GazCDg9SqsS48itz5RqL4HP2DIAdLQShhk
-         EMy5eZ4D9vIxpvX3sJ8GBHaxpSOJwHZzDMhtDZmaLhNA9TQkh3SXhKU4zDReyESyhM47
-         AcmnDsxZZMe2dZKL0wWYk2eBvxHA7w8UJg6djm1YKM8CU4TQDQqDX8L4jbi7pr+QdiZj
-         fAbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=QBhPBgEherimIGZgK6u1u1J4jQoQqrfPzu4TsRicrdU=;
-        b=O7Dtb2hvEf433MXyYfyaPIuZ4aibwInu+rfnlnfaz5MY9ZWsTItWeo5YO91ihXSzd/
-         iFyENwV3Tc60gkLizsXTsQMyiwInO+pmy1ZsmS/cQYiPJ/XHjFxUFOAAfIvmj5hI8Kug
-         /IrCxNjVbagrsxkRfG+m5EChUllTeAJKGIAN3Aq7ceSb9llRLJa3lmh3NjaCM058KQ/Y
-         i0q3JthiouH8J/YKYNPFhTUXy6ZCVi65IvoE4CJg3yZM0KxxNOFo1Yix7VzYiZfzqsm/
-         mpe69f7HKBAsgIZoEMxX10KInT4Y16hrHff4/LJDhmOzdlH3J0rd3jfT6X8j2z4p6Exb
-         9fKQ==
-X-Gm-Message-State: AOAM530zPh4fvRW+/V/0gQHZja0FxJL1TuFYIjcEsr4tF1wh3lGjKKIq
-        RuolR3JMoPQzsMYblNTL/kUKLlKdjJphwJcXSeE=
-X-Google-Smtp-Source: ABdhPJwaXngbVu6x2BzBFKiVTGd3tmZO3HesUYpMaCzlRBqZXX3heOrKDLlirBGr8PvHBab7QsK9+SnfX2OeceUtOlg=
-X-Received: by 2002:a2e:2a04:: with SMTP id q4mr1003226ljq.428.1643959070954;
- Thu, 03 Feb 2022 23:17:50 -0800 (PST)
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1643964611; x=1675500611;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=FEiAmArkdBv5Nr5bScLf7yMPKGQOzBiK4SXXg3DXbKc=;
+  b=hJvlIiATsOH6y0o2tsbPCNNCwuZtlPYLuly5juQI1cgjyPmArLv23hFe
+   cOjScsDFGLfy58b87SjqtD5YwRonXX1g91PEO/M5mm+Lm2bbkXn5cWU7e
+   ozrCfqj+ryVgtuN4hjgm116411kREwCc1S4F1+Md2NUahIEnw/g/uIOIz
+   t3tc+Uyf3oPV1+Vln4dzn3R1sQm+n4mpQzBxPYmRGihdgEvVuOlWwYhOn
+   Hr9XN8cpOKTgkt6e/7OJin3qGwLDCRJdWF/njKm2l94Glw9VxaIXDoMVh
+   nmsWjL0Q9vLUnrGt3NE3LjmC1RycsPvn6G1OqOpzN5NQrh54WMDJSWttq
+   A==;
+X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
+   d="scan'208";a="21897267"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 04 Feb 2022 09:50:09 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Fri, 04 Feb 2022 09:50:10 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Fri, 04 Feb 2022 09:50:10 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1643964609; x=1675500609;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=FEiAmArkdBv5Nr5bScLf7yMPKGQOzBiK4SXXg3DXbKc=;
+  b=m1ad6t2Ae689xQbgfWogQCOFihM9WrlUxXEoa3w0WyqOZDiY6vkjDsFK
+   QqofJ9ZQ6wcSCiVh+E2anFAB1KUfiE/0/m8FK8ahMvRNED7No8X2B1QML
+   Snk9bdFBDN4RusocIG+CbfZVmpUEOyLsxcsujY3DXHeTRKJviyqG/ap+e
+   SSMIaVyWoFeElJ9PasthFKePt67Nq3golZgKUsMZq/kPni02McM7kxaN+
+   3lw/AHYPMsiAWq3ivDy465Wo5nPki36DB6wsmc3ptqmqXcc6gMsC+My4z
+   QRTrqWRUdGlu73ywySvLozh2o1t5asAjGrtwNwxoJbmd5NfAxhbb7rNAT
+   g==;
+X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
+   d="scan'208";a="21897266"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 04 Feb 2022 09:50:09 +0100
+Received: from steina-w.localnet (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 5F866280065;
+        Fri,  4 Feb 2022 09:50:09 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     jeanmichel.hautbois@ideasonboard.com,
+        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
+        kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
+        robh@kernel.org, tomi.valkeinen@ideasonboard.com,
+        nsaenz@kernel.org, bcm-kernel-feedback-list@broadcom.com
+Subject: Re: (EXT) [RFC PATCH v4 03/12] dt-bindings: media: Add bindings for bcm2835-unicam
+Date:   Fri, 04 Feb 2022 09:50:06 +0100
+Message-ID: <7954256.DvuYhMxLoT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20220203175009.558868-4-jeanmichel.hautbois@ideasonboard.com>
+References: <20220203175009.558868-1-jeanmichel.hautbois@ideasonboard.com> <20220203175009.558868-4-jeanmichel.hautbois@ideasonboard.com>
 MIME-Version: 1.0
-Sender: smithwilson780@gmail.com
-Received: by 2002:a2e:8756:0:0:0:0:0 with HTTP; Thu, 3 Feb 2022 23:17:49 -0800 (PST)
-From:   DINA MCKENNA <dinamckennahowley@gmail.com>
-Date:   Fri, 4 Feb 2022 07:17:49 +0000
-X-Google-Sender-Auth: hHwHJBX6OXKMnivP_ecO7PjrpcE
-Message-ID: <CADh0mysoGOw9QB8J21v9EyM-Tk7DUJ1s+fGnW-Bxg_eFGyj-mQ@mail.gmail.com>
-Subject: Calvary greetings.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello My Dear,
+Am Donnerstag, 3. Februar 2022, 18:50:00 CET schrieb Jean-Michel Hautbois:
+> Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
+> camera interface. Also add a MAINTAINERS entry for it.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> 
+> ---
+> v4:
+> - make MAINTAINERS its own patch
+> - describe the reg and clocks correctly
+> - use a vendor entry for the number of data lanes
+> ---
+>  .../bindings/media/brcm,bcm2835-unicam.yaml   | 110 ++++++++++++++++++
+>  1 file changed, 110 insertions(+)
+>  create mode 100644
+> Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> 
+> diff --git
+> a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml new file
+> mode 100644
+> index 000000000000..0725a0267c60
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> @@ -0,0 +1,110 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Broadcom BCM283x Camera Interface (Unicam)
+> +
+> +maintainers:
+> +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> +
+> +description: |-
+> +  The Unicam block on BCM283x SoCs is the receiver for either
+> +  CSI-2 or CCP2 data from image sensors or similar devices.
+> +
+> +  The main platform using this SoC is the Raspberry Pi family of boards.
+> +  On the Pi the VideoCore firmware can also control this hardware block,
+> +  and driving it from two different processors will cause issues.
+> +  To avoid this, the firmware checks the device tree configuration
+> +  during boot. If it finds device tree nodes starting by csi then
+> +  it will stop the firmware accessing the block, and it can then
+> +  safely be used via the device tree binding.
+> +
+> +properties:
+> +  compatible:
+> +    const: brcm,bcm2835-unicam
+> +
+> +  reg:
+> +    items:
+> +      - description: Unicam block.
+> +      - description: Clock Manager Image (CMI) block.
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Clock to drive the LP state machine of Unicam.
+> +      - description: Clock for the vpu (core clock).
+> +
+> +  clock-names:
+> +    items:
+> +      - const: lp
+> +      - const: vpu
+> +
+> +  power-domains:
+> +    items:
+> +      - description: Unicam power domain
+> +
+> +  brcm,num-data-lanes:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [ 2, 4 ]
+> +    description: Number of data lanes on the csi bus
 
-Please do not feel disturbed for contacting =C2=A0you in this regards, It
-was based on the critical health condition I found myself. =C2=A0My names
-are Mrs. Dina Mckenna Howley A widow and am suffering from brain tumor
-disease and this illness has gotten to a very bad stage, I
- married my husband for Ten years without any child. =C2=A0My husband died
-after a brief illness that lasted for few  days.
-Since the death of my husband, I decided not to remarry again, When my
-late husband was alive he deposited the sum of =C2=A0($ 11,000,000.00,
-Eleven Million Dollars) with the Bank. Presently this money is still
-in bank. And My  Doctor told me that I don't have much time to live
-because my illness has gotten to a very bad stage, Having known my
-condition I  decided to entrust over the deposited fund under your
-custody to take care of the less-privileged ones therein your country
-or position,
-which i believe that you will utilize this money the way I am going to
-instruct herein.
+There is already data-lanes in Documentation/devicetree/bindings/media/video-
+interfaces.yaml. AFAICS these two are identical. Can't the video-
+interface.yaml be used for this? I'm no expert TBH.
 
-However all I need and required from you is your sincerity and ability
-to carry out the transaction successfully and fulfill my final wish in
-implementing the charitable project as it requires absolute trust and
-devotion without any failure and I will be glad to see that the bank
-finally release and transfer the fund into your bank account in your
-country even before I die here in the hospital, because my present
-health condition is very critical at the moment everything needs to be
-process rapidly as soon as possible.
-It will be my pleasure to compensate you as my Investment
-Manager/Partner with 35 % percent of the total fund for your effort in
- handling the transaction, 5 % percent for any expenses or processing
-charges fee that will involve during this process while 60% of the
-fund will be Invested into the charity project there in your country
-for the mutual benefit of the orphans and the less privileges ones.
-Meanwhile I am waiting for your prompt respond, if only you are
-interested for further details of the transaction and execution of
-this  humanitarian project for the glory and honor of God the merciful
-compassionate.
-May God bless you and your family..
 Regards,
-Mrs. Dina Mckenna Howley.
-written from Hospital.
+Alexander
+
+
