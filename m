@@ -2,105 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4937A4A9C2A
-	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 16:44:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76C784A9D47
+	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 18:01:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240237AbiBDPoB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Feb 2022 10:44:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36030 "EHLO
+        id S1376712AbiBDRBN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Feb 2022 12:01:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230391AbiBDPoB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Feb 2022 10:44:01 -0500
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38463C061714
-        for <linux-media@vger.kernel.org>; Fri,  4 Feb 2022 07:44:01 -0800 (PST)
-Received: by mail-oi1-x232.google.com with SMTP id q186so8919524oih.8
-        for <linux-media@vger.kernel.org>; Fri, 04 Feb 2022 07:44:01 -0800 (PST)
+        with ESMTP id S233140AbiBDRBL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Feb 2022 12:01:11 -0500
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5102AC061714
+        for <linux-media@vger.kernel.org>; Fri,  4 Feb 2022 09:01:11 -0800 (PST)
+Received: by mail-qk1-x735.google.com with SMTP id 13so5191156qkd.13
+        for <linux-media@vger.kernel.org>; Fri, 04 Feb 2022 09:01:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=t++Sl3/j9Xw1ZOybdNpwLGb8KZHNprMyq9fgMdYyV9Q=;
-        b=ofKsXST+b78YnNo0vRwalFJF2rIg7y5RCr7b9iXGySPvbCIYvtI01v9ap6ua4x5oke
-         NwBCnlQccFSJSnTXSEDJgSyWVW/KbJinpFXvYg0jxFNSl7DUXVA1Zd0lFmW5sMrwVizV
-         ufn7WgEa19jmXJ0tUnxgsBfZt1hNuR79QsIgz7IV6IFlFCDLnoDPP2QNsKuJ2APkJ6zT
-         XydlsfogysNCo6+3J0PD3+ksqUtglHHeZtxM6C29PTpe7GnYYY3M30ZFeYlOAsxMqNf5
-         1JegMB7YgYlsDLDhR4Af1Ffgq6MhtefT/MtmdyBKr4pKv5bphOptoQiLrUn1MV2HiSaL
-         H1kQ==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=YUS18KFfT9VUZs8Qo16nHD49iHYObzaK1qYKfTRi7C4=;
+        b=pKJ3m0nKe8d0bOpQS73vIvI/Uq96WU2Q7uXS+zrsG+lSXb+U9zHwyeGlq2gJVRsfTL
+         /cvaV9JAESutnTBXzoxD4549TK1Ji0POEWyVy7z7NCpDnpIizry+BluVtVXBgQ574qLn
+         oXFp31Z/nDy1EslhlJv6rQ0IqDy5+j6jrP8ClPf2dj3WZrJZHU9XUj2ApuTT3mfiXXd8
+         coij/J4gZsMMOAfz7rffmjjdeFfVZL0rdJNnMeEr3qjS6IcmhXN45kuN1fj2Y8uSZMkJ
+         H4J0NlnNscNDlU8nw3OUdPJUQFq84j9VuVU7xoo4YBYUJSItfV6Dyh9aVR2OxyhfyCzU
+         kk6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=t++Sl3/j9Xw1ZOybdNpwLGb8KZHNprMyq9fgMdYyV9Q=;
-        b=heE+HtZ6lWON4Nf6do5o2mJgtufWfYFD/2dyLYyjTksIYezoRiTJY4KaVmgvuhCHKK
-         ujlBMjhwqe6CeAzDi0cbVBkWqWA8HWOhr2Gf+Br7tBpjrX/KXhIVC/0XGc1BM/wZlHLR
-         DKhhgo4OGCoOIHYTo3xNbDgAtkxJ5rGDP8Pw25obtFZ1ohGxy1ZAVThmJOAqTP4b0yLp
-         akodcGb2SwMWY/hwWuCXUTBG35+4XSHm/sYvP7k8bp8kl5XbQzC3JtRaxqfCct09/hOY
-         xrD0l02+2JJ0/1w+Pa+9gajC+qrm5gCXMyHhVTdeFsz4yMfqTjRLDUfn6rkoWSzMTqhT
-         qivg==
-X-Gm-Message-State: AOAM533qWdhwau33gVT1Oe7nSAdHeWePd2ewicYC4NvIcucqkGkLhNjy
-        mL1LyFdMsKOldVuSbYJS9SWm7MVrlUEJwHFqqYE=
-X-Google-Smtp-Source: ABdhPJwE0RukyciYykgWOgQCk6YO79c6zVGxWgzIhrxIabmvpOMl2SShp7Q8g9oV5Xn5V8VohXG14WqBPssjZxCgz3c=
-X-Received: by 2002:a05:6808:159e:: with SMTP id t30mr1555187oiw.132.1643989440616;
- Fri, 04 Feb 2022 07:44:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20220204100429.2049-1-christian.koenig@amd.com> <20220204100429.2049-7-christian.koenig@amd.com>
-In-Reply-To: <20220204100429.2049-7-christian.koenig@amd.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Fri, 4 Feb 2022 10:43:49 -0500
-Message-ID: <CADnq5_Myswp9hJF3eFY3MEYhxrM-NMPRaF9=RUTBtMoRLhkEAg@mail.gmail.com>
-Subject: Re: [PATCH 6/6] drm/amdgpu: use dma_fence_chain_contained
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= 
-        <thomas.hellstrom@linux.intel.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=YUS18KFfT9VUZs8Qo16nHD49iHYObzaK1qYKfTRi7C4=;
+        b=YcZC+i8jikZ5Mnzj8wXpeY6f0iH0ZuwB9pvQS1luMGIDeFg+c68xx09M6uApSDvBBv
+         2OrdMGiQxnYkoBGjZ73cygSSXAe6B2QZLqPDEm74l5GKzmjE/5+RNGduhVQ5w9mmWIsF
+         jtsQHHhk3Sa4wKCBxBQbpKXQGpHptW/OXunRSjlksZFGLqxN9H5DM2MN2NW0nHi55iii
+         EEYyUto5VL9Yz5WqQQoLkkcjRGY6OMudajWTAngEnjWhFtxvAQ179n8jBh4g7TgWwk3e
+         0NSVh4cmdpOFOw49ArNVisoB2M8OTG88sEk03czblR1o82B2fKqZG0k0/yFLPSOYY0+9
+         ioxA==
+X-Gm-Message-State: AOAM533LtV2xGR39H+vSNGZyhtifi1m6p/mAhf8PvfB8ZaySpuUrpVsj
+        JrRf15mEb2fB/fTzFhARVdeGuw==
+X-Google-Smtp-Source: ABdhPJwa0M5plybqXxGaTXFHfu/CVyn+4lk7JG4ii/ztRVXt+Bj032E243bEBl6YybeT3fUB9hl59w==
+X-Received: by 2002:a05:620a:25d2:: with SMTP id y18mr14714qko.522.1643994070209;
+        Fri, 04 Feb 2022 09:01:10 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id y18sm1419719qtj.33.2022.02.04.09.01.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Feb 2022 09:01:09 -0800 (PST)
+Message-ID: <0ad45e7fea33c3c5f7c3f4e58de06716e2b84db8.camel@ndufresne.ca>
+Subject: Re: [RFC PATCHv2 01/11] videodev2.h: add
+ V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Dikshita Agarwal <dikshita@codeaurora.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        John Cox <jc@kynesim.co.uk>
+Date:   Fri, 04 Feb 2022 12:01:08 -0500
+In-Reply-To: <20210610113615.785359-2-hverkuil-cisco@xs4all.nl>
+References: <20210610113615.785359-1-hverkuil-cisco@xs4all.nl>
+         <20210610113615.785359-2-hverkuil-cisco@xs4all.nl>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 4, 2022 at 5:04 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Instead of manually extracting the fence.
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+Hi Hans,
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-
+Le jeudi 10 juin 2021 à 13:36 +0200, Hans Verkuil a écrit :
+> Add a new flag that indicates that this control is a dynamically sized
+> array. Also document this flag.
+> 
+> Currently dynamically sized arrays are limited to one dimensional arrays,
+> but that might change in the future if there is a need for it.
+> 
+> The initial use-case of dynamic arrays are stateless codecs. A frame
+> can be divided in many slices, so you want to provide an array containing
+> slice information for each slice. Typically the number of slices is small,
+> but the standard allow for hundreds or thousands of slices. Dynamic arrays
+> are a good solution since sizing the array for the worst case would waste
+> substantial amounts of memory.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_sync.c
-> index f7d8487799b2..40e06745fae9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
-> @@ -261,10 +261,9 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, str=
-uct amdgpu_sync *sync,
->
->         dma_resv_for_each_fence(&cursor, resv, true, f) {
->                 dma_fence_chain_for_each(f, f) {
-> -                       struct dma_fence_chain *chain =3D to_dma_fence_ch=
-ain(f);
-> +                       struct dma_fence *tmp =3D dma_fence_chain_contain=
-ed(f);
->
-> -                       if (amdgpu_sync_test_fence(adev, mode, owner, cha=
-in ?
-> -                                                  chain->fence : f)) {
-> +                       if (amdgpu_sync_test_fence(adev, mode, owner, tmp=
-)) {
->                                 r =3D amdgpu_sync_fence(sync, f);
->                                 dma_fence_put(f);
->                                 if (r)
-> --
-> 2.25.1
->
+>  .../userspace-api/media/v4l/vidioc-queryctrl.rst          | 8 ++++++++
+>  include/uapi/linux/videodev2.h                            | 1 +
+>  2 files changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> index 07e54029e1e9..a1a0dbff4a6f 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> @@ -601,6 +601,14 @@ See also the examples in :ref:`control`.
+>  	``V4L2_CTRL_FLAG_GRABBED`` flag when buffers are allocated or
+>  	streaming is in progress since most drivers do not support changing
+>  	the format in that case.
+> +    * - ``V4L2_CTRL_FLAG_DYNAMIC_ARRAY``
+> +      - 0x0800
+> +      - This control is a dynamically sized 1-dimensional array. It
+> +        behaves the same as a regular array, except that the number
+> +	of elements as reported by the ``elems`` field is between 1 and
+> +	``dims[0]``. So setting the control with a differently sized
+
+The minimum of 1 item is indeed logical for slices (or tiles in AV1), but I
+think we should remove this limitation so it won't get in the way in other
+applications. There is otherwise no way (other then creating a "invalid entry"
+value) to signal that the array is now empty. The driver could erroneously endup
+using ancient values.
+
+Perhaps this can be waved later when we need it ? Would that be backward
+compatible ?
+
+> +	array will change the ``elems`` field when the control is
+> +	queried afterwards.
+>  
+>  Return Value
+>  ============
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 9260791b8438..7222fc855d6b 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1869,6 +1869,7 @@ struct v4l2_querymenu {
+>  #define V4L2_CTRL_FLAG_HAS_PAYLOAD	0x0100
+>  #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
+>  #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
+> +#define V4L2_CTRL_FLAG_DYNAMIC_ARRAY	0x0800
+>  
+>  /*  Query flags, to be ORed with the control ID */
+>  #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
+
