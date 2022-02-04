@@ -2,79 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACF2F4A91B0
-	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 01:38:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3BE24A925B
+	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 03:41:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356260AbiBDAit (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Feb 2022 19:38:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57992 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236660AbiBDAiq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Feb 2022 19:38:46 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9A63C061714;
-        Thu,  3 Feb 2022 16:38:46 -0800 (PST)
+        id S1356641AbiBDClQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Feb 2022 21:41:16 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38780 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232591AbiBDClQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Feb 2022 21:41:16 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC42049C;
-        Fri,  4 Feb 2022 01:38:43 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E7E75D;
+        Fri,  4 Feb 2022 03:41:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1643935124;
-        bh=x79wgQfEJfv0EeWkYy8ffcc5rx2aj3gmAeMONQ+Np/c=;
+        s=mail; t=1643942474;
+        bh=gm3VPwGfySIA6bfsEf09CQTmh9DJS/6sCCO2gi3LOn8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=n5+J636Wda49VRNBpSSjR+A/VLEcBvD1SFFqaokXvyGm+pm46ytwdiGWKRdThgNH6
-         fAQc92e0dLU1r4nLHlbq8gmMLluY5JdjZ3s8DY9Vz+5fYQ7qzb/f8KjBzvbpXAiB/l
-         VecmrJIa921C3wgEfe9AB9nQshfyAspSA9aeMlyY=
-Date:   Fri, 4 Feb 2022 02:38:20 +0200
+        b=fHrfglMtr+G1bJARrqbamxuh5V51PhfZpPvZ2vCCNm3sDBcb6AMadKMk+KprPak/M
+         PxjM4rA2qTXzmFoFBnmno4+9IUmCCCBAWK/2/7bhQW7biarT+HKzJ1D7afywYjbrSI
+         D4J36asHABdqSRI7cvz2zTsC8AFb82+ky3SA+624=
+Date:   Fri, 4 Feb 2022 04:40:50 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Stefan Wahren <stefan.wahren@i2se.com>
-Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
+To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
         kernel-list@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-rpi-kernel@lists.infradead.org, lukasz@jany.st,
         mchehab@kernel.org, naush@raspberrypi.com, robh@kernel.org,
         tomi.valkeinen@ideasonboard.com, nsaenz@kernel.org,
         bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [RFC PATCH v4 00/12] Add support for BCM2835 camera interface
- (unicam)
-Message-ID: <Yfx1fDmf4NajOpXq@pendragon.ideasonboard.com>
+Subject: Re: [RFC PATCH v4 04/12] media: MAINTAINERS: add bcm2835 unicam
+ driver
+Message-ID: <YfySMufB8GE/ztFB@pendragon.ideasonboard.com>
 References: <20220203175009.558868-1-jeanmichel.hautbois@ideasonboard.com>
- <d72273ca-664c-3eb2-74d0-845d956b0672@i2se.com>
+ <20220203175009.558868-5-jeanmichel.hautbois@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d72273ca-664c-3eb2-74d0-845d956b0672@i2se.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220203175009.558868-5-jeanmichel.hautbois@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stefan,
+Hi Jean-Michel,
 
-On Thu, Feb 03, 2022 at 08:55:42PM +0100, Stefan Wahren wrote:
-> Am 03.02.22 um 18:49 schrieb Jean-Michel Hautbois:
-> > Hello !
-> >
-> > This patch series adds the BCM2835 CCP2/CSI2 camera interface named
-> > unicam. This driver is already used in the out-of-tree linux-rpi
-> > repository [1], and this work aims to support it in mainline.
-> >
-> > The series is based on top of:
-> > - Rebased on top of 5.16 Tomi Valkeinen's multiplexed stream work, on
-> >   his multistream/work branch [2] which has been submitted as v10 at the
-> >   time of this writing. The objective is to demonstrate the use of
-> >   multiplexed streams on a real world widely used example as well as
-> >   supporting unicam mainline.
-> > - The "Add 12bit and 14bit luma-only formats" series [3] is partly
-> >   applied (the Y10P format bug) the new formats are now part of this
-> >   series.
->
-> i understand, that you want to have this integrated fast but you send v3
-> of this series yesterday. This is not enough time for reviewers. Usually
-> 1 to 2 weeks.
+Thank you for the patch.
 
-v3 was incorrectly based on the out-of-tree ISP driver, which caused
-some patches to not apply correctly on top of mainline. I've asked
-Jean-Michel to fix this and send a v4, as it was difficult to review v3.
+On Thu, Feb 03, 2022 at 06:50:01PM +0100, Jean-Michel Hautbois wrote:
+> Add the BCM2835 Camera driver named Unicam in the list.
+> 
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> ---
+>  MAINTAINERS | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1868a6002df8..740cf86c56dc 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3670,6 +3670,13 @@ N:	bcm113*
+>  N:	bcm216*
+>  N:	kona
+>  
+> +BROADCOM BCM2835 CAMERA DRIVER
+> +M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> +F:	arch/arm/boot/dts/bcm283x*
+
+Add the driver here, and move this patch later in the series after
+adding all the files listed above. With this fixed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+>  BROADCOM BCM47XX MIPS ARCHITECTURE
+>  M:	Hauke Mehrtens <hauke@hauke-m.de>
+>  M:	Rafał Miłecki <zajec5@gmail.com>
 
 -- 
 Regards,
