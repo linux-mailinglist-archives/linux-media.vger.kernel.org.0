@@ -2,210 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE2F44A9909
-	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 13:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB41B4A99D2
+	for <lists+linux-media@lfdr.de>; Fri,  4 Feb 2022 14:20:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358631AbiBDMPb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Feb 2022 07:15:31 -0500
-Received: from mx1.tq-group.com ([93.104.207.81]:57007 "EHLO mx1.tq-group.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1358587AbiBDMP2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Feb 2022 07:15:28 -0500
+        id S1349751AbiBDNUK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Feb 2022 08:20:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59188 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237118AbiBDNUK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Feb 2022 08:20:10 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E80B4C061714
+        for <linux-media@vger.kernel.org>; Fri,  4 Feb 2022 05:20:09 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id l35-20020a05600c1d2300b0034d477271c1so3766560wms.3
+        for <linux-media@vger.kernel.org>; Fri, 04 Feb 2022 05:20:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1643976928; x=1675512928;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=WX0S5yywfJteoi/TvV8TssMpvmQJ3W0EAQZbPxU9SAY=;
-  b=T7K5cViJke0Teckn5Lk0mmJ3LhyyYPVUoiM18lLNrGSumiHzJylrJKSO
-   IGAJEgUK1Xaf7xck5f4/vG3w+AJG2S3jPVcEQ69CJ+cEL9LGV0J8Kex40
-   FS4mnJV6nbTLBnGPUYGrS1+KsRZ0Qxwl28kGz+dbLzT/2Kvlwhdw2pSeg
-   w3dZ1duPw3mu7d7f5cbxN/2cL94fUsc37HaMbF7G/xTYyx+HWXJu0xkwX
-   X436ccqnyfUctfJ2AGiid1ruB2sagUQZ/YFxVQfz2UTqgHeuDvl/IKDak
-   4G/F0sPBhstxG4jUPWoAw7WF242wT1HPva9Wx4feByb06yPRFYTlNAsmN
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
-   d="scan'208";a="21903438"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 04 Feb 2022 13:15:26 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 04 Feb 2022 13:15:26 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Fri, 04 Feb 2022 13:15:26 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1643976926; x=1675512926;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=WX0S5yywfJteoi/TvV8TssMpvmQJ3W0EAQZbPxU9SAY=;
-  b=UNFkcce9q6budxdHMNO+j4l/CwIDPZuVxW1Nz0ysYQ9GbAPUbSlNyFIP
-   VI0OHH3sxX7/zQ7b14VXozFCEqBdqyb+/KRXq7Ng+9CS0dc8xCFdN6JYX
-   h/mK2SQxQ7MqCjov6EXNr5ndPkGfeMcXTRmm+Y8KUg1hqmTpoOy3X7ei6
-   lui4d6HbmzT4aLSi9LtnW6rz/krFy3wDqa2seirQfvGIqNKH80xehZ7v+
-   Vrczd38PFJWWMgOzsojS8dstUifJhgTOC+WcSb+yDjL/h6EMU5vCn5xiZ
-   u4vrqwLd2RcuOJuYjUMGxHkcBRPUa+ysiJh5TcQS3X3dzDq+d7kk3w65w
-   A==;
-X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
-   d="scan'208";a="21903437"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 04 Feb 2022 13:15:26 +0100
-Received: from steina-w.tq-net.de (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6D5A7280065;
-        Fri,  4 Feb 2022 13:15:26 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] [DNI] arm64: dts: tqma8mqml: add IMX327 MIPI-CSI overlay
-Date:   Fri,  4 Feb 2022 13:15:14 +0100
-Message-Id: <20220204121514.2762676-9-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
-References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=cMoVa5I0AfvRr6dsMtZbMvRygV9sYtL69pEQOhNDKTI=;
+        b=awD0Owg0KNW+Cod8yDI1CD7zljIwsN4H40IbHxTSPCHJv65Q4zezki+bGupgZ5w86t
+         5IQjEEqn+0fF6/x40oIGmlAESfdLuuKuRaED+ILsTP5kqKh30RkCfsZ577jfoqpv4uG6
+         XAlNUyQrFW0HEZRJ/a7I+MEXhXwSgTmAaLVDxAuQDBL/qbj09KUFodt7zBrFLNNZc4oF
+         j5Iukl+WP7fPkcRbIUUkMS2+MtFkm2yr9PKTN0GKln6pnWwniSNcij/+91V24t1qs7bm
+         Te4fL1rxfPPIa8wSFLNPOwiYU9gcDCRjvynRZMNRR2UkdV84wJvXEg3UJxZb9B+Gh6CR
+         hZbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=cMoVa5I0AfvRr6dsMtZbMvRygV9sYtL69pEQOhNDKTI=;
+        b=Jw5y7E4ybtaadSJmfNhc5GbQnAQxLvA71SGjtkFCgY5O45xcP9bbWCtmUa7sJrmWu8
+         d4mJFO6rWGppjlN7WGHvwe7GnZor+k4E5Y+owA+Urpun5Hq2QS3wH0PLBfeyow82TdZC
+         VnzJQrqHjGNKkUNc/LEsOCFjxiBOtI1AQimlJ9S7ESjXYkPUiV1dzzp6MVJ8zoVnKD2P
+         mFfyfeUV/2rl3STpxllPcO3KgB3AseVEfzpLpWXfnZpWk9kO3zd5QB9ecr9C8Cj1H0Zr
+         1/xhk48hcfm/7dQSkiDV7k+yQisj3Yq64xl6/slTbTk+Amj2YGckR7c/CDR4WLc8r51y
+         nPTg==
+X-Gm-Message-State: AOAM531Js52WRk0Dg/Gh4NLJ2e9w/NUy0JbmqIVU4slGiWpZL3rnXg+K
+        ZSeLD89PtDbLFED7qXwZb4g=
+X-Google-Smtp-Source: ABdhPJylKlWmIm0oi+FM5lpPgODm89FwixxBRrQzrYPTm1UwC2fmO97sjXdJ06kRVIodlYYxQI7BdQ==
+X-Received: by 2002:a05:600c:1e84:: with SMTP id be4mr2180842wmb.147.1643980808469;
+        Fri, 04 Feb 2022 05:20:08 -0800 (PST)
+Received: from ?IPV6:2a02:908:1252:fb60:7e37:f7a5:7cd9:7eb0? ([2a02:908:1252:fb60:7e37:f7a5:7cd9:7eb0])
+        by smtp.gmail.com with ESMTPSA id f16sm1785283wmg.28.2022.02.04.05.20.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Feb 2022 05:20:07 -0800 (PST)
+Message-ID: <ddae0316-8576-f5c1-b6be-792625be37e2@gmail.com>
+Date:   Fri, 4 Feb 2022 14:20:06 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Add warning for nesting dma_fence containers
+Content-Language: en-US
+To:     =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= 
+        <thomas.hellstrom@linux.intel.com>, sumit.semwal@linaro.org,
+        daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+References: <20220204100429.2049-1-christian.koenig@amd.com>
+ <c722ceda1ffed0d9065f0d6ed63faa5d3f2e7a9a.camel@linux.intel.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <c722ceda1ffed0d9065f0d6ed63faa5d3f2e7a9a.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
----
- arch/arm64/boot/dts/freescale/Makefile        |  4 +
- .../imx8mm-tqma8mqml-mba8mx-imx327.dts        | 95 +++++++++++++++++++
- 2 files changed, 99 insertions(+)
- create mode 100644 arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
 
-diff --git a/arch/arm64/boot/dts/freescale/Makefile b/arch/arm64/boot/dts/freescale/Makefile
-index 852615febf9a..5ef8ff05452e 100644
---- a/arch/arm64/boot/dts/freescale/Makefile
-+++ b/arch/arm64/boot/dts/freescale/Makefile
-@@ -57,6 +57,10 @@ dtb-$(CONFIG_ARCH_MXC) += imx8mm-icore-mx8mm-edimm2.2.dtb
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-kontron-n801x-s.dtb
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-nitrogen-r2.dtb
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-tqma8mqml-mba8mx.dtb
-+
-+tqma8mqml-mba8mx-imx327-dtbs += imx8mm-tqma8mqml-mba8mx.dtb imx8mm-tqma8mqml-mba8mx-imx327.dtbo
-+dtb-$(CONFIG_ARCH_MXC) += tqma8mqml-mba8mx-imx327.dtb
-+
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-var-som-symphony.dtb
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw71xx-0x.dtb
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw72xx-0x.dtb
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts b/arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
-new file mode 100644
-index 000000000000..3f1223d4d73b
---- /dev/null
-+++ b/arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
-@@ -0,0 +1,95 @@
-+// SPDX-License-Identifier: (GPL-2.0-or-later OR MIT)
-+/*
-+ * Copyright 2021 TQ-Systems GmbH
-+ */
-+
-+#include <dt-bindings/gpio/gpio.h>
-+
-+/dts-v1/;
-+/plugin/;
-+
-+&{/} {
-+	compatible = "tq,imx8mm-tqma8mqml-mba8mx", "tq,imx8mm-tqma8mqml", "fsl,imx8mm";
-+
-+	sensor_clk: sensor-clk {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <37125000>;
-+	};
-+};
-+
-+&csi {
-+       status = "okay";
-+};
-+
-+&i2c3 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	vc_fpga: fpga@10 {
-+		reg = <0x10>;
-+		compatible = "vc,fpga";
-+
-+		vc_fpga_reg: regulator {
-+			regulator-name = "CAM_VCC";
-+		};
-+
-+		vc_fpga_reset: reset {
-+			#reset-cells = <0>;
-+		};
-+
-+		vc_fpga_gpio: gpio-chip {
-+			gpio-controller;
-+			#gpio-cells = <2>;
-+		};
-+	};
-+
-+	sony_imx327: camera@1a {
-+		#address-cells = <0x1>;
-+		#size-cells = <0x0>;
-+		reg = <0x1a>;
-+
-+		compatible = "sony,imx327", "sony,imx290";
-+
-+		clock-names = "xclk";
-+		clocks = <&sensor_clk>;
-+		clock-frequency = <37125000>;
-+
-+		vdd-supply = <&vc_fpga_reg>;
-+
-+		vdda-supply = <&vc_fpga_reg>;
-+		vddd-supply = <&vc_fpga_reg>;
-+		vdddo-supply = <&vc_fpga_reg>;
-+
-+		reset-gpios = <&vc_fpga_gpio 0 GPIO_ACTIVE_HIGH>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			sony_imx327_ep0: endpoint {
-+				remote-endpoint = <&imx8mm_mipi_csi_in>;
-+				data-lanes = <1 2>;
-+				clock-lanes = <0>;
-+				clock-noncontinuous = <1>;
-+				link-frequencies = /bits/ 64 <445500000 297000000>;
-+			};
-+		};
-+	};
-+};
-+
-+&mipi_csi {
-+       status = "okay";
-+
-+       ports {
-+               #address-cells = <1>;
-+               #size-cells = <0>;
-+
-+               port@0 {
-+                       reg = <0>;
-+                       imx8mm_mipi_csi_in: endpoint {
-+                               remote-endpoint = <&sony_imx327_ep0>;
-+                               data-lanes = <1 2>;
-+                       };
-+               };
-+       };
-+};
-\ No newline at end of file
--- 
-2.25.1
+
+Am 04.02.22 um 11:40 schrieb Thomas Hellström:
+> On Fri, 2022-02-04 at 11:04 +0100, Christian König wrote:
+>> Hi everyone,
+>>
+>> Since some operations can then lead to recursive handling nesting
+>> dma_fence containers into each other is only allowed under some
+>> restrictions.
+>>
+>> dma_fence_array containers can be attached to dma_fence_chain
+>> containers and dma_fence_chain containers by chaining them together.
+>>
+>> In all other cases the individual fences should be extracted with
+>> the appropriate iterators and added to the new containers
+>> individually.
+>>
+>> I've separated the i915 cleanup from this change since it is
+>> generally a different functionality and the build bots complained
+>> about some issues with those patches.
+>>
+>> Most patches are already reviewd, but especially the first one still
+>> needs an rb tag.
+>>
+>> Please review and comment,
+> I see you dropped the i915 patch (probably due to lack of reviews?),
+> Got distracted with other things, but I'll see if I can resurrect that
+> and get it reviewed and merged.
+
+I was about to send out the i915 patch when that one here is merged.
+
+The CI systems yielded some strange error with that one and I wanted to 
+double check what's that all about.
+
+Regards,
+Christian.
+
+>
+> Thanks,
+> Thomas
+>
+>
+>> Christian.
+>>
+>>
+>
 
