@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 788DC4AA626
-	for <lists+linux-media@lfdr.de>; Sat,  5 Feb 2022 04:17:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 904D44AA62D
+	for <lists+linux-media@lfdr.de>; Sat,  5 Feb 2022 04:22:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378886AbiBEDRX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Feb 2022 22:17:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53642 "EHLO
+        id S1379153AbiBEDWD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Feb 2022 22:22:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238357AbiBEDRW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Feb 2022 22:17:22 -0500
+        with ESMTP id S232093AbiBEDWC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Feb 2022 22:22:02 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57712C061346;
-        Fri,  4 Feb 2022 19:17:21 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D29E6C061346;
+        Fri,  4 Feb 2022 19:22:00 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 64DD9472;
-        Sat,  5 Feb 2022 04:17:19 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C886739;
+        Sat,  5 Feb 2022 04:21:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644031039;
-        bh=MF1Nry36t68LVNnn7A0TBCRFeeRlWgThbbD4gCDGK74=;
+        s=mail; t=1644031319;
+        bh=zVny9yGSTZmROfuUbpm0pCNnZE6zuIUDaAikHYurkBs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nWM5tOZ/vlsN2sOXeMhg9byXmp3zj+gnxHIbmzeH5oiCx6lzgRd5syOh5pNAZFVLk
-         amn/V0MNfLEbnKKGXpz1zZt8wZ8UEVPbqEYNZBsF6KhhPLNyKJa9KrV9j6dylhwpdX
-         wVdDahyiONa97eeoQugHxOZOE9PgdgjCA1oM/SZQ=
-Date:   Sat, 5 Feb 2022 05:16:54 +0200
+        b=jbOV0NsxkY1YnEtBUQlModnzykQoMgkI2ALPtD86Ugk2K9P9JlAjY7QEyH9MbVeog
+         +RURMhGDRBVldc8uylDPSDWSP8zxARosbuqcu/i8dZ3oHtWgWiYzrfQA0vbtCisI34
+         0PvoHSskk+mXpmKddCNUpRHQibdytmiiR75DU74w=
+Date:   Sat, 5 Feb 2022 05:21:34 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Alexander Stein <alexander.stein@ew.tq-group.com>
 Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
@@ -40,13 +40,14 @@ Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] imx7/imx8mm media / csi patches
-Message-ID: <Yf3sJuyNJWMOOo2D@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 1/8] media: imx: Store the type of hardware implementation
+Message-ID: <Yf3tPuwbyz5UU6eC@pendragon.ideasonboard.com>
 References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
+ <20220204121514.2762676-2-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20220204121514.2762676-2-alexander.stein@ew.tq-group.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -56,139 +57,132 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
+Hi Alexander and Dorota,
 
-On Fri, Feb 04, 2022 at 01:15:06PM +0100, Alexander Stein wrote:
-> Hey everyone,
+On Fri, Feb 04, 2022 at 01:15:07PM +0100, Alexander Stein wrote:
+> From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
 > 
-> this is a set of patch for imx[7] media drivers based on next-20220203. With
-> this set I was able to capture video frames from a MIPI CSI-2 camera in my
-> TQMa8MQML + MBA8MX hardware. The actual camera used is a Vision Components
-> 'VC MIPI IMX327 C' camera. IMX327 is compatible to IMX290. Patch 8 shows the
-> DT overlay I'm using, not suitable for merging.
+> The driver covers i.MX5/6, as well as i.MX7/8 hardware.
+> Those implementations differ, e.g. in the sizes of buffers they accept.
+> 
+> Some functionality should be abstracted, and storing type achieves that.
 
-You may be interested in https://gitlab.com/ideasonboard/nxp/linux/-/commits/pinchartl/v5.17/sensors/
+I think that longer term (which ideally shouldn't be too far in the
+future) we should decouple the i.MX5/6 and i.MX7/8 drivers (this naming
+is actually not quite correct, there are i.MX6 SoCs that have a CSI
+bridge, not an IPUv3). The platforms are completely different at the
+hardware level, they shouldn't share the same code. That would allow us
+to evolve the CSI bridge driver independently from the IPUv3 driver, and
+move it from staging to drivers/media/.
 
-> Please ignore the FPGA part, this is mainly for power supply and GPIO reset
-> line. This is currently a custom driver I'm working on, but I do not want to
-> focus on in this series.
-> 
-> Please note I tested this only on this imx8 platform.
-> 
-> First thanks to Dorota for the patchset at [1] (patches 1-4) which is necessary
-> to capture correct images. I integrated Hans' review into it. I hope the
-> I didn't make a mistake and the original author is kept along. I used v4 for that
-> patchset, it is v1 again in this set. I hope this is not confusing.
-> 
-> Starting from patch 5 there are small fixes which allows me to configure my
-> media device.
-> 
-> Device configuration:
-> ```
-> media-ctl -l "'imx290 2-001a':0->'csis-32e30000.mipi-csi':0 [1]"
-> media-ctl -V "'imx290 2-001a':0 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]"
-> media-ctl -V "'csi':0 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]"
-> v4l2-ctl -d0 --set-fmt-video width=1920,height=1080,pixelformat='RG10',field=none
-> media-ctl -p
-> ```
-> 
-> The media-ctl topology is:
-> ```
-> # media-ctl -p
-> Media controller API version 5.17.0
-> 
-> Media device information
-> ------------------------
-> driver          imx7-csi
-> model           imx-media
-> serial          
-> bus info        platform:32e20000.csi
-> hw revision     0x0
-> driver version  5.17.0
-> 
-> Device topology
-> - entity 1: csi (2 pads, 2 links)
->             type V4L2 subdev subtype Unknown flags 0
->             device node name /dev/v4l-subdev0
->         pad0: Sink
->                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
->                 <- "csis-32e30000.mipi-csi":1 [ENABLED,IMMUTABLE]
->         pad1: Source
->                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
->                 -> "csi capture":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 4: csi capture (1 pad, 1 link)
->             type Node subtype V4L flags 0
->             device node name /dev/video0
->         pad0: Sink
->                 <- "csi":1 [ENABLED,IMMUTABLE]
-> 
-> - entity 10: csis-32e30000.mipi-csi (2 pads, 2 links)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev1
->         pad0: Sink
->                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:709 ycbcr:601 quantization:lim-range]
->                 <- "imx290 2-001a":0 [ENABLED]
->         pad1: Source
->                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:709 ycbcr:601 quantization:lim-range]
->                 -> "csi":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 15: imx290 2-001a (1 pad, 1 link)
->              type V4L2 subdev subtype Sensor flags 0
->              device node name /dev/v4l-subdev2
->         pad0: Source
->                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]
->                 -> "csis-32e30000.mipi-csi":0 [ENABLED]
-> ```
-> 
-> Note: MIPI CSI settle times are not calculated correctly right now and need a
-> manual overwrite:
-> echo 13 > /sys/kernel/debug/32e30000.mipi-csi/ths_settle 
-> echo 2 > /sys/kernel/debug/32e30000.mipi-csi/tclk_settle
+I'm not against merging this if it can help short term, but please also
+feel free to start decoupling the drivers, even if it results in some
+duplicated code.
 
-The reference manual isn't very prolix on tclk_settle :-S That's
-something I'd love to figure out one day.
-
-For ths_settle, is the issue on the CSIS driver side, or the sensor
-driver side ?
-
-> I ignored the settings for xfer, ycbcr and quantization for now. I do neither
-> know how they will affect me nor what it should be.
-> Also I did not focus on v4l2-compliance tool, this is a further task as well.
-> IMHO imx7-mipi-csis.c should also create an immutable link to the camera
-> sensor.
-
-That makes sense, but note that, while CSI-2 is meant to be a
-point-to-point bus, there are boards designed with multiple sensors
-connected to the same CSI-2 RX without any hardware multiplexer. They
-keep one of the two sensors in reset at all times and are lucky that the
-signal reflections don't mess things up.
-
+> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+> Changes in comparison to original commit from Dorota:
+> * Applied the suggestion from Hans at [1].
+> 
 > [1] https://patchwork.linuxtv.org/project/linux-media/patch/20211104113631.206899-2-dorota.czaplejewicz@puri.sm/
 > 
-> Alexander Stein (4):
->   media: imx: imx7_mipi_csis: store colorspace in set_fmt as well
->   media: imx: imx7_media-csi: Add support for additional Bayer patterns
->   media: imx: utils: Add more Bayer formats
->   [DNI] arm64: dts: tqma8mqml: add IMX327 MIPI-CSI overlay
+>  drivers/staging/media/imx/imx-ic-prpencvf.c   | 3 ++-
+>  drivers/staging/media/imx/imx-media-capture.c | 5 ++++-
+>  drivers/staging/media/imx/imx-media-csi.c     | 3 ++-
+>  drivers/staging/media/imx/imx-media.h         | 3 ++-
+>  drivers/staging/media/imx/imx7-media-csi.c    | 3 ++-
+>  5 files changed, 12 insertions(+), 5 deletions(-)
 > 
-> Dorota Czaplejewicz (4):
->   media: imx: Store the type of hardware implementation
->   media: imx: Forward type of hardware implementation
->   media: imx: Use dedicated format handler for i.MX7/8
->   media: imx: Fail conversion if pixel format not supported
-> 
->  arch/arm64/boot/dts/freescale/Makefile        |   4 +
->  .../imx8mm-tqma8mqml-mba8mx-imx327.dts        |  95 +++++++++++++
->  drivers/staging/media/imx/imx-ic-prpencvf.c   |   3 +-
->  drivers/staging/media/imx/imx-media-capture.c |  20 ++-
->  drivers/staging/media/imx/imx-media-csi.c     |   3 +-
->  drivers/staging/media/imx/imx-media-utils.c   | 130 +++++++++++++++++-
->  drivers/staging/media/imx/imx-media.h         |   6 +-
->  drivers/staging/media/imx/imx7-media-csi.c    |  15 +-
->  drivers/staging/media/imx/imx7-mipi-csis.c    |   1 +
->  9 files changed, 262 insertions(+), 15 deletions(-)
->  create mode 100644 arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
+> diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
+> index 9b81cfbcd777..caaaac1a515a 100644
+> --- a/drivers/staging/media/imx/imx-ic-prpencvf.c
+> +++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
+> @@ -1266,7 +1266,8 @@ static int prp_registered(struct v4l2_subdev *sd)
+>  
+>  	priv->vdev = imx_media_capture_device_init(ic_priv->ipu_dev,
+>  						   &ic_priv->sd,
+> -						   PRPENCVF_SRC_PAD, true);
+> +						   PRPENCVF_SRC_PAD, true,
+> +						   true);
+>  	if (IS_ERR(priv->vdev))
+>  		return PTR_ERR(priv->vdev);
+>  
+> diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+> index 93ba09236010..b61bf9f8ddf8 100644
+> --- a/drivers/staging/media/imx/imx-media-capture.c
+> +++ b/drivers/staging/media/imx/imx-media-capture.c
+> @@ -47,6 +47,7 @@ struct capture_priv {
+>  	struct v4l2_ctrl_handler ctrl_hdlr;	/* Controls inherited from subdevs */
+>  
+>  	bool legacy_api;			/* Use the legacy (pre-MC) API */
+> +	bool is_imx56;				/* Hardware is i.MX5/i.MX6 */
+
+Can we create an enum type instead, to make the code more explicit ?
+
+>  };
+>  
+>  #define to_capture_priv(v) container_of(v, struct capture_priv, vdev)
+> @@ -957,7 +958,8 @@ EXPORT_SYMBOL_GPL(imx_media_capture_device_unregister);
+>  
+>  struct imx_media_video_dev *
+>  imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
+> -			      int pad, bool legacy_api)
+> +			      int pad, bool legacy_api,
+> +			      bool is_imx56)
+>  {
+>  	struct capture_priv *priv;
+>  	struct video_device *vfd;
+> @@ -972,6 +974,7 @@ imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
+>  	priv->src_sd_pad = pad;
+>  	priv->dev = dev;
+>  	priv->legacy_api = legacy_api;
+> +	priv->is_imx56 = is_imx56;
+>  
+>  	mutex_init(&priv->mutex);
+>  	INIT_LIST_HEAD(&priv->ready_q);
+> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+> index bd7f156f2d52..c8f6add00dbb 100644
+> --- a/drivers/staging/media/imx/imx-media-csi.c
+> +++ b/drivers/staging/media/imx/imx-media-csi.c
+> @@ -1803,7 +1803,8 @@ static int csi_registered(struct v4l2_subdev *sd)
+>  	}
+>  
+>  	priv->vdev = imx_media_capture_device_init(priv->sd.dev, &priv->sd,
+> -						   CSI_SRC_PAD_IDMAC, true);
+> +						   CSI_SRC_PAD_IDMAC, true,
+> +						   true);
+>  	if (IS_ERR(priv->vdev)) {
+>  		ret = PTR_ERR(priv->vdev);
+>  		goto free_fim;
+> diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
+> index f263fc3adbb9..73e8e6e0d8e8 100644
+> --- a/drivers/staging/media/imx/imx-media.h
+> +++ b/drivers/staging/media/imx/imx-media.h
+> @@ -282,7 +282,8 @@ int imx_media_ic_unregister(struct v4l2_subdev *sd);
+>  /* imx-media-capture.c */
+>  struct imx_media_video_dev *
+>  imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
+> -			      int pad, bool legacy_api);
+> +			      int pad, bool legacy_api,
+> +			      bool is_imx56);
+>  void imx_media_capture_device_remove(struct imx_media_video_dev *vdev);
+>  int imx_media_capture_device_register(struct imx_media_video_dev *vdev,
+>  				      u32 link_flags);
+> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> index 32311fc0e2a4..158d2a736c6d 100644
+> --- a/drivers/staging/media/imx/imx7-media-csi.c
+> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> @@ -1039,7 +1039,8 @@ static int imx7_csi_registered(struct v4l2_subdev *sd)
+>  	}
+>  
+>  	csi->vdev = imx_media_capture_device_init(csi->sd.dev, &csi->sd,
+> -						  IMX7_CSI_PAD_SRC, false);
+> +						  IMX7_CSI_PAD_SRC, false,
+> +						  false);
+>  	if (IS_ERR(csi->vdev))
+>  		return PTR_ERR(csi->vdev);
+>  
 
 -- 
 Regards,
