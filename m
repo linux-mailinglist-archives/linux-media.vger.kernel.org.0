@@ -2,164 +2,277 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1743D4AA701
-	for <lists+linux-media@lfdr.de>; Sat,  5 Feb 2022 06:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAB264AA755
+	for <lists+linux-media@lfdr.de>; Sat,  5 Feb 2022 08:40:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344236AbiBEF7N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Feb 2022 00:59:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35454 "EHLO
+        id S1379582AbiBEHk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Feb 2022 02:40:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235094AbiBEF7L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Feb 2022 00:59:11 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1501C061346
-        for <linux-media@vger.kernel.org>; Fri,  4 Feb 2022 21:59:09 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 72F366145C
-        for <linux-media@vger.kernel.org>; Sat,  5 Feb 2022 05:59:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B7D8C340E8
-        for <linux-media@vger.kernel.org>; Sat,  5 Feb 2022 05:59:08 +0000 (UTC)
-Date:   Sat, 05 Feb 2022 06:59:06 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220205055908.7B7D8C340E8@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S235147AbiBEHk0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Feb 2022 02:40:26 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A72E6C061346;
+        Fri,  4 Feb 2022 23:40:24 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id u18so17705560edt.6;
+        Fri, 04 Feb 2022 23:40:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=GE8YLnpOfkXJ/M62/L0jrAV8ZjZli33TcMgWh60BUns=;
+        b=Wlzm0NooyGpEjD+HwFPz8xB5kXfctHqd86/eBwkrMC3Ct1wmVtH98U+ow768ValQMt
+         yUtnwHwYVKHPP8gXMJcBerEZdfM3UYDhdt4WmY7SkDzNxMDmgW4rv/FmHVy0xwF+/ucM
+         /sBZCrku493Xo+R5DAM9vgyBIb17/T1ULzNAZZ2aJCtbeRTDMrHcFm5Vf5nvYE9Zpojw
+         0tfUXlVoDZ1eoj71dQSvCUf1oSDBY7L9o8Q2srPAnVT9xqdvkFnYju0VzxETOSh89nxE
+         206UoW7tNtixLYu9Vo6S4TVfccQXogrOeCi3a4uuSbqch2Er6QF86cbBvoVhMwYKI8Qh
+         pB/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GE8YLnpOfkXJ/M62/L0jrAV8ZjZli33TcMgWh60BUns=;
+        b=ysVi6jKaonHaWXqFMN2RZ5nPgmrlWAbd5wA8HGx2IEubmtnosw3sxbwOk+qDOiJntp
+         oEgz9sLJ70qfJLwOkuvxKBPgaxyBiFW5OhuQdXd3936cYUUKJQo1UQOHQMO45VG5mpir
+         zEqexq2WE1YXh4jSoqqGf9ufq8mQ+O6b7Vkm+nLOYLyfI03HxDLnjdDDrx5PDjed9TLH
+         NPfz2jsmwp1LCYNw4oDqs7GktnhCdEwIndmGKXH6ncJ3osiP61c23pl3QJ3LWTr5GUQC
+         YJwxTY/oO0BRQC6KLjHZplmHTdLHTbk1xX+dM0fjwCb/BTDtqLwMM+3b0jFTGJTwLvHN
+         vjAQ==
+X-Gm-Message-State: AOAM533/aMj1gdEWhfxyEdpsND2OKWUuFNpP3qWmbkTVP8Egz6TWeWs8
+        Z45/mfEwRmG5cm6iuq+gjxA=
+X-Google-Smtp-Source: ABdhPJxqSj0Uo5Bw1vRYUdo+ZYd4jLgGloe3T4Y9MH0ZC7QfaEj/rcbDexSZg5tbPiKOhRWDZgqc6A==
+X-Received: by 2002:a05:6402:2707:: with SMTP id y7mr3114321edd.30.1644046822919;
+        Fri, 04 Feb 2022 23:40:22 -0800 (PST)
+Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net. [89.212.178.211])
+        by smtp.gmail.com with ESMTPSA id lt23sm1387639ejb.173.2022.02.04.23.40.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Feb 2022 23:40:22 -0800 (PST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     mripard@kernel.org, mchehab@kernel.org, wens@csie.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: cedrus: Add watchdog for job completion
+Date:   Sat, 05 Feb 2022 08:40:21 +0100
+Message-ID: <12946098.uLZWGnKmhe@jernej-laptop>
+In-Reply-To: <YfztZE8ymJ5RERTq@aptenodytes>
+References: <20220201183324.493542-1-jernej.skrabec@gmail.com> <YfztZE8ymJ5RERTq@aptenodytes>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Dne petek, 04. februar 2022 ob 10:09:56 CET je Paul Kocialkowski napisal(a):
+> Hi Jernej,
+> 
+> On Tue 01 Feb 22, 19:33, Jernej Skrabec wrote:
+> > Currently, if job is not completed for whatever reason, userspace
+> > application can hang on ioctl and thus become unkillable.
+> > 
+> > In order to prevent that, implement watchdog, which will complete job
+> > after 2 seconds with error state.
+> > 
+> > Concept is borrowed from hantro driver.
+> 
+> Good idea to implement a watchdog here, thanks!
+> See comments below.
+> 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> > 
+> >  drivers/staging/media/sunxi/cedrus/cedrus.c   |  2 ++
+> >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  3 +++
+> >  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  4 +++
+> >  .../staging/media/sunxi/cedrus/cedrus_hw.c    | 25 +++++++++++++++++++
+> >  .../staging/media/sunxi/cedrus/cedrus_hw.h    |  2 ++
+> >  5 files changed, 36 insertions(+)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> > 4a4b714b0f26..68b3dcdb5df3 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > @@ -439,6 +439,8 @@ static int cedrus_probe(struct platform_device *pdev)
+> > 
+> >  	mutex_init(&dev->dev_mutex);
+> > 
+> > +	INIT_DELAYED_WORK(&dev->watchdog_work, cedrus_watchdog);
+> > +
+> > 
+> >  	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+> >  	if (ret) {
+> >  	
+> >  		dev_err(&pdev->dev, "Failed to register V4L2 
+device\n");
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > b/drivers/staging/media/sunxi/cedrus/cedrus.h index
+> > c345f2984041..3bc094eb497f 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > @@ -24,6 +24,7 @@
+> > 
+> >  #include <linux/iopoll.h>
+> >  #include <linux/platform_device.h>
+> > 
+> > +#include <linux/workqueue.h>
+> > 
+> >  #define CEDRUS_NAME			"cedrus"
+> > 
+> > @@ -194,6 +195,8 @@ struct cedrus_dev {
+> > 
+> >  	struct reset_control	*rstc;
+> >  	
+> >  	unsigned int		capabilities;
+> > 
+> > +
+> > +	struct delayed_work	watchdog_work;
+> > 
+> >  };
+> >  
+> >  extern struct cedrus_dec_ops cedrus_dec_ops_mpeg2;
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
+> > a16c1422558f..9c7200299465 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > @@ -97,4 +97,8 @@ void cedrus_device_run(void *priv)
+> > 
+> >  		v4l2_ctrl_request_complete(src_req, &ctx->hdl);
+> >  	
+> >  	dev->dec_ops[ctx->current_codec]->trigger(ctx);
+> > 
+> > +
+> > +	/* Start the watchdog timer. */
+> > +	schedule_delayed_work(&dev->watchdog_work,
+> > +			      msecs_to_jiffies(2000));
+> > 
+> >  }
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
+> > 2d7663726467..a6470a89851e 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > @@ -118,6 +118,13 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+> > 
+> >  	enum vb2_buffer_state state;
+> >  	enum cedrus_irq_status status;
+> > 
+> > +	/*
+> > +	 * If cancel_delayed_work returns false it means watchdog already
+> > +	 * executed and finished the job.
+> > +	 */
+> > +	if (!cancel_delayed_work(&dev->watchdog_work))
+> > +		return IRQ_HANDLED;
+> > +
+> > 
+> >  	ctx = v4l2_m2m_get_curr_priv(dev->m2m_dev);
+> >  	if (!ctx) {
+> >  	
+> >  		v4l2_err(&dev->v4l2_dev,
+> > 
+> > @@ -143,6 +150,24 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+> > 
+> >  	return IRQ_HANDLED;
+> >  
+> >  }
+> > 
+> > +void cedrus_watchdog(struct work_struct *work)
+> > +{
+> > +	struct cedrus_dev *dev;
+> > +	struct cedrus_ctx *ctx;
+> > +
+> > +	dev = container_of(to_delayed_work(work),
+> > +			   struct cedrus_dev, watchdog_work);
+> > +
+> > +	ctx = v4l2_m2m_get_curr_priv(dev->m2m_dev);
+> > +	if (!ctx)
+> > +		return;
+> > +
+> > +	v4l2_err(&dev->v4l2_dev, "frame processing timed out!\n");
+> > +	reset_control_reset(dev->rstc);
+> 
+> I don't think playing with the reset is the right approach here.
+> First we don't really know if the reset is shared or not, so this might have
+> no effect.
 
-Results of the daily build of media_tree:
+AFAIK only few reset lines are shared in all Allwinner SoC, never for Cedrus 
+and even then, this is considered as HW issue. So, I'm good with using reset 
+line. This principle is also taken from Hantro driver.
 
-date:			Sat Feb  5 05:00:11 CET 2022
-media-tree git hash:	68a99f6a0ebfe9101ea79ba5af1c407a5ad4f629
-media_build git hash:	16aa07924e1199cddb79a739ab46fb904851003e
-v4l-utils git hash:	d124ef52870a0f627d206db31c1b1a59f4c876ed
-edid-decode git hash:	4ea35c211d0da7bc37572a622b2f361c659e5482
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5f5b438852acd7412b4bf7d0bdbe50a7cdd9a2f0
-host hardware:		x86_64
-host os:		5.15.0-3-amd64
+> Then even if it does, wouldn't this just reset the state of the
+> registers to an unconfigured state, making it impossible to decode any
+> future frame in the same context?
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16.1-i686: OK
-linux-5.16.1-x86_64: OK
-linux-5.17-rc1-i686: OK
-linux-5.17-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+Being stateless core, all context is held in auxiliary buffers, reference 
+frames and controls, which are not reset with pulsing reset line, so no, state 
+is not lost. Anyway, if decoding fails, you're generally screwed until next 
+key frame. You'll have to deal with decoding issues/artefacts nevertheless.
 
-Detailed results are available here:
+> 
+> Honestly I'm not sure what a good process would be to get back on track
+> here so I would be tempted to just do nothing an return errors.
+> 
+> That's already better than being stuck.
 
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
+Doing nothing will solve only current job, but HW will still be stuck in 
+decoding state. I doubt reprogramming registers and triggering new decoding 
+will actually do anything.
 
-Detailed regression test results are available here:
+I'll check BSP lib sources again. Maybe selecting non-existing decoding mode 
+would reset the core. That is already suggested as good thing to do in order 
+to put core in low power mode.
 
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
+IMO we have to do something. Doing nothing will probably just lock up the core 
+until next reboot or maybe until trying different decoding mode.
 
-Full logs are available here:
+Anyway, I have to find another way to cause decoding job to time out. Currently 
+I'm doing this with IOMMU on H6, but that brings down several other things, 
+which requires reboot anyway.
 
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+Best regards,
+Jernej
 
-The Media Infrastructure API from this daily build is here:
+> 
+> Paul
+> 
+> > +	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx-
+>fh.m2m_ctx,
+> > +					 VB2_BUF_STATE_ERROR);
+> > +}
+> > +
+> > 
+> >  int cedrus_hw_suspend(struct device *device)
+> >  {
+> >  
+> >  	struct cedrus_dev *dev = dev_get_drvdata(device);
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h index
+> > 45f641f0bfa2..7c92f00e36da 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > @@ -28,4 +28,6 @@ int cedrus_hw_resume(struct device *device);
+> > 
+> >  int cedrus_hw_probe(struct cedrus_dev *dev);
+> >  void cedrus_hw_remove(struct cedrus_dev *dev);
+> > 
+> > +void cedrus_watchdog(struct work_struct *work);
+> > +
+> > 
+> >  #endif
 
-https://hverkuil.home.xs4all.nl/spec/index.html
+
+
+
