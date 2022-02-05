@@ -2,26 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 142604AA641
-	for <lists+linux-media@lfdr.de>; Sat,  5 Feb 2022 04:32:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1C964AA64A
+	for <lists+linux-media@lfdr.de>; Sat,  5 Feb 2022 04:40:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379228AbiBEDcF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Feb 2022 22:32:05 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53438 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379226AbiBEDcC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Feb 2022 22:32:02 -0500
+        id S1379251AbiBEDkn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Feb 2022 22:40:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59134 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233477AbiBEDkn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Feb 2022 22:40:43 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5081DC061346;
+        Fri,  4 Feb 2022 19:40:41 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13910472;
-        Sat,  5 Feb 2022 04:32:00 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 872A7472;
+        Sat,  5 Feb 2022 04:40:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644031921;
-        bh=SrkGQlf2EU1eLY/+UA1XooxeJOZ8W6H/0uZw7v2rA08=;
+        s=mail; t=1644032438;
+        bh=M4oWpZz0r0BqnToSL7RS29+fEekesWQcKrZDN5GeO2E=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=axBERtk2GYLbaU4jANuPSUKctb5hTkxD98/2XceNnmb/zbr06saHj5alzjf+Joqy6
-         pNLwUxWLjDJcfukkBn9wmULjjs53WTD3QVJSd1SjAOWqtHkhGyCSaS+Q0iaa0SFnCs
-         s/ITgEM1a7aEFCvDGoYkqPuhrjMgCe80JBhZ1tpk=
-Date:   Sat, 5 Feb 2022 05:31:36 +0200
+        b=ST7w0dKSwAF4/6257W+6jRHQ4crVFxaz+PmkUYcmu8qPP3eu05D0jrj+q3c4uT/oR
+         LcUJblncmC1jbtnRay7QWpQF0YEXekt7piqiMrwf271c7tQK9j7ZBZ+kygFmLtSZbu
+         twUd50ArBli6uMZWn51/6Qk7qBBC+M8tSGhN0ozc=
+Date:   Sat, 5 Feb 2022 05:40:14 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Alexander Stein <alexander.stein@ew.tq-group.com>
 Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
@@ -37,14 +40,20 @@ Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/8] media: imx: utils: Add more Bayer formats
-Message-ID: <Yf3vmMP6EfjyeXOb@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 6/8] media: imx: imx7_media-csi: Add support for
+ additional Bayer patterns
+Message-ID: <Yf3xni8i4AAOZ7HF@pendragon.ideasonboard.com>
 References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
- <20220204121514.2762676-8-alexander.stein@ew.tq-group.com>
+ <20220204121514.2762676-7-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220204121514.2762676-8-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20220204121514.2762676-7-alexander.stein@ew.tq-group.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -53,121 +62,53 @@ Hi Alexander,
 
 Thank you for the patch.
 
-On Fri, Feb 04, 2022 at 01:15:13PM +0100, Alexander Stein wrote:
-> Without this the ioctl VIDIOC_ENUM_FMT will not list the 10/12/14-Bit
-> Bayer formats. This in return results in
-> "v4l2-ctl --set-fmt-video pixelformat='RG10'" failing to set the
-> pixelformat as it is not enumerated as supported format.
+On Fri, Feb 04, 2022 at 01:15:12PM +0100, Alexander Stein wrote:
+> imx7_csi_configure() allows configuring these Bayer patterns when
+> starting a stream. So allow these in link_validate() as well.
 > 
 > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-
-Do IPUv3-based SoCs support 10-, 12- and 14-bit formats ? If so,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
-> This adds the following formats to `v4l2-ctl --list-formats`
-> [...]
->         [18]: 'BG10' (10-bit Bayer BGBG/GRGR)
->         [19]: 'GB10' (10-bit Bayer GBGB/RGRG)
->         [20]: 'BA10' (10-bit Bayer GRGR/BGBG)
->         [21]: 'RG10' (10-bit Bayer RGRG/GBGB)
->         [22]: 'BG12' (12-bit Bayer BGBG/GRGR)
->         [23]: 'GB12' (12-bit Bayer GBGB/RGRG)
->         [24]: 'BA12' (12-bit Bayer GRGR/BGBG)
->         [25]: 'RG12' (12-bit Bayer RGRG/GBGB)
->         [26]: 'BG14' (14-bit Bayer BGBG/GRGR)
->         [27]: 'GB14' (14-bit Bayer GBGB/RGRG)
->         [28]: 'GR14' (14-bit Bayer GRGR/BGBG)
->         [29]: 'RG14' (14-bit Bayer RGRG/GBGB)
-> [...]
+> I'm wondering if V4L2_PIX_FMT_SBGGR16 (and their variants) is correct in this
+> function. imx7_csi_configure() does not list MEDIA_BUS_FMT_Sxxxx16_1X16.
+> Also I can't find a proper a proper setting in CSI_CR18 of CSI Bridge in
+> IMX8M Mini RM for RAW16. The feature list names a  "16-bit data port for
+> Bayer data input", but is it actually supported? I do not know anything about
+> the MIPI CSI data formats though. Maybe someone else can clarify this.
+
+The CSI bridge has a 16-bit input. The MIPI_DATA_FORMAT field in CR18
+maps to the CSI-2 DT value, and it's not clear if it's only used to
+filter on the CSI-2 DT, or if it does more than that. If we're lucky,
+it's the former and we can just use 0x2e.
+
+>  drivers/staging/media/imx/imx7-media-csi.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
->  drivers/staging/media/imx/imx-media-utils.c | 72 +++++++++++++++++++++
->  1 file changed, 72 insertions(+)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> index e0a256a08c3b..ea56c82d3b32 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -130,6 +130,78 @@ static const struct imx_media_pixfmt pixel_formats[] = {
->  		.cs     = IPUV3_COLORSPACE_RGB,
->  		.bpp    = 8,
->  		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SBGGR10,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR10_1X10),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 10,
-> +		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SGBRG10,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG10_1X10),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 10,
-> +		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SGRBG10,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG10_1X10),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 10,
-> +		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SRGGB10,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB10_1X10),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 10,
-> +		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SBGGR12,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR12_1X12),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 12,
-> +		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SGBRG12,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG12_1X12),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 12,
-> +		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SGRBG12,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG12_1X12),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 12,
-> +		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SRGGB12,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB12_1X12),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 12,
-> +		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SBGGR14,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR14_1X14),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 14,
-> +		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SGBRG14,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG14_1X14),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 14,
-> +		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SGRBG14,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG14_1X14),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 14,
-> +		.bayer  = true,
-> +	}, {
-> +		.fourcc = V4L2_PIX_FMT_SRGGB14,
-> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB14_1X14),
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 14,
-> +		.bayer  = true,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_SBGGR16,
->  		.codes  = IMX_BUS_FMTS(
+> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> index 158d2a736c6d..7e737221f187 100644
+> --- a/drivers/staging/media/imx/imx7-media-csi.c
+> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> @@ -1004,6 +1004,18 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
+>  	case V4L2_PIX_FMT_SGBRG8:
+>  	case V4L2_PIX_FMT_SGRBG8:
+>  	case V4L2_PIX_FMT_SRGGB8:
+> +	case V4L2_PIX_FMT_SBGGR10:
+> +	case V4L2_PIX_FMT_SGBRG10:
+> +	case V4L2_PIX_FMT_SGRBG10:
+> +	case V4L2_PIX_FMT_SRGGB10:
+> +	case V4L2_PIX_FMT_SBGGR12:
+> +	case V4L2_PIX_FMT_SGBRG12:
+> +	case V4L2_PIX_FMT_SGRBG12:
+> +	case V4L2_PIX_FMT_SRGGB12:
+> +	case V4L2_PIX_FMT_SBGGR14:
+> +	case V4L2_PIX_FMT_SGBRG14:
+> +	case V4L2_PIX_FMT_SGRBG14:
+> +	case V4L2_PIX_FMT_SRGGB14:
+>  	case V4L2_PIX_FMT_SBGGR16:
+>  	case V4L2_PIX_FMT_SGBRG16:
+>  	case V4L2_PIX_FMT_SGRBG16:
 
 -- 
 Regards,
