@@ -2,114 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E39744AAD0E
-	for <lists+linux-media@lfdr.de>; Sun,  6 Feb 2022 00:33:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 753AB4AAF08
+	for <lists+linux-media@lfdr.de>; Sun,  6 Feb 2022 12:39:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229551AbiBEXdw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Feb 2022 18:33:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56926 "EHLO
+        id S234409AbiBFLj2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Feb 2022 06:39:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiBEXdw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Feb 2022 18:33:52 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C471C061348;
-        Sat,  5 Feb 2022 15:33:51 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id k13so19757946lfg.9;
-        Sat, 05 Feb 2022 15:33:51 -0800 (PST)
+        with ESMTP id S231721AbiBFLj0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Feb 2022 06:39:26 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C80AC06173B
+        for <linux-media@vger.kernel.org>; Sun,  6 Feb 2022 03:39:23 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id j14so10575653ejy.6
+        for <linux-media@vger.kernel.org>; Sun, 06 Feb 2022 03:39:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hTGxMUD+Y/e2SIuHcf/n5N/bPbvSPfdhfosfyFHnjSM=;
-        b=AQgPUOEAAjsob5q1TYDcbdFYKdASPIsg0LD2bQ9Ww+lq1e8NGppyzWXIZc6oGuO5si
-         5OlTFy1CH3JL0RFpk8mg1tC/FwmkL3AbT4MKU8dMfWOIS5hEcoNwPtobYKy7hdYHYnXf
-         K/R/Oj1bTYZf9WXAfwUt46sbtEjtDCBdlX69AFQzDz31jya8LcyMcvvJ3B4iS1t92cYG
-         lzbRVQltOoBMM8QlAOi+ZgEQE3/B7UhM250O5Px6vc1PkXuuxWXEt9DG8qKAVJvU3end
-         wCrtoOFSKS7gzJAhibl1wtLa7tkgmvjZ79bQtA9xabREftpEZTD+K3L1cvGfjsGSDonq
-         YzAQ==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tdh0NxXIz2/EMAENpMdPB6CeyoGehi7GG6wZXv/tC8g=;
+        b=p8Nsf9VhxvOXZwakZIF3+cQcEFWEBV44/Srg0knl0t1F7a4QuGT0xdTDFjMLluZm/C
+         b6mSsrqHyH/dDX3r+uCdq1GoU39PlavPNF8fCOAP7/4xDtnuLJZFdamr4GkIu8YAhWFa
+         dOx+uLwCklalkljy49ns5fz5lRN5AwY2Hkh5AQcFw+ATXaNwVY2Torzy8zsxoD3UHrth
+         kO1kpsKlUEnOYNr0ouqKzB0f6buZoKm+fER7h184wxKjkshMXj0NExq86tV5fc8I6Pa1
+         JkpaUNkZTjlQyDQSx+6kcTqEpkTnr2gYPFbUFkO4n22dCx7KXRUwdeNRAp7zod5RMaek
+         ZWCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hTGxMUD+Y/e2SIuHcf/n5N/bPbvSPfdhfosfyFHnjSM=;
-        b=XB3paKotgFhIZ/36d9C/Vx5/kJtiIwmHt9DdkhNRKzKuhYvFBIJpk14ht4V6HzmbEQ
-         0S4WiovGtwC9ZXgqoJRJ8PQ8rw7/U8arSTKaEW91R8Fo7NAkb/qD4iS+CB0PnJQEthfe
-         l1Qk4vqcfAMhrjbi357BK7EX4UUwZv/g+jtp6tvQG1xjRzXuBZX1VZfDsM2vi6QiYIts
-         vFuw3l3GQqhlR5oANoLv6ECRNEVrOHfQ0DxQTsNVo1omOZLJ8wX1lc6kwl3+uN2cviXb
-         fnIv6/HEsXyl/0k/7zXwX9w5AMIp4Zsyl+xaXduDZCUV/gszJkUqUkus3DagY2J0PewT
-         bVeg==
-X-Gm-Message-State: AOAM530dklD3B8HDhFbF5GyiluC6w34MEk4lT6IMfrFNuVToYZnwrDHe
-        UrA+LpcuCT89Audw6BSHv10=
-X-Google-Smtp-Source: ABdhPJwUsYwrar5ZAoigpEbg5JFCfrjJ8wLITtvOjwBLyZsNPKwjEXajuiSrFa/SoMQ6m7N/SK3Q4Q==
-X-Received: by 2002:ac2:4c09:: with SMTP id t9mr3715612lfq.406.1644104029408;
-        Sat, 05 Feb 2022 15:33:49 -0800 (PST)
-Received: from localhost (93-80-64-103.broadband.corbina.ru. [93.80.64.103])
-        by smtp.gmail.com with ESMTPSA id m12sm888400lfj.90.2022.02.05.15.33.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Feb 2022 15:33:48 -0800 (PST)
-From:   Mikhail Rudenko <mike.rudenko@gmail.com>
-To:     Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc:     Mikhail Rudenko <mike.rudenko@gmail.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: sun6i-csi: fix colorspace in sun6i_video_try_fmt()
-Date:   Sun,  6 Feb 2022 02:33:31 +0300
-Message-Id: <20220205233332.67316-1-mike.rudenko@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tdh0NxXIz2/EMAENpMdPB6CeyoGehi7GG6wZXv/tC8g=;
+        b=1P02QMT7hfOZSLC4ixgrGP2V7sc8CQkm6OFyBNtw5AvoTWZawtEiF+uDa14uO14Y63
+         ZbRjlpfxpIrE6vri6Z+SNK5rIDWNTFhIbOcxhCBVmkoTFzVv+OIOFFcLs3igClDnqAOe
+         X3bXX3MK+v0agzpa+O23kFKz6E62iLkzfGPReyR/IFhnO4Zgouks/1ci7wF5jPg9iRQG
+         7ATOSNt4kvSzWjfXN42eJ2k3HxhzqK9N2OZjAfxHbdHivwOnpLUeMANOXtZ7Eb+r1/fC
+         kErLmnZpA/f1HINnjE13LDaneKzuoBAgtfN8hxvt5hL+JZC5WokRu+oUKbIKDziCkdec
+         TiWQ==
+X-Gm-Message-State: AOAM533oxondeDwpwwfKS17C3WKKq1niiO6ZufoSNd26X5NHTTHAJw6g
+        3vIvlDa4TljS8nGHMtiS1UvOBIks4S2mVEwoJQoHhQ==
+X-Google-Smtp-Source: ABdhPJwtUWwnk8aDwnbvNnbufYcpV+M5BDsQ37OvI3x5eeGo2BMpw+ygsO9BVciTbvkGJj8LgA4iJNfz/otFn8Gy8ME=
+X-Received: by 2002:a17:907:a422:: with SMTP id sg34mr6147890ejc.221.1644147560330;
+ Sun, 06 Feb 2022 03:39:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220125080213.30090-1-dafna.hirschfeld@collabora.com> <20220125080213.30090-2-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20220125080213.30090-2-dafna.hirschfeld@collabora.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Sun, 6 Feb 2022 08:39:07 -0300
+Message-ID: <CAAEAJfAFXq3xLjsTiSstQrbNYLh8MMi3vRds2=QRhthCjWLGeg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] media: stk1160: fix number of buffers in case not
+ all buffers are created
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     Collabora Kernel ML <kernel@collabora.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>, senozhatsky@google.com,
+        hch@lst.de, Dafna Hirschfeld <dafna3@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With gstreamer 1.19.3 all attempts to capture video in YUV formats on
-our Allwinner H3-based custom board with an ov5640 sensor result in
-pipeline crashes with the following messages:
+Hi Dafna,
 
-	Device '/dev/video0' does not support 2:0:0:0 colorimetry
-	Additional debug info:
-	Device wants 2:0:0:0 colorimetry
+On Tue, 25 Jan 2022 at 05:02, Dafna Hirschfeld
+<dafna.hirschfeld@collabora.com> wrote:
+>
+> In case we fail to allocate a transfer_buffer then we
+> break the buffers creation loop and update the number of
+> buffers to the number of successfully allocated which should
+> be 'i' and not 'i - 1' nor 'i + 1'
+>
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 
-Fix this by setting the correct colorspace in sun6i_video_try_fmt().
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
----
+Thanks!
 
-Actually there is a second issue with sun6i_video_try_fmt(): reported
-bytesperline is wrong for planar YUV formats, but I believe it will be
-fixed by [1].
-
-[1] https://lore.kernel.org/linux-media/20220205185429.2278860-40-paul.kocialkowski@bootlin.com/
-
- drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-index 607a8d39fbe2..682c26536034 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-@@ -368,7 +368,11 @@ static int sun6i_video_try_fmt(struct sun6i_video *video,
- 	if (pixfmt->field == V4L2_FIELD_ANY)
- 		pixfmt->field = V4L2_FIELD_NONE;
-
--	pixfmt->colorspace = V4L2_COLORSPACE_RAW;
-+	if (pixfmt->pixelformat == V4L2_PIX_FMT_JPEG)
-+		pixfmt->colorspace = V4L2_COLORSPACE_JPEG;
-+	else
-+		pixfmt->colorspace = V4L2_COLORSPACE_SRGB;
-+
- 	pixfmt->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
- 	pixfmt->quantization = V4L2_QUANTIZATION_DEFAULT;
- 	pixfmt->xfer_func = V4L2_XFER_FUNC_DEFAULT;
---
-2.35.1
+> ---
+>  drivers/media/usb/stk1160/stk1160-video.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
+> index 202b084f65a2..92c8b1fba2b0 100644
+> --- a/drivers/media/usb/stk1160/stk1160-video.c
+> +++ b/drivers/media/usb/stk1160/stk1160-video.c
+> @@ -511,15 +511,15 @@ int stk1160_alloc_isoc(struct stk1160 *dev)
+>         usb_free_urb(dev->isoc_ctl.urb[i]);
+>         dev->isoc_ctl.urb[i] = NULL;
+>
+> -       stk1160_warn("%d urbs allocated. Trying to continue...\n", i - 1);
+> +       stk1160_warn("%d urbs allocated. Trying to continue...\n", i);
+>
+> -       dev->isoc_ctl.num_bufs = i - 1;
+> +       dev->isoc_ctl.num_bufs = i;
+>
+>         return 0;
+>
+>  free_i_bufs:
+>         /* Save the allocated buffers so far, so we can properly free them */
+> -       dev->isoc_ctl.num_bufs = i+1;
+> +       dev->isoc_ctl.num_bufs = i;
+>         stk1160_free_isoc(dev);
+>         return -ENOMEM;
+>  }
+> --
+> 2.17.1
+>
