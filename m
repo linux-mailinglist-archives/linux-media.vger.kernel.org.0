@@ -2,75 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FF684AAFAD
-	for <lists+linux-media@lfdr.de>; Sun,  6 Feb 2022 14:58:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E3254AAF58
+	for <lists+linux-media@lfdr.de>; Sun,  6 Feb 2022 14:09:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241739AbiBFN6f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Feb 2022 08:58:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51726 "EHLO
+        id S238395AbiBFNJ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Feb 2022 08:09:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241604AbiBFN6c (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Feb 2022 08:58:32 -0500
-Received: from hostingweb31-40.netsons.net (hostingweb31-40.netsons.net [89.40.174.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C286C06173B;
-        Sun,  6 Feb 2022 05:58:28 -0800 (PST)
-Received: from [77.244.183.192] (port=64704 helo=[192.168.178.41])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1nGgIE-0008JV-V4; Sun, 06 Feb 2022 13:05:23 +0100
-Message-ID: <9e7d1e8a-2270-423e-980d-b47fe374cf33@lucaceresoli.net>
-Date:   Sun, 6 Feb 2022 13:05:21 +0100
+        with ESMTP id S236193AbiBFNJ2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Feb 2022 08:09:28 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E969C06173B
+        for <linux-media@vger.kernel.org>; Sun,  6 Feb 2022 05:09:25 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id cf2so8291205edb.9
+        for <linux-media@vger.kernel.org>; Sun, 06 Feb 2022 05:09:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MHIz3Dwre4tP6Q9bEyDnouvCJsPoMkCD31ljHi1figY=;
+        b=n4em8JyzX1Xmca5wj9Ex2hf6ab5VBqAE25+S/+kRckovgV+6/U2epazWCx43iWv9cR
+         aYDRm2UNdFB3lDdMZ/ECBez5QZgn48O5vx3i90N+sjYAt+RsD7/xHRWAZs6GDtZsENeU
+         wKgXB0gG8CnR1ZwL63F4/oB6nfNTM3MD4PMZ9E90zbQlp9XkQ4b6jzgVEodLrl7yy5op
+         a3h6ep2+ZYf07EVsa2eBQsz20wUqmHvl+VVoF2orEgIuwe6rWh/+ukf9aNTog3YXEzDv
+         g12lqmS0M3+b3z6drByy6kZPBZLngY1vT3W4k/9h2izHFNbhSCzcWeNQjmqTxfTCU1ws
+         kvmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MHIz3Dwre4tP6Q9bEyDnouvCJsPoMkCD31ljHi1figY=;
+        b=IXe1GR5Ux+WEK36Yx2kDbp7z9mjcPh7RYPC8pd2HCz+/aAiRRPFLfM8faAYMI0yjy4
+         D7JxyGfglvusMP+UjzMHheKCquc/ChB+LMFBZ3XZLCBd2sjcUDROv4xucmZ3d00s3rAT
+         mojcUuUQUx8f7ffzERp6K4NkclTMJcbthyYdA8dreRPuw/XdNUtFAKDzWPS5uFyyifBv
+         2qNk8yEgt633zKLFPwRXx088kzmS5FeQNUluAPwnuTEDzAVjSlQ6DiraH/IoeokdxztG
+         a06GVav/ykpCW152dtVd69SQKQj0TXJ6ZXWz5fPZPZ3Xo20dasvjwn1WA9fq3QL5jhTz
+         Ta+w==
+X-Gm-Message-State: AOAM530IH8ESDYYuJw3EMQrkNaielPT3F0KnVu/um+no5dvwfF3Ovcem
+        CuYIRV2Hs8i2ayiNpv5x5M5x0r+qxKJDEgcPV9FPXQ==
+X-Google-Smtp-Source: ABdhPJzIGdBf/BwLMf3qdRE5GZYN+c8/w4PVd7M5MgrPgzYMrAWBQIf/AaIXvRrJOY+pnPtpOYwtHhAfQprBX/EXA/o=
+X-Received: by 2002:a05:6402:84a:: with SMTP id b10mr8849389edz.143.1644152964025;
+ Sun, 06 Feb 2022 05:09:24 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFCv3 0/6] TI camera serdes and I2C address translation
-Content-Language: en-US
-To:     linux-media@vger.kernel.org, linux-i2c@vger.kernel.org
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Peter Rosin <peda@axentia.se>,
+References: <20220201183324.493542-1-jernej.skrabec@gmail.com>
+In-Reply-To: <20220201183324.493542-1-jernej.skrabec@gmail.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Sun, 6 Feb 2022 10:09:11 -0300
+Message-ID: <CAAEAJfALjVhrLcVbS0vyXXPJUy1tmv4PcMbWxte0u9htn+myjw@mail.gmail.com>
+Subject: Re: [PATCH] media: cedrus: Add watchdog for job completion
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc:     Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        matti.vaittinen@fi.rohmeurope.com
-References: <20220206115939.3091265-1-luca@lucaceresoli.net>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-In-Reply-To: <20220206115939.3091265-1-luca@lucaceresoli.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Chen-Yu Tsai <wens@csie.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hello,
 
-apologies for the incorrect cover letter subject. :( It should have been
-as in the present e-mail, which I'm sending mostly to help search
-engines find the subject...
+On Tue, 1 Feb 2022 at 15:34, Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
+>
+> Currently, if job is not completed for whatever reason, userspace
+> application can hang on ioctl and thus become unkillable.
+>
+> In order to prevent that, implement watchdog, which will complete job
+> after 2 seconds with error state.
+>
+> Concept is borrowed from hantro driver.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Regards.
--- 
-Luca
+This has been very useful developing Hantro,
+to get some indication of hardware being programmed wrongly:
+
+Patch looks correct.
+
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  2 ++
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  3 +++
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  4 +++
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    | 25 +++++++++++++++++++
+>  .../staging/media/sunxi/cedrus/cedrus_hw.h    |  2 ++
+>  5 files changed, 36 insertions(+)
+>
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> index 4a4b714b0f26..68b3dcdb5df3 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -439,6 +439,8 @@ static int cedrus_probe(struct platform_device *pdev)
+>
+>         mutex_init(&dev->dev_mutex);
+>
+> +       INIT_DELAYED_WORK(&dev->watchdog_work, cedrus_watchdog);
+> +
+>         ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+>         if (ret) {
+>                 dev_err(&pdev->dev, "Failed to register V4L2 device\n");
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> index c345f2984041..3bc094eb497f 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> @@ -24,6 +24,7 @@
+>
+>  #include <linux/iopoll.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/workqueue.h>
+>
+>  #define CEDRUS_NAME                    "cedrus"
+>
+> @@ -194,6 +195,8 @@ struct cedrus_dev {
+>         struct reset_control    *rstc;
+>
+>         unsigned int            capabilities;
+> +
+> +       struct delayed_work     watchdog_work;
+>  };
+>
+>  extern struct cedrus_dec_ops cedrus_dec_ops_mpeg2;
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> index a16c1422558f..9c7200299465 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> @@ -97,4 +97,8 @@ void cedrus_device_run(void *priv)
+>                 v4l2_ctrl_request_complete(src_req, &ctx->hdl);
+>
+>         dev->dec_ops[ctx->current_codec]->trigger(ctx);
+> +
+> +       /* Start the watchdog timer. */
+> +       schedule_delayed_work(&dev->watchdog_work,
+> +                             msecs_to_jiffies(2000));
+>  }
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> index 2d7663726467..a6470a89851e 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> @@ -118,6 +118,13 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+>         enum vb2_buffer_state state;
+>         enum cedrus_irq_status status;
+>
+> +       /*
+> +        * If cancel_delayed_work returns false it means watchdog already
+> +        * executed and finished the job.
+> +        */
+> +       if (!cancel_delayed_work(&dev->watchdog_work))
+> +               return IRQ_HANDLED;
+> +
+>         ctx = v4l2_m2m_get_curr_priv(dev->m2m_dev);
+>         if (!ctx) {
+>                 v4l2_err(&dev->v4l2_dev,
+> @@ -143,6 +150,24 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+>         return IRQ_HANDLED;
+>  }
+>
+> +void cedrus_watchdog(struct work_struct *work)
+> +{
+> +       struct cedrus_dev *dev;
+> +       struct cedrus_ctx *ctx;
+> +
+> +       dev = container_of(to_delayed_work(work),
+> +                          struct cedrus_dev, watchdog_work);
+> +
+> +       ctx = v4l2_m2m_get_curr_priv(dev->m2m_dev);
+> +       if (!ctx)
+> +               return;
+> +
+> +       v4l2_err(&dev->v4l2_dev, "frame processing timed out!\n");
+> +       reset_control_reset(dev->rstc);
+> +       v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
+> +                                        VB2_BUF_STATE_ERROR);
+> +}
+> +
+>  int cedrus_hw_suspend(struct device *device)
+>  {
+>         struct cedrus_dev *dev = dev_get_drvdata(device);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> index 45f641f0bfa2..7c92f00e36da 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> @@ -28,4 +28,6 @@ int cedrus_hw_resume(struct device *device);
+>  int cedrus_hw_probe(struct cedrus_dev *dev);
+>  void cedrus_hw_remove(struct cedrus_dev *dev);
+>
+> +void cedrus_watchdog(struct work_struct *work);
+> +
+>  #endif
+> --
+> 2.35.1
+>
