@@ -2,248 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A0414AB740
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 10:10:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 438694AB7D6
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 10:41:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233340AbiBGJJY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 04:09:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44552 "EHLO
+        id S238892AbiBGJT7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 04:19:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348653AbiBGI7z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 03:59:55 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8AFC043181;
-        Mon,  7 Feb 2022 00:59:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1644224393; x=1675760393;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=3q7+SqBI2GgshV3UoRqEu16qrk0YWcyeAt/eQ10eGQQ=;
-  b=TFC3shMzY/Chtb3Uxatuf7jNC8OqD+BgLHKESXx4jzrLJKP7DB2tangD
-   G0w0nEXe6JOpbsTyV5MgoBZHWY7jHCDaTiuKw2ktPQ6qG6zK0RfsvUgpJ
-   zmjOAVNcliBunNlRjNp7rXCh/syWDVAH/6Xs9AJqYgHQM7TTQMobztZLG
-   k8mEJTXs6MLApCi7Py8XaYtizsWF/AxooG/C6ZzPToLWlWf0Z6XCIi4PJ
-   jWzN7YH56mjlgY6bexMwbbtxHw0x7H/eTOFKigNDrvURzmDN9IySKZbUc
-   8LVaLULh+kQL7eUDBS0ScjovTlvokrNwbElb7jACWNAFm2xizLDkfGr5l
-   A==;
-X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
-   d="scan'208";a="21926093"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 07 Feb 2022 09:59:51 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 07 Feb 2022 09:59:51 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 07 Feb 2022 09:59:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1644224391; x=1675760391;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=3q7+SqBI2GgshV3UoRqEu16qrk0YWcyeAt/eQ10eGQQ=;
-  b=fKmaIiHbp+6AdAp/d22RJ7EIZVM9jMSOArCTXAdRipzOsT0g5A5+AlMw
-   5Xi4U/G7stcN6qccKshBR3I55eNBlClOkj3OuN+h543ulaInTZS7rDGUX
-   vtqGJtJhwS8oAXPTMR1deWPetnrkwWzs+g8HmmVRruSxFJrNO1Y70ppHt
-   WM6BJl3Xo7Z3QxQNRjEXWKpeVirQ1qUlnm5JsQfMyfCYnef+74567wL7M
-   SpNa8ta0K4DBFasYsHPYUaLKuFSC7WXG3kr+4gK8vCYWHr+YbBHjaFMEf
-   pdXYXaca15inuXQqRrH1P72Kh6b3kdhh/3jRIIWxkA19hFax1dVzaeWdq
-   g==;
-X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
-   d="scan'208";a="21926091"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 07 Feb 2022 09:59:50 +0100
-Received: from steina-w.localnet (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 9D5C7280065;
-        Mon,  7 Feb 2022 09:59:50 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        with ESMTP id S243473AbiBGJLZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 04:11:25 -0500
+X-Greylist: delayed 66 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 01:11:24 PST
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23171C043181
+        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 01:11:24 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 3564F580197;
+        Mon,  7 Feb 2022 04:10:17 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 07 Feb 2022 04:10:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; bh=R7UJ3iF3QHld5VlL8DXB8KHalc3jQUprq6G9Hy
+        azmd4=; b=pnZ8k0BqtwOlrpwjVR9F+Ywos6Celc3JwwbWPdnm6EpMOZwuNw7ayN
+        oxHfUAk1haNbOFsrs3Pcsj9Z3kgikXa5tl9sahiBMI34BPJxwtSrhI0NcoQ6f1tX
+        co1HIxABhBVHZm3PVKHcz/LUQgS8vzLMHtV0Zx052z9fztFg6eXB5Tmr/GvEcMI9
+        6TtoyUHbIJDCgR+PD6OurVD3nbcZ7LXMI20KFgnHMnLx/Qym0onRKMv4q7hB1pKI
+        J4E3YiUq/AguO4vMKuEbvat7JDC2XdFFplRfBblgEo2IVoz2AD68VJGLuDwF2Ci7
+        sIgww9T6PD8iuELP7AQEe2ORxnaemNyw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=R7UJ3iF3QHld5VlL8
+        DXB8KHalc3jQUprq6G9Hyazmd4=; b=I6KDPlL1blMggMMpM4sfBmsi+xz5ZkoIy
+        CGG1kfBDiZ+Cb6stxr9Q4wl2ekuaVwuWsbgiN+6qI0qSQiwy9kn9rmUVVtYCcDg+
+        QfOItq+ftrzN7AMoxS/BRrY7xrd7F1HAJ69UH0/ywES29RFZqF0dPsIxQF/DUzoX
+        SADmRDVMMqelhoPIpxJgOif5YnFmQjTst/ryXZId60emVmLuRbEsA2fZrbW3yRKT
+        iWnrMMTRtk0vMcc7LXVdidjTMdvIbxOlVX+mMDvutOKp7As0J9EqX9HD6Bf5iVqO
+        F+Bx2cIkuXM/lAlNaQvX4EE2zDmC4Yl1taf8UF1KaGsizsQKzducw==
+X-ME-Sender: <xms:-OEAYi6ZC8ybTYDe51-rgSjE4J6tYtrXvr4fH1xFVQsyUM__fG4fFQ>
+    <xme:-OEAYr6o7a5xsoJU-ado0ccOaUNIj96q7Bir_gXZXdKd5iJeK_HYJOqNOGUH5UIYu
+    o48IKfCAfb5umVCaZU>
+X-ME-Received: <xmr:-OEAYhflU0vIqTcdb4UeLBNpRHEOj-PB-ZOvMufB8UYJ2umvuZJILke-Fv0Nrh97PMjDGBs9zDJHcOccgsl1NE3LLNBwpWuNMK1Y9_E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheeggdduvdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:-OEAYvKgotox7wuaen_JPKuVushrlWshKfgnHyw5fFKH3yny111A5Q>
+    <xmx:-OEAYmK3M6uHOz0aREF_IB9-a-w0kaD-iIsdKJCjnIDRmb415DsIHQ>
+    <xmx:-OEAYgy9BeecMal-mAODbT4HdTHd_y5Rb4e5CKlpeFpXK0Luk3RoUg>
+    <xmx:-eEAYrBt6LqJFndomEn_wOo7QhXvozfYzDdBtJn3nKnIbVMkNdTIvA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Feb 2022 04:10:15 -0500 (EST)
+Date:   Mon, 7 Feb 2022 10:10:14 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+        Yong Deng <yong.deng@magewell.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: (EXT) Re: [PATCH 0/8] imx7/imx8mm media / csi patches
-Date:   Mon, 07 Feb 2022 09:59:48 +0100
-Message-ID: <3154909.aeNJFYEL58@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <Yf3sJuyNJWMOOo2D@pendragon.ideasonboard.com>
-References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com> <Yf3sJuyNJWMOOo2D@pendragon.ideasonboard.com>
+        Helen Koike <helen.koike@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 17/66] media: sun6i-csi: Define and use driver name
+ and (reworked) description
+Message-ID: <20220207091014.6rugcnspzjdubuxb@houat>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-18-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="w2mtmwumvelpbuht"
+Content-Disposition: inline
+In-Reply-To: <20220205185429.2278860-18-paul.kocialkowski@bootlin.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
 
-Am Samstag, 5. Februar 2022, 04:16:54 CET schrieb Laurent Pinchart:
-> On Fri, Feb 04, 2022 at 01:15:06PM +0100, Alexander Stein wrote:
-> > Hey everyone,
-> > 
-> > this is a set of patch for imx[7] media drivers based on next-20220203.
-> > With this set I was able to capture video frames from a MIPI CSI-2 camera
-> > in my TQMa8MQML + MBA8MX hardware. The actual camera used is a Vision
-> > Components 'VC MIPI IMX327 C' camera. IMX327 is compatible to IMX290.
-> > Patch 8 shows the DT overlay I'm using, not suitable for merging.
-> 
-> You may be interested in
-> https://gitlab.com/ideasonboard/nxp/linux/-/commits/pinchartl/v5.17/sensors
-> /
+--w2mtmwumvelpbuht
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your feedback. Working on imx290 driver for proper imx327 support 
-is on my todo. For the records, there are also patches at [1].
+On Sat, Feb 05, 2022 at 07:53:40PM +0100, Paul Kocialkowski wrote:
+> Add proper defines for driver name and description instead of
+> MODULE_NAME and hardcoding (cosmetics).
+>=20
+> Also rework the description while at it to mention the hardware
+> generation that the driver supports and remove the video capture
+> mentions since it applies to the whole media device.
+>=20
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-> > Please ignore the FPGA part, this is mainly for power supply and GPIO
-> > reset
-> > line. This is currently a custom driver I'm working on, but I do not want
-> > to focus on in this series.
-> > 
-> > Please note I tested this only on this imx8 platform.
-> > 
-> > First thanks to Dorota for the patchset at [1] (patches 1-4) which is
-> > necessary to capture correct images. I integrated Hans' review into it. I
-> > hope the I didn't make a mistake and the original author is kept along. I
-> > used v4 for that patchset, it is v1 again in this set. I hope this is not
-> > confusing.
-> > 
-> > Starting from patch 5 there are small fixes which allows me to configure
-> > my
-> > media device.
-> > 
-> > Device configuration:
-> > ```
-> > media-ctl -l "'imx290 2-001a':0->'csis-32e30000.mipi-csi':0 [1]"
-> > media-ctl -V "'imx290 2-001a':0 [fmt:SRGGB10_1X10/1920x1080 field:none
-> > colorspace:raw]" media-ctl -V "'csi':0 [fmt:SRGGB10_1X10/1920x1080
-> > field:none colorspace:raw]" v4l2-ctl -d0 --set-fmt-video
-> > width=1920,height=1080,pixelformat='RG10',field=none media-ctl -p
-> > ```
-> > 
-> > The media-ctl topology is:
-> > ```
-> > # media-ctl -p
-> > Media controller API version 5.17.0
-> > 
-> > Media device information
-> > ------------------------
-> > driver          imx7-csi
-> > model           imx-media
-> > serial
-> > bus info        platform:32e20000.csi
-> > hw revision     0x0
-> > driver version  5.17.0
-> > 
-> > Device topology
-> > - entity 1: csi (2 pads, 2 links)
-> > 
-> >             type V4L2 subdev subtype Unknown flags 0
-> >             device node name /dev/v4l-subdev0
-> >         
-> >         pad0: Sink
-> >         
-> >                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw
-> >                 xfer:none ycbcr:601 quantization:full-range] <-
-> >                 "csis-32e30000.mipi-csi":1 [ENABLED,IMMUTABLE]
-> >         
-> >         pad1: Source
-> >         
-> >                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw
-> >                 xfer:none ycbcr:601 quantization:full-range] -> "csi
-> >                 capture":0 [ENABLED,IMMUTABLE]
-> > 
-> > - entity 4: csi capture (1 pad, 1 link)
-> > 
-> >             type Node subtype V4L flags 0
-> >             device node name /dev/video0
-> >         
-> >         pad0: Sink
-> >         
-> >                 <- "csi":1 [ENABLED,IMMUTABLE]
-> > 
-> > - entity 10: csis-32e30000.mipi-csi (2 pads, 2 links)
-> > 
-> >              type V4L2 subdev subtype Unknown flags 0
-> >              device node name /dev/v4l-subdev1
-> >         
-> >         pad0: Sink
-> >         
-> >                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw
-> >                 xfer:709 ycbcr:601 quantization:lim-range] <- "imx290
-> >                 2-001a":0 [ENABLED]
-> >         
-> >         pad1: Source
-> >         
-> >                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw
-> >                 xfer:709 ycbcr:601 quantization:lim-range] -> "csi":0
-> >                 [ENABLED,IMMUTABLE]
-> > 
-> > - entity 15: imx290 2-001a (1 pad, 1 link)
-> > 
-> >              type V4L2 subdev subtype Sensor flags 0
-> >              device node name /dev/v4l-subdev2
-> >         
-> >         pad0: Source
-> >         
-> >                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]
-> >                 -> "csis-32e30000.mipi-csi":0 [ENABLED]
-> > 
-> > ```
-> > 
-> > Note: MIPI CSI settle times are not calculated correctly right now and
-> > need a manual overwrite:
-> > echo 13 > /sys/kernel/debug/32e30000.mipi-csi/ths_settle
-> > echo 2 > /sys/kernel/debug/32e30000.mipi-csi/tclk_settle
-> 
-> The reference manual isn't very prolix on tclk_settle :-S That's
-> something I'd love to figure out one day.
-> 
-> For ths_settle, is the issue on the CSIS driver side, or the sensor
-> driver side ?
+Reviewed-by: Maxime Ripard <maxime@cerno.tech>
 
-I can't answer that yet, but during my work on a fslc linux-5.10 I noticed 
-that the link frequency and/or some other clock was wrong, so the calculated 
-value didn't match.
-Anyway I get the impression that the final values might also be affected by 
-the actual hardware. But I do not know any details regarding this.
+Maxime
 
-> > I ignored the settings for xfer, ycbcr and quantization for now. I do
-> > neither know how they will affect me nor what it should be.
-> > Also I did not focus on v4l2-compliance tool, this is a further task as
-> > well. IMHO imx7-mipi-csis.c should also create an immutable link to the
-> > camera sensor.
-> 
-> That makes sense, but note that, while CSI-2 is meant to be a
-> point-to-point bus, there are boards designed with multiple sensors
-> connected to the same CSI-2 RX without any hardware multiplexer. They
-> keep one of the two sensors in reset at all times and are lucky that the
-> signal reflections don't mess things up.
+--w2mtmwumvelpbuht
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Still, even if only one device is actually powered, it is a immutable link 
-from v4l2 perspective. You don't switch the sensors on the fly, or do you 
-really do that? In the end immutable links are only a minor issue (to me).
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
-Alexander
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgDh9gAKCRDj7w1vZxhR
+xUhdAQDxosvE5Z1tfazCfFwKTKvd8wdE1L1J0eAJW2n0zJD0GwD/Y/ZSfxTbktu6
+mAwempvC3dPabl4ELRLwkyfcajQdcwg=
+=hI7k
+-----END PGP SIGNATURE-----
 
-[1] https://github.com/raspberrypi/linux/commits/rpi-5.10.y/drivers/media/i2c/
-imx290.c
-
-
-
+--w2mtmwumvelpbuht--
