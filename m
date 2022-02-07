@@ -2,260 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A1644AC342
+	by mail.lfdr.de (Postfix) with ESMTP id D85684AC343
 	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 16:29:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239883AbiBGP1p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 10:27:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35934 "EHLO
+        id S242587AbiBGP2R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 10:28:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442931AbiBGPKN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 10:10:13 -0500
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61EA8C03FEE9
-        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 07:08:33 -0800 (PST)
-Received: by mail-oo1-xc30.google.com with SMTP id c7-20020a4ad207000000b002e7ab4185d2so13948946oos.6
-        for <linux-media@vger.kernel.org>; Mon, 07 Feb 2022 07:08:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tCArxGDpfxI9/hlaMTaUr21Axh/VwQvsaOyRNbh5pQc=;
-        b=fsUPbywbfs99Ofi1ESo+mLySeSFCa237muJdCVlUMqkV7VPcIKKiBqNdV1AW0leqF6
-         qAuliJUfBoYnSoR/B0Ld7sNWKxyShRZ7pMTW6aV9/U++XZkqwp9KADC89SjVD8kssF4R
-         706nsdINZCPzdSsQvBVngI4sAICzGrycyXHeXsSn7sWd3F0Wz1+S8zGRlOnaymKg/7eN
-         k9M79SF2Uxt+xiMBh6vXEvSnqD13icdsh1ybIvwGuSGa0ayuYFX2GP3aNyCl8/llCyAg
-         c1j1m3ARCJ4Ncqchnu4s5Zz2Eb+g/uJ9v/XZRXPrq8L9aUjI3aknfhiiF8BYfI25cErS
-         k/4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tCArxGDpfxI9/hlaMTaUr21Axh/VwQvsaOyRNbh5pQc=;
-        b=1Czr0pCW9WNzgGxa5RaPzbejLkDASH44/WXsYPby7V/ZH1TuuS3pqMugtUevnNxiWx
-         DbOlYChuD5mGsQEYbyb2uw6GWY2MdDj5y3cpC+/XUxrf9ZrFjhjSndGemIJ8MuZ9kQkb
-         awJ17QYg373hkWMXWDUfX7S/dqJzp95ypPxSUFjEs0lAWzDnT35lXCtcnYcbZsaUywxS
-         dS73P4tFUOYUFqSrZ1Mebc9eZPm/B6wFdggO9f/LUMbq4bs2a4I+AI3gMcBlZ71gQ0Xj
-         9w+7YUb7s0W2lukp5vhppv89r9PDLYLklk34ji9G7SiB4zeuX3LULGqcE7FGSUBhxbBB
-         SwSA==
-X-Gm-Message-State: AOAM531jFtor05wpmSOxW1zGks0EqkySGBiTOZP/uwjoocXEHfu+dRj3
-        lS+HrciCrP8ni8RPCgDi2lAMdw==
-X-Google-Smtp-Source: ABdhPJxwX0PwUscrFKyYSGLBI4oRN4IP8494tBmckUO25huv/2ejFmzO/YQDiA99re1e0k/J6WQ6/Q==
-X-Received: by 2002:a05:6870:a581:: with SMTP id c1mr2667662oam.233.1644246512333;
-        Mon, 07 Feb 2022 07:08:32 -0800 (PST)
-Received: from eze-laptop ([190.194.87.200])
-        by smtp.gmail.com with ESMTPSA id t31sm4393968oaa.9.2022.02.07.07.08.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Feb 2022 07:08:31 -0800 (PST)
-Date:   Mon, 7 Feb 2022 12:08:26 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     kernel@collabora.com, linux-media@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
-        ribalda@chromium.org, tfiga@chromium.org, senozhatsky@google.com,
-        hch@lst.de, dafna3@gmail.com
-Subject: Re: [PATCH v2 3/4] media: stk1160: move transfer_buffer and urb to
- same struct 'stk1160_urb'
-Message-ID: <YgE16tXV+TPZSuyI@eze-laptop>
-References: <20220125080213.30090-1-dafna.hirschfeld@collabora.com>
- <20220125080213.30090-4-dafna.hirschfeld@collabora.com>
+        with ESMTP id S1442906AbiBGPKM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 10:10:12 -0500
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F0AC03FED0
+        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 07:08:11 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 97684E0006;
+        Mon,  7 Feb 2022 15:08:05 +0000 (UTC)
+Date:   Mon, 7 Feb 2022 16:09:12 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
+        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
+        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
+        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        aford173@gmail.com, festevam@gmail.com,
+        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 11/21] media: ov5640: Add VBLANK control
+Message-ID: <20220207150912.fcejkbj6xllifptm@uno.localdomain>
+References: <20220131143245.128089-1-jacopo@jmondi.org>
+ <20220131143245.128089-12-jacopo@jmondi.org>
+ <Yfr5I16pxs84Vcx2@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220125080213.30090-4-dafna.hirschfeld@collabora.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Yfr5I16pxs84Vcx2@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+Hi Laurent,
 
-On Tue, Jan 25, 2022 at 10:02:12AM +0200, Dafna Hirschfeld wrote:
-> Instead of having two separated arrays, one for the urbs and
-> one for their buffers, have one array of a struct containing both.
-> In addition, the array is just 16 pointers, no need to dynamically
-> allocate it.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+On Wed, Feb 02, 2022 at 11:35:31PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Mon, Jan 31, 2022 at 03:32:35PM +0100, Jacopo Mondi wrote:
+> > Add the VBLANK control which allows to select the duration of the
+> > frame vertical blankings and allows to control the framerate.
+> >
+> > The VBLANK control also modifies the exposure time range, which cannot
+> > exceed the maximum frame length.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  drivers/media/i2c/ov5640.c | 50 ++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 50 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> > index b2961e8e07c3..6eeb50724195 100644
+> > --- a/drivers/media/i2c/ov5640.c
+> > +++ b/drivers/media/i2c/ov5640.c
+> > @@ -31,6 +31,10 @@
+> >
+> >  #define OV5640_LINK_RATE_MAX	490000000U
+> >
+> > +/* FIXME: not documented. */
+> > +#define OV5640_MIN_VBLANK	24
+> > +#define OV5640_MAX_VTS		1968
+> > +
+> >  #define OV5640_DEFAULT_SLAVE_ID 0x3c
+> >
+> >  #define OV5640_REG_SYS_RESET02		0x3002
+> > @@ -267,6 +271,7 @@ struct ov5640_ctrls {
+> >  	struct v4l2_ctrl *pixel_rate;
+> >  	struct v4l2_ctrl *link_freq;
+> >  	struct v4l2_ctrl *hblank;
+> > +	struct v4l2_ctrl *vblank;
+> >  	struct {
+> >  		struct v4l2_ctrl *auto_exp;
+> >  		struct v4l2_ctrl *exposure;
+> > @@ -2531,6 +2536,7 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
+> >  	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
+> >  	enum ov5640_pixel_rate_id pixel_rate_id = mode->pixel_rate;
+> >  	u32 num_lanes = sensor->ep.bus.mipi_csi2.num_data_lanes;
+> > +	s64 exposure_val, exposure_max;
+> >  	unsigned int hblank;
+> >  	unsigned int i = 0;
+> >  	u32 pixel_rate;
+> > @@ -2586,6 +2592,20 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
+> >  	__v4l2_ctrl_modify_range(sensor->ctrls.hblank,
+> >  				 hblank, hblank, 1, hblank);
+> >
+> > +	__v4l2_ctrl_modify_range(sensor->ctrls.vblank,
+> > +				 OV5640_MIN_VBLANK,
+> > +				 OV5640_MAX_VTS - mode->crop.height, 1,
+> > +				 mode->vblank_def);
+> > +	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, mode->vblank_def);
+> > +
+> > +	exposure_max = mode->crop.height + mode->vblank_def - OV5640_MIN_VBLANK;
+>
+> There's typically a fixed margin of a few lines between the maximum
+> exposure and the total vertical size, but that's usually smaller than
+> the minimum vblank value. Are you sure OV5640_MIN_VBLANK is right here ?
+>
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Section "4.6.2 manual exposure control" of the datasheet reports
+some hints about how to enlarge the total frame size to accomodate the
+desired exposure.
 
-Thanks,
-Ezequiel
+It is not totally clear to me how though. The maximum exposure time
+seems to be limited not only by VTS, but by
+(VTS + [0x350Cd,0x350d]).
 
-> ---
->  drivers/media/usb/stk1160/stk1160-v4l.c   |  2 +-
->  drivers/media/usb/stk1160/stk1160-video.c | 52 ++++++++---------------
->  drivers/media/usb/stk1160/stk1160.h       | 11 ++---
->  3 files changed, 25 insertions(+), 40 deletions(-)
-> 
-> diff --git a/drivers/media/usb/stk1160/stk1160-v4l.c b/drivers/media/usb/stk1160/stk1160-v4l.c
-> index 1aa953469402..ebf245d44005 100644
-> --- a/drivers/media/usb/stk1160/stk1160-v4l.c
-> +++ b/drivers/media/usb/stk1160/stk1160-v4l.c
-> @@ -232,7 +232,7 @@ static int stk1160_start_streaming(struct stk1160 *dev)
->  
->  	/* submit urbs and enables IRQ */
->  	for (i = 0; i < dev->isoc_ctl.num_bufs; i++) {
-> -		rc = usb_submit_urb(dev->isoc_ctl.urb[i], GFP_KERNEL);
-> +		rc = usb_submit_urb(dev->isoc_ctl.urb_ctl[i].urb, GFP_KERNEL);
->  		if (rc) {
->  			stk1160_err("cannot submit urb[%d] (%d)\n", i, rc);
->  			goto out_uninit;
-> diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
-> index 92c8b1fba2b0..f3c0497a8539 100644
-> --- a/drivers/media/usb/stk1160/stk1160-video.c
-> +++ b/drivers/media/usb/stk1160/stk1160-video.c
-> @@ -347,7 +347,7 @@ void stk1160_cancel_isoc(struct stk1160 *dev)
->  		 * We don't care for NULL pointer since
->  		 * usb_kill_urb allows it.
->  		 */
-> -		usb_kill_urb(dev->isoc_ctl.urb[i]);
-> +		usb_kill_urb(dev->isoc_ctl.urb_ctl[i].urb);
->  	}
->  
->  	stk1160_dbg("all urbs killed\n");
-> @@ -366,30 +366,25 @@ void stk1160_free_isoc(struct stk1160 *dev)
->  
->  	for (i = 0; i < num_bufs; i++) {
->  
-> -		urb = dev->isoc_ctl.urb[i];
-> +		urb = dev->isoc_ctl.urb_ctl[i].urb;
->  		if (urb) {
->  
-> -			if (dev->isoc_ctl.transfer_buffer[i]) {
-> +			if (dev->isoc_ctl.urb_ctl[i].transfer_buffer) {
->  #ifndef CONFIG_DMA_NONCOHERENT
->  				usb_free_coherent(dev->udev,
->  					urb->transfer_buffer_length,
-> -					dev->isoc_ctl.transfer_buffer[i],
-> +					dev->isoc_ctl.urb_ctl[i].transfer_buffer,
->  					urb->transfer_dma);
->  #else
-> -				kfree(dev->isoc_ctl.transfer_buffer[i]);
-> +				kfree(dev->isoc_ctl.urb_ctl[i].transfer_buffer);
->  #endif
->  			}
->  			usb_free_urb(urb);
-> -			dev->isoc_ctl.urb[i] = NULL;
-> +			dev->isoc_ctl.urb_ctl[i].urb = NULL;
->  		}
-> -		dev->isoc_ctl.transfer_buffer[i] = NULL;
-> +		dev->isoc_ctl.urb_ctl[i].transfer_buffer = NULL;
->  	}
->  
-> -	kfree(dev->isoc_ctl.urb);
-> -	kfree(dev->isoc_ctl.transfer_buffer);
-> -
-> -	dev->isoc_ctl.urb = NULL;
-> -	dev->isoc_ctl.transfer_buffer = NULL;
->  	dev->isoc_ctl.num_bufs = 0;
->  
->  	stk1160_dbg("all urb buffers freed\n");
-> @@ -429,19 +424,6 @@ int stk1160_alloc_isoc(struct stk1160 *dev)
->  
->  	dev->isoc_ctl.buf = NULL;
->  	dev->isoc_ctl.max_pkt_size = dev->max_pkt_size;
-> -	dev->isoc_ctl.urb = kcalloc(num_bufs, sizeof(void *), GFP_KERNEL);
-> -	if (!dev->isoc_ctl.urb) {
-> -		stk1160_err("out of memory for urb array\n");
-> -		return -ENOMEM;
-> -	}
-> -
-> -	dev->isoc_ctl.transfer_buffer = kcalloc(num_bufs, sizeof(void *),
-> -						GFP_KERNEL);
-> -	if (!dev->isoc_ctl.transfer_buffer) {
-> -		stk1160_err("out of memory for usb transfers\n");
-> -		kfree(dev->isoc_ctl.urb);
-> -		return -ENOMEM;
-> -	}
->  
->  	/* allocate urbs and transfer buffers */
->  	for (i = 0; i < num_bufs; i++) {
-> @@ -449,15 +431,17 @@ int stk1160_alloc_isoc(struct stk1160 *dev)
->  		urb = usb_alloc_urb(max_packets, GFP_KERNEL);
->  		if (!urb)
->  			goto free_i_bufs;
-> -		dev->isoc_ctl.urb[i] = urb;
-> +		dev->isoc_ctl.urb_ctl[i].urb = urb;
->  
->  #ifndef CONFIG_DMA_NONCOHERENT
-> -		dev->isoc_ctl.transfer_buffer[i] = usb_alloc_coherent(dev->udev,
-> -			sb_size, GFP_KERNEL, &urb->transfer_dma);
-> +		dev->isoc_ctl.urb_ctl[i].transfer_buffer =
-> +			usb_alloc_coherent(dev->udev, sb_size, GFP_KERNEL,
-> +					   &urb->transfer_dma);
->  #else
-> -		dev->isoc_ctl.transfer_buffer[i] = kmalloc(sb_size, GFP_KERNEL);
-> +		dev->isoc_ctl.urb_ctl[i].transfer_buffer =
-> +			kmalloc(sb_size, GFP_KERNEL);
->  #endif
-> -		if (!dev->isoc_ctl.transfer_buffer[i]) {
-> +		if (!dev->isoc_ctl.urb_ctl[i].transfer_buffer) {
->  			stk1160_err("cannot alloc %d bytes for tx[%d] buffer\n",
->  				sb_size, i);
->  
-> @@ -466,14 +450,14 @@ int stk1160_alloc_isoc(struct stk1160 *dev)
->  				goto free_i_bufs;
->  			goto nomore_tx_bufs;
->  		}
-> -		memset(dev->isoc_ctl.transfer_buffer[i], 0, sb_size);
-> +		memset(dev->isoc_ctl.urb_ctl[i].transfer_buffer, 0, sb_size);
->  
->  		/*
->  		 * FIXME: Where can I get the endpoint?
->  		 */
->  		urb->dev = dev->udev;
->  		urb->pipe = usb_rcvisocpipe(dev->udev, STK1160_EP_VIDEO);
-> -		urb->transfer_buffer = dev->isoc_ctl.transfer_buffer[i];
-> +		urb->transfer_buffer = dev->isoc_ctl.urb_ctl[i].transfer_buffer;
->  		urb->transfer_buffer_length = sb_size;
->  		urb->complete = stk1160_isoc_irq;
->  		urb->context = dev;
-> @@ -508,8 +492,8 @@ int stk1160_alloc_isoc(struct stk1160 *dev)
->  	 * enough to work fine, so we just free the extra urb,
->  	 * store the allocated count and keep going, fingers crossed!
->  	 */
-> -	usb_free_urb(dev->isoc_ctl.urb[i]);
-> -	dev->isoc_ctl.urb[i] = NULL;
-> +	usb_free_urb(dev->isoc_ctl.urb_ctl[i].urb);
-> +	dev->isoc_ctl.urb_ctl[i].urb = NULL;
->  
->  	stk1160_warn("%d urbs allocated. Trying to continue...\n", i);
->  
-> diff --git a/drivers/media/usb/stk1160/stk1160.h b/drivers/media/usb/stk1160/stk1160.h
-> index a70963ce8753..0c355bb078c1 100644
-> --- a/drivers/media/usb/stk1160/stk1160.h
-> +++ b/drivers/media/usb/stk1160/stk1160.h
-> @@ -84,6 +84,11 @@ struct stk1160_buffer {
->  	unsigned int pos;		/* current pos inside buffer */
->  };
->  
-> +struct stk1160_urb {
-> +	struct urb *urb;
-> +	char *transfer_buffer;
-> +};
-> +
->  struct stk1160_isoc_ctl {
->  	/* max packet size of isoc transaction */
->  	int max_pkt_size;
-> @@ -91,11 +96,7 @@ struct stk1160_isoc_ctl {
->  	/* number of allocated urbs */
->  	int num_bufs;
->  
-> -	/* urb for isoc transfers */
-> -	struct urb **urb;
-> -
-> -	/* transfer buffers for isoc transfer */
-> -	char **transfer_buffer;
-> +	struct stk1160_urb urb_ctl[STK1160_NUM_BUFS];
->  
->  	/* current buffer */
->  	struct stk1160_buffer *buf;
-> -- 
-> 2.17.1
-> 
+The 0x350c/d registers are said to:
+
+In auto exposure mode, the extra exposure values (larger than 1 frame)
+in registers 0x350C/0x350D automatically change. In manual exposure
+mode, these registers will not automatically change. The manually set
+exposure in registers 0x3500~0x3502 must be less than the maximum
+exposure value in {0x380E, 0x380F} + {0x350C,0x350D}
+
+
+with:
+- 0x350c,0x350d = PK_VTS
+- 0x380e,0x380f = VTS
+
+I have no idea how manual exposure works with this sensor, as I see
+0x350c only being read and never programmed.
+
+This anyway does not suggest any margin between VTS+PK_VTS but rahter
+that the exposure time can be larger than VTS which doesn't make much
+sense to me (maybe I should just consider 'real VTS' = VTS + PK_VTS).
+
+Anyway, being aware of such margins being usually required, I used the
+min VBLANK value. Which is also not documented but I experimentally
+tried to progressively shrink until capture did not break.
+
+Should I remove it from the above calculation ?
+
+> > +	exposure_val = clamp((s64)sensor->ctrls.exposure->val,
+> > +			     (s64)sensor->ctrls.exposure->minimum,
+> > +			     (s64)exposure_max);
+> > +	__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
+> > +				 sensor->ctrls.exposure->minimum,
+> > +				 exposure_max, 1, exposure_val);
+> > +
+> >  	return 0;
+> >  }
+> >
+> > @@ -2958,6 +2978,15 @@ static int ov5640_set_ctrl_vflip(struct ov5640_dev *sensor, int value)
+> >  			      (BIT(2) | BIT(1)) : 0);
+> >  }
+> >
+> > +static int ov5640_set_ctrl_vblank(struct ov5640_dev *sensor, int value)
+> > +{
+> > +	const struct ov5640_mode_info *mode = sensor->current_mode;
+> > +
+> > +	/* Update the VTOT timing register value. */
+> > +	return ov5640_write_reg16(sensor, OV5640_REG_TIMING_VTS,
+> > +				  mode->crop.height + value);
+> > +}
+> > +
+> >  static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+> >  {
+> >  	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+> > @@ -2988,10 +3017,22 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+> >  {
+> >  	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+> >  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> > +	const struct ov5640_mode_info *mode = sensor->current_mode;
+> >  	int ret;
+> >
+> >  	/* v4l2_ctrl_lock() locks our own mutex */
+> >
+> > +	switch (ctrl->id) {
+> > +	case V4L2_CID_VBLANK:
+> > +		/* Update the exposure range to the newly programmed vblank. */
+> > +		unsigned int max = mode->crop.height + ctrl->val - OV5640_MIN_VBLANK;
+> > +
+> > +		__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
+> > +					 sensor->ctrls.exposure->minimum,
+> > +					 max, sensor->ctrls.exposure->step, max);
+>
+> Should the default be set to mode->vblank_def ?
+>
+
+It should!
+
+> > +		break;
+> > +	}
+> > +
+> >  	/*
+> >  	 * If the device is not powered up by the host driver do
+> >  	 * not apply any controls to H/W at this time. Instead
+> > @@ -3031,6 +3072,9 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+> >  	case V4L2_CID_VFLIP:
+> >  		ret = ov5640_set_ctrl_vflip(sensor, ctrl->val);
+> >  		break;
+> > +	case V4L2_CID_VBLANK:
+> > +		ret = ov5640_set_ctrl_vblank(sensor, ctrl->val);
+> > +		break;
+> >  	default:
+> >  		ret = -EINVAL;
+> >  		break;
+> > @@ -3050,6 +3094,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+> >  	const struct v4l2_ctrl_ops *ops = &ov5640_ctrl_ops;
+> >  	struct ov5640_ctrls *ctrls = &sensor->ctrls;
+> >  	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
+> > +	unsigned int max_vblank;
+> >  	unsigned int hblank;
+> >  	int ret;
+> >
+> > @@ -3073,6 +3118,11 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+> >  	ctrls->hblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HBLANK, hblank,
+> >  					  hblank, 1, hblank);
+> >
+> > +	max_vblank = OV5640_MAX_VTS - mode->crop.height;
+> > +	ctrls->vblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VBLANK,
+> > +					  OV5640_MIN_VBLANK, max_vblank,
+> > +					  1, mode->vblank_def);
+> > +
+> >  	/* Auto/manual white balance */
+> >  	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
+> >  					   V4L2_CID_AUTO_WHITE_BALANCE,
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
