@@ -2,57 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99D2B4AC57C
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 17:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD7B54AC564
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 17:26:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244781AbiBGQVa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 11:21:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49976 "EHLO
+        id S239305AbiBGQUy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 11:20:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239346AbiBGQJW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 11:09:22 -0500
-X-Greylist: delayed 1076 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 08:09:21 PST
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58757C0401D2;
-        Mon,  7 Feb 2022 08:09:21 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95CCC340;
-        Mon,  7 Feb 2022 17:09:19 +0100 (CET)
+        with ESMTP id S1387107AbiBGQL2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 11:11:28 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD882C0401CC
+        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 08:11:27 -0800 (PST)
+Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5610B340;
+        Mon,  7 Feb 2022 17:11:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644250159;
-        bh=4a6oyH40Csn50dUhVk1KKkhWqQ+bT0AQuD8nF5SL40Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BjnDuSwJb7zSiLkq8jUPy87i86c/x8YPcQgITE7qtB6aMKmQkRGRJBy/mXUrT5wiS
-         UFKmU9sVo1jhp1siSPFBNdhP5/+HTcmDw/ZJG72onGz6ggZMRoSmaOzYuUutBa/+5+
-         TQPkXjgQ4skbl4oTC1mFEoZ3pUrC0BOs7fpCsuW8=
-Date:   Mon, 7 Feb 2022 18:09:17 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-        Yong Deng <yong.deng@magewell.com>,
+        s=mail; t=1644250284;
+        bh=zYD+ZbJr7xWXhhJkky32537TJfI8AR73bYZB7X21nPI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XgmWQ6uduQsVmy9dLvyWEm3kn1Yz5pBiWwal6jeAt1MjXOe0vWAu2tto4mw/nPJ02
+         3yBtzVuIFDyHleSJXDHJyXXb/4dTT4Et0Mc5jGOSM01OiRXYRfxPwGcnQLol5yt0G8
+         UJuhyHMDAYS4YSk9pZqdtaWlCJI0O/R3cTJfE+HY=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 08/66] dt-bindings: media: Add Allwinner A31 MIPI
- CSI-2 bindings documentation
-Message-ID: <YgFELcVluEqr9LAH@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-9-paul.kocialkowski@bootlin.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v3 0/7] v4l: subdev active state
+Date:   Mon,  7 Feb 2022 18:11:00 +0200
+Message-Id: <20220207161107.1166376-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-9-paul.kocialkowski@bootlin.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -62,180 +48,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hi,
 
-Thank you for the patch.
+This is v3 of the subdev active state series. Changes since v2:
 
-On Sat, Feb 05, 2022 at 07:53:31PM +0100, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the Allwinner A31 MIPI
-> CSI-2 controller.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 142 ++++++++++++++++++
->  1 file changed, 142 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
-> new file mode 100644
-> index 000000000000..09207904b6db
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
-> @@ -0,0 +1,142 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-mipi-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner A31 MIPI CSI-2 Device Tree Bindings
-> +
-> +maintainers:
-> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: allwinner,sun6i-a31-mipi-csi2
-> +      - items:
-> +          - const: allwinner,sun8i-v3s-mipi-csi2
-> +          - const: allwinner,sun6i-a31-mipi-csi2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +
-> +  phys:
-> +    maxItems: 1
-> +    description: MIPI D-PHY
-> +
-> +  phy-names:
-> +    items:
-> +      - const: dphy
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: Input port, connect to a MIPI CSI-2 sensor
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +        additionalProperties: false
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: Output port, connect to a CSI controller
-> +
-> +        properties:
-> +          reg:
-> +            const: 1
-> +
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +        additionalProperties: false
+- Doc improvements
+- Allow state->lock to be set by the driver (similarly to v4l2_ctrl_handler)
+- Rename fields in 'struct v4l2_subdev_pad_config' and drop the try_ prefix.
+- Add v4l2_subdev_get_locked_active_state(), which calls lockdep_assert_locked() and returns the state.
+- Changed v4l2_subdev_get_active_state() to call lockdep_assert_not_locked()
 
-The two ports should be required.
+The idea with the v4l2_subdev_get_active_state /
+v4l2_subdev_get_locked_active_state change is to have a lockdep_assert
+called. Roughly I think there are two cases where the
+v4l2_subdev_get_active_state could be called:
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - phys
-> +  - phy-names
+- With the intention of just passing it forward to another subdev, in
+  which case the state must _not_ be locked. Here
+  v4l2_subdev_get_active_state() can be called.
 
-And ports should be required here.
+- With the intention of using the state in a case where the state is
+  known to be already locked. Here v4l2_subdev_get_locked_active_state()
+  can be called.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+The state->lock change hopefully solves Sakari's concerns about the
+locking between controls and state.
 
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-> +
-> +    mipi_csi2: csi@1cb1000 {
-> +        compatible = "allwinner,sun8i-v3s-mipi-csi2",
-> +                     "allwinner,sun6i-a31-mipi-csi2";
-> +        reg = <0x01cb1000 0x1000>;
-> +        interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ccu CLK_BUS_CSI>,
-> +                 <&ccu CLK_CSI1_SCLK>;
-> +        clock-names = "bus", "mod";
-> +        resets = <&ccu RST_BUS_CSI>;
-> +
-> +        phys = <&dphy>;
-> +        phy-names = "dphy";
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            mipi_csi2_in: port@0 {
-> +                reg = <0>;
-> +
-> +                mipi_csi2_in_ov5648: endpoint {
-> +                    data-lanes = <1 2 3 4>;
-> +
-> +                    remote-endpoint = <&ov5648_out_mipi_csi2>;
-> +                };
-> +            };
-> +
-> +            mipi_csi2_out: port@1 {
-> +                reg = <1>;
-> +
-> +                mipi_csi2_out_csi0: endpoint {
-> +                    remote-endpoint = <&csi0_in_mipi_csi2>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+ Tomi
+
+Tomi Valkeinen (7):
+  media: subdev: rename subdev-state alloc & free
+  media: subdev: add active state to struct v4l2_subdev
+  media: subdev: pass also the active state to subdevs from ioctls
+  media: subdev: add subdev state locking
+  media: subdev: Add v4l2_subdev_lock_and_return_state()
+  media: Documentation: add documentation about subdev state
+  media: subdev: rename v4l2_subdev_pad_config.try_* fields
+
+ .../driver-api/media/v4l2-subdev.rst          |  60 ++++++
+ drivers/media/i2c/adv7183.c                   |   2 +-
+ drivers/media/i2c/imx274.c                    |  12 +-
+ drivers/media/i2c/mt9m001.c                   |   2 +-
+ drivers/media/i2c/mt9m111.c                   |   2 +-
+ drivers/media/i2c/mt9t112.c                   |   2 +-
+ drivers/media/i2c/mt9v011.c                   |   2 +-
+ drivers/media/i2c/mt9v111.c                   |   4 +-
+ drivers/media/i2c/ov2640.c                    |   2 +-
+ drivers/media/i2c/ov6650.c                    |  18 +-
+ drivers/media/i2c/ov772x.c                    |   2 +-
+ drivers/media/i2c/ov9640.c                    |   2 +-
+ drivers/media/i2c/rj54n1cb0c.c                |   2 +-
+ drivers/media/i2c/saa6752hs.c                 |   2 +-
+ drivers/media/i2c/sr030pc30.c                 |   2 +-
+ drivers/media/i2c/tw9910.c                    |   2 +-
+ drivers/media/i2c/vs6624.c                    |   2 +-
+ drivers/media/platform/atmel/atmel-isc-base.c |   8 +-
+ drivers/media/platform/atmel/atmel-isi.c      |   8 +-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c   |   9 +-
+ drivers/media/platform/vsp1/vsp1_entity.c     |  10 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         | 126 +++++++++--
+ drivers/staging/media/tegra-video/vi.c        |  10 +-
+ include/media/v4l2-subdev.h                   | 201 ++++++++++++++++--
+ 24 files changed, 415 insertions(+), 77 deletions(-)
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
