@@ -2,203 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 310654AB53E
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 07:55:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB94E4AB6AA
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 09:44:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234986AbiBGGyr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 01:54:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60778 "EHLO
+        id S241597AbiBGI1w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 03:27:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239618AbiBGGbh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 01:31:37 -0500
-X-Greylist: delayed 64 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Feb 2022 22:31:35 PST
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07DA8C043181;
-        Sun,  6 Feb 2022 22:31:34 -0800 (PST)
+        with ESMTP id S244263AbiBGIQX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 03:16:23 -0500
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1DA3C043181;
+        Mon,  7 Feb 2022 00:16:22 -0800 (PST)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2175jOVX007408;
+        Mon, 7 Feb 2022 08:16:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=ewRqSAhtxtVPBb/oQWoNedGECHJzBZRRq/TyozCvciA=;
+ b=x8xEpAN1aeHFiE27f0P5NxL9nvV31azL0szI79prxMGZbvEMMGPk6eTFPrd2ttqbSUbz
+ EcqZCC6SfubcFf44zyGugwCZajseG6eOEDfZ6QWbd1ujsH2Kgw15BcItKsqgMo8x3Eg2
+ bN9627Ks+7OtsRZCluqaY6Zrrc49zqRJubEb1qUDRlJb2eQrEj2Bo29xjfSRGBEvPGPp
+ 44GhVniuBSt9IPmnT1EMhV0Uwmwu/fZqLtl4FRUxcrWOXIw8pTvoSv62ToT1hMSjXfbA
+ BO6ARMupoIczlCbaZVckz1yh+49ftyGU0tf1cCtkS421QVdOZv3HnZzoL5fT/oBDsJlL BA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3e1gusw8t5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 07 Feb 2022 08:16:13 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2178G1K2132413;
+        Mon, 7 Feb 2022 08:16:12 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
+        by aserp3030.oracle.com with ESMTP id 3e1f9d1fnf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 07 Feb 2022 08:16:12 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jvKUABL5z7ysJ0PMhEdoFWrfRByraLJSsuPyosfbyAlufzLa4xQxJdwEtjzX0rU9iodGHAY5mBxB9KnyemOB1WL8oIk4ewB6ygtrovwKlVjxlP9q5BLonapE5INxHfZ5p5TSinYhgSMLMcEemyBMnw9CLWsN63Y2WKPvI5SOzL1vs8iH2Iq4pRaRBaK1f6l69hoRmea+FgpJwQEThkWUa+1mvh2eYNaiK9nwCU5LADdGnbmOgYiKMwFwxzRiiepzsLe7zPrc1gfTg8OhGNQMmwEszqesEmnow4+8pPflMu/3TQokkxRnxZ6cu5l9LHZ/RW3G3U6G7d9VFsj/KOHHMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ewRqSAhtxtVPBb/oQWoNedGECHJzBZRRq/TyozCvciA=;
+ b=U1CaSY7dEJpo0PsJqkHA2/ei3qudPjJOXP/RvhebVRmBZrfBN9kMJqeRlGkogK7uG4JKYppSQCVma45l1BZBTgFy74oWnZE48KV1SiVTg/OQk00CPVGCDWPUbKS63JSN+AyOfrrzE7z7gipcLwdzdV2qYb4UQrECMaAWhEBe1lCOY/tErmU2pfYb0HlAnZcKLPQXsHVABLrmywS7NztXLs/gaYktbQsh4Y2OUhJEjs+GoQ3qpGWR6L1l02RUHQRzdnHuEz3knD+pw58GsYdc8qox/yBc8eoOgjkB033FeLBYR+eOxwWYPycuOu94Ios4HImWJo3sAptP9VWUDaWK4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1644215495; x=1675751495;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Wq/xULOuP/jvk92XmnTa8NRyCBGFLagVj5mIPmhXCgg=;
-  b=KcmvVb4bNLLQtmC9DQEwxG3EYkMR5ZUqy1F+h6KHtqlfKng4Jqxoddz3
-   xISbzygx0HjRCqC+QRnw3NfS9fxfknMAoHIozm8giM0yE6DomIWlyHlz9
-   Dl/6eUXJ0CAJydJEeq1PCRyIQGcSQG9afA7tZI1gz8dx9KKFnF0yI5lt0
-   5ndt8clHeVHMygZwsmlD3fDkvf+DEfqabaOoh/FfwetomPia7VyNdY7v6
-   lD8xQxzQEjfH6YKydd2gPlWn030o3abTmd5GBT1pic1gncPogMm9ryqBP
-   X73t75lwNaSl6mXOV80dpWVdCCMhNHKgdDnUN/tgKpy+cPBt/yqUVrDiW
-   g==;
-X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
-   d="scan'208";a="21920108"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 07 Feb 2022 07:30:28 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 07 Feb 2022 07:30:28 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 07 Feb 2022 07:30:28 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1644215428; x=1675751428;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Wq/xULOuP/jvk92XmnTa8NRyCBGFLagVj5mIPmhXCgg=;
-  b=BE0+XcqqIwWe058GxcNFZCo42yRP3dWCit9o/vKc3X3X15RT+j+FU+Zr
-   8gK0oqDorM5nZjRBv5XA2kF1KL63x5LpgA/o+3ZWDhNtU7KmE8wPWefqw
-   AlWejtC8LwB8p1WUriQOIuiWxOdz/kIqFZgwVrIO3O12tu5hG4yLR+Ypy
-   k7xlJLG6qqEG2FxGa/4Qbw4eIyYhoPsq1eF8K4deBBnn7QlAnLXXrYdko
-   Ve1MfxW2h9gj4oqLCGxSrcIHhdyn+W5rGGF9y22rKtx5JxS2eOBmKKLeo
-   c1549qmR9KRNIQSrTDSgGSMPYH70F77GfP1IToZ4njAaic/kfUWPvKBnD
-   g==;
-X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
-   d="scan'208";a="21920107"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 07 Feb 2022 07:30:28 +0100
-Received: from steina-w.localnet (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 16B47280065;
-        Mon,  7 Feb 2022 07:30:28 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     jeanmichel.hautbois@ideasonboard.com,
-        linux-arm-kernel@lists.infradead.org,
-        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
-        robh@kernel.org, tomi.valkeinen@ideasonboard.com,
-        nsaenz@kernel.org, bcm-kernel-feedback-list@broadcom.com
-Subject: Re: (EXT) Re: (EXT) [RFC PATCH v4 03/12] dt-bindings: media: Add bindings for bcm2835-unicam
-Date:   Mon, 07 Feb 2022 07:30:25 +0100
-Message-ID: <5541132.DvuYhMxLoT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <Yf3fe2F88SNcl2Jd@pendragon.ideasonboard.com>
-References: <20220203175009.558868-1-jeanmichel.hautbois@ideasonboard.com> <7954256.DvuYhMxLoT@steina-w> <Yf3fe2F88SNcl2Jd@pendragon.ideasonboard.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ewRqSAhtxtVPBb/oQWoNedGECHJzBZRRq/TyozCvciA=;
+ b=NgTI4WKXaC8lehw97Q0NVbTQ5n2tz+U8X8ZnB6J9MYiYE65DUGQ7j9lQvPaXA9hU64oVDrftsfcKQn/fsLxVN/hTD9q0SjC1yI3xJwhqZQjrqlOQR5ySB0Z32L6d8sWicmb3+ph37GTDRTtImiL0FQk5ZFf9J0UAmbHCu0pI8AY=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by PH0PR10MB4517.namprd10.prod.outlook.com
+ (2603:10b6:510:36::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Mon, 7 Feb
+ 2022 08:16:10 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8%5]) with mapi id 15.20.4951.018; Mon, 7 Feb 2022
+ 08:16:10 +0000
+Date:   Mon, 7 Feb 2022 11:15:49 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     kbuild@lists.01.org, Dikshita Agarwal <dikshita@codeaurora.org>
+Cc:     lkp@intel.com, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: drivers/media/platform/qcom/venus/helpers.c:627
+ venus_helper_get_bufreq() error: we previously assumed 'req' could be null
+ (see line 623)
+Message-ID: <202202062034.T1pUQtL9-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0013.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::18)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4b05d10b-970e-4e4d-7a07-08d9ea12194f
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4517:EE_
+X-Microsoft-Antispam-PRVS: <PH0PR10MB4517041F5AF8A79D698598808E2C9@PH0PR10MB4517.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:608;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7SoBVgTGEqw/0K9SLbzWdyAOUnOGf85CGM1Fz+f+1JcFlwkC90H65un5NDEqtQoxSjSpgc5VrhUgUaftuDjNkXLjp/KUj5y+jOZitTlVbRc/PM1klVOahzG7xuAku9JrtFd13JkqW8hN12pXgHGUGolVxlgBJUIhP+rfKIMR56bI4xRlaBYeiOEpxbxArhsA8UW5L0V6tBPpR4iliak4enlnDWaVYwkwRB1Key9IrxpxGZDwSyJtzSFFayiKRPocYFy/pmHSSLIbmXTH8Wa91GnW1t7cob2HM30PhZ9wl5UP5oE7zCzOPIxNtHygrOcsof8Nta5SIT5TBCpvX78O+yr6DaFuVVLGKjRAnQYud34k02MrMQs1qKDDPWdEaLXqwfpyM8rQUEyi5vHKI74JyeziH+R9+E0/1beWSENLE0rGTfRyKxMKk4PlZhovK9KO668UFRnNcE+n6BNbUtu0ganvMedg8AW/d5tohgZCW+DSQH5k++m5X+pBzvuWOgsUpQcHLmJDMerRaZXl5QphDzjj+MhzHzfPdLwGerK1yUwF0i+V/9CqHPBT29EYjjeZDq6a+p/iTPRQF3nQt2Fv0Cz5yrN9cemPgcD0qS0K2y1sVU4ko04JVRLZkZdYwus2FUITuwrPJrgINVpDzQdtQZhJyvH6PKbifrcSVAsR8hVihUjOYQ9fLgQZR92qgKkWrlTDBlqyAMqlwIjPtjXaf2yepLVseHwT8ltA0RlA+zc6YMfxX9bitj7yCFvummK6vnVYM0vGtfMHEVig9XruqadfuTTy+V4y1SbbtSzMPFWjIDm+IH6uJWrmeD09juno9cGiS0aQDenCJwWLkrpyow==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(508600001)(44832011)(2906002)(86362001)(66946007)(83380400001)(66556008)(316002)(6506007)(6666004)(4326008)(66476007)(8936002)(5660300002)(36756003)(8676002)(6486002)(1076003)(966005)(54906003)(186003)(52116002)(26005)(9686003)(38100700002)(38350700002)(6916009)(6512007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vm0Oub4xH+ugs1j7TfY/w9IA7eu/5ZqqsWzt9iPbpi/ORTq3tRfxk3wiD2a1?=
+ =?us-ascii?Q?QwbGS0+HIX3Uy7toYg89lnrwLFKuMIuhx0yCe6srcH0Vr+UdMrN4+7yhKdO+?=
+ =?us-ascii?Q?IknQTmME3cOdrElFkBUQ9qSXifcNgtRsDwIGXAhm6+D4aJmEmztZ7gVXh90I?=
+ =?us-ascii?Q?xZTqIASLH97AAbDJkEfzOcqML0MfKCwjfGtTVdqQQTsBvzK4v8blLGRc3122?=
+ =?us-ascii?Q?RCaOU1Zzd+dqpCPOWj1YasWYhC9o7/esQww8MVhOWH2OIv7XJ1f/SO63u4NJ?=
+ =?us-ascii?Q?MCpffRxaq4csgdtsn0j18S91oEyYL8/NDk6ayxwRwdcngviMWKXjmWxpBQt+?=
+ =?us-ascii?Q?7WdtFfvvcq6yCAiCGLoQbxBXbFE079M8M+UZYuNkzU1gQCfEuTcbmBHmPdU1?=
+ =?us-ascii?Q?K+oZtwAmlK3AjJLPO2esviF93q2LRmWIjDetVcxA/oFoZtx/Ai7ERCPJ3f9r?=
+ =?us-ascii?Q?1gVj9gYtoHegDikZKa4pT9s2XSULHvF23snGVxfe62sfaceF5ifPqpj30cli?=
+ =?us-ascii?Q?GtekioVP9uxa/k2AndwsLL0hO268EYHY/tA2mOGudBbzS08SSePlSoNVUClm?=
+ =?us-ascii?Q?SaEtyiiKDPt/mAI8qkCQKd9H0FTATT5aboVVUOqbjACzaRPDOJAIumg3ovaB?=
+ =?us-ascii?Q?ixhT/AmU0XRxr0f8p+p77HCPCix/BpzEsWzf4d4eVqnuvPqLJ0A3lDO/MDPd?=
+ =?us-ascii?Q?pjmdrA9bH2sK06CXTUCHZxTl4xQc2YQ0pUSYvgKVNO+qIk81RR5AFsHwoRsm?=
+ =?us-ascii?Q?ph4CEqp0YZsULQ/Pdbwmt5MiKVeUSvan5xsflmX5eMdY1yOmbk4Yh+QLrBLy?=
+ =?us-ascii?Q?uYAEp7iJgXRxMx2Hzzgkt28RAiVECdVSLoXaLjLfopTpuwyRvQsJkK7ydmlA?=
+ =?us-ascii?Q?YcVr0c9r8FD7gZPW2OiwqZL8JcHloyFrK0yPBVLbLQIKi0dmn5s7DPrOli5m?=
+ =?us-ascii?Q?5F1gUL7rHA3WWR9Kcd0rDvr2Ly9o9OCT/Xtz6vfkPnsPn7O0UEjQO1ckOFQC?=
+ =?us-ascii?Q?KA6jpcXfII3QPr7V/7Bzdj5JBxSfd41BR5V3aXMJER5REpe/HHm2Hy95rIJ/?=
+ =?us-ascii?Q?ETI11xN0izZd3HPm3Se1Uj015bSuRlWE2x/Q5RXlhERh+sjirAjQWpTIPut4?=
+ =?us-ascii?Q?ylhMcgD8Ywv5Uotb47wzb3Sk89WTknqlB29GsL+gd3KZ6/QflRNGyW15L3Do?=
+ =?us-ascii?Q?yuer/68HEqF1nn50vxkDI7iVbDsNGsyRN14NmHWT6uTCih8hSh2HMwJpKQOg?=
+ =?us-ascii?Q?KBRZidHHYfX5nHsiQvIAgH33iacqapPi4EsHPIGB7I7oEnEvWy6WjAuHRHgm?=
+ =?us-ascii?Q?nyqiceyifakwk8sCj739yJzXXa0cmQUSkDTRrTJF8PqKzCGoWKYLS6RLZdjE?=
+ =?us-ascii?Q?k3jR/w/G+TSdgLL9kLbd0ex9Kk6B+Ag1Q2baflneuiHp56qKFKPM8VwX7BnL?=
+ =?us-ascii?Q?85giVrNmuRUdVevGgGWIfKBP/FaRv/QnWj2YteNWUKnC35D4duSIImh5wGdk?=
+ =?us-ascii?Q?GNh91VrSfJSVC1O5XgXujoa3Nh6cfME4Bp9KvoB4CH/+QF1mTDmUyht1Bhhw?=
+ =?us-ascii?Q?VcINblJ5q7wncYOaUoMbYjPi01PyYJAVhDtHtKJSHpwxL6YnS/UP8uAm39gy?=
+ =?us-ascii?Q?VCy0Yfs772cjceafoDBlObqJ3uHudsnhhLDTbnHGipzL32WSDG9ttlq7TfSz?=
+ =?us-ascii?Q?tlH1DQ=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b05d10b-970e-4e4d-7a07-08d9ea12194f
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 08:16:10.6304
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6OJIRhIYxH9g2qJVyHpwVbLvjHMum8y4Kfc3FR2l70bU7pddL9z2xn5qvJjCs//9fUllz3jdaKjfGdHNrnUdRdQGS42g+Z7kufCs/5BgQck=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4517
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10250 signatures=673430
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 adultscore=0
+ mlxlogscore=999 suspectscore=0 mlxscore=0 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202070054
+X-Proofpoint-ORIG-GUID: b-SaDU2VY4iZLF6pVxbpy7OKSHZUlkz_
+X-Proofpoint-GUID: b-SaDU2VY4iZLF6pVxbpy7OKSHZUlkz_
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   90c9e950c0def5c354b4a6154a2ddda3e5f214ac
+commit: 16545aa3dee5a01f3f42aa566a051096c87f4b6f media: venus: Set buffer to FW based on FW min count requirement.
+config: microblaze-randconfig-m031-20220206 (https://download.01.org/0day-ci/archive/20220206/202202062034.T1pUQtL9-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.2.0
 
-Am Samstag, 5. Februar 2022, 03:22:51 CET schrieb Laurent Pinchart:
-> Hi Alexander,
-> 
-> On Fri, Feb 04, 2022 at 09:50:06AM +0100, Alexander Stein wrote:
-> > Am Donnerstag, 3. Februar 2022, 18:50:00 CET schrieb Jean-Michel Hautbois:
-> > > Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
-> > > camera interface. Also add a MAINTAINERS entry for it.
-> > > 
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > > Signed-off-by: Jean-Michel Hautbois
-> > > <jeanmichel.hautbois@ideasonboard.com>
-> > > 
-> > > ---
-> > > v4:
-> > > - make MAINTAINERS its own patch
-> > > - describe the reg and clocks correctly
-> > > - use a vendor entry for the number of data lanes
-> > > ---
-> > > 
-> > >  .../bindings/media/brcm,bcm2835-unicam.yaml   | 110 ++++++++++++++++++
-> > >  1 file changed, 110 insertions(+)
-> > >  create mode 100644
-> > > 
-> > > Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> > > 
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> > > b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml new
-> > > file
-> > > mode 100644
-> > > index 000000000000..0725a0267c60
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> > > @@ -0,0 +1,110 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Broadcom BCM283x Camera Interface (Unicam)
-> > > +
-> > > +maintainers:
-> > > +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-> > > +
-> > > +description: |-
-> > > +  The Unicam block on BCM283x SoCs is the receiver for either
-> > > +  CSI-2 or CCP2 data from image sensors or similar devices.
-> > > +
-> > > +  The main platform using this SoC is the Raspberry Pi family of
-> > > boards.
-> > > +  On the Pi the VideoCore firmware can also control this hardware
-> > > block,
-> > > +  and driving it from two different processors will cause issues.
-> > > +  To avoid this, the firmware checks the device tree configuration
-> > > +  during boot. If it finds device tree nodes starting by csi then
-> > > +  it will stop the firmware accessing the block, and it can then
-> > > +  safely be used via the device tree binding.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: brcm,bcm2835-unicam
-> > > +
-> > > +  reg:
-> > > +    items:
-> > > +      - description: Unicam block.
-> > > +      - description: Clock Manager Image (CMI) block.
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    items:
-> > > +      - description: Clock to drive the LP state machine of Unicam.
-> > > +      - description: Clock for the vpu (core clock).
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: lp
-> > > +      - const: vpu
-> > > +
-> > > +  power-domains:
-> > > +    items:
-> > > +      - description: Unicam power domain
-> > > +
-> > > +  brcm,num-data-lanes:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    enum: [ 2, 4 ]
-> > > +    description: Number of data lanes on the csi bus
-> > 
-> > There is already data-lanes in
-> > Documentation/devicetree/bindings/media/video- interfaces.yaml. AFAICS
-> > these two are identical. Can't the video-
-> > interface.yaml be used for this? I'm no expert TBH.
-> 
-> This is the number of data lanes that the Unicam instance supports.
-> There are two Unicam instances, and they can have 2 or 4 data lanes
-> depending on the SoC. The data-lanes endpoint property indicates the
-> number of lanes used on a particular board.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Thanks for the explanation. Isn't this something which could be derived from 
-the compatible, e.g. having 2 different ones for 2 and 4 lanes respectively?
-See [1] for a similar situation in the SPI subsystem.
-I don't have a strong opinion, just want to share my feedback.
+smatch warnings:
+drivers/media/platform/qcom/venus/helpers.c:627 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 623)
 
-Regards,
-Alexander
+vim +/req +627 drivers/media/platform/qcom/venus/helpers.c
 
-[1] https://patchwork.kernel.org/project/spi-devel-general/patch/
-20211207104114.2720764-1-alexander.stein@ew.tq-group.com/#24641405
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  615  int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  616  			    struct hfi_buffer_requirements *req)
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  617  {
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  618  	u32 ptype = HFI_PROPERTY_CONFIG_BUFFER_REQUIREMENTS;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  619  	union hfi_get_property hprop;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  620  	unsigned int i;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  621  	int ret;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  622  
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15 @623  	if (req)
 
+Check for NULL
+
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  624  		memset(req, 0, sizeof(*req));
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  625  
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  626  	if (type == HFI_BUFFER_OUTPUT || type == HFI_BUFFER_OUTPUT2)
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10 @627  		req->count_min = inst->fw_min_cnt;
+
+Unchecked dereference
+
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  628  
+7371093f983d35d Stanimir Varbanov 2020-08-26  629  	ret = platform_get_bufreq(inst, type, req);
+
+I looked at this in linux-next from Friday and I don't think
+platform_get_bufreq() can succeed with a NULL "req"...
+
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  630  	if (!ret) {
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  631  		if (type == HFI_BUFFER_OUTPUT || type == HFI_BUFFER_OUTPUT2)
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  632  			inst->fw_min_cnt = req->count_min;
+
+Unchecked
+
+7371093f983d35d Stanimir Varbanov 2020-08-26  633  		return 0;
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  634  	}
+7371093f983d35d Stanimir Varbanov 2020-08-26  635  
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  636  	ret = hfi_session_get_property(inst, ptype, &hprop);
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  637  	if (ret)
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  638  		return ret;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  639  
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  640  	ret = -EINVAL;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  641  
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  642  	for (i = 0; i < HFI_BUFFER_TYPE_MAX; i++) {
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  643  		if (hprop.bufreq[i].type != type)
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  644  			continue;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  645  
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  646  		if (req)
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  647  			memcpy(req, &hprop.bufreq[i], sizeof(*req));
+
+Another NULL check
+
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  648  		ret = 0;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  649  		break;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  650  	}
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  651  
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  652  	return ret;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  653  }
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
