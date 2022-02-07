@@ -2,183 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D719D4AB840
+	by mail.lfdr.de (Postfix) with ESMTP id 395784AB83E
 	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 11:01:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236114AbiBGKAs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 05:00:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36732 "EHLO
+        id S237536AbiBGKAt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 05:00:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236505AbiBGJoX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 04:44:23 -0500
-X-Greylist: delayed 3633 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 01:44:21 PST
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8400AC043181;
-        Mon,  7 Feb 2022 01:44:21 -0800 (PST)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7CCA8240008;
-        Mon,  7 Feb 2022 09:44:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1644227059;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=6KUt7aT0vf3HkBvqg1m3IH1dZxNe1djrpK9xW+fnoQw=;
-        b=NkrfXNXYCHbTieByp9pVKjdSsJHaXqLnlqhNJGbny2eQ/2CsZrUdW2mSW8BFideJw1mHR7
-        15E1pOBLcS9Zp/1a1+f6oN2t/XT5OKikI5lpiYSLG2Zsg02H2FT2KS4iKkG/crYs0wRf/d
-        LdAbBUGvjGFfl0ceKgyWRSvFGkoenC8W/DHCeWzBHaqNAWaq5hcmZziIcYMn2MBYgGQERM
-        SJJqkl47m6fRQi+eSFynQYJiS+deVZKhB4CRpVfmFn9Iveedvri6/XWxuSJSUDSrowXNWy
-        N2qKe3FTk9/WTFe/Qpb4KssN0vY9p4sxkx+Snv5XDpdBc1wcZwbKDvlk4nw8Nw==
-Date:   Mon, 7 Feb 2022 10:44:16 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc:     Samuel Holland <samuel@sholland.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
-        linux-staging@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
+        with ESMTP id S1354107AbiBGJwH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 04:52:07 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 433FAC0401C4;
+        Mon,  7 Feb 2022 01:52:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1644227525; x=1675763525;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=FPQnUq0e72L30wi5D99t86LFMH3DYM0+N8zdE+KfywE=;
+  b=FS+fTRURvOMbq2OoKsDcTRDEju+Bg78KUBEdj/yVELzLqhpYQMT+xKpL
+   TN2+EDKSITuK0juA289YVnKP5JY+5ocRIi1BVIxBtefuA/e6YTjlPxgJ8
+   wWMvO7ISVhzABfcp1R8+QSg/vSv3sSd704RygaZMwWNIt/6CKV1xtMgLW
+   wlrjZCZOdVU/dIjyhWcuys4SVDZCt5QFAJ+DKrQFvELbCpuc5e7gY10O6
+   jnsKR99xnm5H7/9hipJhfAiaooIcIq6GmhKjcqjakpn+JCaFLWo7Ff5x3
+   utlH/t0RnkBua3gvaswmbzF2otaAt38LfMZRathoiAvo7MnxyZJzsZqfl
+   A==;
+X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
+   d="scan'208";a="21927829"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 07 Feb 2022 10:52:03 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 07 Feb 2022 10:52:03 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 07 Feb 2022 10:52:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1644227523; x=1675763523;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=FPQnUq0e72L30wi5D99t86LFMH3DYM0+N8zdE+KfywE=;
+  b=L9Ra29dMDhwbndddw/0Zxk/VF6Vy3qykG9iw5HVnPBLOkPVuAwsnOlo7
+   z1CXqNFSX+vp+7ZAWxPH5p7DxHOCg/hnG0ry8tffCXuipPWuthea466hv
+   Z9HiEbcAAHMsrmr8/cvct6CDZvtt/v/vTytSv8PM76w3+2nHqgddcorlg
+   h85WhW5CKoF6SLL631BeIcwiIWeplJ8ySW4H9b7Jf2kW+cgmqbVZuo6hw
+   ERMEXO6fYVGfcTq8PznAvVV6n2fNE8oXRkygcW1Q98LhcFarpqdcpYA/n
+   INIoXZRC5B86ROSgOMAnZUhr1J8q3R9f5zH81xSXxIHjeA8RDgwghtII7
+   w==;
+X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
+   d="scan'208";a="21927828"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 07 Feb 2022 10:52:03 +0100
+Received: from steina-w.localnet (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2696E280065;
+        Mon,  7 Feb 2022 10:52:03 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 02/66] dt-bindings: interconnect: sunxi: Add V3s mbus
- compatible
-Message-ID: <YgDp8HzmcS8Nkn0q@aptenodytes>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <5386b1f5-9e75-4ce3-6641-bd7667c85d42@sholland.org>
- <YgDbv8aQEOOjwTb0@aptenodytes>
- <8021451.T7Z3S40VBb@jernej-laptop>
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: (EXT) Re: [PATCH 4/8] media: imx: Fail conversion if pixel format not supported
+Date:   Mon, 07 Feb 2022 10:52:00 +0100
+Message-ID: <1905895.usQuhbGJ8B@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20220205085151.61088d8e.dorota.czaplejewicz@puri.sm>
+References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com> <Yf34CXvZQPQPAxma@pendragon.ideasonboard.com> <20220205085151.61088d8e.dorota.czaplejewicz@puri.sm>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="10LvNQVJYUIIwFrj"
-Content-Disposition: inline
-In-Reply-To: <8021451.T7Z3S40VBb@jernej-laptop>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent and Dorota,
 
---10LvNQVJYUIIwFrj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Am Samstag, 5. Februar 2022, 08:51:51 CET schrieb Dorota Czaplejewicz:
+> * PGP Signed by an unknown key
+> 
+> Hi Laurent,
+> 
+> On Sat, 5 Feb 2022 06:07:37 +0200
+> 
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> > Hi Alexander and Dorota,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Fri, Feb 04, 2022 at 01:15:10PM +0100, Alexander Stein wrote:
+> > > From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> > > 
+> > > imx_media_find_mbus_format has NULL as a valid return value,
+> > > therefore the caller should take it into account.
+> > > 
+> > > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > > ---
+> > > 
+> > >  drivers/staging/media/imx/imx-media-utils.c | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > > 
+> > > diff --git a/drivers/staging/media/imx/imx-media-utils.c
+> > > b/drivers/staging/media/imx/imx-media-utils.c index
+> > > 32aaa2e81bea..e0a256a08c3b 100644
+> > > --- a/drivers/staging/media/imx/imx-media-utils.c
+> > > +++ b/drivers/staging/media/imx/imx-media-utils.c
+> > > @@ -544,6 +544,9 @@ static int imx56_media_mbus_fmt_to_pix_fmt(struct
+> > > v4l2_pix_format *pix,> > 
+> > >  		cc = imx_media_find_mbus_format(code, PIXFMT_SEL_YUV);
+> > 
+> > The code passed to the function comes from the previous line:
+> > 	imx_media_enum_mbus_formats(&code, 0, PIXFMT_SEL_YUV);
+> > 
+> > As far as I can tell, this is guaranteed to return a code that will
+> > result in imx_media_find_mbus_format() returning a non-NULL pointer.
+> 
+> While I am not well-versed in the implicit code style of the kernel, I
+> decided to leave it in because it makes the code more locally legible. With
+> a check here, even a non-functional one, there's no need to understand the
+> internals of `imx_media_find_mbus_format` that are only implicit. That
+> makes the code less surprising when interested only in the outer function.
+> 
+> The other advantage of a check is becoming robust against future changes to
+> `imx_media_find_mbus_format` itself.
+> 
+> I don't have a strong preference about keeping or leaving this patch, but if
+> this check was there in the first place, I wouldn't have spent time trying
+> to figure out whether there's a bug here.
 
-Hi Jernej,
+Laurent, thanks for your feedback.
+I'm on Dorota's side here. While you are right that the code from 
+  imx_media_enum_mbus_formats(&code, 0, PIXFMT_SEL_YUV);
+is guaranteed to return something. I don't lnek this implicit assumption over 
+2 function calls. Better be safe than sorry. For that reason code should be 
+initialized as well. Will create a patch for that.
 
-On Mon 07 Feb 22, 09:50, Jernej =C5=A0krabec wrote:
-> Hi Paul,
->=20
-> Dne ponedeljek, 07. februar 2022 ob 09:43:43 CET je Paul Kocialkowski=20
-> napisal(a):
-> > Hi,
-> >=20
-> > On Sat 05 Feb 22, 14:14, Samuel Holland wrote:
-> > > On 2/5/22 12:53 PM, Paul Kocialkowski wrote:
-> > > > Since the V3s uses the internal mbus, document its compatible.
-> > > >=20
-> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > ---
-> > > >=20
-> > > >  .../devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml  |=
- 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > >=20
-> > > > diff --git
-> > > > a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-m=
-bus.
-> > > > yaml
-> > > > b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-m=
-bus.
-> > > > yaml index 29c9961ee2d8..b67bf9261a6a 100644
-> > > > ---
-> > > > a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-m=
-bus.
-> > > > yaml +++
-> > > > b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-m=
-bus.
-> > > > yaml> >=20
-> > > > @@ -31,6 +31,7 @@ properties:
-> > > >        - allwinner,sun5i-a13-mbus
-> > > >        - allwinner,sun8i-h3-mbus
-> > > >        - allwinner,sun8i-r40-mbus
-> > > >=20
-> > > > +      - allwinner,sun8i-v3s-mbus
-> > >=20
-> > > Please enable the expanded binding added in commit 245578ba9f03
-> > > ("dt-bindings: arm: sunxi: Expand MBUS binding")[1] by adding the new
-> > > compatible to the "if" block lower in the file. That way we can add V=
-3S
-> > > devfreq support in the future without changing that binding.
-> >=20
-> > I had missed that new driver but surely I will expand the updated bindi=
-ng.
-> >=20
-> > By the way do you have an explanation about the cell index given to the
-> > interconnects (after &mbus)?
->=20
-> This is mbus channel. You can find appropriate one checking DRAM driver i=
-n U-
-> Boot, where mbus is configured.
+Regards,
+Alexander
 
-Thanks, that's exactly what I was looking for! Looks like in my case
-MBUS_PORT_CSI will be used both for CSI and ISP.
 
-For the record it's also defined in the BSP kernel at:
-include/linux/sunxi_mbus.h
 
-Thanks,
-
-Paul
-
-> Best regards,
-> Jernej
->=20
-> >=20
-> > Paul
-> >=20
-> > > Regards,
-> > > Samuel
-> > >=20
-> > > [1]: https://git.kernel.org/torvalds/c/245578ba9f03
-> > >=20
-> > > >        - allwinner,sun50i-a64-mbus
-> > > >   =20
-> > > >    reg:
->=20
->=20
->=20
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---10LvNQVJYUIIwFrj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIA6fAACgkQ3cLmz3+f
-v9Fywwf/eKwq4XMLDo180gX6Pm1kgA2v/uxUB0R0xsoXaELb6IluwiuPO0jVvNCN
-rYT26DH13eSTfZtHD9UlCMb7J1PO4lGT+FeVURUWx7tnX8m5r2H0H66VqyAdlPUT
-mOunobehDH81Sl2Pj7FDVa1jyA8Bg/CZwnCxKi7cwLyg4EvFxQCYG3AxKb30UZya
-WcQcmj84SGHps/X1XdbS1vnllGv9e9mE9FvaVdi+WZ4iUzcQOwCXpMsYiWoc0YdV
-LhUCUeGeAqr9STaTz7ZDCPBMUjNtnONtTiDcyDIMcAIWshytEl2S2sKkpy4o8c8V
-caHW8IBvVlyHHv9YjOnNRf5ysP3T7g==
-=vjaa
------END PGP SIGNATURE-----
-
---10LvNQVJYUIIwFrj--
