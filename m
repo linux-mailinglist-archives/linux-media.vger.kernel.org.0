@@ -2,388 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B5A34AC9C7
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 20:43:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70EFC4ACA87
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 21:47:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240112AbiBGTmv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 14:42:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57728 "EHLO
+        id S230197AbiBGUrr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 15:47:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240208AbiBGTkC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 14:40:02 -0500
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0AFEC0401DA;
-        Mon,  7 Feb 2022 11:40:01 -0800 (PST)
-Received: by mail-oo1-f42.google.com with SMTP id t75-20020a4a3e4e000000b002e9c0821d78so14956256oot.4;
-        Mon, 07 Feb 2022 11:40:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DVoPlrorpOgCwVKkj2Fd5s3gbsXiXTFFi9QAYnJuhBQ=;
-        b=jDxA590vyXk7V68ZeIXfUWJUpBKYXU2s0rloPxS+eWBheQKK0Z1LDjqoILVtjXbh03
-         X89wjJxckI3Gzt3adel+5Cq2Qhh59BE6S+NYf0FnxjJy6Jv7JeSP/s14nt3u7jQ52Pqz
-         TbKpmLdN4g2Vg9xkLI6guD7yIr2hIu4DCG2GfSLOfVoU/mUnha2zsYxJKjucrY1MUjSU
-         rLEka+5WWkU00cJC/7rMcUYq8fgU4Z9vjVfgYlpgiBDbdSAEawtzG7eQC83ZvGws+702
-         fpgArJov+V1DLxKMBfBmOZ7CLZechznBMuie4751LDBsPxj8kw4J/EZNYJ/SVa9zVPZ6
-         pGlA==
-X-Gm-Message-State: AOAM533zvoKEt76t3/SHFa4fku3QiVAfZb5xUHpGLqDguE3wNpMGC0HB
-        56LZ+rUccQw+qywH6OOJ1A==
-X-Google-Smtp-Source: ABdhPJwEOqmW3gUGAMBLbLCqg94r8wnh0uNs5S+K0a/D5y2duMhiqd7HoPnsG9VQcMg0uw97eN3kcQ==
-X-Received: by 2002:a05:6870:8222:: with SMTP id n34mr167848oae.67.1644262801146;
-        Mon, 07 Feb 2022 11:40:01 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id i13sm4411438otl.46.2022.02.07.11.39.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Feb 2022 11:39:59 -0800 (PST)
-Received: (nullmailer pid 770258 invoked by uid 1000);
-        Mon, 07 Feb 2022 19:39:57 -0000
-Date:   Mon, 7 Feb 2022 13:39:57 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Luca Ceresoli <luca@lucaceresoli.net>
-Cc:     linux-media@vger.kernel.org, linux-i2c@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Peter Rosin <peda@axentia.se>,
+        with ESMTP id S243021AbiBGUbS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 15:31:18 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 650D8C0401DA
+        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 12:31:16 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28666340;
+        Mon,  7 Feb 2022 21:31:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1644265874;
+        bh=m+T8ZeGP6pS8ivz6cL7kRFi55RAyw7JyFxABP7qbBQI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PMshpmJweTyBaAcN4Nap1X/vYRDRAEv1tzwBtA+2VTOTk29ByjvLFPAC2qrO9XzEo
+         wvt7G3TkSTA1jkzLZaTpS9U5pGGAOh0eFjNk98K3bLPeEnLIpgbWQ/P4eicx1QuqGc
+         BV847QMLPa5wYx/CwQQDUoLv67sjzu1NNqxaoX6o=
+Date:   Mon, 7 Feb 2022 22:31:12 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        matti.vaittinen@fi.rohmeurope.com
-Subject: Re: [RFCv3 4/6] media: dt-bindings: add DS90UB954-Q1 video
- deserializer
-Message-ID: <YgF1ja8/Uab/8ZWt@robh.at.kernel.org>
-References: <20220206115939.3091265-1-luca@lucaceresoli.net>
- <20220206115939.3091265-5-luca@lucaceresoli.net>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v2 6/6] media: Documentation: add documentation about
+ subdev state
+Message-ID: <YgGBkM006oq38H9U@pendragon.ideasonboard.com>
+References: <20211217135022.364954-1-tomi.valkeinen@ideasonboard.com>
+ <20211217135022.364954-7-tomi.valkeinen@ideasonboard.com>
+ <YcDDzzX3XNlE/K05@paasikivi.fi.intel.com>
+ <YcGSG8PHXNHa7VKv@pendragon.ideasonboard.com>
+ <YcGsDvZK9AIuitsA@paasikivi.fi.intel.com>
+ <YcGtimscb6edlqys@pendragon.ideasonboard.com>
+ <YcG2EGCw6b9X2dLr@paasikivi.fi.intel.com>
+ <YcJqklqTlwghqn8P@pendragon.ideasonboard.com>
+ <27b84528-e2ae-2f6a-53bd-481ded10ad02@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220206115939.3091265-5-luca@lucaceresoli.net>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <27b84528-e2ae-2f6a-53bd-481ded10ad02@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Feb 06, 2022 at 12:59:37PM +0100, Luca Ceresoli wrote:
-> Describe the Texas Instruments DS90UB954-Q1, a 2-input MIPI CSI-2 video
-> deserializer with I2C Address Translator and remote GPIOs.
+Hi Tomi,
+
+On Mon, Feb 07, 2022 at 11:19:23AM +0200, Tomi Valkeinen wrote:
+> On 22/12/2021 02:00, Laurent Pinchart wrote:
 > 
-> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> >>>>>>> +:c:func:`v4l2_subdev_lock_state()`. The driver must then call
+> >>>>>>> +:c:func:`v4l2_subdev_unlock_state()` to unlock the state when done.
+> >>>>>>> +
+> >>>>>>> +Operations that do not receive a state parameter implicitly operate on the
+> >>>>>>> +subdevice active state, which drivers can exclusively access by
+> >>>>>>> +calling :c:func:`v4l2_subdev_lock_active_state()`. The sub-device active state
+> >>>>>>> +must equally be released by calling :c:func:`v4l2_subdev_unlock_state()`.
+> >>>>>>> +
+> >>>>>>> +Drivers must never manually access the state stored in the :c:type:`v4l2_subdev`
+> >>>>>>> +or in the file-handle without going through the designated helpers.
+> >>>>>>
+> >>>>>> Have you thought how this will interact with controls?
+> >>>>>>
+> >>>>>> Generally active state information exists for a device in struct
+> >>>>>> v4l2_subdev_state as well as the device's control handler as control
+> >>>>>> values. Controls have dependencies to other state information (active and
+> >>>>>> try).
+> >>>>>>
+> >>>>>> Until now, drivers have been responsible for serialising access to this
+> >>>>>> state on their own, mostly using a single mutex. Controls require a mutex
+> >>>>>> as well, but it's the same mutex independently of whether a driver is
+> >>>>>> dealing with active or try subdev state.
+> >>>>>>
+> >>>>>> In other words, if the above is assumed, when you're dealing with try state
+> >>>>>> that has dependencies to controls, you have to hold both that try state's
+> >>>>>> mutex as well as the control handler's mutex.
+> >>>>>
+> >>>>> Going forward, I think we should store the controls in the subdev state.
+> >>>>> That will require a uAPI extension to pass a `which` parameter to the
+> >>>>> control ioctls, and deprecated the control TRY ioctl on subdevs.
+> >>>>> Interactions between controls and pad formats will be easier to test, as
+> >>>>> applications will be able to set controls in the TRY state, interacting
+> >>>>> with the TRY formats. We will also need to rework the control handler
+> >>>>> operations to split .s_ctrl() in two, with one function to adjust a
+> >>>>> control value and one function to apply it.
+> >>>>>
+> >>>>> In the meantime, I think we'll need to acquire both locks, or possibly
+> >>>>> use the active state lock as the control handler lock.
+> >>>>
+> >>>> Note that also trying controls requires locking the control handler,
+> >>>> meaning that the control handler's mutex may not be the same as the active
+> >>>> state mutex (unless access also to try state is serialised using the same
+> >>>> mutex).
+> >>>>
+> >>>> What I'm saying is that to make this better usable with controls, changes
+> >>>> will be needed somewhere as the locking scheme is a poor match with that of
+> >>>> controls currently. Just saying the mutexes are acquired in a certain
+> >>>> order and pushing the problem to drivers is not a great solution.
+> >>>
+> >>> Could you maybe provide an example of existing subdev driver code that
+> >>> showcases this issue ? I'm not sure we really understand each other
+> >>> here.
+> >>
+> >> Whenever you're dealing with both controls and something in the state. Also
+> >> you've got a problem if the sensor driver does I²C writes to more than
+> >> 8-bit registers in 8-bit chunks and relies on hardware caching some values
+> >> before the entire register is updated.
+> >>
+> >> For instance, in the CCS driver, computing the PLL tree configuration
+> >> requires state (subdev format and selection rectangles) as well as control
+> >> values as input from multiple sub-devices. I suppose this is the case with
+> >> many sensor drivers --- I just know CCS best.
+> >>
+> >> The current implementation uses a single mutex for all controls and
+> >> subdevs.
+> > 
+> > For a single subdev, that could be done by setting
+> > v4l2_ctrl_handler.lock to &v4l2_subdev.active_state->lock.
 > 
-> ---
+> That would only cover the active state, not the try state.
+
+That's right, but semantics of the try operation for formats and
+controls are inherently different, so it's impossible to get it
+completely right in any case. To really solve this, we need to move
+control storage to the v4l2_subdev_state structure, and extend the
+subdev control ioctls with a which field. That's out of scope for this
+series.
+
+> I made a test change by changing the subdev state to have 'struct mutex 
+> _lock' and 'struct mutex *lock', similar to the struct 
+> v4l2_ctrl_handler. The driver could then, in its init_cfg(), set the 
+> state->lock to either v4l2_ctrl_handler.lock or a lock in the driver's 
+> private data.
 > 
-> Changes RFCv2 -> RFCv3:
+> This kind of lock sharing makes me a bit uncomfortable (although the 
+> controls are already allowing this, and a driver private mutex can be 
+> set as the ctrl lock): if I call v4l2_subdev_lock_active_state(), I 
+> don't expect the controls to be locked too.
 > 
->  - rewrite in yaml
->  - use new layout based on remote-chips under the main deser node
->  - new clock configuration based on common clock framework
-> 
-> Changes RFCv1 -> RFCv2:
-> 
->  - add explicit aliases for the FPD-link RX ports (optional)
->  - add proper remote GPIO description
-> ---
->  .../bindings/media/i2c/ti,ds90ub954-q1.yaml   | 235 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 241 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.yaml
-> new file mode 100644
-> index 000000000000..95dc3d22f5d8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.yaml
-> @@ -0,0 +1,235 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2019 Renesas Electronics Corp.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ti,ds90ub954-q1.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Texas Instruments DS90UB954-Q1 dual video deserializer
-> +
-> +maintainers:
-> +  - Luca Ceresoli <luca@lucaceresoli.net>
-> +
-> +description: |
-> +  The TI DS90UB954-Q1 is a MIPI CSI-2 video deserializer that forwards
-> +  video streams from up to two FPD-Link 3 connections to a MIPI CSI-2
-> +  output. It also allows access to remote I2C and GPIO.
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,ds90ub954-q1
-> +
-> +  reg:
-> +    description: |
-> +      main I2C slave address; optionally aliases for RX port registers and
-> +      remote serializers. The main address is mandatory and must be the
-> +      first, others are optional and fall back to defaults if not
-> +      specified. See "reg-names".
+> Then again, if I think about this as the subdev state really containing 
+> three parts: 1) the subdev active & try states, 2) controls, 3) driver 
+> private data, then it kind of makes sense. In the long run we could move 
+> towards combining these pieces together, and thus cleaning up the state 
+> management and locking.
 
-minItems: 1
-maxItems: 5
+I'm fine with this approach as a temporary hack.
 
-> +
-> +  reg-names:
-> +    description: |
-> +      Names of I2C address used to communicate with the chip, must match
-> +      the "reg" values; mandatory if there are 2 or more addresses.
-> +      "main" is the main I2C address, used to access shared registers.
-> +      "rxport0" and "rxport1" are the I2C alias to access FPD-link RX
-> +      port specific registers; must not be used by other slaves on the
-> +      same bus. "ser0" and "ser1" are the I2C alias to access the remote
-> +      serializer connected on each FPD-link RX port; must not be used by
-> +      other slaves on the same bus.
-> +    minItems: 1
-> +    maxItems: 5
-> +    items:
-> +      - const: main
-> +      - const: rxport0
-> +      - const: rxport1
-> +      - const: ser0
-> +      - const: ser1
-> +
-> +  clocks:
-> +    description: provider of the clock on the XIN/REFCLK pin
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description: chip reset GPIO connected to PDB pin (active low)
+-- 
+Regards,
 
-maxItems: 1
-
-> +
-> +  i2c-alias-pool:
-
-Needs a type.
-
-> +    description: |
-> +      list of I2C addresses that are known to be available on the "local"
-> +      (SoC-to-deser) I2C bus; they will be picked at runtime and used as
-> +      aliases to reach remote I2C chips
-> +
-> +  '#clock-cells':
-> +    description: |
-> +      the DS90UB954 provides the FPD line rate clock to the serializer
-> +    const: 0
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    patternProperties:
-> +      '^port@[01]$':
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: FPD-Link RX port 0 (RIN0+/RIN0- pins)
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +      '^port@2$':
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: MIPI-CSI2 TX port
-> +
-> +  remote-chips:
-> +    type: object
-> +
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +      '#size-cells':
-> +        const: 0
-> +
-> +    patternProperties:
-> +      '^remote-chip@([01]+)$':
-> +        type: object
-> +        $ref: /schemas/media/i2c/ti,ds90ub953-q1.yaml#
-> +
-> +    required:
-> +      - '#address-cells'
-> +      - '#size-cells'
-> +
-> +    additionalProperties: false
-> +
-> +  i2c-atr:
-> +    description: |
-> +      Each child describes the I2C bus on the remote side of an RX port
-> +    type: object
-> +
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +      '#size-cells':
-> +        const: 0
-> +
-> +    patternProperties:
-> +      '^i2c@([01]+)$':
-
-Only 0 or 1 is valid? Then drop the '+'.
-
-This is an i2c bus, so you need:
-
-           $ref: /schemas/i2c-controller.yaml#'
-           unevaluatedProperties: false
-
-> +        type: object
-> +
-> +        properties:
-> +          reg:
-> +            maxItems: 1
-
-> +          '#address-cells':
-> +            const: 1
-> +          '#size-cells':
-> +            const: 0
-
-You can drop these as i2c-controller.yaml covers them.
-
-> +          clock-frequency:
-> +            minimum: 1
-
-1 is already the minimum. (Well, maybe it is 0, but that's not really 
-useful.)
-
-> +            maximum: 1000000
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - ports
-> +  - remote-chips
-> +  - i2c-atr
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/ds90ub953.h>
-> +
-> +    i2c@0 {
-> +      reg = <0x0 0x100>;
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      deser: deser@3d {
-> +        compatible = "ti,ds90ub954-q1";
-> +        reg-names = "main", "rxport0", "rxport1", "ser0", "ser1";
-> +        reg       = <0x3d>,  <0x40>,    <0x41>,   <0x44>, <0x45>;
-> +        clocks = <&clk_25M>;
-> +        interrupt-parent = <&gic>;
-> +        interrupts = <3 1 IRQ_TYPE_LEVEL_LOW>;
-> +        reset-gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
-> +
-> +        #clock-cells = <0>;
-> +
-> +        i2c-alias-pool = /bits/ 16 <0x4a 0x4b 0x4c 0x4d 0x4e 0x4f>;
-> +
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          port@0 {
-> +            reg = <0>;
-> +            ds90ub954_fpd3_in0: endpoint {
-> +              remote-endpoint = <&sensor_0_out>;
-> +            };
-> +          };
-> +
-> +          port@2 {
-> +            reg = <2>;
-> +            ds90ub954_mipi_out0: endpoint {
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <400000000>;
-> +                    remote-endpoint = <&csirx_0_in>;
-> +            };
-> +          };
-> +        };
-> +
-> +        remote-chips {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          des0_ser0: remote-chip@0 {
-> +            reg = <0>;
-> +            compatible = "ti,ds90ub953-q1";
-> +            clocks = <&deser>;
-> +            ti,gpio-functions =
-> +              <DS90_GPIO_FUNC_UNUSED
-> +              DS90_GPIO_FUNC_OUTPUT_REMOTE
-> +              DS90_GPIO_FUNC_UNUSED
-> +              DS90_GPIO_FUNC_UNUSED>;
-> +
-> +            gpio-controller;
-> +            #gpio-cells = <2>;
-> +            #clock-cells = <0>;
-> +          };
-> +        };
-> +
-> +        i2c-atr {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          remote_i2c0: i2c@0 {
-> +            reg = <0>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            sensor_0@1a {
-> +              compatible = "sony,imx274";
-> +              reg = <0x1a>;
-> +
-> +              reset-gpios = <&des0_ser0 1 GPIO_ACTIVE_LOW>;
-> +
-> +              port {
-> +                sensor_0_out: endpoint {
-> +                  remote-endpoint = <&ds90ub954_fpd3_in0>;
-> +                };
-> +              };
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4429ce035496..f0156062f788 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19097,6 +19097,12 @@ S:	Maintained
->  F:	Documentation/devicetree/bindings/media/i2c/ti,ds90ub953-q1.yaml
->  F:	include/dt-bindings/media/ds90ub953.h
->  
-> +TEXAS INSTRUMENTS DS90UB954 VIDEO DESERIALIZER DRIVER
-> +M:	Luca Ceresoli <luca@lucaceresoli.net>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.yaml
-> +
->  TEXAS INSTRUMENTS' SYSTEM CONTROL INTERFACE (TISCI) PROTOCOL DRIVER
->  M:	Nishanth Menon <nm@ti.com>
->  M:	Tero Kristo <kristo@kernel.org>
-> -- 
-> 2.25.1
-> 
-> 
+Laurent Pinchart
