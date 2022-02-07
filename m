@@ -2,44 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C3384AC341
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 16:29:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E11F74AC33D
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 16:28:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239455AbiBGP2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 10:28:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37098 "EHLO
+        id S240994AbiBGP2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 10:28:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244039AbiBGPMU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 10:12:20 -0500
-X-Greylist: delayed 1846 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 07:11:51 PST
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBABBC0401E3
-        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 07:11:51 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 3682D60010;
-        Mon,  7 Feb 2022 15:11:46 +0000 (UTC)
-Date:   Mon, 7 Feb 2022 16:12:54 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
-        tomi.valkeinen@ideasonboard.com, hugues.fruchet@st.com,
-        prabhakar.mahadev-lad.rj@bp.renesas.com, aford173@gmail.com,
-        festevam@gmail.com, Eugen.Hristev@microchip.com,
-        jbrunet@baylibre.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 11/21] media: ov5640: Add VBLANK control
-Message-ID: <20220207151254.o3kfeb2lxddypij7@uno.localdomain>
-References: <20220131143245.128089-1-jacopo@jmondi.org>
- <20220131143245.128089-12-jacopo@jmondi.org>
- <b6394f46-d379-5577-9745-7093abfd7ea6@oss.nxp.com>
+        with ESMTP id S1443667AbiBGPNg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 10:13:36 -0500
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC685C03FED3
+        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 07:13:14 -0800 (PST)
+Received: by mail-oi1-x233.google.com with SMTP id 4so17229241oil.11
+        for <linux-media@vger.kernel.org>; Mon, 07 Feb 2022 07:13:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NgLzhNEOB/umY2G29qPQnKU7fENvJTeyCIxyQJI0WC8=;
+        b=GCac4Qy3VunjSaQ8Y0FfjR4DG151bVUy0cheEUaUQtVtafKE9mz9Bwggz698p0Bbp5
+         cy9t6zlRsb5p/DKGVqzC41WPRID4snkB0zkfRsszv9kbmOq1i8ryjW3GdxTuCPJenpst
+         K3y4PWUjtDJSpO0VfGgcTF/XDPanXNvb+jJOL2FdPXsavNeKz7XavHHPUbPpBiV1cIqr
+         ejv0XIIkC4Fyb1yhnLHb/msj5nYZsqeQ8G2AVRtku2y5RJNykhyuULCLuUJSujI+0DYn
+         gcVxfGEqmd3xxw3jNo/Y9hofIPegsqeyAcBkBVfa2IczKHid75hWz9HVqsqhiKSkuXVX
+         etbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NgLzhNEOB/umY2G29qPQnKU7fENvJTeyCIxyQJI0WC8=;
+        b=2BsTL7uR1tmkWjrLBH6H2wq3eIzzWWtG6Bu0cvVQXVW7/wDme1XsOAgeGVm7Hidpjq
+         JL/YvDR91M0dQClE6zIkEKfpqIxPxjXdBetIaQ9FDTO+IpNZAHcpVlp7IAHsu/cBSMqY
+         h8qfs0eD6quQNP+vuAfGa0HqTcLmWLg2EEMsWNIarxDGdZhMZWLFEwkhUIrJArNN9PbJ
+         AejDlmyBEE+LgZlRl8CKYrLdh8ONK8ivRfdORLUDonlazwxhKaxBjE9v0iGpY+F15hRU
+         hlxisWeR1vE2cOb6Bx8TnoOF+ce2wELb0gBtJcVEc7Dmy486qsPWkP0dhUHN2dXkQ6mn
+         1bog==
+X-Gm-Message-State: AOAM533iB1tSl+1FXJI5k6g9Yol6s3ozuXArIKhq6Z+0E6JTgRCylTYY
+        KAy+XAUNm/qsg3z/tM0LYH7U0g==
+X-Google-Smtp-Source: ABdhPJxGWZKcjy9KWReecJceZEhjyMjc2eHswxwI1B6pEe6iGyGhax8rbeDRCLzYSlzMGAT4bKn3sw==
+X-Received: by 2002:a05:6808:1648:: with SMTP id az8mr79160oib.22.1644246794304;
+        Mon, 07 Feb 2022 07:13:14 -0800 (PST)
+Received: from eze-laptop ([190.194.87.200])
+        by smtp.gmail.com with ESMTPSA id s3sm4447446ois.19.2022.02.07.07.13.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Feb 2022 07:13:13 -0800 (PST)
+Date:   Mon, 7 Feb 2022 12:13:08 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     kernel@collabora.com, linux-media@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
+        ribalda@chromium.org, tfiga@chromium.org, senozhatsky@google.com,
+        hch@lst.de, dafna3@gmail.com
+Subject: Re: [PATCH v2 4/4] media: stk1160: use dma_alloc_noncontiguous API
+Message-ID: <YgE3BGsZs1h/fyzK@eze-laptop>
+References: <20220125080213.30090-1-dafna.hirschfeld@collabora.com>
+ <20220125080213.30090-5-dafna.hirschfeld@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b6394f46-d379-5577-9745-7093abfd7ea6@oss.nxp.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+In-Reply-To: <20220125080213.30090-5-dafna.hirschfeld@collabora.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,181 +71,150 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Xavier
+Hi Dafna,
 
-On Thu, Feb 03, 2022 at 08:58:37AM +0100, Xavier Roumegue (OSS) wrote:
-> Hello Jacopo,
->
-> On 1/31/22 15:32, Jacopo Mondi wrote:
-> > Add the VBLANK control which allows to select the duration of the
-> > frame vertical blankings and allows to control the framerate.
-> >
-> > The VBLANK control also modifies the exposure time range, which cannot
-> > exceed the maximum frame length.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >   drivers/media/i2c/ov5640.c | 50 ++++++++++++++++++++++++++++++++++++++
-> >   1 file changed, 50 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index b2961e8e07c3..6eeb50724195 100644
-> > --- a/drivers/media/i2c/ov5640.c
-> > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -31,6 +31,10 @@
-> >   #define OV5640_LINK_RATE_MAX	490000000U
-> > +/* FIXME: not documented. */
-> > +#define OV5640_MIN_VBLANK	24
-> > +#define OV5640_MAX_VTS		1968
-> > +
-> >   #define OV5640_DEFAULT_SLAVE_ID 0x3c
-> >   #define OV5640_REG_SYS_RESET02		0x3002
-> > @@ -267,6 +271,7 @@ struct ov5640_ctrls {
-> >   	struct v4l2_ctrl *pixel_rate;
-> >   	struct v4l2_ctrl *link_freq;
-> >   	struct v4l2_ctrl *hblank;
-> > +	struct v4l2_ctrl *vblank;
-> >   	struct {
-> >   		struct v4l2_ctrl *auto_exp;
-> >   		struct v4l2_ctrl *exposure;
-> > @@ -2531,6 +2536,7 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
-> >   	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
-> >   	enum ov5640_pixel_rate_id pixel_rate_id = mode->pixel_rate;
-> >   	u32 num_lanes = sensor->ep.bus.mipi_csi2.num_data_lanes;
-> > +	s64 exposure_val, exposure_max;
-> >   	unsigned int hblank;
-> >   	unsigned int i = 0;
-> >   	u32 pixel_rate;
-> > @@ -2586,6 +2592,20 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
-> >   	__v4l2_ctrl_modify_range(sensor->ctrls.hblank,
-> >   				 hblank, hblank, 1, hblank);
-> > +	__v4l2_ctrl_modify_range(sensor->ctrls.vblank,
-> > +				 OV5640_MIN_VBLANK,
-> > +				 OV5640_MAX_VTS - mode->crop.height, 1,
-> > +				 mode->vblank_def);
-> > +	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, mode->vblank_def);
-> > +
-> > +	exposure_max = mode->crop.height + mode->vblank_def - OV5640_MIN_VBLANK;
-> > +	exposure_val = clamp((s64)sensor->ctrls.exposure->val,
-> > +			     (s64)sensor->ctrls.exposure->minimum,
-> > +			     (s64)exposure_max);
-> > +	__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
-> > +				 sensor->ctrls.exposure->minimum,
-> > +				 exposure_max, 1, exposure_val);
-> > +
-> >   	return 0;
-> >   }
-> > @@ -2958,6 +2978,15 @@ static int ov5640_set_ctrl_vflip(struct ov5640_dev *sensor, int value)
-> >   			      (BIT(2) | BIT(1)) : 0);
-> >   }
-> > +static int ov5640_set_ctrl_vblank(struct ov5640_dev *sensor, int value)
-> > +{
-> > +	const struct ov5640_mode_info *mode = sensor->current_mode;
-> > +
-> > +	/* Update the VTOT timing register value. */
-> > +	return ov5640_write_reg16(sensor, OV5640_REG_TIMING_VTS,
-> > +				  mode->crop.height + value);
-> > +}
-> > +
-> >   static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-> >   {
-> >   	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
-> > @@ -2988,10 +3017,22 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
-> >   {
-> >   	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
-> >   	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> > +	const struct ov5640_mode_info *mode = sensor->current_mode;
-> >   	int ret;
-> >   	/* v4l2_ctrl_lock() locks our own mutex */
-> > +	switch (ctrl->id) {
-> > +	case V4L2_CID_VBLANK:
-> > +		/* Update the exposure range to the newly programmed vblank. */
-> > +		unsigned int max = mode->crop.height + ctrl->val - OV5640_MIN_VBLANK;
-> > +
-> > +		__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
-> > +					 sensor->ctrls.exposure->minimum,
-> > +					 max, sensor->ctrls.exposure->step, max);
-> > +		break;
-> > +	}The kernel build reports the errors below with clang toolchain (LLVM=1):
->
-> drivers/media/i2c/ov5640.c:3124:3: error: expected expression
->                 unsigned int max = mode->crop.height + ctrl->val -
-> OV5640_MIN_VBLANK;
->                 ^
-> drivers/media/i2c/ov5640.c:3128:7: error: use of undeclared identifier 'max'
->                                          max, sensor->ctrls.exposure->step,
-> max);
->                                          ^
-> drivers/media/i2c/ov5640.c:3128:42: error: use of undeclared identifier
-> 'max'
->                                          max, sensor->ctrls.exposure->step,
-> max);
->
->      ^
-> 3 errors generated.
-> make[3]: *** [scripts/Makefile.build:288: drivers/media/i2c/ov5640.o] Error
-> 1
->
-> Declaring the  variable within a compound statement following the label
-> (case), or moving the declaration after the switch fix the build.
-> The former construct might be more aligned with kernel coding use (?).
->
-> switch(...) {
-> case ...: {
-> 	unsigned int max = ...;
-> 	...
-> }
-> }
->
-> or
->
-> switch(...) {
-> 	unsigned int max = 0;
-> 	case ...:
-> 		...
-> 		break;
+On Tue, Jan 25, 2022 at 10:02:13AM +0200, Dafna Hirschfeld wrote:
+> Replace the urb buffers allocation to use the
+> noncontiguous API. This improves performance on ARM
+> platform since the previous dma allocation was
+> coherent dma allocation which disables the cache on
+> ARM platforms. With the noncontiguous API the cache
+> is not disabled.
+> The noncontiguous API requires the driver to
+> handle synchronization.
+> This commit is similar to this one for the uvc driver:
+> 
+^^^^^^
+This description still looks weird. How about:
 
-Thanks, I didn't compile with clang :)
+"""
+Replace the urb buffers allocation to use the noncontiguous API
 
-I'll go for the former, as you say it is more aligned with common
-practices as far as I can tell.
+This improves performance on ARM platform where DMA coherent allocations
+produce uncached mappings. Note that the noncontiguous API
+requires the driver to handle synchronization.
 
-Thanks
-  j
+This commit is similar to this one for the uvc driver:
 
-> }
->
-> > +
-> >   	/*
-> >   	 * If the device is not powered up by the host driver do
-> >   	 * not apply any controls to H/W at this time. Instead
-> > @@ -3031,6 +3072,9 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
-> >   	case V4L2_CID_VFLIP:
-> >   		ret = ov5640_set_ctrl_vflip(sensor, ctrl->val);
-> >   		break;
-> > +	case V4L2_CID_VBLANK:
-> > +		ret = ov5640_set_ctrl_vblank(sensor, ctrl->val);
-> > +		break;
-> >   	default:
-> >   		ret = -EINVAL;
-> >   		break;
-> > @@ -3050,6 +3094,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
-> >   	const struct v4l2_ctrl_ops *ops = &ov5640_ctrl_ops;
-> >   	struct ov5640_ctrls *ctrls = &sensor->ctrls;
-> >   	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
-> > +	unsigned int max_vblank;
-> >   	unsigned int hblank;
-> >   	int ret;
-> > @@ -3073,6 +3118,11 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
-> >   	ctrls->hblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HBLANK, hblank,
-> >   					  hblank, 1, hblank);
-> > +	max_vblank = OV5640_MAX_VTS - mode->crop.height;
-> > +	ctrls->vblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VBLANK,
-> > +					  OV5640_MIN_VBLANK, max_vblank,
-> > +					  1, mode->vblank_def);
-> > +
-> >   	/* Auto/manual white balance */
-> >   	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
-> >   					   V4L2_CID_AUTO_WHITE_BALANCE,
-> Regards,
->  Xavier
+  https://lkml.org/lkml/2021/3/12/1506
+
+Performance ...
+""
+
+Also, see below a little change:
+
+> 
+> Performance tests on rock-pi4 (Arm64) shows about 15x
+> improvements:
+> 
+> == DMA NONCONTIGUOUS ==
+> total durations: 20.63678480 sec
+> urb processing durations: 0.286864889 sec
+> uS/qty: 286864/2508 avg: 114.379 min: 0.583 max: 155.461 (uS)
+> FPS: 24.92
+> lost: 0 done: 500
+> raw decode speed: 11.603 Gbits/s
+> bytes 414831228.000
+> bytes/urb: 165403
+> 
+> == DMA COHERENT ==
+> total durations: 20.73551767 sec
+> urb processing durations: 4.541559160 sec
+> uS/qty: 4541559/2509 avg: 1810.107 min: 0.583 max: 2113.163 (uS)
+> FPS: 24.90
+> lost: 0 done: 500
+> raw decode speed: 730.738 Mbits/s
+> bytes 414785444.000
+> bytes/urb: 165319
+> 
+> Performance tests on x86 laptop show no significant
+> difference:
+> 
+> == DMA NONCONTIGUOUS ==
+> total durations: 20.220590102 sec
+> urb processing durations: 0.63021818 sec
+> uS/qty: 63021/2512 avg: 25.088 min: 0.138 max: 146.750 (uS)
+> FPS: 24.72
+> lost: 0 done: 500
+> raw decode speed: 52.751 Gbits/s
+> bytes 415421032.000
+> bytes/urb: 165374
+> 
+> == DMA COHERENT ==
+> total durations: 20.220475614 sec
+> urb processing durations: 0.64751972 sec
+> uS/qty: 64751/2512 avg: 25.777 min: 0.168 max: 132.250 (uS)
+> FPS: 24.72
+> lost: 0 done: 500
+> raw decode speed: 51.927 Gbits/s
+> bytes 415422794.000
+> bytes/urb: 165375
+> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/media/usb/stk1160/stk1160-v4l.c   |   4 +
+>  drivers/media/usb/stk1160/stk1160-video.c | 114 +++++++++++++---------
+>  drivers/media/usb/stk1160/stk1160.h       |  10 ++
+>  3 files changed, 84 insertions(+), 44 deletions(-)
+> 
+> diff --git a/drivers/media/usb/stk1160/stk1160-v4l.c b/drivers/media/usb/stk1160/stk1160-v4l.c
+> index ebf245d44005..a1f785a5ffd8 100644
+> --- a/drivers/media/usb/stk1160/stk1160-v4l.c
+> +++ b/drivers/media/usb/stk1160/stk1160-v4l.c
+> @@ -232,6 +232,10 @@ static int stk1160_start_streaming(struct stk1160 *dev)
+>  
+>  	/* submit urbs and enables IRQ */
+>  	for (i = 0; i < dev->isoc_ctl.num_bufs; i++) {
+> +		struct stk1160_urb *stk_urb = &dev->isoc_ctl.urb_ctl[i];
+> +
+> +		dma_sync_sgtable_for_device(stk1160_get_dmadev(dev), stk_urb->sgt,
+> +					    DMA_FROM_DEVICE);
+>  		rc = usb_submit_urb(dev->isoc_ctl.urb_ctl[i].urb, GFP_KERNEL);
+>  		if (rc) {
+>  			stk1160_err("cannot submit urb[%d] (%d)\n", i, rc);
+> diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
+> index f3c0497a8539..6600afc565b8 100644
+> --- a/drivers/media/usb/stk1160/stk1160-video.c
+> +++ b/drivers/media/usb/stk1160/stk1160-video.c
+> @@ -295,7 +295,9 @@ static void stk1160_process_isoc(struct stk1160 *dev, struct urb *urb)
+>  static void stk1160_isoc_irq(struct urb *urb)
+>  {
+>  	int i, rc;
+> -	struct stk1160 *dev = urb->context;
+> +	struct stk1160_urb *stk_urb = urb->context;
+> +	struct stk1160 *dev = stk_urb->dev;
+> +	struct device *dma_dev = stk1160_get_dmadev(dev);
+>  
+>  	switch (urb->status) {
+>  	case 0:
+> @@ -310,6 +312,10 @@ static void stk1160_isoc_irq(struct urb *urb)
+>  		return;
+>  	}
+>  
+> +	invalidate_kernel_vmap_range(stk_urb->transfer_buffer,
+> +				     urb->transfer_buffer_length);
+> +	dma_sync_sgtable_for_cpu(dma_dev, stk_urb->sgt, DMA_FROM_DEVICE);
+> +
+>  	stk1160_process_isoc(dev, urb);
+>  
+>  	/* Reset urb buffers */
+> @@ -318,6 +324,7 @@ static void stk1160_isoc_irq(struct urb *urb)
+>  		urb->iso_frame_desc[i].actual_length = 0;
+>  	}
+>  
+> +	dma_sync_sgtable_for_device(dma_dev, stk_urb->sgt, DMA_FROM_DEVICE);
+>  	rc = usb_submit_urb(urb, GFP_ATOMIC);
+>  	if (rc)
+>  		stk1160_err("urb re-submit failed (%d)\n", rc);
+> @@ -353,37 +360,34 @@ void stk1160_cancel_isoc(struct stk1160 *dev)
+>  	stk1160_dbg("all urbs killed\n");
+>  }
+>  
+> +static void stk_free_urb_buffer(struct stk1160 *dev, struct stk1160_urb *stk_urb)
+
+Change this function to "stk1160_free_urb". With that,
+
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+Thanks,
+Ezequiel
