@@ -2,725 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D7474ABF63
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 14:24:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C15BC4AC0A8
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 15:12:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384463AbiBGMs0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 07:48:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47350 "EHLO
+        id S239724AbiBGNy4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 08:54:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1446788AbiBGMnz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 07:43:55 -0500
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A449C043189;
-        Mon,  7 Feb 2022 04:43:43 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id C591A1C0002;
-        Mon,  7 Feb 2022 12:43:37 +0000 (UTC)
-Date:   Mon, 7 Feb 2022 13:44:44 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Eugen Hristev <eugen.hristev@microchip.com>
-Cc:     robh+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, jacopo+renesas@jmondi.org,
-        hverkuil-cisco@xs4all.nl, nicolas.ferre@microchip.com,
-        sakari.ailus@iki.fi, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v4 03/11] media: atmel: atmel-isc: implement media
- controller
-Message-ID: <20220207124444.giyamcg2dgn6t3hv@uno.localdomain>
-References: <20220121131416.603972-1-eugen.hristev@microchip.com>
- <20220121131416.603972-4-eugen.hristev@microchip.com>
+        with ESMTP id S1449307AbiBGNVL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 08:21:11 -0500
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70044.outbound.protection.outlook.com [40.107.7.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD85EC043181;
+        Mon,  7 Feb 2022 05:21:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m61zRl4SiJ2pdWytjwzceYS9VpcK7REPwSo9+k4uGhrOAaO1w1NRAFUe+Lkgvg+qIepGreZ+If+8gE4dIceI7IlEy8mWsWH2mz6vCwInTgK9J/Ghvy1yobH0j0yb2o6UQ33GfbNtXo5RURlTaZRsqaad/4xwCzPcbxWn9EarwVPfhrMozgBG60JZ9j/uK2rMwajYm3hjmhwXqlw9h0a7R88UKs+qUx50gabeeqqOZnFFnuj23LAwJLnumv6T1fLsD5NOublGTPDI9Sey7KVec/7dL64gWCgeY6tIWGJPeXp7p6brzb60hFC5NoMMseikbNourUb7AKKHPvahyRwd+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zEcvHTwXecBlIChrhwH8fYWJ4rE6BPQ/CxDVI/yIqME=;
+ b=mn/DdA/lkfh50cpIchc2I0TwpO583teiZ+0wZz2pu1NoEwLbF4mPa5qpCP/jdqfSN+Fx8D5IgIFfXCWEHdkFECEb3w2dPawwrPFVZ3nVfJP9MQySEzZLxwPRnKGh9bo2nIA0qIyVqoIV85p3nm4GNW66liIMqiej20j8HlprKKJTwUoFdLR5A5Ss6B6+5AFeMuv0nbAfXOkVqMEZ6bVJPhAFcjdzaCFn4Pgp9D6x6kv14NudbaYgyjPhVqdlpQT/1TWU9/9WK1bukUwAYbB0+1enEL9y1PGAVRrX8E5N6QlOeQ9vBWj5eiZjgYI//PteJ77Et807Hlu8MJaAT/S6Dg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rohmsemiconductoreurope.onmicrosoft.com;
+ s=selector1-rohmsemiconductoreurope-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zEcvHTwXecBlIChrhwH8fYWJ4rE6BPQ/CxDVI/yIqME=;
+ b=HrbM1T26wiCKK3O/ulLAbCdV0nENGxXr7RDzEsbXV84zyOn1fpsHAVP5BB/x0YGnESfSMma4zfAs/jym258nGZwZklw9FpHmegmD1I0zdV9zFnwu9uNWezQDdRS4mCvPrx1tHIMAJLbfi3syCbV4aQyB8htjffoy8GX+bZxO6oM=
+Received: from HE1PR03MB3162.eurprd03.prod.outlook.com (2603:10a6:7:55::20) by
+ VI1PR0301MB2527.eurprd03.prod.outlook.com (2603:10a6:800:67::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.18; Mon, 7 Feb
+ 2022 13:21:02 +0000
+Received: from HE1PR03MB3162.eurprd03.prod.outlook.com
+ ([fe80::833:be72:6b04:dca9]) by HE1PR03MB3162.eurprd03.prod.outlook.com
+ ([fe80::833:be72:6b04:dca9%7]) with mapi id 15.20.4951.017; Mon, 7 Feb 2022
+ 13:21:02 +0000
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Peter Rosin <peda@axentia.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [RFCv3 0/6] TI camera serdes and I2C address translation (Was:
+ [RFCv3 0/6] Hi,)
+Thread-Topic: [RFCv3 0/6] TI camera serdes and I2C address translation (Was:
+ [RFCv3 0/6] Hi,)
+Thread-Index: AQHYHBs2RD5e2C8Zu0SeCTUQRW2AkqyIEuOA
+Date:   Mon, 7 Feb 2022 13:21:02 +0000
+Message-ID: <5aa3e282-3056-2088-9741-6d17273701b4@fi.rohmeurope.com>
+References: <20220206115939.3091265-1-luca@lucaceresoli.net>
+ <7e5af144-bd5f-cd0e-2109-49b318449a78@ideasonboard.com>
+In-Reply-To: <7e5af144-bd5f-cd0e-2109-49b318449a78@ideasonboard.com>
+Accept-Language: fi-FI, en-US
+Content-Language: fi-FI
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fi.rohmeurope.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8739c687-5888-4c81-5724-08d9ea3cb00b
+x-ms-traffictypediagnostic: VI1PR0301MB2527:EE_
+x-microsoft-antispam-prvs: <VI1PR0301MB2527BB0C8C0B4FE0B7707AC2AD2C9@VI1PR0301MB2527.eurprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ijr36lt2iuxtzElwtrVzYTRpzf+Hob2+fNtGFksduhrtEuVVMaLWeRsvM2VYSQMqPuJulH3Aspv3V+ESySmFWW1A3+HC/u2lHahn0XyVw0ks0uPpiv3B5RP0SGdcxy/tcKlodNHgJpBxrbcXZ8kuudIhNKhUqXXVPqWwn8DZykjELBj/9si8+10NsFYNltL14jm0othfT45VAbglxJ2HTcN3JTUWVHppcagSqnaaXp+s4PYjyqbqeVZhYXmxarZZLO49LQN2ExZh2T38CJR6EdK2VIhfKgZCINtkL3oQ7s+Ys1spnoa+WhZ0W1UDfHpvVh1ASft4nRIncT/Qez30yl7kpUaKoxNi+221f8kWO6v83O+Ghc/CQd5ttN2xj/3j6YbDF4fqa4TOJdz2L4OxFKr78Dn/UYwZlFVnmSLVA3bbL35R0VRNWkHAXpbvbKc+WRbwbPI8xBx9uNdRppMO+zzklAO7xgRSK5Ae71l5FLs12VkAcqHTGk3TrMVRRv7WiOAM1Qnxs8AGkyE9MM9w5bGLdIz8vwLE3s5sYOlpTp7IVVZSWyz8TgfIcx11vuP2uCrq8b+rmLF2hsE7lyj5vJLxYd6P8prmlqcivgSYbV6CebWZRu9h8ceMTKsfnRpcYLkCuRcP06Kav9xdbd8NQXv0oKLCWK/er3/yhA33ioPs/qCl0Gv0GhyoDhGJuHnMXOREQ3plEJ376ShNEvZPh3Lihcxhh9ToHGrCH8sRa9eJW4LjykEHkqr8hYWQDmVgkIZwzoHsADB0GkmtQr2oieNzjPfiHbntoGo+4YaFFA/F7RaHw7VDH/w60NV8bDqqS9HctUMgGXk2GrOXCqEY8zKA2M6pfE/i4yOaidVIxuM=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR03MB3162.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8676002)(64756008)(53546011)(83380400001)(6512007)(6506007)(31686004)(76116006)(8936002)(66946007)(26005)(2616005)(66476007)(186003)(71200400001)(66556008)(66446008)(508600001)(54906003)(38100700002)(2906002)(316002)(6486002)(966005)(31696002)(5660300002)(38070700005)(110136005)(7416002)(122000001)(86362001)(4326008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VFVVRmdIT2RGQlM1VmZWdEtFZ0oyRmNRSlUwTnlHeWI1R1pPTkFMZzUxUFhK?=
+ =?utf-8?B?TUY1WVp2QUludy8yNDZIM2JNdFJzWU1QekZjMk50bnBDU2lUekRzS2NlcGxR?=
+ =?utf-8?B?bjhBeXhlUFBuRkZLUldGTW5LMGhQVWM1dUZkQThpbTBGNHZ2MHVNOW1adGRS?=
+ =?utf-8?B?c3QzYU82ZHFNZ0JsTGdscDFtWGJWQWhuc1lMbENLMXg1ZTZObGFyT2ZvN0NI?=
+ =?utf-8?B?RE5WVWM4NmljQWRYaE1ydjZ1LzZmbFllc1pEMmJoTzZFTGJxMGN4VU13QWtm?=
+ =?utf-8?B?SU9iQ29EYVo5NUhHNllLbmNvV014T3V5dENpRzRaTnYrYTNxeWRwN2ZvOEFi?=
+ =?utf-8?B?L1dQQWo4T3JKeEhTWHU4MEozZ3huRUNKa1FOU3h4ODRkdDB1RXI4aW5GVHZj?=
+ =?utf-8?B?QmVraWR2TXc5ZjlwSTcweTR1aWJTeUhBdGRKcmNrczJvVzkrdk1ublRDVUNX?=
+ =?utf-8?B?SVlDcERSRTFmQWM2bFpoRTJLMUFFeGNXYlFwNUQ3alJkWU1iZmF4VUVTb1JT?=
+ =?utf-8?B?eWRjaW1vcDBaNVhYbExrK0E1UlBxaDBab0RXRm1Mc3lJNjF1L1pLQlYwci9H?=
+ =?utf-8?B?NTIzWGZMMThNZ3lzS2tFUFRpS0xhb1pJaStuaWt3OUtBQTVpRDgvZFdMYzhl?=
+ =?utf-8?B?bWR6WW5IQVVnWnd1MFhEMmtuTjlFMkJBeFYrVTU2RzArSUZLZnNsMU40YWV6?=
+ =?utf-8?B?WHlaTXU5MlZybWprQXo4QkVNUDduTlJ1Yk42WENJQ3RVa2cyTWxaMGowMHl2?=
+ =?utf-8?B?VnErb1M5UmNGRldHQ1FCRkJ5dEJlQmwrc2haVGdiNUNCQm8xcEQzNHg5NUMx?=
+ =?utf-8?B?VEtTM3RXa0Q3dnBIQ3VhT0t2YkgvOWNOZElqd21HSU91WTJPN0VpRTdTVThF?=
+ =?utf-8?B?OXN0TW05VERmMUpoY2ZrTjBiMDdZVXEyWXg2OE5YMStqL0EyREVJcjNWc1h0?=
+ =?utf-8?B?RmMzTTNuaUR5cG9hQXVpTExKb0oyYXRGcUM2ellyUG5aVlFlUDNTd1g5bnFx?=
+ =?utf-8?B?elZySlFGSmtnM01qNXQrTmNwck9heVB6WGRlb1FQWFZodzJ4cFZQeXJqdG9N?=
+ =?utf-8?B?SlBrV2lZYjdZWXhvaTRiWm5tQzVqL2pUSUtCYWdFLzU2UStxSFZlYW1iaUFo?=
+ =?utf-8?B?aCtXUGIyNkNGMHdBUWdpdWFPV1ZXSGZBbm5BMVRSdFdlUjh3RkRsTlJGUHVZ?=
+ =?utf-8?B?R0wybkt1WlZNblFMR0NkVGIvQ1lPVU5nVEFXbWdxR0FXSlM1MytJdldSK0VU?=
+ =?utf-8?B?Zi9lTmc0c0JGdWt3aC9UQWpzenp0N3ZSNmsrRkhTZSs4dXl5UkM0S3lSeHM1?=
+ =?utf-8?B?TXdhdHd6OGdwOXhWWkVmaEFWM3c2ZVBSUWtTUWQ3YVM1ZVdObVdYTnNqbDNu?=
+ =?utf-8?B?NktDL2lOaENicmJ4cDlvT0tlMHkyMWx4Qm81b2I2TE9nNlFmeENCeGNGVDcr?=
+ =?utf-8?B?ck1DM0hkbFFpZVI5b081a25zTC94SlFNa0pCaVRYam9TcXE2SVo4WGlLcjFa?=
+ =?utf-8?B?UUtWclRMZFU1Ym5LRWE4VTFIeTlub1BacWZRWEQwbElKdU14aStJd2hkZElU?=
+ =?utf-8?B?WFJuUTFiV2FxbkU1SkJicTBtNkVHRkxINXR5SzRjN3R2K1hFVnJQT0cxTUd5?=
+ =?utf-8?B?YktNTGt1c0hiOFpuQk5xRVNFOG5rdHlsb3EzTG9qM2sxQ2FySjYyQUlIU2Jj?=
+ =?utf-8?B?OTJEQ2NFSkJaZWI3c2k4aFVkTVJNdm1WRWt4SjlYdlAzT1lMdzNkV2syVUNx?=
+ =?utf-8?B?NzVYMjVENDJ6TUxPTTJMQk9tR0kxakNJb3VVUVlHSTVGdHdudVh6T0hORXR0?=
+ =?utf-8?B?SGlQRlFrSUFCYmlRbVM4bWV0M05PcEpQcnQ1VVJUd1VlU3ptSnhITXVMN0hk?=
+ =?utf-8?B?YXhHMmFYeFc5YXEzcGRWQnJPRWpvVEEwNWd1ZkEwT29CbkVZdHZ6aHVzS0ho?=
+ =?utf-8?B?akJ5M094UWwzbHJOWFFSNFZhT2dvMnBZTk05S0R2N29vVDBiRm43QW1MSnpo?=
+ =?utf-8?B?VlJySGV5YmtjRldOUFEybVZVTUU4NUpjaStabEhFYmNhd3JtaThSemFrMHJB?=
+ =?utf-8?B?SDlUY2pPdk55dWRBMmd4UzI5Qk1mK2ROaDlxczl4RXJHaUgyaXkvcmR1RU9M?=
+ =?utf-8?B?RXJOdks4RWtaejRCY2pWS2owQ2NKd2k1UXhWS1VhZGsvcmovYVVldkRFNjFk?=
+ =?utf-8?B?NzNkZDViMW9EMFZESXY3QlpIN2N3bTBid281YlBTeXlHRzd3SEZXUUxnVERR?=
+ =?utf-8?B?MWNNRGhTYmlIWlpZeWoyekw5M09ZVEFtbjJuKzc5VlNZY2hTcm05MmY2K0Zw?=
+ =?utf-8?Q?Ty61NdX0wMWg7jf02+?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FCC25CCD5D9C314BB79BC95A5015FB9E@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220121131416.603972-4-eugen.hristev@microchip.com>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+X-OriginatorOrg: fi.rohmeurope.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR03MB3162.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8739c687-5888-4c81-5724-08d9ea3cb00b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2022 13:21:02.0387
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 94f2c475-a538-4112-b5dd-63f17273d67a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jSywLky0DMaUeHrDP7H1WFw6cFtUJtJw+P+ZpCPHrFCy1bfKmQfHqWANBhqW8xr+93/J7MyQEMLx1fcEEExfPXNfFi9GY1TAeBvhe9rUoflFJyGiZQImzSmv/xsIaBEC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0301MB2527
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen
-
-On Fri, Jan 21, 2022 at 03:14:08PM +0200, Eugen Hristev wrote:
-> Implement the support for media-controller.
-> This means that the capabilities of the driver have changed and now
-> it also advertises the IO_MC .
-> The driver will register it's media device, and add the video entity to this
-> media device. The subdevices are registered to the same media device.
-> The ISC will have a base entity which is auto-detected as atmel_isc_base.
-> It will also register a subdevice that allows cropping of the incoming frame
-> to the maximum frame size supported by the ISC.
-> The ISC will create a link between the subdevice that is asynchronously
-> registered and the atmel_isc_scaler entity.
-> Then, the atmel_isc_scaler and atmel_isc_base are connected through another
-> link.
->
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> ---
-> Changes in v4:
-> As suggested by Jacopo:
-> - renamed atmel_isc_mc to atmel_isc_scaler.c
-> - moved init_mc/clean_mc to isc_base file
->
-> Changes in v2:
-> - implement try formats
->
->  drivers/media/platform/atmel/Makefile         |   2 +-
->  drivers/media/platform/atmel/atmel-isc-base.c |  73 +++++-
->  .../media/platform/atmel/atmel-isc-scaler.c   | 245 ++++++++++++++++++
->  drivers/media/platform/atmel/atmel-isc.h      |  37 +++
->  .../media/platform/atmel/atmel-sama5d2-isc.c  |  14 +-
->  .../media/platform/atmel/atmel-sama7g5-isc.c  |  12 +-
->  6 files changed, 375 insertions(+), 8 deletions(-)
->  create mode 100644 drivers/media/platform/atmel/atmel-isc-scaler.c
->
-> diff --git a/drivers/media/platform/atmel/Makefile b/drivers/media/platform/atmel/Makefile
-> index 794e8f739287..f02d03df89d6 100644
-> --- a/drivers/media/platform/atmel/Makefile
-> +++ b/drivers/media/platform/atmel/Makefile
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  atmel-isc-objs = atmel-sama5d2-isc.o
->  atmel-xisc-objs = atmel-sama7g5-isc.o
-> -atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o
-> +atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o atmel-isc-scaler.o
->
->  obj-$(CONFIG_VIDEO_ATMEL_ISI) += atmel-isi.o
->  obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE) += atmel-isc-common.o
-> diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
-> index 6b0005987a17..6b482270eb93 100644
-> --- a/drivers/media/platform/atmel/atmel-isc-base.c
-> +++ b/drivers/media/platform/atmel/atmel-isc-base.c
-> @@ -1710,6 +1710,7 @@ static int isc_async_bound(struct v4l2_async_notifier *notifier,
->  					      struct isc_device, v4l2_dev);
->  	struct isc_subdev_entity *subdev_entity =
->  		container_of(notifier, struct isc_subdev_entity, notifier);
-> +	int pad;
->
->  	if (video_is_registered(&isc->video_dev)) {
->  		v4l2_err(&isc->v4l2_dev, "only supports one sub-device.\n");
-> @@ -1718,6 +1719,16 @@ static int isc_async_bound(struct v4l2_async_notifier *notifier,
->
->  	subdev_entity->sd = subdev;
->
-> +	pad = media_entity_get_fwnode_pad(&subdev->entity, asd->match.fwnode,
-> +					  MEDIA_PAD_FL_SOURCE);
-> +	if (pad < 0) {
-> +		v4l2_err(&isc->v4l2_dev, "failed to find pad for %s\n",
-> +			 subdev->name);
-> +		return pad;
-> +	}
-> +
-> +	isc->remote_pad = pad;
-> +
->  	return 0;
->  }
->
-> @@ -1732,8 +1743,8 @@ static void isc_async_unbind(struct v4l2_async_notifier *notifier,
->  	v4l2_ctrl_handler_free(&isc->ctrls.handler);
->  }
->
-> -static struct isc_format *find_format_by_code(struct isc_device *isc,
-> -					      unsigned int code, int *index)
-> +struct isc_format *isc_find_format_by_code(struct isc_device *isc,
-> +					   unsigned int code, int *index)
->  {
->  	struct isc_format *fmt = &isc->formats_list[0];
->  	unsigned int i;
-> @@ -1749,6 +1760,7 @@ static struct isc_format *find_format_by_code(struct isc_device *isc,
->
->  	return NULL;
->  }
-> +EXPORT_SYMBOL_GPL(isc_find_format_by_code);
->
->  static int isc_formats_init(struct isc_device *isc)
->  {
-> @@ -1765,7 +1777,7 @@ static int isc_formats_init(struct isc_device *isc)
->  	       NULL, &mbus_code)) {
->  		mbus_code.index++;
->
-> -		fmt = find_format_by_code(isc, mbus_code.code, &i);
-> +		fmt = isc_find_format_by_code(isc, mbus_code.code, &i);
->  		if (!fmt) {
->  			v4l2_warn(&isc->v4l2_dev, "Mbus code %x not supported\n",
->  				  mbus_code.code);
-> @@ -1891,7 +1903,8 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
->  	vdev->queue		= q;
->  	vdev->lock		= &isc->lock;
->  	vdev->ctrl_handler	= &isc->ctrls.handler;
-> -	vdev->device_caps	= V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE;
-> +	vdev->device_caps	= V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE |
-> +				  V4L2_CAP_IO_MC;
->  	video_set_drvdata(vdev, isc);
->
->  	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
-> @@ -1901,8 +1914,18 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
->  		goto isc_async_complete_err;
->  	}
->
-> +	ret = isc_scaler_link(isc);
-> +	if (ret < 0)
-> +		goto isc_async_complete_unregister_device;
-> +
-> +	ret = media_device_register(&isc->mdev);
-> +	if (ret < 0)
-> +		goto isc_async_complete_unregister_device;
->  	return 0;
->
-> +isc_async_complete_unregister_device:
-> +	video_unregister_device(vdev);
-> +
->  isc_async_complete_err:
->  	mutex_destroy(&isc->lock);
->  	return ret;
-> @@ -1969,6 +1992,48 @@ int isc_pipeline_init(struct isc_device *isc)
->  }
->  EXPORT_SYMBOL_GPL(isc_pipeline_init);
->
-> +int isc_mc_init(struct isc_device *isc, u32 ver)
-> +{
-> +	const struct of_device_id *match;
-> +	int ret;
-> +
-> +	isc->video_dev.entity.function = MEDIA_ENT_F_IO_V4L;
-> +	isc->video_dev.entity.flags = MEDIA_ENT_FL_DEFAULT;
-
-Should you set entity.ops.link_validate = v4l2_subdev_link_validate
-to be able to have the media pipeline validated at
-media_pipeline_start() time ?
-
-> +	isc->pads[ISC_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-> +
-> +	ret = media_entity_pads_init(&isc->video_dev.entity, ISC_PADS_NUM,
-> +				     isc->pads);
-> +	if (ret < 0) {
-> +		dev_err(isc->dev, "media entity init failed\n");
-> +		return ret;
-> +	}
-> +
-> +	isc->mdev.dev = isc->dev;
-> +
-> +	match = of_match_node(isc->dev->driver->of_match_table,
-> +			      isc->dev->of_node);
-> +
-> +	strscpy(isc->mdev.driver_name, KBUILD_MODNAME,
-> +		sizeof(isc->mdev.driver_name));
-> +	strscpy(isc->mdev.model, match->compatible, sizeof(isc->mdev.model));
-> +	snprintf(isc->mdev.bus_info, sizeof(isc->mdev.bus_info), "platform:%s",
-> +		 isc->v4l2_dev.name);
-> +	isc->mdev.hw_revision = ver;
-> +
-> +	media_device_init(&isc->mdev);
-> +
-> +	isc->v4l2_dev.mdev = &isc->mdev;
-> +
-> +	return isc_scaler_init(isc);
-> +}
-> +EXPORT_SYMBOL_GPL(isc_mc_init);
-> +
-> +void isc_mc_cleanup(struct isc_device *isc)
-> +{
-> +	media_entity_cleanup(&isc->video_dev.entity);
-> +}
-> +EXPORT_SYMBOL_GPL(isc_mc_cleanup);
-> +
->  /* regmap configuration */
->  #define ATMEL_ISC_REG_MAX    0xd5c
->  const struct regmap_config isc_regmap_config = {
-> diff --git a/drivers/media/platform/atmel/atmel-isc-scaler.c b/drivers/media/platform/atmel/atmel-isc-scaler.c
-> new file mode 100644
-> index 000000000000..ec95c9665883
-> --- /dev/null
-> +++ b/drivers/media/platform/atmel/atmel-isc-scaler.c
-> @@ -0,0 +1,245 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Microchip Image Sensor Controller (ISC) Scaler entity support
-> + *
-> + * Copyright (C) 2021 Microchip Technology, Inc.
-
-Time flies! It's 2022 already :)
-
-> + *
-> + * Author: Eugen Hristev <eugen.hristev@microchip.com>
-> + *
-> + */
-> +
-> +#include <media/media-device.h>
-> +#include <media/media-entity.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-subdev.h>
-> +
-> +#include "atmel-isc-regs.h"
-> +#include "atmel-isc.h"
-> +
-> +static int isc_scaler_get_fmt(struct v4l2_subdev *sd,
-> +			      struct v4l2_subdev_state *sd_state,
-> +			      struct v4l2_subdev_format *format)
-> +{
-> +	struct isc_device *isc = container_of(sd, struct isc_device, scaler_sd);
-> +	struct v4l2_mbus_framefmt *v4l2_try_fmt;
-> +
-> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-> +		v4l2_try_fmt = v4l2_subdev_get_try_format(sd, sd_state,
-> +							  format->pad);
-> +		format->format = *v4l2_try_fmt;
-> +
-> +		return 0;
-> +	}
-> +
-> +	format->format = isc->scaler_format;
-
-isc->scaler_format is only used inside this file if I'm not mistaken.
-I wonder why it lives in the isc_device struct.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int isc_scaler_set_fmt(struct v4l2_subdev *sd,
-> +			      struct v4l2_subdev_state *sd_state,
-> +			      struct v4l2_subdev_format *req_fmt)
-> +{
-> +	struct isc_device *isc = container_of(sd, struct isc_device, scaler_sd);
-> +	struct v4l2_mbus_framefmt *v4l2_try_fmt;
-> +	struct isc_format *fmt;
-> +	unsigned int i;
-> +
-> +	if (req_fmt->pad == ISC_SCALER_PAD_SOURCE)
-> +		v4l_bound_align_image
-> +			(&req_fmt->format.width, 16, isc->max_width, 0,
-> +			 &req_fmt->format.height, 16, isc->max_height, 0, 0);
-> +	else
-> +		v4l_bound_align_image
-> +			(&req_fmt->format.width, 16, 10000, 0,
-> +			 &req_fmt->format.height, 16, 10000, 0, 0);
-
-Where does 10000 come from ?
-
-> +
-> +	req_fmt->format.colorspace = V4L2_COLORSPACE_SRGB;
-> +	req_fmt->format.field = V4L2_FIELD_NONE;
-> +	req_fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> +	req_fmt->format.quantization = V4L2_QUANTIZATION_DEFAULT;
-> +	req_fmt->format.xfer_func = V4L2_XFER_FUNC_DEFAULT;
-> +
-> +	fmt = isc_find_format_by_code(isc, req_fmt->format.code, &i);
-
-So you rely on the isc format list for the scaler as well ?
-I think it's fine as long as they are identical
-
-> +
-> +	if (!fmt)
-> +		fmt = &isc->formats_list[0];
-> +
-> +	req_fmt->format.code = fmt->mbus_code;
-> +
-> +	if (req_fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-> +		v4l2_try_fmt = v4l2_subdev_get_try_format(sd, sd_state,
-> +							  req_fmt->pad);
-> +		*v4l2_try_fmt = req_fmt->format;
-> +		/* Trying on the pad sink makes the source sink change too */
-> +		if (req_fmt->pad == ISC_SCALER_PAD_SINK) {
-> +			v4l2_try_fmt =
-> +				v4l2_subdev_get_try_format(sd, sd_state,
-> +							   ISC_SCALER_PAD_SOURCE);
-> +			*v4l2_try_fmt = req_fmt->format;
-> +
-> +			v4l_bound_align_image(&v4l2_try_fmt->width,
-> +					      16, isc->max_width, 0,
-> +					      &v4l2_try_fmt->height,
-> +					      16, isc->max_height, 0, 0);
-> +		}
-> +		/* if we are just trying, we are done */
-> +		return 0;
-> +	}
-> +
-> +	isc->scaler_format = req_fmt->format;
-
-No per-pad format but a global scaler_format ? How do you configure scaling ?
-
-Actually, I would like to know more about the scaler device
-capabilities. What functions can this IP perform ? Does it do
-cropping, can it also do (down)scaling or even composition ?
-
-I think it is worth to read
-https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-subdev.html#v4l2-subdev-selections
-where it is reported how cropping and scaling are implemented by using
-the selection API.
-
-Figure 4.5 is particularly helpful to explain the simple crop case,
-for which you need to implement support to by adding s_selection on
-the sink pad TGT_CROP target.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int isc_scaler_enum_mbus_code(struct v4l2_subdev *sd,
-> +				     struct v4l2_subdev_state *sd_state,
-> +				     struct v4l2_subdev_mbus_code_enum *code)
-> +{
-> +	struct isc_device *isc = container_of(sd, struct isc_device, scaler_sd);
-> +	int supported_index = 0;
-> +	int i;
-> +
-> +	for (i = 0; i < isc->formats_list_size; i++) {
-> +		if (!isc->formats_list[i].sd_support)
-> +			continue;
-
-The sd_support flag still doesn't click in my head.
-
-Shouldn't the enumeration of available formats on the scaler do not
-depend on the sensor supproted formats ?
-
-> +		if (supported_index == code->index) {
-> +			code->code = isc->formats_list[i].mbus_code;
-> +			return 0;
-> +		}
-> +		supported_index++;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int isc_scaler_g_sel(struct v4l2_subdev *sd,
-> +			    struct v4l2_subdev_state *sd_state,
-> +			    struct v4l2_subdev_selection *sel)
-> +{
-> +	struct isc_device *isc = container_of(sd, struct isc_device, scaler_sd);
-> +
-> +	if (sel->pad == ISC_SCALER_PAD_SOURCE)
-> +		return -EINVAL;
-> +
-> +	if (sel->target != V4L2_SEL_TGT_CROP_BOUNDS &&
-> +	    sel->target != V4L2_SEL_TGT_CROP)
-> +		return -EINVAL;
-> +
-> +	sel->r.height = isc->max_height;
-> +	sel->r.width = isc->max_width;
-
-The CROP_BOUNDS should be set to the same size as the sink pad image format,
-as it represents the maximum valid crop rectangle.
-
-TGT_CROP should report the configured crop rectangle which can be
-intiialized to the same size as CROP_BOUNDS, if my understanding of
-the spec is correct
-
-> +
-> +	sel->r.left = 0;
-> +	sel->r.top = 0;
-> +
-> +	return 0;
-> +}
-> +
-> +static int isc_scaler_init_cfg(struct v4l2_subdev *sd,
-> +			       struct v4l2_subdev_state *sd_state)
-> +{
-> +	struct v4l2_mbus_framefmt *v4l2_try_fmt =
-> +		v4l2_subdev_get_try_format(sd, sd_state, 0);
-> +	struct isc_device *isc = container_of(sd, struct isc_device, scaler_sd);
-> +
-> +	*v4l2_try_fmt = isc->scaler_format;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_pad_ops isc_scaler_pad_ops = {
-> +	.enum_mbus_code = isc_scaler_enum_mbus_code,
-> +	.set_fmt = isc_scaler_set_fmt,
-> +	.get_fmt = isc_scaler_get_fmt,
-> +	.get_selection = isc_scaler_g_sel,
-> +	.init_cfg = isc_scaler_init_cfg,
-
-.link_validate = v4l2_subdev_link_validate_default,
-
-To have the formats at the end of links that point to this entity
-validated (I think the framework already calls it if not set though,
-please check v4l2-subdev.c:v4l2_subdev_link_validate())
-
-> +};
-> +
-> +static const struct v4l2_subdev_ops xisc_scaler_subdev_ops = {
-> +	.pad = &isc_scaler_pad_ops,
-> +};
-> +
-> +int isc_scaler_init(struct isc_device *isc)
-> +{
-> +	int ret;
-> +
-> +	v4l2_subdev_init(&isc->scaler_sd, &xisc_scaler_subdev_ops);
-> +
-> +	isc->scaler_sd.owner = THIS_MODULE;
-> +	isc->scaler_sd.dev = isc->dev;
-> +	snprintf(isc->scaler_sd.name, sizeof(isc->scaler_sd.name),
-> +		 "atmel_isc_scaler");
-
-I would drop 'atmel' for brevity, unless other entities have this
-prefix set already
-
-> +
-> +	isc->scaler_sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	isc->scaler_sd.entity.function = MEDIA_ENT_F_PROC_VIDEO_SCALER;
-> +	isc->scaler_pads[ISC_SCALER_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-> +	isc->scaler_pads[ISC_SCALER_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-> +
-> +	isc->scaler_format.height = isc->max_height;
-> +	isc->scaler_format.width = isc->max_width;
-> +	isc->scaler_format.code = isc->formats_list[0].mbus_code;
-> +	isc->scaler_format.colorspace = V4L2_COLORSPACE_SRGB;
-> +	isc->scaler_format.field = V4L2_FIELD_NONE;
-> +	isc->scaler_format.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> +	isc->scaler_format.quantization = V4L2_QUANTIZATION_DEFAULT;
-> +	isc->scaler_format.xfer_func = V4L2_XFER_FUNC_DEFAULT;
-> +
-> +	ret = media_entity_pads_init(&isc->scaler_sd.entity,
-> +				     ISC_SCALER_PADS_NUM,
-> +				     isc->scaler_pads);
-> +	if (ret < 0) {
-> +		dev_err(isc->dev, "scaler sd media entity init failed\n");
-> +		return ret;
-> +	}
-> +	ret = v4l2_device_register_subdev(&isc->v4l2_dev, &isc->scaler_sd);
-> +	if (ret < 0) {
-> +		dev_err(isc->dev, "scaler sd failed to register subdev\n");
-> +		return ret;
-> +	}
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(isc_scaler_init);
-> +
-> +int isc_scaler_link(struct isc_device *isc)
-> +{
-> +	int ret;
-> +
-> +	ret = media_create_pad_link(&isc->current_subdev->sd->entity,
-> +				    isc->remote_pad, &isc->scaler_sd.entity,
-> +				    ISC_SCALER_PAD_SINK,
-> +				    MEDIA_LNK_FL_ENABLED |
-> +				    MEDIA_LNK_FL_IMMUTABLE);
-> +
-> +	if (ret < 0) {
-> +		v4l2_err(&isc->v4l2_dev,
-> +			 "Failed to create pad link: %s to %s\n",
-> +			 isc->current_subdev->sd->entity.name,
-> +			 isc->scaler_sd.entity.name);
-> +		return ret;
-> +	}
-> +
-> +	dev_dbg(isc->dev, "link with %s pad: %d\n",
-> +		isc->current_subdev->sd->name, isc->remote_pad);
-> +
-> +	ret = media_create_pad_link(&isc->scaler_sd.entity,
-> +				    ISC_SCALER_PAD_SOURCE,
-> +				    &isc->video_dev.entity, ISC_PAD_SINK,
-> +				    MEDIA_LNK_FL_ENABLED |
-> +				    MEDIA_LNK_FL_IMMUTABLE);
-> +
-> +	if (ret < 0) {
-> +		v4l2_err(&isc->v4l2_dev,
-> +			 "Failed to create pad link: %s to %s\n",
-> +			 isc->scaler_sd.entity.name,
-> +			 isc->video_dev.entity.name);
-> +		return ret;
-> +	}
-> +
-> +	dev_dbg(isc->dev, "link with %s pad: %d\n", isc->scaler_sd.name,
-> +		ISC_SCALER_PAD_SOURCE);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(isc_scaler_link);
-
-From the DT graph point of view, the ISC appears as a single block
-with an CSI-2 input port. It is then in charge of parsing the .dts and
-add to its notifier the image sensor remote subdevice.
-
-When the sensor subdev registers and the ISC notifier completes, the scaler
-entity which was initialized at isc_probe() time is linked in between
-the ISC and the image sensor immutably.
-
-I think it is fine for now, but I wonder if you plan to plumb more
-components between the ISC video node and the sensor, if it's not
-worth changing the DT bindings and their parsing logic to separate the
-CSI-2 receiver from the ISC, whcih can create its media graph at probe
-time and have the CSI-2 receiver entity as downstream remote. I think
-I need to get to know the ISC better to really have an idea. For now,
-this seems ok to me, but please check with maintainers if this is fine
-with them.
-
-> +
-> diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
-> index 5fbf52a9080b..c9234c90ae58 100644
-> --- a/drivers/media/platform/atmel/atmel-isc.h
-> +++ b/drivers/media/platform/atmel/atmel-isc.h
-> @@ -183,6 +183,17 @@ struct isc_reg_offsets {
->  	u32 his_entry;
->  };
->
-> +enum isc_mc_pads {
-> +	ISC_PAD_SINK	= 0,
-> +	ISC_PADS_NUM	= 1,
-> +};
-> +
-> +enum isc_scaler_pads {
-> +	ISC_SCALER_PAD_SINK	= 0,
-> +	ISC_SCALER_PAD_SOURCE	= 1,
-> +	ISC_SCALER_PADS_NUM	= 2,
-> +};
-> +
->  /*
->   * struct isc_device - ISC device driver data/config struct
->   * @regmap:		Register map
-> @@ -257,6 +268,12 @@ struct isc_reg_offsets {
->   *			be used as an input to the controller
->   * @controller_formats_size:	size of controller_formats array
->   * @formats_list_size:	size of formats_list array
-> + * @pads:		media controller pads for isc video entity
-> + * @mdev:		media device that is registered by the isc
-> + * @remote_pad:		remote pad on the connected subdevice
-> + * @scaler_sd:		subdevice for the scaler that isc registers
-> + * @scaler_pads:	media controller pads for the scaler subdevice
-> + * @scaler_format:	current format for the scaler subdevice
->   */
->  struct isc_device {
->  	struct regmap		*regmap;
-> @@ -344,6 +361,19 @@ struct isc_device {
->  	struct isc_format		*formats_list;
->  	u32				controller_formats_size;
->  	u32				formats_list_size;
-> +
-> +	struct {
-> +		struct media_pad		pads[ISC_PADS_NUM];
-> +		struct media_device		mdev;
-> +
-> +		u32				remote_pad;
-> +	};
-> +
-> +	struct {
-> +		struct v4l2_subdev		scaler_sd;
-> +		struct media_pad		scaler_pads[ISC_SCALER_PADS_NUM];
-> +		struct v4l2_mbus_framefmt	scaler_format;
-> +	};
->  };
->
->  extern const struct regmap_config isc_regmap_config;
-> @@ -355,4 +385,11 @@ int isc_clk_init(struct isc_device *isc);
->  void isc_subdev_cleanup(struct isc_device *isc);
->  void isc_clk_cleanup(struct isc_device *isc);
->
-> +int isc_scaler_link(struct isc_device *isc);
-> +int isc_scaler_init(struct isc_device *isc);
-> +int isc_mc_init(struct isc_device *isc, u32 ver);
-> +void isc_mc_cleanup(struct isc_device *isc);
-> +
-> +struct isc_format *isc_find_format_by_code(struct isc_device *isc,
-> +					   unsigned int code, int *index);
->  #endif
-> diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-> index c5b9563e36cb..c244682ea22f 100644
-> --- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-> +++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-> @@ -553,6 +553,12 @@ static int atmel_isc_probe(struct platform_device *pdev)
->  			break;
->  	}
->
-> +	regmap_read(isc->regmap, ISC_VERSION + isc->offsets.version, &ver);
-
-I am surprised you can read a register before runtime_pm is
-intialized!
-
-Thanks
-   j
-
-
-> +
-> +	ret = isc_mc_init(isc, ver);
-> +	if (ret < 0)
-> +		goto isc_probe_mc_init_err;
-> +
->  	pm_runtime_set_active(dev);
->  	pm_runtime_enable(dev);
->  	pm_request_idle(dev);
-> @@ -562,7 +568,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
->  	ret = clk_prepare_enable(isc->ispck);
->  	if (ret) {
->  		dev_err(dev, "failed to enable ispck: %d\n", ret);
-> -		goto cleanup_subdev;
-> +		goto isc_probe_mc_init_err;
->  	}
->
->  	/* ispck should be greater or equal to hclock */
-> @@ -572,7 +578,6 @@ static int atmel_isc_probe(struct platform_device *pdev)
->  		goto unprepare_clk;
->  	}
->
-> -	regmap_read(isc->regmap, ISC_VERSION + isc->offsets.version, &ver);
->  	dev_info(dev, "Microchip ISC version %x\n", ver);
->
->  	return 0;
-> @@ -580,6 +585,9 @@ static int atmel_isc_probe(struct platform_device *pdev)
->  unprepare_clk:
->  	clk_disable_unprepare(isc->ispck);
->
-> +isc_probe_mc_init_err:
-> +	isc_mc_cleanup(isc);
-> +
->  cleanup_subdev:
->  	isc_subdev_cleanup(isc);
->
-> @@ -600,6 +608,8 @@ static int atmel_isc_remove(struct platform_device *pdev)
->
->  	pm_runtime_disable(&pdev->dev);
->
-> +	isc_mc_cleanup(isc);
-> +
->  	isc_subdev_cleanup(isc);
->
->  	v4l2_device_unregister(&isc->v4l2_dev);
-> diff --git a/drivers/media/platform/atmel/atmel-sama7g5-isc.c b/drivers/media/platform/atmel/atmel-sama7g5-isc.c
-> index 07a80b08bc54..9dc75eed0098 100644
-> --- a/drivers/media/platform/atmel/atmel-sama7g5-isc.c
-> +++ b/drivers/media/platform/atmel/atmel-sama7g5-isc.c
-> @@ -547,15 +547,23 @@ static int microchip_xisc_probe(struct platform_device *pdev)
->  			break;
->  	}
->
-> +	regmap_read(isc->regmap, ISC_VERSION + isc->offsets.version, &ver);
-> +
-> +	ret = isc_mc_init(isc, ver);
-> +	if (ret < 0)
-> +		goto isc_probe_mc_init_err;
-> +
->  	pm_runtime_set_active(dev);
->  	pm_runtime_enable(dev);
->  	pm_request_idle(dev);
->
-> -	regmap_read(isc->regmap, ISC_VERSION + isc->offsets.version, &ver);
->  	dev_info(dev, "Microchip XISC version %x\n", ver);
->
->  	return 0;
->
-> +isc_probe_mc_init_err:
-> +	isc_mc_cleanup(isc);
-> +
->  cleanup_subdev:
->  	isc_subdev_cleanup(isc);
->
-> @@ -576,6 +584,8 @@ static int microchip_xisc_remove(struct platform_device *pdev)
->
->  	pm_runtime_disable(&pdev->dev);
->
-> +	isc_mc_cleanup(isc);
-> +
->  	isc_subdev_cleanup(isc);
->
->  	v4l2_device_unregister(&isc->v4l2_dev);
-> --
-> 2.25.1
->
+SGkgZGVlIEhvIHBlZXBzLA0KDQpPbiAyLzcvMjIgMTQ6MDYsIFRvbWkgVmFsa2VpbmVuIHdyb3Rl
+Og0KPiBIaSBMdWNhLA0KPiANCj4gT24gMDYvMDIvMjAyMiAxMzo1OSwgTHVjYSBDZXJlc29saSB3
+cm90ZToNCj4+IHRoaXMgUkZDdjMsIGNvZGVuYW1lICJGT1NERU0gRnJpZXMiLCBvZiBSRkMgcGF0
+Y2hlcyB0byBzdXBwb3J0IHRoZSBUSQ0KPj4gRFM5MFVCOXh4IHNlcmlhbGl6ZXIvZGVzZXJpYWxp
+emVyIGNoaXBzZXRzIHdpdGggSTJDIGFkZHJlc3MgdHJhbnNsYXRpb24uDQoNCi4uc25pcA0KDQo+
+PiBFdmVuIHdpdGggdGhlIGFib3ZlIGxpbWl0YXRpb25zIEkgZmVsdCBJJ2Qgc2VuZCB0aGlzIHYz
+IGFueXdheSBzaW5jZQ0KPj4gc2V2ZXJhbCBwZW9wbGUgaGF2ZSBjb250YWN0ZWQgbWUgc2luY2Ug
+djIgYXNraW5nIHdoZXRoZXIgdGhpcw0KPj4gaW1wbGVtZW50YXRpb24gaGFzIG1hZGUgcHJvZ3Jl
+c3MgdG93YXJkcyBtYWlubGluZS4gU29tZSBldmVuIGltcHJvdmVkIG9uDQo+PiB0b3Agb2YgbXkg
+Y29kZSBpdCB0aGVpciBvd24gZm9ya3MuIEFzIEkgY2Fubm90IGFmZm9yZCB0byB3b3JrIG9uIHRo
+aXMgDQo+PiB0b3BpYw0KPj4gaW4gdGhlIG5lYXIgZnV0dXJlLCBoZXJlIGlzIHRoZSBsYXRlc3Qg
+YW5kIGdyZWF0ZXN0IHZlcnNpb24gSSBjYW4gDQo+PiBwcm9kdWNlLA0KPj4gd2l0aCBhbGwgdGhl
+IGltcHJvdmVtZW50cyBJIG1hZGUgc28gZmFyLg0KPiANCj4gSSd2ZSBkaXNjdXNzZWQgd2l0aCBM
+dWNhIGluIHByaXZhdGUgZW1haWxzLCBidXQgSSdsbCBhZGQgYSBzaG9ydCBzdGF0dXMgDQo+IGFi
+b3V0IG15IHdvcmsgaW4gdGhpcyB0aHJlYWQ6DQoNClRoYW5rcyBmb3IgQ0M6aW5nIG1lIEx1Y2Eu
+IFdlIGhhZCBhIHNtYWxsIGNoYXQgZHVyaW5nIHRoZSBGT1NERU0uDQoNCj4gQWJvdXQgYSB5ZWFy
+IGFnbyBJIHRvb2sgTHVjYSdzIHRoZW4tbGF0ZXN0LXBhdGNoZXMgYW5kIHN0YXJ0ZWQgd29ya2lu
+ZyANCj4gb24gdGhlbS4gVGhlIGFpbSB3YXMgdG8gZ2V0IGZ1bGwgbXVsdGlwbGV4ZWQgc3RyZWFt
+cyBzdXBwb3J0IHRvIHY0bDIgc28gDQo+IHRoYXQgd2UgY291bGQgc3VwcG9ydCBDU0ktMiBidXMg
+d2l0aCBtdWx0aXBsZSB2aXJ0dWFsIGNoYW5uZWxzIGFuZCANCj4gZW1iZWRkZWQgZGF0YSwgYW5k
+IGFmdGVyIHRoYXQsIGFkZCBzdXBwb3J0IGZvciBmcGRsaW5rIGRldmljZXMuDQo+IA0KPiBTaW5j
+ZSB0aGVuIEkgaGF2ZSBzZW50IG11bHRpcGxlIHZlcnNpb25zIG9mIHRoZSB2NGwyIHdvcmsgKG5v
+IGRyaXZlcnMgDQo+IHlldCwgb25seSB0aGUgZnJhbWV3b3JrIGNoYW5nZXMpIHRvIHVwc3RyZWFt
+IGxpc3RzLiBTb21lIHBpZWNlcyBoYXZlIA0KPiBhbHJlYWR5IGJlZW4gbWVyZ2VkIHRvIHVwc3Ry
+ZWFtIChlLmcuIHN1YmRldiBzdGF0ZSksIGJ1dCBtb3N0IG9mIGl0IGlzIA0KPiBzdGlsbCB1bmRl
+ciB3b3JrLiBIZXJlJ3MgYSBsaW5rIHRvIHYxMCBvZiB0aGUgc3RyZWFtcyBzZXJpZXM6DQo+IA0K
+PiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyMTExMzAxNDE1MzYuODkxODc4LTEtdG9t
+aS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbS8gDQo+IA0KPiANCj4gSXQgaGFzIGEgbGluayB0
+byBteSAobm93IHNsaWdodGx5IG91dGRhdGVkKSBnaXQgYnJhbmNoIHdoaWNoIGNvbnRhaW5zIA0K
+PiB0aGUgZHJpdmVyIHdvcmsgdG9vLg0KDQpJIGhhdmUgZmV0Y2hlZCB0aGlzIHRyZWUgZnJvbSBU
+b21pIGFuZCBkb25lIHNvbWUgZXhwZXJpbWVudGluZyBvbiANCmFub3RoZXIgU0VSREVTLiBUaGF0
+IFNFUkRFUyBpbiBub3QgZnJvbSBUSSBvciBNYXhpbSwgc29tZSBvZiB5b3UgbWF5IA0KZ3Vlc3Mg
+dGhlIGNvbXBhbnkgdGhvdWdoIDopIFVuZm9ydHVuYXRlbHkgSSBjYW4ndCBwdWJsaXNoIHRoZSBk
+ZXRhaWxzIG9yIA0KdGhlIGNvZGUgZm9yIG5vdyAtIEkgYW0gZGlzY3Vzc2luZyB3aGF0IEkgYW0g
+YWxsb3dlZCB0byBwdWJsaXNoLiBNeSANCnBlcnNvbmFsIGdvYWwgaXMgdG8gc2VlIGlmIEkgY291
+bGQgd3JpdGUgYSBMaW51eCBkcml2ZXIgZm9yIHRoaXMgDQp5ZXQtYW5vdGhlci1WaWRlby1TRVJE
+RVMgYW5kIHNlZSBpZiBpdCBjYW4gb25lIGRheSBnZXQgbWVyZ2VkIHRvIA0KdXBzdHJlYW0gZm9y
+IGFueW9uZSBpbnRlcmVzdGVkIHRvIHBsYXkgd2l0aC4NCg0KPiBUaGUgZnBkbGluayBkcml2ZXJz
+IGhhdmUgZGl2ZXJnZWQgZnJvbSBMdWNhJ3MgdmVyc2lvbiBxdWl0ZSBhIGJpdC4gVGhlIA0KPiBt
+b3N0IG9idmlvdXMgZGlmZmVyZW5jZSBpcyB0aGUgc3VwcG9ydCBmb3IgbXVsdGlwbGV4ZWQgc3Ry
+ZWFtcywgb2YgDQo+IGNvdXJzZSwgYnV0IHRoZXJlIGFyZSBsb3RzIG9mIG90aGVyIGNoYW5nZXMg
+dG9vLiBUaGUgZHJpdmVycyBzdXBwb3J0IA0KPiBEUzkwVUI5NjAgKG5vIFVCOTU0IGF0IHRoZSBt
+b21lbnQpLCBEUzkwVUI5NTMgYW5kIERTOTBVQjkxMy4gVUI5NjAgDQo+IHN1cHBvcnRzIGFsbCB0
+aGUgaW5wdXRzIGFuZCBvdXRwdXRzLg0KDQpGb3IgdGhlIHJlY29yZCwgdGhlIFNFUkRFUyBJIGFt
+IHdvcmtpbmcgd2l0aCBkb2VzIGFsc28gc3VwcG9ydCANCmNvbm5lY3RpbmcgNCBjYW1lcmFzICg0
+IFNFUnMpIHRvIG9uZSBERVMgd2hpY2ggcHJvdmlkZXMgdHdvIENTSS0yIA0Kb3V0cHV0cy4gQXMg
+ZmFyIGFzIEkgdW5kZXJzdGFuZCB0aGUgdmlydHVhbCBjaGFubmVsIHN1cHBvcnQgaXMgYWxzbyAN
+CnRoZXJlIChpbiB0aGUgSFcpLg0KDQogIEkgaGF2ZSBhbHNvIGRyb3BwZWQgc29tZSBjb2RlIHdo
+aWNoDQo+IEkgZGlkIG5vdCBuZWVkIGFuZCB3aGljaCBJIHdhc24ndCBzdXJlIGlmIGl0J3MgY29y
+cmVjdGx5IGltcGxlbWVudGVkLCB0byANCj4gbWFrZSBpdCBlYXNpZXIgdG8gd29yayBvbiB0aGUg
+bXVsdGlwbGV4ZWQgc3RyZWFtcyB2ZXJzaW9uLiBTb21lIG9mIHRoYXQgDQo+IGNvZGUgbWF5IG5l
+ZWQgdG8gYmUgYWRkZWQgYmFjay4NCj4gDQo+IEkgaGF2ZSBub3QgY2hhbmdlZCB0aGUgaTJjLWF0
+ciBkcml2ZXIsIGFuZCBteSBmcGRsaW5rIGRyaXZlciB1c2VzICBpdCANCj4gbW9yZSBvciBsZXNz
+IHRoZSBzYW1lIHdheSBhcyBpbiBMdWNhJ3MgdmVyc2lvbi4NCj4NCg0KSSBoYXZlIGFsc28gdXNl
+ZCB0aGUgQVRSIGRyaXZlciBhcyBpcy4gVGhlIFNFUkRFUyBJIGFtIHdvcmtpbmcgd2l0aCBkb2Vz
+IA0KYWxzbyB0aGUgSTJDIGFkZHJlc3MgdHJhbnNsYXRpb24uDQoNCj4gQ29uc2lkZXJpbmcgdGhh
+dCB5b3UncmUgbm90IGFibGUgdG8gd29yayBvbiB0aGlzLCBteSBzdWdnZXN0aW9uIGlzIHRvIA0K
+PiByZXZpZXcgdGhlIGkyYy1hdHIgcGF0Y2hlcyBoZXJlIChvciBwZXJoYXBzIHNlbmQgdGhvc2Ug
+cGF0Y2hlcyBpbiBhIA0KPiBzZXBhcmF0ZSBzZXJpZXM/KSwNCg0KSXQgd291bGQgYmUgX3JlYWxs
+eV8gY29vbCB0byBnZXQgdGhlIEFUUiB1cHN0cmVhbS4NCg0KICBidXQgYWZhaWNzIHRoZSBmcGRs
+aW5rIGRyaXZlcnMgd2l0aG91dCBtdWx0aXBsZXhlZA0KPiBzdHJlYW1zIGlzIGEgZGVhZC1lbmQs
+IGFzIHRoZXkgY2FuIG9ubHkgc3VwcG9ydCBhIHNpbmdsZSBjYW1lcmEgKGFuZCBubyANCj4gZW1i
+ZWRkZWQgZGF0YSksIHNvIEkgZG9uJ3Qgc2VlIG11Y2ggcG9pbnQgaW4gcHJvcGVybHkgcmV2aWV3
+aW5nIHRoZW0uDQo+IA0KPiBIb3dldmVyLCBJIHdpbGwgZ28gdGhyb3VnaCB0aGUgZnBkbGluayBk
+cml2ZXJzIGluIHRoaXMgc2VyaWVzIGFuZCANCj4gY2hlcnJ5LXBpY2sgdGhlIGNoYW5nZXMgdGhh
+dCBtYWtlIHNlbnNlLiBJIHdhcyBhYm91dCB0byBzdGFydCB3b3JraW5nIG9uIA0KPiBwcm9wZXIg
+ZnBkbGluay1jbG9jay1yYXRlIGFuZCBjbGtvdXQgc3VwcG9ydCwgYnV0IEkgc2VlIHlvdSd2ZSBh
+bHJlYWR5IA0KPiBkb25lIHRoYXQgd29yayA9KS4NCg0KSSBhbSBub3Qgc3VyZSBpZiBJIGFtIHBv
+a2luZyBpbiB0aGUgbmVzdCBvZiB0aGUgd2FzcHMgLSBidXQgdGhlcmUncyBvbmUgDQptYWpvciBk
+aWZmZXJlbmNlIHdpdGggdGhlIHdvcmsgSSd2ZSBkb25lIGFuZCB3aXRoIFRvbmkncyAvIEx1Y2En
+cyB3b3JrLg0KDQpUaGUgVEkgREVTIGRyaXZlcnMgKGxpa2UgdWI5NjAgZHJpdmVyKSBwYWNrcyBw
+cmV0dHkgbXVjaCBldmVyeXRoaW5nIA0KdW5kZXIgc2luZ2xlIGRyaXZlciBhdCBtZWRpYS9pMmMg
+LSB3aGljaCAoaW4gbXkgb3BpbmlvbikgbWFrZXMgdGhlIA0KZHJpdmVyIHByZXR0eSBsYXJnZSBv
+bmUuDQoNCk15IGFwcHJvYWNoIGlzL3dhcyB0byB1dGlsaXplIE1GRCAtIGFuZCBwcmVwYXJlIHRo
+ZSByZWdtYXAgKyBJUlFzIGluIHRoZSANCk1GRCAoYXMgaXMgcHJldHR5IHVzdWFsKSAtIGFuZCBw
+YXJzZSB0aGF0IG11Y2ggb2YgdGhlIGRldmljZS10cmVlIHRoYXQgDQp3ZSBzZWUgaG93IG1hbnkg
+U0VSIGRldmljZXMgYXJlIHRoZXJlIC0gYW5kIHRoYXQgSSBnZXQgdGhlIG5vbiBJMkMgDQpyZWxh
+dGVkIERFUzw9PlNFUiBsaW5rIHBhcmFtZXRlcnMgc2V0LiBBZnRlciB0aGF0IEkgZG8ga2ljayBh
+bGl2ZSB0aGUgDQpzZXBhcmF0ZSBNRkQgY2VsbHMgZm9yIEFUUiwgcGluY3RybC9HUElPIGFuZCBt
+ZWRpYS4NCg0KVGhlIEFUUiBkcml2ZXIgaW5zdGFudGlhdGVzIHRoZSBTRVIgSTJDIGRldmljZXMg
+bGlrZSBUb25pJ3MgdWI5NjAgZG9lcy4gDQpUaGUgU0VSIGNvbXBhdGlibGUgaXMgb25jZSBhZ2Fp
+biBtYXRjaGVkIGluIE1GRCAoZm9yIFNFUikgLSB3aGljaCBhZ2FpbiANCnByb3ZpZGVzIHJlZ21h
+cCBmb3IgU0VSLCBkb2VzIGluaXRpYWwgSTJDIHdyaXRlcyBzbyBTRVIgc3RhcnRzIA0KcmVzcG9u
+ZGluZyB0byBJMkMgcmVhZHMgYW5kIHRoZW4ga2lja3MgY2VsbHMgZm9yIG1lZGlhIGFuZCBwaW5j
+dHJsL2dwaW8uDQoNCkkgYmVsaWV2ZSBzcGxpdHRpbmcgdGhlIGZ1bmN0aW9uYWxpdHkgdG8gTUZE
+IHN1YmRldmljZXMgbWFrZXMgZHJpdmVycyANCnNsaWdodGx5IGNsZWFyZXIuIFlvdSdsbCBnZXQg
+R1BJT3MvcGluY3RybCB1bmRlciBwaW5jdHJsIGFzIHVzdWFsLCANCnJlZ21hcHMvSVJRLWNoaXBz
+IHVuZGVyIE1GRCBhbmQgb25seSBtZWRpYS92NGwyIHJlbGF0ZWQgcGFydHMgdW5kZXIgbWVkaWEu
+DQoNCkFueXdheXMgLSBJIG9wZW5lZCB0aGUgbWFpbCBjbGllbnQgdG8ganVzdCBzYXkgdGhhdCB0
+aGUgQVRSIGhhcyB3b3JrZWQgDQpuaWNlbHkgZm9yIG1lIGFuZCBzZWVtcyBwcmV0dHkgc3RhYmxl
+IC0gc28gdG8gbWUgaXQgc291bmRzIGxpa2UgYSBnb29mIA0KaWRlYSB0byBnZXQgQVRSIHJldmll
+d2VkL21lcmdlZCBldmVuIGJlZm9yZSB0aGUgZHJpdmVycyBoYXZlIGJlZW4gZmluYWxpemVkLg0K
+DQpUaGFua3MgZm9yIHNob3dpbmcgdGhlIHdheSBmb3IgdGhlIHJlc3Qgb2YgdXMgTHVjYSAmIG90
+aGVycyEgSXQncyBtdWNoIA0KZWFzaWVyIHRvIGZvbGxvdyB0aGFuIGxlYWQgdGhlIHdheSA7KQ0K
+DQpCZXN0IFJlZ2FyZHMNCgktLU1hdHRpDQoNCi0tIA0KVGhlIExpbnV4IEtlcm5lbCBndXkgYXQg
+Uk9ITSBTZW1pY29uZHVjdG9ycw0KDQpNYXR0aSBWYWl0dGluZW4sIExpbnV4IGRldmljZSBkcml2
+ZXJzDQpST0hNIFNlbWljb25kdWN0b3JzLCBGaW5sYW5kIFNXREMNCktpdmloYXJqdW5sZW5ra2kg
+MUUNCjkwMjIwIE9VTFUNCkZJTkxBTkQNCg0Kfn4gdGhpcyB5ZWFyIGlzIHRoZSB5ZWFyIG9mIGEg
+c2lnbmF0dXJlIHdyaXRlcnMgYmxvY2sgfn4NCg==
