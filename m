@@ -2,231 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 737B54ABF15
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 14:23:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6A894ABF41
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 14:24:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381459AbiBGMsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 07:48:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53536 "EHLO
+        id S1346031AbiBGMsG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 07:48:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442370AbiBGMU4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 07:20:56 -0500
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24AE3C02B5C7;
-        Mon,  7 Feb 2022 04:08:23 -0800 (PST)
+        with ESMTP id S1443095AbiBGMWG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 07:22:06 -0500
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12C4EC00572B
+        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 04:15:38 -0800 (PST)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 217AxC4R024048;
+        Mon, 7 Feb 2022 12:15:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=z3doitYvTelGFaGNNZ/5pUyTFuaFjDlMvfgHqf071zU=;
+ b=uHDqPCgIxA/+jtPhi15VkTK+PKzjgGAMMspQ0YbOntxgIAkYao6Bb4MBNfSlD9W/8zaW
+ 6rgkhG1BSplNviwFH3bEunLfbzTj98bT6KaHuHJLwAWqkVPMJg0Aeq11cfClx0OkWbsO
+ gluIs4f/PqlxG42XSSofBdZL+J5rIb9FBlT5d5I8uH1nmVFLewkSyWjiY+kY3vDQYk9B
+ 2KrrJvbOqsIrJvqYFn3aoROvFL//izxraUap+Qi4S1ZNSCB+JTLH5PFfwkt42oYrJn9a
+ tppKDB4LvbTUEJzxr7d7l3lfs6aue79p4crKpzE2QaII30yG2pIbsMjCNZ7yuHGEoH6G cA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3e1hsu5xng-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 07 Feb 2022 12:15:38 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 217CANh5016737;
+        Mon, 7 Feb 2022 12:15:37 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2174.outbound.protection.outlook.com [104.47.58.174])
+        by userp3020.oracle.com with ESMTP id 3e1jpnd5nt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 07 Feb 2022 12:15:37 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Bo7WDETl7X8HI6PgIlDBRaTTwvFrXp3RbRJv2fdK3Mu25vtCZWLmRboNAj618/gJhEoOPkv25sIk/rPrV3gchHm0W7t5/IaVWD5YgJqlaAxDNKT7lwB2TqR/qZqBkQsK05utLVbaUhyEFhz0kDq+pRcEAk5dw8rMOhhJ9fkZ7lS/VFNq5GD+aWif952tZXykGPyiZ3+71Z/tGVyES2LPYB+gN59aXWJ7OyLaLDrH+Yu06hAw+1Exy+lMPfQ/6Y4Z45go7BOxNr/ad49kEWLyv6H7UpBFFj3iCHuyydgoTnQfIF4/0YZDSghPy6nPukOo5BHZBXM+d7Cj5FsJ1OpKWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z3doitYvTelGFaGNNZ/5pUyTFuaFjDlMvfgHqf071zU=;
+ b=A+zPveatbentbyHcCbrUiJ0szm4wDez2Xts66cNq1lB8H/6C9SndJB+NGgL8tBXoOVI+ezj8r/AK2x9wrKXYg4OQJh92efxbKUj0tjF6D086Wk6uRCYmu4Hxn7bOyV6lNPQp+Ys4e1bSp1aID/z09jKtU8gwVncZ48ZW8DRmBucBvJjDYY7d0PPHTAzOe+H9ki54mcxD1emgmpD4muWJsTuXAiiG9rpDpuqtYqnmId2BvG8V5z1UX+Hj9t0A8KsUnqSET7TDZq1Wb6fDMKjAnaLy/IAJRV0mQxK0xF3QSHyEfZPpBpdpc2KDNMVXu+HNeaSPLgEzpBfVKJzHbe3UGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1644235704; x=1675771704;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=m/q6pkb+TA7cRlY6xlVOjKQ4P8DeARpuUdX/+csSvX4=;
-  b=VhWW5VlJ+Ij0r7HYtTC7rtGoKQ80lzJSEyGJkhlN9s4/ycNR8STGrIxU
-   7wm/M/2AwBtRT56MJyShkV1MCFn7pF3pSvpNXez/h6WCJa0v1ncHg3PhD
-   dFmkHn9+X3pR0b11b7TghBjo5GaIBUE4jEGRGogQHHzHFjHYWlyo7VC+Q
-   y0wdhQYSXKasobHKSbbu28Yvs5xuN9Zol0lkUq9qQtpy1YiYdDXgq6LFd
-   3eg74SNkk0pnzuxMNv3eTVjbi08RZo7+7OR1XFpP2jDG2mt80Z+TALENA
-   Nt1dn5pc58mbxQXES4PXzoU3zMWMXaxa2naTIsaoyhdgJh0Yys+vNqjJH
-   g==;
-X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
-   d="scan'208";a="21932193"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 07 Feb 2022 13:08:22 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 07 Feb 2022 13:08:22 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 07 Feb 2022 13:08:22 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1644235702; x=1675771702;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=m/q6pkb+TA7cRlY6xlVOjKQ4P8DeARpuUdX/+csSvX4=;
-  b=R0fUFWOdFK8b/66rT4bIyhvoxx1Q9eS3yMCico9uy5oOjZcwpvbe3rJo
-   yudGubxUWLbksbDBdikkQeOl59h9G8PHjwKyoqUyMTVia/RTXNTTDBhZ+
-   k3aKu3m7c3nljibsBMdpQQw/Gp9qE2d+ddYPj9IsXXUmQFIhtPAIwcKn9
-   otPfVvG1BPDeWlwqLtB8V5ORdujtn7bxEqCA912EUi6eoJmogVGRqdF41
-   E2bKKC8DgSrG6nRyUW2uKJbAaowxqPJvxmLKRhiaXGBHh15MazRU6aoTr
-   icrdmshwsanwU4zaVZiQF6/B3Y2h7RVQU+dTFmByH8guu4S32pt0nQhKh
-   A==;
-X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
-   d="scan'208";a="21932192"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 07 Feb 2022 13:08:22 +0100
-Received: from steina-w.localnet (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DE334280065;
-        Mon,  7 Feb 2022 13:08:21 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: (EXT) Re: [PATCH 3/8] media: imx: Use dedicated format handler for i.MX7/8
-Date:   Mon, 07 Feb 2022 13:08:21 +0100
-Message-ID: <4044945.1IzOArtZ34@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <Yf33YviITGDnolHw@pendragon.ideasonboard.com>
-References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com> <20220204121514.2762676-4-alexander.stein@ew.tq-group.com> <Yf33YviITGDnolHw@pendragon.ideasonboard.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z3doitYvTelGFaGNNZ/5pUyTFuaFjDlMvfgHqf071zU=;
+ b=A2BNFQFFJi07fNFZyJiVge0oja82nImbiiqKh86sdFWocHgH+TdohHncU6dRC4/931L5oniaGnu5W29eooiIFf972F2A3sXGWwegBiLLkt+Xih/Vh0hI7lsFgqq9gJK8wy2KpmYChWljeMY/269JV7aQ27Pjn2+7a3HtuGeLH4E=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by DS7PR10MB4845.namprd10.prod.outlook.com
+ (2603:10b6:5:38e::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.17; Mon, 7 Feb
+ 2022 12:15:35 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8%5]) with mapi id 15.20.4951.018; Mon, 7 Feb 2022
+ 12:15:35 +0000
+Date:   Mon, 7 Feb 2022 15:15:18 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [bug report] media: v4l2-ctrls: split up into four source files
+Message-ID: <20220207121518.GO1978@kadam>
+References: <20220207113424.GA28058@kili>
+ <57dde179-ae21-70f0-a3fd-56ca0c880a50@xs4all.nl>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <57dde179-ae21-70f0-a3fd-56ca0c880a50@xs4all.nl>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0064.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::20)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bd394054-0c4c-48ef-a741-08d9ea338b2a
+X-MS-TrafficTypeDiagnostic: DS7PR10MB4845:EE_
+X-Microsoft-Antispam-PRVS: <DS7PR10MB4845BA8529849639CAAFF5698E2C9@DS7PR10MB4845.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RGxrFehqzArB+S/YfR/dzewX9lAhrQv3LLr4uyGR3MLgYIbN0bjYf1p4f5+0aRdWVsMv3YSakyxwSLgAa165G+9RFsdLTjTlyYrfPkBuv01UbLRHrt3OmHjGzive/9iHSsAuR+jEwNYyr17dMMRiVKQblP3TFRbJs4Jq8oWA5F8jSumwi1/w00pLvMVPF1vit0BZNr9QuCUYjX2CPUu7LNU1Eg8EBv24ed5UflG5TfTUof1gbfD7ea266QpmL50XUR2o2htzOD3oE5ClhzELUlgfYexnJ5UWsBggS3+H8+Z9vCT4dq7jhA/rNVRen2NBtYQrdBlCoOHIhiPcJvDpyIBKhk0z0yxzkSJzCUFuv/Ryw+3wKZs8LR4/0E/RCZJZTbX++YiriHoyBVlwvtSfR2L3IB+RPz58SaHLw9J9lgUzdbf9QxS0juPLlh3AXefn2I1f6Ncz7/iWf9XtQ7BUh2WXU9eILo1MB7zFRO3NeVtzltnB9zQS8DUSfSz6mtiR6dXbV4SuMFiLhSLMw4SsDv+6V8wSGVEZ1lgbt2mBPus2alGJawmVI60P9La/eeoP9NPmhDyjVTxlcCYEPyo4xceNyv63wyLGqHgQmRRjZYdrnOEHq/5WBX8jVoG9asC+MP4rMuZO8De/qcfhVwZOmkVygX4H3lIm22WoBFyHNyg3V5PjfPZJwyCX7YjmidtolBfpCaeUHfl/evKn9wM4yg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(66946007)(8936002)(8676002)(38350700002)(66556008)(6666004)(44832011)(52116002)(26005)(66476007)(1076003)(4326008)(316002)(186003)(38100700002)(5660300002)(9686003)(6486002)(6512007)(33656002)(86362001)(33716001)(53546011)(6506007)(6916009)(83380400001)(2906002)(508600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hP9W7tJkggU3mubxyMoLLi+3xVy2V/K1j7JDHneqRRxzZvLoDnpgjQ1PRCky?=
+ =?us-ascii?Q?kBG1xyZze7YbEZNOaps3roQlzovf2Et/jS92keClgWI3gVBxpmKCj9r7pqwH?=
+ =?us-ascii?Q?j7dL7bQSiyzCSmk/ulz3Cj41wNh1vCAxIPJG8fixTKShJTWJC3dqW4Zn6RBk?=
+ =?us-ascii?Q?iyosRed6qG/5HDRLZrGcmvV3CXmPTV2FCIMTbmn4GMgvip2dlW1h8MkNVmED?=
+ =?us-ascii?Q?86fLTRGs8VJjH2wIdgVjFIaLAYCnLqjlEy+qEKzUdnw5eyd+STb3/NhEgVJY?=
+ =?us-ascii?Q?hq4jI1mvM4rQ6X2cbXTRHabZ2hCoGSEILhriFgjrDoIStktP+D5+637Fko9J?=
+ =?us-ascii?Q?WGBJVe8Q6lnRdEOmDVgdCgPlQJEaH7h+S3A2QMfRzlHBlS4m7v404OwMiMwp?=
+ =?us-ascii?Q?XZwdc/sMywqN9J2Ac9YiXl7NAKTO0itJjlrdgmv3Cm+KAX5mfkAtaAD3iRzd?=
+ =?us-ascii?Q?27Gs2J9RbzG4xTN/nYDWBS4NPqZQqFO0IePP9WZ0KNd2KDWQcaJOLeFB1uAd?=
+ =?us-ascii?Q?Ca1QNGKLIBG8EfVJOFuAH0NEPc0oTPAwH28ETXnenGX69Csh3H9eiFtWy+5n?=
+ =?us-ascii?Q?oXY3Zh4iEa2OVSTzGMj2S2J/ac1FeBGhf4MfEDpN7o8+89QaSyn025JECGSt?=
+ =?us-ascii?Q?TaJYu9lP2sdYSODKmItBXi3ejic1yJu8OpYe8wkmcA1jx8xdJxI9EBsSbQLO?=
+ =?us-ascii?Q?ZTQpUx3BB3IpJQAblTYdzwQCtG+FBf8gQWUY2sZF1tHTK2lkH5Worsjrm5fg?=
+ =?us-ascii?Q?Xx927EeI+lV78kYDULZy0JUgWAdIYaHtHXlObhYZIqVFRxSrtTBqZrGGN67S?=
+ =?us-ascii?Q?2FYsYMW8mP7qqd2i/gt6sPiKUsJ8txtsyGcaSGRYQ2YQXR0hkvNoUHutdEFZ?=
+ =?us-ascii?Q?M2tMJyEeZaA0rhEL8vzuR6ErELItQwOAQjM5/RVSLu3f1BuWUH1/eSq37F2v?=
+ =?us-ascii?Q?ilooUW11LmthXZK/OqlKditGGwzolgMzH0xcPl295DU+pNaVELBck37lbjqX?=
+ =?us-ascii?Q?1Ni1nwmH0AoYfMyG8DGdl2f0Yp2m1kzRJsPLmvB4soXfsxC0KrY2r6eYTL5J?=
+ =?us-ascii?Q?CEFSnYrxetGZSh2qQZkOvTc3mP2LCh7BBQsFumAU9IHBuZVaDgTuHU0AnybJ?=
+ =?us-ascii?Q?UN7wMqik6OGwsK1E93I0x0trjGpc+aGAEy/tEd2VRl3PU5C69vpnlV5sT6aV?=
+ =?us-ascii?Q?aCT0MenO5ESiHMcKJDCvRumudaGAKGxyK6hFamV8pNnUFVOz+Mxq53CGcOU3?=
+ =?us-ascii?Q?EuRsPnnJvxbmcxs1jFstFlw56vOqxYVF52hlJeQFgRS59+fVSU/aIMERSNkB?=
+ =?us-ascii?Q?pIxkbtBQ2qJ8WQsgHRj7wJjDGdXosqvUWNOmqpxFzTMB4ark7/i5tMMQ8vm6?=
+ =?us-ascii?Q?mw6tLlTXL2XBIRviYgwJxXZ8ZQD0P1LOq/scTe0D8pv/eZHL7hLlDrclEgJz?=
+ =?us-ascii?Q?8djFZKRkBVN3iWX4puwiGBISdywYDE4WnEmy6ZR5gP8VVvpE8dpABidE2jye?=
+ =?us-ascii?Q?3WhTECFU4iVnIaVNCqHJaYFwQZf8HpvtIuOQ9cDznBzNBPnsIUTyDfi/c2ol?=
+ =?us-ascii?Q?GiQ80a0oUgetVv2h3QbPvx9lzHFIVDSd0Yyiw4CN7UXW3z9A1DQmLPDTLeoF?=
+ =?us-ascii?Q?WrySiNmvPYUHkbzfHZS3YC3Ctkn1StuPngxlqRZU0fsjpTWqDC/Zf7mKYI1k?=
+ =?us-ascii?Q?6i65gg=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd394054-0c4c-48ef-a741-08d9ea338b2a
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 12:15:35.0414
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WoFWZKPHMtRDs9vmFVKpTHyT25NPSbWXO5rxN+np1aD3bGzg/49qJWpb4d6Le2PmwgNARKH+dkgBSxAGGQFKPYolEx3ssqyffnWPF6jm8Mc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB4845
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10250 signatures=673430
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 adultscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202070079
+X-Proofpoint-ORIG-GUID: DLRpN02mK8jun1loLAtreLj_rP8eth5_
+X-Proofpoint-GUID: DLRpN02mK8jun1loLAtreLj_rP8eth5_
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-Am Samstag, 5. Februar 2022, 05:04:50 CET schrieb Laurent Pinchart:
-> Hi Alexander and Dorota,
+On Mon, Feb 07, 2022 at 12:50:41PM +0100, Hans Verkuil wrote:
+> Hi Dan,
 > 
-> Thank you for the patch.
+> On 2/7/22 12:34, Dan Carpenter wrote:
+> > [ This code is older, but it showed up as a new warning because of
+> >   moving the files around - dan ]
+> > 
+> > Hello Hans Verkuil,
+> > 
+> > The patch 71c689dc2e73: "media: v4l2-ctrls: split up into four source
+> > files" from Apr 27, 2021, leads to the following Smatch static
+> > checker warning:
+> > 
+> > drivers/media/v4l2-core/v4l2-ctrls-api.c:374 v4l2_g_ext_ctrls_common() warn: uncapped user size for kvmalloc() will WARN
+> > drivers/media/v4l2-core/v4l2-ctrls-api.c:545 try_set_ext_ctrls_common() warn: uncapped user size for kvmalloc() will WARN
+> > 
+> > drivers/media/v4l2-core/v4l2-ctrls-api.c
+> >     351 int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+> >     352                             struct v4l2_ext_controls *cs,
+> >     353                             struct video_device *vdev)
+> >     354 {
+> >     355         struct v4l2_ctrl_helper helper[4];
+> >     356         struct v4l2_ctrl_helper *helpers = helper;
+> >     357         int ret;
+> >     358         int i, j;
+> >     359         bool is_default, is_request;
+> >     360 
+> >     361         is_default = (cs->which == V4L2_CTRL_WHICH_DEF_VAL);
+> >     362         is_request = (cs->which == V4L2_CTRL_WHICH_REQUEST_VAL);
+> >     363 
+> >     364         cs->error_idx = cs->count;
+> >     365         cs->which = V4L2_CTRL_ID2WHICH(cs->which);
+> >     366 
+> >     367         if (!hdl)
+> >     368                 return -EINVAL;
+> >     369 
+> >     370         if (cs->count == 0)
+> >     371                 return class_check(hdl, cs->which);
+> >     372 
+> >     373         if (cs->count > ARRAY_SIZE(helper)) {
+> > --> 374                 helpers = kvmalloc_array(cs->count, sizeof(helper[0]),
+> > 
+> > These days if "cs->count" is larger than INT_MAX it will trigger a
+> > WARN() because basically "people shouldn't be so trusting of user
+> > space".  kvmalloc() used to be able to allocate more than INT_MAX but
+> > that led to integer overflow problmes and security bugs.
+> > 
+> > This "cs->count" value comes from the user via the ioctl.  I don't know
+> > what a sensible upper bound is though.
 > 
-> On Fri, Feb 04, 2022 at 01:15:09PM +0100, Alexander Stein wrote:
-> > From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > 
-> > This splits out a format handler which takes into account
-> > the capabilities of the i.MX7/8 video device,
-> > as opposed to the default handler compatible with both i.MX5/6 and
-> > i.MX7/8.
-> > 
-> > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> > Changes in comparison to original commit from Dorota:
-> > * is_imx56 is used instead of enum
-> > 
-> >  drivers/staging/media/imx/imx-media-utils.c | 56 +++++++++++++++++++--
-> >  1 file changed, 52 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/imx/imx-media-utils.c
-> > b/drivers/staging/media/imx/imx-media-utils.c index
-> > 0daa6aad45f4..32aaa2e81bea 100644
-> > --- a/drivers/staging/media/imx/imx-media-utils.c
-> > +++ b/drivers/staging/media/imx/imx-media-utils.c
-> > @@ -516,10 +516,9 @@ void imx_media_try_colorimetry(struct
-> > v4l2_mbus_framefmt *tryfmt,> 
-> >  }
-> >  EXPORT_SYMBOL_GPL(imx_media_try_colorimetry);
-> > 
-> > -int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> > -				  const struct v4l2_mbus_framefmt 
-*mbus,
-> > -				  const struct imx_media_pixfmt 
-*cc,
-> > -				  bool is_imx56)
-> > +static int imx56_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> > +					   const struct 
-v4l2_mbus_framefmt *mbus,
-> > +					   const struct 
-imx_media_pixfmt *cc)
-> > 
-> >  {
-> >  
-> >  	u32 width;
-> >  	u32 stride;
-> > 
-> > @@ -568,6 +567,55 @@ int imx_media_mbus_fmt_to_pix_fmt(struct
-> > v4l2_pix_format *pix,> 
-> >  	return 0;
-> >  
-> >  }
-> > 
-> > +
-> > +static int imx78_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> > +					   const struct 
-v4l2_mbus_framefmt *mbus,
-> > +					   const struct 
-imx_media_pixfmt *cc)
-> > +{
-> > +	int ret;
-> > +
-> > +	if (!cc)
-> > +		cc = imx_media_find_mbus_format(mbus->code, 
-PIXFMT_SEL_ANY);
-> > +
-> > +	if (!cc)
-> > +		return -EINVAL;
-> > +	/*
-> > +	 * The hardware can handle line lengths divisible by 4 pixels
-> > +	 * as long as the whole buffer size ends up divisible by 8 bytes.
-> > +	 * If not, use the value of 8 pixels recommended in the datasheet.
-> > +	 */
-> > +	ret = v4l2_fill_pixfmt(pix, cc->fourcc,
-> > +			       round_up(mbus->width, 4), mbus-
->height);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* Only 8bits-per-pixel formats may need to get aligned to 8 
-pixels,
-> > +	 * because both 10-bit and 16-bit pixels occupy 2 bytes.
-> > +	 * In those, 4-pixel aligmnent is equal to 8-byte alignment.
-> > +	 */
-> > +	if (pix->sizeimage % 8 != 0)
-> > +		ret = v4l2_fill_pixfmt(pix, cc->fourcc,
-> > +				       round_up(mbus->width, 8), 
-mbus->height);
+> cs->count is capped to 1024 in drivers/media/v4l2-core/v4l2-ioctl.c.
+> Search for V4L2_CID_MAX_CTRLS.
 > 
-> I think you could simplify this by using cc->bpp to figure out the
-> alignment instead of calling v4l2_fill_pixfmt() twice.
+> There is no way for smatch to know this of course.
 
-Yeah, this should be possible. I can't test it (yet) though, I don't have a 8-
-Bit sensor. Will do in the next version.
+Yeah.  It's tricky.  The switch statement in check_array_args() is too
+much data for Smatch and the void *arg confuses Smatch as well.  :/
 
-> > +	pix->colorspace = mbus->colorspace;
-> > +	pix->xfer_func = mbus->xfer_func;
-> > +	pix->ycbcr_enc = mbus->ycbcr_enc;
-> > +	pix->quantization = mbus->quantization;
-> > +	pix->field = mbus->field;
-> 
-> Should v4l2_fill_pixfmt() be updated to handle colorspace and field too
-> instead of doing it manually here ?
+Thanks for looking at this.
 
-I'm not so sure which parts of v4l2_pix_format shall be set into 
-v4l2_fill_pixfmt(). Unfortunately there is no API description in the header, 
-git log doesn't help much either. In the end this should be a separate patch.
-
-Best regards,
-Alexander
-
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> > +				  const struct v4l2_mbus_framefmt 
-*mbus,
-> > +				  const struct imx_media_pixfmt 
-*cc,
-> > +				  bool is_imx56)
-> > +{
-> > +	if (is_imx56)
-> > +		return imx56_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-> > +	else
-> > +		return imx78_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-> > +}
-> > 
-> >  EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
-> >  
-> >  void imx_media_free_dma_buf(struct device *dev,
-
-
-
+regards,
+dan carpenter
 
