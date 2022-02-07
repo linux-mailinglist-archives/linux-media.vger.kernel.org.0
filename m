@@ -2,837 +2,232 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EB8B4AC243
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 16:01:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9016E4AC234
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 16:00:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233584AbiBGPAy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 10:00:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46410 "EHLO
+        id S237069AbiBGO7s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 09:59:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343595AbiBGOgk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 09:36:40 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14805C0401C5
-        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 06:36:37 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 301C21BF215;
-        Mon,  7 Feb 2022 14:36:31 +0000 (UTC)
-Date:   Mon, 7 Feb 2022 15:37:39 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
-        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
-        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
-        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        aford173@gmail.com, festevam@gmail.com,
-        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 07/21] media: ov5640: Rework timings programming
-Message-ID: <20220207143739.5tfltftzcsjvziot@uno.localdomain>
-References: <20220131143245.128089-1-jacopo@jmondi.org>
- <20220131143245.128089-8-jacopo@jmondi.org>
- <YfmD/UF8s8i+axUr@pendragon.ideasonboard.com>
+        with ESMTP id S237100AbiBGOic (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 09:38:32 -0500
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2043.outbound.protection.outlook.com [40.107.21.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76A31C0401C8;
+        Mon,  7 Feb 2022 06:38:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E15u+a+ER22ZIJ3Ym6zMks0ZK7c8edObexMp7Vy2C8/jVG0xj9j5z5soo6xb9JtbMmzYSnxq7+FlEuXGfpqUse97oFFyFGK+efYlml6OI7ChwnpKfkthgPp8xQPHbP9cF/XccIWi4mgnVKB7jBbl7ZLmRHEqAqhW347KmXPzGqouN9CRgtANqbbgZ7gopYXlRdNBEJQhbvzxCq+7LBkZL5nZrZltpx93bcTViEqeCyyKBj7vsGDY7oVOX38sP4rY4RmLQiC7eJWN9wBSMKZ/CCxJQip40Hx5r6ZOj5w/zZJ0FgbZf1gDp7vLufxW6QeN8QoF7U+U9QOpiPbflH4icQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xCSDeBtwAWEV+5b/TWdNSJ1dzQ23zUyvclvbWFum49o=;
+ b=MSn1SBKFnJsu5007p3x4Z4/l6sr/FSyHuPhxBi/yeYXTuK9yZ9yK5sqoScjj3Cxtxi/g5QSU9JuKL7aZb4LTzqOAr6q5PVbisvRRjWANW16S52BA1pkaPvYO1QpCuu3a6OfoE9/BqI3Pa1D14L9gxMxUCUmtz6C/hLBUBYhEUO1rz0RM6ogmgZetmtjxDUWxGRQOsxI5J6/qXx4OwpUf9DMm25SHn93G2KboeYiHfliTGSqrULwgJas215tuSZmdUlAQqfE/ej0yfAItKKm4dGz0zr283AFkLYsg9X1VmCDOKaUM0PxDgZ1z3qsDAA/xLX3Cl9XoBnQ7wsBEpc7T8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rohmsemiconductoreurope.onmicrosoft.com;
+ s=selector1-rohmsemiconductoreurope-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xCSDeBtwAWEV+5b/TWdNSJ1dzQ23zUyvclvbWFum49o=;
+ b=p7tGCLYuCglWuij0wY8KWIsNm0DvrDqjYf6Rl61L2uFxrYlOUKNcCzT0Li/PWEF4bb1tkRSDnTaXjAFy/rli1zBrrQN1+3h4nIcVbjE5NLGFSAgty6ghdyZCfSSQMj5oOSCgYiNXrXtBIS2GAdoIKTFzoDLrhSPMqL00fAA05TE=
+Received: from HE1PR03MB3162.eurprd03.prod.outlook.com (2603:10a6:7:55::20) by
+ HE1PR0302MB2809.eurprd03.prod.outlook.com (2603:10a6:3:f1::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4951.18; Mon, 7 Feb 2022 14:38:23 +0000
+Received: from HE1PR03MB3162.eurprd03.prod.outlook.com
+ ([fe80::833:be72:6b04:dca9]) by HE1PR03MB3162.eurprd03.prod.outlook.com
+ ([fe80::833:be72:6b04:dca9%7]) with mapi id 15.20.4951.017; Mon, 7 Feb 2022
+ 14:38:23 +0000
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     Luca Ceresoli <luca@lucaceresoli.net>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Peter Rosin <peda@axentia.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [RFCv3 0/6] TI camera serdes and I2C address translation (Was:
+ [RFCv3 0/6] Hi,)
+Thread-Topic: [RFCv3 0/6] TI camera serdes and I2C address translation (Was:
+ [RFCv3 0/6] Hi,)
+Thread-Index: AQHYHBs2RD5e2C8Zu0SeCTUQRW2AkqyIEuOAgAANHYCAAAh/AA==
+Date:   Mon, 7 Feb 2022 14:38:22 +0000
+Message-ID: <608d23fc-eef7-c0dc-de5b-53b140fe2d0f@fi.rohmeurope.com>
+References: <20220206115939.3091265-1-luca@lucaceresoli.net>
+ <7e5af144-bd5f-cd0e-2109-49b318449a78@ideasonboard.com>
+ <5aa3e282-3056-2088-9741-6d17273701b4@fi.rohmeurope.com>
+ <74bacec6-35e5-346a-fb05-09ae44fc5592@lucaceresoli.net>
+In-Reply-To: <74bacec6-35e5-346a-fb05-09ae44fc5592@lucaceresoli.net>
+Accept-Language: fi-FI, en-US
+Content-Language: fi-FI
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fi.rohmeurope.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: df1ae3a7-1e7a-4975-32c9-08d9ea477e36
+x-ms-traffictypediagnostic: HE1PR0302MB2809:EE_
+x-microsoft-antispam-prvs: <HE1PR0302MB2809076F209D170FE28F6B0EAD2C9@HE1PR0302MB2809.eurprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: JTymKtTnCnxCt5fTkgLvDB/IFTBoct0e/q312LXbuVxa8+dbFcgLEnP83YEfQQ/afl38pAobq8ULJgg50BkTEWpGpdP3cB9iYOF/VZJ5ic0eXVwpM7B/uBcDJnjJ+8RjdwP7r91ofFlOTk049x8xZJZUk/KGzUkV9BVQmb1R0lPezQF6m12+DxdE/hhkrpEaAyin9Aimq7HQsdbZ5XegEAbseDqfgCZ0CoQJhzpWWJ3zla4BBUtW6iWpxKF+olOn1mUxdJ7M+yKpvjd7ew8wo/Je0yXsRL5UcInMisiwXUUx9n1QwDJdu3hbNPpNKXdz8wANNn7mPPNWJkEPwFdt1d8KQ7qxfuUAkATOLn2a4ozypc9XAf7KYqDRpu/4cCAWRBi4gqYA6oHohR1qpO7epvRhh2kOy0P61uIX0drLthroUoNV2hAsor3TuDRyqe571enAeEi7uJu81T2GpVBr2ymHenXj9gINomCLqxB5uG/8qJ9UmvOT8l9BC4zHlD3bav9ekxrpn1lSfn49pTfGvyBrVx+TVqsYoTGY8r/P1bsDq/i5jcDQnBrLnH8R95BrsEpwxJf/7BaoCHapG6LAJAaXnPo4/MCUJjXBXcXG2OFkPVDyMrtOTX2pYJ4G6AiYfPNttxxgdP9Qt0mzOJEDzvlDwiXAo/bhIGPbMp/1IfrL0dU6eZXQg3gGmSMaoW0OKv5O9hyEqDCxy+s/IiYURsoUe6bsYZtJQHz9jKkcDPkQcHAKuzQSvAls0h+ZgUbAi1FhJTrK+HaaG+ZL0lIWgqhS+Jp2UMWHqsznhqGxCh3nP3gGvvDGAKL0HKg8tuYEFSEW00Up9MXJgtF8lSGHL3P+4WXuEmvaE2WQxPSa4QM=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR03MB3162.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(26005)(186003)(31686004)(83380400001)(6512007)(53546011)(6506007)(2616005)(498600001)(66446008)(66476007)(966005)(71200400001)(4326008)(38070700005)(6486002)(8936002)(54906003)(122000001)(110136005)(5660300002)(86362001)(66946007)(38100700002)(7416002)(66556008)(76116006)(64756008)(8676002)(31696002)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bG1XZnZMYnkvNUhWQ21FdXBudVdSVkEySUhRUWJQN3F3ZlJuRGZpV0hYMEZh?=
+ =?utf-8?B?OERYSE1QcUFSYi9OVWpsZm1VU1FON2VQOFZaQVdPWGVSWWZzMzc1MnVTc05j?=
+ =?utf-8?B?YmNzb0dJbVF4TmQzVXhNSmQzS0o4OVdiOHVpSFY2aG5aSmYwSFBGbWZNUWxx?=
+ =?utf-8?B?dTZheXFYQ3RuaUhYY2V5cE1lUDRsUENMbkY3OGxRNFpNRUtjWi9TWWQvRVNW?=
+ =?utf-8?B?UHBGWHpkUHRRaytaeWpOczdTMUNLM3Q0Y3VrT05wSU1WVWV1TEhJazVqUlYx?=
+ =?utf-8?B?dXFwWDZoMks2UEtpLzg2SUlwUDRvcjdKejNmWmlIRHNuVkFUMDRNZG5IWVFj?=
+ =?utf-8?B?dWhFcTJpTlhOZ0o3T1d5UWhGTVlzU2N3Q3hRNHR3alIrZk5qQzllVWsvVk52?=
+ =?utf-8?B?RE5iY2NrSW9LRldYOU5iNnpMVXBqMXRLWGF6dmZSUExtQU92RDhJZ0pQREEz?=
+ =?utf-8?B?YnpLRFVJMUlndWxOay9pZXQ2YWdqcEZkZVBMZCtDZnE0L3pROFI5aTRBSG13?=
+ =?utf-8?B?dzI3cllOMW90b2FXNmRVaUVtRDYrQ3RqeTg3TkV0R2d0TUNGdS9oS3Vad29V?=
+ =?utf-8?B?c2dYTnhQdjI1UEx6MndpdlVSdy9tUnpkbWRWL1VVb2JIRi94YXhYYktxV1Rn?=
+ =?utf-8?B?b2VQQ0dXczhWU3FZdDk3ajM4bzRjT05WMHQyTnN0UEdaV05GWHJiMkFNeTFM?=
+ =?utf-8?B?RXZzcFhUYVpEZ0RMMm9tWVJRb2VISS9TWHVnMGFZOVZRN25Jelg2aldaNGli?=
+ =?utf-8?B?SFpDN2llT1VndVNQSnQrcTZJblZDZFZ1YzFBUGRUUlIxU2I2YlAvSXAwamFF?=
+ =?utf-8?B?ZlJHZGc4KzIwZzVUNDNtcVZBWVdaN2hFQXQwQU5uTXRWTVZlZUZzNUY2OHdV?=
+ =?utf-8?B?U1VmanMyNGhYZkxYajBNakRtd0lMbFBmcEpxUWsyOE4zT045ejlqK1Q3VU1X?=
+ =?utf-8?B?TlcyT0RTdVFZbG1xcWYreE80QmhUWm1HL3ZxYVF5SVZyUTJXWW1pU3MxRnVj?=
+ =?utf-8?B?OUxwK0xZdU55K3E3VDZvWFJzTk1DdkcxWUZ0TmU4OVVQOFpudEZWQmVBT1dM?=
+ =?utf-8?B?S3dxZ3daYmRkNTlYU3huWm9nVUUyTDVlVWpUZkVhMTZYcTZzK0ZhSFZJd05S?=
+ =?utf-8?B?TnUxelZrcU5GbGk2eUt3bWNzalk3QVgydnR3RHBIeEQyaTRrcWpkaXhIKzFB?=
+ =?utf-8?B?TXdDTmtuL2E5VjJjUGFvOUhIVy9KN3QvaVJBZUJFUXUwRGpMSkgyd3oxZFRm?=
+ =?utf-8?B?U1B2Y0J0UnNqRDhyTkN2eVR5RU1SeXp6amNkcGI0dm54Q0tCaUJpeGxFUS90?=
+ =?utf-8?B?TDd2N3VHMGZJd09PVDMweEFXV0NQZmRtbWtYcU5DWUpQbWNMSGV1QW92Qmpv?=
+ =?utf-8?B?STRMZmtsMWFHUWcwR2VYalo5UlZpVWF6cU5STXVUUnN6R1grazA2SUJTbCto?=
+ =?utf-8?B?REhVWTJNNVlqenNIdVkzVnN6Mk82c0lSM0hMRGZtV0EvV0E4QnU3TmY5c0xt?=
+ =?utf-8?B?a25oVnhqU2dleGd4K0NQZkNPak51MjJUL21zZjQwVER1aVZuTXIyd2NQSG40?=
+ =?utf-8?B?QmxlZGtLYnZER2IzdHhxWHovUnhwcEg3bzVzaXhWSzRuSGxrTUM1WUNvbk1k?=
+ =?utf-8?B?UDRwTUxwYjRGd1NQVlJ1RUNQT2hISjU5Wk1uY3B1Z3VQVm9qK0RGZ1lneW9y?=
+ =?utf-8?B?MDYzbVdWMjlZR3BjankzdUhrbWtva3d6dCt6SEprOUdCdnVSd0VTd2VZcWFt?=
+ =?utf-8?B?WWpQNWdYN1BBT0tuVXFmd3BacXJzd2x3OEZWcXlCRTRkYUw5bm1DNStUWHFt?=
+ =?utf-8?B?bllLeGpVeEc1bjREMXUrMFBsenFaeTJkQ3N3bGlvNDJnVm9sdGt3RnlwcFNt?=
+ =?utf-8?B?NUMwZk1ZOUFuZmVUYUN0VkFJYXhxT24rZ2F6dnlWV2pVOUhaTHdCcmF2UXJ0?=
+ =?utf-8?B?KzhwMjFRa0ZSbmE5cWgzMzR6am9RK3BtQlpITVFJbUx2WVhnL01QRGg2Lzhm?=
+ =?utf-8?B?UHVvWVdzQThXREtxd0F2UzNvWUNlUDZTSDBLNmtKQTM1eWEzTGlFS3dGbHdx?=
+ =?utf-8?B?WG5kWGM5NnYwbC9ROEVOeHIyczBMS1lPeHI5UjNpaW0vSUcvdmhuOXZuUFZF?=
+ =?utf-8?B?TGpwaFdhd1BuSGZJb3NvVkgvQ0pIdWVNUVMzR3pLU2tDMVYvaDVWQlVFUDFJ?=
+ =?utf-8?B?KzlYNE41dGxTbjZwbzFxeXFmUGM3TFo0dWVHYTZYZTV5RE4xNlk2d3R1eU5B?=
+ =?utf-8?B?R3QwZytQMDlINTBNL295QnA4bHFySTI2bXFwcUN5MEk5MGU5WWNWeEZhS050?=
+ =?utf-8?Q?Q3sO59vpT1l+FcFCdf?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <51E44A1ECA30C7419E9C873B50A10C85@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YfmD/UF8s8i+axUr@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-OriginatorOrg: fi.rohmeurope.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR03MB3162.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df1ae3a7-1e7a-4975-32c9-08d9ea477e36
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2022 14:38:22.9600
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 94f2c475-a538-4112-b5dd-63f17273d67a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cAGs+waySHZd0Usm+FPXXD2vFneVxE6Q8EfZ4ha+yJT1eq9Foj+XYXX7QyOLVeOImWklgJEfI5mqizTL5/YGfBOgjtjeY3fmS8q8ZPbiAU9eEqjvxXDRmZfPum9I9BUF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0302MB2809
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
-
-On Tue, Feb 01, 2022 at 09:03:25PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Mon, Jan 31, 2022 at 03:32:31PM +0100, Jacopo Mondi wrote:
-> > The current definition of a sensor mode defines timings as follows:
-> >
-> > - hact, vact: Visible width and height
-> > - htot, vtot: Total sizes invluding blankings
->
-> s/invluding/including/
->
-> > This makes difficult to clearly separate the visible sizes from the
-> > blankings and to make the vertical blanking programmable.
-> >
-> > Rework the sensor modes sizes definition to:
-> > - Report the analog crop sizes
-> > - Report the visible crop size
-> > - Report the total pixels per line as HBLANK is fixed
-> > - Report the VBLANK value to make it programmable
-> >
-> > Also modify the ov5640_set_timings() function to program all the
-> > windowing registers are remove them from the per-mode register-value
-> > tables.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  drivers/media/i2c/ov5640.c | 451 +++++++++++++++++++++++++------------
-> >  1 file changed, 304 insertions(+), 147 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index acc636500907..bd14e2ad22f6 100644
-> > --- a/drivers/media/i2c/ov5640.c
-> > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -61,10 +61,16 @@
-> >  #define OV5640_REG_AEC_PK_MANUAL	0x3503
-> >  #define OV5640_REG_AEC_PK_REAL_GAIN	0x350a
-> >  #define OV5640_REG_AEC_PK_VTS		0x350c
-> > +#define OV5640_REG_TIMING_HS		0x3800
-> > +#define OV5640_REG_TIMING_VS		0x3802
-> > +#define OV5640_REG_TIMING_HW		0x3804
-> > +#define OV5640_REG_TIMING_VH		0x3806
-> >  #define OV5640_REG_TIMING_DVPHO		0x3808
-> >  #define OV5640_REG_TIMING_DVPVO		0x380a
-> >  #define OV5640_REG_TIMING_HTS		0x380c
-> >  #define OV5640_REG_TIMING_VTS		0x380e
-> > +#define OV5640_REG_TIMING_HOFFS		0x3810
-> > +#define OV5640_REG_TIMING_VOFFS		0x3812
-> >  #define OV5640_REG_TIMING_TC_REG20	0x3820
-> >  #define OV5640_REG_TIMING_TC_REG21	0x3821
-> >  #define OV5640_REG_AEC_CTRL00		0x3a00
-> > @@ -242,12 +248,17 @@ struct ov5640_mode_info {
-> >  	enum ov5640_mode_id id;
-> >  	enum ov5640_downsize_mode dn_mode;
-> >  	enum ov5640_pixel_rate_id pixel_rate;
-> > -	u32 hact;
-> > -	u32 htot;
-> > -	u32 vact;
-> > -	u32 vtot;
-> > +	/*  Analog crop rectangle. */
-> > +	struct v4l2_rect analog_crop;
-> > +	/* Visibile crop: from analog crop top-left corner. */
-> > +	struct v4l2_rect crop;
-> > +	/* Total pixels per line: crop.width + fixed hblank. */
-> > +	u32 ppl;
->
-> ppl is a fairly uncommon term when it comes to sensor configuration. I'd
-> rather keep hact, or use a hblank value.
->
-
-I found ppl (pixels per line) nicer that hact (horizontal act... ?)
-
-> > +	/* Total frame height = crop.height + vblank. */
-> > +	u32 vblank_def;
->
-> The comment doesn't seem to match the field.
->
-
-Ah yes, I meant to pair it with the above one and make clear that
-vblank doesn't include the visible pixels. But yes I get your comment
-and I'll change this
-
-> >  	const struct reg_value *reg_data;
-> >  	u32 reg_data_size;
-> > +	/* DVP only; ignored in MIPI mode. */
-> >  	u32 max_fps;
-> >  };
-> >
-> > @@ -353,11 +364,7 @@ static const struct reg_value ov5640_init_setting_30fps_VGA[] = {
-> >  	{0x3c06, 0x00, 0, 0}, {0x3c07, 0x08, 0, 0}, {0x3c08, 0x00, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3820, 0x41, 0, 0}, {0x3821, 0x07, 0, 0}, {0x3814, 0x31, 0, 0},
-> > -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
-> > -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
-> > -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
-> > +	{0x3815, 0x31, 0, 0},
-> >  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
-> >  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
-> >  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
-> > @@ -425,11 +432,7 @@ static const struct reg_value ov5640_setting_VGA_640_480[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
-> > -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
-> > -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
-> > +	{0x3815, 0x31, 0, 0},
-> >  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
-> >  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
-> >  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
-> > @@ -444,11 +447,7 @@ static const struct reg_value ov5640_setting_XGA_1024_768[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
-> > -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
-> > -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
-> > +	{0x3815, 0x31, 0, 0},
-> >  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
-> >  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
-> >  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
-> > @@ -463,11 +462,7 @@ static const struct reg_value ov5640_setting_QVGA_320_240[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
-> > -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
-> > -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
-> > +	{0x3815, 0x31, 0, 0},
-> >  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
-> >  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
-> >  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
-> > @@ -482,11 +477,7 @@ static const struct reg_value ov5640_setting_QQVGA_160_120[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
-> > -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
-> > -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
-> > +	{0x3815, 0x31, 0, 0},
-> >  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
-> >  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
-> >  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
-> > @@ -500,11 +491,7 @@ static const struct reg_value ov5640_setting_QCIF_176_144[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
-> > -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
-> > -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
-> > +	{0x3815, 0x31, 0, 0},
-> >  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
-> >  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
-> >  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
-> > @@ -519,11 +506,7 @@ static const struct reg_value ov5640_setting_NTSC_720_480[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
-> > -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
-> > -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x3c, 0, 0},
-> > +	{0x3815, 0x31, 0, 0},
-> >  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
-> >  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
-> >  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
-> > @@ -538,11 +521,7 @@ static const struct reg_value ov5640_setting_PAL_720_576[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
-> > -	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
-> > -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x38, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
-> > +	{0x3815, 0x31, 0, 0},
-> >  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
-> >  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
-> >  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
-> > @@ -557,11 +536,7 @@ static const struct reg_value ov5640_setting_720P_1280_720[] = {
-> >  	{0x3c07, 0x07, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > -	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
-> > -	{0x3802, 0x00, 0, 0}, {0x3803, 0xfa, 0, 0}, {0x3804, 0x0a, 0, 0},
-> > -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x06, 0, 0}, {0x3807, 0xa9, 0, 0},
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x04, 0, 0},
-> > +	{0x3815, 0x31, 0, 0},
-> >  	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
-> >  	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x02, 0, 0},
-> >  	{0x3a03, 0xe4, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0xbc, 0, 0},
-> > @@ -576,11 +551,7 @@ static const struct reg_value ov5640_setting_1080P_1920_1080[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x11, 0, 0},
-> > -	{0x3815, 0x11, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
-> > -	{0x3802, 0x00, 0, 0}, {0x3803, 0x00, 0, 0}, {0x3804, 0x0a, 0, 0},
-> > -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9f, 0, 0},
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x04, 0, 0},
-> > +	{0x3815, 0x11, 0, 0},
-> >  	{0x3618, 0x04, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x21, 0, 0},
-> >  	{0x3709, 0x12, 0, 0}, {0x370c, 0x00, 0, 0}, {0x3a02, 0x03, 0, 0},
-> >  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
-> > @@ -591,9 +562,6 @@ static const struct reg_value ov5640_setting_1080P_1920_1080[] = {
-> >  	{0x3824, 0x02, 0, 0}, {0x5001, 0x83, 0, 0},
-> >  	{0x3c07, 0x07, 0, 0}, {0x3c08, 0x00, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> > -	{0x3800, 0x01, 0, 0}, {0x3801, 0x50, 0, 0}, {0x3802, 0x01, 0, 0},
-> > -	{0x3803, 0xb2, 0, 0}, {0x3804, 0x08, 0, 0}, {0x3805, 0xef, 0, 0},
-> > -	{0x3806, 0x05, 0, 0}, {0x3807, 0xf1, 0, 0},
-> >  	{0x3612, 0x2b, 0, 0}, {0x3708, 0x64, 0, 0},
-> >  	{0x3a02, 0x04, 0, 0}, {0x3a03, 0x60, 0, 0}, {0x3a08, 0x01, 0, 0},
-> >  	{0x3a09, 0x50, 0, 0}, {0x3a0a, 0x01, 0, 0}, {0x3a0b, 0x18, 0, 0},
-> > @@ -607,11 +575,7 @@ static const struct reg_value ov5640_setting_QSXGA_2592_1944[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x11, 0, 0},
-> > -	{0x3815, 0x11, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
-> > -	{0x3802, 0x00, 0, 0}, {0x3803, 0x00, 0, 0}, {0x3804, 0x0a, 0, 0},
-> > -	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9f, 0, 0},
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x04, 0, 0},
-> > +	{0x3815, 0x11, 0, 0},
-> >  	{0x3618, 0x04, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x21, 0, 0},
-> >  	{0x3709, 0x12, 0, 0}, {0x370c, 0x00, 0, 0}, {0x3a02, 0x03, 0, 0},
-> >  	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
-> > @@ -624,96 +588,250 @@ static const struct reg_value ov5640_setting_QSXGA_2592_1944[] = {
-> >
-> >  /* power-on sensor init reg table */
-> >  static const struct ov5640_mode_info ov5640_mode_init_data = {
-> > -	0, SUBSAMPLING,
-> > -	OV5640_PIXEL_RATE_96M,
-> > -	640, 1896, 480, 984,
-> > -	ov5640_init_setting_30fps_VGA,
-> > -	ARRAY_SIZE(ov5640_init_setting_30fps_VGA),
-> > -	OV5640_30_FPS,
-> > +		.id		= 0,
->
-> Ah there we go, named field initializers :-) It would be nice to move
-> them to patch 02/21 to minimize the changes here.
->
-
-Rebasing might be rather painful, but I'll see how it goes
-
-> > +		.dn_mode	= SUBSAMPLING,
-> > +		.pixel_rate	= OV5640_PIXEL_RATE_96M,
-> > +		.analog_crop = {
-> > +			.left	= 0,
-> > +			.top	= 4,
-> > +			.width	= 2623,
-> > +			.height	= 1947,
->
-> I don't think that's right. The TIMING_HW and TIMING_VH registers store
-> the end X and Y values respectively, so here width should be 2624 and
-> height 1944. Same below, and you'll need to update the register writes
-> accordingly (left + width - 1 and top + height - 1).
->
-
-These values come from what was hardcoded in the register tables
-In example:
-
-{0x3804, 0x0a, 0, 0}, {0x3805, 0x3f, 0, 0} 0xa3f = 2623
-{0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0} 0x79b = 1947
-
-I wouldn't change them for sake for bisectability, but I can adjust
-them on top as they smell fishy to me as well
-
-> > +		},
-> > +		.crop = {
-> > +			.left	= 16,
-> > +			.top	= 6,
-> > +			.width	= 640,
-> > +			.height	= 480,
-> > +		},
-> > +		.ppl		= 1896,
-> > +		.vblank_def	= 504,
-> > +		.reg_data	= ov5640_init_setting_30fps_VGA,
-> > +		.reg_data_size	= ARRAY_SIZE(ov5640_init_setting_30fps_VGA),
-> > +		.max_fps	= OV5640_30_FPS
-> >  };
-> >
-> >  static const struct ov5640_mode_info
-> >  ov5640_mode_data[OV5640_NUM_MODES] = {
-> >  	{
-> >  		/* 160x120 */
-> > -		OV5640_MODE_QQVGA_160_120, SUBSAMPLING,
-> > -		OV5640_PIXEL_RATE_48M,
-> > -		160, 1896, 120, 984,
-> > -		ov5640_setting_QQVGA_160_120,
-> > -		ARRAY_SIZE(ov5640_setting_QQVGA_160_120),
-> > -		OV5640_30_FPS
-> > +		.id		= OV5640_MODE_QQVGA_160_120,
-> > +		.dn_mode	= SUBSAMPLING,
-> > +		.pixel_rate	= OV5640_PIXEL_RATE_48M,
-> > +		.analog_crop = {
-> > +			.left	= 0,
-> > +			.top	= 4,
-> > +			.width	= 2623,
-> > +			.height	= 1947,
-> > +		},
-> > +		.crop = {
-> > +			.left	= 16,
-> > +			.top	= 6,
-> > +			.width	= 160,
-> > +			.height	= 120,
-> > +		},
-> > +		.ppl		= 1896,
-> > +		.vblank_def	= 864,
-> > +		.reg_data	= ov5640_setting_QQVGA_160_120,
-> > +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QQVGA_160_120),
-> > +		.max_fps	= OV5640_30_FPS
-> >  	}, {
-> >  		/* 176x144 */
-> > -		OV5640_MODE_QCIF_176_144, SUBSAMPLING,
-> > -		OV5640_PIXEL_RATE_48M,
-> > -		176, 1896, 144, 984,
-> > -		ov5640_setting_QCIF_176_144,
-> > -		ARRAY_SIZE(ov5640_setting_QCIF_176_144),
-> > -		OV5640_30_FPS
-> > +		.id		= OV5640_MODE_QCIF_176_144,
-> > +		.dn_mode	= SUBSAMPLING,
-> > +		.pixel_rate	= OV5640_PIXEL_RATE_48M,
-> > +		.analog_crop = {
-> > +			.left	= 0,
-> > +			.top	= 4,
-> > +			.width	= 2623,
-> > +			.height	= 1947,
-> > +		},
-> > +		.crop = {
-> > +			.left	= 16,
-> > +			.top	= 6,
-> > +			.width	= 176,
-> > +			.height	= 144,
-> > +		},
-> > +		.ppl		= 1896,
-> > +		.vblank_def	= 840,
-> > +		.reg_data	= ov5640_setting_QCIF_176_144,
-> > +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QCIF_176_144),
-> > +		.max_fps	= OV5640_30_FPS
-> >  	}, {
-> >  		/* 320x240 */
-> > -		OV5640_MODE_QVGA_320_240, SUBSAMPLING,
-> > -		OV5640_PIXEL_RATE_48M,
-> > -		320, 1896, 240, 984,
-> > -		ov5640_setting_QVGA_320_240,
-> > -		ARRAY_SIZE(ov5640_setting_QVGA_320_240),
-> > -		OV5640_30_FPS
-> > +		.id		= OV5640_MODE_QVGA_320_240,
-> > +		.dn_mode	= SUBSAMPLING,
-> > +		.pixel_rate	= OV5640_PIXEL_RATE_48M,
-> > +		.analog_crop = {
-> > +			.left	= 0,
-> > +			.top	= 4,
-> > +			.width	= 2623,
-> > +			.height	= 1947,
-> > +		},
-> > +		.crop = {
-> > +			.left	= 16,
-> > +			.top	= 6,
-> > +			.width	= 320,
-> > +			.height	= 240,
-> > +		},
-> > +		.ppl		= 1896,
-> > +		.vblank_def	= 744,
-> > +		.reg_data	= ov5640_setting_QVGA_320_240,
-> > +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QVGA_320_240),
-> > +		.max_fps	= OV5640_30_FPS
-> >  	}, {
-> >  		/* 640x480 */
-> > -		OV5640_MODE_VGA_640_480, SUBSAMPLING,
-> > -		OV5640_PIXEL_RATE_48M,
-> > -		640, 1896, 480, 1080,
-> > -		ov5640_setting_VGA_640_480,
-> > -		ARRAY_SIZE(ov5640_setting_VGA_640_480),
-> > -		OV5640_60_FPS
-> > +		.id		= OV5640_MODE_VGA_640_480,
-> > +		.dn_mode	= SUBSAMPLING,
-> > +		.pixel_rate	= OV5640_PIXEL_RATE_48M,
-> > +		.analog_crop = {
-> > +			.left	= 0,
-> > +			.top	= 4,
-> > +			.width	= 2623,
-> > +			.height	= 1947,
-> > +		},
-> > +		.crop = {
-> > +			.left	= 16,
-> > +			.top	= 6,
-> > +			.width	= 640,
-> > +			.height	= 480,
-> > +		},
-> > +		.ppl		= 1896,
-> > +		.vblank_def	= 600,
-> > +		.reg_data	= ov5640_setting_VGA_640_480,
-> > +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_VGA_640_480),
-> > +		.max_fps	= OV5640_60_FPS
-> >  	}, {
-> >  		/* 720x480 */
-> > -		OV5640_MODE_NTSC_720_480, SUBSAMPLING,
-> > -		OV5640_PIXEL_RATE_96M,
-> > -		720, 1896, 480, 984,
-> > -		ov5640_setting_NTSC_720_480,
-> > -		ARRAY_SIZE(ov5640_setting_NTSC_720_480),
-> > -		OV5640_30_FPS
-> > +		.id		= OV5640_MODE_NTSC_720_480,
-> > +		.dn_mode	= SUBSAMPLING,
-> > +		.pixel_rate	= OV5640_PIXEL_RATE_96M,
-> > +		.analog_crop = {
-> > +			.left	= 0,
-> > +			.top	= 4,
-> > +			.width	= 2623,
-> > +			.height	= 1947,
-> > +		},
-> > +		.crop = {
-> > +			.left	= 56,
->
-> I think this one should be 16.
->
-
-Uuuups
-
-> > @@ -519,11 +506,7 @@ static const struct reg_value ov5640_setting_NTSC_720_480[] = {
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x3c, 0, 0},
-
-        .left = 0x10
-        .top = 0x3c = 60d
-
-> > +			.top	= 60,
-> > +			.width	= 720,
-> > +			.height	= 480,
-> > +		},
-> > +		.ppl		= 1896,
-> > +		.vblank_def	= 504,
-> > +		.reg_data	= ov5640_setting_NTSC_720_480,
-> > +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_NTSC_720_480),
-> > +		.max_fps	= OV5640_30_FPS
-> >  	}, {
-> >  		/* 720x576 */
-> > -		OV5640_MODE_PAL_720_576, SUBSAMPLING,
-> > -		OV5640_PIXEL_RATE_96M,
-> > -		720, 1896, 576, 984,
-> > -		ov5640_setting_PAL_720_576,
-> > -		ARRAY_SIZE(ov5640_setting_PAL_720_576),
-> > -		OV5640_30_FPS
-> > +		.id		= OV5640_MODE_PAL_720_576,
-> > +		.dn_mode	= SUBSAMPLING,
-> > +		.pixel_rate	= OV5640_PIXEL_RATE_96M,
-> > +		.analog_crop = {
-> > +			.left	= 0,
-> > +			.top	= 4,
-> > +			.width	= 2623,
-> > +			.height	= 1947,
-> > +		},
-> > +		.crop = {
-> > +			.left	= 56,
-> > +			.top	= 60,
->
-> And this should be 6.
->
-
-Ups x2
-
-> > @@ -538,11 +521,7 @@ static const struct reg_value ov5640_setting_PAL_720_576[] = {
-> > -	{0x3810, 0x00, 0, 0},
-> > -	{0x3811, 0x38, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
-
-        .left = 0x38 ( = 56d)
-        .top = 0x06
-
-Thanks for spotting!
-
-Now I'm puzzled as I recal I tried to algin these modes to use
-        .left = 16
-        .top = 6
-
-As all the other modes and they broke, so I don't recall if I've mixed
-up values or changed them on purpose... I will re-test
-
-
-> > +			.width	= 720,
-> > +			.height	= 576,
-> > +		},
-> > +		.ppl		= 1896,
-> > +		.vblank_def	= 408,
-> > +		.reg_data	= ov5640_setting_PAL_720_576,
-> > +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_PAL_720_576),
-> > +		.max_fps	= OV5640_30_FPS
-> >  	}, {
-> >  		/* 1024x768 */
-> > -		OV5640_MODE_XGA_1024_768, SUBSAMPLING,
-> > -		OV5640_PIXEL_RATE_96M,
-> > -		1024, 1896, 768, 1080,
-> > -		ov5640_setting_XGA_1024_768,
-> > -		ARRAY_SIZE(ov5640_setting_XGA_1024_768),
-> > -		OV5640_30_FPS
-> > +		.id		= OV5640_MODE_XGA_1024_768,
-> > +		.dn_mode	= SUBSAMPLING,
-> > +		.pixel_rate	= OV5640_PIXEL_RATE_96M,
-> > +		.analog_crop = {
-> > +			.left	= 0,
-> > +			.top	= 4,
-> > +			.width	= 2623,
-> > +			.height	= 1947,
-> > +		},
-> > +		.crop = {
-> > +			.left	= 16,
-> > +			.top	= 6,
-> > +			.width	= 1024,
-> > +			.height	= 768,
-> > +		},
-> > +		.ppl		= 1896,
-> > +		.vblank_def	= 312,
-> > +		.reg_data	= ov5640_setting_XGA_1024_768,
-> > +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_XGA_1024_768),
-> > +		.max_fps	= OV5640_30_FPS
-> >  	}, {
-> >  		/* 1280x720 */
-> > -		OV5640_MODE_720P_1280_720, SUBSAMPLING,
-> > -		OV5640_PIXEL_RATE_124M,
-> > -		1280, 1892, 720, 740,
-> > -		ov5640_setting_720P_1280_720,
-> > -		ARRAY_SIZE(ov5640_setting_720P_1280_720),
-> > -		OV5640_30_FPS
-> > +		.id		= OV5640_MODE_720P_1280_720,
-> > +		.dn_mode	= SUBSAMPLING,
-> > +		.pixel_rate	= OV5640_PIXEL_RATE_124M,
-> > +		.analog_crop = {
-> > +			.left	= 0,
-> > +			.top	= 250,
-> > +			.width	= 2623,
-> > +			.height	= 1705,
-> > +		},
-> > +		.crop = {
-> > +			.left	= 16,
-> > +			.top	= 4,
-> > +			.width	= 1280,
-> > +			.height	= 720,
-> > +		},
-> > +		.ppl		= 1896,
->
-> 1892 ?
->
-> > +		.vblank_def	= 20,
-> > +		.reg_data	= ov5640_setting_720P_1280_720,
-> > +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_720P_1280_720),
-> > +		.max_fps	= OV5640_30_FPS
-> >  	}, {
-> >  		/* 1920x1080 */
-> > -		OV5640_MODE_1080P_1920_1080, SCALING,
-> > -		OV5640_PIXEL_RATE_148M,
-> > -		1920, 2500, 1080, 1120,
-> > -		ov5640_setting_1080P_1920_1080,
-> > -		ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
-> > -		OV5640_30_FPS
-> > +		.id		= OV5640_MODE_1080P_1920_1080,
-> > +		.dn_mode	= SCALING,
-> > +		.pixel_rate	= OV5640_PIXEL_RATE_148M,
-> > +		.analog_crop = {
-> > +			.left	= 336,
-> > +			.top	= 434,
-> > +			.width	= 2287,
-> > +			.height	= 1521,
-> > +		},
-> > +		.crop = {
-> > +			.left	= 16,
-> > +			.top	= 4,
-> > +			.width	= 1920,
-> > +			.height	= 1080,
-> > +		},
-> > +		.ppl		= 2500,
-> > +		.vblank_def	= 40,
-> > +		.reg_data	= ov5640_setting_1080P_1920_1080,
-> > +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
-> > +		.max_fps	= OV5640_30_FPS
-> >  	}, {
-> >  		/* 2592x1944 */
-> > -		OV5640_MODE_QSXGA_2592_1944, SCALING,
-> > -		OV5640_PIXEL_RATE_168M,
-> > -		2592, 2844, 1944, 1968,
-> > -		ov5640_setting_QSXGA_2592_1944,
-> > -		ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944),
-> > -		OV5640_15_FPS
-> > +		.id		= OV5640_MODE_QSXGA_2592_1944,
-> > +		.dn_mode	= SCALING,
-> > +		.pixel_rate	= OV5640_PIXEL_RATE_168M,
-> > +		.analog_crop = {
-> > +			.left	= 0,
-> > +			.top	= 0,
-> > +			.width	= 2623,
-> > +			.height	= 1951,
-> > +		},
-> > +		.crop = {
-> > +			.left	= 16,
-> > +			.top	= 4,
-> > +			.width	= 2592,
-> > +			.height	= 1944,
-> > +		},
-> > +		.ppl		= 2844,
-> > +		.vblank_def	= 24,
-> > +		.reg_data	= ov5640_setting_QSXGA_2592_1944,
-> > +		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944),
-> > +		.max_fps	= OV5640_15_FPS
-> >  	},
-> >  };
-> >
-> > @@ -1136,7 +1254,8 @@ static u64 ov5640_calc_pixel_rate(struct ov5640_dev *sensor)
-> >  {
-> >  	u64 rate;
-> >
-> > -	rate = sensor->current_mode->vtot * sensor->current_mode->htot;
-> > +	rate = sensor->current_mode->ppl
-> > +	     * (sensor->current_mode->crop.height + sensor->current_mode->vblank_def);
-> >  	rate *= ov5640_framerates[sensor->current_fr];
-> >
-> >  	return rate;
-> > @@ -1220,17 +1339,21 @@ static int ov5640_set_jpeg_timings(struct ov5640_dev *sensor,
-> >  	if (ret < 0)
-> >  		return ret;
-> >
-> > -	ret = ov5640_write_reg16(sensor, OV5640_REG_VFIFO_HSIZE, mode->hact);
-> > +	ret = ov5640_write_reg16(sensor, OV5640_REG_VFIFO_HSIZE,
-> > +				 mode->crop.width);
-> >  	if (ret < 0)
-> >  		return ret;
-> >
-> > -	return ov5640_write_reg16(sensor, OV5640_REG_VFIFO_VSIZE, mode->vact);
-> > +	return ov5640_write_reg16(sensor, OV5640_REG_VFIFO_VSIZE,
-> > +				  mode->crop.height);
-> >  }
-> >
-> >  /* download ov5640 settings to sensor through i2c */
-> >  static int ov5640_set_timings(struct ov5640_dev *sensor,
-> >  			      const struct ov5640_mode_info *mode)
-> >  {
-> > +	const struct v4l2_rect *analog_crop = &mode->analog_crop;
-> > +	const struct v4l2_rect *crop = &mode->crop;
-> >  	int ret;
-> >
-> >  	if (sensor->fmt.code == MEDIA_BUS_FMT_JPEG_1X8) {
-> > @@ -1239,19 +1362,54 @@ static int ov5640_set_timings(struct ov5640_dev *sensor,
-> >  			return ret;
-> >  	}
-> >
-> > -	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPHO, mode->hact);
-> > +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HS,
-> > +				 analog_crop->left);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_VS,
-> > +				 analog_crop->top);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HW,
-> > +				 analog_crop->width);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_VH,
-> > +				 analog_crop->height);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPHO, crop->width);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPVO, crop->height);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HTS, mode->ppl);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_VTS,
-> > +				 crop->height + mode->vblank_def);
-> >  	if (ret < 0)
-> >  		return ret;
-> >
-> > -	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPVO, mode->vact);
-> > +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HOFFS,
-> > +				 crop->left);
-> >  	if (ret < 0)
-> >  		return ret;
-> >
-> > -	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HTS, mode->htot);
-> > +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_VOFFS,
-> > +				 crop->top);
-> >  	if (ret < 0)
-> >  		return ret;
->
-> Maybe you could order the crop writes as the analog crop writes, with
-> left, top, width and height ?
->
-
-I can, yes
-
-Thanks for review
-
-> >
-> > -	return ov5640_write_reg16(sensor, OV5640_REG_TIMING_VTS, mode->vtot);
-> > +	return 0;
-> >  }
-> >
-> >  static int ov5640_load_regs(struct ov5640_dev *sensor,
-> > @@ -1679,11 +1837,11 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
-> >
-> >  	mode = v4l2_find_nearest_size(ov5640_mode_data,
-> >  				      ARRAY_SIZE(ov5640_mode_data),
-> > -				      hact, vact,
-> > -				      width, height);
-> > +				      crop.width, crop.height, width, height);
-> >
-> >  	if (!mode ||
-> > -	    (!nearest && (mode->hact != width || mode->vact != height)))
-> > +	    (!nearest &&
-> > +	     (mode->crop.width != width || mode->crop.height != height)))
-> >  		return NULL;
-> >
-> >  	/* Check to see if the current mode exceeds the max frame rate */
-> > @@ -2367,8 +2525,8 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
-> >  	mode = ov5640_find_mode(sensor, fr, fmt->width, fmt->height, true);
-> >  	if (!mode)
-> >  		return -EINVAL;
-> > -	fmt->width = mode->hact;
-> > -	fmt->height = mode->vact;
-> > +	fmt->width = mode->crop.width;
-> > +	fmt->height = mode->crop.height;
-> >
-> >  	if (new_mode)
-> >  		*new_mode = mode;
-> > @@ -2999,11 +3157,9 @@ static int ov5640_enum_frame_size(struct v4l2_subdev *sd,
-> >  	if (fse->index >= OV5640_NUM_MODES)
-> >  		return -EINVAL;
-> >
-> > -	fse->min_width =
-> > -		ov5640_mode_data[fse->index].hact;
-> > +	fse->min_width = ov5640_mode_data[fse->index].crop.width;
-> >  	fse->max_width = fse->min_width;
-> > -	fse->min_height =
-> > -		ov5640_mode_data[fse->index].vact;
-> > +	fse->min_height = ov5640_mode_data[fse->index].crop.height;
-> >  	fse->max_height = fse->min_height;
-> >
-> >  	return 0;
-> > @@ -3067,15 +3223,16 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
-> >  	mode = sensor->current_mode;
-> >
-> >  	frame_rate = ov5640_try_frame_interval(sensor, &fi->interval,
-> > -					       mode->hact, mode->vact);
-> > +					       mode->crop.width,
-> > +					       mode->crop.height);
-> >  	if (frame_rate < 0) {
-> >  		/* Always return a valid frame interval value */
-> >  		fi->interval = sensor->frame_interval;
-> >  		goto out;
-> >  	}
-> >
-> > -	mode = ov5640_find_mode(sensor, frame_rate, mode->hact,
-> > -				mode->vact, true);
-> > +	mode = ov5640_find_mode(sensor, frame_rate, mode->crop.width,
-> > +				mode->crop.height, true);
-> >  	if (!mode) {
-> >  		ret = -EINVAL;
-> >  		goto out;
->
-> --
-> Regards,
->
-> Laurent Pinchart
+SGkgYWdhaW4gTHVjYSwNCg0KT24gMi83LzIyIDE2OjA3LCBMdWNhIENlcmVzb2xpIHdyb3RlOg0K
+PiBIaSBNYXR0aSwNCj4gDQo+IE9uIDA3LzAyLzIyIDE0OjIxLCBWYWl0dGluZW4sIE1hdHRpIHdy
+b3RlOg0KPj4gSGkgZGVlIEhvIHBlZXBzLA0KPj4NCj4+IE9uIDIvNy8yMiAxNDowNiwgVG9taSBW
+YWxrZWluZW4gd3JvdGU6DQo+Pj4gSGkgTHVjYSwNCj4+Pg0KPj4+IE9uIDA2LzAyLzIwMjIgMTM6
+NTksIEx1Y2EgQ2VyZXNvbGkgd3JvdGU6DQo+Pj4+IHRoaXMgUkZDdjMsIGNvZGVuYW1lICJGT1NE
+RU0gRnJpZXMiLCBvZiBSRkMgcGF0Y2hlcyB0byBzdXBwb3J0IHRoZSBUSQ0KPj4+PiBEUzkwVUI5
+eHggc2VyaWFsaXplci9kZXNlcmlhbGl6ZXIgY2hpcHNldHMgd2l0aCBJMkMgYWRkcmVzcyB0cmFu
+c2xhdGlvbi4NCj4+DQo+Pg0KPj4gSSBhbSBub3Qgc3VyZSBpZiBJIGFtIHBva2luZyBpbiB0aGUg
+bmVzdCBvZiB0aGUgd2FzcHMgLSBidXQgdGhlcmUncyBvbmUNCj4+IG1ham9yIGRpZmZlcmVuY2Ug
+d2l0aCB0aGUgd29yayBJJ3ZlIGRvbmUgYW5kIHdpdGggVG9uaSdzIC8gTHVjYSdzIHdvcmsuDQo+
+IA0KPiBZb3UgYXJlLiA7KQ0KPiANCj4+IFRoZSBUSSBERVMgZHJpdmVycyAobGlrZSB1Yjk2MCBk
+cml2ZXIpIHBhY2tzIHByZXR0eSBtdWNoIGV2ZXJ5dGhpbmcNCj4+IHVuZGVyIHNpbmdsZSBkcml2
+ZXIgYXQgbWVkaWEvaTJjIC0gd2hpY2ggKGluIG15IG9waW5pb24pIG1ha2VzIHRoZQ0KPj4gZHJp
+dmVyIHByZXR0eSBsYXJnZSBvbmUuDQo+Pg0KPj4gTXkgYXBwcm9hY2ggaXMvd2FzIHRvIHV0aWxp
+emUgTUZEIC0gYW5kIHByZXBhcmUgdGhlIHJlZ21hcCArIElSUXMgaW4gdGhlDQo+PiBNRkQgKGFz
+IGlzIHByZXR0eSB1c3VhbCkgLSBhbmQgcGFyc2UgdGhhdCBtdWNoIG9mIHRoZSBkZXZpY2UtdHJl
+ZSB0aGF0DQo+PiB3ZSBzZWUgaG93IG1hbnkgU0VSIGRldmljZXMgYXJlIHRoZXJlIC0gYW5kIHRo
+YXQgSSBnZXQgdGhlIG5vbiBJMkMNCj4+IHJlbGF0ZWQgREVTPD0+U0VSIGxpbmsgcGFyYW1ldGVy
+cyBzZXQuIEFmdGVyIHRoYXQgSSBkbyBraWNrIGFsaXZlIHRoZQ0KPj4gc2VwYXJhdGUgTUZEIGNl
+bGxzIGZvciBBVFIsIHBpbmN0cmwvR1BJTyBhbmQgbWVkaWEuDQo+Pg0KPj4gVGhlIEFUUiBkcml2
+ZXIgaW5zdGFudGlhdGVzIHRoZSBTRVIgSTJDIGRldmljZXMgbGlrZSBUb25pJ3MgdWI5NjAgZG9l
+cy4NCj4+IFRoZSBTRVIgY29tcGF0aWJsZSBpcyBvbmNlIGFnYWluIG1hdGNoZWQgaW4gTUZEIChm
+b3IgU0VSKSAtIHdoaWNoIGFnYWluDQo+PiBwcm92aWRlcyByZWdtYXAgZm9yIFNFUiwgZG9lcyBp
+bml0aWFsIEkyQyB3cml0ZXMgc28gU0VSIHN0YXJ0cw0KPj4gcmVzcG9uZGluZyB0byBJMkMgcmVh
+ZHMgYW5kIHRoZW4ga2lja3MgY2VsbHMgZm9yIG1lZGlhIGFuZCBwaW5jdHJsL2dwaW8uDQo+Pg0K
+Pj4gSSBiZWxpZXZlIHNwbGl0dGluZyB0aGUgZnVuY3Rpb25hbGl0eSB0byBNRkQgc3ViZGV2aWNl
+cyBtYWtlcyBkcml2ZXJzDQo+PiBzbGlnaHRseSBjbGVhcmVyLiBZb3UnbGwgZ2V0IEdQSU9zL3Bp
+bmN0cmwgdW5kZXIgcGluY3RybCBhcyB1c3VhbCwNCj4+IHJlZ21hcHMvSVJRLWNoaXBzIHVuZGVy
+IE1GRCBhbmQgb25seSBtZWRpYS92NGwyIHJlbGF0ZWQgcGFydHMgdW5kZXIgbWVkaWEuDQo+IA0K
+PiBUaGVyZSBoYXMgYmVlbiBxdWl0ZSBhIGZpZXJ5IGRpc2N1c3Npb24gYWJvdXQgdGhpcyBpbiB0
+aGUgcGFzdCwgeW91IGNhbg0KPiBncmFiIHNvbWUgcG9wY29ybiBhbmQgcmVhZA0KPiBodHRwczov
+L2xvcmUua2VybmVsLm9yZy9saW51eC1tZWRpYS8yMDE4MTAwODIxMTIwNS4yOTAwLTEtdnpAbWxl
+aWEuY29tL1QvI205YjAxYWY4MTY2NWFjOTU2YWYzYzZkNTc4MTAyMzk0MjBjM2Y4Y2VlDQo+IA0K
+PiBUTDtEUjogdGhlcmUgaGF2ZSBiZWVuIHN0cm9uZyBvcHBvc2l0aW9uIHRoZSB0aGUgTUZEIGlk
+ZWEuDQoNCkhtLiBJIG1heSBiZSBtaXNzaW5nIHNvbWV0aGluZyBidXQgSSBkaWRuJ3Qgc2VlIG9w
+cG9zaXRpb24gdG8gdXNpbmcgTUZEIA0Kb3Igc3BsaXR0aW5nIHRoZSBkcml2ZXJzLiBJIGRvIHNl
+ZSBvcHBvc2l0aW9uIHRvIGFkZGluZyBfZnVuY3Rpb25hbGl0eV8gDQppbiBNRkQuIElmIEkgcmVh
+ZCB0aGlzIGNvcnJlY3RseSwgTGVlIGRpZCBvcHBvc2UgYWRkaW5nIHRoZSBJMkMgc3R1ZmYsIA0K
+c3lzZnMgYXR0cmlidXRlcyBldGMgaW4gTUZELiBRdW90aW5nIGhpcyByZXBseToNCg0KIlRoaXMg
+ZHJpdmVyIGRvZXMgdG9vIG11Y2ggcmVhbCB3b3JrICgnc3R1ZmYnKSB0byBiZSBhbiBNRkQgZHJp
+dmVyLg0KTUZEIGRyaXZlcnMgc2hvdWxkIG5vdCBuZWVkIHRvIGNhcmUgb2Y7IGxpbmtzLCBnYXRl
+cywgbW9kZXMsIHBpeGVscywNCmZyZXF1ZW5jaWVzIG1hcHMgb3IgcHJvcGVydGllcy4gIE5vciBz
+aG91bGQgdGhleSBjb250YWluIGVsYWJvcmF0ZQ0Kc3lzZnMgc3RydWN0dXJlcyB0byBjb250cm9s
+IHRoZSBhZm9yZW1lbnRpb25lZCAnc3R1ZmYnLg0KDQpHcmFudGVkLCB0aGVyZSBtYXkgYmUgc29t
+ZSBjb2RlIGluIHRoZXJlIHdoaWNoIGNvdWxkIGJlIGFwcHJvcHJpYXRlDQpmb3IgYW4gTUZEIGRy
+aXZlci4gIEhvd2V2ZXIgbW9zdCBvZiBpdCBuZWVkcyBtb3Zpbmcgb3V0IGludG8gYQ0KZnVuY3Rp
+b24gZHJpdmVyIChvciB0d28pLiINCg0KQW5kIEkgdGVuZCB0byBhZ3JlZSB3aXRoIExlZSBoZXJl
+LiBJIHdvdWxkIG5vdCBwdXQgSTJDIGJyaWRnZSBzdHVmZiBvciANCnN5c2ZzIGF0dHJpYnV0ZXMg
+aW4gTUZELiBCdXQgSSB0aGluayBpdCBkb2VzIG5vdCBtZWFuIFNFUkRFU2VzIHNob3VsZCANCm5v
+dCB1c2UgTUZEIHdoZW4gdGhleSBjbGVhcmx5IGNvbnRhaW4gbW9yZSBJUCBibG9ja3MgdGhhbiB0
+aGUgDQp2aWRlby9tZWRpYSBvbmVzIDopIEkgYW0gY29uZmlkZW50IExlZSBhbmQgb3RoZXJzIG1p
+Z2h0IGJlIG11Y2ggbW9yZSANCndlbGNvbWluZyBmb3IgZHJpdmVyIHdoaWNoIHNpbXBseSBjb25m
+aWd1cmVzIHJlZ21hcCBhbmQga2lja3Mgc3ViZHJpdmVyIA0KZm9yIGRvaW5nIHRoZSBBVFIgLyBJ
+MkMgc3R1ZmYuDQoNCkkgZGlkIGFkZCBtaW5pbWFsIG1hbmRhdG9yeSByZWdpc3RlciBpbml0aWFs
+aXphdGlvbnMgaW4gb3JkZXIgdG8gYXZvaWQgDQpzeW5jaHJvbml6aW5nIHRoZSBzdWItZGV2aWNl
+cyAtIGJ1dCBJIGhvcGUgdGhhdCB3b3VsZCBiZSB0b28gbXVjaC4gDQooU3luY2hyb25pemluZyBz
+dWItZGV2aWNlcyB0byB3aGVuIHRoZSBJMkMgcmVhZHMgb3ZlciB0aGUgbGluayBiZWNvbWVzIA0K
+YXZhaWxhYmxlLikNCg0KV2hhdCBjb21lcyB0byByZWdtYXAvcmVnbWFwIElSUSBpbml0aWFsaXph
+dGlvbiBpbiBNRkQgLSB0aGF0J3Mgbm90IA0KZXhjZXB0aW9uYWwuIEkgdGhpbmsgaXQncyBxdWl0
+ZSBzdGFuZGFyZCBmb3IgTUZEIHRvIHByZXBhcmUgSVJRcy9yZWdtYXBzIA0Kd2hlbiBtYW55IHN1
+Yi1kZXZpY2VzIHVzZSB0aGVzZSByZXNvdXJjZXMuDQoNCj4gSSBwZXJzb25hbGx5IGRvbid0IGhh
+dmUgYSBzdXBlciBzdHJvbmcgb3BpbmlvbjogSSB3cm90ZSB0aGlzIGFzIGENCj4gbW9ub2xpdGhp
+YyBkcml2ZXIgYmVjYXVzZSBpdCBsb29rZWQgbGlrZSB0aGUgbW9zdCBuYXR1cmFsIGltcGxlbWVu
+dGF0aW9uDQo+IGFuZCBmb3VuZCBpdCB3YXMgd29ya2luZyBmaW5lIGZvciBtZSwgSSBuZXZlciBy
+ZWFsbHkgZXhwbG9yZWQgdGhlIE1GRCBpZGVhLg0KDQpObyBwcm9ibGVtLiBJIGFtIGRlZmluaXRl
+bHkgdHJ5aW5nIHRvIHRlbGwgeW91IGhvdyB0aGVzZSBUSSBkcml2ZXJzIG11c3QgDQpiZSBkb25l
+LiBFdmVuIEkgZG9uJ3QgaGF2ZSB0aGUgZ3V0cyB0byBkbyB0aGF0IDtEDQoNCkkgYW0gc2ltcGx5
+IHNheWluZyB0aGF0IHRoZSBNRkQgYXBwcm9hY2ggY291bGQgYmUgdXNlZC4gSXQgZG9lcyBoYXZl
+IA0KY2VydGFpbiBtZXJpdHMgaWYgd2UgbWFuYWdlIHRvIGtlZXAgdGhlIE1GRCBsYXllciB0aGlu
+IGVub3VnaC4NCg0KPj4gQW55d2F5cyAtIEkgb3BlbmVkIHRoZSBtYWlsIGNsaWVudCB0byBqdXN0
+IHNheSB0aGF0IHRoZSBBVFIgaGFzIHdvcmtlZA0KPj4gbmljZWx5IGZvciBtZSBhbmQgc2VlbXMg
+cHJldHR5IHN0YWJsZSAtIHNvIHRvIG1lIGl0IHNvdW5kcyBsaWtlIGEgZ29vZg0KPj4gaWRlYSB0
+byBnZXQgQVRSIHJldmlld2VkL21lcmdlZCBldmVuIGJlZm9yZSB0aGUgZHJpdmVycyBoYXZlIGJl
+ZW4gZmluYWxpemVkLg0KPiANCj4gU291bmRzIGxpa2UgYS4uLiB3aGF0Li4uPyBBICJnb29kIGlk
+ZWEiPyBPciBhICJnb29meSBpZGVhIj8gOi1EDQoNCkxldCBtZSByZXBocmFzZS4gSXQncyBncmVh
+ZiBpZGVhIDspDQoNCihJIHJlYWxseSBtZWFudCBhICJnb29kIGlkZWEiIDpdKQ0KDQpCZXN0IFJl
+Z2FyZHMNCgktLSBNYXR0aSBWYWl0dGluZW4NCg0KLS0gDQpUaGUgTGludXggS2VybmVsIGd1eSBh
+dCBST0hNIFNlbWljb25kdWN0b3JzDQoNCk1hdHRpIFZhaXR0aW5lbiwgTGludXggZGV2aWNlIGRy
+aXZlcnMNClJPSE0gU2VtaWNvbmR1Y3RvcnMsIEZpbmxhbmQgU1dEQw0KS2l2aWhhcmp1bmxlbmtr
+aSAxRQ0KOTAyMjAgT1VMVQ0KRklOTEFORA0KDQp+fiB0aGlzIHllYXIgaXMgdGhlIHllYXIgb2Yg
+YSBzaWduYXR1cmUgd3JpdGVycyBibG9jayB+fg0K
