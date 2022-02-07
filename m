@@ -2,102 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB1FC4AC473
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 16:55:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 728184AC47E
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 16:56:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235961AbiBGPyy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 10:54:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60230 "EHLO
+        id S1344552AbiBGPzf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 10:55:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377538AbiBGPsC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 10:48:02 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 788FAC0401CF
-        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 07:48:01 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 2D3BD1BF208;
-        Mon,  7 Feb 2022 15:47:55 +0000 (UTC)
-Date:   Mon, 7 Feb 2022 16:49:03 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     slongerbeam@gmail.com, sakari.ailus@iki.fi,
-        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
-        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
-        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        aford173@gmail.com, festevam@gmail.com,
-        eugen.hristev@microchip.com, jbrunet@baylibre.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 15/21] media: ov5640: Limit format to FPS in DVP mode only
-Message-ID: <20220207154903.bm5qxvtf7srlmcut@uno.localdomain>
-References: <20220131143245.128089-1-jacopo@jmondi.org>
- <20220131144444.129036-1-jacopo@jmondi.org>
- <20220131144444.129036-4-jacopo@jmondi.org>
- <YfsH1ME0ThYXkJGY@pendragon.ideasonboard.com>
+        with ESMTP id S1345569AbiBGPv1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 10:51:27 -0500
+X-Greylist: delayed 52220 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 07:51:25 PST
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A201AC0401CE;
+        Mon,  7 Feb 2022 07:51:25 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54D34340;
+        Mon,  7 Feb 2022 16:51:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1644249083;
+        bh=Kg8KkyXqodwxnkoOUnTFgILuDislMphNhCMp4Cyt3k0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=d+p/yyLLVWoFHaQMa3PKOYne2f5NsLX/aSXsN5whwh5fbgyeQpYs8XdYey0+Cmdzm
+         wzUhiqC1tH8lsKZPl6Eninn4/oSoKEz/NKHoSjt3wcCtb6Np67rcbw0PDyekIXy8+L
+         kBpaesRvFQGudsLOVg3bNSdwSx4HeFms+1kyhIT4=
+Date:   Mon, 7 Feb 2022 17:51:21 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+        Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 61/66] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <YgE/+UmP4nJVxtRT@pendragon.ideasonboard.com>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-62-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YfsH1ME0ThYXkJGY@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220205185429.2278860-62-paul.kocialkowski@bootlin.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Feb 03, 2022 at 12:38:12AM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Mon, Jan 31, 2022 at 03:44:43PM +0100, Jacopo Mondi wrote:
-> > In MIPI mode the frame rate control is performed by adjusting the
-> > frame blankings and the s_frame_interval function is not used anymore.
-> >
-> > Only check for the per-mode supported frame rate in DVP mode and do not
-> > restrict MIPI mode.
->
-> This certainly aligns better with how the sensor driver is supposed to
-> operate. I however wonder why you don't do so in DVP mode too. Is it for
-> backward-compatibility ? If so a comment would be useful.
+Hi Paul,
 
-yes, and mostly because DVP mode seems to work well and I didn't want
-to change the way subdev is operated for DVP users.
+Thank you for the patch.
 
-I would be more than happy to remove frame_interval completely.
+On Sat, Feb 05, 2022 at 07:54:24PM +0100, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A31 Image
+> Signal Processor (ISP).
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> new file mode 100644
+> index 000000000000..2d87022c43ce
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> @@ -0,0 +1,117 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
+> +
+> +maintainers:
+> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun6i-a31-isp
+> +      - allwinner,sun8i-v3s-isp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Bus Clock
+> +      - description: Module Clock
+> +      - description: DRAM Clock
 
->
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> > ---
-> >  drivers/media/i2c/ov5640.c | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index ae22300b9655..ec46e16223af 100644
-> > --- a/drivers/media/i2c/ov5640.c
-> > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -1845,8 +1845,13 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
-> >  	     (mode->crop.width != width || mode->crop.height != height)))
-> >  		return NULL;
-> >
-> > -	/* Check to see if the current mode exceeds the max frame rate */
-> > -	if (ov5640_framerates[fr] > ov5640_framerates[mode->max_fps])
-> > +	/*
-> > +	 * Check to see if the current mode exceeds the max frame rate.
-> > +	 * Only DVP mode uses the frame rate set by s_frame_interval, MIPI
-> > +	 * mode controls framerate by setting blankings.
-> > +	 */
-> > +	if (!ov5640_is_mipi(sensor) &&
-> > +	    ov5640_framerates[fr] > ov5640_framerates[mode->max_fps])
-> >  		return NULL;
-> >
-> >  	return mode;
->
-> --
-> Regards,
->
-> Laurent Pinchart
+That's interesting, does the ISP have a dedicated DRAM ?
+
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bus
+> +      - const: mod
+> +      - const: ram
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: CSI0 input port
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+
+If no other property than remote-endpoint are allowed, I'd write
+
+          endpoint:
+            $ref: video-interfaces.yaml#
+	    remote-endpoint: true
+            additionalProperties: false
+
+Same below.
+
+> +
+> +        additionalProperties: false
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: CSI1 input port
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+
+This should be 1.
+
+> +
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +        additionalProperties: false
+> +
+> +    anyOf:
+> +      - required:
+> +        - port@0
+> +      - required:
+> +        - port@1
+
+As ports are an intrinsic property of the ISP, both should be required,
+but they don't have to be connected.
+
+By the way, how do you select at runtime which CSI-2 RX the ISP gets its
+image stream from ? Is it configured through registers of the ISP ?
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> +
+> +    isp: isp@1cb8000 {
+> +        compatible = "allwinner,sun8i-v3s-isp";
+> +        reg = <0x01cb8000 0x1000>;
+> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&ccu CLK_BUS_CSI>,
+> +             <&ccu CLK_CSI1_SCLK>,
+> +             <&ccu CLK_DRAM_CSI>;
+> +        clock-names = "bus", "mod", "ram";
+> +        resets = <&ccu RST_BUS_CSI>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                isp_in_csi0: endpoint {
+> +                    remote-endpoint = <&csi0_out_isp>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+
+-- 
+Regards,
+
+Laurent Pinchart
