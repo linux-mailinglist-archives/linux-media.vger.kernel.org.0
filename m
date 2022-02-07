@@ -2,150 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 257454ABEE4
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 14:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 737B54ABF15
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 14:23:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384424AbiBGMsW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 07:48:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53438 "EHLO
+        id S1381459AbiBGMsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 07:48:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442251AbiBGMUt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 07:20:49 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 172BCDF8E3EC;
-        Mon,  7 Feb 2022 04:07:01 -0800 (PST)
-Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B2FC499;
-        Mon,  7 Feb 2022 13:06:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644235617;
-        bh=uH3r+Qyhm3NdERrDEidXSeR4RXvMj+L+e0iwChpe9eA=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=X0ZFIBgrcyPspRGiprabJFQGAPllvw9rkYosOiAtQ8it/1sdpTdjN/XbbNE5n5b00
-         hRSZH5PAYGhr0M7mSGyPct4Davqo6sqFlsu5oaDgse1FQehzu+OxFQtAdeCUXeDi2H
-         +OJzJV7ZrUpVKmjHkxse+x87Lpt2QTBzAZ64aM2U=
-Message-ID: <7e5af144-bd5f-cd0e-2109-49b318449a78@ideasonboard.com>
-Date:   Mon, 7 Feb 2022 14:06:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFCv3 0/6] TI camera serdes and I2C address translation (Was:
- [RFCv3 0/6] Hi,)
-Content-Language: en-US
-To:     Luca Ceresoli <luca@lucaceresoli.net>, linux-media@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Peter Rosin <peda@axentia.se>,
+        with ESMTP id S1442370AbiBGMU4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 07:20:56 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24AE3C02B5C7;
+        Mon,  7 Feb 2022 04:08:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1644235704; x=1675771704;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=m/q6pkb+TA7cRlY6xlVOjKQ4P8DeARpuUdX/+csSvX4=;
+  b=VhWW5VlJ+Ij0r7HYtTC7rtGoKQ80lzJSEyGJkhlN9s4/ycNR8STGrIxU
+   7wm/M/2AwBtRT56MJyShkV1MCFn7pF3pSvpNXez/h6WCJa0v1ncHg3PhD
+   dFmkHn9+X3pR0b11b7TghBjo5GaIBUE4jEGRGogQHHzHFjHYWlyo7VC+Q
+   y0wdhQYSXKasobHKSbbu28Yvs5xuN9Zol0lkUq9qQtpy1YiYdDXgq6LFd
+   3eg74SNkk0pnzuxMNv3eTVjbi08RZo7+7OR1XFpP2jDG2mt80Z+TALENA
+   Nt1dn5pc58mbxQXES4PXzoU3zMWMXaxa2naTIsaoyhdgJh0Yys+vNqjJH
+   g==;
+X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
+   d="scan'208";a="21932193"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 07 Feb 2022 13:08:22 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 07 Feb 2022 13:08:22 +0100
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 07 Feb 2022 13:08:22 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1644235702; x=1675771702;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=m/q6pkb+TA7cRlY6xlVOjKQ4P8DeARpuUdX/+csSvX4=;
+  b=R0fUFWOdFK8b/66rT4bIyhvoxx1Q9eS3yMCico9uy5oOjZcwpvbe3rJo
+   yudGubxUWLbksbDBdikkQeOl59h9G8PHjwKyoqUyMTVia/RTXNTTDBhZ+
+   k3aKu3m7c3nljibsBMdpQQw/Gp9qE2d+ddYPj9IsXXUmQFIhtPAIwcKn9
+   otPfVvG1BPDeWlwqLtB8V5ORdujtn7bxEqCA912EUi6eoJmogVGRqdF41
+   E2bKKC8DgSrG6nRyUW2uKJbAaowxqPJvxmLKRhiaXGBHh15MazRU6aoTr
+   icrdmshwsanwU4zaVZiQF6/B3Y2h7RVQU+dTFmByH8guu4S32pt0nQhKh
+   A==;
+X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
+   d="scan'208";a="21932192"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 07 Feb 2022 13:08:22 +0100
+Received: from steina-w.localnet (unknown [10.123.49.12])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DE334280065;
+        Mon,  7 Feb 2022 13:08:21 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        matti.vaittinen@fi.rohmeurope.com
-References: <20220206115939.3091265-1-luca@lucaceresoli.net>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20220206115939.3091265-1-luca@lucaceresoli.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: (EXT) Re: [PATCH 3/8] media: imx: Use dedicated format handler for i.MX7/8
+Date:   Mon, 07 Feb 2022 13:08:21 +0100
+Message-ID: <4044945.1IzOArtZ34@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <Yf33YviITGDnolHw@pendragon.ideasonboard.com>
+References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com> <20220204121514.2762676-4-alexander.stein@ew.tq-group.com> <Yf33YviITGDnolHw@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luca,
+Hi Laurent,
 
-On 06/02/2022 13:59, Luca Ceresoli wrote:
-> this RFCv3, codename "FOSDEM Fries", of RFC patches to support the TI
-> DS90UB9xx serializer/deserializer chipsets with I2C address translation.
+Am Samstag, 5. Februar 2022, 05:04:50 CET schrieb Laurent Pinchart:
+> Hi Alexander and Dorota,
 > 
-> I sent RFCv2 back in 2019 (!). After that I have applied most of the
-> improvements proposed during code review, most notably device tree
-> representation and proper use of kernel abstractions for clocks and GPIO. I
-> have also done many improvements all over the drivers code.
-
-Thanks for sending this! I'll have a closer look at the code in the near 
-future.
-
-> However I still don't consider these drivers "ready", hence the RFC status.
+> Thank you for the patch.
 > 
-> One reason is that, while the I2C ATR idea has been considered good by
-> Wolfram, its implementation requires I2C core changes that have been tried
-> but never made it to mainline. I think that discussion needs to be reopened
-> and work has to be done on that side. Thus for the time being this code
-> still has the alias pool: it is an interim solution until I2C core is
-> ready.
+> On Fri, Feb 04, 2022 at 01:15:09PM +0100, Alexander Stein wrote:
+> > From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> > 
+> > This splits out a format handler which takes into account
+> > the capabilities of the i.MX7/8 video device,
+> > as opposed to the default handler compatible with both i.MX5/6 and
+> > i.MX7/8.
+> > 
+> > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> > Changes in comparison to original commit from Dorota:
+> > * is_imx56 is used instead of enum
+> > 
+> >  drivers/staging/media/imx/imx-media-utils.c | 56 +++++++++++++++++++--
+> >  1 file changed, 52 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/imx/imx-media-utils.c
+> > b/drivers/staging/media/imx/imx-media-utils.c index
+> > 0daa6aad45f4..32aaa2e81bea 100644
+> > --- a/drivers/staging/media/imx/imx-media-utils.c
+> > +++ b/drivers/staging/media/imx/imx-media-utils.c
+> > @@ -516,10 +516,9 @@ void imx_media_try_colorimetry(struct
+> > v4l2_mbus_framefmt *tryfmt,> 
+> >  }
+> >  EXPORT_SYMBOL_GPL(imx_media_try_colorimetry);
+> > 
+> > -int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+> > -				  const struct v4l2_mbus_framefmt 
+*mbus,
+> > -				  const struct imx_media_pixfmt 
+*cc,
+> > -				  bool is_imx56)
+> > +static int imx56_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+> > +					   const struct 
+v4l2_mbus_framefmt *mbus,
+> > +					   const struct 
+imx_media_pixfmt *cc)
+> > 
+> >  {
+> >  
+> >  	u32 width;
+> >  	u32 stride;
+> > 
+> > @@ -568,6 +567,55 @@ int imx_media_mbus_fmt_to_pix_fmt(struct
+> > v4l2_pix_format *pix,> 
+> >  	return 0;
+> >  
+> >  }
+> > 
+> > +
+> > +static int imx78_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+> > +					   const struct 
+v4l2_mbus_framefmt *mbus,
+> > +					   const struct 
+imx_media_pixfmt *cc)
+> > +{
+> > +	int ret;
+> > +
+> > +	if (!cc)
+> > +		cc = imx_media_find_mbus_format(mbus->code, 
+PIXFMT_SEL_ANY);
+> > +
+> > +	if (!cc)
+> > +		return -EINVAL;
+> > +	/*
+> > +	 * The hardware can handle line lengths divisible by 4 pixels
+> > +	 * as long as the whole buffer size ends up divisible by 8 bytes.
+> > +	 * If not, use the value of 8 pixels recommended in the datasheet.
+> > +	 */
+> > +	ret = v4l2_fill_pixfmt(pix, cc->fourcc,
+> > +			       round_up(mbus->width, 4), mbus-
+>height);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	/* Only 8bits-per-pixel formats may need to get aligned to 8 
+pixels,
+> > +	 * because both 10-bit and 16-bit pixels occupy 2 bytes.
+> > +	 * In those, 4-pixel aligmnent is equal to 8-byte alignment.
+> > +	 */
+> > +	if (pix->sizeimage % 8 != 0)
+> > +		ret = v4l2_fill_pixfmt(pix, cc->fourcc,
+> > +				       round_up(mbus->width, 8), 
+mbus->height);
 > 
-> Also be aware that the only hardware where I sould test this code runs a
-> v4.19 kernel. I cannot guarantee it will work perfectly on mainline.
+> I think you could simplify this by using cc->bpp to figure out the
+> alignment instead of calling v4l2_fill_pixfmt() twice.
+
+Yeah, this should be possible. I can't test it (yet) though, I don't have a 8-
+Bit sensor. Will do in the next version.
+
+> > +	pix->colorspace = mbus->colorspace;
+> > +	pix->xfer_func = mbus->xfer_func;
+> > +	pix->ycbcr_enc = mbus->ycbcr_enc;
+> > +	pix->quantization = mbus->quantization;
+> > +	pix->field = mbus->field;
 > 
-> And since my hardware has only one camera connected to each deserializer I
-> dropped support. However I wrote the code to be able to easily add support
-> for 2 and 4 camera inputs as well as 2 CSI-2 outputs (DS90UB960).
- >
-> Finally, I dropped all attempts at supporting hotplug. The goals I had 2+
-> years ago are not reasonably doable even with current kernels. Luckily all
-> the users that I talked with are happy without hotplug. For this reason I
-> simplified the serializer management in the DS90UB954 driver by keeping the
-> serializer always instantiated.
-> 
-> Even with the above limitations I felt I'd send this v3 anyway since
-> several people have contacted me since v2 asking whether this
-> implementation has made progress towards mainline. Some even improved on
-> top of my code it their own forks. As I cannot afford to work on this topic
-> in the near future, here is the latest and greatest version I can produce,
-> with all the improvements I made so far.
+> Should v4l2_fill_pixfmt() be updated to handle colorspace and field too
+> instead of doing it manually here ?
 
-I've discussed with Luca in private emails, but I'll add a short status 
-about my work in this thread:
+I'm not so sure which parts of v4l2_pix_format shall be set into 
+v4l2_fill_pixfmt(). Unfortunately there is no API description in the header, 
+git log doesn't help much either. In the end this should be a separate patch.
 
-About a year ago I took Luca's then-latest-patches and started working 
-on them. The aim was to get full multiplexed streams support to v4l2 so 
-that we could support CSI-2 bus with multiple virtual channels and 
-embedded data, and after that, add support for fpdlink devices.
+Best regards,
+Alexander
 
-Since then I have sent multiple versions of the v4l2 work (no drivers 
-yet, only the framework changes) to upstream lists. Some pieces have 
-already been merged to upstream (e.g. subdev state), but most of it is 
-still under work. Here's a link to v10 of the streams series:
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+> > +				  const struct v4l2_mbus_framefmt 
+*mbus,
+> > +				  const struct imx_media_pixfmt 
+*cc,
+> > +				  bool is_imx56)
+> > +{
+> > +	if (is_imx56)
+> > +		return imx56_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
+> > +	else
+> > +		return imx78_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
+> > +}
+> > 
+> >  EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
+> >  
+> >  void imx_media_free_dma_buf(struct device *dev,
 
-https://lore.kernel.org/all/20211130141536.891878-1-tomi.valkeinen@ideasonboard.com/
 
-It has a link to my (now slightly outdated) git branch which contains 
-the driver work too.
 
-The fpdlink drivers have diverged from Luca's version quite a bit. The 
-most obvious difference is the support for multiplexed streams, of 
-course, but there are lots of other changes too. The drivers support 
-DS90UB960 (no UB954 at the moment), DS90UB953 and DS90UB913. UB960 
-supports all the inputs and outputs. I have also dropped some code which 
-I did not need and which I wasn't sure if it's correctly implemented, to 
-make it easier to work on the multiplexed streams version. Some of that 
-code may need to be added back.
 
-I have not changed the i2c-atr driver, and my fpdlink driver uses it 
-more or less the same way as in Luca's version.
-
-Considering that you're not able to work on this, my suggestion is to 
-review the i2c-atr patches here (or perhaps send those patches in a 
-separate series?), but afaics the fpdlink drivers without multiplexed 
-streams is a dead-end, as they can only support a single camera (and no 
-embedded data), so I don't see much point in properly reviewing them.
-
-However, I will go through the fpdlink drivers in this series and 
-cherry-pick the changes that make sense. I was about to start working on 
-proper fpdlink-clock-rate and clkout support, but I see you've already 
-done that work =).
-
-But, of course, I'm open to other ideas on how to proceed.
-
-  Tomi
