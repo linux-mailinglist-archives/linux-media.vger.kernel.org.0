@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A5E24AC4FF
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 17:12:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ED994AC504
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 17:12:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233600AbiBGQGj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 11:06:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42078 "EHLO
+        id S1344116AbiBGQHZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 11:07:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387251AbiBGQDL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 11:03:11 -0500
+        with ESMTP id S1442655AbiBGQE4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 11:04:56 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C47D9C0401CE;
-        Mon,  7 Feb 2022 08:03:08 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C811C0401CC;
+        Mon,  7 Feb 2022 08:04:55 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC3CF340;
-        Mon,  7 Feb 2022 17:03:06 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E872340;
+        Mon,  7 Feb 2022 17:04:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644249787;
-        bh=nfHhY7SAAx/jSa8dp1hMDTzjQj/OuY2kGz3jjvPk5xk=;
+        s=mail; t=1644249893;
+        bh=EBS3kkJ8BCBs5yuj170BnDdZuFVfeUksdyi/hOkIA0E=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S+CZh0fGXgBerQVwuj4ZfLJQ6bwJ9df1Vzllh4VKcSm+MtCyn0LFsexbZWLsxjcsb
-         2skIMGdk4g0rNN5bgOMEeHnJUPIe4cLJ3I4iUbUt3S9fuywk0x7fmElGrEqbiPZV8J
-         3HmpuM9QGZsrLtswnZ8AtdRp5YENQqjto4nHkQHs=
-Date:   Mon, 7 Feb 2022 18:03:05 +0200
+        b=MvyY9OKI0dHBs/LuDngKy5LRwVmt4U8MI1JrSmzwEUbroZ1j66FdAKeufPHPc7msD
+         NxjUI4SKDw4w34fThGl88PBkP2eV0Y/iGXexOPDFBST9fnesGw30bWNPIqTqgpShzO
+         4YXjESc+sTvUEu1GGJ+aQxB0h7K4mhQSax2L7XJE=
+Date:   Mon, 7 Feb 2022 18:04:51 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -41,17 +41,16 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Helen Koike <helen.koike@collabora.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 07/66] dt-bindings: media: sun6i-a31-csi: Add MIPI
- CSI-2 input port
-Message-ID: <YgFCuaf007wd8sJy@pendragon.ideasonboard.com>
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 62/66] dt-bindings: media: sun6i-a31-csi: Add ISP
+ output port
+Message-ID: <YgFDI17Q3AlZxaOi@pendragon.ideasonboard.com>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-63-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20220205185429.2278860-63-paul.kocialkowski@bootlin.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -61,128 +60,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
-
-Thank you for the patch.
-
-On Sat, Feb 05, 2022 at 07:53:30PM +0100, Paul Kocialkowski wrote:
-> The A31 CSI controller supports two distinct input interfaces:
-> parallel and an external MIPI CSI-2 bridge. The parallel interface
-> is often connected to a set of hardware pins while the MIPI CSI-2
-> bridge is an internal FIFO-ish link. As a result, these two inputs
-> are distinguished as two different ports.
+On Sat, Feb 05, 2022 at 07:54:25PM +0100, Paul Kocialkowski wrote:
+> Some Allwinner devices come with an Image Signal Processor (ISP) that
+> allows processing camera data to produce good-looking images,
+> especially from raw bayer representations.
 > 
-> Note that only one of the two may be present on a controller instance.
-> For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> dedicated to parallel.
-
-Is it that only one of the two is present, or only one of the two is
-connected ? In the latter case I'd make both ports required, but with
-only one of them connected.
-
-> Update the binding with an explicit ports node that holds two distinct
-> port nodes: one for parallel input and one for MIPI CSI-2.
+> The ISP does not have a dedicated capture path: it is fed directly by
+> one of the CSI controllers, which can be selected at run-time.
 > 
-> This is backward-compatible with the single-port approach that was
-> previously taken for representing the parallel interface port, which
-> stays enumerated as fwnode port 0.
-> 
-> Note that additional ports may be added in the future, especially to
-> support feeding the CSI controller's output to the ISP.
+> Represent this possibility as a graph connection between the CSI
+> controller and the ISP in the device-tree bindings.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Acked-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  .../media/allwinner,sun6i-a31-csi.yaml        | 60 +++++++++++++++----
->  1 file changed, 47 insertions(+), 13 deletions(-)
+>  .../bindings/media/allwinner,sun6i-a31-csi.yaml    | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
 > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> index 8b568072a069..3cc61866ea89 100644
+> index 3cc61866ea89..7952413f98d8 100644
 > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
 > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> @@ -61,6 +61,34 @@ properties:
+> @@ -83,6 +83,20 @@ properties:
 >  
->      additionalProperties: false
+>          additionalProperties: false
 >  
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: "#/properties/port"
-> +        unevaluatedProperties: false
-> +
-> +      port@1:
+> +      port@2:
 > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: MIPI CSI-2 bridge input port
+> +        description: ISP output port
 > +
 > +        properties:
 > +          reg:
-> +            const: 1
+> +            const: 2
 > +
 > +          endpoint:
 > +            $ref: video-interfaces.yaml#
 > +            unevaluatedProperties: false
+
+This could be
+
+            $ref: video-interfaces.yaml#
+            remote-endpoint: true
+            additionalProperties: false
+
+to reject other properties.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > +
 > +        additionalProperties: false
 > +
-> +    anyOf:
-> +      - required:
-> +        - port@0
-> +      - required:
-> +        - port@1
-> +
->  required:
->    - compatible
->    - reg
-
-Shouldn't you specify that either port or ports is required, but not
-both ? I'd also add a comment in the port node to tell it's deprecated,
-and that ports should be used instead.
-
-> @@ -89,19 +117,25 @@ examples:
->                        "ram";
->          resets = <&ccu RST_BUS_CSI>;
->  
-> -        port {
-> -            /* Parallel bus endpoint */
-> -            csi1_ep: endpoint {
-> -                remote-endpoint = <&adv7611_ep>;
-> -                bus-width = <16>;
-> -
-> -                /*
-> -                 * If hsync-active/vsync-active are missing,
-> -                 * embedded BT.656 sync is used.
-> -                 */
-> -                 hsync-active = <0>; /* Active low */
-> -                 vsync-active = <0>; /* Active low */
-> -                 pclk-sample = <1>;  /* Rising */
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +                /* Parallel bus endpoint */
-> +                csi1_ep: endpoint {
-> +                    remote-endpoint = <&adv7611_ep>;
-> +                    bus-width = <16>;
-> +
-> +                    /*
-> +                     * If hsync-active/vsync-active are missing,
-> +                     * embedded BT.656 sync is used.
-> +                     */
-> +                     hsync-active = <0>; /* Active low */
-> +                     vsync-active = <0>; /* Active low */
-> +                     pclk-sample = <1>;  /* Rising */
-
-Wrong indentation.
-
-> +                };
->              };
->          };
->      };
+>      anyOf:
+>        - required:
+>          - port@0
 
 -- 
 Regards,
