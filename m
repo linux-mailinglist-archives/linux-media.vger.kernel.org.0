@@ -2,142 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB94E4AB6AA
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 09:44:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41E854AB6CB
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 09:44:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241597AbiBGI1w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 03:27:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53442 "EHLO
+        id S236872AbiBGImg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 03:42:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244263AbiBGIQX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 03:16:23 -0500
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1DA3C043181;
-        Mon,  7 Feb 2022 00:16:22 -0800 (PST)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2175jOVX007408;
-        Mon, 7 Feb 2022 08:16:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=ewRqSAhtxtVPBb/oQWoNedGECHJzBZRRq/TyozCvciA=;
- b=x8xEpAN1aeHFiE27f0P5NxL9nvV31azL0szI79prxMGZbvEMMGPk6eTFPrd2ttqbSUbz
- EcqZCC6SfubcFf44zyGugwCZajseG6eOEDfZ6QWbd1ujsH2Kgw15BcItKsqgMo8x3Eg2
- bN9627Ks+7OtsRZCluqaY6Zrrc49zqRJubEb1qUDRlJb2eQrEj2Bo29xjfSRGBEvPGPp
- 44GhVniuBSt9IPmnT1EMhV0Uwmwu/fZqLtl4FRUxcrWOXIw8pTvoSv62ToT1hMSjXfbA
- BO6ARMupoIczlCbaZVckz1yh+49ftyGU0tf1cCtkS421QVdOZv3HnZzoL5fT/oBDsJlL BA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3e1gusw8t5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 07 Feb 2022 08:16:13 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2178G1K2132413;
-        Mon, 7 Feb 2022 08:16:12 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
-        by aserp3030.oracle.com with ESMTP id 3e1f9d1fnf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 07 Feb 2022 08:16:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jvKUABL5z7ysJ0PMhEdoFWrfRByraLJSsuPyosfbyAlufzLa4xQxJdwEtjzX0rU9iodGHAY5mBxB9KnyemOB1WL8oIk4ewB6ygtrovwKlVjxlP9q5BLonapE5INxHfZ5p5TSinYhgSMLMcEemyBMnw9CLWsN63Y2WKPvI5SOzL1vs8iH2Iq4pRaRBaK1f6l69hoRmea+FgpJwQEThkWUa+1mvh2eYNaiK9nwCU5LADdGnbmOgYiKMwFwxzRiiepzsLe7zPrc1gfTg8OhGNQMmwEszqesEmnow4+8pPflMu/3TQokkxRnxZ6cu5l9LHZ/RW3G3U6G7d9VFsj/KOHHMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ewRqSAhtxtVPBb/oQWoNedGECHJzBZRRq/TyozCvciA=;
- b=U1CaSY7dEJpo0PsJqkHA2/ei3qudPjJOXP/RvhebVRmBZrfBN9kMJqeRlGkogK7uG4JKYppSQCVma45l1BZBTgFy74oWnZE48KV1SiVTg/OQk00CPVGCDWPUbKS63JSN+AyOfrrzE7z7gipcLwdzdV2qYb4UQrECMaAWhEBe1lCOY/tErmU2pfYb0HlAnZcKLPQXsHVABLrmywS7NztXLs/gaYktbQsh4Y2OUhJEjs+GoQ3qpGWR6L1l02RUHQRzdnHuEz3knD+pw58GsYdc8qox/yBc8eoOgjkB033FeLBYR+eOxwWYPycuOu94Ios4HImWJo3sAptP9VWUDaWK4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ewRqSAhtxtVPBb/oQWoNedGECHJzBZRRq/TyozCvciA=;
- b=NgTI4WKXaC8lehw97Q0NVbTQ5n2tz+U8X8ZnB6J9MYiYE65DUGQ7j9lQvPaXA9hU64oVDrftsfcKQn/fsLxVN/hTD9q0SjC1yI3xJwhqZQjrqlOQR5ySB0Z32L6d8sWicmb3+ph37GTDRTtImiL0FQk5ZFf9J0UAmbHCu0pI8AY=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by PH0PR10MB4517.namprd10.prod.outlook.com
- (2603:10b6:510:36::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Mon, 7 Feb
- 2022 08:16:10 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::e5a5:8f49:7ec4:b7b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::e5a5:8f49:7ec4:b7b8%5]) with mapi id 15.20.4951.018; Mon, 7 Feb 2022
- 08:16:10 +0000
-Date:   Mon, 7 Feb 2022 11:15:49 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     kbuild@lists.01.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Cc:     lkp@intel.com, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: drivers/media/platform/qcom/venus/helpers.c:627
- venus_helper_get_bufreq() error: we previously assumed 'req' could be null
- (see line 623)
-Message-ID: <202202062034.T1pUQtL9-lkp@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0013.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::18)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        with ESMTP id S1349547AbiBGIdk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 03:33:40 -0500
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D88F7C0401E4;
+        Mon,  7 Feb 2022 00:33:34 -0800 (PST)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id C7779240004;
+        Mon,  7 Feb 2022 08:33:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1644222812;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=84zL46lVab32mc8aiSykPGlMX0OG+D4m1dmzME3ih7o=;
+        b=eEI/wnbRqbnC03wKfL84Qy5u+zXH7f2LnN3A1RZ0uApGs6fHduyBnRD6Q5DTxxFJ1ncLvD
+        8O+Zwu2iZ7LPhYjF1PLkN3yowpi7Vc6VxbeQxUHiRf3YFwbsknGNHoyRbuH9bBi3jCHCEq
+        YbIdp24M3k1n59ERtwAno2km1oW5oxR7MACsUSCznlpqvKY12rq3I8tbGrut5zL6fGqZLf
+        pCkl5+hSZrXzOZ8HopVoTCy9/NdRc5Jvzn16mrcEUpB3/V9SE2z1BqCNeWcv4c/URgPQk+
+        1aJCezHlh1NPt7iYMU+Yoa/twd4Yyvq/UMKAC304//NLJYjgp/qX2dIO+hYdKw==
+Date:   Mon, 7 Feb 2022 09:33:30 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc:     mripard@kernel.org, mchehab@kernel.org, wens@csie.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: cedrus: Add watchdog for job completion
+Message-ID: <YgDZWvgA0blNM7qm@aptenodytes>
+References: <20220201183324.493542-1-jernej.skrabec@gmail.com>
+ <YfztZE8ymJ5RERTq@aptenodytes>
+ <12946098.uLZWGnKmhe@jernej-laptop>
+ <3150370.aeNJFYEL58@jernej-laptop>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4b05d10b-970e-4e4d-7a07-08d9ea12194f
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4517:EE_
-X-Microsoft-Antispam-PRVS: <PH0PR10MB4517041F5AF8A79D698598808E2C9@PH0PR10MB4517.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:608;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7SoBVgTGEqw/0K9SLbzWdyAOUnOGf85CGM1Fz+f+1JcFlwkC90H65un5NDEqtQoxSjSpgc5VrhUgUaftuDjNkXLjp/KUj5y+jOZitTlVbRc/PM1klVOahzG7xuAku9JrtFd13JkqW8hN12pXgHGUGolVxlgBJUIhP+rfKIMR56bI4xRlaBYeiOEpxbxArhsA8UW5L0V6tBPpR4iliak4enlnDWaVYwkwRB1Key9IrxpxGZDwSyJtzSFFayiKRPocYFy/pmHSSLIbmXTH8Wa91GnW1t7cob2HM30PhZ9wl5UP5oE7zCzOPIxNtHygrOcsof8Nta5SIT5TBCpvX78O+yr6DaFuVVLGKjRAnQYud34k02MrMQs1qKDDPWdEaLXqwfpyM8rQUEyi5vHKI74JyeziH+R9+E0/1beWSENLE0rGTfRyKxMKk4PlZhovK9KO668UFRnNcE+n6BNbUtu0ganvMedg8AW/d5tohgZCW+DSQH5k++m5X+pBzvuWOgsUpQcHLmJDMerRaZXl5QphDzjj+MhzHzfPdLwGerK1yUwF0i+V/9CqHPBT29EYjjeZDq6a+p/iTPRQF3nQt2Fv0Cz5yrN9cemPgcD0qS0K2y1sVU4ko04JVRLZkZdYwus2FUITuwrPJrgINVpDzQdtQZhJyvH6PKbifrcSVAsR8hVihUjOYQ9fLgQZR92qgKkWrlTDBlqyAMqlwIjPtjXaf2yepLVseHwT8ltA0RlA+zc6YMfxX9bitj7yCFvummK6vnVYM0vGtfMHEVig9XruqadfuTTy+V4y1SbbtSzMPFWjIDm+IH6uJWrmeD09juno9cGiS0aQDenCJwWLkrpyow==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(508600001)(44832011)(2906002)(86362001)(66946007)(83380400001)(66556008)(316002)(6506007)(6666004)(4326008)(66476007)(8936002)(5660300002)(36756003)(8676002)(6486002)(1076003)(966005)(54906003)(186003)(52116002)(26005)(9686003)(38100700002)(38350700002)(6916009)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vm0Oub4xH+ugs1j7TfY/w9IA7eu/5ZqqsWzt9iPbpi/ORTq3tRfxk3wiD2a1?=
- =?us-ascii?Q?QwbGS0+HIX3Uy7toYg89lnrwLFKuMIuhx0yCe6srcH0Vr+UdMrN4+7yhKdO+?=
- =?us-ascii?Q?IknQTmME3cOdrElFkBUQ9qSXifcNgtRsDwIGXAhm6+D4aJmEmztZ7gVXh90I?=
- =?us-ascii?Q?xZTqIASLH97AAbDJkEfzOcqML0MfKCwjfGtTVdqQQTsBvzK4v8blLGRc3122?=
- =?us-ascii?Q?RCaOU1Zzd+dqpCPOWj1YasWYhC9o7/esQww8MVhOWH2OIv7XJ1f/SO63u4NJ?=
- =?us-ascii?Q?MCpffRxaq4csgdtsn0j18S91oEyYL8/NDk6ayxwRwdcngviMWKXjmWxpBQt+?=
- =?us-ascii?Q?7WdtFfvvcq6yCAiCGLoQbxBXbFE079M8M+UZYuNkzU1gQCfEuTcbmBHmPdU1?=
- =?us-ascii?Q?K+oZtwAmlK3AjJLPO2esviF93q2LRmWIjDetVcxA/oFoZtx/Ai7ERCPJ3f9r?=
- =?us-ascii?Q?1gVj9gYtoHegDikZKa4pT9s2XSULHvF23snGVxfe62sfaceF5ifPqpj30cli?=
- =?us-ascii?Q?GtekioVP9uxa/k2AndwsLL0hO268EYHY/tA2mOGudBbzS08SSePlSoNVUClm?=
- =?us-ascii?Q?SaEtyiiKDPt/mAI8qkCQKd9H0FTATT5aboVVUOqbjACzaRPDOJAIumg3ovaB?=
- =?us-ascii?Q?ixhT/AmU0XRxr0f8p+p77HCPCix/BpzEsWzf4d4eVqnuvPqLJ0A3lDO/MDPd?=
- =?us-ascii?Q?pjmdrA9bH2sK06CXTUCHZxTl4xQc2YQ0pUSYvgKVNO+qIk81RR5AFsHwoRsm?=
- =?us-ascii?Q?ph4CEqp0YZsULQ/Pdbwmt5MiKVeUSvan5xsflmX5eMdY1yOmbk4Yh+QLrBLy?=
- =?us-ascii?Q?uYAEp7iJgXRxMx2Hzzgkt28RAiVECdVSLoXaLjLfopTpuwyRvQsJkK7ydmlA?=
- =?us-ascii?Q?YcVr0c9r8FD7gZPW2OiwqZL8JcHloyFrK0yPBVLbLQIKi0dmn5s7DPrOli5m?=
- =?us-ascii?Q?5F1gUL7rHA3WWR9Kcd0rDvr2Ly9o9OCT/Xtz6vfkPnsPn7O0UEjQO1ckOFQC?=
- =?us-ascii?Q?KA6jpcXfII3QPr7V/7Bzdj5JBxSfd41BR5V3aXMJER5REpe/HHm2Hy95rIJ/?=
- =?us-ascii?Q?ETI11xN0izZd3HPm3Se1Uj015bSuRlWE2x/Q5RXlhERh+sjirAjQWpTIPut4?=
- =?us-ascii?Q?ylhMcgD8Ywv5Uotb47wzb3Sk89WTknqlB29GsL+gd3KZ6/QflRNGyW15L3Do?=
- =?us-ascii?Q?yuer/68HEqF1nn50vxkDI7iVbDsNGsyRN14NmHWT6uTCih8hSh2HMwJpKQOg?=
- =?us-ascii?Q?KBRZidHHYfX5nHsiQvIAgH33iacqapPi4EsHPIGB7I7oEnEvWy6WjAuHRHgm?=
- =?us-ascii?Q?nyqiceyifakwk8sCj739yJzXXa0cmQUSkDTRrTJF8PqKzCGoWKYLS6RLZdjE?=
- =?us-ascii?Q?k3jR/w/G+TSdgLL9kLbd0ex9Kk6B+Ag1Q2baflneuiHp56qKFKPM8VwX7BnL?=
- =?us-ascii?Q?85giVrNmuRUdVevGgGWIfKBP/FaRv/QnWj2YteNWUKnC35D4duSIImh5wGdk?=
- =?us-ascii?Q?GNh91VrSfJSVC1O5XgXujoa3Nh6cfME4Bp9KvoB4CH/+QF1mTDmUyht1Bhhw?=
- =?us-ascii?Q?VcINblJ5q7wncYOaUoMbYjPi01PyYJAVhDtHtKJSHpwxL6YnS/UP8uAm39gy?=
- =?us-ascii?Q?VCy0Yfs772cjceafoDBlObqJ3uHudsnhhLDTbnHGipzL32WSDG9ttlq7TfSz?=
- =?us-ascii?Q?tlH1DQ=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b05d10b-970e-4e4d-7a07-08d9ea12194f
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 08:16:10.6304
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6OJIRhIYxH9g2qJVyHpwVbLvjHMum8y4Kfc3FR2l70bU7pddL9z2xn5qvJjCs//9fUllz3jdaKjfGdHNrnUdRdQGS42g+Z7kufCs/5BgQck=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4517
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10250 signatures=673430
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 adultscore=0
- mlxlogscore=999 suspectscore=0 mlxscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202070054
-X-Proofpoint-ORIG-GUID: b-SaDU2VY4iZLF6pVxbpy7OKSHZUlkz_
-X-Proofpoint-GUID: b-SaDU2VY4iZLF6pVxbpy7OKSHZUlkz_
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="RYiUA+TN+21sHBz2"
+Content-Disposition: inline
+In-Reply-To: <3150370.aeNJFYEL58@jernej-laptop>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -145,78 +55,279 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   90c9e950c0def5c354b4a6154a2ddda3e5f214ac
-commit: 16545aa3dee5a01f3f42aa566a051096c87f4b6f media: venus: Set buffer to FW based on FW min count requirement.
-config: microblaze-randconfig-m031-20220206 (https://download.01.org/0day-ci/archive/20220206/202202062034.T1pUQtL9-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.2.0
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+--RYiUA+TN+21sHBz2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-smatch warnings:
-drivers/media/platform/qcom/venus/helpers.c:627 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 623)
+Hi,
 
-vim +/req +627 drivers/media/platform/qcom/venus/helpers.c
+On Sat 05 Feb 22, 09:41, Jernej =C5=A0krabec wrote:
+> Dne sobota, 05. februar 2022 ob 08:40:21 CET je Jernej =C5=A0krabec napis=
+al(a):
+> > Dne petek, 04. februar 2022 ob 10:09:56 CET je Paul Kocialkowski napisa=
+l(a):
+> > > Hi Jernej,
+> > >=20
+> > > On Tue 01 Feb 22, 19:33, Jernej Skrabec wrote:
+> > > > Currently, if job is not completed for whatever reason, userspace
+> > > > application can hang on ioctl and thus become unkillable.
+> > > >=20
+> > > > In order to prevent that, implement watchdog, which will complete j=
+ob
+> > > > after 2 seconds with error state.
+> > > >=20
+> > > > Concept is borrowed from hantro driver.
+> > >=20
+> > > Good idea to implement a watchdog here, thanks!
+> > > See comments below.
+> > >=20
+> > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > > ---
+> > > >=20
+> > > >  drivers/staging/media/sunxi/cedrus/cedrus.c   |  2 ++
+> > > >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  3 +++
+> > > >  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  4 +++
+> > > >  .../staging/media/sunxi/cedrus/cedrus_hw.c    | 25 +++++++++++++++=
+++++
+> > > >  .../staging/media/sunxi/cedrus/cedrus_hw.h    |  2 ++
+> > > >  5 files changed, 36 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > > > b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> > > > 4a4b714b0f26..68b3dcdb5df3 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > > > @@ -439,6 +439,8 @@ static int cedrus_probe(struct platform_device
+> > > > *pdev)
+> > > >=20
+> > > >  	mutex_init(&dev->dev_mutex);
+> > > >=20
+> > > > +	INIT_DELAYED_WORK(&dev->watchdog_work, cedrus_watchdog);
+> > > > +
+> > > >=20
+> > > >  	ret =3D v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+> > > >  	if (ret) {
+> > > >  =09
+> > > >  		dev_err(&pdev->dev, "Failed to register V4L2
+> >=20
+> > device\n");
+> >=20
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > > b/drivers/staging/media/sunxi/cedrus/cedrus.h index
+> > > > c345f2984041..3bc094eb497f 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > > @@ -24,6 +24,7 @@
+> > > >=20
+> > > >  #include <linux/iopoll.h>
+> > > >  #include <linux/platform_device.h>
+> > > >=20
+> > > > +#include <linux/workqueue.h>
+> > > >=20
+> > > >  #define CEDRUS_NAME			"cedrus"
+> > > >=20
+> > > > @@ -194,6 +195,8 @@ struct cedrus_dev {
+> > > >=20
+> > > >  	struct reset_control	*rstc;
+> > > >  =09
+> > > >  	unsigned int		capabilities;
+> > > >=20
+> > > > +
+> > > > +	struct delayed_work	watchdog_work;
+> > > >=20
+> > > >  };
+> > > > =20
+> > > >  extern struct cedrus_dec_ops cedrus_dec_ops_mpeg2;
+> > > >=20
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
+> > > > a16c1422558f..9c7200299465 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > > > @@ -97,4 +97,8 @@ void cedrus_device_run(void *priv)
+> > > >=20
+> > > >  		v4l2_ctrl_request_complete(src_req, &ctx->hdl);
+> > > >  =09
+> > > >  	dev->dec_ops[ctx->current_codec]->trigger(ctx);
+> > > >=20
+> > > > +
+> > > > +	/* Start the watchdog timer. */
+> > > > +	schedule_delayed_work(&dev->watchdog_work,
+> > > > +			      msecs_to_jiffies(2000));
+> > > >=20
+> > > >  }
+> > > >=20
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
+> > > > 2d7663726467..a6470a89851e 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > > > @@ -118,6 +118,13 @@ static irqreturn_t cedrus_irq(int irq, void *d=
+ata)
+> > > >=20
+> > > >  	enum vb2_buffer_state state;
+> > > >  	enum cedrus_irq_status status;
+> > > >=20
+> > > > +	/*
+> > > > +	 * If cancel_delayed_work returns false it means watchdog already
+> > > > +	 * executed and finished the job.
+> > > > +	 */
+> > > > +	if (!cancel_delayed_work(&dev->watchdog_work))
+> > > > +		return IRQ_HANDLED;
+> > > > +
+> > > >=20
+> > > >  	ctx =3D v4l2_m2m_get_curr_priv(dev->m2m_dev);
+> > > >  	if (!ctx) {
+> > > >  =09
+> > > >  		v4l2_err(&dev->v4l2_dev,
+> > > >=20
+> > > > @@ -143,6 +150,24 @@ static irqreturn_t cedrus_irq(int irq, void *d=
+ata)
+> > > >=20
+> > > >  	return IRQ_HANDLED;
+> > > > =20
+> > > >  }
+> > > >=20
+> > > > +void cedrus_watchdog(struct work_struct *work)
+> > > > +{
+> > > > +	struct cedrus_dev *dev;
+> > > > +	struct cedrus_ctx *ctx;
+> > > > +
+> > > > +	dev =3D container_of(to_delayed_work(work),
+> > > > +			   struct cedrus_dev, watchdog_work);
+> > > > +
+> > > > +	ctx =3D v4l2_m2m_get_curr_priv(dev->m2m_dev);
+> > > > +	if (!ctx)
+> > > > +		return;
+> > > > +
+> > > > +	v4l2_err(&dev->v4l2_dev, "frame processing timed out!\n");
+> > > > +	reset_control_reset(dev->rstc);
+> > >=20
+> > > I don't think playing with the reset is the right approach here.
+> > > First we don't really know if the reset is shared or not, so this mig=
+ht
+> > > have no effect.
+> >=20
+> > AFAIK only few reset lines are shared in all Allwinner SoC, never for C=
+edrus
+> > and even then, this is considered as HW issue. So, I'm good with using
+> > reset line. This principle is also taken from Hantro driver.
+> >=20
+> > > Then even if it does, wouldn't this just reset the state of the
+> > > registers to an unconfigured state, making it impossible to decode any
+> > > future frame in the same context?
+> >=20
+> > Being stateless core, all context is held in auxiliary buffers, referen=
+ce
+> > frames and controls, which are not reset with pulsing reset line, so no,
+> > state is not lost. Anyway, if decoding fails, you're generally screwed
+> > until next key frame. You'll have to deal with decoding issues/artefacts
+> > nevertheless.
 
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  615  int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  616  			    struct hfi_buffer_requirements *req)
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  617  {
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  618  	u32 ptype = HFI_PROPERTY_CONFIG_BUFFER_REQUIREMENTS;
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  619  	union hfi_get_property hprop;
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  620  	unsigned int i;
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  621  	int ret;
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  622  
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15 @623  	if (req)
+Ah right, it's true that we fully configure the hardware on each slice
+so indeed, it should be able to bring it back up on the next one.
 
-Check for NULL
+> > > Honestly I'm not sure what a good process would be to get back on tra=
+ck
+> > > here so I would be tempted to just do nothing an return errors.
+> > >=20
+> > > That's already better than being stuck.
+> >=20
+> > Doing nothing will solve only current job, but HW will still be stuck in
+> > decoding state. I doubt reprogramming registers and triggering new deco=
+ding
+> > will actually do anything.
+> >=20
+> > I'll check BSP lib sources again. Maybe selecting non-existing decoding=
+ mode
+> > would reset the core. That is already suggested as good thing to do in
+> > order to put core in low power mode.
+>=20
+> BSP kernel driver also pulses reset line:
+> https://github.com/orangepi-xunlong/linux-orangepi/blob/orange-pi-4.9-sun=
+50iw9/drivers/media/cedar-ve/cedar_ve.c#L848-L851
+>=20
+> I still think this is the way to go.
 
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  624  		memset(req, 0, sizeof(*req));
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  625  
-16545aa3dee5a01 Dikshita Agarwal  2021-08-10  626  	if (type == HFI_BUFFER_OUTPUT || type == HFI_BUFFER_OUTPUT2)
-16545aa3dee5a01 Dikshita Agarwal  2021-08-10 @627  		req->count_min = inst->fw_min_cnt;
+Okay so that's probably the right thing to do then, my comment doesn't stan=
+d!
 
-Unchecked dereference
+So the change looks good to me at this point:
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-16545aa3dee5a01 Dikshita Agarwal  2021-08-10  628  
-7371093f983d35d Stanimir Varbanov 2020-08-26  629  	ret = platform_get_bufreq(inst, type, req);
+Thanks!
 
-I looked at this in linux-next from Friday and I don't think
-platform_get_bufreq() can succeed with a NULL "req"...
+Paul
 
-16545aa3dee5a01 Dikshita Agarwal  2021-08-10  630  	if (!ret) {
-16545aa3dee5a01 Dikshita Agarwal  2021-08-10  631  		if (type == HFI_BUFFER_OUTPUT || type == HFI_BUFFER_OUTPUT2)
-16545aa3dee5a01 Dikshita Agarwal  2021-08-10  632  			inst->fw_min_cnt = req->count_min;
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > IMO we have to do something. Doing nothing will probably just lock up t=
+he
+> > core until next reboot or maybe until trying different decoding mode.
+> >=20
+> > Anyway, I have to find another way to cause decoding job to time out.
+> > Currently I'm doing this with IOMMU on H6, but that brings down several
+> > other things, which requires reboot anyway.
+> >=20
+> > Best regards,
+> > Jernej
+> >=20
+> > > Paul
+> > >=20
+> > > > +	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx-
+> > >
+> > >fh.m2m_ctx,
+> > >
+> > > > +					 VB2_BUF_STATE_ERROR);
+> > > > +}
+> > > > +
+> > > >=20
+> > > >  int cedrus_hw_suspend(struct device *device)
+> > > >  {
+> > > > =20
+> > > >  	struct cedrus_dev *dev =3D dev_get_drvdata(device);
+> > > >=20
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h index
+> > > > 45f641f0bfa2..7c92f00e36da 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > > > @@ -28,4 +28,6 @@ int cedrus_hw_resume(struct device *device);
+> > > >=20
+> > > >  int cedrus_hw_probe(struct cedrus_dev *dev);
+> > > >  void cedrus_hw_remove(struct cedrus_dev *dev);
+> > > >=20
+> > > > +void cedrus_watchdog(struct work_struct *work);
+> > > > +
+> > > >=20
+> > > >  #endif
+>=20
+>=20
+>=20
+>=20
 
-Unchecked
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-7371093f983d35d Stanimir Varbanov 2020-08-26  633  		return 0;
-16545aa3dee5a01 Dikshita Agarwal  2021-08-10  634  	}
-7371093f983d35d Stanimir Varbanov 2020-08-26  635  
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  636  	ret = hfi_session_get_property(inst, ptype, &hprop);
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  637  	if (ret)
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  638  		return ret;
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  639  
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  640  	ret = -EINVAL;
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  641  
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  642  	for (i = 0; i < HFI_BUFFER_TYPE_MAX; i++) {
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  643  		if (hprop.bufreq[i].type != type)
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  644  			continue;
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  645  
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  646  		if (req)
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  647  			memcpy(req, &hprop.bufreq[i], sizeof(*req));
+--RYiUA+TN+21sHBz2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Another NULL check
+-----BEGIN PGP SIGNATURE-----
 
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  648  		ret = 0;
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  649  		break;
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  650  	}
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  651  
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  652  	return ret;
-af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  653  }
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIA2VoACgkQ3cLmz3+f
+v9F7sAf/ZRWcitUz+WNGX+uyDStZx3p+7XWEQ8zHMOGdouvfc4P6t++lfBgvehkA
+kNmD3iCNmR097YkfmDOiDaa04Yqv7nRbzu2i9C3OGBq9WCg/Wvhug+BnkqY3gu+5
+fn86awwghNTRAkkCO0wFfTlBxQ+2jnWUcmamG9xXML73tBnTEqu/9aHGIUuCNk69
+5R0R9XkxPVH4AvKUyBvoicLvlw114qM+h/vn5AaPOW+7TLGpEmxMVvblcuDAA1z7
+eO3tgdmO3VvvJodTPXOncSqSwWz3vZ7i2lujBMFdNmgvhZ8QT0E5wjG/cXxzDUGi
+FySSwwRn0nDn4ZOy2wjQOJUyvkwWDQ==
+=aWX/
+-----END PGP SIGNATURE-----
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
-
+--RYiUA+TN+21sHBz2--
