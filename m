@@ -2,152 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C1A24AC24E
+	by mail.lfdr.de (Postfix) with ESMTP id 171D64AC24D
 	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 16:03:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241676AbiBGPA5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S241104AbiBGPA5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Mon, 7 Feb 2022 10:00:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47862 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353256AbiBGOlK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 09:41:10 -0500
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 445BDC0401C2
-        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 06:41:07 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 1682E240005;
-        Mon,  7 Feb 2022 14:40:59 +0000 (UTC)
-Date:   Mon, 7 Feb 2022 15:42:06 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
-        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
-        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
-        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        aford173@gmail.com, festevam@gmail.com,
-        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 08/21] media: ov5640: Re-sort per-mode register tables
-Message-ID: <20220207144206.hgy6m2d3uymno7io@uno.localdomain>
-References: <20220131143245.128089-1-jacopo@jmondi.org>
- <20220131143245.128089-9-jacopo@jmondi.org>
- <YfmEk0WkdeJs8bda@pendragon.ideasonboard.com>
+        with ESMTP id S1442461AbiBGOuw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 09:50:52 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB8BEC0401C2;
+        Mon,  7 Feb 2022 06:50:51 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id B335A1F444B0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1644245449;
+        bh=13Pa/hRoL9bc6PMdKa7o3kW0gnpTZ/7yRWMBa7/cWug=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=E5nDpwdJ3WJeBqgA11hTJgycuzr9IolkDMGGw/W0GyDH6gtijdYhCrmKgT50mz2Bc
+         ZZWfgMuby4+E+/iGal0uerm3GAhl96/I61rhtkEAqVPDkJ+MgDbKItyIRozrlwGjy4
+         x+JCnRZiXFTma4kNRMrHqjJF5MxIwbFhxRzLHzdgtfKFGamelDdQYY55JKopBN4Gt6
+         kZpo/Wv17MvsU5RDVIteshi0UJzElRBd+0D8lNz9ZLPtZQjYR2EgwKYVKM4/mvn682
+         dy+SO74CcRhmj++OGIZ/zqUL3OPfTWMfOI/5DoxJzz8yOHzjhnbTH03juHvW0bzPVP
+         NUl8f8rHgCHoA==
+Message-ID: <d305aefa-7cdf-3221-2883-9381785e335d@collabora.com>
+Date:   Mon, 7 Feb 2022 15:50:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YfmEk0WkdeJs8bda@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH V1, 5/6] media: mtk-jpegdec: add output pic reorder
+ interface
+Content-Language: en-US
+To:     "kyrie.wu" <kyrie.wu@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tzung-Bi Shih <tzungbi@chromium.org>
+Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, xia.jiang@mediatek.com,
+        maoguang.meng@mediatek.com, srv_heupstream@mediatek.com,
+        irui.wang@mediatek.com
+References: <1638509655-14296-1-git-send-email-kyrie.wu@mediatek.com>
+ <1638509655-14296-6-git-send-email-kyrie.wu@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <1638509655-14296-6-git-send-email-kyrie.wu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Il 03/12/21 06:34, kyrie.wu ha scritto:
+> add output reorder func to reorder the output images
+> to ensure the output pic is consistent with the input images.
+> 
+> Signed-off-by: kyrie.wu <kyrie.wu@mediatek.com>
+> ---
+>   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c | 50 +++++++++++++++++++++--
+>   1 file changed, 46 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c
+> index 9138ecb..fad5bf1c 100644
+> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c
+> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c
+> @@ -443,6 +443,49 @@ void mtk_jpeg_dec_set_config(void __iomem *base,
+>   	mtk_jpeg_dec_set_pause_mcu_idx(base, config->total_mcu);
+>   }
+>   
+> +void mtk_jpegdec_put_buf(struct mtk_jpegdec_comp_dev *jpeg)
 
-On Tue, Feb 01, 2022 at 09:05:55PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Mon, Jan 31, 2022 at 03:32:32PM +0100, Jacopo Mondi wrote:
-> > The per-mode register tables are not sorted by size. Fix it.
-> >
-> > Cosmetic change only.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  drivers/media/i2c/ov5640.c | 18 +++++++++---------
-> >  1 file changed, 9 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index bd14e2ad22f6..d966cca78e92 100644
-> > --- a/drivers/media/i2c/ov5640.c
-> > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -428,7 +428,7 @@ static const struct reg_value ov5640_init_setting_30fps_VGA[] = {
-> >  	{0x3a1f, 0x14, 0, 0}, {0x3008, 0x02, 0, 0}, {0x3c00, 0x04, 0, 300},
-> >  };
-> >
-> > -static const struct reg_value ov5640_setting_VGA_640_480[] = {
-> > +static const struct reg_value ov5640_setting_QQVGA_160_120[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > @@ -439,11 +439,10 @@ static const struct reg_value ov5640_setting_VGA_640_480[] = {
-> >  	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
-> >  	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
-> >  	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0},
-> > -	{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},
-> > -	{0x3824, 0x02, 0, 0}, {0x5001, 0xa3, 0, 0},
-> > +	{0x4407, 0x04, 0, 0}, {0x5001, 0xa3, 0, 0},
-> >  };
-> >
-> > -static const struct reg_value ov5640_setting_XGA_1024_768[] = {
-> > +static const struct reg_value ov5640_setting_QCIF_176_144[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > @@ -473,7 +472,7 @@ static const struct reg_value ov5640_setting_QVGA_320_240[] = {
-> >  	{0x3824, 0x02, 0, 0}, {0x5001, 0xa3, 0, 0},
-> >  };
-> >
-> > -static const struct reg_value ov5640_setting_QQVGA_160_120[] = {
-> > +static const struct reg_value ov5640_setting_VGA_640_480[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > @@ -484,10 +483,11 @@ static const struct reg_value ov5640_setting_QQVGA_160_120[] = {
-> >  	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
-> >  	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
-> >  	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0},
-> > -	{0x4407, 0x04, 0, 0}, {0x5001, 0xa3, 0, 0},
-> > +	{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},
-> > +	{0x3824, 0x02, 0, 0}, {0x5001, 0xa3, 0, 0},
-> >  };
-> >
-> > -static const struct reg_value ov5640_setting_QCIF_176_144[] = {
-> > +static const struct reg_value ov5640_setting_NTSC_720_480[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > @@ -502,7 +502,7 @@ static const struct reg_value ov5640_setting_QCIF_176_144[] = {
-> >  	{0x3824, 0x02, 0, 0}, {0x5001, 0xa3, 0, 0},
-> >  };
-> >
-> > -static const struct reg_value ov5640_setting_NTSC_720_480[] = {
-> > +static const struct reg_value ov5640_setting_PAL_720_576[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
-> > @@ -517,7 +517,7 @@ static const struct reg_value ov5640_setting_NTSC_720_480[] = {
-> >  	{0x3824, 0x02, 0, 0}, {0x5001, 0xa3, 0, 0},
-> >  };
-> >
-> > -static const struct reg_value ov5640_setting_PAL_720_576[] = {
-> > +static const struct reg_value ov5640_setting_XGA_1024_768[] = {
-> >  	{0x3c07, 0x08, 0, 0},
-> >  	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
-> >  	{0x3814, 0x31, 0, 0},
->
-> Is it me, or does this mean that ov5640_setting_XGA_1024_768,
-> ov5640_setting_QCIF_176_144, ov5640_setting_PAL_720_576 and
-> ov5640_setting_NTSC_720_480 are all identical ?
->
+This function is used only in this file, hence it should be static.
 
-Ah! Fun, I didn't realize!
-meaning I've not re-looked at this patch after I formatted it :D
+> +{
+> +	struct mtk_jpeg_src_buf *dst_done_buf, *tmp_dst_done_buf;
+> +	struct vb2_v4l2_buffer *dst_buffer;
+> +	struct list_head *temp_entry;
+> +	struct list_head *pos = NULL;
+> +	struct mtk_jpeg_ctx *ctx;
+> +	unsigned long flags;
+> +
+> +	ctx = jpeg->hw_param.curr_ctx;
+> +	if (!ctx) {
+> +		dev_err(jpeg->dev, "comp_jpeg ctx fail !!!\n");
 
-yes they are!
-There likely are more opportunities to remove more black magic tables
-then. I wonder in what the other modes differ now. I'll investigate, I
-wish we could remove the ov5640_setting_XXX tables completely, that
-would be great if we can almost fully control the sensor programming
-sequence and not rely on opaque tables!
+Since this is unlikely to happen (or should be unlikely anyway!!), this print
+should then be a dev_dbg()
 
-> --
-> Regards,
->
-> Laurent Pinchart
+> +		return;
+> +	}
+> +
+> +	dst_buffer = jpeg->hw_param.dst_buffer;
+> +	if (!dst_buffer) {
+> +		dev_err(jpeg->dev, "comp_jpeg dst_buffer fail !!!\n");
+> +		return;
+> +	}
+> +
+> +	dst_done_buf = container_of(dst_buffer, struct mtk_jpeg_src_buf, b);
+> +
+> +	spin_lock_irqsave(&ctx->done_queue_lock, flags);
+> +	list_add_tail(&dst_done_buf->list, &ctx->dst_done_queue);
+> +	while (!list_empty(&ctx->dst_done_queue) &&
+> +		(pos != &ctx->dst_done_queue)) {
+> +		list_for_each_prev_safe(pos, temp_entry,
+> +			(&ctx->dst_done_queue)) {
+> +			tmp_dst_done_buf = list_entry(pos,
+> +				struct mtk_jpeg_src_buf, list);
+> +			if (tmp_dst_done_buf->frame_num ==
+> +				ctx->last_done_frame_num) {
+> +				list_del(&tmp_dst_done_buf->list);
+> +				v4l2_m2m_buf_done(&tmp_dst_done_buf->b,
+> +					VB2_BUF_STATE_DONE);
+> +				ctx->last_done_frame_num++;
+> +			}
+> +		}
+> +	}
+> +	spin_unlock_irqrestore(&ctx->done_queue_lock, flags);
+> +}
+> +
+>   static void mtk_jpegdec_timeout_work(struct work_struct *work)
+>   {
+>   	enum vb2_buffer_state buf_state = VB2_BUF_STATE_ERROR;
+> @@ -450,10 +493,9 @@ static void mtk_jpegdec_timeout_work(struct work_struct *work)
+>   		container_of(work, struct mtk_jpegdec_comp_dev,
+>   		job_timeout_work.work);
+>   	struct mtk_jpeg_dev *master_jpeg = cjpeg->master_dev;
+> -	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> +	struct vb2_v4l2_buffer *src_buf;
+>   
+>   	src_buf = cjpeg->hw_param.src_buffer;
+> -	dst_buf = cjpeg->hw_param.dst_buffer;
+>   
+>   	mtk_jpeg_dec_reset(cjpeg->reg_base);
+>   	clk_disable_unprepare(cjpeg->pm.dec_clk.clk_info->jpegdec_clk);
+> @@ -462,7 +504,7 @@ static void mtk_jpegdec_timeout_work(struct work_struct *work)
+>   	atomic_inc(&cjpeg->hw_rdy);
+>   	wake_up(&master_jpeg->dec_hw_wq);
+>   	v4l2_m2m_buf_done(src_buf, buf_state);
+> -	v4l2_m2m_buf_done(dst_buf, buf_state);
+> +	mtk_jpegdec_put_buf(cjpeg);
+>   }
+>   
+>   int mtk_jpegdec_init_pm(struct mtk_jpegdec_comp_dev *mtkdev)
+> @@ -559,7 +601,7 @@ static irqreturn_t mtk_jpegdec_hw_irq_handler(int irq, void *priv)
+>   
+>   dec_end:
+>   	v4l2_m2m_buf_done(src_buf, buf_state);
+> -	v4l2_m2m_buf_done(dst_buf, buf_state);
+> +	mtk_jpegdec_put_buf(jpeg);
+>   	v4l2_m2m_job_finish(master_jpeg->m2m_dev, ctx->fh.m2m_ctx);
+>   	clk_disable_unprepare(jpeg->pm.dec_clk.clk_info->jpegdec_clk);
+>   	pm_runtime_put(ctx->jpeg->dev);
+
+
