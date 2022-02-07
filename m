@@ -2,235 +2,388 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26A5E4AC80D
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 18:59:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B5A34AC9C7
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 20:43:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233637AbiBGR7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 12:59:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35954 "EHLO
+        id S240112AbiBGTmv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 14:42:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345987AbiBGRxu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 12:53:50 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 314BDC0401D9
-        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 09:53:50 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEC8E340;
-        Mon,  7 Feb 2022 18:53:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644256427;
-        bh=5/SSeqgijoOlECSYunA19Xeg3Y+j9wSY5ClCHXzwn8c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=C8m5ZvkQbsFch91AwYq1VCijnFomhVLzlMex+7Me+Rybfu3F7dfQRtSMeyHErtVY8
-         KwE0SFQDgVxcblYyZftvP5ZKhhnwOZRXADyMyHQNoYDuYux63Ejjgz5vA1uxjcdR5e
-         yc3y0KEF5ncfOYNLumSBuwqVx1L7qUfUP6qByAyE=
-Date:   Mon, 7 Feb 2022 19:53:45 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     slongerbeam@gmail.com, sakari.ailus@iki.fi,
-        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
-        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
-        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        aford173@gmail.com, festevam@gmail.com,
-        eugen.hristev@microchip.com, jbrunet@baylibre.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 14/21] media: ov5640: Implement get_selection
-Message-ID: <YgFcqb3Cgl1BLTzP@pendragon.ideasonboard.com>
-References: <20220131143245.128089-1-jacopo@jmondi.org>
- <20220131144444.129036-1-jacopo@jmondi.org>
- <20220131144444.129036-3-jacopo@jmondi.org>
- <YfsF247w8mPNH5e4@pendragon.ideasonboard.com>
- <20220207154735.sqbqe4gpovvpybod@uno.localdomain>
+        with ESMTP id S240208AbiBGTkC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 14:40:02 -0500
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0AFEC0401DA;
+        Mon,  7 Feb 2022 11:40:01 -0800 (PST)
+Received: by mail-oo1-f42.google.com with SMTP id t75-20020a4a3e4e000000b002e9c0821d78so14956256oot.4;
+        Mon, 07 Feb 2022 11:40:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DVoPlrorpOgCwVKkj2Fd5s3gbsXiXTFFi9QAYnJuhBQ=;
+        b=jDxA590vyXk7V68ZeIXfUWJUpBKYXU2s0rloPxS+eWBheQKK0Z1LDjqoILVtjXbh03
+         X89wjJxckI3Gzt3adel+5Cq2Qhh59BE6S+NYf0FnxjJy6Jv7JeSP/s14nt3u7jQ52Pqz
+         TbKpmLdN4g2Vg9xkLI6guD7yIr2hIu4DCG2GfSLOfVoU/mUnha2zsYxJKjucrY1MUjSU
+         rLEka+5WWkU00cJC/7rMcUYq8fgU4Z9vjVfgYlpgiBDbdSAEawtzG7eQC83ZvGws+702
+         fpgArJov+V1DLxKMBfBmOZ7CLZechznBMuie4751LDBsPxj8kw4J/EZNYJ/SVa9zVPZ6
+         pGlA==
+X-Gm-Message-State: AOAM533zvoKEt76t3/SHFa4fku3QiVAfZb5xUHpGLqDguE3wNpMGC0HB
+        56LZ+rUccQw+qywH6OOJ1A==
+X-Google-Smtp-Source: ABdhPJwEOqmW3gUGAMBLbLCqg94r8wnh0uNs5S+K0a/D5y2duMhiqd7HoPnsG9VQcMg0uw97eN3kcQ==
+X-Received: by 2002:a05:6870:8222:: with SMTP id n34mr167848oae.67.1644262801146;
+        Mon, 07 Feb 2022 11:40:01 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id i13sm4411438otl.46.2022.02.07.11.39.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Feb 2022 11:39:59 -0800 (PST)
+Received: (nullmailer pid 770258 invoked by uid 1000);
+        Mon, 07 Feb 2022 19:39:57 -0000
+Date:   Mon, 7 Feb 2022 13:39:57 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     linux-media@vger.kernel.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Peter Rosin <peda@axentia.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        matti.vaittinen@fi.rohmeurope.com
+Subject: Re: [RFCv3 4/6] media: dt-bindings: add DS90UB954-Q1 video
+ deserializer
+Message-ID: <YgF1ja8/Uab/8ZWt@robh.at.kernel.org>
+References: <20220206115939.3091265-1-luca@lucaceresoli.net>
+ <20220206115939.3091265-5-luca@lucaceresoli.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220207154735.sqbqe4gpovvpybod@uno.localdomain>
-X-Spam-Status: No, score=-0.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220206115939.3091265-5-luca@lucaceresoli.net>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-On Mon, Feb 07, 2022 at 04:47:35PM +0100, Jacopo Mondi wrote:
-> On Thu, Feb 03, 2022 at 12:29:47AM +0200, Laurent Pinchart wrote:
-> > On Mon, Jan 31, 2022 at 03:44:42PM +0100, Jacopo Mondi wrote:
-> > > Implement the get_selection pad operation for the OV5640 sensor driver.
-> > >
-> > > The supported targets report the sensor's native size, the active pixel
-> > > array size and the analog crop rectangle from which the image is
-> > > produced.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > >  drivers/media/i2c/ov5640.c | 61 ++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 61 insertions(+)
-> > >
-> > > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > > index 762bdca83aec..ae22300b9655 100644
-> > > --- a/drivers/media/i2c/ov5640.c
-> > > +++ b/drivers/media/i2c/ov5640.c
-> > > @@ -35,6 +35,13 @@
-> > >  #define OV5640_MIN_VBLANK	24
-> > >  #define OV5640_MAX_VTS		1968
-> > >
-> > > +#define OV5640_NATIVE_WIDTH		2624
-> > > +#define OV5640_NATIVE_HEIGHT		1964
-> > > +#define OV5640_PIXEL_ARRAY_TOP		8
-> > > +#define OV5640_PIXEL_ARRAY_LEFT		16
-> > > +#define OV5640_PIXEL_ARRAY_WIDTH	2592
-> > > +#define OV5640_PIXEL_ARRAY_HEIGHT	1944
-> >
-> > According to the datasheet, the sensor has 8 black lines, 6 dummy lines,
-> > 1944 active lines and 6 dummy lines. Horizontally, it has 16 dummy
-> > columns, 2592 active columns, and 16 dummy columns. If "pixel array" is
-> > meant to refer to the active area (I dislike the "active" name here, as
-> > the dummy lines and columns are typically "active" too, but that's a
-> > digression), then top should be 14.
+On Sun, Feb 06, 2022 at 12:59:37PM +0100, Luca Ceresoli wrote:
+> Describe the Texas Instruments DS90UB954-Q1, a 2-input MIPI CSI-2 video
+> deserializer with I2C Address Translator and remote GPIOs.
 > 
-> Corret, I have only considered the 8 black lines, but dummy too are
-> 'active but not valid' ones.
+> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
 > 
-> I'll change to 14
+> ---
 > 
-> > > +
-> > >  #define OV5640_DEFAULT_SLAVE_ID 0x3c
-> > >
-> > >  #define OV5640_REG_SYS_RESET02		0x3002
-> > > @@ -2667,6 +2674,52 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
-> > >  	return ret;
-> > >  }
-> > >
-> > > +static int ov5640_get_selection(struct v4l2_subdev *sd,
-> > > +				struct v4l2_subdev_state *sd_state,
-> > > +				struct v4l2_subdev_selection *sel)
-> > > +{
-> > > +	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> > > +	const struct ov5640_mode_info *mode = sensor->current_mode;
-> > > +	const struct v4l2_rect *analog_crop = &mode->analog_crop;
-> > > +	const struct v4l2_rect *crop = &mode->crop;
-> > > +
-> > > +	switch (sel->target) {
-> > > +	case V4L2_SEL_TGT_CROP: {
-> > > +		mutex_lock(&sensor->lock);
-> > > +
-> > > +		sel->r.top = analog_crop->top + OV5640_PIXEL_ARRAY_TOP;
-> > > +		sel->r.left = analog_crop->left + OV5640_PIXEL_ARRAY_LEFT;
-> > > +		sel->r.width = analog_crop->width
-> > > +			     - analog_crop->left - crop->left;
-> >
-> > Why do you subtract the left coordinates here ?
+> Changes RFCv2 -> RFCv3:
 > 
-> As the analog_crop->width is defined from the full pixel array size
-> (black + dummy + active). The TGT_CROP rectangle width and height
-> should instead report the dimensions of the portion of the pixel array
-> size which is processed to obtain the final image, and thus the
-> vertical and horizontal offsets should be subtracted
+>  - rewrite in yaml
+>  - use new layout based on remote-chips under the main deser node
+>  - new clock configuration based on common clock framework
+> 
+> Changes RFCv1 -> RFCv2:
+> 
+>  - add explicit aliases for the FPD-link RX ports (optional)
+>  - add proper remote GPIO description
+> ---
+>  .../bindings/media/i2c/ti,ds90ub954-q1.yaml   | 235 ++++++++++++++++++
+>  MAINTAINERS                                   |   6 +
+>  2 files changed, 241 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.yaml
+> new file mode 100644
+> index 000000000000..95dc3d22f5d8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.yaml
+> @@ -0,0 +1,235 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (C) 2019 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ti,ds90ub954-q1.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments DS90UB954-Q1 dual video deserializer
+> +
+> +maintainers:
+> +  - Luca Ceresoli <luca@lucaceresoli.net>
+> +
+> +description: |
+> +  The TI DS90UB954-Q1 is a MIPI CSI-2 video deserializer that forwards
+> +  video streams from up to two FPD-Link 3 connections to a MIPI CSI-2
+> +  output. It also allows access to remote I2C and GPIO.
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,ds90ub954-q1
+> +
+> +  reg:
+> +    description: |
+> +      main I2C slave address; optionally aliases for RX port registers and
+> +      remote serializers. The main address is mandatory and must be the
+> +      first, others are optional and fall back to defaults if not
+> +      specified. See "reg-names".
+
+minItems: 1
+maxItems: 5
+
+> +
+> +  reg-names:
+> +    description: |
+> +      Names of I2C address used to communicate with the chip, must match
+> +      the "reg" values; mandatory if there are 2 or more addresses.
+> +      "main" is the main I2C address, used to access shared registers.
+> +      "rxport0" and "rxport1" are the I2C alias to access FPD-link RX
+> +      port specific registers; must not be used by other slaves on the
+> +      same bus. "ser0" and "ser1" are the I2C alias to access the remote
+> +      serializer connected on each FPD-link RX port; must not be used by
+> +      other slaves on the same bus.
+> +    minItems: 1
+> +    maxItems: 5
+> +    items:
+> +      - const: main
+> +      - const: rxport0
+> +      - const: rxport1
+> +      - const: ser0
+> +      - const: ser1
+> +
+> +  clocks:
+> +    description: provider of the clock on the XIN/REFCLK pin
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: chip reset GPIO connected to PDB pin (active low)
+
+maxItems: 1
+
+> +
+> +  i2c-alias-pool:
+
+Needs a type.
+
+> +    description: |
+> +      list of I2C addresses that are known to be available on the "local"
+> +      (SoC-to-deser) I2C bus; they will be picked at runtime and used as
+> +      aliases to reach remote I2C chips
+> +
+> +  '#clock-cells':
+> +    description: |
+> +      the DS90UB954 provides the FPD line rate clock to the serializer
+> +    const: 0
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    patternProperties:
+> +      '^port@[01]$':
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: FPD-Link RX port 0 (RIN0+/RIN0- pins)
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +      '^port@2$':
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: MIPI-CSI2 TX port
+> +
+> +  remote-chips:
+> +    type: object
+> +
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +      '#size-cells':
+> +        const: 0
+> +
+> +    patternProperties:
+> +      '^remote-chip@([01]+)$':
+> +        type: object
+> +        $ref: /schemas/media/i2c/ti,ds90ub953-q1.yaml#
+> +
+> +    required:
+> +      - '#address-cells'
+> +      - '#size-cells'
+> +
+> +    additionalProperties: false
+> +
+> +  i2c-atr:
+> +    description: |
+> +      Each child describes the I2C bus on the remote side of an RX port
+> +    type: object
+> +
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +      '#size-cells':
+> +        const: 0
+> +
+> +    patternProperties:
+> +      '^i2c@([01]+)$':
+
+Only 0 or 1 is valid? Then drop the '+'.
+
+This is an i2c bus, so you need:
+
+           $ref: /schemas/i2c-controller.yaml#'
+           unevaluatedProperties: false
+
+> +        type: object
+> +
+> +        properties:
+> +          reg:
+> +            maxItems: 1
+
+> +          '#address-cells':
+> +            const: 1
+> +          '#size-cells':
+> +            const: 0
+
+You can drop these as i2c-controller.yaml covers them.
+
+> +          clock-frequency:
+> +            minimum: 1
+
+1 is already the minimum. (Well, maybe it is 0, but that's not really 
+useful.)
+
+> +            maximum: 1000000
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - ports
+> +  - remote-chips
+> +  - i2c-atr
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/media/ds90ub953.h>
+> +
+> +    i2c@0 {
+> +      reg = <0x0 0x100>;
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      deser: deser@3d {
+> +        compatible = "ti,ds90ub954-q1";
+> +        reg-names = "main", "rxport0", "rxport1", "ser0", "ser1";
+> +        reg       = <0x3d>,  <0x40>,    <0x41>,   <0x44>, <0x45>;
+> +        clocks = <&clk_25M>;
+> +        interrupt-parent = <&gic>;
+> +        interrupts = <3 1 IRQ_TYPE_LEVEL_LOW>;
+> +        reset-gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
+> +
+> +        #clock-cells = <0>;
+> +
+> +        i2c-alias-pool = /bits/ 16 <0x4a 0x4b 0x4c 0x4d 0x4e 0x4f>;
+> +
+> +        ports {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          port@0 {
+> +            reg = <0>;
+> +            ds90ub954_fpd3_in0: endpoint {
+> +              remote-endpoint = <&sensor_0_out>;
+> +            };
+> +          };
+> +
+> +          port@2 {
+> +            reg = <2>;
+> +            ds90ub954_mipi_out0: endpoint {
+> +                    data-lanes = <1 2 3 4>;
+> +                    link-frequencies = /bits/ 64 <400000000>;
+> +                    remote-endpoint = <&csirx_0_in>;
+> +            };
+> +          };
+> +        };
+> +
+> +        remote-chips {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          des0_ser0: remote-chip@0 {
+> +            reg = <0>;
+> +            compatible = "ti,ds90ub953-q1";
+> +            clocks = <&deser>;
+> +            ti,gpio-functions =
+> +              <DS90_GPIO_FUNC_UNUSED
+> +              DS90_GPIO_FUNC_OUTPUT_REMOTE
+> +              DS90_GPIO_FUNC_UNUSED
+> +              DS90_GPIO_FUNC_UNUSED>;
+> +
+> +            gpio-controller;
+> +            #gpio-cells = <2>;
+> +            #clock-cells = <0>;
+> +          };
+> +        };
+> +
+> +        i2c-atr {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          remote_i2c0: i2c@0 {
+> +            reg = <0>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            sensor_0@1a {
+> +              compatible = "sony,imx274";
+> +              reg = <0x1a>;
+> +
+> +              reset-gpios = <&des0_ser0 1 GPIO_ACTIVE_LOW>;
+> +
+> +              port {
+> +                sensor_0_out: endpoint {
+> +                  remote-endpoint = <&ds90ub954_fpd3_in0>;
+> +                };
+> +              };
+> +            };
+> +          };
+> +        };
+> +      };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4429ce035496..f0156062f788 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19097,6 +19097,12 @@ S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/i2c/ti,ds90ub953-q1.yaml
+>  F:	include/dt-bindings/media/ds90ub953.h
+>  
+> +TEXAS INSTRUMENTS DS90UB954 VIDEO DESERIALIZER DRIVER
+> +M:	Luca Ceresoli <luca@lucaceresoli.net>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.yaml
+> +
+>  TEXAS INSTRUMENTS' SYSTEM CONTROL INTERFACE (TISCI) PROTOCOL DRIVER
+>  M:	Nishanth Menon <nm@ti.com>
+>  M:	Tero Kristo <kristo@kernel.org>
+> -- 
+> 2.25.1
 > 
 > 
->     full                            analog_crop.width
->      |                              (0x3804, 0x3805) = 2624
->      |                                   |
->      V                                   V
->   -> +-----------------------------------+
->      |                                   |
->      x-----------------------------------|
->      |  x----  TGT_CROP width  ----------|
->      |  |                                |
->      |  |                                |
->      |  |                                |
->      |  |                                |
->      |  |                                |
->      |  |                                |
->      |  |                                |
->      +--|--------------------------------+
->      |  |
->      |  |-> crop.left = 16
->      |
->      |-> analog_crop.left = 0
-
-With analog_crop.left == 0 that's fine, but if it had a different value,
-shouldn't the above use
-
-		sel->r.width = analog_crop->width - crop->left;
-
-?
-
-> > > +		sel->r.height = analog_crop->height
-> > > +			      - analog_crop->top - crop->top;
-> > > +
-> > > +		mutex_unlock(&sensor->lock);
-> > > +
-> > > +		return 0;
-> > > +	}
-> > > +
-> > > +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> > > +		sel->r.top = 0;
-> > > +		sel->r.left = 0;
-> > > +		sel->r.width = OV5640_NATIVE_WIDTH;
-> > > +		sel->r.height = OV5640_NATIVE_HEIGHT;
-> > > +
-> > > +		return 0;
-> > > +
-> > > +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> > > +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> > > +		sel->r.top = OV5640_PIXEL_ARRAY_TOP;
-> > > +		sel->r.left = OV5640_PIXEL_ARRAY_LEFT;
-> > > +		sel->r.width = OV5640_PIXEL_ARRAY_WIDTH;
-> > > +		sel->r.height = OV5640_PIXEL_ARRAY_HEIGHT;
-> >
-> > In libcamera we use V4L2_SEL_TGT_CROP_BOUNDS to set PixelArraySize,
-> > ignoring the left and top coordinates, and V4L2_SEL_TGT_CROP_DEFAULT to
-> > to set the PixelArrayActiveAreas property relative to PixelArraySize.
-> > This means that non-zero values for the left and top coordinates of
-> > V4L2_SEL_TGT_CROP_BOUNDS will cause issues. Is this an issue in
-> > libcamera, or should V4L2_SEL_TGT_CROP_BOUNDS be changed here ?
-> >
-> > The related question is, can we read the optical black lines and the
-> > dummy lines and columns ?
-> >
-> > > +
-> > > +		return 0;
-> > > +	}
-> > > +
-> > > +	return -EINVAL;
-> > > +}
-> > > +
-> > >  static int ov5640_set_framefmt(struct ov5640_dev *sensor,
-> > >  			       struct v4l2_mbus_framefmt *format)
-> > >  {
-> > > @@ -3369,6 +3422,7 @@ static const struct v4l2_subdev_pad_ops ov5640_pad_ops = {
-> > >  	.enum_mbus_code = ov5640_enum_mbus_code,
-> > >  	.get_fmt = ov5640_get_fmt,
-> > >  	.set_fmt = ov5640_set_fmt,
-> > > +	.get_selection = ov5640_get_selection,
-> > >  	.enum_frame_size = ov5640_enum_frame_size,
-> > >  	.enum_frame_interval = ov5640_enum_frame_interval,
-> > >  };
-> > > @@ -3383,9 +3437,16 @@ static int ov5640_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> > >  {
-> > >  	struct v4l2_mbus_framefmt *try_fmt =
-> > >  		v4l2_subdev_get_try_format(sd, fh->state, 0);
-> > > +	struct v4l2_rect *try_crop =
-> > > +		v4l2_subdev_get_try_crop(sd, fh->state, 0);
-> > >
-> > >  	*try_fmt = ov5640_default_fmt;
-> > >
-> > > +	try_crop->left = OV5640_PIXEL_ARRAY_LEFT;
-> > > +	try_crop->top = OV5640_PIXEL_ARRAY_TOP;
-> > > +	try_crop->width = OV5640_PIXEL_ARRAY_WIDTH;
-> > > +	try_crop->height = OV5640_PIXEL_ARRAY_HEIGHT;
-> > > +
-> > >  	return 0;
-> > >  }
-> > >
-
--- 
-Regards,
-
-Laurent Pinchart
