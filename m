@@ -2,235 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B1244AB7D3
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 10:41:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6AA64AB7D8
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 10:41:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243473AbiBGJWn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 04:22:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51040 "EHLO
+        id S234227AbiBGJX6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 04:23:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241300AbiBGJOq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 04:14:46 -0500
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0529C043181;
-        Mon,  7 Feb 2022 01:14:45 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 33CCD580162;
-        Mon,  7 Feb 2022 04:14:45 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 07 Feb 2022 04:14:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; bh=fRedpbJvF62LRmBCsc4UAgTChCDz35rCa9c3ci
-        2rzcE=; b=E3qLLFzZ7x27Y6LGYr9p5KyryCJBq0fTvrNw8LxbhkWgm7tWSOr5Wc
-        JbnbxsFuSUsPU3AMWGoXXkwVyYzsPpd7cKMxraS+vfBOsAP6RXX6VIAxE6T7K9GL
-        tch10X6ZnAE59xSqMoY1qbzvn0B6EbWLJyrbGQ/2MLZRp6tQikW8gCgm3Jd5Q1Na
-        SpU2MQFalf6xGxasAd4dASM241RuGZeLsOA5OmgA/u3y8UVxzYwIowmaFwju4phk
-        g25SMC1J+QSqQOhim6zIu7/GvlE94Pu0yc17hjRWbrcZn6DDmaesxNi3IZvGSx27
-        UP7+Iz5lBA1oCr6o61fS4vzkmD1FtNQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=fRedpbJvF62LRmBCs
-        c4UAgTChCDz35rCa9c3ci2rzcE=; b=QP8p8FYH3pvD7d5o73KBj4vhjRLiR+z9z
-        TRrN7+R3EANMTHy3iMoJMNC7TaEO9SRLNwbd4oD3WyehaIsrK3qPRbW738g6Qj4u
-        v0jkHQNQFJ0EyyGGnEcd8A9CkKtVRUDIzQQAxkj1uZ3QkunlEnPKJgSimILD9k3d
-        5GlvvDy3zSDfGQSR8WooaX9GvuckVe/r2+Y+llLHLftrxSxEvbxB++ifo57gXMBs
-        ErTLfM0lQ8nNwkPwXXzzQyeU7CS3Liz+ryqSQC+hT4zqQgIpmwWWdfi+YT5TMKAT
-        6LH46blhcSIhS8POJVIkcI0LJL+bWGEogY7QQBlxLTuIrEDyIy4uQ==
-X-ME-Sender: <xms:BOMAYof3azcAMomihQa81XeO9zKQSU-8KIHkUfBbEyybbkjMAd5aEw>
-    <xme:BOMAYqPKxSP612NB0OXpxSqHnFK0CizFjiKI7LR-8tqS0E9rVVKyW4fqNIiBBrx87
-    T0v0ERqN-yZ47h8D50>
-X-ME-Received: <xmr:BOMAYpgR6g7_ov9BmI-SHxq4Ybisztl25b3RuX-0aEACVGWdtOp4HBthtUMm0tpFIgUUpPYXseaykQMhFR5GAN0nJYtDZuasCRdSggA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehucetufdoteggodetrfdotffvucfrrh
-    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhi
-    phgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnh
-    epleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieehgedunecu
-    vehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimh
-    gvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:BOMAYt95e_K_S2BJ39m6qk3bwJtnzmCnYmQakNATBSOYfQNFsOE00Q>
-    <xmx:BOMAYksC6SXMDwIp4SsPpfxLzLUKyOnUEDIYn_WB1qgqGKjjAXVPng>
-    <xmx:BOMAYkH4TyTnCiaOxgClyHSG7EGI69UQ6mn8MtCJKjN8CCV9Nzjd5A>
-    <xmx:BeMAYvmg5KmshTQre1NNgPJa3WL6YlgrtRHk_zHrWpDIsD7YlpNEiw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 04:14:44 -0500 (EST)
-Date:   Mon, 7 Feb 2022 10:14:43 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 21/66] media: sun6i-csi: Always set exclusive module
- clock rate
-Message-ID: <20220207091443.cr5udv7fxx65ptty@houat>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-22-paul.kocialkowski@bootlin.com>
+        with ESMTP id S1344157AbiBGJTa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 04:19:30 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20358C043185
+        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 01:19:29 -0800 (PST)
+Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74062A04;
+        Mon,  7 Feb 2022 10:19:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1644225566;
+        bh=LvrtLfKjAbXFFYLR7ufJMFfENdcFOTymnjiwJ24x2FM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=mcsuTBJIhyhJZEs4XzS1+KHM3AMjqPMV6937id+mh617KIVK5p459itcwazT4N7WB
+         7/nJrQqG8af5Pvm2JzXog4E2n92CoCJK3U4BfFqNU3yFdf6SzHKiQaWW1CtUJRQkkt
+         +11cQco4C5iEVfKZK7M4ZsDPfHCxoFF1qmmREaQ0=
+Message-ID: <27b84528-e2ae-2f6a-53bd-481ded10ad02@ideasonboard.com>
+Date:   Mon, 7 Feb 2022 11:19:23 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="x7fslyfuomspr4ek"
-Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-22-paul.kocialkowski@bootlin.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 6/6] media: Documentation: add documentation about
+ subdev state
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+References: <20211217135022.364954-1-tomi.valkeinen@ideasonboard.com>
+ <20211217135022.364954-7-tomi.valkeinen@ideasonboard.com>
+ <YcDDzzX3XNlE/K05@paasikivi.fi.intel.com>
+ <YcGSG8PHXNHa7VKv@pendragon.ideasonboard.com>
+ <YcGsDvZK9AIuitsA@paasikivi.fi.intel.com>
+ <YcGtimscb6edlqys@pendragon.ideasonboard.com>
+ <YcG2EGCw6b9X2dLr@paasikivi.fi.intel.com>
+ <YcJqklqTlwghqn8P@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <YcJqklqTlwghqn8P@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 22/12/2021 02:00, Laurent Pinchart wrote:
 
---x7fslyfuomspr4ek
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>>>>>>> +:c:func:`v4l2_subdev_lock_state()`. The driver must then call
+>>>>>>> +:c:func:`v4l2_subdev_unlock_state()` to unlock the state when done.
+>>>>>>> +
+>>>>>>> +Operations that do not receive a state parameter implicitly operate on the
+>>>>>>> +subdevice active state, which drivers can exclusively access by
+>>>>>>> +calling :c:func:`v4l2_subdev_lock_active_state()`. The sub-device active state
+>>>>>>> +must equally be released by calling :c:func:`v4l2_subdev_unlock_state()`.
+>>>>>>> +
+>>>>>>> +Drivers must never manually access the state stored in the :c:type:`v4l2_subdev`
+>>>>>>> +or in the file-handle without going through the designated helpers.
+>>>>>>
+>>>>>> Have you thought how this will interact with controls?
+>>>>>>
+>>>>>> Generally active state information exists for a device in struct
+>>>>>> v4l2_subdev_state as well as the device's control handler as control
+>>>>>> values. Controls have dependencies to other state information (active and
+>>>>>> try).
+>>>>>>
+>>>>>> Until now, drivers have been responsible for serialising access to this
+>>>>>> state on their own, mostly using a single mutex. Controls require a mutex
+>>>>>> as well, but it's the same mutex independently of whether a driver is
+>>>>>> dealing with active or try subdev state.
+>>>>>>
+>>>>>> In other words, if the above is assumed, when you're dealing with try state
+>>>>>> that has dependencies to controls, you have to hold both that try state's
+>>>>>> mutex as well as the control handler's mutex.
+>>>>>
+>>>>> Going forward, I think we should store the controls in the subdev state.
+>>>>> That will require a uAPI extension to pass a `which` parameter to the
+>>>>> control ioctls, and deprecated the control TRY ioctl on subdevs.
+>>>>> Interactions between controls and pad formats will be easier to test, as
+>>>>> applications will be able to set controls in the TRY state, interacting
+>>>>> with the TRY formats. We will also need to rework the control handler
+>>>>> operations to split .s_ctrl() in two, with one function to adjust a
+>>>>> control value and one function to apply it.
+>>>>>
+>>>>> In the meantime, I think we'll need to acquire both locks, or possibly
+>>>>> use the active state lock as the control handler lock.
+>>>>
+>>>> Note that also trying controls requires locking the control handler,
+>>>> meaning that the control handler's mutex may not be the same as the active
+>>>> state mutex (unless access also to try state is serialised using the same
+>>>> mutex).
+>>>>
+>>>> What I'm saying is that to make this better usable with controls, changes
+>>>> will be needed somewhere as the locking scheme is a poor match with that of
+>>>> controls currently. Just saying the mutexes are acquired in a certain
+>>>> order and pushing the problem to drivers is not a great solution.
+>>>
+>>> Could you maybe provide an example of existing subdev driver code that
+>>> showcases this issue ? I'm not sure we really understand each other
+>>> here.
+>>
+>> Whenever you're dealing with both controls and something in the state. Also
+>> you've got a problem if the sensor driver does I²C writes to more than
+>> 8-bit registers in 8-bit chunks and relies on hardware caching some values
+>> before the entire register is updated.
+>>
+>> For instance, in the CCS driver, computing the PLL tree configuration
+>> requires state (subdev format and selection rectangles) as well as control
+>> values as input from multiple sub-devices. I suppose this is the case with
+>> many sensor drivers --- I just know CCS best.
+>>
+>> The current implementation uses a single mutex for all controls and
+>> subdevs.
+> 
+> For a single subdev, that could be done by setting
+> v4l2_ctrl_handler.lock to &v4l2_subdev.active_state->lock.
 
-On Sat, Feb 05, 2022 at 07:53:44PM +0100, Paul Kocialkowski wrote:
-> In some situations the default rate of the module clock is not the
-> required one for operation (for example when reconfiguring the clock
-> tree to use a different parent). As a result, always set the correct
-> rate for the clock (and take care of cleanup).
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 54 ++++++++++++++-----
->  1 file changed, 41 insertions(+), 13 deletions(-)
->=20
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers=
-/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> index 8155e9560164..2355088fdc37 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> @@ -154,9 +154,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_=
-dev, bool enable)
->  		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
-> =20
->  		clk_disable_unprepare(csi_dev->clk_ram);
-> -		if (of_device_is_compatible(dev->of_node,
-> -					    "allwinner,sun50i-a64-csi"))
-> -			clk_rate_exclusive_put(csi_dev->clk_mod);
->  		clk_disable_unprepare(csi_dev->clk_mod);
->  		reset_control_assert(csi_dev->reset);
->  		return 0;
-> @@ -168,9 +165,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_=
-dev, bool enable)
->  		return ret;
->  	}
-> =20
-> -	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
-> -		clk_set_rate_exclusive(csi_dev->clk_mod, 300000000);
-> -
->  	ret =3D clk_prepare_enable(csi_dev->clk_ram);
->  	if (ret) {
->  		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err %d\n", ret);
-> @@ -190,8 +184,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_=
-dev, bool enable)
->  clk_ram_disable:
->  	clk_disable_unprepare(csi_dev->clk_ram);
->  clk_mod_disable:
-> -	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
-> -		clk_rate_exclusive_put(csi_dev->clk_mod);
->  	clk_disable_unprepare(csi_dev->clk_mod);
->  	return ret;
->  }
-> @@ -819,6 +811,7 @@ static int sun6i_csi_resources_setup(struct sun6i_csi=
-_device *csi_dev,
->  				     struct platform_device *platform_dev)
->  {
->  	struct device *dev =3D csi_dev->dev;
-> +	unsigned long clk_mod_rate;
->  	void __iomem *io_base;
->  	int ret;
->  	int irq;
-> @@ -856,28 +849,53 @@ static int sun6i_csi_resources_setup(struct sun6i_c=
-si_device *csi_dev,
->  		return PTR_ERR(csi_dev->clk_ram);
->  	}
-> =20
-> +	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
-> +		clk_mod_rate =3D 300000000;
-> +	else
-> +		clk_mod_rate =3D 297000000;
-> +
-> +	ret =3D clk_set_rate_exclusive(csi_dev->clk_mod, clk_mod_rate);
-> +	if (ret) {
-> +		dev_err(dev, "failed to set mod clock rate\n");
-> +		return ret;
-> +	}
-> +
->  	/* Reset */
-> =20
->  	csi_dev->reset =3D devm_reset_control_get_shared(dev, NULL);
->  	if (IS_ERR(csi_dev->reset)) {
->  		dev_err(dev, "failed to acquire reset\n");
-> -		return PTR_ERR(csi_dev->reset);
-> +		ret =3D PTR_ERR(csi_dev->reset);
-> +		goto error_clk_rate_exclusive;
->  	}
-> =20
->  	/* Interrupt */
-> =20
->  	irq =3D platform_get_irq(platform_dev, 0);
-> -	if (irq < 0)
-> -		return -ENXIO;
-> +	if (irq < 0) {
-> +		dev_err(dev, "failed to get interrupt\n");
-> +		ret =3D -ENXIO;
-> +		goto error_clk_rate_exclusive;
-> +	}
-> =20
->  	ret =3D devm_request_irq(dev, irq, sun6i_csi_isr, 0, SUN6I_CSI_NAME,
->  			       csi_dev);
->  	if (ret) {
->  		dev_err(dev, "failed to request interrupt\n");
-> -		return ret;
-> +		goto error_clk_rate_exclusive;
->  	}
-> =20
->  	return 0;
-> +
-> +error_clk_rate_exclusive:
-> +	clk_rate_exclusive_put(csi_dev->clk_mod);
-> +
-> +	return ret;
-> +}
-> +
-> +static void sun6i_csi_resources_cleanup(struct sun6i_csi_device *csi_dev)
-> +{
-> +	clk_rate_exclusive_put(csi_dev->clk_mod);
->  }
+That would only cover the active state, not the try state.
 
-If you're going to have that function anyway, let's use
-devm_add_action_or_reset, it'll simplify the rest of the patch.
+I made a test change by changing the subdev state to have 'struct mutex 
+_lock' and 'struct mutex *lock', similar to the struct 
+v4l2_ctrl_handler. The driver could then, in its init_cfg(), set the 
+state->lock to either v4l2_ctrl_handler.lock or a lock in the driver's 
+private data.
 
-Maxime
+This kind of lock sharing makes me a bit uncomfortable (although the 
+controls are already allowing this, and a driver private mutex can be 
+set as the ctrl lock): if I call v4l2_subdev_lock_active_state(), I 
+don't expect the controls to be locked too.
 
---x7fslyfuomspr4ek
-Content-Type: application/pgp-signature; name="signature.asc"
+Then again, if I think about this as the subdev state really containing 
+three parts: 1) the subdev active & try states, 2) controls, 3) driver 
+private data, then it kind of makes sense. In the long run we could move 
+towards combining these pieces together, and thus cleaning up the state 
+management and locking.
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgDjAwAKCRDj7w1vZxhR
-xSxCAP4jyX8jqgvGvO+h+wEMwjSChH7MxCJCEPSEVX9yx3zNIQD/ZClJPRAMyei5
-KPjrNG4XdUDp1/dtKp57fzt1Uh1v1Qg=
-=TZbY
------END PGP SIGNATURE-----
-
---x7fslyfuomspr4ek--
+  Tomi
