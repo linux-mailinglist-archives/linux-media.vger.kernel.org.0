@@ -2,62 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF1404AB891
-	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 11:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 060374AB8F5
+	for <lists+linux-media@lfdr.de>; Mon,  7 Feb 2022 11:45:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245293AbiBGKQh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 05:16:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43944 "EHLO
+        id S233068AbiBGKoF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Feb 2022 05:44:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245372AbiBGKBr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 05:01:47 -0500
+        with ESMTP id S234981AbiBGKft (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 05:35:49 -0500
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B43AC043181;
-        Mon,  7 Feb 2022 02:01:46 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1A9BC043181;
+        Mon,  7 Feb 2022 02:35:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1644228106; x=1675764106;
+  t=1644230148; x=1675766148;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=OLBk8VmXYB8jx7aVY5Bxh1lSXhO4OOTwnhTpzDJBWAE=;
-  b=RcDjGY1HjM+vqyW9NxHirDB4DPkjTqf9JZ1TxJzOeO1Oq7wm+e0ddYy2
-   FtMh3ipCTRnsca1VLe1LXs+irOVbqKqASlabK0XsU41hgJrjWPHB7UncA
-   HtsTa9oswj/E9t6Rg8q7w4nglKFRp6wHKBKot/5/yIFSXLYuz3AQC1bBb
-   EQhHKcPt1ouh8SnZzYWTE4ODz1mXWoGR3akHYHY5uVpxvLBsKWvTYk9Z4
-   bIfdA/UUNGj2sEnjRty4Z/Swhjm2uEv1O6i8mdO3uzde4NCCoD/bdWPSx
-   0NNMlNnWL5Py/b7zh10fqTn/THfEmI8h9QyBqtAnwxvK3JgPf23XIMoNK
-   A==;
+  bh=Xm+zj6goisuqCJN2ekKk7zV6UfCUht5ppayoqpY1lLo=;
+  b=TOVul1DDBBd2MCO69CZRt9h9bxhT9NSeU7KwTzucRmAoX7fdycwZFXpJ
+   Ydx+l7fsHgCbzZFhFRXEeubHEAnpltS06H5wfVMO0qFIfborHp1TSb0/g
+   pCp8G6jdqAFE74nj8PcOHj3G/gHDUIN3yJAsUtSHmi5AbqxY+vC6MzUNH
+   AdOgEh3uh5wYj6vBrupMlxIXqBTM++8tzy3jJWKkvoKAOL3OSSdI3MTkp
+   XAIKPVfzWpTANld1GoS9qTknsmsnez2y1PniTjZgDcabZT28zTtmeLDX8
+   tLhkSq8LfcNsKARA8K2fagi/rhOpmPgWqUhnnl67sgNLXj4vP8jGu5GJY
+   Q==;
 X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
-   d="scan'208";a="21928203"
+   d="scan'208";a="21929419"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 07 Feb 2022 11:01:44 +0100
+  by mx1-pgp.tq-group.com with ESMTP; 07 Feb 2022 11:35:46 +0100
 Received: from mx1.tq-group.com ([192.168.6.7])
   by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 07 Feb 2022 11:01:44 +0100
+  Mon, 07 Feb 2022 11:35:46 +0100
 X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 07 Feb 2022 11:01:44 +0100
+        by tq-pgp-pr1.tq-net.de on Mon, 07 Feb 2022 11:35:46 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1644228104; x=1675764104;
+  t=1644230146; x=1675766146;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=OLBk8VmXYB8jx7aVY5Bxh1lSXhO4OOTwnhTpzDJBWAE=;
-  b=hTq700xWMAQBrKds3eG6S/ofOq0kY7Hqgbbp7K74N89UweNr1HkEiEei
-   MMKBPzuDWVtEH+my1B3XVis0zemDUPfd6H+89WWDI0xsY5arHrdHFTnG4
-   Gw9lSsvRJvPt4WSRRkcbQjEhoWefIbaLIYwskJTB17rapdRCvKnEpMqXe
-   f2JW/SdllrNPxBqeBum+DpzEQrsZolbscI1J5kL9+gVw0kmXp70Va5fLp
-   XZX0mcl8XTEGSclphQogOnwtqVFp7F8YCTsDbYU43zbGxy68gmDuCcAP6
-   7qUlOuDuqWs5+eqHMYx33267YejIonEwIGLbsydlpJIfBpktDpGdS8bwc
+  bh=Xm+zj6goisuqCJN2ekKk7zV6UfCUht5ppayoqpY1lLo=;
+  b=MmbSuvaegsMgPBJuepzfmivdIWkhZRna2n4Sqnjr58yzD+JhcLGtv8Da
+   ueAxG3BIZGHNXvzzAeTZ8QVH4WXn5cJjpjy4YUVIdQpwJ+uWgdAvzuXRh
+   s77PdtYuDJcdZ1qXZ+fqflP+SaMJfDHTVIDIwhuCktlW7wc3Y3xIWIxDC
+   Fw0JQLpC7FvCC7knWNrsuxtrI3Bb5WSWQVWMvN+LVuAKsrVnOEKEzE3+J
+   zgtoZdUei70cHA+trHpDLVTPEElSCXbxSHoV7Zxh0tkhtKVdfT6LM9Mmn
+   ykTNl0643snNyPSqBd0QTm4MUkqjQsMYkzRPi9LYGetXrcxWAf4S3DMpO
    A==;
 X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
-   d="scan'208";a="21928202"
+   d="scan'208";a="21929418"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 07 Feb 2022 11:01:44 +0100
+  by mx1.tq-group.com with ESMTP; 07 Feb 2022 11:35:46 +0100
 Received: from steina-w.localnet (unknown [10.123.49.12])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2F966280065;
-        Mon,  7 Feb 2022 11:01:44 +0100 (CET)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DFB01280065;
+        Mon,  7 Feb 2022 11:35:45 +0100 (CET)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
@@ -73,12 +73,12 @@ Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: (EXT) Re: [PATCH 6/8] media: imx: imx7_media-csi: Add support for additional Bayer patterns
-Date:   Mon, 07 Feb 2022 11:01:43 +0100
-Message-ID: <3473889.R56niFO833@steina-w>
+Subject: Re: (EXT) Re: [PATCH 7/8] media: imx: utils: Add more Bayer formats
+Date:   Mon, 07 Feb 2022 11:35:45 +0100
+Message-ID: <822120126.0ifERbkFSE@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <Yf3xni8i4AAOZ7HF@pendragon.ideasonboard.com>
-References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com> <20220204121514.2762676-7-alexander.stein@ew.tq-group.com> <Yf3xni8i4AAOZ7HF@pendragon.ideasonboard.com>
+In-Reply-To: <Yf3vmMP6EfjyeXOb@pendragon.ideasonboard.com>
+References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com> <20220204121514.2762676-8-alexander.stein@ew.tq-group.com> <Yf3vmMP6EfjyeXOb@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -93,71 +93,150 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-Am Samstag, 5. Februar 2022, 04:40:14 CET schrieb Laurent Pinchart:
+Am Samstag, 5. Februar 2022, 04:31:36 CET schrieb Laurent Pinchart:
 > Hi Alexander,
 > 
 > Thank you for the patch.
 > 
-> On Fri, Feb 04, 2022 at 01:15:12PM +0100, Alexander Stein wrote:
-> > imx7_csi_configure() allows configuring these Bayer patterns when
-> > starting a stream. So allow these in link_validate() as well.
+> On Fri, Feb 04, 2022 at 01:15:13PM +0100, Alexander Stein wrote:
+> > Without this the ioctl VIDIOC_ENUM_FMT will not list the 10/12/14-Bit
+> > Bayer formats. This in return results in
+> > "v4l2-ctl --set-fmt-video pixelformat='RG10'" failing to set the
+> > pixelformat as it is not enumerated as supported format.
 > > 
 > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Do IPUv3-based SoCs support 10-, 12- and 14-bit formats ? If so,
 > 
-> > ---
-> > I'm wondering if V4L2_PIX_FMT_SBGGR16 (and their variants) is correct in
-> > this function. imx7_csi_configure() does not list
-> > MEDIA_BUS_FMT_Sxxxx16_1X16. Also I can't find a proper a proper setting
-> > in CSI_CR18 of CSI Bridge in IMX8M Mini RM for RAW16. The feature list
-> > names a  "16-bit data port for Bayer data input", but is it actually
-> > supported? I do not know anything about the MIPI CSI data formats though.
-> > Maybe someone else can clarify this.
-> The CSI bridge has a 16-bit input. The MIPI_DATA_FORMAT field in CR18
-> maps to the CSI-2 DT value, and it's not clear if it's only used to
-> filter on the CSI-2 DT, or if it does more than that. If we're lucky,
-> it's the former and we can just use 0x2e.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Well, 0x2e is not listed as a valid value for MIPI_DATA_FORMAT in both i.MX7D 
-RM Rev1 and i.MX8M Mini RM Rev 3. So I'm not so sure about that. Maybe this 
-holds true for other devices as well. I can not test RAW16 anyway, so I just 
-wanted to raise a possible issue here.
+I'm no expert regarding IPUv3. But according to i.MX6D/Q RM Rev4 apparently 
+there is difference between Bayer format or "Generic data" 
+(CSI0_SENS_DATA_FORMAT: b011). Data width is set independently in 
+CSI0_DATA_WIDTH where 10-, 12- and 14-bit is supported (even the odd ones in 
+bewteen).
+I don't know if I got the right place, but [1] seems to do the mapping for 
+IPUv3 what imx7_csi_configure() is doing for CSI on imx7/8. The 
+MEDIA_BUS_FMT_Sxxxx14_1X14 formats are not added to the list yet though, but 
+that is a different matter.
+Unless someone objects I'm going forwards with this patch.
 
 Regards,
 Alexander
 
-> 
-> >  drivers/staging/media/imx/imx7-media-csi.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/
+drivers/gpu/ipu-v3/ipu-csi.c#n302
+
+> > ---
+> > This adds the following formats to `v4l2-ctl --list-formats`
+> > [...]
 > > 
-> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c
-> > b/drivers/staging/media/imx/imx7-media-csi.c index
-> > 158d2a736c6d..7e737221f187 100644
-> > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > @@ -1004,6 +1004,18 @@ static int imx7_csi_pad_link_validate(struct
-> > v4l2_subdev *sd,> 
-> >  	case V4L2_PIX_FMT_SGBRG8:
-> >  	case V4L2_PIX_FMT_SGRBG8:
+> >         [18]: 'BG10' (10-bit Bayer BGBG/GRGR)
+> >         [19]: 'GB10' (10-bit Bayer GBGB/RGRG)
+> >         [20]: 'BA10' (10-bit Bayer GRGR/BGBG)
+> >         [21]: 'RG10' (10-bit Bayer RGRG/GBGB)
+> >         [22]: 'BG12' (12-bit Bayer BGBG/GRGR)
+> >         [23]: 'GB12' (12-bit Bayer GBGB/RGRG)
+> >         [24]: 'BA12' (12-bit Bayer GRGR/BGBG)
+> >         [25]: 'RG12' (12-bit Bayer RGRG/GBGB)
+> >         [26]: 'BG14' (14-bit Bayer BGBG/GRGR)
+> >         [27]: 'GB14' (14-bit Bayer GBGB/RGRG)
+> >         [28]: 'GR14' (14-bit Bayer GRGR/BGBG)
+> >         [29]: 'RG14' (14-bit Bayer RGRG/GBGB)
 > > 
-> >  	case V4L2_PIX_FMT_SRGGB8:
-> > +	case V4L2_PIX_FMT_SBGGR10:
-> > +	case V4L2_PIX_FMT_SGBRG10:
-> > +	case V4L2_PIX_FMT_SGRBG10:
-> > +	case V4L2_PIX_FMT_SRGGB10:
-> > +	case V4L2_PIX_FMT_SBGGR12:
-> > +	case V4L2_PIX_FMT_SGBRG12:
-> > +	case V4L2_PIX_FMT_SGRBG12:
-> > +	case V4L2_PIX_FMT_SRGGB12:
-> > +	case V4L2_PIX_FMT_SBGGR14:
-> > +	case V4L2_PIX_FMT_SGBRG14:
-> > +	case V4L2_PIX_FMT_SGRBG14:
+> > [...]
 > > 
-> > +	case V4L2_PIX_FMT_SRGGB14:
-> >  	case V4L2_PIX_FMT_SBGGR16:
-> >  	case V4L2_PIX_FMT_SGBRG16:
-> >  	case V4L2_PIX_FMT_SGRBG16:
+> >  drivers/staging/media/imx/imx-media-utils.c | 72 +++++++++++++++++++++
+> >  1 file changed, 72 insertions(+)
+> > 
+> > diff --git a/drivers/staging/media/imx/imx-media-utils.c
+> > b/drivers/staging/media/imx/imx-media-utils.c index
+> > e0a256a08c3b..ea56c82d3b32 100644
+> > --- a/drivers/staging/media/imx/imx-media-utils.c
+> > +++ b/drivers/staging/media/imx/imx-media-utils.c
+> > @@ -130,6 +130,78 @@ static const struct imx_media_pixfmt pixel_formats[]
+> > = {> 
+> >  		.cs     = IPUV3_COLORSPACE_RGB,
+> >  		.bpp    = 8,
+> >  		.bayer  = true,
+> > 
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SBGGR10,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR10_1X10),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 10,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGBRG10,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG10_1X10),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 10,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGRBG10,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG10_1X10),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 10,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SRGGB10,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB10_1X10),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 10,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SBGGR12,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR12_1X12),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 12,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGBRG12,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG12_1X12),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 12,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGRBG12,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG12_1X12),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 12,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SRGGB12,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB12_1X12),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 12,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SBGGR14,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR14_1X14),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 14,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGBRG14,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG14_1X14),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 14,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGRBG14,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG14_1X14),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 14,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SRGGB14,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB14_1X14),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 14,
+> > +		.bayer  = true,
+> > 
+> >  	}, {
+> >  	
+> >  		.fourcc = V4L2_PIX_FMT_SBGGR16,
+> >  		.codes  = IMX_BUS_FMTS(
 
 
 
