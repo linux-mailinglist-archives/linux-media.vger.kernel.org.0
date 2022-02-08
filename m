@@ -2,97 +2,234 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C23E94AD73B
-	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 12:32:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB8154AD7CE
+	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 12:49:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376352AbiBHLcS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Feb 2022 06:32:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42362 "EHLO
+        id S1344682AbiBHLsF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Feb 2022 06:48:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357511AbiBHLZK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 06:25:10 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16763C03FEC9
-        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 03:25:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A7B4461589
-        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 11:25:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D29E0C004E1
-        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 11:25:04 +0000 (UTC)
-Message-ID: <d8cfded5-dc29-f7b7-c09d-7b6296e6ebae@xs4all.nl>
-Date:   Tue, 8 Feb 2022 12:25:03 +0100
+        with ESMTP id S240249AbiBHLrz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 06:47:55 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8233C00268A
+        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 03:35:59 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id w14so36865788edd.10
+        for <linux-media@vger.kernel.org>; Tue, 08 Feb 2022 03:35:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KPlR6gJDHsACPyVMcZtoDq6lm4JjvzGgUldKcw5CvFE=;
+        b=SekmjhaP94H/FC7zsedKUk/Cq7nQQIzfVQs5LybFKPQUdwVI4pdmzAVRAFBMxz69u0
+         tQiuFmuSdZmojfO+wMkOh5iMArzfwnxI15v4uu7shP1tnL64/p0QSOj/z00TACxZCoAk
+         CEN0EQFQkgwxZuLtBcPe+gJ/niMzChiXIb6WXUTYEymnBoaTwCJGCBNVzqxECZPtbOIG
+         BMP+pMnpDr55sMeZr2pqkF1wpBgdxCxagJptZhVjgaA7K7Nn5naU8GzmZGsro7djODkb
+         FW6Nica3Rfa6WPUYGMsa+j6f9IJsZJLjynA1bIWQee6CXPyETUguRtzFM2z0soPv79BG
+         L5AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KPlR6gJDHsACPyVMcZtoDq6lm4JjvzGgUldKcw5CvFE=;
+        b=KMLiTq1dzG9fa/hMD0uoV/4w3BBr0fuuUUhk3g5RaWM7LyPYXSDbvXUjDUk0E+szNA
+         BXqSHXdixSt+4H+SQzU+dhu4eTaArg+p50ye9UfkrzT3dVT0rt2lPEgKx1GfoQ/eyXFl
+         mYsm9XkRaZxXDFb4Dt0ZQKWvZsuEkrEkr8lAYFitJJV691eIOzEbAcCdf8tzcH708EPe
+         /LEGkL05fMDnmoSzGO/YDf+0mxXyV7kx3EQqo1WYxKXs011GVRu/4H30keiFnfG3qwjj
+         +5nmM75EIwPhqtbOoyg+5VzXhZfUPFV7WQN5ZdjODA6wP/DGnufYvXvipj8gJ/CsovWC
+         XDGw==
+X-Gm-Message-State: AOAM533ihnAxs6rFa5BCK2y2rLGNLWAt26yTCtBrX1FfBK8KXLL1+sjh
+        kW5Y3O+DxmEjLzHDuUYTUSJrq2VaW4Lp0jHfYENsqQ==
+X-Google-Smtp-Source: ABdhPJzYSB24uVf1cbhEcYjKt3W+LXFr1sz/yMsFDj7wmuiLzgtrwFIAmARBE3XfnAfTr+nMGzumxyfE0tCCxcFEHUc=
+X-Received: by 2002:aa7:c917:: with SMTP id b23mr4035128edt.118.1644320155975;
+ Tue, 08 Feb 2022 03:35:55 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.18] Various fixes
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220203175009.558868-1-jeanmichel.hautbois@ideasonboard.com>
+ <7954256.DvuYhMxLoT@steina-w> <Yf3fe2F88SNcl2Jd@pendragon.ideasonboard.com>
+ <5541132.DvuYhMxLoT@steina-w> <YgHJIsZSrDFp9xvF@pendragon.ideasonboard.com>
+In-Reply-To: <YgHJIsZSrDFp9xvF@pendragon.ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 8 Feb 2022 11:35:39 +0000
+Message-ID: <CAPY8ntDBu2M89Eif93SaOLykPzTCzCVwE1MypNMxJ+kmAY_5JA@mail.gmail.com>
+Subject: Re: (EXT) Re: (EXT) [RFC PATCH v4 03/12] dt-bindings: media: Add
+ bindings for bcm2835-unicam
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        kernel-list@raspberrypi.com, LKML <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-rpi-kernel@lists.infradead.org, lukasz@jany.st,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Naushir Patuck <naush@raspberrypi.com>, robh@kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        bcm-kernel-feedback-list@broadcom.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These are a number of old patches that lingered in my TODO list.
+Hi Alexander and Laurent
 
-I've been cleaning up my TODO list and these 5 patches are good to go.
+On Tue, 8 Feb 2022 at 01:36, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Alexander,
+>
+> On Mon, Feb 07, 2022 at 07:30:25AM +0100, Alexander Stein wrote:
+> > Am Samstag, 5. Februar 2022, 03:22:51 CET schrieb Laurent Pinchart:
+> > > On Fri, Feb 04, 2022 at 09:50:06AM +0100, Alexander Stein wrote:
+> > > > Am Donnerstag, 3. Februar 2022, 18:50:00 CET schrieb Jean-Michel Hautbois:
+> > > > > Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
+> > > > > camera interface. Also add a MAINTAINERS entry for it.
+> > > > >
+> > > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > > > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> > > > > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> > > > >
+> > > > > ---
+> > > > > v4:
+> > > > > - make MAINTAINERS its own patch
+> > > > > - describe the reg and clocks correctly
+> > > > > - use a vendor entry for the number of data lanes
+> > > > > ---
+> > > > >
+> > > > >  .../bindings/media/brcm,bcm2835-unicam.yaml   | 110 ++++++++++++++++++
+> > > > >  1 file changed, 110 insertions(+)
+> > > > >  create mode 100644
+> > > > >
+> > > > > Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> > > > >
+> > > > > diff --git
+> > > > > a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> > > > > b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> > > > > new file mode 100644
+> > > > > index 000000000000..0725a0267c60
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> > > > > @@ -0,0 +1,110 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: Broadcom BCM283x Camera Interface (Unicam)
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> > > > > +
+> > > > > +description: |-
+> > > > > +  The Unicam block on BCM283x SoCs is the receiver for either
+> > > > > +  CSI-2 or CCP2 data from image sensors or similar devices.
+> > > > > +
+> > > > > +  The main platform using this SoC is the Raspberry Pi family of boards.
+> > > > > +  On the Pi the VideoCore firmware can also control this hardware block,
+> > > > > +  and driving it from two different processors will cause issues.
+> > > > > +  To avoid this, the firmware checks the device tree configuration
+> > > > > +  during boot. If it finds device tree nodes starting by csi then
+> > > > > +  it will stop the firmware accessing the block, and it can then
+> > > > > +  safely be used via the device tree binding.
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    const: brcm,bcm2835-unicam
+> > > > > +
+> > > > > +  reg:
+> > > > > +    items:
+> > > > > +      - description: Unicam block.
+> > > > > +      - description: Clock Manager Image (CMI) block.
+> > > > > +
+> > > > > +  interrupts:
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  clocks:
+> > > > > +    items:
+> > > > > +      - description: Clock to drive the LP state machine of Unicam.
+> > > > > +      - description: Clock for the vpu (core clock).
+> > > > > +
+> > > > > +  clock-names:
+> > > > > +    items:
+> > > > > +      - const: lp
+> > > > > +      - const: vpu
+> > > > > +
+> > > > > +  power-domains:
+> > > > > +    items:
+> > > > > +      - description: Unicam power domain
+> > > > > +
+> > > > > +  brcm,num-data-lanes:
+> > > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > > > +    enum: [ 2, 4 ]
+> > > > > +    description: Number of data lanes on the csi bus
+> > > >
+> > > > There is already data-lanes in
+> > > > Documentation/devicetree/bindings/media/video- interfaces.yaml. AFAICS
+> > > > these two are identical. Can't the video-
+> > > > interface.yaml be used for this? I'm no expert TBH.
+> > >
+> > > This is the number of data lanes that the Unicam instance supports.
+> > > There are two Unicam instances, and they can have 2 or 4 data lanes
+> > > depending on the SoC. The data-lanes endpoint property indicates the
+> > > number of lanes used on a particular board.
+> >
+> > Thanks for the explanation. Isn't this something which could be derived from
+> > the compatible, e.g. having 2 different ones for 2 and 4 lanes respectively?
+> > See [1] for a similar situation in the SPI subsystem.
+> > I don't have a strong opinion, just want to share my feedback.
+>
+> Yes, it could also be done through compatible strings, but in this case
+> I think a vendor-specific property is better. The number of lanes routed
+> from the Unicam IP core to the external of the SoC depends on the exact
+> SoC model, so we would need to create different compatible strings for
+> essentially the same IP core.
 
-Regards,
+Yes csi0 (only supporting 2 data lanes) and csi1 (supporting 4 lanes)
+could have different compatibles. However lanes default to being
+disabled, so there's no need to treat csi1 any differently to csi0 if
+only using up to 2 lanes.
 
-	Hans
+The issue is your second case as eg on Compute Module 4, all 4 data
+lanes of csi1 on the BCM2711 are routed to the camera connector. On
+the Pi4 which also uses BCM2711, only 2 data lanes of csi1 are routed
+to the camera connector. It's the same SoC, so the same compatible
+string would normally apply.
+It's a board design decision over how many lanes to route, not a
+difference in the silicon or IP core. With 3rd parties able to design
+their own carrier boards for Compute Modules, there's no guarantee
+that a Compute Module will always have 4 lanes routed either.
 
-The following changes since commit 127efdbc51fe6064336c0452ce9c910b3e107cf0:
+Take imx290 as a sensor driver which supports running on either 2 or 4
+lanes based on DT. A user can take a dtoverlay to configure it for 4
+lanes on a Pi4 and it can not work. If the driver can validate the
+number of lanes requested then it can produce some form of error,
+otherwise you get the support query.
 
-  media: atomisp: fix dummy_ptr check to avoid duplicate active_bo (2022-02-08 07:31:33 +0100)
+If V4L2's CSI support did something similar to DRM's DSI support where
+the API passed across the number of lanes to run with, then data-lanes
+could be used for this validation (and lane reordering). However at
+present we have to have the data-lanes property on all CSI2 devices in
+a chain have to match.
 
-are available in the Git repository at:
+This has been discussed previously [1], and I relented and dropped it
+to only use data-lanes.
+From a support side, having that validation avoids so many issues that
+it will be in our vendor tree whether it is accepted to mainline or
+not.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18k
+  Dave
 
-for you to fetch changes up to 567706ae6680b3d62d044ab405bcdcb7e6cea328:
+[1] https://patchwork.linuxtv.org/project/linux-media/patch/888a28269a8a7c22feb2a126db699b1259d1b457.1497452006.git.dave.stevenson@raspberrypi.org/
 
-  media: camss: csiphy: Move to hardcode CSI Clock Lane number (2022-02-08 11:43:53 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Laurent Pinchart (1):
-      media: vimc: Add support for contiguous DMA buffers
-
-Maxime Jourdan (1):
-      media: s5p_mfc_dec: set flags for OUTPUT coded formats
-
-Neil Armstrong (1):
-      media: mexon-ge2d: fixup frames size in registers
-
-Robert Foss (1):
-      media: camss: csiphy: Move to hardcode CSI Clock Lane number
-
-Tom Rix (1):
-      video/hdmi: handle short reads of hdmi info frame.
-
- Documentation/admin-guide/media/vimc.rst                 | 13 +++++++++++++
- drivers/media/i2c/adv7511-v4l2.c                         |  2 +-
- drivers/media/i2c/adv7604.c                              |  2 +-
- drivers/media/i2c/adv7842.c                              |  2 +-
- drivers/media/platform/meson/ge2d/ge2d.c                 | 24 ++++++++++++------------
- drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c | 19 +++++++++++++++++--
- drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 17 ++++++++++++++++-
- drivers/media/platform/qcom/camss/camss-csiphy.c         | 21 +--------------------
- drivers/media/platform/qcom/camss/camss-csiphy.h         |  7 +++++++
- drivers/media/platform/s5p-mfc/s5p_mfc_common.h          |  1 +
- drivers/media/platform/s5p-mfc/s5p_mfc_dec.c             | 18 ++++++++++++++++++
- drivers/media/test-drivers/vimc/Kconfig                  |  1 +
- drivers/media/test-drivers/vimc/vimc-capture.c           |  9 +++++++--
- drivers/media/test-drivers/vimc/vimc-common.h            |  7 +++++++
- drivers/media/test-drivers/vimc/vimc-core.c              | 10 ++++++++++
- 15 files changed, 113 insertions(+), 40 deletions(-)
+> > [1] https://patchwork.kernel.org/project/spi-devel-general/patch/20211207104114.2720764-1-alexander.stein@ew.tq-group.com/#24641405
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
