@@ -2,205 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6ED0D4AD729
-	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 12:32:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3820C4AD735
+	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 12:32:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356421AbiBHLcA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Feb 2022 06:32:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33682 "EHLO
+        id S1357035AbiBHLcL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Feb 2022 06:32:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356697AbiBHKzE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 05:55:04 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E538FC03FEC0
-        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 02:55:02 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id k17so13568197plk.0
-        for <linux-media@vger.kernel.org>; Tue, 08 Feb 2022 02:55:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JpFe2MD1E+2DPoXg543PglALXj4OP+/vcuv1a1idPqs=;
-        b=deOHRpDN7/U/V2+1GsKT9q4cej3QCC1mv9oreCRy2yqCzqwof20GqvzEGli/OdHxZp
-         XbF3QBT3Th2t6JVa2oGczJxri5/zN1rZQOLve5TxfB5GgIpK5tzEM08Ad2tDnXi2n3L1
-         QkJwk/5mWQ/oqiRINLAHiGlQgQye9NmBNdHJ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JpFe2MD1E+2DPoXg543PglALXj4OP+/vcuv1a1idPqs=;
-        b=3QsCs9JAUo3V8DevhKQhqUTcXyuw2H/8Vg8rItQemFNKvmnBsn4f6R7mC5DU5uq+HM
-         0qfyBy68TJYPvBbeVpAdoikKiE6JygSw78+McGjQLi3BTYM9PNh4FElMLQFY0hogxqjR
-         z5yOOAXeAnGiYyf8bmc4EEehb11cMlRhOYdQSofMzUoTKuwhCx3w1Mbv/7tnBsunjUMe
-         xt7MyC6HrtnG/17JHqkY/6GUQ76kJz5PMKdhz6yjpuKsXEzkCdgMuAx6xeVDH4EynDH1
-         6NMbv0fZ/hEpsVCeb4biEOelDI6KGll1Jx5Bt4EHP06PoOL7ezbjP+836/19Ucygft+s
-         keDw==
-X-Gm-Message-State: AOAM532o85VVtV9RfiF6H5+ggYy4gVeIuPzQAN4q9nyYxUPD7CATXZKP
-        bCbKiZqjOm1qWtixLtRGK8FvOA==
-X-Google-Smtp-Source: ABdhPJzxCELfUQ71vOBWo/X6NxZxybbY8TJpqWcbbxZ9oEXImbmiUN5OoLbviGkL9g1oIynidlrpnw==
-X-Received: by 2002:a17:902:dcca:: with SMTP id t10mr3844961pll.133.1644317702158;
-        Tue, 08 Feb 2022 02:55:02 -0800 (PST)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:41b6:813e:c823:609c])
-        by smtp.gmail.com with ESMTPSA id e17sm14907277pfv.101.2022.02.08.02.55.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 02:55:01 -0800 (PST)
-From:   Chen-Yu Tsai <wenst@chromium.org>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH RFC] media: hantro: Implement support for encoder commands
-Date:   Tue,  8 Feb 2022 18:54:56 +0800
-Message-Id: <20220208105456.321294-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
+        with ESMTP id S1343703AbiBHLGY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 06:06:24 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93546C03FEC0
+        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 03:06:22 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16340480;
+        Tue,  8 Feb 2022 12:06:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1644318380;
+        bh=tVltLbLvV+H4cPYk/imX2KU/5Y/oBRtCQkjBbjByqsQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GrwrjVKP6Cnr6ltZjY7i8V+FeWvqbuwavh5BfjLF05MYy8slP8Gn0wEUVUZFEMe9f
+         gNeliBiXotilcjBwHg+KD8boDTXNqGc8kPHGQqoJcGE8X5x22QMXi6y/aTs3VgcXJa
+         4N3nj54y/cIfkzkYsHfqtjAmu+CarrnK6QPHAhuY=
+Date:   Tue, 8 Feb 2022 13:06:17 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Eugen.Hristev@microchip.com
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/1] microchip-csi2dc: Remove VC support for now
+Message-ID: <YgJOqb06gmNhFw6X@pendragon.ideasonboard.com>
+References: <20220202153609.240387-1-sakari.ailus@linux.intel.com>
+ <20220208061129.158ba126@sal.lan>
+ <ed240352-0588-d963-2b0a-7b65280e96b0@microchip.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ed240352-0588-d963-2b0a-7b65280e96b0@microchip.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The V4L2 stateful encoder uAPI specification requires that drivers
-support the ENCODER_CMD ioctl to allow draining of buffers. This
-however was not implemented, and causes issues for some userspace
-applications.
+Hi Eugen,
 
-Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
-This is entirely based on existing code found in the vicodec test
-driver.
+On Tue, Feb 08, 2022 at 08:00:19AM +0000, Eugen.Hristev@microchip.com wrote:
+> On 2/8/22 7:11 AM, Mauro Carvalho Chehab wrote:
+> > Em Wed,  2 Feb 2022 17:36:09 +0200 Sakari Ailus escreveu:
+> > 
+> >> As part of removing mbus config flags, remove VC flag use in the
+> >> microchip-csi2dc driver. The support can be reintroduced later on as part
+> >> of the streams patches.
+> >>
+> >> Cc: Eugen Hristev <eugen.hristev@microchip.com>
+> > 
+> > Hmm... that sounds a regression to me. What effects this will cause at
+> > the driver?
+> > 
+> > Eugen, any comments?
+> 
+> Hi ,
+> 
+> I am not happy with this change. It looks like I wasn't even CC-ed on 
+> the original patch e-mail.
+> 
+> The effect on the driver will be that everything will be treated as 
+> virtual channel=0 .
 
-Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
+I don't think there's any risk of regression, as we have no driver
+setting any of the V4L2_MBUS_CSI2_CHANNEL_[123] flags in the kernel.
 
-This is based on linux-next-20220207, and was tested on RK3399 with
-Gstreamer running the JPEG encoder. It was also tested on ChromeOS
-5.10 on Kevin with the video encoder used in ChromeOS ARC, which
-requires this.
+> I do not yet understand why we are about to remove 
+> V4L2_MBUS_CSI2_CHANNEL_* as I remember this was just introduced.
 
-Everything works OK, but since I'm not very familiar with the mem2mem
-framework, I might be missing something, causing resource leaks.
-Hence this patch is labeled RFC.
+Those flags were added in 2011. If you think of that as "just
+introduced" then I understand why you would be unhappy about "sudden
+changes" mentioned below ;-)
 
----
- drivers/staging/media/hantro/hantro_drv.c  | 10 +++++
- drivers/staging/media/hantro/hantro_v4l2.c | 44 ++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
+> Is there any alternative in place ?
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index bc9bcb4eaf46..ccd47eee5c43 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
- 	return hantro_get_dec_buf_addr(ctx, buf);
- }
- 
-+static const struct v4l2_event hantro_eos_event = {
-+	.type = V4L2_EVENT_EOS
-+};
-+
- static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
- 				    struct hantro_ctx *ctx,
- 				    enum vb2_buffer_state result)
-@@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
- 	src->sequence = ctx->sequence_out++;
- 	dst->sequence = ctx->sequence_cap++;
- 
-+	if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
-+		dst->flags |= V4L2_BUF_FLAG_LAST;
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+		v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
-+	}
-+
- 	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
- 					 result);
- }
-diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index 67148ba346f5..8c6746637236 100644
---- a/drivers/staging/media/hantro/hantro_v4l2.c
-+++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -628,6 +628,39 @@ static int vidioc_s_selection(struct file *file, void *priv,
- 	return 0;
- }
- 
-+static const struct v4l2_event hantro_eos_event = {
-+	.type = V4L2_EVENT_EOS
-+};
-+
-+static int vidioc_encoder_cmd(struct file *file, void *priv,
-+			      struct v4l2_encoder_cmd *ec)
-+{
-+	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	int ret;
-+
-+	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
-+	    !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
-+		return 0;
-+
-+	ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ec->cmd == V4L2_ENC_CMD_STOP &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+
-+	if (ec->cmd == V4L2_ENC_CMD_START &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
-+
-+	return 0;
-+}
-+
- const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_querycap = vidioc_querycap,
- 	.vidioc_enum_framesizes = vidioc_enum_framesizes,
-@@ -657,6 +690,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 
- 	.vidioc_g_selection = vidioc_g_selection,
- 	.vidioc_s_selection = vidioc_s_selection,
-+
-+	.vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
-+	.vidioc_encoder_cmd = vidioc_encoder_cmd,
- };
- 
- static int
-@@ -759,6 +795,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
- 	struct hantro_ctx *ctx = vb2_get_drv_priv(q);
- 	int ret = 0;
- 
-+	v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
-+
- 	if (V4L2_TYPE_IS_OUTPUT(q->type))
- 		ctx->sequence_out = 0;
- 	else
-@@ -831,6 +869,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
- 		hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
- 	else
- 		hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
-+
-+	v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
-+
-+	if (V4L2_TYPE_IS_OUTPUT(q->type) &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
- }
- 
- static void hantro_buf_request_complete(struct vb2_buffer *vb)
+Virtual channels have never been properly supported in V4L2. This is
+going to change with "[PATCH v10 00/38] v4l: subdev internal routing and
+streams" ([1]).
+
+[1] https://lore.kernel.org/all/20211130141536.891878-1-tomi.valkeinen@ideasonboard.com
+
+> My opinion is that if we want to replace something existing with a new 
+> API or something else, we should first add the new support, block any 
+> new adopters for the old API such that everyone uses the new API, and 
+> only after that convert the old API clients to the new API.
+> So 'can be reintroduced later on' is not okay. We can't remove things in 
+> the hope that it would be reintroduced later. Just my personal take on 
+> this, feel free to have a different opinion.
+
+When regressions are introduced this makes sense, but here we're
+dropping a feature that isn't used as no kernel driver selects a VC
+different than 0.
+
+> In the end you guys are the maintainers for the subsystem and can have 
+> this change if you like, I am more unhappy about the fact that changes 
+> happen suddenly and without notice.
+> 
+> >> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >> ---
+> >>   .../media/platform/atmel/microchip-csi2dc.c    | 18 ++----------------
+> >>   1 file changed, 2 insertions(+), 16 deletions(-)
+> >>
+> >> diff --git a/drivers/media/platform/atmel/microchip-csi2dc.c b/drivers/media/platform/atmel/microchip-csi2dc.c
+> >> index 6bc549c28e05..6a7f5b4b0e3b 100644
+> >> --- a/drivers/media/platform/atmel/microchip-csi2dc.c
+> >> +++ b/drivers/media/platform/atmel/microchip-csi2dc.c
+> >> @@ -348,24 +348,15 @@ static int csi2dc_get_mbus_config(struct csi2dc_device *csi2dc)
+> >>        if (ret == -ENOIOCTLCMD) {
+> >>                dev_dbg(csi2dc->dev,
+> >>                        "no remote mbus configuration available\n");
+> >> -             goto csi2dc_get_mbus_config_defaults;
+> >> +             return 0;
+> >>        }
+> >>
+> >>        if (ret) {
+> >>                dev_err(csi2dc->dev,
+> >>                        "failed to get remote mbus configuration\n");
+> >> -             goto csi2dc_get_mbus_config_defaults;
+> >> +             return 0;
+> >>        }
+> >>
+> >> -     if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_0)
+> >> -             csi2dc->vc = 0;
+> >> -     else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_1)
+> >> -             csi2dc->vc = 1;
+> >> -     else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_2)
+> >> -             csi2dc->vc = 2;
+> >> -     else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_3)
+> >> -             csi2dc->vc = 3;
+> >> -
+> >>        dev_dbg(csi2dc->dev, "subdev sending on channel %d\n", csi2dc->vc);
+> >>
+> >>        csi2dc->clk_gated = mbus_config.flags &
+> >> @@ -375,11 +366,6 @@ static int csi2dc_get_mbus_config(struct csi2dc_device *csi2dc)
+> >>                csi2dc->clk_gated ? "gated" : "free running");
+> >>
+> >>        return 0;
+> >> -
+> >> -csi2dc_get_mbus_config_defaults:
+> >> -     csi2dc->vc = 0; /* Virtual ID 0 by default */
+> >> -
+> >> -     return 0;
+> >>   }
+> >>
+> >>   static void csi2dc_vp_update(struct csi2dc_device *csi2dc)
+
 -- 
-2.35.0.263.gb82422642f-goog
+Regards,
 
+Laurent Pinchart
