@@ -2,93 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 330704ADD7B
-	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 16:50:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4F4C4ADD9E
+	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 16:52:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236561AbiBHPuO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Feb 2022 10:50:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59686 "EHLO
+        id S1382243AbiBHPuw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Feb 2022 10:50:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351918AbiBHPuM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 10:50:12 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 926E1C06157B
-        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 07:50:11 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id w11so31578292wra.4
-        for <linux-media@vger.kernel.org>; Tue, 08 Feb 2022 07:50:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZdCv/e4Lout+hSyC3wopJXpraLZXoqzrPsSBbu5nCgE=;
-        b=k8MjIvKrepUHPzOaub+Mhfb8DEajKGDJ/KanDQokW8TtzeUlgriV1KUiSrICmn/NdT
-         A54lEz78IAphFK/sNe0G5T0XEYo6Un0B4fN7g5TLvFS9k78KlUVjl28ode3e07uoswJj
-         Nb3RgaFDl+b3kV7vWai0upxvqtm37GczB3xpFW+magR1HcPfGUgvEKR5uS2hMXfnBYJV
-         c2VO7Mxq3vDpSHSjBszHvrPFPZf+w4WAGeUczlNS4ZULmt/jEhzHRm6EO2T6FrzEoxWl
-         5GI1ZLDWyeWL5yGkBSoNY1Vi1tRtgXIkcIk7nh6xNcpsv36vYgmUoltzQOCq+hsgBXBw
-         +Fwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZdCv/e4Lout+hSyC3wopJXpraLZXoqzrPsSBbu5nCgE=;
-        b=qAMqlpM4ZDx1tWNJ5v+XjAirfMmw7xO3IynGSkW8Wn0xZ2+LlDlaZgAXpULVMOfz2o
-         HqMiM6i8BPyr/K6HslUucXM87VzC5i3v9z+kDlTb0rmrGQ80HObKXPe5NI2aM6eEUmfN
-         cadNFZvL+tBusNlrSuHnMash4A5A+FqfWG/69dXRoo6+4XkX+tR3HTtyoQPDGOYiGi2+
-         gVJ0b98wCFNjsb1w+Ym+eb04+3vlqcB++4ykLaXFLe+u2kHbaPRiB881xbmvz6bh4Z7E
-         tin4Y3AMBpS02XUHYCxhx2Z49tfbsKch/9jgz9cLlLpsmLMlsxhYt/gR48PXKBUm/CAJ
-         S0xw==
-X-Gm-Message-State: AOAM533ZYconz83XNd1hRST2k8vA5ysdTNPKOVq9aA6rHl4bTZu+7qd2
-        LmSg31ShIuVfhOvNXYIteYbrot9rUoVddg==
-X-Google-Smtp-Source: ABdhPJz4/1yJUf+OiyO/9YQQMmLN9cBM5av45NCmbvWIJYkMWk5x9XlBbBqtdzRYBiqDC37XrxwcIQ==
-X-Received: by 2002:a5d:6c67:: with SMTP id r7mr4253787wrz.500.1644335409911;
-        Tue, 08 Feb 2022 07:50:09 -0800 (PST)
-Received: from localhost.localdomain (hst-221-62.medicom.bg. [84.238.221.62])
-        by smtp.gmail.com with ESMTPSA id n13sm2700503wms.8.2022.02.08.07.50.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 07:50:09 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc:     Vikash Garodia <vgarodia@codeaurora.org>, dikshita@codeaurora.org,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH] venus: hfi_cmds: List HDR10 property as unsupported for v1 and v3
-Date:   Tue,  8 Feb 2022 17:49:57 +0200
-Message-Id: <20220208154957.630720-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S1382069AbiBHPuj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 10:50:39 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47D17C061576;
+        Tue,  8 Feb 2022 07:50:38 -0800 (PST)
+Received: from tatooine.ideasonboard.com (unknown [IPv6:2a01:e0a:169:7140:b99c:2ebe:5dcf:6513])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B7D0A04;
+        Tue,  8 Feb 2022 16:50:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1644335434;
+        bh=pdKJZe9Ll8vzJ+2Y2TqaVszZZBG9ZZ/OG8/HUTabWSM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MoT87TtriaiGmotp/2sTZBJ74PM5qgnePSqG26lSu4td+velzIqTAH0Pw//wznN1C
+         fGv+odCsLWEArcPxAJ0ARyUfC81Ut/XHrGSd6XkQzo9hRdS8VBu+t7ypgWSkgvYbMO
+         QRZgoIYkeCer1abUn1FLS58OWB2DvGKpBIK11mcQ=
+From:   Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+To:     jeanmichel.hautbois@ideasonboard.com
+Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
+        kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
+        robh@kernel.org, tomi.valkeinen@ideasonboard.com,
+        bcm-kernel-feedback-list@broadcom.com, stefan.wahren@i2se.com
+Subject: [PATCH v5 00/11] Add support for BCM2835 camera interface (unicam)
+Date:   Tue,  8 Feb 2022 16:50:16 +0100
+Message-Id: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI HFI property is not supported
-on Venus v1 and v3.
+Hello !
 
-Fixes: 9172652d72f8 ("media: venus: venc: Add support for CLL and Mastering display controls")
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/hfi_cmds.c | 2 ++
- 1 file changed, 2 insertions(+)
+This patch series adds the BCM2835 CCP2/CSI2 camera interface named
+unicam. This driver is already used in the out-of-tree linux-rpi
+repository [1], and this work aims to support it in mainline.
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-index 5aea07307e02..4ecd444050bb 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-@@ -1054,6 +1054,8 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
- 		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*info);
- 		break;
- 	}
-+	case HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI:
-+		return -ENOTSUPP;
- 
- 	/* FOLLOWING PROPERTIES ARE NOT IMPLEMENTED IN CORE YET */
- 	case HFI_PROPERTY_CONFIG_BUFFER_REQUIREMENTS:
+The series is based on top of:
+- Rebased on top of 5.17-rc1 Tomi Valkeinen's multiplexed stream work, on
+  his multistream/work branch [2] which has been submitted as v10 at the
+  time of this writing. The objective is to demonstrate the use of
+  multiplexed streams on a real world widely used example as well as
+  supporting unicam mainline.
+- The "Add 12bit and 14bit luma-only formats" series [3] is partly
+  applied (the Y10P format bug) the new formats are now part of this
+  series.
+
+The series is made of 11 patches:
+- 1/11 and 2/11 introduce the new formats needed for the unicam driver
+- 3/11 introduces dt-bindings documentation
+- 4/11 adds the driver support in media/platform
+- 5/11 adds the MAINTAINERS entry
+- 6/11 introduces the csi nodes in the bcm2711 file, in a disabled state
+- 7/11 to 11/11 modifies imx219 driver to make it use the multiplexed
+  streams API
+
+All those patches are in my tree [4].
+
+Patch 5/12 comes from the linux-rpi work [1] with substantial
+modifications:
+- Removed the non-mc API which is deprecated, and not needed upstream
+- Moved from one video node with two source pads (image and embedded) to
+  two video nodes
+- Added a subdev between the sensor and the video nodes to properly
+  route the streams
+- Added support for multiplexed streams API
+
+In order to test it, one will need a RPi board and the camv2 (imx219)
+sensor.  An updated v4l-utils is also needed [5] to have support for
+multiplexed streams.
+
+v4l2-compliance passes on both video devices, without streaming testing
+though with one exception: as the colorspace support is removed in v3,
+we now have:
+
+test VIDIOC_G_FMT: OK
+  fail: v4l2-test-formats.cpp(363): colorspace >= 0xff
+  fail: v4l2-test-formats.cpp(465): testColorspace(!node->is_io_mc,
+	pix.pixelformat, pix.colorspace, pix.ycbcr_enc, pix.quantization)
+test VIDIOC_TRY_FMT: FAIL
+  fail: v4l2-test-formats.cpp(363): colorspace >= 0xff
+  fail: v4l2-test-formats.cpp(465): testColorspace(!node->is_io_mc,
+	pix.pixelformat, pix.colorspace, pix.ycbcr_enc, pix.quantization)
+test VIDIOC_S_FMT: FAIL
+
+This series since its v2 does integrate the device tree nodes into the
+upstream BCM2835 or BCM2711 device tree support.
+
+In order to properly configure the media pipeline, it is needed to call
+the usual ioctls, and configure routing in order to send the embedded
+data from the sensor to the "unicam-embedded" device node :
+
+```
+media=0
+media-ctl -d${media} -l "'imx219 2-0010':0->'unicam-subdev':0 [1]"
+media-ctl -d${media} -l "'unicam-subdev':1->'unicam-image':0 [1]"
+media-ctl -d${media} -v -R "'unicam-subdev' [0/0->1/0[1],0/1->2/0[1]]"
+media-ctl -d${media} -V "'imx219 2-0010':0/0 [fmt:SRGGB10_1X10/3280x2464 field:none]"
+v4l2-ctl -d0 --set-fmt-video width=3280,height=2464,pixelformat='pRAA',field=none
+media-ctl -d${media} -v -V "'imx219 2-0010':0/1 [fmt:METADATA_8/16384x1 field:none]"
+media-ctl -d${media} -p
+```
+
+Be sure to configure the routes before setting the format, as s_routing
+resets the default format.
+
+The media-ctl topology is:
+```
+pi@raspberrypi:~ $ media-ctl -d${media} -p
+Media controller API version 5.16.0
+
+Media device information
+------------------------
+driver          unicam
+model           unicam
+serial          
+bus info        platform:fe801000.csi
+hw revision     0x0
+driver version  5.16.0
+
+Device topology
+- entity 1: unicam-subdev (3 pads, 3 links, 2 routes)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+	routes:
+		0/0 -> 1/0 [ACTIVE]
+		0/1 -> 2/0 [ACTIVE]
+	pad0: Sink
+		[stream:0 fmt:SRGGB10_1X10/3280x2464 field:none colorspace:raw]
+		[stream:1 fmt:METADATA_8/16384x1 field:none]
+		<- "imx219 2-0010":0 [ENABLED,IMMUTABLE]
+	pad1: Source
+		[stream:0 fmt:SRGGB10_1X10/3280x2464 field:none colorspace:raw]
+		-> "unicam-image":0 [ENABLED,IMMUTABLE]
+	pad2: Source
+		[stream:0 fmt:METADATA_8/16384x1 field:none]
+		-> "unicam-embedded":0 [ENABLED,IMMUTABLE]
+
+- entity 5: imx219 2-0010 (1 pad, 1 link, 2 routes)
+            type V4L2 subdev subtype Sensor flags 0
+            device node name /dev/v4l-subdev1
+	routes:
+		0/0 -> 0/0 [ACTIVE, IMMUTABLE, SOURCE]
+		0/0 -> 0/1 [ACTIVE, SOURCE]
+	pad0: Source
+		[stream:0 fmt:SRGGB10_1X10/3280x2464 field:none colorspace:raw
+		crop.bounds:(8,8)/3280x2464
+		crop:(8,8)/3280x2464]
+		[stream:1 fmt:METADATA_8/16384x1 field:none
+		crop.bounds:(8,8)/3280x2464
+		crop:(8,8)/3280x2464]
+		-> "unicam-subdev":0 [ENABLED,IMMUTABLE]
+
+- entity 9: unicam-image (1 pad, 1 link, 0 route)
+            type Node subtype V4L flags 1
+            device node name /dev/video0
+	pad0: Sink
+		<- "unicam-subdev":1 [ENABLED,IMMUTABLE]
+
+- entity 15: unicam-embedded (1 pad, 1 link, 0 route)
+             type Node subtype V4L flags 0
+             device node name /dev/video1
+	pad0: Sink
+		<- "unicam-subdev":2 [ENABLED,IMMUTABLE]
+
+```
+
+Then a frame can be capture with yavta:
+`yavta --capture=1 /dev/video0 -F/tmp/test-#.bin`
+
+In v3, capture on the metadata node (/dev/video1 in my case) can't be
+started if capture on image node (/dev/video0) is not already started.
+This can be tested using yavta, letting it capture frames indefinitely
+and start another yavta instance on the /dev/video1 node.
+
+[1]: https://github.com/raspberrypi/linux/tree/rpi-5.15.y
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git/log/?h=multistream/work
+[3]: https://patchwork.linuxtv.org/project/linux-media/list/?series=7099
+[4]: https://github.com/jhautbois/linux-rpi/tree/jmh/unicam-multiplexed-streams
+[5]: https://github.com/jhautbois/v4l-utils/tree/jmh/tomi-multiplexed-streams
+
+Jean-Michel Hautbois (11):
+  media: v4l: Add V4L2-PIX-FMT-Y12P format
+  media: v4l: Add V4L2-PIX-FMT-Y14P format
+  dt-bindings: media: Add bindings for bcm2835-unicam
+  media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface
+  media: MAINTAINERS: add bcm2835 unicam driver
+  ARM: dts: bcm2711: Add unicam CSI nodes
+  media: imx219: Rename mbus codes array
+  media: imx219: Switch from open to init_cfg
+  media: imx219: Introduce the set_routing operation
+  media: imx219: use a local v4l2_subdev to simplify reading
+  media: imx219: Add support for the V4L2 subdev active state
+
+ .../bindings/media/brcm,bcm2835-unicam.yaml   |  117 +
+ .../media/v4l/pixfmt-yuv-luma.rst             |   44 +
+ MAINTAINERS                                   |    8 +
+ arch/arm/boot/dts/bcm2711-rpi.dtsi            |   15 +
+ arch/arm/boot/dts/bcm2711.dtsi                |   22 +
+ drivers/media/i2c/imx219.c                    |  324 ++-
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    2 +
+ drivers/media/platform/bcm2835/Kconfig        |   21 +
+ drivers/media/platform/bcm2835/Makefile       |    3 +
+ .../platform/bcm2835/bcm2835-unicam-regs.h    |  253 ++
+ .../media/platform/bcm2835/bcm2835-unicam.c   | 2570 +++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
+ include/uapi/linux/videodev2.h                |    2 +
+ 14 files changed, 3256 insertions(+), 128 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+ create mode 100644 drivers/media/platform/bcm2835/Kconfig
+ create mode 100644 drivers/media/platform/bcm2835/Makefile
+ create mode 100644 drivers/media/platform/bcm2835/bcm2835-unicam-regs.h
+ create mode 100644 drivers/media/platform/bcm2835/bcm2835-unicam.c
+
 -- 
-2.25.1
+2.32.0
 
