@@ -2,208 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53BAA4AD8CA
-	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 14:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA2674AD8D6
+	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 14:16:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343874AbiBHNPt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Feb 2022 08:15:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53276 "EHLO
+        id S1348201AbiBHNQA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Feb 2022 08:16:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343608AbiBHMTr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 07:19:47 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 416EAC03FEC0
-        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 04:19:46 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD9785D;
-        Tue,  8 Feb 2022 13:19:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644322784;
-        bh=4aW9Tbg+DbCkbxqNw3QUPSxOCuX/QePiQPTsQDOy4O4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Io2L/BYbG3rNjBGR4NkHmqSjAUuVyZTzDSOCgEC2825FyVyh9uCpV8hvrPVS4x8qb
-         y/eLXNXfa4TZPHbVAy/uVoz6IySJiq8qyKNKGjDOkF57z6eKJHJKnK3hxhDChVLSHL
-         4M8j47syKrvipZOkTKRRCqo3Bw8jjXvw6Y5al5i4=
-Date:   Tue, 8 Feb 2022 14:19:42 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Eugen.Hristev@microchip.com
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/1] microchip-csi2dc: Remove VC support for now
-Message-ID: <YgJf3peoK1fj70Mg@pendragon.ideasonboard.com>
-References: <20220202153609.240387-1-sakari.ailus@linux.intel.com>
- <20220208061129.158ba126@sal.lan>
- <ed240352-0588-d963-2b0a-7b65280e96b0@microchip.com>
- <YgJOqb06gmNhFw6X@pendragon.ideasonboard.com>
- <5168daa7-2f8b-fdbe-7a15-12de3428322a@microchip.com>
+        with ESMTP id S1356935AbiBHM06 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 07:26:58 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D1ECC03FECA
+        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 04:26:57 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id s13so51682581ejy.3
+        for <linux-media@vger.kernel.org>; Tue, 08 Feb 2022 04:26:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=M8fVVO69k6oFQmGgr86L7p4G8m91URmGx/JG7vItFGs=;
+        b=dAsTDu0+VLjq0oBcw9NnZRu5y2DTId/+y+M247gWdZefn7zWi36p0IIYIl89FtNG+y
+         ZmoMBA6A2WGST+9q3NV3cIi63JW+J1w5/gvOmjbNvX3J2+jQQ403n8WzdV3WtqbkG8pj
+         ZZGQzQxIn5MvzxefYZ/HWt/x2wGLHEr6jQzqY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=M8fVVO69k6oFQmGgr86L7p4G8m91URmGx/JG7vItFGs=;
+        b=P0pMePerIhFCoJuqvD3GEAJV4wJT7CBLU7Q3nDOTu+Brulm2Gpyzf1daQEOWEbfmyd
+         xB4qMDsgR2Xz1lKZZOSMu6gr1goSBZMMcEnfhdnEW+fCD8gtbqg2F8PABxszIK+v4/vb
+         efLD6fy6cu3WiJ5NMclht7SejfIQMDf3RpfKLy6lqVJaJVm5JdpD8WhlIVi1T/aHVX8q
+         moGBTyu/WaUSR1wgxMKaOsts5QeQboIvDtrfid+BtsZwjiiI1dhkkpsh89hwZJok5R8E
+         2QiTs5KqDBPsjTPGy9kz7Q/u6F8lQsZXM0xvYDsbCE34Lua3SFm5USMfXJCj1cFV7G/1
+         qaJw==
+X-Gm-Message-State: AOAM531boSEhQYNagL53BE/o8uJGLBAKw1LVHwbne3k+Bgd+KprE53oY
+        /7xu41+RvPCMAPRWH/rsAcs2GA==
+X-Google-Smtp-Source: ABdhPJw7c5LEuehZYQwnQ5zdMdwsVOu9wqdYqAvYs7q5kZCAp5j9VLgZXrO4g6Gb8AVX2xj/iHVgDA==
+X-Received: by 2002:a17:906:9b87:: with SMTP id dd7mr3386674ejc.178.1644323215615;
+        Tue, 08 Feb 2022 04:26:55 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id d7sm1613552ejp.98.2022.02.08.04.26.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 04:26:54 -0800 (PST)
+Date:   Tue, 8 Feb 2022 13:26:53 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     syzbot <syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Cc:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        hch@lst.de, iommu@lists.linux-foundation.org,
+        linaro-mm-sig-owner@lists.linaro.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
+        robin.murphy@arm.com, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] WARNING in __dma_map_sg_attrs
+Message-ID: <YgJhjdAbRHdnCZ4T@phenom.ffwll.local>
+Mail-Followup-To: syzbot <syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>, christian.koenig@amd.com,
+        dri-devel@lists.freedesktop.org, hch@lst.de,
+        iommu@lists.linux-foundation.org,
+        linaro-mm-sig-owner@lists.linaro.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
+        robin.murphy@arm.com, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
+References: <000000000000f0196305d219b2fe@google.com>
+ <000000000000b968f305d74b1195@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5168daa7-2f8b-fdbe-7a15-12de3428322a@microchip.com>
+In-Reply-To: <000000000000b968f305d74b1195@google.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen,
+On Sat, Feb 05, 2022 at 12:18:23PM -0800, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
+> 
+> HEAD commit:    0457e5153e0e Merge tag 'for-linus' of git://git.kernel.org..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=11b2637c700000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=6f043113811433a5
+> dashboard link: https://syzkaller.appspot.com/bug?extid=10e27961f4da37c443b2
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11c65542700000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1163f480700000
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com
 
-On Tue, Feb 08, 2022 at 11:36:16AM +0000, Eugen.Hristev@microchip.com wrote:
-> On 2/8/22 1:06 PM, Laurent Pinchart wrote:
-> > On Tue, Feb 08, 2022 at 08:00:19AM +0000, Eugen.Hristev@microchip.com wrote:
-> >> On 2/8/22 7:11 AM, Mauro Carvalho Chehab wrote:
-> >>> Em Wed,  2 Feb 2022 17:36:09 +0200 Sakari Ailus escreveu:
-> >>>
-> >>>> As part of removing mbus config flags, remove VC flag use in the
-> >>>> microchip-csi2dc driver. The support can be reintroduced later on as part
-> >>>> of the streams patches.
-> >>>>
-> >>>> Cc: Eugen Hristev <eugen.hristev@microchip.com>
-> >>>
-> >>> Hmm... that sounds a regression to me. What effects this will cause at
-> >>> the driver?
-> >>>
-> >>> Eugen, any comments?
-> >>
-> >> Hi ,
-> >>
-> >> I am not happy with this change. It looks like I wasn't even CC-ed on
-> >> the original patch e-mail.
-> >>
-> >> The effect on the driver will be that everything will be treated as
-> >> virtual channel=0 .
-> > 
-> > I don't think there's any risk of regression, as we have no driver
-> > setting any of the V4L2_MBUS_CSI2_CHANNEL_[123] flags in the kernel.
-> > 
-> >> I do not yet understand why we are about to remove
-> >> V4L2_MBUS_CSI2_CHANNEL_* as I remember this was just introduced.
-> > 
-> > Those flags were added in 2011. If you think of that as "just
-> > introduced" then I understand why you would be unhappy about "sudden
-> > changes" mentioned below ;-)
-> 
-> Hello Laurent,
-> 
-> I am sorry, I was referring to the get_mbus_config which was recently 
-> added, which in my case uses V4L2_MBUS_CSI2_CHANNEL_* .
-> Without the get_mbus_config, I wasn't supposed to use the 
-> V4L2_MBUS_CSI2_CHANNEL_* at all .
-> Hence my confusion in adding them into the same bucket.
-> 
-> My driver uses these flags because my initial implementation to get the 
-> VC from the devicetree was rejected and this was suggested instead.
-> 
-> >> Is there any alternative in place ?
-> > 
-> > Virtual channels have never been properly supported in V4L2. This is
-> > going to change with "[PATCH v10 00/38] v4l: subdev internal routing and
-> > streams" ([1]).
-> > 
-> > [1] https://lore.kernel.org/all/20211130141536.891878-1-tomi.valkeinen@ideasonboard.com
-> 
-> In that case then I suppose the support in the csi2dc driver has to be 
-> rewritten
+Adding Gerd, since this seems to blow up in udmabuf.
 
-Only when you'll need to support virtual channels other than VC 0. It's
-a non-negligible effort if you need to capture multiple streams from
-different VCs simultaneously, but if it's only about selecting the
-correct VC number for one stream, it's much easier. As far as I
-understand, your hardware supports the latter, not the former, right ?
+I wonder why syzbot didn't figure this out, since it seems to have
+correctly added both dma-api and dma-buf people. Just not the maintainer
+for the begin_cpu_udmabuf function in the middle of the backtrace?
+-Daniel
 
-Do you have any particular CSI-2 source in mind that produces different
-VCs by the way ?
-
-> >> My opinion is that if we want to replace something existing with a new
-> >> API or something else, we should first add the new support, block any
-> >> new adopters for the old API such that everyone uses the new API, and
-> >> only after that convert the old API clients to the new API.
-> >> So 'can be reintroduced later on' is not okay. We can't remove things in
-> >> the hope that it would be reintroduced later. Just my personal take on
-> >> this, feel free to have a different opinion.
-> > 
-> > When regressions are introduced this makes sense, but here we're
-> > dropping a feature that isn't used as no kernel driver selects a VC
-> > different than 0.
 > 
-> I still disagree that these should be removed before the patch you 
-> mentioned earlier about adding 'subdev internal routing and streams' is 
-> applied. I see things in the way that after the new support is 
-> available, old flags , even if unused, can be removed.
-> You can disagree, of course.
 
-I agree it would be nice, but the multiplexed streams series will still
-need time to land (it's been out there for ages, we've resumed work on
-it about a year ago, and Tomi has done a really amazing job moving this
-forward). I'd like to avoid blocking the V4L2_MBUS_CSI2_CHANNEL_*
-removal until multiplexed streams get merged if possible. If there was
-an urgent need to support different VCs in your driver the situation
-would of course be different, but if that's not foreseen until we get
-proper support for multiplexed streams, I think moving forward with all
-the rework in parallel is best. V4L2 has few active contributors for
-core code, it's really hard modernizing the internals of the subsystem
-with the resource shortage, I'd like to avoid making it even harder :-)
-
-> Thank you for sharing your thoughts,
-> Eugen
+> ------------[ cut here ]------------
+> WARNING: CPU: 1 PID: 3595 at kernel/dma/mapping.c:188 __dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+> Modules linked in:
+> CPU: 0 PID: 3595 Comm: syz-executor249 Not tainted 5.17.0-rc2-syzkaller-00316-g0457e5153e0e #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+> Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d c0 83 b5 0d e9 db fe ff ff e8 b6 0f 13 00 0f 0b e8 af 0f 13 00 <0f> 0b 45 31 e4 e9 54 ff ff ff e8 a0 0f 13 00 49 8d 7f 50 48 b8 00
+> RSP: 0018:ffffc90002a07d68 EFLAGS: 00010293
+> RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+> RDX: ffff88807e25e2c0 RSI: ffffffff81649e91 RDI: ffff88801b848408
+> RBP: ffff88801b848000 R08: 0000000000000002 R09: ffff88801d86c74f
+> R10: ffffffff81649d72 R11: 0000000000000001 R12: 0000000000000002
+> R13: ffff88801d86c680 R14: 0000000000000001 R15: 0000000000000000
+> FS:  0000555556e30300(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00000000200000cc CR3: 000000001d74a000 CR4: 00000000003506e0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>  <TASK>
+>  dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
+>  get_sg_table.isra.0+0xe0/0x160 drivers/dma-buf/udmabuf.c:72
+>  begin_cpu_udmabuf+0x130/0x1d0 drivers/dma-buf/udmabuf.c:126
+>  dma_buf_begin_cpu_access+0xfd/0x1d0 drivers/dma-buf/dma-buf.c:1164
+>  dma_buf_ioctl+0x259/0x2b0 drivers/dma-buf/dma-buf.c:363
+>  vfs_ioctl fs/ioctl.c:51 [inline]
+>  __do_sys_ioctl fs/ioctl.c:874 [inline]
+>  __se_sys_ioctl fs/ioctl.c:860 [inline]
+>  __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
+>  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+>  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> RIP: 0033:0x7f62fcf530f9
+> Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007ffe3edab9b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f62fcf530f9
+> RDX: 0000000020000200 RSI: 0000000040086200 RDI: 0000000000000006
+> RBP: 00007f62fcf170e0 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f62fcf17170
+> R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+>  </TASK>
 > 
-> >> In the end you guys are the maintainers for the subsystem and can have
-> >> this change if you like, I am more unhappy about the fact that changes
-> >> happen suddenly and without notice.
-> >>
-> >>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >>>> ---
-> >>>>    .../media/platform/atmel/microchip-csi2dc.c    | 18 ++----------------
-> >>>>    1 file changed, 2 insertions(+), 16 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/media/platform/atmel/microchip-csi2dc.c b/drivers/media/platform/atmel/microchip-csi2dc.c
-> >>>> index 6bc549c28e05..6a7f5b4b0e3b 100644
-> >>>> --- a/drivers/media/platform/atmel/microchip-csi2dc.c
-> >>>> +++ b/drivers/media/platform/atmel/microchip-csi2dc.c
-> >>>> @@ -348,24 +348,15 @@ static int csi2dc_get_mbus_config(struct csi2dc_device *csi2dc)
-> >>>>         if (ret == -ENOIOCTLCMD) {
-> >>>>                 dev_dbg(csi2dc->dev,
-> >>>>                         "no remote mbus configuration available\n");
-> >>>> -             goto csi2dc_get_mbus_config_defaults;
-> >>>> +             return 0;
-> >>>>         }
-> >>>>
-> >>>>         if (ret) {
-> >>>>                 dev_err(csi2dc->dev,
-> >>>>                         "failed to get remote mbus configuration\n");
-> >>>> -             goto csi2dc_get_mbus_config_defaults;
-> >>>> +             return 0;
-> >>>>         }
-> >>>>
-> >>>> -     if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_0)
-> >>>> -             csi2dc->vc = 0;
-> >>>> -     else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_1)
-> >>>> -             csi2dc->vc = 1;
-> >>>> -     else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_2)
-> >>>> -             csi2dc->vc = 2;
-> >>>> -     else if (mbus_config.flags & V4L2_MBUS_CSI2_CHANNEL_3)
-> >>>> -             csi2dc->vc = 3;
-> >>>> -
-> >>>>         dev_dbg(csi2dc->dev, "subdev sending on channel %d\n", csi2dc->vc);
-> >>>>
-> >>>>         csi2dc->clk_gated = mbus_config.flags &
-> >>>> @@ -375,11 +366,6 @@ static int csi2dc_get_mbus_config(struct csi2dc_device *csi2dc)
-> >>>>                 csi2dc->clk_gated ? "gated" : "free running");
-> >>>>
-> >>>>         return 0;
-> >>>> -
-> >>>> -csi2dc_get_mbus_config_defaults:
-> >>>> -     csi2dc->vc = 0; /* Virtual ID 0 by default */
-> >>>> -
-> >>>> -     return 0;
-> >>>>    }
-> >>>>
-> >>>>    static void csi2dc_vp_update(struct csi2dc_device *csi2dc)
 
 -- 
-Regards,
-
-Laurent Pinchart
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
