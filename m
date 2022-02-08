@@ -2,124 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA1374ADE04
-	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 17:12:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FA8E4ADE94
+	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 17:46:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382771AbiBHQM0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Feb 2022 11:12:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45654 "EHLO
+        id S1383551AbiBHQqi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Feb 2022 11:46:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343745AbiBHQM0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 11:12:26 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86168C061578
-        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 08:12:25 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id s10so29089454wra.5
-        for <linux-media@vger.kernel.org>; Tue, 08 Feb 2022 08:12:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=M7eqmAr/yv9HSEWfsV2muDLV5RODRUJTGN4lEaJGoqU=;
-        b=MoLJsiNEBEjf79n3HigcZXaCyfhM5aagKnvJI/rLRYNF664RT9MVmXSuV75OFs8r2V
-         MCCe6pN6xaXLMJ9GaXr4g+mPuiwab425bh6gYzM8M8z7nzs3s/rRoh2cA+KZWPiyfT5T
-         BV1Crft/5iQdu1HlulCb/YsajjsR+xhAbV/cw3cbIefYttpYHU2EYPDORsVugZOVvhh6
-         KBEygtllmCC76i5yLrBpHOxIv6Y22TWCmy2m/ScofAda2uuzX/1c+5UxaYFneQMMfzss
-         Rgma/lCq1atOSmXO+mtyMu1iS6r/6U3NWabrT+ZWRBspKgDXgjIBeA5MNG3qHXhof65c
-         l8KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=M7eqmAr/yv9HSEWfsV2muDLV5RODRUJTGN4lEaJGoqU=;
-        b=AkfljmI5pSwgDduP3gWNZSqfX4hjkxqpGoXHNq+zPMwmJINy+LsQWlTQ28b/DddLWg
-         4Thn2j757GWeuN7gaEja6IpDVPS4y3DPq4dzLR0fSgKFKspYq8fJ/Pk5DDDBHeqyP+2R
-         0cUvfemULVSdIePyZYjAxayVUPXaFN//Ozy5iax6g15QFmBLtpP0xpYrMWOTV90/TBQs
-         YeJjVe3cqxReAPo+/m3ETe7S1KetAuJ0ypDGlxF5N7m2zhSOsdcwx9MwnIq9QuEo5Yxr
-         0FCRTWTS7M7CLC4INS0iCiLffd9sxbl0IJRW3o65QTVnuaAl6VNbu750BiP1c5qh2UKS
-         v/sg==
-X-Gm-Message-State: AOAM5314I9A6xtUgiV/tOFo7WtY7OGGTyaCAPMW0KegXZ9v6pI+jop0H
-        85FWNMz9TxAKuAcShr1Upw==
-X-Google-Smtp-Source: ABdhPJzCTdAlZ3E654xktKmVVaWugUvI8Rw8s8uK512AK2y7SzfWRJJN10FZlkKrmhAcBCc4oZy+VQ==
-X-Received: by 2002:a05:6000:12cc:: with SMTP id l12mr4256191wrx.468.1644336743944;
-        Tue, 08 Feb 2022 08:12:23 -0800 (PST)
-Received: from localhost ([90.160.137.52])
-        by smtp.gmail.com with ESMTPSA id l14sm8943416wrs.55.2022.02.08.08.12.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 08:12:23 -0800 (PST)
-From:   Xose Vazquez Perez <xose.vazquez@gmail.com>
-Cc:     Xose Vazquez Perez <xose.vazquez@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        MEDIA ML <linux-media@vger.kernel.org>
-Subject: [PATCH] stkwebcam: add new Asus laptop to upside_down table
-Date:   Tue,  8 Feb 2022 17:12:22 +0100
-Message-Id: <20220208161222.13757-1-xose.vazquez@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S238447AbiBHQqg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 11:46:36 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30594C061576
+        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 08:46:33 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id C7372101BFE; Tue,  8 Feb 2022 16:46:31 +0000 (UTC)
+Date:   Tue, 8 Feb 2022 16:46:31 +0000
+From:   Sean Young <sean@mess.org>
+To:     Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
+Cc:     Antti Palosaari <crope@iki.fi>, linux-media@vger.kernel.org
+Subject: Re: Inconsistent RC5 ir-keytable events
+Message-ID: <YgKeZ+vAynWvvijz@gofer.mess.org>
+References: <20220103092123.GA21115@gofer.mess.org>
+ <YdLRa86ddm2T4xew@jyty>
+ <20220103110743.GA22001@gofer.mess.org>
+ <YdLqL2ViSwWzS/Ig@jyty>
+ <YdRwqt1pwb8osT6V@jyty>
+ <20220105095355.GA6428@gofer.mess.org>
+ <YdbVfObDZZnFIDc3@jyty>
+ <YeBZmM0ISnFGcsVa@gofer.mess.org>
+ <YeEYxwUkCV7rSa0A@jyty>
+ <YfV2TeOgSiVShmZN@jyty>
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <YfV2TeOgSiVShmZN@jyty>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Handle 0x0001, DMI type 1, 27 bytes
-System Information
-    Manufacturer: ASUSTeK Computer Inc. 
-    Product Name: A6JC                
-    Version: 1.0       
-    Serial Number: XXXXXXXXXXXXXXXXX
-    UUID: XXXXXXXXXXXXXXXXX
-    Wake-up Type: Power Switch
-    SKU Number: To Be Filled By O.E.M.
-    Family: To Be Filled By O.E.M.
+Hi Marko,
 
-Handle 0x0002, DMI type 2, 15 bytes
-Base Board Information
-    Manufacturer: ASUSTeK Computer Inc.        
-    Product Name: A6JC      
-    Version: 1.0       
-    Serial Number: XXXXXXXXXXXXXXXXX
-    Asset Tag: To Be Filled By O.E.M.
-    Features:
-        Board is a hosting board
-        Board is replaceable
-    Location In Chassis: To Be Filled By O.E.M.
-    Chassis Handle: 0x0003
-    Type: Motherboard
-    Contained Object Handles: 0
+On Sat, Jan 29, 2022 at 07:15:57PM +0200, Marko Mäkelä wrote:
+> Hi Sean,
+> 
+> Did you have a chance to repeat my findings with a remote control unit that
+> uses the RC5 protocol?
 
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: MEDIA ML <linux-media@vger.kernel.org>
-Signed-off-by: Xose Vazquez Perez <xose.vazquez@gmail.com>
----
- drivers/media/usb/stkwebcam/stk-webcam.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Yes, I've reproduced the problem now. It's very weird.
 
-diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
-index 9f445e6ab5fa..5b822214ccc5 100644
---- a/drivers/media/usb/stkwebcam/stk-webcam.c
-+++ b/drivers/media/usb/stkwebcam/stk-webcam.c
-@@ -114,6 +114,13 @@ static const struct dmi_system_id stk_upside_down_dmi_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "A6VM")
- 		}
- 	},
-+	{
-+		.ident = "ASUS A6JC",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK Computer Inc."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "A6JC")
-+		}
-+	},
- 	{}
- };
- 
--- 
-2.35.1
+After pressing button 1, waiting for a second or two, and then pressing button
+3, the device reports some old IR from button 1 before reporting the IR from
+button 3.
 
+The IR is not a copy of old data, it so presumably its IR that was not 
+reported before. Now I don't know why this IR gets reported so late.
+
+> I tried to understand the code changes. A few observations:
+> 
+> In rtl2831u_get_rc_config(), rc->interval is set to 400 and rc->timeout is
+> not set at all. Maybe it is OK, similar chips supported by the same driver.
+
+The timeout won't have an affect on this problem.
+
+> In rtl2832u_rc_query(), the idle_length is being computed from the last two
+> bytes of the IR_RX_BUF buffer. The threshold is 0xc0 and thus
+> it can only be exceeded if both last 7-bit bytes are included in the sum.
+> Side note: the & 0x7f is redundant, because the most significant bit was
+> already tested to be clear:
+> 
+> 	idle_length = 0;
+> 	if (len > 2) {
+> 		if (!(buf[len - 1] & 0x80))
+> 			idle_length += buf[len - 1] & 0x7f;
+> 		if (!(buf[len - 2] & 0x80))
+> 			idle_length += buf[len - 2] & 0x7f;
+> 	}
+> 
+> 	dev_dbg(&d->intf->dev, "idle_length=%x\n", idle_length);
+> 
+> 	if (idle_length < 0xbf)
+> 		return 0;
+
+Yes, you are right. Note that I've observed this problem also we did not
+enter the early return here (which I introduced).
+
+> However, I spotted a potential problem here. I may of course be mistaken
+> because I do not know how the IR_RX_BUF is supposed to work. Could it happen
+> that buf[] contains some IR events, then 2 or more consecutive bytes of no
+> pulses (with the total time exceeding 0xbf*51µs), and then again some IR
+> events until the very end of the buffer, so that in the above check, we
+> would return 0?
+
+I have not seen this happen. You can enable debugging for this using:
+
+echo 'file rtl28xxu.c +p' > /sys/kernel/debug/dynamic_debug/control
+
+dmesg -w
+
+I do not know exactly how the buffer works, only some experimentation will
+help here. Unless there is a vendor driver/documentation for this device.
+
+> Could we in that case discard some IR events? Could that
+> explain the glitch that I observed with the NEC protocol?
+
+I'm not really sure this is the problem, that's what not what I observed.
+
+
+Sean
