@@ -2,202 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B8804AD7E8
-	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 12:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60C8A4AD8C2
+	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 14:16:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357785AbiBHLvR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Feb 2022 06:51:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39340 "EHLO
+        id S1343539AbiBHNPo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Feb 2022 08:15:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358013AbiBHLuR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 06:50:17 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B579C08E834;
-        Tue,  8 Feb 2022 03:42:40 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 04C45B81852;
-        Tue,  8 Feb 2022 11:42:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E433CC004E1;
-        Tue,  8 Feb 2022 11:42:34 +0000 (UTC)
-Message-ID: <aa1312fc-197b-c1ab-6a18-369d49c1e8f8@xs4all.nl>
-Date:   Tue, 8 Feb 2022 12:42:33 +0100
+        with ESMTP id S230132AbiBHMTn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 07:19:43 -0500
+X-Greylist: delayed 1208 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 04:19:42 PST
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C40FAC03FEC0
+        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 04:19:42 -0800 (PST)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nHP9g-009qox-IR; Tue, 08 Feb 2022 11:59:32 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nHP9c-00AyCh-QE; Tue, 08 Feb 2022 11:59:29 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.18] Various fixes (#80608)
+Date:   Tue,  8 Feb 2022 11:59:28 +0000
+Message-Id: <20220208115928.2614657-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <d8cfded5-dc29-f7b7-c09d-7b6296e6ebae@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v4] dma-buf-map: Rename to iosys-map
-Content-Language: en-US
-To:     Lucas De Marchi <lucas.demarchi@intel.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org
-Cc:     srinivas.kandagatla@linaro.org, gregkh@linuxfoundation.org,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        daniel.vetter@ffwll.ch, airlied@linux.ie, lyude@redhat.com,
-        tzimmermann@suse.de, linux-media@vger.kernel.org,
-        nouveau@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <20220204170541.829227-1-lucas.demarchi@intel.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220204170541.829227-1-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: builder@linuxtv.org
+
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/d8cfded5-dc29-f7b7-c09d-7b6296e6ebae@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/181128/
+Build time: 00:19:21
+Link: https://lore.kernel.org/linux-media/d8cfded5-dc29-f7b7-c09d-7b6296e6ebae@xs4all.nl
+
+gpg: Signature made Tue 08 Feb 2022 11:22:27 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Can't check signature: No public key
+
+Summary: got 1/5 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-s5p_mfc_dec-set-flags-for-OUTPUT-coded-formats.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/i2c/ov08d10.c: ../drivers/media/i2c/ov08d10.c:1276 ov08d10_enum_frame_size() warn: inconsistent returns '&ov08d10->mutex'.
+	  Locked on  : 1268
+	  Unlocked on: 1276
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
 
-On 2/4/22 18:05, Lucas De Marchi wrote:
-> Rename struct dma_buf_map to struct iosys_map and corresponding APIs.
-> Over time dma-buf-map grew up to more functionality than the one used by
-> dma-buf: in fact it's just a shim layer to abstract system memory, that
-> can be accessed via regular load and store, from IO memory that needs to
-> be acessed via arch helpers.
-> 
-> The idea is to extend this API so it can fulfill other needs, internal
-> to a single driver. Example: in the i915 driver it's desired to share
-> the implementation for integrated graphics, which uses mostly system
-> memory, with discrete graphics, which may need to access IO memory.
-> 
-> The conversion was mostly done with the following semantic patch:
-> 
-> 	@r1@
-> 	@@
-> 	- struct dma_buf_map
-> 	+ struct iosys_map
-> 
-> 	@r2@
-> 	@@
-> 	(
-> 	- DMA_BUF_MAP_INIT_VADDR
-> 	+ IOSYS_MAP_INIT_VADDR
-> 	|
-> 	- dma_buf_map_set_vaddr
-> 	+ iosys_map_set_vaddr
-> 	|
-> 	- dma_buf_map_set_vaddr_iomem
-> 	+ iosys_map_set_vaddr_iomem
-> 	|
-> 	- dma_buf_map_is_equal
-> 	+ iosys_map_is_equal
-> 	|
-> 	- dma_buf_map_is_null
-> 	+ iosys_map_is_null
-> 	|
-> 	- dma_buf_map_is_set
-> 	+ iosys_map_is_set
-> 	|
-> 	- dma_buf_map_clear
-> 	+ iosys_map_clear
-> 	|
-> 	- dma_buf_map_memcpy_to
-> 	+ iosys_map_memcpy_to
-> 	|
-> 	- dma_buf_map_incr
-> 	+ iosys_map_incr
-> 	)
-> 
-> 	@@
-> 	@@
-> 	- #include <linux/dma-buf-map.h>
-> 	+ #include <linux/iosys-map.h>
-> 
-> Then some files had their includes adjusted and some comments were
-> update to remove mentions to dma-buf-map.
-> 
-> Since this is not specific to dma-buf anymore, move the documentation to
-> the "Bus-Independent Device Accesses" section.
-> 
-> v2:
->   - Squash patches
-> 
-> v3:
->   - Fix wrong removal of dma-buf.h from MAINTAINERS
->   - Move documentation from dma-buf.rst to device-io.rst
-> 
-> v4:
->   - Change documentation tile and level
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> Acked-by: Christian König <christian.koenig@amd.com>
-> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  Documentation/driver-api/device-io.rst        |   9 +
->  Documentation/driver-api/dma-buf.rst          |   9 -
->  Documentation/gpu/todo.rst                    |  20 +-
->  MAINTAINERS                                   |   9 +-
->  drivers/dma-buf/dma-buf.c                     |  22 +-
->  drivers/dma-buf/heaps/cma_heap.c              |  10 +-
->  drivers/dma-buf/heaps/system_heap.c           |  10 +-
->  drivers/gpu/drm/ast/ast_drv.h                 |   2 +-
->  drivers/gpu/drm/ast/ast_mode.c                |   8 +-
->  drivers/gpu/drm/drm_cache.c                   |  18 +-
->  drivers/gpu/drm/drm_client.c                  |   9 +-
->  drivers/gpu/drm/drm_fb_helper.c               |  12 +-
->  drivers/gpu/drm/drm_gem.c                     |  12 +-
->  drivers/gpu/drm/drm_gem_cma_helper.c          |   9 +-
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  16 +-
->  drivers/gpu/drm/drm_gem_shmem_helper.c        |  15 +-
->  drivers/gpu/drm/drm_gem_ttm_helper.c          |   4 +-
->  drivers/gpu/drm/drm_gem_vram_helper.c         |  25 +-
->  drivers/gpu/drm/drm_internal.h                |   6 +-
->  drivers/gpu/drm/drm_mipi_dbi.c                |   8 +-
->  drivers/gpu/drm/drm_prime.c                   |   4 +-
->  drivers/gpu/drm/etnaviv/etnaviv_drv.h         |   2 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   8 +-
->  drivers/gpu/drm/gud/gud_pipe.c                |   4 +-
->  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   5 +-
->  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   8 +-
->  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |   6 +-
->  .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |   6 +-
->  drivers/gpu/drm/lima/lima_gem.c               |   3 +-
->  drivers/gpu/drm/lima/lima_sched.c             |   4 +-
->  drivers/gpu/drm/mediatek/mtk_drm_gem.c        |   7 +-
->  drivers/gpu/drm/mediatek/mtk_drm_gem.h        |   5 +-
->  drivers/gpu/drm/mgag200/mgag200_mode.c        |   4 +-
->  drivers/gpu/drm/msm/msm_drv.h                 |   4 +-
->  drivers/gpu/drm/msm/msm_gem_prime.c           |   6 +-
->  drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  13 +-
->  drivers/gpu/drm/qxl/qxl_display.c             |   8 +-
->  drivers/gpu/drm/qxl/qxl_draw.c                |   6 +-
->  drivers/gpu/drm/qxl/qxl_drv.h                 |  10 +-
->  drivers/gpu/drm/qxl/qxl_object.c              |   8 +-
->  drivers/gpu/drm/qxl/qxl_object.h              |   4 +-
->  drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
->  drivers/gpu/drm/radeon/radeon_gem.c           |   1 +
->  drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |   9 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_gem.h   |   5 +-
->  drivers/gpu/drm/tegra/gem.c                   |  10 +-
->  drivers/gpu/drm/tiny/cirrus.c                 |   8 +-
->  drivers/gpu/drm/tiny/gm12u320.c               |   7 +-
->  drivers/gpu/drm/ttm/ttm_bo_util.c             |  16 +-
->  drivers/gpu/drm/ttm/ttm_resource.c            |  42 +--
->  drivers/gpu/drm/ttm/ttm_tt.c                  |   8 +-
->  drivers/gpu/drm/udl/udl_modeset.c             |   3 +-
->  drivers/gpu/drm/vboxvideo/vbox_mode.c         |   4 +-
->  drivers/gpu/drm/vkms/vkms_composer.c          |   4 +-
->  drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
->  drivers/gpu/drm/vkms/vkms_plane.c             |   2 +-
->  drivers/gpu/drm/vkms/vkms_writeback.c         |   2 +-
->  drivers/gpu/drm/xen/xen_drm_front_gem.c       |   7 +-
->  drivers/gpu/drm/xen/xen_drm_front_gem.h       |   6 +-
+Error #512 when building PDF docs
 
-For these three:
-
->  .../common/videobuf2/videobuf2-dma-contig.c   |   8 +-
->  .../media/common/videobuf2/videobuf2-dma-sg.c |   9 +-
->  .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
-
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Regards,
-
-	Hans
