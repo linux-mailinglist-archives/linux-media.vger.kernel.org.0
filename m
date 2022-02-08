@@ -2,534 +2,354 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 486EB4ADAFB
-	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 15:17:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A491E4ADB00
+	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 15:17:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236378AbiBHORJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Feb 2022 09:17:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58926 "EHLO
+        id S1346731AbiBHORx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Feb 2022 09:17:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351020AbiBHORI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 09:17:08 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F8BC03FECE
-        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 06:17:03 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 98D5CB81AE0
-        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 14:17:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B064AC004E1;
-        Tue,  8 Feb 2022 14:16:59 +0000 (UTC)
-Message-ID: <0b7d770b-8896-a5b7-fb30-9889f2733020@xs4all.nl>
-Date:   Tue, 8 Feb 2022 15:16:58 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v3 7/7] media: subdev: rename v4l2_subdev_pad_config.try_*
- fields
-Content-Language: en-US
+        with ESMTP id S1377951AbiBHORu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 09:17:50 -0500
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37EF6C03FED4
+        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 06:17:48 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id B33AF100015;
+        Tue,  8 Feb 2022 14:17:40 +0000 (UTC)
+Date:   Tue, 8 Feb 2022 15:18:48 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pratyush Yadav <p.yadav@ti.com>
-References: <20220207161107.1166376-1-tomi.valkeinen@ideasonboard.com>
- <20220207161107.1166376-8-tomi.valkeinen@ideasonboard.com>
- <86a8c352-03f8-9ca6-b7db-82112710464f@xs4all.nl>
- <YgJ4paS946QRmIqW@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <YgJ4paS946QRmIqW@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Cc:     slongerbeam@gmail.com, sakari.ailus@iki.fi,
+        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
+        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
+        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        aford173@gmail.com, festevam@gmail.com,
+        eugen.hristev@microchip.com, jbrunet@baylibre.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 14/21] media: ov5640: Implement get_selection
+Message-ID: <20220208141848.jumm2fisjy7ukbah@uno.localdomain>
+References: <20220131143245.128089-1-jacopo@jmondi.org>
+ <20220131144444.129036-1-jacopo@jmondi.org>
+ <20220131144444.129036-3-jacopo@jmondi.org>
+ <YfsF247w8mPNH5e4@pendragon.ideasonboard.com>
+ <20220207154735.sqbqe4gpovvpybod@uno.localdomain>
+ <YgFcqb3Cgl1BLTzP@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YgFcqb3Cgl1BLTzP@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,PDS_OTHER_BAD_TLD,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Laurent
+  sorry, I missed the last question in your comment
 
-On 2/8/22 15:05, Laurent Pinchart wrote:
-> Hi Hans,
-> 
-> On Tue, Feb 08, 2022 at 02:59:31PM +0100, Hans Verkuil wrote:
->> On 2/7/22 17:11, Tomi Valkeinen wrote:
->>> struct v4l2_subdev_pad_config used to be relevant only for
->>> V4L2_SUBDEV_FORMAT_TRY configuration, and thus the fields of the struct
->>> were named, e.g. try_fmt.
->>>
->>> This struct is now used in struct v4l2_subdev_state, and thus can be
->>> used in both try and active cases. Thus rename the fields and drop the
->>> "try_" prefix.
->>
->> This is fine and necessary, but...
->>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> ---
->>>  drivers/media/i2c/adv7183.c                   |  2 +-
->>>  drivers/media/i2c/imx274.c                    | 12 ++++-----
->>>  drivers/media/i2c/mt9m001.c                   |  2 +-
->>>  drivers/media/i2c/mt9m111.c                   |  2 +-
->>>  drivers/media/i2c/mt9t112.c                   |  2 +-
->>>  drivers/media/i2c/mt9v011.c                   |  2 +-
->>>  drivers/media/i2c/mt9v111.c                   |  4 +--
->>>  drivers/media/i2c/ov2640.c                    |  2 +-
->>>  drivers/media/i2c/ov6650.c                    | 18 ++++++-------
->>>  drivers/media/i2c/ov772x.c                    |  2 +-
->>>  drivers/media/i2c/ov9640.c                    |  2 +-
->>>  drivers/media/i2c/rj54n1cb0c.c                |  2 +-
->>>  drivers/media/i2c/saa6752hs.c                 |  2 +-
->>>  drivers/media/i2c/sr030pc30.c                 |  2 +-
->>>  drivers/media/i2c/tw9910.c                    |  2 +-
->>>  drivers/media/i2c/vs6624.c                    |  2 +-
->>>  drivers/media/platform/atmel/atmel-isc-base.c |  8 +++---
->>>  drivers/media/platform/atmel/atmel-isi.c      |  8 +++---
->>>  include/media/v4l2-subdev.h                   | 26 +++++++++----------
->>>  19 files changed, 50 insertions(+), 52 deletions(-)
->>>
->>> diff --git a/drivers/media/i2c/adv7183.c b/drivers/media/i2c/adv7183.c
->>> index 92cafdea3f1f..9e590abf88e1 100644
->>> --- a/drivers/media/i2c/adv7183.c
->>> +++ b/drivers/media/i2c/adv7183.c
->>> @@ -443,7 +443,7 @@ static int adv7183_set_fmt(struct v4l2_subdev *sd,
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
->>>  		decoder->fmt = *fmt;
->>>  	else
->>> -		sd_state->pads->try_fmt = *fmt;
->>> +		sd_state->pads->fmt = *fmt;
->>
->> ...now this isn't as clear as it used to be, since there is no longer any
->> indication that sd_state->pads refers to a 'try' state.
->>
->> It would help if sd_state would be renamed to try_state, then it is clear
->> again.
->>
->> The same would have to be done in the subdev.h callback prototypes
->> (i.e. rename state to try_state).
->>
->> Calling it try_state is also consistent with the new sd->active_state, so
->> I think that would make a lot of sense.
-> 
-> With the active state series, the state passed to .set_fmt() can be the
-> try or active state, depending on the which value. Existing drivers will
-> continue to operate as expected, and will receive a NULL state when
-> which is ACTIVE. Drivers that call v4l2_subdev_init_finalize() will get
-> the active state in that case.
-> 
-> We could rename the arguments in the driver touched by this patch, but
-> I'd rather modify them to use the v4l2_subdev_get_try_format() helper
-> instead of accessing the try_fmt field directly. We'll then have to
-> discuss this again when we'll rename v4l2_subdev_get_try_format() to
-> v4l2_subdev_state_get_format() :-)
+On Mon, Feb 07, 2022 at 07:53:45PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Mon, Feb 07, 2022 at 04:47:35PM +0100, Jacopo Mondi wrote:
+> > On Thu, Feb 03, 2022 at 12:29:47AM +0200, Laurent Pinchart wrote:
+> > > On Mon, Jan 31, 2022 at 03:44:42PM +0100, Jacopo Mondi wrote:
+> > > > Implement the get_selection pad operation for the OV5640 sensor driver.
+> > > >
+> > > > The supported targets report the sensor's native size, the active pixel
+> > > > array size and the analog crop rectangle from which the image is
+> > > > produced.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > ---
+> > > >  drivers/media/i2c/ov5640.c | 61 ++++++++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 61 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> > > > index 762bdca83aec..ae22300b9655 100644
+> > > > --- a/drivers/media/i2c/ov5640.c
+> > > > +++ b/drivers/media/i2c/ov5640.c
+> > > > @@ -35,6 +35,13 @@
+> > > >  #define OV5640_MIN_VBLANK	24
+> > > >  #define OV5640_MAX_VTS		1968
+> > > >
+> > > > +#define OV5640_NATIVE_WIDTH		2624
+> > > > +#define OV5640_NATIVE_HEIGHT		1964
+> > > > +#define OV5640_PIXEL_ARRAY_TOP		8
+> > > > +#define OV5640_PIXEL_ARRAY_LEFT		16
+> > > > +#define OV5640_PIXEL_ARRAY_WIDTH	2592
+> > > > +#define OV5640_PIXEL_ARRAY_HEIGHT	1944
+> > >
+> > > According to the datasheet, the sensor has 8 black lines, 6 dummy lines,
+> > > 1944 active lines and 6 dummy lines. Horizontally, it has 16 dummy
+> > > columns, 2592 active columns, and 16 dummy columns. If "pixel array" is
+> > > meant to refer to the active area (I dislike the "active" name here, as
+> > > the dummy lines and columns are typically "active" too, but that's a
+> > > digression), then top should be 14.
+> >
+> > Corret, I have only considered the 8 black lines, but dummy too are
+> > 'active but not valid' ones.
+> >
+> > I'll change to 14
+> >
+> > > > +
+> > > >  #define OV5640_DEFAULT_SLAVE_ID 0x3c
+> > > >
+> > > >  #define OV5640_REG_SYS_RESET02		0x3002
+> > > > @@ -2667,6 +2674,52 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+> > > >  	return ret;
+> > > >  }
+> > > >
+> > > > +static int ov5640_get_selection(struct v4l2_subdev *sd,
+> > > > +				struct v4l2_subdev_state *sd_state,
+> > > > +				struct v4l2_subdev_selection *sel)
+> > > > +{
+> > > > +	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> > > > +	const struct ov5640_mode_info *mode = sensor->current_mode;
+> > > > +	const struct v4l2_rect *analog_crop = &mode->analog_crop;
+> > > > +	const struct v4l2_rect *crop = &mode->crop;
+> > > > +
+> > > > +	switch (sel->target) {
+> > > > +	case V4L2_SEL_TGT_CROP: {
+> > > > +		mutex_lock(&sensor->lock);
+> > > > +
+> > > > +		sel->r.top = analog_crop->top + OV5640_PIXEL_ARRAY_TOP;
+> > > > +		sel->r.left = analog_crop->left + OV5640_PIXEL_ARRAY_LEFT;
+> > > > +		sel->r.width = analog_crop->width
+> > > > +			     - analog_crop->left - crop->left;
+> > >
+> > > Why do you subtract the left coordinates here ?
+> >
+> > As the analog_crop->width is defined from the full pixel array size
+> > (black + dummy + active). The TGT_CROP rectangle width and height
+> > should instead report the dimensions of the portion of the pixel array
+> > size which is processed to obtain the final image, and thus the
+> > vertical and horizontal offsets should be subtracted
+> >
+> >
+> >     full                            analog_crop.width
+> >      |                              (0x3804, 0x3805) = 2624
+> >      |                                   |
+> >      V                                   V
+> >   -> +-----------------------------------+
+> >      |                                   |
+> >      x-----------------------------------|
+> >      |  x----  TGT_CROP width  ----------|
+> >      |  |                                |
+> >      |  |                                |
+> >      |  |                                |
+> >      |  |                                |
+> >      |  |                                |
+> >      |  |                                |
+> >      |  |                                |
+> >      +--|--------------------------------+
+> >      |  |
+> >      |  |-> crop.left = 16
+> >      |
+> >      |-> analog_crop.left = 0
+>
+> With analog_crop.left == 0 that's fine, but if it had a different value,
+> shouldn't the above use
+>
+> 		sel->r.width = analog_crop->width - crop->left;
+>
+> ?
 
-You are absolutely correct. I should have refeshed my memory of this series
-a bit better.
+I don't think so... analog_crop->width counts from 0 (it corresponds
+to reg 0x3804 in figure 4.2) and looking at the picture again, it
+seems the the actual crop should rather be
 
-Ignore my comments, and just add:
+                analog_crop->width - analog_crop->left
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+?
 
-And BTW, I *do* think v4l2_subdev_get_try_format() et al should be renamed to
-v4l2_subdev_state_get_format() et al. It makes a lot of sense. But that's a
-separate patch, I think.
 
-Regards,
+>
+> > > > +		sel->r.height = analog_crop->height
+> > > > +			      - analog_crop->top - crop->top;
+> > > > +
+> > > > +		mutex_unlock(&sensor->lock);
+> > > > +
+> > > > +		return 0;
+> > > > +	}
+> > > > +
+> > > > +	case V4L2_SEL_TGT_NATIVE_SIZE:
+> > > > +		sel->r.top = 0;
+> > > > +		sel->r.left = 0;
+> > > > +		sel->r.width = OV5640_NATIVE_WIDTH;
+> > > > +		sel->r.height = OV5640_NATIVE_HEIGHT;
+> > > > +
+> > > > +		return 0;
+> > > > +
+> > > > +	case V4L2_SEL_TGT_CROP_DEFAULT:
+> > > > +	case V4L2_SEL_TGT_CROP_BOUNDS:
+> > > > +		sel->r.top = OV5640_PIXEL_ARRAY_TOP;
+> > > > +		sel->r.left = OV5640_PIXEL_ARRAY_LEFT;
+> > > > +		sel->r.width = OV5640_PIXEL_ARRAY_WIDTH;
+> > > > +		sel->r.height = OV5640_PIXEL_ARRAY_HEIGHT;
+> > >
+> > > In libcamera we use V4L2_SEL_TGT_CROP_BOUNDS to set PixelArraySize,
+> > > ignoring the left and top coordinates, and V4L2_SEL_TGT_CROP_DEFAULT to
+> > > to set the PixelArrayActiveAreas property relative to PixelArraySize.
+> > > This means that non-zero values for the left and top coordinates of
+> > > V4L2_SEL_TGT_CROP_BOUNDS will cause issues. Is this an issue in
+> > > libcamera, or should V4L2_SEL_TGT_CROP_BOUNDS be changed here ?
+> > >
 
-	Hans
+For reference:
+Documentation/sensor_driver_requirements.rst:* `V4L2_SEL_TGT_CROP_BOUNDS`_ to report the readable pixel array area size
+Documentation/sensor_driver_requirements.rst:* `V4L2_SEL_TGT_CROP_DEFAULT`_ to report the active pixel array area size
+Documentation/sensor_driver_requirements.rst:* `V4L2_SEL_TGT_CROP`_ to report the analogue selection rectangle
 
-> 
->> Changing these names in the drivers is of course more work, but it would
->> make it a lot more readable.
->>
->>>  	return 0;
->>>  }
->>>  
->>> diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
->>> index 2aa15b9c23cc..c94c24358931 100644
->>> --- a/drivers/media/i2c/imx274.c
->>> +++ b/drivers/media/i2c/imx274.c
->>> @@ -1020,8 +1020,8 @@ static int __imx274_change_compose(struct stimx274 *imx274,
->>>  	int best_goodness = INT_MIN;
->>>  
->>>  	if (which == V4L2_SUBDEV_FORMAT_TRY) {
->>> -		cur_crop = &sd_state->pads->try_crop;
->>> -		tgt_fmt = &sd_state->pads->try_fmt;
->>> +		cur_crop = &sd_state->pads->crop;
->>> +		tgt_fmt = &sd_state->pads->fmt;
->>>  	} else {
->>>  		cur_crop = &imx274->crop;
->>>  		tgt_fmt = &imx274->format;
->>> @@ -1114,7 +1114,7 @@ static int imx274_set_fmt(struct v4l2_subdev *sd,
->>>  	 */
->>>  	fmt->field = V4L2_FIELD_NONE;
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
->>> -		sd_state->pads->try_fmt = *fmt;
->>> +		sd_state->pads->fmt = *fmt;
->>>  	else
->>>  		imx274->format = *fmt;
->>>  
->>> @@ -1145,8 +1145,8 @@ static int imx274_get_selection(struct v4l2_subdev *sd,
->>>  	}
->>>  
->>>  	if (sel->which == V4L2_SUBDEV_FORMAT_TRY) {
->>> -		src_crop = &sd_state->pads->try_crop;
->>> -		src_fmt = &sd_state->pads->try_fmt;
->>> +		src_crop = &sd_state->pads->crop;
->>> +		src_fmt = &sd_state->pads->fmt;
->>>  	} else {
->>>  		src_crop = &imx274->crop;
->>>  		src_fmt = &imx274->format;
->>> @@ -1217,7 +1217,7 @@ static int imx274_set_selection_crop(struct stimx274 *imx274,
->>>  	sel->r = new_crop;
->>>  
->>>  	if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
->>> -		tgt_crop = &sd_state->pads->try_crop;
->>> +		tgt_crop = &sd_state->pads->crop;
->>>  	else
->>>  		tgt_crop = &imx274->crop;
->>>  
->>> diff --git a/drivers/media/i2c/mt9m001.c b/drivers/media/i2c/mt9m001.c
->>> index c9f0bd997ea7..4cf1334efdfe 100644
->>> --- a/drivers/media/i2c/mt9m001.c
->>> +++ b/drivers/media/i2c/mt9m001.c
->>> @@ -411,7 +411,7 @@ static int mt9m001_set_fmt(struct v4l2_subdev *sd,
->>>  
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
->>>  		return mt9m001_s_fmt(sd, fmt, mf);
->>> -	sd_state->pads->try_fmt = *mf;
->>> +	sd_state->pads->fmt = *mf;
->>>  	return 0;
->>>  }
->>>  
->>> diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
->>> index 91a44359bcd3..495731f11006 100644
->>> --- a/drivers/media/i2c/mt9m111.c
->>> +++ b/drivers/media/i2c/mt9m111.c
->>> @@ -678,7 +678,7 @@ static int mt9m111_set_fmt(struct v4l2_subdev *sd,
->>>  	mf->xfer_func	= V4L2_XFER_FUNC_DEFAULT;
->>>  
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->>> -		sd_state->pads->try_fmt = *mf;
->>> +		sd_state->pads->fmt = *mf;
->>>  		return 0;
->>>  	}
->>>  
->>> diff --git a/drivers/media/i2c/mt9t112.c b/drivers/media/i2c/mt9t112.c
->>> index 8d2e3caa9b28..4457b030d1a8 100644
->>> --- a/drivers/media/i2c/mt9t112.c
->>> +++ b/drivers/media/i2c/mt9t112.c
->>> @@ -982,7 +982,7 @@ static int mt9t112_set_fmt(struct v4l2_subdev *sd,
->>>  
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
->>>  		return mt9t112_s_fmt(sd, mf);
->>> -	sd_state->pads->try_fmt = *mf;
->>> +	sd_state->pads->fmt = *mf;
->>>  
->>>  	return 0;
->>>  }
->>> diff --git a/drivers/media/i2c/mt9v011.c b/drivers/media/i2c/mt9v011.c
->>> index 7699e64e1127..c02a51f2a327 100644
->>> --- a/drivers/media/i2c/mt9v011.c
->>> +++ b/drivers/media/i2c/mt9v011.c
->>> @@ -358,7 +358,7 @@ static int mt9v011_set_fmt(struct v4l2_subdev *sd,
->>>  
->>>  		set_res(sd);
->>>  	} else {
->>> -		sd_state->pads->try_fmt = *fmt;
->>> +		sd_state->pads->fmt = *fmt;
->>>  	}
->>>  
->>>  	return 0;
->>> diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c
->>> index 2dc4a0f24ce8..eed8e5a8dcdd 100644
->>> --- a/drivers/media/i2c/mt9v111.c
->>> +++ b/drivers/media/i2c/mt9v111.c
->>> @@ -800,7 +800,7 @@ static struct v4l2_mbus_framefmt *__mt9v111_get_pad_format(
->>>  #if IS_ENABLED(CONFIG_VIDEO_V4L2_SUBDEV_API)
->>>  		return v4l2_subdev_get_try_format(&mt9v111->sd, sd_state, pad);
->>>  #else
->>> -		return &sd_state->pads->try_fmt;
->>> +		return &sd_state->pads->fmt;
->>>  #endif
->>>  	case V4L2_SUBDEV_FORMAT_ACTIVE:
->>>  		return &mt9v111->fmt;
->>> @@ -957,7 +957,7 @@ static int mt9v111_set_format(struct v4l2_subdev *subdev,
->>>  static int mt9v111_init_cfg(struct v4l2_subdev *subdev,
->>>  			    struct v4l2_subdev_state *sd_state)
->>>  {
->>> -	sd_state->pads->try_fmt = mt9v111_def_fmt;
->>> +	sd_state->pads->fmt = mt9v111_def_fmt;
->>>  
->>>  	return 0;
->>>  }
->>> diff --git a/drivers/media/i2c/ov2640.c b/drivers/media/i2c/ov2640.c
->>> index 4b75da55b260..8c576fe1e203 100644
->>> --- a/drivers/media/i2c/ov2640.c
->>> +++ b/drivers/media/i2c/ov2640.c
->>> @@ -996,7 +996,7 @@ static int ov2640_set_fmt(struct v4l2_subdev *sd,
->>>  		/* select format */
->>>  		priv->cfmt_code = mf->code;
->>>  	} else {
->>> -		sd_state->pads->try_fmt = *mf;
->>> +		sd_state->pads->fmt = *mf;
->>>  	}
->>>  out:
->>>  	mutex_unlock(&priv->lock);
->>> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
->>> index f67412150b16..2ba4402c5e96 100644
->>> --- a/drivers/media/i2c/ov6650.c
->>> +++ b/drivers/media/i2c/ov6650.c
->>> @@ -550,9 +550,9 @@ static int ov6650_get_fmt(struct v4l2_subdev *sd,
->>>  
->>>  	/* update media bus format code and frame size */
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->>> -		mf->width = sd_state->pads->try_fmt.width;
->>> -		mf->height = sd_state->pads->try_fmt.height;
->>> -		mf->code = sd_state->pads->try_fmt.code;
->>> +		mf->width = sd_state->pads->fmt.width;
->>> +		mf->height = sd_state->pads->fmt.height;
->>> +		mf->code = sd_state->pads->fmt.code;
->>>  
->>>  	} else {
->>>  		mf->width = priv->rect.width >> priv->half_scale;
->>> @@ -701,15 +701,15 @@ static int ov6650_set_fmt(struct v4l2_subdev *sd,
->>>  
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->>>  		/* store media bus format code and frame size in pad config */
->>> -		sd_state->pads->try_fmt.width = mf->width;
->>> -		sd_state->pads->try_fmt.height = mf->height;
->>> -		sd_state->pads->try_fmt.code = mf->code;
->>> +		sd_state->pads->fmt.width = mf->width;
->>> +		sd_state->pads->fmt.height = mf->height;
->>> +		sd_state->pads->fmt.code = mf->code;
->>>  
->>>  		/* return default mbus frame format updated with pad config */
->>>  		*mf = ov6650_def_fmt;
->>> -		mf->width = sd_state->pads->try_fmt.width;
->>> -		mf->height = sd_state->pads->try_fmt.height;
->>> -		mf->code = sd_state->pads->try_fmt.code;
->>> +		mf->width = sd_state->pads->fmt.width;
->>> +		mf->height = sd_state->pads->fmt.height;
->>> +		mf->code = sd_state->pads->fmt.code;
->>>  
->>>  	} else {
->>>  		/* apply new media bus format code and frame size */
->>> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
->>> index 78602a2f70b0..6ff5961b87b2 100644
->>> --- a/drivers/media/i2c/ov772x.c
->>> +++ b/drivers/media/i2c/ov772x.c
->>> @@ -1222,7 +1222,7 @@ static int ov772x_set_fmt(struct v4l2_subdev *sd,
->>>  	mf->xfer_func = V4L2_XFER_FUNC_DEFAULT;
->>>  
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->>> -		sd_state->pads->try_fmt = *mf;
->>> +		sd_state->pads->fmt = *mf;
->>>  		return 0;
->>>  	}
->>>  
->>> diff --git a/drivers/media/i2c/ov9640.c b/drivers/media/i2c/ov9640.c
->>> index 0bab8c2cf160..f4b23183b8b1 100644
->>> --- a/drivers/media/i2c/ov9640.c
->>> +++ b/drivers/media/i2c/ov9640.c
->>> @@ -547,7 +547,7 @@ static int ov9640_set_fmt(struct v4l2_subdev *sd,
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
->>>  		return ov9640_s_fmt(sd, mf);
->>>  
->>> -	sd_state->pads->try_fmt = *mf;
->>> +	sd_state->pads->fmt = *mf;
->>>  
->>>  	return 0;
->>>  }
->>> diff --git a/drivers/media/i2c/rj54n1cb0c.c b/drivers/media/i2c/rj54n1cb0c.c
->>> index 2e4018c26912..867e4d7339f2 100644
->>> --- a/drivers/media/i2c/rj54n1cb0c.c
->>> +++ b/drivers/media/i2c/rj54n1cb0c.c
->>> @@ -1009,7 +1009,7 @@ static int rj54n1_set_fmt(struct v4l2_subdev *sd,
->>>  			      &mf->height, 84, RJ54N1_MAX_HEIGHT, align, 0);
->>>  
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->>> -		sd_state->pads->try_fmt = *mf;
->>> +		sd_state->pads->fmt = *mf;
->>>  		return 0;
->>>  	}
->>>  
->>> diff --git a/drivers/media/i2c/saa6752hs.c b/drivers/media/i2c/saa6752hs.c
->>> index a7f043cad149..74c10fba2af0 100644
->>> --- a/drivers/media/i2c/saa6752hs.c
->>> +++ b/drivers/media/i2c/saa6752hs.c
->>> @@ -595,7 +595,7 @@ static int saa6752hs_set_fmt(struct v4l2_subdev *sd,
->>>  	f->colorspace = V4L2_COLORSPACE_SMPTE170M;
->>>  
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->>> -		sd_state->pads->try_fmt = *f;
->>> +		sd_state->pads->fmt = *f;
->>>  		return 0;
->>>  	}
->>>  
->>> diff --git a/drivers/media/i2c/sr030pc30.c b/drivers/media/i2c/sr030pc30.c
->>> index 19c0252df2f1..f0ccdf1f887d 100644
->>> --- a/drivers/media/i2c/sr030pc30.c
->>> +++ b/drivers/media/i2c/sr030pc30.c
->>> @@ -541,7 +541,7 @@ static int sr030pc30_set_fmt(struct v4l2_subdev *sd,
->>>  
->>>  	fmt = try_fmt(sd, mf);
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->>> -		sd_state->pads->try_fmt = *mf;
->>> +		sd_state->pads->fmt = *mf;
->>>  		return 0;
->>>  	}
->>>  
->>> diff --git a/drivers/media/i2c/tw9910.c b/drivers/media/i2c/tw9910.c
->>> index 09f5b3986928..96f6cbc663f0 100644
->>> --- a/drivers/media/i2c/tw9910.c
->>> +++ b/drivers/media/i2c/tw9910.c
->>> @@ -829,7 +829,7 @@ static int tw9910_set_fmt(struct v4l2_subdev *sd,
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
->>>  		return tw9910_s_fmt(sd, mf);
->>>  
->>> -	sd_state->pads->try_fmt = *mf;
->>> +	sd_state->pads->fmt = *mf;
->>>  
->>>  	return 0;
->>>  }
->>> diff --git a/drivers/media/i2c/vs6624.c b/drivers/media/i2c/vs6624.c
->>> index 29003dec6f2d..72a422693bc0 100644
->>> --- a/drivers/media/i2c/vs6624.c
->>> +++ b/drivers/media/i2c/vs6624.c
->>> @@ -587,7 +587,7 @@ static int vs6624_set_fmt(struct v4l2_subdev *sd,
->>>  	fmt->colorspace = vs6624_formats[index].colorspace;
->>>  
->>>  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->>> -		sd_state->pads->try_fmt = *fmt;
->>> +		sd_state->pads->fmt = *fmt;
->>>  		return 0;
->>>  	}
->>>  
->>> diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
->>> index db15770d5b88..aa90aa55a128 100644
->>> --- a/drivers/media/platform/atmel/atmel-isc-base.c
->>> +++ b/drivers/media/platform/atmel/atmel-isc-base.c
->>> @@ -835,11 +835,11 @@ static void isc_try_fse(struct isc_device *isc,
->>>  	 * just use the maximum ISC can receive.
->>>  	 */
->>>  	if (ret) {
->>> -		sd_state->pads->try_crop.width = isc->max_width;
->>> -		sd_state->pads->try_crop.height = isc->max_height;
->>> +		sd_state->pads->crop.width = isc->max_width;
->>> +		sd_state->pads->crop.height = isc->max_height;
->>>  	} else {
->>> -		sd_state->pads->try_crop.width = fse.max_width;
->>> -		sd_state->pads->try_crop.height = fse.max_height;
->>> +		sd_state->pads->crop.width = fse.max_width;
->>> +		sd_state->pads->crop.height = fse.max_height;
->>>  	}
->>>  }
->>>  
->>> diff --git a/drivers/media/platform/atmel/atmel-isi.c b/drivers/media/platform/atmel/atmel-isi.c
->>> index 4d15814e4481..5806de277bdc 100644
->>> --- a/drivers/media/platform/atmel/atmel-isi.c
->>> +++ b/drivers/media/platform/atmel/atmel-isi.c
->>> @@ -572,11 +572,11 @@ static void isi_try_fse(struct atmel_isi *isi, const struct isi_format *isi_fmt,
->>>  	 * just use the maximum ISI can receive.
->>>  	 */
->>>  	if (ret) {
->>> -		sd_state->pads->try_crop.width = MAX_SUPPORT_WIDTH;
->>> -		sd_state->pads->try_crop.height = MAX_SUPPORT_HEIGHT;
->>> +		sd_state->pads->crop.width = MAX_SUPPORT_WIDTH;
->>> +		sd_state->pads->crop.height = MAX_SUPPORT_HEIGHT;
->>>  	} else {
->>> -		sd_state->pads->try_crop.width = fse.max_width;
->>> -		sd_state->pads->try_crop.height = fse.max_height;
->>> +		sd_state->pads->crop.width = fse.max_width;
->>> +		sd_state->pads->crop.height = fse.max_height;
->>>  	}
->>>  }
->>>  
->>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->>> index 16497b8fc875..e7c5617820ab 100644
->>> --- a/include/media/v4l2-subdev.h
->>> +++ b/include/media/v4l2-subdev.h
->>> @@ -638,21 +638,19 @@ struct v4l2_subdev_ir_ops {
->>>  /**
->>>   * struct v4l2_subdev_pad_config - Used for storing subdev pad information.
->>>   *
->>> - * @try_fmt: &struct v4l2_mbus_framefmt
->>> - * @try_crop: &struct v4l2_rect to be used for crop
->>> - * @try_compose: &struct v4l2_rect to be used for compose
->>> + * @fmt: &struct v4l2_mbus_framefmt
->>> + * @crop: &struct v4l2_rect to be used for crop
->>> + * @compose: &struct v4l2_rect to be used for compose
->>>   *
->>>   * This structure only needs to be passed to the pad op if the 'which' field
->>>   * of the main argument is set to %V4L2_SUBDEV_FORMAT_TRY. For
->>>   * %V4L2_SUBDEV_FORMAT_ACTIVE it is safe to pass %NULL.
->>>   *
->>> - * Note: This struct is also used in active state, and the try_ prefix is
->>> - * historical and to be removed.
->>>   */
->>>  struct v4l2_subdev_pad_config {
->>> -	struct v4l2_mbus_framefmt try_fmt;
->>> -	struct v4l2_rect try_crop;
->>> -	struct v4l2_rect try_compose;
->>> +	struct v4l2_mbus_framefmt fmt;
->>> +	struct v4l2_rect crop;
->>> +	struct v4l2_rect compose;
->>>  };
->>>  
->>>  /**
->>> @@ -1008,7 +1006,7 @@ struct v4l2_subdev_fh {
->>>  
->>>  /**
->>>   * v4l2_subdev_get_try_format - ancillary routine to call
->>> - *	&struct v4l2_subdev_pad_config->try_fmt
->>> + *	&struct v4l2_subdev_pad_config->fmt
->>>   *
->>>   * @sd: pointer to &struct v4l2_subdev
->>>   * @state: pointer to &struct v4l2_subdev_state
->>> @@ -1021,12 +1019,12 @@ v4l2_subdev_get_try_format(struct v4l2_subdev *sd,
->>>  {
->>>  	if (WARN_ON(pad >= sd->entity.num_pads))
->>>  		pad = 0;
->>> -	return &state->pads[pad].try_fmt;
->>> +	return &state->pads[pad].fmt;
->>>  }
->>>  
->>>  /**
->>>   * v4l2_subdev_get_try_crop - ancillary routine to call
->>> - *	&struct v4l2_subdev_pad_config->try_crop
->>> + *	&struct v4l2_subdev_pad_config->crop
->>>   *
->>>   * @sd: pointer to &struct v4l2_subdev
->>>   * @state: pointer to &struct v4l2_subdev_state.
->>> @@ -1039,12 +1037,12 @@ v4l2_subdev_get_try_crop(struct v4l2_subdev *sd,
->>>  {
->>>  	if (WARN_ON(pad >= sd->entity.num_pads))
->>>  		pad = 0;
->>> -	return &state->pads[pad].try_crop;
->>> +	return &state->pads[pad].crop;
->>>  }
->>>  
->>>  /**
->>>   * v4l2_subdev_get_try_compose - ancillary routine to call
->>> - *	&struct v4l2_subdev_pad_config->try_compose
->>> + *	&struct v4l2_subdev_pad_config->compose
->>>   *
->>>   * @sd: pointer to &struct v4l2_subdev
->>>   * @state: pointer to &struct v4l2_subdev_state.
->>> @@ -1057,7 +1055,7 @@ v4l2_subdev_get_try_compose(struct v4l2_subdev *sd,
->>>  {
->>>  	if (WARN_ON(pad >= sd->entity.num_pads))
->>>  		pad = 0;
->>> -	return &state->pads[pad].try_compose;
->>> +	return &state->pads[pad].compose;
->>>  }
->>>  
->>>  #endif
-> 
+What I see in libcamera::camera_sensor.cpp is
+
+        validateSensorDriver()
+        {
+                /* Readable pixels */
+                pixelArraySize = TGT_BOUNDS ( = [2592, 1944])
+
+                /* Active (or better, valid) pixel array) */
+                activeArea = TGT_DEFAULT ( = [14, 16, 2592, 1944])
+        }
+
+        sensorInfo()
+        {
+                /* Analog crop */
+                analogCrop = TGT_CROP
+
+                /*
+                Gets assembled in the driver as:
+
+		sel->r.top = analog_crop->top + OV5640_PIXEL_ARRAY_TOP;
+		sel->r.left = analog_crop->left + OV5640_PIXEL_ARRAY_LEFT;
+		sel->r.width = analog_crop->width
+			     - analog_crop->left - crop->left;
+		sel->r.height = analog_crop->height
+			      - analog_crop->top - crop->top;
+
+                */
+
+                /*
+                 * Adjust the V4L2 TGT_CROP to comply with libcamera
+                 * analogueCrop
+                 */
+                analogCrop.x -= activeArea_.x;
+                analogCrop.y -= activeArea_.y;
+        }
+
+What is not correct that DEFAULT and BOUND have the same size.
+
+If both BOUND and DEFAULT has a size of 2592x1944, then DEFAULT cannot
+have (14, 16) as top-left corner, unless we read the last dummy
+columns/lines.
+
+So I would
+
+        readable pixel array = (2624, 1964) = TGT_BOUND
+        active pixel array (PIXEL_ARRAY_TOP, PIXEL_ARRAY_LEFT, 2592, 1944) = TGT_DEFAULT
+
+        TGT_CROP = {
+                    .top = analog_crop->top + OV5640_PIXEL_ARRAY_TOP,
+                    .left = analog_crop->left + OV5640_PIXEL_ARRAY_LEFT;
+                    .width = analog_crop->width - analog_crop->left - OV5640_PIXEL_ARRAY_LEFT,
+                    .height = analog_crop->height - analog_crop->top - OV5640_PIXEL_ARRAY_TOP,
+                   }
+
+       which gets adjusted in libcamera as the V4L2 TGT_CROP is defined from
+       BOUND while libcamera::analogueCrop is defined from
+       libcamera::activeArea ( == TGT_DEFAULT)
+
+        analog_crop = {
+                        .top =  TGT_CROP.top - activeArea.top,
+                        .left = TGT_CROP.left - activeArea.left,
+                        .width = TGT_CROP.width,
+                        .height = TGT_CROP.height
+                      }
+
+I do however see a problem caused by the current definition of the
+driver's mode sizes
+
+      TGT_CROP.width = analog_crop->width - analog_crop->left - OV5640_PIXEL_ARRAY_LEFT
+                     = 2624 - 0 - 16 = 2608
+
+which means the chip is instructed to read dummy columns at the end
+(as analog_crop.width gets written to register 0x3804 and counts from 0)
+
+We should probably avoid that by changing analog_crop->width and
+in the sensor's modes definition.
+
+My goal would then be to see in libcamera:
+
+        Readable = { 2624, 1964 }
+        Active = { 14, 16, 2592, 1944 }
+
+        Crop depends on mode, but for VGA in example, asuming I'll fix
+        the width and heigh to skip the last dummy cols/lines:
+
+		.analog_crop = {
+			.left	= 0,
+			.top	= 4,
+			.width	= 2608, /* Skip last 16 dummy cols */
+			.height	= 1958, /* Skip last 6 dummy lines */
+		},
+
+        it should then resul in libcamera in as {0, 4, 2592, 1940 }
+
+Now I wonder if the 4 lines skipped by analog_crop.top are actually
+necessary or it's cruft from the existing register tables definitions.
+
+I'll try to remove them and have the full valid pixel array passed in
+to the chip's ISP.
+
+> > > The related question is, can we read the optical black lines and the
+> > > dummy lines and columns ?
+> > >
+
+Not tested, they're addressable (in theory) so I would make BOUND !=
+DEFAULT, as explained above.
+
+Sorry for the long email :/
+
+> > > > +
+> > > > +		return 0;
+> > > > +	}
+> > > > +
+> > > > +	return -EINVAL;
+> > > > +}
+> > > > +
+> > > >  static int ov5640_set_framefmt(struct ov5640_dev *sensor,
+> > > >  			       struct v4l2_mbus_framefmt *format)
+> > > >  {
+> > > > @@ -3369,6 +3422,7 @@ static const struct v4l2_subdev_pad_ops ov5640_pad_ops = {
+> > > >  	.enum_mbus_code = ov5640_enum_mbus_code,
+> > > >  	.get_fmt = ov5640_get_fmt,
+> > > >  	.set_fmt = ov5640_set_fmt,
+> > > > +	.get_selection = ov5640_get_selection,
+> > > >  	.enum_frame_size = ov5640_enum_frame_size,
+> > > >  	.enum_frame_interval = ov5640_enum_frame_interval,
+> > > >  };
+> > > > @@ -3383,9 +3437,16 @@ static int ov5640_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> > > >  {
+> > > >  	struct v4l2_mbus_framefmt *try_fmt =
+> > > >  		v4l2_subdev_get_try_format(sd, fh->state, 0);
+> > > > +	struct v4l2_rect *try_crop =
+> > > > +		v4l2_subdev_get_try_crop(sd, fh->state, 0);
+> > > >
+> > > >  	*try_fmt = ov5640_default_fmt;
+> > > >
+> > > > +	try_crop->left = OV5640_PIXEL_ARRAY_LEFT;
+> > > > +	try_crop->top = OV5640_PIXEL_ARRAY_TOP;
+> > > > +	try_crop->width = OV5640_PIXEL_ARRAY_WIDTH;
+> > > > +	try_crop->height = OV5640_PIXEL_ARRAY_HEIGHT;
+> > > > +
+> > > >  	return 0;
+> > > >  }
+> > > >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
