@@ -2,367 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E6914ADB66
-	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 15:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 330704ADD7B
+	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 16:50:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238296AbiBHOlY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Feb 2022 09:41:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41458 "EHLO
+        id S236561AbiBHPuO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Feb 2022 10:50:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230374AbiBHOlY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 09:41:24 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 049E3C03FECE
-        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 06:41:22 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 26804A04;
-        Tue,  8 Feb 2022 15:41:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644331280;
-        bh=m09gboJKYLuW6FonLJNolZYtTOVYsCRhSSRL+GiXVzQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=io7vtFwThpbXGQHfJTXen8xaZxS2FMHwPIKnP0A+au99HIXJvqOaNrIFOr1N6uZvd
-         JekP+37YX5c0UIpatj5VvnBKoZ+JVGJIdmiiN506+4lSmESg0rB08dW2uO4v/NpNfa
-         systoI5X6d18Atecf6H9sZO0kKp1blohTgNnqzqI=
-Date:   Tue, 8 Feb 2022 16:41:17 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     slongerbeam@gmail.com, sakari.ailus@iki.fi,
-        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
-        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
-        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        aford173@gmail.com, festevam@gmail.com,
-        eugen.hristev@microchip.com, jbrunet@baylibre.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 14/21] media: ov5640: Implement get_selection
-Message-ID: <YgKBDQ+LG4Pi4A9r@pendragon.ideasonboard.com>
-References: <20220131143245.128089-1-jacopo@jmondi.org>
- <20220131144444.129036-1-jacopo@jmondi.org>
- <20220131144444.129036-3-jacopo@jmondi.org>
- <YfsF247w8mPNH5e4@pendragon.ideasonboard.com>
- <20220207154735.sqbqe4gpovvpybod@uno.localdomain>
- <YgFcqb3Cgl1BLTzP@pendragon.ideasonboard.com>
- <20220208141848.jumm2fisjy7ukbah@uno.localdomain>
+        with ESMTP id S1351918AbiBHPuM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 10:50:12 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 926E1C06157B
+        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 07:50:11 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id w11so31578292wra.4
+        for <linux-media@vger.kernel.org>; Tue, 08 Feb 2022 07:50:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZdCv/e4Lout+hSyC3wopJXpraLZXoqzrPsSBbu5nCgE=;
+        b=k8MjIvKrepUHPzOaub+Mhfb8DEajKGDJ/KanDQokW8TtzeUlgriV1KUiSrICmn/NdT
+         A54lEz78IAphFK/sNe0G5T0XEYo6Un0B4fN7g5TLvFS9k78KlUVjl28ode3e07uoswJj
+         Nb3RgaFDl+b3kV7vWai0upxvqtm37GczB3xpFW+magR1HcPfGUgvEKR5uS2hMXfnBYJV
+         c2VO7Mxq3vDpSHSjBszHvrPFPZf+w4WAGeUczlNS4ZULmt/jEhzHRm6EO2T6FrzEoxWl
+         5GI1ZLDWyeWL5yGkBSoNY1Vi1tRtgXIkcIk7nh6xNcpsv36vYgmUoltzQOCq+hsgBXBw
+         +Fwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZdCv/e4Lout+hSyC3wopJXpraLZXoqzrPsSBbu5nCgE=;
+        b=qAMqlpM4ZDx1tWNJ5v+XjAirfMmw7xO3IynGSkW8Wn0xZ2+LlDlaZgAXpULVMOfz2o
+         HqMiM6i8BPyr/K6HslUucXM87VzC5i3v9z+kDlTb0rmrGQ80HObKXPe5NI2aM6eEUmfN
+         cadNFZvL+tBusNlrSuHnMash4A5A+FqfWG/69dXRoo6+4XkX+tR3HTtyoQPDGOYiGi2+
+         gVJ0b98wCFNjsb1w+Ym+eb04+3vlqcB++4ykLaXFLe+u2kHbaPRiB881xbmvz6bh4Z7E
+         tin4Y3AMBpS02XUHYCxhx2Z49tfbsKch/9jgz9cLlLpsmLMlsxhYt/gR48PXKBUm/CAJ
+         S0xw==
+X-Gm-Message-State: AOAM533ZYconz83XNd1hRST2k8vA5ysdTNPKOVq9aA6rHl4bTZu+7qd2
+        LmSg31ShIuVfhOvNXYIteYbrot9rUoVddg==
+X-Google-Smtp-Source: ABdhPJz4/1yJUf+OiyO/9YQQMmLN9cBM5av45NCmbvWIJYkMWk5x9XlBbBqtdzRYBiqDC37XrxwcIQ==
+X-Received: by 2002:a5d:6c67:: with SMTP id r7mr4253787wrz.500.1644335409911;
+        Tue, 08 Feb 2022 07:50:09 -0800 (PST)
+Received: from localhost.localdomain (hst-221-62.medicom.bg. [84.238.221.62])
+        by smtp.gmail.com with ESMTPSA id n13sm2700503wms.8.2022.02.08.07.50.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 07:50:09 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc:     Vikash Garodia <vgarodia@codeaurora.org>, dikshita@codeaurora.org,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH] venus: hfi_cmds: List HDR10 property as unsupported for v1 and v3
+Date:   Tue,  8 Feb 2022 17:49:57 +0200
+Message-Id: <20220208154957.630720-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220208141848.jumm2fisjy7ukbah@uno.localdomain>
-X-Spam-Status: No, score=-0.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+The HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI HFI property is not supported
+on Venus v1 and v3.
 
-On Tue, Feb 08, 2022 at 03:18:48PM +0100, Jacopo Mondi wrote:
-> On Mon, Feb 07, 2022 at 07:53:45PM +0200, Laurent Pinchart wrote:
-> > On Mon, Feb 07, 2022 at 04:47:35PM +0100, Jacopo Mondi wrote:
-> > > On Thu, Feb 03, 2022 at 12:29:47AM +0200, Laurent Pinchart wrote:
-> > > > On Mon, Jan 31, 2022 at 03:44:42PM +0100, Jacopo Mondi wrote:
-> > > > > Implement the get_selection pad operation for the OV5640 sensor driver.
-> > > > >
-> > > > > The supported targets report the sensor's native size, the active pixel
-> > > > > array size and the analog crop rectangle from which the image is
-> > > > > produced.
-> > > > >
-> > > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > > ---
-> > > > >  drivers/media/i2c/ov5640.c | 61 ++++++++++++++++++++++++++++++++++++++
-> > > > >  1 file changed, 61 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > > > > index 762bdca83aec..ae22300b9655 100644
-> > > > > --- a/drivers/media/i2c/ov5640.c
-> > > > > +++ b/drivers/media/i2c/ov5640.c
-> > > > > @@ -35,6 +35,13 @@
-> > > > >  #define OV5640_MIN_VBLANK	24
-> > > > >  #define OV5640_MAX_VTS		1968
-> > > > >
-> > > > > +#define OV5640_NATIVE_WIDTH		2624
-> > > > > +#define OV5640_NATIVE_HEIGHT		1964
-> > > > > +#define OV5640_PIXEL_ARRAY_TOP		8
-> > > > > +#define OV5640_PIXEL_ARRAY_LEFT		16
-> > > > > +#define OV5640_PIXEL_ARRAY_WIDTH	2592
-> > > > > +#define OV5640_PIXEL_ARRAY_HEIGHT	1944
-> > > >
-> > > > According to the datasheet, the sensor has 8 black lines, 6 dummy lines,
-> > > > 1944 active lines and 6 dummy lines. Horizontally, it has 16 dummy
-> > > > columns, 2592 active columns, and 16 dummy columns. If "pixel array" is
-> > > > meant to refer to the active area (I dislike the "active" name here, as
-> > > > the dummy lines and columns are typically "active" too, but that's a
-> > > > digression), then top should be 14.
-> > >
-> > > Corret, I have only considered the 8 black lines, but dummy too are
-> > > 'active but not valid' ones.
-> > >
-> > > I'll change to 14
-> > >
-> > > > > +
-> > > > >  #define OV5640_DEFAULT_SLAVE_ID 0x3c
-> > > > >
-> > > > >  #define OV5640_REG_SYS_RESET02		0x3002
-> > > > > @@ -2667,6 +2674,52 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
-> > > > >  	return ret;
-> > > > >  }
-> > > > >
-> > > > > +static int ov5640_get_selection(struct v4l2_subdev *sd,
-> > > > > +				struct v4l2_subdev_state *sd_state,
-> > > > > +				struct v4l2_subdev_selection *sel)
-> > > > > +{
-> > > > > +	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> > > > > +	const struct ov5640_mode_info *mode = sensor->current_mode;
-> > > > > +	const struct v4l2_rect *analog_crop = &mode->analog_crop;
-> > > > > +	const struct v4l2_rect *crop = &mode->crop;
-> > > > > +
-> > > > > +	switch (sel->target) {
-> > > > > +	case V4L2_SEL_TGT_CROP: {
-> > > > > +		mutex_lock(&sensor->lock);
-> > > > > +
-> > > > > +		sel->r.top = analog_crop->top + OV5640_PIXEL_ARRAY_TOP;
-> > > > > +		sel->r.left = analog_crop->left + OV5640_PIXEL_ARRAY_LEFT;
-> > > > > +		sel->r.width = analog_crop->width
-> > > > > +			     - analog_crop->left - crop->left;
-> > > >
-> > > > Why do you subtract the left coordinates here ?
-> > >
-> > > As the analog_crop->width is defined from the full pixel array size
-> > > (black + dummy + active). The TGT_CROP rectangle width and height
-> > > should instead report the dimensions of the portion of the pixel array
-> > > size which is processed to obtain the final image, and thus the
-> > > vertical and horizontal offsets should be subtracted
-> > >
-> > >
-> > >     full                            analog_crop.width
-> > >      |                              (0x3804, 0x3805) = 2624
-> > >      |                                   |
-> > >      V                                   V
-> > >   -> +-----------------------------------+
-> > >      |                                   |
-> > >      x-----------------------------------|
-> > >      |  x----  TGT_CROP width  ----------|
-> > >      |  |                                |
-> > >      |  |                                |
-> > >      |  |                                |
-> > >      |  |                                |
-> > >      |  |                                |
-> > >      |  |                                |
-> > >      |  |                                |
-> > >      +--|--------------------------------+
-> > >      |  |
-> > >      |  |-> crop.left = 16
-> > >      |
-> > >      |-> analog_crop.left = 0
-> >
-> > With analog_crop.left == 0 that's fine, but if it had a different value,
-> > shouldn't the above use
-> >
-> > 		sel->r.width = analog_crop->width - crop->left;
-> >
-> > ?
-> 
-> I don't think so... analog_crop->width counts from 0 (it corresponds
-> to reg 0x3804 in figure 4.2) and looking at the picture again, it
-> seems the the actual crop should rather be
-> 
->                 analog_crop->width - analog_crop->left
-> 
-> ?
+Fixes: 9172652d72f8 ("media: venus: venc: Add support for CLL and Mastering display controls")
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+---
+ drivers/media/platform/qcom/venus/hfi_cmds.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I don't think so :-) We seem to have trouble understanding each other
-here.
-
-> > > > > +		sel->r.height = analog_crop->height
-> > > > > +			      - analog_crop->top - crop->top;
-> > > > > +
-> > > > > +		mutex_unlock(&sensor->lock);
-> > > > > +
-> > > > > +		return 0;
-> > > > > +	}
-> > > > > +
-> > > > > +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> > > > > +		sel->r.top = 0;
-> > > > > +		sel->r.left = 0;
-> > > > > +		sel->r.width = OV5640_NATIVE_WIDTH;
-> > > > > +		sel->r.height = OV5640_NATIVE_HEIGHT;
-> > > > > +
-> > > > > +		return 0;
-> > > > > +
-> > > > > +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> > > > > +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> > > > > +		sel->r.top = OV5640_PIXEL_ARRAY_TOP;
-> > > > > +		sel->r.left = OV5640_PIXEL_ARRAY_LEFT;
-> > > > > +		sel->r.width = OV5640_PIXEL_ARRAY_WIDTH;
-> > > > > +		sel->r.height = OV5640_PIXEL_ARRAY_HEIGHT;
-> > > >
-> > > > In libcamera we use V4L2_SEL_TGT_CROP_BOUNDS to set PixelArraySize,
-> > > > ignoring the left and top coordinates, and V4L2_SEL_TGT_CROP_DEFAULT to
-> > > > to set the PixelArrayActiveAreas property relative to PixelArraySize.
-> > > > This means that non-zero values for the left and top coordinates of
-> > > > V4L2_SEL_TGT_CROP_BOUNDS will cause issues. Is this an issue in
-> > > > libcamera, or should V4L2_SEL_TGT_CROP_BOUNDS be changed here ?
-> 
-> For reference:
-> Documentation/sensor_driver_requirements.rst:* `V4L2_SEL_TGT_CROP_BOUNDS`_ to report the readable pixel array area size
-> Documentation/sensor_driver_requirements.rst:* `V4L2_SEL_TGT_CROP_DEFAULT`_ to report the active pixel array area size
-> Documentation/sensor_driver_requirements.rst:* `V4L2_SEL_TGT_CROP`_ to report the analogue selection rectangle
-> 
-> What I see in libcamera::camera_sensor.cpp is
-> 
->         validateSensorDriver()
->         {
->                 /* Readable pixels */
->                 pixelArraySize = TGT_BOUNDS ( = [2592, 1944])
-> 
->                 /* Active (or better, valid) pixel array) */
->                 activeArea = TGT_DEFAULT ( = [14, 16, 2592, 1944])
->         }
-> 
->         sensorInfo()
->         {
->                 /* Analog crop */
->                 analogCrop = TGT_CROP
-> 
->                 /*
->                 Gets assembled in the driver as:
-> 
-> 		sel->r.top = analog_crop->top + OV5640_PIXEL_ARRAY_TOP;
-> 		sel->r.left = analog_crop->left + OV5640_PIXEL_ARRAY_LEFT;
-> 		sel->r.width = analog_crop->width
-> 			     - analog_crop->left - crop->left;
-> 		sel->r.height = analog_crop->height
-> 			      - analog_crop->top - crop->top;
-> 
->                 */
-> 
->                 /*
->                  * Adjust the V4L2 TGT_CROP to comply with libcamera
->                  * analogueCrop
->                  */
->                 analogCrop.x -= activeArea_.x;
->                 analogCrop.y -= activeArea_.y;
->         }
-> 
-> What is not correct that DEFAULT and BOUND have the same size.
-> 
-> If both BOUND and DEFAULT has a size of 2592x1944, then DEFAULT cannot
-> have (14, 16) as top-left corner, unless we read the last dummy
-> columns/lines.
-> 
-> So I would
-> 
->         readable pixel array = (2624, 1964) = TGT_BOUND
->         active pixel array (PIXEL_ARRAY_TOP, PIXEL_ARRAY_LEFT, 2592, 1944) = TGT_DEFAULT
-> 
->         TGT_CROP = {
->                     .top = analog_crop->top + OV5640_PIXEL_ARRAY_TOP,
->                     .left = analog_crop->left + OV5640_PIXEL_ARRAY_LEFT;
->                     .width = analog_crop->width - analog_crop->left - OV5640_PIXEL_ARRAY_LEFT,
->                     .height = analog_crop->height - analog_crop->top - OV5640_PIXEL_ARRAY_TOP,
->                    }
-> 
->        which gets adjusted in libcamera as the V4L2 TGT_CROP is defined from
->        BOUND while libcamera::analogueCrop is defined from
->        libcamera::activeArea ( == TGT_DEFAULT)
-> 
->         analog_crop = {
->                         .top =  TGT_CROP.top - activeArea.top,
->                         .left = TGT_CROP.left - activeArea.left,
->                         .width = TGT_CROP.width,
->                         .height = TGT_CROP.height
->                       }
-> 
-> I do however see a problem caused by the current definition of the
-> driver's mode sizes
-> 
->       TGT_CROP.width = analog_crop->width - analog_crop->left - OV5640_PIXEL_ARRAY_LEFT
->                      = 2624 - 0 - 16 = 2608
-> 
-> which means the chip is instructed to read dummy columns at the end
-> (as analog_crop.width gets written to register 0x3804 and counts from 0)
-> 
-> We should probably avoid that by changing analog_crop->width and
-> in the sensor's modes definition.
-> 
-> My goal would then be to see in libcamera:
-> 
->         Readable = { 2624, 1964 }
->         Active = { 14, 16, 2592, 1944 }
-> 
->         Crop depends on mode, but for VGA in example, asuming I'll fix
->         the width and heigh to skip the last dummy cols/lines:
-> 
-> 		.analog_crop = {
-> 			.left	= 0,
-> 			.top	= 4,
-> 			.width	= 2608, /* Skip last 16 dummy cols */
-> 			.height	= 1958, /* Skip last 6 dummy lines */
-> 		},
-> 
->         it should then resul in libcamera in as {0, 4, 2592, 1940 }
-> 
-> Now I wonder if the 4 lines skipped by analog_crop.top are actually
-> necessary or it's cruft from the existing register tables definitions.
-> 
-> I'll try to remove them and have the full valid pixel array passed in
-> to the chip's ISP.
-
-Note that ideally both the analog crop and the digital crop should be
-exposed to userspace, and should be controllable independently. This
-would require splitting the ov5640 into two subdevs, which I think is
-overkill for a device that has reached EOL (not even mentioning the
-backward compatibility issues).
-
-> > > > The related question is, can we read the optical black lines and the
-> > > > dummy lines and columns ?
-> > > >
-> 
-> Not tested, they're addressable (in theory) so I would make BOUND !=
-> DEFAULT, as explained above.
-> 
-> Sorry for the long email :/
-> 
-> > > > > +
-> > > > > +		return 0;
-> > > > > +	}
-> > > > > +
-> > > > > +	return -EINVAL;
-> > > > > +}
-> > > > > +
-> > > > >  static int ov5640_set_framefmt(struct ov5640_dev *sensor,
-> > > > >  			       struct v4l2_mbus_framefmt *format)
-> > > > >  {
-> > > > > @@ -3369,6 +3422,7 @@ static const struct v4l2_subdev_pad_ops ov5640_pad_ops = {
-> > > > >  	.enum_mbus_code = ov5640_enum_mbus_code,
-> > > > >  	.get_fmt = ov5640_get_fmt,
-> > > > >  	.set_fmt = ov5640_set_fmt,
-> > > > > +	.get_selection = ov5640_get_selection,
-> > > > >  	.enum_frame_size = ov5640_enum_frame_size,
-> > > > >  	.enum_frame_interval = ov5640_enum_frame_interval,
-> > > > >  };
-> > > > > @@ -3383,9 +3437,16 @@ static int ov5640_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> > > > >  {
-> > > > >  	struct v4l2_mbus_framefmt *try_fmt =
-> > > > >  		v4l2_subdev_get_try_format(sd, fh->state, 0);
-> > > > > +	struct v4l2_rect *try_crop =
-> > > > > +		v4l2_subdev_get_try_crop(sd, fh->state, 0);
-> > > > >
-> > > > >  	*try_fmt = ov5640_default_fmt;
-> > > > >
-> > > > > +	try_crop->left = OV5640_PIXEL_ARRAY_LEFT;
-> > > > > +	try_crop->top = OV5640_PIXEL_ARRAY_TOP;
-> > > > > +	try_crop->width = OV5640_PIXEL_ARRAY_WIDTH;
-> > > > > +	try_crop->height = OV5640_PIXEL_ARRAY_HEIGHT;
-> > > > > +
-> > > > >  	return 0;
-> > > > >  }
-> > > > >
-
+diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+index 5aea07307e02..4ecd444050bb 100644
+--- a/drivers/media/platform/qcom/venus/hfi_cmds.c
++++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+@@ -1054,6 +1054,8 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
+ 		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*info);
+ 		break;
+ 	}
++	case HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI:
++		return -ENOTSUPP;
+ 
+ 	/* FOLLOWING PROPERTIES ARE NOT IMPLEMENTED IN CORE YET */
+ 	case HFI_PROPERTY_CONFIG_BUFFER_REQUIREMENTS:
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
