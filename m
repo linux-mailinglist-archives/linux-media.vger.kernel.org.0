@@ -2,49 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C13D44ACF1D
-	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 03:46:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B9004AD0CE
+	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 06:33:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345150AbiBHCqM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Feb 2022 21:46:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36882 "EHLO
+        id S244386AbiBHFcl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Feb 2022 00:32:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345508AbiBHCqJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 21:46:09 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5035C061355
-        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 18:46:08 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1B06340;
-        Tue,  8 Feb 2022 03:46:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644288367;
-        bh=ELZ0Npkm8vSpqsl8Duud75OpXv8pkATd6UHtbEpnWrI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dY48fCsaxCNu5c9wCKS8PIlC6+wYLhkYMvsR8D8jYB51ZxIEi6QMbs+BwNu4GME+l
-         qXehp6hGkLFyawQR8wYBIkg+8YYTmebYBc5wWNcZrjr9v3tZMZGmYr81h/HBEKrGJU
-         AmGMqX8klkFmSP8HBKEgCIE6G5O29awGi9qEqA70=
-Date:   Tue, 8 Feb 2022 04:46:04 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        with ESMTP id S1347088AbiBHE7x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Feb 2022 23:59:53 -0500
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BB0FC0401DC
+        for <linux-media@vger.kernel.org>; Mon,  7 Feb 2022 20:59:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644296392; x=1675832392;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XBHiuHEZEFmC5lf0KD2XYEiYvcv4G3i2lqQU/xw85yI=;
+  b=bo+++KuWhYbaQsXo/FkjFgaBRiGslEHFiskg+yoXDOJIeWmasYNAELPW
+   9MmqWGlRMHeC5ixRcQpRjzAdjH56b7zJn5nvDwdRnFeQsbkm1xOdMdplb
+   KITRYiBxp6n5lSIdXdLxX15At6/zMBGig583Yp3GGdBrmwYy71g9KK7/r
+   A8PoVh4rzOTItxeoIC/0pHO21Wa9NmraEh4LMrsYaqXAXMP5JVM74638U
+   vIAucDuYSfdwkExtiOHBZHzUE0cyjpXHOOoMjt/Ko4OFe3moRE+hG0OvB
+   0FKjQleBDUa5Gof8q8T1Hg4AsQ3ZWH6YvM1FgweUoN7izd2FqBg8olILT
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10251"; a="309615369"
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; 
+   d="scan'208";a="309615369"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 20:59:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,351,1635231600"; 
+   d="scan'208";a="567723142"
+Received: from lkp-server01.sh.intel.com (HELO 9dd77a123018) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 07 Feb 2022 20:59:15 -0800
+Received: from kbuild by 9dd77a123018 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nHIaw-0001N8-NZ; Tue, 08 Feb 2022 04:59:14 +0000
+Date:   Tue, 8 Feb 2022 12:58:59 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v3 6/7] media: Documentation: add documentation about
- subdev state
-Message-ID: <YgHZbM6pNgbbqsm/@pendragon.ideasonboard.com>
-References: <20220207161107.1166376-1-tomi.valkeinen@ideasonboard.com>
- <20220207161107.1166376-7-tomi.valkeinen@ideasonboard.com>
+Cc:     kbuild-all@lists.01.org,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v3 7/7] media: subdev: rename
+ v4l2_subdev_pad_config.try_* fields
+Message-ID: <202202081223.gzH6LYK9-lkp@intel.com>
+References: <20220207161107.1166376-8-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220207161107.1166376-7-tomi.valkeinen@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220207161107.1166376-8-tomi.valkeinen@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -53,94 +73,142 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Tomi,
 
-Thank you for the patch.
+I love your patch! Yet something to improve:
 
-On Mon, Feb 07, 2022 at 06:11:06PM +0200, Tomi Valkeinen wrote:
-> Add documentation about centrally managed subdev state.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on tegra/for-next v5.17-rc3]
+[cannot apply to next-20220207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+url:    https://github.com/0day-ci/linux/commits/Tomi-Valkeinen/v4l-subdev-active-state/20220208-002350
+base:   git://linuxtv.org/media_tree.git master
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20220208/202202081223.gzH6LYK9-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/8283dea08111c6a813e9340d735c158df3fcbe5f
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Tomi-Valkeinen/v4l-subdev-active-state/20220208-002350
+        git checkout 8283dea08111c6a813e9340d735c158df3fcbe5f
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash drivers/staging/
 
-> ---
->  .../driver-api/media/v4l2-subdev.rst          | 60 +++++++++++++++++++
->  1 file changed, 60 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index 08ea2673b19e..6b14cc97afa3 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -518,6 +518,66 @@ The :c:func:`v4l2_i2c_new_subdev` function will call
->  :c:type:`i2c_board_info` structure using the ``client_type`` and the
->  ``addr`` to fill it.
->  
-> +Centrally managed subdev active state
-> +-------------------------------------
-> +
-> +Traditionally V4L2 subdev drivers maintained internal state for the active
-> +device configuration. This is often implemented as e.g. an array of struct
-> +v4l2_mbus_framefmt, one entry for each pad, and similarly for crop and compose
-> +rectangles.
-> +
-> +In addition to the active configuration, each subdev file handle has an array of
-> +struct v4l2_subdev_pad_config, managed by the V4L2 core, which contains the try
-> +configuration.
-> +
-> +To simplify the subdev drivers the V4L2 subdev API now optionally supports a
-> +centrally managed active configuration represented by
-> +:c:type:`v4l2_subdev_state`. One instance of state, which contains the active
-> +device configuration, is stored in the sub-device itself as part of
-> +the :c:type:`v4l2_subdev` structure, while the core associates a try state to
-> +each open file handle, to store the try configuration related to that file
-> +handle.
-> +
-> +Sub-device drivers can opt-in and use state to manage their active configuration
-> +by initializing the subdevice state with a call to v4l2_subdev_init_finalize()
-> +before registering the sub-device. They must also call v4l2_subdev_cleanup()
-> +to release all the allocated resources before unregistering the sub-device.
-> +The core automatically allocates and initializes a state for each open file
-> +handle to store the try configurations and frees it when closing the file
-> +handle.
-> +
-> +V4L2 sub-device operations that use both the :ref:`ACTIVE and TRY formats
-> +<v4l2-subdev-format-whence>` receive the correct state to operate on through the
-> +'state' parameter. The sub-device driver can access and modify the configuration
-> + stored in the provided state after having locked the state by calling
-> +:c:func:`v4l2_subdev_lock_state()`. The driver must then call
-> +:c:func:`v4l2_subdev_unlock_state()` to unlock the state when done.
-> +
-> +Operations that do not receive a state parameter implicitly operate on the
-> +subdevice active state, which drivers can exclusively access by
-> +calling :c:func:`v4l2_subdev_lock_active_state()`. The sub-device active state
-> +must equally be released by calling :c:func:`v4l2_subdev_unlock_state()`.
-> +
-> +Drivers must never manually access the state stored in the :c:type:`v4l2_subdev`
-> +or in the file handle without going through the designated helpers.
-> +
-> +While the V4L2 core passes the correct try or active state to the
-> +subdevice operations, some existing device drivers pass a NULL state
-> +when calling operations with :c:func:`v4l2_subdev_call()`. This legacy
-> +construct causes issues with subdevice drivers that let the V4L2 core
-> +manage the active state, as they expect to receive the appropriate state
-> +as a parameter. To help the conversion of subdevice drivers to a managed
-> +active state without having to convert all callers at the same time, the
-> +:c:func:`v4l2_subdev_lock_and_return_state()` helper function can be
-> +used by subdevice drivers to retrieve the active state if a NULL state
-> +is passed to the subdevice operation.
-> +
-> +:c:func:`v4l2_subdev_lock_and_return_state()` should only be used when porting
-> +an existing driver to the new state management when it cannot be guaranteed
-> +that the current callers will pass the state properly. The function prints a
-> +notice when the passed state is NULL to encourage the porting of the callers
-> +to the new state management.
-> +
->  V4L2 sub-device functions and data structures
->  ---------------------------------------------
->  
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
--- 
-Regards,
+All errors (new ones prefixed by >>):
 
-Laurent Pinchart
+   drivers/staging/media/tegra-video/vi.c: In function '__tegra_channel_try_format':
+>> drivers/staging/media/tegra-video/vi.c:544:39: error: 'struct v4l2_subdev_pad_config' has no member named 'try_crop'
+     544 |                         sd_state->pads->try_crop.width = 0;
+         |                                       ^~
+   drivers/staging/media/tegra-video/vi.c:545:39: error: 'struct v4l2_subdev_pad_config' has no member named 'try_crop'
+     545 |                         sd_state->pads->try_crop.height = 0;
+         |                                       ^~
+   drivers/staging/media/tegra-video/vi.c:552:39: error: 'struct v4l2_subdev_pad_config' has no member named 'try_crop'
+     552 |                         sd_state->pads->try_crop.width = sdsel.r.width;
+         |                                       ^~
+   drivers/staging/media/tegra-video/vi.c:553:39: error: 'struct v4l2_subdev_pad_config' has no member named 'try_crop'
+     553 |                         sd_state->pads->try_crop.height = sdsel.r.height;
+         |                                       ^~
+   drivers/staging/media/tegra-video/vi.c:556:31: error: 'struct v4l2_subdev_pad_config' has no member named 'try_crop'
+     556 |                 sd_state->pads->try_crop.width = fse.max_width;
+         |                               ^~
+   drivers/staging/media/tegra-video/vi.c:557:31: error: 'struct v4l2_subdev_pad_config' has no member named 'try_crop'
+     557 |                 sd_state->pads->try_crop.height = fse.max_height;
+         |                               ^~
+
+
+vim +544 drivers/staging/media/tegra-video/vi.c
+
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  489  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  490  static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  491  				      struct v4l2_pix_format *pix)
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  492  {
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  493  	const struct tegra_video_format *fmtinfo;
+d156949c999153 Tomi Valkeinen      2022-02-07  494  	static struct lock_class_key key;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  495  	struct v4l2_subdev *subdev;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  496  	struct v4l2_subdev_format fmt;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  497  	struct v4l2_subdev_state *sd_state;
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  498  	struct v4l2_subdev_frame_size_enum fse = {
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  499  		.which = V4L2_SUBDEV_FORMAT_TRY,
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  500  	};
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  501  	struct v4l2_subdev_selection sdsel = {
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  502  		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  503  		.target = V4L2_SEL_TGT_CROP_BOUNDS,
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  504  	};
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  505  	int ret;
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  506  
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  507  	subdev = tegra_channel_get_remote_source_subdev(chan);
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  508  	if (!subdev)
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  509  		return -ENODEV;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  510  
+d156949c999153 Tomi Valkeinen      2022-02-07  511  	/*
+d156949c999153 Tomi Valkeinen      2022-02-07  512  	 * FIXME: Drop this call, drivers are not supposed to use
+d156949c999153 Tomi Valkeinen      2022-02-07  513  	 * __v4l2_subdev_state_alloc().
+d156949c999153 Tomi Valkeinen      2022-02-07  514  	 */
+d156949c999153 Tomi Valkeinen      2022-02-07  515  	sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
+d156949c999153 Tomi Valkeinen      2022-02-07  516  					     &key);
+ba7a93e507f883 Dan Carpenter       2021-06-22  517  	if (IS_ERR(sd_state))
+ba7a93e507f883 Dan Carpenter       2021-06-22  518  		return PTR_ERR(sd_state);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  519  	/*
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  520  	 * Retrieve the format information and if requested format isn't
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  521  	 * supported, keep the current format.
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  522  	 */
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  523  	fmtinfo = tegra_get_format_by_fourcc(chan->vi, pix->pixelformat);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  524  	if (!fmtinfo) {
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  525  		pix->pixelformat = chan->format.pixelformat;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  526  		pix->colorspace = chan->format.colorspace;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  527  		fmtinfo = tegra_get_format_by_fourcc(chan->vi,
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  528  						     pix->pixelformat);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  529  	}
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  530  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  531  	pix->field = V4L2_FIELD_NONE;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  532  	fmt.which = V4L2_SUBDEV_FORMAT_TRY;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  533  	fmt.pad = 0;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  534  	v4l2_fill_mbus_format(&fmt.format, pix, fmtinfo->code);
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  535  
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  536  	/*
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  537  	 * Attempt to obtain the format size from subdev.
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  538  	 * If not available, try to get crop boundary from subdev.
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  539  	 */
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  540  	fse.code = fmtinfo->code;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  541  	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, sd_state, &fse);
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  542  	if (ret) {
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  543  		if (!v4l2_subdev_has_op(subdev, pad, get_selection)) {
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10 @544  			sd_state->pads->try_crop.width = 0;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  545  			sd_state->pads->try_crop.height = 0;
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  546  		} else {
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  547  			ret = v4l2_subdev_call(subdev, pad, get_selection,
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  548  					       NULL, &sdsel);
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  549  			if (ret)
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  550  				return -EINVAL;
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  551  
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  552  			sd_state->pads->try_crop.width = sdsel.r.width;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  553  			sd_state->pads->try_crop.height = sdsel.r.height;
+56f64b82356b74 Sowjanya Komatineni 2020-12-11  554  		}
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  555  	} else {
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  556  		sd_state->pads->try_crop.width = fse.max_width;
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  557  		sd_state->pads->try_crop.height = fse.max_height;
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  558  	}
+bdcad5ce6dde6e Sowjanya Komatineni 2020-08-12  559  
+0d346d2a6f54f0 Tomi Valkeinen      2021-06-10  560  	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  561  	if (ret < 0)
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  562  		return ret;
+1ebaeb09830f36 Sowjanya Komatineni 2020-08-12  563  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  564  	v4l2_fill_pix_format(pix, &fmt.format);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  565  	tegra_channel_fmt_align(chan, pix, fmtinfo->bpp);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  566  
+a702cbb5ddd2f7 Tomi Valkeinen      2022-02-07  567  	__v4l2_subdev_state_free(sd_state);
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  568  
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  569  	return 0;
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  570  }
+3d8a97eabef088 Sowjanya Komatineni 2020-05-04  571  
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
