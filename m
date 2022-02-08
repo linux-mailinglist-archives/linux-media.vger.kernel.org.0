@@ -2,51 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC2864AD72C
-	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 12:32:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ED0D4AD729
+	for <lists+linux-media@lfdr.de>; Tue,  8 Feb 2022 12:32:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233771AbiBHLcF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Feb 2022 06:32:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58236 "EHLO
+        id S1356421AbiBHLcA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Feb 2022 06:32:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356406AbiBHKjZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 05:39:25 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF692C03FEC0;
-        Tue,  8 Feb 2022 02:39:24 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 970A0B81914;
-        Tue,  8 Feb 2022 10:39:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1F16C004E1;
-        Tue,  8 Feb 2022 10:39:20 +0000 (UTC)
-Message-ID: <d1ac24be-9315-7b8c-422f-b2bdc469aea9@xs4all.nl>
-Date:   Tue, 8 Feb 2022 11:39:19 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v2 0/4] Exynos4 media drivers: adapt for the planned ARM
- IOMMU-DMA changes
-Content-Language: en-US
-To:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Cc:     Sylwester Nawrocki <snawrocki@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        with ESMTP id S1356697AbiBHKzE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Feb 2022 05:55:04 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E538FC03FEC0
+        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 02:55:02 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id k17so13568197plk.0
+        for <linux-media@vger.kernel.org>; Tue, 08 Feb 2022 02:55:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JpFe2MD1E+2DPoXg543PglALXj4OP+/vcuv1a1idPqs=;
+        b=deOHRpDN7/U/V2+1GsKT9q4cej3QCC1mv9oreCRy2yqCzqwof20GqvzEGli/OdHxZp
+         XbF3QBT3Th2t6JVa2oGczJxri5/zN1rZQOLve5TxfB5GgIpK5tzEM08Ad2tDnXi2n3L1
+         QkJwk/5mWQ/oqiRINLAHiGlQgQye9NmBNdHJ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JpFe2MD1E+2DPoXg543PglALXj4OP+/vcuv1a1idPqs=;
+        b=3QsCs9JAUo3V8DevhKQhqUTcXyuw2H/8Vg8rItQemFNKvmnBsn4f6R7mC5DU5uq+HM
+         0qfyBy68TJYPvBbeVpAdoikKiE6JygSw78+McGjQLi3BTYM9PNh4FElMLQFY0hogxqjR
+         z5yOOAXeAnGiYyf8bmc4EEehb11cMlRhOYdQSofMzUoTKuwhCx3w1Mbv/7tnBsunjUMe
+         xt7MyC6HrtnG/17JHqkY/6GUQ76kJz5PMKdhz6yjpuKsXEzkCdgMuAx6xeVDH4EynDH1
+         6NMbv0fZ/hEpsVCeb4biEOelDI6KGll1Jx5Bt4EHP06PoOL7ezbjP+836/19Ucygft+s
+         keDw==
+X-Gm-Message-State: AOAM532o85VVtV9RfiF6H5+ggYy4gVeIuPzQAN4q9nyYxUPD7CATXZKP
+        bCbKiZqjOm1qWtixLtRGK8FvOA==
+X-Google-Smtp-Source: ABdhPJzxCELfUQ71vOBWo/X6NxZxybbY8TJpqWcbbxZ9oEXImbmiUN5OoLbviGkL9g1oIynidlrpnw==
+X-Received: by 2002:a17:902:dcca:: with SMTP id t10mr3844961pll.133.1644317702158;
+        Tue, 08 Feb 2022 02:55:02 -0800 (PST)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:41b6:813e:c823:609c])
+        by smtp.gmail.com with ESMTPSA id e17sm14907277pfv.101.2022.02.08.02.55.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 02:55:01 -0800 (PST)
+From:   Chen-Yu Tsai <wenst@chromium.org>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>
-References: <CGME20200918144852eucas1p2cd6ec1d5fb76d5c472a7ff966e0c3e8e@eucas1p2.samsung.com>
- <20200918144833.14618-1-m.szyprowski@samsung.com>
- <aed1f16a-4b28-8da9-728a-3151a75b1f5f@xs4all.nl>
- <dbdcba1a-3913-49e1-660c-784f450acd66@samsung.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <dbdcba1a-3913-49e1-660c-784f450acd66@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH RFC] media: hantro: Implement support for encoder commands
+Date:   Tue,  8 Feb 2022 18:54:56 +0800
+Message-Id: <20220208105456.321294-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -55,28 +70,137 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marek,
+The V4L2 stateful encoder uAPI specification requires that drivers
+support the ENCODER_CMD ioctl to allow draining of buffers. This
+however was not implemented, and causes issues for some userspace
+applications.
 
-On 2/3/22 00:06, Marek Szyprowski wrote:
-> On 28.01.2022 11:07, Hans Verkuil wrote:
->> Hi Marek,
->>
->> I'm going through a bunch of (very) old patches in my patchwork TODO list
->> that for one reason or another I never processed. This series is one of them.
->> Patch 1/4 has been accepted, but not the other three.
->>
->> Patches 2-4 still apply without problems, so is it OK if I apply them?
->> Better late than never...
-> 
-> Well, there is no hurry ;) Patches which switch ARM 32bit architecture 
-> to DMA-IOMMU framework still didn't reach mainline, so this patchset is 
-> not really needed yet. I will check them soon (there have been some 
-> changes in the IOMMU framework last year) and resend also with some 
-> typos fixed.
+Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
+This is entirely based on existing code found in the vicodec test
+driver.
 
-Thank you for the status update. I've marked this series as
-'Obsoleted' in patchwork, that way it's out of my queue of pending patches :-)
+Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
 
-Regards,
+This is based on linux-next-20220207, and was tested on RK3399 with
+Gstreamer running the JPEG encoder. It was also tested on ChromeOS
+5.10 on Kevin with the video encoder used in ChromeOS ARC, which
+requires this.
 
-	Hans
+Everything works OK, but since I'm not very familiar with the mem2mem
+framework, I might be missing something, causing resource leaks.
+Hence this patch is labeled RFC.
+
+---
+ drivers/staging/media/hantro/hantro_drv.c  | 10 +++++
+ drivers/staging/media/hantro/hantro_v4l2.c | 44 ++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index bc9bcb4eaf46..ccd47eee5c43 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
+ 	return hantro_get_dec_buf_addr(ctx, buf);
+ }
+ 
++static const struct v4l2_event hantro_eos_event = {
++	.type = V4L2_EVENT_EOS
++};
++
+ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+ 				    struct hantro_ctx *ctx,
+ 				    enum vb2_buffer_state result)
+@@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+ 	src->sequence = ctx->sequence_out++;
+ 	dst->sequence = ctx->sequence_cap++;
+ 
++	if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
++		dst->flags |= V4L2_BUF_FLAG_LAST;
++		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
++		v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
++	}
++
+ 	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
+ 					 result);
+ }
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index 67148ba346f5..8c6746637236 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -628,6 +628,39 @@ static int vidioc_s_selection(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
++static const struct v4l2_event hantro_eos_event = {
++	.type = V4L2_EVENT_EOS
++};
++
++static int vidioc_encoder_cmd(struct file *file, void *priv,
++			      struct v4l2_encoder_cmd *ec)
++{
++	struct hantro_ctx *ctx = fh_to_ctx(priv);
++	int ret;
++
++	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
++	if (ret < 0)
++		return ret;
++
++	if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
++	    !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
++		return 0;
++
++	ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
++	if (ret < 0)
++		return ret;
++
++	if (ec->cmd == V4L2_ENC_CMD_STOP &&
++	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
++		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
++
++	if (ec->cmd == V4L2_ENC_CMD_START &&
++	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
++		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
++
++	return 0;
++}
++
+ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+ 	.vidioc_querycap = vidioc_querycap,
+ 	.vidioc_enum_framesizes = vidioc_enum_framesizes,
+@@ -657,6 +690,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+ 
+ 	.vidioc_g_selection = vidioc_g_selection,
+ 	.vidioc_s_selection = vidioc_s_selection,
++
++	.vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
++	.vidioc_encoder_cmd = vidioc_encoder_cmd,
+ };
+ 
+ static int
+@@ -759,6 +795,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	struct hantro_ctx *ctx = vb2_get_drv_priv(q);
+ 	int ret = 0;
+ 
++	v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
++
+ 	if (V4L2_TYPE_IS_OUTPUT(q->type))
+ 		ctx->sequence_out = 0;
+ 	else
+@@ -831,6 +869,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
+ 		hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
+ 	else
+ 		hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
++
++	v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
++
++	if (V4L2_TYPE_IS_OUTPUT(q->type) &&
++	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
++		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+ }
+ 
+ static void hantro_buf_request_complete(struct vb2_buffer *vb)
+-- 
+2.35.0.263.gb82422642f-goog
+
