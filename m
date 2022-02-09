@@ -2,133 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6426E4AEF6A
-	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 11:38:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD2864AF1F8
+	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 13:39:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbiBIKia (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Feb 2022 05:38:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48100 "EHLO
+        id S233397AbiBIMji (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Feb 2022 07:39:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbiBIKi2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 05:38:28 -0500
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E38DE14863B;
-        Wed,  9 Feb 2022 02:25:56 -0800 (PST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.west.internal (Postfix) with ESMTP id 115792B0024D;
-        Wed,  9 Feb 2022 04:39:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 09 Feb 2022 04:39:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; bh=zZDTW0FB5xKeIff0Mgbh1Hl+LyU717M3Sxe8pk
-        IOuHc=; b=KlmaBgGevb6slB6ovY6OBGrpRLV8tshmia32SHGxOGlrtr6r9ZSNpZ
-        Jb9Ov9d6JaZ35Nn7KWKTfA3hAYfX0jjz5bAgcsOe/mkD4+yMLbvPM0bdavTZNZRD
-        MfTQFtsvJTp7m+ES+uT49HUNf8PT94qOit8mFniJrAndZEKJEyoDquEtypBtNq6D
-        4OOoQyHgRwFY+qigKYrfM64ctNZlTn1nxu3Go/lGlyT1XYvNkW0lpPxslyLXhQTV
-        Qy9Hw0pvkVbTnE7HcDmmeX/bjgm4q88G9k74n7t0kI56n0ZxBLhepChTU9JW/t75
-        9+lWl8GpcFlNEeafSQsICQrXLatRueLA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=zZDTW0FB5xKeIff0M
-        gbh1Hl+LyU717M3Sxe8pkIOuHc=; b=FURyB28ibG4wKLzvnt1IiJgZcL3W0Y5u+
-        XQdEwRtaBvxDjjnpyBGUrfMIBRjgr334IouWW5IeIv5j2modJRRj4QkXC+xy5A9U
-        ppRch0eWsuE8XU00D0SEBdF1hW6IsWse9eSCLywMkQFhomRCYDJNvXEnv+yAbrsz
-        Awhb+5OyQKDK/7dQBUUHhEdducnVb7EPYUweyzbBfsPC05yKmRvjR4J+CH97Iggo
-        UzJdu6pUCkVtjETJqMmN2pW1cNa8KEzGjj58Ab/MoFrKMqRfKVu5UHnuMTVXxKKe
-        nflyBCFF5TlmYZyX3kQTulwqf5nOXYrWi/ECbS8SPlm5OGpcUCLhA==
-X-ME-Sender: <xms:44sDYjSxlulXbXOJqCM8WdVKQGqZt13IBP2bSh2AF4mf_T2aZDr7DA>
-    <xme:44sDYkxHRJSC2rvpTW35Jc5VZnXAAEyya_edLFYC5GF5grGz_-pkYyky_7mWtArdq
-    A_TR9_MOpQ1olgXsPw>
-X-ME-Received: <xmr:44sDYo37kBJDFUI0HfXtyJ-MMzuKgq_p1SQjGm7_qOZsvqyql4-VV6oSVj2umtI5i7hUsBgzCPA6dDbJvbxXAIKEhQLuTI1Z11jw5mY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheelgddthecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
-    vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:44sDYjA1m5oRlsmPJVwlSRYEXcPh3mzF2RoLWejLVWrr80SAVR5S2Q>
-    <xmx:44sDYsiJYipLR3S9fJRo7q4pokp8cjkfqjwsk4D68iy52hLwQ40XfA>
-    <xmx:44sDYnr2BIm6RArU5B456VZSpZCgS9DWObNEBchbLtQyp3KroLcaxA>
-    <xmx:5IsDYlZ8pSIB5aLnEULMyXJ-SpVxye41G7b7NbC7R0erH2yzJkQLSRkh33A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Feb 2022 04:39:46 -0500 (EST)
-Date:   Wed, 9 Feb 2022 10:39:45 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 33/66] media: sun6i-csi: Rework register definitions,
- invert misleading fields
-Message-ID: <20220209093945.uertj7wut72tximz@houat>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-34-paul.kocialkowski@bootlin.com>
+        with ESMTP id S233564AbiBIMjb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 07:39:31 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 698C2C050CC8
+        for <linux-media@vger.kernel.org>; Wed,  9 Feb 2022 04:39:22 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id l67-20020a1c2546000000b00353951c3f62so1450829wml.5
+        for <linux-media@vger.kernel.org>; Wed, 09 Feb 2022 04:39:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:from:subject:to:cc
+         :references:content-language:in-reply-to:content-transfer-encoding;
+        bh=dGGW+Si8tfNYD6/BfzzHME7/stO4K1E+ZfJZEWLpVBc=;
+        b=Q5H4WLDnOclqpMfl2ZojsQUREOdRFQlAlcRqjEe1ZMbP1jvgRhqMpe+ShGobYv9Ot4
+         xTINMa2MEbm9wRu5IE35CkqHULbccYgQ6Wca4PsjNpx1I10HRK3oc3K29C+kj4Z4fBqA
+         n3jw49usk/t7xVKloA2c0i0HmRE3ysM8v2tjHpOqMpCRxEOzX6soXJEhLW/wZGjSwbHP
+         TRJuxObEntuiQZpSLksBgfZ03LLU0kETPg5/kyRHCb9bz6/yXv+kON1U6aJT3K2qtI3w
+         v23OF1CrCaHMz5HRSn6G+fHtC4YwUQYkiF4yTFU/FiscbjB59ujp1ZForkJ+6hChoyFU
+         QKTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+         :subject:to:cc:references:content-language:in-reply-to
+         :content-transfer-encoding;
+        bh=dGGW+Si8tfNYD6/BfzzHME7/stO4K1E+ZfJZEWLpVBc=;
+        b=R2xPVJZxXVogOkXIIvVlGmkSga3SUM8katQAEHrRaJEcdQR6ssKQ45cJcKNeiyoU8B
+         aFC4V4kSBLxh3ZqotBMgf+UXob1znYl0jLYTfyCCiPeNGc5IorJCOiuE2TL45G43MwF+
+         j7+n0LX1/ayDHYTZbwcNLlJBsbVMOAvwepKSMd5BIODUrD+tMZUbk7THmzJLPpqfNk3x
+         dkkYg0j9ICVX6P+REua7AM428r52SJZA74fz+cnJwSVH6ruihRXmKJ5qM2wJUwZfI6v4
+         Pp/2+Z6y0MiSGKHu9rYdKneDIkNx0JoNJBJZV2F7mIMBB79t7lvKsSa/UyYpod63nk39
+         lyuA==
+X-Gm-Message-State: AOAM532RwlbDEkkPygEwzxhl+0wlc+bKdUXZni316sU4N9K9ulTLfnYi
+        VZIcUcNZi8H+Pn55xknA67kA/oE43yBwiQ==
+X-Google-Smtp-Source: ABdhPJxyXIA8IniyVC8oRD8j/I+4Z+Jjgtqnpy2UE74PYzW4GUU4Ivi3dBCE09BGNrxdXiAJ08AF6g==
+X-Received: by 2002:a7b:c085:: with SMTP id r5mr2482341wmh.97.1644410360844;
+        Wed, 09 Feb 2022 04:39:20 -0800 (PST)
+Received: from [192.168.1.6] (hst-221-22.medicom.bg. [84.238.221.22])
+        by smtp.googlemail.com with ESMTPSA id j13sm15590852wrw.116.2022.02.09.04.39.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Feb 2022 04:39:20 -0800 (PST)
+Message-ID: <34845dc1-b20f-645c-6442-780207c7b9b2@linaro.org>
+Date:   Wed, 9 Feb 2022 14:39:19 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="y5bsrtm5k7kfdw3r"
-Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-34-paul.kocialkowski@bootlin.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: Re: VP9 SVC Feedback data in V4L2 encoders
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Daniel Almeida <daniel.almeida@collabora.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        kernel <kernel@collabora.com>
+References: <0265202a22507d0c8dccc9d3985c2b8ec0b266ec.camel@ndufresne.ca>
+Content-Language: en-US
+In-Reply-To: <0265202a22507d0c8dccc9d3985c2b8ec0b266ec.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Nicolas,
 
---y5bsrtm5k7kfdw3r
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2/4/22 22:17, Nicolas Dufresne wrote:
+> Hi Stanimir,
+> 
+> I know you were looking for some ways to pass back data post encoding per frame
+> in V4L2 a while ago, but I think I lost track. I *think* you were looking for a
+> way to pass back HDR10+ metadata from the decoder. I'm currently trying design a
 
-On Sat, Feb 05, 2022 at 07:53:56PM +0100, Paul Kocialkowski wrote:
-> This cleans up the register definitions a bit, adds a prefix, remove mask=
-s.
-> Registers are now fully defined, some additional fields were added when
-> needed. New format definitions are added for future use.
->=20
-> Some fields are wrongly defined (inverted) in Allwinner litterature
-> (e.g. field vs frame prefixes), which is quite misleading. They are
-> now corrected to reflect their actual behavior.
+The size of HDR10plus metadata (taken from ffmpeg, ATSC 2094-40) is
+~12KB.  The other encoder metadata which I want also to have is encoder
+ROI which depends on the encoding resolution and my calculations shows
+up that for 8k resolution I need metadata buffer of 272KB (h264) and
+68KB for hevc. With the numbers above I want to say that we need some
+scalable solution for input/output metadata. V4L2 controls are not such
+solution. My experiments with passing through v4l2 compound control raw
+data (16/32KB) shows that the copy to/from userspace is interrupted many
+times which impacts badly performance on higher framerates (>= 460 fps).
 
-How was it tested?
+> a way to pass back SVC encoded frame info (layer(s)_id and references). This itis
+> somewhat similar, for each frames being encoded I need some information from the
+> encoder, so I can pass it back to the RTP payloader. This issue was fixed in
+> AV1, but VP9 is still pretty important.
+> 
+> On my side, I was thinking that a driver could stack the data per encoded buffer
+> internally, and update a control state at DQBUF(capture) time. This should not
+> be racy, as the next update will stay pending till the next DQBUF, but I'm
+> worried of the overhead and maybe complexity.
 
-In particular, see
-https://lore.kernel.org/all/20180305093535.11801-7-maxime.ripard@bootlin.co=
-m/
+What is the size of the data you want to pass from kernel to userspace?
 
-Maxime
+Even that it is not racy on 60fps, on becoming actual 460fps and beyond
+it will be. That's why I think v4l2 controls is not an option for the
+near future.  The only clean option (not adding additional complexities
+in client for synchronization data <-> metadata is to have a metadata
+buffer attached to data buffer. The other option is a separate video
+node for metadata but I'm not happy with this - this complicates driver
+and client implementations. And the third option is to change request
+API and v4l2 controls framework to deal with dmabuf instead of copy
+to/from user.
 
---y5bsrtm5k7kfdw3r
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> your feedback would be welcome,
+> Nicolas
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgOL4QAKCRDj7w1vZxhR
-xVXMAP4tUZl6Zly0E31lIvZlN0DimuVQB8+cy8faHTKuekbwPQEA4bndLWw2iOVW
-ikY5YFrnuK1/de7lSQUW2bhUHCbSPQ4=
-=Pxbv
------END PGP SIGNATURE-----
-
---y5bsrtm5k7kfdw3r--
+-- 
+regards,
+Stan
