@@ -2,64 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B1424AEB2B
-	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 08:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C4D64AEBAB
+	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 09:00:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238274AbiBIHfU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Feb 2022 02:35:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34790 "EHLO
+        id S240128AbiBIIAA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Feb 2022 03:00:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238272AbiBIHfQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 02:35:16 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47762C05CB92;
-        Tue,  8 Feb 2022 23:35:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0E78BB81F46;
-        Wed,  9 Feb 2022 07:35:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A7EEC340E7;
-        Wed,  9 Feb 2022 07:35:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644392116;
-        bh=p/fVFN4fhl2mww8hF6/jEu3Mn0a4mJN2CbZQGUxSDBg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PBBnP6pIN3DyDXScZiMzazjCU6A34llpx51UlEWh15wRsnIRnWFpwpi0c+s5e5WGG
-         8WCMjFw56wrlbESJvj/0QbixjkDm8ObJVwD2MXxmkgUd/dVsQCD/FXYOcBzCNyaUy6
-         Cc2jnclMX7Z1EzZUoBktVKZnYGraRDKyzH09Vqn3aWPd5a5AlwMvSpdLK592VwOO4m
-         8LX4/87Hf5gbe7gKJ0nWHTm2qLNqmQp+4GVPmqAYK4SrIMQR7Oj8PPs9ni6heVBZsf
-         RRXopnekQYlrsSqoht4fuEU8mDSq+PAtS8iEnOwCkTbYlVCW/2bpal9cirwYzNnmkY
-         SYA7sSKfJekAw==
-Date:   Wed, 9 Feb 2022 15:35:10 +0800
-From:   Shawn Guo <shawnguo@kernel.org>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-media@vger.kernel.org, aford@beaconembedded.com,
-        cphealy@gmail.com, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH V4 11/11] arm64: dts: imx8mm: Enable Hantro G1 and G2
- video decoders
-Message-ID: <20220209073447.GH4909@dragon>
-References: <20220125171129.472775-1-aford173@gmail.com>
- <20220125171129.472775-12-aford173@gmail.com>
+        with ESMTP id S240131AbiBIH7v (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 02:59:51 -0500
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9098CC05CB81
+        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 23:59:54 -0800 (PST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 2197pbHw068866;
+        Wed, 9 Feb 2022 15:51:37 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 9 Feb
+ 2022 15:59:49 +0800
+Message-ID: <e498b84e-c8b1-f2ad-4364-f871491fb507@aspeedtech.com>
+Date:   Wed, 9 Feb 2022 15:59:50 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220125171129.472775-12-aford173@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1] media: aspeed: Fix incorrect color
+Content-Language: en-US
+To:     Paul Menzel <pmenzel@molgen.mpg.de>
+CC:     "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20220209024312.2218-1-jammy_huang@aspeedtech.com>
+ <554448a9-bc65-7c0b-9878-fb2c0fe9bfe4@molgen.mpg.de>
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <554448a9-bc65-7c0b-9878-fb2c0fe9bfe4@molgen.mpg.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 2197pbHw068866
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -68,12 +59,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 25, 2022 at 11:11:28AM -0600, Adam Ford wrote:
-> There are two decoders on the i.MX8M Mini controlled by the
-> vpu-blk-ctrl.  The G1 supports H264 and VP8 while the
-> G2 support HEVC and VP9.
-> 
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Dear Paul,
 
-Applied, thanks!
+Thanks for your review and suggestion.
+
+On 2022/2/9 下午 02:23, Paul Menzel wrote:
+
+> Dear Jammy,
+>
+>
+> Am 09.02.22 um 03:43 schrieb Jammy Huang:
+>> Current settings for rgb-2-yuv is BT.601(studio swing), but JFIF
+>> uses BT.601(full swing).
+> Could you please describe the problem in a little more detail? On an
+> attached monitor to the BMC (which one) what incorrect colors are seen?
+Aspeed video 's input is gfx' output which is ARGB format. To generate 
+jpg, video
+engine will transform ARGB into YUV first. Previously, aspeed video's 
+default
+settings is studio swing (16~235), but jpg is full swing (0~255) as you 
+can see in
+'Conversion to and from RGB' of https://www.w3.org/Graphics/JPEG/jfif3.pdf.
+
+This will lead to incorrect color. For example, a RGB color on gfx, 
+blue(0, 0, 255) will
+become (16, 16, 235) after we see the output jpg of aspeed video.
+> Maybe use:
+>
+>> media: aspeed: Use full swing for JFIF to fix incorrect color
+Thanks, I will update a more suitable subject for this patch.
+>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>> ---
+>>    drivers/media/platform/aspeed-video.c | 2 +-
+>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+>> index eb9c17ac0e14..08b63b8297f0 100644
+>> --- a/drivers/media/platform/aspeed-video.c
+>> +++ b/drivers/media/platform/aspeed-video.c
+>> @@ -1089,7 +1089,7 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
+>>    	u32 comp_ctrl = VE_COMP_CTRL_RSVD |
+>>    		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
+>>    		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
+>> -	u32 ctrl = VE_CTRL_AUTO_OR_CURSOR;
+>> +	u32 ctrl = VE_CTRL_AUTO_OR_CURSOR | VE_CTRL_YUV;
+> Excuse my ignorance, but reading [1][2] YUV can be represented by studio
+> and full swing. How is the register/bit described in the datasheet, and
+> can the macro name be improved?
+VR008[7:6] will decide the data format for video capture:
+00: CCIR601 studio swing compliant YUV format
+01: CCIR601 full swing compliant YUV format
+10: RGB format
+11: Gray color mode
+
+I will update this part as well.
+>
+>>    	u32 seq_ctrl = video->jpeg_mode;
+>>    
+>>    	if (video->frame_rate)
+>
+> Kind regards,
+>
+> Paul
+>
+>
+> [1]: https://mymusing.co/bt601-yuv-to-rgb-conversion-color/
+> [2]: https://www.hisour.com/yuv-color-system-25916/
+
+-- 
+Best Regards
+Jammy
+
