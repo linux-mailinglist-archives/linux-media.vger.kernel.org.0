@@ -1,91 +1,166 @@
 Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECDAB4AFC29
-	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 19:57:58 +0100 (CET)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id CA3404AFE93
+	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 21:37:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241411AbiBIS5K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Feb 2022 13:57:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58728 "EHLO
+        id S231941AbiBIUhH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Feb 2022 15:37:07 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:44912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241326AbiBIS4s (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 13:56:48 -0500
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1104FC050CF8;
-        Wed,  9 Feb 2022 10:56:05 -0800 (PST)
-Received: by mail-oo1-f41.google.com with SMTP id u25-20020a4ad0d9000000b002e8d4370689so3504886oor.12;
-        Wed, 09 Feb 2022 10:56:05 -0800 (PST)
+        with ESMTP id S231863AbiBIUhF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 15:37:05 -0500
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2726AC0DE7EB;
+        Wed,  9 Feb 2022 12:37:08 -0800 (PST)
+Received: by mail-oi1-f172.google.com with SMTP id r27so3774141oiw.4;
+        Wed, 09 Feb 2022 12:37:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=U1a6J1Ei0HXyrs5g5n3HqCU8XGgHDhvfeppc0HOYcD4=;
-        b=gt3UtY37iC64UICYxNCT8l6JlQ/efR3xZAr5jhvX9mZiV6glqkpW2GpelKimZYeody
-         g6hMo7kFrtAgzx9eHCj2Jkr2GAfrdf+BBMTfBxJnc1Sxjrjb3xQquGio6dXPGlDHZEbW
-         zKoVMmcs6ab5HIIHlIPi50zxSJP4aIzLzKoAS8f4L4Cf95sXdAkrdTnn+B8J6UWjFE69
-         MjWduVo/ZuzDEEZzUaL3OYiKSQRrForDpVMtDLtnha8pEdCrx9kIkLwOL+X9wdoOQS1n
-         BMTMenDPUAJBV1vUR6T/ktNQueZA7/XW3Nm5UvhcucJyfB4JWrUUYPhKGwHOy8EVDfDQ
-         qfbA==
-X-Gm-Message-State: AOAM531kCxXk/mosNElg4CFIc3CO8y3fsEomr6mOEFuV4CGVR9f9y0VN
-        OOcUdNlnYma2XUZp7lrfTQ==
-X-Google-Smtp-Source: ABdhPJyvDSkFU1hxl/DhxagKGRQyWKE93eZjYQ3eZApgX/m0JXhMm6dM/Ah+IGAufOFalmSRhA1enw==
-X-Received: by 2002:a05:6870:c7a9:: with SMTP id dy41mr1296625oab.137.1644432964382;
-        Wed, 09 Feb 2022 10:56:04 -0800 (PST)
+        bh=zIhHhyih/7ZhXtvq9LuF0lqvT9O7H7X5U0jczH+YH4s=;
+        b=ONezZheLvcATD8W+JN5Y7O2A+xF3zeh6aAtlrUIzcmzQKGMKa6+oCj+Ja30PjsY95V
+         RcE3BvLPzCcuovDMR7TLcQEX+EnA4kmOvW/Yrd/Dj/W+jIpgNiJnE8oQCOMewh08qNUh
+         54q6AO95PwlKh+glGPYNQAXt8Muw3eypK9iunMMyBKUBmhYe3ZVPE46PsbdOFRYS+tGX
+         h0305C+GiYI7nDdY/sZjtplOeZ0Q752tXAfE7Eoie5GT5OOO4bOOH71C4VSswEH3QL5W
+         517sVsb4QbGQZrB/LKdI2PNEElrqL4Q+8q1d5ugMgp4qLjK6l4GtD4aB2DUW9Mx/Zub6
+         GiMA==
+X-Gm-Message-State: AOAM533mpMny1UkdiceSlTmmtInjsSYUkm5AEapsOuEuauvOyFp4jxHp
+        7V41lFnbVXuwjXOKhG90QQ==
+X-Google-Smtp-Source: ABdhPJy4JKuU/2pyAT8/RT39URC0YEPefqUshCvwl80gipjwlzTCz6tyUtL+RPSK1CFrfBlAbwLDDQ==
+X-Received: by 2002:a05:6808:211c:: with SMTP id r28mr1739810oiw.4.1644439027436;
+        Wed, 09 Feb 2022 12:37:07 -0800 (PST)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id ay42sm7402537oib.5.2022.02.09.10.56.02
+        by smtp.gmail.com with ESMTPSA id bg34sm7485772oob.14.2022.02.09.12.37.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Feb 2022 10:56:03 -0800 (PST)
-Received: (nullmailer pid 689284 invoked by uid 1000);
-        Wed, 09 Feb 2022 18:56:02 -0000
-Date:   Wed, 9 Feb 2022 12:56:02 -0600
+        Wed, 09 Feb 2022 12:37:06 -0800 (PST)
+Received: (nullmailer pid 862149 invoked by uid 1000);
+        Wed, 09 Feb 2022 20:37:04 -0000
+Date:   Wed, 9 Feb 2022 14:37:04 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-Cc:     kernel-list@raspberrypi.com, tomi.valkeinen@ideasonboard.com,
-        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        mchehab@kernel.org, naush@raspberrypi.com, stefan.wahren@i2se.com,
-        bcm-kernel-feedback-list@broadcom.com, lukasz@jany.st,
-        linux-rpi-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 03/11] dt-bindings: media: Add bindings for
- bcm2835-unicam
-Message-ID: <YgQOQneSD3+9eS37@robh.at.kernel.org>
-References: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
- <20220208155027.891055-4-jeanmichel.hautbois@ideasonboard.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v2, 1/7] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for lat soc
+Message-ID: <YgQl8CtttQ99+8lB@robh.at.kernel.org>
+References: <20220128035440.24533-1-yunfei.dong@mediatek.com>
+ <20220128035440.24533-2-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220208155027.891055-4-jeanmichel.hautbois@ideasonboard.com>
+In-Reply-To: <20220128035440.24533-2-yunfei.dong@mediatek.com>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 08 Feb 2022 16:50:19 +0100, Jean-Michel Hautbois wrote:
-> Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
-> camera interface.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> ---
-> v4:
-> - make MAINTAINERS its own patch
-> - describe the reg and clocks correctly
-> - use a vendor entry for the number of data lanes
-> ---
->  .../bindings/media/brcm,bcm2835-unicam.yaml   | 117 ++++++++++++++++++
->  1 file changed, 117 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> 
+On Fri, Jan 28, 2022 at 11:54:34AM +0800, Yunfei Dong wrote:
+> Adds decoder dt-bindings for compatible "mediatek,mtk-vcodec-lat-soc".
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+What's lat soc? How does this relate to what's already there in this 
+binding.
+
+The subject space is limited, avoid saying the same thing twice 
+(dt-bindings).
+
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../media/mediatek,vcodec-subdev-decoder.yaml | 49 +++++++++++++++++++
+>  1 file changed, 49 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> index 6415c9f29130..a3c892338ac0 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> @@ -189,6 +189,55 @@ patternProperties:
+>  
+>      additionalProperties: false
+>  
+> +  '^vcodec-lat-soc@[0-9a-f]+$':
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        const: mediatek,mtk-vcodec-lat-soc
+> +
+> +      reg:
+> +        maxItems: 1
+> +
+> +      iommus:
+> +        minItems: 1
+> +        maxItems: 32
+> +        description: |
+> +          List of the hardware port in respective IOMMU block for current Socs.
+> +          Refer to bindings/iommu/mediatek,iommu.yaml.
+> +
+> +      clocks:
+> +        maxItems: 5
+> +
+> +      clock-names:
+> +        items:
+> +          - const: sel
+> +          - const: soc-vdec
+> +          - const: soc-lat
+> +          - const: vdec
+> +          - const: top
+> +
+> +      assigned-clocks:
+> +        maxItems: 1
+> +
+> +      assigned-clock-parents:
+> +        maxItems: 1
+> +
+> +      power-domains:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +      - iommus
+> +      - clocks
+> +      - clock-names
+> +      - assigned-clocks
+> +      - assigned-clock-parents
+> +      - power-domains
+> +
+> +    additionalProperties: false
+> +
+>  required:
+>    - compatible
+>    - reg
+> -- 
+> 2.25.1
+> 
+> 
