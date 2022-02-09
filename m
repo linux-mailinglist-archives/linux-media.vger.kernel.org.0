@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D60B84AEF63
-	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 11:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BE074AEF1B
+	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 11:17:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229629AbiBIKi1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Feb 2022 05:38:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47976 "EHLO
+        id S233148AbiBIKQq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Feb 2022 05:16:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiBIKi0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 05:38:26 -0500
+        with ESMTP id S230260AbiBIKQj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 05:16:39 -0500
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B81E148637;
-        Wed,  9 Feb 2022 02:25:56 -0800 (PST)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.west.internal (Postfix) with ESMTP id B755D2B001F6;
-        Wed,  9 Feb 2022 04:20:39 -0500 (EST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8C19E030190;
+        Wed,  9 Feb 2022 02:13:07 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.west.internal (Postfix) with ESMTP id 704612B00075;
+        Wed,  9 Feb 2022 04:22:06 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Wed, 09 Feb 2022 04:20:41 -0500
+  by compute5.internal (MEProxy); Wed, 09 Feb 2022 04:22:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
         :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; bh=SBTnBJKQIWPfpUR/56tNnSFnqOAge6wgqkQjX1
-        F+GWw=; b=CDpH6QDlK6etkYWwEufaBl86rsCLCUXcMo8QxESkub7gK+AFd4yqkb
-        6kBATCa0xGSUTrnFTWB2DgKWUcn2VOOo1B4/rGhPumCOmI815CwDKgYDmQJkn6eE
-        JCSD1SyPZwknHxOLs5OpP/1Ky7yjerNewNl0+co96gyMNfKVibE/t45IAmiKT6U3
-        jJOwgU49qEiQ2QIAZZ72+TkTZ1W1b+pfNzutZ0nZeGu3iNguwhF2bfS4izy/8oSj
-        I3V/B9OkThZYwYbZINt+rO9HeerVjk8Aacd5aLACXvceq5/LEaGe24C/Xfu2iIiq
-        Qfd27O+bpPo+bAiwPEsfDEHYAi4cWfUA==
+        :subject:to:to; s=fm2; bh=Tt9nwg4OqINVHPZtGpaWXspgVtdYpxJW0WuyZY
+        KSUXo=; b=CES+aAc/6AFtcfKBU4TR98AXkRc06kaWv959B8647awn98r+JTV1qX
+        xk57tVNqopfs2On7z7mip7717bEci13Ho6pAwwjQAGQoX0Fabg/FWpw0tfmsbRhm
+        ZNjKfAt5DX1pe5AnetTRzhRXBYTPBYgqALvQnH/Qu44iREfl5Gt9FPKHzBo3Ftso
+        rq6GEYq8FLTwdx927Z1pr5pmoZDlAs9Y7cBx+IO8pptePKKwKpaXXPGOGEvrtKGr
+        mv2e8HaFoOCA5k/6rR4RQIW2H3ahWizzf6INCDipbDtB/m6B7D/99NSiFy/F8e+0
+        ApL3vZfXZDAGbeCEzOzBRsUEKU26xLMQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:from:from
         :in-reply-to:in-reply-to:message-id:mime-version:references
         :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=SBTnBJKQIWPfpUR/5
-        6tNnSFnqOAge6wgqkQjX1F+GWw=; b=SuXPnSCidnnCw7+asKU9JhwD7CJo6XAmf
-        RlC137mUb7s3vSeq/1VqjwOfxEa6wcMhGsRgKkskL75NP9aLUnE3Y8wzuG4w3pMe
-        4ozpoit7AylY8y1k90WXcD8563bbTh0JzGRWXTVqPWYJcDXg9Uoscs/ZH2OIGMlT
-        W6JRy7mGxBBXVn7nCQ+JFMlyrZDxw1LPbsUynd27XAB6bWQhF9WLIn0AAumScQay
-        xFxRLPiMm9aosDr5c7iqFqitBoP/oLCK/0hwA5DbYR9kWZ0I1p/B3YJ5x+ALo1tI
-        DWoZkQL1FTdE25wc8drszHAEtcclHokxgmWl0Yz09tnej/utT/p3g==
-X-ME-Sender: <xms:ZYcDYnbEmphW3VJrIoA3r1HmrQD6YNKiP4LGsxBj22ZQThBVA4Pdmw>
-    <xme:ZYcDYmbGJb9A4jiJFc-QYbzTkztY9TKYsFy0N_P56Uw048ick-T-7C3irzwcebTvF
-    34JSpG9UbrES16sjvE>
-X-ME-Received: <xmr:ZYcDYp91vaS2zFZs6_1rZLxXu8eA6F7aY2cwisz6To1-238hYGswL5JU8R4gnnFjg57wgxRwTsoNRT4pMg-inyySD6_KpgmVyR3TrEs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheelgddtudcutefuodetggdotefrodftvf
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Tt9nwg4OqINVHPZtG
+        paWXspgVtdYpxJW0WuyZYKSUXo=; b=DNgujOG3Kyu87VeORY/tXh7zV2FEaRCD2
+        jHTYL32LjpGyCvlGrXljVxM0tT3qSfElSiMBYhhypG3dxP7obOe+HKXcltlN33Da
+        NzJY0Rrn85+jeDIxl9miv53hhpkUbs4BZwJ0Boxmo9ip8UHHBTuywmdmUU7SHvkH
+        FuLnmbAFtgN4b/TDRMKRpz5Bq58NyFH4tHrhyW56fKcJtEmf8fMM2ySratv+hfRc
+        jFO//p7Kioly4TPiiWzuu54aJdiG6Pf9VSnmpG/fJDInw1VfN73Otf0Dx3Zx0cP+
+        ufsQu/5K1dHYWmUGZX/HJehFuYjIw94LVU2wDPIR+lijQ86k4/ZQQ==
+X-ME-Sender: <xms:vIcDYvSLzBaUpcTv3LvOvXPsxvCPTLS72MJZTSyCgRgyDIxf_sh-wQ>
+    <xme:vIcDYgzrul8zSLR5aFz4voae8ya0P99U3o5-GxWFhCcnQJW_Mhd8npqZ_o9ujcHAo
+    kilepwtXKyBN0hwOpA>
+X-ME-Received: <xmr:vIcDYk00M8AhJLwLWq45_kuMtRRCLOUKKHNcuutRQF_6wrW14hsjntFbp7Ho-w22UIbrTpElcnImSOj8N4d8wLT4frYTZe-DQhq4xmo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheelgddtvdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
@@ -52,13 +52,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheelgddtudcutefuodetggdote
     gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
     udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
     igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ZYcDYtpaz_FpHS6w2OteYl0qFgQXU02dsOId9hLdW6_vwPG8VFgxgw>
-    <xmx:ZYcDYipPJUq5rJ23KQCMH8kuAZwdd98ASpCiEmAJNdUsgQg4ufGR3w>
-    <xmx:ZYcDYjQNof7nLUqRAGRx9Wdsf-IZRkqFgBUkEnPgktOmRbaaCvmPPA>
-    <xmx:Z4cDYnj43Z_R4o22y8Z1KuGyMwA3_z-uKQi0SnfNqBo2HyQHnLDx8A1K950>
+X-ME-Proxy: <xmx:vIcDYvDeqRjppTTUhzZXU1XOFeqkUtqz8TgDTNjARCopTsy2W8jaVg>
+    <xmx:vIcDYohQIwCF-TmlZ-gA_SNwx55tr-5droHMgYJIQ3cq4uD5jJwrtw>
+    <xmx:vIcDYjoWqndfwaT5D6dA3esjsRydoyESdTz74Wr1Yc8CKn9fo6ti_w>
+    <xmx:vYcDYhaLJS3VuiBzs2WMRtUF1Ei8cldNeGQ_Tc5J-yr_4FRL_8MDEmysVL4>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Feb 2022 04:20:37 -0500 (EST)
-Date:   Wed, 9 Feb 2022 10:20:35 +0100
+ 9 Feb 2022 04:22:04 -0500 (EST)
+Date:   Wed, 9 Feb 2022 10:22:03 +0100
 From:   Maxime Ripard <maxime@cerno.tech>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -76,16 +76,16 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Helen Koike <helen.koike@collabora.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 19/66] media: sun6i-csi: Grab bus clock instead of
- passing it to regmap
-Message-ID: <20220209092035.tz5ctosidpib47fq@houat>
+Subject: Re: [PATCH v2 22/66] media: sun6i-csi: Use runtime pm for clocks and
+ reset
+Message-ID: <20220209092203.3fieqs4mbip6heug@houat>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-20-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-23-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="yjjnfllv4wtw5ufd"
+        protocol="application/pgp-signature"; boundary="rqnlvhzt36vdmgbb"
 Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-20-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20220205185429.2278860-23-paul.kocialkowski@bootlin.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -97,43 +97,133 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---yjjnfllv4wtw5ufd
+--rqnlvhzt36vdmgbb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Sat, Feb 05, 2022 at 07:53:42PM +0100, Paul Kocialkowski wrote:
-> Since the bus clock alone is not enough to get access to the registers,
-> don't pass it to regmap and manage it instead just like the other
-> clocks.
+On Sat, Feb 05, 2022 at 07:53:45PM +0100, Paul Kocialkowski wrote:
+> Wrap the clock and reset preparation into runtime pm functions
+> for better organization of the code.
 >=20
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 94 ++++++++++++++-----
+>  1 file changed, 69 insertions(+), 25 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers=
+/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> index 2355088fdc37..b53b92b70a89 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> @@ -152,40 +152,18 @@ int sun6i_csi_set_power(struct sun6i_csi_device *cs=
+i_dev, bool enable)
+> =20
+>  	if (!enable) {
+>  		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
+> +		pm_runtime_put(dev);
+> =20
+> -		clk_disable_unprepare(csi_dev->clk_ram);
+> -		clk_disable_unprepare(csi_dev->clk_mod);
+> -		reset_control_assert(csi_dev->reset);
+>  		return 0;
+>  	}
+> =20
+> -	ret =3D clk_prepare_enable(csi_dev->clk_mod);
+> -	if (ret) {
+> -		dev_err(csi_dev->dev, "Enable csi clk err %d\n", ret);
+> +	ret =3D pm_runtime_resume_and_get(dev);
+> +	if (ret < 0)
+>  		return ret;
+> -	}
+> -
+> -	ret =3D clk_prepare_enable(csi_dev->clk_ram);
+> -	if (ret) {
+> -		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err %d\n", ret);
+> -		goto clk_mod_disable;
+> -	}
+> -
+> -	ret =3D reset_control_deassert(csi_dev->reset);
+> -	if (ret) {
+> -		dev_err(csi_dev->dev, "reset err %d\n", ret);
+> -		goto clk_ram_disable;
+> -	}
+> =20
+>  	regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, CSI_EN_CSI_EN);
+> =20
+>  	return 0;
+> -
+> -clk_ram_disable:
+> -	clk_disable_unprepare(csi_dev->clk_ram);
+> -clk_mod_disable:
+> -	clk_disable_unprepare(csi_dev->clk_mod);
+> -	return ret;
+>  }
+> =20
+>  static enum csi_input_fmt get_csi_input_format(struct sun6i_csi_device *=
+csi_dev,
+> @@ -800,6 +778,65 @@ static irqreturn_t sun6i_csi_isr(int irq, void *priv=
+ate)
+>  	return IRQ_HANDLED;
+>  }
+> =20
+> +static int sun6i_csi_suspend(struct device *dev)
+> +{
+> +	struct sun6i_csi_device *csi_dev =3D dev_get_drvdata(dev);
+> +
+> +	reset_control_assert(csi_dev->reset);
+> +	clk_disable_unprepare(csi_dev->clk_ram);
+> +	clk_disable_unprepare(csi_dev->clk_mod);
+> +	clk_disable_unprepare(csi_dev->clk_bus);
+> +
+> +	return 0;
+> +}
+> +
+> +static int sun6i_csi_resume(struct device *dev)
+> +{
+> +	struct sun6i_csi_device *csi_dev =3D dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret =3D reset_control_deassert(csi_dev->reset);
+> +	if (ret) {
+> +		dev_err(dev, "failed to deassert reset\n");
+> +		return ret;
+> +	}
+> +
+> +	ret =3D clk_prepare_enable(csi_dev->clk_bus);
+> +	if (ret) {
+> +		dev_err(dev, "failed to enable bus clock\n");
+> +		goto error_reset;
+> +	}
+> +
+> +	ret =3D clk_prepare_enable(csi_dev->clk_mod);
+> +	if (ret) {
+> +		dev_err(dev, "failed to enable module clock\n");
+> +		goto error_clk_bus;
+> +	}
+> +
+> +	ret =3D clk_prepare_enable(csi_dev->clk_ram);
+> +	if (ret) {
+> +		dev_err(dev, "failed to enable ram clock\n");
+> +		goto error_clk_mod;
+> +	}
+> +
+> +	return 0;
 
-I'm not really sure about this one.
-
-Sure, there's more resources involved than the clock to get access to
-the registers (like reset), but you can't have a functional device
-without the reset line deasserted.
-
-You can however have a functional device without the bus clock enabled,
-so it just seems much better to let regmap manage it.
-
-Unless there's a drawback to it of course, but it should be in your
-commit log if so.
+You've change the order of the reset vs clock initialization. Also, does
+that work with CONFIG_PM disabled?
 
 Maxime
 
---yjjnfllv4wtw5ufd
+--rqnlvhzt36vdmgbb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgOHYwAKCRDj7w1vZxhR
-xVdlAP9xWWz+r+5yqqSyDREBt4wUIYsOPLYBVd8MDdUu/WQGfgEAkFTtNt3mcKcT
-DWTcs0AATTN6+sept16oF0pNbheHkA0=
-=mR//
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgOHuwAKCRDj7w1vZxhR
+xZriAP9bZyn3qXa36hkToZ4ZGQtpdPm8U/5vUSO5rhzQUD/N5gEA7uxX1cpy0NiA
+FcVH+0Ecscz+V2GzVMoJkN0yAOTwdAk=
+=kTBx
 -----END PGP SIGNATURE-----
 
---yjjnfllv4wtw5ufd--
+--rqnlvhzt36vdmgbb--
