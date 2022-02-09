@@ -2,55 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C4D64AEBAB
-	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 09:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1AD94AEBF2
+	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 09:12:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240128AbiBIIAA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Feb 2022 03:00:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49728 "EHLO
+        id S235609AbiBIIMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Feb 2022 03:12:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240131AbiBIH7v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 02:59:51 -0500
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9098CC05CB81
-        for <linux-media@vger.kernel.org>; Tue,  8 Feb 2022 23:59:54 -0800 (PST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 2197pbHw068866;
-        Wed, 9 Feb 2022 15:51:37 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 9 Feb
- 2022 15:59:49 +0800
-Message-ID: <e498b84e-c8b1-f2ad-4364-f871491fb507@aspeedtech.com>
-Date:   Wed, 9 Feb 2022 15:59:50 +0800
+        with ESMTP id S232016AbiBIIMe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 03:12:34 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC59BC0613CA
+        for <linux-media@vger.kernel.org>; Wed,  9 Feb 2022 00:12:38 -0800 (PST)
+Received: from jyty (dsl-hkibng31-58c389-173.dhcp.inet.fi [88.195.137.173])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: msmakela)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4F5DA1B00120;
+        Wed,  9 Feb 2022 10:12:35 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1644394355;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/duAtD7EICn0sGy5Kc7vI8YUIa/Poi/OW9Ae+oD9LYM=;
+        b=AxQMwAOvlqjsvn7QCrE5vFQqAAWIqGUmotAS5GQbnQYT9nxBElBG1pX377yMWYDETRaPKz
+        5OemREDZ8M4k3mXEujKXCtzm9TuBYvvJ0Ro6TuqVZBfjLswuis/v+hg545ILoU8lmygykb
+        uuQmI3qC6yzJLn7KU8MUS9fugtxxiIxpueU/khClY7hKpUgNOqM6atTfaREyuRTVnT9gyW
+        F6uUod1tMLFPGIFdquFKlS9Z8UPiRvVeUYViuw//qCvxVsOvNap7zlXg/XTWrFQ90Pz1Is
+        CsdQtNf28caA7LmBo2hE54LW0z9c0N2cUuC2efTM1atTWxOobFi0+H9cWadQsg==
+Date:   Wed, 9 Feb 2022 10:12:34 +0200
+From:   Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
+To:     Sean Young <sean@mess.org>
+Cc:     Antti Palosaari <crope@iki.fi>, linux-media@vger.kernel.org
+Subject: Re: Inconsistent RC5 ir-keytable events
+Message-ID: <YgN3cq+utQAFFnEW@jyty>
+References: <YdLRa86ddm2T4xew@jyty>
+ <20220103110743.GA22001@gofer.mess.org>
+ <YdLqL2ViSwWzS/Ig@jyty>
+ <YdRwqt1pwb8osT6V@jyty>
+ <20220105095355.GA6428@gofer.mess.org>
+ <YdbVfObDZZnFIDc3@jyty>
+ <YeBZmM0ISnFGcsVa@gofer.mess.org>
+ <YeEYxwUkCV7rSa0A@jyty>
+ <YfV2TeOgSiVShmZN@jyty>
+ <YgKeZ+vAynWvvijz@gofer.mess.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1] media: aspeed: Fix incorrect color
-Content-Language: en-US
-To:     Paul Menzel <pmenzel@molgen.mpg.de>
-CC:     "eajames@linux.ibm.com" <eajames@linux.ibm.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20220209024312.2218-1-jammy_huang@aspeedtech.com>
- <554448a9-bc65-7c0b-9878-fb2c0fe9bfe4@molgen.mpg.de>
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <554448a9-bc65-7c0b-9878-fb2c0fe9bfe4@molgen.mpg.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 2197pbHw068866
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+In-Reply-To: <YgKeZ+vAynWvvijz@gofer.mess.org>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=msmakela smtp.mailfrom=marko.makela@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1644394355; a=rsa-sha256;
+        cv=none;
+        b=QmACJcnMMYKUu2vSQ4xz53T0+l7Mr5baqv4RqAzI+bZktX8siUFZ/Idv6qXvwqLRoiSuU9
+        37k8ewmJBi+ckv0G/RssdOEjkbEGLL87VE86JBJEABegGRtdme0pzHvJard6Ed7RBsY1tC
+        8uuyJ+B8Bo7+y6I2zm68iBquton/HkIqL4WNcdYGzSO/FVnQe7LViEDcKillr950YTZaQ7
+        BBWqvq9kku1XiIRQyVsRWiG/KFIv2em3uul79PdW7CpTT2dHofm8uMASAFa+sgexVedQQJ
+        zkvZk+maEfv/49jDgRCH/2/9rVnsg0EpCLRqCVBb2CdFENixO7rMTZkffol1Uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1644394355;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/duAtD7EICn0sGy5Kc7vI8YUIa/Poi/OW9Ae+oD9LYM=;
+        b=F1EnFK56iVcR7+kVD68So79PL/wVC9ktMpgJf/d791FC2GAKob/59J8AQLclJvbubUdrgZ
+        Ode815ELWcEoZdQcC185CayR8JqR07VIO3/lzU+uA1mR4ThePGjmlYQEDukTFxeDrq2Aqp
+        N7EmU8//yy+UhaGuHK+LoSfTVhMchWbxORk1I5GOisrM8JP6oIvuPIIzLXv6d+OwnPgHDg
+        NSoBJj/dVsTtkP2+5XnSbn1lbjq6a/yx8nofeGdaHSzaxXzMaTd3Ut+plYku/W5lfu40jJ
+        nxoSDmswqDaVTjgggoTf82yHncBLg6fUPe/ML4IuV4z0J9NgcIpVTuPdOiTgqg==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -59,74 +86,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Paul,
+Hi Sean,
 
-Thanks for your review and suggestion.
-
-On 2022/2/9 ä¸‹åˆ 02:23, Paul Menzel wrote:
-
-> Dear Jammy,
+Tue, Feb 08, 2022 at 04:46:31PM +0000, Sean Young wrote:
+>Hi Marko,
 >
->
-> Am 09.02.22 um 03:43 schrieb Jammy Huang:
->> Current settings for rgb-2-yuv is BT.601(studio swing), but JFIF
->> uses BT.601(full swing).
-> Could you please describe the problem in a little more detail? On an
-> attached monitor to the BMC (which one) what incorrect colors are seen?
-Aspeed video 's input is gfx' output which is ARGB format. To generate 
-jpg, video
-engine will transform ARGB into YUV first. Previously, aspeed video's 
-default
-settings is studio swing (16~235), but jpg is full swing (0~255) as you 
-can see in
-'Conversion to and from RGB' of https://www.w3.org/Graphics/JPEG/jfif3.pdf.
-
-This will lead to incorrect color. For example, a RGB color on gfx, 
-blue(0, 0, 255) will
-become (16, 16, 235) after we see the output jpg of aspeed video.
-> Maybe use:
->
->> media: aspeed: Use full swing for JFIF to fix incorrect color
-Thanks, I will update a more suitable subject for this patch.
->> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->> ---
->>    drivers/media/platform/aspeed-video.c | 2 +-
->>    1 file changed, 1 insertion(+), 1 deletion(-)
+>On Sat, Jan 29, 2022 at 07:15:57PM +0200, Marko Mäkelä wrote:
+>> Hi Sean,
 >>
->> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
->> index eb9c17ac0e14..08b63b8297f0 100644
->> --- a/drivers/media/platform/aspeed-video.c
->> +++ b/drivers/media/platform/aspeed-video.c
->> @@ -1089,7 +1089,7 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
->>    	u32 comp_ctrl = VE_COMP_CTRL_RSVD |
->>    		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
->>    		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
->> -	u32 ctrl = VE_CTRL_AUTO_OR_CURSOR;
->> +	u32 ctrl = VE_CTRL_AUTO_OR_CURSOR | VE_CTRL_YUV;
-> Excuse my ignorance, but reading [1][2] YUV can be represented by studio
-> and full swing. How is the register/bit described in the datasheet, and
-> can the macro name be improved?
-VR008[7:6] will decide the data format for video capture:
-00: CCIR601 studio swing compliant YUV format
-01: CCIR601 full swing compliant YUV format
-10: RGB format
-11: Gray color mode
+>> Did you have a chance to repeat my findings with a remote control unit that
+>> uses the RC5 protocol?
+>
+>Yes, I've reproduced the problem now. It's very weird.
+>
+>After pressing button 1, waiting for a second or two, and then pressing button
+>3, the device reports some old IR from button 1 before reporting the IR from
+>button 3.
+>
+>The IR is not a copy of old data, it so presumably its IR that was not
+>reported before. Now I don't know why this IR gets reported so late.
 
-I will update this part as well.
->
->>    	u32 seq_ctrl = video->jpeg_mode;
->>    
->>    	if (video->frame_rate)
->
-> Kind regards,
->
-> Paul
->
->
-> [1]: https://mymusing.co/bt601-yuv-to-rgb-conversion-color/
-> [2]: https://www.hisour.com/yuv-color-system-25916/
+When I repeated the problem, the delay between subsequent button presses 
+could have been even less than a second.
 
--- 
-Best Regards
-Jammy
+How did you determine that it is not a copy of old data? I assume that 
+you can do that fairly easily for any kernel-side buffers, but what 
+about the buffer on the USB device itself?
 
+[snip]
+
+>I have not seen this happen. You can enable debugging for this using:
+>
+>echo 'file rtl28xxu.c +p' > /sys/kernel/debug/dynamic_debug/control
+>
+>dmesg -w
+
+Thank you. It might take me some time to return to this.
+
+>I do not know exactly how the buffer works, only some experimentation 
+>will help here. Unless there is a vendor driver/documentation for this 
+>device.
+
+I am just guessing here, since I do not have any experience with USB 
+programming, and hardly any experience with the Linux kernel. Could it 
+be that the IR samples are being stored in a ring buffer, and the device 
+does not implicitly discard IR events as it is sending them to the USB 
+host? A simple test could be to read the buffer twice in a row. Will it 
+return the same contents, instead of returning nothing on the second 
+read?
+
+If my ring buffer hypothesis holds, perhaps the kernel driver should 
+keep track on where the data ended on the previous read, re-read the 
+device's entire ring buffer, and resume parsing from the previous end of 
+the ring buffer? In that way, we should not see phantom old events.
+
+Best regards,
+
+	Marko
