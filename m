@@ -2,130 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32D384AEE6D
-	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 10:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A7FC4AEDAA
+	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 10:10:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231377AbiBIJti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Feb 2022 04:49:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53404 "EHLO
+        id S234143AbiBIJJj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Feb 2022 04:09:39 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:47940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbiBIJth (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 04:49:37 -0500
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EEBFE01A2E8;
-        Wed,  9 Feb 2022 01:49:27 -0800 (PST)
-Received: from [192.168.0.2] (ip5f5aee30.dynamic.kabel-deutschland.de [95.90.238.48])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: pmenzel)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id D9D6561EA1923;
-        Wed,  9 Feb 2022 10:06:28 +0100 (CET)
-Message-ID: <f790f9aa-fcb7-d163-9c1c-9eb107d4b1bd@molgen.mpg.de>
-Date:   Wed, 9 Feb 2022 10:06:28 +0100
+        with ESMTP id S233465AbiBIJJg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 04:09:36 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2347EC002B6F
+        for <linux-media@vger.kernel.org>; Wed,  9 Feb 2022 01:09:32 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id h6so2800289wrb.9
+        for <linux-media@vger.kernel.org>; Wed, 09 Feb 2022 01:09:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=DUmHVshkvWp2RY/UyFIfNWg44HUvXNupx5/iL+mP6EE=;
+        b=cxBl8c4P1cvv7Tv6Dxk+62SeRqlxp783g9ffvZPcvj5SJRfu8Y6LIcGLX1P+PQUir1
+         JevDJ2yBQILmIxQKvle+oy2/AgeJcMxr7cQ5OnZlimYcAHwtKeDdZYZHMPb0EHmRwAnQ
+         bkY/luTPPSGkTJfJtM0KYEGCCZ0935BbQORU49iVDHsMazLlLZxx4ws6k7VsWiGbcHdO
+         2n9Kd73b/O9ADWc9TVL+e/6moIiwEvkDYLij9NO/G/zFrjdEosbXDFuCG0jL7w9PBWGq
+         PJTwvsglhwoyrTPIly6PKGuD8YvmdkxDU6mCB7U16I8Zo5FS7shj0XUiIBw1SA48GY9H
+         2tqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=DUmHVshkvWp2RY/UyFIfNWg44HUvXNupx5/iL+mP6EE=;
+        b=rkOvxKQutQRkO2iM+4XJXPfXClvK3hZ/YPaBREKZFLToLobpaNje/Kifw4OYG+F+Tc
+         +errmcCcBlwj5u18grxWPOwG9A962xSfDUiooBM1f5SbmrpYMJSd071DLIqiAfFR6X8s
+         C0AzK4OUv5Ah0x4OcGwEsb/iTwdLtfisNySVbINTX7na4HguyDawS9QxTOdO8AXaC3Wk
+         2VCzpNNkpXwQKlUUVKbToKAaEBlEx8G91S61IrnrA7JchoUoNDK1wZkTxZoPa8bHYMQy
+         i4AfSp8aTBb/FqYlqodHXm8pzsfgKfezUmeXoGPfsWVrhmM4/hQgWjmL9wbIPRLHMLb8
+         kq5Q==
+X-Gm-Message-State: AOAM530uzEPUEjGB0YHG1h/zhr6uMzzapCjyVOoXSZ8tf8TsYPrYc7LT
+        tOsmd2xat/BhoZcMIEqYDaaEU2uZlpjWqI+OwCY=
+X-Google-Smtp-Source: ABdhPJz1eS/722hgBMJEKEmRQ3BeLd0T99TaFj3I8lpWO5ISQ3AZczjYElqtFC5T7e46PUbwMK5c/brZBkn+v75JiXM=
+X-Received: by 2002:a05:6000:1e15:: with SMTP id bj21mr1250622wrb.222.1644397749318;
+ Wed, 09 Feb 2022 01:09:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v2] media: aspeed: Use full swing as JFIF to fix incorrect
- color
-Content-Language: en-US
-To:     Jammy Huang <jammy_huang@aspeedtech.com>
-References: <20220209084225.4456-1-jammy_huang@aspeedtech.com>
-Cc:     eajames@linux.ibm.com, mchehab@kernel.org, joel@jms.id.au,
-        andrew@aj.id.au, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-From:   Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20220209084225.4456-1-jammy_huang@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:600c:3acd:0:0:0:0 with HTTP; Wed, 9 Feb 2022 01:09:08
+ -0800 (PST)
+Reply-To: howardnewell923@gmail.com
+From:   Howard Newell <muhammed.gaba113@gmail.com>
+Date:   Wed, 9 Feb 2022 09:09:08 +0000
+Message-ID: <CAMz__ZafWt0s3=ymLud7o1xDCgoEomNd-D18xr=hh=hGJ1maCA@mail.gmail.com>
+Subject: re
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,HK_SCAM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:436 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4968]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [muhammed.gaba113[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [muhammed.gaba113[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [howardnewell923[at]gmail.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.1 HK_SCAM No description available.
+        *  3.4 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Jammy,
+-- 
+Hi
+I want to know from you if you received my message concerning your
+compensation file with United Nations Compensation Program. Please
+confirm
 
-
-Am 09.02.22 um 09:42 schrieb Jammy Huang:
-> Current settings for video capture rgb-2-yuv is BT.601(studio swing),
-> but JFIF uses BT.601(full swing) to deocde. This mismatch will lead
-> to incorrect color. For example, input RGB value, (0, 0, 255), will
-> become (16, 16, 235) after jpg decoded.
-> 
-> Add an enum, aspeed_video_capture_format, to define VR008[7:6]
-> capture format and correct default settings for video capture to fix
-> the problem.
-
-Maybe quote the datasheet:
-
-VR008[7:6] will decide the data format for video capture:
-00: CCIR601 studio swing compliant YUV format
-01: CCIR601 full swing compliant YUV format
-10: RGB format
-11: Gray color mode
-
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-> ---
-> v2:
->   - update subject from 'media: aspeed: Fix-incorrect-color' to
->     'media: aspeed: Use full swing as JFIF to fix incorrect'
->   - update commit message
->   - add enum, aspeed_video_capture_format, to define VR008[7:6]
-> ---
->   drivers/media/platform/aspeed-video.c | 14 +++++++++++---
->   1 file changed, 11 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index eb9c17ac0e14..5bcf60b4628b 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -86,8 +86,6 @@
->   #define  VE_CTRL_SOURCE			BIT(2)
->   #define  VE_CTRL_INT_DE			BIT(4)
->   #define  VE_CTRL_DIRECT_FETCH		BIT(5)
-> -#define  VE_CTRL_YUV			BIT(6)
-> -#define  VE_CTRL_RGB			BIT(7)
->   #define  VE_CTRL_CAPTURE_FMT		GENMASK(7, 6)
->   #define  VE_CTRL_AUTO_OR_CURSOR		BIT(8)
->   #define  VE_CTRL_CLK_INVERSE		BIT(11)
-> @@ -202,6 +200,15 @@ enum {
->   	VIDEO_CLOCKS_ON,
->   };
->   
-> +// for VE_CTRL_CAPTURE_FMT
-> +enum aspeed_video_capture_format {
-> +	VIDEO_CAP_FMT_YUV_STUDIO = 0,
-
-Maybe also append `_SWING`?
-
-> +	VIDEO_CAP_FMT_YUV_FULL,
-> +	VIDEO_CAP_FMT_RGB,
-> +	VIDEO_CAP_FMT_GRAY,
-> +	VIDEO_CAP_FMT_MAX
-> +};
-> +
->   struct aspeed_video_addr {
->   	unsigned int size;
->   	dma_addr_t dma;
-> @@ -1089,7 +1096,8 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
->   	u32 comp_ctrl = VE_COMP_CTRL_RSVD |
->   		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
->   		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
-> -	u32 ctrl = VE_CTRL_AUTO_OR_CURSOR;
-> +	u32 ctrl = VE_CTRL_AUTO_OR_CURSOR |
-> +		FIELD_PREP(VE_CTRL_CAPTURE_FMT, VIDEO_CAP_FMT_YUV_FULL);
->   	u32 seq_ctrl = video->jpeg_mode;
->   
->   	if (video->frame_rate)
-
-Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
-
-
-Kind regards,
-
-Paul
+Kind regards!
+Howard Newell
+London WC2N 4JS, UK
