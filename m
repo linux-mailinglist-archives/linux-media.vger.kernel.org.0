@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2B894AEAEF
-	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 08:19:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2D714AEAFE
+	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 08:27:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233694AbiBIHTO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Feb 2022 02:19:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49922 "EHLO
+        id S237365AbiBIH1h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Feb 2022 02:27:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231211AbiBIHTM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 02:19:12 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 498F8C0612C3;
-        Tue,  8 Feb 2022 23:19:16 -0800 (PST)
+        with ESMTP id S230339AbiBIH1g (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 02:27:36 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A39FC0613CB;
+        Tue,  8 Feb 2022 23:27:40 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 088BDB81F43;
-        Wed,  9 Feb 2022 07:19:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87D64C340E7;
-        Wed,  9 Feb 2022 07:19:10 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 33BDB61797;
+        Wed,  9 Feb 2022 07:27:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB3AC340E7;
+        Wed,  9 Feb 2022 07:27:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644391153;
-        bh=bV1suCOlTh6KO9wlo9F1fSD0ym9tsftnqUQOzGts2tE=;
+        s=k20201202; t=1644391659;
+        bh=OJvm1A6pDfiZ/Vq3R8cpstnj4FnW2flkaQ6gkEpC+CU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GrnQU/kBbBDXMnpom8wMOZqk/RecGdO/MYrY2WrJZAMnhQMZ1ZNsKwiZIU+bhkHJO
-         9U68KcjoZW5ycfR9FrdzIJ/wRamRoI4DQ18fItEZroRcj25/VEWoGFDuVyCGe/YOpR
-         6Wb5CLFNrG7/M6FarvHiUbffE5zRQEFnJ6WaGGepxqORyGoOaFltuCjOfUFWBUalRk
-         zlwNhnU7C8LtdeD72TauwOvPWBSkxSxeeiFClSKlqbq/uai9AGnzQZhCdRV/m+iwVL
-         am2YNj9YAKusLtQw5ngbR3kUsF6EIhx21aLtWtjzSjeqN0e20geWKy7m4fli7BJweZ
-         QxeCHvizZ6w5A==
-Date:   Wed, 9 Feb 2022 15:19:06 +0800
+        b=EzIcFnpKOHLF0hCQXS68sK9fBYL1sA56ob89NKnhCVtTL6fVaZrlD8PO9n6vxqfyQ
+         8kFfLoc1IEoaO+984K1zUWN6jKjX0QYJBwgoOj3/1yc45I0mbmCRmD5JcCXlAqEBAo
+         v6s+PZHWykCJC44W6Iq7Zk8gzs945MnOj7IilCd+DCrFGtBYWlWIoe0fKkRHan+3hp
+         MxJ2CuilFfHlix2K843FmQAyTjqKF3jD4l6cYCA1h4tL8+9YW2LvjCW0yyVGdWsoxK
+         EKWWL4veNUIX7gQn6z8wkYMifpV1Y6xzP3dZkBtb+4Eu5mmomt7HlCCmyP8aRUmwTP
+         u++yOXbYflMkQ==
+Date:   Wed, 9 Feb 2022 15:27:31 +0800
 From:   Shawn Guo <shawnguo@kernel.org>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-media@vger.kernel.org, aford@beaconembedded.com,
-        cphealy@gmail.com, Lucas Stach <l.stach@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org,
+        aford@beaconembedded.com, cphealy@gmail.com,
+        kernel test robot <lkp@intel.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -45,18 +45,20 @@ Cc:     linux-media@vger.kernel.org, aford@beaconembedded.com,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
         linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: Re: [PATCH V4 04/11] soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU
- blk-ctrl
-Message-ID: <20220209071906.GE4909@dragon>
+Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2 VPU's
+ with vpu-blk-ctrl
+Message-ID: <20220209072730.GF4909@dragon>
 References: <20220125171129.472775-1-aford173@gmail.com>
- <20220125171129.472775-5-aford173@gmail.com>
+ <20220125171129.472775-8-aford173@gmail.com>
+ <YfBJxmgwLGbVqGba@eze-laptop>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220125171129.472775-5-aford173@gmail.com>
+In-Reply-To: <YfBJxmgwLGbVqGba@eze-laptop>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
@@ -68,13 +70,19 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 25, 2022 at 11:11:21AM -0600, Adam Ford wrote:
-> From: Lucas Stach <l.stach@pengutronix.de>
+On Tue, Jan 25, 2022 at 04:04:38PM -0300, Ezequiel Garcia wrote:
+> On Tue, Jan 25, 2022 at 11:11:24AM -0600, Adam Ford wrote:
+> > With the Hantro G1 and G2 now setup to run independently, update
+> > the device tree to allow both to operate.  This requires the
+> > vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
+> > certain clock enabled to handle the gating of the G1 and G2
+> > fuses, the clock-parents and clock-rates for the various VPU's
+> > to be moved into the pgc_vpu because they cannot get re-parented
+> > once enabled, and the pgc_vpu is the highest in the chain.
+> > 
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > Reported-by: kernel test robot <lkp@intel.com>
 > 
-> This adds the necessary bits to drive the VPU blk-ctrl on the i.MX8MQ, to
-> avoid putting more of this functionality into the decoder driver.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> Signed-off-by: Adam Ford <aford173@gmail.com>
+> It doesn't seem correct to have the Reported-by on this commit.
 
-Applied, thanks!
+Applied with Reported-by tag dropped, thanks!
