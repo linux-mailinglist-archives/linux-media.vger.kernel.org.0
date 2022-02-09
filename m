@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1A0A4AEAD3
-	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 08:14:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 009A34AEAE7
+	for <lists+linux-media@lfdr.de>; Wed,  9 Feb 2022 08:17:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236272AbiBIHOj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Feb 2022 02:14:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43580 "EHLO
+        id S237031AbiBIHRL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Feb 2022 02:17:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229988AbiBIHOj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 02:14:39 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C58D8C0613CB;
-        Tue,  8 Feb 2022 23:14:42 -0800 (PST)
+        with ESMTP id S237185AbiBIHQx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Feb 2022 02:16:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8609C050CF9;
+        Tue,  8 Feb 2022 23:16:25 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5CE4C61758;
-        Wed,  9 Feb 2022 07:14:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30544C340ED;
-        Wed,  9 Feb 2022 07:14:38 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1BCF9B81F22;
+        Wed,  9 Feb 2022 07:16:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2928C340ED;
+        Wed,  9 Feb 2022 07:16:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644390881;
-        bh=wow7Xba07Wy/tQH9b1uW9S6psIbbtqgP3WTlgP6npog=;
+        s=k20201202; t=1644390982;
+        bh=DReAQp+QqHzrEB5qGcTuwyqcPYfSigCNnvRF5cN6be8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UD234fovBIkQEnSwuMkPlx89/PjiNEpxdx5go7xy0wpY2oOOMvmLNpfrnJtzwNjuL
-         j3E1jn3BXUidik+yxWF2I2AcCHr2uTHsWpVGujOQtmZM4n7BUfiTKJjylMWn2eS2S1
-         xocTG8orRshUCDHJESNApJvXB+scrm8Ev8347JyJdf+EVtR+DmK+Nl6mql4j59Ki1K
-         Cw2HM93xhjf0EYckTOxaezGE7fb1GSYgv1y/M3BmGxUQM29KerM23MCJtdBs85XHdp
-         LJqbuIqfgNbgv4ZLlG41pjGi5DqD2KIgx2zE0MMqDpOMBQjT50j0X5NRZZ3crGDJFL
-         uVQ+cd/9UFaHg==
-Date:   Wed, 9 Feb 2022 15:14:34 +0800
+        b=juHw1gKCLF/oLka4lwOY4t4xWNquKti8kFLTsiW6Wz3fwhAmY51dLG0cBII85uYGd
+         3U13C8IdQeU9hsp0TcmMj+AMk7/LWwL26kSdWsisCg2yNgztMK+2PTSURbTU5IkWYv
+         2C7+bzg/QdeU/4h6uBgCb1mPNjOoYeFOlrHMniuvWX7MToF8GNeSW6koXk8cNfBn+t
+         9xCEZPU1VcP9RKF1PBYrzrVyzb7M1/WkvGHuy3kNDHwlmDosqVUCcqPNZNI0XHTOKw
+         nbotjLdRRf6gTq3jxEZkGvli8KDbmx0dsy9MGX5D1jMKZybApy8cFiTBcS6s3qb6/G
+         uz5irB2xh+SUw==
+Date:   Wed, 9 Feb 2022 15:16:15 +0800
 From:   Shawn Guo <shawnguo@kernel.org>
 To:     Adam Ford <aford173@gmail.com>
 Cc:     linux-media@vger.kernel.org, aford@beaconembedded.com,
@@ -49,15 +49,15 @@ Cc:     linux-media@vger.kernel.org, aford@beaconembedded.com,
         linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: Re: [PATCH V4 02/11] dt-bindings: power: imx8mq: add defines for VPU
- blk-ctrl domains
-Message-ID: <20220209071433.GC4909@dragon>
+Subject: Re: [PATCH V4 03/11] dt-bindings: soc: add binding for i.MX8MQ VPU
+ blk-ctrl
+Message-ID: <20220209071614.GD4909@dragon>
 References: <20220125171129.472775-1-aford173@gmail.com>
- <20220125171129.472775-3-aford173@gmail.com>
+ <20220125171129.472775-4-aford173@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220125171129.472775-3-aford173@gmail.com>
+In-Reply-To: <20220125171129.472775-4-aford173@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
@@ -69,16 +69,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 25, 2022 at 11:11:19AM -0600, Adam Ford wrote:
+On Tue, Jan 25, 2022 at 11:11:20AM -0600, Adam Ford wrote:
 > From: Lucas Stach <l.stach@pengutronix.de>
 > 
-> This adds the defines for the power domains provided by the VPU
-> blk-ctrl on the i.MX8MQ.
+> This adds the DT binding for the i.MX8MQ VPU blk-ctrl.
 > 
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> Acked-by: Rob Herring <robh@kernel.org>
-
-When forwarding a patch from someone else, you should add your
-Signed-off-by.
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
 Applied, thanks!
