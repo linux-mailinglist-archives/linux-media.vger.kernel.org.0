@@ -2,77 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EA2F4B09A0
-	for <lists+linux-media@lfdr.de>; Thu, 10 Feb 2022 10:35:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F6864B09AC
+	for <lists+linux-media@lfdr.de>; Thu, 10 Feb 2022 10:39:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238775AbiBJJe4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Feb 2022 04:34:56 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55836 "EHLO
+        id S238813AbiBJJio (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Feb 2022 04:38:44 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238778AbiBJJez (ORCPT
+        with ESMTP id S238772AbiBJJin (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Feb 2022 04:34:55 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC1E410B5
-        for <linux-media@vger.kernel.org>; Thu, 10 Feb 2022 01:34:56 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id s18so8409712wrv.7
-        for <linux-media@vger.kernel.org>; Thu, 10 Feb 2022 01:34:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:organization:in-reply-to:content-transfer-encoding;
-        bh=G+YDDnr2slUFHsUM/IlbFGkS85HzAaIxJtVEmZjhqMI=;
-        b=fFvqalnJA8sWVtzDVywLCenoPVSbM4BhkZK9XFrkh6Uhpi+h4y/LKiKPi0+ZpMMW/Z
-         8oUWKgTy+/vB6iqVkziuScLT+kEEaPx4cW97cxs178WEC9/LpV1PbchEV0yhArLeUKei
-         Mlqk8nmMSwVxPZPMdo7PhJzx9J9flAKp6V/antjKCI6D9JvcSZIa993aC67gdMa40vNi
-         iKaOYZWoizEF4zUNkT7BdkzPJ0w9QQSZNiE4Tkh/yi1bZG8tc6HGVwyxPS8oH35Nuysb
-         fBd++IIZ5lX81lBwDZ4ywBPbYiCD3/fndjabl0NGgG41OW1NKXnrFD1wVZveXOfhwjmg
-         bMNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=G+YDDnr2slUFHsUM/IlbFGkS85HzAaIxJtVEmZjhqMI=;
-        b=xvrO00IIkA+NnSiWLCBWwHh0EDwNq6ZASXOqkKqG10CW1Km/jv+3nI1vdhmKQmpKV9
-         tSyj9WEU4v/6395QOxicj/MpHfqRcnWO3IFcrENrO72QaU3aSCQkHKaEtNGoBXYYFLke
-         IlLRta9nqjojmvsiwfVJghVHn5Uhx7VKdrGa97MlkclfB+qZdjKeRzKc5401HaTNLS4C
-         1zYHsWsrt6s2d5tUlYu0Y4DwH8oGHlZAbgeauZ+WVlYJLzhI56O7+zPoej7Nc/omLb1K
-         Cw9DV7Hx0rCC4KYovGQ0JYlwIn+aNcaBQkZmnpK8pzM0tEkxphW2xvMXKgnllkjtRK5m
-         696A==
-X-Gm-Message-State: AOAM5331Glm7oREsOcAV+D+sRH1jI5oIi/1KQMtMhLyjqwABf4tY82Uu
-        jSM0tEBfvarZI+BNREFxpbo+Hw==
-X-Google-Smtp-Source: ABdhPJxBmsNmtY10oYaIzh1QwOHqjXPf7ItHPImfVqE1FxspgN0H8jxhkM1pdM6mESt6dmgnlo306g==
-X-Received: by 2002:a5d:4c85:: with SMTP id z5mr5695114wrs.225.1644485695484;
-        Thu, 10 Feb 2022 01:34:55 -0800 (PST)
-Received: from ?IPV6:2001:861:44c0:66c0:76d9:bf0e:e516:58a9? ([2001:861:44c0:66c0:76d9:bf0e:e516:58a9])
-        by smtp.gmail.com with ESMTPSA id x5sm9483363wrv.63.2022.02.10.01.34.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Feb 2022 01:34:54 -0800 (PST)
-Message-ID: <640ef0b2-fcba-50a6-71c2-8156181682b0@baylibre.com>
-Date:   Thu, 10 Feb 2022 10:34:53 +0100
+        Thu, 10 Feb 2022 04:38:43 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F33F220;
+        Thu, 10 Feb 2022 01:38:45 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0760193;
+        Thu, 10 Feb 2022 10:38:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1644485921;
+        bh=lF+r6UQCxoqWroIZy8/2n+0n/A+ghFkPyKqL+rYmqL4=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=nIsX+aUCZpg42I5BMkVxnW3NzL+xrWrld4vcDWTJYe3M+saH5lhg4RYD8ixO0PhPA
+         zxdQVr58HRIFIJHw95qKt91z0GBERL0glsPJI1b995rxII2iZqNx7dpRJ9nzd8mLw2
+         z7fyydxbZPRtyb6Bua6g3icy28+AMgfCMXKh9Yv4=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drivers: meson: vdec: add VP9 support to GXM
-Content-Language: en-US
-To:     Christian Hewitt <christianshewitt@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <20220209153150.30688-1-christianshewitt@gmail.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <20220209153150.30688-1-christianshewitt@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1644481960-15049-1-git-send-email-wangqing@vivo.com>
+References: <1644481960-15049-1-git-send-email-wangqing@vivo.com>
+Subject: Re: [PATCH] media: wl128x: use time_after_eq() instead of jiffies judgment
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Wang Qing <wangqing@vivo.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Qing Wang <wangqing@vivo.com>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Date:   Thu, 10 Feb 2022 09:38:38 +0000
+Message-ID: <164448591856.3354066.6123333934504651771@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,50 +48,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/02/2022 16:31, Christian Hewitt wrote:
-> VP9 support for GXM appears to have been missed from the original
-> codec submission [0] but it works well, so let's add support.
-> 
-> [0] https://github.com/torvalds/linux/commit/00c43088aa680989407b6afbda295f67b3f123f1
-> 
-> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+Hi,
+
+All of these patches you've just sent say "Use time_after_eq()" in the
+subject, but I haven't yet seen a usage of that.
+
+Could you make your patch subject reflective of the true changes in each
+patch please?
+
+Batching them in a series as suggested by Joe would be helpful too.
+
+Quoting Qing Wang (2022-02-10 08:32:39)
+> From: Wang Qing <wangqing@vivo.com>
+>=20
+> It is better to use time_xxx() directly instead of jiffies judgment
+> for understanding.
+>=20
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
 > ---
-> Tested with LibreELEC 11 nightly 'AMLGX' dev images for Khadas VIM2
-> and WeTek Core2 GXM devices which can be found here [1]. The images
-> combine Linux 5.16.y [2] with Kodi v20 [3] and FFmpeg 4.4 [4] which
-> notably includes many V4L2 refinements for stability and usability.
-> 
-> [1] https://test.libreelec.tv/
-> [2] https://github.com/chewitt/linux/commits/amlogic-5.16.y
-> [3] https://github.com/xbmc/xbmc/
-> [4] https://github.com/jc-kynesim/rpi-ffmpeg/commits/dev/4.4/rpi_import_1
-> 
->   drivers/staging/media/meson/vdec/vdec_platform.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/staging/media/meson/vdec/vdec_platform.c
-> index eabbebab2da2..88c9d72e1c83 100644
-> --- a/drivers/staging/media/meson/vdec/vdec_platform.c
-> +++ b/drivers/staging/media/meson/vdec/vdec_platform.c
-> @@ -103,6 +103,18 @@ static const struct amvdec_format vdec_formats_gxl[] = {
->   
->   static const struct amvdec_format vdec_formats_gxm[] = {
->   	{
-> +		.pixfmt = V4L2_PIX_FMT_VP9,
-> +		.min_buffers = 16,
-> +		.max_buffers = 24,
-> +		.max_width = 3840,
-> +		.max_height = 2160,
-> +		.vdec_ops = &vdec_hevc_ops,
-> +		.codec_ops = &codec_vp9_ops,
-> +		.firmware_path = "meson/vdec/gxl_vp9.bin",
-> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
-> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
-> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
-> +	}, {
->   		.pixfmt = V4L2_PIX_FMT_H264,
->   		.min_buffers = 2,
->   		.max_buffers = 24,
+>  drivers/media/radio/wl128x/fmdrv_common.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/radio/wl128x/fmdrv_common.c b/drivers/media/ra=
+dio/wl128x/fmdrv_common.c
+> index 6142484d..a599d08
+> --- a/drivers/media/radio/wl128x/fmdrv_common.c
+> +++ b/drivers/media/radio/wl128x/fmdrv_common.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/firmware.h>
+>  #include <linux/module.h>
+>  #include <linux/nospec.h>
+> +#include <linux/jiffies.h>
+> =20
+>  #include "fmdrv.h"
+>  #include "fmdrv_v4l2.h"
+> @@ -342,7 +343,7 @@ static void send_tasklet(struct tasklet_struct *t)
+>                 return;
+> =20
+>         /* Check, is there any timeout happened to last transmitted packe=
+t */
+> -       if ((jiffies - fmdev->last_tx_jiffies) > FM_DRV_TX_TIMEOUT) {
+> +       if (time_after(jiffies, fmdev->last_tx_jiffies + FM_DRV_TX_TIMEOU=
+T)) {
+
+It looks like there are specific macros for working with jiffies too.
+
+Should this be=20
+              time_is_after_jiffies(fmdev->last_tx_jiffies + FM_DRV_TX_TIME=
+OUT) {
+
+Although that is in fact 2 characters longer ;-S
 
 
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
+--
+Kieran
+
+
+>                 fmerr("TX timeout occurred\n");
+>                 atomic_set(&fmdev->tx_cnt, 1);
+>         }
+> --=20
+> 2.7.4
+>
