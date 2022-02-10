@@ -2,186 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70FAB4B0873
-	for <lists+linux-media@lfdr.de>; Thu, 10 Feb 2022 09:35:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CF324B089C
+	for <lists+linux-media@lfdr.de>; Thu, 10 Feb 2022 09:41:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237518AbiBJIdK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Feb 2022 03:33:10 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35402 "EHLO
+        id S237734AbiBJIlF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Feb 2022 03:41:05 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233719AbiBJIdE (ORCPT
+        with ESMTP id S237655AbiBJIlE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Feb 2022 03:33:04 -0500
-Received: from APC01-HK2-obe.outbound.protection.outlook.com (mail-eopbgr1300112.outbound.protection.outlook.com [40.107.130.112])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CCD9E7B;
-        Thu, 10 Feb 2022 00:33:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MZRPeKQVkQtMq/ouiAwWD4QhxxQ517nQ+6XdDOUF2cMfCahieiiXPkqlRyrkW5CMEbtZ2r+hi/G33Vsap9zwucpxdTo8Q5a/L3rUtEM9JWRGl+LAZEpYAZyYT8dp0U5PtENs7pxfXTbuGhrlsZuP0wg077//w03sx1OuzUOu4dcfaK81xeTVen0voRkGhZXb1cdstZUn6vIFt2mG2R4FH905W4LFnfs0pzHJjWe/+dJKRDW7Y8m1+EloJ6Incn+JDlofm0CL7Po2apxjyFybb9edXhV0R6/nusN/rGrL6CXQ/IR2/DBVjcp4aUEjha5MaeThowgDj+nB6T/wcA75mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dDkzuWIUPeLfxjS4hZ7nA/nJr9CyZ+HMRwVf3gqfJuk=;
- b=LPIUgBAF1xM8wwcmUG8mzoLUUbLkyz8YsqtNROAI3J0U2xeswCqndApcn5AUqoHFQLeofW5vnCMjx9Th6UXetb24EtDEPU73AoDDlDLAWkrn9BlUo2q8aMZpwXIxVW6c/1WJoYYvpIUF1ryDK4WajsN7L9UTntyqiTG4CZ0c2ijCqyw3kgIaLqjoBduMic63tNPkQ523N1s/k96c9qF3Qlo4JL04mepjyzBn5duxwrKGT3SvdHbQWKGqjb3Aja6q7IhXnVXDUed0o13bhYeHpDnuleZ/J+5FWLSAM6cNwSwQ7n+adxEy48yZFRaadxiWBv2xBUg1msIEgtioNtMIpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dDkzuWIUPeLfxjS4hZ7nA/nJr9CyZ+HMRwVf3gqfJuk=;
- b=aPzWoH3yIPD93NvuICXz7CCSm0DN1PN40BJSbr7QXPjTkAHYTFP1yWODINNCjXnMV/md8wGH6+R1dLR74XYdQDaRhUbGv0uB6c+/GoRSx/+YHNuUjNH/MWf4myDNdib6vAEVG2bMcybomb29HBw2ILxfEeK6BQNyb9gb7s2d+iU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SL2PR06MB3082.apcprd06.prod.outlook.com (2603:1096:100:37::17)
- by KL1PR0601MB4068.apcprd06.prod.outlook.com (2603:1096:820:2a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Thu, 10 Feb
- 2022 08:33:02 +0000
-Received: from SL2PR06MB3082.apcprd06.prod.outlook.com
- ([fe80::80b4:e787:47a9:41bb]) by SL2PR06MB3082.apcprd06.prod.outlook.com
- ([fe80::80b4:e787:47a9:41bb%4]) with mapi id 15.20.4975.011; Thu, 10 Feb 2022
- 08:33:02 +0000
-From:   Qing Wang <wangqing@vivo.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Wang Qing <wangqing@vivo.com>
-Subject: [PATCH] media: vivid: use time_after_eq() instead of jiffies judgment
-Date:   Thu, 10 Feb 2022 00:32:52 -0800
-Message-Id: <1644481972-15113-1-git-send-email-wangqing@vivo.com>
-X-Mailer: git-send-email 2.7.4
-Content-Type: text/plain
-X-ClientProxiedBy: SG2P153CA0020.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::7)
- To SL2PR06MB3082.apcprd06.prod.outlook.com (2603:1096:100:37::17)
+        Thu, 10 Feb 2022 03:41:04 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C92BEB4;
+        Thu, 10 Feb 2022 00:41:01 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 1F71E1F45FED
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1644482459;
+        bh=dxxB5y7E7AReW2OAClnLIQexw3iKhotkP4SOeOAGdAE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=lymY0FiuiysUb7/sSKRGIAg4jthJDb4GiQzlbfekQkSWXBOvc5GXsheGI2D39J1Qi
+         k3vPiOsX1+GILO03JWThkAH1dG6l+O2/r5mfnGztJ0BOCm05187+jqRK+CupRNXscf
+         8dVNhlmp9hrk5o4Ovl1lidzZFLamLR6CSZwgupmALF+H0sAgSH1XA9hwLQqYRDgzh+
+         q0WsnrGIZDrVnlsWpC4OslPfBt9Ww3yFdx067aDeyIWs8l4V+hlIwGYGc5mfb1ossx
+         jKqVmmQpyz+sUPAhv1UfvSxb/UCIP2+mkls3Ei8ZXuqiZEcWe8v06niHjVo4uepz4E
+         k7FeUraA0G4cg==
+Message-ID: <f807c862-d327-5b12-7443-c4fed6e1ef6a@collabora.com>
+Date:   Thu, 10 Feb 2022 09:40:55 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 54ba8c82-e746-4aef-6ffe-08d9ec6ff339
-X-MS-TrafficTypeDiagnostic: KL1PR0601MB4068:EE_
-X-Microsoft-Antispam-PRVS: <KL1PR0601MB406819BED0FF24858905A3AABD2F9@KL1PR0601MB4068.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1107;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2sno4FeHRBdq8AoTbjWwfZM7LwtEf4IK9ss6Ef2dH7Niq2VaY8dDTLHYZoXBWcnif1REJXG1a1DApRwscuucqRbZGAXr7nvgDn4QS0KRmUhsDRiAmgZjSnkfJ5KVV/1XeHCShmE173LOfButkvdsvUYnL4iaOLrwWPb+Yn8JkHbklCwFNtApq+l7BAAg0Re51alairUNcGpdL1lUTbeOu6ifKVoEuMCRIhk6bkHeC4+jeNuaWzklJZx0FQGPx3gd7E7WEwOtqCDGh8UdfwoRcsX9H28LnpZlEL6s531m+v8fh9Ty2ldnTFV0Fl3LyEKmlMm9oaIbmako0+ExTfUY6NlQupvCZY9xOtpn/6gmTmXsELq6eFKUyS931XKyjIQ4fGJ/LN4cHHJBoahc095F8ZtsFqlTBnprCgxwiW4UIqRQUGQ5njs3J/ff6jBKlGiv5eU+fzN9Lz1uxB1MfZeCBjG99uvYRrbzHJtBiAin9gBl5jWBIiB+66q2qD/ZJUgYfQeeEi7wBYugYag22Avq72wHQ2yc/cEq27Pi1I6P9+ZggG1lUZZ7UOBINfjaDm3uX/EsR8zlCirmTHW0UDFripEu51hlJVHTWird/h0vSz1DlVXqt9IaY2t+4JoAywoCx8Mu6GwGD80IStSDmqkHoA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2PR06MB3082.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38350700002)(38100700002)(86362001)(186003)(6486002)(83380400001)(508600001)(4326008)(66556008)(107886003)(36756003)(2906002)(316002)(110136005)(2616005)(8936002)(5660300002)(26005)(6666004)(6512007)(8676002)(66946007)(66476007)(52116002)(6506007)(21314003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 9uVudw7tn7x3Uo4hkJgFGtlTPfyK/9m4KONUmRaOQfkv8YzvIULsoxDPSRyLGEwWYoGUU0igcicP7nyMO8HGannaHV7ru/xLJTNFugRypF0Eo7Xbe/DWOJr8921BeNZcm3y9l3l87OZ4RDwc1sIoLk61YRwqFsawkxIlhtkrrkw3K8chnXKanQzTPVmEUlisxp1td6IHaR/vgu1DNE/nPBxXvk33WmCl6Q8gydYiZEb5/sVccNrTl3nZxsIgU2sW5ZCycSNFlsrruVPztX4TJmwSFC9PzJ+0xql/8ycQeFGunNaOsQCdfSdjUknJ80WDqo/aMJbgP9nGd+7bNfbMhNT5CIw62NT3wRQNkecNYxxBXLLZibVQpsUbR3lEjRSLROEfzCMz2QBExVJkVPDIB6FtTWLgnJRppkvmSRyHjMEjJtidyrS/+mMGCFWWGBQP
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54ba8c82-e746-4aef-6ffe-08d9ec6ff339
-X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3082.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2022 08:33:01.8913
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JNPKBvAMkr7SKCK07kFyiROEkfsRVSQWc5KDl8Ct4vBYJ/QAXVCyiLS4+mMXDmQy3+nZ34+H4C1oRDo/xBL7lQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB4068
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v2, 1/7] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for lat soc
+Content-Language: en-US
+To:     "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
+        Rob Herring <robh@kernel.org>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20220128035440.24533-1-yunfei.dong@mediatek.com>
+ <20220128035440.24533-2-yunfei.dong@mediatek.com>
+ <YgQl8CtttQ99+8lB@robh.at.kernel.org>
+ <aa72bec2064e25990e1a3641b920cb5528cfccd4.camel@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <aa72bec2064e25990e1a3641b920cb5528cfccd4.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Wang Qing <wangqing@vivo.com>
+Il 10/02/22 04:06, yunfei.dong@mediatek.com ha scritto:
+> Hi Rob,
+> 
+> Thanks for your suggestion.
+> On Wed, 2022-02-09 at 14:37 -0600, Rob Herring wrote:
+>> On Fri, Jan 28, 2022 at 11:54:34AM +0800, Yunfei Dong wrote:
+>>> Adds decoder dt-bindings for compatible "mediatek,mtk-vcodec-lat-
+>>> soc".
+>>
+>> What's lat soc? How does this relate to what's already there in this
+>> binding.
+>>
+> lat soc is another hardware, is related with some vdec larb ports.
+> Won't be used to decode, but must to write it in dtsi, or hardware
+> can't work well.
 
-It is better to use time_xxx() directly instead of jiffies judgment
-for understanding.
+Hello Yunfei,
 
-Signed-off-by: Wang Qing <wangqing@vivo.com>
----
- drivers/media/test-drivers/vivid/vivid-kthread-cap.c   | 3 ++-
- drivers/media/test-drivers/vivid/vivid-kthread-out.c   | 3 ++-
- drivers/media/test-drivers/vivid/vivid-kthread-touch.c | 3 ++-
- drivers/media/test-drivers/vivid/vivid-sdr-cap.c       | 3 ++-
- 4 files changed, 8 insertions(+), 4 deletions(-)
+as a suggestion, writing the meaning of the "LAT" acronym may also
+help to clear some doubts around (please, also do that in the yaml file,
+other than the commit description).
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-index 6baa046..295f4a3
---- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
-@@ -18,6 +18,7 @@
- #include <linux/freezer.h>
- #include <linux/random.h>
- #include <linux/v4l2-dv-timings.h>
-+#include <linux/jiffies.h>
- #include <asm/div64.h>
- #include <media/videobuf2-vmalloc.h>
- #include <media/v4l2-dv-timings.h>
-@@ -893,7 +894,7 @@ static int vivid_thread_vid_cap(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
- 
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (jiffies - cur_jiffies < wait_jiffies &&
-+		while (time_before(jiffies, cur_jiffies + wait_jiffies) &&
- 		       !kthread_should_stop())
- 			schedule();
- 	}
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-out.c b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-index b6d4316..13f737e
---- a/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
-@@ -18,6 +18,7 @@
- #include <linux/freezer.h>
- #include <linux/random.h>
- #include <linux/v4l2-dv-timings.h>
-+#include <linux/jiffies.h>
- #include <asm/div64.h>
- #include <media/videobuf2-vmalloc.h>
- #include <media/v4l2-dv-timings.h>
-@@ -234,7 +235,7 @@ static int vivid_thread_vid_out(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
- 
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (jiffies - cur_jiffies < wait_jiffies &&
-+		while (time_before(jiffies, cur_jiffies + wait_jiffies) &&
- 		       !kthread_should_stop())
- 			schedule();
- 	}
-diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-index f065faae..8828243
---- a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-+++ b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
-@@ -5,6 +5,7 @@
-  */
- 
- #include <linux/freezer.h>
-+#include <linux/jiffies.h>
- #include "vivid-core.h"
- #include "vivid-kthread-touch.h"
- #include "vivid-touch-cap.h"
-@@ -134,7 +135,7 @@ static int vivid_thread_touch_cap(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
- 
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (jiffies - cur_jiffies < wait_jiffies &&
-+		while (time_before(jiffies, cur_jiffies + wait_jiffies) &&
- 		       !kthread_should_stop())
- 			schedule();
- 	}
-diff --git a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-index 59fd508..f82856b
---- a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
-@@ -17,6 +17,7 @@
- #include <media/v4l2-event.h>
- #include <media/v4l2-dv-timings.h>
- #include <linux/fixp-arith.h>
-+#include <linux/jiffies.h>
- 
- #include "vivid-core.h"
- #include "vivid-ctrls.h"
-@@ -205,7 +206,7 @@ static int vivid_thread_sdr_cap(void *data)
- 			next_jiffies_since_start = jiffies_since_start;
- 
- 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
--		while (jiffies - cur_jiffies < wait_jiffies &&
-+		while (time_before(jiffies, cur_jiffies + wait_jiffies) &&
- 		       !kthread_should_stop())
- 			schedule();
- 	}
--- 
-2.7.4
+Thank you!
+Angelo
+
+> 
+> Need to enable clock/power/iommus, no interrupt.
+>> The subject space is limited, avoid saying the same thing twice
+>> (dt-bindings).
+>>
+> 
+> Best Regards,
+> Yunfei Dong
+>>>
+>>> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>>> ---
+>>>   .../media/mediatek,vcodec-subdev-decoder.yaml | 49
+>>> +++++++++++++++++++
+>>>   1 file changed, 49 insertions(+)
+>>>
+>>> diff --git
+>>> a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-
+>>> decoder.yaml
+>>> b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-
+>>> decoder.yaml
+>>> index 6415c9f29130..a3c892338ac0 100644
+>>> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-
+>>> subdev-decoder.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-
+>>> subdev-decoder.yaml
+>>> @@ -189,6 +189,55 @@ patternProperties:
+>>>   
+>>>       additionalProperties: false
+>>>   
+>>> +  '^vcodec-lat-soc@[0-9a-f]+$':
+>>> +    type: object
+>>> +
+>>> +    properties:
+>>> +      compatible:
+>>> +        const: mediatek,mtk-vcodec-lat-soc
+>>> +
+>>> +      reg:
+>>> +        maxItems: 1
+>>> +
+>>> +      iommus:
+>>> +        minItems: 1
+>>> +        maxItems: 32
+>>> +        description: |
+>>> +          List of the hardware port in respective IOMMU block for
+>>> current Socs.
+>>> +          Refer to bindings/iommu/mediatek,iommu.yaml.
+>>> +
+>>> +      clocks:
+>>> +        maxItems: 5
+>>> +
+>>> +      clock-names:
+>>> +        items:
+>>> +          - const: sel
+>>> +          - const: soc-vdec
+>>> +          - const: soc-lat
+>>> +          - const: vdec
+>>> +          - const: top
+>>> +
+>>> +      assigned-clocks:
+>>> +        maxItems: 1
+>>> +
+>>> +      assigned-clock-parents:
+>>> +        maxItems: 1
+>>> +
+>>> +      power-domains:
+>>> +        maxItems: 1
+>>> +
+>>> +    required:
+>>> +      - compatible
+>>> +      - reg
+>>> +      - iommus
+>>> +      - clocks
+>>> +      - clock-names
+>>> +      - assigned-clocks
+>>> +      - assigned-clock-parents
+>>> +      - power-domains
+>>> +
+>>> +    additionalProperties: false
+>>> +
+>>>   required:
+>>>     - compatible
+>>>     - reg
+>>> -- 
+>>> 2.25.1
+>>>
+>>>
+> 
 
