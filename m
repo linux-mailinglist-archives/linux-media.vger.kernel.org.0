@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E0C34B0BB5
-	for <lists+linux-media@lfdr.de>; Thu, 10 Feb 2022 12:04:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C0FE4B0BBB
+	for <lists+linux-media@lfdr.de>; Thu, 10 Feb 2022 12:04:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240478AbiBJLEG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Feb 2022 06:04:06 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:39464 "EHLO
+        id S240481AbiBJLEI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Feb 2022 06:04:08 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:39494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240476AbiBJLEF (ORCPT
+        with ESMTP id S240476AbiBJLEH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Feb 2022 06:04:05 -0500
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E613D100B
-        for <linux-media@vger.kernel.org>; Thu, 10 Feb 2022 03:04:06 -0800 (PST)
+        Thu, 10 Feb 2022 06:04:07 -0500
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 581C9100B
+        for <linux-media@vger.kernel.org>; Thu, 10 Feb 2022 03:04:09 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id DAFE920000E;
-        Thu, 10 Feb 2022 11:04:02 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id ADA26200004;
+        Thu, 10 Feb 2022 11:04:05 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Steve Longerbeam <slongerbeam@gmail.com>
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
@@ -29,186 +29,77 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: [PATCH v2 02/23] media: ov5604: Re-arrange modes definition
-Date:   Thu, 10 Feb 2022 12:04:37 +0100
-Message-Id: <20220210110458.152494-3-jacopo@jmondi.org>
+Subject: [PATCH v2 03/23] media: ov5640: Add ov5640_is_csi2() function
+Date:   Thu, 10 Feb 2022 12:04:38 +0100
+Message-Id: <20220210110458.152494-4-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220210110458.152494-1-jacopo@jmondi.org>
 References: <20220210110458.152494-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The array of supported modes is close to unreadable.
-Re-arrange it giving it some room to breath.
+Checking if the sensor is used in DVP or MIPI CSI-2 mode is a repeated
+pattern which is about to be repeated more often.
 
-Cosmetic change only.
+Provide an inline function to shortcut that.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5640.c | 141 +++++++++++++++++++++----------------
- 1 file changed, 81 insertions(+), 60 deletions(-)
+ drivers/media/i2c/ov5640.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 01f4a075f86e..d8285be2bfa1 100644
+index d8285be2bfa1..ce3d38eadb86 100644
 --- a/drivers/media/i2c/ov5640.c
 +++ b/drivers/media/i2c/ov5640.c
-@@ -599,66 +599,87 @@ static const struct ov5640_mode_info ov5640_mode_init_data = {
+@@ -294,6 +294,11 @@ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
+ 			     ctrls.handler)->sd;
+ }
  
- static const struct ov5640_mode_info
- ov5640_mode_data[OV5640_NUM_MODES] = {
--	{OV5640_MODE_QQVGA_160_120, SUBSAMPLING,
--	 OV5640_PIXEL_RATE_48M,
--	 160, 1896, 120, 984,
--	 ov5640_setting_QQVGA_160_120,
--	 ARRAY_SIZE(ov5640_setting_QQVGA_160_120),
--	 OV5640_30_FPS},
--	{OV5640_MODE_QCIF_176_144, SUBSAMPLING,
--	 OV5640_PIXEL_RATE_48M,
--	 176, 1896, 144, 984,
--	 ov5640_setting_QCIF_176_144,
--	 ARRAY_SIZE(ov5640_setting_QCIF_176_144),
--	 OV5640_30_FPS},
--	{OV5640_MODE_QVGA_320_240, SUBSAMPLING,
--	 OV5640_PIXEL_RATE_48M,
--	 320, 1896, 240, 984,
--	 ov5640_setting_QVGA_320_240,
--	 ARRAY_SIZE(ov5640_setting_QVGA_320_240),
--	 OV5640_30_FPS},
--	{OV5640_MODE_VGA_640_480, SUBSAMPLING,
--	 OV5640_PIXEL_RATE_48M,
--	 640, 1896, 480, 1080,
--	 ov5640_setting_VGA_640_480,
--	 ARRAY_SIZE(ov5640_setting_VGA_640_480),
--	 OV5640_60_FPS},
--	{OV5640_MODE_NTSC_720_480, SUBSAMPLING,
--	 OV5640_PIXEL_RATE_96M,
--	 720, 1896, 480, 984,
--	 ov5640_setting_NTSC_720_480,
--	 ARRAY_SIZE(ov5640_setting_NTSC_720_480),
--	OV5640_30_FPS},
--	{OV5640_MODE_PAL_720_576, SUBSAMPLING,
--	 OV5640_PIXEL_RATE_96M,
--	 720, 1896, 576, 984,
--	 ov5640_setting_PAL_720_576,
--	 ARRAY_SIZE(ov5640_setting_PAL_720_576),
--	 OV5640_30_FPS},
--	{OV5640_MODE_XGA_1024_768, SUBSAMPLING,
--	 OV5640_PIXEL_RATE_96M,
--	 1024, 1896, 768, 1080,
--	 ov5640_setting_XGA_1024_768,
--	 ARRAY_SIZE(ov5640_setting_XGA_1024_768),
--	 OV5640_30_FPS},
--	{OV5640_MODE_720P_1280_720, SUBSAMPLING,
--	 OV5640_PIXEL_RATE_124M,
--	 1280, 1892, 720, 740,
--	 ov5640_setting_720P_1280_720,
--	 ARRAY_SIZE(ov5640_setting_720P_1280_720),
--	 OV5640_30_FPS},
--	{OV5640_MODE_1080P_1920_1080, SCALING,
--	 OV5640_PIXEL_RATE_148M,
--	 1920, 2500, 1080, 1120,
--	 ov5640_setting_1080P_1920_1080,
--	 ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
--	 OV5640_30_FPS},
--	{OV5640_MODE_QSXGA_2592_1944, SCALING,
--	 OV5640_PIXEL_RATE_168M,
--	 2592, 2844, 1944, 1968,
--	 ov5640_setting_QSXGA_2592_1944,
--	 ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944),
--	 OV5640_15_FPS},
-+	{
-+		/* 160x120 */
-+		OV5640_MODE_QQVGA_160_120, SUBSAMPLING,
-+		OV5640_PIXEL_RATE_48M,
-+		160, 1896, 120, 984,
-+		ov5640_setting_QQVGA_160_120,
-+		ARRAY_SIZE(ov5640_setting_QQVGA_160_120),
-+		OV5640_30_FPS
-+	}, {
-+		/* 176x144 */
-+		OV5640_MODE_QCIF_176_144, SUBSAMPLING,
-+		OV5640_PIXEL_RATE_48M,
-+		176, 1896, 144, 984,
-+		ov5640_setting_QCIF_176_144,
-+		ARRAY_SIZE(ov5640_setting_QCIF_176_144),
-+		OV5640_30_FPS
-+	}, {
-+		/* 320x240 */
-+		OV5640_MODE_QVGA_320_240, SUBSAMPLING,
-+		OV5640_PIXEL_RATE_48M,
-+		320, 1896, 240, 984,
-+		ov5640_setting_QVGA_320_240,
-+		ARRAY_SIZE(ov5640_setting_QVGA_320_240),
-+		OV5640_30_FPS
-+	}, {
-+		/* 640x480 */
-+		OV5640_MODE_VGA_640_480, SUBSAMPLING,
-+		OV5640_PIXEL_RATE_48M,
-+		640, 1896, 480, 1080,
-+		ov5640_setting_VGA_640_480,
-+		ARRAY_SIZE(ov5640_setting_VGA_640_480),
-+		OV5640_60_FPS
-+	}, {
-+		/* 720x480 */
-+		OV5640_MODE_NTSC_720_480, SUBSAMPLING,
-+		OV5640_PIXEL_RATE_96M,
-+		720, 1896, 480, 984,
-+		ov5640_setting_NTSC_720_480,
-+		ARRAY_SIZE(ov5640_setting_NTSC_720_480),
-+		OV5640_30_FPS
-+	}, {
-+		/* 720x576 */
-+		OV5640_MODE_PAL_720_576, SUBSAMPLING,
-+		OV5640_PIXEL_RATE_96M,
-+		720, 1896, 576, 984,
-+		ov5640_setting_PAL_720_576,
-+		ARRAY_SIZE(ov5640_setting_PAL_720_576),
-+		OV5640_30_FPS
-+	}, {
-+		/* 1024x768 */
-+		OV5640_MODE_XGA_1024_768, SUBSAMPLING,
-+		OV5640_PIXEL_RATE_96M,
-+		1024, 1896, 768, 1080,
-+		ov5640_setting_XGA_1024_768,
-+		ARRAY_SIZE(ov5640_setting_XGA_1024_768),
-+		OV5640_30_FPS
-+	}, {
-+		/* 1280x720 */
-+		OV5640_MODE_720P_1280_720, SUBSAMPLING,
-+		OV5640_PIXEL_RATE_124M,
-+		1280, 1892, 720, 740,
-+		ov5640_setting_720P_1280_720,
-+		ARRAY_SIZE(ov5640_setting_720P_1280_720),
-+		OV5640_30_FPS
-+	}, {
-+		/* 1920x1080 */
-+		OV5640_MODE_1080P_1920_1080, SCALING,
-+		OV5640_PIXEL_RATE_148M,
-+		1920, 2500, 1080, 1120,
-+		ov5640_setting_1080P_1920_1080,
-+		ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
-+		OV5640_30_FPS
-+	}, {
-+		/* 2592x1944 */
-+		OV5640_MODE_QSXGA_2592_1944, SCALING,
-+		OV5640_PIXEL_RATE_168M,
-+		2592, 2844, 1944, 1968,
-+		ov5640_setting_QSXGA_2592_1944,
-+		ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944),
-+		OV5640_15_FPS
-+	},
- };
++static inline bool ov5640_is_csi2(struct ov5640_dev *sensor)
++{
++	return sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY;
++}
++
+ /*
+  * FIXME: all of these register tables are likely filled with
+  * entries that set the register to their power-on default values,
+@@ -1208,7 +1213,7 @@ static int ov5640_load_regs(struct ov5640_dev *sensor,
+ 		/* remain in power down mode for DVP */
+ 		if (regs->reg_addr == OV5640_REG_SYS_CTRL0 &&
+ 		    val == OV5640_REG_SYS_CTRL0_SW_PWUP &&
+-		    sensor->ep.bus_type != V4L2_MBUS_CSI2_DPHY)
++		    !ov5640_is_csi2(sensor))
+ 			continue;
  
- static int ov5640_init_slave_id(struct ov5640_dev *sensor)
+ 		if (mask)
+@@ -1843,7 +1848,7 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
+ 	 * the same rate than YUV, so we can just use 16 bpp all the time.
+ 	 */
+ 	rate = ov5640_calc_pixel_rate(sensor) * 16;
+-	if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY) {
++	if (ov5640_is_csi2(sensor)) {
+ 		rate = rate / sensor->ep.bus.mipi_csi2.num_data_lanes;
+ 		ret = ov5640_set_mipi_pclk(sensor, rate);
+ 	} else {
+@@ -3020,7 +3025,7 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+ 			sensor->pending_fmt_change = false;
+ 		}
+ 
+-		if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
++		if (ov5640_is_csi2(sensor))
+ 			ret = ov5640_set_stream_mipi(sensor, enable);
+ 		else
+ 			ret = ov5640_set_stream_dvp(sensor, enable);
 -- 
 2.35.0
 
