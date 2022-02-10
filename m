@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFB9B4B0BDF
+	by mail.lfdr.de (Postfix) with ESMTP id 610564B0BDE
 	for <lists+linux-media@lfdr.de>; Thu, 10 Feb 2022 12:09:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240572AbiBJLJP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Feb 2022 06:09:15 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43304 "EHLO
+        id S240578AbiBJLJS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Feb 2022 06:09:18 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237987AbiBJLJO (ORCPT
+        with ESMTP id S240573AbiBJLJR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Feb 2022 06:09:14 -0500
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82054128
-        for <linux-media@vger.kernel.org>; Thu, 10 Feb 2022 03:09:15 -0800 (PST)
+        Thu, 10 Feb 2022 06:09:17 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 938F1128
+        for <linux-media@vger.kernel.org>; Thu, 10 Feb 2022 03:09:18 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 149751C0007;
-        Thu, 10 Feb 2022 11:09:10 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 521981C0005;
+        Thu, 10 Feb 2022 11:09:14 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     slongerbeam@gmail.com
 Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
@@ -28,15 +28,15 @@ Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
         eugen.hristev@microchip.com, jbrunet@baylibre.com,
         mchehab@kernel.org, linux-media@vger.kernel.org,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH v2 15/23] media: ov5640: Fix durations to comply with FPS
-Date:   Thu, 10 Feb 2022 12:10:00 +0100
-Message-Id: <20220210111004.152859-3-jacopo@jmondi.org>
+Subject: [PATCH v2 16/23] media: ov5640: Implement init_cfg
+Date:   Thu, 10 Feb 2022 12:10:01 +0100
+Message-Id: <20220210111004.152859-4-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220210110458.152494-1-jacopo@jmondi.org>
 References: <20220210110458.152494-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -45,116 +45,88 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that the frame duration can be controlled by tuning the VBLANK
-duration, fix all modes to comply with the reported FPS.
-
-All modes run at 30 FPS except for full-resolution mode 2592x1944
-which runs at 15FPS.
-
-Tested on a 2 data lanes setup in UYVY and RGB565 modes.
+Implement the init_cfg pad operation to initialize the subdev state
+format to the default one.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5640.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ drivers/media/i2c/ov5640.c | 34 ++++++++++++++++++++++++----------
+ 1 file changed, 24 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 30b706a98eb9..dd7ff1bb580f 100644
+index dd7ff1bb580f..8b90fab26d16 100644
 --- a/drivers/media/i2c/ov5640.c
 +++ b/drivers/media/i2c/ov5640.c
-@@ -648,8 +648,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
- 			.width	= 160,
- 			.height	= 120,
- 		},
--		.htot		= 1896,
--		.vblank_def	= 864,
-+		.htot		= 1600,
-+		.vblank_def	= 878,
- 		.reg_data	= ov5640_setting_QQVGA_160_120,
- 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QQVGA_160_120),
- 		.max_fps	= OV5640_30_FPS
-@@ -672,8 +672,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
- 			.width	= 176,
- 			.height	= 144,
- 		},
--		.htot		= 1896,
--		.vblank_def	= 840,
-+		.htot		= 1600,
-+		.vblank_def	= 854,
- 		.reg_data	= ov5640_setting_QCIF_176_144,
- 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QCIF_176_144),
- 		.max_fps	= OV5640_30_FPS
-@@ -696,8 +696,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
- 			.width	= 320,
- 			.height	= 240,
- 		},
--		.htot		= 1896,
--		.vblank_def	= 744,
-+		.htot		= 1600,
-+		.vblank_def	= 760,
- 		.reg_data	= ov5640_setting_QVGA_320_240,
- 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QVGA_320_240),
- 		.max_fps	= OV5640_30_FPS
-@@ -720,8 +720,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
- 			.width	= 640,
- 			.height	= 480,
- 		},
--		.htot		= 1896,
--		.vblank_def	= 600,
-+		.htot		= 1600,
-+		.vblank_def	= 520,
- 		.reg_data	= ov5640_setting_VGA_640_480,
- 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_VGA_640_480),
- 		.max_fps	= OV5640_60_FPS
-@@ -745,7 +745,7 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
- 			.height	= 480,
- 		},
- 		.htot		= 1896,
--		.vblank_def	= 504,
-+		.vblank_def	= 1206,
- 		.reg_data	= ov5640_setting_NTSC_720_480,
- 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_NTSC_720_480),
- 		.max_fps	= OV5640_30_FPS
-@@ -769,7 +769,7 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
- 			.height	= 576,
- 		},
- 		.htot		= 1896,
--		.vblank_def	= 408,
-+		.vblank_def	= 1110,
- 		.reg_data	= ov5640_setting_PAL_720_576,
- 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_PAL_720_576),
- 		.max_fps	= OV5640_30_FPS
-@@ -793,7 +793,7 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
- 			.height	= 768,
- 		},
- 		.htot		= 1896,
--		.vblank_def	= 312,
-+		.vblank_def	= 918,
- 		.reg_data	= ov5640_setting_XGA_1024_768,
- 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_XGA_1024_768),
- 		.max_fps	= OV5640_30_FPS
-@@ -816,8 +816,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
- 			.width	= 1280,
- 			.height	= 720,
- 		},
--		.htot		= 1892,
--		.vblank_def	= 20,
-+		.htot		= 1600,
-+		.vblank_def	= 560,
- 		.reg_data	= ov5640_setting_720P_1280_720,
- 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_720P_1280_720),
- 		.max_fps	= OV5640_30_FPS
-@@ -840,8 +840,8 @@ static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
- 			.width	= 1920,
- 			.height	= 1080,
- 		},
--		.htot		= 2500,
--		.vblank_def	= 40,
-+		.htot		= 2234,
-+		.vblank_def	= 24,
- 		.reg_data	= ov5640_setting_1080P_1920_1080,
- 		.reg_data_size	= ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
- 		.max_fps	= OV5640_30_FPS
+@@ -390,6 +390,18 @@ static inline bool ov5640_is_csi2(struct ov5640_dev *sensor)
+  * over i2c.
+  */
+ /* YUV422 UYVY VGA@30fps */
++
++static const struct v4l2_mbus_framefmt ov5640_default_fmt = {
++	.code = MEDIA_BUS_FMT_UYVY8_2X8,
++	.width = 640,
++	.height = 480,
++	.colorspace = V4L2_COLORSPACE_SRGB,
++	.ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(V4L2_COLORSPACE_SRGB),
++	.quantization = V4L2_QUANTIZATION_FULL_RANGE,
++	.xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(V4L2_COLORSPACE_SRGB),
++	.field = V4L2_FIELD_NONE,
++};
++
+ static const struct reg_value ov5640_init_setting[] = {
+ 	{0x3103, 0x11, 0, 0}, {0x3008, 0x82, 0, 5}, {0x3008, 0x42, 0, 0},
+ 	{0x3103, 0x03, 0, 0}, {0x3630, 0x36, 0, 0},
+@@ -3367,6 +3379,16 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+ 	return ret;
+ }
+ 
++static int ov5640_init_cfg(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_state *state)
++{
++	struct v4l2_mbus_framefmt *fmt = v4l2_subdev_get_try_format(sd, state, 0);
++
++	*fmt = ov5640_default_fmt;
++
++	return 0;
++}
++
+ static const struct v4l2_subdev_core_ops ov5640_core_ops = {
+ 	.s_power = ov5640_s_power,
+ 	.log_status = v4l2_ctrl_subdev_log_status,
+@@ -3381,6 +3403,7 @@ static const struct v4l2_subdev_video_ops ov5640_video_ops = {
+ };
+ 
+ static const struct v4l2_subdev_pad_ops ov5640_pad_ops = {
++	.init_cfg = ov5640_init_cfg,
+ 	.enum_mbus_code = ov5640_enum_mbus_code,
+ 	.get_fmt = ov5640_get_fmt,
+ 	.set_fmt = ov5640_set_fmt,
+@@ -3439,7 +3462,6 @@ static int ov5640_probe(struct i2c_client *client)
+ 	struct device *dev = &client->dev;
+ 	struct fwnode_handle *endpoint;
+ 	struct ov5640_dev *sensor;
+-	struct v4l2_mbus_framefmt *fmt;
+ 	u32 rotation;
+ 	int ret;
+ 
+@@ -3453,15 +3475,7 @@ static int ov5640_probe(struct i2c_client *client)
+ 	 * default init sequence initialize sensor to
+ 	 * YUV422 UYVY VGA@30fps
+ 	 */
+-	fmt = &sensor->fmt;
+-	fmt->code = MEDIA_BUS_FMT_UYVY8_2X8;
+-	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+-	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
+-	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+-	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
+-	fmt->width = 640;
+-	fmt->height = 480;
+-	fmt->field = V4L2_FIELD_NONE;
++	sensor->fmt = ov5640_default_fmt;
+ 	sensor->frame_interval.numerator = 1;
+ 	sensor->frame_interval.denominator = ov5640_framerates[OV5640_30_FPS];
+ 	sensor->current_fr = OV5640_30_FPS;
 -- 
 2.35.0
 
