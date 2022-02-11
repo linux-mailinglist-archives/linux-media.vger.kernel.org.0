@@ -2,255 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA3F14B29B7
-	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 17:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD6844B2A13
+	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 17:19:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351035AbiBKQKc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Feb 2022 11:10:32 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40418 "EHLO
+        id S1351163AbiBKQSq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Feb 2022 11:18:46 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351110AbiBKQKW (ORCPT
+        with ESMTP id S1351110AbiBKQSp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Feb 2022 11:10:22 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37066E06;
-        Fri, 11 Feb 2022 08:10:09 -0800 (PST)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id BDB041BF20E;
-        Fri, 11 Feb 2022 16:10:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1644595808;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=RUSzj3TUbMF7TmKv+bJklm/0kDLCRAw90iHxpF7FAk4=;
-        b=oG0Nb1UueRz+/N3muogT9xtwBmkNo0QOCIq29+GWycUIpNnSFeefb4J/MbfnHYuTGx8NNK
-        jWvPNJ2WjFEI+sClRGGThmR8P5QGosuLIaQmDikc6BAuoUY32F7klJuNWQnfecNZXaxuop
-        8x3A9o9q0baiyhGQx7uxh2TQcR9C9a1i35V25YIjQvv3dHVrxCUjxIRx+KMesaOMmBHpyc
-        zxSrQN07BFiopT4jQZCMXyqVl8ulBmNkFWxTp1vpeuAc0CkfPw0Nms7pasztSEwq+TWOtG
-        nP+GDVcx5fVQCaw2EwJYMbg/vMEQe6ecyf9EByGBvOM8XVRX4tYJwclzHa7+1g==
-Date:   Fri, 11 Feb 2022 17:10:06 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        Fri, 11 Feb 2022 11:18:45 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD68A2E7
+        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 08:18:43 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id z15-20020a25bb0f000000b00613388c7d99so19799712ybg.8
+        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 08:18:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=yZLJCK7E+jF9SMNP1+4R/zXh1+xClGhVRWVCTVgc4sc=;
+        b=XMgJm0JnHLSh1BoAQZ0wKW1tqDREm4lLvo1GgrQbJjxOht9DuV2ml/M55v/YYYtwG0
+         EiX+KPa11IXCkHxfjDJ+jqjtozMdXO8Np1xzeO0YafmBD2TU0JlinyFCVvLW1rCwcCdZ
+         /67a9xCpHLDF2di7B26fW8eJ3s0rX9wB1nI24kFBk8sgAKm4tMtoVZMf/yF+8MHFUzmC
+         QNdvprMkp7K7VXtvF+nMffFYcUR4zeTM22B4QkFSF1Qw8M748l+D1HGKINDyJL+qVrEZ
+         7Hxo0m9piTC3QY0bjNEgwJt9fVXLWzIOFBU2gNAs/Btn+n7fz9/GKQAbXBpP767W1iWa
+         t4eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=yZLJCK7E+jF9SMNP1+4R/zXh1+xClGhVRWVCTVgc4sc=;
+        b=YzRdlPFrNLW93g+fpRENGAJn/w4UxPN4WHas87uZD7VNfFf4drDWSZofVJGOT8mfKP
+         NaP5XqCPrLs/qr8xUeOJkFE4LBuCIzsfTihNTM9rw+NCicycDU8E4z9EM+ToocywD6kr
+         Y6l9oooAkUEKcT8mJH0uMpKqmQmocnkYzH1RB8O+mjWpv8cgIsdW2T2qOMvwhWnaRpCf
+         epIkmaOWg8bEDQcuezyjBvUpQCMao9bqYmWFoxG1tUSBwBeqKsh7ol0fUIW2NMJNAKWx
+         wVvF0nf6c6efVTNX5+i99xH08lBK7eZZCrqbhZVeDVm5drntVLE18q03Eiwf/9W3/niO
+         Kgpw==
+X-Gm-Message-State: AOAM530iL4nI2Inbeds+FjZbUeHbnRsoy2fHQHphfH5xjzZ2cd3OitZd
+        ll5ta0VeW+B5Rx19TpN1i4xUxC76W+XzTu0=
+X-Google-Smtp-Source: ABdhPJzhF/L162IKZGA2v1vfeqRBtKk+kc26yO7jRh6AAqTqVZtjKGL2w7yvYf60mUisa/RM+m5bcl0vC/4rWsw=
+X-Received: from tj2.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:187])
+ (user=tjmercier job=sendgmr) by 2002:a5b:c6:: with SMTP id
+ d6mr1955239ybp.273.1644596323025; Fri, 11 Feb 2022 08:18:43 -0800 (PST)
+Date:   Fri, 11 Feb 2022 16:18:23 +0000
+Message-Id: <20220211161831.3493782-1-tjmercier@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
+Subject: [RFC v2 0/6] Proposal for a GPU cgroup controller
+From:   "T.J. Mercier" <tjmercier@google.com>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 07/66] dt-bindings: media: sun6i-a31-csi: Add MIPI
- CSI-2 input port
-Message-ID: <YgaKXvP3rLOLR9VR@aptenodytes>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
- <YgFCuaf007wd8sJy@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="N1FE44kMl1ZRScRS"
-Content-Disposition: inline
-In-Reply-To: <YgFCuaf007wd8sJy@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>
+Cc:     kaleshsingh@google.com, Kenny.Ho@amd.com,
+        "T.J. Mercier" <tjmercier@google.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This patch series revisits the proposal for a GPU cgroup controller to
+track and limit memory allocations by various device/allocator
+subsystems. The patch series also contains a simple prototype to
+illustrate how Android intends to implement DMA-BUF allocator
+attribution using the GPU cgroup controller. The prototype does not
+include resource limit enforcements.
 
---N1FE44kMl1ZRScRS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changelog:
 
-Hi Laurent,
+v2:
+See the previous revision of this change submitted by Hridya Valsaraju
+at: https://lore.kernel.org/all/20220115010622.3185921-1-hridya@google.com/
 
-Thanks for the review!
+Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
+heap to a single dma-buf function for all heaps per Daniel Vetter and
+Christian K=C3=B6nig. Pointers to struct gpucg and struct gpucg_device
+tracking the current associations were added to the dma_buf struct to
+achieve this.
 
-On Mon 07 Feb 22, 18:03, Laurent Pinchart wrote:
-> Hi Paul,
->=20
-> Thank you for the patch.
->=20
-> On Sat, Feb 05, 2022 at 07:53:30PM +0100, Paul Kocialkowski wrote:
-> > The A31 CSI controller supports two distinct input interfaces:
-> > parallel and an external MIPI CSI-2 bridge. The parallel interface
-> > is often connected to a set of hardware pins while the MIPI CSI-2
-> > bridge is an internal FIFO-ish link. As a result, these two inputs
-> > are distinguished as two different ports.
-> >=20
-> > Note that only one of the two may be present on a controller instance.
-> > For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> > dedicated to parallel.
->=20
-> Is it that only one of the two is present, or only one of the two is
-> connected ? In the latter case I'd make both ports required, but with
-> only one of them connected.
+Fix incorrect Kconfig help section indentation per Randy Dunlap.
 
-There are situations where the actual pins for parallel (port@0) are missing
-and the controller is dedicated to its mipi csi-2 bridge (port@1), cases wh=
-ere
-the two are present and cases where the mipi csi-2 bridge doesn't exist.
-So all in all it's really legit that only one port may be defined.
+History of the GPU cgroup controller
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The GPU/DRM cgroup controller came into being when a consensus[1]
+was reached that the resources it tracked were unsuitable to be integrated
+into memcg. Originally, the proposed controller was specific to the DRM
+subsystem and was intended to track GEM buffers and GPU-specific
+resources[2]. In order to help establish a unified memory accounting model
+for all GPU and all related subsystems, Daniel Vetter put forth a
+suggestion to move it out of the DRM subsystem so that it can be used by
+other DMA-BUF exporters as well[3]. This RFC proposes an interface that
+does the same.
 
-> > Update the binding with an explicit ports node that holds two distinct
-> > port nodes: one for parallel input and one for MIPI CSI-2.
-> >=20
-> > This is backward-compatible with the single-port approach that was
-> > previously taken for representing the parallel interface port, which
-> > stays enumerated as fwnode port 0.
-> >=20
-> > Note that additional ports may be added in the future, especially to
-> > support feeding the CSI controller's output to the ISP.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Acked-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  .../media/allwinner,sun6i-a31-csi.yaml        | 60 +++++++++++++++----
-> >  1 file changed, 47 insertions(+), 13 deletions(-)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
-1-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-cs=
-i.yaml
-> > index 8b568072a069..3cc61866ea89 100644
-> > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
-aml
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
-aml
-> > @@ -61,6 +61,34 @@ properties:
-> > =20
-> >      additionalProperties: false
-> > =20
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: "#/properties/port"
-> > +        unevaluatedProperties: false
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: MIPI CSI-2 bridge input port
-> > +
-> > +        properties:
-> > +          reg:
-> > +            const: 1
-> > +
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +        additionalProperties: false
-> > +
-> > +    anyOf:
-> > +      - required:
-> > +        - port@0
-> > +      - required:
-> > +        - port@1
-> > +
-> >  required:
-> >    - compatible
-> >    - reg
->=20
-> Shouldn't you specify that either port or ports is required, but not
-> both ? I'd also add a comment in the port node to tell it's deprecated,
-> and that ports should be used instead.
+[1]: https://patchwork.kernel.org/project/dri-devel/cover/20190501140438.95=
+06-1-brian.welty@intel.com/#22624705
+[2]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@int=
+el.com/
+[3]: https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
 
-Yes I agree on both points. I guess that should be a:
+T.J. Mercier (6):
+  gpu: rfc: Proposal for a GPU cgroup controller
+  cgroup: gpu: Add a cgroup controller for allocator attribution of GPU
+    memory
+  dmabuf: Use the GPU cgroup charge/uncharge APIs
+  dmabuf: heaps: export system_heap buffers with GPU cgroup charging
+  dmabuf: Add gpu cgroup charge transfer function
+  android: binder: Add a buffer flag to relinquish ownership of fds
 
-oneOf:
-  - required:
-    - ports
-  - required:
-    - port
-
-(but feel free to correct me).
-
-> > @@ -89,19 +117,25 @@ examples:
-> >                        "ram";
-> >          resets =3D <&ccu RST_BUS_CSI>;
-> > =20
-> > -        port {
-> > -            /* Parallel bus endpoint */
-> > -            csi1_ep: endpoint {
-> > -                remote-endpoint =3D <&adv7611_ep>;
-> > -                bus-width =3D <16>;
-> > -
-> > -                /*
-> > -                 * If hsync-active/vsync-active are missing,
-> > -                 * embedded BT.656 sync is used.
-> > -                 */
-> > -                 hsync-active =3D <0>; /* Active low */
-> > -                 vsync-active =3D <0>; /* Active low */
-> > -                 pclk-sample =3D <1>;  /* Rising */
-> > +        ports {
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            port@0 {
-> > +                reg =3D <0>;
-> > +                /* Parallel bus endpoint */
-> > +                csi1_ep: endpoint {
-> > +                    remote-endpoint =3D <&adv7611_ep>;
-> > +                    bus-width =3D <16>;
-> > +
-> > +                    /*
-> > +                     * If hsync-active/vsync-active are missing,
-> > +                     * embedded BT.656 sync is used.
-> > +                     */
-> > +                     hsync-active =3D <0>; /* Active low */
-> > +                     vsync-active =3D <0>; /* Active low */
-> > +                     pclk-sample =3D <1>;  /* Rising */
->=20
-> Wrong indentation.
-
-The double-space before /* Rising */ or something with the heading indent?
-
-Thanks,
-
-Paul
-
-> > +                };
-> >              };
-> >          };
-> >      };
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
+ Documentation/gpu/rfc/gpu-cgroup.rst | 195 +++++++++++++++++
+ Documentation/gpu/rfc/index.rst      |   4 +
+ drivers/android/binder.c             |  26 +++
+ drivers/dma-buf/dma-buf.c            | 100 +++++++++
+ drivers/dma-buf/dma-heap.c           |  27 +++
+ drivers/dma-buf/heaps/system_heap.c  |   3 +
+ include/linux/cgroup_gpu.h           | 127 +++++++++++
+ include/linux/cgroup_subsys.h        |   4 +
+ include/linux/dma-buf.h              |  22 +-
+ include/linux/dma-heap.h             |  11 +
+ include/uapi/linux/android/binder.h  |   1 +
+ init/Kconfig                         |   7 +
+ kernel/cgroup/Makefile               |   1 +
+ kernel/cgroup/gpu.c                  | 304 +++++++++++++++++++++++++++
+ 14 files changed, 830 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/gpu/rfc/gpu-cgroup.rst
+ create mode 100644 include/linux/cgroup_gpu.h
+ create mode 100644 kernel/cgroup/gpu.c
 
 --=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+2.35.1.265.g69c8d7142f-goog
 
---N1FE44kMl1ZRScRS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIGil4ACgkQ3cLmz3+f
-v9E2OAf+M59HqYo3WH2kb71DPc2RBTe6OgFa2D6dEM/0E8JL5wiYWvOSJADrYUh3
-ym1oUzOSoUsA8YlBPzSQ3oXMtRN3Hzc9sVL8RDmHw1+JhEqFo0nasFjA3UvgFCMp
-frR0s8rvSu4r5bpPQheC1uMcfA0aSHT4W8w8oYJRdGK6nlkPJbQUbg+3jLDvd7pT
-HwJoBd0+0oMuqFg6FdGP/vKt89mqIyl6AmZYnTSeofyX7/x40i1Zdtbvd/pMdYtv
-C9kXGkP5WrXGVwKa3Mn9CMnOFPjNXmL2D56NHzwSagDzZLbscRablKBDBglxfuGa
-dlRvMsPlp7qvlnv9J8aKV9hj/aVIHw==
-=8dSa
------END PGP SIGNATURE-----
-
---N1FE44kMl1ZRScRS--
