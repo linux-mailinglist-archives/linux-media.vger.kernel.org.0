@@ -2,68 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8B434B23F1
-	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 12:06:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D5234B2440
+	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 12:25:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349328AbiBKLGb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Feb 2022 06:06:31 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35736 "EHLO
+        id S1345545AbiBKLYD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Feb 2022 06:24:03 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232757AbiBKLG1 (ORCPT
+        with ESMTP id S229584AbiBKLYC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Feb 2022 06:06:27 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EE84DF7
-        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 03:06:26 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id c8-20020a17090a674800b001b91184b732so9094088pjm.5
-        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 03:06:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fW7IuBQjL7ot5s2XNwOb0lPZCAyNMYMY9WGVkx7MplM=;
-        b=BBIeZ2kgtc/6SDJXIBQR58F+g1uEH7L8NY9TO/KeVX52BuUXHSn8zjoh5GCqghSp1c
-         Uh3BgcTANITBbkhSsYJEYocXBH4GuEakjrm2OZSlIINMTIhewoJRQD5GuY9/KWwi9Clm
-         lyuRcP7JqNLD3xoFCBZrlHIB+GnOvfrCX8g2Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fW7IuBQjL7ot5s2XNwOb0lPZCAyNMYMY9WGVkx7MplM=;
-        b=pQmEQ4H2Ifg6dPz60Zq48LeTzx42NMGuqkNiW/2boogTYUEnN3hjKPlgVpL2ffWi88
-         QJXq4SxPrXzrJuBoL/vvIOzvkgZARVAyrknjpD4NJBdm9//0uctfrCv8Alxf1qExewQu
-         /27Tl+KNfpBAwto9rfrXrkv/MwSN/qSzdFZ+dzscnpwlb6D6xaDla7AHxi9r+WKhslHx
-         aTSGzIsyPWMnltNMU0QxLL5gOOkpwTKIEYWx53zTvHr0EauZFEUtedhkpwMs8QJmFOlr
-         YGzLWtnoZLrVgx6H6J5T+yI0NfeONKd9P2uqeDwLdrCaZO5z8mRvkzHJfaGHBXFsLboB
-         D4ZA==
-X-Gm-Message-State: AOAM5310hVmQJYq9OzS0AqSH6juu0FOTn2+dHRoGQxODvQdwcegDLuic
-        N1NiQdTxkZN4pL2ns25R8K/nrw==
-X-Google-Smtp-Source: ABdhPJxB3kHWd5L92viS8b4mkySdIs5+B3FyMFUnLaO6CG5CVT+YhqgVuy52zrEeUUbKylRNMLt1gw==
-X-Received: by 2002:a17:90a:1d:: with SMTP id 29mr1188822pja.140.1644577586017;
-        Fri, 11 Feb 2022 03:06:26 -0800 (PST)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:c4e0:c7ee:38f6:b6d])
-        by smtp.gmail.com with ESMTPSA id t14sm4410290pgo.19.2022.02.11.03.06.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Feb 2022 03:06:25 -0800 (PST)
-From:   Chen-Yu Tsai <wenst@chromium.org>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v2] media: hantro: Implement support for encoder commands
-Date:   Fri, 11 Feb 2022 19:06:17 +0800
-Message-Id: <20220211110617.2202714-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
+        Fri, 11 Feb 2022 06:24:02 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44262E5D
+        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 03:24:00 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 836671C0006;
+        Fri, 11 Feb 2022 11:23:53 +0000 (UTC)
+Date:   Fri, 11 Feb 2022 12:25:00 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Eugen.Hristev@microchip.com
+Cc:     slongerbeam@gmail.com, laurent.pinchart@ideasonboard.com,
+        sakari.ailus@iki.fi, hverkuil-cisco@xs4all.nl,
+        mirela.rabulea@nxp.com, xavier.roumegue@oss.nxp.com,
+        tomi.valkeinen@ideasonboard.com, hugues.fruchet@st.com,
+        prabhakar.mahadev-lad.rj@bp.renesas.com, aford173@gmail.com,
+        festevam@gmail.com, jbrunet@baylibre.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 00/23] media: ov5640: Rework the clock tree
+ programming for MIPI
+Message-ID: <20220211112500.7p3fi2xhwutap6ak@uno.localdomain>
+References: <20220210110458.152494-1-jacopo@jmondi.org>
+ <a5a75d0b-7f40-39d0-a8ec-4e143c5f3b1c@microchip.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <a5a75d0b-7f40-39d0-a8ec-4e143c5f3b1c@microchip.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,199 +46,133 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The V4L2 stateful encoder uAPI specification requires that drivers
-support the ENCODER_CMD ioctl to allow draining of buffers. This
-however was not implemented, and causes issues for some userspace
-applications.
+Hi Eugen
 
-Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
-This is entirely based on existing code found in the vicodec test
-driver.
+        thanks very much for testing
 
-Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
+On Fri, Feb 11, 2022 at 10:09:04AM +0000, Eugen.Hristev@microchip.com wrote:
+> On 2/10/22 1:04 PM, Jacopo Mondi wrote:
+>
+> Hello Jacopo,
+>
+> > v1:
+> > https://patchwork.linuxtv.org/project/linux-media/list/?series=7249
+> >
+> > A branch for testing based on the most recent media-master is available at
+> > https://git.sr.ht/~jmondi_/linux #jmondi/media-master/ov5640-v2
+> >
+> > If anyone with a DVP setup could verify I have not broken their use case
+> > I would very much appreciate that :)
+>
+> I started testing this on my bench.
+> So far things look good.
+>
 
-Changes since v1:
-- Correctly handle last buffers that are empty
-- Correctly handle last buffers that just got queued
-- Disable (TRY_)ENCODER_CMD ioctls for hantro decoder
+\o/
 
-This is based on linux-next-20220208, and was tested on RK3399 with
-Gstreamer running the JPEG encoder. It was also tested on ChromeOS
-5.10 on Kevin with the video encoder used in ChromeOS ARC, which
-requires this. For ChromeOS, both encoder and decoder tests were run
-to check for regressions.
+> To be able to test this, I have to revert this patch :
+> "media: i2c: ov5640: Remain in power down for DVP mode unless streaming"
+>
+> Otherwise the sensor will not power up when starting streaming.
+>
+>
+> I have tested several formats, as you worked more on this sensor, could
+> you tell me, does format YUYV_2x8 work in parallel mode at 1920x1080 or
+> 1024x768 ?
 
-Everything really works OK now, but since I'm not very familiar with
-the mem2mem framework, I might be missing something, causing resource
-leaks. Hence this patch is labeled RFC.
+I never tested the sensor driver with a parallel setup I'm afraid.
+The idea behind this series is that DVP shouldn't be affected and
+continue working like it did.
 
-Last, I suppose we could also add support for (TRY_)DECODER_CMD now?
+> I managed to get it working fine at 640x480 .
+>
+> The sensor looks to report valid framesizes for this mbus code :
+>
+> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-mbus-codes
+> \ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
+>          0x4001: MEDIA_BUS_FMT_JPEG_1X8
+>          0x2006: MEDIA_BUS_FMT_UYVY8_2X8
+>          0x200f: MEDIA_BUS_FMT_UYVY8_1X16
+>          0x2008: MEDIA_BUS_FMT_YUYV8_2X8
+>          0x2011: MEDIA_BUS_FMT_YUYV8_1X16
+>          0x1008: MEDIA_BUS_FMT_RGB565_2X8_LE
+>          0x1007: MEDIA_BUS_FMT_RGB565_2X8_BE
+>          0x1017: MEDIA_BUS_FMT_RGB565_1X16
+>          0x100a: MEDIA_BUS_FMT_RGB888_1X24
+>          0x1013: MEDIA_BUS_FMT_BGR888_1X24
+>          0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
+>          0x3013: MEDIA_BUS_FMT_SGBRG8_1X8
+>          0x3002: MEDIA_BUS_FMT_SGRBG8_1X8
+>          0x3014: MEDIA_BUS_FMT_SRGGB8_1X8
+> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x2008
+> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0)
+>          Size Range: 160x120 - 160x120
+>          Size Range: 176x144 - 176x144
+>          Size Range: 320x240 - 320x240
+>          Size Range: 640x480 - 640x480
+>          Size Range: 720x480 - 720x480
+>          Size Range: 720x576 - 720x576
+>          Size Range: 1024x768 - 1024x768
+>          Size Range: 1280x720 - 1280x720
+>          Size Range: 1920x1080 - 1920x1080
+>          Size Range: 2592x1944 - 2592x1944
+> #
+>
+> but the ISC does not receive any frames at 1024x768 and 1920x1080.
 
----
- drivers/staging/media/hantro/hantro_drv.c  | 17 +++++-
- drivers/staging/media/hantro/hantro_v4l2.c | 68 +++++++++++++++++++++-
- 2 files changed, 81 insertions(+), 4 deletions(-)
+Are 1080p and 1024x768 working without this series applied on your
+setup ?
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index bc9bcb4eaf46..99bc650a5a93 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
- 	return hantro_get_dec_buf_addr(ctx, buf);
- }
- 
-+static const struct v4l2_event hantro_eos_event = {
-+	.type = V4L2_EVENT_EOS
-+};
-+
- static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
- 				    struct hantro_ctx *ctx,
- 				    enum vb2_buffer_state result)
-@@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
- 	src->sequence = ctx->sequence_out++;
- 	dst->sequence = ctx->sequence_cap++;
- 
-+	if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
-+		dst->flags |= V4L2_BUF_FLAG_LAST;
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+		v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
-+	}
-+
- 	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
- 					 result);
- }
-@@ -807,10 +817,13 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
- 	snprintf(vfd->name, sizeof(vfd->name), "%s-%s", match->compatible,
- 		 funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER ? "enc" : "dec");
- 
--	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER)
-+	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
- 		vpu->encoder = func;
--	else
-+	} else {
- 		vpu->decoder = func;
-+		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
-+		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
-+	}
- 
- 	video_set_drvdata(vfd, vpu);
- 
-diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index 67148ba346f5..777bd3dbd875 100644
---- a/drivers/staging/media/hantro/hantro_v4l2.c
-+++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -628,6 +628,39 @@ static int vidioc_s_selection(struct file *file, void *priv,
- 	return 0;
- }
- 
-+static const struct v4l2_event hantro_eos_event = {
-+	.type = V4L2_EVENT_EOS
-+};
-+
-+static int vidioc_encoder_cmd(struct file *file, void *priv,
-+			      struct v4l2_encoder_cmd *ec)
-+{
-+	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	int ret;
-+
-+	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
-+	    !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
-+		return 0;
-+
-+	ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ec->cmd == V4L2_ENC_CMD_STOP &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+
-+	if (ec->cmd == V4L2_ENC_CMD_START &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
-+
-+	return 0;
-+}
-+
- const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_querycap = vidioc_querycap,
- 	.vidioc_enum_framesizes = vidioc_enum_framesizes,
-@@ -657,6 +690,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 
- 	.vidioc_g_selection = vidioc_g_selection,
- 	.vidioc_s_selection = vidioc_s_selection,
-+
-+	.vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
-+	.vidioc_encoder_cmd = vidioc_encoder_cmd,
- };
- 
- static int
-@@ -733,8 +769,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
- 	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
- 	 * it to buffer length).
- 	 */
--	if (V4L2_TYPE_IS_CAPTURE(vq->type))
--		vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
-+	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
-+		if (ctx->is_encoder)
-+			vb2_set_plane_payload(vb, 0, 0);
-+		else
-+			vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
-+	}
- 
- 	return 0;
- }
-@@ -744,6 +784,22 @@ static void hantro_buf_queue(struct vb2_buffer *vb)
- 	struct hantro_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
- 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
- 
-+	if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
-+	    vb2_is_streaming(vb->vb2_queue) &&
-+	    v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
-+		unsigned int i;
-+
-+		for (i = 0; i < vb->num_planes; i++)
-+			vb->planes[i].bytesused = 0;
-+
-+		vbuf->field = V4L2_FIELD_NONE;
-+		vbuf->sequence = ctx->sequence_cap++;
-+
-+		v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, vbuf);
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+		return;
-+	}
-+
- 	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
- }
- 
-@@ -759,6 +815,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
- 	struct hantro_ctx *ctx = vb2_get_drv_priv(q);
- 	int ret = 0;
- 
-+	v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
-+
- 	if (V4L2_TYPE_IS_OUTPUT(q->type))
- 		ctx->sequence_out = 0;
- 	else
-@@ -831,6 +889,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
- 		hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
- 	else
- 		hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
-+
-+	v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
-+
-+	if (V4L2_TYPE_IS_OUTPUT(q->type) &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
- }
- 
- static void hantro_buf_request_complete(struct vb2_buffer *vb)
--- 
-2.35.1.265.g69c8d7142f-goog
+Thanks again for testin!
 
+>
+>
+> What I can say is that the raw bayer format works at 1920x1080 , frames
+> are received correctly.
+>
+> Thanks,
+> Eugen
+>
+> >
+> > v1 -> v2:
+> > - rework the modes definition to process the full pixel array
+> > - rework get_selection to report the correct BOUND and DEFAULT targets
+> > - implement init_cfg
+> > - minor style changes as suggested by Laurent
+> > - test with 1 data lane
+> >
+> > Thanks
+> >     j
+> >
+> > Jacopo Mondi (23):
+> >    media: ov5640: Add pixel rate to modes
+> >    media: ov5604: Re-arrange modes definition
+> >    media: ov5640: Add ov5640_is_csi2() function
+> >    media: ov5640: Associate bpp with formats
+> >    media: ov5640: Add LINK_FREQ control
+> >    media: ov5640: Update pixel_rate and link_freq
+> >    media: ov5640: Rework CSI-2 clock tree
+> >    media: ov5640: Rework timings programming
+> >    media: ov5640: Fix 720x480 in RGB888 mode
+> >    media: ov5640: Rework analog crop rectangles
+> >    media: ov5640: Re-sort per-mode register tables
+> >    media: ov5640: Remove ov5640_mode_init_data
+> >    media: ov5640: Add HBLANK control
+> >    media: ov5640: Add VBLANK control
+> >    media: ov5640: Fix durations to comply with FPS
+> >    media: ov5640: Implement init_cfg
+> >    media: ov5640: Implement get_selection
+> >    media: ov5640: Limit frame_interval to DVP mode only
+> >    media: ov5640: Register device properties
+> >    media: ov5640: Add RGB565_1X16 format
+> >    media: ov5640: Add RGB888/BGR888 formats
+> >    media: ov5640: Restrict sizes to mbus code
+> >    media: ov5640: Adjust format to bpp in s_fmt
+> >
+> >   drivers/media/i2c/ov5640.c | 1143 ++++++++++++++++++++++++++----------
+> >   1 file changed, 830 insertions(+), 313 deletions(-)
+> >
+> > --
+> > 2.35.0
+> >
+>
