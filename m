@@ -2,59 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DF7F4B2EF7
-	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 22:01:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6ADD4B2F59
+	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 22:27:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353523AbiBKU5K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Feb 2022 15:57:10 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49608 "EHLO
+        id S1349534AbiBKV1d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Feb 2022 16:27:33 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353485AbiBKU4u (ORCPT
+        with ESMTP id S229945AbiBKV1a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Feb 2022 15:56:50 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67366D57;
-        Fri, 11 Feb 2022 12:56:34 -0800 (PST)
+        Fri, 11 Feb 2022 16:27:30 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0968C62;
+        Fri, 11 Feb 2022 13:27:28 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44E5793;
-        Fri, 11 Feb 2022 21:56:32 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E14A593;
+        Fri, 11 Feb 2022 22:27:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644612992;
-        bh=Mbj/JEWHnhuJ4egVN/7JMgXgTiAVpvT6Yrbb2y5h5y8=;
+        s=mail; t=1644614847;
+        bh=HTNzGj6oHb9mKD/10azNnCW5BCDNrwqLwLbHFyz33Qc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FKhdR2CXuHPyjSKKxXMecloiTMPp9yecKPLJ9U0Ct2G2yW16zr4yRusJCEv3SKAba
-         MOZ1u608xioB0ReRpiLgcC3DrILH+EYESIv59Xy2ixgma8zgNmHOvBEn1obcn0hiJy
-         tQPjILlJ3SFwbKcsAC8OwZugqaiUeSUHu6MLK3zs=
-Date:   Fri, 11 Feb 2022 22:56:28 +0200
+        b=ft83vr1pgs+M2mPJlIelA5fDIYtRf1OCjFUCtrCSVnEnku2MYgz0SucN3g+QKuJSN
+         OdwmUm+OQYGrNSPxM0b7Ldq0hIw3KWdw62t+tRRE6CdHFRe/CttzM9UelWCJmUjoJ1
+         jpoX/B9Bd5UafoAg2yFo5J0vh2xRxTZEHI2Qms+g=
+Date:   Fri, 11 Feb 2022 23:27:22 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 07/66] dt-bindings: media: sun6i-a31-csi: Add MIPI
- CSI-2 input port
-Message-ID: <YgbNfKiNkPmvaT1k@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
- <YgFCuaf007wd8sJy@pendragon.ideasonboard.com>
- <YgaKXvP3rLOLR9VR@aptenodytes>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH 2/2] media: media-entity: Simplify media_pipeline_start()
+Message-ID: <YgbUukylCOq8j0+r@pendragon.ideasonboard.com>
+References: <20220113150042.15630-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220113150042.15630-3-laurent.pinchart+renesas@ideasonboard.com>
+ <YeMG1Xgtnq0Qu9ar@valkosipuli.retiisi.eu>
+ <YeMoTVuO8nbgw9Rr@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YgaKXvP3rLOLR9VR@aptenodytes>
+In-Reply-To: <YeMoTVuO8nbgw9Rr@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -64,157 +51,218 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 11, 2022 at 05:10:06PM +0100, Paul Kocialkowski wrote:
-> Hi Laurent,
-> 
-> Thanks for the review!
-> 
-> On Mon 07 Feb 22, 18:03, Laurent Pinchart wrote:
-> > Hi Paul,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Sat, Feb 05, 2022 at 07:53:30PM +0100, Paul Kocialkowski wrote:
-> > > The A31 CSI controller supports two distinct input interfaces:
-> > > parallel and an external MIPI CSI-2 bridge. The parallel interface
-> > > is often connected to a set of hardware pins while the MIPI CSI-2
-> > > bridge is an internal FIFO-ish link. As a result, these two inputs
-> > > are distinguished as two different ports.
-> > > 
-> > > Note that only one of the two may be present on a controller instance.
-> > > For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> > > dedicated to parallel.
-> > 
-> > Is it that only one of the two is present, or only one of the two is
-> > connected ? In the latter case I'd make both ports required, but with
-> > only one of them connected.
-> 
-> There are situations where the actual pins for parallel (port@0) are missing
-> and the controller is dedicated to its mipi csi-2 bridge (port@1), cases where
-> the two are present and cases where the mipi csi-2 bridge doesn't exist.
-> So all in all it's really legit that only one port may be defined.
+Hi Sakari,
 
-The port could still exist internally in the IP core though. Of course
-that's hard to tell.
-
-> > > Update the binding with an explicit ports node that holds two distinct
-> > > port nodes: one for parallel input and one for MIPI CSI-2.
+On Sat, Jan 15, 2022 at 10:02:21PM +0200, Laurent Pinchart wrote:
+> On Sat, Jan 15, 2022 at 07:39:33PM +0200, Sakari Ailus wrote:
+> > On Thu, Jan 13, 2022 at 05:00:42PM +0200, Laurent Pinchart wrote:
+> > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > > > 
-> > > This is backward-compatible with the single-port approach that was
-> > > previously taken for representing the parallel interface port, which
-> > > stays enumerated as fwnode port 0.
+> > > The media_pipeline_start() function has two purposes: it constructs a
+> > > pipeline by recording the entities that are part of it, gathered from a
+> > > graph walk, and validate the media links. The pipeline pointer is stored
+> > > in the media_entity structure as part of this process, and the entity's
+> > > stream count is increased, to record that the entity is streaming.
 > > > 
-> > > Note that additional ports may be added in the future, especially to
-> > > support feeding the CSI controller's output to the ISP.
+> > > When multiple video nodes are present in a pipeline,
+> > > media_pipeline_start() is typically called on all of them, with the same
+> > > pipeline pointer. This is taken into account in media_pipeline_start()
+> > > by skipping validation for entities that are already part of the
+> > > pipeline, while returning an error if an entity is part of a different
+> > > pipeline.
 > > > 
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > Acked-by: Maxime Ripard <mripard@kernel.org>
+> > > It turns out that this process is overly complicated. When
+> > > media_pipeline_start() is called for the first time, it constructs the
+> > > full pipeline, adding all entities and validating all the links.
+> > > Subsequent calls to media_pipeline_start() are then nearly no-ops, they
+> > > only increase the stream count on the pipeline and on all entities.
+> > > 
+> > > The media_entity stream_count field is used for two purposes: checking
+> > > if the entity is streaming, and detecting when a call to
+> > > media_pipeline_stop() balances needs to reset the entity pipe pointer to
+> > > NULL. The former can easily be replaced by a check of the pipe pointer.
+> > > 
+> > > Simplify media_pipeline_start() by avoiding the pipeline walk on all
+> > > calls but the first one, and drop the media_entity stream_count field.
+> > > media_pipeline_stop() is updated accordingly.
+> > > 
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > > > ---
-> > >  .../media/allwinner,sun6i-a31-csi.yaml        | 60 +++++++++++++++----
-> > >  1 file changed, 47 insertions(+), 13 deletions(-)
+> > >  drivers/media/mc/mc-entity.c | 52 +++++++++++++++---------------------
+> > >  include/media/media-entity.h | 11 +++-----
+> > >  2 files changed, 26 insertions(+), 37 deletions(-)
 > > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > index 8b568072a069..3cc61866ea89 100644
-> > > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > @@ -61,6 +61,34 @@ properties:
+> > > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> > > index f83e043f0f3b..8ab0913d8d82 100644
+> > > --- a/drivers/media/mc/mc-entity.c
+> > > +++ b/drivers/media/mc/mc-entity.c
+> > > @@ -396,20 +396,21 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+> > >  	struct media_link *link;
+> > >  	int ret;
 > > >  
-> > >      additionalProperties: false
+> > > -	if (!pipe->streaming_count++) {
+> > > -		ret = media_graph_walk_init(&pipe->graph, mdev);
+> > > -		if (ret)
+> > > -			goto error_graph_walk_start;
+> > > +	if (pipe->streaming_count) {
+> > > +		pipe->streaming_count++;
+> > > +		return 0;
+> > >  	}
 > > >  
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > +	ret = media_graph_walk_init(&pipe->graph, mdev);
+> > > +	if (ret)
+> > > +		return ret;
 > > > +
-> > > +    properties:
-> > > +      port@0:
-> > > +        $ref: "#/properties/port"
-> > > +        unevaluatedProperties: false
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        description: MIPI CSI-2 bridge input port
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 1
-> > > +
-> > > +          endpoint:
-> > > +            $ref: video-interfaces.yaml#
-> > > +            unevaluatedProperties: false
-> > > +
-> > > +        additionalProperties: false
-> > > +
-> > > +    anyOf:
-> > > +      - required:
-> > > +        - port@0
-> > > +      - required:
-> > > +        - port@1
-> > > +
-> > >  required:
-> > >    - compatible
-> > >    - reg
-> > 
-> > Shouldn't you specify that either port or ports is required, but not
-> > both ? I'd also add a comment in the port node to tell it's deprecated,
-> > and that ports should be used instead.
-> 
-> Yes I agree on both points. I guess that should be a:
-> 
-> oneOf:
->   - required:
->     - ports
->   - required:
->     - port
-> 
-> (but feel free to correct me).
-> 
-> > > @@ -89,19 +117,25 @@ examples:
-> > >                        "ram";
-> > >          resets = <&ccu RST_BUS_CSI>;
+> > >  	media_graph_walk_start(&pipe->graph, entity);
 > > >  
-> > > -        port {
-> > > -            /* Parallel bus endpoint */
-> > > -            csi1_ep: endpoint {
-> > > -                remote-endpoint = <&adv7611_ep>;
-> > > -                bus-width = <16>;
+> > >  	while ((entity = media_graph_walk_next(graph))) {
+> > >  		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
+> > >  		DECLARE_BITMAP(has_no_links, MEDIA_ENTITY_MAX_PADS);
+> > >  
+> > > -		entity->stream_count++;
 > > > -
-> > > -                /*
-> > > -                 * If hsync-active/vsync-active are missing,
-> > > -                 * embedded BT.656 sync is used.
-> > > -                 */
-> > > -                 hsync-active = <0>; /* Active low */
-> > > -                 vsync-active = <0>; /* Active low */
-> > > -                 pclk-sample = <1>;  /* Rising */
-> > > +        ports {
-> > > +            #address-cells = <1>;
-> > > +            #size-cells = <0>;
+> > >  		if (entity->pipe && entity->pipe != pipe) {
+> > >  			pr_err("Pipe active for %s. Can't start for %s\n",
+> > >  				entity->name,
+> > > @@ -418,12 +419,12 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+> > >  			goto error;
+> > >  		}
+> > >  
+> > > -		entity->pipe = pipe;
+> > > -
+> > >  		/* Already streaming --- no need to check. */
+> > > -		if (entity->stream_count > 1)
+> > > +		if (entity->pipe)
+> > >  			continue;
+> > >  
+> > > +		entity->pipe = pipe;
 > > > +
-> > > +            port@0 {
-> > > +                reg = <0>;
-> > > +                /* Parallel bus endpoint */
-> > > +                csi1_ep: endpoint {
-> > > +                    remote-endpoint = <&adv7611_ep>;
-> > > +                    bus-width = <16>;
+> > >  		if (!entity->ops || !entity->ops->link_validate)
+> > >  			continue;
+> > >  
+> > > @@ -479,6 +480,8 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+> > >  		}
+> > >  	}
+> > >  
+> > > +	pipe->streaming_count++;
 > > > +
-> > > +                    /*
-> > > +                     * If hsync-active/vsync-active are missing,
-> > > +                     * embedded BT.656 sync is used.
-> > > +                     */
-> > > +                     hsync-active = <0>; /* Active low */
-> > > +                     vsync-active = <0>; /* Active low */
-> > > +                     pclk-sample = <1>;  /* Rising */
+> > >  	return 0;
+> > >  
+> > >  error:
+> > > @@ -489,24 +492,17 @@ __must_check int __media_pipeline_start(struct media_entity *entity,
+> > >  	media_graph_walk_start(graph, entity_err);
+> > >  
+> > >  	while ((entity_err = media_graph_walk_next(graph))) {
+> > > -		/* Sanity check for negative stream_count */
+> > > -		if (!WARN_ON_ONCE(entity_err->stream_count <= 0)) {
+> > > -			entity_err->stream_count--;
+> > > -			if (entity_err->stream_count == 0)
+> > > -				entity_err->pipe = NULL;
+> > > -		}
+> > > +		entity_err->pipe = NULL;
+> > >  
+> > >  		/*
+> > > -		 * We haven't increased stream_count further than this
+> > > -		 * so we quit here.
+> > > +		 * We haven't started entities further than this so we quit
+> > > +		 * here.
+> > >  		 */
+> > >  		if (entity_err == entity)
+> > >  			break;
+> > >  	}
+> > >  
+> > > -error_graph_walk_start:
+> > > -	if (!--pipe->streaming_count)
+> > > -		media_graph_walk_cleanup(graph);
+> > > +	media_graph_walk_cleanup(graph);
+> > >  
+> > >  	return ret;
+> > >  }
+> > > @@ -537,19 +533,15 @@ void __media_pipeline_stop(struct media_entity *entity)
+> > >  	if (WARN_ON(!pipe))
+> > >  		return;
+> > >  
+> > > +	if (--pipe->streaming_count)
+> > > +		return;
+> > > +
+> > >  	media_graph_walk_start(graph, entity);
+> > >  
+> > > -	while ((entity = media_graph_walk_next(graph))) {
+> > > -		/* Sanity check for negative stream_count */
+> > > -		if (!WARN_ON_ONCE(entity->stream_count <= 0)) {
+> > > -			entity->stream_count--;
+> > > -			if (entity->stream_count == 0)
+> > > -				entity->pipe = NULL;
+> > > -		}
+> > > -	}
+> > > +	while ((entity = media_graph_walk_next(graph)))
+> > > +		entity->pipe = NULL;
+> > >  
+> > > -	if (!--pipe->streaming_count)
+> > > -		media_graph_walk_cleanup(graph);
+> > > +	media_graph_walk_cleanup(graph);
+> > >  
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(__media_pipeline_stop);
+> > > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> > > index 8546f13c42a9..e3c4fd1e3623 100644
+> > > --- a/include/media/media-entity.h
+> > > +++ b/include/media/media-entity.h
+> > > @@ -268,7 +268,6 @@ enum media_entity_type {
+> > >   * @pads:	Pads array with the size defined by @num_pads.
+> > >   * @links:	List of data links.
+> > >   * @ops:	Entity operations.
+> > > - * @stream_count: Stream count for the entity.
+> > >   * @use_count:	Use count for the entity.
+> > >   * @pipe:	Pipeline this entity belongs to.
+> > >   * @info:	Union with devnode information.  Kept just for backward
+> > > @@ -283,10 +282,9 @@ enum media_entity_type {
+> > >   *
+> > >   * .. note::
+> > >   *
+> > > - *    @stream_count and @use_count reference counts must never be
+> > > - *    negative, but are signed integers on purpose: a simple ``WARN_ON(<0)``
+> > > - *    check can be used to detect reference count bugs that would make them
+> > > - *    negative.
+> > > + *    The @use_count reference count must never be negative, but is a signed
+> > > + *    integer on purpose: a simple ``WARN_ON(<0)`` check can be used to detect
+> > > + *    reference count bugs that would make it negative.
+> > >   */
+> > >  struct media_entity {
+> > >  	struct media_gobj graph_obj;	/* must be first field in struct */
+> > > @@ -305,7 +303,6 @@ struct media_entity {
+> > >  
+> > >  	const struct media_entity_operations *ops;
+> > >  
+> > > -	int stream_count;
+> > >  	int use_count;
+> > >  
+> > >  	struct media_pipeline *pipe;
+> > > @@ -867,7 +864,7 @@ struct media_pad *media_entity_remote_pad(const struct media_pad *pad);
+> > >   */
+> > >  static inline bool media_entity_is_streaming(const struct media_entity *entity)
+> > >  {
+> > > -	return entity->stream_count > 0;
+> > > +	return entity->pipe != NULL;
 > > 
-> > Wrong indentation.
+> > I'd drop "!= NULL" part; it's redundant.
 > 
-> The double-space before /* Rising */ or something with the heading indent?
+> I usually use "if (pointer)" or "if (!pointer)" without comparing to
+> NULL, but for some reason, when returning a bool, it feels more explicit
+> to me to use a comparison. I'm not sure why, maybe because, unlike with
+> if (), the implicit cast is only apparent when you read the signature of
+> the function ? Not that it's far away in this case, it's only two lines
+> up.
+> 
+> > I'll do that when applying if that's fine.
+> 
+> Fine with me, I don't mind either way. Thanks.
 
-The heading has one extra space for all three lines, they should be
-aligned to the / of /*, not to the *.
+Will you take this series for v5.18 ?
 
-> > > +                };
-> > >              };
-> > >          };
-> > >      };
+> > >  }
+> > >  
+> > >  /**
 
 -- 
 Regards,
