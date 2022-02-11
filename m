@@ -2,211 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 683874B2A00
-	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 17:19:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06A704B2A60
+	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 17:31:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351439AbiBKQT1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Feb 2022 11:19:27 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47412 "EHLO
+        id S1351516AbiBKQ3o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Feb 2022 11:29:44 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351461AbiBKQTP (ORCPT
+        with ESMTP id S235352AbiBKQ3n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Feb 2022 11:19:15 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E04FDD8E
-        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 08:19:12 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id c5-20020a25f305000000b0061dd6123f18so19723473ybs.17
-        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 08:19:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc:content-transfer-encoding;
-        bh=09UL10d0I9UYF+bVDoR9sZ50jMDUcLUx49HZh4jVL78=;
-        b=JE1EYWsWmJMVKKKziQTWEWuNUsyaPxqCZ/opyUrIE1QJ2zMzT8OF9HdxhY+GhtuCaK
-         HyDDiusYJME2veTyqvuwR1555jPMqz95nnShokOB0VNQWEe93IdgXongToVPd90O3dAV
-         IimzoYc1rIm15su0G+eGvhoRyruDLS+nZbjAQSDDWgXzx6DUp60nKevkdTlnOcGS/yxC
-         7VDKvQJbgIkNVOdKUHyv+vhK1BCP41v5/xbIT27E+bix812dIwb5ma26aGylR3U5/hbr
-         /YZu4e+ldXsQQ0aLJTqhpqIkZ/qs9fg8ieI0b6EipnVFoSEM/clguN4lkL+c5q3or2+f
-         JMAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:content-transfer-encoding;
-        bh=09UL10d0I9UYF+bVDoR9sZ50jMDUcLUx49HZh4jVL78=;
-        b=DUy+llxvqy/hiVh1O2i7J0wngF727l9y8WW37HSgSOQb+oXCBqxSu34tu/zAqlx25D
-         adc5S52SXAwgz7+tjw7CEdQ0bmOIrqA5mWH12ZLUEJ9w2ptEhjlE91S/K8qn+gvkHnOI
-         Q70l5Ksp7GzAAblo/lIp7nPU8WFx3kQ/FeeUlbH4iKfPL+4lp1qaFyqISDA94h8J0D8i
-         M6tRZJcaI14W5wpTdF7WVg8zdFN2O0CiRFv13iAu4ps4ajHR8QCQS1Dx1b0ZHjvHC2E3
-         pIW3ml9VvjIY0XwLvuUJjEKI26e627k/nRovWrfo+UJhcTcMJTFRpb6Us78DNiBdu3NJ
-         W5QA==
-X-Gm-Message-State: AOAM531OFzbrtRyIoM8gy4rNvZyxk6K2X3w5PQ2MtG1o637xYQC1uAH5
-        NBdaCezzOyXsP/KfGGbuXkxWdvZUQmAhBNo=
-X-Google-Smtp-Source: ABdhPJyt28xsiqi+oRkwIgJ74WzjQyOoBVx2xkYnBQvOje0p3ZB58ZSdJeKE27JlSq7ErJdcjRoIy8BigQrNax8=
-X-Received: from tj2.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:187])
- (user=tjmercier job=sendgmr) by 2002:a81:d007:: with SMTP id
- v7mr2415829ywi.88.1644596352146; Fri, 11 Feb 2022 08:19:12 -0800 (PST)
-Date:   Fri, 11 Feb 2022 16:18:29 +0000
-In-Reply-To: <20220211161831.3493782-1-tjmercier@google.com>
-Message-Id: <20220211161831.3493782-7-tjmercier@google.com>
-Mime-Version: 1.0
-References: <20220211161831.3493782-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
-Subject: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
- ownership of fds
-From:   "T.J. Mercier" <tjmercier@google.com>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Fri, 11 Feb 2022 11:29:43 -0500
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600FDCC9;
+        Fri, 11 Feb 2022 08:29:41 -0800 (PST)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7AAA9240009;
+        Fri, 11 Feb 2022 16:29:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1644596980;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4kVSfBMlOpLVxwAYqmjgdSsjcSKy3f9ulmjYySBtivY=;
+        b=T4TSHYvfEdtrIdt54FMQc8fkxl6Sb+6Fb/eoGRfWYgAdoQJkHicqhpsEGSiJd0cHoyQsF0
+        Vfva/O33f9O65QrX1haPnlzjQ2sIPixy0kxvHp+MbuQfN91FPpawkqwPurQIRekmoMFTg5
+        qgKvKxWeNpHSODYhBMZuYE2WpvWAEd3JOjoRKSVqgBQcVuJ4n24mz4t3hrZpjVZ4hHSCFQ
+        bW4jOJBvKyEPdisxxKSIzqqzIB3HyKBI4ApuvsfblSRxCFUi3AWIy4ujaGUzzOyqQFbkTY
+        Lmw/3Fq/7PX7QEpH+8uAap60ARcPDWvaATeXcm8/9Fpz2Nh+MEA1tsWW9xauGA==
+Date:   Fri, 11 Feb 2022 17:29:37 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+        Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>
-Cc:     kaleshsingh@google.com, Kenny.Ho@amd.com,
-        "T.J. Mercier" <tjmercier@google.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Helen Koike <helen.koike@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 21/66] media: sun6i-csi: Always set exclusive module
+ clock rate
+Message-ID: <YgaO8bfP4gKW8BM0@aptenodytes>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-22-paul.kocialkowski@bootlin.com>
+ <20220207091443.cr5udv7fxx65ptty@houat>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Tv5rA21o/SqhzaB6"
+Content-Disposition: inline
+In-Reply-To: <20220207091443.cr5udv7fxx65ptty@houat>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
-that a process sending an fd array to another process over binder IPC
-can set to relinquish ownership of the fds being sent for memory
-accounting purposes. If the flag is found to be set during the fd array
-translation and the fd is for a DMA-BUF, the buffer is uncharged from
-the sender's cgroup and charged to the receiving process's cgroup
-instead.
 
-It is up to the sending process to ensure that it closes the fds
-regardless of whether the transfer failed or succeeded.
+--Tv5rA21o/SqhzaB6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Most graphics shared memory allocations in Android are done by the
-graphics allocator HAL process. On requests from clients, the HAL process
-allocates memory and sends the fds to the clients over binder IPC.
-The graphics allocator HAL will not retain any references to the
-buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
-arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
-correctly charge the buffers to the client processes instead of the
-graphics allocator HAL.
+Hi,
 
-From: Hridya Valsaraju <hridya@google.com>
-Signed-off-by: Hridya Valsaraju <hridya@google.com>
-Co-developed-by: T.J. Mercier <tjmercier@google.com>
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
-changes in v2
-- Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
-heap to a single dma-buf function for all heaps per Daniel Vetter and
-Christian K=C3=B6nig.
+Thanks for the review,
 
- drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
- include/uapi/linux/android/binder.h |  1 +
- 2 files changed, 27 insertions(+)
+On Mon 07 Feb 22, 10:14, Maxime Ripard wrote:
+> On Sat, Feb 05, 2022 at 07:53:44PM +0100, Paul Kocialkowski wrote:
+> > In some situations the default rate of the module clock is not the
+> > required one for operation (for example when reconfiguring the clock
+> > tree to use a different parent). As a result, always set the correct
+> > rate for the clock (and take care of cleanup).
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 54 ++++++++++++++-----
+> >  1 file changed, 41 insertions(+), 13 deletions(-)
+> >=20
+> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drive=
+rs/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > index 8155e9560164..2355088fdc37 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > @@ -154,9 +154,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *cs=
+i_dev, bool enable)
+> >  		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
+> > =20
+> >  		clk_disable_unprepare(csi_dev->clk_ram);
+> > -		if (of_device_is_compatible(dev->of_node,
+> > -					    "allwinner,sun50i-a64-csi"))
+> > -			clk_rate_exclusive_put(csi_dev->clk_mod);
+> >  		clk_disable_unprepare(csi_dev->clk_mod);
+> >  		reset_control_assert(csi_dev->reset);
+> >  		return 0;
+> > @@ -168,9 +165,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *cs=
+i_dev, bool enable)
+> >  		return ret;
+> >  	}
+> > =20
+> > -	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
+> > -		clk_set_rate_exclusive(csi_dev->clk_mod, 300000000);
+> > -
+> >  	ret =3D clk_prepare_enable(csi_dev->clk_ram);
+> >  	if (ret) {
+> >  		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err %d\n", ret);
+> > @@ -190,8 +184,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *cs=
+i_dev, bool enable)
+> >  clk_ram_disable:
+> >  	clk_disable_unprepare(csi_dev->clk_ram);
+> >  clk_mod_disable:
+> > -	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
+> > -		clk_rate_exclusive_put(csi_dev->clk_mod);
+> >  	clk_disable_unprepare(csi_dev->clk_mod);
+> >  	return ret;
+> >  }
+> > @@ -819,6 +811,7 @@ static int sun6i_csi_resources_setup(struct sun6i_c=
+si_device *csi_dev,
+> >  				     struct platform_device *platform_dev)
+> >  {
+> >  	struct device *dev =3D csi_dev->dev;
+> > +	unsigned long clk_mod_rate;
+> >  	void __iomem *io_base;
+> >  	int ret;
+> >  	int irq;
+> > @@ -856,28 +849,53 @@ static int sun6i_csi_resources_setup(struct sun6i=
+_csi_device *csi_dev,
+> >  		return PTR_ERR(csi_dev->clk_ram);
+> >  	}
+> > =20
+> > +	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
+> > +		clk_mod_rate =3D 300000000;
+> > +	else
+> > +		clk_mod_rate =3D 297000000;
+> > +
+> > +	ret =3D clk_set_rate_exclusive(csi_dev->clk_mod, clk_mod_rate);
+> > +	if (ret) {
+> > +		dev_err(dev, "failed to set mod clock rate\n");
+> > +		return ret;
+> > +	}
+> > +
+> >  	/* Reset */
+> > =20
+> >  	csi_dev->reset =3D devm_reset_control_get_shared(dev, NULL);
+> >  	if (IS_ERR(csi_dev->reset)) {
+> >  		dev_err(dev, "failed to acquire reset\n");
+> > -		return PTR_ERR(csi_dev->reset);
+> > +		ret =3D PTR_ERR(csi_dev->reset);
+> > +		goto error_clk_rate_exclusive;
+> >  	}
+> > =20
+> >  	/* Interrupt */
+> > =20
+> >  	irq =3D platform_get_irq(platform_dev, 0);
+> > -	if (irq < 0)
+> > -		return -ENXIO;
+> > +	if (irq < 0) {
+> > +		dev_err(dev, "failed to get interrupt\n");
+> > +		ret =3D -ENXIO;
+> > +		goto error_clk_rate_exclusive;
+> > +	}
+> > =20
+> >  	ret =3D devm_request_irq(dev, irq, sun6i_csi_isr, 0, SUN6I_CSI_NAME,
+> >  			       csi_dev);
+> >  	if (ret) {
+> >  		dev_err(dev, "failed to request interrupt\n");
+> > -		return ret;
+> > +		goto error_clk_rate_exclusive;
+> >  	}
+> > =20
+> >  	return 0;
+> > +
+> > +error_clk_rate_exclusive:
+> > +	clk_rate_exclusive_put(csi_dev->clk_mod);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void sun6i_csi_resources_cleanup(struct sun6i_csi_device *csi_d=
+ev)
+> > +{
+> > +	clk_rate_exclusive_put(csi_dev->clk_mod);
+> >  }
+>=20
+> If you're going to have that function anyway, let's use
+> devm_add_action_or_reset, it'll simplify the rest of the patch.
 
-diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-index 8351c5638880..f50d88ded188 100644
---- a/drivers/android/binder.c
-+++ b/drivers/android/binder.c
-@@ -42,6 +42,7 @@
-=20
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-=20
-+#include <linux/dma-buf.h>
- #include <linux/fdtable.h>
- #include <linux/file.h>
- #include <linux/freezer.h>
-@@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list_hea=
-d *pf_head,
- {
- 	binder_size_t fdi, fd_buf_size;
- 	binder_size_t fda_offset;
-+	bool transfer_gpu_charge =3D false;
- 	const void __user *sender_ufda_base;
- 	struct binder_proc *proc =3D thread->proc;
-+	struct binder_proc *target_proc =3D t->to_proc;
- 	int ret;
-=20
- 	fd_buf_size =3D sizeof(u32) * fda->num_fds;
-@@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list_hea=
-d *pf_head,
- 	if (ret)
- 		return ret;
-=20
-+	if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
-+		parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
-+		transfer_gpu_charge =3D true;
-+
- 	for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
- 		u32 fd;
-+		struct dma_buf *dmabuf;
-+		struct gpucg *gpucg;
-+
- 		binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
- 		binder_size_t sender_uoffset =3D fdi * sizeof(fd);
-=20
-@@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list_hea=
-d *pf_head,
- 						  in_reply_to);
- 		if (ret)
- 			return ret > 0 ? -EINVAL : ret;
-+
-+		if (!transfer_gpu_charge)
-+			continue;
-+
-+		dmabuf =3D dma_buf_get(fd);
-+		if (IS_ERR(dmabuf))
-+			continue;
-+
-+		gpucg =3D gpucg_get(target_proc->tsk);
-+		ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
-+		if (ret) {
-+			pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d",
-+				proc->pid, thread->pid, target_proc->pid);
-+			gpucg_put(gpucg);
-+		}
-+		dma_buf_put(dmabuf);
- 	}
- 	return 0;
- }
-diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/andro=
-id/binder.h
-index 3246f2c74696..169fd5069a1a 100644
---- a/include/uapi/linux/android/binder.h
-+++ b/include/uapi/linux/android/binder.h
-@@ -137,6 +137,7 @@ struct binder_buffer_object {
-=20
- enum {
- 	BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
-+	BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
- };
-=20
- /* struct binder_fd_array_object - object describing an array of fds in a =
-buffer
+Well, this will cause issues later on when adding runtime pm support to
+sun6i_csi_resources_cleanup: then it will no longer be equivalent
+to the error case label.
+
+Also I feel like making the resources_cleanup call a devm action would not
+help clarify the general flow of the driver, where the matching setup/clean=
+up
+calls are ordered in probe/remove. The driver is quite big with various par=
+ts
+and I'd rather have them behave in a coherent and similar way.
+
+What do you think?
+
+Paul
+
 --=20
-2.35.1.265.g69c8d7142f-goog
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
+--Tv5rA21o/SqhzaB6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIGjvEACgkQ3cLmz3+f
+v9Eq7wf/aVHx73dljDp0YxBy+q2PMLd3CTowE7OvhhXXMz24VfzET01MwXfyxeo0
+IpqwMV0dz5U1iy/ofxtZPJW832v08EZXXCod4h3E+L0lRi/HSkJlW67Gt5z4uZmu
+4tWN4NXJ2hXJlUT717HxRvTD7sl3oGOODuemqyPwmVLp/FJ/8dZZcwz38cyHXdL7
+v1nT9o/Cdpz5Mj1IECQaqEovJ3zU6sTFfd3YAYc4qPYYXmok4mq4GoqChSlB2y4y
+9DxH3t/4vciCVCon1d4Z7gOZML2IdzZBx3NwV+TKVUOBNCsVqz/pl4XVG+ZJ+Lvs
+bQio4a8S1+h+txomzaXIBPr1XlOENg==
+=d+6J
+-----END PGP SIGNATURE-----
+
+--Tv5rA21o/SqhzaB6--
