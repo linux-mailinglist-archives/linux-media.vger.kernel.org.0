@@ -2,36 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06A704B2A60
-	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 17:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAA304B2AA6
+	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 17:42:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351516AbiBKQ3o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Feb 2022 11:29:44 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33878 "EHLO
+        id S1351633AbiBKQlp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Feb 2022 11:41:45 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235352AbiBKQ3n (ORCPT
+        with ESMTP id S232139AbiBKQlo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Feb 2022 11:29:43 -0500
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600FDCC9;
-        Fri, 11 Feb 2022 08:29:41 -0800 (PST)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7AAA9240009;
-        Fri, 11 Feb 2022 16:29:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1644596980;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4kVSfBMlOpLVxwAYqmjgdSsjcSKy3f9ulmjYySBtivY=;
-        b=T4TSHYvfEdtrIdt54FMQc8fkxl6Sb+6Fb/eoGRfWYgAdoQJkHicqhpsEGSiJd0cHoyQsF0
-        Vfva/O33f9O65QrX1haPnlzjQ2sIPixy0kxvHp+MbuQfN91FPpawkqwPurQIRekmoMFTg5
-        qgKvKxWeNpHSODYhBMZuYE2WpvWAEd3JOjoRKSVqgBQcVuJ4n24mz4t3hrZpjVZ4hHSCFQ
-        bW4jOJBvKyEPdisxxKSIzqqzIB3HyKBI4ApuvsfblSRxCFUi3AWIy4ujaGUzzOyqQFbkTY
-        Lmw/3Fq/7PX7QEpH+8uAap60ARcPDWvaATeXcm8/9Fpz2Nh+MEA1tsWW9xauGA==
-Date:   Fri, 11 Feb 2022 17:29:37 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Maxime Ripard <maxime@cerno.tech>
+        Fri, 11 Feb 2022 11:41:44 -0500
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA3F6BD6;
+        Fri, 11 Feb 2022 08:41:41 -0800 (PST)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.west.internal (Postfix) with ESMTP id 309EB2B00073;
+        Fri, 11 Feb 2022 11:41:37 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Fri, 11 Feb 2022 11:41:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; bh=VxxIdz+/WKW+Venkr1DbRCwqE+GqaHFjtMkywh
+        RdVmg=; b=LPsbn8ecDu15ndgNyjUooytAdW9uEGgbZ/NodPnk90frcRI9iGBGSE
+        oC+KZULT8limIb3U6PjCtMZI4IeBUp6yYkRVAwygHEVbSAzkLbovFsQdLvfgx/J/
+        RiHh/DoVF3/CimxucPNJoWXRR/+QzvLeeZILDFhUzbDbEIwCXTVNtb6kiY5VJDjk
+        WfXrbWx85HklHGn45uGQyXJIXX0zx9AsZek6kmJ8QvHmRTp47Lx2kXLd3MdoLLXj
+        6SnUU2pm8EeavnVYResWOY6mH2+u7u1oCwTCCjr/wyw0XyXO4YHRaFw+tdPHYihU
+        JWPAQ570uw5jbY7tIdYY4W70WfwczN9Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=VxxIdz+/WKW+Venkr
+        1DbRCwqE+GqaHFjtMkywhRdVmg=; b=P7cLe39mwcd30tW0fg1aEuE/oVUvdajko
+        X9G1D3dmzwwZ9CHaEYALKahudqH7Eu5IC/MS6yIg2z16gDYo03QaRFIu4ricvyDA
+        zbAJ/1Zz7Oip61CvHPQzb7RG3fIZD6UsB9AnAD3wbz29NUFEipqPS+aDI3j1R2m9
+        qkBJ9is7q8YEtw42I7zeBU/AeK6a3+31bg859CycXVxIB2rh2ncSjqhcBHUp7hii
+        g+2VzrSYvXJlLKWfRP5o/oyTTLCOpyNLcLj14pZUONhg4+KVsF5CA20LAIezNXtP
+        VlaFMOUpLy3ry7qLhBtnMcUVhoJ/LkRCKtWGej2NhHCnmkfe9NpeQ==
+X-ME-Sender: <xms:v5EGYhXiUroDrfuYgLdtROAq2YYzg9him2WoCD7rq5wTdDVpBLhxLw>
+    <xme:v5EGYhk9u7XPyPzTRZQvEsiJJR_XvKQEGwl1WkNu67aTTGQb34gxJ6ruiCbhiktT9
+    ky0tqLNVVm9e77RUM8>
+X-ME-Received: <xmr:v5EGYtbRCZIwQLAbt46L5dgdWZ2zSbwNzTP1JV8v1Du43Y0mjHFvn2Pdco2S8m5RgMIY87KUhMx0TsWmH9DWn1ffGomAanVO_wPeqPg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrieefgdeltdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:v5EGYkUI4Eplm_1r-YvryznxfK6ORJXh_yALtzCxMiV9jIve5JduuA>
+    <xmx:v5EGYrlHsdobauYgL9jgLhLROGGbQfMKBo0D2tMvI9T75mmwWnCFuQ>
+    <xmx:v5EGYhdcXnHqF_Dueovm3vo3fkfME7cAfWUU4pINSbJIegKhyGDnFg>
+    <xmx:wJEGYqeNrvCSO-nbw3xQ11-IDWlPD4IkStwXeknu0oleIfrCYGOniDOnwLw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 11 Feb 2022 11:41:34 -0500 (EST)
+Date:   Fri, 11 Feb 2022 17:41:32 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
@@ -47,21 +77,22 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Helen Koike <helen.koike@collabora.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 21/66] media: sun6i-csi: Always set exclusive module
- clock rate
-Message-ID: <YgaO8bfP4gKW8BM0@aptenodytes>
+Subject: Re: [PATCH v2 22/66] media: sun6i-csi: Use runtime pm for clocks and
+ reset
+Message-ID: <20220211164132.pt5ewk4aklkcokal@houat>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-22-paul.kocialkowski@bootlin.com>
- <20220207091443.cr5udv7fxx65ptty@houat>
+ <20220205185429.2278860-23-paul.kocialkowski@bootlin.com>
+ <20220209092203.3fieqs4mbip6heug@houat>
+ <YgaIXXPHBMXWwPtO@aptenodytes>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Tv5rA21o/SqhzaB6"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2tzp6er3oul7lsr4"
 Content-Disposition: inline
-In-Reply-To: <20220207091443.cr5udv7fxx65ptty@houat>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <YgaIXXPHBMXWwPtO@aptenodytes>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -69,168 +100,150 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---Tv5rA21o/SqhzaB6
-Content-Type: text/plain; charset=utf-8
+--2tzp6er3oul7lsr4
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-Thanks for the review,
-
-On Mon 07 Feb 22, 10:14, Maxime Ripard wrote:
-> On Sat, Feb 05, 2022 at 07:53:44PM +0100, Paul Kocialkowski wrote:
-> > In some situations the default rate of the module clock is not the
-> > required one for operation (for example when reconfiguring the clock
-> > tree to use a different parent). As a result, always set the correct
-> > rate for the clock (and take care of cleanup).
+On Fri, Feb 11, 2022 at 05:01:33PM +0100, Paul Kocialkowski wrote:
+> On Wed 09 Feb 22, 10:22, Maxime Ripard wrote:
+> > On Sat, Feb 05, 2022 at 07:53:45PM +0100, Paul Kocialkowski wrote:
+> > > Wrap the clock and reset preparation into runtime pm functions
+> > > for better organization of the code.
+> > >=20
+> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > ---
+> > >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 94 ++++++++++++++---=
+--
+> > >  1 file changed, 69 insertions(+), 25 deletions(-)
+> > >=20
+> > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/dri=
+vers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > > index 2355088fdc37..b53b92b70a89 100644
+> > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > > @@ -152,40 +152,18 @@ int sun6i_csi_set_power(struct sun6i_csi_device=
+ *csi_dev, bool enable)
+> > > =20
+> > >  	if (!enable) {
+> > >  		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
+> > > +		pm_runtime_put(dev);
+> > > =20
+> > > -		clk_disable_unprepare(csi_dev->clk_ram);
+> > > -		clk_disable_unprepare(csi_dev->clk_mod);
+> > > -		reset_control_assert(csi_dev->reset);
+> > >  		return 0;
+> > >  	}
+> > > =20
+> > > -	ret =3D clk_prepare_enable(csi_dev->clk_mod);
+> > > -	if (ret) {
+> > > -		dev_err(csi_dev->dev, "Enable csi clk err %d\n", ret);
+> > > +	ret =3D pm_runtime_resume_and_get(dev);
+> > > +	if (ret < 0)
+> > >  		return ret;
+> > > -	}
+> > > -
+> > > -	ret =3D clk_prepare_enable(csi_dev->clk_ram);
+> > > -	if (ret) {
+> > > -		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err %d\n", ret);
+> > > -		goto clk_mod_disable;
+> > > -	}
+> > > -
+> > > -	ret =3D reset_control_deassert(csi_dev->reset);
+> > > -	if (ret) {
+> > > -		dev_err(csi_dev->dev, "reset err %d\n", ret);
+> > > -		goto clk_ram_disable;
+> > > -	}
+> > > =20
+> > >  	regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, CSI_EN_CSI_EN=
+);
+> > > =20
+> > >  	return 0;
+> > > -
+> > > -clk_ram_disable:
+> > > -	clk_disable_unprepare(csi_dev->clk_ram);
+> > > -clk_mod_disable:
+> > > -	clk_disable_unprepare(csi_dev->clk_mod);
+> > > -	return ret;
+> > >  }
+> > > =20
+> > >  static enum csi_input_fmt get_csi_input_format(struct sun6i_csi_devi=
+ce *csi_dev,
+> > > @@ -800,6 +778,65 @@ static irqreturn_t sun6i_csi_isr(int irq, void *=
+private)
+> > >  	return IRQ_HANDLED;
+> > >  }
+> > > =20
+> > > +static int sun6i_csi_suspend(struct device *dev)
+> > > +{
+> > > +	struct sun6i_csi_device *csi_dev =3D dev_get_drvdata(dev);
+> > > +
+> > > +	reset_control_assert(csi_dev->reset);
+> > > +	clk_disable_unprepare(csi_dev->clk_ram);
+> > > +	clk_disable_unprepare(csi_dev->clk_mod);
+> > > +	clk_disable_unprepare(csi_dev->clk_bus);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int sun6i_csi_resume(struct device *dev)
+> > > +{
+> > > +	struct sun6i_csi_device *csi_dev =3D dev_get_drvdata(dev);
+> > > +	int ret;
+> > > +
+> > > +	ret =3D reset_control_deassert(csi_dev->reset);
+> > > +	if (ret) {
+> > > +		dev_err(dev, "failed to deassert reset\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	ret =3D clk_prepare_enable(csi_dev->clk_bus);
+> > > +	if (ret) {
+> > > +		dev_err(dev, "failed to enable bus clock\n");
+> > > +		goto error_reset;
+> > > +	}
+> > > +
+> > > +	ret =3D clk_prepare_enable(csi_dev->clk_mod);
+> > > +	if (ret) {
+> > > +		dev_err(dev, "failed to enable module clock\n");
+> > > +		goto error_clk_bus;
+> > > +	}
+> > > +
+> > > +	ret =3D clk_prepare_enable(csi_dev->clk_ram);
+> > > +	if (ret) {
+> > > +		dev_err(dev, "failed to enable ram clock\n");
+> > > +		goto error_clk_mod;
+> > > +	}
+> > > +
+> > > +	return 0;
 > >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 54 ++++++++++++++-----
-> >  1 file changed, 41 insertions(+), 13 deletions(-)
-> >=20
-> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drive=
-rs/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > index 8155e9560164..2355088fdc37 100644
-> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > @@ -154,9 +154,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *cs=
-i_dev, bool enable)
-> >  		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
-> > =20
-> >  		clk_disable_unprepare(csi_dev->clk_ram);
-> > -		if (of_device_is_compatible(dev->of_node,
-> > -					    "allwinner,sun50i-a64-csi"))
-> > -			clk_rate_exclusive_put(csi_dev->clk_mod);
-> >  		clk_disable_unprepare(csi_dev->clk_mod);
-> >  		reset_control_assert(csi_dev->reset);
-> >  		return 0;
-> > @@ -168,9 +165,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *cs=
-i_dev, bool enable)
-> >  		return ret;
-> >  	}
-> > =20
-> > -	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
-> > -		clk_set_rate_exclusive(csi_dev->clk_mod, 300000000);
-> > -
-> >  	ret =3D clk_prepare_enable(csi_dev->clk_ram);
-> >  	if (ret) {
-> >  		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err %d\n", ret);
-> > @@ -190,8 +184,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *cs=
-i_dev, bool enable)
-> >  clk_ram_disable:
-> >  	clk_disable_unprepare(csi_dev->clk_ram);
-> >  clk_mod_disable:
-> > -	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
-> > -		clk_rate_exclusive_put(csi_dev->clk_mod);
-> >  	clk_disable_unprepare(csi_dev->clk_mod);
-> >  	return ret;
-> >  }
-> > @@ -819,6 +811,7 @@ static int sun6i_csi_resources_setup(struct sun6i_c=
-si_device *csi_dev,
-> >  				     struct platform_device *platform_dev)
-> >  {
-> >  	struct device *dev =3D csi_dev->dev;
-> > +	unsigned long clk_mod_rate;
-> >  	void __iomem *io_base;
-> >  	int ret;
-> >  	int irq;
-> > @@ -856,28 +849,53 @@ static int sun6i_csi_resources_setup(struct sun6i=
-_csi_device *csi_dev,
-> >  		return PTR_ERR(csi_dev->clk_ram);
-> >  	}
-> > =20
-> > +	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
-> > +		clk_mod_rate =3D 300000000;
-> > +	else
-> > +		clk_mod_rate =3D 297000000;
-> > +
-> > +	ret =3D clk_set_rate_exclusive(csi_dev->clk_mod, clk_mod_rate);
-> > +	if (ret) {
-> > +		dev_err(dev, "failed to set mod clock rate\n");
-> > +		return ret;
-> > +	}
-> > +
-> >  	/* Reset */
-> > =20
-> >  	csi_dev->reset =3D devm_reset_control_get_shared(dev, NULL);
-> >  	if (IS_ERR(csi_dev->reset)) {
-> >  		dev_err(dev, "failed to acquire reset\n");
-> > -		return PTR_ERR(csi_dev->reset);
-> > +		ret =3D PTR_ERR(csi_dev->reset);
-> > +		goto error_clk_rate_exclusive;
-> >  	}
-> > =20
-> >  	/* Interrupt */
-> > =20
-> >  	irq =3D platform_get_irq(platform_dev, 0);
-> > -	if (irq < 0)
-> > -		return -ENXIO;
-> > +	if (irq < 0) {
-> > +		dev_err(dev, "failed to get interrupt\n");
-> > +		ret =3D -ENXIO;
-> > +		goto error_clk_rate_exclusive;
-> > +	}
-> > =20
-> >  	ret =3D devm_request_irq(dev, irq, sun6i_csi_isr, 0, SUN6I_CSI_NAME,
-> >  			       csi_dev);
-> >  	if (ret) {
-> >  		dev_err(dev, "failed to request interrupt\n");
-> > -		return ret;
-> > +		goto error_clk_rate_exclusive;
-> >  	}
-> > =20
-> >  	return 0;
-> > +
-> > +error_clk_rate_exclusive:
-> > +	clk_rate_exclusive_put(csi_dev->clk_mod);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void sun6i_csi_resources_cleanup(struct sun6i_csi_device *csi_d=
-ev)
-> > +{
-> > +	clk_rate_exclusive_put(csi_dev->clk_mod);
-> >  }
+> > You've change the order of the reset vs clock initialization.
 >=20
-> If you're going to have that function anyway, let's use
-> devm_add_action_or_reset, it'll simplify the rest of the patch.
+> Oh right. Is there a preference regarding the order?
+> It probably makes more sense to release reset once all the clocks are
+> ready rather than the opposite (so that would match the previous order).
 
-Well, this will cause issues later on when adding runtime pm support to
-sun6i_csi_resources_cleanup: then it will no longer be equivalent
-to the error case label.
+=46rom the datasheet:
 
-Also I feel like making the resources_cleanup call a devm action would not
-help clarify the general flow of the driver, where the matching setup/clean=
-up
-calls are ordered in probe/remove. The driver is quite big with various par=
-ts
-and I'd rather have them behave in a coherent and similar way.
+4.3.6.4. Gating and reset
 
-What do you think?
+Make sure that the reset signal has been released before the release of
+module clock gating;
 
-Paul
+So it looks like the right order. it should still be mentioned in the
+commit log.
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Maxime
 
---Tv5rA21o/SqhzaB6
+--2tzp6er3oul7lsr4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIGjvEACgkQ3cLmz3+f
-v9Eq7wf/aVHx73dljDp0YxBy+q2PMLd3CTowE7OvhhXXMz24VfzET01MwXfyxeo0
-IpqwMV0dz5U1iy/ofxtZPJW832v08EZXXCod4h3E+L0lRi/HSkJlW67Gt5z4uZmu
-4tWN4NXJ2hXJlUT717HxRvTD7sl3oGOODuemqyPwmVLp/FJ/8dZZcwz38cyHXdL7
-v1nT9o/Cdpz5Mj1IECQaqEovJ3zU6sTFfd3YAYc4qPYYXmok4mq4GoqChSlB2y4y
-9DxH3t/4vciCVCon1d4Z7gOZML2IdzZBx3NwV+TKVUOBNCsVqz/pl4XVG+ZJ+Lvs
-bQio4a8S1+h+txomzaXIBPr1XlOENg==
-=d+6J
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgaRvAAKCRDj7w1vZxhR
+xbzHAPwIE+pk/J7wGu6+MnLjeEnvN3TQMWxPJPnSfsNNUcOERQEAhiykH+iCarHi
+HZiA7dU3jteJKmpx1FXXBnGnrAq9jgo=
+=HJsC
 -----END PGP SIGNATURE-----
 
---Tv5rA21o/SqhzaB6--
+--2tzp6er3oul7lsr4--
