@@ -2,177 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D5234B2440
-	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 12:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABD554B2443
+	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 12:27:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345545AbiBKLYD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Feb 2022 06:24:03 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44850 "EHLO
+        id S1349443AbiBKL1G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Feb 2022 06:27:06 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbiBKLYC (ORCPT
+        with ESMTP id S231152AbiBKL1F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Feb 2022 06:24:02 -0500
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44262E5D
-        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 03:24:00 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 836671C0006;
-        Fri, 11 Feb 2022 11:23:53 +0000 (UTC)
-Date:   Fri, 11 Feb 2022 12:25:00 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Eugen.Hristev@microchip.com
-Cc:     slongerbeam@gmail.com, laurent.pinchart@ideasonboard.com,
-        sakari.ailus@iki.fi, hverkuil-cisco@xs4all.nl,
-        mirela.rabulea@nxp.com, xavier.roumegue@oss.nxp.com,
-        tomi.valkeinen@ideasonboard.com, hugues.fruchet@st.com,
-        prabhakar.mahadev-lad.rj@bp.renesas.com, aford173@gmail.com,
-        festevam@gmail.com, jbrunet@baylibre.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 00/23] media: ov5640: Rework the clock tree
- programming for MIPI
-Message-ID: <20220211112500.7p3fi2xhwutap6ak@uno.localdomain>
-References: <20220210110458.152494-1-jacopo@jmondi.org>
- <a5a75d0b-7f40-39d0-a8ec-4e143c5f3b1c@microchip.com>
+        Fri, 11 Feb 2022 06:27:05 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DA9FE5D
+        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 03:27:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644578824; x=1676114824;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DZ/aDg0txxoM2NpoFPjszz7fuQTABAltlA0Qlx5n7gs=;
+  b=JuQdKB8l/w67LJeurbjKLU41TE8vaNu9E2GHQpyLIr6jAsBFe2jhrisS
+   qL2XdweKCcSW0dfCNi7mhmtKl29qpg2FcRD8JAusZ5V3ccZJqn2zUAh4s
+   By5dJ7mV5PYMpTZtI253M00w/76b2beGFZ2KD61uHy+TD5RvsIEzoGmWQ
+   B7kL+7kmwxNe2Icekh6h6085eYAfHbbEH+eS10RAAnhiP2i0GqT5CDs1F
+   Fp2ZeSXDH0f/3MG8TgXmOCWvBUnmCguhnDwLrG2WaiLY5UgUbY9cLBuyp
+   rprRI4sqCePOEF5uUCRwqM5EZ8TcxGXpq54gEas4Z+i0oI+es+WnzxYn9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="249923329"
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; 
+   d="scan'208";a="249923329"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 03:27:04 -0800
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; 
+   d="scan'208";a="537624782"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 03:27:02 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id F1BA4204FB;
+        Fri, 11 Feb 2022 13:26:59 +0200 (EET)
+Date:   Fri, 11 Feb 2022 13:26:59 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
+        laurent.pinchart@ideasonboard.com, hanlinchen@chromium.org,
+        tfiga@chromium.org, hdegoede@redhat.com,
+        kieran.bingham@ideasonboard.com, hpa@redhat.com
+Subject: Re: [PATCH v2 6/6] media: v4l2-async: Create links during
+ v4l2_async_match_notify()
+Message-ID: <YgZIA9uhg4BWzUqw@paasikivi.fi.intel.com>
+References: <20220130235821.48076-1-djrscally@gmail.com>
+ <20220130235821.48076-7-djrscally@gmail.com>
+ <YfqzdowSDlF9VwFP@paasikivi.fi.intel.com>
+ <a535c8c6-b09f-5be3-5465-9ea3be38bc02@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a5a75d0b-7f40-39d0-a8ec-4e143c5f3b1c@microchip.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <a535c8c6-b09f-5be3-5465-9ea3be38bc02@gmail.com>
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen
+Hi Daniel,
 
-        thanks very much for testing
+Thanks for the ping.
 
-On Fri, Feb 11, 2022 at 10:09:04AM +0000, Eugen.Hristev@microchip.com wrote:
-> On 2/10/22 1:04 PM, Jacopo Mondi wrote:
->
-> Hello Jacopo,
->
-> > v1:
-> > https://patchwork.linuxtv.org/project/linux-media/list/?series=7249
+On Wed, Feb 02, 2022 at 09:48:56PM +0000, Daniel Scally wrote:
+> Hi Sakari
+> 
+> On 02/02/2022 16:38, Sakari Ailus wrote:
+> > Hi Daniel,
 > >
-> > A branch for testing based on the most recent media-master is available at
-> > https://git.sr.ht/~jmondi_/linux #jmondi/media-master/ov5640-v2
+> > Thanks for the update.
 > >
-> > If anyone with a DVP setup could verify I have not broken their use case
-> > I would very much appreciate that :)
->
-> I started testing this on my bench.
-> So far things look good.
->
-
-\o/
-
-> To be able to test this, I have to revert this patch :
-> "media: i2c: ov5640: Remain in power down for DVP mode unless streaming"
->
-> Otherwise the sensor will not power up when starting streaming.
->
->
-> I have tested several formats, as you worked more on this sensor, could
-> you tell me, does format YUYV_2x8 work in parallel mode at 1920x1080 or
-> 1024x768 ?
-
-I never tested the sensor driver with a parallel setup I'm afraid.
-The idea behind this series is that DVP shouldn't be affected and
-continue working like it did.
-
-> I managed to get it working fine at 640x480 .
->
-> The sensor looks to report valid framesizes for this mbus code :
->
-> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-mbus-codes
-> \ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
->          0x4001: MEDIA_BUS_FMT_JPEG_1X8
->          0x2006: MEDIA_BUS_FMT_UYVY8_2X8
->          0x200f: MEDIA_BUS_FMT_UYVY8_1X16
->          0x2008: MEDIA_BUS_FMT_YUYV8_2X8
->          0x2011: MEDIA_BUS_FMT_YUYV8_1X16
->          0x1008: MEDIA_BUS_FMT_RGB565_2X8_LE
->          0x1007: MEDIA_BUS_FMT_RGB565_2X8_BE
->          0x1017: MEDIA_BUS_FMT_RGB565_1X16
->          0x100a: MEDIA_BUS_FMT_RGB888_1X24
->          0x1013: MEDIA_BUS_FMT_BGR888_1X24
->          0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
->          0x3013: MEDIA_BUS_FMT_SGBRG8_1X8
->          0x3002: MEDIA_BUS_FMT_SGRBG8_1X8
->          0x3014: MEDIA_BUS_FMT_SRGGB8_1X8
-> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x2008
-> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0)
->          Size Range: 160x120 - 160x120
->          Size Range: 176x144 - 176x144
->          Size Range: 320x240 - 320x240
->          Size Range: 640x480 - 640x480
->          Size Range: 720x480 - 720x480
->          Size Range: 720x576 - 720x576
->          Size Range: 1024x768 - 1024x768
->          Size Range: 1280x720 - 1280x720
->          Size Range: 1920x1080 - 1920x1080
->          Size Range: 2592x1944 - 2592x1944
-> #
->
-> but the ISC does not receive any frames at 1024x768 and 1920x1080.
-
-Are 1080p and 1024x768 working without this series applied on your
-setup ?
-
-Thanks again for testin!
-
->
->
-> What I can say is that the raw bayer format works at 1920x1080 , frames
-> are received correctly.
->
-> Thanks,
-> Eugen
->
+> > On Sun, Jan 30, 2022 at 11:58:21PM +0000, Daniel Scally wrote:
+> >> Upon an async fwnode match, there's some typical behaviour that the
+> >> notifier and matching subdev will want to do. For example, a notifier
+> >> representing a sensor matching to an async subdev representing its
+> >> VCM will want to create an ancillary link to expose that relationship
+> >> to userspace.
+> >>
+> >> To avoid lots of code in individual drivers, try to build these links
+> >> within v4l2 core.
+> >>
+> >> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+> >> ---
+> >> Changes since v1:
+> >>
+> >> 	- Added #ifdef guards for CONFIG_MEDIA_CONTROLLER
+> >> 	- Some spelling and nomenclature cleanup (Laurent)
+> >>
+> >> Changes since the rfc:
+> >>
+> >> 	- None
+> >>
+> >>  drivers/media/v4l2-core/v4l2-async.c | 56 ++++++++++++++++++++++++++++
+> >>  1 file changed, 56 insertions(+)
+> >>
+> >> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> >> index 0404267f1ae4..8980534e755e 100644
+> >> --- a/drivers/media/v4l2-core/v4l2-async.c
+> >> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> >> @@ -275,6 +275,50 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
+> >>  static int
+> >>  v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
+> >>  
+> >> +static int
+> >> +__v4l2_async_create_ancillary_link(struct v4l2_async_notifier *notifier,
+> >> +				   struct v4l2_subdev *sd)
+> >> +{
+> >> +	struct media_link *link = NULL;
+> >> +
+> >> +#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
+> >> +
+> >> +	if (sd->entity.function != MEDIA_ENT_F_LENS &&
+> >> +	    sd->entity.function != MEDIA_ENT_F_FLASH)
+> >> +		return -EINVAL;
+> >> +
+> >> +	link = media_create_ancillary_link(&notifier->sd->entity, &sd->entity);
+> >> +
+> >> +#endif
+> >> +
+> >> +	return IS_ERR(link) ? PTR_ERR(link) : 0;
+> >> +}
+> >> +
+> >> +/*
+> >> + * Create links on behalf of the notifier and subdev, where it's obvious what
+> >> + * should be done. At the moment, we only support cases where the notifier
+> >> + * is a camera sensor and the subdev is a lens controller.
+> > I think I'd rather change this so that ancillary links are created for lens
+> > and flash subdevs, independently of the function of the notifier subdev.
 > >
-> > v1 -> v2:
-> > - rework the modes definition to process the full pixel array
-> > - rework get_selection to report the correct BOUND and DEFAULT targets
-> > - implement init_cfg
-> > - minor style changes as suggested by Laurent
-> > - test with 1 data lane
-> >
-> > Thanks
-> >     j
-> >
-> > Jacopo Mondi (23):
-> >    media: ov5640: Add pixel rate to modes
-> >    media: ov5604: Re-arrange modes definition
-> >    media: ov5640: Add ov5640_is_csi2() function
-> >    media: ov5640: Associate bpp with formats
-> >    media: ov5640: Add LINK_FREQ control
-> >    media: ov5640: Update pixel_rate and link_freq
-> >    media: ov5640: Rework CSI-2 clock tree
-> >    media: ov5640: Rework timings programming
-> >    media: ov5640: Fix 720x480 in RGB888 mode
-> >    media: ov5640: Rework analog crop rectangles
-> >    media: ov5640: Re-sort per-mode register tables
-> >    media: ov5640: Remove ov5640_mode_init_data
-> >    media: ov5640: Add HBLANK control
-> >    media: ov5640: Add VBLANK control
-> >    media: ov5640: Fix durations to comply with FPS
-> >    media: ov5640: Implement init_cfg
-> >    media: ov5640: Implement get_selection
-> >    media: ov5640: Limit frame_interval to DVP mode only
-> >    media: ov5640: Register device properties
-> >    media: ov5640: Add RGB565_1X16 format
-> >    media: ov5640: Add RGB888/BGR888 formats
-> >    media: ov5640: Restrict sizes to mbus code
-> >    media: ov5640: Adjust format to bpp in s_fmt
-> >
-> >   drivers/media/i2c/ov5640.c | 1143 ++++++++++++++++++++++++++----------
-> >   1 file changed, 830 insertions(+), 313 deletions(-)
-> >
-> > --
-> > 2.35.0
-> >
->
+> > Are there cases where this would go wrong currently, or in the future? I
+> > can't think of any right now at least. I guess we could add more
+> > information in the future to convey here if needed.
+> I don't think doing that would go wrong anyhow...at least not that I
+> could think of at the minute. My plan was to add a new function like
+> __v4l2_async_create_data_links() and call that (from
+> v4l2_async_try_create_links()) where the function of the notifier subdev
+> was MEDIA_ENT_F_VID_IF_BRIDGE...you think we shouldn't be doing that? Or
+> just that it should be separate?
+
+I'm not sure the function of the subdev should be involved with this.
+
+The function is mainly used by the user space and different drivers tend to
+use different functions. Of course there could (and should) be alignment on
+this, but as you can have only a single function, there are bound to be
+cases where you have to pick one that fits the best but does not entirely
+match what the device is.
+
+I see no problem doing this automatically, as long as it does not clash
+with what drivers create by themselves. The local pad where the data link
+is connected often comes from the driver --- same for the flags btw. --- so
+some way needs to be provided for the driver to provide this information.
+
+There's a callback for connecting endpoint with a pad the transmitter
+drivers use, maybe that could be helpful?
+
+-- 
+Kind regards,
+
+Sakari Ailus
