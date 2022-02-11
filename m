@@ -2,130 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F1384B271B
-	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 14:30:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3A5A4B2781
+	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 15:04:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350551AbiBKN3j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Feb 2022 08:29:39 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53028 "EHLO
+        id S240542AbiBKOEb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Feb 2022 09:04:31 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350546AbiBKN3j (ORCPT
+        with ESMTP id S229661AbiBKOE3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Feb 2022 08:29:39 -0500
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D734C1DF
-        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 05:29:36 -0800 (PST)
-Received: by mail-qk1-x729.google.com with SMTP id w8so8253252qkw.8
-        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 05:29:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=C8RcQS3Onc34aY4WsNPDQx96xSdhXMEMcF2iWP8p8/s=;
-        b=4GhGoUc/c11sseBRYQgnSGHSukX7xuuq//IPBzW+/F3ULsPiwfAXs/iPbJ2EpckRc6
-         mzAS19V+zo/+vlD/Ole7qsvK6uHUe5Vlddpkz20LDNIbKPchqKPErG445oXCSeUEJ3nR
-         Y93rF0TEX3mMjgsypXRO4FCc/MMX+bOfzy09qeAXdVv1ZGOMobYHWLpcQg3HYvO6/TMq
-         Xx9DPu5l8RnrOKl5oFNxmeie0IHYsXiQ6ePF8GCOi5Zubof5UemFP4bWtt2lRpngB7NN
-         3iqHa+dEEBnh9Pg/DFZ8iNRZC4bTy7fQ1A6ojRaT7PlRvaioiTe2YQdvZa2OFzCZswit
-         fv7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=C8RcQS3Onc34aY4WsNPDQx96xSdhXMEMcF2iWP8p8/s=;
-        b=LIXkyQdzhep0ZM/w6cjBJCcswvNpxgPmR0OeFs0uVu+bKTcCVLRtQ6f/Tr1M/qdDgF
-         6xk5jHc/dWWlEjh2up+3+j3ApBRdTDsVdOV0uPj8+717Im2QqpD8QqNDQmx+WD1jn+eM
-         tRwY/93QE+JXU32TTAgL2NxObmN2jvJYPaU5/2y5BDdtBGilWJ6253Yzp2qPg4LUZPTC
-         WJb+psVnkGT/8jTRKHObo3hwLjE9GnaWggU+Qo9zXgkngh/vvFG0aA/CSNWI10F4LKdX
-         ILw4qSM7Ji6kc6Wq4awxXEt2qqp9iYwgc1/jaoAZ7mqd3uE7djH2yQJ/8Qq/6jf3EbYW
-         5HYw==
-X-Gm-Message-State: AOAM5325b8Uu3fadtk8VAoWEbIZ5MZRaQXmX3KUtrib8Js19esHFkFzl
-        eBdlKmWK4gKgS/1GpNW9h7D+hQ==
-X-Google-Smtp-Source: ABdhPJx3tflCKvRAYZjABa3eTJaLgwV9YMRtRuFiWIDpJpG/kVVAP086Nrm+UHeTe0IgS1KD4BQHlw==
-X-Received: by 2002:a05:620a:ced:: with SMTP id c13mr693431qkj.636.1644586175987;
-        Fri, 11 Feb 2022 05:29:35 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id h6sm11294073qkk.14.2022.02.11.05.29.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Feb 2022 05:29:35 -0800 (PST)
-Message-ID: <d986ab76a7c52a9a2ce62c1edb07f520c9df51c4.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 1/4] media: v4l2-ctrls: Add new
- V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 11 Feb 2022 08:29:33 -0500
-In-Reply-To: <20220207141937.13089-2-digetx@gmail.com>
-References: <20220207141937.13089-1-digetx@gmail.com>
-         <20220207141937.13089-2-digetx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+        Fri, 11 Feb 2022 09:04:29 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AD23B4C
+        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 06:04:27 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB60A93;
+        Fri, 11 Feb 2022 15:04:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1644588265;
+        bh=G7v4VH4NSA/4hFb2xuvgbssVxOidHhEAC29790OLbvo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Uwo4GlcGfBalq9RRm/kWCMApMkCh4hTVHUVR+JfQDlg70LkndMU2+LrQr7Y09dbZh
+         AzdWW5C9Zya5VcINKilVkvoQpf6x9rSyg1qB6JayMqT+MpcBJ5a7jTxSnFEXhKx496
+         zdgVLFN2dmXSBDxaZkafKJordJhcLCAmECNzCh4A=
+Date:   Fri, 11 Feb 2022 16:04:20 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Heiko Stuebner <heiko@sntech.de>
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        hverkuil@xs4all.nl, linux-rockchip@lists.infradead.org,
+        ezequiel@collabora.com, christoph.muellner@theobroma-systems.com,
+        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Subject: Re: [PATCH 1/2] media: rockchip: rkisp1: carry ip version information
+Message-ID: <YgZs5CrQwJ2jYEXR@pendragon.ideasonboard.com>
+References: <20210111234011.3642481-1-heiko@sntech.de>
+ <20210111234011.3642481-2-heiko@sntech.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210111234011.3642481-2-heiko@sntech.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 07 février 2022 à 17:19 +0300, Dmitry Osipenko a écrit :
-> Add new V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags that are needed by
-> NVIDIA Tegra video decoder. Userspace will have to set these flags in
-> accordance to the type of a decoded frame.
+Hi Heiko,
+
+Reviving a bit of an older thread.
+
+On Tue, Jan 12, 2021 at 12:40:10AM +0100, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> The IP block evolved from its rk3288/rk3399 base and the vendor
+> designates them with a numerical version. rk3399 for example
+> is designated V10 probably meaning V1.0.
+> 
+> There doesn't seem to be an actual version register we could read that
+> information from, so allow the match_data to carry that information
+> for future differentiation.
+> 
+> Also carry that information in the hw_revision field of the media-
+> controller API, so that userspace also has access to that.
+> 
+> The added versions are:
+> - V10: at least rk3288 + rk3399
+> - V11: seemingly unused as of now, but probably appeared in some soc
+> - V12: at least rk3326 + px30
+> - V13: at least rk1808
+> 
+> Signed-off-by: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+
+The ISP has a version register, which is read at streamon time and
+printed in a dev_dbg() message. On RK3399 it reads as 0x30153017, and I
+was wondering what values are returned for other SoCs. Would you be able
+to test on the other platforms you have access to ?
+
 > ---
-
-Can you share here (out of commit) a userland implementation that was used to
-demonstrate the new API ? It does not matter which project (GStreamer, FFMPEG,
-Chromium, your_test_progtram). Should be fairly straightforward. This is just to
-be transparent.
-
->  .../userspace-api/media/v4l/ext-ctrls-codec-stateless.rst   | 6 ++++++
->  include/uapi/linux/v4l2-controls.h                          | 2 ++
->  2 files changed, 8 insertions(+)
+> changes since rfc:
+> - move rkisp1_version enum into uapo
+> - show version in media-api hw_revision
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> index cc080c4257d0..f87584ad90ba 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> @@ -616,6 +616,12 @@ Stateless Codec Control ID
->      * - ``V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD``
->        - 0x00000004
->        -
-> +    * - ``V4L2_H264_DECODE_PARAM_FLAG_PFRAME``
-> +      - 0x00000008
-> +      -
-> +    * - ``V4L2_H264_DECODE_PARAM_FLAG_BFRAME``
-> +      - 0x00000010
-> +      -
+>  .../platform/rockchip/rkisp1/rkisp1-common.h  |  1 +
+>  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 22 +++++++++++--------
+>  include/uapi/linux/rkisp1-config.h            |  7 ++++++
+>  3 files changed, 21 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index 038c303a8aed..bad1bd468f2f 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -354,6 +354,7 @@ struct rkisp1_device {
+>  	void __iomem *base_addr;
+>  	int irq;
+>  	struct device *dev;
+> +	enum rkisp1_cif_isp_version isp_ver;
+>  	unsigned int clk_size;
+>  	struct clk_bulk_data clks[RKISP1_MAX_BUS_CLK];
+>  	struct v4l2_device v4l2_dev;
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index 68da1eed753d..f594d7cd03d0 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -104,6 +104,7 @@
+>  struct rkisp1_match_data {
+>  	const char * const *clks;
+>  	unsigned int size;
+> +	enum rkisp1_cif_isp_version isp_ver;
+>  };
 >  
->  .. raw:: latex
+>  /* ----------------------------------------------------------------------------
+> @@ -411,15 +412,16 @@ static const char * const rk3399_isp_clks[] = {
+>  	"hclk",
+>  };
 >  
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index c8e0f84d204d..e3d48d571062 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1563,6 +1563,8 @@ struct v4l2_h264_dpb_entry {
->  #define V4L2_H264_DECODE_PARAM_FLAG_IDR_PIC		0x01
->  #define V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC		0x02
->  #define V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD	0x04
-> +#define V4L2_H264_DECODE_PARAM_FLAG_PFRAME		0x08
-> +#define V4L2_H264_DECODE_PARAM_FLAG_BFRAME		0x10
+> -static const struct rkisp1_match_data rk3399_isp_clk_data = {
+> +static const struct rkisp1_match_data rk3399_isp_match_data = {
+>  	.clks = rk3399_isp_clks,
+>  	.size = ARRAY_SIZE(rk3399_isp_clks),
+> +	.isp_ver = RKISP1_V10,
+>  };
 >  
->  #define V4L2_CID_STATELESS_H264_DECODE_PARAMS	(V4L2_CID_CODEC_STATELESS_BASE + 7)
->  /**
+>  static const struct of_device_id rkisp1_of_match[] = {
+>  	{
+>  		.compatible = "rockchip,rk3399-cif-isp",
+> -		.data = &rk3399_isp_clk_data,
+> +		.data = &rk3399_isp_match_data,
+>  	},
+>  	{},
+>  };
+> @@ -457,15 +459,15 @@ static void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>  
+>  static int rkisp1_probe(struct platform_device *pdev)
+>  {
+> -	const struct rkisp1_match_data *clk_data;
+> +	const struct rkisp1_match_data *match_data;
+>  	struct device *dev = &pdev->dev;
+>  	struct rkisp1_device *rkisp1;
+>  	struct v4l2_device *v4l2_dev;
+>  	unsigned int i;
+>  	int ret, irq;
+>  
+> -	clk_data = of_device_get_match_data(&pdev->dev);
+> -	if (!clk_data)
+> +	match_data = of_device_get_match_data(&pdev->dev);
+> +	if (!match_data)
+>  		return -ENODEV;
+>  
+>  	rkisp1 = devm_kzalloc(dev, sizeof(*rkisp1), GFP_KERNEL);
+> @@ -494,15 +496,17 @@ static int rkisp1_probe(struct platform_device *pdev)
+>  
+>  	rkisp1->irq = irq;
+>  
+> -	for (i = 0; i < clk_data->size; i++)
+> -		rkisp1->clks[i].id = clk_data->clks[i];
+> -	ret = devm_clk_bulk_get(dev, clk_data->size, rkisp1->clks);
+> +	for (i = 0; i < match_data->size; i++)
+> +		rkisp1->clks[i].id = match_data->clks[i];
+> +	ret = devm_clk_bulk_get(dev, match_data->size, rkisp1->clks);
+>  	if (ret)
+>  		return ret;
+> -	rkisp1->clk_size = clk_data->size;
+> +	rkisp1->clk_size = match_data->size;
+> +	rkisp1->isp_ver = match_data->isp_ver;
+>  
+>  	pm_runtime_enable(&pdev->dev);
+>  
+> +	rkisp1->media_dev.hw_revision = rkisp1->isp_ver;
+>  	strscpy(rkisp1->media_dev.model, RKISP1_DRIVER_NAME,
+>  		sizeof(rkisp1->media_dev.model));
+>  	rkisp1->media_dev.dev = &pdev->dev;
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index 6e449e784260..bad46aadf838 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -124,6 +124,13 @@
+>  #define RKISP1_CIF_ISP_STAT_AFM           (1U << 2)
+>  #define RKISP1_CIF_ISP_STAT_HIST          (1U << 3)
+>  
+> +enum rkisp1_cif_isp_version {
+> +	RKISP1_V10 = 0,
+> +	RKISP1_V11,
+> +	RKISP1_V12,
+> +	RKISP1_V13,
+> +};
+> +
+>  enum rkisp1_cif_isp_histogram_mode {
+>  	RKISP1_CIF_ISP_HISTOGRAM_MODE_DISABLE,
+>  	RKISP1_CIF_ISP_HISTOGRAM_MODE_RGB_COMBINED,
 
-Please update the doc too, see:
-  Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst:
+-- 
+Regards,
 
+Laurent Pinchart
