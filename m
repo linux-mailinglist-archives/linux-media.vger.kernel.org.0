@@ -2,165 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E4AD4B1E0E
-	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 07:02:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B3EF4B1FB9
+	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 08:55:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237584AbiBKGCW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Feb 2022 01:02:22 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48452 "EHLO
+        id S1347858AbiBKHzf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Feb 2022 02:55:35 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231756AbiBKGCW (ORCPT
+        with ESMTP id S1347861AbiBKHze (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Feb 2022 01:02:22 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1904610C1
-        for <linux-media@vger.kernel.org>; Thu, 10 Feb 2022 22:02:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A0716618FA
-        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 06:02:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D92FC340E9
-        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 06:02:19 +0000 (UTC)
-Date:   Fri, 11 Feb 2022 07:02:17 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220211060219.8D92FC340E9@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 11 Feb 2022 02:55:34 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1576ABFD
+        for <linux-media@vger.kernel.org>; Thu, 10 Feb 2022 23:55:31 -0800 (PST)
+Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DB4493;
+        Fri, 11 Feb 2022 08:55:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1644566129;
+        bh=XjIGncWKVA4ecTJoSf+DOqoJj+MwKLrfumxgmT3hqJM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=qrsMvUo1dazaGVw9eox4KDnUdVNuknSGThlhCo19azg5bzfrJzZFTR9oYK/4Zsdx7
+         mXsGK3U3Dk/B7UdTWMGfuFi9a0euYASDByrkqSUje47SDmtKVdxdORrbaseANs7/my
+         /DZIdFIm3J86dyQwqRk9eYAYUBKaMXAqC9ybuc9o=
+Message-ID: <a77642fc-648e-b12e-b6e0-8090b5cb2d83@ideasonboard.com>
+Date:   Fri, 11 Feb 2022 09:55:25 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 00/23] media: ov5640: Rework the clock tree programming
+ for MIPI
+Content-Language: en-US
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
+        xavier.roumegue@oss.nxp.com, hugues.fruchet@st.com,
+        prabhakar.mahadev-lad.rj@bp.renesas.com, aford173@gmail.com,
+        festevam@gmail.com, Eugen.Hristev@microchip.com,
+        jbrunet@baylibre.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20220210110458.152494-1-jacopo@jmondi.org>
+ <5db6f493-ca45-311a-1f44-9138e01722a1@ideasonboard.com>
+ <20220210171123.oi54lq47eyjucwpk@uno.localdomain>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20220210171123.oi54lq47eyjucwpk@uno.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 10/02/2022 19:11, Jacopo Mondi wrote:
+> Hi Tomi
+> 
+> On Thu, Feb 10, 2022 at 03:00:21PM +0200, Tomi Valkeinen wrote:
+>> On 10/02/2022 13:04, Jacopo Mondi wrote:
+>>> v1:
+>>> https://patchwork.linuxtv.org/project/linux-media/list/?series=7249
+>>
+>> You could rather point to lore.kernel.org, so that the intro letter and the
+>> discussions are also visible.
+> 
+> Sure, here you go!
+> https://lore.kernel.org/linux-media/20220131143245.128089-1-jacopo@jmondi.org/
+> 
+>>
+>>> A branch for testing based on the most recent media-master is available at
+>>> https://git.sr.ht/~jmondi_/linux #jmondi/media-master/ov5640-v2
+>>>
+>>> If anyone with a DVP setup could verify I have not broken their use case
+>>> I would very much appreciate that :)
+>>>
+>>> v1 -> v2:
+>>> - rework the modes definition to process the full pixel array
+>>> - rework get_selection to report the correct BOUND and DEFAULT targets
+>>> - implement init_cfg
+>>> - minor style changes as suggested by Laurent
+>>> - test with 1 data lane
+>>
+>> Very nice! I tested this on TI's DRA76 EVM (CSI-2). UYVY and RGB565, with
+>> the following resolutions: 160 120, 176 144, 320 240, 640 480, 720 480, 720
+>> 576, 1024 768, 1280 720, 1920 1080.
+> 
+> Great! A 2 data lanes setup I assume ? Have you been able to test the
+> framerate as well ?
 
-Results of the daily build of media_tree:
+Yes, 2 data lanes. I can see that with 640x480 and 1024x768 I get ~30fps.
 
-date:			Fri Feb 11 05:00:12 CET 2022
-media-tree git hash:	127efdbc51fe6064336c0452ce9c910b3e107cf0
-media_build git hash:	d5d4c1ff328b8464bd0f55aea299ab5f2a7856ec
-v4l-utils git hash:	d124ef52870a0f627d206db31c1b1a59f4c876ed
-edid-decode git hash:	4ea35c211d0da7bc37572a622b2f361c659e5482
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5a84266d391eb878f83b081540507f76650111aa
-host hardware:		x86_64
-host os:		5.15.0-3-amd64
+Why does ov5640_enum_frame_interval() return an error if ov5640 is a csi 
+sensor?
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16.1-i686: OK
-linux-5.16.1-x86_64: OK
-linux-5.17-rc1-i686: OK
-linux-5.17-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+  Tomi
