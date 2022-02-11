@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 767704B2ABB
-	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 17:44:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E7204B2ADA
+	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 17:46:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351645AbiBKQoH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Feb 2022 11:44:07 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:45174 "EHLO
+        id S1351672AbiBKQpK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Feb 2022 11:45:10 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234654AbiBKQoG (ORCPT
+        with ESMTP id S1351666AbiBKQpK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Feb 2022 11:44:06 -0500
+        Fri, 11 Feb 2022 11:45:10 -0500
 Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE955102;
-        Fri, 11 Feb 2022 08:44:05 -0800 (PST)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.west.internal (Postfix) with ESMTP id A17F12B0013A;
-        Fri, 11 Feb 2022 11:44:03 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 11 Feb 2022 11:44:05 -0500
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7A92D65;
+        Fri, 11 Feb 2022 08:45:08 -0800 (PST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailnew.west.internal (Postfix) with ESMTP id C10372B0011D;
+        Fri, 11 Feb 2022 11:45:06 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Fri, 11 Feb 2022 11:45:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
         :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; bh=ufGFnpr7sURnSIynd9rsTHgA0vYHEgxxVeCjWO
-        TqPFE=; b=DPLFx3pt0hR902PHT4xjUPd2AsKbnV2Plr2ZZhMFmL8rsJohPxWjO+
-        OLnQrI+QFzlEeOa4b7NXnFWofkh+4tLxK3CJF9+AUk7bEUW4hQj6clVovOP6ECk1
-        CgVuYFGvuEhQO22C2ImalqqOxJ3QLNe3yRQ9pirmVVeesXW2oV3I6y2eTDeKPQG1
-        z4j6TTvFC0wTbkVFkM06LT9GQfmtCST1v4q5W9iMRu1YCxs2GXCqJEnAClxQavL7
-        HhP2G7WBKvHYx+2QGOBHP9t+Oquiv7U9zDVpXCOrQHmOTm8LhFEXVii3yFSNeNlT
-        c6gjePfuzfRRGKgQUglB0q31CB7dkHiQ==
+        :subject:to:to; s=fm2; bh=eo8aiB2mus8/xVU+tXfVcKNpkakKTM0CPZmwuT
+        Q+Md4=; b=OkQHq4iQXuj5DGw/FQexPgUXogxYrjqPUWML2VbmzfPJ2eUYtQ8nvv
+        EiRgy+QJN8pY3m40VbWgF0mpZ+L3kYqv9KRpARy0/TTHMAFemv7NxIel+pEX/FeM
+        R09c/a9ZDqnp6Jh9qDixD6HAkVRx5r2gKizzrmjuj+krKC0AmXIW6360yO4iVLUp
+        s544StMYzUxFRdHc0a2aeeMm5cBQauEGlCwDS8U9yp5AEMG0jtZgkgwBT9JruTJY
+        KR7L62BZVHn7S3BJZRrceuHyzUVJpaGyWPVUx75ThhM7+XEuNPSd12uGmBAQx3oM
+        Hvqghp9GBrid+uo0u5Zy+W3Qqmt9yxsA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:from:from
         :in-reply-to:in-reply-to:message-id:mime-version:references
         :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ufGFnpr7sURnSIynd
-        9rsTHgA0vYHEgxxVeCjWOTqPFE=; b=dTNlyGMFEs90slxYGRRhPUr43pbBHp161
-        /zAifbSRLtO9AEGMtH+go+SL3ey/MRHEn+sdrwy2naxaneReAXqQ7J03Tl1nZuwX
-        GLHRgIG5AQQOJR19+4/2kk2f8fML6CoCUi30EGj2ZtWMzh4IqEAwH0eSYfTOoi0q
-        coq8P9jeF1yp7Te0dALiSoib6BVMpZSvpuPMs+gbWNZ7Gbv/i3dl2vtOhx0SheCg
-        RevV/vyMULSA1r4CI0nMq/AE1NnsrSnpnE9LpG1znBmBcXsr3PVpV+zXEJxJq2Kc
-        HLjnrP7quO/o5nj4SLuNUCCFd98NurK5kPHAUVVH+qP6lNYrUnSWA==
-X-ME-Sender: <xms:UpIGYhrMuSxOQdzJG75Qq-RujOVne0fDn5y9AgO_tMB6rEVJhsLWaQ>
-    <xme:UpIGYjpfafTjW6cjTPOhcfnFzSTMGCJBzukO7aFnzQLnnWB-O5zaqWzEMTGifQCez
-    dr0fPbAZ3uLAel50u4>
-X-ME-Received: <xmr:UpIGYuP_Q8lJxK06tFjq-OmPa3lURdA4A2gNuEsGQkKaJ_EhZKvcL7-KjwyU2XIU05kwa9qAtSSzWP4jZ0aL__3tatyxVoDTqwb3_DY>
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eo8aiB2mus8/xVU+t
+        XfVcKNpkakKTM0CPZmwuTQ+Md4=; b=Z4lYehPf3DNwVu/GkcgzeRBiF3+syGBKM
+        PfUYC5CLUsb7TvDfymYt/3o4PGmYUVVW/PO9S0yidZqjac3a0eW7HBvnPuCcXg/b
+        SFT2kEmzwIkMBH9yF8rqtckESs7lxXX07LskjmzPQXZHxrfI1/bhGm+26gGzpRm2
+        qrLNoqE+I9rfr1cvhKuXPxeegYB1VnLJjzY99tuO2iw3cV1uF8Aa1++VyNuUIDU2
+        GwX4SYKyduD1t1qdVm2S9+Zalga4ueQ5AvzG56xeiNbTJoHit6/OsFK5j8HYCMij
+        FTQ8IswHgj3/6B3h4d5NzRVAf9HE81WSN+6DOk1ExhRvIGsU0v5rg==
+X-ME-Sender: <xms:kZIGYpR7yqMcw6nGGSW-_VtkatBlAxVE49bTMRFlGDaVcTijmugTgQ>
+    <xme:kZIGYiyyozTfomQUxetA33-kqeMdJ6N8ZLHLOl6Y5l0pf_8IIkwsxf2JoNbGIzo0F
+    EDnAy6UWxLs4GNQ7F8>
+X-ME-Received: <xmr:kZIGYu28ttvvFUbBN69JusevKwMFMqLWssQZSRMxKoiDOO_58Kn1k17K4MRzdS1_GUQHZchBUgNNI7R5qLCCbONFzeALzDRrEjnrPII>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrieefgdeltdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -53,13 +53,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrieefgdeltdcutefuodetggdote
     gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
     udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
     igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:UpIGYs5RAc7Wt6K3FuFO0Bk_sMjPLB17jeIdzBHYpxJHUuy2LqlWLA>
-    <xmx:UpIGYg6tOjCuxkxayoVde7o8wcsUtb2EofG194h3fknc6HCczlnPyQ>
-    <xmx:UpIGYkjfRG6hygHsXDpmdU5AF0clTcliuKu_AU9TgJOunipGWrJsjg>
-    <xmx:U5IGYtwPDu5_9M8QxmjFAvA89YFYvswqzP6MVmzEaTv_Ek-Y0YXf0FIwDic>
+X-ME-Proxy: <xmx:kZIGYhDL6q-gg81aukUianHJm_n8E-AK0WCmh_2GGHyeIIyCZRQZ0g>
+    <xmx:kZIGYiiabCj5_MOaGMzxe4tPDVKlo9dXfQuFoaNOPpUrOInwb0DWaw>
+    <xmx:kZIGYlovhBY75W3cYoziUJpOHxVfQX5MtrA-CPjio4BxxGpozLvTrw>
+    <xmx:kZIGYrYQ5YCgy4P0RGMCa3JlN2ipbfJHa2v2E-Dod0mIUqJdYJsuzg9Xn7Q>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 11 Feb 2022 11:44:02 -0500 (EST)
-Date:   Fri, 11 Feb 2022 17:44:00 +0100
+ 11 Feb 2022 11:45:04 -0500 (EST)
+Date:   Fri, 11 Feb 2022 17:45:03 +0100
 From:   Maxime Ripard <maxime@cerno.tech>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -77,18 +77,18 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Helen Koike <helen.koike@collabora.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 30/66] media: sun6i-csi: Add bridge v4l2 subdev with
- port management
-Message-ID: <20220211164400.ccp4j2puryhurvzd@houat>
+Subject: Re: [PATCH v2 32/66] media: sun6i-csi: Add capture state using vsync
+ for page flip
+Message-ID: <20220211164503.5hftzazx56cwvk66@houat>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-31-paul.kocialkowski@bootlin.com>
- <20220209092419.i3kver4f2am7mnow@houat>
- <YgaEN0ziZx5X7tQe@aptenodytes>
+ <20220205185429.2278860-33-paul.kocialkowski@bootlin.com>
+ <20220209092642.hhppmrrekj7zrorj@houat>
+ <YgaDhxYLciLUm5ks@aptenodytes>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xqbsdqvt6owp5vdi"
+        protocol="application/pgp-signature"; boundary="k3t4wpl7ilwsk77w"
 Content-Disposition: inline
-In-Reply-To: <YgaEN0ziZx5X7tQe@aptenodytes>
+In-Reply-To: <YgaDhxYLciLUm5ks@aptenodytes>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -100,57 +100,62 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---xqbsdqvt6owp5vdi
+--k3t4wpl7ilwsk77w
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 11, 2022 at 04:43:51PM +0100, Paul Kocialkowski wrote:
+On Fri, Feb 11, 2022 at 04:40:55PM +0100, Paul Kocialkowski wrote:
 > Hi,
 >=20
-> On Wed 09 Feb 22, 10:24, Maxime Ripard wrote:
-> > On Sat, Feb 05, 2022 at 07:53:53PM +0100, Paul Kocialkowski wrote:
-> > > Introduce a bridge v4l2 subdev to prepare for separation between the
-> > > processing part (bridge) and the dma engine, which is required to
-> > > properly support ths isp workflow later on.
+> On Wed 09 Feb 22, 10:26, Maxime Ripard wrote:
+> > On Sat, Feb 05, 2022 at 07:53:55PM +0100, Paul Kocialkowski wrote:
+> > > This introduces a new state structure and associated helpers for
+> > > capture, which handles the buffer queue and state for each submitted
+> > > buffer.
 > > >=20
-> > > Currently the bridge just manages fwnode mapping to media pads,
-> > > using an async notifier (which was previously in the main code).
-> > > The s_stream video op just forwards to the connected v4l2 subdev
-> > > (sensor or MIPI CSI-2 bridge).
-> > >=20
-> > > The video capture device is now registered after the bridge and
-> > > attaches to it with a media link.
-> > >=20
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > Besides from the code refactoring, this changes the page flip point
+> > > to vsync instead of frame done, which allows working with only
+> > > two buffers without losing frames. This is apparently a more
+> > > appropriate thing to do with this controller.
 > >=20
-> > There's a bunch of checkpatch --strict warnings that need to be fixed
+> > Why? What issues were you seeing before, how does using a separate
+> > interrupt addresses it, and what makes you think it's more appropriate?
 >=20
-> Yes so it turns out these are adaptations to the existing video code
-> which has these warnings already merged. They are cleaned up later on
-> in a dedicated commit, but since it's not the topic of this change
-> (which is a logic change) I kept the code as it is.
+> I'll try to update the commit log to address this, thanks.
 >=20
-> What do you think?
+> One of the main issues that the rework is trying to address is the way
+> that double buffering is handled, which currently requires up to 3 buffers
+> to work, due to how buffer configuration is implemented. In particular,
+> it's synchronizing to the frame done interrupt which seems to hit after
+> scanout of the next frame begins, so page flips are always delayed by one
+> frame.
+>=20
+> This is currently solved by setting two buffers when starting the stream:
+> the first one is set before vcap is enabled and seems to be sampled when =
+the
+> first frame scan begins and the second one is set after and stays until t=
+he
+> second vsync hits, at which point it becomes the current active buffer.
+> This way no frame is lost but 3 frames are needed to start.
+>=20
+> This proposal changes the sync point to vsync which allows page flipping =
+to
+> happen for the next frame, thus only 2 buffers are required.
 
-+       async_subdev =3D v4l2_async_nf_add_fwnode_remote(notifier, handle,
-+               struct v4l2_async_subdev);
-
-CHECK: Alignment should match open parenthesis
-
-This one at least is introduced by your patch
+This should be in your commit log
 
 Maxime
 
---xqbsdqvt6owp5vdi
+--k3t4wpl7ilwsk77w
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgaSUAAKCRDj7w1vZxhR
-xXGWAP0VX30FCSaxEfCylC0wvIQbV1OfNYW4aaL8aT/WKEZPGgEAtehwn0huoPF7
-uno2SSUQZBowBDAPo9fxBKol2O9KAwQ=
-=0iKA
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgaSjwAKCRDj7w1vZxhR
+xbTMAP0ZxnXJgdsVzBNK31eF7ZlX4Snoq2+j1MQhKokvYb7MgAD/WKJ1C/ETfaBn
+jWqoaBEKuLs4T72QKJN7yiyARbVePAI=
+=qBtU
 -----END PGP SIGNATURE-----
 
---xqbsdqvt6owp5vdi--
+--k3t4wpl7ilwsk77w--
