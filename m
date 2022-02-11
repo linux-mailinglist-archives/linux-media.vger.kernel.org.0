@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B19C4B2C5B
-	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 19:04:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 425B74B2C58
+	for <lists+linux-media@lfdr.de>; Fri, 11 Feb 2022 19:04:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352456AbiBKSBg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Feb 2022 13:01:36 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49798 "EHLO
+        id S1352458AbiBKSBk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Feb 2022 13:01:40 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352443AbiBKSBf (ORCPT
+        with ESMTP id S1352443AbiBKSBj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Feb 2022 13:01:35 -0500
+        Fri, 11 Feb 2022 13:01:39 -0500
 Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D7642C9
-        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 10:01:34 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A487B2C9
+        for <linux-media@vger.kernel.org>; Fri, 11 Feb 2022 10:01:38 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 1351F240002;
-        Fri, 11 Feb 2022 18:01:28 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 8023524000E;
+        Fri, 11 Feb 2022 18:01:33 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
         s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
@@ -28,9 +28,9 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH 2/3] media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
-Date:   Fri, 11 Feb 2022 19:02:15 +0100
-Message-Id: <20220211180216.290133-3-jacopo@jmondi.org>
+Subject: [PATCH 3/3] media: imx: Remove reference to i.MX7 from driver
+Date:   Fri, 11 Feb 2022 19:02:16 +0100
+Message-Id: <20220211180216.290133-4-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220211180216.290133-1-jacopo@jmondi.org>
 References: <20220211180216.290133-1-jacopo@jmondi.org>
@@ -45,35 +45,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rename the imx7-mipi-csis.c driver to remove the reference to i.MX7.
-
-The driver is for an IP core found on i.MX7 and i.MX8 SoC so do not
-specify a SoC version number in the driver name.
+Remove the references to the i.MX7 in the driver description and expand
+it with more information about the IP core the driver controls.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- MAINTAINERS                                                     | 2 +-
- .../media/platform/imx/{imx7-mipi-csis.c => imx-mipi-csis.c}    | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename drivers/media/platform/imx/{imx7-mipi-csis.c => imx-mipi-csis.c} (100%)
+ drivers/media/platform/imx/imx-mipi-csis.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5bdb8c881b0b..7def3b7d56bc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11891,7 +11891,7 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/admin-guide/media/imx7.rst
- F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
- F:	Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
--F:	drivers/media/platform/imx/imx7-mipi-csis.c
-+F:	drivers/media/platform/imx/imx-mipi-csis.c
- F:	drivers/staging/media/imx/imx7-media-csi.c
+diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
+index a22d0e6b3d44..59f4485bbe70 100644
+--- a/drivers/media/platform/imx/imx-mipi-csis.c
++++ b/drivers/media/platform/imx/imx-mipi-csis.c
+@@ -1,6 +1,10 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Freescale i.MX7 SoC series MIPI-CSI V3.3 receiver driver
++ * CSIS MIPI CSI-2 receiver driver.
++ *
++ * CSIS is an IP core originating from Samsung found in NXP i.MX7 and i.MX8
++ * SoC series. i.MX7 features version 3.3 of the IP, while i.MX8 features
++ * version 3.6.3
+  *
+  * Copyright (C) 2019 Linaro Ltd
+  * Copyright (C) 2015-2016 Freescale Semiconductor, Inc. All Rights Reserved.
+@@ -31,7 +35,7 @@
+ #include <media/v4l2-mc.h>
+ #include <media/v4l2-subdev.h>
  
- MEDIA DRIVERS FOR HELENE
-diff --git a/drivers/media/platform/imx/imx7-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-similarity index 100%
-rename from drivers/media/platform/imx/imx7-mipi-csis.c
-rename to drivers/media/platform/imx/imx-mipi-csis.c
+-#define CSIS_DRIVER_NAME			"imx7-mipi-csis"
++#define CSIS_DRIVER_NAME			"imx-mipi-csis"
+ 
+ #define CSIS_PAD_SINK				0
+ #define CSIS_PAD_SOURCE				1
+@@ -1515,4 +1519,4 @@ module_platform_driver(mipi_csis_driver);
+ 
+ MODULE_DESCRIPTION("i.MX7 & i.MX8 MIPI CSI-2 receiver driver");
+ MODULE_LICENSE("GPL v2");
+-MODULE_ALIAS("platform:imx7-mipi-csi2");
++MODULE_ALIAS("platform:imx-mipi-csi2");
 -- 
 2.35.0
 
