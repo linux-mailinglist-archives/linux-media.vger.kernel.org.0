@@ -2,106 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 097934B33A0
-	for <lists+linux-media@lfdr.de>; Sat, 12 Feb 2022 08:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 845BE4B3470
+	for <lists+linux-media@lfdr.de>; Sat, 12 Feb 2022 12:16:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232459AbiBLHmv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Feb 2022 02:42:51 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53016 "EHLO
+        id S231277AbiBLLQ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Feb 2022 06:16:28 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231893AbiBLHmu (ORCPT
+        with ESMTP id S230370AbiBLLQ1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Feb 2022 02:42:50 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0756526AEA;
-        Fri, 11 Feb 2022 23:42:46 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id y22so15185766eju.9;
-        Fri, 11 Feb 2022 23:42:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EkWXkKewPoFhmQKCPIXY6OJ14gKmezWp3+CXE5li4HY=;
-        b=J57KOpvuDcRiVi6fAKqtJNgiUyt+KnQ5OMPQqtLdEIlei46C6IQUi83n5m38nQc+Vi
-         VpPe/5ClLJdFX0x6EZiNfd2W0a2vlvf26YHyNPcfHVH2CteBHl9BSkelXeH21NUZkmN/
-         Ce3AtGY+y3wZxFztDmdLnSl/Ncvcm5z1M/6p8ijl5GE3G38CMRGCQJiW0NZQEzgUjbSM
-         oQJmiwGBa/4mUdbhkz+nW8BOFyh+fUa91ww3RC56FgxcfZ7zJNhzWb/Rxaj1HoE9+66c
-         NK/Fnu0JZuL5nBBNZ0Rfsg4DIQJOomjYjiIWW789YwUwoUZOHEpLCvztvdPbVuCq4lA1
-         Gmwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EkWXkKewPoFhmQKCPIXY6OJ14gKmezWp3+CXE5li4HY=;
-        b=6agn9W2zGuoOm8Nv/RVRgYadh2zGCvkBEV+A+K9DrLx5t0CjoQO7ZwUwXK4EQ7M7Nk
-         4QQF6uMzRz0jPYi9WO5M3KWvFnzIhULfih2o3cVBxju27mz1byKB6xhaUuaqdvXPnoEG
-         +L2rpSAzD3L/XRBKcjrGxTwWD+Jd1FOMQYuGQAlS9nUospNnq0VbGxu88ocGWAXGwx8q
-         xixsUNLevw44oTyqlOjHLPgasZretyH9zpVxq/9Nlfs1Odfjq8QFaLG0p6Oq1EDfYgXq
-         TKEMaZ2fa7+c1HTdSvSaAI6WOdyfG6mljstAskHb4gDYutElKfwrwbA1aG1TuPUDVOdh
-         NC4Q==
-X-Gm-Message-State: AOAM532shI3VHg5yH0sXIhIJai99FamAzl+I2liVxbhETsSDR9K1W7fF
-        lwCUFEJF/YTgdQedqMhEjhhv9+7Zmn17Zw==
-X-Google-Smtp-Source: ABdhPJySJr/9z9/AK53BzSB0SjeMcNIW1fPYpoxDyi0pm3Rzd+rri0GsDsaXSbzRyZh/X9GaTr17RQ==
-X-Received: by 2002:a17:907:94cb:: with SMTP id dn11mr3974252ejc.81.1644651765489;
-        Fri, 11 Feb 2022 23:42:45 -0800 (PST)
-Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id w20sm1383205edd.79.2022.02.11.23.42.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Feb 2022 23:42:45 -0800 (PST)
-From:   Jernej Skrabec <jernej.skrabec@gmail.com>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.or, wens@csie.org, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] media: cedrus: H265: Fix neighbour info buffer size
-Date:   Sat, 12 Feb 2022 08:42:41 +0100
-Message-Id: <20220212074241.43184-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Sat, 12 Feb 2022 06:16:27 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32108245A5
+        for <linux-media@vger.kernel.org>; Sat, 12 Feb 2022 03:16:24 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id DA277101BFE; Sat, 12 Feb 2022 11:16:21 +0000 (UTC)
+Date:   Sat, 12 Feb 2022 11:16:21 +0000
+From:   Sean Young <sean@mess.org>
+To:     Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
+Cc:     Antti Palosaari <crope@iki.fi>, linux-media@vger.kernel.org
+Subject: Re: Inconsistent RC5 ir-keytable events
+Message-ID: <YgeXBRR8YUH8H61t@gofer.mess.org>
+References: <20220103110743.GA22001@gofer.mess.org>
+ <YdLqL2ViSwWzS/Ig@jyty>
+ <YdRwqt1pwb8osT6V@jyty>
+ <20220105095355.GA6428@gofer.mess.org>
+ <YdbVfObDZZnFIDc3@jyty>
+ <YeBZmM0ISnFGcsVa@gofer.mess.org>
+ <YeEYxwUkCV7rSa0A@jyty>
+ <YfV2TeOgSiVShmZN@jyty>
+ <YgKeZ+vAynWvvijz@gofer.mess.org>
+ <YgN3cq+utQAFFnEW@jyty>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <YgN3cq+utQAFFnEW@jyty>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Neighbour info buffer size needs to be 794 kiB in H6. This is actually
-already indirectly mentioned in the comment, but smaller size is used
-nevertheless.
+Hi Marko,
 
-Increase buffer size to cover H6 needs. Since increase is not that big
-in absolute numbers, it doesn't make sense to complicate logic for older
-generations.
+On Wed, Feb 09, 2022 at 10:12:34AM +0200, Marko Mäkelä wrote:
+> Tue, Feb 08, 2022 at 04:46:31PM +0000, Sean Young wrote:
+> > On Sat, Jan 29, 2022 at 07:15:57PM +0200, Marko Mäkelä wrote:
+> > > Did you have a chance to repeat my findings with a remote control unit that
+> > > uses the RC5 protocol?
+> > 
+> > Yes, I've reproduced the problem now. It's very weird.
+> > 
+> > After pressing button 1, waiting for a second or two, and then pressing button
+> > 3, the device reports some old IR from button 1 before reporting the IR from
+> > button 3.
+> > 
+> > The IR is not a copy of old data, it so presumably its IR that was not
+> > reported before. Now I don't know why this IR gets reported so late.
+> 
+> When I repeated the problem, the delay between subsequent button presses
+> could have been even less than a second.
+> 
+> How did you determine that it is not a copy of old data? I assume that you
+> can do that fairly easily for any kernel-side buffers, but what about the
+> buffer on the USB device itself?
 
-Bug was discovered using iommu, which reported access error when trying
-to play H265 video.
+I've spent some more time debugging this. The problem is that we need to
+increase the timeout to prevent key up events from arriving to early, but
+the same timeout is used for the raw IR timeout.
 
-Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think rc-core needs a little refactoring to split out the timeout into
+keyup_timeout and rawir_timeout. For this driver, the rawir_timeout needs
+to be set to 0xbf * 51us, and the keyup_timeout to the query interval
+(which 200ms).
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 8ab2d9c6f048..44f385be9f6c 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -23,7 +23,7 @@
-  * Subsequent BSP implementations seem to double the neighbor info buffer size
-  * for the H6 SoC, which may be related to 10 bit H265 support.
-  */
--#define CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE	(397 * SZ_1K)
-+#define CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE	(794 * SZ_1K)
- #define CEDRUS_H265_ENTRY_POINTS_BUF_SIZE	(4 * SZ_1K)
- #define CEDRUS_H265_MV_COL_BUF_UNIT_CTB_SIZE	160
- 
--- 
-2.35.1
+My patch increased the timeout to 210ms but the IR receiver never sends
+a space that long. So this IR will only get processed once *more* IR
+arrives, so you get ghost key presses.
 
+
+Sean
