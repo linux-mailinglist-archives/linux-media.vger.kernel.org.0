@@ -2,142 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F2D74B3B27
-	for <lists+linux-media@lfdr.de>; Sun, 13 Feb 2022 12:34:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DDB14B3B5C
+	for <lists+linux-media@lfdr.de>; Sun, 13 Feb 2022 13:49:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235596AbiBMLeH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Feb 2022 06:34:07 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52200 "EHLO
+        id S236013AbiBMMts (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Feb 2022 07:49:48 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230480AbiBMLeG (ORCPT
+        with ESMTP id S235957AbiBMMts (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Feb 2022 06:34:06 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D8F2307;
-        Sun, 13 Feb 2022 03:33:56 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id q7so22413920wrc.13;
-        Sun, 13 Feb 2022 03:33:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=02vp1JcshzGAmd266InAE4p0SMLcVM41XUbfgVtkk8w=;
-        b=OK0IROEtmVHSd6bnjgTZAXeNZrVBxdV791WH8w6dkmD8N9Rc4BOr1zMpPhM0oAZXUu
-         F5+8tdpFeHqnUYZviWCBWzlZ2ikr2llcEWe2hHPNQg6igNlyv09Bv68r6NlXQUNEZpz6
-         YcMc3pe37dtNU0ALFTxUqgVf86I1ffFURsf3MdcQndVytg90HmTZCJb756kytkkqTQtI
-         dcPT6EL5NDuYJd8o9tSAWNY3Li7cEkY/rZW0c0BS0vTv8hfMvTEwzXxpaDF3dnt7JW3f
-         UPvTSd+ff+mcbppFm0AnkM2BufIEg5BbEtHreOY8Qynr2HRYSjgO3THIXWe4xdJDVtF8
-         adUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=02vp1JcshzGAmd266InAE4p0SMLcVM41XUbfgVtkk8w=;
-        b=jtWRtDchqyyzm1wZPbThmpUznhDtIVLmJYcKuJs7TikaELeStLaMPAilQWXJw4IeLr
-         BV1RTPjQ6KPtcOzq3OLA38tfkwFvI1lAQXmuKs4F3RPAD0Er6vJKpgvUt/XtUMDFUf7T
-         b+gliYFjsuXevjrDpKqeEk0bf3MhnllCZy1CwqvvuYo6/UFAeu368wmT3O6ijyqoIFyr
-         zy/UO5YjiBr3Xueeuu7RBdQnMISbRByRJvBdyQxPZ0iQJbu4NlJOxecWQ1AmDLI4+BuY
-         3hJD+eZbz9gS1pFnfe+OBEP1WAhiF8nZjRESp5yG8Gt5qRADR07YsUU4LWCUMEl2ilyL
-         sepg==
-X-Gm-Message-State: AOAM5331g8NsflSMPzHJwoEhUt1qHydtsdm4XBOAvKx77+zbeaqOmCp2
-        1NR8gf/nVMoauL2tWmllJIk=
-X-Google-Smtp-Source: ABdhPJyTwqnXzmlapAqyauG6oyW/56U04p6xjFiix7W8KKn7b5P3uTYi4MmaqWyzQZ3BYqmtZlTA1A==
-X-Received: by 2002:a5d:4fc7:: with SMTP id h7mr7611085wrw.673.1644752034944;
-        Sun, 13 Feb 2022 03:33:54 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id p27sm9091564wms.39.2022.02.13.03.33.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Feb 2022 03:33:54 -0800 (PST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Alex Bee <knaerzche@gmail.com>, jc@kynesim.co.uk
-Subject: Re: [RFC] media: uapi: Move HEVC stateless controls out of staging
-Date:   Sun, 13 Feb 2022 12:33:53 +0100
-Message-ID: <8038233.T7Z3S40VBb@kista>
-In-Reply-To: <20220201123439.353854-1-benjamin.gaignard@collabora.com>
-References: <20220201123439.353854-1-benjamin.gaignard@collabora.com>
+        Sun, 13 Feb 2022 07:49:48 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 165A35B3D0;
+        Sun, 13 Feb 2022 04:49:42 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08F3855A;
+        Sun, 13 Feb 2022 13:49:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1644756579;
+        bh=FHpUB2jjNceHeQbJGiThGx4WBZhIDUQRPUsnubhTu4o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mDNh9eBEeodzMRO110o89bBlKq7zGLxmUoeMJPbpyWpd9ZkYip7N9Kt1CZHAEASJg
+         V3/fdpC2HyBCR29ArXdDStAbX3rF/IcJgCfvnPZtvBbtgMuTWCL9hRB66sIB7pUq/7
+         GnI3QEKS5ekKxpjD1hhBAQR2saZsjVIqJcFkuY0w=
+Date:   Sun, 13 Feb 2022 14:49:33 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Stefan Wahren <stefan.wahren@i2se.com>
+Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
+        kernel-list@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org, lukasz@jany.st,
+        mchehab@kernel.org, naush@raspberrypi.com, robh@kernel.org,
+        tomi.valkeinen@ideasonboard.com,
+        bcm-kernel-feedback-list@broadcom.com
+Subject: Re: [PATCH v5 04/11] media: bcm2835-unicam: Add support for
+ CCP2/CSI2 camera interface
+Message-ID: <Ygj+XYUy4zYQZMWt@pendragon.ideasonboard.com>
+References: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
+ <20220208155027.891055-5-jeanmichel.hautbois@ideasonboard.com>
+ <7dbce123-19e6-c1b5-bebe-c49bb5d2da02@i2se.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7dbce123-19e6-c1b5-bebe-c49bb5d2da02@i2se.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Hi Stefan,
 
-CC: Alex, John
+On Sun, Feb 13, 2022 at 12:17:25PM +0100, Stefan Wahren wrote:
+> Am 08.02.22 um 16:50 schrieb Jean-Michel Hautbois:
+> > Add driver for the Unicam camera receiver block on BCM283x processors.
+> > It is represented as two video device nodes: unicam-image and
+> > unicam-embedded which are connected to an internal subdev (named
+> > unicam-subdev) in order to manage streams routing.
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> >
+> > ---
+> > v4:
+> >   - Add the vendor prefox for DT name
+> >   - Use the reg-names in DT parsing
+> >   - Remove MAINTAINERS entry
+> >
+> > v3 main changes:
+> >   - Change code organization
+> >   - Remove unused variables
+> >   - Correct the fmt_meta functions
+> >   - Rewrite the start/stop streaming
+> >     - You can now start the image node alone, but not the metadata one
+> >     - The buffers are allocated per-node
+> >     - only the required stream is started, if the route exists and is
+> >       enabled
+> >   - Prefix the macros with UNICAM_ to not have too generic names
+> >   - Drop colorspace support
+> >     -> This is causing issues in the try-fmt v4l2-compliance test
+> >   test VIDIOC_G_FMT: OK
+> > 	fail: v4l2-test-formats.cpp(363): colorspace >= 0xff
+> > 	fail: v4l2-test-formats.cpp(465): testColorspace(!node->is_io_mc, pix.pixelformat, pix.colorspace, pix.ycbcr_enc, pix.quantization)
+> >   test VIDIOC_TRY_FMT: FAIL
+> > 	fail: v4l2-test-formats.cpp(363): colorspace >= 0xff
+> > 	fail: v4l2-test-formats.cpp(465): testColorspace(!node->is_io_mc, pix.pixelformat, pix.colorspace, pix.ycbcr_enc, pix.quantization)
+> >   test VIDIOC_S_FMT: FAIL
+> >
+> > v2: Remove the unicam_{info,debug,error} macros and use
+> > dev_dbg/dev_err instead.
+> > ---
+> >  drivers/media/platform/Kconfig                |    1 +
+> >  drivers/media/platform/Makefile               |    2 +
+> >  drivers/media/platform/bcm2835/Kconfig        |   21 +
+> >  drivers/media/platform/bcm2835/Makefile       |    3 +
+> >  .../platform/bcm2835/bcm2835-unicam-regs.h    |  253 ++
+> >  .../media/platform/bcm2835/bcm2835-unicam.c   | 2570 +++++++++++++++++
+> >  6 files changed, 2850 insertions(+)
+> >  create mode 100644 drivers/media/platform/bcm2835/Kconfig
+> >  create mode 100644 drivers/media/platform/bcm2835/Makefile
+> >  create mode 100644 drivers/media/platform/bcm2835/bcm2835-unicam-regs.h
+> >  create mode 100644 drivers/media/platform/bcm2835/bcm2835-unicam.c
+> >
+> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> > index 9fbdba0fd1e7..033b0358fbb8 100644
+> > --- a/drivers/media/platform/Kconfig
+> > +++ b/drivers/media/platform/Kconfig
+> > @@ -170,6 +170,7 @@ source "drivers/media/platform/am437x/Kconfig"
+> >  source "drivers/media/platform/xilinx/Kconfig"
+> >  source "drivers/media/platform/rcar-vin/Kconfig"
+> >  source "drivers/media/platform/atmel/Kconfig"
+> > +source "drivers/media/platform/bcm2835/Kconfig"
+> >  source "drivers/media/platform/sunxi/Kconfig"
+> >  
+> >  config VIDEO_TI_CAL
+> > diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+> > index 28eb4aadbf45..18894fc586aa 100644
+> > --- a/drivers/media/platform/Makefile
+> > +++ b/drivers/media/platform/Makefile
+> > @@ -86,6 +86,8 @@ obj-$(CONFIG_VIDEO_QCOM_CAMSS)		+= qcom/camss/
+> >  
+> >  obj-$(CONFIG_VIDEO_QCOM_VENUS)		+= qcom/venus/
+> >  
+> > +obj-$(CONFIG_VIDEO_BCM2835_UNICAM)	+= bcm2835/
+> > +
+> >  obj-y					+= sunxi/
+> >  
+> >  obj-$(CONFIG_VIDEO_MESON_GE2D)		+= meson/ge2d/
+> > diff --git a/drivers/media/platform/bcm2835/Kconfig b/drivers/media/platform/bcm2835/Kconfig
+> > new file mode 100644
+> > index 000000000000..1691541da905
+> > --- /dev/null
+> > +++ b/drivers/media/platform/bcm2835/Kconfig
+> > @@ -0,0 +1,21 @@
+> > +# Broadcom VideoCore4 V4L2 camera support
+> > +
+> > +config VIDEO_BCM2835_UNICAM
+> > +	tristate "Broadcom BCM283x/BCM271x Unicam video capture driver"
+> > +	depends on ARCH_BCM2835 || COMPILE_TEST
+> > +	depends on VIDEO_V4L2
+> > +	select MEDIA_CONTROLLER
+> > +	select VIDEO_V4L2_SUBDEV_API
+> > +	select V4L2_FWNODE
+> > +	select VIDEOBUF2_DMA_CONTIG
+> > +	help
+> > +	  Say Y here to enable support for the BCM283x/BCM271x CSI-2 receiver.
+> > +	  This is a V4L2 driver that controls the CSI-2 receiver directly,
+> > +	  independently from the VC4 firmware.
+> > +	  This driver is mutually exclusive with the use of bcm2835-camera. The
+> > +	  firmware will disable all access to the peripheral from within the
+> > +	  firmware if it finds a DT node using it, and bcm2835-camera will
+> > +	  therefore fail to probe.
+>
+> would be nice to know, what is the exact condition for the firmware. The
+> compatible and must its status be enabled?
+>
+> > +
+> > +	  To compile this driver as a module, choose M here. The module will be
+> > +	  called bcm2835-unicam.
 
-Sorry for late response, but I've been very busy last week.
+[snip]
 
-First of all, thank you for doing this! It's about time that HEVC moves 
-forward.
+> > diff --git a/drivers/media/platform/bcm2835/bcm2835-unicam.c b/drivers/media/platform/bcm2835/bcm2835-unicam.c
+> > new file mode 100644
+> > index 000000000000..470e691637c7
+> > --- /dev/null
+> > +++ b/drivers/media/platform/bcm2835/bcm2835-unicam.c
+> > @@ -0,0 +1,2570 @@
 
-Dne torek, 01. februar 2022 ob 13:34:39 CET je Benjamin Gaignard napisal(a):
-> The HEVC stateless 'uAPI' was staging and marked explicitly in the
-> V4L2 specification that it will change and is unstable.
-> 
-> Note that these control IDs were never exported as a public API,
-> they were only defined in kernel-local headers (hevc-ctrls.h).
-> 
-> While moving the controls out of staging they are renamed and
-> control IDs get new numbers.
-> Drivers (Hantro, Cedrus) and Documentation are updated accordaly.
+[snip]
 
-accordaly -> accordingly
+> > +static inline bool unicam_sd_pad_is_sink(u32 pad)
+> > +{
+> > +	/* Camera RX has 1 sink pad, and N source pads */
+> > +	return pad == 0;
+> > +}
+>
+> s/0/UNICAM_SD_PAD_SINK ?
 
-> 
-> Additional structures fields has been added for RKVDEC driver usage.
+Good idea.
 
-You should do separate patch for that, preceding this one. One patch should 
-only do one thing.
+> > +
+> > +static inline bool unicam_sd_pad_is_source(u32 pad)
+> > +{
+> > +	/* Camera RX has 1 sink pad, and N source pads */
+> > +	return pad != UNICAM_SD_PAD_SINK;
+> > +}
+> > +
+> > +enum unicam_node_type {
+> > +	UNICAM_IMAGE_NODE,
+> > +	UNICAM_METADATA_NODE,
+> > +	UNICAM_MAX_NODES
+> > +};
+> > +
+> > +/* -----------------------------------------------------------------------------
+> > + * Structure definitions
+> > + */
+>
+> please drop
 
-I also suggest that you add additional patch for removing bit_size field in 
-struct v4l2_ctrl_hevc_slice_params. Similar fields were already removed from 
-MPEG2 and H264 structures. Bit size can be deduced from output buffer size and 
-it doesn't hurt if bit size in Cedrus is set to bigger value than actual slice 
-bit size.
+I really favour splitting code in sections, it makes it more readable.
+At the end of the day I think this is a personal decision for the
+author, if no specific policy is enforced at the subsystem level.
 
-> Hantro dedicated control is moving to hantro-media.h
-> Since hevc-ctrls.h content has been dispatched in others file, remove it.
-> 
-> fluster tests results on IMX8MQ is 77/147 for HEVC codec.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+[snip]
 
-Note that Cedrus still needs additional information in order to decode some 
-HEVC videos. Missing info is num_entry_point_offsets and list of all 
-entry_point_offset_minus1 (obviously, num_entry_point_offsets in size).
+> > +/*
+> > + * unicam_isr : ISR handler for unicam capture
+> > + * @irq: irq number
+> > + * @dev_id: dev_id ptr
+>
+> these kernel-doc doesn't match with the definition. dev seems to be the
+> unicam instance?
 
-I suggest that this is represented in a new control, which would use dynamic 
-array feature, written by Hans. While Cedrus supports max. 256 entries, it can 
-be much bigger in theory, but in reality, it's much smaller (like 4-8 
-entries).
+I'd drop the comment as it doesn't really contain much useful information.
 
-Last but not least, data_bit_offset should be better defined. Currently it 
-points right after last header bit, just like Cedrus needs it. However, there 
-is padding after that, at least 1 bit and 8 bits at most, so slice data always 
-starts from byte aligned address. It probably make sense to rework that field 
-to be byte offset, not bit, just like in VA-API. Note that RPi HEVC driver also 
-uses byte aligned address directly. Cedrus would need some kind of workaround 
-and only one that works is this one:
-https://github.com/bootlin/libva-v4l2-request/blob/master/src/h265.c#L191-L209
+> > + *
+> > + * It changes status of the captured buffer, takes next buffer from the queue
+> > + * and sets its address in unicam registers
+> > + */
+> > +static irqreturn_t unicam_isr(int irq, void *dev)
 
-Best regards,
-Jernej
+[snip]
 
+-- 
+Regards,
 
+Laurent Pinchart
