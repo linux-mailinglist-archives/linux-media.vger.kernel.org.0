@@ -2,53 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA8E74B3B5E
-	for <lists+linux-media@lfdr.de>; Sun, 13 Feb 2022 13:52:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 938424B3B9C
+	for <lists+linux-media@lfdr.de>; Sun, 13 Feb 2022 14:52:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236041AbiBMMwN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Feb 2022 07:52:13 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58604 "EHLO
+        id S236337AbiBMNw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Feb 2022 08:52:26 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbiBMMwN (ORCPT
+        with ESMTP id S230011AbiBMNwZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Feb 2022 07:52:13 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FDCF5B3E3;
-        Sun, 13 Feb 2022 04:52:07 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 80B0455A;
-        Sun, 13 Feb 2022 13:52:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644756725;
-        bh=2Lb3ypDKzFK5NF5PwGxz5r1s5an8XhBxr0UQzJN7mXw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GaBycSLvcUWVZZLAplz+x0BucW85k2OavpFcYAOhV+EJ1j8lFcF2fuXiP25BZT23i
-         ylRCFsb5hQ0TxqdI26lbHdhRDLQxFmHOefQlIOXOsOR+y/zrEd3qYTzXYWTK8hygBh
-         3Oc0p+5IdeEuWgjcjLepW5bo897ur2ITTieUkWgQ=
-Date:   Sun, 13 Feb 2022 14:52:00 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Stefan Wahren <stefan.wahren@i2se.com>
-Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        kernel-list@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, lukasz@jany.st,
-        mchehab@kernel.org, naush@raspberrypi.com, robh@kernel.org,
-        tomi.valkeinen@ideasonboard.com,
+        Sun, 13 Feb 2022 08:52:25 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 256C45F241;
+        Sun, 13 Feb 2022 05:52:17 -0800 (PST)
+Received: from [192.168.1.107] ([37.4.249.169]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M9Frd-1nP2By1ilD-006LTK; Sun, 13 Feb 2022 14:52:01 +0100
+Subject: Re: [PATCH v5 06/11] ARM: dts: bcm2711: Add unicam CSI nodes
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
+        kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
+        robh@kernel.org, tomi.valkeinen@ideasonboard.com,
         bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [PATCH v5 04/11] media: bcm2835-unicam: Add support for
- CCP2/CSI2 camera interface
-Message-ID: <Ygj+8Ovplpo7xR91@pendragon.ideasonboard.com>
 References: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
- <20220208155027.891055-5-jeanmichel.hautbois@ideasonboard.com>
- <fc5700c5-0b64-056a-2775-d0ab0f6521e8@i2se.com>
+ <20220208155027.891055-7-jeanmichel.hautbois@ideasonboard.com>
+ <9435c061-cb57-dd9b-9d06-e976a6a6c5be@i2se.com>
+Autocrypt: addr=stefan.wahren@i2se.com; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
+ CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
+ bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
+ TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
+ NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
+ MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
+ by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
+ MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
+ VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
+ aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
+ OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
+ bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
+ Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
+ ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
+ bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
+ dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
+ QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
+ UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
+ SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
+ VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
+ akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
+ NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
+ RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
+ QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
+ ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
+ cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
+ R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
+ aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
+ NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
+ SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
+ TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
+ TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
+ NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
+ YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
+ SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
+ KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
+ ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
+ VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
+ SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
+ d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
+ UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
+ c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
+ a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
+ anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
+ WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
+ Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
+ QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
+ Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
+ K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
+ aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
+ dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
+ TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
+ SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
+ U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
+ VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
+ OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
+ Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
+ eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
+ MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
+ SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
+ Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
+ WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
+ Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
+ OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
+ TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
+ eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
+ WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
+ cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
+ QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
+ Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
+ RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
+ SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
+ cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
+ dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
+ RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
+ SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
+ WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
+ VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
+ am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
+ OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
+ L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
+ aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
+ cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
+ WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
+ MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
+ RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
+ RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
+ TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
+ SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
+ M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
+ VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
+ MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
+ bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
+ NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
+ ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
+ Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
+ eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
+ QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
+ TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
+ dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
+ S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
+ VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
+ QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
+ ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
+ UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
+ SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
+ UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
+ N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
+ dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
+ MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
+ d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
+ WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
+ MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
+ MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
+ TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
+ NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
+ MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
+ RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
+ VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
+ WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
+ ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
+ SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
+ MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
+ M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
+ dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
+ CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
+ VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
+ bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
+ LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
+Message-ID: <f776477d-0e19-f31e-2984-3f0c750743d0@i2se.com>
+Date:   Sun, 13 Feb 2022 14:51:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <9435c061-cb57-dd9b-9d06-e976a6a6c5be@i2se.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fc5700c5-0b64-056a-2775-d0ab0f6521e8@i2se.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Provags-ID: V03:K1:Tcxn8zSixJ8Ra7hTfO80F9WHaPv/fKfq65MekN60/74JZwg85iK
+ 1zqHOhO+5KAbt5z405/DQcLVyl7YsxBbtWijeYodsOQQg07UavtxA0rlwzKsN47VJAWsVxX
+ zIZAtYEz6AotljoP+c6x1dVHySONow0E2+TEgRDxc1y7GJpaKyNxNjOqPUDDOPszD8tQI8Y
+ ImEKhjiXoYhKg0AEanmWQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KaE1IM9elmc=:d8g0XdTG3fwM4di4yqxMjb
+ CemLZ9O8ZSzCxTen46Wm2sY1cSUfEsHnbti5nngLi2ld6pozY6+GHUVTtFdYDFxrqQIRC+RPx
+ 2XLLq1+jvzqJoQIT9tOdQiYdUenekjoK9uqiH1fTmY5PGjiRqciG+OcuDfdjOC4faf9kSeCXm
+ u2L8YWW2Us/aAL7+JSj1kDmVjSkCLQVUPNePXpA2icDeWN4sxRk/gMG6x6Vvccj+nV/Rf2Fsr
+ JSskO951rAgHo8aN1aQBK6LjcJiIlsXy98SRo0pF+p6CO25QQY+1kNXQELA0wS8fZL7VVl+y3
+ ND3SFNf9E1AJ0P81uoEUulId0ZBsnRyZADB2wm9kzKyiVwi5D5pVSkOzLK85mA6RcCW6QtlLw
+ vMRiuLv3jplfmXu3SsNFOLOH+XpoB0ZEp/ynxcefUhRRG6UjSkKzyYS2cbLzTOwOsnx9LlFzy
+ kVkvY7ypEF8fWaZTIc8iCO1l4IR3BA8fXcHlls//U1aP8XHUEMNXWZDnfRk66tsP/P+UAaoMi
+ fN0N8lOp7g5wUpaDh5anJNJwSZX0aqhQ/IJkfZ1Sb8AkA4uZ4yjBjuA0jYzEYbNKnkAS/B0xl
+ iQDv+ZAq6jFKvfRlVk7RIF28wuPE+4wWn4J76R3VMQW+r1Y616wPVYDSfmrqBnONcNEJ3fvEh
+ qWWIHpw+eC91uG+zRAJDb5ix9kniyqqO8ooBE0uWp7t+d3YySVWoGknkW03ekj38wr6OmGBto
+ BfhS+PRlqwhTBfud
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,163 +195,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 10:00:23PM +0100, Stefan Wahren wrote:
+Am 13.02.22 um 11:35 schrieb Stefan Wahren:
 > Hi Jean-Michel,
-> 
+>
 > Am 08.02.22 um 16:50 schrieb Jean-Michel Hautbois:
-> > Add driver for the Unicam camera receiver block on BCM283x processors.
-> > It is represented as two video device nodes: unicam-image and
-> > unicam-embedded which are connected to an internal subdev (named
-> > unicam-subdev) in order to manage streams routing.
-> >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> >
-> > ---
-> > v4:
-> >   - Add the vendor prefox for DT name
-> >   - Use the reg-names in DT parsing
-> >   - Remove MAINTAINERS entry
-> >
-> > v3 main changes:
-> >   - Change code organization
-> >   - Remove unused variables
-> >   - Correct the fmt_meta functions
-> >   - Rewrite the start/stop streaming
-> >     - You can now start the image node alone, but not the metadata one
-> >     - The buffers are allocated per-node
-> >     - only the required stream is started, if the route exists and is
-> >       enabled
-> >   - Prefix the macros with UNICAM_ to not have too generic names
-> >   - Drop colorspace support
-> >     -> This is causing issues in the try-fmt v4l2-compliance test
-> >   test VIDIOC_G_FMT: OK
-> > 	fail: v4l2-test-formats.cpp(363): colorspace >= 0xff
-> > 	fail: v4l2-test-formats.cpp(465): testColorspace(!node->is_io_mc, pix.pixelformat, pix.colorspace, pix.ycbcr_enc, pix.quantization)
-> >   test VIDIOC_TRY_FMT: FAIL
-> > 	fail: v4l2-test-formats.cpp(363): colorspace >= 0xff
-> > 	fail: v4l2-test-formats.cpp(465): testColorspace(!node->is_io_mc, pix.pixelformat, pix.colorspace, pix.ycbcr_enc, pix.quantization)
-> >   test VIDIOC_S_FMT: FAIL
-> >
-> > v2: Remove the unicam_{info,debug,error} macros and use
-> > dev_dbg/dev_err instead.
-> > ---
-> >  drivers/media/platform/Kconfig                |    1 +
-> >  drivers/media/platform/Makefile               |    2 +
-> >  drivers/media/platform/bcm2835/Kconfig        |   21 +
-> >  drivers/media/platform/bcm2835/Makefile       |    3 +
-> >  .../platform/bcm2835/bcm2835-unicam-regs.h    |  253 ++
-> >  .../media/platform/bcm2835/bcm2835-unicam.c   | 2570 +++++++++++++++++
-> >  6 files changed, 2850 insertions(+)
-> >  create mode 100644 drivers/media/platform/bcm2835/Kconfig
-> >  create mode 100644 drivers/media/platform/bcm2835/Makefile
-> >  create mode 100644 drivers/media/platform/bcm2835/bcm2835-unicam-regs.h
-> >  create mode 100644 drivers/media/platform/bcm2835/bcm2835-unicam.c
+>> +
+>>  &firmware {
+>>  	firmware_clocks: clocks {
+>>  		compatible = "raspberrypi,firmware-clocks";
+>> diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
+>> index dff18fc9a906..21eb10122e50 100644
+>> --- a/arch/arm/boot/dts/bcm2711.dtsi
+>> +++ b/arch/arm/boot/dts/bcm2711.dtsi
+>> @@ -293,6 +293,28 @@ hvs: hvs@7e400000 {
+>>  			interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
+>>  		};
+>>  
+>> +		csi0: csi@7e800000 {
+>> +			compatible = "brcm,bcm2835-unicam";
+>> +			reg = <0x7e800000 0x800>,
+>> +			      <0x7e802000 0x4>;
+>> +			reg-names = "unicam", "cmi";
+>> +			interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
+>> +			status = "disabled";
+>> +			port {
+>> +			};
+>> +		};
+>> +
+>> +		csi1: csi@7e801000 {
+>> +			compatible = "brcm,bcm2835-unicam";
+>> +			reg = <0x7e801000 0x800>,
+>> +			      <0x7e802004 0x4>;
+>> +			reg-names = "unicam", "cmi";
+>> +			interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+>> +			status = "disabled";
+>> +			port {
+>> +			};
+>> +		};
+>> +
+> i didn't noticed before that everything except of the interrupts are
+> identical to the bcm283x boards [1]. So please define both nodes in
+> bcm283x.dtsi (with bcm283x interrupts) and just override the interrupts
+> for bcm2711 in this dtsi file.
+>
+> As a result the clocks and power domains from above can go to
+> bcm2835-rpi.dtsi.
 
-[snip]
+sorry, i forgot the downstream link:
 
-> > diff --git a/drivers/media/platform/bcm2835/bcm2835-unicam.c b/drivers/media/platform/bcm2835/bcm2835-unicam.c
-> > new file mode 100644
-> > index 000000000000..470e691637c7
-> > --- /dev/null
-> > +++ b/drivers/media/platform/bcm2835/bcm2835-unicam.c
-> > @@ -0,0 +1,2570 @@
+[1] -
+https://github.com/raspberrypi/linux/blob/rpi-5.15.y/arch/arm/boot/dts/bcm270x.dtsi#L88
 
-[snip]
-
-> > +static int unicam_start_streaming(struct vb2_queue *vq, unsigned int count)
-> > +{
-> > +	struct unicam_node *node = vb2_get_drv_priv(vq);
-> > +	struct unicam_device *unicam = node->dev;
-> > +	dma_addr_t buffer_addr[UNICAM_MAX_NODES] = { 0 };
-> > +	struct unicam_buffer *buf;
-> > +	struct v4l2_subdev_state *state;
-> > +	unsigned long flags;
-> > +	unsigned int i;
-> > +	int ret;
-> > +	u32 pad, stream;
-> > +	u32 remote_pad_index = is_image_node(node) ? UNICAM_SD_PAD_SOURCE_IMAGE
-> > +						   : UNICAM_SD_PAD_SOURCE_METADATA;
-> > +
-> > +	/* Look for the route for the given pad and stream. */
-> > +	state = v4l2_subdev_lock_active_state(&unicam->subdev.sd);
-> > +
-> > +	ret = v4l2_subdev_routing_find_opposite_end(&state->routing,
-> > +						    remote_pad_index, 0,
-> > +						    &pad, &stream);
-> > +	if (ret)
-> > +		goto err_streaming;
-> > +
-> > +	v4l2_subdev_unlock_state(state);
-> > +
-> > +	dev_dbg(unicam->dev, "Starting stream 0 on pad %d on subdev %s\n",
-> > +		remote_pad_index, unicam->subdev.sd.name);
-> > +
-> > +	/* The metadata node can't be started alone. */
-> > +	if (is_metadata_node(node)) {
-> > +		if (!unicam->node[UNICAM_IMAGE_NODE].streaming) {
-> > +			dev_err(unicam->dev,
-> > +				"Can't start metadata without image\n");
-> > +			return -EINVAL;
-> > +		}
-> > +		dev_dbg(unicam->dev, "starting metadata node\n");
-> > +
-> > +		spin_lock_irqsave(&node->dma_queue_lock, flags);
-> > +		buf = list_first_entry(&node->dma_queue,
-> > +				       struct unicam_buffer, list);
-> > +		dev_dbg(unicam->dev, "buffer %d: %p\n", i, buf);
-> > +		node->cur_frm = buf;
-> > +		node->next_frm = buf;
-> > +		list_del(&buf->list);
-> > +		spin_unlock_irqrestore(&node->dma_queue_lock, flags);
-> > +
-> > +		buffer_addr[UNICAM_METADATA_NODE] =
-> > +			vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
-> > +		dev_dbg(unicam->dev, "buffer %d addr: %lld\n", i, buffer_addr[i]);
-> 
-> i tried to compile the driver and get the following warning. I think the
-> easiest solution would be to drop this debug message.
-
-For the record, the right format specifier would be
-
-		dev_dbg(unicam->dev, "buffer %d addr: %pad\n", i, &buffer_addr[i]);
-
-(note the & before buffer_addr)
-
-> In file included from ./include/linux/printk.h:555:0,
-> 
->                  from ./include/linux/kernel.h:29,
->                  from ./include/linux/clk.h:13,
->                  from drivers/media/platform/bcm2835/bcm2835-unicam.c:47:
-> drivers/media/platform/bcm2835/bcm2835-unicam.c: In function
-> ‘unicam_start_streaming’:
-> drivers/media/platform/bcm2835/bcm2835-unicam.c:1676:24: warning: format
-> ‘%lld’ expects argument of type ‘long long int’, but argument 5 has type
-> ‘dma_addr_t {aka unsigned int}’ [-Wformat=]
->    dev_dbg(unicam->dev, "buffer %d addr: %lld\n", i, buffer_addr[i]);
->                         ^
-> ./include/linux/dynamic_debug.h:134:15: note: in definition of macro
-> ‘__dynamic_func_call’
->    func(&id, ##__VA_ARGS__);  \
->                ^~~~~~~~~~~
-> ./include/linux/dynamic_debug.h:166:2: note: in expansion of macro
-> ‘_dynamic_func_call’
->   _dynamic_func_call(fmt,__dynamic_dev_dbg,   \
->   ^~~~~~~~~~~~~~~~~~
-> ./include/linux/dev_printk.h:155:2: note: in expansion of macro
-> ‘dynamic_dev_dbg’
->   dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
->   ^~~~~~~~~~~~~~~
-> ./include/linux/dev_printk.h:155:23: note: in expansion of macro ‘dev_fmt’
->   dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
->                        ^~~~~~~
-> drivers/media/platform/bcm2835/bcm2835-unicam.c:1676:3: note: in
-> expansion of macro ‘dev_dbg’
->    dev_dbg(unicam->dev, "buffer %d addr: %lld\n", i, buffer_addr[i]);
->    ^~~~~~~
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+>>  		pixelvalve3: pixelvalve@7ec12000 {
+>>  			compatible = "brcm,bcm2711-pixelvalve3";
+>>  			reg = <0x7ec12000 0x100>;
