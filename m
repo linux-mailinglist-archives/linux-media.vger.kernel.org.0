@@ -2,59 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C75464B3C62
-	for <lists+linux-media@lfdr.de>; Sun, 13 Feb 2022 18:13:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 959E24B3C63
+	for <lists+linux-media@lfdr.de>; Sun, 13 Feb 2022 18:13:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237233AbiBMRN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Feb 2022 12:13:29 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37248 "EHLO
+        id S237238AbiBMRNs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Feb 2022 12:13:48 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232033AbiBMRN3 (ORCPT
+        with ESMTP id S232033AbiBMRNr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Feb 2022 12:13:29 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4108558E5B
-        for <linux-media@vger.kernel.org>; Sun, 13 Feb 2022 09:13:21 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id bu29so20973902lfb.0
-        for <linux-media@vger.kernel.org>; Sun, 13 Feb 2022 09:13:21 -0800 (PST)
+        Sun, 13 Feb 2022 12:13:47 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F07458E5B
+        for <linux-media@vger.kernel.org>; Sun, 13 Feb 2022 09:13:35 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id m14so4965663lfu.4
+        for <linux-media@vger.kernel.org>; Sun, 13 Feb 2022 09:13:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+IvjBSigw9nyuJJODv2b6IGzdRQsGcbOBUmM9/VOzQU=;
-        b=YirlOw5MCb+osyrDR6LElXOhN0n57tTvvUGMKBjX7b6aQmvp6blBsvrU6rmgd51oGU
-         c4TYXHL8rrBsC7osDzR7L/wE07DXHxWDlE5Zk4v2pATwB0Pfx9u7enZAG1q8a5ApLFRQ
-         kPTs6mSPVx9xQTswBSxmJUGg+9ZjlLIlH1rE4iMSn92gvM2ST439mwIKnec3WfRfen2H
-         u6B+iB4ZqkXgKicdocoJSkc8v6bEUrJQif+yUzvSw2/GzViKM9bWckWcKurJdQf+vKOT
-         ygXMob1yF7F6QYBI7QmW3VlWDsM9b2zXg1PmY5rTIyMkwUv9qJvpHIwpbPHkN0J1QeyX
-         eLfg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=6v6pgISJrHoSxFqvH7sLXG+J+EsPRkUHxiDxTl/cEOk=;
+        b=QYViOVjEfwvKtkkLpqdI/eRZuDwm3iZgNMY72zeexh6HJQN6HDhXHEZcmmez81m4Ou
+         8te1yYOD0Pre1Fi+zqZspc3OaTeIyxXvalhTVWtNELPeydQe6re2KIyVAlm7rhpXc/Tw
+         BEx/QIxFV6oOsDVB/v6WXIeAM0tZZI5JCvM9OEuuFDr3b2gb9aRWg6h74cftM5JfhPYo
+         XjsOEuRNvaYcozy9RxlnOQUwLUJNsjnMcqpZay+W3BNp9sgji0Nobmch/Hg8qcK5o8X+
+         qIf55kFi460ELtFCDuyKG56YY4+fClOq7dt6j1H25k7nVqPtsRKXS/oIlpwglzedrehT
+         e6oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+IvjBSigw9nyuJJODv2b6IGzdRQsGcbOBUmM9/VOzQU=;
-        b=hjiC13YryQwETYCCzeF9PBM8dStxKLVbV+RIB8Fw0J/CGOWrUWV6Rl98EdHLLhrMIW
-         lzqGyC8Y2lLji8+y7hIU94FFwpwuWjM1teYxsVJRzL6/cwIA/flfJYM1QSJtCl0j455r
-         04bl8cct6u+3gP9QZiwN4T29igey708WDzJ1GGfcXIBlnPDEAN1yb81JcVN7UhW9JRM1
-         cwMPFj8Qrmg5KMU3msignGfQsT2qoD1d7AAG9nwbxKBYkRFwoHKQG5e8WHx3u4WkyGj1
-         WsQW5KErL2SDKScmpnSCX8NuPG0+fHkZzhSKRGKauFLmmlVC5sP9lc+0DffJ4dbutGCR
-         /C6w==
-X-Gm-Message-State: AOAM531Usw7Xw7oFIHWcsdWkx63Fc7WnjcsF1AIzccAWVRVDQu32xjId
-        8uxzO2pUw95VS06y6HAxU1zieMYJuWmzpw==
-X-Google-Smtp-Source: ABdhPJywpSybPEhfHJgSvcJif9wjv7cpqipiy9L1flKPm8Su6WQaf0yFm3XHN8C3835mWmIZrsD+dw==
-X-Received: by 2002:a05:6512:68f:: with SMTP id t15mr7721336lfe.124.1644772399382;
-        Sun, 13 Feb 2022 09:13:19 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=6v6pgISJrHoSxFqvH7sLXG+J+EsPRkUHxiDxTl/cEOk=;
+        b=0Ur9sSn9TjgNtjojsY3wiii6Y9Sd0jNhNJy6sBb+Ll2/pGijmRNt+hSGea/9xoteWa
+         CDYI+/8f81XOyGHbEDSnj1uzIs2LsJojd1+kflj8iXfxVL1jHUBwHDBmaFRptljXTrZT
+         THoIPqxy2iml1d/h0fOv3bcG2BXgivcl8P4jQBIV6m4o+tuQnI+O3cojm5Xsru4eU+Fv
+         kR99RaOo5GmT5+rnGDLT2InyJrawxY7HIgivBo0RxWbIscAHEWxcS4+l/0YNoKNpSaNq
+         frU5WuCUpEaRevn7tG7lMu8N1xfjK0Um8R2Y7RDKp9HTPcSQjwsV1oL7lteFdhlQ4xkm
+         SZkQ==
+X-Gm-Message-State: AOAM53037RyQ5p1RLWiCzw5SEXD1bJorU4lPy+7Xt8S6h2fJH3Xm0jS/
+        2wjSWN8gKBV3q3duTpiLTVaeBbVnMYXnQA==
+X-Google-Smtp-Source: ABdhPJyDO3T25XLKPTp6ZFzTv9Mc0GzZOYNZzyIwyAfcAfEmCxptZWsQ+FwcZLrEEd0ohcIR4qXuYw==
+X-Received: by 2002:ac2:456d:: with SMTP id k13mr5584022lfm.203.1644772413400;
+        Sun, 13 Feb 2022 09:13:33 -0800 (PST)
 Received: from localhost (31-178-191-245.dynamic.chello.pl. [31.178.191.245])
-        by smtp.gmail.com with ESMTPSA id g6sm3378631lfu.130.2022.02.13.09.13.18
+        by smtp.gmail.com with ESMTPSA id 10sm540471ljv.8.2022.02.13.09.13.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 13 Feb 2022 09:13:18 -0800 (PST)
+        Sun, 13 Feb 2022 09:13:33 -0800 (PST)
 From:   Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Subject: [PATCH v1 01/03]: media: hantro: Add support for Hantro G1 on RK356x
-Date:   Sun, 13 Feb 2022 18:13:48 +0100
-Message-Id: <20220213171349.3924782-1-piotr.oniszczuk@gmail.com>
+Subject: [PATCH v1 02/03]: arm64: dts: rk356x.dtsi: Add support for Hantro G1 on RK356x
+Date:   Sun, 13 Feb 2022 18:13:50 +0100
+Message-Id: <20220213171349.3924782-2-piotr.oniszczuk@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20220213171349.3924782-1-piotr.oniszczuk@gmail.com>
+References: <20220213171349.3924782-1-piotr.oniszczuk@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -67,77 +69,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+    From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
 
-RK356x has Hantro G1 video decoder capable to decode MPEG2/H.264/VP9
-video formats.
+    RK356x has Hantro G1 video decoder capable to decode MPEG2/H.264/VP9
+    video formats.
 
-This patch adds support for RK356x family in existing Hantro
-video decoder kernel driver.
+    This patch enables RK356x video decoder in RK356x device-tree
+    include.
 
-Tested on [1] with FFmpeg v4l2_request code taken from [2]
-with MPEG2, H.642 and VP8 samples with results [3].
+    Tested on [1] with FFmpeg v4l2_request code taken from [2]
+    with MPEG2, H.642 and VP8 samples with results [3].
 
-[1] https://github.com/warpme/minimyth2
-[2] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
-[3] https://github.com/warpme/minimyth2/blob/master/video-test-summary.txt
+    [1] https://github.com/warpme/minimyth2
+    [2] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
+    [3] https://github.com/warpme/minimyth2/blob/master/video-test-summary.txt
 
-Signed-off-by: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+    Signed-off-by: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
 ---
- drivers/staging/media/hantro/hantro_drv.c      |  1 +
- drivers/staging/media/hantro/hantro_hw.h       |  1 +
- drivers/staging/media/hantro/rockchip_vpu_hw.c | 14 ++++++++++++++
- 3 files changed, 16 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 6a51f39dde56..ac7d58069eb8 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -613,6 +613,7 @@ static const struct of_device_id of_hantro_match[] = {
- 	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
- 	{ .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
- 	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
-+	{ .compatible = "rockchip,rk3568-vpu", .data = &rk3568_vpu_variant, },
- #endif
- #ifdef CONFIG_VIDEO_HANTRO_IMX8M
- 	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 4a19ae8940b9..89ec6d500938 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -307,6 +307,7 @@ extern const struct hantro_variant rk3066_vpu_variant;
- extern const struct hantro_variant rk3288_vpu_variant;
- extern const struct hantro_variant rk3328_vpu_variant;
- extern const struct hantro_variant rk3399_vpu_variant;
-+extern const struct hantro_variant rk3568_vpu_variant;
- extern const struct hantro_variant sama5d4_vdec_variant;
- extern const struct hantro_variant sunxi_vpu_variant;
+diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+index a68033a23975..ae5d80c5ba64 100644
+--- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+@@ -390,6 +390,28 @@ power-domain@RK3568_PD_RKVENC {
+ 		};
+ 	};
  
-diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-index c203b606e6e7..5e64cf068ff9 100644
---- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
-+++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-@@ -551,6 +551,20 @@ const struct hantro_variant rk3399_vpu_variant = {
- 	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
- };
- 
-+const struct hantro_variant rk3568_vpu_variant = {
-+	.dec_offset = 0x400,
-+	.dec_fmts = rk3399_vpu_dec_fmts,
-+	.num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
-+	.codec = HANTRO_MPEG2_DECODER |
-+		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
-+	.codec_ops = rk3399_vpu_codec_ops,
-+	.irqs = rockchip_vdpu2_irqs,
-+	.num_irqs = ARRAY_SIZE(rockchip_vdpu2_irqs),
-+	.init = rockchip_vpu_hw_init,
-+	.clk_names = rockchip_vpu_clk_names,
-+	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
-+};
++	vpu: video-codec@fdea0400 {
++		compatible = "rockchip,rk3568-vpu";
++		reg = <0x0 0xfdea0000 0x0 0x800>;
++		interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-names = "vdpu";
++		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
++		clock-names = "aclk", "hclk";
++		iommus = <&vdpu_mmu>;
++		power-domains = <&power RK3568_PD_VPU>;
++	};
 +
- const struct hantro_variant px30_vpu_variant = {
- 	.enc_offset = 0x0,
- 	.enc_fmts = rockchip_vpu_enc_fmts,
++	vdpu_mmu: iommu@fdea0800 {
++		compatible = "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdea0800 0x0 0x40>;
++		interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-names = "vdpu_mmu";
++		clock-names = "aclk", "iface";
++		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
++		power-domains = <&power RK3568_PD_VPU>;
++		#iommu-cells = <0>;
++	};
++
+ 	sdmmc2: mmc@fe000000 {
+ 		compatible = "rockchip,rk3568-dw-mshc", "rockchip,rk3288-dw-mshc";
+ 		reg = <0x0 0xfe000000 0x0 0x4000>;
 -- 
 2.29.2
 
