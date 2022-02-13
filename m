@@ -2,293 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E74804B3C76
-	for <lists+linux-media@lfdr.de>; Sun, 13 Feb 2022 18:18:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C75464B3C62
+	for <lists+linux-media@lfdr.de>; Sun, 13 Feb 2022 18:13:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230094AbiBMRSE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Feb 2022 12:18:04 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40022 "EHLO
+        id S237233AbiBMRN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Feb 2022 12:13:29 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbiBMRSD (ORCPT
+        with ESMTP id S232033AbiBMRN3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Feb 2022 12:18:03 -0500
-X-Greylist: delayed 305 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 13 Feb 2022 09:17:57 PST
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 993A659395
-        for <linux-media@vger.kernel.org>; Sun, 13 Feb 2022 09:17:57 -0800 (PST)
-Received: from jyty (dsl-hkibng31-58c389-173.dhcp.inet.fi [88.195.137.173])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: msmakela)
-        by meesny.iki.fi (Postfix) with ESMTPSA id D75EA2006F;
-        Sun, 13 Feb 2022 19:12:45 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1644772366;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0MkPUAWHNRmoLqvYGVE00XeVmjwl/0mvVNFS5rdAEyU=;
-        b=KNOlhQ+8BEtJidJUy43X79rV4sVoYGetEDYWiqnfF9C2Lh9bTfkZhXZ5KJO+llHbVGZ0OD
-        5Yc3Y6+MVVdgEYb/2Bb8PpgZbqPsOhmlZ/OlHEAZXwG+qPwED6d8E0wZB20d1Ys/3vcGQg
-        WpnjRXB+PjO5QB+9adtnrSXHv01MK8g=
-Date:   Sun, 13 Feb 2022 19:12:44 +0200
-From:   Marko =?iso-8859-1?B?TeRrZWzk?= <marko.makela@iki.fi>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Inconsistent RC5 ir-keytable events
-Message-ID: <Ygk8DM3tstwi/m9g@jyty>
-References: <YdRwqt1pwb8osT6V@jyty>
- <20220105095355.GA6428@gofer.mess.org>
- <YdbVfObDZZnFIDc3@jyty>
- <YeBZmM0ISnFGcsVa@gofer.mess.org>
- <YeEYxwUkCV7rSa0A@jyty>
- <YfV2TeOgSiVShmZN@jyty>
- <YgKeZ+vAynWvvijz@gofer.mess.org>
- <YgN3cq+utQAFFnEW@jyty>
- <YgeXBRR8YUH8H61t@gofer.mess.org>
- <Ygfhl+dZUfHNJXkU@gofer.mess.org>
+        Sun, 13 Feb 2022 12:13:29 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4108558E5B
+        for <linux-media@vger.kernel.org>; Sun, 13 Feb 2022 09:13:21 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id bu29so20973902lfb.0
+        for <linux-media@vger.kernel.org>; Sun, 13 Feb 2022 09:13:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+IvjBSigw9nyuJJODv2b6IGzdRQsGcbOBUmM9/VOzQU=;
+        b=YirlOw5MCb+osyrDR6LElXOhN0n57tTvvUGMKBjX7b6aQmvp6blBsvrU6rmgd51oGU
+         c4TYXHL8rrBsC7osDzR7L/wE07DXHxWDlE5Zk4v2pATwB0Pfx9u7enZAG1q8a5ApLFRQ
+         kPTs6mSPVx9xQTswBSxmJUGg+9ZjlLIlH1rE4iMSn92gvM2ST439mwIKnec3WfRfen2H
+         u6B+iB4ZqkXgKicdocoJSkc8v6bEUrJQif+yUzvSw2/GzViKM9bWckWcKurJdQf+vKOT
+         ygXMob1yF7F6QYBI7QmW3VlWDsM9b2zXg1PmY5rTIyMkwUv9qJvpHIwpbPHkN0J1QeyX
+         eLfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+IvjBSigw9nyuJJODv2b6IGzdRQsGcbOBUmM9/VOzQU=;
+        b=hjiC13YryQwETYCCzeF9PBM8dStxKLVbV+RIB8Fw0J/CGOWrUWV6Rl98EdHLLhrMIW
+         lzqGyC8Y2lLji8+y7hIU94FFwpwuWjM1teYxsVJRzL6/cwIA/flfJYM1QSJtCl0j455r
+         04bl8cct6u+3gP9QZiwN4T29igey708WDzJ1GGfcXIBlnPDEAN1yb81JcVN7UhW9JRM1
+         cwMPFj8Qrmg5KMU3msignGfQsT2qoD1d7AAG9nwbxKBYkRFwoHKQG5e8WHx3u4WkyGj1
+         WsQW5KErL2SDKScmpnSCX8NuPG0+fHkZzhSKRGKauFLmmlVC5sP9lc+0DffJ4dbutGCR
+         /C6w==
+X-Gm-Message-State: AOAM531Usw7Xw7oFIHWcsdWkx63Fc7WnjcsF1AIzccAWVRVDQu32xjId
+        8uxzO2pUw95VS06y6HAxU1zieMYJuWmzpw==
+X-Google-Smtp-Source: ABdhPJywpSybPEhfHJgSvcJif9wjv7cpqipiy9L1flKPm8Su6WQaf0yFm3XHN8C3835mWmIZrsD+dw==
+X-Received: by 2002:a05:6512:68f:: with SMTP id t15mr7721336lfe.124.1644772399382;
+        Sun, 13 Feb 2022 09:13:19 -0800 (PST)
+Received: from localhost (31-178-191-245.dynamic.chello.pl. [31.178.191.245])
+        by smtp.gmail.com with ESMTPSA id g6sm3378631lfu.130.2022.02.13.09.13.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Feb 2022 09:13:18 -0800 (PST)
+From:   Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: [PATCH v1 01/03]: media: hantro: Add support for Hantro G1 on RK356x
+Date:   Sun, 13 Feb 2022 18:13:48 +0100
+Message-Id: <20220213171349.3924782-1-piotr.oniszczuk@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <Ygfhl+dZUfHNJXkU@gofer.mess.org>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=msmakela smtp.mailfrom=marko.makela@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1644772366; a=rsa-sha256; cv=none;
-        b=rota/t4abNOW3CIPHohb6X/Ga7YcA9N9MPRcPbr1TUyyDeEVWiWbTPKs7bwUpr8Nc/RkQx
-        PTYatTNbnibC/KmHLcpGfkfl0ql1HFNu5XhY74OoOkrbbwHREvgKQzpmMYgX4lvLs9tXhM
-        4HthKY1m2WKiZDmISeqHSCPHR3e2FqU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1644772366;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0MkPUAWHNRmoLqvYGVE00XeVmjwl/0mvVNFS5rdAEyU=;
-        b=smebu4JFIaD7+EpPZYRspVZSEHlxqNZKZko9AoHQTMvC/+bgA6R0fzCiersmJrkpK5XPTu
-        CPkz64wV/WPuUtKfCQ9ebXyMZi54Os4FhKo0M4vQ0hYRtaUxgh0y5sHUsIVnvsPQUaZDvb
-        TR5ndgrdF75xa2WMYd12DUS5oYqaT6k=
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sean,
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
 
->>I've spent some more time debugging this. The problem is that we need 
->>to increase the timeout to prevent key up events from arriving to 
->>early, but the same timeout is used for the raw IR timeout.
->
->So I've sent two patches (you're on the cc) which should fix the issue.  
->Please can you test if this solves the issue?
+RK356x has Hantro G1 video decoder capable to decode MPEG2/H.264/VP9
+video formats.
 
-It is a significant improvement. Alas, I was able to repeat a glitch 
-with both the RC5 and NEC protocols. I was testing the key-repeat events 
-for the volume control. For both remotes, a sequence was lost every now 
-and then. Here is the output of "sudo ir-keytable -t" for both. I used 
-the default repeat period of 125ms, but I also repeated it with 100ms.
+This patch adds support for RK356x family in existing Hantro
+video decoder kernel driver.
 
-First, the RC5 remote:
+Tested on [1] with FFmpeg v4l2_request code taken from [2]
+with MPEG2, H.642 and VP8 samples with results [3].
 
-135.157621: lirc protocol(rc5): scancode = 0x1e10 toggle=1
-135.115390: event type EV_MSC(0x04): scancode = 0x1e10
-135.115390: event type EV_SYN(0x00).
-135.247388: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-135.247388: event type EV_SYN(0x00).
-135.379387: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-135.379387: event type EV_SYN(0x00).
-135.379387: event type EV_KEY(0x01) key_up: KEY_VOLUMEUP(0x0073)
-135.379387: event type EV_SYN(0x00).
-135.477638: lirc protocol(rc5): scancode = 0x1e11
-135.477656: event type EV_MSC(0x04): scancode = 0x1e11
-135.477656: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-135.477656: event type EV_SYN(0x00).
-135.707404: event type EV_KEY(0x01) key_up: KEY_VOLUMEDOWN(0x0072)
-135.707404: event type EV_SYN(0x00).
-136.261605: lirc protocol(rc5): scancode = 0x1e11
-136.261623: event type EV_MSC(0x04): scancode = 0x1e11
-136.261623: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-136.261623: event type EV_SYN(0x00).
-136.491396: event type EV_KEY(0x01) key_up: KEY_VOLUMEDOWN(0x0072)
-136.491396: event type EV_SYN(0x00).
-137.621640: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-137.621659: event type EV_MSC(0x04): scancode = 0x1e11
-137.621659: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-137.621659: event type EV_SYN(0x00).
-137.851403: event type EV_KEY(0x01) key_up: KEY_VOLUMEDOWN(0x0072)
-137.851403: event type EV_SYN(0x00).
-138.853651: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-138.853670: event type EV_MSC(0x04): scancode = 0x1e11
-138.853670: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-138.853670: event type EV_SYN(0x00).
-138.965618: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-138.965635: event type EV_MSC(0x04): scancode = 0x1e11
-138.965635: event type EV_SYN(0x00).
-139.077652: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-139.077670: event type EV_MSC(0x04): scancode = 0x1e11
-139.077670: event type EV_SYN(0x00).
-139.189646: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-139.189664: event type EV_MSC(0x04): scancode = 0x1e11
-139.189664: event type EV_SYN(0x00).
-139.301668: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-139.301684: event type EV_MSC(0x04): scancode = 0x1e11
-139.301684: event type EV_SYN(0x00).
-139.383390: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-139.383390: event type EV_SYN(0x00).
-139.413590: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-139.383390: event type EV_MSC(0x04): scancode = 0x1e11
-139.383390: event type EV_SYN(0x00).
-139.515385: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-139.515385: event type EV_SYN(0x00).
-139.525651: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-139.515385: event type EV_MSC(0x04): scancode = 0x1e11
-139.515385: event type EV_SYN(0x00).
-139.637630: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-139.637646: event type EV_MSC(0x04): scancode = 0x1e11
-139.637646: event type EV_SYN(0x00).
-139.647387: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-139.647387: event type EV_SYN(0x00).
-139.749562: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-139.647387: event type EV_MSC(0x04): scancode = 0x1e11
-139.647387: event type EV_SYN(0x00).
-139.779387: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-139.779387: event type EV_SYN(0x00).
-139.861680: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-139.779387: event type EV_MSC(0x04): scancode = 0x1e11
-139.779387: event type EV_SYN(0x00).
-139.911392: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-139.911392: event type EV_SYN(0x00).
-139.973654: lirc protocol(rc5): scancode = 0x1e11 toggle=1
-139.911392: event type EV_MSC(0x04): scancode = 0x1e11
-139.911392: event type EV_SYN(0x00).
-140.043399: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-140.043399: event type EV_SYN(0x00).
-140.175392: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-140.175392: event type EV_SYN(0x00).
-140.175392: event type EV_KEY(0x01) key_up: KEY_VOLUMEDOWN(0x0072)
-140.175392: event type EV_SYN(0x00).
+[1] https://github.com/warpme/minimyth2
+[2] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
+[3] https://github.com/warpme/minimyth2/blob/master/video-test-summary.txt
 
-Then, the NEC remote:
+Signed-off-by: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+---
+ drivers/staging/media/hantro/hantro_drv.c      |  1 +
+ drivers/staging/media/hantro/hantro_hw.h       |  1 +
+ drivers/staging/media/hantro/rockchip_vpu_hw.c | 14 ++++++++++++++
+ 3 files changed, 16 insertions(+)
 
-Testing events. Please, press CTRL-C to abort.
-312.477881: lirc protocol(nec): scancode = 0x1e
-312.477894: event type EV_MSC(0x04): scancode = 0x1e
-312.477894: event type EV_KEY(0x01) key_down: KEY_VOLUMEUP(0x0073)
-312.477894: event type EV_SYN(0x00).
-312.703402: event type EV_KEY(0x01) key_up: KEY_VOLUMEUP(0x0073)
-312.703402: event type EV_SYN(0x00).
-313.033303: lirc protocol(nec): scancode = 0x1e repeat
-313.033312: event type EV_MSC(0x04): scancode = 0x1e
-313.033312: event type EV_SYN(0x00).
-314.497859: lirc protocol(nec): scancode = 0xa
-314.497872: event type EV_MSC(0x04): scancode = 0x0a
-314.497872: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-314.497872: event type EV_SYN(0x00).
-314.609316: lirc protocol(nec): scancode = 0xa repeat
-314.609325: event type EV_MSC(0x04): scancode = 0x0a
-314.609325: event type EV_SYN(0x00).
-314.721305: lirc protocol(nec): scancode = 0xa repeat
-314.721313: event type EV_MSC(0x04): scancode = 0x0a
-314.721313: event type EV_SYN(0x00).
-314.833272: lirc protocol(nec): scancode = 0xa repeat
-314.833280: event type EV_MSC(0x04): scancode = 0x0a
-314.833280: event type EV_SYN(0x00).
-314.945342: lirc protocol(nec): scancode = 0xa repeat
-314.945350: event type EV_MSC(0x04): scancode = 0x0a
-314.945350: event type EV_SYN(0x00).
-314.999394: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-314.999394: event type EV_SYN(0x00).
-315.131392: event type EV_KEY(0x01) key_down: KEY_VOLUMEDOWN(0x0072)
-315.131392: event type EV_SYN(0x00).
-315.131392: event type EV_KEY(0x01) key_up: KEY_VOLUMEDOWN(0x0072)
-315.131392: event type EV_SYN(0x00).
-315.277279: lirc protocol(nec): scancode = 0xa repeat
-315.277289: event type EV_MSC(0x04): scancode = 0x0a
-315.277289: event type EV_SYN(0x00).
-315.497281: lirc protocol(nec): scancode = 0xa repeat
-315.497290: event type EV_MSC(0x04): scancode = 0x0a
-315.497290: event type EV_SYN(0x00).
-315.717281: lirc protocol(nec): scancode = 0xa repeat
-315.717290: event type EV_MSC(0x04): scancode = 0x0a
-315.717290: event type EV_SYN(0x00).
-315.829305: lirc protocol(nec): scancode = 0xa repeat
-315.829314: event type EV_MSC(0x04): scancode = 0x0a
-315.829314: event type EV_SYN(0x00).
-315.941310: lirc protocol(nec): scancode = 0xa repeat
-315.941319: event type EV_MSC(0x04): scancode = 0x0a
-315.941319: event type EV_SYN(0x00).
-316.053285: lirc protocol(nec): scancode = 0xa repeat
-316.053294: event type EV_MSC(0x04): scancode = 0x0a
-316.053294: event type EV_SYN(0x00).
-316.165247: lirc protocol(nec): scancode = 0xa repeat
-316.165256: event type EV_MSC(0x04): scancode = 0x0a
-316.165256: event type EV_SYN(0x00).
-316.277254: lirc protocol(nec): scancode = 0xa repeat
-316.277263: event type EV_MSC(0x04): scancode = 0x0a
-316.277263: event type EV_SYN(0x00).
-316.389266: lirc protocol(nec): scancode = 0xa repeat
-316.389274: event type EV_MSC(0x04): scancode = 0x0a
-316.389274: event type EV_SYN(0x00).
-316.501288: lirc protocol(nec): scancode = 0xa repeat
-316.501296: event type EV_MSC(0x04): scancode = 0x0a
-316.501296: event type EV_SYN(0x00).
-316.613317: lirc protocol(nec): scancode = 0xa repeat
-316.613326: event type EV_MSC(0x04): scancode = 0x0a
-316.613326: event type EV_SYN(0x00).
-316.725342: lirc protocol(nec): scancode = 0xa repeat
-316.725350: event type EV_MSC(0x04): scancode = 0x0a
-316.725350: event type EV_SYN(0x00).
-316.837272: lirc protocol(nec): scancode = 0xa repeat
-316.837281: event type EV_MSC(0x04): scancode = 0x0a
-316.837281: event type EV_SYN(0x00).
-316.949298: lirc protocol(nec): scancode = 0xa repeat
-316.949307: event type EV_MSC(0x04): scancode = 0x0a
-316.949307: event type EV_SYN(0x00).
-317.061320: lirc protocol(nec): scancode = 0xa repeat
-317.061328: event type EV_MSC(0x04): scancode = 0x0a
-317.061328: event type EV_SYN(0x00).
-317.173318: lirc protocol(nec): scancode = 0xa repeat
-317.173327: event type EV_MSC(0x04): scancode = 0x0a
-317.173327: event type EV_SYN(0x00).
-317.285274: lirc protocol(nec): scancode = 0xa repeat
-317.285283: event type EV_MSC(0x04): scancode = 0x0a
-317.285283: event type EV_SYN(0x00).
-317.397277: lirc protocol(nec): scancode = 0xa repeat
-317.397285: event type EV_MSC(0x04): scancode = 0x0a
-317.397285: event type EV_SYN(0x00).
-317.509317: lirc protocol(nec): scancode = 0xa repeat
-317.509325: event type EV_MSC(0x04): scancode = 0x0a
-317.509325: event type EV_SYN(0x00).
-317.621282: lirc protocol(nec): scancode = 0xa repeat
-317.621291: event type EV_MSC(0x04): scancode = 0x0a
-317.621291: event type EV_SYN(0x00).
-317.733293: lirc protocol(nec): scancode = 0xa repeat
-317.733302: event type EV_MSC(0x04): scancode = 0x0a
-317.733302: event type EV_SYN(0x00).
-317.845315: lirc protocol(nec): scancode = 0xa repeat
-317.845324: event type EV_MSC(0x04): scancode = 0x0a
-317.845324: event type EV_SYN(0x00).
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 6a51f39dde56..ac7d58069eb8 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -613,6 +613,7 @@ static const struct of_device_id of_hantro_match[] = {
+ 	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
+ 	{ .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
+ 	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
++	{ .compatible = "rockchip,rk3568-vpu", .data = &rk3568_vpu_variant, },
+ #endif
+ #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+ 	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 4a19ae8940b9..89ec6d500938 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -307,6 +307,7 @@ extern const struct hantro_variant rk3066_vpu_variant;
+ extern const struct hantro_variant rk3288_vpu_variant;
+ extern const struct hantro_variant rk3328_vpu_variant;
+ extern const struct hantro_variant rk3399_vpu_variant;
++extern const struct hantro_variant rk3568_vpu_variant;
+ extern const struct hantro_variant sama5d4_vdec_variant;
+ extern const struct hantro_variant sunxi_vpu_variant;
+ 
+diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+index c203b606e6e7..5e64cf068ff9 100644
+--- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
++++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+@@ -551,6 +551,20 @@ const struct hantro_variant rk3399_vpu_variant = {
+ 	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
+ };
+ 
++const struct hantro_variant rk3568_vpu_variant = {
++	.dec_offset = 0x400,
++	.dec_fmts = rk3399_vpu_dec_fmts,
++	.num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
++	.codec = HANTRO_MPEG2_DECODER |
++		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
++	.codec_ops = rk3399_vpu_codec_ops,
++	.irqs = rockchip_vdpu2_irqs,
++	.num_irqs = ARRAY_SIZE(rockchip_vdpu2_irqs),
++	.init = rockchip_vpu_hw_init,
++	.clk_names = rockchip_vpu_clk_names,
++	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
++};
++
+ const struct hantro_variant px30_vpu_variant = {
+ 	.enc_offset = 0x0,
+ 	.enc_fmts = rockchip_vpu_enc_fmts,
+-- 
+2.29.2
 
-Possibly related to this: A long time ago when I was involved with 
-formal methods in theoretical computer science, timers or timeouts would 
-make me nervous due to the inherent state space explosion. In model 
-checking, a timed event can be modeled with nondeterminism: in every 
-state where the event is enabled, it may or may not be executed. So, in 
-theory, timers or timeouts could open more room for race conditions or 
-starvation. In practice, if multiple timers are driven from the same 
-clock source, it should not be that bad.
-
->These patches touch nearly every rc-core driver so they will need a 
->good testing.
-
-Should this allow the key repeat period to be set to exactly match the 
-IR message rate, to get a consistent response rate? Or is there a small 
-probability that a key-down or key-up event will be delayed by exactly 
-one RC5 time slot?
-
-	Marko
