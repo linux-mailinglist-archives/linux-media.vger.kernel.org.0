@@ -2,35 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 938424B3B9C
-	for <lists+linux-media@lfdr.de>; Sun, 13 Feb 2022 14:52:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 373E44B3C28
+	for <lists+linux-media@lfdr.de>; Sun, 13 Feb 2022 16:49:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236337AbiBMNw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Feb 2022 08:52:26 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59526 "EHLO
+        id S236874AbiBMPtR convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sun, 13 Feb 2022 10:49:17 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230011AbiBMNwZ (ORCPT
+        with ESMTP id S229632AbiBMPtQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Feb 2022 08:52:25 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 256C45F241;
-        Sun, 13 Feb 2022 05:52:17 -0800 (PST)
+        Sun, 13 Feb 2022 10:49:16 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9B615F8D3;
+        Sun, 13 Feb 2022 07:49:09 -0800 (PST)
 Received: from [192.168.1.107] ([37.4.249.169]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1M9Frd-1nP2By1ilD-006LTK; Sun, 13 Feb 2022 14:52:01 +0100
-Subject: Re: [PATCH v5 06/11] ARM: dts: bcm2711: Add unicam CSI nodes
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M5fUw-1nM2HL13jm-007Arp; Sun, 13 Feb 2022 16:48:49 +0100
+Subject: Re: [PATCH v5 03/11] dt-bindings: media: Add bindings for
+ bcm2835-unicam
+Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
         kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
         lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
         robh@kernel.org, tomi.valkeinen@ideasonboard.com,
-        bcm-kernel-feedback-list@broadcom.com
+        bcm-kernel-feedback-list@broadcom.com,
+        Florian Fainelli <f.fainelli@gmail.com>
 References: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
- <20220208155027.891055-7-jeanmichel.hautbois@ideasonboard.com>
- <9435c061-cb57-dd9b-9d06-e976a6a6c5be@i2se.com>
+ <20220208155027.891055-4-jeanmichel.hautbois@ideasonboard.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+From:   Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
  CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
@@ -161,92 +163,133 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <f776477d-0e19-f31e-2984-3f0c750743d0@i2se.com>
-Date:   Sun, 13 Feb 2022 14:51:59 +0100
+Message-ID: <f58bf6a9-c63f-19ab-36c8-a9a7b9182859@i2se.com>
+Date:   Sun, 13 Feb 2022 16:48:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <9435c061-cb57-dd9b-9d06-e976a6a6c5be@i2se.com>
+In-Reply-To: <20220208155027.891055-4-jeanmichel.hautbois@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Content-Language: en-US
-X-Provags-ID: V03:K1:Tcxn8zSixJ8Ra7hTfO80F9WHaPv/fKfq65MekN60/74JZwg85iK
- 1zqHOhO+5KAbt5z405/DQcLVyl7YsxBbtWijeYodsOQQg07UavtxA0rlwzKsN47VJAWsVxX
- zIZAtYEz6AotljoP+c6x1dVHySONow0E2+TEgRDxc1y7GJpaKyNxNjOqPUDDOPszD8tQI8Y
- ImEKhjiXoYhKg0AEanmWQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KaE1IM9elmc=:d8g0XdTG3fwM4di4yqxMjb
- CemLZ9O8ZSzCxTen46Wm2sY1cSUfEsHnbti5nngLi2ld6pozY6+GHUVTtFdYDFxrqQIRC+RPx
- 2XLLq1+jvzqJoQIT9tOdQiYdUenekjoK9uqiH1fTmY5PGjiRqciG+OcuDfdjOC4faf9kSeCXm
- u2L8YWW2Us/aAL7+JSj1kDmVjSkCLQVUPNePXpA2icDeWN4sxRk/gMG6x6Vvccj+nV/Rf2Fsr
- JSskO951rAgHo8aN1aQBK6LjcJiIlsXy98SRo0pF+p6CO25QQY+1kNXQELA0wS8fZL7VVl+y3
- ND3SFNf9E1AJ0P81uoEUulId0ZBsnRyZADB2wm9kzKyiVwi5D5pVSkOzLK85mA6RcCW6QtlLw
- vMRiuLv3jplfmXu3SsNFOLOH+XpoB0ZEp/ynxcefUhRRG6UjSkKzyYS2cbLzTOwOsnx9LlFzy
- kVkvY7ypEF8fWaZTIc8iCO1l4IR3BA8fXcHlls//U1aP8XHUEMNXWZDnfRk66tsP/P+UAaoMi
- fN0N8lOp7g5wUpaDh5anJNJwSZX0aqhQ/IJkfZ1Sb8AkA4uZ4yjBjuA0jYzEYbNKnkAS/B0xl
- iQDv+ZAq6jFKvfRlVk7RIF28wuPE+4wWn4J76R3VMQW+r1Y616wPVYDSfmrqBnONcNEJ3fvEh
- qWWIHpw+eC91uG+zRAJDb5ix9kniyqqO8ooBE0uWp7t+d3YySVWoGknkW03ekj38wr6OmGBto
- BfhS+PRlqwhTBfud
+X-Provags-ID: V03:K1:WYJZd7eaT/gac9wIUdhWxv7VNep0BQuWCMniPONvEyn6E5b06k1
+ BcqRmRJMpErxILa0O+/wPck6nN2iseMkR9+cOOfQHkXdlCreucAkHAE0o/YZ1y8fzvSIecP
+ GsbXsU1IGmkFhZQeNvUc4zd4iOjfLzT654inMFq6jFJwLcDSb7EZcPs53msDAAI6oL/jEb4
+ oxK/VuC7Rm4zKQrHfCMyg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wki+SwKImo0=:+tp2W33lcD9DnNdlu/4Yoy
+ FUexByEyuuGGFamFPUYv8XU5YwE5T0e5KxqGyvY2ANAogBIPZeMFg1ivilNrTUCwKZ5xKOWFu
+ AkQrvi1RS2NVbEBzwpvnAazb94TNiWW92XEx5WqGoegFR0768XL0aUXLoyqwe4qIgGcxuKj8Z
+ Dk3IDp306vpTgrzZ60vEtJieeNuBtyjU7f1yY5KEA5kT9njMve5thS5csHzpnooI7bT5AEu6L
+ lOh7xFGbbnw2GZArP1nCuv455eeymo9UjzTIYQFWadVYze/Pf7kzOAsS2JtENlyYeOf4d0ggv
+ MlVVsxWIXJQzEFy0OOmv6cYgUdaAQ50LLRF5oYgqH8g1MIqO3FdXal+gnQa/B9w8/RMNW5eaI
+ 9ycsIsRrw2p+yfAaMsPFpjrPKcXIzgwIMZjXXOQaNmfFWSOqIwl+3JRB4XA2lY5U/jGwbZSgV
+ esDbLZn45qEiDHGmYWiIy00Tuhf9MplbekIZlbO/piGkzKUj5gGaJeUfnN0/tzxOqbLTxJcir
+ 4fE7PL2owhLtRgNrJmXIGRaI68q12wOEBb2wj4JPjwOsMJyktB+oCb60enXRAyajNv94t2jM/
+ 28OdUfBWvljQ8QRS2oWbz14NZ9e2hTDsPNl/GPchq1UJKf3b6ZEXdOiop/fEQRNvWa7EHmxn7
+ LkZevqZ7+/C8F9eo/NAUonS27ViEw8ytZYyqVDvJeAo+trn+jOuC/kHOb9vDVl4jH+HfdY9oO
+ TEr+lnOisDpAxNg/
 X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 13.02.22 um 11:35 schrieb Stefan Wahren:
-> Hi Jean-Michel,
->
-> Am 08.02.22 um 16:50 schrieb Jean-Michel Hautbois:
->> +
->>  &firmware {
->>  	firmware_clocks: clocks {
->>  		compatible = "raspberrypi,firmware-clocks";
->> diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
->> index dff18fc9a906..21eb10122e50 100644
->> --- a/arch/arm/boot/dts/bcm2711.dtsi
->> +++ b/arch/arm/boot/dts/bcm2711.dtsi
->> @@ -293,6 +293,28 @@ hvs: hvs@7e400000 {
->>  			interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
->>  		};
->>  
->> +		csi0: csi@7e800000 {
->> +			compatible = "brcm,bcm2835-unicam";
->> +			reg = <0x7e800000 0x800>,
->> +			      <0x7e802000 0x4>;
->> +			reg-names = "unicam", "cmi";
->> +			interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
->> +			status = "disabled";
->> +			port {
->> +			};
->> +		};
->> +
->> +		csi1: csi@7e801000 {
->> +			compatible = "brcm,bcm2835-unicam";
->> +			reg = <0x7e801000 0x800>,
->> +			      <0x7e802004 0x4>;
->> +			reg-names = "unicam", "cmi";
->> +			interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
->> +			status = "disabled";
->> +			port {
->> +			};
->> +		};
->> +
-> i didn't noticed before that everything except of the interrupts are
-> identical to the bcm283x boards [1]. So please define both nodes in
-> bcm283x.dtsi (with bcm283x interrupts) and just override the interrupts
-> for bcm2711 in this dtsi file.
->
-> As a result the clocks and power domains from above can go to
-> bcm2835-rpi.dtsi.
+Hi Maxime,
 
-sorry, i forgot the downstream link:
+as someone with a little more insight to the clocks, i like to know your
+opinion about the bcm2835-unicam binding.
+
+Am 08.02.22 um 16:50 schrieb Jean-Michel Hautbois:
+> Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
+> camera interface.
+>
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> ---
+> v4:
+> - make MAINTAINERS its own patch
+> - describe the reg and clocks correctly
+> - use a vendor entry for the number of data lanes
+> ---
+>  .../bindings/media/brcm,bcm2835-unicam.yaml   | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> new file mode 100644
+> index 000000000000..1938ace23b3d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> @@ -0,0 +1,117 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Broadcom BCM283x Camera Interface (Unicam)
+> +
+> +maintainers:
+> +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> +
+> +description: |-
+> +  The Unicam block on BCM283x SoCs is the receiver for either
+> +  CSI-2 or CCP2 data from image sensors or similar devices.
+> +
+> +  The main platform using this SoC is the Raspberry Pi family of boards.  On
+> +  the Pi the VideoCore firmware can also control this hardware block, and
+> +  driving it from two different processors will cause issues.  To avoid this,
+> +  the firmware checks the device tree configuration during boot. If it finds
+> +  device tree nodes whose name starts with 'csi' then it will stop the firmware
+> +  accessing the block, and it can then safely be used via the device tree
+> +  binding.
+> +
+> +properties:
+> +  compatible:
+> +    const: brcm,bcm2835-unicam
+> +
+> +  reg:
+> +    items:
+> +      - description: Unicam block.
+> +      - description: Clock Manager Image (CMI) block.
+> +
+> +  reg-names:
+> +    items:
+> +      - const: unicam
+> +      - const: cmi
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Clock to drive the LP state machine of Unicam.
+> +      - description: Clock for the VPU (core clock).
+> +
+> +  clock-names:
+> +    items:
+> +      - const: lp
+> +      - const: vpu
+> +
+
+according to this patch [1], the unicam driver only needs the VPU clock
+reference just to enforce a minimum of 250 MHz. The firmware clock
+binding and its driver is specific to the bcm2711, but the Unicam IP
+exists since bcm2835.
+
+So do you think the clock part is correct or should be the VPU clock
+optional?
+
+Best regards
 
 [1] -
-https://github.com/raspberrypi/linux/blob/rpi-5.15.y/arch/arm/boot/dts/bcm270x.dtsi#L88
+https://github.com/raspberrypi/linux/commit/fc5b041b2e952dc84279dda978472a73a4b3891c
 
->
->>  		pixelvalve3: pixelvalve@7ec12000 {
->>  			compatible = "brcm,bcm2711-pixelvalve3";
->>  			reg = <0x7ec12000 0x100>;
+
