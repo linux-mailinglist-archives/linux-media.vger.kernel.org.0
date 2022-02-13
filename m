@@ -2,233 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8114B4B3853
-	for <lists+linux-media@lfdr.de>; Sat, 12 Feb 2022 23:12:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45A8D4B3A8D
+	for <lists+linux-media@lfdr.de>; Sun, 13 Feb 2022 10:20:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230213AbiBLWMV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Feb 2022 17:12:21 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36422 "EHLO
+        id S234768AbiBMJTz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Feb 2022 04:19:55 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbiBLWMU (ORCPT
+        with ESMTP id S231366AbiBMJTv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Feb 2022 17:12:20 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21E4960A80;
-        Sat, 12 Feb 2022 14:12:16 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF3D85D;
-        Sat, 12 Feb 2022 23:12:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644703933;
-        bh=ZhQx3E1jxrq6WfZVc9yff8xoUCu5nnI03g0EHPbkuvw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Rdhf2BwsSmsx+RJgVJedRcvYtg2SyY20mcZM4bG9/dhvxcIDRGXWhEsZnnlmH5ihb
-         AfdF56F0fYII/F6u/OCqMNd58+dgQ88MIGgh+/2bUHCVxy/giuLltu6LTv3gLwcIKS
-         VpHHEz1OFS3InXLjgLQvyztpjWBO+GSLESGSIGnw=
-Date:   Sun, 13 Feb 2022 00:12:08 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: media: i2c: Add MT9M114
- camera sensor binding
-Message-ID: <YggwuBlEmjzhxYt1@pendragon.ideasonboard.com>
-References: <20220207012055.15158-1-laurent.pinchart@ideasonboard.com>
- <20220207012055.15158-2-laurent.pinchart@ideasonboard.com>
- <YgKfdR72TNavj68v@paasikivi.fi.intel.com>
- <YgK6xAgAVHUSsQND@pendragon.ideasonboard.com>
- <YggZqM81nCJcv4vZ@paasikivi.fi.intel.com>
+        Sun, 13 Feb 2022 04:19:51 -0500
+X-Greylist: delayed 1903 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 13 Feb 2022 01:19:44 PST
+Received: from vps-4745431.webdesignalafrancaise.com.br (vps-4745431.webdesignalafrancaise.com.br [162.241.95.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEC9E5C344
+        for <linux-media@vger.kernel.org>; Sun, 13 Feb 2022 01:19:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=escolanatureza.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Message-ID:Reply-To:From:Date:Subject:To:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Sw0L1zWRCdT/bbO8sppcwVYzauM28gHF7kkxMGPQDrw=; b=T9atU5AJ1JM8X2ZSC3XLy6D11H
+        grBLBtKzv2KLF4PGMDNBqCcRp/Q1DKd4efVqeQVdQ2HTcIwxtkIY0dSy5psVE3/C4qhHiYSLpeCKc
+        0zgbY4ywavTuCcs9bhbbAsIxzuyHHNprjMn0TMdEmlPbLcfySrWEaOzzOHatEmU/8JT6/pWUbu3c/
+        nGA8UZXtRfDBCKCH5M2CXUVFucQ0iY/W1HOswI88kEnKql8jXIBokR81p6suzpa+NxxKKMKosxhCt
+        UmA1W0g2Gnj2vDHr4QlCHJ5B9uLMlt1Jufu80hj1gmqaMPTKE92ODMzvrs28dXVxM7G+dHJAYEF1x
+        ncngqa2w==;
+Received: from escolanatureza by vps-4745431.webdesignalafrancaise.com.br with local (Exim 4.94.2)
+        (envelope-from <escolanatureza@vps-4745431.webdesignalafrancaise.com.br>)
+        id 1nJAY2-0005Wh-UG
+        for linux-media@vger.kernel.org; Sun, 13 Feb 2022 05:47:58 -0300
+To:     linux-media@vger.kernel.org
+Subject: Recebemos sua mensagem
+X-PHP-Script: escolanatureza.com/index.php for 81.17.18.62, 162.241.95.98
+X-PHP-Originating-Script: 1009:PHPMailer.php
+Date:   Sun, 13 Feb 2022 08:47:58 +0000
+From:   Escola Natureza <secretaria@escolanatureza.com>
+Reply-To: escolanatureza@gmail.com
+Message-ID: <YuyDQ76LnXAcUyj7ABJzm2jGbEJNNqXbnL3Vi0p4@escolanatureza.com>
+X-Mailer: PHPMailer 6.5.0 (https://github.com/PHPMailer/PHPMailer)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YggZqM81nCJcv4vZ@paasikivi.fi.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - vps-4745431.webdesignalafrancaise.com.br
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [1009 991] / [47 12]
+X-AntiAbuse: Sender Address Domain - vps-4745431.webdesignalafrancaise.com.br
+X-Get-Message-Sender-Via: vps-4745431.webdesignalafrancaise.com.br: authenticated_id: escolanatureza/from_h
+X-Authenticated-Sender: vps-4745431.webdesignalafrancaise.com.br: secretaria@escolanatureza.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Spam-Status: Yes, score=7.3 required=5.0 tests=BAYES_60,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_REPLYTO,
+        HEADER_FROM_DIFFERENT_DOMAINS,PHP_SCRIPT,SHORT_SHORTNER,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
+        *      [score: 0.6248]
+        *  0.0 SPF_NONE SPF: sender does not publish an SPF Record
+        *  0.2 HEADER_FROM_DIFFERENT_DOMAINS From and EnvelopeFrom 2nd level
+        *      mail domains are different
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  1.5 PHP_SCRIPT Sent by PHP script
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.0 SHORT_SHORTNER Short body with little more than a link to a
+        *      shortener
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Olá ❤️ You have unread messages from Carly (2)! Click Here: http://inx.lv/6qKW?gz8 ❤️ como vai?
+Recebemos seu e-mail e responderemos em breve.
 
-On Sat, Feb 12, 2022 at 10:33:44PM +0200, Sakari Ailus wrote:
-> On Tue, Feb 08, 2022 at 08:47:32PM +0200, Laurent Pinchart wrote:
-> > On Tue, Feb 08, 2022 at 06:51:01PM +0200, Sakari Ailus wrote:
-> > > On Mon, Feb 07, 2022 at 03:20:54AM +0200, Laurent Pinchart wrote:
-> > > > Add device tree binding for the onsemi MT9M114 CMOS camera sensor.
-> > > > 
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > ---
-> > > > Changes since v1:
-> > > > 
-> > > > - Use graph schema
-> > > > - Drop unneeded properties
-> > > > - Rename ON Semiconductor to onsemi
-> > > > ---
-> > > >  .../bindings/media/i2c/onnn,mt9m114.yaml      | 110 ++++++++++++++++++
-> > > >  MAINTAINERS                                   |   7 ++
-> > > >  2 files changed, 117 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > > > 
-> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..55b67833f9a1
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > > > @@ -0,0 +1,110 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/media/i2c/onnn,mt9m114.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: onsemi 1/6-inch 720p CMOS Digital Image Sensor
-> > > > +
-> > > > +maintainers:
-> > > > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > +
-> > > > +description: |-
-> > > > +  The onsemi MT9M114 is a 1/6-inch 720p (1.26 Mp) CMOS digital image sensor
-> > > > +  with an active pixel-array size of 1296H x 976V. It is programmable through
-> > > > +  an I2C interface and outputs image data over a 8-bit parallel or 1-lane MIPI
-> > > > +  CSI-2 connection.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    const: onnn,mt9m114
-> > > > +
-> > > > +  reg:
-> > > > +    description: I2C device address
-> > > > +    enum:
-> > > > +      - 0x48
-> > > > +      - 0x5d
-> > > > +
-> > > > +  clocks:
-> > > > +    description: EXTCLK clock signal
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  vdd-supply:
-> > > > +    description:
-> > > > +      Core digital voltage supply, 1.8V
-> > > > +
-> > > > +  vddio-supply:
-> > > > +    description:
-> > > > +      I/O digital voltage supply, 1.8V or 2.8V
-> > > > +
-> > > > +  vaa-supply:
-> > > > +    description:
-> > > > +      Analog voltage supply, 2.8V
-> > > > +
-> > > > +  reset-gpios:
-> > > > +    description: |-
-> > > > +      Reference to the GPIO connected to the RESET_BAR pin, if any (active
-> > > > +      low).
-> > > > +
-> > > > +  port:
-> > > > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > > > +    additionalProperties: false
-> > > > +
-> > > > +    properties:
-> > > > +      endpoint:
-> > > > +        $ref: /schemas/media/video-interfaces.yaml#
-> > > > +        additionalProperties: false
-> > > > +
-> > > > +        properties:
-> > > > +          bus-type:
-> > > > +            enum: [4, 5, 6]
-> > > 
-> > > With bus-type 5, shouldn't you have the parallel interface sync signal
-> > > polarity properties? Possibly also others if the hardware supports them.
-> > 
-> > As far as I can tell, the hardware has fixed polarities for all signals.
-> > Both hsync and vsync (called LINE_VALID and FRAME_VALID here) are active
-> > high.
-> 
-> Right, then you won't need these.
-> 
-> What about the link-frequencies property?
+Att,
+Equipe Escola Natureza.
 
-That's something I've meant to ask, should the link-frequencies property
-be specified for parallel buses too, or only CSI-2 ?
-
-We also need to document how a DT writer should select the link
-frequencies. The process is complicated, saying that the property is
-required without explaining how the values can be computed (EMC
-constraints aside, just from a functional point of view) isn't nice. If
-you explain this to me, I can put it in a patch :-)
-
-> > > > +
-> > > > +          remote-endpoint: true
-> > > > +
-> > > > +          # The number and mapping of lanes (for CSI-2), and the bus width and
-> > > > +          # signal polarities (for parallel and BT.656) are fixed and must not
-> > > > +          # be specified.
-> > > > +
-> > > > +        required:
-> > > > +          - bus-type
-> > > > +
-> > > > +required:
-> > > > +  - compatible
-> > > > +  - reg
-> > > > +  - clocks
-> > > > +  - vdd-supply
-> > > > +  - vddio-supply
-> > > > +  - vaa-supply
-> > > > +  - port
-> > > > +
-> > > > +additionalProperties: false
-> > > > +
-> > > > +examples:
-> > > > +  - |
-> > > > +    #include <dt-bindings/gpio/gpio.h>
-> > > > +
-> > > > +    i2c0 {
-> > > > +        #address-cells = <1>;
-> > > > +        #size-cells = <0>;
-> > > > +
-> > > > +        sensor@48 {
-> > > > +            compatible = "onnn,mt9m114";
-> > > > +            reg = <0x48>;
-> > > > +
-> > > > +            clocks = <&clk24m 0>;
-> > > > +
-> > > > +            reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
-> > > > +
-> > > > +            vddio-supply = <&reg_cam_1v8>;
-> > > > +            vdd-supply = <&reg_cam_1v8>;
-> > > > +            vaa-supply = <&reg_2p8v>;
-> > > > +
-> > > > +            port {
-> > > > +                endpoint {
-> > > > +                    bus-type = <4>;
-> > > > +                    remote-endpoint = <&mipi_csi_in>;
-> > > > +                };
-> > > > +            };
-> > > > +        };
-> > > > +    };
-> > > > +...
-> > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > index f41088418aae..e9919a359c12 100644
-> > > > --- a/MAINTAINERS
-> > > > +++ b/MAINTAINERS
-> > > > @@ -13096,6 +13096,13 @@ T:	git git://linuxtv.org/media_tree.git
-> > > >  F:	drivers/media/i2c/mt9m032.c
-> > > >  F:	include/media/i2c/mt9m032.h
-> > > >  
-> > > > +MT9M114 ONSEMI SENSOR DRIVER
-> > > > +M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > +L:	linux-media@vger.kernel.org
-> > > > +S:	Maintained
-> > > > +T:	git git://linuxtv.org/media_tree.git
-> > > > +F:	Documentation/devicetree/bindings/media/i2c.onnn,mt9m114.yaml
-> > > > +
-> > > >  MT9P031 APTINA CAMERA SENSOR
-> > > >  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > >  L:	linux-media@vger.kernel.org
-
--- 
-Regards,
-
-Laurent Pinchart
