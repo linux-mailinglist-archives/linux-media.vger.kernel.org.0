@@ -2,169 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECFC34B4AB7
-	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 11:39:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F77D4B4BF9
+	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 11:43:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234220AbiBNKSA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Feb 2022 05:18:00 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48252 "EHLO
+        id S1348443AbiBNKfV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Feb 2022 05:35:21 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347953AbiBNKRA (ORCPT
+        with ESMTP id S1348352AbiBNKes (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Feb 2022 05:17:00 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DA188CD97;
-        Mon, 14 Feb 2022 01:54:26 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 79C3A47F;
-        Mon, 14 Feb 2022 10:54:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644832463;
-        bh=aUVnJ4wIPvMcFSf1znk2gPQHK2Wcph2lWqBu4+e+lV4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=J9Y5iGHHtcuiXm1vvqsm7FI1Bmbq+pu61xCQMZDMvj7rRyF3kszrjZ+y6DsCM0TnZ
-         qKBISSaCdg1yUWMGiMjhs6uz203wbs8LFhQs4u+vwuty7NMCwH0YM7jro1IAKdjmQ3
-         acjj1kcM7G9+RL15zhtS2JSj1ZTs1Lem1JJSnkAg=
-Date:   Mon, 14 Feb 2022 11:54:17 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        kernel-list@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, lukasz@jany.st,
-        mchehab@kernel.org, naush@raspberrypi.com, robh@kernel.org,
-        tomi.valkeinen@ideasonboard.com,
-        bcm-kernel-feedback-list@broadcom.com,
-        Florian Fainelli <f.fainelli@gmail.com>
-Subject: Re: [PATCH v5 03/11] dt-bindings: media: Add bindings for
- bcm2835-unicam
-Message-ID: <YgomyazKaV2QnfYQ@pendragon.ideasonboard.com>
-References: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
- <20220208155027.891055-4-jeanmichel.hautbois@ideasonboard.com>
- <f58bf6a9-c63f-19ab-36c8-a9a7b9182859@i2se.com>
- <20220214093954.5y4jbqcddmwhgxr5@houat>
+        Mon, 14 Feb 2022 05:34:48 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 151B01164;
+        Mon, 14 Feb 2022 02:01:44 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AFF79B80DC8;
+        Mon, 14 Feb 2022 10:01:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CF7BC340E9;
+        Mon, 14 Feb 2022 10:01:38 +0000 (UTC)
+Message-ID: <713cee9b-c96c-119a-65be-3c289b361915@xs4all.nl>
+Date:   Mon, 14 Feb 2022 11:01:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220214093954.5y4jbqcddmwhgxr5@houat>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [RFC] media: uapi: Move HEVC stateless controls out of staging
+Content-Language: en-US
+To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jonas@kwiboo.se, nicolas@ndufresne.ca,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com, Alex Bee <knaerzche@gmail.com>,
+        jc@kynesim.co.uk
+References: <20220201123439.353854-1-benjamin.gaignard@collabora.com>
+ <8038233.T7Z3S40VBb@kista>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <8038233.T7Z3S40VBb@kista>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 14, 2022 at 10:39:54AM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> On Sun, Feb 13, 2022 at 04:48:45PM +0100, Stefan Wahren wrote:
-> > as someone with a little more insight to the clocks, i like to know your
-> > opinion about the bcm2835-unicam binding.
-> > 
-> > Am 08.02.22 um 16:50 schrieb Jean-Michel Hautbois:
-> > > Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
-> > > camera interface.
-> > >
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >
-> > > ---
-> > > v4:
-> > > - make MAINTAINERS its own patch
-> > > - describe the reg and clocks correctly
-> > > - use a vendor entry for the number of data lanes
-> > > ---
-> > >  .../bindings/media/brcm,bcm2835-unicam.yaml   | 117 ++++++++++++++++++
-> > >  1 file changed, 117 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> > > new file mode 100644
-> > > index 000000000000..1938ace23b3d
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> > > @@ -0,0 +1,117 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Broadcom BCM283x Camera Interface (Unicam)
-> > > +
-> > > +maintainers:
-> > > +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-> > > +
-> > > +description: |-
-> > > +  The Unicam block on BCM283x SoCs is the receiver for either
-> > > +  CSI-2 or CCP2 data from image sensors or similar devices.
-> > > +
-> > > +  The main platform using this SoC is the Raspberry Pi family of boards.  On
-> > > +  the Pi the VideoCore firmware can also control this hardware block, and
-> > > +  driving it from two different processors will cause issues.  To avoid this,
-> > > +  the firmware checks the device tree configuration during boot. If it finds
-> > > +  device tree nodes whose name starts with 'csi' then it will stop the firmware
-> > > +  accessing the block, and it can then safely be used via the device tree
-> > > +  binding.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: brcm,bcm2835-unicam
-> > > +
-> > > +  reg:
-> > > +    items:
-> > > +      - description: Unicam block.
-> > > +      - description: Clock Manager Image (CMI) block.
-> > > +
-> > > +  reg-names:
-> > > +    items:
-> > > +      - const: unicam
-> > > +      - const: cmi
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    items:
-> > > +      - description: Clock to drive the LP state machine of Unicam.
-> > > +      - description: Clock for the VPU (core clock).
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: lp
-> > > +      - const: vpu
-> > > +
-> > 
-> > according to this patch [1], the unicam driver only needs the VPU clock
-> > reference just to enforce a minimum of 250 MHz. The firmware clock
-> > binding and its driver is specific to the bcm2711, but the Unicam IP
-> > exists since bcm2835.
-> > 
-> > So do you think the clock part is correct or should be the VPU clock
-> > optional?
-> 
-> I think we should keep it mandatory. Indeed, that clock is shared with
-> the HVS that will change its rate on a regular basis, so even just
-> enforcing that 250MHz while it's on without a clock handle will be
-> fairly hard.
-> 
-> Also, those are the constraints we have now, but having the clock handle
-> all the time will allow us to add any constraint we might need in the
-> future.
-> 
-> And BCM2711 or not, the clock has probably always been there.
+Hi all,
 
-Furthermore, regardless of what the driver needs, Unicam operates with
-the VPU clock, so I think it makes sense to reference it in the device
-tree.
+On 2/13/22 12:33, Jernej Škrabec wrote:
+> Hi Benjamin,
+> 
+> CC: Alex, John
+> 
+> Sorry for late response, but I've been very busy last week.
+> 
+> First of all, thank you for doing this! It's about time that HEVC moves 
+> forward.
+> 
+> Dne torek, 01. februar 2022 ob 13:34:39 CET je Benjamin Gaignard napisal(a):
+>> The HEVC stateless 'uAPI' was staging and marked explicitly in the
+>> V4L2 specification that it will change and is unstable.
+>>
+>> Note that these control IDs were never exported as a public API,
+>> they were only defined in kernel-local headers (hevc-ctrls.h).
+>>
+>> While moving the controls out of staging they are renamed and
+>> control IDs get new numbers.
+>> Drivers (Hantro, Cedrus) and Documentation are updated accordaly.
+> 
+> accordaly -> accordingly
+> 
+>>
+>> Additional structures fields has been added for RKVDEC driver usage.
+> 
+> You should do separate patch for that, preceding this one. One patch should 
+> only do one thing.
+> 
+> I also suggest that you add additional patch for removing bit_size field in 
+> struct v4l2_ctrl_hevc_slice_params. Similar fields were already removed from 
+> MPEG2 and H264 structures. Bit size can be deduced from output buffer size and 
+> it doesn't hurt if bit size in Cedrus is set to bigger value than actual slice 
+> bit size.
+> 
+>> Hantro dedicated control is moving to hantro-media.h
+>> Since hevc-ctrls.h content has been dispatched in others file, remove it.
+>>
+>> fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> 
+> Note that Cedrus still needs additional information in order to decode some 
+> HEVC videos. Missing info is num_entry_point_offsets and list of all 
+> entry_point_offset_minus1 (obviously, num_entry_point_offsets in size).
+> 
+> I suggest that this is represented in a new control, which would use dynamic 
+> array feature, written by Hans. While Cedrus supports max. 256 entries, it can 
+> be much bigger in theory, but in reality, it's much smaller (like 4-8 
+> entries).
 
--- 
+I've rebased my dynarray tree, so it is up to date again:
+
+https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=dynarray
+
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+> Last but not least, data_bit_offset should be better defined. Currently it 
+> points right after last header bit, just like Cedrus needs it. However, there 
+> is padding after that, at least 1 bit and 8 bits at most, so slice data always 
+> starts from byte aligned address. It probably make sense to rework that field 
+> to be byte offset, not bit, just like in VA-API. Note that RPi HEVC driver also 
+> uses byte aligned address directly. Cedrus would need some kind of workaround 
+> and only one that works is this one:
+> https://github.com/bootlin/libva-v4l2-request/blob/master/src/h265.c#L191-L209
+> 
+> Best regards,
+> Jernej
+> 
+> 
