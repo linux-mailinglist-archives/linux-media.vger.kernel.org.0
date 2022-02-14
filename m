@@ -2,235 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E2CD4B5AE2
-	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 21:14:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CE554B5B91
+	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 22:01:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229796AbiBNUNd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Feb 2022 15:13:33 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:59554 "EHLO
+        id S230097AbiBNU6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Feb 2022 15:58:21 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229685AbiBNUNd (ORCPT
+        with ESMTP id S229911AbiBNU6K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Feb 2022 15:13:33 -0500
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AC92124C0B;
-        Mon, 14 Feb 2022 12:13:15 -0800 (PST)
-Received: by mail-lj1-f182.google.com with SMTP id w6so3730182ljj.3;
-        Mon, 14 Feb 2022 12:13:15 -0800 (PST)
+        Mon, 14 Feb 2022 15:58:10 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07614170D48
+        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 12:57:43 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id o24so26189707wro.3
+        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 12:57:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wqUSZ1SFW0NVtpHilGjkTlF5P0e9ASySJ2SjHGW0nSw=;
-        b=YIAQ1zoMH5dWivilhSnkKSw0ctqFeyghOXilT5ojvzNBk2EnLfoQon/bgeqsc8Km3W
-         6jHN8k5Qeo7Fx15/trIUSKneHxu3rvCGNVAeQq65RusjDPnbBoETVPHcwtFvTIrA9oTL
-         W/1oHNmeG3qOagVgIrpPbpoOncfvapoLBbkUkYCbaV0AjaEoQ2WM90rJFgzIDkubPIXN
-         CY0rrLYo/vUGTjnHCd4JqzoYCfeLnKJHI13nGfqtGcEMuhWlSsv4iatlUtvk4K0c1cD0
-         BGzncRcWz/ZswZJ/H44Qfmhwy+7Vzhh9X9USEhblozjd6Z3Z9SQFikB/rS/bIqZX4gPU
-         N0qw==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=0OkHBiaZEL4gbI88uAFjC4BevdegDkSw2mEVoE6XUQM=;
+        b=o/c8WGQ7vgEvxtzZSzEGkFFVcPUiHrl0G51Eg5NUiYHpcN3AIktYX1CzP78vLb2HCv
+         LyiqVlMYdkmHuBOpsyo/3V9Cj1FG5i2UtaP2pa4VVE7DPWVR0qrTIeuZJzSShHz31KtV
+         aG2q2Q+V1pIZOhlqrMm86Ieu10aJTAtNG3yAp85NUacZ5B9enUnoF98FgCEJuYwGuOR1
+         t/YcS4wqhUQgpObHz7ewBESmzKaLyvkXbT7E+XnLM/nDVEbqTumoE8kp9c32zg+fZ/Cm
+         kD09NV6hr9tEchdA4EsbPzDQ4YuOHJVTlkhoDxtAqfFcgQJzv29t30e/mp0RRlaVif14
+         p9DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wqUSZ1SFW0NVtpHilGjkTlF5P0e9ASySJ2SjHGW0nSw=;
-        b=hrI/up3TLm8gtieHD9m/w5c8W446xrswfsC56Fq/SOwf5Pu4hbyKiyO5E9162gr6r3
-         fZOfV0ocOA7nqXEAs+EW4m1mtPQsKygdqtIh95UiZASRW8F4jipotXgEEC48O26+wTD2
-         3cSzOI7bhlnD5ePWNAQe0XUGKTwKRTPhku+k54AR1ENOEk6RFrkAyAg+PYWu0vWiw8XA
-         yo6WBQujGAwl2BXwBe3g90U2ELLWU0PEY6yXkG2QI8bdeZWs+cfH07ls7IYdWZGU2ul0
-         5mkxklTERniW4mcwqgw7T4mGQRPD3YqoPOR4WlvmV6wGid5ERzmcWi4vrBxVJXITwG3d
-         3g5Q==
-X-Gm-Message-State: AOAM532HiT9PxONK77XODJm1n3oPlkTjHoZMLXeumXlaE/gxEu7JWmMg
-        Hzg9Rq63LSewEfaEqoTCh35kHCP0xMmzfA==
-X-Google-Smtp-Source: ABdhPJwYjRppPFpB8UmNIkcxwOS9n2u16iELvDzGqpJ83lEytB+M9F4emEDKG8XNnA9Ps3JOsWEvHg==
-X-Received: by 2002:a17:907:c15:: with SMTP id ga21mr263554ejc.80.1644866797427;
-        Mon, 14 Feb 2022 11:26:37 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id 17sm2683352eja.57.2022.02.14.11.26.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 11:26:36 -0800 (PST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com, Alex Bee <knaerzche@gmail.com>,
-        jc@kynesim.co.uk
-Subject: Re: Re: [RFC] media: uapi: Move HEVC stateless controls out of staging
-Date:   Mon, 14 Feb 2022 20:26:34 +0100
-Message-ID: <2302767.NG923GbCHz@kista>
-In-Reply-To: <903ca214-9576-33aa-8412-7c71c9d8ac09@collabora.com>
-References: <20220201123439.353854-1-benjamin.gaignard@collabora.com> <8038233.T7Z3S40VBb@kista> <903ca214-9576-33aa-8412-7c71c9d8ac09@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=0OkHBiaZEL4gbI88uAFjC4BevdegDkSw2mEVoE6XUQM=;
+        b=Ux5hpMocxoZdzV90VSq7kkdawm2qEaITxnHoN06Bil/i1dqG8ihmG2vLENiaSxaTiV
+         ds/qNmrZiciED6q7w1I7+wPacWsBi+dt5yrIR9e491yKcsc1p9dqUvrYplWMIcOGuOsf
+         ahlyjz0bXlti7n/84E2YuKJXJyqctcVgvCmg/QVNKA55PHEquyWLRxEhk2uQnmc51y/W
+         tyE8f/RteffrX0sTVKdZRPzgGQiCz6/h8ptrnQ7W6/ueFHA/jaGrJ2kiUNsgsO1gPdWf
+         ZDVBCW/XtDriFz82yuRm1jSXfGdXnsGBH6M4ZKHO0RbNDsjOoGmD+lriv0e418L/1cNr
+         oLTw==
+X-Gm-Message-State: AOAM533ad/NkKKmkEOmCmghBQA8e3dTwV05WuZd0qe2T2IWVaI/mcH0U
+        j2dFOM7k1app0PePtp2HMhNwcu2UxFjuNiQiAtbvKb6anKQ=
+X-Google-Smtp-Source: ABdhPJx8lRnGEvo2BKjuadxx0kxXF47MC+omvIOvGqqY/xfT6A0YxtvN/5OElk6DOL9teF9tVH9vVeya6dhvDDCanxQ=
+X-Received: by 2002:a05:6512:139e:: with SMTP id p30mr572513lfa.502.1644869981206;
+ Mon, 14 Feb 2022 12:19:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20220211161831.3493782-1-tjmercier@google.com>
+ <20220211161831.3493782-7-tjmercier@google.com> <Ygdfe3XSvN8iFuUc@kroah.com>
+ <CAHRSSEwoJ67Sr_=gtSaP91cbpjJjZdOo57cfAhv3r-ye0da7PA@mail.gmail.com> <CAJuCfpHf=Ewm0e9kguY3MEGVHU_cyviVXByi0oQtq7kTtOOD=A@mail.gmail.com>
+In-Reply-To: <CAJuCfpHf=Ewm0e9kguY3MEGVHU_cyviVXByi0oQtq7kTtOOD=A@mail.gmail.com>
+From:   Todd Kjos <tkjos@google.com>
+Date:   Mon, 14 Feb 2022 12:19:28 -0800
+Message-ID: <CAHRSSEzsn-EVKXTRfmpbPR9u0wNpdvdZoX64Tm_mB1DQMRSUPQ@mail.gmail.com>
+Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
+ ownership of fds
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "T.J. Mercier" <tjmercier@google.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        cgroups mailinglist <cgroups@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne ponedeljek, 14. februar 2022 ob 18:25:01 CET je Benjamin Gaignard=20
-napisal(a):
->=20
-> Le 13/02/2022 =C3=A0 12:33, Jernej =C5=A0krabec a =C3=A9crit :
-> > Hi Benjamin,
+On Mon, Feb 14, 2022 at 11:29 AM Suren Baghdasaryan <surenb@google.com> wro=
+te:
+>
+> On Mon, Feb 14, 2022 at 10:33 AM Todd Kjos <tkjos@google.com> wrote:
 > >
-> > CC: Alex, John
+> > On Fri, Feb 11, 2022 at 11:19 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Fri, Feb 11, 2022 at 04:18:29PM +0000, T.J. Mercier wrote:
 > >
-> > Sorry for late response, but I've been very busy last week.
+> > Title: "android: binder: Add a buffer flag to relinquish ownership of f=
+ds"
 > >
-> > First of all, thank you for doing this! It's about time that HEVC moves
-> > forward.
+> > Please drop the "android:" from the title.
 > >
-> > Dne torek, 01. februar 2022 ob 13:34:39 CET je Benjamin Gaignard=20
-napisal(a):
-> >> The HEVC stateless 'uAPI' was staging and marked explicitly in the
-> >> V4L2 specification that it will change and is unstable.
-> >>
-> >> Note that these control IDs were never exported as a public API,
-> >> they were only defined in kernel-local headers (hevc-ctrls.h).
-> >>
-> >> While moving the controls out of staging they are renamed and
-> >> control IDs get new numbers.
-> >> Drivers (Hantro, Cedrus) and Documentation are updated accordaly.
-> > accordaly -> accordingly
+> > > > This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NE=
+ED
+> > > > that a process sending an fd array to another process over binder I=
+PC
+> > > > can set to relinquish ownership of the fds being sent for memory
+> > > > accounting purposes. If the flag is found to be set during the fd a=
+rray
+> > > > translation and the fd is for a DMA-BUF, the buffer is uncharged fr=
+om
+> > > > the sender's cgroup and charged to the receiving process's cgroup
+> > > > instead.
+> > > >
+> > > > It is up to the sending process to ensure that it closes the fds
+> > > > regardless of whether the transfer failed or succeeded.
+> > > >
+> > > > Most graphics shared memory allocations in Android are done by the
+> > > > graphics allocator HAL process. On requests from clients, the HAL p=
+rocess
+> > > > allocates memory and sends the fds to the clients over binder IPC.
+> > > > The graphics allocator HAL will not retain any references to the
+> > > > buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED fo=
+r fd
+> > > > arrays holding DMA-BUF fds, the gpu cgroup controller will be able =
+to
+> > > > correctly charge the buffers to the client processes instead of the
+> > > > graphics allocator HAL.
+> > > >
+> > > > From: Hridya Valsaraju <hridya@google.com>
+> > > > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > > > Co-developed-by: T.J. Mercier <tjmercier@google.com>
+> > > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > > > ---
+> > > > changes in v2
+> > > > - Move dma-buf cgroup charge transfer from a dma_buf_op defined by =
+every
+> > > > heap to a single dma-buf function for all heaps per Daniel Vetter a=
+nd
+> > > > Christian K=C3=B6nig.
+> > > >
+> > > >  drivers/android/binder.c            | 26 +++++++++++++++++++++++++=
++
+> > > >  include/uapi/linux/android/binder.h |  1 +
+> > > >  2 files changed, 27 insertions(+)
+> > > >
+> > > > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+> > > > index 8351c5638880..f50d88ded188 100644
+> > > > --- a/drivers/android/binder.c
+> > > > +++ b/drivers/android/binder.c
+> > > > @@ -42,6 +42,7 @@
+> > > >
+> > > >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > > >
+> > > > +#include <linux/dma-buf.h>
+> > > >  #include <linux/fdtable.h>
+> > > >  #include <linux/file.h>
+> > > >  #include <linux/freezer.h>
+> > > > @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct =
+list_head *pf_head,
+> > > >  {
+> > > >       binder_size_t fdi, fd_buf_size;
+> > > >       binder_size_t fda_offset;
+> > > > +     bool transfer_gpu_charge =3D false;
+> > > >       const void __user *sender_ufda_base;
+> > > >       struct binder_proc *proc =3D thread->proc;
+> > > > +     struct binder_proc *target_proc =3D t->to_proc;
+> > > >       int ret;
+> > > >
+> > > >       fd_buf_size =3D sizeof(u32) * fda->num_fds;
+> > > > @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct =
+list_head *pf_head,
+> > > >       if (ret)
+> > > >               return ret;
+> > > >
+> > > > +     if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
+> > > > +             parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
+> > > > +             transfer_gpu_charge =3D true;
+> > > > +
+> > > >       for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
+> > > >               u32 fd;
+> > > > +             struct dma_buf *dmabuf;
+> > > > +             struct gpucg *gpucg;
+> > > > +
+> > > >               binder_size_t offset =3D fda_offset + fdi * sizeof(fd=
+);
+> > > >               binder_size_t sender_uoffset =3D fdi * sizeof(fd);
+> > > >
+> > > > @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct =
+list_head *pf_head,
+> > > >                                                 in_reply_to);
+> > > >               if (ret)
+> > > >                       return ret > 0 ? -EINVAL : ret;
+> > > > +
+> > > > +             if (!transfer_gpu_charge)
+> > > > +                     continue;
+> > > > +
+> > > > +             dmabuf =3D dma_buf_get(fd);
+> > > > +             if (IS_ERR(dmabuf))
+> > > > +                     continue;
+> > > > +
+> > > > +             gpucg =3D gpucg_get(target_proc->tsk);
+> > > > +             ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
+> > > > +             if (ret) {
+> > > > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd =
+charge to %d",
+> > > > +                             proc->pid, thread->pid, target_proc->=
+pid);
+> > > > +                     gpucg_put(gpucg);
+> > > > +             }
+> > > > +             dma_buf_put(dmabuf);
 > >
-> >> Additional structures fields has been added for RKVDEC driver usage.
-> > You should do separate patch for that, preceding this one. One patch=20
-should
-> > only do one thing.
->=20
-> I will do that in v2
->=20
-> >
-> > I also suggest that you add additional patch for removing bit_size fiel=
-d in
-> > struct v4l2_ctrl_hevc_slice_params. Similar fields were already removed=
-=20
-from
-> > MPEG2 and H264 structures. Bit size can be deduced from output buffer s=
-ize=20
-and
-> > it doesn't hurt if bit size in Cedrus is set to bigger value than actua=
-l=20
-slice
-> > bit size.
->=20
-> ok
->=20
-> >
-> >> Hantro dedicated control is moving to hantro-media.h
-> >> Since hevc-ctrls.h content has been dispatched in others file, remove =
-it.
-> >>
-> >> fluster tests results on IMX8MQ is 77/147 for HEVC codec.
-> >>
-> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > Note that Cedrus still needs additional information in order to decode=
-=20
-some
-> > HEVC videos. Missing info is num_entry_point_offsets and list of all
-> > entry_point_offset_minus1 (obviously, num_entry_point_offsets in size).
-> >
-> > I suggest that this is represented in a new control, which would use=20
-dynamic
-> > array feature, written by Hans. While Cedrus supports max. 256 entries,=
- it=20
-can
-> > be much bigger in theory, but in reality, it's much smaller (like 4-8
-> > entries).
->=20
-> I haven't seen yet any user for these fields but I will create a new cont=
-rol=20
-like
-> #define V4L2_CID_STATELESS_HEVC_ENTRY_POINT	(V4L2_CID_CODEC_STATELESS_BAS=
-E +=20
-407)
->=20
-> struct v4l2_ctrl_hevc_entry_point_offset {
-> 	__u32	entry_point_offset_minus1;
-> };
+> > Since we are creating a new gpu cgroup abstraction, couldn't this
+> > "transfer" be done in userspace by the target instead of in the kernel
+> > driver? Then this patch would reduce to just a flag on the buffer
+> > object.
+>
+> Are you suggesting to have a userspace accessible cgroup interface for
+> transferring buffer charges and the target process to use that
+> interface for requesting the buffer to be charged to its cgroup?
 
-Yeah, Cedrus is currently the only mainline driver that needs that in order=
- to=20
-fully work. I think John used num_entry_point_offsets in his (out of tree) =
-RPi=20
-HEVC decoding driver too.
+Well, I'm asking why we need to do these cgroup-ish actions in the
+kernel when it seems more natural to do it in userspace.
 
-Wouldn't be easier to just use u32 directly? This is just array of numbers,=
- so=20
-nothing else will be added in that struct...
+> I'm worried about the case when the target process does not request
+> the transfer after receiving the buffer with this flag set. The charge
+> would stay with the wrong process and accounting will be invalid.
 
-Anyway, once you add this, I'll quickly update driver to take advantage of =
-it.
+I suspect this would be implemented in libbinder wherever the fd array
+object is handled, so it wouldn't require changes to every process.
 
->=20
-> and add it in the documentation:
-> ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT (struct)``
->      Specifies the i-th entry point offset in bytes and is represented by
->      offset_len_minus1 plus 1 bits.
->      This control is a dynamically sized array. The number of entry point
->      offsets is reported by the ``elems`` field.
->      This bitstream parameter is defined according to :ref:`hevc`.
->      They are described in section 7.4.7.1 "General slice segment header
->      semantics" of the specification.
->=20
+>
+> Technically, since the proposed cgroup supports charge transfer from
+> the very beginning, the userspace can check if the cgroup is mounted
+> and if so then it knows this feature is supported.
+
+Has some userspace code for this been written? I'd like to be
+convinced that these changes need to be in the binder kernel driver
+instead of in userspace.
+
+>
+> > This also solves the issue that Greg brought up about
+> > userspace needing to know whether the kernel implements this feature
+> > (older kernel running with newer userspace). I think we could just
+> > reserve some flags for userspace to use (and since those flags are
+> > "reserved" for older kernels, this would enable this feature even for
+> > old kernels)
 > >
-> > Last but not least, data_bit_offset should be better defined. Currently=
- it
-> > points right after last header bit, just like Cedrus needs it. However,=
-=20
-there
-> > is padding after that, at least 1 bit and 8 bits at most, so slice data=
-=20
-always
-> > starts from byte aligned address. It probably make sense to rework that=
-=20
-field
-> > to be byte offset, not bit, just like in VA-API. Note that RPi HEVC dri=
-ver=20
-also
-> > uses byte aligned address directly. Cedrus would need some kind of=20
-workaround
-> > and only one that works is this one:
-> > https://github.com/bootlin/libva-v4l2-request/blob/master/src/h265.c#L1=
-91-L209
->=20
-> If Cedrus driver is happy with this definition I will keep it like that.
-> When providing offset in bit is more accurate and any driver can align th=
-e=20
-value
-> if needed, the reverse (byte -> bit) isn't possible.
-
-If I'm not mistaken, HEVC standard actually requires that slice data starts=
- at=20
-byte aligned address, so nothing would be lost for correctness of uAPI.
-
-I already had this discussion with John and IIRC conclusion was to have byt=
-e=20
-aligned value here. John, can you please confirm if my interpretation is=20
-correct?
-
-Best regards,
-Jernej
-
->=20
-> Regards,
-> Benjamin
->=20
-> >
-> > Best regards,
-> > Jernej
-> >
-> >
->=20
-
-
+> > > >       }
+> > > >       return 0;
+> > > >  }
+> > > > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/lin=
+ux/android/binder.h
+> > > > index 3246f2c74696..169fd5069a1a 100644
+> > > > --- a/include/uapi/linux/android/binder.h
+> > > > +++ b/include/uapi/linux/android/binder.h
+> > > > @@ -137,6 +137,7 @@ struct binder_buffer_object {
+> > > >
+> > > >  enum {
+> > > >       BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
+> > > > +     BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
+> > > >  };
+> > > >
+> > > >  /* struct binder_fd_array_object - object describing an array of f=
+ds in a buffer
+> > > > --
+> > > > 2.35.1.265.g69c8d7142f-goog
+> > > >
+> > >
+> > > How does userspace know that binder supports this new flag?  And wher=
+e
+> > > is the userspace test for this new feature?  Isn't there a binder tes=
+t
+> > > framework somewhere?
+> > >
+> > > thanks,
+> > >
+> > > greg k-h
