@@ -2,148 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 141134B4F5A
-	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 12:52:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 758644B50C2
+	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 13:56:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245042AbiBNLvp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Feb 2022 06:51:45 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:54064 "EHLO
+        id S1353665AbiBNMzB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Feb 2022 07:55:01 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241265AbiBNLvn (ORCPT
+        with ESMTP id S1353671AbiBNMy6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Feb 2022 06:51:43 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B746FC36
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 03:51:33 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id r27so17050754oiw.4
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 03:51:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VaY92xWxZmJbIhWoRPGVCLHOjj+hvu6ODwIA7Yqxx7Y=;
-        b=PHLOXqvQMNgCp31RBKLpimVWuRyN4Pxry5i/TzqC4fGXqwa9GJY6bG8OOUPHG6KobD
-         x8n+b4hRyf/T26czxWJ0trPRX2yWrTNl6r/o2F0U37dznPjwAbPr1t0ckn15KcdmZPf+
-         aDkDwYec7Pk7Sn07O8kT7TmNcE0aNGdYtt54/oJKbE0qvs9eB9aGatiUXFc5Yi7pFG4w
-         TJ1ZeX8XhUNKKrFsGKnlH53tyL01czeiJme5J+5uipxRvQ3uR+YCVRd9jVg75YXg+tjq
-         74Pc/ikt4uHv2A5seHhpQ5UFG8AwgOSxhxr47Pt59NXm4VkLX2K7QRvNOk6eRKCJcoWh
-         g/Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VaY92xWxZmJbIhWoRPGVCLHOjj+hvu6ODwIA7Yqxx7Y=;
-        b=sBi3XX9Ao2SBXQXIzqnJucs54PN8cNF9PlOc8CPKYWCj/3njsCFIgNVWjvxK9iHpG1
-         JETsyPqX1YCWXreORmUhlRfq55XgE2SCyIK3ZAmIDhTTEuSesD2YGr4eukD6iyZ1y8DY
-         EYpWT9G/yHeIDhBtbf/HZkuSPQ0BA+CQNS9WC5oP6dpvqFj1XkZmsX1YrFSIqoc/6B7b
-         ftRb936S9Y02P1Hm/YlBq4GZTf9tCO3Mt5RQpOCH8zluegDhyFqZFovvMQxNDuVbQt55
-         +jlTfgbMp7KWhWd+MDqaWiLaHxyc8qiy6/9pJtRGIpBSgrVTul0tveQ/CzPjzOc4wqv9
-         5MOA==
-X-Gm-Message-State: AOAM530iopbfL3SspzR88xXQrfCtGAAvd2CCptGqhOqEHtqPnCpasIwz
-        rckoQctc1yNIueFGXBHKLRwJnbMyUx33wA==
-X-Google-Smtp-Source: ABdhPJxLgSJnL0j6ots5/nxv2RKpbX28ISZysjYrNDVMIkwMOzkZC6ZSW5LOR1lfOHuFAPt1jXdXSg==
-X-Received: by 2002:a05:6808:1529:: with SMTP id u41mr5197587oiw.203.1644839492876;
-        Mon, 14 Feb 2022 03:51:32 -0800 (PST)
-Received: from eze-laptop ([190.122.146.25])
-        by smtp.gmail.com with ESMTPSA id bi41sm12637852oib.39.2022.02.14.03.51.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 03:51:32 -0800 (PST)
-Date:   Mon, 14 Feb 2022 08:51:28 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v1 02/03]: arm64: dts: rk356x.dtsi: Add support for
- Hantro G1 on RK356x
-Message-ID: <YgpCQNlI8tKR02fq@eze-laptop>
-References: <20220213171349.3924782-1-piotr.oniszczuk@gmail.com>
- <20220213171349.3924782-2-piotr.oniszczuk@gmail.com>
+        Mon, 14 Feb 2022 07:54:58 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A04C74C43C;
+        Mon, 14 Feb 2022 04:54:47 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3C9DE61477;
+        Mon, 14 Feb 2022 12:54:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CF1EC340E9;
+        Mon, 14 Feb 2022 12:54:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644843286;
+        bh=r7IKb+9DggDhLCpCMSDE8pe/YCI7ZnVvJgsKsInBzVw=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=mCVGimMag96xNclq+j7E0EsD4ZpiDxyO3y5NoNua3NiNEa+QrmFIGzcgzcKj9x12S
+         775RaIrQN/aHejUFADEdR2SBysAJW5H10XNpr+hGflR3j9ZPjmQ/siQwE2MwMH4qDO
+         6fZMib83HiI5Jxgp+CpWr7w+wf44UoTY8D2/m1LtiJ+mKV5qHPIFEzsteNWAyR1XOS
+         A9YRvyU4GEmUDCRZ9yARV3tHO7D3ZM0oqYFYvK2CM5/xi50IjEp+y8DyRj6Wfvv++K
+         brmPnfjgg1rxHtELt5q+qZBRDgxj/eClFlN+oxpiEoTVrfiqbGvfSt6RYBGgcwEmQj
+         C8C0Yhtodp1Jg==
+From:   Mark Brown <broonie@kernel.org>
+To:     Julia Lawall <Julia.Lawall@inria.fr>, linux-scsi@vger.kernel.org
+Cc:     linux-mtd@lists.infradead.org, MPT-FusionLinux.pdl@broadcom.com,
+        linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        linux-crypto@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        netdev@vger.kernel.org, linux-media@vger.kernel.org,
+        alsa-devel@alsa-project.org
+In-Reply-To: <20220210204223.104181-1-Julia.Lawall@inria.fr>
+References: <20220210204223.104181-1-Julia.Lawall@inria.fr>
+Subject: Re: (subset) [PATCH 0/9] use GFP_KERNEL
+Message-Id: <164484328403.12994.4553763831627919088.b4-ty@kernel.org>
+Date:   Mon, 14 Feb 2022 12:54:44 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220213171349.3924782-2-piotr.oniszczuk@gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Piotr,
-
-Thanks for your patch.
-
-On Sun, Feb 13, 2022 at 06:13:50PM +0100, Piotr Oniszczuk wrote:
->     From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+On Thu, 10 Feb 2022 21:42:14 +0100, Julia Lawall wrote:
+> Platform_driver and pci_driver probe functions aren't called with
+> locks held and thus don't need GFP_ATOMIC. Use GFP_KERNEL instead.
+> 
+> All changes have been compile-tested.
 > 
 
-Please change the commit title to "arm64: dts: rockchip: Add VPU support for RK3568/RK3566".
-Also, note that the commit description got some extra indentation.
+Applied to
 
->     RK356x has Hantro G1 video decoder capable to decode MPEG2/H.264/VP9
->     video formats.
-> 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-s/VP9/VP8
+Thanks!
 
->     This patch enables RK356x video decoder in RK356x device-tree
->     include.
-> 
->     Tested on [1] with FFmpeg v4l2_request code taken from [2]
->     with MPEG2, H.642 and VP8 samples with results [3].
-> 
->     [1] https://github.com/warpme/minimyth2
->     [2] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
->     [3] https://github.com/warpme/minimyth2/blob/master/video-test-summary.txt
-> 
->     Signed-off-by: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-> ---
->  arch/arm64/boot/dts/rockchip/rk356x.dtsi | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> index a68033a23975..ae5d80c5ba64 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
-> @@ -390,6 +390,28 @@ power-domain@RK3568_PD_RKVENC {
->  		};
->  	};
->  
-> +	vpu: video-codec@fdea0400 {
-> +		compatible = "rockchip,rk3568-vpu";
-> +		reg = <0x0 0xfdea0000 0x0 0x800>;
-> +		interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
-> +		interrupt-names = "vdpu";
+[3/9] ASoC: Intel: bytcr_wm5102: use GFP_KERNEL
+      commit: 695c105933cfa04ccf84088342193ae43e37e0f5
 
-Please remove the interrupt-names, given there is only one interrupt line.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> +		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> +		clock-names = "aclk", "hclk";
-> +		iommus = <&vdpu_mmu>;
-> +		power-domains = <&power RK3568_PD_VPU>;
-> +	};
-> +
-> +	vdpu_mmu: iommu@fdea0800 {
-> +		compatible = "rockchip,rk3568-iommu";
-> +		reg = <0x0 0xfdea0800 0x0 0x40>;
-> +		interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-> +		interrupt-names = "vdpu_mmu";
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Same here.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Ezequiel
-
-> +		clock-names = "aclk", "iface";
-> +		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> +		power-domains = <&power RK3568_PD_VPU>;
-> +		#iommu-cells = <0>;
-> +	};
-> +
->  	sdmmc2: mmc@fe000000 {
->  		compatible = "rockchip,rk3568-dw-mshc", "rockchip,rk3288-dw-mshc";
->  		reg = <0x0 0xfe000000 0x0 0x4000>;
-> -- 
-> 2.29.2
-> 
+Mark
