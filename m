@@ -2,51 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DDBA4B5A62
-	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 20:05:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21B034B5A5B
+	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 20:05:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230177AbiBNTEl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Feb 2022 14:04:41 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:51610 "EHLO
+        id S230098AbiBNTEj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Feb 2022 14:04:39 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:51342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229972AbiBNTEV (ORCPT
+        with ESMTP id S229779AbiBNTET (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Feb 2022 14:04:21 -0500
+        Mon, 14 Feb 2022 14:04:19 -0500
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BE528D6B0;
-        Mon, 14 Feb 2022 11:04:02 -0800 (PST)
-Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id D60B6CECFF;
-        Mon, 14 Feb 2022 18:51:33 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 502F38B6F4
+        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 11:04:00 -0800 (PST)
+Received: from relay8-d.mail.gandi.net (unknown [217.70.183.201])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id E9625CEF18
+        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 18:56:23 +0000 (UTC)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id F3FA21C0006;
-        Mon, 14 Feb 2022 18:50:06 +0000 (UTC)
-Date:   Mon, 14 Feb 2022 19:51:15 +0100
+        by mail.gandi.net (Postfix) with ESMTPSA id 091C81BF204;
+        Mon, 14 Feb 2022 18:55:39 +0000 (UTC)
+Date:   Mon, 14 Feb 2022 19:56:47 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/9] media: imx: Use dedicated format handler for
- i.MX7/8
-Message-ID: <20220214185115.y3rdxyvi7dmupeye@uno.localdomain>
-References: <20220211142752.779952-1-alexander.stein@ew.tq-group.com>
- <20220211142752.779952-4-alexander.stein@ew.tq-group.com>
+To:     Eugen.Hristev@microchip.com
+Cc:     slongerbeam@gmail.com, laurent.pinchart@ideasonboard.com,
+        sakari.ailus@iki.fi, hverkuil-cisco@xs4all.nl,
+        mirela.rabulea@nxp.com, xavier.roumegue@oss.nxp.com,
+        tomi.valkeinen@ideasonboard.com, hugues.fruchet@st.com,
+        prabhakar.mahadev-lad.rj@bp.renesas.com, aford173@gmail.com,
+        festevam@gmail.com, jbrunet@baylibre.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 00/23] media: ov5640: Rework the clock tree
+ programming for MIPI
+Message-ID: <20220214185647.tbqv4lbuf3ba4yw7@uno.localdomain>
+References: <20220210110458.152494-1-jacopo@jmondi.org>
+ <a5a75d0b-7f40-39d0-a8ec-4e143c5f3b1c@microchip.com>
+ <20220211112500.7p3fi2xhwutap6ak@uno.localdomain>
+ <23ac37a4-a979-2dbf-32ae-012d4ff45806@microchip.com>
+ <20220214143816.wbtpd2klb6wvzt3c@uno.localdomain>
+ <8c39e96c-1c1f-a279-a67c-1d113153ec13@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220211142752.779952-4-alexander.stein@ew.tq-group.com>
+In-Reply-To: <8c39e96c-1c1f-a279-a67c-1d113153ec13@microchip.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
@@ -56,110 +53,280 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello
+Hi Eugen
 
-On Fri, Feb 11, 2022 at 03:27:46PM +0100, Alexander Stein wrote:
-> From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+On Mon, Feb 14, 2022 at 03:08:56PM +0000, Eugen.Hristev@microchip.com wrote:
+> On 2/14/22 4:38 PM, Jacopo Mondi wrote:
+> > Hi Eugen,
+> >
+> > On Mon, Feb 14, 2022 at 02:06:02PM +0000, Eugen.Hristev@microchip.com wrote:
+> >> On 2/11/22 1:25 PM, Jacopo Mondi wrote:
+> >>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> >>>
+> >>> Hi Eugen
+> >>>
+> >>>           thanks very much for testing
+> >>>
+> >>> On Fri, Feb 11, 2022 at 10:09:04AM +0000, Eugen.Hristev@microchip.com wrote:
+> >>>> On 2/10/22 1:04 PM, Jacopo Mondi wrote:
+> >>>>
+> >>>> Hello Jacopo,
+> >>>>
+> >>>>> v1:
+> >>>>> https://patchwork.linuxtv.org/project/linux-media/list/?series=7249
+> >>>>>
+> >>>>> A branch for testing based on the most recent media-master is available at
+> >>>>> https://git.sr.ht/~jmondi_/linux #jmondi/media-master/ov5640-v2
+> >>>>>
+> >>>>> If anyone with a DVP setup could verify I have not broken their use case
+> >>>>> I would very much appreciate that :)
+> >>>>
+> >>>> I started testing this on my bench.
+> >>>> So far things look good.
+> >>>>
+> >>>
+> >>> \o/
+> >>>
+> >>>> To be able to test this, I have to revert this patch :
+> >>>> "media: i2c: ov5640: Remain in power down for DVP mode unless streaming"
+> >>>>
+> >>>> Otherwise the sensor will not power up when starting streaming.
+> >>>>
+> >>>>
+> >>>> I have tested several formats, as you worked more on this sensor, could
+> >>>> you tell me, does format YUYV_2x8 work in parallel mode at 1920x1080 or
+> >>>> 1024x768 ?
+> >>>
+> >>> I never tested the sensor driver with a parallel setup I'm afraid.
+> >>> The idea behind this series is that DVP shouldn't be affected and
+> >>> continue working like it did.
+> >>
+> >> Hi Jacopo,
+> >>
+> >> I was hoping that you had more information about the driver than myself.
+> >
+> > Not on DVP mode I'm sorry :(
+> >
+> >> I can tell that the parallel mode is not affected by your series from
+> >> what I've seen so far.
+> >
+> > That's great, thanks for testing.
 >
-> This splits out a format handler which takes into account
-> the capabilities of the i.MX7/8 video device,
-> as opposed to the default handler compatible with both i.MX5/6 and i.MX7/8.
 >
-> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
-> Changes in v2:
-> * Switch back to using enum
-> * Get rid of an additional call to v4l2_fill_pixfmt()
+> I found one change, before your series, I could attempt to capture BGGR
+> @ 640x480, now it looks to be gone :
 >
->  drivers/staging/media/imx/imx-media-utils.c | 60 +++++++++++++++++++--
->  1 file changed, 56 insertions(+), 4 deletions(-)
+> Before:
 >
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> index c42f3da8e3a8..02a4cb124d37 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -516,10 +516,9 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framefmt *tryfmt,
->  }
->  EXPORT_SYMBOL_GPL(imx_media_try_colorimetry);
+> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x3001
+> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0)
+>          Size Range: 160x120 - 160x120
+>          Size Range: 176x144 - 176x144
+>          Size Range: 320x240 - 320x240
+>          Size Range: 640x480 - 640x480
+>          Size Range: 720x480 - 720x480
+>          Size Range: 720x576 - 720x576
+>          Size Range: 1024x768 - 1024x768
+>          Size Range: 1280x720 - 1280x720
+>          Size Range: 1920x1080 - 1920x1080
+>          Size Range: 2592x1944 - 2592x1944
 >
-> -int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> -				  const struct v4l2_mbus_framefmt *mbus,
-> -				  const struct imx_media_pixfmt *cc,
-> -				  enum imx_media_device_type type)
-> +static int imx56_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> +					   const struct v4l2_mbus_framefmt *mbus,
-> +					   const struct imx_media_pixfmt *cc)
->  {
->  	u32 width;
->  	u32 stride;
-> @@ -568,6 +567,59 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
 >
->  	return 0;
->  }
-> +
-> +static int imx78_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> +					   const struct v4l2_mbus_framefmt *mbus,
-> +					   const struct imx_media_pixfmt *cc)
-> +{
-> +	u32 aligned_width;
-> +	int ret;
-> +
-> +	if (!cc)
-> +		cc = imx_media_find_mbus_format(mbus->code, PIXFMT_SEL_ANY);
-> +
-> +	if (!cc)
-> +		return -EINVAL;
-> +	/*
-> +	 * The hardware can handle line lengths divisible by 4 pixels
-> +	 * as long as the whole buffer size ends up divisible by 8 bytes.
-> +	 * If not, use the value of 8 pixels recommended in the datasheet.
-> +	 * Only 8bits-per-pixel formats may need to get aligned to 8 pixels,
-> +	 * because both 10-bit and 16-bit pixels occupy 2 bytes.
-> +	 * In those, 4-pixel aligmnent is equal to 8-byte alignment.
-> +	 */
-> +	if (cc->bpp == 1)
+> After:
+>
+> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x3001
+> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0)
+>          Size Range: 1280x720 - 1280x720
+>          Size Range: 1920x1080 - 1920x1080
+>          Size Range: 2592x1944 - 2592x1944
+>
 
-Am I mistaken or in the format enumeration bpp is expressed in bits
-and not bytes ?
+Right... I'm limiting SRGGB formats to only resolutions > 1280x720
+as..
 
-Thanks
-  j
-
-> +		aligned_width = round_up(mbus->width, 8);
-> +	else
-> +		aligned_width = round_up(mbus->width, 4);
-> +
-> +	ret = v4l2_fill_pixfmt(pix, cc->fourcc,
-> +			       aligned_width, mbus->height);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pix->colorspace = mbus->colorspace;
-> +	pix->xfer_func = mbus->xfer_func;
-> +	pix->ycbcr_enc = mbus->ycbcr_enc;
-> +	pix->quantization = mbus->quantization;
-> +	pix->field = mbus->field;
-> +
-> +	return ret;
-> +}
-> +
-> +int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> +				  const struct v4l2_mbus_framefmt *mbus,
-> +				  const struct imx_media_pixfmt *cc,
-> +				  enum imx_media_device_type type)
-> +{
-> +	switch (type) {
-> +	case DEVICE_TYPE_IMX56:
-> +		return imx56_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-> +	case DEVICE_TYPE_IMX78:
-> +		return imx78_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-> +	}
-> +	return -EINVAL;
-> +}
->  EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
 >
->  void imx_media_free_dma_buf(struct device *dev,
-> --
-> 2.25.1
+> However trying it without your patches, it doesn't work , I don't
+
+... they do not work for me either.
+
+So if they were not working before, maybe it's right not to enumerate
+them ?
+
+> receive frames, and I can't even set 1280x720 at all, I get -EINVAL
+
+Be aware that DVP mode prevents you from setting a format if the
+currently selected framerate is said to be "not supported" for that
+format
+
+>
+> So I assume you have been reworking the frame sizes.
+>
+> With your series, I have tested RGGB at 1280x720 , 1920x1080 .
+> I also tested YUYV at 640x480 and RGB565_LE at 640x480.
+>
+> I can't go higher with the YUYV/RGB565, I don't receive frames anymore.
+
+Ah, I wonder if
+07b49ac59fd9 media: ov5640: Fix durations to comply with FPS
+82aebf4b7314 media: ov5640: Rework analog crop rectangles
+
+Might have impacted DVP...
+
+Should I keep separate fields for MIPI mode and leave the totals for
+DVP untouched ?
+
+Thanks again for your very useful testing
+
+
+> I can't go higher with the bayer to 2592x1944 . But this did not work
+> before your patches either.
+> >
+> >>
+> >>>
+> >>>> I managed to get it working fine at 640x480 .
+> >>>>
+> >>>> The sensor looks to report valid framesizes for this mbus code :
+> >>>>
+> >>>> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-mbus-codes
+> >>>> \ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
+> >>>>            0x4001: MEDIA_BUS_FMT_JPEG_1X8
+> >>>>            0x2006: MEDIA_BUS_FMT_UYVY8_2X8
+> >>>>            0x200f: MEDIA_BUS_FMT_UYVY8_1X16
+> >>>>            0x2008: MEDIA_BUS_FMT_YUYV8_2X8
+> >>>>            0x2011: MEDIA_BUS_FMT_YUYV8_1X16
+> >>>>            0x1008: MEDIA_BUS_FMT_RGB565_2X8_LE
+> >>>>            0x1007: MEDIA_BUS_FMT_RGB565_2X8_BE
+> >>>>            0x1017: MEDIA_BUS_FMT_RGB565_1X16
+> >>>>            0x100a: MEDIA_BUS_FMT_RGB888_1X24
+> >>>>            0x1013: MEDIA_BUS_FMT_BGR888_1X24
+> >>>>            0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
+> >>>>            0x3013: MEDIA_BUS_FMT_SGBRG8_1X8
+> >>>>            0x3002: MEDIA_BUS_FMT_SGRBG8_1X8
+> >>>>            0x3014: MEDIA_BUS_FMT_SRGGB8_1X8
+> >>>> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x2008
+> >>>> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0)
+> >>>>            Size Range: 160x120 - 160x120
+> >>>>            Size Range: 176x144 - 176x144
+> >>>>            Size Range: 320x240 - 320x240
+> >>>>            Size Range: 640x480 - 640x480
+> >>>>            Size Range: 720x480 - 720x480
+> >>>>            Size Range: 720x576 - 720x576
+> >>>>            Size Range: 1024x768 - 1024x768
+> >>>>            Size Range: 1280x720 - 1280x720
+> >>>>            Size Range: 1920x1080 - 1920x1080
+> >>>>            Size Range: 2592x1944 - 2592x1944
+> >>>> #
+> >>>>
+> >>>> but the ISC does not receive any frames at 1024x768 and 1920x1080.
+> >>>
+> >>> Are 1080p and 1024x768 working without this series applied on your
+> >>> setup ?
+> >>
+> >> I remember they weren't working before either.
+> >>
+> >> I don't know exactly to which patches to add my Tested-by , as I have
+> >> not tested the explicit patch behavior for each patch (e.g. where you
+> >> add HBLANK control, I have not tested that ).
+> >>
+> >
+> > I think it's good enough making sure I have not broke DVP.
+> >
+> > As you can see the driver now behaves in two different ways in DVP and
+> > MIPI mode. The DVP works as it used to, and the framerate is
+> > controlled by s_frame_interval, the frame size is fixed and the PCLK
+> > is computed dyanically to accomodate the required FPS. In MIPI mode the
+> > framerate is controlled by changing the vertical blankings. To each
+> > mode a pixel rate is assigned and userspace changes the frame duration
+> > by changing blankings. The most obvious gain is that the frame rate is
+> > controllable in a continuous interval instead of being limited to a
+> > few fixed values. It is my understanding that all drivers should be
+> > moved to this model and s_frame_intervall should be dropped, but
+> > unfortunately some bridge drivers in mainline still deman that.
+> >
+> > If you are interested, I think the DVP mode should be moved to use the
+> > same mecahnism as MIPI mode. I can't test so I haven't done so in this
+> > series.
+> >
+> > For now I think it's enough to make sure there are no regressions in
+> > DVP mode.
+> >
+> > For the tag, I think it would be appropriate to add it to the
+> > following one:
+> >
+> > 91ae667b0d47 media: ov5640: Limit frame_interval to DVP mode only
+> >
+> >> Is there something particular you would like me to try , except my usual
+> >> image captures ?
+> >
+> > RGB888 is weird on both the platforms I've tested on and I cannot get
+> > colors right. Does your platform support RGB888 ?
+>
+> I can't test this one unfortunately. It's a 1X24 . I have only 8 bits
+> connected, so unless you can make this a 3x8 , there isn't anything I
+> can do.
+>
+> >
+> > Thanks
+> >    j
+> >
+> >
+> >>
+> >>
+> >> Eugen
+> >>
+> >>>
+> >>> Thanks again for testin!
+> >>>
+> >>>>
+> >>>>
+> >>>> What I can say is that the raw bayer format works at 1920x1080 , frames
+> >>>> are received correctly.
+> >>>>
+> >>>> Thanks,
+> >>>> Eugen
+> >>>>
+> >>>>>
+> >>>>> v1 -> v2:
+> >>>>> - rework the modes definition to process the full pixel array
+> >>>>> - rework get_selection to report the correct BOUND and DEFAULT targets
+> >>>>> - implement init_cfg
+> >>>>> - minor style changes as suggested by Laurent
+> >>>>> - test with 1 data lane
+> >>>>>
+> >>>>> Thanks
+> >>>>>       j
+> >>>>>
+> >>>>> Jacopo Mondi (23):
+> >>>>>      media: ov5640: Add pixel rate to modes
+> >>>>>      media: ov5604: Re-arrange modes definition
+> >>>>>      media: ov5640: Add ov5640_is_csi2() function
+> >>>>>      media: ov5640: Associate bpp with formats
+> >>>>>      media: ov5640: Add LINK_FREQ control
+> >>>>>      media: ov5640: Update pixel_rate and link_freq
+> >>>>>      media: ov5640: Rework CSI-2 clock tree
+> >>>>>      media: ov5640: Rework timings programming
+> >>>>>      media: ov5640: Fix 720x480 in RGB888 mode
+> >>>>>      media: ov5640: Rework analog crop rectangles
+> >>>>>      media: ov5640: Re-sort per-mode register tables
+> >>>>>      media: ov5640: Remove ov5640_mode_init_data
+> >>>>>      media: ov5640: Add HBLANK control
+> >>>>>      media: ov5640: Add VBLANK control
+> >>>>>      media: ov5640: Fix durations to comply with FPS
+> >>>>>      media: ov5640: Implement init_cfg
+> >>>>>      media: ov5640: Implement get_selection
+> >>>>>      media: ov5640: Limit frame_interval to DVP mode only
+> >>>>>      media: ov5640: Register device properties
+> >>>>>      media: ov5640: Add RGB565_1X16 format
+> >>>>>      media: ov5640: Add RGB888/BGR888 formats
+> >>>>>      media: ov5640: Restrict sizes to mbus code
+> >>>>>      media: ov5640: Adjust format to bpp in s_fmt
+> >>>>>
+> >>>>>     drivers/media/i2c/ov5640.c | 1143 ++++++++++++++++++++++++++----------
+> >>>>>     1 file changed, 830 insertions(+), 313 deletions(-)
+> >>>>>
+> >>>>> --
+> >>>>> 2.35.0
+> >>>>>
+> >>>>
+> >>
 >
