@@ -2,291 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CE554B5B91
-	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 22:01:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F2ED4B5C75
+	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 22:20:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbiBNU6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Feb 2022 15:58:21 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50262 "EHLO
+        id S230420AbiBNVSc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Feb 2022 16:18:32 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229911AbiBNU6K (ORCPT
+        with ESMTP id S230442AbiBNVS3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Feb 2022 15:58:10 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07614170D48
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 12:57:43 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id o24so26189707wro.3
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 12:57:42 -0800 (PST)
+        Mon, 14 Feb 2022 16:18:29 -0500
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD53211628B;
+        Mon, 14 Feb 2022 13:18:19 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id p14so15806734ejf.11;
+        Mon, 14 Feb 2022 13:18:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=0OkHBiaZEL4gbI88uAFjC4BevdegDkSw2mEVoE6XUQM=;
-        b=o/c8WGQ7vgEvxtzZSzEGkFFVcPUiHrl0G51Eg5NUiYHpcN3AIktYX1CzP78vLb2HCv
-         LyiqVlMYdkmHuBOpsyo/3V9Cj1FG5i2UtaP2pa4VVE7DPWVR0qrTIeuZJzSShHz31KtV
-         aG2q2Q+V1pIZOhlqrMm86Ieu10aJTAtNG3yAp85NUacZ5B9enUnoF98FgCEJuYwGuOR1
-         t/YcS4wqhUQgpObHz7ewBESmzKaLyvkXbT7E+XnLM/nDVEbqTumoE8kp9c32zg+fZ/Cm
-         kD09NV6hr9tEchdA4EsbPzDQ4YuOHJVTlkhoDxtAqfFcgQJzv29t30e/mp0RRlaVif14
-         p9DQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=99BahZfDqfQoln2rf6Bj3xU3QXecprDtHuHMCBkgrcQ=;
+        b=qhf19N3SLoLekl8nSgEbpHiFYk6ResBtkXfsJl63wafe0VQ0y5uwdcbx4dh7Api/cr
+         pq4kpVN3rz8ufkFRa9PQhw12DgU06aBBMlGjIZ82TXZkn5kbidmhueb3xMvAz8cyvLFK
+         23OCsQ5snWWXIQrfygum5Ml7tz1ev7oa/U9muYVV8pA1ru4b2uJnVoNiHqJAUlw6HTVD
+         4YwuEf7WP8XA/Rm/UEIkIOK+MRnmJTKW4dRGuT49tZEp3Adgnjs0GNTOr22NQe/Yb5r4
+         ZRdbMxoYgxE3NBz9Kcl1JoZpZ2VWWqZLEqmaXpiuwLy5eS4Rlf+vH+mqr6eGRoqwxN34
+         hTIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=0OkHBiaZEL4gbI88uAFjC4BevdegDkSw2mEVoE6XUQM=;
-        b=Ux5hpMocxoZdzV90VSq7kkdawm2qEaITxnHoN06Bil/i1dqG8ihmG2vLENiaSxaTiV
-         ds/qNmrZiciED6q7w1I7+wPacWsBi+dt5yrIR9e491yKcsc1p9dqUvrYplWMIcOGuOsf
-         ahlyjz0bXlti7n/84E2YuKJXJyqctcVgvCmg/QVNKA55PHEquyWLRxEhk2uQnmc51y/W
-         tyE8f/RteffrX0sTVKdZRPzgGQiCz6/h8ptrnQ7W6/ueFHA/jaGrJ2kiUNsgsO1gPdWf
-         ZDVBCW/XtDriFz82yuRm1jSXfGdXnsGBH6M4ZKHO0RbNDsjOoGmD+lriv0e418L/1cNr
-         oLTw==
-X-Gm-Message-State: AOAM533ad/NkKKmkEOmCmghBQA8e3dTwV05WuZd0qe2T2IWVaI/mcH0U
-        j2dFOM7k1app0PePtp2HMhNwcu2UxFjuNiQiAtbvKb6anKQ=
-X-Google-Smtp-Source: ABdhPJx8lRnGEvo2BKjuadxx0kxXF47MC+omvIOvGqqY/xfT6A0YxtvN/5OElk6DOL9teF9tVH9vVeya6dhvDDCanxQ=
-X-Received: by 2002:a05:6512:139e:: with SMTP id p30mr572513lfa.502.1644869981206;
- Mon, 14 Feb 2022 12:19:41 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=99BahZfDqfQoln2rf6Bj3xU3QXecprDtHuHMCBkgrcQ=;
+        b=8MvPCrp9Qh5VxH2eo86CV29dxKzn8thbL0ONZVBFka85iaKFnH1b0dMWsgzz8zE0mR
+         3k9A4OeUByrY9Y1Wni31rKSwFze+yTqTiR4Erd9Tms0t+aKDE527JJ5NfE4tCGKWZ8Le
+         AUeUxqyr1hntfjfkxJC3zkTqwgPhEmQfNOM8hvmK3cv7EmqASyRdo6uWc7GRvBM1jahg
+         UVDkpTtN0gnqR+GEpCP+cTpEW+akEFA8qb5QWdfqovmSubzEmknQqY1UPgCSX4DqE+QO
+         jENLitKRUII5Rimq2jZ7vgeHYHrSTWqDJyZDd+L7fGKl+J8SuFufKK6ns6B+MLaM3Ui3
+         P+GQ==
+X-Gm-Message-State: AOAM5322brr9yqyWrOx1rmIPNZS5W+a3qnOxarsVgsGYVHpXDNeAIBKw
+        +koQZSToxcZVQ2eHjHiKL3v5Q6LMfyjS/g==
+X-Google-Smtp-Source: ABdhPJwiFYCfncVtqTqjdVCBhQycol1aX209bItLXOycZar8UGc4dq3/BcvtHafFwyhS52svnZjIdA==
+X-Received: by 2002:a17:907:16aa:: with SMTP id hc42mr167762ejc.307.1644865723011;
+        Mon, 14 Feb 2022 11:08:43 -0800 (PST)
+Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id m17sm2316338ejn.118.2022.02.14.11.08.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Feb 2022 11:08:42 -0800 (PST)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
+Cc:     mchehab@kernel.org, wens@csie.org, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] media: cedrus: h264: Fix neighbour info buffer size
+Date:   Mon, 14 Feb 2022 20:08:39 +0100
+Message-Id: <20220214190839.707889-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220211161831.3493782-1-tjmercier@google.com>
- <20220211161831.3493782-7-tjmercier@google.com> <Ygdfe3XSvN8iFuUc@kroah.com>
- <CAHRSSEwoJ67Sr_=gtSaP91cbpjJjZdOo57cfAhv3r-ye0da7PA@mail.gmail.com> <CAJuCfpHf=Ewm0e9kguY3MEGVHU_cyviVXByi0oQtq7kTtOOD=A@mail.gmail.com>
-In-Reply-To: <CAJuCfpHf=Ewm0e9kguY3MEGVHU_cyviVXByi0oQtq7kTtOOD=A@mail.gmail.com>
-From:   Todd Kjos <tkjos@google.com>
-Date:   Mon, 14 Feb 2022 12:19:28 -0800
-Message-ID: <CAHRSSEzsn-EVKXTRfmpbPR9u0wNpdvdZoX64Tm_mB1DQMRSUPQ@mail.gmail.com>
-Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
- ownership of fds
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        cgroups mailinglist <cgroups@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 14, 2022 at 11:29 AM Suren Baghdasaryan <surenb@google.com> wro=
-te:
->
-> On Mon, Feb 14, 2022 at 10:33 AM Todd Kjos <tkjos@google.com> wrote:
-> >
-> > On Fri, Feb 11, 2022 at 11:19 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Fri, Feb 11, 2022 at 04:18:29PM +0000, T.J. Mercier wrote:
-> >
-> > Title: "android: binder: Add a buffer flag to relinquish ownership of f=
-ds"
-> >
-> > Please drop the "android:" from the title.
-> >
-> > > > This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NE=
-ED
-> > > > that a process sending an fd array to another process over binder I=
-PC
-> > > > can set to relinquish ownership of the fds being sent for memory
-> > > > accounting purposes. If the flag is found to be set during the fd a=
-rray
-> > > > translation and the fd is for a DMA-BUF, the buffer is uncharged fr=
-om
-> > > > the sender's cgroup and charged to the receiving process's cgroup
-> > > > instead.
-> > > >
-> > > > It is up to the sending process to ensure that it closes the fds
-> > > > regardless of whether the transfer failed or succeeded.
-> > > >
-> > > > Most graphics shared memory allocations in Android are done by the
-> > > > graphics allocator HAL process. On requests from clients, the HAL p=
-rocess
-> > > > allocates memory and sends the fds to the clients over binder IPC.
-> > > > The graphics allocator HAL will not retain any references to the
-> > > > buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED fo=
-r fd
-> > > > arrays holding DMA-BUF fds, the gpu cgroup controller will be able =
-to
-> > > > correctly charge the buffers to the client processes instead of the
-> > > > graphics allocator HAL.
-> > > >
-> > > > From: Hridya Valsaraju <hridya@google.com>
-> > > > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > > > Co-developed-by: T.J. Mercier <tjmercier@google.com>
-> > > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > > > ---
-> > > > changes in v2
-> > > > - Move dma-buf cgroup charge transfer from a dma_buf_op defined by =
-every
-> > > > heap to a single dma-buf function for all heaps per Daniel Vetter a=
-nd
-> > > > Christian K=C3=B6nig.
-> > > >
-> > > >  drivers/android/binder.c            | 26 +++++++++++++++++++++++++=
-+
-> > > >  include/uapi/linux/android/binder.h |  1 +
-> > > >  2 files changed, 27 insertions(+)
-> > > >
-> > > > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-> > > > index 8351c5638880..f50d88ded188 100644
-> > > > --- a/drivers/android/binder.c
-> > > > +++ b/drivers/android/binder.c
-> > > > @@ -42,6 +42,7 @@
-> > > >
-> > > >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> > > >
-> > > > +#include <linux/dma-buf.h>
-> > > >  #include <linux/fdtable.h>
-> > > >  #include <linux/file.h>
-> > > >  #include <linux/freezer.h>
-> > > > @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct =
-list_head *pf_head,
-> > > >  {
-> > > >       binder_size_t fdi, fd_buf_size;
-> > > >       binder_size_t fda_offset;
-> > > > +     bool transfer_gpu_charge =3D false;
-> > > >       const void __user *sender_ufda_base;
-> > > >       struct binder_proc *proc =3D thread->proc;
-> > > > +     struct binder_proc *target_proc =3D t->to_proc;
-> > > >       int ret;
-> > > >
-> > > >       fd_buf_size =3D sizeof(u32) * fda->num_fds;
-> > > > @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct =
-list_head *pf_head,
-> > > >       if (ret)
-> > > >               return ret;
-> > > >
-> > > > +     if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
-> > > > +             parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
-> > > > +             transfer_gpu_charge =3D true;
-> > > > +
-> > > >       for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
-> > > >               u32 fd;
-> > > > +             struct dma_buf *dmabuf;
-> > > > +             struct gpucg *gpucg;
-> > > > +
-> > > >               binder_size_t offset =3D fda_offset + fdi * sizeof(fd=
-);
-> > > >               binder_size_t sender_uoffset =3D fdi * sizeof(fd);
-> > > >
-> > > > @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct =
-list_head *pf_head,
-> > > >                                                 in_reply_to);
-> > > >               if (ret)
-> > > >                       return ret > 0 ? -EINVAL : ret;
-> > > > +
-> > > > +             if (!transfer_gpu_charge)
-> > > > +                     continue;
-> > > > +
-> > > > +             dmabuf =3D dma_buf_get(fd);
-> > > > +             if (IS_ERR(dmabuf))
-> > > > +                     continue;
-> > > > +
-> > > > +             gpucg =3D gpucg_get(target_proc->tsk);
-> > > > +             ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
-> > > > +             if (ret) {
-> > > > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd =
-charge to %d",
-> > > > +                             proc->pid, thread->pid, target_proc->=
-pid);
-> > > > +                     gpucg_put(gpucg);
-> > > > +             }
-> > > > +             dma_buf_put(dmabuf);
-> >
-> > Since we are creating a new gpu cgroup abstraction, couldn't this
-> > "transfer" be done in userspace by the target instead of in the kernel
-> > driver? Then this patch would reduce to just a flag on the buffer
-> > object.
->
-> Are you suggesting to have a userspace accessible cgroup interface for
-> transferring buffer charges and the target process to use that
-> interface for requesting the buffer to be charged to its cgroup?
+According to BSP library source, H264 neighbour info buffer size needs
+to be 32 kiB for H6. This is similar to H265 decoding, which also needs
+double buffer size in comparison to older Cedrus core generations.
 
-Well, I'm asking why we need to do these cgroup-ish actions in the
-kernel when it seems more natural to do it in userspace.
+Increase buffer size to cover H6 needs. Since increase is not that big
+in absolute numbers, it doesn't make sense to complicate logic for older
+generations.
 
-> I'm worried about the case when the target process does not request
-> the transfer after receiving the buffer with this flag set. The charge
-> would stay with the wrong process and accounting will be invalid.
+Issue was discovered using iommu and cross checked with BSP library
+source.
 
-I suspect this would be implemented in libbinder wherever the fd array
-object is handled, so it wouldn't require changes to every process.
+Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> Technically, since the proposed cgroup supports charge transfer from
-> the very beginning, the userspace can check if the cgroup is mounted
-> and if so then it knows this feature is supported.
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+index b4173a8926d6..d8fb93035470 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+@@ -38,7 +38,7 @@ struct cedrus_h264_sram_ref_pic {
+ 
+ #define CEDRUS_H264_FRAME_NUM		18
+ 
+-#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(16 * SZ_1K)
++#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(32 * SZ_1K)
+ #define CEDRUS_MIN_PIC_INFO_BUF_SIZE       (130 * SZ_1K)
+ 
+ static void cedrus_h264_write_sram(struct cedrus_dev *dev,
+-- 
+2.35.1
 
-Has some userspace code for this been written? I'd like to be
-convinced that these changes need to be in the binder kernel driver
-instead of in userspace.
-
->
-> > This also solves the issue that Greg brought up about
-> > userspace needing to know whether the kernel implements this feature
-> > (older kernel running with newer userspace). I think we could just
-> > reserve some flags for userspace to use (and since those flags are
-> > "reserved" for older kernels, this would enable this feature even for
-> > old kernels)
-> >
-> > > >       }
-> > > >       return 0;
-> > > >  }
-> > > > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/lin=
-ux/android/binder.h
-> > > > index 3246f2c74696..169fd5069a1a 100644
-> > > > --- a/include/uapi/linux/android/binder.h
-> > > > +++ b/include/uapi/linux/android/binder.h
-> > > > @@ -137,6 +137,7 @@ struct binder_buffer_object {
-> > > >
-> > > >  enum {
-> > > >       BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
-> > > > +     BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
-> > > >  };
-> > > >
-> > > >  /* struct binder_fd_array_object - object describing an array of f=
-ds in a buffer
-> > > > --
-> > > > 2.35.1.265.g69c8d7142f-goog
-> > > >
-> > >
-> > > How does userspace know that binder supports this new flag?  And wher=
-e
-> > > is the userspace test for this new feature?  Isn't there a binder tes=
-t
-> > > framework somewhere?
-> > >
-> > > thanks,
-> > >
-> > > greg k-h
