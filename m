@@ -2,243 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DCDD4B59F7
-	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 19:33:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F4FA4B5A23
+	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 19:43:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357488AbiBNSdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Feb 2022 13:33:50 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40560 "EHLO
+        id S236590AbiBNSmq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Feb 2022 13:42:46 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:55238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357483AbiBNSdt (ORCPT
+        with ESMTP id S234397AbiBNSmp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Feb 2022 13:33:49 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50FE265430
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 10:33:40 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id g39so9179395lfv.10
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 10:33:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=+UXFaXNtu58P+/quLcAfHAU/S4vyiJKyaqPdTSKWST8=;
-        b=sFWvgW3k1pSL7Awgb8qEobnrOdmxWAQzBkRi13UyvlHolBMEQeW1vZwFUQObSIyQ5+
-         WwxOX5EZ2YssQReVrEIaLaKMtZDW45gNyPiqD+FzwuWMiiJQKLoUgq5bk9eGeCgq7fWV
-         Nex4LYQZ0zfuPsfJ5Do35sWOxMSXkP2F/ldXGgcURzQ7QzCfQkf3gBgtLjSTlL56o0f7
-         6/dWI8Ilo2YFMJgNivikdUb843ij4RWNUXAhKRBoVTLsZ49MA+kNqzBUYGk0l3fUxFtG
-         i6XHAhuqsKFUywKLl0k0he5kFM40nP/it0yBh1AIb2ocynTZ86LQIzxv4JaSp1egrbGJ
-         ak1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+UXFaXNtu58P+/quLcAfHAU/S4vyiJKyaqPdTSKWST8=;
-        b=Z0evIt0yI1Qux0SY6j+o7t3Qhyd5QkPFHtuIvuzH6JukGjEFNMoNmEgwOcJgFyw1JZ
-         b8+Vcv0QozBdsOaaMezBpIrpX7VKVGSNoa3S2nI/QhHhxtv4vcI6J0jofUGY1fJBfGzZ
-         kVlpoiFombIBto5Tg67cwzlG+tqUJbG4bJXa5H7ufxwihEr+SKamDL8EmCvnILNT6opL
-         PZ7pHuL3GviQJidW1GsLb8EfidTYvfSBNQLMxf7PfiYb5LS28JWMvTUkIeafaRTlhw3a
-         uDT2QFsCL84OmzhT6va/PxsrySlnrsi+At+tqvVB7eU9FtEXiwSE1ymLzcEmj76HQSaT
-         e5Tw==
-X-Gm-Message-State: AOAM531TwK5jqzmuf5YGCdLeIGy90L7luMv8r2DVlOsJBrZb+YPCk0SA
-        KR4pTBQbe5zOJ6DkmHpELg7I2x+WRSjucR4ApzUJQg==
-X-Google-Smtp-Source: ABdhPJwwl8BcmiJDJptm3GNGEag/XtunVIJ3dClslrEmIM5Q/7qRR7YjLKxYa2rJ+R/XHsCI0mf1xl6e/KkNmj5TfVU=
-X-Received: by 2002:a05:6512:1154:: with SMTP id m20mr249590lfg.682.1644863618292;
- Mon, 14 Feb 2022 10:33:38 -0800 (PST)
+        Mon, 14 Feb 2022 13:42:45 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1E3D6A038
+        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 10:42:29 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id AB65D1C0003;
+        Mon, 14 Feb 2022 18:42:15 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        martin.kepplinger@puri.sm, rmfrfs@gmail.com,
+        xavier.roumegue@oss.nxp.com, alexander.stein@ew.tq-group.com,
+        dorota.czaplejewicz@puri.sm
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: [PATCH 0/8] media: imx: Destage imx7-mipi-csis with fixes on top
+Date:   Mon, 14 Feb 2022 19:43:10 +0100
+Message-Id: <20220214184318.409208-1-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.35.0
 MIME-Version: 1.0
-References: <20220211161831.3493782-1-tjmercier@google.com>
- <20220211161831.3493782-7-tjmercier@google.com> <Ygdfe3XSvN8iFuUc@kroah.com>
-In-Reply-To: <Ygdfe3XSvN8iFuUc@kroah.com>
-From:   Todd Kjos <tkjos@google.com>
-Date:   Mon, 14 Feb 2022 10:33:25 -0800
-Message-ID: <CAHRSSEwoJ67Sr_=gtSaP91cbpjJjZdOo57cfAhv3r-ye0da7PA@mail.gmail.com>
-Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
- ownership of fds
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     "T.J. Mercier" <tjmercier@google.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>, kaleshsingh@google.com,
-        Kenny.Ho@amd.com, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 11, 2022 at 11:19 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Fri, Feb 11, 2022 at 04:18:29PM +0000, T.J. Mercier wrote:
+Hello,
+  this series includes patches from two series previously sent
+https://lore.kernel.org/linux-media/20220119112024.11339-1-jacopo@jmondi.org/
+https://lore.kernel.org/linux-media/20220211180216.290133-1-jacopo@jmondi.org/
 
-Title: "android: binder: Add a buffer flag to relinquish ownership of fds"
+Which can now be marked as superseded.
 
-Please drop the "android:" from the title.
+The first 2 patches performs the de-staging of the imx7-mipi-csis driver and
+takes into account comments recevied there.
 
-> > This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
-> > that a process sending an fd array to another process over binder IPC
-> > can set to relinquish ownership of the fds being sent for memory
-> > accounting purposes. If the flag is found to be set during the fd array
-> > translation and the fd is for a DMA-BUF, the buffer is uncharged from
-> > the sender's cgroup and charged to the receiving process's cgroup
-> > instead.
-> >
-> > It is up to the sending process to ensure that it closes the fds
-> > regardless of whether the transfer failed or succeeded.
-> >
-> > Most graphics shared memory allocations in Android are done by the
-> > graphics allocator HAL process. On requests from clients, the HAL proce=
-ss
-> > allocates memory and sends the fds to the clients over binder IPC.
-> > The graphics allocator HAL will not retain any references to the
-> > buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
-> > arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
-> > correctly charge the buffers to the client processes instead of the
-> > graphics allocator HAL.
-> >
-> > From: Hridya Valsaraju <hridya@google.com>
-> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > Co-developed-by: T.J. Mercier <tjmercier@google.com>
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > ---
-> > changes in v2
-> > - Move dma-buf cgroup charge transfer from a dma_buf_op defined by ever=
-y
-> > heap to a single dma-buf function for all heaps per Daniel Vetter and
-> > Christian K=C3=B6nig.
-> >
-> >  drivers/android/binder.c            | 26 ++++++++++++++++++++++++++
-> >  include/uapi/linux/android/binder.h |  1 +
-> >  2 files changed, 27 insertions(+)
-> >
-> > diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-> > index 8351c5638880..f50d88ded188 100644
-> > --- a/drivers/android/binder.c
-> > +++ b/drivers/android/binder.c
-> > @@ -42,6 +42,7 @@
-> >
-> >  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> >
-> > +#include <linux/dma-buf.h>
-> >  #include <linux/fdtable.h>
-> >  #include <linux/file.h>
-> >  #include <linux/freezer.h>
-> > @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list=
-_head *pf_head,
-> >  {
-> >       binder_size_t fdi, fd_buf_size;
-> >       binder_size_t fda_offset;
-> > +     bool transfer_gpu_charge =3D false;
-> >       const void __user *sender_ufda_base;
-> >       struct binder_proc *proc =3D thread->proc;
-> > +     struct binder_proc *target_proc =3D t->to_proc;
-> >       int ret;
-> >
-> >       fd_buf_size =3D sizeof(u32) * fda->num_fds;
-> > @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list=
-_head *pf_head,
-> >       if (ret)
-> >               return ret;
-> >
-> > +     if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
-> > +             parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
-> > +             transfer_gpu_charge =3D true;
-> > +
-> >       for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
-> >               u32 fd;
-> > +             struct dma_buf *dmabuf;
-> > +             struct gpucg *gpucg;
-> > +
-> >               binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
-> >               binder_size_t sender_uoffset =3D fdi * sizeof(fd);
-> >
-> > @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list=
-_head *pf_head,
-> >                                                 in_reply_to);
-> >               if (ret)
-> >                       return ret > 0 ? -EINVAL : ret;
-> > +
-> > +             if (!transfer_gpu_charge)
-> > +                     continue;
-> > +
-> > +             dmabuf =3D dma_buf_get(fd);
-> > +             if (IS_ERR(dmabuf))
-> > +                     continue;
-> > +
-> > +             gpucg =3D gpucg_get(target_proc->tsk);
-> > +             ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
-> > +             if (ret) {
-> > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd char=
-ge to %d",
-> > +                             proc->pid, thread->pid, target_proc->pid)=
-;
-> > +                     gpucg_put(gpucg);
-> > +             }
-> > +             dma_buf_put(dmabuf);
+The rest of the series builds on top of the comment received on:
+https://lore.kernel.org/linux-media/20220119112024.11339-3-jacopo@jmondi.org/
 
-Since we are creating a new gpu cgroup abstraction, couldn't this
-"transfer" be done in userspace by the target instead of in the kernel
-driver? Then this patch would reduce to just a flag on the buffer
-object. This also solves the issue that Greg brought up about
-userspace needing to know whether the kernel implements this feature
-(older kernel running with newer userspace). I think we could just
-reserve some flags for userspace to use (and since those flags are
-"reserved" for older kernels, this would enable this feature even for
-old kernels)
+If DUAL pixel mode is used in the CSIS driver, then the CSI block of the IMX8MM
+SoC needs to be operated in dual mode as well. To do so, create per-SoC
+configurations in imx7-media-csi.c and only set dual mode for the MM model
+leaving the other ones untouched as they connect to a different CSI-2 receiver
+which instead operates in single mode.
 
-> >       }
-> >       return 0;
-> >  }
-> > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/a=
-ndroid/binder.h
-> > index 3246f2c74696..169fd5069a1a 100644
-> > --- a/include/uapi/linux/android/binder.h
-> > +++ b/include/uapi/linux/android/binder.h
-> > @@ -137,6 +137,7 @@ struct binder_buffer_object {
-> >
-> >  enum {
-> >       BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
-> > +     BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
-> >  };
-> >
-> >  /* struct binder_fd_array_object - object describing an array of fds i=
-n a buffer
-> > --
-> > 2.35.1.265.g69c8d7142f-goog
-> >
->
-> How does userspace know that binder supports this new flag?  And where
-> is the userspace test for this new feature?  Isn't there a binder test
-> framework somewhere?
->
-> thanks,
->
-> greg k-h
+I've only tested on i.MX8MP which is not affected by these changes, so I
+hope I've not broke anything. Laurent could you test on MM to see if it works
+now ?
+
+On top two small patches I was carrying in my tree to add more formats to the
+CSIS driver.
+
+Series based on top of the most recent media master branch.
+
+Thanks
+  j
+
+Jacopo Mondi (9):
+  media: imx: De-stage imx7-mipi-csis
+  media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
+  staging: media: imx: Add more compatible strings
+  staging: media: imx: Define per-SoC info
+  staging: media: imx: Use DUAL pixel mode if available
+  media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+  media: imx: imx-mipi-csis: Add RGB565_1X16
+  media: imx: imx-mipi-csis: Add RGB/BGR888
+
+ Documentation/admin-guide/media/imx7.rst      |  2 +-
+ ...-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
+ .../bindings/media/nxp,imx7-csi.yaml          |  1 +
+ MAINTAINERS                                   |  4 +-
+ drivers/media/platform/Kconfig                |  1 +
+ drivers/media/platform/Makefile               |  1 +
+ drivers/media/platform/imx/Kconfig            | 24 +++++++++
+ drivers/media/platform/imx/Makefile           |  1 +
+ .../platform/imx/imx-mipi-csis.c}             | 44 ++++++++++++++--
+ drivers/staging/media/imx/Makefile            |  1 -
+ drivers/staging/media/imx/imx-media.h         | 44 ++++++++++++++++
+ drivers/staging/media/imx/imx7-media-csi.c    | 52 ++++++++++++++-----
+ 12 files changed, 153 insertions(+), 24 deletions(-)
+ rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
+ create mode 100644 drivers/media/platform/imx/Kconfig
+ create mode 100644 drivers/media/platform/imx/Makefile
+ rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (97%)
+
+--
+2.35.0
+
