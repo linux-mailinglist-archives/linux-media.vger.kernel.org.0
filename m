@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F4FA4B5A23
-	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 19:43:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4455C4B5A1C
+	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 19:43:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236590AbiBNSmq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Feb 2022 13:42:46 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:55238 "EHLO
+        id S237796AbiBNSmy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Feb 2022 13:42:54 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:55702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234397AbiBNSmp (ORCPT
+        with ESMTP id S238042AbiBNSmx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Feb 2022 13:42:45 -0500
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1E3D6A038
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 10:42:29 -0800 (PST)
+        Mon, 14 Feb 2022 13:42:53 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1884A6A05E
+        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 10:42:36 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id AB65D1C0003;
-        Mon, 14 Feb 2022 18:42:15 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id D55C61C0004;
+        Mon, 14 Feb 2022 18:42:19 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
         s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
@@ -29,13 +29,15 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH 0/8] media: imx: Destage imx7-mipi-csis with fixes on top
-Date:   Mon, 14 Feb 2022 19:43:10 +0100
-Message-Id: <20220214184318.409208-1-jacopo@jmondi.org>
+Subject: [PATCH 1/8] media: imx: De-stage imx7-mipi-csis
+Date:   Mon, 14 Feb 2022 19:43:11 +0100
+Message-Id: <20220214184318.409208-2-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
+In-Reply-To: <20220214184318.409208-1-jacopo@jmondi.org>
+References: <20220214184318.409208-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -44,65 +46,116 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-  this series includes patches from two series previously sent
-https://lore.kernel.org/linux-media/20220119112024.11339-1-jacopo@jmondi.org/
-https://lore.kernel.org/linux-media/20220211180216.290133-1-jacopo@jmondi.org/
+The imx7-mipi-csis driver is in a good state and can be destaged.
 
-Which can now be marked as superseded.
+Move the imx7-mipi-csis.c driver to the newly created
+drivers/media/platform/imx directory and plumb the related
+options in Kconfig and in Makefile.
 
-The first 2 patches performs the de-staging of the imx7-mipi-csis driver and
-takes into account comments recevied there.
-
-The rest of the series builds on top of the comment received on:
-https://lore.kernel.org/linux-media/20220119112024.11339-3-jacopo@jmondi.org/
-
-If DUAL pixel mode is used in the CSIS driver, then the CSI block of the IMX8MM
-SoC needs to be operated in dual mode as well. To do so, create per-SoC
-configurations in imx7-media-csi.c and only set dual mode for the MM model
-leaving the other ones untouched as they connect to a different CSI-2 receiver
-which instead operates in single mode.
-
-I've only tested on i.MX8MP which is not affected by these changes, so I
-hope I've not broke anything. Laurent could you test on MM to see if it works
-now ?
-
-On top two small patches I was carrying in my tree to add more formats to the
-CSIS driver.
-
-Series based on top of the most recent media master branch.
-
-Thanks
-  j
-
-Jacopo Mondi (9):
-  media: imx: De-stage imx7-mipi-csis
-  media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
-  staging: media: imx: Add more compatible strings
-  staging: media: imx: Define per-SoC info
-  staging: media: imx: Use DUAL pixel mode if available
-  media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
-  media: imx: imx-mipi-csis: Add RGB565_1X16
-  media: imx: imx-mipi-csis: Add RGB/BGR888
-
- Documentation/admin-guide/media/imx7.rst      |  2 +-
- ...-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
- .../bindings/media/nxp,imx7-csi.yaml          |  1 +
- MAINTAINERS                                   |  4 +-
+Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ MAINTAINERS                                   |  2 +-
  drivers/media/platform/Kconfig                |  1 +
  drivers/media/platform/Makefile               |  1 +
- drivers/media/platform/imx/Kconfig            | 24 +++++++++
+ drivers/media/platform/imx/Kconfig            | 24 +++++++++++++++++++
  drivers/media/platform/imx/Makefile           |  1 +
- .../platform/imx/imx-mipi-csis.c}             | 44 ++++++++++++++--
+ .../platform}/imx/imx7-mipi-csis.c            |  0
  drivers/staging/media/imx/Makefile            |  1 -
- drivers/staging/media/imx/imx-media.h         | 44 ++++++++++++++++
- drivers/staging/media/imx/imx7-media-csi.c    | 52 ++++++++++++++-----
- 12 files changed, 153 insertions(+), 24 deletions(-)
- rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
+ 7 files changed, 28 insertions(+), 2 deletions(-)
  create mode 100644 drivers/media/platform/imx/Kconfig
  create mode 100644 drivers/media/platform/imx/Makefile
- rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (97%)
+ rename drivers/{staging/media => media/platform}/imx/imx7-mipi-csis.c (100%)
 
---
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 83d27b57016f..5bdb8c881b0b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11891,8 +11891,8 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/admin-guide/media/imx7.rst
+ F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+ F:	Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
++F:	drivers/media/platform/imx/imx7-mipi-csis.c
+ F:	drivers/staging/media/imx/imx7-media-csi.c
+-F:	drivers/staging/media/imx/imx7-mipi-csis.c
+ 
+ MEDIA DRIVERS FOR HELENE
+ M:	Abylay Ospan <aospan@netup.ru>
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index 9fbdba0fd1e7..d9eeccffea69 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -171,6 +171,7 @@ source "drivers/media/platform/xilinx/Kconfig"
+ source "drivers/media/platform/rcar-vin/Kconfig"
+ source "drivers/media/platform/atmel/Kconfig"
+ source "drivers/media/platform/sunxi/Kconfig"
++source "drivers/media/platform/imx/Kconfig"
+ 
+ config VIDEO_TI_CAL
+ 	tristate "TI CAL (Camera Adaptation Layer) driver"
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index 28eb4aadbf45..a9466c854610 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -20,6 +20,7 @@ obj-y	+= ti-vpe/
+ obj-$(CONFIG_VIDEO_MX2_EMMAPRP)		+= mx2_emmaprp.o
+ obj-$(CONFIG_VIDEO_CODA)		+= coda/
+ 
++obj-$(CONFIG_VIDEO_IMX)			+= imx/
+ obj-$(CONFIG_VIDEO_IMX_PXP)		+= imx-pxp.o
+ obj-$(CONFIG_VIDEO_IMX8_JPEG)		+= imx-jpeg/
+ 
+diff --git a/drivers/media/platform/imx/Kconfig b/drivers/media/platform/imx/Kconfig
+new file mode 100644
+index 000000000000..683863572c20
+--- /dev/null
++++ b/drivers/media/platform/imx/Kconfig
+@@ -0,0 +1,24 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++menuconfig VIDEO_IMX
++	bool "V4L2 capture drivers for NXP i.MX devices"
++	depends on ARCH_MXC || COMPILE_TEST
++	depends on VIDEO_DEV && VIDEO_V4L2
++	help
++	  Say yes here to enable support for capture drivers on i.MX SoCs.
++	  Support for the single SoC features are selectable in the sub-menu
++	  options.
++
++if VIDEO_IMX
++
++config VIDEO_IMX_MIPI_CSIS
++	tristate "MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
++	select MEDIA_CONTROLLER
++	select V4L2_FWNODE
++	select VIDEO_V4L2_SUBDEV_API
++	default n
++	help
++	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
++	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
++
++endif # VIDEO_IMX
+diff --git a/drivers/media/platform/imx/Makefile b/drivers/media/platform/imx/Makefile
+new file mode 100644
+index 000000000000..ee272234c8d7
+--- /dev/null
++++ b/drivers/media/platform/imx/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx7-mipi-csis.o
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/media/platform/imx/imx7-mipi-csis.c
+similarity index 100%
+rename from drivers/staging/media/imx/imx7-mipi-csis.c
+rename to drivers/media/platform/imx/imx7-mipi-csis.c
+diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
+index 19c2fc54d424..d82be898145b 100644
+--- a/drivers/staging/media/imx/Makefile
++++ b/drivers/staging/media/imx/Makefile
+@@ -15,5 +15,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
+ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
+ 
+ obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
+-obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
+ obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
+-- 
 2.35.0
 
