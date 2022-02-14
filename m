@@ -2,22 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2D984B5A20
-	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 19:43:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECDA84B5A36
+	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 19:48:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbiBNSnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Feb 2022 13:43:06 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:56628 "EHLO
+        id S232918AbiBNSrd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Feb 2022 13:47:33 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:49060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238772AbiBNSnF (ORCPT
+        with ESMTP id S232709AbiBNSrb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Feb 2022 13:43:05 -0500
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C8A46AA54
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 10:42:50 -0800 (PST)
+        Mon, 14 Feb 2022 13:47:31 -0500
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31DF871C9E
+        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 10:47:15 -0800 (PST)
+Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 765D7CB44B
+        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 18:44:03 +0000 (UTC)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7E34A1C0008;
-        Mon, 14 Feb 2022 18:42:35 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7F1CF1C000B;
+        Mon, 14 Feb 2022 18:42:39 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
         s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
@@ -29,77 +32,65 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH 5/8] staging: media: imx: Use DUAL pixel mode if available
-Date:   Mon, 14 Feb 2022 19:43:15 +0100
-Message-Id: <20220214184318.409208-6-jacopo@jmondi.org>
+Subject: [PATCH 6/8] media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+Date:   Mon, 14 Feb 2022 19:43:16 +0100
+Message-Id: <20220214184318.409208-7-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220214184318.409208-1-jacopo@jmondi.org>
 References: <20220214184318.409208-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pixel sampling mode controls the size of data sampled from the CSI
-Rx queue. The supported sample size depends on the configuration of the
-preceding block in the capture pipeline and is then dependent on the SoC
-version the CSI peripheral is integrated on.
+Bits 13 and 12 of the ISP_CONFIGn register configure the PIXEL_MODE
+which specifies the sampling size, in pixel component units, on the
+CSI-2 output data interface when data are transferred to memory.
 
-When capturing YUV422 data if dual sample mode is available use it.
+The register description in the chip manual specifies that DUAL mode
+should be used for YUV422 data but does not clarify the reason.
 
-This change is particularly relevant for the IMX8MM SoC which uses the
-CSIS CSI-2 receiver which operates in dual pixel mode.
+Verify if other YUV formats require the same setting and what is the
+appropriate setting for RAW and sRGB formats.
 
-Other SoCs should be unaffected by this change and should continue to
-operate as before.
-
-Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
 ---
- drivers/staging/media/imx/imx7-media-csi.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/media/platform/imx/imx-mipi-csis.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 112096774961..a8bdfb0bb0ee 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -426,6 +426,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
- {
- 	struct imx_media_video_dev *vdev = csi->vdev;
- 	struct v4l2_pix_format *out_pix = &vdev->fmt;
-+	struct imx_media_dev *imxmd = csi->imxmd;
- 	int width = out_pix->width;
- 	u32 stride = 0;
- 	u32 cr3 = BIT_FRMCNT_RST;
-@@ -436,7 +437,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
- 	cr18 &= ~(BIT_CSI_HW_ENABLE | BIT_MIPI_DATA_FORMAT_MASK |
- 		  BIT_DATA_FROM_MIPI | BIT_BASEADDR_CHG_ERR_EN |
- 		  BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
--		  BIT_DEINTERLACE_EN);
-+		  BIT_DEINTERLACE_EN | BIT_MIPI_DOUBLE_CMPNT);
- 
- 	if (out_pix->field == V4L2_FIELD_INTERLACED) {
- 		cr18 |= BIT_DEINTERLACE_EN;
-@@ -500,6 +501,13 @@ static void imx7_csi_configure(struct imx7_csi *csi)
- 		case MEDIA_BUS_FMT_YUYV8_2X8:
- 		case MEDIA_BUS_FMT_YUYV8_1X16:
- 			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
+diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
+index f433758c8935..98a7538a6ce3 100644
+--- a/drivers/media/platform/imx/imx-mipi-csis.c
++++ b/drivers/media/platform/imx/imx-mipi-csis.c
+@@ -173,6 +173,7 @@
+ #define MIPI_CSIS_ISPCFG_PIXEL_MODE_SINGLE	(0 << 12)
+ #define MIPI_CSIS_ISPCFG_PIXEL_MODE_DUAL	(1 << 12)
+ #define MIPI_CSIS_ISPCFG_PIXEL_MODE_QUAD	(2 << 12)	/* i.MX8M[MNP] only */
++#define MIPI_CSIS_ISPCFG_PIXEL_MASK		(3 << 12)
+ #define MIPI_CSIS_ISPCFG_ALIGN_32BIT		BIT(11)
+ #define MIPI_CSIS_ISPCFG_FMT(fmt)		((fmt) << 2)
+ #define MIPI_CSIS_ISPCFG_FMT_MASK		(0x3f << 2)
+@@ -506,7 +507,12 @@ static void __mipi_csis_set_format(struct csi_state *state)
+
+ 	/* Color format */
+ 	val = mipi_csis_read(state, MIPI_CSIS_ISP_CONFIG_CH(0));
+-	val &= ~(MIPI_CSIS_ISPCFG_ALIGN_32BIT | MIPI_CSIS_ISPCFG_FMT_MASK);
++	val &= ~(MIPI_CSIS_ISPCFG_ALIGN_32BIT | MIPI_CSIS_ISPCFG_FMT_MASK
++		| MIPI_CSIS_ISPCFG_PIXEL_MASK);
 +
-+			/* If dual mode is supported use it. */
-+			if (imxmd->info->sample_modes & MODE_DUAL) {
-+				cr18 |= BIT_MIPI_DOUBLE_CMPNT;
-+				cr3 |= BIT_TWO_8BIT_SENSOR;
-+			}
++	if (state->csis_fmt->data_type == MIPI_CSI2_DATA_TYPE_YUV422_8)
++		val |= MIPI_CSIS_ISPCFG_PIXEL_MODE_DUAL;
 +
- 			break;
- 		}
- 	}
--- 
+ 	val |= MIPI_CSIS_ISPCFG_FMT(state->csis_fmt->data_type);
+ 	mipi_csis_write(state, MIPI_CSIS_ISP_CONFIG_CH(0), val);
+
+--
 2.35.0
 
