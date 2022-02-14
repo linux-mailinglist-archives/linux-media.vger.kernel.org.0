@@ -2,51 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F3284B441C
-	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 09:30:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B3664B449F
+	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 09:44:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231547AbiBNIa2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Feb 2022 03:30:28 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53020 "EHLO
+        id S242235AbiBNIos (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Feb 2022 03:44:48 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241959AbiBNIa0 (ORCPT
+        with ESMTP id S231406AbiBNIos (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Feb 2022 03:30:26 -0500
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8032F25C6A
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 00:30:18 -0800 (PST)
-Received: by mail-io1-f71.google.com with SMTP id d194-20020a6bcdcb000000b0063a4e3b9da6so1949812iog.6
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 00:30:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=w/eG857dxxrFl69My9yhXVfKenfM7gm0O1wilECasmA=;
-        b=tiN+ENvrmpelg7f+3ggBFN9xREDBTbiwxNDSkJ5GrLIJaEAFQT5+DHSK2OadeEQCsg
-         2vVlgtqJhZBVaG3Gt9XO53fRR6qRT73o7mMPZl/6dipHciAyG6YN+SQvgqCAG7YyK6AV
-         Y+7sNIfG9J3SnDyMqbZ++8BznD9w7LTcFlxmdcnYyml1uwAgpzZarO//ztOEi0YgrhNc
-         NO0xT+6eaAaVeBxl55M4tK5IWGYvRfqF7xXbOdcU8wkncpGpmo43jq//phs+JS192geZ
-         dqk09B0oWzcnC3w0P5/caqTuoFh4DJHUosiwdWsyw4zlYSWcbXPzG+vgeuyY3KQh4vZT
-         78aQ==
-X-Gm-Message-State: AOAM530heVvKZpQVa+LJI+nshC/LjCMuiilAScr0/UEdcQe2vgZE99zz
-        Hp3VSCEln2WFtWGhXQy0c/QR1K3JGfPDwWe802SX3ddqbAwA
-X-Google-Smtp-Source: ABdhPJzf4GKJ3o9IpzDACkaj1LaTjSQMn9mqCNHxvOASkNVIqtOuSOqfHUtird12q0BD+X6dJmhqxk74Bb3SitgCkC8O9bKDG6w0
+        Mon, 14 Feb 2022 03:44:48 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D5AF4F9CA;
+        Mon, 14 Feb 2022 00:44:39 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3AFB7B80DAD;
+        Mon, 14 Feb 2022 08:44:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D6F3C340E9;
+        Mon, 14 Feb 2022 08:44:35 +0000 (UTC)
+Message-ID: <80ba7281-3d51-3ba6-fcfe-df13171743cc@xs4all.nl>
+Date:   Mon, 14 Feb 2022 09:44:33 +0100
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:1305:: with SMTP id r5mr7316383jad.154.1644827417812;
- Mon, 14 Feb 2022 00:30:17 -0800 (PST)
-Date:   Mon, 14 Feb 2022 00:30:17 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f4a73905d7f63916@google.com>
-Subject: [syzbot] inconsistent lock state in sync_timeline_debug_remove
-From:   syzbot <syzbot+7dcd254b8987a29f6450@syzkaller.appspotmail.com>
-To:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        gustavo@padovan.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH for 5.17] pinctrl-sunxi:
+ sunxi_pinctrl_gpio_direction_in/output: use correct offset
+Content-Language: en-US
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-media@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
+        Florian Fainelli <f.fainelli@gmail.com>, 5kft <5kft@5kft.org>,
+        Corentin Labbe <clabbe.montjoie@gmail.com>
+References: <20211206131648.1521868-1-hverkuil-cisco@xs4all.nl>
+ <0f536cd8-01db-5d16-2cec-ec6d19409a49@xs4all.nl>
+ <20220213204242.GA991833@roeck-us.net>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220213204242.GA991833@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,172 +53,124 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Guenter,
 
-syzbot found the following issue on:
+On 2/13/22 21:42, Guenter Roeck wrote:
+> Hi,
+> 
+> On Wed, Jan 26, 2022 at 12:02:04PM +0100, Hans Verkuil wrote:
+>> The commit that sets the direction directly without calling
+>> pinctrl_gpio_direction(), forgot to add chip->base to the offset when
+>> calling sunxi_pmx_gpio_set_direction().
+>>
+>> This caused failures for various Allwinner boards which have two
+>> GPIO blocks.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Reported-by: 5kft <5kft@5kft.org>
+>> Suggested-by: 5kft <5kft@5kft.org>
+>> Reported-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+>> Fixes: 8df89a7cbc63 (pinctrl-sunxi: don't call pinctrl_gpio_direction())
+>> Tested-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+>> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> Tested-by: Guenter Roeck <linux@roeck-us.net>
+> 
+> Unfortunately, this patch causes (or exposes) a secondary problem.
+> When applied, the following traceback is seen during reboot.
 
-HEAD commit:    f4bc5bbb5fef Merge tag 'nfsd-5.17-2' of git://git.kernel.o..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=10fc74c2700000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=266de9da75c71a45
-dashboard link: https://syzkaller.appspot.com/bug?extid=7dcd254b8987a29f6450
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10c73c74700000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1440451c700000
+I've been digging through the code, but I can't really see how this patch would
+give this result. The backtrace isn't very informative.
 
-Bisection is inconclusive: the issue happens on the oldest tested release.
+I suspect it ends up in sunxi_pinctrl_irq_set_wake(). Can you debug this a bit?
+Esp. logging the d->hwirq value would be useful (and comparing it with and without
+this patch). Of course, I may be wrong and the issue isn't in that function at all.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10a40d84700000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=12a40d84700000
-console output: https://syzkaller.appspot.com/x/log.txt?x=14a40d84700000
+One possibility is that there is another offset missing somewhere in this code
+that hasn't been noticed before.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7dcd254b8987a29f6450@syzkaller.appspotmail.com
+Regards,
 
-================================
-WARNING: inconsistent lock state
-5.17.0-rc3-syzkaller-00043-gf4bc5bbb5fef #0 Not tainted
---------------------------------
-inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
-syz-executor198/3596 [HC1[1]:SC0[0]:HE0:SE1] takes:
-ffffffff8c7096d8 (sync_timeline_list_lock){?.+.}-{2:2}, at: sync_timeline_debug_remove+0x25/0x190 drivers/dma-buf/sync_debug.c:31
-{HARDIRQ-ON-W} state was registered at:
-  __trace_hardirqs_on_caller kernel/locking/lockdep.c:4224 [inline]
-  lockdep_hardirqs_on_prepare kernel/locking/lockdep.c:4292 [inline]
-  lockdep_hardirqs_on_prepare+0x135/0x400 kernel/locking/lockdep.c:4244
-  trace_hardirqs_on+0x5b/0x1c0 kernel/trace/trace_preemptirq.c:49
-  __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
-  _raw_spin_unlock_irq+0x1f/0x40 kernel/locking/spinlock.c:202
-  spin_unlock_irq include/linux/spinlock.h:399 [inline]
-  sync_print_obj drivers/dma-buf/sync_debug.c:118 [inline]
-  sync_info_debugfs_show+0xeb/0x200 drivers/dma-buf/sync_debug.c:153
-  seq_read_iter+0x4f5/0x1280 fs/seq_file.c:230
-  seq_read+0x3e8/0x5c0 fs/seq_file.c:162
-  vfs_read+0x1b5/0x600 fs/read_write.c:479
-  ksys_read+0x12d/0x250 fs/read_write.c:619
-  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
-  entry_SYSCALL_64_after_hwframe+0x44/0xae
-irq event stamp: 5708
-hardirqs last  enabled at (5707): [<ffffffff894db1ef>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
-hardirqs last  enabled at (5707): [<ffffffff894db1ef>] _raw_spin_unlock_irq+0x1f/0x40 kernel/locking/spinlock.c:202
-hardirqs last disabled at (5708): [<ffffffff894a992b>] sysvec_irq_work+0xb/0xc0 arch/x86/kernel/irq_work.c:17
-softirqs last  enabled at (5570): [<ffffffff84da6fd6>] spin_unlock_bh include/linux/spinlock.h:394 [inline]
-softirqs last  enabled at (5570): [<ffffffff84da6fd6>] __tun_set_ebpf+0xf6/0x1c0 drivers/net/tun.c:2245
-softirqs last disabled at (5568): [<ffffffff84da6f83>] spin_lock_bh include/linux/spinlock.h:354 [inline]
-softirqs last disabled at (5568): [<ffffffff84da6f83>] __tun_set_ebpf+0xa3/0x1c0 drivers/net/tun.c:2241
+	Hans
 
-other info that might help us debug this:
- Possible unsafe locking scenario:
-
-       CPU0
-       ----
-  lock(sync_timeline_list_lock);
-  <Interrupt>
-    lock(sync_timeline_list_lock);
-
- *** DEADLOCK ***
-
-no locks held by syz-executor198/3596.
-
-stack backtrace:
-CPU: 0 PID: 3596 Comm: syz-executor198 Not tainted 5.17.0-rc3-syzkaller-00043-gf4bc5bbb5fef #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- print_usage_bug kernel/locking/lockdep.c:203 [inline]
- valid_state kernel/locking/lockdep.c:3945 [inline]
- mark_lock_irq kernel/locking/lockdep.c:4148 [inline]
- mark_lock.cold+0x61/0x8e kernel/locking/lockdep.c:4605
- mark_usage kernel/locking/lockdep.c:4497 [inline]
- __lock_acquire+0x1499/0x5470 kernel/locking/lockdep.c:4981
- lock_acquire kernel/locking/lockdep.c:5639 [inline]
- lock_acquire+0x1ab/0x510 kernel/locking/lockdep.c:5604
- __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
- _raw_spin_lock_irqsave+0x39/0x50 kernel/locking/spinlock.c:162
- sync_timeline_debug_remove+0x25/0x190 drivers/dma-buf/sync_debug.c:31
- sync_timeline_free drivers/dma-buf/sw_sync.c:104 [inline]
- kref_put include/linux/kref.h:65 [inline]
- sync_timeline_put drivers/dma-buf/sw_sync.c:116 [inline]
- timeline_fence_release+0x263/0x340 drivers/dma-buf/sw_sync.c:144
- dma_fence_release+0x2ee/0x590 drivers/dma-buf/dma-fence.c:549
- kref_put include/linux/kref.h:65 [inline]
- dma_fence_put include/linux/dma-fence.h:276 [inline]
- dma_fence_array_release+0x1e4/0x2b0 drivers/dma-buf/dma-fence-array.c:120
- dma_fence_release+0x2ee/0x590 drivers/dma-buf/dma-fence.c:549
- kref_put include/linux/kref.h:65 [inline]
- dma_fence_put include/linux/dma-fence.h:276 [inline]
- irq_dma_fence_array_work+0xa5/0xd0 drivers/dma-buf/dma-fence-array.c:52
- irq_work_single+0x120/0x270 kernel/irq_work.c:211
- irq_work_run_list+0x91/0xc0 kernel/irq_work.c:242
- irq_work_run+0x54/0xd0 kernel/irq_work.c:251
- __sysvec_irq_work+0x95/0x3d0 arch/x86/kernel/irq_work.c:22
- sysvec_irq_work+0x8e/0xc0 arch/x86/kernel/irq_work.c:17
- </IRQ>
- <TASK>
- asm_sysvec_irq_work+0x12/0x20 arch/x86/include/asm/idtentry.h:664
-RIP: 0010:__raw_spin_unlock_irq include/linux/spinlock_api_smp.h:160 [inline]
-RIP: 0010:_raw_spin_unlock_irq+0x25/0x40 kernel/locking/spinlock.c:202
-Code: 0f 1f 44 00 00 55 48 8b 74 24 08 48 89 fd 48 83 c7 18 e8 4e a1 0f f8 48 89 ef e8 06 17 10 f8 e8 b1 0b 31 f8 fb bf 01 00 00 00 <e8> 46 ca 02 f8 65 8b 05 bf bd b4 76 85 c0 74 02 5d c3 e8 2b 93 b2
-RSP: 0018:ffffc90001f5fe18 EFLAGS: 00000206
-RAX: 000000000000164b RBX: 00000000ffffffff RCX: 1ffffffff1b27381
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000001
-RBP: ffff8880153ff050 R08: 0000000000000001 R09: 0000000000000001
-R10: ffffffff817ebdd8 R11: 0000000000000000 R12: ffff8880153ff000
-R13: dffffc0000000000 R14: ffff8880153ff000 R15: ffff8880153ff050
- spin_unlock_irq include/linux/spinlock.h:399 [inline]
- sw_sync_debugfs_release+0x160/0x240 drivers/dma-buf/sw_sync.c:321
- __fput+0x286/0x9f0 fs/file_table.c:313
- task_work_run+0xdd/0x1a0 kernel/task_work.c:164
- tracehook_notify_resume include/linux/tracehook.h:188 [inline]
- exit_to_user_mode_loop kernel/entry/common.c:175 [inline]
- exit_to_user_mode_prepare+0x27e/0x290 kernel/entry/common.c:207
- __syscall_exit_to_user_mode_work kernel/entry/common.c:289 [inline]
- syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:300
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7fbe1817b7e9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 91 18 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fbe17901208 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
-RAX: 0000000000000000 RBX: 00007fbe181fd4f8 RCX: 00007fbe1817b7e9
-RDX: 0000000000000000 RSI: 00000000ffffffff RDI: 0000000000000003
-RBP: 00007fbe181fd4f0 R08: 00007fbe17901700 R09: 0000000000000000
-R10: 00007fbe17901700 R11: 0000000000000246 R12: 00007fbe181fd4fc
-R1
-----------------
-Code disassembly (best guess):
-   0:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
-   5:	55                   	push   %rbp
-   6:	48 8b 74 24 08       	mov    0x8(%rsp),%rsi
-   b:	48 89 fd             	mov    %rdi,%rbp
-   e:	48 83 c7 18          	add    $0x18,%rdi
-  12:	e8 4e a1 0f f8       	callq  0xf80fa165
-  17:	48 89 ef             	mov    %rbp,%rdi
-  1a:	e8 06 17 10 f8       	callq  0xf8101725
-  1f:	e8 b1 0b 31 f8       	callq  0xf8310bd5
-  24:	fb                   	sti
-  25:	bf 01 00 00 00       	mov    $0x1,%edi
-* 2a:	e8 46 ca 02 f8       	callq  0xf802ca75 <-- trapping instruction
-  2f:	65 8b 05 bf bd b4 76 	mov    %gs:0x76b4bdbf(%rip),%eax        # 0x76b4bdf5
-  36:	85 c0                	test   %eax,%eax
-  38:	74 02                	je     0x3c
-  3a:	5d                   	pop    %rbp
-  3b:	c3                   	retq
-  3c:	e8                   	.byte 0xe8
-  3d:	2b                   	.byte 0x2b
-  3e:	93                   	xchg   %eax,%ebx
-  3f:	b2                   	.byte 0xb2
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> 
+> Requesting system reboot
+> [   30.899594]
+> [   30.899685] ============================================
+> [   30.899757] WARNING: possible recursive locking detected
+> [   30.899938] 5.17.0-rc3-00394-gc849047c2473 #1 Not tainted
+> [   30.900055] --------------------------------------------
+> [   30.900124] init/307 is trying to acquire lock:
+> [   30.900246] c2dfe27c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
+> [   30.900900]
+> [   30.900900] but task is already holding lock:
+> [   30.900974] c3c0ac7c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
+> [   30.901101]
+> [   30.901101] other info that might help us debug this:
+> [   30.901188]  Possible unsafe locking scenario:
+> [   30.901188]
+> [   30.901262]        CPU0
+> [   30.901301]        ----
+> [   30.901339]   lock(&irq_desc_lock_class);
+> [   30.901411]   lock(&irq_desc_lock_class);
+> [   30.901480]
+> [   30.901480]  *** DEADLOCK ***
+> [   30.901480]
+> [   30.901554]  May be due to missing lock nesting notation
+> [   30.901554]
+> [   30.901657] 4 locks held by init/307:
+> [   30.901724]  #0: c1f29f18 (system_transition_mutex){+.+.}-{3:3}, at: __do_sys_reboot+0x90/0x23c
+> [   30.901889]  #1: c20f7760 (&dev->mutex){....}-{3:3}, at: device_shutdown+0xf4/0x224
+> [   30.902016]  #2: c2e804d8 (&dev->mutex){....}-{3:3}, at: device_shutdown+0x104/0x224
+> [   30.902138]  #3: c3c0ac7c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
+> [   30.902281]
+> [   30.902281] stack backtrace:
+> [   30.902462] CPU: 0 PID: 307 Comm: init Not tainted 5.17.0-rc3-00394-gc849047c2473 #1
+> [   30.902572] Hardware name: Allwinner sun8i Family
+> [   30.902781]  unwind_backtrace from show_stack+0x10/0x14
+> [   30.902895]  show_stack from dump_stack_lvl+0x68/0x90
+> [   30.902970]  dump_stack_lvl from __lock_acquire+0x1680/0x31a0
+> [   30.903047]  __lock_acquire from lock_acquire+0x148/0x3dc
+> [   30.903118]  lock_acquire from _raw_spin_lock_irqsave+0x50/0x6c
+> [   30.903197]  _raw_spin_lock_irqsave from __irq_get_desc_lock+0x58/0xa0
+> [   30.903282]  __irq_get_desc_lock from irq_set_irq_wake+0x2c/0x19c
+> [   30.903366]  irq_set_irq_wake from irq_set_irq_wake+0x13c/0x19c
+> [   30.903442]  irq_set_irq_wake from gpio_keys_suspend+0x80/0x1a4
+> [   30.903523]  gpio_keys_suspend from gpio_keys_shutdown+0x10/0x2c
+> [   30.903603]  gpio_keys_shutdown from device_shutdown+0x180/0x224
+> [   30.903685]  device_shutdown from __do_sys_reboot+0x134/0x23c
+> [   30.903764]  __do_sys_reboot from ret_fast_syscall+0x0/0x1c
+> [   30.903894] Exception stack(0xc584ffa8 to 0xc584fff0)
+> [   30.904013] ffa0:                   01234567 000c623f fee1dead 28121969 01234567 00000000
+> [   30.904117] ffc0: 01234567 000c623f 00000001 00000058 000d85c0 00000000 00000000 00000000
+> [   30.904213] ffe0: 000d8298 be84ddf4 000918bc b6eb0edc
+> [   30.905189] reboot: Restarting system
+> ------------
+> 
+> Bisect log is attached.
+> 
+> Guenter
+> 
+> ---
+> # bad: [c849047c2473f78306791b27ec7c3e0ed552727d] Merge branch 'for-linux-next-fixes' of git://anongit.freedesktop.org/drm/drm-misc
+> # good: [dfd42facf1e4ada021b939b4e19c935dcdd55566] Linux 5.17-rc3
+> git bisect start 'HEAD' 'v5.17-rc3'
+> # good: [a0eafda3873b900f2bfa2bac738583493b458338] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec.git
+> git bisect good a0eafda3873b900f2bfa2bac738583493b458338
+> # good: [b7bbfc1f46f45e896928c301cd02fb530ed426f3] Merge branch 'fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
+> git bisect good b7bbfc1f46f45e896928c301cd02fb530ed426f3
+> # bad: [2af1645572f8fef201a7d2a891f328ed94509135] Merge branch 'rtc-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git
+> git bisect bad 2af1645572f8fef201a7d2a891f328ed94509135
+> # bad: [e3d76bb86c683b05afe4a3b73fd1d50ea7a294be] Merge branch 'hwmon' of git://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git
+> git bisect bad e3d76bb86c683b05afe4a3b73fd1d50ea7a294be
+> # good: [b55a65e66f178b3507554260b4f3d56bc7b445b6] Merge branch 'fixes' of git://linuxtv.org/mchehab/media-next.git
+> git bisect good b55a65e66f178b3507554260b4f3d56bc7b445b6
+> # good: [2b0ecccb55310a4b8ad5d59c703cf8c821be6260] KVM: x86: nSVM: deal with L1 hypervisor that intercepts interrupts but lets L2 control them
+> git bisect good 2b0ecccb55310a4b8ad5d59c703cf8c821be6260
+> # good: [fcb732d8f8cf6084f8480015ad41d25fb023a4dd] KVM: x86/xen: Fix runstate updates to be atomic when preempting vCPU
+> git bisect good fcb732d8f8cf6084f8480015ad41d25fb023a4dd
+> # bad: [bb9bb9c75482aa008cfc62b5cb88681de8408fa3] hwmon: (ntc_thermistor) Underscore Samsung thermistor
+> git bisect bad bb9bb9c75482aa008cfc62b5cb88681de8408fa3
+> # bad: [3c5412cdec9f6e417e7757974040e461df4a7238] pinctrl-sunxi: sunxi_pinctrl_gpio_direction_in/output: use correct offset
+> git bisect bad 3c5412cdec9f6e417e7757974040e461df4a7238
+> # first bad commit: [3c5412cdec9f6e417e7757974040e461df4a7238] pinctrl-sunxi: sunxi_pinctrl_gpio_direction_in/output: use correct offset
