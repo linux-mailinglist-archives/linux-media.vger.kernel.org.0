@@ -2,31 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11FDA4B6B0F
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 12:33:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD2C44B6B40
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 12:35:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232381AbiBOLdg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 06:33:36 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57574 "EHLO
+        id S232464AbiBOLfA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 06:35:00 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236120AbiBOLdG (ORCPT
+        with ESMTP id S231417AbiBOLe7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 06:33:06 -0500
-X-Greylist: delayed 1007 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 15 Feb 2022 03:32:36 PST
+        Tue, 15 Feb 2022 06:34:59 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2126C1EEC7;
-        Tue, 15 Feb 2022 03:32:35 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D273A13CFC;
+        Tue, 15 Feb 2022 03:34:49 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20862315;
-        Tue, 15 Feb 2022 12:32:34 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 107FE48A;
+        Tue, 15 Feb 2022 12:34:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644924754;
-        bh=zeuiGOWQpOem0C0WaV+lf4Pdn8268Dt4TBQvFDI1paA=;
+        s=mail; t=1644924888;
+        bh=kmu1Nqndh3mA6+gSDRFN0J8XdXlvUyEN6AKxZUu+NJQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jJgHe2hY6MdqH1xXSHrCLubc/pGBqUlfsvI0EeCKms/Oqxt/iJGWPNa9FuyFnzCkN
-         gFQZTSCW2h4ZqruoF54b41r2EwjIgB9spCrwU+TKTI00/AQvPQC0LcOTYrL0tOSdMo
-         mPinUpNrZ94ziFnwzEuRfDkBJU/y/J4g6m1Zt3xA=
-Date:   Tue, 15 Feb 2022 13:32:27 +0200
+        b=TNUzSSqPSP5PtXJD0bONrZB/QoIb022J1Chfj9ZTUnCP9hQIBHipXpj7EJhZEyosY
+         QuGoULWattxJaJXE5nvCtgqc+/zyelpxOv8I9fs2NTi+TCvWIcF0+meY9wLfJbLzt/
+         /4q+HEmhvCkhmmelNd9q0PaJ/TQWt//hk2hDnhls=
+Date:   Tue, 15 Feb 2022 13:34:41 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
@@ -36,25 +35,20 @@ Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
         Lars-Peter Clausen <lars@metafoo.de>,
-        Petr Cvek <petrcvekcz@gmail.com>,
-        Mats Randgaard <matrandg@cisco.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [RFC PATCH 5/8] media: v4l2-mediabus: Use structures to describe
- bus configuration
-Message-ID: <YguPS53B2sQtBG2B@pendragon.ideasonboard.com>
-References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220103162414.27723-6-laurent.pinchart+renesas@ideasonboard.com>
- <20220215111316.qpdxnxc253blt6bd@uno.localdomain>
- <YguLXJVz8sZ9+W2Y@pendragon.ideasonboard.com>
- <20220215112828.ygnt5dpuefgptdt4@uno.localdomain>
+        Mats Randgaard <matrandg@cisco.com>
+Subject: Re: [PATCH v1.1 8/8] media: v4l2-mediabus: Drop
+ V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
+Message-ID: <YguP0Sz1JB8gjle4@pendragon.ideasonboard.com>
+References: <YdXrX9VLOm3W3YBl@valkosipuli.retiisi.eu>
+ <20220105201558.31325-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220215110420.btxlxlwk4e3phpg7@uno.localdomain>
+ <YguKqgDHmrLSQ6sc@pendragon.ideasonboard.com>
+ <20220215112925.ytws4btumbiwo4nr@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220215112828.ygnt5dpuefgptdt4@uno.localdomain>
+In-Reply-To: <20220215112925.ytws4btumbiwo4nr@uno.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -66,466 +60,133 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo,
 
-On Tue, Feb 15, 2022 at 12:28:28PM +0100, Jacopo Mondi wrote:
-> On Tue, Feb 15, 2022 at 01:15:40PM +0200, Laurent Pinchart wrote:
-> > On Tue, Feb 15, 2022 at 12:13:16PM +0100, Jacopo Mondi wrote:
-> > > On Mon, Jan 03, 2022 at 06:24:11PM +0200, Laurent Pinchart wrote:
-> > > > The media bus configuration is specified through a set of flags, some of
-> > > > which being mutually exclusive. This doesn't scale to express more
-> > > > complex configurations. Improve the API by replacing the single flags
-> > > > field in v4l2_mbus_config by a union of v4l2_mbus_config_* structures.
-> > > > The flags themselves are still used in those structures, so they are
-> > > > kept here. Drivers are however updated to use structure fields instead
-> > > > of flags when already possible.
-> > > >
+On Tue, Feb 15, 2022 at 12:29:25PM +0100, Jacopo Mondi wrote:
+> On Tue, Feb 15, 2022 at 01:12:42PM +0200, Laurent Pinchart wrote:
+> > On Tue, Feb 15, 2022 at 12:04:20PM +0100, Jacopo Mondi wrote:
+> > > On Wed, Jan 05, 2022 at 10:15:58PM +0200, Laurent Pinchart wrote:
+> > > > MIPI CSI-2 continuous and non-continuous clock modes are mutually
+> > > > exclusive. Drop the V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag and use
+> > > > V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK only.
+> > >
+> > > As continuous clock is the default configuration for CSI-2, wouldn't
+> > > it be easier to add a boolean clock_non_cont (or similar) to
+> > > v4l2_mbus_config_mipi_csi2 ?
+> >
+> > That would be functionally equivalent, but flags will take less memory
+> > compared to multiple booleans. I don't mind much though, and another
+> > option would be to use a bitfield.
+> 
+> In the long term, shouldn't flags be removed completely ?
+> Or some of them will stay ?
+
+Part of the config will be boolean information. That can be stored as
+bools, as a bitfield, or as an integer with macros (or an enum) to
+define flags. The first option would consume more memory. I don't have a
+preference between the second and third options.
+
+> Anyway, for now this is fine
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> 
 > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > > > > ---
-> > > >  drivers/gpu/ipu-v3/ipu-csi.c                |  6 ++---
-> > > >  drivers/media/i2c/adv7180.c                 |  8 ++++---
-> > > >  drivers/media/i2c/adv748x/adv748x-csi2.c    | 18 +--------------
-> > > >  drivers/media/i2c/ml86v7667.c               |  5 +++--
-> > > >  drivers/media/i2c/mt9m001.c                 |  8 ++++---
-> > > >  drivers/media/i2c/mt9m111.c                 | 16 +++++++------
-> > > >  drivers/media/i2c/ov6650.c                  | 14 ++++++------
-> > > >  drivers/media/i2c/ov9640.c                  |  8 ++++---
-> > > >  drivers/media/i2c/tc358743.c                | 20 ++---------------
-> > > >  drivers/media/i2c/tvp5150.c                 |  6 +++--
-> > > >  drivers/media/platform/pxa_camera.c         | 12 +++++-----
-> > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 16 +++----------
-> > > >  drivers/staging/media/imx/imx-media-csi.c   |  7 +++---
-> > > >  drivers/staging/media/imx/imx6-mipi-csi2.c  | 25 +++------------------
-> > >
-> > > drivers conversions looks good to me
-> > >
-> > > >  include/media/v4l2-mediabus.h               | 20 ++++++++++++++---
-> > > >  15 files changed, 78 insertions(+), 111 deletions(-)
+> > > > Changes since v1:
 > > > >
-> > > > diff --git a/drivers/gpu/ipu-v3/ipu-csi.c b/drivers/gpu/ipu-v3/ipu-csi.c
-> > > > index a9639d098893..778bc26d3ba5 100644
-> > > > --- a/drivers/gpu/ipu-v3/ipu-csi.c
-> > > > +++ b/drivers/gpu/ipu-v3/ipu-csi.c
-> > > > @@ -357,11 +357,11 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_config *csicfg,
-> > > >  	switch (mbus_cfg->type) {
-> > > >  	case V4L2_MBUS_PARALLEL:
-> > > >  		csicfg->ext_vsync = 1;
-> > > > -		csicfg->vsync_pol = (mbus_cfg->flags &
-> > > > +		csicfg->vsync_pol = (mbus_cfg->bus.parallel.flags &
-> > > >  				     V4L2_MBUS_VSYNC_ACTIVE_LOW) ? 1 : 0;
-> > > > -		csicfg->hsync_pol = (mbus_cfg->flags &
-> > > > +		csicfg->hsync_pol = (mbus_cfg->bus.parallel.flags &
-> > > >  				     V4L2_MBUS_HSYNC_ACTIVE_LOW) ? 1 : 0;
-> > > > -		csicfg->pixclk_pol = (mbus_cfg->flags &
-> > > > +		csicfg->pixclk_pol = (mbus_cfg->bus.parallel.flags &
-> > > >  				      V4L2_MBUS_PCLK_SAMPLE_FALLING) ? 1 : 0;
-> > > >  		csicfg->clk_mode = IPU_CSI_CLK_MODE_GATED_CLK;
-> > > >  		break;
+> > > > - Check all CSI2 flags in v4l2_fwnode_endpoint_parse_csi2_bus()
+> > > > ---
+> > > >  drivers/media/i2c/adv7180.c           | 3 +--
+> > > >  drivers/media/i2c/tc358743.c          | 6 +++---
+> > > >  drivers/media/v4l2-core/v4l2-fwnode.c | 6 ++----
+> > > >  include/media/v4l2-mediabus.h         | 3 +--
+> > > >  4 files changed, 7 insertions(+), 11 deletions(-)
+> > > >
 > > > > diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> > > > index d9a99fcfacb1..286f5017d9c3 100644
+> > > > index 3ff37a550810..4f5db195e66d 100644
 > > > > --- a/drivers/media/i2c/adv7180.c
 > > > > +++ b/drivers/media/i2c/adv7180.c
-> > > > @@ -784,7 +784,8 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
-> > > >
+> > > > @@ -785,8 +785,7 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
 > > > >  	if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2) {
 > > > >  		cfg->type = V4L2_MBUS_CSI2_DPHY;
-> > > > -		cfg->flags = V4L2_MBUS_CSI2_1_LANE |
-> > > > +		cfg->bus.mipi_csi2.num_data_lanes = 1;
-> > > > +		cfg->bus.mipi_csi2.flags =
-> > > >  				V4L2_MBUS_CSI2_CHANNEL_0 |
-> > > >  				V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+> > > >  		cfg->bus.mipi_csi2.num_data_lanes = 1;
+> > > > -		cfg->bus.mipi_csi2.flags =
+> > > > -				V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+> > > > +		cfg->bus.mipi_csi2.flags = 0;
 > > > >  	} else {
-> > > > @@ -792,8 +793,9 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
+> > > >  		/*
 > > > >  		 * The ADV7180 sensor supports BT.601/656 output modes.
-> > > >  		 * The BT.656 is default and not yet configurable by s/w.
-> > > >  		 */
-> > > > -		cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_PCLK_SAMPLE_RISING |
-> > > > -				 V4L2_MBUS_DATA_ACTIVE_HIGH;
-> > > > +		cfg->bus.parallel.flags = V4L2_MBUS_MASTER |
-> > > > +					  V4L2_MBUS_PCLK_SAMPLE_RISING |
-> > > > +					  V4L2_MBUS_DATA_ACTIVE_HIGH;
-> > > >  		cfg->type = V4L2_MBUS_BT656;
-> > > >  	}
-> > > >
-> > > > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > > > index 589e9644fcdc..bd4f3fe0e309 100644
-> > > > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > > > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> > > > @@ -222,23 +222,7 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
-> > > >  		return -EINVAL;
-> > > >
-> > > >  	config->type = V4L2_MBUS_CSI2_DPHY;
-> > > > -	switch (tx->active_lanes) {
-> > > > -	case 1:
-> > > > -		config->flags = V4L2_MBUS_CSI2_1_LANE;
-> > > > -		break;
-> > > > -
-> > > > -	case 2:
-> > > > -		config->flags = V4L2_MBUS_CSI2_2_LANE;
-> > > > -		break;
-> > > > -
-> > > > -	case 3:
-> > > > -		config->flags = V4L2_MBUS_CSI2_3_LANE;
-> > > > -		break;
-> > > > -
-> > > > -	case 4:
-> > > > -		config->flags = V4L2_MBUS_CSI2_4_LANE;
-> > > > -		break;
-> > > > -	}
-> > > > +	config->bus.mipi_csi2.num_data_lanes = tx->active_lanes;
-> > > >
-> > > >  	return 0;
-> > > >  }
-> > > > diff --git a/drivers/media/i2c/ml86v7667.c b/drivers/media/i2c/ml86v7667.c
-> > > > index 4a1410ebb4c8..48cc0b0922f4 100644
-> > > > --- a/drivers/media/i2c/ml86v7667.c
-> > > > +++ b/drivers/media/i2c/ml86v7667.c
-> > > > @@ -223,9 +223,10 @@ static int ml86v7667_get_mbus_config(struct v4l2_subdev *sd,
-> > > >  				     unsigned int pad,
-> > > >  				     struct v4l2_mbus_config *cfg)
-> > > >  {
-> > > > -	cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_PCLK_SAMPLE_RISING |
-> > > > -		     V4L2_MBUS_DATA_ACTIVE_HIGH;
-> > > >  	cfg->type = V4L2_MBUS_BT656;
-> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_MASTER |
-> > > > +				  V4L2_MBUS_PCLK_SAMPLE_RISING |
-> > > > +				  V4L2_MBUS_DATA_ACTIVE_HIGH;
-> > > >
-> > > >  	return 0;
-> > > >  }
-> > > > diff --git a/drivers/media/i2c/mt9m001.c b/drivers/media/i2c/mt9m001.c
-> > > > index c9f0bd997ea7..ad13b0c890c0 100644
-> > > > --- a/drivers/media/i2c/mt9m001.c
-> > > > +++ b/drivers/media/i2c/mt9m001.c
-> > > > @@ -695,10 +695,12 @@ static int mt9m001_get_mbus_config(struct v4l2_subdev *sd,
-> > > >  				   struct v4l2_mbus_config *cfg)
-> > > >  {
-> > > >  	/* MT9M001 has all capture_format parameters fixed */
-> > > > -	cfg->flags = V4L2_MBUS_PCLK_SAMPLE_FALLING |
-> > > > -		V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_HIGH |
-> > > > -		V4L2_MBUS_DATA_ACTIVE_HIGH | V4L2_MBUS_MASTER;
-> > > >  	cfg->type = V4L2_MBUS_PARALLEL;
-> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_PCLK_SAMPLE_FALLING |
-> > > > +				  V4L2_MBUS_HSYNC_ACTIVE_HIGH |
-> > > > +				  V4L2_MBUS_VSYNC_ACTIVE_HIGH |
-> > > > +				  V4L2_MBUS_DATA_ACTIVE_HIGH |
-> > > > +				  V4L2_MBUS_MASTER;
-> > > >
-> > > >  	return 0;
-> > > >  }
-> > > > diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
-> > > > index 91a44359bcd3..6cf3ccf85d27 100644
-> > > > --- a/drivers/media/i2c/mt9m111.c
-> > > > +++ b/drivers/media/i2c/mt9m111.c
-> > > > @@ -1143,15 +1143,17 @@ static int mt9m111_get_mbus_config(struct v4l2_subdev *sd,
-> > > >  {
-> > > >  	struct mt9m111 *mt9m111 = container_of(sd, struct mt9m111, subdev);
-> > > >
-> > > > -	cfg->flags = V4L2_MBUS_MASTER |
-> > > > -		V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_HIGH |
-> > > > -		V4L2_MBUS_DATA_ACTIVE_HIGH;
-> > > > -
-> > > > -	cfg->flags |= mt9m111->pclk_sample ? V4L2_MBUS_PCLK_SAMPLE_RISING :
-> > > > -		V4L2_MBUS_PCLK_SAMPLE_FALLING;
-> > > > -
-> > > >  	cfg->type = V4L2_MBUS_PARALLEL;
-> > > >
-> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_MASTER |
-> > > > +				  V4L2_MBUS_HSYNC_ACTIVE_HIGH |
-> > > > +				  V4L2_MBUS_VSYNC_ACTIVE_HIGH |
-> > > > +				  V4L2_MBUS_DATA_ACTIVE_HIGH;
-> > > > +
-> > > > +	cfg->bus.parallel.flags |= mt9m111->pclk_sample ?
-> > > > +				   V4L2_MBUS_PCLK_SAMPLE_RISING :
-> > > > +				   V4L2_MBUS_PCLK_SAMPLE_FALLING;
-> > > > +
-> > > >  	return 0;
-> > > >  }
-> > > >
-> > > > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-> > > > index 455a627e35a0..b2654b32bc62 100644
-> > > > --- a/drivers/media/i2c/ov6650.c
-> > > > +++ b/drivers/media/i2c/ov6650.c
-> > > > @@ -932,15 +932,15 @@ static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
-> > > >  	if (ret)
-> > > >  		return ret;
-> > > >
-> > > > -	cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_DATA_ACTIVE_HIGH
-> > > > -		   | ((comj & COMJ_VSYNC_HIGH)  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
-> > > > -						: V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> > > > -		   | ((comf & COMF_HREF_LOW)    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
-> > > > -						: V4L2_MBUS_HSYNC_ACTIVE_HIGH)
-> > > > -		   | ((comj & COMJ_PCLK_RISING) ? V4L2_MBUS_PCLK_SAMPLE_RISING
-> > > > -						: V4L2_MBUS_PCLK_SAMPLE_FALLING);
-> > > >  	cfg->type = V4L2_MBUS_PARALLEL;
-> > > >
-> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_MASTER | V4L2_MBUS_DATA_ACTIVE_HIGH
-> > > > +		| ((comj & COMJ_VSYNC_HIGH)  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
-> > > > +					     : V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> > > > +		| ((comf & COMF_HREF_LOW)    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
-> > > > +					     : V4L2_MBUS_HSYNC_ACTIVE_HIGH)
-> > > > +		| ((comj & COMJ_PCLK_RISING) ? V4L2_MBUS_PCLK_SAMPLE_RISING
-> > > > +					     : V4L2_MBUS_PCLK_SAMPLE_FALLING);
-> > > >  	return 0;
-> > > >  }
-> > > >
-> > > > diff --git a/drivers/media/i2c/ov9640.c b/drivers/media/i2c/ov9640.c
-> > > > index 0bab8c2cf160..9f44ed52d164 100644
-> > > > --- a/drivers/media/i2c/ov9640.c
-> > > > +++ b/drivers/media/i2c/ov9640.c
-> > > > @@ -652,10 +652,12 @@ static int ov9640_get_mbus_config(struct v4l2_subdev *sd,
-> > > >  				  unsigned int pad,
-> > > >  				  struct v4l2_mbus_config *cfg)
-> > > >  {
-> > > > -	cfg->flags = V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_MASTER |
-> > > > -		V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_HIGH |
-> > > > -		V4L2_MBUS_DATA_ACTIVE_HIGH;
-> > > >  	cfg->type = V4L2_MBUS_PARALLEL;
-> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_PCLK_SAMPLE_RISING |
-> > > > +				  V4L2_MBUS_MASTER |
-> > > > +				  V4L2_MBUS_VSYNC_ACTIVE_HIGH |
-> > > > +				  V4L2_MBUS_HSYNC_ACTIVE_HIGH |
-> > > > +				  V4L2_MBUS_DATA_ACTIVE_HIGH;
-> > > >
-> > > >  	return 0;
-> > > >  }
 > > > > diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-> > > > index 40512004afba..dfbc42675143 100644
+> > > > index dfbc42675143..e18b8947ad7e 100644
 > > > > --- a/drivers/media/i2c/tc358743.c
 > > > > +++ b/drivers/media/i2c/tc358743.c
-> > > > @@ -1613,24 +1613,8 @@ static int tc358743_get_mbus_config(struct v4l2_subdev *sd,
+> > > > @@ -717,7 +717,7 @@ static void tc358743_set_csi(struct v4l2_subdev *sd)
+> > > >  			((lanes > 3) ? MASK_D3M_HSTXVREGEN : 0x0));
+> > > >
+> > > >  	i2c_wr32(sd, TXOPTIONCNTRL, (state->bus.flags &
+> > > > -		 V4L2_MBUS_CSI2_CONTINUOUS_CLOCK) ? MASK_CONTCLKMODE : 0);
+> > > > +		 V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK) ? 0 : MASK_CONTCLKMODE);
+> > > >  	i2c_wr32(sd, STARTCNTRL, MASK_START);
+> > > >  	i2c_wr32(sd, CSI_START, MASK_STRT);
+> > > >
+> > > > @@ -1613,7 +1613,7 @@ static int tc358743_get_mbus_config(struct v4l2_subdev *sd,
 > > > >  	cfg->type = V4L2_MBUS_CSI2_DPHY;
 > > > >
 > > > >  	/* Support for non-continuous CSI-2 clock is missing in the driver */
-> > > > -	cfg->flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> > > > -
-> > > > -	switch (state->csi_lanes_in_use) {
-> > > > -	case 1:
-> > > > -		cfg->flags |= V4L2_MBUS_CSI2_1_LANE;
-> > > > -		break;
-> > > > -	case 2:
-> > > > -		cfg->flags |= V4L2_MBUS_CSI2_2_LANE;
-> > > > -		break;
-> > > > -	case 3:
-> > > > -		cfg->flags |= V4L2_MBUS_CSI2_3_LANE;
-> > > > -		break;
-> > > > -	case 4:
-> > > > -		cfg->flags |= V4L2_MBUS_CSI2_4_LANE;
-> > > > -		break;
-> > > > -	default:
-> > > > -		return -EINVAL;
-> > > > -	}
-> > > > +	cfg->bus.mipi_csi2.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> > > > +	cfg->bus.mipi_csi2.num_data_lanes = state->csi_lanes_in_use;
+> > > > -	cfg->bus.mipi_csi2.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+> > > > +	cfg->bus.mipi_csi2.flags = 0;
+> > > >  	cfg->bus.mipi_csi2.num_data_lanes = state->csi_lanes_in_use;
 > > > >
 > > > >  	return 0;
-> > > >  }
-> > > > diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-> > > > index 4b16ffcaef98..65472438444b 100644
-> > > > --- a/drivers/media/i2c/tvp5150.c
-> > > > +++ b/drivers/media/i2c/tvp5150.c
-> > > > @@ -1198,8 +1198,10 @@ static int tvp5150_get_mbus_config(struct v4l2_subdev *sd,
-> > > >  	struct tvp5150 *decoder = to_tvp5150(sd);
-> > > >
-> > > >  	cfg->type = decoder->mbus_type;
-> > > > -	cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_PCLK_SAMPLE_RISING
-> > > > -		   | V4L2_MBUS_FIELD_EVEN_LOW | V4L2_MBUS_DATA_ACTIVE_HIGH;
-> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_MASTER
-> > > > +				| V4L2_MBUS_PCLK_SAMPLE_RISING
-> > > > +				| V4L2_MBUS_FIELD_EVEN_LOW
-> > > > +				| V4L2_MBUS_DATA_ACTIVE_HIGH;
-> > > >
-> > > >  	return 0;
-> > > >  }
-> > > > diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/pxa_camera.c
-> > > > index b5644cf37fe9..35145e3348f0 100644
-> > > > --- a/drivers/media/platform/pxa_camera.c
-> > > > +++ b/drivers/media/platform/pxa_camera.c
-> > > > @@ -1587,24 +1587,26 @@ static int pxa_camera_set_bus_param(struct pxa_camera_dev *pcdev)
-> > > >  	 * PXA does not support V4L2_MBUS_DATA_ACTIVE_LOW and the bus mastering
-> > > >  	 * roles should match.
-> > > >  	 */
-> > > > -	if (cfg.flags != mbus_config) {
-> > > > +	if (cfg.bus.parallel.flags != mbus_config) {
-> > > >  		unsigned int pxa_mbus_role = mbus_config & (V4L2_MBUS_MASTER |
-> > > >  							    V4L2_MBUS_SLAVE);
-> > > > -		if (pxa_mbus_role != (cfg.flags & (V4L2_MBUS_MASTER |
-> > > > -						   V4L2_MBUS_SLAVE))) {
-> > > > +		unsigned int flags = cfg.bus.parallel.flags;
-> > > > +
-> > > > +		if (pxa_mbus_role != (flags & (V4L2_MBUS_MASTER |
-> > > > +					       V4L2_MBUS_SLAVE))) {
-> > > >  			dev_err(pcdev_to_dev(pcdev),
-> > > >  				"Unsupported mbus configuration: bus mastering\n");
-> > > >  			return -EINVAL;
-> > > >  		}
-> > > >
-> > > > -		if (cfg.flags & V4L2_MBUS_DATA_ACTIVE_LOW) {
-> > > > +		if (flags & V4L2_MBUS_DATA_ACTIVE_LOW) {
-> > > >  			dev_err(pcdev_to_dev(pcdev),
-> > > >  				"Unsupported mbus configuration: DATA_ACTIVE_LOW\n");
-> > > >  			return -EINVAL;
-> > > >  		}
+> > > > @@ -2039,7 +2039,7 @@ static int tc358743_probe(struct i2c_client *client)
+> > > >  	/* platform data */
+> > > >  	if (pdata) {
+> > > >  		state->pdata = *pdata;
+> > > > -		state->bus.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+> > > > +		state->bus.flags = 0;
+> > > >  	} else {
+> > > >  		err = tc358743_probe_of(state);
+> > > >  		if (err == -ENODEV)
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > > index 9ff3ebb230e7..71dcc9a96535 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > > @@ -207,13 +207,11 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
+> > > >  	if (fwnode_property_present(fwnode, "clock-noncontinuous")) {
+> > > >  		flags |= V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
+> > > >  		pr_debug("non-continuous clock\n");
+> > > > -	} else {
+> > > > -		flags |= V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
 > > > >  	}
 > > > >
-> > > > -	pxa_camera_setup_cicr(pcdev, cfg.flags, pixfmt);
-> > > > +	pxa_camera_setup_cicr(pcdev, cfg.bus.parallel.flags, pixfmt);
-> > > >
-> > > >  	return 0;
-> > > >  }
-> > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > > index 8c939cb3073d..cbac5801720b 100644
-> > > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > > @@ -603,7 +603,6 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
-> > > >  				  unsigned int *lanes)
-> > > >  {
-> > > >  	struct v4l2_mbus_config mbus_config = { 0 };
-> > > > -	unsigned int num_lanes = UINT_MAX;
-> > > >  	int ret;
-> > > >
-> > > >  	*lanes = priv->lanes;
-> > > > @@ -626,23 +625,14 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
-> > > >  		return -EINVAL;
-> > > >  	}
-> > > >
-> > > > -	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
-> > > > -		num_lanes = 1;
-> > > > -	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
-> > > > -		num_lanes = 2;
-> > > > -	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
-> > > > -		num_lanes = 3;
-> > > > -	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
-> > > > -		num_lanes = 4;
-> > > > -
-> > > > -	if (num_lanes > priv->lanes) {
-> > > > +	if (mbus_config.bus.mipi_csi2.num_data_lanes > priv->lanes) {
-> > > >  		dev_err(priv->dev,
-> > > >  			"Unsupported mbus config: too many data lanes %u\n",
-> > > > -			num_lanes);
-> > > > +			mbus_config.bus.mipi_csi2.num_data_lanes);
-> > > >  		return -EINVAL;
-> > > >  	}
-> > > >
-> > > > -	*lanes = num_lanes;
-> > > > +	*lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
-> > > >
-> > > >  	return 0;
-> > > >  }
-> > > > diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-> > > > index bd7f156f2d52..b2b1f4dd41d7 100644
-> > > > --- a/drivers/staging/media/imx/imx-media-csi.c
-> > > > +++ b/drivers/staging/media/imx/imx-media-csi.c
-> > > > @@ -718,9 +718,10 @@ static int csi_setup(struct csi_priv *priv)
-> > > >
-> > > >  	/* compose mbus_config from the upstream endpoint */
-> > > >  	mbus_cfg.type = priv->upstream_ep.bus_type;
-> > > > -	mbus_cfg.flags = is_parallel_bus(&priv->upstream_ep) ?
-> > > > -		priv->upstream_ep.bus.parallel.flags :
-> > > > -		priv->upstream_ep.bus.mipi_csi2.flags;
-> > > > +	if (is_parallel_bus(&priv->upstream_ep))
-> > > > +		mbus_cfg.bus.parallel = priv->upstream_ep.bus.parallel;
-> > > > +	else
-> > > > +		mbus_cfg.bus.mipi_csi2 = priv->upstream_ep.bus.mipi_csi2;
-> > > >
-> > > >  	if_fmt = *infmt;
-> > > >  	crop = priv->crop;
-> > > > diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> > > > index 558b256ac935..c4cb558a85c6 100644
-> > > > --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> > > > +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> > > > @@ -303,7 +303,6 @@ static void csi2ipu_gasket_init(struct csi2_dev *csi2)
-> > > >  static int csi2_get_active_lanes(struct csi2_dev *csi2, unsigned int *lanes)
-> > > >  {
-> > > >  	struct v4l2_mbus_config mbus_config = { 0 };
-> > > > -	unsigned int num_lanes = UINT_MAX;
-> > > >  	int ret;
-> > > >
-> > > >  	*lanes = csi2->data_lanes;
-> > > > @@ -326,32 +325,14 @@ static int csi2_get_active_lanes(struct csi2_dev *csi2, unsigned int *lanes)
-> > > >  		return -EINVAL;
-> > > >  	}
-> > > >
-> > > > -	switch (mbus_config.flags & V4L2_MBUS_CSI2_LANES) {
-> > > > -	case V4L2_MBUS_CSI2_1_LANE:
-> > > > -		num_lanes = 1;
-> > > > -		break;
-> > > > -	case V4L2_MBUS_CSI2_2_LANE:
-> > > > -		num_lanes = 2;
-> > > > -		break;
-> > > > -	case V4L2_MBUS_CSI2_3_LANE:
-> > > > -		num_lanes = 3;
-> > > > -		break;
-> > > > -	case V4L2_MBUS_CSI2_4_LANE:
-> > > > -		num_lanes = 4;
-> > > > -		break;
-> > > > -	default:
-> > > > -		num_lanes = csi2->data_lanes;
-> > > > -		break;
-> > > > -	}
-> > > > -
-> > > > -	if (num_lanes > csi2->data_lanes) {
-> > > > +	if (mbus_config.bus.mipi_csi2.num_data_lanes > csi2->data_lanes) {
-> > > >  		dev_err(csi2->dev,
-> > > >  			"Unsupported mbus config: too many data lanes %u\n",
-> > > > -			num_lanes);
-> > > > +			mbus_config.bus.mipi_csi2.num_data_lanes);
-> > > >  		return -EINVAL;
-> > > >  	}
-> > > >
-> > > > -	*lanes = num_lanes;
-> > > > +	*lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
-> > > >
-> > > >  	return 0;
-> > > >  }
+> > > >  	if (bus_type == V4L2_MBUS_CSI2_DPHY ||
+> > > > -	    bus_type == V4L2_MBUS_CSI2_CPHY || lanes_used ||
+> > > > -	    have_clk_lane || (flags & ~V4L2_MBUS_CSI2_CONTINUOUS_CLOCK)) {
+> > > > +	    bus_type == V4L2_MBUS_CSI2_CPHY ||
+> > > > +	    lanes_used || have_clk_lane || flags) {
+> > > >  		/* Only D-PHY has a clock lane. */
+> > > >  		unsigned int dfl_data_lane_index =
+> > > >  			bus_type == V4L2_MBUS_CSI2_DPHY;
 > > > > diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> > > > index 9c4970fbd8ea..269aaf57ba32 100644
+> > > > index c6626a22b394..e0db3bcff9ed 100644
 > > > > --- a/include/media/v4l2-mediabus.h
 > > > > +++ b/include/media/v4l2-mediabus.h
-> > > > @@ -166,12 +166,26 @@ enum v4l2_mbus_type {
+> > > > @@ -68,8 +68,7 @@
 > > > >
-> > > >  /**
-> > > >   * struct v4l2_mbus_config - media bus configuration
-> > > > - * @type:	in: interface type
-> > > > - * @flags:	in / out: configuration flags, depending on @type
-> > > > + * @type: interface type
-> > > > + * @bus: bus configuration data structure
-> > > > + * @bus.parallel: embedded &struct v4l2_mbus_config_parallel.
-> > > > + *		  Used if the bus is parallel or BT.656.
-> > > > + * @bus.mipi_csi1: embedded &struct v4l2_mbus_config_mipi_csi1.
-> > > > + *		   Used if the bus is MIPI Alliance's Camera Serial
-> > > > + *		   Interface version 1 (MIPI CSI1) or Standard
-> > > > + *		   Mobile Imaging Architecture's Compact Camera Port 2
-> > > > + *		   (SMIA CCP2).
-> > > > + * @bus.mipi_csi2: embedded &struct v4l2_mbus_config_mipi_csi2.
-> > > > + *		   Used if the bus is MIPI Alliance's Camera Serial
-> > > > + *		   Interface version 2 (MIPI CSI2).
-> > > >   */
-> > > >  struct v4l2_mbus_config {
-> > > >  	enum v4l2_mbus_type type;
-> > > > -	unsigned int flags;
-> > > > +	union {
-> > > > +		struct v4l2_mbus_config_parallel parallel;
-> > > > +		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
-> > > > +		struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
-> > >
-> > > I wonder if we would be able to use a single structure for D-PHY and
-> > > C-PHY. The clock lane index does not make much sense for the latter,
-> > > but it was already there, so it can be changed on top in case it is
-> > > required
-> >
-> > I'm not sure to follow you here. CSI1 and CSI2 are not D-PHY versus
-> > C-PHY.
-> 
-> I meant if we will be able to correctly represent CSI-2 on C-PHY with
-> struct v4l2_mbus_config_mipi_csi2.
-
-I suppose we can split it into two structures later if the need arises.
-
-> > > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > >
-> > > > +	} bus;
-> > > >  };
+> > > >  /* Serial flags */
+> > > >  /* Clock non-continuous mode support. */
+> > > > -#define V4L2_MBUS_CSI2_CONTINUOUS_CLOCK		BIT(8)
+> > > > -#define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(9)
+> > > > +#define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(0)
 > > > >
-> > > >  /**
+> > > >  #define V4L2_MBUS_CSI2_MAX_DATA_LANES		8
+> > > >
+> > > >
+> > > > base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+> > > > prerequisite-patch-id: cc085f7de462ead19772e3f64e1b1d13bb92d5b7
+> > > > prerequisite-patch-id: d6943d1780603964a753d571e26bad98b4954a8a
+> > > > prerequisite-patch-id: c63eaa2a61aeea6d4be238644f1324f0170d981c
+> > > > prerequisite-patch-id: 797385e385b3f71f0bafe7eb8e712d52628c23d7
+> > > > prerequisite-patch-id: 2f7fe0901f79ac1d445e443b5d3ee7ab9ae41525
+> > > > prerequisite-patch-id: 70ddd068308b5758872349ec6e0f03e8c9427dc0
+> > > > prerequisite-patch-id: 987cc8f39cb63badf2d6ceba946deffafba9a249
 
 -- 
 Regards,
