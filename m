@@ -2,64 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF4FB4B5D98
-	for <lists+linux-media@lfdr.de>; Mon, 14 Feb 2022 23:27:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB0F84B5E96
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 01:03:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231830AbiBNW0J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Feb 2022 17:26:09 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38964 "EHLO
+        id S231194AbiBOAEB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Feb 2022 19:04:01 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231825AbiBNW0J (ORCPT
+        with ESMTP id S229590AbiBOAEA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Feb 2022 17:26:09 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08C42140755
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 14:26:00 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id p15so40287375ejc.7
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 14:25:59 -0800 (PST)
+        Mon, 14 Feb 2022 19:04:00 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23B8666CB6
+        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 16:03:51 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id u18so29443772edt.6
+        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 16:03:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=IHISBmUOI/ikE6WItRpq9TFUbX44lb92b2lXd2BONMg=;
-        b=kXzDIbeon23MHLMt55FkUQMNMzpbUwjF4pGEHQVVR8kxY9f8bNkaLn7jE0kbUtbn3L
-         b9kl4UwC8flsLgF3qVMkSmkvmdF1Jt9Kjef1jBBpf5/Zf+a+E7tm2ei87Qd5NbmIKrOF
-         N82gD75TFZH0mtC5IYIsG8oT11N0ErdMbUQ+vDx4iQdPDduvByEYqq0+N85F+cKyEzjH
-         qAJ9CPKDgzdEdqLPAEum3T8FIlDiMJQUosPgAeySYE6owzXoDc9a5wNuN0Re5wGSB2JK
-         +J/lWvtMVPoSlQn5X6RkXil8/6Lfo9tlft0Vb/pupOfjNdjHeBjWfIslcuL+R2HeH5L/
-         d/2g==
+        bh=goL4SDS7AKRornMukk78aUmCRfQsSfNIpL54XKAlePs=;
+        b=XzWME/tX9Pwn10nvDtBLix/JWvTxUWXpra89PLWebeGid3kJF+yJ94sCAp3TEJ2Pb7
+         KG+sCzgGuo2pIRe0MLD2cGyPkH9DnNc4+Ycb3JPr0uTMGORv8lpEhVpJcM44oxYId87N
+         mtZE6Uf/V6v6acN77V0+9wlwvLosHWzh/Ohh4kdpAKLU/nb4OYpkbF+ZHYTD6xz1sO1C
+         gFbbdJdvLk14r+s/gvut3A9KnLjWkee0MkMQ92QylFULzIK2e64RbU0SODfunYR0uoJL
+         dT8C0AKHleHQkF1jN8kfi3K2yMpxQjflv9wArFKb5HhuIO4KJiqOhHiDExOSjEXWShO0
+         O3lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IHISBmUOI/ikE6WItRpq9TFUbX44lb92b2lXd2BONMg=;
-        b=PgiyonOaLhbvCwdL5Vz1Y2WXt6c6yzP0s/9eFH6DSf643I8YhrvVtrGuZ+ae20YS2k
-         hqMRWxbRBVVQA//4v92XFPBltIFlzQ6shAGRI0rPeoom5wq7/qt8l8RNWrmEVBnQSkQK
-         PzzgxY5ooWVKGxip5+WrEqcg1GagSP6Q3YcUB1R3S1hxDE23a5aMMRQPQhpSlvckoDqm
-         A0VswOQeVQ7o6h2uhwoWbtH13MFIlV+1REqAz0cHDidSvokApia7Zom1aM1EADeCB5bQ
-         nYK6UDhoB/TwxStEjSeOU2Kwv0sQ+dbyZ507104OTIORWocRTq9sDz4WvbTzofQXXMpO
-         tn8g==
-X-Gm-Message-State: AOAM532qIiVTwpGvd16TmpmtLiEIyPmfyexTyFe+0F5gBFeDvT9Grgkq
-        dUO+fkvLVmhIcsja/vyD52NnsoRM2UaqRz8/q6yISg==
-X-Google-Smtp-Source: ABdhPJzGACGFNq1BPwRwv23eE84sjRC0d54XfeIYewn82JWldVK/PTYDHJp5HG1XHJwLS3IoON1Lvd3AWtka9GIbv0c=
-X-Received: by 2002:a17:906:51d6:: with SMTP id v22mr734664ejk.446.1644877558320;
- Mon, 14 Feb 2022 14:25:58 -0800 (PST)
+        bh=goL4SDS7AKRornMukk78aUmCRfQsSfNIpL54XKAlePs=;
+        b=fHPsF0YeTbrllhPATSCvdDXN+0zO6+DmZExCCxtK015D2yMQbjQRggul++BPb9khsW
+         AJO8qY1uGJdG7ViwoLWN1wmW8gFlu19s7MvCpvTZFd31cKOcvNw7hEBWtpCB/X/3cxOq
+         Uivy95XGbCeiki/zbZ5xGZg1P6k6f0CUwcyKEzMckO8ByC0BSyLKqcVPrAncqld2QGHr
+         07U8eVv5iI1Bx01QilPhYOaBdYI4qBv0CVKrprGdwTaHpoFnV6/C73ZcXDiSKLuugdWK
+         HcIXmqLuuHM7qffUbRCjX79jT7+DFWD566eMvdWKSyrs3YIIofhY8TBU/dJOG+c/3Bg0
+         JUPQ==
+X-Gm-Message-State: AOAM5303soz8RMwC9xWZAleXvWsNEFsOtMPpHF4wQW6XIQkaq9td2Zd1
+        Pk2vpGqSoNNsDpD0hRLav5C8J8eftHB9aPep69jkmQ==
+X-Google-Smtp-Source: ABdhPJxAtnWhygjfdRdPmkvAqKQauo1KJKZ52IV82X0eQflqoUGfUG0iTb+vi8L0jmGH8ye8Rphg9kzZiPnIMct0HzM=
+X-Received: by 2002:a05:6402:5c9:: with SMTP id n9mr1308182edx.207.1644883429474;
+ Mon, 14 Feb 2022 16:03:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20220211161831.3493782-1-tjmercier@google.com>
- <20220211161831.3493782-7-tjmercier@google.com> <Ygdfe3XSvN8iFuUc@kroah.com>
-In-Reply-To: <Ygdfe3XSvN8iFuUc@kroah.com>
+ <20220211161831.3493782-7-tjmercier@google.com> <CAHRSSEwWEeW2+Pd17VUNrPYSWhOu-ao7rgnk-pNROcfH6abTzA@mail.gmail.com>
+In-Reply-To: <CAHRSSEwWEeW2+Pd17VUNrPYSWhOu-ao7rgnk-pNROcfH6abTzA@mail.gmail.com>
 From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Mon, 14 Feb 2022 14:25:47 -0800
-Message-ID: <CABdmKX1eKZZ9809uxnzT_Bm+mdNuK2AObLRxyBpdDF3yE76Hrg@mail.gmail.com>
+Date:   Mon, 14 Feb 2022 16:03:38 -0800
+Message-ID: <CABdmKX33PDEioxdQSFpQEFdK58kDo==JeUN_1m_NB__5qGMJ0Q@mail.gmail.com>
 Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
  ownership of fds
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Todd Kjos <tkjos@google.com>
 Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
         Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
         Todd Kjos <tkjos@android.com>,
         Martijn Coenen <maco@android.com>,
@@ -69,9 +70,7 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Suren Baghdasaryan <surenb@google.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
         Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
         Brian Starkey <Brian.Starkey@arm.com>,
         John Stultz <john.stultz@linaro.org>,
         Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
@@ -86,17 +85,18 @@ X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 11, 2022 at 11:19 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+On Mon, Feb 14, 2022 at 1:26 PM Todd Kjos <tkjos@google.com> wrote:
 >
-> On Fri, Feb 11, 2022 at 04:18:29PM +0000, T.J. Mercier wrote:
+> On Fri, Feb 11, 2022 at 8:19 AM T.J. Mercier <tjmercier@google.com> wrote=
+:
+> >
 > > This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
 > > that a process sending an fd array to another process over binder IPC
 > > can set to relinquish ownership of the fds being sent for memory
@@ -147,58 +147,70 @@ y
 > >  #include <linux/freezer.h>
 > > @@ -2482,8 +2483,10 @@ static int binder_translate_fd_array(struct list=
 _head *pf_head,
+>
+> Is this only needed for the BINDER_TYPE_FDA case (multiple fds)? This
+> never needs to be done in the BINDER_TYPE_FD case (single fd)?
+>
+
+Currently this is the case as there is no user who would benefit from
+the single fd case. The only known user is the gralloc HAL which
+always uses BINDER_TYPE_FDA to send dmabufs. I guess we could move the
+code into binder_translate_fd if we were willing to bring back
+binder_fd_object's flags field. This looks possible, but I think it'd
+be a more intrusive change.
+
 > >  {
-> >       binder_size_t fdi, fd_buf_size;
-> >       binder_size_t fda_offset;
-> > +     bool transfer_gpu_charge =3D false;
-> >       const void __user *sender_ufda_base;
-> >       struct binder_proc *proc =3D thread->proc;
-> > +     struct binder_proc *target_proc =3D t->to_proc;
-> >       int ret;
+> >         binder_size_t fdi, fd_buf_size;
+> >         binder_size_t fda_offset;
+> > +       bool transfer_gpu_charge =3D false;
+> >         const void __user *sender_ufda_base;
+> >         struct binder_proc *proc =3D thread->proc;
+> > +       struct binder_proc *target_proc =3D t->to_proc;
+> >         int ret;
 > >
-> >       fd_buf_size =3D sizeof(u32) * fda->num_fds;
+> >         fd_buf_size =3D sizeof(u32) * fda->num_fds;
 > > @@ -2521,8 +2524,15 @@ static int binder_translate_fd_array(struct list=
 _head *pf_head,
-> >       if (ret)
-> >               return ret;
+> >         if (ret)
+> >                 return ret;
 > >
-> > +     if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
-> > +             parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
-> > +             transfer_gpu_charge =3D true;
+> > +       if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
+> > +               parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
+> > +               transfer_gpu_charge =3D true;
 > > +
-> >       for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
-> >               u32 fd;
-> > +             struct dma_buf *dmabuf;
-> > +             struct gpucg *gpucg;
+> >         for (fdi =3D 0; fdi < fda->num_fds; fdi++) {
+> >                 u32 fd;
+> > +               struct dma_buf *dmabuf;
+> > +               struct gpucg *gpucg;
 > > +
-> >               binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
-> >               binder_size_t sender_uoffset =3D fdi * sizeof(fd);
+> >                 binder_size_t offset =3D fda_offset + fdi * sizeof(fd);
+> >                 binder_size_t sender_uoffset =3D fdi * sizeof(fd);
 > >
 > > @@ -2532,6 +2542,22 @@ static int binder_translate_fd_array(struct list=
 _head *pf_head,
-> >                                                 in_reply_to);
-> >               if (ret)
-> >                       return ret > 0 ? -EINVAL : ret;
+> >                                                   in_reply_to);
+> >                 if (ret)
+> >                         return ret > 0 ? -EINVAL : ret;
 > > +
-> > +             if (!transfer_gpu_charge)
-> > +                     continue;
+> > +               if (!transfer_gpu_charge)
+> > +                       continue;
 > > +
-> > +             dmabuf =3D dma_buf_get(fd);
-> > +             if (IS_ERR(dmabuf))
-> > +                     continue;
+> > +               dmabuf =3D dma_buf_get(fd);
+> > +               if (IS_ERR(dmabuf))
+> > +                       continue;
 > > +
-> > +             gpucg =3D gpucg_get(target_proc->tsk);
-> > +             ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
-> > +             if (ret) {
-> > +                     pr_warn("%d:%d Unable to transfer DMA-BUF fd char=
-ge to %d",
-> > +                             proc->pid, thread->pid, target_proc->pid)=
-;
-> > +                     gpucg_put(gpucg);
-> > +             }
-> > +             dma_buf_put(dmabuf);
-> >       }
-> >       return 0;
+> > +               gpucg =3D gpucg_get(target_proc->tsk);
+> > +               ret =3D dma_buf_charge_transfer(dmabuf, gpucg);
+> > +               if (ret) {
+> > +                       pr_warn("%d:%d Unable to transfer DMA-BUF fd ch=
+arge to %d",
+> > +                               proc->pid, thread->pid, target_proc->pi=
+d);
+> > +                       gpucg_put(gpucg);
+> > +               }
+> > +               dma_buf_put(dmabuf);
+> >         }
+> >         return 0;
 > >  }
 > > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/a=
 ndroid/binder.h
@@ -208,8 +220,8 @@ ndroid/binder.h
 > > @@ -137,6 +137,7 @@ struct binder_buffer_object {
 > >
 > >  enum {
-> >       BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
-> > +     BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
+> >         BINDER_BUFFER_FLAG_HAS_PARENT =3D 0x01,
+> > +       BINDER_BUFFER_FLAG_SENDER_NO_NEED =3D 0x02,
 > >  };
 > >
 > >  /* struct binder_fd_array_object - object describing an array of fds i=
@@ -217,82 +229,3 @@ n a buffer
 > > --
 > > 2.35.1.265.g69c8d7142f-goog
 > >
->
-> How does userspace know that binder supports this new flag?
-
-Sorry, I don't completely follow even after Todd's comment. Doesn't
-the presence of BINDER_BUFFER_FLAG_SENDER_NO_NEED in the header do
-this? So wouldn't userspace need to be compiled against the wrong
-kernel headers for there to be a problem? In that case the allocation
-would still succeed, but there would be no charge transfer and
-unfortunately no error code.
-
-> And where is the userspace test for this new feature?
-
-I tested this on a Pixel after modifying the gralloc implementation to
-mark allocated buffers as not used by the sender. This required
-setting the BINDER_BUFFER_FLAG_SENDER_NO_NEED in libhwbinder. That
-code can be found here:
-https://android-review.googlesource.com/c/platform/system/libhwbinder/+/191=
-0752/1/Parcel.cpp
-https://android-review.googlesource.com/c/platform/system/libhidl/+/1910611=
-/
-
-Then by inspecting gpu.memory.current files in sysfs I was able to see
-the memory attributed to processes other than the graphics allocator
-service. Before this change, several megabytes of memory were
-attributed to the graphics allocator service but those buffers are
-actually used by other processes like surfaceflinger, the camera, etc.
-After the change, the gpu.memory.current amount for the graphics
-allocator service was 0 and the charges showed up in the
-gpu.memory.current files for those other processes like this:
-
-PID: 764 Process Name: zygote64
-system 8192
-system-uncached 23191552
-
-PID: 529 Process Name: /system/bin/surfaceflinger
-system-uncached 109535232
-system 92196864
-
-PID: 530 Process Name:
-/vendor/bin/hw/android.hardware.graphics.allocator@4.0-service
-system-uncached 0
-system 0
-sensor_direct_heap 0
-
-PID: 806 Process Name:
-/apex/com.google.pixel.camera.hal/bin/hw/android.hardware.camera.provider@2=
-.7-service-google
-system 1196032
-
-PID: 4608 Process Name: com.google.android.GoogleCamera
-system 2408448
-system-uncached 38887424
-sensor_direct_heap 0
-
-PID: 32102 Process Name: com.google.android.googlequicksearchbox:search
-system-uncached 91279360
-system 20480
-
-PID: 2758 Process Name: com.google.android.youtube
-system-uncached 1662976
-system 8192
-
-PID: 2517 Process Name: com.google.android.apps.nexuslauncher
-system-uncached 115662848
-system 122880
-
-PID: 2066 Process Name: com.android.systemui
-system 86016
-system-uncached 37957632
-
->  Isn't there a binder test framework somewhere?
-
-Android has the Vendor Test Suite where automated tests could be added
-for this. Is that what you're thinking of?
-
->
-> thanks,
->
-> greg k-h
