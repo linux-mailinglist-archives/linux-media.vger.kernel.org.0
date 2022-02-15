@@ -2,308 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45BB84B7833
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 21:51:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCFF34B787D
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 21:52:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242943AbiBOSO3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 13:14:29 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:32782 "EHLO
+        id S243148AbiBOSmo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 13:42:44 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242937AbiBOSO1 (ORCPT
+        with ESMTP id S241562AbiBOSmn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 13:14:27 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B76611987F;
-        Tue, 15 Feb 2022 10:14:16 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id lw4so15223809ejb.12;
-        Tue, 15 Feb 2022 10:14:16 -0800 (PST)
+        Tue, 15 Feb 2022 13:42:43 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA9027FE8
+        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 10:42:32 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id p9so13119648wra.12
+        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 10:42:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ve8tBclI5IMrrMI15B03jvD+eu/iK6m1qrk9Pz//fBI=;
-        b=YNGCUR4gBl+cRj8ZDXavs6V5oA2FX/QUEX8ZsmLGhYPTyLe52OsMU8Zi5s3AJ+rw8N
-         8C+z2K90YyucBK+6AuTmQReOR9IJYlQceYoSCxL01T6pps6H9Qkgfl4VIrngB2XIfr/b
-         ORmRCmGZVTMVJrFnEcdK/n946xLx6m3AsP0xBqB3AwH1wSUkpH6H7wudaoserf2YRUvM
-         oG1RyJSkbqqI8W8uuetSlvcDF3wp0pKHPWhE3aFfoOpgLKbUton15LbAnha6Qm/Ua8dd
-         8M8Uc8tRxjf26rQ6QqAYBjYYmy0u/yXaVX5aI/Cb8CnO4o0eaPmKVeUP3t9nygh9b6CO
-         Z4tw==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=17RfdOkFpQ0vqX6j3AbugB+kAjRG2bVcKwe0qdXZHnE=;
+        b=R0NFIY6PLX5Bq2GY7wQqcv1fzjR+HqhwNljCYJLfBmHLsZkNkH5UgW4x9kBi5gvXUt
+         Ss54ZIWiLGHlt9/QOiMPO7CGbXpioYIHjH9eSBDHqfbQhlFrWYzcqlbalgvqRQtDEPen
+         UqB+yc+2Kr94kHm3BsC8qfB8cjPpwgXUmshMQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ve8tBclI5IMrrMI15B03jvD+eu/iK6m1qrk9Pz//fBI=;
-        b=OkOPlxPulSjlDt2CsvnBzzP/ME/2xUIoai5Cn/+P3dFcecaG8DqElDPn4sJq5oxuaS
-         EivmoSwfSxOd4UHCrpdkTv69US0TgiSBJDNgUHuaYt9bUiFvMwBobfTHHaN5uBQN/Prs
-         IZLbRMUZx9eQJKF5PqU2c/5/u7bOg9rrBUcHzZdrjnzMCoQ/23vjmh6AUL/nxAlCSKuM
-         Dqf3tdR7NzaIgK7UyHOPR7F2kXsk7z/CG9MhOfx69VzOIw7DkbJCJLA8Cwt2c23Ot1AP
-         bFMJx7lg/AKHMDfkarzFfi5A310HUWHO7Hw6TYOPiioACzG4cO/PoUA6B2/D/XQky/0U
-         VWnw==
-X-Gm-Message-State: AOAM531HAQ6XXWatVceCuj1kW6dDSjDID9RW9Gbc1FZ9XvZ/lkG0etFV
-        e3+cHEviP5XI3wk8/XPQaL4=
-X-Google-Smtp-Source: ABdhPJyoSFONuo6Co7zZ8pwQfFELPB8FD8jO4vB0KxDtbmUQ6rnpkUPkWrIXFuT7VIHoJlnCFPQcAg==
-X-Received: by 2002:a17:906:77db:: with SMTP id m27mr233375ejn.763.1644948854980;
-        Tue, 15 Feb 2022 10:14:14 -0800 (PST)
-Received: from X1C7EK5.wind3.hub ([151.40.80.193])
-        by smtp.gmail.com with ESMTPSA id i5sm1950497ejo.188.2022.02.15.10.14.14
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=17RfdOkFpQ0vqX6j3AbugB+kAjRG2bVcKwe0qdXZHnE=;
+        b=wWUqiaWswTwXvaFliI9tNwo4sI5TUb/ztIXkegiNwZb8VAj2M5g/qA0AcnBIiRi2on
+         kPhcpe45MBXNxh+RGTtL1rIjncY+iH6rfq5Pc1v8wLtbGCHn3quDb043DAZZH/uPFxpX
+         QgErdgnjQ6ng6G6Tpd6PH4UuhSmBgQb3y/hMmxCG2VsUGS6oU3gXY39SS5C/w/SsrX1p
+         C3oX14lwhrs656qmbX6ER72VCZqgLKq4Iu52QVsOsnNu6KQkQ3CWGcGPmDCEDtLlHYM9
+         aeBEQHFap/M2atiEc4UuWW0wt4Xloq/mjtk3ZXA8A4suojIdqQ1NkZtNFdXwojgfD55G
+         TM1Q==
+X-Gm-Message-State: AOAM530EwyBRCDdJBqHJFy6iDzzdzeTwSTet3c+oJvHk+LITIXPRubwR
+        2rWrcIpUEIbXEeZMk76tXQO1qw==
+X-Google-Smtp-Source: ABdhPJz54Ip87v52N6pTMY2GW3cc/euNgtBXo+zsV39RnEX7mH5FCghKMZBrBwTlkUeE9KcoPJKx/A==
+X-Received: by 2002:adf:ffce:: with SMTP id x14mr253920wrs.552.1644950551214;
+        Tue, 15 Feb 2022 10:42:31 -0800 (PST)
+Received: from beni.c.googlers.com.com (216.131.76.34.bc.googleusercontent.com. [34.76.131.216])
+        by smtp.gmail.com with ESMTPSA id a1sm14094017wri.36.2022.02.15.10.42.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 10:14:14 -0800 (PST)
-From:   ektor5 <ek5.chimenti@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linuxfancy@googlegroups.com
-Subject: [PATCH v2 2/2] media: cec: seco: add newlines in debug messages
-Date:   Tue, 15 Feb 2022 19:13:13 +0100
-Message-Id: <20220215181313.264698-3-ek5.chimenti@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220215181313.264698-1-ek5.chimenti@gmail.com>
-References: <20220215181313.264698-1-ek5.chimenti@gmail.com>
+        Tue, 15 Feb 2022 10:42:30 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2] media: uvcvideo: Fix handling on Bitmask controls
+Date:   Tue, 15 Feb 2022 18:42:28 +0000
+Message-Id: <20220215184228.2531386-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ettore Chimenti <ek5.chimenti@gmail.com>
+Minimum and step values for V4L2_CTRL_TYPE_BITMASK controls should be 0.
+There is no need to query the camera firmware about this and maybe get
+invalid results.
 
-Newlines were missing in almost all regular and debug printk.
+Also value should be clamped to the min/max value advertised by the
+hardware.
 
-Signed-off-by: Ettore Chimenti <ek5.chimenti@gmail.com>
+Fixes v4l2-compliane:
+Control ioctls (Input 0):
+                fail: v4l2-test-controls.cpp(97): minimum must be 0 for a bitmask control
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/cec/platform/seco/seco-cec.c | 54 +++++++++++-----------
- 1 file changed, 27 insertions(+), 27 deletions(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/cec/platform/seco/seco-cec.c b/drivers/media/cec/platform/seco/seco-cec.c
-index ae138cc253fd..78856a55e637 100644
---- a/drivers/media/cec/platform/seco/seco-cec.c
-+++ b/drivers/media/cec/platform/seco/seco-cec.c
-@@ -129,7 +129,7 @@ static int secocec_adap_enable(struct cec_adapter *adap, bool enable)
- 		if (status)
- 			goto err;
- 
--		dev_dbg(dev, "Device enabled");
-+		dev_dbg(dev, "Device enabled\n");
- 	} else {
- 		/* Clear the status register */
- 		status = smb_rd16(SECOCEC_STATUS_REG_1, &val);
-@@ -141,7 +141,7 @@ static int secocec_adap_enable(struct cec_adapter *adap, bool enable)
- 				  ~SECOCEC_ENABLE_REG_1_CEC &
- 				  ~SECOCEC_ENABLE_REG_1_IR);
- 
--		dev_dbg(dev, "Device disabled");
-+		dev_dbg(dev, "Device disabled\n");
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index b4f6edf968bc0..d8b9ab5b7fb85 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1156,7 +1156,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+ 		break;
  	}
  
- 	return 0;
-@@ -264,12 +264,12 @@ static void secocec_rx_done(struct cec_adapter *adap, u16 status_val)
+-	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
++	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN &&
++	    mapping->v4l2_type != V4L2_CTRL_TYPE_BITMASK)
+ 		v4l2_ctrl->minimum = mapping->get(mapping, UVC_GET_MIN,
+ 				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
  
- 	if (status_val & SECOCEC_STATUS_RX_OVERFLOW_MASK) {
- 		/* NOTE: Untested, it also might not be necessary */
--		dev_warn(dev, "Received more than 16 bytes. Discarding");
-+		dev_warn(dev, "Received more than 16 bytes. Discarding\n");
- 		flag_overflow = true;
- 	}
+@@ -1164,7 +1165,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+ 		v4l2_ctrl->maximum = mapping->get(mapping, UVC_GET_MAX,
+ 				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
  
- 	if (status_val & SECOCEC_STATUS_RX_ERROR_MASK) {
--		dev_warn(dev, "Message received with errors. Discarding");
-+		dev_warn(dev, "Message received with errors. Discarding\n");
- 		status = -EIO;
- 		goto rxerr;
- 	}
-@@ -390,12 +390,12 @@ static int secocec_ir_probe(void *priv)
- 	if (status != 0)
- 		goto err;
+-	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
++	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES &&
++	    mapping->v4l2_type != V4L2_CTRL_TYPE_BITMASK)
+ 		v4l2_ctrl->step = mapping->get(mapping, UVC_GET_RES,
+ 				  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
  
--	dev_dbg(dev, "IR enabled");
-+	dev_dbg(dev, "IR enabled\n");
- 
- 	status = devm_rc_register_device(dev, cec->ir);
- 
- 	if (status) {
--		dev_err(dev, "Failed to prepare input device");
-+		dev_err(dev, "Failed to prepare input device\n");
- 		cec->ir = NULL;
- 		goto err;
- 	}
-@@ -408,7 +408,7 @@ static int secocec_ir_probe(void *priv)
- 	smb_wr16(SECOCEC_ENABLE_REG_1,
- 		 val & ~SECOCEC_ENABLE_REG_1_IR);
- 
--	dev_dbg(dev, "IR disabled");
-+	dev_dbg(dev, "IR disabled\n");
- 	return status;
- }
- 
-@@ -431,13 +431,13 @@ static int secocec_ir_rx(struct secocec_data *priv)
- 
- 	rc_keydown(cec->ir, RC_PROTO_RC5, RC_SCANCODE_RC5(addr, key), toggle);
- 
--	dev_dbg(dev, "IR key pressed: 0x%02x addr 0x%02x toggle 0x%02x", key,
-+	dev_dbg(dev, "IR key pressed: 0x%02x addr 0x%02x toggle 0x%02x\n", key,
- 		addr, toggle);
- 
- 	return 0;
- 
- err:
--	dev_err(dev, "IR Receive message failed (%d)", status);
-+	dev_err(dev, "IR Receive message failed (%d)\n", status);
- 	return -EIO;
- }
- #else
-@@ -497,7 +497,7 @@ static irqreturn_t secocec_irq_handler(int irq, void *priv)
- 	return IRQ_HANDLED;
- 
- err:
--	dev_err_once(dev, "IRQ: R/W SMBus operation failed (%d)", status);
-+	dev_err_once(dev, "IRQ: R/W SMBus operation failed %d\n", status);
- 
- 	/*  Reset status register */
- 	val = SECOCEC_STATUS_REG_1_CEC | SECOCEC_STATUS_REG_1_IR;
-@@ -553,16 +553,16 @@ static int secocec_acpi_probe(struct secocec_data *sdev)
- 
- 	gpio = devm_gpiod_get(dev, NULL, GPIOF_IN);
- 	if (IS_ERR(gpio)) {
--		dev_err(dev, "Cannot request interrupt gpio");
-+		dev_err(dev, "Cannot request interrupt gpio\n");
- 		return PTR_ERR(gpio);
- 	}
- 
- 	irq = gpiod_to_irq(gpio);
- 	if (irq < 0) {
--		dev_err(dev, "Cannot find valid irq");
-+		dev_err(dev, "Cannot find valid irq\n");
- 		return -ENODEV;
- 	}
--	dev_dbg(dev, "irq-gpio is bound to IRQ %d", irq);
-+	dev_dbg(dev, "irq-gpio is bound to IRQ %d\n", irq);
- 
- 	sdev->irq = irq;
- 
-@@ -590,7 +590,7 @@ static int secocec_probe(struct platform_device *pdev)
- 
- 	/* Request SMBus regions */
- 	if (!request_muxed_region(BRA_SMB_BASE_ADDR, 7, "CEC00001")) {
--		dev_err(dev, "Request memory region failed");
-+		dev_err(dev, "Request memory region failed\n");
- 		return -ENXIO;
- 	}
- 
-@@ -598,14 +598,14 @@ static int secocec_probe(struct platform_device *pdev)
- 	secocec->dev = dev;
- 
- 	if (!has_acpi_companion(dev)) {
--		dev_dbg(dev, "Cannot find any ACPI companion");
-+		dev_dbg(dev, "Cannot find any ACPI companion\n");
- 		ret = -ENODEV;
- 		goto err;
- 	}
- 
- 	ret = secocec_acpi_probe(secocec);
- 	if (ret) {
--		dev_err(dev, "Cannot assign gpio to IRQ");
-+		dev_err(dev, "Cannot assign gpio to IRQ\n");
- 		ret = -ENODEV;
- 		goto err;
- 	}
-@@ -613,11 +613,11 @@ static int secocec_probe(struct platform_device *pdev)
- 	/* Firmware version check */
- 	ret = smb_rd16(SECOCEC_VERSION, &val);
- 	if (ret) {
--		dev_err(dev, "Cannot check fw version");
-+		dev_err(dev, "Cannot check fw version\n");
- 		goto err;
- 	}
- 	if (val < SECOCEC_LATEST_FW) {
--		dev_err(dev, "CEC Firmware not supported (v.%04x). Use ver > v.%04x",
-+		dev_err(dev, "CEC Firmware not supported (v.%04x). Use ver > v.%04x\n",
- 			val, SECOCEC_LATEST_FW);
- 		ret = -EINVAL;
- 		goto err;
-@@ -631,7 +631,7 @@ static int secocec_probe(struct platform_device *pdev)
- 					dev_name(&pdev->dev), secocec);
- 
- 	if (ret) {
--		dev_err(dev, "Cannot request IRQ %d", secocec->irq);
-+		dev_err(dev, "Cannot request IRQ %d\n", secocec->irq);
- 		ret = -EIO;
- 		goto err;
- 	}
-@@ -666,7 +666,7 @@ static int secocec_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, secocec);
- 
--	dev_dbg(dev, "Device registered");
-+	dev_dbg(dev, "Device registered\n");
- 
- 	return ret;
- 
-@@ -691,14 +691,14 @@ static int secocec_remove(struct platform_device *pdev)
- 
- 		smb_wr16(SECOCEC_ENABLE_REG_1, val & ~SECOCEC_ENABLE_REG_1_IR);
- 
--		dev_dbg(&pdev->dev, "IR disabled");
-+		dev_dbg(&pdev->dev, "IR disabled\n");
- 	}
- 	cec_notifier_cec_adap_unregister(secocec->notifier, secocec->cec_adap);
- 	cec_unregister_adapter(secocec->cec_adap);
- 
- 	release_region(BRA_SMB_BASE_ADDR, 7);
- 
--	dev_dbg(&pdev->dev, "CEC device removed");
-+	dev_dbg(&pdev->dev, "CEC device removed\n");
- 
- 	return 0;
- }
-@@ -709,7 +709,7 @@ static int secocec_suspend(struct device *dev)
- 	int status;
- 	u16 val;
- 
--	dev_dbg(dev, "Device going to suspend, disabling");
-+	dev_dbg(dev, "Device going to suspend, disabling\n");
- 
- 	/* Clear the status register */
- 	status = smb_rd16(SECOCEC_STATUS_REG_1, &val);
-@@ -733,7 +733,7 @@ static int secocec_suspend(struct device *dev)
- 	return 0;
- 
- err:
--	dev_err(dev, "Suspend failed (err: %d)", status);
-+	dev_err(dev, "Suspend failed: %d\n", status);
- 	return status;
- }
- 
-@@ -742,7 +742,7 @@ static int secocec_resume(struct device *dev)
- 	int status;
- 	u16 val;
- 
--	dev_dbg(dev, "Resuming device from suspend");
-+	dev_dbg(dev, "Resuming device from suspend\n");
- 
- 	/* Clear the status register */
- 	status = smb_rd16(SECOCEC_STATUS_REG_1, &val);
-@@ -762,12 +762,12 @@ static int secocec_resume(struct device *dev)
- 	if (status)
- 		goto err;
- 
--	dev_dbg(dev, "Device resumed from suspend");
-+	dev_dbg(dev, "Device resumed from suspend\n");
- 
- 	return 0;
- 
- err:
--	dev_err(dev, "Resume failed (err: %d)", status);
-+	dev_err(dev, "Resume failed: %d\n", status);
- 	return status;
- }
- 
+@@ -1721,6 +1723,7 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+ 	/* Clamp out of range values. */
+ 	switch (mapping->v4l2_type) {
+ 	case V4L2_CTRL_TYPE_INTEGER:
++	case V4L2_CTRL_TYPE_BITMASK:
+ 		if (!ctrl->cached) {
+ 			ret = uvc_ctrl_populate_cache(chain, ctrl);
+ 			if (ret < 0)
 -- 
-2.17.1
+2.35.1.265.g69c8d7142f-goog
 
