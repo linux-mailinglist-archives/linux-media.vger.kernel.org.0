@@ -2,178 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CCE64B63D1
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 07:58:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 846DB4B63DF
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 08:01:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233205AbiBOG6Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 01:58:25 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55526 "EHLO
+        id S234316AbiBOHBz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 02:01:55 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231791AbiBOG6X (ORCPT
+        with ESMTP id S230351AbiBOHBy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 01:58:23 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A91DF2AC5A
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 22:58:13 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 591D2315;
-        Tue, 15 Feb 2022 07:58:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644908290;
-        bh=kEeUzYRTuwAhdByfTg0GYnZJ/+/eScWDfkW7cm5xZkg=;
+        Tue, 15 Feb 2022 02:01:54 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3B89767F;
+        Mon, 14 Feb 2022 23:01:43 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 57A88B8175C;
+        Tue, 15 Feb 2022 07:01:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0A5C340EC;
+        Tue, 15 Feb 2022 07:01:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1644908501;
+        bh=wpzzdawXPScQHsJKBVOQr1uSYppSynJn4bs/yhbdSyA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZN8A5g9dNx3uXN/t91rWyWzhuMhn9bKbjGK0qWHD19Wnq5W87luPdkiRxoQHvNl9b
-         jUzbMuv3e9eec8tLF3MVnxL0IGJdAtiuu4pYCNrl2Bn5HI3jnMKu0T8yQz15qYN5u3
-         4DMTLPGCPS0mmQhcQdNtZmSOIRgicBb5sVtdc9XA=
-Date:   Tue, 15 Feb 2022 08:58:04 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
-        rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
-        alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/8] media: imx: Rename imx7-mipi-csis.c to
- imx-mipi-csis.c
-Message-ID: <YgtO/Bhi7nwJJ5Kr@pendragon.ideasonboard.com>
-References: <20220214184318.409208-1-jacopo@jmondi.org>
- <20220214184318.409208-3-jacopo@jmondi.org>
+        b=sDmBWC3bBYfh7HeEsWgCqhfPOjCVWGl90AwNQquw/s37apawMvykr5dLCSbz5VT27
+         a5wp3rnQFH3/laPLOG74o03tMDNPPnSjnHPzjnFiNl3JfoADYuF4Ae3fNI0UhZkloP
+         Bj+1hg9P55uKX3tSh0BSWmUJrdwJHc5XuXmorEUI=
+Date:   Tue, 15 Feb 2022 08:01:33 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org
+Subject: Re: [RFC v2 6/6] android: binder: Add a buffer flag to relinquish
+ ownership of fds
+Message-ID: <YgtPzXUmSOVyplnm@kroah.com>
+References: <20220211161831.3493782-1-tjmercier@google.com>
+ <20220211161831.3493782-7-tjmercier@google.com>
+ <Ygdfe3XSvN8iFuUc@kroah.com>
+ <CABdmKX1eKZZ9809uxnzT_Bm+mdNuK2AObLRxyBpdDF3yE76Hrg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220214184318.409208-3-jacopo@jmondi.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CABdmKX1eKZZ9809uxnzT_Bm+mdNuK2AObLRxyBpdDF3yE76Hrg@mail.gmail.com>
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-Thank you for the patch.
-
-On Mon, Feb 14, 2022 at 07:43:12PM +0100, Jacopo Mondi wrote:
-> Rename the imx7-mipi-csis.c driver to remove the reference to i.MX7.
+On Mon, Feb 14, 2022 at 02:25:47PM -0800, T.J. Mercier wrote:
+> On Fri, Feb 11, 2022 at 11:19 PM Greg Kroah-Hartman
+> > > --- a/include/uapi/linux/android/binder.h
+> > > +++ b/include/uapi/linux/android/binder.h
+> > > @@ -137,6 +137,7 @@ struct binder_buffer_object {
+> > >
+> > >  enum {
+> > >       BINDER_BUFFER_FLAG_HAS_PARENT = 0x01,
+> > > +     BINDER_BUFFER_FLAG_SENDER_NO_NEED = 0x02,
+> > >  };
+> > >
+> > >  /* struct binder_fd_array_object - object describing an array of fds in a buffer
+> > > --
+> > > 2.35.1.265.g69c8d7142f-goog
+> > >
+> >
+> > How does userspace know that binder supports this new flag?
 > 
-> The driver is for an IP core found on i.MX7 and i.MX8 SoC, so do not
-> specify a SoC version number in the driver name.
+> Sorry, I don't completely follow even after Todd's comment. Doesn't
+> the presence of BINDER_BUFFER_FLAG_SENDER_NO_NEED in the header do
+> this?
+
+There is no "header" when running a new kernel on an old userspace,
+right?  How about the other way around, old kernel, new userspace?
+
+> So wouldn't userspace need to be compiled against the wrong
+> kernel headers for there to be a problem? In that case the allocation
+> would still succeed, but there would be no charge transfer and
+> unfortunately no error code.
+
+No error code is not good.  People upgrade their kernels all the time,
+and do not do a "rebuild the world" when doing so.
+
+> > And where is the userspace test for this new feature?
 > 
-> Remove the references to the i.MX7 SoC in the driver symbols and expand
-> the driver's header with more information about the IP core the driver
-> controls.
+> I tested this on a Pixel after modifying the gralloc implementation to
+> mark allocated buffers as not used by the sender. This required
+> setting the BINDER_BUFFER_FLAG_SENDER_NO_NEED in libhwbinder. That
+> code can be found here:
+> https://android-review.googlesource.com/c/platform/system/libhwbinder/+/1910752/1/Parcel.cpp
+> https://android-review.googlesource.com/c/platform/system/libhidl/+/1910611/
 > 
-> Also rename the associated bindings documentation.
+> Then by inspecting gpu.memory.current files in sysfs I was able to see
+> the memory attributed to processes other than the graphics allocator
+> service. Before this change, several megabytes of memory were
+> attributed to the graphics allocator service but those buffers are
+> actually used by other processes like surfaceflinger, the camera, etc.
+> After the change, the gpu.memory.current amount for the graphics
+> allocator service was 0 and the charges showed up in the
+> gpu.memory.current files for those other processes like this:
 > 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  Documentation/admin-guide/media/imx7.rst               |  2 +-
->  ...{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
->  MAINTAINERS                                            |  4 ++--
->  drivers/media/platform/imx/Makefile                    |  2 +-
->  .../platform/imx/{imx7-mipi-csis.c => imx-mipi-csis.c} | 10 +++++++---
->  5 files changed, 12 insertions(+), 8 deletions(-)
->  rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
->  rename drivers/media/platform/imx/{imx7-mipi-csis.c => imx-mipi-csis.c} (99%)
+> PID: 764 Process Name: zygote64
+> system 8192
+> system-uncached 23191552
 > 
-> diff --git a/Documentation/admin-guide/media/imx7.rst b/Documentation/admin-guide/media/imx7.rst
-> index 4785ae8ac978..2fa27718f52a 100644
-> --- a/Documentation/admin-guide/media/imx7.rst
-> +++ b/Documentation/admin-guide/media/imx7.rst
-> @@ -33,7 +33,7 @@ reference manual [#f1]_.
->  Entities
->  --------
->  
-> -imx7-mipi-csi2
-> +imx-mipi-csi2
->  --------------
->  
->  This is the MIPI CSI-2 receiver entity. It has one sink pad to receive the pixel
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> similarity index 98%
-> rename from Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-> rename to Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> index e2e6e9aa0fe6..36b135bf9f2a 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->  %YAML 1.2
->  ---
-> -$id: http://devicetree.org/schemas/media/nxp,imx7-mipi-csi2.yaml#
-> +$id: http://devicetree.org/schemas/media/nxp,imx-mipi-csi2.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
->  title: NXP i.MX7 and i.MX8 MIPI CSI-2 receiver
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5bdb8c881b0b..d919ea3ed250 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11889,9 +11889,9 @@ L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
->  F:	Documentation/admin-guide/media/imx7.rst
-> +F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
->  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> -F:	Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-> -F:	drivers/media/platform/imx/imx7-mipi-csis.c
-> +F:	drivers/media/platform/imx/imx-mipi-csis.c
->  F:	drivers/staging/media/imx/imx7-media-csi.c
->  
->  MEDIA DRIVERS FOR HELENE
-> diff --git a/drivers/media/platform/imx/Makefile b/drivers/media/platform/imx/Makefile
-> index ee272234c8d7..f72bdbe8e6ef 100644
-> --- a/drivers/media/platform/imx/Makefile
-> +++ b/drivers/media/platform/imx/Makefile
-> @@ -1 +1 @@
-> -obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx7-mipi-csis.o
-> +obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
-> diff --git a/drivers/media/platform/imx/imx7-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-> similarity index 99%
-> rename from drivers/media/platform/imx/imx7-mipi-csis.c
-> rename to drivers/media/platform/imx/imx-mipi-csis.c
-> index a22d0e6b3d44..f433758c8935 100644
-> --- a/drivers/media/platform/imx/imx7-mipi-csis.c
-> +++ b/drivers/media/platform/imx/imx-mipi-csis.c
-> @@ -1,6 +1,10 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /*
-> - * Freescale i.MX7 SoC series MIPI-CSI V3.3 receiver driver
-> + * Samsung CSIS MIPI CSI-2 receiver driver.
-> + *
-> + * The Samsung CSIS IP is a MIPI CSI-2 receiver found in various NXP i.MX7 and
-> + * i.MX8 SoCs. The i.MX7 features version 3.3 of the IP, while i.MX8 features
-> + * version 3.6.3
+> PID: 529 Process Name: /system/bin/surfaceflinger
+> system-uncached 109535232
+> system 92196864
+> 
+> PID: 530 Process Name:
+> /vendor/bin/hw/android.hardware.graphics.allocator@4.0-service
+> system-uncached 0
+> system 0
+> sensor_direct_heap 0
+> 
+> PID: 806 Process Name:
+> /apex/com.google.pixel.camera.hal/bin/hw/android.hardware.camera.provider@2.7-service-google
+> system 1196032
+> 
+> PID: 4608 Process Name: com.google.android.GoogleCamera
+> system 2408448
+> system-uncached 38887424
+> sensor_direct_heap 0
+> 
+> PID: 32102 Process Name: com.google.android.googlequicksearchbox:search
+> system-uncached 91279360
+> system 20480
+> 
+> PID: 2758 Process Name: com.google.android.youtube
+> system-uncached 1662976
+> system 8192
+> 
+> PID: 2517 Process Name: com.google.android.apps.nexuslauncher
+> system-uncached 115662848
+> system 122880
+> 
+> PID: 2066 Process Name: com.android.systemui
+> system 86016
+> system-uncached 37957632
+> 
+> >  Isn't there a binder test framework somewhere?
+> 
+> Android has the Vendor Test Suite where automated tests could be added
+> for this. Is that what you're thinking of?
 
-s/$/./
+tools/testing/selftests/ is a good start.  VTS is the worst-case as no
+one can really run that on their own, but it is better than nothing.
+Having no test at all for this is not ok.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+thanks,
 
->   *
->   * Copyright (C) 2019 Linaro Ltd
->   * Copyright (C) 2015-2016 Freescale Semiconductor, Inc. All Rights Reserved.
-> @@ -31,7 +35,7 @@
->  #include <media/v4l2-mc.h>
->  #include <media/v4l2-subdev.h>
->  
-> -#define CSIS_DRIVER_NAME			"imx7-mipi-csis"
-> +#define CSIS_DRIVER_NAME			"imx-mipi-csis"
->  
->  #define CSIS_PAD_SINK				0
->  #define CSIS_PAD_SOURCE				1
-> @@ -1515,4 +1519,4 @@ module_platform_driver(mipi_csis_driver);
->  
->  MODULE_DESCRIPTION("i.MX7 & i.MX8 MIPI CSI-2 receiver driver");
->  MODULE_LICENSE("GPL v2");
-> -MODULE_ALIAS("platform:imx7-mipi-csi2");
-> +MODULE_ALIAS("platform:imx-mipi-csi2");
-
--- 
-Regards,
-
-Laurent Pinchart
+greg k-h
