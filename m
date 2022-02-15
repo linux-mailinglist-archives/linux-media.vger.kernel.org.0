@@ -2,371 +2,532 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A7F4B6AF0
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 12:32:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11FDA4B6B0F
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 12:33:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237221AbiBOLcc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 06:32:32 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:54794 "EHLO
+        id S232381AbiBOLdg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 06:33:36 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237220AbiBOLcG (ORCPT
+        with ESMTP id S236120AbiBOLdG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 06:32:06 -0500
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2519A1A390;
-        Tue, 15 Feb 2022 03:31:47 -0800 (PST)
-X-UUID: 8ffda993c6364c41a243f333761a5d93-20220215
-X-UUID: 8ffda993c6364c41a243f333761a5d93-20220215
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1880578445; Tue, 15 Feb 2022 19:31:42 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 15 Feb 2022 19:31:41 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 15 Feb 2022 19:31:40 +0800
-Message-ID: <421013a38c3bb4452fefe83ffdcb4cbdb4c1e0e6.camel@mediatek.com>
-Subject: Re: [PATCH v2, 03/10] dt-bindings: media: mtk-vcodec: Adds encoder
- cores dt-bindings for mt8195
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        "Tiffany Lin" <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>, Yong Wu <yong.wu@mediatek.com>,
-        <angelogioacchino.delregno@collabora.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Tue, 15 Feb 2022 19:31:40 +0800
-In-Reply-To: <YegV1SQ7V/F3GAFL@robh.at.kernel.org>
-References: <20220117120615.21687-1-irui.wang@mediatek.com>
-         <20220117120615.21687-4-irui.wang@mediatek.com>
-         <YegV1SQ7V/F3GAFL@robh.at.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Tue, 15 Feb 2022 06:33:06 -0500
+X-Greylist: delayed 1007 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 15 Feb 2022 03:32:36 PST
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2126C1EEC7;
+        Tue, 15 Feb 2022 03:32:35 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20862315;
+        Tue, 15 Feb 2022 12:32:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1644924754;
+        bh=zeuiGOWQpOem0C0WaV+lf4Pdn8268Dt4TBQvFDI1paA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jJgHe2hY6MdqH1xXSHrCLubc/pGBqUlfsvI0EeCKms/Oqxt/iJGWPNa9FuyFnzCkN
+         gFQZTSCW2h4ZqruoF54b41r2EwjIgB9spCrwU+TKTI00/AQvPQC0LcOTYrL0tOSdMo
+         mPinUpNrZ94ziFnwzEuRfDkBJU/y/J4g6m1Zt3xA=
+Date:   Tue, 15 Feb 2022 13:32:27 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Petr Cvek <petrcvekcz@gmail.com>,
+        Mats Randgaard <matrandg@cisco.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [RFC PATCH 5/8] media: v4l2-mediabus: Use structures to describe
+ bus configuration
+Message-ID: <YguPS53B2sQtBG2B@pendragon.ideasonboard.com>
+References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220103162414.27723-6-laurent.pinchart+renesas@ideasonboard.com>
+ <20220215111316.qpdxnxc253blt6bd@uno.localdomain>
+ <YguLXJVz8sZ9+W2Y@pendragon.ideasonboard.com>
+ <20220215112828.ygnt5dpuefgptdt4@uno.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220215112828.ygnt5dpuefgptdt4@uno.localdomain>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Rob,
+Hi Jacopo,
 
-Many thanks for your review comments.
+On Tue, Feb 15, 2022 at 12:28:28PM +0100, Jacopo Mondi wrote:
+> On Tue, Feb 15, 2022 at 01:15:40PM +0200, Laurent Pinchart wrote:
+> > On Tue, Feb 15, 2022 at 12:13:16PM +0100, Jacopo Mondi wrote:
+> > > On Mon, Jan 03, 2022 at 06:24:11PM +0200, Laurent Pinchart wrote:
+> > > > The media bus configuration is specified through a set of flags, some of
+> > > > which being mutually exclusive. This doesn't scale to express more
+> > > > complex configurations. Improve the API by replacing the single flags
+> > > > field in v4l2_mbus_config by a union of v4l2_mbus_config_* structures.
+> > > > The flags themselves are still used in those structures, so they are
+> > > > kept here. Drivers are however updated to use structure fields instead
+> > > > of flags when already possible.
+> > > >
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > ---
+> > > >  drivers/gpu/ipu-v3/ipu-csi.c                |  6 ++---
+> > > >  drivers/media/i2c/adv7180.c                 |  8 ++++---
+> > > >  drivers/media/i2c/adv748x/adv748x-csi2.c    | 18 +--------------
+> > > >  drivers/media/i2c/ml86v7667.c               |  5 +++--
+> > > >  drivers/media/i2c/mt9m001.c                 |  8 ++++---
+> > > >  drivers/media/i2c/mt9m111.c                 | 16 +++++++------
+> > > >  drivers/media/i2c/ov6650.c                  | 14 ++++++------
+> > > >  drivers/media/i2c/ov9640.c                  |  8 ++++---
+> > > >  drivers/media/i2c/tc358743.c                | 20 ++---------------
+> > > >  drivers/media/i2c/tvp5150.c                 |  6 +++--
+> > > >  drivers/media/platform/pxa_camera.c         | 12 +++++-----
+> > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 16 +++----------
+> > > >  drivers/staging/media/imx/imx-media-csi.c   |  7 +++---
+> > > >  drivers/staging/media/imx/imx6-mipi-csi2.c  | 25 +++------------------
+> > >
+> > > drivers conversions looks good to me
+> > >
+> > > >  include/media/v4l2-mediabus.h               | 20 ++++++++++++++---
+> > > >  15 files changed, 78 insertions(+), 111 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/ipu-v3/ipu-csi.c b/drivers/gpu/ipu-v3/ipu-csi.c
+> > > > index a9639d098893..778bc26d3ba5 100644
+> > > > --- a/drivers/gpu/ipu-v3/ipu-csi.c
+> > > > +++ b/drivers/gpu/ipu-v3/ipu-csi.c
+> > > > @@ -357,11 +357,11 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_config *csicfg,
+> > > >  	switch (mbus_cfg->type) {
+> > > >  	case V4L2_MBUS_PARALLEL:
+> > > >  		csicfg->ext_vsync = 1;
+> > > > -		csicfg->vsync_pol = (mbus_cfg->flags &
+> > > > +		csicfg->vsync_pol = (mbus_cfg->bus.parallel.flags &
+> > > >  				     V4L2_MBUS_VSYNC_ACTIVE_LOW) ? 1 : 0;
+> > > > -		csicfg->hsync_pol = (mbus_cfg->flags &
+> > > > +		csicfg->hsync_pol = (mbus_cfg->bus.parallel.flags &
+> > > >  				     V4L2_MBUS_HSYNC_ACTIVE_LOW) ? 1 : 0;
+> > > > -		csicfg->pixclk_pol = (mbus_cfg->flags &
+> > > > +		csicfg->pixclk_pol = (mbus_cfg->bus.parallel.flags &
+> > > >  				      V4L2_MBUS_PCLK_SAMPLE_FALLING) ? 1 : 0;
+> > > >  		csicfg->clk_mode = IPU_CSI_CLK_MODE_GATED_CLK;
+> > > >  		break;
+> > > > diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+> > > > index d9a99fcfacb1..286f5017d9c3 100644
+> > > > --- a/drivers/media/i2c/adv7180.c
+> > > > +++ b/drivers/media/i2c/adv7180.c
+> > > > @@ -784,7 +784,8 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
+> > > >
+> > > >  	if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2) {
+> > > >  		cfg->type = V4L2_MBUS_CSI2_DPHY;
+> > > > -		cfg->flags = V4L2_MBUS_CSI2_1_LANE |
+> > > > +		cfg->bus.mipi_csi2.num_data_lanes = 1;
+> > > > +		cfg->bus.mipi_csi2.flags =
+> > > >  				V4L2_MBUS_CSI2_CHANNEL_0 |
+> > > >  				V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+> > > >  	} else {
+> > > > @@ -792,8 +793,9 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
+> > > >  		 * The ADV7180 sensor supports BT.601/656 output modes.
+> > > >  		 * The BT.656 is default and not yet configurable by s/w.
+> > > >  		 */
+> > > > -		cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_PCLK_SAMPLE_RISING |
+> > > > -				 V4L2_MBUS_DATA_ACTIVE_HIGH;
+> > > > +		cfg->bus.parallel.flags = V4L2_MBUS_MASTER |
+> > > > +					  V4L2_MBUS_PCLK_SAMPLE_RISING |
+> > > > +					  V4L2_MBUS_DATA_ACTIVE_HIGH;
+> > > >  		cfg->type = V4L2_MBUS_BT656;
+> > > >  	}
+> > > >
+> > > > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > > > index 589e9644fcdc..bd4f3fe0e309 100644
+> > > > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > > > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> > > > @@ -222,23 +222,7 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
+> > > >  		return -EINVAL;
+> > > >
+> > > >  	config->type = V4L2_MBUS_CSI2_DPHY;
+> > > > -	switch (tx->active_lanes) {
+> > > > -	case 1:
+> > > > -		config->flags = V4L2_MBUS_CSI2_1_LANE;
+> > > > -		break;
+> > > > -
+> > > > -	case 2:
+> > > > -		config->flags = V4L2_MBUS_CSI2_2_LANE;
+> > > > -		break;
+> > > > -
+> > > > -	case 3:
+> > > > -		config->flags = V4L2_MBUS_CSI2_3_LANE;
+> > > > -		break;
+> > > > -
+> > > > -	case 4:
+> > > > -		config->flags = V4L2_MBUS_CSI2_4_LANE;
+> > > > -		break;
+> > > > -	}
+> > > > +	config->bus.mipi_csi2.num_data_lanes = tx->active_lanes;
+> > > >
+> > > >  	return 0;
+> > > >  }
+> > > > diff --git a/drivers/media/i2c/ml86v7667.c b/drivers/media/i2c/ml86v7667.c
+> > > > index 4a1410ebb4c8..48cc0b0922f4 100644
+> > > > --- a/drivers/media/i2c/ml86v7667.c
+> > > > +++ b/drivers/media/i2c/ml86v7667.c
+> > > > @@ -223,9 +223,10 @@ static int ml86v7667_get_mbus_config(struct v4l2_subdev *sd,
+> > > >  				     unsigned int pad,
+> > > >  				     struct v4l2_mbus_config *cfg)
+> > > >  {
+> > > > -	cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_PCLK_SAMPLE_RISING |
+> > > > -		     V4L2_MBUS_DATA_ACTIVE_HIGH;
+> > > >  	cfg->type = V4L2_MBUS_BT656;
+> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_MASTER |
+> > > > +				  V4L2_MBUS_PCLK_SAMPLE_RISING |
+> > > > +				  V4L2_MBUS_DATA_ACTIVE_HIGH;
+> > > >
+> > > >  	return 0;
+> > > >  }
+> > > > diff --git a/drivers/media/i2c/mt9m001.c b/drivers/media/i2c/mt9m001.c
+> > > > index c9f0bd997ea7..ad13b0c890c0 100644
+> > > > --- a/drivers/media/i2c/mt9m001.c
+> > > > +++ b/drivers/media/i2c/mt9m001.c
+> > > > @@ -695,10 +695,12 @@ static int mt9m001_get_mbus_config(struct v4l2_subdev *sd,
+> > > >  				   struct v4l2_mbus_config *cfg)
+> > > >  {
+> > > >  	/* MT9M001 has all capture_format parameters fixed */
+> > > > -	cfg->flags = V4L2_MBUS_PCLK_SAMPLE_FALLING |
+> > > > -		V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_HIGH |
+> > > > -		V4L2_MBUS_DATA_ACTIVE_HIGH | V4L2_MBUS_MASTER;
+> > > >  	cfg->type = V4L2_MBUS_PARALLEL;
+> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_PCLK_SAMPLE_FALLING |
+> > > > +				  V4L2_MBUS_HSYNC_ACTIVE_HIGH |
+> > > > +				  V4L2_MBUS_VSYNC_ACTIVE_HIGH |
+> > > > +				  V4L2_MBUS_DATA_ACTIVE_HIGH |
+> > > > +				  V4L2_MBUS_MASTER;
+> > > >
+> > > >  	return 0;
+> > > >  }
+> > > > diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+> > > > index 91a44359bcd3..6cf3ccf85d27 100644
+> > > > --- a/drivers/media/i2c/mt9m111.c
+> > > > +++ b/drivers/media/i2c/mt9m111.c
+> > > > @@ -1143,15 +1143,17 @@ static int mt9m111_get_mbus_config(struct v4l2_subdev *sd,
+> > > >  {
+> > > >  	struct mt9m111 *mt9m111 = container_of(sd, struct mt9m111, subdev);
+> > > >
+> > > > -	cfg->flags = V4L2_MBUS_MASTER |
+> > > > -		V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_HIGH |
+> > > > -		V4L2_MBUS_DATA_ACTIVE_HIGH;
+> > > > -
+> > > > -	cfg->flags |= mt9m111->pclk_sample ? V4L2_MBUS_PCLK_SAMPLE_RISING :
+> > > > -		V4L2_MBUS_PCLK_SAMPLE_FALLING;
+> > > > -
+> > > >  	cfg->type = V4L2_MBUS_PARALLEL;
+> > > >
+> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_MASTER |
+> > > > +				  V4L2_MBUS_HSYNC_ACTIVE_HIGH |
+> > > > +				  V4L2_MBUS_VSYNC_ACTIVE_HIGH |
+> > > > +				  V4L2_MBUS_DATA_ACTIVE_HIGH;
+> > > > +
+> > > > +	cfg->bus.parallel.flags |= mt9m111->pclk_sample ?
+> > > > +				   V4L2_MBUS_PCLK_SAMPLE_RISING :
+> > > > +				   V4L2_MBUS_PCLK_SAMPLE_FALLING;
+> > > > +
+> > > >  	return 0;
+> > > >  }
+> > > >
+> > > > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> > > > index 455a627e35a0..b2654b32bc62 100644
+> > > > --- a/drivers/media/i2c/ov6650.c
+> > > > +++ b/drivers/media/i2c/ov6650.c
+> > > > @@ -932,15 +932,15 @@ static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
+> > > >  	if (ret)
+> > > >  		return ret;
+> > > >
+> > > > -	cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_DATA_ACTIVE_HIGH
+> > > > -		   | ((comj & COMJ_VSYNC_HIGH)  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
+> > > > -						: V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> > > > -		   | ((comf & COMF_HREF_LOW)    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
+> > > > -						: V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> > > > -		   | ((comj & COMJ_PCLK_RISING) ? V4L2_MBUS_PCLK_SAMPLE_RISING
+> > > > -						: V4L2_MBUS_PCLK_SAMPLE_FALLING);
+> > > >  	cfg->type = V4L2_MBUS_PARALLEL;
+> > > >
+> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_MASTER | V4L2_MBUS_DATA_ACTIVE_HIGH
+> > > > +		| ((comj & COMJ_VSYNC_HIGH)  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
+> > > > +					     : V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> > > > +		| ((comf & COMF_HREF_LOW)    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
+> > > > +					     : V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> > > > +		| ((comj & COMJ_PCLK_RISING) ? V4L2_MBUS_PCLK_SAMPLE_RISING
+> > > > +					     : V4L2_MBUS_PCLK_SAMPLE_FALLING);
+> > > >  	return 0;
+> > > >  }
+> > > >
+> > > > diff --git a/drivers/media/i2c/ov9640.c b/drivers/media/i2c/ov9640.c
+> > > > index 0bab8c2cf160..9f44ed52d164 100644
+> > > > --- a/drivers/media/i2c/ov9640.c
+> > > > +++ b/drivers/media/i2c/ov9640.c
+> > > > @@ -652,10 +652,12 @@ static int ov9640_get_mbus_config(struct v4l2_subdev *sd,
+> > > >  				  unsigned int pad,
+> > > >  				  struct v4l2_mbus_config *cfg)
+> > > >  {
+> > > > -	cfg->flags = V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_MASTER |
+> > > > -		V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_HIGH |
+> > > > -		V4L2_MBUS_DATA_ACTIVE_HIGH;
+> > > >  	cfg->type = V4L2_MBUS_PARALLEL;
+> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_PCLK_SAMPLE_RISING |
+> > > > +				  V4L2_MBUS_MASTER |
+> > > > +				  V4L2_MBUS_VSYNC_ACTIVE_HIGH |
+> > > > +				  V4L2_MBUS_HSYNC_ACTIVE_HIGH |
+> > > > +				  V4L2_MBUS_DATA_ACTIVE_HIGH;
+> > > >
+> > > >  	return 0;
+> > > >  }
+> > > > diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+> > > > index 40512004afba..dfbc42675143 100644
+> > > > --- a/drivers/media/i2c/tc358743.c
+> > > > +++ b/drivers/media/i2c/tc358743.c
+> > > > @@ -1613,24 +1613,8 @@ static int tc358743_get_mbus_config(struct v4l2_subdev *sd,
+> > > >  	cfg->type = V4L2_MBUS_CSI2_DPHY;
+> > > >
+> > > >  	/* Support for non-continuous CSI-2 clock is missing in the driver */
+> > > > -	cfg->flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+> > > > -
+> > > > -	switch (state->csi_lanes_in_use) {
+> > > > -	case 1:
+> > > > -		cfg->flags |= V4L2_MBUS_CSI2_1_LANE;
+> > > > -		break;
+> > > > -	case 2:
+> > > > -		cfg->flags |= V4L2_MBUS_CSI2_2_LANE;
+> > > > -		break;
+> > > > -	case 3:
+> > > > -		cfg->flags |= V4L2_MBUS_CSI2_3_LANE;
+> > > > -		break;
+> > > > -	case 4:
+> > > > -		cfg->flags |= V4L2_MBUS_CSI2_4_LANE;
+> > > > -		break;
+> > > > -	default:
+> > > > -		return -EINVAL;
+> > > > -	}
+> > > > +	cfg->bus.mipi_csi2.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+> > > > +	cfg->bus.mipi_csi2.num_data_lanes = state->csi_lanes_in_use;
+> > > >
+> > > >  	return 0;
+> > > >  }
+> > > > diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
+> > > > index 4b16ffcaef98..65472438444b 100644
+> > > > --- a/drivers/media/i2c/tvp5150.c
+> > > > +++ b/drivers/media/i2c/tvp5150.c
+> > > > @@ -1198,8 +1198,10 @@ static int tvp5150_get_mbus_config(struct v4l2_subdev *sd,
+> > > >  	struct tvp5150 *decoder = to_tvp5150(sd);
+> > > >
+> > > >  	cfg->type = decoder->mbus_type;
+> > > > -	cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_PCLK_SAMPLE_RISING
+> > > > -		   | V4L2_MBUS_FIELD_EVEN_LOW | V4L2_MBUS_DATA_ACTIVE_HIGH;
+> > > > +	cfg->bus.parallel.flags = V4L2_MBUS_MASTER
+> > > > +				| V4L2_MBUS_PCLK_SAMPLE_RISING
+> > > > +				| V4L2_MBUS_FIELD_EVEN_LOW
+> > > > +				| V4L2_MBUS_DATA_ACTIVE_HIGH;
+> > > >
+> > > >  	return 0;
+> > > >  }
+> > > > diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/pxa_camera.c
+> > > > index b5644cf37fe9..35145e3348f0 100644
+> > > > --- a/drivers/media/platform/pxa_camera.c
+> > > > +++ b/drivers/media/platform/pxa_camera.c
+> > > > @@ -1587,24 +1587,26 @@ static int pxa_camera_set_bus_param(struct pxa_camera_dev *pcdev)
+> > > >  	 * PXA does not support V4L2_MBUS_DATA_ACTIVE_LOW and the bus mastering
+> > > >  	 * roles should match.
+> > > >  	 */
+> > > > -	if (cfg.flags != mbus_config) {
+> > > > +	if (cfg.bus.parallel.flags != mbus_config) {
+> > > >  		unsigned int pxa_mbus_role = mbus_config & (V4L2_MBUS_MASTER |
+> > > >  							    V4L2_MBUS_SLAVE);
+> > > > -		if (pxa_mbus_role != (cfg.flags & (V4L2_MBUS_MASTER |
+> > > > -						   V4L2_MBUS_SLAVE))) {
+> > > > +		unsigned int flags = cfg.bus.parallel.flags;
+> > > > +
+> > > > +		if (pxa_mbus_role != (flags & (V4L2_MBUS_MASTER |
+> > > > +					       V4L2_MBUS_SLAVE))) {
+> > > >  			dev_err(pcdev_to_dev(pcdev),
+> > > >  				"Unsupported mbus configuration: bus mastering\n");
+> > > >  			return -EINVAL;
+> > > >  		}
+> > > >
+> > > > -		if (cfg.flags & V4L2_MBUS_DATA_ACTIVE_LOW) {
+> > > > +		if (flags & V4L2_MBUS_DATA_ACTIVE_LOW) {
+> > > >  			dev_err(pcdev_to_dev(pcdev),
+> > > >  				"Unsupported mbus configuration: DATA_ACTIVE_LOW\n");
+> > > >  			return -EINVAL;
+> > > >  		}
+> > > >  	}
+> > > >
+> > > > -	pxa_camera_setup_cicr(pcdev, cfg.flags, pixfmt);
+> > > > +	pxa_camera_setup_cicr(pcdev, cfg.bus.parallel.flags, pixfmt);
+> > > >
+> > > >  	return 0;
+> > > >  }
+> > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > index 8c939cb3073d..cbac5801720b 100644
+> > > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > > @@ -603,7 +603,6 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
+> > > >  				  unsigned int *lanes)
+> > > >  {
+> > > >  	struct v4l2_mbus_config mbus_config = { 0 };
+> > > > -	unsigned int num_lanes = UINT_MAX;
+> > > >  	int ret;
+> > > >
+> > > >  	*lanes = priv->lanes;
+> > > > @@ -626,23 +625,14 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
+> > > >  		return -EINVAL;
+> > > >  	}
+> > > >
+> > > > -	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
+> > > > -		num_lanes = 1;
+> > > > -	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
+> > > > -		num_lanes = 2;
+> > > > -	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
+> > > > -		num_lanes = 3;
+> > > > -	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
+> > > > -		num_lanes = 4;
+> > > > -
+> > > > -	if (num_lanes > priv->lanes) {
+> > > > +	if (mbus_config.bus.mipi_csi2.num_data_lanes > priv->lanes) {
+> > > >  		dev_err(priv->dev,
+> > > >  			"Unsupported mbus config: too many data lanes %u\n",
+> > > > -			num_lanes);
+> > > > +			mbus_config.bus.mipi_csi2.num_data_lanes);
+> > > >  		return -EINVAL;
+> > > >  	}
+> > > >
+> > > > -	*lanes = num_lanes;
+> > > > +	*lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
+> > > >
+> > > >  	return 0;
+> > > >  }
+> > > > diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+> > > > index bd7f156f2d52..b2b1f4dd41d7 100644
+> > > > --- a/drivers/staging/media/imx/imx-media-csi.c
+> > > > +++ b/drivers/staging/media/imx/imx-media-csi.c
+> > > > @@ -718,9 +718,10 @@ static int csi_setup(struct csi_priv *priv)
+> > > >
+> > > >  	/* compose mbus_config from the upstream endpoint */
+> > > >  	mbus_cfg.type = priv->upstream_ep.bus_type;
+> > > > -	mbus_cfg.flags = is_parallel_bus(&priv->upstream_ep) ?
+> > > > -		priv->upstream_ep.bus.parallel.flags :
+> > > > -		priv->upstream_ep.bus.mipi_csi2.flags;
+> > > > +	if (is_parallel_bus(&priv->upstream_ep))
+> > > > +		mbus_cfg.bus.parallel = priv->upstream_ep.bus.parallel;
+> > > > +	else
+> > > > +		mbus_cfg.bus.mipi_csi2 = priv->upstream_ep.bus.mipi_csi2;
+> > > >
+> > > >  	if_fmt = *infmt;
+> > > >  	crop = priv->crop;
+> > > > diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> > > > index 558b256ac935..c4cb558a85c6 100644
+> > > > --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
+> > > > +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> > > > @@ -303,7 +303,6 @@ static void csi2ipu_gasket_init(struct csi2_dev *csi2)
+> > > >  static int csi2_get_active_lanes(struct csi2_dev *csi2, unsigned int *lanes)
+> > > >  {
+> > > >  	struct v4l2_mbus_config mbus_config = { 0 };
+> > > > -	unsigned int num_lanes = UINT_MAX;
+> > > >  	int ret;
+> > > >
+> > > >  	*lanes = csi2->data_lanes;
+> > > > @@ -326,32 +325,14 @@ static int csi2_get_active_lanes(struct csi2_dev *csi2, unsigned int *lanes)
+> > > >  		return -EINVAL;
+> > > >  	}
+> > > >
+> > > > -	switch (mbus_config.flags & V4L2_MBUS_CSI2_LANES) {
+> > > > -	case V4L2_MBUS_CSI2_1_LANE:
+> > > > -		num_lanes = 1;
+> > > > -		break;
+> > > > -	case V4L2_MBUS_CSI2_2_LANE:
+> > > > -		num_lanes = 2;
+> > > > -		break;
+> > > > -	case V4L2_MBUS_CSI2_3_LANE:
+> > > > -		num_lanes = 3;
+> > > > -		break;
+> > > > -	case V4L2_MBUS_CSI2_4_LANE:
+> > > > -		num_lanes = 4;
+> > > > -		break;
+> > > > -	default:
+> > > > -		num_lanes = csi2->data_lanes;
+> > > > -		break;
+> > > > -	}
+> > > > -
+> > > > -	if (num_lanes > csi2->data_lanes) {
+> > > > +	if (mbus_config.bus.mipi_csi2.num_data_lanes > csi2->data_lanes) {
+> > > >  		dev_err(csi2->dev,
+> > > >  			"Unsupported mbus config: too many data lanes %u\n",
+> > > > -			num_lanes);
+> > > > +			mbus_config.bus.mipi_csi2.num_data_lanes);
+> > > >  		return -EINVAL;
+> > > >  	}
+> > > >
+> > > > -	*lanes = num_lanes;
+> > > > +	*lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
+> > > >
+> > > >  	return 0;
+> > > >  }
+> > > > diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
+> > > > index 9c4970fbd8ea..269aaf57ba32 100644
+> > > > --- a/include/media/v4l2-mediabus.h
+> > > > +++ b/include/media/v4l2-mediabus.h
+> > > > @@ -166,12 +166,26 @@ enum v4l2_mbus_type {
+> > > >
+> > > >  /**
+> > > >   * struct v4l2_mbus_config - media bus configuration
+> > > > - * @type:	in: interface type
+> > > > - * @flags:	in / out: configuration flags, depending on @type
+> > > > + * @type: interface type
+> > > > + * @bus: bus configuration data structure
+> > > > + * @bus.parallel: embedded &struct v4l2_mbus_config_parallel.
+> > > > + *		  Used if the bus is parallel or BT.656.
+> > > > + * @bus.mipi_csi1: embedded &struct v4l2_mbus_config_mipi_csi1.
+> > > > + *		   Used if the bus is MIPI Alliance's Camera Serial
+> > > > + *		   Interface version 1 (MIPI CSI1) or Standard
+> > > > + *		   Mobile Imaging Architecture's Compact Camera Port 2
+> > > > + *		   (SMIA CCP2).
+> > > > + * @bus.mipi_csi2: embedded &struct v4l2_mbus_config_mipi_csi2.
+> > > > + *		   Used if the bus is MIPI Alliance's Camera Serial
+> > > > + *		   Interface version 2 (MIPI CSI2).
+> > > >   */
+> > > >  struct v4l2_mbus_config {
+> > > >  	enum v4l2_mbus_type type;
+> > > > -	unsigned int flags;
+> > > > +	union {
+> > > > +		struct v4l2_mbus_config_parallel parallel;
+> > > > +		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
+> > > > +		struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
+> > >
+> > > I wonder if we would be able to use a single structure for D-PHY and
+> > > C-PHY. The clock lane index does not make much sense for the latter,
+> > > but it was already there, so it can be changed on top in case it is
+> > > required
+> >
+> > I'm not sure to follow you here. CSI1 and CSI2 are not D-PHY versus
+> > C-PHY.
+> 
+> I meant if we will be able to correctly represent CSI-2 on C-PHY with
+> struct v4l2_mbus_config_mipi_csi2.
 
-On Wed, 2022-01-19 at 07:44 -0600, Rob Herring wrote:
-> On Mon, Jan 17, 2022 at 08:06:08PM +0800, Irui Wang wrote:
-> > Adds encoder cores dt-bindings for mt8195
-> > 
-> > Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> > ---
-> >  .../media/mediatek,vcodec-encoder-core.yaml   | 214
-> > ++++++++++++++++++
-> >  1 file changed, 214 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-
-> > core.yaml
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-
-> > core.yaml
-> > b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-
-> > core.yaml
-> > new file mode 100644
-> > index 000000000000..d1e7bfa50bce
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-
-> > encoder-core.yaml
-> > @@ -0,0 +1,214 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +
-> > +%YAML 1.2
-> > +---
-> > +$id: "
-> > http://devicetree.org/schemas/media/mediatek,vcodec-encoder-core.yaml#
-> > "
-> > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> > +
-> > +title: Mediatek Video Encoder Accelerator With Multi Core
-> > +
-> > +maintainers:
-> > +  - Irui Wang <irui.wang@mediatek.com>
-> > +
-> > +description: |
-> > +  Mediatek Video Encode is the video encode hardware present in
-> > Mediatek
-> > +  SoCs which supports high resolution encoding functionalities.
-> > Required
-> > +  parent and child device node.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: mediatek,mt8195-vcodec-enc
-> > +
-> > +  mediatek,scp:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    maxItems: 1
-> 
-> 'phandle' is already 1 item. Drop.
+I suppose we can split it into two structures later if the need arises.
 
-Do you mean delete "maxItems: 1"? we will delete in next version.
->  
-> > +    description: |
-> > +      The node of system control processor (SCP), using
-> > +      the remoteproc & rpmsg framework.
-> > +
-> > +  iommus:
-> > +    minItems: 1
-> > +    maxItems: 32
-> > +    description: |
-> > +      List of the hardware port in respective IOMMU block for
-> > current Socs.
-> > +      Refer to bindings/iommu/mediatek,iommu.yaml.
-> > +
-> > +  dma-ranges:
-> > +    maxItems: 1
-> > +    description: |
-> > +      Describes the physical address space of IOMMU maps to
-> > memory.
-> > +
-> > +  "#address-cells":
-> > +    const: 1
-> > +
-> > +  "#size-cells":
-> > +    const: 1
-> > +
-> > +  ranges: true
-> > +
-> > +# Required child node:
-> > +patternProperties:
-> > +  "venc_core0@1a020000":
-> 
-> Address should generally not be defined in the node name schema:
-> 
-> '^venc-core0@'
-> 
-> Though I think you should also drop the '0' here. The unit-address
-> is 
-> enough to distinguish each instance. Then the schemas for each child 
-> node can be combined.
+> > > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > >
+> > > > +	} bus;
+> > > >  };
+> > > >
+> > > >  /**
 
-Thanks, we will rename it in next version.
-> 
-> > +    type: object
-> > +
-> > +    properties:
-> > +      compatible:
-> > +        const: mediatek,mtk-venc-core0
-> 
-> Is the programming model for each core the same, but just different 
-> codecs implemented? I'd just add a property to indicate which codec
-> if 
-> that's not discoverable.
-> 
-Core-0 and Core-1 are two different encoder hardware, they have their
-own hardware, used irq/clock/power...So, we need add two model nodes, a
-"property" may not distinguish the two encoder hardware.
-> > +
-> > +      reg:
-> > +        maxItems: 1
-> > +
-> > +      iommus:
-> > +        minItems: 1
-> > +        maxItems: 32
-> > +        description: |
-> > +          List of the hardware port in respective IOMMU block for
-> > current Socs.
-> > +          Refer to bindings/iommu/mediatek,iommu.yaml.
-> > +
-> > +      interrupts:
-> > +        maxItems: 1
-> > +
-> > +      clocks:
-> > +        maxItems: 1
-> > +
-> > +      clock-names:
-> > +        items:
-> > +          - const: MT_CG_VENC0
-> 
-> The name is supposed to be local to the instance reflecting what the 
-> clock drives rather than a top-level or clock controller name.
-> Lowercase 
-> is also the norm. Given there's only 1 clock, I'd just drop the name.
-Thanks, we will rename it in next version, but we need parse clock info
-by "clock-names"(of_property_count_strings), so maybe we can't drop it.
-> 
-> > +
-> > +      assigned-clocks:
-> > +        maxItems: 1
-> > +
-> > +      assigned-clock-parents:
-> > +        maxItems: 1
-> 
-> These are always allowed and shouldn't be required.
-Do you mean we can not write this two properties here? we will try to
-delete them in next version.
+-- 
+Regards,
 
-Thanks
-BRs
-> 
-> > +
-> > +      power-domains:
-> > +        maxItems: 1
-> > +
-> > +    required:
-> > +      - compatible
-> > +      - reg
-> > +      - iommus
-> > +      - interrupts
-> > +      - clocks
-> > +      - clock-names
-> > +      - assigned-clocks
-> > +      - assigned-clock-parents
-> > +      - power-domains
-> > +
-> > +    additionalProperties: false
-> > +
-> > +  "venc_core1@1b020000":
-> > +    type: object
-> > +
-> > +    properties:
-> > +      compatible:
-> > +        const: mediatek,mtk-venc-core1
-> > +
-> > +      reg:
-> > +        maxItems: 1
-> > +
-> > +      iommus:
-> > +        minItems: 1
-> > +        maxItems: 32
-> > +        description: |
-> > +          List of the hardware port in respective IOMMU block for
-> > current Socs.
-> > +          Refer to bindings/iommu/mediatek,iommu.yaml.
-> > +
-> > +      interrupts:
-> > +        maxItems: 1
-> > +
-> > +      clocks:
-> > +        maxItems: 1
-> > +
-> > +      clock-names:
-> > +        items:
-> > +          - const: MT_CG_VENC1
-> > +
-> > +      assigned-clocks:
-> > +        maxItems: 1
-> > +
-> > +      assigned-clock-parents:
-> > +        maxItems: 1
-> > +
-> > +      power-domains:
-> > +        maxItems: 1
-> > +
-> > +    required:
-> > +      - compatible
-> > +      - reg
-> > +      - iommus
-> > +      - interrupts
-> > +      - clocks
-> > +      - clock-names
-> > +      - assigned-clocks
-> > +      - assigned-clock-parents
-> > +      - power-domains
-> > +
-> > +    additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - mediatek,scp
-> > +  - iommus
-> > +  - dma-ranges
-> > +  - ranges
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/memory/mt8195-memory-port.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +    #include <dt-bindings/clock/mt8195-clk.h>
-> > +    #include <dt-bindings/power/mt8195-power.h>
-> > +
-> > +    venc {
-> > +        compatible = "mediatek,mt8195-vcodec-enc";
-> > +        mediatek,scp = <&scp>;
-> > +        iommus = <&iommu_vdo M4U_PORT_L19_VENC_RCPU>;
-> > +        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
-> > +        #address-cells = <1>;
-> > +        #size-cells = <1>;
-> > +        ranges;
-> > +
-> > +        venc_core0@1a020000 {
-> > +            compatible = "mediatek,mtk-venc-core0";
-> > +            reg = <0x1a020000 0x10000>;
-> > +            iommus = <&iommu_vdo M4U_PORT_L19_VENC_RCPU>,
-> > +                     <&iommu_vdo M4U_PORT_L19_VENC_REC>,
-> > +                     <&iommu_vdo M4U_PORT_L19_VENC_BSDMA>,
-> > +                     <&iommu_vdo M4U_PORT_L19_VENC_SV_COMV>,
-> > +                     <&iommu_vdo M4U_PORT_L19_VENC_RD_COMV>,
-> > +                     <&iommu_vdo M4U_PORT_L19_VENC_CUR_LUMA>,
-> > +                     <&iommu_vdo M4U_PORT_L19_VENC_CUR_CHROMA>,
-> > +                     <&iommu_vdo M4U_PORT_L19_VENC_REF_LUMA>,
-> > +                     <&iommu_vdo M4U_PORT_L19_VENC_REF_CHROMA>;
-> > +            interrupts = <GIC_SPI 341 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +            clocks = <&vencsys CLK_VENC_VENC>;
-> > +            clock-names = "MT_CG_VENC0";
-> > +            assigned-clocks = <&topckgen CLK_TOP_VENC>;
-> > +            assigned-clock-parents = <&topckgen
-> > CLK_TOP_UNIVPLL_D4>;
-> > +            power-domains = <&spm MT8195_POWER_DOMAIN_VENC>;
-> > +        };
-> > +
-> > +        venc_core1@1b020000 {
-> > +            compatible = "mediatek,mtk-venc-core1";
-> > +            reg = <0x1b020000 0x10000>;
-> > +            iommus = <&iommu_vpp M4U_PORT_L20_VENC_RCPU>,
-> > +                     <&iommu_vpp M4U_PORT_L20_VENC_REC>,
-> > +                     <&iommu_vpp M4U_PORT_L20_VENC_BSDMA>,
-> > +                     <&iommu_vpp M4U_PORT_L20_VENC_SV_COMV>,
-> > +                     <&iommu_vpp M4U_PORT_L20_VENC_RD_COMV>,
-> > +                     <&iommu_vpp M4U_PORT_L20_VENC_CUR_LUMA>,
-> > +                     <&iommu_vpp M4U_PORT_L20_VENC_CUR_CHROMA>,
-> > +                     <&iommu_vpp M4U_PORT_L20_VENC_REF_LUMA>,
-> > +                     <&iommu_vpp M4U_PORT_L20_VENC_REF_CHROMA>;
-> > +            interrupts = <GIC_SPI 346 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +            clocks = <&vencsys_core1 CLK_VENC_CORE1_VENC>;
-> > +            clock-names = "MT_CG_VENC1";
-> > +            assigned-clocks = <&topckgen CLK_TOP_VENC>;
-> > +            assigned-clock-parents = <&topckgen
-> > CLK_TOP_UNIVPLL_D4>;
-> > +            power-domains = <&spm MT8195_POWER_DOMAIN_VENC_CORE1>;
-> > +        };
-> > +    };
-> > -- 
-> > 2.18.0
-> > 
-> > 
-
+Laurent Pinchart
