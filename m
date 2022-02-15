@@ -2,50 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D86EC4B6648
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 09:38:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DE534B664C
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 09:39:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234344AbiBOIiP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 03:38:15 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56256 "EHLO
+        id S234109AbiBOIjW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 03:39:22 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234333AbiBOIiL (ORCPT
+        with ESMTP id S232532AbiBOIjU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 03:38:11 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D749ED21EF;
-        Tue, 15 Feb 2022 00:38:01 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B7E38315;
-        Tue, 15 Feb 2022 09:37:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644914279;
-        bh=Zq3UvFy0SJMpJOqEzhnaTGojWYEiLnd93IDZUxgV+ww=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kwu9dvBMQ4iUvu3AROxKrlVVomK6TP/AtXkqbyph7hJrQGG2xub40d3++RNceILLv
-         /OyMd/2HARlmVuDYBS7TAAxBEpLihNkkX/QVIOjLLai9yCXwEyBx/oG7hBv3AzEJIY
-         K8zizZ7OGuD31frlRavNTa+kEn9vU1805+0D0sxc=
-Date:   Tue, 15 Feb 2022 10:37:53 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: Re: [RFC PATCH 0/8] media: Drop .set_mbus_config(), improve
- .get_mbus_config()
-Message-ID: <YgtmYcHf/Lg2VMXo@pendragon.ideasonboard.com>
-References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
+        Tue, 15 Feb 2022 03:39:20 -0500
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C8A5F4049
+        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 00:39:04 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 3884AE0010;
+        Tue, 15 Feb 2022 08:38:58 +0000 (UTC)
+Date:   Tue, 15 Feb 2022 09:40:08 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
+        rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
+        alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
+        kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 4/8] staging: media: imx: Define per-SoC info
+Message-ID: <20220215084008.qltyitaevvyeblnl@uno.localdomain>
+References: <20220214184318.409208-1-jacopo@jmondi.org>
+ <20220214184318.409208-5-jacopo@jmondi.org>
+ <YgqriZJsq9faa6gQ@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+In-Reply-To: <YgqriZJsq9faa6gQ@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,94 +47,233 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Laurent
 
-Reviews or 5/8 to 8/8 would be nice :-) Thanks.
+On Mon, Feb 14, 2022 at 09:20:41PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Mon, Feb 14, 2022 at 07:43:14PM +0100, Jacopo Mondi wrote:
+> > Define the imx-media-info structure which contains CSI configuration
+> > parameter that depend on the SoC version the peripheral is integrated
+> > in.
+> >
+> > Replace the existing 'model' field with the newly defined structure.
+> >
+> > Only define the SoC id and the supported pixel sampling modes for the
+> > moment.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  drivers/staging/media/imx/imx-media.h      | 44 ++++++++++++++++++++++
+> >  drivers/staging/media/imx/imx7-media-csi.c | 44 ++++++++++++++--------
+> >  2 files changed, 73 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
+> > index f263fc3adbb9..1b0b660413cb 100644
+> > --- a/drivers/staging/media/imx/imx-media.h
+> > +++ b/drivers/staging/media/imx/imx-media.h
+> > @@ -18,6 +18,16 @@
+> >  #define IMX_MEDIA_DEF_PIX_WIDTH		640
+> >  #define IMX_MEDIA_DEF_PIX_HEIGHT	480
+> >
+> > +/*
+> > + * Enumeration of the SoC models the peripheral is integrated in.
+> > + */
+> > +enum soc_id {
+> > +	IMX6UL,
+> > +	IMX7,
+> > +	IMX8MM,
+> > +	IMX8MQ,
+>
+> Those names are too generic.
+>
 
-On Mon, Jan 03, 2022 at 06:24:06PM +0200, Laurent Pinchart wrote:
-> Hello,
-> 
-> This patch series reworks the V4L2 subdev .get_mbus_config() and
-> .set_mbus_config() operations to improve the former and drop the latter.
-> 
-> These subdev operations originate from soc-camera (for those who
-> remember the framework), and were designed to let a transmitter and a
-> receiver negotiate the physical configuration of the bus that connects
-> them. The operations use bitflags to represent bus parameters, with
-> supported options set by the caller of .set_mbus_config(), and selected
-> options among those returned by the callee. This mechanism is
-> deprecated, as selection of the bus configuration has long been moved to
-> the firmware interface (DT or ACPI), and usage of bitflags prevents from
-> adding more complex configuration parameters (timings in particular).
-> 
-> As .set_mbus_config() is deprecated and used by one pair of drivers only
-> (pxa_camera and ov6650), it wasn't difficult to drop usage of that
-> operation in patches 1/8 and 2/8, and remove the operation itself in
-> patch 3/8.
-> 
-> With that operation gone, .get_mbus_config() can be moved from bitflags
-> to structures. It turned out that the needed data structures were
-> already present in v4l2_fwnode.h. Patch 4/8 moves them to
-> v4l2_mediabus.h (and renames them to drop the fwnode mention, as they're
-> not specific to the fwnode API), and patch 5/8 makes use of them.
-> Patches 6/8 to 8/8 then removes media bus configuration bitflags that
-> are unneeded (and now unused).
-> 
-> The series is an RFC as not everything has been converted from bitflags
-> to named fields in structures. In particular, the parallel bus flags
-> haven't been touched at all. Patch 8/8 shows how mutually exclusive
-> flags can be reworked to drop one of them. We then need to decide
-> whether to keep expressing the flag as macros, or move to C bitfields
-> with dedicated structure member names. I didn't want to include this
-> change in the RFC before getting feedback on the general approach
-> (feedback on those specific questions will also be appreciated).
-> 
-> Laurent Pinchart (8):
->   media: pxa_camera: Drop usage of .set_mbus_config()
->   media: i2c: ov6650: Drop implementation of .set_mbus_config()
->   media: v4l2-subdev: Drop .set_mbus_config() operation
->   media: v4l2-fwnode: Move bus config structure to v4l2_mediabus.h
->   media: v4l2-mediabus: Use structures to describe bus configuration
->   media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_*_LANE flags
->   media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_CHANNEL_* flags
->   media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
-> 
->  drivers/gpu/ipu-v3/ipu-csi.c                  |   6 +-
->  drivers/media/i2c/adv7180.c                   |  10 +-
->  drivers/media/i2c/adv748x/adv748x-csi2.c      |  18 +--
->  drivers/media/i2c/ml86v7667.c                 |   5 +-
->  drivers/media/i2c/mt9m001.c                   |   8 +-
->  drivers/media/i2c/mt9m111.c                   |  16 +--
->  drivers/media/i2c/ov5648.c                    |   4 +-
->  drivers/media/i2c/ov6650.c                    |  51 ++-------
->  drivers/media/i2c/ov8865.c                    |   4 +-
->  drivers/media/i2c/ov9640.c                    |   8 +-
->  drivers/media/i2c/tc358743.c                  |  26 +----
->  drivers/media/i2c/tvp5150.c                   |   6 +-
->  drivers/media/platform/pxa_camera.c           |  21 ++--
->  drivers/media/platform/qcom/camss/camss.c     |   2 +-
->  drivers/media/platform/rcar-vin/rcar-csi2.c   |  16 +--
->  drivers/media/platform/rcar-vin/rcar-vin.h    |   2 +-
->  drivers/media/platform/stm32/stm32-dcmi.c     |   2 +-
->  .../platform/sunxi/sun4i-csi/sun4i_csi.h      |   2 +-
->  .../platform/sunxi/sun4i-csi/sun4i_dma.c      |   2 +-
->  drivers/media/platform/ti-vpe/cal-camerarx.c  |   6 +-
->  drivers/media/v4l2-core/v4l2-fwnode.c         |  16 ++-
->  drivers/media/v4l2-core/v4l2-subdev.c         |   8 --
->  drivers/staging/media/imx/imx-media-csi.c     |   7 +-
->  drivers/staging/media/imx/imx6-mipi-csi2.c    |  25 +----
->  drivers/staging/media/imx/imx7-mipi-csis.c    |   2 +-
->  drivers/staging/media/imx/imx8mq-mipi-csi2.c  |   2 +-
->  drivers/staging/media/max96712/max96712.c     |   2 +-
->  include/media/v4l2-fwnode.h                   |  61 +---------
->  include/media/v4l2-mediabus.h                 | 104 ++++++++++++------
->  include/media/v4l2-subdev.h                   |  13 ---
->  30 files changed, 168 insertions(+), 287 deletions(-)
-> 
-> 
-> base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
+C++ scoped enums got me used to shorten the single enum items :)
+Of course this should be made specific.
 
--- 
-Regards,
+> > +};
+> > +
+> >  /*
+> >   * Enumeration of the IPU internal sub-devices
+> >   */
+> > @@ -141,10 +151,44 @@ struct imx_media_pad_vdev {
+> >  	struct list_head list;
+> >  };
+> >
+> > +/*
+> > + * enum sample_mode_id - Define the CSI Rx queue sample size
+> > + *
+> > + * The pixel sampling mode defines the possible sampling methods from the
+> > + * CSI Rx queue to the next processing block of the capture pipeline.
+> > + *
+> > + * The supported methods depends on the SoC model and on synthesis time
+> > + * configurations.
+> > + *
+> > + * @MODE_SINGLE: Single pixel mode sampling
+> > + * @MODE_DUAL: Double pixel mode sampling
+> > + * @MODE_QUAD: Quad pixel mode sampling
+> > + */
+> > +enum sample_mode_id {
+> > +	MODE_SINGLE = BIT(0),
+> > +	MODE_DUAL = BIT(1),
+> > +	MODE_QUAD = BIT(2),
+>
+> Here too.
+>
+> > +};
+>
+> Let's limit this to the imx7-media-csi driver, it's unrelated to the
+> i.MX6 IPUv3 and should not be part of common helpers. It doesn't seem
 
-Laurent Pinchart
+Ok, I had no idea this header was used by i.MX6 too. What a mess.
+
+> like any subsequent patch in this series use the sample mode or the
+> soc_id in common helpers, so it should hopefully not be a bit issue.
+>
+
+No it would not.
+
+> I would also like to see a comment somewhere (in this patch or one of
+> the subsequent ones) that explains in more details how the CSIS and CSI
+> bridge are connected, and how various bits affect data signal routing
+> between the two. I can help if necessary.
+>
+
+I can try but I'm not sure I have the full picture in mind.
+
+> > +/*
+> > + * Information and configurations dependent on the SoC the peripheral is
+> > + * integrated in.
+> > + *
+> > + * @soc_id: The SoC identifier. See &enum soc_id.
+> > + * @sample_modes: Mask of supported pixel modes. See &enum sample_mode_id.
+> > + */
+> > +struct imx_media_info {
+> > +	enum soc_id soc_id;
+> > +	u8 sample_modes;
+> > +};
+> > +
+> >  struct imx_media_dev {
+> >  	struct media_device md;
+> >  	struct v4l2_device  v4l2_dev;
+> >
+> > +	/* Per-model information. */
+> > +	const struct imx_media_info *info;
+> > +
+> >  	/* the pipeline object */
+> >  	struct media_pipeline pipe;
+> >
+> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > index 59100e409709..112096774961 100644
+> > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > @@ -159,12 +159,6 @@
+> >  #define CSI_CSICR18			0x48
+> >  #define CSI_CSICR19			0x4c
+> >
+> > -enum imx_csi_model {
+> > -	IMX7_CSI_IMX7 = 0,
+> > -	IMX7_CSI_IMX8MQ,
+> > -	IMX7_CSI_IMX8MM,
+> > -};
+>
+> I think you can keep this instead of soc_id.
+>
+
+Ahem. I develed this patches on a downstream where I could test and
+where these where not there yet. When I rebased on media-master I
+found out about these ones, and I replaced them without too much
+thinking.
+
+> > -
+> >  struct imx7_csi {
+> >  	struct device *dev;
+> >  	struct v4l2_subdev sd;
+> > @@ -200,8 +194,6 @@ struct imx7_csi {
+> >  	bool is_csi2;
+> >
+> >  	struct completion last_eof_completion;
+> > -
+> > -	enum imx_csi_model model;
+> >  };
+> >
+> >  static struct imx7_csi *
+> > @@ -562,6 +554,8 @@ static void imx7_csi_baseaddr_switch_on_second_frame(struct imx7_csi *csi)
+> >
+> >  static void imx7_csi_enable(struct imx7_csi *csi)
+> >  {
+> > +	struct imx_media_dev *imxmd = csi->imxmd;
+> > +
+> >  	/* Clear the Rx FIFO and reflash the DMA controller. */
+> >  	imx7_csi_rx_fifo_clear(csi);
+> >  	imx7_csi_dma_reflash(csi);
+> > @@ -576,7 +570,7 @@ static void imx7_csi_enable(struct imx7_csi *csi)
+> >  	imx7_csi_dmareq_rff_enable(csi);
+> >  	imx7_csi_hw_enable(csi);
+> >
+> > -	if (csi->model == IMX7_CSI_IMX8MQ)
+> > +	if (imxmd->info->soc_id == IMX8MQ)
+> >  		imx7_csi_baseaddr_switch_on_second_frame(csi);
+> >  }
+> >
+> > @@ -1181,8 +1175,6 @@ static int imx7_csi_probe(struct platform_device *pdev)
+> >  	if (IS_ERR(csi->regbase))
+> >  		return PTR_ERR(csi->regbase);
+> >
+> > -	csi->model = (enum imx_csi_model)(uintptr_t)of_device_get_match_data(&pdev->dev);
+> > -
+> >  	spin_lock_init(&csi->irqlock);
+> >  	mutex_init(&csi->lock);
+> >
+> > @@ -1202,6 +1194,8 @@ static int imx7_csi_probe(struct platform_device *pdev)
+> >  	}
+> >  	platform_set_drvdata(pdev, &csi->sd);
+> >
+> > +	imxmd->info = of_device_get_match_data(dev);
+> > +
+> >  	ret = imx_media_of_add_csi(imxmd, node);
+> >  	if (ret < 0 && ret != -ENODEV && ret != -EEXIST)
+> >  		goto cleanup;
+> > @@ -1276,11 +1270,31 @@ static int imx7_csi_remove(struct platform_device *pdev)
+> >  	return 0;
+> >  }
+> >
+> > +static const struct imx_media_info imx8mq_info = {
+> > +	.soc_id = IMX8MQ,
+> > +	.sample_modes = MODE_SINGLE,
+> > +};
+> > +
+> > +static const struct imx_media_info imx8mm_info = {
+> > +	.soc_id = IMX8MM,
+> > +	.sample_modes = MODE_SINGLE | MODE_DUAL,
+> > +};
+> > +
+> > +static const struct imx_media_info imx7_info = {
+> > +	.soc_id = IMX7,
+> > +	.sample_modes = MODE_SINGLE,
+> > +};
+> > +
+> > +static const struct imx_media_info imx6ul_info = {
+> > +	.soc_id = IMX6UL,
+> > +	.sample_modes = MODE_SINGLE,
+> > +};
+> > +
+> >  static const struct of_device_id imx7_csi_of_match[] = {
+> > -	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX7_CSI_IMX8MQ },
+> > -	{ .compatible = "fsl,imx8mm-csi", .data = (void *)IMX7_CSI_IMX8MM },
+> > -	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7 },
+> > -	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX7_CSI_IMX7 },
+> > +	{ .compatible = "fsl,imx8mq-csi", .data = &imx8mq_info },
+> > +	{ .compatible = "fsl,imx8mm-csi", .data = &imx8mm_info },
+> > +	{ .compatible = "fsl,imx7-csi", .data = &imx7_info },
+> > +	{ .compatible = "fsl,imx6ul-csi", .data = &imx6ul_info },
+> >  	{ },
+> >  };
+> >  MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
