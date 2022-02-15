@@ -2,160 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B24C4B7B06
+	by mail.lfdr.de (Postfix) with ESMTP id 4C69D4B7B05
 	for <lists+linux-media@lfdr.de>; Wed, 16 Feb 2022 00:08:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244348AbiBOXIM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 18:08:12 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44000 "EHLO
+        id S244358AbiBOXIN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 18:08:13 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243451AbiBOXIL (ORCPT
+        with ESMTP id S244343AbiBOXIM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 18:08:11 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D88665E0
-        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 15:08:00 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id h6so494185wrb.9
-        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 15:08:00 -0800 (PST)
+        Tue, 15 Feb 2022 18:08:12 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 839987674
+        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 15:08:01 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id x3-20020a05600c21c300b0037c01ad715bso388023wmj.2
+        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 15:08:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=l2tRfNrOIKSoY0VV6Ty+DAIfmKgy5ueutRp2dWCh5N8=;
-        b=PD3lJUsN8qPv5UHjhZchPZvcRsBUS1Xn9Y86GpZxWDrbgStg3LXVP/tfnM4P7TSpYI
-         N2MY9cfjvK0YOGBaDA0e77geHyZiBl9oBxLc2KFyScYVONOV4VLB6ZxPmcQ3Cn7QuFyh
-         IgkEw+NVsw+Fzr9rCGBsouh9C2mVNgGfXXRD6D5hNSBG4+pcIPs82UpJKSrrMDsnXZmz
-         9vXB3eLbVJMhwdBmZeDvDNEDaLIn1KOhnmuaEq4p/2eXijJhvbtypwvB6ZOC40eEpvPg
-         rxeGeyeO8NnIHIWRQBRVwIMl2HVxaRVTrxhG3C1p+dHm+7Qznks2lPp2emPQXCMq7aKR
-         9pxQ==
+        bh=3iUKXpsWvnYENTSa7D2kghfQRHXp3gOSZNEj5S0Nu0A=;
+        b=Vytv+VH+8Xu9JpX537GKIqhwBr+oI95WiBwq40kqoESolCyaiJUoRYlqc9nc8qiNRp
+         44P+scSfeexEZWHklQ6PAAR0/nWNl+HBnNFMw/OanVJ3eQCgNA/zzjCirgcmgxelzmQo
+         +KQjkXh580sgV0JG4yS+O3G0Z7NFUdcwzfha19pw0AOU3c8MlooiPZllvO1guSY+/Se/
+         3/i9EA3cyvZoFEZWstsuk/3xpNBkQlq2gWZlG+7OB4p+hsm2vNy7ZQT0OobE+eyuzial
+         DbuTOyHzFWNOAMgysUrZ3yC2l6VXyE+loGmjltYk0DDidOHkVqrPAt3lhTEu63D3+Aur
+         2XTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=l2tRfNrOIKSoY0VV6Ty+DAIfmKgy5ueutRp2dWCh5N8=;
-        b=hcZ9m3qSo/0mLj+fMs8YhvOsi9Z/Vd72xeEv/yyPZg0gP1MB7ESb98jvXImgJm7sUm
-         TD0gm4EjEu9h1x+sdg2hjyNrezmUgyRkXQxqSPojxf2qp5bghfHjt0pxjhjDELpwYET3
-         7DSr8sKXHF3z3pCdGSQOUVuWZC4qrYno6ziklXigr7Jpliz3vnyqTBv+O+DB1U7oSB5e
-         Ppp+DbqOdxazvEZEQWzsIzkTHMGThOfo7ydbZj6WKgjIRpWg7A/nqTV9gAXSt8yQhQYF
-         S8hUKzYraLZhfPcIWyiR+36Eyoc0lEh/KAH60A/TCfWF2GmnDaGps5UyajLkCNq/IFko
-         +eHQ==
-X-Gm-Message-State: AOAM531ZCCPRqOixeqSnmxr2OwzlZPvrMpGZC/TqQy03cPcfxzWtlEjE
-        pdUR0uVDdOzEgsI1d0mI2hKQO9J30K8pjg==
-X-Google-Smtp-Source: ABdhPJwyjDUeKKWmw2gNSF/NQP1ARSi9LWPJGNMG4fNyQdBATH4e+kZQ0jiHVL86cgYeYPeGsiP+qA==
-X-Received: by 2002:adf:d082:0:b0:1e3:16e2:d611 with SMTP id y2-20020adfd082000000b001e316e2d611mr165280wrh.716.1644966479230;
-        Tue, 15 Feb 2022 15:07:59 -0800 (PST)
+        bh=3iUKXpsWvnYENTSa7D2kghfQRHXp3gOSZNEj5S0Nu0A=;
+        b=VXdzvrByynpidxR0S6ibeiooR369/c69ImqsYsuJcOPUIaqbIK0Ftgfu2cULn7/5pV
+         j6gIUbpItwNYgsLrtq1G26ZDM6EeeoHRcCHXUOtRRmmwN38hqHBmv7mAiMUvR9qikea6
+         2145LYakKpHJwovXjzu8TS89fvbP29KW7S8yhuPFkxA/GuHsr04iRTqja43yqadKJ74a
+         daqvCitWODMiSdou0L0IqAZBG2gozOiYy3Noy3lreTyNGvijyArN4U9Z0j1/E5Yf8T6V
+         lmCYLhYHD/8/xP8ExSQb1HW+EcuNMRCy7lDb0PRm727dRUNfLqFqzSu8sWJJjuUcAZTk
+         M+ww==
+X-Gm-Message-State: AOAM532egu4uG6vAHIyYpCX499pP47t+ZwkrmgItEmq1jiH5d3qBOJfV
+        G88hCo4S+5Tr6UpSSoY9t8pyPgWohAtI3g==
+X-Google-Smtp-Source: ABdhPJx04N05ZsAMUTfSc1foZNTar/e3QqN7QNB0R+I++9Z6u1QjE7TXLG95S/B5ARjmTmJbVwDePA==
+X-Received: by 2002:a05:600c:22d3:b0:37b:f1a7:ceb5 with SMTP id 19-20020a05600c22d300b0037bf1a7ceb5mr124707wmg.164.1644966480205;
+        Tue, 15 Feb 2022 15:08:00 -0800 (PST)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id w18sm16956590wrl.62.2022.02.15.15.07.58
+        by smtp.gmail.com with ESMTPSA id w18sm16956590wrl.62.2022.02.15.15.07.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 15:07:58 -0800 (PST)
+        Tue, 15 Feb 2022 15:07:59 -0800 (PST)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
         bingbu.cao@intel.com, tian.shu.qiu@intel.com,
         andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH 09/10] media: i2c: Remove .s_power() from ov7251
-Date:   Tue, 15 Feb 2022 23:07:36 +0000
-Message-Id: <20220215230737.1870630-10-djrscally@gmail.com>
+Subject: [PATCH 10/10] media: ipu3-cio2: Add INT347E to cio2-bridge
+Date:   Tue, 15 Feb 2022 23:07:37 +0000
+Message-Id: <20220215230737.1870630-11-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220215230737.1870630-1-djrscally@gmail.com>
 References: <20220215230737.1870630-1-djrscally@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,TVD_SUBJ_WIPE_DEBT,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The .s_power() callback is deprecated, and now that we have pm_runtime
-functionality in the driver there's no further use for it. Delete the
-function.
+ACPI _HID INT347E represents the ov7251 sensor, which can be supported
+by the cio2-bridge. Add it to the list of supported devices so the
+bridge builts the software nodes.
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
- drivers/media/i2c/ov7251.c | 44 +-------------------------------------
- 1 file changed, 1 insertion(+), 43 deletions(-)
+ drivers/media/pci/intel/ipu3/cio2-bridge.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
-index d620ed6a4e42..5e7422ca4ab9 100644
---- a/drivers/media/i2c/ov7251.c
-+++ b/drivers/media/i2c/ov7251.c
-@@ -903,43 +903,6 @@ static int __maybe_unused ov7251_sensor_resume(struct device *dev)
- 	return ov7251_set_power_on(ov7251);
- }
- 
--static int ov7251_s_power(struct v4l2_subdev *sd, int on)
--{
--	struct ov7251 *ov7251 = to_ov7251(sd);
--	int ret = 0;
--
--	mutex_lock(&ov7251->lock);
--
--	/* If the power state is not modified - no work to do. */
--	if (ov7251->power_on == !!on)
--		goto exit;
--
--	if (on) {
--		ret = ov7251_set_power_on(ov7251);
--		if (ret < 0)
--			goto exit;
--
--		ret = ov7251_set_register_array(ov7251,
--					ov7251_global_init_setting,
--					ARRAY_SIZE(ov7251_global_init_setting));
--		if (ret < 0) {
--			dev_err(ov7251->dev, "could not set init registers\n");
--			ov7251_set_power_off(ov7251);
--			goto exit;
--		}
--
--		ov7251->power_on = true;
--	} else {
--		ov7251_set_power_off(ov7251);
--		ov7251->power_on = false;
--	}
--
--exit:
--	mutex_unlock(&ov7251->lock);
--
--	return ret;
--}
--
- static int ov7251_set_hflip(struct ov7251 *ov7251, s32 value)
- {
- 	u8 val = ov7251->timing_format2;
-@@ -1384,10 +1347,6 @@ static int ov7251_set_frame_interval(struct v4l2_subdev *subdev,
- 	return ret;
- }
- 
--static const struct v4l2_subdev_core_ops ov7251_core_ops = {
--	.s_power = ov7251_s_power,
--};
--
- static const struct v4l2_subdev_video_ops ov7251_video_ops = {
- 	.s_stream = ov7251_s_stream,
- 	.g_frame_interval = ov7251_get_frame_interval,
-@@ -1405,7 +1364,6 @@ static const struct v4l2_subdev_pad_ops ov7251_subdev_pad_ops = {
+diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+index 7ccb7b6eaa82..a27b4948b4f6 100644
+--- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
++++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+@@ -25,6 +25,8 @@ static const struct cio2_sensor_config cio2_supported_sensors[] = {
+ 	CIO2_SENSOR_CONFIG("INT33BE", 1, 419200000),
+ 	/* Omnivision OV8865 */
+ 	CIO2_SENSOR_CONFIG("INT347A", 1, 360000000),
++	/* Omnivision OV7251 */
++	CIO2_SENSOR_CONFIG("INT347E", 1, 240000000),
+ 	/* Omnivision OV2680 */
+ 	CIO2_SENSOR_CONFIG("OVTI2680", 0),
  };
- 
- static const struct v4l2_subdev_ops ov7251_subdev_ops = {
--	.core = &ov7251_core_ops,
- 	.video = &ov7251_video_ops,
- 	.pad = &ov7251_subdev_pad_ops,
- };
-@@ -1690,7 +1648,7 @@ static int ov7251_probe(struct i2c_client *client)
- 	pm_runtime_disable(ov7251->dev);
- 	pm_runtime_put_noidle(ov7251->dev);
- power_down:
--	ov7251_s_power(&ov7251->sd, false);
-+	ov7251_set_power_off(ov7251);
- free_entity:
- 	media_entity_cleanup(&ov7251->sd.entity);
- free_ctrl:
 -- 
 2.25.1
 
