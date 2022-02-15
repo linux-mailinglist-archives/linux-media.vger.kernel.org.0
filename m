@@ -2,48 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05EE34B6CDE
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 14:00:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 359B14B6CE9
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 14:01:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238026AbiBONA0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 08:00:26 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52782 "EHLO
+        id S237990AbiBONBj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 08:01:39 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:54296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232620AbiBONAZ (ORCPT
+        with ESMTP id S235084AbiBONBh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 08:00:25 -0500
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3C0A7F6FA;
-        Tue, 15 Feb 2022 05:00:13 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 2FA58240019;
-        Tue, 15 Feb 2022 13:00:07 +0000 (UTC)
-Date:   Tue, 15 Feb 2022 14:01:16 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [RFC PATCH v2 1/4] media: dt-bindings: media: Document RZ/G2L
- CSI-2 block
-Message-ID: <20220215130116.fmqhoakn5fl4aout@uno.localdomain>
-References: <20220121010543.31385-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220121010543.31385-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Tue, 15 Feb 2022 08:01:37 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADEE8DF43;
+        Tue, 15 Feb 2022 05:01:26 -0800 (PST)
+Received: from localhost (unknown [IPv6:2a02:3030:c:4872:44aa:f680:5c21:4d9e])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: sebastianfricke)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B8E621F4478F;
+        Tue, 15 Feb 2022 13:01:24 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1644930085;
+        bh=oP5LmZQ2v+ynwHP2YgQ3HzLx8VbZLLfieXayaQwh2AY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Y5MoHVAz6qUMJA0Axj1VeVkWWxHnce4wEZF13y6m1OMe0Gu/zvbtcbO+ElYkP88S0
+         /+inE+Oza/Uq7aOpRyuMaYaIkAJGh2MA245Cpx3I46/BzzzlD6Y9tOO+pQtkZRXHiQ
+         soWQ9A3CYUTDUHHWi61eRhbL990SjcdDZEjuQuzoN/2ShXmqXkRVHtjS7f8N92qzFH
+         Nv07t2WrKMjjtIfe4+61ra4DAgj40VMU/ufS/Nv+Z9dWRrsluR6o959YKyDI0/lUYo
+         vLt8aB65utTeu/ZF2iyiIl4eXO5CHXeuq0tA1MXF7PcGrUHf0RD7l35c0C6Dec1X3/
+         6A5ThyXzJq33g==
+Date:   Tue, 15 Feb 2022 14:01:21 +0100
+From:   Sebastian Fricke <sebastian.fricke@collabora.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl,
+        jonas@kwiboo.se, nicolas@ndufresne.ca, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk
+Subject: Re: [RFC v2 0/8] Move HEVC stateless controls out of staging
+Message-ID: <20220215130121.4ekixb457ot6zaqi@basti-XPS-13-9310>
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220121010543.31385-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+In-Reply-To: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,208 +58,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar
+Hey Benjamin,
 
-On Fri, Jan 21, 2022 at 01:05:40AM +0000, Lad Prabhakar wrote:
-> Document the CSI-2 block which is part of CRU found in Renesas
-> RZ/G2L SoC.
+On 15.02.2022 12:00, Benjamin Gaignard wrote:
+>This series aims to make HEVC uapi stable and usable for hardware
+>decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>and 2 out of the tree drivers (rkvdec and RPI).
+
+Why is rkvdec out-of-tree? It is in the staging directory just like
+hantro and cedrus? Am I missing something here?
+
+Greetings,
+Sebastian
+
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> Hi Geert/All,
+>The 3 first patches are from Hans to implement v4l2 dynamic control
+>feature which is need by patch 7 for V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET
+>definition.
 >
-> vclk and pclk clocks are shared with CRU both CSI and CRU driver are using
-> pm_runtime. pclk clock is necessary for register access where as vclk clock
-> is only used for calculations. So would you suggest passing vclk as part of
-> clocks (as currently implemented) or pass the vclk clock rate as a dt property.
+>Patch 4 move the existing uapi to stable, including definitions renaming
+>and CID number change to fit with v4l2 naming.
 >
-> Cheers,
-> Prabhakar
+>Patches 5 and 7 add fields needed for rkvdec and RPI decoders.
 >
-> v1->v2
-> * New patch
-> ---
->  .../bindings/media/renesas,rzg2l-csi2.yaml    | 151 ++++++++++++++++++
->  1 file changed, 151 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+>Patches 6 is cleaning up the uapi of useless field.
+>Patches 8 change one field description and name to define offset by
+>bytes rather than by bits
 >
-> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> new file mode 100644
-> index 000000000000..bf907768a157
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> @@ -0,0 +1,151 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (C) 2022 Renesas Electronics Corp.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/renesas,rzg2l-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/G2L MIPI CSI-2 receiver
-> +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +
-> +description:
-> +  The RZ/G2L CSI-2 receiver device provides MIPI CSI-2 capabilities for the
-> +  Renesas RZ/G2L family of devices. MIPI CSI-2 is part of the CRU block which
-> +  is used in conjunction with the Image Processing module, which provides the
-> +  video capture capabilities.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - renesas,r9a07g044-csi2     # RZ/G2{L,LC}
-> +          - const: renesas,rzg2l-csi2
-
-As per Rob's comment on the CRU bindings, you can remove oneOf:
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: csi2_link
-
-Can this be just
-
-  interrupt-names:
-    const: csi2_link
-?
-
-(I've run dt_binding_check and it does not complain)
-
-> +
-> +  clocks:
-> +    items:
-> +      - description: Internal clock for connecting CRU and MIPI
-> +      - description: CRU Main clock
-> +      - description: CPU Register access clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: sysclk
-> +      - const: vclk
-> +      - const: pclk
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    items:
-> +      - description: CRU_CMN_RSTB reset terminal
-> +
-> +  reset-names:
-> +    items:
-> +      - const: cmn-rstb
-
-Here and above, is items: needed for a single entry ?
-(again, dt_binding_check does not complain if I remove it)
-
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing the CSI-2 transmitter.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 4
-> +
-> +            required:
-> +              - clock-lanes
-> +              - data-lanes
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output port node, Image Processing block connected to the CSI-2 receiver.
-
-Isn't the next processing block the CRU ? IOW, isn't this driver the
-CSI-2 receiver ?
-
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - resets
-> +  - reset-names
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    csi20: csi2@10830400 {
-> +            compatible = "renesas,r9a07g044-csi2", "renesas,rzg2l-csi2";
-> +            reg = <0x10830400 0xfc00>;
-> +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
-> +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
-> +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>;
-> +            clock-names = "sysclk", "vclk", "pclk";
-> +            power-domains = <&cpg>;
-> +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>;
-> +            reset-names = "cmn-rstb";
-> +
-> +            ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    port@0 {
-> +                            reg = <0>;
-> +
-> +                            csi2_in: endpoint {
-> +                                    clock-lanes = <0>;
-> +                                    data-lanes = <1 2>;
-> +                                    remote-endpoint = <&ov5645_ep>;
-> +                            };
-> +                    };
-> +
-> +                    port@1 {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            reg = <1>;
-> +
-> +                            csi2cru: endpoint@0 {
-> +                                    reg = <0>;
-> +                                    remote-endpoint = <&crucsi2>;
-> +                            };
-> +                    };
-> +            };
-> +    };
-> --
-> 2.17.1
+>Benjamin
+>
+>Benjamin Gaignard (5):
+>  media: uapi: Move HEVC stateless controls out of staging
+>  media: uapi: Add fields needed for RKVDEC driver
+>  media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
+>  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+>  media: uapi: Change data_bit_offset definition
+>
+>Hans Verkuil (3):
+>  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>  v4l2-ctrls: add support for dynamically allocated arrays.
+>  vivid: add dynamic array test control
+>
+> .../userspace-api/media/drivers/hantro.rst    |   5 -
+> .../media/v4l/ext-ctrls-codec.rst             |  58 ++--
+> .../media/v4l/vidioc-queryctrl.rst            |   8 +
+> .../media/test-drivers/vivid/vivid-ctrls.c    |  15 ++
+> drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++++++--
+> drivers/media/v4l2-core/v4l2-ctrls-core.c     | 182 ++++++++++---
+> drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +--
+> drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+> drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+> drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+> drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+> drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+> .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+> .../staging/media/sunxi/cedrus/cedrus_h265.c  |  13 +-
+> include/linux/hantro-media.h                  |  17 ++
+> include/media/hevc-ctrls.h                    | 250 ------------------
+> include/media/v4l2-ctrls.h                    |  48 +++-
+> include/uapi/linux/v4l2-controls.h            | 224 ++++++++++++++++
+> include/uapi/linux/videodev2.h                |   8 +
+> 19 files changed, 640 insertions(+), 408 deletions(-)
+> create mode 100644 include/linux/hantro-media.h
+> delete mode 100644 include/media/hevc-ctrls.h
+>
+>-- 
+>2.32.0
 >
