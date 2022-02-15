@@ -2,48 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50C754B65F0
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 09:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62EFD4B663B
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 09:35:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235376AbiBOIV3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 03:21:29 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58042 "EHLO
+        id S232284AbiBOIfk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 03:35:40 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233960AbiBOIV3 (ORCPT
+        with ESMTP id S230521AbiBOIfj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 03:21:29 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C9AD9BBB0;
-        Tue, 15 Feb 2022 00:21:19 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D8B02B81801;
-        Tue, 15 Feb 2022 08:21:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 122EEC340EC;
-        Tue, 15 Feb 2022 08:21:14 +0000 (UTC)
-Message-ID: <20ace4b3-5002-4edb-642b-bbb1952f3591@xs4all.nl>
-Date:   Tue, 15 Feb 2022 09:21:12 +0100
+        Tue, 15 Feb 2022 03:35:39 -0500
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39DACC621A
+        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 00:35:29 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id ABF41C000C;
+        Tue, 15 Feb 2022 08:35:22 +0000 (UTC)
+Date:   Tue, 15 Feb 2022 09:36:31 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
+        rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
+        alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
+        kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 3/8] staging: media: imx: Add more compatible strings
+Message-ID: <20220215083631.iajmsywr5tmduupv@uno.localdomain>
+References: <20220214184318.409208-1-jacopo@jmondi.org>
+ <20220214184318.409208-4-jacopo@jmondi.org>
+ <YgqqO+6FHIVocnW9@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v1 1/2] media: v4l2-ctrls: Add intra-refresh type control
-Content-Language: en-US
-To:     Dikshita Agarwal <dikshita@qti.qualcomm.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     ezequiel@collabora.com, vgarodia@codeaurora.org,
-        stanimir.varbanov@linaro.org,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>
-References: <1643019119-8309-1-git-send-email-dikshita@qti.qualcomm.com>
- <1643019119-8309-2-git-send-email-dikshita@qti.qualcomm.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <1643019119-8309-2-git-send-email-dikshita@qti.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YgqqO+6FHIVocnW9@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,128 +47,170 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dikshita,
+Hi Laurent
 
-Some comments below:
+On Mon, Feb 14, 2022 at 09:15:07PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Mon, Feb 14, 2022 at 07:43:13PM +0100, Jacopo Mondi wrote:
+> > The imx7-media-csi driver controls the CSI (CMOS Sensor Interface)
+> > peripheral available on several SoC of different generations.
+> >
+> > The current situation when it comes to compatible strings is rather
+> > confused:
+> > - Bindings document imx6ul, imx7 and imx8mm
+> > - Driver supports imx6ul, imx7 and imx8mq
+> > - The IMX8MM and IMX8MQ DTS use the correct compatible strings with a
+> >   fallback to the generic "imx7-csi" identifier:
+> >   arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi",
+> >   arch/arm64/boot/dts/freescale/imx8mm.dtsi: compatible = "fsl,imx8mm-csi",
+> >
+> > Tidy-up the situation by adding the IMX8MQ compatible string to the
+> > bindings documentation andathe IMX8MM identifier to the driver, to allow
+> > to distinguish the SoC the CSI peripheral is integrated on in the
+> > following patches.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml | 1 +
+> >  drivers/staging/media/imx/imx7-media-csi.c                | 2 ++
+>
+> I think Rob would prefer this being split in two patches, and I think it
+> would make sense, as you're fixing two separate issues.
+>
+> >  2 files changed, 3 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > index 4f7b78265336..0f1505d85111 100644
+> > --- a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > +++ b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > @@ -21,6 +21,7 @@ properties:
+> >            - fsl,imx7-csi
+> >            - fsl,imx6ul-csi
+> >        - items:
+> > +          - const: fsl,imx8mq-csi
+> >            - const: fsl,imx8mm-csi
+> >            - const: fsl,imx7-csi
+>
+> I don't think you intended to require the following:
+>
+> 	compatible = "fsl,imx8mq-csi", "fsl,imx8mm-csi", "fsl,imx7-csi";
 
-On 1/24/22 11:11, Dikshita Agarwal wrote:
-> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> 
-> Add a control to set intra-refresh type.
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
->  .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 23 ++++++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  9 +++++++++
->  include/uapi/linux/v4l2-controls.h                 |  5 +++++
->  3 files changed, 37 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index e141f0e..54b42e1 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1180,6 +1180,29 @@ enum v4l2_mpeg_video_h264_entropy_mode -
->      is set to non zero value.
->      Applicable to H264, H263 and MPEG4 encoder.
->  
-> +``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE (enum)``
-> +
-> +enum v4l2_mpeg_video_intra_refresh_type -
-> +    Sets the type of intra refresh. The period to refresh
-> +    the whole frame is specified by V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD.
-> +    Note if the client sets this control to either ``V4L2_MPEG_VIDEO_INTRA_REFRESH_RANDOM``
-> +    or ``V4L2_MPEG_VIDEO_INTRA_REFRESH_CYCLIC`` the ``V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB``
-> +    control shall be ignored.
+No, I kind of superficially added the mq version where the mm was
+already and went on :)
 
-Since this control has only two possible values, that would mean that, if this control
-is present, then REFRESH_MB is always ignored.
+Care to explain why currently we have two const for the "8mm" and the
+"imx7" versions ?
 
-It seems to me that you need a third option here that specifically selects the REFRESH_MB
-method.
+>
+> You probably want
+>
+>  properties:
+>    compatible:
+>      oneOf:
+>        - enum:
+> +          - fsl,imx8mq-csi
+>            - fsl,imx7-csi
+>            - fsl,imx6ul-csi
+>        - items:
+>            - const: fsl,imx8mm-csi
+>            - const: fsl,imx7-csi
+>
+> instead.
 
-Also, this needs to be documented as well in REFRESH_MB (i.e. it is ignored if this TYPE
-control is present and is set to something other than REFRESH_MB).
+I'm not aware of how how many revisions of the imx7 and imx6 versions
+exists, nor how they differ, but the existing distinction feels a bit
+weird.
 
-> +    Applicable to H264, H263 and MPEG4 encoder. Possible values are:
-> +
-> +.. tabularcolumns:: |p{9.6cm}|p{7.9cm}|
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - ``V4L2_MPEG_VIDEO_INTRA_REFRESH_RANDOM``
+The const items should be the compatible fallbacks, should them be
+generic, why is 8mm among them ? Shouldn't we specify the precise SoC
+version in the list of possible enum items only ?
 
-I think you should add _TYPE after REFRESH in these names to clearly specify
-that this is setting the refresh *type*.
+Something like
 
-> +      - The whole frame is completely refreshed randomly
-> +      after the specified period.
-> +    * - ``V4L2_MPEG_VIDEO_INTRA_REFRESH_CYCLIC``
-> +      - The whole frame MBs are completely refreshed in cyclic order
-> +      after the specified period.
-> +
->  ``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD (integer)``
->      Intra macroblock refresh period. This sets the period to refresh
->      the whole frame. In other words, this defines the number of frames
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 54ca4e6..f13f587 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -572,6 +572,11 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
->  		"VBV/CPB Limit",
->  		NULL,
->  	};
-> +	static const char * const intra_refresh_type[] = {
-> +		"Random",
-> +		"Cyclic",
-> +		NULL,
-> +	};
->  
->  	switch (id) {
->  	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
-> @@ -705,6 +710,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
->  		return hevc_start_code;
->  	case V4L2_CID_CAMERA_ORIENTATION:
->  		return camera_orientation;
-> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:
-> +		return intra_refresh_type;
->  	default:
->  		return NULL;
->  	}
-> @@ -834,6 +841,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:	return "Decoder Slice Interface";
->  	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:	return "MPEG4 Loop Filter Enable";
->  	case V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB:	return "Number of Intra Refresh MBs";
-> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:		return "Intra Refresh Type";
->  	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD:		return "Intra Refresh Period";
->  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:		return "Frame Level Rate Control Enable";
->  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:			return "H264 MB Level Rate Control";
-> @@ -1360,6 +1368,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_STATELESS_H264_DECODE_MODE:
->  	case V4L2_CID_STATELESS_H264_START_CODE:
->  	case V4L2_CID_CAMERA_ORIENTATION:
-> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:
->  		*type = V4L2_CTRL_TYPE_MENU;
->  		break;
->  	case V4L2_CID_LINK_FREQ:
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index c8e0f84..9650b71 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -443,6 +443,11 @@ enum v4l2_mpeg_video_multi_slice_mode {
->  #define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES		(V4L2_CID_CODEC_BASE+234)
->  #define V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR		(V4L2_CID_CODEC_BASE+235)
->  #define V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD	(V4L2_CID_CODEC_BASE+236)
-> +#define V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE		(V4L2_CID_CODEC_BASE+237)
-> +enum v4l2_mpeg_video_intra_refresh_type {
-> +	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_RANDOM	= 0,
-> +	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_CYCLIC	= 1,
-> +};
->  
->  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
->  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
+      oneOf:
+        - enum:
+          - fsl,imx8mq-csi
+          - fsl,imx8mm-csi
+          - fsl,imx6ul-csi
+        - const:
+          - fsl,imx7-csi
 
-Regards,
+In example I see:
 
-	Hans
+arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
+
+Where this should either be
+                                           compatible = "fsl,imx8mq-csi"
+or
+                                           compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
+
+?
+
+
+>
+> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > index 32311fc0e2a4..59100e409709 100644
+> > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > @@ -162,6 +162,7 @@
+> >  enum imx_csi_model {
+> >  	IMX7_CSI_IMX7 = 0,
+> >  	IMX7_CSI_IMX8MQ,
+> > +	IMX7_CSI_IMX8MM,
+> >  };
+> >
+> >  struct imx7_csi {
+> > @@ -1277,6 +1278,7 @@ static int imx7_csi_remove(struct platform_device *pdev)
+> >
+> >  static const struct of_device_id imx7_csi_of_match[] = {
+> >  	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX7_CSI_IMX8MQ },
+> > +	{ .compatible = "fsl,imx8mm-csi", .data = (void *)IMX7_CSI_IMX8MM },
+>
+> This isn't needed, as the i.MX8MM CSI bridgge is considered fully
+> backward-compatible with the i.MX7 version. I'd introduce this change in
+> the patch where you start using IMX7_CSI_IMX8MM, and I would then add
+> the following to the DT binding:
+>
+>  properties:
+>    compatible:
+>      oneOf:
+>        - enum:
+>            - fsl,imx8mq-csi
+> +          - fsl,imx8mm-csi
+>            - fsl,imx7-csi
+>            - fsl,imx6ul-csi
+>        - items:
+>            - const: fsl,imx8mm-csi
+>            - const: fsl,imx7-csi
+>
+> to allow setting
+>
+> 	compatible = "fsl,imx8mm-csi";
+>
+> without the imx7 fallback if we consider the i.MX8MM version different.
+> If the driver can operate correctly on the i.MX8MM when using the i.MX7
+> fallback code paths (possibly minor issues that are not considered
+> fatal, such as missing features) then you could skip this binding
+> change.
+
+Sorry, but shouldn't:
+
+        compatible = "fsl,imx8mm-csi", fsl,imx7-csi"
+
+allow me to match on imx8mm already, without the above change.
+
+I think what I don't get is why imx8mm is a 'generic fallback' in
+first place.
+
+>
+> >  	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7 },
+> >  	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX7_CSI_IMX7 },
+> >  	{ },
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
