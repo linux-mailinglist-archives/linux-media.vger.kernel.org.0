@@ -2,140 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 771614B79B5
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 22:49:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 935404B79C7
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 22:49:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243329AbiBOVVV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 16:21:21 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37956 "EHLO
+        id S244378AbiBOV2f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 16:28:35 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233461AbiBOVVU (ORCPT
+        with ESMTP id S233069AbiBOV2f (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 16:21:20 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE51BA753;
-        Tue, 15 Feb 2022 13:21:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644960070; x=1676496070;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D3mH1ZQYnUmDyHebTFiaM1aX+zULtvkheCq0LawoiFk=;
-  b=MOFWvdK+LAwtynpujM5pfTDLUDe+5zezk3M91/aVdxTOHfNUXWD7i0vg
-   5x9STv62ooHwC9WGsR9cubH8bMYt/0jHxk/NeNh4HUWiaRwQYEnHAUHUx
-   Xq3yBcHZKhbY4qNDKKbqOPiAKdZogISCY5jXufNSoaLSYXZwYpQKDQ4eO
-   eo5eZPSMrs2T2wFJM59ugt+RT3Fgv31HDmCj63pKbDLhBsbJgrumgfJTV
-   9EK/0/wOk3WCenSNxe67ubgQxj3defKVv7gk+0Dp74RmC9GKO2R5IFIXI
-   +cJPLOrX0rynOQ/xf9pVrC4lTMCBJV3NQ0xF7E2T96GXRS+HBaNJhimDG
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="249289916"
-X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
-   d="scan'208";a="249289916"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2022 13:21:10 -0800
-X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
-   d="scan'208";a="625027203"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2022 13:21:05 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 723FA200F1;
-        Tue, 15 Feb 2022 23:21:03 +0200 (EET)
-Date:   Tue, 15 Feb 2022 23:21:03 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 37/66] media: sun6i-csi: Move power management to
- runtime pm in capture
-Message-ID: <YgwZP4CS26FCOOqc@paasikivi.fi.intel.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-38-paul.kocialkowski@bootlin.com>
- <YgqftcDgfrsZfTdF@paasikivi.fi.intel.com>
- <Ygt4xh2Mq0qStyKs@aptenodytes>
- <Ygt6vwydxg9/WuDH@pendragon.ideasonboard.com>
- <Ygt+nZJrZMNXV4Cl@aptenodytes>
+        Tue, 15 Feb 2022 16:28:35 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3515BC24A9;
+        Tue, 15 Feb 2022 13:28:24 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 53B211B000F7;
+        Tue, 15 Feb 2022 23:28:19 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1644960499;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TNR+UWwOUIe5Ol5GaIiTKvYLB6cZOFWi5SXT3cza3B8=;
+        b=Vsik3++9JZvVln1Zurc0XQHIHTlb/WOzoGgeYTq/r1s+vuSPf4991ZWyAKrUK2bMly684a
+        U+HomqvrB9Q8zSUUoC7ax+Y8fjUFmT9EDIXy0znNi7acv50Eb37tKatWL2EL7p3yma2cRn
+        S+IzECSditwIB143dK+FOQcQ5EAIYeR7FulasMffmKj/1gYfA1A/FFXYjWmlyjsU5C5gl/
+        Ep++7j9E5SwempIQqvqv3mNsNOLplLdp8y20VwFvq0WDH1N4mpUYQaEp5F3LzD1NZQpF8V
+        MIkaCpIk9lVK6vmiZcx1ZkAONahSRszmns8xyzPvX8MtEHalTrPdvetZE5dGvw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B2BDC634C93;
+        Tue, 15 Feb 2022 23:28:18 +0200 (EET)
+Date:   Tue, 15 Feb 2022 23:28:18 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH 2/2] media: media-entity: Simplify media_pipeline_start()
+Message-ID: <Ygwa8qJBNBMLREH9@valkosipuli.retiisi.eu>
+References: <20220113150042.15630-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20220113150042.15630-3-laurent.pinchart+renesas@ideasonboard.com>
+ <YeMG1Xgtnq0Qu9ar@valkosipuli.retiisi.eu>
+ <YeMoTVuO8nbgw9Rr@pendragon.ideasonboard.com>
+ <YgbUukylCOq8j0+r@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Ygt+nZJrZMNXV4Cl@aptenodytes>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <YgbUukylCOq8j0+r@pendragon.ideasonboard.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1644960499; a=rsa-sha256;
+        cv=none;
+        b=ekiXkpD+cJr9GyLovAdkVkstOGXEGQCE3N8NFy0n5voQt8LiGjZs+ruCankt557I8htuPu
+        0HudXoRXIxh6zoqo9E4VLWWM2R096JktZCHv17/jW/00edDLhTymDzMHLeeDlcLCRdDV39
+        s/nvrW71tJmz0NAZCyA5G8TJOv5fibY2yK35ls4rBoJkQ45GEyEI3/pddznK8nKS4yDlYe
+        TcVjGWWiR165/vYkxOmyGGl48/DIWXznCDk8Kj5dXCVJLWjhCYiFNb+enE8v9lfLauD8vK
+        BrEUIkPy9ph7TSAW4m+wYtNfwuglQrYdA8hrk4x9O9TrjkaoJrrGQmVG2e2TmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1644960499;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TNR+UWwOUIe5Ol5GaIiTKvYLB6cZOFWi5SXT3cza3B8=;
+        b=LUy0dud2TwkZ3l9rxJ20837f8kR2GlqE8IKTj1kGhVEK1eaUXBVzscHEAo47aBjeHMF1JB
+        Gw+U+GcwFdyHT/nXAs8OGN4YLVvUidRukfTyHEezW8Tm8gwRPY5uoWFJOgkq8D7O+j9lEr
+        HKxflG6XBTj4rRRaBMcy7Ir/8UrsBjVf0hmh+wUWBRhIwL8w0/5DM0VuG7VoK1NEdXcGGl
+        /dhVQXKprzFkvwW4VmO67F4rZkTU0m6vmX7LwaBLWbwYGGNw3XJ0hmH0BPa4qhcJCSmzXQ
+        Lz4MbBusP/g58RlkzUsO2nl3bjTGuXB6Bn/4ZurU8rSyRQCtp10INM5iO/rj3g==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
-
-On Tue, Feb 15, 2022 at 11:21:17AM +0100, Paul Kocialkowski wrote:
-> Hi Laurent,
-> 
-> On Tue 15 Feb 22, 12:04, Laurent Pinchart wrote:
-> > Hi Paul,
+On Fri, Feb 11, 2022 at 11:27:22PM +0200, Laurent Pinchart wrote:
+> > > I'll do that when applying if that's fine.
 > > 
-> > On Tue, Feb 15, 2022 at 10:56:22AM +0100, Paul Kocialkowski wrote:
-> > > On Mon 14 Feb 22, 20:30, Sakari Ailus wrote:
-> > > > On Sat, Feb 05, 2022 at 07:54:00PM +0100, Paul Kocialkowski wrote:
-> > > > > Let's just enable the module when we start using it (at stream on)
-> > > > > and benefit from runtime pm instead of enabling it at first open.
-> > > > > 
-> > > > > Also reorder the call to v4l2_pipeline_pm_get.
-> > > > > 
-> > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > 
-> > > > Nice patch!
-> > > 
-> > > Thanks!
-> > > 
-> > > > Do you still need v4l2_pipeline_pm_put()? Removing it would be a separate
-> > > > patch of course.
-> > > 
-> > > My understanding is that this is still useful if there are drivers in the
-> > > pipeline that rely on s_power instead of rpm (a typical case could be an
-> > > old sensor driver). So that's why this is kept around, but all other components
-> > > of the pipeline (isp/csi/mipi csi-2) are using rpm now.
-> > 
-> > If that's not the case on your test platforms, I think it would be
-> > better to drop support for this old API, and convert drivers that still
-> > use .s_power() if someone needs to use one on an Allwinner platform.
+> > Fine with me, I don't mind either way. Thanks.
 > 
-> I agree this is the path to follow but it feels like we're not quite there
-> yet and a bunch of driver were not converted at this point, including some
-> popular ones like ov5640, which I know for sure is used with Allwinner devices.
-> 
-> Honestly I'd be happy to get rid of these legacy functions as soon as the
-> transition is done, but doing it now would mean breaking a significant number
-> of use cases (which I'm trying to avoid here despite all the changes).
-> 
-> I definitely wouldn't be confident making that transition here and it
-> probably wouldn't be a good idea to make that a requirement to merge this
-> (already quite big) series.
-> 
-> What do you think?
+> Will you take this series for v5.18 ?
 
-Feel free to keep it if you prefer that.
-
-All sensor drivers that implement s_power are old but there are quite a few
-of them. Converting them isn't trivial so best done by someone who has
-access to the hardware.
+Yes.
 
 -- 
-Regards,
-
 Sakari Ailus
