@@ -2,55 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD2C44B6B40
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 12:35:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05EE34B6CDE
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 14:00:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232464AbiBOLfA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 06:35:00 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41016 "EHLO
+        id S238026AbiBONA0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 08:00:26 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231417AbiBOLe7 (ORCPT
+        with ESMTP id S232620AbiBONAZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 06:34:59 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D273A13CFC;
-        Tue, 15 Feb 2022 03:34:49 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 107FE48A;
-        Tue, 15 Feb 2022 12:34:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644924888;
-        bh=kmu1Nqndh3mA6+gSDRFN0J8XdXlvUyEN6AKxZUu+NJQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TNUzSSqPSP5PtXJD0bONrZB/QoIb022J1Chfj9ZTUnCP9hQIBHipXpj7EJhZEyosY
-         QuGoULWattxJaJXE5nvCtgqc+/zyelpxOv8I9fs2NTi+TCvWIcF0+meY9wLfJbLzt/
-         /4q+HEmhvCkhmmelNd9q0PaJ/TQWt//hk2hDnhls=
-Date:   Tue, 15 Feb 2022 13:34:41 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
+        Tue, 15 Feb 2022 08:00:25 -0500
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3C0A7F6FA;
+        Tue, 15 Feb 2022 05:00:13 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 2FA58240019;
+        Tue, 15 Feb 2022 13:00:07 +0000 (UTC)
+Date:   Tue, 15 Feb 2022 14:01:16 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Mats Randgaard <matrandg@cisco.com>
-Subject: Re: [PATCH v1.1 8/8] media: v4l2-mediabus: Drop
- V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
-Message-ID: <YguP0Sz1JB8gjle4@pendragon.ideasonboard.com>
-References: <YdXrX9VLOm3W3YBl@valkosipuli.retiisi.eu>
- <20220105201558.31325-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220215110420.btxlxlwk4e3phpg7@uno.localdomain>
- <YguKqgDHmrLSQ6sc@pendragon.ideasonboard.com>
- <20220215112925.ytws4btumbiwo4nr@uno.localdomain>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [RFC PATCH v2 1/4] media: dt-bindings: media: Document RZ/G2L
+ CSI-2 block
+Message-ID: <20220215130116.fmqhoakn5fl4aout@uno.localdomain>
+References: <20220121010543.31385-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220121010543.31385-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220215112925.ytws4btumbiwo4nr@uno.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+In-Reply-To: <20220121010543.31385-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,137 +51,208 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Prabhakar
 
-On Tue, Feb 15, 2022 at 12:29:25PM +0100, Jacopo Mondi wrote:
-> On Tue, Feb 15, 2022 at 01:12:42PM +0200, Laurent Pinchart wrote:
-> > On Tue, Feb 15, 2022 at 12:04:20PM +0100, Jacopo Mondi wrote:
-> > > On Wed, Jan 05, 2022 at 10:15:58PM +0200, Laurent Pinchart wrote:
-> > > > MIPI CSI-2 continuous and non-continuous clock modes are mutually
-> > > > exclusive. Drop the V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag and use
-> > > > V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK only.
-> > >
-> > > As continuous clock is the default configuration for CSI-2, wouldn't
-> > > it be easier to add a boolean clock_non_cont (or similar) to
-> > > v4l2_mbus_config_mipi_csi2 ?
-> >
-> > That would be functionally equivalent, but flags will take less memory
-> > compared to multiple booleans. I don't mind much though, and another
-> > option would be to use a bitfield.
-> 
-> In the long term, shouldn't flags be removed completely ?
-> Or some of them will stay ?
+On Fri, Jan 21, 2022 at 01:05:40AM +0000, Lad Prabhakar wrote:
+> Document the CSI-2 block which is part of CRU found in Renesas
+> RZ/G2L SoC.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> Hi Geert/All,
+>
+> vclk and pclk clocks are shared with CRU both CSI and CRU driver are using
+> pm_runtime. pclk clock is necessary for register access where as vclk clock
+> is only used for calculations. So would you suggest passing vclk as part of
+> clocks (as currently implemented) or pass the vclk clock rate as a dt property.
+>
+> Cheers,
+> Prabhakar
+>
+> v1->v2
+> * New patch
+> ---
+>  .../bindings/media/renesas,rzg2l-csi2.yaml    | 151 ++++++++++++++++++
+>  1 file changed, 151 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> new file mode 100644
+> index 000000000000..bf907768a157
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> @@ -0,0 +1,151 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (C) 2022 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/renesas,rzg2l-csi2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G2L MIPI CSI-2 receiver
+> +
+> +maintainers:
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +
+> +description:
+> +  The RZ/G2L CSI-2 receiver device provides MIPI CSI-2 capabilities for the
+> +  Renesas RZ/G2L family of devices. MIPI CSI-2 is part of the CRU block which
+> +  is used in conjunction with the Image Processing module, which provides the
+> +  video capture capabilities.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a07g044-csi2     # RZ/G2{L,LC}
+> +          - const: renesas,rzg2l-csi2
 
-Part of the config will be boolean information. That can be stored as
-bools, as a bitfield, or as an integer with macros (or an enum) to
-define flags. The first option would consume more memory. I don't have a
-preference between the second and third options.
+As per Rob's comment on the CRU bindings, you can remove oneOf:
 
-> Anyway, for now this is fine
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > ---
-> > > > Changes since v1:
-> > > >
-> > > > - Check all CSI2 flags in v4l2_fwnode_endpoint_parse_csi2_bus()
-> > > > ---
-> > > >  drivers/media/i2c/adv7180.c           | 3 +--
-> > > >  drivers/media/i2c/tc358743.c          | 6 +++---
-> > > >  drivers/media/v4l2-core/v4l2-fwnode.c | 6 ++----
-> > > >  include/media/v4l2-mediabus.h         | 3 +--
-> > > >  4 files changed, 7 insertions(+), 11 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> > > > index 3ff37a550810..4f5db195e66d 100644
-> > > > --- a/drivers/media/i2c/adv7180.c
-> > > > +++ b/drivers/media/i2c/adv7180.c
-> > > > @@ -785,8 +785,7 @@ static int adv7180_get_mbus_config(struct v4l2_subdev *sd,
-> > > >  	if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2) {
-> > > >  		cfg->type = V4L2_MBUS_CSI2_DPHY;
-> > > >  		cfg->bus.mipi_csi2.num_data_lanes = 1;
-> > > > -		cfg->bus.mipi_csi2.flags =
-> > > > -				V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> > > > +		cfg->bus.mipi_csi2.flags = 0;
-> > > >  	} else {
-> > > >  		/*
-> > > >  		 * The ADV7180 sensor supports BT.601/656 output modes.
-> > > > diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-> > > > index dfbc42675143..e18b8947ad7e 100644
-> > > > --- a/drivers/media/i2c/tc358743.c
-> > > > +++ b/drivers/media/i2c/tc358743.c
-> > > > @@ -717,7 +717,7 @@ static void tc358743_set_csi(struct v4l2_subdev *sd)
-> > > >  			((lanes > 3) ? MASK_D3M_HSTXVREGEN : 0x0));
-> > > >
-> > > >  	i2c_wr32(sd, TXOPTIONCNTRL, (state->bus.flags &
-> > > > -		 V4L2_MBUS_CSI2_CONTINUOUS_CLOCK) ? MASK_CONTCLKMODE : 0);
-> > > > +		 V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK) ? 0 : MASK_CONTCLKMODE);
-> > > >  	i2c_wr32(sd, STARTCNTRL, MASK_START);
-> > > >  	i2c_wr32(sd, CSI_START, MASK_STRT);
-> > > >
-> > > > @@ -1613,7 +1613,7 @@ static int tc358743_get_mbus_config(struct v4l2_subdev *sd,
-> > > >  	cfg->type = V4L2_MBUS_CSI2_DPHY;
-> > > >
-> > > >  	/* Support for non-continuous CSI-2 clock is missing in the driver */
-> > > > -	cfg->bus.mipi_csi2.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> > > > +	cfg->bus.mipi_csi2.flags = 0;
-> > > >  	cfg->bus.mipi_csi2.num_data_lanes = state->csi_lanes_in_use;
-> > > >
-> > > >  	return 0;
-> > > > @@ -2039,7 +2039,7 @@ static int tc358743_probe(struct i2c_client *client)
-> > > >  	/* platform data */
-> > > >  	if (pdata) {
-> > > >  		state->pdata = *pdata;
-> > > > -		state->bus.flags = V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> > > > +		state->bus.flags = 0;
-> > > >  	} else {
-> > > >  		err = tc358743_probe_of(state);
-> > > >  		if (err == -ENODEV)
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > index 9ff3ebb230e7..71dcc9a96535 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > @@ -207,13 +207,11 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
-> > > >  	if (fwnode_property_present(fwnode, "clock-noncontinuous")) {
-> > > >  		flags |= V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
-> > > >  		pr_debug("non-continuous clock\n");
-> > > > -	} else {
-> > > > -		flags |= V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
-> > > >  	}
-> > > >
-> > > >  	if (bus_type == V4L2_MBUS_CSI2_DPHY ||
-> > > > -	    bus_type == V4L2_MBUS_CSI2_CPHY || lanes_used ||
-> > > > -	    have_clk_lane || (flags & ~V4L2_MBUS_CSI2_CONTINUOUS_CLOCK)) {
-> > > > +	    bus_type == V4L2_MBUS_CSI2_CPHY ||
-> > > > +	    lanes_used || have_clk_lane || flags) {
-> > > >  		/* Only D-PHY has a clock lane. */
-> > > >  		unsigned int dfl_data_lane_index =
-> > > >  			bus_type == V4L2_MBUS_CSI2_DPHY;
-> > > > diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> > > > index c6626a22b394..e0db3bcff9ed 100644
-> > > > --- a/include/media/v4l2-mediabus.h
-> > > > +++ b/include/media/v4l2-mediabus.h
-> > > > @@ -68,8 +68,7 @@
-> > > >
-> > > >  /* Serial flags */
-> > > >  /* Clock non-continuous mode support. */
-> > > > -#define V4L2_MBUS_CSI2_CONTINUOUS_CLOCK		BIT(8)
-> > > > -#define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(9)
-> > > > +#define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	BIT(0)
-> > > >
-> > > >  #define V4L2_MBUS_CSI2_MAX_DATA_LANES		8
-> > > >
-> > > >
-> > > > base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
-> > > > prerequisite-patch-id: cc085f7de462ead19772e3f64e1b1d13bb92d5b7
-> > > > prerequisite-patch-id: d6943d1780603964a753d571e26bad98b4954a8a
-> > > > prerequisite-patch-id: c63eaa2a61aeea6d4be238644f1324f0170d981c
-> > > > prerequisite-patch-id: 797385e385b3f71f0bafe7eb8e712d52628c23d7
-> > > > prerequisite-patch-id: 2f7fe0901f79ac1d445e443b5d3ee7ab9ae41525
-> > > > prerequisite-patch-id: 70ddd068308b5758872349ec6e0f03e8c9427dc0
-> > > > prerequisite-patch-id: 987cc8f39cb63badf2d6ceba946deffafba9a249
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csi2_link
 
--- 
-Regards,
+Can this be just
 
-Laurent Pinchart
+  interrupt-names:
+    const: csi2_link
+?
+
+(I've run dt_binding_check and it does not complain)
+
+> +
+> +  clocks:
+> +    items:
+> +      - description: Internal clock for connecting CRU and MIPI
+> +      - description: CRU Main clock
+> +      - description: CPU Register access clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: sysclk
+> +      - const: vclk
+> +      - const: pclk
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: CRU_CMN_RSTB reset terminal
+> +
+> +  reset-names:
+> +    items:
+> +      - const: cmn-rstb
+
+Here and above, is items: needed for a single entry ?
+(again, dt_binding_check does not complain if I remove it)
+
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +                items:
+> +                  maximum: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port node, Image Processing block connected to the CSI-2 receiver.
+
+Isn't the next processing block the CRU ? IOW, isn't this driver the
+CSI-2 receiver ?
+
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - resets
+> +  - reset-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    csi20: csi2@10830400 {
+> +            compatible = "renesas,r9a07g044-csi2", "renesas,rzg2l-csi2";
+> +            reg = <0x10830400 0xfc00>;
+> +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>;
+> +            clock-names = "sysclk", "vclk", "pclk";
+> +            power-domains = <&cpg>;
+> +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>;
+> +            reset-names = "cmn-rstb";
+> +
+> +            ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    port@0 {
+> +                            reg = <0>;
+> +
+> +                            csi2_in: endpoint {
+> +                                    clock-lanes = <0>;
+> +                                    data-lanes = <1 2>;
+> +                                    remote-endpoint = <&ov5645_ep>;
+> +                            };
+> +                    };
+> +
+> +                    port@1 {
+> +                            #address-cells = <1>;
+> +                            #size-cells = <0>;
+> +
+> +                            reg = <1>;
+> +
+> +                            csi2cru: endpoint@0 {
+> +                                    reg = <0>;
+> +                                    remote-endpoint = <&crucsi2>;
+> +                            };
+> +                    };
+> +            };
+> +    };
+> --
+> 2.17.1
+>
