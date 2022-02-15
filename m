@@ -2,49 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 243614B649D
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 08:46:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 437AB4B64D4
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 08:54:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234887AbiBOHqo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 02:46:44 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35984 "EHLO
+        id S234992AbiBOHyK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 02:54:10 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232017AbiBOHqn (ORCPT
+        with ESMTP id S234952AbiBOHyI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 02:46:43 -0500
+        Tue, 15 Feb 2022 02:54:08 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56ADD71CB5
-        for <linux-media@vger.kernel.org>; Mon, 14 Feb 2022 23:46:34 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABCEDBF94F;
+        Mon, 14 Feb 2022 23:53:54 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DAF1315;
-        Tue, 15 Feb 2022 08:46:32 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F311B315;
+        Tue, 15 Feb 2022 08:53:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644911192;
-        bh=3/lC35RitvdJBNfH1zjCySTRPjfDuRUAGttAih7W9es=;
+        s=mail; t=1644911633;
+        bh=7ATJ6C51d10GiKyu3AsQFR7KYr0FiUdZtqe/hL2xLBo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qe4/HoIUkiT5aUSTSTDvmrN3B02OAxwznAgrb0wgTGdFJO96yn1nn4rw+kxTmByky
-         X9Ii/k3VstDvixGlAtqqWz0mD2GlCswArHak7KFfGArt8S8n+b49a7IB219i4CXk9z
-         meHt1zsQlDLf8jiYAvYekV250eWM6Ph7DWM9uyT4=
-Date:   Tue, 15 Feb 2022 09:46:26 +0200
+        b=Fe8h4Ix/bI8W5/Z518PktjodKQWprEafFzmdjQO64loctLTShcE01zvI215HqabWs
+         iV/Ad8chC5Luez5pEDoo+gK1SHRvYQb/+R44+lZqWTBsCkhdrdeitZTpb7Y2eq8rED
+         TcViXBDl93VZjB3FTpYO3ae20e16kWkKlI/OqVSI=
+Date:   Tue, 15 Feb 2022 09:53:46 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
-        rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
-        alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
-        kernel@pengutronix.de, linux-imx@nxp.com,
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 8/8] media: imx: imx-mipi-csis: Add RGB/BGR888
-Message-ID: <YgtaUsxBF69bZa92@pendragon.ideasonboard.com>
-References: <20220214184318.409208-1-jacopo@jmondi.org>
- <20220214184318.409208-9-jacopo@jmondi.org>
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] media: imx: Store the type of hardware
+ implementation
+Message-ID: <YgtcCn3XVAaSv0+c@pendragon.ideasonboard.com>
+References: <20220211142752.779952-1-alexander.stein@ew.tq-group.com>
+ <20220211142752.779952-2-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220214184318.409208-9-jacopo@jmondi.org>
+In-Reply-To: <20220211142752.779952-2-alexander.stein@ew.tq-group.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -54,97 +59,144 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-(Adding Sakari to the recipients)
+Hi Alexander and Dorota,
 
 Thank you for the patch.
 
-On Mon, Feb 14, 2022 at 07:43:18PM +0100, Jacopo Mondi wrote:
-> Add support for the RGB888_1X24 and BGR888_1X24 image formats.
->
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/media/platform/imx/imx-mipi-csis.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+On Fri, Feb 11, 2022 at 03:27:44PM +0100, Alexander Stein wrote:
+> From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
 > 
-> diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-> index 9e0a478dba75..0d5870b3010a 100644
-> --- a/drivers/media/platform/imx/imx-mipi-csis.c
-> +++ b/drivers/media/platform/imx/imx-mipi-csis.c
-> @@ -366,6 +366,16 @@ static const struct csis_pix_format mipi_csis_formats[] = {
->  		.data_type = MIPI_CSI2_DATA_TYPE_RGB565,
->  		.width = 16,
->  	},
-> +	{
+> The driver covers i.MX5/6, as well as i.MX7/8 hardware.
+> Those implementations differ, e.g. in the sizes of buffers they accept.
+> 
+> Some functionality should be abstracted, and storing type achieves that.
 
-	}, {
+As much as I'd love it one of you would pick
+https://gitlab.com/ideasonboard/nxp/linux/-/tree/pinchartl/csi-bridge/destage
+and bring it to completion, I won't ask for yak shaving.
 
-to match the rest of the array. Same below.
+Could you however mention in the commit message that this is a temporary
+solution ? Maybe as follows:
 
-> +		.code = MEDIA_BUS_FMT_RGB888_1X24,
-> +		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
-> +		.width = 24,
-> +	},
-> +	{
-> +		.code = MEDIA_BUS_FMT_BGR888_1X24,
-> +		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
-> +		.width = 24,
-> +	},
+This is a temporary solution until the imx7-media-csi driver gets
+decoupled from the helpers shared with the i.MX6 implementation, and
+should be reverted once this happens.
 
-CSI-2 specifies the order of bits on the bus for RGB888, with data being
-transmitted in the B, G, R order. The recommended format when stored in
-memory is V4L2_PIX_FMT_BGR24 (B in byte 0, G in byte 1, R in byte 2).
-There is no recommended deserialized bus format though.
+With that,
 
-On the output side of the CSIS, we have information. Given figure 13-23
-("Pixel alignment") in the i.MX8MP reference manual, and the definition
-of RGB_SWAP in MIPI_CSI2_ISP_CONFIG_CH0 that reads
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-    Swapping RGB sequence
-
-    0  MSB is R and LSB is B.
-    1  MSB is B and LSB is R (swapped).
-
-I think MEDIA_BUS_FMT_RGB888_1X24 is appropriate.
-
-On the input side of the CSIS, however, it's a different story, similar
-to YUV formats. For YUV 4:2:2 we have picked MEDIA_BUS_FMT_UYVY8_1X16
-arbitrarily to represent the CSI-2 bus format. It doesn't correspond to
-the physical reality, but it doesn't matter much. We thus need to do the
-same for RGB888. If we follow the same convention as for YUV 4:2:2,
-which transmits data in the U, Y, V, Y order, we should then pick
-BGR888_1X24. However, the CSIS driver would then need to translate from
-the input format BGR888_1X24 to the output format RGB888_1X24, which
-adds a bit of complexity.
-
-Picking RGB888_1X24 for the CSI-2 bus is thus tempting, but it's a
-choice that will affect all drivers, so I wouldn't make this based
-solely on ease of implementation in a particular driver. I'm thus
-tempted to go for BGR888_1X24 to be consistent with YUV 4:2:2. Another
-option would be to add a new RGB888_CSI2 media bus format. In retrospect
-we should have done the same for YUV 4:2:2. Mistakes happen.
-
-Sakari, what do you think ?
-
-If we go for BGR888_1X24, the translation between BGR888_1X24 and
-RGB888_1X24 may not be that hard to implement. You could add an output
-field to the csis_pix_format structure to store the output media bus
-code for a given input code, and I think the implementation would then
-remain relatively simple.
-
-Finally, we can also support the swapped RGB format (which is
-non-standard in CSI-2 but is supported by some sensors, the same way as
-YUV permutations are often supported too), but it will require setting
-RGB_SWAP. You can add a rgb_swap field to csis_pix_format for this.
-
-I'd split this patch in two, adding MEDIA_BUS_FMT_RGB888_1X24 first, and
-then adding MEDIA_BUS_FMT_BGR888_1X24 with the new rgb_swap field. The
-first patch should capture the above explanation.
-
->  	/* RAW (Bayer and greyscale) formats. */
->  	{
->  		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+> Changes in v2:
+> * Switch back to using enum
+> 
+>  drivers/staging/media/imx/imx-ic-prpencvf.c   | 3 ++-
+>  drivers/staging/media/imx/imx-media-capture.c | 5 ++++-
+>  drivers/staging/media/imx/imx-media-csi.c     | 3 ++-
+>  drivers/staging/media/imx/imx-media.h         | 8 +++++++-
+>  drivers/staging/media/imx/imx7-media-csi.c    | 3 ++-
+>  5 files changed, 17 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
+> index 9b81cfbcd777..671bb9a681aa 100644
+> --- a/drivers/staging/media/imx/imx-ic-prpencvf.c
+> +++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
+> @@ -1266,7 +1266,8 @@ static int prp_registered(struct v4l2_subdev *sd)
+>  
+>  	priv->vdev = imx_media_capture_device_init(ic_priv->ipu_dev,
+>  						   &ic_priv->sd,
+> -						   PRPENCVF_SRC_PAD, true);
+> +						   PRPENCVF_SRC_PAD, true,
+> +						   DEVICE_TYPE_IMX56);
+>  	if (IS_ERR(priv->vdev))
+>  		return PTR_ERR(priv->vdev);
+>  
+> diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+> index 93ba09236010..65dc95a48ecc 100644
+> --- a/drivers/staging/media/imx/imx-media-capture.c
+> +++ b/drivers/staging/media/imx/imx-media-capture.c
+> @@ -34,6 +34,7 @@ struct capture_priv {
+>  
+>  	struct imx_media_video_dev vdev;	/* Video device */
+>  	struct media_pad vdev_pad;		/* Video device pad */
+> +	enum imx_media_device_type type;	/* Type of hardware implementation */
+>  
+>  	struct v4l2_subdev *src_sd;		/* Source subdev */
+>  	int src_sd_pad;				/* Source subdev pad */
+> @@ -957,7 +958,8 @@ EXPORT_SYMBOL_GPL(imx_media_capture_device_unregister);
+>  
+>  struct imx_media_video_dev *
+>  imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
+> -			      int pad, bool legacy_api)
+> +			      int pad, bool legacy_api,
+> +			      enum imx_media_device_type type)
+>  {
+>  	struct capture_priv *priv;
+>  	struct video_device *vfd;
+> @@ -972,6 +974,7 @@ imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
+>  	priv->src_sd_pad = pad;
+>  	priv->dev = dev;
+>  	priv->legacy_api = legacy_api;
+> +	priv->type = type;
+>  
+>  	mutex_init(&priv->mutex);
+>  	INIT_LIST_HEAD(&priv->ready_q);
+> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+> index bd7f156f2d52..d5557bb4913d 100644
+> --- a/drivers/staging/media/imx/imx-media-csi.c
+> +++ b/drivers/staging/media/imx/imx-media-csi.c
+> @@ -1803,7 +1803,8 @@ static int csi_registered(struct v4l2_subdev *sd)
+>  	}
+>  
+>  	priv->vdev = imx_media_capture_device_init(priv->sd.dev, &priv->sd,
+> -						   CSI_SRC_PAD_IDMAC, true);
+> +						   CSI_SRC_PAD_IDMAC, true,
+> +						   DEVICE_TYPE_IMX56);
+>  	if (IS_ERR(priv->vdev)) {
+>  		ret = PTR_ERR(priv->vdev);
+>  		goto free_fim;
+> diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
+> index f263fc3adbb9..e4c22b3ccd57 100644
+> --- a/drivers/staging/media/imx/imx-media.h
+> +++ b/drivers/staging/media/imx/imx-media.h
+> @@ -96,6 +96,11 @@ enum imx_pixfmt_sel {
+>  	PIXFMT_SEL_ANY = PIXFMT_SEL_YUV | PIXFMT_SEL_RGB | PIXFMT_SEL_BAYER,
+>  };
+>  
+> +enum imx_media_device_type {
+> +	DEVICE_TYPE_IMX56,
+> +	DEVICE_TYPE_IMX78,
+> +};
+> +
+>  struct imx_media_buffer {
+>  	struct vb2_v4l2_buffer vbuf; /* v4l buffer must be first */
+>  	struct list_head  list;
+> @@ -282,7 +287,8 @@ int imx_media_ic_unregister(struct v4l2_subdev *sd);
+>  /* imx-media-capture.c */
+>  struct imx_media_video_dev *
+>  imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
+> -			      int pad, bool legacy_api);
+> +			      int pad, bool legacy_api,
+> +			      enum imx_media_device_type type);
+>  void imx_media_capture_device_remove(struct imx_media_video_dev *vdev);
+>  int imx_media_capture_device_register(struct imx_media_video_dev *vdev,
+>  				      u32 link_flags);
+> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> index 32311fc0e2a4..173dd014c2d6 100644
+> --- a/drivers/staging/media/imx/imx7-media-csi.c
+> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> @@ -1039,7 +1039,8 @@ static int imx7_csi_registered(struct v4l2_subdev *sd)
+>  	}
+>  
+>  	csi->vdev = imx_media_capture_device_init(csi->sd.dev, &csi->sd,
+> -						  IMX7_CSI_PAD_SRC, false);
+> +						  IMX7_CSI_PAD_SRC, false,
+> +						  DEVICE_TYPE_IMX78);
+>  	if (IS_ERR(csi->vdev))
+>  		return PTR_ERR(csi->vdev);
+>  
 
 -- 
 Regards,
