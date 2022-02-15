@@ -2,215 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62EFD4B663B
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 09:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D86EC4B6648
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 09:38:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232284AbiBOIfk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 03:35:40 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48026 "EHLO
+        id S234344AbiBOIiP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 03:38:15 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230521AbiBOIfj (ORCPT
+        with ESMTP id S234333AbiBOIiL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 03:35:39 -0500
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39DACC621A
-        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 00:35:29 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id ABF41C000C;
-        Tue, 15 Feb 2022 08:35:22 +0000 (UTC)
-Date:   Tue, 15 Feb 2022 09:36:31 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
-        rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
-        alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/8] staging: media: imx: Add more compatible strings
-Message-ID: <20220215083631.iajmsywr5tmduupv@uno.localdomain>
-References: <20220214184318.409208-1-jacopo@jmondi.org>
- <20220214184318.409208-4-jacopo@jmondi.org>
- <YgqqO+6FHIVocnW9@pendragon.ideasonboard.com>
+        Tue, 15 Feb 2022 03:38:11 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D749ED21EF;
+        Tue, 15 Feb 2022 00:38:01 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B7E38315;
+        Tue, 15 Feb 2022 09:37:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1644914279;
+        bh=Zq3UvFy0SJMpJOqEzhnaTGojWYEiLnd93IDZUxgV+ww=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kwu9dvBMQ4iUvu3AROxKrlVVomK6TP/AtXkqbyph7hJrQGG2xub40d3++RNceILLv
+         /OyMd/2HARlmVuDYBS7TAAxBEpLihNkkX/QVIOjLLai9yCXwEyBx/oG7hBv3AzEJIY
+         K8zizZ7OGuD31frlRavNTa+kEn9vU1805+0D0sxc=
+Date:   Tue, 15 Feb 2022 10:37:53 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: Re: [RFC PATCH 0/8] media: Drop .set_mbus_config(), improve
+ .get_mbus_config()
+Message-ID: <YgtmYcHf/Lg2VMXo@pendragon.ideasonboard.com>
+References: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YgqqO+6FHIVocnW9@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220103162414.27723-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hello,
 
-On Mon, Feb 14, 2022 at 09:15:07PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Mon, Feb 14, 2022 at 07:43:13PM +0100, Jacopo Mondi wrote:
-> > The imx7-media-csi driver controls the CSI (CMOS Sensor Interface)
-> > peripheral available on several SoC of different generations.
-> >
-> > The current situation when it comes to compatible strings is rather
-> > confused:
-> > - Bindings document imx6ul, imx7 and imx8mm
-> > - Driver supports imx6ul, imx7 and imx8mq
-> > - The IMX8MM and IMX8MQ DTS use the correct compatible strings with a
-> >   fallback to the generic "imx7-csi" identifier:
-> >   arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi",
-> >   arch/arm64/boot/dts/freescale/imx8mm.dtsi: compatible = "fsl,imx8mm-csi",
-> >
-> > Tidy-up the situation by adding the IMX8MQ compatible string to the
-> > bindings documentation andathe IMX8MM identifier to the driver, to allow
-> > to distinguish the SoC the CSI peripheral is integrated on in the
-> > following patches.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml | 1 +
-> >  drivers/staging/media/imx/imx7-media-csi.c                | 2 ++
->
-> I think Rob would prefer this being split in two patches, and I think it
-> would make sense, as you're fixing two separate issues.
->
-> >  2 files changed, 3 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > index 4f7b78265336..0f1505d85111 100644
-> > --- a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > +++ b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > @@ -21,6 +21,7 @@ properties:
-> >            - fsl,imx7-csi
-> >            - fsl,imx6ul-csi
-> >        - items:
-> > +          - const: fsl,imx8mq-csi
-> >            - const: fsl,imx8mm-csi
-> >            - const: fsl,imx7-csi
->
-> I don't think you intended to require the following:
->
-> 	compatible = "fsl,imx8mq-csi", "fsl,imx8mm-csi", "fsl,imx7-csi";
+Reviews or 5/8 to 8/8 would be nice :-) Thanks.
 
-No, I kind of superficially added the mq version where the mm was
-already and went on :)
+On Mon, Jan 03, 2022 at 06:24:06PM +0200, Laurent Pinchart wrote:
+> Hello,
+> 
+> This patch series reworks the V4L2 subdev .get_mbus_config() and
+> .set_mbus_config() operations to improve the former and drop the latter.
+> 
+> These subdev operations originate from soc-camera (for those who
+> remember the framework), and were designed to let a transmitter and a
+> receiver negotiate the physical configuration of the bus that connects
+> them. The operations use bitflags to represent bus parameters, with
+> supported options set by the caller of .set_mbus_config(), and selected
+> options among those returned by the callee. This mechanism is
+> deprecated, as selection of the bus configuration has long been moved to
+> the firmware interface (DT or ACPI), and usage of bitflags prevents from
+> adding more complex configuration parameters (timings in particular).
+> 
+> As .set_mbus_config() is deprecated and used by one pair of drivers only
+> (pxa_camera and ov6650), it wasn't difficult to drop usage of that
+> operation in patches 1/8 and 2/8, and remove the operation itself in
+> patch 3/8.
+> 
+> With that operation gone, .get_mbus_config() can be moved from bitflags
+> to structures. It turned out that the needed data structures were
+> already present in v4l2_fwnode.h. Patch 4/8 moves them to
+> v4l2_mediabus.h (and renames them to drop the fwnode mention, as they're
+> not specific to the fwnode API), and patch 5/8 makes use of them.
+> Patches 6/8 to 8/8 then removes media bus configuration bitflags that
+> are unneeded (and now unused).
+> 
+> The series is an RFC as not everything has been converted from bitflags
+> to named fields in structures. In particular, the parallel bus flags
+> haven't been touched at all. Patch 8/8 shows how mutually exclusive
+> flags can be reworked to drop one of them. We then need to decide
+> whether to keep expressing the flag as macros, or move to C bitfields
+> with dedicated structure member names. I didn't want to include this
+> change in the RFC before getting feedback on the general approach
+> (feedback on those specific questions will also be appreciated).
+> 
+> Laurent Pinchart (8):
+>   media: pxa_camera: Drop usage of .set_mbus_config()
+>   media: i2c: ov6650: Drop implementation of .set_mbus_config()
+>   media: v4l2-subdev: Drop .set_mbus_config() operation
+>   media: v4l2-fwnode: Move bus config structure to v4l2_mediabus.h
+>   media: v4l2-mediabus: Use structures to describe bus configuration
+>   media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_*_LANE flags
+>   media: v4l2-mediabus: Drop legacy V4L2_MBUS_CSI2_CHANNEL_* flags
+>   media: v4l2-mediabus: Drop V4L2_MBUS_CSI2_CONTINUOUS_CLOCK flag
+> 
+>  drivers/gpu/ipu-v3/ipu-csi.c                  |   6 +-
+>  drivers/media/i2c/adv7180.c                   |  10 +-
+>  drivers/media/i2c/adv748x/adv748x-csi2.c      |  18 +--
+>  drivers/media/i2c/ml86v7667.c                 |   5 +-
+>  drivers/media/i2c/mt9m001.c                   |   8 +-
+>  drivers/media/i2c/mt9m111.c                   |  16 +--
+>  drivers/media/i2c/ov5648.c                    |   4 +-
+>  drivers/media/i2c/ov6650.c                    |  51 ++-------
+>  drivers/media/i2c/ov8865.c                    |   4 +-
+>  drivers/media/i2c/ov9640.c                    |   8 +-
+>  drivers/media/i2c/tc358743.c                  |  26 +----
+>  drivers/media/i2c/tvp5150.c                   |   6 +-
+>  drivers/media/platform/pxa_camera.c           |  21 ++--
+>  drivers/media/platform/qcom/camss/camss.c     |   2 +-
+>  drivers/media/platform/rcar-vin/rcar-csi2.c   |  16 +--
+>  drivers/media/platform/rcar-vin/rcar-vin.h    |   2 +-
+>  drivers/media/platform/stm32/stm32-dcmi.c     |   2 +-
+>  .../platform/sunxi/sun4i-csi/sun4i_csi.h      |   2 +-
+>  .../platform/sunxi/sun4i-csi/sun4i_dma.c      |   2 +-
+>  drivers/media/platform/ti-vpe/cal-camerarx.c  |   6 +-
+>  drivers/media/v4l2-core/v4l2-fwnode.c         |  16 ++-
+>  drivers/media/v4l2-core/v4l2-subdev.c         |   8 --
+>  drivers/staging/media/imx/imx-media-csi.c     |   7 +-
+>  drivers/staging/media/imx/imx6-mipi-csi2.c    |  25 +----
+>  drivers/staging/media/imx/imx7-mipi-csis.c    |   2 +-
+>  drivers/staging/media/imx/imx8mq-mipi-csi2.c  |   2 +-
+>  drivers/staging/media/max96712/max96712.c     |   2 +-
+>  include/media/v4l2-fwnode.h                   |  61 +---------
+>  include/media/v4l2-mediabus.h                 | 104 ++++++++++++------
+>  include/media/v4l2-subdev.h                   |  13 ---
+>  30 files changed, 168 insertions(+), 287 deletions(-)
+> 
+> 
+> base-commit: 68b9bcc8a534cd11fe55f8bc82f948aae7d81b3c
 
-Care to explain why currently we have two const for the "8mm" and the
-"imx7" versions ?
+-- 
+Regards,
 
->
-> You probably want
->
->  properties:
->    compatible:
->      oneOf:
->        - enum:
-> +          - fsl,imx8mq-csi
->            - fsl,imx7-csi
->            - fsl,imx6ul-csi
->        - items:
->            - const: fsl,imx8mm-csi
->            - const: fsl,imx7-csi
->
-> instead.
-
-I'm not aware of how how many revisions of the imx7 and imx6 versions
-exists, nor how they differ, but the existing distinction feels a bit
-weird.
-
-The const items should be the compatible fallbacks, should them be
-generic, why is 8mm among them ? Shouldn't we specify the precise SoC
-version in the list of possible enum items only ?
-
-Something like
-
-      oneOf:
-        - enum:
-          - fsl,imx8mq-csi
-          - fsl,imx8mm-csi
-          - fsl,imx6ul-csi
-        - const:
-          - fsl,imx7-csi
-
-In example I see:
-
-arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-
-Where this should either be
-                                           compatible = "fsl,imx8mq-csi"
-or
-                                           compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
-
-?
-
-
->
-> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > index 32311fc0e2a4..59100e409709 100644
-> > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > @@ -162,6 +162,7 @@
-> >  enum imx_csi_model {
-> >  	IMX7_CSI_IMX7 = 0,
-> >  	IMX7_CSI_IMX8MQ,
-> > +	IMX7_CSI_IMX8MM,
-> >  };
-> >
-> >  struct imx7_csi {
-> > @@ -1277,6 +1278,7 @@ static int imx7_csi_remove(struct platform_device *pdev)
-> >
-> >  static const struct of_device_id imx7_csi_of_match[] = {
-> >  	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX7_CSI_IMX8MQ },
-> > +	{ .compatible = "fsl,imx8mm-csi", .data = (void *)IMX7_CSI_IMX8MM },
->
-> This isn't needed, as the i.MX8MM CSI bridgge is considered fully
-> backward-compatible with the i.MX7 version. I'd introduce this change in
-> the patch where you start using IMX7_CSI_IMX8MM, and I would then add
-> the following to the DT binding:
->
->  properties:
->    compatible:
->      oneOf:
->        - enum:
->            - fsl,imx8mq-csi
-> +          - fsl,imx8mm-csi
->            - fsl,imx7-csi
->            - fsl,imx6ul-csi
->        - items:
->            - const: fsl,imx8mm-csi
->            - const: fsl,imx7-csi
->
-> to allow setting
->
-> 	compatible = "fsl,imx8mm-csi";
->
-> without the imx7 fallback if we consider the i.MX8MM version different.
-> If the driver can operate correctly on the i.MX8MM when using the i.MX7
-> fallback code paths (possibly minor issues that are not considered
-> fatal, such as missing features) then you could skip this binding
-> change.
-
-Sorry, but shouldn't:
-
-        compatible = "fsl,imx8mm-csi", fsl,imx7-csi"
-
-allow me to match on imx8mm already, without the above change.
-
-I think what I don't get is why imx8mm is a 'generic fallback' in
-first place.
-
->
-> >  	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7 },
-> >  	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX7_CSI_IMX7 },
-> >  	{ },
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Laurent Pinchart
