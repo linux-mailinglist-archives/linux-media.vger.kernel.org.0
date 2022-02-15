@@ -2,239 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62EB24B666F
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 09:45:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9431F4B6674
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 09:48:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234716AbiBOIqA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 03:46:00 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:54976 "EHLO
+        id S233684AbiBOIsK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 03:48:10 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234447AbiBOIp7 (ORCPT
+        with ESMTP id S234668AbiBOIsK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 03:45:59 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E76FA111DFD
-        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 00:45:49 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D394315;
-        Tue, 15 Feb 2022 09:45:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1644914748;
-        bh=o+iFAqqx/j21WiFPZf3qrfSOJKdcgMM815TkAZyz+BU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H6fTy2WaHQL25JA+f6HEDgg8zo0/6k+zht32T9pTL+9EFo4ki7Ov1jaJ3aiLUknc4
-         PAULphmN2uncmApXdkj7eRuspyN2Yz6ZViJV0koEgPUOtjJGg8ex8LngMGQ/zsHoC0
-         6uwKzzZYN2I/uH/IaMR0UinoVvf/f+65VBv8q/BA=
-Date:   Tue, 15 Feb 2022 10:45:41 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
-        rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
-        alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/8] staging: media: imx: Add more compatible strings
-Message-ID: <YgtoNUR+vZ//tqv+@pendragon.ideasonboard.com>
-References: <20220214184318.409208-1-jacopo@jmondi.org>
- <20220214184318.409208-4-jacopo@jmondi.org>
- <YgqqO+6FHIVocnW9@pendragon.ideasonboard.com>
- <20220215083631.iajmsywr5tmduupv@uno.localdomain>
+        Tue, 15 Feb 2022 03:48:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C9E981133F5
+        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 00:48:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1644914879;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+0eleqiUVBeAPaQGD2Q6ihFW/Z9JIAN0Kj0GeNRsLaA=;
+        b=ayphHF/zz/QRT1LtgSyf1ZNurdY3ZWjlPMleazOL4obzkYrLOaUkjPHx48MLeXSGDjEml3
+        FgDcGj7sk8oOyMZq9cCqhrWx8PKM5uzJ5/FEKp9yGBqW98g1a81XVSY6c/juNsND1Haz75
+        Sh5yTD9yDaBontOCOez+FBIoh5O7Jzk=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-265-pl7Tgo6POzC9kryQuQgovA-1; Tue, 15 Feb 2022 03:47:55 -0500
+X-MC-Unique: pl7Tgo6POzC9kryQuQgovA-1
+Received: by mail-pj1-f69.google.com with SMTP id j23-20020a17090a7e9700b001b8626c9170so1829196pjl.1
+        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 00:47:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+0eleqiUVBeAPaQGD2Q6ihFW/Z9JIAN0Kj0GeNRsLaA=;
+        b=zMPlnYWLPSAxytZ0USidK4nWUWLVSucEDWWXOpqjoG0p96VH10Tzy66+qptOltYJmK
+         y786r5ObcpfjBImgY/CJmpjYu8VA+rpIoWEkDpd6o3rienzyILtXM/ExOLnBwj4LjxBc
+         VcSwnM16Bg+ewXnKYbAvtJ70Edck9zSJtc6+rLJIGWXsfG13+DKEQHL9Q2qmi3Pond+A
+         uT3xg6okV0kTZP/Zp65pE9emuo5L149m8y88iHbyzVjC2X2bnVRoYCOBhEShitBkbOiw
+         oZe0FhsPX/kAgfMN3qSbz4YHTaUwbHgSy7IYzHFIz5iMQ2lxaI5hoVHsPPpIl+wZVTgS
+         l+TQ==
+X-Gm-Message-State: AOAM531Rfupr2373Fn2ZcuFej9dSM7jiMMfqKk7rSpqBGkKoZDrakT+R
+        DTfc5u0EPavqk5ZwEffuBp4YOBTWVSeI44AB1phnSaWK3HY2OrrxLPJYdQIba7shcUEA4ZwyiWj
+        rlnHt77GJIbnwwJcLdKD+Fg5HwCcuR46JL/NA3u4=
+X-Received: by 2002:a05:6a00:9a9:: with SMTP id u41mr3233714pfg.83.1644914874674;
+        Tue, 15 Feb 2022 00:47:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy1RXfHqGKUOwHiOd9TXDCmkRfLOApnv8+NP4UBdUIs2zHseVmQ3Z770IwhZgE/Zg1NSmgYeteqUdN9fAOzix8=
+X-Received: by 2002:a05:6a00:9a9:: with SMTP id u41mr3233676pfg.83.1644914874405;
+ Tue, 15 Feb 2022 00:47:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220215083631.iajmsywr5tmduupv@uno.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <1644890154-64915-1-git-send-email-wangqing@vivo.com> <1644890154-64915-6-git-send-email-wangqing@vivo.com>
+In-Reply-To: <1644890154-64915-6-git-send-email-wangqing@vivo.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 15 Feb 2022 09:47:43 +0100
+Message-ID: <CAO-hwJJK5yeW+K_vLpWV9t3TsEdk0xCO-ETxeJsXM2c117JzNw@mail.gmail.com>
+Subject: Re: [PATCH V3 5/13] hid: use time_is_after_jiffies() instead of open
+ coding it
+To:     Qing Wang <wangqing@vivo.com>
+Cc:     Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
+        lkml <linux-kernel@vger.kernel.org>, linux-clk@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        amd-gfx@lists.freedesktop.org,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+On Tue, Feb 15, 2022 at 2:56 AM Qing Wang <wangqing@vivo.com> wrote:
+>
+> From: Wang Qing <wangqing@vivo.com>
+>
+> Use the helper function time_is_{before,after}_jiffies() to improve
+> code readability.
+>
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
+> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-On Tue, Feb 15, 2022 at 09:36:31AM +0100, Jacopo Mondi wrote:
-> On Mon, Feb 14, 2022 at 09:15:07PM +0200, Laurent Pinchart wrote:
-> > On Mon, Feb 14, 2022 at 07:43:13PM +0100, Jacopo Mondi wrote:
-> > > The imx7-media-csi driver controls the CSI (CMOS Sensor Interface)
-> > > peripheral available on several SoC of different generations.
-> > >
-> > > The current situation when it comes to compatible strings is rather
-> > > confused:
-> > > - Bindings document imx6ul, imx7 and imx8mm
-> > > - Driver supports imx6ul, imx7 and imx8mq
-> > > - The IMX8MM and IMX8MQ DTS use the correct compatible strings with a
-> > >   fallback to the generic "imx7-csi" identifier:
-> > >   arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi",
-> > >   arch/arm64/boot/dts/freescale/imx8mm.dtsi: compatible = "fsl,imx8mm-csi",
-> > >
-> > > Tidy-up the situation by adding the IMX8MQ compatible string to the
-> > > bindings documentation andathe IMX8MM identifier to the driver, to allow
-> > > to distinguish the SoC the CSI peripheral is integrated on in the
-> > > following patches.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > >  Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml | 1 +
-> > >  drivers/staging/media/imx/imx7-media-csi.c                | 2 ++
-> >
-> > I think Rob would prefer this being split in two patches, and I think it
-> > would make sense, as you're fixing two separate issues.
-> >
-> > >  2 files changed, 3 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > > index 4f7b78265336..0f1505d85111 100644
-> > > --- a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > > @@ -21,6 +21,7 @@ properties:
-> > >            - fsl,imx7-csi
-> > >            - fsl,imx6ul-csi
-> > >        - items:
-> > > +          - const: fsl,imx8mq-csi
-> > >            - const: fsl,imx8mm-csi
-> > >            - const: fsl,imx7-csi
-> >
-> > I don't think you intended to require the following:
-> >
-> > 	compatible = "fsl,imx8mq-csi", "fsl,imx8mm-csi", "fsl,imx7-csi";
-> 
-> No, I kind of superficially added the mq version where the mm was
-> already and went on :)
-> 
-> Care to explain why currently we have two const for the "8mm" and the
-> "imx7" versions ?
+FWIW, this one is
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Because the imx8mm version was considered compatible with the imx7, so
+Wang, is there any plan to take this series through the trivial tree
+or should each maintainer take the matching patches?
 
-       - items:
-           - const: fsl,imx8mm-csi
-           - const: fsl,imx7-csi
+Cheers,
+Benjamin
 
-will validate
+> ---
+>  drivers/hid/intel-ish-hid/ipc/ipc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
+> index 8ccb246..15e1423
+> --- a/drivers/hid/intel-ish-hid/ipc/ipc.c
+> +++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
+> @@ -578,7 +578,7 @@ static void _ish_sync_fw_clock(struct ishtp_device *dev)
+>         static unsigned long    prev_sync;
+>         uint64_t        usec;
+>
+> -       if (prev_sync && jiffies - prev_sync < 20 * HZ)
+> +       if (prev_sync && time_is_after_jiffies(prev_sync + 20 * HZ))
+>                 return;
+>
+>         prev_sync = jiffies;
+> --
+> 2.7.4
+>
 
-	compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
-
-The first imx8mm compatible string is ignored by the driver, but
-documented to support future drivers changes that would require
-differentiating between the two versions.
-
-> > You probably want
-> >
-> >  properties:
-> >    compatible:
-> >      oneOf:
-> >        - enum:
-> > +          - fsl,imx8mq-csi
-> >            - fsl,imx7-csi
-> >            - fsl,imx6ul-csi
-> >        - items:
-> >            - const: fsl,imx8mm-csi
-> >            - const: fsl,imx7-csi
-> >
-> > instead.
-> 
-> I'm not aware of how how many revisions of the imx7 and imx6 versions
-> exists, nor how they differ, but the existing distinction feels a bit
-> weird.
-> 
-> The const items should be the compatible fallbacks, should them be
-> generic, why is 8mm among them ? Shouldn't we specify the precise SoC
-> version in the list of possible enum items only ?
-
-No, the const items are not the compatible fallbacks. imx8mm isn't a
-generic fallback. "items" requires *all* items to be present in order to
-validate.
-
-> Something like
-> 
->       oneOf:
->         - enum:
->           - fsl,imx8mq-csi
->           - fsl,imx8mm-csi
->           - fsl,imx6ul-csi
->         - const:
->           - fsl,imx7-csi
-
-That's not a valid schema.
-
-> 
-> In example I see:
-> 
-> arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-> 
-> Where this should either be
->                                            compatible = "fsl,imx8mq-csi"
-> or
->                                            compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
-> 
-> ?
-> 
-> > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > > index 32311fc0e2a4..59100e409709 100644
-> > > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > > @@ -162,6 +162,7 @@
-> > >  enum imx_csi_model {
-> > >  	IMX7_CSI_IMX7 = 0,
-> > >  	IMX7_CSI_IMX8MQ,
-> > > +	IMX7_CSI_IMX8MM,
-> > >  };
-> > >
-> > >  struct imx7_csi {
-> > > @@ -1277,6 +1278,7 @@ static int imx7_csi_remove(struct platform_device *pdev)
-> > >
-> > >  static const struct of_device_id imx7_csi_of_match[] = {
-> > >  	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX7_CSI_IMX8MQ },
-> > > +	{ .compatible = "fsl,imx8mm-csi", .data = (void *)IMX7_CSI_IMX8MM },
-> >
-> > This isn't needed, as the i.MX8MM CSI bridgge is considered fully
-> > backward-compatible with the i.MX7 version. I'd introduce this change in
-> > the patch where you start using IMX7_CSI_IMX8MM, and I would then add
-> > the following to the DT binding:
-> >
-> >  properties:
-> >    compatible:
-> >      oneOf:
-> >        - enum:
-> >            - fsl,imx8mq-csi
-> > +          - fsl,imx8mm-csi
-> >            - fsl,imx7-csi
-> >            - fsl,imx6ul-csi
-> >        - items:
-> >            - const: fsl,imx8mm-csi
-> >            - const: fsl,imx7-csi
-> >
-> > to allow setting
-> >
-> > 	compatible = "fsl,imx8mm-csi";
-> >
-> > without the imx7 fallback if we consider the i.MX8MM version different.
-> > If the driver can operate correctly on the i.MX8MM when using the i.MX7
-> > fallback code paths (possibly minor issues that are not considered
-> > fatal, such as missing features) then you could skip this binding
-> > change.
-> 
-> Sorry, but shouldn't:
-> 
->         compatible = "fsl,imx8mm-csi", fsl,imx7-csi"
-> 
-> allow me to match on imx8mm already, without the above change.
-> 
-> I think what I don't get is why imx8mm is a 'generic fallback' in
-> first place.
-
-See above.
-
-> > >  	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7 },
-> > >  	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX7_CSI_IMX7 },
-> > >  	{ },
-
--- 
-Regards,
-
-Laurent Pinchart
