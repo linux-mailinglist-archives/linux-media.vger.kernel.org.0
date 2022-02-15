@@ -2,141 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B8524B6684
-	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 09:48:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFAFF4B66BA
+	for <lists+linux-media@lfdr.de>; Tue, 15 Feb 2022 09:58:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234915AbiBOIsv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 03:48:51 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:60084 "EHLO
+        id S232303AbiBOI6Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 03:58:24 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234876AbiBOIsu (ORCPT
+        with ESMTP id S229997AbiBOI6X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 03:48:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6ACBD113AC1
-        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 00:48:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1644914919;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cAghCw6nMXIP8DbPC2ZTmMjVdzgtfdV0Q4rDuIo9NkY=;
-        b=DSqmbLSAwCAJVngxiscPK3AI83fBvtKyU1g0AilU1+5l1HWqSms+MFHSUGa0sZO/SfGwjz
-        MTARKord6OnXu1SikYooOuoDXp45WeVwP+NSyH7Y/dELylzZWdS76PxZnMHKfa6/B5mtm0
-        Kk9NNo2FFnT7z/6lrYWi3bCEQd9gsF4=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-147-3qVRJi53MJe82FRlJfXUWA-1; Tue, 15 Feb 2022 03:48:36 -0500
-X-MC-Unique: 3qVRJi53MJe82FRlJfXUWA-1
-Received: by mail-pj1-f69.google.com with SMTP id q40-20020a17090a17ab00b001bafa89b70aso592965pja.2
-        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 00:48:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cAghCw6nMXIP8DbPC2ZTmMjVdzgtfdV0Q4rDuIo9NkY=;
-        b=QX2ycoyc0BXo0AH4GoHz+POCqcQ/IEwzkvjHi5ZxegcTK/ONNOr4XzDg4s2wIpJL45
-         fsbjGwRUGJ/drVaOQRKOpeAUOUgiaFS4606iz3SYnsoM4T17nK+7ASJyHAdeExxrpgAS
-         sybm/nAvpFYGTqTZHvIo3lJYnNFI2ASsxJXo9t0gqx5YKeVgaKwy+UB3m0ObKscOAdSo
-         6x4uLgYMJlDEc431T8yl+FdDyyv2vCv4rYYw6yWgdqjPRMQJPkJyWFRwaP6oAOZriWqb
-         GFjJcDfp+2gukdNs9kTRgBjGjBj3G8r+0Sqm/uNTr7soTfGYsS5xOgCFZ/Kuj6Rcg60F
-         ss2Q==
-X-Gm-Message-State: AOAM533t4X1Fa6XEvLcREXVPBniV+XBofbpx+wnwP+U+6zQ5KgIn9JNq
-        aUq0LlTOBMK+gsN7sB9fgZeCAVL/sInvJK1ImfILZjWqWfO9KOplBtolTeXxQSBs/IgkAvlryOA
-        JS1EBvAstEugkw7y0/1M9ge9YTGwQTjE65lpo1h0=
-X-Received: by 2002:a63:2bc5:: with SMTP id r188mr2644599pgr.363.1644914915604;
-        Tue, 15 Feb 2022 00:48:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxNykZwzg4bf+5n8EbXDkY7JRsdOTnLNDPgNJlOcTDejNQ8sWs8DiYpM4W3ztHYleOanIdgFMhO3Rj6Rj63QAs=
-X-Received: by 2002:a63:2bc5:: with SMTP id r188mr2644575pgr.363.1644914915393;
- Tue, 15 Feb 2022 00:48:35 -0800 (PST)
+        Tue, 15 Feb 2022 03:58:23 -0500
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E06A89CCA
+        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 00:58:13 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 74B8B20000D;
+        Tue, 15 Feb 2022 08:58:08 +0000 (UTC)
+Date:   Tue, 15 Feb 2022 09:59:18 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
+        rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
+        alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
+        kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 5/8] staging: media: imx: Use DUAL pixel mode if available
+Message-ID: <20220215085918.dxilh2sx2yx2l6c5@uno.localdomain>
+References: <20220214184318.409208-1-jacopo@jmondi.org>
+ <20220214184318.409208-6-jacopo@jmondi.org>
+ <YgtSbEjr9KID81eI@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <1644890154-64915-1-git-send-email-wangqing@vivo.com> <1644890154-64915-7-git-send-email-wangqing@vivo.com>
-In-Reply-To: <1644890154-64915-7-git-send-email-wangqing@vivo.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 15 Feb 2022 09:48:24 +0100
-Message-ID: <CAO-hwJLwomyHyjza8x3cEhR97HkK7Z7yPWVXwA4-1jmM=WKqeQ@mail.gmail.com>
-Subject: Re: [PATCH V3 6/13] input: serio: use time_is_before_jiffies()
- instead of open coding it
-To:     Qing Wang <wangqing@vivo.com>
-Cc:     Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
-        lkml <linux-kernel@vger.kernel.org>, linux-clk@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        amd-gfx@lists.freedesktop.org,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YgtSbEjr9KID81eI@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 15, 2022 at 2:57 AM Qing Wang <wangqing@vivo.com> wrote:
->
-> From: Wang Qing <wangqing@vivo.com>
->
-> Use the helper function time_is_{before,after}_jiffies() to improve
-> code readability.
->
-> Signed-off-by: Wang Qing <wangqing@vivo.com>
-> ---
+Hi Laurent,
 
-Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+On Tue, Feb 15, 2022 at 09:12:44AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Mon, Feb 14, 2022 at 07:43:15PM +0100, Jacopo Mondi wrote:
+> > The pixel sampling mode controls the size of data sampled from the CSI
+> > Rx queue. The supported sample size depends on the configuration of the
+> > preceding block in the capture pipeline and is then dependent on the SoC
+> > version the CSI peripheral is integrated on.
+> >
+> > When capturing YUV422 data if dual sample mode is available use it.
+> >
+> > This change is particularly relevant for the IMX8MM SoC which uses the
+> > CSIS CSI-2 receiver which operates in dual pixel mode.
+> >
+> > Other SoCs should be unaffected by this change and should continue to
+> > operate as before.
+> >
+> > Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  drivers/staging/media/imx/imx7-media-csi.c | 10 +++++++++-
+> >  1 file changed, 9 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > index 112096774961..a8bdfb0bb0ee 100644
+> > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > @@ -426,6 +426,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+> >  {
+> >  	struct imx_media_video_dev *vdev = csi->vdev;
+> >  	struct v4l2_pix_format *out_pix = &vdev->fmt;
+> > +	struct imx_media_dev *imxmd = csi->imxmd;
+> >  	int width = out_pix->width;
+> >  	u32 stride = 0;
+> >  	u32 cr3 = BIT_FRMCNT_RST;
+> > @@ -436,7 +437,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+> >  	cr18 &= ~(BIT_CSI_HW_ENABLE | BIT_MIPI_DATA_FORMAT_MASK |
+> >  		  BIT_DATA_FROM_MIPI | BIT_BASEADDR_CHG_ERR_EN |
+> >  		  BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
+> > -		  BIT_DEINTERLACE_EN);
+> > +		  BIT_DEINTERLACE_EN | BIT_MIPI_DOUBLE_CMPNT);
+> >
+> >  	if (out_pix->field == V4L2_FIELD_INTERLACED) {
+> >  		cr18 |= BIT_DEINTERLACE_EN;
+> > @@ -500,6 +501,13 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+> >  		case MEDIA_BUS_FMT_YUYV8_2X8:
+> >  		case MEDIA_BUS_FMT_YUYV8_1X16:
+> >  			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
+> > +
+> > +			/* If dual mode is supported use it. */
+> > +			if (imxmd->info->sample_modes & MODE_DUAL) {
+> > +				cr18 |= BIT_MIPI_DOUBLE_CMPNT;
+> > +				cr3 |= BIT_TWO_8BIT_SENSOR;
+> > +			}
+>
+> I would implement this differently:
+>
+> 		case MEDIA_BUS_FMT_UYVY8_2X8:
+> 		case MEDIA_BUS_FMT_YUYV8_2X8:
+> 			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
+> 			break;
+>
+> 		case MEDIA_BUS_FMT_UYVY8_1X16:
+> 		case MEDIA_BUS_FMT_YUYV8_1X16:
+> 			cr3 |= BIT_TWO_8BIT_SENSOR;
+> 			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B
+> 			     |  BIT_MIPI_DOUBLE_CMPNT;
+> 			break;
+>
+> This would support either option here. What you will then need to change
+> is imx7_csi_enum_mbus_code() and imx7_csi_try_fmt(), to allow/disallow
+> the 2X8 and 1X16 variants based on the SoC. This is important for the
 
-Cheers,
-Benjamin
+Exactly. And being the format list in the shared helper I decided it
+was really not worth adding any SoC specific code to those helpers
+which should ideally be nuked.
 
->  drivers/input/serio/ps2-gpio.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Should we decouple the helpers to get to a point where we can have
+SoC-specific formats list ? Then I would be more than happy to use the
+above construct.
+
+There is one quirk I'm not sure about: How does the CSI connect to the
+transmitter ? It is my undertanding that in i.MX8 connects to the the
+CSI-2 receiver (either CSIS or the Northwest tech one). Does in older
+SoC revisions connects directly to a parallel sensor ?
+
+I'm asking also because there is a comment that reports
+
+		/*
+		 * CSI-2 sources are supposed to use the 1X16 formats, but not
+		 * all of them comply. Support both variants.
+		 */
+
+But if the preceding block is the CSI-2 receiver, we control what
+formats it exposes and we can use both 2X8 or 1X16 depending on the
+SoC specificities and we don't care about the CSI-2 Tx supported
+formats. Does that comment make sense in your opinion ?
+
+Also be aware that, in example, if we expose from the CSIS source pad
+both 2X8 and 1X16 we create a condition where userspace could
+configure the pipeline uncorrectly.
+
+Let's draw a table (for i.MX8 only as I don't know about the 7)
+
+
+        8MM/CSI   8MQ/CSI  8MP/ISI
+CSIS    Dual              Dual
+NW              Single
+
+
+Each block would then support
+
+CSIS    Dual
+NW      Single
+CSI     Dual/Single
+ISI     Dual
+
+So we create a potential for a misconfiguration in 8MM with
+
+        CSIS = Dual
+        CSI = Single
+
+or for the 8MQ
+
+        NW = Single
+        CSI = Double
+
+If we don't create a list of SoC specific formats. Nothing bad, -EPIPE
+will be returned, but maybe we should avoid that ?
+
+
+> i.MX7, which has both a CSI-2 input and a parallel input. When using the
+> CSIS it can (and should) use double component mode, while when using the
+> parallel input it can work in 8-bit or 16-bit mode depending on how the
+> sensor is wired.
+
+I didn't know i.MX7 used the CSIS :/
+Ah wait, the driver was called imx7-mipi-csi2 :/
+
 >
-> diff --git a/drivers/input/serio/ps2-gpio.c b/drivers/input/serio/ps2-gpio.c
-> index 8970b49..7834296
-> --- a/drivers/input/serio/ps2-gpio.c
-> +++ b/drivers/input/serio/ps2-gpio.c
-> @@ -136,7 +136,7 @@ static irqreturn_t ps2_gpio_irq_rx(struct ps2_gpio_data *drvdata)
->         if (old_jiffies == 0)
->                 old_jiffies = jiffies;
+> > +
+> >  			break;
+> >  		}
+> >  	}
 >
-> -       if ((jiffies - old_jiffies) > usecs_to_jiffies(100)) {
-> +       if (time_is_before_jiffies(old_jiffies + usecs_to_jiffies(100))) {
->                 dev_err(drvdata->dev,
->                         "RX: timeout, probably we missed an interrupt\n");
->                 goto err;
-> @@ -237,7 +237,7 @@ static irqreturn_t ps2_gpio_irq_tx(struct ps2_gpio_data *drvdata)
->         if (old_jiffies == 0)
->                 old_jiffies = jiffies;
->
-> -       if ((jiffies - old_jiffies) > usecs_to_jiffies(100)) {
-> +       if (time_is_before_jiffies(old_jiffies + usecs_to_jiffies(100))) {
->                 dev_err(drvdata->dev,
->                         "TX: timeout, probably we missed an interrupt\n");
->                 goto err;
 > --
-> 2.7.4
+> Regards,
 >
-
+> Laurent Pinchart
