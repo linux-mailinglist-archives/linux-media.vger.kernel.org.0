@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A5054B7AFF
-	for <lists+linux-media@lfdr.de>; Wed, 16 Feb 2022 00:07:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30C854B7B00
+	for <lists+linux-media@lfdr.de>; Wed, 16 Feb 2022 00:07:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242541AbiBOXIF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Feb 2022 18:08:05 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43944 "EHLO
+        id S243039AbiBOXIH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Feb 2022 18:08:07 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241021AbiBOXIF (ORCPT
+        with ESMTP id S242827AbiBOXIG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Feb 2022 18:08:05 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 236C565E0
-        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 15:07:54 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id m126-20020a1ca384000000b0037bb8e379feso2497447wme.5
-        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 15:07:54 -0800 (PST)
+        Tue, 15 Feb 2022 18:08:06 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C31E7673
+        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 15:07:55 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id k1so496572wrd.8
+        for <linux-media@vger.kernel.org>; Tue, 15 Feb 2022 15:07:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=44CmJ4QtyEm7oBo0dApTxf2TlNPg1exYdSOKt0txzwU=;
-        b=jkF7jdZpnPrMlilVWbpTbDKOI/ny/TP1HBWftbaIttn3qOEkWdzAHJLzPH/vcWrBVq
-         i1PZBxVxM3Gwr/lG05MQf2pWVM5trbw4VA7J709Z/qAeHWEzsTpkDAEjT6g8R5BO5E/W
-         CYxyQm0CUzi4sbQbQEKBZTh+U9inwSZ4o8mz0Q6bz2ZDF2qOqfThlNJNFnEiG0xjPFnV
-         weC3PKz2gznTAdWHohAVvMBK1JlTF/UxG+zqctcCVcJNxRSk/RRRCfgOnLBKheB26gkt
-         CjTXm0np4SXsOpjKvJNrIkU2Jj46UXfZUarrS0BH5OXmm5vipcMicDB7eyXJBbimx4li
-         s+2Q==
+        bh=P434KImp5liNoIFLNLhSQYwe4ebiOCGmzd94xVyT5uY=;
+        b=oeN8qhkqjrAya6/RJNBj3N2mCi01Xsj7V32wf77jzxkV58g9Zwb3mL2LV1HjN28ywh
+         3spiohF85EiOeqfOKUOM1jJQhLzGxPVqsbAIPATC4QFR8NDRoZnCsWrJygxmdZyJENJE
+         Cikc+BRK2zpEkeyApPxHLGc05lSdi85vx1VQytgwICXJuEPCEOOKt76NdhLMhQOJHO0F
+         YBGnnMWrpY5vrx5ORtjzuLWE1igsqRP3prbOIEF8CTmK02NcazVpFNg9gIs19eSjCKZL
+         DwYuVEDCV5J1p4/TVNuQ/UzypywvmcvAfHG7iPTcYCX31OjfqKxR358aCHWeY08rEDnL
+         /dDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=44CmJ4QtyEm7oBo0dApTxf2TlNPg1exYdSOKt0txzwU=;
-        b=3SLU7UI/WlC3s4lwEdu+pcvqZnuWhMF6HsUzXgHYKwFqptWgSYvLvdAb9q+JrPuKX1
-         OEwVUuE/0JdM9RCm0VgJbtjHpQN5hUhe9fJKHSKJJmLb72oBmM1e3rGcUwOax6pq5HWb
-         Yq8bAq38pGrCF3w3Zq06lOlK+/7qR9V2/VAkLgcMhmQgJ2CZmwaG4UiR3pbxxodl7AVV
-         XSH5/7epzRDjz+pTEpuC45ybFFHgU/KHNxwLvJKuV20WbKOLKwRaLDVefvMVuTjxvEoZ
-         FTriffZZB/4jdugad5VzXpDt4H0fehvB01ADUB3FLToGiSe8F05ZlV81uI3ixN4r12ny
-         wZDA==
-X-Gm-Message-State: AOAM532bTJZuquc2X8sC1Kr3prpNoJst02sEwl6C0uUr8sTz2g3Ou7K2
-        GF5QhgF/bmngBycBEwAcrmQQsVd/MRo4LA==
-X-Google-Smtp-Source: ABdhPJyfZwzzti6+BF0O0YZbr+2Y0iEhLXz3Ha1j8fU7VNnTXgnBrYDeWD44iL7284z7C/8DuiMcNw==
-X-Received: by 2002:a05:600c:1583:b0:346:3f83:6b8 with SMTP id r3-20020a05600c158300b003463f8306b8mr113497wmf.75.1644966472805;
-        Tue, 15 Feb 2022 15:07:52 -0800 (PST)
+        bh=P434KImp5liNoIFLNLhSQYwe4ebiOCGmzd94xVyT5uY=;
+        b=qfeS8t35PFKkohCaO749OpEbYpNUw0hVo5q66TzJ8jibFMYLujRW8ICuT2qhZSZfhD
+         Mv32t+CyQ1+c1TbE1KNr+9kBs2lJSCnYfnAuSz0I0hJdCAYhLJpCJ1S3BhiO7yNuKCIz
+         geJzfrmhTcOfFgkcKERZx9rdMHNDGXtj3wNZIFb+nrbbDViRvqTLwGhvLMviWERThcAv
+         +b/VkH0pVNKMA/zA2FN/wZBtBSJbU1gVB4QXzWXoDhubTqPpefTVse3OIGyAiCb3vktM
+         BZ4FwOjgELo1Nab60tqqZSJhTOcRDdPDVHwzBgC3CyJ+cFh4N83HxsvcvcCBuwxdJ7Ld
+         g4xQ==
+X-Gm-Message-State: AOAM530vg6g05672SSMHnWQDODKGVsRgaz71NsHugEgXCbI4OhkTj7qS
+        7BCJ6ssoIfQ0b9HS/3aRB41CtA3ZzdGexw==
+X-Google-Smtp-Source: ABdhPJyrD9RKCgOQx/G+DUKMVqSdPm4YDzFF/ntUo/SEL0qk9BBCw2zE0ogfyVx2XAO9WBv3M10s0A==
+X-Received: by 2002:adf:9f4a:0:b0:1e3:1c28:c298 with SMTP id f10-20020adf9f4a000000b001e31c28c298mr138686wrg.233.1644966473739;
+        Tue, 15 Feb 2022 15:07:53 -0800 (PST)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id w18sm16956590wrl.62.2022.02.15.15.07.51
+        by smtp.gmail.com with ESMTPSA id w18sm16956590wrl.62.2022.02.15.15.07.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 15:07:52 -0800 (PST)
+        Tue, 15 Feb 2022 15:07:53 -0800 (PST)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
         bingbu.cao@intel.com, tian.shu.qiu@intel.com,
         andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH 03/10] media: i2c: Add acpi support to ov7251
-Date:   Tue, 15 Feb 2022 23:07:30 +0000
-Message-Id: <20220215230737.1870630-4-djrscally@gmail.com>
+Subject: [PATCH 04/10] media: i2c: Provide ov7251_check_hwcfg()
+Date:   Tue, 15 Feb 2022 23:07:31 +0000
+Message-Id: <20220215230737.1870630-5-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220215230737.1870630-1-djrscally@gmail.com>
 References: <20220215230737.1870630-1-djrscally@gmail.com>
@@ -71,42 +71,123 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for enumeration through ACPI to the ov7251 driver
+Move the endpoint checking from .probe() to a dedicated function,
+and additionally check that the firmware provided link frequencies
+are a match for those supported by the driver. Finally, return
+-EPROBE_DEFER if the endpoint is not available, as it could be built
+by the ipu3-cio2 driver if that probes later.
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
- drivers/media/i2c/ov7251.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/media/i2c/ov7251.c | 84 ++++++++++++++++++++++++++++++--------
+ 1 file changed, 66 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
-index ebb299f207e5..d6fe574cb9e0 100644
+index d6fe574cb9e0..5c5f7a15a640 100644
 --- a/drivers/media/i2c/ov7251.c
 +++ b/drivers/media/i2c/ov7251.c
-@@ -14,6 +14,7 @@
- #include <linux/i2c.h>
- #include <linux/init.h>
- #include <linux/module.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-@@ -1490,9 +1491,16 @@ static const struct of_device_id ov7251_of_match[] = {
+@@ -1255,10 +1255,73 @@ static const struct v4l2_subdev_ops ov7251_subdev_ops = {
+ 	.pad = &ov7251_subdev_pad_ops,
  };
- MODULE_DEVICE_TABLE(of, ov7251_of_match);
  
-+static const struct acpi_device_id ov7251_acpi_match[] = {
-+	{ "INT347E" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(acpi, ov7251_acpi_match);
++static int ov7251_check_hwcfg(struct ov7251 *ov7251)
++{
++	struct fwnode_handle *fwnode = dev_fwnode(ov7251->dev);
++	struct v4l2_fwnode_endpoint bus_cfg = {
++		.bus_type = V4L2_MBUS_CSI2_DPHY,
++	};
++	struct fwnode_handle *endpoint;
++	bool freq_found;
++	int i, j;
++	int ret;
 +
- static struct i2c_driver ov7251_i2c_driver = {
- 	.driver = {
- 		.of_match_table = ov7251_of_match,
-+		.acpi_match_table = ov7251_acpi_match,
- 		.name  = "ov7251",
- 	},
- 	.probe_new  = ov7251_probe,
++	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
++	if (!endpoint)
++		return -EPROBE_DEFER; /* could be provided by cio2-bridge */
++
++	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &bus_cfg);
++	fwnode_handle_put(endpoint);
++	if (ret)
++		return dev_err_probe(ov7251->dev, ret,
++				     "parsing endpoint node failed\n");
++
++	if (bus_cfg.bus_type != V4L2_MBUS_CSI2_DPHY) {
++		ret = -EINVAL;
++		dev_err(ov7251->dev, "invalid bus type (%u), must be (%u)\n",
++			bus_cfg.bus_type, V4L2_MBUS_CSI2_DPHY);
++		goto out_free_bus_cfg;
++	}
++
++	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 1) {
++		dev_err(ov7251->dev, "only a 1-lane CSI2 config is supported");
++		ret = -EINVAL;
++		goto out_free_bus_cfg;
++	}
++
++	if (!bus_cfg.nr_of_link_frequencies) {
++		dev_err(ov7251->dev, "no link frequencies defined\n");
++		ret = -EINVAL;
++		goto out_free_bus_cfg;
++	}
++
++	freq_found = false;
++	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
++		if (freq_found)
++			break;
++
++		for (j = 0; j < ARRAY_SIZE(link_freq); j++)
++			if (bus_cfg.link_frequencies[i] == link_freq[j]) {
++				freq_found = true;
++				break;
++			}
++	}
++
++	if (i == bus_cfg.nr_of_link_frequencies) {
++		dev_err(ov7251->dev, "no supported link freq found\n");
++		ret = -EINVAL;
++		goto out_free_bus_cfg;
++	}
++
++out_free_bus_cfg:
++	v4l2_fwnode_endpoint_free(&bus_cfg);
++
++	return ret;
++}
++
+ static int ov7251_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+-	struct fwnode_handle *endpoint;
+ 	struct ov7251 *ov7251;
+ 	u8 chip_id_high, chip_id_low, chip_rev;
+ 	int ret;
+@@ -1270,24 +1333,9 @@ static int ov7251_probe(struct i2c_client *client)
+ 	ov7251->i2c_client = client;
+ 	ov7251->dev = dev;
+ 
+-	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+-	if (!endpoint) {
+-		dev_err(dev, "endpoint node not found\n");
+-		return -EINVAL;
+-	}
+-
+-	ret = v4l2_fwnode_endpoint_parse(endpoint, &ov7251->ep);
+-	fwnode_handle_put(endpoint);
+-	if (ret < 0) {
+-		dev_err(dev, "parsing endpoint node failed\n");
++	ret = ov7251_check_hwcfg(ov7251);
++	if (ret)
+ 		return ret;
+-	}
+-
+-	if (ov7251->ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
+-		dev_err(dev, "invalid bus type (%u), must be CSI2 (%u)\n",
+-			ov7251->ep.bus_type, V4L2_MBUS_CSI2_DPHY);
+-		return -EINVAL;
+-	}
+ 
+ 	/* get system clock (xclk) */
+ 	ov7251->xclk = devm_clk_get(dev, "xclk");
 -- 
 2.25.1
 
