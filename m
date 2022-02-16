@@ -2,176 +2,256 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60C124B8F43
-	for <lists+linux-media@lfdr.de>; Wed, 16 Feb 2022 18:36:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1F834B92CC
+	for <lists+linux-media@lfdr.de>; Wed, 16 Feb 2022 22:03:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237166AbiBPRgN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Feb 2022 12:36:13 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44768 "EHLO
+        id S234207AbiBPVEJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Feb 2022 16:04:09 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231317AbiBPRgM (ORCPT
+        with ESMTP id S233677AbiBPVEA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Feb 2022 12:36:12 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EDF523BF0A
-        for <linux-media@vger.kernel.org>; Wed, 16 Feb 2022 09:35:59 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id x3-20020a05600c21c300b0037c01ad715bso2176932wmj.2
-        for <linux-media@vger.kernel.org>; Wed, 16 Feb 2022 09:35:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=MZhlxsFvgjP4WZV7dx4SGzteonrtxfsLah0a/XgwIpg=;
-        b=vjOR1u4xWVOpTqfTnxqUwm0JNvmYwd+B6HeN3oVi1HTdIX5FfIBD0oatcmcGF8xBK2
-         vCtYbZ7WQKOKu+zs9RmNrAhG+TEIpcDOJv2srUaIMvsppNutxTI3nrOdKujWn2l9j056
-         m4QKzWtLY8seSz944Eo4pr6DLU/Sax9GWpdLqQFHSOj6KjXPSlgqdR0IrijTYte0mfqF
-         Gds60pZNNFzA0fhgr5iTErDdaSeVT5prNIW7p4klpNpSjXM56jULXmacTjBMQOyHDFDr
-         x4vg/u0EMbDmSDtYhxqz8aEZCjDLo9ybkaK/OLVI1GDxu+DUc58GRExdkD62Qu4wjqD+
-         vn5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=MZhlxsFvgjP4WZV7dx4SGzteonrtxfsLah0a/XgwIpg=;
-        b=y8a/Rwx8fEZ9846KGTFsZL9ngGeBxIX+Km90t1QvV6d0+FjLkRo6X+FXBteeXYGOTd
-         m8WjQ60EgaZnIcBCq7Rl6IWXFOR6lK9uT+78VaPR4KcvSkKlY0K5Bi1pOjwHUZfsCgV7
-         bZhNbmcQT6YdIK+sFSZZS74yq74hO54cv7SwQDti3tprEip6ievN2MWCsqc/mpzeM/cg
-         aHdVzbdT8lynXDA3C7umjorXprg/5V/ARuK6JJp7CLgPqwAt/wkJN7rmExxbO6tnWdwr
-         vqnfXIQGfE3iPYPwyPWmalRC6DYxx7/VtTA1h/R5dE3EMUmTvS51E8LwGkjNZlUu6QQS
-         AATA==
-X-Gm-Message-State: AOAM531y7X1ZpQ2wzwj/3OOiNZOL8UtPFvUH6uZG8Tcif0rHMhTc6tkh
-        4Bz4J4nb0/08VGKPH6F8hg+iYg==
-X-Google-Smtp-Source: ABdhPJzGwvO/1+cOuF9OxnB1a4zo32eW6Gn4iNZg/cppvyowaHV9Dlh9kU84pLZmm2d1MbdzzpArFQ==
-X-Received: by 2002:a05:600c:2d41:b0:354:24d2:8e13 with SMTP id a1-20020a05600c2d4100b0035424d28e13mr2651958wmg.138.1645032957655;
-        Wed, 16 Feb 2022 09:35:57 -0800 (PST)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id r14sm9129124wrz.84.2022.02.16.09.35.56
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Wed, 16 Feb 2022 09:35:57 -0800 (PST)
-From:   John Cox <jc@kynesim.co.uk>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl,
-        jonas@kwiboo.se, nicolas@ndufresne.ca, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com, knaerzche@gmail.com
-Subject: Re: [RFC v2 7/8] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
-Date:   Wed, 16 Feb 2022 17:35:56 +0000
-Message-ID: <r2dq0hpnn99kofoa4uren09nlii38rcdi1@4ax.com>
-References: <20220215110103.241297-1-benjamin.gaignard@collabora.com> <20220215110103.241297-8-benjamin.gaignard@collabora.com> <a8lp0h15oaibdu1pqrkhsu8nh32v423tur@4ax.com> <846370ec-5c9e-e4cb-eccf-0b0c6bdbc847@collabora.com>
-In-Reply-To: <846370ec-5c9e-e4cb-eccf-0b0c6bdbc847@collabora.com>
-User-Agent: ForteAgent/8.00.32.1272
+        Wed, 16 Feb 2022 16:04:00 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE5F42AFE9E;
+        Wed, 16 Feb 2022 13:03:32 -0800 (PST)
+Received: from [192.168.1.107] ([37.4.249.169]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MLyzP-1nbh6k1HSz-00HzMp; Wed, 16 Feb 2022 21:57:59 +0100
+Subject: Re: [PATCH v5 00/11] Add support for BCM2835 camera interface
+ (unicam)
+To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
+        kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
+        robh@kernel.org, tomi.valkeinen@ideasonboard.com,
+        bcm-kernel-feedback-list@broadcom.com
+References: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+Autocrypt: addr=stefan.wahren@i2se.com; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
+ CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
+ bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
+ TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
+ NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
+ MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
+ by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
+ MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
+ VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
+ aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
+ OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
+ bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
+ Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
+ ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
+ bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
+ dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
+ QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
+ UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
+ SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
+ VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
+ akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
+ NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
+ RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
+ QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
+ ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
+ cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
+ R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
+ aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
+ NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
+ SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
+ TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
+ TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
+ NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
+ YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
+ SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
+ KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
+ ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
+ VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
+ SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
+ d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
+ UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
+ c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
+ a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
+ anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
+ WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
+ Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
+ QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
+ Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
+ K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
+ aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
+ dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
+ TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
+ SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
+ U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
+ VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
+ OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
+ Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
+ eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
+ MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
+ SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
+ Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
+ WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
+ Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
+ OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
+ TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
+ eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
+ WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
+ cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
+ QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
+ Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
+ RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
+ SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
+ cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
+ dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
+ RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
+ SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
+ WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
+ VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
+ am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
+ OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
+ L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
+ aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
+ cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
+ WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
+ MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
+ RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
+ RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
+ TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
+ SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
+ M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
+ VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
+ MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
+ bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
+ NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
+ ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
+ Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
+ eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
+ QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
+ TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
+ dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
+ S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
+ VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
+ QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
+ ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
+ UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
+ SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
+ UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
+ N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
+ dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
+ MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
+ d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
+ WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
+ MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
+ MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
+ TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
+ NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
+ MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
+ RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
+ VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
+ WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
+ ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
+ SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
+ MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
+ M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
+ dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
+ CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
+ VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
+ bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
+ LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
+Message-ID: <a7a6f1fe-c2f0-f545-1da3-a7685fdb63d5@i2se.com>
+Date:   Wed, 16 Feb 2022 21:57:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: base64
+Content-Language: en-US
+X-Provags-ID: V03:K1:OF5oNU5A4qCvpIlo95Az8jD2/LW/VxDZ7B6ue3KVH5q7t64nA0Q
+ MywCBdxHPYWZjmu+cIDy7jIOtKU/gNiqrI42twOjWxVy9NvXaeAW/XDhwkgd7jw1/U4RfYK
+ +J670XDtytb4SJn8Kvj0UbiOMUPlLZ03iBjW6l8vVokxzSyVtlMDAZvMX+KKajQ53WCystE
+ 0cbOn+VsRNUPtuFXCkvRQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lIx9pDdyDX8=:dFLCNUm4mz0NEpgGu9zpux
+ 4fSweIKzCWxpMn3tF3p6veSmxA+b8MC6FAByp7rhy/uzMqxMNnV0vbJPwlNLRIJqOy5+AUWtV
+ 5ATOe/aOqyXq8FbAi9aHyK1CNtkoFEO/ATFuaZyi1Q4Wo52OkPDFoi5vOyuG5YHU+fPAlyPY2
+ I/IM63/uw9qfg7/9qcK8AlxidUVMDyQ+pKK7Ua8IWA6a1D7F6t1KnbXhcIN8NcT/uFzIeYxQu
+ KQT74CpO9aMCdfaZzhR3lmjav/vp+2hG7KBG3tGmQWmuRWvqnO8t63i9Wh2rPVGwy6pFkA7yo
+ NPGjZsxJOgzayXPR3d+G4JYw0kExoXDwTg0DjJ2hV3fy5H3+a5tAHDK0cgNqRfeFXKBtPibjW
+ CVzDhK5IQKMbQAfeAl2rUvdKv+30/GR8YxGQKKfDz/OShKdCD6xmDDc+ChdYD00+xmyBndigg
+ Ga9uyZv9Y+ggtnprETG6nOxFwY9mWC2hWRdRaz8c7YRek5dSeRaPvnSgt1J4jQc09tBpJ9m3/
+ mT0YL/VlA35hXQtME/u5tdVJJw38zk8v1lpV8NSz7BNg8ttJs8aJoRnL8C71/wesEhAi58Mk7
+ NdwcfhnEKIXOSsgEfPL2HAqzNJX78mA/EBjNUwTByajVWlZhpXxnWtAVzMoLMuJJDcQv5sAG1
+ ubKWfBkJmCj+T480wcleAYgFJpL1gqtDTITtTXT0eMn0HhOzGuIBExsuLZYwg8cyYNVqs5oO4
+ urnKRGHeNY9nUf0c
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 16 Feb 2022 18:19:10 +0100, you wrote:
-
->
->Le 16/02/2022 =C3=A0 11:54, John Cox a =C3=A9crit=C2=A0:
->> On Tue, 15 Feb 2022 12:01:02 +0100, you wrote:
->>
->>> The number of 'entry point offset' could be very variable.
->>> Rather than use a large static array define a v4l2 dynamic array
->>> of integer control.
->>> The number of entry point offsets is reported by the elems field.
->> If we are going to support multiple slice headers in a single control
->> then we are going to need to know how to split these entries between
->> them as I assume that the entry point offset entries for all slice
->> headers would just be catenated here.  You could add extra elements =
-here
->> or generate a completely new control but I think it would be easier to
->> reinstate the num_entry_point_offsets field in the slice_params
->> structure (its a field that userpace has in its hand anyway so its no
->> effort for it to fill in).  num_entry_point_offsets is a field that =
-RPi
->> wants (without needing the entry points themselves) so that would help
->> me.
->
->Would that means num_entry_point_offsets field in slice parameter =
-control
->+ one control for the entry points themselves ?
->or the both on slice parameter control (like now) ?
-
-I meant num_entry_point_offsets field in each slice parameter control +
-one control for the entry points themselves.  Given that you have a
-varible number of entry points associated with each slice and you have a
-variable number of slices this seems the easiest answer to me both to
-construct in userspace and to use in the driver.
-
-Regards
-
-JC
-
->Regards
->Benjamin
->
->>
->> Regards
->>
->> John Cox
->>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> ---
->>> version 2:
->>> - Define a new CID for entry point offsets parameters
->>> .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 =
-+++++++++
->>> include/uapi/linux/v4l2-controls.h                       | 1 +
->>> 2 files changed, 10 insertions(+)
->>>
->>> diff --git =
-a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
-b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> index c3ae97657fa7..679595e94643 100644
->>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> @@ -3101,6 +3101,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field=
- -
->>>
->>>      \normalsize
->>>
->>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
->>> +    Specifies the i-th entry point offset in bytes and is =
-represented by
->>> +    offset_len_minus1 plus 1 bits.
->>> +    This control is a dynamically sized array. The number of entry =
-point
->>> +    offsets is reported by the ``elems`` field.
->>> +    This bitstream parameter is defined according to :ref:`hevc`.
->>> +    They are described in section 7.4.7.1 "General slice segment =
-header
->>> +    semantics" of the specification.
->>> +
->>> ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->>>      Specifies the HEVC scaling matrix parameters used for the =
-scaling process
->>>      for transform coefficients.
->>> diff --git a/include/uapi/linux/v4l2-controls.h =
-b/include/uapi/linux/v4l2-controls.h
->>> index 27f5d272dc43..700e6cce958c 100644
->>> --- a/include/uapi/linux/v4l2-controls.h
->>> +++ b/include/uapi/linux/v4l2-controls.h
->>> @@ -2314,6 +2314,7 @@ struct v4l2_ctrl_vp9_compressed_hdr {
->>> #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	=
-(V4L2_CID_CODEC_STATELESS_BASE + 404)
->>> #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	=
-(V4L2_CID_CODEC_STATELESS_BASE + 405)
->>> #define V4L2_CID_STATELESS_HEVC_START_CODE	=
-(V4L2_CID_CODEC_STATELESS_BASE + 406)
->>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET	=
-(V4L2_CID_CODEC_STATELESS_BASE + 407)
->>>
->>> enum v4l2_stateless_hevc_decode_mode {
->>> 	V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
+SGkgSmVhbi1NaWNoZWwsCgpBbSAwOC4wMi4yMiB1bSAxNjo1MCBzY2hyaWViIEplYW4tTWlj
+aGVsIEhhdXRib2lzOgo+IEhlbGxvICEKPgo+IC4uLgo+Cj4gSW4gb3JkZXIgdG8gcHJvcGVy
+bHkgY29uZmlndXJlIHRoZSBtZWRpYSBwaXBlbGluZSwgaXQgaXMgbmVlZGVkIHRvIGNhbGwK
+PiB0aGUgdXN1YWwgaW9jdGxzLCBhbmQgY29uZmlndXJlIHJvdXRpbmcgaW4gb3JkZXIgdG8g
+c2VuZCB0aGUgZW1iZWRkZWQKPiBkYXRhIGZyb20gdGhlIHNlbnNvciB0byB0aGUgInVuaWNh
+bS1lbWJlZGRlZCIgZGV2aWNlIG5vZGUgOgo+Cj4gYGBgCj4gbWVkaWE9MAo+IG1lZGlhLWN0
+bCAtZCR7bWVkaWF9IC1sICInaW14MjE5IDItMDAxMCc6MC0+J3VuaWNhbS1zdWJkZXYnOjAg
+WzFdIgo+IG1lZGlhLWN0bCAtZCR7bWVkaWF9IC1sICIndW5pY2FtLXN1YmRldic6MS0+J3Vu
+aWNhbS1pbWFnZSc6MCBbMV0iCj4gbWVkaWEtY3RsIC1kJHttZWRpYX0gLXYgLVIgIid1bmlj
+YW0tc3ViZGV2JyBbMC8wLT4xLzBbMV0sMC8xLT4yLzBbMV1dIgo+IG1lZGlhLWN0bCAtZCR7
+bWVkaWF9IC1WICInaW14MjE5IDItMDAxMCc6MC8wIFtmbXQ6U1JHR0IxMF8xWDEwLzMyODB4
+MjQ2NCBmaWVsZDpub25lXSIKPiB2NGwyLWN0bCAtZDAgLS1zZXQtZm10LXZpZGVvIHdpZHRo
+PTMyODAsaGVpZ2h0PTI0NjQscGl4ZWxmb3JtYXQ9J3BSQUEnLGZpZWxkPW5vbmUKPiBtZWRp
+YS1jdGwgLWQke21lZGlhfSAtdiAtViAiJ2lteDIxOSAyLTAwMTAnOjAvMSBbZm10Ok1FVEFE
+QVRBXzgvMTYzODR4MSBmaWVsZDpub25lXSIKPiBtZWRpYS1jdGwgLWQke21lZGlhfSAtcAo+
+IGBgYAoKaSB0cmllZCB0byB0ZXN0IHRoZSB1bmljYW0gZHJpdmVyIG9uIGEgUmFzcGJlcnJ5
+IFBpIDQgd2l0aCB0aGUgaW14MjE5CmNhbWVyYSAoYmFzZWQgb24gNS4xNy1yYzQpLiBUaGUg
+dW5pY2FtICYgaW14MjE5IGRyaXZlciBwcm9iZXMgYW5kCi9kZXYvdmlkZW8wIGlzIGNyZWF0
+ZWQuCgpJZiBhIGV4ZWN1dGUgdGhlIGZpcnN0IG1lZGlhLWN0bCBjb21tYW5kLCBpdCBjb21w
+bGFpbnMgd2l0aCBpbnZhbGlkCmFyZ3VtZW50IDIyLiBJcyB0aGVyZSBhIG1vcmUgZm9vbC1w
+cm9vZiB2YXJpYW50IHRvIGNvbmZpZ3VyZSB0aGlzIChhCnNjcmlwdCBvciBzb21ldGhpbmcg
+ZWxzZSk/IEkgbmV2ZXIgdXNlZCB0aGUgdW5pY2FtIGRyaXZlciBiZWZvcmUuCgpIZXJlIGlz
+IHRoZSBvdXRwdXQgb2YKCiQgbWVkaWFjdGwgLWQwIC1wCgpNZWRpYSBjb250cm9sbGVyIEFQ
+SSB2ZXJzaW9uIDUuMTcuMAoKTWVkaWEgZGV2aWNlIGluZm9ybWF0aW9uCi0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQpkcml2ZXLCoMKgwqDCoMKgwqDCoMKgwqAgdW5pY2FtCm1vZGVswqDC
+oMKgwqDCoMKgwqDCoMKgwqAgdW5pY2FtCnNlcmlhbMKgwqDCoMKgwqDCoMKgwqDCoApidXMg
+aW5mb8KgwqDCoMKgwqDCoMKgIHBsYXRmb3JtOmZlODAxMDAwLmNzaQpodyByZXZpc2lvbsKg
+wqDCoMKgIDB4MApkcml2ZXIgdmVyc2lvbsKgIDUuMTcuMAoKRGV2aWNlIHRvcG9sb2d5Ci0g
+ZW50aXR5IDE6IHVuaWNhbS1zdWJkZXYgKDMgcGFkcywgMyBsaW5rcywgMiByb3V0ZXMpCsKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgdHlwZSBWNEwyIHN1YmRldiBzdWJ0eXBlIFVua25vd24g
+ZmxhZ3MgMArCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRldmljZSBub2RlIG5hbWUgL2Rldi92
+NGwtc3ViZGV2MArCoMKgwqAgcm91dGVzOgrCoMKgwqAgwqDCoMKgIDAvMCAtPiAxLzAgW0FD
+VElWRV0KwqDCoMKgIMKgwqDCoCAwLzEgLT4gMi8wIFtBQ1RJVkVdCsKgwqDCoCBwYWQwOiBT
+aW5rCsKgwqDCoCDCoMKgwqAgW3N0cmVhbTowIGZtdDp1bmtub3duLzB4MF0KwqDCoMKgIMKg
+wqDCoCBbc3RyZWFtOjEgZm10OnVua25vd24vMHgwXQrCoMKgwqAgwqDCoMKgIDwtICJpbXgy
+MTkgNS0wMDEwIjowIFtFTkFCTEVELElNTVVUQUJMRV0KwqDCoMKgIHBhZDE6IFNvdXJjZQrC
+oMKgwqAgwqDCoMKgIFtzdHJlYW06MCBmbXQ6dW5rbm93bi8weDBdCsKgwqDCoCDCoMKgwqAg
+LT4gInVuaWNhbS1pbWFnZSI6MCBbRU5BQkxFRCxJTU1VVEFCTEVdCsKgwqDCoCBwYWQyOiBT
+b3VyY2UKwqDCoMKgIMKgwqDCoCBbc3RyZWFtOjAgZm10OnVua25vd24vMHgwXQrCoMKgwqAg
+wqDCoMKgIC0+ICJ1bmljYW0tZW1iZWRkZWQiOjAgW0VOQUJMRUQsSU1NVVRBQkxFXQoKLSBl
+bnRpdHkgNTogaW14MjE5IDUtMDAxMCAoMSBwYWQsIDEgbGluaywgMiByb3V0ZXMpCsKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgdHlwZSBWNEwyIHN1YmRldiBzdWJ0eXBlIFNlbnNvciBmbGFn
+cyAwCsKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGV2aWNlIG5vZGUgbmFtZSAvZGV2L3Y0bC1z
+dWJkZXYxCsKgwqDCoCByb3V0ZXM6CsKgwqDCoCDCoMKgwqAgMC8wIC0+IDAvMCBbQUNUSVZF
+LCBJTU1VVEFCTEUsIFNPVVJDRV0KwqDCoMKgIMKgwqDCoCAwLzAgLT4gMC8xIFtBQ1RJVkUs
+IFNPVVJDRV0KwqDCoMKgIHBhZDA6IFNvdXJjZQrCoMKgwqAgwqDCoMKgIFtzdHJlYW06MCBm
+bXQ6U1JHR0IxMF8xWDEwLzMyODB4MjQ2NCBmaWVsZDpub25lIGNvbG9yc3BhY2U6cmF3CsKg
+wqDCoCDCoMKgwqAgwqBjcm9wLmJvdW5kczooOCw4KS8zMjgweDI0NjQKwqDCoMKgIMKgwqDC
+oCDCoGNyb3A6KDgsOCkvMzI4MHgyNDY0XQrCoMKgwqAgwqDCoMKgIFtzdHJlYW06MSBmbXQ6
+TUVUQURBVEFfOC8xNjM4NHgxIGZpZWxkOm5vbmUKwqDCoMKgIMKgwqDCoCDCoGNyb3AuYm91
+bmRzOig4LDgpLzMyODB4MjQ2NArCoMKgwqAgwqDCoMKgIMKgY3JvcDooOCw4KS8zMjgweDI0
+NjRdCsKgwqDCoCDCoMKgwqAgLT4gInVuaWNhbS1zdWJkZXYiOjAgW0VOQUJMRUQsSU1NVVRB
+QkxFXQoKLSBlbnRpdHkgOTogdW5pY2FtLWltYWdlICgxIHBhZCwgMSBsaW5rLCAwIHJvdXRl
+KQrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHR5cGUgTm9kZSBzdWJ0eXBlIFY0TCBmbGFncyAx
+CsKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGV2aWNlIG5vZGUgbmFtZSAvZGV2L3ZpZGVvMArC
+oMKgwqAgcGFkMDogU2luawrCoMKgwqAgwqDCoMKgIDwtICJ1bmljYW0tc3ViZGV2IjoxIFtF
+TkFCTEVELElNTVVUQUJMRV0KCi0gZW50aXR5IDE1OiB1bmljYW0tZW1iZWRkZWQgKDEgcGFk
+LCAxIGxpbmssIDAgcm91dGUpCsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0eXBlIE5vZGUg
+c3VidHlwZSBWNEwgZmxhZ3MgMArCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGV2aWNlIG5v
+ZGUgbmFtZSAvZGV2L3ZpZGVvMQrCoMKgwqAgcGFkMDogU2luawrCoMKgwqAgwqDCoMKgIDwt
+ICJ1bmljYW0tc3ViZGV2IjoyIFtFTkFCTEVELElNTVVUQUJMRV0KCg==
