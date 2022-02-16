@@ -2,282 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77E964B8D45
-	for <lists+linux-media@lfdr.de>; Wed, 16 Feb 2022 17:07:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D3174B8DB8
+	for <lists+linux-media@lfdr.de>; Wed, 16 Feb 2022 17:20:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235934AbiBPQHR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Feb 2022 11:07:17 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33522 "EHLO
+        id S236265AbiBPQU3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Feb 2022 11:20:29 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235942AbiBPQHR (ORCPT
+        with ESMTP id S236261AbiBPQU2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Feb 2022 11:07:17 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 921FC2B25F
-        for <linux-media@vger.kernel.org>; Wed, 16 Feb 2022 08:07:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645027624; x=1676563624;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EDIRvZwev9VnsosoDWZYQTgVlGZ2l0XRGdA0wmy1MNU=;
-  b=Tt6jHvmSmNMAC750A9xhGu4WBcvNIsviTkkDGBcY68+0OOUN04Naz34k
-   MsAfHMbe/V9vKtPaLfmCN6suW0zarwhLiQDbIUlNb8P8YzhUuYi0LDlBv
-   9YIGptYKAhlTO5QzwO8ue1GtYYXnEMe70xarymULRJgFSUnJlizSKSfTf
-   1mezIFIg/FZPqLIeX8lm9EJjLhnxKXpAzbU7Zs0MQ6pHHmLlw1XFxIcnj
-   Rks255u27J6JU2Bv0QKy4+0hIczRhgXNCVk9S3z19exvswFN2ZypJwW0B
-   z3kfxnEGfOB7afyQ/8UWj9puBxp3b6yqwzII8AkjGn1NLYPvr4AiSG4vk
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="238057605"
-X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
-   d="scan'208";a="238057605"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2022 08:05:06 -0800
-X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
-   d="scan'208";a="681571408"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2022 08:05:02 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 67DFB201DB;
-        Wed, 16 Feb 2022 18:05:00 +0200 (EET)
-Date:   Wed, 16 Feb 2022 18:05:00 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-media@vger.kernel.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH 08/10] media: i2c: Add pm_runtime support to ov7251
-Message-ID: <Yg0grHE1MlxF0tFw@paasikivi.fi.intel.com>
-References: <20220215230737.1870630-1-djrscally@gmail.com>
- <20220215230737.1870630-9-djrscally@gmail.com>
+        Wed, 16 Feb 2022 11:20:28 -0500
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E83AD2AE28D
+        for <linux-media@vger.kernel.org>; Wed, 16 Feb 2022 08:20:15 -0800 (PST)
+Received: by mail-qk1-x72c.google.com with SMTP id b35so2098772qkp.6
+        for <linux-media@vger.kernel.org>; Wed, 16 Feb 2022 08:20:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=KMrWgD9hlBT67vq70Rol+E2yH6VcMSsxVJIcHIW4zaw=;
+        b=h9xTqWs9Pm9+1oqVfjSwLgMUYWUxBSgeh9sTjYuVgNGx6JudRj8cWesIAFsHbTp9ay
+         snIIghfEzPX/UFiJO+zBoYrQ0QhHKvjW85zXESdNeD1Lbj2Owy18jbz/DSWFZSMhrGnG
+         yFNmOnMxJhFhTSujkzeki5624tDxk8ZzogBGHEHec9j7lz3PJ5dP1kvK7aEw6xebWUpA
+         lypyq4VVPDf6NACaIVS8DII9oMv8oMNGfbkyx+V+lbF2UoJlj+os8pQVqMIMUlmv1MDv
+         NBSnhV/Dx5NP3Ppso+fZjEuqz0HWQml40YpYnpiESl/k9cylgzzIN4c0zSWkDZSaWIJE
+         FTEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=KMrWgD9hlBT67vq70Rol+E2yH6VcMSsxVJIcHIW4zaw=;
+        b=wYSZ6DzqDw+BhAuX8PgAYfsyNZfi40x+Ym8dznp0KNso5XgzWO2w+RBveW8RLNeGFR
+         3tcXgm8zmXuMMtTF5fANgYlSyPshMPRhZQOC6xWaMJimwvVmi0HrzMGzng2uxkhOiIKs
+         YPUvrL5D1Yky67jXEJGaiBqbAFxNLQJmIxCj40+G5JNsps1jo6I4xqRJfXj7tnSc9HgI
+         J2n847WMWl2dAttyPsAnYCtqm94pzx1iMSec3xLoMSOKTX21TdUTcED7IZqA/ah1VAGR
+         pgd06Mqs10LRizASMEDtXZTNsmUrwWJkhbWOoJc6T7Ln6IQ1XORPzABedMOZYSuYACv0
+         fwJg==
+X-Gm-Message-State: AOAM5301NUi4ODE62Zj6yuVZv4rbMr66oV1yV+lhzA7nuite4N5IAHPm
+        ySz/shFTt8U3bHbqBai2V7xoK5diZMBkxQ==
+X-Google-Smtp-Source: ABdhPJwrLwLUVwHhYJOe6+myAylAya52vEpkINWxto774N7xCKLb0Ks0MtXGRLS16LhR6DKN5XLsAg==
+X-Received: by 2002:a37:946:0:b0:47d:6768:edcc with SMTP id 67-20020a370946000000b0047d6768edccmr1666095qkj.120.1645028415084;
+        Wed, 16 Feb 2022 08:20:15 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id f5sm19161439qkp.97.2022.02.16.08.20.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Feb 2022 08:20:14 -0800 (PST)
+Message-ID: <4e1cc50854da4075fc7ebf71e24aa8372905c668.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 5/6] venus: Add a handling of QC10C compressed format
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     hverkuil-cisco@xs4all.nl
+Date:   Wed, 16 Feb 2022 11:20:12 -0500
+In-Reply-To: <20220117155559.234026-6-stanimir.varbanov@linaro.org>
+References: <20220117155559.234026-1-stanimir.varbanov@linaro.org>
+         <20220117155559.234026-6-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220215230737.1870630-9-djrscally@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
-
-On Tue, Feb 15, 2022 at 11:07:35PM +0000, Daniel Scally wrote:
-> Add pm_runtime support to the ov7251 driver.
+Le lundi 17 janvier 2022 à 17:55 +0200, Stanimir Varbanov a écrit :
+> This adds QC10C compressed pixel format in the Venus driver, and
+> make it possible to discover from v4l2 clients.
 > 
-> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+> Note: The QC10C format shouldn't be possible to discpver by the
+
+discpver -> discover
+
+It is not super clear though, did you mean to say that it won't be enumerated
+after the header have been parsed ?
+
+> client if the decoded bitstream is not 10-bits.
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 > ---
->  drivers/media/i2c/ov7251.c | 78 ++++++++++++++++++++++++++++++--------
->  1 file changed, 63 insertions(+), 15 deletions(-)
+>  drivers/media/platform/qcom/venus/helpers.c | 26 ++++-----------------
+>  drivers/media/platform/qcom/venus/vdec.c    | 19 ++++++++++++---
+>  2 files changed, 20 insertions(+), 25 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
-> index f137a1e87537..d620ed6a4e42 100644
-> --- a/drivers/media/i2c/ov7251.c
-> +++ b/drivers/media/i2c/ov7251.c
-> @@ -15,6 +15,7 @@
->  #include <linux/init.h>
->  #include <linux/module.h>
->  #include <linux/mod_devicetable.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
-> @@ -884,6 +885,24 @@ static void ov7251_set_power_off(struct ov7251 *ov7251)
->  	ov7251_regulators_disable(ov7251);
->  }
->  
-> +static int __maybe_unused ov7251_sensor_suspend(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov7251 *ov7251 = to_ov7251(sd);
-> +
-> +	ov7251_set_power_off(ov7251);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused ov7251_sensor_resume(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov7251 *ov7251 = to_ov7251(sd);
-> +
-> +	return ov7251_set_power_on(ov7251);
-
-Could you change the argument type of ov7251_set_power_o{n,ff}() to struct
-device * so you'd have just one set of these functions?
-
-> +}
-> +
->  static int ov7251_s_power(struct v4l2_subdev *sd, int on)
->  {
->  	struct ov7251 *ov7251 = to_ov7251(sd);
-> @@ -985,7 +1004,7 @@ static int ov7251_s_ctrl(struct v4l2_ctrl *ctrl)
->  
->  	/* v4l2_ctrl_lock() locks our mutex */
->  
-> -	if (!ov7251->power_on)
-> +	if (!pm_runtime_get_if_in_use(ov7251->dev))
->  		return 0;
->  
->  	switch (ctrl->id) {
-> @@ -1009,6 +1028,8 @@ static int ov7251_s_ctrl(struct v4l2_ctrl *ctrl)
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index adbfa4fbe139..69a9a9471a27 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -594,6 +594,8 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
+>  		return HFI_COLOR_FORMAT_NV21;
+>  	case V4L2_PIX_FMT_QC08C:
+>  		return HFI_COLOR_FORMAT_NV12_UBWC;
+> +	case V4L2_PIX_FMT_QC10C:
+> +		return HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
+>  	default:
 >  		break;
 >  	}
+> @@ -1176,7 +1178,8 @@ int venus_helper_set_format_constraints(struct venus_inst *inst)
+>  	if (!IS_V6(inst->core))
+>  		return 0;
 >  
-> +	pm_runtime_put(ov7251->dev);
-> +
->  	return ret;
->  }
+> -	if (inst->opb_fmt == HFI_COLOR_FORMAT_NV12_UBWC)
+> +	if (inst->opb_fmt == HFI_COLOR_FORMAT_NV12_UBWC ||
+> +	    inst->opb_fmt == HFI_COLOR_FORMAT_YUV420_TP10_UBWC)
+>  		return 0;
 >  
-> @@ -1261,10 +1282,15 @@ static int ov7251_s_stream(struct v4l2_subdev *subdev, int enable)
->  	mutex_lock(&ov7251->lock);
+>  	pconstraint.buffer_type = HFI_BUFFER_OUTPUT2;
+> @@ -1747,27 +1750,6 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
+>  	if (!caps)
+>  		return -EINVAL;
 >  
->  	if (enable) {
-> +		ret = pm_runtime_get_sync(ov7251->dev);
-> +		if (ret < 0)
-> +			return ret;
-> +
->  		ret = ov7251_pll_configure(ov7251);
-> -		if (ret)
-> -			return dev_err_probe(ov7251->dev, ret,
-> -					     "error configuring PLLs\n");
-> +		if (ret) {
-> +			dev_err(ov7251->dev, "error configuring PLLs\n");
-> +			goto err_power_down;
-> +		}
->  
->  		ret = ov7251_set_register_array(ov7251,
->  					ov7251->current_mode->data,
-> @@ -1273,23 +1299,29 @@ static int ov7251_s_stream(struct v4l2_subdev *subdev, int enable)
->  			dev_err(ov7251->dev, "could not set mode %dx%d\n",
->  				ov7251->current_mode->width,
->  				ov7251->current_mode->height);
-> -			goto exit;
-> +			goto err_power_down;
->  		}
->  		ret = __v4l2_ctrl_handler_setup(&ov7251->ctrls);
->  		if (ret < 0) {
->  			dev_err(ov7251->dev, "could not sync v4l2 controls\n");
-> -			goto exit;
-> +			goto err_power_down;
->  		}
->  		ret = ov7251_write_reg(ov7251, OV7251_SC_MODE_SELECT,
->  				       OV7251_SC_MODE_SELECT_STREAMING);
-> +		if (ret)
-> +			goto err_power_down;
->  	} else {
->  		ret = ov7251_write_reg(ov7251, OV7251_SC_MODE_SELECT,
->  				       OV7251_SC_MODE_SELECT_SW_STANDBY);
-> +		pm_runtime_put(ov7251->dev);
->  	}
->  
-> -exit:
->  	mutex_unlock(&ov7251->lock);
-> +	return ret;
->  
-> +err_power_down:
-> +	pm_runtime_put_noidle(ov7251->dev);
-> +	mutex_unlock(&ov7251->lock);
->  	return ret;
->  }
->  
-> @@ -1604,23 +1636,24 @@ static int ov7251_probe(struct i2c_client *client)
->  		goto free_ctrl;
->  	}
->  
-> -	ret = ov7251_s_power(&ov7251->sd, true);
-> -	if (ret < 0) {
-> -		dev_err(dev, "could not power up OV7251\n");
-> +	ret = ov7251_set_power_on(ov7251);
-> +	if (ret)
->  		goto free_entity;
+> -	if (inst->bit_depth == VIDC_BITDEPTH_10 &&
+> -	    inst->session_type == VIDC_SESSION_TYPE_DEC) {
+> -		found_ubwc =
+> -			find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
+> -					   HFI_COLOR_FORMAT_YUV420_TP10_UBWC);
+> -		found = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT2,
+> -					   HFI_COLOR_FORMAT_NV12);
+> -		if (found_ubwc && found) {
+> -			/*
+> -			 * Hard-code DPB buffers to be 10bit UBWC and decoder
+> -			 * output buffers in 8bit NV12 until V4L2 is able to
+> -			 * expose compressed/tiled formats to applications.
+> -			 */
+> -			*out_fmt = HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
+> -			*out2_fmt = HFI_COLOR_FORMAT_NV12;
+> -			return 0;
+> -		}
+> -
+> -		return -EINVAL;
 > -	}
+> -
+>  	if (ubwc) {
+>  		ubwc_fmt = fmt | HFI_COLOR_FORMAT_UBWC_BASE;
+>  		found_ubwc = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index eb02e45a512b..c8261c6cb0fb 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -35,6 +35,10 @@ static const struct venus_format vdec_formats[] = {
+>  		.num_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>  	}, {
+> +		.pixfmt = V4L2_PIX_FMT_QC10C,
+> +		.num_planes = 1,
+> +		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+> +	},{
+>  		.pixfmt = V4L2_PIX_FMT_NV12,
+>  		.num_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+> @@ -114,6 +118,10 @@ find_format(struct venus_inst *inst, u32 pixfmt, u32 type)
+>  	    !venus_helper_check_format(inst, fmt[i].pixfmt))
+>  		return NULL;
 >  
->  	ret = ov7251_detect_chip(ov7251);
->  	if (ret)
->  		goto power_down;
->  
-> +	pm_runtime_set_active(&client->dev);
-> +	pm_runtime_get_noresume(&client->dev);
-> +	pm_runtime_enable(&client->dev);
->  
->  	ret = ov7251_read_reg(ov7251, OV7251_PRE_ISP_00,
->  			      &ov7251->pre_isp_00);
->  	if (ret < 0) {
->  		dev_err(dev, "could not read test pattern value\n");
->  		ret = -ENODEV;
-> -		goto power_down;
-> +		goto err_pm_runtime;
->  	}
->  
->  	ret = ov7251_read_reg(ov7251, OV7251_TIMING_FORMAT1,
-> @@ -1628,7 +1661,7 @@ static int ov7251_probe(struct i2c_client *client)
->  	if (ret < 0) {
->  		dev_err(dev, "could not read vflip value\n");
->  		ret = -ENODEV;
-> -		goto power_down;
-> +		goto err_pm_runtime;
->  	}
->  
->  	ret = ov7251_read_reg(ov7251, OV7251_TIMING_FORMAT2,
-> @@ -1636,10 +1669,12 @@ static int ov7251_probe(struct i2c_client *client)
->  	if (ret < 0) {
->  		dev_err(dev, "could not read hflip value\n");
->  		ret = -ENODEV;
-> -		goto power_down;
-> +		goto err_pm_runtime;
->  	}
->  
-> -	ov7251_s_power(&ov7251->sd, false);
-> +	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-> +	pm_runtime_use_autosuspend(&client->dev);
-> +	pm_runtime_put_autosuspend(&client->dev);
->  
->  	ret = v4l2_async_register_subdev(&ov7251->sd);
->  	if (ret < 0) {
-> @@ -1651,6 +1686,9 @@ static int ov7251_probe(struct i2c_client *client)
->  
->  	return 0;
->  
-> +err_pm_runtime:
-> +	pm_runtime_disable(ov7251->dev);
-> +	pm_runtime_put_noidle(ov7251->dev);
->  power_down:
->  	ov7251_s_power(&ov7251->sd, false);
->  free_entity:
-> @@ -1672,9 +1710,18 @@ static int ov7251_remove(struct i2c_client *client)
->  	v4l2_ctrl_handler_free(&ov7251->ctrls);
->  	mutex_destroy(&ov7251->lock);
->  
-> +	pm_runtime_disable(ov7251->dev);
-> +	if (!pm_runtime_status_suspended(ov7251->dev))
-> +		ov7251_set_power_off(ov7251);
-> +	pm_runtime_set_suspended(ov7251->dev);
+> +	if (V4L2_TYPE_IS_CAPTURE(type) && fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
+> +	    !(inst->bit_depth == VIDC_BITDEPTH_10))
+> +		return NULL;
 > +
->  	return 0;
+>  	return &fmt[i];
 >  }
 >  
-> +static const struct dev_pm_ops ov7251_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(ov7251_sensor_suspend, ov7251_sensor_resume, NULL)
-> +};
+> @@ -133,11 +141,16 @@ find_format_by_index(struct venus_inst *inst, unsigned int index, u32 type)
+>  		if (fmt[i].type != type)
+>  			continue;
+>  
+> -		if (V4L2_TYPE_IS_OUTPUT(type))
+> +		if (V4L2_TYPE_IS_OUTPUT(type)) {
+>  			valid = venus_helper_check_codec(inst, fmt[i].pixfmt);
+> -		else if (V4L2_TYPE_IS_CAPTURE(type))
+> +		} else if (V4L2_TYPE_IS_CAPTURE(type)) {
+>  			valid = venus_helper_check_format(inst, fmt[i].pixfmt);
+>  
+> +			if (fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
+> +			    !(inst->bit_depth == VIDC_BITDEPTH_10))
+> +				valid = false;
+> +		}
 > +
->  static const struct of_device_id ov7251_of_match[] = {
->  	{ .compatible = "ovti,ov7251" },
->  	{ /* sentinel */ }
-> @@ -1692,6 +1739,7 @@ static struct i2c_driver ov7251_i2c_driver = {
->  		.of_match_table = ov7251_of_match,
->  		.acpi_match_table = ov7251_acpi_match,
->  		.name  = "ov7251",
-> +		.pm = &ov7251_pm_ops,
->  	},
->  	.probe_new  = ov7251_probe,
->  	.remove = ov7251_remove,
+>  		if (k == index && valid)
+>  			break;
+>  		if (valid)
+> @@ -1537,7 +1550,7 @@ static const struct hfi_inst_ops vdec_hfi_ops = {
+>  static void vdec_inst_init(struct venus_inst *inst)
+>  {
+>  	inst->hfi_codec = HFI_VIDEO_CODEC_H264;
+> -	inst->fmt_out = &vdec_formats[7];
+> +	inst->fmt_out = &vdec_formats[8];
+>  	inst->fmt_cap = &vdec_formats[0];
+>  	inst->width = frame_width_min(inst);
+>  	inst->height = ALIGN(frame_height_min(inst), 32);
 
--- 
-Kind regards,
-
-Sakari Ailus
