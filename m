@@ -2,123 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5048B4BA31A
-	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 15:36:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85BBB4BA35E
+	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 15:44:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241903AbiBQOfL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Feb 2022 09:35:11 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42462 "EHLO
+        id S241792AbiBQOoQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Feb 2022 09:44:16 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235817AbiBQOfL (ORCPT
+        with ESMTP id S233925AbiBQOoP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Feb 2022 09:35:11 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87299C1141
-        for <linux-media@vger.kernel.org>; Thu, 17 Feb 2022 06:34:55 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2B6BAB82077
-        for <linux-media@vger.kernel.org>; Thu, 17 Feb 2022 14:34:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80682C340EC;
-        Thu, 17 Feb 2022 14:34:52 +0000 (UTC)
-Message-ID: <fff5d698-99b3-3d92-5fc3-23e217554a79@xs4all.nl>
-Date:   Thu, 17 Feb 2022 15:34:51 +0100
+        Thu, 17 Feb 2022 09:44:15 -0500
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE541207FF5
+        for <linux-media@vger.kernel.org>; Thu, 17 Feb 2022 06:44:00 -0800 (PST)
+Received: by mail-qk1-x730.google.com with SMTP id de39so4850828qkb.13
+        for <linux-media@vger.kernel.org>; Thu, 17 Feb 2022 06:44:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=7Dm8/9xh+wmDmQBhMFT43NJgXO5tbOXeBqNcPHzywpk=;
+        b=ZICFIWA9Sbi45aOvx4dcDKut/wdPr6VMVnR4U4cb/kJNSc5ETL1ImhYOA8svydp4va
+         RzN0pqQOm5Dq4JA7d4pON7G9eyLMCXEsZuWHjnT9Fj9mCm+TUeulRj9lF2p9y2RbrWcw
+         Zdpbnbp0nBhk0+kYOrKKXdR396nWX9LG40kL5OO0Sx5HRmFULTOjGINNiVDkIXxd4+xP
+         TOWJ3oYmeQRu60z0DluHgDjZgUZAXTPIUOGK3h/aHozSzMAyMRLTYmepfzaIg3ggnHGr
+         dP2iJfjIiPWmJy73uFUWoYnY+wyUm1t2ktREy2fqVLd/EgvXbdq9nYV+GFUVOklwgQKe
+         rgsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=7Dm8/9xh+wmDmQBhMFT43NJgXO5tbOXeBqNcPHzywpk=;
+        b=TOoRCNVlJywaPqUEMLmcRxjmpIxmqNknDf/+EU5lrux3wS5jIfpjwtieW9jBSXUs25
+         pLmbBUVdsQHzTHYSN0eeL0J5S6UCHP0nJ5fJxyisTRXsK0KycbzG3qASUcGVJpCmFhE8
+         ySeHw7X1cBN9oTdWpwPsHL+SoNZYjh7IlhgNAcZTgmAw46/qCsGNG7Z97bH7ngJlF2yr
+         HTnkb+kgLhhCbiN3vWqPaHWe+5Bz6jLSDnbGwIAvpboenClliwhpnhEq0PLUmsOuS5jY
+         BXCHbZ65SkvUEbJMXSp5cQ5xeTorNFlPkxTCJVfor4cd0ovDNZnqeEgTh3M0WNtWJit6
+         VYXA==
+X-Gm-Message-State: AOAM531B2eO8YwcpZKepp+hlw97ANv08gukbegg1iQOIxaPVfDliCF7h
+        Tfy7ylVJErfl46BlZP+tRzAtqQ==
+X-Google-Smtp-Source: ABdhPJxLj1ldRMkUKspCf3+BTfjxi/lSWLS/APEjil4eZvdWbgL26ckX1Mt84cdeQha/7dTmRgmWsw==
+X-Received: by 2002:ae9:edc6:0:b0:60c:8807:712f with SMTP id c189-20020ae9edc6000000b0060c8807712fmr1821761qkg.14.1645109039947;
+        Thu, 17 Feb 2022 06:43:59 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id h19sm13099450qtx.12.2022.02.17.06.43.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Feb 2022 06:43:59 -0800 (PST)
+Message-ID: <20a43338009164be793abb9fedd002f2e4c9a293.camel@ndufresne.ca>
+Subject: Re: [PATCH v6, 06/15] media: mtk-vcodec: Refactor get and put
+ capture buffer flow
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Date:   Thu, 17 Feb 2022 09:43:54 -0500
+In-Reply-To: <353328c24f92a0690c8461a9b18c62166b769a40.camel@mediatek.com>
+References: <20220122035316.18179-1-yunfei.dong@mediatek.com>
+         <20220122035316.18179-7-yunfei.dong@mediatek.com>
+         <b07ac9bebb1d2ecef8ddb1426f16f4ff3218a131.camel@ndufresne.ca>
+         <353328c24f92a0690c8461a9b18c62166b769a40.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: Venus v4l2-compliance failures
-Content-Language: en-US
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <b5c170e2-dbdf-fc08-31e2-112d2973017f@linaro.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <b5c170e2-dbdf-fc08-31e2-112d2973017f@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/02/2022 15:12, Stanimir Varbanov wrote:
-> Hi Hans,
+Le jeudi 17 février 2022 à 17:03 +0800, yunfei.dong@mediatek.com a écrit :
+> > > -	ret = vdec_if_decode(ctx, bs_src, dst_buf, &res_chg);
+> > > +	ret = vdec_if_decode(ctx, bs_src, NULL, &res_chg);
+> > >   	if (ret) {
+> > >   		mtk_v4l2_err(" <===[%d], src_buf[%d] sz=0x%zx pts=%llu
+> > > vdec_if_decode() ret=%d res_chg=%d===>",
+> > >   			     ctx->id, vb2_src->index, bs_src->size,
+> > > @@ -220,12 +266,9 @@ static void mtk_vdec_worker(struct work_struct
+> > > *work)
+> > >   		}
+> > >   	}
+> > >   
+> > > -	mtk_vdec_stateless_set_dst_payload(ctx, dst_buf);
+> > > -
+> > > -	v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx-
+> > > > m2m_ctx,
+> > > -					 ret ? VB2_BUF_STATE_ERROR :
+> > > VB2_BUF_STATE_DONE);
+> > > -
+> > > +	mtk_vdec_stateless_out_to_done(ctx, bs_src, ret);
+> > 
+> > v4l2_m2m_buf_done_and_job_finish() was specially crafted to prevent
+> > developer
+> > from implementing the signalling of the request at the wrong moment.
+> > This patch
+> > broke this strict ordering. The relevant comment in the helper
+> > function:
+> > 
+> > 
+> As we discussed in chat, please help to check whether it's possible to
+> let lat and core decode in parallel.
+
+Thanks, Benjamin is looking into that. For the mailing list here, here's some
+prior art for a similar problem found by downstream RPi4 HEVC driver developer.
+The general problem here is that we don't want to signal the request until the
+decode have complete, yet we want to pick and run second (concurrent job) so
+that parallel decoding is made possible. For RPi4 it is not multi-core, but the
+decoding is split in 2 stages, and the decoder run both stages concurrently,
+which basically means, we need to be able to run two jobs at the same time
+whenever possible.
+
+https://github.com/raspberrypi/linux/commit/964be1d20e2f1335915a6bf8c82a3199bfddf8ac
+
+This introduce media_request_pin/unpin, but being able to pin a request and not
+have it bound to any other object lifetime anymore seems a bit error prone in
+comparison to the current restrictions. Comments welcome !
+
 > 
-> Presently we have two failures while running v4l2-compliance on venus
-> stateful decoder:
-> 
-> 1. fail: v4l2-compliance.cpp(753): !ok
->         test for unlimited opens: FAIL
-> 
-> 2. fail: v4l2-test-formats.cpp(1668): IS_DECODER(node)
->         test Cropping: FAIL
->    fail: v4l2-test-codecs.cpp(104): node->function !=
-> MEDIA_ENT_F_PROC_VIDEO_DECODER
->         test VIDIOC_(TRY_)DECODER_CMD: FAIL
-> 
-> Failure #1 is related to the limitation we made in decoder open(). The
-> maximum parallel decoding sessions is limited to 16 and the check
-> for this maximum is made in decoder open() because the clients wanted to
-> know that earlier. For example, Chromium browser can open 16 hw
-> accelerated decoder sessions (in separate Tabs) and from 17 and upward
-> it will fallback to sw decoder. I wonder how that failure can be fixed.
+> I will continue to fix h264 issue.
 
-I'm wondering if this isn't better done via a read-only control that
-reports the max number of parallel sessions.
-
-I really hate artificial open() limitations, it's very much against the
-v4l2 philosophy.
-
-Reporting it with a standard control makes it also much easier for software
-to anticipate when it needs to switch to SW en/decoding.
+Thanks.
 
 > 
+> Thanks for your help.
 > 
-> Failure #2 is related to a commit [1] which add checks for
-> MEDIA_ENT_F_PROC_VIDEO_ENCODER, I think this entity flag is applicable
-> for stateless encoders (Request API) but Venus driver has no use of
-> media-controller API. Did I miss something?
+> Best Regards,
+> Yunfei Dong
 
-For item 2, can you try the patch below?
-
-Regards,
-
-	Hans
-
------------------------------------------------------------------------
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/utils/v4l2-compliance/v4l2-test-codecs.cpp b/utils/v4l2-compliance/v4l2-test-codecs.cpp
-index 22175eef..3f06070f 100644
---- a/utils/v4l2-compliance/v4l2-test-codecs.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-codecs.cpp
-@@ -29,9 +29,10 @@ int testEncoder(struct node *node)
- {
- 	struct v4l2_encoder_cmd cmd;
- 	bool is_encoder = node->codec_mask & (STATEFUL_ENCODER | JPEG_ENCODER);
-+	bool is_stateless_encoder = node->codec_mask & STATELESS_ENCODER;
- 	int ret;
-
--	if (IS_ENCODER(node))
-+	if (is_stateless_encoder)
- 		fail_on_test(node->function != MEDIA_ENT_F_PROC_VIDEO_ENCODER);
- 	memset(&cmd, 0xff, sizeof(cmd));
- 	memset(&cmd.raw, 0, sizeof(cmd.raw));
-@@ -98,9 +99,10 @@ int testDecoder(struct node *node)
- {
- 	struct v4l2_decoder_cmd cmd;
- 	bool is_decoder = node->codec_mask & (STATEFUL_DECODER | JPEG_DECODER);
-+	bool is_stateless_decoder = node->codec_mask & STATELESS_DECODER;
- 	int ret;
-
--	if (IS_DECODER(node))
-+	if (is_stateless_decoder)
- 		fail_on_test(node->function != MEDIA_ENT_F_PROC_VIDEO_DECODER);
- 	memset(&cmd, 0xff, sizeof(cmd));
- 	memset(&cmd.raw, 0, sizeof(cmd.raw));
