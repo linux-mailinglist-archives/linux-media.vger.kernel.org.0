@@ -2,45 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 637D34B9FA8
-	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 13:06:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51F024B9FF1
+	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 13:19:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240243AbiBQMGD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Feb 2022 07:06:03 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:60932 "EHLO
+        id S240338AbiBQMTh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Feb 2022 07:19:37 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232390AbiBQMGC (ORCPT
+        with ESMTP id S231388AbiBQMTg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Feb 2022 07:06:02 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B796577;
-        Thu, 17 Feb 2022 04:05:47 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 84EADB8216E;
-        Thu, 17 Feb 2022 12:05:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25CD2C340E8;
-        Thu, 17 Feb 2022 12:05:43 +0000 (UTC)
-Message-ID: <b452f7a7-99fa-e023-9120-639b4110de73@xs4all.nl>
-Date:   Thu, 17 Feb 2022 13:05:42 +0100
+        Thu, 17 Feb 2022 07:19:36 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 093462AA3AF
+        for <linux-media@vger.kernel.org>; Thu, 17 Feb 2022 04:19:22 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id c6so6559037edk.12
+        for <linux-media@vger.kernel.org>; Thu, 17 Feb 2022 04:19:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ts2GyXXrq57TcHLX1kWxj3I3Xc3p4Y8E74Sxp9Klwj0=;
+        b=jI5JAmDz/A/8/Aqs1xRzEL9p4UgW4i4Vj3rw2cOJLpyGzGEX5QZXCdmqagzGcwmoi9
+         6WafIceJrtqkEBSStJdOqR4o6F6o0h6uJ78WplzK6nc3ejnq8lsSY2PKcq9LB5ZuFd+W
+         Zvu3AHzRrDJUpIacUiJ2EJft8uIXf1O0j8Z0pHVvzQ2cSo/U+hzZ9oZnetsgtClW4f21
+         Vl/XKSIp67r+Ton5Q7707tasDqDO/xZv3f2f17rNTnmOpgKe+iQXsvA4mNDX+LsZpqnq
+         /9rTsNA+CylEJgazWb8r7+AYCmhb1yPAkRVyOOAauJf8SOjfYb7Zaf3asrLuiNDAeCZL
+         yP+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ts2GyXXrq57TcHLX1kWxj3I3Xc3p4Y8E74Sxp9Klwj0=;
+        b=Ze6uQYnHNHoLGkp8nq5UoVnLwMeJOumBRJ6+YrhaqOTDKzd6y4M9y03gu4zChti20F
+         4oFDp/wvpWjXU7EL1nB9YnHK8iPT/CmBsiqPouG8FULtS/6Wt2bTZQ6tDs7Qe7iZKu6S
+         wVZlGhIwicRNtVoTg4jkQRPysZwMpvUk8qZHv/iD5yOHnxsF+A5dUq/or6I9LS9wM1zR
+         6N7iA01uGlXYVPXqmEFpH90cqeEULY4x5nZ5yNVwiQV0mADsg7vsg9HAX1UM/FjP1STj
+         Lf54SAY9XQJCle+cyj1MfY/djCix1s11vrbC7JtmdxHh536EvgCW+hiIugQ8lbnJ9t3c
+         fT+A==
+X-Gm-Message-State: AOAM530lvl1aNh47+0IEhKFf0RwOdAqW8NGfi8pa6GW9sBfnDSxnTqI5
+        6fr5XGAM1m/e9qmJoWuZpFR0cVoVtADOug==
+X-Google-Smtp-Source: ABdhPJyLZ1BvxdUYCAfCil0K+lrcQ2+ip9pnhIY96VvD+tvZV9/zlYokTGfVoneChVKQkXNp1YDjUg==
+X-Received: by 2002:a05:6402:5242:b0:40f:6a4f:ff33 with SMTP id t2-20020a056402524200b0040f6a4fff33mr2337028edd.30.1645100360161;
+        Thu, 17 Feb 2022 04:19:20 -0800 (PST)
+Received: from localhost.localdomain (hst-221-51.medicom.bg. [84.238.221.51])
+        by smtp.gmail.com with ESMTPSA id q19sm1123155ejm.74.2022.02.17.04.19.19
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Feb 2022 04:19:19 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.18] Venus updates
+Date:   Thu, 17 Feb 2022 14:19:13 +0200
+Message-Id: <20220217121913.1556254-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH] media: hdpvr: call flush_work only if initialized
-Content-Language: en-US
-To:     Dongliang Mu <dzm91@hust.edu.cn>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     syzkaller <syzkaller@googlegroups.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220217043950.749343-1-dzm91@hust.edu.cn>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220217043950.749343-1-dzm91@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -49,55 +67,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/02/2022 05:39, Dongliang Mu wrote:
-> From: Dongliang Mu <mudongliangabcd@gmail.com>
-> 
-> flush_work will throw one WARN if worker->func is NULL. So we should always
-> initialize one worker before calling flush_work. When hdpvr_probe does not
-> initialize its worker, the hdpvr_disconnect will encounter one WARN. The
-> stack trace is in the following:
-> 
->  hdpvr_disconnect+0xb8/0xf2 drivers/media/usb/hdpvr/hdpvr-core.c:425
->  usb_unbind_interface+0xbf/0x3a0 drivers/usb/core/driver.c:458
->  __device_release_driver drivers/base/dd.c:1206 [inline]
->  device_release_driver_internal+0x22a/0x230 drivers/base/dd.c:1237
->  bus_remove_device+0x108/0x160 drivers/base/bus.c:529
->  device_del+0x1fe/0x510 drivers/base/core.c:3592
->  usb_disable_device+0xd1/0x1d0 drivers/usb/core/message.c:1419
->  usb_disconnect+0x109/0x330 drivers/usb/core/hub.c:2228
-> 
-> Fix this by adding a sanity check of the worker before flush_work.
-> 
-> Reported-by: syzkaller <syzkaller@googlegroups.com>
-> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
-> ---
->  drivers/media/usb/hdpvr/hdpvr-core.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
-> index 52e05a69c46e..d102b459d45d 100644
-> --- a/drivers/media/usb/hdpvr/hdpvr-core.c
-> +++ b/drivers/media/usb/hdpvr/hdpvr-core.c
-> @@ -422,7 +422,8 @@ static void hdpvr_disconnect(struct usb_interface *interface)
->  	mutex_unlock(&dev->io_mutex);
->  	v4l2_device_disconnect(&dev->v4l2_dev);
->  	msleep(100);
-> -	flush_work(&dev->worker);
-> +	if (dev->worker.func)
-> +		flush_work(&dev->worker);
+Hi Mauro,
 
-I don't think this is the right fix. Instead, move the INIT_WORK line from
-hdpvr_start_streaming() to hdpvr_register_videodev(). That should initialize
-the worker struct from the start instead of only when you start streaming,
-as is the case today.
+This time the updates include few fixes.
 
-Can you try that?
+Please pull.
 
-Regards,
+regards,
+Stan
 
-	Hans
+The following changes since commit 127efdbc51fe6064336c0452ce9c910b3e107cf0:
 
->  	mutex_lock(&dev->io_mutex);
->  	hdpvr_cancel_queue(dev);
->  	mutex_unlock(&dev->io_mutex);
+  media: atomisp: fix dummy_ptr check to avoid duplicate active_bo (2022-02-08 07:31:33 +0100)
 
+are available in the Git repository at:
+
+  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.18
+
+for you to fetch changes up to c4ddd4d953274c4009dc076efcdbb1f4f1517169:
+
+  venus: hfi_cmds: List HDR10 property as unsupported for v1 and v3 (2022-02-17 14:12:05 +0200)
+
+----------------------------------------------------------------
+Venus updates for v5.18
+
+----------------------------------------------------------------
+Ameer Hamza (1):
+      media: venus: vdec: fixed possible memory leak issue
+
+Stanimir Varbanov (3):
+      venus: core: Fix kerneldoc warnings
+      venus: venc: Fix h264 8x8 transform control
+      venus: hfi_cmds: List HDR10 property as unsupported for v1 and v3
+
+ drivers/media/platform/qcom/venus/core.h       | 4 ++++
+ drivers/media/platform/qcom/venus/helpers.c    | 2 +-
+ drivers/media/platform/qcom/venus/hfi_cmds.c   | 2 ++
+ drivers/media/platform/qcom/venus/venc.c       | 4 ++--
+ drivers/media/platform/qcom/venus/venc_ctrls.c | 6 +++---
+ 5 files changed, 12 insertions(+), 6 deletions(-)
