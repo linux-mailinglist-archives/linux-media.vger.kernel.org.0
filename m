@@ -2,74 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC06E4B9EB3
-	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 12:34:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 637D34B9FA8
+	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 13:06:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239793AbiBQLeS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Feb 2022 06:34:18 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34414 "EHLO
+        id S240243AbiBQMGD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Feb 2022 07:06:03 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:60932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239789AbiBQLeR (ORCPT
+        with ESMTP id S232390AbiBQMGC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Feb 2022 06:34:17 -0500
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E41FD278299
-        for <linux-media@vger.kernel.org>; Thu, 17 Feb 2022 03:34:01 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id a8so6499107ejc.8
-        for <linux-media@vger.kernel.org>; Thu, 17 Feb 2022 03:34:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=LIJbkcpxWhEu+HDqv6mv/542M4vTfuWftkC1BaPuPbU=;
-        b=TbT4HVYGoCKKxlNKiPmpU3SWwZu5CDTjF38mWAh6T0DazaZgHk+5lHNO40yFFoCoTJ
-         IhX5v53CL1y0eY6Bdqq1t2Zih8HsaZ0p9WiMQHisl/7D5UNkZv20RitrLquvOEsp7uZ8
-         2UOrYUbwo+MkwjM2gosoNiJxw+R7zAXFc42lLSMGTafO8g3dSGIgRFgCj0kPS5WGaJmq
-         OGUcbMkoR6mS7EZ9CLLKNKC4g+4cwCCWM2lYGVH8WGBInhQkswKz3DmFM6AnpiEF4tr8
-         WalK7TefoPlqQBGrhd9NNSP8YyvXhC6UAYqJ2+qziFFn8PPn+bfEI9C2KIcYA2gBPfKA
-         5dKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=LIJbkcpxWhEu+HDqv6mv/542M4vTfuWftkC1BaPuPbU=;
-        b=0zKDI43DY+J85NV7LAX6lYMda6muOF+Fn8RTHAbqyu1nZPZ/i7Sgoqk6S3L+DCwQHR
-         Gtr/lfCFOpc8BT0GsvgAs8YEam1RE5r8We5jk/2rBjjttCYhndG1RyF2gZ/dmG1HVrbc
-         wSPIWEaQMphb71rhmSTxdXUQyK9euI99PKQT82kVxOk4p3t5Hgi5TV3Og8cbAAVfcRhQ
-         eNrAqQnweC5g+PvJN2AZdPMuuwUa/vJyf0Upxsm5SoM6PYPhBnxGmHYz2ovMA6qOTosN
-         SImMrMc3iYFwddaXYrDoyEbk9nFZkrEEOBGGVcu+Z237q/RpoiMqah9CuN4zRtGeqnfG
-         7htQ==
-X-Gm-Message-State: AOAM531tTuzTzuxluOB49mpgnA900ZnAG2BirowdPxTAvg7iFg96VEav
-        HNaomhyHPkbbAnsQR0E80MP02GNh8bcHSA==
-X-Google-Smtp-Source: ABdhPJw4Erll/uCqjzTBT96QBBylhZa1svkxPBZvtY01p3v7Q1PQeyr8NcLtaKJsoJkrerC/ucp6eA==
-X-Received: by 2002:a17:906:b57:b0:6ce:e31a:524 with SMTP id v23-20020a1709060b5700b006cee31a0524mr1969824ejg.290.1645097640461;
-        Thu, 17 Feb 2022 03:34:00 -0800 (PST)
-Received: from [192.168.1.9] (hst-221-75.medicom.bg. [84.238.221.75])
-        by smtp.googlemail.com with ESMTPSA id u4sm1076625ejn.216.2022.02.17.03.33.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Feb 2022 03:33:59 -0800 (PST)
-Message-ID: <55dbdf8b-290c-85ff-235e-9e5649540b6e@linaro.org>
-Date:   Thu, 17 Feb 2022 13:33:58 +0200
+        Thu, 17 Feb 2022 07:06:02 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B796577;
+        Thu, 17 Feb 2022 04:05:47 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 84EADB8216E;
+        Thu, 17 Feb 2022 12:05:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25CD2C340E8;
+        Thu, 17 Feb 2022 12:05:43 +0000 (UTC)
+Message-ID: <b452f7a7-99fa-e023-9120-639b4110de73@xs4all.nl>
+Date:   Thu, 17 Feb 2022 13:05:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 5/6] venus: Add a handling of QC10C compressed format
+ Thunderbird/91.5.1
+Subject: Re: [PATCH] media: hdpvr: call flush_work only if initialized
 Content-Language: en-US
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     hverkuil-cisco@xs4all.nl
-References: <20220117155559.234026-1-stanimir.varbanov@linaro.org>
- <20220117155559.234026-6-stanimir.varbanov@linaro.org>
- <4e1cc50854da4075fc7ebf71e24aa8372905c668.camel@ndufresne.ca>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-In-Reply-To: <4e1cc50854da4075fc7ebf71e24aa8372905c668.camel@ndufresne.ca>
+To:     Dongliang Mu <dzm91@hust.edu.cn>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dongliang Mu <mudongliangabcd@gmail.com>
+Cc:     syzkaller <syzkaller@googlegroups.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220217043950.749343-1-dzm91@hust.edu.cn>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220217043950.749343-1-dzm91@hust.edu.cn>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,139 +49,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 2/16/22 18:20, Nicolas Dufresne wrote:
-> Le lundi 17 janvier 2022 à 17:55 +0200, Stanimir Varbanov a écrit :
->> This adds QC10C compressed pixel format in the Venus driver, and
->> make it possible to discover from v4l2 clients.
->>
->> Note: The QC10C format shouldn't be possible to discpver by the
+On 17/02/2022 05:39, Dongliang Mu wrote:
+> From: Dongliang Mu <mudongliangabcd@gmail.com>
 > 
-> discpver -> discover
+> flush_work will throw one WARN if worker->func is NULL. So we should always
+> initialize one worker before calling flush_work. When hdpvr_probe does not
+> initialize its worker, the hdpvr_disconnect will encounter one WARN. The
+> stack trace is in the following:
 > 
-> It is not super clear though, did you mean to say that it won't be enumerated
-> after the header have been parsed ?
-
-The opposite. It will be enumerable by the client only after parsing the
-header.
-
+>  hdpvr_disconnect+0xb8/0xf2 drivers/media/usb/hdpvr/hdpvr-core.c:425
+>  usb_unbind_interface+0xbf/0x3a0 drivers/usb/core/driver.c:458
+>  __device_release_driver drivers/base/dd.c:1206 [inline]
+>  device_release_driver_internal+0x22a/0x230 drivers/base/dd.c:1237
+>  bus_remove_device+0x108/0x160 drivers/base/bus.c:529
+>  device_del+0x1fe/0x510 drivers/base/core.c:3592
+>  usb_disable_device+0xd1/0x1d0 drivers/usb/core/message.c:1419
+>  usb_disconnect+0x109/0x330 drivers/usb/core/hub.c:2228
 > 
->> client if the decoded bitstream is not 10-bits.
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  drivers/media/platform/qcom/venus/helpers.c | 26 ++++-----------------
->>  drivers/media/platform/qcom/venus/vdec.c    | 19 ++++++++++++---
->>  2 files changed, 20 insertions(+), 25 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
->> index adbfa4fbe139..69a9a9471a27 100644
->> --- a/drivers/media/platform/qcom/venus/helpers.c
->> +++ b/drivers/media/platform/qcom/venus/helpers.c
->> @@ -594,6 +594,8 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
->>  		return HFI_COLOR_FORMAT_NV21;
->>  	case V4L2_PIX_FMT_QC08C:
->>  		return HFI_COLOR_FORMAT_NV12_UBWC;
->> +	case V4L2_PIX_FMT_QC10C:
->> +		return HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
->>  	default:
->>  		break;
->>  	}
->> @@ -1176,7 +1178,8 @@ int venus_helper_set_format_constraints(struct venus_inst *inst)
->>  	if (!IS_V6(inst->core))
->>  		return 0;
->>  
->> -	if (inst->opb_fmt == HFI_COLOR_FORMAT_NV12_UBWC)
->> +	if (inst->opb_fmt == HFI_COLOR_FORMAT_NV12_UBWC ||
->> +	    inst->opb_fmt == HFI_COLOR_FORMAT_YUV420_TP10_UBWC)
->>  		return 0;
->>  
->>  	pconstraint.buffer_type = HFI_BUFFER_OUTPUT2;
->> @@ -1747,27 +1750,6 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
->>  	if (!caps)
->>  		return -EINVAL;
->>  
->> -	if (inst->bit_depth == VIDC_BITDEPTH_10 &&
->> -	    inst->session_type == VIDC_SESSION_TYPE_DEC) {
->> -		found_ubwc =
->> -			find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
->> -					   HFI_COLOR_FORMAT_YUV420_TP10_UBWC);
->> -		found = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT2,
->> -					   HFI_COLOR_FORMAT_NV12);
->> -		if (found_ubwc && found) {
->> -			/*
->> -			 * Hard-code DPB buffers to be 10bit UBWC and decoder
->> -			 * output buffers in 8bit NV12 until V4L2 is able to
->> -			 * expose compressed/tiled formats to applications.
->> -			 */
->> -			*out_fmt = HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
->> -			*out2_fmt = HFI_COLOR_FORMAT_NV12;
->> -			return 0;
->> -		}
->> -
->> -		return -EINVAL;
->> -	}
->> -
->>  	if (ubwc) {
->>  		ubwc_fmt = fmt | HFI_COLOR_FORMAT_UBWC_BASE;
->>  		found_ubwc = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
->> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
->> index eb02e45a512b..c8261c6cb0fb 100644
->> --- a/drivers/media/platform/qcom/venus/vdec.c
->> +++ b/drivers/media/platform/qcom/venus/vdec.c
->> @@ -35,6 +35,10 @@ static const struct venus_format vdec_formats[] = {
->>  		.num_planes = 1,
->>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
->>  	}, {
->> +		.pixfmt = V4L2_PIX_FMT_QC10C,
->> +		.num_planes = 1,
->> +		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
->> +	},{
->>  		.pixfmt = V4L2_PIX_FMT_NV12,
->>  		.num_planes = 1,
->>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
->> @@ -114,6 +118,10 @@ find_format(struct venus_inst *inst, u32 pixfmt, u32 type)
->>  	    !venus_helper_check_format(inst, fmt[i].pixfmt))
->>  		return NULL;
->>  
->> +	if (V4L2_TYPE_IS_CAPTURE(type) && fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
->> +	    !(inst->bit_depth == VIDC_BITDEPTH_10))
->> +		return NULL;
->> +
->>  	return &fmt[i];
->>  }
->>  
->> @@ -133,11 +141,16 @@ find_format_by_index(struct venus_inst *inst, unsigned int index, u32 type)
->>  		if (fmt[i].type != type)
->>  			continue;
->>  
->> -		if (V4L2_TYPE_IS_OUTPUT(type))
->> +		if (V4L2_TYPE_IS_OUTPUT(type)) {
->>  			valid = venus_helper_check_codec(inst, fmt[i].pixfmt);
->> -		else if (V4L2_TYPE_IS_CAPTURE(type))
->> +		} else if (V4L2_TYPE_IS_CAPTURE(type)) {
->>  			valid = venus_helper_check_format(inst, fmt[i].pixfmt);
->>  
->> +			if (fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
->> +			    !(inst->bit_depth == VIDC_BITDEPTH_10))
->> +				valid = false;
->> +		}
->> +
->>  		if (k == index && valid)
->>  			break;
->>  		if (valid)
->> @@ -1537,7 +1550,7 @@ static const struct hfi_inst_ops vdec_hfi_ops = {
->>  static void vdec_inst_init(struct venus_inst *inst)
->>  {
->>  	inst->hfi_codec = HFI_VIDEO_CODEC_H264;
->> -	inst->fmt_out = &vdec_formats[7];
->> +	inst->fmt_out = &vdec_formats[8];
->>  	inst->fmt_cap = &vdec_formats[0];
->>  	inst->width = frame_width_min(inst);
->>  	inst->height = ALIGN(frame_height_min(inst), 32);
+> Fix this by adding a sanity check of the worker before flush_work.
 > 
+> Reported-by: syzkaller <syzkaller@googlegroups.com>
+> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> ---
+>  drivers/media/usb/hdpvr/hdpvr-core.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
+> index 52e05a69c46e..d102b459d45d 100644
+> --- a/drivers/media/usb/hdpvr/hdpvr-core.c
+> +++ b/drivers/media/usb/hdpvr/hdpvr-core.c
+> @@ -422,7 +422,8 @@ static void hdpvr_disconnect(struct usb_interface *interface)
+>  	mutex_unlock(&dev->io_mutex);
+>  	v4l2_device_disconnect(&dev->v4l2_dev);
+>  	msleep(100);
+> -	flush_work(&dev->worker);
+> +	if (dev->worker.func)
+> +		flush_work(&dev->worker);
 
--- 
-regards,
-Stan
+I don't think this is the right fix. Instead, move the INIT_WORK line from
+hdpvr_start_streaming() to hdpvr_register_videodev(). That should initialize
+the worker struct from the start instead of only when you start streaming,
+as is the case today.
+
+Can you try that?
+
+Regards,
+
+	Hans
+
+>  	mutex_lock(&dev->io_mutex);
+>  	hdpvr_cancel_queue(dev);
+>  	mutex_unlock(&dev->io_mutex);
+
