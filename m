@@ -2,361 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DA084BA3A3
-	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 15:52:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 400E04BA3E6
+	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 16:01:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242176AbiBQOux (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Feb 2022 09:50:53 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44672 "EHLO
+        id S242296AbiBQPAf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Feb 2022 10:00:35 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:54018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242126AbiBQOut (ORCPT
+        with ESMTP id S242293AbiBQPAc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Feb 2022 09:50:49 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 192CB29E957;
-        Thu, 17 Feb 2022 06:50:34 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id u18so10074738edt.6;
-        Thu, 17 Feb 2022 06:50:34 -0800 (PST)
+        Thu, 17 Feb 2022 10:00:32 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DBA63B9;
+        Thu, 17 Feb 2022 07:00:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1645110017; x=1676646017;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=I/3dnDjr2anLxsOejUT1utxyo124l/3uw3WPb1Hs/uY=;
+  b=YpVRzjlRfTYpYmA6XecANQ5Jka9+1S0f/7DsKKmM3TJRG5K61hjQENMo
+   q0qHx+M7NYwCBF28xM6+Nw955OnH8merYaVX2bCuhrvptL7GkiXFPabIK
+   tUoOlE7DX99CJh65WscH9MaXiYlzfn6OaMpPKO3TC8GErw+/yTZaVGFOS
+   5E6tUZPXSA+LXAjB2VsnEH5Ik55PLrRDw9lYdemOfXclgoXPfHYCukhwt
+   g1M/mS6X6vIBGKG/htcSr3KEb1xKOJhGUmdytX5hVqKGnmK4bGvc+vYpY
+   uEYyI3wLjMDF6bsbKEQS38khks1M3QrlRUhB2XHwcQIgfFmZ+aNCvhY9V
+   Q==;
+IronPort-SDR: tGrrxOrk4JMv38tXYfoTx44KCTYu44zCPdFIR9j6fwJckiB6oWvUUW6YMTuexz0Ktb5pWLtDhV
+ zn8pwGwXvtB0tE3XiL/lR74i5wvwP7diDiEbnD2k6+khWVBEdvu2EX4S4woByautJYiz7DdCEm
+ hchjG03bpZ8jcbG7nBXVuPlXgPQqI5XNgZW8WZ1LTrHbSh3CxKGqQt+D1oyDycwccWtTIKb7+F
+ BnXaPpiEGGGJXGDJ345rdinZff4rgIQyiTXZw60/AkHKt1chU8SPPTSufQbA9MiGQk2mAiK6JV
+ cusrxoN9Xvdc6fPjUW+C8lh7
+X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; 
+   d="scan'208";a="153438062"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 17 Feb 2022 07:59:37 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Thu, 17 Feb 2022 07:59:26 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17 via Frontend Transport; Thu, 17 Feb 2022 07:59:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nyQmJ/cnv/EDNabpjNvWFrc7To4UExJBg5BorMr1zIuUk5+UGOMG7i4WpjIb7vLnAu2Nq5FVc8ZSrdvsQolJZmC9WkvHBnjonN2c1FssanqbBhjWtIMAvoNIXTmjTSa1ljbyhzmpgdovYEn9bnkcpFRaFsuS7LuZ9+u4160bNa8aCNHnlifJegXwmvlMa4123K1l4XdhWPJtBMREJ0s8HZ2yvnX9DlddHf0L6itFZ4H8plb66J1ySZxxWqGnchbWiLVSXKsDC68dxJEZJt84xsHNuXJR6mWLtoDfCy9qH0jiQdEnPyxCwQL1UXt+J/jvpwuiV9VEoTwFNO1xAMeRew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I/3dnDjr2anLxsOejUT1utxyo124l/3uw3WPb1Hs/uY=;
+ b=h38AOcPVLzKCEQwhwtIq3dX9/wRxKnkzKZphimfiYiObOZjaP18/IXrrmPj2bk41ebJsK363aO+QtRHk1mkdbw8cfxcgGbSUq43xgGGmvr5KCW60Tgesojak2YnxC+aEw58UbQ4/CR4vTAnw8vNLJzMQyryPlZ+YqkDYid2wnPu68sL9T3pZZNgvOS7ATLqrc1Fx8z06IhVHQq87ip5XM2i5hM9+wVfkVu49bSlArj0Dqgo6FSp5AOFnv0FE+UvDKDGbnf7ypQFW+DF2/jobtmjc4njbaMX19RUA8kMXQKIs4I7WD6N1nsw1+VWcwVhe67nx2kDHGJzu9zELRROkGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8I41jwLvAiCSwd4V/781omnso87v01pI1AY+lB5wImk=;
-        b=Iupq1Tbr6TrNZdw13BJ6EY0qW3jW8QcWqrMnVX0DfbwV9HN8X6F1VFaQ/Vt4JiwKuI
-         PKHeDAsE5jQo2oYFRH3qKrMg7Y7K10m0OisK4CQxgccvztoWVvEOVDbmSPyb1raXFLY6
-         o5nxC5aZSnG5edIofcjlhWKe4xkKLff54dudYJjGhfUtiRMhvaGqVm1r7MGHEDAXKahY
-         1G7DcLlAh6UPp9o/BEWcfQFzwTlY37PC9K7Ys9nIHgd5QmoP2TMvEHAReyoA4+aHzG4q
-         Y5jTggvJqH2wT2nDtKj7XpD5BO7aSbyi7sWvheo/WNRORQls+Wg9QAN+r091a++WqKJr
-         GsTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8I41jwLvAiCSwd4V/781omnso87v01pI1AY+lB5wImk=;
-        b=ErvFcyuwCsaPWx3bnJD7oYy3GjZztkdKVGXba/4EFvyj3cVqGax/FTJ4UoorsFQrsQ
-         jLBTOcqnDDs2wfsUxoH7yKOHV/MZkoa8iduo/OLH1MmXtmbTxFOdzXUwC2DDLMW+5H71
-         0GwUvGy0NtWhVhQd5/xzVGXwy7uwO9D98WCTEGVMYMk1FAdrGFZ2ZNdsENK2ZOmnv22E
-         1twA4uPtXa+QtchCxVLAlyAYF7EJtGqKBQdpfkG1RdmFoP1uaONP0zt2/pLzAFUOh15u
-         7AQtsMCT9ONv5Db2zq11PUG/0v1mAZf1cZpn7/8iney9aXwYxwuokcQugTu1uThGTQw+
-         WMAA==
-X-Gm-Message-State: AOAM5311NsIe0WE6YovXlMRa7Wv17gEvvscPAg6iNqv78H8F/1KY8tyU
-        ULJauEKV57mxfgEUEIuGRRNeI7JvJ6QPHg==
-X-Google-Smtp-Source: ABdhPJxHWUoGbeHOtiGY24KhCoWJUu2GzbvuQ9rdb+BqJdqLvOi+M7qBX+pMk1LL7YH8WekmXc7HTw==
-X-Received: by 2002:a05:6402:168e:b0:410:d2a4:b0dd with SMTP id a14-20020a056402168e00b00410d2a4b0ddmr2908446edv.403.1645109432560;
-        Thu, 17 Feb 2022 06:50:32 -0800 (PST)
-Received: from debianHome.localdomain (dynamic-077-001-066-240.77.1.pool.telefonica.de. [77.1.66.240])
-        by smtp.gmail.com with ESMTPSA id c11sm3580270edx.42.2022.02.17.06.50.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Feb 2022 06:50:32 -0800 (PST)
-From:   =?UTF-8?q?Christian=20G=C3=B6ttsche?= <cgzones@googlemail.com>
-To:     selinux@vger.kernel.org
-Cc:     Jens Axboe <axboe@kernel.dk>, Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Stefan Haberland <sth@linux.ibm.com>,
-        Jan Hoeppner <hoeppner@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Serge Hallyn <serge@hallyn.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        Du Cheng <ducheng2@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alexey Gladkov <legion@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Rolf Eike Beer <eb@emlix.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Colin Cross <ccross@google.com>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Xiaofeng Cao <cxfcosmos@gmail.com>,
-        Nikolay Aleksandrov <nikolay@nvidia.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ziyang Xuan <william.xuanziyang@huawei.com>,
-        Alexander Aring <aahringo@redhat.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Alistair Delva <adelva@google.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, bpf@vger.kernel.org
-Subject: [RFC PATCH 2/2] capability: use new capable_or functionality
-Date:   Thu, 17 Feb 2022 15:49:54 +0100
-Message-Id: <20220217145003.78982-1-cgzones@googlemail.com>
-X-Mailer: git-send-email 2.35.1
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I/3dnDjr2anLxsOejUT1utxyo124l/3uw3WPb1Hs/uY=;
+ b=scj+hmN4YBo8dYDIhkElT9D5ePm6h57xWscSrJyQCSqMIFje+p2zcAug0ezue7/YSELLP98PJR0sm5Hdrum8PL75Q6TMg+q37FlIa+2mHq4sOf3NDUFQln9+EUBA/pIqM4neV8O2qBhn78efbTJnqr7GY26vAXet3oCKzWqruRE=
+Received: from BL1PR11MB5384.namprd11.prod.outlook.com (2603:10b6:208:311::14)
+ by CY4PR11MB1943.namprd11.prod.outlook.com (2603:10b6:903:123::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.17; Thu, 17 Feb
+ 2022 14:59:20 +0000
+Received: from BL1PR11MB5384.namprd11.prod.outlook.com
+ ([fe80::11a5:42e0:3f3d:fcdc]) by BL1PR11MB5384.namprd11.prod.outlook.com
+ ([fe80::11a5:42e0:3f3d:fcdc%9]) with mapi id 15.20.4995.015; Thu, 17 Feb 2022
+ 14:59:19 +0000
+From:   <Eugen.Hristev@microchip.com>
+To:     <linux-media@vger.kernel.org>, <jacopo@jmondi.org>,
+        <hverkuil-cisco@xs4all.nl>, <Nicolas.Ferre@microchip.com>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <Claudiu.Beznea@microchip.com>
+Subject: Re: [PATCH v5 04/13] media: atmel: atmel-isc: implement media
+ controller
+Thread-Topic: [PATCH v5 04/13] media: atmel: atmel-isc: implement media
+ controller
+Thread-Index: AQHYJAZ+RxoDWk5/90CKPirCgjVVNKyX1dAA
+Date:   Thu, 17 Feb 2022 14:59:19 +0000
+Message-ID: <e4109e0f-af1f-7594-a154-92e65fd7ac59@microchip.com>
+References: <20220217135645.1427466-1-eugen.hristev@microchip.com>
+ <20220217135645.1427466-5-eugen.hristev@microchip.com>
+In-Reply-To: <20220217135645.1427466-5-eugen.hristev@microchip.com>
+Accept-Language: en-US, ro-RO
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 76f1b1ba-182f-4b52-f710-08d9f2261375
+x-ms-traffictypediagnostic: CY4PR11MB1943:EE_
+x-microsoft-antispam-prvs: <CY4PR11MB1943EBD07991CC9CAC3C1C5DE8369@CY4PR11MB1943.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8BmT8Vovajvv4k2Y3PzWqEOAn8AYirv4S4QYAnm8Jf4GyFv9XKxZZti5qTv8vNV9bvQI6KrPBB6n068MKa/Q7QF+5WzNEzS2a9M3L4Nk+RYgrdcVExmL45Al6BsGoO8xSU3r/RYY+8c3I/kmghMgx3Bv6kSt5C80I+Uwrl5v+PB0CKD7xQWpkqYXvjej9afeuMUc8XVbcH9NX25SsMebg2hOox/uryDGrNdc9A8USqNNbTivXvk6IGfSi+n99cxLGZVySF1KTtv4ZN41V+GB8t1rvvNIOCPawFTMS31p+wXC7kprP/LwR5FFpRtyV1GHGDAF4ERzDA5poHBoxDFiW/fAxW1aKSaojVk+H11ty89cXZ4rlXG+O4uRnJ3u0IcWAPYnoru0xKgiaErRnUEjMwX5T2JZmJzIl4Tu3lZ8bejGd6H0lPW4bc/CcFG0AG/t7SZplcNw/E8ZLHxReQ0pGGypSxgDQciU2NhEQCUEhUBRU0/znKNeq8srRRFjUJRunvUDOspJOIi8ANBvf4GHIBfIwbp8KgqDHZxve2jZHUkNbnLdDSIszHDHAaofDdk1lAue8EVuhbe4sP0aZMoIgCxUrqxH3fJTdR7lRtlQmDjcJukzayYP3+9l/vFhbl52mlI1hkyWe1ByvCDg0SgE13FdLRzMa/I0y9q2GTnd9BzHX47WH3fE0eANxsowY9en1uXcEsE0XWJIVSK40CUDzN2chxtvNpNRDKacSOVTmjAaVxGKosHuTL+DqROJfEZ/Sccpr30kggt7V5pkzCKDWg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR11MB5384.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(107886003)(6512007)(2906002)(53546011)(83380400001)(6506007)(2616005)(508600001)(66946007)(26005)(186003)(38070700005)(8676002)(36756003)(91956017)(86362001)(64756008)(4326008)(66446008)(54906003)(8936002)(110136005)(31696002)(6486002)(6636002)(76116006)(66556008)(71200400001)(316002)(38100700002)(5660300002)(31686004)(66476007)(122000001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a25nbmFDTkJvSFppWkptdDlpTDhRN3J5NTh1NDhLeHRobG5FODBDYTBuTXVX?=
+ =?utf-8?B?VFkyM25OSk9MQXZEdHRFbHJyQmhnUWJlRldqeWkrL2lTeHZUcjRIcjlnZVgv?=
+ =?utf-8?B?aVl5SGtNLzIvSHpOWkg3VkkveEh6VHlVbkJCU0RmTENBSGUvVlNudStDNDY3?=
+ =?utf-8?B?bzh0ODlzMjNES3lBc2RYQ2s1czdjN2VKdHprUlZmbmZna0lzOXE5S2dBRHMy?=
+ =?utf-8?B?QkhkRFc2bkZMNmNqUjNKR3VxRzZva21aSVlTUktzRU9oL0lnNkVqN3BuNDdL?=
+ =?utf-8?B?MW5CWmtpNGU1WWpLYytNRVVpc0lUWE15SjlRSUJJNmlrbkdXK1htaHVoMnlB?=
+ =?utf-8?B?U1VhL21RN3l0dE9YQmhJaWNHdW02V1grekQzQVUvS0F2MkZFM1dFOVVRelBx?=
+ =?utf-8?B?d0tjWFJ4V1F5ZUlTZWVVS1FYRlhBdEdWR1c0alNxc1h5bEhSb3QySktKdDJ0?=
+ =?utf-8?B?YmtvUmdUL2c5T0V5L2VZZzRQdkl1OGE5RzVVZVNDekNxY1Zua2RvYmJwOFZ6?=
+ =?utf-8?B?MGR6QUFiNVdhaFJOdzFWMEFVazBYQm44dDNFQnNheDk1dmdYK3A0SERmaTY4?=
+ =?utf-8?B?d2E5WkZQZlA1RnNUSHJBYzNxZGZ4c0lCS1c1UG9RSklVZWNCQkdrUzZWYk1r?=
+ =?utf-8?B?d2hKTnVUUEhvRzJzYlRSdldoMHhnbnMvNEVyd0h1NEZDanZNcUlTZTBkZGFF?=
+ =?utf-8?B?SEJ6MjZ4dSt6OTlxYUxlajk3UzFoK1p0cDhpQXBNYWhPdlZCWEVsWkI0cmli?=
+ =?utf-8?B?ekhMYTh1UVBZelZFU0ZVK1k3SFY3K0pxVjRoSGo2aVhDUHVEQ3BDaVVrRjRy?=
+ =?utf-8?B?djRuNmhBRWpjTmdFdTlwV3F6RG1YVXc2Wk94RHV3M2tmM1VPVEtnaW9hVXA4?=
+ =?utf-8?B?UVBydE55cUdSZ2lVQzd0bGZaTklFekswUjZtYlZaWFJpaGdsZW1FM3I3MW4v?=
+ =?utf-8?B?Ti9RYWVRclFSbVE4N2IzU3M4NU8wTU9rME1TbmdYV1phWHg5WWNTTFZzN3BV?=
+ =?utf-8?B?cmt4TjdkTWdCUFgyM3Q0R0ZQKzBDRkt6ZmNRMjN2enB5eHpGZStobXBiU3Jw?=
+ =?utf-8?B?RVc4ZDBYeGM1YkE5VHEyYU5CTGZhMEtIZUhYQVFCbFI5b2YrY1FEUUZxN2oz?=
+ =?utf-8?B?M1JHK3E1Z3diSU9UMldpSlNDME0vTm1oV0pjVW5MMmtxcVJHOFhUSmQwczJY?=
+ =?utf-8?B?WnptV1VxTjIyY2R5UzhPYzd1S2FOSHFGSDhpL3NUdDVCdFVJSkozeWdIYysx?=
+ =?utf-8?B?TjJNeW9tTGNGTXZJdlpEbEdKUkFYRUZ0TXJyZ2s3UnJMa2ozdytWbG9DMkdD?=
+ =?utf-8?B?K05YQmlqVTdpMjVVelVkQ21weUEwejFEYmxxK2FDbWNYbkpGbm8xbFpYQ1Zi?=
+ =?utf-8?B?WmY0dUQzVGdvYzJYM1JJdzF3ejJ0NU9NTThKcjlIZ2t5a08xV0h6cXp1Q1BM?=
+ =?utf-8?B?bmxYR3I5UTZkbkFSOWI3dVdDMHpCWjlwK3ZkMWZobGRyc0R3eGRTUXM2anhM?=
+ =?utf-8?B?S1NsNkVPRlhOTUM3SWFpQTZvT0lWYzFJRDJuVzl4TUhZTTU4TUd2Y2VoWDMw?=
+ =?utf-8?B?YXI4YUl4Z2hYV2FLVGlQejhNeEx3TFh4WUdkMkU2NG9SZTEvdkFoUG12dEhx?=
+ =?utf-8?B?aHA5ZXdpdnlZTXAzZVJaUFRtQUl2S2QzdGxBYlhJU3EzUityZDVZOFJsY3B3?=
+ =?utf-8?B?UTNEeUpOWVN4Nm9nK1RXY0JqcktuUzYwQXJEWndCVXhuYXlHTC9DUkxkOUV3?=
+ =?utf-8?B?UzlyVHNkSzFaRGlIdFkrYld3TUxMVXBVU2xIVWROblVFSkNzYTdPYVhyL1Nl?=
+ =?utf-8?B?MWFFa0QvS0laTDlqOVlnVm4yQjBIV041NjRKQ3pGdGZXaGxiYTdaNWdLT01p?=
+ =?utf-8?B?UEhLMmZzZnZnZ1BWL2ZmdlUxeW5NelZGS3l2bFJiQXhkSCtjYStIWkVCUjAr?=
+ =?utf-8?B?WG15cDVNM1VIcTBPUS94dWpRSmM0aEdzYmpGSFBLL2FqYTZvbXlLdjQ3d2VF?=
+ =?utf-8?B?K0dDenBpMisxRmpuSFJWaTNhSGxleVdhYUl6MzlDV0VYdDM0d1FPT3FtNGE0?=
+ =?utf-8?B?TzhGQnJOcS85anZIK1RrSlN2ZnZBTUZMeXRDOU40R3hqMC9vN01LK0FEOEwx?=
+ =?utf-8?B?bFdpek9PbmJpSndKZ0FFRDBqcnErRTQ5d1U1ZytNQXgrRUZvYjR5NDBqNkcz?=
+ =?utf-8?B?c1RubUNBOUhveXBWUEhWbkVMRUQ1TzFqME5QdGJiSk9ZUTQ2dUMwdmMvSFNI?=
+ =?utf-8?B?MklkeU5xekMyNHUwNWl6RU8zbFhBPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0C7CDF3DE2022A45AE7CF16EC338F809@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5384.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76f1b1ba-182f-4b52-f710-08d9f2261375
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2022 14:59:19.7719
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uj2nLcDIlY5k04hcHjPUVJQdtD3L/Wo6HbTjc8dOKLEO083Nu+YhjzItbuCA74JQYq6hB1gBBA5zEsK1GH1tbjSJqlFmGbwY6WPu2tUvqQI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1943
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the new added capable_or macro in appropriate cases, where a task
-is required to have any of two capabilities.
-
-Reorder CAP_SYS_ADMIN last.
-
-TODO: split into subsystem patches.
-
-Fixes: 94c4b4fd25e6 ("block: Check ADMIN before NICE for IOPRIO_CLASS_RT")
-
-Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
----
- block/ioprio.c                                   | 9 +--------
- drivers/media/common/saa7146/saa7146_video.c     | 2 +-
- drivers/media/pci/bt8xx/bttv-driver.c            | 3 +--
- drivers/media/pci/saa7134/saa7134-video.c        | 3 +--
- drivers/media/platform/fsl-viu.c                 | 2 +-
- drivers/media/test-drivers/vivid/vivid-vid-cap.c | 2 +-
- drivers/net/caif/caif_serial.c                   | 2 +-
- drivers/s390/block/dasd_eckd.c                   | 2 +-
- fs/pipe.c                                        | 2 +-
- include/linux/capability.h                       | 4 ++--
- kernel/bpf/syscall.c                             | 2 +-
- kernel/fork.c                                    | 2 +-
- kernel/sys.c                                     | 2 +-
- net/caif/caif_socket.c                           | 2 +-
- net/unix/scm.c                                   | 2 +-
- 15 files changed, 16 insertions(+), 25 deletions(-)
-
-diff --git a/block/ioprio.c b/block/ioprio.c
-index 2fe068fcaad5..52d5da286323 100644
---- a/block/ioprio.c
-+++ b/block/ioprio.c
-@@ -37,14 +37,7 @@ int ioprio_check_cap(int ioprio)
- 
- 	switch (class) {
- 		case IOPRIO_CLASS_RT:
--			/*
--			 * Originally this only checked for CAP_SYS_ADMIN,
--			 * which was implicitly allowed for pid 0 by security
--			 * modules such as SELinux. Make sure we check
--			 * CAP_SYS_ADMIN first to avoid a denial/avc for
--			 * possibly missing CAP_SYS_NICE permission.
--			 */
--			if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_NICE))
-+			if (!capable_or(CAP_SYS_NICE, CAP_SYS_ADMIN))
- 				return -EPERM;
- 			fallthrough;
- 			/* rt has prio field too */
-diff --git a/drivers/media/common/saa7146/saa7146_video.c b/drivers/media/common/saa7146/saa7146_video.c
-index 66215d9106a4..5eabc2e77cc2 100644
---- a/drivers/media/common/saa7146/saa7146_video.c
-+++ b/drivers/media/common/saa7146/saa7146_video.c
-@@ -470,7 +470,7 @@ static int vidioc_s_fbuf(struct file *file, void *fh, const struct v4l2_framebuf
- 
- 	DEB_EE("VIDIOC_S_FBUF\n");
- 
--	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
-+	if (!capable_or(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
- 		return -EPERM;
- 
- 	/* check args */
-diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
-index 8cc9bec43688..c2437ff07246 100644
---- a/drivers/media/pci/bt8xx/bttv-driver.c
-+++ b/drivers/media/pci/bt8xx/bttv-driver.c
-@@ -2569,8 +2569,7 @@ static int bttv_s_fbuf(struct file *file, void *f,
- 	const struct bttv_format *fmt;
- 	int retval;
- 
--	if (!capable(CAP_SYS_ADMIN) &&
--		!capable(CAP_SYS_RAWIO))
-+	if (!capable_or(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
- 		return -EPERM;
- 
- 	/* check args */
-diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
-index 374c8e1087de..356b77c16f87 100644
---- a/drivers/media/pci/saa7134/saa7134-video.c
-+++ b/drivers/media/pci/saa7134/saa7134-video.c
-@@ -1803,8 +1803,7 @@ static int saa7134_s_fbuf(struct file *file, void *f,
- 	struct saa7134_dev *dev = video_drvdata(file);
- 	struct saa7134_format *fmt;
- 
--	if (!capable(CAP_SYS_ADMIN) &&
--	   !capable(CAP_SYS_RAWIO))
-+	if (!capable_or(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
- 		return -EPERM;
- 
- 	/* check args */
-diff --git a/drivers/media/platform/fsl-viu.c b/drivers/media/platform/fsl-viu.c
-index a4bfa70b49b2..925c34c2b1b3 100644
---- a/drivers/media/platform/fsl-viu.c
-+++ b/drivers/media/platform/fsl-viu.c
-@@ -803,7 +803,7 @@ static int vidioc_s_fbuf(struct file *file, void *priv, const struct v4l2_frameb
- 	const struct v4l2_framebuffer *fb = arg;
- 	struct viu_fmt *fmt;
- 
--	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
-+	if (!capable_or(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
- 		return -EPERM;
- 
- 	/* check args */
-diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-index b9caa4b26209..a0cfcf6c22c4 100644
---- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-@@ -1253,7 +1253,7 @@ int vivid_vid_cap_s_fbuf(struct file *file, void *fh,
- 	if (dev->multiplanar)
- 		return -ENOTTY;
- 
--	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
-+	if (!capable_or(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
- 		return -EPERM;
- 
- 	if (dev->overlay_cap_owner)
-diff --git a/drivers/net/caif/caif_serial.c b/drivers/net/caif/caif_serial.c
-index 2a7af611d43a..245c30c469c2 100644
---- a/drivers/net/caif/caif_serial.c
-+++ b/drivers/net/caif/caif_serial.c
-@@ -326,7 +326,7 @@ static int ldisc_open(struct tty_struct *tty)
- 	/* No write no play */
- 	if (tty->ops->write == NULL)
- 		return -EOPNOTSUPP;
--	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_TTY_CONFIG))
-+	if (!capable_or(CAP_SYS_TTY_CONFIG, CAP_SYS_ADMIN))
- 		return -EPERM;
- 
- 	/* release devices to avoid name collision */
-diff --git a/drivers/s390/block/dasd_eckd.c b/drivers/s390/block/dasd_eckd.c
-index 8410a25a65c1..9b5d22dd3e7b 100644
---- a/drivers/s390/block/dasd_eckd.c
-+++ b/drivers/s390/block/dasd_eckd.c
-@@ -5319,7 +5319,7 @@ static int dasd_symm_io(struct dasd_device *device, void __user *argp)
- 	char psf0, psf1;
- 	int rc;
- 
--	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_SYS_RAWIO))
-+	if (!capable_or(CAP_SYS_RAWIO, CAP_SYS_ADMIN))
- 		return -EACCES;
- 	psf0 = psf1 = 0;
- 
-diff --git a/fs/pipe.c b/fs/pipe.c
-index cc28623a67b6..47dc9b59b7a5 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -775,7 +775,7 @@ bool too_many_pipe_buffers_hard(unsigned long user_bufs)
- 
- bool pipe_is_unprivileged_user(void)
- {
--	return !capable(CAP_SYS_RESOURCE) && !capable(CAP_SYS_ADMIN);
-+	return !capable_or(CAP_SYS_RESOURCE, CAP_SYS_ADMIN);
- }
- 
- struct pipe_inode_info *alloc_pipe_info(void)
-diff --git a/include/linux/capability.h b/include/linux/capability.h
-index 5c55687a9a05..5ed55b73cb62 100644
---- a/include/linux/capability.h
-+++ b/include/linux/capability.h
-@@ -262,12 +262,12 @@ extern bool file_ns_capable(const struct file *file, struct user_namespace *ns,
- extern bool ptracer_capable(struct task_struct *tsk, struct user_namespace *ns);
- static inline bool perfmon_capable(void)
- {
--	return capable(CAP_PERFMON) || capable(CAP_SYS_ADMIN);
-+	return capable_or(CAP_PERFMON, CAP_SYS_ADMIN);
- }
- 
- static inline bool bpf_capable(void)
- {
--	return capable(CAP_BPF) || capable(CAP_SYS_ADMIN);
-+	return capable_or(CAP_BPF, CAP_SYS_ADMIN);
- }
- 
- static inline bool checkpoint_restore_ns_capable(struct user_namespace *ns)
-diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-index fa4505f9b611..108dd09f978a 100644
---- a/kernel/bpf/syscall.c
-+++ b/kernel/bpf/syscall.c
-@@ -2243,7 +2243,7 @@ static int bpf_prog_load(union bpf_attr *attr, bpfptr_t uattr)
- 	    !bpf_capable())
- 		return -EPERM;
- 
--	if (is_net_admin_prog_type(type) && !capable(CAP_NET_ADMIN) && !capable(CAP_SYS_ADMIN))
-+	if (is_net_admin_prog_type(type) && !capable_or(CAP_NET_ADMIN, CAP_SYS_ADMIN))
- 		return -EPERM;
- 	if (is_perfmon_prog_type(type) && !perfmon_capable())
- 		return -EPERM;
-diff --git a/kernel/fork.c b/kernel/fork.c
-index d75a528f7b21..067702f2eb15 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -2024,7 +2024,7 @@ static __latent_entropy struct task_struct *copy_process(
- 	retval = -EAGAIN;
- 	if (is_ucounts_overlimit(task_ucounts(p), UCOUNT_RLIMIT_NPROC, rlimit(RLIMIT_NPROC))) {
- 		if (p->real_cred->user != INIT_USER &&
--		    !capable(CAP_SYS_RESOURCE) && !capable(CAP_SYS_ADMIN))
-+		    !capable_or(CAP_SYS_RESOURCE, CAP_SYS_ADMIN))
- 			goto bad_fork_free;
- 	}
- 	current->flags &= ~PF_NPROC_EXCEEDED;
-diff --git a/kernel/sys.c b/kernel/sys.c
-index ecc4cf019242..9df6c5e77620 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -481,7 +481,7 @@ static int set_user(struct cred *new)
- 	 */
- 	if (is_ucounts_overlimit(new->ucounts, UCOUNT_RLIMIT_NPROC, rlimit(RLIMIT_NPROC)) &&
- 			new_user != INIT_USER &&
--			!capable(CAP_SYS_RESOURCE) && !capable(CAP_SYS_ADMIN))
-+			!capable_or(CAP_SYS_RESOURCE, CAP_SYS_ADMIN))
- 		current->flags |= PF_NPROC_EXCEEDED;
- 	else
- 		current->flags &= ~PF_NPROC_EXCEEDED;
-diff --git a/net/caif/caif_socket.c b/net/caif/caif_socket.c
-index 2b8892d502f7..60498148126c 100644
---- a/net/caif/caif_socket.c
-+++ b/net/caif/caif_socket.c
-@@ -1036,7 +1036,7 @@ static int caif_create(struct net *net, struct socket *sock, int protocol,
- 		.usersize = sizeof_field(struct caifsock, conn_req.param)
- 	};
- 
--	if (!capable(CAP_SYS_ADMIN) && !capable(CAP_NET_ADMIN))
-+	if (!capable_or(CAP_NET_ADMIN, CAP_SYS_ADMIN))
- 		return -EPERM;
- 	/*
- 	 * The sock->type specifies the socket type to use.
-diff --git a/net/unix/scm.c b/net/unix/scm.c
-index aa27a02478dc..821be80e6c85 100644
---- a/net/unix/scm.c
-+++ b/net/unix/scm.c
-@@ -99,7 +99,7 @@ static inline bool too_many_unix_fds(struct task_struct *p)
- 	struct user_struct *user = current_user();
- 
- 	if (unlikely(user->unix_inflight > task_rlimit(p, RLIMIT_NOFILE)))
--		return !capable(CAP_SYS_RESOURCE) && !capable(CAP_SYS_ADMIN);
-+		return !capable_or(CAP_SYS_RESOURCE, CAP_SYS_ADMIN);
- 	return false;
- }
- 
--- 
-2.35.1
-
+T24gMi8xNy8yMiAzOjU2IFBNLCBFdWdlbiBIcmlzdGV2IHdyb3RlOg0KPiBJbXBsZW1lbnQgdGhl
+IHN1cHBvcnQgZm9yIG1lZGlhLWNvbnRyb2xsZXIuDQo+IFRoaXMgbWVhbnMgdGhhdCB0aGUgY2Fw
+YWJpbGl0aWVzIG9mIHRoZSBkcml2ZXIgaGF2ZSBjaGFuZ2VkIGFuZCBub3cNCj4gaXQgYWxzbyBh
+ZHZlcnRpc2VzIHRoZSBJT19NQyAuDQo+IFRoZSBkcml2ZXIgd2lsbCByZWdpc3RlciBpdCdzIG1l
+ZGlhIGRldmljZSwgYW5kIGFkZCB0aGUgdmlkZW8gZW50aXR5IHRvIHRoaXMNCj4gbWVkaWEgZGV2
+aWNlLiBUaGUgc3ViZGV2aWNlcyBhcmUgcmVnaXN0ZXJlZCB0byB0aGUgc2FtZSBtZWRpYSBkZXZp
+Y2UuDQo+IFRoZSBJU0Mgd2lsbCBoYXZlIGEgYmFzZSBlbnRpdHkgd2hpY2ggaXMgYXV0by1kZXRl
+Y3RlZCBhcyBhdG1lbF9pc2NfYmFzZS4NCj4gSXQgd2lsbCBhbHNvIHJlZ2lzdGVyIGEgc3ViZGV2
+aWNlIHRoYXQgYWxsb3dzIGNyb3BwaW5nIG9mIHRoZSBpbmNvbWluZyBmcmFtZQ0KPiB0byB0aGUg
+bWF4aW11bSBmcmFtZSBzaXplIHN1cHBvcnRlZCBieSB0aGUgSVNDLg0KPiBUaGUgSVNDIHdpbGwg
+Y3JlYXRlIGEgbGluayBiZXR3ZWVuIHRoZSBzdWJkZXZpY2UgdGhhdCBpcyBhc3luY2hyb25vdXNs
+eQ0KPiByZWdpc3RlcmVkIGFuZCB0aGUgYXRtZWxfaXNjX3NjYWxlciBlbnRpdHkuDQo+IFRoZW4s
+IHRoZSBhdG1lbF9pc2Nfc2NhbGVyIGFuZCBhdG1lbF9pc2NfYmFzZSBhcmUgY29ubmVjdGVkIHRo
+cm91Z2ggYW5vdGhlcg0KPiBsaW5rLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogRXVnZW4gSHJpc3Rl
+diA8ZXVnZW4uaHJpc3RldkBtaWNyb2NoaXAuY29tPg0KPiAtLS0NCg0KDQpIZWxsbyBKYWNvcG8s
+DQoNCkkgd2lsbCBhZGQgdG8gdGhpcyBwYXRjaCBhIGxpdHRsZSB1cGRhdGUgYWJvdXQgaG93IHRo
+ZSBzY2FsZXIgaXMgc2VlbiANCm5vdyBieSB0aGUgbWVkaWEtY3RsIDoNCg0KZm9yIGlteDIxOSBz
+ZW5zb3IsIHdoaWNoIGdlbmVyYXRlcyAzMjgweDI0NjQ6DQoNCg0KLSBlbnRpdHkgMTogYXRtZWxf
+aXNjX3NjYWxlciAoMiBwYWRzLCAyIGxpbmtzKQ0KICAgICAgICAgICAgIHR5cGUgVjRMMiBzdWJk
+ZXYgc3VidHlwZSBVbmtub3duIGZsYWdzIDANCiAgICAgICAgICAgICBkZXZpY2Ugbm9kZSBuYW1l
+IC9kZXYvdjRsLXN1YmRldjANCiAgICAgICAgIHBhZDA6IFNpbmsNCiAgICAgICAgICAgICAgICAg
+W2ZtdDpTUkdHQjEwXzFYMTAvMzI4MHgyNDY0IGZpZWxkOm5vbmUgY29sb3JzcGFjZTpzcmdiDQog
+ICAgICAgICAgICAgICAgICBjcm9wLmJvdW5kczooMCwwKS8zMjgweDI0NjQNCiAgICAgICAgICAg
+ICAgICAgIGNyb3A6KDAsMCkvMzI2NHgyNDY0XQ0KICAgICAgICAgICAgICAgICA8LSAiY3NpMmRj
+IjoxIFtFTkFCTEVELElNTVVUQUJMRV0NCiAgICAgICAgIHBhZDE6IFNvdXJjZQ0KICAgICAgICAg
+ICAgICAgICBbZm10OlNSR0dCMTBfMVgxMC8zMjY0eDI0NjQgZmllbGQ6bm9uZSBjb2xvcnNwYWNl
+OnNyZ2JdDQogICAgICAgICAgICAgICAgIC0+ICJhdG1lbF9pc2NfY29tbW9uIjowIFtFTkFCTEVE
+LElNTVVUQUJMRV0NCg0KDQpUaGUgc291cmNlIHBhZCBvZiB0aGUgc2NhbGVyIGxvb2tzIGdvb2Qg
+bm93Lg0KDQpGb3IgdGhlIGlteDI3NCB3aGljaCBJIGFtIHVzaW5nIChhbmQgaXQgZ2VuZXJhdGVz
+IDM4NDB4MjE2MCApOg0KDQotIGVudGl0eSAxOiBhdG1lbF9pc2Nfc2NhbGVyICgyIHBhZHMsIDIg
+bGlua3MpDQogICAgICAgICAgICAgdHlwZSBWNEwyIHN1YmRldiBzdWJ0eXBlIFVua25vd24gZmxh
+Z3MgMA0KICAgICAgICAgICAgIGRldmljZSBub2RlIG5hbWUgL2Rldi92NGwtc3ViZGV2MA0KICAg
+ICAgICAgcGFkMDogU2luaw0KICAgICAgICAgICAgICAgICBbZm10OlNSR0dCMTBfMVgxMC8zODQw
+eDIxNjAgZmllbGQ6bm9uZSBjb2xvcnNwYWNlOnNyZ2INCiAgICAgICAgICAgICAgICAgIGNyb3Au
+Ym91bmRzOigwLDApLzM4NDB4MjE2MA0KICAgICAgICAgICAgICAgICAgY3JvcDooMCwwKS8zMjY0
+eDIxNjBdDQogICAgICAgICAgICAgICAgIDwtICJjc2kyZGMiOjEgW0VOQUJMRUQsSU1NVVRBQkxF
+XQ0KICAgICAgICAgcGFkMTogU291cmNlDQogICAgICAgICAgICAgICAgIFtmbXQ6U1JHR0IxMF8x
+WDEwLzMyNjR4MjE2MCBmaWVsZDpub25lIGNvbG9yc3BhY2U6c3JnYl0NCiAgICAgICAgICAgICAg
+ICAgLT4gImF0bWVsX2lzY19jb21tb24iOjAgW0VOQUJMRUQsSU1NVVRBQkxFXQ0KDQpTbyBpbiBi
+b3RoIGNhc2VzLCBlYWNoIGxpbmUgaXMgY3JvcHBlZCBkb3duIHRvIDMyNjQgYXMgdGhlIG1heGlt
+dW0gd2lkdGguDQoNCklmIHdlIHNlbGVjdCBhIGxvd2VyIGZyYW1lIHNpemUsIHRoZSBzY2FsZXIg
+d2lsbCBhdXRvbWF0aWNhbGx5IHVwZGF0ZSANCnRoZSBzb3VyY2UgcGFkIHRvIHJlZmxlY3QgdGhp
+cywgZS5nLjoNCg0KDQotIGVudGl0eSAxOiBhdG1lbF9pc2Nfc2NhbGVyICgyIHBhZHMsIDIgbGlu
+a3MpDQogICAgICAgICAgICAgdHlwZSBWNEwyIHN1YmRldiBzdWJ0eXBlIFVua25vd24gZmxhZ3Mg
+MA0KICAgICAgICAgICAgIGRldmljZSBub2RlIG5hbWUgL2Rldi92NGwtc3ViZGV2MA0KICAgICAg
+ICAgcGFkMDogU2luaw0KICAgICAgICAgICAgICAgICBbZm10OlNSR0dCMTBfMVgxMC8xOTIweDEw
+ODAgZmllbGQ6bm9uZSBjb2xvcnNwYWNlOnNyZ2INCiAgICAgICAgICAgICAgICAgIGNyb3AuYm91
+bmRzOigwLDApLzE5MjB4MTA4MA0KICAgICAgICAgICAgICAgICAgY3JvcDooMCwwKS8xOTIweDEw
+ODBdDQogICAgICAgICAgICAgICAgIDwtICJjc2kyZGMiOjEgW0VOQUJMRUQsSU1NVVRBQkxFXQ0K
+ICAgICAgICAgcGFkMTogU291cmNlDQogICAgICAgICAgICAgICAgIFtmbXQ6U1JHR0IxMF8xWDEw
+LzE5MjB4MTA4MCBmaWVsZDpub25lIGNvbG9yc3BhY2U6c3JnYl0NCiAgICAgICAgICAgICAgICAg
+LT4gImF0bWVsX2lzY19jb21tb24iOjAgW0VOQUJMRUQsSU1NVVRBQkxFXQ0KDQoNCmRvZXMgaXQg
+bG9vayBnb29kIG5vdyA/DQoNClRoYW5rcyBmb3IgY2hlY2tpbmcgdGhpcyBvdXQgIQ0KRXVnZW4N
+Cg==
