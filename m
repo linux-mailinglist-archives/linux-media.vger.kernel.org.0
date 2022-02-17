@@ -2,186 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 351CF4BA105
-	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 14:24:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DF534BA22B
+	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 14:59:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240747AbiBQNYN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Feb 2022 08:24:13 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56138 "EHLO
+        id S241414AbiBQN5n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Feb 2022 08:57:43 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240597AbiBQNYM (ORCPT
+        with ESMTP id S234297AbiBQN5m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Feb 2022 08:24:12 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B5B8B10BE
-        for <linux-media@vger.kernel.org>; Thu, 17 Feb 2022 05:23:58 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D9600B821A5
-        for <linux-media@vger.kernel.org>; Thu, 17 Feb 2022 13:23:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA130C340E8;
-        Thu, 17 Feb 2022 13:23:54 +0000 (UTC)
-Message-ID: <4cb9936d-ea10-27f4-371b-69f3b6589689@xs4all.nl>
-Date:   Thu, 17 Feb 2022 14:23:53 +0100
+        Thu, 17 Feb 2022 08:57:42 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D58817C117;
+        Thu, 17 Feb 2022 05:57:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1645106247; x=1676642247;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sN39M8C1hByXCcSuR9JDCKDgWrEOxcLMqTAc2PYXXgA=;
+  b=Qy3u9Q/6R2Ki1uwlG1f5Ru5osbnYC3BFq4F2ICnq8TUtWPmzx9ND7RXB
+   FK11tluoKWBciMaEL/1PA+sb8wOeiXmz2Amu5x808Ao92yAZi7+gFI01I
+   zgRXHwbinjRP1TPfqww9HKLvcwJ73rV5wUfjuBkOkHMOsByUU/mTjIlMJ
+   BMNl1IBjYkktBGKPxX3TJk6DkuwWkNivwLtd9MjMpClN2fwWDuf7PVMM1
+   kU5ap/QOOSWQBHCgs0mfajNHeCnmItFn7LNOTF/mVGEW26SUuSbP4N5j/
+   NRiVlKCwFo9/+TAihOXBslyLEpS/REF5gU26AR18uzIoIO3jqjSkRMOql
+   A==;
+IronPort-SDR: L7eH1QBIn7rh3QBeJlnrFzo1mHsiNU+D4XcYKKhxpijKdw1FXfyxj6p1g+ix4IcKR4kEEfYdkw
+ fL/et5G9qXuNW2dqqPXanXcFLTWbV7qPLWXKKbM0Iv+2dK+OHzEFT3Sd9Xwg2rSM4poMPpIMW6
+ incycCTolxX3D78GuiuVKmubq0XM02Oa+u6h2hpS+7mqCIKQfTfYX7zSJQNNjDGJmcs+jAW60y
+ f6ttkZ4Gx1DQVb8mo9/CWke2lOGYi8A3BBPsf9Jbp2Z/MFWg5NpvF6qev953hBEwiiaWMrDrmm
+ Wxk=
+X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; 
+   d="scan'208";a="153942547"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 17 Feb 2022 06:57:24 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Thu, 17 Feb 2022 06:57:24 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
+ 15.1.2375.17 via Frontend Transport; Thu, 17 Feb 2022 06:57:04 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <linux-media@vger.kernel.org>, <jacopo@jmondi.org>,
+        <hverkuil-cisco@xs4all.nl>, <nicolas.ferre@microchip.com>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <claudiu.beznea@microchip.com>,
+        "Eugen Hristev" <eugen.hristev@microchip.com>
+Subject: [PATCH v5 00/13] media: atmel: atmel-isc: implement media controller
+Date:   Thu, 17 Feb 2022 15:56:32 +0200
+Message-ID: <20220217135645.1427466-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Jammy Huang <jammy_huang@aspeedtech.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Qing Wang <wangqing@vivo.com>, Ming Qian <ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.18] Various fixes/enhancements
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit cc74074ad9369ef54ba5d3b45edc28e9677911e7:
+This series is the v5 series that attempts to support media controller in the
+atmel ISC and XISC drivers.
+The CSI2DC driver was accepted thus removed from the patch series, together with
+other patches.
 
-  media: i2c: ov08d10: Unlock on error in ov08d10_enum_frame_size() (2022-02-17 10:00:21 +0100)
+Important note: this series applies on top of current media_staging tree, as it
+relies on previous patches in the series which were accepted.
 
-are available in the Git repository at:
+Thanks to everyone who reviewed my work !
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18l
+Eugen
 
-for you to fetch changes up to 188075b00695808d82d7805df4bae1eedf7fe993:
+Changes in v5:
+-> removed patch that removed the 'stop' variable as it was still required
+-> added two new trivial patches
+-> reworked some parts of the scaler and format propagation after discussions with Jacopo
 
-  media: meson-ir-tx: remove incorrect doc comment (2022-02-17 14:02:12 +0100)
 
-----------------------------------------------------------------
-Tag branch
+Changes in v4:
+-> as reviewed by Hans, added new patch to remove the 'stop' variable and reworked
+one patch that was using it
+-> as reviewed by Jacopo, reworked some parts of the media controller implementation
 
-----------------------------------------------------------------
-Benjamin Gaignard (1):
-      media: platform: mtk-vcodec: Do not force /dev/videoX node number
 
-Christian Hewitt (1):
-      drivers: meson: vdec: add VP9 support to GXM
+Changes in v3:
+- change in bindings, small fixes in csi2dc driver and conversion to mc
+for the isc-base.
+- removed some MAINTAINERS patches and used patterns in MAINTAINERS
 
-Colin Ian King (5):
-      media: saa7115: make static read-only array lcr2vbi const
-      media: gspca: remove redundant assignment of variable n
-      media: mtk-jpeg: remove redundant initialization of variable plane_fmt
-      media: saa7134: remove redundant assignment to variable id
-      media: saa7164: remove redundant assignment to variable idx
+Changes in v2:
+- integrated many changes suggested by Jacopo in the review of the v1 series.
+- add a few new patches
 
-Dan Carpenter (1):
-      media: usb: go7007: s2250-board: fix leak in probe()
 
-Daniel González Cabanelas (1):
-      media: cx88-mpeg: clear interrupt status register before streaming video
 
-Dongliang Mu (1):
-      media: em28xx: initialize refcount before kref_get
+Eugen Hristev (13):
+  media: atmel: atmel-isc-base: use streaming status when queueing
+    buffers
+  media: atmel: atmel-isc-base: replace is_streaming call in
+    s_fmt_vid_cap
+  media: atmel: atmel-isc: remove redundant comments
+  media: atmel: atmel-isc: implement media controller
+  media: atmel: atmel-sama5d2-isc: fix wrong mask in YUYV format check
+  media: atmel: atmel-isc-base: use mutex to lock awb workqueue from
+    streaming
+  media: atmel: atmel-isc: compact the controller formats list
+  media: atmel: atmel-isc: change format propagation to subdev into only
+    verification
+  media: atmel: atmel-sama7g5-isc: remove stray line
+  dt-bindings: media: microchip,xisc: add bus-width of 14
+  ARM: dts: at91: sama7g5: add nodes for video capture
+  ARM: configs: at91: sama7: add xisc and csi2dc
+  ARM: multi_v7_defconfig: add atmel video pipeline modules
 
-Gustavo A. R. Silva (1):
-      media: usb: pwc-uncompress: Use struct_size() helper in pwc_decompress()
+ .../bindings/media/microchip,xisc.yaml        |   2 +-
+ arch/arm/boot/dts/sama7g5.dtsi                |  49 ++
+ arch/arm/configs/multi_v7_defconfig           |   3 +
+ arch/arm/configs/sama7_defconfig              |   2 +
+ drivers/media/platform/atmel/Makefile         |   2 +-
+ drivers/media/platform/atmel/atmel-isc-base.c | 531 ++++++++++--------
+ .../media/platform/atmel/atmel-isc-scaler.c   | 266 +++++++++
+ drivers/media/platform/atmel/atmel-isc.h      |  61 +-
+ .../media/platform/atmel/atmel-sama5d2-isc.c  |  87 +--
+ .../media/platform/atmel/atmel-sama7g5-isc.c  |  93 +--
+ 10 files changed, 762 insertions(+), 334 deletions(-)
+ create mode 100644 drivers/media/platform/atmel/atmel-isc-scaler.c
 
-Hans Verkuil (1):
-      pixfmt-yuv-planar.rst: fix typo: 'Cr, Cr' -> 'Cr, Cb'
+-- 
+2.25.1
 
-Jammy Huang (5):
-      media: aspeed: add comments and macro
-      media: aspeed: Add macro for the fields of the mode-detect registers
-      media: aspeed: Fix unstable timing detection
-      media: aspeed: Use full swing as JFIF to fix incorrect color
-      media: aspeed: Use of_device_get_match_data() helper
-
-Jernej Skrabec (3):
-      media: cedrus: Add watchdog for job completion
-      media: cedrus: H265: Fix neighbour info buffer size
-      media: cedrus: h264: Fix neighbour info buffer size
-
-Julia Lawall (2):
-      media: cx18: use GFP_KERNEL
-      media: fsl-viu: use GFP_KERNEL
-
-Mikhail Rudenko (1):
-      media: sun6i-csi: fix colorspace in sun6i_video_try_fmt()
-
-Ming Qian (2):
-      media: imx-jpeg: fix a bug of accessing array out of bounds
-      media: imx-jpeg: Set V4L2_BUF_FLAG_LAST at eos
-
-Niklas Söderlund (3):
-      media: rcar-vin: Refactor link notify
-      media: rcar-vin: Breakout media link creation
-      media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2 IP
-
-Rikard Falkeborn (1):
-      media: go7007: Constify static struct snd_device_ops
-
-Sean Young (1):
-      media: meson-ir-tx: remove incorrect doc comment
-
-Wang Qing (5):
-      media: si21xx: use time_is_before_jiffies() instead of open coding it
-      media: stv0299: use time_is_before_jiffies() instead of open coding it
-      media: tda8083: use time_is_after_jiffies() instead of open coding it
-      media: wl128x: use time_is_before_jiffies() instead of open coding it
-      media: vivid: use time_is_after_jiffies() instead of open coding it
-
-Xose Vazquez Perez (1):
-      stkwebcam: add new Asus laptop to upside_down table
-
-Yang Li (2):
-      media: aspeed: Remove duplicated include in aspeed-video.c
-      media: imx-jpeg: Remove unnecessary print function dev_err()
-
-Yunfei Dong (1):
-      media: uapi: Init VP9 stateless decode params
-
- Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst |  10 +-
- drivers/media/dvb-frontends/si21xx.c                        |   2 +-
- drivers/media/dvb-frontends/stv0299.c                       |   4 +-
- drivers/media/dvb-frontends/tda8083.c                       |   2 +-
- drivers/media/i2c/saa7115.c                                 |   2 +-
- drivers/media/pci/cx18/cx18-driver.c                        |   2 +-
- drivers/media/pci/cx88/cx88-mpeg.c                          |   3 +
- drivers/media/pci/saa7134/saa7134-video.c                   |   2 -
- drivers/media/pci/saa7164/saa7164-cmd.c                     |   1 -
- drivers/media/platform/aspeed-video.c                       |  86 +++++++++++--
- drivers/media/platform/fsl-viu.c                            |   2 +-
- drivers/media/platform/imx-jpeg/mxc-jpeg.c                  |  41 ++++++-
- drivers/media/platform/imx-jpeg/mxc-jpeg.h                  |   1 +
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c             |   2 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c      |  27 ++---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c      |   2 +-
- drivers/media/platform/rcar-vin/rcar-core.c                 | 387 +++++++++++++++++------------------------------------------
- drivers/media/platform/rcar-vin/rcar-csi2.c                 |  57 ++++++++-
- drivers/media/platform/rcar-vin/rcar-dma.c                  |   2 +-
- drivers/media/platform/rcar-vin/rcar-vin.h                  |  18 +--
- drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c        |   6 +-
- drivers/media/radio/wl128x/fmdrv_common.c                   |   3 +-
- drivers/media/rc/meson-ir-tx.c                              |   2 +-
- drivers/media/test-drivers/vivid/vivid-kthread-cap.c        |   3 +-
- drivers/media/test-drivers/vivid/vivid-kthread-out.c        |   3 +-
- drivers/media/test-drivers/vivid/vivid-kthread-touch.c      |   3 +-
- drivers/media/test-drivers/vivid/vivid-sdr-cap.c            |   3 +-
- drivers/media/usb/em28xx/em28xx-cards.c                     |   8 +-
- drivers/media/usb/go7007/s2250-board.c                      |  10 +-
- drivers/media/usb/go7007/snd-go7007.c                       |   2 +-
- drivers/media/usb/gspca/pac7302.c                           |   1 -
- drivers/media/usb/pwc/pwc-uncompress.c                      |   2 +-
- drivers/media/usb/stkwebcam/stk-webcam.c                    |   7 ++
- drivers/media/v4l2-core/v4l2-ctrls-core.c                   |   8 ++
- drivers/staging/media/meson/vdec/vdec_platform.c            |  12 ++
- drivers/staging/media/sunxi/cedrus/cedrus.c                 |   2 +
- drivers/staging/media/sunxi/cedrus/cedrus.h                 |   3 +
- drivers/staging/media/sunxi/cedrus/cedrus_dec.c             |   4 +
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c            |   2 +-
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c            |   2 +-
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c              |  25 ++++
- drivers/staging/media/sunxi/cedrus/cedrus_hw.h              |   2 +
- 42 files changed, 403 insertions(+), 363 deletions(-)
