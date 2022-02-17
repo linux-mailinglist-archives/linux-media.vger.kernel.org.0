@@ -2,126 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCFDE4B990E
-	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 07:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 149564B990F
+	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 07:16:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235465AbiBQGQN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Feb 2022 01:16:13 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42790 "EHLO
+        id S235451AbiBQGQI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Feb 2022 01:16:08 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235318AbiBQGQM (ORCPT
+        with ESMTP id S235142AbiBQGQH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Feb 2022 01:16:12 -0500
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDABE2A2286
-        for <linux-media@vger.kernel.org>; Wed, 16 Feb 2022 22:15:56 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id A512F5C019F;
-        Thu, 17 Feb 2022 01:08:03 -0500 (EST)
+        Thu, 17 Feb 2022 01:16:07 -0500
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90F552A229A
+        for <linux-media@vger.kernel.org>; Wed, 16 Feb 2022 22:15:52 -0800 (PST)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id BD7E25801C4;
+        Thu, 17 Feb 2022 01:08:06 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 17 Feb 2022 01:08:03 -0500
+  by compute1.internal (MEProxy); Thu, 17 Feb 2022 01:08:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-        cc:cc:date:date:from:from:in-reply-to:message-id:reply-to:sender
-        :subject:subject:to:to; s=fm2; bh=ZB1SmTVXb/DBhdIDoqv1RCdUqDPfDt
-        /MGWSX4mbI5iU=; b=YoZd0mpozn8NZxKqRRFsVWgqaMx1WJZ895sgfrXET2qZYf
-        uHUmpF18U2DkqbC5a4LLrbAq3TLejkP4SMdjF4wbJ8c32QHV2JIUbU87NYboxkXM
-        ONbnG3zAkQYgSY2uIWD7ErE426FEWhfmopY8x9MFSXVFZtnwXjAhnIebA7cF3sZV
-        qDlu0T4HbC3et9qTR4LAsX8PfHPajDCr1+0qjanlHTHQ+5/Ln9c46LivgfueUZAl
-        WAueMTwdYwBwdTKjGcHBo7geUQOzaMQBjK0TJ8/qnw0UtUw6KwJhznoy0BX2W51k
-        MRgCrs8iwY+U9uUKF+XC1aWX8LT5TqKD9ycPS8oA==
+        cc:cc:date:date:from:from:in-reply-to:in-reply-to:message-id
+        :references:reply-to:sender:subject:subject:to:to; s=fm2; bh=ieG
+        gSsTwYsmyQ38bDO+Pn6qhobl81m0tsA+TJpF4PKY=; b=hscWTBcn7IkPjDTYeM+
+        7dRyK/PdvcFn7+bd8lnBmFpEh8A07YaQnUP/CVhpF2JyJNZUB6ldeCgS+WTv3wtV
+        F2zTComzTuAXIIDpUuIn8HvlYk2nnl+neQzvq4hrvZ+qmuXSi/A2dt4wLmtQNtGc
+        dcql3pfYyQEa7o9n7gwwo9FowhsRk1hxDMyuCyjA4FbSuMscBOCo/mujKDCy5TZ+
+        FMndWwDdzLUd3w7fxJycC/BNlvumaDRKNwmpwGpDbCAFzn+2VPJ/HF4Be3XVGLTG
+        oq4vZf7kFJfc9tVBR6ALYjn6rEZlMVXLK3G0riFNKcMmWdcFU0DR06cmcYq7uL9b
+        fSw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:date:date:from:from:in-reply-to
-        :message-id:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ZB1SmT
-        VXb/DBhdIDoqv1RCdUqDPfDt/MGWSX4mbI5iU=; b=Nlyil9avCwCdv0rrOpJvyc
-        XhsdflkGI3IpUK7vT51BptcwstRCwvpI8Ipv5UhNOf3wGGLVTJgNlgVzwyIKuqpr
-        lL+r5Ms3MhkVYhcYrlKvKxgolx5c9ls7GS08piYVjjwhw8Y4kh9MbLLVHdR6GlNx
-        EltcFmqkQGXv5sdgO7UK+yZ2+rRFiS8XG16IuclYv8h3ckfZ8lEBEwhBIOa6fVlY
-        +JlyERC5cWsOPV0iB0X8pE6la3yqcOkBTXlaQu/lbf7EXmrq6QwyAQqxNZ3IeUbt
-        u+c1D6sr0HxoeQ7UAcuypDS8DJvKGGbynYuOn6uCxIrXru1U9OWhCDLiK6Y5OOWQ
-        ==
-X-ME-Sender: <xms:Q-YNYiN2ZpCN4WiY647BtDbIQ9bY20HEbsaqRk5HRN8GaSBCITOURg>
-    <xme:Q-YNYg_b_RN1UszxuMRzZ0PY7YdRiTrLqgPq1YtgjE1Tfjj88jUtsu9qdHoPH1fQ2
-    eTXHske2xUdeO41E_Q>
-X-ME-Received: <xmr:Q-YNYpQXGoEIMdUFVPDsqzo-dQYCeFpxe3nd-zQrKzXJM2-aCu292fUsP72xcm18TL8mNycGfA>
+        :in-reply-to:message-id:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=ieGgSsTwYsmyQ38bDO+Pn6qhobl81m0tsA+TJpF4P
+        KY=; b=BGP3ZFQ126Fq/s+DFV0YOmMcqcyp5djA5aNOPVJVSXGKKjKoOIvHwN3w8
+        31Pzac83feP4lrzCuhuAQCXXlDNB0vY+ZjxwJA+tF9CJXNJyJN+dV2wtUIOEeBcs
+        QTTv16crwmTZZVBcFz6pVAQwTipUSJQYCsKu/a80tubNVkQYXcXu8iUNSRFXG14r
+        G8zcMshwEIZ8RuHjqPY33uzk/LeqP/fzTCsJ6Cb/ZDZQi4+DZW3PaT+bKbuVl7Eg
+        Yv6nT5Pwo20vNT7BpBjdoYVReMwZGzVf5eQhOhVNCIjyxyi+ECA501BRNw+kxrmT
+        RiUoQBLOudhL7eB0lONKxoJSLvyvg==
+X-ME-Sender: <xms:RuYNYlBTM7XShqBM-QTWygK-TCmOSqRpYIsgIfVVxVi3Y6BXX2EvCw>
+    <xme:RuYNYjh1arkAecthNKPA3XpCgYVbtN42qlTSmCEtEOLzHBpj7TshGfgRUpshf3Upf
+    D6TFkI8RBdESsiloXE>
+X-ME-Received: <xmr:RuYNYgmRpC5G1mrSraNZ4Loh-EfYBM6IToTyVotrDNgHhroe6HZpUM4Ne3y0K0heAS2rgVSIoA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjeejgdeltdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffosedttdertdertddtne
-    cuhfhrohhmpeffrghfnhgrucfjihhrshgthhhfvghlugcuoegurghfnhgrsehfrghsthhm
-    rghilhdrtghomheqnecuggftrfgrthhtvghrnhephefftddtfeeljeehueeggfefieejfe
-    ejffehffetiedugedvjedvtedvgedvleffnecuffhomhgrihhnpehlkhhmlhdrohhrghen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegurghfnh
-    grsehfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:Q-YNYitunsKZGx4a2wfGeWgc60uZH1mLyaWorWEy3qDZ0C9Iw7TyDQ>
-    <xmx:Q-YNYqdOV0rx6GYbuGothdanIrO3yskZ8kihWqher20WJMoZ0agA6g>
-    <xmx:Q-YNYm0jseynqDHIwQ9K5gG-c9THvMDqjKQfvgZzb6jev23Z5j3Egw>
-    <xmx:Q-YNYhwNjmLSp5MEo9pSWDv1Mj5CyJsaleIhGBLInL-iLv_9wjWYVw>
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfsedttdertdertd
+    dtnecuhfhrohhmpeffrghfnhgrucfjihhrshgthhhfvghlugcuoegurghfnhgrsehfrghs
+    thhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepheduvdefhfeutdekhedvjeekve
+    ejhedvheelfffftedvledvveeghfehhfffffdtnecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:RuYNYvxCj33hG8aP2GKS2JWbR-RmixjlgPo23cbOT-V3unrWDOGEEg>
+    <xmx:RuYNYqSxwbD2iU5HKrSw2_YTOxCS2yMwnXy7K0Jp9bWjB7YSV8GFig>
+    <xmx:RuYNYiaXKMSmImJCrVnK8z01WVROGpTlUZpHQAG-3Cf9Ey_CX0u11w>
+    <xmx:RuYNYr8aK_fH5pCtzlW29VLUhl9oyBuL_ZEfWw3N66Pd9r2Tli6a5Q>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Feb 2022 01:08:00 -0500 (EST)
+ 17 Feb 2022 01:08:03 -0500 (EST)
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     ezequiel@vanguardiasur.com.ar
 Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
         hverkuil@xs4all.nl, ribalda@chromium.org, tfiga@chromium.org,
         senozhatsky@google.com, hch@lst.de, dafna@fastmail.com,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         kernel@collabora.com
-Subject: [PATCH v3 0/4] stk1160: allocate urb buffs with the DMA noncontiguous API
-Date:   Thu, 17 Feb 2022 08:07:20 +0200
-Message-Id: <20220217060724.7763-1-dafna@fastmail.com>
+Subject: [PATCH v3 1/4] media: stk1160: fix number of buffers in case not all buffers are created
+Date:   Thu, 17 Feb 2022 08:07:21 +0200
+Message-Id: <20220217060724.7763-2-dafna@fastmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220217060724.7763-1-dafna@fastmail.com>
+References: <20220217060724.7763-1-dafna@fastmail.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This set replaces urb buffers allocation to use the DMA
-noncontiguous API. Similarly to a commit sent to uvc: [1]
-This improves performance on ARM while not damaging performance
-on other platforms. The cpu performance on ARM
-improves because the new API does not cause the cache disable on ARM
-while the coherent API do.
-Measurements are shown in patch 4/4
+From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 
-[1] https://lkml.org/lkml/2021/3/12/1506
+In case we fail to allocate a transfer_buffer then we
+break the buffers creation loop and update the number of
+buffers to the number of successfully allocated which should
+be 'i' and not 'i - 1' nor 'i + 1'
 
-Patches Summary:
-* patches 1+2 are bug fixes.
-* patch 3 changes the way data is stored. This is a preparation
-to patch 4.
-* patch 4 is the change of API to use the noncontiguougs.
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+---
+ drivers/media/usb/stk1160/stk1160-video.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Since changes on v3 are minors, I only tested that the driver works but not tested performance again.
-
-Changes since v2:
-1. improve commit log for patch 4, and "s/stk_free_urb_buffer/stk1160_free_urb/"
-
-Changes since v1:
-1. reduce line length to be not too longer than 80 char
-2. reformulate commit log of patch 4/4 and add measurements results
-3. in patch 4, invalidate the vmap range before the direct mapping range.
-4. test regressions for patches 1-3 (not including patch 4) and improve vars names
-5. patch 2 is a new bug fix I found
-6. patch 1 is extended to fix two cases of not allocating all intended urb buffers.
-
-Dafna Hirschfeld (4):
-  media: stk1160: fix number of buffers in case not all buffers are
-    created
-  media: stk1160: If start stream fails, return buffers with
-    VB2_BUF_STATE_QUEUED
-  media: stk1160: move transfer_buffer and urb to same struct
-    'stk1160_urb'
-  media: stk1160: use dma_alloc_noncontiguous API
-
- drivers/media/usb/stk1160/stk1160-core.c  |   2 +-
- drivers/media/usb/stk1160/stk1160-v4l.c   |  16 ++-
- drivers/media/usb/stk1160/stk1160-video.c | 142 ++++++++++++----------
- drivers/media/usb/stk1160/stk1160.h       |  23 +++-
- 4 files changed, 104 insertions(+), 79 deletions(-)
-
+diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
+index 202b084f65a2..92c8b1fba2b0 100644
+--- a/drivers/media/usb/stk1160/stk1160-video.c
++++ b/drivers/media/usb/stk1160/stk1160-video.c
+@@ -511,15 +511,15 @@ int stk1160_alloc_isoc(struct stk1160 *dev)
+ 	usb_free_urb(dev->isoc_ctl.urb[i]);
+ 	dev->isoc_ctl.urb[i] = NULL;
+ 
+-	stk1160_warn("%d urbs allocated. Trying to continue...\n", i - 1);
++	stk1160_warn("%d urbs allocated. Trying to continue...\n", i);
+ 
+-	dev->isoc_ctl.num_bufs = i - 1;
++	dev->isoc_ctl.num_bufs = i;
+ 
+ 	return 0;
+ 
+ free_i_bufs:
+ 	/* Save the allocated buffers so far, so we can properly free them */
+-	dev->isoc_ctl.num_bufs = i+1;
++	dev->isoc_ctl.num_bufs = i;
+ 	stk1160_free_isoc(dev);
+ 	return -ENOMEM;
+ }
 -- 
 2.17.1
 
