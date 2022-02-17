@@ -2,91 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5C5C4B999E
-	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 08:08:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42D964B9A6C
+	for <lists+linux-media@lfdr.de>; Thu, 17 Feb 2022 09:02:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235979AbiBQHIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Feb 2022 02:08:41 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35102 "EHLO
+        id S236961AbiBQH6c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Feb 2022 02:58:32 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236022AbiBQHIk (ORCPT
+        with ESMTP id S236913AbiBQH6b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Feb 2022 02:08:40 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A11CC298AF4
-        for <linux-media@vger.kernel.org>; Wed, 16 Feb 2022 23:08:26 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E023B25B;
-        Thu, 17 Feb 2022 08:08:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645081705;
-        bh=ym111bQMWrmQIUil42X3y/xx90T4X21a11qs+v4sPsA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YrWmWW1PTxkjpanlLCg68/ARh9sWuVll1zJ1hQMZDgjbyhDUhifOnEGfkRokJu6Gu
-         oDdOobel1XjJ7XWwLdKFCd7YLJzIvdHORJAtsCDTbeqFDmnCNPgOtl7pzr4h62X8IY
-         VmHVceogjiMghc41LjMzS83NcBMyoOkJ5aTTIxbc=
-Date:   Thu, 17 Feb 2022 09:08:16 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thu, 17 Feb 2022 02:58:31 -0500
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A773522F76F;
+        Wed, 16 Feb 2022 23:58:11 -0800 (PST)
+X-UUID: 44cc14644aa44e369589316b65bcf842-20220217
+X-UUID: 44cc14644aa44e369589316b65bcf842-20220217
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 885734443; Thu, 17 Feb 2022 15:58:06 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 17 Feb 2022 15:58:05 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 17 Feb 2022 15:58:03 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH v4 6/7] media: subdev: add v4l2_subdev_call_state_active()
-Message-ID: <Yg30YK3HK52zrF/8@pendragon.ideasonboard.com>
-References: <20220216130049.508664-1-tomi.valkeinen@ideasonboard.com>
- <20220216130049.508664-7-tomi.valkeinen@ideasonboard.com>
- <Yg1tC0dLieuZLbXy@pendragon.ideasonboard.com>
- <544bac78-715f-3db8-04f9-086f6fe49521@ideasonboard.com>
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v3, 0/7] support mt8195 decoder
+Date:   Thu, 17 Feb 2022 15:57:51 +0800
+Message-ID: <20220217075758.11369-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <544bac78-715f-3db8-04f9-086f6fe49521@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Firstly, add mt8195 soc lat hardware and compatible, then add documents.
+For vp8 only support MM21 mode, H264/vp9 support MT21C, need to separate
+them. Lastly, enable H264 inner racing mode to reduce hardware latency.
 
-On Thu, Feb 17, 2022 at 06:19:15AM +0200, Tomi Valkeinen wrote:
-> On 16/02/2022 23:30, Laurent Pinchart wrote:
-> > On Wed, Feb 16, 2022 at 03:00:48PM +0200, Tomi Valkeinen wrote:
-> >> Add v4l2_subdev_call_state_active() macro to help calling subdev ops
-> >> that take a subdev state as a parameter.
-> > 
-> > We should not encourage subdev drivers to call into each other. There
-> > may be some valid use cases for such a helper at this point, namely in
-> > the .start_streaming() implementation in a vb2 queue, but even then, I
-> > think it would be best to rework the pipeline start API to lock the
-> > states of all subdevs in the pipeline (I've already improved pipeline
-> > start on top of your streams series, the locking isn't there yet, but I
-> > could give it a try).
-> > 
-> > On the other hand, this macro could help identifying drivers that handle
-> > locking manually, helping reworking them once the pipeline start API
-> > handles locking too.
-> 
-> I use this in the cal-video.c to implement the legacy non-MC support. 
-> That is a bit special case, and I could do that with a CAL internal 
-> helper. So I'm fine with dropping this if there won't be other users.
+Patch 1~4 add mt8195 soc lat hardware and compatible, then add documents.
+Patch 5 using different format for different codecs.
+Patch 6 prevent kernel crash when scp reboot.
+Patch 7 enable H264 inner racing mode to reduce hardware latency.
+---
+This patch depends on "support mt8186 decoder"[1]
 
-Ah yes, for legacy support we indeed need something. There are likely
-other drivers that will need this then (why did we write legacy code in
-the first place, really ? :-D). We could keep the macro, but we should
-then document it as not being for non-legacy use cases, and not for new
-drivers. It would be even nicer if we could enforce that at runtime.
+[1]  https://patchwork.kernel.org/project/linux-mediatek/cover/20220122075606.19373-1-yunfei.dong@mediatek.com
+---
+changed with v2:
+- add detail explanation for lat soc hardware for patch 1.
 
-Actually, thinking more about this, how about moving this macro to a new
-v4l2-subdev-legacy.h header ?
+changed with v1:
+- separate "Init VP9 stateless decode params" patch and remove it to another one.
+- add reviewed-by in patch v3/v4/v6
+---
+Tinghan Shen (1):
+  media: mtk-vcodec: prevent kernel crash when scp ipi timeout
+
+Yunfei Dong (6):
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for lat soc
+  media: mtk-vcodec: Add to support lat soc hardware
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8195
+  media: mtk-vcodec: Adds compatible for mt8195
+  media: mtk-vcodec: Different codec using different capture format
+  media: mtk-vcodec: Add to support H264 inner racing mode
+
+ .../media/mediatek,vcodec-subdev-decoder.yaml | 52 +++++++++++++------
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 41 +++++++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  8 +++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 12 +++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  2 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 50 ++++++++++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      | 11 ++++
+ .../mtk-vcodec/vdec/vdec_h264_req_multi_if.c  | 23 ++++++--
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  5 ++
+ 9 files changed, 180 insertions(+), 24 deletions(-)
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
