@@ -2,165 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5438D4BB74E
+	by mail.lfdr.de (Postfix) with ESMTP id A504E4BB74F
 	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 11:54:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234182AbiBRKyt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Feb 2022 05:54:49 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35934 "EHLO
+        id S234195AbiBRKy6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Feb 2022 05:54:58 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234175AbiBRKyr (ORCPT
+        with ESMTP id S234175AbiBRKy5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Feb 2022 05:54:47 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CEF322BEE;
-        Fri, 18 Feb 2022 02:54:31 -0800 (PST)
-Received: from [IPV6:2a01:e0a:120:3210:b17a:7c93:c01d:b57a] (unknown [IPv6:2a01:e0a:120:3210:b17a:7c93:c01d:b57a])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        Fri, 18 Feb 2022 05:54:57 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1121F4606
+        for <linux-media@vger.kernel.org>; Fri, 18 Feb 2022 02:54:40 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 914981F46707;
-        Fri, 18 Feb 2022 10:54:29 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1645181670;
-        bh=mDKgd+Q2AHRC4xAge6dnVi0CH3nxoQVlAGei2HcyOQg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=TDu6sVCPrAY0o8/Q/YqZdiINsKgsQ9aBOAHrLbjWG6lDHh6LP5+wUAoVaHpKm72GK
-         hN0Tx8+ZFIjAdsm5juPRKOsdTZC/8HF4+nRkE6inLRXiTSY27pSAKL8CjB7zPYi+kY
-         aqQyDfCda2CrYeokplNn9ZN/lhdCOhoGYaR3U8W7xDmaXx1vBGW+sOE2WYPLjjsQHu
-         ZFBoZU00zEF43GIRvf5paKh5cEvE2dBX2rDofpHqxpe4D01+kX5AWUtYrwwvF5M0TK
-         ZyQnkZo/lYJ3RuazpgvcpTLaUWvFio0a8uwj26HdUAbAcOvXnQQzRa8kizIbSlv6f/
-         rrgmvoYawds6g==
-Message-ID: <8ea4b561-2d46-3d40-73a1-2fe4d92c095d@collabora.com>
-Date:   Fri, 18 Feb 2022 11:54:27 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6E4CDB825CA
+        for <linux-media@vger.kernel.org>; Fri, 18 Feb 2022 10:54:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C05F2C340E9;
+        Fri, 18 Feb 2022 10:54:36 +0000 (UTC)
+Message-ID: <49e455a5-2468-b45e-4449-4db4c2821bdd@xs4all.nl>
+Date:   Fri, 18 Feb 2022 11:54:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC v2 0/8] Move HEVC stateless controls out of staging
+ Thunderbird/91.5.1
 Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, jonas@kwiboo.se, nicolas@ndufresne.ca
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk
-References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
- <d33e96db-8cd0-08a5-7e73-742187ea6de5@xs4all.nl>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <d33e96db-8cd0-08a5-7e73-742187ea6de5@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Adam Ford <aford173@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Ettore Chimenti <ettore.chimenti@udoo.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Pavel Skripkin <paskripkin@gmail.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.18] Various fixes/enhancements
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-Le 18/02/2022 à 10:59, Hans Verkuil a écrit :
-> Hi Benjamin,
->
-> On 15/02/2022 12:00, Benjamin Gaignard wrote:
->> This series aims to make HEVC uapi stable and usable for hardware
->> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
->> and 2 out of the tree drivers (rkvdec and RPI).
->>
->> The 3 first patches are from Hans to implement v4l2 dynamic control
->> feature which is need by patch 7 for V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET
->> definition.
->>
->> Patch 4 move the existing uapi to stable, including definitions renaming
->> and CID number change to fit with v4l2 naming.
->>
->> Patches 5 and 7 add fields needed for rkvdec and RPI decoders.
->>
->> Patches 6 is cleaning up the uapi of useless field.
->> Patches 8 change one field description and name to define offset by
->> bytes rather than by bits
-> I have some housekeeping questions:
->
-> I have several older HEVC-related patches from you, which of those are still
-> valid?
->
-> "[v4,0/9] Additional features for Hantro HEVC":
-> https://patchwork.linuxtv.org/project/linux-media/cover/20210625141143.577998-1-benjamin.gaignard@collabora.com/
->
-> "media: hevc: fix pictures lists type":
-> https://patchwork.linuxtv.org/project/linux-media/patch/20210823082949.237716-1-benjamin.gaignard@collabora.com/
->
-> "media: hantro: Trace hevc hw cycles performance register":
-> https://patchwork.linuxtv.org/project/linux-media/patch/20210823135606.633052-1-benjamin.gaignard@collabora.com/
->
-> "media: hantro: Add support of compressed reference buffers"
-> https://patchwork.linuxtv.org/project/linux-media/patch/20210823162916.824336-1-benjamin.gaignard@collabora.com/
->
-> Before moving the HEVC API out of staging I would prefer to have any remaining
-> issues fixed. So one series that adds any remaining fixes (i.e. from the older patches
-> mentioned above), and a second series on top that moves it out of staging.
-
-Hi Hans,
-
-They are all related to Hantro diver and, after post-proc patches, the internal driver design
-has change so they won't apply anymore. You can discard them.
-HEVC UAPI migration isn't not impacted by these patches.
-My plan is a finish the HEVC UAPI first, send patches to add features (compression, 10bits, scaling)
-to Hantro driver and finally move it out of staging too.
-If possible I would like to not make HEVC UAPI topic depends of Hantro features.
-
-Does that makes sense for you ?
+Besides assorted fixes this also adds support for i.MX8MM Hantro-G1,
+a performance speed up for stk1160 and camss improvements.
 
 Regards,
-Benjamin
 
->
-> That way I can mark the older patches as Superseded, and we have a
-> fresh series that we can discuss.
->
-> Regards,
->
-> 	Hans
->
->> Benjamin
->>
->> Benjamin Gaignard (5):
->>    media: uapi: Move HEVC stateless controls out of staging
->>    media: uapi: Add fields needed for RKVDEC driver
->>    media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
->>    media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
->>    media: uapi: Change data_bit_offset definition
->>
->> Hans Verkuil (3):
->>    videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
->>    v4l2-ctrls: add support for dynamically allocated arrays.
->>    vivid: add dynamic array test control
->>
->>   .../userspace-api/media/drivers/hantro.rst    |   5 -
->>   .../media/v4l/ext-ctrls-codec.rst             |  58 ++--
->>   .../media/v4l/vidioc-queryctrl.rst            |   8 +
->>   .../media/test-drivers/vivid/vivid-ctrls.c    |  15 ++
->>   drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++++++--
->>   drivers/media/v4l2-core/v4l2-ctrls-core.c     | 182 ++++++++++---
->>   drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +--
->>   drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
->>   drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
->>   drivers/staging/media/hantro/hantro_drv.c     |  27 +-
->>   drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
->>   drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
->>   .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  13 +-
->>   include/linux/hantro-media.h                  |  17 ++
->>   include/media/hevc-ctrls.h                    | 250 ------------------
->>   include/media/v4l2-ctrls.h                    |  48 +++-
->>   include/uapi/linux/v4l2-controls.h            | 224 ++++++++++++++++
->>   include/uapi/linux/videodev2.h                |   8 +
->>   19 files changed, 640 insertions(+), 408 deletions(-)
->>   create mode 100644 include/linux/hantro-media.h
->>   delete mode 100644 include/media/hevc-ctrls.h
->>
+	Hans
+
+The following changes since commit 2b891d3980f6c255459d0e1c29ce2152ec7cf678:
+
+  media: xilinx: csi2rxss: Use mipi-csi2.h (2022-02-17 10:32:26 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18m
+
+for you to fetch changes up to 2f82b80414b5f626b9069f9a803000facb8af66b:
+
+  media: mtk-vcodec: Remove duplicated include in mtk_vcodec_enc_drv.c (2022-02-18 11:25:32 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Adam Ford (4):
+      dt-bindings: media: nxp, imx8mq-vpu: Split G1 and G2 nodes
+      media: hantro: Allow i.MX8MQ G1 and G2 to run independently
+      dt-bindings: media: nxp, imx8mq-vpu: Add support for G1 on imx8mm
+      media: hantro: Add support for i.MX8MM Hantro-G1
+
+Bryan O'Donoghue (6):
+      media: dt-bindings: media: camss: Fixup vdda regulator descriptions sdm845
+      media: dt-bindings: media: camss: Add vdda supply declarations sm8250
+      media: camss: Add regulator_bulk support
+      media: camss: Set unused regulators to the empty set
+      media: camss: Point sdm845 at the correct vdda regulators
+      media: camss: Point sm8250 at the correct vdda regulators
+
+Dafna Hirschfeld (4):
+      media: stk1160: fix number of buffers in case not all buffers are created
+      media: stk1160: If start stream fails, return buffers with VB2_BUF_STATE_QUEUED
+      media: stk1160: move transfer_buffer and urb to same struct 'stk1160_urb'
+      media: stk1160: use dma_alloc_noncontiguous API
+
+Dongliang Mu (1):
+      media: hdpvr: initialize dev->worker at hdpvr_register_videodev
+
+Ettore Chimenti (1):
+      media: cec: seco: add newlines in debug messages
+
+Jiasheng Jiang (1):
+      media: vidtv: Check for null return of vzalloc
+
+Lad Prabhakar (1):
+      media: davinci: vpif: Use platform_get_irq_optional() to get the interrupt
+
+Pavel Skripkin (1):
+      Revert "media: em28xx: add missing em28xx_close_extension"
+
+Sergey Senozhatsky (1):
+      media: videobuf2-dma-contig: Invalidate vmap range before DMA range
+
+Xu Wang (1):
+      media: mtk-mdp: Remove redundant 'flush_workqueue()' calls
+
+Yang Li (1):
+      media: mtk-vcodec: Remove duplicated include in mtk_vcodec_enc_drv.c
+
+ Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml    |  68 ++++++++++++---------------
+ Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml |  14 ++++--
+ Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml |  13 ++++++
+ drivers/media/cec/platform/seco/seco-cec.c                     |  54 ++++++++++-----------
+ drivers/media/common/videobuf2/videobuf2-dma-contig.c          |  12 ++---
+ drivers/media/platform/davinci/vpif.c                          |  18 ++++---
+ drivers/media/platform/davinci/vpif_capture.c                  |  27 ++++++-----
+ drivers/media/platform/davinci/vpif_display.c                  |  24 ++++++----
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c                  |   2 -
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c         |   1 -
+ drivers/media/platform/qcom/camss/camss-csid.c                 |  45 ++++++++++++------
+ drivers/media/platform/qcom/camss/camss-csid.h                 |   3 +-
+ drivers/media/platform/qcom/camss/camss.c                      |  94 ++++++++++++++++++-------------------
+ drivers/media/platform/qcom/camss/camss.h                      |   2 +-
+ drivers/media/test-drivers/vidtv/vidtv_s302m.c                 |  17 +++++--
+ drivers/media/usb/em28xx/em28xx-cards.c                        |   5 +-
+ drivers/media/usb/hdpvr/hdpvr-video.c                          |   4 +-
+ drivers/media/usb/stk1160/stk1160-core.c                       |   2 +-
+ drivers/media/usb/stk1160/stk1160-v4l.c                        |  16 ++++---
+ drivers/media/usb/stk1160/stk1160-video.c                      | 142 ++++++++++++++++++++++++++++++--------------------------
+ drivers/media/usb/stk1160/stk1160.h                            |  23 ++++++---
+ drivers/staging/media/hantro/hantro_drv.c                      |  11 +++++
+ drivers/staging/media/hantro/hantro_hw.h                       |   2 +
+ drivers/staging/media/hantro/imx8m_vpu_hw.c                    |  62 +++++++++++++++++++------
+ 24 files changed, 390 insertions(+), 271 deletions(-)
