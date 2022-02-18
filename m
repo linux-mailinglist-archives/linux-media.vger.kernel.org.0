@@ -2,56 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD33D4BB3BD
-	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 08:58:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0278C4BB3D6
+	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 09:03:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231962AbiBRH6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Feb 2022 02:58:54 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47696 "EHLO
+        id S232339AbiBRID2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Feb 2022 03:03:28 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232291AbiBRH6v (ORCPT
+        with ESMTP id S231209AbiBRID0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Feb 2022 02:58:51 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD20D1617E7
-        for <linux-media@vger.kernel.org>; Thu, 17 Feb 2022 23:58:25 -0800 (PST)
+        Fri, 18 Feb 2022 03:03:26 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4788721FECA;
+        Fri, 18 Feb 2022 00:03:10 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 159656126D
-        for <linux-media@vger.kernel.org>; Fri, 18 Feb 2022 07:58:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A888C340E9;
-        Fri, 18 Feb 2022 07:58:23 +0000 (UTC)
-Message-ID: <76a49a45-9225-c306-2e34-19f6939c9073@xs4all.nl>
-Date:   Fri, 18 Feb 2022 08:58:21 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id F24ACB820E8;
+        Fri, 18 Feb 2022 08:03:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C03F5C340E9;
+        Fri, 18 Feb 2022 08:03:06 +0000 (UTC)
+Message-ID: <54cfa5a5-558d-463c-7131-9b56410403cc@xs4all.nl>
+Date:   Fri, 18 Feb 2022 09:03:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.1
-Subject: Re: Kernel hangs after DVB patch from July 2021 with Hauppauge WinTV
- dualHD
+Subject: Re: [PATCH] media: hdpvr: call flush_work only if initialized
 Content-Language: en-US
-To:     =?UTF-8?Q?Maximilian_B=c3=b6hm?= <maximilian.boehm@elbmurf.de>,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     sashal@kernel.org, linux-media@vger.kernel.org,
-        Brad Love <brad@nextdimension.cc>
-References: <6a72a37b-e972-187d-0322-16336e12bdc5@elbmurf.de>
- <20211218101519.756c027d@coco.lan>
- <45306193-deec-d1a3-d74d-41dc361b36d9@gmail.com>
- <e7c54b23-d163-ef33-3f62-c25b72e30aa8@elbmurf.de>
- <c6dcf627-047f-8726-0c4e-aa2a9ae12da9@gmail.com>
- <5c891c4a-7a02-18b7-c4c1-8429fcd3366f@elbmurf.de>
- <12440c22-9f69-740d-bcfd-3b6bf0e4dcc1@gmail.com>
- <23b3f65c-8f52-6109-d5ca-52ee12da6115@elbmurf.de>
- <afdd8f33-9d75-7e73-b7b6-a0363e316beb@gmail.com>
- <a0e25415-2db7-bea0-b00c-f1b4bf84d0d6@gmail.com>
- <a0ba3685-8c59-cb89-7f81-280c38a92c40@elbmurf.de>
- <3192902d-b04a-d59a-aea5-1fbd31c20fef@xs4all.nl>
- <59465a5d-9d47-5e96-3395-7a2c1a984c8e@elbmurf.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <59465a5d-9d47-5e96-3395-7a2c1a984c8e@elbmurf.de>
+To:     Dongliang Mu <mudongliangabcd@gmail.com>
+Cc:     Dongliang Mu <dzm91@hust.edu.cn>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        syzkaller <syzkaller@googlegroups.com>,
+        linux-media@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <20220217043950.749343-1-dzm91@hust.edu.cn>
+ <b452f7a7-99fa-e023-9120-639b4110de73@xs4all.nl>
+ <CAD-N9QXyU+yGU15yJnnU=JOjKGFDfjY03xk70pHgx88BcBPASA@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <CAD-N9QXyU+yGU15yJnnU=JOjKGFDfjY03xk70pHgx88BcBPASA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -62,65 +52,78 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maximilian,
-
-On 18/02/2022 01:16, Maximilian Böhm wrote:
-> Hi Hans,
+On 18/02/2022 06:58, Dongliang Mu wrote:
+> On Thu, Feb 17, 2022 at 8:05 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>
+>> On 17/02/2022 05:39, Dongliang Mu wrote:
+>>> From: Dongliang Mu <mudongliangabcd@gmail.com>
+>>>
+>>> flush_work will throw one WARN if worker->func is NULL. So we should always
+>>> initialize one worker before calling flush_work. When hdpvr_probe does not
+>>> initialize its worker, the hdpvr_disconnect will encounter one WARN. The
+>>> stack trace is in the following:
+>>>
+>>>  hdpvr_disconnect+0xb8/0xf2 drivers/media/usb/hdpvr/hdpvr-core.c:425
+>>>  usb_unbind_interface+0xbf/0x3a0 drivers/usb/core/driver.c:458
+>>>  __device_release_driver drivers/base/dd.c:1206 [inline]
+>>>  device_release_driver_internal+0x22a/0x230 drivers/base/dd.c:1237
+>>>  bus_remove_device+0x108/0x160 drivers/base/bus.c:529
+>>>  device_del+0x1fe/0x510 drivers/base/core.c:3592
+>>>  usb_disable_device+0xd1/0x1d0 drivers/usb/core/message.c:1419
+>>>  usb_disconnect+0x109/0x330 drivers/usb/core/hub.c:2228
+>>>
+>>> Fix this by adding a sanity check of the worker before flush_work.
+>>>
+>>> Reported-by: syzkaller <syzkaller@googlegroups.com>
+>>> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+>>> ---
+>>>  drivers/media/usb/hdpvr/hdpvr-core.c | 3 ++-
+>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
+>>> index 52e05a69c46e..d102b459d45d 100644
+>>> --- a/drivers/media/usb/hdpvr/hdpvr-core.c
+>>> +++ b/drivers/media/usb/hdpvr/hdpvr-core.c
+>>> @@ -422,7 +422,8 @@ static void hdpvr_disconnect(struct usb_interface *interface)
+>>>       mutex_unlock(&dev->io_mutex);
+>>>       v4l2_device_disconnect(&dev->v4l2_dev);
+>>>       msleep(100);
+>>> -     flush_work(&dev->worker);
+>>> +     if (dev->worker.func)
+>>> +             flush_work(&dev->worker);
+>>
+>> I don't think this is the right fix. Instead, move the INIT_WORK line from
+>> hdpvr_start_streaming() to hdpvr_register_videodev(). That should initialize
+>> the worker struct from the start instead of only when you start streaming,
+>> as is the case today.
 > 
-> thanks for reaching out. I’ve applied this patch on top of Linux 5.15.3 (with Pavel’s former patch) and I’m still experiencing this system hangs, effectively kernel panics after resume from standby +
-> usbreset of my Hauppauge WinTV DualHD. So, it’s not solving my issue, but perhaps another one, I don’t know.
+> I see your point.
+> 
+> One small question: if we initialize worker at the beginning of
+> hdpvr_register_videodev, but without schedule_work, will flush_work at
+> hdpvr_disconnect lead to some issues?
+> 
+> Or we need to verify if the work is pending or running at hdpvr_disconnect?
 
-Thank you for the quick test, it was worth a shot.
-
-I'll take the revert patch for 5.18.
+No, flush_work already checks if there is anything to do. If nothing was
+scheduled, it will just return.
 
 Regards,
 
 	Hans
 
 > 
-> Regards
-> Maximilian
+>>
+>> Can you try that?
 > 
-> Am 17.02.22 um 12:14 schrieb Hans Verkuil:
->> Hi Maximilian,
->>
->> On 20/01/2022 20:29, Maximilian Böhm wrote:
->>> Hey Pavel,
->>>
->>> I would prefer reverting your use-after-free change. I’m still on Linux 5.15.2 to avoid this issue. I’m not sure if I understand your last mails correctly, did you already revert the change or did you
->>> just offer to do it? Anyway, reverting locally wouldn’t be feasible long-term.
->>> If I could help eliminating this bug, I would gladly offer my system for a remote hacking session via ssh or Teamviewer or try other patch ideas.
->> I wonder if this patch:
->>
->> https://patchwork.linuxtv.org/project/linux-media/patch/20220122074500.429184-1-dzm91@hust.edu.cn/
->>
->> is perhaps related to this issue? Can you test if this patch solves your issue?
->>
->> If not, then I'll apply Pavel's revert patch for 5.18.
+> 
 >>
 >> Regards,
 >>
->>     Hans
+>>         Hans
 >>
->>> Btw, found this forum thread describing the same original problem (which is forcing me to use usbreset after standby) on Windows, so this probably is a bug in the tuner hardware, not in the Linux
->>> driver: https://www.dvbviewer.tv/forum/topic/63002-hauppauge-wintv-dualhd-stick-geht-oft-nicht-nach-standby/
->>>
->>> If I were to submit an official "device quirk" for the Linux kernel, would it be affected of your use-after-free change too? Nobody knows, I guess?
->>>
->>> Regards
->>> Maximilian Böhm
->>>
->>> Am 06.01.22 um 12:57 schrieb Pavel Skripkin:
->>>>> Anyway, you can revert my patch locally and use your device. I
->>>>> understand, that this approach is the best one, but anyway revert will
->>>>                                   ^^^^
->>>>
->>>> I've missed "not". Please, don't get me wrong :) Reverting something
->>>> locally to work with upstream device is never a good thing.
->>>>
->>>>
->>>>
->>>> With regards,
->>>> Pavel Skripkin
+>>>       mutex_lock(&dev->io_mutex);
+>>>       hdpvr_cancel_queue(dev);
+>>>       mutex_unlock(&dev->io_mutex);
+>>
 
