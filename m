@@ -2,126 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBFEE4BBBC3
-	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 16:05:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E021D4BBD01
+	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 17:05:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236116AbiBRPEu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Feb 2022 10:04:50 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55248 "EHLO
+        id S237484AbiBRQGJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Feb 2022 11:06:09 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234018AbiBRPEt (ORCPT
+        with ESMTP id S232779AbiBRQFn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Feb 2022 10:04:49 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF84B29720E;
-        Fri, 18 Feb 2022 07:04:32 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        Fri, 18 Feb 2022 11:05:43 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B245C34A
+        for <linux-media@vger.kernel.org>; Fri, 18 Feb 2022 08:05:26 -0800 (PST)
+Received: from notapiano (unknown [IPv6:2a00:5f00:102:0:c88c:d8ff:fee5:4936])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4D8F561D5A;
-        Fri, 18 Feb 2022 15:04:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18B0EC340EF;
-        Fri, 18 Feb 2022 15:04:29 +0000 (UTC)
-Message-ID: <58bfb1fb-431d-a47d-ee9e-fbef89a700a0@xs4all.nl>
-Date:   Fri, 18 Feb 2022 16:04:28 +0100
+        (Authenticated sender: nfraprado)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AFE221F46D0A;
+        Fri, 18 Feb 2022 16:05:16 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1645200317;
+        bh=C823c27efOpu9knHGtf0JTngD0EeQSb57HYDcg3DKO0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=onjVvNjjoaixTG0qxMem6BBH1iQoqv42apb73x4NqB7+DT9pEx2p2OwsK9NigXKx7
+         EZcLbMVSNRloiHBDsKEz9FNMFh8fooXEVY2YUPV6dT1p30w5Xfwo6l+Ut8WxwHgExp
+         Js+ofDJUcvzHV/ork7LJHqQRKVzrOQqGkPfZ8Hptqt7mxbtOGWmN/UrqEM5nnphzvM
+         RezFcMm8xb5BRmmab2nAzP7iNRhIRMtBaaH1ahUWPFYJcFx8t4ASZOXGeFjpPlssYd
+         4wZBMHlJHQjBKqws8Di0NwA68JYS2RjzMU7/DeKm7U6Z3C8LKdKOwe6SpEwSS9lnD5
+         dEvJcSSukKCBQ==
+Date:   Fri, 18 Feb 2022 11:05:12 -0500
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
+        <nfraprado@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: Re: [PATCHv2] v4l2-compliance: only check function if an MC is
+ present
+Message-ID: <20220218160512.ndtsbwiv3hjc6vki@notapiano>
+References: <b6bc652a-9e6e-0e82-5a86-2bd0f2df51f1@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v3 0/4] Add V4L stateless video decoder API support to
- NVIDIA Tegra driver
-Content-Language: en-US
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220207141937.13089-1-digetx@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220207141937.13089-1-digetx@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b6bc652a-9e6e-0e82-5a86-2bd0f2df51f1@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dmitry,
+Hi Hans,
 
-On 07/02/2022 15:19, Dmitry Osipenko wrote:
-> Support V4L stateless video decoder API by NVIDIA Tegra decoder driver.
-> Tested using GStreamer [1] and libvdpau-tegra [2][8].
+On Fri, Feb 18, 2022 at 09:09:26AM +0100, Hans Verkuil wrote:
+> The codec tests checked if the function of the device as reported
+> by the media controller is that of an de/encoder. But that test
+> was also done for codecs without a MC, and then it fails.
 > 
-> [1] https://github.com/grate-driver/gstreamer/commit/b8509bdbb69b534e61419ea1798f32f9ad2f3597
-> [2] https://github.com/grate-driver/libvdpau-tegra/commit/f822e95911e5e0c39f8ba19f843ddc1e0138d5ce
-> [8] https://github.com/grate-driver/libvdpau-tegra/commit/80db4d02369f2a984ce3173d6bc305f32e9fdb97
+> So only do this test if an MC was found.
+> 
+> Also test that stateless codecs always have a MC since it is
+> required for such codecs.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Nice work!
+Just like v1, this patch fixes the following v4l-compliance fail I was seeing on
+the mtk-vcodec-enc driver on mt8173-elm-hana:
 
-Can you make a v4 that just moves the whole driver to drivers/media/platform? I see no
-reason for keeping this in staging.
+	fail: v4l2-test-codecs.cpp(35): node->function != MEDIA_ENT_F_PROC_VIDEO_ENCODER
+test VIDIOC_(TRY_)ENCODER_CMD: FAIL
 
-Once I have a v4 that does that I plan to make a PR for it.
+So,
 
-For the v4 don't forget to update MAINTAINERS with the new path and to drop the TODO
-file in staging.
+Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-Regards,
+Thanks,
+Nícolas
 
-	Hans
-
+> ---
+> Nicolas, Stanimir, can you test? This is an improved version of the
+> patch fixing the function test for codecs.
+> ---
+>  utils/v4l2-compliance/v4l2-compliance.cpp  | 1 +
+>  utils/v4l2-compliance/v4l2-compliance.h    | 1 +
+>  utils/v4l2-compliance/v4l2-test-codecs.cpp | 6 ++++--
+>  3 files changed, 6 insertions(+), 2 deletions(-)
 > 
-> Changelog:
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+> index c53a55ba..8d0e94e9 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
+> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+> @@ -998,6 +998,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+>  			if (!node.is_v4l2())
+>  				driver = mdinfo.driver;
+>  			node.media_bus_info = mdinfo.bus_info;
+> +			node.has_media = true;
+>  		}
+>  	}
 > 
-> v3: - Added new decode_params flags [7] instead of V4L2_BUF_FLAG_*FRAME flags,
->       as was suggested by Nicolas Dufresne.
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+> index 7255161f..507187eb 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.h
+> +++ b/utils/v4l2-compliance/v4l2-compliance.h
+> @@ -120,6 +120,7 @@ struct base_node {
+>  	struct node *node2;	/* second open filehandle */
+>  	bool has_outputs;
+>  	bool has_inputs;
+> +	bool has_media;
+>  	unsigned tuners;
+>  	unsigned modulators;
+>  	unsigned inputs;
+> diff --git a/utils/v4l2-compliance/v4l2-test-codecs.cpp b/utils/v4l2-compliance/v4l2-test-codecs.cpp
+> index 22175eef..1d76a17c 100644
+> --- a/utils/v4l2-compliance/v4l2-test-codecs.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-codecs.cpp
+> @@ -31,7 +31,8 @@ int testEncoder(struct node *node)
+>  	bool is_encoder = node->codec_mask & (STATEFUL_ENCODER | JPEG_ENCODER);
+>  	int ret;
 > 
->       [7] https://github.com/grate-driver/gstreamer/commit/c5cd847f9c26b7669720ae58f9058de2515f51a2
+> -	if (IS_ENCODER(node))
+> +	fail_on_test((node->codec_mask & STATELESS_ENCODER) && !node->has_media);
+> +	if (IS_ENCODER(node) && node->has_media)
+>  		fail_on_test(node->function != MEDIA_ENT_F_PROC_VIDEO_ENCODER);
+>  	memset(&cmd, 0xff, sizeof(cmd));
+>  	memset(&cmd.raw, 0, sizeof(cmd.raw));
+> @@ -100,7 +101,8 @@ int testDecoder(struct node *node)
+>  	bool is_decoder = node->codec_mask & (STATEFUL_DECODER | JPEG_DECODER);
+>  	int ret;
 > 
->     - Added new patch that removes legacy UAPI.
+> -	if (IS_DECODER(node))
+> +	fail_on_test((node->codec_mask & STATELESS_DECODER) && !node->has_media);
+> +	if (IS_DECODER(node) && node->has_media)
+>  		fail_on_test(node->function != MEDIA_ENT_F_PROC_VIDEO_DECODER);
+>  	memset(&cmd, 0xff, sizeof(cmd));
+>  	memset(&cmd.raw, 0, sizeof(cmd.raw));
+> -- 
+> 2.34.1
 > 
-> v2: - Made V4L2_BUF_FLAG_*FRAME flags mandatory [3] and dropped reading
->       of raw bitstream from the driver code, as was suggested by
->       Nicolas Dufresne.
-> 
->       [3] https://github.com/grate-driver/gstreamer/commit/aee292f0f2e84b7654a314dd7e63f916888ffaa5
-> 
->     - Ran v4l2-compliance [4] and fluster [5][6] tests, like was suggested by
->       Nicolas Dufresne. Fixed minor v4l2-compliance errors that were related
->       to a partial initialization of the coded format and were harmless in
->       practice, but made compliance checker unhappy.
-> 
->       [4] https://gist.github.com/digetx/5d6bcdab633488f1dcc7c141ab90d30e
->       [5] https://gist.github.com/digetx/b06c5d779e9d25afa41d9f46946fe399
->       [6] https://gist.github.com/digetx/ac4198bc340e5065aa8ec3288bb21356
-> 
-> Dmitry Osipenko (4):
->   media: v4l2-ctrls: Add new V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags
->   media: staging: tegra-vde: Factor out H.264 code
->   media: staging: tegra-vde: Support V4L stateless video decoder API
->   media: staging: tegra-vde: Remove legacy UAPI support
-> 
->  .../media/v4l/ext-ctrls-codec-stateless.rst   |    6 +
->  drivers/staging/media/tegra-vde/Kconfig       |    7 +
->  drivers/staging/media/tegra-vde/Makefile      |    2 +-
->  .../staging/media/tegra-vde/dmabuf-cache.c    |    2 +-
->  drivers/staging/media/tegra-vde/h264.c        |  946 +++++++++++++++
->  drivers/staging/media/tegra-vde/iommu.c       |    2 +-
->  drivers/staging/media/tegra-vde/uapi.h        |   73 --
->  drivers/staging/media/tegra-vde/v4l2.c        | 1018 +++++++++++++++++
->  drivers/staging/media/tegra-vde/vde.c         |  945 ++-------------
->  drivers/staging/media/tegra-vde/vde.h         |  121 +-
->  include/uapi/linux/v4l2-controls.h            |    2 +
->  11 files changed, 2170 insertions(+), 954 deletions(-)
->  create mode 100644 drivers/staging/media/tegra-vde/h264.c
->  delete mode 100644 drivers/staging/media/tegra-vde/uapi.h
->  create mode 100644 drivers/staging/media/tegra-vde/v4l2.c
-> 
-
