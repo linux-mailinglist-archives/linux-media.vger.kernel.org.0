@@ -2,138 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4CE14BB7B3
-	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 12:08:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 154CF4BB7F2
+	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 12:20:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233622AbiBRLI1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Feb 2022 06:08:27 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56942 "EHLO
+        id S233153AbiBRLVG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Feb 2022 06:21:06 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232598AbiBRLI0 (ORCPT
+        with ESMTP id S231375AbiBRLVG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Feb 2022 06:08:26 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23AD22AE73A;
-        Fri, 18 Feb 2022 03:08:10 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: usama.anjum)
-        with ESMTPSA id B2A481F46751
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1645182488;
-        bh=MWH+/EKkY4LjLqgJrcKLJ7r78Z4lhuUmpr0kon7qvkg=;
-        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-        b=Wj0tW+9GkMa6s8+StqasaD8bQ8GVceX1XiW5s2yWmvR2d1+xqNFU2ZcOa0w0tvhqW
-         v7Z1Do5WOb6zUvAs8pgH9XXkRymc3slhIvm6juwFLlJVhInMN81yyJ6Y9dudvZm14G
-         nYceNqcWFNOWBtQKNOcgter2/OJEdb5wIYZ0wgM9TXTNGznBCcPOmiUEuwb2p4hPJr
-         CbyqbQdgJJ8MAchJj9Q3bnkKEbMITkSnJYFFnoeU54yWOtPtlFZQC6vleB2HrD422L
-         4sS2ZIT5rRK67K8c7z1Ygh5Yury9IVnEVo1D53+PwEzBuDMTsOFH+Ll2YjRBA74Zse
-         F47n4UsVbNI4w==
-Message-ID: <cb4db484-c4e6-9cf9-baa5-0be454947ed5@collabora.com>
-Date:   Fri, 18 Feb 2022 16:08:00 +0500
+        Fri, 18 Feb 2022 06:21:06 -0500
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD18117EC38
+        for <linux-media@vger.kernel.org>; Fri, 18 Feb 2022 03:20:49 -0800 (PST)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nL1Jf-006fD7-VI; Fri, 18 Feb 2022 11:20:47 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nL1Jd-00949f-Tq; Fri, 18 Feb 2022 11:20:45 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.18] Various fixes/enhancements (#80828)
+Date:   Fri, 18 Feb 2022 11:20:45 +0000
+Message-Id: <20220218112045.2160877-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <49e455a5-2468-b45e-4449-4db4c2821bdd@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Cc:     usama.anjum@collabora.com, kernel@collabora.com,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH V2] media: imx: imx8mq-mipi_csi2: Remove unneeded code
-Content-Language: en-US
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        "open list:MEDIA DRIVERS FOR FREESCALE IMX" 
-        <linux-media@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>, mkl@pengutronix.de
-References: <20220128170722.1624767-1-usama.anjum@collabora.com>
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <20220128170722.1624767-1-usama.anjum@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reminder.
+From: builder@linuxtv.org
 
-On 1/28/22 10:07 PM, Muhammad Usama Anjum wrote:
-> ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
-> return error. Remove the return variable. Simplify other functions which
-> are using this function.
-> 
-> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
-> ---
-> Changes in V2:
-> Removed fixes tag
-> ---
->  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 16 ++++------------
->  1 file changed, 4 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> index 3b9fa75efac6b..c992b845e63d1 100644
-> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> @@ -693,11 +693,10 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
->   * Suspend/resume
->   */
->  
-> -static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
-> +static void imx8mq_mipi_csi_pm_suspend(struct device *dev)
->  {
->  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> -	int ret = 0;
->  
->  	mutex_lock(&state->lock);
->  
-> @@ -708,8 +707,6 @@ static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
->  	}
->  
->  	mutex_unlock(&state->lock);
-> -
-> -	return ret ? -EAGAIN : 0;
->  }
->  
->  static int imx8mq_mipi_csi_pm_resume(struct device *dev)
-> @@ -742,15 +739,12 @@ static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
->  {
->  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> -	int ret;
->  
-> -	ret = imx8mq_mipi_csi_pm_suspend(dev);
-> -	if (ret)
-> -		return ret;
-> +	imx8mq_mipi_csi_pm_suspend(dev);
->  
->  	state->state |= ST_SUSPENDED;
->  
-> -	return ret;
-> +	return 0;
->  }
->  
->  static int __maybe_unused imx8mq_mipi_csi_resume(struct device *dev)
-> @@ -770,9 +764,7 @@ static int __maybe_unused imx8mq_mipi_csi_runtime_suspend(struct device *dev)
->  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
->  	int ret;
->  
-> -	ret = imx8mq_mipi_csi_pm_suspend(dev);
-> -	if (ret)
-> -		return ret;
-> +	imx8mq_mipi_csi_pm_suspend(dev);
->  
->  	ret = icc_set_bw(state->icc_path, 0, 0);
->  	if (ret)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/49e455a5-2468-b45e-4449-4db4c2821bdd@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/183981/
+Build time: 00:23:43
+Link: https://lore.kernel.org/linux-media/49e455a5-2468-b45e-4449-4db4c2821bdd@xs4all.nl
+
+gpg: Signature made Fri 18 Feb 2022 10:50:35 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Can't check signature: No public key
+
+Summary: got 1/22 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-Revert-media-em28xx-add-missing-em28xx_close_extensi.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2900 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+
+Error #512 when building PDF docs
+
