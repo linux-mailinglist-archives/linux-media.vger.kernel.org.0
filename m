@@ -2,110 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C0364BBAFD
-	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 15:54:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBFEE4BBBC3
+	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 16:05:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236166AbiBROyS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Feb 2022 09:54:18 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44452 "EHLO
+        id S236116AbiBRPEu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Feb 2022 10:04:50 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235974AbiBROyR (ORCPT
+        with ESMTP id S234018AbiBRPEt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Feb 2022 09:54:17 -0500
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 481EB53E11
-        for <linux-media@vger.kernel.org>; Fri, 18 Feb 2022 06:54:00 -0800 (PST)
-Received: by mail-qv1-xf2f.google.com with SMTP id d7so15177413qvk.2
-        for <linux-media@vger.kernel.org>; Fri, 18 Feb 2022 06:54:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=AMxb1/snu2ldA/ubJJEAYt1WVb3/09SyAfGJTEa/UKQ=;
-        b=Fgz90lidrUWx8l9/L+dip/BnxqYGQh6NwgzlB66sPD48dp7ZS+wyGTykM1quRiiwCK
-         Q3ZYwz1Z+E/dKHgKgkNkOw0THEQ70be8BD6HxmlwRbAQlf/Onle4QuK2Q1X2YjYScZb1
-         Rw+h/B+ErAD0GMCl5cJJyNZSzInCV/TPEJh+2OF6EcmPGOAH0+D/XJrnjLwiFuqvI+AT
-         ajOSwwvowFnB2e96OcEIECaDhyGL1UKz4wywrx6dF4/u9aDNUvMTOsfycj5W9XEs5k27
-         +C525sy9IXwMGSiYSUKd2oll0mJXowpW7I1TzH1F+KEDgv9OX9e3VzgU0PktJjfavLI9
-         fS1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=AMxb1/snu2ldA/ubJJEAYt1WVb3/09SyAfGJTEa/UKQ=;
-        b=5dLOgipNBVvhYc+rOCJ00PwglzQQCoQxH+GCfkwoHJZblKErevQTJia6Da4FBhASvE
-         cQYJPr9Dgmarxn90PS8W3VAIGariDwaO6W4V/W6rhLSTAiULSV0h1lLrdtHM+dOhRxwk
-         hRmLNPQAlMk5Wsim91OvMlEETiYHd/hBZb6Nzu6E0E2Wg1wDmXqOs5X3lzXvmpJzqyWM
-         hCOsxWsD7uX/O2TNWbkzod7ntWN8tbE/8AcetH10BJ09zLcUatoLz4uaP2hjDfphJwJO
-         +AxqNX0p682SuCLfv69ypcmqD7kDO4gXMFn+iy/AcnVwe9d5+bf4kxa9E7WC0nKmhYwe
-         e8Kw==
-X-Gm-Message-State: AOAM530+6HQ+tHGg2tnpkKHFFjaHxxVLONJdVx7RWbRuQxxooe/GmaGE
-        zjIicrx0uVw6hDV0SaxRXez4DQ==
-X-Google-Smtp-Source: ABdhPJwhFNB8fLdh0ym9XWrA9EZ9+ejd6mCNse+81XslSzMhPYs9F3LauZqXUMfLhfpDArU2+f7pUA==
-X-Received: by 2002:a05:6214:d03:b0:42c:ce43:9f8b with SMTP id 3-20020a0562140d0300b0042cce439f8bmr5926290qvh.102.1645196039402;
-        Fri, 18 Feb 2022 06:53:59 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id a188sm876860qkf.27.2022.02.18.06.53.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 06:53:59 -0800 (PST)
-Message-ID: <419d47d2dfac0b31d48e2ce3b4128c421f808038.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: cedrus: h264: Fix neighbour info buffer size
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.org, wens@csie.org, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Date:   Fri, 18 Feb 2022 09:53:57 -0500
-In-Reply-To: <20220214190839.707889-1-jernej.skrabec@gmail.com>
-References: <20220214190839.707889-1-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+        Fri, 18 Feb 2022 10:04:49 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF84B29720E;
+        Fri, 18 Feb 2022 07:04:32 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4D8F561D5A;
+        Fri, 18 Feb 2022 15:04:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18B0EC340EF;
+        Fri, 18 Feb 2022 15:04:29 +0000 (UTC)
+Message-ID: <58bfb1fb-431d-a47d-ee9e-fbef89a700a0@xs4all.nl>
+Date:   Fri, 18 Feb 2022 16:04:28 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v3 0/4] Add V4L stateless video decoder API support to
+ NVIDIA Tegra driver
+Content-Language: en-US
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220207141937.13089-1-digetx@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220207141937.13089-1-digetx@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 14 février 2022 à 20:08 +0100, Jernej Skrabec a écrit :
-> According to BSP library source, H264 neighbour info buffer size needs
-> to be 32 kiB for H6. This is similar to H265 decoding, which also needs
-> double buffer size in comparison to older Cedrus core generations.
-> 
-> Increase buffer size to cover H6 needs. Since increase is not that big
-> in absolute numbers, it doesn't make sense to complicate logic for older
-> generations.
-> 
-> Issue was discovered using iommu and cross checked with BSP library
-> source.
-> 
-> Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Dmitry,
 
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 07/02/2022 15:19, Dmitry Osipenko wrote:
+> Support V4L stateless video decoder API by NVIDIA Tegra decoder driver.
+> Tested using GStreamer [1] and libvdpau-tegra [2][8].
 > 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> index b4173a8926d6..d8fb93035470 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -38,7 +38,7 @@ struct cedrus_h264_sram_ref_pic {
->  
->  #define CEDRUS_H264_FRAME_NUM		18
->  
-> -#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(16 * SZ_1K)
-> +#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(32 * SZ_1K)
->  #define CEDRUS_MIN_PIC_INFO_BUF_SIZE       (130 * SZ_1K)
->  
->  static void cedrus_h264_write_sram(struct cedrus_dev *dev,
+> [1] https://github.com/grate-driver/gstreamer/commit/b8509bdbb69b534e61419ea1798f32f9ad2f3597
+> [2] https://github.com/grate-driver/libvdpau-tegra/commit/f822e95911e5e0c39f8ba19f843ddc1e0138d5ce
+> [8] https://github.com/grate-driver/libvdpau-tegra/commit/80db4d02369f2a984ce3173d6bc305f32e9fdb97
+
+Nice work!
+
+Can you make a v4 that just moves the whole driver to drivers/media/platform? I see no
+reason for keeping this in staging.
+
+Once I have a v4 that does that I plan to make a PR for it.
+
+For the v4 don't forget to update MAINTAINERS with the new path and to drop the TODO
+file in staging.
+
+Regards,
+
+	Hans
+
+> 
+> Changelog:
+> 
+> v3: - Added new decode_params flags [7] instead of V4L2_BUF_FLAG_*FRAME flags,
+>       as was suggested by Nicolas Dufresne.
+> 
+>       [7] https://github.com/grate-driver/gstreamer/commit/c5cd847f9c26b7669720ae58f9058de2515f51a2
+> 
+>     - Added new patch that removes legacy UAPI.
+> 
+> v2: - Made V4L2_BUF_FLAG_*FRAME flags mandatory [3] and dropped reading
+>       of raw bitstream from the driver code, as was suggested by
+>       Nicolas Dufresne.
+> 
+>       [3] https://github.com/grate-driver/gstreamer/commit/aee292f0f2e84b7654a314dd7e63f916888ffaa5
+> 
+>     - Ran v4l2-compliance [4] and fluster [5][6] tests, like was suggested by
+>       Nicolas Dufresne. Fixed minor v4l2-compliance errors that were related
+>       to a partial initialization of the coded format and were harmless in
+>       practice, but made compliance checker unhappy.
+> 
+>       [4] https://gist.github.com/digetx/5d6bcdab633488f1dcc7c141ab90d30e
+>       [5] https://gist.github.com/digetx/b06c5d779e9d25afa41d9f46946fe399
+>       [6] https://gist.github.com/digetx/ac4198bc340e5065aa8ec3288bb21356
+> 
+> Dmitry Osipenko (4):
+>   media: v4l2-ctrls: Add new V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags
+>   media: staging: tegra-vde: Factor out H.264 code
+>   media: staging: tegra-vde: Support V4L stateless video decoder API
+>   media: staging: tegra-vde: Remove legacy UAPI support
+> 
+>  .../media/v4l/ext-ctrls-codec-stateless.rst   |    6 +
+>  drivers/staging/media/tegra-vde/Kconfig       |    7 +
+>  drivers/staging/media/tegra-vde/Makefile      |    2 +-
+>  .../staging/media/tegra-vde/dmabuf-cache.c    |    2 +-
+>  drivers/staging/media/tegra-vde/h264.c        |  946 +++++++++++++++
+>  drivers/staging/media/tegra-vde/iommu.c       |    2 +-
+>  drivers/staging/media/tegra-vde/uapi.h        |   73 --
+>  drivers/staging/media/tegra-vde/v4l2.c        | 1018 +++++++++++++++++
+>  drivers/staging/media/tegra-vde/vde.c         |  945 ++-------------
+>  drivers/staging/media/tegra-vde/vde.h         |  121 +-
+>  include/uapi/linux/v4l2-controls.h            |    2 +
+>  11 files changed, 2170 insertions(+), 954 deletions(-)
+>  create mode 100644 drivers/staging/media/tegra-vde/h264.c
+>  delete mode 100644 drivers/staging/media/tegra-vde/uapi.h
+>  create mode 100644 drivers/staging/media/tegra-vde/v4l2.c
+> 
 
