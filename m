@@ -2,65 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 466164BB1B5
-	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 06:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D2B44BB37D
+	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 08:46:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230502AbiBRF7E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Feb 2022 00:59:04 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44090 "EHLO
+        id S231723AbiBRHqW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Feb 2022 02:46:22 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229974AbiBRF7C (ORCPT
+        with ESMTP id S229750AbiBRHqV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Feb 2022 00:59:02 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF6DB244D93;
-        Thu, 17 Feb 2022 21:58:43 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id lw4so12464371ejb.12;
-        Thu, 17 Feb 2022 21:58:43 -0800 (PST)
+        Fri, 18 Feb 2022 02:46:21 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57E3E5E178;
+        Thu, 17 Feb 2022 23:46:04 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id b13so14085449edn.0;
+        Thu, 17 Feb 2022 23:46:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ftCA005k+4z4Pn/cUNHF1sxE8voYgrk7CLJx5080AHg=;
-        b=has8hS/+PxIq9gZ9azBn8lAqLaGNbBTw+3kG/ay+bRFzjrsSX1+dxzojOD8C1IutQI
-         WlKVqz03hmJXhMu03pgLQ+byWNnJVZgKnTZnigU2EXdWAX2M4O2ZoqDAtmDQDCf4VSYA
-         6paFdr9UIn7DsDbvr+rp3gVYWzKXoQP7/M7QLNlSfLYR42ys5ohoSlco2jPw81tuIYcv
-         UknO/Zn7sGECGk76H+NbChGZ7yrJlN7/Mow1FP5Xe1KUG56u53CkFrqrFeTAi9jLeRHX
-         CV8GxmqzfZnRyT6CQsivv6SeU5uvDqW/wRoAv4YxWktV40iEPeXqcaG7B27ofUzrFmCb
-         Hrbg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=U5olLpLCoghEHY1TCG3d3Y+Izm3Dlu4bh0SXakm9Uoo=;
+        b=F2w8q2qmgX4O8EXvRpOJqfH1BIxaJaYjl2r31xfBPIGHUyGiwgy4+5a3SUfMU9kIPg
+         1SM5oG2xKBaUVU94NTAcwBCucXC8I1wwuvU1iq7kTzxc7m5GEa/8B7gBzYbFU2B6p2+B
+         6H4aIZ5glaNVXa/x3LMgNcbvYDKHOMLDI1iKGXKlIOyNQuDSQRh2908h4pLkrqpf66vh
+         VLPcydVUQM+0oKmmX88FpobYVo8Y8ETD/+kILmSqxT0MCCq0nOEo1EV5tZVxLgnCeDE1
+         xpzQYZn33nE2f4FrNnodtoXBs/GG7nn5NzM7SDWoBG7r+FdLLkxHUOnDB42VUAkVxkZ8
+         eIGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ftCA005k+4z4Pn/cUNHF1sxE8voYgrk7CLJx5080AHg=;
-        b=ozmgkaOphsF+SnMMsqVrxh+l5lX8wHCwdIpe6NQ7Uk66NnEpYfIV/VYXR//99UvBFg
-         32vHNBJauHpOjj+9+3d20e/2ZCm/xxfje0XE5s7cW5DIm1F5dIi+RsDArN2nD5A7eRsG
-         kKSzNox4MeFesaMw3niU9BvXtm0OICg5dyTbmJLCYBJd2VcJ9xMfwsFgL8HNVfJsEoBv
-         WysSWWaBZWKSYtDMwgsVCzQ1tYQiQpFywYZVG7CjYtAClS18HpDrkQBNSoYUat4O0iJp
-         /88HLvRCCtT8AZ38vNUkXGNutQ0zJX1oFiJUwQtnUyKaCaOewzfQJkTrkt0yI3n2HaZ0
-         GkWg==
-X-Gm-Message-State: AOAM532uMKMc9Y7V36+C1SI+KcpZMu//VtO7IflA2HXnskguuj7ZI6/i
-        02QuUr1kR3W2KhmDrmXb9qWxHnLXL27Sp17Xnj4=
-X-Google-Smtp-Source: ABdhPJzo4P+2LEgz43AVcTOMFNy5xfrae0+6zjPu4ek3PLOD5/UjpNLUAW0XRLQ7VvE8k184El0It+Pcv4nTUN0wGWQ=
-X-Received: by 2002:a17:906:b157:b0:6d0:9f3b:a6aa with SMTP id
- bt23-20020a170906b15700b006d09f3ba6aamr1017283ejb.365.1645163922367; Thu, 17
- Feb 2022 21:58:42 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=U5olLpLCoghEHY1TCG3d3Y+Izm3Dlu4bh0SXakm9Uoo=;
+        b=gsGzhdOIta5hSydMSY3aEfj52dQZ2rtwyvTXN/6Fe2DFe5CtNAG4Ng6/O2SnVWiaSZ
+         +AmJIAvT6ujcCfyyzIfveICqXVLMLVumbUhFVU5prjsczaSYEIcjAgL7uQRhJhQ1YEcM
+         3Gjo2L+Ne14EeuRHhEHOjDAMM/AnR3klrhY/7brA58WKLw7ZkzK/dWDes648N5ToD6c4
+         s3ZbDXc6isOiZWrlwCMTmLHQJKoCo1ts+ttx7KXNkjLNbRnXdwCJ38NG784egMoZtL8m
+         NGccaoAD2j9f1k2885vY2FfzvkJTIOgAEKqliQfPIYWlCh/vlBcwzwANAxbtscv+aSgM
+         zo1w==
+X-Gm-Message-State: AOAM5322hxfkTF+F46eJUWrd6kK97FsMoX5Xrxs2whKUyZN8Vcy/dR0F
+        YU+Vo39qrQjBPfReiRnI9wY=
+X-Google-Smtp-Source: ABdhPJzJgAvXMrd3YlkoyLz+HzPRT2nU1J3fg3Kg+ubc5ej4DqMIwnGiI47/qXbu6eDESR03DikDJg==
+X-Received: by 2002:a05:6402:11cb:b0:3fd:abfa:1eef with SMTP id j11-20020a05640211cb00b003fdabfa1eefmr6721618edw.341.1645170362684;
+        Thu, 17 Feb 2022 23:46:02 -0800 (PST)
+Received: from [192.168.178.21] (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
+        by smtp.gmail.com with ESMTPSA id z8sm1905551ejc.197.2022.02.17.23.46.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Feb 2022 23:46:02 -0800 (PST)
+Message-ID: <a11b7073-6597-8e87-b724-33acab32e791@gmail.com>
+Date:   Fri, 18 Feb 2022 08:46:00 +0100
 MIME-Version: 1.0
-References: <20220217043950.749343-1-dzm91@hust.edu.cn> <b452f7a7-99fa-e023-9120-639b4110de73@xs4all.nl>
-In-Reply-To: <b452f7a7-99fa-e023-9120-639b4110de73@xs4all.nl>
-From:   Dongliang Mu <mudongliangabcd@gmail.com>
-Date:   Fri, 18 Feb 2022 13:58:16 +0800
-Message-ID: <CAD-N9QXyU+yGU15yJnnU=JOjKGFDfjY03xk70pHgx88BcBPASA@mail.gmail.com>
-Subject: Re: [PATCH] media: hdpvr: call flush_work only if initialized
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Dongliang Mu <dzm91@hust.edu.cn>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        syzkaller <syzkaller@googlegroups.com>,
-        linux-media@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/amdgpu: check vm bo eviction valuable at last
+Content-Language: en-US
+To:     Qiang Yu <yuq825@gmail.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org, Qiang Yu <qiang.yu@amd.com>,
+        amd-gfx@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org
+References: <20220217090440.4468-1-qiang.yu@amd.com>
+ <5d3fdd2c-e74a-49f4-2b28-32c06483236f@amd.com>
+ <CAKGbVbtLTBJPF5eTu4rABUTBa8eqjQvqjo1AEUrzgPgYgCREuA@mail.gmail.com>
+ <dac70c05-e712-d2e3-2267-278380895f1e@amd.com>
+ <CAKGbVbvtLbDiKrX80-dMnipdLkTE+FP=g_mx37e12fuMtA1Y4Q@mail.gmail.com>
+ <ca27a9c6-f390-a938-dd66-ac23f3b44dc4@amd.com>
+ <CAKGbVbv4UFCybS_OFj5UkDgevbrB5qe3pv+0nHv9WdefYhy6Ww@mail.gmail.com>
+ <6711073b-8771-5750-33f7-b72333b411c6@amd.com>
+ <CAKGbVbvR+msXjrsXmDM8QTmsCP03hL5-q5CTJBYu4mm=NQd01A@mail.gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <CAKGbVbvR+msXjrsXmDM8QTmsCP03hL5-q5CTJBYu4mm=NQd01A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -69,68 +90,239 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Feb 17, 2022 at 8:05 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+Am 18.02.22 um 04:08 schrieb Qiang Yu:
+> On Thu, Feb 17, 2022 at 8:22 PM Christian König
+> <christian.koenig@amd.com> wrote:
+>> Am 17.02.22 um 11:58 schrieb Qiang Yu:
+>>> On Thu, Feb 17, 2022 at 6:39 PM Christian König
+>>> <christian.koenig@amd.com> wrote:
+>>>>
+>>>> Am 17.02.22 um 11:13 schrieb Qiang Yu:
+>>>>> On Thu, Feb 17, 2022 at 5:46 PM Christian König
+>>>>> <christian.koenig@amd.com> wrote:
+>>>>>> Am 17.02.22 um 10:40 schrieb Qiang Yu:
+>>>>>>> On Thu, Feb 17, 2022 at 5:15 PM Christian König
+>>>>>>> <christian.koenig@amd.com> wrote:
+>>>>>>>> Am 17.02.22 um 10:04 schrieb Qiang Yu:
+>>>>>>>>> Workstation application ANSA/META get this error dmesg:
+>>>>>>>>> [drm:amdgpu_gem_va_ioctl [amdgpu]] *ERROR* Couldn't update BO_VA (-16)
+>>>>>>>>>
+>>>>>>>>> This is caused by:
+>>>>>>>>> 1. create a 256MB buffer in invisible VRAM
+>>>>>>>>> 2. CPU map the buffer and access it causes vm_fault and try to move
+>>>>>>>>>         it to visible VRAM
+>>>>>>>>> 3. force visible VRAM space and traverse all VRAM bos to check if
+>>>>>>>>>         evicting this bo is valuable
+>>>>>>>>> 4. when checking a VM bo (in invisible VRAM), amdgpu_vm_evictable()
+>>>>>>>>>         will set amdgpu_vm->evicting, but latter due to not in visible
+>>>>>>>>>         VRAM, won't really evict it so not add it to amdgpu_vm->evicted
+>>>>>>>>> 5. before next CS to clear the amdgpu_vm->evicting, user VM ops
+>>>>>>>>>         ioctl will pass amdgpu_vm_ready() (check amdgpu_vm->evicted)
+>>>>>>>>>         but fail in amdgpu_vm_bo_update_mapping() (check
+>>>>>>>>>         amdgpu_vm->evicting) and get this error log
+>>>>>>>>>
+>>>>>>>>> This error won't affect functionality as next CS will finish the
+>>>>>>>>> waiting VM ops. But we'd better make the amdgpu_vm->evicting
+>>>>>>>>> correctly reflact the vm status and clear the error log.
+>>>>>>>> Well NAK, that is intentional behavior.
+>>>>>>>>
+>>>>>>>> The VM page tables where considered for eviction, so setting the flag is
+>>>>>>>> correct even when the page tables later on are not actually evicted.
+>>>>>>>>
+>>>>>>> But this will unnecessarily stop latter user VM ops in ioctl before CS
+>>>>>>> even when the VM bos are not evicted.
+>>>>>>> Won't this have any negative effect when could do better?
+>>>>>> No, this will have a positive effect. See the VM was already considered
+>>>>>> for eviction because it is idle.
+>>>>>>
+>>>>>> Updating it immediately doesn't necessarily make sense, we should wait
+>>>>>> with that until its next usage.
+>>>>>>
+>>>>>> Additional to that this patch doesn't really fix the problem, it just
+>>>>>> mitigates it.
+>>>>>>
+>>>>>> Eviction can fail later on for a couple of reasons and we absolutely
+>>>>>> need to check the flag instead of the list in amdgpu_vm_ready().
+>>>>> The flag only for both flag and list? Looks like should be both as
+>>>>> the list indicate some vm page table need to be updated and could
+>>>>> delay the user update with the same logic as you described above.
+>>>> I think checking the flag should be enough. The issue is that the list
+>>>> was there initially, but to avoid race conditions we added the flag with
+>>>> separate lock protection later on.
+>>>>
+>>> But list and flag does not align always, there are cases like
+>>> list-empty/flag-set (this problem) and list-non-empty/flag-unset (non-vm bo
+>>> eviction). If only check flag list-non-empty/flag-unset change behavior.
+>> Yeah, but I think that the flag unset list-non-empty case would be
+>> correctly handled if we only test the flag.
+>>
+>> In other words we can update the page tables as long as they are not
+>> partially or fully evicted and that's not the case when non-vm BOs are
+>> evicted.
+>>
+> This sounds like two standard for the same thing, because this problem
+> does not evict page tables too. But I see your point is:
+> There's a difference that this problem's case can make sure vm is idle,
+> and we prefer to delay vm updates when vm is idle.
 >
-> On 17/02/2022 05:39, Dongliang Mu wrote:
-> > From: Dongliang Mu <mudongliangabcd@gmail.com>
-> >
-> > flush_work will throw one WARN if worker->func is NULL. So we should always
-> > initialize one worker before calling flush_work. When hdpvr_probe does not
-> > initialize its worker, the hdpvr_disconnect will encounter one WARN. The
-> > stack trace is in the following:
-> >
-> >  hdpvr_disconnect+0xb8/0xf2 drivers/media/usb/hdpvr/hdpvr-core.c:425
-> >  usb_unbind_interface+0xbf/0x3a0 drivers/usb/core/driver.c:458
-> >  __device_release_driver drivers/base/dd.c:1206 [inline]
-> >  device_release_driver_internal+0x22a/0x230 drivers/base/dd.c:1237
-> >  bus_remove_device+0x108/0x160 drivers/base/bus.c:529
-> >  device_del+0x1fe/0x510 drivers/base/core.c:3592
-> >  usb_disable_device+0xd1/0x1d0 drivers/usb/core/message.c:1419
-> >  usb_disconnect+0x109/0x330 drivers/usb/core/hub.c:2228
-> >
-> > Fix this by adding a sanity check of the worker before flush_work.
-> >
-> > Reported-by: syzkaller <syzkaller@googlegroups.com>
-> > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
-> > ---
-> >  drivers/media/usb/hdpvr/hdpvr-core.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
-> > index 52e05a69c46e..d102b459d45d 100644
-> > --- a/drivers/media/usb/hdpvr/hdpvr-core.c
-> > +++ b/drivers/media/usb/hdpvr/hdpvr-core.c
-> > @@ -422,7 +422,8 @@ static void hdpvr_disconnect(struct usb_interface *interface)
-> >       mutex_unlock(&dev->io_mutex);
-> >       v4l2_device_disconnect(&dev->v4l2_dev);
-> >       msleep(100);
-> > -     flush_work(&dev->worker);
-> > +     if (dev->worker.func)
-> > +             flush_work(&dev->worker);
->
-> I don't think this is the right fix. Instead, move the INIT_WORK line from
-> hdpvr_start_streaming() to hdpvr_register_videodev(). That should initialize
-> the worker struct from the start instead of only when you start streaming,
-> as is the case today.
+> If so, why not just stop user vm update by checking vm busy in
+> amdgpu_gem_va_ioctl() to skip amdgpu_gem_va_update_vm()?
 
-I see your point.
+That's exactly what amdgpu_gem_va_update_vm() is doing by calling 
+amdgpu_vm_ready(). The problem is that amdgpu_vm_ready() looks at the 
+wrong thing.
 
-One small question: if we initialize worker at the beginning of
-hdpvr_register_videodev, but without schedule_work, will flush_work at
-hdpvr_disconnect lead to some issues?
+> Then we can keep the evicting flag accurate (after solving your
+> concern for this patch that eviction may fail latter by further delay
+> the flag update after eviction success).
 
-Or we need to verify if the work is pending or running at hdpvr_disconnect?
+That won't work. See we need to mark the VM as evicted before we 
+actually evict them because otherwise somebody could use the VM in 
+parallel and add another fence to it.
 
->
-> Can you try that?
-
+Regards,
+Christian.
 
 >
 > Regards,
+> Qiang
 >
->         Hans
 >
-> >       mutex_lock(&dev->io_mutex);
-> >       hdpvr_cancel_queue(dev);
-> >       mutex_unlock(&dev->io_mutex);
->
+>> Regards,
+>> Christian.
+>>
+>>> Regards,
+>>> Qiang
+>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>> Regards,
+>>>>> Qiang
+>>>>>
+>>>>>> Regards,
+>>>>>> Christian.
+>>>>>>
+>>>>>>> Regards,
+>>>>>>> Qiang
+>>>>>>>
+>>>>>>>> What we should rather do is to fix amdgpu_vm_ready() to take a look at
+>>>>>>>> the flag instead of the linked list.
+>>>>>>>>
+>>>>>>>> Regards,
+>>>>>>>> Christian.
+>>>>>>>>
+>>>>>>>>> Signed-off-by: Qiang Yu <qiang.yu@amd.com>
+>>>>>>>>> ---
+>>>>>>>>>       drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 85 ++++++++++++++-----------
+>>>>>>>>>       1 file changed, 47 insertions(+), 38 deletions(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>>>>>> index 5a32ee66d8c8..88a27911054f 100644
+>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>>>>>>>> @@ -1306,45 +1306,11 @@ uint64_t amdgpu_ttm_tt_pte_flags(struct amdgpu_device *adev, struct ttm_tt *ttm,
+>>>>>>>>>           return flags;
+>>>>>>>>>       }
+>>>>>>>>>
+>>>>>>>>> -/*
+>>>>>>>>> - * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evict a buffer
+>>>>>>>>> - * object.
+>>>>>>>>> - *
+>>>>>>>>> - * Return true if eviction is sensible. Called by ttm_mem_evict_first() on
+>>>>>>>>> - * behalf of ttm_bo_mem_force_space() which tries to evict buffer objects until
+>>>>>>>>> - * it can find space for a new object and by ttm_bo_force_list_clean() which is
+>>>>>>>>> - * used to clean out a memory space.
+>>>>>>>>> - */
+>>>>>>>>> -static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+>>>>>>>>> -                                         const struct ttm_place *place)
+>>>>>>>>> +static bool amdgpu_ttm_mem_eviction_valuable(struct ttm_buffer_object *bo,
+>>>>>>>>> +                                          const struct ttm_place *place)
+>>>>>>>>>       {
+>>>>>>>>>           unsigned long num_pages = bo->resource->num_pages;
+>>>>>>>>>           struct amdgpu_res_cursor cursor;
+>>>>>>>>> -     struct dma_resv_list *flist;
+>>>>>>>>> -     struct dma_fence *f;
+>>>>>>>>> -     int i;
+>>>>>>>>> -
+>>>>>>>>> -     /* Swapout? */
+>>>>>>>>> -     if (bo->resource->mem_type == TTM_PL_SYSTEM)
+>>>>>>>>> -             return true;
+>>>>>>>>> -
+>>>>>>>>> -     if (bo->type == ttm_bo_type_kernel &&
+>>>>>>>>> -         !amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo)))
+>>>>>>>>> -             return false;
+>>>>>>>>> -
+>>>>>>>>> -     /* If bo is a KFD BO, check if the bo belongs to the current process.
+>>>>>>>>> -      * If true, then return false as any KFD process needs all its BOs to
+>>>>>>>>> -      * be resident to run successfully
+>>>>>>>>> -      */
+>>>>>>>>> -     flist = dma_resv_shared_list(bo->base.resv);
+>>>>>>>>> -     if (flist) {
+>>>>>>>>> -             for (i = 0; i < flist->shared_count; ++i) {
+>>>>>>>>> -                     f = rcu_dereference_protected(flist->shared[i],
+>>>>>>>>> -                             dma_resv_held(bo->base.resv));
+>>>>>>>>> -                     if (amdkfd_fence_check_mm(f, current->mm))
+>>>>>>>>> -                             return false;
+>>>>>>>>> -             }
+>>>>>>>>> -     }
+>>>>>>>>>
+>>>>>>>>>           switch (bo->resource->mem_type) {
+>>>>>>>>>           case AMDGPU_PL_PREEMPT:
+>>>>>>>>> @@ -1377,10 +1343,53 @@ static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+>>>>>>>>>                   return false;
+>>>>>>>>>
+>>>>>>>>>           default:
+>>>>>>>>> -             break;
+>>>>>>>>> +             return ttm_bo_eviction_valuable(bo, place);
+>>>>>>>>>           }
+>>>>>>>>> +}
+>>>>>>>>>
+>>>>>>>>> -     return ttm_bo_eviction_valuable(bo, place);
+>>>>>>>>> +/*
+>>>>>>>>> + * amdgpu_ttm_bo_eviction_valuable - Check to see if we can evict a buffer
+>>>>>>>>> + * object.
+>>>>>>>>> + *
+>>>>>>>>> + * Return true if eviction is sensible. Called by ttm_mem_evict_first() on
+>>>>>>>>> + * behalf of ttm_bo_mem_force_space() which tries to evict buffer objects until
+>>>>>>>>> + * it can find space for a new object and by ttm_bo_force_list_clean() which is
+>>>>>>>>> + * used to clean out a memory space.
+>>>>>>>>> + */
+>>>>>>>>> +static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+>>>>>>>>> +                                         const struct ttm_place *place)
+>>>>>>>>> +{
+>>>>>>>>> +     struct dma_resv_list *flist;
+>>>>>>>>> +     struct dma_fence *f;
+>>>>>>>>> +     int i;
+>>>>>>>>> +
+>>>>>>>>> +     /* Swapout? */
+>>>>>>>>> +     if (bo->resource->mem_type == TTM_PL_SYSTEM)
+>>>>>>>>> +             return true;
+>>>>>>>>> +
+>>>>>>>>> +     /* If bo is a KFD BO, check if the bo belongs to the current process.
+>>>>>>>>> +      * If true, then return false as any KFD process needs all its BOs to
+>>>>>>>>> +      * be resident to run successfully
+>>>>>>>>> +      */
+>>>>>>>>> +     flist = dma_resv_shared_list(bo->base.resv);
+>>>>>>>>> +     if (flist) {
+>>>>>>>>> +             for (i = 0; i < flist->shared_count; ++i) {
+>>>>>>>>> +                     f = rcu_dereference_protected(flist->shared[i],
+>>>>>>>>> +                             dma_resv_held(bo->base.resv));
+>>>>>>>>> +                     if (amdkfd_fence_check_mm(f, current->mm))
+>>>>>>>>> +                             return false;
+>>>>>>>>> +             }
+>>>>>>>>> +     }
+>>>>>>>>> +
+>>>>>>>>> +     /* Check by different mem type. */
+>>>>>>>>> +     if (!amdgpu_ttm_mem_eviction_valuable(bo, place))
+>>>>>>>>> +             return false;
+>>>>>>>>> +
+>>>>>>>>> +     /* VM bo should be checked at last because it will mark VM evicting. */
+>>>>>>>>> +     if (bo->type == ttm_bo_type_kernel)
+>>>>>>>>> +             return amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo));
+>>>>>>>>> +
+>>>>>>>>> +     return true;
+>>>>>>>>>       }
+>>>>>>>>>
+>>>>>>>>>       static void amdgpu_ttm_vram_mm_access(struct amdgpu_device *adev, loff_t pos,
+
