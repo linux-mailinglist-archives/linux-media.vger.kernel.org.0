@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4B234BBF95
-	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 19:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A635E4BBF97
+	for <lists+linux-media@lfdr.de>; Fri, 18 Feb 2022 19:35:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239297AbiBRSgB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Feb 2022 13:36:01 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33782 "EHLO
+        id S239291AbiBRSgD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Feb 2022 13:36:03 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239286AbiBRSgA (ORCPT
+        with ESMTP id S236890AbiBRSgC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Feb 2022 13:36:00 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8D2C272791
-        for <linux-media@vger.kernel.org>; Fri, 18 Feb 2022 10:35:41 -0800 (PST)
+        Fri, 18 Feb 2022 13:36:02 -0500
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07263254A40
+        for <linux-media@vger.kernel.org>; Fri, 18 Feb 2022 10:35:44 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 93DB340009;
-        Fri, 18 Feb 2022 18:35:37 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id A321D40005;
+        Fri, 18 Feb 2022 18:35:40 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
         s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
@@ -29,132 +29,96 @@ Cc:     kernel@pengutronix.de, linux-imx@nxp.com,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH v2 2/7] media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
-Date:   Fri, 18 Feb 2022 19:34:16 +0100
-Message-Id: <20220218183421.583874-3-jacopo@jmondi.org>
+Subject: [PATCH v2 3/7] media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
+Date:   Fri, 18 Feb 2022 19:34:17 +0100
+Message-Id: <20220218183421.583874-4-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220218183421.583874-1-jacopo@jmondi.org>
 References: <20220218183421.583874-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rename the imx7-mipi-csis.c driver to remove the reference to i.MX7.
+The CSI bridge should operate in dual pixel sampling mode when it is
+connected to a pixel transmitter that transfers two pixel samples (16
+bits) at the time in YUYV formats.
 
-The driver is for an IP core found on i.MX7 and i.MX8 SoC, so do not
-specify a SoC version number in the driver name.
+Use the image format variants to determine if single or dual pixel mode
+should be used.
 
-Remove the references to the i.MX7 SoC in the driver symbols and expand
-the driver's header with more information about the IP core the driver
-controls.
-
-Also rename the associated bindings documentation.
+Add a note to the TODO file to record that the list of supported formats
+should be restricted to the SoC model the CSI bridge is integrated on
+to avoid potential pipeline mis-configurations.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- Documentation/admin-guide/media/imx7.rst               |  2 +-
- ...{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
- MAINTAINERS                                            |  4 ++--
- drivers/media/platform/imx/Makefile                    |  2 +-
- .../platform/imx/{imx7-mipi-csis.c => imx-mipi-csis.c} | 10 +++++++---
- 5 files changed, 12 insertions(+), 8 deletions(-)
- rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
- rename drivers/media/platform/imx/{imx7-mipi-csis.c => imx-mipi-csis.c} (99%)
+ drivers/staging/media/imx/TODO             | 26 ++++++++++++++++++++++
+ drivers/staging/media/imx/imx7-media-csi.c |  8 +++++--
+ 2 files changed, 32 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/media/imx7.rst b/Documentation/admin-guide/media/imx7.rst
-index 4785ae8ac978..2fa27718f52a 100644
---- a/Documentation/admin-guide/media/imx7.rst
-+++ b/Documentation/admin-guide/media/imx7.rst
-@@ -33,7 +33,7 @@ reference manual [#f1]_.
- Entities
- --------
- 
--imx7-mipi-csi2
-+imx-mipi-csi2
- --------------
- 
- This is the MIPI CSI-2 receiver entity. It has one sink pad to receive the pixel
-diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-similarity index 98%
-rename from Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-rename to Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-index e2e6e9aa0fe6..36b135bf9f2a 100644
---- a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-+++ b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/media/nxp,imx7-mipi-csi2.yaml#
-+$id: http://devicetree.org/schemas/media/nxp,imx-mipi-csi2.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: NXP i.MX7 and i.MX8 MIPI CSI-2 receiver
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5bdb8c881b0b..d919ea3ed250 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11889,9 +11889,9 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/admin-guide/media/imx7.rst
-+F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
- F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
--F:	Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
--F:	drivers/media/platform/imx/imx7-mipi-csis.c
-+F:	drivers/media/platform/imx/imx-mipi-csis.c
- F:	drivers/staging/media/imx/imx7-media-csi.c
- 
- MEDIA DRIVERS FOR HELENE
-diff --git a/drivers/media/platform/imx/Makefile b/drivers/media/platform/imx/Makefile
-index ee272234c8d7..f72bdbe8e6ef 100644
---- a/drivers/media/platform/imx/Makefile
-+++ b/drivers/media/platform/imx/Makefile
-@@ -1 +1 @@
--obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx7-mipi-csis.o
-+obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
-diff --git a/drivers/media/platform/imx/imx7-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-similarity index 99%
-rename from drivers/media/platform/imx/imx7-mipi-csis.c
-rename to drivers/media/platform/imx/imx-mipi-csis.c
-index a22d0e6b3d44..3e7efcf43a5f 100644
---- a/drivers/media/platform/imx/imx7-mipi-csis.c
-+++ b/drivers/media/platform/imx/imx-mipi-csis.c
-@@ -1,6 +1,10 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Freescale i.MX7 SoC series MIPI-CSI V3.3 receiver driver
-+ * Samsung CSIS MIPI CSI-2 receiver driver.
-+ *
-+ * The Samsung CSIS IP is a MIPI CSI-2 receiver found in various NXP i.MX7 and
-+ * i.MX8 SoCs. The i.MX7 features version 3.3 of the IP, while i.MX8 features
-+ * version 3.6.3.
-  *
-  * Copyright (C) 2019 Linaro Ltd
-  * Copyright (C) 2015-2016 Freescale Semiconductor, Inc. All Rights Reserved.
-@@ -31,7 +35,7 @@
- #include <media/v4l2-mc.h>
- #include <media/v4l2-subdev.h>
- 
--#define CSIS_DRIVER_NAME			"imx7-mipi-csis"
-+#define CSIS_DRIVER_NAME			"imx-mipi-csis"
- 
- #define CSIS_PAD_SINK				0
- #define CSIS_PAD_SOURCE				1
-@@ -1515,4 +1519,4 @@ module_platform_driver(mipi_csis_driver);
- 
- MODULE_DESCRIPTION("i.MX7 & i.MX8 MIPI CSI-2 receiver driver");
- MODULE_LICENSE("GPL v2");
--MODULE_ALIAS("platform:imx7-mipi-csi2");
-+MODULE_ALIAS("platform:imx-mipi-csi2");
--- 
+diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
+index 06c94f20ecf8..e15eba32cc94 100644
+--- a/drivers/staging/media/imx/TODO
++++ b/drivers/staging/media/imx/TODO
+@@ -27,3 +27,29 @@
+ - i.MX7: all of the above, since it uses the imx media core
+
+ - i.MX7: use Frame Interval Monitor
++
++- imx7-media-csi: Restrict the supported formats list to the SoC version.
++
++  The imx7 CSI bridge can be configured to sample pixel components from the Rx
++  queue in single  (8bpp) or double (16bpp) modes. Image format variations with
++  different sample sizes (ie YUYV_2X8 vs YUYV_1X16) determine the sampling size
++  (see imx7_csi_configure()).
++
++  As the imx7 CSI bridge can be interfaced with different IP blocks depending on
++  the SoC model it is integrated on, the Rx queue sampling size should match
++  the size of samples transferred by the transmitting IP block.
++
++  To avoid mis-configurations of the capture pipeline, the enumeration of the
++  supported formats should be restricted to match the pixel source
++  transmitting mode.
++
++  Examples: i.MX8MM SoC integrates the CSI bridge with the Samsung CSIS CSI-2
++  receiver which operates in dual pixel sampling mode. The CSI bridge should
++  only expose the 1X16 formats variant which instructs it to operate in dual
++  pixel sampling mode. When the CSI bridge is instead integrated on an i.MX8MQ
++  SoC, which features a CSI-2 receiver that operates in single sampling mode, it
++  should only expose the 2X8 formats variant which instruct it to operate in
++  single sampling mode.
++
++  This currently only applies to YUYV formats, but other formats might need
++  to be treated in the same way.
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index 32311fc0e2a4..108360ae3710 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -503,11 +503,15 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+ 		 * all of them comply. Support both variants.
+ 		 */
+ 		case MEDIA_BUS_FMT_UYVY8_2X8:
+-		case MEDIA_BUS_FMT_UYVY8_1X16:
+ 		case MEDIA_BUS_FMT_YUYV8_2X8:
+-		case MEDIA_BUS_FMT_YUYV8_1X16:
+ 			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
+ 			break;
++		case MEDIA_BUS_FMT_UYVY8_1X16:
++		case MEDIA_BUS_FMT_YUYV8_1X16:
++			cr3 |= BIT_TWO_8BIT_SENSOR;
++			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B |
++				BIT_MIPI_DOUBLE_CMPNT;
++			break;
+ 		}
+ 	}
+
+--
 2.35.0
 
