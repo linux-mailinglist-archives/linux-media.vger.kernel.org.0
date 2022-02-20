@@ -2,144 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 092384BD24F
-	for <lists+linux-media@lfdr.de>; Sun, 20 Feb 2022 23:47:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 543DF4BD27F
+	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 00:17:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244739AbiBTWmV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Feb 2022 17:42:21 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50866 "EHLO
+        id S245201AbiBTWyR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Feb 2022 17:54:17 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236661AbiBTWmU (ORCPT
+        with ESMTP id S243011AbiBTWyQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Feb 2022 17:42:20 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE444BC85
-        for <linux-media@vger.kernel.org>; Sun, 20 Feb 2022 14:41:56 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5214025B;
-        Sun, 20 Feb 2022 23:41:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645396914;
-        bh=ai+akVvNXyQ+A81jPhhzZ/hhJOmQdZZvW7ZnYVtz0aw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VSwlv5uP9L2X8fgIljUy6RadPrBeDV5Gcxbnzl/sx9dqBMLfv2M+Na8aDDTPIytDq
-         VozSYfIxHySwR8NgdP6ORynPP8YeT3/B4fgDEn/q/iK2TvM/rVZ12UKMRpCsDSfTaV
-         wrNMO7GswrWRL06SmRQ/EAeRj9gDV1HptJJ2i7c8=
-Date:   Mon, 21 Feb 2022 00:41:45 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        martin.kepplinger@puri.sm, rmfrfs@gmail.com,
-        xavier.roumegue@oss.nxp.com,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        dorota.czaplejewicz@puri.sm, Sascha Hauer <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v2 0/7] media: imx: Destage imx7-mipi-csis
-Message-ID: <YhLDqUPRe84/JylR@pendragon.ideasonboard.com>
-References: <20220218183421.583874-1-jacopo@jmondi.org>
- <CAHCN7xKXoBB4AiJY=wEhZ-8YT=QW4CANe7bapGpjFGnWKm3xmQ@mail.gmail.com>
+        Sun, 20 Feb 2022 17:54:16 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC1833F89E;
+        Sun, 20 Feb 2022 14:53:54 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id y24so2997464lfg.1;
+        Sun, 20 Feb 2022 14:53:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language
+         :from:to:cc:references:in-reply-to:content-transfer-encoding;
+        bh=lrJ1JybLeaLsFNVAmzwjpCp9vU3YBmIsvmQRFGbIsFo=;
+        b=K13PlyzB7OWjeZ1pDRkI8crdU86abyRnUW6hPGgC2JK72tjnpVHjOZo6oQBOspHhTp
+         on5rN1S+b7f9uTRLps8OCDZQcZbIWD/D9Rm7D2ST5V6NZGUCvKGr91dojV5qbTORPM4W
+         nVQ/SB4aqFAu/OcJShGjOI39CMePM0f5WGHaPlT3ZDvjUKtEqU3ZOM4aNhw0QXne9JD9
+         dVqCsXfQDIa5CLugvFuIygnV03cLgkCEhJD25pdknUVB5atFevyTVMdzchdcpKqX+OSL
+         N4F69eilarFOD4qBLNerLx2mRcW/BcMiuw1GcSQ7JSDeMqLJot2VlSSh7vykULMuBgYg
+         WlOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:cc:references:in-reply-to
+         :content-transfer-encoding;
+        bh=lrJ1JybLeaLsFNVAmzwjpCp9vU3YBmIsvmQRFGbIsFo=;
+        b=rbFcbQbTuX7+3MxVfWq+S1h3zwIJT0DfWWzv73yok35dBKC8YVoLhsoY4FOTiH5wMS
+         X3kKfHaf3VMtsgKNrXqv3Zw1h9av/DevD/SHTmTrjDerqqcQ+VqETKCWy6npdvwhHiSg
+         3J4/WZf+TlnIoM3f58wf6fbGfctrlZnpFlaeKaouvP+mcOG8Lfrnhz/7jZbltSE+vPqd
+         R90vkJHU9JKXMfMU0dLb2XP2jibYLSaykWmLsFfpV1Yoe4qa5xYVYrrF1yPBIxFli3rT
+         inK9KkCVXtu5dH3+nFwg2jKCE54UU9Guut8QCmQEC+ssmBCubJlcl/xd0nhw2jBFN5CE
+         38cg==
+X-Gm-Message-State: AOAM533AjJLY38rYA1Spx+VWh++8e6bWwX0dG13tA1nt+77c7xkqzfux
+        0tYLPS1LA02LRmfVShlg+Ig=
+X-Google-Smtp-Source: ABdhPJxMnh4SIB/X6gO4KKootcvFEKV5OuRHvzCbdfRNqOg9mqOIK4qbxcOhs4DpmlS+ICFEpfL5CQ==
+X-Received: by 2002:ac2:5e69:0:b0:443:eaad:2284 with SMTP id a9-20020ac25e69000000b00443eaad2284mr2221624lfr.597.1645397633012;
+        Sun, 20 Feb 2022 14:53:53 -0800 (PST)
+Received: from [192.168.2.145] (109-252-138-165.dynamic.spd-mgts.ru. [109.252.138.165])
+        by smtp.googlemail.com with ESMTPSA id i28sm939540lfv.78.2022.02.20.14.53.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 20 Feb 2022 14:53:52 -0800 (PST)
+Message-ID: <92f821cd-5fff-9dca-7e63-e33dfc7b391a@gmail.com>
+Date:   Mon, 21 Feb 2022 01:53:51 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHCN7xKXoBB4AiJY=wEhZ-8YT=QW4CANe7bapGpjFGnWKm3xmQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 5/8] media: staging: tegra-vde: Bump BSEV DMA timeout
+Content-Language: en-US
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220220204623.30107-1-digetx@gmail.com>
+ <20220220204623.30107-6-digetx@gmail.com>
+In-Reply-To: <20220220204623.30107-6-digetx@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
-
-On Sun, Feb 20, 2022 at 12:19:30PM -0600, Adam Ford wrote:
-> On Sun, Feb 20, 2022 at 8:56 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> >
-> > Hello
-> >   this series includes patches from two series previously sent:
-> > https://lore.kernel.org/linux-media/20220119112024.11339-1-jacopo@jmondi.org/
-> > https://lore.kernel.org/linux-media/20220211180216.290133-1-jacopo@jmondi.org/
-> > v1:
-> > https://lore.kernel.org/linux-media/20220214184318.409208-1-jacopo@jmondi.org/T/#t
-> >
-> > Which can now be marked as superseded.
-> >
-> > The first 2 patches performs the de-staging of the imx7-mipi-csis driver and
-> > are now reviewed.
-> >
-> > The rest of the series builds on top of the comment received on:
-> > https://lore.kernel.org/linux-media/20220119112024.11339-3-jacopo@jmondi.org/
-> >
-> > If DUAL pixel mode is used in the CSIS driver, then the CSI block of the IMX8MM
-> > SoC needs to be operated in dual mode as well. To do so, use the image format
-> > sample size to determine in the CSI bridge if dual or single mode should be
-> > used.
-> >
-> > Laurent could you test on MM to see if it works now ?
+20.02.2022 23:46, Dmitry Osipenko пишет:
+> BSEV DMA timeouts if VDE is downclocked by x10. Bump the timeout to allow
+> DMA to complete. We don't support freq scaling yet, this is just a minor
+> improvement which may become useful sometime later.
 > 
-> Jacopo,
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/staging/media/tegra-vde/h264.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Do you have a repo I can clone?  If not, I need to know which branch
-> to apply to the series. I have an 8MM with an OV5640, and I'm willing
-> to test if Laurent can't.
+> diff --git a/drivers/staging/media/tegra-vde/h264.c b/drivers/staging/media/tegra-vde/h264.c
+> index a46c648a26c6..d8e5534e80c8 100644
+> --- a/drivers/staging/media/tegra-vde/h264.c
+> +++ b/drivers/staging/media/tegra-vde/h264.c
+> @@ -135,7 +135,7 @@ static int tegra_vde_wait_bsev(struct tegra_vde *vde, bool wait_dma)
+>  		return 0;
+>  
+>  	err = readl_relaxed_poll_timeout(vde->bsev + INTR_STATUS, value,
+> -					 !(value & BSE_DMA_BUSY), 1, 100);
+> +					 !(value & BSE_DMA_BUSY), 1, 1000);
+>  	if (err) {
+>  		dev_err(dev, "BSEV DMA timeout\n");
+>  		return err;
 
-I've applied the patches on top of v5.17-rc4 plus a few backports, and
-pushed the result to
-https://gitlab.com/ideasonboard/nxp/linux/-/tree/pinchartl/v5.17/csis.
-
-> > On top two small patches I was carrying in my tree to add more formats to the
-> > CSIS driver, the last one with the caveat that RGB24 is transmitted on the wire
-> > with one format and stored in memory with a different one.
-> >
-> > Series based on top of the most recent media master branch.
-> >
-> > Thanks
-> >   j
-> >
-> > v1->v2:
-> > - Remove per-SoC handling in CSI bridge and only use image formats
-> > - Add TODO note to the staging driver
-> > - Fix PIXEL_DUAL mode comments for imx-mipi-csis
-> > - Add output format translation to imx-mipi-csis to handle RGB24
-> >
-> > Jacopo Mondi (7):
-> >   media: imx: De-stage imx7-mipi-csis
-> >   media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
-> >   media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
-> >   media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
-> >   media: imx: imx-mipi-csis: Add RGB565_1X16
-> >   media: imx: imx-mipi-csis: Add BGR888
-> >   media: imx: imx-mipi-csis: Add output format
-> >
-> >  Documentation/admin-guide/media/imx7.rst      |  2 +-
-> >  ...-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
-> >  MAINTAINERS                                   |  4 +-
-> >  drivers/media/platform/Kconfig                |  1 +
-> >  drivers/media/platform/Makefile               |  1 +
-> >  drivers/media/platform/imx/Kconfig            | 24 ++++++++
-> >  drivers/media/platform/imx/Makefile           |  1 +
-> >  .../platform/imx/imx-mipi-csis.c}             | 59 +++++++++++++++++--
-> >  drivers/staging/media/imx/Makefile            |  1 -
-> >  drivers/staging/media/imx/TODO                | 26 ++++++++
-> >  drivers/staging/media/imx/imx7-media-csi.c    |  8 ++-
-> >  11 files changed, 117 insertions(+), 12 deletions(-)
-> >  rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
-> >  create mode 100644 drivers/media/platform/imx/Kconfig
-> >  create mode 100644 drivers/media/platform/imx/Makefile
-> >  rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (95%)
-
--- 
-Regards,
-
-Laurent Pinchart
+For the reference: This is a new patch in v4/v5 and I didn't intend to
+include it into this patchset, it happened by accident. On the other
+hand, this patch is harmless, so it's okay to keep it.
