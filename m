@@ -2,99 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7772D4BD1A6
-	for <lists+linux-media@lfdr.de>; Sun, 20 Feb 2022 21:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 092384BD24F
+	for <lists+linux-media@lfdr.de>; Sun, 20 Feb 2022 23:47:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245035AbiBTUrR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Feb 2022 15:47:17 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49700 "EHLO
+        id S244739AbiBTWmV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Feb 2022 17:42:21 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244997AbiBTUrK (ORCPT
+        with ESMTP id S236661AbiBTWmU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Feb 2022 15:47:10 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C597B2ACE;
-        Sun, 20 Feb 2022 12:46:48 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id e5so14998204lfr.9;
-        Sun, 20 Feb 2022 12:46:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=SYoPT4Z7CKQZG/RxZi19Qq6arsiSyAJia5fwuEqEeTg=;
-        b=bnploH8suwijQrwbMVg3fvPo8ek8FjJ78WxZMH4xFEpTl/H+3XzbOXqDYDdjucMJmM
-         ZQhcYcp4Up6oPFzENNMMPbRIg9vKgkRvl0O0ltpe+Q/gFerRBGvUUW3ghxV6t6xW9vpg
-         sy2RGPA1ed9EILRbqQXDmVSo1wuUSABsDLllzipwAyKjvMSV4mJ36JHSASZuQgrBdIkl
-         ffrPT0bZBF7Dke6MmIckMH3tUdOu+bds08FChgOE/v185TELtmO8r6qh5fvExSAqUJpg
-         na5cR+EHpAuOpWOxSGl2gAixN/eMfWMyGHJoG4jkvXu6JhjVXFr1pQLi40q5a5vnW/SW
-         Mpnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SYoPT4Z7CKQZG/RxZi19Qq6arsiSyAJia5fwuEqEeTg=;
-        b=Cq7ax6sQhGoIIu/hOVqh6iD2+6hwx9eDf04G51HQCcbwLw7lIh0LfiNjPLXFdkXCDC
-         lFDoUs4rzQd6d7XCjDtztK6jF4QrNW2QvQXIlbWyq4TNDkhQ9CqLd99vPUF8LQq793Rc
-         eGO/5EfOB/7hdztNm6yVfzB0JbM1TREn8eoSYpyMwuWW68ZWwJvJKxCStCw41+UoiVNG
-         RW++0cAQLjD03XFpyT6ttli4p5syUz5VChdAQzAxJR0aHmPfy8MbjuyeQTT17lurNcRj
-         ZDmNRyVDUdzkAXycXCJAGdnUPGVtKpTUA8vEFAbupBpXd/NFU/vZvxvhRuHZyl3lPMfn
-         cefQ==
-X-Gm-Message-State: AOAM533wawhNqg99ZlOMiNYdt+0ZQwX82/Tbobbvm13luT3AmdjlfY+9
-        5GURJiCIb9uVSkYrVsX4iuU=
-X-Google-Smtp-Source: ABdhPJy2AsiJXOFIQkabHeV9Ot4ScnYx6th0lVvMfVR9KgtrQJD5mWaAxemvUnRTfuKYKIkg1Q2LDQ==
-X-Received: by 2002:a05:6512:c11:b0:442:bdfd:3b7d with SMTP id z17-20020a0565120c1100b00442bdfd3b7dmr11342577lfu.283.1645390007222;
-        Sun, 20 Feb 2022 12:46:47 -0800 (PST)
-Received: from localhost.localdomain (109-252-138-165.dynamic.spd-mgts.ru. [109.252.138.165])
-        by smtp.gmail.com with ESMTPSA id o14sm913955lfo.117.2022.02.20.12.46.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Feb 2022 12:46:46 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sun, 20 Feb 2022 17:42:20 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE444BC85
+        for <linux-media@vger.kernel.org>; Sun, 20 Feb 2022 14:41:56 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5214025B;
+        Sun, 20 Feb 2022 23:41:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1645396914;
+        bh=ai+akVvNXyQ+A81jPhhzZ/hhJOmQdZZvW7ZnYVtz0aw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VSwlv5uP9L2X8fgIljUy6RadPrBeDV5Gcxbnzl/sx9dqBMLfv2M+Na8aDDTPIytDq
+         VozSYfIxHySwR8NgdP6ORynPP8YeT3/B4fgDEn/q/iK2TvM/rVZ12UKMRpCsDSfTaV
+         wrNMO7GswrWRL06SmRQ/EAeRj9gDV1HptJJ2i7c8=
+Date:   Mon, 21 Feb 2022 00:41:45 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 8/8] ARM: config: multi v7: Enable NVIDIA Tegra video decoder driver
-Date:   Sun, 20 Feb 2022 23:46:23 +0300
-Message-Id: <20220220204623.30107-9-digetx@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220220204623.30107-1-digetx@gmail.com>
-References: <20220220204623.30107-1-digetx@gmail.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        martin.kepplinger@puri.sm, rmfrfs@gmail.com,
+        xavier.roumegue@oss.nxp.com,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        dorota.czaplejewicz@puri.sm, Sascha Hauer <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 0/7] media: imx: Destage imx7-mipi-csis
+Message-ID: <YhLDqUPRe84/JylR@pendragon.ideasonboard.com>
+References: <20220218183421.583874-1-jacopo@jmondi.org>
+ <CAHCN7xKXoBB4AiJY=wEhZ-8YT=QW4CANe7bapGpjFGnWKm3xmQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJECT_DRUG_GAP_L,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHCN7xKXoBB4AiJY=wEhZ-8YT=QW4CANe7bapGpjFGnWKm3xmQ@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Enable NVIDIA Tegra V4L2 video decoder driver.
+Hi Adam,
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/configs/multi_v7_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+On Sun, Feb 20, 2022 at 12:19:30PM -0600, Adam Ford wrote:
+> On Sun, Feb 20, 2022 at 8:56 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
+> >
+> > Hello
+> >   this series includes patches from two series previously sent:
+> > https://lore.kernel.org/linux-media/20220119112024.11339-1-jacopo@jmondi.org/
+> > https://lore.kernel.org/linux-media/20220211180216.290133-1-jacopo@jmondi.org/
+> > v1:
+> > https://lore.kernel.org/linux-media/20220214184318.409208-1-jacopo@jmondi.org/T/#t
+> >
+> > Which can now be marked as superseded.
+> >
+> > The first 2 patches performs the de-staging of the imx7-mipi-csis driver and
+> > are now reviewed.
+> >
+> > The rest of the series builds on top of the comment received on:
+> > https://lore.kernel.org/linux-media/20220119112024.11339-3-jacopo@jmondi.org/
+> >
+> > If DUAL pixel mode is used in the CSIS driver, then the CSI block of the IMX8MM
+> > SoC needs to be operated in dual mode as well. To do so, use the image format
+> > sample size to determine in the CSI bridge if dual or single mode should be
+> > used.
+> >
+> > Laurent could you test on MM to see if it works now ?
+> 
+> Jacopo,
+> 
+> Do you have a repo I can clone?  If not, I need to know which branch
+> to apply to the series. I have an 8MM with an OV5640, and I'm willing
+> to test if Laurent can't.
 
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index dc0581deea9f..8a360d7f517e 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -669,6 +669,7 @@ CONFIG_VIDEO_STI_DELTA=m
- CONFIG_VIDEO_RENESAS_FDP1=m
- CONFIG_VIDEO_RENESAS_JPU=m
- CONFIG_VIDEO_RENESAS_VSP1=m
-+CONFIG_VIDEO_TEGRA_VDE=m
- CONFIG_V4L_TEST_DRIVERS=y
- CONFIG_VIDEO_VIVID=m
- CONFIG_VIDEO_ADV7180=m
+I've applied the patches on top of v5.17-rc4 plus a few backports, and
+pushed the result to
+https://gitlab.com/ideasonboard/nxp/linux/-/tree/pinchartl/v5.17/csis.
+
+> > On top two small patches I was carrying in my tree to add more formats to the
+> > CSIS driver, the last one with the caveat that RGB24 is transmitted on the wire
+> > with one format and stored in memory with a different one.
+> >
+> > Series based on top of the most recent media master branch.
+> >
+> > Thanks
+> >   j
+> >
+> > v1->v2:
+> > - Remove per-SoC handling in CSI bridge and only use image formats
+> > - Add TODO note to the staging driver
+> > - Fix PIXEL_DUAL mode comments for imx-mipi-csis
+> > - Add output format translation to imx-mipi-csis to handle RGB24
+> >
+> > Jacopo Mondi (7):
+> >   media: imx: De-stage imx7-mipi-csis
+> >   media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
+> >   media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
+> >   media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+> >   media: imx: imx-mipi-csis: Add RGB565_1X16
+> >   media: imx: imx-mipi-csis: Add BGR888
+> >   media: imx: imx-mipi-csis: Add output format
+> >
+> >  Documentation/admin-guide/media/imx7.rst      |  2 +-
+> >  ...-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
+> >  MAINTAINERS                                   |  4 +-
+> >  drivers/media/platform/Kconfig                |  1 +
+> >  drivers/media/platform/Makefile               |  1 +
+> >  drivers/media/platform/imx/Kconfig            | 24 ++++++++
+> >  drivers/media/platform/imx/Makefile           |  1 +
+> >  .../platform/imx/imx-mipi-csis.c}             | 59 +++++++++++++++++--
+> >  drivers/staging/media/imx/Makefile            |  1 -
+> >  drivers/staging/media/imx/TODO                | 26 ++++++++
+> >  drivers/staging/media/imx/imx7-media-csi.c    |  8 ++-
+> >  11 files changed, 117 insertions(+), 12 deletions(-)
+> >  rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
+> >  create mode 100644 drivers/media/platform/imx/Kconfig
+> >  create mode 100644 drivers/media/platform/imx/Makefile
+> >  rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (95%)
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
