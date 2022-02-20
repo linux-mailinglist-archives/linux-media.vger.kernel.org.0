@@ -2,159 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28EB74BCF01
-	for <lists+linux-media@lfdr.de>; Sun, 20 Feb 2022 15:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C54A64BD060
+	for <lists+linux-media@lfdr.de>; Sun, 20 Feb 2022 18:33:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243989AbiBTObS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Feb 2022 09:31:18 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44148 "EHLO
+        id S244338AbiBTRc1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Feb 2022 12:32:27 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:45346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229549AbiBTObR (ORCPT
+        with ESMTP id S242967AbiBTRc1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Feb 2022 09:31:17 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C00940E41;
-        Sun, 20 Feb 2022 06:30:56 -0800 (PST)
-Received: from [IPV6:2a01:e0a:169:7140:7455:118c:f6d8:298b] (unknown [IPv6:2a01:e0a:169:7140:7455:118c:f6d8:298b])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BF7825B;
-        Sun, 20 Feb 2022 15:30:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645367451;
-        bh=JNOQomlYL0ZA5oGYqK1uafrk9spBe5F5IHhU6wrv6Tc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=PMChX8PFM8VrGzU/mOpuL64FGQVIMpIXCQSvurNSq/q07jPwE1QHzGVbzwzDq44yg
-         CtsnRs0PwxJwRixQlPZRzpI2/Q4cp5XyptIBizm285urFsLOkgReIlpptOMv5tUp7q
-         95nGxmxuIfaRQYI8MsuniKsftKIre+3QGZi6Ju4Q=
-Message-ID: <fc3abf5b-64c7-82c6-ec9c-5c3659c55b49@ideasonboard.com>
-Date:   Sun, 20 Feb 2022 15:30:48 +0100
+        Sun, 20 Feb 2022 12:32:27 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C88FC4;
+        Sun, 20 Feb 2022 09:32:05 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id d23so14457773lfv.13;
+        Sun, 20 Feb 2022 09:32:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+Q3n0Y+E0iTibxw2SrDvuKXdCqveJjmzvnX1uL9SsFk=;
+        b=cKMVnhdlUwCAtAKS5QVRJrtD4kMH3k8LViPPur+Ewnfz94uTlcu12C4nQR5YCCtw/O
+         aOcoKT43DUlCEthXvDSkg4K5tDIvFneswEn9i42xd82/iB4IgMHaT9uVfdd0zRAhEGLn
+         N7h4Y1a4CJnvVUxSdUL6ev2/EB8if9KoGEm046+AGj8rVf2nABLYFZcsZuk1VeQQfXUL
+         R8jHQxDM8JZKXsXMue09HzX5ojJbulLCpg+YEBJzNuBTwUXxInFDHN8NEla6YtISj+pX
+         MfFQ7/CLNvb2gVtHbHiAyL9c3FWEpM8rIZB0wejDHAbU/xmv1qlFK3MSSIt5/7mFA1U1
+         CJEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+Q3n0Y+E0iTibxw2SrDvuKXdCqveJjmzvnX1uL9SsFk=;
+        b=JbIYeukpS6vMXan8FVVioLS5GdFpeVASk2tjfEtG7kNoG41/Vh9CvVsCjG4qk7JKPA
+         1cphpOi0UMGp7Cw7pPO2hgCt1E2+uuMnTazusM2Wl1MCK8tI3D4QcKnSKA4xcS2WU3tl
+         0OC8AknXsCheCTsk0g5DNf6SHj1AeSN/AkW51LU11t/IYfhuWZ/PWW5Xx4Kjis5v/Qxj
+         FubazX7jHihxis8zOx0qseSP+Bj8MbjfufjsSYzGA+kOBTpLUm1BTOO2OQ/l1evYFfb/
+         S3E536tG/D2uSHpND6jXIJr9b0AMovI5tu7zaXdaLehlksdeTCo3zs8IiYnC3FNlb/nt
+         pV3A==
+X-Gm-Message-State: AOAM532HpAfC4Eth9UcXAK+3TyeEW1MMv23wI7U0hdPwkzhQ7aczgyjR
+        J6iI5k01m2RLworHCibJ0CE=
+X-Google-Smtp-Source: ABdhPJz4DtWFGHyllZUkWLV5wC0O4UDqNaJILkd8FJqwAd32gi5qrzWvQXMmgGn1W6Xkk1zyh7fYvw==
+X-Received: by 2002:a19:761a:0:b0:43c:79ae:6aef with SMTP id c26-20020a19761a000000b0043c79ae6aefmr11883967lff.630.1645378323194;
+        Sun, 20 Feb 2022 09:32:03 -0800 (PST)
+Received: from localhost.localdomain (109-252-138-165.dynamic.spd-mgts.ru. [109.252.138.165])
+        by smtp.gmail.com with ESMTPSA id f8sm880490ljk.97.2022.02.20.09.32.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Feb 2022 09:32:02 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/8] Add V4L stateless video decoder API support to NVIDIA Tegra driver
+Date:   Sun, 20 Feb 2022 20:29:42 +0300
+Message-Id: <20220220172950.3401-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 00/11] Add support for BCM2835 camera interface
- (unicam)
-Content-Language: en-US
-To:     Stefan Wahren <stefan.wahren@i2se.com>
-Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
-        robh@kernel.org, tomi.valkeinen@ideasonboard.com,
-        bcm-kernel-feedback-list@broadcom.com
-References: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
- <a7a6f1fe-c2f0-f545-1da3-a7685fdb63d5@i2se.com>
-From:   Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-In-Reply-To: <a7a6f1fe-c2f0-f545-1da3-a7685fdb63d5@i2se.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stefan,
+Support V4L stateless video decoder API by NVIDIA Tegra decoder driver.
+Tested using GStreamer [1] and libvdpau-tegra [2][8].
 
-On 16/02/2022 21:57, Stefan Wahren wrote:
-> Hi Jean-Michel,
-> 
-> Am 08.02.22 um 16:50 schrieb Jean-Michel Hautbois:
->> Hello !
->>
->> ...
->>
->> In order to properly configure the media pipeline, it is needed to call
->> the usual ioctls, and configure routing in order to send the embedded
->> data from the sensor to the "unicam-embedded" device node :
->>
->> ```
->> media=0
->> media-ctl -d${media} -l "'imx219 2-0010':0->'unicam-subdev':0 [1]"
->> media-ctl -d${media} -l "'unicam-subdev':1->'unicam-image':0 [1]"
->> media-ctl -d${media} -v -R "'unicam-subdev' [0/0->1/0[1],0/1->2/0[1]]"
->> media-ctl -d${media} -V "'imx219 2-0010':0/0 [fmt:SRGGB10_1X10/3280x2464 field:none]"
->> v4l2-ctl -d0 --set-fmt-video width=3280,height=2464,pixelformat='pRAA',field=none
->> media-ctl -d${media} -v -V "'imx219 2-0010':0/1 [fmt:METADATA_8/16384x1 field:none]"
->> media-ctl -d${media} -p
->> ```
-> 
-> i tried to test the unicam driver on a Raspberry Pi 4 with the imx219
-> camera (based on 5.17-rc4). The unicam & imx219 driver probes and
-> /dev/video0 is created.
-> 
-> If a execute the first media-ctl command, it complains with invalid
-> argument 22. Is there a more fool-proof variant to configure this (a
-> script or something else)? I never used the unicam driver before.
-> 
-> Here is the output of
-> 
-> $ mediactl -d0 -p
-> 
+[1] https://github.com/grate-driver/gstreamer/commit/b8509bdbb69b534e61419ea1798f32f9ad2f3597
+[2] https://github.com/grate-driver/libvdpau-tegra/commit/f822e95911e5e0c39f8ba19f843ddc1e0138d5ce
+[8] https://github.com/grate-driver/libvdpau-tegra/commit/80db4d02369f2a984ce3173d6bc305f32e9fdb97
 
-Based on your output, I suppose the issue is the naming of the imx219 
-media entity ('imx219 2-0010' vs 'imx219 5-0010').
-You could add a '-v' in the line to help you I suppose.
+Changelog:
 
-A more bullet-proof version of the commands is certainly doable, not 
-sure how though as I would not like to rewrite a libcamera-like command ;-).
+v4: - Added r-b from Nicolas Dufresne to the
+      "V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags" patch.
 
-> Media controller API version 5.17.0
-> 
-> Media device information
-> ------------------------
-> driver          unicam
-> model           unicam
-> serial
-> bus info        platform:fe801000.csi
-> hw revision     0x0
-> driver version  5.17.0
-> 
-> Device topology
-> - entity 1: unicam-subdev (3 pads, 3 links, 2 routes)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev0
->      routes:
->          0/0 -> 1/0 [ACTIVE]
->          0/1 -> 2/0 [ACTIVE]
->      pad0: Sink
->          [stream:0 fmt:unknown/0x0]
->          [stream:1 fmt:unknown/0x0]
->          <- "imx219 5-0010":0 [ENABLED,IMMUTABLE]
->      pad1: Source
->          [stream:0 fmt:unknown/0x0]
->          -> "unicam-image":0 [ENABLED,IMMUTABLE]
->      pad2: Source
->          [stream:0 fmt:unknown/0x0]
->          -> "unicam-embedded":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 5: imx219 5-0010 (1 pad, 1 link, 2 routes)
->              type V4L2 subdev subtype Sensor flags 0
->              device node name /dev/v4l-subdev1
->      routes:
->          0/0 -> 0/0 [ACTIVE, IMMUTABLE, SOURCE]
->          0/0 -> 0/1 [ACTIVE, SOURCE]
->      pad0: Source
->          [stream:0 fmt:SRGGB10_1X10/3280x2464 field:none colorspace:raw
->           crop.bounds:(8,8)/3280x2464
->           crop:(8,8)/3280x2464]
->          [stream:1 fmt:METADATA_8/16384x1 field:none
->           crop.bounds:(8,8)/3280x2464
->           crop:(8,8)/3280x2464]
->          -> "unicam-subdev":0 [ENABLED,IMMUTABLE]
-> 
-> - entity 9: unicam-image (1 pad, 1 link, 0 route)
->              type Node subtype V4L flags 1
->              device node name /dev/video0
->      pad0: Sink
->          <- "unicam-subdev":1 [ENABLED,IMMUTABLE]
-> 
-> - entity 15: unicam-embedded (1 pad, 1 link, 0 route)
->               type Node subtype V4L flags 0
->               device node name /dev/video1
->      pad0: Sink
->          <- "unicam-subdev":2 [ENABLED,IMMUTABLE]
-> 
+    - Added patches to de-stage driver, like was suggested by Hans Verkuil.
+
+    - Added patch to enable driver in ARM's multi-platform defconfig.
+
+v3: - Added new decode_params flags [7] instead of V4L2_BUF_FLAG_*FRAME flags,
+      as was suggested by Nicolas Dufresne.
+
+      [7] https://github.com/grate-driver/gstreamer/commit/c5cd847f9c26b7669720ae58f9058de2515f51a2
+
+    - Added new patch that removes legacy UAPI.
+
+v2: - Made V4L2_BUF_FLAG_*FRAME flags mandatory [3] and dropped reading
+      of raw bitstream from the driver code, as was suggested by
+      Nicolas Dufresne.
+
+      [3] https://github.com/grate-driver/gstreamer/commit/aee292f0f2e84b7654a314dd7e63f916888ffaa5
+
+    - Ran v4l2-compliance [4] and fluster [5][6] tests, like was suggested by
+      Nicolas Dufresne. Fixed minor v4l2-compliance errors that were related
+      to a partial initialization of the coded format and were harmless in
+      practice, but made compliance checker unhappy.
+
+      [4] https://gist.github.com/digetx/5d6bcdab633488f1dcc7c141ab90d30e
+      [5] https://gist.github.com/digetx/b06c5d779e9d25afa41d9f46946fe399
+      [6] https://gist.github.com/digetx/ac4198bc340e5065aa8ec3288bb21356
+
+Dmitry Osipenko (8):
+  media: v4l2-ctrls: Add new V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags
+  media: staging: tegra-vde: Factor out H.264 code
+  media: staging: tegra-vde: Support V4L stateless video decoder API
+  media: staging: tegra-vde: Remove legacy UAPI support
+  media: staging: tegra-vde: Bump BSEV DMA timeout
+  media: staging: tegra-vde: De-stage driver
+  ARM: tegra_defconfig: Update CONFIG_TEGRA_VDE option
+  ARM: config: multi v7: Enable NVIDIA Tegra video decoder driver
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   |    6 +
+ MAINTAINERS                                   |    2 +-
+ arch/arm/configs/multi_v7_defconfig           |    1 +
+ arch/arm/configs/tegra_defconfig              |    3 +-
+ drivers/media/platform/Kconfig                |   17 +
+ drivers/media/platform/Makefile               |    2 +
+ drivers/media/platform/tegra/vde/Makefile     |    3 +
+ .../platform/tegra/vde}/dmabuf-cache.c        |    2 +-
+ drivers/media/platform/tegra/vde/h264.c       |  946 ++++++++++++
+ .../platform/tegra/vde}/iommu.c               |    2 +-
+ .../platform/tegra/vde}/trace.h               |    2 +-
+ drivers/media/platform/tegra/vde/v4l2.c       | 1018 ++++++++++++
+ drivers/media/platform/tegra/vde/vde.c        |  551 +++++++
+ drivers/media/platform/tegra/vde/vde.h        |  242 +++
+ drivers/staging/media/Kconfig                 |    2 -
+ drivers/staging/media/Makefile                |    1 -
+ drivers/staging/media/tegra-vde/Kconfig       |   10 -
+ drivers/staging/media/tegra-vde/Makefile      |    3 -
+ drivers/staging/media/tegra-vde/TODO          |    4 -
+ drivers/staging/media/tegra-vde/uapi.h        |   73 -
+ drivers/staging/media/tegra-vde/vde.c         | 1358 -----------------
+ drivers/staging/media/tegra-vde/vde.h         |  125 --
+ include/uapi/linux/v4l2-controls.h            |    2 +
+ 23 files changed, 2794 insertions(+), 1581 deletions(-)
+ create mode 100644 drivers/media/platform/tegra/vde/Makefile
+ rename drivers/{staging/media/tegra-vde => media/platform/tegra/vde}/dmabuf-cache.c (99%)
+ create mode 100644 drivers/media/platform/tegra/vde/h264.c
+ rename drivers/{staging/media/tegra-vde => media/platform/tegra/vde}/iommu.c (98%)
+ rename drivers/{staging/media/tegra-vde => media/platform/tegra/vde}/trace.h (97%)
+ create mode 100644 drivers/media/platform/tegra/vde/v4l2.c
+ create mode 100644 drivers/media/platform/tegra/vde/vde.c
+ create mode 100644 drivers/media/platform/tegra/vde/vde.h
+ delete mode 100644 drivers/staging/media/tegra-vde/Kconfig
+ delete mode 100644 drivers/staging/media/tegra-vde/Makefile
+ delete mode 100644 drivers/staging/media/tegra-vde/TODO
+ delete mode 100644 drivers/staging/media/tegra-vde/uapi.h
+ delete mode 100644 drivers/staging/media/tegra-vde/vde.c
+ delete mode 100644 drivers/staging/media/tegra-vde/vde.h
+
+-- 
+2.34.1
+
