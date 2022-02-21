@@ -2,122 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 696CE4BE2CD
-	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 18:56:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16BCC4BDD60
+	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 18:45:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359252AbiBUNi4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Feb 2022 08:38:56 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:54530 "EHLO
+        id S1378863AbiBUPNU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Feb 2022 10:13:20 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359240AbiBUNiz (ORCPT
+        with ESMTP id S233894AbiBUPNT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Feb 2022 08:38:55 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84BB713E22
-        for <linux-media@vger.kernel.org>; Mon, 21 Feb 2022 05:38:31 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id i11so27770694eda.9
-        for <linux-media@vger.kernel.org>; Mon, 21 Feb 2022 05:38:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AE4XeU44vSd/sL9aIQeJuEB4bjJequuMaol59LSY2i8=;
-        b=omx75ZG52xD7qa4+gn02NpqXOKFppuraxVJR3CYtZFjTMg8pnPuku0CsU5QRaobe+/
-         aWkVVSRSC9cbMM1j5MXp21tNHzXnzYhjay8Oqtxb2jNaBH8KP2VzprVGevbWEeny/CBF
-         y1p4xqsTNQ9SLNnQyEfI5VmsVeIkJpAGuz85QtfnKiqc5onfW09FaftiOPRPKaqVUhUA
-         pfhEYb0mRKxL7w2WCPUcH1eQttfbMX9JtG18SLNxup6YyPvxDKkVagiZiaQb3bMARQHj
-         Lk3SgjPmnhVfBWJMG5wDYcNWhQx2eMbYudZFXC/BZCfItyFu8inA/GWKKSifY8LcUSd4
-         9tfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AE4XeU44vSd/sL9aIQeJuEB4bjJequuMaol59LSY2i8=;
-        b=bc+ddUBLuHWLyV0m68WAic/fpMD768PSDhcDzFcZ9iT28zTJbeJyWYEM+bqzTOwtuE
-         jSgER0cJIc2yt1////8LSnQtMQhzGZo0BIZtGVQ5tIfJDHZ1ML0BW+mrRqwAUKJbc4QL
-         wo+lBA9QiRQFi/moSMqLIGxM0JPH9MyFFvfgRnz04NTIKCWlBQpuA+u90jcFRIp3NI43
-         znXdhhbxF+5/Olx4XvTScVCKKZdRtLggOc7r0Mn9rbduiUd6L27eiAsfX9920BHV6DfL
-         mz+3vpGYVN34SCByrM0IyMT29Dy/zT5LnjMOJvYWQ+QxPNvJ5k1uAS0v5YXph1zI3At8
-         R4TA==
-X-Gm-Message-State: AOAM530GBs3UN3P6sW+G3MIBo1YsRIebQPj95LQEShlbM74mkh7VkabN
-        JnXGFpxz9QwNzShs8f6F+snp3WP9ZCqQKiRvJ6g=
-X-Google-Smtp-Source: ABdhPJwlLJBBrqnX5dqmFG7mqUg5FOgbJgj2Hc5s8ttunkrBfSsomSPWj8ldQBb8h4VaXxRmcVCrmpJxYsOHCDcu4Ho=
-X-Received: by 2002:a50:aa9d:0:b0:40f:d653:ff0f with SMTP id
- q29-20020a50aa9d000000b0040fd653ff0fmr21633157edc.114.1645450709889; Mon, 21
- Feb 2022 05:38:29 -0800 (PST)
+        Mon, 21 Feb 2022 10:13:19 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0D881AF36;
+        Mon, 21 Feb 2022 07:12:55 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 14D861F43970
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1645456374;
+        bh=D818uSaEHhBQptBy3IOTQWWmyxOFz7UQXvDTQWJYruQ=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=LJ/ZPHNnLPtD3Fk2hA4su8SMfk3HyjKQWYA1w5L7ukJUNF5PNeOOIvC+J7/AkSM7D
+         2UwX7z5NJbrJaMqnIx5XWx8Js7j+LRJ6aReCaDs3EGrYlhbj6xQYWa/R2hKR92n3hK
+         9YSXaGFsAJ1O1/+eCP1TjSqYoa/NTji/q3ArB9xtAjltf8Atszpo64lCnYTrd8D/W4
+         rYKzcarIeSIIh0X0Vqe1PbFz+9Vbglv+YBfdEvE9nrdiwgKYU5xQkwO2OoMO71T4Nh
+         eTtsn/Q8s1S6URIjg0RT13e6Gm+giWQjIPBEl47lKJSQ1xc54Ii5IQrQOahDPNcngI
+         QZbfTkljn3W8g==
+Message-ID: <11c7580e-d7e3-f8ab-3cdc-f310e8dc7308@collabora.com>
+Date:   Mon, 21 Feb 2022 16:12:51 +0100
 MIME-Version: 1.0
-References: <20220221111611.52905-1-jacopo@jmondi.org>
-In-Reply-To: <20220221111611.52905-1-jacopo@jmondi.org>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Mon, 21 Feb 2022 07:38:18 -0600
-Message-ID: <CAHCN7xKgsuMMHcL0BQDDMojoghLb+T88ptV7KTmjOBRpK=z51w@mail.gmail.com>
-Subject: Re: [PATCH] media: imx: imx8mp-mipi-csi2: Remove YUV422 2X8
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v1] media: v4l2-core: Initialize h264 scaling matrix
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        martin.kepplinger@puri.sm, rmfrfs@gmail.com,
-        xavier.roumegue@oss.nxp.com,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        dorota.czaplejewicz@puri.sm, Sascha Hauer <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     kernel@collabora.com, yunfei.dong@mediatek.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220218184208.455488-1-nicolas.dufresne@collabora.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220218184208.455488-1-nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 21, 2022 at 5:17 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
->
-> The 2X8 variants of MEDIA_BUS_FMT_YUYV8_2X8 does not apply to serial
-> busses.
->
-> Drop it and while at it beautify the formats declaration list a little
-> by putting the opening curly brace after the comment.
->
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> index 56ef3b3b2906..a3e33ce83c1f 100644
-> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+Il 18/02/22 19:42, Nicolas Dufresne ha scritto:
+> In the final H264 API, it is not required to set scaling matrix if
+> they are not present in the bitstream. A flag was added in order to let
+> the driver know. The downside is that it leaves the default control
+> value to 0, which isn't valid. As per the spec (see formulas 7-8/7-9),
+> when the scaling matrix are absent from the bitstream, flat values
+> of 16 should be used. This improves this control semantic in a way
+> that the control value are always valid. Drivers can then use
+> the scaling_matrix control values without having to check its presence.
+> Same method was employed for MPEG2_QUANTISATION.
+> 
+> This fixes issues with MTK VCODEC H264 decoder when using GStreamer.
+> GStreamer does not set this control if its not present in the bitstream.
+> As MTK VDCODEC was using the initialized to 0 values, the frames ended
+> up completely gray.
+> 
+> Fixes: 54889c51b833d236 ("media: uapi: h264: Rename and clarify PPS_FLAG_SCALING_MATRIX_PRESENT")
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-The subject says imx8mp but the file modified is imx8mq.  I assume the
-subject is a typo.
-
-To my knowledge, the 8mp uses the same csis as the 8mm.
-
-adam
-> @@ -200,11 +200,9 @@ static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
->         }, {
->                 .code = MEDIA_BUS_FMT_SRGGB14_1X14,
->                 .width = 14,
-> -       }, {
-> +       },
->         /* YUV formats */
-> -               .code = MEDIA_BUS_FMT_YUYV8_2X8,
-> -               .width = 16,
-> -       }, {
-> +       {
->                 .code = MEDIA_BUS_FMT_YUYV8_1X16,
->                 .width = 16,
->         }
-> --
-> 2.35.0
->
+Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
