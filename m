@@ -2,110 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C206C4BEACC
-	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 20:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C59B4BEB05
+	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 20:37:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231842AbiBUSOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Feb 2022 13:14:37 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41720 "EHLO
+        id S230200AbiBUS1c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Feb 2022 13:27:32 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:45666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232279AbiBUSMe (ORCPT
+        with ESMTP id S232461AbiBUSYf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Feb 2022 13:12:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79FEB104
-        for <linux-media@vger.kernel.org>; Mon, 21 Feb 2022 10:03:17 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D830482;
-        Mon, 21 Feb 2022 19:03:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645466596;
-        bh=yCcS4wWSq99lF0daf+3VA5h3LDWo3aOAnkYHST/N7Zk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FVgJttf9fht3mBQ36CjeeB5CCfj9SNDFFRmipkuJahEum1KonaE1QXqK1oolmOrAF
-         3A5z6dXH92BGBFAS5pOnjbJ1/Wp+8v0W1E/xrxj+W+KOvDjZpfg0uNDmxdPT+9mlh+
-         AP3rrClM+AhMv6QoSCAvpgeGXdHm3n4Wn0+iySk4=
-Date:   Mon, 21 Feb 2022 20:03:07 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     aford173@gmail.com, slongerbeam@gmail.com, p.zabel@pengutronix.de,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        martin.kepplinger@puri.sm, rmfrfs@gmail.com,
-        xavier.roumegue@oss.nxp.com, alexander.stein@ew.tq-group.com,
-        dorota.czaplejewicz@puri.sm, kernel@pengutronix.de,
-        linux-imx@nxp.com, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] media: imx: imx8mq-mipi-csi2: Remove YUV422 2X8
-Message-ID: <YhPT27uc0eCMnISH@pendragon.ideasonboard.com>
-References: <20220221174903.320466-1-jacopo@jmondi.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220221174903.320466-1-jacopo@jmondi.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 21 Feb 2022 13:24:35 -0500
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18B765BC
+        for <linux-media@vger.kernel.org>; Mon, 21 Feb 2022 10:16:45 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id hw13so35187134ejc.9
+        for <linux-media@vger.kernel.org>; Mon, 21 Feb 2022 10:16:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:content-transfer-encoding:date:message-id:cc:subject
+         :from:to:references:in-reply-to;
+        bh=PL945DvY9OK3LLJ2qww6rNoQ2Lb+Kd9OQXb6m49fWPo=;
+        b=ZvZo5phpoMOcxyj55E+La4MqNbcdUsDwMLpcIj2Dr9k/HIwUbumX6k6upoKQ2iPif0
+         mt88k0TdSEh5skV1R8CWqj+5BUoR0tni0em0/dxM0A70IlqGZ+jk3IVkRxfOLzmd9wXn
+         /cN3ThnZR/g9huG0IH+MSEuKYLFVCuMeacgwHaPVYLIoD/c33ypFLPR6CmMcFLfcmaMK
+         bpW7x/8mauj/qglA1DXy0QXSXTgZ/7xbZkD4EGxLjymkwPv/pOwICSORAiKFxPnUBuEp
+         RqAb18jIfrOz1uJLjltcpzvqlryMBvg5iowPRiR/iF60P0ZXBfVMH0Jb7nYk0WRTm0xJ
+         LB3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:content-transfer-encoding:date
+         :message-id:cc:subject:from:to:references:in-reply-to;
+        bh=PL945DvY9OK3LLJ2qww6rNoQ2Lb+Kd9OQXb6m49fWPo=;
+        b=saI8xSRA2AK1pjTJeq6DRiD2YdS9/Iznmp5yvcEwu/MkYMWo+iJMJEm6Uz8vrhc2EQ
+         iEuJN35Z8EezRnL5YZ6+/5rsfWZ24daXghGTgx2BViv3UHnE5m4AisIHdZ/7/URY+35t
+         7gLqpaNd89vJ3ZRC5UYz48FjGjnyPxgHbSuo6n+5oU6IvaDz9w/3/usnDk+ZP0sFgcXb
+         LC08mkvHLY/79RuGjoV4u21AHhSaCNHL5zrZR97DoB+ogvap10QGOLOSMryyrPVCWZ2I
+         BZWW3WXM+9VQnPviUyUO3j0G3vp0PSZB8sYTXjkjWlR8i7FtjUPsGiCXE6zOwBUHq+tq
+         xRtg==
+X-Gm-Message-State: AOAM532RnBkDBrYzjXDwAeyt6MfVgSoi+1SLhZm9D3bKAPk/Kb2yU5lj
+        0K+9GhU+niM7fCnnddl79P28tiJcBPn0Xw==
+X-Google-Smtp-Source: ABdhPJyQMk+rA8NhPx3ND9kOEJgGCF32zDlA3AItnnWWDQTGmSmRXBfWiG1mzt3Fku/0DJvJHraxSw==
+X-Received: by 2002:a17:906:40c9:b0:6ba:6f72:dd3d with SMTP id a9-20020a17090640c900b006ba6f72dd3dmr16780816ejk.373.1645467404254;
+        Mon, 21 Feb 2022 10:16:44 -0800 (PST)
+Received: from localhost (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
+        by smtp.gmail.com with ESMTPSA id j18sm5408140ejc.166.2022.02.21.10.16.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Feb 2022 10:16:43 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date:   Mon, 21 Feb 2022 18:16:42 +0000
+Message-Id: <CI1XIH3YREIS.3SVJ5KMDSXUR6@arch-thunder>
+Cc:     <kernel@pengutronix.de>, <linux-imx@nxp.com>,
+        <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v4 0/7] media: imx: Destage imx7-mipi-csis
+From:   "Rui Miguel Silva" <rmfrfs@gmail.com>
+To:     "Jacopo Mondi" <jacopo@jmondi.org>, <aford173@gmail.com>,
+        <slongerbeam@gmail.com>, <p.zabel@pengutronix.de>,
+        <shawnguo@kernel.org>, <s.hauer@pengutronix.de>,
+        <festevam@gmail.com>, <mchehab@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <laurent.pinchart@ideasonboard.com>,
+        <martin.kepplinger@puri.sm>, <xavier.roumegue@oss.nxp.com>,
+        <alexander.stein@ew.tq-group.com>, <dorota.czaplejewicz@puri.sm>
+References: <20220221174727.320320-1-jacopo@jmondi.org>
+In-Reply-To: <20220221174727.320320-1-jacopo@jmondi.org>
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
+        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hey Jacopo,
+On Mon Feb 21, 2022 at 5:47 PM WET, Jacopo Mondi wrote:
 
-Thank you for the patch.
+> Very few variations from the recent v3, just reflowed some text and dropp=
+ed
+> a plural name in 6/7 commit message.
 
-On Mon, Feb 21, 2022 at 06:49:03PM +0100, Jacopo Mondi wrote:
-> The 2X8 variants of MEDIA_BUS_FMT_YUYV8_2X8 does not apply to serial
-> busses.
-> 
-> Drop it and while at it also add the canonical UYVY wire format for
-> packed YUV422 when transmitted on the CSI-2 serial bus.
-> 
-> Also beautify a little the formats declaration list by putting the
-> opening curly brace after the comment.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+Even though you lost all the cover letter and previous changes in this
+v4, this looks good to me, and many thanks for de-staging of this
+driver.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+for the all series:
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
-> ---
-> 
-> v1->v2:
-> - Fix subject (s/mp/mq) as reported by Adam
-> - Add UYVY_1X16 as suggested by Laurent
-> 
->  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> index 56ef3b3b2906..7d03cb340ed4 100644
-> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> @@ -200,14 +200,16 @@ static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
->  	}, {
->  		.code = MEDIA_BUS_FMT_SRGGB14_1X14,
->  		.width = 14,
-> -	}, {
-> +	},
->  	/* YUV formats */
-> -		.code = MEDIA_BUS_FMT_YUYV8_2X8,
-> -		.width = 16,
-> -	}, {
-> +	{
->  		.code = MEDIA_BUS_FMT_YUYV8_1X16,
->  		.width = 16,
->  	}
-> +	{
-> +		.code = MEDIA_BUS_FMT_UYVY8_1X16,
-> +		.width = 16,
-> +	}
->  };
-> 
->  static const struct csi2_pix_format *find_csi2_format(u32 code)
+Cheers,
+     Rui
 
--- 
-Regards,
+>
+> Jacopo Mondi (7):
+>   media: imx: De-stage imx7-mipi-csis
+>   media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
+>   media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
+>   media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+>   media: imx: imx-mipi-csis: Add RGB565_1X16
+>   media: imx: imx-mipi-csis: Add BGR888
+>   media: imx: imx-mipi-csis: Add output format
+>
+>  Documentation/admin-guide/media/imx7.rst      |  2 +-
+>  ...-mipi-csi2.yaml =3D> nxp,imx-mipi-csi2.yaml} |  2 +-
+>  MAINTAINERS                                   |  4 +-
+>  drivers/media/platform/Kconfig                |  1 +
+>  drivers/media/platform/Makefile               |  1 +
+>  drivers/media/platform/imx/Kconfig            | 24 +++++++
+>  drivers/media/platform/imx/Makefile           |  1 +
+>  .../platform/imx/imx-mipi-csis.c}             | 67 +++++++++++++++++--
+>  drivers/staging/media/imx/Makefile            |  1 -
+>  drivers/staging/media/imx/TODO                | 25 +++++++
+>  drivers/staging/media/imx/imx7-media-csi.c    | 32 +++++++--
+>  11 files changed, 147 insertions(+), 13 deletions(-)
+>  rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml =
+=3D> nxp,imx-mipi-csi2.yaml} (98%)
+>  create mode 100644 drivers/media/platform/imx/Kconfig
+>  create mode 100644 drivers/media/platform/imx/Makefile
+>  rename drivers/{staging/media/imx/imx7-mipi-csis.c =3D> media/platform/i=
+mx/imx-mipi-csis.c} (94%)
+>
+> --
+> 2.35.0
 
-Laurent Pinchart
+
+
