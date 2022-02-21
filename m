@@ -2,252 +2,382 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E6EC4BE68A
-	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 19:02:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 460F04BE390
+	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 18:57:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347025AbiBUJDR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Feb 2022 04:03:17 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57952 "EHLO
+        id S1348218AbiBUJPf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Feb 2022 04:15:35 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347614AbiBUJBe (ORCPT
+        with ESMTP id S1349024AbiBUJL5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Feb 2022 04:01:34 -0500
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A56F1286E2
-        for <linux-media@vger.kernel.org>; Mon, 21 Feb 2022 00:56:48 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 350E4200002;
-        Mon, 21 Feb 2022 08:56:11 +0000 (UTC)
-Date:   Mon, 21 Feb 2022 09:56:10 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
-        rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
-        alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 3/7] media: imx: imx7-media-csi: Use dual sampling for
- YUV 1X16
-Message-ID: <20220221085610.cpasrvnr4lj3n2xr@uno.localdomain>
-References: <20220218183421.583874-1-jacopo@jmondi.org>
- <20220218183421.583874-4-jacopo@jmondi.org>
- <YhH4z/CAltKGt6HF@pendragon.ideasonboard.com>
- <20220221084307.kbv43pn5j2d7ieya@uno.localdomain>
- <YhNSC6TVX5ol3do3@pendragon.ideasonboard.com>
+        Mon, 21 Feb 2022 04:11:57 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 817B52982F
+        for <linux-media@vger.kernel.org>; Mon, 21 Feb 2022 01:04:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1645434284; x=1676970284;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=WpA6jnoFwkk3XV1kNI1hGDK/ornatbJaCPIwtI4qAq4=;
+  b=FGc86mzj/D2mAbO6rRYs0VvVFEoAVtxLDQSTu3MZ15zIEOPPRzGybLCY
+   9ND29NZiBZuL91LvGy8YFDLwF7FRSz37fZWLvObmNWdnNjXcfPcZ+dUIm
+   KRfUNgsOHtYcHAcOcmfoh/9bWfAVllSaBkEjnZOAoY5LZR1rQPlCI48aH
+   vGcWD6B5ijhzfBLWUlazlYdHFSsSwO+W8i0SqKlDNqyVWidlLrAPljwvJ
+   heov3mn5wvmNzkvjMtjUY4zPfAkH1pbHZ2JsCRINSVtaMZ4lha/Mc/DQT
+   9w4eZNhE+hH+NVXWyPQcHA8ai7raNt9dFmf7i/2rp8nT69MeWOoWXP9Qh
+   w==;
+X-IronPort-AV: E=Sophos;i="5.88,385,1635231600"; 
+   d="scan'208";a="86429661"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 21 Feb 2022 02:04:42 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Mon, 21 Feb 2022 02:04:42 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17 via Frontend
+ Transport; Mon, 21 Feb 2022 02:04:41 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RDdsiMTgakJQtx7PBd9/y3hKOd4J2RRYyAORb5z1kfqEmBuO54fmxvhj92fz1F0f7G20FGg7H1+eFe/Hu5nMjbqVR4j07v2i8tBY+ssOiJMHHeRibtpoBtjzoW+kU9bZVpB0EVI547zLiElix+Q6fZ7MJJ7lpNNVU1KnlLUCwThdT0dD3xmpHszHtTLeRKLj/GOxta4togqMpHj9pKll/vFbaCk149GpMBUN22KRwNtk6riOJrZVHAHCs8rVOs3GAEFKXzSNceT3HNUJ6yi/G+ECVvATaxHOujoF8WrptzOEY47iXqhXIX07JE0lm4NTYY7Z+qdVs1ruYpqURIT6mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WpA6jnoFwkk3XV1kNI1hGDK/ornatbJaCPIwtI4qAq4=;
+ b=DMoKd/K9zG164Br2yZbIPT0YQwz7XRHc8SLOYiNSVl5NQgWipmAKN3f+i0lY283tmoLTg1KEVd5xnKCcMjEJcBczbcgPbdS5dm6iYEYWI4kT9Sr4yS4S9aBFjwjabyfziRzHXoHYMIEFfsQ6JwYAk7c7KwbtPK31yU778xyehM6jPynMlo5UZ6RAzm/7FtgGNfEubv1BNix8Cn0rFxJniaesX7ZFL1Cu9xtUhQxmegfSq938fQzike0hwAAgVXPuqIs2VGa8MKMWmD/dOKGq9JVx+s/b7mhlQ9Ul7yNUYVPVRp/66BjY1L53kNDzkPTAWw6kNBAhzR30Hoq/Z8dQ5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WpA6jnoFwkk3XV1kNI1hGDK/ornatbJaCPIwtI4qAq4=;
+ b=SD05UCl3HoBNgxYKwXlcI4dZ37tRooHzFLy49939f3x14SsRjLT9tLV+uyb+7IjFTdw5ThGgx2Ab9iYMKdgOFLL9POH7VBizPHox8VZdGR3qV06S03Dwd66gvJP0dwm2skcWS/MMa8DudONtzyxnDH5UxoRwNyk5iWXTx8sBuyQ=
+Received: from BL1PR11MB5384.namprd11.prod.outlook.com (2603:10b6:208:311::14)
+ by CY4PR11MB1382.namprd11.prod.outlook.com (2603:10b6:903:2e::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17; Mon, 21 Feb
+ 2022 09:04:40 +0000
+Received: from BL1PR11MB5384.namprd11.prod.outlook.com
+ ([fe80::11a5:42e0:3f3d:fcdc]) by BL1PR11MB5384.namprd11.prod.outlook.com
+ ([fe80::11a5:42e0:3f3d:fcdc%9]) with mapi id 15.20.4995.027; Mon, 21 Feb 2022
+ 09:04:40 +0000
+From:   <Eugen.Hristev@microchip.com>
+To:     <jacopo@jmondi.org>
+CC:     <slongerbeam@gmail.com>, <laurent.pinchart@ideasonboard.com>,
+        <sakari.ailus@iki.fi>, <hverkuil-cisco@xs4all.nl>,
+        <mirela.rabulea@nxp.com>, <xavier.roumegue@oss.nxp.com>,
+        <tomi.valkeinen@ideasonboard.com>, <hugues.fruchet@st.com>,
+        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <aford173@gmail.com>,
+        <festevam@gmail.com>, <jbrunet@baylibre.com>, <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v2 00/23] media: ov5640: Rework the clock tree programming
+ for MIPI
+Thread-Topic: [PATCH v2 00/23] media: ov5640: Rework the clock tree
+ programming for MIPI
+Thread-Index: AQHYHm3wW57rjknMlU+S0OxseioqJKyOIe6AgAAVOACABOP8gIAACQIAgAAIkACAAD+rgIAEazoAgAXsDgCAAAOYAA==
+Date:   Mon, 21 Feb 2022 09:04:39 +0000
+Message-ID: <011950d4-d2bc-1963-3d20-33883c7142ac@microchip.com>
+References: <20220210110458.152494-1-jacopo@jmondi.org>
+ <a5a75d0b-7f40-39d0-a8ec-4e143c5f3b1c@microchip.com>
+ <20220211112500.7p3fi2xhwutap6ak@uno.localdomain>
+ <23ac37a4-a979-2dbf-32ae-012d4ff45806@microchip.com>
+ <20220214143816.wbtpd2klb6wvzt3c@uno.localdomain>
+ <8c39e96c-1c1f-a279-a67c-1d113153ec13@microchip.com>
+ <20220214185647.tbqv4lbuf3ba4yw7@uno.localdomain>
+ <6d2f7f6d-e610-fb35-0f4f-224dbaae262d@microchip.com>
+ <20220221085146.airuxkbi4e5trxkp@uno.localdomain>
+In-Reply-To: <20220221085146.airuxkbi4e5trxkp@uno.localdomain>
+Accept-Language: en-US, ro-RO
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ca2d9af6-b1d2-4560-17b4-08d9f519315d
+x-ms-traffictypediagnostic: CY4PR11MB1382:EE_
+x-microsoft-antispam-prvs: <CY4PR11MB138263967614C425671C81F4E83A9@CY4PR11MB1382.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: uDwk3CAc1HSWQOByIy4xAp2eGHxSSKMgA5WQJQsBhywzM2F3cuXBoBNmo65VPleUDjdhaj3aSMI6EGS60ivGCJVpAF365bd6yU2M0stHjA7okVpt84PCXUGqboFjPEOi6AHd3gs3GOskz+3dU0knLiTct7KTrSYZRobsLStd3z0YLKEHuxUMaTFjw65hnHmhDVc1fjKRnMmih9OR99cYbVz0pfMDppgfNcCmajkdGH5ccRbm04aY9tQj8E8fN9et5WWQ2IiSIkdXmVwbkY7QIg5IipsbyrEDCqZDJJa2OFINbeO6aI0EiJtUWC/2Qo1HNPk8OUMl0yLEDbodOdDymeBSvuJe4IZDrde0OGPQHXTJZbuZawofkejZGIIuWUQ7ERCrBzARw8UvMgMxM859G6Qqf/AyyUCOiNsBRFDGOYAjMS4/Bt0fWT/Gubm+yob2dB7T1ac9+J4YUXU1rvTgltEUweAU4jpXnDeacFsxbH3r6U808cfhEu9Wsdwrp21oDQXBRhN15EXi2jLAnOuNKmNYe2Qgj+MEaapyKQ+gG8vxNaX+bistXObj/pJyWM3FQ93jEMYPXgTEHQYbgQF08QyPeShvwMJp1cXgI+izEKxXtGkmnCaCQPN6l/p08v+2OmNaqZ5/uu5sPlh9fYc8jSPjgXjRfWUOcsB5Ku56W8QCKSqjIIPG1mlEtvVILh5I8fpMFc+qG52/8PzUE3kDdll20rQ/HLEeG0MTYBXcspc6MzRiShRK4+ZRrNNoaiilJYQ2oPMEGxYnQuQKqCeAjaFkmCw7oANcjvp6vAylmNIeNcivoFkozT1QsWhlLxoddKYUUoaCAn9M2ohC1ayf58qalOlvg55dmJ5r0wOkhVI=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR11MB5384.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(186003)(26005)(53546011)(6506007)(2616005)(66556008)(76116006)(66946007)(6512007)(966005)(8676002)(6916009)(54906003)(91956017)(6486002)(66476007)(31696002)(86362001)(64756008)(71200400001)(66446008)(316002)(508600001)(122000001)(83380400001)(38070700005)(4326008)(38100700002)(5660300002)(8936002)(31686004)(2906002)(7416002)(36756003)(30864003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MXhHc2ltcTR6TEFpcEdIamZlSVQyUW9zMDgvRS9VMXgrNFBMcURNWUZNN1Bu?=
+ =?utf-8?B?RnNvdnFNRGd6eWxUMGUxTjNhTDFJK1YrNm4rQzdRR0krYnNPZVZMVzZ4U2JP?=
+ =?utf-8?B?c2IrL1UybGZIbmk1UkdFV0wxWEV0c0FpdnVkS2YrYVV2cmxQbGp1N1BHUk9Y?=
+ =?utf-8?B?eEs3Qzk2T24yNDhsZ1FSVXVycGxLV3o3WGpTV2piSEJYamFvd28rajR4R1M4?=
+ =?utf-8?B?N2FxbTI0cjhEaHFqb2l3VDFtSnpFUWpZZk1PUjNFdCtRU2dIaEQ0RzlPNHQv?=
+ =?utf-8?B?V3k0TG5qb1VGVzBQRHRQQ3I5cmU0dkRDZHZQWktaYjdOWVk4UFNCQVZOTlVi?=
+ =?utf-8?B?N2VyMG5KWkg5WTZ2dU42aHlXNXVWU1hVYjVuYmpXdkxnNG1FaStMZmVjRDQ2?=
+ =?utf-8?B?d2J2aXFjdkIwQ3FEZlBGbk5rRzUxeEh2NGlRVnUyUGRHWU5ZVnRDODlZMUJr?=
+ =?utf-8?B?Y1d1TlMyRVpsY1pVM0Jsd3lHbGlJN1VDQTlWU2dtRVFENUhkUldDYzVKSXlD?=
+ =?utf-8?B?MzJIYmo5ZjZqWHhjanVFdGNmd0hKSEQ5S1FHZ01maVVrQUZTY0N2OW5HcjRS?=
+ =?utf-8?B?bmdyMGRNdUx3RVNXbUZvTHIxakN0S1FrQ3dMcnYyWGdEWi9pMFNhYjhGOXRR?=
+ =?utf-8?B?K3RMQnEyU21sbWtORjRPclo3R1NtQlo3aGZOanNWam81Rkw1aWUxeExxQlVL?=
+ =?utf-8?B?cktpSllGT3Q1WnZQekd1bEQrR2hIc0hEaWk3WHNYakJSZFkySHB3WDYyTDJF?=
+ =?utf-8?B?QVBXd2dxMDNMLzlHWU84a1phUm85RkdFN0h6U1RZa1hjSmhpaFFZMG5RM25M?=
+ =?utf-8?B?Vm1BdmJCUUpObzJ6SnUyOEIzcnNWQmUvbS9QVFAxcllXamdldW1yV0RTUmdk?=
+ =?utf-8?B?a3EwUEpVaExxNUZDYVF4cGtRWlNZS2RWTklPL0EzNEtBZ2p6dFg3MWppVHV2?=
+ =?utf-8?B?NGdvWjRsc0FQOFdoQTZEMXZUWW8rTVlBNkE2VGNPTUQzL0FJOS8xdEQ3Y3dD?=
+ =?utf-8?B?ZXFDcDc3RFBKTCsxUE1yck43YjVYc1UzVDRQektPaXBtNUFLQ1doQ0RCa05w?=
+ =?utf-8?B?OTViRmZtV2RHNGljRzBpOHc1MnZxVFBGUFZma1JCdlVya05meWFJM2xGb3lY?=
+ =?utf-8?B?QmxuUUdodEtxK0VkaDlHV3FwVDdSR1BWQ3BDR1psTm5vSmd2N2ZlRXcwMFRi?=
+ =?utf-8?B?RTJvQU05cXlUVnhITWg5dEpOY3RsQTlnR3QrazgyK0xYbUVFREN5enU1U29H?=
+ =?utf-8?B?R053a1RtdzREek1zSXc1WkdvY2VDaFM4YTIvRFVIOTNVdFdEZGp0dnlZc201?=
+ =?utf-8?B?dk1kcFI2MlRCemE4aU5RZmVrYUhQQnBuL1RIUE5jaWwvNmJUZWN1VHRRZWhF?=
+ =?utf-8?B?S1JJdVRob29RYklRSk0vR0d2dW1KL2pWMDdLSTJnS0ozaWRIY2ovMGpXbEQ5?=
+ =?utf-8?B?M05KOTVYMDBkdkMvczF3SFIraGlWcWc4dUxyUHpVN1g0VXIyOWdFbys0UU1l?=
+ =?utf-8?B?TXd0MjNIWitobXRkOHFlYlN6ZG4zbzN4Mk95aVkxZi9RbWNSNUM5UE1QbXBY?=
+ =?utf-8?B?Q3pKd3M4SWdYWEs4L1kyZWtNOXlDY1A2cFVDc3ZhRDdHV2F3UjJlVE9XTkxZ?=
+ =?utf-8?B?djk5WHFhTFcrbUZjSnloRm1hMFllbTZqbGkxR1hCemkvdUtWUGY4WW1LSDlq?=
+ =?utf-8?B?STlNdUphZDNoeStWRzBWOVY2emkrVlBmaW41UnlFWUJ2MHhaRTBnajk5VU1n?=
+ =?utf-8?B?VXJsT0dicUxGQzIwZ3ZPZndMY3o3NmtRREptcngzamVUR0ZNeFZTdzc2RlJv?=
+ =?utf-8?B?NEx2OVcwakc1cHd3OVdPazE0WmIrY0xtakRxTEJhakIxbWxHYW1GUi9iZmhX?=
+ =?utf-8?B?T0JlV0VldVJ6RmowMWhEUHVkUC9vSHFmLzRVeEpPNXRTNUFGOG1qQ3VWdk56?=
+ =?utf-8?B?bjR3R0w0aS9wSEUyRFNxclNpVE9oOU5vQ1Z5NnNBTEFUSE5vR0NMQnBKcE9n?=
+ =?utf-8?B?V01oUHdkeUFNcHFmVW93ZXA0Uk1pQ0xaVWRSMlJnRTYvNGxNbXNmMEQvNTNl?=
+ =?utf-8?B?Qnl6RWs4S3pJL1MrbHEvOURUVGx1SEEvZmFmTkVhZUd2dzdnQlRDL0JTN01j?=
+ =?utf-8?B?QnFmUmNMdURkc0JiREJ5V0R0aTlWNFI4SWZ1OEZmNEVyMXk5ZzRmaUFnVzJX?=
+ =?utf-8?B?R0VkSEZCNFJxMG55SG9VNmNVUkdHZ1VnSzhZRm55VjZtdnRhL0ZtaXpLSXlQ?=
+ =?utf-8?B?VzY5VkpCYmxuNlFNak1VdEp0aG5RPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FEAF6686F13ACF4B96F517E33608D772@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YhNSC6TVX5ol3do3@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5384.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca2d9af6-b1d2-4560-17b4-08d9f519315d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2022 09:04:39.9714
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KbgFi06EYEOH/ESrI1JpB+PH+ijPMqUkKhbWXTp2f3RaI3qheIlp1e3of5r06Ag8zRHI6rQoH08OqQXpSnE2A4ROLI3F2rr9i1XhD3qLDCk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1382
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 21, 2022 at 10:49:15AM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> On Mon, Feb 21, 2022 at 09:43:07AM +0100, Jacopo Mondi wrote:
-> > On Sun, Feb 20, 2022 at 10:16:15AM +0200, Laurent Pinchart wrote:
-> > > On Fri, Feb 18, 2022 at 07:34:17PM +0100, Jacopo Mondi wrote:
-> > > > The CSI bridge should operate in dual pixel sampling mode when it is
-> > >
-> > > s/dual pixel sampling mode/dual component mode/
-> > >
-> > > > connected to a pixel transmitter that transfers two pixel samples (16
-> > > > bits) at the time in YUYV formats.
-> > >
-> > > It's actually one pixel per clock. Without BIT_TWO_8BIT_SENSOR and
-> > > BIT_MIPI_DOUBLE_CMPNT, the CSI bridge expects 8-bit data, which requires
-> > > two clock cycles to transfer one pixel. When setting those bits, it
-> > > expects 16-bit data, with one clock cycle per pixel. The
-> > > MIPI_DOUBLE_CMPNT documentation states this clearly:
-> >
-> > Indeed, that's why I said two pixels -samples-.
-> >
-> > Maybe the usage of 'sample' is not right ? Two pixel samples in YUYV
-> > mode to me means two bytes which form 1 pixel.
->
-> I think it's a bit unclear. Maybe you could write
->
-> The CSI bridge should operate in dual component mode when it is
-> connected to a pixel transmitter that transfers two components at a time
-> in YUV 422 formats (16 bits, Y + U/V).
->
-> > > 20 MIPI_DOUBLE_CMPNT
-> > > Double component per clock cycle in YUV422 formats.
-> > > 0 Single component per clock cycle
-> > > (half pixel per clock cycle)
-> > > 1 Double component per clock cycle
-> > > (a pixel per clock cycle)
-> > >
-> > > > Use the image format variants to determine if single or dual pixel mode
-> > >
-> > > "dual pixel" is a concept of the CSIS, not the CSI bridge. This should
-> > > mention single or double component mode.
-> >
-> > Ack
-> >
-> > > > should be used.
-> > > >
-> > > > Add a note to the TODO file to record that the list of supported formats
-> > > > should be restricted to the SoC model the CSI bridge is integrated on
-> > > > to avoid potential pipeline mis-configurations.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > ---
-> > > >  drivers/staging/media/imx/TODO             | 26 ++++++++++++++++++++++
-> > > >  drivers/staging/media/imx/imx7-media-csi.c |  8 +++++--
-> > > >  2 files changed, 32 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
-> > > > index 06c94f20ecf8..e15eba32cc94 100644
-> > > > --- a/drivers/staging/media/imx/TODO
-> > > > +++ b/drivers/staging/media/imx/TODO
-> > > > @@ -27,3 +27,29 @@
-> > > >  - i.MX7: all of the above, since it uses the imx media core
-> > > >
-> > > >  - i.MX7: use Frame Interval Monitor
-> > > > +
-> > > > +- imx7-media-csi: Restrict the supported formats list to the SoC version.
-> > > > +
-> > > > +  The imx7 CSI bridge can be configured to sample pixel components from the Rx
-> > > > +  queue in single  (8bpp) or double (16bpp) modes. Image format variations with
-> > > > +  different sample sizes (ie YUYV_2X8 vs YUYV_1X16) determine the sampling size
-> > > > +  (see imx7_csi_configure()).
-> > > > +
-> > > > +  As the imx7 CSI bridge can be interfaced with different IP blocks depending on
-> > > > +  the SoC model it is integrated on, the Rx queue sampling size should match
-> > > > +  the size of samples transferred by the transmitting IP block.
-> > > > +
-> > > > +  To avoid mis-configurations of the capture pipeline, the enumeration of the
-> > > > +  supported formats should be restricted to match the pixel source
-> > > > +  transmitting mode.
-> > > > +
-> > > > +  Examples: i.MX8MM SoC integrates the CSI bridge with the Samsung CSIS CSI-2
-> > > > +  receiver which operates in dual pixel sampling mode. The CSI bridge should
-> > > > +  only expose the 1X16 formats variant which instructs it to operate in dual
-> > > > +  pixel sampling mode. When the CSI bridge is instead integrated on an i.MX8MQ
-> > > > +  SoC, which features a CSI-2 receiver that operates in single sampling mode, it
-> > > > +  should only expose the 2X8 formats variant which instruct it to operate in
-> > > > +  single sampling mode.
-> > > > +
-> > > > +  This currently only applies to YUYV formats, but other formats might need
-> > > > +  to be treated in the same way.
-> > > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > > > index 32311fc0e2a4..108360ae3710 100644
-> > > > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > > > @@ -503,11 +503,15 @@ static void imx7_csi_configure(struct imx7_csi *csi)
-> > > >  		 * all of them comply. Support both variants.
-> > > >  		 */
-> > >
-> > > You can drop this comment, as the two variants are not related to the
-> > > CSI-2 bus format (which should always be UYVY8_1X16) but to the format
-> > > output by the CSI-2 RX.
-> > >
-> > > I would add another comment to explain this clearly:
-> > >
-> > > 		/*
-> > > 		 * The CSI bridge has a 16-bit input bus. Depending on
-> > > 		 * the connected source, data may be transmitted with 8
-> > > 		 * or 10 bits per clock sample (in bits [9:2] or [9:0]
-> > > 		 * respectively) or with 16 bits per clock sample (in
-> > > 		 * bits [15:0]). The data is then packed into a 32-bit
-> > > 		 * FIFO (as shown in figure 13-11 of the i.MX8MM
-> > > 		 * reference manual rev. 3).
-> > > 		 *
-> > > 		 * The data packing in a 32-bit FIFO input workd is
-> >
-> > s/workd/word
-> >
-> > > 		 * controlled by the CR3 TWO_8BIT_SENSOR field (also
-> > > 		 * known as SENSOR_16BITS in the i.MX8MM reference
-> > > 		 * manual). When set to 0, data packing groups four
-> > > 		 * 8-bit input samples (bits [9:2]). When set to 1, data
-> > > 		 * packing groups two 16-bit input samples (bits
-> > > 		 * [15:0]).
-> > > 		 *
-> > > 		 * The register field CR18 MIPI_DOUBLE_CMPNT also needs
-> > > 		 * to be configured according to the input format for
-> > > 		 * YUV 4:2:2 data. The field controls the gasket between
-> > > 		 * the CSI-2 receiver and the CSI bridge. On i.MX7 and
-> > > 		 * i.MX8MM, the field must be set to 1 when the CSIS
-> > > 		 * outputs 16-bit samples. On i.MX8MQ, the gasket
-> > > 		 * ignores the MIPI_DOUBLE_CMPNT bit and YUV 4:2:2
-> > > 		 * always uses 16-bit samples. Setting MIPI_DOUBLE_CMPNT
-> > > 		 * in that case has no effect, but doesn't cause any
-> > > 		 * issue.
-> > > 		 */
-> > >
-> > > With this, someone trying to figure out what those bits do will
-> > > hopefully be able to get it right :-)
-> >
-> > Thanks, very clear. I didn't get the last part about the MQ. I thought
-> > the NW csi-2 receiver worked with 8-bit samples that's why we need to
-> > maintain the CSI bridge compatible with the 2X8 format variant (this
-> > and also for imx7 + parallel).
-> >
-> > Actually, looking at the MQ reference manual
-> >
-> > "15.2.1.3.5 CSI-2 Controller Core Configurations"  reports:
-> > The CSI-2 RX Controller Core User Interface supports either a single,
-> > double, or quad pixel wide data path. The double and quad wide pixel
-> > modes can help reduce the frequency the user interface must run at
-> > while the single pixel wide mode can be easier to interface to for
-> > some applications.
-> >
-> > This chip supports the following:
-> > • Single Pixel Configuration
-> >
-> > It seems the csi-2 receiver on the MQ works in single pixel mode only.
-> > It should then expose the 2X8 format variant only, which is
-> > technically incorrect for a serial transmitter. Cul de sac ?
->
-> It's a different CSI-2 receiver, and uses a different terminology.
-> "Single pixel mode" there refers to one pixel per clock cycle, which
-> means, for YUV422 8-bit, 16 bits per cycle. The MIPI_DOUBLE_CMPNT bit is
-> ignored by the gasket on i.MX8MQ.
-
-   -Lovely-
-
-I'll send patch to drop 2X8 variant from the mq csi-2 receiver.
-
-Thanks
-  j
-
->
-> > > With these changes,
-> > >
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > Thanks
-> >    j
-> >
-> > > >  		case MEDIA_BUS_FMT_UYVY8_2X8:
-> > > > -		case MEDIA_BUS_FMT_UYVY8_1X16:
-> > > >  		case MEDIA_BUS_FMT_YUYV8_2X8:
-> > > > -		case MEDIA_BUS_FMT_YUYV8_1X16:
-> > > >  			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
-> > > >  			break;
-> > > > +		case MEDIA_BUS_FMT_UYVY8_1X16:
-> > > > +		case MEDIA_BUS_FMT_YUYV8_1X16:
-> > > > +			cr3 |= BIT_TWO_8BIT_SENSOR;
-> > > > +			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B |
-> > > > +				BIT_MIPI_DOUBLE_CMPNT;
-> > > > +			break;
-> > > >  		}
-> > > >  	}
-> > > >
->
-> --
-> Regards,
->
-> Laurent Pinchart
+T24gMi8yMS8yMiAxMDo1MSBBTSwgSmFjb3BvIE1vbmRpIHdyb3RlOg0KPiBIaSBFdWdlbg0KPiAN
+Cj4gT24gVGh1LCBGZWIgMTcsIDIwMjIgYXQgMDI6MjU6MzdQTSArMDAwMCwgRXVnZW4uSHJpc3Rl
+dkBtaWNyb2NoaXAuY29tIHdyb3RlOg0KPj4gT24gMi8xNC8yMiA4OjU2IFBNLCBKYWNvcG8gTW9u
+ZGkgd3JvdGU6DQo+Pj4gRVhURVJOQUwgRU1BSUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVu
+IGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25vdyB0aGUgY29udGVudCBpcyBzYWZlDQo+Pj4NCj4+
+PiBIaSBFdWdlbg0KPj4+DQo+Pj4gT24gTW9uLCBGZWIgMTQsIDIwMjIgYXQgMDM6MDg6NTZQTSAr
+MDAwMCwgRXVnZW4uSHJpc3RldkBtaWNyb2NoaXAuY29tIHdyb3RlOg0KPj4+PiBPbiAyLzE0LzIy
+IDQ6MzggUE0sIEphY29wbyBNb25kaSB3cm90ZToNCj4+Pj4+IEhpIEV1Z2VuLA0KPj4+Pj4NCj4+
+Pj4+IE9uIE1vbiwgRmViIDE0LCAyMDIyIGF0IDAyOjA2OjAyUE0gKzAwMDAsIEV1Z2VuLkhyaXN0
+ZXZAbWljcm9jaGlwLmNvbSB3cm90ZToNCj4+Pj4+PiBPbiAyLzExLzIyIDE6MjUgUE0sIEphY29w
+byBNb25kaSB3cm90ZToNCj4+Pj4+Pj4gRVhURVJOQUwgRU1BSUw6IERvIG5vdCBjbGljayBsaW5r
+cyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25vdyB0aGUgY29udGVudCBpcyBzYWZl
+DQo+Pj4+Pj4+DQo+Pj4+Pj4+IEhpIEV1Z2VuDQo+Pj4+Pj4+DQo+Pj4+Pj4+ICAgICAgICAgICAg
+IHRoYW5rcyB2ZXJ5IG11Y2ggZm9yIHRlc3RpbmcNCj4+Pj4+Pj4NCj4+Pj4+Pj4gT24gRnJpLCBG
+ZWIgMTEsIDIwMjIgYXQgMTA6MDk6MDRBTSArMDAwMCwgRXVnZW4uSHJpc3RldkBtaWNyb2NoaXAu
+Y29tIHdyb3RlOg0KPj4+Pj4+Pj4gT24gMi8xMC8yMiAxOjA0IFBNLCBKYWNvcG8gTW9uZGkgd3Jv
+dGU6DQo+Pj4+Pj4+Pg0KPj4+Pj4+Pj4gSGVsbG8gSmFjb3BvLA0KPj4+Pj4+Pj4NCj4+Pj4+Pj4+
+PiB2MToNCj4+Pj4+Pj4+PiBodHRwczovL3BhdGNod29yay5saW51eHR2Lm9yZy9wcm9qZWN0L2xp
+bnV4LW1lZGlhL2xpc3QvP3Nlcmllcz03MjQ5DQo+Pj4+Pj4+Pj4NCj4+Pj4+Pj4+PiBBIGJyYW5j
+aCBmb3IgdGVzdGluZyBiYXNlZCBvbiB0aGUgbW9zdCByZWNlbnQgbWVkaWEtbWFzdGVyIGlzIGF2
+YWlsYWJsZSBhdA0KPj4+Pj4+Pj4+IGh0dHBzOi8vZ2l0LnNyLmh0L35qbW9uZGlfL2xpbnV4ICNq
+bW9uZGkvbWVkaWEtbWFzdGVyL292NTY0MC12Mg0KPj4+Pj4+Pj4+DQo+Pj4+Pj4+Pj4gSWYgYW55
+b25lIHdpdGggYSBEVlAgc2V0dXAgY291bGQgdmVyaWZ5IEkgaGF2ZSBub3QgYnJva2VuIHRoZWly
+IHVzZSBjYXNlDQo+Pj4+Pj4+Pj4gSSB3b3VsZCB2ZXJ5IG11Y2ggYXBwcmVjaWF0ZSB0aGF0IDop
+DQo+Pj4+Pj4+Pg0KPj4+Pj4+Pj4gSSBzdGFydGVkIHRlc3RpbmcgdGhpcyBvbiBteSBiZW5jaC4N
+Cj4+Pj4+Pj4+IFNvIGZhciB0aGluZ3MgbG9vayBnb29kLg0KPj4+Pj4+Pj4NCj4+Pj4+Pj4NCj4+
+Pj4+Pj4gXG8vDQo+Pj4+Pj4+DQo+Pj4+Pj4+PiBUbyBiZSBhYmxlIHRvIHRlc3QgdGhpcywgSSBo
+YXZlIHRvIHJldmVydCB0aGlzIHBhdGNoIDoNCj4+Pj4+Pj4+ICJtZWRpYTogaTJjOiBvdjU2NDA6
+IFJlbWFpbiBpbiBwb3dlciBkb3duIGZvciBEVlAgbW9kZSB1bmxlc3Mgc3RyZWFtaW5nIg0KPj4+
+Pj4+Pj4NCj4+Pj4+Pj4+IE90aGVyd2lzZSB0aGUgc2Vuc29yIHdpbGwgbm90IHBvd2VyIHVwIHdo
+ZW4gc3RhcnRpbmcgc3RyZWFtaW5nLg0KPj4+Pj4+Pj4NCj4+Pj4+Pj4+DQo+Pj4+Pj4+PiBJIGhh
+dmUgdGVzdGVkIHNldmVyYWwgZm9ybWF0cywgYXMgeW91IHdvcmtlZCBtb3JlIG9uIHRoaXMgc2Vu
+c29yLCBjb3VsZA0KPj4+Pj4+Pj4geW91IHRlbGwgbWUsIGRvZXMgZm9ybWF0IFlVWVZfMng4IHdv
+cmsgaW4gcGFyYWxsZWwgbW9kZSBhdCAxOTIweDEwODAgb3INCj4+Pj4+Pj4+IDEwMjR4NzY4ID8N
+Cj4+Pj4+Pj4NCj4+Pj4+Pj4gSSBuZXZlciB0ZXN0ZWQgdGhlIHNlbnNvciBkcml2ZXIgd2l0aCBh
+IHBhcmFsbGVsIHNldHVwIEknbSBhZnJhaWQuDQo+Pj4+Pj4+IFRoZSBpZGVhIGJlaGluZCB0aGlz
+IHNlcmllcyBpcyB0aGF0IERWUCBzaG91bGRuJ3QgYmUgYWZmZWN0ZWQgYW5kDQo+Pj4+Pj4+IGNv
+bnRpbnVlIHdvcmtpbmcgbGlrZSBpdCBkaWQuDQo+Pj4+Pj4NCj4+Pj4+PiBIaSBKYWNvcG8sDQo+
+Pj4+Pj4NCj4+Pj4+PiBJIHdhcyBob3BpbmcgdGhhdCB5b3UgaGFkIG1vcmUgaW5mb3JtYXRpb24g
+YWJvdXQgdGhlIGRyaXZlciB0aGFuIG15c2VsZi4NCj4+Pj4+DQo+Pj4+PiBOb3Qgb24gRFZQIG1v
+ZGUgSSdtIHNvcnJ5IDooDQo+Pj4+Pg0KPj4+Pj4+IEkgY2FuIHRlbGwgdGhhdCB0aGUgcGFyYWxs
+ZWwgbW9kZSBpcyBub3QgYWZmZWN0ZWQgYnkgeW91ciBzZXJpZXMgZnJvbQ0KPj4+Pj4+IHdoYXQg
+SSd2ZSBzZWVuIHNvIGZhci4NCj4+Pj4+DQo+Pj4+PiBUaGF0J3MgZ3JlYXQsIHRoYW5rcyBmb3Ig
+dGVzdGluZy4NCj4+Pj4NCj4+Pj4NCj4+Pj4gSSBmb3VuZCBvbmUgY2hhbmdlLCBiZWZvcmUgeW91
+ciBzZXJpZXMsIEkgY291bGQgYXR0ZW1wdCB0byBjYXB0dXJlIEJHR1INCj4+Pj4gQCA2NDB4NDgw
+LCBub3cgaXQgbG9va3MgdG8gYmUgZ29uZSA6DQo+Pj4+DQo+Pj4+IEJlZm9yZToNCj4+Pj4NCj4+
+Pj4gIyB2NGwyLWN0bCAtZCAvZGV2L3Y0bC1zdWJkZXYxIC0tbGlzdC1zdWJkZXYtZnJhbWVzaXpl
+cyBwYWQ9MCxjb2RlPTB4MzAwMQ0KPj4+PiBpb2N0bDogVklESU9DX1NVQkRFVl9FTlVNX0ZSQU1F
+X1NJWkUgKHBhZD0wKQ0KPj4+PiAgICAgICAgICAgIFNpemUgUmFuZ2U6IDE2MHgxMjAgLSAxNjB4
+MTIwDQo+Pj4+ICAgICAgICAgICAgU2l6ZSBSYW5nZTogMTc2eDE0NCAtIDE3NngxNDQNCj4+Pj4g
+ICAgICAgICAgICBTaXplIFJhbmdlOiAzMjB4MjQwIC0gMzIweDI0MA0KPj4+PiAgICAgICAgICAg
+IFNpemUgUmFuZ2U6IDY0MHg0ODAgLSA2NDB4NDgwDQo+Pj4+ICAgICAgICAgICAgU2l6ZSBSYW5n
+ZTogNzIweDQ4MCAtIDcyMHg0ODANCj4+Pj4gICAgICAgICAgICBTaXplIFJhbmdlOiA3MjB4NTc2
+IC0gNzIweDU3Ng0KPj4+PiAgICAgICAgICAgIFNpemUgUmFuZ2U6IDEwMjR4NzY4IC0gMTAyNHg3
+NjgNCj4+Pj4gICAgICAgICAgICBTaXplIFJhbmdlOiAxMjgweDcyMCAtIDEyODB4NzIwDQo+Pj4+
+ICAgICAgICAgICAgU2l6ZSBSYW5nZTogMTkyMHgxMDgwIC0gMTkyMHgxMDgwDQo+Pj4+ICAgICAg
+ICAgICAgU2l6ZSBSYW5nZTogMjU5MngxOTQ0IC0gMjU5MngxOTQ0DQo+Pj4+DQo+Pj4+DQo+Pj4+
+IEFmdGVyOg0KPj4+Pg0KPj4+PiAjIHY0bDItY3RsIC1kIC9kZXYvdjRsLXN1YmRldjEgLS1saXN0
+LXN1YmRldi1mcmFtZXNpemVzIHBhZD0wLGNvZGU9MHgzMDAxDQo+Pj4+IGlvY3RsOiBWSURJT0Nf
+U1VCREVWX0VOVU1fRlJBTUVfU0laRSAocGFkPTApDQo+Pj4+ICAgICAgICAgICAgU2l6ZSBSYW5n
+ZTogMTI4MHg3MjAgLSAxMjgweDcyMA0KPj4+PiAgICAgICAgICAgIFNpemUgUmFuZ2U6IDE5MjB4
+MTA4MCAtIDE5MjB4MTA4MA0KPj4+PiAgICAgICAgICAgIFNpemUgUmFuZ2U6IDI1OTJ4MTk0NCAt
+IDI1OTJ4MTk0NA0KPj4+Pg0KPj4+DQo+Pj4gUmlnaHQuLi4gSSdtIGxpbWl0aW5nIFNSR0dCIGZv
+cm1hdHMgdG8gb25seSByZXNvbHV0aW9ucyA+IDEyODB4NzIwDQo+Pj4gYXMuLg0KPj4+DQo+Pj4+
+DQo+Pj4+IEhvd2V2ZXIgdHJ5aW5nIGl0IHdpdGhvdXQgeW91ciBwYXRjaGVzLCBpdCBkb2Vzbid0
+IHdvcmsgLCBJIGRvbid0DQo+Pj4NCj4+PiAuLi4gdGhleSBkbyBub3Qgd29yayBmb3IgbWUgZWl0
+aGVyLg0KPj4+DQo+Pj4gU28gaWYgdGhleSB3ZXJlIG5vdCB3b3JraW5nIGJlZm9yZSwgbWF5YmUg
+aXQncyByaWdodCBub3QgdG8gZW51bWVyYXRlDQo+Pj4gdGhlbSA/DQo+Pj4NCj4+Pj4gcmVjZWl2
+ZSBmcmFtZXMsIGFuZCBJIGNhbid0IGV2ZW4gc2V0IDEyODB4NzIwIGF0IGFsbCwgSSBnZXQgLUVJ
+TlZBTA0KPj4+DQo+Pj4gQmUgYXdhcmUgdGhhdCBEVlAgbW9kZSBwcmV2ZW50cyB5b3UgZnJvbSBz
+ZXR0aW5nIGEgZm9ybWF0IGlmIHRoZQ0KPj4+IGN1cnJlbnRseSBzZWxlY3RlZCBmcmFtZXJhdGUg
+aXMgc2FpZCB0byBiZSAibm90IHN1cHBvcnRlZCIgZm9yIHRoYXQNCj4+PiBmb3JtYXQNCj4+Pg0K
+Pj4+Pg0KPj4+PiBTbyBJIGFzc3VtZSB5b3UgaGF2ZSBiZWVuIHJld29ya2luZyB0aGUgZnJhbWUg
+c2l6ZXMuDQo+Pj4+DQo+Pj4+IFdpdGggeW91ciBzZXJpZXMsIEkgaGF2ZSB0ZXN0ZWQgUkdHQiBh
+dCAxMjgweDcyMCAsIDE5MjB4MTA4MCAuDQo+Pj4+IEkgYWxzbyB0ZXN0ZWQgWVVZViBhdCA2NDB4
+NDgwIGFuZCBSR0I1NjVfTEUgYXQgNjQweDQ4MC4NCj4+Pj4NCj4+Pj4gSSBjYW4ndCBnbyBoaWdo
+ZXIgd2l0aCB0aGUgWVVZVi9SR0I1NjUsIEkgZG9uJ3QgcmVjZWl2ZSBmcmFtZXMgYW55bW9yZS4N
+Cj4+Pg0KPj4+IEFoLCBJIHdvbmRlciBpZg0KPj4+IDA3YjQ5YWM1OWZkOSBtZWRpYTogb3Y1NjQw
+OiBGaXggZHVyYXRpb25zIHRvIGNvbXBseSB3aXRoIEZQUw0KPj4+IDgyYWViZjRiNzMxNCBtZWRp
+YTogb3Y1NjQwOiBSZXdvcmsgYW5hbG9nIGNyb3AgcmVjdGFuZ2xlcw0KPj4+DQo+Pj4gTWlnaHQg
+aGF2ZSBpbXBhY3RlZCBEVlAuLi4NCj4+Pg0KPj4+IFNob3VsZCBJIGtlZXAgc2VwYXJhdGUgZmll
+bGRzIGZvciBNSVBJIG1vZGUgYW5kIGxlYXZlIHRoZSB0b3RhbHMgZm9yDQo+Pj4gRFZQIHVudG91
+Y2hlZCA/DQo+Pg0KPj4gSGkgSmFjb3BvLA0KPj4NCj4+IEkgdGVzdGVkIGFnYWluIHdpdGhvdXQg
+eW91ciBzZXJpZXMsIGFuZCBJIGNhbiBjYXB0dXJlIFlVWVYgZGlyZWN0bHkNCj4+IEAxMjgweDcy
+MCAsIHdoaWNoIGRvZXMgbm90IHdvcmsgYW55bW9yZSB3aXRoIHlvdXIgcGF0Y2hlcy4NCj4+DQo+
+PiBUaGUgaW1hZ2UgaGFzIHNvbWUgYmFkIHBpeGVscyBpbiBpdCwgYnV0IHN0aWxsLCBjYXB0dXJl
+IGlzIHByZXR0eSBnb29kLg0KPj4gSSBhbSBub3Qgc3VyZSB3aGV0aGVyIGl0J3MgYSB0aW1pbmcg
+cHJvYmxlbSBvbiBjYXB0dXJpbmcgcGl4ZWxzLCBJDQo+PiB1cGxvYWRlZCBpdCBoZXJlIHNvIHlv
+dSBjYW4gaGF2ZSBhIGxvb2sgOg0KPj4NCj4+IGh0dHBzOi8vaWJiLmNvL1l0OGMwZEoNCj4+DQo+
+IA0KPiBUaGlzIGlzIHdpdGhvdXQgbXkgc2VyaWVzID8gT3Igd2l0aCBpdCBhcHBsaWVkID8gU29y
+cnkgZm9yIHRoZSBkdW1iDQo+IHF1ZXN0aW9uIDopDQoNClRoaXMgcGhvdG8gaXMgKndpdGhvdXQq
+IHlvdXIgc2VyaWVzLiAqV2l0aCogeW91ciBzZXJpZXMsIEkgY2Fubm90IA0KY2FwdHVyZSBZVVlW
+IGF0IHRoaXMgcmVzb2x1dGlvbiBhdCBhbGwuIE5vIGZyYW1lcyByZWNlaXZlZC4NCg0KPiANCj4+
+IEV1Z2VuDQo+Pg0KPj4+DQo+Pj4gVGhhbmtzIGFnYWluIGZvciB5b3VyIHZlcnkgdXNlZnVsIHRl
+c3RpbmcNCj4+Pg0KPj4+DQo+Pj4+IEkgY2FuJ3QgZ28gaGlnaGVyIHdpdGggdGhlIGJheWVyIHRv
+IDI1OTJ4MTk0NCAuIEJ1dCB0aGlzIGRpZCBub3Qgd29yaw0KPj4+PiBiZWZvcmUgeW91ciBwYXRj
+aGVzIGVpdGhlci4NCj4+Pj4+DQo+Pj4+Pj4NCj4+Pj4+Pj4NCj4+Pj4+Pj4+IEkgbWFuYWdlZCB0
+byBnZXQgaXQgd29ya2luZyBmaW5lIGF0IDY0MHg0ODAgLg0KPj4+Pj4+Pj4NCj4+Pj4+Pj4+IFRo
+ZSBzZW5zb3IgbG9va3MgdG8gcmVwb3J0IHZhbGlkIGZyYW1lc2l6ZXMgZm9yIHRoaXMgbWJ1cyBj
+b2RlIDoNCj4+Pj4+Pj4+DQo+Pj4+Pj4+PiAjIHY0bDItY3RsIC1kIC9kZXYvdjRsLXN1YmRldjEg
+LS1saXN0LXN1YmRldi1tYnVzLWNvZGVzDQo+Pj4+Pj4+PiBcaW9jdGw6IFZJRElPQ19TVUJERVZf
+RU5VTV9NQlVTX0NPREUgKHBhZD0wKQ0KPj4+Pj4+Pj4gICAgICAgICAgICAgIDB4NDAwMTogTUVE
+SUFfQlVTX0ZNVF9KUEVHXzFYOA0KPj4+Pj4+Pj4gICAgICAgICAgICAgIDB4MjAwNjogTUVESUFf
+QlVTX0ZNVF9VWVZZOF8yWDgNCj4+Pj4+Pj4+ICAgICAgICAgICAgICAweDIwMGY6IE1FRElBX0JV
+U19GTVRfVVlWWThfMVgxNg0KPj4+Pj4+Pj4gICAgICAgICAgICAgIDB4MjAwODogTUVESUFfQlVT
+X0ZNVF9ZVVlWOF8yWDgNCj4+Pj4+Pj4+ICAgICAgICAgICAgICAweDIwMTE6IE1FRElBX0JVU19G
+TVRfWVVZVjhfMVgxNg0KPj4+Pj4+Pj4gICAgICAgICAgICAgIDB4MTAwODogTUVESUFfQlVTX0ZN
+VF9SR0I1NjVfMlg4X0xFDQo+Pj4+Pj4+PiAgICAgICAgICAgICAgMHgxMDA3OiBNRURJQV9CVVNf
+Rk1UX1JHQjU2NV8yWDhfQkUNCj4+Pj4+Pj4+ICAgICAgICAgICAgICAweDEwMTc6IE1FRElBX0JV
+U19GTVRfUkdCNTY1XzFYMTYNCj4+Pj4+Pj4+ICAgICAgICAgICAgICAweDEwMGE6IE1FRElBX0JV
+U19GTVRfUkdCODg4XzFYMjQNCj4+Pj4+Pj4+ICAgICAgICAgICAgICAweDEwMTM6IE1FRElBX0JV
+U19GTVRfQkdSODg4XzFYMjQNCj4+Pj4+Pj4+ICAgICAgICAgICAgICAweDMwMDE6IE1FRElBX0JV
+U19GTVRfU0JHR1I4XzFYOA0KPj4+Pj4+Pj4gICAgICAgICAgICAgIDB4MzAxMzogTUVESUFfQlVT
+X0ZNVF9TR0JSRzhfMVg4DQo+Pj4+Pj4+PiAgICAgICAgICAgICAgMHgzMDAyOiBNRURJQV9CVVNf
+Rk1UX1NHUkJHOF8xWDgNCj4+Pj4+Pj4+ICAgICAgICAgICAgICAweDMwMTQ6IE1FRElBX0JVU19G
+TVRfU1JHR0I4XzFYOA0KPj4+Pj4+Pj4gIyB2NGwyLWN0bCAtZCAvZGV2L3Y0bC1zdWJkZXYxIC0t
+bGlzdC1zdWJkZXYtZnJhbWVzaXplcyBwYWQ9MCxjb2RlPTB4MjAwOA0KPj4+Pj4+Pj4gaW9jdGw6
+IFZJRElPQ19TVUJERVZfRU5VTV9GUkFNRV9TSVpFIChwYWQ9MCkNCj4+Pj4+Pj4+ICAgICAgICAg
+ICAgICBTaXplIFJhbmdlOiAxNjB4MTIwIC0gMTYweDEyMA0KPj4+Pj4+Pj4gICAgICAgICAgICAg
+IFNpemUgUmFuZ2U6IDE3NngxNDQgLSAxNzZ4MTQ0DQo+Pj4+Pj4+PiAgICAgICAgICAgICAgU2l6
+ZSBSYW5nZTogMzIweDI0MCAtIDMyMHgyNDANCj4+Pj4+Pj4+ICAgICAgICAgICAgICBTaXplIFJh
+bmdlOiA2NDB4NDgwIC0gNjQweDQ4MA0KPj4+Pj4+Pj4gICAgICAgICAgICAgIFNpemUgUmFuZ2U6
+IDcyMHg0ODAgLSA3MjB4NDgwDQo+Pj4+Pj4+PiAgICAgICAgICAgICAgU2l6ZSBSYW5nZTogNzIw
+eDU3NiAtIDcyMHg1NzYNCj4+Pj4+Pj4+ICAgICAgICAgICAgICBTaXplIFJhbmdlOiAxMDI0eDc2
+OCAtIDEwMjR4NzY4DQo+Pj4+Pj4+PiAgICAgICAgICAgICAgU2l6ZSBSYW5nZTogMTI4MHg3MjAg
+LSAxMjgweDcyMA0KPj4+Pj4+Pj4gICAgICAgICAgICAgIFNpemUgUmFuZ2U6IDE5MjB4MTA4MCAt
+IDE5MjB4MTA4MA0KPj4+Pj4+Pj4gICAgICAgICAgICAgIFNpemUgUmFuZ2U6IDI1OTJ4MTk0NCAt
+IDI1OTJ4MTk0NA0KPj4+Pj4+Pj4gIw0KPj4+Pj4+Pj4NCj4+Pj4+Pj4+IGJ1dCB0aGUgSVNDIGRv
+ZXMgbm90IHJlY2VpdmUgYW55IGZyYW1lcyBhdCAxMDI0eDc2OCBhbmQgMTkyMHgxMDgwLg0KPj4+
+Pj4+Pg0KPj4+Pj4+PiBBcmUgMTA4MHAgYW5kIDEwMjR4NzY4IHdvcmtpbmcgd2l0aG91dCB0aGlz
+IHNlcmllcyBhcHBsaWVkIG9uIHlvdXINCj4+Pj4+Pj4gc2V0dXAgPw0KPj4+Pj4+DQo+Pj4+Pj4g
+SSByZW1lbWJlciB0aGV5IHdlcmVuJ3Qgd29ya2luZyBiZWZvcmUgZWl0aGVyLg0KPj4+Pj4+DQo+
+Pj4+Pj4gSSBkb24ndCBrbm93IGV4YWN0bHkgdG8gd2hpY2ggcGF0Y2hlcyB0byBhZGQgbXkgVGVz
+dGVkLWJ5ICwgYXMgSSBoYXZlDQo+Pj4+Pj4gbm90IHRlc3RlZCB0aGUgZXhwbGljaXQgcGF0Y2gg
+YmVoYXZpb3IgZm9yIGVhY2ggcGF0Y2ggKGUuZy4gd2hlcmUgeW91DQo+Pj4+Pj4gYWRkIEhCTEFO
+SyBjb250cm9sLCBJIGhhdmUgbm90IHRlc3RlZCB0aGF0ICkuDQo+Pj4+Pj4NCj4+Pj4+DQo+Pj4+
+PiBJIHRoaW5rIGl0J3MgZ29vZCBlbm91Z2ggbWFraW5nIHN1cmUgSSBoYXZlIG5vdCBicm9rZSBE
+VlAuDQo+Pj4+Pg0KPj4+Pj4gQXMgeW91IGNhbiBzZWUgdGhlIGRyaXZlciBub3cgYmVoYXZlcyBp
+biB0d28gZGlmZmVyZW50IHdheXMgaW4gRFZQIGFuZA0KPj4+Pj4gTUlQSSBtb2RlLiBUaGUgRFZQ
+IHdvcmtzIGFzIGl0IHVzZWQgdG8sIGFuZCB0aGUgZnJhbWVyYXRlIGlzDQo+Pj4+PiBjb250cm9s
+bGVkIGJ5IHNfZnJhbWVfaW50ZXJ2YWwsIHRoZSBmcmFtZSBzaXplIGlzIGZpeGVkIGFuZCB0aGUg
+UENMSw0KPj4+Pj4gaXMgY29tcHV0ZWQgZHlhbmljYWxseSB0byBhY2NvbW9kYXRlIHRoZSByZXF1
+aXJlZCBGUFMuIEluIE1JUEkgbW9kZSB0aGUNCj4+Pj4+IGZyYW1lcmF0ZSBpcyBjb250cm9sbGVk
+IGJ5IGNoYW5naW5nIHRoZSB2ZXJ0aWNhbCBibGFua2luZ3MuIFRvIGVhY2gNCj4+Pj4+IG1vZGUg
+YSBwaXhlbCByYXRlIGlzIGFzc2lnbmVkIGFuZCB1c2Vyc3BhY2UgY2hhbmdlcyB0aGUgZnJhbWUg
+ZHVyYXRpb24NCj4+Pj4+IGJ5IGNoYW5naW5nIGJsYW5raW5ncy4gVGhlIG1vc3Qgb2J2aW91cyBn
+YWluIGlzIHRoYXQgdGhlIGZyYW1lIHJhdGUgaXMNCj4+Pj4+IGNvbnRyb2xsYWJsZSBpbiBhIGNv
+bnRpbnVvdXMgaW50ZXJ2YWwgaW5zdGVhZCBvZiBiZWluZyBsaW1pdGVkIHRvIGENCj4+Pj4+IGZl
+dyBmaXhlZCB2YWx1ZXMuIEl0IGlzIG15IHVuZGVyc3RhbmRpbmcgdGhhdCBhbGwgZHJpdmVycyBz
+aG91bGQgYmUNCj4+Pj4+IG1vdmVkIHRvIHRoaXMgbW9kZWwgYW5kIHNfZnJhbWVfaW50ZXJ2YWxs
+IHNob3VsZCBiZSBkcm9wcGVkLCBidXQNCj4+Pj4+IHVuZm9ydHVuYXRlbHkgc29tZSBicmlkZ2Ug
+ZHJpdmVycyBpbiBtYWlubGluZSBzdGlsbCBkZW1hbiB0aGF0Lg0KPj4+Pj4NCj4+Pj4+IElmIHlv
+dSBhcmUgaW50ZXJlc3RlZCwgSSB0aGluayB0aGUgRFZQIG1vZGUgc2hvdWxkIGJlIG1vdmVkIHRv
+IHVzZSB0aGUNCj4+Pj4+IHNhbWUgbWVjYWhuaXNtIGFzIE1JUEkgbW9kZS4gSSBjYW4ndCB0ZXN0
+IHNvIEkgaGF2ZW4ndCBkb25lIHNvIGluIHRoaXMNCj4+Pj4+IHNlcmllcy4NCj4+Pj4+DQo+Pj4+
+PiBGb3Igbm93IEkgdGhpbmsgaXQncyBlbm91Z2ggdG8gbWFrZSBzdXJlIHRoZXJlIGFyZSBubyBy
+ZWdyZXNzaW9ucyBpbg0KPj4+Pj4gRFZQIG1vZGUuDQo+Pj4+Pg0KPj4+Pj4gRm9yIHRoZSB0YWcs
+IEkgdGhpbmsgaXQgd291bGQgYmUgYXBwcm9wcmlhdGUgdG8gYWRkIGl0IHRvIHRoZQ0KPj4+Pj4g
+Zm9sbG93aW5nIG9uZToNCj4+Pj4+DQo+Pj4+PiA5MWFlNjY3YjBkNDcgbWVkaWE6IG92NTY0MDog
+TGltaXQgZnJhbWVfaW50ZXJ2YWwgdG8gRFZQIG1vZGUgb25seQ0KPj4+Pj4NCj4+Pj4+PiBJcyB0
+aGVyZSBzb21ldGhpbmcgcGFydGljdWxhciB5b3Ugd291bGQgbGlrZSBtZSB0byB0cnkgLCBleGNl
+cHQgbXkgdXN1YWwNCj4+Pj4+PiBpbWFnZSBjYXB0dXJlcyA/DQo+Pj4+Pg0KPj4+Pj4gUkdCODg4
+IGlzIHdlaXJkIG9uIGJvdGggdGhlIHBsYXRmb3JtcyBJJ3ZlIHRlc3RlZCBvbiBhbmQgSSBjYW5u
+b3QgZ2V0DQo+Pj4+PiBjb2xvcnMgcmlnaHQuIERvZXMgeW91ciBwbGF0Zm9ybSBzdXBwb3J0IFJH
+Qjg4OCA/DQo+Pj4+DQo+Pj4+IEkgY2FuJ3QgdGVzdCB0aGlzIG9uZSB1bmZvcnR1bmF0ZWx5LiBJ
+dCdzIGEgMVgyNCAuIEkgaGF2ZSBvbmx5IDggYml0cw0KPj4+PiBjb25uZWN0ZWQsIHNvIHVubGVz
+cyB5b3UgY2FuIG1ha2UgdGhpcyBhIDN4OCAsIHRoZXJlIGlzbid0IGFueXRoaW5nIEkNCj4+Pj4g
+Y2FuIGRvLg0KPj4+Pg0KPj4+Pj4NCj4+Pj4+IFRoYW5rcw0KPj4+Pj4gICAgICBqDQo+Pj4+Pg0K
+Pj4+Pj4NCj4+Pj4+Pg0KPj4+Pj4+DQo+Pj4+Pj4gRXVnZW4NCj4+Pj4+Pg0KPj4+Pj4+Pg0KPj4+
+Pj4+PiBUaGFua3MgYWdhaW4gZm9yIHRlc3RpbiENCj4+Pj4+Pj4NCj4+Pj4+Pj4+DQo+Pj4+Pj4+
+Pg0KPj4+Pj4+Pj4gV2hhdCBJIGNhbiBzYXkgaXMgdGhhdCB0aGUgcmF3IGJheWVyIGZvcm1hdCB3
+b3JrcyBhdCAxOTIweDEwODAgLCBmcmFtZXMNCj4+Pj4+Pj4+IGFyZSByZWNlaXZlZCBjb3JyZWN0
+bHkuDQo+Pj4+Pj4+Pg0KPj4+Pj4+Pj4gVGhhbmtzLA0KPj4+Pj4+Pj4gRXVnZW4NCj4+Pj4+Pj4+
+DQo+Pj4+Pj4+Pj4NCj4+Pj4+Pj4+PiB2MSAtPiB2MjoNCj4+Pj4+Pj4+PiAtIHJld29yayB0aGUg
+bW9kZXMgZGVmaW5pdGlvbiB0byBwcm9jZXNzIHRoZSBmdWxsIHBpeGVsIGFycmF5DQo+Pj4+Pj4+
+Pj4gLSByZXdvcmsgZ2V0X3NlbGVjdGlvbiB0byByZXBvcnQgdGhlIGNvcnJlY3QgQk9VTkQgYW5k
+IERFRkFVTFQgdGFyZ2V0cw0KPj4+Pj4+Pj4+IC0gaW1wbGVtZW50IGluaXRfY2ZnDQo+Pj4+Pj4+
+Pj4gLSBtaW5vciBzdHlsZSBjaGFuZ2VzIGFzIHN1Z2dlc3RlZCBieSBMYXVyZW50DQo+Pj4+Pj4+
+Pj4gLSB0ZXN0IHdpdGggMSBkYXRhIGxhbmUNCj4+Pj4+Pj4+Pg0KPj4+Pj4+Pj4+IFRoYW5rcw0K
+Pj4+Pj4+Pj4+ICAgICAgICAgag0KPj4+Pj4+Pj4+DQo+Pj4+Pj4+Pj4gSmFjb3BvIE1vbmRpICgy
+Myk6DQo+Pj4+Pj4+Pj4gICAgICAgIG1lZGlhOiBvdjU2NDA6IEFkZCBwaXhlbCByYXRlIHRvIG1v
+ZGVzDQo+Pj4+Pj4+Pj4gICAgICAgIG1lZGlhOiBvdjU2MDQ6IFJlLWFycmFuZ2UgbW9kZXMgZGVm
+aW5pdGlvbg0KPj4+Pj4+Pj4+ICAgICAgICBtZWRpYTogb3Y1NjQwOiBBZGQgb3Y1NjQwX2lzX2Nz
+aTIoKSBmdW5jdGlvbg0KPj4+Pj4+Pj4+ICAgICAgICBtZWRpYTogb3Y1NjQwOiBBc3NvY2lhdGUg
+YnBwIHdpdGggZm9ybWF0cw0KPj4+Pj4+Pj4+ICAgICAgICBtZWRpYTogb3Y1NjQwOiBBZGQgTElO
+S19GUkVRIGNvbnRyb2wNCj4+Pj4+Pj4+PiAgICAgICAgbWVkaWE6IG92NTY0MDogVXBkYXRlIHBp
+eGVsX3JhdGUgYW5kIGxpbmtfZnJlcQ0KPj4+Pj4+Pj4+ICAgICAgICBtZWRpYTogb3Y1NjQwOiBS
+ZXdvcmsgQ1NJLTIgY2xvY2sgdHJlZQ0KPj4+Pj4+Pj4+ICAgICAgICBtZWRpYTogb3Y1NjQwOiBS
+ZXdvcmsgdGltaW5ncyBwcm9ncmFtbWluZw0KPj4+Pj4+Pj4+ICAgICAgICBtZWRpYTogb3Y1NjQw
+OiBGaXggNzIweDQ4MCBpbiBSR0I4ODggbW9kZQ0KPj4+Pj4+Pj4+ICAgICAgICBtZWRpYTogb3Y1
+NjQwOiBSZXdvcmsgYW5hbG9nIGNyb3AgcmVjdGFuZ2xlcw0KPj4+Pj4+Pj4+ICAgICAgICBtZWRp
+YTogb3Y1NjQwOiBSZS1zb3J0IHBlci1tb2RlIHJlZ2lzdGVyIHRhYmxlcw0KPj4+Pj4+Pj4+ICAg
+ICAgICBtZWRpYTogb3Y1NjQwOiBSZW1vdmUgb3Y1NjQwX21vZGVfaW5pdF9kYXRhDQo+Pj4+Pj4+
+Pj4gICAgICAgIG1lZGlhOiBvdjU2NDA6IEFkZCBIQkxBTksgY29udHJvbA0KPj4+Pj4+Pj4+ICAg
+ICAgICBtZWRpYTogb3Y1NjQwOiBBZGQgVkJMQU5LIGNvbnRyb2wNCj4+Pj4+Pj4+PiAgICAgICAg
+bWVkaWE6IG92NTY0MDogRml4IGR1cmF0aW9ucyB0byBjb21wbHkgd2l0aCBGUFMNCj4+Pj4+Pj4+
+PiAgICAgICAgbWVkaWE6IG92NTY0MDogSW1wbGVtZW50IGluaXRfY2ZnDQo+Pj4+Pj4+Pj4gICAg
+ICAgIG1lZGlhOiBvdjU2NDA6IEltcGxlbWVudCBnZXRfc2VsZWN0aW9uDQo+Pj4+Pj4+Pj4gICAg
+ICAgIG1lZGlhOiBvdjU2NDA6IExpbWl0IGZyYW1lX2ludGVydmFsIHRvIERWUCBtb2RlIG9ubHkN
+Cj4+Pj4+Pj4+PiAgICAgICAgbWVkaWE6IG92NTY0MDogUmVnaXN0ZXIgZGV2aWNlIHByb3BlcnRp
+ZXMNCj4+Pj4+Pj4+PiAgICAgICAgbWVkaWE6IG92NTY0MDogQWRkIFJHQjU2NV8xWDE2IGZvcm1h
+dA0KPj4+Pj4+Pj4+ICAgICAgICBtZWRpYTogb3Y1NjQwOiBBZGQgUkdCODg4L0JHUjg4OCBmb3Jt
+YXRzDQo+Pj4+Pj4+Pj4gICAgICAgIG1lZGlhOiBvdjU2NDA6IFJlc3RyaWN0IHNpemVzIHRvIG1i
+dXMgY29kZQ0KPj4+Pj4+Pj4+ICAgICAgICBtZWRpYTogb3Y1NjQwOiBBZGp1c3QgZm9ybWF0IHRv
+IGJwcCBpbiBzX2ZtdA0KPj4+Pj4+Pj4+DQo+Pj4+Pj4+Pj4gICAgICAgZHJpdmVycy9tZWRpYS9p
+MmMvb3Y1NjQwLmMgfCAxMTQzICsrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLQ0K
+Pj4+Pj4+Pj4+ICAgICAgIDEgZmlsZSBjaGFuZ2VkLCA4MzAgaW5zZXJ0aW9ucygrKSwgMzEzIGRl
+bGV0aW9ucygtKQ0KPj4+Pj4+Pj4+DQo+Pj4+Pj4+Pj4gLS0NCj4+Pj4+Pj4+PiAyLjM1LjANCj4+
+Pj4+Pj4+Pg0KPj4+Pj4+Pj4NCj4+Pj4+Pg0KPj4+Pg0KPj4NCg0K
