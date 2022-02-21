@@ -2,375 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB34B4BD438
-	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 04:36:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D55154BD5D9
+	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 07:23:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344238AbiBUD24 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Feb 2022 22:28:56 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42982 "EHLO
+        id S1344886AbiBUGI2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Feb 2022 01:08:28 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236398AbiBUD2z (ORCPT
+        with ESMTP id S1344884AbiBUGI1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Feb 2022 22:28:55 -0500
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEFBA5132B;
-        Sun, 20 Feb 2022 19:28:32 -0800 (PST)
-Received: by mail-oo1-xc2b.google.com with SMTP id s203-20020a4a3bd4000000b003191c2dcbe8so11539911oos.9;
-        Sun, 20 Feb 2022 19:28:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=evzbx3hFkrG4LEm3hNJUfV0Qe4cnm6Z7bXfWh+oqgHA=;
-        b=q1zGywxqEbABgk5qGo/5ZgnOjAUyxdDin3JN4tmRVsT/QUo5H2mlPReuWGyQPa6Pkq
-         kIeqcgDUIuCKhgDSRwp3JN8vVyzGKfD6+Tqtn++FHpZow3PJkgW4RAbKPYF8eDlKWMMI
-         eRForIbQFRMd6yIZ5rA8/5eCajF4y411hFjVKwxS9yLjPhsD5doEQiKqgdt6GdKmRycz
-         mDRrhYjSCfzJe0AsySBagpk3OCmMOp7OzGFtL/K++ppJTfCIGYRAnyWAOpm7jDohJ2HH
-         4UnEmlGfThpXRTUjH1xPKj0SxwWtaarM957Vm23s1Vji0E3QzSuA4lW83aB/CpcBj9qz
-         my/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=evzbx3hFkrG4LEm3hNJUfV0Qe4cnm6Z7bXfWh+oqgHA=;
-        b=JLaMZePv6KLudNNlRY4xeC4IQjlyOfQV1GWM7j1IMFDmDg8YjRN3u/BFBz4Zr1V59Q
-         Mz3TcZW4nfavDBcyLrDN2EWkXqHFDxFyw9Q0KOs3IR4ZsbtCr9IF48g7xPrYVmE6abzO
-         jeHFzDo8gcWPbolP1S5mkYr4AJIINKBFJZMl/tijRfEx5v8szuNhzwy/FVZOA/VIjMQA
-         +/niJvFIWwa+cUJvmLfRnW55s8yjHbOTzMPhvokL2cS7p0S2Gps1KkLBM9rDCFuxbG/2
-         Z2zrl1qpKJoNVgyuAhYMQGBKV5GRQmQGlbldOgRXA+sQZrVt7//ztLfxb68zu7gzX1ch
-         kWUg==
-X-Gm-Message-State: AOAM533NkcRAcUxClokv2+FBWe3QtENY8usXcmKS/DGUPfBADDinqIBn
-        +Pxl1OwHVzYbkptDF8zfET1/VCPaE+BTqk8aweU=
-X-Google-Smtp-Source: ABdhPJze/QDI5+XORX3C0oWeqbkGGqE1CNJ0uMuUTZ6HYLNRuKfPlfE4AmCZlgdh7rwc5tf4xgO0Asq3+la9pXqOY7g=
-X-Received: by 2002:a05:6870:148a:b0:d3:b909:926c with SMTP id
- k10-20020a056870148a00b000d3b909926cmr6698908oab.129.1645414111191; Sun, 20
- Feb 2022 19:28:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20220217090440.4468-1-qiang.yu@amd.com> <5d3fdd2c-e74a-49f4-2b28-32c06483236f@amd.com>
- <CAKGbVbtLTBJPF5eTu4rABUTBa8eqjQvqjo1AEUrzgPgYgCREuA@mail.gmail.com>
- <dac70c05-e712-d2e3-2267-278380895f1e@amd.com> <CAKGbVbvtLbDiKrX80-dMnipdLkTE+FP=g_mx37e12fuMtA1Y4Q@mail.gmail.com>
- <ca27a9c6-f390-a938-dd66-ac23f3b44dc4@amd.com> <CAKGbVbv4UFCybS_OFj5UkDgevbrB5qe3pv+0nHv9WdefYhy6Ww@mail.gmail.com>
- <6711073b-8771-5750-33f7-b72333b411c6@amd.com> <CAKGbVbvR+msXjrsXmDM8QTmsCP03hL5-q5CTJBYu4mm=NQd01A@mail.gmail.com>
- <a11b7073-6597-8e87-b724-33acab32e791@gmail.com> <CAKGbVbuJ-QdeoMTg=_O=1x5A5tbqZftsjt8aCCoVkAekci0USA@mail.gmail.com>
- <d830bb82-63ea-2de6-6d10-3a401ac0dcf0@amd.com> <CAKGbVbtorRius+Sq1_3SPUF3JzA00U747noSGhx7eP8Vn1rSDg@mail.gmail.com>
- <47c3a681-379e-18d4-86da-c48721081911@gmail.com>
-In-Reply-To: <47c3a681-379e-18d4-86da-c48721081911@gmail.com>
-From:   Qiang Yu <yuq825@gmail.com>
-Date:   Mon, 21 Feb 2022 11:28:20 +0800
-Message-ID: <CAKGbVbvmxOCZWYvB+ZSL7oHJmbm8vPgM-NJzadrEG1E=2c2Eyg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: check vm bo eviction valuable at last
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org, Qiang Yu <qiang.yu@amd.com>,
-        amd-gfx@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 21 Feb 2022 01:08:27 -0500
+X-Greylist: delayed 301 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 20 Feb 2022 22:08:04 PST
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+        by lindbergh.monkeyblade.net (Postfix) with UTF8SMTPS id B6683B42
+        for <linux-media@vger.kernel.org>; Sun, 20 Feb 2022 22:08:04 -0800 (PST)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1645423684; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=+AazQjQeDgQpPnJ/pXKd7WBiIS1jXxFHsSWffVy37C8=;
+ b=P4qyj/my8ga8VKfKGbVsmbAFMLz6ABIAEudIbhUzrB2k/a1AbIwip8eDOHc9HLGSRsVvYvj6
+ bjs55HqLX+AvQ+j16FdL6hCv512Rlmm8R67GsaBRSCXpTP/7H1sY4wKtKP1C2dZC5Ue/o+S7
+ YeXeYYuet5edLXYq2EWE2ooyPzQ=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 62132b14403a075b97a4b443 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 21 Feb 2022 06:03:00
+ GMT
+Sender: dikshita=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 643AEC43618; Mon, 21 Feb 2022 06:02:59 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: dikshita)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 3151BC4338F;
+        Mon, 21 Feb 2022 06:02:58 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 21 Feb 2022 11:32:58 +0530
+From:   dikshita@codeaurora.org
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Dikshita Agarwal <dikshita@qti.qualcomm.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, ezequiel@collabora.com,
+        vgarodia@codeaurora.org, stanimir.varbanov@linaro.org,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: Re: [PATCH v1 1/2] media: v4l2-ctrls: Add intra-refresh type control
+In-Reply-To: <20ace4b3-5002-4edb-642b-bbb1952f3591@xs4all.nl>
+References: <1643019119-8309-1-git-send-email-dikshita@qti.qualcomm.com>
+ <1643019119-8309-2-git-send-email-dikshita@qti.qualcomm.com>
+ <20ace4b3-5002-4edb-642b-bbb1952f3591@xs4all.nl>
+Message-ID: <39d1418cec305e59d798242b34d62e90@codeaurora.org>
+X-Sender: dikshita@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 18, 2022 at 6:24 PM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 18.02.22 um 11:16 schrieb Qiang Yu:
-> > [SNIP]
-> >>> If amdgpu_vm_ready() use evicting flag, it's still not equivalent to =
-check
-> >>> vm idle: true -> vm idle, false -> vm may be idle or busy.
-> >> Yeah, but why should that be relevant?
-> >>
-> >> The amdgpu_vm_ready() return if we can do page table updates or not. I=
-f
-> >> the VM is idle or not is only relevant for eviction.
-> >>
-> >> In other words any CS or page table update makes the VM busy, but that
-> >> only affects if the VM can be evicted or not.
-> >>
-> > My point is: we can't use amdgpu_vm_ready() to replace vm_is_busy(), so
-> > currently we update vm even when vm is busy. So why not use:
-Sorry, should be "vm is idle".
+On 2022-02-15 13:51, Hans Verkuil wrote:
+> Hi Dikshita,
+> 
+> Some comments below:
+> 
+> On 1/24/22 11:11, Dikshita Agarwal wrote:
+>> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> 
+>> Add a control to set intra-refresh type.
+>> 
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> ---
+>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 23 
+>> ++++++++++++++++++++++
+>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  9 +++++++++
+>>  include/uapi/linux/v4l2-controls.h                 |  5 +++++
+>>  3 files changed, 37 insertions(+)
+>> 
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst 
+>> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index e141f0e..54b42e1 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -1180,6 +1180,29 @@ enum v4l2_mpeg_video_h264_entropy_mode -
+>>      is set to non zero value.
+>>      Applicable to H264, H263 and MPEG4 encoder.
+>> 
+>> +``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE (enum)``
+>> +
+>> +enum v4l2_mpeg_video_intra_refresh_type -
+>> +    Sets the type of intra refresh. The period to refresh
+>> +    the whole frame is specified by 
+>> V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD.
+>> +    Note if the client sets this control to either 
+>> ``V4L2_MPEG_VIDEO_INTRA_REFRESH_RANDOM``
+>> +    or ``V4L2_MPEG_VIDEO_INTRA_REFRESH_CYCLIC`` the 
+>> ``V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB``
+>> +    control shall be ignored.
+> 
+> Since this control has only two possible values, that would mean that,
+> if this control
+> is present, then REFRESH_MB is always ignored.
+> 
+> It seems to me that you need a third option here that specifically
+> selects the REFRESH_MB
+> method.
+> 
+> Also, this needs to be documented as well in REFRESH_MB (i.e. it is
+> ignored if this TYPE
+> control is present and is set to something other than REFRESH_MB).
+> 
 
-> > if (!amdgpu_vm_ready() || vm_is_busy()) return;
-> > in amdgpu_gem_va_update_vm(), as you mentioned we prefer to not
-> > update vm when it's idle.
->
-> Because updating the VM while it is busy is perfectly fine, we do it all
-> the time.
->
-Yeah, as above, my typo.
+Hi Hans,
 
-> We should just not update it when it is already idle and was considered
-> for eviction.
-"and", not "or"?
+I don't think we need to add that as the third option in this control.
 
-> In this situation it makes most of the time sense to keep
-> it idle and postpone the update till the next command submission.
->
-> >>>>> Then we can keep the evicting flag accurate (after solving your
-> >>>>> concern for this patch that eviction may fail latter by further del=
-ay
-> >>>>> the flag update after eviction success).
-> >>>> That won't work. See we need to mark the VM as evicted before we
-> >>>> actually evict them because otherwise somebody could use the VM in
-> >>>> parallel and add another fence to it.
-> >>>>
-> >>> I see, make this too accurate should cost too much like holding the
-> >>> eviction_lock when eviction. But just delay it in
-> >>> amdgpu_ttm_bo_eviction_valuable()
-> >>> could avoid most false positive case.
-> >> Partially correct. Another fundamental problem is that we can't hold t=
-he
-> >> eviction lock because that would result in lock inversion and potentia=
-l
-> >> deadlock.
-> >>
-> >> We could set the flag later on, but as I said before that when we set
-> >> the evicted flag when the VM is already idle is a desired effect.
-> >>
-> > As above, this confuse me as we can explicitly check vm idle when
-> > user update vm, why bother to embed it in evicting flag implicitly?
->
-> Well as I said it's irrelevant for the update if the VM is idle or not.
->
-> To summarize the rules once more:
-> 1. When VM page tables are used by CS or page tables updates it is
-> considered busy, e.g. not idle.
->
-> 2. When we want to evict a VM it must be idle. As soon as we considered
-> this we should set the evicted flag to make sure to keep it idle as much
-> as possible.
->
-> 3. When we want to update the page tables we just need to check if the
-> VM is idle or not.
->
-But now we does not check vm idle directly in amdgpu_gem_va_update_vm().
-If VM bo has not been considered for eviction, it could be either idle or b=
-usy.
+So, there are two ways to set intra refresh to driver, it can be either 
+MB based or Frame-based.
+Currently, we have two v4l2 controls in place
+1. V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB -> this is MB based and 
+only applicable for cyclic
+2. V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD -> this is frame based and 
+has no type associated to it
+    and it is up to the driver to decide the type i.e Random or Cyclic.
 
-Just want to confirm if the fix should be only change amdgpu_vm_ready()
-to use evicting flag or besides using evicting flag, also check vm_idle() i=
-n
-amdgpu_gem_va_update_vm().
+with this new control V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE, we are 
+introducing
+a way for the client to set the type of intra refresh, either cyclic or 
+random.
 
-Regards,
-Qiang
+Thanks,
+Dikshita
 
-> 4. When a CS happens we don't have another chance and make the VM busy
-> again. And do all postponed page table updates.
->
-Anyway,
-
+>> +    Applicable to H264, H263 and MPEG4 encoder. Possible values are:
+>> +
+>> +.. tabularcolumns:: |p{9.6cm}|p{7.9cm}|
+>> +
+>> +.. flat-table::
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +
+>> +    * - ``V4L2_MPEG_VIDEO_INTRA_REFRESH_RANDOM``
+> 
+> I think you should add _TYPE after REFRESH in these names to clearly 
+> specify
+> that this is setting the refresh *type*.
+> 
+>> +      - The whole frame is completely refreshed randomly
+>> +      after the specified period.
+>> +    * - ``V4L2_MPEG_VIDEO_INTRA_REFRESH_CYCLIC``
+>> +      - The whole frame MBs are completely refreshed in cyclic order
+>> +      after the specified period.
+>> +
+>>  ``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD (integer)``
+>>      Intra macroblock refresh period. This sets the period to refresh
+>>      the whole frame. In other words, this defines the number of 
+>> frames
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c 
+>> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> index 54ca4e6..f13f587 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> @@ -572,6 +572,11 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>>  		"VBV/CPB Limit",
+>>  		NULL,
+>>  	};
+>> +	static const char * const intra_refresh_type[] = {
+>> +		"Random",
+>> +		"Cyclic",
+>> +		NULL,
+>> +	};
+>> 
+>>  	switch (id) {
+>>  	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
+>> @@ -705,6 +710,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>>  		return hevc_start_code;
+>>  	case V4L2_CID_CAMERA_ORIENTATION:
+>>  		return camera_orientation;
+>> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:
+>> +		return intra_refresh_type;
+>>  	default:
+>>  		return NULL;
+>>  	}
+>> @@ -834,6 +841,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:	return "Decoder 
+>> Slice Interface";
+>>  	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:	return "MPEG4 
+>> Loop Filter Enable";
+>>  	case V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB:	return "Number of 
+>> Intra Refresh MBs";
+>> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:		return "Intra Refresh 
+>> Type";
+>>  	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD:		return "Intra 
+>> Refresh Period";
+>>  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:		return "Frame Level Rate 
+>> Control Enable";
+>>  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:			return "H264 MB Level Rate 
+>> Control";
+>> @@ -1360,6 +1368,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, 
+>> enum v4l2_ctrl_type *type,
+>>  	case V4L2_CID_STATELESS_H264_DECODE_MODE:
+>>  	case V4L2_CID_STATELESS_H264_START_CODE:
+>>  	case V4L2_CID_CAMERA_ORIENTATION:
+>> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:
+>>  		*type = V4L2_CTRL_TYPE_MENU;
+>>  		break;
+>>  	case V4L2_CID_LINK_FREQ:
+>> diff --git a/include/uapi/linux/v4l2-controls.h 
+>> b/include/uapi/linux/v4l2-controls.h
+>> index c8e0f84..9650b71 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -443,6 +443,11 @@ enum v4l2_mpeg_video_multi_slice_mode {
+>>  #define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES		(V4L2_CID_CODEC_BASE+234)
+>>  #define 
+>> V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR		(V4L2_CID_CODEC_BASE+235)
+>>  #define 
+>> V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD	(V4L2_CID_CODEC_BASE+236)
+>> +#define 
+>> V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE		(V4L2_CID_CODEC_BASE+237)
+>> +enum v4l2_mpeg_video_intra_refresh_type {
+>> +	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_RANDOM	= 0,
+>> +	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_CYCLIC	= 1,
+>> +};
+>> 
+>>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+>>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
+> 
 > Regards,
-> Christian.
->
-> >
-> > Check vm idle need to hold resv lock. Read your patch for adding
-> > evicting flag is to update vm without resv lock. But user vm ops in
-> > amdgpu_gem_va_update_vm() do hold the resv lock, so the difference
-> > happens when calling amdgpu_vm_bo_update_mapping() from
-> > svm_range_(un)map_to_gpu(). So embed vm idle in evicting flag
-> > is for svm_range_(un)map_to_gpu() also do nothing when vm idle?
->
->
->
-> >
-> > Regards,
-> > Qiang
-> >
-> >> Regards,
-> >> Christian.
-> >>
-> >>> Regards,
-> >>> Qiang
-> >>>
-> >>>> Regards,
-> >>>> Christian.
-> >>>>
-> >>>>> Regards,
-> >>>>> Qiang
-> >>>>>
-> >>>>>
-> >>>>>> Regards,
-> >>>>>> Christian.
-> >>>>>>
-> >>>>>>> Regards,
-> >>>>>>> Qiang
-> >>>>>>>
-> >>>>>>>> Regards,
-> >>>>>>>> Christian.
-> >>>>>>>>
-> >>>>>>>>> Regards,
-> >>>>>>>>> Qiang
-> >>>>>>>>>
-> >>>>>>>>>> Regards,
-> >>>>>>>>>> Christian.
-> >>>>>>>>>>
-> >>>>>>>>>>> Regards,
-> >>>>>>>>>>> Qiang
-> >>>>>>>>>>>
-> >>>>>>>>>>>> What we should rather do is to fix amdgpu_vm_ready() to take=
- a look at
-> >>>>>>>>>>>> the flag instead of the linked list.
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> Regards,
-> >>>>>>>>>>>> Christian.
-> >>>>>>>>>>>>
-> >>>>>>>>>>>>> Signed-off-by: Qiang Yu <qiang.yu@amd.com>
-> >>>>>>>>>>>>> ---
-> >>>>>>>>>>>>>         drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 85 ++++++=
-++++++++-----------
-> >>>>>>>>>>>>>         1 file changed, 47 insertions(+), 38 deletions(-)
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/driv=
-ers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> >>>>>>>>>>>>> index 5a32ee66d8c8..88a27911054f 100644
-> >>>>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> >>>>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> >>>>>>>>>>>>> @@ -1306,45 +1306,11 @@ uint64_t amdgpu_ttm_tt_pte_flags(st=
-ruct amdgpu_device *adev, struct ttm_tt *ttm,
-> >>>>>>>>>>>>>             return flags;
-> >>>>>>>>>>>>>         }
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> -/*
-> >>>>>>>>>>>>> - * amdgpu_ttm_bo_eviction_valuable - Check to see if we ca=
-n evict a buffer
-> >>>>>>>>>>>>> - * object.
-> >>>>>>>>>>>>> - *
-> >>>>>>>>>>>>> - * Return true if eviction is sensible. Called by ttm_mem_=
-evict_first() on
-> >>>>>>>>>>>>> - * behalf of ttm_bo_mem_force_space() which tries to evict=
- buffer objects until
-> >>>>>>>>>>>>> - * it can find space for a new object and by ttm_bo_force_=
-list_clean() which is
-> >>>>>>>>>>>>> - * used to clean out a memory space.
-> >>>>>>>>>>>>> - */
-> >>>>>>>>>>>>> -static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buf=
-fer_object *bo,
-> >>>>>>>>>>>>> -                                         const struct ttm_=
-place *place)
-> >>>>>>>>>>>>> +static bool amdgpu_ttm_mem_eviction_valuable(struct ttm_bu=
-ffer_object *bo,
-> >>>>>>>>>>>>> +                                          const struct ttm=
-_place *place)
-> >>>>>>>>>>>>>         {
-> >>>>>>>>>>>>>             unsigned long num_pages =3D bo->resource->num_p=
-ages;
-> >>>>>>>>>>>>>             struct amdgpu_res_cursor cursor;
-> >>>>>>>>>>>>> -     struct dma_resv_list *flist;
-> >>>>>>>>>>>>> -     struct dma_fence *f;
-> >>>>>>>>>>>>> -     int i;
-> >>>>>>>>>>>>> -
-> >>>>>>>>>>>>> -     /* Swapout? */
-> >>>>>>>>>>>>> -     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
-> >>>>>>>>>>>>> -             return true;
-> >>>>>>>>>>>>> -
-> >>>>>>>>>>>>> -     if (bo->type =3D=3D ttm_bo_type_kernel &&
-> >>>>>>>>>>>>> -         !amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo)))
-> >>>>>>>>>>>>> -             return false;
-> >>>>>>>>>>>>> -
-> >>>>>>>>>>>>> -     /* If bo is a KFD BO, check if the bo belongs to the =
-current process.
-> >>>>>>>>>>>>> -      * If true, then return false as any KFD process need=
-s all its BOs to
-> >>>>>>>>>>>>> -      * be resident to run successfully
-> >>>>>>>>>>>>> -      */
-> >>>>>>>>>>>>> -     flist =3D dma_resv_shared_list(bo->base.resv);
-> >>>>>>>>>>>>> -     if (flist) {
-> >>>>>>>>>>>>> -             for (i =3D 0; i < flist->shared_count; ++i) {
-> >>>>>>>>>>>>> -                     f =3D rcu_dereference_protected(flist=
-->shared[i],
-> >>>>>>>>>>>>> -                             dma_resv_held(bo->base.resv))=
-;
-> >>>>>>>>>>>>> -                     if (amdkfd_fence_check_mm(f, current-=
->mm))
-> >>>>>>>>>>>>> -                             return false;
-> >>>>>>>>>>>>> -             }
-> >>>>>>>>>>>>> -     }
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>>             switch (bo->resource->mem_type) {
-> >>>>>>>>>>>>>             case AMDGPU_PL_PREEMPT:
-> >>>>>>>>>>>>> @@ -1377,10 +1343,53 @@ static bool amdgpu_ttm_bo_eviction_=
-valuable(struct ttm_buffer_object *bo,
-> >>>>>>>>>>>>>                     return false;
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>>             default:
-> >>>>>>>>>>>>> -             break;
-> >>>>>>>>>>>>> +             return ttm_bo_eviction_valuable(bo, place);
-> >>>>>>>>>>>>>             }
-> >>>>>>>>>>>>> +}
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> -     return ttm_bo_eviction_valuable(bo, place);
-> >>>>>>>>>>>>> +/*
-> >>>>>>>>>>>>> + * amdgpu_ttm_bo_eviction_valuable - Check to see if we ca=
-n evict a buffer
-> >>>>>>>>>>>>> + * object.
-> >>>>>>>>>>>>> + *
-> >>>>>>>>>>>>> + * Return true if eviction is sensible. Called by ttm_mem_=
-evict_first() on
-> >>>>>>>>>>>>> + * behalf of ttm_bo_mem_force_space() which tries to evict=
- buffer objects until
-> >>>>>>>>>>>>> + * it can find space for a new object and by ttm_bo_force_=
-list_clean() which is
-> >>>>>>>>>>>>> + * used to clean out a memory space.
-> >>>>>>>>>>>>> + */
-> >>>>>>>>>>>>> +static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buf=
-fer_object *bo,
-> >>>>>>>>>>>>> +                                         const struct ttm_=
-place *place)
-> >>>>>>>>>>>>> +{
-> >>>>>>>>>>>>> +     struct dma_resv_list *flist;
-> >>>>>>>>>>>>> +     struct dma_fence *f;
-> >>>>>>>>>>>>> +     int i;
-> >>>>>>>>>>>>> +
-> >>>>>>>>>>>>> +     /* Swapout? */
-> >>>>>>>>>>>>> +     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
-> >>>>>>>>>>>>> +             return true;
-> >>>>>>>>>>>>> +
-> >>>>>>>>>>>>> +     /* If bo is a KFD BO, check if the bo belongs to the =
-current process.
-> >>>>>>>>>>>>> +      * If true, then return false as any KFD process need=
-s all its BOs to
-> >>>>>>>>>>>>> +      * be resident to run successfully
-> >>>>>>>>>>>>> +      */
-> >>>>>>>>>>>>> +     flist =3D dma_resv_shared_list(bo->base.resv);
-> >>>>>>>>>>>>> +     if (flist) {
-> >>>>>>>>>>>>> +             for (i =3D 0; i < flist->shared_count; ++i) {
-> >>>>>>>>>>>>> +                     f =3D rcu_dereference_protected(flist=
-->shared[i],
-> >>>>>>>>>>>>> +                             dma_resv_held(bo->base.resv))=
-;
-> >>>>>>>>>>>>> +                     if (amdkfd_fence_check_mm(f, current-=
->mm))
-> >>>>>>>>>>>>> +                             return false;
-> >>>>>>>>>>>>> +             }
-> >>>>>>>>>>>>> +     }
-> >>>>>>>>>>>>> +
-> >>>>>>>>>>>>> +     /* Check by different mem type. */
-> >>>>>>>>>>>>> +     if (!amdgpu_ttm_mem_eviction_valuable(bo, place))
-> >>>>>>>>>>>>> +             return false;
-> >>>>>>>>>>>>> +
-> >>>>>>>>>>>>> +     /* VM bo should be checked at last because it will ma=
-rk VM evicting. */
-> >>>>>>>>>>>>> +     if (bo->type =3D=3D ttm_bo_type_kernel)
-> >>>>>>>>>>>>> +             return amdgpu_vm_evictable(ttm_to_amdgpu_bo(b=
-o));
-> >>>>>>>>>>>>> +
-> >>>>>>>>>>>>> +     return true;
-> >>>>>>>>>>>>>         }
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>>         static void amdgpu_ttm_vram_mm_access(struct amdgpu=
-_device *adev, loff_t pos,
->
+> 
+> 	Hans
