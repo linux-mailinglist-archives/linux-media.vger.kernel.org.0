@@ -2,355 +2,252 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A86E24BE128
-	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 18:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E6EC4BE68A
+	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 19:02:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345602AbiBUIwj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Feb 2022 03:52:39 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41902 "EHLO
+        id S1347025AbiBUJDR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Feb 2022 04:03:17 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345396AbiBUIw0 (ORCPT
+        with ESMTP id S1347614AbiBUJBe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Feb 2022 03:52:26 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B86DCD
-        for <linux-media@vger.kernel.org>; Mon, 21 Feb 2022 00:51:54 -0800 (PST)
+        Mon, 21 Feb 2022 04:01:34 -0500
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A56F1286E2
+        for <linux-media@vger.kernel.org>; Mon, 21 Feb 2022 00:56:48 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 083E940002;
-        Mon, 21 Feb 2022 08:51:47 +0000 (UTC)
-Date:   Mon, 21 Feb 2022 09:51:46 +0100
+        by mail.gandi.net (Postfix) with ESMTPSA id 350E4200002;
+        Mon, 21 Feb 2022 08:56:11 +0000 (UTC)
+Date:   Mon, 21 Feb 2022 09:56:10 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Eugen.Hristev@microchip.com
-Cc:     slongerbeam@gmail.com, laurent.pinchart@ideasonboard.com,
-        sakari.ailus@iki.fi, hverkuil-cisco@xs4all.nl,
-        mirela.rabulea@nxp.com, xavier.roumegue@oss.nxp.com,
-        tomi.valkeinen@ideasonboard.com, hugues.fruchet@st.com,
-        prabhakar.mahadev-lad.rj@bp.renesas.com, aford173@gmail.com,
-        festevam@gmail.com, jbrunet@baylibre.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 00/23] media: ov5640: Rework the clock tree
- programming for MIPI
-Message-ID: <20220221085146.airuxkbi4e5trxkp@uno.localdomain>
-References: <20220210110458.152494-1-jacopo@jmondi.org>
- <a5a75d0b-7f40-39d0-a8ec-4e143c5f3b1c@microchip.com>
- <20220211112500.7p3fi2xhwutap6ak@uno.localdomain>
- <23ac37a4-a979-2dbf-32ae-012d4ff45806@microchip.com>
- <20220214143816.wbtpd2klb6wvzt3c@uno.localdomain>
- <8c39e96c-1c1f-a279-a67c-1d113153ec13@microchip.com>
- <20220214185647.tbqv4lbuf3ba4yw7@uno.localdomain>
- <6d2f7f6d-e610-fb35-0f4f-224dbaae262d@microchip.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
+        rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
+        alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
+        kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 3/7] media: imx: imx7-media-csi: Use dual sampling for
+ YUV 1X16
+Message-ID: <20220221085610.cpasrvnr4lj3n2xr@uno.localdomain>
+References: <20220218183421.583874-1-jacopo@jmondi.org>
+ <20220218183421.583874-4-jacopo@jmondi.org>
+ <YhH4z/CAltKGt6HF@pendragon.ideasonboard.com>
+ <20220221084307.kbv43pn5j2d7ieya@uno.localdomain>
+ <YhNSC6TVX5ol3do3@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6d2f7f6d-e610-fb35-0f4f-224dbaae262d@microchip.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YhNSC6TVX5ol3do3@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen
-
-On Thu, Feb 17, 2022 at 02:25:37PM +0000, Eugen.Hristev@microchip.com wrote:
-> On 2/14/22 8:56 PM, Jacopo Mondi wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> >
-> > Hi Eugen
-> >
-> > On Mon, Feb 14, 2022 at 03:08:56PM +0000, Eugen.Hristev@microchip.com wrote:
-> >> On 2/14/22 4:38 PM, Jacopo Mondi wrote:
-> >>> Hi Eugen,
-> >>>
-> >>> On Mon, Feb 14, 2022 at 02:06:02PM +0000, Eugen.Hristev@microchip.com wrote:
-> >>>> On 2/11/22 1:25 PM, Jacopo Mondi wrote:
-> >>>>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> >>>>>
-> >>>>> Hi Eugen
-> >>>>>
-> >>>>>            thanks very much for testing
-> >>>>>
-> >>>>> On Fri, Feb 11, 2022 at 10:09:04AM +0000, Eugen.Hristev@microchip.com wrote:
-> >>>>>> On 2/10/22 1:04 PM, Jacopo Mondi wrote:
-> >>>>>>
-> >>>>>> Hello Jacopo,
-> >>>>>>
-> >>>>>>> v1:
-> >>>>>>> https://patchwork.linuxtv.org/project/linux-media/list/?series=7249
-> >>>>>>>
-> >>>>>>> A branch for testing based on the most recent media-master is available at
-> >>>>>>> https://git.sr.ht/~jmondi_/linux #jmondi/media-master/ov5640-v2
-> >>>>>>>
-> >>>>>>> If anyone with a DVP setup could verify I have not broken their use case
-> >>>>>>> I would very much appreciate that :)
-> >>>>>>
-> >>>>>> I started testing this on my bench.
-> >>>>>> So far things look good.
-> >>>>>>
-> >>>>>
-> >>>>> \o/
-> >>>>>
-> >>>>>> To be able to test this, I have to revert this patch :
-> >>>>>> "media: i2c: ov5640: Remain in power down for DVP mode unless streaming"
-> >>>>>>
-> >>>>>> Otherwise the sensor will not power up when starting streaming.
-> >>>>>>
-> >>>>>>
-> >>>>>> I have tested several formats, as you worked more on this sensor, could
-> >>>>>> you tell me, does format YUYV_2x8 work in parallel mode at 1920x1080 or
-> >>>>>> 1024x768 ?
-> >>>>>
-> >>>>> I never tested the sensor driver with a parallel setup I'm afraid.
-> >>>>> The idea behind this series is that DVP shouldn't be affected and
-> >>>>> continue working like it did.
-> >>>>
-> >>>> Hi Jacopo,
-> >>>>
-> >>>> I was hoping that you had more information about the driver than myself.
-> >>>
-> >>> Not on DVP mode I'm sorry :(
-> >>>
-> >>>> I can tell that the parallel mode is not affected by your series from
-> >>>> what I've seen so far.
-> >>>
-> >>> That's great, thanks for testing.
-> >>
-> >>
-> >> I found one change, before your series, I could attempt to capture BGGR
-> >> @ 640x480, now it looks to be gone :
-> >>
-> >> Before:
-> >>
-> >> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x3001
-> >> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0)
-> >>           Size Range: 160x120 - 160x120
-> >>           Size Range: 176x144 - 176x144
-> >>           Size Range: 320x240 - 320x240
-> >>           Size Range: 640x480 - 640x480
-> >>           Size Range: 720x480 - 720x480
-> >>           Size Range: 720x576 - 720x576
-> >>           Size Range: 1024x768 - 1024x768
-> >>           Size Range: 1280x720 - 1280x720
-> >>           Size Range: 1920x1080 - 1920x1080
-> >>           Size Range: 2592x1944 - 2592x1944
-> >>
-> >>
-> >> After:
-> >>
-> >> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x3001
-> >> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0)
-> >>           Size Range: 1280x720 - 1280x720
-> >>           Size Range: 1920x1080 - 1920x1080
-> >>           Size Range: 2592x1944 - 2592x1944
-> >>
-> >
-> > Right... I'm limiting SRGGB formats to only resolutions > 1280x720
-> > as..
-> >
-> >>
-> >> However trying it without your patches, it doesn't work , I don't
-> >
-> > ... they do not work for me either.
-> >
-> > So if they were not working before, maybe it's right not to enumerate
-> > them ?
-> >
-> >> receive frames, and I can't even set 1280x720 at all, I get -EINVAL
-> >
-> > Be aware that DVP mode prevents you from setting a format if the
-> > currently selected framerate is said to be "not supported" for that
-> > format
-> >
-> >>
-> >> So I assume you have been reworking the frame sizes.
-> >>
-> >> With your series, I have tested RGGB at 1280x720 , 1920x1080 .
-> >> I also tested YUYV at 640x480 and RGB565_LE at 640x480.
-> >>
-> >> I can't go higher with the YUYV/RGB565, I don't receive frames anymore.
-> >
-> > Ah, I wonder if
-> > 07b49ac59fd9 media: ov5640: Fix durations to comply with FPS
-> > 82aebf4b7314 media: ov5640: Rework analog crop rectangles
-> >
-> > Might have impacted DVP...
-> >
-> > Should I keep separate fields for MIPI mode and leave the totals for
-> > DVP untouched ?
->
+On Mon, Feb 21, 2022 at 10:49:15AM +0200, Laurent Pinchart wrote:
 > Hi Jacopo,
 >
-> I tested again without your series, and I can capture YUYV directly
-> @1280x720 , which does not work anymore with your patches.
+> On Mon, Feb 21, 2022 at 09:43:07AM +0100, Jacopo Mondi wrote:
+> > On Sun, Feb 20, 2022 at 10:16:15AM +0200, Laurent Pinchart wrote:
+> > > On Fri, Feb 18, 2022 at 07:34:17PM +0100, Jacopo Mondi wrote:
+> > > > The CSI bridge should operate in dual pixel sampling mode when it is
+> > >
+> > > s/dual pixel sampling mode/dual component mode/
+> > >
+> > > > connected to a pixel transmitter that transfers two pixel samples (16
+> > > > bits) at the time in YUYV formats.
+> > >
+> > > It's actually one pixel per clock. Without BIT_TWO_8BIT_SENSOR and
+> > > BIT_MIPI_DOUBLE_CMPNT, the CSI bridge expects 8-bit data, which requires
+> > > two clock cycles to transfer one pixel. When setting those bits, it
+> > > expects 16-bit data, with one clock cycle per pixel. The
+> > > MIPI_DOUBLE_CMPNT documentation states this clearly:
+> >
+> > Indeed, that's why I said two pixels -samples-.
+> >
+> > Maybe the usage of 'sample' is not right ? Two pixel samples in YUYV
+> > mode to me means two bytes which form 1 pixel.
 >
-> The image has some bad pixels in it, but still, capture is pretty good.
-> I am not sure whether it's a timing problem on capturing pixels, I
-> uploaded it here so you can have a look :
+> I think it's a bit unclear. Maybe you could write
 >
-> https://ibb.co/Yt8c0dJ
+> The CSI bridge should operate in dual component mode when it is
+> connected to a pixel transmitter that transfers two components at a time
+> in YUV 422 formats (16 bits, Y + U/V).
 >
+> > > 20 MIPI_DOUBLE_CMPNT
+> > > Double component per clock cycle in YUV422 formats.
+> > > 0 Single component per clock cycle
+> > > (half pixel per clock cycle)
+> > > 1 Double component per clock cycle
+> > > (a pixel per clock cycle)
+> > >
+> > > > Use the image format variants to determine if single or dual pixel mode
+> > >
+> > > "dual pixel" is a concept of the CSIS, not the CSI bridge. This should
+> > > mention single or double component mode.
+> >
+> > Ack
+> >
+> > > > should be used.
+> > > >
+> > > > Add a note to the TODO file to record that the list of supported formats
+> > > > should be restricted to the SoC model the CSI bridge is integrated on
+> > > > to avoid potential pipeline mis-configurations.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > ---
+> > > >  drivers/staging/media/imx/TODO             | 26 ++++++++++++++++++++++
+> > > >  drivers/staging/media/imx/imx7-media-csi.c |  8 +++++--
+> > > >  2 files changed, 32 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
+> > > > index 06c94f20ecf8..e15eba32cc94 100644
+> > > > --- a/drivers/staging/media/imx/TODO
+> > > > +++ b/drivers/staging/media/imx/TODO
+> > > > @@ -27,3 +27,29 @@
+> > > >  - i.MX7: all of the above, since it uses the imx media core
+> > > >
+> > > >  - i.MX7: use Frame Interval Monitor
+> > > > +
+> > > > +- imx7-media-csi: Restrict the supported formats list to the SoC version.
+> > > > +
+> > > > +  The imx7 CSI bridge can be configured to sample pixel components from the Rx
+> > > > +  queue in single  (8bpp) or double (16bpp) modes. Image format variations with
+> > > > +  different sample sizes (ie YUYV_2X8 vs YUYV_1X16) determine the sampling size
+> > > > +  (see imx7_csi_configure()).
+> > > > +
+> > > > +  As the imx7 CSI bridge can be interfaced with different IP blocks depending on
+> > > > +  the SoC model it is integrated on, the Rx queue sampling size should match
+> > > > +  the size of samples transferred by the transmitting IP block.
+> > > > +
+> > > > +  To avoid mis-configurations of the capture pipeline, the enumeration of the
+> > > > +  supported formats should be restricted to match the pixel source
+> > > > +  transmitting mode.
+> > > > +
+> > > > +  Examples: i.MX8MM SoC integrates the CSI bridge with the Samsung CSIS CSI-2
+> > > > +  receiver which operates in dual pixel sampling mode. The CSI bridge should
+> > > > +  only expose the 1X16 formats variant which instructs it to operate in dual
+> > > > +  pixel sampling mode. When the CSI bridge is instead integrated on an i.MX8MQ
+> > > > +  SoC, which features a CSI-2 receiver that operates in single sampling mode, it
+> > > > +  should only expose the 2X8 formats variant which instruct it to operate in
+> > > > +  single sampling mode.
+> > > > +
+> > > > +  This currently only applies to YUYV formats, but other formats might need
+> > > > +  to be treated in the same way.
+> > > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > > > index 32311fc0e2a4..108360ae3710 100644
+> > > > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > > > @@ -503,11 +503,15 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+> > > >  		 * all of them comply. Support both variants.
+> > > >  		 */
+> > >
+> > > You can drop this comment, as the two variants are not related to the
+> > > CSI-2 bus format (which should always be UYVY8_1X16) but to the format
+> > > output by the CSI-2 RX.
+> > >
+> > > I would add another comment to explain this clearly:
+> > >
+> > > 		/*
+> > > 		 * The CSI bridge has a 16-bit input bus. Depending on
+> > > 		 * the connected source, data may be transmitted with 8
+> > > 		 * or 10 bits per clock sample (in bits [9:2] or [9:0]
+> > > 		 * respectively) or with 16 bits per clock sample (in
+> > > 		 * bits [15:0]). The data is then packed into a 32-bit
+> > > 		 * FIFO (as shown in figure 13-11 of the i.MX8MM
+> > > 		 * reference manual rev. 3).
+> > > 		 *
+> > > 		 * The data packing in a 32-bit FIFO input workd is
+> >
+> > s/workd/word
+> >
+> > > 		 * controlled by the CR3 TWO_8BIT_SENSOR field (also
+> > > 		 * known as SENSOR_16BITS in the i.MX8MM reference
+> > > 		 * manual). When set to 0, data packing groups four
+> > > 		 * 8-bit input samples (bits [9:2]). When set to 1, data
+> > > 		 * packing groups two 16-bit input samples (bits
+> > > 		 * [15:0]).
+> > > 		 *
+> > > 		 * The register field CR18 MIPI_DOUBLE_CMPNT also needs
+> > > 		 * to be configured according to the input format for
+> > > 		 * YUV 4:2:2 data. The field controls the gasket between
+> > > 		 * the CSI-2 receiver and the CSI bridge. On i.MX7 and
+> > > 		 * i.MX8MM, the field must be set to 1 when the CSIS
+> > > 		 * outputs 16-bit samples. On i.MX8MQ, the gasket
+> > > 		 * ignores the MIPI_DOUBLE_CMPNT bit and YUV 4:2:2
+> > > 		 * always uses 16-bit samples. Setting MIPI_DOUBLE_CMPNT
+> > > 		 * in that case has no effect, but doesn't cause any
+> > > 		 * issue.
+> > > 		 */
+> > >
+> > > With this, someone trying to figure out what those bits do will
+> > > hopefully be able to get it right :-)
+> >
+> > Thanks, very clear. I didn't get the last part about the MQ. I thought
+> > the NW csi-2 receiver worked with 8-bit samples that's why we need to
+> > maintain the CSI bridge compatible with the 2X8 format variant (this
+> > and also for imx7 + parallel).
+> >
+> > Actually, looking at the MQ reference manual
+> >
+> > "15.2.1.3.5 CSI-2 Controller Core Configurations"  reports:
+> > The CSI-2 RX Controller Core User Interface supports either a single,
+> > double, or quad pixel wide data path. The double and quad wide pixel
+> > modes can help reduce the frequency the user interface must run at
+> > while the single pixel wide mode can be easier to interface to for
+> > some applications.
+> >
+> > This chip supports the following:
+> > • Single Pixel Configuration
+> >
+> > It seems the csi-2 receiver on the MQ works in single pixel mode only.
+> > It should then expose the 2X8 format variant only, which is
+> > technically incorrect for a serial transmitter. Cul de sac ?
+>
+> It's a different CSI-2 receiver, and uses a different terminology.
+> "Single pixel mode" there refers to one pixel per clock cycle, which
+> means, for YUV422 8-bit, 16 bits per cycle. The MIPI_DOUBLE_CMPNT bit is
+> ignored by the gasket on i.MX8MQ.
 
-This is without my series ? Or with it applied ? Sorry for the dumb
-question :)
+   -Lovely-
 
-> Eugen
+I'll send patch to drop 2X8 variant from the mq csi-2 receiver.
+
+Thanks
+  j
+
 >
+> > > With these changes,
+> > >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > >
-> > Thanks again for your very useful testing
+> > Thanks
+> >    j
 > >
-> >
-> >> I can't go higher with the bayer to 2592x1944 . But this did not work
-> >> before your patches either.
-> >>>
-> >>>>
-> >>>>>
-> >>>>>> I managed to get it working fine at 640x480 .
-> >>>>>>
-> >>>>>> The sensor looks to report valid framesizes for this mbus code :
-> >>>>>>
-> >>>>>> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-mbus-codes
-> >>>>>> \ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
-> >>>>>>             0x4001: MEDIA_BUS_FMT_JPEG_1X8
-> >>>>>>             0x2006: MEDIA_BUS_FMT_UYVY8_2X8
-> >>>>>>             0x200f: MEDIA_BUS_FMT_UYVY8_1X16
-> >>>>>>             0x2008: MEDIA_BUS_FMT_YUYV8_2X8
-> >>>>>>             0x2011: MEDIA_BUS_FMT_YUYV8_1X16
-> >>>>>>             0x1008: MEDIA_BUS_FMT_RGB565_2X8_LE
-> >>>>>>             0x1007: MEDIA_BUS_FMT_RGB565_2X8_BE
-> >>>>>>             0x1017: MEDIA_BUS_FMT_RGB565_1X16
-> >>>>>>             0x100a: MEDIA_BUS_FMT_RGB888_1X24
-> >>>>>>             0x1013: MEDIA_BUS_FMT_BGR888_1X24
-> >>>>>>             0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
-> >>>>>>             0x3013: MEDIA_BUS_FMT_SGBRG8_1X8
-> >>>>>>             0x3002: MEDIA_BUS_FMT_SGRBG8_1X8
-> >>>>>>             0x3014: MEDIA_BUS_FMT_SRGGB8_1X8
-> >>>>>> # v4l2-ctl -d /dev/v4l-subdev1 --list-subdev-framesizes pad=0,code=0x2008
-> >>>>>> ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=0)
-> >>>>>>             Size Range: 160x120 - 160x120
-> >>>>>>             Size Range: 176x144 - 176x144
-> >>>>>>             Size Range: 320x240 - 320x240
-> >>>>>>             Size Range: 640x480 - 640x480
-> >>>>>>             Size Range: 720x480 - 720x480
-> >>>>>>             Size Range: 720x576 - 720x576
-> >>>>>>             Size Range: 1024x768 - 1024x768
-> >>>>>>             Size Range: 1280x720 - 1280x720
-> >>>>>>             Size Range: 1920x1080 - 1920x1080
-> >>>>>>             Size Range: 2592x1944 - 2592x1944
-> >>>>>> #
-> >>>>>>
-> >>>>>> but the ISC does not receive any frames at 1024x768 and 1920x1080.
-> >>>>>
-> >>>>> Are 1080p and 1024x768 working without this series applied on your
-> >>>>> setup ?
-> >>>>
-> >>>> I remember they weren't working before either.
-> >>>>
-> >>>> I don't know exactly to which patches to add my Tested-by , as I have
-> >>>> not tested the explicit patch behavior for each patch (e.g. where you
-> >>>> add HBLANK control, I have not tested that ).
-> >>>>
-> >>>
-> >>> I think it's good enough making sure I have not broke DVP.
-> >>>
-> >>> As you can see the driver now behaves in two different ways in DVP and
-> >>> MIPI mode. The DVP works as it used to, and the framerate is
-> >>> controlled by s_frame_interval, the frame size is fixed and the PCLK
-> >>> is computed dyanically to accomodate the required FPS. In MIPI mode the
-> >>> framerate is controlled by changing the vertical blankings. To each
-> >>> mode a pixel rate is assigned and userspace changes the frame duration
-> >>> by changing blankings. The most obvious gain is that the frame rate is
-> >>> controllable in a continuous interval instead of being limited to a
-> >>> few fixed values. It is my understanding that all drivers should be
-> >>> moved to this model and s_frame_intervall should be dropped, but
-> >>> unfortunately some bridge drivers in mainline still deman that.
-> >>>
-> >>> If you are interested, I think the DVP mode should be moved to use the
-> >>> same mecahnism as MIPI mode. I can't test so I haven't done so in this
-> >>> series.
-> >>>
-> >>> For now I think it's enough to make sure there are no regressions in
-> >>> DVP mode.
-> >>>
-> >>> For the tag, I think it would be appropriate to add it to the
-> >>> following one:
-> >>>
-> >>> 91ae667b0d47 media: ov5640: Limit frame_interval to DVP mode only
-> >>>
-> >>>> Is there something particular you would like me to try , except my usual
-> >>>> image captures ?
-> >>>
-> >>> RGB888 is weird on both the platforms I've tested on and I cannot get
-> >>> colors right. Does your platform support RGB888 ?
-> >>
-> >> I can't test this one unfortunately. It's a 1X24 . I have only 8 bits
-> >> connected, so unless you can make this a 3x8 , there isn't anything I
-> >> can do.
-> >>
-> >>>
-> >>> Thanks
-> >>>     j
-> >>>
-> >>>
-> >>>>
-> >>>>
-> >>>> Eugen
-> >>>>
-> >>>>>
-> >>>>> Thanks again for testin!
-> >>>>>
-> >>>>>>
-> >>>>>>
-> >>>>>> What I can say is that the raw bayer format works at 1920x1080 , frames
-> >>>>>> are received correctly.
-> >>>>>>
-> >>>>>> Thanks,
-> >>>>>> Eugen
-> >>>>>>
-> >>>>>>>
-> >>>>>>> v1 -> v2:
-> >>>>>>> - rework the modes definition to process the full pixel array
-> >>>>>>> - rework get_selection to report the correct BOUND and DEFAULT targets
-> >>>>>>> - implement init_cfg
-> >>>>>>> - minor style changes as suggested by Laurent
-> >>>>>>> - test with 1 data lane
-> >>>>>>>
-> >>>>>>> Thanks
-> >>>>>>>        j
-> >>>>>>>
-> >>>>>>> Jacopo Mondi (23):
-> >>>>>>>       media: ov5640: Add pixel rate to modes
-> >>>>>>>       media: ov5604: Re-arrange modes definition
-> >>>>>>>       media: ov5640: Add ov5640_is_csi2() function
-> >>>>>>>       media: ov5640: Associate bpp with formats
-> >>>>>>>       media: ov5640: Add LINK_FREQ control
-> >>>>>>>       media: ov5640: Update pixel_rate and link_freq
-> >>>>>>>       media: ov5640: Rework CSI-2 clock tree
-> >>>>>>>       media: ov5640: Rework timings programming
-> >>>>>>>       media: ov5640: Fix 720x480 in RGB888 mode
-> >>>>>>>       media: ov5640: Rework analog crop rectangles
-> >>>>>>>       media: ov5640: Re-sort per-mode register tables
-> >>>>>>>       media: ov5640: Remove ov5640_mode_init_data
-> >>>>>>>       media: ov5640: Add HBLANK control
-> >>>>>>>       media: ov5640: Add VBLANK control
-> >>>>>>>       media: ov5640: Fix durations to comply with FPS
-> >>>>>>>       media: ov5640: Implement init_cfg
-> >>>>>>>       media: ov5640: Implement get_selection
-> >>>>>>>       media: ov5640: Limit frame_interval to DVP mode only
-> >>>>>>>       media: ov5640: Register device properties
-> >>>>>>>       media: ov5640: Add RGB565_1X16 format
-> >>>>>>>       media: ov5640: Add RGB888/BGR888 formats
-> >>>>>>>       media: ov5640: Restrict sizes to mbus code
-> >>>>>>>       media: ov5640: Adjust format to bpp in s_fmt
-> >>>>>>>
-> >>>>>>>      drivers/media/i2c/ov5640.c | 1143 ++++++++++++++++++++++++++----------
-> >>>>>>>      1 file changed, 830 insertions(+), 313 deletions(-)
-> >>>>>>>
-> >>>>>>> --
-> >>>>>>> 2.35.0
-> >>>>>>>
-> >>>>>>
-> >>>>
-> >>
+> > > >  		case MEDIA_BUS_FMT_UYVY8_2X8:
+> > > > -		case MEDIA_BUS_FMT_UYVY8_1X16:
+> > > >  		case MEDIA_BUS_FMT_YUYV8_2X8:
+> > > > -		case MEDIA_BUS_FMT_YUYV8_1X16:
+> > > >  			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
+> > > >  			break;
+> > > > +		case MEDIA_BUS_FMT_UYVY8_1X16:
+> > > > +		case MEDIA_BUS_FMT_YUYV8_1X16:
+> > > > +			cr3 |= BIT_TWO_8BIT_SENSOR;
+> > > > +			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B |
+> > > > +				BIT_MIPI_DOUBLE_CMPNT;
+> > > > +			break;
+> > > >  		}
+> > > >  	}
+> > > >
 >
+> --
+> Regards,
+>
+> Laurent Pinchart
