@@ -2,250 +2,375 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50B804BD413
-	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 04:02:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB34B4BD438
+	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 04:36:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344104AbiBUDA1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Feb 2022 22:00:27 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38572 "EHLO
+        id S1344238AbiBUD24 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Feb 2022 22:28:56 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245754AbiBUDA0 (ORCPT
+        with ESMTP id S236398AbiBUD2z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Feb 2022 22:00:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 883A049279;
-        Sun, 20 Feb 2022 19:00:03 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0E56F61126;
-        Mon, 21 Feb 2022 03:00:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C8E7C340E8;
-        Mon, 21 Feb 2022 02:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645412402;
-        bh=Z11mP6FU9ojgXwPg+o0cYxKyTiDeQ75L3RW9Rl4Rakg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KAwiVyGXD4CQtxMfkHVZ2loJ1mFhOiSrUASFc+yuulumSpyBBjqzkdUM1bsnVGqrG
-         GbUjpgXyBfV/wLAI3q8QaPi6DXHZKOOA7V9B0z9kXls8LiByYhL3lWMWlTN4JaVUYJ
-         H7vkQsafEkr9RrulEr4oHmYs58PzyU+O3+uNmOlp5yVsWtSxtBy7k/8mFKPwKzJq10
-         LwQWLLDVy8VbdT79qI2h+ZUpMGDSWX6O52rvNil2Sjhc8BSROLEZraAm8hJaV0+oCo
-         VHHyrALpqu46Xd9hm3/xDjRSFV1N4h0Jtqn1Pn5tkFtLyfA9jjV1c6tLTefT08Yv9o
-         n3qp0Aar4QiGA==
-Date:   Mon, 21 Feb 2022 10:59:54 +0800
-From:   Shawn Guo <shawnguo@kernel.org>
-To:     Ming Qian <ming.qian@nxp.com>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v15.1 11/13] ARM64: dts: freescale: imx8q: add imx vpu
- codec entries
-Message-ID: <20220221025954.GB2249@dragon>
-References: <cover.1643165764.git.ming.qian@nxp.com>
- <7f8db91ae941309e38684a17ae1d3c088e72b209.1643165765.git.ming.qian@nxp.com>
+        Sun, 20 Feb 2022 22:28:55 -0500
+Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEFBA5132B;
+        Sun, 20 Feb 2022 19:28:32 -0800 (PST)
+Received: by mail-oo1-xc2b.google.com with SMTP id s203-20020a4a3bd4000000b003191c2dcbe8so11539911oos.9;
+        Sun, 20 Feb 2022 19:28:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=evzbx3hFkrG4LEm3hNJUfV0Qe4cnm6Z7bXfWh+oqgHA=;
+        b=q1zGywxqEbABgk5qGo/5ZgnOjAUyxdDin3JN4tmRVsT/QUo5H2mlPReuWGyQPa6Pkq
+         kIeqcgDUIuCKhgDSRwp3JN8vVyzGKfD6+Tqtn++FHpZow3PJkgW4RAbKPYF8eDlKWMMI
+         eRForIbQFRMd6yIZ5rA8/5eCajF4y411hFjVKwxS9yLjPhsD5doEQiKqgdt6GdKmRycz
+         mDRrhYjSCfzJe0AsySBagpk3OCmMOp7OzGFtL/K++ppJTfCIGYRAnyWAOpm7jDohJ2HH
+         4UnEmlGfThpXRTUjH1xPKj0SxwWtaarM957Vm23s1Vji0E3QzSuA4lW83aB/CpcBj9qz
+         my/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=evzbx3hFkrG4LEm3hNJUfV0Qe4cnm6Z7bXfWh+oqgHA=;
+        b=JLaMZePv6KLudNNlRY4xeC4IQjlyOfQV1GWM7j1IMFDmDg8YjRN3u/BFBz4Zr1V59Q
+         Mz3TcZW4nfavDBcyLrDN2EWkXqHFDxFyw9Q0KOs3IR4ZsbtCr9IF48g7xPrYVmE6abzO
+         jeHFzDo8gcWPbolP1S5mkYr4AJIINKBFJZMl/tijRfEx5v8szuNhzwy/FVZOA/VIjMQA
+         +/niJvFIWwa+cUJvmLfRnW55s8yjHbOTzMPhvokL2cS7p0S2Gps1KkLBM9rDCFuxbG/2
+         Z2zrl1qpKJoNVgyuAhYMQGBKV5GRQmQGlbldOgRXA+sQZrVt7//ztLfxb68zu7gzX1ch
+         kWUg==
+X-Gm-Message-State: AOAM533NkcRAcUxClokv2+FBWe3QtENY8usXcmKS/DGUPfBADDinqIBn
+        +Pxl1OwHVzYbkptDF8zfET1/VCPaE+BTqk8aweU=
+X-Google-Smtp-Source: ABdhPJze/QDI5+XORX3C0oWeqbkGGqE1CNJ0uMuUTZ6HYLNRuKfPlfE4AmCZlgdh7rwc5tf4xgO0Asq3+la9pXqOY7g=
+X-Received: by 2002:a05:6870:148a:b0:d3:b909:926c with SMTP id
+ k10-20020a056870148a00b000d3b909926cmr6698908oab.129.1645414111191; Sun, 20
+ Feb 2022 19:28:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7f8db91ae941309e38684a17ae1d3c088e72b209.1643165765.git.ming.qian@nxp.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220217090440.4468-1-qiang.yu@amd.com> <5d3fdd2c-e74a-49f4-2b28-32c06483236f@amd.com>
+ <CAKGbVbtLTBJPF5eTu4rABUTBa8eqjQvqjo1AEUrzgPgYgCREuA@mail.gmail.com>
+ <dac70c05-e712-d2e3-2267-278380895f1e@amd.com> <CAKGbVbvtLbDiKrX80-dMnipdLkTE+FP=g_mx37e12fuMtA1Y4Q@mail.gmail.com>
+ <ca27a9c6-f390-a938-dd66-ac23f3b44dc4@amd.com> <CAKGbVbv4UFCybS_OFj5UkDgevbrB5qe3pv+0nHv9WdefYhy6Ww@mail.gmail.com>
+ <6711073b-8771-5750-33f7-b72333b411c6@amd.com> <CAKGbVbvR+msXjrsXmDM8QTmsCP03hL5-q5CTJBYu4mm=NQd01A@mail.gmail.com>
+ <a11b7073-6597-8e87-b724-33acab32e791@gmail.com> <CAKGbVbuJ-QdeoMTg=_O=1x5A5tbqZftsjt8aCCoVkAekci0USA@mail.gmail.com>
+ <d830bb82-63ea-2de6-6d10-3a401ac0dcf0@amd.com> <CAKGbVbtorRius+Sq1_3SPUF3JzA00U747noSGhx7eP8Vn1rSDg@mail.gmail.com>
+ <47c3a681-379e-18d4-86da-c48721081911@gmail.com>
+In-Reply-To: <47c3a681-379e-18d4-86da-c48721081911@gmail.com>
+From:   Qiang Yu <yuq825@gmail.com>
+Date:   Mon, 21 Feb 2022 11:28:20 +0800
+Message-ID: <CAKGbVbvmxOCZWYvB+ZSL7oHJmbm8vPgM-NJzadrEG1E=2c2Eyg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: check vm bo eviction valuable at last
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org, Qiang Yu <qiang.yu@amd.com>,
+        amd-gfx@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 26, 2022 at 11:09:30AM +0800, Ming Qian wrote:
-> Add the Video Processing Unit node for IMX8Q SoC.
-> 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> Signed-off-by: Shijie Qin <shijie.qin@nxp.com>
-> Signed-off-by: Zhou Peng <eagle.zhou@nxp.com>
+On Fri, Feb 18, 2022 at 6:24 PM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 18.02.22 um 11:16 schrieb Qiang Yu:
+> > [SNIP]
+> >>> If amdgpu_vm_ready() use evicting flag, it's still not equivalent to =
+check
+> >>> vm idle: true -> vm idle, false -> vm may be idle or busy.
+> >> Yeah, but why should that be relevant?
+> >>
+> >> The amdgpu_vm_ready() return if we can do page table updates or not. I=
+f
+> >> the VM is idle or not is only relevant for eviction.
+> >>
+> >> In other words any CS or page table update makes the VM busy, but that
+> >> only affects if the VM can be evicted or not.
+> >>
+> > My point is: we can't use amdgpu_vm_ready() to replace vm_is_busy(), so
+> > currently we update vm even when vm is busy. So why not use:
+Sorry, should be "vm is idle".
 
-'arm64: ...' in subject prefix.
+> > if (!amdgpu_vm_ready() || vm_is_busy()) return;
+> > in amdgpu_gem_va_update_vm(), as you mentioned we prefer to not
+> > update vm when it's idle.
+>
+> Because updating the VM while it is busy is perfectly fine, we do it all
+> the time.
+>
+Yeah, as above, my typo.
 
-> ---
->  .../arm64/boot/dts/freescale/imx8-ss-vpu.dtsi | 72 +++++++++++++++++++
->  arch/arm64/boot/dts/freescale/imx8qxp-mek.dts | 17 +++++
->  arch/arm64/boot/dts/freescale/imx8qxp.dtsi    | 24 +++++++
->  3 files changed, 113 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
-> 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi b/arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
-> new file mode 100644
-> index 000000000000..f2dde6d14ca3
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/freescale/imx8-ss-vpu.dtsi
-> @@ -0,0 +1,72 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright 2021 NXP
-> + *	Dong Aisheng <aisheng.dong@nxp.com>
-> + */
-> +
-> +vpu: vpu@2c000000 {
-> +	#address-cells = <1>;
-> +	#size-cells = <1>;
-> +	ranges = <0x2c000000 0x0 0x2c000000 0x2000000>;
-> +	reg = <0 0x2c000000 0 0x1000000>;
-> +	power-domains = <&pd IMX_SC_R_VPU>;
-> +	status = "disabled";
-> +
-> +	mu_m0: mailbox@2d000000 {
-> +		compatible = "fsl,imx6sx-mu";
-> +		reg = <0x2d000000 0x20000>;
-> +		interrupts = <GIC_SPI 469 IRQ_TYPE_LEVEL_HIGH>;
-> +		#mbox-cells = <2>;
-> +		power-domains = <&pd IMX_SC_R_VPU_MU_0>;
-> +		status = "okay";
+> We should just not update it when it is already idle and was considered
+> for eviction.
+"and", not "or"?
 
-We generally use 'okay' status to flip a disabled device, so it can be
-saved here?
+> In this situation it makes most of the time sense to keep
+> it idle and postpone the update till the next command submission.
+>
+> >>>>> Then we can keep the evicting flag accurate (after solving your
+> >>>>> concern for this patch that eviction may fail latter by further del=
+ay
+> >>>>> the flag update after eviction success).
+> >>>> That won't work. See we need to mark the VM as evicted before we
+> >>>> actually evict them because otherwise somebody could use the VM in
+> >>>> parallel and add another fence to it.
+> >>>>
+> >>> I see, make this too accurate should cost too much like holding the
+> >>> eviction_lock when eviction. But just delay it in
+> >>> amdgpu_ttm_bo_eviction_valuable()
+> >>> could avoid most false positive case.
+> >> Partially correct. Another fundamental problem is that we can't hold t=
+he
+> >> eviction lock because that would result in lock inversion and potentia=
+l
+> >> deadlock.
+> >>
+> >> We could set the flag later on, but as I said before that when we set
+> >> the evicted flag when the VM is already idle is a desired effect.
+> >>
+> > As above, this confuse me as we can explicitly check vm idle when
+> > user update vm, why bother to embed it in evicting flag implicitly?
+>
+> Well as I said it's irrelevant for the update if the VM is idle or not.
+>
+> To summarize the rules once more:
+> 1. When VM page tables are used by CS or page tables updates it is
+> considered busy, e.g. not idle.
+>
+> 2. When we want to evict a VM it must be idle. As soon as we considered
+> this we should set the evicted flag to make sure to keep it idle as much
+> as possible.
+>
+> 3. When we want to update the page tables we just need to check if the
+> VM is idle or not.
+>
+But now we does not check vm idle directly in amdgpu_gem_va_update_vm().
+If VM bo has not been considered for eviction, it could be either idle or b=
+usy.
 
-> +	};
-> +
-> +	mu1_m0: mailbox@2d020000 {
-> +		compatible = "fsl,imx6sx-mu";
-> +		reg = <0x2d020000 0x20000>;
-> +		interrupts = <GIC_SPI 470 IRQ_TYPE_LEVEL_HIGH>;
-> +		#mbox-cells = <2>;
-> +		power-domains = <&pd IMX_SC_R_VPU_MU_1>;
-> +		status = "okay";
-> +	};
-> +
-> +	mu2_m0: mailbox@2d040000 {
-> +		compatible = "fsl,imx6sx-mu";
-> +		reg = <0x2d040000 0x20000>;
-> +		interrupts = <GIC_SPI 474 IRQ_TYPE_LEVEL_HIGH>;
-> +		#mbox-cells = <2>;
-> +		power-domains = <&pd IMX_SC_R_VPU_MU_2>;
-> +		status = "disabled";
-> +	};
-> +
-> +	vpu_core0: vpu_core@2d080000 {
-> +		reg = <0x2d080000 0x10000>;
-> +		compatible = "nxp,imx8q-vpu-decoder";
-> +		power-domains = <&pd IMX_SC_R_VPU_DEC_0>;
-> +		mbox-names = "tx0", "tx1", "rx";
-> +		mboxes = <&mu_m0 0 0>,
-> +			<&mu_m0 0 1>,
-> +			<&mu_m0 1 0>;
-> +		status = "disabled";
-> +	};
+Just want to confirm if the fix should be only change amdgpu_vm_ready()
+to use evicting flag or besides using evicting flag, also check vm_idle() i=
+n
+amdgpu_gem_va_update_vm().
 
-Have a newline between nodes.
+Regards,
+Qiang
 
-> +	vpu_core1: vpu_core@2d090000 {
-> +		reg = <0x2d090000 0x10000>;
-> +		compatible = "nxp,imx8q-vpu-encoder";
-> +		power-domains = <&pd IMX_SC_R_VPU_ENC_0>;
-> +		mbox-names = "tx0", "tx1", "rx";
-> +		mboxes = <&mu1_m0 0 0>,
-> +			<&mu1_m0 0 1>,
-> +			<&mu1_m0 1 0>;
-> +		status = "disabled";
-> +	};
-> +	vpu_core2: vpu_core@2d0a0000 {
-> +		reg = <0x2d0a0000 0x10000>;
-> +		compatible = "nxp,imx8q-vpu-encoder";
-> +		power-domains = <&pd IMX_SC_R_VPU_ENC_1>;
-> +		mbox-names = "tx0", "tx1", "rx";
-> +		mboxes = <&mu2_m0 0 0>,
-> +			<&mu2_m0 0 1>,
-> +			<&mu2_m0 1 0>;
-> +		status = "disabled";
-> +	};
-> +};
-> diff --git a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
-> index 863232a47004..05495b60beb8 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
-> +++ b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
-> @@ -196,6 +196,23 @@ &usdhc2 {
->  	status = "okay";
->  };
->  
-> +&vpu {
-> +	compatible = "nxp,imx8qxp-vpu";
-> +	status = "okay";
-> +};
-> +
-> +&vpu_core0 {
-> +	reg = <0x2d040000 0x10000>;
-> +	memory-region = <&decoder_boot>, <&decoder_rpc>;
-> +	status = "okay";
-> +};
-> +
-> +&vpu_core1 {
-> +	reg = <0x2d050000 0x10000>;
-> +	memory-region = <&encoder_boot>, <&encoder_rpc>;
-> +	status = "okay";
-> +};
-> +
->  &iomuxc {
->  	pinctrl_fec1: fec1grp {
->  		fsl,pins = <
-> diff --git a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-> index dbec7c106e0b..a041b85d612b 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-> @@ -46,6 +46,9 @@ aliases {
->  		serial1 = &lpuart1;
->  		serial2 = &lpuart2;
->  		serial3 = &lpuart3;
-> +		vpu_core0 = &vpu_core0;
-> +		vpu_core1 = &vpu_core1;
-> +		vpu_core2 = &vpu_core2;
->  	};
->  
->  	cpus {
-> @@ -162,10 +165,30 @@ reserved-memory {
->  		#size-cells = <2>;
->  		ranges;
->  
-> +		decoder_boot: decoder-boot@84000000 {
-> +			reg = <0 0x84000000 0 0x2000000>;
-> +			no-map;
-> +		};
-> +
-> +		encoder_boot: encoder-boot@86000000 {
-> +			reg = <0 0x86000000 0 0x200000>;
-> +			no-map;
-> +		};
-> +
-> +		decoder_rpc: decoder-rpc@0x92000000 {
+> 4. When a CS happens we don't have another chance and make the VM busy
+> again. And do all postponed page table updates.
+>
+Anyway,
 
-No '0x' in unit-address.
-
-Shawn
-
-> +			reg = <0 0x92000000 0 0x100000>;
-> +			no-map;
-> +		};
-> +
->  		dsp_reserved: dsp@92400000 {
->  			reg = <0 0x92400000 0 0x2000000>;
->  			no-map;
->  		};
-> +
-> +		encoder_rpc: encoder-rpc@0x94400000 {
-> +			reg = <0 0x94400000 0 0x700000>;
-> +			no-map;
-> +		};
->  	};
->  
->  	pmu {
-> @@ -287,6 +310,7 @@ map0 {
->  
->  	/* sorted in register address */
->  	#include "imx8-ss-img.dtsi"
-> +	#include "imx8-ss-vpu.dtsi"
->  	#include "imx8-ss-adma.dtsi"
->  	#include "imx8-ss-conn.dtsi"
->  	#include "imx8-ss-ddr.dtsi"
-> -- 
-> 2.33.0
-> 
+> Regards,
+> Christian.
+>
+> >
+> > Check vm idle need to hold resv lock. Read your patch for adding
+> > evicting flag is to update vm without resv lock. But user vm ops in
+> > amdgpu_gem_va_update_vm() do hold the resv lock, so the difference
+> > happens when calling amdgpu_vm_bo_update_mapping() from
+> > svm_range_(un)map_to_gpu(). So embed vm idle in evicting flag
+> > is for svm_range_(un)map_to_gpu() also do nothing when vm idle?
+>
+>
+>
+> >
+> > Regards,
+> > Qiang
+> >
+> >> Regards,
+> >> Christian.
+> >>
+> >>> Regards,
+> >>> Qiang
+> >>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>>
+> >>>>> Regards,
+> >>>>> Qiang
+> >>>>>
+> >>>>>
+> >>>>>> Regards,
+> >>>>>> Christian.
+> >>>>>>
+> >>>>>>> Regards,
+> >>>>>>> Qiang
+> >>>>>>>
+> >>>>>>>> Regards,
+> >>>>>>>> Christian.
+> >>>>>>>>
+> >>>>>>>>> Regards,
+> >>>>>>>>> Qiang
+> >>>>>>>>>
+> >>>>>>>>>> Regards,
+> >>>>>>>>>> Christian.
+> >>>>>>>>>>
+> >>>>>>>>>>> Regards,
+> >>>>>>>>>>> Qiang
+> >>>>>>>>>>>
+> >>>>>>>>>>>> What we should rather do is to fix amdgpu_vm_ready() to take=
+ a look at
+> >>>>>>>>>>>> the flag instead of the linked list.
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> Regards,
+> >>>>>>>>>>>> Christian.
+> >>>>>>>>>>>>
+> >>>>>>>>>>>>> Signed-off-by: Qiang Yu <qiang.yu@amd.com>
+> >>>>>>>>>>>>> ---
+> >>>>>>>>>>>>>         drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 85 ++++++=
+++++++++-----------
+> >>>>>>>>>>>>>         1 file changed, 47 insertions(+), 38 deletions(-)
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/driv=
+ers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> >>>>>>>>>>>>> index 5a32ee66d8c8..88a27911054f 100644
+> >>>>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> >>>>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> >>>>>>>>>>>>> @@ -1306,45 +1306,11 @@ uint64_t amdgpu_ttm_tt_pte_flags(st=
+ruct amdgpu_device *adev, struct ttm_tt *ttm,
+> >>>>>>>>>>>>>             return flags;
+> >>>>>>>>>>>>>         }
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> -/*
+> >>>>>>>>>>>>> - * amdgpu_ttm_bo_eviction_valuable - Check to see if we ca=
+n evict a buffer
+> >>>>>>>>>>>>> - * object.
+> >>>>>>>>>>>>> - *
+> >>>>>>>>>>>>> - * Return true if eviction is sensible. Called by ttm_mem_=
+evict_first() on
+> >>>>>>>>>>>>> - * behalf of ttm_bo_mem_force_space() which tries to evict=
+ buffer objects until
+> >>>>>>>>>>>>> - * it can find space for a new object and by ttm_bo_force_=
+list_clean() which is
+> >>>>>>>>>>>>> - * used to clean out a memory space.
+> >>>>>>>>>>>>> - */
+> >>>>>>>>>>>>> -static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buf=
+fer_object *bo,
+> >>>>>>>>>>>>> -                                         const struct ttm_=
+place *place)
+> >>>>>>>>>>>>> +static bool amdgpu_ttm_mem_eviction_valuable(struct ttm_bu=
+ffer_object *bo,
+> >>>>>>>>>>>>> +                                          const struct ttm=
+_place *place)
+> >>>>>>>>>>>>>         {
+> >>>>>>>>>>>>>             unsigned long num_pages =3D bo->resource->num_p=
+ages;
+> >>>>>>>>>>>>>             struct amdgpu_res_cursor cursor;
+> >>>>>>>>>>>>> -     struct dma_resv_list *flist;
+> >>>>>>>>>>>>> -     struct dma_fence *f;
+> >>>>>>>>>>>>> -     int i;
+> >>>>>>>>>>>>> -
+> >>>>>>>>>>>>> -     /* Swapout? */
+> >>>>>>>>>>>>> -     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
+> >>>>>>>>>>>>> -             return true;
+> >>>>>>>>>>>>> -
+> >>>>>>>>>>>>> -     if (bo->type =3D=3D ttm_bo_type_kernel &&
+> >>>>>>>>>>>>> -         !amdgpu_vm_evictable(ttm_to_amdgpu_bo(bo)))
+> >>>>>>>>>>>>> -             return false;
+> >>>>>>>>>>>>> -
+> >>>>>>>>>>>>> -     /* If bo is a KFD BO, check if the bo belongs to the =
+current process.
+> >>>>>>>>>>>>> -      * If true, then return false as any KFD process need=
+s all its BOs to
+> >>>>>>>>>>>>> -      * be resident to run successfully
+> >>>>>>>>>>>>> -      */
+> >>>>>>>>>>>>> -     flist =3D dma_resv_shared_list(bo->base.resv);
+> >>>>>>>>>>>>> -     if (flist) {
+> >>>>>>>>>>>>> -             for (i =3D 0; i < flist->shared_count; ++i) {
+> >>>>>>>>>>>>> -                     f =3D rcu_dereference_protected(flist=
+->shared[i],
+> >>>>>>>>>>>>> -                             dma_resv_held(bo->base.resv))=
+;
+> >>>>>>>>>>>>> -                     if (amdkfd_fence_check_mm(f, current-=
+>mm))
+> >>>>>>>>>>>>> -                             return false;
+> >>>>>>>>>>>>> -             }
+> >>>>>>>>>>>>> -     }
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>>             switch (bo->resource->mem_type) {
+> >>>>>>>>>>>>>             case AMDGPU_PL_PREEMPT:
+> >>>>>>>>>>>>> @@ -1377,10 +1343,53 @@ static bool amdgpu_ttm_bo_eviction_=
+valuable(struct ttm_buffer_object *bo,
+> >>>>>>>>>>>>>                     return false;
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>>             default:
+> >>>>>>>>>>>>> -             break;
+> >>>>>>>>>>>>> +             return ttm_bo_eviction_valuable(bo, place);
+> >>>>>>>>>>>>>             }
+> >>>>>>>>>>>>> +}
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> -     return ttm_bo_eviction_valuable(bo, place);
+> >>>>>>>>>>>>> +/*
+> >>>>>>>>>>>>> + * amdgpu_ttm_bo_eviction_valuable - Check to see if we ca=
+n evict a buffer
+> >>>>>>>>>>>>> + * object.
+> >>>>>>>>>>>>> + *
+> >>>>>>>>>>>>> + * Return true if eviction is sensible. Called by ttm_mem_=
+evict_first() on
+> >>>>>>>>>>>>> + * behalf of ttm_bo_mem_force_space() which tries to evict=
+ buffer objects until
+> >>>>>>>>>>>>> + * it can find space for a new object and by ttm_bo_force_=
+list_clean() which is
+> >>>>>>>>>>>>> + * used to clean out a memory space.
+> >>>>>>>>>>>>> + */
+> >>>>>>>>>>>>> +static bool amdgpu_ttm_bo_eviction_valuable(struct ttm_buf=
+fer_object *bo,
+> >>>>>>>>>>>>> +                                         const struct ttm_=
+place *place)
+> >>>>>>>>>>>>> +{
+> >>>>>>>>>>>>> +     struct dma_resv_list *flist;
+> >>>>>>>>>>>>> +     struct dma_fence *f;
+> >>>>>>>>>>>>> +     int i;
+> >>>>>>>>>>>>> +
+> >>>>>>>>>>>>> +     /* Swapout? */
+> >>>>>>>>>>>>> +     if (bo->resource->mem_type =3D=3D TTM_PL_SYSTEM)
+> >>>>>>>>>>>>> +             return true;
+> >>>>>>>>>>>>> +
+> >>>>>>>>>>>>> +     /* If bo is a KFD BO, check if the bo belongs to the =
+current process.
+> >>>>>>>>>>>>> +      * If true, then return false as any KFD process need=
+s all its BOs to
+> >>>>>>>>>>>>> +      * be resident to run successfully
+> >>>>>>>>>>>>> +      */
+> >>>>>>>>>>>>> +     flist =3D dma_resv_shared_list(bo->base.resv);
+> >>>>>>>>>>>>> +     if (flist) {
+> >>>>>>>>>>>>> +             for (i =3D 0; i < flist->shared_count; ++i) {
+> >>>>>>>>>>>>> +                     f =3D rcu_dereference_protected(flist=
+->shared[i],
+> >>>>>>>>>>>>> +                             dma_resv_held(bo->base.resv))=
+;
+> >>>>>>>>>>>>> +                     if (amdkfd_fence_check_mm(f, current-=
+>mm))
+> >>>>>>>>>>>>> +                             return false;
+> >>>>>>>>>>>>> +             }
+> >>>>>>>>>>>>> +     }
+> >>>>>>>>>>>>> +
+> >>>>>>>>>>>>> +     /* Check by different mem type. */
+> >>>>>>>>>>>>> +     if (!amdgpu_ttm_mem_eviction_valuable(bo, place))
+> >>>>>>>>>>>>> +             return false;
+> >>>>>>>>>>>>> +
+> >>>>>>>>>>>>> +     /* VM bo should be checked at last because it will ma=
+rk VM evicting. */
+> >>>>>>>>>>>>> +     if (bo->type =3D=3D ttm_bo_type_kernel)
+> >>>>>>>>>>>>> +             return amdgpu_vm_evictable(ttm_to_amdgpu_bo(b=
+o));
+> >>>>>>>>>>>>> +
+> >>>>>>>>>>>>> +     return true;
+> >>>>>>>>>>>>>         }
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>>         static void amdgpu_ttm_vram_mm_access(struct amdgpu=
+_device *adev, loff_t pos,
+>
