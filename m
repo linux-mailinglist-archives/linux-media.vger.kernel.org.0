@@ -2,55 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 351DA4BD756
-	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 08:44:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 021B64BD74F
+	for <lists+linux-media@lfdr.de>; Mon, 21 Feb 2022 08:44:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345862AbiBUHLC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Feb 2022 02:11:02 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34536 "EHLO
+        id S1346077AbiBUHSK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Feb 2022 02:18:10 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbiBUHLB (ORCPT
+        with ESMTP id S1346067AbiBUHSF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Feb 2022 02:11:01 -0500
+        Mon, 21 Feb 2022 02:18:05 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 628F7B69;
-        Sun, 20 Feb 2022 23:10:38 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBE7C14019;
+        Sun, 20 Feb 2022 23:17:28 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3F61482;
-        Mon, 21 Feb 2022 08:10:35 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8ACCF482;
+        Mon, 21 Feb 2022 08:17:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645427436;
-        bh=ONkMNAtvkUZ/S9CvG5U6EYMEXS9davh/7VFRa++aVkA=;
+        s=mail; t=1645427847;
+        bh=aSB52NNA4H92Oslixgeyy510diwPvOcyJd91kINF57c=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iR1a55EP0fLRLdw+GbzSj2vGdFw1C2jT7Pvn3UK3+27d2W0XVzORX9EM5I/rchGsH
-         uWAG1HMIvSAXXziZ55yrtShw7MBIjqfrSdXcDZk0vqLCLh7ytsu3ki6DX7WQ8Xzk2g
-         9ZIEqK8VtuDKlklH4tzd0zLjuN/R0Ko6ZwkXc6lU=
-Date:   Mon, 21 Feb 2022 09:10:27 +0200
+        b=JlSHLBrDXvdSWLwOBbH7z38SPLDPRbp/mPG/gBe+ulwi/xzqbFc6bDYXOLadUDJB4
+         5FYBuMgNCjUG3MPq0DvymghRTRKOwZgbbLqRyHPtFxQPq2TmC88wqbpyucwMD5IzwT
+         oPzdhyvDd0La3qg9C2OeUUUAc1FNifOLgVy/6wuM=
+Date:   Mon, 21 Feb 2022 09:17:16 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Stefan Wahren <stefan.wahren@i2se.com>
-Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
+To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
         kernel-list@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-rpi-kernel@lists.infradead.org, lukasz@jany.st,
         mchehab@kernel.org, naush@raspberrypi.com, robh@kernel.org,
         tomi.valkeinen@ideasonboard.com,
-        bcm-kernel-feedback-list@broadcom.com,
-        Florian Fainelli <f.fainelli@gmail.com>
-Subject: Re: [PATCH v5 03/11] dt-bindings: media: Add bindings for
- bcm2835-unicam
-Message-ID: <YhM6474MwSh6bjUe@pendragon.ideasonboard.com>
+        bcm-kernel-feedback-list@broadcom.com, stefan.wahren@i2se.com
+Subject: Re: [PATCH v5 09/11] media: imx219: Introduce the set_routing
+ operation
+Message-ID: <YhM8fFae+Zmxymd3@pendragon.ideasonboard.com>
 References: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
- <20220208155027.891055-4-jeanmichel.hautbois@ideasonboard.com>
- <f58bf6a9-c63f-19ab-36c8-a9a7b9182859@i2se.com>
- <20220214093954.5y4jbqcddmwhgxr5@houat>
- <YgomyazKaV2QnfYQ@pendragon.ideasonboard.com>
- <7ba0d8e7-72b9-d139-f29f-45a803ca2fdb@i2se.com>
+ <20220208155027.891055-10-jeanmichel.hautbois@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7ba0d8e7-72b9-d139-f29f-45a803ca2fdb@i2se.com>
+In-Reply-To: <20220208155027.891055-10-jeanmichel.hautbois@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -60,123 +53,158 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stefan,
+Hi Jean-Michel,
 
-On Mon, Feb 14, 2022 at 12:32:59PM +0100, Stefan Wahren wrote:
-> Am 14.02.22 um 10:54 schrieb Laurent Pinchart:
-> > On Mon, Feb 14, 2022 at 10:39:54AM +0100, Maxime Ripard wrote:
-> >> On Sun, Feb 13, 2022 at 04:48:45PM +0100, Stefan Wahren wrote:
-> >>> as someone with a little more insight to the clocks, i like to know your
-> >>> opinion about the bcm2835-unicam binding.
-> >>>
-> >>> Am 08.02.22 um 16:50 schrieb Jean-Michel Hautbois:
-> >>>> Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
-> >>>> camera interface.
-> >>>>
-> >>>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >>>> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> >>>> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> >>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>>
-> >>>> ---
-> >>>> v4:
-> >>>> - make MAINTAINERS its own patch
-> >>>> - describe the reg and clocks correctly
-> >>>> - use a vendor entry for the number of data lanes
-> >>>> ---
-> >>>>  .../bindings/media/brcm,bcm2835-unicam.yaml   | 117 ++++++++++++++++++
-> >>>>  1 file changed, 117 insertions(+)
-> >>>>  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> >>>>
-> >>>> diff --git a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> >>>> new file mode 100644
-> >>>> index 000000000000..1938ace23b3d
-> >>>> --- /dev/null
-> >>>> +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> >>>> @@ -0,0 +1,117 @@
-> >>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >>>> +%YAML 1.2
-> >>>> +---
-> >>>> +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
-> >>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >>>> +
-> >>>> +title: Broadcom BCM283x Camera Interface (Unicam)
-> >>>> +
-> >>>> +maintainers:
-> >>>> +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-> >>>> +
-> >>>> +description: |-
-> >>>> +  The Unicam block on BCM283x SoCs is the receiver for either
-> >>>> +  CSI-2 or CCP2 data from image sensors or similar devices.
-> >>>> +
-> >>>> +  The main platform using this SoC is the Raspberry Pi family of boards.  On
-> >>>> +  the Pi the VideoCore firmware can also control this hardware block, and
-> >>>> +  driving it from two different processors will cause issues.  To avoid this,
-> >>>> +  the firmware checks the device tree configuration during boot. If it finds
-> >>>> +  device tree nodes whose name starts with 'csi' then it will stop the firmware
-> >>>> +  accessing the block, and it can then safely be used via the device tree
-> >>>> +  binding.
-> >>>> +
-> >>>> +properties:
-> >>>> +  compatible:
-> >>>> +    const: brcm,bcm2835-unicam
-> >>>> +
-> >>>> +  reg:
-> >>>> +    items:
-> >>>> +      - description: Unicam block.
-> >>>> +      - description: Clock Manager Image (CMI) block.
-> >>>> +
-> >>>> +  reg-names:
-> >>>> +    items:
-> >>>> +      - const: unicam
-> >>>> +      - const: cmi
-> >>>> +
-> >>>> +  interrupts:
-> >>>> +    maxItems: 1
-> >>>> +
-> >>>> +  clocks:
-> >>>> +    items:
-> >>>> +      - description: Clock to drive the LP state machine of Unicam.
-> >>>> +      - description: Clock for the VPU (core clock).
-> >>>> +
-> >>>> +  clock-names:
-> >>>> +    items:
-> >>>> +      - const: lp
-> >>>> +      - const: vpu
-> >>>> +
-> >>>
-> >>> according to this patch [1], the unicam driver only needs the VPU clock
-> >>> reference just to enforce a minimum of 250 MHz. The firmware clock
-> >>> binding and its driver is specific to the bcm2711, but the Unicam IP
-> >>> exists since bcm2835.
-> >>>
-> >>> So do you think the clock part is correct or should be the VPU clock
-> >>> optional?
-> >>
-> >> I think we should keep it mandatory. Indeed, that clock is shared with
-> >> the HVS that will change its rate on a regular basis, so even just
-> >> enforcing that 250MHz while it's on without a clock handle will be
-> >> fairly hard.
-> >>
-> >> Also, those are the constraints we have now, but having the clock handle
-> >> all the time will allow us to add any constraint we might need in the
-> >> future.
-> >>
-> >> And BCM2711 or not, the clock has probably always been there.
-> >
-> > Furthermore, regardless of what the driver needs, Unicam operates with
-> > the VPU clock, so I think it makes sense to reference it in the device
-> > tree.
+Thank you for the patch.
+
+On Tue, Feb 08, 2022 at 04:50:25PM +0100, Jean-Michel Hautbois wrote:
+> As we want to use multiplexed streams API, we need to be able to set the
+> pad routing. Introduce the set_routing operation.
 > 
-> okay, as a result we need a DTS patch for bcm2835-rpi.dtsi to enable the
-> firmware clocks and its driver in this series.
+> As this operation is required for a multiplexed able sensor, add the
+> V4L2_SUBDEV_FL_MULTIPLEXED flag.
+> 
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx219.c | 82 ++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 79 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index abcaee15c4a0..35b61fad8e35 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -118,6 +118,10 @@
+>  #define IMX219_PIXEL_ARRAY_WIDTH	3280U
+>  #define IMX219_PIXEL_ARRAY_HEIGHT	2464U
+>  
+> +/* Embedded metadata stream structure */
+> +#define IMX219_EMBEDDED_LINE_WIDTH	16384
+> +#define IMX219_NUM_EMBEDDED_LINES	1
+> +
+>  struct imx219_reg {
+>  	u16 address;
+>  	u8 val;
+> @@ -784,15 +788,85 @@ static void imx219_init_formats(struct v4l2_subdev_state *state)
+>  	format->height = supported_modes[0].height;
+>  	format->field = V4L2_FIELD_NONE;
+>  	format->colorspace = V4L2_COLORSPACE_RAW;
+> +
+> +	if (state->routing.routes[1].flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE) {
 
-Can't we do that on top, enabling Unicam support for bcm2711 only first
-? I have no idea how to deal with firmware clocks on bcm2825, and I'm
-not sure Jean-Michel even has a hardware platform to test it.
+There's no guarantee the routing table will have 2 entries.
 
-If you want to send a patch series to enable firmware clocks on bcm2835,
-we'll be happy to rebase on top.
+> +		format = v4l2_state_get_stream_format(state, 0, 1);
+> +		format->code = MEDIA_BUS_FMT_METADATA_8;
+> +		format->width = IMX219_EMBEDDED_LINE_WIDTH;
+> +		format->height = 1;
+> +		format->field = V4L2_FIELD_NONE;
+> +		format->colorspace = V4L2_COLORSPACE_DEFAULT;
+> +	}
+>  }
+>  
+> -static int imx219_init_cfg(struct v4l2_subdev *sd,
+> -			   struct v4l2_subdev_state *state)
+> +static int __imx219_set_routing(struct v4l2_subdev *sd,
+> +				struct v4l2_subdev_state *state)
+>  {
+> +	struct v4l2_subdev_route routes[] = {
+> +		{
+> +			.source_pad = 0,
+> +			.source_stream = 0,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
+> +				 V4L2_SUBDEV_ROUTE_FL_SOURCE |
+> +				 V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		},
+> +		{
+
+		}, {
+
+> +			.source_pad = 0,
+> +			.source_stream = 1,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_SOURCE |
+> +				 V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		}
+> +	};
+
+That doesn't look right. You're hardcoding the routes, disregarding
+completely what userspace wants to program. This default configuration
+must move to .init_cfg().
+
+> +
+> +	struct v4l2_subdev_krouting routing = {
+> +		.num_routes = ARRAY_SIZE(routes),
+> +		.routes = routes,
+> +	};
+> +
+> +	int ret;
+> +
+> +	ret = v4l2_subdev_set_routing(sd, state, &routing);
+> +	if (ret)
+> +		return ret;
+> +
+>  	imx219_init_formats(state);
+> +
+>  	return 0;
+>  }
+>  
+> +static int imx219_set_routing(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_state *state,
+> +			      enum v4l2_subdev_format_whence which,
+> +			      struct v4l2_subdev_krouting *routing)
+> +{
+> +	int ret;
+> +
+> +	if (routing->num_routes == 0 || routing->num_routes > 2)
+> +		return -EINVAL;
+> +
+> +	v4l2_subdev_lock_state(state);
+
+Note for the future: v11 of the V4L2 streams series will handle locking
+in the code, so you'll have to drop this (same in .init_cfg()).
+
+> +
+> +	ret = __imx219_set_routing(sd, state);
+> +
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +
+> +static int imx219_init_cfg(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_state *state)
+> +{
+> +	int ret;
+> +
+> +	v4l2_subdev_lock_state(state);
+> +
+> +	ret = __imx219_set_routing(sd, state);
+> +
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +
+>  static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+>  				 struct v4l2_subdev_state *sd_state,
+>  				 struct v4l2_subdev_mbus_code_enum *code)
+> @@ -1251,6 +1325,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
+>  	.get_fmt		= imx219_get_pad_format,
+>  	.set_fmt		= imx219_set_pad_format,
+>  	.get_selection		= imx219_get_selection,
+> +	.set_routing		= imx219_set_routing,
+>  	.enum_frame_size	= imx219_enum_frame_size,
+>  };
+>  
+> @@ -1509,7 +1584,8 @@ static int imx219_probe(struct i2c_client *client)
+>  
+>  	/* Initialize subdev */
+>  	imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> -			    V4L2_SUBDEV_FL_HAS_EVENTS;
+> +			    V4L2_SUBDEV_FL_HAS_EVENTS |
+> +			    V4L2_SUBDEV_FL_MULTIPLEXED;
+>  	imx219->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+>  
+>  	/* Initialize source pad */
 
 -- 
 Regards,
