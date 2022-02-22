@@ -2,50 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 375474C0420
-	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 22:52:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 302694C048A
+	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 23:25:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235716AbiBVVxT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Feb 2022 16:53:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47590 "EHLO
+        id S232527AbiBVW0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Feb 2022 17:26:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232165AbiBVVxS (ORCPT
+        with ESMTP id S230318AbiBVW0C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Feb 2022 16:53:18 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDCABA144F
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 13:52:52 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 791ECB81CBC
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 21:52:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13CE2C340E8;
-        Tue, 22 Feb 2022 21:52:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645566770;
-        bh=f+mA8d0I7jruQo26cgH+5jkZ6gNlGYawzYMWyr0d29E=;
-        h=From:To:Cc:Subject:Date:From;
-        b=MBtmXbAHly4hnvcLmT1LmXsZ7fBKNIHfKKobUGh9ciqHXhAucG6Xn+s+qlxdpCnZU
-         MLIPVbQxNHYZbTE0wDlGlnaQvwZSWG4sTHW31toYnHljDgo91prxfdHxvkyQygYqWu
-         r+L2eiFt+1VUzfAg0bX8ehIybgfnaBU2GqEtZKLpDjYXRPVJP2HUxadPtpfNmPp7LL
-         ogSiYy0/NzqT49lgLVKwWvhTeYx6NUXy6FnWXDQE6FiwH3ESWZWeT+rp1dsB9NhUzW
-         Vn4AN74n3WpkAe5Q0C/GOsiCjdd9F0htTKJ3PPGvdK5ueX8j6y2tGL8ndQImDqhNld
-         8cFNRT2QkR6Sw==
-From:   Mark Brown <broonie@kernel.org>
-To:     Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: [PATCH] media: i2c: max2175: Use rbtree rather than flat register cache
-Date:   Tue, 22 Feb 2022 21:52:44 +0000
-Message-Id: <20220222215244.1908067-1-broonie@kernel.org>
-X-Mailer: git-send-email 2.30.2
+        Tue, 22 Feb 2022 17:26:02 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BFF0B10B5
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 14:25:36 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id b11so27606835lfb.12
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 14:25:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6h177daC0FDm1IZ5TekVeCGwmMWiCoGt1CzY923IPUc=;
+        b=f3zGO/ndbIchBke9ZaJDVAtnFJwKUMNU2enShC2QcO+ddAcxtuN/lHiGdXLvlKYmF9
+         rf9RYls8uXreG5MPXFxYFKlZdJ6FasIvw4gEyGLpfwG69MKK+wAxIMclKQsjgWtselYS
+         eIpssCDK2/fVGRb/CPoMMEUXUTz2l+zoyF/NGlw4/+n0T2timh6nPIk4yJE8nHfJ64Mp
+         c7hkTggc1UIJCyqgaWgQq9SrjZX+RrlNUu1si9ADKzsx9qPjRS+eMa90iyvlG92oyuuO
+         n39UM184Ifl+EMEKpRCJQHlsh7luWEpDNc9ZDHiWDd4dhpgNe2N3t7uix1EsIBqdBimb
+         79Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6h177daC0FDm1IZ5TekVeCGwmMWiCoGt1CzY923IPUc=;
+        b=IuCR9Uvndb7TtyU2ZIQym0Tu7dWMzoKCK1Rdg7JYEX04hEIxV6kMBqS862l4WtuWFL
+         AT1Zssj3Z6K/MNuLqTv/cbk7FLKl2TwbhCMYaotMVMkZX93L9kZfK3eu2SrqLm3arBSg
+         9o+Zd0JYym9/r0yQ4JRYIvQLNH/H5Gn0wMHFAsjAItqvSdBwUcMSay6oxWolKcDAIkt2
+         9Ak+Ofv9GkBV8T2pOskQ6O75BC/kOeORzFDtLLdwcBYJBVJ7J5DBUrD3xq4VFpjI4Mnc
+         TNTyBcvUekfgOtY4Rq/Uuvwyh70nlPiLXJU4lJpwYe4xjDBIUxu/laeBkJsOK5UXw5oo
+         9y/w==
+X-Gm-Message-State: AOAM533RaPAEgi36uFTJdbjK4LRfaiymaLqUWOBkUPmAJvN6SyDmey9X
+        VHKoR9QfMaDa3YgCZECtECXJDg==
+X-Google-Smtp-Source: ABdhPJwZJbUlYze6s+6h0oEhPNkBuAcg7tAV5U7WlY6Km3Ouj5hNPDIaKVISWCMEnqUwWN3zkL546A==
+X-Received: by 2002:a05:6512:2315:b0:439:731f:a11e with SMTP id o21-20020a056512231500b00439731fa11emr18667970lfu.545.1645568734486;
+        Tue, 22 Feb 2022 14:25:34 -0800 (PST)
+Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+        by smtp.gmail.com with ESMTPSA id m18sm1723568ljg.48.2022.02.22.14.25.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Feb 2022 14:25:34 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Ettore Chimenti <ek5.chimenti@gmail.com>
+Subject: [PATCH v2] media: cec: seco: Drop pointless include
+Date:   Tue, 22 Feb 2022 23:23:31 +0100
+Message-Id: <20220222222331.63495-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1338; h=from:subject; bh=f+mA8d0I7jruQo26cgH+5jkZ6gNlGYawzYMWyr0d29E=; b=owGbwMvMwMWocq27KDak/QLjabUkhiTRqN8pTFULb7tHJlX94O43VuHe73vrAtsM7sIWPb7ODY3C bZKdjMYsDIxcDLJiiixrn2WsSg+X2Dr/0fxXMINYmUCmMHBxCsBEUgLZ/6cUnK+tXvWqYEWjkZHoK5 v9G3ltlqx9d+hhL7eby5PWtQ/m+u0KZ25bfznFbPPcb+t8Xia/mvmV1V/MhW22/qKM6GPT7FlEt3F0 r6kLaJ/B9OKelZeUpACDo/GT6xwWHjyHA2y1K3cxhYXcSTu32sNyplly0rN/nPtLz5Y1KnMZMH771t jwwbdvuVXafcVsTZWz/vF/Q3V8LVuczKJeuCUs/ui3Wfj5472zmFzWLN9p5rpYMyv0hpUK73bLvHuT 3mYFizV3LFUyZ+j5rjvz85m7bgWKy4/+3FBayG2ofpJfLmFOoNgc3w2PdjgL1EoxHVm09oLY4vfpZa bZJtt9Y1l3PZz0p+pN6+pI/fzNAA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp; fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -54,36 +69,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The max2175 uses a flat register cache but supplies only a single default
-value and has many volatile registers. This is a poor fit for a flat cache
-since the cache will assume a default of zero for any register not yet
-written which can lead to bugs for example when regmap_update_bits()
-suppresses a noop write. A rbtree cache is a much better fit, this will
-only cache default values and values that have been written to the device
-with any reads of uncached values going to the hardware. Convert the driver
-to use a rbtree cache.
+This driver uses GPIO descriptors not the old legacy GPIO
+API so stop including <linux/gpio.h>.
 
-Since the device is controlled via I2C the cost of manging the rbtree
-should be immaterial compared to the cost of accessing the device.
+Fix a bug using a completely unrelated legacy API flag
+GPIOF_IN by switching to the actually desired flag
+GPIOD_IN.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Ettore Chimenti <ek5.chimenti@gmail.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/media/i2c/max2175.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ChangeLog v1->v2:
+- Also fix the bad line flag.
+---
+ drivers/media/cec/platform/seco/seco-cec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/max2175.c b/drivers/media/i2c/max2175.c
-index bc46a0957b40..0eea200124d2 100644
---- a/drivers/media/i2c/max2175.c
-+++ b/drivers/media/i2c/max2175.c
-@@ -257,7 +257,7 @@ static const struct regmap_config max2175_regmap_config = {
- 	.reg_defaults = max2175_reg_defaults,
- 	.num_reg_defaults = ARRAY_SIZE(max2175_reg_defaults),
- 	.volatile_table = &max2175_volatile_regs,
--	.cache_type = REGCACHE_FLAT,
-+	.cache_type = REGCACHE_RBTREE,
- };
+diff --git a/drivers/media/cec/platform/seco/seco-cec.c b/drivers/media/cec/platform/seco/seco-cec.c
+index ae138cc253fd..4df56096a476 100644
+--- a/drivers/media/cec/platform/seco/seco-cec.c
++++ b/drivers/media/cec/platform/seco/seco-cec.c
+@@ -12,7 +12,6 @@
+ #include <linux/delay.h>
+ #include <linux/dmi.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio.h>
+ #include <linux/interrupt.h>
+ #include <linux/pci.h>
+ #include <linux/platform_device.h>
+@@ -551,7 +550,7 @@ static int secocec_acpi_probe(struct secocec_data *sdev)
+ 	struct gpio_desc *gpio;
+ 	int irq = 0;
  
- struct max2175 {
+-	gpio = devm_gpiod_get(dev, NULL, GPIOF_IN);
++	gpio = devm_gpiod_get(dev, NULL, GPIOD_IN);
+ 	if (IS_ERR(gpio)) {
+ 		dev_err(dev, "Cannot request interrupt gpio");
+ 		return PTR_ERR(gpio);
 -- 
-2.30.2
+2.34.1
 
