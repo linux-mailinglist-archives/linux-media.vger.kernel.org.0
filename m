@@ -2,85 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98AE84BF590
-	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 11:15:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21C9F4BF770
+	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 12:46:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230477AbiBVKOn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Feb 2022 05:14:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43346 "EHLO
+        id S231775AbiBVLqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Feb 2022 06:46:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230480AbiBVKOe (ORCPT
+        with ESMTP id S229940AbiBVLqP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Feb 2022 05:14:34 -0500
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D77E13CA24
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 02:14:04 -0800 (PST)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nMSBG-00CKp5-NC; Tue, 22 Feb 2022 10:14:02 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nMSBE-007tMf-Dw; Tue, 22 Feb 2022 10:14:00 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.18] v3: Various fixes/enhancements (#80896)
-Date:   Tue, 22 Feb 2022 10:14:00 +0000
-Message-Id: <20220222101400.1881071-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cd6920de-2dd3-4e85-5d5e-1b5ad57dbab4@xs4all.nl>
-References: 
+        Tue, 22 Feb 2022 06:46:15 -0500
+X-Greylist: delayed 482 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Feb 2022 03:45:48 PST
+Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com [203.205.221.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66F7313D924
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 03:45:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+        s=s201512; t=1645530346;
+        bh=0Ms03xWBc+9VrtD4C/QoIp1ZOw2mnrwmYzl37UBKzPc=;
+        h=From:To:Cc:Subject:Date;
+        b=ecmtp7rXHrswT6fao5OavKoWrR8YhXBv5q3cWRB35vNwzxkFtG7lCGvaWf30Vi9Rg
+         pHtSQjPCcy737Bgr9ICaXlMP4YZ9OAL2TLizPHxyGZS+TC4oJ1clxQHdrMUiEFwNGG
+         N/TccFSBezsDgPHfk3IjFr0IIwreEONSf8PF29QM=
+Received: from localhost.localdomain ([43.227.136.188])
+        by newxmesmtplogicsvrszc7.qq.com (NewEsmtp) with SMTP
+        id 791A02AE; Tue, 22 Feb 2022 19:30:17 +0800
+X-QQ-mid: xmsmtpt1645529417tdyhv1w0j
+Message-ID: <tencent_22C6C2E595DEFED1417A98A5736539482809@qq.com>
+X-QQ-XMAILINFO: OE2SNMSfMbmOqWTaLvPkh1gzQ6LQ3QWbRi+ykRMCw6wayFRA56vcRnp4jqOcUy
+         r8eInt09NooaESLAgWeFLhZtuOa05vyguPZzHdzvcIfdhBBvQV5TgYlISohQe50GjzlrrHGVYyPl
+         VzifWo8oknq8HhPnCaic+n2M0XKZmgWiCETP7yRvqMsRZXhhNgrJ1Grt/Bl6JJ2UGafJbdmOiGo9
+         GYK9A8OyivVV6v3zE0AX8E6DrNrMWSldHe0jhivEwEb7GfoLZEeTzhclTgyAK9Tfgafkz/SXf50Y
+         xkTxjT8aFxSXAa1zx0LQa2AfXJLhY5QZdPIcrjSkLbt7akmgQKt8EcZbA4tTk1Gw3aWWIGTYQR1R
+         WCoiIbXNYS6SfQrMcbydCLK2iape5LgtIxvEXDE8gkO55yjaldWjOpOxSr3rtb0PXqap/dcWfcs3
+         0Noi/HcqCU2oyCOZssZMIFcixw4Z+vnlj976xzLmjNDkEjfua5yC3JatB8jw1Zelg2LOTntTd1ls
+         b3ZKe7p197WOfVi0E7yR0RqrkAUujNk4WR1naxyqwL4nPYpeQ22MgMgfeckrm+nLXjzfwAO39OW3
+         ozSRW76iMBVliUgk9V11egDp7S7fzMEJJXn3n1B8tIv51XZW8x4PNYU0+KwTK++mGo3KC7p0VZBL
+         ryTX6EEtByOIpths6V9Pt70rHZxPL2w81FZMLC20QQW4FQ52EadYgrA/3h4fzrTfJ1r4b+wrlUhj
+         fl/HDEkQKaK7ZFcEiZnaFzm4EXkstdU+LZE9wuz7xkL3d8UQ+cMZPqXNTdUJoVQmAeRjCSnZjEXU
+         ILdD39TWlLGiER20h3UZt768wmry3fORvCfaaFM7e8HHYv9aAvN1E0dlz0+cDPlPn8OQ003uEZne
+         Trxd+tjdSMzDRAFA8MmxvU9Koz3rHk/rbfmYB/Sk2q
+From:   xkernel.wang@foxmail.com
+To:     sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        Xiaoke Wang <xkernel.wang@foxmail.com>
+Subject: [PATCH] dma-buf: check the return value of kstrdup()
+Date:   Tue, 22 Feb 2022 19:30:05 +0800
+X-OQ-MSGID: <20220222113005.3812-1-xkernel.wang@foxmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        HELO_DYNAMIC_IPADDR,RCVD_IN_DNSWL_NONE,RDNS_DYNAMIC,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/cd6920de-2dd3-4e85-5d5e-1b5ad57dbab4@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/185102/
-Build time: 00:27:11
-Link: https://lore.kernel.org/linux-media/cd6920de-2dd3-4e85-5d5e-1b5ad57dbab4@xs4all.nl
+kstrdup() is a memory allocation function which can return NULL when
+some internaly memory errors happen. It is better to check the return
+value of it to prevent further wrong memory access.
 
-gpg: Signature made Tue 22 Feb 2022 09:34:45 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Can't check signature: No public key
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+---
+ drivers/dma-buf/selftest.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Summary: got 2/39 patches with issues, being 1 at build time
-
-Error/warnings:
-
-patches/0001-media-rcar-vin-Refactor-link-notify.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0001-media-rcar-vin-Refactor-link-notify.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:119: CHECK: Lines should not end with a '('
-
-patches/0027-drivers-meson-vdec-add-VP9-support-to-GXM.patch:
-
-   checkpatch.pl:
-	$ cat patches/0027-drivers-meson-vdec-add-VP9-support-to-GXM.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
+diff --git a/drivers/dma-buf/selftest.c b/drivers/dma-buf/selftest.c
+index c60b694..2c29e2a 100644
+--- a/drivers/dma-buf/selftest.c
++++ b/drivers/dma-buf/selftest.c
+@@ -50,6 +50,9 @@ static bool apply_subtest_filter(const char *caller, const char *name)
+ 	bool result = true;
+ 
+ 	filter = kstrdup(__st_filter, GFP_KERNEL);
++	if (!filter)
++		return false;
++
+ 	for (sep = filter; (tok = strsep(&sep, ","));) {
+ 		bool allow = true;
+ 		char *sl;
+-- 
