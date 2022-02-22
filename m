@@ -2,98 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC2C34C040C
-	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 22:46:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ADAC4C0431
+	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 22:58:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234607AbiBVVrV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Feb 2022 16:47:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42780 "EHLO
+        id S235874AbiBVV67 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Feb 2022 16:58:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233604AbiBVVrU (ORCPT
+        with ESMTP id S232172AbiBVV67 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Feb 2022 16:47:20 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 633976562
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 13:46:54 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 8C6DA4000A;
-        Tue, 22 Feb 2022 21:46:50 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        sakari.ailus@linux.intel.com
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, aford173@gmail.com,
-        slongerbeam@gmail.com, rmfrfs@gmail.com,
-        alexander.stein@ew.tq-group.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org
-Subject: [PATCH] media: imx: csis: Store pads format separately
-Date:   Tue, 22 Feb 2022 22:46:43 +0100
-Message-Id: <20220222214643.587535-1-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.35.0
+        Tue, 22 Feb 2022 16:58:59 -0500
+X-Greylist: delayed 522 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Feb 2022 13:58:32 PST
+Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A422A99ECB
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 13:58:32 -0800 (PST)
+Received: from [10.36.2.165] (unknown [178.17.145.105])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.turbocat.net (Postfix) with ESMTPSA id C83562601B4
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 22:49:48 +0100 (CET)
+Message-ID: <77ca512b-d1e6-9ec9-eed7-b229bb3852dd@selasky.org>
+Date:   Tue, 22 Feb 2022 22:49:38 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+To:     linux-media@vger.kernel.org
+Content-Language: en-US
+From:   Hans Petter Selasky <hps@selasky.org>
+Subject: [Possible regression] TechnoTrend TT-USB2.0 driver appears broken
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As the formats on the sink and source pad might be different store
-them separately.
+Hi,
 
-The pad format is used to configure the image width and height in
-mipi_csis_system_enable(). As the csis cannot downscale, using the sink
-or the source one isn't relevant.
+Do the technotrend TT-USB 2.0 devices still work with Linux v5.17 ?
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
+Last known working version was Linux v3.16.
 
-Hans, this comes as a late fix for pull request
-[GIT PULL FOR v5.18] De-stage imx7-mipi-csis & some fixes
+ugen0.8: <TechnoTrend TT-USB2.0> at usbus0, cfg=0 md=HOST spd=HIGH 
+(480Mbps) pwr=ON (10mA)
 
-I'm sorry if this arrives a bit late, but I only realized when I
-exercized RGB24 today.
+   bLength = 0x0012
+   bDescriptorType = 0x0001
+   bcdUSB = 0x0200
+   bDeviceClass = 0x0000  <Probed by interface class>
+   bDeviceSubClass = 0x0000
+   bDeviceProtocol = 0x0000
+   bMaxPacketSize0 = 0x0040
+   idVendor = 0x0b48
+   idProduct = 0x3007
+   bcdDevice = 0x0101
+   iManufacturer = 0x0001  <TechnoTrend>
+   iProduct = 0x0002  <TT-USB2.0>
+   iSerialNumber = 0x0000  <no string>
+   bNumConfigurations = 0x0001
 
-Can this be collected together with the above pull request ?
-Thanks
-  j
----
- drivers/media/platform/imx/imx-mipi-csis.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-index 6f975b3702bc..c23e512886f9 100644
---- a/drivers/media/platform/imx/imx-mipi-csis.c
-+++ b/drivers/media/platform/imx/imx-mipi-csis.c
-@@ -330,7 +330,7 @@ struct csi_state {
+First I get this error:
 
- 	struct mutex lock;	/* Protect csis_fmt, format_mbus and state */
- 	const struct csis_pix_format *csis_fmt;
--	struct v4l2_mbus_framefmt format_mbus;
-+	struct v4l2_mbus_framefmt format_mbus[CSIS_PADS_NUM];
- 	u32 state;
+webcamd 98640 - - pctv452e: I2C error -5; AA 91  CC 00 01 -> 0x803003000h
 
- 	spinlock_t slock;	/* Protect events */
-@@ -535,7 +535,7 @@ static void mipi_csis_system_enable(struct csi_state *state, int on)
- /* Called with the state.lock mutex held */
- static void __mipi_csis_set_format(struct csi_state *state)
- {
--	struct v4l2_mbus_framefmt *mf = &state->format_mbus;
-+	struct v4l2_mbus_framefmt *mf = &state->format_mbus[CSIS_PAD_SINK];
- 	u32 val;
+Removed "drivers/media/usb/dvb-usb/pctv452e.c"
 
- 	/* Color format */
-@@ -967,7 +967,7 @@ mipi_csis_get_format(struct csi_state *state,
- 	if (which == V4L2_SUBDEV_FORMAT_TRY)
- 		return v4l2_subdev_get_try_format(&state->sd, sd_state, pad);
+>         /* I2C device didn't respond as expected. */
+>         ret = -EREMOTEIO;
+>         if (buf[6] < rcv_len) {
+>                 goto failed;
+>         }
 
--	return &state->format_mbus;
-+	return &state->format_mbus[pad];
- }
+Then w_scan complained:
 
- static int mipi_csis_init_cfg(struct v4l2_subdev *sd,
---
-2.35.0
+> w_scan version 20120415 (compiled for DVB API 5.11)
+> using settings for 0.8 west Thor 3/5 & Intelsat 10-02
+> scan type SATELLITE, channellist 53
+> output format vdr-1.7
+> WARNING: could not guess your codepage. Falling back to 'UTF-8'
+> output charset 'UTF-8', use -C <charset> to override
+> -_-_-_-_ Getting frontend capabilities-_-_-_-_ 
+> Using DVB API 5.b
+> frontend 'STB0899 Multistandard' supports
+> INVERSION_AUTO
+> DVB-S
+> DVB-S2
+> FREQ (0.95GHz ... 2.15GHz)
+> SRATE (5.000MSym/s ... 45.000MSym/s)
+> using LNB "UNIVERSAL"
+> -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ 
+> (time: 00:00) 
+> (time: 00:05) 	skipped: (srate 1450000 unsupported by driver)
+> 
+> initial_tune:2265: Setting frontend failed S  f = 11166 kHz V SR =  1450  7/8 0,35  QPSK
+> (time: 00:06) 	skipped: (srate 3100000 unsupported by driver)
+> 
+> initial_tune:2265: Setting frontend failed S  f = 11182 kHz V SR =  3100  7/8 0,35  QPSK
+> (time: 00:08) 	skipped: (srate 2142000 unsupported by driver)
 
+Tried to change:
+
+> static const struct dvb_frontend_ops stb0899_ops = {
+>         .delsys = { SYS_DVBS, SYS_DVBS2, SYS_DSS },
+>         .info = {
+>                 .name                   = "STB0899 Multistandard",
+>                 .frequency_min_hz       =  950 * MHz,
+>                 .frequency_max_hz       = 2150 * MHz,
+>                 .symbol_rate_min        =   500000,
+^^^ this value
+>                 .symbol_rate_max        = 45000000,
+
+But no luck.
+
+--HPS
