@@ -2,96 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AFD14BFE66
-	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 17:22:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1ECA4C00E0
+	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 19:03:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233924AbiBVQWh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Feb 2022 11:22:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48736 "EHLO
+        id S234774AbiBVSEC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Feb 2022 13:04:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230429AbiBVQWg (ORCPT
+        with ESMTP id S234200AbiBVSEA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Feb 2022 11:22:36 -0500
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E933392D22
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 08:22:09 -0800 (PST)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nMXvU-00CfKv-EU; Tue, 22 Feb 2022 16:22:08 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nMXvR-009YH7-Rv; Tue, 22 Feb 2022 16:22:05 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.18] De-stage imx7-mipi-csis & some fixes (#80898)
-Date:   Tue, 22 Feb 2022 16:22:05 +0000
-Message-Id: <20220222162205.2276659-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <234e557c-69b9-b4fe-44c4-7995739cd6ed@xs4all.nl>
-References: 
+        Tue, 22 Feb 2022 13:04:00 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6076D35879;
+        Tue, 22 Feb 2022 10:03:33 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id q23so239417wra.2;
+        Tue, 22 Feb 2022 10:03:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZA1AEF6WYe53I9xc29Ywox25Ld05hhSuOKpOWRLCD0Q=;
+        b=ga5HhF1kzBzWTvKfcvvy2G6pPpg6ZSlIrxkAJbJ6v+ZHmwIpqeVSDShxafKYqADvsD
+         yq8c5Vm8FrreBj0AuOhaGzsvaQHpvpXH09xRLPmTecId0D7mR5b0Q5QfjE6jrErigbjv
+         VVVTT5kSvy5xYfdJGr4uWS6OtpC7cbb5DXOXTCjiDAybnm4+pJTkZvZjCrRdNONlHgEa
+         P+AQ7H9H0+OXErltcVA5VO9AQiJ8YsKgPkoPLwkvqXwMdvToUIr1Idi1wzfR6Yrs5P2N
+         VTp+munJbWJ8b9j+H0C8zrdeOKVysbJVHxCtezfJWdAa9UuZS36msAUUHMT1jz2ov/XA
+         G2Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZA1AEF6WYe53I9xc29Ywox25Ld05hhSuOKpOWRLCD0Q=;
+        b=2JQFRIbMInoYvq3a+zxDwZZzUu9Gz4OuQ/2Vg+LAfmHg0BDVhjVCrd1KoapWiMUGz1
+         q+XasB+oF9p4oF1DxckX4brSJwFhvSN63Pay2RF4hLS1/py4bN6Z6zhzjtwXUS5XNszR
+         LNGyKiIlOPIdG4t08L6F4sVpoO2c1EeaS1AKEGyGdfToZQkHGi0moyWSJjNHpsF8p47l
+         ttCpXEzy1iP1NBY2SHVILh7t9OVbUp6utj0ndr2uM/Hk1mrUu6wF0x+FMowqRBqm/PlK
+         8zFpBqTEySRkvWGLs6+HAECbvfJ5Mvj8l81kV9baGbYxy60Nv2HSxdwtni2U2yTQEonH
+         iflA==
+X-Gm-Message-State: AOAM531trpgBZYzANH3ZjkNT2jARq7n0mdVUuckbhg27NvxXtuWgJyvF
+        lwqRT4P1JItWBYUOCmy1UHs=
+X-Google-Smtp-Source: ABdhPJzNFYx5oAjf3+Rk5ssr7+hioPDrHat9vTUipqzp/XT0YyvI9V4d7cbaImdepV5Gxc87H7QYTw==
+X-Received: by 2002:adf:8122:0:b0:1e7:b111:3b92 with SMTP id 31-20020adf8122000000b001e7b1113b92mr21076844wrm.695.1645553011872;
+        Tue, 22 Feb 2022 10:03:31 -0800 (PST)
+Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id w8sm54251377wre.83.2022.02.22.10.03.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Feb 2022 10:03:31 -0800 (PST)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, mripard@kernel.org,
+        wens@csie.org, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] media: hantro: sunxi: Fix VP9 steps
+Date:   Tue, 22 Feb 2022 19:03:28 +0100
+Message-Id: <20220222180328.2097103-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+It turns out that postproc on Allwinner H6 needs width and height to be
+multiple of 32.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/234e557c-69b9-b4fe-44c4-7995739cd6ed@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/185173/
-Build time: 00:20:07
-Link: https://lore.kernel.org/linux-media/234e557c-69b9-b4fe-44c4-7995739cd6ed@xs4all.nl
+Fixes: 86790a4fdf4b ("media: hantro: Add support for Allwinner H6")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/staging/media/hantro/sunxi_vpu_hw.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-gpg: Signature made Tue 22 Feb 2022 03:51:45 PM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Can't check signature: No public key
-
-Summary: got 3/11 patches with issues, being 1 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-imx-De-stage-imx7-mipi-csis.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0001-media-imx-De-stage-imx7-mipi-csis.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:76: WARNING: please write a help paragraph that fully describes the config symbol
-	-:87: WARNING: please write a help paragraph that fully describes the config symbol
-
-patches/0002-media-imx-Rename-imx7-mipi-csis.c-to-imx-mipi-csis.c.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-media-imx-Rename-imx7-mipi-csis.c-to-imx-mipi-csis.c.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:45: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:77: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0010-doc-media-Document-MM21-tiled-format.patch:
-
-   checkpatch.pl:
-	$ cat patches/0010-doc-media-Document-MM21-tiled-format.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:12: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-
-Error #512 when building PDF docs
+diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
+index 90633406c4eb..c0edd5856a0c 100644
+--- a/drivers/staging/media/hantro/sunxi_vpu_hw.c
++++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
+@@ -29,10 +29,10 @@ static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
+ 		.frmsize = {
+ 			.min_width = 48,
+ 			.max_width = 3840,
+-			.step_width = MB_DIM,
++			.step_width = 32,
+ 			.min_height = 48,
+ 			.max_height = 2160,
+-			.step_height = MB_DIM,
++			.step_height = 32,
+ 		},
+ 	},
+ };
+-- 
+2.35.1
 
