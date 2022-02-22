@@ -2,198 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2D674BF4E2
-	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 10:40:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D30244BF530
+	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 10:54:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230242AbiBVJkx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Feb 2022 04:40:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49288 "EHLO
+        id S230248AbiBVJyn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Feb 2022 04:54:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229747AbiBVJkw (ORCPT
+        with ESMTP id S230184AbiBVJyn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Feb 2022 04:40:52 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19DF3156C7F
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 01:40:26 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 70079614FA
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 09:40:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 722E4C340E8;
-        Tue, 22 Feb 2022 09:40:24 +0000 (UTC)
-Message-ID: <cd6920de-2dd3-4e85-5d5e-1b5ad57dbab4@xs4all.nl>
-Date:   Tue, 22 Feb 2022 10:40:22 +0100
+        Tue, 22 Feb 2022 04:54:43 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A3F0D2072
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 01:54:18 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id m14so23652421lfu.4
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 01:54:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Qxo4Ab12mYpicN5blAq8Bgj3Iswvz5GhprybAK1oink=;
+        b=Y8JPlIfmzkGMlzlF629pfNQLYLxInRkxLbcgbIviItNAVpA6XOC+al6N/HzQmDqWjm
+         nwgSYZjNroNidG4XuRKVAmh2E3xk/oJldOsDIhleKY99kaR7dge1RfosRB5frBemgWWz
+         bU5QEzBWEMkplla5cSa8s2SO+F2PBo9thpD/GLQHmOzKZ3C4cM5sxeq5rSNhTkLbPNyi
+         HBM/vDPhQKh8jfCgcHC2XIgdQZaFRLO6Qu81QRpl9ajK5P+KroRiOrrOzoMb3sm3/EQC
+         xlyZMJmY5do1okRMCaRA4bYFH9sqbVMVw5MI046jOnHJg7bxRU0F4QO8+FOaPaLCrW5D
+         yz7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Qxo4Ab12mYpicN5blAq8Bgj3Iswvz5GhprybAK1oink=;
+        b=h3fquWU6hffjZAefmH2K85uT5/00qedxh2f5leZTEbvVxTYCEwZdln/O5FGTt421L8
+         uzZ1T5mGijmsYXtVEUX3Rw5vrsHSalOTHUlnPMCyrYuRusWI7xuNZsmyYUleJ3T/dhxA
+         5Ir2Sz5JYUrRcmK6h4rOUfaVopu1Z8AoL4khSRkVIA9RualoC/+4IBpfZSvOPIshGoGp
+         eOfUpob2tlN2Vu52z+DjR6Gsh9jU1OuVjkjXwbFieSIBOZgcBhtcNtlWPP0rtZOMz/QZ
+         /wC1GUtS48X9/XJxhrQJJxRF6wbO0hrDfITKBIdrPSgI0qI09UC/ZYlzisJBc/3F9YMT
+         ga1w==
+X-Gm-Message-State: AOAM532Tu/Ka3pDV3Gei6VzPAD327DDcJ2d0Uq6XVxuRvRAtrKbBBxt9
+        w1+8/pEGktXrpgRnKe+HH4/z0rYs1Suu5b77dU8=
+X-Google-Smtp-Source: ABdhPJxDuPLpaYSuOqaDXSzkmBdrCc97i8PYfDO8vYyvBmfKsDVa8kVm1Dl8vBvX/NSxCBlVXz/Xw30MrtmEdd6AQcc=
+X-Received: by 2002:a05:6512:2828:b0:442:bc51:d968 with SMTP id
+ cf40-20020a056512282800b00442bc51d968mr16598025lfb.619.1645523656501; Tue, 22
+ Feb 2022 01:54:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.18] v3: Various fixes/enhancements
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Jammy Huang <jammy_huang@aspeedtech.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Qing Wang <wangqing@vivo.com>, Ming Qian <ming.qian@nxp.com>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:aa6:c789:0:b0:19d:3904:bda6 with HTTP; Tue, 22 Feb 2022
+ 01:54:15 -0800 (PST)
+Reply-To: egomihnyemihdavidegomih02@gmail.com
+From:   Davids Nyemih <curtisdonald95@gmail.com>
+Date:   Tue, 22 Feb 2022 10:54:15 +0100
+Message-ID: <CAFnUQ=k_aDfV95u7toLUc_kyLsN97PSUKqSnMCtG7UXu7EFpow@mail.gmail.com>
+Subject: David
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Changes since v2:
-- Updated "media: imx-jpeg: Set V4L2_BUF_FLAG_LAST at eos" to the v3 version
-
-Changes since v1:
-
-- Updated Daniel's cx88 patch to the v2 he posted.
-- Rebased to latest staging tree
-
-Regards,
-
-	Hans
-
-The following changes since commit 2b891d3980f6c255459d0e1c29ce2152ec7cf678:
-
-  media: xilinx: csi2rxss: Use mipi-csi2.h (2022-02-17 10:32:26 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18l
-
-for you to fetch changes up to d8ebe298d008ccbae3011cbeb139707f01a730c8:
-
-  media: imx-jpeg: Set V4L2_BUF_FLAG_LAST at eos (2022-02-22 10:33:43 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Benjamin Gaignard (1):
-      media: platform: mtk-vcodec: Do not force /dev/videoX node number
-
-Christian Hewitt (1):
-      drivers: meson: vdec: add VP9 support to GXM
-
-Colin Ian King (5):
-      media: saa7115: make static read-only array lcr2vbi const
-      media: gspca: remove redundant assignment of variable n
-      media: mtk-jpeg: remove redundant initialization of variable plane_fmt
-      media: saa7134: remove redundant assignment to variable id
-      media: saa7164: remove redundant assignment to variable idx
-
-Dan Carpenter (1):
-      media: usb: go7007: s2250-board: fix leak in probe()
-
-Daniel González Cabanelas (1):
-      media: cx88-mpeg: clear interrupt status register before streaming video
-
-Dongliang Mu (1):
-      media: em28xx: initialize refcount before kref_get
-
-Gustavo A. R. Silva (1):
-      media: usb: pwc-uncompress: Use struct_size() helper in pwc_decompress()
-
-Hans Verkuil (1):
-      pixfmt-yuv-planar.rst: fix typo: 'Cr, Cr' -> 'Cr, Cb'
-
-Jammy Huang (5):
-      media: aspeed: add comments and macro
-      media: aspeed: Add macro for the fields of the mode-detect registers
-      media: aspeed: Fix unstable timing detection
-      media: aspeed: Use full swing as JFIF to fix incorrect color
-      media: aspeed: Use of_device_get_match_data() helper
-
-Jernej Skrabec (3):
-      media: cedrus: Add watchdog for job completion
-      media: cedrus: H265: Fix neighbour info buffer size
-      media: cedrus: h264: Fix neighbour info buffer size
-
-Julia Lawall (2):
-      media: cx18: use GFP_KERNEL
-      media: fsl-viu: use GFP_KERNEL
-
-Mikhail Rudenko (1):
-      media: sun6i-csi: fix colorspace in sun6i_video_try_fmt()
-
-Ming Qian (2):
-      media: imx-jpeg: fix a bug of accessing array out of bounds
-      media: imx-jpeg: Set V4L2_BUF_FLAG_LAST at eos
-
-Niklas Söderlund (3):
-      media: rcar-vin: Refactor link notify
-      media: rcar-vin: Breakout media link creation
-      media: rcar-{csi2,vin}: Move to full Virtual Channel routing per CSI-2 IP
-
-Rikard Falkeborn (1):
-      media: go7007: Constify static struct snd_device_ops
-
-Sean Young (1):
-      media: meson-ir-tx: remove incorrect doc comment
-
-Wang Qing (5):
-      media: si21xx: use time_is_before_jiffies() instead of open coding it
-      media: stv0299: use time_is_before_jiffies() instead of open coding it
-      media: tda8083: use time_is_after_jiffies() instead of open coding it
-      media: wl128x: use time_is_before_jiffies() instead of open coding it
-      media: vivid: use time_is_after_jiffies() instead of open coding it
-
-Xose Vazquez Perez (1):
-      stkwebcam: add new Asus laptop to upside_down table
-
-Yang Li (2):
-      media: aspeed: Remove duplicated include in aspeed-video.c
-      media: imx-jpeg: Remove unnecessary print function dev_err()
-
-Yunfei Dong (1):
-      media: uapi: Init VP9 stateless decode params
-
- Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst |  10 +-
- drivers/media/dvb-frontends/si21xx.c                        |   2 +-
- drivers/media/dvb-frontends/stv0299.c                       |   4 +-
- drivers/media/dvb-frontends/tda8083.c                       |   2 +-
- drivers/media/i2c/saa7115.c                                 |   2 +-
- drivers/media/pci/cx18/cx18-driver.c                        |   2 +-
- drivers/media/pci/cx88/cx88-mpeg.c                          |   3 +
- drivers/media/pci/saa7134/saa7134-video.c                   |   2 -
- drivers/media/pci/saa7164/saa7164-cmd.c                     |   1 -
- drivers/media/platform/aspeed-video.c                       |  86 +++++++++--
- drivers/media/platform/fsl-viu.c                            |   2 +-
- drivers/media/platform/imx-jpeg/mxc-jpeg.c                  |  43 +++++-
- drivers/media/platform/imx-jpeg/mxc-jpeg.h                  |   1 +
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c             |   2 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c      |  27 ++--
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c      |   2 +-
- drivers/media/platform/rcar-vin/rcar-core.c                 | 387 ++++++++++++++---------------------------------
- drivers/media/platform/rcar-vin/rcar-csi2.c                 |  57 ++++++-
- drivers/media/platform/rcar-vin/rcar-dma.c                  |   2 +-
- drivers/media/platform/rcar-vin/rcar-vin.h                  |  18 +--
- drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c        |   6 +-
- drivers/media/radio/wl128x/fmdrv_common.c                   |   3 +-
- drivers/media/rc/meson-ir-tx.c                              |   2 +-
- drivers/media/test-drivers/vivid/vivid-kthread-cap.c        |   3 +-
- drivers/media/test-drivers/vivid/vivid-kthread-out.c        |   3 +-
- drivers/media/test-drivers/vivid/vivid-kthread-touch.c      |   3 +-
- drivers/media/test-drivers/vivid/vivid-sdr-cap.c            |   3 +-
- drivers/media/usb/em28xx/em28xx-cards.c                     |   8 +-
- drivers/media/usb/go7007/s2250-board.c                      |  10 +-
- drivers/media/usb/go7007/snd-go7007.c                       |   2 +-
- drivers/media/usb/gspca/pac7302.c                           |   1 -
- drivers/media/usb/pwc/pwc-uncompress.c                      |   2 +-
- drivers/media/usb/stkwebcam/stk-webcam.c                    |   7 +
- drivers/media/v4l2-core/v4l2-ctrls-core.c                   |   8 +
- drivers/staging/media/meson/vdec/vdec_platform.c            |  12 ++
- drivers/staging/media/sunxi/cedrus/cedrus.c                 |   2 +
- drivers/staging/media/sunxi/cedrus/cedrus.h                 |   3 +
- drivers/staging/media/sunxi/cedrus/cedrus_dec.c             |   4 +
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c            |   2 +-
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c            |   2 +-
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c              |  25 +++
- drivers/staging/media/sunxi/cedrus/cedrus_hw.h              |   2 +
- 42 files changed, 405 insertions(+), 363 deletions(-)
+HI, Good day. Kindly confirm to me if this is your correct email
+Address and get back to me for your interest.
+Sincerely,
+David
