@@ -2,61 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A833B4BF9A0
-	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 14:42:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78D114BF9B5
+	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 14:44:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232550AbiBVNme (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Feb 2022 08:42:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42872 "EHLO
+        id S232515AbiBVNoV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Feb 2022 08:44:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232476AbiBVNmZ (ORCPT
+        with ESMTP id S230405AbiBVNoU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Feb 2022 08:42:25 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 848EC8D688
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 05:41:59 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id j7so24861171lfu.6
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 05:41:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dYjRWsW9pcEcQ2t56kY0xhwAZ/vjldT5YxHAgh3ZMy8=;
-        b=pd2VrkzjJ4DBKAhv8/hr9VAZh4WjtLOx7ruO96wujvdkx/wDgPKZa5mu60uS6OIePa
-         Sa9iKw2/HEoCvRBUHHhYkkzuacsAL6Z6rJoNPxvLQuzftqPq74Q85SThu6HaspZs1IuE
-         MpP4w255u+2HMw6vlJJjXSkvrtoL7TJL5rptqS72lZ5ap0OofJHvmEZd4UANtlq8tUTv
-         5mRJFuS97fwv7YoArKXUtkOC02JRz8GSO5+N4d5b8f5hRdJgMiNCTTeoQeXYC1ZiqPUn
-         4u+g5xMJwyogUDEcRQy2wZ3AU3S+ZcmdrYMdvBT6jeQx05vhucub6pJwijTBQKGpd7nG
-         fLjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dYjRWsW9pcEcQ2t56kY0xhwAZ/vjldT5YxHAgh3ZMy8=;
-        b=6WxQwucV/YmEW2wkDHUpZlzRk7vVDx2aNXzo8QXeJrS11DCRr4JAXCXQoHL2B45HZi
-         vCDe6Hce/YGUByFHpgIgIWG5hiza3JEomLl1I3X6LlKNryepWyKLXfJWgc0U0TTia3Xm
-         H1uLQPWfjQB1DriYSS3Idg8Xz3/g366qWXYNSaW7MfKsma1npcWwciQcubMcu2zK6Sd0
-         L5kKa6UcVCdO1Uv859Rn07nuRpsL2p2aqt2kaY8ng/XfAxfziNQcEc5bsxhAG1ugWCmo
-         thX+ampVEcmRa2wLUbTVx25RjBDnHlgqWo+S8EQF6jHRwoVCXF0mCKc1alN5EOIoPPZq
-         UZIA==
-X-Gm-Message-State: AOAM532Xg1DIm/Nfm2+Fn13jrXFXGYqrUJgm9vy9AYrVix1nMg7ZLbUh
-        EThnXMXhvmbQjLJie7MzE9eTnRWcrCfu+lJloCIxZg==
-X-Google-Smtp-Source: ABdhPJxt9zV8dVY/0aDDpkL90WGgkd5FN2NEf8alpUvu7/9ecS098UHve0gpczfD3R14rIkO5fSzXtB8tRbj+L3iREs=
-X-Received: by 2002:a19:ee17:0:b0:443:5f2c:289e with SMTP id
- g23-20020a19ee17000000b004435f2c289emr17236703lfb.57.1645537317803; Tue, 22
- Feb 2022 05:41:57 -0800 (PST)
+        Tue, 22 Feb 2022 08:44:20 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4691E11E3E3
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 05:43:55 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id B8D0E1B001CF;
+        Tue, 22 Feb 2022 15:43:51 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1645537431;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=fK94qH8PbH8TMSl+Kin7HAg5J4JoE9osb9VB5BOh5G8=;
+        b=giDopx3XT0Imk5qSIHPHUzFtCza4yHIPc5WXto6zVLetJvi4qRCNZtVhvUiy3dffkEuT5Q
+        3eBvAZOLfuoOX+lpPzxMuxDSGW9fKqcbt1ZuuBdWGe7Q3Y699th0NC8SMCQBmWJdGghapj
+        dY75tE2gTViDHCvcpR7NjK8/1tY/xpc5ZxRUTDME4+eZWDTmHVt8uadptVIx9E6DGIoQzA
+        RlbNmeoKEA2pKJuIpi1M6lpe65yOsL27uVYdWD2HhUR/DE14ysG2XcMlsTKdZjHwlrhr0x
+        Vad+amuOUzq1JW/IgqH3IheIVSHkAKa+ge/35J5GHTUhsFgLkwl3pJBpfNYEgA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 18047634C90;
+        Tue, 22 Feb 2022 15:43:51 +0200 (EET)
+Date:   Tue, 22 Feb 2022 15:43:50 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     aford173@gmail.com, slongerbeam@gmail.com, p.zabel@pengutronix.de,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, martin.kepplinger@puri.sm,
+        rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
+        alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
+        kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 0/7] media: imx: Destage imx7-mipi-csis
+Message-ID: <YhTollrt4S+3qBAR@valkosipuli.retiisi.eu>
+References: <20220221174727.320320-1-jacopo@jmondi.org>
 MIME-Version: 1.0
-References: <tencent_22C6C2E595DEFED1417A98A5736539482809@qq.com>
-In-Reply-To: <tencent_22C6C2E595DEFED1417A98A5736539482809@qq.com>
-From:   Sumit Semwal <sumit.semwal@linaro.org>
-Date:   Tue, 22 Feb 2022 19:11:46 +0530
-Message-ID: <CAO_48GGSPnQzo2D3zK-TuWHSdHn6XGV0=9MuF2d06XSAn1isVQ@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: check the return value of kstrdup()
-To:     xkernel.wang@foxmail.com
-Cc:     christian.koenig@amd.com, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220221174727.320320-1-jacopo@jmondi.org>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1645537431; a=rsa-sha256;
+        cv=none;
+        b=LaRmXEho9daIUkstILlb06jldQ2ccmoHDSxE1pj7/o3L0mKPeRfDf6Qg9FmMbQddd883OF
+        YgOsmCxc24H6SVAmZStIcr/a1q7rJHLyTyXlNrdqwHmNlyJ0J5qHPp4VOwL7c9Zp39dR2a
+        jjmqyY7iHbTa9cVnvvGXHRYg/V872FbNw4dhSk6ifUQiKa9dS4Sry37BbBPKt17Za1GqBv
+        3cbwlUfGsNh/kJdVwv01dkHcHMmT1bznhn8TLOWl1c0o66FLNy08ZR+vHjaQqROvkJgYbu
+        wZAlLBLIbcW/Ejw+s8vk5thFeRgBM7enwWC9et/wGv3xwyPzfcUwzRRoqEKKyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1645537431;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=fK94qH8PbH8TMSl+Kin7HAg5J4JoE9osb9VB5BOh5G8=;
+        b=s3DxnXhwQpa7ZvTQi4cacTwjeuQp+pwmqHK8vDA1eiM59VYLhDGhveUUzQSGEPJXHiFvv5
+        7T2sRREJYJVHyHe24LfhhxWV84F2OiPIqpy7+Oo9VAtWN6dWRS4VOgu/21LaxKMGAZOgC8
+        tbCS0cT7G99qcb7jI2jaeN+02tj3J4Rz8H+XD+w8/aWF+ju8QvC0fiyH7p2I63b2PUDFJy
+        Lyabw5EYhz8nZI/W8kW65EBtn6VEeeuNevmV0DlgDpwrd0vNEf6VR8jnfdTzuUGdNAAyAy
+        Hr1w1+En/qXrT12sxppR4YcKwMfmxhEzqiDOwaOBt/A1o3pETkmUDtpKUjtZ6w==
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -67,41 +89,24 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xiaoke,
+Hi Jacopo,
 
-On Tue, 22 Feb 2022 at 17:00, <xkernel.wang@foxmail.com> wrote:
->
-> From: Xiaoke Wang <xkernel.wang@foxmail.com>
->
-> kstrdup() is a memory allocation function which can return NULL when
-> some internaly memory errors happen. It is better to check the return
-> value of it to prevent further wrong memory access.
-Thanks for the patch; looks sane.
->
-> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+On Mon, Feb 21, 2022 at 06:47:20PM +0100, Jacopo Mondi wrote:
+> Very few variations from the recent v3, just reflowed some text and dropped
+> a plural name in 6/7 commit message.
+> 
+> Jacopo Mondi (7):
+>   media: imx: De-stage imx7-mipi-csis
+>   media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
+>   media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
+>   media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+>   media: imx: imx-mipi-csis: Add RGB565_1X16
+>   media: imx: imx-mipi-csis: Add BGR888
+>   media: imx: imx-mipi-csis: Add output format
 
-Will queue it up.
-> ---
->  drivers/dma-buf/selftest.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/dma-buf/selftest.c b/drivers/dma-buf/selftest.c
-> index c60b694..2c29e2a 100644
-> --- a/drivers/dma-buf/selftest.c
-> +++ b/drivers/dma-buf/selftest.c
-> @@ -50,6 +50,9 @@ static bool apply_subtest_filter(const char *caller, const char *name)
->         bool result = true;
->
->         filter = kstrdup(__st_filter, GFP_KERNEL);
-> +       if (!filter)
-> +               return false;
-> +
->         for (sep = filter; (tok = strsep(&sep, ","));) {
->                 bool allow = true;
->                 char *sl;
-> --
+Thanks for the set.
 
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Best,
-Sumit.
+-- 
+Sakari Ailus
