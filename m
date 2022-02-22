@@ -2,97 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDB274BFDDF
-	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 16:57:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B029C4BFE08
+	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 17:03:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233802AbiBVP5l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Feb 2022 10:57:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53542 "EHLO
+        id S232441AbiBVQDx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Feb 2022 11:03:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233730AbiBVP5j (ORCPT
+        with ESMTP id S230118AbiBVQDw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Feb 2022 10:57:39 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22A67E0C3
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 07:57:13 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9ED92616EB
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 15:57:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EC94C340E8;
-        Tue, 22 Feb 2022 15:57:11 +0000 (UTC)
-Message-ID: <234e557c-69b9-b4fe-44c4-7995739cd6ed@xs4all.nl>
-Date:   Tue, 22 Feb 2022 16:57:10 +0100
+        Tue, 22 Feb 2022 11:03:52 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6D8210C500
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 08:03:26 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id bu29so25876278lfb.0
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 08:03:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3k0jS2/x3i8Wmkomw+LPIWLbqx+hB/MPooCxs2/j14Y=;
+        b=GZ979gXEHSU9EAVNVEOg59anBxJSB4PMurQeqbCNuzV0UFDHVqCPzJyP+M2x7G72Tn
+         flP6yvxu2YFyCWtC37Bq8x3bbA3KhQvi8l+oIrgkyjnFmAt826DoxIYwVbhLhIHTiswa
+         71a9P6WvCOlpUBs++eSOIMlrV+uPmX5OizXIOiozFwBgO47klG+fU8ewkIgjtucGkd/g
+         glBQHsDN7y5OQ2WUj3jyGwNYgVehQb9lnSRzuP251bFl0I+RRoBgWKGDW2TwFI7oTMfB
+         hCdrhqevSy9gJdqio7TjS63OwxCYgU0ezxImPyMhWjv03XkmnTNcnoor9JY31WePkzCI
+         d2jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3k0jS2/x3i8Wmkomw+LPIWLbqx+hB/MPooCxs2/j14Y=;
+        b=OnIboBUbmp3tEIRoKw5QYRW+bhBCNM27oW6RH95L9MxpwL9SHEUN3OMeXiXpsVln4U
+         BBnBVoKnbxdwJd0KFlVGijxHbaCiHvQusIbxmsQfHACJaA8orTtHcpP61THVeYwUygwz
+         i7/iFIrhLI7FbIJpS6E6HjQW1jy+y8qTjuXDaXw9X0Lma5MhYr1bxwSg4BoAQZxQLeNO
+         q8/ByFFRDt//HaS+dRrwKgZbCVIY9TyXAans6lgX6iidLKggwXPSJz73Vig7zpCggWCr
+         r8HN62vA8GTi/htgojeNOIjwTmLNYcbmojkNAu512sQWEAcWRmIgyNsm699uFelu+VPs
+         XVYQ==
+X-Gm-Message-State: AOAM531KDw68viw5VY/zAK2iDqg+bnP+DuRc4k/upCLCkzm/Wz4iR59H
+        yUNpm10cnIT409borF5EUD2qdw==
+X-Google-Smtp-Source: ABdhPJzLyBn1y6y7ayfJCx6iuhQDqTQeAtAu9S1XUvXDnEiab/7RhMXcrL5/cjXtKBssCFT6PN2zVg==
+X-Received: by 2002:ac2:42c2:0:b0:443:7f05:b8ad with SMTP id n2-20020ac242c2000000b004437f05b8admr17237442lfl.40.1645545805040;
+        Tue, 22 Feb 2022 08:03:25 -0800 (PST)
+Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+        by smtp.gmail.com with ESMTPSA id x25sm1416214lfu.80.2022.02.22.08.03.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Feb 2022 08:03:24 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Ettore Chimenti <ek5.chimenti@gmail.com>
+Subject: [PATCH] media: cec: seco: Drop pointless include
+Date:   Tue, 22 Feb 2022 17:01:21 +0100
+Message-Id: <20220222160121.54272-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.18] De-stage imx7-mipi-csis & some fixes
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 2b891d3980f6c255459d0e1c29ce2152ec7cf678:
+This driver uses GPIO descriptors not the old legacy GPIO
+API so stop including <linux/gpio.h>.
 
-  media: xilinx: csi2rxss: Use mipi-csi2.h (2022-02-17 10:32:26 +0100)
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Ettore Chimenti <ek5.chimenti@gmail.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/media/cec/platform/seco/seco-cec.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-are available in the Git repository at:
+diff --git a/drivers/media/cec/platform/seco/seco-cec.c b/drivers/media/cec/platform/seco/seco-cec.c
+index ae138cc253fd..e6541c195499 100644
+--- a/drivers/media/cec/platform/seco/seco-cec.c
++++ b/drivers/media/cec/platform/seco/seco-cec.c
+@@ -12,7 +12,6 @@
+ #include <linux/delay.h>
+ #include <linux/dmi.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio.h>
+ #include <linux/interrupt.h>
+ #include <linux/pci.h>
+ #include <linux/platform_device.h>
+-- 
+2.34.1
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18q
-
-for you to fetch changes up to d889819d68088a5c02e0d51625fead9b18902795:
-
-  doc: media: Document VP9 reference_mode miss-placement (2022-02-22 16:51:35 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Jacopo Mondi (8):
-      media: imx: De-stage imx7-mipi-csis
-      media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
-      media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
-      media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
-      media: imx: imx-mipi-csis: Add RGB565_1X16
-      media: imx: imx-mipi-csis: Add BGR888
-      media: imx: imx-mipi-csis: Add output format
-      media: imx: imx8mq-mipi-csi2: Remove YUV422 2X8
-
-Nicolas Dufresne (3):
-      media: v4l2-core: Initialize h264 scaling matrix
-      doc: media: Document MM21 tiled format
-      doc: media: Document VP9 reference_mode miss-placement
-
- Documentation/admin-guide/media/imx7.rst                                                  |  2 +-
- .../devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml}         |  2 +-
- Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst                       |  7 ++++-
- Documentation/userspace-api/media/v4l/pixfmt-reserved.rst                                 | 15 +++-------
- Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst                               |  6 ++++
- MAINTAINERS                                                                               |  4 +--
- drivers/media/platform/Kconfig                                                            |  1 +
- drivers/media/platform/Makefile                                                           |  1 +
- drivers/media/platform/imx/Kconfig                                                        | 24 ++++++++++++++++
- drivers/media/platform/imx/Makefile                                                       |  1 +
- drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c}        | 67 ++++++++++++++++++++++++++++++++++++++++++---
- drivers/media/v4l2-core/v4l2-ctrls-core.c                                                 | 10 +++++++
- drivers/staging/media/imx/Makefile                                                        |  1 -
- drivers/staging/media/imx/TODO                                                            | 25 +++++++++++++++++
- drivers/staging/media/imx/imx7-media-csi.c                                                | 32 +++++++++++++++++++---
- drivers/staging/media/imx/imx8mq-mipi-csi2.c                                              |  7 +++--
- 16 files changed, 177 insertions(+), 28 deletions(-)
- rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
- create mode 100644 drivers/media/platform/imx/Kconfig
- create mode 100644 drivers/media/platform/imx/Makefile
- rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (94%)
