@@ -2,194 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6C3D4BFE38
-	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 17:13:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AFD14BFE66
+	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 17:22:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232897AbiBVQNp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Feb 2022 11:13:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40164 "EHLO
+        id S233924AbiBVQWh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Feb 2022 11:22:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230187AbiBVQNo (ORCPT
+        with ESMTP id S230429AbiBVQWg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Feb 2022 11:13:44 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B017C165C29
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 08:13:18 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4A38A61665
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 16:13:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 253F0C340EB;
-        Tue, 22 Feb 2022 16:13:16 +0000 (UTC)
-Message-ID: <1a642717-126b-f059-1983-e09248679ef4@xs4all.nl>
-Date:   Tue, 22 Feb 2022 17:13:15 +0100
+        Tue, 22 Feb 2022 11:22:36 -0500
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E933392D22
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 08:22:09 -0800 (PST)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nMXvU-00CfKv-EU; Tue, 22 Feb 2022 16:22:08 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nMXvR-009YH7-Rv; Tue, 22 Feb 2022 16:22:05 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.18] De-stage imx7-mipi-csis & some fixes (#80898)
+Date:   Tue, 22 Feb 2022 16:22:05 +0000
+Message-Id: <20220222162205.2276659-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <234e557c-69b9-b4fe-44c4-7995739cd6ed@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: Venus v4l2-compliance failures
-Content-Language: en-US
-To:     Fritz Koenig <frkoenig@chromium.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <b5c170e2-dbdf-fc08-31e2-112d2973017f@linaro.org>
- <fff5d698-99b3-3d92-5fc3-23e217554a79@xs4all.nl>
- <CAMfZQbwRc0vcbzC42bYYASc_L0Sh+MizPH-LvrURBprNTao90w@mail.gmail.com>
- <ff8c7cf1-3c96-2ba0-2c42-ad1557e7bcea@xs4all.nl>
- <CAMfZQbx6LrDqR_gT_u92TmKnegW_-G=PsvK4kjZVSgaEQeF0_Q@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <CAMfZQbx6LrDqR_gT_u92TmKnegW_-G=PsvK4kjZVSgaEQeF0_Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: builder@linuxtv.org
+
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/234e557c-69b9-b4fe-44c4-7995739cd6ed@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/185173/
+Build time: 00:20:07
+Link: https://lore.kernel.org/linux-media/234e557c-69b9-b4fe-44c4-7995739cd6ed@xs4all.nl
+
+gpg: Signature made Tue 22 Feb 2022 03:51:45 PM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Can't check signature: No public key
+
+Summary: got 3/11 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-imx-De-stage-imx7-mipi-csis.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+   checkpatch.pl:
+	$ cat patches/0001-media-imx-De-stage-imx7-mipi-csis.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:76: WARNING: please write a help paragraph that fully describes the config symbol
+	-:87: WARNING: please write a help paragraph that fully describes the config symbol
+
+patches/0002-media-imx-Rename-imx7-mipi-csis.c-to-imx-mipi-csis.c.patch:
+
+   checkpatch.pl:
+	$ cat patches/0002-media-imx-Rename-imx7-mipi-csis.c-to-imx-mipi-csis.c.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:45: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+	-:77: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+
+patches/0010-doc-media-Document-MM21-tiled-format.patch:
+
+   checkpatch.pl:
+	$ cat patches/0010-doc-media-Document-MM21-tiled-format.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:12: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
 
-On 2/22/22 17:11, Fritz Koenig wrote:
-> Hi Hans,
-> 
-> On Tue, Feb 22, 2022 at 10:50 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> Hi Fritz,
->>
->> On 2/22/22 16:10, Fritz Koenig wrote:
->>> On Thu, Feb 17, 2022 at 9:35 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>>>
->>>> On 17/02/2022 15:12, Stanimir Varbanov wrote:
->>>>> Hi Hans,
->>>>>
->>>>> Presently we have two failures while running v4l2-compliance on venus
->>>>> stateful decoder:
->>>>>
->>>>> 1. fail: v4l2-compliance.cpp(753): !ok
->>>>>         test for unlimited opens: FAIL
->>>>>
->>>>> 2. fail: v4l2-test-formats.cpp(1668): IS_DECODER(node)
->>>>>         test Cropping: FAIL
->>>>>    fail: v4l2-test-codecs.cpp(104): node->function !=
->>>>> MEDIA_ENT_F_PROC_VIDEO_DECODER
->>>>>         test VIDIOC_(TRY_)DECODER_CMD: FAIL
->>>>>
->>>>> Failure #1 is related to the limitation we made in decoder open(). The
->>>>> maximum parallel decoding sessions is limited to 16 and the check
->>>>> for this maximum is made in decoder open() because the clients wanted to
->>>>> know that earlier. For example, Chromium browser can open 16 hw
->>>>> accelerated decoder sessions (in separate Tabs) and from 17 and upward
->>>>> it will fallback to sw decoder. I wonder how that failure can be fixed.
->>>>
->>>> I'm wondering if this isn't better done via a read-only control that
->>>> reports the max number of parallel sessions.
->>>>
->>> Do you see this as a constant value?  It would be burdensome if the
->>> client had to keep track of how many contexts are in use.  Or do you
->>> see this as a number of currently available contexts?
->>
->> I haven't really thought about it. It probably depends on the HW design:
->> i.e. it might be a hard limit as per the number of instances, or more
->> of a resource (bandwidth/memory) limitation that also depends on the
->> bitrate etc. From what I gather it is a hard limit to the number of
->> instances in the case of the venus driver. So here it would be a read-only
->> control that has a constant value.
->>
-> I might be misunderstanding you here.  In my mind a constant value
-> read-only control would be difficult to use with a multiprocess
-> system.  The client would read how many contexts could be open, but
-> wouldn't be easily able to track how many are currently in use.
-> 
-> I see a control that could return the number of contexts currently in
-> use, and the maximum number available.  I think that would be
-> preferable to a control that only returns the number of currently
-> available contexts.  But maybe that is a nuance of the client or the
-> driver doing the subtraction.
+Error #512 when building PDF docs
 
-Yes, that's actually what I had in mind. A read-only control that
-reports the number of instances in use, and the maximum value (as
-returned by QUERYCTRL) would be the max number of instances.
-
-Regards,
-
-	Hans
-
-> 
-> -Fritz
-> 
->>>
->>>> I really hate artificial open() limitations, it's very much against the
->>>> v4l2 philosophy.
->>>>
->>> From a client stand point it just seems like extra round trips.
->>> Everytime the device is opened another call needs to be made right
->>> away to check and see if there are resources available.
->>>
->>> If that's the philosophy, the client can adapt.  If the control was
->>> queried and it returned 0 for the number of available contexts, then
->>> the handle could be closed and then a sw codec could be used instead.
->>>
->>>> Reporting it with a standard control makes it also much easier for software
->>>> to anticipate when it needs to switch to SW en/decoding.
->>>>
->>> I think you are talking about the codec controls[1], correct? I didn't
->>> see an existing control present that would report the number of
->>> currently open contexts and/or the number of maximum contexts.
->>
->> Yes, this would be a new codec control.
->>
->> Regards,
->>
->>         Hans
->>
->>>
->>> [1]: https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-codec.html
->>>>>
->>>>>
->>>>> Failure #2 is related to a commit [1] which add checks for
->>>>> MEDIA_ENT_F_PROC_VIDEO_ENCODER, I think this entity flag is applicable
->>>>> for stateless encoders (Request API) but Venus driver has no use of
->>>>> media-controller API. Did I miss something?
->>>>
->>>> For item 2, can you try the patch below?
->>>>
->>>> Regards,
->>>>
->>>>         Hans
->>>>
->>>> -----------------------------------------------------------------------
->>>>
->>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>>> ---
->>>> diff --git a/utils/v4l2-compliance/v4l2-test-codecs.cpp b/utils/v4l2-compliance/v4l2-test-codecs.cpp
->>>> index 22175eef..3f06070f 100644
->>>> --- a/utils/v4l2-compliance/v4l2-test-codecs.cpp
->>>> +++ b/utils/v4l2-compliance/v4l2-test-codecs.cpp
->>>> @@ -29,9 +29,10 @@ int testEncoder(struct node *node)
->>>>  {
->>>>         struct v4l2_encoder_cmd cmd;
->>>>         bool is_encoder = node->codec_mask & (STATEFUL_ENCODER | JPEG_ENCODER);
->>>> +       bool is_stateless_encoder = node->codec_mask & STATELESS_ENCODER;
->>>>         int ret;
->>>>
->>>> -       if (IS_ENCODER(node))
->>>> +       if (is_stateless_encoder)
->>>>                 fail_on_test(node->function != MEDIA_ENT_F_PROC_VIDEO_ENCODER);
->>>>         memset(&cmd, 0xff, sizeof(cmd));
->>>>         memset(&cmd.raw, 0, sizeof(cmd.raw));
->>>> @@ -98,9 +99,10 @@ int testDecoder(struct node *node)
->>>>  {
->>>>         struct v4l2_decoder_cmd cmd;
->>>>         bool is_decoder = node->codec_mask & (STATEFUL_DECODER | JPEG_DECODER);
->>>> +       bool is_stateless_decoder = node->codec_mask & STATELESS_DECODER;
->>>>         int ret;
->>>>
->>>> -       if (IS_DECODER(node))
->>>> +       if (is_stateless_decoder)
->>>>                 fail_on_test(node->function != MEDIA_ENT_F_PROC_VIDEO_DECODER);
->>>>         memset(&cmd, 0xff, sizeof(cmd));
->>>>         memset(&cmd.raw, 0, sizeof(cmd.raw));
