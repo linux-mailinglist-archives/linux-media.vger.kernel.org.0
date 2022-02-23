@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52A364C1079
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 11:41:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9012A4C107B
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 11:41:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239661AbiBWKlf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 05:41:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52384 "EHLO
+        id S239665AbiBWKlm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 05:41:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239653AbiBWKlf (ORCPT
+        with ESMTP id S239653AbiBWKlk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 05:41:35 -0500
+        Wed, 23 Feb 2022 05:41:40 -0500
 Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98D743A19F
-        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 02:41:07 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4FB939BA3
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 02:41:11 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id A8925240002;
-        Wed, 23 Feb 2022 10:41:02 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id A0471240011;
+        Wed, 23 Feb 2022 10:41:06 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Steve Longerbeam <slongerbeam@gmail.com>
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
@@ -30,9 +30,9 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         paul.elder@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: [PATCH v3 05/27] media: ov5640: Add LINK_FREQ control
-Date:   Wed, 23 Feb 2022 11:40:12 +0100
-Message-Id: <20220223104034.91550-6-jacopo@jmondi.org>
+Subject: [PATCH v3 06/27] media: ov5640: Update pixel_rate and link_freq
+Date:   Wed, 23 Feb 2022 11:40:13 +0100
+Message-Id: <20220223104034.91550-7-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220223104034.91550-1-jacopo@jmondi.org>
 References: <20220223104034.91550-1-jacopo@jmondi.org>
@@ -47,73 +47,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the V4L2_CID_LINK_FREQ control to the ov5640 driver.
-Make the control read-only for the moment.
+After having set a new format re-calculate the pixel_rate and link_freq
+control values and update them when in MIPI mode.
+
+Take into account the limitation of the link frequency having to be
+strictly smaller than 1GHz when computing the desired link_freq, and
+adjust the resulting pixel_rate acounting for the clock tree
+configuration.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5640.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ drivers/media/i2c/ov5640.c | 66 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 64 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 6ceca55e2d9d..b1a282f453e3 100644
+index b1a282f453e3..17ad815f7bdf 100644
 --- a/drivers/media/i2c/ov5640.c
 +++ b/drivers/media/i2c/ov5640.c
-@@ -141,6 +141,24 @@ static const u32 ov5640_pixel_rates[] = {
- 	[OV5640_PIXEL_RATE_48M] = 48000000,
- };
+@@ -31,6 +31,8 @@
  
-+/*
-+ * MIPI CSI-2 link frequencies.
-+ *
-+ * Derived from the above defined pixel rate for bpp = (8, 16, 24) and
-+ * data_lanes = (1, 2)
-+ *
-+ * link_freq = (pixel_rate * bpp) / (2 * data_lanes)
-+ */
-+static const s64 ov5640_csi2_link_freqs[] = {
-+	992000000, 888000000, 768000000, 744000000, 672000000, 672000000,
-+	592000000, 592000000, 576000000, 576000000, 496000000, 496000000,
-+	384000000, 384000000, 384000000, 336000000, 296000000, 288000000,
-+	248000000, 192000000, 192000000, 192000000, 96000000,
-+};
+ #define OV5640_DEFAULT_SLAVE_ID 0x3c
+ 
++#define OV5640_LINK_RATE_MAX		490000000U
 +
-+/* Link freq for default mode: UYVY 16 bpp, 2 data lanes. */
-+#define OV5640_DEFAULT_LINK_FREQ	13
+ #define OV5640_REG_SYS_RESET02		0x3002
+ #define OV5640_REG_SYS_CLOCK_ENABLE02	0x3006
+ #define OV5640_REG_SYS_CTRL0		0x3008
+@@ -2412,6 +2414,66 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
+ 	return 0;
+ }
+ 
++static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
++{
++	const struct ov5640_mode_info *mode = sensor->current_mode;
++	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
++	enum ov5640_pixel_rate_id pixel_rate_id = mode->pixel_rate;
++	unsigned int i = 0;
++	u32 pixel_rate;
++	s64 link_freq;
++	u32 num_lanes;
++	u32 bpp;
 +
- enum ov5640_format_mux {
- 	OV5640_FMT_MUX_YUV422 = 0,
- 	OV5640_FMT_MUX_RGB,
-@@ -270,6 +288,7 @@ struct ov5640_mode_info {
- struct ov5640_ctrls {
- 	struct v4l2_ctrl_handler handler;
- 	struct v4l2_ctrl *pixel_rate;
-+	struct v4l2_ctrl *link_freq;
- 	struct {
- 		struct v4l2_ctrl *auto_exp;
- 		struct v4l2_ctrl *exposure;
-@@ -2867,6 +2886,12 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
- 				      ov5640_pixel_rates[0], 1,
- 				      ov5640_pixel_rates[mode->pixel_rate]);
- 
-+	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops,
-+					V4L2_CID_LINK_FREQ,
-+					ARRAY_SIZE(ov5640_csi2_link_freqs) - 1,
-+					OV5640_DEFAULT_LINK_FREQ,
-+					ov5640_csi2_link_freqs);
++	/*
++	 * Update the pixel rate control value.
++	 *
++	 * For DVP mode, maintain the pixel rate calculation using fixed FPS.
++	 */
++	if (!ov5640_is_csi2(sensor)) {
++		__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
++					 ov5640_calc_pixel_rate(sensor));
 +
- 	/* Auto/manual white balance */
- 	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
- 					   V4L2_CID_AUTO_WHITE_BALANCE,
-@@ -2915,6 +2940,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
- 	}
++		return 0;
++	}
++
++	/*
++	 * The MIPI CSI-2 link frequency should comply with the CSI-2
++	 * specification and be lower than 1GHz.
++	 *
++	 * Start from the suggested pixel_rate for the current mode and
++	 * progressively slow it down if it exceeds 1GHz.
++	 */
++	num_lanes = sensor->ep.bus.mipi_csi2.num_data_lanes;
++	bpp = ov5640_code_to_bpp(fmt->code);
++	do {
++		pixel_rate = ov5640_pixel_rates[pixel_rate_id];
++		link_freq = pixel_rate * bpp / (2 * num_lanes);
++	} while (link_freq >= 1000000000U &&
++		 ++pixel_rate_id < OV5640_NUM_PIXEL_RATES);
++
++	/*
++	 * Higher link rates require the clock tree to be programmed with
++	 * 'mipi_div' = 1; this has the effect of halving the actual output
++	 * pixel rate in the MIPI domain.
++	 *
++	 * Adjust the pixel rate control value to report it correctly to
++	 * userspace.
++	 */
++	if (link_freq > OV5640_LINK_RATE_MAX)
++		pixel_rate /= 2;
++
++	for (i = 0; i < ARRAY_SIZE(ov5640_csi2_link_freqs); ++i) {
++		if (ov5640_csi2_link_freqs[i] == link_freq)
++			break;
++	}
++
++	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate, pixel_rate);
++	__v4l2_ctrl_s_ctrl(sensor->ctrls.link_freq, i);
++
++	return 0;
++}
++
+ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+ 			  struct v4l2_subdev_state *sd_state,
+ 			  struct v4l2_subdev_format *format)
+@@ -2451,8 +2513,8 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+ 	/* update format even if code is unchanged, resolution might change */
+ 	sensor->fmt = *mbus_fmt;
  
- 	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 	ctrls->gain->flags |= V4L2_CTRL_FLAG_VOLATILE;
- 	ctrls->exposure->flags |= V4L2_CTRL_FLAG_VOLATILE;
- 
+-	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
+-				 ov5640_calc_pixel_rate(sensor));
++	ov5640_update_pixel_rate(sensor);
++
+ out:
+ 	mutex_unlock(&sensor->lock);
+ 	return ret;
 -- 
 2.35.0
 
