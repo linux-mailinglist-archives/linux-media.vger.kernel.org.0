@@ -2,115 +2,347 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EA614C153F
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 15:18:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ABB74C154C
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 15:22:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241485AbiBWOSw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 09:18:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38338 "EHLO
+        id S241525AbiBWOWz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 09:22:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234631AbiBWOSv (ORCPT
+        with ESMTP id S241512AbiBWOWx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 09:18:51 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ED66B0D0D;
-        Wed, 23 Feb 2022 06:18:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645625904; x=1677161904;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=crq1RQf8JYsNnbTFUCounwd1wHEYciMzKMAUGyE7U0E=;
-  b=nOam0reJjskYH6zRei5Ip4EGifKszNTAJXCBily/TCgZdd2CdipzgDed
-   ZlZEr6BNAXaC75gN1m8cei/yU8DPHJbLe/mOzmg279G/20CPRfYDQ+Cyh
-   3XkXJ6Pj0jOn0fR1ubtoU6AM55b0CIe3V8kZ8iRNXkJpKYwJ3pqAt1smd
-   Fdy1XMnbsRo6ew5XrlrfjOPgcJrL0eEmBiVwf976usNOTnRFhyz7Nvrs0
-   V0viGlZOuWs/GPxmzuN9p8eIMpDolLYDK9EActvYQ6HpZ90LbQi9alWyY
-   nZnzmPjQFcMfaSO0KYd7OgSxwMTTgcvcyTZ6v+8KkSY7LTBcGRAzdIp1n
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="276591593"
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; 
-   d="scan'208";a="276591593"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 06:18:24 -0800
-X-IronPort-AV: E=Sophos;i="5.88,391,1635231600"; 
-   d="scan'208";a="548266192"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2022 06:18:21 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id E6E1C201C2;
-        Wed, 23 Feb 2022 16:18:18 +0200 (EET)
-Date:   Wed, 23 Feb 2022 16:18:18 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Michael Tretter <m.tretter@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
+        Wed, 23 Feb 2022 09:22:53 -0500
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D72DB1892
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 06:22:24 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id D3B41200014;
+        Wed, 23 Feb 2022 14:22:19 +0000 (UTC)
+Date:   Wed, 23 Feb 2022 15:22:17 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
+        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
+        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
+        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        aford173@gmail.com, festevam@gmail.com,
+        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
+        paul.elder@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        p.zabel@pengutronix.de, Ian Arkver <ian.arkver.dev@gmail.com>,
-        kernel@pengutronix.de, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v10 2/2] media: i2c: isl7998x: Add driver for Intersil
- ISL7998x
-Message-ID: <YhZCKsiUgyh3HodU@paasikivi.fi.intel.com>
-References: <20220217154407.2892822-1-m.tretter@pengutronix.de>
- <20220217154407.2892822-3-m.tretter@pengutronix.de>
- <2a2038bc-9f84-c451-deb3-1e807ac2f0d3@xs4all.nl>
- <YhYlnEBAh0QtRXZ0@paasikivi.fi.intel.com>
- <YhYuogHaHuyVPd2C@paasikivi.fi.intel.com>
- <2c0b387c-d636-bc0c-74b1-f1eba3d89254@xs4all.nl>
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 26/27] media: ov5640: Split DVP and CSI-2 formats
+Message-ID: <20220223142217.ckugvyrghkywkmzs@uno.localdomain>
+References: <20220223104034.91550-1-jacopo@jmondi.org>
+ <20220223104034.91550-27-jacopo@jmondi.org>
+ <YhYl2g59uNhlZLMO@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2c0b387c-d636-bc0c-74b1-f1eba3d89254@xs4all.nl>
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <YhYl2g59uNhlZLMO@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 23, 2022 at 02:04:48PM +0100, Hans Verkuil wrote:
-> On 2/23/22 13:54, Sakari Ailus wrote:
-> > Hi Hans, Michael,
-> > 
-> > On Wed, Feb 23, 2022 at 02:16:28PM +0200, Sakari Ailus wrote:
-> >>>> +static int isl7998x_pre_streamon(struct v4l2_subdev *sd, u32 flags)
-> >>>> +{
-> >>>> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> >>>> +	struct device *dev = &client->dev;
-> >>>> +
-> >>>> +	if (flags & V4L2_SUBDEV_PRE_STREAMON_FL_MANUAL_LP)
-> >>>> +		return pm_runtime_resume_and_get(dev);
-> >>>> +
-> >>>> +	return 0;
-> >>>
-> >>> This feels a bit scary: if V4L2_SUBDEV_PRE_STREAMON_FL_MANUAL_LP is NOT
-> >>> set, then pm_runtime_resume_and_get() isn't called, but this function
-> >>> still returns success...
-> >>
-> >> Good find.
-> >>
-> >> pm_runtime_resume_and_get() need to be called unconditionally.
-> >>
-> >> Alternatively, store what was done here, and put the PM use count
-> >> accordingly below. But I see no reason to do that.
-> > 
-> > But I think the driver is otherwise good to go.
-> > 
-> > Unless there are objections, I'll drop the check in the pre_streamon()
-> > callback and apply it into my tree.
-> > 
-> 
-> OK, with that change you can add my:
-> 
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> 
-> to this patch. I'll delegate the series to you in patchwork.
+Hi Laurent
 
-Thanks!
+On Wed, Feb 23, 2022 at 02:17:30PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Wed, Feb 23, 2022 at 11:40:33AM +0100, Jacopo Mondi wrote:
+> > The format enumeration list is shared between CSI-2 and DVP modes.
+> > This lead to the enumeration of unsupported format variants in both
+> > modes.
+> >
+> > Separate the list of DVP and CSI-2 formats and create helpers to access
+> > the correct one.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  drivers/media/i2c/ov5640.c | 125 +++++++++++++++++++++++++------------
+> >  1 file changed, 86 insertions(+), 39 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> > index a709e7f73364..f35006bcea3a 100644
+> > --- a/drivers/media/i2c/ov5640.c
+> > +++ b/drivers/media/i2c/ov5640.c
+> > @@ -188,11 +188,13 @@ enum ov5640_format_mux {
+> >  	OV5640_FMT_MUX_RAW_CIP,
+> >  };
+> >
+> > -static const struct ov5640_pixfmt {
+> > +struct ov5640_pixfmt {
+> >  	u32 code;
+> >  	u32 colorspace;
+> >  	u8 bpp;
+> > -} ov5640_formats[] = {
+> > +};
+> > +
+> > +static const struct ov5640_pixfmt ov5640_dvp_formats[] = {
+> >  	{
+> >  		.code = MEDIA_BUS_FMT_JPEG_1X8,
+> >  		.colorspace = V4L2_COLORSPACE_JPEG,
+> > @@ -202,23 +204,48 @@ static const struct ov5640_pixfmt {
+> >  		.colorspace = V4L2_COLORSPACE_SRGB,
+> >  		.bpp = 16,
+> >  	}, {
+> > -		.code = MEDIA_BUS_FMT_UYVY8_1X16,
+> > +		.code = MEDIA_BUS_FMT_YUYV8_2X8,
+> >  		.colorspace = V4L2_COLORSPACE_SRGB,
+> >  		.bpp = 16,
+> >  	}, {
+> > -		.code = MEDIA_BUS_FMT_YUYV8_2X8,
+> > +		.code = MEDIA_BUS_FMT_RGB565_2X8_LE,
+> >  		.colorspace = V4L2_COLORSPACE_SRGB,
+> >  		.bpp = 16,
+> >  	}, {
+> > -		.code = MEDIA_BUS_FMT_YUYV8_1X16,
+> > +		.code = MEDIA_BUS_FMT_RGB565_2X8_BE,
+> >  		.colorspace = V4L2_COLORSPACE_SRGB,
+> >  		.bpp = 16,
+> >  	}, {
+> > -		.code = MEDIA_BUS_FMT_RGB565_2X8_LE,
+> > +		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> >  		.colorspace = V4L2_COLORSPACE_SRGB,
+> > +		.bpp = 8,
+> > +	}, {
+> > +		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
+> > +		.colorspace = V4L2_COLORSPACE_SRGB,
+> > +		.bpp = 8
+> > +	}, {
+> > +		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
+> > +		.colorspace = V4L2_COLORSPACE_SRGB,
+> > +		.bpp = 8,
+> > +	}, {
+> > +		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
+> > +		.colorspace = V4L2_COLORSPACE_SRGB,
+> > +		.bpp = 8,
+> > +	},
+> > +	{ /* sentinel */ }
+> > +};
+> > +
+> > +static const struct ov5640_pixfmt ov5640_csi2_formats[] = {
+> > +	{
+> > +		.code = MEDIA_BUS_FMT_JPEG_1X8,
+> > +		.colorspace = V4L2_COLORSPACE_JPEG,
+> >  		.bpp = 16,
+> >  	}, {
+> > -		.code = MEDIA_BUS_FMT_RGB565_2X8_BE,
+> > +		.code = MEDIA_BUS_FMT_UYVY8_1X16,
+> > +		.colorspace = V4L2_COLORSPACE_SRGB,
+> > +		.bpp = 16,
+> > +	}, {
+> > +		.code = MEDIA_BUS_FMT_YUYV8_1X16,
+> >  		.colorspace = V4L2_COLORSPACE_SRGB,
+> >  		.bpp = 16,
+> >  	}, {
+> > @@ -246,20 +273,9 @@ static const struct ov5640_pixfmt {
+> >  		.colorspace = V4L2_COLORSPACE_SRGB,
+> >  		.bpp = 8,
+> >  	},
+> > +	{ /* sentinel */ }
+> >  };
+> >
+> > -static u32 ov5640_code_to_bpp(u32 code)
+> > -{
+> > -	unsigned int i;
+> > -
+> > -	for (i = 0; i < ARRAY_SIZE(ov5640_formats); ++i) {
+> > -		if (ov5640_formats[i].code == code)
+> > -			return ov5640_formats[i].bpp;
+> > -	}
+> > -
+> > -	return 0;
+> > -}
+> > -
+> >  /*
+> >   * FIXME: remove this when a subdev API becomes available
+> >   * to set the MIPI CSI-2 virtual channel.
+> > @@ -408,6 +424,33 @@ static inline bool ov5640_is_csi2(const struct ov5640_dev *sensor)
+> >  	return sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY;
+> >  }
+> >
+> > +static inline const struct ov5640_pixfmt *ov5640_formats(struct ov5640_dev *sensor)
+> > +{
+> > +	return ov5640_is_csi2(sensor) ? ov5640_csi2_formats : ov5640_dvp_formats;
+> > +}
+> > +
+> > +static const struct ov5640_pixfmt *ov5640_code_to_pixfmt(struct ov5640_dev *sensor,
+> > +							 u32 code)
+> > +{
+> > +	const struct ov5640_pixfmt *formats = ov5640_formats(sensor);
+> > +	unsigned int i = 0;
+> > +
+> > +	while (formats[i].code) {
+>
+> 	for (i = 0; formats[i].code; ++i) {
+>
+> > +		if (formats[i].code == code)
+> > +			return &formats[i];
+> > +		++i;
+>
+> and drop this one.
+>
+> > +	}
+> > +
+> > +	return &formats[0];
+> > +}
+> > +
+> > +static u32 ov5640_code_to_bpp(struct ov5640_dev *sensor, u32 code)
+> > +{
+> > +	const struct ov5640_pixfmt *format = ov5640_code_to_pixfmt(sensor, code);
+> > +
+> > +	return format->bpp;
+> > +}
+> > +
+> >  /*
+> >   * FIXME: all of these register tables are likely filled with
+> >   * entries that set the register to their power-on default values,
+> > @@ -1391,7 +1434,7 @@ static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor)
+> >  	 * (0x01=0.5ns).
+> >  	 */
+> >  	sample_rate = ov5640_pixel_rates[sensor->current_mode->pixel_rate]
+> > -		    * (ov5640_code_to_bpp(fmt->code) / 8);
+> > +		    * (ov5640_code_to_bpp(sensor, fmt->code) / 8);
+> >  	pclk_period = 2000000000U / sample_rate;
+> >
+> >  	/* Program the clock tree registers. */
+> > @@ -1456,7 +1499,7 @@ static int ov5640_set_dvp_pclk(struct ov5640_dev *sensor)
+> >  	int ret;
+> >
+> >  	rate = ov5640_calc_pixel_rate(sensor);
+> > -	rate *= ov5640_code_to_bpp(sensor->fmt.code);
+> > +	rate *= ov5640_code_to_bpp(sensor, sensor->fmt.code);
+> >  	rate /= sensor->ep.bus.parallel.bus_width;
+> >
+> >  	ov5640_calc_pclk(sensor, rate, &prediv, &mult, &sysdiv, &pll_rdiv,
+> > @@ -2690,15 +2733,18 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
+> >  				   enum ov5640_frame_rate fr,
+> >  				   const struct ov5640_mode_info **new_mode)
+> >  {
+> > -	unsigned int bpp = ov5640_code_to_bpp(fmt->code);
+> >  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> >  	const struct ov5640_mode_info *mode;
+> > -	int i;
+> > +	const struct ov5640_pixfmt *pixfmt;
+> > +	unsigned int bpp;
+> >
+> >  	mode = ov5640_find_mode(sensor, fr, fmt->width, fmt->height, true);
+> >  	if (!mode)
+> >  		return -EINVAL;
+> >
+> > +	pixfmt = ov5640_code_to_pixfmt(sensor, fmt->code);
+> > +	bpp = pixfmt->bpp;
+> > +
+> >  	/*
+> >  	 * Adjust mode according to bpp:
+> >  	 * - 8bpp modes work for resolution >= 1280x720
+> > @@ -2715,14 +2761,8 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
+> >  	if (new_mode)
+> >  		*new_mode = mode;
+> >
+> > -	for (i = 0; i < ARRAY_SIZE(ov5640_formats); i++)
+> > -		if (ov5640_formats[i].code == fmt->code)
+> > -			break;
+> > -	if (i >= ARRAY_SIZE(ov5640_formats))
+> > -		i = 0;
+> > -
+> > -	fmt->code = ov5640_formats[i].code;
+> > -	fmt->colorspace = ov5640_formats[i].colorspace;
+> > +	fmt->code = pixfmt->code;
+> > +	fmt->colorspace = pixfmt->colorspace;
+> >  	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
+> >  	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> >  	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
+> > @@ -2764,7 +2804,7 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
+> >  	 * progressively slow it down if it exceeds 1GHz.
+> >  	 */
+> >  	num_lanes = sensor->ep.bus.mipi_csi2.num_data_lanes;
+> > -	bpp = ov5640_code_to_bpp(fmt->code);
+> > +	bpp = ov5640_code_to_bpp(sensor, fmt->code);
+> >  	do {
+> >  		pixel_rate = ov5640_pixel_rates[pixel_rate_id];
+> >  		link_freq = pixel_rate * bpp / (2 * num_lanes);
+> > @@ -3462,7 +3502,8 @@ static int ov5640_enum_frame_size(struct v4l2_subdev *sd,
+> >  				  struct v4l2_subdev_state *sd_state,
+> >  				  struct v4l2_subdev_frame_size_enum *fse)
+> >  {
+> > -	u32 bpp = ov5640_code_to_bpp(fse->code);
+> > +	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> > +	u32 bpp = ov5640_code_to_bpp(sensor, fse->code);
+> >  	unsigned int index = fse->index;
+> >
+> >  	if (fse->pad != 0)
+> > @@ -3589,13 +3630,19 @@ static int ov5640_enum_mbus_code(struct v4l2_subdev *sd,
+> >  				 struct v4l2_subdev_state *sd_state,
+> >  				 struct v4l2_subdev_mbus_code_enum *code)
+> >  {
+> > -	if (code->pad != 0)
+> > -		return -EINVAL;
+>
+> You've lost this check.
+>
 
--- 
-Sakari Ailus
+The driver has a single pad, doesn't core verify that the pad argument
+is valid ?
+
+> > -	if (code->index >= ARRAY_SIZE(ov5640_formats))
+> > -		return -EINVAL;
+> > +	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> > +	const struct ov5640_pixfmt *formats = ov5640_formats(sensor);
+> > +	unsigned int i = 0;
+> >
+> > -	code->code = ov5640_formats[code->index].code;
+> > -	return 0;
+> > +	while (formats[i].code) {
+> > +		if (i == code->index) {
+> > +			code->code = formats[i].code;
+> > +			return 0;
+> > +		}
+> > +		++i;
+> > +	}
+> > +
+> > +	return -EINVAL;
+>
+> That's quite inefficient.
+>
+> 	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> 	const struct ov5640_pixfmt *formats;
+> 	unsigned int num_formats;
+>
+> 	if (ov5640_is_csi2(sensor)) {
+> 		formats = ov5640_csi2_formats;
+> 		num_formats = ARRAY_SIZE(ov5640_csi2_formats) - 1;
+> 	} else {
+> 		formats = ov5640_dvp_formats;
+> 		num_formats = ARRAY_SIZE(ov5640_dvp_formats) - 1;
+> 	}
+>
+> 	if (code->pad != 0 || code->index >= num_formats)
+> 		return -EINVAL;
+>
+> 	code->code = formats[code->index].code;
+> 	return 0;
+
+ack
+
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks
+
+>
+> >  }
+> >
+> >  static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
