@@ -2,41 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E31234C0E43
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 09:30:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C11654C0E7E
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 09:50:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236583AbiBWIbL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 03:31:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41418 "EHLO
+        id S239065AbiBWIuv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 03:50:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234121AbiBWIbL (ORCPT
+        with ESMTP id S239063AbiBWIur (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 03:31:11 -0500
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59AEC5C877
-        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 00:30:43 -0800 (PST)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nMn2n-00DXDj-F2; Wed, 23 Feb 2022 08:30:41 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nMn2l-00CRVN-CP; Wed, 23 Feb 2022 08:30:39 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.18] v2: De-stage imx7-mipi-csis & some fixes (#80922)
-Date:   Wed, 23 Feb 2022 08:30:38 +0000
-Message-Id: <20220223083038.2965619-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <14aa10ce-8a6c-67b2-2129-96c8fd939000@xs4all.nl>
-References: 
+        Wed, 23 Feb 2022 03:50:47 -0500
+X-Greylist: delayed 357 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 23 Feb 2022 00:50:17 PST
+Received: from mail.olerise.pl (mail.olerise.pl [46.183.184.59])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4913979C70
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 00:50:17 -0800 (PST)
+Received: by mail.olerise.pl (Postfix, from userid 1001)
+        id 2722842D8C; Wed, 23 Feb 2022 09:41:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
+        t=1645605741; bh=ZNYiuZLXlxCdAPtstEG/gwJieB5RBwA/cHj1SZ3Mpl0=;
+        h=Date:From:To:Subject:From;
+        b=Yp2NJraaWqwxobSlEv2Y0cWOi3DtQfOUrfZ+z9cOSWpy0WiXLrKokrNMtTv1VYhRi
+         EaeXbJuMSawn7VuBykALb4l7zR13/s2zCPt9iz34AlBTHsG3woK1EkHGIQOiHAUrO3
+         VHC7uoJEA44GCZZ+kSIgM6gq2zwcrT6E+eQNrr59GM4wti5PBV9qHUdk65iOYz6ZXF
+         VhhWxXDS8AqUaiKeE/Xa9seTAQ9ERdW/FEYXy27z6ISwjU9VJRvJTM3uQfU4n9VPnL
+         W8nIF/AYX66shNbH0K8B+we2mgUzgHVbPnyOp0vzcJpxMVuw+5zUF84glvKkveOTkI
+         /fXesH31I8z/Q==
+Received: by mail.olerise.pl for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 08:40:28 GMT
+Message-ID: <20220223084500-0.1.1x.fht6.0.x54510le40@olerise.pl>
+Date:   Wed, 23 Feb 2022 08:40:28 GMT
+From:   =?UTF-8?Q? "Miko=C5=82aj_Rudzik" ?= <mikolaj.rudzik@olerise.pl>
+To:     <linux-media@vger.kernel.org>
+Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
+X-Mailer: mail.olerise.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -44,55 +46,18 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Dzie=C5=84 dobry,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/14aa10ce-8a6c-67b2-2129-96c8fd939000@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/185362/
-Build time: 00:23:01
-Link: https://lore.kernel.org/linux-media/14aa10ce-8a6c-67b2-2129-96c8fd939000@xs4all.nl
+chcia=C5=82bym poinformowa=C4=87 Pa=C5=84stwa o mo=C5=BCliwo=C5=9Bci pozy=
+skania nowych zlece=C5=84 ze strony www.
 
-gpg: Signature made Wed 23 Feb 2022 07:53:42 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Can't check signature: No public key
+Widzimy zainteresowanie potencjalnych Klient=C3=B3w Pa=C5=84stwa firm=C4=85=
+, dlatego ch=C4=99tnie pomo=C5=BCemy Pa=C5=84stwu dotrze=C4=87 z ofert=C4=
+=85 do wi=C4=99kszego grona odbiorc=C3=B3w poprzez efektywne metody pozyc=
+jonowania strony w Google.
 
-Summary: got 3/14 patches with issues, being 1 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-imx-De-stage-imx7-mipi-csis.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-
-   checkpatch.pl:
-	$ cat patches/0001-media-imx-De-stage-imx7-mipi-csis.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:76: WARNING: please write a help paragraph that fully describes the config symbol
-	-:87: WARNING: please write a help paragraph that fully describes the config symbol
-
-patches/0002-media-imx-Rename-imx7-mipi-csis.c-to-imx-mipi-csis.c.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-media-imx-Rename-imx7-mipi-csis.c-to-imx-mipi-csis.c.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:45: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-	-:77: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
-
-patches/0010-doc-media-Document-MM21-tiled-format.patch:
-
-   checkpatch.pl:
-	$ cat patches/0010-doc-media-Document-MM21-tiled-format.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:12: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+Czy m=C3=B3g=C5=82bym liczy=C4=87 na kontakt zwrotny?
 
 
-Error #512 when building PDF docs
-
+Pozdrawiam
+Miko=C5=82aj Rudzik
