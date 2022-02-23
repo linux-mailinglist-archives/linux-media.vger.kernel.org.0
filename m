@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3133B4C1093
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 11:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA2004C1092
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 11:44:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239699AbiBWKoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 05:44:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54962 "EHLO
+        id S239694AbiBWKoW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 05:44:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239598AbiBWKoS (ORCPT
+        with ESMTP id S239701AbiBWKoW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 05:44:18 -0500
+        Wed, 23 Feb 2022 05:44:22 -0500
 Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B51455E77B
-        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 02:43:51 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7E116E8E9
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 02:43:54 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 9DF5B40005;
-        Wed, 23 Feb 2022 10:43:47 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id AC64A4000E;
+        Wed, 23 Feb 2022 10:43:50 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Steve Longerbeam <slongerbeam@gmail.com>
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
@@ -30,9 +30,9 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         paul.elder@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: [PATCH v3 15/27] media: ov5640: Add HBLANK control
-Date:   Wed, 23 Feb 2022 11:40:22 +0100
-Message-Id: <20220223104034.91550-16-jacopo@jmondi.org>
+Subject: [PATCH v3 16/27] media: ov5640: Add VBLANK control
+Date:   Wed, 23 Feb 2022 11:40:23 +0100
+Message-Id: <20220223104034.91550-17-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220223104034.91550-1-jacopo@jmondi.org>
 References: <20220223104034.91550-1-jacopo@jmondi.org>
@@ -47,79 +47,146 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the HBLANK control as read-only.
+Add the VBLANK control which allows to select the duration of the
+frame vertical blankings and allows to control the framerate.
 
-The hblank value is fixed in the mode definition and is updated
-everytime a new format is applied.
+The VBLANK control also modifies the exposure time range, which cannot
+exceed the maximum frame length.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5640.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/media/i2c/ov5640.c | 57 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
 diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index d715801589ae..484a21f57fa7 100644
+index 484a21f57fa7..faef8f7101c0 100644
 --- a/drivers/media/i2c/ov5640.c
 +++ b/drivers/media/i2c/ov5640.c
-@@ -320,6 +320,7 @@ struct ov5640_ctrls {
- 	struct v4l2_ctrl_handler handler;
+@@ -36,6 +36,10 @@
+ #define OV5640_PIXEL_ARRAY_WIDTH	2592
+ #define OV5640_PIXEL_ARRAY_HEIGHT	1944
+ 
++/* FIXME: not documented. */
++#define OV5640_MIN_VBLANK	24
++#define OV5640_MAX_VTS		1968
++
+ #define OV5640_DEFAULT_SLAVE_ID 0x3c
+ 
+ #define OV5640_LINK_RATE_MAX		490000000U
+@@ -321,6 +325,7 @@ struct ov5640_ctrls {
  	struct v4l2_ctrl *pixel_rate;
  	struct v4l2_ctrl *link_freq;
-+	struct v4l2_ctrl *hblank;
+ 	struct v4l2_ctrl *hblank;
++	struct v4l2_ctrl *vblank;
  	struct {
  		struct v4l2_ctrl *auto_exp;
  		struct v4l2_ctrl *exposure;
-@@ -2692,6 +2693,8 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
- 	const struct ov5640_mode_info *mode = sensor->current_mode;
+@@ -2694,6 +2699,7 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
  	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
  	enum ov5640_pixel_rate_id pixel_rate_id = mode->pixel_rate;
-+	const struct ov5640_timings *timings;
-+	unsigned int hblank;
+ 	const struct ov5640_timings *timings;
++	s64 exposure_val, exposure_max;
+ 	unsigned int hblank;
  	unsigned int i = 0;
  	u32 pixel_rate;
- 	s64 link_freq;
-@@ -2744,6 +2747,11 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
- 	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate, pixel_rate);
- 	__v4l2_ctrl_s_ctrl(sensor->ctrls.link_freq, i);
+@@ -2752,6 +2758,20 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
+ 	__v4l2_ctrl_modify_range(sensor->ctrls.hblank,
+ 				 hblank, hblank, 1, hblank);
  
-+	timings = ov5640_timings(sensor, mode);
-+	hblank = timings->htot - mode->width;
-+	__v4l2_ctrl_modify_range(sensor->ctrls.hblank,
-+				 hblank, hblank, 1, hblank);
++	__v4l2_ctrl_modify_range(sensor->ctrls.vblank,
++				 OV5640_MIN_VBLANK,
++				 OV5640_MAX_VTS - mode->height, 1,
++				 timings->vblank_def);
++	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, timings->vblank_def);
++
++	exposure_max = timings->crop.height + timings->vblank_def - 4;
++	exposure_val = clamp((s64)sensor->ctrls.exposure->val,
++			     (s64)sensor->ctrls.exposure->minimum,
++			     (s64)exposure_max);
++	__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
++				 sensor->ctrls.exposure->minimum,
++				 exposure_max, 1, exposure_val);
 +
  	return 0;
  }
  
-@@ -3208,6 +3216,8 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
- 	const struct v4l2_ctrl_ops *ops = &ov5640_ctrl_ops;
- 	struct ov5640_ctrls *ctrls = &sensor->ctrls;
- 	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
+@@ -3124,6 +3144,15 @@ static int ov5640_set_ctrl_vflip(struct ov5640_dev *sensor, int value)
+ 			      (BIT(2) | BIT(1)) : 0);
+ }
+ 
++static int ov5640_set_ctrl_vblank(struct ov5640_dev *sensor, int value)
++{
++	const struct ov5640_mode_info *mode = sensor->current_mode;
++
++	/* Update the VTOT timing register value. */
++	return ov5640_write_reg16(sensor, OV5640_REG_TIMING_VTS,
++				  mode->height + value);
++}
++
+ static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+@@ -3154,10 +3183,29 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+ 	struct ov5640_dev *sensor = to_ov5640_dev(sd);
++	const struct ov5640_mode_info *mode = sensor->current_mode;
 +	const struct ov5640_timings *timings;
-+	unsigned int hblank;
++	unsigned int exp_max;
  	int ret;
  
- 	v4l2_ctrl_handler_init(hdl, 32);
-@@ -3227,6 +3237,11 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
- 					OV5640_DEFAULT_LINK_FREQ,
- 					ov5640_csi2_link_freqs);
+ 	/* v4l2_ctrl_lock() locks our own mutex */
  
-+	timings = ov5640_timings(sensor, mode);
-+	hblank = timings->htot - mode->width;
-+	ctrls->hblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HBLANK, hblank,
-+					  hblank, 1, hblank);
++	if (ov5640_is_csi2(sensor))
++		timings = &mode->csi2_timings;
++	else
++		timings = &mode->dvp_timings;
++
++	switch (ctrl->id) {
++	case V4L2_CID_VBLANK:
++		/* Update the exposure range to the newly programmed vblank. */
++		exp_max = mode->height + ctrl->val - 4;
++		__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
++					 sensor->ctrls.exposure->minimum,
++					 exp_max, sensor->ctrls.exposure->step,
++					 timings->vblank_def);
++		break;
++	}
++
+ 	/*
+ 	 * If the device is not powered up by the host driver do
+ 	 * not apply any controls to H/W at this time. Instead
+@@ -3197,6 +3245,9 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_VFLIP:
+ 		ret = ov5640_set_ctrl_vflip(sensor, ctrl->val);
+ 		break;
++	case V4L2_CID_VBLANK:
++		ret = ov5640_set_ctrl_vblank(sensor, ctrl->val);
++		break;
+ 	default:
+ 		ret = -EINVAL;
+ 		break;
+@@ -3217,6 +3268,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+ 	struct ov5640_ctrls *ctrls = &sensor->ctrls;
+ 	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
+ 	const struct ov5640_timings *timings;
++	unsigned int max_vblank;
+ 	unsigned int hblank;
+ 	int ret;
+ 
+@@ -3242,6 +3294,11 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+ 	ctrls->hblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HBLANK, hblank,
+ 					  hblank, 1, hblank);
+ 
++	max_vblank = OV5640_MAX_VTS - mode->height;
++	ctrls->vblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VBLANK,
++					  OV5640_MIN_VBLANK, max_vblank,
++					  1, timings->vblank_def);
 +
  	/* Auto/manual white balance */
  	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
  					   V4L2_CID_AUTO_WHITE_BALANCE,
-@@ -3276,6 +3291,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
- 
- 	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	ctrls->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 	ctrls->gain->flags |= V4L2_CTRL_FLAG_VOLATILE;
- 	ctrls->exposure->flags |= V4L2_CTRL_FLAG_VOLATILE;
- 
 -- 
 2.35.0
 
