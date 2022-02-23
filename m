@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CC484C109D
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 11:46:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3B424C109E
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 11:46:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239686AbiBWKrW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 05:47:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57474 "EHLO
+        id S239697AbiBWKrY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 05:47:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239687AbiBWKrV (ORCPT
+        with ESMTP id S239687AbiBWKrY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 05:47:21 -0500
+        Wed, 23 Feb 2022 05:47:24 -0500
 Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 878F348E59
-        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 02:46:53 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A43AF48E7F
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 02:46:56 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 32848200018;
-        Wed, 23 Feb 2022 10:46:49 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 33900200009;
+        Wed, 23 Feb 2022 10:46:52 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Steve Longerbeam <slongerbeam@gmail.com>
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
@@ -30,9 +30,9 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         paul.elder@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: [PATCH v3 23/27] media: ov5640: Add BGR888 formats
-Date:   Wed, 23 Feb 2022 11:40:30 +0100
-Message-Id: <20220223104034.91550-24-jacopo@jmondi.org>
+Subject: [PATCH v3 24/27] media: ov5640: Restrict sizes to mbus code
+Date:   Wed, 23 Feb 2022 11:40:31 +0100
+Message-Id: <20220223104034.91550-25-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220223104034.91550-1-jacopo@jmondi.org>
 References: <20220223104034.91550-1-jacopo@jmondi.org>
@@ -47,47 +47,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for BGR888 image formats.
+The ov5640 driver supports different sizes for different mbus_codes.
+In particular:
 
-No existing media bus codes describe exactly the way data is transferred
-on the CSI-2 bus. This is not a new issue, the CSI-2 YUV422 8-bit format
-is described by MEDIA_BUS_FMT_UYVY8_1X16 which is an arbitrary
-convention and not an exact match. Use the MEDIA_BUS_FMT_BGR888_1X24 to
-follow the same convention, based on the order in which bits are
-transmitted over the CSI-2 bus when producing images in RGB24 format.
+- 8bpp modes: high resolution sizes (>= 1280x720)
+- 16bpp modes: all sizes
+- 24bpp modes: low resolutions sizes (< 1280x720)
+
+Restrict the frame sizes enumerations to the above constraints.
+
+While at it, make sure the fse->mbus_code parameter is valid, and return
+-EINVAL if it's not.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5640.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/media/i2c/ov5640.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index b9a488f63687..04e8f27df222 100644
+index 04e8f27df222..c27cbd9eb8a5 100644
 --- a/drivers/media/i2c/ov5640.c
 +++ b/drivers/media/i2c/ov5640.c
-@@ -225,6 +225,10 @@ static const struct ov5640_pixfmt {
- 		.code = MEDIA_BUS_FMT_RGB565_1X16,
- 		.colorspace = V4L2_COLORSPACE_SRGB,
- 		.bpp = 16,
-+	}, {
-+		.code = MEDIA_BUS_FMT_BGR888_1X24,
-+		.colorspace = V4L2_COLORSPACE_SRGB,
-+		.bpp = 24,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
- 		.colorspace = V4L2_COLORSPACE_SRGB,
-@@ -2912,6 +2916,11 @@ static int ov5640_set_framefmt(struct ov5640_dev *sensor,
- 		fmt = 0x61;
- 		mux = OV5640_FMT_MUX_RGB;
- 		break;
-+	case MEDIA_BUS_FMT_BGR888_1X24:
-+		/* BGR888: RGB */
-+		fmt = 0x23;
-+		mux = OV5640_FMT_MUX_RGB;
-+		break;
- 	case MEDIA_BUS_FMT_JPEG_1X8:
- 		/* YUV422, YUYV */
- 		fmt = 0x30;
+@@ -3450,14 +3450,28 @@ static int ov5640_enum_frame_size(struct v4l2_subdev *sd,
+ 				  struct v4l2_subdev_state *sd_state,
+ 				  struct v4l2_subdev_frame_size_enum *fse)
+ {
++	u32 bpp = ov5640_code_to_bpp(fse->code);
++	unsigned int index = fse->index;
++
+ 	if (fse->pad != 0)
+ 		return -EINVAL;
+-	if (fse->index >= OV5640_NUM_MODES)
++	if (!bpp)
++		return -EINVAL;
++
++	/* Only low-resolution modes are supported for 24bpp formats. */
++	if (bpp == 24 && index >= OV5640_MODE_720P_1280_720)
++		return -EINVAL;
++
++	/* FIXME: Low resolution modes don't work in 8bpp formats. */
++	if (bpp == 8)
++		index += OV5640_MODE_720P_1280_720;
++
++	if (index >= OV5640_NUM_MODES)
+ 		return -EINVAL;
+ 
+-	fse->min_width = ov5640_mode_data[fse->index].width;
++	fse->min_width = ov5640_mode_data[index].width;
+ 	fse->max_width = fse->min_width;
+-	fse->min_height = ov5640_mode_data[fse->index].height;
++	fse->min_height = ov5640_mode_data[index].height;
+ 	fse->max_height = fse->min_height;
+ 
+ 	return 0;
 -- 
 2.35.0
 
