@@ -2,95 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6C8B4C0660
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 01:48:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8891D4C07AD
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 03:15:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234897AbiBWAsb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Feb 2022 19:48:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33876 "EHLO
+        id S236746AbiBWCPh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Feb 2022 21:15:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233523AbiBWAsa (ORCPT
+        with ESMTP id S230453AbiBWCPh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Feb 2022 19:48:30 -0500
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA8C83C701
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 16:48:03 -0800 (PST)
-Received: by mail-io1-xd2a.google.com with SMTP id c23so17795280ioi.4
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 16:48:03 -0800 (PST)
+        Tue, 22 Feb 2022 21:15:37 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 138DA37A33
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 18:15:11 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id d23so28362397lfv.13
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 18:15:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=X/SM7ypn/we+/Ap6dezDbTAlXM+fBDX/e6eX0DPCG34=;
-        b=cGSZIAUA5IBVFN9M/UvrS7Xbe78KBt0fgDb5Gha26WTQHyy46lEHZg6yquqHxrBMgl
-         v27/u5Nss+ezGUUd4ZhwDccs7PW0/lungMaNGKSQquaYm63OOX10XUoQYnFycQjOQflh
-         xnc/R9tVlFq5Hb6cI2eEHs05Xq+CBeitUgKAE=
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=S3JtR5HtN5TgHtZRkOpXh8ju3yrdK90cRx1M8SbEib4=;
+        b=o6JZk7gdQnvP5thiV36LdJ6yWfXjYNjN/H+vSP/Pjd31IfF34ML4YUwa1ug6dDcqBM
+         XzB0Lzh+b7mYjsI3l4RIxu1mwNuxpLhHOGyuSBS3nc0PeA8DpZipI73InvpZcMbkO257
+         aFlvnEIaEz+O4+L4YhLWZZvYfGEtoVUEjCNNY514nXdT8cp5cNCLNQoD5VzOsC/wgb+v
+         iXzoIG7zXe2qzaQmOam00BnAi1ddyRHJWJrAV/CMtw+Ps5gGSKycMfbYGQ2HF+p30PHA
+         eqa5iJi21hCwE3UM7pyIGYr4yxUFn5ONDKeRfpLIpqkddnkeuElOOX8CmDeWptETEw6d
+         nJug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=X/SM7ypn/we+/Ap6dezDbTAlXM+fBDX/e6eX0DPCG34=;
-        b=gb6n8BzVfG4Xfk4oQoa9N/p4+kWdHnTP2gFy7QqK9jvm85pHalb2DAArJ0O43FQkVT
-         WRcLMof/oN9NaRiX68OTluz/Dv4HHuxmvu2Vx540ZypmVMHUXdXy6GILspuNZq2cUT58
-         9qARn/aodfT/V2hJ01444YgY3ktbMpOIgREQ87YBg9dQYlTl3/iRWGrCCKI7p0bc7PEg
-         0KpKovq1I0XCeeSrKw8fPR1/is8kKTO0bCm6ynRM37FuzMaSPTnZgRuuDch3JnHz71mF
-         MFOgwXOITwRLIy73g/kTkrnt159pSdpg3DF+3jwXa4kqDWGIB3snrxeDJbmwMA5mEfw2
-         uEqg==
-X-Gm-Message-State: AOAM533grbHceOAbUuQ9iglr4jMSfd/oePh5ItUwpJ/HsPWZVJkrlXtK
-        sojlXMuSZJg9Td2MfcZ8wsX3+updbutq4w==
-X-Google-Smtp-Source: ABdhPJxowfrDnl+KH9foiTJL0O6eH4XdvarNv4J3ZvxeonUczPHJrAPqzKBvWsX0CujD9D6i1Y9aaQ==
-X-Received: by 2002:a02:cbc8:0:b0:314:c010:e941 with SMTP id u8-20020a02cbc8000000b00314c010e941mr15376396jaq.300.1645577283210;
-        Tue, 22 Feb 2022 16:48:03 -0800 (PST)
-Received: from shuah-tx13.internal ([71.205.29.0])
-        by smtp.gmail.com with ESMTPSA id z11sm5793152ill.3.2022.02.22.16.48.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Feb 2022 16:48:02 -0800 (PST)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     hverkuil@xs4all.nl, helen.fornazier@gmail.com,
-        kieran.bingham@ideasonboard.com
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] MAINTAINERS: update media vimc driver maintainers
-Date:   Tue, 22 Feb 2022 17:48:01 -0700
-Message-Id: <20220223004801.66602-1-skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=S3JtR5HtN5TgHtZRkOpXh8ju3yrdK90cRx1M8SbEib4=;
+        b=ha2Io16GLqLHFgN+1lP2JItBkxvxCWO1/CtM1BGLilVOZ0BDgRYIJVh/qOXgPF7SnQ
+         P5xcFo8/zUd0u3Ha5GA+YP+5DSFnnWzQfGceIYOslIxYxEg6aJbhmOZr/YjWDPqWhq+B
+         CFN4PAUscKcojW4zopCz8GSZruirQ4eF9djualfKnHEZVjvy9ihpqy1JCfb3TdLhLIwM
+         iTRx4G9Z/GvtJur802YWv6t+mLHK9wFWCDdXgUkbqJeT9tRDv2KbpiOR5BsWjWdNiQJL
+         FD+OEiweibZH/ONzyjMqouhQcHO17tdz/muTxoda+RW0/UypQT3eRerxImC7T5lGQDpX
+         ymUg==
+X-Gm-Message-State: AOAM531/4+PqbJJnagqGzsG/olFS1kZvVWebJE1eBDLblseG/jWstvq8
+        01lDb6fXgb5sWLfD/W5vbB8WlVVrL/sIks5y+yQ=
+X-Google-Smtp-Source: ABdhPJyCxJgU/a1w7s9lM6+dSjZluEfhSHoY5A2K95oi5wdH7t67uw0plohv30aTQnfD1VuzWeJxyEmFWLllAuxo/4Y=
+X-Received: by 2002:ac2:47e3:0:b0:43a:9d5b:8a9e with SMTP id
+ b3-20020ac247e3000000b0043a9d5b8a9emr18327239lfp.67.1645582509455; Tue, 22
+ Feb 2022 18:15:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Received: by 2002:a2e:6f07:0:0:0:0:0 with HTTP; Tue, 22 Feb 2022 18:15:08
+ -0800 (PST)
+Reply-To: fionahill.usa@outlook.com
+From:   Fiona Hill <xaviergbesse.2020@gmail.com>
+Date:   Tue, 22 Feb 2022 18:15:08 -0800
+Message-ID: <CABEvWU+7U17VozCEhf5UCu8Z5_JriSVOvPjhtp69ypbOF8qh9w@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Based on the dicussion with Hans Verkuil and others in the thread below,
-vimc is need of a maintainer. I will start maintaining the driver with
-help from Kieran Bingham as the reviewer.
-
-Link: https://lore.kernel.org/linux-media/5d5dee88-9dbf-e4d0-4a91-11ff4ecd82ea@xs4all.nl/
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 777cd6fa2b3d..a7b9eccafeb9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20383,8 +20383,8 @@ F:	drivers/media/common/videobuf2/*
- F:	include/media/videobuf2-*
- 
- VIMC VIRTUAL MEDIA CONTROLLER DRIVER
--M:	Helen Koike <helen.koike@collabora.com>
--R:	Shuah Khan <skhan@linuxfoundation.org>
-+M:	Shuah Khan <skhan@linuxfoundation.org>
-+R:	Kieran Bingham <kieran.bingham@ideasonboard.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- W:	https://linuxtv.org
 -- 
-2.32.0
-
+Please with honesty did you receive my message i send to you?
