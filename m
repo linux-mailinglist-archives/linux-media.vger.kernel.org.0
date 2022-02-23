@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC0E84C1295
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 13:18:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0697B4C12A3
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 13:20:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240403AbiBWMSM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 07:18:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54070 "EHLO
+        id S240420AbiBWMVG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 07:21:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237095AbiBWMSL (ORCPT
+        with ESMTP id S236381AbiBWMVG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 07:18:11 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AE2F9E54B
-        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 04:17:42 -0800 (PST)
+        Wed, 23 Feb 2022 07:21:06 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A5659F6E0
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 04:20:37 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA2AADD;
-        Wed, 23 Feb 2022 13:17:40 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A474BDD;
+        Wed, 23 Feb 2022 13:20:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645618661;
-        bh=rjQSjI4McPLgqAKSUEQqxFVVd78/IPWLLMNtDQt+MfQ=;
+        s=mail; t=1645618835;
+        bh=tnwx4lTC0mDnVA0lu1Akuf2nVU1RsCy0abGHi+OkrfU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BBE+hq8prNq7WDyP1idKCe96m8UrNxL79VGBF7l0ayQTz4MC5+NPdtDxGZ7B+lwhT
-         DaO//FTQiuoZo9DvAcWGLtsmXno/q2BINAyTFa9v2E3Nzvks9YAlaKupcYzVEiSjST
-         pvMxsmqTjTXoqCKahmLLLLdSOvvJEEvQpMiUYEYk=
-Date:   Wed, 23 Feb 2022 14:17:30 +0200
+        b=koMhlsIdZmiPHFTbrDt5CFaYDvvtmP1VYF2oK+07sR0Uw+7MyE1GuFW659OkORd5o
+         s2mUEgIwQqcbRRI3R7++66bnxEbaNzCSZ74rjTZKwvwL2h61C4ynE62cws8GatHWDH
+         z+KCFOjjsD9PRehe2U5SYor2FnkwIlY51U44kLYQ=
+Date:   Wed, 23 Feb 2022 14:20:25 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
@@ -37,14 +37,14 @@ Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
         paul.elder@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 26/27] media: ov5640: Split DVP and CSI-2 formats
-Message-ID: <YhYl2g59uNhlZLMO@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 10/27] media: ov5640: Split DVP and CSI-2 timings
+Message-ID: <YhYmiUEAlRDPOAyX@pendragon.ideasonboard.com>
 References: <20220223104034.91550-1-jacopo@jmondi.org>
- <20220223104034.91550-27-jacopo@jmondi.org>
+ <20220223104034.91550-11-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220223104034.91550-27-jacopo@jmondi.org>
+In-Reply-To: <20220223104034.91550-11-jacopo@jmondi.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -58,282 +58,870 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Wed, Feb 23, 2022 at 11:40:33AM +0100, Jacopo Mondi wrote:
-> The format enumeration list is shared between CSI-2 and DVP modes.
-> This lead to the enumeration of unsupported format variants in both
-> modes.
+On Wed, Feb 23, 2022 at 11:40:17AM +0100, Jacopo Mondi wrote:
+> Separate the timings for the DVP mode from the timings for the CSI-2
+> mode in the ov5640 modes definition.
 > 
-> Separate the list of DVP and CSI-2 formats and create helpers to access
-> the correct one.
+> The CSI-2 timings will deviate from the DVP ones as the clock tree is
+> calculated differently.
+> 
+> In CSI-2 mode change the analog crop rectangles as the OV5640 pixel
+> array is composed as:
+> - vertically: 16 dummy columns, 2592 valid ones and 16 dummy columns for
+>   a total of 2624 columns
+> - horizontally: 8 optical black lines, 6 dummy ones, 1944 valid and 6
+>   dummies for a total of 1964 lines
+> 
+> Adjust the analog crop rectangle in CSI-2 mode to:
+> - Skip the first 16 dummy columns
+> - Skip the first 14 black/dummy lines
+> - Pass the whole valid pixel array size to the ISP for all modes except
+>   1024x768, 720p and 1080p which are obtained by cropping the valid pixel array.
+
+I'm sorry but I can't review that if you don't split it in two patches,
+one that separates the timings, and one that updates the CSI-2 timings.
+
+You can merge it without my review though (I'd actually prefer not
+having to review it...)
+
+> Tested in RGB565, UYVY and RGB888 modes in CSI-2 mode.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->  drivers/media/i2c/ov5640.c | 125 +++++++++++++++++++++++++------------
->  1 file changed, 86 insertions(+), 39 deletions(-)
+>  drivers/media/i2c/ov5640.c | 610 ++++++++++++++++++++++++++-----------
+>  1 file changed, 434 insertions(+), 176 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index a709e7f73364..f35006bcea3a 100644
+> index 594adaf93c9d..4040ace2fd55 100644
 > --- a/drivers/media/i2c/ov5640.c
 > +++ b/drivers/media/i2c/ov5640.c
-> @@ -188,11 +188,13 @@ enum ov5640_format_mux {
->  	OV5640_FMT_MUX_RAW_CIP,
+> @@ -29,6 +29,13 @@
+>  #define OV5640_XCLK_MIN  6000000
+>  #define OV5640_XCLK_MAX 54000000
+>  
+> +#define OV5640_NATIVE_WIDTH		2624
+> +#define OV5640_NATIVE_HEIGHT		1964
+> +#define OV5640_PIXEL_ARRAY_TOP		14
+> +#define OV5640_PIXEL_ARRAY_LEFT		16
+> +#define OV5640_PIXEL_ARRAY_WIDTH	2592
+> +#define OV5640_PIXEL_ARRAY_HEIGHT	1944
+> +
+>  #define OV5640_DEFAULT_SLAVE_ID 0x3c
+>  
+>  #define OV5640_LINK_RATE_MAX		490000000U
+> @@ -281,24 +288,34 @@ struct reg_value {
+>  	u32 delay_ms;
 >  };
 >  
-> -static const struct ov5640_pixfmt {
-> +struct ov5640_pixfmt {
->  	u32 code;
->  	u32 colorspace;
->  	u8 bpp;
-> -} ov5640_formats[] = {
+> -struct ov5640_mode_info {
+> -	enum ov5640_mode_id id;
+> -	enum ov5640_downsize_mode dn_mode;
+> -	enum ov5640_pixel_rate_id pixel_rate;
+> +struct ov5640_timings {
+>  	/* Analog crop rectangle. */
+>  	struct v4l2_rect analog_crop;
+>  	/* Visibile crop: from analog crop top-left corner. */
+>  	struct v4l2_rect crop;
+> -	/* Total pixels per line: crop.width + fixed hblank. */
+> +	/* Total pixels per line: width + fixed hblank. */
+>  	u32 htot;
+> -	/* Default vertical blanking: frame height = crop.height + vblank. */
+> +	/* Default vertical blanking: frame height = height + vblank. */
+>  	u32 vblank_def;
+> -	const struct reg_value *reg_data;
+> -	u32 reg_data_size;
+>  	/* DVP only; ignored in MIPI mode. */
+>  	u32 max_fps;
+>  };
+>  
+> +struct ov5640_mode_info {
+> +	enum ov5640_mode_id id;
+> +	enum ov5640_downsize_mode dn_mode;
+> +	enum ov5640_pixel_rate_id pixel_rate;
+> +
+> +	unsigned int width;
+> +	unsigned int height;
+> +
+> +	struct ov5640_timings dvp_timings;
+> +	struct ov5640_timings csi2_timings;
+> +
+> +	const struct reg_value *reg_data;
+> +	u32 reg_data_size;
 > +};
 > +
-> +static const struct ov5640_pixfmt ov5640_dvp_formats[] = {
+>  struct ov5640_ctrls {
+>  	struct v4l2_ctrl_handler handler;
+>  	struct v4l2_ctrl *pixel_rate;
+> @@ -628,247 +645,481 @@ static const struct ov5640_mode_info ov5640_mode_init_data = {
+>  		.id		= 0,
+>  		.dn_mode	= SUBSAMPLING,
+>  		.pixel_rate	= OV5640_PIXEL_RATE_96M,
+> -		.analog_crop = {
+> -			.left	= 0,
+> -			.top	= 4,
+> -			.width	= 2624,
+> -			.height	= 1944,
+> +		.width	= 640,
+> +		.height	= 480,
+> +		.dvp_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 4,
+> +				.width	= 2624,
+> +				.height	= 1944,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 6,
+> +				.width	= 640,
+> +				.height	= 480,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 504,
+> +			.max_fps	= OV5640_30_FPS
+>  		},
+> -		.crop = {
+> -			.left	= 16,
+> -			.top	= 6,
+> -			.width	= 640,
+> -			.height	= 480,
+> +		.csi2_timings = {
+> +			.analog_crop = {
+> +				.left	= OV5640_PIXEL_ARRAY_LEFT,
+> +				.top	= OV5640_PIXEL_ARRAY_TOP,
+> +				.width	= OV5640_PIXEL_ARRAY_WIDTH,
+> +				.height	= OV5640_PIXEL_ARRAY_HEIGHT,
+> +			},
+> +			.crop = {
+> +				.left	= 2,
+> +				.top	= 4,
+> +				.width	= 640,
+> +				.height	= 480,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 504,
+>  		},
+> -		.htot		= 1896,
+> -		.vblank_def	= 504,
+>  		.reg_data	= ov5640_init_setting_30fps_VGA,
+>  		.reg_data_size	= ARRAY_SIZE(ov5640_init_setting_30fps_VGA),
+> -		.max_fps	= OV5640_30_FPS
+>  };
+>  
+> -static const struct ov5640_mode_info
+> -ov5640_mode_data[OV5640_NUM_MODES] = {
+> +static const struct ov5640_mode_info ov5640_mode_data[OV5640_NUM_MODES] = {
 >  	{
->  		.code = MEDIA_BUS_FMT_JPEG_1X8,
->  		.colorspace = V4L2_COLORSPACE_JPEG,
-> @@ -202,23 +204,48 @@ static const struct ov5640_pixfmt {
->  		.colorspace = V4L2_COLORSPACE_SRGB,
->  		.bpp = 16,
+>  		/* 160x120 */
+>  		.id		= OV5640_MODE_QQVGA_160_120,
+>  		.dn_mode	= SUBSAMPLING,
+>  		.pixel_rate	= OV5640_PIXEL_RATE_48M,
+> -		.analog_crop = {
+> -			.left	= 0,
+> -			.top	= 4,
+> -			.width	= 2624,
+> -			.height	= 1944,
+> +		.width		= 160,
+> +		.height		= 120,
+> +		.dvp_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 4,
+> +				.width	= 2624,
+> +				.height	= 1944,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 6,
+> +				.width	= 160,
+> +				.height	= 120,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 864,
+> +			.max_fps	= OV5640_30_FPS
+>  		},
+> -		.crop = {
+> -			.left	= 16,
+> -			.top	= 6,
+> -			.width	= 160,
+> -			.height	= 120,
+> +		.csi2_timings = {
+> +			.analog_crop = {
+> +				/* Feed the full valid pixel array to the ISP. */
+> +				.left	= OV5640_PIXEL_ARRAY_LEFT,
+> +				.top	= OV5640_PIXEL_ARRAY_TOP,
+> +				.width	= OV5640_PIXEL_ARRAY_WIDTH,
+> +				.height	= OV5640_PIXEL_ARRAY_HEIGHT,
+> +			},
+> +			.crop = {
+> +				/* Maintain a minimum digital crop processing margins. */
+> +				.left	= 2,
+> +				.top	= 4,
+> +				.width	= 160,
+> +				.height	= 120,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 864,
+>  		},
+> -		.htot		= 1896,
+> -		.vblank_def	= 864,
+>  		.reg_data	= ov5640_setting_QQVGA_160_120,
+>  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QQVGA_160_120),
+> -		.max_fps	= OV5640_30_FPS
 >  	}, {
-> -		.code = MEDIA_BUS_FMT_UYVY8_1X16,
-> +		.code = MEDIA_BUS_FMT_YUYV8_2X8,
->  		.colorspace = V4L2_COLORSPACE_SRGB,
->  		.bpp = 16,
+>  		/* 176x144 */
+>  		.id		= OV5640_MODE_QCIF_176_144,
+>  		.dn_mode	= SUBSAMPLING,
+>  		.pixel_rate	= OV5640_PIXEL_RATE_48M,
+> -		.analog_crop = {
+> -			.left	= 0,
+> -			.top	= 4,
+> -			.width	= 2624,
+> -			.height	= 1944,
+> +		.width		= 176,
+> +		.height		= 144,
+> +		.dvp_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 4,
+> +				.width	= 2624,
+> +				.height	= 1944,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 6,
+> +				.width	= 176,
+> +				.height	= 144,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 840,
+> +			.max_fps	= OV5640_30_FPS
+>  		},
+> -		.crop = {
+> -			.left	= 16,
+> -			.top	= 6,
+> -			.width	= 176,
+> -			.height	= 144,
+> +		.csi2_timings = {
+> +			.analog_crop = {
+> +				/* Feed the full valid pixel array to the ISP. */
+> +				.left	= OV5640_PIXEL_ARRAY_LEFT,
+> +				.top	= OV5640_PIXEL_ARRAY_TOP,
+> +				.width	= OV5640_PIXEL_ARRAY_WIDTH,
+> +				.height	= OV5640_PIXEL_ARRAY_HEIGHT,
+> +			},
+> +			.crop = {
+> +				/* Maintain a minimum digital crop processing margins. */
+> +				.left	= 2,
+> +				.top	= 4,
+> +				.width	= 176,
+> +				.height	= 144,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 840,
+>  		},
+> -		.htot		= 1896,
+> -		.vblank_def	= 840,
+>  		.reg_data	= ov5640_setting_QCIF_176_144,
+>  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QCIF_176_144),
+> -		.max_fps	= OV5640_30_FPS
 >  	}, {
-> -		.code = MEDIA_BUS_FMT_YUYV8_2X8,
-> +		.code = MEDIA_BUS_FMT_RGB565_2X8_LE,
->  		.colorspace = V4L2_COLORSPACE_SRGB,
->  		.bpp = 16,
+>  		/* 320x240 */
+>  		.id		= OV5640_MODE_QVGA_320_240,
+>  		.dn_mode	= SUBSAMPLING,
+> +		.width		= 320,
+> +		.height		= 240,
+>  		.pixel_rate	= OV5640_PIXEL_RATE_48M,
+> -		.analog_crop = {
+> -			.left	= 0,
+> -			.top	= 4,
+> -			.width	= 2624,
+> -			.height	= 1944,
+> +		.dvp_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 4,
+> +				.width	= 2624,
+> +				.height	= 1944,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 6,
+> +				.width	= 320,
+> +				.height	= 240,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 744,
+> +			.max_fps	= OV5640_30_FPS
+>  		},
+> -		.crop = {
+> -			.left	= 16,
+> -			.top	= 6,
+> -			.width	= 320,
+> -			.height	= 240,
+> +		.csi2_timings = {
+> +			.analog_crop = {
+> +				/* Feed the full valid pixel array to the ISP. */
+> +				.left	= OV5640_PIXEL_ARRAY_LEFT,
+> +				.top	= OV5640_PIXEL_ARRAY_TOP,
+> +				.width	= OV5640_PIXEL_ARRAY_WIDTH,
+> +				.height	= OV5640_PIXEL_ARRAY_HEIGHT,
+> +			},
+> +			.crop = {
+> +				/* Maintain a minimum digital crop processing margins. */
+> +				.left	= 2,
+> +				.top	= 4,
+> +				.width	= 320,
+> +				.height	= 240,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 744,
+>  		},
+> -		.htot		= 1896,
+> -		.vblank_def	= 744,
+>  		.reg_data	= ov5640_setting_QVGA_320_240,
+>  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QVGA_320_240),
+> -		.max_fps	= OV5640_30_FPS
 >  	}, {
-> -		.code = MEDIA_BUS_FMT_YUYV8_1X16,
-> +		.code = MEDIA_BUS_FMT_RGB565_2X8_BE,
->  		.colorspace = V4L2_COLORSPACE_SRGB,
->  		.bpp = 16,
+>  		/* 640x480 */
+>  		.id		= OV5640_MODE_VGA_640_480,
+>  		.dn_mode	= SUBSAMPLING,
+>  		.pixel_rate	= OV5640_PIXEL_RATE_48M,
+> -		.analog_crop = {
+> -			.left	= 0,
+> -			.top	= 4,
+> -			.width	= 2624,
+> -			.height	= 1944,
+> +		.width		= 640,
+> +		.height		= 480,
+> +		.dvp_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 4,
+> +				.width	= 2624,
+> +				.height	= 1944,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 6,
+> +				.width	= 640,
+> +				.height	= 480,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 600,
+> +			.max_fps	= OV5640_60_FPS
+>  		},
+> -		.crop = {
+> -			.left	= 16,
+> -			.top	= 6,
+> -			.width	= 640,
+> -			.height	= 480,
+> +		.csi2_timings = {
+> +			.analog_crop = {
+> +				/* Feed the full valid pixel array to the ISP. */
+> +				.left	= OV5640_PIXEL_ARRAY_LEFT,
+> +				.top	= OV5640_PIXEL_ARRAY_TOP,
+> +				.width	= OV5640_PIXEL_ARRAY_WIDTH,
+> +				.height	= OV5640_PIXEL_ARRAY_HEIGHT,
+> +			},
+> +			.crop = {
+> +				/* Maintain a minimum digital crop processing margins. */
+> +				.left	= 2,
+> +				.top	= 4,
+> +				.width	= 640,
+> +				.height	= 480,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 600,
+>  		},
+> -		.htot		= 1896,
+> -		.vblank_def	= 600,
+>  		.reg_data	= ov5640_setting_VGA_640_480,
+>  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_VGA_640_480),
+> -		.max_fps	= OV5640_60_FPS
 >  	}, {
-> -		.code = MEDIA_BUS_FMT_RGB565_2X8_LE,
-> +		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
->  		.colorspace = V4L2_COLORSPACE_SRGB,
-> +		.bpp = 8,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
-> +		.colorspace = V4L2_COLORSPACE_SRGB,
-> +		.bpp = 8
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
-> +		.colorspace = V4L2_COLORSPACE_SRGB,
-> +		.bpp = 8,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
-> +		.colorspace = V4L2_COLORSPACE_SRGB,
-> +		.bpp = 8,
-> +	},
-> +	{ /* sentinel */ }
-> +};
-> +
-> +static const struct ov5640_pixfmt ov5640_csi2_formats[] = {
-> +	{
-> +		.code = MEDIA_BUS_FMT_JPEG_1X8,
-> +		.colorspace = V4L2_COLORSPACE_JPEG,
->  		.bpp = 16,
+>  		/* 720x480 */
+>  		.id		= OV5640_MODE_NTSC_720_480,
+>  		.dn_mode	= SUBSAMPLING,
+> +		.width		= 720,
+> +		.height		= 480,
+>  		.pixel_rate	= OV5640_PIXEL_RATE_96M,
+> -		.analog_crop = {
+> -			.left	= 0,
+> -			.top	= 4,
+> -			.width	= 2624,
+> -			.height	= 1944,
+> +		.dvp_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 4,
+> +				.width	= 2624,
+> +				.height	= 1944,
+> +			},
+> +			.crop = {
+> +				.left	= 56,
+> +				.top	= 60,
+> +				.width	= 720,
+> +				.height	= 480,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 504,
+> +			.max_fps	= OV5640_30_FPS
+>  		},
+> -		.crop = {
+> -			.left	= 56,
+> -			.top	= 60,
+> -			.width	= 720,
+> -			.height	= 480,
+> +		.csi2_timings = {
+> +			.analog_crop = {
+> +				/* Feed the full valid pixel array to the ISP. */
+> +				.left	= OV5640_PIXEL_ARRAY_LEFT,
+> +				.top	= OV5640_PIXEL_ARRAY_TOP,
+> +				.width	= OV5640_PIXEL_ARRAY_WIDTH,
+> +				.height	= OV5640_PIXEL_ARRAY_HEIGHT,
+> +			},
+> +			.crop = {
+> +				/* Maintain a minimum digital crop processing margins. */
+> +				.left	= 56,
+> +				.top	= 60,
+> +				.width	= 720,
+> +				.height	= 480,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 504,
+>  		},
+> -		.htot		= 1896,
+> -		.vblank_def	= 504,
+>  		.reg_data	= ov5640_setting_NTSC_720_480,
+>  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_NTSC_720_480),
+> -		.max_fps	= OV5640_30_FPS
 >  	}, {
-> -		.code = MEDIA_BUS_FMT_RGB565_2X8_BE,
-> +		.code = MEDIA_BUS_FMT_UYVY8_1X16,
-> +		.colorspace = V4L2_COLORSPACE_SRGB,
-> +		.bpp = 16,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_YUYV8_1X16,
->  		.colorspace = V4L2_COLORSPACE_SRGB,
->  		.bpp = 16,
+>  		/* 720x576 */
+>  		.id		= OV5640_MODE_PAL_720_576,
+>  		.dn_mode	= SUBSAMPLING,
+> +		.width		= 720,
+> +		.height		= 576,
+>  		.pixel_rate	= OV5640_PIXEL_RATE_96M,
+> -		.analog_crop = {
+> -			.left	= 0,
+> -			.top	= 4,
+> -			.width	= 2624,
+> -			.height	= 1944,
+> +		.dvp_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 4,
+> +				.width	= 2624,
+> +				.height	= 1944,
+> +			},
+> +			.crop = {
+> +				.left	= 56,
+> +				.top	= 6,
+> +				.width	= 720,
+> +				.height	= 576,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 408,
+> +			.max_fps	= OV5640_30_FPS
+>  		},
+> -		.crop = {
+> -			.left	= 56,
+> -			.top	= 6,
+> -			.width	= 720,
+> -			.height	= 576,
+> +		.csi2_timings = {
+> +			.analog_crop = {
+> +				/* Feed the full valid pixel array to the ISP. */
+> +				.left	= OV5640_PIXEL_ARRAY_LEFT,
+> +				.top	= OV5640_PIXEL_ARRAY_TOP,
+> +				.width	= OV5640_PIXEL_ARRAY_WIDTH,
+> +				.height	= OV5640_PIXEL_ARRAY_HEIGHT,
+> +			},
+> +			.crop = {
+> +				/* Maintain a minimum digital crop processing margins. */
+> +				.left	= 56,
+> +				.top	= 6,
+> +				.width	= 720,
+> +				.height	= 576,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 408,
+>  		},
+> -		.htot		= 1896,
+> -		.vblank_def	= 408,
+>  		.reg_data	= ov5640_setting_PAL_720_576,
+>  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_PAL_720_576),
+> -		.max_fps	= OV5640_30_FPS
 >  	}, {
-> @@ -246,20 +273,9 @@ static const struct ov5640_pixfmt {
->  		.colorspace = V4L2_COLORSPACE_SRGB,
->  		.bpp = 8,
+>  		/* 1024x768 */
+>  		.id		= OV5640_MODE_XGA_1024_768,
+>  		.dn_mode	= SUBSAMPLING,
+>  		.pixel_rate	= OV5640_PIXEL_RATE_96M,
+> -		.analog_crop = {
+> -			.left	= 0,
+> -			.top	= 4,
+> -			.width	= 2624,
+> -			.height	= 1944,
+> +		.width		= 1024,
+> +		.height		= 768,
+> +		.dvp_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 4,
+> +				.width	= 2624,
+> +				.height	= 1944,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 6,
+> +				.width	= 1024,
+> +				.height	= 768,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 312,
+> +			.max_fps	= OV5640_30_FPS
+>  		},
+> -		.crop = {
+> -			.left	= 16,
+> -			.top	= 6,
+> -			.width	= 1024,
+> -			.height	= 768,
+> +		.csi2_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 4,
+> +				.width	= OV5640_NATIVE_WIDTH,
+> +				.height	= OV5640_PIXEL_ARRAY_HEIGHT,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 6,
+> +				.width	= 1024,
+> +				.height	= 768,
+> +			},
+> +			.htot		= 1896,
+> +			.vblank_def	= 312,
+>  		},
+> -		.htot		= 1896,
+> -		.vblank_def	= 312,
+>  		.reg_data	= ov5640_setting_XGA_1024_768,
+>  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_XGA_1024_768),
+> -		.max_fps	= OV5640_30_FPS
+>  	}, {
+>  		/* 1280x720 */
+>  		.id		= OV5640_MODE_720P_1280_720,
+>  		.dn_mode	= SUBSAMPLING,
+>  		.pixel_rate	= OV5640_PIXEL_RATE_124M,
+> -		.analog_crop = {
+> -			.left	= 0,
+> -			.top	= 250,
+> -			.width	= 2624,
+> -			.height	= 1456,
+> +		.width		= 1280,
+> +		.height		= 720,
+> +		.dvp_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 250,
+> +				.width	= 2624,
+> +				.height	= 1456,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 4,
+> +				.width	= 1280,
+> +				.height	= 720,
+> +			},
+> +			.htot		= 1892,
+> +			.vblank_def	= 20,
+> +			.max_fps	= OV5640_30_FPS
+>  		},
+> -		.crop = {
+> -			.left	= 16,
+> -			.top	= 4,
+> -			.width	= 1280,
+> -			.height	= 720,
+> +		.csi2_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 250,
+> +				.width	= 2624,
+> +				.height	= 1456,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 4,
+> +				.width	= 1280,
+> +				.height	= 720,
+> +			},
+> +			.htot		= 1892,
+> +			.vblank_def	= 20,
+>  		},
+> -		.htot		= 1892,
+> -		.vblank_def	= 20,
+>  		.reg_data	= ov5640_setting_720P_1280_720,
+>  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_720P_1280_720),
+> -		.max_fps	= OV5640_30_FPS
+>  	}, {
+>  		/* 1920x1080 */
+>  		.id		= OV5640_MODE_1080P_1920_1080,
+>  		.dn_mode	= SCALING,
+>  		.pixel_rate	= OV5640_PIXEL_RATE_148M,
+> -		.analog_crop = {
+> -			.left	= 336,
+> -			.top	= 434,
+> -			.width	= 1952,
+> -			.height	= 1088,
+> +		.width		= 1920,
+> +		.height		= 1080,
+> +		.dvp_timings = {
+> +			.analog_crop = {
+> +				.left	= 336,
+> +				.top	= 434,
+> +				.width	= 1952,
+> +				.height	= 1088,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 4,
+> +				.width	= 1920,
+> +				.height	= 1080,
+> +			},
+> +			.htot		= 2500,
+> +			.vblank_def	= 40,
+> +			.max_fps	= OV5640_30_FPS
+>  		},
+> -		.crop = {
+> -			.left	= 16,
+> -			.top	= 4,
+> -			.width	= 1920,
+> -			.height	= 1080,
+> +		.csi2_timings = {
+> +			.analog_crop = {
+> +				/* Crop the full valid pixel array in the center. */
+> +				.left	= 336,
+> +				.top	= 434,
+> +				.width	= 1952,
+> +				.height	= 1088,
+> +			},
+> +			.crop = {
+> +				/* Maintain a larger digital crop processing margins. */
+> +				.left	= 16,
+> +				.top	= 4,
+> +				.width	= 1920,
+> +				.height	= 1080,
+> +			},
+> +			.htot		= 2500,
+> +			.vblank_def	= 40,
+>  		},
+> -		.htot		= 2500,
+> -		.vblank_def	= 40,
+>  		.reg_data	= ov5640_setting_1080P_1920_1080,
+>  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
+> -		.max_fps	= OV5640_30_FPS
+>  	}, {
+>  		/* 2592x1944 */
+>  		.id		= OV5640_MODE_QSXGA_2592_1944,
+>  		.dn_mode	= SCALING,
+>  		.pixel_rate	= OV5640_PIXEL_RATE_168M,
+> -		.analog_crop = {
+> -			.left	= 0,
+> -			.top	= 0,
+> -			.width	= 2624,
+> -			.height	= 1952,
+> +		.width		= OV5640_PIXEL_ARRAY_WIDTH,
+> +		.height		= OV5640_PIXEL_ARRAY_HEIGHT,
+> +		.dvp_timings = {
+> +			.analog_crop = {
+> +				.left	= 0,
+> +				.top	= 0,
+> +				.width	= 2624,
+> +				.height	= 1952,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 4,
+> +				.width	= 2592,
+> +				.height	= 1944,
+> +			},
+> +			.htot		= 2844,
+> +			.vblank_def	= 24,
+> +			.max_fps	= OV5640_15_FPS
+>  		},
+> -		.crop = {
+> -			.left	= 16,
+> -			.top	= 4,
+> -			.width	= 2592,
+> -			.height	= 1944,
+> +		.csi2_timings = {
+> +			.analog_crop = {
+> +				/* Give more processing margin to full resolution. */
+> +				.left	= 0,
+> +				.top	= 0,
+> +				.width	= OV5640_NATIVE_WIDTH,
+> +				.height	= 1952,
+> +			},
+> +			.crop = {
+> +				.left	= 16,
+> +				.top	= 4,
+> +				.width	= 2592,
+> +				.height	= 1944,
+> +			},
+> +			.htot		= 2844,
+> +			.vblank_def	= 24,
+>  		},
+> -		.htot		= 2844,
+> -		.vblank_def	= 24,
+>  		.reg_data	= ov5640_setting_QSXGA_2592_1944,
+>  		.reg_data_size	= ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944),
+> -		.max_fps	= OV5640_15_FPS
 >  	},
-> +	{ /* sentinel */ }
 >  };
 >  
-> -static u32 ov5640_code_to_bpp(u32 code)
-> -{
-> -	unsigned int i;
-> -
-> -	for (i = 0; i < ARRAY_SIZE(ov5640_formats); ++i) {
-> -		if (ov5640_formats[i].code == code)
-> -			return ov5640_formats[i].bpp;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  /*
->   * FIXME: remove this when a subdev API becomes available
->   * to set the MIPI CSI-2 virtual channel.
-> @@ -408,6 +424,33 @@ static inline bool ov5640_is_csi2(const struct ov5640_dev *sensor)
->  	return sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY;
+> @@ -1270,10 +1521,10 @@ static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor)
+>  
+>  static u32 ov5640_calc_pixel_rate(struct ov5640_dev *sensor)
+>  {
+> +	const struct ov5640_timings *timings = &sensor->current_mode->dvp_timings;
+>  	u32 rate;
+>  
+> -	rate = sensor->current_mode->htot
+> -	     * (sensor->current_mode->crop.height + sensor->current_mode->vblank_def);
+> +	rate = timings->htot * (timings->crop.height + timings->vblank_def);
+>  	rate *= ov5640_framerates[sensor->current_fr];
+>  
+>  	return rate;
+> @@ -1357,21 +1608,20 @@ static int ov5640_set_jpeg_timings(struct ov5640_dev *sensor,
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = ov5640_write_reg16(sensor, OV5640_REG_VFIFO_HSIZE,
+> -				 mode->crop.width);
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_VFIFO_HSIZE, mode->width);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	return ov5640_write_reg16(sensor, OV5640_REG_VFIFO_VSIZE,
+> -				  mode->crop.height);
+> +	return ov5640_write_reg16(sensor, OV5640_REG_VFIFO_VSIZE, mode->height);
 >  }
 >  
-> +static inline const struct ov5640_pixfmt *ov5640_formats(struct ov5640_dev *sensor)
-> +{
-> +	return ov5640_is_csi2(sensor) ? ov5640_csi2_formats : ov5640_dvp_formats;
-> +}
-> +
-> +static const struct ov5640_pixfmt *ov5640_code_to_pixfmt(struct ov5640_dev *sensor,
-> +							 u32 code)
-> +{
-> +	const struct ov5640_pixfmt *formats = ov5640_formats(sensor);
-> +	unsigned int i = 0;
-> +
-> +	while (formats[i].code) {
-
-	for (i = 0; formats[i].code; ++i) {
-
-> +		if (formats[i].code == code)
-> +			return &formats[i];
-> +		++i;
-
-and drop this one.
-
-> +	}
-> +
-> +	return &formats[0];
-> +}
-> +
-> +static u32 ov5640_code_to_bpp(struct ov5640_dev *sensor, u32 code)
-> +{
-> +	const struct ov5640_pixfmt *format = ov5640_code_to_pixfmt(sensor, code);
-> +
-> +	return format->bpp;
-> +}
-> +
->  /*
->   * FIXME: all of these register tables are likely filled with
->   * entries that set the register to their power-on default values,
-> @@ -1391,7 +1434,7 @@ static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor)
->  	 * (0x01=0.5ns).
->  	 */
->  	sample_rate = ov5640_pixel_rates[sensor->current_mode->pixel_rate]
-> -		    * (ov5640_code_to_bpp(fmt->code) / 8);
-> +		    * (ov5640_code_to_bpp(sensor, fmt->code) / 8);
->  	pclk_period = 2000000000U / sample_rate;
->  
->  	/* Program the clock tree registers. */
-> @@ -1456,7 +1499,7 @@ static int ov5640_set_dvp_pclk(struct ov5640_dev *sensor)
+>  /* download ov5640 settings to sensor through i2c */
+>  static int ov5640_set_timings(struct ov5640_dev *sensor,
+>  			      const struct ov5640_mode_info *mode)
+>  {
+> -	const struct v4l2_rect *analog_crop = &mode->analog_crop;
+> -	const struct v4l2_rect *crop = &mode->crop;
+> +	const struct ov5640_timings *timings;
+> +	const struct v4l2_rect *analog_crop;
+> +	const struct v4l2_rect *crop;
 >  	int ret;
 >  
->  	rate = ov5640_calc_pixel_rate(sensor);
-> -	rate *= ov5640_code_to_bpp(sensor->fmt.code);
-> +	rate *= ov5640_code_to_bpp(sensor, sensor->fmt.code);
->  	rate /= sensor->ep.bus.parallel.bus_width;
+>  	if (sensor->fmt.code == MEDIA_BUS_FMT_JPEG_1X8) {
+> @@ -1380,6 +1630,14 @@ static int ov5640_set_timings(struct ov5640_dev *sensor,
+>  			return ret;
+>  	}
 >  
->  	ov5640_calc_pclk(sensor, rate, &prediv, &mult, &sysdiv, &pll_rdiv,
-> @@ -2690,15 +2733,18 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
->  				   enum ov5640_frame_rate fr,
->  				   const struct ov5640_mode_info **new_mode)
->  {
-> -	unsigned int bpp = ov5640_code_to_bpp(fmt->code);
->  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
->  	const struct ov5640_mode_info *mode;
-> -	int i;
-> +	const struct ov5640_pixfmt *pixfmt;
-> +	unsigned int bpp;
+> +	if (ov5640_is_csi2(sensor))
+> +		timings = &mode->csi2_timings;
+> +	else
+> +		timings = &mode->dvp_timings;
+> +
+> +	analog_crop = &timings->analog_crop;
+> +	crop = &timings->crop;
+> +
+>  	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HS, analog_crop->left);
+>  	if (ret < 0)
+>  		return ret;
+> @@ -1406,20 +1664,20 @@ static int ov5640_set_timings(struct ov5640_dev *sensor,
+>  	if (ret < 0)
+>  		return ret;
 >  
+> -	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPHO, crop->width);
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPHO, mode->width);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPVO, crop->height);
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_DVPVO, mode->height);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HTS, mode->htot);
+> +	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_HTS, timings->htot);
+>  	if (ret < 0)
+>  		return ret;
+>  
+>  	ret = ov5640_write_reg16(sensor, OV5640_REG_TIMING_VTS,
+> -				 crop->height + mode->vblank_def);
+> +				 mode->height + timings->vblank_def);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> @@ -1851,15 +2109,15 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
+>  
+>  	mode = v4l2_find_nearest_size(ov5640_mode_data,
+>  				      ARRAY_SIZE(ov5640_mode_data),
+> -				      crop.width, crop.height, width, height);
+> +				      width, height, width, height);
+>  
+>  	if (!mode ||
+>  	    (!nearest &&
+> -	     (mode->crop.width != width || mode->crop.height != height)))
+> +	     (mode->width != width || mode->height != height)))
+>  		return NULL;
+>  
+>  	/* Check to see if the current mode exceeds the max frame rate */
+> -	if (ov5640_framerates[fr] > ov5640_framerates[mode->max_fps])
+> +	if (ov5640_framerates[fr] > ov5640_framerates[mode->dvp_timings.max_fps])
+>  		return NULL;
+>  
+>  	return mode;
+> @@ -2539,8 +2797,8 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
 >  	mode = ov5640_find_mode(sensor, fr, fmt->width, fmt->height, true);
 >  	if (!mode)
 >  		return -EINVAL;
+> -	fmt->width = mode->crop.width;
+> -	fmt->height = mode->crop.height;
+> +	fmt->width = mode->width;
+> +	fmt->height = mode->height;
 >  
-> +	pixfmt = ov5640_code_to_pixfmt(sensor, fmt->code);
-> +	bpp = pixfmt->bpp;
-> +
->  	/*
->  	 * Adjust mode according to bpp:
->  	 * - 8bpp modes work for resolution >= 1280x720
-> @@ -2715,14 +2761,8 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
 >  	if (new_mode)
 >  		*new_mode = mode;
+> @@ -3173,9 +3431,9 @@ static int ov5640_enum_frame_size(struct v4l2_subdev *sd,
+>  	if (fse->index >= OV5640_NUM_MODES)
+>  		return -EINVAL;
 >  
-> -	for (i = 0; i < ARRAY_SIZE(ov5640_formats); i++)
-> -		if (ov5640_formats[i].code == fmt->code)
-> -			break;
-> -	if (i >= ARRAY_SIZE(ov5640_formats))
-> -		i = 0;
-> -
-> -	fmt->code = ov5640_formats[i].code;
-> -	fmt->colorspace = ov5640_formats[i].colorspace;
-> +	fmt->code = pixfmt->code;
-> +	fmt->colorspace = pixfmt->colorspace;
->  	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
->  	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
->  	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
-> @@ -2764,7 +2804,7 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
->  	 * progressively slow it down if it exceeds 1GHz.
->  	 */
->  	num_lanes = sensor->ep.bus.mipi_csi2.num_data_lanes;
-> -	bpp = ov5640_code_to_bpp(fmt->code);
-> +	bpp = ov5640_code_to_bpp(sensor, fmt->code);
->  	do {
->  		pixel_rate = ov5640_pixel_rates[pixel_rate_id];
->  		link_freq = pixel_rate * bpp / (2 * num_lanes);
-> @@ -3462,7 +3502,8 @@ static int ov5640_enum_frame_size(struct v4l2_subdev *sd,
->  				  struct v4l2_subdev_state *sd_state,
->  				  struct v4l2_subdev_frame_size_enum *fse)
->  {
-> -	u32 bpp = ov5640_code_to_bpp(fse->code);
-> +	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> +	u32 bpp = ov5640_code_to_bpp(sensor, fse->code);
->  	unsigned int index = fse->index;
+> -	fse->min_width = ov5640_mode_data[fse->index].crop.width;
+> +	fse->min_width = ov5640_mode_data[fse->index].width;
+>  	fse->max_width = fse->min_width;
+> -	fse->min_height = ov5640_mode_data[fse->index].crop.height;
+> +	fse->min_height = ov5640_mode_data[fse->index].height;
+>  	fse->max_height = fse->min_height;
 >  
->  	if (fse->pad != 0)
-> @@ -3589,13 +3630,19 @@ static int ov5640_enum_mbus_code(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_state *sd_state,
->  				 struct v4l2_subdev_mbus_code_enum *code)
->  {
-> -	if (code->pad != 0)
-> -		return -EINVAL;
-
-You've lost this check.
-
-> -	if (code->index >= ARRAY_SIZE(ov5640_formats))
-> -		return -EINVAL;
-> +	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> +	const struct ov5640_pixfmt *formats = ov5640_formats(sensor);
-> +	unsigned int i = 0;
+>  	return 0;
+> @@ -3239,16 +3497,16 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
+>  	mode = sensor->current_mode;
 >  
-> -	code->code = ov5640_formats[code->index].code;
-> -	return 0;
-> +	while (formats[i].code) {
-> +		if (i == code->index) {
-> +			code->code = formats[i].code;
-> +			return 0;
-> +		}
-> +		++i;
-> +	}
-> +
-> +	return -EINVAL;
-
-That's quite inefficient.
-
-	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-	const struct ov5640_pixfmt *formats;
-	unsigned int num_formats;
-
-	if (ov5640_is_csi2(sensor)) {
-		formats = ov5640_csi2_formats;
-		num_formats = ARRAY_SIZE(ov5640_csi2_formats) - 1;
-	} else {
-		formats = ov5640_dvp_formats;
-		num_formats = ARRAY_SIZE(ov5640_dvp_formats) - 1;
-	}
-
-	if (code->pad != 0 || code->index >= num_formats)
-		return -EINVAL;
-
-	code->code = formats[code->index].code;
-	return 0;
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  }
+>  	frame_rate = ov5640_try_frame_interval(sensor, &fi->interval,
+> -					       mode->crop.width,
+> -					       mode->crop.height);
+> +					       mode->width,
+> +					       mode->height);
+>  	if (frame_rate < 0) {
+>  		/* Always return a valid frame interval value */
+>  		fi->interval = sensor->frame_interval;
+>  		goto out;
+>  	}
 >  
->  static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+> -	mode = ov5640_find_mode(sensor, frame_rate, mode->crop.width,
+> -				mode->crop.height, true);
+> +	mode = ov5640_find_mode(sensor, frame_rate, mode->width,
+> +				mode->height, true);
+>  	if (!mode) {
+>  		ret = -EINVAL;
+>  		goto out;
 
 -- 
 Regards,
