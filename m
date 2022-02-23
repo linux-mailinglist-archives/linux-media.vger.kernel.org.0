@@ -2,116 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB7234C0B4E
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 05:58:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CFA74C0C66
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 07:06:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236866AbiBWE6e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Feb 2022 23:58:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35394 "EHLO
+        id S238163AbiBWGGy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 01:06:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229674AbiBWE6e (ORCPT
+        with ESMTP id S233319AbiBWGGx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Feb 2022 23:58:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DBFB60CC3
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 20:58:07 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F2B4482;
-        Wed, 23 Feb 2022 05:58:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645592285;
-        bh=IHHqig6LVvPy+2QYtpLGa7/Vo/zFp5XtZPgyxb1Agd8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iJ71LeuVRCc9sHDzHj7SxWd/qJjGcgKV1VqaNdwm0AF/KXwZqbyo9sO+FavmMTyna
-         dRV/STtCMps3RD90UfUJBmLCwZx82i+qw5bkCHVtV/ZMHUlWKSj3eTMbAoq7UCw/AG
-         AzMrUPsLlv7tmnzgFUMb24hi58fZT2hZW9YTYC3g=
-Date:   Wed, 23 Feb 2022 06:57:55 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     hverkuil@xs4all.nl, sakari.ailus@linux.intel.com,
-        aford173@gmail.com, slongerbeam@gmail.com, rmfrfs@gmail.com,
-        alexander.stein@ew.tq-group.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: imx: csis: Store pads format separately
-Message-ID: <YhW+08HNhHAs4W7l@pendragon.ideasonboard.com>
-References: <20220222214643.587535-1-jacopo@jmondi.org>
+        Wed, 23 Feb 2022 01:06:53 -0500
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B6645B3CE;
+        Tue, 22 Feb 2022 22:06:22 -0800 (PST)
+X-UUID: 0387d5c6fb8544c8b313e2d5a2f8024f-20220223
+X-UUID: 0387d5c6fb8544c8b313e2d5a2f8024f-20220223
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1005719897; Wed, 23 Feb 2022 14:06:16 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 23 Feb 2022 14:06:15 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 23 Feb 2022 14:06:13 +0800
+Message-ID: <bc7d9d90aae903ac95e952d74a15105f51f03542.camel@mediatek.com>
+Subject: Re: [PATCH v2, 00/10] Enable two H264 encoder cores on MT8195
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        "Tiffany Lin" <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>, Yong Wu <yong.wu@mediatek.com>,
+        <angelogioacchino.delregno@collabora.com>
+CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date:   Wed, 23 Feb 2022 14:06:13 +0800
+In-Reply-To: <20220117120615.21687-1-irui.wang@mediatek.com>
+References: <20220117120615.21687-1-irui.wang@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220222214643.587535-1-jacopo@jmondi.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Dear all maintainers,
 
-Thank you for the patch.
+Gently ping.
 
-On Tue, Feb 22, 2022 at 10:46:43PM +0100, Jacopo Mondi wrote:
-> As the formats on the sink and source pad might be different store
-> them separately.
+Could you help to review this series of patches? 
+I would be very grateful for any of your comments.
+
+Thanks
+Best Regards
+On Mon, 2022-01-17 at 20:06 +0800, Irui Wang wrote:
+> MT8195 has two H264 encoder cores, they have their own power-domains,
+> clocks, interrupts, register base. The two H264 encoder cores can
+> work
+> together to achieve higher performance, it's a core mode called
+> frame-racing, one core has 4K@30fps performance, two cores can
+> achieve
+> 4K@60fps.
+> The two encoder core encoding process looks like this:
 > 
-> The pad format is used to configure the image width and height in
-> mipi_csis_system_enable(). As the csis cannot downscale, using the sink
-> or the source one isn't relevant.
+>     VENC Core0: frm#0....frm#2....frm#4....
+>     VENC Core1: ..frm#1....frm#3....frm#5....
 > 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+> This series of patches are used to enable the two H264 encoder cores,
+> encoding process will be changed:
+> As-Is: Synchronous
+> V4L2_VIDIOC_QBUF#0 --> device_run(triger encoder) --> wait encoder
+> IRQ -->
+> encoding done with result --> job_finish
+> V4l2_VIDIOC_QBUF#1 --> device_run(triger encoder) --> wait encoder
+> IRQ -->
+> encoding done with result --> job_finish
+> ...
+> 
+> To-Be: Asynchronous
+> V4L2_VIDIOC_QBUF#0 --> device_run(triger encoder) --> job_finish
+> ..V4l2_VIDIOC_QBUF#1 --> device_run(triger encoder) --> job_finish
+> (venc core0 may encode done here, done the encoding result to client)
+> V4L2_VIDIOC_QBUF#2 --> device_run(triger encoder) --> job_finish.
+> 
+> There is no "wait encoder IRQ" synchronous call during frame-racing
+> mode
+> encoding process, it can full use the two encoder cores to achieve
+> higher
+> performance.
+> 
+> ---
+> This series patches dependent on:
+> [1]: the latest linux stage tree: 
+> https://git.linuxtv.org/media_stage.git
+> 
+> mtk decoder patches
+> [2]: 
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=7105
+> [3]: 
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=7131
+> 
+> new yaml included files
+> [4]:
+> 
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=551641
+> [5]:
+> 
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=580579
+> 
+> ---
+> ---
+> changes compared with v1:
+> - of_platform_populate was used in place of the component framework.
+> - new yaml file for venc cores.
+> - some modifications for patch v1's review comments.
 > ---
 > 
-> Hans, this comes as a late fix for pull request
-> [GIT PULL FOR v5.18] De-stage imx7-mipi-csis & some fixes
+> Irui Wang (10):
+>   media: mtk-vcodec: Use core type to indicate h264 and vp8 enc
+>   media: mtk-vcodec: export encoder functions
+>   dt-bindings: media: mtk-vcodec: Adds encoder cores dt-bindings for
+>     mt8195
+>   media: mtk-vcodec: Enable venc dual core usage
+>   media: mtk-vcodec: mtk-vcodec: Rewrite venc power manage interface
+>   media: mtk-vcodec: Add venc power on/off interface
+>   media: mtk-vcodec: Rewrite venc clock interface
+>   media: mtk-vcodec: Add more extra processing for dual-core mode
+>   media: mtk-vcodec: Add dual core mode encode process
+>   media: mtk-vcodec: Done encode result to client
 > 
-> I'm sorry if this arrives a bit late, but I only realized when I
-> exercized RGB24 today.
+>  .../media/mediatek,vcodec-encoder-core.yaml   | 214
+> +++++++++++++++++
+>  drivers/media/platform/mtk-vcodec/Makefile    |   4 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  44 +++-
+>  .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 109 ++++++---
+>  .../platform/mtk-vcodec/mtk_vcodec_enc.h      |   7 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_core.c | 187 +++++++++++++++
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_core.h |  36 +++
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 118 ++++++----
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 187 +++++++++++++--
+>  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.h   |  11 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_util.c     |  19 ++
+>  .../platform/mtk-vcodec/mtk_vcodec_util.h     |   5 +
+>  .../platform/mtk-vcodec/venc/venc_h264_if.c   | 216 +++++++++++++++-
+> --
+>  .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   3 +-
+>  .../media/platform/mtk-vcodec/venc_drv_if.c   |  79 +++++--
+>  .../media/platform/mtk-vcodec/venc_drv_if.h   |   7 +
+>  .../media/platform/mtk-vcodec/venc_vpu_if.c   |  10 +-
+>  .../media/platform/mtk-vcodec/venc_vpu_if.h   |   3 +-
+>  18 files changed, 1097 insertions(+), 162 deletions(-)
+>  create mode 100644
+> Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-
+> core.yaml
+>  create mode 100644 drivers/media/platform/mtk-
+> vcodec/mtk_vcodec_enc_core.c
+>  create mode 100644 drivers/media/platform/mtk-
+> vcodec/mtk_vcodec_enc_core.h
 > 
-> Can this be collected together with the above pull request ?
-> Thanks
->   j
-> ---
->  drivers/media/platform/imx/imx-mipi-csis.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-> index 6f975b3702bc..c23e512886f9 100644
-> --- a/drivers/media/platform/imx/imx-mipi-csis.c
-> +++ b/drivers/media/platform/imx/imx-mipi-csis.c
-> @@ -330,7 +330,7 @@ struct csi_state {
-> 
->  	struct mutex lock;	/* Protect csis_fmt, format_mbus and state */
->  	const struct csis_pix_format *csis_fmt;
-> -	struct v4l2_mbus_framefmt format_mbus;
-> +	struct v4l2_mbus_framefmt format_mbus[CSIS_PADS_NUM];
->  	u32 state;
-> 
->  	spinlock_t slock;	/* Protect events */
-> @@ -535,7 +535,7 @@ static void mipi_csis_system_enable(struct csi_state *state, int on)
->  /* Called with the state.lock mutex held */
->  static void __mipi_csis_set_format(struct csi_state *state)
->  {
-> -	struct v4l2_mbus_framefmt *mf = &state->format_mbus;
-> +	struct v4l2_mbus_framefmt *mf = &state->format_mbus[CSIS_PAD_SINK];
->  	u32 val;
-> 
->  	/* Color format */
-> @@ -967,7 +967,7 @@ mipi_csis_get_format(struct csi_state *state,
->  	if (which == V4L2_SUBDEV_FORMAT_TRY)
->  		return v4l2_subdev_get_try_format(&state->sd, sd_state, pad);
-> 
-> -	return &state->format_mbus;
-> +	return &state->format_mbus[pad];
->  }
-> 
->  static int mipi_csis_init_cfg(struct v4l2_subdev *sd,
 
--- 
-Regards,
-
-Laurent Pinchart
