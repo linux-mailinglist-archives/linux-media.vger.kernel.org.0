@@ -2,365 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A56DF4C11F0
+	by mail.lfdr.de (Postfix) with ESMTP id 532F34C11EF
 	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 12:52:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240183AbiBWLwh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 06:52:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55070 "EHLO
+        id S236123AbiBWLwi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 06:52:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235913AbiBWLwW (ORCPT
+        with ESMTP id S237855AbiBWLwf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 06:52:22 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64183B569
-        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 03:51:53 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D7D4DD;
-        Wed, 23 Feb 2022 12:51:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645617110;
-        bh=TCMN7Q2X7hiBfuBHphHlIJmsjLHf0qWdS2WigOdBkkU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tRovSSznie9x0tkKlroErTqWC1SmhyfmjfCHOeAWTtG69elPO1DIacdQebEkNCYJp
-         N8dTFKmZcr0nCLaxaMAx+mTNux5pScTRl/JnCPYsdsIhPNILvRPTt8TuZ+o2mLlBVF
-         8MMqfc/VjqI4gJWQBC8DTk36nAdI2Gnjajyk15ks=
-Date:   Wed, 23 Feb 2022 13:51:40 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
-        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
-        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
-        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        aford173@gmail.com, festevam@gmail.com,
-        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
-        paul.elder@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 07/27] media: ov5640: Rework CSI-2 clock tree
-Message-ID: <YhYfzBKuYssnS6hi@pendragon.ideasonboard.com>
-References: <20220223104034.91550-1-jacopo@jmondi.org>
- <20220223104034.91550-8-jacopo@jmondi.org>
+        Wed, 23 Feb 2022 06:52:35 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B0B3BF87;
+        Wed, 23 Feb 2022 03:51:54 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5D8C160AE3;
+        Wed, 23 Feb 2022 11:51:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88E90C340E7;
+        Wed, 23 Feb 2022 11:51:51 +0000 (UTC)
+Message-ID: <2a2038bc-9f84-c451-deb3-1e807ac2f0d3@xs4all.nl>
+Date:   Wed, 23 Feb 2022 12:51:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220223104034.91550-8-jacopo@jmondi.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v10 2/2] media: i2c: isl7998x: Add driver for Intersil
+ ISL7998x
+Content-Language: en-US
+To:     Michael Tretter <m.tretter@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        p.zabel@pengutronix.de, Ian Arkver <ian.arkver.dev@gmail.com>,
+        kernel@pengutronix.de, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, Marek Vasut <marex@denx.de>
+References: <20220217154407.2892822-1-m.tretter@pengutronix.de>
+ <20220217154407.2892822-3-m.tretter@pengutronix.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220217154407.2892822-3-m.tretter@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-Thank you for the patch.
-
-On Wed, Feb 23, 2022 at 11:40:14AM +0100, Jacopo Mondi wrote:
-> Re-work the ov5640_set_mipi_pclk() function to calculate the
-> PLL configuration using the pixel_rate and link_freq values set at
-> s_fmt time.
+On 2/17/22 16:44, Michael Tretter wrote:
+> From: Marek Vasut <marex@denx.de>
 > 
-> Rework the DVP clock mode settings to calculate the pixel clock
-> internally and remove the assumption on the 16bpp format.
+> Add driver for the Intersil ISL7998x Analog to MIPI CSI-2/BT656 decoder.
+> This chip supports 1/2/4 analog video inputs and converts them into
+> 1/2/4 VCs in MIPI CSI2 stream.
 > 
-> Tested in MIPI CSI-2 mode with 1 and 2 data lanes with:
-> - all the sensor supported resolutions in UYVY and RGB565 formats.
-> - resolutions >= 1280x720 in RAW Bayer format.
-> - resolutions < 1280x720 in RGB888 format.
+> This driver currently supports ISL79987 and both 720x480 and 720x576
+> resolutions, however as per specification, all inputs must use the
+> same resolution and standard. The only supported pixel format is now
+> YUYV/YUV422. The chip should support RGB565 on the CSI2 as well, but
+> this is currently unsupported.
 > 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> To: linux-media@vger.kernel.org
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 > ---
->  drivers/media/i2c/ov5640.c | 192 ++++++++++++++++++-------------------
->  1 file changed, 92 insertions(+), 100 deletions(-)
+> Changelog:
 > 
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 17ad815f7bdf..65851b27d830 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -90,6 +90,7 @@
->  #define OV5640_REG_POLARITY_CTRL00	0x4740
->  #define OV5640_REG_MIPI_CTRL00		0x4800
->  #define OV5640_REG_DEBUG_MODE		0x4814
-> +#define OV5640_REG_PCLK_PERIOD		0x4837
->  #define OV5640_REG_ISP_FORMAT_MUX_CTRL	0x501f
->  #define OV5640_REG_PRE_ISP_TEST_SET1	0x503d
->  #define OV5640_REG_SDE_CTRL0		0x5580
-> @@ -925,20 +926,10 @@ static int ov5640_mod_reg(struct ov5640_dev *sensor, u16 reg,
->   *                                +-----+-----+
->   *                                       +------------> PCLK
->   *
-> - * This is deviating from the datasheet at least for the register
-> - * 0x3108, since it's said here that the PCLK would be clocked from
-> - * the PLL.
-> - *
-> - * There seems to be also (unverified) constraints:
-> + * There seems to be also constraints:
->   *  - the PLL pre-divider output rate should be in the 4-27MHz range
->   *  - the PLL multiplier output rate should be in the 500-1000MHz range
->   *  - PCLK >= SCLK * 2 in YUV, >= SCLK in Raw or JPEG
-> - *
-> - * In the two latter cases, these constraints are met since our
-> - * factors are hardcoded. If we were to change that, we would need to
-> - * take this into account. The only varying parts are the PLL
-> - * multiplier and the system clock divider, which are shared between
-> - * all these clocks so won't cause any issue.
->   */
->  
->  /*
-> @@ -957,13 +948,6 @@ static int ov5640_mod_reg(struct ov5640_dev *sensor, u16 reg,
->  #define OV5640_SYSDIV_MIN	1
->  #define OV5640_SYSDIV_MAX	16
->  
-> -/*
-> - * Hardcode these values for scaler and non-scaler modes.
-> - * FIXME: to be re-calcualted for 1 data lanes setups
-> - */
-> -#define OV5640_MIPI_DIV_PCLK	2
-> -#define OV5640_MIPI_DIV_SCLK	1
-> -
->  /*
->   * This is supposed to be ranging from 1 to 2, but the value is always
->   * set to 2 in the vendor kernels.
-> @@ -1073,70 +1057,79 @@ static unsigned long ov5640_calc_sys_clk(struct ov5640_dev *sensor,
->  /*
->   * ov5640_set_mipi_pclk() - Calculate the clock tree configuration values
->   *			    for the MIPI CSI-2 output.
-> - *
-> - * @rate: The requested bandwidth per lane in bytes per second.
-> - *	  'Bandwidth Per Lane' is calculated as:
-> - *	  bpl = HTOT * VTOT * FPS * bpp / num_lanes;
-> - *
-> - * This function use the requested bandwidth to calculate:
-> - * - sample_rate = bpl / (bpp / num_lanes);
-> - *	         = bpl / (PLL_RDIV * BIT_DIV * PCLK_DIV * MIPI_DIV / num_lanes);
-> - *
-> - * - mipi_sclk   = bpl / MIPI_DIV / 2; ( / 2 is for CSI-2 DDR)
-> - *
-> - * with these fixed parameters:
-> - *	PLL_RDIV	= 2;
-> - *	BIT_DIVIDER	= 2; (MIPI_BIT_MODE == 8 ? 2 : 2,5);
-> - *	PCLK_DIV	= 1;
-> - *
-> - * The MIPI clock generation differs for modes that use the scaler and modes
-> - * that do not. In case the scaler is in use, the MIPI_SCLK generates the MIPI
-> - * BIT CLk, and thus:
-> - *
-> - * - mipi_sclk = bpl / MIPI_DIV / 2;
-> - *   MIPI_DIV = 1;
-> - *
-> - * For modes that do not go through the scaler, the MIPI BIT CLOCK is generated
-> - * from the pixel clock, and thus:
-> - *
-> - * - sample_rate = bpl / (bpp / num_lanes);
-> - *	         = bpl / (2 * 2 * 1 * MIPI_DIV / num_lanes);
-> - *		 = bpl / (4 * MIPI_DIV / num_lanes);
-> - * - MIPI_DIV	 = bpp / (4 * num_lanes);
-> - *
-> - * FIXME: this have been tested with 16bpp and 2 lanes setup only.
-> - * MIPI_DIV is fixed to value 2, but it -might- be changed according to the
-> - * above formula for setups with 1 lane or image formats with different bpp.
-> - *
-> - * FIXME: this deviates from the sensor manual documentation which is quite
-> - * thin on the MIPI clock tree generation part.
->   */
-> -static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor,
-> -				unsigned long rate)
-> +static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor)
->  {
-> -	const struct ov5640_mode_info *mode = sensor->current_mode;
-> +	u8 bit_div, mipi_div, pclk_div, sclk_div, sclk2x_div, root_div;
-> +	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
->  	u8 prediv, mult, sysdiv;
-> -	u8 mipi_div;
-> +	unsigned long sysclk;
-> +	unsigned long sample_rate;
-> +	u8 pclk_period;
-> +	s64 link_freq;
->  	int ret;
->  
-> +	/* Use the link frequency computed at ov5640_update_pixel_rate() time. */
-> +	link_freq = ov5640_csi2_link_freqs[sensor->ctrls.link_freq->cur.val];
+> v10:
+> 
+> - add a lock for subdev calls
+> - remove unnecessary pm_runtime_enabled
+> - fix indentation and format
+> - free controls on error
+> - fix set_standard call
+> - remove camel case in macro definitions
+> - add macros for video formats
+> - rework lookup of video standards
+> - add support for PAL Nc
+> - add explicit trigger for format detection
+> 
+> v9: none
+> 
+> v8:
+> 
+> - fix warning "type qualifiers ignored on function return type"
+> 
+> v7:
+> 
+> - reserve driver specific controls
+> - add documentation for driver specific controls
+> - implement g_input_status
+> - track device enabled state in driver
+> - store norm instead of mode in driver
+> - select test pattern based on video norm
+> - improve debug message for enabled test pattern
+> - fix off by one with 4 inputs
+> - implement querystd and friends
+> - fix polling condition for standard detection
+> - use v4l2_norm_to_name instead of custom implementation
+> 
+> v6:
+> 
+> - remove unused log2.h
+> - add select MEDIA_CONTROLLER
+> - use poll_read_timeout to wait for power on
+> - add timeout to polling for video standard
+> - use fwnode_graph_get_endpoint_by_id
+> - fix invalid bus type error message
+> 
+> v5: none
+> 
+> v4:
+> 
+> - fix lines over 80 chars where applicable
+> - fix possible NULL pointer access in link_freq
+> - initialize bus type with CSI2_DPHY
+> - iterate over pads instead of hard coded 4
+> - merge power_{on,off} functions into resume,suspend
+> - switch to v4l2_subdev_state
+> - report field order based on video standard
+> - add error message for timeout
+> - simplify dev_dbg statement in update_std
+> - call v4l2_ctrl_handler_setup
+> - don't set control if pm_runtime is not enabled
+> - fix YUV422 byte order
+> - switch to pre_streamon callback for LP11 mode
+> 
+> v3:
+> 
+> - follow dt binding change: pd-gpios -> powerdown-gpios
+> 
+> v2:
+> 
+> - general cleanup
+> - remove isl7998x_g_mbus_config function
+> - implement enum_frame_size function
+> - replace msleep with usleep_range
+> - rework set_fmt/get_fmt functions
+> - calculate number of inputs using number of input ports
+> - switch to runtime_pm
+> - add reset gpio
+> - add adv_debug support
+> - add MAINTAINERS entry
+> ---
+>  MAINTAINERS                        |    8 +
+>  drivers/media/i2c/Kconfig          |   10 +
+>  drivers/media/i2c/Makefile         |    1 +
+>  drivers/media/i2c/isl7998x.c       | 1633 ++++++++++++++++++++++++++++
+>  include/uapi/linux/v4l2-controls.h |    6 +
+>  5 files changed, 1658 insertions(+)
+>  create mode 100644 drivers/media/i2c/isl7998x.c
+> 
+
+<snip>
+
+> +static int isl7998x_pre_streamon(struct v4l2_subdev *sd, u32 flags)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct device *dev = &client->dev;
 > +
->  	/*
-> -	 * 1280x720 is reported to use 'SUBSAMPLING' only,
-> -	 * but according to the sensor manual it goes through the
-> -	 * scaler before subsampling.
-> +	 * - mipi_div - Additional divider for the MIPI lane clock.
-> +	 *
-> +	 * Higher link frequencies would make sysclk > 1GHz.
-> +	 * Keep the sysclk low and do not divide in the MIPI domain.
->  	 */
-> -	if (mode->dn_mode == SCALING ||
-> -	   (mode->id == OV5640_MODE_720P_1280_720))
-> -		mipi_div = OV5640_MIPI_DIV_SCLK;
-> +	if (link_freq > OV5640_LINK_RATE_MAX)
-> +		mipi_div = 1;
->  	else
-> -		mipi_div = OV5640_MIPI_DIV_PCLK;
-> +		mipi_div = 2;
->  
-> -	ov5640_calc_sys_clk(sensor, rate, &prediv, &mult, &sysdiv);
-> +	sysclk = link_freq * mipi_div;
-> +	ov5640_calc_sys_clk(sensor, sysclk, &prediv, &mult, &sysdiv);
->  
-> -	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL0,
-> -			     0x0f, OV5640_PLL_CTRL0_MIPI_MODE_8BIT);
-> +	/*
-> +	 * Adjust PLL parameters to maintain the MIPI_SCLK-to-PCLK ratio.
-> +	 *
-> +	 * - root_div = 2 (fixed)
-> +	 * - bit_div : MIPI 8-bit = 2; MIPI 10-bit = 2.5
-> +	 * - pclk_div = 1 (fixed)
-> +	 * - p_div  = (2 lanes ? mipi_div : 2 * mipi_div)
-> +	 *
-> +	 * This results in the following MIPI_SCLK depending on the number
-> +	 * of lanes:
-> +	 *
-> +	 * - 2 lanes: MIPI_SCLK = (4 or 5) * PCLK
-> +	 * - 1 lanes: MIPI_SCLK = (8 or 10) * PCLK
-> +	 */
-> +	root_div = OV5640_PLL_CTRL3_PLL_ROOT_DIV_2;
-> +	bit_div =  OV5640_PLL_CTRL0_MIPI_MODE_8BIT;
-> +	pclk_div = ilog2(OV5640_PCLK_ROOT_DIV);
->  
-> -	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL1,
-> -			     0xff, sysdiv << 4 | mipi_div);
-> +	/*
-> +	 * Scaler clock:
-> +	 * - YUV: PCLK >= 2 * SCLK
-> +	 * - RAW or JPEG: PCLK >= SCLK
-> +	 * - sclk2x_div = sclk_div / 2
-> +	 *
-> +	 * TODO: test with JPEG.
-> +	 */
-> +	sclk_div = ilog2(OV5640_SCLK_ROOT_DIV);
-> +	sclk2x_div = ilog2(OV5640_SCLK2X_ROOT_DIV);
+> +	if (flags & V4L2_SUBDEV_PRE_STREAMON_FL_MANUAL_LP)
+> +		return pm_runtime_resume_and_get(dev);
 > +
-> +	/*
-> +	 * Set the sample period expressed in ns with 1-bit decimal
-> +	 * (0x01=0.5ns).
-> +	 */
-> +	sample_rate = ov5640_pixel_rates[sensor->current_mode->pixel_rate]
-> +		    * (ov5640_code_to_bpp(fmt->code) / 8);
-> +	pclk_period = 2000000000U / sample_rate;
-> +
-> +	/* Program the clock tree registers. */
-> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL0, 0x0f, bit_div);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL1, 0xff,
-> +			     (sysdiv << 4) | mipi_div);
->  	if (ret)
->  		return ret;
->  
-> @@ -1144,13 +1137,27 @@ static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor,
->  	if (ret)
->  		return ret;
->  
-> -	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL3,
-> -			     0x1f, OV5640_PLL_CTRL3_PLL_ROOT_DIV_2 | prediv);
-> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL3, 0x1f,
-> +			     root_div | prediv);
->  	if (ret)
->  		return ret;
->  
-> -	return ov5640_mod_reg(sensor, OV5640_REG_SYS_ROOT_DIVIDER,
-> -			      0x30, OV5640_PLL_SYS_ROOT_DIVIDER_BYPASS);
-> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SYS_ROOT_DIVIDER, 0x3f,
-> +			     (pclk_div << 4) | (sclk2x_div << 2) | sclk_div);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return ov5640_write_reg(sensor, OV5640_REG_PCLK_PERIOD, pclk_period);
+> +	return 0;
+
+This feels a bit scary: if V4L2_SUBDEV_PRE_STREAMON_FL_MANUAL_LP is NOT
+set, then pm_runtime_resume_and_get() isn't called, but this function
+still returns success...
+
 > +}
 > +
-> +static u32 ov5640_calc_pixel_rate(struct ov5640_dev *sensor)
+> +static int isl7998x_post_streamoff(struct v4l2_subdev *sd)
 > +{
-> +	u32 rate;
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct device *dev = &client->dev;
 > +
-> +	rate = sensor->current_mode->vtot * sensor->current_mode->htot;
-> +	rate *= ov5640_framerates[sensor->current_fr];
-> +
-> +	return rate;
->  }
->  
->  static unsigned long ov5640_calc_pclk(struct ov5640_dev *sensor,
-> @@ -1170,11 +1177,16 @@ static unsigned long ov5640_calc_pclk(struct ov5640_dev *sensor,
->  	return _rate / *pll_rdiv / *bit_div / *pclk_div;
->  }
->  
-> -static int ov5640_set_dvp_pclk(struct ov5640_dev *sensor, unsigned long rate)
-> +static int ov5640_set_dvp_pclk(struct ov5640_dev *sensor)
->  {
->  	u8 prediv, mult, sysdiv, pll_rdiv, bit_div, pclk_div;
-> +	u32 rate;
->  	int ret;
->  
-> +	rate = ov5640_calc_pixel_rate(sensor);
-> +	rate *= ov5640_code_to_bpp(sensor->fmt.code);
-> +	rate /= sensor->ep.bus.parallel.bus_width;
-> +
->  	ov5640_calc_pclk(sensor, rate, &prediv, &mult, &sysdiv, &pll_rdiv,
->  			 &bit_div, &pclk_div);
->  
-> @@ -1699,16 +1711,6 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
->  	return mode;
->  }
->  
-> -static u64 ov5640_calc_pixel_rate(struct ov5640_dev *sensor)
-> -{
-> -	u64 rate;
-> -
-> -	rate = sensor->current_mode->vtot * sensor->current_mode->htot;
-> -	rate *= ov5640_framerates[sensor->current_fr];
-> -
-> -	return rate;
-> -}
-> -
->  /*
->   * sensor changes between scaling and subsampling, go through
->   * exposure calculation
-> @@ -1890,7 +1892,6 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
->  	enum ov5640_downsize_mode dn_mode, orig_dn_mode;
->  	bool auto_gain = sensor->ctrls.auto_gain->val == 1;
->  	bool auto_exp =  sensor->ctrls.auto_exp->val == V4L2_EXPOSURE_AUTO;
-> -	unsigned long rate;
->  	int ret;
->  
->  	dn_mode = mode->dn_mode;
-> @@ -1909,19 +1910,10 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
->  			goto restore_auto_gain;
->  	}
->  
-> -	/*
-> -	 * All the formats we support have 16 bits per pixel, seems to require
-> -	 * the same rate than YUV, so we can just use 16 bpp all the time.
-> -	 */
-> -	rate = ov5640_calc_pixel_rate(sensor) * 16;
-> -	if (ov5640_is_csi2(sensor)) {
-> -		rate = rate / sensor->ep.bus.mipi_csi2.num_data_lanes;
-> -		ret = ov5640_set_mipi_pclk(sensor, rate);
-> -	} else {
-> -		rate = rate / sensor->ep.bus.parallel.bus_width;
-> -		ret = ov5640_set_dvp_pclk(sensor, rate);
-> -	}
-> -
-> +	if (ov5640_is_csi2(sensor))
-> +		ret = ov5640_set_mipi_pclk(sensor);
-> +	else
-> +		ret = ov5640_set_dvp_pclk(sensor);
->  	if (ret < 0)
->  		return 0;
->  
+> +	pm_runtime_put(dev);
 
--- 
+...and pm_runtime_put() is called without the corresponding get.
+
+The documentation in v4l2-subdev.h isn't very clear about what
+pre_streamon should return. I'm inclined to say that it should
+return -EACCES.
+
+Sakari, what do you think?
+
+> +
+> +	return 0;
+> +}
+
 Regards,
 
-Laurent Pinchart
+	Hans
