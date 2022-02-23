@@ -2,125 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FF8E4C1D45
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 21:42:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F2324C2047
+	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 00:52:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241515AbiBWUnH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 23 Feb 2022 15:43:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41198 "EHLO
+        id S245045AbiBWXwp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 18:52:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234184AbiBWUnG (ORCPT
+        with ESMTP id S242402AbiBWXwo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 15:43:06 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 264D24D9E1;
-        Wed, 23 Feb 2022 12:42:37 -0800 (PST)
-Received: from mail-wr1-f54.google.com ([209.85.221.54]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1N2Unv-1oNLsZ1g5P-013tgA; Wed, 23 Feb 2022 21:42:36 +0100
-Received: by mail-wr1-f54.google.com with SMTP id p9so41552050wra.12;
-        Wed, 23 Feb 2022 12:42:36 -0800 (PST)
-X-Gm-Message-State: AOAM532mTYFfWZt9TfUixYZ4bjOV6N86XMcqwYJ+8jYJNejvP5OSOxmv
-        UlSrxI4myGyGV/gTE+kYAwKJ/kOZwQVH/a3WCO4=
-X-Google-Smtp-Source: ABdhPJziqSCxjCS1x1u10tLrK12Y5BgM1gvdjleghmB0yDOaxeqY4rE/1foGEILFQdcVBbYw8yS43bNCsScP3V8TzG8=
-X-Received: by 2002:adf:cf0c:0:b0:1e6:22fe:4580 with SMTP id
- o12-20020adfcf0c000000b001e622fe4580mr1011010wrj.12.1645648955871; Wed, 23
- Feb 2022 12:42:35 -0800 (PST)
+        Wed, 23 Feb 2022 18:52:44 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BACD738798
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 15:52:15 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id i11so1046246lfu.3
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 15:52:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Gwgg2DJ+PClPDZ8qzBSNHtzgAEHZzd6W4FwktRuFZUI=;
+        b=gQaxrIzCZdMg0XcqjaMU8yNJNyi/ecac4j9gAHTahv9eX82YBrEbCTVXxBKUNkk08s
+         Rm+giOOv3512qSiq4UofwReYi1hOVfqUU+0lj7oAf93epCnvFBTZjpLiKQnDxUB77sqs
+         ho+WFqMxhw3A6wvgMl1WHHXH8qZf4skv9rWporU7EhFL5M4mvLz3Yc7b0+w7GgOHq+K8
+         I8QwhbhULHeUsN/gchbJaNY6GtpJBMx3FJDEvEwe9b2l8LNIC0R5M/iN+Pssiu29FqaB
+         YMRdTaHdoZUGcVJoJx4NNgC00w8aKJMUQrNuuMsurx6So8GIBwsaPCKtoj8mduAJr1mQ
+         6q7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Gwgg2DJ+PClPDZ8qzBSNHtzgAEHZzd6W4FwktRuFZUI=;
+        b=wIxf0SKDbDNkEPlvBl5+fZj5C7ACV6dybjLxo1p0WXkBS1wBGMCyTophxM1UAdvWyj
+         iNjKXE2mnkr/+8WE8FrwuuB7khzVWLTfzOGVJEmNYcc8NOj4DfW5mG5kkQfZh6KkcjzB
+         UVSqzyAoTvV4500SJ2njxP8YY57MSgn1SmbnM98c0mtAIDvJAieqUgpC439wqygBna4B
+         sTrQNJYOPqoxHUyV/Nc9iM/t7KjFV3BaCvhhc2luw3YyVib2GYFrtKCYraDjhQSp/jmN
+         pVnKnoPYumqS5NcyveEnnoNH4qTiNc1zjiK2yIeijMksRygQ6obqcz4PiHGS5y+RWdqv
+         xLbQ==
+X-Gm-Message-State: AOAM531+vJgjpSoJHzgFrVhB1eYcU6k+p0BA8yrRC5NBmuXekIfZYdi+
+        cDVX84/CgVxM8pB0MliRnsrREw==
+X-Google-Smtp-Source: ABdhPJy1nFP/tLYF2HQDagz4fh9yZ93eHBAcknC363huZ4irsnuMJBg6JndWSMcOPJaQspVMhbhMIg==
+X-Received: by 2002:a19:2d11:0:b0:445:65c7:5f1e with SMTP id k17-20020a192d11000000b0044565c75f1emr120508lfj.184.1645660334097;
+        Wed, 23 Feb 2022 15:52:14 -0800 (PST)
+Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+        by smtp.gmail.com with ESMTPSA id o8sm73745lft.135.2022.02.23.15.52.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Feb 2022 15:52:13 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH] media: mt9m111: Drop unused include
+Date:   Thu, 24 Feb 2022 00:50:11 +0100
+Message-Id: <20220223235011.142243-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
- <YhXmQwvjMFPQFPUr@infradead.org> <ddf6010e-417d-8da7-8e11-1b4a55f92fff@wanadoo.fr>
-In-Reply-To: <ddf6010e-417d-8da7-8e11-1b4a55f92fff@wanadoo.fr>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 23 Feb 2022 21:42:19 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0nshfiWnhZydoRkmNBMQnyPueE4pvV1LuWR4XLxBQjUg@mail.gmail.com>
-Message-ID: <CAK8P3a0nshfiWnhZydoRkmNBMQnyPueE4pvV1LuWR4XLxBQjUg@mail.gmail.com>
-Subject: Re: [PATCH 00/16] Remove usage of the deprecated "pci-dma-compat.h" API
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        David Miller <davem@davemloft.net>,
-        David Airlie <airlied@linux.ie>, Vinod Koul <vkoul@kernel.org>,
-        hao.wu@intel.com, Tom Rix <trix@redhat.com>,
-        Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
-        awalls@md.metrocast.net,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sathya Prakash <sathya.prakash@broadcom.com>,
-        sreekanth.reddy@broadcom.com,
-        Suganath Prabu Subramani 
-        <suganath-prabu.subramani@broadcom.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Alex Bounine <alex.bou9@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        alpha <linux-alpha@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        dmaengine@vger.kernel.org, linux-fpga@vger.kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        MPT-FusionLinux.pdl@broadcom.com,
-        linux-scsi <linux-scsi@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:+EHDA8n19nCeF+vM2P8PLPYGb0TUOdwEGHkS6GeBNEVHX4jMluh
- 4zZVkIM4OTnw24x4ExwusPPRHPinutOocshs4HRvCffFKEiaheJeU+Nq600oylx4L0vNuhB
- XsenrL+MP+J7CKq0RD9h10OCqN2SKXzdGvqe2Cy5Y2gbRnG2J97LIgwqZ0D/nhZxJ/bNRpf
- hobvYupx0Urm+q/FHAHZg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IBTzsmJgBfY=:S7FSvTCSOCm/oHqdAggS5Y
- bB8TWTPSiuxBUHKaKkZx+mHdyyBSGegJr6XMmUWkL1iEWFq7cZ6+nJViT4FO+xJ8Cs9yAqPyj
- AuRhBGGnbejqMXkAEdPMJNr2DYZbBHylHmvjRl4ql3B6M40+dsKEep0H3TP9iQ38+Ju48tG+k
- frLX1E8YwskOJ1YlpX0p5jR0BOnp3SXs4QpnSIhrnJ1Rskf9E/attNHn0CtH0EplRaKSSII9c
- fnJkYBUxfSnZdSEkGXPQcBj4tVd8Y1CrPf68Tu8JFxU/NbYGMsjrZEkNtO+DcR8QdONeldMKc
- jRsDBn9WNLVtZzxm2ZbemkIKZUweJYVuqDYiAScCL7C5CxnBzi6ta3DckQBY9yNMTXMoqXtgP
- 2lLxWF0tql18b9jMDRbwSDLsZAchAwTbBoleQwTuh666QXns0eK55eMTrADXcE1Jtq68lj0o7
- tZQpeLPuJxf0CkxyZVHM3aJQS3PjTUivRK1U0kM6M6NVejJolVg3Vocjme8Yfy74KECVowJNb
- rQGB3THCUXOZtv8xM1+gRTHb8LcOVs/kISzkldj5wo93hqPOwzYjzQrdqOK755SMwei1KK5Ak
- SlTcE+/LaUYGsBaSvn0XOu/woz5JIXTUZZ/35l89tnlA8wKXFNxtp0s9qk0oh/FuHc4UY+6hV
- reXuv6YnNc6BnoduZPDGvnCglihJhCvm2V5Dxx8F/XJN+DG1tZHs6IR9KWwu6Pe15hiAnEm9f
- q3lKjAwktwqYLUtJuX5Ax/D+8OsnfhdlYYOX3q88j6Hvj1zFxIGcLcpi4wq8+neMdqGUz0YyQ
- sz0brsmpiFwKXxsKz4g49LhuSFB8c+J4uiz0M7FOftJWvcFZvA=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 23, 2022 at 9:26 PM Christophe JAILLET
-<christophe.jaillet@wanadoo.fr> wrote:
->
-> Le 23/02/2022 à 08:46, Christoph Hellwig a écrit :
-> > Hi Christophe,
-> >
-> > do you know what the state is in current linux-next?
-> >
-> > I think we'll just want to queue up anything left at this point in the
-> > dma-mapping or PCI tree and get it done.
-> >
->
-> Hi,
->
-> Patch 01, 04, 05, 06, 08, 09 have not reached -next yet.
-> They all still apply cleanly.
->
-> 04 has been picked it up for inclusion in the media subsystem for 5.18.
-> The other ones all have 1 or more Reviewed-by:/Acked-by: tags.
->
-> Patch 16 must be resubmitted to add "#include <linux/dma-mapping.h>" in
-> order not to break builds.
->
->
-> All the other patches have landed in -next.
+This driver includes <linux/gpio.h> but does not use any
+symbols from this file. Drop the include.
 
-Ok, these all look trivial. I'd suggest you send the rebase version to
-Andrew Morton then, so he can pick them all up into linux-mm, on top
-of the linux-next contents.
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/media/i2c/mt9m111.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-         Arnd
+diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+index 91a44359bcd3..f9a1a76dd626 100644
+--- a/drivers/media/i2c/mt9m111.c
++++ b/drivers/media/i2c/mt9m111.c
+@@ -9,7 +9,6 @@
+ #include <linux/slab.h>
+ #include <linux/i2c.h>
+ #include <linux/log2.h>
+-#include <linux/gpio.h>
+ #include <linux/delay.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/v4l2-mediabus.h>
+-- 
+2.34.1
+
