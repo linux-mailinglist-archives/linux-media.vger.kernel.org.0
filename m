@@ -2,185 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CFA74C0C66
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 07:06:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9FDF4C0D89
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 08:47:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238163AbiBWGGy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 01:06:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58908 "EHLO
+        id S238775AbiBWHre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 02:47:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233319AbiBWGGx (ORCPT
+        with ESMTP id S238749AbiBWHrb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 01:06:53 -0500
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B6645B3CE;
-        Tue, 22 Feb 2022 22:06:22 -0800 (PST)
-X-UUID: 0387d5c6fb8544c8b313e2d5a2f8024f-20220223
-X-UUID: 0387d5c6fb8544c8b313e2d5a2f8024f-20220223
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1005719897; Wed, 23 Feb 2022 14:06:16 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 23 Feb 2022 14:06:15 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 23 Feb 2022 14:06:13 +0800
-Message-ID: <bc7d9d90aae903ac95e952d74a15105f51f03542.camel@mediatek.com>
-Subject: Re: [PATCH v2, 00/10] Enable two H264 encoder cores on MT8195
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        "Tiffany Lin" <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>, Yong Wu <yong.wu@mediatek.com>,
-        <angelogioacchino.delregno@collabora.com>
-CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Wed, 23 Feb 2022 14:06:13 +0800
-In-Reply-To: <20220117120615.21687-1-irui.wang@mediatek.com>
-References: <20220117120615.21687-1-irui.wang@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Wed, 23 Feb 2022 02:47:31 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABCFD65797;
+        Tue, 22 Feb 2022 23:47:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=iy5Ofm6AWn5S0+TPzZqllkgh84EUFfIT9WUD1UClXn4=; b=KuGl+SxVwgaXgh5hLAVT1UAi4x
+        Mdf6Uz6m2y23+0SrvtSnU9O8BhDGXxKAatQH1UV+1HLTZS6EKiTcNTlvQr6XJI6pv0KEXE3xvFiKZ
+        R/Jky7QdCF8UDa+v3Z/QM6f/ERD1b/x8syFTQf7TpLLbwqST8AacGpmpD66qiLMZMpUOKXyZjimX2
+        dqd43SyR3QIvd4Ydjgs3/d/7SKJAn7H0MEg/DJhCNfnBiuUH1CugGaRKAQv+oCwF98QBvMo4HOU/T
+        ucaRKTd4ozFy8kNCn3ThNjnNyyDuUTB+nnvKoGQIx86jvBLxFv0AD8qU8mHYnOj4lkd3DtKX03IFR
+        DEkug9Yw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nMmLj-00DALX-99; Wed, 23 Feb 2022 07:46:11 +0000
+Date:   Tue, 22 Feb 2022 23:46:11 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     arnd@arndb.de, hch@infradead.org, akpm@linux-foundation.org,
+        rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
+        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
+        davem@davemloft.net, airlied@linux.ie, vkoul@kernel.org,
+        hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
+        yilun.xu@intel.com, awalls@md.metrocast.net, mchehab@kernel.org,
+        sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com,
+        suganath-prabu.subramani@broadcom.com, mporter@kernel.crashing.org,
+        alex.bou9@gmail.com, bhelgaas@google.com,
+        linux-alpha@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        sparclinux@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-fpga@vger.kernel.org, linux-media@vger.kernel.org,
+        MPT-FusionLinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH 00/16] Remove usage of the deprecated "pci-dma-compat.h"
+ API
+Message-ID: <YhXmQwvjMFPQFPUr@infradead.org>
+References: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear all maintainers,
+Hi Christophe,
 
-Gently ping.
+do you know what the state is in current linux-next?
 
-Could you help to review this series of patches? 
-I would be very grateful for any of your comments.
-
-Thanks
-Best Regards
-On Mon, 2022-01-17 at 20:06 +0800, Irui Wang wrote:
-> MT8195 has two H264 encoder cores, they have their own power-domains,
-> clocks, interrupts, register base. The two H264 encoder cores can
-> work
-> together to achieve higher performance, it's a core mode called
-> frame-racing, one core has 4K@30fps performance, two cores can
-> achieve
-> 4K@60fps.
-> The two encoder core encoding process looks like this:
-> 
->     VENC Core0: frm#0....frm#2....frm#4....
->     VENC Core1: ..frm#1....frm#3....frm#5....
-> 
-> This series of patches are used to enable the two H264 encoder cores,
-> encoding process will be changed:
-> As-Is: Synchronous
-> V4L2_VIDIOC_QBUF#0 --> device_run(triger encoder) --> wait encoder
-> IRQ -->
-> encoding done with result --> job_finish
-> V4l2_VIDIOC_QBUF#1 --> device_run(triger encoder) --> wait encoder
-> IRQ -->
-> encoding done with result --> job_finish
-> ...
-> 
-> To-Be: Asynchronous
-> V4L2_VIDIOC_QBUF#0 --> device_run(triger encoder) --> job_finish
-> ..V4l2_VIDIOC_QBUF#1 --> device_run(triger encoder) --> job_finish
-> (venc core0 may encode done here, done the encoding result to client)
-> V4L2_VIDIOC_QBUF#2 --> device_run(triger encoder) --> job_finish.
-> 
-> There is no "wait encoder IRQ" synchronous call during frame-racing
-> mode
-> encoding process, it can full use the two encoder cores to achieve
-> higher
-> performance.
-> 
-> ---
-> This series patches dependent on:
-> [1]: the latest linux stage tree: 
-> https://git.linuxtv.org/media_stage.git
-> 
-> mtk decoder patches
-> [2]: 
-> https://patchwork.linuxtv.org/project/linux-media/list/?series=7105
-> [3]: 
-> https://patchwork.linuxtv.org/project/linux-media/list/?series=7131
-> 
-> new yaml included files
-> [4]:
-> 
-https://patchwork.kernel.org/project/linux-mediatek/list/?series=551641
-> [5]:
-> 
-https://patchwork.kernel.org/project/linux-mediatek/list/?series=580579
-> 
-> ---
-> ---
-> changes compared with v1:
-> - of_platform_populate was used in place of the component framework.
-> - new yaml file for venc cores.
-> - some modifications for patch v1's review comments.
-> ---
-> 
-> Irui Wang (10):
->   media: mtk-vcodec: Use core type to indicate h264 and vp8 enc
->   media: mtk-vcodec: export encoder functions
->   dt-bindings: media: mtk-vcodec: Adds encoder cores dt-bindings for
->     mt8195
->   media: mtk-vcodec: Enable venc dual core usage
->   media: mtk-vcodec: mtk-vcodec: Rewrite venc power manage interface
->   media: mtk-vcodec: Add venc power on/off interface
->   media: mtk-vcodec: Rewrite venc clock interface
->   media: mtk-vcodec: Add more extra processing for dual-core mode
->   media: mtk-vcodec: Add dual core mode encode process
->   media: mtk-vcodec: Done encode result to client
-> 
->  .../media/mediatek,vcodec-encoder-core.yaml   | 214
-> +++++++++++++++++
->  drivers/media/platform/mtk-vcodec/Makefile    |   4 +-
->  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  44 +++-
->  .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 109 ++++++---
->  .../platform/mtk-vcodec/mtk_vcodec_enc.h      |   7 +-
->  .../platform/mtk-vcodec/mtk_vcodec_enc_core.c | 187 +++++++++++++++
->  .../platform/mtk-vcodec/mtk_vcodec_enc_core.h |  36 +++
->  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 118 ++++++----
->  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 187 +++++++++++++--
->  .../platform/mtk-vcodec/mtk_vcodec_enc_pm.h   |  11 +-
->  .../platform/mtk-vcodec/mtk_vcodec_util.c     |  19 ++
->  .../platform/mtk-vcodec/mtk_vcodec_util.h     |   5 +
->  .../platform/mtk-vcodec/venc/venc_h264_if.c   | 216 +++++++++++++++-
-> --
->  .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   3 +-
->  .../media/platform/mtk-vcodec/venc_drv_if.c   |  79 +++++--
->  .../media/platform/mtk-vcodec/venc_drv_if.h   |   7 +
->  .../media/platform/mtk-vcodec/venc_vpu_if.c   |  10 +-
->  .../media/platform/mtk-vcodec/venc_vpu_if.h   |   3 +-
->  18 files changed, 1097 insertions(+), 162 deletions(-)
->  create mode 100644
-> Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-
-> core.yaml
->  create mode 100644 drivers/media/platform/mtk-
-> vcodec/mtk_vcodec_enc_core.c
->  create mode 100644 drivers/media/platform/mtk-
-> vcodec/mtk_vcodec_enc_core.h
-> 
-
+I think we'll just want to queue up anything left at this point in the
+dma-mapping or PCI tree and get it done.
