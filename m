@@ -2,346 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D62C44C10A5
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 11:47:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E1064C1116
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 12:15:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239714AbiBWKre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 05:47:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57606 "EHLO
+        id S239788AbiBWLP5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 06:15:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239702AbiBWKrd (ORCPT
+        with ESMTP id S239779AbiBWLP4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 05:47:33 -0500
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2615D59A7F
-        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 02:47:05 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 6FC80200019;
-        Wed, 23 Feb 2022 10:47:01 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
-        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
-        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        aford173@gmail.com, festevam@gmail.com,
-        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
-        paul.elder@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v3 27/27] media: ov5640: Move format mux config in format
-Date:   Wed, 23 Feb 2022 11:40:34 +0100
-Message-Id: <20220223104034.91550-28-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220223104034.91550-1-jacopo@jmondi.org>
-References: <20220223104034.91550-1-jacopo@jmondi.org>
+        Wed, 23 Feb 2022 06:15:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CCC348A321
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 03:15:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1645614927;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UzJJ6mljner/MBUQSdtls4XtlY3JNobyNXXaK/j+JUo=;
+        b=boiQsZN09Ska3HbSOXB3V2m0iZ3HhNsjol0teokSKzA+o6fzf0poDs+MLKpvelWH6Bk0TU
+        CcCEC0r16b94DS64j0RRthEU/XqOJrijG49yiyQI3XX7zDWWUwzpu9TYa1X/qYvkSK9Min
+        ioRHYPGgMG4I01oJ0sUotfYkwFwvgj0=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-570-IdlH2C_yMLGQpA2p0kLcvw-1; Wed, 23 Feb 2022 06:15:26 -0500
+X-MC-Unique: IdlH2C_yMLGQpA2p0kLcvw-1
+Received: by mail-lj1-f199.google.com with SMTP id x8-20020a2ea7c8000000b00246215e0fc3so7130118ljp.8
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 03:15:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UzJJ6mljner/MBUQSdtls4XtlY3JNobyNXXaK/j+JUo=;
+        b=kayecp+8TdFczKg/Cpwp0Fl84GxcFx9JOQDM0YpiRu1XgrFpC8qR0wr8zYoBX6BCbo
+         bFygXLhTut9JK7KmHwUiB45naFswrLS05W67RCbJLlaxiDEgKsyClPe0Y2s2Kyy/1nxk
+         oJYjej5filKheO9Kf6Id/Gs5ZGb7ZCSaP27MoZcpHePgBdDNRfIaWOS2iSHXv4TNPFF3
+         XQU+VS4ltKIRGCSQbNwpvMOsmWSu7bm8VzBMnBG8SSYmtG7A5AQT8m5H5gk6nfUJwITy
+         939+Dd7XK0mNvfl3wCeoZGcVDY24khWQGf1FChzM5lUCkU9wfZjYiVTwawPeVAYndbL0
+         ByLA==
+X-Gm-Message-State: AOAM5339Ixx2SJAZ05RkhHjwX1kNrMnvZCKczZQmsn3TMi9FMT2Yf5IN
+        8Vr9TBa7GW9nO+//qUZlSAXZ/mDwXLP7y7gSB61j5GMtmRfoAguZnlAyKazdiETCC//tczMDEh6
+        6/RqlJY6L2OmYKWeGTmXV/5ihWus6QZ4lZUHaEqo=
+X-Received: by 2002:a05:651c:1542:b0:246:36c:8d1f with SMTP id y2-20020a05651c154200b00246036c8d1fmr21400784ljp.311.1645614924930;
+        Wed, 23 Feb 2022 03:15:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwKCRtUYUVZDftHSAkNClaClo65AZ1dkZqXQjImzDVuPaD2hhoEuZQ1M6JV/CnN9ddStdHdmJToNTyLX7HTIEk=
+X-Received: by 2002:a05:651c:1542:b0:246:36c:8d1f with SMTP id
+ y2-20020a05651c154200b00246036c8d1fmr21400761ljp.311.1645614924659; Wed, 23
+ Feb 2022 03:15:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220223090648.41989-1-hpa@redhat.com> <20220223090648.41989-2-hpa@redhat.com>
+In-Reply-To: <20220223090648.41989-2-hpa@redhat.com>
+From:   Kate Hsuan <hpa@redhat.com>
+Date:   Wed, 23 Feb 2022 19:15:13 +0800
+Message-ID: <CAEth8oHRidJ24Wp81vLQe_VO=ddw_yFMvhuNE1XS+ekwa4ZUJA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] staging: media: ipu3: Fix AF x_start position when
+ rightmost stripe is used
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Hans De Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The image format produced by the sensor is controlled by two registers,
-whose values computation is open coded in ov5640_set_framefmt().
+On Wed, Feb 23, 2022 at 5:07 PM Kate Hsuan <hpa@redhat.com> wrote:
+>
+> For the AF configuration, if the rightmost stripe is used, the AF scene
+> will be at the incorrect location of the sensor.
+>
+> The AF coordinate may be set to the right part of the sensor. This
+> configuration would lead to x_start being greater than the
+> down_scaled_stripes offset and the leftmost stripe would be disabled
+> and only the rightmost stripe is used to control the AF coordinate. If
+> the x_start doesn't perform any adjustments, the AF coordinate will be
+> at the wrong place of the sensor since down_scaled_stripes offset
+> would be the new zero of the coordinate system.
+>
+> In this patch, if only the rightmost stripe is used, x_start should
+> minus down_scaled_stripes offset to maintain its correctness of AF
+> scene coordinate.
+>
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
+>  drivers/staging/media/ipu3/ipu3-css-params.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
+> index d9e3c3785075..efe4de8ef205 100644
+> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
+> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+> @@ -2556,6 +2556,14 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
+>                 /* Enable only for rightmost stripe, disable left */
+>                 acc->af.stripes[0].grid_cfg.y_start &=
+>                         ~IPU3_UAPI_GRID_Y_START_EN;
+> +               acc->af.stripes[0].grid_cfg.x_start -=
+> +                       acc->stripe.down_scaled_stripes[1].offset;
+> +               acc->af.stripes[0].grid_cfg.x_end -=
+> +                       acc->stripe.down_scaled_stripes[1].offset;
+> +               acc->af.stripes[1].grid_cfg.x_start -=
+> +                       acc->stripe.down_scaled_stripes[1].offset;
+> +               acc->af.stripes[1].grid_cfg.x_end -=
+> +                       acc->stripe.down_scaled_stripes[1].offset;
+>         } else if (acc->af.config.grid_cfg.x_end <=
+>                    acc->stripe.bds_out_stripes[0].width - min_overlap) {
+>                 /* Enable only for leftmost stripe, disable right */
+> @@ -2563,7 +2571,6 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
+>                         ~IPU3_UAPI_GRID_Y_START_EN;
+>         } else {
+>                 /* Enable for both stripes */
+> -
+>                 acc->af.stripes[0].grid_cfg.width =
+>                         (acc->stripe.bds_out_stripes[0].width - min_overlap -
+>                          acc->af.config.grid_cfg.x_start + 1) >>
+> --
+> 2.35.1
+>
 
-As we have a list of formats already, move the OV5640_REG_FORMAT_CONTROL00
-and OV5640_REG_ISP_FORMAT_MUX_CTRL register values to the static list
-of formats instead of open coding it.
+Sorry, I forget to loop Jean-Michel in. Resend the mail again.
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/i2c/ov5640.c | 232 ++++++++++++++++++-------------------
- 1 file changed, 115 insertions(+), 117 deletions(-)
+Thank you.
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index f35006bcea3a..ef2de8c6f044 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -192,86 +192,142 @@ struct ov5640_pixfmt {
- 	u32 code;
- 	u32 colorspace;
- 	u8 bpp;
-+	u8 ctrl00;
-+	enum ov5640_format_mux mux;
- };
- 
- static const struct ov5640_pixfmt ov5640_dvp_formats[] = {
- 	{
--		.code = MEDIA_BUS_FMT_JPEG_1X8,
--		.colorspace = V4L2_COLORSPACE_JPEG,
--		.bpp = 16,
-+		/* YUV422, YUYV */
-+		.code		= MEDIA_BUS_FMT_JPEG_1X8,
-+		.colorspace	= V4L2_COLORSPACE_JPEG,
-+		.bpp		= 16,
-+		.ctrl00		= 0x30,
-+		.mux		= OV5640_FMT_MUX_YUV422,
- 	}, {
--		.code = MEDIA_BUS_FMT_UYVY8_2X8,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 16,
-+		/* YUV422, UYVY */
-+		.code		= MEDIA_BUS_FMT_UYVY8_2X8,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 16,
-+		.ctrl00		= 0x3f,
-+		.mux		= OV5640_FMT_MUX_YUV422,
- 	}, {
--		.code = MEDIA_BUS_FMT_YUYV8_2X8,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 16,
-+		/* YUV422, YUYV */
-+		.code		= MEDIA_BUS_FMT_YUYV8_2X8,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 16,
-+		.ctrl00		= 0x30,
-+		.mux		= OV5640_FMT_MUX_YUV422,
- 	}, {
--		.code = MEDIA_BUS_FMT_RGB565_2X8_LE,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 16,
-+		/* RGB565 {g[2:0],b[4:0]},{r[4:0],g[5:3]} */
-+		.code		= MEDIA_BUS_FMT_RGB565_2X8_LE,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 16,
-+		.ctrl00		= 0x6f,
-+		.mux		= OV5640_FMT_MUX_RGB,
- 	}, {
--		.code = MEDIA_BUS_FMT_RGB565_2X8_BE,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 16,
-+		/* RGB565 {r[4:0],g[5:3]},{g[2:0],b[4:0]} */
-+		.code		= MEDIA_BUS_FMT_RGB565_2X8_BE,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 16,
-+		.ctrl00		= 0x61,
-+		.mux		= OV5640_FMT_MUX_RGB,
- 	}, {
--		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 8,
-+		/* Raw, BGBG... / GRGR... */
-+		.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 8,
-+		.ctrl00		= 0x00,
-+		.mux		= OV5640_FMT_MUX_RAW_DPC,
- 	}, {
--		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 8
-+		/* Raw bayer, GBGB... / RGRG... */
-+		.code		= MEDIA_BUS_FMT_SGBRG8_1X8,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 8,
-+		.ctrl00		= 0x01,
-+		.mux		= OV5640_FMT_MUX_RAW_DPC,
- 	}, {
--		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 8,
-+		/* Raw bayer, GRGR... / BGBG... */
-+		.code		= MEDIA_BUS_FMT_SGRBG8_1X8,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 8,
-+		.ctrl00		= 0x02,
-+		.mux		= OV5640_FMT_MUX_RAW_DPC,
- 	}, {
--		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 8,
-+		/* Raw bayer, RGRG... / GBGB... */
-+		.code		= MEDIA_BUS_FMT_SRGGB8_1X8,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 8,
-+		.ctrl00		= 0x03,
-+		.mux		= OV5640_FMT_MUX_RAW_DPC,
- 	},
- 	{ /* sentinel */ }
- };
- 
- static const struct ov5640_pixfmt ov5640_csi2_formats[] = {
- 	{
--		.code = MEDIA_BUS_FMT_JPEG_1X8,
--		.colorspace = V4L2_COLORSPACE_JPEG,
--		.bpp = 16,
-+		/* YUV422, YUYV */
-+		.code		= MEDIA_BUS_FMT_JPEG_1X8,
-+		.colorspace	= V4L2_COLORSPACE_JPEG,
-+		.bpp		= 16,
-+		.ctrl00		= 0x30,
-+		.mux		= OV5640_FMT_MUX_YUV422,
- 	}, {
--		.code = MEDIA_BUS_FMT_UYVY8_1X16,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 16,
-+		/* YUV422, UYVY */
-+		.code		= MEDIA_BUS_FMT_UYVY8_1X16,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 16,
-+		.ctrl00		= 0x3f,
-+		.mux		= OV5640_FMT_MUX_YUV422,
- 	}, {
--		.code = MEDIA_BUS_FMT_YUYV8_1X16,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 16,
-+		/* YUV422, YUYV */
-+		.code		= MEDIA_BUS_FMT_YUYV8_1X16,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 16,
-+		.ctrl00		= 0x30,
-+		.mux		= OV5640_FMT_MUX_YUV422,
- 	}, {
--		.code = MEDIA_BUS_FMT_RGB565_1X16,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 16,
-+		/* RGB565 {g[2:0],b[4:0]},{r[4:0],g[5:3]} */
-+		.code		= MEDIA_BUS_FMT_RGB565_1X16,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 16,
-+		.ctrl00		= 0x6f,
-+		.mux		= OV5640_FMT_MUX_RGB,
- 	}, {
--		.code = MEDIA_BUS_FMT_BGR888_1X24,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 24,
-+		/* BGR888: RGB */
-+		.code		= MEDIA_BUS_FMT_BGR888_1X24,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 24,
-+		.ctrl00		= 0x23,
-+		.mux		= OV5640_FMT_MUX_RGB,
- 	}, {
--		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 8,
-+		/* Raw, BGBG... / GRGR... */
-+		.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 8,
-+		.ctrl00		= 0x00,
-+		.mux		= OV5640_FMT_MUX_RAW_DPC,
- 	}, {
--		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 8
-+		/* Raw bayer, GBGB... / RGRG... */
-+		.code		= MEDIA_BUS_FMT_SGBRG8_1X8,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 8,
-+		.ctrl00		= 0x01,
-+		.mux		= OV5640_FMT_MUX_RAW_DPC,
- 	}, {
--		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 8,
-+		/* Raw bayer, GRGR... / BGBG... */
-+		.code		= MEDIA_BUS_FMT_SGRBG8_1X8,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 8,
-+		.ctrl00		= 0x02,
-+		.mux		= OV5640_FMT_MUX_RAW_DPC,
- 	}, {
--		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
--		.colorspace = V4L2_COLORSPACE_SRGB,
--		.bpp = 8,
-+		/* Raw bayer, RGRG... / GBGB... */
-+		.code		= MEDIA_BUS_FMT_SRGGB8_1X8,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.bpp		= 8,
-+		.ctrl00		= 0x03,
-+		.mux		= OV5640_FMT_MUX_RAW_DPC,
- 	},
- 	{ /* sentinel */ }
- };
-@@ -2940,76 +2996,18 @@ static int ov5640_get_selection(struct v4l2_subdev *sd,
- static int ov5640_set_framefmt(struct ov5640_dev *sensor,
- 			       struct v4l2_mbus_framefmt *format)
- {
-+	const struct ov5640_pixfmt *pixfmt = ov5640_code_to_pixfmt(sensor,
-+								   format->code);
-+	bool is_jpeg = format->code == MEDIA_BUS_FMT_JPEG_1X8;
- 	int ret = 0;
--	bool is_jpeg = false;
--	u8 fmt, mux;
--
--	switch (format->code) {
--	case MEDIA_BUS_FMT_UYVY8_1X16:
--	case MEDIA_BUS_FMT_UYVY8_2X8:
--		/* YUV422, UYVY */
--		fmt = 0x3f;
--		mux = OV5640_FMT_MUX_YUV422;
--		break;
--	case MEDIA_BUS_FMT_YUYV8_1X16:
--	case MEDIA_BUS_FMT_YUYV8_2X8:
--		/* YUV422, YUYV */
--		fmt = 0x30;
--		mux = OV5640_FMT_MUX_YUV422;
--		break;
--	case MEDIA_BUS_FMT_RGB565_2X8_LE:
--	case MEDIA_BUS_FMT_RGB565_1X16:
--		/* RGB565 {g[2:0],b[4:0]},{r[4:0],g[5:3]} */
--		fmt = 0x6F;
--		mux = OV5640_FMT_MUX_RGB;
--		break;
--	case MEDIA_BUS_FMT_RGB565_2X8_BE:
--		/* RGB565 {r[4:0],g[5:3]},{g[2:0],b[4:0]} */
--		fmt = 0x61;
--		mux = OV5640_FMT_MUX_RGB;
--		break;
--	case MEDIA_BUS_FMT_BGR888_1X24:
--		/* BGR888: RGB */
--		fmt = 0x23;
--		mux = OV5640_FMT_MUX_RGB;
--		break;
--	case MEDIA_BUS_FMT_JPEG_1X8:
--		/* YUV422, YUYV */
--		fmt = 0x30;
--		mux = OV5640_FMT_MUX_YUV422;
--		is_jpeg = true;
--		break;
--	case MEDIA_BUS_FMT_SBGGR8_1X8:
--		/* Raw, BGBG... / GRGR... */
--		fmt = 0x00;
--		mux = OV5640_FMT_MUX_RAW_DPC;
--		break;
--	case MEDIA_BUS_FMT_SGBRG8_1X8:
--		/* Raw bayer, GBGB... / RGRG... */
--		fmt = 0x01;
--		mux = OV5640_FMT_MUX_RAW_DPC;
--		break;
--	case MEDIA_BUS_FMT_SGRBG8_1X8:
--		/* Raw bayer, GRGR... / BGBG... */
--		fmt = 0x02;
--		mux = OV5640_FMT_MUX_RAW_DPC;
--		break;
--	case MEDIA_BUS_FMT_SRGGB8_1X8:
--		/* Raw bayer, RGRG... / GBGB... */
--		fmt = 0x03;
--		mux = OV5640_FMT_MUX_RAW_DPC;
--		break;
--	default:
--		return -EINVAL;
--	}
- 
- 	/* FORMAT CONTROL00: YUV and RGB formatting */
--	ret = ov5640_write_reg(sensor, OV5640_REG_FORMAT_CONTROL00, fmt);
-+	ret = ov5640_write_reg(sensor, OV5640_REG_FORMAT_CONTROL00, pixfmt->ctrl00);
- 	if (ret)
- 		return ret;
- 
- 	/* FORMAT MUX CONTROL: ISP YUV or RGB */
--	ret = ov5640_write_reg(sensor, OV5640_REG_ISP_FORMAT_MUX_CTRL, mux);
-+	ret = ov5640_write_reg(sensor, OV5640_REG_ISP_FORMAT_MUX_CTRL, pixfmt->mux);
- 	if (ret)
- 		return ret;
- 
 -- 
-2.35.0
+BR,
+Kate
 
