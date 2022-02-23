@@ -2,139 +2,932 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C46B04C18A3
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 17:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 688C04C193E
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 18:04:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239857AbiBWQfF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 11:35:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45168 "EHLO
+        id S243097AbiBWRE0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 12:04:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231128AbiBWQfE (ORCPT
+        with ESMTP id S243098AbiBWREX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 11:35:04 -0500
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ED204EF53;
-        Wed, 23 Feb 2022 08:34:36 -0800 (PST)
+        Wed, 23 Feb 2022 12:04:23 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 893FD50078;
+        Wed, 23 Feb 2022 09:03:53 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5C5C6E000D;
-        Wed, 23 Feb 2022 16:34:32 +0000 (UTC)
-Date:   Wed, 23 Feb 2022 17:34:31 +0100
+        by mail.gandi.net (Postfix) with ESMTPSA id 6E32A1C000C;
+        Wed, 23 Feb 2022 17:03:50 +0000 (UTC)
+Date:   Wed, 23 Feb 2022 18:03:48 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Eugen.Hristev@microchip.com
+To:     Eugen Hristev <eugen.hristev@microchip.com>
 Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
-        Nicolas.Ferre@microchip.com, devicetree@vger.kernel.org,
+        nicolas.ferre@microchip.com, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Claudiu.Beznea@microchip.com
-Subject: Re: [PATCH v5 04/13] media: atmel: atmel-isc: implement media
- controller
-Message-ID: <20220223163431.wask6vh2tfhllzf4@uno.localdomain>
+        claudiu.beznea@microchip.com
+Subject: Re: [PATCH v5 08/13] media: atmel: atmel-isc: change format
+ propagation to subdev into only verification
+Message-ID: <20220223170348.p7nkpkixfaabyzrl@uno.localdomain>
 References: <20220217135645.1427466-1-eugen.hristev@microchip.com>
- <20220217135645.1427466-5-eugen.hristev@microchip.com>
- <e4109e0f-af1f-7594-a154-92e65fd7ac59@microchip.com>
+ <20220217135645.1427466-9-eugen.hristev@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e4109e0f-af1f-7594-a154-92e65fd7ac59@microchip.com>
+In-Reply-To: <20220217135645.1427466-9-eugen.hristev@microchip.com>
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen,
+Hi Eugen
 
-On Thu, Feb 17, 2022 at 02:59:19PM +0000, Eugen.Hristev@microchip.com wrote:
-> On 2/17/22 3:56 PM, Eugen Hristev wrote:
-> > Implement the support for media-controller.
-> > This means that the capabilities of the driver have changed and now
-> > it also advertises the IO_MC .
-> > The driver will register it's media device, and add the video entity to this
-> > media device. The subdevices are registered to the same media device.
-> > The ISC will have a base entity which is auto-detected as atmel_isc_base.
-> > It will also register a subdevice that allows cropping of the incoming frame
-> > to the maximum frame size supported by the ISC.
-> > The ISC will create a link between the subdevice that is asynchronously
-> > registered and the atmel_isc_scaler entity.
-> > Then, the atmel_isc_scaler and atmel_isc_base are connected through another
-> > link.
-> >
-> > Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> > ---
+On Thu, Feb 17, 2022 at 03:56:40PM +0200, Eugen Hristev wrote:
+> As a top MC video driver, the atmel-isc should not propagate the format to the
+> subdevice.
+> It should rather check at start_streaming() time if the subdev is properly
+> configured with a compatible format.
+> Removed the whole format finding logic, and reworked the format verification
+> at start_streaming time, such that the ISC will return an error if the subdevice
+> is not properly configured. To achieve this, media_pipeline_start
+> is called and a link_validate callback is created to check the formats.
+> With this being done, the module parameter 'sensor_preferred' makes no sense
+> anymore. The ISC should not decide which format the sensor is using. The
+> ISC should only cope with the situation and inform userspace if the streaming
+> is possible in the current configuration.
+> The redesign of the format propagation has also risen the question of the
+> enumfmt callback. If enumfmt is called with an mbus_code, the enumfmt handler
+> should only return the formats that are supported for this mbus_code.
+> Otherwise, the enumfmt will report all the formats that the ISC could output.
+> With this rework, the dynamic list of user formats is removed. It makes no
+> more sense to identify at complete time which formats the sensor could emit,
+> and add those into a separate dynamic list.
+> The ISC will start with a simple preconfigured default format, and at
+> link validate time, decide whether it can use the format that is configured
+> on the sink or not.
 >
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+> ---
+> Changes in v5:
+> - removed user_formats dynamic list as it is now pointless
+> - greatly simplified the enum_fmt function
+> - removed some init code that was useless now
 >
-> Hello Jacopo,
+> Changes in v4:
+> - moved validation code into link_validate and used media_pipeline_start
+> - merged this patch with the enum_fmt patch which was previously in v3 of
+> the series
 >
-> I will add to this patch a little update about how the scaler is seen
-> now by the media-ctl :
+> Changes in v3:
+> - clamp to maximum resolution once the frame size from the subdev is found
 >
-> for imx219 sensor, which generates 3280x2464:
+>  drivers/media/platform/atmel/atmel-isc-base.c | 427 ++++++++----------
+>  .../media/platform/atmel/atmel-isc-scaler.c   |   5 +
+>  drivers/media/platform/atmel/atmel-isc.h      |  13 +-
+>  .../media/platform/atmel/atmel-sama5d2-isc.c  |  20 +
+>  .../media/platform/atmel/atmel-sama7g5-isc.c  |  20 +
+>  5 files changed, 244 insertions(+), 241 deletions(-)
 >
+> diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
+> index 37c59bb4dc18..1a079ed9608d 100644
+> --- a/drivers/media/platform/atmel/atmel-isc-base.c
+> +++ b/drivers/media/platform/atmel/atmel-isc-base.c
+> @@ -36,11 +36,6 @@ static unsigned int debug;
+>  module_param(debug, int, 0644);
+>  MODULE_PARM_DESC(debug, "debug level (0-2)");
 >
-> - entity 1: atmel_isc_scaler (2 pads, 2 links)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev0
->          pad0: Sink
->                  [fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb
->                   crop.bounds:(0,0)/3280x2464
->                   crop:(0,0)/3264x2464]
->                  <- "csi2dc":1 [ENABLED,IMMUTABLE]
->          pad1: Source
->                  [fmt:SRGGB10_1X10/3264x2464 field:none colorspace:srgb]
->                  -> "atmel_isc_common":0 [ENABLED,IMMUTABLE]
+> -static unsigned int sensor_preferred = 1;
+> -module_param(sensor_preferred, uint, 0644);
+> -MODULE_PARM_DESC(sensor_preferred,
+> -		 "Sensor is preferred to output the specified format (1-on 0-off), default 1");
+> -
+>  #define ISC_IS_FORMAT_RAW(mbus_code) \
+>  	(((mbus_code) & 0xf000) == 0x3000)
 >
+> @@ -337,6 +332,10 @@ static int isc_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	unsigned long flags;
+>  	int ret;
 >
-> The source pad of the scaler looks good now.
+> +	ret = media_pipeline_start(&isc->video_dev.entity, &isc->mpipe);
+> +	if (ret)
+> +		goto err_pipeline_start;
+> +
+>  	/* Enable stream on the sub device */
+>  	ret = v4l2_subdev_call(isc->current_subdev->sd, video, s_stream, 1);
+>  	if (ret && ret != -ENOIOCTLCMD) {
+> @@ -385,6 +384,9 @@ static int isc_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	v4l2_subdev_call(isc->current_subdev->sd, video, s_stream, 0);
 >
-> For the imx274 which I am using (and it generates 3840x2160 ):
+>  err_start_stream:
+> +	media_pipeline_stop(&isc->video_dev.entity);
+> +
+> +err_pipeline_start:
+>  	spin_lock_irqsave(&isc->dma_queue_lock, flags);
+>  	list_for_each_entry(buf, &isc->dma_queue, list)
+>  		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_QUEUED);
+> @@ -423,6 +425,9 @@ static void isc_stop_streaming(struct vb2_queue *vq)
+>  	if (ret && ret != -ENOIOCTLCMD)
+>  		v4l2_err(&isc->v4l2_dev, "stream off failed in subdev\n");
 >
-> - entity 1: atmel_isc_scaler (2 pads, 2 links)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev0
->          pad0: Sink
->                  [fmt:SRGGB10_1X10/3840x2160 field:none colorspace:srgb
->                   crop.bounds:(0,0)/3840x2160
->                   crop:(0,0)/3264x2160]
->                  <- "csi2dc":1 [ENABLED,IMMUTABLE]
->          pad1: Source
->                  [fmt:SRGGB10_1X10/3264x2160 field:none colorspace:srgb]
->                  -> "atmel_isc_common":0 [ENABLED,IMMUTABLE]
+> +	/* Stop media pipeline */
+> +	media_pipeline_stop(&isc->video_dev.entity);
+> +
+>  	/* Release all active buffers */
+>  	spin_lock_irqsave(&isc->dma_queue_lock, flags);
+>  	if (unlikely(isc->cur_frm)) {
+> @@ -453,22 +458,6 @@ static void isc_buffer_queue(struct vb2_buffer *vb)
+>  	spin_unlock_irqrestore(&isc->dma_queue_lock, flags);
+>  }
 >
-> So in both cases, each line is cropped down to 3264 as the maximum width.
+> -static struct isc_format *find_format_by_fourcc(struct isc_device *isc,
+> -						 unsigned int fourcc)
+> -{
+> -	unsigned int num_formats = isc->num_user_formats;
+> -	struct isc_format *fmt;
+> -	unsigned int i;
+> -
+> -	for (i = 0; i < num_formats; i++) {
+> -		fmt = isc->user_formats[i];
+> -		if (fmt->fourcc == fourcc)
+> -			return fmt;
+> -	}
+> -
+> -	return NULL;
+> -}
+> -
+>  static const struct vb2_ops isc_vb2_ops = {
+>  	.queue_setup		= isc_queue_setup,
+>  	.wait_prepare		= vb2_ops_wait_prepare,
+> @@ -498,28 +487,63 @@ static int isc_enum_fmt_vid_cap(struct file *file, void *priv,
+>  	struct isc_device *isc = video_drvdata(file);
+>  	u32 index = f->index;
+>  	u32 i, supported_index;
+> +	struct isc_format *fmt;
 >
-> If we select a lower frame size, the scaler will automatically update
-> the source pad to reflect this, e.g.:
->
->
-> - entity 1: atmel_isc_scaler (2 pads, 2 links)
->              type V4L2 subdev subtype Unknown flags 0
->              device node name /dev/v4l-subdev0
->          pad0: Sink
->                  [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb
->                   crop.bounds:(0,0)/1920x1080
->                   crop:(0,0)/1920x1080]
->                  <- "csi2dc":1 [ENABLED,IMMUTABLE]
->          pad1: Source
->                  [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb]
->                  -> "atmel_isc_common":0 [ENABLED,IMMUTABLE]
->
->
-> does it look good now ?
+> -	if (index < isc->controller_formats_size) {
+> -		f->pixelformat = isc->controller_formats[index].fourcc;
+> -		return 0;
+> -	}
+> -
+> -	index -= isc->controller_formats_size;
+> -
+> -	supported_index = 0;
 
-great! I think it now works as intended, thanks!
+You seem to have lost this one.
+You can initialize while declaring it
 
-I only have one question. BOUND target is the larger rectangle that
-contains all crop rectangles. As your max crop is limited to 3264x2160
-I wonder if BOUND should be limited by the same size. Does
-v4l2-compliance check for this.
+> -
+> -	for (i = 0; i < isc->formats_list_size; i++) {
+> -		if (!ISC_IS_FORMAT_RAW(isc->formats_list[i].mbus_code) ||
+> -		    !isc->formats_list[i].sd_support)
+> -			continue;
+> -		if (supported_index == index) {
+> -			f->pixelformat = isc->formats_list[i].fourcc;
+> +	/*
+> +	 * If a specific mbus_code is requested, check if we support
+> +	 * this mbus_code as input for the ISC first.
+> +	 * If it's supported, then we report the corresponding pixelformat
+> +	 * as first possible option for the ISC.
+> +	 * E.g. mbus MEDIA_BUS_FMT_SGBRG12_1X12 and report
 
-Otherwise it looks good!
+Is this a good example, since you check for RAW in a separate loop ?
 
-Thanks
-  j
+> +	 * 'GB12' (12-bit Bayer GBGB/RGRG)
+> +	 */
+> +	if (f->mbus_code) {
+> +		fmt = isc_find_format_by_code(isc, f->mbus_code, &i);
+> +		if (!fmt)
+> +			return -EINVAL;
+> +		if (index == supported_index) {
+> +			f->pixelformat = fmt->fourcc;
+>  			return 0;
+>  		}
+
+Not sure I get this. Are there multiple pixel formats associated with
+a non-RAW mbus_code ? If not, your isc_find_format_by_code() call will always
+return a single pixelformat per mbus_code, so there is no need to
+check with supported index. If the ISC cannot convert between
+colorspaces (ie not YUYV->RGB) I think it would be easier to check for
+RAW first and enumerate all the non-RAW pixfmt the ISC can generate
+from RAW, then if mbus_code is non RAW just check if it's in the list
+of supported formats and return the corresponding pixfmt. Or can the
+ISC conver between different colorspaces and I didn't get this ?
+
+>  		supported_index++;
+>  	}
+>
+> -	return -EINVAL;
+> +	/*
+> +	 * We are asked for a specific mbus code, which is raw.
+> +	 * We have to search through the formats we can convert to.
+> +	 * We have to skip the raw formats, we cannot convert to raw.
+> +	 * E.g. 'AR12' (16-bit ARGB 4-4-4-4), 'AR15' (16-bit ARGB 1-5-5-5), etc.
+> +	 */
+> +	if (f->mbus_code && ISC_IS_FORMAT_RAW(f->mbus_code)) {
+
+Won't this be hijacked by the previous loop ?
+
+	if (f->mbus_code) {
+
+        }
+
+	if (f->mbus_code && ISC_IS_FORMAT_RAW(f->mbus_code)) {
+
+        }
+
+> +		for (i = 0; i < isc->controller_formats_size; i++)
+> +			if (!isc->controller_formats[i].raw) {
+
+                        if (isc->controller_format[i].raw)
+                                continue;
+
+To save an indentation level
+
+> +				if (index == supported_index) {
+
+Should supported_index be re-initialized before this loop ?
+
+> +					f->pixelformat =
+> +						isc->controller_formats[i].fourcc;
+
+You are enumerating -all- formats except RAW, right ?
+This mean you can convert RAW to all other formats ?
+
+> +					return 0;
+> +				}
+> +				supported_index++;
+> +			}
+> +	}
+> +
+> +	/*
+> +	 * If we are asked a specific mbus_code, we have no more formats to
+> +	 * report
+> +	 * e.g. if the format is not raw, we cannot do any more processing.
+> +	 */
+> +	if (f->mbus_code)
+> +		return -EINVAL;
+
+As suggested, if my understanding is correct, I would enumerate all
+formats generated from a RAW mbus_code. If the mbus_code is not RAW
+then look if it's supported with isc_find_format_by_code() (and only
+index==0 is valid, unless there will be multiple entries with the same
+mbus_code in your format list, but isc_find_format_by_code() doesn't
+seem to support that).
+
+> +
+> +	/*
+> +	 * And finally, without a specific mbus_code,
+> +	 * we have to report all our formats.
+> +	 */
+> +	if (index >= isc->controller_formats_size)
+> +		return -EINVAL;
+> +
+> +	f->pixelformat = isc->controller_formats[index].fourcc;
+> +
+> +	return 0;
+>  }
+>
+>  static int isc_g_fmt_vid_cap(struct file *file, void *priv,
+> @@ -584,20 +608,30 @@ static int isc_try_validate_formats(struct isc_device *isc)
+>  		break;
+>  	default:
+>  	/* any other different formats are not supported */
+> +		v4l2_err(&isc->v4l2_dev, "Requested unsupported format.\n");
+>  		ret = -EINVAL;
+>  	}
+>  	v4l2_dbg(1, debug, &isc->v4l2_dev,
+>  		 "Format validation, requested rgb=%u, yuv=%u, grey=%u, bayer=%u\n",
+>  		 rgb, yuv, grey, bayer);
+>
+> -	/* we cannot output RAW if we do not receive RAW */
+> -	if ((bayer) && !ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code))
+> +	if (bayer &&
+> +	    !ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
+> +		v4l2_err(&isc->v4l2_dev, "Cannot output RAW if we do not receive RAW.\n");
+>  		return -EINVAL;
+> +	}
+>
+> -	/* we cannot output GREY if we do not receive RAW/GREY */
+>  	if (grey && !ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code) &&
+> -	    !ISC_IS_FORMAT_GREY(isc->try_config.sd_format->mbus_code))
+> +	    !ISC_IS_FORMAT_GREY(isc->try_config.sd_format->mbus_code)) {
+> +		v4l2_err(&isc->v4l2_dev, "Cannot output GREY if we do not receive RAW/GREY.\n");
+>  		return -EINVAL;
+> +	}
+> +
+> +	if ((rgb || bayer || yuv) &&
+> +	    ISC_IS_FORMAT_GREY(isc->try_config.sd_format->mbus_code)) {
+> +		v4l2_err(&isc->v4l2_dev, "Cannot convert GREY to another format.\n");
+> +		return -EINVAL;
+> +	}
+>
+>  	return ret;
+>  }
+> @@ -825,7 +859,7 @@ static void isc_try_fse(struct isc_device *isc,
+>  	 * If we do not know yet which format the subdev is using, we cannot
+>  	 * do anything.
+>  	 */
+> -	if (!isc->try_config.sd_format)
+> +	if (!isc->config.sd_format)
+>  		return;
+>
+>  	fse.code = isc->try_config.sd_format->mbus_code;
+> @@ -846,180 +880,140 @@ static void isc_try_fse(struct isc_device *isc,
+>  	}
+>  }
+>
+> -static int isc_try_fmt(struct isc_device *isc, struct v4l2_format *f,
+> -			u32 *code)
+> +static int isc_try_fmt(struct isc_device *isc, struct v4l2_format *f)
+>  {
+> -	int i;
+> -	struct isc_format *sd_fmt = NULL, *direct_fmt = NULL;
+>  	struct v4l2_pix_format *pixfmt = &f->fmt.pix;
+> -	struct v4l2_subdev_pad_config pad_cfg = {};
+> -	struct v4l2_subdev_state pad_state = {
+> -		.pads = &pad_cfg
+> -		};
+> -	struct v4l2_subdev_format format = {
+> -		.which = V4L2_SUBDEV_FORMAT_TRY,
+> -	};
+> -	u32 mbus_code;
+> -	int ret;
+> -	bool rlp_dma_direct_dump = false;
+> +	unsigned int i;
+>
+>  	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+>  		return -EINVAL;
+>
+> -	/* Step 1: find a RAW format that is supported */
+> -	for (i = 0; i < isc->num_user_formats; i++) {
+> -		if (ISC_IS_FORMAT_RAW(isc->user_formats[i]->mbus_code)) {
+> -			sd_fmt = isc->user_formats[i];
+> +	isc->try_config.fourcc = isc->controller_formats[0].fourcc;
+> +
+> +	/* find if the format requested is supported */
+> +	for (i = 0; i < isc->controller_formats_size; i++)
+> +		if (isc->controller_formats[i].fourcc == pixfmt->pixelformat) {
+> +			isc->try_config.fourcc = pixfmt->pixelformat;
+>  			break;
+>  		}
+> -	}
+> -	/* Step 2: We can continue with this RAW format, or we can look
+> -	 * for better: maybe sensor supports directly what we need.
+> -	 */
+> -	direct_fmt = find_format_by_fourcc(isc, pixfmt->pixelformat);
+>
+> -	/* Step 3: We have both. We decide given the module parameter which
+> -	 * one to use.
+> -	 */
+> -	if (direct_fmt && sd_fmt && sensor_preferred)
+> -		sd_fmt = direct_fmt;
+> -
+> -	/* Step 4: we do not have RAW but we have a direct format. Use it. */
+> -	if (direct_fmt && !sd_fmt)
+> -		sd_fmt = direct_fmt;
+> -
+> -	/* Step 5: if we are using a direct format, we need to package
+> -	 * everything as 8 bit data and just dump it
+> -	 */
+> -	if (sd_fmt == direct_fmt)
+> -		rlp_dma_direct_dump = true;
+> -
+> -	/* Step 6: We have no format. This can happen if the userspace
+> -	 * requests some weird/invalid format.
+> -	 * In this case, default to whatever we have
+> -	 */
+> -	if (!sd_fmt && !direct_fmt) {
+> -		sd_fmt = isc->user_formats[isc->num_user_formats - 1];
+> -		v4l2_dbg(1, debug, &isc->v4l2_dev,
+> -			 "Sensor not supporting %.4s, using %.4s\n",
+> -			 (char *)&pixfmt->pixelformat, (char *)&sd_fmt->fourcc);
+> -	}
+> -
+> -	if (!sd_fmt) {
+> -		ret = -EINVAL;
+> -		goto isc_try_fmt_err;
+> -	}
+> -
+> -	/* Step 7: Print out what we decided for debugging */
+> -	v4l2_dbg(1, debug, &isc->v4l2_dev,
+> -		 "Preferring to have sensor using format %.4s\n",
+> -		 (char *)&sd_fmt->fourcc);
+> -
+> -	/* Step 8: at this moment we decided which format the subdev will use */
+> -	isc->try_config.sd_format = sd_fmt;
+> +	isc_try_configure_rlp_dma(isc, false);
+>
+>  	/* Limit to Atmel ISC hardware capabilities */
+> -	if (pixfmt->width > isc->max_width)
+> -		pixfmt->width = isc->max_width;
+> -	if (pixfmt->height > isc->max_height)
+> -		pixfmt->height = isc->max_height;
+> -
+> -	/*
+> -	 * The mbus format is the one the subdev outputs.
+> -	 * The pixels will be transferred in this format Sensor -> ISC
+> -	 */
+> -	mbus_code = sd_fmt->mbus_code;
+> -
+> -	/*
+> -	 * Validate formats. If the required format is not OK, default to raw.
+> -	 */
+> -
+> -	isc->try_config.fourcc = pixfmt->pixelformat;
+> -
+> -	if (isc_try_validate_formats(isc)) {
+> -		pixfmt->pixelformat = isc->try_config.fourcc = sd_fmt->fourcc;
+> -		/* Re-try to validate the new format */
+> -		ret = isc_try_validate_formats(isc);
+> -		if (ret)
+> -			goto isc_try_fmt_err;
+> -	}
+> -
+> -	ret = isc_try_configure_rlp_dma(isc, rlp_dma_direct_dump);
+> -	if (ret)
+> -		goto isc_try_fmt_err;
+> -
+> -	ret = isc_try_configure_pipeline(isc);
+> -	if (ret)
+> -		goto isc_try_fmt_err;
+> -
+> -	/* Obtain frame sizes if possible to have crop requirements ready */
+> -	isc_try_fse(isc, &pad_state);
+> -
+> -	v4l2_fill_mbus_format(&format.format, pixfmt, mbus_code);
+> -	ret = v4l2_subdev_call(isc->current_subdev->sd, pad, set_fmt,
+> -			       &pad_state, &format);
+> -	if (ret < 0)
+> -		goto isc_try_fmt_subdev_err;
+> -
+> -	v4l2_fill_pix_format(pixfmt, &format.format);
+> +	v4l_bound_align_image(&pixfmt->width, 16, isc->max_width, 0,
+> +			      &pixfmt->height, 16, isc->max_height, 0, 0);
+> +	/* If we did not find the requested format, we will fallback here */
+> +	pixfmt->pixelformat = isc->try_config.fourcc;
+> +	pixfmt->colorspace = V4L2_COLORSPACE_SRGB;
+> +	pixfmt->field = V4L2_FIELD_NONE;
+>
+> -	/* Limit to Atmel ISC hardware capabilities */
+> -	if (pixfmt->width > isc->max_width)
+> -		pixfmt->width = isc->max_width;
+> -	if (pixfmt->height > isc->max_height)
+> -		pixfmt->height = isc->max_height;
+>
+> -	pixfmt->field = V4L2_FIELD_NONE;
+>  	pixfmt->bytesperline = (pixfmt->width * isc->try_config.bpp_v4l2) >> 3;
+>  	pixfmt->sizeimage = ((pixfmt->width * isc->try_config.bpp) >> 3) *
+>  			     pixfmt->height;
+>
+> -	if (code)
+> -		*code = mbus_code;
+> +	isc->try_fmt = *f;
+>
+>  	return 0;
+> +}
+>
+> -isc_try_fmt_err:
+> -	v4l2_err(&isc->v4l2_dev, "Could not find any possible format for a working pipeline\n");
+> -isc_try_fmt_subdev_err:
+> -	memset(&isc->try_config, 0, sizeof(isc->try_config));
+> +static int isc_set_fmt(struct isc_device *isc, struct v4l2_format *f)
+> +{
+> +	isc_try_fmt(isc, f);
+>
+> -	return ret;
+> +	/* make the try configuration active */
+> +	isc->config = isc->try_config;
+> +	isc->fmt = isc->try_fmt;
+> +
+> +	v4l2_dbg(1, debug, &isc->v4l2_dev, "ISC set_fmt to %.4s @%dx%d\n",
+> +		 (char *)&f->fmt.pix.pixelformat,
+> +		 f->fmt.pix.width, f->fmt.pix.height);
+> +
+> +	return 0;
+>  }
+>
+> -static int isc_set_fmt(struct isc_device *isc, struct v4l2_format *f)
+> +static int isc_validate(struct isc_device *isc)
+>  {
+> +	int ret;
+> +	int i;
+> +	struct isc_format *sd_fmt = NULL;
+> +	struct v4l2_pix_format *pixfmt = &isc->fmt.fmt.pix;
+>  	struct v4l2_subdev_format format = {
+>  		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> +		.pad = isc->remote_pad,
+> +	};
+> +	struct v4l2_subdev_pad_config pad_cfg = {};
+> +	struct v4l2_subdev_state pad_state = {
+> +		.pads = &pad_cfg,
+>  	};
+> -	u32 mbus_code = 0;
+> -	int ret;
+>
+> -	ret = isc_try_fmt(isc, f, &mbus_code);
+> +	/* Get current format from subdev */
+> +	ret = v4l2_subdev_call(isc->current_subdev->sd, pad, get_fmt, NULL,
+> +			       &format);
+
+I think when v4l2_subdev_call_state_active() will land it will
+probably simplify calling the subdev driver operations.
+
+>  	if (ret)
+>  		return ret;
+>
+> -	v4l2_fill_mbus_format(&format.format, &f->fmt.pix, mbus_code);
+> -	ret = v4l2_subdev_call(isc->current_subdev->sd, pad,
+> -			       set_fmt, NULL, &format);
+> -	if (ret < 0)
+> -		return ret;
+> +	/* Identify the subdev's format configuration */
+> +	for (i = 0; i < isc->formats_list_size; i++)
+> +		if (isc->formats_list[i].mbus_code == format.format.code) {
+> +			sd_fmt = &isc->formats_list[i];
+> +			break;
+> +		}
+> +
+> +	/* Check if the format is not supported */
+> +	if (!sd_fmt) {
+> +		v4l2_err(&isc->v4l2_dev,
+> +			 "Current subdevice is streaming a media bus code that is not supported 0x%x\n",
+> +			 format.format.code);
+> +		return -EPIPE;
+> +	}
+> +
+> +	/* At this moment we know which format the subdev will use */
+> +	isc->try_config.sd_format = sd_fmt;
+> +
+> +	/* If the sensor is not RAW, we can only do a direct dump */
+> +	if (!ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code))
+> +		isc_try_configure_rlp_dma(isc, true);
+
+This is done at try_format(). Is it intentionally repeated ?
 
 >
-> Thanks for checking this out !
-> Eugen
+>  	/* Limit to Atmel ISC hardware capabilities */
+> -	if (f->fmt.pix.width > isc->max_width)
+> -		f->fmt.pix.width = isc->max_width;
+> -	if (f->fmt.pix.height > isc->max_height)
+> -		f->fmt.pix.height = isc->max_height;
+> +	v4l_bound_align_image(&format.format.width, 16, isc->max_width, 0,
+> +			      &format.format.height, 16, isc->max_height, 0, 0);
+>
+> -	isc->fmt = *f;
+> +	/* Check if the frame size is the same. Otherwise we may overflow */
+> +	if (pixfmt->height != format.format.height ||
+> +	    pixfmt->width != format.format.width) {
+> +		v4l2_err(&isc->v4l2_dev,
+> +			 "ISC not configured with the proper frame size: %dx%d\n",
+> +			 format.format.width, format.format.height);
+> +		return -EPIPE;
+> +	}
+> +
+> +	v4l2_dbg(1, debug, &isc->v4l2_dev,
+> +		 "Identified subdev using format %.4s with %dx%d %d bpp\n",
+> +		 (char *)&sd_fmt->fourcc, pixfmt->width, pixfmt->height,
+> +		 isc->try_config.bpp);
+>
+> +	/* Reset and restart AWB if the subdevice changed the format */
+>  	if (isc->try_config.sd_format && isc->config.sd_format &&
+>  	    isc->try_config.sd_format != isc->config.sd_format) {
+>  		isc->ctrls.hist_stat = HIST_INIT;
+>  		isc_reset_awb_ctrls(isc);
+>  		isc_update_v4l2_ctrls(isc);
+>  	}
+> -	/* make the try configuration active */
+> +
+> +	/* Validate formats */
+> +	ret = isc_try_validate_formats(isc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Obtain frame sizes if possible to have crop requirements ready */
+> +	isc_try_fse(isc, &pad_state);
+> +
+> +	/* Configure ISC pipeline for the config */
+> +	ret = isc_try_configure_pipeline(isc);
+> +	if (ret)
+> +		return ret;
+> +
+>  	isc->config = isc->try_config;
+>
+>  	v4l2_dbg(1, debug, &isc->v4l2_dev, "New ISC configuration in place\n");
+> @@ -1043,7 +1037,7 @@ static int isc_try_fmt_vid_cap(struct file *file, void *priv,
+>  {
+>  	struct isc_device *isc = video_drvdata(file);
+>
+> -	return isc_try_fmt(isc, f, NULL);
+> +	return isc_try_fmt(isc, f);
+>  }
+>
+>  static int isc_enum_input(struct file *file, void *priv,
+> @@ -1098,10 +1092,6 @@ static int isc_enum_framesizes(struct file *file, void *fh,
+>  	if (fsize->index)
+>  		return -EINVAL;
+>
+> -	for (i = 0; i < isc->num_user_formats; i++)
+> -		if (isc->user_formats[i]->fourcc == fsize->pixel_format)
+> -			ret = 0;
+> -
+>  	for (i = 0; i < isc->controller_formats_size; i++)
+>  		if (isc->controller_formats[i].fourcc == fsize->pixel_format)
+>  			ret = 0;
+> @@ -1782,52 +1772,6 @@ struct isc_format *isc_find_format_by_code(struct isc_device *isc,
+>  }
+>  EXPORT_SYMBOL_GPL(isc_find_format_by_code);
+>
+> -static int isc_formats_init(struct isc_device *isc)
+> -{
+> -	struct isc_format *fmt;
+> -	struct v4l2_subdev *subdev = isc->current_subdev->sd;
+> -	unsigned int num_fmts, i, j;
+> -	u32 list_size = isc->formats_list_size;
+> -	struct v4l2_subdev_mbus_code_enum mbus_code = {
+> -		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> -	};
+> -
+> -	num_fmts = 0;
+> -	while (!v4l2_subdev_call(subdev, pad, enum_mbus_code,
+> -	       NULL, &mbus_code)) {
+> -		mbus_code.index++;
+> -
+> -		fmt = isc_find_format_by_code(isc, mbus_code.code, &i);
+> -		if (!fmt) {
+> -			v4l2_warn(&isc->v4l2_dev, "Mbus code %x not supported\n",
+> -				  mbus_code.code);
+> -			continue;
+> -		}
+> -
+> -		fmt->sd_support = true;
+> -		num_fmts++;
+> -	}
+> -
+> -	if (!num_fmts)
+> -		return -ENXIO;
+> -
+> -	isc->num_user_formats = num_fmts;
+> -	isc->user_formats = devm_kcalloc(isc->dev,
+> -					 num_fmts, sizeof(*isc->user_formats),
+> -					 GFP_KERNEL);
+> -	if (!isc->user_formats)
+> -		return -ENOMEM;
+> -
+> -	fmt = &isc->formats_list[0];
+> -	for (i = 0, j = 0; i < list_size; i++) {
+> -		if (fmt->sd_support)
+> -			isc->user_formats[j++] = fmt;
+> -		fmt++;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>  static int isc_set_default_fmt(struct isc_device *isc)
+>  {
+>  	struct v4l2_format f = {
+> @@ -1836,12 +1780,12 @@ static int isc_set_default_fmt(struct isc_device *isc)
+>  			.width		= VGA_WIDTH,
+>  			.height		= VGA_HEIGHT,
+>  			.field		= V4L2_FIELD_NONE,
+> -			.pixelformat	= isc->user_formats[0]->fourcc,
+> +			.pixelformat	= isc->controller_formats[0].fourcc,
+>  		},
+>  	};
+>  	int ret;
+>
+> -	ret = isc_try_fmt(isc, &f, NULL);
+> +	ret = isc_try_fmt(isc, &f);
+>  	if (ret)
+>  		return ret;
+>
+> @@ -1896,13 +1840,6 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+>  	spin_lock_init(&isc->dma_queue_lock);
+>  	spin_lock_init(&isc->awb_lock);
+>
+> -	ret = isc_formats_init(isc);
+> -	if (ret < 0) {
+> -		v4l2_err(&isc->v4l2_dev,
+> -			 "Init format failed: %d\n", ret);
+> -		goto isc_async_complete_err;
+> -	}
+> -
+>  	ret = isc_set_default_fmt(isc);
+>  	if (ret) {
+>  		v4l2_err(&isc->v4l2_dev, "Could not set default format\n");
+> @@ -2015,6 +1952,24 @@ int isc_pipeline_init(struct isc_device *isc)
+>  }
+>  EXPORT_SYMBOL_GPL(isc_pipeline_init);
+>
+> +int isc_link_validate(struct media_link *link)
+> +{
+> +	struct video_device *vdev =
+> +		media_entity_to_video_device(link->sink->entity);
+> +	struct isc_device *isc = video_get_drvdata(vdev);
+> +	int ret;
+> +
+> +	ret = v4l2_subdev_link_validate(link);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return isc_validate(isc);
+> +}
+> +
+> +static const struct media_entity_operations isc_entity_operations = {
+> +	.link_validate = isc_link_validate,
+> +};
+> +
+>  int isc_mc_init(struct isc_device *isc, u32 ver)
+>  {
+>  	const struct of_device_id *match;
+> @@ -2022,6 +1977,8 @@ int isc_mc_init(struct isc_device *isc, u32 ver)
+>
+>  	isc->video_dev.entity.function = MEDIA_ENT_F_IO_V4L;
+>  	isc->video_dev.entity.flags = MEDIA_ENT_FL_DEFAULT;
+> +	isc->video_dev.entity.ops = &isc_entity_operations;
+> +
+>  	isc->pads[ISC_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
+>
+>  	ret = media_entity_pads_init(&isc->video_dev.entity, ISC_PADS_NUM,
+> diff --git a/drivers/media/platform/atmel/atmel-isc-scaler.c b/drivers/media/platform/atmel/atmel-isc-scaler.c
+> index 0c1f49db47b4..b0200bb44f8a 100644
+> --- a/drivers/media/platform/atmel/atmel-isc-scaler.c
+> +++ b/drivers/media/platform/atmel/atmel-isc-scaler.c
+> @@ -171,6 +171,10 @@ static const struct v4l2_subdev_pad_ops isc_scaler_pad_ops = {
+>  	.init_cfg = isc_scaler_init_cfg,
+>  };
+>
+> +static const struct media_entity_operations isc_scaler_entity_ops = {
+> +	.link_validate = v4l2_subdev_link_validate,
+> +};
+> +
+>  static const struct v4l2_subdev_ops xisc_scaler_subdev_ops = {
+>  	.pad = &isc_scaler_pad_ops,
+>  };
+> @@ -188,6 +192,7 @@ int isc_scaler_init(struct isc_device *isc)
+>
+>  	isc->scaler_sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>  	isc->scaler_sd.entity.function = MEDIA_ENT_F_PROC_VIDEO_SCALER;
+> +	isc->scaler_sd.entity.ops = &isc_scaler_entity_ops;
+>  	isc->scaler_pads[ISC_SCALER_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
+>  	isc->scaler_pads[ISC_SCALER_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
+>
+> diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
+> index ac8c8679dd53..e2261ce99f4f 100644
+> --- a/drivers/media/platform/atmel/atmel-isc.h
+> +++ b/drivers/media/platform/atmel/atmel-isc.h
+> @@ -63,15 +63,16 @@ struct isc_subdev_entity {
+>   * @cfa_baycfg:		If this format is RAW BAYER, indicate the type of bayer.
+>  			this is either BGBG, RGRG, etc.
+>   * @pfe_cfg0_bps:	Number of hardware data lines connected to the ISC
+> + * @raw:		If the format is raw bayer.
+>   */
+>
+>  struct isc_format {
+>  	u32	fourcc;
+>  	u32	mbus_code;
+>  	u32	cfa_baycfg;
+> -
+> -	bool	sd_support;
+>  	u32	pfe_cfg0_bps;
+> +
+> +	bool	raw;
+>  };
+>
+>  /* Pipeline bitmap */
+> @@ -216,8 +217,7 @@ enum isc_scaler_pads {
+>   * @comp:		completion reference that signals frame completion
+>   *
+>   * @fmt:		current v42l format
+> - * @user_formats:	list of formats that are supported and agreed with sd
+> - * @num_user_formats:	how many formats are in user_formats
+> + * @try_fmt:		current v4l2 try format
+>   *
+>   * @config:		current ISC format configuration
+>   * @try_config:		the current ISC try format , not yet activated
+> @@ -272,6 +272,7 @@ enum isc_scaler_pads {
+>   * @formats_list_size:	size of formats_list array
+>   * @pads:		media controller pads for isc video entity
+>   * @mdev:		media device that is registered by the isc
+> + * @mpipe:		media device pipeline used by the isc
+>   * @remote_pad:		remote pad on the connected subdevice
+>   * @scaler_sd:		subdevice for the scaler that isc registers
+>   * @scaler_pads:	media controller pads for the scaler subdevice
+> @@ -300,8 +301,7 @@ struct isc_device {
+>  	struct completion	comp;
+>
+>  	struct v4l2_format	fmt;
+> -	struct isc_format	**user_formats;
+> -	unsigned int		num_user_formats;
+> +	struct v4l2_format	try_fmt;
+>
+>  	struct fmt_config	config;
+>  	struct fmt_config	try_config;
+> @@ -371,6 +371,7 @@ struct isc_device {
+>  	struct {
+>  		struct media_pad		pads[ISC_PADS_NUM];
+>  		struct media_device		mdev;
+> +		struct media_pipeline		mpipe;
+>
+>  		u32				remote_pad;
+>  	};
+> diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> index d96ee3373889..2a651e237193 100644
+> --- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> +++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> @@ -80,20 +80,40 @@ static const struct isc_format sama5d2_controller_formats[] = {
+>  		.fourcc		= V4L2_PIX_FMT_Y10,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SBGGR8,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SGBRG8,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SGRBG8,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SRGGB8,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SBGGR10,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SGBRG10,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SGRBG10,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SRGGB10,
+> +		.raw		= true,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SBGGR12,
+> +		.raw		= true,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGBRG12,
+> +		.raw		= true,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGRBG12,
+> +		.raw		= true,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SRGGB12,
+> +		.raw		= true,
+
+Is the list zero-initialized ? Begin a static const I assume so (I
+should look at the C spec instead of asking :)
+
+>  	},
+>  };
+>
+> diff --git a/drivers/media/platform/atmel/atmel-sama7g5-isc.c b/drivers/media/platform/atmel/atmel-sama7g5-isc.c
+> index e07ae188c15f..a0d60cfdba7b 100644
+> --- a/drivers/media/platform/atmel/atmel-sama7g5-isc.c
+> +++ b/drivers/media/platform/atmel/atmel-sama7g5-isc.c
+> @@ -89,20 +89,40 @@ static const struct isc_format sama7g5_controller_formats[] = {
+>  		.fourcc		= V4L2_PIX_FMT_Y16,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SBGGR8,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SGBRG8,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SGRBG8,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SRGGB8,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SBGGR10,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SGBRG10,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SGRBG10,
+> +		.raw		= true,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SRGGB10,
+> +		.raw		= true,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SBGGR12,
+> +		.raw		= true,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGBRG12,
+> +		.raw		= true,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGRBG12,
+> +		.raw		= true,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SRGGB12,
+> +		.raw		= true,
+>  	},
+>  };
+>
+> --
+> 2.25.1
+>
