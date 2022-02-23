@@ -2,60 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 302694C048A
-	for <lists+linux-media@lfdr.de>; Tue, 22 Feb 2022 23:25:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A80D4C0642
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 01:36:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232527AbiBVW0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Feb 2022 17:26:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58654 "EHLO
+        id S236394AbiBWAgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Feb 2022 19:36:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230318AbiBVW0C (ORCPT
+        with ESMTP id S231518AbiBWAgr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Feb 2022 17:26:02 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BFF0B10B5
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 14:25:36 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id b11so27606835lfb.12
-        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 14:25:36 -0800 (PST)
+        Tue, 22 Feb 2022 19:36:47 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4915C666
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 16:36:21 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id y24so15732396lfg.1
+        for <linux-media@vger.kernel.org>; Tue, 22 Feb 2022 16:36:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6h177daC0FDm1IZ5TekVeCGwmMWiCoGt1CzY923IPUc=;
-        b=f3zGO/ndbIchBke9ZaJDVAtnFJwKUMNU2enShC2QcO+ddAcxtuN/lHiGdXLvlKYmF9
-         rf9RYls8uXreG5MPXFxYFKlZdJ6FasIvw4gEyGLpfwG69MKK+wAxIMclKQsjgWtselYS
-         eIpssCDK2/fVGRb/CPoMMEUXUTz2l+zoyF/NGlw4/+n0T2timh6nPIk4yJE8nHfJ64Mp
-         c7hkTggc1UIJCyqgaWgQq9SrjZX+RrlNUu1si9ADKzsx9qPjRS+eMa90iyvlG92oyuuO
-         n39UM184Ifl+EMEKpRCJQHlsh7luWEpDNc9ZDHiWDd4dhpgNe2N3t7uix1EsIBqdBimb
-         79Vw==
+        bh=MmYTKwlBwBECPCckdawOiBeY5OcJ5zYGIimKZOFZE10=;
+        b=pv6DK+ut88L1dgjxl8XAzbyhDnxaw5Ygi1DQ7FHgHbPYM4YuWq/a4ISwjy8OkiJo7l
+         pjCI6SXfOtjKya3g+Nr+54fPMbQzBUsF9ANWQOR6MDR4PP7/WUJNFAe/E8LN8IUmMN1i
+         DVTPPUjNQSZsmpIg+njsW8LFSrFsptRxfgwUAV7GuAiG9zSGa25sESO4sB5Yjdh4ZtyV
+         Cib7o4pt321CA2dGrjKxYGiGls+p8DK3kwvAjU83WWMpd2JJjUngWnrgcOBO19MEtC9H
+         lBUIFY5xPSAg/GvZCakzICtNsCLXMsOCkk1eqn3cX+I64TcgfJ7uueoC8ouG3Yas4GoV
+         m6IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6h177daC0FDm1IZ5TekVeCGwmMWiCoGt1CzY923IPUc=;
-        b=IuCR9Uvndb7TtyU2ZIQym0Tu7dWMzoKCK1Rdg7JYEX04hEIxV6kMBqS862l4WtuWFL
-         AT1Zssj3Z6K/MNuLqTv/cbk7FLKl2TwbhCMYaotMVMkZX93L9kZfK3eu2SrqLm3arBSg
-         9o+Zd0JYym9/r0yQ4JRYIvQLNH/H5Gn0wMHFAsjAItqvSdBwUcMSay6oxWolKcDAIkt2
-         9Ak+Ofv9GkBV8T2pOskQ6O75BC/kOeORzFDtLLdwcBYJBVJ7J5DBUrD3xq4VFpjI4Mnc
-         TNTyBcvUekfgOtY4Rq/Uuvwyh70nlPiLXJU4lJpwYe4xjDBIUxu/laeBkJsOK5UXw5oo
-         9y/w==
-X-Gm-Message-State: AOAM533RaPAEgi36uFTJdbjK4LRfaiymaLqUWOBkUPmAJvN6SyDmey9X
-        VHKoR9QfMaDa3YgCZECtECXJDg==
-X-Google-Smtp-Source: ABdhPJwZJbUlYze6s+6h0oEhPNkBuAcg7tAV5U7WlY6Km3Ouj5hNPDIaKVISWCMEnqUwWN3zkL546A==
-X-Received: by 2002:a05:6512:2315:b0:439:731f:a11e with SMTP id o21-20020a056512231500b00439731fa11emr18667970lfu.545.1645568734486;
-        Tue, 22 Feb 2022 14:25:34 -0800 (PST)
+        bh=MmYTKwlBwBECPCckdawOiBeY5OcJ5zYGIimKZOFZE10=;
+        b=qZiHXxmowtefi1Zbk9+05R2iXoqkWnuneLGInucj6cOB0uMEn4u+5QEuFlWQG9zPC5
+         bn/zrjuGnOTOOI9YmCSM4eLQADUH2COz3hay5psI7l8YP0vISD4VX0A9a/EftirEBpAd
+         fP5yogvSlU/Q2H3S2ULAyfnPgNmCrc19EJv//U1ijtjUB/WihjsMq9RQeyMyABe9hqdM
+         315/ztCzH6ti+DTqnkj184j+Wou7Fh95iq1bRpZdJPuAdyTsiBMGjMCshfTyjxdtEqR0
+         i0GFyMOPDwD1CRAFe1yr+1dJ6FK0KPUWISJdbcbLl837Z9yEjGOOACXRS4TAlsO90NeM
+         JdPQ==
+X-Gm-Message-State: AOAM530s/M6J8ugTB+CDXodYdS18x19RrrLcXydTlzhFghP9Njp9WZYt
+        gts3T8KMBUVToehugKlFB6U7WA==
+X-Google-Smtp-Source: ABdhPJyo/lt4z9dn3NALJft2ONgSni0Uk3TLjQTEnMlZVIFrrOFIbMj5AylwJ4o/0pcH0ttLUkLn7g==
+X-Received: by 2002:a05:6512:3e14:b0:429:6e79:ca87 with SMTP id i20-20020a0565123e1400b004296e79ca87mr18536374lfv.163.1645576579395;
+        Tue, 22 Feb 2022 16:36:19 -0800 (PST)
 Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
-        by smtp.gmail.com with ESMTPSA id m18sm1723568ljg.48.2022.02.22.14.25.33
+        by smtp.gmail.com with ESMTPSA id g8sm1885210lja.15.2022.02.22.16.36.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Feb 2022 14:25:34 -0800 (PST)
+        Tue, 22 Feb 2022 16:36:19 -0800 (PST)
 From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>
-Subject: [PATCH v2] media: cec: seco: Drop pointless include
-Date:   Tue, 22 Feb 2022 23:23:31 +0100
-Message-Id: <20220222222331.63495-1-linus.walleij@linaro.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH] media: adv7183: Convert to GPIO descriptors
+Date:   Wed, 23 Feb 2022 01:34:16 +0100
+Message-Id: <20220223003416.106671-1-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,44 +68,121 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This driver uses GPIO descriptors not the old legacy GPIO
-API so stop including <linux/gpio.h>.
+This driver is using two GPIO numbers passed as platform data.
 
-Fix a bug using a completely unrelated legacy API flag
-GPIOF_IN by switching to the actually desired flag
-GPIOD_IN.
+No board file in the kernel defines this however, so we can
+just change the mechanism without side effects.
 
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Ettore Chimenti <ek5.chimenti@gmail.com>
+Let's just switch it to use GPIO descriptors and add some
+comments on how to provide these.
+
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
-ChangeLog v1->v2:
-- Also fix the bad line flag.
----
- drivers/media/cec/platform/seco/seco-cec.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/media/i2c/adv7183.c | 51 ++++++++++++++++++-------------------
+ 1 file changed, 25 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/media/cec/platform/seco/seco-cec.c b/drivers/media/cec/platform/seco/seco-cec.c
-index ae138cc253fd..4df56096a476 100644
---- a/drivers/media/cec/platform/seco/seco-cec.c
-+++ b/drivers/media/cec/platform/seco/seco-cec.c
-@@ -12,7 +12,6 @@
- #include <linux/delay.h>
- #include <linux/dmi.h>
- #include <linux/gpio/consumer.h>
--#include <linux/gpio.h>
- #include <linux/interrupt.h>
- #include <linux/pci.h>
- #include <linux/platform_device.h>
-@@ -551,7 +550,7 @@ static int secocec_acpi_probe(struct secocec_data *sdev)
- 	struct gpio_desc *gpio;
- 	int irq = 0;
+diff --git a/drivers/media/i2c/adv7183.c b/drivers/media/i2c/adv7183.c
+index 92cafdea3f1f..ba746a19fd39 100644
+--- a/drivers/media/i2c/adv7183.c
++++ b/drivers/media/i2c/adv7183.c
+@@ -7,7 +7,7 @@
  
--	gpio = devm_gpiod_get(dev, NULL, GPIOF_IN);
-+	gpio = devm_gpiod_get(dev, NULL, GPIOD_IN);
- 	if (IS_ERR(gpio)) {
- 		dev_err(dev, "Cannot request interrupt gpio");
- 		return PTR_ERR(gpio);
+ #include <linux/delay.h>
+ #include <linux/errno.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+@@ -28,8 +28,8 @@ struct adv7183 {
+ 	v4l2_std_id std; /* Current set standard */
+ 	u32 input;
+ 	u32 output;
+-	unsigned reset_pin;
+-	unsigned oe_pin;
++	struct gpio_desc *reset_pin;
++	struct gpio_desc *oe_pin;
+ 	struct v4l2_mbus_framefmt fmt;
+ };
+ 
+@@ -465,9 +465,9 @@ static int adv7183_s_stream(struct v4l2_subdev *sd, int enable)
+ 	struct adv7183 *decoder = to_adv7183(sd);
+ 
+ 	if (enable)
+-		gpio_set_value(decoder->oe_pin, 0);
++		gpiod_set_value(decoder->oe_pin, 1);
+ 	else
+-		gpio_set_value(decoder->oe_pin, 1);
++		gpiod_set_value(decoder->oe_pin, 0);
+ 	udelay(1);
+ 	return 0;
+ }
+@@ -531,7 +531,6 @@ static int adv7183_probe(struct i2c_client *client,
+ 	struct v4l2_subdev_format fmt = {
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 	};
+-	const unsigned *pin_array;
+ 
+ 	/* Check if the adapter supports the needed features */
+ 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
+@@ -540,29 +539,28 @@ static int adv7183_probe(struct i2c_client *client,
+ 	v4l_info(client, "chip found @ 0x%02x (%s)\n",
+ 			client->addr << 1, client->adapter->name);
+ 
+-	pin_array = client->dev.platform_data;
+-	if (pin_array == NULL)
+-		return -EINVAL;
+-
+ 	decoder = devm_kzalloc(&client->dev, sizeof(*decoder), GFP_KERNEL);
+ 	if (decoder == NULL)
+ 		return -ENOMEM;
+ 
+-	decoder->reset_pin = pin_array[0];
+-	decoder->oe_pin = pin_array[1];
+-
+-	if (devm_gpio_request_one(&client->dev, decoder->reset_pin,
+-				  GPIOF_OUT_INIT_LOW, "ADV7183 Reset")) {
+-		v4l_err(client, "failed to request GPIO %d\n", decoder->reset_pin);
+-		return -EBUSY;
+-	}
+-
+-	if (devm_gpio_request_one(&client->dev, decoder->oe_pin,
+-				  GPIOF_OUT_INIT_HIGH,
+-				  "ADV7183 Output Enable")) {
+-		v4l_err(client, "failed to request GPIO %d\n", decoder->oe_pin);
+-		return -EBUSY;
+-	}
++	/*
++	 * Requesting high will assert reset, the line should be
++	 * flagged as active low in descriptor table or machine description.
++	 */
++	decoder->reset_pin = devm_gpiod_get(&client->dev, "reset",
++					    GPIOD_OUT_HIGH);
++	if (IS_ERR(decoder->reset_pin))
++		return PTR_ERR(decoder->reset_pin);
++	gpiod_set_consumer_name(decoder->reset_pin, "ADV7183 Reset");
++	/*
++	 * Requesting low will start with output disabled, the line should be
++	 * flagged as active low in descriptor table or machine description.
++	 */
++	decoder->oe_pin = devm_gpiod_get(&client->dev, "oe",
++					 GPIOD_OUT_LOW);
++	if (IS_ERR(decoder->oe_pin))
++		return PTR_ERR(decoder->oe_pin);
++	gpiod_set_consumer_name(decoder->reset_pin, "ADV7183 Output Enable");
+ 
+ 	sd = &decoder->sd;
+ 	v4l2_i2c_subdev_init(sd, client, &adv7183_ops);
+@@ -594,7 +592,8 @@ static int adv7183_probe(struct i2c_client *client,
+ 	/* reset chip */
+ 	/* reset pulse width at least 5ms */
+ 	mdelay(10);
+-	gpio_set_value(decoder->reset_pin, 1);
++	/* De-assert reset line (descriptor tagged active low) */
++	gpiod_set_value(decoder->reset_pin, 0);
+ 	/* wait 5ms before any further i2c writes are performed */
+ 	mdelay(5);
+ 
 -- 
 2.34.1
 
