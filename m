@@ -2,71 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9FDF4C0D89
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 08:47:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07FE04C0DFA
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 09:02:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238775AbiBWHre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 02:47:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43798 "EHLO
+        id S238931AbiBWICv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 03:02:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238749AbiBWHrb (ORCPT
+        with ESMTP id S238925AbiBWICu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 02:47:31 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABCFD65797;
-        Tue, 22 Feb 2022 23:47:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=iy5Ofm6AWn5S0+TPzZqllkgh84EUFfIT9WUD1UClXn4=; b=KuGl+SxVwgaXgh5hLAVT1UAi4x
-        Mdf6Uz6m2y23+0SrvtSnU9O8BhDGXxKAatQH1UV+1HLTZS6EKiTcNTlvQr6XJI6pv0KEXE3xvFiKZ
-        R/Jky7QdCF8UDa+v3Z/QM6f/ERD1b/x8syFTQf7TpLLbwqST8AacGpmpD66qiLMZMpUOKXyZjimX2
-        dqd43SyR3QIvd4Ydjgs3/d/7SKJAn7H0MEg/DJhCNfnBiuUH1CugGaRKAQv+oCwF98QBvMo4HOU/T
-        ucaRKTd4ozFy8kNCn3ThNjnNyyDuUTB+nnvKoGQIx86jvBLxFv0AD8qU8mHYnOj4lkd3DtKX03IFR
-        DEkug9Yw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nMmLj-00DALX-99; Wed, 23 Feb 2022 07:46:11 +0000
-Date:   Tue, 22 Feb 2022 23:46:11 -0800
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     arnd@arndb.de, hch@infradead.org, akpm@linux-foundation.org,
-        rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        davem@davemloft.net, airlied@linux.ie, vkoul@kernel.org,
-        hao.wu@intel.com, trix@redhat.com, mdf@kernel.org,
-        yilun.xu@intel.com, awalls@md.metrocast.net, mchehab@kernel.org,
-        sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com,
-        suganath-prabu.subramani@broadcom.com, mporter@kernel.crashing.org,
-        alex.bou9@gmail.com, bhelgaas@google.com,
-        linux-alpha@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        sparclinux@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-media@vger.kernel.org,
-        MPT-FusionLinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 00/16] Remove usage of the deprecated "pci-dma-compat.h"
- API
-Message-ID: <YhXmQwvjMFPQFPUr@infradead.org>
-References: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
+        Wed, 23 Feb 2022 03:02:50 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2D72340D3
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 00:02:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E2EC96159A
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 08:02:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64444C340E7;
+        Wed, 23 Feb 2022 08:02:19 +0000 (UTC)
+Message-ID: <14aa10ce-8a6c-67b2-2129-96c8fd939000@xs4all.nl>
+Date:   Wed, 23 Feb 2022 09:02:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Content-Language: en-US
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.18] v2: De-stage imx7-mipi-csis & some fixes
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christophe,
+Changes since v1:
 
-do you know what the state is in current linux-next?
+- Added hantro and seco patches and an imx fix ('csis: Store pads format separately').
 
-I think we'll just want to queue up anything left at this point in the
-dma-mapping or PCI tree and get it done.
+Regards,
+
+	Hans
+
+The following changes since commit 2b891d3980f6c255459d0e1c29ce2152ec7cf678:
+
+  media: xilinx: csi2rxss: Use mipi-csi2.h (2022-02-17 10:32:26 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18q
+
+for you to fetch changes up to 0bff66dcbe55cd4b13dfe53abad9268e34d48cbf:
+
+  media: cec: seco: Drop pointless include (2022-02-23 08:53:09 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Jacopo Mondi (9):
+      media: imx: De-stage imx7-mipi-csis
+      media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
+      media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
+      media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+      media: imx: imx-mipi-csis: Add RGB565_1X16
+      media: imx: imx-mipi-csis: Add BGR888
+      media: imx: imx-mipi-csis: Add output format
+      media: imx: imx8mq-mipi-csi2: Remove YUV422 2X8
+      media: imx: csis: Store pads format separately
+
+Jernej Skrabec (1):
+      media: hantro: sunxi: Fix VP9 steps
+
+Linus Walleij (1):
+      media: cec: seco: Drop pointless include
+
+Nicolas Dufresne (3):
+      media: v4l2-core: Initialize h264 scaling matrix
+      doc: media: Document MM21 tiled format
+      doc: media: Document VP9 reference_mode miss-placement
+
+ Documentation/admin-guide/media/imx7.rst                                        |  2 +-
+ .../bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml}          |  2 +-
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst             |  7 +++-
+ Documentation/userspace-api/media/v4l/pixfmt-reserved.rst                       | 15 +++-----
+ Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst                     |  6 ++++
+ MAINTAINERS                                                                     |  4 +--
+ drivers/media/cec/platform/seco/seco-cec.c                                      |  3 +-
+ drivers/media/platform/Kconfig                                                  |  1 +
+ drivers/media/platform/Makefile                                                 |  1 +
+ drivers/media/platform/imx/Kconfig                                              | 24 +++++++++++++
+ drivers/media/platform/imx/Makefile                                             |  1 +
+ .../{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c}  | 73 ++++++++++++++++++++++++++++++++++----
+ drivers/media/v4l2-core/v4l2-ctrls-core.c                                       | 10 ++++++
+ drivers/staging/media/hantro/sunxi_vpu_hw.c                                     |  4 +--
+ drivers/staging/media/imx/Makefile                                              |  1 -
+ drivers/staging/media/imx/TODO                                                  | 25 +++++++++++++
+ drivers/staging/media/imx/imx7-media-csi.c                                      | 32 ++++++++++++++---
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c                                    |  7 ++--
+ 18 files changed, 183 insertions(+), 35 deletions(-)
+ rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
+ create mode 100644 drivers/media/platform/imx/Kconfig
+ create mode 100644 drivers/media/platform/imx/Makefile
+ rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (94%)
