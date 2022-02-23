@@ -2,140 +2,365 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C9FE4C1196
-	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 12:43:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A56DF4C11F0
+	for <lists+linux-media@lfdr.de>; Wed, 23 Feb 2022 12:52:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240178AbiBWLmO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 06:42:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39230 "EHLO
+        id S240183AbiBWLwh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 06:52:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240177AbiBWLmN (ORCPT
+        with ESMTP id S235913AbiBWLwW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 06:42:13 -0500
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60075.outbound.protection.outlook.com [40.107.6.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A24F2B1AD;
-        Wed, 23 Feb 2022 03:41:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JTnaKGydzAJX6tFrHxj+5RQ0mJwhCQoE6j78feZQeTmkOHVYBqeZ0qXqGJFsXzR2eOJUx0j1q3upqT+rHYytEN9NH8UwXRf/ZPomBke25J+JUEBKZjL0r6iN9LtFNOGBg9f52W7hb9fS8yhb2k8rUJ5F+5WilngFOkM229LaF8a+jNdC0yDmhibUtwS23jvTH1Wo9TCKFsKWmP47GEUGoR+TzuOZ+Br9ZYhLxvs4y+UyxXAtgc7l59HnMRNmA/EBAoUrpLMDUtha15Io/OVPLJVoLLJJn72kVPyR3gpXLiX7cplzDN+neXRgK5M4V5dp3WGprIg1twx3GYvOQO/bfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=clbsh1pO4bSa373v+VY84oyLQOD0KBQLDvU+XkwxmLw=;
- b=Ovc4eozdbt+EnNehzHcDUgKXQ+HQ1T4tCkY+MjBRGE0Mg+tNO/LKcGq5i0zOkteIqOaH4vWKIavU1MljkDCwU3yKUDhRt+R6l7sX18qYhiOIf9Jsmo+k9djoBj/hZIabprFeERAGYgSUgr7rJJ+pS5T3uUA+NF/eZwO6IFJqh2eVubDGlaiVhCox1PimOdOXR8LigKWmls0PRBShcSZnIR/fseMyhIo8lp0jkoerQcqMlJhr307qqCumOWoHflxf4tr0QIrQgLQvRg8Z3qywiTYRjQeglA3S4D3wfNHYoFnvmKXv4lLoMkW+85SVs5lSc57VrHWt3SI7canUGzj4cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=clbsh1pO4bSa373v+VY84oyLQOD0KBQLDvU+XkwxmLw=;
- b=CPC0vOa2w8TTwadOoNmC10hv8gs5gqxoL/BfVv8+Xl5gQShMyDZCCYpNSSzK5XX45nhNECPoybpmRivAgSO0g+g8zuvoPrDJQIdSs/8RVhIvMOL9r0CfU3Y7K392Kc7OeI+e3YaEZE4HPcHt3IF+iLd9PCE1RWa/dWxp24mCPTk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by AM6PR0402MB3416.eurprd04.prod.outlook.com (2603:10a6:209:6::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.27; Wed, 23 Feb
- 2022 11:41:43 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::c39:69cf:c4ea:967]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::c39:69cf:c4ea:967%5]) with mapi id 15.20.4995.027; Wed, 23 Feb 2022
- 11:41:43 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
-        s.hauer@pengutronix.de
-Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v17 14/14] arm64: defconfig: amphion: enable vpu driver
-Date:   Wed, 23 Feb 2022 19:40:07 +0800
-Message-Id: <e185eed7783f5bd05222211e6a61dcea3a3b1f21.1645615976.git.ming.qian@nxp.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <cover.1645615976.git.ming.qian@nxp.com>
-References: <cover.1645615976.git.ming.qian@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR0601CA0015.apcprd06.prod.outlook.com (2603:1096:3::25)
- To AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+        Wed, 23 Feb 2022 06:52:22 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64183B569
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 03:51:53 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D7D4DD;
+        Wed, 23 Feb 2022 12:51:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1645617110;
+        bh=TCMN7Q2X7hiBfuBHphHlIJmsjLHf0qWdS2WigOdBkkU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tRovSSznie9x0tkKlroErTqWC1SmhyfmjfCHOeAWTtG69elPO1DIacdQebEkNCYJp
+         N8dTFKmZcr0nCLaxaMAx+mTNux5pScTRl/JnCPYsdsIhPNILvRPTt8TuZ+o2mLlBVF
+         8MMqfc/VjqI4gJWQBC8DTk36nAdI2Gnjajyk15ks=
+Date:   Wed, 23 Feb 2022 13:51:40 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>, sakari.ailus@iki.fi,
+        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
+        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
+        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        aford173@gmail.com, festevam@gmail.com,
+        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
+        paul.elder@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 07/27] media: ov5640: Rework CSI-2 clock tree
+Message-ID: <YhYfzBKuYssnS6hi@pendragon.ideasonboard.com>
+References: <20220223104034.91550-1-jacopo@jmondi.org>
+ <20220223104034.91550-8-jacopo@jmondi.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ae9e3ecb-47f6-4f20-f2c4-08d9f6c17694
-X-MS-TrafficTypeDiagnostic: AM6PR0402MB3416:EE_
-X-Microsoft-Antispam-PRVS: <AM6PR0402MB3416A9DACF84C0678C41BFD6E73C9@AM6PR0402MB3416.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ekJ5f0PiAGjE03bD9Kg16P7EH4ZCUeXcYHmhIXwxOEmQQLg6NEd+d1dK5dxFxhFHqZGnCIBU/FWfDW2dAmdwt54sj5k+mGqjqHRTLYtVE+gflIkLWSknuIEedlL4OV8DGf8hyLP67DUYa2YcK2CyII759nWuZP+Jw9iXhEsmyxhoTSrFAWM7a3uUTVJrfeOWRj5W+05x29SQwMOgOxU3Iu7epROa8NRvL0SQnmK+bVTJGsHactMkW8qAuY7d28mdKsnn4BYToFPR9Sl/mcq6DrV5vyVKpffVMEZ0Mw7VH3yLtORFVqwTKgvjAHaV3G+PnDDQF+0mDNiE/MNRrjjGeVL+NeZO2U8/5XItUGED/rxFFtd0dH5bSA4lktM67oVjyfOoAXgvzEv/OczRxg8bMXUlBp5mJ+F2FRRUo7vMd5mVX+sx/oVeFv12Rln+md9hbYSn/j1vrCoPcPWXLcHDSDwFfqKFEom3tSBsQNYZtkGscjozG5f+RmPYVrWpbnR7qzqshQn87QmOu3g60smmG6AdWV7I/Ib4NhqV32ZNT8nvXK/SPM/S6vVWfmFGCVegzACFiqUaqxuuE52VTZ35mJtaschpxuWnwUt+dbjTu27famKBbL/NmBfqC3AX3rzBhyyjsOirCk3v3xmYVxhUGgnPzICKuk0njkUD6Tv04s1lN/EH3oAox5L4gN2PNUmQWrTxwRIyGu2xQQ12dRtj+w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(36756003)(2616005)(6666004)(6506007)(6486002)(52116002)(508600001)(38350700002)(6512007)(2906002)(38100700002)(66476007)(4326008)(186003)(5660300002)(8676002)(8936002)(26005)(66556008)(316002)(44832011)(86362001)(4744005)(66946007)(7416002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qY918SKPpCJdiwntCA9rTRW0mXOpSuRLwdRbu/TfvDw0HpZ8mdh5fuETtFol?=
- =?us-ascii?Q?2FExGSJBaRF54z3blYGDi/rP26Dq0yUdGC8vLS/GkbmXLSXXcoQOOUb8R9By?=
- =?us-ascii?Q?mmAGElPUpE9PJ86yqEVRbkdpRoLjgMckfuz/wb5aRJuMJI/G4UG9BDlUK0or?=
- =?us-ascii?Q?EW+QQxa3J4r4JNltOfn+J1aMeZCgPwq5ZsXLcirJ9lkWaFYlMzRqSZUOA98a?=
- =?us-ascii?Q?mCUpbHuCcr4apb2iF2OWWjIgi7prIrFCypUjMOtKdgkEaFNBPW8v6opHrBkc?=
- =?us-ascii?Q?Jh3ocJhEOknlgMxAs/JPDHrGonRj06EOH3Dzc/XPdjsG1NBGM45CEEeF3U3N?=
- =?us-ascii?Q?mdA95XTaypQQfYwpSOQEtALkNaGMYEUO5QtLmNfcFYGOpGu0Vj++5Eo3GGjt?=
- =?us-ascii?Q?mS/WJ4nFuOTW+lEYFybINUGEfuqQn9wgMbuaCsnPcMQrN9eGPwcfz0e2Z5KB?=
- =?us-ascii?Q?6KcNA9iKzolmemw+c3kdPiP8JV1O4ebJX4+JzWrtGEqKzckbx3qFaBGis9tQ?=
- =?us-ascii?Q?8AKbwFaSt4+9S9qqMpHSKubjd/NrdF38OgODNVC7oSBaZLlclfkFrIBx6bf3?=
- =?us-ascii?Q?3HnrjhQIg9bKu7i22D3xVhjNIY+8Y6oTQSLuJTxP+YF7zRIcT132+PQG/T2l?=
- =?us-ascii?Q?US//hNY/f7zw8mleyilZhpWTfEyTcClX4iEjTv5l82SqLwxgBlDBGsoV3mKx?=
- =?us-ascii?Q?AC2gcgmtVjMnNWwNeOEWaONf0X6mKRLRXQR5pDv2PT8tqwWf40ifVUSusS+j?=
- =?us-ascii?Q?sJU7NQHCnt2unxOWuHVFxSXM9W1zAy8kKtLnU7NfDJpyMI+oytqOBgcXRAUO?=
- =?us-ascii?Q?68akhVhiLUPNQTa1kHFVaeTz6BQm8mwCHvk0kNqRvT0enbazhxZxQzKiKSLo?=
- =?us-ascii?Q?K9tiKam/tjH8P9A/ycJAKytTfA371wAzR4QnOPmK9U8MMCe9WMQZAk60bKvV?=
- =?us-ascii?Q?9y+VKGvtpnUM6LTAEWIF2QmR9XEQ1zeigS4gINtC4JDVjLuZUjrxgP+7JYRE?=
- =?us-ascii?Q?iiaIdzVD8mtsvu2cZghgnVyb/PG1gqnDaDlLJbXaZqMMlj2APpFOANpn5Oma?=
- =?us-ascii?Q?fA0yZ7HftOSzO0vkWcGIYb5FS9SBzkWf7n18jT8hlpejGhwEkVw7jL3PB9G1?=
- =?us-ascii?Q?S8sxZVak2caQuvpDtADbmAPB+lT+wAasIKafl9/Cvz7SYsyW9Wh7EngsoTLm?=
- =?us-ascii?Q?uFikiEeqKXPhWHW6Ya9KzYg8y8b5B9Sf+ytBV6DRFD9nawDQTj1gDfQaDTK/?=
- =?us-ascii?Q?nH2o8BAcF16n8nzoKnrjlb9jPJVBborOmjCHZ8tYGHXnZv2FEO5v10GkmLT8?=
- =?us-ascii?Q?X/mVXFRuu4DnqEXFrOV6z/3/nnpZqvNQkgzVaetKpPqX6DaC9ukw8IdxP9VF?=
- =?us-ascii?Q?x/I+bx+ks4oX2WLLVoFnvf+VpOMzqoi4f0emKDFeZCqt1dwSRmCDbn7mBV9A?=
- =?us-ascii?Q?lCuDHffB/+E62Bm9Jbf3O5fv4JUKvZsJF6Ue+MTHi8uP9vnxsNr7hZEnBEIe?=
- =?us-ascii?Q?vZKJq+/48JkjYaO0k7gglzvNGjBeEa+wMFmHDnPFAr62CrwwK6A13NtW7FMB?=
- =?us-ascii?Q?ww0KDGQSpagvOJSnGI/7sfVNoZt0gKBo7prhoTHk+9mvLFey+3V2TmzX9TRX?=
- =?us-ascii?Q?KJ2wbqP3OWI6a4ItqW4hxAw=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae9e3ecb-47f6-4f20-f2c4-08d9f6c17694
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 11:41:43.0885
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UouTt+e9XMA1P63bYyBVsM7Yj/jXbhtRfqs4mwwj40RWj+NyH9nEackZJEGarsQkc7vmdHpGpR+9nDiVX3WrfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0402MB3416
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220223104034.91550-8-jacopo@jmondi.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Enable the amphion vpu driver for i.MX8QXP as a module
+Hi Jacopo,
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Thank you for the patch.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 30516dc0b70e..63ee67dac6e0 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -670,6 +670,7 @@ CONFIG_VIDEO_RENESAS_FDP1=m
- CONFIG_VIDEO_RENESAS_FCP=m
- CONFIG_VIDEO_RENESAS_VSP1=m
- CONFIG_VIDEO_QCOM_VENUS=m
-+CONFIG_VIDEO_AMPHION_VPU=m
- CONFIG_SDR_PLATFORM_DRIVERS=y
- CONFIG_VIDEO_RCAR_DRIF=m
- CONFIG_VIDEO_IMX219=m
+On Wed, Feb 23, 2022 at 11:40:14AM +0100, Jacopo Mondi wrote:
+> Re-work the ov5640_set_mipi_pclk() function to calculate the
+> PLL configuration using the pixel_rate and link_freq values set at
+> s_fmt time.
+> 
+> Rework the DVP clock mode settings to calculate the pixel clock
+> internally and remove the assumption on the 16bpp format.
+> 
+> Tested in MIPI CSI-2 mode with 1 and 2 data lanes with:
+> - all the sensor supported resolutions in UYVY and RGB565 formats.
+> - resolutions >= 1280x720 in RAW Bayer format.
+> - resolutions < 1280x720 in RGB888 format.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/ov5640.c | 192 ++++++++++++++++++-------------------
+>  1 file changed, 92 insertions(+), 100 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 17ad815f7bdf..65851b27d830 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -90,6 +90,7 @@
+>  #define OV5640_REG_POLARITY_CTRL00	0x4740
+>  #define OV5640_REG_MIPI_CTRL00		0x4800
+>  #define OV5640_REG_DEBUG_MODE		0x4814
+> +#define OV5640_REG_PCLK_PERIOD		0x4837
+>  #define OV5640_REG_ISP_FORMAT_MUX_CTRL	0x501f
+>  #define OV5640_REG_PRE_ISP_TEST_SET1	0x503d
+>  #define OV5640_REG_SDE_CTRL0		0x5580
+> @@ -925,20 +926,10 @@ static int ov5640_mod_reg(struct ov5640_dev *sensor, u16 reg,
+>   *                                +-----+-----+
+>   *                                       +------------> PCLK
+>   *
+> - * This is deviating from the datasheet at least for the register
+> - * 0x3108, since it's said here that the PCLK would be clocked from
+> - * the PLL.
+> - *
+> - * There seems to be also (unverified) constraints:
+> + * There seems to be also constraints:
+>   *  - the PLL pre-divider output rate should be in the 4-27MHz range
+>   *  - the PLL multiplier output rate should be in the 500-1000MHz range
+>   *  - PCLK >= SCLK * 2 in YUV, >= SCLK in Raw or JPEG
+> - *
+> - * In the two latter cases, these constraints are met since our
+> - * factors are hardcoded. If we were to change that, we would need to
+> - * take this into account. The only varying parts are the PLL
+> - * multiplier and the system clock divider, which are shared between
+> - * all these clocks so won't cause any issue.
+>   */
+>  
+>  /*
+> @@ -957,13 +948,6 @@ static int ov5640_mod_reg(struct ov5640_dev *sensor, u16 reg,
+>  #define OV5640_SYSDIV_MIN	1
+>  #define OV5640_SYSDIV_MAX	16
+>  
+> -/*
+> - * Hardcode these values for scaler and non-scaler modes.
+> - * FIXME: to be re-calcualted for 1 data lanes setups
+> - */
+> -#define OV5640_MIPI_DIV_PCLK	2
+> -#define OV5640_MIPI_DIV_SCLK	1
+> -
+>  /*
+>   * This is supposed to be ranging from 1 to 2, but the value is always
+>   * set to 2 in the vendor kernels.
+> @@ -1073,70 +1057,79 @@ static unsigned long ov5640_calc_sys_clk(struct ov5640_dev *sensor,
+>  /*
+>   * ov5640_set_mipi_pclk() - Calculate the clock tree configuration values
+>   *			    for the MIPI CSI-2 output.
+> - *
+> - * @rate: The requested bandwidth per lane in bytes per second.
+> - *	  'Bandwidth Per Lane' is calculated as:
+> - *	  bpl = HTOT * VTOT * FPS * bpp / num_lanes;
+> - *
+> - * This function use the requested bandwidth to calculate:
+> - * - sample_rate = bpl / (bpp / num_lanes);
+> - *	         = bpl / (PLL_RDIV * BIT_DIV * PCLK_DIV * MIPI_DIV / num_lanes);
+> - *
+> - * - mipi_sclk   = bpl / MIPI_DIV / 2; ( / 2 is for CSI-2 DDR)
+> - *
+> - * with these fixed parameters:
+> - *	PLL_RDIV	= 2;
+> - *	BIT_DIVIDER	= 2; (MIPI_BIT_MODE == 8 ? 2 : 2,5);
+> - *	PCLK_DIV	= 1;
+> - *
+> - * The MIPI clock generation differs for modes that use the scaler and modes
+> - * that do not. In case the scaler is in use, the MIPI_SCLK generates the MIPI
+> - * BIT CLk, and thus:
+> - *
+> - * - mipi_sclk = bpl / MIPI_DIV / 2;
+> - *   MIPI_DIV = 1;
+> - *
+> - * For modes that do not go through the scaler, the MIPI BIT CLOCK is generated
+> - * from the pixel clock, and thus:
+> - *
+> - * - sample_rate = bpl / (bpp / num_lanes);
+> - *	         = bpl / (2 * 2 * 1 * MIPI_DIV / num_lanes);
+> - *		 = bpl / (4 * MIPI_DIV / num_lanes);
+> - * - MIPI_DIV	 = bpp / (4 * num_lanes);
+> - *
+> - * FIXME: this have been tested with 16bpp and 2 lanes setup only.
+> - * MIPI_DIV is fixed to value 2, but it -might- be changed according to the
+> - * above formula for setups with 1 lane or image formats with different bpp.
+> - *
+> - * FIXME: this deviates from the sensor manual documentation which is quite
+> - * thin on the MIPI clock tree generation part.
+>   */
+> -static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor,
+> -				unsigned long rate)
+> +static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor)
+>  {
+> -	const struct ov5640_mode_info *mode = sensor->current_mode;
+> +	u8 bit_div, mipi_div, pclk_div, sclk_div, sclk2x_div, root_div;
+> +	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
+>  	u8 prediv, mult, sysdiv;
+> -	u8 mipi_div;
+> +	unsigned long sysclk;
+> +	unsigned long sample_rate;
+> +	u8 pclk_period;
+> +	s64 link_freq;
+>  	int ret;
+>  
+> +	/* Use the link frequency computed at ov5640_update_pixel_rate() time. */
+> +	link_freq = ov5640_csi2_link_freqs[sensor->ctrls.link_freq->cur.val];
+> +
+>  	/*
+> -	 * 1280x720 is reported to use 'SUBSAMPLING' only,
+> -	 * but according to the sensor manual it goes through the
+> -	 * scaler before subsampling.
+> +	 * - mipi_div - Additional divider for the MIPI lane clock.
+> +	 *
+> +	 * Higher link frequencies would make sysclk > 1GHz.
+> +	 * Keep the sysclk low and do not divide in the MIPI domain.
+>  	 */
+> -	if (mode->dn_mode == SCALING ||
+> -	   (mode->id == OV5640_MODE_720P_1280_720))
+> -		mipi_div = OV5640_MIPI_DIV_SCLK;
+> +	if (link_freq > OV5640_LINK_RATE_MAX)
+> +		mipi_div = 1;
+>  	else
+> -		mipi_div = OV5640_MIPI_DIV_PCLK;
+> +		mipi_div = 2;
+>  
+> -	ov5640_calc_sys_clk(sensor, rate, &prediv, &mult, &sysdiv);
+> +	sysclk = link_freq * mipi_div;
+> +	ov5640_calc_sys_clk(sensor, sysclk, &prediv, &mult, &sysdiv);
+>  
+> -	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL0,
+> -			     0x0f, OV5640_PLL_CTRL0_MIPI_MODE_8BIT);
+> +	/*
+> +	 * Adjust PLL parameters to maintain the MIPI_SCLK-to-PCLK ratio.
+> +	 *
+> +	 * - root_div = 2 (fixed)
+> +	 * - bit_div : MIPI 8-bit = 2; MIPI 10-bit = 2.5
+> +	 * - pclk_div = 1 (fixed)
+> +	 * - p_div  = (2 lanes ? mipi_div : 2 * mipi_div)
+> +	 *
+> +	 * This results in the following MIPI_SCLK depending on the number
+> +	 * of lanes:
+> +	 *
+> +	 * - 2 lanes: MIPI_SCLK = (4 or 5) * PCLK
+> +	 * - 1 lanes: MIPI_SCLK = (8 or 10) * PCLK
+> +	 */
+> +	root_div = OV5640_PLL_CTRL3_PLL_ROOT_DIV_2;
+> +	bit_div =  OV5640_PLL_CTRL0_MIPI_MODE_8BIT;
+> +	pclk_div = ilog2(OV5640_PCLK_ROOT_DIV);
+>  
+> -	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL1,
+> -			     0xff, sysdiv << 4 | mipi_div);
+> +	/*
+> +	 * Scaler clock:
+> +	 * - YUV: PCLK >= 2 * SCLK
+> +	 * - RAW or JPEG: PCLK >= SCLK
+> +	 * - sclk2x_div = sclk_div / 2
+> +	 *
+> +	 * TODO: test with JPEG.
+> +	 */
+> +	sclk_div = ilog2(OV5640_SCLK_ROOT_DIV);
+> +	sclk2x_div = ilog2(OV5640_SCLK2X_ROOT_DIV);
+> +
+> +	/*
+> +	 * Set the sample period expressed in ns with 1-bit decimal
+> +	 * (0x01=0.5ns).
+> +	 */
+> +	sample_rate = ov5640_pixel_rates[sensor->current_mode->pixel_rate]
+> +		    * (ov5640_code_to_bpp(fmt->code) / 8);
+> +	pclk_period = 2000000000U / sample_rate;
+> +
+> +	/* Program the clock tree registers. */
+> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL0, 0x0f, bit_div);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL1, 0xff,
+> +			     (sysdiv << 4) | mipi_div);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1144,13 +1137,27 @@ static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor,
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL3,
+> -			     0x1f, OV5640_PLL_CTRL3_PLL_ROOT_DIV_2 | prediv);
+> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL3, 0x1f,
+> +			     root_div | prediv);
+>  	if (ret)
+>  		return ret;
+>  
+> -	return ov5640_mod_reg(sensor, OV5640_REG_SYS_ROOT_DIVIDER,
+> -			      0x30, OV5640_PLL_SYS_ROOT_DIVIDER_BYPASS);
+> +	ret = ov5640_mod_reg(sensor, OV5640_REG_SYS_ROOT_DIVIDER, 0x3f,
+> +			     (pclk_div << 4) | (sclk2x_div << 2) | sclk_div);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ov5640_write_reg(sensor, OV5640_REG_PCLK_PERIOD, pclk_period);
+> +}
+> +
+> +static u32 ov5640_calc_pixel_rate(struct ov5640_dev *sensor)
+> +{
+> +	u32 rate;
+> +
+> +	rate = sensor->current_mode->vtot * sensor->current_mode->htot;
+> +	rate *= ov5640_framerates[sensor->current_fr];
+> +
+> +	return rate;
+>  }
+>  
+>  static unsigned long ov5640_calc_pclk(struct ov5640_dev *sensor,
+> @@ -1170,11 +1177,16 @@ static unsigned long ov5640_calc_pclk(struct ov5640_dev *sensor,
+>  	return _rate / *pll_rdiv / *bit_div / *pclk_div;
+>  }
+>  
+> -static int ov5640_set_dvp_pclk(struct ov5640_dev *sensor, unsigned long rate)
+> +static int ov5640_set_dvp_pclk(struct ov5640_dev *sensor)
+>  {
+>  	u8 prediv, mult, sysdiv, pll_rdiv, bit_div, pclk_div;
+> +	u32 rate;
+>  	int ret;
+>  
+> +	rate = ov5640_calc_pixel_rate(sensor);
+> +	rate *= ov5640_code_to_bpp(sensor->fmt.code);
+> +	rate /= sensor->ep.bus.parallel.bus_width;
+> +
+>  	ov5640_calc_pclk(sensor, rate, &prediv, &mult, &sysdiv, &pll_rdiv,
+>  			 &bit_div, &pclk_div);
+>  
+> @@ -1699,16 +1711,6 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
+>  	return mode;
+>  }
+>  
+> -static u64 ov5640_calc_pixel_rate(struct ov5640_dev *sensor)
+> -{
+> -	u64 rate;
+> -
+> -	rate = sensor->current_mode->vtot * sensor->current_mode->htot;
+> -	rate *= ov5640_framerates[sensor->current_fr];
+> -
+> -	return rate;
+> -}
+> -
+>  /*
+>   * sensor changes between scaling and subsampling, go through
+>   * exposure calculation
+> @@ -1890,7 +1892,6 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
+>  	enum ov5640_downsize_mode dn_mode, orig_dn_mode;
+>  	bool auto_gain = sensor->ctrls.auto_gain->val == 1;
+>  	bool auto_exp =  sensor->ctrls.auto_exp->val == V4L2_EXPOSURE_AUTO;
+> -	unsigned long rate;
+>  	int ret;
+>  
+>  	dn_mode = mode->dn_mode;
+> @@ -1909,19 +1910,10 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
+>  			goto restore_auto_gain;
+>  	}
+>  
+> -	/*
+> -	 * All the formats we support have 16 bits per pixel, seems to require
+> -	 * the same rate than YUV, so we can just use 16 bpp all the time.
+> -	 */
+> -	rate = ov5640_calc_pixel_rate(sensor) * 16;
+> -	if (ov5640_is_csi2(sensor)) {
+> -		rate = rate / sensor->ep.bus.mipi_csi2.num_data_lanes;
+> -		ret = ov5640_set_mipi_pclk(sensor, rate);
+> -	} else {
+> -		rate = rate / sensor->ep.bus.parallel.bus_width;
+> -		ret = ov5640_set_dvp_pclk(sensor, rate);
+> -	}
+> -
+> +	if (ov5640_is_csi2(sensor))
+> +		ret = ov5640_set_mipi_pclk(sensor);
+> +	else
+> +		ret = ov5640_set_dvp_pclk(sensor);
+>  	if (ret < 0)
+>  		return 0;
+>  
+
 -- 
-2.33.0
+Regards,
 
+Laurent Pinchart
