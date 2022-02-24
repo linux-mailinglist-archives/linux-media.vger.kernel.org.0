@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FC314C285F
-	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 10:44:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 992D54C2868
+	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 10:44:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232560AbiBXJoB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Feb 2022 04:44:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36076 "EHLO
+        id S232871AbiBXJoD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Feb 2022 04:44:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231562AbiBXJn7 (ORCPT
+        with ESMTP id S231562AbiBXJoB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Feb 2022 04:43:59 -0500
+        Thu, 24 Feb 2022 04:44:01 -0500
 Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EB4727DF19
-        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 01:43:28 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2061827DF27
+        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 01:43:31 -0800 (PST)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 2629824000B;
-        Thu, 24 Feb 2022 09:43:21 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 30476240012;
+        Thu, 24 Feb 2022 09:43:26 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Steve Longerbeam <slongerbeam@gmail.com>
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
@@ -30,10 +30,12 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         paul.elder@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: [PATCH v5 00/27] media: ov5640: Rework the clock tree programming for MIPI
-Date:   Thu, 24 Feb 2022 10:42:46 +0100
-Message-Id: <20220224094313.233347-1-jacopo@jmondi.org>
+Subject: [PATCH v5 01/27] media: ov5640: Add pixel rate to modes
+Date:   Thu, 24 Feb 2022 10:42:47 +0100
+Message-Id: <20220224094313.233347-2-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
+In-Reply-To: <20220224094313.233347-1-jacopo@jmondi.org>
+References: <20220224094313.233347-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
@@ -45,192 +47,153 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-v1:
-https://patchwork.linuxtv.org/project/linux-media/list/?series=7249
-v2:
-https://patchwork.linuxtv.org/project/linux-media/list/?series=7311
-v3:
-https://patchwork.linuxtv.org/project/linux-media/list/?series=7385
-v4:
-https://patchwork.linuxtv.org/project/linux-media/list/?series=7389
+Add to each mode supported by the sensor the ideal pixel rate, as
+defined by Table 2.1 in the chip manual.
 
-A branch for testing based on the most recent media-master is available at
-https://git.sr.ht/~jmondi_/linux #jmondi/media-master/ov5640-v5
+The ideal pixel rate will be used to compute the MIPI CSI-2 clock tree.
 
-v5 (Sakari):
-- Stay strictly in 80 cols
-- use clamp_t to avoid explicit cast
-- use ov5640_timings() where possible
+Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Tested-by: Adam Ford <aford173@gmail.com> #imx8mm-beacon-kit
+---
+ drivers/media/i2c/ov5640.c | 44 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 41 insertions(+), 3 deletions(-)
 
-v4:
-- Very minor update. Added tags and reworked enum_mbus_format as suggested
-  by Laurent.
-
-v3:
-The series has now grown by 4 patches and the driver is now even larger
-being the formats and the timings for DVP and CSI-2 defined separately.
-
-Tested in CSI-2 mode with UYVY, RGB565, SBGGR and RGB24 in all supported modes.
-
-Tested format and sizes enumeration with the new formats definition.
-
-Tested frame rate handling:
-
-	vblank = ( duration msec * pixe_rate MHz / htot - height)
-
-  640x480 YUYV 15FPS (default 30 FPS)
-
-	duration = 666666 msec
-	pixel_rate = 48 Mhz
-	htot = 1600
-	vtot = 1999
-	vblank = vtot - height = 1519
-
-	$ v4l2-ctl -d /dev/v4l-subdev4 -c 0x009e0901=1519
-	$ yavta -f YUYV -s 640x480 -c100 --skip 7 /dev/video0
-	...
-	10 (2) [-] any 11 614400 B 2189.317617 2189.317629 15.244 fps ts mono/EoF
-	11 (3) [-] any 12 614400 B 2189.383212 2189.383224 15.245 fps ts mono/EoF
-	12 (4) [-] any 13 614400 B 2189.448810 2189.448821 15.244 fps ts mono/EoF
-	13 (5) [-] any 14 614400 B 2189.514405 2189.514417 15.245 fps ts mono/EoF
-	14 (6) [-] any 15 614400 B 2189.580002 2189.580015 15.245 fps ts mono/EoF
-	..
-
-  2592x1944 YUVV 15 FPS (default)
-	$ yavta -f YUYV -s 2592x1944 -c100 --skip 7 /dev/video0
-	...
-	6 (6) [-] any 7 10077696 B 2438.377592 2438.377605 15.009 fps ts mono/EoF
-	7 (7) [-] any 8 10077696 B 2438.444219 2438.444233 15.009 fps ts mono/EoF
-	8 (0) [-] any 9 10077696 B 2438.510846 2438.510860 15.009 fps ts mono/EoF
-	9 (1) [-] any 10 10077696 B 2438.577474 2438.577488 15.009 fps ts mono/EoF
-	10 (2) [-] any 11 10077696 B 2438.644101 2438.644116 15.009 fps ts mono/EoF
-	11 (3) [-] any 12 10077696 B 2438.710727 2438.710740 15.009 fps ts mono/EoF
-	12 (4) [-] any 13 10077696 B 2438.777358 2438.777370 15.008 fps ts mono/EoF
-	13 (5) [-] any 14 10077696 B 2438.843984 2438.843998 15.009 fps ts mono/EoF
-	14 (6) [-] any 15 10077696 B 2438.910611 2438.910623 15.009 fps ts mono/EoF
-	15 (7) [-] any 16 10077696 B 2438.977238 2438.977252 15.009 fps ts mono/EoF
-	16 (0) [-] any 17 10077696 B 2439.043865 2439.043877 15.009 fps ts mono
-	...
-
-
-To enable higher FPS the LINK_FREQ control should be made writable to increase
-the pixel rate
-
-  640x480 YUYV 60 FPS (pixel_rate = 96 Mhz)
-
-	$ yavta -f YUYV -s 640x480 -c100 --skip 7 /dev/video0
- 	...
-	9 (1) [-] any 10 614400 B 57.098649 57.098667 59.995 fps ts mono/EoF
-	10 (2) [-] any 11 614400 B 57.115314 57.115332 60.006 fps ts mono/EoF
-	11 (3) [-] any 12 614400 B 57.131978 57.131994 60.010 fps ts mono/EoF
-	12 (4) [-] any 13 614400 B 57.148645 57.148664 59.999 fps ts mono/EoF
-	13 (5) [-] any 14 614400 B 57.165310 57.165328 60.006 fps ts mono/EoF
-	14 (6) [-] any 15 614400 B 57.181977 57.181996 59.999 fps ts mono/EoF
-	15 (7) [-] any 16 614400 B 57.198642 57.198660 60.006 fps ts mono/EoF
-
-Changelog:
-
-v2->v3:
-
-- Eugen (thanks) reported regression in DVP mode :(
-  To maintain the DVP timings un-changed in this version the mode definition now
-  looks like
-
-		/* 640x480 */
-		.id		= OV5640_MODE_VGA_640_480,
-		.dn_mode	= SUBSAMPLING,
-		.pixel_rate	= OV5640_PIXEL_RATE_48M,
-		.width		= 640,
-		.height		= 480,
-		.dvp_timings = {
-			.analog_crop = {
-				.left	= 0,
-				.top	= 4,
-				.width	= 2624,
-				.height	= 1944,
-			},
-			.crop = {
-				.left	= 16,
-				.top	= 6,
-				.width	= 640,
-				.height	= 480,
-			},
-			.htot		= 1896,
-			.vblank_def	= 600,
-			.max_fps	= OV5640_60_FPS
-		},
-		.csi2_timings = {
-			.analog_crop = {
-				/* Feed the full valid pixel array to the ISP. */
-				.left	= OV5640_PIXEL_ARRAY_LEFT,
-				.top	= OV5640_PIXEL_ARRAY_TOP,
-				.width	= OV5640_PIXEL_ARRAY_WIDTH,
-				.height	= OV5640_PIXEL_ARRAY_HEIGHT,
-			},
-			.crop = {
-				/* Maintain a minimum digital crop processing margins. */
-				.left	= 2,
-				.top	= 4,
-				.width	= 640,
-				.height	= 480,
-			},
-			.htot		= 1600,
-			.vblank_def	= 520,
-		},
-		.reg_data	= ov5640_setting_low_res,
-		.reg_data_size	= ARRAY_SIZE(ov5640_setting_low_res),
-
-  with a .dvp_timings and a .csi2_timings members to separate the two.
-  Is it nice ? No it's not, but it should help maintaining DVP users happy.
-
-  Eugen: if you are willing to run another test round to confirm if this version
-  does not regress DVP it would be great :)
-
-- Split image formats between CSI-2 and DVP
-- Remove RGB888 as per the CSIS discussion with Laurent
-- Removed register tables for modes < 720 as they're all equal
-- Minor fixes on Laurent's comments
-- Add Adam's tag
-
-v1 -> v2:
-- rework the modes definition to process the full pixel array
-- rework get_selection to report the correct BOUND and DEFAULT targets
-- implement init_cfg
-- minor style changes as suggested by Laurent
-- test with 1 data lane
-
-Jacopo Mondi (27):
-  media: ov5640: Add pixel rate to modes
-  media: ov5604: Re-arrange modes definition
-  media: ov5640: Add ov5640_is_csi2() function
-  media: ov5640: Associate bpp with formats
-  media: ov5640: Add LINK_FREQ control
-  media: ov5640: Update pixel_rate and link_freq
-  media: ov5640: Rework CSI-2 clock tree
-  media: ov5640: Rework timings programming
-  media: ov5640: Fix 720x480 in RGB888 mode
-  media: ov5640: Split DVP and CSI-2 timings
-  media: ov5640: Provide timings accessor
-  media: ov5640: Re-sort per-mode register tables
-  media: ov5640: Remove duplicated mode settings
-  media: ov5640: Remove ov5640_mode_init_data
-  media: ov5640: Add HBLANK control
-  media: ov5640: Add VBLANK control
-  media: ov5640: Change CSI-2 timings to comply with FPS
-  media: ov5640: Implement init_cfg
-  media: ov5640: Implement get_selection
-  media: ov5640: Limit frame_interval to DVP mode only
-  media: ov5640: Register device properties
-  media: ov5640: Add RGB565_1X16 format
-  media: ov5640: Add BGR888 format
-  media: ov5640: Restrict sizes to mbus code
-  media: ov5640: Adjust format to bpp in s_fmt
-  media: ov5640: Split DVP and CSI-2 formats
-  media: ov5640: Move format mux config in format
-
- drivers/media/i2c/ov5640.c | 1615 ++++++++++++++++++++++++++----------
- 1 file changed, 1160 insertions(+), 455 deletions(-)
-
---
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index db5a19babe67..504700984fa0 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -118,6 +118,29 @@ enum ov5640_frame_rate {
+ 	OV5640_NUM_FRAMERATES,
+ };
+ 
++enum ov5640_pixel_rate_id {
++	OV5640_PIXEL_RATE_168M,
++	OV5640_PIXEL_RATE_148M,
++	OV5640_PIXEL_RATE_124M,
++	OV5640_PIXEL_RATE_96M,
++	OV5640_PIXEL_RATE_48M,
++	OV5640_NUM_PIXEL_RATES,
++};
++
++/*
++ * The chip manual suggests 24/48/96/192 MHz pixel clocks.
++ *
++ * 192MHz exceeds the sysclk limits; use 168MHz as maximum pixel rate for
++ * full resolution mode @15 FPS.
++ */
++static const u32 ov5640_pixel_rates[] = {
++	[OV5640_PIXEL_RATE_168M] = 168000000,
++	[OV5640_PIXEL_RATE_148M] = 148000000,
++	[OV5640_PIXEL_RATE_124M] = 124000000,
++	[OV5640_PIXEL_RATE_96M] = 96000000,
++	[OV5640_PIXEL_RATE_48M] = 48000000,
++};
++
+ enum ov5640_format_mux {
+ 	OV5640_FMT_MUX_YUV422 = 0,
+ 	OV5640_FMT_MUX_RGB,
+@@ -189,6 +212,7 @@ struct reg_value {
+ struct ov5640_mode_info {
+ 	enum ov5640_mode_id id;
+ 	enum ov5640_downsize_mode dn_mode;
++	enum ov5640_pixel_rate_id pixel_rate;
+ 	u32 hact;
+ 	u32 htot;
+ 	u32 vact;
+@@ -565,7 +589,9 @@ static const struct reg_value ov5640_setting_QSXGA_2592_1944[] = {
+ 
+ /* power-on sensor init reg table */
+ static const struct ov5640_mode_info ov5640_mode_init_data = {
+-	0, SUBSAMPLING, 640, 1896, 480, 984,
++	0, SUBSAMPLING,
++	OV5640_PIXEL_RATE_96M,
++	640, 1896, 480, 984,
+ 	ov5640_init_setting_30fps_VGA,
+ 	ARRAY_SIZE(ov5640_init_setting_30fps_VGA),
+ 	OV5640_30_FPS,
+@@ -574,51 +600,61 @@ static const struct ov5640_mode_info ov5640_mode_init_data = {
+ static const struct ov5640_mode_info
+ ov5640_mode_data[OV5640_NUM_MODES] = {
+ 	{OV5640_MODE_QQVGA_160_120, SUBSAMPLING,
++	 OV5640_PIXEL_RATE_48M,
+ 	 160, 1896, 120, 984,
+ 	 ov5640_setting_QQVGA_160_120,
+ 	 ARRAY_SIZE(ov5640_setting_QQVGA_160_120),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_QCIF_176_144, SUBSAMPLING,
++	 OV5640_PIXEL_RATE_48M,
+ 	 176, 1896, 144, 984,
+ 	 ov5640_setting_QCIF_176_144,
+ 	 ARRAY_SIZE(ov5640_setting_QCIF_176_144),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_QVGA_320_240, SUBSAMPLING,
++	 OV5640_PIXEL_RATE_48M,
+ 	 320, 1896, 240, 984,
+ 	 ov5640_setting_QVGA_320_240,
+ 	 ARRAY_SIZE(ov5640_setting_QVGA_320_240),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_VGA_640_480, SUBSAMPLING,
++	 OV5640_PIXEL_RATE_48M,
+ 	 640, 1896, 480, 1080,
+ 	 ov5640_setting_VGA_640_480,
+ 	 ARRAY_SIZE(ov5640_setting_VGA_640_480),
+ 	 OV5640_60_FPS},
+ 	{OV5640_MODE_NTSC_720_480, SUBSAMPLING,
++	 OV5640_PIXEL_RATE_96M,
+ 	 720, 1896, 480, 984,
+ 	 ov5640_setting_NTSC_720_480,
+ 	 ARRAY_SIZE(ov5640_setting_NTSC_720_480),
+ 	OV5640_30_FPS},
+ 	{OV5640_MODE_PAL_720_576, SUBSAMPLING,
++	 OV5640_PIXEL_RATE_96M,
+ 	 720, 1896, 576, 984,
+ 	 ov5640_setting_PAL_720_576,
+ 	 ARRAY_SIZE(ov5640_setting_PAL_720_576),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_XGA_1024_768, SUBSAMPLING,
++	 OV5640_PIXEL_RATE_96M,
+ 	 1024, 1896, 768, 1080,
+ 	 ov5640_setting_XGA_1024_768,
+ 	 ARRAY_SIZE(ov5640_setting_XGA_1024_768),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_720P_1280_720, SUBSAMPLING,
++	 OV5640_PIXEL_RATE_124M,
+ 	 1280, 1892, 720, 740,
+ 	 ov5640_setting_720P_1280_720,
+ 	 ARRAY_SIZE(ov5640_setting_720P_1280_720),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_1080P_1920_1080, SCALING,
++	 OV5640_PIXEL_RATE_148M,
+ 	 1920, 2500, 1080, 1120,
+ 	 ov5640_setting_1080P_1920_1080,
+ 	 ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_QSXGA_2592_1944, SCALING,
++	 OV5640_PIXEL_RATE_168M,
+ 	 2592, 2844, 1944, 1968,
+ 	 ov5640_setting_QSXGA_2592_1944,
+ 	 ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944),
+@@ -2743,6 +2779,7 @@ static const struct v4l2_ctrl_ops ov5640_ctrl_ops = {
+ 
+ static int ov5640_init_controls(struct ov5640_dev *sensor)
+ {
++	const struct ov5640_mode_info *mode = sensor->current_mode;
+ 	const struct v4l2_ctrl_ops *ops = &ov5640_ctrl_ops;
+ 	struct ov5640_ctrls *ctrls = &sensor->ctrls;
+ 	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
+@@ -2755,8 +2792,9 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+ 
+ 	/* Clock related controls */
+ 	ctrls->pixel_rate = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE,
+-					      0, INT_MAX, 1,
+-					      ov5640_calc_pixel_rate(sensor));
++			      ov5640_pixel_rates[OV5640_NUM_PIXEL_RATES - 1],
++			      ov5640_pixel_rates[0], 1,
++			      ov5640_pixel_rates[mode->pixel_rate]);
+ 
+ 	/* Auto/manual white balance */
+ 	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
+-- 
 2.35.0
 
