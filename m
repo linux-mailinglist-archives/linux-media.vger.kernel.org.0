@@ -2,103 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 225BC4C2E4A
-	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 15:23:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23D4C4C2E70
+	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 15:31:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234897AbiBXOXf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Feb 2022 09:23:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38214 "EHLO
+        id S235143AbiBXObl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Feb 2022 09:31:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235521AbiBXOXc (ORCPT
+        with ESMTP id S231404AbiBXObk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Feb 2022 09:23:32 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE441637F7;
-        Thu, 24 Feb 2022 06:22:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645712574; x=1677248574;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l5OF1IXQhbqMjYq2WY0GUytXWnUBqArVIXwdMsC7n4w=;
-  b=RoUPmzczCDXdBcG7a8NjQe0zSOvE3qqqJ1n1vkierN4hjQOryFs0vWF8
-   qFRMJOgYD3JxemsJXHQM+ZsRC6fS9i+OQdC2uiLNDF6oz6QtaLTwLNbnn
-   rBBQIcH1aLqCflbGuCKhbnNvUqbH6r5LL4V6praLO6T/jqHsD189uixM0
-   aDS8lvD0hZcm5sJcA4rDRta2BwxHgjotRzWor8e3kR1VDyGJ6cMN5G/E0
-   /Xf7Gq9OJuBfVRFJMr+FgKCALBFVuL41ULOpuBrzgvrTCB6hICwu3UnNx
-   QA4V9B43cGM7ZzyNq3eQf1Ob/QFNWdsikKkhGKd40v+aSwBS0+WH2hJFL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="252436831"
-X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; 
-   d="scan'208";a="252436831"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2022 06:22:54 -0800
-X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; 
-   d="scan'208";a="684289193"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2022 06:22:51 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 3933220212;
-        Thu, 24 Feb 2022 16:22:48 +0200 (EET)
-Date:   Thu, 24 Feb 2022 16:22:48 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Marek Vasut <marex@denx.de>, Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        p.zabel@pengutronix.de, Ian Arkver <ian.arkver.dev@gmail.com>,
-        kernel@pengutronix.de, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v10 2/2] media: i2c: isl7998x: Add driver for Intersil
- ISL7998x
-Message-ID: <YheUuCShBA6jvn8a@paasikivi.fi.intel.com>
-References: <20220217154407.2892822-1-m.tretter@pengutronix.de>
- <20220217154407.2892822-3-m.tretter@pengutronix.de>
+        Thu, 24 Feb 2022 09:31:40 -0500
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54E0017C41B
+        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 06:31:09 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 02C332005B
+        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 16:31:06 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1645713066;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=GqGUFqTUZHqMI8HDjgdCT7MmIt54BKO8pUfCCuTvHkQ=;
+        b=NUcz6XlaUeqnejqfSXsRA8viK0wIru8rkQzt0olt2y5VNKvzg4xK1Y6dH6prIKFqs0dcP9
+        cefMMhj5N4p7PwPdauiPo+vtEXx7AYqOzy4BuRQ4AAEYQpKy9ufoT0+uQos8BvTYtrynrx
+        xsXwePlvF8q9FEClbEf69A/GUvI2QeA=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 618A7634C90
+        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 16:31:05 +0200 (EET)
+Date:   Thu, 24 Feb 2022 16:31:05 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL v2 FOR 5.18] More V4L2 patches
+Message-ID: <YheWqQBjLtUXR5Xb@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220217154407.2892822-3-m.tretter@pengutronix.de>
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1645713066; a=rsa-sha256; cv=none;
+        b=e+rb0K/FMp88+6d33b5+yKQ4+lhsbxFJ84Yn78jRFbEjdZjZi+oTUYAw5KdCZrTjGRyw0u
+        tS8YU5k/UPcxLtV8BeqEQylqaPmYsnyg31Pv9ZpDu7Sa9N7Yb9/rVmMQafIoF9CR3xaES6
+        gf4nav3nCp7uP0A11XiS9rzeQ/m8DgU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1645713066;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=GqGUFqTUZHqMI8HDjgdCT7MmIt54BKO8pUfCCuTvHkQ=;
+        b=xlPXwE/37KPsKsGzzjR4QpvXTGcqjKtmFyUoGI8DSjX2FS+oO8sG6EMQnNlVvszQKhT+Q4
+        dhnXRW7sxnNupyWqFIenTqgx7hfoWWdxMBrsBbEo7lhSAHz18Y4TyRoa6rbm3CezY8ZmCF
+        HrlnyYvZ2QvU9aaaRda7Mp3UYxBOBn0=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+Hi Mauro,
 
-On Thu, Feb 17, 2022 at 04:44:07PM +0100, Michael Tretter wrote:
-> From: Marek Vasut <marex@denx.de>
-> 
-> Add driver for the Intersil ISL7998x Analog to MIPI CSI-2/BT656 decoder.
-> This chip supports 1/2/4 analog video inputs and converts them into
-> 1/2/4 VCs in MIPI CSI2 stream.
-> 
-> This driver currently supports ISL79987 and both 720x480 and 720x576
-> resolutions, however as per specification, all inputs must use the
-> same resolution and standard. The only supported pixel format is now
-> YUYV/YUV422. The chip should support RGB565 on the CSI2 as well, but
-> this is currently unsupported.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> To: linux-media@vger.kernel.org
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+Here's a nice set of mostly camera related patches for 5.18. Worth noting
+are especially new drivers for isl7998x analogue to CSI-2/BT.656 decoder
+and og01a1b camera sensor. Also included are cleanups for V4L2 fwnode
+reference parsing and stream control internals in MC, as well as various
+driver fixes and cleanups.
 
-This gives (sparse or smatch presumably?):
+Since v1:
 
-        ../drivers/media/i2c/isl7998x.c: ../drivers/media/i2c/isl7998x.c:561    
-isl7998x_norm_to_val() error: buffer overflow 'isl7998x_std_res' 9 <= 9         
-(assuming for loop doesn't break)                                               
-        ../drivers/media/i2c/isl7998x.c: ../drivers/media/i2c/isl7998x.c:576    
-isl7998x_norm_to_mode() error: buffer overflow 'isl7998x_std_res' 9 <= 9        
-(assuming for loop doesn't break)                                               
+- Drop isl7998x driver from this PR, add Laurent's MC documentation patch.
 
-Could you address that? I'll squash that to this patch.
+Please pull.
+
+
+The following changes since commit 2b891d3980f6c255459d0e1c29ce2152ec7cf678:
+
+  media: xilinx: csi2rxss: Use mipi-csi2.h (2022-02-17 10:32:26 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.18-2.3-signed
+
+for you to fetch changes up to b13f1fdb898ed8f973359b5e380bb69ebbacbecc:
+
+  media: media-entity: Clarify media_entity_cleanup() usage (2022-02-24 16:21:42 +0200)
+
+----------------------------------------------------------------
+V4L2 patches for 5.18
+
+----------------------------------------------------------------
+Daniel Scally (1):
+      media: i2c: Fix pixel array positions in ov8865
+
+Hans de Goede (1):
+      media: i2c: ov5648: Fix lockdep error
+
+Laurent Pinchart (3):
+      media: media-entity: Add media_pad_is_streaming() helper function
+      media: media-entity: Simplify media_pipeline_start()
+      media: media-entity: Clarify media_entity_cleanup() usage
+
+Linus Walleij (2):
+      media: i2c: ccs: Drop unused include
+      media: i2c: imx274: Drop surplus includes
+
+Mirela Rabulea (1):
+      media: ov5640: Fix set format, v4l2_mbus_pixelcode not updated
+
+Sakari Ailus (2):
+      v4l: fwnode: Drop redunant -ENODATA check in property reference parsing
+      v4l: fwnode: Remove now-redundant loop from v4l2_fwnode_parse_reference()
+
+Shawn Tu (1):
+      media: Add a driver for the og01a1b camera sensor
+
+ MAINTAINERS                                   |    6 +
+ drivers/media/i2c/Kconfig                     |   13 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ccs/ccs-core.c              |    1 -
+ drivers/media/i2c/imx274.c                    |    2 -
+ drivers/media/i2c/og01a1b.c                   | 1128 +++++++++++++++++++++++++
+ drivers/media/i2c/ov5640.c                    |   14 +-
+ drivers/media/i2c/ov5648.c                    |   10 +-
+ drivers/media/i2c/ov8865.c                    |    4 +-
+ drivers/media/mc/mc-entity.c                  |   55 +-
+ drivers/media/platform/exynos4-is/common.c    |    5 +-
+ drivers/media/platform/exynos4-is/fimc-isp.c  |    2 +-
+ drivers/media/platform/exynos4-is/fimc-lite.c |    6 +-
+ drivers/media/platform/rcar-vin/rcar-core.c   |    2 +-
+ drivers/media/v4l2-core/v4l2-fwnode.c         |   28 +-
+ include/media/media-entity.h                  |   25 +-
+ 16 files changed, 1225 insertions(+), 77 deletions(-)
+ create mode 100644 drivers/media/i2c/og01a1b.c
 
 -- 
 Sakari Ailus
