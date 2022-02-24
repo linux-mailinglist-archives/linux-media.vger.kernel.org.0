@@ -2,205 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE8824C3219
-	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 17:51:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B522D4C3329
+	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 18:06:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231166AbiBXQuh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Feb 2022 11:50:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41394 "EHLO
+        id S231407AbiBXRGo convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 24 Feb 2022 12:06:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230420AbiBXQu2 (ORCPT
+        with ESMTP id S231796AbiBXRGA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Feb 2022 11:50:28 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D1AA1EC9BD
-        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 08:49:25 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id x5so3678647edd.11
-        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 08:49:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8MquFHT/UHM7DzRV5VG//l+uWPNW5Ldru3xmq5QGro4=;
-        b=bjitvXT0Zgdn7lzARUR1K2LmNc1Z8EpCfArnG/QhWOTD2GhSw8tNwKgypxUC3nOMDu
-         3njfcl64xKtcEZnSMFWsJdx+jabLj4R2eJoW0rAmoEY8oV2KwBZFvzdBx1eSwTAZuXbg
-         AxyHu2B/ERSgZ/DKRzhG19MlNJrlWBMp9sR/I/Qrwevk6HfIY84Db8jxd22qWRn1iz9q
-         TeW2VbZkZRcwHGS/TUiVzJUvNJyzP5bUIQHhh+e0cUC7L3pufgJ0hQ41ZoxLRGKmvkKV
-         gV/xa8CTS7vgaQ+StL/KKykadaqy1Bc3OKrA8B9vUE1iKvxLpdnGLyKGN1It7zQheHrI
-         mwZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8MquFHT/UHM7DzRV5VG//l+uWPNW5Ldru3xmq5QGro4=;
-        b=Y9XBIcCIq/zoMvfrj99ogwaS9joBQKdKrvqxv23mcycRjhDd2863k5ZUKbyOPYp0UB
-         5/K02d8l3naadkHBTM0uplZZirgJ/Xofxn178ubLbFj85elJDNAzl8UspIC59yhqmcS7
-         SU5p31HFDc94pC4/Oia1UmwoGLJf0bioqfK6v7dSP5tqkDYrV0/FDBGcy9dBVe+Hi1ra
-         zf4kp4GjJTpsZoCuiNQrBq1YtpxvzcrqN9ZvYbCkCU+yq3cMbB5Oqv8DIP7j4hmzq7Qh
-         8vpnshH3WRhCPzawXLKljrZC2geO9kMwQXLghlEmArptDo+Nxy2N7RzgrwKb5nIj6hT5
-         TvgA==
-X-Gm-Message-State: AOAM531D0PK/jNSWQEAjC5t+B2jEGSGvaq4BMLK/FOekZeFBQSBLzwXB
-        /MIti2Zovt9yoSiVHcbUnAdLWmtdkn89fb4Y1mA=
-X-Google-Smtp-Source: ABdhPJxajaztxWUnc78YaIcj+kn+mzaGNQWeOWfAc6JO3J415FTsOuGN8QQXl4CzwtZk5jnZ55oWTsrGJl9QrJR2eKw=
-X-Received: by 2002:a05:6402:90b:b0:412:a7cc:f5f9 with SMTP id
- g11-20020a056402090b00b00412a7ccf5f9mr3090268edz.136.1645721363368; Thu, 24
- Feb 2022 08:49:23 -0800 (PST)
+        Thu, 24 Feb 2022 12:06:00 -0500
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A535D20A96B
+        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 09:03:34 -0800 (PST)
+Received: from [185.156.123.69] (helo=phil.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1nNHWW-0002Je-UU; Thu, 24 Feb 2022 18:03:24 +0100
+From:   Heiko Stuebner <heiko@sntech.de>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Clemens Arth <clemens.arth@gmail.com>
+Cc:     linux-media@vger.kernel.org, ricardo.ribalda@gmail.com
+Subject: Re: RockPro65 RK3399 chipset, ISP and IMX214 camera
+Date:   Thu, 24 Feb 2022 18:03:22 +0100
+Message-ID: <411433596.ldbydfAV7o@phil>
+In-Reply-To: <CAPuf0ENRRjMafZUOXS45PJxQrpcK_tdCRREoHn43t54pSbVhDg@mail.gmail.com>
+References: <dbb69fc2-d46f-ee91-d089-46e7370a2a14@gmail.com> <164570696256.4066078.10553504447380276248@Monstersaurus> <CAPuf0ENRRjMafZUOXS45PJxQrpcK_tdCRREoHn43t54pSbVhDg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220218183421.583874-1-jacopo@jmondi.org> <20220218183421.583874-2-jacopo@jmondi.org>
-In-Reply-To: <20220218183421.583874-2-jacopo@jmondi.org>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Thu, 24 Feb 2022 10:49:13 -0600
-Message-ID: <CAHCN7xLmcjKpW_UX2qHEx+s8bqik7OfXmQDgnq0JjKzjaqxNdQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] media: imx: De-stage imx7-mipi-csis
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        martin.kepplinger@puri.sm, rmfrfs@gmail.com,
-        xavier.roumegue@oss.nxp.com,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        dorota.czaplejewicz@puri.sm, Sascha Hauer <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>
+Content-Transfer-Encoding: 8BIT
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 21, 2022 at 3:16 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
->
-> The imx7-mipi-csis driver is in a good state and can be destaged.
->
-> Move the imx7-mipi-csis.c driver to the newly created
-> drivers/media/platform/imx directory and plumb the related
-> options in Kconfig and in Makefile.
->
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  MAINTAINERS                                   |  2 +-
->  drivers/media/platform/Kconfig                |  1 +
->  drivers/media/platform/Makefile               |  1 +
->  drivers/media/platform/imx/Kconfig            | 24 +++++++++++++++++++
->  drivers/media/platform/imx/Makefile           |  1 +
->  .../platform}/imx/imx7-mipi-csis.c            |  0
->  drivers/staging/media/imx/Makefile            |  1 -
->  7 files changed, 28 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/media/platform/imx/Kconfig
->  create mode 100644 drivers/media/platform/imx/Makefile
->  rename drivers/{staging/media => media/platform}/imx/imx7-mipi-csis.c (100%)
->
+Am Donnerstag, 24. Februar 2022, 16:10:06 CET schrieb Clemens Arth:
+> Hi Kieran,
+> 
+> Thx, I’m on my mobile now so I hope copy pasting works… apologies for typos…
+> 
+> Kieran Bingham <kieran.bingham@ideasonboard.com> schrieb am Do. 24. Feb.
+> 2022 um 13:49:
+> 
+> > Hi Clemens,
+> >
+> > Quoting Clemens Arth (2022-02-23 18:36:28)
+> > > Hi everyone,
+> > >
+> > > + Ricardo and Heiko in CC as the driver originators and rockchip pros...
+> > >
+> > > I'm reaching out to you based on a discussion with Sebastian Fricke, who
+> > > was working on the OV13850 driver for the v5 kernel. I tried getting the
+> > > IMX214 finally to work on the RockPro64 from Pine64, which only works on
+> > > Android so far and I need to get that done on Mainline Linux (I did not
+> > > find anyone who managed that and reported about it). However, I'm also
+> > > totally stuck.
+> > >
+> > > The RockPro64 runs Dietpi, which is essentially Armbian + a few tweaks.
+> > > I'm using the Armbian 5.15.18 kernel, so mainline, with a custom device
+> > > tree, which in the first place powers the MIPI ports. I suspect it is a
+> > > bad idea to have one pinctrl as a placeholder for 4 converters, however,
+> > > I'm not too deep into proxying in the devicetree, so here's the current
+> > > status:
+> > >
+> > > https://pastebin.com/vs277ex0
+> >
+> > Your regulators are all listed as fixed-regulators. Are you sure
+> > there's nothing else to turn on ? I expect this was from another
+> > fragement for the same platform? So I hope it's consistent.
+> >
+> 
+> The schematics are here, from which I took the regulator and gpio config.
+> The regulators all seem to be fixed ones. There is just one pin that pulls
+> up all the regulators (DVP_PWR).
+> 
+> https://files.pine64.org/doc/rockpro64/rockpro64_v21-SCH.pdf
+> 
+> The IMX214 driver has only one pin, the enable_pin, but it is somewhat
+> different from the IMX219 for example. Looking at both driver's code I
+> believe what is the reset_pin with the IMX219 is the enable_pin with the
+> IMX214, but I am not sure about that. There is no MIPI reset on the
+> RockPro64 afaik. Therefore I think it needs to be wired to the DVP_PDN0_H
+> pin, but other drivers define that one specifically and it apparently does
+> something different.
 
-Jacopo,
+For the pins also check the direction (active_low / active_high).
+I remember having fun somewhere when changing between the vendor
+kernel and mainline.
 
-Will there be a subsequent patch to modify the arch64 defconfig to
-enable these modules by default?  With these changes, neither the CSI
-nor CSIS appear to be enabled as modules any more, and I thought they
-used to be enabled as modules by default.
 
-adam
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 83d27b57016f..5bdb8c881b0b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11891,8 +11891,8 @@ T:      git git://linuxtv.org/media_tree.git
->  F:     Documentation/admin-guide/media/imx7.rst
->  F:     Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
->  F:     Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-> +F:     drivers/media/platform/imx/imx7-mipi-csis.c
->  F:     drivers/staging/media/imx/imx7-media-csi.c
-> -F:     drivers/staging/media/imx/imx7-mipi-csis.c
->
->  MEDIA DRIVERS FOR HELENE
->  M:     Abylay Ospan <aospan@netup.ru>
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index 9fbdba0fd1e7..d9eeccffea69 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -171,6 +171,7 @@ source "drivers/media/platform/xilinx/Kconfig"
->  source "drivers/media/platform/rcar-vin/Kconfig"
->  source "drivers/media/platform/atmel/Kconfig"
->  source "drivers/media/platform/sunxi/Kconfig"
-> +source "drivers/media/platform/imx/Kconfig"
->
->  config VIDEO_TI_CAL
->         tristate "TI CAL (Camera Adaptation Layer) driver"
-> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> index 28eb4aadbf45..a9466c854610 100644
-> --- a/drivers/media/platform/Makefile
-> +++ b/drivers/media/platform/Makefile
-> @@ -20,6 +20,7 @@ obj-y += ti-vpe/
->  obj-$(CONFIG_VIDEO_MX2_EMMAPRP)                += mx2_emmaprp.o
->  obj-$(CONFIG_VIDEO_CODA)               += coda/
->
-> +obj-$(CONFIG_VIDEO_IMX)                        += imx/
->  obj-$(CONFIG_VIDEO_IMX_PXP)            += imx-pxp.o
->  obj-$(CONFIG_VIDEO_IMX8_JPEG)          += imx-jpeg/
->
-> diff --git a/drivers/media/platform/imx/Kconfig b/drivers/media/platform/imx/Kconfig
-> new file mode 100644
-> index 000000000000..683863572c20
-> --- /dev/null
-> +++ b/drivers/media/platform/imx/Kconfig
-> @@ -0,0 +1,24 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +menuconfig VIDEO_IMX
-> +       bool "V4L2 capture drivers for NXP i.MX devices"
-> +       depends on ARCH_MXC || COMPILE_TEST
-> +       depends on VIDEO_DEV && VIDEO_V4L2
-> +       help
-> +         Say yes here to enable support for capture drivers on i.MX SoCs.
-> +         Support for the single SoC features are selectable in the sub-menu
-> +         options.
-> +
-> +if VIDEO_IMX
-> +
-> +config VIDEO_IMX_MIPI_CSIS
-> +       tristate "MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
-> +       select MEDIA_CONTROLLER
-> +       select V4L2_FWNODE
-> +       select VIDEO_V4L2_SUBDEV_API
-> +       default n
-> +       help
-> +         Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
-> +         v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
-> +
-> +endif # VIDEO_IMX
-> diff --git a/drivers/media/platform/imx/Makefile b/drivers/media/platform/imx/Makefile
-> new file mode 100644
-> index 000000000000..ee272234c8d7
-> --- /dev/null
-> +++ b/drivers/media/platform/imx/Makefile
-> @@ -0,0 +1 @@
-> +obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx7-mipi-csis.o
-> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/media/platform/imx/imx7-mipi-csis.c
-> similarity index 100%
-> rename from drivers/staging/media/imx/imx7-mipi-csis.c
-> rename to drivers/media/platform/imx/imx7-mipi-csis.c
-> diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-> index 19c2fc54d424..d82be898145b 100644
-> --- a/drivers/staging/media/imx/Makefile
-> +++ b/drivers/staging/media/imx/Makefile
-> @@ -15,5 +15,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
->  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
->
->  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
-> -obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
->  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
-> --
-> 2.35.0
->
+> > Can you validate that the enable-gpios definition is to the correct GPIO
+> > to enable the camera ?
+> >
+> > > The camera is connected to the first MIPI port. The kernel boot logs
+> > > look ok to me (except for the cyclic dependency issue, but I think that
+> > > does not matter much).
+> > >
+> > > https://pastebin.com/hvhdEfxm
+> > >
+> > > Without the camera configured in the device tree, it shows up as 0x0c
+> > > device on the #1 I2C bus, which is a bit suspicious to me given the
+> > > addresses in the documentation and the info given in the kernel
+> > > documentation.
+> > >
+> > > However, I essentially followed the description according to this guide
+> > > to set up the RKISP:
+> > >
+> > > https://linuxtv.org/downloads/v4l-dvb-apis/admin-guide/rkisp1.html
+> > >
+> > > using this:
+> > >
+> > > https://pastebin.com/ZqWC5vhC
+> > >
+> > > It looks like this (see also png attached).
+> > >
+> > > https://pastebin.com/MfTNp5Pd
+> > >
+> > > However, the IMX214 driver does not complain until that point and seems
+> > > to do right. I expected that at least something happens, however it does
+> > > not. The last command does this:
+> > >
+> > > VIDIOC_STREAMON returned -1 (No such device or address) and this is the
+> > > kernel output
+> > >
+> > > [1509.435228] imx214 1-000c: write_table error: -6
+> > > [1509.435868] imx214 1-000c: could not sent common table -6
+> >
+> > -6 is ENXIO 6 No such device or address. So I expect the device isn't
+> > responding to the I2C controller.
+> >
+> > What shows up with i2c-detect -r -y 1 ?
+> >
+> 
+> From the top of my head, it shows 1c on the 0x0c address iirc, but only if
+> I remove the IMX from the DT. Otherwise the driver takes over and it shows
+> UU. I removed the camera physically and it was gone on i2cdetect, so I
+> suspect that it indeed is the camera. From the driver and the documentation
+> I need to configure it 4-lane, as it is hardcoded in the driver (compared
+> to the application notes for registers for the ImX214).
+> 
+> 
+> >
+> > > There is no more info given, even if I do some "echo 0x3F >
+> > > /sys/class/video4linux/v4l-subdev0/dev_debug" to the subdevs.
+> > >
+> > > Here's the IMX214 documentation btw. that I got through a detour from
+> > CSDN.
+> > >
+> > >
+> > https://www.dropbox.com/sh/5d3mp2akr3kmu7t/AADaAsSxZu2kVSIfEceStwuoa?dl=0
+> > >
+> > > I'm not entirely sure, but there is something wrong somewhere and I
+> > > can't find out if it is with the driver, the RKISP or anything else.
+> > > Here's what "v4l2-ctl -d /dev/v4l-subdev3 --all" gives - not sure but
+> > > shouldn't it show supported resolutions or something?
+> > >
+> > > https://pastebin.com/ckAFPbAs
+> >
+> > You might find it useful to check what is missing to support libcamera
+> > with this sensor, then you can use cam/qcam to test it too. The RKISP1
+> > pipeline handler in libcamera will handle all the media controller
+> > configuration, and identifying the available formats for you, but we
+> > haven't had an IMX214 sensor added yet, so you might need to add a
+> > mapping to the src/libcamera/camera_sensor_properties.cpp sensor
+> > database, and the driver is missing at least V4L2_CID_HBLANK and
+> > V4L2_CID_VBLANK that are required for libcamera.  So it might not be as
+> > straightforward as I'd like, but it would be helpful I expect.
+> 
+> 
+> I tried that at an earlier stage, to no avail unfortunately. But I will try
+> again as soon as I get back to my desk.
+> 
+> >
+> >
+> > But ... I think your issues are more likely underlying hardware or DT
+> > issues, as the device sounds like it's not responding on the i2c
+> > address.
+> >
+> > Sometimes I2C devices have a configurable address, can you check if this
+> > really is the correct I2C address for your camera?
+> >
+> > That’s one of the issues. Ricardo wrote about iirc 0x10 and 0x1a, but the
+> app note says something entirely different (forgot), and my camera appears
+> to be on yet another address…
+
+not specific to cameras, but in the past I had i2c devices that set the
+address depending on the state of a gpio during powerup - which was
+floating in my old case, producing random settings ;-) .
+
+
+Heiko
+
+
