@@ -2,67 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFEEA4C2086
-	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 01:15:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D86714C2201
+	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 04:09:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245227AbiBXAPk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Feb 2022 19:15:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41094 "EHLO
+        id S229941AbiBXDIn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Feb 2022 22:08:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239973AbiBXAPk (ORCPT
+        with ESMTP id S229635AbiBXDIm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Feb 2022 19:15:40 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1512C606E4
-        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 16:15:11 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id bu29so1197884lfb.0
-        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 16:15:10 -0800 (PST)
+        Wed, 23 Feb 2022 22:08:42 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B5CE18A7B2
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 19:08:13 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id p19so1234237ybc.6
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 19:08:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6KKtujxsxL700PImDkEYgIHj9SiLuwrELF/sr6rBEwU=;
-        b=tU7BGBWWMzBJ5iP3qPO/fXlNDe60OUt/Tj1B73Wfe76v+4hLVa5QX6mIN7tXnTK6FL
-         RPBct347NnxuT1VpNpDzp8WX1PVh3tpq19Zpd+/IvFiHNzcpCpNWzA6g3AtxssZXWUff
-         7ApDLQay0i4Sj6ygXWup1xIcqkkazXLYs9t8Ip2WdW0GugMWD3xsjxA4v5a1s6xkprMN
-         R9cyvZY8B6Bmam1UNu+yVzsklkQiFLehRn+kxkFvt/UU06m7JuWoXAdIHyhril4ItZim
-         6iyE75cBJeaK4JQhhWTIjjTV9lokfro8/OOA5Aqqhr8Sfv45Mqd3agZ99LDMrC/cXKEW
-         q2ew==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/q6Deaa5uqZuGAWoUP6lea3xGvCdALyWAfkFdodfDos=;
+        b=cRO+oLUbuMcoFQFDRxl+dVhXOKmKqDBMvmPCdgQuT9dsoWb7IrsglYQuSlh3X8FGkD
+         v1N87TBaS54hqubuz95YT6J18JcxOsF0cTlV/tWJEsbT4OL/kYcOTafKu25nGC935hZK
+         FQ1Bc59c+GAnC95piAy7qcja8E+uZzpz+lsJM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6KKtujxsxL700PImDkEYgIHj9SiLuwrELF/sr6rBEwU=;
-        b=bRP78oemsdBATsnCpwxv3uuebCe79InzmUhSHV/QUJzYBtyAQUYMEYHziKNWheGGCe
-         +wfN/8UFmWMRkiyzy0ATz2s1EawzWzfKUkQ5lmgIQg6rd+1C+sariN28xw9N7cbdywo6
-         E1qsOBYAK35bNNr4X+U6YeAbI7TsZkf6Cd0EZx7ivcCB51nuPu5aSvC+ys5BrDOhrUly
-         T3NKWIIPeBpFndnC3Ie/vYb0HEx3pJKVY+iFL2zg+wGpizKl0a5tZ83nAOwIFPYVoytr
-         9AJBjN/1EDd5GSzfn/Kop62xS0jcgWDQPmwoGbljZ737YKNklTDoqjPSi3lb2isbytMW
-         vPoQ==
-X-Gm-Message-State: AOAM531k38HCsqCK5AXczQ0zYN1T2J8sEhKUPDvS6wz+1zxVUDMR6c0J
-        rw1QYXkzJczjG1CZhfAD/ML59w==
-X-Google-Smtp-Source: ABdhPJwWLOJ1uOgsCD/rN9KOdvDQwwUxuo72QYHrUTSBPtX+BjbsUncF+FXhS0bdz1cdvSxwmzGBew==
-X-Received: by 2002:a05:6512:3403:b0:440:c021:950b with SMTP id i3-20020a056512340300b00440c021950bmr163093lfr.330.1645661709425;
-        Wed, 23 Feb 2022 16:15:09 -0800 (PST)
-Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
-        by smtp.gmail.com with ESMTPSA id z3sm76596lfd.110.2022.02.23.16.15.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Feb 2022 16:15:08 -0800 (PST)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Heungjun Kim <riverful.kim@samsung.com>
-Subject: [PATCH v2] media: m5mols: Convert to use GPIO descriptors
-Date:   Thu, 24 Feb 2022 01:13:07 +0100
-Message-Id: <20220224001307.148851-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/q6Deaa5uqZuGAWoUP6lea3xGvCdALyWAfkFdodfDos=;
+        b=DuJUUAiqT2ik0W1x3X0R820AaVWaOuaUy5wKJ4+LqT04SSX6UD8jGTEBPORF1/hi6J
+         +PHAUlVLde2tWdax+7Iy3E9FyXwMtLcjc5Ce6Gp1Ecf8XkaPnS6k1+IxLHglFWbl6DrD
+         zV113xBHDXpIW8FZVcZzKiC8LS49HlfI4PsjgbwU7urtKUnrctyzqXQxD+t9DX9FhzY7
+         L4ihcv/vFnwkN1ylGITktM8z9adK5EdLc12qgAV4JakoVCiVprDQuo1XZmMSHQzLCWMB
+         8NnNQfyJJT9E6tGYhvC96WkIWo7/+bfhYnvPBdMg/GloxgMFsiW0hDzO6xhK7q/lp6g8
+         /vkQ==
+X-Gm-Message-State: AOAM532jsmOW9P1vJoi7S+iLZB37Nln7A+5OGUW6XeAxPn5zN+kAmExB
+        V4lW5OW3CQ4H3cWMgqy7Pr/IUa9wrdV6D+wyB/1bgUG6UIQ=
+X-Google-Smtp-Source: ABdhPJwfo+xTG3B4wQ1YRHZ1K6lChEnGUdnDsbfMdGY87BoSQaXWFXbrihuGh318BbM0NxlRgLRFyzonQxSZhzFdjrs=
+X-Received: by 2002:a25:d314:0:b0:624:6c1a:6f2d with SMTP id
+ e20-20020a25d314000000b006246c1a6f2dmr693752ybf.189.1645672092353; Wed, 23
+ Feb 2022 19:08:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+References: <20220211110617.2202714-1-wenst@chromium.org>
+In-Reply-To: <20220211110617.2202714-1-wenst@chromium.org>
+From:   Chen-Yu Tsai <wenst@chromium.org>
+Date:   Thu, 24 Feb 2022 11:08:01 +0800
+Message-ID: <CAGXv+5H+NC-Co2bkc4TH5Kc7qQjYz98wH5WFFNXjbnLA_J50fg@mail.gmail.com>
+Subject: Re: [PATCH RFC v2] media: hantro: Implement support for encoder commands
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,163 +68,207 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Fujitsu M5MOLS sensor driver is using a reset GPIO number
-passed from platform data.
+Hi,
 
-No machine/board descriptor file in the kernel is using this so
-let's replace it with a GPIO descriptor.
+On Fri, Feb 11, 2022 at 7:06 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> The V4L2 stateful encoder uAPI specification requires that drivers
+> support the ENCODER_CMD ioctl to allow draining of buffers. This
+> however was not implemented, and causes issues for some userspace
+> applications.
+>
+> Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
+> This is entirely based on existing code found in the vicodec test
+> driver.
+>
+> Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+>
+> Changes since v1:
+> - Correctly handle last buffers that are empty
+> - Correctly handle last buffers that just got queued
+> - Disable (TRY_)ENCODER_CMD ioctls for hantro decoder
+>
+> This is based on linux-next-20220208, and was tested on RK3399 with
+> Gstreamer running the JPEG encoder. It was also tested on ChromeOS
+> 5.10 on Kevin with the video encoder used in ChromeOS ARC, which
+> requires this. For ChromeOS, both encoder and decoder tests were run
+> to check for regressions.
+>
+> Everything really works OK now, but since I'm not very familiar with
+> the mem2mem framework, I might be missing something, causing resource
+> leaks. Hence this patch is labeled RFC.
+>
+> Last, I suppose we could also add support for (TRY_)DECODER_CMD now?
 
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
-Cc: Heungjun Kim <riverful.kim@samsung.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v1->v2:
-- Also delete the platform data entries that are no longer
-  in use.
----
- drivers/media/i2c/m5mols/m5mols.h         |  2 ++
- drivers/media/i2c/m5mols/m5mols_capture.c |  1 -
- drivers/media/i2c/m5mols/m5mols_core.c    | 29 ++++++++---------------
- include/media/i2c/m5mols.h                |  4 ----
- 4 files changed, 12 insertions(+), 24 deletions(-)
+Gentle ping on this patch?
 
-diff --git a/drivers/media/i2c/m5mols/m5mols.h b/drivers/media/i2c/m5mols/m5mols.h
-index 60c102fa7df5..b56eb0a8ee97 100644
---- a/drivers/media/i2c/m5mols/m5mols.h
-+++ b/drivers/media/i2c/m5mols/m5mols.h
-@@ -13,6 +13,7 @@
- #define M5MOLS_H
- 
- #include <linux/sizes.h>
-+#include <linux/gpio/consumer.h>
- #include <media/v4l2-subdev.h>
- #include "m5mols_reg.h"
- 
-@@ -224,6 +225,7 @@ struct m5mols_info {
- 	struct v4l2_ctrl *jpeg_quality;
- 
- 	int (*set_power)(struct device *dev, int on);
-+	struct gpio_desc *reset;
- 
- 	struct mutex lock;
- 
-diff --git a/drivers/media/i2c/m5mols/m5mols_capture.c b/drivers/media/i2c/m5mols/m5mols_capture.c
-index e1b1d689c044..275c5b2539fd 100644
---- a/drivers/media/i2c/m5mols/m5mols_capture.c
-+++ b/drivers/media/i2c/m5mols/m5mols_capture.c
-@@ -15,7 +15,6 @@
- #include <linux/irq.h>
- #include <linux/interrupt.h>
- #include <linux/delay.h>
--#include <linux/gpio.h>
- #include <linux/regulator/consumer.h>
- #include <linux/videodev2.h>
- #include <media/v4l2-ctrls.h>
-diff --git a/drivers/media/i2c/m5mols/m5mols_core.c b/drivers/media/i2c/m5mols/m5mols_core.c
-index e29be0242f07..c19590389bfe 100644
---- a/drivers/media/i2c/m5mols/m5mols_core.c
-+++ b/drivers/media/i2c/m5mols/m5mols_core.c
-@@ -14,7 +14,7 @@
- #include <linux/irq.h>
- #include <linux/interrupt.h>
- #include <linux/delay.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/regulator/consumer.h>
- #include <linux/videodev2.h>
- #include <linux/module.h>
-@@ -752,7 +752,6 @@ static int m5mols_sensor_power(struct m5mols_info *info, bool enable)
- {
- 	struct v4l2_subdev *sd = &info->sd;
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	const struct m5mols_platform_data *pdata = info->pdata;
- 	int ret;
- 
- 	if (info->power == enable)
-@@ -772,7 +771,7 @@ static int m5mols_sensor_power(struct m5mols_info *info, bool enable)
- 			return ret;
- 		}
- 
--		gpio_set_value(pdata->gpio_reset, !pdata->reset_polarity);
-+		gpiod_set_value(info->reset, 0);
- 		info->power = 1;
- 
- 		return ret;
-@@ -785,7 +784,7 @@ static int m5mols_sensor_power(struct m5mols_info *info, bool enable)
- 	if (info->set_power)
- 		info->set_power(&client->dev, 0);
- 
--	gpio_set_value(pdata->gpio_reset, pdata->reset_polarity);
-+	gpiod_set_value(info->reset, 1);
- 
- 	info->isp_ready = 0;
- 	info->power = 0;
-@@ -944,7 +943,6 @@ static int m5mols_probe(struct i2c_client *client,
- 			const struct i2c_device_id *id)
- {
- 	const struct m5mols_platform_data *pdata = client->dev.platform_data;
--	unsigned long gpio_flags;
- 	struct m5mols_info *info;
- 	struct v4l2_subdev *sd;
- 	int ret;
-@@ -954,11 +952,6 @@ static int m5mols_probe(struct i2c_client *client,
- 		return -EINVAL;
- 	}
- 
--	if (!gpio_is_valid(pdata->gpio_reset)) {
--		dev_err(&client->dev, "No valid RESET GPIO specified\n");
--		return -EINVAL;
--	}
--
- 	if (!client->irq) {
- 		dev_err(&client->dev, "Interrupt not assigned\n");
- 		return -EINVAL;
-@@ -968,18 +961,16 @@ static int m5mols_probe(struct i2c_client *client,
- 	if (!info)
- 		return -ENOMEM;
- 
-+	/* This asserts reset, descriptor shall have polarity specified */
-+	info->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(info->reset))
-+		return PTR_ERR(info->reset);
-+	/* Notice: the "N" in M5MOLS_NRST implies active low */
-+	gpiod_set_consumer_name(info->reset, "M5MOLS_NRST");
-+
- 	info->pdata = pdata;
- 	info->set_power	= pdata->set_power;
- 
--	gpio_flags = pdata->reset_polarity
--		   ? GPIOF_OUT_INIT_HIGH : GPIOF_OUT_INIT_LOW;
--	ret = devm_gpio_request_one(&client->dev, pdata->gpio_reset, gpio_flags,
--				    "M5MOLS_NRST");
--	if (ret) {
--		dev_err(&client->dev, "Failed to request gpio: %d\n", ret);
--		return ret;
--	}
--
- 	ret = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(supplies),
- 				      supplies);
- 	if (ret) {
-diff --git a/include/media/i2c/m5mols.h b/include/media/i2c/m5mols.h
-index 9cec5a09e125..a56ae353c891 100644
---- a/include/media/i2c/m5mols.h
-+++ b/include/media/i2c/m5mols.h
-@@ -14,15 +14,11 @@
- 
- /**
-  * struct m5mols_platform_data - platform data for M-5MOLS driver
-- * @gpio_reset:	GPIO driving the reset pin of M-5MOLS
-- * @reset_polarity: active state for gpio_reset pin, 0 or 1
-  * @set_power:	an additional callback to the board setup code
-  *		to be called after enabling and before disabling
-  *		the sensor's supply regulators
-  */
- struct m5mols_platform_data {
--	int gpio_reset;
--	u8 reset_polarity;
- 	int (*set_power)(struct device *dev, int on);
- };
- 
--- 
-2.34.1
+ChenYu
 
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c  | 17 +++++-
+>  drivers/staging/media/hantro/hantro_v4l2.c | 68 +++++++++++++++++++++-
+>  2 files changed, 81 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index bc9bcb4eaf46..99bc650a5a93 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
+>         return hantro_get_dec_buf_addr(ctx, buf);
+>  }
+>
+> +static const struct v4l2_event hantro_eos_event = {
+> +       .type = V4L2_EVENT_EOS
+> +};
+> +
+>  static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+>                                     struct hantro_ctx *ctx,
+>                                     enum vb2_buffer_state result)
+> @@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+>         src->sequence = ctx->sequence_out++;
+>         dst->sequence = ctx->sequence_cap++;
+>
+> +       if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
+> +               dst->flags |= V4L2_BUF_FLAG_LAST;
+> +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> +               v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
+> +       }
+> +
+>         v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
+>                                          result);
+>  }
+> @@ -807,10 +817,13 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
+>         snprintf(vfd->name, sizeof(vfd->name), "%s-%s", match->compatible,
+>                  funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER ? "enc" : "dec");
+>
+> -       if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER)
+> +       if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
+>                 vpu->encoder = func;
+> -       else
+> +       } else {
+>                 vpu->decoder = func;
+> +               v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+> +               v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
+> +       }
+>
+>         video_set_drvdata(vfd, vpu);
+>
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> index 67148ba346f5..777bd3dbd875 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> @@ -628,6 +628,39 @@ static int vidioc_s_selection(struct file *file, void *priv,
+>         return 0;
+>  }
+>
+> +static const struct v4l2_event hantro_eos_event = {
+> +       .type = V4L2_EVENT_EOS
+> +};
+> +
+> +static int vidioc_encoder_cmd(struct file *file, void *priv,
+> +                             struct v4l2_encoder_cmd *ec)
+> +{
+> +       struct hantro_ctx *ctx = fh_to_ctx(priv);
+> +       int ret;
+> +
+> +       ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
+> +           !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
+> +               return 0;
+> +
+> +       ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       if (ec->cmd == V4L2_ENC_CMD_STOP &&
+> +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
+> +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> +
+> +       if (ec->cmd == V4L2_ENC_CMD_START &&
+> +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
+> +               vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
+> +
+> +       return 0;
+> +}
+> +
+>  const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+>         .vidioc_querycap = vidioc_querycap,
+>         .vidioc_enum_framesizes = vidioc_enum_framesizes,
+> @@ -657,6 +690,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+>
+>         .vidioc_g_selection = vidioc_g_selection,
+>         .vidioc_s_selection = vidioc_s_selection,
+> +
+> +       .vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
+> +       .vidioc_encoder_cmd = vidioc_encoder_cmd,
+>  };
+>
+>  static int
+> @@ -733,8 +769,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
+>          * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
+>          * it to buffer length).
+>          */
+> -       if (V4L2_TYPE_IS_CAPTURE(vq->type))
+> -               vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
+> +       if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
+> +               if (ctx->is_encoder)
+> +                       vb2_set_plane_payload(vb, 0, 0);
+> +               else
+> +                       vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
+> +       }
+>
+>         return 0;
+>  }
+> @@ -744,6 +784,22 @@ static void hantro_buf_queue(struct vb2_buffer *vb)
+>         struct hantro_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+>         struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>
+> +       if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
+> +           vb2_is_streaming(vb->vb2_queue) &&
+> +           v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
+> +               unsigned int i;
+> +
+> +               for (i = 0; i < vb->num_planes; i++)
+> +                       vb->planes[i].bytesused = 0;
+> +
+> +               vbuf->field = V4L2_FIELD_NONE;
+> +               vbuf->sequence = ctx->sequence_cap++;
+> +
+> +               v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, vbuf);
+> +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> +               return;
+> +       }
+> +
+>         v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
+>  }
+>
+> @@ -759,6 +815,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
+>         struct hantro_ctx *ctx = vb2_get_drv_priv(q);
+>         int ret = 0;
+>
+> +       v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
+> +
+>         if (V4L2_TYPE_IS_OUTPUT(q->type))
+>                 ctx->sequence_out = 0;
+>         else
+> @@ -831,6 +889,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
+>                 hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
+>         else
+>                 hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
+> +
+> +       v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
+> +
+> +       if (V4L2_TYPE_IS_OUTPUT(q->type) &&
+> +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
+> +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+>  }
+>
+>  static void hantro_buf_request_complete(struct vb2_buffer *vb)
+> --
+> 2.35.1.265.g69c8d7142f-goog
+>
