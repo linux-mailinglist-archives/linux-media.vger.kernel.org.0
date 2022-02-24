@@ -2,117 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6FF44C2466
-	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 08:12:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8A464C247F
+	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 08:34:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231514AbiBXHNT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Feb 2022 02:13:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50568 "EHLO
+        id S231539AbiBXHe6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Feb 2022 02:34:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230470AbiBXHNS (ORCPT
+        with ESMTP id S231477AbiBXHe5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Feb 2022 02:13:18 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95D5918DABB;
-        Wed, 23 Feb 2022 23:12:46 -0800 (PST)
-Received: from mail-wr1-f42.google.com ([209.85.221.42]) by
- mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MxUjv-1oBfXN0Tcn-00xqgA; Thu, 24 Feb 2022 08:07:36 +0100
-Received: by mail-wr1-f42.google.com with SMTP id p9so1435973wra.12;
-        Wed, 23 Feb 2022 23:07:35 -0800 (PST)
-X-Gm-Message-State: AOAM532EpxCpwWjKfZVO60UsPuZ8Wv6zCAHCNVaTbsH4S6A6NhRzx/Oz
-        TXaCCl9owcnbxk5pTojWFNHy8dt8v+HlZyDQblA=
-X-Google-Smtp-Source: ABdhPJwEtLpX8E/vTN5J2WTCdVQZctqam7R0+5lnIigKmPPrPVDBdQ8fk8Xp/V3xYVy+7XSB18aLEhGa4luiP7dRyR0=
-X-Received: by 2002:adf:a446:0:b0:1ed:c41b:cf13 with SMTP id
- e6-20020adfa446000000b001edc41bcf13mr1081355wra.407.1645686455629; Wed, 23
- Feb 2022 23:07:35 -0800 (PST)
+        Thu, 24 Feb 2022 02:34:57 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFED536692
+        for <linux-media@vger.kernel.org>; Wed, 23 Feb 2022 23:34:27 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2E9BE6176C
+        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 07:34:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10B2BC340E9;
+        Thu, 24 Feb 2022 07:34:25 +0000 (UTC)
+Message-ID: <000d2cfe-c0b0-da23-025c-1dc863a95e81@xs4all.nl>
+Date:   Thu, 24 Feb 2022 08:34:23 +0100
 MIME-Version: 1.0
-References: <cover.1641500561.git.christophe.jaillet@wanadoo.fr>
- <YhXmQwvjMFPQFPUr@infradead.org> <ddf6010e-417d-8da7-8e11-1b4a55f92fff@wanadoo.fr>
- <YhckzJp5/x9zW4uQ@infradead.org>
-In-Reply-To: <YhckzJp5/x9zW4uQ@infradead.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 24 Feb 2022 08:07:19 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a23Pjm1Btc=mXX=vU4hkNiPqz3+o4=j0FuYKHB7KuMtPg@mail.gmail.com>
-Message-ID: <CAK8P3a23Pjm1Btc=mXX=vU4hkNiPqz3+o4=j0FuYKHB7KuMtPg@mail.gmail.com>
-Subject: Re: [PATCH 00/16] Remove usage of the deprecated "pci-dma-compat.h" API
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        David Miller <davem@davemloft.net>,
-        David Airlie <airlied@linux.ie>, Vinod Koul <vkoul@kernel.org>,
-        hao.wu@intel.com, Tom Rix <trix@redhat.com>,
-        Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
-        awalls@md.metrocast.net,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sathya Prakash <sathya.prakash@broadcom.com>,
-        sreekanth.reddy@broadcom.com,
-        Suganath Prabu Subramani 
-        <suganath-prabu.subramani@broadcom.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Alex Bounine <alex.bou9@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        alpha <linux-alpha@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        dmaengine@vger.kernel.org, linux-fpga@vger.kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        MPT-FusionLinux.pdl@broadcom.com,
-        linux-scsi <linux-scsi@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:G+proiRNKst5hya+6hR+BYBd4VRS3n2DE6IeNAozttEzt7d4cvK
- f2mKBt5y9GjYdgZl32tJLtCozayM+b+0iu0mb+a1Jy2ATjYQYdM39CF3Ix2QNs8gajVrziT
- JrSs4NPIV+pYHoSzDtBDVmlKKYey23olqCofiIVZkhYIozH6Jh7hTUOh9MPFZiyiNMVlz3s
- QjJN+PIRYwIUNErT7Po/Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mCNfRr881tI=:qp5or3CpyeODvVtkcH91Ts
- YpYmaQP8NRwfJ08tKJwL/IIdBv1yJHWNRW+foapbEcNq7Ksfe2jyeM2f79/k+b9BOsd0iMuNC
- bpwkGvv56vEsWY1afkiGSh/0/dEq8Xrfs8is0jKQlGPcL35cTnmx5im1s/hKHHY61EOTaY0pp
- vr698e4MGchUHuFbs53kNuKbzAi1vchcM3a8ZpyQNSzETvK55ymffALqOnPtgpKutx+PAPPD8
- ApGM21+JeR8ff6vK3awRfhUZ0eqB7rmFxaX+NAj15QMnEKA7o/UqhtKkS4WU7fLNeL2wXJAEJ
- 7d9dyDO8Mtt+ZKaxTZMhjcLtMGGM2mzgAgpJmvZx5yclAYhR3UKIJG/Gnti6YyF0pThtdr+0+
- zVB/1XbvTSKDY4GXEjZVKBkSIlxSb64UnfKXob2BfcySCv/tr9giyvqeXpKzsZCI4y87klPhA
- xGkOjdNcNDo2loKsbhpzh8/om+4YnQUTciYT+ZvEQ4Y7F3kJhIdu0hWmIquq2rhf8guurJabA
- dpCyX/8Ox/9HVhF84E9mKCqhUqGqENk9HUIPzABILhrG21qLvABlC1LQjji5VPRsftckB3Dt3
- 8R3K5uMe1OvszQNxMlaLlCaG6hU+9xpeUIlM+6Fu0GrnLGyR6uIMC0IjG1tcVggoe0WKOk+S6
- EITixEsJjFFZ/I4VXfOAwxe2N5k7IpUxJ6FZFz0u09OrYPwhADfStNL9XXHRCS9iG/JFAu9Iu
- QGECULqnwiafO68whyRCFYRlz2+hrMMnDpEFs/AvWtWzhrR0/26HK7MOrOuJY5d3m20rexzfH
- DILYvTn2VL1KZ6fwfAAH7hDCC8AIbbkZJD/tZgUjG/qrPxzp0Y7xyndOnNoccJD0NtsUOCdaA
- 2FhLNkRGdWVsdGZFU8w6alIutuvgf5JWOlHHUd3+QrXcUOT9Ct585q0FF2b2ifnWoO+Num27d
- RD2sOUb+FrA==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Content-Language: en-US
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc:     Ming Qian <ming.qian@nxp.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.18] v2: amphion video decoder/encoder driver
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Feb 24, 2022 at 7:25 AM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Wed, Feb 23, 2022 at 09:26:56PM +0100, Christophe JAILLET wrote:
-> > Patch 01, 04, 05, 06, 08, 09 have not reached -next yet.
-> > They all still apply cleanly.
-> >
-> > 04 has been picked it up for inclusion in the media subsystem for 5.18.
-> > The other ones all have 1 or more Reviewed-by:/Acked-by: tags.
-> >
-> > Patch 16 must be resubmitted to add "#include <linux/dma-mapping.h>" in
-> > order not to break builds.
->
-> So how about this:  I'll pick up 1, 5,6,8 and 9 for the dma-mapping
-> tree.  After -rc1 when presumably all other patches have reached
-> mainline your resubmit one with the added include and we finish this
-> off?
+Ming Qian,
 
-Sounds good to me as well.
+Thank you very much for your hard work on this!
 
-       Arnd
+Very nice to see this go in.
+
+Regards,
+
+	Hans
+
+Changes since v1:
+
+- Added the Makefile/Kconfig last after all the other driver sources are in place
+  to avoid bisect problems.
+
+The following changes since commit 2b891d3980f6c255459d0e1c29ce2152ec7cf678:
+
+  media: xilinx: csi2rxss: Use mipi-csi2.h (2022-02-17 10:32:26 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18r
+
+for you to fetch changes up to c40c0f562b42cad3bc97bc29c273aaa5776a67a5:
+
+  media: amphion: add amphion vpu entry in Kconfig and Makefile (2022-02-24 08:22:49 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Ming Qian (12):
+      dt-bindings: media: amphion: add amphion video codec bindings
+      media: add nv12m_8l128 and nv12m_10be_8l128 video format.
+      media: amphion: add amphion vpu device driver
+      media: amphion: add vpu core driver
+      media: amphion: implement vpu core communication based on mailbox
+      media: amphion: add vpu v4l2 m2m support
+      media: amphion: add v4l2 m2m vpu encoder stateful driver
+      media: amphion: add v4l2 m2m vpu decoder stateful driver
+      media: amphion: implement windsor encoder rpc interface
+      media: amphion: implement malone decoder rpc interface
+      MAINTAINERS: add AMPHION VPU CODEC V4L2 driver entry
+      media: amphion: add amphion vpu entry in Kconfig and Makefile
+
+ Documentation/devicetree/bindings/media/amphion,vpu.yaml    |  180 ++++++
+ Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst |   28 +-
+ MAINTAINERS                                                 |    9 +
+ drivers/media/platform/Kconfig                              |   19 +
+ drivers/media/platform/Makefile                             |    2 +
+ drivers/media/platform/amphion/Makefile                     |   20 +
+ drivers/media/platform/amphion/vdec.c                       | 1691 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/amphion/venc.c                       | 1358 +++++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/amphion/vpu.h                        |  362 ++++++++++++
+ drivers/media/platform/amphion/vpu_cmds.c                   |  433 +++++++++++++++
+ drivers/media/platform/amphion/vpu_cmds.h                   |   25 +
+ drivers/media/platform/amphion/vpu_codec.h                  |   68 +++
+ drivers/media/platform/amphion/vpu_color.c                  |  183 ++++++
+ drivers/media/platform/amphion/vpu_core.c                   |  871 +++++++++++++++++++++++++++++
+ drivers/media/platform/amphion/vpu_core.h                   |   15 +
+ drivers/media/platform/amphion/vpu_dbg.c                    |  494 +++++++++++++++++
+ drivers/media/platform/amphion/vpu_defs.h                   |  187 +++++++
+ drivers/media/platform/amphion/vpu_drv.c                    |  260 +++++++++
+ drivers/media/platform/amphion/vpu_helpers.c                |  413 ++++++++++++++
+ drivers/media/platform/amphion/vpu_helpers.h                |   74 +++
+ drivers/media/platform/amphion/vpu_imx8q.c                  |  271 +++++++++
+ drivers/media/platform/amphion/vpu_imx8q.h                  |  115 ++++
+ drivers/media/platform/amphion/vpu_malone.c                 | 1625 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/amphion/vpu_malone.h                 |   44 ++
+ drivers/media/platform/amphion/vpu_mbox.c                   |  118 ++++
+ drivers/media/platform/amphion/vpu_mbox.h                   |   16 +
+ drivers/media/platform/amphion/vpu_msgs.c                   |  385 +++++++++++++
+ drivers/media/platform/amphion/vpu_msgs.h                   |   14 +
+ drivers/media/platform/amphion/vpu_rpc.c                    |  257 +++++++++
+ drivers/media/platform/amphion/vpu_rpc.h                    |  456 +++++++++++++++
+ drivers/media/platform/amphion/vpu_v4l2.c                   |  712 ++++++++++++++++++++++++
+ drivers/media/platform/amphion/vpu_v4l2.h                   |   55 ++
+ drivers/media/platform/amphion/vpu_windsor.c                | 1169 +++++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/amphion/vpu_windsor.h                |   37 ++
+ drivers/media/v4l2-core/v4l2-ioctl.c                        |    2 +
+ include/uapi/linux/videodev2.h                              |    2 +
+ 36 files changed, 11967 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/amphion,vpu.yaml
+ create mode 100644 drivers/media/platform/amphion/Makefile
+ create mode 100644 drivers/media/platform/amphion/vdec.c
+ create mode 100644 drivers/media/platform/amphion/venc.c
+ create mode 100644 drivers/media/platform/amphion/vpu.h
+ create mode 100644 drivers/media/platform/amphion/vpu_cmds.c
+ create mode 100644 drivers/media/platform/amphion/vpu_cmds.h
+ create mode 100644 drivers/media/platform/amphion/vpu_codec.h
+ create mode 100644 drivers/media/platform/amphion/vpu_color.c
+ create mode 100644 drivers/media/platform/amphion/vpu_core.c
+ create mode 100644 drivers/media/platform/amphion/vpu_core.h
+ create mode 100644 drivers/media/platform/amphion/vpu_dbg.c
+ create mode 100644 drivers/media/platform/amphion/vpu_defs.h
+ create mode 100644 drivers/media/platform/amphion/vpu_drv.c
+ create mode 100644 drivers/media/platform/amphion/vpu_helpers.c
+ create mode 100644 drivers/media/platform/amphion/vpu_helpers.h
+ create mode 100644 drivers/media/platform/amphion/vpu_imx8q.c
+ create mode 100644 drivers/media/platform/amphion/vpu_imx8q.h
+ create mode 100644 drivers/media/platform/amphion/vpu_malone.c
+ create mode 100644 drivers/media/platform/amphion/vpu_malone.h
+ create mode 100644 drivers/media/platform/amphion/vpu_mbox.c
+ create mode 100644 drivers/media/platform/amphion/vpu_mbox.h
+ create mode 100644 drivers/media/platform/amphion/vpu_msgs.c
+ create mode 100644 drivers/media/platform/amphion/vpu_msgs.h
+ create mode 100644 drivers/media/platform/amphion/vpu_rpc.c
+ create mode 100644 drivers/media/platform/amphion/vpu_rpc.h
+ create mode 100644 drivers/media/platform/amphion/vpu_v4l2.c
+ create mode 100644 drivers/media/platform/amphion/vpu_v4l2.h
+ create mode 100644 drivers/media/platform/amphion/vpu_windsor.c
+ create mode 100644 drivers/media/platform/amphion/vpu_windsor.h
