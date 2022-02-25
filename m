@@ -2,52 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB68A4C3518
-	for <lists+linux-media@lfdr.de>; Thu, 24 Feb 2022 19:55:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47BF14C3A1E
+	for <lists+linux-media@lfdr.de>; Fri, 25 Feb 2022 01:08:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232508AbiBXSzZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Feb 2022 13:55:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35574 "EHLO
+        id S234016AbiBYAIw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Feb 2022 19:08:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229681AbiBXSzY (ORCPT
+        with ESMTP id S232259AbiBYAIt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Feb 2022 13:55:24 -0500
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB35524CCE3
-        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 10:54:53 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id F3B36200006;
-        Thu, 24 Feb 2022 18:54:48 +0000 (UTC)
-Date:   Thu, 24 Feb 2022 19:54:47 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        martin.kepplinger@puri.sm, rmfrfs@gmail.com,
-        xavier.roumegue@oss.nxp.com,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        dorota.czaplejewicz@puri.sm, Sascha Hauer <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v2 1/7] media: imx: De-stage imx7-mipi-csis
-Message-ID: <20220224185447.yr2452dbxegkjoqq@uno.localdomain>
-References: <20220218183421.583874-1-jacopo@jmondi.org>
- <20220218183421.583874-2-jacopo@jmondi.org>
- <CAHCN7xLmcjKpW_UX2qHEx+s8bqik7OfXmQDgnq0JjKzjaqxNdQ@mail.gmail.com>
+        Thu, 24 Feb 2022 19:08:49 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69C5014A236
+        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 16:08:16 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id v2-20020a7bcb42000000b0037b9d960079so781686wmj.0
+        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 16:08:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=laBbjVEP+uNG+rNLENt9GcCrKPZsIThjKehEMryac/c=;
+        b=Tf8Jd++j71ScoLsDeOewIpkeCb4VY9OOHh7WTAlshVO/UAdSFcznp6f08kux1LrCeL
+         XTle1dzbEr5NZomFWBZb2EPBPutnX4nqmuQGXFhlLS97KWZQ2KN7GK0ZCeNesoUjWNYK
+         03ABc4TnY2R3zg2sY4mE4pSlr0hmMyk0EoH96k/RyHnd9pbze8u8m0JVm/hzIzNHGsvR
+         FSftLEsbllnjcWit8L9X5wjhNUyvWDMvuZVj2UKYwUMNQCDgd3d/qVRxJ6UiQ2tFyRRM
+         rItzl4sN2JylmAGcK3NoJmZKi7G3SfPtyyefPUgearohbjCiBwJYWynidTbm6/s4IDRq
+         k9Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=laBbjVEP+uNG+rNLENt9GcCrKPZsIThjKehEMryac/c=;
+        b=FxtX+8OntZgb7+BlE3tNL4PUHgT1PjaCeOYyPpq237bXJ7cg16Z/dyblbYJu8i0Ye0
+         CdHBtErL6ksVirEtxTDgnraifbdfrJMJg8sXFNvwS37JczEBupeDpLKrh7yQjYfpw+lA
+         9ZgRC1aPREuis9XraJk/vwIcu/+kJjXoLfWt3IuuGuaDbq1jHwAZ6k8rCYlySSVEuvoT
+         0qtfB4WIG5OzfUwlkM9IG0TPzvxBekBpkj0htPPhjcrMJN93EXZrr0ybx7T3yk5Q3d8o
+         xgpobUl3kMvXXAOodXCu66ftGwzfta3ppql0T4smZMaRlswokybCCMArVflMsO3vpFK3
+         r9GA==
+X-Gm-Message-State: AOAM530JzKRhekJYiF4g9dsMOaOt9OnLE3kmH1Ckz042HZuZT8LZJZ91
+        dqlQ8h/+ozGApeo+qjTl7Fb78M2tI2T2Ag==
+X-Google-Smtp-Source: ABdhPJzHqo6zEGur6R21EqmTLSk3B5vFGhJ+BEhRBzQjkNfd8JgzbSrbpfDgQJBBSSp+eq+IkGjLdA==
+X-Received: by 2002:a1c:a382:0:b0:381:cfd:5564 with SMTP id m124-20020a1ca382000000b003810cfd5564mr366352wme.103.1645747694968;
+        Thu, 24 Feb 2022 16:08:14 -0800 (PST)
+Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id a3-20020adfe5c3000000b001e68a5e1c20sm742668wrn.4.2022.02.24.16.08.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Feb 2022 16:08:14 -0800 (PST)
+From:   Daniel Scally <djrscally@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
+        andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl
+Subject: [PATCH v2 00/11] Support OVTI7251 on Microsoft Surface line
+Date:   Fri, 25 Feb 2022 00:07:42 +0000
+Message-Id: <20220225000753.511996-1-djrscally@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHCN7xLmcjKpW_UX2qHEx+s8bqik7OfXmQDgnq0JjKzjaqxNdQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,142 +69,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
+Hello all
 
-On Thu, Feb 24, 2022 at 10:49:13AM -0600, Adam Ford wrote:
-> On Mon, Feb 21, 2022 at 3:16 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> >
-> > The imx7-mipi-csis driver is in a good state and can be destaged.
-> >
-> > Move the imx7-mipi-csis.c driver to the newly created
-> > drivers/media/platform/imx directory and plumb the related
-> > options in Kconfig and in Makefile.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  MAINTAINERS                                   |  2 +-
-> >  drivers/media/platform/Kconfig                |  1 +
-> >  drivers/media/platform/Makefile               |  1 +
-> >  drivers/media/platform/imx/Kconfig            | 24 +++++++++++++++++++
-> >  drivers/media/platform/imx/Makefile           |  1 +
-> >  .../platform}/imx/imx7-mipi-csis.c            |  0
-> >  drivers/staging/media/imx/Makefile            |  1 -
-> >  7 files changed, 28 insertions(+), 2 deletions(-)
-> >  create mode 100644 drivers/media/platform/imx/Kconfig
-> >  create mode 100644 drivers/media/platform/imx/Makefile
-> >  rename drivers/{staging/media => media/platform}/imx/imx7-mipi-csis.c (100%)
-> >
->
-> Jacopo,
->
-> Will there be a subsequent patch to modify the arch64 defconfig to
-> enable these modules by default?  With these changes, neither the CSI
-> nor CSIS appear to be enabled as modules any more, and I thought they
-> used to be enabled as modules by default.
+This series extends the OV7251 driver so it's functional on the
+Microsoft Surface line of laptops, where it's used as the IR
+camera for face login. The camera sensor is connected to a CIO2
+device which packs the 10-bit greyscale data into 25 pixels per 32
+bytes similar to the IPU3 formats for Bayer data, so I also added
+a new format to describe that and added it to the ipu3-cio2 driver's
+list of supported formats. 
 
-I don't see the VIDEO_IMX7_CSI selected in v5.17-rc5 arch/arm64/configs/defconfig
-What am I missing ? :)
+Series-level changes:
 
-I'm not aware of what are the policies to add a new symbol to the
-arch64 defconfig, but if appropriate I would be happy to send a patch
-to enable it.
+	- Added patch 5 removing per-mode frequency settings
 
 Thanks
-  j
+Dan
 
+Daniel Scally (11):
+  media: uapi: Add IPU3 packed Y10 format
+  media: ipu3-cio2: Add support for V4L2_PIX_FMT_IPU3_Y10
+  media: i2c: Add acpi support to ov7251
+  media: i2c: Provide ov7251_check_hwcfg()
+  media: i2c: Remove per-mode frequencies from ov7251
+  media: i2c: Add ov7251_pll_configure()
+  media: i2c: Add support for new frequencies to ov7251
+  media: i2c: Add ov7251_detect_chip()
+  media: i2c: Add pm_runtime support to ov7251
+  media: i2c: Remove .s_power() from ov7251
+  media: ipu3-cio2: Add INT347E to cio2-bridge
 
->
-> adam
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 83d27b57016f..5bdb8c881b0b 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11891,8 +11891,8 @@ T:      git git://linuxtv.org/media_tree.git
-> >  F:     Documentation/admin-guide/media/imx7.rst
-> >  F:     Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> >  F:     Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-> > +F:     drivers/media/platform/imx/imx7-mipi-csis.c
-> >  F:     drivers/staging/media/imx/imx7-media-csi.c
-> > -F:     drivers/staging/media/imx/imx7-mipi-csis.c
-> >
-> >  MEDIA DRIVERS FOR HELENE
-> >  M:     Abylay Ospan <aospan@netup.ru>
-> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> > index 9fbdba0fd1e7..d9eeccffea69 100644
-> > --- a/drivers/media/platform/Kconfig
-> > +++ b/drivers/media/platform/Kconfig
-> > @@ -171,6 +171,7 @@ source "drivers/media/platform/xilinx/Kconfig"
-> >  source "drivers/media/platform/rcar-vin/Kconfig"
-> >  source "drivers/media/platform/atmel/Kconfig"
-> >  source "drivers/media/platform/sunxi/Kconfig"
-> > +source "drivers/media/platform/imx/Kconfig"
-> >
-> >  config VIDEO_TI_CAL
-> >         tristate "TI CAL (Camera Adaptation Layer) driver"
-> > diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> > index 28eb4aadbf45..a9466c854610 100644
-> > --- a/drivers/media/platform/Makefile
-> > +++ b/drivers/media/platform/Makefile
-> > @@ -20,6 +20,7 @@ obj-y += ti-vpe/
-> >  obj-$(CONFIG_VIDEO_MX2_EMMAPRP)                += mx2_emmaprp.o
-> >  obj-$(CONFIG_VIDEO_CODA)               += coda/
-> >
-> > +obj-$(CONFIG_VIDEO_IMX)                        += imx/
-> >  obj-$(CONFIG_VIDEO_IMX_PXP)            += imx-pxp.o
-> >  obj-$(CONFIG_VIDEO_IMX8_JPEG)          += imx-jpeg/
-> >
-> > diff --git a/drivers/media/platform/imx/Kconfig b/drivers/media/platform/imx/Kconfig
-> > new file mode 100644
-> > index 000000000000..683863572c20
-> > --- /dev/null
-> > +++ b/drivers/media/platform/imx/Kconfig
-> > @@ -0,0 +1,24 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +menuconfig VIDEO_IMX
-> > +       bool "V4L2 capture drivers for NXP i.MX devices"
-> > +       depends on ARCH_MXC || COMPILE_TEST
-> > +       depends on VIDEO_DEV && VIDEO_V4L2
-> > +       help
-> > +         Say yes here to enable support for capture drivers on i.MX SoCs.
-> > +         Support for the single SoC features are selectable in the sub-menu
-> > +         options.
-> > +
-> > +if VIDEO_IMX
-> > +
-> > +config VIDEO_IMX_MIPI_CSIS
-> > +       tristate "MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
-> > +       select MEDIA_CONTROLLER
-> > +       select V4L2_FWNODE
-> > +       select VIDEO_V4L2_SUBDEV_API
-> > +       default n
-> > +       help
-> > +         Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
-> > +         v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
-> > +
-> > +endif # VIDEO_IMX
-> > diff --git a/drivers/media/platform/imx/Makefile b/drivers/media/platform/imx/Makefile
-> > new file mode 100644
-> > index 000000000000..ee272234c8d7
-> > --- /dev/null
-> > +++ b/drivers/media/platform/imx/Makefile
-> > @@ -0,0 +1 @@
-> > +obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx7-mipi-csis.o
-> > diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/media/platform/imx/imx7-mipi-csis.c
-> > similarity index 100%
-> > rename from drivers/staging/media/imx/imx7-mipi-csis.c
-> > rename to drivers/media/platform/imx/imx7-mipi-csis.c
-> > diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-> > index 19c2fc54d424..d82be898145b 100644
-> > --- a/drivers/staging/media/imx/Makefile
-> > +++ b/drivers/staging/media/imx/Makefile
-> > @@ -15,5 +15,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
-> >  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
-> >
-> >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
-> > -obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
-> >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
-> > --
-> > 2.35.0
-> >
+ .../media/v4l/pixfmt-yuv-luma.rst             |  14 +-
+ drivers/media/i2c/ov7251.c                    | 565 ++++++++++++------
+ drivers/media/pci/intel/ipu3/cio2-bridge.c    |   2 +
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |   7 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/uapi/linux/videodev2.h                |   3 +-
+ 6 files changed, 412 insertions(+), 180 deletions(-)
+
+-- 
+2.25.1
+
