@@ -2,63 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE7D84C3F93
-	for <lists+linux-media@lfdr.de>; Fri, 25 Feb 2022 08:53:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3192E4C3FF0
+	for <lists+linux-media@lfdr.de>; Fri, 25 Feb 2022 09:19:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238307AbiBYHyS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Feb 2022 02:54:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41154 "EHLO
+        id S236208AbiBYIUF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Feb 2022 03:20:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238305AbiBYHyQ (ORCPT
+        with ESMTP id S232624AbiBYIUE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Feb 2022 02:54:16 -0500
-X-Greylist: delayed 333 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 24 Feb 2022 23:53:42 PST
-Received: from mail.powerangels.com.pl (mail.powerangels.com.pl [45.86.209.159])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7AB917BC61
-        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 23:53:42 -0800 (PST)
-Received: by mail.powerangels.com.pl (Postfix, from userid 1001)
-        id 836108340D; Fri, 25 Feb 2022 02:45:30 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=powerangels.com.pl;
-        s=mail; t=1645775289;
-        bh=07NAgW1e0WiNB9zqagiM2BnwZfWBCpNa2E4+ccxBPgw=;
-        h=Date:From:To:Subject:From;
-        b=gKi8jp/LnHBLopVFrBfG/WEAen7N3KD9B7UUgwLMY7/BI1rIRUlHEFyKTDh1aXfkk
-         7y7bvpjkzmApZ+mkB9MAoLQlL7DyQYWkQleg2YUQMj8FT/pJM5mL3RH+SpdO0lAU2r
-         tzxtUBehm2fAugm8vsrTw9YXYHeXxCTdtk9/6yBAKqxCcULVR7nlqstJZUYwjA72W5
-         ZHxN1UfPN+ne3xJ80DDQlJ4UMmO8Rly/dlXyPAotIfJuHAGMtNbtHI+dBGUN6KCtAp
-         c7z7kza/mckIx5Bi7gJ46rsBWSJ/guV83ITpGaoY6LgRpJxcc6wp/RxwWt6pw3PXQ2
-         W3LSY68N5ixCg==
-Received: by mail.powerangels.com.pl for <linux-media@vger.kernel.org>; Fri, 25 Feb 2022 07:45:21 GMT
-Message-ID: <20220225024500-0.1.j.20gf.0.ablhrjxknm@powerangels.com.pl>
-Date:   Fri, 25 Feb 2022 07:45:21 GMT
-From:   "Jakub Daroch" <jakub.daroch@powerangels.com.pl>
-To:     <linux-media@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.powerangels.com.pl
+        Fri, 25 Feb 2022 03:20:04 -0500
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 302FC198EC0
+        for <linux-media@vger.kernel.org>; Fri, 25 Feb 2022 00:19:33 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 1FF1B20061;
+        Fri, 25 Feb 2022 10:19:30 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1645777170;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=JjBhcbyW1VUGedRGDzEyAptl5vf+kaXlPa/v4IMVI8k=;
+        b=S19+rahOItBOcRJ4qw2aRDNVT3kbGfl2XPn1ybq1MIFRivRV8y7Ad81ZQF9htPGE1oYTIJ
+        XCeS0YxpaY9VKfuZd65/lU5hUeTYtxdBFn9r454e0OexEakkgPxGHq95olJQ2TPByBWQGA
+        zRgqUKKs7q+YCXYLDzdic+6Yw0vAV3s=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7A0F4634C90;
+        Fri, 25 Feb 2022 10:19:29 +0200 (EET)
+Date:   Fri, 25 Feb 2022 10:19:29 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
+        kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
+        robh@kernel.org, tomi.valkeinen@ideasonboard.com,
+        bcm-kernel-feedback-list@broadcom.com, stefan.wahren@i2se.com
+Subject: Re: [PATCH v5 03/11] dt-bindings: media: Add bindings for
+ bcm2835-unicam
+Message-ID: <YhiREVljkqYKTdrF@valkosipuli.retiisi.eu>
+References: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
+ <20220208155027.891055-4-jeanmichel.hautbois@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_05,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220208155027.891055-4-jeanmichel.hautbois@ideasonboard.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1645777170; a=rsa-sha256; cv=none;
+        b=NmTTZslHDmyni2x+5PC0/9zd2mxGS7h2RmTlZiXvmJZKk/rYHwCw7Saor2G9kOcNx0Wrfu
+        zHXoTSNes5ZvIWbHzSANsu0E5f18l+saTDBglA50iBNwCV+252Eiet6gIvEuVjjO9BZEdt
+        kXERqQZXP9rukZQSrQ8+3iAu1vInS3M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1645777170;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=JjBhcbyW1VUGedRGDzEyAptl5vf+kaXlPa/v4IMVI8k=;
+        b=hr4Q7g+MqMK8qaM7o3FnqmfQVZwPQNxjIa/XFMJrmdkcEw1fRod7f76XB2DDE6G2zAvM8m
+        ujNqOaPco9fG4eG9wJxb5tzfTqdgl5sYeYZv+E0ThjVxKeRwV4sFtI2COtIGFS+4029pvZ
+        gGNnFE+gsFiVDFgFBQHkZlYA3zAPoD8=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi Jean-Michel,
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+On Tue, Feb 08, 2022 at 04:50:19PM +0100, Jean-Michel Hautbois wrote:
+> Introduce the dt-bindings documentation for bcm2835 CCP2/CSI2 Unicam
+> camera interface.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> ---
+> v4:
+> - make MAINTAINERS its own patch
+> - describe the reg and clocks correctly
+> - use a vendor entry for the number of data lanes
+> ---
+>  .../bindings/media/brcm,bcm2835-unicam.yaml   | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> new file mode 100644
+> index 000000000000..1938ace23b3d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> @@ -0,0 +1,117 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Broadcom BCM283x Camera Interface (Unicam)
+> +
+> +maintainers:
+> +  - Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> +
+> +description: |-
+> +  The Unicam block on BCM283x SoCs is the receiver for either
+> +  CSI-2 or CCP2 data from image sensors or similar devices.
+> +
+> +  The main platform using this SoC is the Raspberry Pi family of boards.  On
+> +  the Pi the VideoCore firmware can also control this hardware block, and
+> +  driving it from two different processors will cause issues.  To avoid this,
+> +  the firmware checks the device tree configuration during boot. If it finds
+> +  device tree nodes whose name starts with 'csi' then it will stop the firmware
+> +  accessing the block, and it can then safely be used via the device tree
+> +  binding.
+> +
+> +properties:
+> +  compatible:
+> +    const: brcm,bcm2835-unicam
+> +
+> +  reg:
+> +    items:
+> +      - description: Unicam block.
+> +      - description: Clock Manager Image (CMI) block.
+> +
+> +  reg-names:
+> +    items:
+> +      - const: unicam
+> +      - const: cmi
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Clock to drive the LP state machine of Unicam.
+> +      - description: Clock for the VPU (core clock).
+> +
+> +  clock-names:
+> +    items:
+> +      - const: lp
+> +      - const: vpu
+> +
+> +  power-domains:
+> +    items:
+> +      - description: Unicam power domain
+> +
+> +  brcm,num-data-lanes:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [ 2, 4 ]
+> +    description: |
+> +      Number of CSI-2 data lanes supported by this Unicam instance. The number
+> +      of data lanes actively used is specified with the data-lanes endpoint
+> +      property.
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes: true
+> +
+> +        required:
+> +          - data-lanes
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+As you support both CSI-2 D-PHY and CCP, you'll need bus-type (or make
+CSI-2 default), and optionally strobe property with CCP.
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - brcm,num-data-lanes
+> +  - port
+> +
+> +additionalProperties: False
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/bcm2835.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/raspberrypi-power.h>
+> +    csi1: csi@7e801000 {
+> +        compatible = "brcm,bcm2835-unicam";
+> +        reg = <0x7e801000 0x800>,
+> +              <0x7e802004 0x4>;
+> +        reg-names = "unicam", "cmi";
+> +        interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&clocks BCM2835_CLOCK_CAM1>,
+> +                 <&firmware_clocks 4>;
+> +        clock-names = "lp", "vpu";
+> +        power-domains = <&power RPI_POWER_DOMAIN_UNICAM1>;
+> +        brcm,num-data-lanes = <2>;
+> +        port {
+> +                csi1_ep: endpoint {
+> +                        remote-endpoint = <&imx219_0>;
+> +                        data-lanes = <1 2>;
+> +                };
+> +        };
+> +    };
+> +...
 
+-- 
+Kind regards,
 
-Pozdrawiam,
-Jakub Daroch
+Sakari Ailus
