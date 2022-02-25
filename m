@@ -2,101 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3D4A4C3A25
-	for <lists+linux-media@lfdr.de>; Fri, 25 Feb 2022 01:08:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88D114C3E33
+	for <lists+linux-media@lfdr.de>; Fri, 25 Feb 2022 07:07:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235439AbiBYAI5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Feb 2022 19:08:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34308 "EHLO
+        id S237643AbiBYGHp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Feb 2022 01:07:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235259AbiBYAI4 (ORCPT
+        with ESMTP id S237633AbiBYGHo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Feb 2022 19:08:56 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9656145AE1
-        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 16:08:25 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id s13so2030322wrb.6
-        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 16:08:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=pxe1bGBQvU+qHoK6BXAjb1tBsY6UWhftXYepdsiUR7M=;
-        b=ENc+/RqLKdmTS5Rd2fFK81WNTpH8PXmV2preCG7wmyREI8mVUkNh1eNWW+CwJVYgFI
-         eWGLFUm4lJvdS/HTQv5shWK/v8psssGeA2oIejudN2R3daGTihu5GCpH127jKNPvs1MN
-         Z4T+LLkjhew2oE1zHgJjNoh/7kfdoJOeTZbozSQR3FpH1Qun2yNW9CGzgnCPPNQfO42W
-         fp4co4HYwxD3g47ZnQgwLV+GVMsomKoxV6rHHYmXsWn/9ErBlTxKic8UAVjpsYEDxfM+
-         kY3enZGPYWWBYJVs8sHvnNkzwQiHDCUP3gAj1j7Z4tusMhpmp1AzBYwvEHU+n0W4Ywjg
-         V+Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pxe1bGBQvU+qHoK6BXAjb1tBsY6UWhftXYepdsiUR7M=;
-        b=NRmFgPTbpgg0EwqdntZWTOsFXNwd71bZ3MBn4XH5c/J5rDcxAmwP39skT8mREHBpWm
-         Z9ha2a1EDBkCaYh6/+DgVEU8gfA3dxYTLWWaNFicCQKXcLh4umC6nxdEFlc+H6wS+eM8
-         JJhZwf58NFVJj3DQ71s0WlweQwSqg2LF0JzkPrndnuNeSzJuSP7LnaqEHZMaGGupU7Vh
-         c8/RreovV73Cj4edJ1kJR3xRhf+7sMk9BXs30dblpcD63QKghK4hkte9cqYyQLF99I2J
-         325LKRea7TH4f6A0lQRNLRTU8I7pJKgQI803Q+qS+EPxjjoJkmHTS62qPsswmR2Wvf9R
-         CTjQ==
-X-Gm-Message-State: AOAM5335jTtGXYslcOafmwwPdFwon+wRASqO9CNkxzmphFyc3E8frvw+
-        Rl5Vl5hDDb4mtPW10Pbu4iH0oSz7kRvU/w==
-X-Google-Smtp-Source: ABdhPJw69F5EJha/sQEbUZj8thdpm6PhEJi2GG9uq4v6XlqSE1BGE3G9BVEfcH6pvckbjToTDW1SGg==
-X-Received: by 2002:a5d:6f1a:0:b0:1ef:6254:bca3 with SMTP id ay26-20020a5d6f1a000000b001ef6254bca3mr314631wrb.119.1645747704478;
-        Thu, 24 Feb 2022 16:08:24 -0800 (PST)
-Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id a3-20020adfe5c3000000b001e68a5e1c20sm742668wrn.4.2022.02.24.16.08.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 16:08:24 -0800 (PST)
-From:   Daniel Scally <djrscally@gmail.com>
+        Fri, 25 Feb 2022 01:07:44 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D8D97C796
+        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 22:07:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9333A61A02
+        for <linux-media@vger.kernel.org>; Fri, 25 Feb 2022 06:07:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9FC3C340E7
+        for <linux-media@vger.kernel.org>; Fri, 25 Feb 2022 06:07:10 +0000 (UTC)
+Date:   Fri, 25 Feb 2022 07:07:08 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH v2 11/11] media: ipu3-cio2: Add INT347E to cio2-bridge
-Date:   Fri, 25 Feb 2022 00:07:53 +0000
-Message-Id: <20220225000753.511996-12-djrscally@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220225000753.511996-1-djrscally@gmail.com>
-References: <20220225000753.511996-1-djrscally@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220225060710.A9FC3C340E7@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The OVTI7251 sensor can be found on x86 laptops with an IPU3, and so
-needs to be supported by the cio2-bridge. Add it to the table of
-supported sensors.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Daniel Scally <djrscally@gmail.com>
----
-Changes in v2:
+Results of the daily build of media_tree:
 
-	- Switched to 319.2MHz link frequency
+date:			Fri Feb 25 05:00:13 CET 2022
+media-tree git hash:	2881ca629984b949ec9ac2e8ba1e64a2f0b66e8b
+media_build git hash:	d5d4c1ff328b8464bd0f55aea299ab5f2a7856ec
+v4l-utils git hash:	40a51ea5538182d7c3856ece1c75c7ebca967a84
+edid-decode git hash:	2e51bef7a835028251aa8ae5f2c31a7a9758ac63
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5a84266d391eb878f83b081540507f76650111aa
+host hardware:		x86_64
+host os:		5.15.0-3-amd64
 
- drivers/media/pci/intel/ipu3/cio2-bridge.c | 2 ++
- 1 file changed, 2 insertions(+)
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16.1-i686: OK
+linux-5.16.1-x86_64: OK
+linux-5.17-rc1-i686: OK
+linux-5.17-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: Warnings: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 1
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-index 6bcec05ee5a8..74a971ea05cc 100644
---- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
-+++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-@@ -25,6 +25,8 @@ static const struct cio2_sensor_config cio2_supported_sensors[] = {
- 	CIO2_SENSOR_CONFIG("INT33BE", 1, 419200000),
- 	/* Omnivision OV8865 */
- 	CIO2_SENSOR_CONFIG("INT347A", 1, 360000000),
-+	/* Omnivision OV7251 */
-+	CIO2_SENSOR_CONFIG("INT347E", 1, 319200000),
- 	/* Omnivision OV2680 */
- 	CIO2_SENSOR_CONFIG("OVTI2680", 0),
- };
--- 
-2.25.1
+Detailed results are available here:
 
+https://hverkuil.home.xs4all.nl/logs/Friday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
