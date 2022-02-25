@@ -2,187 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B20A04C4BAD
-	for <lists+linux-media@lfdr.de>; Fri, 25 Feb 2022 18:11:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C868E4C4CB5
+	for <lists+linux-media@lfdr.de>; Fri, 25 Feb 2022 18:41:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243502AbiBYRKz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Feb 2022 12:10:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48354 "EHLO
+        id S243925AbiBYRl4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Feb 2022 12:41:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243494AbiBYRKx (ORCPT
+        with ESMTP id S229674AbiBYRlz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Feb 2022 12:10:53 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09E7E186B95
-        for <linux-media@vger.kernel.org>; Fri, 25 Feb 2022 09:10:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645809021; x=1677345021;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Qev9WmLcdiIlGGeQB0m/lwOoKMONKMVTc52qH4VVmT4=;
-  b=AjMwaWyHfEniyWYgbeXFPBg9zBlS9lHKT7DTBX4ufsAW4vCCfVJ3gy62
-   aWkj6LQtMTWLDMAOMPR1KzppTNfZ2Fu5zExxb9BuE8O/26VPPDHedoRkv
-   lAreR+v/yF1f1jXH7PmWlshBSN7VfXCSW6AVFrP7jH16Bu7BF5klEvJi3
-   TvMdFh/uEugaE7LQEO6a5yd/VTbh2HbWbCbP4bOe3a2P4JR1oADHAC8YF
-   SFShnHDYBqIxQy4UqiP3PKk4A22Wq27iatLZLa0Hfu5vZSrhJGuQ2bp+S
-   NNFEFUkOqyHhX01L9Dc0XiZQ/xwdhC6sDCW/xyP/IjgMMlep/NnQqY35c
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="232509022"
-X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; 
-   d="scan'208";a="232509022"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2022 09:10:20 -0800
-X-IronPort-AV: E=Sophos;i="5.90,136,1643702400"; 
-   d="scan'208";a="506751292"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2022 09:10:17 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nNe5v-008H3v-Gx;
-        Fri, 25 Feb 2022 19:09:27 +0200
-Date:   Fri, 25 Feb 2022 19:09:27 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-media@vger.kernel.org, yong.zhi@intel.com,
-        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-        tian.shu.qiu@intel.com, hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH v2 07/11] media: i2c: Add support for new frequencies to
- ov7251
-Message-ID: <YhkNR7BhRAG2MjNm@smile.fi.intel.com>
-References: <20220225000753.511996-1-djrscally@gmail.com>
- <20220225000753.511996-8-djrscally@gmail.com>
+        Fri, 25 Feb 2022 12:41:55 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D6001EBA98;
+        Fri, 25 Feb 2022 09:41:23 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: usama.anjum)
+        with ESMTPSA id B90521F46598
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1645810882;
+        bh=g0A6Uimeahydl9ph1AOCmp+Nlt9LsBikz3PaHAbqQik=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=XSq27hNWEmg+dff4RWcqF8uRjKG41+rebGEt6dY+bVLIfhgB+/s8dF0ew02+wVCdk
+         ImnWiIpzlCJ2dwbhkJdxIVhdOijT52QuSb0hQJi8SKJ5CN+WUN453G3UGp+tGrPfyp
+         KKJbcfr6e/bm5/DN4G7Y2UhloQAFDkuHGRT9+N7HQL1EdvBvfXIB5nz2WcC57NZG1r
+         eIRkDZpyCmBVQeSR1lRZff/YAu8P35X3CZAa7P4t1TW91vN0F6512w52raITKS7uoY
+         0Iz3cf7kzwuuAfx4xe2DOoYXIfQ3mge13nLFrPSsrc+/boy69ArNkgOCz1V7iMWFmF
+         O5BFwY9hygLXg==
+Message-ID: <98ef3e84-e17e-d1b9-5109-ec631d77905e@collabora.com>
+Date:   Fri, 25 Feb 2022 22:41:14 +0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220225000753.511996-8-djrscally@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Cc:     usama.anjum@collabora.com, kernel@collabora.com,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH V2] media: imx: imx8mq-mipi_csi2: Remove unneeded code
+Content-Language: en-US
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        "open list:MEDIA DRIVERS FOR FREESCALE IMX" 
+        <linux-media@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>, mkl@pengutronix.de,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20220128170722.1624767-1-usama.anjum@collabora.com>
+ <cb4db484-c4e6-9cf9-baa5-0be454947ed5@collabora.com>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <cb4db484-c4e6-9cf9-baa5-0be454947ed5@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 25, 2022 at 12:07:49AM +0000, Daniel Scally wrote:
-> The OV7251 sensor is used as the IR camera sensor on the Microsoft
-> Surface line of tablets; this provides a 19.2MHz external clock, and
-> the Windows driver for this sensor configures a 319.2MHz link freq to
-> the CSI-2 receiver. Add the ability to support those rate to the
-> driver by defining a new set of PLL configs.
+From:
+https://patchwork.linuxtv.org/project/linux-media/patch/20220128170722.1624767-1-usama.anjum@collabora.com/
 
-> +static const struct ov7251_pll1_cfg ov7251_pll1_cfg_19_2_mhz_240_mhz = {
-> +	.pre_div = 0x03,
-> +	.mult = 0x4b,
-> +	.div = 0x01,
-> +	.pix_div = 0x0a,
-> +	.mipi_div = 0x05
+State	Under Review
+Delegated to:	Hans Verkuil
 
-+ Comma.
-
-> +};
-> +
-> +static const struct ov7251_pll1_cfg ov7251_pll1_cfg_19_2_mhz_319_2_mhz = {
-> +	.pre_div = 0x01,
-> +	.mult = 0x85,
-> +	.div = 0x04,
-> +	.pix_div = 0x0a,
-> +	.mipi_div = 0x05
-
-Ditto.
-
-> +};
-
-...
-
-> +static const struct ov7251_pll1_cfg ov7251_pll1_cfg_24_mhz_319_2_mhz = {
-> +	.pre_div = 0x05,
-> +	.mult = 0x85,
-> +	.div = 0x02,
-> +	.pix_div = 0x0a,
-> +	.mipi_div = 0x05
-
-Ditto.
-
-> +};
-> +
-> +static const struct ov7251_pll2_cfg ov7251_pll2_cfg_19_2_mhz = {
-> +	.pre_div = 0x04,
-> +	.mult = 0x32,
-> +	.div = 0x00,
-> +	.sys_div = 0x05,
-> +	.adc_div = 0x04
-
-Ditto.
-
-> +};
-
-...
-
-> +static const struct ov7251_pll_cfgs ov7251_pll_cfgs_19_2_mhz = {
-> +	.pll2 = &ov7251_pll2_cfg_19_2_mhz,
-> +	.pll1 = {
-> +		[OV7251_LINK_FREQ_240_MHZ] = &ov7251_pll1_cfg_19_2_mhz_240_mhz,
-> +		[OV7251_LINK_FREQ_319_2_MHZ] = &ov7251_pll1_cfg_19_2_mhz_319_2_mhz,
-> +	}
-
-Ditto.
-
-> +};
-
-...
-
->  	/* get system clock (xclk) */
-> -	ov7251->xclk = devm_clk_get(dev, "xclk");
-> +	ov7251->xclk = devm_clk_get(dev, NULL);
-
-Why a clock doesn't have a name anymore?
-Shouldn't you rather switch to _optional()?
-
->  	if (IS_ERR(ov7251->xclk)) {
->  		dev_err(dev, "could not get xclk");
->  		return PTR_ERR(ov7251->xclk);
-
-This should be dev_err_probe().
-
->  	}
-
-...
-
-> +	/*
-> +	 * We could have either a 24MHz or 19.2MHz clock rate from either dt or
-
-DT
-
-> +	 * ACPI. We also need to support the IPU3 case which will have both an
-> +	 * external clock AND a clock-frequency property.
-
-Why is that? Broken table?
-
-> +	 */
->  	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
-> -				       &ov7251->xclk_freq);
-> -	if (ret) {
-> -		dev_err(dev, "could not get xclk frequency\n");
-> -		return ret;
-> +				       &rate);
-> +	if (!ret && ov7251->xclk) {
-> +		ret = clk_set_rate(ov7251->xclk, rate);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					     "failed to set clock rate\n");
-> +	} else if (ret && !ov7251->xclk) {
-
-Redundant 'else' if you test for error condition first.
-
-> +		return dev_err_probe(dev, ret, "invalid clock config\n");
->  	}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+On 2/18/22 4:08 PM, Muhammad Usama Anjum wrote:
+> Reminder.
+> 
+> On 1/28/22 10:07 PM, Muhammad Usama Anjum wrote:
+>> ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
+>> return error. Remove the return variable. Simplify other functions which
+>> are using this function.
+>>
+>> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+>> ---
+>> Changes in V2:
+>> Removed fixes tag
+>> ---
+>>  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 16 ++++------------
+>>  1 file changed, 4 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+>> index 3b9fa75efac6b..c992b845e63d1 100644
+>> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+>> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+>> @@ -693,11 +693,10 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
+>>   * Suspend/resume
+>>   */
+>>  
+>> -static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
+>> +static void imx8mq_mipi_csi_pm_suspend(struct device *dev)
+>>  {
+>>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>>  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+>> -	int ret = 0;
+>>  
+>>  	mutex_lock(&state->lock);
+>>  
+>> @@ -708,8 +707,6 @@ static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
+>>  	}
+>>  
+>>  	mutex_unlock(&state->lock);
+>> -
+>> -	return ret ? -EAGAIN : 0;
+>>  }
+>>  
+>>  static int imx8mq_mipi_csi_pm_resume(struct device *dev)
+>> @@ -742,15 +739,12 @@ static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
+>>  {
+>>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>>  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+>> -	int ret;
+>>  
+>> -	ret = imx8mq_mipi_csi_pm_suspend(dev);
+>> -	if (ret)
+>> -		return ret;
+>> +	imx8mq_mipi_csi_pm_suspend(dev);
+>>  
+>>  	state->state |= ST_SUSPENDED;
+>>  
+>> -	return ret;
+>> +	return 0;
+>>  }
+>>  
+>>  static int __maybe_unused imx8mq_mipi_csi_resume(struct device *dev)
+>> @@ -770,9 +764,7 @@ static int __maybe_unused imx8mq_mipi_csi_runtime_suspend(struct device *dev)
+>>  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+>>  	int ret;
+>>  
+>> -	ret = imx8mq_mipi_csi_pm_suspend(dev);
+>> -	if (ret)
+>> -		return ret;
+>> +	imx8mq_mipi_csi_pm_suspend(dev);
+>>  
+>>  	ret = icc_set_bw(state->icc_path, 0, 0);
+>>  	if (ret)
