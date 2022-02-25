@@ -2,279 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A84984C45D1
-	for <lists+linux-media@lfdr.de>; Fri, 25 Feb 2022 14:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97CFD4C49C9
+	for <lists+linux-media@lfdr.de>; Fri, 25 Feb 2022 16:57:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241082AbiBYNSz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Feb 2022 08:18:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50946 "EHLO
+        id S242462AbiBYP5K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Feb 2022 10:57:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231594AbiBYNSx (ORCPT
+        with ESMTP id S237999AbiBYP5C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Feb 2022 08:18:53 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CE761CF0A6;
-        Fri, 25 Feb 2022 05:18:16 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 922BC1B0004B;
-        Fri, 25 Feb 2022 15:18:11 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1645795091;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gQL3lJTAk3YtI0VvJzj1nN5q4+4iHZhkRQtY8Rg5EXQ=;
-        b=j67P1uJCWcjbrCk9L6TAP4pZoda8RtJ9zxg4X1y9UtD4YQW88Ikp9P/mBfQwcjLJUN7V8A
-        o3GXXh5G9Qoc6IcvEnPRwOP75j5Ba30vLs3qc5YctMuvTKzgKrKggRob3Wg2QIqpbOVs6D
-        hO6I+KrwRhzD376gPUmnqr9cvBmkxM+j+89XDyKOHbzFzeXZEmgrZ1iKQY8i0aEkG005CD
-        Z1Ol0a8Z/rUbKJQ11pkoIlpp+tsdOJpPSJ84CDq+LEbpEZRlZS7ipIE3OlkvlYCHvlBX8D
-        LYTgL7ypMKFG/jjF8lkxyqeZeIV8VzsUGx/qgrrVIi1wpw+JwNM6tze/9flPrg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5BF5B634C90;
-        Fri, 25 Feb 2022 15:18:10 +0200 (EET)
-Date:   Fri, 25 Feb 2022 15:18:10 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Joe Perches <joe@perches.com>
-Subject: Re: [PATCH v7 2/2] Driver for ON Semi AR0521 camera sensor
-Message-ID: <YhjXEvtPlOv/jH4n@valkosipuli.retiisi.eu>
-References: <m3czl9eylt.fsf@t19.piap.pl>
- <m34k6leyb1.fsf@t19.piap.pl>
- <20220109153439.bfnfigocaeeeghmp@uno.localdomain>
- <m35yp387n4.fsf@t19.piap.pl>
+        Fri, 25 Feb 2022 10:57:02 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A0201D8A82;
+        Fri, 25 Feb 2022 07:56:30 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id z15so5031417pfe.7;
+        Fri, 25 Feb 2022 07:56:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f+8G7tfQjV4ABkTw2q7bkb0w4qL2HQLeYpElCFm5+0A=;
+        b=VCZCpTm8gU7mIFzNDCQAeyjVWNwhmu1TRcK5A69m8/XMTsoIWllTmkIupPLKk5z2+l
+         uVvCna5KOSqGga2gVYdk/N7NnwPg8voVsGltJ6wo7DRp0w8Vmfyi05mVDiIHVEqAQ4U8
+         TMUJUZAM907TANUSba0fmcdyC7zBOGZ47wmMs702JQDToRIv+uKjO+RZFthTuWaUMZum
+         HilTGn3V760r0bJaqVpZ25uVKEZdYTstTyu2JyaKs+Vd3eHj6w+CDockKOg14xBvWrBC
+         9FFkvCZz9hvsz3NNg0+pFmGlfiAokYd6qL7AUIpWy3hNm6wtW8TndKaNpH5Vi827m6Qb
+         08/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f+8G7tfQjV4ABkTw2q7bkb0w4qL2HQLeYpElCFm5+0A=;
+        b=2AjJgzgVkhF1OpI93d9RWfTv88NPnP2LJD4uVq2dyFkl8Ashj3Lc8j5A2ffI4xj/ia
+         0P4CxESNW4QBqFJTDYWx+OgDU+Cjb6WyfFA+be1R6/Ry5PLZoBhQQm0CsthXd2iY1nUE
+         wCm1m6QMVa2a0ly8Et/aUlgQpNXI0fOqXJWFMCec3VZipVMyFmlnIrD0sNxQpknx2GL5
+         8ZsTcNYs2NegaNPfMFAH0B5dSi5QREOx6vAY7eVzLhOH8ms7w6na7aHbUXdturc9YStv
+         BL8Wh5HxsjmeFnX45eL/bNEHrxln7EbEk0hqT11gxIgVMTAT5b+KGPpZEl+XaZpLXNHw
+         Fexw==
+X-Gm-Message-State: AOAM532uydTFjZXP0RaPHWFzXz0v/ohC/LHChub+XaWjniWS1UoInWhp
+        M72JT/6SyFLivbXYIQKMGgJ0cdZ1NFImtY1O
+X-Google-Smtp-Source: ABdhPJyKZMHrRt1ODKefYe6udSponfLE0sQv56Y0NLeGtURzbrTz0pYERo9eU71Qk3xSTEv8v+8+Ng==
+X-Received: by 2002:a63:c22:0:b0:373:3d5b:ee98 with SMTP id b34-20020a630c22000000b003733d5bee98mr6515812pgl.252.1645804589451;
+        Fri, 25 Feb 2022 07:56:29 -0800 (PST)
+Received: from localhost.localdomain ([2402:4000:2281:554f:f1f7:ced3:4a51:c107])
+        by smtp.gmail.com with ESMTPSA id m6-20020a056a00080600b004e1bb196743sm4150254pfk.5.2022.02.25.07.56.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Feb 2022 07:56:29 -0800 (PST)
+From:   Husni Faiz <ahamedhusni73@gmail.com>
+To:     mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     Husni Faiz <ahamedhusni73@gmail.com>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: av7110: av7110_av: Fix Switch and Case Same Indent Style Error
+Date:   Fri, 25 Feb 2022 21:26:22 +0530
+Message-Id: <20220225155622.585621-1-ahamedhusni73@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <m35yp387n4.fsf@t19.piap.pl>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1645795091; a=rsa-sha256;
-        cv=none;
-        b=vjgP/AeYybEzuLQZdgwt7d4o9rjt+v1wTpFtVx9aWhdA2dfouLcEOoN7M2S8jzJbtwC2Oq
-        DxccSFwAitVYYt9DXycjN/J6P81ClwgiB7d1aIgP1xUrISOhtEofj6k1KP6Dgb9cz3MAcL
-        kNc8ujE9mENGqPC+pZ9HyDXu3I5o33yznQEhdNO82lFVc1tSuJpLnWJoDkZ5rfjCR301p/
-        yXNmN0Z9fAeqV4V1Sa1g+692gx+lkdJKsy2MsHk1FGCO7P8rfjULTjbY6aMAgPqmWoz/RW
-        ThdLlY/duHH9z/bYCvl8ah0MunC6vvpe5UAEpv/MRYZA27V/ZWZ/m5Kv11IP4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1645795091;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gQL3lJTAk3YtI0VvJzj1nN5q4+4iHZhkRQtY8Rg5EXQ=;
-        b=Bbpv6y82yujcWT3KMtsp8/Z3s9Lg4FGLJwzQg//WP4hiRQObln/kbafLVg+DJV0rMmpGwe
-        9MwWIQusavjqlzENTb8y5vFqXdMPa5246iPLf1r+aPJHuvZrvX5khI1+nuRGFZt0KjlBBp
-        YKBJ1SGOoWKV4V49urItF+b+HwBfA/82RAb8wMNUuslSdkq0dkQN0QkixUxGX65KprkilY
-        VMjs20nGJyd5FrDsKGeupm7W9Bykg+YP5/m+Ih+kTLdIFqsUSlZdriLRLd8F4MGi0TmXOc
-        CjdwuN8hSnmz4ZU4SrQEo3vL88Hi/1KLFmKa5Rk/F/C30Pp4EKPDWIaSBBe1LA==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krysztof,
+This patch fixes "switch and case should be at the same indent"
+checkpatch error.
 
-On Fri, Feb 25, 2022 at 01:15:11PM +0100, Krzysztof Hałasa wrote:
-> Hi Jacopo,
-> 
-> Sorry it took that long. Unfortunately I no longer have much time to
-> work on this, thus the delays.
-> 
-> Jacopo Mondi <jacopo@jmondi.org> writes:
-> 
-> >> +static int ar0521_s_ctrl(struct v4l2_ctrl *ctrl)
-> >> +{
-> >> +	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
-> >> +	struct ar0521_dev *sensor = to_ar0521_dev(sd);
-> >> +	int ret;
-> >> +
-> >> +	/* v4l2_ctrl_lock() locks our own mutex */
-> >> +
-> >> +	dev_dbg(&sensor->i2c_client->dev, "%s(0x%X)\n", __func__, ctrl->id);
-> >> +
-> >> +	switch (ctrl->id) {
-> >> +	case V4L2_CID_HBLANK:
-> >> +	case V4L2_CID_VBLANK:
-> >> +		sensor->total_width = sensor->fmt.width +
-> >> +			sensor->ctrls.hblank->val;
-> >> +		sensor->total_height = sensor->fmt.width +
-> >> +			sensor->ctrls.vblank->val;
-> >> +		break;
-> >> +	default:
-> >> +		ret = -EINVAL;
-> >> +		break;
-> >> +	}
-> >> +
-> >> +	// access the sensor only if it's powered up
+Signed-off-by: Husni Faiz <ahamedhusni73@gmail.com>
+---
+ drivers/staging/media/av7110/av7110_av.c | 30 ++++++++++++------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-/* This is the preferred comment style */
-
-> >> +	if (!pm_runtime_get_if_in_use(&sensor->i2c_client->dev))
-> >
-> > As you correctly do not access the chip's registers if it's powered
-> > off, you have to call __v4l2_ctrl_handler_setup() at power on time to
-> > make sure controls are actually set.
-> 
-> These registers are also written in ar0521_set_stream(), isn't it
-> enough?
-> 
-> >> +	ctrls->hblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HBLANK,
-> >> +					  AR0521_WIDTH_BLANKING_MIN, 4094, 1,
-> >> +					  AR0521_WIDTH_BLANKING_MIN);
-> >> +	ctrls->vblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VBLANK,
-> >> +					  AR0521_HEIGHT_BLANKING_MIN, 4094, 2,
-> >> +					  AR0521_HEIGHT_BLANKING_MIN);
-> >> +	v4l2_ctrl_cluster(2, &ctrls->hblank);
-> >
-> > Is it intended to have vblank and hblank as cluster, can't they change
-> > independently ?
-> 
-> They can. It appears, though, that clusters aren't about controls which
-> can't change independently. Both of the two are written to the hardware
-> at the same time, which appears to be a valid reason to combine them
-> into a cluster.
-> This is similar to the gain/balance controls, and BTW the use of
-> clusters there was suggested by you.
-> 
-> Please correct me if I'm wrong.
-> 
-> >> +	/* Read-only */
-> >> +	ctrls->pixrate = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE,
-> >> +					   AR0521_PIXEL_CLOCK_MIN,
-> >> +					   AR0521_PIXEL_CLOCK_MAX, 1,
-> >> +					   AR0521_PIXEL_CLOCK_RATE);
-> >
-> > so you have to mark it as read-only
-> 
-> Oh, I'd be happy for this control to be R/W. Unfortunately the core
-> media core enforces R/O. This is only a comment about what the core code
-> does, currently at least.
-> 
-> >> +	dev_dbg(dev, "%s()\n", __func__);
-> >
-> > Rather useless, please drop. Same for all other debug functions that
-> > just print the current function name in other parts of the driver.
-> > While maybe useful when developing, they're mostly noise for users
-> > imo.
-> 
-> Fine, will drop the rest of the debug. In fact, I already dropped the
-> most useful parts (I2C register access debugging).
-> 
-> >> +	endpoint = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
-> >> +						   FWNODE_GRAPH_ENDPOINT_NEXT);
-> >
-> > The drivers supports a single endpoint right ? Then
-> > fwnode_graph_get_next_enpoint() can be used
-> 
-> Well, I originally used
-> fwnode_graph_get_next_endpoint(of_fwnode_handle(dev->of_node), NULL).
-> Sakari suggested I should use the above
-> fwnode_graph_get_endpoint_by_id().
-> It could be a good idea to agree on this. Not sure about the difference.
-
-The OF folks have shunned to the use of the iterative varants as that can
-often lead to complicated parsing of the endpoints. As obtaining the
-endpoint based on port and endpoint IDs works well in all cases I've
-suggested people to use that. But as the backend, at least currently, uses
-iterative functions, they're unlikely to disappear in the future.
-
-> 
-> >> +	for (cnt = 0; cnt < ARRAY_SIZE(ar0521_supply_names); cnt++) {
-> >> +		struct regulator *supply = devm_regulator_get(dev,
-> >> +						ar0521_supply_names[cnt]);
-> >> +
-> >> +		if (IS_ERR(supply)) {
-> >> +			dev_info(dev, "no %s regulator found: %li\n",
-> >> +				 ar0521_supply_names[cnt], PTR_ERR(supply));
-> >> +			return PTR_ERR(supply);
-> >> +		}
-> >> +		sensor->supplies[cnt] = supply;
-> >> +	}
-> >
-> > Using the regulator bulk api would simplify this.
-> > See drivers/media/i2c/ccs/ccs-core.c
-> 
-> The bulk API doesn't allow for delays between individual supplies, does it?
-> The delays are mandated by the manufacturer.
-
-If that is the case, then you can't use the bulk API.
-
-That also requires the board to be wired in such a way that these
-regulators have no other users.
-
-> 
-> >> +
-> >> +	mutex_init(&sensor->lock);
-> >> +
-> >> +	ret = ar0521_init_controls(sensor);
-> >> +	if (ret)
-> >> +		goto entity_cleanup;
-> >> +
-> >> +	ar0521_adj_fmt(&sensor->fmt);
-> >
-> > Called already here above.
-> 
-> Right, I will remove the first one.
-> 
-> >> +	ret = v4l2_async_register_subdev(&sensor->sd);
-> >> +	if (ret)
-> >> +		goto free_ctrls;
-> >> +
-> >> +	/* Turn on the device and enable runtime PM */
-> >> +	ret = ar0521_power_on(&client->dev);
-> >> +	if (ret)
-> >> +		goto disable;
-> >
-> > Does the device stay powered all the time ?
-> 
-> Depends on the hw, but the power could be disabled, yes.
-> 
-> > Doesn't your resume callback call power_on() already ?
-> 
-> It does, when the PM is enabled.
-> 
-> Should the above code be changed?
-
-I think you'll need pm_runtime_idle() call after enabling runtime PM.
-
-> 
-> >> +static struct i2c_driver ar0521_i2c_driver = {
-> >> +	.driver = {
-> >> +		.name  = "ar0521",
-> >> +		.pm = &ar0521_pm_ops,
-> >> +		.of_match_table	= ar0521_dt_ids,
-> >> +	},
-> >> +	.probe    = ar0521_probe,
-> >
-> > You could use probe_new and drop the "const struct i2c_device_id *id"
-> > argument to probe()
-> 
-> You are right again.
-> 
-> That said, I wonder if it would be better (like easier) to have this
-> driver added to the staging area instead.
-
+diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
+index 91f4866c7e59..1d42862e9669 100644
+--- a/drivers/staging/media/av7110/av7110_av.c
++++ b/drivers/staging/media/av7110/av7110_av.c
+@@ -770,22 +770,22 @@ static void p_to_t(u8 const *buf, long int length, u16 pid, u8 *counter,
+ 	if (length > 3 &&
+ 	     buf[0] == 0x00 && buf[1] == 0x00 && buf[2] == 0x01)
+ 		switch (buf[3]) {
+-			case PROG_STREAM_MAP:
+-			case PRIVATE_STREAM2:
+-			case PROG_STREAM_DIR:
+-			case ECM_STREAM     :
+-			case EMM_STREAM     :
+-			case PADDING_STREAM :
+-			case DSM_CC_STREAM  :
+-			case ISO13522_STREAM:
+-			case PRIVATE_STREAM1:
+-			case AUDIO_STREAM_S ... AUDIO_STREAM_E:
+-			case VIDEO_STREAM_S ... VIDEO_STREAM_E:
+-				pes_start = 1;
+-				break;
++		case PROG_STREAM_MAP:
++		case PRIVATE_STREAM2:
++		case PROG_STREAM_DIR:
++		case ECM_STREAM     :
++		case EMM_STREAM     :
++		case PADDING_STREAM :
++		case DSM_CC_STREAM  :
++		case ISO13522_STREAM:
++		case PRIVATE_STREAM1:
++		case AUDIO_STREAM_S ... AUDIO_STREAM_E:
++		case VIDEO_STREAM_S ... VIDEO_STREAM_E:
++			pes_start = 1;
++			break;
+ 
+-			default:
+-				break;
++		default:
++			break;
+ 		}
+ 
+ 	while (c < length) {
 -- 
-Regard,s
+2.25.1
 
-Sakari Ailus
