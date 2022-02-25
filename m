@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A5F04C3A1D
-	for <lists+linux-media@lfdr.de>; Fri, 25 Feb 2022 01:08:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDD094C3A20
+	for <lists+linux-media@lfdr.de>; Fri, 25 Feb 2022 01:08:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233433AbiBYAIv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Feb 2022 19:08:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33812 "EHLO
+        id S233831AbiBYAIx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Feb 2022 19:08:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiBYAIt (ORCPT
+        with ESMTP id S231324AbiBYAIu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Feb 2022 19:08:49 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01388145AF1
+        Thu, 24 Feb 2022 19:08:50 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3EA4145E3E
         for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 16:08:18 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id l1-20020a7bcf01000000b0037f881182a8so752717wmg.2
-        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 16:08:17 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id d3so2065399wrf.1
+        for <linux-media@vger.kernel.org>; Thu, 24 Feb 2022 16:08:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fxrx0mJQXblDfZAAktrJE72+pDq/+qz7U44eWbjfq4o=;
-        b=QxmVA6DtuSd5U5qmRxW+W6i3lQ0GuwoaZlQs6EmqL5ULDd1e0V9krowuljwdKEafgZ
-         jH9OEpIihKZlOHPVBfOsKT7bnvnL7tFVFxTpqa3hIT4wOo6fDLpfBB1Z9C7rG3QC0DuZ
-         aYrWfRXmj9oN3HXcr2WbjpK/rwS1hBe811DYGGQ4Y4o7aciN86D4pk779QqvHZ9wEDMg
-         amuaMJNJZHAMc1k/m7cahubGytZYfY+pT/gwuEdCIC/6CcS5FeXKf+3Is9tClrRSkGhU
-         o6uuvbDPnxCLkbVc3G9X7XXy/JaJ475OfLhAp32YMRRoV/v8ryIs10jPfLgqPJ7p7POa
-         pRYg==
+        bh=9Ggtdfs6xUCAEq1TnXtNlY6irAHHG7sOgSjdYFohxjU=;
+        b=LFi1WglF2fSgMQGPVRwsXCoHK6v63I8U8/Yycf6ZefWgc/KuvKuOhLBRnZ/T57P3nW
+         em4F+JS2zele004n1x1BzXizpNPbshdfWyDeaiBg8IsPjlDv9qTkCESUDovfukDOrTZ6
+         z/F660U9KtDjp0KZBKQfOF8gUUMz0X6/1n2SDOrbdHG4BUiVCVNK2GlpGeXq9xIokiIB
+         KDGz9dxnwr5kJw67tolfEmrfEJT/JjfoiqKrqHLOJ9Jfkf3XH/EASMNRCAQN7S+Q5VSV
+         HCpeW5js0nRfRB65qxxdghzc2OKdR0xSq7Bs6oXa1XNw59aM+/f3d6Si87NSUzJSLs3o
+         yY8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fxrx0mJQXblDfZAAktrJE72+pDq/+qz7U44eWbjfq4o=;
-        b=eAIaSMf/fA5Fk7qPZCRBomjfJgdCsd9PGgCTpJADC2v54DI1wkXlRCScmq+VjwTOw4
-         mE8FMumB7K4b6o2NyBPD5RuDyLHqDWeI2PcLdjd23oKLMQUyhTbNvOMUUEL6F6b+S8fM
-         oPcY9ieNvERohIl4AH2IavRtKdyxKQZ6l+Q11AzORwlUyK1G0354HR2tAL9foYp8YeXD
-         Q5FrnFrSe/gwh979PJa1TPjPaf4h+NJh0AKE/KH24kLJRzcFL9tYXUGiIEnx8gTRddIj
-         RM7lD4IVck6HQaIjthKdWyveOGaDXPPhVRwnEfHaffXX3RcNt7WVSVWPOA7Ltdezl5aR
-         gkMQ==
-X-Gm-Message-State: AOAM530QYC3y/Q0dWVbmGbgVr7sbFAMts2QGn1eAnowXuqujXFMUnzDG
-        aaLUOO7pzC9hygVI6+MiDgGerg/R9LMZAA==
-X-Google-Smtp-Source: ABdhPJxB3XyPSWP66ouyKwKdWpaXjbRZmEtQo/SZ5goXy5bgFCYMkD+ePBxNfJgAbRokKwkQxugMTg==
-X-Received: by 2002:a1c:f413:0:b0:37b:d1de:5762 with SMTP id z19-20020a1cf413000000b0037bd1de5762mr401701wma.108.1645747696643;
-        Thu, 24 Feb 2022 16:08:16 -0800 (PST)
+        bh=9Ggtdfs6xUCAEq1TnXtNlY6irAHHG7sOgSjdYFohxjU=;
+        b=cqthZ4LNmVULVKLuPdTm1vu00Q3z2CA2fx7d7kyeTKFmQ7p36AFl5AxVHaByRtOXIK
+         8KRLzfzoBr05I8IbpkRkSPmpK2VVVqgLU39aH7inGCb9gUBLLaaMJu+NFMte2Deo+Yu8
+         3PoahNQVrHE1mfegakh43Ahhc5WbNADBY0sGddE8Y/fGSGMb/K2Ah1n9EsviK81TyzrC
+         28nJZBMJzgYP0e04sHraF0SjeoORCPa1Jw+DOp2HCty3o5kfh8y18n3+GiTSvs7BAXOP
+         EL5zkF6P24Ag/yz+PWww9DhfwpriRf4+T6u0770pMc0rTvBf/ReLxuxAunqHcva3i8Zr
+         sJcg==
+X-Gm-Message-State: AOAM533CLnxIh4R3McrCpwJsEp2J0HgUz7rl/5yUXkStNOetIaZ0gpH+
+        lSMTHMNPf5wjoDtJkPWeIXHER+yGuAuwQw==
+X-Google-Smtp-Source: ABdhPJx89AvKA3uncBqDeSNDYygU0jDA4JN0ucjA649nx81qmkzdjfUXpx6z7n0zAlUzx02y+bCI3w==
+X-Received: by 2002:adf:d1c3:0:b0:1ea:911c:bf84 with SMTP id b3-20020adfd1c3000000b001ea911cbf84mr4173815wrd.355.1645747697573;
+        Thu, 24 Feb 2022 16:08:17 -0800 (PST)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id a3-20020adfe5c3000000b001e68a5e1c20sm742668wrn.4.2022.02.24.16.08.15
+        by smtp.gmail.com with ESMTPSA id a3-20020adfe5c3000000b001e68a5e1c20sm742668wrn.4.2022.02.24.16.08.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 16:08:16 -0800 (PST)
+        Thu, 24 Feb 2022 16:08:17 -0800 (PST)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     yong.zhi@intel.com, sakari.ailus@linux.intel.com,
         bingbu.cao@intel.com, tian.shu.qiu@intel.com,
         andriy.shevchenko@linux.intel.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH v2 02/11] media: ipu3-cio2: Add support for V4L2_PIX_FMT_IPU3_Y10
-Date:   Fri, 25 Feb 2022 00:07:44 +0000
-Message-Id: <20220225000753.511996-3-djrscally@gmail.com>
+Subject: [PATCH v2 03/11] media: i2c: Add acpi support to ov7251
+Date:   Fri, 25 Feb 2022 00:07:45 +0000
+Message-Id: <20220225000753.511996-4-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220225000753.511996-1-djrscally@gmail.com>
 References: <20220225000753.511996-1-djrscally@gmail.com>
@@ -71,9 +71,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We have platforms where a camera sensor transmits Y10 data to
-the CIO2 device - add support for that (packed) format to the
-ipu3-cio2 driver.
+Add support for enumeration through ACPI to the ov7251 driver
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
@@ -81,27 +79,38 @@ Changes in v2:
 
 	- None
 
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ov7251.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-index 0e9b0503b62a..ea2f9f70a64e 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-@@ -65,7 +65,12 @@ static const struct ipu3_cio2_fmt formats[] = {
- 		.fourcc		= V4L2_PIX_FMT_IPU3_SRGGB10,
- 		.mipicode	= 0x2b,
- 		.bpp		= 10,
--	},
-+	}, {
-+		.mbus_code	= MEDIA_BUS_FMT_Y10_1X10,
-+		.fourcc		= V4L2_PIX_FMT_IPU3_Y10,
-+		.mipicode	= 0x2b,
-+		.bpp		= 10,
-+	}
+diff --git a/drivers/media/i2c/ov7251.c b/drivers/media/i2c/ov7251.c
+index ebb299f207e5..d6fe574cb9e0 100644
+--- a/drivers/media/i2c/ov7251.c
++++ b/drivers/media/i2c/ov7251.c
+@@ -14,6 +14,7 @@
+ #include <linux/i2c.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+@@ -1490,9 +1491,16 @@ static const struct of_device_id ov7251_of_match[] = {
  };
+ MODULE_DEVICE_TABLE(of, ov7251_of_match);
  
- /*
++static const struct acpi_device_id ov7251_acpi_match[] = {
++	{ "INT347E" },
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, ov7251_acpi_match);
++
+ static struct i2c_driver ov7251_i2c_driver = {
+ 	.driver = {
+ 		.of_match_table = ov7251_of_match,
++		.acpi_match_table = ov7251_acpi_match,
+ 		.name  = "ov7251",
+ 	},
+ 	.probe_new  = ov7251_probe,
 -- 
 2.25.1
 
