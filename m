@@ -2,70 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 445584C5733
-	for <lists+linux-media@lfdr.de>; Sat, 26 Feb 2022 18:59:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 204C24C575B
+	for <lists+linux-media@lfdr.de>; Sat, 26 Feb 2022 19:14:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232381AbiBZR77 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Feb 2022 12:59:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55142 "EHLO
+        id S231602AbiBZSP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Feb 2022 13:15:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230391AbiBZR76 (ORCPT
+        with ESMTP id S231327AbiBZSP3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Feb 2022 12:59:58 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C049140C9;
-        Sat, 26 Feb 2022 09:59:22 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id n25-20020a05600c3b9900b00380f41e51e6so3593773wms.2;
-        Sat, 26 Feb 2022 09:59:22 -0800 (PST)
+        Sat, 26 Feb 2022 13:15:29 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF92DFA23F
+        for <linux-media@vger.kernel.org>; Sat, 26 Feb 2022 10:14:54 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id x5so11716476edd.11
+        for <linux-media@vger.kernel.org>; Sat, 26 Feb 2022 10:14:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9V9Jct16AZTz4K2DeDR/xCDxmdE9Vl1rLYHKFySR8Q8=;
-        b=OS5rKUhE7WXuiZzAYW7cwzYiV8SBfaes2cbt2tE8S+TsEw1AJJ/EtauXm86t/sGGOk
-         6Gtznw8XzXomN2E/jJX1Ab/F4luPeUHfombr9N4K93wAUclK1Q5xLFFAlq8pEUfN/85P
-         nPPov3wToi44wYltDMShEha7ixTIYA0kQadq5sw8EiEUEo5T+zhVbzoouPd8RuNibsNc
-         vjFiFWeAb1mlzc9ubE77Lg4FPwakw78ykg0kXAEL06cUaWCdknrUlqstev+v2hqB4Zvb
-         eZG3EyajjZ2e4Y+1Akl3IqfS7qbDc7pvcencVFz3EUr+Kn+9K/kb4i0buxEI2YwpKCR9
-         ZWzA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gHhV0BN7XIEwjoJSx4cFYz2utmuN4/qOahjHcvfzRYc=;
+        b=S4xOXKr8xL6bWFrx78/Hp4H/80Y8ILcD/xe8pPri+NMDE5ow2HL/I7CzTbRkOKjfz0
+         u0vCFSof0JB/bvrXF5O4NPGmnECtJRH210eL3dJBqQKpOTgTzGrwJ+l5fYlk6kHVdWFy
+         r/gaTA4jqyMZNrgIIHiWsDgyDhodcK9DagLzZdNhoM+937C5QZOj/kPM0EaTCojf66Uu
+         djcImXdaQ5d2oIOeGYlSPP/Td8hQcyWhnfFG5AFqSBl9g6Wb8XQlVhPjtUb+/SA2cvV0
+         BEugFPRW+MPh4EXZc+42HRT4CK6Pd8IOh11+5bB3UR2WbY5aUJlmesZ36TQsESXiuNMk
+         Gyew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9V9Jct16AZTz4K2DeDR/xCDxmdE9Vl1rLYHKFySR8Q8=;
-        b=cUECq/T4PFbb2QswJGm7U8b3JDcHvQW02cNiwh5tG1/qR+2TIyFueQmijiD/RCP0s+
-         aZYNow0+dslgY/N64L2Wg5Sn/oatrQCc+WZoYAGiBWxUMTuLxhHZbn7buDL4mwWYNwF6
-         5OxCB061+np1aZNZlZmpMC44x2d6pzB7VOMQnRY0QsFRxFNSw/k8/oQ1rzEVbHjRYQNT
-         nuCsPEp/+elIDmPvCYDZYsCTpQUYeDvIRl7Aan9FFLOg2y5zCH5sIORLkFvjJTc03JeY
-         id1yliYey2n1S0hg9P2OKo9H7NRLGwsvLMJQPEY8EuFqnxEz8CqyhA/WG6uxM0p47tfr
-         1wGw==
-X-Gm-Message-State: AOAM532lt6PNPIPUikOKnlcP/WVdqfEtrJZSV07IyfBqyh6+VPWD3vG4
-        lRH8m8NOA73r9zKurUaBOVw=
-X-Google-Smtp-Source: ABdhPJyTvdvsVl/KFu4YEwlfjU6HwwCb17kFxKDf8UAE6YUZfvMzy4E+dNh/VU3uZpPV3DhazFtIAw==
-X-Received: by 2002:a05:600c:4281:b0:381:40e5:6cea with SMTP id v1-20020a05600c428100b0038140e56ceamr5143482wmc.151.1645898360547;
-        Sat, 26 Feb 2022 09:59:20 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id e15-20020a5d6d0f000000b001ef7dca67fasm3741211wrq.114.2022.02.26.09.59.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Feb 2022 09:59:20 -0800 (PST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jonas@kwiboo.se, nicolas@ndufresne.ca,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: Re: [PATCH v3 09/14] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
-Date:   Sat, 26 Feb 2022 18:59:18 +0100
-Message-ID: <1884298.PYKUYFuaPT@kista>
-In-Reply-To: <4378293.LvFx2qVVIh@kista>
-References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com> <20220225164600.1044663-10-benjamin.gaignard@collabora.com> <4378293.LvFx2qVVIh@kista>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gHhV0BN7XIEwjoJSx4cFYz2utmuN4/qOahjHcvfzRYc=;
+        b=WcsvN8kwdyKUnquY5APwq/LoFfoKxzs8K0YKp00xPJPEdpfxrf99k+uKSMvLlGcgAD
+         rhED2ypL97A7pc85tpIKNlnD72ZEPL1xbWMbGuUMfZz4q4rDgpUcSWIvtLl2yIl9o1T+
+         G2Gsg0Pix9WofnW6aO8Q0ihQbfuDRp76rYVy8rxsfhexX/3APdOyMfSvr2H+oxTHvdEt
+         dOYS1p2i2gPPxfNKThy7FMjCjMI2Y9ljD55jbuMhXG36As52+nNUQhPOHQsSCNSEIIhu
+         gd4KIVPvq7mhxt241zdVQSzHwNsz6LMkMqh8j5LN8Yd5YGV3gSSrr9BxFKiOXCYEOYQ/
+         gxHg==
+X-Gm-Message-State: AOAM531oxaDsTpmvf96a3HCiBQn/MobXXwHobJ0V8z0Grc4RLhVAswtF
+        LOekHKXEJdPgDsCHk7BKh9zKcgx14tJ4+6NsOaU=
+X-Google-Smtp-Source: ABdhPJzfpfRJr7L/1+Phwb9BGMDkoUXLN+Emv2dSFKzP4M56aRam3n9NTh4GhFfEZvwGXf5q+tRC+e8rmVOKJdhFs3k=
+X-Received: by 2002:a05:6402:198:b0:410:83e3:21d7 with SMTP id
+ r24-20020a056402019800b0041083e321d7mr12455820edv.159.1645899293248; Sat, 26
+ Feb 2022 10:14:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20220225000753.511996-1-djrscally@gmail.com> <20220225000753.511996-3-djrscally@gmail.com>
+ <YhkKcRL57Qg/VWGO@smile.fi.intel.com> <25f6d78d-be76-5761-a7f6-2b07c18516ea@gmail.com>
+In-Reply-To: <25f6d78d-be76-5761-a7f6-2b07c18516ea@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 26 Feb 2022 20:14:17 +0200
+Message-ID: <CAHp75VfmvMdD1GSE62AvpjqEXx=DW1H+KuMNik+gpp2u0fkVnQ@mail.gmail.com>
+Subject: Re: [PATCH v2 02/11] media: ipu3-cio2: Add support for V4L2_PIX_FMT_IPU3_Y10
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -77,124 +72,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+On Sat, Feb 26, 2022 at 4:06 AM Daniel Scally <djrscally@gmail.com> wrote:
+>
+> Hi Andy
+>
+> On 25/02/2022 16:57, Andy Shevchenko wrote:
+> > On Fri, Feb 25, 2022 at 12:07:44AM +0000, Daniel Scally wrote:
+> >> We have platforms where a camera sensor transmits Y10 data to
+> >> the CIO2 device - add support for that (packed) format to the
+> >> ipu3-cio2 driver.
+> > ...
+> >
+> >> -    },
+> > Why?
+>
+>
+> Why have the open and close brace on the same line you mean? Its just
+> the format that the other entries use, so I copied it.
 
-Dne petek, 25. februar 2022 ob 20:30:20 CET je Jernej =C5=A0krabec napisal(=
-a):
-> Hi!
->=20
-> Dne petek, 25. februar 2022 ob 17:45:55 CET je Benjamin Gaignard napisal(=
-a):
-> > The number of 'entry point offset' could be very variable.
-> > Rather than use a large static array define a v4l2 dynamic array
-> > of integer control.
->=20
-> I suggest we should be more specific and say U32 (V4L2_CTRL_TYPE_U32).
->=20
-> > The number of entry point offsets is reported by the elems field.
+I meant why you touched that line and as a consequence removed the comma.
 
-I did few more tests and these are my findings:
-1. dynamic array can't be set over size, specified in .dims array
-2. entry point offsets are per slice, so if we make slices dynamic array, t=
-hen=20
-entry points would become two dimensional dynamic array
-3. num_entry_point_offsets must be part of slice control, because it can be=
-=20
-zero, but size of array can't be
-4. fortunately, not setting entry points doesn't impact decoding correctnes=
-s.=20
-This is in line what John told me about them.
-
-Hans, can you comment points 1-3? I might misunderstand point 1.
-
-In short, it seems like we don't really need entry points, even if they are=
-=20
-used in BSP library. In both cases, I got fluster score 119/138 (10-bit=20
-excluded), so we can just drop this patch, although I'm a bit uneasy not=20
-setting entry points...
-
-Best regards,
-Jernej
-
-> >=20
-> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > ---
-> >  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 +++++++++
-> >  include/media/hevc-ctrls.h                               | 1 +
-> >  2 files changed, 10 insertions(+)
-> >=20
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
-b/
-> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > index 44a268a948c0..71f7dc1c1ccd 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > @@ -3128,6 +3128,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-> > =20
-> >      \normalsize
-> > =20
-> > +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
->=20
-> Here you have OFFSETS (plural) ...
->=20
-> > +    Specifies the i-th entry point offset in bytes and is represented =
-by
-> > +    offset_len_minus1 plus 1 bits.
->=20
-> You probably mean entry_point_offset_minus1? offset_len_minus1 just tells=
- how=20
-> much bits need to be read for each element and it's not important for act=
-ual=20
-> decoding.
->=20
-> > +    This control is a dynamically sized array. The number of entry poi=
-nt
-> > +    offsets is reported by the ``elems`` field.
-> > +    This bitstream parameter is defined according to :ref:`hevc`.
-> > +    They are described in section 7.4.7.1 "General slice segment header
-> > +    semantics" of the specification.
-> > +
-> >  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
-> >      Specifies the HEVC scaling matrix parameters used for the scaling=
-=20
-> process
-> >      for transform coefficients.
-> > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> > index 3016c1abb1d0..3f8a67924df3 100644
-> > --- a/include/media/hevc-ctrls.h
-> > +++ b/include/media/hevc-ctrls.h
-> > @@ -20,6 +20,7 @@
-> >  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE +=20
-> 1012)
-> >  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE +=20
-> 1015)
-> >  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE +=20
-1016)
-> > +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET (V4L2_CID_CODEC_BAS=
-E +=20
-> 1017)
->=20
-> ... and here you have OFFSET (singlular). I suggest plural form to be use=
-d=20
-in=20
-> all places, including subject line of this commit.
->=20
-> Additionally, it would be nice if control is initialized, like so:
-> https://github.com/jernejsk/linux-1/commit/
-> f938e162cd8dd77c9f6f1b248d80144840a37bce
->=20
-> Best regards,
-> Jernej
->=20
-> > =20
-> >  /* enum v4l2_ctrl_type type values */
-> >  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
-> > --=20
-> > 2.32.0
-> >=20
-> >=20
->=20
->=20
->=20
+> >> +    }, {
+> >> +            .mbus_code      = MEDIA_BUS_FMT_Y10_1X10,
+> >> +            .fourcc         = V4L2_PIX_FMT_IPU3_Y10,
+> >> +            .mipicode       = 0x2b,
+> >> +            .bpp            = 10,
+> >> +    }
 
 
+
+-- 
+With Best Regards,
+Andy Shevchenko
