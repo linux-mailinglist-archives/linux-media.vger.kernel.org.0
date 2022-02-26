@@ -2,68 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45B8B4C54CB
-	for <lists+linux-media@lfdr.de>; Sat, 26 Feb 2022 10:13:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17BB74C54EE
+	for <lists+linux-media@lfdr.de>; Sat, 26 Feb 2022 10:40:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230290AbiBZJOS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Feb 2022 04:14:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49372 "EHLO
+        id S230438AbiBZJjt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Feb 2022 04:39:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbiBZJOS (ORCPT
+        with ESMTP id S230435AbiBZJjr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Feb 2022 04:14:18 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E410824448A
-        for <linux-media@vger.kernel.org>; Sat, 26 Feb 2022 01:13:43 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 47227101C95; Sat, 26 Feb 2022 09:13:42 +0000 (UTC)
-Date:   Sat, 26 Feb 2022 09:13:42 +0000
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.18] rc core fixes
-Message-ID: <YhnvRkCPUT4TScA/@gofer.mess.org>
+        Sat, 26 Feb 2022 04:39:47 -0500
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B989263726
+        for <linux-media@vger.kernel.org>; Sat, 26 Feb 2022 01:39:13 -0800 (PST)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nNtXi-000Aj2-TB; Sat, 26 Feb 2022 09:39:10 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nNtXg-008unX-Fg; Sat, 26 Feb 2022 09:39:08 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.18] rc core fixes (#81089)
+Date:   Sat, 26 Feb 2022 09:39:07 +0000
+Message-Id: <20220226093907.2124909-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <YhnvRkCPUT4TScA/@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-It would be great if the gpio-ir-tx fix could make it to v5.18, this is
-affecting users.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YhnvRkCPUT4TScA/@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/186205/
+Build time: 00:20:58
+Link: https://lore.kernel.org/linux-media/YhnvRkCPUT4TScA/@gofer.mess.org
 
-Thanks,
+gpg: Signature made Sat 26 Feb 2022 09:00:46 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: A624 251A 2608 4A9E D9E4  C8B6 425F 639D 3960 FA9E
 
-Sean
+Summary: got 1/2 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-The following changes since commit 2881ca629984b949ec9ac2e8ba1e64a2f0b66e8b:
+Error/warnings:
 
-  media: Makefiles: sort entries where it fits (2022-02-22 08:27:40 +0100)
+patches/0001-media-lirc-remove-unused-feature-LIRC_CAN_SET_REC_DU.patch:
 
-are available in the Git repository at:
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.18c
+    allyesconfig: return code #0:
+	../drivers/media/rc/meson-ir-tx.c:22: warning: expecting prototype for meson(). Prototype was for DEVICE_NAME() instead
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2888 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-for you to fetch changes up to 717c0e6d223bee3e86cf99fba32ea2e2f37cef32:
 
-  media: gpio-ir-tx: fix transmit with long spaces on Orange Pi PC (2022-02-25 11:21:24 +0000)
+Error #512 when building PDF docs
 
-----------------------------------------------------------------
-v5.18c
-
-----------------------------------------------------------------
-Sean Young (2):
-      media: lirc: remove unused feature LIRC_CAN_SET_REC_DUTY_CYCLE
-      media: gpio-ir-tx: fix transmit with long spaces on Orange Pi PC
-
- .../userspace-api/media/lirc.h.rst.exceptions      |  1 -
- drivers/media/rc/gpio-ir-tx.c                      | 28 ++++++++++++++++------
- include/uapi/linux/lirc.h                          |  1 -
- 3 files changed, 21 insertions(+), 9 deletions(-)
