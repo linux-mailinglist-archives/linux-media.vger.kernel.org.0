@@ -2,266 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 787744C5716
-	for <lists+linux-media@lfdr.de>; Sat, 26 Feb 2022 18:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 445584C5733
+	for <lists+linux-media@lfdr.de>; Sat, 26 Feb 2022 18:59:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231372AbiBZRTM convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 26 Feb 2022 12:19:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59470 "EHLO
+        id S232381AbiBZR77 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Feb 2022 12:59:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbiBZRTL (ORCPT
+        with ESMTP id S230391AbiBZR76 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Feb 2022 12:19:11 -0500
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80203195336;
-        Sat, 26 Feb 2022 09:18:34 -0800 (PST)
-Received: from [192.168.1.107] ([37.4.249.169]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MIMXC-1nTUtQ0m60-00EM7k; Sat, 26 Feb 2022 18:18:16 +0100
-Subject: Re: [PATCH v5 00/11] Add support for BCM2835 camera interface
- (unicam)
-To:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-Cc:     dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        kernel-list@raspberrypi.com, laurent.pinchart@ideasonboard.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        lukasz@jany.st, mchehab@kernel.org, naush@raspberrypi.com,
-        robh@kernel.org, tomi.valkeinen@ideasonboard.com,
-        bcm-kernel-feedback-list@broadcom.com
-References: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
- <a7a6f1fe-c2f0-f545-1da3-a7685fdb63d5@i2se.com>
- <fc3abf5b-64c7-82c6-ec9c-5c3659c55b49@ideasonboard.com>
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-Autocrypt: addr=stefan.wahren@i2se.com; keydata=
- LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
- CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
- bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
- TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
- NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
- MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
- by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
- MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
- VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
- aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
- OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
- bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
- Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
- ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
- bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
- dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
- QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
- UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
- SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
- VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
- akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
- NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
- RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
- QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
- ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
- cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
- R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
- aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
- NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
- SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
- TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
- TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
- NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
- YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
- SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
- KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
- ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
- VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
- SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
- d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
- UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
- c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
- a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
- anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
- WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
- Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
- QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
- Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
- K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
- aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
- dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
- TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
- SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
- U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
- VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
- OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
- Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
- eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
- MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
- SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
- Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
- WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
- Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
- OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
- TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
- eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
- WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
- cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
- QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
- Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
- RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
- SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
- cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
- dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
- RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
- SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
- WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
- VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
- am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
- OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
- L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
- aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
- cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
- WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
- MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
- RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
- RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
- TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
- SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
- M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
- VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
- MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
- bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
- NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
- ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
- Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
- eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
- QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
- TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
- dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
- S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
- VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
- QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
- ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
- UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
- SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
- UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
- N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
- dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
- MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
- d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
- WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
- MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
- MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
- TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
- NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
- MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
- RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
- VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
- WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
- ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
- SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
- MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
- M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
- dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
- CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
- VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
- bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
- LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <6d5fe1fc-1126-9764-5f72-836369f7874c@i2se.com>
-Date:   Sat, 26 Feb 2022 18:18:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Sat, 26 Feb 2022 12:59:58 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C049140C9;
+        Sat, 26 Feb 2022 09:59:22 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id n25-20020a05600c3b9900b00380f41e51e6so3593773wms.2;
+        Sat, 26 Feb 2022 09:59:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9V9Jct16AZTz4K2DeDR/xCDxmdE9Vl1rLYHKFySR8Q8=;
+        b=OS5rKUhE7WXuiZzAYW7cwzYiV8SBfaes2cbt2tE8S+TsEw1AJJ/EtauXm86t/sGGOk
+         6Gtznw8XzXomN2E/jJX1Ab/F4luPeUHfombr9N4K93wAUclK1Q5xLFFAlq8pEUfN/85P
+         nPPov3wToi44wYltDMShEha7ixTIYA0kQadq5sw8EiEUEo5T+zhVbzoouPd8RuNibsNc
+         vjFiFWeAb1mlzc9ubE77Lg4FPwakw78ykg0kXAEL06cUaWCdknrUlqstev+v2hqB4Zvb
+         eZG3EyajjZ2e4Y+1Akl3IqfS7qbDc7pvcencVFz3EUr+Kn+9K/kb4i0buxEI2YwpKCR9
+         ZWzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9V9Jct16AZTz4K2DeDR/xCDxmdE9Vl1rLYHKFySR8Q8=;
+        b=cUECq/T4PFbb2QswJGm7U8b3JDcHvQW02cNiwh5tG1/qR+2TIyFueQmijiD/RCP0s+
+         aZYNow0+dslgY/N64L2Wg5Sn/oatrQCc+WZoYAGiBWxUMTuLxhHZbn7buDL4mwWYNwF6
+         5OxCB061+np1aZNZlZmpMC44x2d6pzB7VOMQnRY0QsFRxFNSw/k8/oQ1rzEVbHjRYQNT
+         nuCsPEp/+elIDmPvCYDZYsCTpQUYeDvIRl7Aan9FFLOg2y5zCH5sIORLkFvjJTc03JeY
+         id1yliYey2n1S0hg9P2OKo9H7NRLGwsvLMJQPEY8EuFqnxEz8CqyhA/WG6uxM0p47tfr
+         1wGw==
+X-Gm-Message-State: AOAM532lt6PNPIPUikOKnlcP/WVdqfEtrJZSV07IyfBqyh6+VPWD3vG4
+        lRH8m8NOA73r9zKurUaBOVw=
+X-Google-Smtp-Source: ABdhPJyTvdvsVl/KFu4YEwlfjU6HwwCb17kFxKDf8UAE6YUZfvMzy4E+dNh/VU3uZpPV3DhazFtIAw==
+X-Received: by 2002:a05:600c:4281:b0:381:40e5:6cea with SMTP id v1-20020a05600c428100b0038140e56ceamr5143482wmc.151.1645898360547;
+        Sat, 26 Feb 2022 09:59:20 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id e15-20020a5d6d0f000000b001ef7dca67fasm3741211wrq.114.2022.02.26.09.59.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Feb 2022 09:59:20 -0800 (PST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jonas@kwiboo.se, nicolas@ndufresne.ca,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: Re: [PATCH v3 09/14] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+Date:   Sat, 26 Feb 2022 18:59:18 +0100
+Message-ID: <1884298.PYKUYFuaPT@kista>
+In-Reply-To: <4378293.LvFx2qVVIh@kista>
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com> <20220225164600.1044663-10-benjamin.gaignard@collabora.com> <4378293.LvFx2qVVIh@kista>
 MIME-Version: 1.0
-In-Reply-To: <fc3abf5b-64c7-82c6-ec9c-5c3659c55b49@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Provags-ID: V03:K1:g8Nr2WGrm7dkQbal7eYhVTMrhUp4UV57bZO1Kz5qWkPL8aNfNC0
- xEczhuFmgMa5ibMBvzILgnr5GRNKplmoWXo3bonMAYe31zK6VolZ6UPfNrQSKeQz7C8Xt0h
- WYIbSq98/57q/d0vqaBwiZb4Fm4jAbiw89icWb4NMHS+X85NW0JfLMqFwbFWST2VuYsuc7Z
- Ji9z/wUACCtNJgEWAg/9g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RfJvNBhKyKQ=:8Gi54Ym/m2vW/b2eCJVaCT
- yLucV+HoYKnZV+EhUlqB+GWaRl42/8rf1zu/8J3JsNDCeF1h08wdGb8m/HCXOSb4ClngtS7Mg
- n2UROauZH8fqC2Ky8HvCIi3yLpO+pwZGFkN0RQ3TgbW7+K9blX/p/m4L6eQL5wTVyEQ1LM3Bw
- Oeutw0q/UzhY+Xha0atrVZlWuhFTxAyQTVx0/yxoJzzKQ9zEPbn+CYiZHyGdp9l13RIT7H2RB
- vALBx2H4uEoKQqfrBqEm4iYolEa0ePBWB+G7szURrajNc1xiJNnA0NgoVI+Dn8oahvMcKFKkL
- tfVDFNrfoe76NxVcqaQW9NNUzMqE/aOUgY46CA8KaiIe6EdImZAPNZ2q4YnJQ8wz6K8/O7I5G
- eBR+Vw2IcMaNFO0OBoMS+BH2pm6DZUBtc1Fgl819Nl2+XL9KSz2aYwDRflfo3TJZuwrJyIuH9
- O/JcFcM5/sL2KTtuDSg31QhAeUx/85fMH1QJg7BHLlRDH36P1h/b8utK0kEAlP4EbSQDEDa9r
- /j8Ko4cih7hBk6+LV2fn/MG3HOBc0xUxYXTChssYSxAMubj1JdFbpp4Lpy9vxN3sV96UJbuj3
- 6hOTB+VRWziv4JwWZwZgmV9q5jlnbhufqDxH2dZCLhdxe/YLT9S4Ls9Rf22LdhXCYdSPfmdhW
- Rud0gTeN7W6zgE0G59VnWyPyp4v6298e3825bPA5EuqX/PG6j0N6RSLcICYKrtv3XFqR8i/wK
- 6PpRxo4y2PrZwkWR
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jean-Michel,
+Hi!
 
-Am 20.02.22 um 15:30 schrieb Jean-Michel Hautbois:
-> Hi Stefan,
->
-> On 16/02/2022 21:57, Stefan Wahren wrote:
->> Hi Jean-Michel,
->>
->> Am 08.02.22 um 16:50 schrieb Jean-Michel Hautbois:
->>> Hello !
->>>
->>> ...
->>>
->>> In order to properly configure the media pipeline, it is needed to call
->>> the usual ioctls, and configure routing in order to send the embedded
->>> data from the sensor to the "unicam-embedded" device node :
->>>
->>> ```
->>> media=0
->>> media-ctl -d${media} -l "'imx219 2-0010':0->'unicam-subdev':0 [1]"
->>> media-ctl -d${media} -l "'unicam-subdev':1->'unicam-image':0 [1]"
->>> media-ctl -d${media} -v -R "'unicam-subdev' [0/0->1/0[1],0/1->2/0[1]]"
->>> media-ctl -d${media} -V "'imx219 2-0010':0/0
->>> [fmt:SRGGB10_1X10/3280x2464 field:none]"
->>> v4l2-ctl -d0 --set-fmt-video
->>> width=3280,height=2464,pixelformat='pRAA',field=none
->>> media-ctl -d${media} -v -V "'imx219 2-0010':0/1
->>> [fmt:METADATA_8/16384x1 field:none]"
->>> media-ctl -d${media} -p
->>> ```
->>
->> i tried to test the unicam driver on a Raspberry Pi 4 with the imx219
->> camera (based on 5.17-rc4). The unicam & imx219 driver probes and
->> /dev/video0 is created.
->>
->> If a execute the first media-ctl command, it complains with invalid
->> argument 22. Is there a more fool-proof variant to configure this (a
->> script or something else)? I never used the unicam driver before.
->>
->> Here is the output of
->>
->> $ mediactl -d0 -p
->>
->
-> Based on your output, I suppose the issue is the naming of the imx219
-> media entity ('imx219 2-0010' vs 'imx219 5-0010').
-> You could add a '-v' in the line to help you I suppose.
->
-> A more bullet-proof version of the commands is certainly doable, not
-> sure how though as I would not like to rewrite a libcamera-like
-> command ;-).
+Dne petek, 25. februar 2022 ob 20:30:20 CET je Jernej =C5=A0krabec napisal(=
+a):
+> Hi!
+>=20
+> Dne petek, 25. februar 2022 ob 17:45:55 CET je Benjamin Gaignard napisal(=
+a):
+> > The number of 'entry point offset' could be very variable.
+> > Rather than use a large static array define a v4l2 dynamic array
+> > of integer control.
+>=20
+> I suggest we should be more specific and say U32 (V4L2_CTRL_TYPE_U32).
+>=20
+> > The number of entry point offsets is reported by the elems field.
 
-Today i had a little bit time and manage to get the commands working.
+I did few more tests and these are my findings:
+1. dynamic array can't be set over size, specified in .dims array
+2. entry point offsets are per slice, so if we make slices dynamic array, t=
+hen=20
+entry points would become two dimensional dynamic array
+3. num_entry_point_offsets must be part of slice control, because it can be=
+=20
+zero, but size of array can't be
+4. fortunately, not setting entry points doesn't impact decoding correctnes=
+s.=20
+This is in line what John told me about them.
 
-After running the yavta command, the kernel put the following:
+Hans, can you comment points 1-3? I might misunderstand point 1.
 
-[  405.908674] cma: cma_alloc: linux,cma: alloc failed, req-size: 2484
-pages, ret: -12
-[  405.908695] unicam fe801000.csi: dma alloc of size 10174464 failed
+In short, it seems like we don't really need entry points, even if they are=
+=20
+used in BSP library. In both cases, I got fluster score 119/138 (10-bit=20
+excluded), so we can just drop this patch, although I'm a bit uneasy not=20
+setting entry points...
 
-As per default the CMA size with mainline DTB is 64 MB. After that i
-increase the value to 256 MB and the issue disappeared. Maybe this is
-something which could be integrated into the overlay. But at least a
-note about this in the cover letter of the next version of this series
-would be nice.
+Best regards,
+Jernej
 
-Best regards
+> >=20
+> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > ---
+> >  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 +++++++++
+> >  include/media/hevc-ctrls.h                               | 1 +
+> >  2 files changed, 10 insertions(+)
+> >=20
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
+b/
+> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > index 44a268a948c0..71f7dc1c1ccd 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > @@ -3128,6 +3128,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> > =20
+> >      \normalsize
+> > =20
+> > +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>=20
+> Here you have OFFSETS (plural) ...
+>=20
+> > +    Specifies the i-th entry point offset in bytes and is represented =
+by
+> > +    offset_len_minus1 plus 1 bits.
+>=20
+> You probably mean entry_point_offset_minus1? offset_len_minus1 just tells=
+ how=20
+> much bits need to be read for each element and it's not important for act=
+ual=20
+> decoding.
+>=20
+> > +    This control is a dynamically sized array. The number of entry poi=
+nt
+> > +    offsets is reported by the ``elems`` field.
+> > +    This bitstream parameter is defined according to :ref:`hevc`.
+> > +    They are described in section 7.4.7.1 "General slice segment header
+> > +    semantics" of the specification.
+> > +
+> >  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+> >      Specifies the HEVC scaling matrix parameters used for the scaling=
+=20
+> process
+> >      for transform coefficients.
+> > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> > index 3016c1abb1d0..3f8a67924df3 100644
+> > --- a/include/media/hevc-ctrls.h
+> > +++ b/include/media/hevc-ctrls.h
+> > @@ -20,6 +20,7 @@
+> >  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE +=20
+> 1012)
+> >  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE +=20
+> 1015)
+> >  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE +=20
+1016)
+> > +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET (V4L2_CID_CODEC_BAS=
+E +=20
+> 1017)
+>=20
+> ... and here you have OFFSET (singlular). I suggest plural form to be use=
+d=20
+in=20
+> all places, including subject line of this commit.
+>=20
+> Additionally, it would be nice if control is initialized, like so:
+> https://github.com/jernejsk/linux-1/commit/
+> f938e162cd8dd77c9f6f1b248d80144840a37bce
+>=20
+> Best regards,
+> Jernej
+>=20
+> > =20
+> >  /* enum v4l2_ctrl_type type values */
+> >  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> > --=20
+> > 2.32.0
+> >=20
+> >=20
+>=20
+>=20
+>=20
 
 
