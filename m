@@ -2,218 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07A3A4C576B
-	for <lists+linux-media@lfdr.de>; Sat, 26 Feb 2022 19:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F6A24C5885
+	for <lists+linux-media@lfdr.de>; Sat, 26 Feb 2022 23:39:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231556AbiBZSS1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Feb 2022 13:18:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43510 "EHLO
+        id S229873AbiBZW0C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Feb 2022 17:26:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230394AbiBZSSZ (ORCPT
+        with ESMTP id S229802AbiBZW0B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Feb 2022 13:18:25 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8694013CA05;
-        Sat, 26 Feb 2022 10:17:50 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id s1so9171494wrg.10;
-        Sat, 26 Feb 2022 10:17:50 -0800 (PST)
+        Sat, 26 Feb 2022 17:26:01 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB39D2BD718;
+        Sat, 26 Feb 2022 14:25:25 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id c6so12184035edk.12;
+        Sat, 26 Feb 2022 14:25:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=aXqc/Aa9aaNrrCHTBVmSAtXCikpEnBmLxdEuX//VMWU=;
-        b=jtr7I7oBaQCz1K7NodtGWIWvx6CuCVFmpkCqRc29oj0eixPTVLUs5vEwREXdFpwdjN
-         ibe/afapjhfixepBK/jho5rwnuLm5dd+XbgyViSR9NoJ8+O6lDjEVwP9OZncY+ewMWzw
-         MBb3KFvCfraCchfsT4z7L4eGE8uqmXezcE8C2vetJQOTDsJFe+PzIK4lMos4CdzdaJmc
-         /CjH6tueilO+pHtAOzBr0We1Hgo432CCEYnlWkwMSU6oahg9noYNz9Bb2yFvGXUv3QGM
-         X+ElAO0Fn8KemopfvoEYLXwkMGaBZAs+BpcRfM3Z8bPS4UyB9/hcVok2EN+JimRfZOHD
-         ZO9g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ka0fJfaEyT657Um9FeyHeP7Rnr5mv2eI9Xu99fm+8Bk=;
+        b=Vt9+nHTtETU58Xc3eIKvRc/WkHWjoUlhcwl8OSex2oWHOba0ClnZbh8LNGfDEyRU8S
+         X1Ai8kz/V5UzowVgVc19acKfI9jaMzyAECWMXENKZMiJfc0+THn5ZEnXbJlvJUd6DwMs
+         pjgBbX+r4NsXbIm8zxbeOjWX8xx0Bg+hjmXTwuQuCt3jasKdJUWf/xjqADcOM28nPyFi
+         IaQZtD34qhroJNtUHPsyHzGNXcX6HHUq+IXFt7qQNv7V92SZGbs9tDx3LeUqpReu3YAM
+         Rfgrs4V//Zix6kp1pi47bkBAGOQ7Y8BvWAf+gXSsEc8sI+4mZYQ3MkUz+84c67J/pFCo
+         qnbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=aXqc/Aa9aaNrrCHTBVmSAtXCikpEnBmLxdEuX//VMWU=;
-        b=omdPiccnY3UNUVv3G0C52yUKFj6KzJyB1hPYqmT5cSugiFw7FhjTjnv1tKEwIjqmpR
-         0MCCUo0lN/LGCLI+9cCN5MkoTwpWOkDEVQSbge/jxaQifflZQauFViXwePq10yDPYPif
-         PE2Yok93lZv12zi3s+e6Jg/Nk81BiEArVXrCeH5a0J5Jwky64MNsXsarhNOfhmSp6cDD
-         IsQyc29/VzfHS+jtNB3RL17q2jjfRVaXEjipgm+sXI+e8Fy/m2JxC7Uoe9N6dyN8CT4V
-         RyxiDK9Q/+G90Y7mfYauW0aRzE9Gz7UKxFMi3DJfbqeO8qeFcx6zv0zJ52bJb3YIOi6a
-         pg6g==
-X-Gm-Message-State: AOAM532fiLU4UcJuR0mvUJx5PbsUgiIdOn3kK+w4A0z5pd8Vjzd6jc6k
-        /mklYJ5tTXW1zeu80hlnPL4=
-X-Google-Smtp-Source: ABdhPJxu/yOz40F7BewccOOPmPsZ+nsr7S4T0cKSzHr7RVIH+u7AvaIFfSWZu2pJF2K0Wj9D+uT8/A==
-X-Received: by 2002:adf:e804:0:b0:1ea:9c3b:8f41 with SMTP id o4-20020adfe804000000b001ea9c3b8f41mr10543899wrm.53.1645899468936;
-        Sat, 26 Feb 2022 10:17:48 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id p18-20020adfba92000000b001e4ae791663sm5824814wrg.62.2022.02.26.10.17.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Feb 2022 10:17:48 -0800 (PST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jonas@kwiboo.se, nicolas@ndufresne.ca,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: Re: Re: [PATCH v3 09/14] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
-Date:   Sat, 26 Feb 2022 19:17:46 +0100
-Message-ID: <7348885.EvYhyI6sBW@kista>
-In-Reply-To: <1884298.PYKUYFuaPT@kista>
-References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com> <4378293.LvFx2qVVIh@kista> <1884298.PYKUYFuaPT@kista>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ka0fJfaEyT657Um9FeyHeP7Rnr5mv2eI9Xu99fm+8Bk=;
+        b=xVEUsll9xQipF+r+3BxP6HZJgCBKlf3sO1e1i8mDoJnbkw+hAuB57tMfEJPwjqPs28
+         7NExRd/OujPeh3vZYGEoRsQcBxmOIaigw9wgCGtDeCQPuJ0QUmI3hvexpBZHeqU6txzK
+         Pmo0nXgHmFlGfvlWZa2BUof8Ad1f13hBktt4F+pdKo16Am00J5IM+u1XZBtOxlC62Tka
+         DdLgzfm63A4tYJpKwY96Azyd/QM9TuC+CN6WnrwVaw3aNv0FsbZJd81TlPnHSby3oMl5
+         Tt3YWKaET8UDz5Q7PGMJlsK8O4SqeuS+ccEK7MHaINeQJKhN0SbmAAyMOLeQtq/PY3fI
+         hYNQ==
+X-Gm-Message-State: AOAM533lgmJBvcbTGa6KS8Y+bLz6L2PccP6djbg4eB1ethwU6dZhBCyo
+        JZSu/V0UvKJwqDf0g7a/ej+Vl04DGKh0zllzI5M=
+X-Google-Smtp-Source: ABdhPJyBsiw0DvHMRQlUz9GXW0FYpUFaH4DEFXv2v/OYUSpXVkbmZVW8PZj30ZBRG37QqTFig47hC3t4ornAT+QtkDI=
+X-Received: by 2002:a05:6402:90b:b0:412:a7cc:f5f9 with SMTP id
+ g11-20020a056402090b00b00412a7ccf5f9mr12708238edz.136.1645914324423; Sat, 26
+ Feb 2022 14:25:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
+In-Reply-To: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Sat, 26 Feb 2022 16:25:13 -0600
+Message-ID: <CAHCN7x+AUy4JsqfdyZFqg4ScR1OgoLvqF91za0AZ278NSBJj4A@mail.gmail.com>
+Subject: Re: [PATCH v3 00/14] Move HEVC stateless controls out of staging
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com,
+        Chen-Yu Tsai <wens@csie.org>,
+        "jernej.skrabec" <jernej.skrabec@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev, kernel <kernel@collabora.com>,
+        knaerzche@gmail.com, jc@kynesim.co.uk
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne sobota, 26. februar 2022 ob 18:59:18 CET je Jernej =C5=A0krabec napisal=
-(a):
-> Hi!
->=20
-> Dne petek, 25. februar 2022 ob 20:30:20 CET je Jernej =C5=A0krabec napisa=
-l(a):
-> > Hi!
-> >=20
-> > Dne petek, 25. februar 2022 ob 17:45:55 CET je Benjamin Gaignard=20
-napisal(a):
-> > > The number of 'entry point offset' could be very variable.
-> > > Rather than use a large static array define a v4l2 dynamic array
-> > > of integer control.
-> >=20
-> > I suggest we should be more specific and say U32 (V4L2_CTRL_TYPE_U32).
-> >=20
-> > > The number of entry point offsets is reported by the elems field.
->=20
-> I did few more tests and these are my findings:
-> 1. dynamic array can't be set over size, specified in .dims array
-> 2. entry point offsets are per slice, so if we make slices dynamic array,=
-=20
-then=20
-> entry points would become two dimensional dynamic array
-> 3. num_entry_point_offsets must be part of slice control, because it can =
-be=20
-> zero, but size of array can't be
+On Fri, Feb 25, 2022 at 4:41 PM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+> This series aims to make HEVC uapi stable and usable for hardware
+> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+> and 2 out of the tree drivers (rkvdec and RPI).
+>
+> After the remarks done on version 2, I have completely reworked to patches
+> split so changelogs are meaningless. I have also drop "RFC" from the
+> titles.
+>
+> In this v3 I do all the changes (new controls, documentation, etc..)
+> in the staging directory before moving the HEVC uAPI to stable
+> steps by steps (unlike the big one patch in v2).
+>
+> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
 
-Clarification: num_entry_point_offsets is needed in any case, even without =
-entry=20
-point list.
+Benjamin,
 
-> 4. fortunately, not setting entry points doesn't impact decoding=20
-correctness.=20
-> This is in line what John told me about them.
->=20
-> Hans, can you comment points 1-3? I might misunderstand point 1.
->=20
-> In short, it seems like we don't really need entry points, even if they a=
-re=20
-> used in BSP library. In both cases, I got fluster score 119/138 (10-bit=20
-> excluded), so we can just drop this patch, although I'm a bit uneasy not=
-=20
-> setting entry points...
->=20
-> Best regards,
-> Jernej
->=20
-> > >=20
-> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > ---
-> > >  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 +++++++=
-++
-> > >  include/media/hevc-ctrls.h                               | 1 +
-> > >  2 files changed, 10 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rs=
-t b/
-> > Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > index 44a268a948c0..71f7dc1c1ccd 100644
-> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > @@ -3128,6 +3128,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field=
- -
-> > > =20
-> > >      \normalsize
-> > > =20
-> > > +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
-> >=20
-> > Here you have OFFSETS (plural) ...
-> >=20
-> > > +    Specifies the i-th entry point offset in bytes and is represente=
-d by
-> > > +    offset_len_minus1 plus 1 bits.
-> >=20
-> > You probably mean entry_point_offset_minus1? offset_len_minus1 just tel=
-ls=20
-how=20
-> > much bits need to be read for each element and it's not important for=20
-actual=20
-> > decoding.
-> >=20
-> > > +    This control is a dynamically sized array. The number of entry=20
-point
-> > > +    offsets is reported by the ``elems`` field.
-> > > +    This bitstream parameter is defined according to :ref:`hevc`.
-> > > +    They are described in section 7.4.7.1 "General slice segment hea=
-der
-> > > +    semantics" of the specification.
-> > > +
-> > >  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
-> > >      Specifies the HEVC scaling matrix parameters used for the scalin=
-g=20
-> > process
-> > >      for transform coefficients.
-> > > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> > > index 3016c1abb1d0..3f8a67924df3 100644
-> > > --- a/include/media/hevc-ctrls.h
-> > > +++ b/include/media/hevc-ctrls.h
-> > > @@ -20,6 +20,7 @@
-> > >  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE +=
-=20
-> > 1012)
-> > >  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE +=20
-> > 1015)
-> > >  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE=20
-+=20
-> 1016)
-> > > +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET (V4L2_CID_CODEC_B=
-ASE=20
-+=20
-> > 1017)
-> >=20
-> > ... and here you have OFFSET (singlular). I suggest plural form to be u=
-sed=20
-> in=20
-> > all places, including subject line of this commit.
-> >=20
-> > Additionally, it would be nice if control is initialized, like so:
-> > https://github.com/jernejsk/linux-1/commit/
-> > f938e162cd8dd77c9f6f1b248d80144840a37bce
-> >=20
-> > Best regards,
-> > Jernej
-> >=20
-> > > =20
-> > >  /* enum v4l2_ctrl_type type values */
-> > >  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
-> > > --=20
-> > > 2.32.0
-> > >=20
-> > >=20
-> >=20
-> >=20
-> >=20
->=20
->=20
->=20
+I have an imx8mm and imx8mq that I can test. Do you happen to have a
+repo that I can clone to test this?  The imx8m stuff is spread around
+between the media tree and the imx tree since it hasn't been fully
+merged yet.
 
+thanks,
 
+adam
+
+>
+> Benjamin
+>
+> Benjamin Gaignard (11):
+>   media: uapi: HEVC: Add missing fields in HEVC controls
+>   media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>     prefix
+>   media: uapi: HEVC: Add document uAPI structure
+>   media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+>     dynamic array
+>   media: uapi: Move parsed HEVC pixel format out of staging
+>   media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+>   media: uapi: Move the HEVC stateless control type out of staging
+>   media: controls: Log HEVC stateless control in .std_log
+>   media: uapi: Create a dedicated header for Hantro control
+>   media: uapi: HEVC: fix padding in v4l2 control structures
+>   media: uapi: move HEVC stateless controls out of staging
+>
+> Hans Verkuil (3):
+>   videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>   v4l2-ctrls: add support for dynamically allocated arrays.
+>   vivid: add dynamic array test control
+>
+>  .../userspace-api/media/drivers/hantro.rst    |   5 -
+>  .../media/v4l/ext-ctrls-codec-stateless.rst   | 831 ++++++++++++++++++
+>  .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
+>  .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>  .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>  .../media/videodev2.h.rst.exceptions          |   5 +
+>  .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>  drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>  drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>  include/media/hevc-ctrls.h                    | 250 ------
+>  include/media/v4l2-ctrls.h                    |  48 +-
+>  include/uapi/linux/hantro-media.h             |  19 +
+>  include/uapi/linux/v4l2-controls.h            | 436 +++++++++
+>  include/uapi/linux/videodev2.h                |  13 +
+>  22 files changed, 1686 insertions(+), 1169 deletions(-)
+>  delete mode 100644 include/media/hevc-ctrls.h
+>  create mode 100644 include/uapi/linux/hantro-media.h
+>
+> --
+> 2.32.0
+>
