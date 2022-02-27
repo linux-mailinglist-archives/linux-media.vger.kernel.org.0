@@ -2,75 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE0784C5D94
-	for <lists+linux-media@lfdr.de>; Sun, 27 Feb 2022 17:50:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29E984C5DA3
+	for <lists+linux-media@lfdr.de>; Sun, 27 Feb 2022 18:03:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231237AbiB0QvH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Feb 2022 11:51:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33724 "EHLO
+        id S231168AbiB0REI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Feb 2022 12:04:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbiB0QvH (ORCPT
+        with ESMTP id S229512AbiB0REH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Feb 2022 11:51:07 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB2FE55BDC
-        for <linux-media@vger.kernel.org>; Sun, 27 Feb 2022 08:50:29 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id d28so11957099wra.4
-        for <linux-media@vger.kernel.org>; Sun, 27 Feb 2022 08:50:29 -0800 (PST)
+        Sun, 27 Feb 2022 12:04:07 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CC6228E24;
+        Sun, 27 Feb 2022 09:03:30 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id s14so14410634edw.0;
+        Sun, 27 Feb 2022 09:03:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=hODbYIBB4Dty+JgnbJu1q2oAhOEc2ZKfyRW0OVOWRA0=;
-        b=GSY8VnFdRNFeTV84H3l3mpyBI5Q9kW1XXd3D++1xCep3EgG/ZAs03wGnNg3cZ2BiWW
-         ZUIZl9pTRWZzwNFEVaZoCVuDLJDBg3ceSRM33Ar3zZqzcuCb0b3MHaVAB9W5uTf5Plye
-         am+VdU7l2b6j7opuaBPUQFn4f1o3gyo8tdsPQiq5SsW4bWqKv40AtpJ4tRGE2Z4+DAE5
-         8mVxYVesn2yTtJGtELyABHjbZPLQT5/gD4p4/dDA8xasKoN+GtBPqS13Q5/gEPKTkVFp
-         GFR4/FBdGgR2sMaZaBGcyvtsfpX2py4Pr9gfMZx+DmF5YBCSTkL+gDVb8BFp1WmaWXCl
-         HvWQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dANX2Nn44mbCP9zs92/BfwoXKsDqb2azTmCoigDg0oU=;
+        b=LL2RxvR/1/nUpXagZ8ezOOBshFZ6Ut3TWhhpQTqimGrQSwON3CRmV6uP61RIU7jB0i
+         8l+0YrcDznzwP7CtQOiO3ymzZ8OyL92WUsu9fIypR0iyv3/vyeD5LqMoy0zgyp9E9E0W
+         rqZ1KLO/Bf0JwCQ5hbX9suKteBENqBaAAJJwSLvee4oNGb7H4+E3lcOGTyWZnTWrGomu
+         XKJ5eMZvpwx0ztwmT9unP4kejlM3pecyWt4D+qKZWaWog8YSi/kB0e2zPhMKBVSsL4HM
+         6lNkPX9sF7T466aXwy1AT3KikKt6f5046EMj+XIPVdQSkHeLcLeIU5wNx17UZU7cSDJW
+         lPkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=hODbYIBB4Dty+JgnbJu1q2oAhOEc2ZKfyRW0OVOWRA0=;
-        b=3cXloKiNzIb9YXGW8W5tOHweH9NfYUzX73cQflgk6ZFnEr3kxXiirncp35H2CIdFm5
-         mfT1p+XfOg0gEnK3YBdsFT54EUC3jeF3m5aTUuMvNCEk3sC9dTUbVsUBZBJxRZX8ojsq
-         NRynu0erphlJoLGByGbyya1pdplIHvM8jUyqSM7a6HFLua8WIab/em+E1BmGGJBzSCrC
-         RKP9GZJgJXAcMSQgUN/Ig4ngWPbjzxUVPowUchMnFwelrZqGhRIaeXOvZUXaI42oG7X2
-         1gIF5T99X1ZsaqseOuU6oEy/s4FCQsDcrDr21rIrhQdTQ+pzsIkI91IO5ULhLPxxBcny
-         1zlw==
-X-Gm-Message-State: AOAM531jfBEzEVIPJZAKNF1t1n3hbWjPsqdZJlF6bqMgEr5lHfSK0WNz
-        sGPQFnGm5ib8v9rIAUNngG8=
-X-Google-Smtp-Source: ABdhPJxtwsnCzccL696Klavp5s0ZzO3UQDW08/FSUVOuRA9cG9JSfg3BoHWaso6h/3S7YWP4HHmZ4w==
-X-Received: by 2002:a5d:6da1:0:b0:1e3:2bf5:13c with SMTP id u1-20020a5d6da1000000b001e32bf5013cmr13498932wrs.316.1645980628013;
-        Sun, 27 Feb 2022 08:50:28 -0800 (PST)
-Received: from [192.168.0.40] (176-66-70-95.static.highway.a1.net. [176.66.70.95])
-        by smtp.googlemail.com with ESMTPSA id l5-20020adff485000000b001d54142b02bsm8072064wro.85.2022.02.27.08.50.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Feb 2022 08:50:27 -0800 (PST)
-Message-ID: <dc0a22f7-80c3-12b9-d3ec-38fdf51e374c@gmail.com>
-Date:   Sun, 27 Feb 2022 17:50:24 +0100
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dANX2Nn44mbCP9zs92/BfwoXKsDqb2azTmCoigDg0oU=;
+        b=7haKLubI64RIS/wYy7LqLrJFY3ed1DpBKgZajyt4KQ36/t2dLRDakP918oTsu8sVle
+         v77JnpapeNGj47vSXqPj3YbwtSvDKaIRBncCEpyDIgEiVtZKUqcJO5SNxQKlfd0At6Dd
+         c6nYxzooNUphPQXwYi9UqQB9NF4SodcK3QOyqPwmJ6a2BP/F2tDZLPz62FXtzf77H6gz
+         hXDGaJN1Xu4IZeRAXFOLuneyzMClKGLg/NLKpRuxEaQbISv3Um91BFiKUT3gektJMEez
+         mnz+6AmHj7UcL3R/Gu5MzlgP9mPgacW0mWUNE2GILEON57petvUF7uC1E2KQF4+Ijh7u
+         UdIA==
+X-Gm-Message-State: AOAM532BECB4+EHxG4V+fz6DAXXO7PgxqP0TNfM1VjofYYRKemDYmKe4
+        Gn398x/LAEmgCPQND/yi7tI=
+X-Google-Smtp-Source: ABdhPJwUjgrEmeNoJb0yPleFkeU4+PhfGM+FDV7S1txB8mcMnr2ykdbwmpn6pMLVCz48WjNv2ZCKkw==
+X-Received: by 2002:a05:6402:372:b0:40a:bbf4:7973 with SMTP id s18-20020a056402037200b0040abbf47973mr15856901edw.399.1645981408694;
+        Sun, 27 Feb 2022 09:03:28 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id gq15-20020a170906e24f00b006cfba1c5433sm3587873ejb.172.2022.02.27.09.03.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Feb 2022 09:03:28 -0800 (PST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de
+Cc:     mchehab@kernel.org, nicolas@ndufresne.ca, hverkuil-cisco@xs4all.nl,
+        gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
+Date:   Sun, 27 Feb 2022 18:03:26 +0100
+Message-ID: <8898316.CDJkKcVGEf@kista>
+In-Reply-To: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Firefox/91.0 Thunderbird/91.6.1
-Subject: Re: RockPro65 RK3399 chipset, ISP and IMX214 camera
-Content-Language: de
-To:     Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-media <linux-media@vger.kernel.org>
-References: <dbb69fc2-d46f-ee91-d089-46e7370a2a14@gmail.com>
- <164570696256.4066078.10553504447380276248@Monstersaurus>
- <CAPuf0ENRRjMafZUOXS45PJxQrpcK_tdCRREoHn43t54pSbVhDg@mail.gmail.com>
- <411433596.ldbydfAV7o@phil>
- <CAPybu_2ZwYBLy13KAbznErGU-2=hLcot081WE7ZLZbZaEwC0ag@mail.gmail.com>
-From:   Clemens Arth <clemens.arth@gmail.com>
-In-Reply-To: <CAPybu_2ZwYBLy13KAbznErGU-2=hLcot081WE7ZLZbZaEwC0ag@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -79,216 +73,62 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Dne nedelja, 27. februar 2022 ob 15:49:18 CET je Jernej Skrabec napisal(a):
+> First two patches add 10-bit formats to UAPI, third extends filtering
+> mechanism, fourth fixes incorrect assumption, fifth moves register
+> configuration code to proper place, sixth and seventh enable 10-bit
+> VP9 decoding on Allwinner H6 and last increases core frequency on
+> Allwinner H6.
 
-so I moved on with some tests and trying to fix the driver and the 
-current libcamera version. The driver has still wrong registers I guess, 
-but I can fix them later. Here's the output of v4l-ctl
+FYI, additional patch is needed for linear P010 output:
+https://github.com/jernejsk/linux-1/commit/
+28338c00749b821819690c9fd548fd5c311682b5
 
-https://pastebin.com/ZkMZ1mjJ
+With that, only native format was not tested.
 
-which looks kind of ok to me. However what does absolutely make no sense 
-to me is the output of the gst-launcher, which also makes lc_compliance 
-go totally crazy at some point:
+Regards,
+Jernej
 
-https://pastebin.com/6MdFL5BL
-
-Although I dived through a large number of drivers, I did not get how to 
-set the available formats. While Ricardo included 2 formats, there are 
-obviously 6 or so according to the documentation, however, how are those 
-defined such that they show up correctly there? It's clear to me that 
-the available formats should be defined first, before moving on to 
-getting something out from the device, right? Is this a part of the 
-libcamera part or the driver?
-
-I had to add quite a bunch of controls to the driver, and without 
-checking the i2c communication in detail, there are at least no errors 
-when I do
-
-v4l2-ctl -d /dev/v4l-subdev3 --set-ctrl "test_pattern=2"
-
-So I suspect that this actually works as expected...
-
-Best
-Clemens
-
-
-Am 25.02.22 um 08:37 schrieb Ricardo Ribalda Delgado:
-> Hi
 > 
-> I think Heiko and Kieran have already given you a lot of clues.
+> I'm sending this as RFC to get some comments:
+> 1. format definitions - are fourcc's ok? are comments/descriptions ok?
+> 2. is extended filtering mechanism ok?
 > 
-> I would recommend to start looking at i2c communication with i2c
-> tools: i2cget, i2set, i2cdetect.... before trying any video operation.
+> I would also like if these patches are tested on some more HW.
+> Additionally, can someone test tiled P010?
 > 
-> Your life will be much easier if you get your hands into a logic
-> analyser like this one https://www.saleae.com/
+> Please take a look.
 > 
-> Regarding the i2c address, bear in mind that vendors and Linux might
-> use different nomenclature (7 bits to 8 bits).
+> Best regards,
+> Jernej
 > 
-> Good luck!
+> Ezequiel Garcia (1):
+>   media: Add P010 tiled format
 > 
-> On Thu, Feb 24, 2022 at 6:03 PM Heiko Stuebner <heiko@sntech.de> wrote:
->>
->> Am Donnerstag, 24. Februar 2022, 16:10:06 CET schrieb Clemens Arth:
->>> Hi Kieran,
->>>
->>> Thx, I’m on my mobile now so I hope copy pasting works… apologies for typos…
->>>
->>> Kieran Bingham <kieran.bingham@ideasonboard.com> schrieb am Do. 24. Feb.
->>> 2022 um 13:49:
->>>
->>>> Hi Clemens,
->>>>
->>>> Quoting Clemens Arth (2022-02-23 18:36:28)
->>>>> Hi everyone,
->>>>>
->>>>> + Ricardo and Heiko in CC as the driver originators and rockchip pros...
->>>>>
->>>>> I'm reaching out to you based on a discussion with Sebastian Fricke, who
->>>>> was working on the OV13850 driver for the v5 kernel. I tried getting the
->>>>> IMX214 finally to work on the RockPro64 from Pine64, which only works on
->>>>> Android so far and I need to get that done on Mainline Linux (I did not
->>>>> find anyone who managed that and reported about it). However, I'm also
->>>>> totally stuck.
->>>>>
->>>>> The RockPro64 runs Dietpi, which is essentially Armbian + a few tweaks.
->>>>> I'm using the Armbian 5.15.18 kernel, so mainline, with a custom device
->>>>> tree, which in the first place powers the MIPI ports. I suspect it is a
->>>>> bad idea to have one pinctrl as a placeholder for 4 converters, however,
->>>>> I'm not too deep into proxying in the devicetree, so here's the current
->>>>> status:
->>>>>
->>>>> https://pastebin.com/vs277ex0
->>>>
->>>> Your regulators are all listed as fixed-regulators. Are you sure
->>>> there's nothing else to turn on ? I expect this was from another
->>>> fragement for the same platform? So I hope it's consistent.
->>>>
->>>
->>> The schematics are here, from which I took the regulator and gpio config.
->>> The regulators all seem to be fixed ones. There is just one pin that pulls
->>> up all the regulators (DVP_PWR).
->>>
->>> https://files.pine64.org/doc/rockpro64/rockpro64_v21-SCH.pdf
->>>
->>> The IMX214 driver has only one pin, the enable_pin, but it is somewhat
->>> different from the IMX219 for example. Looking at both driver's code I
->>> believe what is the reset_pin with the IMX219 is the enable_pin with the
->>> IMX214, but I am not sure about that. There is no MIPI reset on the
->>> RockPro64 afaik. Therefore I think it needs to be wired to the DVP_PDN0_H
->>> pin, but other drivers define that one specifically and it apparently does
->>> something different.
->>
->> For the pins also check the direction (active_low / active_high).
->> I remember having fun somewhere when changing between the vendor
->> kernel and mainline.
->>
->>
->>>> Can you validate that the enable-gpios definition is to the correct GPIO
->>>> to enable the camera ?
->>>>
->>>>> The camera is connected to the first MIPI port. The kernel boot logs
->>>>> look ok to me (except for the cyclic dependency issue, but I think that
->>>>> does not matter much).
->>>>>
->>>>> https://pastebin.com/hvhdEfxm
->>>>>
->>>>> Without the camera configured in the device tree, it shows up as 0x0c
->>>>> device on the #1 I2C bus, which is a bit suspicious to me given the
->>>>> addresses in the documentation and the info given in the kernel
->>>>> documentation.
->>>>>
->>>>> However, I essentially followed the description according to this guide
->>>>> to set up the RKISP:
->>>>>
->>>>> https://linuxtv.org/downloads/v4l-dvb-apis/admin-guide/rkisp1.html
->>>>>
->>>>> using this:
->>>>>
->>>>> https://pastebin.com/ZqWC5vhC
->>>>>
->>>>> It looks like this (see also png attached).
->>>>>
->>>>> https://pastebin.com/MfTNp5Pd
->>>>>
->>>>> However, the IMX214 driver does not complain until that point and seems
->>>>> to do right. I expected that at least something happens, however it does
->>>>> not. The last command does this:
->>>>>
->>>>> VIDIOC_STREAMON returned -1 (No such device or address) and this is the
->>>>> kernel output
->>>>>
->>>>> [1509.435228] imx214 1-000c: write_table error: -6
->>>>> [1509.435868] imx214 1-000c: could not sent common table -6
->>>>
->>>> -6 is ENXIO 6 No such device or address. So I expect the device isn't
->>>> responding to the I2C controller.
->>>>
->>>> What shows up with i2c-detect -r -y 1 ?
->>>>
->>>
->>>  From the top of my head, it shows 1c on the 0x0c address iirc, but only if
->>> I remove the IMX from the DT. Otherwise the driver takes over and it shows
->>> UU. I removed the camera physically and it was gone on i2cdetect, so I
->>> suspect that it indeed is the camera. From the driver and the documentation
->>> I need to configure it 4-lane, as it is hardcoded in the driver (compared
->>> to the application notes for registers for the ImX214).
->>>
->>>
->>>>
->>>>> There is no more info given, even if I do some "echo 0x3F >
->>>>> /sys/class/video4linux/v4l-subdev0/dev_debug" to the subdevs.
->>>>>
->>>>> Here's the IMX214 documentation btw. that I got through a detour from
->>>> CSDN.
->>>>>
->>>>>
->>>> https://www.dropbox.com/sh/5d3mp2akr3kmu7t/AADaAsSxZu2kVSIfEceStwuoa?dl=0
->>>>>
->>>>> I'm not entirely sure, but there is something wrong somewhere and I
->>>>> can't find out if it is with the driver, the RKISP or anything else.
->>>>> Here's what "v4l2-ctl -d /dev/v4l-subdev3 --all" gives - not sure but
->>>>> shouldn't it show supported resolutions or something?
->>>>>
->>>>> https://pastebin.com/ckAFPbAs
->>>>
->>>> You might find it useful to check what is missing to support libcamera
->>>> with this sensor, then you can use cam/qcam to test it too. The RKISP1
->>>> pipeline handler in libcamera will handle all the media controller
->>>> configuration, and identifying the available formats for you, but we
->>>> haven't had an IMX214 sensor added yet, so you might need to add a
->>>> mapping to the src/libcamera/camera_sensor_properties.cpp sensor
->>>> database, and the driver is missing at least V4L2_CID_HBLANK and
->>>> V4L2_CID_VBLANK that are required for libcamera.  So it might not be as
->>>> straightforward as I'd like, but it would be helpful I expect.
->>>
->>>
->>> I tried that at an earlier stage, to no avail unfortunately. But I will try
->>> again as soon as I get back to my desk.
->>>
->>>>
->>>>
->>>> But ... I think your issues are more likely underlying hardware or DT
->>>> issues, as the device sounds like it's not responding on the i2c
->>>> address.
->>>>
->>>> Sometimes I2C devices have a configurable address, can you check if this
->>>> really is the correct I2C address for your camera?
->>>>
->>>> That’s one of the issues. Ricardo wrote about iirc 0x10 and 0x1a, but the
->>> app note says something entirely different (forgot), and my camera appears
->>> to be on yet another address…
->>
->> not specific to cameras, but in the past I had i2c devices that set the
->> address depending on the state of a gpio during powerup - which was
->> floating in my old case, producing random settings ;-) .
->>
->>
->> Heiko
->>
->>
+> Jernej Skrabec (7):
+>   media: Add P010 format
+>   media: hantro: Support format filtering by depth
+>   media: hantro: postproc: Fix buffer size calculation
+>   media: hantro: postproc: Fix legacy regs configuration
+>   media: hantro: Store VP9 bit depth in context
+>   media: hantro: sunxi: Enable 10-bit decoding
+>   media: hantro: sunxi: Increase frequency
+> 
+>  drivers/media/v4l2-core/v4l2-common.c         |  3 ++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
+>  drivers/staging/media/hantro/hantro.h         |  4 ++
+>  drivers/staging/media/hantro/hantro_drv.c     | 23 +++++++++
+>  .../staging/media/hantro/hantro_g2_vp9_dec.c  |  8 ---
+>  .../staging/media/hantro/hantro_postproc.c    | 34 ++++++++++---
+>  drivers/staging/media/hantro/hantro_v4l2.c    | 50 +++++++++++++++++--
+>  drivers/staging/media/hantro/hantro_v4l2.h    |  3 ++
+>  drivers/staging/media/hantro/sunxi_vpu_hw.c   | 13 ++++-
+>  include/uapi/linux/videodev2.h                |  2 +
+>  10 files changed, 122 insertions(+), 20 deletions(-)
+> 
+> -- 
+> 2.35.1
 > 
 > 
+
 
