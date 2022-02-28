@@ -2,297 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69DCA4C7C08
-	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 22:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0CBE4C7C68
+	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 22:47:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230415AbiB1VaK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Feb 2022 16:30:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50766 "EHLO
+        id S231202AbiB1Vrt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Feb 2022 16:47:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230401AbiB1VaD (ORCPT
+        with ESMTP id S229808AbiB1Vrr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Feb 2022 16:30:03 -0500
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59DA013110B
-        for <linux-media@vger.kernel.org>; Mon, 28 Feb 2022 13:29:18 -0800 (PST)
-Received: by mail-qv1-xf2a.google.com with SMTP id g23so14874493qvb.4
-        for <linux-media@vger.kernel.org>; Mon, 28 Feb 2022 13:29:18 -0800 (PST)
+        Mon, 28 Feb 2022 16:47:47 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DED714ACB4;
+        Mon, 28 Feb 2022 13:47:05 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id s1so19458109edd.13;
+        Mon, 28 Feb 2022 13:47:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=D7XF/ydXKQe5CNfMxR56kkfmjRc3n07JxRNzL8ONVks=;
-        b=fauPbIptyTaVga2WDVneLHyQup6EjXBbjMvK+uf4GWa4cR/CgaNYMGlKJTC3Aqz/Tx
-         m3mp+p8Mztr5ToniJnQm97RXB3QJlwVnK1kcBzL6qBng4RvMwoMyXLjm6lIScPdadq2j
-         xdwO+Svi9Od6h9xeFMmiY36sYDZtKWIGlcibkUE9mCu92Mk/YUvHdGkjfCKV6EQ9LEtz
-         8gbZm3ip0KyNmj1GCgaGOpkEtYzgKuUAEvjMlfbQrmOfTPuqMw+mSMOKFmlmvvEpgIqX
-         pDLqxxutFZPNNY+rzu9mkVv9pKDGiZ+e907U4pYi3eOtjshxf0sYgES/iSokbzF8k7g2
-         G9IQ==
+        d=gmail.com; s=20210112;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=U6qUODqKVLrC7qZqs553HfNOTdovwKFxE93drAu/Dlk=;
+        b=DcAOXNn/ViLnmA/Pl4xJfWkhBybquVghVb27ULjvzphMd1cBlP8EnT2avc3nlq8Ncp
+         XU0OlwqVPcxmpQGfXIX8cDSYeDqzQFDIjUJw6vYkNcJJHsbpQaotozEaUyIGD250VuoD
+         60I5wOFshLHgsaHS54p/JatmHLrrllGTo/egDJjxoeGmck3vK6ZaE0ldZN4szqLK845U
+         BQNwjpOC8zhohOQR/VOEr6j/DtNOqZN6I6F48XJrq+10cNhH40s7WdjZ8f4gJpCeR9JY
+         suF4D0bui+heOiMd0XjHUkKuJX/fj0a+j8l22tTUgDxT9LwW7gkDbHU26uOV2JCB+l1v
+         aZYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=D7XF/ydXKQe5CNfMxR56kkfmjRc3n07JxRNzL8ONVks=;
-        b=qJGIXejT60eDuYAodtMTK428QwUTWg++R5txY4nnTxwq4sInOMzkdMau/eAIbigNNJ
-         JF8cXyl6tp/LqytuunS26Vv1JVeFo3YMXyFlMHiRp2IEAy0wP6nMv+7FRHtPKfcJ2avg
-         oV5gnpWqcwUh/3cn71j7nank6GkF3cOifad1dLuz61j6Fbj88d8m1BqpefPd2a7mE6OQ
-         1bu4h5rsD/BcRy5npDMO+CLMe5rg6zAjASvCPs0yEemy5JIQi/pgWc0FLzssAjGur/xJ
-         emsLU6mQxsVXRUWMUONSTNTg8IkowG/TDGR/H/gaGT2kq7msiO2nxQI0Uaw9KKOIeVFL
-         heLw==
-X-Gm-Message-State: AOAM532PGt5bVcy79IFKkXz2R8ianaAnINdDf0rZXofl4ZOq+Bm838HI
-        h7EciUCeFo3WvJkSZ2Qg0m4zTw==
-X-Google-Smtp-Source: ABdhPJyWcexc084R4qQtKlB3l+HRBkObWo1df/YXmN1sBZh8GGvH9no/pxtZlogSJF0ZdzxHxikZXQ==
-X-Received: by 2002:a0c:9c01:0:b0:432:7630:263 with SMTP id v1-20020a0c9c01000000b0043276300263mr15169467qve.47.1646083757352;
-        Mon, 28 Feb 2022 13:29:17 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id p10-20020ae9f30a000000b00648e783ffbasm5604435qkg.135.2022.02.28.13.29.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 13:29:16 -0800 (PST)
-Message-ID: <cb7cf296bc7df7334f55cc51ef11b671572559ac.camel@ndufresne.ca>
-Subject: Re: [PATCH v7, 04/15] media: mtk-vcodec: Read max resolution from
- dec_capability
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=U6qUODqKVLrC7qZqs553HfNOTdovwKFxE93drAu/Dlk=;
+        b=iCiPdpgZCzz3yvJVrexxRCxhLpbHJio56HauB3jk0HOQJrmGA979tsWxPybrFVLGzC
+         rviOdWUGVAfG+SxRFv/OuGvdSCUQk7uF7WuGesOA/C81a/oR1K1Jm3CJszK4ejJYgZAo
+         x2mEVzUwr+4RgfbqKWz6AmZyWjaTRFjzUTjU7bRuHv8ZcadMZrk/teLe0Mtuub6nLp0L
+         a7ZyIBr8F4GE8Uu0Jc+2tXxHlIC2Imv0rNwyvD6j1LRvY9jgGT3tWdWldyGGrRH24vzG
+         nTzMwelCz91AtXEN39znf/7FQEvWlm13iKgxl7UOZY+IIOZsvmK0VqOyef47GdhW5Tmt
+         iBIg==
+X-Gm-Message-State: AOAM530/V9VOK6m4lb/4m2jbnFlZmK2daPDjc3i4TV7YGStA93vU4/Xt
+        eBbhRjdLtbgu479sDO5yQ04=
+X-Google-Smtp-Source: ABdhPJxKG2ff16tCWsK6Ck3Y2a57p3q44AgnQUgUMRZ3ajKrFkwS/Wlp6PHXO9g9MP9OhOujc97TPw==
+X-Received: by 2002:a05:6402:40d0:b0:412:f86a:efd1 with SMTP id z16-20020a05640240d000b00412f86aefd1mr21791110edb.194.1646084823834;
+        Mon, 28 Feb 2022 13:47:03 -0800 (PST)
+Received: from smtpclient.apple ([2a02:8109:9d80:3f6c:957a:1d13:c949:d1f3])
+        by smtp.gmail.com with ESMTPSA id ce7-20020a170906b24700b006cf095c2f5bsm4701847ejb.83.2022.02.28.13.47.01
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 28 Feb 2022 13:47:03 -0800 (PST)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+From:   Jakob Koschel <jakobkoschel@gmail.com>
+In-Reply-To: <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
+Date:   Mon, 28 Feb 2022 22:47:00 +0100
+Cc:     =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        samba-technical@lists.samba.org,
+        linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+        linux-arch <linux-arch@vger.kernel.org>,
+        CIFS <linux-cifs@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        linux-staging@lists.linux.dev, "Bos, H.J." <h.j.bos@vu.nl>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        intel-wired-lan@lists.osuosl.org,
+        kgdb-bugreport@lists.sourceforge.net,
+        bcm-kernel-feedback-list@broadcom.com,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Arnd Bergman <arnd@arndb.de>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        v9fs-developer@lists.sourceforge.net,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sgx@vger.kernel.org,
+        linux-block <linux-block@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>, linux-usb@vger.kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux F2FS Dev Mailing List 
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        tipc-discussion@lists.sourceforge.net,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        dma <dmaengine@vger.kernel.org>,
         linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Mon, 28 Feb 2022 16:29:15 -0500
-In-Reply-To: <20220223034008.15781-5-yunfei.dong@mediatek.com>
-References: <20220223034008.15781-1-yunfei.dong@mediatek.com>
-         <20220223034008.15781-5-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Andrew Morton <akpm@linux-foundation.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Mike Rapoport <rppt@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <FC710A1A-524E-481B-A668-FC258F529A2E@gmail.com>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+ <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+X-Mailer: Apple Mail (2.3693.60.0.1.1)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
-
-this patch does not work unless userland calls enum_framesizes, which is
-completely optional. See comment and suggestion below.
-
-Le mercredi 23 février 2022 à 11:39 +0800, Yunfei Dong a écrit :
-> Supported max resolution for different platforms are not the same: 2K
-> or 4K, getting it according to dec_capability.
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> Reviewed-by: Tzung-Bi Shih<tzungbi@google.com>
-> ---
->  .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 29 +++++++++++--------
->  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  4 +++
->  2 files changed, 21 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> index 130ecef2e766..304f5afbd419 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> @@ -152,13 +152,15 @@ void mtk_vcodec_dec_set_default_params(struct mtk_vcodec_ctx *ctx)
->  	q_data->coded_height = DFT_CFG_HEIGHT;
->  	q_data->fmt = ctx->dev->vdec_pdata->default_cap_fmt;
->  	q_data->field = V4L2_FIELD_NONE;
-> +	ctx->max_width = MTK_VDEC_MAX_W;
-> +	ctx->max_height = MTK_VDEC_MAX_H;
->  
->  	v4l_bound_align_image(&q_data->coded_width,
->  				MTK_VDEC_MIN_W,
-> -				MTK_VDEC_MAX_W, 4,
-> +				ctx->max_width, 4,
->  				&q_data->coded_height,
->  				MTK_VDEC_MIN_H,
-> -				MTK_VDEC_MAX_H, 5, 6);
-> +				ctx->max_height, 5, 6);
->  
->  	q_data->sizeimage[0] = q_data->coded_width * q_data->coded_height;
->  	q_data->bytesperline[0] = q_data->coded_width;
-> @@ -217,7 +219,7 @@ static int vidioc_vdec_subscribe_evt(struct v4l2_fh *fh,
->  	}
->  }
->  
-> -static int vidioc_try_fmt(struct v4l2_format *f,
-> +static int vidioc_try_fmt(struct mtk_vcodec_ctx *ctx, struct v4l2_format *f,
->  			  const struct mtk_video_fmt *fmt)
->  {
->  	struct v4l2_pix_format_mplane *pix_fmt_mp = &f->fmt.pix_mp;
-> @@ -225,9 +227,9 @@ static int vidioc_try_fmt(struct v4l2_format *f,
->  	pix_fmt_mp->field = V4L2_FIELD_NONE;
->  
->  	pix_fmt_mp->width =
-> -		clamp(pix_fmt_mp->width, MTK_VDEC_MIN_W, MTK_VDEC_MAX_W);
-> +		clamp(pix_fmt_mp->width, MTK_VDEC_MIN_W, ctx->max_width);
->  	pix_fmt_mp->height =
-> -		clamp(pix_fmt_mp->height, MTK_VDEC_MIN_H, MTK_VDEC_MAX_H);
-> +		clamp(pix_fmt_mp->height, MTK_VDEC_MIN_H, ctx->max_height);
->  
->  	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
->  		pix_fmt_mp->num_planes = 1;
-> @@ -245,16 +247,16 @@ static int vidioc_try_fmt(struct v4l2_format *f,
->  		tmp_h = pix_fmt_mp->height;
->  		v4l_bound_align_image(&pix_fmt_mp->width,
->  					MTK_VDEC_MIN_W,
-> -					MTK_VDEC_MAX_W, 6,
-> +					ctx->max_width, 6,
->  					&pix_fmt_mp->height,
->  					MTK_VDEC_MIN_H,
-> -					MTK_VDEC_MAX_H, 6, 9);
-> +					ctx->max_height, 6, 9);
->  
->  		if (pix_fmt_mp->width < tmp_w &&
-> -			(pix_fmt_mp->width + 64) <= MTK_VDEC_MAX_W)
-> +			(pix_fmt_mp->width + 64) <= ctx->max_width)
->  			pix_fmt_mp->width += 64;
->  		if (pix_fmt_mp->height < tmp_h &&
-> -			(pix_fmt_mp->height + 64) <= MTK_VDEC_MAX_H)
-> +			(pix_fmt_mp->height + 64) <= ctx->max_height)
->  			pix_fmt_mp->height += 64;
->  
->  		mtk_v4l2_debug(0,
-> @@ -294,7 +296,7 @@ static int vidioc_try_fmt_vid_cap_mplane(struct file *file, void *priv,
->  		fmt = mtk_vdec_find_format(f, dec_pdata);
->  	}
->  
-> -	return vidioc_try_fmt(f, fmt);
-> +	return vidioc_try_fmt(ctx, f, fmt);
->  }
->  
->  static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
-> @@ -317,7 +319,7 @@ static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
->  		return -EINVAL;
->  	}
->  
-> -	return vidioc_try_fmt(f, fmt);
-> +	return vidioc_try_fmt(ctx, f, fmt);
->  }
->  
->  static int vidioc_vdec_g_selection(struct file *file, void *priv,
-> @@ -445,7 +447,7 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
->  		return -EINVAL;
->  
->  	q_data->fmt = fmt;
-> -	vidioc_try_fmt(f, q_data->fmt);
-> +	vidioc_try_fmt(ctx, f, q_data->fmt);
->  	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
->  		q_data->sizeimage[0] = pix_mp->plane_fmt[0].sizeimage;
->  		q_data->coded_width = pix_mp->width;
-> @@ -545,6 +547,9 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
->  				fsize->stepwise.min_height,
->  				fsize->stepwise.max_height,
->  				fsize->stepwise.step_height);
-> +
-> +		ctx->max_width = fsize->stepwise.max_width;
-> +		ctx->max_height = fsize->stepwise.max_height;
-
-The spec does not require calling enum_fmt, so changing the maximum here is
-incorrect (and fail with GStreamer). If userland never enum the framesizes, the
-resolution get limited to 1080p.
-
-As this only depends and the OUTPUT format and the device being open()
-(condition being dev_capability being set and OUTPUT format being known / not
-VP8), you could initialize the cxt max inside s_fmt(OUTPUT) instead, which is a
-mandatory call. I have tested this change to verify this:
 
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-index 044e3dfbdd8c..3e7c571526a4 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-@@ -484,6 +484,14 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
- 	if (fmt == NULL)
- 		return -EINVAL;
- 
-+	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE &&
-+	    !(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED) &&
-+	    fmt->fourcc != V4L2_PIX_FMT_VP8_FRAME) {
-+		mtk_v4l2_debug(3, "4K is enabled");
-+		ctx->max_width = VCODEC_DEC_4K_CODED_WIDTH;
-+		ctx->max_height = VCODEC_DEC_4K_CODED_HEIGHT;
-+	}
-+
- 	q_data->fmt = fmt;
- 	vidioc_try_fmt(ctx, f, q_data->fmt);
- 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-@@ -574,15 +582,9 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
- 
- 		fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
- 		fsize->stepwise = dec_pdata->vdec_framesizes[i].stepwise;
--		if (!(ctx->dev->dec_capability &
--				VCODEC_CAPABILITY_4K_DISABLED) &&
--				fsize->pixel_format != V4L2_PIX_FMT_VP8_FRAME) {
--			mtk_v4l2_debug(3, "4K is enabled");
--			fsize->stepwise.max_width =
--					VCODEC_DEC_4K_CODED_WIDTH;
--			fsize->stepwise.max_height =
--					VCODEC_DEC_4K_CODED_HEIGHT;
--		}
-+		fsize->stepwise.max_width = ctx->max_width;
-+		fsize->stepwise.max_height = ctx->max_height;
-+
- 		mtk_v4l2_debug(1, "%x, %d %d %d %d %d %d",
- 				ctx->dev->dec_capability,
- 				fsize->stepwise.min_width,
-@@ -592,8 +594,6 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
- 				fsize->stepwise.max_height,
- 				fsize->stepwise.step_height);
- 
--		ctx->max_width = fsize->stepwise.max_width;
--		ctx->max_height = fsize->stepwise.max_height;
- 		return 0;
- 	}
- 
+> On 28. Feb 2022, at 21:10, Linus Torvalds =
+<torvalds@linux-foundation.org> wrote:
+>=20
+> On Mon, Feb 28, 2022 at 12:03 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+>>=20
+>> Side note: we do need *some* way to do it.
+>=20
+> Ooh.
+>=20
+> This patch is a work of art.
+>=20
+> And I mean that in the worst possible way.
+>=20
+> We can do
+>=20
+>        typeof(pos) pos
+>=20
+> in the 'for ()' loop, and never use __iter at all.
+>=20
+> That means that inside the for-loop, we use a _different_ 'pos' than =
+outside.
+>=20
+> And then the compiler will not see some "might be uninitialized", but
+> the outer 'pos' *will* be uninitialized.
+>=20
+> Unless, of course, the outer 'pos' had that pointless explicit =
+initializer.
 
+The goal of this is to get compiler warnings right? This would indeed be =
+great.
 
->  		return 0;
->  	}
->  
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> index bb7b8e914d24..6d27e4d41ede 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> @@ -284,6 +284,8 @@ struct vdec_pic_info {
->   *	  mtk_video_dec_buf.
->   * @hw_id: hardware index used to identify different hardware.
->   *
-> + * @max_width: hardware supported max width
-> + * @max_height: hardware supported max height
->   * @msg_queue: msg queue used to store lat buffer information.
->   */
->  struct mtk_vcodec_ctx {
-> @@ -329,6 +331,8 @@ struct mtk_vcodec_ctx {
->  	struct mutex lock;
->  	int hw_id;
->  
-> +	unsigned int max_width;
-> +	unsigned int max_height;
->  	struct vdec_msg_queue msg_queue;
->  };
->  
+Changing the list_for_each_entry() macro first will break all of those =
+cases
+(e.g. the ones using 'list_entry_is_head()).
+I assumed it is better to fix those cases first and then have a simple
+coccinelle script changing the macro + moving the iterator into the =
+scope
+of the macro.
+
+>=20
+> Here - can somebody poke holes in this "work of art" patch?
+
+With this you are no longer able to set the 'outer' pos within the list
+iterator loop body or am I missing something? Like this it stays
+uninitialized but you'll probably want to set it from within the loop.
+
+You would then yet again need a variable with another name to use
+after the loop.
+
+I fail to see how this will make most of the changes in this
+patch obsolete (if that was the intention).
+
+>=20
+>                     Linus
+> <patch.diff>
+
+- Jakob
 
