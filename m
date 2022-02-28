@@ -2,245 +2,513 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 388C74C65FA
-	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 10:47:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E578C4C66CB
+	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 11:05:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234459AbiB1JsF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Feb 2022 04:48:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59326 "EHLO
+        id S233567AbiB1KF4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Feb 2022 05:05:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234538AbiB1JsC (ORCPT
+        with ESMTP id S231365AbiB1KFz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Feb 2022 04:48:02 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5FC0140DF
-        for <linux-media@vger.kernel.org>; Mon, 28 Feb 2022 01:47:21 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id d17so14398009wrc.9
-        for <linux-media@vger.kernel.org>; Mon, 28 Feb 2022 01:47:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=WOsjPChuIl+kUePfrAPa71neh0lHex3RttBKXvPfdoQ=;
-        b=TLq5hpkPHku3PLxi7HJbuJQsDP5Wa7qmaxuH26hMsQgWK2StXMrHE79lPn12BYrQyn
-         36Ckju9r6Hg7T6NbCnE8YfIgER8Ni5YGmcs9hOo7u4MwKQBxmrAK257ZQkgoawpWdRwJ
-         DlGl1bAHqToyAi3tVc+kngINC02Nv/oewNYInyNN/iFxs5sVEWMcYJeJSidWEPmgMgJW
-         VRhhtweBy8BSnG5qDSak01L4h4ZAhijRKIluKCCOY4NsVuvOIqxQS//H6BAqX97/OOuf
-         AK4MvT1gl3aaMEO01QZM4uV+WrNRAVoZaAcp234fHj7KPR8tQVTl/oUXvpvPoEQvLCNk
-         qD4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=WOsjPChuIl+kUePfrAPa71neh0lHex3RttBKXvPfdoQ=;
-        b=uBfXE4FS4yICNiCOXzmpcTo25i5IEXTXDbc0GOZGPs1+IAGDVi9b+L1lHvO/JTD0SD
-         0xwNN4eWsphuXgZkPUPNKN0Q6Qg181gKxPLpVxBvPBPpqj9K7jAfGO7V3mjkaxzyUMbu
-         eUIXCWYccn6cFEd01UhUJx2Io6bAizxqCrV+6WrURRUn8kyq8qn0dEhY4716Cjf0hs+V
-         dCOmn79PF/CBGzJqjsj0NB8pkSdDerP0O62qRJ8sSRDZyxfDjel/PaW+y0yixWhqueIf
-         TduURqRoCOn00yv4jCT56PZNcRzTwMBrIDLDchnqipuU7UgJyVp7mVr5dd06C5h0oHK7
-         VHTw==
-X-Gm-Message-State: AOAM532e4ZUVXkwuPVJhLrg9AHBZkZ1a5R2l7kU8Y/ZeGyebPOUNNemm
-        A4SS8NKenh1YdIBrJ3MAmyrcPQ==
-X-Google-Smtp-Source: ABdhPJzp3i6tmpmN3z5O/ACtJUvC9C0191qzOsrE2xxczwXXbQmhrl6UAPBNDXyzNtGo0jFeNgtLww==
-X-Received: by 2002:adf:e0ce:0:b0:1ef:706d:d6b9 with SMTP id m14-20020adfe0ce000000b001ef706dd6b9mr11022135wri.71.1646041640166;
-        Mon, 28 Feb 2022 01:47:20 -0800 (PST)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id f21-20020a7bcd15000000b0034efd01ee16sm10388339wmj.42.2022.02.28.01.47.19
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Mon, 28 Feb 2022 01:47:19 -0800 (PST)
-From:   John Cox <jc@kynesim.co.uk>
-To:     =?utf-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jonas@kwiboo.se, nicolas@ndufresne.ca,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com, knaerzche@gmail.com
-Subject: Re: [PATCH v3 09/14] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
-Date:   Mon, 28 Feb 2022 09:47:18 +0000
-Message-ID: <me5p1hpnrarnqqaefoofrtqb898afl0rsn@4ax.com>
-References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com> <4378293.LvFx2qVVIh@kista> <1884298.PYKUYFuaPT@kista> <7348885.EvYhyI6sBW@kista>
-In-Reply-To: <7348885.EvYhyI6sBW@kista>
-User-Agent: ForteAgent/8.00.32.1272
+        Mon, 28 Feb 2022 05:05:55 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B952C650
+        for <linux-media@vger.kernel.org>; Mon, 28 Feb 2022 02:05:14 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B8CD612DF
+        for <linux-media@vger.kernel.org>; Mon, 28 Feb 2022 10:05:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5E34C340E7;
+        Mon, 28 Feb 2022 10:05:11 +0000 (UTC)
+Message-ID: <824c5ed4-26f8-6fe8-a81f-6c303c04dc95@xs4all.nl>
+Date:   Mon, 28 Feb 2022 11:05:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v4 4/7] media: subdev: add subdev state locking
+Content-Language: en-US
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Pratyush Yadav <p.yadav@ti.com>
+References: <20220216130049.508664-1-tomi.valkeinen@ideasonboard.com>
+ <20220216130049.508664-5-tomi.valkeinen@ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220216130049.508664-5-tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 26 Feb 2022 19:17:46 +0100, you wrote:
 
->Dne sobota, 26. februar 2022 ob 18:59:18 CET je Jernej =C5=A0krabec =
-napisal(a):
->> Hi!
->>=20
->> Dne petek, 25. februar 2022 ob 20:30:20 CET je Jernej =C5=A0krabec =
-napisal(a):
->> > Hi!
->> >=20
->> > Dne petek, 25. februar 2022 ob 17:45:55 CET je Benjamin Gaignard=20
->napisal(a):
->> > > The number of 'entry point offset' could be very variable.
->> > > Rather than use a large static array define a v4l2 dynamic array
->> > > of integer control.
->> >=20
->> > I suggest we should be more specific and say U32 =
-(V4L2_CTRL_TYPE_U32).
->> >=20
->> > > The number of entry point offsets is reported by the elems field.
->>=20
->> I did few more tests and these are my findings:
->> 1. dynamic array can't be set over size, specified in .dims array
->> 2. entry point offsets are per slice, so if we make slices dynamic =
-array,=20
->then=20
->> entry points would become two dimensional dynamic array
->> 3. num_entry_point_offsets must be part of slice control, because it =
-can be=20
->> zero, but size of array can't be
->
->Clarification: num_entry_point_offsets is needed in any case, even =
-without entry=20
->point list.
 
-I thought that at least one decoder wanted the entry points or have we
-decided that we don't? Whilst they aren't required for decode, what they
-give you, if your h/w supports it, is the ability to decode multiple
-lines of CTBs in parallel (with a 2 CTB offset between lines), so they
-aren't useless.
+On 2/16/22 14:00, Tomi Valkeinen wrote:
+> The V4L2 subdevs have managed without centralized locking for the state
+> (previously pad_config), as the try-state is supposedly safe (although I
+> believe two TRY ioctls for the same fd would race), and the
+> active-state, and its locking, is managed by the drivers internally.
+> 
+> We now have active-state in a centralized position, and need locking.
+> Strictly speaking the locking is only needed for new drivers that use
+> the new state, as the current drivers continue behaving as they used to.
+> 
+> However, active-state locking is complicated by the fact that currently
+> the real active-state of a subdev is split into multiple parts: the new
+> v4l2_subdev_state, subdev control state, and subdev's internal state.
+> 
+> In the future all these three states should be combined into one state
+> (the v4l2_subdev_state), and then a single lock for the state should be
+> sufficient.
+> 
+> But to solve the current split-state situation we need to share locks
+> between the three states. This is accomplished by using the same lock
+> management as the control handler does: we use a pointer to a mutex,
+> allowing the driver to override the default mutex. Thus the driver can
+> do e.g.:
+> 
+> sd->state_lock = sd->ctrl_handler->lock;
+> 
+> before calling v4l2_subdev_init_finalize(), resulting in sharing the
+> same lock between the states and the controls.
+> 
+> The locking model for active-state is such that any subdev op that gets
+> the state as a parameter expects the state to be already locked by the
+> caller, and expects the caller to release the lock.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c |  3 +-
+>  drivers/media/platform/vsp1/vsp1_entity.c   |  4 +-
+>  drivers/media/v4l2-core/v4l2-subdev.c       | 78 +++++++++++++++----
+>  drivers/staging/media/tegra-video/vi.c      |  4 +-
+>  include/media/v4l2-subdev.h                 | 85 ++++++++++++++++++++-
+>  5 files changed, 155 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index da88f968c31a..3759f4619a77 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -255,6 +255,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+>  {
+>  	struct v4l2_subdev *sd = vin_to_source(vin);
+>  	struct v4l2_subdev_state *sd_state;
+> +	static struct lock_class_key key;
+>  	struct v4l2_subdev_format format = {
+>  		.which = which,
+>  		.pad = vin->parallel.source_pad,
+> @@ -267,7 +268,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+>  	 * FIXME: Drop this call, drivers are not supposed to use
+>  	 * __v4l2_subdev_state_alloc().
+>  	 */
+> -	sd_state = __v4l2_subdev_state_alloc(sd);
+> +	sd_state = __v4l2_subdev_state_alloc(sd, "rvin:state->lock", &key);
+>  	if (IS_ERR(sd_state))
+>  		return PTR_ERR(sd_state);
+>  
+> diff --git a/drivers/media/platform/vsp1/vsp1_entity.c b/drivers/media/platform/vsp1/vsp1_entity.c
+> index c82b3fb7b89a..a116a3362f9e 100644
+> --- a/drivers/media/platform/vsp1/vsp1_entity.c
+> +++ b/drivers/media/platform/vsp1/vsp1_entity.c
+> @@ -613,6 +613,7 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
+>  		     const char *name, unsigned int num_pads,
+>  		     const struct v4l2_subdev_ops *ops, u32 function)
+>  {
+> +	static struct lock_class_key key;
+>  	struct v4l2_subdev *subdev;
+>  	unsigned int i;
+>  	int ret;
+> @@ -679,7 +680,8 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
+>  	 * FIXME: Drop this call, drivers are not supposed to use
+>  	 * __v4l2_subdev_state_alloc().
+>  	 */
+> -	entity->config = __v4l2_subdev_state_alloc(&entity->subdev);
+> +	entity->config = __v4l2_subdev_state_alloc(&entity->subdev,
+> +						   "vsp1:config->lock", &key);
+>  	if (IS_ERR(entity->config)) {
+>  		media_entity_cleanup(&entity->subdev.entity);
+>  		return PTR_ERR(entity->config);
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index b67bbce82612..0df9bbe1819d 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -27,8 +27,9 @@
+>  static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
+>  {
+>  	struct v4l2_subdev_state *state;
+> +	static struct lock_class_key key;
+>  
+> -	state = __v4l2_subdev_state_alloc(sd);
+> +	state = __v4l2_subdev_state_alloc(sd, "fh->state->lock", &key);
+>  	if (IS_ERR(state))
+>  		return PTR_ERR(state);
+>  
+> @@ -383,18 +384,15 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+>  			     v4l2_subdev_get_active_state(sd);
+>  }
+>  
+> -static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+> +static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> +			    struct v4l2_subdev_state *state)
+>  {
+>  	struct video_device *vdev = video_devdata(file);
+>  	struct v4l2_subdev *sd = vdev_to_v4l2_subdev(vdev);
+>  	struct v4l2_fh *vfh = file->private_data;
+> -	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+>  	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
+> -	struct v4l2_subdev_state *state;
+>  	int rval;
+>  
+> -	state = subdev_ioctl_get_state(sd, subdev_fh, cmd, arg);
+> -
+>  	switch (cmd) {
+>  	case VIDIOC_SUBDEV_QUERYCAP: {
+>  		struct v4l2_subdev_capability *cap = arg;
+> @@ -707,8 +705,24 @@ static long subdev_do_ioctl_lock(struct file *file, unsigned int cmd, void *arg)
+>  
+>  	if (lock && mutex_lock_interruptible(lock))
+>  		return -ERESTARTSYS;
+> -	if (video_is_registered(vdev))
+> -		ret = subdev_do_ioctl(file, cmd, arg);
+> +
+> +	if (video_is_registered(vdev)) {
+> +		struct v4l2_subdev *sd = vdev_to_v4l2_subdev(vdev);
+> +		struct v4l2_fh *vfh = file->private_data;
+> +		struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+> +		struct v4l2_subdev_state *state;
+> +
+> +		state = subdev_ioctl_get_state(sd, subdev_fh, cmd, arg);
+> +
+> +		if (state)
+> +			v4l2_subdev_lock_state(state);
+> +
+> +		ret = subdev_do_ioctl(file, cmd, arg, state);
+> +
+> +		if (state)
+> +			v4l2_subdev_unlock_state(state);
+> +	}
+> +
+>  	if (lock)
+>  		mutex_unlock(lock);
+>  	return ret;
+> @@ -864,7 +878,7 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
+>  			media_entity_to_v4l2_subdev(pad->entity);
+>  		struct v4l2_subdev_state *state;
+>  
+> -		state = v4l2_subdev_get_active_state(sd);
+> +		state = v4l2_subdev_get_locked_active_state(sd);
+>  
+>  		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>  		fmt->pad = pad->index;
+> @@ -906,7 +920,9 @@ int v4l2_subdev_link_validate(struct media_link *link)
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
+>  
+> -struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd)
+> +struct v4l2_subdev_state *
+> +__v4l2_subdev_state_alloc(struct v4l2_subdev *sd, const char *lock_name,
+> +			  struct lock_class_key *lock_key)
+>  {
+>  	struct v4l2_subdev_state *state;
+>  	int ret;
+> @@ -915,6 +931,12 @@ struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd)
+>  	if (!state)
+>  		return ERR_PTR(-ENOMEM);
+>  
+> +	__mutex_init(&state->_lock, lock_name, lock_key);
+> +	if (sd->state_lock)
+> +		state->lock = sd->state_lock;
+> +	else
+> +		state->lock = &state->_lock;
+> +
+>  	if (sd->entity.num_pads) {
+>  		state->pads = kvmalloc_array(sd->entity.num_pads,
+>  					     sizeof(*state->pads),
+> @@ -925,7 +947,14 @@ struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd)
+>  		}
+>  	}
+>  
+> +	/*
+> +	 * There can be no race at this point, but we lock the state anyway to
+> +	 * satisfy lockdep checks.
+> +	 */
+> +	v4l2_subdev_lock_state(state);
+>  	ret = v4l2_subdev_call(sd, pad, init_cfg, state);
+> +	v4l2_subdev_unlock_state(state);
+> +
+>  	if (ret < 0 && ret != -ENOIOCTLCMD)
+>  		goto err;
+>  
+> @@ -946,16 +975,19 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
+>  	if (!state)
+>  		return;
+>  
+> +	mutex_destroy(&state->_lock);
+> +
+>  	kvfree(state->pads);
+>  	kfree(state);
+>  }
+>  EXPORT_SYMBOL_GPL(__v4l2_subdev_state_free);
+>  
+> -int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
+> +int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
+> +				struct lock_class_key *key)
+>  {
+>  	struct v4l2_subdev_state *state;
+>  
+> -	state = __v4l2_subdev_state_alloc(sd);
+> +	state = __v4l2_subdev_state_alloc(sd, name, key);
+>  	if (IS_ERR(state))
+>  		return PTR_ERR(state);
+>  
+> @@ -963,7 +995,7 @@ int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
+>  
+>  	return 0;
+>  }
+> -EXPORT_SYMBOL_GPL(v4l2_subdev_init_finalize);
+> +EXPORT_SYMBOL_GPL(__v4l2_subdev_init_finalize);
+>  
+>  void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
+>  {
+> @@ -972,6 +1004,26 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
+>  
+> +struct v4l2_subdev_state *v4l2_subdev_lock_active_state(struct v4l2_subdev *sd)
+> +{
+> +	mutex_lock(sd->active_state->lock);
+> +
+> +	return sd->active_state;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_lock_active_state);
 
-If we do decided we want the entry point offset control, now or later,
-then num_entry_points in the slice_param allows you to determine which
-offsets apply to which slices without the complexity of a variable array
-of variable arrays.
+I don't like this function very much. First of all, call v4l2_subdev_lock_state()
+instead of mutex_lock, that signals that the normal state lock function is used.
 
-But whether or not we end up supporting entry point offsets, the Pi h/w
-requires me to generate 1 table entry for each CTB line and
-num_entry_points is the parameter I need for that, so I really want it
-in the slice_params.
+The naming is poor since this suggests that the active_state is just locked
+when it actually is also returned. So v4l2_subdev_lock_and_return_active_state()
+is really the correct name. Long, yes, but at least it is clear what it does.
 
-Regards
+I also think this is better done as a static inline.
 
-John Cox
+But really, I wonder if we need this helper at all. Can't drivers just call
+v4l2_subdev_lock_state(sd->active_state) and then use sd->active_state?
 
->> 4. fortunately, not setting entry points doesn't impact decoding=20
->correctness.=20
->> This is in line what John told me about them.
->>=20
->> Hans, can you comment points 1-3? I might misunderstand point 1.
->>=20
->> In short, it seems like we don't really need entry points, even if =
-they are=20
->> used in BSP library. In both cases, I got fluster score 119/138 =
-(10-bit=20
->> excluded), so we can just drop this patch, although I'm a bit uneasy =
-not=20
->> setting entry points...
->>=20
->> Best regards,
->> Jernej
->>=20
->> > >=20
->> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> > > ---
->> > >  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 =
-+++++++++
->> > >  include/media/hevc-ctrls.h                               | 1 +
->> > >  2 files changed, 10 insertions(+)
->> > >=20
->> > > diff --git =
-a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
->> > Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> > > index 44a268a948c0..71f7dc1c1ccd 100644
->> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> > > @@ -3128,6 +3128,15 @@ enum =
-v4l2_mpeg_video_hevc_size_of_length_field -
->> > > =20
->> > >      \normalsize
->> > > =20
->> > > +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
->> >=20
->> > Here you have OFFSETS (plural) ...
->> >=20
->> > > +    Specifies the i-th entry point offset in bytes and is =
-represented by
->> > > +    offset_len_minus1 plus 1 bits.
->> >=20
->> > You probably mean entry_point_offset_minus1? offset_len_minus1 just =
-tells=20
->how=20
->> > much bits need to be read for each element and it's not important =
-for=20
->actual=20
->> > decoding.
->> >=20
->> > > +    This control is a dynamically sized array. The number of =
-entry=20
->point
->> > > +    offsets is reported by the ``elems`` field.
->> > > +    This bitstream parameter is defined according to :ref:`hevc`.
->> > > +    They are described in section 7.4.7.1 "General slice segment =
-header
->> > > +    semantics" of the specification.
->> > > +
->> > >  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->> > >      Specifies the HEVC scaling matrix parameters used for the =
-scaling=20
->> > process
->> > >      for transform coefficients.
->> > > diff --git a/include/media/hevc-ctrls.h =
-b/include/media/hevc-ctrls.h
->> > > index 3016c1abb1d0..3f8a67924df3 100644
->> > > --- a/include/media/hevc-ctrls.h
->> > > +++ b/include/media/hevc-ctrls.h
->> > > @@ -20,6 +20,7 @@
->> > >  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	=
-(V4L2_CID_CODEC_BASE +=20
->> > 1012)
->> > >  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE =
-+=20
->> > 1015)
->> > >  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE=20
->+=20
->> 1016)
->> > > +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET =
-(V4L2_CID_CODEC_BASE=20
->+=20
->> > 1017)
->> >=20
->> > ... and here you have OFFSET (singlular). I suggest plural form to =
-be used=20
->> in=20
->> > all places, including subject line of this commit.
->> >=20
->> > Additionally, it would be nice if control is initialized, like so:
->> > https://github.com/jernejsk/linux-1/commit/
->> > f938e162cd8dd77c9f6f1b248d80144840a37bce
->> >=20
->> > Best regards,
->> > Jernej
->> >=20
->> > > =20
->> > >  /* enum v4l2_ctrl_type type values */
->> > >  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
->> > > --=20
->> > > 2.32.0
->> > >=20
->> > >=20
->> >=20
->> >=20
->> >=20
->>=20
->>=20
->>=20
->
+I think that's much more understandable, and it avoids having confusing
+lock helper functions. More on this below in the header.
+
+> +
+> +void v4l2_subdev_lock_state(struct v4l2_subdev_state *state)
+> +{
+> +	mutex_lock(state->lock);
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_lock_state);
+> +
+> +void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
+> +{
+> +	mutex_unlock(state->lock);
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_unlock_state);
+
+To be honest, I think these two functions could also be moved to the header
+as a static inline. It will be a bit more efficient and for developers reading
+the header it will be easier to understand what is going on.
+
+> +
+>  #endif /* CONFIG_MEDIA_CONTROLLER */
+>  
+>  void v4l2_subdev_init(struct v4l2_subdev *sd, const struct v4l2_subdev_ops *ops)
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> index 07d368f345cd..8e184aa4c252 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -491,6 +491,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+>  				      struct v4l2_pix_format *pix)
+>  {
+>  	const struct tegra_video_format *fmtinfo;
+> +	static struct lock_class_key key;
+>  	struct v4l2_subdev *subdev;
+>  	struct v4l2_subdev_format fmt;
+>  	struct v4l2_subdev_state *sd_state;
+> @@ -511,7 +512,8 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+>  	 * FIXME: Drop this call, drivers are not supposed to use
+>  	 * __v4l2_subdev_state_alloc().
+>  	 */
+> -	sd_state = __v4l2_subdev_state_alloc(subdev);
+> +	sd_state = __v4l2_subdev_state_alloc(subdev, "tegra:state->lock",
+> +					     &key);
+>  	if (IS_ERR(sd_state))
+>  		return PTR_ERR(sd_state);
+>  	/*
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 1bbe4383966c..8d089a2dbd32 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -658,6 +658,8 @@ struct v4l2_subdev_pad_config {
+>  /**
+>   * struct v4l2_subdev_state - Used for storing subdev state information.
+>   *
+> + * @_lock: default for 'lock'
+> + * @lock: mutex for the state. May be replaced by the user.
+>   * @pads: &struct v4l2_subdev_pad_config array
+>   *
+>   * This structure only needs to be passed to the pad op if the 'which' field
+> @@ -665,6 +667,9 @@ struct v4l2_subdev_pad_config {
+>   * %V4L2_SUBDEV_FORMAT_ACTIVE it is safe to pass %NULL.
+>   */
+>  struct v4l2_subdev_state {
+> +	/* lock for the struct v4l2_subdev_state fields */
+> +	struct mutex _lock;
+> +	struct mutex *lock;
+>  	struct v4l2_subdev_pad_config *pads;
+>  };
+>  
+> @@ -888,6 +893,9 @@ struct v4l2_subdev_platform_data {
+>   * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
+>   *		     device using v4l2_async_register_subdev_sensor().
+>   * @pdata: common part of subdevice platform data
+> + * @state_lock: A pointer to a lock used for all the subdev's states, set by the
+> + *		driver. This is	optional. If NULL, each state instance will get
+> + *		a lock of its own.
+>   * @active_state: Active state for the subdev (NULL for subdevs tracking the
+>   *		  state internally). Initialized by calling
+>   *		  v4l2_subdev_init_finalize().
+> @@ -922,6 +930,7 @@ struct v4l2_subdev {
+>  	struct v4l2_async_notifier *notifier;
+>  	struct v4l2_async_notifier *subdev_notifier;
+>  	struct v4l2_subdev_platform_data *pdata;
+> +	struct mutex *state_lock;
+>  
+>  	/*
+>  	 * The fields below are private, and should only be accessed via
+> @@ -1144,12 +1153,16 @@ int v4l2_subdev_link_validate(struct media_link *link);
+>   * __v4l2_subdev_state_alloc - allocate v4l2_subdev_state
+>   *
+>   * @sd: pointer to &struct v4l2_subdev for which the state is being allocated.
+> + * @lock_name: name of the state lock
+> + * @key: lock_class_key for the lock
+>   *
+>   * Must call __v4l2_subdev_state_free() when state is no longer needed.
+>   *
+>   * Not to be called directly by the drivers.
+>   */
+> -struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd);
+> +struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd,
+> +						    const char *lock_name,
+> +						    struct lock_class_key *key);
+>  
+>  /**
+>   * __v4l2_subdev_state_free - free a v4l2_subdev_state
+> @@ -1174,7 +1187,16 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state);
+>   *
+>   * The user must call v4l2_subdev_cleanup() when the subdev is being removed.
+>   */
+> -int v4l2_subdev_init_finalize(struct v4l2_subdev *sd);
+> +#define v4l2_subdev_init_finalize(sd)                                          \
+> +	({                                                                     \
+> +		static struct lock_class_key __key;                            \
+> +		const char *name = KBUILD_BASENAME                             \
+> +			":" __stringify(__LINE__) ":sd->active_state->lock";   \
+> +		__v4l2_subdev_init_finalize(sd, name, &__key);                 \
+> +	})
+> +
+> +int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
+> +				struct lock_class_key *key);
+>  
+>  /**
+>   * v4l2_subdev_cleanup() - Releases the resources allocated by the subdevice
+> @@ -1191,14 +1213,71 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
+>   * @sd: The subdevice
+>   *
+>   * Returns the active state for the subdevice, or NULL if the subdev does not
+> - * support active state.
+> + * support active state. If the state is not NULL, calls
+> + * lockdep_assert_not_held() to issue a warning if the state is locked.
+> + *
+> + * This function is to be used e.g. when getting the active state for the sole
+> + * purpose of passing it forward, without accessing the state fields.
+>   */
+>  static inline struct v4l2_subdev_state *
+>  v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
+>  {
+> +	if (sd->active_state)
+> +		lockdep_assert_not_held(sd->active_state->lock);
+> +	return sd->active_state;
+> +}
+> +
+> +/**
+> + * v4l2_subdev_get_locked_active_state() - Checks that the active subdev state
+> + *					   is locked and returns it
+> + *
+> + * @sd: The subdevice
+> + *
+> + * Returns the active state for the subdevice, or NULL if the subdev does not
+> + * support active state. If the state is not NULL, calls lockdep_assert_held()
+> + * to issue a warning if the state is not locked.
+> + *
+> + * This function is to be used when the caller knows that the active state is
+> + * already locked.
+> + */
+> +static inline struct v4l2_subdev_state *
+> +v4l2_subdev_get_locked_active_state(struct v4l2_subdev *sd)
+> +{
+> +	if (sd->active_state)
+> +		lockdep_assert_held(sd->active_state->lock);
+>  	return sd->active_state;
+>  }
+
+Do we really need these two functions? I can't help feeling that this is
+overkill and that is becomes quite confusing to have all these similarly
+names functions.
+
+It's a bit of a grey area admittedly, but it does confuse me a bit.
+
+Regards,
+
+	Hans
+
+>  
+> +/**
+> + * v4l2_subdev_lock_active_state() - Locks and returns the active subdev state
+> + *				     for the subdevice
+> + * @sd: The subdevice
+> + *
+> + * Returns the locked active state for the subdevice, or NULL if the subdev
+> + * does not support active state.
+> + *
+> + * The state must be unlocked with v4l2_subdev_unlock_state() after use.
+> + */
+> +struct v4l2_subdev_state *v4l2_subdev_lock_active_state(struct v4l2_subdev *sd);
+> +
+> +/**
+> + * v4l2_subdev_lock_state() - Locks the subdev state
+> + * @state: The subdevice state
+> + *
+> + * Locks the given subdev state.
+> + *
+> + * The state must be unlocked with v4l2_subdev_unlock_state() after use.
+> + */
+> +void v4l2_subdev_lock_state(struct v4l2_subdev_state *state);
+> +
+> +/**
+> + * v4l2_subdev_unlock_state() - Unlocks the subdev state
+> + * @state: The subdevice state
+> + *
+> + * Unlocks the given subdev state.
+> + */
+> +void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state);
+> +
+>  #endif /* CONFIG_MEDIA_CONTROLLER */
+>  
+>  /**
