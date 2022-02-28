@@ -2,133 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 125614C5F00
-	for <lists+linux-media@lfdr.de>; Sun, 27 Feb 2022 22:16:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B92414C61CA
+	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 04:27:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230447AbiB0VRT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Feb 2022 16:17:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56970 "EHLO
+        id S232846AbiB1D2c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Feb 2022 22:28:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbiB0VRS (ORCPT
+        with ESMTP id S232821AbiB1D2b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Feb 2022 16:17:18 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9868154FA6;
-        Sun, 27 Feb 2022 13:16:41 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85C64478;
-        Sun, 27 Feb 2022 22:16:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1645996599;
-        bh=2aKZBadYFJVtbrkVPJGHjuZik/GZIzErTWIDXZkTzb8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Evw2a9V/RZSu8QMlzm8XwVbUntBzP63MEo6saOgow4pQiWuBR+T/PMGDR/BzQ29XG
-         qX23e55cDceq/Msdirfu3DweQG/hglB2LzuEwTCnqlYIR0seoQbwxlbRmUibCDr630
-         N3lQ2KCOoTw5nKewk4vjy1Hr0FDUkNZ0XgummOyg=
-Date:   Sun, 27 Feb 2022 23:16:28 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>
-Subject: Re: [PATCH 1/2] dt-bindings: media: Add macros for video interface
- bus types
-Message-ID: <YhvqLL0LYWt2ryaE@pendragon.ideasonboard.com>
-References: <20220227203352.17314-1-laurent.pinchart@ideasonboard.com>
- <20220227203352.17314-2-laurent.pinchart@ideasonboard.com>
- <YhvoC0aXpJUTslnC@paasikivi.fi.intel.com>
+        Sun, 27 Feb 2022 22:28:31 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178314617E
+        for <linux-media@vger.kernel.org>; Sun, 27 Feb 2022 19:27:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646018874; x=1677554874;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=byNeG2vWKZv6tMrVrWwTfMcGnhTE1EpRz1JspjtgHGo=;
+  b=ObGhKkuRTqOVqTEyMfBvkDPLVzyOop4PShTKjVOS+iOzg0dChSuZWhLj
+   8DbfD9v4BH23Q1EAXWWtNuO98bJca4kdO8cmA18DT+V6Qqs0/gAqF0+gM
+   MhbfWofA7KNGwHoDcG8+CRr5D9WLa4H2KHSA924kQzLAvwBAzAN9jGlJM
+   Fus8inOhbwb1ZFki4bHnO5A7GRelig6kx1KAmHgY2N4tNLbb9XhAf2BOi
+   gn41qRuBAMYUF1Fo9MF6fjJDVhcfX8V7G7Cu9RISwaVeCZTSjT467oH34
+   FYfeMDuU7l+G3hC+BAVwpBR0Si7NnICLUiq/TMQwRsMYIbtnuZEWpAYlN
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="339229951"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; 
+   d="scan'208";a="339229951"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2022 19:27:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; 
+   d="scan'208";a="629474823"
+Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 27 Feb 2022 19:27:51 -0800
+Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nOWhT-0006zG-1o; Mon, 28 Feb 2022 03:27:51 +0000
+Date:   Mon, 28 Feb 2022 11:27:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Tomasz Figa <tfiga@google.com>,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 12/16] media: rkisp1: Compile debugfs support
+ conditionally
+Message-ID: <202202281151.lY2yvuon-lkp@intel.com>
+References: <20220227160116.18556-13-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YhvoC0aXpJUTslnC@paasikivi.fi.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220227160116.18556-13-laurent.pinchart@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Laurent,
 
-On Sun, Feb 27, 2022 at 11:07:23PM +0200, Sakari Ailus wrote:
-> On Sun, Feb 27, 2022 at 10:33:51PM +0200, Laurent Pinchart wrote:
-> > Add a new dt-bindings/media/video-interfaces.h header that defines
-> > macros corresponding to the bus types from media/video-interfaces.yaml.
-> > This allows avoiding hardcoded constants in device tree sources.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  include/dt-bindings/media/video-interfaces.h | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> >  create mode 100644 include/dt-bindings/media/video-interfaces.h
-> > 
-> > diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
-> > new file mode 100644
-> > index 000000000000..e38058e1cca7
-> > --- /dev/null
-> > +++ b/include/dt-bindings/media/video-interfaces.h
-> > @@ -0,0 +1,16 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > +/*
-> > + * Copyright (C) 2022 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > + */
-> > +
-> > +#ifndef __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
-> > +#define __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
-> > +
-> > +#define MEDIA_BUS_TYPE_CSI2_CPHY		1
-> > +#define MEDIA_BUS_TYPE_CSI1			2
-> > +#define MEDIA_BUS_TYPE_CCP2			3
-> > +#define MEDIA_BUS_TYPE_CSI2_DPHY		4
-> > +#define MEDIA_BUS_TYPE_PARALLEL			5
-> 
-> I've been long thinkin of renaming "PARALLEL" as "BT.601" which it really
-> is. I don't mind postponing that, but I think you could as well start here.
-> Up to you.
+I love your patch! Yet something to improve:
 
-I think it's a good idea, but we then need to decide what to do with
-other types of parallel buses. Let's start this discussion now, and
-implement it in a patch on top of this series.
+[auto build test ERROR on rockchip/for-next]
+[also build test ERROR on media-tree/master v5.17-rc6 next-20220225]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-> Should this be somehow visible in video-interfaces.yaml?
+url:    https://github.com/0day-ci/linux/commits/Laurent-Pinchart/media-rkisp1-Misc-bug-fixes-and-cleanups/20220228-000306
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+config: m68k-randconfig-r022-20220228 (https://download.01.org/0day-ci/archive/20220228/202202281151.lY2yvuon-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/2ee8966047a595378fe16e057f9a25fd7e237f9c
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Laurent-Pinchart/media-rkisp1-Misc-bug-fixes-and-cleanups/20220228-000306
+        git checkout 2ee8966047a595378fe16e057f9a25fd7e237f9c
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=m68k SHELL=/bin/bash drivers/media/platform/rockchip/rkisp1/
 
-I wish we could use macros in .yaml files instead of numerical values,
-but I don't think that's possible. I can do this:
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-   bus-type:
-     $ref: /schemas/types.yaml#/definitions/uint32
-     enum:
--      - 1 # MIPI CSI-2 C-PHY
--      - 2 # MIPI CSI1
--      - 3 # CCP2
--      - 4 # MIPI CSI-2 D-PHY
--      - 5 # Parallel
--      - 6 # BT.656
-+      - 1 # MIPI CSI-2 C-PHY (MEDIA_BUS_TYPE_CSI2_CPHY)
-+      - 2 # MIPI CSI1 (MEDIA_BUS_TYPE_CSI1)
-+      - 3 # CCP2 (MEDIA_BUS_TYPE_CCP2)
-+      - 4 # MIPI CSI-2 D-PHY (MEDIA_BUS_TYPE_CSI2_DPHY)
-+      - 5 # Parallel (MEDIA_BUS_TYPE_PARALLEL)
-+      - 6 # BT.656 (MEDIA_BUS_TYPE_BT656)
-     description:
--      Data bus type.
-+      Data bus type. Use the macros listed above (defined in
-+      dt-bindings/video-interfaces.h) instead of numerical values.
+All errors (new ones prefixed by >>):
 
-Any better proposal ?
+>> drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:16:6: error: redefinition of 'rkisp1_debug_init'
+      16 | void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+         |      ^~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:14:
+   drivers/media/platform/rockchip/rkisp1/rkisp1-common.h:525:20: note: previous definition of 'rkisp1_debug_init' with type 'void(struct rkisp1_device *)'
+     525 | static inline void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+         |                    ^~~~~~~~~~~~~~~~~
+>> drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:47:6: error: redefinition of 'rkisp1_debug_cleanup'
+      47 | void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:14:
+   drivers/media/platform/rockchip/rkisp1/rkisp1-common.h:528:20: note: previous definition of 'rkisp1_debug_cleanup' with type 'void(struct rkisp1_device *)'
+     528 | static inline void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
+         |                    ^~~~~~~~~~~~~~~~~~~~
 
-> > +#define MEDIA_BUS_TYPE_BT656			6
-> > +
-> > +#endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
 
--- 
-Regards,
+vim +/rkisp1_debug_init +16 drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
 
-Laurent Pinchart
+d321afe87aa3ed Laurent Pinchart 2022-02-27  15  
+d321afe87aa3ed Laurent Pinchart 2022-02-27 @16  void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+d321afe87aa3ed Laurent Pinchart 2022-02-27  17  {
+d321afe87aa3ed Laurent Pinchart 2022-02-27  18  	struct rkisp1_debug *debug = &rkisp1->debug;
+d321afe87aa3ed Laurent Pinchart 2022-02-27  19  
+d321afe87aa3ed Laurent Pinchart 2022-02-27  20  	debug->debugfs_dir = debugfs_create_dir(dev_name(rkisp1->dev), NULL);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  21  
+d321afe87aa3ed Laurent Pinchart 2022-02-27  22  	debugfs_create_ulong("data_loss", 0444, debug->debugfs_dir,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  23  			     &debug->data_loss);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  24  	debugfs_create_ulong("outform_size_err", 0444,  debug->debugfs_dir,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  25  			     &debug->outform_size_error);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  26  	debugfs_create_ulong("img_stabilization_size_error", 0444,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  27  			     debug->debugfs_dir,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  28  			     &debug->img_stabilization_size_error);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  29  	debugfs_create_ulong("inform_size_error", 0444,  debug->debugfs_dir,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  30  			     &debug->inform_size_error);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  31  	debugfs_create_ulong("irq_delay", 0444,  debug->debugfs_dir,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  32  			     &debug->irq_delay);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  33  	debugfs_create_ulong("mipi_error", 0444, debug->debugfs_dir,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  34  			     &debug->mipi_error);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  35  	debugfs_create_ulong("stats_error", 0444, debug->debugfs_dir,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  36  			     &debug->stats_error);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  37  	debugfs_create_ulong("mp_stop_timeout", 0444, debug->debugfs_dir,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  38  			     &debug->stop_timeout[RKISP1_MAINPATH]);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  39  	debugfs_create_ulong("sp_stop_timeout", 0444, debug->debugfs_dir,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  40  			     &debug->stop_timeout[RKISP1_SELFPATH]);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  41  	debugfs_create_ulong("mp_frame_drop", 0444, debug->debugfs_dir,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  42  			     &debug->frame_drop[RKISP1_MAINPATH]);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  43  	debugfs_create_ulong("sp_frame_drop", 0444, debug->debugfs_dir,
+d321afe87aa3ed Laurent Pinchart 2022-02-27  44  			     &debug->frame_drop[RKISP1_SELFPATH]);
+d321afe87aa3ed Laurent Pinchart 2022-02-27  45  }
+d321afe87aa3ed Laurent Pinchart 2022-02-27  46  
+d321afe87aa3ed Laurent Pinchart 2022-02-27 @47  void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
