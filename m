@@ -2,210 +2,256 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCD0C4C6710
-	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 11:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 052734C69DE
+	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 12:09:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233128AbiB1KZg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Feb 2022 05:25:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34870 "EHLO
+        id S235484AbiB1LJn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Feb 2022 06:09:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbiB1KZf (ORCPT
+        with ESMTP id S231282AbiB1LJf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Feb 2022 05:25:35 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E1B4BFDA;
-        Mon, 28 Feb 2022 02:24:55 -0800 (PST)
-Received: from [IPV6:2a01:e0a:120:3210:82d4:230a:70ff:cde0] (unknown [IPv6:2a01:e0a:120:3210:82d4:230a:70ff:cde0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id BDB6F1F4381D;
-        Mon, 28 Feb 2022 10:24:53 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1646043894;
-        bh=kA6wk9poQowj7pG8o/AcE0UkJDbBr/dkYvIeNp0XXWg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=JhADHZpx2XchL7wRFhLx9u5AdEFzJyh4R4y2hmB/LFpilBHi0RF9NmQCSkY/Z3Fcg
-         0viETfCyEKPIArjmwBA1drhd9DWUsjnHqdUdd1728mdY551ARSdD0yvKV36gOW1g9x
-         z4dlhpdZa5dyhfT3QxFgbM9HpaJ8dGkgaVeGAOCP8reZLiphJKiaZfANLEPFMD2dAr
-         W43+yfakSqTqkNYemMpsvKxZRdIOGqTyK2FozsbDTjGGzWgudE3xSmhut/0ObtQerK
-         406AutADF3dKoEc16xMoiMQuVIDRILtR00w1hiSXLEsAGo7qxZ9GAhtWghaOLOLE70
-         MlGDuKiKBqBDg==
-Message-ID: <14bd4748-1b73-c102-e98f-933efa34cd3c@collabora.com>
-Date:   Mon, 28 Feb 2022 11:24:51 +0100
+        Mon, 28 Feb 2022 06:09:35 -0500
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 773B76621A;
+        Mon, 28 Feb 2022 03:08:54 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id p15so23995782ejc.7;
+        Mon, 28 Feb 2022 03:08:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DGHuYFjchXbmgUIZ1SnPPgINXW2r1tGfV7LKxanZ5rw=;
+        b=mx6+xil8F/OwTucWDkjx4s8oWe9qKYEvq+lRSteVfL7qHoHjMYzOaON1c2kL9OYiTX
+         db1Mykp/ffS9il6Fqi76pAlN/G5rXNdswBXj/5Gig3gkxoatbBHPRDADsVd/P2bKgern
+         FiNaHDXHNfiQkUQdDT0QxGTuel99Vo9xYQqWbNfVZEfqWt3+vAZeTOc1QbByn6ecNGa6
+         S2BlhLxmBqy/aCRkfkMxvBR+4RMiFfh+//eOhtERGL+8TdWCfHba+zdrYCDUyKUpjEKv
+         GoJF4WvvVQmT7fMcDismFLp5shdM79FKyOLpnEpulQji7R6fg8Aw9kXLsIi9eJ28dAK+
+         e6Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DGHuYFjchXbmgUIZ1SnPPgINXW2r1tGfV7LKxanZ5rw=;
+        b=1bNDt9DZ9vdL6IeovAr4FC27FUvFi4jnZQZYMMlul2Q01UKNzlHm1z3FwigGBlBL1a
+         espESZaRqFGQyOLnZlQ2VIxqXxwmKG9rNZS5OL8UTCCD2L3zqxeo/o6ooY+au4yLNoUQ
+         xbQ67jdWOaxSIAf/9gXcrfXoHmHrzU9nctvDiuVM2E0MqwD5Uc8e0s/Znij6esRwHHsr
+         tQgLndisNG3XjKntWxlZFqx4/XoJZG0o4ZDlswQwsb9TwRtqiFjX7Ac4hj+yOAY8qDAh
+         EDPMcDy/3thVOQRqa7C/ZVY2quKjLEYSvnTUPxXBZYSZoX3EPTADSk3rkwnlHxo6TpE1
+         LQow==
+X-Gm-Message-State: AOAM532nrmuiJjF1PUmL8f3Xz/7nH2iwYgIfMWvD8fXRM1QYRO2KP3N/
+        5/JZGLThCH30fo87HakgtPA=
+X-Google-Smtp-Source: ABdhPJzNctGRxtGORumk8xJxhLEhhYPBXw3MCY4PM4mZEwTJgQgzAy87Z2fgE8nw5jOtXDmEFeeNlg==
+X-Received: by 2002:a17:906:32d8:b0:6ce:d850:f79 with SMTP id k24-20020a17090632d800b006ced8500f79mr14260258ejk.414.1646046532887;
+        Mon, 28 Feb 2022 03:08:52 -0800 (PST)
+Received: from localhost.localdomain (dhcp-077-250-038-153.chello.nl. [77.250.38.153])
+        by smtp.googlemail.com with ESMTPSA id z22-20020a17090655d600b006d229436793sm4209049ejp.223.2022.02.28.03.08.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Feb 2022 03:08:52 -0800 (PST)
+From:   Jakob Koschel <jakobkoschel@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jakob Koschel <jakobkoschel@gmail.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Arnd Bergman <arnd@arndb.de>,
+        "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        "Brian Johannesmeyer" <bjohannesmeyer@gmail.com>,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Nathan Chancellor <nathan@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sgx@vger.kernel.org,
+        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-crypto@vger.kernel.org,
+        dmaengine@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-usb@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        bcm-kernel-feedback-list@broadcom.com, linux-tegra@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, kvm@vger.kernel.org,
+        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fsdevel@vger.kernel.org,
+        kgdb-bugreport@lists.sourceforge.net,
+        v9fs-developer@lists.sourceforge.net,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Subject: [PATCH 0/6] Remove usage of list iterator past the loop body
+Date:   Mon, 28 Feb 2022 12:08:16 +0100
+Message-Id: <20220228110822.491923-1-jakobkoschel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 09/14] media: uapi: Add
- V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
-Content-Language: en-US
-To:     John Cox <jc@kynesim.co.uk>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>
-Cc:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-        jonas@kwiboo.se, nicolas@ndufresne.ca, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        kernel@collabora.com, knaerzche@gmail.com
-References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
- <4378293.LvFx2qVVIh@kista> <1884298.PYKUYFuaPT@kista>
- <7348885.EvYhyI6sBW@kista> <me5p1hpnrarnqqaefoofrtqb898afl0rsn@4ax.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <me5p1hpnrarnqqaefoofrtqb898afl0rsn@4ax.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This is the first patch removing several categories of use cases of
+the list iterator variable past the loop.
+This is follow up to the discussion in:
+https://lore.kernel.org/all/20220217184829.1991035-1-jakobkoschel@gmail.com/
 
-Le 28/02/2022 à 10:47, John Cox a écrit :
-> On Sat, 26 Feb 2022 19:17:46 +0100, you wrote:
->
->> Dne sobota, 26. februar 2022 ob 18:59:18 CET je Jernej Škrabec napisal(a):
->>> Hi!
->>>
->>> Dne petek, 25. februar 2022 ob 20:30:20 CET je Jernej Škrabec napisal(a):
->>>> Hi!
->>>>
->>>> Dne petek, 25. februar 2022 ob 17:45:55 CET je Benjamin Gaignard
->> napisal(a):
->>>>> The number of 'entry point offset' could be very variable.
->>>>> Rather than use a large static array define a v4l2 dynamic array
->>>>> of integer control.
->>>> I suggest we should be more specific and say U32 (V4L2_CTRL_TYPE_U32).
->>>>
->>>>> The number of entry point offsets is reported by the elems field.
->>> I did few more tests and these are my findings:
->>> 1. dynamic array can't be set over size, specified in .dims array
->>> 2. entry point offsets are per slice, so if we make slices dynamic array,
->> then
->>> entry points would become two dimensional dynamic array
->>> 3. num_entry_point_offsets must be part of slice control, because it can be
->>> zero, but size of array can't be
->> Clarification: num_entry_point_offsets is needed in any case, even without entry
->> point list.
-> I thought that at least one decoder wanted the entry points or have we
-> decided that we don't? Whilst they aren't required for decode, what they
-> give you, if your h/w supports it, is the ability to decode multiple
-> lines of CTBs in parallel (with a 2 CTB offset between lines), so they
-> aren't useless.
->
-> If we do decided we want the entry point offset control, now or later,
-> then num_entry_points in the slice_param allows you to determine which
-> offsets apply to which slices without the complexity of a variable array
-> of variable arrays.
->
-> But whether or not we end up supporting entry point offsets, the Pi h/w
-> requires me to generate 1 table entry for each CTB line and
-> num_entry_points is the parameter I need for that, so I really want it
-> in the slice_params.
+As concluded in:
+https://lore.kernel.org/all/YhdfEIwI4EdtHdym@kroah.com/
+the correct use should be using a separate variable after the loop
+and using a 'tmp' variable as the list iterator.
+The list iterator will not point to a valid structure after the loop
+if no break/goto was hit. Invalid uses of the list iterator variable
+can be avoided altogether by simply using a separate pointer to
+iterate the list.
 
-I'm adding a control (dynamic array) and num_entry_points field in slice
-parameters in the next version.
-See here:
-https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commit/6b4efa4dc54de069893f5203d885fea2c1347916
+Linus and Greg agreed on the following pattern:
 
-Regards,
-Benjamin
+-	struct gr_request *req;
++	struct gr_request *req = NULL;
++	struct gr_request *tmp;
+	struct gr_ep *ep;
+	int ret = 0;
 
-> Regards
->
-> John Cox
->
->>> 4. fortunately, not setting entry points doesn't impact decoding
->> correctness.
->>> This is in line what John told me about them.
->>>
->>> Hans, can you comment points 1-3? I might misunderstand point 1.
->>>
->>> In short, it seems like we don't really need entry points, even if they are
->>> used in BSP library. In both cases, I got fluster score 119/138 (10-bit
->>> excluded), so we can just drop this patch, although I'm a bit uneasy not
->>> setting entry points...
->>>
->>> Best regards,
->>> Jernej
->>>
->>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>>> ---
->>>>>   .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 +++++++++
->>>>>   include/media/hevc-ctrls.h                               | 1 +
->>>>>   2 files changed, 10 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
->>>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> index 44a268a948c0..71f7dc1c1ccd 100644
->>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> @@ -3128,6 +3128,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>>>   
->>>>>       \normalsize
->>>>>   
->>>>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
->>>> Here you have OFFSETS (plural) ...
->>>>
->>>>> +    Specifies the i-th entry point offset in bytes and is represented by
->>>>> +    offset_len_minus1 plus 1 bits.
->>>> You probably mean entry_point_offset_minus1? offset_len_minus1 just tells
->> how
->>>> much bits need to be read for each element and it's not important for
->> actual
->>>> decoding.
->>>>
->>>>> +    This control is a dynamically sized array. The number of entry
->> point
->>>>> +    offsets is reported by the ``elems`` field.
->>>>> +    This bitstream parameter is defined according to :ref:`hevc`.
->>>>> +    They are described in section 7.4.7.1 "General slice segment header
->>>>> +    semantics" of the specification.
->>>>> +
->>>>>   ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->>>>>       Specifies the HEVC scaling matrix parameters used for the scaling
->>>> process
->>>>>       for transform coefficients.
->>>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->>>>> index 3016c1abb1d0..3f8a67924df3 100644
->>>>> --- a/include/media/hevc-ctrls.h
->>>>> +++ b/include/media/hevc-ctrls.h
->>>>> @@ -20,6 +20,7 @@
->>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE +
->>>> 1012)
->>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE +
->>>> 1015)
->>>>>   #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE
->> +
->>> 1016)
->>>>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET (V4L2_CID_CODEC_BASE
->> +
->>>> 1017)
->>>>
->>>> ... and here you have OFFSET (singlular). I suggest plural form to be used
->>> in
->>>> all places, including subject line of this commit.
->>>>
->>>> Additionally, it would be nice if control is initialized, like so:
->>>> https://github.com/jernejsk/linux-1/commit/
->>>> f938e162cd8dd77c9f6f1b248d80144840a37bce
->>>>
->>>> Best regards,
->>>> Jernej
->>>>
->>>>>   
->>>>>   /* enum v4l2_ctrl_type type values */
->>>>>   #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
->>>>> -- 
->>>>> 2.32.0
->>>>>
->>>>>
->>>>
->>>>
->>>
->>>
+-	list_for_each_entry(req, &ep->queue, queue) {
+-		if (&req->req == _req)
++	list_for_each_entry(tmp, &ep->queue, queue) {
++		if (&tmp->req == _req) {
++			req = tmp;
+			break;
++		}
+	}
+-	if (&req->req != _req) {
++	if (!req) {
+		ret = -EINVAL;
+		goto out;
+	}
+
+
+With gnu89 the list iterator variable cannot yet be declared
+within the for loop of the list iterator.
+Moving to a more modern version of C would allow defining
+the list iterator variable within the macro, limiting
+the scope to the loop.
+This avoids any incorrect usage past the loop altogether.
+
+This are around 30% of the cases where the iterator
+variable is used past the loop (identified with a slightly
+modified version of use_after_iter.cocci).
+I've decided to split it into at a few patches separated
+by similar use cases.
+
+Because the output of get_maintainer.pl was too big,
+I included all the found lists and everyone from the
+previous discussion.
+
+Jakob Koschel (6):
+  drivers: usb: remove usage of list iterator past the loop body
+  treewide: remove using list iterator after loop body as a ptr
+  treewide: fix incorrect use to determine if list is empty
+  drivers: remove unnecessary use of list iterator variable
+  treewide: remove dereference of list iterator after loop body
+  treewide: remove check of list iterator against head past the loop
+    body
+
+ arch/arm/mach-mmp/sram.c                      |  9 ++--
+ arch/arm/plat-pxa/ssp.c                       | 28 +++++-------
+ arch/powerpc/sysdev/fsl_gtm.c                 |  4 +-
+ arch/x86/kernel/cpu/sgx/encl.c                |  6 ++-
+ drivers/block/drbd/drbd_req.c                 | 45 ++++++++++++-------
+ drivers/counter/counter-chrdev.c              | 26 ++++++-----
+ drivers/crypto/cavium/nitrox/nitrox_main.c    | 11 +++--
+ drivers/dma/dw-edma/dw-edma-core.c            |  4 +-
+ drivers/dma/ppc4xx/adma.c                     | 11 +++--
+ drivers/firewire/core-transaction.c           | 32 +++++++------
+ drivers/firewire/sbp2.c                       | 14 +++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 19 +++++---
+ drivers/gpu/drm/drm_memory.c                  | 15 ++++---
+ drivers/gpu/drm/drm_mm.c                      | 17 ++++---
+ drivers/gpu/drm/drm_vm.c                      | 13 +++---
+ drivers/gpu/drm/gma500/oaktrail_lvds.c        |  9 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 14 +++---
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 15 ++++---
+ drivers/gpu/drm/i915/gt/intel_ring.c          | 15 ++++---
+ .../gpu/drm/nouveau/nvkm/subdev/clk/base.c    | 11 +++--
+ .../gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c | 13 +++---
+ drivers/gpu/drm/scheduler/sched_main.c        | 14 +++---
+ drivers/gpu/drm/ttm/ttm_bo.c                  | 19 ++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 22 +++++----
+ drivers/infiniband/hw/hfi1/tid_rdma.c         | 16 ++++---
+ drivers/infiniband/hw/mlx4/main.c             | 12 ++---
+ drivers/media/dvb-frontends/mxl5xx.c          | 11 +++--
+ drivers/media/pci/saa7134/saa7134-alsa.c      |  4 +-
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      | 31 +++++++------
+ drivers/misc/mei/interrupt.c                  | 12 ++---
+ .../net/ethernet/intel/i40e/i40e_ethtool.c    |  3 +-
+ .../net/ethernet/qlogic/qede/qede_filter.c    | 11 +++--
+ drivers/net/wireless/ath/ath6kl/htc_mbox.c    |  2 +-
+ .../net/wireless/intel/ipw2x00/libipw_rx.c    | 15 ++++---
+ drivers/perf/xgene_pmu.c                      | 13 +++---
+ drivers/power/supply/cpcap-battery.c          | 11 +++--
+ drivers/scsi/lpfc/lpfc_bsg.c                  | 16 ++++---
+ drivers/scsi/scsi_transport_sas.c             | 17 ++++---
+ drivers/scsi/wd719x.c                         | 12 +++--
+ drivers/staging/rtl8192e/rtl819x_TSProc.c     | 17 +++----
+ drivers/staging/rtl8192e/rtllib_rx.c          | 17 ++++---
+ .../staging/rtl8192u/ieee80211/ieee80211_rx.c | 15 ++++---
+ .../rtl8192u/ieee80211/rtl819x_TSProc.c       | 19 ++++----
+ drivers/thermal/thermal_core.c                | 38 ++++++++++------
+ drivers/usb/gadget/composite.c                |  9 ++--
+ drivers/usb/gadget/configfs.c                 | 22 +++++----
+ drivers/usb/gadget/udc/aspeed-vhub/epn.c      | 11 +++--
+ drivers/usb/gadget/udc/at91_udc.c             | 26 ++++++-----
+ drivers/usb/gadget/udc/atmel_usba_udc.c       | 11 +++--
+ drivers/usb/gadget/udc/bdc/bdc_ep.c           | 11 +++--
+ drivers/usb/gadget/udc/fsl_qe_udc.c           | 11 +++--
+ drivers/usb/gadget/udc/fsl_udc_core.c         | 11 +++--
+ drivers/usb/gadget/udc/goku_udc.c             | 11 +++--
+ drivers/usb/gadget/udc/gr_udc.c               | 11 +++--
+ drivers/usb/gadget/udc/lpc32xx_udc.c          | 11 +++--
+ drivers/usb/gadget/udc/max3420_udc.c          | 11 +++--
+ drivers/usb/gadget/udc/mv_u3d_core.c          | 11 +++--
+ drivers/usb/gadget/udc/mv_udc_core.c          | 11 +++--
+ drivers/usb/gadget/udc/net2272.c              | 12 ++---
+ drivers/usb/gadget/udc/net2280.c              | 11 +++--
+ drivers/usb/gadget/udc/omap_udc.c             | 11 +++--
+ drivers/usb/gadget/udc/pxa25x_udc.c           | 11 +++--
+ drivers/usb/gadget/udc/s3c-hsudc.c            | 11 +++--
+ drivers/usb/gadget/udc/tegra-xudc.c           | 11 +++--
+ drivers/usb/gadget/udc/udc-xilinx.c           | 11 +++--
+ drivers/usb/mtu3/mtu3_gadget.c                | 11 +++--
+ drivers/usb/musb/musb_gadget.c                | 11 +++--
+ drivers/vfio/mdev/mdev_core.c                 | 11 +++--
+ fs/cifs/smb2misc.c                            | 10 +++--
+ fs/f2fs/segment.c                             |  9 ++--
+ fs/proc/kcore.c                               | 13 +++---
+ kernel/debug/kdb/kdb_main.c                   | 36 +++++++++------
+ kernel/power/snapshot.c                       | 10 +++--
+ kernel/trace/ftrace.c                         | 22 +++++----
+ kernel/trace/trace_eprobe.c                   | 15 ++++---
+ kernel/trace/trace_events.c                   | 11 ++---
+ net/9p/trans_xen.c                            | 11 +++--
+ net/ipv4/udp_tunnel_nic.c                     | 10 +++--
+ net/tipc/name_table.c                         | 11 +++--
+ net/tipc/socket.c                             | 11 +++--
+ net/xfrm/xfrm_ipcomp.c                        | 11 +++--
+ sound/soc/intel/catpt/pcm.c                   | 13 +++---
+ sound/soc/sprd/sprd-mcdt.c                    | 13 +++---
+ 83 files changed, 708 insertions(+), 465 deletions(-)
+
+
+base-commit: 7ee022567bf9e2e0b3cd92461a2f4986ecc99673
+--
+2.25.1
