@@ -2,66 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39E834C6B59
-	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 12:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74D634C6B76
+	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 13:01:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234984AbiB1L5S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Feb 2022 06:57:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58288 "EHLO
+        id S235797AbiB1MBx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Feb 2022 07:01:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232545AbiB1L5S (ORCPT
+        with ESMTP id S230520AbiB1MBw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Feb 2022 06:57:18 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDC185B3F9
-        for <linux-media@vger.kernel.org>; Mon, 28 Feb 2022 03:56:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646049399; x=1677585399;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MSlfHNSCJsVoxXmEUGYCtfdgHt4vYp/wp+wNqq0WQ8k=;
-  b=HgjLpelU9vEddbsXhA/Cmwza1RlJN4H4tVQvMCBqmCyUoypV3gcDFVW7
-   Oudh1Hj3mpqZdyDO1CFRXulzOGR6h8EXzcSIxq3ODJfg1aKnbDN/ztsRb
-   G7guO1ifUL4ZRpmnkFnSnjWUVk9HeGCTZ8KP4VXnv0HfRAE29dYCVIWWH
-   qF8LuUtkWVn8T0ye8hDYMgU3+fnuUndglRRI/JAC87Hr93dv8/fAEK3x3
-   fRQkqUijHWh8iGEniUUcFFWIQ7vYqtlP6nQycQfYT3JyOxBnjsXUrOFGM
-   lL3/VSKpVr6wpnh+MbmVW0pASwT/GHUET0zK5KGX/0K2C7YR8AvL/Pumq
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="232838050"
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; 
-   d="scan'208";a="232838050"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2022 03:56:39 -0800
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; 
-   d="scan'208";a="507398486"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2022 03:56:30 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nOecl-009I84-Q9;
-        Mon, 28 Feb 2022 13:55:31 +0200
-Date:   Mon, 28 Feb 2022 13:55:31 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-media@vger.kernel.org, yong.zhi@intel.com,
-        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-        tian.shu.qiu@intel.com, hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH v2 07/11] media: i2c: Add support for new frequencies to
- ov7251
-Message-ID: <Yhy4MwU320D3mxeO@smile.fi.intel.com>
-References: <20220225000753.511996-1-djrscally@gmail.com>
- <20220225000753.511996-8-djrscally@gmail.com>
- <YhkNR7BhRAG2MjNm@smile.fi.intel.com>
- <03c68a99-c9ff-7cdf-e5d7-2c52657e5d9f@gmail.com>
+        Mon, 28 Feb 2022 07:01:52 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46A6B66620;
+        Mon, 28 Feb 2022 04:01:14 -0800 (PST)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6BB1E478;
+        Mon, 28 Feb 2022 13:01:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1646049672;
+        bh=P6tUqqE8TNWEPznGIjIdUEUJRaoDO4TBx2QwQ9Kl/qU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bQvXV+9NbXjyk9uiYfoJf7VYJvsCqQBUooSMyC8jTuQ3TyUDqfF3i1MY5ZAvdZ8iK
+         d0Hxth+DYz/B4IutQIC0FES5YF2WOSzJt9Ec5+Vm9nVR3Qsp91uKccl/Em6POifUG0
+         2r43pO2kqhEMvra+u731M32kgwrO/Oxr+hHhHHuo=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        LUU HOAI <hoai.luu.ub@renesas.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH] media: v4l: vsp1: Fix offset calculation for plane cropping
+Date:   Mon, 28 Feb 2022 14:00:58 +0200
+Message-Id: <20220228120058.9755-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <03c68a99-c9ff-7cdf-e5d7-2c52657e5d9f@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,40 +47,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Feb 25, 2022 at 10:04:29PM +0000, Daniel Scally wrote:
-> On 25/02/2022 17:09, Andy Shevchenko wrote:
-> > On Fri, Feb 25, 2022 at 12:07:49AM +0000, Daniel Scally wrote:
+From: Michael Rodin <mrodin@de.adit-jv.com>
 
-...
+The vertical subsampling factor is currently not considered in the
+offset calculation for plane cropping done in rpf_configure_partition.
+This causes a distortion (shift of the color plane) when formats with
+the vsub factor larger than 1 are used (e.g. NV12, see
+vsp1_video_formats in vsp1_pipe.c). This commit considers vsub factor
+for all planes except plane 0 (luminance).
 
-> > >   	/* get system clock (xclk) */
-> > > -	ov7251->xclk = devm_clk_get(dev, "xclk");
-> > > +	ov7251->xclk = devm_clk_get(dev, NULL);
-> > Why a clock doesn't have a name anymore?
-> > Shouldn't you rather switch to _optional()?
-> 
-> The problem is since we could have a the clock coming from some dt file with
-> it named xclk, as this driver is obviously designed for, but it also can be
-> created by the int3472-tps68470 or int3472-discrete drivers which don't use
-> that name. Without knowing what it's called, best thing I could think to do
-> was remove the name and rely on device matching.
+Fixes: e5ad37b64de9 ("[media] v4l: vsp1: Add cropping support")
+Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
 
-So, then the Q is why it's not called the same in the other drivers?
+Drop generalization of the offset calculation to reduce the binary size.
 
-...
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ drivers/media/platform/vsp1/vsp1_rpf.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> Broken ACPI compensated for by the cio2-bridge - it creates the
-> clock-frequency property which ordinarily wouldn't be there on ACPI systems
-> AIUI.
-
-In the current practice we have CLK priority over property, this means we may do:
-1) unconditional reading of the property;
-2) trying CLK.
-
-Can it be done here?
-
+diff --git a/drivers/media/platform/vsp1/vsp1_rpf.c b/drivers/media/platform/vsp1/vsp1_rpf.c
+index 85587c1b6a37..75083cb234fe 100644
+--- a/drivers/media/platform/vsp1/vsp1_rpf.c
++++ b/drivers/media/platform/vsp1/vsp1_rpf.c
+@@ -291,11 +291,11 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
+ 		     + crop.left * fmtinfo->bpp[0] / 8;
+ 
+ 	if (format->num_planes > 1) {
++		unsigned int bpl = format->plane_fmt[1].bytesperline;
+ 		unsigned int offset;
+ 
+-		offset = crop.top * format->plane_fmt[1].bytesperline
+-		       + crop.left / fmtinfo->hsub
+-		       * fmtinfo->bpp[1] / 8;
++		offset = crop.top / fmtinfo->vsub * bpl
++		       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
+ 		mem.addr[1] += offset;
+ 		mem.addr[2] += offset;
+ 	}
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
+Laurent Pinchart
 
