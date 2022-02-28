@@ -2,60 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69A784C6348
-	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 07:41:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD84E4C63FB
+	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 08:49:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233329AbiB1GmX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Feb 2022 01:42:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47764 "EHLO
+        id S233704AbiB1Htf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Feb 2022 02:49:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233086AbiB1GmX (ORCPT
+        with ESMTP id S231867AbiB1Htd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Feb 2022 01:42:23 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E5366FB5;
-        Sun, 27 Feb 2022 22:41:45 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id z2so9866090plg.8;
-        Sun, 27 Feb 2022 22:41:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=9QiizqeRQgoEQFziW+33bQt2mpBCC2WwkxDOsJ17xwA=;
-        b=iOKZZLEoKQSLsmBcaiDnn5yeHIk5oYrL5RzaV+Nv1WyQTJ7kifZQ9YjYsVJb6Q6y9O
-         B9Moi3Y/+wi9m3TYS8/n5XmqVQB4RwgvuQPlh6Jjqob72KQuQmmd/rwNSATDAKouyT87
-         5aFF65bvw4DyI33gmFJLSe6MSt5IvQzaCHDbUoEvqHzqj6AYkCfz6N0pCQMYPA/U5kr6
-         fA5rkzzwL0iw0rObxb18ro1ac8PQzxFdNepCKNroQ1tut7YmiqT7rxGIxwUJVX5bmj0Y
-         vQ6dK9gXlfL/6pY+NqkX3VaLfoEzOF44FAo8Vg3VWVCvhsa5YUNaeb8Y/x93PyMnDwme
-         3NPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=9QiizqeRQgoEQFziW+33bQt2mpBCC2WwkxDOsJ17xwA=;
-        b=Uqcq82F0De8rjlFHFVIAu+bfrvclIM++C+mBOjACXOyw/JbzE/DOPHohFcOcO16/m/
-         xRhvFlPKe60+/fhldbkMVu271CXNYBs7gfp6Lqc3YWQIjLPGrLUQ6RM4V52f0RtG6K0w
-         2rgid+zuzfdYqMWXxGdbowLUz+PQrSRsHQakInNFCM9rUFYMfApdSQCgDY7im1RBzeJA
-         w1Fuq71Qvs+IwmG0TGAJ7wBpfQxNMtxaLJ0uBg7LLmj8sekOYpJzmjQbBP57OCj5x5bT
-         Zfd67ulVEHuZh61ri6uzcT7p+rJd0HFl3g9+Sqy8pFVpi98HsmcVepNkhWcknfbooydD
-         M+Bg==
-X-Gm-Message-State: AOAM533gJkdqwW7PLeUcXgT3nS1CZExQPF6YlFU1rLqASSJ+xSHywGiV
-        UzYfn32tG3tfe2Wl3EIdCVMsDuLziT7m7uDaWA==
-X-Google-Smtp-Source: ABdhPJx+VKi9/xxRILycRigeXUIPDXAK5Du653/QDz/ik7X2QnfLN07fqxVyfcyKpwZDmR4PdWESB+M5hXdKqPLk6q0=
-X-Received: by 2002:a17:90a:a502:b0:1bc:8dd6:a859 with SMTP id
- a2-20020a17090aa50200b001bc8dd6a859mr15190418pjq.46.1646030504804; Sun, 27
- Feb 2022 22:41:44 -0800 (PST)
+        Mon, 28 Feb 2022 02:49:33 -0500
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8576F3D1CE;
+        Sun, 27 Feb 2022 23:48:52 -0800 (PST)
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        by ni.piap.pl (Postfix) with ESMTPSA id 4A7C4C3F2A54;
+        Mon, 28 Feb 2022 08:48:48 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 4A7C4C3F2A54
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1646034528; bh=KWt1aJphAP4xMpPdLN9k3CBn6uEAPCiswJSyjzSZ9+o=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=AImQVRQN7yUvuGLtiShcFQTbgXXTwezMYl6SygPRxytbaeq81d37XjrOpepRcYXrQ
+         tFhNVjx2uVhCo9Y/JFB2vz5NqizfB8bsffWuxWnRsbRzTIBKWoExuX0G+eKL0oOYBl
+         tk85IDF/FB+WvBUglsObjzdSRBFcwLV7NI7DgkZU=
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Joe Perches <joe@perches.com>
+Subject: Re: [PATCH v7 2/2] Driver for ON Semi AR0521 camera sensor
+References: <m3czl9eylt.fsf@t19.piap.pl> <m34k6leyb1.fsf@t19.piap.pl>
+        <20220109153439.bfnfigocaeeeghmp@uno.localdomain>
+        <m35yp387n4.fsf@t19.piap.pl> <YhjXEvtPlOv/jH4n@valkosipuli.retiisi.eu>
+Sender: khalasa@piap.pl
+Date:   Mon, 28 Feb 2022 08:48:48 +0100
+In-Reply-To: <YhjXEvtPlOv/jH4n@valkosipuli.retiisi.eu> (Sakari Ailus's message
+        of "Fri, 25 Feb 2022 15:18:10 +0200")
+Message-ID: <m31qzn8m8v.fsf@t19.piap.pl>
 MIME-Version: 1.0
-From:   Zheyu Ma <zheyuma97@gmail.com>
-Date:   Mon, 28 Feb 2022 14:41:33 +0800
-Message-ID: <CAMhUBjmVD63g7zx1UTqomKAw7S6BMiyG1DVkHkWrNN08mYkLgw@mail.gmail.com>
-Subject: [BUG] media: solo6x10: Disabling already-disabled device in free_solo_dev
-To:     maintainers@bluecherrydvr.com, anton@corp.bluecherry.net,
-        andrey_utkin@fastmail.com, ismael@iodev.co.uk, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 3
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, not scanned, whitelist
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,31 +59,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Sakari,
 
-I found a bug during the process of probing.
+Sakari Ailus <sakari.ailus@iki.fi> writes:
 
-The function call of v4l2_device_register() maybe failed, and then the
-driver will call free_sole_dev(). In this function, the driver will do
-some cleanup work such as pci_disable_device(), but now the PCI device
-is not enabled ever, which can cause a warning of the kernel.
+>> >> +	// access the sensor only if it's powered up
+>
+> /* This is the preferred comment style */
 
-The root cause of this bug is that the driver does not handle the
-failures properly, the driver should split the error handling and
-handle it differently depending on the error.
+I keep forgetting about this. Maybe because most other code I work with
+(not drivers/media) has already switched to // (single-line) comments.
 
-The following log can reveal the bug:
-[  115.920219] solo6x10 0000:00:04.0: disabling already-disabled device
-[  115.920255] WARNING: CPU: 5 PID: 489 at drivers/pci/pci.c:2202
-pci_disable_device+0x27a/0x380
-[  115.923962] RIP: 0010:pci_disable_device+0x27a/0x380
-[  115.932590] Call Trace:
-[  115.932806]  <TASK>
-[  115.932990]  free_solo_dev+0x1d4/0x270 [solo6x10]
-[  115.933413]  ? solo_pci_probe+0x165/0xb70 [solo6x10]
-[  115.933865]  solo_pci_probe+0x21b/0xb70 [solo6x10]
-[  115.934954]  local_pci_probe+0x13f/0x210
-[  115.935288]  pci_device_probe+0x34c/0x6d0
+> The OF folks have shunned to the use of the iterative varants as that can
+> often lead to complicated parsing of the endpoints. As obtaining the
+> endpoint based on port and endpoint IDs works well in all cases I've
+> suggested people to use that. But as the backend, at least currently, uses
+> iterative functions, they're unlikely to disappear in the future.
 
-Regards,
-Zheyu Ma
+I understand I should continue using fwnode_graph_get_endpoint_by_id(),
+right?
+
+Thanks.
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
