@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B1A324C6EC3
+	by mail.lfdr.de (Postfix) with ESMTP id 35F984C6EC2
 	for <lists+linux-media@lfdr.de>; Mon, 28 Feb 2022 15:00:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233416AbiB1OAh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Feb 2022 09:00:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35162 "EHLO
+        id S233333AbiB1OAg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Feb 2022 09:00:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232107AbiB1OAf (ORCPT
+        with ESMTP id S233056AbiB1OAf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 28 Feb 2022 09:00:35 -0500
 Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078F878048
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07FBC7938E
         for <linux-media@vger.kernel.org>; Mon, 28 Feb 2022 05:59:56 -0800 (PST)
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1nOgZ9-0031f7-1U; Mon, 28 Feb 2022 13:59:55 +0000
+        id 1nOgZ9-0031f6-1U; Mon, 28 Feb 2022 13:59:55 +0000
 Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.94.2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1nOgZ6-00CZ8n-V6; Mon, 28 Feb 2022 13:59:52 +0000
+        id 1nOgZ6-00CZ8o-V6; Mon, 28 Feb 2022 13:59:52 +0000
 Date:   Mon, 28 Feb 2022 13:59:52 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1616211492.0.1646056792187@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media_stage_gcc #41
+Message-ID: <1617684551.1.1646056792187@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media_stage_clang #420
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media_stage_gcc
+X-Jenkins-Job: media_stage_clang
 X-Jenkins-Result: FAILURE
 Auto-submitted: auto-generated
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
@@ -45,7 +45,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media_stage_gcc/41/display/redirect>
+See <https://builder.linuxtv.org/job/media_stage_clang/420/display/redirect>
 
 Changes:
 
@@ -53,12 +53,12 @@ Changes:
 ------------------------------------------
 Started by an SCM change
 Running as SYSTEM
-Building remotely on slave0 in workspace /var/lib/jenkins/workspace/media_stage_gcc
+Building remotely on slave0 in workspace /var/lib/jenkins/workspace/media_stage_clang
 The recommended git tool is: NONE
 No credentials specified
 Cloning the remote Git repository
 Cloning repository git://linuxtv.org/media_stage.git
- > git init /var/lib/jenkins/workspace/media_stage_gcc # timeout=10
+ > git init /var/lib/jenkins/workspace/media_stage_clang # timeout=10
 Fetching upstream changes from git://linuxtv.org/media_stage.git
  > git --version # timeout=10
  > git --version # 'git version 2.30.2'
