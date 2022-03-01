@@ -2,275 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D5C74C8242
-	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 05:22:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B5AA4C8384
+	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 06:52:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232112AbiCAEXN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Feb 2022 23:23:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53940 "EHLO
+        id S230058AbiCAFwv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Mar 2022 00:52:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231749AbiCAEXM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Feb 2022 23:23:12 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E23253968A
-        for <linux-media@vger.kernel.org>; Mon, 28 Feb 2022 20:22:31 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id s1so12457217plg.12
-        for <linux-media@vger.kernel.org>; Mon, 28 Feb 2022 20:22:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YiuwsItVgiHnp3P3VJMKFvdvhrCE1xpf4s9ZlXl+PbQ=;
-        b=QQ4fluqz5WXBpkKtSYvLRxOIATkBOH8/cAQlea9sUiUA+b/dzUbaYk9wcXvdaWC5Ox
-         I20Gu+F0tCq6FgMw0FNnUvvTsZGSAIKzkeMZXstAnZYuzdnq/w8cLjrj9r/cs9MdHhx6
-         SA2KrVrSS32/uw05IsQeD9jN2PRul5TZjZt0Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YiuwsItVgiHnp3P3VJMKFvdvhrCE1xpf4s9ZlXl+PbQ=;
-        b=JFnMTwRu+WJbYlnAZsoMR/3CtFBodxCbwRPfkdSX+V3DgMAEAhmdikgQf0eafFaLQu
-         DXCwzApBIQtUwsiuQI1sFawqvpgLsI/rhF6P7S6onKS4zW8KfZzDUDpFevnU/3aOp0y+
-         ixQmO6aDTLfQ/AtzhCY1eo8o/wKdUnM1T3vwRtRUuy7x18EsnqlF4Yc4xC/zOktVfYBt
-         DPQAf8RZyOwQdncbVtnnUMjEEgxCadvMoNlFKNsAK/FM5OZJjqlxbvRdVk/bjIkR4ixV
-         FTtB4nsPURJ79OdFge1cT6rRRcZJK/Us8PZ3zRJcSceNL9KhWUTym3YtEcqHd70fDiJX
-         cbPQ==
-X-Gm-Message-State: AOAM5312W9oRP96/rUzaf8tpbztAhXb03qdvVdRBY0snNv4m4qw/xtI2
-        GQ+w6XhhNm3QLi5Aa/PLujqbfQ==
-X-Google-Smtp-Source: ABdhPJwrUuR4xfw3ppxF+k8PiK8Tz/m8iuVhac/5vgw9ak5tNvg4B5bN1rFj/6nxyJRX+YJTHAGSwA==
-X-Received: by 2002:a17:90b:228a:b0:1bc:7ca4:efaf with SMTP id kx10-20020a17090b228a00b001bc7ca4efafmr20262946pjb.245.1646108551356;
-        Mon, 28 Feb 2022 20:22:31 -0800 (PST)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:786d:ffd4:ee63:5b33])
-        by smtp.gmail.com with ESMTPSA id v189-20020a6389c6000000b00372e3b6fe90sm11877807pgd.55.2022.02.28.20.22.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 20:22:31 -0800 (PST)
-From:   Chen-Yu Tsai <wenst@chromium.org>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v3] media: hantro: Implement support for encoder commands
-Date:   Tue,  1 Mar 2022 12:22:25 +0800
-Message-Id: <20220301042225.1540019-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.35.1.574.g5d30c73bfb-goog
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S229674AbiCAFwu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 00:52:50 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B1186B0A8
+        for <linux-media@vger.kernel.org>; Mon, 28 Feb 2022 21:52:09 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1467EB816AF
+        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 05:52:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 556D3C340F0
+        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 05:52:06 +0000 (UTC)
+Date:   Tue, 01 Mar 2022 06:52:04 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220301055206.556D3C340F0@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The V4L2 stateful encoder uAPI specification requires that drivers
-support the ENCODER_CMD ioctl to allow draining of buffers. This
-however was not implemented, and causes issues for some userspace
-applications.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
-This is entirely based on existing code found in the vicodec test
-driver.
+Results of the daily build of media_tree:
 
-Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
+date:			Tue Mar  1 05:00:11 CET 2022
+media-tree git hash:	2881ca629984b949ec9ac2e8ba1e64a2f0b66e8b
+media_build git hash:	d5d4c1ff328b8464bd0f55aea299ab5f2a7856ec
+v4l-utils git hash:	40a51ea5538182d7c3856ece1c75c7ebca967a84
+edid-decode git hash:	2c4f5f63f63eee6045a54605e873f0268d11ffd1
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.3
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.3
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5a84266d391eb878f83b081540507f76650111aa
+host hardware:		x86_64
+host os:		5.15.0-3-amd64
 
-Changes since v2:
-- Dropped RFC tag
-- Added Reviewed-by from Benjamin
-- Replace direct access to vb->planes[i].bytesused with
-  vb2_set_plane_payload()
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16.1-i686: OK
+linux-5.16.1-x86_64: OK
+linux-5.17-rc1-i686: OK
+linux-5.17-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-Changes since v1:
-- Correctly handle last buffers that are empty
-- Correctly handle last buffers that just got queued
-- Disable (TRY_)ENCODER_CMD ioctls for hantro decoder
+Detailed results are available here:
 
-This is based on linux-next-20220208, and was tested on RK3399 with
-Gstreamer running the JPEG encoder. It was also tested on ChromeOS
-5.10 on Kevin with the video encoder used in ChromeOS ARC, which
-requires this. For ChromeOS, both encoder and decoder tests were run
-to check for regressions.
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
 
-Everything really works OK now, but since I'm not very familiar with
-the mem2mem framework, I might be missing something, causing resource
-leaks. Hence this patch is labeled RFC.
+Detailed regression test results are available here:
 
-Last, I suppose we could also add support for (TRY_)DECODER_CMD now?
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
 
- drivers/staging/media/hantro/hantro_drv.c  | 17 +++++-
- drivers/staging/media/hantro/hantro_v4l2.c | 68 +++++++++++++++++++++-
- 2 files changed, 81 insertions(+), 4 deletions(-)
+Full logs are available here:
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index bc9bcb4eaf46..99bc650a5a93 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
- 	return hantro_get_dec_buf_addr(ctx, buf);
- }
- 
-+static const struct v4l2_event hantro_eos_event = {
-+	.type = V4L2_EVENT_EOS
-+};
-+
- static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
- 				    struct hantro_ctx *ctx,
- 				    enum vb2_buffer_state result)
-@@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
- 	src->sequence = ctx->sequence_out++;
- 	dst->sequence = ctx->sequence_cap++;
- 
-+	if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
-+		dst->flags |= V4L2_BUF_FLAG_LAST;
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+		v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
-+	}
-+
- 	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
- 					 result);
- }
-@@ -807,10 +817,13 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
- 	snprintf(vfd->name, sizeof(vfd->name), "%s-%s", match->compatible,
- 		 funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER ? "enc" : "dec");
- 
--	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER)
-+	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
- 		vpu->encoder = func;
--	else
-+	} else {
- 		vpu->decoder = func;
-+		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
-+		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
-+	}
- 
- 	video_set_drvdata(vfd, vpu);
- 
-diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index 67148ba346f5..aa10ecd04c9c 100644
---- a/drivers/staging/media/hantro/hantro_v4l2.c
-+++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -628,6 +628,39 @@ static int vidioc_s_selection(struct file *file, void *priv,
- 	return 0;
- }
- 
-+static const struct v4l2_event hantro_eos_event = {
-+	.type = V4L2_EVENT_EOS
-+};
-+
-+static int vidioc_encoder_cmd(struct file *file, void *priv,
-+			      struct v4l2_encoder_cmd *ec)
-+{
-+	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	int ret;
-+
-+	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
-+	    !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
-+		return 0;
-+
-+	ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ec->cmd == V4L2_ENC_CMD_STOP &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+
-+	if (ec->cmd == V4L2_ENC_CMD_START &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
-+
-+	return 0;
-+}
-+
- const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_querycap = vidioc_querycap,
- 	.vidioc_enum_framesizes = vidioc_enum_framesizes,
-@@ -657,6 +690,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 
- 	.vidioc_g_selection = vidioc_g_selection,
- 	.vidioc_s_selection = vidioc_s_selection,
-+
-+	.vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
-+	.vidioc_encoder_cmd = vidioc_encoder_cmd,
- };
- 
- static int
-@@ -733,8 +769,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
- 	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
- 	 * it to buffer length).
- 	 */
--	if (V4L2_TYPE_IS_CAPTURE(vq->type))
--		vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
-+	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
-+		if (ctx->is_encoder)
-+			vb2_set_plane_payload(vb, 0, 0);
-+		else
-+			vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
-+	}
- 
- 	return 0;
- }
-@@ -744,6 +784,22 @@ static void hantro_buf_queue(struct vb2_buffer *vb)
- 	struct hantro_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
- 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
- 
-+	if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
-+	    vb2_is_streaming(vb->vb2_queue) &&
-+	    v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
-+		unsigned int i;
-+
-+		for (i = 0; i < vb->num_planes; i++)
-+			vb2_set_plane_payload(vb, i, 0);
-+
-+		vbuf->field = V4L2_FIELD_NONE;
-+		vbuf->sequence = ctx->sequence_cap++;
-+
-+		v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, vbuf);
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+		return;
-+	}
-+
- 	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
- }
- 
-@@ -759,6 +815,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
- 	struct hantro_ctx *ctx = vb2_get_drv_priv(q);
- 	int ret = 0;
- 
-+	v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
-+
- 	if (V4L2_TYPE_IS_OUTPUT(q->type))
- 		ctx->sequence_out = 0;
- 	else
-@@ -831,6 +889,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
- 		hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
- 	else
- 		hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
-+
-+	v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
-+
-+	if (V4L2_TYPE_IS_OUTPUT(q->type) &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
- }
- 
- static void hantro_buf_request_complete(struct vb2_buffer *vb)
--- 
-2.35.1.574.g5d30c73bfb-goog
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
 
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
