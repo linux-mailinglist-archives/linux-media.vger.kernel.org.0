@@ -2,58 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92FDD4C9963
-	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 00:35:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA9A14C9991
+	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 00:56:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238664AbiCAXgP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Mar 2022 18:36:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38336 "EHLO
+        id S238727AbiCAX5C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Mar 2022 18:57:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233036AbiCAXgO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 18:36:14 -0500
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1432761A34;
-        Tue,  1 Mar 2022 15:35:33 -0800 (PST)
-Received: by mail-oo1-f53.google.com with SMTP id s203-20020a4a3bd4000000b003191c2dcbe8so41312oos.9;
-        Tue, 01 Mar 2022 15:35:33 -0800 (PST)
+        with ESMTP id S238410AbiCAX44 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 18:56:56 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96D2870CDC
+        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 15:56:14 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id v22so10083ljh.7
+        for <linux-media@vger.kernel.org>; Tue, 01 Mar 2022 15:56:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4H0hy1V+vsSL/J4iRHU98fs6Ghx9E/bawvPg5OjXQmQ=;
+        b=A1xSV6w+mnGI8KddmZFT+SVp47UhRqZlj7dZE7Ue1BgWjGw2+QCc51Zb6PIPvKiXuh
+         /TGd1P3o63R0kiFyLwVU+kzDBf6Kt9wFSZwwJYnrWAqavu9szp3nfmKm0Qe68N3l8Mdl
+         bWvesgtwBf4BWRSm4aUiCmj0pmAaHYwmzAjUs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mjAm0YWASTEf57JVUS2I1+2cvaNRD0CHbjx/YiEWgzo=;
-        b=7DR6Tz5EH1LbLTVv4a0S9UG9Y2VJytqIVj2CYsWOpqritbdTo7TR3286NemjiIvf3m
-         W4lloUQEY0yw12sC+lNnkOZBbxDDbN+W8hUIRqXJzmB4bhKpuUL2HkGere3Z4QvbJJQw
-         xn4dDGCV6dNBYq9CG7cubl3UZNqtP9wp1SHGpXUjTftjcE8pvAENaYCZOaNlyo7JvR24
-         LXXJxh6j1+MF/iiaBctpLQeT8xofjIOPNLj2Kgh8emNklUwHQC+bjoTfNkr2YHLFaMnF
-         IYHgf4McojPcSO0cGmflSU/RspiQNdw1io22J7xSo/j5JkeB2kCnoYfDQ7Go4MhhUC2X
-         v2GA==
-X-Gm-Message-State: AOAM531wF1qBzFAgYByRZbfP8LOY6bA5s/9NdCbHzDy+sx/RMEngf/5I
-        sw5yZN//6UrUmkuuum/NyA==
-X-Google-Smtp-Source: ABdhPJzt9hj8uaSjUrfFAo0GVVDli7ueQD5CfQhr+S2QXfU8PSjp5ZmMY3gZvPNE+wzjCn+Xdx2IuA==
-X-Received: by 2002:a05:6870:3c18:b0:d7:22ed:20b0 with SMTP id gk24-20020a0568703c1800b000d722ed20b0mr7641309oab.32.1646177732368;
-        Tue, 01 Mar 2022 15:35:32 -0800 (PST)
-Received: from xps15.herring.priv (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.googlemail.com with ESMTPSA id 36-20020a9d0ba7000000b005ad59f1f783sm7337990oth.3.2022.03.01.15.35.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Mar 2022 15:35:31 -0800 (PST)
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH] dt-bindings: media: mediatek,vcodec: Fix addressing cell sizes
-Date:   Tue,  1 Mar 2022 17:35:00 -0600
-Message-Id: <20220301233501.2110047-1-robh@kernel.org>
-X-Mailer: git-send-email 2.32.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4H0hy1V+vsSL/J4iRHU98fs6Ghx9E/bawvPg5OjXQmQ=;
+        b=4zXHFXBAwWJ4H6ZfcY6CYGxow4wsfBEMKruytHCiJ4R859GHsMI8pYbywXnYHfFEqL
+         gOT/CR9g7DszVa/qEud/CvVaYODEbmz7qVWDYtKzr06I+ISkTaxSvQ+8tuuPWXvbQXHI
+         fPVmvK/FcQ+4yYU5aJ4cV3r1hzxMLqkH2GXaeZOUr2F+N/sFcSweyPwHkinGmaXHh2ud
+         HrqFaXpy8ZSKB5vTbTSddeEnzciXVGP87t7zWVKjh8hPlkQq889iP/zssl+4MJ+n2fbJ
+         eiYALDeCxG4Vwop6+Gernreqc30C36v3mkayXazigRT5E8Y6J/rhi3S9bC3kCUIuezhK
+         WDvQ==
+X-Gm-Message-State: AOAM530/MNWBPUs6BdRRhuJuOzbQ57++J4kDvmf+a8rOL1ulR1lzs7/+
+        pRzicuLiYnCkPpvHjShkXjlHSI1nHXvWQghk0VU=
+X-Google-Smtp-Source: ABdhPJxcNz1ukHXA9Juog8e6zHQurfOTQbGcNI8fs6MB14/WaNn1l7Jt4edX7xuPkNmKnpcuvq2GLQ==
+X-Received: by 2002:a2e:9bd4:0:b0:246:f5d:13af with SMTP id w20-20020a2e9bd4000000b002460f5d13afmr18391976ljj.234.1646178971421;
+        Tue, 01 Mar 2022 15:56:11 -0800 (PST)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
+        by smtp.gmail.com with ESMTPSA id c12-20020a056512074c00b004458cd423f7sm1469320lfs.68.2022.03.01.15.56.09
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Mar 2022 15:56:10 -0800 (PST)
+Received: by mail-lj1-f171.google.com with SMTP id bn33so14388ljb.6
+        for <linux-media@vger.kernel.org>; Tue, 01 Mar 2022 15:56:09 -0800 (PST)
+X-Received: by 2002:a05:6512:3042:b0:437:96f5:e68a with SMTP id
+ b2-20020a056512304200b0043796f5e68amr17643498lfb.449.1646178958685; Tue, 01
+ Mar 2022 15:55:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com> <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com> <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
+ <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org> <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
+ <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
+ <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com> <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
+ <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
+In-Reply-To: <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 1 Mar 2022 15:55:42 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+Message-ID: <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+To:     David Laight <David.Laight@aculab.com>
+Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+        KVM list <kvm@vger.kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>,
+        "linux1394-devel@lists.sourceforge.net" 
+        <linux1394-devel@lists.sourceforge.net>,
+        "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        CIFS <linux-cifs@vger.kernel.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "kgdb-bugreport@lists.sourceforge.net" 
+        <kgdb-bugreport@lists.sourceforge.net>,
+        "bcm-kernel-feedback-list@broadcom.com" 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Arnd Bergman <arnd@arndb.de>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        dma <dmaengine@vger.kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Jakob Koschel <jakobkoschel@gmail.com>,
+        "v9fs-developer@lists.sourceforge.net" 
+        <v9fs-developer@lists.sourceforge.net>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux F2FS Dev Mailing List 
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        "tipc-discussion@lists.sourceforge.net" 
+        <tipc-discussion@lists.sourceforge.net>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Mike Rapoport <rppt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,166 +140,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-'dma-ranges' in the example is written for cell sizes of 2 cells, but
-the schema and example specify sizes of 1 cell. As the h/w has a bus
-address of >32-bits, cell sizes of 2 is correct. Update the schema's
-'#address-cells' and '#size-cells' to be 2 and adjust the example
-throughout.
+On Tue, Mar 1, 2022 at 3:19 PM David Laight <David.Laight@aculab.com> wrote:
+>
+> Having said that there are so few users of list_entry_is_head()
+> it is reasonable to generate two new names.
 
-There's no error currently because dtc only checks 'dma-ranges' is a
-correct multiple number of cells (3) and the schema checking is based on
-bracketing of entries.
+Well, the problem is that the users of list_entry_is_head() may be few
+- but there are a number of _other_ ways to check "was that the HEAD
+pointer", and not all of them are necessarily correct.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-I noticed the driver is checking 'dma-ranges' itself. That's generally
-wrong as the core code should be configuring bus dma masks
-automatically.
----
- .../media/mediatek,vcodec-subdev-decoder.yaml | 122 +++++++++---------
- 1 file changed, 64 insertions(+), 58 deletions(-)
+IOW, different places do different random tests for "did we walk the
+whole loop without breaking out". And many of them happen to work. In
+fact, in practice, pretty much *all* of them happen to work, and you
+have to have the right struct layout and really really bad luck to hit
+a case of "type confusion ended up causing the test to not work".
 
-diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
-index d587fc3e39fb..7687be0f50aa 100644
---- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
-+++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
-@@ -72,10 +72,10 @@ properties:
-       Describes the physical address space of IOMMU maps to memory.
- 
-   "#address-cells":
--    const: 1
-+    const: 2
- 
-   "#size-cells":
--    const: 1
-+    const: 2
- 
-   ranges: true
- 
-@@ -205,61 +205,67 @@ examples:
-     #include <dt-bindings/clock/mt8192-clk.h>
-     #include <dt-bindings/power/mt8192-power.h>
- 
--    video-codec@16000000 {
--        compatible = "mediatek,mt8192-vcodec-dec";
--        mediatek,scp = <&scp>;
--        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
--        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
--        #address-cells = <1>;
--        #size-cells = <1>;
--        ranges = <0 0x16000000 0x40000>;
--        reg = <0x16000000 0x1000>;		/* VDEC_SYS */
--        vcodec-lat@10000 {
--            compatible = "mediatek,mtk-vcodec-lat";
--            reg = <0x10000 0x800>;
--            interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
--            iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
--                <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
--                <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
--                <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
--                <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
--                <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
--                <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
--                <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
--            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
--                <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
--                <&vdecsys_soc CLK_VDEC_SOC_LAT>,
--                <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
--                <&topckgen CLK_TOP_MAINPLL_D4>;
--            clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
--            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
--            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
--            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
--        };
--
--        vcodec-core@25000 {
--            compatible = "mediatek,mtk-vcodec-core";
--            reg = <0x25000 0x1000>;
--            interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
--            iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
--                <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
--                <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
--                <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
--                <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
--                <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
--                <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
--                <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
--                <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
--                <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
--                <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
--            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
--                <&vdecsys CLK_VDEC_VDEC>,
--                <&vdecsys CLK_VDEC_LAT>,
--                <&vdecsys CLK_VDEC_LARB1>,
--                <&topckgen CLK_TOP_MAINPLL_D4>;
--            clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
--            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
--            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
--            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
-+    bus@16000000 {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+        ranges = <0 0x16000000 0x16000000 0 0x40000>;
-+
-+        video-codec@16000000 {
-+            compatible = "mediatek,mt8192-vcodec-dec";
-+            mediatek,scp = <&scp>;
-+            iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
-+            dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
-+            #address-cells = <2>;
-+            #size-cells = <2>;
-+            ranges = <0 0 0 0x16000000 0 0x40000>;
-+            reg = <0 0x16000000 0 0x1000>;		/* VDEC_SYS */
-+            vcodec-lat@10000 {
-+                compatible = "mediatek,mtk-vcodec-lat";
-+                reg = <0 0x10000 0 0x800>;
-+                interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
-+                iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
-+                    <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
-+                    <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
-+                    <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
-+                    <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
-+                    <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
-+                    <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
-+                    <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
-+                clocks = <&topckgen CLK_TOP_VDEC_SEL>,
-+                    <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
-+                    <&vdecsys_soc CLK_VDEC_SOC_LAT>,
-+                    <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
-+                    <&topckgen CLK_TOP_MAINPLL_D4>;
-+                clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
-+                assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
-+                assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
-+                power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
-+            };
-+
-+            vcodec-core@25000 {
-+                compatible = "mediatek,mtk-vcodec-core";
-+                reg = <0 0x25000 0 0x1000>;
-+                interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
-+                iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
-+                    <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
-+                    <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
-+                    <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
-+                    <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
-+                    <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
-+                    <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
-+                    <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
-+                    <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
-+                    <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
-+                    <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
-+                clocks = <&topckgen CLK_TOP_VDEC_SEL>,
-+                    <&vdecsys CLK_VDEC_VDEC>,
-+                    <&vdecsys CLK_VDEC_LAT>,
-+                    <&vdecsys CLK_VDEC_LARB1>,
-+                    <&topckgen CLK_TOP_MAINPLL_D4>;
-+                clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
-+                assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
-+                assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
-+                power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
-+            };
-         };
-     };
--- 
-2.32.0
+And *THAT* is the problem here. It's not the "there are 25ish places
+that current use list_entry_is_head()".
 
+It's the "there are ~480 places that use the type-confused HEAD entry
+that has been cast to the wrong type".
+
+And THAT is why I think we'd be better off with that bigger change
+that simply means that you can't use the iterator variable at all
+outside the loop, and try to make it something where the compiler can
+help catch mis-uses.
+
+Now, making the list_for_each_entry() thing force the iterator to NULL
+at the end of the loop does fix the problem. The issue I have with it
+is really just that you end up getting no warning at all from the
+compiler if you mix old-style and new-style semantics. Now, you *will*
+get an oops (if using a new-style iterator with an old-style check),
+but many of these things will be in odd driver code and may happen
+only for error cases.
+
+And if you use a new-style check with an old-style iterator (ie some
+backport problem), you will probably end up getting random memory
+corruption, because you'll decide "it's not a HEAD entry", and then
+you'll actually *use* the HEAD that has the wrong type cast associated
+with it.
+
+See what my worry is?
+
+With the "don't use iterator outside the loop" approach, the exact
+same code works in both the old world order and the new world order,
+and you don't have the semantic confusion. And *if* you try to use the
+iterator outside the loop, you'll _mostly_ (*) get a compiler warning
+about it not being initialized.
+
+             Linus
+
+(*) Unless somebody initializes the iterator pointer pointlessly.
+Which clearly does happen. Thus the "mostly". It's not perfect, and
+that's most definitely not nice - but it should at least hopefully
+make it that much harder to mess up.
