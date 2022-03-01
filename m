@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBF114C8B5B
-	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 13:19:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 710CB4C8BB6
+	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 13:34:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234041AbiCAMUH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Mar 2022 07:20:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49438 "EHLO
+        id S234065AbiCAMfT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Mar 2022 07:35:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232613AbiCAMUG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 07:20:06 -0500
+        with ESMTP id S233475AbiCAMfS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 07:35:18 -0500
 Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10E2A56C2C;
-        Tue,  1 Mar 2022 04:19:22 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F33097BAD;
+        Tue,  1 Mar 2022 04:34:30 -0800 (PST)
 Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-        by ni.piap.pl (Postfix) with ESMTPSA id D81C1C3F2A54;
-        Tue,  1 Mar 2022 13:19:20 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl D81C1C3F2A54
+        by ni.piap.pl (Postfix) with ESMTPSA id 67F41C3F2A54;
+        Tue,  1 Mar 2022 13:34:28 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 67F41C3F2A54
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
-        t=1646137161; bh=kSabZj2uSQjgkFczSZMvF3bJRihRCuN2IOOpNDYapls=;
+        t=1646138068; bh=Upk6FCKfHLUjo081LeWtb4iS+Al74dKX2WaYB56S9xo=;
         h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=npohYuiYKQrXVL3bxAXH92cQ4bKwu1JU2dbQkAHuNe2mbrOCzB4CGM7rSyiUvFgRi
-         00EWp3RezZb3EjsKrDNR0lV6Q7xFr80zE3T/6Zh2dj7UkGMlu4y8y4KfYtB54dAlxX
-         9Qnl2Rvf+QHYzZlTkCE9cMR7N7CVV+291V3beeIM=
+        b=kXYIsJ80HZokbCGHnuV2OFIkxix+CA3DMXYWfvgWcHU3RNN7Hr5+i3M2rzLz/hxMG
+         pCIbWjt5jhEh7jb/ogvQ5lLrtV5TU086PUfetRWksya/uv6W5Nb6V0IXwZ03IBA83N
+         xNdi/RU0jSCkllUrb+BGFJNs1d41WTd7OJdWS6PA=
 From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -32,16 +32,14 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@iki.fi>,
         Joe Perches <joe@perches.com>
-Subject: Re: [PATCH v7 2/2] Driver for ON Semi AR0521 camera sensor
-References: <m3czl9eylt.fsf@t19.piap.pl> <m34k6leyb1.fsf@t19.piap.pl>
-        <20220109153439.bfnfigocaeeeghmp@uno.localdomain>
-        <m35yp387n4.fsf@t19.piap.pl>
-        <20220301090132.g5xsodoeotcm6h2q@uno.localdomain>
+Subject: Re: [PATCH v8 2/2] On Semi AR0521 sensor driver
+References: <m3pmn66pie.fsf@t19.piap.pl> <m3h78i6p4t.fsf@t19.piap.pl>
+        <20220301093107.ihokyp4xptkzpbpc@uno.localdomain>
 Sender: khalasa@piap.pl
-Date:   Tue, 01 Mar 2022 13:19:20 +0100
-In-Reply-To: <20220301090132.g5xsodoeotcm6h2q@uno.localdomain> (Jacopo Mondi's
-        message of "Tue, 1 Mar 2022 10:01:32 +0100")
-Message-ID: <m3czj57tmf.fsf@t19.piap.pl>
+Date:   Tue, 01 Mar 2022 13:34:28 +0100
+In-Reply-To: <20220301093107.ihokyp4xptkzpbpc@uno.localdomain> (Jacopo Mondi's
+        message of "Tue, 1 Mar 2022 10:31:07 +0100")
+Message-ID: <m38rtt7sx7.fsf@t19.piap.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -61,26 +59,47 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Jacopo Mondi <jacopo@jmondi.org> writes:
 
->> They can. It appears, though, that clusters aren't about controls which
->> can't change independently. Both of the two are written to the hardware
->> at the same time, which appears to be a valid reason to combine them
->> into a cluster.
+> In subject
 >
-> Is there a reason to write them to hw at the same time ? :)
+> "media: i2c:"
+>
+> Same for 1/2 where permutation of "media: dt-bindings: i2c:" are used
+> when adding bindings for media i2c drivers.
 
-Sure, they are written in a single merged burst on I2C.
+You know, it's rather hard to know all these tiny requirements. Let
+alone get them right all the time.
 
-> As it doesn't seem to me you access registers during probe (to
-> identify the sensor in example) there's no need to power up the device
-> during probe, but should be enough to let runtime_pm do so when
-> requested.
+>> +	pm_runtime_set_active(&client->dev);
+>> +	pm_runtime_enable(&client->dev);
+>> +	pm_runtime_idle(&client->dev);
+>
+> Do you have an _idle() callback ? This seems a no-op to me, or am I
+> mistaken ? (runtime_pm is still cryptic to me sometimes)
 
-Yes, in fact I never try to read anything from the sensor :-)
-Unfortunately I'm not sure how to initialize the (possibly nonexistent)
-PM without powering it up, cleanly, in all kernel configs. I mean, I can
-check if PM failed and power it up "by hand", but it's a bit messy.
+Do you mean only the pm_runtime_idle()? Sakari just requested I add it.
 
-Suggestions are welcome, though.
+> Can't you just remove power_on() if it's not needed ?
+
+It wouldn't work without CONFIG_PM then, would it?
+
+> There still are a few checkpatch warnings which might be worth
+> considering  but nothing huge.
+
+Do you mean this?
+
+WARNING: Block comments use * on subsequent lines
+#411: FILE: drivers/media/i2c/ar0521.c:351:
++               /* Reset gain, the sensor may produce all white pixels with=
+out
++                  this */
+
+WARNING: Block comments use a trailing */ on a separate line
+#411: FILE: drivers/media/i2c/ar0521.c:351:
++                  this */
+
+... which are about a single comment which I had to wrap to fit in 80
+columns, hardly a block comment by my standards. Not to mention Linus
+saying...
 --=20
 Krzysztof "Chris" Ha=C5=82asa
 
