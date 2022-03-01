@@ -2,253 +2,261 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD8694C88C4
-	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 11:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85A964C8964
+	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 11:36:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234118AbiCAKDq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Mar 2022 05:03:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38676 "EHLO
+        id S234297AbiCAKhC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Mar 2022 05:37:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234100AbiCAKDn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 05:03:43 -0500
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631A65DE63;
-        Tue,  1 Mar 2022 02:02:59 -0800 (PST)
-X-UUID: 8d456c0aed9b4526b3bf7b44a7a9c18e-20220301
-X-UUID: 8d456c0aed9b4526b3bf7b44a7a9c18e-20220301
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1500445926; Tue, 01 Mar 2022 18:02:51 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 1 Mar 2022 18:02:50 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 1 Mar
- 2022 18:02:49 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 1 Mar 2022 18:02:49 +0800
-From:   Moudy Ho <moudy.ho@mediatek.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        <tfiga@chromium.org>, <drinkcat@chromium.org>,
-        <pihsun@chromium.org>, <hsinyi@google.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        <menghui.lin@mediatek.com>, <sj.huang@mediatek.com>,
-        <allen-kh.cheng@mediatek.com>, <randy.wu@mediatek.com>,
-        <moudy.ho@mediatek.com>, <jason-jh.lin@mediatek.com>,
-        <roy-cw.yeh@mediatek.com>, <river.cheng@mediatek.com>,
-        <srv_heupstream@mediatek.com>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v12 4/4] soc: mediatek: mutex: add functions that operate registers by CMDQ
-Date:   Tue, 1 Mar 2022 18:02:46 +0800
-Message-ID: <20220301100246.2153-5-moudy.ho@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220301100246.2153-1-moudy.ho@mediatek.com>
-References: <20220301100246.2153-1-moudy.ho@mediatek.com>
+        with ESMTP id S232336AbiCAKhA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 05:37:00 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0046D580F0;
+        Tue,  1 Mar 2022 02:36:18 -0800 (PST)
+Received: from [IPV6:2a01:e0a:120:3210:b77d:712d:f725:41b3] (unknown [IPv6:2a01:e0a:120:3210:b77d:712d:f725:41b3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E2ABA1F44332;
+        Tue,  1 Mar 2022 10:36:16 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1646130977;
+        bh=X6YktsVu7FdBgPhu9qFKuminbFyWDXyYaI65mzEEF9s=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=f6RW5QpzWm5aYdPSbPgRh5G4W0Iy/BFCYPiRSSp/ezONLr5d7mvdwoaynWHXsrvIn
+         5fqetasbxlaisfNDB13U3oKHEqJekf6+wlvMgAHxi1BPLtswYG7rhu0EqGYuhnuZvF
+         C079H/eYqFNV4ghxAfFoLdJIXvxQcq40ewHVtzlrXB31IDsz+j1GLr9pVH42GE8//j
+         dfL6rBxtgC/sZ0TewOv8iPoGtzX/28Wh371yNPOWCNhbsvvYrYH1SziIc58yWwMosN
+         aGZ+OrHcf2jA+Hl4uhAdAX8m5EFb11xcYMyrkjhxmfRXE7anQWNwQKaG4X7cnTdj92
+         od/mPyKP13LxA==
+Message-ID: <e021c39f-bee4-e850-d56c-60a5e0a4b59f@collabora.com>
+Date:   Tue, 1 Mar 2022 11:36:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 04/15] media: uapi: HEVC: Add missing fields in HEVC
+ controls
+Content-Language: en-US
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, jonas@kwiboo.se, nicolas@ndufresne.ca,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+ <20220228140838.622021-5-benjamin.gaignard@collabora.com>
+ <20220228165757.sjqxdxb3toxkcasl@basti-XPS-13-9310>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20220228165757.sjqxdxb3toxkcasl@basti-XPS-13-9310>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Considering that some functions have timing requirements
-in specific situation, this patch adds several interface that
-operate registers by CMDQ.
 
-Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/soc/mediatek/mtk-mutex.c       | 72 +++++++++++++++++++++++++-
- include/linux/soc/mediatek/mtk-mutex.h |  6 +++
- 2 files changed, 76 insertions(+), 2 deletions(-)
+Le 28/02/2022 à 17:57, Sebastian Fricke a écrit :
+> Hey Benjamin,
+>
+> On 28.02.2022 15:08, Benjamin Gaignard wrote:
+>> Complete the HEVC controls with missing fields from H.265 
+>> specifications.
+>> Even if these fields aren't used by the current mainlined drivers
+>> they will be need for (at least) rkvdec driver.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>> .../media/v4l/ext-ctrls-codec.rst             | 22 +++++++++++++++++++
+>> include/media/hevc-ctrls.h                    |  6 ++++-
+>> 2 files changed, 27 insertions(+), 1 deletion(-)
+>>
+>> diff --git 
+>> a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst 
+>> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index 4cd7c541fc30..d096cb75993a 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -2661,6 +2661,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>     :stub-columns: 0
+>>     :widths:       1 1 2
+>>
+>> +    * - __u8
+>> +      - ``video_parameter_set_id``
+>> +      - Specifies the value of the vps_video_parameter_set_id of the 
+>> active VPS
+>> +        as descibed in section "7.4.3.2.1 General sequence parameter 
+>> set RBSP semantics"
+>> +        of H.265 specifications.
+>> +    * - __u8
+>> +      - ``seq_parameter_set_id``
+>> +      - Provides an identifier for the SPS for reference by other 
+>> syntax elements
+>> +        as descibed in section "7.4.3.2.1 General sequence parameter 
+>> set RBSP semantics"
+>> +        of H.265 specifications.
+>>     * - __u16
+>>       - ``pic_width_in_luma_samples``
+>>       -
+>> @@ -2800,6 +2810,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>     :stub-columns: 0
+>>     :widths:       1 1 2
+>>
+>> +    * - __u8
+>> +      - ``pic_parameter_set_id``
+>> +      - Identifies the PPS for reference by other syntax elements.
+>>     * - __u8
+>>       - ``num_extra_slice_header_bits``
+>>       -
+>> @@ -3026,6 +3039,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>     * - __u8
+>>       - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>>       - The list of L1 reference elements as indices in the DPB.
+>> +    * - __u16
+>> +      - ``short_term_ref_pic_set_size``
+>> +      - Specifies the number of st_ref_pic_set( ) syntax structures 
+>> included in the SPS.
+>> +        The value of num_short_term_ref_pic_sets shall be in the 
+>> range of 0 to 64, inclusive.
+>> +    * - __u16
+>> +      - ``long_term_ref_pic_set_size``
+>> +      - Specifies the number of candidate long-term reference 
+>> pictures that are specified
+>> +        in the SPS. The value of num_long_term_ref_pics_sps shall be 
+>> in the range
+>> +        of 0 to 32, inclusive.
+>>     * - __u8
+>
+> I would like to argue that the names for these fields are not optimal.
+>
+> The are quite similar to the ones from the specification:
+> `num_short_term_ref_pic_sets` & `num_long_term_ref_pics_sps`, while
+> they actually do something different. (Which means that descriptions for
+> the fields are sadly incorrect as well)
+>
+> Looking at the code from the H265 parser in GStreamer:
+> ```
+>       READ_UINT8 (&nr, slice->short_term_ref_pic_set_sps_flag, 1);
+>       if (!slice->short_term_ref_pic_set_sps_flag) {
+>         guint pos = nal_reader_get_pos (&nr);
+>         if (!gst_h265_parser_parse_short_term_ref_pic_sets
+>             (&slice->short_term_ref_pic_sets, &nr,
+>                 sps->num_short_term_ref_pic_sets, sps))
+>           goto error;
+>
+>         slice->short_term_ref_pic_set_size = nal_reader_get_pos (&nr) 
+> - pos;
+> ```
+>
+> We can see that the `short_term_ref_pic_set_size` is calculated by
+> gettting the difference between the nal_reader position before calling
+> `gst_h265_parser_parse_short_term_ref_pic_sets` and the position of the
+> nal reader afterwards.
+> The variable `num_short_term_ref_pic_sets` is used as part of the short
+> term reference picture set parsing process, but it is not directly
+> related to `short_term_ref_pic_set_size` (otherwise a direct
+> transformation of `num_short_term_ref_pic_sets` ->
+> `short_term_ref_pic_set_size` would have been way easier)
+>
+> Further when I look at a patch from Alex Bee for RKVDEC that uses these
+> fields (actually the only user) 
+> (https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch#L3007)
+> I can see that he describes them as bit offsets.
+>
+> So, to avoid confusion, I would argue that we should rename these
+> (They are not part of the specification anyway)
+>
+> s/short_term_ref_pic_set_size/short_term_ref_pic_set_bit_offset/
+> s/long_term_ref_pic_set_size/long_term_ref_pic_set_bit_offset/
+>
+> These names describe the purpose and the content a bit better and avoid
+> confusion with existing values.
+>
+> Additonally, I noticed that calculating the bit offset for the long term
+> is a bit tricky. I wasn't able to find a direct reference in
+> 'non-vendor' code.
+>
+> The process for parsing the short term reference picture set is 
+> depicted with a lot of detail in
+> the specification, but I wasn't able to find the something equivalent 
+> for the long term
+> reference picture set.
+>
+> Having a switft look into mpp, I can see at:
+> https://github.com/JeffyCN/rockchip_mirrors/blob/mpp/mpp/hal/rkdec/h265d/hal_h265d_com.c#L512 
+>
+>
+> That they do roughly the same short term is simply the read bits by the
+> BitReader - the read bits before the operation on the short term
+> reference picture set. (so very similar to what the h265 parser does in
+> GStreamer)
+> The bit offset for long term is equal to short term unless the
+> `long_term_ref_pics_present_flag` is set. In which case, we perform some
+> operations on the long term reference picture set and add the amount of
+> used bits to the bit offset.
 
-diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-index a6268ecde240..a45864183cd1 100644
---- a/drivers/soc/mediatek/mtk-mutex.c
-+++ b/drivers/soc/mediatek/mtk-mutex.c
-@@ -7,10 +7,14 @@
- #include <linux/iopoll.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
-+#include <linux/of_address.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/soc/mediatek/mtk-mmsys.h>
- #include <linux/soc/mediatek/mtk-mutex.h>
-+#include <linux/soc/mediatek/mtk-cmdq.h>
-+
-+#define MTK_MUTEX_ENABLE			BIT(0)
- 
- #define MT2701_MUTEX0_MOD0			0x2c
- #define MT2701_MUTEX0_SOF0			0x30
-@@ -173,6 +177,7 @@ struct mtk_mutex_data {
- 	const unsigned int mutex_mdp_mod_mask;
- 	const unsigned int mutex_mdp_sof_mask;
- 	const bool no_clk;
-+	const bool has_gce_client_reg;
- };
- 
- struct mtk_mutex_ctx {
-@@ -181,6 +186,8 @@ struct mtk_mutex_ctx {
- 	void __iomem			*regs;
- 	struct mtk_mutex		mutex[10];
- 	const struct mtk_mutex_data	*data;
-+	phys_addr_t			addr;
-+	struct cmdq_client_reg		cmdq_reg;
- };
- 
- static const unsigned int mt2701_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-@@ -374,6 +381,7 @@ static const struct mtk_mutex_data mt8183_mutex_driver_data = {
- 	.mutex_mdp_mod_mask = MT8183_MUTEX_MDP_MOD_MASK,
- 	.mutex_mdp_sof_mask = MT8183_MUTEX_MDP_SOF_MASK,
- 	.no_clk = true,
-+	.has_gce_client_reg = true,
- };
- 
- static const struct mtk_mutex_data mt8186_mutex_driver_data = {
-@@ -553,6 +561,25 @@ u32 mtk_mutex_get_mdp_mod(struct mtk_mutex *mutex, enum mtk_mdp_comp_id id)
- }
- EXPORT_SYMBOL_GPL(mtk_mutex_get_mdp_mod);
- 
-+void mtk_mutex_add_mod_by_cmdq(struct mtk_mutex *mutex, u32 mod,
-+			       struct mmsys_cmdq_cmd *cmd)
-+{
-+	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-+						 mutex[mutex->id]);
-+	unsigned int offset;
-+
-+	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-+
-+	offset = DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg, mutex->id);
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys, mtx->addr + offset,
-+			    mod, mtx->data->mutex_mdp_mod_mask);
-+
-+	offset = DISP_REG_MUTEX_SOF(mtx->data->mutex_sof_reg, mutex->id);
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys, mtx->addr + offset,
-+			    0, mtx->data->mutex_mdp_sof_mask);
-+}
-+EXPORT_SYMBOL_GPL(mtk_mutex_add_mod_by_cmdq);
-+
- void mtk_mutex_enable(struct mtk_mutex *mutex)
- {
- 	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-@@ -564,6 +591,20 @@ void mtk_mutex_enable(struct mtk_mutex *mutex)
- }
- EXPORT_SYMBOL_GPL(mtk_mutex_enable);
- 
-+void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
-+			      struct mmsys_cmdq_cmd *cmd)
-+{
-+	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-+						 mutex[mutex->id]);
-+
-+	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-+
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys,
-+			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
-+			    MTK_MUTEX_ENABLE, MTK_MUTEX_ENABLE);
-+}
-+EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
-+
- void mtk_mutex_disable(struct mtk_mutex *mutex)
- {
- 	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-@@ -575,6 +616,20 @@ void mtk_mutex_disable(struct mtk_mutex *mutex)
- }
- EXPORT_SYMBOL_GPL(mtk_mutex_disable);
- 
-+void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
-+			       struct mmsys_cmdq_cmd *cmd)
-+{
-+	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-+						 mutex[mutex->id]);
-+
-+	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-+
-+	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys,
-+			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
-+			    0x0, MTK_MUTEX_ENABLE);
-+}
-+EXPORT_SYMBOL_GPL(mtk_mutex_disable_by_cmdq);
-+
- void mtk_mutex_acquire(struct mtk_mutex *mutex)
- {
- 	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-@@ -602,8 +657,8 @@ static int mtk_mutex_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct mtk_mutex_ctx *mtx;
--	struct resource *regs;
--	int i;
-+	struct resource *regs, addr;
-+	int i, ret;
- 
- 	mtx = devm_kzalloc(dev, sizeof(*mtx), GFP_KERNEL);
- 	if (!mtx)
-@@ -623,6 +678,19 @@ static int mtk_mutex_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	if (of_address_to_resource(dev->of_node, 0, &addr) < 0)
-+		mtx->addr = 0L;
-+	else
-+		mtx->addr = addr.start;
-+
-+	if (mtx->data->has_gce_client_reg) {
-+		ret = cmdq_dev_get_client_reg(dev, &mtx->cmdq_reg, 0);
-+		if (ret) {
-+			dev_err(dev, "No mediatek,gce-client-reg!\n");
-+			return ret;
-+		}
-+	}
-+
- 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	mtx->regs = devm_ioremap_resource(dev, regs);
- 	if (IS_ERR(mtx->regs)) {
-diff --git a/include/linux/soc/mediatek/mtk-mutex.h b/include/linux/soc/mediatek/mtk-mutex.h
-index b2608f4220ee..05de7ad4a124 100644
---- a/include/linux/soc/mediatek/mtk-mutex.h
-+++ b/include/linux/soc/mediatek/mtk-mutex.h
-@@ -17,8 +17,14 @@ int mtk_mutex_prepare(struct mtk_mutex *mutex);
- void mtk_mutex_add_comp(struct mtk_mutex *mutex,
- 			enum mtk_ddp_comp_id id);
- u32 mtk_mutex_get_mdp_mod(struct mtk_mutex *mutex, enum mtk_mdp_comp_id id);
-+void mtk_mutex_add_mod_by_cmdq(struct mtk_mutex *mutex, u32 mod,
-+			       struct mmsys_cmdq_cmd *cmd);
- void mtk_mutex_enable(struct mtk_mutex *mutex);
-+void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
-+			      struct mmsys_cmdq_cmd *cmd);
- void mtk_mutex_disable(struct mtk_mutex *mutex);
-+void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
-+			       struct mmsys_cmdq_cmd *cmd);
- void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
- 			   enum mtk_ddp_comp_id id);
- void mtk_mutex_unprepare(struct mtk_mutex *mutex);
--- 
-2.18.0
+I think the names are correct, these fields provides the size of short and long term ref picture.
 
+It isn't an offset as you explain your self it is the diff between end and start of reference picture in the bitstream.
+
+The documentation is incorrect, I will fix it in the next version like this:
+* @short_term_ref_pic_set_size: specifies the size of short-term reference
+*				 pictures included in the SPS
+* @long_term_ref_pic_set_size: specifies the size of long-term reference
+*				picture include in the SPS
+
+Thanks,
+Benjamin
+
+>
+> Greetings,
+> Sebastian
+>
+>>       - ``padding``
+>>       - Applications and drivers must set this to zero.
+>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>> index 01ccda48d8c5..a329e086a89a 100644
+>> --- a/include/media/hevc-ctrls.h
+>> +++ b/include/media/hevc-ctrls.h
+>> @@ -58,6 +58,8 @@ enum v4l2_mpeg_video_hevc_start_code {
+>> /* The controls are not stable at the moment and will likely be 
+>> reworked. */
+>> struct v4l2_ctrl_hevc_sps {
+>>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
+>> +    __u8    video_parameter_set_id;
+>> +    __u8    seq_parameter_set_id;
+>>     __u16    pic_width_in_luma_samples;
+>>     __u16    pic_height_in_luma_samples;
+>>     __u8    bit_depth_luma_minus8;
+>> @@ -108,6 +110,7 @@ struct v4l2_ctrl_hevc_sps {
+>>
+>> struct v4l2_ctrl_hevc_pps {
+>>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
+>> +    __u8    pic_parameter_set_id;
+>>     __u8    num_extra_slice_header_bits;
+>>     __u8    num_ref_idx_l0_default_active_minus1;
+>>     __u8    num_ref_idx_l1_default_active_minus1;
+>> @@ -199,7 +202,8 @@ struct v4l2_ctrl_hevc_slice_params {
+>>     __u32    slice_segment_addr;
+>>     __u8    ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>>     __u8    ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>> -
+>> +    __u16    short_term_ref_pic_set_size;
+>> +    __u16    long_term_ref_pic_set_size;
+>>     __u8    padding;
+>>
+>>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction 
+>> parameter */
+>> -- 
+>> 2.32.0
+>>
+>
