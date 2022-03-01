@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C81954C8DD4
-	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 15:34:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54E534C8E14
+	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 15:44:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235283AbiCAOf2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Mar 2022 09:35:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59678 "EHLO
+        id S234565AbiCAOp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Mar 2022 09:45:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231383AbiCAOf2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 09:35:28 -0500
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7669A147D
-        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 06:34:46 -0800 (PST)
-Received: by mail-qk1-x72f.google.com with SMTP id g24so13036942qkl.3
-        for <linux-media@vger.kernel.org>; Tue, 01 Mar 2022 06:34:46 -0800 (PST)
+        with ESMTP id S233935AbiCAOpZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 09:45:25 -0500
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5D0734BA1
+        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 06:44:43 -0800 (PST)
+Received: by mail-qk1-x734.google.com with SMTP id d84so13031710qke.8
+        for <linux-media@vger.kernel.org>; Tue, 01 Mar 2022 06:44:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=YfgYFmdvjCecxn9h6hICnr9ORgDNXmi56da4QLUNvw8=;
-        b=WZArLX81JCSDckeLQQDIfNH/QNKU0u9XXx9qlhHh64Q3/PwWfcqhGf5enS+iEIkjjw
-         h13pYiJwOu3UWyeK/RFDipp01OT9v3rwj5U59wQUnJt5cnubV0ZOqr6vE3Ij2SFbloCb
-         curdZNpuigdzdFmauSfXRtt0gFz6kjeLJZjc1xQUimIb/UvxiWQYM+QGs6KryWu9pwIt
-         S3NNsNTVyzz0L4+7D8vl9DK19Px+YUXbHGEFtr1hDzmhAr2LXhS23txs3zFuITeYCEDD
-         TPcyWAFWzgYjRDc/fzpAmzAwuaTNB+iPPwPAhT2Y5jJuh7MzvsyUjP6KOwA/Mx1NtSu1
-         mbtQ==
+        bh=WkCA9qH6vVLYzu+u6wTBqAFPzNBD5R0NvjAHwZ5DKRI=;
+        b=fyMPLIzcyTCrvlvg32Ua6gbBG1tr6+BgnGVlDkID26/vuabOCWwZnoRbc7pTR0trKs
+         /dNgVEU+mhxuWzWmNxQbkx1TLul4ohVBQT4Z1QTQRD1re477HEf7s8SLUz3EkCl58vVI
+         TR0IDLhlxkE2C+4GV4jazycemFham7O4IvJ7pLZpzHlOm2WLDOObZMRNYcUSZTRXEt94
+         pV2kmOnVl0vU+uLpZT0e/Z0W14sVdOSiDpcQoaePMtWQUxXXdwZr2482jC2ehsaSuEEB
+         r1nIBhJE/vJlJCbCJEha+OJc0HH5RLigTIc3JHcGNRYJeLu2ANyu4k1xBE6Ag68T89Qf
+         QAxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=YfgYFmdvjCecxn9h6hICnr9ORgDNXmi56da4QLUNvw8=;
-        b=dUKf/k4GIUXh1HT48FWDLw0qe3a3NPnNTcpT8Zhc8bGn/7a6cSizmnW2L1izELsXyz
-         y9uvg35YRMzcNVuyC0GoJsFwg3pRyon3scYj+I+rfgeJDJvFcLFGn5TMzNakNAk7M6+p
-         68D9uDeJLp7EIEw65crMOnKzmwkszwa/9i96ipSm+mC+7MHq8g9gTCN2bZVbo2QwHcX1
-         RUqvuoJJNpH3uDmerlcEXKhpk843/4n8wjaEf/QWKf8tEi0k0vl5f+80yq3NoyPXVVtA
-         vSpzG8MSF1wPrBmUxwbdBCxmQ4xLFOoo9b3tuG9+kGiFamB5j/Lj8Jp8n+Wm7guMY1RX
-         vvHA==
-X-Gm-Message-State: AOAM533VhQpUqdCIlsWKjxiVTyPiAeRGIlWd4Uj26r3tj4IefkRDPueU
-        yMhOX3rzxp/fpB9ymWAn4ODfPg==
-X-Google-Smtp-Source: ABdhPJx7lWgps1gKsp51n9DwywDayhxh/TdusjIKACtsKwbvy3sEwFfDLxbIT9UatJHeC4uWNMoL0w==
-X-Received: by 2002:ae9:ebd2:0:b0:4e9:15a5:bdce with SMTP id b201-20020ae9ebd2000000b004e915a5bdcemr14147591qkg.303.1646145285922;
-        Tue, 01 Mar 2022 06:34:45 -0800 (PST)
+        bh=WkCA9qH6vVLYzu+u6wTBqAFPzNBD5R0NvjAHwZ5DKRI=;
+        b=UmaFEIrqEDPm0HRONm3LZ7wOZLciKenkSqb/vakfltbVRrX6bs9ehAR8pLFOAszbxf
+         NmcqBvGdX9Cp5Qvq3aQpacU8cBdZOQbp7HHZycPDAg4g/BNCZsUlrpB5T1ew9uKz7F28
+         y7f1zTvoC5uP2T0WEDN6L5yckwEEYw/0uybiffCbcnt5Sje0kl4wmzRoWM4bndLyHzwK
+         86a7uH1FxnMxSFMiHSsj3rmF19UiyaQZxefLTQbNaf3Eyf1ghV+i9u6RFm4mSb+yIDB+
+         ZljeF6d2Kayhzc/W/ckzQJNy5E9CCiRt+ZCQfHD/vMrwJGxEGekmwzxvvacjUl/ZWUc6
+         K6Eg==
+X-Gm-Message-State: AOAM53363TuuASPxezn4EM5jfqYeMYlo8q5GD19BcFGt02nAIXUmvSHq
+        zfGhbK1aDX7i4QxtVimgXuo73g==
+X-Google-Smtp-Source: ABdhPJxE/e0D/N3u+MX4lGWSKp8+eZy0EEciVed9iWZbwDOIGQKyDwek+X7MKvGZ8yKTtOEaARFqbA==
+X-Received: by 2002:a37:b842:0:b0:479:2ecc:e51e with SMTP id i63-20020a37b842000000b004792ecce51emr13881457qkf.206.1646145882950;
+        Tue, 01 Mar 2022 06:44:42 -0800 (PST)
 Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id y11-20020a05622a004b00b002dea2052d7dsm9297258qtw.12.2022.03.01.06.34.44
+        by smtp.gmail.com with ESMTPSA id u26-20020ae9c01a000000b0062ce6955181sm6609852qkk.31.2022.03.01.06.44.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Mar 2022 06:34:45 -0800 (PST)
-Message-ID: <777ced91106f5aba06e7cac6b6b1c80f42d25a1f.camel@ndufresne.ca>
-Subject: Re: [PATCH v7, 07/15] media: mtk-vcodec: Refactor supported vdec
- formats and framesizes
+        Tue, 01 Mar 2022 06:44:42 -0800 (PST)
+Message-ID: <0af43e6de8bb963eecb856e88b00d649c5720c3d.camel@ndufresne.ca>
+Subject: Re: [PATCH v7, 03/15] media: mtk-vcodec: get capture queue buffer
+ size from scp
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
 To:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Alexandre Courbot <acourbot@chromium.org>,
@@ -77,10 +77,10 @@ Cc:     George Sun <george.sun@mediatek.com>,
         linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
         linux-mediatek@lists.infradead.org,
         Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Tue, 01 Mar 2022 09:34:43 -0500
-In-Reply-To: <20220223034008.15781-8-yunfei.dong@mediatek.com>
+Date:   Tue, 01 Mar 2022 09:44:40 -0500
+In-Reply-To: <20220223034008.15781-4-yunfei.dong@mediatek.com>
 References: <20220223034008.15781-1-yunfei.dong@mediatek.com>
-         <20220223034008.15781-8-yunfei.dong@mediatek.com>
+         <20220223034008.15781-4-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 MIME-Version: 1.0
@@ -95,307 +95,198 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 23 février 2022 à 11:40 +0800, Yunfei Dong a écrit :
-> Supported output and capture format types for mt8192 are different
-> with mt8183. Needs to get format types according to decoder capability.
+Thanks for your patch, though perhaps it could be improved, see comment below.
 
-This patch is both refactoring and changing the behaviour. Can you please split
-the non-functional changes from the functional one. This ensure we can proceed
-with a good review of the functional changes.
-
-regards,
-Nicolas
-
+Le mercredi 23 février 2022 à 11:39 +0800, Yunfei Dong a écrit :
+> Different capture buffer format has different buffer size, need to get
+> real buffer size according to buffer type from scp.
 > 
 > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
->  .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   8 +-
->  .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |  13 +-
->  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     | 117 +++++++++++++-----
->  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  13 +-
->  4 files changed, 107 insertions(+), 44 deletions(-)
+>  .../media/platform/mtk-vcodec/vdec_ipi_msg.h  | 36 ++++++++++++++
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.c   | 49 +++++++++++++++++++
+>  .../media/platform/mtk-vcodec/vdec_vpu_if.h   | 15 ++++++
+>  3 files changed, 100 insertions(+)
 > 
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> index 304f5afbd419..bae43938ee37 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> @@ -26,7 +26,7 @@ mtk_vdec_find_format(struct v4l2_format *f,
->  	const struct mtk_video_fmt *fmt;
->  	unsigned int k;
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
+> index bf54d6d9a857..47070be2a991 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
+> +++ b/drivers/media/platform/mtk-vcodec/vdec_ipi_msg.h
+> @@ -20,6 +20,7 @@ enum vdec_ipi_msgid {
+>  	AP_IPIMSG_DEC_RESET = 0xA004,
+>  	AP_IPIMSG_DEC_CORE = 0xA005,
+>  	AP_IPIMSG_DEC_CORE_END = 0xA006,
+> +	AP_IPIMSG_DEC_GET_PARAM = 0xA007,
 >  
-> -	for (k = 0; k < dec_pdata->num_formats; k++) {
-> +	for (k = 0; k < *dec_pdata->num_formats; k++) {
->  		fmt = &dec_pdata->vdec_formats[k];
->  		if (fmt->fourcc == f->fmt.pix_mp.pixelformat)
->  			return fmt;
-> @@ -525,7 +525,7 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
->  	if (fsize->index != 0)
->  		return -EINVAL;
->  
-> -	for (i = 0; i < dec_pdata->num_framesizes; ++i) {
-> +	for (i = 0; i < *dec_pdata->num_framesizes; ++i) {
->  		if (fsize->pixel_format != dec_pdata->vdec_framesizes[i].fourcc)
->  			continue;
->  
-> @@ -564,7 +564,7 @@ static int vidioc_enum_fmt(struct v4l2_fmtdesc *f, void *priv,
->  	const struct mtk_video_fmt *fmt;
->  	int i, j = 0;
->  
-> -	for (i = 0; i < dec_pdata->num_formats; i++) {
-> +	for (i = 0; i < *dec_pdata->num_formats; i++) {
->  		if (output_queue &&
->  		    dec_pdata->vdec_formats[i].type != MTK_FMT_DEC)
->  			continue;
-> @@ -577,7 +577,7 @@ static int vidioc_enum_fmt(struct v4l2_fmtdesc *f, void *priv,
->  		++j;
->  	}
->  
-> -	if (i == dec_pdata->num_formats)
-> +	if (i == *dec_pdata->num_formats)
->  		return -EINVAL;
->  
->  	fmt = &dec_pdata->vdec_formats[i];
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
-> index 7966c132be8f..3f33beb9c551 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
-> @@ -37,7 +37,9 @@ static const struct mtk_video_fmt mtk_video_formats[] = {
->  	},
+>  	VPU_IPIMSG_DEC_INIT_ACK = 0xB000,
+>  	VPU_IPIMSG_DEC_START_ACK = 0xB001,
+> @@ -28,6 +29,7 @@ enum vdec_ipi_msgid {
+>  	VPU_IPIMSG_DEC_RESET_ACK = 0xB004,
+>  	VPU_IPIMSG_DEC_CORE_ACK = 0xB005,
+>  	VPU_IPIMSG_DEC_CORE_END_ACK = 0xB006,
+> +	VPU_IPIMSG_DEC_GET_PARAM_ACK = 0xB007,
 >  };
 >  
-> -#define NUM_FORMATS ARRAY_SIZE(mtk_video_formats)
-> +static const unsigned int num_supported_formats =
-> +	ARRAY_SIZE(mtk_video_formats);
-> +
->  #define DEFAULT_OUT_FMT_IDX 0
->  #define DEFAULT_CAP_FMT_IDX 3
->  
-> @@ -59,7 +61,8 @@ static const struct mtk_codec_framesizes mtk_vdec_framesizes[] = {
->  	},
+>  /**
+> @@ -114,4 +116,38 @@ struct vdec_vpu_ipi_init_ack {
+>  	uint32_t inst_id;
 >  };
 >  
-> -#define NUM_SUPPORTED_FRAMESIZE ARRAY_SIZE(mtk_vdec_framesizes)
-> +static const unsigned int num_supported_framesize =
-> +	ARRAY_SIZE(mtk_vdec_framesizes);
->  
->  /*
->   * This function tries to clean all display buffers, the buffers will return
-> @@ -235,7 +238,7 @@ static void mtk_vdec_update_fmt(struct mtk_vcodec_ctx *ctx,
->  	unsigned int k;
->  
->  	dst_q_data = &ctx->q_data[MTK_Q_DATA_DST];
-> -	for (k = 0; k < NUM_FORMATS; k++) {
-> +	for (k = 0; k < num_supported_formats; k++) {
->  		fmt = &mtk_video_formats[k];
->  		if (fmt->fourcc == pixelformat) {
->  			mtk_v4l2_debug(1, "Update cap fourcc(%d -> %d)",
-> @@ -617,11 +620,11 @@ const struct mtk_vcodec_dec_pdata mtk_vdec_8173_pdata = {
->  	.ctrls_setup = mtk_vcodec_dec_ctrls_setup,
->  	.vdec_vb2_ops = &mtk_vdec_frame_vb2_ops,
->  	.vdec_formats = mtk_video_formats,
-> -	.num_formats = NUM_FORMATS,
-> +	.num_formats = &num_supported_formats,
->  	.default_out_fmt = &mtk_video_formats[DEFAULT_OUT_FMT_IDX],
->  	.default_cap_fmt = &mtk_video_formats[DEFAULT_CAP_FMT_IDX],
->  	.vdec_framesizes = mtk_vdec_framesizes,
-> -	.num_framesizes = NUM_SUPPORTED_FRAMESIZE,
-> +	.num_framesizes = &num_supported_framesize,
->  	.worker = mtk_vdec_worker,
->  	.flush_decoder = mtk_vdec_flush_decoder,
->  	.is_subdev_supported = false,
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
-> index 6d481410bf89..e51d935bd21d 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
-> @@ -81,33 +81,23 @@ static const struct mtk_stateless_control mtk_stateless_controls[] = {
->  
->  #define NUM_CTRLS ARRAY_SIZE(mtk_stateless_controls)
->  
-> -static const struct mtk_video_fmt mtk_video_formats[] = {
-> -	{
-> -		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-> -		.type = MTK_FMT_DEC,
-> -		.num_planes = 1,
-> -	},
-> -	{
-> -		.fourcc = V4L2_PIX_FMT_MM21,
-> -		.type = MTK_FMT_FRAME,
-> -		.num_planes = 2,
-> -	},
-> +static struct mtk_video_fmt mtk_video_formats[2];
-> +static struct mtk_codec_framesizes mtk_vdec_framesizes[1];
-> +
-> +static struct mtk_video_fmt default_out_format;
-> +static struct mtk_video_fmt default_cap_format;
-> +static unsigned int num_formats;
-> +static unsigned int num_framesizes;
-> +
-> +static struct v4l2_frmsize_stepwise stepwise_fhd = {
-> +	.min_width = MTK_VDEC_MIN_W,
-> +	.max_width = MTK_VDEC_MAX_W,
-> +	.step_width = 16,
-> +	.min_height = MTK_VDEC_MIN_H,
-> +	.max_height = MTK_VDEC_MAX_H,
-> +	.step_height = 16
->  };
->  
-> -#define NUM_FORMATS ARRAY_SIZE(mtk_video_formats)
-> -#define DEFAULT_OUT_FMT_IDX    0
-> -#define DEFAULT_CAP_FMT_IDX    1
-> -
-> -static const struct mtk_codec_framesizes mtk_vdec_framesizes[] = {
-> -	{
-> -		.fourcc	= V4L2_PIX_FMT_H264_SLICE,
-> -		.stepwise = {  MTK_VDEC_MIN_W, MTK_VDEC_MAX_W, 16,
-> -				MTK_VDEC_MIN_H, MTK_VDEC_MAX_H, 16 },
-> -	},
-> -};
-> -
-> -#define NUM_SUPPORTED_FRAMESIZE ARRAY_SIZE(mtk_vdec_framesizes)
-> -
->  static void mtk_vdec_stateless_out_to_done(struct mtk_vcodec_ctx *ctx,
->  					   struct mtk_vcodec_mem *bs, int error)
->  {
-> @@ -350,6 +340,62 @@ const struct media_device_ops mtk_vcodec_media_ops = {
->  	.req_queue	= v4l2_m2m_request_queue,
->  };
->  
-> +static void mtk_vcodec_add_formats(unsigned int fourcc,
-> +				   struct mtk_vcodec_ctx *ctx)
-> +{
-> +	struct mtk_vcodec_dev *dev = ctx->dev;
-> +	const struct mtk_vcodec_dec_pdata *pdata = dev->vdec_pdata;
-> +	int count_formats = *pdata->num_formats;
-> +	int count_framesizes = *pdata->num_framesizes;
-> +
-> +	switch (fourcc) {
-> +	case V4L2_PIX_FMT_H264_SLICE:
-> +			[count_formats].fourcc = fourcc;
-> +		mtk_video_formats[count_formats].type = MTK_FMT_DEC;
-> +		mtk_video_formats[count_formats].num_planes = 1;
-> +
-> +		mtk_vdec_framesizes[count_framesizes].fourcc = fourcc;
-> +		mtk_vdec_framesizes[count_framesizes].stepwise = stepwise_fhd;
-> +		num_framesizes++;
-> +		break;
-> +	case V4L2_PIX_FMT_MM21:
-> +		mtk_video_formats[count_formats].fourcc = fourcc;
-> +		mtk_video_formats[count_formats].type = MTK_FMT_FRAME;
-> +		mtk_video_formats[count_formats].num_planes = 2;
-> +		break;
-> +	default:
-> +		mtk_v4l2_err("Can not add unsupported format type");
-> +		return;
-> +	}
-> +
-> +	num_formats++;
-> +	mtk_v4l2_debug(3, "num_formats: %d num_frames:%d dec_capability: 0x%x",
-> +		       count_formats, count_framesizes, ctx->dev->dec_capability);
-> +}
-> +
-> +static void mtk_vcodec_get_supported_formats(struct mtk_vcodec_ctx *ctx)
-> +{
-> +	int cap_format_count = 0, out_format_count = 0;
-> +
-> +	if (num_formats && num_framesizes)
-> +		return;
-> +
-> +	if (ctx->dev->dec_capability & MTK_VDEC_FORMAT_MM21) {
-> +		mtk_vcodec_add_formats(V4L2_PIX_FMT_MM21, ctx);
-> +		cap_format_count++;
-> +	}
-> +	if (ctx->dev->dec_capability & MTK_VDEC_FORMAT_H264_SLICE) {
-> +		mtk_vcodec_add_formats(V4L2_PIX_FMT_H264_SLICE, ctx);
-> +		out_format_count++;
-> +	}
-> +
-> +	if (cap_format_count)
-> +		default_cap_format = mtk_video_formats[cap_format_count - 1];
-> +	if (out_format_count)
-> +		default_out_format =
-> +			mtk_video_formats[cap_format_count + out_format_count - 1];
-> +}
-> +
->  static void mtk_init_vdec_params(struct mtk_vcodec_ctx *ctx)
->  {
->  	struct vb2_queue *src_vq;
-> @@ -360,6 +406,11 @@ static void mtk_init_vdec_params(struct mtk_vcodec_ctx *ctx)
->  	if (ctx->dev->vdec_pdata->hw_arch != MTK_VDEC_PURE_SINGLE_CORE)
->  		v4l2_m2m_set_dst_buffered(ctx->m2m_ctx, 1);
->  
-> +	if (!ctx->dev->vdec_pdata->is_subdev_supported)
-> +		ctx->dev->dec_capability |=
-> +			MTK_VDEC_FORMAT_H264_SLICE | MTK_VDEC_FORMAT_MM21;
-> +	mtk_vcodec_get_supported_formats(ctx);
-> +
->  	/* Support request api for output plane */
->  	src_vq->supports_requests = true;
->  	src_vq->requires_requests = true;
-> @@ -393,11 +444,11 @@ const struct mtk_vcodec_dec_pdata mtk_vdec_8183_pdata = {
->  	.ctrls_setup = mtk_vcodec_dec_ctrls_setup,
->  	.vdec_vb2_ops = &mtk_vdec_request_vb2_ops,
->  	.vdec_formats = mtk_video_formats,
-> -	.num_formats = NUM_FORMATS,
-> -	.default_out_fmt = &mtk_video_formats[DEFAULT_OUT_FMT_IDX],
-> -	.default_cap_fmt = &mtk_video_formats[DEFAULT_CAP_FMT_IDX],
-> +	.num_formats = &num_formats,
-> +	.default_out_fmt = &default_out_format,
-> +	.default_cap_fmt = &default_cap_format,
->  	.vdec_framesizes = mtk_vdec_framesizes,
-> -	.num_framesizes = NUM_SUPPORTED_FRAMESIZE,
-> +	.num_framesizes = &num_framesizes,
->  	.uses_stateless_api = true,
->  	.worker = mtk_vdec_worker,
->  	.flush_decoder = mtk_vdec_flush_decoder,
-> @@ -413,11 +464,11 @@ const struct mtk_vcodec_dec_pdata mtk_lat_sig_core_pdata = {
->  	.ctrls_setup = mtk_vcodec_dec_ctrls_setup,
->  	.vdec_vb2_ops = &mtk_vdec_request_vb2_ops,
->  	.vdec_formats = mtk_video_formats,
-> -	.num_formats = NUM_FORMATS,
-> -	.default_out_fmt = &mtk_video_formats[DEFAULT_OUT_FMT_IDX],
-> -	.default_cap_fmt = &mtk_video_formats[DEFAULT_CAP_FMT_IDX],
-> +	.num_formats = &num_formats,
-> +	.default_out_fmt = &default_out_format,
-> +	.default_cap_fmt = &default_cap_format,
->  	.vdec_framesizes = mtk_vdec_framesizes,
-> -	.num_framesizes = NUM_SUPPORTED_FRAMESIZE,
-> +	.num_framesizes = &num_framesizes,
->  	.uses_stateless_api = true,
->  	.worker = mtk_vdec_worker,
->  	.flush_decoder = mtk_vdec_flush_decoder,
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> index 9fcaf69549dd..270c73c05285 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> @@ -344,6 +344,15 @@ enum mtk_vdec_hw_arch {
->  	MTK_VDEC_LAT_SINGLE_CORE,
->  };
->  
-> +/*
-> + * struct mtk_vdec_format_types - Structure used to get supported
-> + *		  format types according to decoder capability
+> +/**
+> + * struct vdec_ap_ipi_get_param - for AP_IPIMSG_DEC_GET_PARAM
+> + * @msg_id	: AP_IPIMSG_DEC_GET_PARAM
+> + * @inst_id     : instance ID. Used if the ABI version >= 2.
+> + * @data	: picture information
+> + * @param_type	: get param type
+> + * @codec_type	: Codec fourcc
 > + */
-> +enum mtk_vdec_format_types {
-> +	MTK_VDEC_FORMAT_MM21 = 0x20,
-> +	MTK_VDEC_FORMAT_H264_SLICE = 0x100,
+> +struct vdec_ap_ipi_get_param {
+> +	u32 msg_id;
+> +	u32 inst_id;
+> +	u32 data[4];
+> +	u32 param_type;
+> +	u32 codec_type;
 > +};
 > +
+> +/**
+> + * struct vdec_vpu_ipi_get_param_ack - for VPU_IPIMSG_DEC_GET_PARAM_ACK
+> + * @msg_id	: VPU_IPIMSG_DEC_GET_PARAM_ACK
+> + * @status	: VPU execution result
+> + * @ap_inst_addr	: AP vcodec_vpu_inst instance address
+> + * @data     : picture information from SCP.
+> + * @param_type	: get param type
+> + * @reserved : reserved param
+> + */
+> +struct vdec_vpu_ipi_get_param_ack {
+> +	u32 msg_id;
+> +	s32 status;
+> +	u64 ap_inst_addr;
+> +	u32 data[4];
+> +	u32 param_type;
+> +	u32 reserved;
+> +};
+> +
+>  #endif
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+> index 7210061c772f..35f4d5583084 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.c
+> @@ -6,6 +6,7 @@
+>  
+>  #include "mtk_vcodec_drv.h"
+>  #include "mtk_vcodec_util.h"
+> +#include "vdec_drv_if.h"
+>  #include "vdec_ipi_msg.h"
+>  #include "vdec_vpu_if.h"
+>  #include "mtk_vcodec_fw.h"
+> @@ -54,6 +55,26 @@ static void handle_init_ack_msg(const struct vdec_vpu_ipi_init_ack *msg)
+>  	}
+>  }
+>  
+> +static void handle_get_param_msg_ack(const struct vdec_vpu_ipi_get_param_ack *msg)
+> +{
+> +	struct vdec_vpu_inst *vpu = (struct vdec_vpu_inst *)
+> +					(unsigned long)msg->ap_inst_addr;
+> +
+> +	mtk_vcodec_debug(vpu, "+ ap_inst_addr = 0x%llx", msg->ap_inst_addr);
+> +
+> +	/* param_type is enum vdec_get_param_type */
+> +	switch (msg->param_type) {
+> +	case GET_PARAM_PIC_INFO:
+> +		vpu->fb_sz[0] = msg->data[0];
+> +		vpu->fb_sz[1] = msg->data[1];
+> +		break;
+> +	default:
+> +		mtk_vcodec_err(vpu, "invalid get param type=%d", msg->param_type);
+> +		vpu->failure = 1;
+> +		break;
+> +	}
+> +}
+> +
+>  /*
+>   * vpu_dec_ipi_handler - Handler for VPU ipi message.
+>   *
+> @@ -89,6 +110,9 @@ static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv)
+>  		case VPU_IPIMSG_DEC_CORE_END_ACK:
+>  			break;
+>  
+> +		case VPU_IPIMSG_DEC_GET_PARAM_ACK:
+> +			handle_get_param_msg_ack(data);
+> +			break;
+>  		default:
+>  			mtk_vcodec_err(vpu, "invalid msg=%X", msg->msg_id);
+>  			break;
+> @@ -217,6 +241,31 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t *data, unsigned int len)
+>  	return err;
+>  }
+>  
+> +int vpu_dec_get_param(struct vdec_vpu_inst *vpu, uint32_t *data,
+> +		      unsigned int len, unsigned int param_type)
+> +{
+> +	struct vdec_ap_ipi_get_param msg;
+> +	int err;
+> +
+> +	mtk_vcodec_debug_enter(vpu);
+> +
+> +	if (len > ARRAY_SIZE(msg.data)) {
+> +		mtk_vcodec_err(vpu, "invalid len = %d\n", len);
+> +		return -EINVAL;
+> +	}
+> +
+> +	memset(&msg, 0, sizeof(msg));
+> +	msg.msg_id = AP_IPIMSG_DEC_GET_PARAM;
+> +	msg.inst_id = vpu->inst_id;
+> +	memcpy(msg.data, data, sizeof(unsigned int) * len);
+> +	msg.param_type = param_type;
+> +	msg.codec_type = vpu->codec_type;
+> +
+> +	err = vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
+> +	mtk_vcodec_debug(vpu, "- ret=%d", err);
+> +	return err;
+> +}
+> +
+>  int vpu_dec_core(struct vdec_vpu_inst *vpu)
+>  {
+>  	return vcodec_send_ap_ipi(vpu, AP_IPIMSG_DEC_CORE);
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+> index 4cb3c7f5a3ad..d1feba41dd39 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+> +++ b/drivers/media/platform/mtk-vcodec/vdec_vpu_if.h
+> @@ -28,6 +28,8 @@ struct mtk_vcodec_ctx;
+>   * @wq          : wait queue to wait VPU message ack
+>   * @handler     : ipi handler for each decoder
+>   * @codec_type     : use codec type to separate different codecs
+> + * @capture_type    : used capture type to separate different capture format
+> + * @fb_sz  : frame buffer size of each plane
+>   */
+>  struct vdec_vpu_inst {
+>  	int id;
+> @@ -42,6 +44,8 @@ struct vdec_vpu_inst {
+>  	wait_queue_head_t wq;
+>  	mtk_vcodec_ipi_handler handler;
+>  	unsigned int codec_type;
+> +	unsigned int capture_type;
+
+This structure member is added in this patch, but never set or used.
+
+> +	unsigned int fb_sz[2];
+>  };
+>  
 >  /**
->   * struct mtk_vcodec_dec_pdata - compatible data for each IC
->   * @init_vdec_params: init vdec params
-> @@ -379,12 +388,12 @@ struct mtk_vcodec_dec_pdata {
->  	struct vb2_ops *vdec_vb2_ops;
+> @@ -104,4 +108,15 @@ int vpu_dec_core(struct vdec_vpu_inst *vpu);
+>   */
+>  int vpu_dec_core_end(struct vdec_vpu_inst *vpu);
 >  
->  	const struct mtk_video_fmt *vdec_formats;
-> -	const int num_formats;
-> +	const int *num_formats;
->  	const struct mtk_video_fmt *default_out_fmt;
->  	const struct mtk_video_fmt *default_cap_fmt;
->  
->  	const struct mtk_codec_framesizes *vdec_framesizes;
-> -	const int num_framesizes;
-> +	const int *num_framesizes;
->  
->  	enum mtk_vdec_hw_arch hw_arch;
->  
+> +/**
+> + * vpu_dec_get_param - get param from scp
+> + *
+> + * @vpu : instance for vdec_vpu_inst
+> + * @data: meta data to pass bitstream info to VPU decoder
+> + * @len : meta data length
+> + * @param_type : get param type
+> + */
+> +int vpu_dec_get_param(struct vdec_vpu_inst *vpu, uint32_t *data,
+> +		      unsigned int len, unsigned int param_type);
+> +
+>  #endif
 
