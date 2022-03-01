@@ -2,118 +2,400 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25D5B4C8DD8
-	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 15:34:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C81954C8DD4
+	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 15:34:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235310AbiCAOfd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Mar 2022 09:35:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59718 "EHLO
+        id S235283AbiCAOf2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Mar 2022 09:35:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234969AbiCAOfb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 09:35:31 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52556A1BCC
-        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 06:34:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646145290; x=1677681290;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Mbu2f135S9K3WN4bFCdW0bCxFkIUa6IgY0L4ihfh+cM=;
-  b=LYe65B/jz66aklIug5lhwNzF5BuNzrHhkVqg6AYbGcqViUWcY2EQT1T0
-   TqCdS91LHrZdrK20fAJq6cbtr+MnMtl6PPHnFhWHBsHq5bx5CusHG/W8K
-   W5FeFa0iKvkDiAiB6tV/UqCP+FtbM5Z3vD6Uk8vtW9EgwIKRigIfv2Pof
-   raJLfHy8poV6yRg4/qa3Ml7hDa6+iGA7uFFyzii0594N2aosO20aouOEm
-   c4+2ssLFLUH4BR/5kok2JrS6Uyy/b2EkVIg4v1d5IVOqBDxmw0DSbqDi5
-   qk0C772n2MKZEn9pzmDFQOgP1jXk+8P1GmN9WVlR+Wie1XsuzGh8jELv0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="240553833"
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; 
-   d="scan'208";a="240553833"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2022 06:34:49 -0800
-X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; 
-   d="scan'208";a="593612134"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2022 06:34:47 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nP3Zg-009r4X-5w;
-        Tue, 01 Mar 2022 16:34:00 +0200
-Date:   Tue, 1 Mar 2022 16:33:59 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-media@vger.kernel.org, yong.zhi@intel.com,
-        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-        tian.shu.qiu@intel.com, hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH v2 07/11] media: i2c: Add support for new frequencies to
- ov7251
-Message-ID: <Yh4u1x0XNV89jm4v@smile.fi.intel.com>
-References: <20220225000753.511996-1-djrscally@gmail.com>
- <20220225000753.511996-8-djrscally@gmail.com>
- <YhkNR7BhRAG2MjNm@smile.fi.intel.com>
- <03c68a99-c9ff-7cdf-e5d7-2c52657e5d9f@gmail.com>
- <Yhy4MwU320D3mxeO@smile.fi.intel.com>
- <6def6eb4-d246-ce6c-016c-f2f48c736668@gmail.com>
+        with ESMTP id S231383AbiCAOf2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 09:35:28 -0500
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7669A147D
+        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 06:34:46 -0800 (PST)
+Received: by mail-qk1-x72f.google.com with SMTP id g24so13036942qkl.3
+        for <linux-media@vger.kernel.org>; Tue, 01 Mar 2022 06:34:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=YfgYFmdvjCecxn9h6hICnr9ORgDNXmi56da4QLUNvw8=;
+        b=WZArLX81JCSDckeLQQDIfNH/QNKU0u9XXx9qlhHh64Q3/PwWfcqhGf5enS+iEIkjjw
+         h13pYiJwOu3UWyeK/RFDipp01OT9v3rwj5U59wQUnJt5cnubV0ZOqr6vE3Ij2SFbloCb
+         curdZNpuigdzdFmauSfXRtt0gFz6kjeLJZjc1xQUimIb/UvxiWQYM+QGs6KryWu9pwIt
+         S3NNsNTVyzz0L4+7D8vl9DK19Px+YUXbHGEFtr1hDzmhAr2LXhS23txs3zFuITeYCEDD
+         TPcyWAFWzgYjRDc/fzpAmzAwuaTNB+iPPwPAhT2Y5jJuh7MzvsyUjP6KOwA/Mx1NtSu1
+         mbtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=YfgYFmdvjCecxn9h6hICnr9ORgDNXmi56da4QLUNvw8=;
+        b=dUKf/k4GIUXh1HT48FWDLw0qe3a3NPnNTcpT8Zhc8bGn/7a6cSizmnW2L1izELsXyz
+         y9uvg35YRMzcNVuyC0GoJsFwg3pRyon3scYj+I+rfgeJDJvFcLFGn5TMzNakNAk7M6+p
+         68D9uDeJLp7EIEw65crMOnKzmwkszwa/9i96ipSm+mC+7MHq8g9gTCN2bZVbo2QwHcX1
+         RUqvuoJJNpH3uDmerlcEXKhpk843/4n8wjaEf/QWKf8tEi0k0vl5f+80yq3NoyPXVVtA
+         vSpzG8MSF1wPrBmUxwbdBCxmQ4xLFOoo9b3tuG9+kGiFamB5j/Lj8Jp8n+Wm7guMY1RX
+         vvHA==
+X-Gm-Message-State: AOAM533VhQpUqdCIlsWKjxiVTyPiAeRGIlWd4Uj26r3tj4IefkRDPueU
+        yMhOX3rzxp/fpB9ymWAn4ODfPg==
+X-Google-Smtp-Source: ABdhPJx7lWgps1gKsp51n9DwywDayhxh/TdusjIKACtsKwbvy3sEwFfDLxbIT9UatJHeC4uWNMoL0w==
+X-Received: by 2002:ae9:ebd2:0:b0:4e9:15a5:bdce with SMTP id b201-20020ae9ebd2000000b004e915a5bdcemr14147591qkg.303.1646145285922;
+        Tue, 01 Mar 2022 06:34:45 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id y11-20020a05622a004b00b002dea2052d7dsm9297258qtw.12.2022.03.01.06.34.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Mar 2022 06:34:45 -0800 (PST)
+Message-ID: <777ced91106f5aba06e7cac6b6b1c80f42d25a1f.camel@ndufresne.ca>
+Subject: Re: [PATCH v7, 07/15] media: mtk-vcodec: Refactor supported vdec
+ formats and framesizes
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Date:   Tue, 01 Mar 2022 09:34:43 -0500
+In-Reply-To: <20220223034008.15781-8-yunfei.dong@mediatek.com>
+References: <20220223034008.15781-1-yunfei.dong@mediatek.com>
+         <20220223034008.15781-8-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6def6eb4-d246-ce6c-016c-f2f48c736668@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 28, 2022 at 11:11:27PM +0000, Daniel Scally wrote:
-> On 28/02/2022 11:55, Andy Shevchenko wrote:
-> > On Fri, Feb 25, 2022 at 10:04:29PM +0000, Daniel Scally wrote:
-> > > On 25/02/2022 17:09, Andy Shevchenko wrote:
+Le mercredi 23 février 2022 à 11:40 +0800, Yunfei Dong a écrit :
+> Supported output and capture format types for mt8192 are different
+> with mt8183. Needs to get format types according to decoder capability.
 
-...
+This patch is both refactoring and changing the behaviour. Can you please split
+the non-functional changes from the functional one. This ensure we can proceed
+with a good review of the functional changes.
 
-> Basically it seems better to me to just let it match by device rather than
-> have the names. The only advantage I can see for the names is if a device
-> has multiple clocks assigned to it...but there are no instances of that in
-> media/i2c.
+regards,
+Nicolas
 
-I have heard you, but leave for the judgement done by maintainers.
-
-...
-
-> > > Broken ACPI compensated for by the cio2-bridge - it creates the
-> > > clock-frequency property which ordinarily wouldn't be there on ACPI systems
-> > > AIUI.
-> > In the current practice we have CLK priority over property, this means we may do:
-> > 1) unconditional reading of the property;
-> > 2) trying CLK.
-> > 
-> > Can it be done here?
 > 
-> Er, can you point me to an example?
-
-Something like
-
-	device_read_property_u32("clock-frequency", &rate);
-
-	clk = devm_clk_get_optional(...);
-	if (IS_ERR(clk))
-		return PTR_ERR(clk);
-
-	clk_rate = clk_get_rate(...);
-	if (clk_rate == 0)
-		clk_rate = rate;
-	if (clk_rate == 0)
-		return dev_err_probe(...);
-
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   8 +-
+>  .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |  13 +-
+>  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     | 117 +++++++++++++-----
+>  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  13 +-
+>  4 files changed, 107 insertions(+), 44 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+> index 304f5afbd419..bae43938ee37 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
+> @@ -26,7 +26,7 @@ mtk_vdec_find_format(struct v4l2_format *f,
+>  	const struct mtk_video_fmt *fmt;
+>  	unsigned int k;
+>  
+> -	for (k = 0; k < dec_pdata->num_formats; k++) {
+> +	for (k = 0; k < *dec_pdata->num_formats; k++) {
+>  		fmt = &dec_pdata->vdec_formats[k];
+>  		if (fmt->fourcc == f->fmt.pix_mp.pixelformat)
+>  			return fmt;
+> @@ -525,7 +525,7 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
+>  	if (fsize->index != 0)
+>  		return -EINVAL;
+>  
+> -	for (i = 0; i < dec_pdata->num_framesizes; ++i) {
+> +	for (i = 0; i < *dec_pdata->num_framesizes; ++i) {
+>  		if (fsize->pixel_format != dec_pdata->vdec_framesizes[i].fourcc)
+>  			continue;
+>  
+> @@ -564,7 +564,7 @@ static int vidioc_enum_fmt(struct v4l2_fmtdesc *f, void *priv,
+>  	const struct mtk_video_fmt *fmt;
+>  	int i, j = 0;
+>  
+> -	for (i = 0; i < dec_pdata->num_formats; i++) {
+> +	for (i = 0; i < *dec_pdata->num_formats; i++) {
+>  		if (output_queue &&
+>  		    dec_pdata->vdec_formats[i].type != MTK_FMT_DEC)
+>  			continue;
+> @@ -577,7 +577,7 @@ static int vidioc_enum_fmt(struct v4l2_fmtdesc *f, void *priv,
+>  		++j;
+>  	}
+>  
+> -	if (i == dec_pdata->num_formats)
+> +	if (i == *dec_pdata->num_formats)
+>  		return -EINVAL;
+>  
+>  	fmt = &dec_pdata->vdec_formats[i];
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
+> index 7966c132be8f..3f33beb9c551 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
+> @@ -37,7 +37,9 @@ static const struct mtk_video_fmt mtk_video_formats[] = {
+>  	},
+>  };
+>  
+> -#define NUM_FORMATS ARRAY_SIZE(mtk_video_formats)
+> +static const unsigned int num_supported_formats =
+> +	ARRAY_SIZE(mtk_video_formats);
+> +
+>  #define DEFAULT_OUT_FMT_IDX 0
+>  #define DEFAULT_CAP_FMT_IDX 3
+>  
+> @@ -59,7 +61,8 @@ static const struct mtk_codec_framesizes mtk_vdec_framesizes[] = {
+>  	},
+>  };
+>  
+> -#define NUM_SUPPORTED_FRAMESIZE ARRAY_SIZE(mtk_vdec_framesizes)
+> +static const unsigned int num_supported_framesize =
+> +	ARRAY_SIZE(mtk_vdec_framesizes);
+>  
+>  /*
+>   * This function tries to clean all display buffers, the buffers will return
+> @@ -235,7 +238,7 @@ static void mtk_vdec_update_fmt(struct mtk_vcodec_ctx *ctx,
+>  	unsigned int k;
+>  
+>  	dst_q_data = &ctx->q_data[MTK_Q_DATA_DST];
+> -	for (k = 0; k < NUM_FORMATS; k++) {
+> +	for (k = 0; k < num_supported_formats; k++) {
+>  		fmt = &mtk_video_formats[k];
+>  		if (fmt->fourcc == pixelformat) {
+>  			mtk_v4l2_debug(1, "Update cap fourcc(%d -> %d)",
+> @@ -617,11 +620,11 @@ const struct mtk_vcodec_dec_pdata mtk_vdec_8173_pdata = {
+>  	.ctrls_setup = mtk_vcodec_dec_ctrls_setup,
+>  	.vdec_vb2_ops = &mtk_vdec_frame_vb2_ops,
+>  	.vdec_formats = mtk_video_formats,
+> -	.num_formats = NUM_FORMATS,
+> +	.num_formats = &num_supported_formats,
+>  	.default_out_fmt = &mtk_video_formats[DEFAULT_OUT_FMT_IDX],
+>  	.default_cap_fmt = &mtk_video_formats[DEFAULT_CAP_FMT_IDX],
+>  	.vdec_framesizes = mtk_vdec_framesizes,
+> -	.num_framesizes = NUM_SUPPORTED_FRAMESIZE,
+> +	.num_framesizes = &num_supported_framesize,
+>  	.worker = mtk_vdec_worker,
+>  	.flush_decoder = mtk_vdec_flush_decoder,
+>  	.is_subdev_supported = false,
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+> index 6d481410bf89..e51d935bd21d 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+> @@ -81,33 +81,23 @@ static const struct mtk_stateless_control mtk_stateless_controls[] = {
+>  
+>  #define NUM_CTRLS ARRAY_SIZE(mtk_stateless_controls)
+>  
+> -static const struct mtk_video_fmt mtk_video_formats[] = {
+> -	{
+> -		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+> -		.type = MTK_FMT_DEC,
+> -		.num_planes = 1,
+> -	},
+> -	{
+> -		.fourcc = V4L2_PIX_FMT_MM21,
+> -		.type = MTK_FMT_FRAME,
+> -		.num_planes = 2,
+> -	},
+> +static struct mtk_video_fmt mtk_video_formats[2];
+> +static struct mtk_codec_framesizes mtk_vdec_framesizes[1];
+> +
+> +static struct mtk_video_fmt default_out_format;
+> +static struct mtk_video_fmt default_cap_format;
+> +static unsigned int num_formats;
+> +static unsigned int num_framesizes;
+> +
+> +static struct v4l2_frmsize_stepwise stepwise_fhd = {
+> +	.min_width = MTK_VDEC_MIN_W,
+> +	.max_width = MTK_VDEC_MAX_W,
+> +	.step_width = 16,
+> +	.min_height = MTK_VDEC_MIN_H,
+> +	.max_height = MTK_VDEC_MAX_H,
+> +	.step_height = 16
+>  };
+>  
+> -#define NUM_FORMATS ARRAY_SIZE(mtk_video_formats)
+> -#define DEFAULT_OUT_FMT_IDX    0
+> -#define DEFAULT_CAP_FMT_IDX    1
+> -
+> -static const struct mtk_codec_framesizes mtk_vdec_framesizes[] = {
+> -	{
+> -		.fourcc	= V4L2_PIX_FMT_H264_SLICE,
+> -		.stepwise = {  MTK_VDEC_MIN_W, MTK_VDEC_MAX_W, 16,
+> -				MTK_VDEC_MIN_H, MTK_VDEC_MAX_H, 16 },
+> -	},
+> -};
+> -
+> -#define NUM_SUPPORTED_FRAMESIZE ARRAY_SIZE(mtk_vdec_framesizes)
+> -
+>  static void mtk_vdec_stateless_out_to_done(struct mtk_vcodec_ctx *ctx,
+>  					   struct mtk_vcodec_mem *bs, int error)
+>  {
+> @@ -350,6 +340,62 @@ const struct media_device_ops mtk_vcodec_media_ops = {
+>  	.req_queue	= v4l2_m2m_request_queue,
+>  };
+>  
+> +static void mtk_vcodec_add_formats(unsigned int fourcc,
+> +				   struct mtk_vcodec_ctx *ctx)
+> +{
+> +	struct mtk_vcodec_dev *dev = ctx->dev;
+> +	const struct mtk_vcodec_dec_pdata *pdata = dev->vdec_pdata;
+> +	int count_formats = *pdata->num_formats;
+> +	int count_framesizes = *pdata->num_framesizes;
+> +
+> +	switch (fourcc) {
+> +	case V4L2_PIX_FMT_H264_SLICE:
+> +			[count_formats].fourcc = fourcc;
+> +		mtk_video_formats[count_formats].type = MTK_FMT_DEC;
+> +		mtk_video_formats[count_formats].num_planes = 1;
+> +
+> +		mtk_vdec_framesizes[count_framesizes].fourcc = fourcc;
+> +		mtk_vdec_framesizes[count_framesizes].stepwise = stepwise_fhd;
+> +		num_framesizes++;
+> +		break;
+> +	case V4L2_PIX_FMT_MM21:
+> +		mtk_video_formats[count_formats].fourcc = fourcc;
+> +		mtk_video_formats[count_formats].type = MTK_FMT_FRAME;
+> +		mtk_video_formats[count_formats].num_planes = 2;
+> +		break;
+> +	default:
+> +		mtk_v4l2_err("Can not add unsupported format type");
+> +		return;
+> +	}
+> +
+> +	num_formats++;
+> +	mtk_v4l2_debug(3, "num_formats: %d num_frames:%d dec_capability: 0x%x",
+> +		       count_formats, count_framesizes, ctx->dev->dec_capability);
+> +}
+> +
+> +static void mtk_vcodec_get_supported_formats(struct mtk_vcodec_ctx *ctx)
+> +{
+> +	int cap_format_count = 0, out_format_count = 0;
+> +
+> +	if (num_formats && num_framesizes)
+> +		return;
+> +
+> +	if (ctx->dev->dec_capability & MTK_VDEC_FORMAT_MM21) {
+> +		mtk_vcodec_add_formats(V4L2_PIX_FMT_MM21, ctx);
+> +		cap_format_count++;
+> +	}
+> +	if (ctx->dev->dec_capability & MTK_VDEC_FORMAT_H264_SLICE) {
+> +		mtk_vcodec_add_formats(V4L2_PIX_FMT_H264_SLICE, ctx);
+> +		out_format_count++;
+> +	}
+> +
+> +	if (cap_format_count)
+> +		default_cap_format = mtk_video_formats[cap_format_count - 1];
+> +	if (out_format_count)
+> +		default_out_format =
+> +			mtk_video_formats[cap_format_count + out_format_count - 1];
+> +}
+> +
+>  static void mtk_init_vdec_params(struct mtk_vcodec_ctx *ctx)
+>  {
+>  	struct vb2_queue *src_vq;
+> @@ -360,6 +406,11 @@ static void mtk_init_vdec_params(struct mtk_vcodec_ctx *ctx)
+>  	if (ctx->dev->vdec_pdata->hw_arch != MTK_VDEC_PURE_SINGLE_CORE)
+>  		v4l2_m2m_set_dst_buffered(ctx->m2m_ctx, 1);
+>  
+> +	if (!ctx->dev->vdec_pdata->is_subdev_supported)
+> +		ctx->dev->dec_capability |=
+> +			MTK_VDEC_FORMAT_H264_SLICE | MTK_VDEC_FORMAT_MM21;
+> +	mtk_vcodec_get_supported_formats(ctx);
+> +
+>  	/* Support request api for output plane */
+>  	src_vq->supports_requests = true;
+>  	src_vq->requires_requests = true;
+> @@ -393,11 +444,11 @@ const struct mtk_vcodec_dec_pdata mtk_vdec_8183_pdata = {
+>  	.ctrls_setup = mtk_vcodec_dec_ctrls_setup,
+>  	.vdec_vb2_ops = &mtk_vdec_request_vb2_ops,
+>  	.vdec_formats = mtk_video_formats,
+> -	.num_formats = NUM_FORMATS,
+> -	.default_out_fmt = &mtk_video_formats[DEFAULT_OUT_FMT_IDX],
+> -	.default_cap_fmt = &mtk_video_formats[DEFAULT_CAP_FMT_IDX],
+> +	.num_formats = &num_formats,
+> +	.default_out_fmt = &default_out_format,
+> +	.default_cap_fmt = &default_cap_format,
+>  	.vdec_framesizes = mtk_vdec_framesizes,
+> -	.num_framesizes = NUM_SUPPORTED_FRAMESIZE,
+> +	.num_framesizes = &num_framesizes,
+>  	.uses_stateless_api = true,
+>  	.worker = mtk_vdec_worker,
+>  	.flush_decoder = mtk_vdec_flush_decoder,
+> @@ -413,11 +464,11 @@ const struct mtk_vcodec_dec_pdata mtk_lat_sig_core_pdata = {
+>  	.ctrls_setup = mtk_vcodec_dec_ctrls_setup,
+>  	.vdec_vb2_ops = &mtk_vdec_request_vb2_ops,
+>  	.vdec_formats = mtk_video_formats,
+> -	.num_formats = NUM_FORMATS,
+> -	.default_out_fmt = &mtk_video_formats[DEFAULT_OUT_FMT_IDX],
+> -	.default_cap_fmt = &mtk_video_formats[DEFAULT_CAP_FMT_IDX],
+> +	.num_formats = &num_formats,
+> +	.default_out_fmt = &default_out_format,
+> +	.default_cap_fmt = &default_cap_format,
+>  	.vdec_framesizes = mtk_vdec_framesizes,
+> -	.num_framesizes = NUM_SUPPORTED_FRAMESIZE,
+> +	.num_framesizes = &num_framesizes,
+>  	.uses_stateless_api = true,
+>  	.worker = mtk_vdec_worker,
+>  	.flush_decoder = mtk_vdec_flush_decoder,
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> index 9fcaf69549dd..270c73c05285 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> @@ -344,6 +344,15 @@ enum mtk_vdec_hw_arch {
+>  	MTK_VDEC_LAT_SINGLE_CORE,
+>  };
+>  
+> +/*
+> + * struct mtk_vdec_format_types - Structure used to get supported
+> + *		  format types according to decoder capability
+> + */
+> +enum mtk_vdec_format_types {
+> +	MTK_VDEC_FORMAT_MM21 = 0x20,
+> +	MTK_VDEC_FORMAT_H264_SLICE = 0x100,
+> +};
+> +
+>  /**
+>   * struct mtk_vcodec_dec_pdata - compatible data for each IC
+>   * @init_vdec_params: init vdec params
+> @@ -379,12 +388,12 @@ struct mtk_vcodec_dec_pdata {
+>  	struct vb2_ops *vdec_vb2_ops;
+>  
+>  	const struct mtk_video_fmt *vdec_formats;
+> -	const int num_formats;
+> +	const int *num_formats;
+>  	const struct mtk_video_fmt *default_out_fmt;
+>  	const struct mtk_video_fmt *default_cap_fmt;
+>  
+>  	const struct mtk_codec_framesizes *vdec_framesizes;
+> -	const int num_framesizes;
+> +	const int *num_framesizes;
+>  
+>  	enum mtk_vdec_hw_arch hw_arch;
+>  
 
