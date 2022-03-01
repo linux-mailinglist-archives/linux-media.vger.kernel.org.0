@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 524314C8FCB
-	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 17:12:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54E214C8FCD
+	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 17:12:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236026AbiCAQN0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Mar 2022 11:13:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60222 "EHLO
+        id S236033AbiCAQN1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Mar 2022 11:13:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236029AbiCAQNZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 11:13:25 -0500
+        with ESMTP id S236029AbiCAQN1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 11:13:27 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0717413CD4
-        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 08:12:44 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA99113CD4
+        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 08:12:45 -0800 (PST)
 Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5AB031209;
-        Tue,  1 Mar 2022 17:12:32 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EFEB21E3;
+        Tue,  1 Mar 2022 17:12:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1646151153;
-        bh=GufjwjmXss4F7T+thgiCCrV+kxuDxq9c/wYOt7rRIWI=;
+        bh=jfh1ZvFTphSlYbewpFFo8MiURXcDckch0TKZBA0qI9w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kx4IhZrlTFgmmQTvmnTfIkgHXGhlaL3kBij/+L6tzHbvGOHcP/hylzUfaMZIkhXSU
-         V3CPs5iw6exYGZ7Arj8V+0DArr0YJarxt7ltnFZE78sX0P9gJEXRIAq1B+/adIiWxM
-         QwNtv+Sj4fmWWuSMrfdEYRPjUUIBJermaF0hybEg=
+        b=azzl0vP/hgWTPE7k4iQv2hX7KJyBTbWkC/Pb9wqLhTISsVW9B3ioOMkPBcEQ19Ypc
+         nf3Ff95stZo1nLsqFofCWlkFvhqSKp28p8SmoH1n5PTzZ7xge+gBRjCeGzXFn3GyEY
+         02gA4wcC6Q3XekHW1/YhINHdholA33a4F7Q1qURI=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -33,9 +33,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v11 14/36] media: entity: Add debug information in graph walk route check
-Date:   Tue,  1 Mar 2022 18:11:34 +0200
-Message-Id: <20220301161156.1119557-15-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v11 15/36] media: Add bus type to frame descriptors
+Date:   Tue,  1 Mar 2022 18:11:35 +0200
+Message-Id: <20220301161156.1119557-16-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
 References: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
@@ -53,31 +53,57 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Add debug printout in graph walk route check.
+Add the media bus type to the frame descriptor. CSI-2 specific
+information will be added in next patch to the frame descriptor.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/mc/mc-entity.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 52cd2154e1bb..1c4f6cfcd3a1 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -360,6 +360,9 @@ static void media_graph_walk_iter(struct media_graph *graph)
- 	 */
- 	if (!media_entity_has_route(pad->entity, pad->index, local->index)) {
- 		link_top(graph) = link_top(graph)->next;
-+		dev_dbg(pad->graph_obj.mdev->dev,
-+			"walk: skipping \"%s\":%u -> %u (no route)\n",
-+			pad->entity->name, pad->index, local->index);
- 		return;
- 	}
+- Make the bus type a named enum
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ include/media/v4l2-subdev.h | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 71d13d160d99..3e3d8cfa7df4 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -344,12 +344,32 @@ struct v4l2_mbus_frame_desc_entry {
  
+ #define V4L2_FRAME_DESC_ENTRY_MAX	4
+ 
++/**
++ * enum v4l2_mbus_frame_desc_type - media bus frame description type
++ *
++ * @V4L2_MBUS_FRAME_DESC_TYPE_UNDEFINED:
++ *	Undefined frame desc type. Drivers should not use this, it is
++ *	for backwards compatibility.
++ * @V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL:
++ *	Parallel media bus.
++ * @V4L2_MBUS_FRAME_DESC_TYPE_CSI2:
++ *	CSI-2 media bus. Frame desc parameters must be set in
++ *	&struct v4l2_mbus_frame_desc_entry->csi2.
++ */
++enum v4l2_mbus_frame_desc_type {
++	V4L2_MBUS_FRAME_DESC_TYPE_UNDEFINED = 0,
++	V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL,
++	V4L2_MBUS_FRAME_DESC_TYPE_CSI2,
++};
++
+ /**
+  * struct v4l2_mbus_frame_desc - media bus data frame description
++ * @type: type of the bus (enum v4l2_mbus_frame_desc_type)
+  * @entry: frame descriptors array
+  * @num_entries: number of entries in @entry array
+  */
+ struct v4l2_mbus_frame_desc {
++	enum v4l2_mbus_frame_desc_type type;
+ 	struct v4l2_mbus_frame_desc_entry entry[V4L2_FRAME_DESC_ENTRY_MAX];
+ 	unsigned short num_entries;
+ };
 -- 
 2.25.1
 
