@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FAC24C8FCE
-	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 17:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E11D4C8FD0
+	for <lists+linux-media@lfdr.de>; Tue,  1 Mar 2022 17:12:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236034AbiCAQN2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Mar 2022 11:13:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60404 "EHLO
+        id S236043AbiCAQN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Mar 2022 11:13:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236032AbiCAQN1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 11:13:27 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C5253BA79
-        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 08:12:46 -0800 (PST)
+        with ESMTP id S236039AbiCAQN3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 11:13:29 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CDA0381AB
+        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 08:12:48 -0800 (PST)
 Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 081DC1AD5;
-        Tue,  1 Mar 2022 17:12:33 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CED1321E4;
+        Tue,  1 Mar 2022 17:12:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646151154;
-        bh=TkRs61F7WgYG0QhTkQTWgO0PvAqBwta7u7B1aGUf9Lg=;
+        s=mail; t=1646151155;
+        bh=RwbfsxWpK2aDNOco5q5/BMbwR4dsGs5keFd3Wl1ic3o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=odIGQMyx09PeYXQniWMrARMhZ+MQSbbDPUXlbFvuSTqN8Qf+ssJvarBpQcml9htB3
-         hDOqvkLWAxqJdPZFjgwcOE4451nIUtImrHrdSOvgkGB5eRJoXjQUFRBG4m0odeNjQk
-         vNTKfnBfaFIEpyPQqekdojHkCcAqpxg36poW405I=
+        b=nsjkWlpGQV4YxnJ3nRQcfYOnHUNTaiIH74UIA6UwjZh2Rq+JZqZ5uLjX+04Co0K9Q
+         a8lzMWXOjmVPSd34ZSSMqdUr0mpMD68km7cSII8glwHMSZhONZ+yDTH7Uc8T2EnwXq
+         8K+qgq+Qzzn1o+SwY4C1k9khuBPl2AA9sRNAsUpM=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -33,9 +33,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v11 16/36] media: Add CSI-2 bus configuration to frame descriptors
-Date:   Tue,  1 Mar 2022 18:11:36 +0200
-Message-Id: <20220301161156.1119557-17-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v11 17/36] media: Add stream to frame descriptor
+Date:   Tue,  1 Mar 2022 18:11:37 +0200
+Message-Id: <20220301161156.1119557-18-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
 References: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
@@ -53,58 +53,37 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Add CSI-2 bus specific configuration to the frame descriptors. This allows
-obtaining the virtual channel and data type information for each stream
-the transmitter is sending.
+The stream field identifies the stream this frame descriptor applies to in
+routing configuration across a multiplexed link.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- include/media/v4l2-subdev.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ include/media/v4l2-subdev.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 3e3d8cfa7df4..4758dea60cfb 100644
+index 4758dea60cfb..eb7433b27043 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -312,6 +312,17 @@ struct v4l2_subdev_audio_ops {
- 	int (*s_stream)(struct v4l2_subdev *sd, int enable);
- };
- 
-+/**
-+ * struct v4l2_mbus_frame_desc_entry_csi2
-+ *
-+ * @vc: CSI-2 virtual channel
-+ * @dt: CSI-2 data type ID
-+ */
-+struct v4l2_mbus_frame_desc_entry_csi2 {
-+	u8 vc;
-+	u8 dt;
-+};
-+
- /**
-  * enum v4l2_mbus_frame_desc_flags - media bus frame description flags
+@@ -342,6 +342,7 @@ enum v4l2_mbus_frame_desc_flags {
+  * struct v4l2_mbus_frame_desc_entry - media bus frame description structure
   *
-@@ -335,11 +346,16 @@ enum v4l2_mbus_frame_desc_flags {
+  * @flags:	bitmask flags, as defined by &enum v4l2_mbus_frame_desc_flags.
++ * @stream:	stream in routing configuration
+  * @pixelcode:	media bus pixel code, valid if @flags
   *		%FRAME_DESC_FL_BLOB is not set.
   * @length:	number of octets per frame, valid if @flags
-  *		%V4L2_MBUS_FRAME_DESC_FL_LEN_MAX is set.
-+ * @bus:	Bus-specific frame descriptor parameters
-+ * @bus.csi2:	CSI-2-specific bus configuration
+@@ -351,6 +352,7 @@ enum v4l2_mbus_frame_desc_flags {
   */
  struct v4l2_mbus_frame_desc_entry {
  	enum v4l2_mbus_frame_desc_flags flags;
++	u32 stream;
  	u32 pixelcode;
  	u32 length;
-+	union {
-+		struct v4l2_mbus_frame_desc_entry_csi2 csi2;
-+	} bus;
- };
- 
- #define V4L2_FRAME_DESC_ENTRY_MAX	4
+ 	union {
 -- 
 2.25.1
 
