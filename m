@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 676BD4CB1AF
-	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 23:03:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C58964CB1AD
+	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 23:03:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242311AbiCBWED (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Mar 2022 17:04:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48074 "EHLO
+        id S242331AbiCBWEG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Mar 2022 17:04:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242067AbiCBWEC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 17:04:02 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33B84C992C
-        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 14:03:18 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id j17so4969904wrc.0
-        for <linux-media@vger.kernel.org>; Wed, 02 Mar 2022 14:03:18 -0800 (PST)
+        with ESMTP id S242251AbiCBWED (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 17:04:03 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D12FC9930
+        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 14:03:19 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id j17so4969959wrc.0
+        for <linux-media@vger.kernel.org>; Wed, 02 Mar 2022 14:03:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZZuRb6vJ4xL/T85VnKjF8jjubHhc9DkEkfgVG9uggJ4=;
-        b=WR0utUqOYB7ZuyINcK/dNLS0PEbpJCuBuL4jurQW5+C1ApyrN3YJklICb+1aASRiIL
-         khiDGY62G/cE+1kZBySmNmwLxCey30zqxuLrX2LpqkQaSYQTE544eFatwTJcBlH1gWWF
-         wG8DbfB34kXC+N/y0gYF/4IHjonxbOUTC0uXR+1cgnWM9jhK+uzUb6gHBvTMgWXMGVK1
-         393a8bkurpawowYeDTMbRUk9sffEty3wF7WamsIMEg6PGNBDTB5DqrQuUfkyfFm5loZf
-         evTQ/uJ+w7mu3MIqAIleu87IURx9z1WpCUy1VHUS3uyy035XNnclUUnoOewulryWoC5w
-         SEgw==
+        bh=iKVMZBiFy16mG3Dfyafd/mMa87sEc9/DrYdseAp/SmA=;
+        b=KkKr+64tlreZsZtfb+EYXbCd1f9PA5ds203rOrD0Vc97CwQy0d8sZjx4GMiY0sSNte
+         PvreF3MN5DANeMYbCQpvhd2RBx5nqIHbsr/5hWGw3PBOQ2Nq62k1OmLXeh9giXwVjG3d
+         islNFDUc/4SElPlCl+zcWugamE0A9YpHy7lpeE9W7/d3TwQx/N8Ozvd3v1du3y68n0kh
+         6j4hj4JM0mJ7GrXZYFhwKsJsmi+Ul40mrmfIpaV/87xc6pTNfp4ZhmVSIsFVmExfTTyE
+         GdT1nPD5NYX9BI15uqhXFnfzWZHnmZ9DOKxrkJw7yrh4TsIisuKdaOFqgTdUF0ugX2FA
+         GQAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZZuRb6vJ4xL/T85VnKjF8jjubHhc9DkEkfgVG9uggJ4=;
-        b=MzGXNjW76AjJ0Qs8QQGl0bPpYVvGyBi+Y/j3ozxO7MI0UfcSPPG7n/f+waDsqEySBJ
-         +GvpKpxa9pQYjw1yVfrS2UhQTHjdw8UrwbQeW0MZOJQPETil/lDPiMgOTqmwBxbb6Jlg
-         bFKv17jMnX7mmRe2GBLxhTgBMedoHdOmH8/zfZIFCKr4Tk5V4OYuKvdxUnQ/c/kRFH9S
-         1ZiCqU2jFCefjJqGm4mvn1OkMIfmIPUgjB7BzLW3KIxymtvx4GLk/PeshwtXGEutFEXc
-         8/G2q/RvRdvhxd00d84Z2ShUwcUYvCMBiNg1BJ+qdUKBsvKVenRgkrTmQ1E7P16GrchW
-         yipw==
-X-Gm-Message-State: AOAM533Dz8t/zyE1odacGv+deJd1GV+8X2O+xvPHS2KsSrqBKkMr8kOj
-        h/QK4kVmgZvb0HkWP+ulbq2eNVM5w7AC2g==
-X-Google-Smtp-Source: ABdhPJwyIst7piDstEx9M7MU7dqS8Jcpe10l0k3knw9tQODBYPx5ugkivtEZE6GyRL7cJlO1TgQYRQ==
-X-Received: by 2002:a05:6000:15c7:b0:1f0:45e0:e40d with SMTP id y7-20020a05600015c700b001f045e0e40dmr2921118wry.343.1646258596840;
-        Wed, 02 Mar 2022 14:03:16 -0800 (PST)
+        bh=iKVMZBiFy16mG3Dfyafd/mMa87sEc9/DrYdseAp/SmA=;
+        b=l6AXWCKxOijSB0hA7d/u27k4lesKhpHyR/fAmD3XE3Or6+BqPEA8QQ3zyH3w7dfmVB
+         bpCc+fEtftBnXOz48BTraD6fqLeWBJorvl6VnEN8aK3PMT4yXCs5AEnrHMTw32scIUf9
+         1EmZBObgWkjOCUCXA0zwmTUSL/MNjxEWin3kJRuvS/dvwEp349xygSa0NzDqjn4gutyn
+         ZYwfUZV93jHJ/x1ASly8cPx+n+hiBJOc1PUor3U9zQc2RzhHkX2AUnjS3nst6CTrUZK0
+         M/MgomxyHPEoK/JW0F/aWZBz5TZMtcsxh+tJY5+92j+CTQ23R7oTLetaC+dGmj4cRCbW
+         AANw==
+X-Gm-Message-State: AOAM531ZU3MnRwyD32Nib5byBri+fe3UCNfS8KNokG87MD6vEDx65wGI
+        yu4ELAuQKX72/7ioDbIqhDhUuiN6rLp5DQ==
+X-Google-Smtp-Source: ABdhPJysv6qzhhcHXob1XlKrY+1H3kUXWeq6zWkvJOiGorg2Fm1Y0767bWfPjeBmwER/3EXpWoBbUw==
+X-Received: by 2002:a05:6000:1a89:b0:1f0:4b5b:e0ce with SMTP id f9-20020a0560001a8900b001f04b5be0cemr781355wry.425.1646258597807;
+        Wed, 02 Mar 2022 14:03:17 -0800 (PST)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
         by smtp.gmail.com with ESMTPSA id l16-20020a05600c4f1000b0033383cdeea1sm229258wmq.10.2022.03.02.14.03.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 14:03:16 -0800 (PST)
+        Wed, 02 Mar 2022 14:03:17 -0800 (PST)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
 Cc:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
         hanlinchen@chromium.org, tfiga@chromium.org, hdegoede@redhat.com,
         kieran.bingham@ideasonboard.com, hpa@redhat.com
-Subject: [PATCH v3 3/5] media: entity: Add link_type_name() helper
-Date:   Wed,  2 Mar 2022 22:03:02 +0000
-Message-Id: <20220302220304.1327896-4-djrscally@gmail.com>
+Subject: [PATCH v3 4/5] media: entity: Add support for ancillary links
+Date:   Wed,  2 Mar 2022 22:03:03 +0000
+Message-Id: <20220302220304.1327896-5-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220302220304.1327896-1-djrscally@gmail.com>
 References: <20220302220304.1327896-1-djrscally@gmail.com>
@@ -70,9 +70,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now we have three types of media link, printing the right name during
-debug output is slightly more complicated. Add a helper function to
-make it easier.
+Add functions to create ancillary links, so that they don't need to
+be manually created by users.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
@@ -80,55 +79,83 @@ Signed-off-by: Daniel Scally <djrscally@gmail.com>
 
 Changes since v2:
 
-	- None
+	- Fixed some typos and comment phrasing (Laurent)
+	- Changed the position of the new function to go after media_entity_call()
+	(Laurent)
 
 Changes since v1:
 
-	- renamed function to link_type_name() (Laurent)
+	- Hardcoded MEDIA_LINK_FL_IMMUTABLE and MEDIA_LINK_FL_ENABLED (Laurent)
 
 Changes since the rfc:
 
-	- new patch
+	- (Laurent) Set gobj0 and gobj1 directly instead of the other union
+	members
+	- (Laurent) Added MEDIA_LNK_FL_IMMUTABLE to the kerneldoc for the new
+	create function
 
- drivers/media/mc/mc-entity.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ drivers/media/mc/mc-entity.c | 22 ++++++++++++++++++++++
+ include/media/media-entity.h | 19 +++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
 diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index d0563ee4b28b..1a7d0a4fb9e8 100644
+index 1a7d0a4fb9e8..d7e2f78a83cc 100644
 --- a/drivers/media/mc/mc-entity.c
 +++ b/drivers/media/mc/mc-entity.c
-@@ -44,6 +44,20 @@ static inline const char *intf_type(struct media_interface *intf)
- 	}
- };
- 
-+static inline const char *link_type_name(struct media_link *link)
-+{
-+	switch (link->flags & MEDIA_LNK_FL_LINK_TYPE) {
-+	case MEDIA_LNK_FL_DATA_LINK:
-+		return "data";
-+	case MEDIA_LNK_FL_INTERFACE_LINK:
-+		return "interface";
-+	case MEDIA_LNK_FL_ANCILLARY_LINK:
-+		return "ancillary";
-+	default:
-+		return "unknown";
-+	}
-+}
+@@ -1032,3 +1032,25 @@ void media_remove_intf_links(struct media_interface *intf)
+ 	mutex_unlock(&mdev->graph_mutex);
+ }
+ EXPORT_SYMBOL_GPL(media_remove_intf_links);
 +
- __must_check int __media_entity_enum_init(struct media_entity_enum *ent_enum,
- 					  int idx_max)
- {
-@@ -89,9 +103,7 @@ static void dev_dbg_obj(const char *event_name,  struct media_gobj *gobj)
++struct media_link *media_create_ancillary_link(struct media_entity *primary,
++					       struct media_entity *ancillary)
++{
++	struct media_link *link;
++
++	link = media_add_link(&primary->links);
++	if (!link)
++		return ERR_PTR(-ENOMEM);
++
++	link->gobj0 = &primary->graph_obj;
++	link->gobj1 = &ancillary->graph_obj;
++	link->flags = MEDIA_LNK_FL_IMMUTABLE | MEDIA_LNK_FL_ENABLED |
++		      MEDIA_LNK_FL_ANCILLARY_LINK;
++
++	/* Initialize graph object embedded in the new link */
++	media_gobj_create(primary->graph_obj.mdev, MEDIA_GRAPH_LINK,
++			  &link->graph_obj);
++
++	return link;
++}
++EXPORT_SYMBOL_GPL(media_create_ancillary_link);
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index fea489f03d57..2a58defc4886 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -1108,4 +1108,23 @@ void media_remove_intf_links(struct media_interface *intf);
+ 	(((entity)->ops && (entity)->ops->operation) ?			\
+ 	 (entity)->ops->operation((entity) , ##args) : -ENOIOCTLCMD)
  
- 		dev_dbg(gobj->mdev->dev,
- 			"%s id %u: %s link id %u ==> id %u\n",
--			event_name, media_id(gobj),
--			media_type(link->gobj0) == MEDIA_GRAPH_PAD ?
--				"data" : "interface",
-+			event_name, media_id(gobj), link_type_name(link),
- 			media_id(link->gobj0),
- 			media_id(link->gobj1));
- 		break;
++/**
++ * media_create_ancillary_link() - create an ancillary link between two
++ *				   instances of &media_entity
++ *
++ * @primary:	pointer to the primary &media_entity
++ * @ancillary:	pointer to the ancillary &media_entity
++ *
++ * Create an ancillary link between two entities, indicating that they
++ * represent two connected pieces of hardware that form a single logical unit.
++ * A typical example is a camera lens controller being linked to the sensor that
++ * it is supporting.
++ *
++ * The function sets both MEDIA_LNK_FL_ENABLED and MEDIA_LNK_FL_IMMUTABLE for
++ * the new link.
++ */
++struct media_link *
++media_create_ancillary_link(struct media_entity *primary,
++			    struct media_entity *ancillary);
++
+ #endif
 -- 
 2.25.1
 
