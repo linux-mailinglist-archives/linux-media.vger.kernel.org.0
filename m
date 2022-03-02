@@ -2,152 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD11E4CA0AE
-	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 10:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 638214CA0C8
+	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 10:30:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235652AbiCBJ1Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Mar 2022 04:27:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59594 "EHLO
+        id S240531AbiCBJam (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Mar 2022 04:30:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232395AbiCBJ1Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 04:27:24 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A355B6E56A
-        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 01:26:41 -0800 (PST)
-Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 23F1B9FF;
-        Wed,  2 Mar 2022 10:26:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646213199;
-        bh=6Zwguosj8xYbihM5zVCZG9Kh7fEbQeXrh3H5VM6bhlc=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=S70swRMlgmUJoeprQ1gzGy9yYbBLjON1zTnUp7ApSzphfTaTGQeLbTlv2K6UfCr5V
-         ARNQ0NKiGYtFoJNTX11xYw2Si4XwT1yn7VqosiPrCpehF/oiJ3tbVh6nIW+vzjw6Pd
-         TP9c0wG0xDUWkW1NHT91NtIFgpcpCHWLsRIjDlfg=
-Message-ID: <dd1f4604-a5cd-7ec2-4698-3974f3c61be8@ideasonboard.com>
-Date:   Wed, 2 Mar 2022 11:26:36 +0200
+        with ESMTP id S240494AbiCBJaY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 04:30:24 -0500
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80986B820E
+        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 01:29:36 -0800 (PST)
+Received: by mail-lj1-x229.google.com with SMTP id l12so1334135ljh.12
+        for <linux-media@vger.kernel.org>; Wed, 02 Mar 2022 01:29:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=XH8CYV/Z50iBLZ27uSo3DlVY0KhJ8ZO+RiecWTcYel0=;
+        b=IQg4uBejV+wOE9gbvRPz3nvi4LkiiVw4YSIjC8NPteocLXX0uLpiZyGXJ60leACu72
+         E2mMgbaj2BDeYnhoOw0DKPRcT2bjIlB4yRTWQZ65OcYRTHhlWzgeq8LyFprIEpiij6N8
+         YNaymndxJaFKphqyYHlKdyPolm4uaJOX+WJuI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=XH8CYV/Z50iBLZ27uSo3DlVY0KhJ8ZO+RiecWTcYel0=;
+        b=ZLaFRo7T5KJHaPIQnPTl07XKM/oGxpM9GG5LLRLspTSrkQMYTXE0+0AkS4XjRuimn4
+         XHr/P4u0gO/DqNNUHovi9vvC5XiDdQd56M0ctdOumLmumsCFIegFmrzqfuqC+HiJeO2c
+         28NW8qcWV7P8AJqpQQ/wJiLA1co+q1X0SJuIXrbA6TRo69TQ9gMJVblBQacDTLr80Mba
+         8010Dfg50bxUY/rBUKnwJR2hwNiQJ1/CmQWtzgRZWqK/XAunk2QY2Pt7V01NM8rM8xux
+         Al+CmgqglmN907AvyDwIlSk4SVX2AHwGZFqNOsY1MOzG/HVlgp7EAD91Wk5D7sIL7nMq
+         eXfA==
+X-Gm-Message-State: AOAM531u0ZYlMiHwY8VvtDsXL6s99QrdHvo2ALtb9zlmGzwvg/D/iOoz
+        C2Ylszk+6UpZm7E5LHLXkExOhA==
+X-Google-Smtp-Source: ABdhPJxPRWTwhfDKGEWi/HTZUmtnN6xoKL1T2KNwEAF9KgB2sMMXSt6lke7BfBVtPRIEaNMyntkyzw==
+X-Received: by 2002:a2e:3c0d:0:b0:246:3c52:7ada with SMTP id j13-20020a2e3c0d000000b002463c527adamr19885072lja.459.1646213374808;
+        Wed, 02 Mar 2022 01:29:34 -0800 (PST)
+Received: from [172.16.11.74] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id f36-20020a0565123b2400b0043795432e87sm1960430lfv.150.2022.03.02.01.29.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Mar 2022 01:29:33 -0800 (PST)
+Message-ID: <78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk>
+Date:   Wed, 2 Mar 2022 10:29:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v5 6/6] media: Documentation: add documentation about
- subdev state
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
 Content-Language: en-US
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-References: <20220301105548.305191-1-tomi.valkeinen@ideasonboard.com>
- <20220301105548.305191-7-tomi.valkeinen@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20220301105548.305191-7-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        David Laight <David.Laight@aculab.com>
+Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+        KVM list <kvm@vger.kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>,
+        "linux1394-devel@lists.sourceforge.net" 
+        <linux1394-devel@lists.sourceforge.net>,
+        "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        CIFS <linux-cifs@vger.kernel.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "kgdb-bugreport@lists.sourceforge.net" 
+        <kgdb-bugreport@lists.sourceforge.net>,
+        "bcm-kernel-feedback-list@broadcom.com" 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Arnd Bergman <arnd@arndb.de>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        dma <dmaengine@vger.kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Jakob Koschel <jakobkoschel@gmail.com>,
+        "v9fs-developer@lists.sourceforge.net" 
+        <v9fs-developer@lists.sourceforge.net>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux F2FS Dev Mailing List 
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        "tipc-discussion@lists.sourceforge.net" 
+        <tipc-discussion@lists.sourceforge.net>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Mike Rapoport <rppt@kernel.org>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
+ <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
+ <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
+ <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
+ <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
+ <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
+ <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
+ <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
+ <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+In-Reply-To: <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/03/2022 12:55, Tomi Valkeinen wrote:
-> Add documentation about centrally managed subdev state.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->   .../driver-api/media/v4l2-subdev.rst          | 75 +++++++++++++++++++
->   1 file changed, 75 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> index 08ea2673b19e..115211cef4d1 100644
-> --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> @@ -518,6 +518,81 @@ The :c:func:`v4l2_i2c_new_subdev` function will call
->   :c:type:`i2c_board_info` structure using the ``client_type`` and the
->   ``addr`` to fill it.
->   
-> +Centrally managed subdev active state
-> +-------------------------------------
-> +
-> +Traditionally V4L2 subdev drivers maintained internal state for the active
-> +device configuration. This is often implemented as e.g. an array of struct
-> +v4l2_mbus_framefmt, one entry for each pad, and similarly for crop and compose
-> +rectangles.
-> +
-> +In addition to the active configuration, each subdev file handle has an array of
-> +struct v4l2_subdev_pad_config, managed by the V4L2 core, which contains the try
-> +configuration.
-> +
-> +To simplify the subdev drivers the V4L2 subdev API now optionally supports a
-> +centrally managed active configuration represented by
-> +:c:type:`v4l2_subdev_state`. One instance of state, which contains the active
-> +device configuration, is stored in the sub-device itself as part of
-> +the :c:type:`v4l2_subdev` structure, while the core associates a try state to
-> +each open file handle, to store the try configuration related to that file
-> +handle.
-> +
-> +Sub-device drivers can opt-in and use state to manage their active configuration
-> +by initializing the subdevice state with a call to v4l2_subdev_init_finalize()
-> +before registering the sub-device. They must also call v4l2_subdev_cleanup()
-> +to release all the allocated resources before unregistering the sub-device.
-> +The core automatically allocates and initializes a state for each open file
-> +handle to store the try configurations and frees it when closing the file
-> +handle.
-> +
-> +V4L2 sub-device operations that use both the :ref:`ACTIVE and TRY formats
-> +<v4l2-subdev-format-whence>` receive the correct state to operate on through
-> +the 'state' parameter. The state must be locked and unlocked by the
-> +caller by calling :c:func:`v4l2_subdev_lock_state()` and
-> +:c:func:`v4l2_subdev_unlock_state()`. The caller can do so by calling the subdev
-> +operation through the :c:func:`v4l2_subdev_call_state_active()` macro.
-> +
-> +Operations that do not receive a state parameter implicitly operate on the
-> +subdevice active state, which drivers can exclusively access by
-> +calling :c:func:`v4l2_subdev_lock_and_get_active_state()`. The sub-device active
-> +state must equally be released by calling :c:func:`v4l2_subdev_unlock_state()`.
-> +
-> +Drivers must never manually access the state stored in the :c:type:`v4l2_subdev`
-> +or in the file handle without going through the designated helpers.
-> +
-> +While the V4L2 core passes the correct try or active state to the
-> +subdevice operations, some existing device drivers pass a NULL state
-> +when calling operations with :c:func:`v4l2_subdev_call()`. This legacy
-> +construct causes issues with subdevice drivers that let the V4L2 core
-> +manage the active state, as they expect to receive the appropriate state
-> +as a parameter. To help the conversion of subdevice drivers to a managed
-> +active state without having to convert all callers at the same time, the
-> +:c:func:`v4l2_subdev_lock_and_return_state()` helper function can be
-> +used by subdevice drivers to retrieve the active state if a NULL state
-> +is passed to the subdevice operation.
-> +
-> +:c:func:`v4l2_subdev_lock_and_return_state()` should only be used when porting
-> +an existing driver to the new state management when it cannot be guaranteed
-> +that the current callers will pass the state properly. The function prints a
-> +notice when the passed state is NULL to encourage the porting of the callers
-> +to the new state management.
-> +
-> +The whole subdev state is in reality split into three parts: the
-> +v4l2_subdev_state, subdev controls and subdev driver's internal state. In the
-> +future these parts should be combined into a single state. For the time being
-> +we need a way to handle the locking for these parts. This can be accomplished
-> +by sharing a lock. The v4l2_ctrl_handler already supports this via its 'lock'
-> +pointer and the same model is used with states. The driver can do the following
-> +before calling v4l2_subdev_init_finalize():
-> +
-> +.. code-block:: python
-> +
-> +	sd->ctrl_handler->lock = &priv->mutex;
-> +	sd->state_lock = &priv->mutex;
-> +
+On 02/03/2022 00.55, Linus Torvalds wrote:
+> On Tue, Mar 1, 2022 at 3:19 PM David Laight <David.Laight@aculab.com> wrote:
+>>
 
-That is obviously supposed to be a c code-block, not python...
+> With the "don't use iterator outside the loop" approach, the exact
+> same code works in both the old world order and the new world order,
+> and you don't have the semantic confusion. And *if* you try to use the
+> iterator outside the loop, you'll _mostly_ (*) get a compiler warning
+> about it not being initialized.
+> 
+>              Linus
+> 
+> (*) Unless somebody initializes the iterator pointer pointlessly.
+> Which clearly does happen. Thus the "mostly". It's not perfect, and
+> that's most definitely not nice - but it should at least hopefully
+> make it that much harder to mess up.
 
-  Tomi
+This won't help the current issue (because it doesn't exist and might
+never), but just in case some compiler people are listening, I'd like to
+have some sort of way to tell the compiler "treat this variable as
+uninitialized from here on". So one could do
+
+#define kfree(p) do { __kfree(p); __magic_uninit(p); } while (0)
+
+with __magic_uninit being a magic no-op that doesn't affect the
+semantics of the code, but could be used by the compiler's "[is/may be]
+used uninitialized" machinery to flag e.g. double frees on some odd
+error path etc. It would probably only work for local automatic
+variables, but it should be possible to just ignore the hint if p is
+some expression like foo->bar or has side effects. If we had that, the
+end-of-loop test could include that to "uninitialize" the iterator.
+
+Maybe sparse/smatch or some other static analyzer could implement such a
+magic thing? Maybe it's better as a function attribute
+[__attribute__((uninitializes(1)))] to avoid having to macrofy all
+functions that release resources.
+
+Rasmus
