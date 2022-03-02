@@ -2,345 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 840964CA114
-	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 10:45:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5CC54CA1EF
+	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 11:13:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240618AbiCBJp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Mar 2022 04:45:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46156 "EHLO
+        id S240929AbiCBKOi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Mar 2022 05:14:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236428AbiCBJp4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 04:45:56 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 605DD7EDA3;
-        Wed,  2 Mar 2022 01:45:10 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 411D01F410A9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1646214309;
-        bh=zrznIpBFL8LiCItblwyMn7DORd4urUBkf/OPWsULH8s=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=RWxbwhcNszQIibXpghBJ1fzAbnZAgqcSmSelbPLSfSIwt7OXxk9yODmdAFrjXk2KL
-         kS1JCVexs9zuid8LlT1s/WEbQcTI8mnKEsoV0VAqrDiSLn3eAIh6uNOzAw51UFJ1W1
-         TNf/vIHnU7s9cp/BH6wBhd9F9nqApEE/EQc52d7svGIN5kOl8O8rRlPQkvMVfjFeLt
-         tm8OM2E/F6H1/RGQUAGju+kIir9elWnhAmwVtAoIE84KAuGtvigKg1u6G2ihFZFbFy
-         Jei4dABf+536KNiQ8ugLQs9gJcKZNUBnT39S9Kpr5LQwhIQA+u8C/GAgv38dmrO25S
-         7Bk2fbYCNuMiw==
-Message-ID: <dee15f20-0f7d-58c6-728b-3e14f84f0833@collabora.com>
-Date:   Wed, 2 Mar 2022 10:45:06 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [RESEND,V7,3/6] media: mtk-jpegenc: manage jpegenc multi-hardware
-Content-Language: en-US
-To:     "kyrie.wu" <kyrie.wu@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        with ESMTP id S239532AbiCBKOh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 05:14:37 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65DC53980A
+        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 02:13:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646216034; x=1677752034;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WnsP/MrDKhVqlVsFknsUpC++Q7+U0awSUpl1RRWCBzs=;
+  b=UwIcXpnQeMtwm4sTgSqw6FpGxVIT8pGWgq+SSr1SOK5jPUBWKpDjwZ4A
+   cPNatIeG/9INnFjlakU1Re/Yclsvco9fhsqlD6UL6GuufxJOAl9tWgBkU
+   DP7m9HDWC0cKnUI9qN5BhlopTESMmczN3cyfbVGDwp3Zvs1PnlRj4WNQT
+   zM2qI1psaq/DDtxeizZoxLsnpOdeGSIFNyvUpIosYGwBWV0QVBJp4aUKv
+   w+jIJEkDDBRPvQL7IhlfGAjJes8u63yA8oxNm+HB0A9Bh3pf3VtsKe3Rb
+   fsTydlYIpLGGU7oUXK6FUniH22ytUOqnIcRc6fK2X9bmva58askK6rIcm
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="316581490"
+X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; 
+   d="scan'208";a="316581490"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 02:13:54 -0800
+X-IronPort-AV: E=Sophos;i="5.90,148,1643702400"; 
+   d="scan'208";a="551188108"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 02:13:51 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 747662057F;
+        Wed,  2 Mar 2022 12:13:49 +0200 (EET)
+Date:   Wed, 2 Mar 2022 12:13:49 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tzung-Bi Shih <tzungbi@chromium.org>
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
-        maoguang.meng@mediatek.com, srv_heupstream@mediatek.com
-References: <1645693637-627-1-git-send-email-kyrie.wu@mediatek.com>
- <1645693637-627-4-git-send-email-kyrie.wu@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <1645693637-627-4-git-send-email-kyrie.wu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v5 5/6] media: subdev: add v4l2_subdev_call_state_active()
+Message-ID: <Yh9DXR3uY1xzEBAq@paasikivi.fi.intel.com>
+References: <20220301105548.305191-1-tomi.valkeinen@ideasonboard.com>
+ <20220301105548.305191-6-tomi.valkeinen@ideasonboard.com>
+ <Yh86mXXTqumlzlS6@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yh86mXXTqumlzlS6@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 24/02/22 10:07, kyrie.wu ha scritto:
-> From: kyrie wu <kyrie.wu@mediatek.com>
+Moi,
+
+On Wed, Mar 02, 2022 at 11:36:25AM +0200, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> manage each hardware information, including irq/clk/power.
-> the hardware includes HW0 and HW1.
+> Thank you for the patch.
 > 
-> Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
-> ---
->   drivers/media/platform/mtk-jpeg/Makefile      |  11 +-
->   .../media/platform/mtk-jpeg/mtk_jpeg_core.c   |  76 +++++---
->   .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  37 ++++
->   .../media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c | 168 ++++++++++++++++++
->   4 files changed, 267 insertions(+), 25 deletions(-)
+> On Tue, Mar 01, 2022 at 12:55:47PM +0200, Tomi Valkeinen wrote:
+> > Add v4l2_subdev_call_state_active() macro to help calling subdev ops
+> > that take a subdev state as a parameter. Normally the v4l2 framework
+> > will lock and pass the correct subdev state to the subdev ops, but there
+> > are legacy situations where this is not the case (e.g. non-MC video
+> > device driver calling set_fmt in a source subdev).
+> > 
+> > As this macro is only needed for legacy use cases, the macro is added in
+> > a new header file, v4l2-subdev-legacy.h.
+> > 
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > ---
+> >  include/media/v4l2-subdev-legacy.h | 42 ++++++++++++++++++++++++++++++
+> >  1 file changed, 42 insertions(+)
+> >  create mode 100644 include/media/v4l2-subdev-legacy.h
+> > 
+> > diff --git a/include/media/v4l2-subdev-legacy.h b/include/media/v4l2-subdev-legacy.h
+> > new file mode 100644
+> > index 000000000000..6a61e579b629
+> > --- /dev/null
+> > +++ b/include/media/v4l2-subdev-legacy.h
+> > @@ -0,0 +1,42 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> > +/*
+> > + *  V4L2 sub-device legacy support header.
+> > + *
+> > + *  Copyright (C) 2022  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > + */
+> > +
+> > +#ifndef _V4L2_SUBDEV_LEGACY_H
+> > +#define _V4L2_SUBDEV_LEGACY_H
+> > +
+> > +/**
+> > + * v4l2_subdev_call_state_active - call an operation of a v4l2_subdev which
+> > + *				   takes state as a parameter, passing the
+> > + *				   subdev its active state.
+> > + *
+> > + * @sd: pointer to the &struct v4l2_subdev
+> > + * @o: name of the element at &struct v4l2_subdev_ops that contains @f.
+> > + *     Each element there groups a set of callbacks functions.
+> > + * @f: callback function to be called.
+> > + *     The callback functions are defined in groups, according to
+> > + *     each element at &struct v4l2_subdev_ops.
+> > + * @args: arguments for @f.
+> > + *
+> > + * This is similar to v4l2_subdev_call(), except that this version can only be
+> > + * used for ops that take a subdev state as a parameter. The macro will get the
+> > + * active state and lock it before calling the op, and unlock it after the
 > 
+> s/active state and/active state,/
+> 
+> > + * call.
+> > + */
+> > +#define v4l2_subdev_call_state_active(sd, o, f, args...)		\
+> > +	({								\
+> > +		int __result;						\
+> > +		struct v4l2_subdev_state *state;			\
+> > +		state = v4l2_subdev_get_active_state(sd);		\
+> > +		if (state)						\
+> > +			v4l2_subdev_lock_state(state);			\
+> > +		__result = v4l2_subdev_call(sd, o, f, state, ##args);	\
+> > +		if (state)						\
+> > +			v4l2_subdev_unlock_state(state);		\
+> > +		__result;						\
+> > +	})
+> > +
+> > +#endif
+> 
+> I think
+> 
+> #endif /* _V4L2_SUBDEV_LEGACY_H */
 
-Hello Kyrie,
+I'll do these (plus the code block type change) when applying the patches
+if there are no other comments to the series.
 
-despite my v6 review, where I also gave you solutions for an issue with
-more than one example, this v7 still didn't get one out of the many
-requested fixes.
+> 
+> is the usual pattern. Apart from that,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-I'm sure that this was not intentional, so it's not a problem...
+Thanks!
 
-In any case, this gave me the opportunity to see some more issues inside
-of this patch: let's get it perfect!
+-- 
+Terveisin,
 
-
-...snip...
-
-> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-> index 3e4811a41ba2..31e941ef84bd 100644
-> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-> @@ -9,6 +9,7 @@
->   #ifndef _MTK_JPEG_CORE_H
->   #define _MTK_JPEG_CORE_H
->   
-> +#include <linux/clk.h>
->   #include <linux/interrupt.h>
->   #include <media/v4l2-ctrls.h>
->   #include <media/v4l2-device.h>
-> @@ -60,6 +61,7 @@ enum mtk_jpeg_ctx_state {
->    * @cap_q_default_fourcc:	capture queue default fourcc
->    */
->   struct mtk_jpeg_variant {
-> +	bool is_multihw;
-
-Thanks for this fix, this name makes it way clearer!
-
->   	struct clk_bulk_data *clks;
->   	int num_clks;
->   	struct mtk_jpeg_fmt *formats;
-> @@ -74,6 +76,38 @@ struct mtk_jpeg_variant {
->   	u32 cap_q_default_fourcc;
->   };
->   
-> +enum mtk_jpegenc_hw_id {
-> +	MTK_JPEGENC_HW0,
-> +	MTK_JPEGENC_HW1,
-> +	MTK_JPEGENC_HW_MAX,
-> +};
-> +
-> +/**
-> + * struct mtk_vcodec_clk - Structure used to store vcodec clock information
-> + */
-> +struct mtk_jpegenc_clk {
-> +	struct clk_bulk_data *clks;
-> +	int	clk_num;
-
-Why is clk_num tabbed?
-
-> +};
-> +
-> +/**
-> + * struct mtk_jpegenc_comp_dev - JPEG COREX abstraction
-> + * @dev:		        JPEG device
-> + * @plat_dev:		    platform device data
-> + * @reg_base:		    JPEG registers mapping
-> + * @master_dev:		    mtk_jpeg_dev device
-> + * @pm:	                mtk_jpegenc_pm
-> + * @jpegenc_irq:	    jpeg encode irq num
-
-You're using tabulations *and* spaces.... please use either, not both, as it's
-not necessary. Besides, this is also producing bad indentation.
-
-> + */
-> +struct mtk_jpegenc_comp_dev {
-> +	struct device		*dev;
-> +	struct platform_device *plat_dev;
-> +	void __iomem		*reg_base;
-> +	struct mtk_jpeg_dev *master_dev;
-> +	struct mtk_jpegenc_clk	venc_clk;
-> +	int jpegenc_irq;
-> +};
-> +
->   /**
->    * struct mtk_jpeg_dev - JPEG IP abstraction
->    * @lock:		the mutex protecting this structure
-> @@ -100,6 +134,9 @@ struct mtk_jpeg_dev {
->   	void __iomem		*reg_base;
->   	struct delayed_work job_timeout_work;
->   	const struct mtk_jpeg_variant *variant;
-> +
-> +	void __iomem *reg_encbase[MTK_JPEGENC_HW_MAX];
-> +	struct mtk_jpegenc_comp_dev *enc_hw_dev[MTK_JPEGENC_HW_MAX];
->   };
->   
->   /**
-> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
-> index a2b6e1f85c2d..3d967bff1352 100644
-> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
-> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
-> @@ -5,11 +5,27 @@
->    *
->    */
->   
-> +#include <linux/clk.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/irq.h>
->   #include <linux/io.h>
->   #include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/slab.h>
-> +#include <media/media-device.h>
->   #include <media/videobuf2-core.h>
->   #include <media/videobuf2-dma-contig.h>
-> +#include <media/videobuf2-v4l2.h>
-> +#include <media/v4l2-mem2mem.h>
-> +#include <media/v4l2-dev.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-fh.h>
-> +#include <media/v4l2-event.h>
->   
-> +#include "mtk_jpeg_core.h"
->   #include "mtk_jpeg_enc_hw.h"
->   
->   static const struct mtk_jpeg_enc_qlt mtk_jpeg_enc_quality[] = {
-> @@ -30,6 +46,21 @@ static const struct mtk_jpeg_enc_qlt mtk_jpeg_enc_quality[] = {
->   	{.quality_param = 97, .hardware_value = JPEG_ENC_QUALITY_Q97},
->   };
->   
-> +#if defined(CONFIG_OF)
-> +static const struct of_device_id mtk_jpegenc_drv_ids[] = {
-> +	{
-> +		.compatible = "mediatek,mt8195-jpgenc0",
-> +		.data = (void *)MTK_JPEGENC_HW0,
-> +	},
-> +	{
-> +		.compatible = "mediatek,mt8195-jpgenc1",
-> +		.data = (void *)MTK_JPEGENC_HW1,
-> +	},
-
-I've already pointed out an issue with this in your v6 series:
-
-https://patchwork.kernel.org/comment/24726607/
-
-Besides, I want to add up that the SoC distinction is already done in the
-parent node which, in MT8195's case, is named "mediatek,mt8195-jpgenc", so
-you really don't have to redo this distinction "from scratch" here in the
-sub-driver, as you can just get your information from the parent device/node.
-
-So, just "mediatek,jpgenc-hw" should be totally enough here.
-
-Please fix this for v8.
-
-
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, mtk_jpegenc_drv_ids);
-> +#endif
-> +
->   void mtk_jpeg_enc_reset(void __iomem *base)
->   {
->   	writel(0, base + JPEG_ENC_RSTB);
-
-...snip...
-
-> +
-> +static int mtk_jpegenc_hw_probe(struct platform_device *pdev)
-> +{
-> +	struct mtk_jpegenc_clk *jpegenc_clk;
-> +	struct mtk_jpeg_dev *master_dev;
-> +	struct mtk_jpegenc_comp_dev *dev;
-> +	int ret, comp_idx;
-> +
-> +	struct device *decs = &pdev->dev;
-> +
-> +	if (!decs->parent)
-> +		return -EPROBE_DEFER;
-> +
-> +	master_dev = dev_get_drvdata(decs->parent);
-> +	if (!master_dev)
-> +		return -EPROBE_DEFER;
-> +
-> +	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
-> +	if (!dev)
-> +		return -ENOMEM;
-> +
-> +	dev->plat_dev = pdev;
-> +
-> +	jpegenc_clk = &dev->venc_clk;
-> +
-> +	jpegenc_clk->clk_num = devm_clk_bulk_get_all(&pdev->dev,
-> +						     &jpegenc_clk->clks);
-
-Using dev_err_probe() looks more appropriate here:
-
-	if (jpegenc_clk->clk_num < 0)
-		return dev_err_probe(&pdev->dev, jpegenc_clk->clk_num,
-				     "Failed to get jpegenc clocks\n");
-
-
-> +	if (jpegenc_clk->clk_num < 0) {
-> +		dev_err(&pdev->dev, "Failed to get jpegenc clock count\n");
-> +		return jpegenc_clk->clk_num;
-> +	}
-> +
-> +	dev->reg_base =
-> +		devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(dev->reg_base)) {
-> +		ret = PTR_ERR(dev->reg_base);
-> +		goto err;
-
-There's no need for any goto here, as you're not reverting any operation.
-
-Hence, you can just:
-
-	if (IS_ERR(dev->reg_base))
-		return PTR_ERR(dev->reg_base);
-
-> +	}
-> +
-> +	ret = mtk_jpegenc_hw_init_irq(dev);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to register JPEGENC irq handler.\n");
-
-You are already printing an error inside of mtk_jpegenc_hw_init_irq(), so printing
-another one here is redundant.
-Either remove the prints in the function or, more appropriately, remove this print.
-
-Also, same "goto" comment applies here, you can simply return ret.
-
-> +		goto err;
-> +	}
-> +
-> +	comp_idx = (enum mtk_jpegenc_hw_id)of_device_get_match_data(decs);
-> +	if (comp_idx < MTK_JPEGENC_HW_MAX) {
-
-`comp_idx` is a bit misleading, this is not using the component framework.
-
-....but this will probably be refactored after following the suggestion that
-I gave you in v6 and again now.
-
-> +		master_dev->enc_hw_dev[comp_idx] = dev;
-> +		master_dev->reg_encbase[comp_idx] = dev->reg_base;
-> +		dev->master_dev = master_dev;
-> +	} else {
-> +		dev_err(&pdev->dev, "Failed to get_match_data.\n");
-> +		goto err;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, dev);
-> +	pm_runtime_enable(&pdev->dev);
-> +
-> +	return 0;
-> +
-> +err:
-
-This label serves no real purpose: please remove.
-
-> +	return ret;
-> +}
-> +
-
-
-
-Regards,
-Angelo
+Sakari Ailus
