@@ -2,60 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 087904CB1AA
+	by mail.lfdr.de (Postfix) with ESMTP id 837944CB1AB
 	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 23:03:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239438AbiCBWEA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S242059AbiCBWEA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 2 Mar 2022 17:04:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47810 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236829AbiCBWD7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 17:03:59 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C731C9920
-        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 14:03:15 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id x15so4873008wru.13
-        for <linux-media@vger.kernel.org>; Wed, 02 Mar 2022 14:03:15 -0800 (PST)
+        with ESMTP id S236829AbiCBWEA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 17:04:00 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BE2AC9920
+        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 14:03:16 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id i8so4898639wrr.8
+        for <linux-media@vger.kernel.org>; Wed, 02 Mar 2022 14:03:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SkCBctUs8JfByOI5AquYb2jZIIcNNXfx8mnbNeZyZnU=;
-        b=WDQzRXrN85g6mwz3tIqkHAG0hcDYZVxyc8vF8+pXinCAuJsq9JLN2LQsQX/2TvPrrU
-         EdY3KD+ZbezHtJGUgkQxkINCqnmkJV7OdJGGQWE69c+8AbzNGy1/fdgN9+UrCTL3YZs0
-         nxvfwcLaGqWvmG+L4mKvhYWxYMqJdXiHVqFhoXBMymVd+u97UpS//iPRbBHfWUVgGwKr
-         v7oFTeAJ3mluG6GU5pogXi9fu2LVKwyuIpl77Dwnoevef2Te3j/fdlQKhwd0imjxyQZb
-         wO7Rmus9AtMWYzE7d1bGf/uI5iZ3ockcr0dGH6xt6hIEWPqVrSlBbhY/4nIZ21n991Zr
-         e3Iw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=GHoWxwMyzuEiKYiB4tkgakdxydoJTJ1L6memTFq7bQY=;
+        b=I44u/jpupuxrSxPrnEOPh8ns21kZ9UZQ5Fy9vLxB5XxM26XnG7gCk9Po5De1VeBfzg
+         wwoMS+uggL+SJNdR6GpwRq7Fbi84IL5WvMmiy+GOtXm+wSv0no3NgVW0IaHRkxtfFvVP
+         09ghhpiXSRds8U3eggpxbNFELwL1WDBp+b+s6hn0nm2gdHI9bTkMjEurS8Yv5om98+P7
+         ReQJHjxcJtOYb9LxF2W2GUx7VfadwUsG7MdbaobofDz+cdiDf+VV8dxdA9sr7ayNuZv4
+         LSB2y+6F6/He+jHNn5aLkD9kHzwjl1hCxfsZQh3cBuVV+c/5t6SDsBzMWdsi0EsNwANA
+         rBHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SkCBctUs8JfByOI5AquYb2jZIIcNNXfx8mnbNeZyZnU=;
-        b=zxr1PRJ9L75pCQekR+2jP0w6mttWRwaSc34+4kugn7LqWqiATRr5GxhZN05YZwlSjB
-         +bM8hKQRXPGpo6BXJw5jfiQewZSymHmPiF2iAKpHNWy1hbAsv9QVm+EpQA5R3nfl8rti
-         p/y06VoNWoENOWuHxsg6yRejEB4RCt5dsOSDh58huab1Bs/oGX/tTcpH1GuJVHVCaeSn
-         rnR44OU4kQ3Wrz/GRMVP2Dtv/rd0XSK5E9kx4i66XDnjCb+Bp/lR6WuC+USbNHOWxsr8
-         MpWffBzDYqkj3rzC4jvSstKAWV+tLJoDpUrMe/ITw4uVXf1gwuURnaOzfZpIsilvKBV9
-         mBzA==
-X-Gm-Message-State: AOAM5329bLE42UPVeYgDyhlITLKKZ8xBKlzEkTJ+daajI+NsRWdCxv2B
-        kBzvA7aR9lf5PIJqVlP55OdaJn67FJIM7A==
-X-Google-Smtp-Source: ABdhPJzDwjeA47SG87rvfvl42EjBHeb+TOX3Ic7MZOYrnT612yka5DFntyEpPAy7XKDifIvJDGNliA==
-X-Received: by 2002:a5d:64ed:0:b0:1ef:e1e2:1fcb with SMTP id g13-20020a5d64ed000000b001efe1e21fcbmr11446154wri.37.1646258593772;
-        Wed, 02 Mar 2022 14:03:13 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GHoWxwMyzuEiKYiB4tkgakdxydoJTJ1L6memTFq7bQY=;
+        b=YOkngqajrkPIByyuz2jYJnjA9thKE8t3yJGgmuQ21VtM7WQTRmwuAbMd5IGGzVN7cG
+         C6nk54+craDC1BHmwntwCYCLBjoQ32SLV0QWcrrXxaURo1FKyX5fhuTLeqDyguOkTZpS
+         sugLuzaA/r5stT3zJeaWP9hfaE3x6TxaSvaMRP/IDAmU8afxULAyyY0BMmPCOrODdDI2
+         NNPOrDl7UryQZxGLnSkughbt1+DrDTySWFdr19l0Pj1HdqnVu79cBD9CfXzlMZbX4wrt
+         34W9knSUIRFeFZtKfsMdFF/7OlKpxOU2BtxbrFXGT82f/JlCTGz7QUryp2kiLfy86Or2
+         LWYw==
+X-Gm-Message-State: AOAM530aaauE12D5D0ymDgyRihIlvRTDVJRiaZNeAGk+1ABIo/Cskg+4
+        A7wg2DkvIW03ooPWxNT/RUbRpxSGkjpfOQ==
+X-Google-Smtp-Source: ABdhPJxI+8FVaH+gF7/u1qQtIoi5tjku8H+S2JdkiyDFf7cktaVaYVQJuV9HhMc5hKyGUlmf9nwpKg==
+X-Received: by 2002:adf:d1e3:0:b0:1ea:7e17:6cff with SMTP id g3-20020adfd1e3000000b001ea7e176cffmr24545717wrd.415.1646258594962;
+        Wed, 02 Mar 2022 14:03:14 -0800 (PST)
 Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id l16-20020a05600c4f1000b0033383cdeea1sm229258wmq.10.2022.03.02.14.03.12
+        by smtp.gmail.com with ESMTPSA id l16-20020a05600c4f1000b0033383cdeea1sm229258wmq.10.2022.03.02.14.03.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 14:03:13 -0800 (PST)
+        Wed, 02 Mar 2022 14:03:14 -0800 (PST)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
 Cc:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
         hanlinchen@chromium.org, tfiga@chromium.org, hdegoede@redhat.com,
         kieran.bingham@ideasonboard.com, hpa@redhat.com
-Subject: [PATCH v3 0/5] Introduce ancillary links
-Date:   Wed,  2 Mar 2022 22:02:59 +0000
-Message-Id: <20220302220304.1327896-1-djrscally@gmail.com>
+Subject: [PATCH v3 1/5] media: entity: Skip non-data links in graph iteration
+Date:   Wed,  2 Mar 2022 22:03:00 +0000
+Message-Id: <20220302220304.1327896-2-djrscally@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220302220304.1327896-1-djrscally@gmail.com>
+References: <20220302220304.1327896-1-djrscally@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -68,50 +70,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello all
+When iterating over the media graph, don't follow links that are not
+data links.
 
-At present there's no means in the kernel of describing the supporting
-relationship between subdevices that work together to form an effective single
-unit - the type example in this case being a camera sensor and its
-corresponding vcm. To attempt to solve that, this series adds a new type of
-media link called MEDIA_LNK_FL_ANCILLARY_LINK, which connects two instances of
-struct media_entity.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Daniel Scally <djrscally@gmail.com>
+---
 
-The mechanism of connection I have modelled as a notifier and async subdev,
-which seemed the best route since sensor drivers already typically will call
-v4l2_async_register_subdev_sensor() on probe, and that function already looks
-for a reference to a firmware node with the reference named "lens-focus". To
-avoid boilerplate in the sensor drivers, I added some new functions in
-v4l2-async that are called in v4l2_async_match_notify() to create the ancillary
-links. I haven't gone further than that yet, but I suspect we could cut down on
-code elsewhere by, for example, also creating pad-to-pad links in the same place
+Changes since v2:
 
-Series level changes since v2:
+	- None
 
-  - Squashed #2 and #3
+Changes since v1:
 
-Series-level changes since v1:
+	- Moved to the head of the series
+	- s/pad-to-pad/data (Sakari)
+	- Dropped the debug message (Laurent)
 
-	- New patch adding some documentation to the uAPI pages.
+Changes since the rfc:
 
-Dan
+	- new patch
 
+ drivers/media/mc/mc-entity.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Daniel Scally (5):
-  media: entity: Skip non-data links in graph iteration
-  media: media.h: Add new media link type
-  media: entity: Add link_type_name() helper
-  media: entity: Add support for ancillary links
-  media: v4l2-async: Create links during v4l2_async_match_notify()
-
- .../media/mediactl/media-controller-model.rst |  6 +++
- .../media/mediactl/media-types.rst            | 17 +++++--
- drivers/media/mc/mc-entity.c                  | 46 +++++++++++++++++--
- drivers/media/v4l2-core/v4l2-async.c          | 31 +++++++++++++
- include/media/media-entity.h                  | 19 ++++++++
- include/uapi/linux/media.h                    |  1 +
- 6 files changed, 112 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index b411f9796191..d0563ee4b28b 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -295,6 +295,12 @@ static void media_graph_walk_iter(struct media_graph *graph)
+ 
+ 	link = list_entry(link_top(graph), typeof(*link), list);
+ 
++	/* If the link is not a data link, don't follow it */
++	if ((link->flags & MEDIA_LNK_FL_LINK_TYPE) != MEDIA_LNK_FL_DATA_LINK) {
++		link_top(graph) = link_top(graph)->next;
++		return;
++	}
++
+ 	/* The link is not enabled so we do not follow. */
+ 	if (!(link->flags & MEDIA_LNK_FL_ENABLED)) {
+ 		link_top(graph) = link_top(graph)->next;
 -- 
 2.25.1
 
