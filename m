@@ -2,121 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E06CD4CA70B
-	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 15:04:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DF1A4CA7CD
+	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 15:19:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242687AbiCBOFG convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 2 Mar 2022 09:05:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34902 "EHLO
+        id S242847AbiCBOUA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Mar 2022 09:20:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242589AbiCBOFC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 09:05:02 -0500
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 97C5085BC9
-        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 06:04:13 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-196-4Li6Fux3PdyQ14Lo-DMf3A-1; Wed, 02 Mar 2022 14:04:10 +0000
-X-MC-Unique: 4Li6Fux3PdyQ14Lo-DMf3A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Wed, 2 Mar 2022 14:04:06 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Wed, 2 Mar 2022 14:04:06 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Xiaomeng Tong' <xiam0nd.tong@gmail.com>,
-        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
-CC:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-        "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "bcm-kernel-feedback-list@broadcom.com" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        "bjohannesmeyer@gmail.com" <bjohannesmeyer@gmail.com>,
-        "c.giuffrida@vu.nl" <c.giuffrida@vu.nl>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
-        "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "gustavo@embeddedor.com" <gustavo@embeddedor.com>,
-        "h.j.bos@vu.nl" <h.j.bos@vu.nl>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "jakobkoschel@gmail.com" <jakobkoschel@gmail.com>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "kgdb-bugreport@lists.sourceforge.net" 
-        <kgdb-bugreport@lists.sourceforge.net>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-f2fs-devel@lists.sourceforge.net" 
-        <linux-f2fs-devel@lists.sourceforge.net>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
-        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "linux1394-devel@lists.sourceforge.net" 
-        <linux1394-devel@lists.sourceforge.net>,
-        "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "nathan@kernel.org" <nathan@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "tipc-discussion@lists.sourceforge.net" 
-        <tipc-discussion@lists.sourceforge.net>,
-        "v9fs-developer@lists.sourceforge.net" 
-        <v9fs-developer@lists.sourceforge.net>
-Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Thread-Topic: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Thread-Index: AQHYLhg9+DU/OogLf0+tiSFmjztyUKysHu+Q
-Date:   Wed, 2 Mar 2022 14:04:06 +0000
-Message-ID: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
-References: <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
- <20220302093106.8402-1-xiam0nd.tong@gmail.com>
-In-Reply-To: <20220302093106.8402-1-xiam0nd.tong@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S229518AbiCBOT7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 09:19:59 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68CCF33348;
+        Wed,  2 Mar 2022 06:19:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Lj3aRKRkY+BfmD5oAlJkiAq4kMLr57fwLNlaF9yRDmg=; b=M0YzU/bBm/PwdAQ4a6sJ4McqfR
+        657Nz2+bPI/CdBdb0ywPUAqK3DlHUFq4imQHPNzREPJlETnY80Ca9qlDCBKzRsvlJ5Y2ieLfuH4+/
+        DZBTzoSAHEP37dpWukVq0N+mKFR1a5tLnJrJ6h1Uh6BF2prdiTVPD7dvtPa73S0fLhP5HtU8IA6ob
+        epJXIVbd8BWRfrA+GERVSkDIpI+rB7r/MeXHI4zIWEyBFS6CDXZ6WO9ihDcC8lBPdwFdR+vPybLqM
+        hYYZpGn1VELi1vJq26PGr9+JufZk9CTwzCe+xR8aXDVgqcNqOID+QL4FJ1Ix/gWbl6ftBNHScsjd0
+        tWptpnSA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nPPop-00Ag0b-HK; Wed, 02 Mar 2022 14:19:07 +0000
+Date:   Wed, 2 Mar 2022 14:19:07 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc:     open list <linux-kernel@vger.kernel.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        lkft-triage@lists.linaro.org, Nick Terrell <terrelln@fb.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        cai.huoqing@linux.dev, Anders Roxell <anders.roxell@linaro.org>
+Subject: Re: [next] warning: the frame size of 1120 bytes is larger than 1024
+ bytes [-Wframe-larger-than=]
+Message-ID: <Yh982ysEPvl5feRZ@casper.infradead.org>
+References: <CA+G9fYvUHjwU9sOMs+zNwuauGLqah3Ce_5VKtifZucOuXqw2qA@mail.gmail.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+G9fYvUHjwU9sOMs+zNwuauGLqah3Ce_5VKtifZucOuXqw2qA@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -124,36 +63,10 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Xiaomeng Tong
-> Sent: 02 March 2022 09:31
-> 
-> On Mon, 28 Feb 2022 16:41:04 -0800, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > But basically to _me_, the important part is that the end result is
-> > maintainable longer-term.
-> 
-> I couldn't agree more. And because of that, I stick with the following
-> approach because it's maintainable longer-term than "type(pos) pos" one:
->  Implements a new macro for each list_for_each_entry* with _inside suffix.
->   #define list_for_each_entry_inside(pos, type, head, member)
+On Wed, Mar 02, 2022 at 12:13:49PM +0530, Naresh Kamboju wrote:
+> Following warnings noticed while building Linux next-20220301
+> for arm KASAN builds [1].
 
-I think that it would be better to make any alternate loop macro
-just set the variable to NULL on the loop exit.
-That is easier to code for and the compiler might be persuaded to
-not redo the test.
-
-It also doesn't need an extra variable defined in the for() statement
-so can be back-ported to older kernels without required declaration
-in the middle of blocks.
-
-OTOH there may be alternative definitions that can be used to get
-the compiler (or other compiler-like tools) to detect broken code.
-Even if the definition can't possibly generate a working kerrnel.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+Are any of them actually new?  They all look pretty familiar to me,
+and they don't have just one cause; they each need to be addressed
+individually (if they need to be addressed at all).
