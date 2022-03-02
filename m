@@ -2,169 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A721C4CB069
-	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 21:59:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04FE34CB0B9
+	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 22:11:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245001AbiCBVAR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Mar 2022 16:00:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45432 "EHLO
+        id S244940AbiCBVLz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Mar 2022 16:11:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241440AbiCBVAO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 16:00:14 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35418D64CA
-        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 12:59:30 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id 132so2663674pga.5
-        for <linux-media@vger.kernel.org>; Wed, 02 Mar 2022 12:59:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=R/oQqieG0aXWXHs93Td97reRxAIjZoSgBmUtDJFVhjU=;
-        b=d2ZFN7FzXJICmnX4Tyt0wAx0nHny3V7g7RBF7BzoFi4JqvMjvTlFe6r9CSmtZHYpfY
-         sI7cCbacBhQSn0c2nYjk/wWGRSWn9quhJSSynH9lMYRKPPdVW/LYlF+HQ4F3tfS4GoN+
-         rfxT6gA9HHGJJFfNnOWheyqKpysRyPxkd0f8U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=R/oQqieG0aXWXHs93Td97reRxAIjZoSgBmUtDJFVhjU=;
-        b=BDhHIbDeIfcIvbagn1gvF11Ym8k4euH8JRYOFunMlbCuRYWH2rNKUOWq5QWr8L5fV/
-         spYwWMqTtoGlCdhfDh/wihF4TWzIYK62cVkzGu3Nrm/uzHa2TcPpuvYVXHiEkcdd1KeI
-         6G9Uf6UoGoIGn+hTciu13uRBMBVVdvgJxbdHUv6r9tZDn68ABYIm6Qn7mC1Dyg88bBCK
-         PZ2/pWcUPznPGyD0xqGps37K6xklCWSGRwN9WkI1OByoCrieVVzkkHgI3FtWEjctxmbU
-         tMYf795BInb9AWkig8F4N8ZR++yWuRiiO61FkVe0bYXJ/cAVqijB2XF/Cmebd/xipGBx
-         EHtw==
-X-Gm-Message-State: AOAM5331Qa0BtKFWZiiNhdJiTKW+l6LzZDgu64RoMdKxP3UJaa17ojm5
-        bgmIDHY1JbwtOVsRRnW3hz09dQ==
-X-Google-Smtp-Source: ABdhPJwV5Vftpu3BNFYOd1YAI3xcgBfQbmCq2DPnKYT59xnVma61vCMoUamoUdgwMbiUWTPibOctJw==
-X-Received: by 2002:a63:595e:0:b0:378:b203:a74e with SMTP id j30-20020a63595e000000b00378b203a74emr13280856pgm.328.1646254769698;
-        Wed, 02 Mar 2022 12:59:29 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z9-20020a655a49000000b00373459df190sm58337pgs.35.2022.03.02.12.59.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 12:59:29 -0800 (PST)
-Date:   Wed, 2 Mar 2022 12:59:28 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        David Laight <David.Laight@aculab.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-        KVM list <kvm@vger.kernel.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Cristiano Giuffrida <c.giuffrida@vu.nl>,
-        "Bos, H.J." <h.j.bos@vu.nl>,
-        "linux1394-devel@lists.sourceforge.net" 
-        <linux1394-devel@lists.sourceforge.net>,
-        "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        CIFS <linux-cifs@vger.kernel.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        linux-scsi <linux-scsi@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "kgdb-bugreport@lists.sourceforge.net" 
-        <kgdb-bugreport@lists.sourceforge.net>,
-        "bcm-kernel-feedback-list@broadcom.com" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Arnd Bergman <arnd@arndb.de>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        intel-gfx <intel-gfx@lists.freedesktop.org>,
-        Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        dma <dmaengine@vger.kernel.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Jakob Koschel <jakobkoschel@gmail.com>,
-        "v9fs-developer@lists.sourceforge.net" 
-        <v9fs-developer@lists.sourceforge.net>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        Netdev <netdev@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux F2FS Dev Mailing List 
-        <linux-f2fs-devel@lists.sourceforge.net>,
-        "tipc-discussion@lists.sourceforge.net" 
-        <tipc-discussion@lists.sourceforge.net>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Message-ID: <202203021256.69D7C4BCA6@keescook>
-References: <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
- <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
- <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
- <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
- <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
- <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
- <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
- <78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk>
- <202203021158.DB5204A0@keescook>
- <CAHk-=wikKPC0LUqZ8++EC5JOvGdBqVH9uUaTX=DvBioDoReYww@mail.gmail.com>
+        with ESMTP id S234898AbiCBVLy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 16:11:54 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 092DAB7146;
+        Wed,  2 Mar 2022 13:11:08 -0800 (PST)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id A9C3C1C0005;
+        Wed,  2 Mar 2022 21:11:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1646255466;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=itH78pPfoQ6UhbplnnBJkFGPYw1yUjwOppLHajcMFfQ=;
+        b=PJBpm/gO8KB6e00LHTjZVoEHKJ+1osZ7S0kwRXAIu76EhaL/iTe+znrsAFPAFNfoJ4GsWS
+        YAWn6j3R7skPVF9q+XsGWx3gvsLhkSU6N3fBFDy1Xu0E5Sm4dAJhA1SZkNwBcK5XcarmMG
+        AiesJ0JuyNuIzV8Xd8OpoSGP1aeK5xKiz7fRCQL8hZEIBBzYEZCkKj+PGBmbtiwjzTtwPa
+        1TgpIPYROFbTIeXQayFwp0gd1wlGcsEq7U9my883onJcJKpyhZKvZdXsd/lT+8N1JuuRRt
+        ZPZ8gyAM5x5BoDycZGeePmBKf294e4y5ZAd0zUSe0frTEsZljFu440C0sYRxeg==
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH v3 0/8] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / Platform Support
+Date:   Wed,  2 Mar 2022 22:10:52 +0100
+Message-Id: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wikKPC0LUqZ8++EC5JOvGdBqVH9uUaTX=DvBioDoReYww@mail.gmail.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 02, 2022 at 12:18:45PM -0800, Linus Torvalds wrote:
-> On Wed, Mar 2, 2022 at 12:07 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > I've long wanted to change kfree() to explicitly set pointers to NULL on
-> > free. https://github.com/KSPP/linux/issues/87
-> 
-> We've had this discussion with the gcc people in the past, and gcc
-> actually has some support for it, but it's sadly tied to the actual
-> function name (ie gcc has some special-casing for "free()")
-> 
-> See
-> 
->     https://gcc.gnu.org/bugzilla/show_bug.cgi?id=94527
-> 
-> for some of that discussion.
-> 
-> Oh, and I see some patch actually got merged since I looked there last
-> so that you can mark "deallocator" functions, but I think it's only
-> for the context matching, not for actually killing accesses to the
-> pointer afterwards.
+This new version is an offspring from the big "Allwinner A31/A83T
+MIPI CSI-2 Support and A31 ISP Support" series, which was split into
+individual series for better clarity and handling.
 
-Ah! I missed that getting added in GCC 11. But yes, there it is:
+This part only concerns Allwinner platform support changes.
+Note that the device-tree bindings for the MIPI CSI-2 controller
+and ISP are still under review in their dedicated series, so these
+patches should probably not be merged yet, although feedback about
+them is welcome.
 
-https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-malloc-function-attribute
+Changes since all-in-one v2:
+- Corrected mbus index used for the interconnects;
+- Used extended mbus binding and exported the DRAM clock for that;
+- Reworked the description of the core openfirmware change to give
+  more insight about the situation.
 
-Hah, now we may need to split __malloc from __alloc_size. ;)
+Kévin L'hôpital (1):
+  ARM: dts: sun8i: a83t: bananapi-m3: Enable MIPI CSI-2 with OV8865
 
-I'd still like the NULL assignment behavior, though, since some things
-can easily avoid static analysis.
+Paul Kocialkowski (7):
+  of: Mark interconnects property supplier as optional
+  dt-bindings: interconnect: sunxi: Add V3s mbus compatible
+  clk: sunxi-ng: v3s: Export MBUS and DRAM clocks to the public header
+  ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
+  ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
+  ARM: dts: sun8i: v3s: Add support for the ISP
+  ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
+
+ .../arm/sunxi/allwinner,sun4i-a10-mbus.yaml   |   2 +
+ arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts  | 102 +++++++++++++++
+ arch/arm/boot/dts/sun8i-a83t.dtsi             |  26 ++++
+ arch/arm/boot/dts/sun8i-v3s.dtsi              | 121 ++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.h          |   4 -
+ drivers/of/property.c                         |   2 +-
+ include/dt-bindings/clock/sun8i-v3s-ccu.h     |   4 +-
+ 7 files changed, 254 insertions(+), 7 deletions(-)
 
 -- 
-Kees Cook
+2.35.1
+
