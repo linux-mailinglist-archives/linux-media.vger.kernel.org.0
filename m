@@ -2,152 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 749964CA626
-	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 14:37:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E06CD4CA70B
+	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 15:04:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231712AbiCBNho (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Mar 2022 08:37:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58310 "EHLO
+        id S242687AbiCBOFG convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 2 Mar 2022 09:05:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242293AbiCBNhn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 08:37:43 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B4FC1173
-        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 05:36:59 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id k29-20020a05600c1c9d00b003817fdc0f00so1259527wms.4
-        for <linux-media@vger.kernel.org>; Wed, 02 Mar 2022 05:36:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:content-language:from
-         :subject:content-transfer-encoding;
-        bh=T5hRc5G5d9/1paIX2LfzbnvpuhJzk9VYmOzdlCoQE6s=;
-        b=TXwWw1YpywLeotVZhJCICUnVpvPxW5KQ0g6n/1xLHIrjGIWFuOn0Q4lKjKtrKyB0Gf
-         qhdfeKGCTNa3p+MZpCITzooT74Oopu+YCYnOzh+hV+phB2Awq9yb6cR7gOH63NH/HvXb
-         8geohxiFTxn2Sqk2Tz4ESxYE4KYLYwZR6+z7HiC8qYH9fLAyfBQVHDeFkVyMB2YNv/qL
-         owAN4yBxm330YG2mdveUdyQHS/IlsmP+JHyxwqoNEZ3VNkoCB8+DiWMA+iaU04uvGiGN
-         0lKP4wG3mD+cI/L/9JR9pbZIuLPycDQsAPETday85jmzWwWo77E3HO+dRiQFNLIYNvkO
-         NsUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to
-         :content-language:from:subject:content-transfer-encoding;
-        bh=T5hRc5G5d9/1paIX2LfzbnvpuhJzk9VYmOzdlCoQE6s=;
-        b=pipMzHxhNrSURT+JleNvIPHOdaKlBELtJHtX4rhOmY/PaHMRnGNnJ94clzezaKPpx5
-         DiVr2oi6mk8ZxoV7ER5/G72FoxGcYAQ3k/n4ma72oz8mh6wJpvYpS4LVyyK1hW8T8gWo
-         3m2G3aQKXFoUfEKgsR6/YBHDd+wf1UBhP7CzvVshH0A2y2foPioDnjKa6NQvK5QBH+wb
-         nI95ziF4lMjl2mi4Yuu991FK0NCKqwWPD7L46JpwXH367TZjEjyY5nSTNAedOXvMANZf
-         LTRxpR41au1upILzOmddAA1thbFO7mfBvt8Z1i5mDYbPfNv5kvdEyOn6lb1mqSpEGuDD
-         K/OQ==
-X-Gm-Message-State: AOAM533Hltt791VOgQc2x1Jh+ykVbuUDhvhFu7ISiCfLvR/uR+fDLN7L
-        9bOuOpRokA8/ho+YQt8yKSUVVcnjV5Y9bQ==
-X-Google-Smtp-Source: ABdhPJwrOaMz1t0aeXDUNk4gJvHMES3GyB1kNA0JnA9MO5M110VjJq8eicnBGpe6mjz7yy4UoJnu7Q==
-X-Received: by 2002:a05:600c:4e93:b0:382:b7fb:80b3 with SMTP id f19-20020a05600c4e9300b00382b7fb80b3mr3618005wmq.0.1646228217701;
-        Wed, 02 Mar 2022 05:36:57 -0800 (PST)
-Received: from [10.0.0.14] ([176.74.154.66])
-        by smtp.gmail.com with ESMTPSA id o11-20020adf9d4b000000b001f0077ea337sm5580129wre.22.2022.03.02.05.36.57
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Mar 2022 05:36:57 -0800 (PST)
-Message-ID: <0f581801-50af-8940-3c7d-695c61d846c4@gmail.com>
-Date:   Wed, 2 Mar 2022 14:36:56 +0100
+        with ESMTP id S242589AbiCBOFC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 09:05:02 -0500
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 97C5085BC9
+        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 06:04:13 -0800 (PST)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-196-4Li6Fux3PdyQ14Lo-DMf3A-1; Wed, 02 Mar 2022 14:04:10 +0000
+X-MC-Unique: 4Li6Fux3PdyQ14Lo-DMf3A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.28; Wed, 2 Mar 2022 14:04:06 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.028; Wed, 2 Mar 2022 14:04:06 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Xiaomeng Tong' <xiam0nd.tong@gmail.com>,
+        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
+CC:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+        "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "bcm-kernel-feedback-list@broadcom.com" 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        "bjohannesmeyer@gmail.com" <bjohannesmeyer@gmail.com>,
+        "c.giuffrida@vu.nl" <c.giuffrida@vu.nl>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
+        "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
+        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+        "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "gustavo@embeddedor.com" <gustavo@embeddedor.com>,
+        "h.j.bos@vu.nl" <h.j.bos@vu.nl>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "jakobkoschel@gmail.com" <jakobkoschel@gmail.com>,
+        "jgg@ziepe.ca" <jgg@ziepe.ca>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "kgdb-bugreport@lists.sourceforge.net" 
+        <kgdb-bugreport@lists.sourceforge.net>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-f2fs-devel@lists.sourceforge.net" 
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
+        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "linux1394-devel@lists.sourceforge.net" 
+        <linux1394-devel@lists.sourceforge.net>,
+        "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "nathan@kernel.org" <nathan@kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "tipc-discussion@lists.sourceforge.net" 
+        <tipc-discussion@lists.sourceforge.net>,
+        "v9fs-developer@lists.sourceforge.net" 
+        <v9fs-developer@lists.sourceforge.net>
+Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Thread-Topic: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Thread-Index: AQHYLhg9+DU/OogLf0+tiSFmjztyUKysHu+Q
+Date:   Wed, 2 Mar 2022 14:04:06 +0000
+Message-ID: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
+References: <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
+ <20220302093106.8402-1-xiam0nd.tong@gmail.com>
+In-Reply-To: <20220302093106.8402-1-xiam0nd.tong@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-To:     linux-media@vger.kernel.org
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-From:   deim31 <deim31@gmail.com>
-Subject: [bug] WinFast VC100 U no audio after video init
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, I've problem with USB grabber WinFast VC100 U.
+From: Xiaomeng Tong
+> Sent: 02 March 2022 09:31
+> 
+> On Mon, 28 Feb 2022 16:41:04 -0800, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > But basically to _me_, the important part is that the end result is
+> > maintainable longer-term.
+> 
+> I couldn't agree more. And because of that, I stick with the following
+> approach because it's maintainable longer-term than "type(pos) pos" one:
+>  Implements a new macro for each list_for_each_entry* with _inside suffix.
+>   #define list_for_each_entry_inside(pos, type, head, member)
 
-Grabbing audio over it is OK till video is initialized. It hangs for a 
-while and then audio input doesn't work till reinserting this USB 
-grabber but it always repeats.
-Tested on two PCs - with PipeWire and PulseAudio.
+I think that it would be better to make any alternate loop macro
+just set the variable to NULL on the loop exit.
+That is easier to code for and the compiler might be persuaded to
+not redo the test.
 
-Tested with OBS, GStreamer
+It also doesn't need an extra variable defined in the for() statement
+so can be back-ported to older kernels without required declaration
+in the middle of blocks.
 
-On Windows 7 it works OK but grabbing sw gives bad quality (compression 
-problem not device's)
+OTOH there may be alternative definitions that can be used to get
+the compiler (or other compiler-like tools) to detect broken code.
+Even if the definition can't possibly generate a working kerrnel.
 
-$ v4l2-ctl --all
-Driver Info:
-     Driver name      : em28xx
-     Card type        : Leadtek VC100
-     Bus info         : usb-0000:00:14.0-1
-     Driver version   : 5.15.23
-     Capabilities     : 0x85220011
-         Video Capture
-         VBI Capture
-         Audio
-         Read/Write
-         Streaming
-         Extended Pix Format
-         Device Capabilities
-     Device Caps      : 0x05220001
-         Video Capture
-         Audio
-         Read/Write
-         Streaming
-         Extended Pix Format
-Priority: 2
-Video input : 1 (S-Video: ok)
-Audio input : 0 (Line In)
-Video Standard = 0x000000ff
-     PAL-B/B1/G/H/I/D/D1/K
-Format Video Capture:
-     Width/Height      : 720/576
-     Pixel Format      : 'YUYV' (YUYV 4:2:2)
-     Field             : Interlaced
-     Bytes per Line    : 1440
-     Size Image        : 829440
-     Colorspace        : SMPTE 170M
-     Transfer Function : Default (maps to Rec. 709)
-     YCbCr/HSV Encoding: Default (maps to ITU-R 601)
-     Quantization      : Default (maps to Limited Range)
-     Flags             :
-Streaming Parameters Video Capture:
-     Capabilities     : timeperframe
-     Frames per second: 25.000 (25/1)
-     Read buffers     : 4
+	David
 
-User Controls
-
-                      brightness 0x00980900 (int)    : min=0 max=255 
-step=1 default=128 value=128 flags=slider
-                        contrast 0x00980901 (int)    : min=0 max=255 
-step=1 default=128 value=128 flags=slider
-                      saturation 0x00980902 (int)    : min=0 max=255 
-step=1 default=128 value=128 flags=slider
-                             hue 0x00980903 (int)    : min=-128 max=127 
-step=1 default=0 value=0 flags=slider
-                          volume 0x00980905 (int)    : min=0 max=31 
-step=1 default=31 value=28 flags=slider
-                            mute 0x00980909 (bool)   : default=1 value=0
-                     red_balance 0x0098090e (int)    : min=-48 max=48 
-step=1 default=0 value=0 flags=slider
-                    blue_balance 0x0098090f (int)    : min=-48 max=48 
-step=1 default=0 value=0 flags=slider
-                       sharpness 0x0098091b (int)    : min=0 max=15 
-step=1 default=0 value=0 flags=slider
-
-Image Processing Controls
-
-                      pixel_rate 0x009f0902 (int64)  : min=27000000 
-max=27000000 step=1 default=27000000 value=27000000 flags=read-only
-                    test_pattern 0x009f0903 (menu)   : min=0 max=1 
-default=0 value=1 (Black screen)
-                 0: Disabled
-                 1: Black screen
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
