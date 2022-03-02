@@ -2,32 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C57CE4C9C6E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 05:25:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DFC74C9D90
+	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 06:45:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236212AbiCBE0E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Mar 2022 23:26:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34860 "EHLO
+        id S239567AbiCBFpt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Mar 2022 00:45:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232644AbiCBE0D (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Mar 2022 23:26:03 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A8F55EBFC
-        for <linux-media@vger.kernel.org>; Tue,  1 Mar 2022 20:25:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1B79FB81BFB
-        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 04:25:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91DD7C004E1
-        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 04:25:17 +0000 (UTC)
-Date:   Wed, 02 Mar 2022 05:25:15 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220302042517.91DD7C004E1@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        with ESMTP id S233570AbiCBFpr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 00:45:47 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19C9559A56;
+        Tue,  1 Mar 2022 21:45:05 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id z15so931975pfe.7;
+        Tue, 01 Mar 2022 21:45:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tohk2aT5d/PEXoglufun4n2w1nrJyfac6nbJ8qICq5Q=;
+        b=QYya+4yAeYQWV7i8sPDYAAIsdsxbOT14DjzMlDQ4rOtjwZkFDZJPHurgCUw3mjXo5y
+         IeEe3XJyhY0xCKtyrSGgKsqLtlq75yH9ZNiN/Lr+e74kw/nluaHSZ1OJmCvbGaK+6/kg
+         Ig390Hx768kI53+RwYlmY8e8WABB+Cg+LTsR/CfETs1GyzUnfk2DYivUwmrirYmZLZw7
+         b900lkJNZzZ88g0Hxs23svKB4y0zpCQUdsu6recCXAYTQkfz4+wPRTNxbyDY8Yn+FO9S
+         bKowStt6mi+6k61rPoKL9umkfxHGWPt2X/dGCMDjpYi3SSie62ssh0Ozl0ZCE1nnAIdT
+         7ckQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=tohk2aT5d/PEXoglufun4n2w1nrJyfac6nbJ8qICq5Q=;
+        b=o1bDsoz2arO5FU2NOAqkWvbflnA70UE4EuUelW0nE287YtBwgmhJg9JDutLaAFGzey
+         hKBHNVMyBQeNq9NWufMl1VrZFIvvEvrTHw7PY4PxFhnKxgi+TcW5CZ+hA/+i88rC8t4F
+         xvIrWyGBlVdCoEVfGXp9Yc7kRGwegrIJMTZvMlTY16kkgLkMKG0yuwJZP7FFppOQ4NM8
+         Aaa5qF4nSCLoCxA/Y3X1N8Bi1A4QhdObE7W/vBUG6jaVtq84otbRMA9kdxQoPXS1WA15
+         17PegeBVehFSjZUTpNAXbDFaclKIh2BwnJUiOtn7tB/s2CAjT8EV40E5DB+y/8yCPCP9
+         spig==
+X-Gm-Message-State: AOAM5331KdbkwPLc0rfPY+3FJFNkKWNQzk8cyzlZmMWJQrBfn+CGpeFO
+        gy8MzIy7Z17WrVNfcT+Rx+o=
+X-Google-Smtp-Source: ABdhPJxY7/+36xcLRk2VrCnkd4waYYinZtr37DiqqpvHFdAeVd093oK66Kc83DvYun1BC57Ay/QByg==
+X-Received: by 2002:a05:6a00:d4c:b0:4e0:27dd:37c1 with SMTP id n12-20020a056a000d4c00b004e027dd37c1mr31609928pfv.86.1646199904547;
+        Tue, 01 Mar 2022 21:45:04 -0800 (PST)
+Received: from VICKYMQLIN-NB1.localdomain ([5.44.249.43])
+        by smtp.gmail.com with ESMTPSA id o17-20020a056a0015d100b004e1c11d833fsm20237289pfu.90.2022.03.01.21.45.01
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 01 Mar 2022 21:45:04 -0800 (PST)
+Date:   Wed, 2 Mar 2022 13:44:57 +0800
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Eugen.Hristev@microchip.com
+Cc:     mchehab@kernel.org, Nicolas.Ferre@microchip.com,
+        alexandre.belloni@bootlin.com, Ludovic.Desroches@microchip.com,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: atmel: atmel-isc: Fix PM disable depth
+ imbalance in atmel_isc_probe
+Message-ID: <20220302054457.GA1088@VICKYMQLIN-NB1.localdomain>
+References: <20220105111056.4662-1-linmq006@gmail.com>
+ <20220301071859.24285-1-linmq006@gmail.com>
+ <4661c8c3-8975-d1f5-9728-f7d1d585437e@microchip.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4661c8c3-8975-d1f5-9728-f7d1d585437e@microchip.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -35,130 +75,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, Mar 01, 2022 at 01:51:02PM +0000, Eugen.Hristev@microchip.com wrote:
+> > ---
+> > changes in v2:
+> > - remove unused label.
+> > ---
+> >   drivers/media/platform/atmel/atmel-sama5d2-isc.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> > index 1b2063cce0f7..7f1ebbb25437 100644
+> > --- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> > +++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> > @@ -559,6 +559,8 @@ static int atmel_isc_probe(struct platform_device *pdev)
+> >   cleanup_subdev:
+> >          isc_subdev_cleanup(isc);
+> > 
+> > +       pm_runtime_disable(dev);
+> > +
+> 
+> Hello Miaoqian Lin ,
+> 
+> Could you please perform the same change (or similar) in 
+> atmel-sama7g5-isc , as the sama7g5 ISC will perform the same and has the 
+> same bug.
+> 
+Hi, Eugen Hristev:
 
-Results of the daily build of media_tree:
+I think you are referring to microchip_xisc_probe() function in
+atmel-sama7g5-isc, and I have look into it. After it calls
+pm_runtime_enable(), it only have a regular path whichs return 0 and
+indicates
+the probe is successful. It doesn't have error handling path.
 
-date:			Wed Mar  2 05:00:12 CET 2022
-media-tree git hash:	2881ca629984b949ec9ac2e8ba1e64a2f0b66e8b
-media_build git hash:	d5d4c1ff328b8464bd0f55aea299ab5f2a7856ec
-v4l-utils git hash:	40a51ea5538182d7c3856ece1c75c7ebca967a84
-edid-decode git hash:	388f4dd7f438ecfe8d61a2a458899fdc15dd1af2
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5a84266d391eb878f83b081540507f76650111aa
-host hardware:		x86_64
-host os:		5.16.0-1-amd64
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16.1-i686: OK
-linux-5.16.1-x86_64: OK
-linux-5.17-rc1-i686: OK
-linux-5.17-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: VM was not running
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+regmap_read() function returns a negative errno in error cases, but it
+is used to get Microchip XISC version. I am not sure if failure means
+the probe fails.
+> >   unregister_v4l2_device:
+> >          v4l2_device_unregister(&isc->v4l2_dev);
+> > 
+> > --
+> > 2.17.1
+> > 
+> 
