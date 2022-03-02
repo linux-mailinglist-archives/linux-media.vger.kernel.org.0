@@ -2,153 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C4544CB1AE
-	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 23:03:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BBCF4CB1BC
+	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 23:08:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242341AbiCBWEH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Mar 2022 17:04:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48198 "EHLO
+        id S242213AbiCBWIn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Mar 2022 17:08:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242067AbiCBWEE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 17:04:04 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14C38C9920
-        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 14:03:20 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id p9so4870881wra.12
-        for <linux-media@vger.kernel.org>; Wed, 02 Mar 2022 14:03:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7+FTeVrGz7SDdPY4UPOaMR4mAYUB8c53cmn+nXuAyMQ=;
-        b=XUyuvemJYa0uAPOj7k1G9IzitT9VXfDcKWXDcEhdYDSJCfn/HU7OkbxGM5iO6MemUb
-         lV3mCqItMcPQB0EK6wYMqh7ToMdUlCmyNIhbOWG1fJ/aru63wO0k/xKZwjJS2/QDq4dk
-         RopjcHiTUEMSXcJhj/x9l16gFI7wpJ7hI/zdL++voTzJR3Gy18mSFaXypTqxOcByPaao
-         XzD4+mib6HCoy6psPvbeTt4gr8KJ6sMpsmMSN8i5ccTPLm3R6h6K/iHrT3v03XaaSJKo
-         e20Gjg7+bHyOjUWXiSB0dF5XWNH0ftXbJ1PdvkypVpJCMhg5aAM6efH1HSus13BfdXOV
-         PuiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7+FTeVrGz7SDdPY4UPOaMR4mAYUB8c53cmn+nXuAyMQ=;
-        b=ohqqvJ+E84j/6dmN+lZyPhXMETRetmYiV6UW8LO/Z/yLRttV8ESYaAMGlN8KCGgKBf
-         HKWtNp/lVlfgMkFG6V8uYbhI5SBeX55uK2QO9+lGl4y6GSIx8LnqwkgTBaL4uZicj4YR
-         7FEs8hHRcDE2KCokuK5XpflWS/fgYPpUxOzjMvrogOm8UcY9K+ygeJqU3cGOFqocBPpS
-         fxMlZrdz1gXuF8jvcvX1WRxNenJ63gfZfY3x5v5C4MOMRx72u1MWuhNsUJ19+89UM2LB
-         x51QZ4wX6skLRMYu3zACXeYCFy6N/hswCdYt9Ks/WBRh9YVn0cYfo1vNqiXHZZA7XYvZ
-         kKCg==
-X-Gm-Message-State: AOAM530e7dsDk6RVpgbtZA4nEHULaOHg+eJXTIbyARUbLfazBEUUejjV
-        aqX9ChS43ZaAu+Xd1UO4VHxYhqkGi1/mWw==
-X-Google-Smtp-Source: ABdhPJz1z6DPBD7bhcCCeO9fFebsmUH9yJLSFoHKDSYe79QR+HkAQD7iFfp63LfGerWLD27PjJv+Hg==
-X-Received: by 2002:a5d:4310:0:b0:1ef:fb60:e1d8 with SMTP id h16-20020a5d4310000000b001effb60e1d8mr9095465wrq.92.1646258598715;
-        Wed, 02 Mar 2022 14:03:18 -0800 (PST)
-Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id l16-20020a05600c4f1000b0033383cdeea1sm229258wmq.10.2022.03.02.14.03.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 14:03:18 -0800 (PST)
-From:   Daniel Scally <djrscally@gmail.com>
-To:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
-Cc:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        hanlinchen@chromium.org, tfiga@chromium.org, hdegoede@redhat.com,
-        kieran.bingham@ideasonboard.com, hpa@redhat.com
-Subject: [PATCH v3 5/5] media: v4l2-async: Create links during v4l2_async_match_notify()
-Date:   Wed,  2 Mar 2022 22:03:04 +0000
-Message-Id: <20220302220304.1327896-6-djrscally@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220302220304.1327896-1-djrscally@gmail.com>
-References: <20220302220304.1327896-1-djrscally@gmail.com>
+        with ESMTP id S231542AbiCBWIm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 17:08:42 -0500
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C2D8381B2;
+        Wed,  2 Mar 2022 14:07:56 -0800 (PST)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7BAE2E0003;
+        Wed,  2 Mar 2022 22:07:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1646258874;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=lS1QSNcGHjM0XgM4B7WgVQryBpLLi9DEmZbSo/cMOS4=;
+        b=Ote3cmIhGhk7KJS0xw+Cs7bF1JY7KqFtTRznRFMQ/c46qky2tYY2cIXY9hVGQhEJmqX9OP
+        U4xAt/K0wnm3Pqa/OMt74VIPtie+FSN1/BBxcmCT/JeieyOhACx7AGDMbqF6ZfQypTKlXI
+        usISbdehawZc35+D+zq3QOh4KdWaqG3kgnMaMiJ2L0nUcsUrVZHdZKAW7ZeI7sOxN+3a+C
+        sxMDAANwX3dg/bf9wWVAXGLuBGBHoOrQBtGnVP/9elpzmk+BxWqR0ZmDFNYA1Rj1sWExcm
+        fgILP9116WRqikXUK4tGgq0dRl6u13mSs6phGZvEXLo++mmFwxZXCYauUUJsgg==
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v3 0/9] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / MIPI CSI-2 Support
+Date:   Wed,  2 Mar 2022 23:07:30 +0100
+Message-Id: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Upon an async fwnode match, there's some typical behaviour that the
-notifier and matching subdev will want to do. For example, a notifier
-representing a sensor matching to an async subdev representing its
-VCM will want to create an ancillary link to expose that relationship
-to userspace.
+This new version is an offspring from the big "Allwinner A31/A83T
+MIPI CSI-2 Support and A31 ISP Support" series, which was split into
+individual series for better clarity and handling.
 
-To avoid lots of code in individual drivers, try to build these links
-within v4l2 core.
+This part only concerns the MIPI CSI-2 controllers support changes.
 
-Signed-off-by: Daniel Scally <djrscally@gmail.com>
----
+Changes since all-in-one v2:
+- Use the newly-introduced media/mipi-csi2.h header instead of local
+  definitions;
+- Introduce a use a mutex for format access serialization;
+- Make both port@0 and port@1 as well as ports required in the binding;
+- Made one of the two CSI input ports required;
 
-Changes since v2:
+Paul Kocialkowski (9):
+  dt-bindings: sun6i-a31-mipi-dphy: Add optional direction property
+  phy: allwinner: phy-sun6i-mipi-dphy: Support D-PHY Rx mode for MIPI
+    CSI-2
+  dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
+  dt-bindings: media: Add Allwinner A31 MIPI CSI-2 bindings
+    documentation
+  media: sunxi: Add support for the A31 MIPI CSI-2 controller
+  MAINTAINERS: Add entry for the Allwinner A31 MIPI CSI-2 bridge driver
+  dt-bindings: media: Add Allwinner A83T MIPI CSI-2 bindings
+    documentation
+  media: sunxi: Add support for the A83T MIPI CSI-2 controller
+  MAINTAINERS: Add entry for the Allwinner A83T MIPI CSI-2 bridge
 
-	- Stopped checking the notifier entity's function when creating the new
-	links, and just create them whenever the subdev entity's function is either
-	a lens controller or a flash. (Sakari)
+ .../media/allwinner,sun6i-a31-csi.yaml        |  66 +-
+ .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 147 ++++
+ .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 138 +++
+ .../phy/allwinner,sun6i-a31-mipi-dphy.yaml    |  12 +
+ MAINTAINERS                                   |  16 +
+ drivers/media/platform/sunxi/Kconfig          |   2 +
+ drivers/media/platform/sunxi/Makefile         |   2 +
+ .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  12 +
+ .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 766 ++++++++++++++++
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |  53 ++
+ .../sun6i-mipi-csi2/sun6i_mipi_csi2_reg.h     |  76 ++
+ .../sunxi/sun8i-a83t-mipi-csi2/Kconfig        |  11 +
+ .../sunxi/sun8i-a83t-mipi-csi2/Makefile       |   4 +
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c    |  72 ++
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h    |  39 +
+ .../sun8i_a83t_mipi_csi2.c                    | 833 ++++++++++++++++++
+ .../sun8i_a83t_mipi_csi2.h                    |  56 ++
+ .../sun8i_a83t_mipi_csi2_reg.h                | 151 ++++
+ drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 166 +++-
+ 20 files changed, 2609 insertions(+), 17 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2_reg.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2_reg.h
 
-Changes since v1:
-
-	- Added #ifdef guards for CONFIG_MEDIA_CONTROLLER
-	- Some spelling and nomenclature cleanup (Laurent)
-
-Changes since the rfc:
-
-	- None
-
- drivers/media/v4l2-core/v4l2-async.c | 31 ++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index 0404267f1ae4..436bd6900fd8 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -275,6 +275,24 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
- static int
- v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
- 
-+static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
-+					     struct v4l2_subdev *sd)
-+{
-+	struct media_link *link = NULL;
-+
-+#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
-+
-+	if (sd->entity.function != MEDIA_ENT_F_LENS &&
-+	    sd->entity.function != MEDIA_ENT_F_FLASH)
-+		return 0;
-+
-+	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
-+
-+#endif
-+
-+	return IS_ERR(link) ? PTR_ERR(link) : 0;
-+}
-+
- static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
- 				   struct v4l2_device *v4l2_dev,
- 				   struct v4l2_subdev *sd,
-@@ -293,6 +311,19 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
- 		return ret;
- 	}
- 
-+	/*
-+	 * Depending of the function of the entities involved, we may want to
-+	 * create links between them (for example between a sensor and its lens
-+	 * or between a sensor's source pad and the connected device's sink
-+	 * pad).
-+	 */
-+	ret = v4l2_async_create_ancillary_links(notifier, sd);
-+	if (ret) {
-+		v4l2_async_nf_call_unbind(notifier, sd, asd);
-+		v4l2_device_unregister_subdev(sd);
-+		return ret;
-+	}
-+
- 	/* Remove from the waiting list */
- 	list_del(&asd->list);
- 	sd->asd = asd;
 -- 
-2.25.1
+2.35.1
 
