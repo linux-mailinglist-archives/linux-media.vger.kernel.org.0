@@ -2,186 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B6774CAABA
-	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 17:48:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49DF94CAB34
+	for <lists+linux-media@lfdr.de>; Wed,  2 Mar 2022 18:11:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242669AbiCBQt2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Mar 2022 11:49:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53828 "EHLO
+        id S237817AbiCBRMG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Mar 2022 12:12:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241049AbiCBQt1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 11:49:27 -0500
-Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7416D849;
-        Wed,  2 Mar 2022 08:48:42 -0800 (PST)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 6CAFB3C0016;
-        Wed,  2 Mar 2022 17:48:41 +0100 (CET)
-Received: from vmlxhi-121.adit-jv.com (10.72.92.132) by hi2exch02.adit-jv.com
- (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.21; Wed, 2 Mar
- 2022 17:48:41 +0100
-Date:   Wed, 2 Mar 2022 17:48:34 +0100
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-CC:     <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Michael Rodin <mrodin@de.adit-jv.com>
-Subject: Re: [PATCH 3/4] rcar-vin: Stop stream when subdevice signal transfer
- error
-Message-ID: <20220302164834.GA23637@vmlxhi-121.adit-jv.com>
-References: <20211108160220.767586-1-niklas.soderlund+renesas@ragnatech.se>
- <20211108160220.767586-4-niklas.soderlund+renesas@ragnatech.se>
- <1fddc966-5a23-63b4-185e-c17aa6d65b54@xs4all.nl>
- <YYlvqY21JvTtKysK@oden.dyn.berto.se>
- <9e405ed3-fb65-c16d-f84f-2530adbdc9b7@xs4all.nl>
+        with ESMTP id S243724AbiCBRLt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 12:11:49 -0500
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BEAA79C7B
+        for <linux-media@vger.kernel.org>; Wed,  2 Mar 2022 09:10:55 -0800 (PST)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 1868D5C009A;
+        Wed,  2 Mar 2022 12:10:52 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Wed, 02 Mar 2022 12:10:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+        cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; bh=MCnmDsnAEWENX1H0+JRWHA5CTuHCIrPes38pmE
+        pQoAo=; b=gwIILSC7x4aLWZ4uKzE1nj+ImoAOmymPRlJrQTaKxT2cvMyI1baH4l
+        sAI1l/DUqiUzyFyNWozuv9fVtyWfdOjAsSU2bcRwaqucNCIpDENojMK/PiFO77ev
+        Ff59vr+NU9qf8PF5Vw1EowL88Y6twh+8LHTlGZbUJVqFcwFxeFFxZsxehy5zFS4l
+        eT2rZrTjIn4+xhFqxbcHN9Q9bcZqkzeAlxXQwME4FO8x8lnJh2d+cmtgAQrOD2/x
+        KJtNwe2uZpLmyoZob4yTRNwH28gvtKIgyo3ETSrH6p/CeLNjEFAJ4/OH4V98Lz9P
+        OEolsRp0IbiOa5cz3BtY5AcSGkMoXsTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=MCnmDsnAEWENX1H0+
+        JRWHA5CTuHCIrPes38pmEpQoAo=; b=Nn7+jkcFusrILEK3kO5GXT/CvEv405yBu
+        TIVrcP6fhBNFj16c2kQyzHRitdrz20OSor0+6qulWjlEut/GzgC7X/ZndxkuVtOr
+        RH2vXbybTKYVcd39P0mXI7tvs3kJCTQ9mqQeed1yV1r3kPMlCmi42tRIf8WPHsvR
+        MfrW/5okQssPT9kKKKRtbN26jpn8kNgIdWn4OJsXjzTY9RVliNnAs8schO0tOYHI
+        8r4Q3nanpSPpKJFqM/0rMzJDpWNlEC6Kp+lRcCeEDKqhjnoDqpSIv+fYc3pFt2ep
+        ynKS1FNyjUQCLjpPqAFQOsCNMSW6a9036GrsOCQuTjGO9mXSmbVPw==
+X-ME-Sender: <xms:G6UfYgN1cJPxaF-CpBVfUG9EdoUWbJMmeJSB8UPchXM_jwH2yXYp8w>
+    <xme:G6UfYm-gvJDb4egttTgqa2b1GKJ-YB0PZiHslQyFAJN5Akim1lv_CIpBh9Xhc_TLk
+    sz5mFsYZb22tr_1Blg>
+X-ME-Received: <xmr:G6UfYnRhKDj0cSZKohDSWB6d4lQJs1NdMArnstKl1gowubCEyTyw-A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtgedgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeffrghfnhgr
+    ucfjihhrshgthhhfvghlugcuoegurghfnhgrsehfrghsthhmrghilhdrtghomheqnecugg
+    ftrfgrthhtvghrnhepffelvddujefgieetvdelveetudeukeektdejvdegvdfgudelteff
+    ueejvdevkeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:G6UfYosik-SSdWFdrw3hXGQOhhfnb4lWHkwduDmax4FocwkVYrldfQ>
+    <xmx:G6UfYodbFiJr4q3b6RYgev6_YFKhr1Hb-sC9PGbmhQ1JTrImHUw0ng>
+    <xmx:G6UfYs3eGo19J5x_Idef3pPABCD7PAfOUZ-IVg1VUJpQeLsmW_J95w>
+    <xmx:HKUfYn5WSxhZEmxshFn8pcEq4wdEgx8VSusyjyUvkcrJV90J14-KOA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 2 Mar 2022 12:10:49 -0500 (EST)
+Date:   Wed, 2 Mar 2022 19:10:40 +0200
+From:   Dafna Hirschfeld <dafna@fastmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Tomasz Figa <tfiga@google.com>,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 02/16] media: rkisp1: capture: Fix and simplify
+ (un)registration
+Message-ID: <20220302171040.bem4jeinzowppzx6@guri>
+References: <20220227160116.18556-1-laurent.pinchart@ideasonboard.com>
+ <20220227160116.18556-3-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9e405ed3-fb65-c16d-f84f-2530adbdc9b7@xs4all.nl>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.92.132]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220227160116.18556-3-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas, Hans,
-
-On Mon, Nov 15, 2021 at 03:26:53PM +0100, Hans Verkuil wrote:
-> On 08/11/2021 19:42, Niklas Söderlund wrote:
-> > Hi Hans,
-> > 
-> > On 2021-11-08 18:36:25 +0100, Hans Verkuil wrote:
-> >> On 08/11/2021 17:02, Niklas Söderlund wrote:
-> >>> When a subdevice signals a transfer error stop the VIN in addition to
-> >>> informing user-space of the event.
-> >>>
-> >>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> >>> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> >>> ---
-> >>> * Changes since v3
-> >>> - Switch to new V4L2_EVENT_XFER_ERROR from V4L2_EVENT_EOS.
-> >>> - Call vb2_queue_error() when encountering the event.
-> >>>
-> >>> * Changes since v2
-> >>> - Log using vin_dbg() instead of v4l2_info().
-> >>> ---
-> >>>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 17 ++++++++++++++++-
-> >>>  1 file changed, 16 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> >>> index a5bfa76fdac6e55a..bf17fdefe90aabf5 100644
-> >>> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> >>> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> >>> @@ -992,9 +992,24 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
-> >>>  static void rvin_notify_video_device(struct rvin_dev *vin,
-> >>>  				     unsigned int notification, void *arg)
-> >>>  {
-> >>> +	const struct v4l2_event *event;
-> >>> +
-> >>>  	switch (notification) {
-> >>>  	case V4L2_DEVICE_NOTIFY_EVENT:
-> >>> -		v4l2_event_queue(&vin->vdev, arg);
-> >>> +		event = arg;
-> >>> +
-> >>> +		switch (event->type) {
-> >>> +		case V4L2_EVENT_XFER_ERROR:
-> >>> +			vin_dbg(vin,
-> >>> +				"Subdevice signaled transfer error, stopping.\n");
-> >>> +			rvin_stop_streaming(vin);
-> >>> +			vb2_queue_error(&vin->queue);
-> >>
-> >> Hmm, wouldn't it be the case that every driver that calls vb2_queue_error()
-> >> would also have to send this new event? Would it be possible to modify
-> >> vb2_queue_error() to raise this event? I haven't analyzed all the drivers
-> >> that call this function to see if that makes sense.
-> >>
-> >> Perhaps a separate new function vb2_queue_error_with_event() would also be
-> >> an option.
-> > 
-> > I think that maybe a good idea, but I think that would be needed on-top 
-> > of this work as I can't really test it. Here the rcar-csi2.ko is a 
-> > subdevice which detects the error condition and generates the event. And 
-> > this code is in rcar-vin.ko, the video device driver which reacts to the 
-> > event and then forwards it to user-space.
-> > 
-> > Or am I misunderstanding you? And you think I should remove the 
-> > v4l2_event_queue() below in favor of a new vb2_queue_error_with_event() 
-> > call?
+On 27.02.2022 18:01, Laurent Pinchart wrote:
+> The rkisp1_register_capture() and rkisp1_unregister_capture() functions
+> don't destroy the mutex (in the error path for the former). Fix this and
+> make rkisp1_unregister_capture() and rkisp1_capture_devs_unregister()
+> safe to be called on an unregistered capture node to prepare for
+> simplification of error handling at probe time.
 > 
-> Yes. And use vb2_queue_error_with_event in other drivers as well where
-> applicable. Hmm, it can't be called vb2_ since it is v4l2_ specific, so
-> perhaps v4l2_queue_error which takes a video_device and a vb2_queue as
-> arguments. I don't want this just in rcar since it makes perfect sense
-> as a generic event for such situations.
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-capture.c | 26 ++++++++++---------
+>  1 file changed, 14 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> index 9c11f2b8e5f5..18be7c982db7 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> @@ -1312,8 +1312,12 @@ static const struct v4l2_file_operations rkisp1_fops = {
+>  
+>  static void rkisp1_unregister_capture(struct rkisp1_capture *cap)
+>  {
+> +	if (!cap->rkisp1)
+> +		return;
+> +
+>  	media_entity_cleanup(&cap->vnode.vdev.entity);
+>  	vb2_video_unregister_device(&cap->vnode.vdev);
+> +	mutex_destroy(&cap->vnode.vlock);
+>  }
+>  
+>  void rkisp1_capture_devs_unregister(struct rkisp1_device *rkisp1)
+> @@ -1390,6 +1394,8 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
+>  
+>  error:
+>  	media_entity_cleanup(&vdev->entity);
+> +	mutex_destroy(&node->vlock);
+> +	cap->rkisp1 = NULL;
+>  	return ret;
+>  }
+>  
+> @@ -1425,26 +1431,22 @@ rkisp1_capture_init(struct rkisp1_device *rkisp1, enum rkisp1_stream_id id)
+>  
+>  int rkisp1_capture_devs_register(struct rkisp1_device *rkisp1)
+>  {
+> -	struct rkisp1_capture *cap;
+> -	unsigned int i, j;
+> +	unsigned int i;
+>  	int ret;
+>  
+>  	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); i++) {
+> +		struct rkisp1_capture *cap = &rkisp1->capture_devs[i];
+> +
+>  		rkisp1_capture_init(rkisp1, i);
+> -		cap = &rkisp1->capture_devs[i];
+>  		cap->rkisp1 = rkisp1;
+> +
+>  		ret = rkisp1_register_capture(cap);
+> -		if (ret)
+> -			goto err_unreg_capture_devs;
+> +		if (ret) {
 
-Handling errors in this way could be problematic, because a (CSI2) transfer
-error does not mean a total hardware failure on Rcar3. From my experience
-there are 3 kinds of CSI2 errors:
-  1. errors which occur sometimes, but do not affect video streaming
-  2. errors which occur on every start of streaming but usually do not
-     affect actual video streaming to VIN module after the start
-  3. fatal errors which require a "Software Reset" mentioned by Renesas in
-     the chapter 25.3.13 of the hardware manual in order to continue
-     video streaming
-This patch set makes the video pipeline unusable if we get errors described
-in the first scenario if I am not mistaken. In the second scenario the
-video pipeline was already not usable before because we end up in a
-continuous restart loop in rcar-csi2.c. And the third scenario is not
-really addressed by this patch set (or maybe the job is offloaded on to
-userspace)?
+I would set 'cap->rkisp1 = NULL' here instead of in rkisp1_register_capture
+so that 'rkisp1l' field is set and unset in the same function
 
-Maybe it's better to implement a recovery in a different way, which would
-consider the three mentioned error scenarios above:
-  1. Monitor rvin_irq after streaming has started, e.g. by using a timer
-     (I tried someting similar in [1])
-  2. restart the complete video pipeline via rvin_stop_streaming and
-     rvin_start_streaming if no frame is captured in a reasonable amount
-     of time (optionally after checking if a subdevice has sent a
-     V4L2_EVENT_XFER_ERROR).
-This would make the complete recovery process almost invisible for the
-application and avoid any application changes.
+thanks,
+Dafna
 
-What do you think?
-
-[1] https://lore.kernel.org/linux-renesas-soc/1592588777-100596-1-git-send-email-mrodin@de.adit-jv.com/
-
+> +			rkisp1_capture_devs_unregister(rkisp1);
+> +			return ret;
+> +		}
+>  	}
+>  
+>  	return 0;
+>  
+> -err_unreg_capture_devs:
+> -	for (j = 0; j < i; j++) {
+> -		cap = &rkisp1->capture_devs[j];
+> -		rkisp1_unregister_capture(cap);
+> -	}
+> -
+> -	return ret;
+>  }
+> -- 
 > Regards,
 > 
-> 	Hans
+> Laurent Pinchart
 > 
-> > 
-> >>
-> >> Regards,
-> >>
-> >> 	Hans
-> >>
-> >>> +			break;
-> >>> +		default:
-> >>> +			break;
-> >>> +		}
-> >>> +
-> >>> +		v4l2_event_queue(&vin->vdev, event);
-> >>>  		break;
-> >>>  	default:
-> >>>  		break;
-> >>>
-> >>
-> > 
-> 
-
--- 
-Best Regards,
-Michael
