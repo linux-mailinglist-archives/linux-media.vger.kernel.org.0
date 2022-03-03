@@ -2,67 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A7204CBF14
-	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 14:44:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B0C44CBF92
+	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 15:10:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231623AbiCCNpc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Mar 2022 08:45:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52188 "EHLO
+        id S233890AbiCCOLT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Mar 2022 09:11:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229741AbiCCNp2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 08:45:28 -0500
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B3518A7A0;
-        Thu,  3 Mar 2022 05:44:43 -0800 (PST)
-Received: by mail-oi1-f175.google.com with SMTP id j2so4818946oie.7;
-        Thu, 03 Mar 2022 05:44:43 -0800 (PST)
+        with ESMTP id S233880AbiCCOLS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 09:11:18 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30C0418CC19
+        for <linux-media@vger.kernel.org>; Thu,  3 Mar 2022 06:10:32 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id y5so3268401wmi.0
+        for <linux-media@vger.kernel.org>; Thu, 03 Mar 2022 06:10:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tz0v8Gkwf2UF0vx6sGeIa617YAcjQhkWG8mkpG1CJNs=;
+        b=xukswhfzj+I8Z8GeKn1vhUViacvrF1x0aoe72Ax7uy04TWKURJ0QNK3SZczsaSUy6H
+         3Zi0NB6Dh1tZt40SAeHeDT9M9J67VO6CwBqI16ONsq0htarsh0SePEyQWkh73CiA8Drj
+         LkhSTbnmDxZyFNHgOZm7tLB/cg46NV+6USMODfjQbaENgK9q79P7uiLvLOqRlQWohQPJ
+         EFTF3EXZDp+RaIr7yL3u1dpvBJDC5aIF0fOi/XArCzzfB6/9P63XXY3KSYFSO5hbOPQ2
+         nZl+CgzM+cCRzDa2wP3nIoUwri1UY5hIZHVObJIm7si4exxM310bgHx1dyxPPi5aat97
+         FwtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=v44qDax9KEdYLRCIw5soHVCzl51dh0SIKoJV0wM0I0I=;
-        b=OkA6Y6gMRKlGNHC4ZCPrmmJH4+hSiFQ29bsCoI8lk6HLU3tJICD4pxbOc9noPkO8Ey
-         ScKjz2FQCmqXFNNM52TLdBPMQsNhjMKk9uElds9rCzWNvndMnKXCbFoylyI2rWMa2aK3
-         St7eKQyGLObR56+1XAKQJDhkRiCK8knL8XwwutzwilSPJqGVYxRqzoPUHdh4hdPynZ0R
-         D6oafSwZZelR3R3mGszil7HPEUVJZAz2N8dgQIH5VW9y4K9cMIDO1UQBfxw6L2eYTTve
-         dNl+h6SSvkpfu2Q1s3zUiIFGoP3dGthV17Cd4FdUJdQ61jCp6oB0pj2+iDw5ecHH2mdu
-         V2ww==
-X-Gm-Message-State: AOAM530beMcVPIDUCXGYYU30nx7k55ilYsi5X+nH06ISGqXYH1dfFSsO
-        Wl8hA0dP7qXfL6koaVQmaYMSNy9xZA==
-X-Google-Smtp-Source: ABdhPJzn31TBcNmGDsK1JV7b+U+3AzzWAVgACRgHF4lqaMW3Q7MxwOp88OaXLDAQFSwz+6Z4Nw7nKA==
-X-Received: by 2002:aca:502:0:b0:2cd:c24:278f with SMTP id 2-20020aca0502000000b002cd0c24278fmr4457068oif.150.1646315081264;
-        Thu, 03 Mar 2022 05:44:41 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id z25-20020a056808065900b002d97bda386esm980555oih.51.2022.03.03.05.44.39
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tz0v8Gkwf2UF0vx6sGeIa617YAcjQhkWG8mkpG1CJNs=;
+        b=6I/VzmAFOzYn29/XkKqscZNOUUBGQvUlkcUVJtU7uChl/21VsJMc2PS5dWBvOc9dAb
+         plTJraIU3Z7UaSAUwuvzteq+lOMlp0JNABzTzJh9/wh2kXTThkgIOJ4RDS+MUu/CW18N
+         R49Tg9eFygmFEPSyEvtxCVsb7uw53/mHepc7y5Oc6pOfg1d8Jp41oGGYiA2qbZ2MdqxV
+         jm3uaorfhFyfCVzCZ6ddbre8Tqev3FYTSbBSGRfKqKJuquhYJ/s7jyUHxYGHw9Fb/sjB
+         JcO+n2hDiYTUNPX7Sda9q3xAlBcLOHfOsPA9SiQiysEbWHWSM5cEZ2eHoRdSkkrCDJyt
+         y2Og==
+X-Gm-Message-State: AOAM532bj30w9ZxJD+O+oJ30ZtgPx+Gqq3lRxlNpuSAZxL457HqcVGpJ
+        pyay6z+nrbyDGXCxSkBcidsifhN9rEb1fpmS
+X-Google-Smtp-Source: ABdhPJygf7IaKJmIEPjMoVa4/JDsQjl434uIxOZgPQAwxeeQUR1aDOoitT8pT6J0v2OvcYuPwjqXSw==
+X-Received: by 2002:a05:600c:2241:b0:382:9bc7:4e66 with SMTP id a1-20020a05600c224100b003829bc74e66mr3888363wmm.21.1646316630532;
+        Thu, 03 Mar 2022 06:10:30 -0800 (PST)
+Received: from localhost.localdomain (hst-221-13.medicom.bg. [84.238.221.13])
+        by smtp.gmail.com with ESMTPSA id ba2-20020a0560001c0200b001f0653f1097sm194312wrb.69.2022.03.03.06.10.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 05:44:40 -0800 (PST)
-Received: (nullmailer pid 1495431 invoked by uid 1000);
-        Thu, 03 Mar 2022 13:44:38 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-phy@lists.infradead.org,
-        devicetree@vger.kernel.org, Yong Deng <yong.deng@magewell.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20220302220739.144303-4-paul.kocialkowski@bootlin.com>
-References: <20220302220739.144303-1-paul.kocialkowski@bootlin.com> <20220302220739.144303-4-paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v3 3/9] dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
-Date:   Thu, 03 Mar 2022 07:44:38 -0600
-Message-Id: <1646315078.961128.1495430.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        Thu, 03 Mar 2022 06:10:29 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [RFC/WIP v2 0/6] HEIC image encoder
+Date:   Thu,  3 Mar 2022 16:10:04 +0200
+Message-Id: <20220303141010.573408-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,60 +68,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 02 Mar 2022 23:07:33 +0100, Paul Kocialkowski wrote:
-> The A31 CSI controller supports two distinct input interfaces:
-> parallel and an external MIPI CSI-2 bridge. The parallel interface
-> is often connected to a set of hardware pins while the MIPI CSI-2
-> bridge is an internal FIFO-ish link. As a result, these two inputs
-> are distinguished as two different ports.
-> 
-> Note that only one of the two may be present on a controller instance.
-> For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> dedicated to parallel.
-> 
-> Update the binding with an explicit ports node that holds two distinct
-> port nodes: one for parallel input and one for MIPI CSI-2.
-> 
-> This is backward-compatible with the single-port approach that was
-> previously taken for representing the parallel interface port, which
-> stays enumerated as fwnode port 0.
-> 
-> Note that additional ports may be added in the future, especially to
-> support feeding the CSI controller's output to the ISP.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  .../media/allwinner,sun6i-a31-csi.yaml        | 66 +++++++++++++++----
->  1 file changed, 53 insertions(+), 13 deletions(-)
-> 
+Hello,
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+This is the second version of the RFC for HEIF HEVC image encoder aims to revive the discussion.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml:88:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml:90:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml:102:5: [warning] wrong indentation: expected 6 but found 4 (indentation)
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml:104:5: [warning] wrong indentation: expected 6 but found 4 (indentation)
+Changes since v1 include:
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.example.dt.yaml: csi@1cb4000: ports:port@0: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+* change the new pixel format to V4L2_PIX_FMT_HEIF_HEVC (1/6).
+* created a new HEIF control class and control IDs (2/6).
+* add two additional steps in stateful encoder spec (3/6).
+* improve the Venus image encoder (4/6 - 6/6).
 
-doc reference errors (make refcheckdocs):
+Comments are welcome.
 
-See https://patchwork.ozlabs.org/patch/1600105
+First version can be found at:
+https://lwn.net/ml/linux-media/20210429132833.2802390-1-stanimir.varbanov@linaro.org/
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+-- 
+regards,
+Stan
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+Refernces:
 
-pip3 install dtschema --upgrade
+[1] https://0xc0000054.github.io/pdn-avif/using-image-grids.html#fnref:3
+[2] https://nokiatech.github.io/heif/technical.html
+[3] https://github.com/lclevy/canon_cr3/blob/master/heif.md
+[4] https://github.com/nokiatech/heif/blob/master/srcs/api-cpp/GridImageItem.cpp
+[5] https://github.com/strukturag/libheif/blob/master/libheif/heif_context.cc#L163
+[6] https://androidx.de/androidx/heifwriter/HeifEncoder.html
 
-Please check and re-submit.
+Stanimir Varbanov (6):
+  media: Add HEIF HEVC compressed pixel format
+  v4l: Add HEIF control class and control IDs
+  docs: dev-encoder: Add additional steps for image encoding
+  venus: helpers: Add a new helper for buffer processing
+  venus: hfi: Add hfi property for enable grid
+  venus: Add HEIC image encoder
+
+ .../userspace-api/media/v4l/dev-encoder.rst   |    6 +
+ .../media/v4l/ext-ctrls-heif.rst              |   47 +
+ .../media/v4l/pixfmt-compressed.rst           |   12 +
+ drivers/media/platform/qcom/venus/Makefile    |    2 +
+ drivers/media/platform/qcom/venus/core.h      |   29 +
+ drivers/media/platform/qcom/venus/helpers.c   |   21 +
+ drivers/media/platform/qcom/venus/helpers.h   |    1 +
+ drivers/media/platform/qcom/venus/hfi.c       |    1 +
+ drivers/media/platform/qcom/venus/hfi_cmds.c  |    9 +-
+ .../media/platform/qcom/venus/hfi_helper.h    |    5 +
+ drivers/media/platform/qcom/venus/ienc.c      | 1527 +++++++++++++++++
+ drivers/media/platform/qcom/venus/ienc.h      |   14 +
+ .../media/platform/qcom/venus/ienc_ctrls.c    |   99 ++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   10 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ include/uapi/linux/v4l2-controls.h            |    9 +
+ include/uapi/linux/videodev2.h                |    1 +
+ 17 files changed, 1793 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-heif.rst
+ create mode 100644 drivers/media/platform/qcom/venus/ienc.c
+ create mode 100644 drivers/media/platform/qcom/venus/ienc.h
+ create mode 100644 drivers/media/platform/qcom/venus/ienc_ctrls.c
+
+-- 
+2.25.1
 
