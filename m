@@ -2,289 +2,229 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D8414CBAE7
-	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 11:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57ACB4CBB0E
+	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 11:13:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232176AbiCCKCz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Mar 2022 05:02:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42884 "EHLO
+        id S232183AbiCCKNz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Mar 2022 05:13:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232171AbiCCKCw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 05:02:52 -0500
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27B0B178687;
-        Thu,  3 Mar 2022 02:02:05 -0800 (PST)
-X-UUID: 0b0048544c294cfeadcfd0240e5d25c5-20220303
-X-UUID: 0b0048544c294cfeadcfd0240e5d25c5-20220303
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-        (envelope-from <ck.hu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 912777949; Thu, 03 Mar 2022 18:02:00 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 3 Mar 2022 18:02:00 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 3 Mar
- 2022 18:01:59 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 3 Mar 2022 18:01:58 +0800
-Message-ID: <710af1457bd59a017a62ecb8028dae0b94b809b3.camel@mediatek.com>
-Subject: Re: [PATCH v12 4/4] soc: mediatek: mutex: add functions that
- operate registers by CMDQ
-From:   CK Hu <ck.hu@mediatek.com>
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Jernej Skrabec" <jernej.skrabec@siol.net>
-CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        <tfiga@chromium.org>, <drinkcat@chromium.org>,
-        <pihsun@chromium.org>, <hsinyi@google.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        <menghui.lin@mediatek.com>, <sj.huang@mediatek.com>,
-        <allen-kh.cheng@mediatek.com>, <randy.wu@mediatek.com>,
-        <jason-jh.lin@mediatek.com>, <roy-cw.yeh@mediatek.com>,
-        <river.cheng@mediatek.com>, <srv_heupstream@mediatek.com>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Thu, 3 Mar 2022 18:01:58 +0800
-In-Reply-To: <20220301100246.2153-5-moudy.ho@mediatek.com>
-References: <20220301100246.2153-1-moudy.ho@mediatek.com>
-         <20220301100246.2153-5-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        with ESMTP id S229815AbiCCKNy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 05:13:54 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4982416EAB0;
+        Thu,  3 Mar 2022 02:13:09 -0800 (PST)
+Received: from [IPV6:2a01:e0a:120:3210:1c92:7dc6:3047:5f3b] (unknown [IPv6:2a01:e0a:120:3210:1c92:7dc6:3047:5f3b])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6B95E1F45504;
+        Thu,  3 Mar 2022 10:13:07 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1646302388;
+        bh=yXrU5uknXeIgDXfseugJ6jxwHEV2jK9Ih9G3VFEr2FI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=bWVRkTP+uWNzEJtWGLu3XPF5ZJ41K4BK716WAmi9uspUwCdUgaKt95YXbMBnW98MU
+         J2LX0BlIcoNK1sY++GggCAo3KB6t0uJnsJgaGgYhuBz/eWFSRp72KEsfDrZFANmn+C
+         FRS0h3UQYVLoAH4kHCGScI4okAIF83f04Q4n7GPpk8B9O45tHWHpZbusNvfz1biaO5
+         IlGT8HAzjTKo4zYFJ2plbyrgssJasOleChDM3LIN/BcYjb/m7KtujJwhXr3SjIIwsf
+         szCA0uEecK4Tp4xi397nVytkO5epxm5Ctjf0oSQHX0YeguERx4dO8LhotQniwDnfsB
+         9AyLg6dpI80mg==
+Message-ID: <678c1f01-c6cd-d1be-bd0b-277a808b006a@collabora.com>
+Date:   Thu, 3 Mar 2022 11:13:04 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 00/14] Move HEVC stateless controls out of staging
+Content-Language: en-US
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com,
+        Chen-Yu Tsai <wens@csie.org>,
+        "jernej.skrabec" <jernej.skrabec@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev, kernel <kernel@collabora.com>,
+        knaerzche@gmail.com, jc@kynesim.co.uk
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
+ <CAHCN7x+AUy4JsqfdyZFqg4ScR1OgoLvqF91za0AZ278NSBJj4A@mail.gmail.com>
+ <b832271d-cecd-a373-48ff-ba5ce736e47d@collabora.com>
+ <CAHCN7xJ3K2bLEc8dcTM+x-E0brDW-t4yrUdkUe0jCfuzH8v9pA@mail.gmail.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAHCN7xJ3K2bLEc8dcTM+x-E0brDW-t4yrUdkUe0jCfuzH8v9pA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Moudy:
 
-On Tue, 2022-03-01 at 18:02 +0800, Moudy Ho wrote:
-> Considering that some functions have timing requirements
-> in specific situation, this patch adds several interface that
-> operate registers by CMDQ.
-> 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> ---
->  drivers/soc/mediatek/mtk-mutex.c       | 72
-> +++++++++++++++++++++++++-
->  include/linux/soc/mediatek/mtk-mutex.h |  6 +++
->  2 files changed, 76 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/soc/mediatek/mtk-mutex.c
-> b/drivers/soc/mediatek/mtk-mutex.c
-> index a6268ecde240..a45864183cd1 100644
-> --- a/drivers/soc/mediatek/mtk-mutex.c
-> +++ b/drivers/soc/mediatek/mtk-mutex.c
-> @@ -7,10 +7,14 @@
->  #include <linux/iopoll.h>
->  #include <linux/module.h>
->  #include <linux/of_device.h>
-> +#include <linux/of_address.h>
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
->  #include <linux/soc/mediatek/mtk-mmsys.h>
->  #include <linux/soc/mediatek/mtk-mutex.h>
-> +#include <linux/soc/mediatek/mtk-cmdq.h>
-> +
-> +#define MTK_MUTEX_ENABLE			BIT(0)
->  
->  #define MT2701_MUTEX0_MOD0			0x2c
->  #define MT2701_MUTEX0_SOF0			0x30
-> @@ -173,6 +177,7 @@ struct mtk_mutex_data {
->  	const unsigned int mutex_mdp_mod_mask;
->  	const unsigned int mutex_mdp_sof_mask;
->  	const bool no_clk;
-> +	const bool has_gce_client_reg;
->  };
->  
->  struct mtk_mutex_ctx {
-> @@ -181,6 +186,8 @@ struct mtk_mutex_ctx {
->  	void __iomem			*regs;
->  	struct mtk_mutex		mutex[10];
->  	const struct mtk_mutex_data	*data;
-> +	phys_addr_t			addr;
-> +	struct cmdq_client_reg		cmdq_reg;
->  };
->  
->  static const unsigned int mt2701_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-> @@ -374,6 +381,7 @@ static const struct mtk_mutex_data
-> mt8183_mutex_driver_data = {
->  	.mutex_mdp_mod_mask = MT8183_MUTEX_MDP_MOD_MASK,
->  	.mutex_mdp_sof_mask = MT8183_MUTEX_MDP_SOF_MASK,
->  	.no_clk = true,
-> +	.has_gce_client_reg = true,
->  };
->  
->  static const struct mtk_mutex_data mt8186_mutex_driver_data = {
-> @@ -553,6 +561,25 @@ u32 mtk_mutex_get_mdp_mod(struct mtk_mutex
-> *mutex, enum mtk_mdp_comp_id id)
->  }
->  EXPORT_SYMBOL_GPL(mtk_mutex_get_mdp_mod);
->  
-> +void mtk_mutex_add_mod_by_cmdq(struct mtk_mutex *mutex, u32 mod,
-> +			       struct mmsys_cmdq_cmd *cmd)
-> +{
-> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> mtk_mutex_ctx,
-> +						 mutex[mutex->id]);
-> +	unsigned int offset;
-> +
-> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> +
-> +	offset = DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg, mutex-
-> >id);
-> +	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys, mtx->addr +
-> offset,
-> +			    mod, mtx->data->mutex_mdp_mod_mask);
-> +
-> +	offset = DISP_REG_MUTEX_SOF(mtx->data->mutex_sof_reg, mutex-
-> >id);
-> +	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys, mtx->addr +
-> offset,
-> +			    0, mtx->data->mutex_mdp_sof_mask);
-> +}
-> +EXPORT_SYMBOL_GPL(mtk_mutex_add_mod_by_cmdq);
-> +
->  void mtk_mutex_enable(struct mtk_mutex *mutex)
->  {
->  	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> mtk_mutex_ctx,
-> @@ -564,6 +591,20 @@ void mtk_mutex_enable(struct mtk_mutex *mutex)
->  }
->  EXPORT_SYMBOL_GPL(mtk_mutex_enable);
->  
-> +void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
-> +			      struct mmsys_cmdq_cmd *cmd)
+Le 03/03/2022 à 02:23, Adam Ford a écrit :
+> On Mon, Feb 28, 2022 at 4:13 AM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>>
+>> Le 26/02/2022 à 23:25, Adam Ford a écrit :
+>>> On Fri, Feb 25, 2022 at 4:41 PM Benjamin Gaignard
+>>> <benjamin.gaignard@collabora.com> wrote:
+>>>> This series aims to make HEVC uapi stable and usable for hardware
+>>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>>>> and 2 out of the tree drivers (rkvdec and RPI).
+>>>>
+>>>> After the remarks done on version 2, I have completely reworked to patches
+>>>> split so changelogs are meaningless. I have also drop "RFC" from the
+>>>> titles.
+>>>>
+>>>> In this v3 I do all the changes (new controls, documentation, etc..)
+>>>> in the staging directory before moving the HEVC uAPI to stable
+>>>> steps by steps (unlike the big one patch in v2).
+>>>>
+>>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>> I have push a branch here:
+>> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/HEVC_UAPI_V4
+>>
+>> it is the incoming version 4 of this series + patches to enable G2 on my IMX8MQ
+> Benjamin,
+>
+> I checked this repo out, and built it along with pulling the latest
+> versions of G-streamer and fluster.
+> When I check for v4l2 compatibility, I get the following:
+>
+>      GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder for
+> GStreamer 1.0... ✔️
+>      GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStreamer 1.0... ❌
+>      GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
+> GStreamer 1.0... ✔️
+>      GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
+> GStreamer 1.0... ✔️
+>
+> I see H,264, VP8 and VP9, but I would have also expected
+> GStreamer-H.265-V4L2SL-Gst1.0 to return with a check box.
+>
+> When I checked to see if both decoders were being enumerated, I found they were.
+> [gst-main] root@localhost:~/gstreamer/fluster# dmesg |grep -i hantro
+> [   16.044243] hantro_vpu: module is from the staging directory, the
+> quality is unknown, you have been warned.
+> [   16.044243] hantro_vpu: module is from the staging directory, the
+> quality is unknown, you have been warned.
+> [   16.095661] hantro-vpu 38300000.video-codec: registered
+> nxp,imx8mq-vpu-g1-dec as /dev/video0
+> [   16.096782] hantro-vpu 38310000.video-codec: registered
+> nxp,imx8mq-vpu-g2-dec as /dev/video1
+>
+> Did I do something wrong, or did I miss something?
 
-There are 10 mutex and you could bind each pipeline to one mutex and
-always enable it. I think it's not necessary to frequently
-enable/disable mutex.
+Hi Adam,
 
-> +{
-> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> mtk_mutex_ctx,
-> +						 mutex[mutex->id]);
-> +
-> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> +
-> +	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys,
-> +			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
-> +			    MTK_MUTEX_ENABLE, MTK_MUTEX_ENABLE);
-> +}
-> +EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
-> +
->  void mtk_mutex_disable(struct mtk_mutex *mutex)
->  {
->  	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> mtk_mutex_ctx,
-> @@ -575,6 +616,20 @@ void mtk_mutex_disable(struct mtk_mutex *mutex)
->  }
->  EXPORT_SYMBOL_GPL(mtk_mutex_disable);
->  
-> +void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
-> +			       struct mmsys_cmdq_cmd *cmd)
-> +{
-> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> mtk_mutex_ctx,
-> +						 mutex[mutex->id]);
-> +
-> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> +
-> +	cmdq_pkt_write_mask(cmd->pkt, mtx->cmdq_reg.subsys,
-> +			    mtx->addr + DISP_REG_MUTEX_EN(mutex->id),
-> +			    0x0, MTK_MUTEX_ENABLE);
-> +}
-> +EXPORT_SYMBOL_GPL(mtk_mutex_disable_by_cmdq);
-> +
->  void mtk_mutex_acquire(struct mtk_mutex *mutex)
->  {
->  	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> mtk_mutex_ctx,
-> @@ -602,8 +657,8 @@ static int mtk_mutex_probe(struct platform_device
-> *pdev)
->  {
->  	struct device *dev = &pdev->dev;
->  	struct mtk_mutex_ctx *mtx;
-> -	struct resource *regs;
-> -	int i;
-> +	struct resource *regs, addr;
-> +	int i, ret;
->  
->  	mtx = devm_kzalloc(dev, sizeof(*mtx), GFP_KERNEL);
->  	if (!mtx)
-> @@ -623,6 +678,19 @@ static int mtk_mutex_probe(struct
-> platform_device *pdev)
->  		}
->  	}
->  
-> +	if (of_address_to_resource(dev->of_node, 0, &addr) < 0)
-> +		mtx->addr = 0L;
-> +	else
-> +		mtx->addr = addr.start;
-> +
-> +	if (mtx->data->has_gce_client_reg) {
-> +		ret = cmdq_dev_get_client_reg(dev, &mtx->cmdq_reg, 0);
+I guess it could be a misalignment between v4l2 kernel headers
+and GStreamer v4l2 headers.
+I have push a new version of the GST merge request which is aligned with
+HEVC uAPI v4 proposal.
 
-Add gce client reg in binding document [1]
+When you inspect v4l2codecs gst plugin (gst-inspect-1.0 v4l2codecs) do
+you see v4l2slh265dec plugin ?
+I have fluster happy with it:
+./fluster.py list -c
 
-[1] 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml?h=next-20220302
+
+H265
+     ...
+     GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for GStreamer 1.0... ❌
+     GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for GStreamer 1.0... ✔️
+     GStreamer-H.265-VA-Gst1.0: GStreamer H.265 VA decoder for GStreamer 1.0... ❌
+     GStreamer-H.265-VAAPI-Gst1.0: GStreamer H.265 VAAPI decoder for GStreamer 1.0... ❌
+     JCT-VT-H.265: JCT-VT H.265/HEVC reference decoder... ❌
+
+I hope that will help you,
 
 Regards,
-CK
+Benjamin
 
-> +		if (ret) {
-> +			dev_err(dev, "No mediatek,gce-client-reg!\n");
-> +			return ret;
-> +		}
-> +	}
-> +
->  	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->  	mtx->regs = devm_ioremap_resource(dev, regs);
->  	if (IS_ERR(mtx->regs)) {
-> diff --git a/include/linux/soc/mediatek/mtk-mutex.h
-> b/include/linux/soc/mediatek/mtk-mutex.h
-> index b2608f4220ee..05de7ad4a124 100644
-> --- a/include/linux/soc/mediatek/mtk-mutex.h
-> +++ b/include/linux/soc/mediatek/mtk-mutex.h
-> @@ -17,8 +17,14 @@ int mtk_mutex_prepare(struct mtk_mutex *mutex);
->  void mtk_mutex_add_comp(struct mtk_mutex *mutex,
->  			enum mtk_ddp_comp_id id);
->  u32 mtk_mutex_get_mdp_mod(struct mtk_mutex *mutex, enum
-> mtk_mdp_comp_id id);
-> +void mtk_mutex_add_mod_by_cmdq(struct mtk_mutex *mutex, u32 mod,
-> +			       struct mmsys_cmdq_cmd *cmd);
->  void mtk_mutex_enable(struct mtk_mutex *mutex);
-> +void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex,
-> +			      struct mmsys_cmdq_cmd *cmd);
->  void mtk_mutex_disable(struct mtk_mutex *mutex);
-> +void mtk_mutex_disable_by_cmdq(struct mtk_mutex *mutex,
-> +			       struct mmsys_cmdq_cmd *cmd);
->  void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
->  			   enum mtk_ddp_comp_id id);
->  void mtk_mutex_unprepare(struct mtk_mutex *mutex);
-
+>
+> adam
+>
+>> Regards,
+>> Benjamin
+>>
+>>> Benjamin,
+>>>
+>>> I have an imx8mm and imx8mq that I can test. Do you happen to have a
+>>> repo that I can clone to test this?  The imx8m stuff is spread around
+>>> between the media tree and the imx tree since it hasn't been fully
+>>> merged yet.
+>>>
+>>> thanks,
+>>>
+>>> adam
+>>>
+>>>> Benjamin
+>>>>
+>>>> Benjamin Gaignard (11):
+>>>>     media: uapi: HEVC: Add missing fields in HEVC controls
+>>>>     media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>>>>       prefix
+>>>>     media: uapi: HEVC: Add document uAPI structure
+>>>>     media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+>>>>       dynamic array
+>>>>     media: uapi: Move parsed HEVC pixel format out of staging
+>>>>     media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+>>>>     media: uapi: Move the HEVC stateless control type out of staging
+>>>>     media: controls: Log HEVC stateless control in .std_log
+>>>>     media: uapi: Create a dedicated header for Hantro control
+>>>>     media: uapi: HEVC: fix padding in v4l2 control structures
+>>>>     media: uapi: move HEVC stateless controls out of staging
+>>>>
+>>>> Hans Verkuil (3):
+>>>>     videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>>>>     v4l2-ctrls: add support for dynamically allocated arrays.
+>>>>     vivid: add dynamic array test control
+>>>>
+>>>>    .../userspace-api/media/drivers/hantro.rst    |   5 -
+>>>>    .../media/v4l/ext-ctrls-codec-stateless.rst   | 831 ++++++++++++++++++
+>>>>    .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
+>>>>    .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>>>>    .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>>>>    .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>>>>    .../media/videodev2.h.rst.exceptions          |   5 +
+>>>>    .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>>>>    drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>>>>    drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>>>>    drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>>>>    .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>>>>    include/media/hevc-ctrls.h                    | 250 ------
+>>>>    include/media/v4l2-ctrls.h                    |  48 +-
+>>>>    include/uapi/linux/hantro-media.h             |  19 +
+>>>>    include/uapi/linux/v4l2-controls.h            | 436 +++++++++
+>>>>    include/uapi/linux/videodev2.h                |  13 +
+>>>>    22 files changed, 1686 insertions(+), 1169 deletions(-)
+>>>>    delete mode 100644 include/media/hevc-ctrls.h
+>>>>    create mode 100644 include/uapi/linux/hantro-media.h
+>>>>
+>>>> --
+>>>> 2.32.0
+>>>>
