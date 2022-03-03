@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B37004CBF95
-	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 15:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A0114CBF96
+	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 15:10:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233894AbiCCOLW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Mar 2022 09:11:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51482 "EHLO
+        id S233901AbiCCOLX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Mar 2022 09:11:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233891AbiCCOLV (ORCPT
+        with ESMTP id S233893AbiCCOLV (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 09:11:21 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 442D818CC0F
-        for <linux-media@vger.kernel.org>; Thu,  3 Mar 2022 06:10:35 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id d3so8066886wrf.1
-        for <linux-media@vger.kernel.org>; Thu, 03 Mar 2022 06:10:35 -0800 (PST)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E77E18CC13
+        for <linux-media@vger.kernel.org>; Thu,  3 Mar 2022 06:10:36 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id o18-20020a05600c4fd200b003826701f847so4810111wmq.4
+        for <linux-media@vger.kernel.org>; Thu, 03 Mar 2022 06:10:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=K+cp32jJsmQJwPEJmEIbmAXA5SBI6YkzaNKLwkJM+Wc=;
-        b=R/B+urdWwiHFbbBjSEMT6VAXTGyY/gpXAIQXiRTbXjKBtKeQR2Lt2j83+EBeO+C8C5
-         wfYUyX3cmy6V9pBd95oCqYrRcrUGO1tbhXmvwW2j0FNAidb4vA/Xf67Mw8H/1uEMRav+
-         eTJvytNFOEhE+d/9byUBHGfxTzQhLHxU13lM/g4o8DHpyLGob6YahSMIgsjEy+bV67IP
-         EJQTRSgG4EiugJJOpy4xWCLEFnaAT8/8cQ6D4thq7B4Ujo6+5BhEvPjAS/+0K78VgkzK
-         PdN+GTYG3ZCM/+RzLcifKD+78N4G/8j7bWT7+jUtoYwArVFAO0pVzLmEz0GvgoTOBiVJ
-         9aQQ==
+        bh=IXj3pYDWu9aW3dCcX1kJwS4hr2/kflCLfrh6DJzA/l4=;
+        b=nu6+lOJhrmA2qiMyiqNJjT7+4BBDSCYtzhrpMI4IlqBGTcHq88WvymH8Y0kJsE5s2i
+         6RISL5VEdSXRMEzOkP0EJCFX98ywXfMo+7pAqke8JnRivuSvtFlyWqTKOL3ZndxtqCSc
+         h3A3JMBrOJN+rgMgtrpcxbOBWpRoF9QnEr3X5tH8NJsqgv5Q7B9ppsxIJpDmmwX3yUK3
+         cOcsTZhaSw1QP28b5kmzYCKND7CE5lOpT159hx1pRH1Q7uWXZ0lQhRGPmbZMK1hPHtGI
+         7z5/UyAmIPjl1qkPlCoa3A47wP0Q19abr3Y2UAe+j23PgPwCUR1ApKSthUwNX3E0t/ix
+         kHhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=K+cp32jJsmQJwPEJmEIbmAXA5SBI6YkzaNKLwkJM+Wc=;
-        b=UBBa+3YotNyAxE/3i/9RUWjs+2SewPNPUp7J99KHseSfvvtZuzzf3M6pTfo7khvYnx
-         ArjCjtZuvoX/Kl8jNHHOmHN0z54bpePlP8OnRzKBW26JzRtBHZwnC53z9piVnPpryeGi
-         0axGl8V6bhQ9qFTHkI2aTDjTeI8hNLZ9NE+k5mBG6y/+crazqFK/dU6Hvr8Ln21r0OeV
-         +lPhKURKBjSzcNfEdEeYrozjJaU2DBZnuMlnu4Kiq911Sjtbn+VCJ1GruoEC3N3nD/Cs
-         Zmgzh5T0WgsmKoH9tC92YAPmsZ6DzKAHVrhn5bR0uX7BnqsvmOez2Gxza6Fd2Fkb800w
-         cwsg==
-X-Gm-Message-State: AOAM532nRgrs7JWuCXPRqGXSDAot6ZXcrkJBlkVRG+e5aB9QOCIZEFjq
-        kUy/fEEppaz+IATs/HDvTFs3feqKq2swNEMt
-X-Google-Smtp-Source: ABdhPJzwEVXy8iEhc4B4gdfl7+gYPtpOtG3reBk1bJ4P0mrfn6hbDMljQ4yWeWoPxGtwzVfnf9rAPQ==
-X-Received: by 2002:adf:f849:0:b0:1ef:5d80:c68a with SMTP id d9-20020adff849000000b001ef5d80c68amr22661460wrq.280.1646316633658;
-        Thu, 03 Mar 2022 06:10:33 -0800 (PST)
+        bh=IXj3pYDWu9aW3dCcX1kJwS4hr2/kflCLfrh6DJzA/l4=;
+        b=bIuhhOtFsctEQpPG3aolqNvp/WJbM7/KNrzuo1pBClKIauR3N4Ljq+5UODUkKKlzMD
+         /lU+X5IYwaXEX3aXlW1RxezhlK81U6zTHDSXpS2WaCSk61KG7Adm1i9y6gMclhwIba+Q
+         dUHULMinhEi41qKbCz2Ts0HNXIMW0yMEX1dVfWAlTn1M3hsidzg3t6kGP7pmSsGz4roZ
+         qOaB52GvtsHjsC9N0Cl9lkyeYchmNCYzuZcnXm6Nn3z38xJ1AGP0uOjVUksEEbnJ3UDQ
+         WPURnO2iwrwg8SMxL+fU3nYADtDzKjaUddIc2kaeV+zWTHzF+il12U+jm7rkv8XPegSC
+         LxAg==
+X-Gm-Message-State: AOAM531stYLYW76ELoy2HkqEaqLXxwlz4no+e3jnhtmWOM40Tk5z+B4a
+        2wNjogxdOA62gYoQirN9pJklVfmbE2By/Wp8
+X-Google-Smtp-Source: ABdhPJxKFaEFIewLvByzv+/n9OS0iPftnkrtmsyAun0HAFhY0k1XRGwKABz+2GBCMEvfnjqqeYZFHw==
+X-Received: by 2002:a05:600c:2c49:b0:384:7202:358e with SMTP id r9-20020a05600c2c4900b003847202358emr3960511wmg.108.1646316634647;
+        Thu, 03 Mar 2022 06:10:34 -0800 (PST)
 Received: from localhost.localdomain (hst-221-13.medicom.bg. [84.238.221.13])
-        by smtp.gmail.com with ESMTPSA id ba2-20020a0560001c0200b001f0653f1097sm194312wrb.69.2022.03.03.06.10.32
+        by smtp.gmail.com with ESMTPSA id ba2-20020a0560001c0200b001f0653f1097sm194312wrb.69.2022.03.03.06.10.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 06:10:33 -0800 (PST)
+        Thu, 03 Mar 2022 06:10:34 -0800 (PST)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [RFC/WIP v2 3/6] docs: dev-encoder: Add additional steps for image encoding
-Date:   Thu,  3 Mar 2022 16:10:07 +0200
-Message-Id: <20220303141010.573408-4-stanimir.varbanov@linaro.org>
+Subject: [RFC/WIP v2 4/6] venus: helpers: Add a new helper for buffer processing
+Date:   Thu,  3 Mar 2022 16:10:08 +0200
+Message-Id: <20220303141010.573408-5-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220303141010.573408-1-stanimir.varbanov@linaro.org>
 References: <20220303141010.573408-1-stanimir.varbanov@linaro.org>
@@ -70,31 +70,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add two more steps to encoder Initialization phase related
-to image encoding.
+The new helper will be used from encoder and decoder drivers
+to enqueue buffers for processing by firmware.
 
 Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 ---
- Documentation/userspace-api/media/v4l/dev-encoder.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/media/platform/qcom/venus/helpers.c | 20 ++++++++++++++++++++
+ drivers/media/platform/qcom/venus/helpers.h |  1 +
+ 2 files changed, 21 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-encoder.rst b/Documentation/userspace-api/media/v4l/dev-encoder.rst
-index aa338b9624b0..ec799b4b9a61 100644
---- a/Documentation/userspace-api/media/v4l/dev-encoder.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-encoder.rst
-@@ -229,6 +229,12 @@ Initialization
-      default values, based on the new resolution, as described in the next
-      step.
+diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+index 0bca95d01650..34611c4ced49 100644
+--- a/drivers/media/platform/qcom/venus/helpers.c
++++ b/drivers/media/platform/qcom/venus/helpers.c
+@@ -1505,6 +1505,26 @@ void venus_helper_vb2_buf_queue(struct vb2_buffer *vb)
+ }
+ EXPORT_SYMBOL_GPL(venus_helper_vb2_buf_queue);
  
-+3.1 Call VIDIOC_S_EXT_CTRLS() to set all controls (Grid width and height and
-+   number of rows and columns) required to update CAPTURE and OUTPUT formats.
++void venus_helper_process_buf(struct vb2_buffer *vb)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
++	int ret;
 +
-+3.2 Call VIDIOC_G_FMT() to get updated CAPTURE and OUTPUT formats as consequence
-+   of setted grid encoding dimentions.
++	cache_payload(inst, vb);
 +
- 4. Set the raw frame interval on the ``OUTPUT`` queue via
-    :c:func:`VIDIOC_S_PARM`. This also sets the coded frame interval on the
-    ``CAPTURE`` queue to the same value.
++	if (vb2_start_streaming_called(vb->vb2_queue)) {
++		ret = is_buf_refed(inst, vbuf);
++		if (ret)
++			return;
++
++		ret = session_process_buf(inst, vbuf);
++		if (ret)
++			return_buf_error(inst, vbuf);
++	}
++}
++EXPORT_SYMBOL_GPL(venus_helper_process_buf);
++
+ void venus_helper_buffers_done(struct venus_inst *inst, unsigned int type,
+ 			       enum vb2_buffer_state state)
+ {
+diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
+index 32619c3e8c97..94b4a970a2e0 100644
+--- a/drivers/media/platform/qcom/venus/helpers.h
++++ b/drivers/media/platform/qcom/venus/helpers.h
+@@ -22,6 +22,7 @@ void venus_helper_buffers_done(struct venus_inst *inst, unsigned int type,
+ int venus_helper_vb2_buf_init(struct vb2_buffer *vb);
+ int venus_helper_vb2_buf_prepare(struct vb2_buffer *vb);
+ void venus_helper_vb2_buf_queue(struct vb2_buffer *vb);
++void venus_helper_process_buf(struct vb2_buffer *vb);
+ void venus_helper_vb2_stop_streaming(struct vb2_queue *q);
+ int venus_helper_vb2_start_streaming(struct venus_inst *inst);
+ void venus_helper_vb2_queue_error(struct venus_inst *inst);
 -- 
 2.25.1
 
