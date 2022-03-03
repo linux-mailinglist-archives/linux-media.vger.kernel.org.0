@@ -2,146 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 862DE4CBD92
-	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 13:18:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E2094CBDD8
+	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 13:33:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233180AbiCCMTY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Mar 2022 07:19:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37538 "EHLO
+        id S233325AbiCCMeX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Mar 2022 07:34:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233171AbiCCMTV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 07:19:21 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1E7DF4B9
-        for <linux-media@vger.kernel.org>; Thu,  3 Mar 2022 04:18:30 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id u10so5910755wra.9
-        for <linux-media@vger.kernel.org>; Thu, 03 Mar 2022 04:18:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=W95klwG+EWnuJlXqfneyIPG4bMJIpYFCGfgCPBAo/s4=;
-        b=BVoUYAMy6igzOx7YCxgmD2obGVeA4FBbFy39UaDXpcyotfQj1WSs4cD2dBmZ3jehpH
-         Xv0H27JfD7LtNc3KTOYt5JsPQaESLbVZdrRIjVdCS/EqEN+LtHV3OI92ZhbhaxnOPsMB
-         zwIbvmQMtvcWtqQz/AOpNYfJzkMTFsv4hojr0PuJEFUbZHgxYNi3BKpDV1mgkUzm+fR0
-         4lMaaRE5yh5PGutSdpreHiYAqhMDl6KUHTvi2q6aV5S93rhbYz2wGWOzwPq3hB3YVbYG
-         uAhL64o8wkOM/gpLUr2Hb7oB/DraMZLkoBj2jGHmKGFPjyxdoWyrLbd/6WyXGtmMO48w
-         vp2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=W95klwG+EWnuJlXqfneyIPG4bMJIpYFCGfgCPBAo/s4=;
-        b=407BjS8+/RxAcf6RHJXuLB3vhsY7WKOk5nFdiw1BnKkHCegu2kDphh/GuVyG8oLuRQ
-         zNg+Z8unvS6um1oEsENhpte8u8wSSOGpEgQZaDP73DJBpZpuT608bx3J26xmeztWWXGn
-         2kyCnmX4g4BhoU4HUxNbWWjfS9fyEn/UV4mKWmK+KwTUbX+rCcn0Boit716pHw2mRGys
-         3PqVyamh6eelJ5r9J4vxP/IlbwHbcTl7mZ3McbLIPIhKcN7kPdKjA6RNwFFIjFXpIitj
-         3Wp9XRgbM7zoZJBrKzwgv6GL/KyM6L4+3CcZMM5O1XsTgCktwdvV4aTQ4aGF/mwGVChb
-         tK3Q==
-X-Gm-Message-State: AOAM532HhXW+gzdbHSNkq/umqt1K5rGprcg7hiaQDpDA0a7TtGi8iCF7
-        8WUUy1mkvA73OA3ifGKyMbtCEw==
-X-Google-Smtp-Source: ABdhPJwgYeUN7RS9hQRShRziePljKQd/1cMutSSEkk4MeQ2QRRtTjZSLz5QSndDd2pML49XlqkHAqw==
-X-Received: by 2002:a5d:6d0d:0:b0:1e8:7b6a:38e7 with SMTP id e13-20020a5d6d0d000000b001e87b6a38e7mr26568054wrq.625.1646309908722;
-        Thu, 03 Mar 2022 04:18:28 -0800 (PST)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id p6-20020a5d4586000000b001f0436cb325sm1774600wrq.52.2022.03.03.04.18.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 04:18:28 -0800 (PST)
-Date:   Thu, 3 Mar 2022 12:18:24 +0000
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Xiaomeng Tong <xiam0nd.tong@gmail.com>
-Cc:     david.laight@aculab.com, alsa-devel@alsa-project.org,
-        kvm@vger.kernel.org, gustavo@embeddedor.com,
-        linux-iio@vger.kernel.org, kgdb-bugreport@lists.sourceforge.net,
-        linux@rasmusvillemoes.dk, dri-devel@lists.freedesktop.org,
-        c.giuffrida@vu.nl, amd-gfx@lists.freedesktop.org,
-        torvalds@linux-foundation.org, samba-technical@lists.samba.org,
-        linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
-        linux-arch@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-aspeed@lists.ozlabs.org, linux-scsi@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev,
-        h.j.bos@vu.nl, jgg@ziepe.ca, intel-wired-lan@lists.osuosl.org,
-        nouveau@lists.freedesktop.org,
-        bcm-kernel-feedback-list@broadcom.com, dan.carpenter@oracle.com,
-        linux-media@vger.kernel.org, keescook@chromium.org, arnd@arndb.de,
-        linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        bjohannesmeyer@gmail.com, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, christophe.jaillet@wanadoo.fr,
-        jakobkoschel@gmail.com, v9fs-developer@lists.sourceforge.net,
-        linux-tegra@vger.kernel.org, tglx@linutronix.de,
-        andriy.shevchenko@linux.intel.com,
-        linux-arm-kernel@lists.infradead.org, linux-sgx@vger.kernel.org,
-        nathan@kernel.org, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        tipc-discussion@lists.sourceforge.net,
-        linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, akpm@linux-foundation.org,
-        linuxppc-dev@lists.ozlabs.org, christian.koenig@amd.com,
-        rppt@kernel.org
-Subject: Re: [Kgdb-bugreport] [PATCH 2/6] treewide: remove using list
- iterator after loop body as a ptr
-Message-ID: <20220303121824.qdyrognluik74iph@maple.lan>
-References: <39404befad5b44b385698ff65465abe5@AcuMS.aculab.com>
- <20220303072657.11124-1-xiam0nd.tong@gmail.com>
+        with ESMTP id S231867AbiCCMeW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 07:34:22 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 022B0179259
+        for <linux-media@vger.kernel.org>; Thu,  3 Mar 2022 04:33:36 -0800 (PST)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id BD4DA1C0003;
+        Thu,  3 Mar 2022 12:33:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1646310814;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=NfCyLvH75LI978wRkQUrVxF2aaBtfNdARPDjso3yvQY=;
+        b=Nv9FCfbg/9QgO4MhrtbO+9kKeDNpABU7HWZY1ofnm9OnHZQNEZScrFoQ35s6qoZPhz2OXk
+        kcB5vnr5WWX8FgMVEORpdcfzjlebVQU3Lp6sSJ9K1Xxjwmy5J8QjPfNBMVMF/8/LIYAtne
+        OQQmUgI5CqO+O7I5yXfCvt7OAuz2uqBVnhe1VxMCALsfnDRTTBaHmCp3h/jsPTJ8mw1eVG
+        JStW4NCjiAMSK/C2l0/cGSjb49x3Y1wbZbT8qWke2gGjPce1KJVwuYGN5gjgItOYBWaYjV
+        8hYq8x8S/ywbhdcP4XExSmOytbH4RjyoQIY6V1Wg+H4eYrtbSlaPAfbF2VDmNA==
+Date:   Thu, 3 Mar 2022 13:33:33 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        jeanmichel.hautbois@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com
+Subject: Re: [PATCH v2] media: i2c: Fix pixel array positions in ov8865
+Message-ID: <YiC1nYxqF5albMDm@aptenodytes>
+References: <20220302222448.1373765-1-djrscally@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="EBrRJxaT5WMqgZzi"
 Content-Disposition: inline
-In-Reply-To: <20220303072657.11124-1-xiam0nd.tong@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220302222448.1373765-1-djrscally@gmail.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 03, 2022 at 03:26:57PM +0800, Xiaomeng Tong wrote:
-> On Thu, 3 Mar 2022 04:58:23 +0000, David Laight wrote:
-> > on 3 Mar 2022 10:27:29 +0800, Xiaomeng Tong wrote:
-> > > The problem is the mis-use of iterator outside the loop on exit, and
-> > > the iterator will be the HEAD's container_of pointer which pointers
-> > > to a type-confused struct. Sidenote: The *mis-use* here refers to
-> > > mistakely access to other members of the struct, instead of the
-> > > list_head member which acutally is the valid HEAD.
-> >
-> > The problem is that the HEAD's container_of pointer should never
-> > be calculated at all.
-> > This is what is fundamentally broken about the current definition.
-> 
-> Yes, the rule is "the HEAD's container_of pointer should never be
-> calculated at all outside the loop", but how do you make sure everyone
-> follows this rule?
 
-Your formulation of the rule is correct: never run container_of() on HEAD
-pointer.
+--EBrRJxaT5WMqgZzi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-However the rule that is introduced by list_for_each_entry_inside() is
-*not* this rule. The rule it introduces is: never access the iterator
-variable outside the loop.
+Hi Daniel,
 
-Making the iterator NULL on loop exit does follow the rule you proposed
-but using a different technique: do not allow HEAD to be stored in the
-iterator variable after loop exit. This also makes it impossible to run
-container_of() on the HEAD pointer.
+On Wed 02 Mar 22, 22:24, Daniel Scally wrote:
+> The ov8865's datasheet gives the pixel array as 3296x2528, and the
+> active portion as the centre 3264x2448. This makes for a top offset
+> of 40 and a left offset of 16, not 32 and 80.
 
+Thanks for this new version!
 
-> Everyone makes mistakes, but we can eliminate them all from the beginning
-> with the help of compiler which can catch such use-after-loop things.
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Indeed but if we introduce new interfaces then we don't have to worry
-about existing usages and silent regressions. Code will have been
-written knowing the loop can exit with the iterator set to NULL.
+Cheers,
 
-Sure it is still possible for programmers to make mistakes and
-dereference the NULL pointer but C programmers are well training w.r.t.
-NULL pointer checking so such mistakes are much less likely than with
-the current list_for_each_entry() macro. This risk must be offset
-against the way a NULLify approach can lead to more elegant code when we
-are doing a list search.
+Paul
+=20
+> Fixes: acd25e220921 ("media: i2c: Add .get_selection() support to ov8865")
+>=20
+> Reported-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+> ---
+> Changes in v2:
+>=20
+>     - Swapped the ordering of the lines so the left offset is first (Paul)
+>=20
+>  drivers/media/i2c/ov8865.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+> index cfc726e0ed1e..b8f4f0d3e33d 100644
+> --- a/drivers/media/i2c/ov8865.c
+> +++ b/drivers/media/i2c/ov8865.c
+> @@ -457,8 +457,8 @@
+> =20
+>  #define OV8865_NATIVE_WIDTH			3296
+>  #define OV8865_NATIVE_HEIGHT			2528
+> -#define OV8865_ACTIVE_START_TOP			32
+> -#define OV8865_ACTIVE_START_LEFT		80
+> +#define OV8865_ACTIVE_START_LEFT		16
+> +#define OV8865_ACTIVE_START_TOP			40
+>  #define OV8865_ACTIVE_WIDTH			3264
+>  #define OV8865_ACTIVE_HEIGHT			2448
+> =20
+> --=20
+> 2.25.1
+>=20
 
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-Daniel.
+--EBrRJxaT5WMqgZzi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIgtZ0ACgkQ3cLmz3+f
+v9HjGAgAhUJtBb2PZqojV3GTHC5ZyYwy3deipA7GWKwn1+9Tiinky9ianxBCsiGe
+jA8v+5YR0+On1+1XQ/JJvpLY5rcg4F9aMlX9sA977kjg54lvGeSJW3n2U1R87C0P
+NGWlhuYbNpR7vQCJOi0tOLp0gFZiP1zbCTxg0xbFhI9dmeEcmX837eJYfuCv+oU9
+2mTQ+JEHkFE2wJhPLOA5cDeqE42O8Hwh+3jeEvN8cOODWA/EBvKLgg7ciR/QkoXi
+wj4rt7pbGYcri9R7WCC77+NmwAFdNO22QrbRcT1HHeJ95CmFw1I8lXBfe8dHMA48
+5KcTxK1pF6/A9ycxNoG0pvcbkHjA6A==
+=hy6w
+-----END PGP SIGNATURE-----
+
+--EBrRJxaT5WMqgZzi--
