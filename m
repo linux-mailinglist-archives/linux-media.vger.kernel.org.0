@@ -2,219 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 195A94CB442
-	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 02:24:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E69B24CB4D9
+	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 03:28:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231311AbiCCBYs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Mar 2022 20:24:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44250 "EHLO
+        id S231794AbiCCC2l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Mar 2022 21:28:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231284AbiCCBYs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 20:24:48 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF230E78;
-        Wed,  2 Mar 2022 17:24:03 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id f8so4605372edf.10;
-        Wed, 02 Mar 2022 17:24:03 -0800 (PST)
+        with ESMTP id S231743AbiCCC2i (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Mar 2022 21:28:38 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B340D10FC6;
+        Wed,  2 Mar 2022 18:27:53 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id p3-20020a17090a680300b001bbfb9d760eso6464723pjj.2;
+        Wed, 02 Mar 2022 18:27:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3467nWZC+KAJVLicOM15omsr+yL6Bg92k71Yp4t13dQ=;
-        b=TUxU5rY59G2o3LjWEZfFUOJqqwXW4FQeJ+4Nb65Cx0MI2116zcxYevNsk0AALHPnpB
-         uogSbFmePS0klnIll9vZ/DXp+psjAzaJxHZ4yjeuQsyfEop7OInuoz0/rCJvI4aYlwQK
-         xbiu9T4eQXSTt8KKDFY1hdIpy5wDNRsX7//9Abat+2qWluBT6ala2y61KhnEbGtSJIca
-         Ogh1JaH+dp50QX6oyP35/947/KSZWvb1ybqxmOBgemdXCz2F5yWh60iIWDMhUt1oR6AQ
-         UlYFLlPdcMVL1X/Vpu058fAY9BXwZOoIwneKmcpc5PpSAiw8brGOxhEUP/kr+2L0z+MM
-         0iJw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=C6016/38QKZUQAyk5HMPjenTvm42Pe8sPBzTcqL5vmY=;
+        b=qBGtve+IuFrAkJa+gsN1WQjHRs2fvQkSK1D44BenBKAqsyswWIPF49CjeAw6Lc/Xiz
+         7VY9uX10GWOeYOq3Roffx9lK59MGCnSnWmLkHD6Zz3XGADMqQbIXFAspvzlfyt7tl87F
+         C44YITS/y0gKUKqqxM42VKL4jH/Xx4KasojD++jZOWXtcwkx1m//DlSoFwhQEbp4i/NS
+         eGEaCL2abI9d2Qo/vgVE47lljuFHl9RIsYb9haWI9DYl1+oIMHXMK3O9uyeK26H4D1AX
+         Jy4saNgfSyFkb5FP8pbKE6ds3BSqIpGBCoZu+qijzq/vfSl1dGYXTnehjmH9/ySByi+z
+         BIOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3467nWZC+KAJVLicOM15omsr+yL6Bg92k71Yp4t13dQ=;
-        b=oLDKSFDKsSSzOfnIK/B7FEa24vzaCiH3Pt7l3cEU8JVj9VLw8znGWlTEvxZUhFbgU6
-         uTODM7KF5SzqGvIrznW84ChGmISPNgw0I9Gf9t94thlRpCwu1o2TAoRoscqK0COUqF6B
-         gskfYZcs7dSLyI/XbRVqc7r6QvPnO+RRxXVK8CpYT9VsJ+P4owFrKzFeZr6H8xV8lCGR
-         ADcBQ9JDMzGa8Y3/nAOGCOx4iBkK+vaStx6sxAvjbM7icJF+MaCg8fXkFq2PhNeva1zw
-         N0kjb1Ho4hXVSZjgOhg9TKsZ9EsMZ6A9qNpKSrh5GK91OlCTFO+6tzm/MN+RQIfuFVOT
-         Fmow==
-X-Gm-Message-State: AOAM531ht4Gw73Km/Av4od5dAkfsKrv5iCQVRfDqO7hMQHUG2NmmC1lg
-        OaP7OvmR8xFZdxJ84PSFqR6aaRUqB0INH8gdfUg=
-X-Google-Smtp-Source: ABdhPJwvB1dU87k2TUEoV71MreDjl9INYbX233X4HisAj4CxIAGd6ZOicsbmF/IV18XgbjYDUwwD7ynC/O3RrXgzzys=
-X-Received: by 2002:aa7:cb18:0:b0:413:3a7a:b5d6 with SMTP id
- s24-20020aa7cb18000000b004133a7ab5d6mr31792705edt.254.1646270642228; Wed, 02
- Mar 2022 17:24:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
- <CAHCN7x+AUy4JsqfdyZFqg4ScR1OgoLvqF91za0AZ278NSBJj4A@mail.gmail.com> <b832271d-cecd-a373-48ff-ba5ce736e47d@collabora.com>
-In-Reply-To: <b832271d-cecd-a373-48ff-ba5ce736e47d@collabora.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Wed, 2 Mar 2022 19:23:50 -0600
-Message-ID: <CAHCN7xJ3K2bLEc8dcTM+x-E0brDW-t4yrUdkUe0jCfuzH8v9pA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/14] Move HEVC stateless controls out of staging
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com,
-        Chen-Yu Tsai <wens@csie.org>,
-        "jernej.skrabec" <jernej.skrabec@gmail.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        linux-sunxi@lists.linux.dev, kernel <kernel@collabora.com>,
-        knaerzche@gmail.com, jc@kynesim.co.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=C6016/38QKZUQAyk5HMPjenTvm42Pe8sPBzTcqL5vmY=;
+        b=CzJtZPcuhcWcftaDgdBMfTH8+c9EoS3XmQ505LWS57kdN7/Y7hxiGiFhGCtkVhWR4n
+         9QiYMg9DgjK+2U+OgCUW8Ihc/Zsz1tArsI+VPvsbHeizYXBDN8PT/Evowom4DSVx5ZKW
+         SbKPrObrC5eMgExacIP+ZPEND4qx5Us+NJQ0WRDXPRpYk5m/o2sqMuwebEko7dN7/HEk
+         eAq5ky/UWz0+SWqk5EOcM1gkci5Yts4Pn4Ct+p/tQQvAT2EONElmTfre57WvwdfOJKPi
+         0JSo3Tr1FuDqKJWi6MM1A+v0Yqa4E2WoDAES5x9cgi/rm9pPbPuEvHVBoD12sn5e/d+j
+         6agg==
+X-Gm-Message-State: AOAM531YwoKciGKl5/xB3iguH9sB6KyY7W/Y8igN4n9GDfpUTuo8ZSvU
+        LuwF03lr62QEMLGgZKYD3hLDUsWYyg5BSQ==
+X-Google-Smtp-Source: ABdhPJwdGKGtPoJbq9KB0b78P8kOQOqlHazHAUCZQHvA6TzNHcldJErwW75BUHOqmaVxrll88UvLqQ==
+X-Received: by 2002:a17:902:ec90:b0:151:a632:7ebb with SMTP id x16-20020a170902ec9000b00151a6327ebbmr1936164plg.154.1646274473191;
+        Wed, 02 Mar 2022 18:27:53 -0800 (PST)
+Received: from ubuntu.huawei.com ([119.3.119.19])
+        by smtp.googlemail.com with ESMTPSA id d15-20020a17090ab30f00b001b8e65326b3sm359822pjr.9.2022.03.02.18.27.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 18:27:52 -0800 (PST)
+From:   Xiaomeng Tong <xiam0nd.tong@gmail.com>
+To:     david.laight@aculab.com
+Cc:     akpm@linux-foundation.org, alsa-devel@alsa-project.org,
+        amd-gfx@lists.freedesktop.org, andriy.shevchenko@linux.intel.com,
+        arnd@arndb.de, bcm-kernel-feedback-list@broadcom.com,
+        bjohannesmeyer@gmail.com, c.giuffrida@vu.nl,
+        christian.koenig@amd.com, christophe.jaillet@wanadoo.fr,
+        dan.carpenter@oracle.com, dmaengine@vger.kernel.org,
+        drbd-dev@lists.linbit.com, dri-devel@lists.freedesktop.org,
+        gustavo@embeddedor.com, h.j.bos@vu.nl,
+        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
+        jakobkoschel@gmail.com, jgg@ziepe.ca, keescook@chromium.org,
+        kgdb-bugreport@lists.sourceforge.net, kvm@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-block@vger.kernel.org,
+        linux-cifs@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fsdevel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-sgx@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net, linux@rasmusvillemoes.dk,
+        linuxppc-dev@lists.ozlabs.org, nathan@kernel.org,
+        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+        rppt@kernel.org, samba-technical@lists.samba.org,
+        tglx@linutronix.de, tipc-discussion@lists.sourceforge.net,
+        torvalds@linux-foundation.org,
+        v9fs-developer@lists.sourceforge.net, xiam0nd.tong@gmail.com
+Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body as a ptr
+Date:   Thu,  3 Mar 2022 10:27:29 +0800
+Message-Id: <20220303022729.9321-1-xiam0nd.tong@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
+References: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 28, 2022 at 4:13 AM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
->
-> Le 26/02/2022 =C3=A0 23:25, Adam Ford a =C3=A9crit :
-> > On Fri, Feb 25, 2022 at 4:41 PM Benjamin Gaignard
-> > <benjamin.gaignard@collabora.com> wrote:
-> >> This series aims to make HEVC uapi stable and usable for hardware
-> >> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
-> >> and 2 out of the tree drivers (rkvdec and RPI).
-> >>
-> >> After the remarks done on version 2, I have completely reworked to pat=
-ches
-> >> split so changelogs are meaningless. I have also drop "RFC" from the
-> >> titles.
-> >>
-> >> In this v3 I do all the changes (new controls, documentation, etc..)
-> >> in the staging directory before moving the HEVC uAPI to stable
-> >> steps by steps (unlike the big one patch in v2).
-> >>
-> >> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
->
-> I have push a branch here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/HEV=
-C_UAPI_V4
->
-> it is the incoming version 4 of this series + patches to enable G2 on my =
-IMX8MQ
+On Wed, 2 Mar 2022 14:04:06 +0000, David Laight
+<David.Laight@ACULAB.COM> wrote:
+> I think that it would be better to make any alternate loop macro
+> just set the variable to NULL on the loop exit.
+> That is easier to code for and the compiler might be persuaded to
+> not redo the test.
 
-Benjamin,
+No, that would lead to a NULL dereference.
 
-I checked this repo out, and built it along with pulling the latest
-versions of G-streamer and fluster.
-When I check for v4l2 compatibility, I get the following:
+The problem is the mis-use of iterator outside the loop on exit, and
+the iterator will be the HEAD's container_of pointer which pointers
+to a type-confused struct. Sidenote: The *mis-use* here refers to
+mistakely access to other members of the struct, instead of the
+list_head member which acutally is the valid HEAD.
 
-    GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
-GStreamer 1.0... =E2=9D=8C
-    GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder for
-GStreamer 1.0... =E2=9C=94=EF=B8=8F
-    GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
-GStreamer 1.0... =E2=9D=8C
-    GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
-GStreamer 1.0... =E2=9D=8C
-    GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
-GStreamer 1.0... =E2=9D=8C
-    GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStreamer 1.0=
-... =E2=9D=8C
-    GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
-GStreamer 1.0... =E2=9C=94=EF=B8=8F
-    GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
-GStreamer 1.0... =E2=9C=94=EF=B8=8F
+IOW, you would dereference a (NULL + offset_of_member) address here.
 
-I see H,264, VP8 and VP9, but I would have also expected
-GStreamer-H.265-V4L2SL-Gst1.0 to return with a check box.
+Please remind me if i missed something, thanks.
 
-When I checked to see if both decoders were being enumerated, I found they =
-were.
-[gst-main] root@localhost:~/gstreamer/fluster# dmesg |grep -i hantro
-[   16.044243] hantro_vpu: module is from the staging directory, the
-quality is unknown, you have been warned.
-[   16.044243] hantro_vpu: module is from the staging directory, the
-quality is unknown, you have been warned.
-[   16.095661] hantro-vpu 38300000.video-codec: registered
-nxp,imx8mq-vpu-g1-dec as /dev/video0
-[   16.096782] hantro-vpu 38310000.video-codec: registered
-nxp,imx8mq-vpu-g2-dec as /dev/video1
+> OTOH there may be alternative definitions that can be used to get
+> the compiler (or other compiler-like tools) to detect broken code.
+> Even if the definition can't possibly generate a working kerrnel.
 
-Did I do something wrong, or did I miss something?
+The "list_for_each_entry_inside(pos, type, head, member)" way makes
+the iterator invisiable outside the loop, and would be catched by
+compiler if use-after-loop things happened.
 
-adam
+Can you share your "alternative definitions" details? thanks!
 
->
-> Regards,
-> Benjamin
->
-> > Benjamin,
-> >
-> > I have an imx8mm and imx8mq that I can test. Do you happen to have a
-> > repo that I can clone to test this?  The imx8m stuff is spread around
-> > between the media tree and the imx tree since it hasn't been fully
-> > merged yet.
-> >
-> > thanks,
-> >
-> > adam
-> >
-> >> Benjamin
-> >>
-> >> Benjamin Gaignard (11):
-> >>    media: uapi: HEVC: Add missing fields in HEVC controls
-> >>    media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
-> >>      prefix
-> >>    media: uapi: HEVC: Add document uAPI structure
-> >>    media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
-> >>      dynamic array
-> >>    media: uapi: Move parsed HEVC pixel format out of staging
-> >>    media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
-> >>    media: uapi: Move the HEVC stateless control type out of staging
-> >>    media: controls: Log HEVC stateless control in .std_log
-> >>    media: uapi: Create a dedicated header for Hantro control
-> >>    media: uapi: HEVC: fix padding in v4l2 control structures
-> >>    media: uapi: move HEVC stateless controls out of staging
-> >>
-> >> Hans Verkuil (3):
-> >>    videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
-> >>    v4l2-ctrls: add support for dynamically allocated arrays.
-> >>    vivid: add dynamic array test control
-> >>
-> >>   .../userspace-api/media/drivers/hantro.rst    |   5 -
-> >>   .../media/v4l/ext-ctrls-codec-stateless.rst   | 831 ++++++++++++++++=
-++
-> >>   .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
-> >>   .../media/v4l/pixfmt-compressed.rst           |   7 +-
-> >>   .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
-> >>   .../media/v4l/vidioc-queryctrl.rst            |   8 +
-> >>   .../media/videodev2.h.rst.exceptions          |   5 +
-> >>   .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
-> >>   drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
-> >>   drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
-> >>   drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +-
-> >>   drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
-> >>   drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
-> >>   drivers/staging/media/hantro/hantro_drv.c     |  27 +-
-> >>   drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
-> >>   drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
-> >>   .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
-> >>   include/media/hevc-ctrls.h                    | 250 ------
-> >>   include/media/v4l2-ctrls.h                    |  48 +-
-> >>   include/uapi/linux/hantro-media.h             |  19 +
-> >>   include/uapi/linux/v4l2-controls.h            | 436 +++++++++
-> >>   include/uapi/linux/videodev2.h                |  13 +
-> >>   22 files changed, 1686 insertions(+), 1169 deletions(-)
-> >>   delete mode 100644 include/media/hevc-ctrls.h
-> >>   create mode 100644 include/uapi/linux/hantro-media.h
-> >>
-> >> --
-> >> 2.32.0
-> >>
+--
+Xiaomeng Tong
