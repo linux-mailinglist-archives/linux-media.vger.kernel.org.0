@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AA274CBF93
-	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 15:10:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 322874CBF94
+	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 15:10:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233856AbiCCOLU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S233880AbiCCOLU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 3 Mar 2022 09:11:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51342 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233884AbiCCOLT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 09:11:19 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5560418CC0E
-        for <linux-media@vger.kernel.org>; Thu,  3 Mar 2022 06:10:33 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id c192so3214330wma.4
-        for <linux-media@vger.kernel.org>; Thu, 03 Mar 2022 06:10:33 -0800 (PST)
+        with ESMTP id S233843AbiCCOLU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 09:11:20 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DCA118CC13
+        for <linux-media@vger.kernel.org>; Thu,  3 Mar 2022 06:10:34 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id k29-20020a05600c1c9d00b003817fdc0f00so3314629wms.4
+        for <linux-media@vger.kernel.org>; Thu, 03 Mar 2022 06:10:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=10/BW769IKERdqqtrhTGD3vXngz+v3aiZ40HiXRcKVk=;
-        b=zgSy3UhrY9kTliukEjxf6hqGXf5K4ssuK8ErQlg2hdhDWkpsVxO40UhjT0OKfIe+CL
-         /SKnL7iWsr4ekWlSCWQmrwlhS8TNwpNJ86v/quQb9vOaCXrStqsvn4vb5arO1cdMkv6F
-         7rx7T2Y9PtdSBXrxCRNnnqzXs2BA+Ru4rs1Mxz3pHjkEwEzBI7TAHBcL1LmNJKMkTc7K
-         Z1k5Vdr0b3cyqcva+ffDM7wWwX/bXe4Ht4h899iTLbumx9ExGy/4XwMKDZYegxl6zABc
-         oBIBVar9dEpkFoGVpblw557NiKQCQ5w3wrLIxLNR+2IovVHV83kMFHWrCHl7+HKB+9Q/
-         a+ew==
+        bh=2Lt7lw1VwVwd56j2eIX/8bxjWp7pJt5XpEq+8nm66ns=;
+        b=Q5eHdkuMo4R5Zo+cX7S3OKOkasEDYvGdJKdMOb0HWpQ83B2DUejHJc7ph3KK67a7t0
+         QDxR00Kp+NvUrE8cEz4dYOqsRkMgq3ToD5UY3KEfLo/nUEJdIUrqqymJqLEsxOAeVBIT
+         f77pA54TPdeJiOjd2W015qSUbRMookHGeL2+Yf8cxXYUPYgUeS6URTwcP1LVAQLWViEi
+         aqNm3UqbcAefasUJbWyqCVrcXId6B4fTjhFfv9OOwNQIVbrOazBBYbGiFmah7kKlhN/8
+         ZQOCXTjGnb59CMTIvNFyRBw7jqEnJYmNL65st9GOWTfAdqBTHUbf5fuhbwlf0xGO0Wh5
+         V4Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=10/BW769IKERdqqtrhTGD3vXngz+v3aiZ40HiXRcKVk=;
-        b=F+GlP4n+0Gjo0l0xMQPRdOtR+86DeFDJ+TWrSLn1cpdjuA6iQq++xt42u/i0Pn4M17
-         cqxwCeZf+OaAoCJUa+VkEHzaeZEr1luJDUcJAhv8FJ5qKeaKIof3FJJp5WKNQ9yTrU9e
-         mZLbGT1k0XTM+H9m70uKMxDcVqKWSefH0wxWV1VToXe9pJab2mmGo0xZR3Py0zUCYPSg
-         ytS6ZZkD6dUG6O6j04kbCWKuO4sX6vGM6TJx8htmFFbirrJaECusXyfUq+Sdhl1jpaeg
-         31/0HEoSrea1WfyoxSlNEoZxTZpMPXc80YK6cBaNAnM9Kh9XC+wY4z8ATUCoKGz+ad6Z
-         tpbg==
-X-Gm-Message-State: AOAM532d4+ZmkVEHe6SLSdtCnszrq6B1N9bMU50cXtHtyfpwv1BP/ftb
-        nUaM0OzBf9MpDplLGrxG6IyQXs1wfC6ZVPHP
-X-Google-Smtp-Source: ABdhPJx+fKccJbOMSAL/GbENWYjfCct8WD8RPWPnGw++An4gMUpYy9mP+QLaNlX2tSSwJQT5o+KXkw==
-X-Received: by 2002:a1c:7410:0:b0:381:22f8:fa81 with SMTP id p16-20020a1c7410000000b0038122f8fa81mr4012544wmc.165.1646316631592;
-        Thu, 03 Mar 2022 06:10:31 -0800 (PST)
+        bh=2Lt7lw1VwVwd56j2eIX/8bxjWp7pJt5XpEq+8nm66ns=;
+        b=4W+ep6vpDo0OekcXZf2+m2aTWbU+NSOR0WhkZzVUWq66v7Td76xnEruc7GN6zRn+5D
+         Chu5k4ARQGpBw+de0fVB+94U3QZRSINMWKKOzy0JqBdmBO2By9vpm1528Hz63scFrj8F
+         u5beq9gXQMD4JcmJ6dC/Plx5/eTYNw7wuW+uvkSwCGxSfHeHiv4wZE+1bFqkbBHHd6Nz
+         jhr4sElqV6bgKcfMT6CwqBGqxXH/aEKOQKZrXW3DAnHTeCu2dCimPZW5Rdcljj6lPTFZ
+         glREWF5V5D13KbtIxXACuTG37EJv4RJVOVzhrs1vkKi+NGEJwL5e34HUj4domwhze7B1
+         KEMQ==
+X-Gm-Message-State: AOAM531yCvZUbfZ2UMgJPrxnSKKWMA05WM5IhKxrUrtjIN6kXsWwza9L
+        FRy2sPWsUh9Yd4dxT99dr9Ep0LOw1m4LbcuL
+X-Google-Smtp-Source: ABdhPJxyiy3vznTB/KT1lmPlGYFEuqhGZqj+TIcX6KCU3o1a6482fbYVSu4H7qZfTACOSO8bHDsjAw==
+X-Received: by 2002:a05:600c:2e07:b0:387:aeab:93da with SMTP id o7-20020a05600c2e0700b00387aeab93damr2848238wmf.186.1646316632655;
+        Thu, 03 Mar 2022 06:10:32 -0800 (PST)
 Received: from localhost.localdomain (hst-221-13.medicom.bg. [84.238.221.13])
-        by smtp.gmail.com with ESMTPSA id ba2-20020a0560001c0200b001f0653f1097sm194312wrb.69.2022.03.03.06.10.30
+        by smtp.gmail.com with ESMTPSA id ba2-20020a0560001c0200b001f0653f1097sm194312wrb.69.2022.03.03.06.10.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 06:10:31 -0800 (PST)
+        Thu, 03 Mar 2022 06:10:32 -0800 (PST)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [RFC/WIP v2 1/6] media: Add HEIF HEVC compressed pixel format
-Date:   Thu,  3 Mar 2022 16:10:05 +0200
-Message-Id: <20220303141010.573408-2-stanimir.varbanov@linaro.org>
+Subject: [RFC/WIP v2 2/6] v4l: Add HEIF control class and control IDs
+Date:   Thu,  3 Mar 2022 16:10:06 +0200
+Message-Id: <20220303141010.573408-3-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220303141010.573408-1-stanimir.varbanov@linaro.org>
 References: <20220303141010.573408-1-stanimir.varbanov@linaro.org>
@@ -70,63 +70,122 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add HEIF (High Efficiency Image File Format ) HEVC pixel format. This an
-image container which use HEVC as a codec.
-
 Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 ---
- .../userspace-api/media/v4l/pixfmt-compressed.rst    | 12 ++++++++++++
- drivers/media/v4l2-core/v4l2-ioctl.c                 |  1 +
- include/uapi/linux/videodev2.h                       |  1 +
- 3 files changed, 14 insertions(+)
+ .../media/v4l/ext-ctrls-heif.rst              | 47 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     | 10 ++++
+ include/uapi/linux/v4l2-controls.h            |  9 ++++
+ 3 files changed, 66 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-heif.rst
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-index 967fc803ef94..df1ada1d45c7 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-@@ -197,6 +197,18 @@ Compressed Formats
- 	If :ref:`VIDIOC_ENUM_FMT` reports ``V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM``
- 	then the decoder has no	requirements since it can parse all the
- 	information from the raw bytestream.
-+    * .. _V4L2-PIX-FMT-HEIF-HEVC:
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-heif.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-heif.rst
+new file mode 100644
+index 000000000000..e2a7f45a3821
+--- /dev/null
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-heif.rst
+@@ -0,0 +1,47 @@
++.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
 +
-+      - ``V4L2_PIX_FMT_HEIF_HEVC``
-+      - 'HEIC'
-+      - High Efficiency Image Container is an image container file format which
-+        uses HEVC encoding and it is a variant of HEIF (High Efficiency Image File)
-+        format.
-+	The decoder expects one Access Unit per buffer.
-+	The encoder generates one Access Unit per buffer.
-+	If :ref:`VIDIOC_ENUM_FMT` reports ``V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM``
-+	then the decoder has no	requirements since it can parse all the
-+	information from the raw bytestream.
-     * .. _V4L2-PIX-FMT-HEVC-SLICE:
++.. _heif-controls:
++
++**********************
++HEIF Control Reference
++**********************
++
++The HEIF (High Efficiency Image File Format) class includes controls for
++common features of HEIF encoders.
++
++.. _heif-control-id:
++
++HEIF Control IDs
++================
++
++``V4L2_CID_HEIF_CLASS (class)``
++    The HEIF class descriptor. Calling :ref:`VIDIOC_QUERYCTRL` for this
++    control will return a description of this control class.
++
++.. _heif-hevc-grid-controls:
++
++The following controls are used to describe the parameters for derived
++image item of type 'grid'. The encoded input image will be divided on
++NxM grids with grid_width by grid_height pixels. The input width and
++height will satisfy the following equation:
++
++grid_width  * grid_columns >= input_image_width
++grid_height * grid_rows    >= input_image_height
++
++All grids shall have the same grid_width and grid_height.
++
++``V4L2_CID_HEIF_HEVC_GRID_WIDTH (integer)``
++    Specify the grid width in pixels.
++
++``V4L2_CID_HEIF_HEVC_GRID_HEIGHT (integer)``
++    Specify the grid height in pixels.
++
++``V4L2_CID_HEIF_HEVC_GRID_ROWS (integer)``
++    Specify the number of grid rows. If client sets grid rows and columns to 1,
++    no image division will be applied.
++
++``V4L2_CID_HEIF_HEVC_GRID_COLUMNS (integer)``
++    Specify the number of grid columns. If client sets grid rows and columns to 1,
++    no image division will be applied.
++
++For more details about HEIF specification, refer to ISO/IEC 23008-12:2017.
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+index 54ca4e6b820b..31d05fac9dac 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+@@ -1186,6 +1186,15 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_COLORIMETRY_CLASS:	return "Colorimetry Controls";
+ 	case V4L2_CID_COLORIMETRY_HDR10_CLL_INFO:		return "HDR10 Content Light Info";
+ 	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:	return "HDR10 Mastering Display";
++
++	/* HEIF controls */
++	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
++	case V4L2_CID_HEIF_CLASS:		return "HEIF Controls";
++	case V4L2_CID_HEIF_HEVC_GRID_WIDTH:	return "HEIF HEVC Grid Width";
++	case V4L2_CID_HEIF_HEVC_GRID_HEIGHT:	return "HEIF HEVC Grid Height";
++	case V4L2_CID_HEIF_HEVC_GRID_ROWS:	return "HEIF HEVC Grid Rows";
++	case V4L2_CID_HEIF_HEVC_GRID_COLUMNS:	return "HEIF HEVC Grid Columns";
++
+ 	default:
+ 		return NULL;
+ 	}
+@@ -1391,6 +1400,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 	case V4L2_CID_DETECT_CLASS:
+ 	case V4L2_CID_CODEC_STATELESS_CLASS:
+ 	case V4L2_CID_COLORIMETRY_CLASS:
++	case V4L2_CID_HEIF_CLASS:
+ 		*type = V4L2_CTRL_TYPE_CTRL_CLASS;
+ 		/* You can neither read nor write these */
+ 		*flags |= V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY;
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index c8e0f84d204d..45a3b399272c 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -68,6 +68,7 @@
+ #define V4L2_CTRL_CLASS_DETECT		0x00a30000	/* Detection controls */
+ #define V4L2_CTRL_CLASS_CODEC_STATELESS 0x00a40000	/* Stateless codecs controls */
+ #define V4L2_CTRL_CLASS_COLORIMETRY	0x00a50000	/* Colorimetry controls */
++#define V4L2_CTRL_CLASS_HEIF		0x00a60000	/* HEIF controls */
  
-       - ``V4L2_PIX_FMT_HEVC_SLICE``
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 642cb90f457c..f00e463e456f 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1439,6 +1439,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 		case V4L2_PIX_FMT_SE401:	descr = "GSPCA SE401"; break;
- 		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
- 		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
-+		case V4L2_PIX_FMT_HEIF_HEVC:	descr = "HEIF HEVC Image Format"; break;
- 		default:
- 			if (fmt->description[0])
- 				return;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index df8b9c486ba1..ed4c916d3075 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -708,6 +708,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /* Fast Walsh Hadamard Transform (vicodec) */
- #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
- #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
-+#define V4L2_PIX_FMT_HEIF_HEVC	v4l2_fourcc('H', 'E', 'I', 'C') /* HEIF HEVC image format */
+ /* User-class control IDs */
  
- /*  Vendor-specific formats   */
- #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
+@@ -2302,6 +2303,14 @@ struct v4l2_ctrl_vp9_compressed_hdr {
+ 	struct v4l2_vp9_mv_probs mv;
+ };
+ 
++#define V4L2_CID_HEIF_CLASS_BASE	(V4L2_CTRL_CLASS_HEIF | 0x900)
++#define V4L2_CID_HEIF_CLASS		(V4L2_CTRL_CLASS_HEIF | 1)
++
++#define V4L2_CID_HEIF_HEVC_GRID_WIDTH	(V4L2_CID_HEIF_CLASS_BASE + 0)
++#define V4L2_CID_HEIF_HEVC_GRID_HEIGHT	(V4L2_CID_HEIF_CLASS_BASE + 1)
++#define V4L2_CID_HEIF_HEVC_GRID_ROWS	(V4L2_CID_HEIF_CLASS_BASE + 2)
++#define V4L2_CID_HEIF_HEVC_GRID_COLUMNS	(V4L2_CID_HEIF_CLASS_BASE + 3)
++
+ /* MPEG-compression definitions kept for backwards compatibility */
+ #ifndef __KERNEL__
+ #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
 -- 
 2.25.1
 
