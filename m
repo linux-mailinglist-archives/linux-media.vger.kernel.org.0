@@ -2,176 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 592F74CC959
-	for <lists+linux-media@lfdr.de>; Thu,  3 Mar 2022 23:44:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 680DE4CCA94
+	for <lists+linux-media@lfdr.de>; Fri,  4 Mar 2022 01:10:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237075AbiCCWov (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Mar 2022 17:44:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60056 "EHLO
+        id S231668AbiCDAKy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Mar 2022 19:10:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237072AbiCCWot (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 17:44:49 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1C3F15928A;
-        Thu,  3 Mar 2022 14:44:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646347442; x=1677883442;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LGs61FMx3IeFD9eB7+GKLp/0tGX59gvBzS7laALfEFU=;
-  b=ddfYk6zLewr44AgGkgnryfNqOwg4t31DsOhFNR4zkzSsDKNn12tE7ntx
-   0IbIUol8cwEUrIFdUgIfI7sZoapOr0Cjagz//jnZowqRYF5jpZOdE+i+b
-   P8J6Cwm9JqP6CdScMR9ewiixR/xLSwufB50GWYAUV3wNnqu6Xs1TpvU9v
-   JeCG/Kj/L6a+jUxiytbf3/w1UhutbmgdPde0VhB5vCZ7jbZxQqYglSOgl
-   5TIP3mM27UYeBDwr+c8SqmhcewpXq3fLhN2Vn+/2KJfFY2vM1UiEFgd8z
-   xJYqksmtko7+dlb3oD66NQpiXcqKjoEkC8rzVppzANe+t0LXB3gc0cKf/
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="252660211"
-X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; 
-   d="scan'208";a="252660211"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2022 14:44:02 -0800
-X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; 
-   d="scan'208";a="642299153"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2022 14:43:57 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 33DDE20150;
-        Fri,  4 Mar 2022 00:43:55 +0200 (EET)
-Date:   Fri, 4 Mar 2022 00:43:55 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-        Yong Deng <yong.deng@magewell.com>,
+        with ESMTP id S230003AbiCDAKx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 19:10:53 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC43F3EABB
+        for <linux-media@vger.kernel.org>; Thu,  3 Mar 2022 16:10:03 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id C52461B001E8;
+        Fri,  4 Mar 2022 02:09:57 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1646352597;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0sk+gKdBbPeiN9rO5Gk5RhEzhWIHzVcDSSjHo7mY0QI=;
+        b=dgli5mMw94Mc+kpj8UQ3BVPqYcZJ7qH99//MyT5kDNqPjEHYw0dkUHMPWCnOEpnIh2VJv5
+        Pva5LBXfUlw2nLNUv76AS+xL7xL62m8CsxG4fr2FwuXQwV4V+2d7bI3Qk++eLZsvQ7BtVp
+        lRb6x2/D54e/nt06vRO9jRcR/oQ6NbmzTYB7iHiZMt8Jav/3BJHlbewqABcEQ5JAaMcuRr
+        phi9lIgmqrz/ZthcfJQvubPmA8phYyK+4jkNlDEmaWdG7Dx1uAKoA9YXx7ns+U/d64xQN+
+        IcL1ycehrKbqtEIbE9zwjnw6JqRPCGCV4SqD7f70XprSmbVdwXzk3hRn03SGbg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4DA0D634C90;
+        Fri,  4 Mar 2022 02:09:57 +0200 (EET)
+Date:   Fri, 4 Mar 2022 02:09:57 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
+        mirela.rabulea@nxp.com, xavier.roumegue@oss.nxp.com,
+        tomi.valkeinen@ideasonboard.com, hugues.fruchet@st.com,
+        prabhakar.mahadev-lad.rj@bp.renesas.com, aford173@gmail.com,
+        festevam@gmail.com, Eugen.Hristev@microchip.com,
+        jbrunet@baylibre.com, paul.elder@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 30/66] media: sun6i-csi: Add bridge v4l2 subdev with
- port management
-Message-ID: <YiFEq1liAnBy0fkq@paasikivi.fi.intel.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-31-paul.kocialkowski@bootlin.com>
- <YgqbqVRinNxQ8+WV@paasikivi.fi.intel.com>
- <Yh+GZv9/rKQ2WbI2@aptenodytes>
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 00/27] media: ov5640: Rework the clock tree
+ programming for MIPI
+Message-ID: <YiFY1UGvVHTEeVVu@valkosipuli.retiisi.eu>
+References: <20220224094313.233347-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yh+GZv9/rKQ2WbI2@aptenodytes>
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220224094313.233347-1-jacopo@jmondi.org>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1646352597; a=rsa-sha256;
+        cv=none;
+        b=PqeTMm9Bc3ddH25RvM3Jgx6xys1NngWCNfqlEh1SJ2qByBTOVCJ4GygSFD+fz95dq3dkwb
+        EyKEHhk+14G+mEfNw7pH9IVcjR6AEX7Cgxj/gr27GT7vnrJJo2n9bW7owIEt3Et92gdn1P
+        /XwY6wRtd1cCAGuP2O1cukQ6W/LBuec5dAnFpKNL3TINAuF9SVv7LBr0O4gbyvoBg8Gyil
+        UNpvGRVEfvKQjBdzwy54c2rnu7BR+BLCTPHgT3SuPZ/nxUsTaXaT7qFP00+AfzoSsa8Z56
+        J75E5c9Bqtwuq1fivP12s6gIRylDyXIYgSpnClTePsFCJMTIqJTxqRRa0NgYZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1646352597;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0sk+gKdBbPeiN9rO5Gk5RhEzhWIHzVcDSSjHo7mY0QI=;
+        b=QbDmmyY03M1exKNP91QORNe4m9v5Bn7MxUpjMeJvz8klhE1+PApfX4HLJMjEoGOzeVV0Tp
+        sXpCBk/CcaCGbcnMtjrL7vpYcQS/lSG65kf9+pHNOyOdfudY5+d40u1aJVn642mM7kCHPf
+        PjgErfYqHJOHMtS8UhxpjlUyzYo2TjB/XLQIa2WZ45nwYC26RIp0XCRiAY/aRKcRGsshda
+        iMHdP5nU/gUYg/1Zy7C0bBkKzKRKqAPeghu74RpbjZAKShRv/DYH56LH2U+2gOFS2tGTzN
+        AQahDewDgiQPS1f49dyCiOpc5e3ZDEJAm/SbfmrxV8GdKTfaQzRhA0KjtyeTIA==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hello folks,
 
-On Wed, Mar 02, 2022 at 03:59:50PM +0100, Paul Kocialkowski wrote:
-> > > +static int
-> > > +sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
-> > > +				struct v4l2_subdev *remote_subdev,
-> > > +				struct v4l2_async_subdev *async_subdev)
-> > > +{
-> > > +	struct sun6i_csi_device *csi_dev =
-> > > +		container_of(notifier, struct sun6i_csi_device,
-> > > +			     bridge.notifier);
-> > > +	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
-> > > +	struct sun6i_csi_bridge_source *source = NULL;
-> > > +	struct fwnode_handle *fwnode = dev_fwnode(csi_dev->dev);
-> > > +	struct fwnode_handle *handle = NULL;
-> > > +	bool enabled;
-> > > +	int ret;
-> > > +
-> > > +	while ((handle = fwnode_graph_get_next_endpoint(fwnode, handle))) {
-> > 
-> > I'd instead store the information you need here in struct sun6i_csi_bridge.
-> > You could remove the loop here.
-> 
-> Is there a different method for matching a remote subdev to a local port?
-> The rationale here is that I need the handle for fwnode_graph_parse_endpoint
-> but cannot get that handle from the remote subdev's fwnode pointer directly.
+On Thu, Feb 24, 2022 at 10:42:46AM +0100, Jacopo Mondi wrote:
+> A branch for testing based on the most recent media-master is available at
+> https://git.sr.ht/~jmondi_/linux #jmondi/media-master/ov5640-v5
 
-You generally shouldn't try to match fwnodes here as the V4L2 async
-framework has already done that job. This information can be found behind
-the async_subdev pointer.
+The set has been around for quite some time without tangible functional
+changes, please do let me know if you have concerns merging it.
 
-See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2-main.c for an example.
-
-> 
-> > > +		struct fwnode_endpoint endpoint = { 0 };
-> > > +		struct fwnode_handle *remote_fwnode;
-> > > +
-> > > +		remote_fwnode = fwnode_graph_get_remote_port_parent(handle);
-> > > +		if (!remote_fwnode)
-> > > +			continue;
-> > > +
-> > > +		if (remote_fwnode != remote_subdev->fwnode)
-> > > +			goto next;
-> > > +
-> > > +		ret = fwnode_graph_parse_endpoint(handle, &endpoint);
-> > > +		if (ret < 0)
-> > > +			goto next;
-> > > +
-> > > +		switch (endpoint.port) {
-> > > +		case SUN6I_CSI_PORT_PARALLEL:
-> > > +			source = &bridge->source_parallel;
-> > > +			enabled = true;
-> > > +			break;
-> > > +		default:
-> > > +			break;
-> > > +		}
-> > > +
-> > > +next:
-> > > +		fwnode_handle_put(remote_fwnode);
-> > > +	}
-> > > +
-> > > +	if (!source)
-> > > +		return -EINVAL;
-> > > +
-> > > +	source->subdev = remote_subdev;
-> > > +
-> > > +	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
-> > > +				     remote_subdev, enabled);
-> > > +}
-> > > +
-> > > +static int
-> > > +sun6i_csi_bridge_notifier_complete(struct v4l2_async_notifier *notifier)
-> > > +{
-> > > +	struct sun6i_csi_device *csi_dev =
-> > > +		container_of(notifier, struct sun6i_csi_device,
-> > > +			     bridge.notifier);
-> > > +
-> > > +	return sun6i_csi_v4l2_complete(csi_dev);
-> > 
-> > You could call v4l2_device_register_subdev_nodes() here.
-> 
-> That's definitely what sun6i_csi_v4l2_complete does (the diff is probably not
-> very clear). Note that the wrapper is extended later on to register the capture
-> video device for the no-isp path.
-
-I could be missing something... Do you need to call
-sun6i_csi_v4l2_complete() in multiple places or not? If not, then I think
-it'd be probably better to just move the code here.
-
-> 
-> Maybe the capture registration could be kept in sun6i_csi_probe for the non-isp
-> path and then the wrapper wouldn't be needed. I don't mind either way.
+Thanks.
 
 -- 
-Kind regards,
-
 Sakari Ailus
