@@ -2,86 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 82E614CDA31
-	for <lists+linux-media@lfdr.de>; Fri,  4 Mar 2022 18:22:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F1FD4CDB1F
+	for <lists+linux-media@lfdr.de>; Fri,  4 Mar 2022 18:41:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238422AbiCDRWl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Mar 2022 12:22:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42964 "EHLO
+        id S238712AbiCDRmO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Mar 2022 12:42:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238306AbiCDRWk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Mar 2022 12:22:40 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 607161516B5
-        for <linux-media@vger.kernel.org>; Fri,  4 Mar 2022 09:21:52 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC3DA51C;
-        Fri,  4 Mar 2022 18:21:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646414511;
-        bh=6nrhRGagr9FFf1fLkq8/LvV/jOZr1PYzFncKJuUpiDc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PWhen/EexS/70Ti92+YZhfXcxk7wLckc8m7X5Fu6aWZ18MV9hqNRueecoNnE7P8/7
-         a3Fg0lGOdI3dPr1bG2NL1zAYlBg7V6YJzjJdENYbeMMqKqpGbxuvJK3ZQQLBa3kDYA
-         YGnQ58lcslhcE5A163jCzITi8shKTAkClN7K2c6I=
-Date:   Fri, 4 Mar 2022 19:21:38 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Heiko Stuebner <heiko@sntech.de>
-Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        hverkuil@xs4all.nl, linux-rockchip@lists.infradead.org,
-        ezequiel@collabora.com, christoph.muellner@theobroma-systems.com
-Subject: Re: [PATCH 0/2] Fix the rkisp1 userspace API for later IP versions
-Message-ID: <YiJKooCwFiFuC+Ue@pendragon.ideasonboard.com>
-References: <20210111234011.3642481-1-heiko@sntech.de>
+        with ESMTP id S234519AbiCDRmN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Mar 2022 12:42:13 -0500
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC5E61B98A8
+        for <linux-media@vger.kernel.org>; Fri,  4 Mar 2022 09:41:24 -0800 (PST)
+Received: by mail-lj1-x231.google.com with SMTP id r20so11994572ljj.1
+        for <linux-media@vger.kernel.org>; Fri, 04 Mar 2022 09:41:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=gnW213AwC9ZFaX4TwovWIVI70m45ehAojubOFyKSXY8=;
+        b=pZBmZfDRissn5gRMkWdUfkJu65BED/uTv5jeiwSehDshxelf4IChIRp5RtR2MQWW3Z
+         aoylMAh7Z7eA2+vBfsuf5YUCjimtfMAqgfxTru2MsbeRw4+7r1p71ErcsjfFmh2j+b7L
+         /dasfxXhpD14v5QDraSGQYHzerrZzi0SMbsFPtCoXFXWzr7LS2dZs6BQIQlBRmqaIOOR
+         I3rMlHhG0JrwdOrXMikLIo6Rx3JrCMaIT0++VO6+TuMX5y8+zCbSIG1F2VwbgTz2yv4G
+         47mkAtRouR5qswewV4Aa5RW3/RGsE1kC5kUMuGCsQKq/yAbxL2irTd+2KCfWpu6ZwxCy
+         8BSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=gnW213AwC9ZFaX4TwovWIVI70m45ehAojubOFyKSXY8=;
+        b=xP4Q5vKwEBxVsa9OAuPaEEAXnmViHtbHfv9jz8tAUh4XqT7/NAACBFE9OZOpVgsg0/
+         1FfJgHJy3vv5mqQsdM633z4CRMLsvUq6oKN7cWwFzg3Z6zDUfavBkRRHN3j9fb3KV4XB
+         rL7yrS3m9cVjkuCpyPFNWLYr5tMxJ2okvRNvyLsBFJyVeAegxSCy4unlk9cbAd2qNLkz
+         qTy/9gZg5F6XikhqJDKaXlJn03zRmONlr+tKYr3rIJTZBqHPgTzXHh+z6rziYFSI+K4G
+         UB9Ql3EDTfG8Gy9Nzp1+XklJq0LGLNO98LZ1/S2DBPQiRxnaVmuXAOgZLPyDtv1nKz1Q
+         +YQw==
+X-Gm-Message-State: AOAM533cfUmoLX4TotWXWpKKTUfoeEY1viLg3T0NXxjM4FYUUWBcsZ8L
+        ySm5RTxS+qHQp1l7cBCmc3dQ7BFEuWtYjCv10ko=
+X-Google-Smtp-Source: ABdhPJzzUNgboFR3m6vZb+l7+7+cyyHFGEolgVKKCoV6TMvI3urY2Dj7BLfWUaA1vkLCL6tBgF7dizVFf1dUCUH6pp4=
+X-Received: by 2002:a05:651c:a06:b0:246:71a3:556a with SMTP id
+ k6-20020a05651c0a0600b0024671a3556amr15292750ljq.5.1646415680751; Fri, 04 Mar
+ 2022 09:41:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210111234011.3642481-1-heiko@sntech.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:aa6:c46b:0:b0:19c:e32d:4c9d with HTTP; Fri, 4 Mar 2022
+ 09:41:20 -0800 (PST)
+Reply-To: douglaselix23@gmail.com
+From:   "Mr. Douglas Felix" <legalrightschamber07@gmail.com>
+Date:   Fri, 4 Mar 2022 17:41:20 +0000
+Message-ID: <CALi75OoQdN6TGw+jH7C0SwrAr3sAYysHAtr2WWBW0YN0UvqLWA@mail.gmail.com>
+Subject: =?UTF-8?B?QnVlbm9zIGTDrWFz?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:231 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [legalrightschamber07[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [douglaselix23[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [legalrightschamber07[at]gmail.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.6 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Heiko,
+--=20
+Se le envi=C3=B3 un correo en alg=C3=BAn momento de la semana pasada con la=
+ expectativa de
+Recib=C3=AD un correo de respuesta tuyo, pero para mi sorpresa, nunca te
+molestaste en responder.
+Por favor responda para m=C3=A1s explicaciones.
 
-On Tue, Jan 12, 2021 at 12:40:09AM +0100, Heiko Stuebner wrote:
-> This NEEDs to go into 5.11 while we can still adapt the uapi
-> during its RC-cycle.
-> 
-> 
-> When looking into supporting the rkisp1 of the px30 I noticed that
-> some fields got bigger in the uapi, caused by bigger number of samples
-> for example for histograms or gamma values.
-
-As I don't have access to a PX30 platform, I was wondering if you could
-read the RKISP1_CIF_VI_ID register and report its value.
-
-> The rkisp1 was destaged with 5.11-rc1 so we have still time during
-> the 5.11 cycle to fix that without big hassles.
-> 
-> This was discussed previously in a mail [0] and a rfc series [1]
-> and this two-part series now splits out the important parts that
-> really should become part of a 5.11-rc and thus the final 5.11.
-> 
-> 
-> [0] http://lore.kernel.org/r/3342088.iIbC2pHGDl@diego
-> [1] https://lore.kernel.org/r/20210108193311.3423236-2-heiko@sntech.de
-> 
-> Heiko Stuebner (2):
->   media: rockchip: rkisp1: carry ip version information
->   media: rockchip: rkisp1: extend uapi array sizes
-> 
->  .../platform/rockchip/rkisp1/rkisp1-common.h  |  1 +
->  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 22 +++++++++-------
->  include/uapi/linux/rkisp1-config.h            | 25 ++++++++++++++++---
->  3 files changed, 35 insertions(+), 13 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+Respetuosamente suyo,
+Abogado. Douglas F=C3=A9lix.
