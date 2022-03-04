@@ -2,216 +2,308 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5A724CD09B
-	for <lists+linux-media@lfdr.de>; Fri,  4 Mar 2022 10:00:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 816074CD0CB
+	for <lists+linux-media@lfdr.de>; Fri,  4 Mar 2022 10:08:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235478AbiCDJBJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Mar 2022 04:01:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45524 "EHLO
+        id S236060AbiCDJIv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Mar 2022 04:08:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235492AbiCDJBI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Mar 2022 04:01:08 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A726B12B76C;
-        Fri,  4 Mar 2022 01:00:19 -0800 (PST)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 3EEEC1BF213;
-        Fri,  4 Mar 2022 09:00:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1646384418;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=MoznkUIec7VAQY3ImNmY3IHeuYJ/S05cBMHdD+Wm4Nc=;
-        b=F9tvU0ozNsPeQ9lftznClBeZfJB6PRNXxUPQuKwyUpT+KlQKi1Nt6H6ki+H9T74PtC15GX
-        mEICPAhXiahTCeW0RAjDqf9QHMqxP63CmickbbG9Wiyp9qId8qFcZGrK6aWmhmVw7/aGt2
-        yLlqqcQDFBjV1yRkmHN+eaunAwYFhRpPb7msRMR/CGFHaJhhUappIX1EW+O1P7k1yliwnB
-        M5V5bFFMXlCKDVfIyrkqNeKa0olTvBeJQCCkrxzrIJUMmqwnsXU1BEtxyIGQsumhssIw9L
-        Zlau+iKBkap+qVKAuIzvu4o1YBw/r/7qV5t3A4pr5bmRcw1uqeMrjAN3qNgwTQ==
-Date:   Fri, 4 Mar 2022 10:00:12 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-        Yong Deng <yong.deng@magewell.com>,
+        with ESMTP id S239235AbiCDJIR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Mar 2022 04:08:17 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0404F1A7DA3;
+        Fri,  4 Mar 2022 01:07:18 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 26EE01F4637B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1646384837;
+        bh=y71jZr0BRLat9aUsDt8207drN0hQ3NtgJeEhAs5zIio=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=BGl4nIN4JMJ9bhW/+QP0U8oI6uxINNZWxEjwiHyjSN5OryySVZOzx1avvy9n3eVBS
+         KxWGSM9Zo60NlpyrINsd5pvxFAxub6ldRbik8OfRN1c6FhQaRd9e3sH4opUNYevDKm
+         llU/z6Ifzr4iE7MuX+G6xjuSAVMu1aNjBmVhAfVyNPF8V6saPCZ0yngdUxPhTlF3jo
+         0zPjZvdkYH85L0tZtmXxpLmN62AssaSZGsRwEmtXKVATeR9d5qiLSn4oJG/LMEIf8z
+         LJOsB6zh7hHY2r5i1Yw+3bPQ39ZOf6MFrgzByPTPBw0GTxK+/3n/btxUGkjgpMSUN0
+         ss+g2aNjn8VJg==
+Message-ID: <d92c6083-9d87-8eca-c760-f5a6f05f13b2@collabora.com>
+Date:   Fri, 4 Mar 2022 10:07:13 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [PATCH v2, 04/10] media: mtk-vcodec: Enable venc dual core usage
+Content-Language: en-US
+To:     Irui Wang <irui.wang@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 30/66] media: sun6i-csi: Add bridge v4l2 subdev with
- port management
-Message-ID: <YiHVHM53GUQ1jxco@aptenodytes>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-31-paul.kocialkowski@bootlin.com>
- <YgqbqVRinNxQ8+WV@paasikivi.fi.intel.com>
- <Yh+GZv9/rKQ2WbI2@aptenodytes>
- <YiFEq1liAnBy0fkq@paasikivi.fi.intel.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="dwUOJP15b315kF0b"
-Content-Disposition: inline
-In-Reply-To: <YiFEq1liAnBy0fkq@paasikivi.fi.intel.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>, Yong Wu <yong.wu@mediatek.com>
+Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20220117120615.21687-1-irui.wang@mediatek.com>
+ <20220117120615.21687-5-irui.wang@mediatek.com>
+ <3eaa4c05-f8f2-9e18-e6d9-a627fe5e1e40@collabora.com>
+ <0b7f30b6eabb54fa894dcffea5827023ffdd58ee.camel@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <0b7f30b6eabb54fa894dcffea5827023ffdd58ee.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Il 04/03/22 03:12, Irui Wang ha scritto:
+> Hello, Angelo,
+> 
+> Many thanks for your review.
+> 
+> On Thu, 2022-03-03 at 15:27 +0100, AngeloGioacchino Del Regno wrote:
+>> Il 17/01/22 13:06, Irui Wang ha scritto:
+>>> Adds new venc core mode to indicate different venc hardware mode:
+>>> VENC_SINGLE_CORE_MODE means only one core, the device has its own
+>>> power/clk/irq, init_clk/request_irq helper can be used.
+>>>
+>>> VENC_DUAL_CORE_MODE means more than one core inside, the core
+>>> device
+>>> can use the init_clk/request_irq helper to initialize their own
+>>> power/clk/irq. And the main device doesn't need use these helper
+>>> anymore.
+>>>
+>>> MT8195 has two H264 venc cores, enable dual_core_mode for it.
+>>>
+>>> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+>>> ---
+>>>    drivers/media/platform/mtk-vcodec/Makefile    |   4 +-
+>>>    .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  22 +++
+>>>    .../platform/mtk-vcodec/mtk_vcodec_enc_core.c | 153
+>>> ++++++++++++++++++
+>>>    .../platform/mtk-vcodec/mtk_vcodec_enc_core.h |  36 +++++
+>>>    .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  88 +++++-----
+>>>    5 files changed, 266 insertions(+), 37 deletions(-)
+>>>    create mode 100644 drivers/media/platform/mtk-
+>>> vcodec/mtk_vcodec_enc_core.c
+>>>    create mode 100644 drivers/media/platform/mtk-
+>>> vcodec/mtk_vcodec_enc_core.h
+>>>
+>>> diff --git a/drivers/media/platform/mtk-vcodec/Makefile
+>>> b/drivers/media/platform/mtk-vcodec/Makefile
+>>> index 93e7a343b5b0..c472b221bd6b 100644
+>>> --- a/drivers/media/platform/mtk-vcodec/Makefile
+>>> +++ b/drivers/media/platform/mtk-vcodec/Makefile
+>>> @@ -3,7 +3,8 @@
+>>>    obj-$(CONFIG_VIDEO_MEDIATEK_VCODEC) += mtk-vcodec-dec.o \
+>>>    				       mtk-vcodec-enc.o \
+>>>    				       mtk-vcodec-common.o \
+>>> -				       mtk-vcodec-dec-hw.o
+>>> +				       mtk-vcodec-dec-hw.o \
+>>> +				       mtk-vcodec-enc-core.o
+>>>    
+>>>    mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
+>>>    		vdec/vdec_vp8_if.o \
+>>> @@ -32,6 +33,7 @@ mtk-vcodec-enc-y := venc/venc_vp8_if.o \
+>>>    		venc_drv_if.o \
+>>>    		venc_vpu_if.o \
+>>>    
+>>> +mtk-vcodec-enc-core-y := mtk_vcodec_enc_core.o
+>>>    
+>>>    mtk-vcodec-common-y := mtk_vcodec_intr.o \
+>>>    		mtk_vcodec_util.o \
+>>> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+>>> b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+>>> index f78463ff4551..9e4e4290a69a 100644
+>>> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+>>> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+>>> @@ -117,6 +117,23 @@ enum mtk_vdec_hw_count {
+>>>    	MTK_VDEC_MAX_HW_COUNT,
+>>>    };
+>>>    
+>>> +/*
+>>> + * enum mtk_venc_core_id -- encoder core id
+>>> + */
+>>> +enum mtk_venc_core_id {
+>>> +	MTK_VENC_CORE0 = 0,
+>>> +	MTK_VENC_CORE1 = 1,
+>>
+>> You don't have to say "= 1" for core1, just...
+>>
+>> 	MTK_VENC_CORE0 = 0,
+>> 	MTK_VENC_CORE1,
+>>
+>> ...is fine, and better.
+> 
+> I will fix it.
+> 
+>>
+>>> +	MTK_VENC_CORE_MAX,
+>>> +};
+>>> +
+>>> +/**
+>>> + * enmu mtk_venc_core_mode - Used to indicate different encode
+>>> mode
+>>> + */
+>>> +enum mtk_venc_core_mode {
+>>> +	VENC_SINGLE_CORE_MODE = 0,
+>>> +	VENC_DUAL_CORE_MODE = 1,
+>>> +};
+>>> +
+>>>    /*
+>>>     * struct mtk_video_fmt - Structure used to store information
+>>> about pixelformats
+>>>     */
+>>> @@ -420,6 +437,7 @@ struct mtk_vcodec_dec_pdata {
+>>>     * @output_formats: array of supported output formats
+>>>     * @num_output_formats: number of entries in output_formats
+>>>     * @core_type: stand for h264 or vp8 encode
+>>> + * @core_mode: indicate encode core mode
+>>>     */
+>>>    struct mtk_vcodec_enc_pdata {
+>>>    	bool uses_ext;
+>>> @@ -430,6 +448,7 @@ struct mtk_vcodec_enc_pdata {
+>>>    	const struct mtk_video_fmt *output_formats;
+>>>    	size_t num_output_formats;
+>>>    	int core_type;
+>>> +	enum mtk_venc_core_mode core_mode;
+>>>    };
+>>>    
+>>>    #define MTK_ENC_CTX_IS_EXT(ctx) ((ctx)->dev->venc_pdata-
+>>>> uses_ext)
+>>> @@ -479,6 +498,7 @@ struct mtk_vcodec_enc_pdata {
+>>>     * @subdev_dev: subdev hardware device
+>>>     * @subdev_prob_done: check whether all used hw device is prob
+>>> done
+>>>     * @subdev_bitmap: used to record hardware is ready or not
+>>> + * @enc_core_dev: used to store venc core device
+>>>     */
+>>>    struct mtk_vcodec_dev {
+>>>    	struct v4l2_device v4l2_dev;
+>>> @@ -524,6 +544,8 @@ struct mtk_vcodec_dev {
+>>>    	void *subdev_dev[MTK_VDEC_HW_MAX];
+>>>    	int (*subdev_prob_done)(struct mtk_vcodec_dev *vdec_dev);
+>>>    	DECLARE_BITMAP(subdev_bitmap, MTK_VDEC_HW_MAX);
+>>> +
+>>> +	void *enc_core_dev[MTK_VENC_CORE_MAX];
+>>>    };
+>>>    
+>>>    static inline struct mtk_vcodec_ctx *fh_to_ctx(struct v4l2_fh
+>>> *fh)
+>>> diff --git a/drivers/media/platform/mtk-
+>>> vcodec/mtk_vcodec_enc_core.c b/drivers/media/platform/mtk-
+>>> vcodec/mtk_vcodec_enc_core.c
+>>> new file mode 100644
+>>> index 000000000000..d84914f615a5
+>>> --- /dev/null
+>>> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_core.c
+>>> @@ -0,0 +1,153 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * Copyright (c) 2021 MediaTek Inc.
+>>> + */
+>>> +
+>>> +#include <linux/interrupt.h>
+>>> +#include <linux/irq.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/of_platform.h>
+>>> +#include <linux/pm_runtime.h>
+>>> +#include <linux/slab.h>
+>>> +
+>>> +#include "mtk_vcodec_drv.h"
+>>> +#include "mtk_vcodec_enc.h"
+>>> +#include "mtk_vcodec_enc_core.h"
+>>> +
+>>> +static const struct of_device_id mtk_venc_core_ids[] = {
+>>> +	{
+>>> +		.compatible = "mediatek,mtk-venc-core0",
+>>> +		.data = (void *)MTK_VENC_CORE0,
+>>> +	},
+>>> +	{
+>>> +		.compatible = "mediatek,mtk-venc-core1",
+>>> +		.data = (void *)MTK_VENC_CORE1,
+>>> +	},
+>>> +	{},
+>>> +};
+>>
+>> Hello Irui,
+>>
+>> You don't need a different compatible for the different cores, as in
+>> the
+>> declaration, there's nothing special that differentiates them that
+>> much.
+>>
+>> I understand that there may be a need to differentiate the core
+>> number, as
+>> in, CORE0 always has to be the leader, while CORE1 would be the
+>> follower,
+>> but this is not a good reason to give them a different compatible
+>> string.
+>>
+>> I want to make you aware that Kyrie Wu did the same thing as you did
+>> here
+>> and in my review on his patch I was able to give an extensive example
+>> of
+>> how this should look; the exactly same logic would apply to this
+>> patch.
+>>
+>> Please have a look here:
+>> https://patchwork.kernel.org/comment/24726607/
+>>
+>> P.S.: In short, you should have only one "mediatek,mtk-venc-hw"
+>> compatible
+>>         used for probing both cores.
+> 
+> thanks for your suggestions, with your example, venc can be rewritten
+> like this:
+> venc {
+>      compatible = "mediatek,mt8195-vcodec-enc";
+>      ..... other properties .....
+> 
+>      venc_core0 {
+>          compatible = "mediatek,mtk-venc-hw";
+>          mediatek,hw-leader;//mediatek,venc-core0;
+>          ..... other properties .....
+>      };
+> 
+>      venc_core1 {
+>          compatible = "mediatek,mtk-venc-hw";
+>          //mediatek,venc-core1;
+>          ..... other properties .....
+>      };
+> };
+> I will rewrite this code if it matches your suggestions.
 
---dwUOJP15b315kF0b
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, exactly. Just one nit, please don't use underscores.
 
-Hi Sakari,
+venc_core0: venc-hw@(addr)
+this is fine ^
 
-On Fri 04 Mar 22, 00:43, Sakari Ailus wrote:
-> Hi Paul,
->=20
-> On Wed, Mar 02, 2022 at 03:59:50PM +0100, Paul Kocialkowski wrote:
-> > > > +static int
-> > > > +sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifi=
-er,
-> > > > +				struct v4l2_subdev *remote_subdev,
-> > > > +				struct v4l2_async_subdev *async_subdev)
-> > > > +{
-> > > > +	struct sun6i_csi_device *csi_dev =3D
-> > > > +		container_of(notifier, struct sun6i_csi_device,
-> > > > +			     bridge.notifier);
-> > > > +	struct sun6i_csi_bridge *bridge =3D &csi_dev->bridge;
-> > > > +	struct sun6i_csi_bridge_source *source =3D NULL;
-> > > > +	struct fwnode_handle *fwnode =3D dev_fwnode(csi_dev->dev);
-> > > > +	struct fwnode_handle *handle =3D NULL;
-> > > > +	bool enabled;
-> > > > +	int ret;
-> > > > +
-> > > > +	while ((handle =3D fwnode_graph_get_next_endpoint(fwnode, handle)=
-)) {
-> > >=20
-> > > I'd instead store the information you need here in struct sun6i_csi_b=
-ridge.
-> > > You could remove the loop here.
-> >=20
-> > Is there a different method for matching a remote subdev to a local por=
-t?
-> > The rationale here is that I need the handle for fwnode_graph_parse_end=
-point
-> > but cannot get that handle from the remote subdev's fwnode pointer dire=
-ctly.
->=20
-> You generally shouldn't try to match fwnodes here as the V4L2 async
-> framework has already done that job. This information can be found behind
-> the async_subdev pointer.
->=20
-> See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2-main.c for an example.
+venc_core0: venc_hw@(addr)
+this is NOT ok ^^
 
-Thanks for the feedback, I'll look into that.
+By the way, one (or more than one) of the commits in this series
+is not working correctly, giving a kernel panic on dma mem alloc.
 
-> >=20
-> > > > +		struct fwnode_endpoint endpoint =3D { 0 };
-> > > > +		struct fwnode_handle *remote_fwnode;
-> > > > +
-> > > > +		remote_fwnode =3D fwnode_graph_get_remote_port_parent(handle);
-> > > > +		if (!remote_fwnode)
-> > > > +			continue;
-> > > > +
-> > > > +		if (remote_fwnode !=3D remote_subdev->fwnode)
-> > > > +			goto next;
-> > > > +
-> > > > +		ret =3D fwnode_graph_parse_endpoint(handle, &endpoint);
-> > > > +		if (ret < 0)
-> > > > +			goto next;
-> > > > +
-> > > > +		switch (endpoint.port) {
-> > > > +		case SUN6I_CSI_PORT_PARALLEL:
-> > > > +			source =3D &bridge->source_parallel;
-> > > > +			enabled =3D true;
-> > > > +			break;
-> > > > +		default:
-> > > > +			break;
-> > > > +		}
-> > > > +
-> > > > +next:
-> > > > +		fwnode_handle_put(remote_fwnode);
-> > > > +	}
-> > > > +
-> > > > +	if (!source)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	source->subdev =3D remote_subdev;
-> > > > +
-> > > > +	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
-> > > > +				     remote_subdev, enabled);
-> > > > +}
-> > > > +
-> > > > +static int
-> > > > +sun6i_csi_bridge_notifier_complete(struct v4l2_async_notifier *not=
-ifier)
-> > > > +{
-> > > > +	struct sun6i_csi_device *csi_dev =3D
-> > > > +		container_of(notifier, struct sun6i_csi_device,
-> > > > +			     bridge.notifier);
-> > > > +
-> > > > +	return sun6i_csi_v4l2_complete(csi_dev);
-> > >=20
-> > > You could call v4l2_device_register_subdev_nodes() here.
-> >=20
-> > That's definitely what sun6i_csi_v4l2_complete does (the diff is probab=
-ly not
-> > very clear). Note that the wrapper is extended later on to register the=
- capture
-> > video device for the no-isp path.
->=20
-> I could be missing something... Do you need to call
-> sun6i_csi_v4l2_complete() in multiple places or not? If not, then I think
-> it'd be probably better to just move the code here.
+Looking forward to see the new version!
 
-No this is only called here so I guess we can avoid it entirely.
+Regards,
+Angelo
 
-Thanks,
 
-Paul
-
-> >=20
-> > Maybe the capture registration could be kept in sun6i_csi_probe for the=
- non-isp
-> > path and then the wrapper wouldn't be needed. I don't mind either way.
->=20
-> --=20
-> Kind regards,
->=20
-> Sakari Ailus
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---dwUOJP15b315kF0b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIh1RwACgkQ3cLmz3+f
-v9Ha5Qf+Lz13XAEQwduMjvaJ3V4PK+23t0taf6Fv0+Peh5fnTfFagFYbMtBdFsbo
-q/6i5Zt3JaRdXe+5SixAINP00cflNxpxuAN+MRbjP4wfaRBxNRGqhIGjXWzJYLZe
-jn4lX8W49l8iafyCstJ5jhccMEn/LSo1mO3pAyjc3pMXK+6HabgMe5UEETWvm5n3
-XX1j/KBu1PtgQUNKbBxKGpGVmlmBjMEfM+DIx19h70AeeG7OW4wUq37IJ5i6AiuX
-Q7da7pWZMzdesWbjon3l5X5rPbfimGXqNLJYUa86zFBrk/nO+10HhU1udx4du5AW
-4e/50RP2kNoRQ9bvpvarQtS8gN0BGg==
-=Nf6c
------END PGP SIGNATURE-----
-
---dwUOJP15b315kF0b--
