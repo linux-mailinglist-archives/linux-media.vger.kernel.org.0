@@ -2,163 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E3464CCC82
-	for <lists+linux-media@lfdr.de>; Fri,  4 Mar 2022 05:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CB504CCE34
+	for <lists+linux-media@lfdr.de>; Fri,  4 Mar 2022 08:00:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237886AbiCDEUc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Mar 2022 23:20:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54042 "EHLO
+        id S236291AbiCDHBP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Mar 2022 02:01:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231585AbiCDEUb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Mar 2022 23:20:31 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F01E1117C9C
-        for <linux-media@vger.kernel.org>; Thu,  3 Mar 2022 20:19:43 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 89F8261B04
-        for <linux-media@vger.kernel.org>; Fri,  4 Mar 2022 04:19:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97EAFC340E9
-        for <linux-media@vger.kernel.org>; Fri,  4 Mar 2022 04:19:42 +0000 (UTC)
-Date:   Fri, 04 Mar 2022 05:19:40 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220304041942.97EAFC340E9@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S238446AbiCDHBM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Mar 2022 02:01:12 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8AF318E3DF;
+        Thu,  3 Mar 2022 23:00:21 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id t187so2483135pgb.1;
+        Thu, 03 Mar 2022 23:00:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=0a+oQu3LYTAbOOyoILb+F/zkApGIum0yjd+xPCLEHo4=;
+        b=UcHSzcmMAevEFsqxc8gimvoSIew96LrW3UYvjfgkcaeLb/Edql9668oTELTgMdhcyh
+         uwTLYgNgPfuwuQfZCbkLtuIX59UkP2xXrD0mK6eOfNdOu/KSihdjQUFHL7gwAFzgpb4Z
+         PeSQfhLMwS3uLkuXfSSL1QQyblGTA4kTyWBkcty1viz6EkWmIbbGn99xu95lY6jAsJ0c
+         CbisDo/RPFGn8gAJnKluj00ht4OQ80XaXmCEvGalnXTnvAWrV5UWFfWh6kgUBnLZJvSQ
+         W0PYU136vUwP4grvjJEIhDxHc0WM1lPQ2cysIXPjh+breTQ07tU9AM0RgZ3Jr4UsSFjT
+         NaGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=0a+oQu3LYTAbOOyoILb+F/zkApGIum0yjd+xPCLEHo4=;
+        b=wb2esMQoam0yRdU1iiWooJMh4JC1GjnRkNWIV6OwsjoezbD+7+ifd1PhuzPjaxCPmO
+         u1fcrH6eLHtxqL4KDTLuseNeth97iCChifcBxeofjvT0Byq082mjxQBMfKUbi4/3XunZ
+         7O1vtdoC6GJQEe1jCXtEwSzf90DWRIWVtkfFAhBCXU/4JQ9/KiwbJufulDJ2q3IPax49
+         jtXkkkenH5kmYciK/w/TThMkCF+OMj+Sm8kubeVraTrTJ9SBcdzW0IJc/7q7VtLNcYPK
+         tCqru2KpLGaD7gEtqsW5aTHIjrKYId6o+E8n1FslfMQUFX2avWIb0/I/Jx8Qwp0u0z7d
+         d27Q==
+X-Gm-Message-State: AOAM532aXFpfPfPgP0BGzvfNmwbT3nDlpYgI2HlLyy0AbUqKoKxKSL90
+        x6bmOo7yTyt/Z10hh54ZEPQ=
+X-Google-Smtp-Source: ABdhPJxBFOb3A6C/RlDh1uHGrWM51HjSkR68cXfNAhNGErUbSC2hd/FilwMHkJmidt1eEHAWD7GVrA==
+X-Received: by 2002:a05:6a00:cc7:b0:4ec:c6f3:ad29 with SMTP id b7-20020a056a000cc700b004ecc6f3ad29mr41958698pfv.66.1646377221067;
+        Thu, 03 Mar 2022 23:00:21 -0800 (PST)
+Received: from ubuntu.huawei.com ([119.3.119.19])
+        by smtp.googlemail.com with ESMTPSA id f6-20020a654006000000b00346193b405fsm3665134pgp.44.2022.03.03.23.00.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Mar 2022 23:00:20 -0800 (PST)
+From:   Xiaomeng Tong <xiam0nd.tong@gmail.com>
+To:     daniel.thompson@linaro.org
+Cc:     akpm@linux-foundation.org, alsa-devel@alsa-project.org,
+        amd-gfx@lists.freedesktop.org, andriy.shevchenko@linux.intel.com,
+        arnd@arndb.de, bcm-kernel-feedback-list@broadcom.com,
+        bjohannesmeyer@gmail.com, c.giuffrida@vu.nl,
+        christian.koenig@amd.com, christophe.jaillet@wanadoo.fr,
+        dan.carpenter@oracle.com, david.laight@aculab.com,
+        dmaengine@vger.kernel.org, drbd-dev@lists.linbit.com,
+        dri-devel@lists.freedesktop.org, gustavo@embeddedor.com,
+        h.j.bos@vu.nl, intel-gfx@lists.freedesktop.org,
+        intel-wired-lan@lists.osuosl.org, jakobkoschel@gmail.com,
+        jgg@ziepe.ca, keescook@chromium.org,
+        kgdb-bugreport@lists.sourceforge.net, kvm@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-block@vger.kernel.org,
+        linux-cifs@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fsdevel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-sgx@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net, linux@rasmusvillemoes.dk,
+        linuxppc-dev@lists.ozlabs.org, nathan@kernel.org,
+        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+        rppt@kernel.org, samba-technical@lists.samba.org,
+        tglx@linutronix.de, tipc-discussion@lists.sourceforge.net,
+        torvalds@linux-foundation.org,
+        v9fs-developer@lists.sourceforge.net, xiam0nd.tong@gmail.com
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body as a ptr
+Date:   Fri,  4 Mar 2022 14:59:57 +0800
+Message-Id: <20220304065957.16799-1-xiam0nd.tong@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220303121824.qdyrognluik74iph@maple.lan>
+References: <20220303121824.qdyrognluik74iph@maple.lan>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Thu, 3 Mar 2022 12:18:24 +0000, Daniel Thompson wrote:
+> On Thu, Mar 03, 2022 at 03:26:57PM +0800, Xiaomeng Tong wrote:
+> > On Thu, 3 Mar 2022 04:58:23 +0000, David Laight wrote:
+> > > on 3 Mar 2022 10:27:29 +0800, Xiaomeng Tong wrote:
+> > > > The problem is the mis-use of iterator outside the loop on exit, and
+> > > > the iterator will be the HEAD's container_of pointer which pointers
+> > > > to a type-confused struct. Sidenote: The *mis-use* here refers to
+> > > > mistakely access to other members of the struct, instead of the
+> > > > list_head member which acutally is the valid HEAD.
+> > >
+> > > The problem is that the HEAD's container_of pointer should never
+> > > be calculated at all.
+> > > This is what is fundamentally broken about the current definition.
+> > 
+> > Yes, the rule is "the HEAD's container_of pointer should never be
+> > calculated at all outside the loop", but how do you make sure everyone
+> > follows this rule?
+> 
+> Your formulation of the rule is correct: never run container_of() on HEAD
+> pointer.
 
-Results of the daily build of media_tree:
+Actually, it is not my rule. My rule is that never access other members
+of the struct except for the list_head member after the loop, because
+this is a invalid member after loop exit, but valid for the list_head
+member which just is HEAD and the lately caculation (&pos->head) seems
+harmless.
 
-date:			Fri Mar  4 05:00:13 CET 2022
-media-tree git hash:	2881ca629984b949ec9ac2e8ba1e64a2f0b66e8b
-media_build git hash:	d5d4c1ff328b8464bd0f55aea299ab5f2a7856ec
-v4l-utils git hash:	482610beb4a0d9e5d12783f1b734945677782c2e
-edid-decode git hash:	388f4dd7f438ecfe8d61a2a458899fdc15dd1af2
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5a84266d391eb878f83b081540507f76650111aa
-host hardware:		x86_64
-host os:		5.16.0-1-amd64
+I have considered the case that the HEAD's container "pos" is layouted
+across the max and the min address boundary, which means the address of
+HEAD is likely 0x60, and the address of pos is likely 0xffffffe0.
+It seems ok to caculate pos with:
+((type *)(__mptr - offsetof(type, member)));
+and it seems ok to caculate head outside the loop with:
+if (&pos->head == &HEAD)
+    return NULL;
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16.1-i686: OK
-linux-5.16.1-x86_64: OK
-linux-5.17-rc1-i686: OK
-linux-5.17-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: VM was not running
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: WARNINGS
+The only case I can think of with the rule "never run container_of()
+on HEAD" must be followed is when the first argument (which is &HEAD)
+passing to container_of() is NULL + some offset, it may lead to the
+resulting "pos->member" access being a NULL dereference. But maybe
+the caller can take the responsibility to check if it is NULL, not
+container_of() itself.
 
-Detailed results are available here:
+Please remind me if i missed somthing, thanks.
 
-https://hverkuil.home.xs4all.nl/logs/Friday.log
+> 
+> However the rule that is introduced by list_for_each_entry_inside() is
+> *not* this rule. The rule it introduces is: never access the iterator
+> variable outside the loop.
 
-Detailed regression test results are available here:
+Sorry for the confusion, indeed, that is two *different* rule.
 
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
+> 
+> Making the iterator NULL on loop exit does follow the rule you proposed
+> but using a different technique: do not allow HEAD to be stored in the
+> iterator variable after loop exit. This also makes it impossible to run
+> container_of() on the HEAD pointer.
+> 
 
-Full logs are available here:
+It does not. My rule is: never access the iterator variable outside the loop.
+The "Making the iterator NULL on loop exit" way still leak the pos with NULL
+outside the loop, may lead to a NULL deference.
 
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+> 
+> > Everyone makes mistakes, but we can eliminate them all from the beginning
+> > with the help of compiler which can catch such use-after-loop things.
+> 
+> Indeed but if we introduce new interfaces then we don't have to worry
+> about existing usages and silent regressions. Code will have been
+> written knowing the loop can exit with the iterator set to NULL.
 
-The Media Infrastructure API from this daily build is here:
+Yes, it is more simple and compatible with existing interfaces. Howerver,
+you should make every developers to remember that "pos will be set NULL on
+loop exit", which is unreasonable and impossible for *every* single person.
+Otherwise the mis-use-after-loop will lead to a NULL dereference.
+But we can kill this problem by declaring iterator inside the loop and the
+complier will catch it if somebody mis-use-after-loop.
 
-https://hverkuil.home.xs4all.nl/spec/index.html
+> 
+> Sure it is still possible for programmers to make mistakes and
+> dereference the NULL pointer but C programmers are well training w.r.t.
+> NULL pointer checking so such mistakes are much less likely than with
+> the current list_for_each_entry() macro. This risk must be offset
+> against the way a NULLify approach can lead to more elegant code when we
+> are doing a list search.
+> 
+
+Yes, the NULLify approach is better than the current list_for_each_entry()
+macro, but i stick with that the list_for_each_entry_inside() way is best
+and perfect _technically_.
+
+Thus, my idea is *better a finger off than always aching*, let's settle this
+damn problem once and for all, with list_for_each_entry_inside().
+
+--
+Xiaomeng Tong
