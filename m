@@ -2,72 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14A4E4CCF64
-	for <lists+linux-media@lfdr.de>; Fri,  4 Mar 2022 08:57:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 855B34CCF9A
+	for <lists+linux-media@lfdr.de>; Fri,  4 Mar 2022 09:05:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232874AbiCDH6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Mar 2022 02:58:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34730 "EHLO
+        id S232067AbiCDIF6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Mar 2022 03:05:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239051AbiCDH6D (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Mar 2022 02:58:03 -0500
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B3F70932
-        for <linux-media@vger.kernel.org>; Thu,  3 Mar 2022 23:57:16 -0800 (PST)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nQ2oM-007xU4-TT; Fri, 04 Mar 2022 07:57:14 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nQ2oK-008rlN-Am; Fri, 04 Mar 2022 07:57:12 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL v3 FOR 5.18] Even yet more V4L2 patches (#81260)
-Date:   Fri,  4 Mar 2022 07:57:12 +0000
-Message-Id: <20220304075712.2113242-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YiHCTill0+2zBBTm@valkosipuli.retiisi.eu>
-References: 
+        with ESMTP id S233520AbiCDIFm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Mar 2022 03:05:42 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20826158DA1;
+        Fri,  4 Mar 2022 00:04:54 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 860F560A52;
+        Fri,  4 Mar 2022 08:04:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28DFBC340E9;
+        Fri,  4 Mar 2022 08:04:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646381093;
+        bh=Tgs03jOO+tOMUPi4cSw7bkrOng84ePRbUUCWr093Xso=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=G/a9fYk7Sz8kRE1rBq+1OlGNk3DjOENsuu/a7IGyMAAwTaUIZ5e1zUQF9boXkZSUA
+         zJicuz5qfLidVnYM4LOTPqo5YGRrjOJI8jz2snHQLr8JCVSgOQrtT2HumtDwsIjPFk
+         JnJtbewltNbbez95C5WiKKlFG5h7/oWgjHwyFq1uN5hl58rIN0psdUI99P76JLEJ0l
+         XzWxLHGjvS2qosAGcAg/OYJkdH6RthnVyjJfq0njwJPNWbSALBQn99XHAJbqZu1/JR
+         d/dxGdsV6S6S6CyjkKLC+xKBkFNPPrJi7yRtvS9jNjGQnHGA2v92J7/CPgMbrxD5Dj
+         906CIa0v5yEEg==
+Date:   Fri, 4 Mar 2022 09:04:50 +0100
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc:     Michael Walle <michael@walle.cc>,
+        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] i2c: at91: use dma safe buffers
+Message-ID: <YiHIIjSs03gDJmHV@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Michael Walle <michael@walle.cc>,
+        Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>, linux-i2c@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
+References: <20220303161724.3324948-1-michael@walle.cc>
+ <fff424e7-247c-38d8-4151-8b0503a16a7d@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="q4xj+Sj+I6MT188+"
+Content-Disposition: inline
+In-Reply-To: <fff424e7-247c-38d8-4151-8b0503a16a7d@amd.com>
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/YiHCTill0+2zBBTm@valkosipuli.retiisi.eu/
-Build log: https://builder.linuxtv.org/job/patchwork/187889/
-Build time: 00:00:00
-Link: https://lore.kernel.org/linux-media/YiHCTill0+2zBBTm@valkosipuli.retiisi.eu
+--q4xj+Sj+I6MT188+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-gpg: Signature made Fri 04 Mar 2022 07:37:02 AM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: F0D0 377A 0D4F 25A7 9238  EFE5 6D40 361B 6E28 C193
-     Subkey fingerprint: 53AC 58A5 F594 8636 C04A  1BF8 141D FA54 A1EC 8DEA
+Hi Christian,
+
+> Maybe call your variable differently. DMA-buf is an inter driver buffer
+> sharing frame we use for GPU acceleration and V4L.
+>=20
+> It doesn't cause any technical issues, but the maintainer regex now trigg=
+ers
+> on that. So you are CCing people not related to this code in any way.
+
+Frankly, I think the 'dma_buf' regex is a bit too generic. 'dma_buf'
+seems like a reasonable name to me if some subsystem has to deal with
+different buffers which can be DMA or non-DMA, like I2C. If you git-grep
+the tree, you will find it in quite some places.
+
+We could now think of renaming the variable to 'dmabuf' but this is
+a strange and kind of arbitrary rule to remember IMO.
+
+I wonder if you'd miss a lot of patches if we remove 'dma_buf' from the
+regex and keep 'dma_fence' and 'dma_resv'? Or extend it to 'dma_buf_' or
+'struct dma_buf'?
+
+All the best,
+
+   Wolfram
 
 
-Build aborted due to a fatal error:
-FAILED: patch patch patches/0003-media-Add-a-driver-for-the-og01a1b-camera-sensor.patch doesn't apply:
-Applying patch patches/0003-media-Add-a-driver-for-the-og01a1b-camera-sensor.patch
-patching file MAINTAINERS
-patching file drivers/media/i2c/Kconfig
-patching file drivers/media/i2c/Makefile
-Hunk #1 FAILED at 64.
-1 out of 1 hunk FAILED -- rejects in file drivers/media/i2c/Makefile
-patching file drivers/media/i2c/og01a1b.c
-Patch patches/0003-media-Add-a-driver-for-the-og01a1b-camera-sensor.patch does not apply (enforce with -f)
+--q4xj+Sj+I6MT188+
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIhyB4ACgkQFA3kzBSg
+KbZqdRAAk+1zEkJ+HS3V9yeKstHw9UOXqDrYgWXd3rMh8oZLB3UzVrnqkpzd7Orz
+wlpxLWSd7RGuCNYxCAYvB3NfH4tVG/PSDcZcGTENYiEnRYuCXh03Nz0GNkUEdwVQ
+LM//a5UketKvg/saVj3LduoK7KgfjsJcGi0XqpFxFHsKuFOvb9aL7MsP8oY1L2GB
+41DcnvbtS9lYrseEAHl3qVKcT+TinRFygpxlgVcoS1r01Sji59q7ew2ul6Wp8KDm
+jIFHwlnLAhWGAJXAvBr3GV0jHGmMxu6Z0jnYwypr1xQX3OCndb92qqmWA0qeCjkB
+ligfcv7lcJ+gUBFZghoULph6GSpGEgSC81kxBpcaGPWKBA/Lb8N46sCM1e2XVfGg
+fY8xt7yR45gC2jYAQQRhlzjBSlmmws5PE147DwLzr1rYsGv8vKRYBfdmRD16WZz8
+MkV+GdqE71UZSS4ja62vld6WiyPVBWb6ZcYeBZEuVdLiFCVbPj5ZWBf/idMar7Up
++iyXvzNPFVUMFIsiEwU3SER5RQGUAHF9l573OY1GdUMAhO2qcy90BB4MOq2f3ayi
+hhW1k9yWqbij7GjVlKsXMUmHilxJZhGD6DCbumQztP6EHYEO+M4HRa7WEuGh5Q+s
+ZlOgSXwkubk7bLCa0qXxAv1SIwDj07ew/kbYxiMI7ieDDFdqVVY=
+=g1ks
+-----END PGP SIGNATURE-----
+
+--q4xj+Sj+I6MT188+--
