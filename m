@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC2524CDA1B
-	for <lists+linux-media@lfdr.de>; Fri,  4 Mar 2022 18:20:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD7734CDA0F
+	for <lists+linux-media@lfdr.de>; Fri,  4 Mar 2022 18:20:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230027AbiCDRVE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Mar 2022 12:21:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36114 "EHLO
+        id S241109AbiCDRVB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Mar 2022 12:21:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241103AbiCDRUs (ORCPT
+        with ESMTP id S241104AbiCDRUs (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Fri, 4 Mar 2022 12:20:48 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5591C74EA
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81EFA1C74F1
         for <linux-media@vger.kernel.org>; Fri,  4 Mar 2022 09:19:53 -0800 (PST)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 46F331870;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE03618C4;
         Fri,  4 Mar 2022 18:19:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646414383;
-        bh=tLZBOFv4Sua4nht15QHP+PeXEWtGdX9eu22/SW0N0NY=;
+        s=mail; t=1646414384;
+        bh=9ROprn3HxbxGrOVm4ab+C91AqWJca1OqXYMJ0PqX3Fo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DEuX4DLm18LPAZunE+iKMFc9QHLbiYJ5/jWXLr/9A4i7yEsmYEY47smpD4G97wklo
-         mcUYaIHq0+CtRbofNDVqSqNwzKldQT8gpoQvSORYB40Q8sXW88iXKYjUmP8fMWes9V
-         yhe/WZlxsuoiDGLaCtRfswFqfwpExlzXiVcofF/s=
+        b=uzrVr5S4raasn0Ex+SHEUqTyHw+kCKrGSzxGw8lkroRRkWmfFudcMLRaXKZ1hF/qD
+         /zYW1IC2bEkW9zmgwgOKPV5aXqRK87jn9OyHuAbLPPVX4X5dguvDBlAXSFXcMl9aak
+         xAoTa9oPNmedeIeuvUKzmCkmZfS0a1ImVXAQdWxA=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
@@ -31,9 +31,9 @@ Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
         Paul Elder <paul.elder@ideasonboard.com>,
         Tomasz Figa <tfiga@google.com>,
         linux-rockchip@lists.infradead.org
-Subject: [PATCH v2 04/17] media: rkisp1: resizer: Fix and simplify (un)registration
-Date:   Fri,  4 Mar 2022 19:19:12 +0200
-Message-Id: <20220304171925.1592-5-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 05/17] media: rkisp1: params: Fix and simplify (un)registration
+Date:   Fri,  4 Mar 2022 19:19:13 +0200
+Message-Id: <20220304171925.1592-6-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220304171925.1592-1-laurent.pinchart@ideasonboard.com>
 References: <20220304171925.1592-1-laurent.pinchart@ideasonboard.com>
@@ -48,101 +48,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The rkisp1_rsz_register() and rkisp1_rsz_unregister() functions don't
-destroy the mutex (in the error path for the former). Fix this, simplify
-error handling at registration time as media_entity_cleanup() can be
-called on an uninitialized entity, and make rkisp1_rsz_unregister() and
-rkisp1_resizer_devs_unregister() safe to be called on an unregistered
-resizer subdev to prepare for simplification of error handling at probe
-time.
+The rkisp1_params_register() and rkisp1_params_unregister() functions
+don't destroy the mutex (in the error path for the former). Fix this,
+simplify error handling at registration time as media_entity_cleanup()
+can be called on an uninitialized entity, and make
+rkisp1_params_unregister() safe to be called on an unregistered params
+node to prepare for simplification of error handling at probe time.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
-Changes since v1:
+ .../platform/rockchip/rkisp1/rkisp1-params.c      | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-- Reset rsz->rkisp1 in rkisp1_resizer_devs_register()
----
- .../platform/rockchip/rkisp1/rkisp1-resizer.c | 34 +++++++++----------
- 1 file changed, 17 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-index 2070f4b06705..df2beee1be99 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-@@ -782,8 +782,12 @@ static const struct v4l2_subdev_ops rkisp1_rsz_ops = {
- 
- static void rkisp1_rsz_unregister(struct rkisp1_resizer *rsz)
- {
-+	if (!rsz->rkisp1)
-+		return;
-+
- 	v4l2_device_unregister_subdev(&rsz->sd);
- 	media_entity_cleanup(&rsz->sd.entity);
-+	mutex_destroy(&rsz->ops_lock);
- }
- 
- static int rkisp1_rsz_register(struct rkisp1_resizer *rsz)
-@@ -821,47 +825,43 @@ static int rkisp1_rsz_register(struct rkisp1_resizer *rsz)
- 	mutex_init(&rsz->ops_lock);
- 	ret = media_entity_pads_init(&sd->entity, RKISP1_RSZ_PAD_MAX, pads);
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+index 8f62f09e635f..d41823c861ca 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+@@ -1844,16 +1844,21 @@ int rkisp1_params_register(struct rkisp1_device *rkisp1)
+ 	node->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	ret = media_entity_pads_init(&vdev->entity, 1, &node->pad);
  	if (ret)
 -		return ret;
 +		goto error;
- 
- 	ret = v4l2_device_register_subdev(&rsz->rkisp1->v4l2_dev, sd);
++
+ 	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
  	if (ret) {
- 		dev_err(sd->dev, "Failed to register resizer subdev\n");
+ 		dev_err(rkisp1->dev,
+ 			"failed to register %s, ret=%d\n", vdev->name, ret);
 -		goto err_cleanup_media_entity;
 +		goto error;
  	}
- 
- 	rkisp1_rsz_init_config(sd, &state);
++
  	return 0;
- 
 -err_cleanup_media_entity:
++
 +error:
- 	media_entity_cleanup(&sd->entity);
--
-+	mutex_destroy(&rsz->ops_lock);
+ 	media_entity_cleanup(&vdev->entity);
++	mutex_destroy(&node->vlock);
++	params->rkisp1 = NULL;
  	return ret;
  }
  
- int rkisp1_resizer_devs_register(struct rkisp1_device *rkisp1)
- {
--	struct rkisp1_resizer *rsz;
--	unsigned int i, j;
-+	unsigned int i;
- 	int ret;
+@@ -1863,6 +1868,10 @@ void rkisp1_params_unregister(struct rkisp1_device *rkisp1)
+ 	struct rkisp1_vdev_node *node = &params->vnode;
+ 	struct video_device *vdev = &node->vdev;
  
- 	for (i = 0; i < ARRAY_SIZE(rkisp1->resizer_devs); i++) {
--		rsz = &rkisp1->resizer_devs[i];
-+		struct rkisp1_resizer *rsz = &rkisp1->resizer_devs[i];
++	if (!params->rkisp1)
++		return;
 +
- 		rsz->rkisp1 = rkisp1;
- 		rsz->id = i;
-+
- 		ret = rkisp1_rsz_register(rsz);
--		if (ret)
--			goto err_unreg_resizer_devs;
-+		if (ret) {
-+			rsz->rkisp1 = NULL;
-+			rkisp1_resizer_devs_unregister(rkisp1);
-+			return ret;
-+		}
- 	}
- 
- 	return 0;
--
--err_unreg_resizer_devs:
--	for (j = 0; j < i; j++) {
--		rsz = &rkisp1->resizer_devs[j];
--		rkisp1_rsz_unregister(rsz);
--	}
--
--	return ret;
+ 	vb2_video_unregister_device(vdev);
+ 	media_entity_cleanup(&vdev->entity);
++	mutex_destroy(&node->vlock);
  }
- 
- void rkisp1_resizer_devs_unregister(struct rkisp1_device *rkisp1)
 -- 
 Regards,
 
