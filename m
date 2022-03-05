@@ -2,119 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4BF04CE4B8
-	for <lists+linux-media@lfdr.de>; Sat,  5 Mar 2022 13:17:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 108B04CE4BD
+	for <lists+linux-media@lfdr.de>; Sat,  5 Mar 2022 13:20:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231178AbiCEMSN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Mar 2022 07:18:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54180 "EHLO
+        id S231628AbiCEMVC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Mar 2022 07:21:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbiCEMSN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Mar 2022 07:18:13 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E26FF43AD8
-        for <linux-media@vger.kernel.org>; Sat,  5 Mar 2022 04:17:23 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id ay5so10035790plb.1
-        for <linux-media@vger.kernel.org>; Sat, 05 Mar 2022 04:17:23 -0800 (PST)
+        with ESMTP id S231466AbiCEMVC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Mar 2022 07:21:02 -0500
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04EC65880D
+        for <linux-media@vger.kernel.org>; Sat,  5 Mar 2022 04:20:12 -0800 (PST)
+Received: by mail-lj1-x231.google.com with SMTP id p20so14374324ljo.0
+        for <linux-media@vger.kernel.org>; Sat, 05 Mar 2022 04:20:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=As7hVMsPOFgRRyj2g+9QKSheeaMQmbJCYo1136pnD3w=;
-        b=oPTtem8MrcBUiOBs70K5qRUpjbSOEtnzFf7f4fnGmHhRicBxc9TKO9YUfPPWot1KUR
-         ijWTghW9y7IGRycgPeSF2SrYfDYDKiQgM6c0y5WSil+oyWaki1Hla47g/nuPMiYsvjTU
-         StCrczr3IGCe1FG47GkrjwEPweX7WGF0LjdxoM/xQgJ8YRYRYpr87VfPuDgKR0DhRKU1
-         6bdeiYJhEopI/g40/K24EDPSbOoA7MOufNoBuu3G/37oN6TBN2bpIspp1VdXBHZbwi8S
-         +lgOH2l118HSQBZX+Blo+F50LYXcrnN6ql4dY1xxyKE7EfuF4YX++/QI5JqGJzkDF9R6
-         BKMA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=PAuhlXKoN+F1w1gfMETzhilH+R2APbQy2NKsIVQ13zs=;
+        b=CkVfw7W3FefJeSVRUU8tMGHb2nmsq4VXfBNRppgZ7i0DP45BIOSqu5km55+XZAtyia
+         bqlVElV/ZN+wW0hCcwtArzn6pI14Ptt4AEAt39bQdKRZdCiG1rQBLCJk9UQtjRq7k+m1
+         CJxqctZiKiEOt3+jQljzR8Aj1QbkdGE4QdfleqFeNLltE5C+ztdUp68+Ar2fy/UuicdT
+         oajnB1pqeohOTyh7Z1lrA3sJLfh+aSQYCbsE8E00+eapQetgf/6aXu6pfs9NJLkAmoyJ
+         Z8G/EZGy59eAocyUeTiwBPnJFCIRAJmuQLBHd0A9QU70UhykADwOeUUJPw8JCqmi8RHl
+         CrRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=As7hVMsPOFgRRyj2g+9QKSheeaMQmbJCYo1136pnD3w=;
-        b=cST6Qi0YOMbDbD/5F8PvURR/MpatUHdLP8WqZ4egB8n+79A/onZF77F7Dy7szy/9Qa
-         LVHwFjmP5IabJKV3pO42e7HXdOnNfoLVvraWqGYleDEfXHcf3dpwfzisib8LO/9/6beo
-         x3uykctm2bEnMY2R22ySAMxaWnv41WHapfLqAscOTL7gKJN7OytpYEwrYCM+3jTT6Ma4
-         8n8JoGoQRdWyWs+Rj1kmCHI0H83Ms7OXnP/VgM9mtGgFl/FvyNEnLC1YpYJ+q+wTbYd7
-         M2YSVsGYINf3bVSWjIecn7nVGCuqPWiEnv/VGnDBc24NXBAhpg0REZebALj4JFN1Qupi
-         GyAw==
-X-Gm-Message-State: AOAM530z+nX6NMcaAj/3zfyMTl5eLVX+xjqEG5mlzgOUqx0xGy/Bfql0
-        ENBWEbqzZjN0gMcq1pZGtUKuA0ofTK7Og1EH0QujzQ==
-X-Google-Smtp-Source: ABdhPJyxDXTIIIZDoRs76X22sySaK+1GJzMHk1aLvX4rXnEayQHsfPOUonh+aMgsr08eXP98NLVK2g==
-X-Received: by 2002:a17:902:f155:b0:151:8377:9a8e with SMTP id d21-20020a170902f15500b0015183779a8emr3185454plb.21.1646482643449;
-        Sat, 05 Mar 2022 04:17:23 -0800 (PST)
-Received: from localhost.localdomain ([49.65.245.47])
-        by smtp.gmail.com with ESMTPSA id k17-20020a056a00135100b004f3a9a477d0sm9520526pfu.110.2022.03.05.04.17.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Mar 2022 04:17:23 -0800 (PST)
-From:   wangshumin <pdsrazor@gmail.com>
-To:     sumit.semwal@linaro.org, gustavo@padovan.org,
-        christian.koenig@amd.com
-Cc:     linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        wangshumin <pdsrazor@gmail.com>
-Subject: [PATCH] dma-fence: fix free sync object incorrectly
-Date:   Sat,  5 Mar 2022 20:17:03 +0800
-Message-Id: <20220305121703.17041-1-pdsrazor@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=PAuhlXKoN+F1w1gfMETzhilH+R2APbQy2NKsIVQ13zs=;
+        b=rHbbSsd+BkLr66+BzRqeYYvDD25FvRnfMLF2DpE49iSIG0R2RMaaWMAfeqzcBVQTTC
+         443DWvUwZa5fsBnkM/HWl5zr7X9lADU75GrHFczICpZBoxjYhboKW9Pe6aE1VX0889Ei
+         CizqN0T8RvwGH8qVYzL68thbGlimmhB5wDqAnFI90KdD/fqiVcgHW4axvIAj257JtAaQ
+         T8Nj4KGJWkGlAD07K9A8fQLWvwCCiWqRve7yRq89QLEIigNRGezZGvGmJJXRQzcG4ssi
+         hdgOuDbbRy0+4fCm4dhE2xrz0qZuYNhavuHCgjpd64FGPkqvdQ85b4Gh2NyhATL8Zli6
+         1zhQ==
+X-Gm-Message-State: AOAM531tRPRuudmxKsEOnAT40WOqLw3BdPkW5CLanDmRYJbH/Ixl2vz0
+        VEoMRlJvk1IgeO/uLiFcw+Pdn/snUvg7bMb22+w=
+X-Google-Smtp-Source: ABdhPJx7/mvzF0cqplrafXz8EQ4IlbR+VYC6LtYbq8PLMBkzd2b0tHKW2ZCgwB8DRW20szEKgipaZqNIXh/3synlZe0=
+X-Received: by 2002:a05:651c:230b:b0:247:dc20:6b6a with SMTP id
+ bi11-20020a05651c230b00b00247dc206b6amr928229ljb.160.1646482807803; Sat, 05
+ Mar 2022 04:20:07 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:aa6:c20a:0:b0:190:7f6a:a9e5 with HTTP; Sat, 5 Mar 2022
+ 04:20:07 -0800 (PST)
+Reply-To: fflorajones@gmail.com
+From:   Flora Jones <mmjanee1@gmail.com>
+Date:   Sat, 5 Mar 2022 04:20:07 -0800
+Message-ID: <CAPrdfSa4b_zrYj6sJ5pS+zGAYvbcq4V2TyjhwayTa9h2mW+frA@mail.gmail.com>
+Subject: MY MESSAGE
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,SUBJ_ALL_CAPS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:231 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4996]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [mmjanee1[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [mmjanee1[at]gmail.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.6 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The function dma_fence_free() works fine because
-struct dma_fence is the first member of sync object.
-
-Use `kfree` make it more reasonable.
-
-Signed-off-by: wangshumin <pdsrazor@gmail.com>
----
- drivers/dma-buf/dma-fence-array.c | 2 +-
- drivers/dma-buf/dma-fence-chain.c | 2 +-
- drivers/dma-buf/sw_sync.c         | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-index cb1bacb5a42b..fc52d837e579 100644
---- a/drivers/dma-buf/dma-fence-array.c
-+++ b/drivers/dma-buf/dma-fence-array.c
-@@ -120,7 +120,7 @@ static void dma_fence_array_release(struct dma_fence *fence)
- 		dma_fence_put(array->fences[i]);
- 
- 	kfree(array->fences);
--	dma_fence_free(fence);
-+	kfree(array);
- }
- 
- const struct dma_fence_ops dma_fence_array_ops = {
-diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-index 06f8ef97c6e8..b29e1f22f08e 100644
---- a/drivers/dma-buf/dma-fence-chain.c
-+++ b/drivers/dma-buf/dma-fence-chain.c
-@@ -203,7 +203,7 @@ static void dma_fence_chain_release(struct dma_fence *fence)
- 	dma_fence_put(prev);
- 
- 	dma_fence_put(chain->fence);
--	dma_fence_free(fence);
-+	kfree(chain);
- }
- 
- const struct dma_fence_ops dma_fence_chain_ops = {
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index 348b3a9170fa..80432eeb58c3 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -142,7 +142,7 @@ static void timeline_fence_release(struct dma_fence *fence)
- 	spin_unlock_irqrestore(fence->lock, flags);
- 
- 	sync_timeline_put(parent);
--	dma_fence_free(fence);
-+	kfree(pt);
- }
- 
- static bool timeline_fence_signaled(struct dma_fence *fence)
 -- 
-2.17.1
-
+Dear,
+I am Flora Jones, a widow with a child who is 7 years old. Pressure
+from my family has compelled me to seek for your assistance. Can you
+help me receive  in your account, this money is for investment into
+real estate, I don't want to lose this fund as pressure on me with
+life threatening is becoming unbearable. Since the death of my
+husband, his brothers have been seriously chasing me around with
+constant threats, trying to suppress me so that they might have the
+documents of his landed properties and they have confiscate them.
+Please can I confide in you, I will give you more details once you
+reply back.
+Flora Jones
