@@ -2,88 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE5D04CE09A
-	for <lists+linux-media@lfdr.de>; Sat,  5 Mar 2022 00:10:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4BF04CE4B8
+	for <lists+linux-media@lfdr.de>; Sat,  5 Mar 2022 13:17:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbiCDXLo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Mar 2022 18:11:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34266 "EHLO
+        id S231178AbiCEMSN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Mar 2022 07:18:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiCDXLo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Mar 2022 18:11:44 -0500
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DE7E27B8DC;
-        Fri,  4 Mar 2022 15:10:56 -0800 (PST)
-Received: by mail-ot1-f50.google.com with SMTP id k22-20020a9d4b96000000b005ad5211bd5aso8572354otf.8;
-        Fri, 04 Mar 2022 15:10:56 -0800 (PST)
+        with ESMTP id S229518AbiCEMSN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Mar 2022 07:18:13 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E26FF43AD8
+        for <linux-media@vger.kernel.org>; Sat,  5 Mar 2022 04:17:23 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id ay5so10035790plb.1
+        for <linux-media@vger.kernel.org>; Sat, 05 Mar 2022 04:17:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=As7hVMsPOFgRRyj2g+9QKSheeaMQmbJCYo1136pnD3w=;
+        b=oPTtem8MrcBUiOBs70K5qRUpjbSOEtnzFf7f4fnGmHhRicBxc9TKO9YUfPPWot1KUR
+         ijWTghW9y7IGRycgPeSF2SrYfDYDKiQgM6c0y5WSil+oyWaki1Hla47g/nuPMiYsvjTU
+         StCrczr3IGCe1FG47GkrjwEPweX7WGF0LjdxoM/xQgJ8YRYRYpr87VfPuDgKR0DhRKU1
+         6bdeiYJhEopI/g40/K24EDPSbOoA7MOufNoBuu3G/37oN6TBN2bpIspp1VdXBHZbwi8S
+         +lgOH2l118HSQBZX+Blo+F50LYXcrnN6ql4dY1xxyKE7EfuF4YX++/QI5JqGJzkDF9R6
+         BKMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=RuShRiqoesbAiGJ0CpdraJFq/JZTca6v5cXOWBV0j8A=;
-        b=gBNuMvI5CW5dZL+9usV5Zodh7v0t4/dB8thnabJ4tl6/RoYt2Rda+3JIk6PBC9e2fH
-         3c+m6XylLBwECTtp6708uRbMG0sa+5TWnJG8LyjBTggPQBj8ueaMskO0W3QVmQxgcThZ
-         uuDAb1G6taPuKiKXoFpnNYR2bK85+v8BAZg2FWcaYC4xz6UCk+fkfaxfp+sW2viu2c3k
-         4XooiV/DPsO/8OSxGNgdOoYtOZFsFZiME0qqcfqL1hW1DIhX6rtxUAIJ+qHiZtnZG28G
-         uOZ3yO2dXyy/vWl+YmqS9HUG0DvaCNUL2ZqP4wZ/ElcpmJSamFme/llYtxyMwColzb0j
-         S2Tw==
-X-Gm-Message-State: AOAM532R/r2C3SNNBujRWqrfhLYMGinfGAOBQrebBi12jgcGjQZyzk7s
-        q2S2b5nnPmxUUrLUC+jgZA==
-X-Google-Smtp-Source: ABdhPJxoHOlh3iJcAzoGmaWLYOE0MAvCtrMZ9X79UTOLyDJ2P5w9QsU2Oj3dFAizgZutXoAKGvi5HQ==
-X-Received: by 2002:a05:6830:1e4d:b0:5af:3fad:e09b with SMTP id e13-20020a0568301e4d00b005af3fade09bmr444951otj.334.1646435455450;
-        Fri, 04 Mar 2022 15:10:55 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id o22-20020a0568080bd600b002d49b19bc2fsm3337303oik.23.2022.03.04.15.10.54
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=As7hVMsPOFgRRyj2g+9QKSheeaMQmbJCYo1136pnD3w=;
+        b=cST6Qi0YOMbDbD/5F8PvURR/MpatUHdLP8WqZ4egB8n+79A/onZF77F7Dy7szy/9Qa
+         LVHwFjmP5IabJKV3pO42e7HXdOnNfoLVvraWqGYleDEfXHcf3dpwfzisib8LO/9/6beo
+         x3uykctm2bEnMY2R22ySAMxaWnv41WHapfLqAscOTL7gKJN7OytpYEwrYCM+3jTT6Ma4
+         8n8JoGoQRdWyWs+Rj1kmCHI0H83Ms7OXnP/VgM9mtGgFl/FvyNEnLC1YpYJ+q+wTbYd7
+         M2YSVsGYINf3bVSWjIecn7nVGCuqPWiEnv/VGnDBc24NXBAhpg0REZebALj4JFN1Qupi
+         GyAw==
+X-Gm-Message-State: AOAM530z+nX6NMcaAj/3zfyMTl5eLVX+xjqEG5mlzgOUqx0xGy/Bfql0
+        ENBWEbqzZjN0gMcq1pZGtUKuA0ofTK7Og1EH0QujzQ==
+X-Google-Smtp-Source: ABdhPJyxDXTIIIZDoRs76X22sySaK+1GJzMHk1aLvX4rXnEayQHsfPOUonh+aMgsr08eXP98NLVK2g==
+X-Received: by 2002:a17:902:f155:b0:151:8377:9a8e with SMTP id d21-20020a170902f15500b0015183779a8emr3185454plb.21.1646482643449;
+        Sat, 05 Mar 2022 04:17:23 -0800 (PST)
+Received: from localhost.localdomain ([49.65.245.47])
+        by smtp.gmail.com with ESMTPSA id k17-20020a056a00135100b004f3a9a477d0sm9520526pfu.110.2022.03.05.04.17.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Mar 2022 15:10:54 -0800 (PST)
-Received: (nullmailer pid 635132 invoked by uid 1000);
-        Fri, 04 Mar 2022 23:10:53 -0000
-Date:   Fri, 4 Mar 2022 17:10:53 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado 
-        <nfraprado@collabora.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-media@vger.kernel.org, kernel@collabora.com,
-        linux-mediatek@lists.infradead.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] media: dt-bindings: mtk-vcodec-encoder: Add
- power-domains property
-Message-ID: <YiKcfeo7yjbljr+h@robh.at.kernel.org>
-References: <20220225225854.81038-1-nfraprado@collabora.com>
- <20220225225854.81038-4-nfraprado@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220225225854.81038-4-nfraprado@collabora.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        Sat, 05 Mar 2022 04:17:23 -0800 (PST)
+From:   wangshumin <pdsrazor@gmail.com>
+To:     sumit.semwal@linaro.org, gustavo@padovan.org,
+        christian.koenig@amd.com
+Cc:     linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        wangshumin <pdsrazor@gmail.com>
+Subject: [PATCH] dma-fence: fix free sync object incorrectly
+Date:   Sat,  5 Mar 2022 20:17:03 +0800
+Message-Id: <20220305121703.17041-1-pdsrazor@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 25 Feb 2022 17:58:54 -0500, Nícolas F. R. A. Prado wrote:
-> The encoder node may be dependent on a power-domain. Add a property for
-> it.
-> 
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> ---
-> 
->  .../devicetree/bindings/media/mediatek,vcodec-encoder.yaml     | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+The function dma_fence_free() works fine because
+struct dma_fence is the first member of sync object.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Use `kfree` make it more reasonable.
+
+Signed-off-by: wangshumin <pdsrazor@gmail.com>
+---
+ drivers/dma-buf/dma-fence-array.c | 2 +-
+ drivers/dma-buf/dma-fence-chain.c | 2 +-
+ drivers/dma-buf/sw_sync.c         | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+index cb1bacb5a42b..fc52d837e579 100644
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -120,7 +120,7 @@ static void dma_fence_array_release(struct dma_fence *fence)
+ 		dma_fence_put(array->fences[i]);
+ 
+ 	kfree(array->fences);
+-	dma_fence_free(fence);
++	kfree(array);
+ }
+ 
+ const struct dma_fence_ops dma_fence_array_ops = {
+diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+index 06f8ef97c6e8..b29e1f22f08e 100644
+--- a/drivers/dma-buf/dma-fence-chain.c
++++ b/drivers/dma-buf/dma-fence-chain.c
+@@ -203,7 +203,7 @@ static void dma_fence_chain_release(struct dma_fence *fence)
+ 	dma_fence_put(prev);
+ 
+ 	dma_fence_put(chain->fence);
+-	dma_fence_free(fence);
++	kfree(chain);
+ }
+ 
+ const struct dma_fence_ops dma_fence_chain_ops = {
+diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+index 348b3a9170fa..80432eeb58c3 100644
+--- a/drivers/dma-buf/sw_sync.c
++++ b/drivers/dma-buf/sw_sync.c
+@@ -142,7 +142,7 @@ static void timeline_fence_release(struct dma_fence *fence)
+ 	spin_unlock_irqrestore(fence->lock, flags);
+ 
+ 	sync_timeline_put(parent);
+-	dma_fence_free(fence);
++	kfree(pt);
+ }
+ 
+ static bool timeline_fence_signaled(struct dma_fence *fence)
+-- 
+2.17.1
+
