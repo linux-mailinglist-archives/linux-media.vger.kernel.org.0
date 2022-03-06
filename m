@@ -2,39 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 132DC4CEB0F
-	for <lists+linux-media@lfdr.de>; Sun,  6 Mar 2022 12:29:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 837A74CEC51
+	for <lists+linux-media@lfdr.de>; Sun,  6 Mar 2022 17:54:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232842AbiCFLaK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Mar 2022 06:30:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45884 "EHLO
+        id S232429AbiCFQzS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Mar 2022 11:55:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230094AbiCFLaJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Mar 2022 06:30:09 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 767362B18D
-        for <linux-media@vger.kernel.org>; Sun,  6 Mar 2022 03:29:15 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0E4CE60B3B
-        for <linux-media@vger.kernel.org>; Sun,  6 Mar 2022 11:29:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B44DC340EE;
-        Sun,  6 Mar 2022 11:29:13 +0000 (UTC)
-Message-ID: <51dc0870-8fd5-4705-7069-ab3229b34075@xs4all.nl>
-Date:   Sun, 6 Mar 2022 12:29:11 +0100
+        with ESMTP id S231218AbiCFQzR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Mar 2022 11:55:17 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6E5F41605;
+        Sun,  6 Mar 2022 08:54:24 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 10F7D482;
+        Sun,  6 Mar 2022 17:54:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1646585662;
+        bh=mhT517VAmXVC6DXdNmYkViFAhLpxLMeHciIaiEmB2S0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qsKJQgAVwnHCG+aG1bcjmnhAQf+69Qdj9I+DdfDxh/wid9BGqBL4avhBcQKQW559H
+         GYi7Pmqg+oWsEnPMebfLIq+DHRJfHG/BwcYKu7pzMyqTlNbH1lLTKsOPYP9/Kjrbzu
+         k+2pPTrpR2NBgej7IBJ8tDPUp9mqY7GGS9tRZfUo=
+Date:   Sun, 6 Mar 2022 18:54:10 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>
+Subject: Re: [PATCH 1/2] dt-bindings: media: Add macros for video interface
+ bus types
+Message-ID: <YiTnMq+czvLzEtnf@pendragon.ideasonboard.com>
+References: <20220227203352.17314-1-laurent.pinchart@ideasonboard.com>
+ <20220227203352.17314-2-laurent.pinchart@ideasonboard.com>
+ <YhvoC0aXpJUTslnC@paasikivi.fi.intel.com>
+ <YhvqLL0LYWt2ryaE@pendragon.ideasonboard.com>
+ <Yh416qrZr32PzMtJ@robh.at.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Martin Dauskardt <martin.dauskardt@gmx.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] ivtv: fix incorrect device_caps for ivtvfb
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Yh416qrZr32PzMtJ@robh.at.kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -42,113 +56,101 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The VIDIOC_G_FBUF and related overlay ioctls no longer worked (-ENOTTY was
-returned).
+Hi Rob,
 
-The root cause was the introduction of the caps field in ivtv-driver.h.
-While loading the ivtvfb module would update the video_device device_caps
-field with V4L2_CAP_VIDEO_OUTPUT_OVERLAY it would not update that caps field,
-and that's what the overlay ioctls would look at.
+On Tue, Mar 01, 2022 at 09:04:10AM -0600, Rob Herring wrote:
+> On Sun, Feb 27, 2022 at 11:16:28PM +0200, Laurent Pinchart wrote:
+> > On Sun, Feb 27, 2022 at 11:07:23PM +0200, Sakari Ailus wrote:
+> > > On Sun, Feb 27, 2022 at 10:33:51PM +0200, Laurent Pinchart wrote:
+> > > > Add a new dt-bindings/media/video-interfaces.h header that defines
+> > > > macros corresponding to the bus types from media/video-interfaces.yaml.
+> > > > This allows avoiding hardcoded constants in device tree sources.
+> > > > 
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > ---
+> > > >  include/dt-bindings/media/video-interfaces.h | 16 ++++++++++++++++
+> > > >  1 file changed, 16 insertions(+)
+> > > >  create mode 100644 include/dt-bindings/media/video-interfaces.h
+> > > > 
+> > > > diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
+> > > > new file mode 100644
+> > > > index 000000000000..e38058e1cca7
+> > > > --- /dev/null
+> > > > +++ b/include/dt-bindings/media/video-interfaces.h
+> > > > @@ -0,0 +1,16 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > > > +/*
+> > > > + * Copyright (C) 2022 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > + */
+> > > > +
+> > > > +#ifndef __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
+> > > > +#define __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
+> > > > +
+> > > > +#define MEDIA_BUS_TYPE_CSI2_CPHY		1
+> > > > +#define MEDIA_BUS_TYPE_CSI1			2
+> > > > +#define MEDIA_BUS_TYPE_CCP2			3
+> > > > +#define MEDIA_BUS_TYPE_CSI2_DPHY		4
+> > > > +#define MEDIA_BUS_TYPE_PARALLEL			5
+> > > 
+> > > I've been long thinkin of renaming "PARALLEL" as "BT.601" which it really
+> > > is. I don't mind postponing that, but I think you could as well start here.
+> > > Up to you.
+> > 
+> > I think it's a good idea, but we then need to decide what to do with
+> > other types of parallel buses. Let's start this discussion now, and
+> > implement it in a patch on top of this series.
+> 
+> 5 and what it means is an ABI. If it is ambiguous and needs to be more 
+> specific, then you need new numbers for all of those specific types.
+> 
+> If it is just a rename, I prefer it is done from the start.
 
-It's a bad idea to keep information in two places, so drop the caps field and
-only use vdev.device_caps.
+It's both :-) It's ambiguous, but only used to refer to BT.601-liked
+buses today in mainline, so I'll rename it. The number may be used to
+refer to different types of parallel buses out-of-tree, and we can add
+new types for that in mainline later when/if needed.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reported-by: Martin Dauskardt <martin.dauskardt@gmx.de>
-Fixes: 2161536516ed (media: media/pci: set device_caps in struct video_device)
----
-Martin, can you test this?
+> > > Should this be somehow visible in video-interfaces.yaml?
+> > 
+> > I wish we could use macros in .yaml files instead of numerical values,
+> > but I don't think that's possible. I can do this:
+> > 
+> >    bus-type:
+> >      $ref: /schemas/types.yaml#/definitions/uint32
+> >      enum:
+> > -      - 1 # MIPI CSI-2 C-PHY
+> > -      - 2 # MIPI CSI1
+> > -      - 3 # CCP2
+> > -      - 4 # MIPI CSI-2 D-PHY
+> > -      - 5 # Parallel
+> > -      - 6 # BT.656
+> > +      - 1 # MIPI CSI-2 C-PHY (MEDIA_BUS_TYPE_CSI2_CPHY)
+> > +      - 2 # MIPI CSI1 (MEDIA_BUS_TYPE_CSI1)
+> > +      - 3 # CCP2 (MEDIA_BUS_TYPE_CCP2)
+> > +      - 4 # MIPI CSI-2 D-PHY (MEDIA_BUS_TYPE_CSI2_DPHY)
+> > +      - 5 # Parallel (MEDIA_BUS_TYPE_PARALLEL)
+> > +      - 6 # BT.656 (MEDIA_BUS_TYPE_BT656)
+> 
+> Seems a bit redundant to have both comment text and define. The only 
+> part missing from the defines is 'MIPI'.
 
-To be honest, using ivtvfb is rather flaky on my system; it seems to hang
-frequently when I modprobe it.
----
-diff --git a/drivers/media/pci/ivtv/ivtv-driver.h b/drivers/media/pci/ivtv/ivtv-driver.h
-index 4cf92dee6527..ce3a7ca51736 100644
---- a/drivers/media/pci/ivtv/ivtv-driver.h
-+++ b/drivers/media/pci/ivtv/ivtv-driver.h
-@@ -330,7 +330,6 @@ struct ivtv_stream {
- 	struct ivtv *itv;		/* for ease of use */
- 	const char *name;		/* name of the stream */
- 	int type;			/* stream type */
--	u32 caps;			/* V4L2 capabilities */
- 
- 	struct v4l2_fh *fh;		/* pointer to the streaming filehandle */
- 	spinlock_t qlock;		/* locks access to the queues */
-diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.c b/drivers/media/pci/ivtv/ivtv-ioctl.c
-index 0cdf6b3210c2..fee460e2ca86 100644
---- a/drivers/media/pci/ivtv/ivtv-ioctl.c
-+++ b/drivers/media/pci/ivtv/ivtv-ioctl.c
-@@ -438,7 +438,7 @@ static int ivtv_g_fmt_vid_out_overlay(struct file *file, void *fh, struct v4l2_f
- 	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
- 	struct v4l2_window *winfmt = &fmt->fmt.win;
- 
--	if (!(s->caps & V4L2_CAP_VIDEO_OUTPUT_OVERLAY))
-+	if (!(s->vdev.device_caps & V4L2_CAP_VIDEO_OUTPUT_OVERLAY))
- 		return -EINVAL;
- 	if (!itv->osd_video_pbase)
- 		return -EINVAL;
-@@ -549,7 +549,7 @@ static int ivtv_try_fmt_vid_out_overlay(struct file *file, void *fh, struct v4l2
- 	u32 chromakey = fmt->fmt.win.chromakey;
- 	u8 global_alpha = fmt->fmt.win.global_alpha;
- 
--	if (!(s->caps & V4L2_CAP_VIDEO_OUTPUT_OVERLAY))
-+	if (!(s->vdev.device_caps & V4L2_CAP_VIDEO_OUTPUT_OVERLAY))
- 		return -EINVAL;
- 	if (!itv->osd_video_pbase)
- 		return -EINVAL;
-@@ -1383,7 +1383,7 @@ static int ivtv_g_fbuf(struct file *file, void *fh, struct v4l2_framebuffer *fb)
- 		0,
- 	};
- 
--	if (!(s->caps & V4L2_CAP_VIDEO_OUTPUT_OVERLAY))
-+	if (!(s->vdev.device_caps & V4L2_CAP_VIDEO_OUTPUT_OVERLAY))
- 		return -ENOTTY;
- 	if (!itv->osd_video_pbase)
- 		return -ENOTTY;
-@@ -1450,7 +1450,7 @@ static int ivtv_s_fbuf(struct file *file, void *fh, const struct v4l2_framebuffe
- 	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
- 	struct yuv_playback_info *yi = &itv->yuv_info;
- 
--	if (!(s->caps & V4L2_CAP_VIDEO_OUTPUT_OVERLAY))
-+	if (!(s->vdev.device_caps & V4L2_CAP_VIDEO_OUTPUT_OVERLAY))
- 		return -ENOTTY;
- 	if (!itv->osd_video_pbase)
- 		return -ENOTTY;
-@@ -1470,7 +1470,7 @@ static int ivtv_overlay(struct file *file, void *fh, unsigned int on)
- 	struct ivtv *itv = id->itv;
- 	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
- 
--	if (!(s->caps & V4L2_CAP_VIDEO_OUTPUT_OVERLAY))
-+	if (!(s->vdev.device_caps & V4L2_CAP_VIDEO_OUTPUT_OVERLAY))
- 		return -ENOTTY;
- 	if (!itv->osd_video_pbase)
- 		return -ENOTTY;
-diff --git a/drivers/media/pci/ivtv/ivtv-streams.c b/drivers/media/pci/ivtv/ivtv-streams.c
-index 6e455948cc77..13d7d55e6594 100644
---- a/drivers/media/pci/ivtv/ivtv-streams.c
-+++ b/drivers/media/pci/ivtv/ivtv-streams.c
-@@ -176,7 +176,7 @@ static void ivtv_stream_init(struct ivtv *itv, int type)
- 	s->itv = itv;
- 	s->type = type;
- 	s->name = ivtv_stream_info[type].name;
--	s->caps = ivtv_stream_info[type].v4l2_caps;
-+	s->vdev.device_caps = ivtv_stream_info[type].v4l2_caps;
- 
- 	if (ivtv_stream_info[type].pio)
- 		s->dma = DMA_NONE;
-@@ -299,12 +299,9 @@ static int ivtv_reg_dev(struct ivtv *itv, int type)
- 		if (s_mpg->vdev.v4l2_dev)
- 			num = s_mpg->vdev.num + ivtv_stream_info[type].num_offset;
- 	}
--	s->vdev.device_caps = s->caps;
--	if (itv->osd_video_pbase) {
--		itv->streams[IVTV_DEC_STREAM_TYPE_YUV].vdev.device_caps |=
--			V4L2_CAP_VIDEO_OUTPUT_OVERLAY;
--		itv->streams[IVTV_DEC_STREAM_TYPE_MPG].vdev.device_caps |=
--			V4L2_CAP_VIDEO_OUTPUT_OVERLAY;
-+	if (itv->osd_video_pbase && (type == IVTV_DEC_STREAM_TYPE_YUV ||
-+				     type == IVTV_DEC_STREAM_TYPE_MPG)) {
-+		s->vdev.device_caps |= V4L2_CAP_VIDEO_OUTPUT_OVERLAY;
- 		itv->v4l2_cap |= V4L2_CAP_VIDEO_OUTPUT_OVERLAY;
- 	}
- 	video_set_drvdata(&s->vdev, s);
+I agree. I'll use the macros.
+
+It would be nice if macros could be used instead of numerical values in
+the YAML schema, but that's certainly not high on the wishlist.
+
+> >      description:
+> > -      Data bus type.
+> > +      Data bus type. Use the macros listed above (defined in
+> > +      dt-bindings/video-interfaces.h) instead of numerical values.
+> > 
+> > Any better proposal ?
+> > 
+> > > > +#define MEDIA_BUS_TYPE_BT656			6
+> > > > +
+> > > > +#endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
+
+-- 
+Regards,
+
+Laurent Pinchart
