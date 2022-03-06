@@ -2,51 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 837A74CEC51
-	for <lists+linux-media@lfdr.de>; Sun,  6 Mar 2022 17:54:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FEEC4CEC90
+	for <lists+linux-media@lfdr.de>; Sun,  6 Mar 2022 18:39:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232429AbiCFQzS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Mar 2022 11:55:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59136 "EHLO
+        id S231596AbiCFRkS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Mar 2022 12:40:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231218AbiCFQzR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Mar 2022 11:55:17 -0500
+        with ESMTP id S229789AbiCFRkR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Mar 2022 12:40:17 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6E5F41605;
-        Sun,  6 Mar 2022 08:54:24 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 10F7D482;
-        Sun,  6 Mar 2022 17:54:22 +0100 (CET)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D195711146;
+        Sun,  6 Mar 2022 09:39:22 -0800 (PST)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 429C9482;
+        Sun,  6 Mar 2022 18:39:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646585662;
-        bh=mhT517VAmXVC6DXdNmYkViFAhLpxLMeHciIaiEmB2S0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qsKJQgAVwnHCG+aG1bcjmnhAQf+69Qdj9I+DdfDxh/wid9BGqBL4avhBcQKQW559H
-         GYi7Pmqg+oWsEnPMebfLIq+DHRJfHG/BwcYKu7pzMyqTlNbH1lLTKsOPYP9/Kjrbzu
-         k+2pPTrpR2NBgej7IBJ8tDPUp9mqY7GGS9tRZfUo=
-Date:   Sun, 6 Mar 2022 18:54:10 +0200
+        s=mail; t=1646588361;
+        bh=ywoVmQNqU9OcRFUjFQv8ux4/JC1YVycOwhZKUoi+QXY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=S20ihGSyDvtZrPojmqTCirUA4Wt3g6Oo9v3J1+oqjVyht/DRyQQYonGg9RN+zUR70
+         EOQAgBAxTKYih0l/3lxryFmZjATdk+fjHXVWZvlCc7Au67NoSPrqOUwy36pasAeBhN
+         RzXnxIR33vlNEXRDh2vfiqBdtpE2taN2TsOcdugI=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+To:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Jacopo Mondi <jacopo@jmondi.org>,
         Eugen Hristev <eugen.hristev@microchip.com>,
         Hugues Fruchet <hugues.fruchet@foss.st.com>,
         Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>
-Subject: Re: [PATCH 1/2] dt-bindings: media: Add macros for video interface
- bus types
-Message-ID: <YiTnMq+czvLzEtnf@pendragon.ideasonboard.com>
-References: <20220227203352.17314-1-laurent.pinchart@ideasonboard.com>
- <20220227203352.17314-2-laurent.pinchart@ideasonboard.com>
- <YhvoC0aXpJUTslnC@paasikivi.fi.intel.com>
- <YhvqLL0LYWt2ryaE@pendragon.ideasonboard.com>
- <Yh416qrZr32PzMtJ@robh.at.kernel.org>
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>
+Subject: [PATCH v2 0/3] dt-bindings: Add macros for video interface bus types
+Date:   Sun,  6 Mar 2022 19:39:02 +0200
+Message-Id: <20220306173905.22990-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yh416qrZr32PzMtJ@robh.at.kernel.org>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -56,101 +53,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Hello,
 
-On Tue, Mar 01, 2022 at 09:04:10AM -0600, Rob Herring wrote:
-> On Sun, Feb 27, 2022 at 11:16:28PM +0200, Laurent Pinchart wrote:
-> > On Sun, Feb 27, 2022 at 11:07:23PM +0200, Sakari Ailus wrote:
-> > > On Sun, Feb 27, 2022 at 10:33:51PM +0200, Laurent Pinchart wrote:
-> > > > Add a new dt-bindings/media/video-interfaces.h header that defines
-> > > > macros corresponding to the bus types from media/video-interfaces.yaml.
-> > > > This allows avoiding hardcoded constants in device tree sources.
-> > > > 
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > ---
-> > > >  include/dt-bindings/media/video-interfaces.h | 16 ++++++++++++++++
-> > > >  1 file changed, 16 insertions(+)
-> > > >  create mode 100644 include/dt-bindings/media/video-interfaces.h
-> > > > 
-> > > > diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
-> > > > new file mode 100644
-> > > > index 000000000000..e38058e1cca7
-> > > > --- /dev/null
-> > > > +++ b/include/dt-bindings/media/video-interfaces.h
-> > > > @@ -0,0 +1,16 @@
-> > > > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > > > +/*
-> > > > + * Copyright (C) 2022 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > + */
-> > > > +
-> > > > +#ifndef __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
-> > > > +#define __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
-> > > > +
-> > > > +#define MEDIA_BUS_TYPE_CSI2_CPHY		1
-> > > > +#define MEDIA_BUS_TYPE_CSI1			2
-> > > > +#define MEDIA_BUS_TYPE_CCP2			3
-> > > > +#define MEDIA_BUS_TYPE_CSI2_DPHY		4
-> > > > +#define MEDIA_BUS_TYPE_PARALLEL			5
-> > > 
-> > > I've been long thinkin of renaming "PARALLEL" as "BT.601" which it really
-> > > is. I don't mind postponing that, but I think you could as well start here.
-> > > Up to you.
-> > 
-> > I think it's a good idea, but we then need to decide what to do with
-> > other types of parallel buses. Let's start this discussion now, and
-> > implement it in a patch on top of this series.
-> 
-> 5 and what it means is an ABI. If it is ambiguous and needs to be more 
-> specific, then you need new numbers for all of those specific types.
-> 
-> If it is just a rename, I prefer it is done from the start.
+This small patch series is the result of me getting a bus-type numerical
+value wrong in a device tree file and spending too long debugging the
+issue. Hopefully there's nothing controversial here.
 
-It's both :-) It's ambiguous, but only used to refer to BT.601-liked
-buses today in mainline, so I'll rename it. The number may be used to
-refer to different types of parallel buses out-of-tree, and we can add
-new types for that in mainline later when/if needed.
+Compared to v1, the PARALLEL bus type has been renamed to BT601, and
+patch 3/3 now converts existing DT sources. See individual patches for a
+detailed changelog.
 
-> > > Should this be somehow visible in video-interfaces.yaml?
-> > 
-> > I wish we could use macros in .yaml files instead of numerical values,
-> > but I don't think that's possible. I can do this:
-> > 
-> >    bus-type:
-> >      $ref: /schemas/types.yaml#/definitions/uint32
-> >      enum:
-> > -      - 1 # MIPI CSI-2 C-PHY
-> > -      - 2 # MIPI CSI1
-> > -      - 3 # CCP2
-> > -      - 4 # MIPI CSI-2 D-PHY
-> > -      - 5 # Parallel
-> > -      - 6 # BT.656
-> > +      - 1 # MIPI CSI-2 C-PHY (MEDIA_BUS_TYPE_CSI2_CPHY)
-> > +      - 2 # MIPI CSI1 (MEDIA_BUS_TYPE_CSI1)
-> > +      - 3 # CCP2 (MEDIA_BUS_TYPE_CCP2)
-> > +      - 4 # MIPI CSI-2 D-PHY (MEDIA_BUS_TYPE_CSI2_DPHY)
-> > +      - 5 # Parallel (MEDIA_BUS_TYPE_PARALLEL)
-> > +      - 6 # BT.656 (MEDIA_BUS_TYPE_BT656)
-> 
-> Seems a bit redundant to have both comment text and define. The only 
-> part missing from the defines is 'MIPI'.
+I can split patch 3/3 per architecture or per board if desired, but
+given that this is a mechanical change, and the patch is fairly small,
+I'd rather keep it as-is and merge it as part of the series.
 
-I agree. I'll use the macros.
+When writing 3/3 I noticed that the anx7625 bindings and the
+corresponding driver badly misuse the bus type (mapping CCP2 to mean
+MIPI DPI, and PARALLEL - now BT601 - to mean MIPI DSI). This misuse
+hasn't reached a released mainline kernel as it got merged in v5.17-rc1,
+so there may still be a chance to fix it. Let's discuss this in [1],
+I'll update this series and rebase it on v5.18-rc1 once released based
+on the outcome of the discussion.
 
-It would be nice if macros could be used instead of numerical values in
-the YAML schema, but that's certainly not high on the wishlist.
+[1] https://lore.kernel.org/all/YiTruiCIkyxs3jTC@pendragon.ideasonboard.com/
 
-> >      description:
-> > -      Data bus type.
-> > +      Data bus type. Use the macros listed above (defined in
-> > +      dt-bindings/video-interfaces.h) instead of numerical values.
-> > 
-> > Any better proposal ?
-> > 
-> > > > +#define MEDIA_BUS_TYPE_BT656			6
-> > > > +
-> > > > +#endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
+Laurent Pinchart (3):
+  dt-bindings: media: Add macros for video interface bus types
+  dt-bindings: Use new video interface bus type macros in examples
+  ARM: dts: Use new media bus type macros
+
+ .../display/bridge/analogix,anx7625.yaml         |  3 ++-
+ .../devicetree/bindings/media/i2c/mipi-ccs.yaml  |  3 ++-
+ .../bindings/media/i2c/ovti,ov772x.yaml          |  3 ++-
+ .../bindings/media/marvell,mmp2-ccic.yaml        |  3 ++-
+ .../bindings/media/microchip,xisc.yaml           |  3 ++-
+ .../devicetree/bindings/media/st,stm32-dcmi.yaml |  4 +++-
+ arch/arm/boot/dts/imx6ul-14x14-evk.dtsi          |  4 +++-
+ arch/arm/boot/dts/omap3-n900.dts                 |  5 +++--
+ arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts  | 11 +++++++----
+ .../r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi    |  4 +++-
+ .../r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi    |  4 +++-
+ arch/arm/boot/dts/stm32429i-eval.dts             |  3 ++-
+ arch/arm/boot/dts/stm32mp157c-ev1.dts            |  3 ++-
+ include/dt-bindings/media/video-interfaces.h     | 16 ++++++++++++++++
+ 14 files changed, 52 insertions(+), 17 deletions(-)
+ create mode 100644 include/dt-bindings/media/video-interfaces.h
 
 -- 
 Regards,
 
 Laurent Pinchart
+
