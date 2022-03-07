@@ -2,38 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 122284CF2CB
-	for <lists+linux-media@lfdr.de>; Mon,  7 Mar 2022 08:44:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3D2B4CF2F9
+	for <lists+linux-media@lfdr.de>; Mon,  7 Mar 2022 08:52:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233009AbiCGHpI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Mar 2022 02:45:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45080 "EHLO
+        id S235972AbiCGHxp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Mar 2022 02:53:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230037AbiCGHpI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Mar 2022 02:45:08 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF06462EE
-        for <linux-media@vger.kernel.org>; Sun,  6 Mar 2022 23:44:14 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 870DF60B4B
-        for <linux-media@vger.kernel.org>; Mon,  7 Mar 2022 07:44:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC52BC340E9
-        for <linux-media@vger.kernel.org>; Mon,  7 Mar 2022 07:44:13 +0000 (UTC)
-Message-ID: <2d0bd966-8153-30b8-118c-0a21d4af31e4@xs4all.nl>
-Date:   Mon, 7 Mar 2022 08:44:12 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.18] Various cleanups and an ivtv regression fix
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        with ESMTP id S232814AbiCGHxo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Mar 2022 02:53:44 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 120013B566;
+        Sun,  6 Mar 2022 23:52:50 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id v4so12588619pjh.2;
+        Sun, 06 Mar 2022 23:52:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=fNVhu6NstuF9oQwubQhxrrg5qS1nBL78GxXqPU0UXj4=;
+        b=AoG99Mg6T+IVKUbJHAXoR+Sp8bcgGB0jHy32u7VbdEU8d+2Om7533Qb85hxIS9xvSd
+         8HArsoR9K1FP693STCoRuFab6hWwsDuy8t8ZSW+9TuqV/QV6Vvc2dchHX6Unbef+Z7iC
+         oJHHa+gzIAo4ERyLoSCysrR/5Z3hkZXgOql3M3qk76UintPRcg+U1XZf5AABzii1YVxN
+         n5KJMCnDz6+ZFJQVaoJpr2hc3gJTLT3dVS8LL6K3AFDJEaNdsbjtMQczFWGlnt35J+l5
+         v8xTdOuehkXK5ejjVNOckogM111ptMethooTfaQB2DLf5xeoTl1tAlC9gBUJlvHT3OIa
+         mrAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=fNVhu6NstuF9oQwubQhxrrg5qS1nBL78GxXqPU0UXj4=;
+        b=Vtd956dZzbRbGmmYOYMwl6PfV3gv+g1vn5lHRuzZpEmkazDtnR9c7CJI2eAa8WaHcK
+         nN/q8whjg1H2lRj8ir8+eECmPuYzBaLBhk3mEfZ5nUzSdzrn3d0OxJtrQ8EkwPAKgh/B
+         DzKNUj7iUmdAKRRnYh9WSONI0oZVjlkkcqb8V4wtawLDA5QwAKLITRtGnRvM8dZNV/by
+         9/ZU4NAxpWRnQHk/G/AXrLkG4dljSuAU8TI5UvYAKWnl0ljfe1xmJR8ZxPQsIjlNqZet
+         58QQIAZr6UjMGGd0w+0SpPr1K7BRhb97A4XnO9aloPlADdu/5Y80Qra9U4UP7COgG53f
+         7ZOQ==
+X-Gm-Message-State: AOAM5312rCMmdIPopH4rv/ooKiN/Xxry8lnH3RthWG+ERmwL5EBKJlw6
+        RYt4MRBxY1xTBDPMSAmd/Fo=
+X-Google-Smtp-Source: ABdhPJwdZXTCxgo9TNoVYXkRa1iK3ipktgWmQFvyow6ygoh7afXRkDlVL1IVZIQJ65C6hA06x7FtVw==
+X-Received: by 2002:a17:90b:4b4a:b0:1bf:83d:6805 with SMTP id mi10-20020a17090b4b4a00b001bf083d6805mr24285924pjb.174.1646639569513;
+        Sun, 06 Mar 2022 23:52:49 -0800 (PST)
+Received: from localhost.localdomain ([159.226.95.43])
+        by smtp.googlemail.com with ESMTPSA id a133-20020a621a8b000000b004f6a79008ddsm12310777pfa.45.2022.03.06.23.52.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Mar 2022 23:52:49 -0800 (PST)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Younghwan Joo <yhwan.joo@samsung.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linmq006@gmail.com
+Subject: [PATCH] media: exynos4-is:  Fix PM disable depth imbalance in fimc_is_probe
+Date:   Mon,  7 Mar 2022 07:52:06 +0000
+Message-Id: <20220307075206.10737-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,49 +69,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 2881ca629984b949ec9ac2e8ba1e64a2f0b66e8b:
+If probe fails then we need to call pm_runtime_disable() to balance
+out the previous pm_runtime_enable() call.
 
-  media: Makefiles: sort entries where it fits (2022-02-22 08:27:40 +0100)
+Fixes: 9a761e436843 ("[media] exynos4-is: Add Exynos4x12 FIMC-IS driver")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/media/platform/exynos4-is/fimc-is.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-are available in the Git repository at:
+diff --git a/drivers/media/platform/exynos4-is/fimc-is.c b/drivers/media/platform/exynos4-is/fimc-is.c
+index e55e411038f4..81b290dace3a 100644
+--- a/drivers/media/platform/exynos4-is/fimc-is.c
++++ b/drivers/media/platform/exynos4-is/fimc-is.c
+@@ -830,7 +830,7 @@ static int fimc_is_probe(struct platform_device *pdev)
+ 
+ 	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret < 0)
+-		goto err_irq;
++		goto err_pm_disable;
+ 
+ 	vb2_dma_contig_set_max_seg_size(dev, DMA_BIT_MASK(32));
+ 
+@@ -864,6 +864,8 @@ static int fimc_is_probe(struct platform_device *pdev)
+ 	pm_runtime_put_noidle(dev);
+ 	if (!pm_runtime_enabled(dev))
+ 		fimc_is_runtime_suspend(dev);
++err_pm_disable:
++	pm_runtime_disable(dev);
+ err_irq:
+ 	free_irq(is->irq, is);
+ err_clk:
+-- 
+2.17.1
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18s
-
-for you to fetch changes up to ae4c0d36340f06795feb09a7d8d3e881ccb0e589:
-
-  ivtv: fix incorrect device_caps for ivtvfb (2022-03-07 08:42:36 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Dafna Hirschfeld (1):
-      media: MAINTAINERS: update rksip1 maintainers info
-
-Geert Uytterhoeven (1):
-      media: rcar-csi2: Drop comma after SoC match table sentinel
-
-Hans Verkuil (1):
-      ivtv: fix incorrect device_caps for ivtvfb
-
-Jakob Koschel (1):
-      media: saa7134: fix incorrect use to determine if list is empty
-
-Mark Brown (1):
-      media: i2c: max2175: Use rbtree rather than flat register cache
-
-Shuah Khan (1):
-      MAINTAINERS: update media vimc driver maintainers
-
-Souptick Joarder (HPE) (1):
-      media: camss: Replace hard coded value with parameter
-
- MAINTAINERS                                         |  7 +++----
- drivers/media/i2c/max2175.c                         |  2 +-
- drivers/media/pci/ivtv/ivtv-driver.h                |  1 -
- drivers/media/pci/ivtv/ivtv-ioctl.c                 | 10 +++++-----
- drivers/media/pci/ivtv/ivtv-streams.c               | 11 ++++-------
- drivers/media/pci/saa7134/saa7134-alsa.c            |  4 ++--
- drivers/media/platform/qcom/camss/camss-csid-gen2.c |  2 +-
- drivers/media/platform/rcar-vin/rcar-csi2.c         |  2 +-
- 8 files changed, 17 insertions(+), 22 deletions(-)
