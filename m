@@ -2,62 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FAB84CF33B
-	for <lists+linux-media@lfdr.de>; Mon,  7 Mar 2022 09:09:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B0CB4CF365
+	for <lists+linux-media@lfdr.de>; Mon,  7 Mar 2022 09:16:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234161AbiCGIKJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Mar 2022 03:10:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44780 "EHLO
+        id S234332AbiCGIRi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Mar 2022 03:17:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232164AbiCGIKI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Mar 2022 03:10:08 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 167602D1C9;
-        Mon,  7 Mar 2022 00:09:15 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id q11so13058311pln.11;
-        Mon, 07 Mar 2022 00:09:15 -0800 (PST)
+        with ESMTP id S233374AbiCGIRh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Mar 2022 03:17:37 -0500
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D14D260A89;
+        Mon,  7 Mar 2022 00:16:43 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id e6so12943226pgn.2;
+        Mon, 07 Mar 2022 00:16:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=fih/vSdGHR0JowIfC8euC+Svpd2DDeZcu7agJIp6P7A=;
-        b=ndhMl3gNFu8scDqQV2O31UQhX7Z+oXkb/9xN0mCO+wAgpgzTMV7lo9ta56tGAA0TUW
-         eb6Y20srUk/lj5tr6yq0HOmpbJ1GYk0Cp2O89z8Q4n/OyAe0vphsCQSzuUL/pO+N+GkA
-         0B8n18OKofzmIweyAVUHkQHyRRDqxpK+Z5Ug21nxQ//V4a/Kzu9xZcDSi0yMeyEGLmbO
-         Bpo+S08DjyveU+F35BW75YjGaFGnfJbW63CMY0oI47iZCPIPjnZjSeSE5QJFVWhTYSdx
-         1DFXtHENlMNRTY3+w+dMFEeFQVG4BSP8rnkZTv8BoWh+AfU7zQhVBjregDK8WyRkKvEG
-         irJQ==
+        bh=raqbpMEGShYefmM2lPsX/wn04IxIjWx9nKhMvQ9D+wE=;
+        b=BNimnkt4tAYxOrYU5Uge9V4+0vLNsbclTuwKqjK74jpop5Qdyv69MW4oq/V22hs16i
+         1M9kbbvMzrCC1ddQzjInFS9ZKPkERkLR9l36a0vDcLUHHxP18YHx/aiKA2UGgEVo7D/1
+         1IQc1+Mq2DA8Pi4YRwDwW7I5NIm3A2snsdnOJ+A5MrZP0FP7cF5N898enWfJYa9Mxr5h
+         OlTSo3RdkixkDw0H6pST7VYMAg7Ot50fRjhLFNwVHSjJp3DwAEtKX+NNasm67QhoVwUw
+         6QuuzqyDseOHjUgIw9Ina7WocvpZNZoY90Ql4eW6PQhx/crSrbM7jhd0gPcvWDEFdPHF
+         RqYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=fih/vSdGHR0JowIfC8euC+Svpd2DDeZcu7agJIp6P7A=;
-        b=QcvdK9BCo3vGuNl0HH88S8cEAQudiZzMjkxb+YDes7yf3rf20aETM2DrJfhivtLvQe
-         gDGWRyiPPeNh6HTLDf/Gqip8yPFSdVm9BPGEmisaITfGzUGxpSNE/cWGELdA30Bflyar
-         KjnJtWSlhEZN+F9n+M0Ds/83bLEymh2qaWAdNzLLiG7cXQebQPcE3CBpb7A5fmNVe3rG
-         eVBV2M/TOrhpfNVQa97r/ZUWQ21+z4gmG3on2zyQVj0NAyKbaIdFIkgo4TUgQhDzIDB/
-         xQCAoAf6pQ8aHgw9S2wkFdz4HTncHlPLRW27G16pdJ4x8mnAGMTURB+ngY0FEvkJZTpj
-         oZVA==
-X-Gm-Message-State: AOAM531Zv96/yxXLX6J2zeTLiNukmjDwu5nsSIti/u4B2jOrG5sjCaCW
-        5YTendp+ZbwuDHatSneU1DU=
-X-Google-Smtp-Source: ABdhPJys0jf5Q9QRQsiqr9PkmPvl/JSNQteR6wmuhJDKT2xzhonaCP8tqLciYuheYcZ6FpX3JD3wAw==
-X-Received: by 2002:a17:902:6acc:b0:149:8f60:a526 with SMTP id i12-20020a1709026acc00b001498f60a526mr11157106plt.25.1646640554645;
-        Mon, 07 Mar 2022 00:09:14 -0800 (PST)
+        bh=raqbpMEGShYefmM2lPsX/wn04IxIjWx9nKhMvQ9D+wE=;
+        b=zuAEocwweglT4NhcfhPwr6EiqdyPo2aJJbX+Ca1fxXH0G9B6xaoGbkBHH4rM4XdosI
+         bieFv5NqU3SkTQqdSwGftP5jDDaCK9hCPvSGGlvj5JECdGeHrT1lHH5A75srMixtS23y
+         2y7Ub3dkxbUGtEf9rr710gwG/9SBVZqoJVxJ0D6Uk0fHWVBPzMdwXf5iuwF7D+gZ09PR
+         H2MsBoDHLatLV8uv72ZOhuO9qyQj6TpuacoiyAL26HZtkOtqeIDqhygmabpbMVHtYdWH
+         PKKfpdzPSgENxc+jH8U9aR1nAaR06XkuqnTZ2ew2OJwn5QkHFyEltDF/XQe+XXT6hBCP
+         2XeQ==
+X-Gm-Message-State: AOAM533m4wUhWiA5JSgXOIwejJM3m+6FChC0FqYPPrMMi8lU6LbJGbt9
+        RTYza6hDC1Q6KUEX8M8EMx9I7wj2j1kzThngfqM=
+X-Google-Smtp-Source: ABdhPJwLCC8qpXc15DQQZT4xlr+B37oV+EAKeb375Bz04voz9973VRvzvRyVGd+65lNjSpUCJ17Zzw==
+X-Received: by 2002:a63:20f:0:b0:378:9f08:a0a4 with SMTP id 15-20020a63020f000000b003789f08a0a4mr8871175pgc.17.1646641003345;
+        Mon, 07 Mar 2022 00:16:43 -0800 (PST)
 Received: from localhost.localdomain ([159.226.95.43])
-        by smtp.googlemail.com with ESMTPSA id q15-20020a63504f000000b0037425262293sm10906324pgl.43.2022.03.07.00.09.12
+        by smtp.googlemail.com with ESMTPSA id x6-20020a17090aa38600b001bce781ce03sm11995365pjp.18.2022.03.07.00.16.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Mar 2022 00:09:14 -0800 (PST)
+        Mon, 07 Mar 2022 00:16:43 -0800 (PST)
 From:   Miaoqian Lin <linmq006@gmail.com>
-To:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
+To:     Eugen Hristev <eugen.hristev@microchip.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Griffin <peter.griffin@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
 Cc:     linmq006@gmail.com
-Subject: [PATCH v3] media: st-delta: Fix PM disable depth imbalance in delta_probe
-Date:   Mon,  7 Mar 2022 08:08:59 +0000
-Message-Id: <20220307080859.14475-1-linmq006@gmail.com>
+Subject: [PATCH v3] media: atmel: atmel-isc: Fix PM disable depth imbalance in atmel_isc_probe
+Date:   Mon,  7 Mar 2022 08:16:37 +0000
+Message-Id: <20220307081638.19733-1-linmq006@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <2a3b4095-7b63-4da5-d0fa-43ba86715504@xs4all.nl>
-References: <2a3b4095-7b63-4da5-d0fa-43ba86715504@xs4all.nl>
+In-Reply-To: <8e4a35a4-1d8f-5aff-f577-2a2b87646528@xs4all.nl>
+References: <8e4a35a4-1d8f-5aff-f577-2a2b87646528@xs4all.nl>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -72,49 +76,41 @@ The pm_runtime_enable will decrease power disable depth.
 If the probe fails, we should use pm_runtime_disable() to balance
 pm_runtime_enable().
 
-Fixes: f386509 ("[media] st-delta: STiH4xx multi-format video decoder v4l2 driver")
+Fixes: 0a0e265 ("media: atmel: atmel-isc: split driver into driver base and isc")
 Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 ---
 changes in v2:
 - remove unused label.
 changes in v3:
-- add err_pm_disable label and update related 'goto err'.
+- add disable_pm label and update related 'goto'
 - update commit message
 ---
- drivers/media/platform/sti/delta/delta-v4l2.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/media/platform/atmel/atmel-sama5d2-isc.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/sti/delta/delta-v4l2.c b/drivers/media/platform/sti/delta/delta-v4l2.c
-index c887a31ebb54..420ad4d8df5d 100644
---- a/drivers/media/platform/sti/delta/delta-v4l2.c
-+++ b/drivers/media/platform/sti/delta/delta-v4l2.c
-@@ -1859,7 +1859,7 @@ static int delta_probe(struct platform_device *pdev)
+diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+index 1b2063cce0f7..949035cdb846 100644
+--- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
++++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+@@ -538,7 +538,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
+ 	ret = clk_prepare_enable(isc->ispck);
  	if (ret) {
- 		dev_err(delta->dev, "%s failed to initialize firmware ipc channel\n",
- 			DELTA_PREFIX);
--		goto err;
-+		goto err_pm_disable;
+ 		dev_err(dev, "failed to enable ispck: %d\n", ret);
+-		goto cleanup_subdev;
++		goto disable_pm;
  	}
  
- 	/* register all available decoders */
-@@ -1873,7 +1873,7 @@ static int delta_probe(struct platform_device *pdev)
- 	if (ret) {
- 		dev_err(delta->dev, "%s failed to register V4L2 device\n",
- 			DELTA_PREFIX);
--		goto err;
-+		goto err_pm_disable;
- 	}
+ 	/* ispck should be greater or equal to hclock */
+@@ -556,6 +556,9 @@ static int atmel_isc_probe(struct platform_device *pdev)
+ unprepare_clk:
+ 	clk_disable_unprepare(isc->ispck);
  
- 	delta->work_queue = create_workqueue(DELTA_NAME);
-@@ -1898,6 +1898,8 @@ static int delta_probe(struct platform_device *pdev)
- 	destroy_workqueue(delta->work_queue);
- err_v4l2:
- 	v4l2_device_unregister(&delta->v4l2_dev);
-+err_pm_disable:
++disable_pm:
 +	pm_runtime_disable(dev);
- err:
- 	return ret;
- }
++
+ cleanup_subdev:
+ 	isc_subdev_cleanup(isc);
+ 
 -- 
 2.17.1
 
