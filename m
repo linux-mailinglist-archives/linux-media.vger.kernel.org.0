@@ -2,93 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D6604CF2BA
-	for <lists+linux-media@lfdr.de>; Mon,  7 Mar 2022 08:39:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 122284CF2CB
+	for <lists+linux-media@lfdr.de>; Mon,  7 Mar 2022 08:44:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235847AbiCGHjx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Mar 2022 02:39:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35644 "EHLO
+        id S233009AbiCGHpI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Mar 2022 02:45:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235841AbiCGHjx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Mar 2022 02:39:53 -0500
+        with ESMTP id S230037AbiCGHpI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Mar 2022 02:45:08 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA59C6333;
-        Sun,  6 Mar 2022 23:38:59 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF06462EE
+        for <linux-media@vger.kernel.org>; Sun,  6 Mar 2022 23:44:14 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 40E2060B0F;
-        Mon,  7 Mar 2022 07:38:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11EE1C340F4;
-        Mon,  7 Mar 2022 07:38:56 +0000 (UTC)
-Message-ID: <8e4a35a4-1d8f-5aff-f577-2a2b87646528@xs4all.nl>
-Date:   Mon, 7 Mar 2022 08:38:55 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 870DF60B4B
+        for <linux-media@vger.kernel.org>; Mon,  7 Mar 2022 07:44:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC52BC340E9
+        for <linux-media@vger.kernel.org>; Mon,  7 Mar 2022 07:44:13 +0000 (UTC)
+Message-ID: <2d0bd966-8153-30b8-118c-0a21d4af31e4@xs4all.nl>
+Date:   Mon, 7 Mar 2022 08:44:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
-Subject: Re: [PATCH v2] media: atmel: atmel-isc: Fix PM disable depth
- imbalance in atmel_isc_probe
 Content-Language: en-US
-To:     Miaoqian Lin <linmq006@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <20220105111056.4662-1-linmq006@gmail.com>
- <20220301071859.24285-1-linmq006@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220301071859.24285-1-linmq006@gmail.com>
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.18] Various cleanups and an ivtv regression fix
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The following changes since commit 2881ca629984b949ec9ac2e8ba1e64a2f0b66e8b:
 
+  media: Makefiles: sort entries where it fits (2022-02-22 08:27:40 +0100)
 
-On 3/1/22 08:18, Miaoqian Lin wrote:
-> The pm_runtime_enable will increase power disable depth.
-> If the probe fails, we should use pm_runtime_disable() to balance
-> pm_runtime_enable().
-> 
-> Fixes: 0a0e265 ("media: atmel: atmel-isc: split driver into driver base and isc")
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
-> ---
-> changes in v2:
-> - remove unused label.
-> ---
->  drivers/media/platform/atmel/atmel-sama5d2-isc.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-> index 1b2063cce0f7..7f1ebbb25437 100644
-> --- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-> +++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-> @@ -559,6 +559,8 @@ static int atmel_isc_probe(struct platform_device *pdev)
->  cleanup_subdev:
->  	isc_subdev_cleanup(isc);
->  
-> +	pm_runtime_disable(dev);
+are available in the Git repository at:
 
-Same issue as with the st-delta patch: there is one 'goto cleanup_subdev'
-that is called before the pm_runtime_enable, so this patch just introduces
-another imbalance. You need an additional goto label here and rework it a
-little bit to get this right.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18s
 
-Regards,
+for you to fetch changes up to ae4c0d36340f06795feb09a7d8d3e881ccb0e589:
 
-	Hans
+  ivtv: fix incorrect device_caps for ivtvfb (2022-03-07 08:42:36 +0100)
 
-> +
->  unregister_v4l2_device:
->  	v4l2_device_unregister(&isc->v4l2_dev);
->  
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Dafna Hirschfeld (1):
+      media: MAINTAINERS: update rksip1 maintainers info
+
+Geert Uytterhoeven (1):
+      media: rcar-csi2: Drop comma after SoC match table sentinel
+
+Hans Verkuil (1):
+      ivtv: fix incorrect device_caps for ivtvfb
+
+Jakob Koschel (1):
+      media: saa7134: fix incorrect use to determine if list is empty
+
+Mark Brown (1):
+      media: i2c: max2175: Use rbtree rather than flat register cache
+
+Shuah Khan (1):
+      MAINTAINERS: update media vimc driver maintainers
+
+Souptick Joarder (HPE) (1):
+      media: camss: Replace hard coded value with parameter
+
+ MAINTAINERS                                         |  7 +++----
+ drivers/media/i2c/max2175.c                         |  2 +-
+ drivers/media/pci/ivtv/ivtv-driver.h                |  1 -
+ drivers/media/pci/ivtv/ivtv-ioctl.c                 | 10 +++++-----
+ drivers/media/pci/ivtv/ivtv-streams.c               | 11 ++++-------
+ drivers/media/pci/saa7134/saa7134-alsa.c            |  4 ++--
+ drivers/media/platform/qcom/camss/camss-csid-gen2.c |  2 +-
+ drivers/media/platform/rcar-vin/rcar-csi2.c         |  2 +-
+ 8 files changed, 17 insertions(+), 22 deletions(-)
