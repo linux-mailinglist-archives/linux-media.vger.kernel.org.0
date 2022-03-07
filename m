@@ -2,40 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C56B4CF294
-	for <lists+linux-media@lfdr.de>; Mon,  7 Mar 2022 08:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFAEE4CF2A7
+	for <lists+linux-media@lfdr.de>; Mon,  7 Mar 2022 08:35:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235792AbiCGH3e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Mar 2022 02:29:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42252 "EHLO
+        id S235826AbiCGHga (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Mar 2022 02:36:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234444AbiCGH3d (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Mar 2022 02:29:33 -0500
+        with ESMTP id S235819AbiCGHga (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Mar 2022 02:36:30 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8EE420F5B;
-        Sun,  6 Mar 2022 23:28:39 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFA235F4FD;
+        Sun,  6 Mar 2022 23:35:36 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 67673B80F88;
-        Mon,  7 Mar 2022 07:28:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E9EAC340EF;
-        Mon,  7 Mar 2022 07:28:35 +0000 (UTC)
-Message-ID: <818eb53d-0ca5-d0dc-4a06-37615a5c4c3b@xs4all.nl>
-Date:   Mon, 7 Mar 2022 08:28:34 +0100
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9F011B80F88;
+        Mon,  7 Mar 2022 07:35:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BF8FC340E9;
+        Mon,  7 Mar 2022 07:35:33 +0000 (UTC)
+Message-ID: <2a3b4095-7b63-4da5-d0fa-43ba86715504@xs4all.nl>
+Date:   Mon, 7 Mar 2022 08:35:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
-Subject: Re: [PATCH] media: av7110: av7110_av: Fix Switch and Case Same Indent
- Style Error
+Subject: Re: [PATCH v2] media: st-delta: Fix PM disable depth imbalance in
+ delta_probe
 Content-Language: en-US
-To:     Husni Faiz <ahamedhusni73@gmail.com>, mchehab@kernel.org,
-        gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-References: <20220225155622.585621-1-ahamedhusni73@gmail.com>
+To:     Miaoqian Lin <linmq006@gmail.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Griffin <peter.griffin@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220105115515.12196-1-linmq006@gmail.com>
+ <20220301031253.6142-1-linmq006@gmail.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220225155622.585621-1-ahamedhusni73@gmail.com>
+In-Reply-To: <20220301031253.6142-1-linmq006@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
@@ -48,91 +50,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Husni,
+Hi Miaoqian Lin,
 
-Thank you for the patch.
-
-The Subject line needs some work: either name the source ('av7110_av.c:') or
-driver ('av7110:'), but not both. Also just stick to lower case, so:
-"media: av7110_av.c: fix switch indentation"
-
-That gives all the relevant information, and is a lot shorter.
-
-On 2/25/22 16:56, Husni Faiz wrote:
-> This patch fixes "switch and case should be at the same indent"
-> checkpatch error.
+On 3/1/22 04:12, Miaoqian Lin wrote:
+> The pm_runtime_enable will increase power disable depth.
+> If the probe fails, we should use pm_runtime_disable() to balance
+> pm_runtime_enable().
 > 
-> Signed-off-by: Husni Faiz <ahamedhusni73@gmail.com>
+> Fixes: f386509 ("[media] st-delta: STiH4xx multi-format video decoder v4l2 driver")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 > ---
->  drivers/staging/media/av7110/av7110_av.c | 30 ++++++++++++------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
+> changes in v2:
+> - remove unused label.
+> ---
+>  drivers/media/platform/sti/delta/delta-v4l2.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
-> index 91f4866c7e59..1d42862e9669 100644
-> --- a/drivers/staging/media/av7110/av7110_av.c
-> +++ b/drivers/staging/media/av7110/av7110_av.c
-> @@ -770,22 +770,22 @@ static void p_to_t(u8 const *buf, long int length, u16 pid, u8 *counter,
->  	if (length > 3 &&
->  	     buf[0] == 0x00 && buf[1] == 0x00 && buf[2] == 0x01)
->  		switch (buf[3]) {
-> -			case PROG_STREAM_MAP:
-> -			case PRIVATE_STREAM2:
-> -			case PROG_STREAM_DIR:
-> -			case ECM_STREAM     :
-> -			case EMM_STREAM     :
-> -			case PADDING_STREAM :
-> -			case DSM_CC_STREAM  :
-> -			case ISO13522_STREAM:
-> -			case PRIVATE_STREAM1:
-> -			case AUDIO_STREAM_S ... AUDIO_STREAM_E:
-> -			case VIDEO_STREAM_S ... VIDEO_STREAM_E:
-> -				pes_start = 1;
-> -				break;
-> +		case PROG_STREAM_MAP:
-> +		case PRIVATE_STREAM2:
-> +		case PROG_STREAM_DIR:
-> +		case ECM_STREAM     :
-> +		case EMM_STREAM     :
-> +		case PADDING_STREAM :
-> +		case DSM_CC_STREAM  :
-> +		case ISO13522_STREAM:
-> +		case PRIVATE_STREAM1:
-> +		case AUDIO_STREAM_S ... AUDIO_STREAM_E:
-> +		case VIDEO_STREAM_S ... VIDEO_STREAM_E:
-> +			pes_start = 1;
-> +			break;
->  
-> -			default:
-> -				break;
-> +		default:
-> +			break;
->  		}
->  
->  	while (c < length) {
+> diff --git a/drivers/media/platform/sti/delta/delta-v4l2.c b/drivers/media/platform/sti/delta/delta-v4l2.c
+> index c887a31ebb54..36ce0775f3f9 100644
+> --- a/drivers/media/platform/sti/delta/delta-v4l2.c
+> +++ b/drivers/media/platform/sti/delta/delta-v4l2.c
+> @@ -1899,6 +1899,7 @@ static int delta_probe(struct platform_device *pdev)
+>  err_v4l2:
+>  	v4l2_device_unregister(&delta->v4l2_dev);
+>  err:
+> +	pm_runtime_disable(dev);
 
-Running checkpatch.pl over this patch give me:
+This isn't right. If the devm_kzalloc at the beginning fails, then it also jump
+to this label, but at that time no pm_runtime_enable() has been called yet,
+so this patch will just introduce another imbalance.
 
-ERROR: space prohibited before that ':' (ctx:WxE)
-#40: FILE: drivers/staging/media/av7110/av7110_av.c:776:
-+               case ECM_STREAM     :
-                                    ^
+You *do* need a new label here (like you did in v1 of this patch), and update
+the 'goto err;' instances after the call to pm_runtime_enable() to go to that
+new label.
 
-ERROR: space prohibited before that ':' (ctx:WxE)
-#41: FILE: drivers/staging/media/av7110/av7110_av.c:777:
-+               case EMM_STREAM     :
-                                    ^
-
-ERROR: space prohibited before that ':' (ctx:WxE)
-#42: FILE: drivers/staging/media/av7110/av7110_av.c:778:
-+               case PADDING_STREAM :
-                                    ^
-
-ERROR: space prohibited before that ':' (ctx:WxE)
-#43: FILE: drivers/staging/media/av7110/av7110_av.c:779:
-+               case DSM_CC_STREAM  :
-                                    ^
-Can you fix that as well in a v2 of this patch?
-
-Thanks!
+Regards,
 
 	Hans
+
+>  	return ret;
+>  }
+>  
