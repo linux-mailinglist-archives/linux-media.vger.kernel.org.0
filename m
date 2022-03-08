@@ -2,230 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 817C14D161B
+	by mail.lfdr.de (Postfix) with ESMTP id CC66A4D161C
 	for <lists+linux-media@lfdr.de>; Tue,  8 Mar 2022 12:21:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346435AbiCHLWZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Mar 2022 06:22:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39872 "EHLO
+        id S1346444AbiCHLWd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Mar 2022 06:22:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346444AbiCHLWY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 06:22:24 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85C0A46175
-        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 03:21:26 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id w27so31596098lfa.5
-        for <linux-media@vger.kernel.org>; Tue, 08 Mar 2022 03:21:26 -0800 (PST)
+        with ESMTP id S1346471AbiCHLWa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 06:22:30 -0500
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A673746B2A
+        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 03:21:32 -0800 (PST)
+X-KPN-MessageId: e10c826d-9ed1-11ec-a7c6-005056992ed3
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id e10c826d-9ed1-11ec-a7c6-005056992ed3;
+        Tue, 08 Mar 2022 12:21:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=+uNq7Qvm2neIu86Z5POTG4YYnpXm0Y6yOM6cvyBwkTA=;
-        b=H03XSyDt/CENmSha2sArcgQdxPJC5ZoHBSF2/FwW8tZDZqaW51jcI5a77Uyk0cPXrH
-         pZYWdcEXijNuaCRtMxNDOEZEK3bzgyN8sHbEfZyzi+preZRPn9x5JLRLw2MguQhCN628
-         5I1OPLWhOflEnVy8t7i7aUlmGaT9vBSZyoAZLjVxgZzfPKxD+oo111/ZoUzDH1QcchjQ
-         E2S6AsATH+NzkgPVG+n1Hcb9z8I6C8dwuNCSughWvwTuEo31dRlEKgv4ALw5hs5XKLfK
-         OGR12IquwbfzeZkFwRnV6HMxAZSqj+dnoUwva8GbMk3uuRh23JWVtVO1y0yjLcKhZv0z
-         Xj/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=+uNq7Qvm2neIu86Z5POTG4YYnpXm0Y6yOM6cvyBwkTA=;
-        b=htv9kS3h4/amfUD+6B7ZM7qhlptEbMYu679L2lEjmgomlMSJH6631fOdA+lFs0Nzmb
-         QIx8MM2vJj8wFXG2BATS4iBBuVjOiTzelJKCYll3FeYkvEqCSIbZb+keuLjik192denG
-         3XcLK/DQBsX079HcpxAHUGkKWoAT+mFSKrk99ijidLdfdCnD73T6V7yg5ifqsv7ZJTp7
-         +N65liQhi5GqWTCc9LQbnKbmIWbm3Epa9LVjJygCdtZvwOwMGlg5rtMRCLeSuWjvJOTU
-         JYPSxdljcbl5HIGWgb6Fex/afmcvji4VDQ70AJ/k7d03RUTDbvthZlm4UYifMWuDqyIl
-         d+9w==
-X-Gm-Message-State: AOAM533nwkMQkavOcz393bqyAwazfCbo08eiFvo063rY68rF1dltzXLo
-        sPEEjFAUHJFCaTjuNQ3cUHQ=
-X-Google-Smtp-Source: ABdhPJzg/ESmLSzdstM8PBgtmbKfo+V0aPoHLeTtA9WoN+GtRGOo036jJBWVq3sfS5EPhT3wW6lfyg==
-X-Received: by 2002:a05:6512:3994:b0:448:3821:a416 with SMTP id j20-20020a056512399400b004483821a416mr3877287lfu.613.1646738484330;
-        Tue, 08 Mar 2022 03:21:24 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id m25-20020a195219000000b0044846bbda49sm234928lfb.121.2022.03.08.03.21.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 03:21:23 -0800 (PST)
-Date:   Tue, 8 Mar 2022 13:21:13 +0200
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Shashank Sharma <contactshashanksharma@gmail.com>
-Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
-        Shashank Sharma <shashank.sharma@amd.com>,
-        Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 1/3] edid-decode: Introduce libedid-decode wrapper
-Message-ID: <20220308132113.187c1e77@eldfell>
-In-Reply-To: <d696b1f6-e5ee-7636-3ab7-693bdf80e15f@gmail.com>
-References: <20220304125001.1732057-1-contactshashanksharma@gmail.com>
-        <20220307175452.73918180@eldfell>
-        <d696b1f6-e5ee-7636-3ab7-693bdf80e15f@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=5O1gq6RoYzJhbPCskuuK43RlVeh/6ysK+0OJ9zUzsCM=;
+        b=ijG2XRXR7oqkURWF9+19UNEbeVvAlb45GZACmhjLS1h2idgcl2l4cRLPbwVgqvZN+R/2dUR2ogls6
+         yMVejEe+0MlKnDnfkLUmia5HY3x+AqRT15J4yT2Mh+E5gMSPfLH13Ds4aA09anAfnDIibnBVM32oA9
+         R46B63YtGjI1ixZtqjzR3fQur937oVm0ClsSCf4IKhmUYVJkBnsE5PVnNVuQSwvn7wil651twSIIqd
+         ZuASLZgthw68chCTFadiF9R/UsEjV2onpnnemMhKyqiFUYfL/YaFoEuUzrFKw2DHp0d/gS7GkWQ2K6
+         BckDpeg2RtFvCpNHqD6F0VIhk/ex5jw==
+X-KPN-VerifiedSender: No
+X-CMASSUN: 33|t95GKBdoTOuCN8fW9siGSthcvjviBLQQBPqc6n4jGojpp+nld4xmCpd07CPbD7X
+ UKl51F08iNSp1BvRcwcZeZQ==
+X-Originating-IP: 173.38.220.60
+Received: from [10.47.77.219] (unknown [173.38.220.60])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id e65a52ab-9ed1-11ec-b2a4-005056998788;
+        Tue, 08 Mar 2022 12:21:30 +0100 (CET)
+Message-ID: <24d47f44-98be-451a-14d7-7a2a2cc0de8b@xs4all.nl>
+Date:   Tue, 8 Mar 2022 12:21:29 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/0J7g_WQz85J/2L6SkixfN6=";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v1 1/2] media: v4l2-ctrls: Add intra-refresh type control
+Content-Language: en-US
+To:     dikshita@codeaurora.org
+Cc:     Dikshita Agarwal <dikshita@qti.qualcomm.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, ezequiel@collabora.com,
+        vgarodia@codeaurora.org, stanimir.varbanov@linaro.org,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>
+References: <1643019119-8309-1-git-send-email-dikshita@qti.qualcomm.com>
+ <1643019119-8309-2-git-send-email-dikshita@qti.qualcomm.com>
+ <20ace4b3-5002-4edb-642b-bbb1952f3591@xs4all.nl>
+ <39d1418cec305e59d798242b34d62e90@codeaurora.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <39d1418cec305e59d798242b34d62e90@codeaurora.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/0J7g_WQz85J/2L6SkixfN6=
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi Dikshita,
 
-On Mon, 7 Mar 2022 17:48:38 +0100
-Shashank Sharma <contactshashanksharma@gmail.com> wrote:
+On 2/21/22 07:02, dikshita@codeaurora.org wrote:
+> On 2022-02-15 13:51, Hans Verkuil wrote:
+>> Hi Dikshita,
+>>
+>> Some comments below:
+>>
+>> On 1/24/22 11:11, Dikshita Agarwal wrote:
+>>> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>>
+>>> Add a control to set intra-refresh type.
+>>>
+>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>> ---
+>>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 23 
+>>> ++++++++++++++++++++++
+>>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  9 +++++++++
+>>>  include/uapi/linux/v4l2-controls.h                 |  5 +++++
+>>>  3 files changed, 37 insertions(+)
+>>>
+>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst 
+>>> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> index e141f0e..54b42e1 100644
+>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> @@ -1180,6 +1180,29 @@ enum v4l2_mpeg_video_h264_entropy_mode -
+>>>      is set to non zero value.
+>>>      Applicable to H264, H263 and MPEG4 encoder.
+>>>
+>>> +``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE (enum)``
+>>> +
+>>> +enum v4l2_mpeg_video_intra_refresh_type -
+>>> +    Sets the type of intra refresh. The period to refresh
+>>> +    the whole frame is specified by 
+>>> V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD.
+>>> +    Note if the client sets this control to either 
+>>> ``V4L2_MPEG_VIDEO_INTRA_REFRESH_RANDOM``
+>>> +    or ``V4L2_MPEG_VIDEO_INTRA_REFRESH_CYCLIC`` the 
+>>> ``V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB``
+>>> +    control shall be ignored.
+>>
+>> Since this control has only two possible values, that would mean that,
+>> if this control
+>> is present, then REFRESH_MB is always ignored.
+>>
+>> It seems to me that you need a third option here that specifically
+>> selects the REFRESH_MB
+>> method.
+>>
+>> Also, this needs to be documented as well in REFRESH_MB (i.e. it is
+>> ignored if this TYPE
+>> control is present and is set to something other than REFRESH_MB).
+>>
+> 
+> Hi Hans,
+> 
+> I don't think we need to add that as the third option in this control.
+> 
+> So, there are two ways to set intra refresh to driver, it can be either 
+> MB based or Frame-based.
+> Currently, we have two v4l2 controls in place
+> 1. V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB -> this is MB based and 
+> only applicable for cyclic
+> 2. V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD -> this is frame based and 
+> has no type associated to it
+>     and it is up to the driver to decide the type i.e Random or Cyclic.
+> 
+> with this new control V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE, we are 
+> introducing
+> a way for the client to set the type of intra refresh, either cyclic or 
+> random.
 
-> Hello Pekka,
->=20
-> On 07.03.22 16:54, Pekka Paalanen wrote:
-> > On Fri,  4 Mar 2022 13:49:59 +0100
-> > Shashank Sharma <contactshashanksharma@gmail.com> wrote:
-> > =20
-> >> From: Shashank Sharma <shashank.sharma@amd.com>
-> >>
-> >> This patch does some small changes to make the core logic of
-> >> edid-decode tool available to a shared library wrapper. With
-> >> these changes, the EDID's 'state' variable will be avialble
-> >> to another process via some library API calls.
-> >>
-> >> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> >> Cc: Jani Nikula <jani.nikula@intel.com>
-> >>
-> >> Signed-off-by: Shashank Sharma <contactshashanksharma@gmail.com> =20
-> > Hi Shashank,
-> >
-> > thank you very much for working on this!
-> > =20
-> >> ---
-> >>   Makefile        | 22 +++++++++++++++++++++-
-> >>   edid-decode.cpp | 15 ++++++++++++++-
-> >>   2 files changed, 35 insertions(+), 2 deletions(-)
+Ah, right. But then it really is a naming issue that causes the confusion.
 
-...
+It would all be clear if you name this control V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE
+and the enums V4L2_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_RANDOM and
+V4L2_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_CYCLIC.
 
-> >> diff --git a/edid-decode.cpp b/edid-decode.cpp
-> >> index 4a90aba..babff4a 100644
-> >> --- a/edid-decode.cpp
-> >> +++ b/edid-decode.cpp
-> >> @@ -21,7 +21,7 @@
-> >>   #define STR(x) #x
-> >>   #define STRING(x) STR(x)
-> >>  =20
-> >> -static edid_state state;
-> >> +edid_state state;
-> >>  =20
-> >>   static unsigned char edid[EDID_PAGE_SIZE * EDID_MAX_BLOCKS];
-> >>   static bool odd_hex_digits;
-> >> @@ -1012,6 +1012,19 @@ static bool extract_edid(int fd, FILE *error)
-> >>   	state.edid_size =3D edid_data.size();
-> >>   	return true;
-> >>   }
-> >> +struct edid_state *extract_edid_state(int fd, FILE *error)
-> >> +{
-> >> +	bool ret;
-> >> +
-> >> +	ret =3D extract_edid(fd, error);
-> >> +	if (ret) {
-> >> +		/* update the number of blocks */
-> >> +		state.num_blocks =3D state.edid_size / EDID_PAGE_SIZE;
-> >> +		return &state; =20
-> > A library should not give out pointers to global mutable data. That
-> > would break having multiple EDIDs loaded at the same time.
-> >
-> > I would expect to be able to keep and cache 'struct edid_state'
-> > instances created by this library until I explicitly destroy them.
-> > I would not expect parsing a new EDID to overwrite the previously
-> > returned object. IOW, I would expect to own the object created by the
-> > library. =20
->=20
-> Till now, I was under the impression of a design where a compositor=20
-> parses the EDID, and saves all the information in its state immediately,=
-=20
+Yes, I know, the names are quite long, but there are so many codec controls that
+being descriptive is more important than being concise.
 
-It may well be that all compositors will work like that. However, from
-a library API design point of view it makes no sense for to require
-that. It would be surprising. Surprises lead to bugs.
+With these new names it is clear that this type control only relates to the
+refresh period and not to the refresh MB.
 
-If you are thinking of optimizing away a few mallocs of few kB of data
-for each new EDID to parse, that would be completely premature. Ease of
-use wins this one.
+You should also document that if this type control is not present, then it is
+undefined what refresh period type is used (or something along those lines).
 
-> so that when the second EDID is loaded, it can override first one. But=20
-> based on your inputs I myself feel that its a bit rigid. Now I am=20
-> thinking about extending it to something which remains until the process=
-=20
-> lifetime. How does this look to you:
->=20
-> - The compositor passes the EDID file node to library.
+Regards,
 
-As mentioned, compositors don't have files for EDID.
+	Hans
 
->=20
-> - The library parses the EDID, creates a state variable and caches it,=20
-> and gives back a handle(unique) to the compositor.
->=20
->  =C2=A0 /* in compositor's display/connector init part */
->=20
->  =C2=A0connector.handle =3D libedid_parse_edid(EDID_NODE);
+> 
+> Thanks,
+> Dikshita
+> 
+>>> +    Applicable to H264, H263 and MPEG4 encoder. Possible values are:
+>>> +
+>>> +.. tabularcolumns:: |p{9.6cm}|p{7.9cm}|
+>>> +
+>>> +.. flat-table::
+>>> +    :header-rows:  0
+>>> +    :stub-columns: 0
+>>> +
+>>> +    * - ``V4L2_MPEG_VIDEO_INTRA_REFRESH_RANDOM``
+>>
+>> I think you should add _TYPE after REFRESH in these names to clearly 
+>> specify
+>> that this is setting the refresh *type*.
+>>
+>>> +      - The whole frame is completely refreshed randomly
+>>> +      after the specified period.
+>>> +    * - ``V4L2_MPEG_VIDEO_INTRA_REFRESH_CYCLIC``
+>>> +      - The whole frame MBs are completely refreshed in cyclic order
+>>> +      after the specified period.
+>>> +
+>>>  ``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD (integer)``
+>>>      Intra macroblock refresh period. This sets the period to refresh
+>>>      the whole frame. In other words, this defines the number of 
+>>> frames
+>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c 
+>>> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> index 54ca4e6..f13f587 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> @@ -572,6 +572,11 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>>>  		"VBV/CPB Limit",
+>>>  		NULL,
+>>>  	};
+>>> +	static const char * const intra_refresh_type[] = {
+>>> +		"Random",
+>>> +		"Cyclic",
+>>> +		NULL,
+>>> +	};
+>>>
+>>>  	switch (id) {
+>>>  	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
+>>> @@ -705,6 +710,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>>>  		return hevc_start_code;
+>>>  	case V4L2_CID_CAMERA_ORIENTATION:
+>>>  		return camera_orientation;
+>>> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:
+>>> +		return intra_refresh_type;
+>>>  	default:
+>>>  		return NULL;
+>>>  	}
+>>> @@ -834,6 +841,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>>  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:	return "Decoder 
+>>> Slice Interface";
+>>>  	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:	return "MPEG4 
+>>> Loop Filter Enable";
+>>>  	case V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB:	return "Number of 
+>>> Intra Refresh MBs";
+>>> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:		return "Intra Refresh 
+>>> Type";
+>>>  	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD:		return "Intra 
+>>> Refresh Period";
+>>>  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:		return "Frame Level Rate 
+>>> Control Enable";
+>>>  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:			return "H264 MB Level Rate 
+>>> Control";
+>>> @@ -1360,6 +1368,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, 
+>>> enum v4l2_ctrl_type *type,
+>>>  	case V4L2_CID_STATELESS_H264_DECODE_MODE:
+>>>  	case V4L2_CID_STATELESS_H264_START_CODE:
+>>>  	case V4L2_CID_CAMERA_ORIENTATION:
+>>> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE:
+>>>  		*type = V4L2_CTRL_TYPE_MENU;
+>>>  		break;
+>>>  	case V4L2_CID_LINK_FREQ:
+>>> diff --git a/include/uapi/linux/v4l2-controls.h 
+>>> b/include/uapi/linux/v4l2-controls.h
+>>> index c8e0f84..9650b71 100644
+>>> --- a/include/uapi/linux/v4l2-controls.h
+>>> +++ b/include/uapi/linux/v4l2-controls.h
+>>> @@ -443,6 +443,11 @@ enum v4l2_mpeg_video_multi_slice_mode {
+>>>  #define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES		(V4L2_CID_CODEC_BASE+234)
+>>>  #define 
+>>> V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR		(V4L2_CID_CODEC_BASE+235)
+>>>  #define 
+>>> V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD	(V4L2_CID_CODEC_BASE+236)
+>>> +#define 
+>>> V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_TYPE		(V4L2_CID_CODEC_BASE+237)
+>>> +enum v4l2_mpeg_video_intra_refresh_type {
+>>> +	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_RANDOM	= 0,
+>>> +	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_CYCLIC	= 1,
+>>> +};
+>>>
+>>>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+>>>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
+>>
+>> Regards,
+>>
+>> 	Hans
 
-Why play with handles when you can simply return a pointer to an opaque
-type?
-
-I don't see a good reason to make the library more complicated in order
-to guard against invalid handles, nor to garbage-collect everything
-allocated even if the user of the library forgot to do so. Doing the
-latter would just make memory leaks in the callers undetectable when the
-library frees them all on exit.
-
-Handles are just not how C works, contrary to what OpenGL tries to make
-us think. Handles (that are not just opaque pointers in disguise) do
-have their uses, but this does not seem like one.
-
-> - While calling the subsequent APIs, compositor passes the handle with=20
-> the API, like
->=20
->  =C2=A0/* Somewhere later in the same compositor */
->=20
-> ret =3D libedid_is_ycbcr420_supported(connector.handle);
->=20
-> if (ret) {
->=20
->  =C2=A0=C2=A0=C2=A0 /* Prepare a YCBCR420 modeset */
->=20
-> }
->=20
-> and so on .....
-
-That is good.
-
-
-Thanks,
-pq
-
---Sig_/0J7g_WQz85J/2L6SkixfN6=
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmInPCkACgkQI1/ltBGq
-qqfpLQ//Qi887b6mONcrQmmxvrfCrqGuZAb/ByLUjiK85qARNP3qNRtXJuhfbf0H
-bYnedvqiGT39B1XTdOZEq6hoghDQDiteeL+DLtoW1uX/U3n/9cpjxXLtgeyqBbjF
-ghfHivPKdgmd32UkX1AsjY8vO3w56/lnIbXDV+dknsXS1mGmQv95pQaSgtpIoKmR
-kcMeISTJelBqrx0CbanDUj0weQJ59y85fbpHkYxFTE4Pd6UmuAWwMN4eFOMW44UR
-TYgsXlNarOcjWMa9RwNLpijML8OaYehDCGBzEfLVqVJ3TeS+Fzfs4MlhZATPl66w
-bmKQeg9gekmuRAc8MoeoLIDJ8EQBbcmGTcY5sTAgS3+bfIq3GoCem4llyXpbbS5x
-nudV9bxZxz6bEc8K2B2tPg63gsC+VwYoHFA2zSWOSb8ewr1EWC8uN8KFT02IEF6Y
-/54zVCGlS0wCv9qjxxrrLwCtcHV/HwFt8jm5kxY5NJlyXLE/BE8yw7VvW8zA6fqX
-/jqdOf40SVEJrqFQ7EY1ngPHlvLym44Mrj/iLqfSWhMJzCCrAciGvLr8eeITXuXl
-oVtUAm2epzdvEzbNiBGDXprCqWKPFnNnWyeK+VwXpsCa1kGtut0N7A+fBT+amENv
-RIcS6XnQVHAJ7G4OFpYiZld3z8tF406wRH3OV+PxBBU+VVVk5GE=
-=Culf
------END PGP SIGNATURE-----
-
---Sig_/0J7g_WQz85J/2L6SkixfN6=--
