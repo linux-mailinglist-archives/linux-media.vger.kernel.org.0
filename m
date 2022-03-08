@@ -2,60 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64B9F4D1D1E
-	for <lists+linux-media@lfdr.de>; Tue,  8 Mar 2022 17:26:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3409C4D1D26
+	for <lists+linux-media@lfdr.de>; Tue,  8 Mar 2022 17:28:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347997AbiCHQ1L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Mar 2022 11:27:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47834 "EHLO
+        id S1347997AbiCHQ3k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Mar 2022 11:29:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240938AbiCHQ1K (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 11:27:10 -0500
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C3AD50474
-        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 08:26:13 -0800 (PST)
-Received: by mail-qv1-xf35.google.com with SMTP id jr3so15034766qvb.11
-        for <linux-media@vger.kernel.org>; Tue, 08 Mar 2022 08:26:13 -0800 (PST)
+        with ESMTP id S1345048AbiCHQ3j (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 11:29:39 -0500
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 745C54FC7C
+        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 08:28:40 -0800 (PST)
+Received: by mail-qk1-x72b.google.com with SMTP id b67so4404710qkc.6
+        for <linux-media@vger.kernel.org>; Tue, 08 Mar 2022 08:28:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=AdPvN+M5vrEsWsbRLhcP7voGnGTypdpC8v2QHOxSlyY=;
-        b=PtwRFN5uV4IzBBMPrT9KcrtUu0cMY0hjpG2q6SdhGyBlA+HwFoI4XNLjFaJMcozTBX
-         OO1kVHVNh7Suyx6Oucbn5hNVxLe/LCeEAPwovueROLHz29lrSQn5XkAo9FsUADFbHYzm
-         vMKGkq0TBDKFueEB5XNHw3Bx4E7zJ6NYLqsjGvorehwEcy9CzhVe+twU2btKLN7sgC+Y
-         h/qUO9Jpkpqw31Zj1KXmtre6dgP0bjK/HukxagjDcuxg41foL92t76aEYL4cxLzzK4Mq
-         4/+EoBC9IVa69Nb/E9rffd/3f1VcU/olxQ1fNXyMWB0Lv7TV++IyP1QMxwvfliR3SGia
-         +8NA==
+        bh=ISS94sEEaUrc64zCBPxObVsAFIwOWXKHNDTP4lGs55Y=;
+        b=xuWiQVHQKHcPP+OoCuXj8J+2v1kdKCX5iN8vkWFob4sH27vFtEeKiuO1ujTp2/qXmH
+         8vV2Vsb/gmnFiNh0ITQ+hvivS1s6gl81bZFFAxXLolDDdDcN96JhRQTYE3Xi6U/QB7QS
+         iJ4NZwEUCoIikgUGhB+xtZz0bheWVCH4hH7iuAS9balheNETtoLnF1q/34tnoA/jGMsY
+         Ge5Gj0FVCPUsrvTcVzrVZLnp65BvR12zU+MiSFWY3x/KmE6k7yiNkUQkkmC/wdbLH5se
+         EqtRXcv/z6+vYVtWh+Smp5DnaVf/wc/0U5buxJ5gye7ULqHAS/JLfUBoYU+H7kBNKRfW
+         kaAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=AdPvN+M5vrEsWsbRLhcP7voGnGTypdpC8v2QHOxSlyY=;
-        b=OTrF4x42yRjfextCB+qv2Mc6vPagitI2/rlDTdG4Pa8jJpg4sVstISOFlJA+FzNNso
-         NhxDhaZDPuuWyFq7l9V1F4MHrfgNmr/QEYLCkIaaDZbk26ULYWSrpq6+/dkYlPbF1E0Y
-         CPNREXgm1cSy9n7yUW2NaMRIGfjx9JZmXhsv3R+EeGnGxcEqMETc+2yeTfctWn5nm6uZ
-         hqC01KyAFiS1EmwsGJxBOectaelWQL1+zhTUFR50j8nCeb3k0aGrcIWiW1R2hsdF3xCF
-         0jspRDsSE+BkTdcl6dZOqmJtxHJhieUL87WiP4J0KbDIP53GDZddgu6+8tXuDICpdykN
-         xniA==
-X-Gm-Message-State: AOAM533I3bXMrVcAXzsjNADBE9DQ3bH+5vXKvA10b9LCqJk4K+ONefbn
-        nfq/mTL434QqlUbhb6420VxLjBCljHN20g==
-X-Google-Smtp-Source: ABdhPJwQQz4o+8O/k5GaLCxxNi8zAyUw+fDQTYGFs1eER+/qbONVdb7XdGY03YB3DKR+BoODjKAIzQ==
-X-Received: by 2002:ad4:4ee7:0:b0:432:5707:8120 with SMTP id dv7-20020ad44ee7000000b0043257078120mr12779645qvb.101.1646756772389;
-        Tue, 08 Mar 2022 08:26:12 -0800 (PST)
+        bh=ISS94sEEaUrc64zCBPxObVsAFIwOWXKHNDTP4lGs55Y=;
+        b=GBHItDcUeSfWEDt+a/f4CHOPS4usloTDBkmFXAEgjnl6AoFSRjKXwV6ICWlCkyqPp2
+         nZH96YEkxI+Z0HjRsIexAqddN5M1kgzq7SAzgNgU4HET8fFEXtZq6R/hQ0jPSOB/nQy8
+         Ke8UiE67gBvX6MBgi98iam95AjEQa6UP21PnajOOvEFOT8DDQm2j9ofVK4RycVWGmmmQ
+         2RjGpG35qAfegP4XvlOm+M73FEgIg/r2fpOfe4czUODNl4UxBOp4GmFfr9QE0ErJ1syt
+         9ZqcfB74hmac5U9pCRdMmvY9AtNWCnYVrNyyLF3ZkruS2Q9VCGEdk1LYhwjZ85TuHwMi
+         /x9A==
+X-Gm-Message-State: AOAM532eScrhPCf/DpXI64LB80Sovc2UpEUmRc36oepHPj2p8cqIG7a8
+        yo7yPMSAhfV9QVjaW1N23AIkuQ==
+X-Google-Smtp-Source: ABdhPJzBVTxL9SSVUktZH/uiPoGEBwpW2Vp74LcTUyLZK0T/+NagHXm7/kCXX+jnbdSMlRmxyz4L5g==
+X-Received: by 2002:a37:a93:0:b0:507:dc6f:b9d2 with SMTP id 141-20020a370a93000000b00507dc6fb9d2mr11010308qkk.598.1646756919517;
+        Tue, 08 Mar 2022 08:28:39 -0800 (PST)
 Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id n8-20020a05620a152800b00648e52be61bsm7679224qkk.37.2022.03.08.08.26.11
+        by smtp.gmail.com with ESMTPSA id n1-20020a05622a11c100b002dff3364c6esm11113615qtk.19.2022.03.08.08.28.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 08:26:11 -0800 (PST)
-Message-ID: <59e9c85d1fbd6e4cd21acf3743a21bddad7774df.camel@ndufresne.ca>
-Subject: Re: [PATCH] pixfmt-yuv-planar.rst: fix PIX_FMT labels
+        Tue, 08 Mar 2022 08:28:39 -0800 (PST)
+Message-ID: <532339346dce8a3ebffe728510cd163e71d8d0d0.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/3] media: v4l: Add packed YUV 4:4:4 YUVA and YUVX
+ pixel formats
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>
-Date:   Tue, 08 Mar 2022 11:26:10 -0500
-In-Reply-To: <c0a9a647-5e27-52bd-65a0-b9663014887a@xs4all.nl>
-References: <c0a9a647-5e27-52bd-65a0-b9663014887a@xs4all.nl>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Date:   Tue, 08 Mar 2022 11:28:38 -0500
+In-Reply-To: <Yicf16ffXXDOW27N@pendragon.ideasonboard.com>
+References: <20220307180342.10666-1-laurent.pinchart@ideasonboard.com>
+         <20220307180342.10666-2-laurent.pinchart@ideasonboard.com>
+         <20220308083722.qapoft64p3ghgibx@uno.localdomain>
+         <Yicf16ffXXDOW27N@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 MIME-Version: 1.0
@@ -69,37 +74,118 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 08 mars 2022 à 09:25 +0100, Hans Verkuil a écrit :
-> Two labels used _ instead of - so were never found and one new PIX_FMT was
-> missing the label altogether. This led to these warnings:
+Le mardi 08 mars 2022 à 11:20 +0200, Laurent Pinchart a écrit :
+> On Tue, Mar 08, 2022 at 09:37:22AM +0100, Jacopo Mondi wrote:
+> > Hi Laurent
+> > 
+> > On Mon, Mar 07, 2022 at 08:03:40PM +0200, Laurent Pinchart wrote:
+> > > The new YUVA and YUVX are permutations of the existing AYUV and XYUV
+> > > formats. They are use by the NXP i.MX8 ISI hardware.
+> > > 
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > 
+> > All three patches looks good
+> > Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> > 
+> > Slighlty unrelated: aren't the following format definitions identical ?
+> > Is this intentional ?
 > 
-> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-nv12m-8l128
-> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-nv12m-10be-8l128
-> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-mm21
+> They are identical indeed. I think it's a historical mistake, AYUV32 has
+> likely been added without realizing YUV32 was already providing the same
+> format.
 > 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Fixes: 72a74c8f0a0d ("media: add nv12m_8l128 and nv12m_10be_8l128 video format.")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> ---
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> index cc3e4b5791c5..8dff5906639b 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> @@ -257,8 +257,9 @@ of the luma plane.
->  .. _V4L2-PIX-FMT-NV12-4L4:
->  .. _V4L2-PIX-FMT-NV12-16L16:
->  .. _V4L2-PIX-FMT-NV12-32L32:
-> -.. _V4L2_PIX_FMT_NV12M_8L128:
-> -.. _V4L2_PIX_FMT_NV12M_10BE_8L128:
-> +.. _V4L2-PIX-FMT-NV12M-8L128:
-> +.. _V4L2-PIX-FMT-NV12M-10BE-8L128:
-> +.. _V4L2-PIX-FMT-MM21:
+> V4L2_PIX_FMT_YUV32 is used by ivtv, exynos-gsc, vivid and the staging
+> IMX drivers. I think it would make sense to deprecate it so that new
+> drivers will exaplicitly pick either the A or the X variant.
 
-I had never noticed that - was needed here, good to know.
+I think we deprecated a similar format with RGB32, as it was ambiguously with
+alpha or padding, which can cause issues.
 
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com> 
-
->  
->  Tiled NV12
->  ----------
+> 
+> Hans, any opinion on this ?
+> 
+> >     * .. _V4L2-PIX-FMT-YUV32:
+> > 
+> >       - ``V4L2_PIX_FMT_YUV32``
+> >       - 'YUV4'
+> > 
+> >       - A\ :sub:`7-0`
+> >       - Y'\ :sub:`7-0`
+> >       - Cb\ :sub:`7-0`
+> >       - Cr\ :sub:`7-0`
+> > 
+> >     * .. _V4L2-PIX-FMT-AYUV32:
+> > 
+> >       - ``V4L2_PIX_FMT_AYUV32``
+> >       - 'AYUV'
+> > 
+> >       - A\ :sub:`7-0`
+> >       - Y'\ :sub:`7-0`
+> >       - Cb\ :sub:`7-0`
+> >       - Cr\ :sub:`7-0`
+> > 
+> > > ---
+> > >  .../media/v4l/pixfmt-packed-yuv.rst           | 20 +++++++++++++++++++
+> > >  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 ++
+> > >  include/uapi/linux/videodev2.h                |  2 ++
+> > >  3 files changed, 24 insertions(+)
+> > > 
+> > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> > > index 62bc2bb3f499..92394786251a 100644
+> > > --- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> > > @@ -229,6 +229,26 @@ the second byte and Y'\ :sub:`7-0` in the third byte.
+> > >        - Y'\ :sub:`7-0`
+> > >        - X\ :sub:`7-0`
+> > > 
+> > > +    * .. _V4L2-PIX-FMT-YUVA32:
+> > > +
+> > > +      - ``V4L2_PIX_FMT_YUVA32``
+> > > +      - 'YUVA'
+> > > +
+> > > +      - Y'\ :sub:`7-0`
+> > > +      - Cb\ :sub:`7-0`
+> > > +      - Cr\ :sub:`7-0`
+> > > +      - A\ :sub:`7-0`
+> > > +
+> > > +    * .. _V4L2-PIX-FMT-YUVX32:
+> > > +
+> > > +      - ``V4L2_PIX_FMT_YUVX32``
+> > > +      - 'YUVX'
+> > > +
+> > > +      - Y'\ :sub:`7-0`
+> > > +      - Cb\ :sub:`7-0`
+> > > +      - Cr\ :sub:`7-0`
+> > > +      - X\ :sub:`7-0`
+> > > +
+> > >      * .. _V4L2-PIX-FMT-YUV24:
+> > > 
+> > >        - ``V4L2_PIX_FMT_YUV24``
+> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > index aeecaca3edba..ca3c7bd19d7e 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > @@ -1290,6 +1290,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+> > >  	case V4L2_PIX_FMT_XYUV32:	descr = "32-bit XYUV 8-8-8-8"; break;
+> > >  	case V4L2_PIX_FMT_VUYA32:	descr = "32-bit VUYA 8-8-8-8"; break;
+> > >  	case V4L2_PIX_FMT_VUYX32:	descr = "32-bit VUYX 8-8-8-8"; break;
+> > > +	case V4L2_PIX_FMT_YUVA32:	descr = "32-bit YUVA 8-8-8-8"; break;
+> > > +	case V4L2_PIX_FMT_YUVX32:	descr = "32-bit YUVX 8-8-8-8"; break;
+> > >  	case V4L2_PIX_FMT_YUV410:	descr = "Planar YUV 4:1:0"; break;
+> > >  	case V4L2_PIX_FMT_YUV420:	descr = "Planar YUV 4:2:0"; break;
+> > >  	case V4L2_PIX_FMT_HI240:	descr = "8-bit Dithered RGB (BTTV)"; break;
+> > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> > > index df8b9c486ba1..16dcd9dd1a50 100644
+> > > --- a/include/uapi/linux/videodev2.h
+> > > +++ b/include/uapi/linux/videodev2.h
+> > > @@ -592,6 +592,8 @@ struct v4l2_pix_format {
+> > >  #define V4L2_PIX_FMT_XYUV32  v4l2_fourcc('X', 'Y', 'U', 'V') /* 32  XYUV-8-8-8-8  */
+> > >  #define V4L2_PIX_FMT_VUYA32  v4l2_fourcc('V', 'U', 'Y', 'A') /* 32  VUYA-8-8-8-8  */
+> > >  #define V4L2_PIX_FMT_VUYX32  v4l2_fourcc('V', 'U', 'Y', 'X') /* 32  VUYX-8-8-8-8  */
+> > > +#define V4L2_PIX_FMT_YUVA32  v4l2_fourcc('Y', 'U', 'V', 'A') /* 32  YUVA-8-8-8-8  */
+> > > +#define V4L2_PIX_FMT_YUVX32  v4l2_fourcc('Y', 'U', 'V', 'X') /* 32  YUVX-8-8-8-8  */
+> > >  #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV 4:2:0 2 lines y, 1 line uv interleaved */
+> > > 
+> > >  /* two planes -- one Y, one Cr + Cb interleaved  */
+> 
 
