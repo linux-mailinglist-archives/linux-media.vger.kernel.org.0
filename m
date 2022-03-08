@@ -2,62 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B51C14D1267
-	for <lists+linux-media@lfdr.de>; Tue,  8 Mar 2022 09:39:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F96C4D125F
+	for <lists+linux-media@lfdr.de>; Tue,  8 Mar 2022 09:37:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239885AbiCHIkK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Mar 2022 03:40:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43506 "EHLO
+        id S1345004AbiCHIiX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Mar 2022 03:38:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345025AbiCHIkJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 03:40:09 -0500
-X-Greylist: delayed 588 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Mar 2022 00:39:13 PST
-Received: from mail.twelvesign.pl (mail.twelvesign.pl [89.221.214.137])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E05C43190F
-        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 00:39:13 -0800 (PST)
-Received: by mail.twelvesign.pl (Postfix, from userid 1002)
-        id 01E413577C; Tue,  8 Mar 2022 09:29:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=twelvesign.pl;
-        s=mail; t=1646728164;
-        bh=rqcEvVJQSOmVvt10Vd77A7h4EQ3zL1XaGAodpexDxk8=;
-        h=Date:From:To:Subject:From;
-        b=AsExjLZiUrsBVNLb28/3DBlWyNExH+HoVMNymxt1pnMGCeP6NtVjo3rakjmJubfXy
-         eJfKmEIGCCT6RlnTfGNulkPIGagd9YX+s5G6sIZAfIh2Mc5Buwt0e6cTOyqY6rTlFt
-         DL2ghX31Ex2Cl1cxJMte7KDJuiDiVpFzI1vg7NgggT7WxxsDG+ZLqffwQb8sAO+r9x
-         9EwFpsH41dZuHIe2nRH7VkCSlhm0DtBTCKDofg6HM011AbFkAXuXk+BroUOBDvbczk
-         VEwSMP8O0eRWnQ6rLaExvqg8qwl2PKcV23o405p2Ejtn6Ndj+O3213ubjGnn1fzQVz
-         ASrbBee9vOpFA==
-Received: by mail.twelvesign.pl for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 08:29:05 GMT
-Message-ID: <20220308083000-0.1.w.1v0c.0.wgardp2pcu@twelvesign.pl>
-Date:   Tue,  8 Mar 2022 08:29:05 GMT
-From:   "Damian Kraska" <damian.kraska@twelvesign.pl>
-To:     <linux-media@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.twelvesign.pl
+        with ESMTP id S1344998AbiCHIiW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 03:38:22 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7B951161
+        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 00:37:25 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id E60AE1C0003;
+        Tue,  8 Mar 2022 08:37:23 +0000 (UTC)
+Date:   Tue, 8 Mar 2022 09:37:22 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: v4l: Add packed YUV 4:4:4 YUVA and YUVX pixel
+ formats
+Message-ID: <20220308083722.qapoft64p3ghgibx@uno.localdomain>
+References: <20220307180342.10666-1-laurent.pinchart@ideasonboard.com>
+ <20220307180342.10666-2-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220307180342.10666-2-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi Laurent
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+On Mon, Mar 07, 2022 at 08:03:40PM +0200, Laurent Pinchart wrote:
+> The new YUVA and YUVX are permutations of the existing AYUV and XYUV
+> formats. They are use by the NXP i.MX8 ISI hardware.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+All three patches looks good
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+Slighlty unrelated: aren't the following format definitions identical ?
+Is this intentional ?
 
+    * .. _V4L2-PIX-FMT-YUV32:
 
-Pozdrawiam,
-Damian Kraska
+      - ``V4L2_PIX_FMT_YUV32``
+      - 'YUV4'
+
+      - A\ :sub:`7-0`
+      - Y'\ :sub:`7-0`
+      - Cb\ :sub:`7-0`
+      - Cr\ :sub:`7-0`
+
+    * .. _V4L2-PIX-FMT-AYUV32:
+
+      - ``V4L2_PIX_FMT_AYUV32``
+      - 'AYUV'
+
+      - A\ :sub:`7-0`
+      - Y'\ :sub:`7-0`
+      - Cb\ :sub:`7-0`
+      - Cr\ :sub:`7-0`
+
+Thanks
+   j
+
+> ---
+>  .../media/v4l/pixfmt-packed-yuv.rst           | 20 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 ++
+>  include/uapi/linux/videodev2.h                |  2 ++
+>  3 files changed, 24 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> index 62bc2bb3f499..92394786251a 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> @@ -229,6 +229,26 @@ the second byte and Y'\ :sub:`7-0` in the third byte.
+>        - Y'\ :sub:`7-0`
+>        - X\ :sub:`7-0`
+>
+> +    * .. _V4L2-PIX-FMT-YUVA32:
+> +
+> +      - ``V4L2_PIX_FMT_YUVA32``
+> +      - 'YUVA'
+> +
+> +      - Y'\ :sub:`7-0`
+> +      - Cb\ :sub:`7-0`
+> +      - Cr\ :sub:`7-0`
+> +      - A\ :sub:`7-0`
+> +
+> +    * .. _V4L2-PIX-FMT-YUVX32:
+> +
+> +      - ``V4L2_PIX_FMT_YUVX32``
+> +      - 'YUVX'
+> +
+> +      - Y'\ :sub:`7-0`
+> +      - Cb\ :sub:`7-0`
+> +      - Cr\ :sub:`7-0`
+> +      - X\ :sub:`7-0`
+> +
+>      * .. _V4L2-PIX-FMT-YUV24:
+>
+>        - ``V4L2_PIX_FMT_YUV24``
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index aeecaca3edba..ca3c7bd19d7e 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1290,6 +1290,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_XYUV32:	descr = "32-bit XYUV 8-8-8-8"; break;
+>  	case V4L2_PIX_FMT_VUYA32:	descr = "32-bit VUYA 8-8-8-8"; break;
+>  	case V4L2_PIX_FMT_VUYX32:	descr = "32-bit VUYX 8-8-8-8"; break;
+> +	case V4L2_PIX_FMT_YUVA32:	descr = "32-bit YUVA 8-8-8-8"; break;
+> +	case V4L2_PIX_FMT_YUVX32:	descr = "32-bit YUVX 8-8-8-8"; break;
+>  	case V4L2_PIX_FMT_YUV410:	descr = "Planar YUV 4:1:0"; break;
+>  	case V4L2_PIX_FMT_YUV420:	descr = "Planar YUV 4:2:0"; break;
+>  	case V4L2_PIX_FMT_HI240:	descr = "8-bit Dithered RGB (BTTV)"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index df8b9c486ba1..16dcd9dd1a50 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -592,6 +592,8 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_XYUV32  v4l2_fourcc('X', 'Y', 'U', 'V') /* 32  XYUV-8-8-8-8  */
+>  #define V4L2_PIX_FMT_VUYA32  v4l2_fourcc('V', 'U', 'Y', 'A') /* 32  VUYA-8-8-8-8  */
+>  #define V4L2_PIX_FMT_VUYX32  v4l2_fourcc('V', 'U', 'Y', 'X') /* 32  VUYX-8-8-8-8  */
+> +#define V4L2_PIX_FMT_YUVA32  v4l2_fourcc('Y', 'U', 'V', 'A') /* 32  YUVA-8-8-8-8  */
+> +#define V4L2_PIX_FMT_YUVX32  v4l2_fourcc('Y', 'U', 'V', 'X') /* 32  YUVX-8-8-8-8  */
+>  #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV 4:2:0 2 lines y, 1 line uv interleaved */
+>
+>  /* two planes -- one Y, one Cr + Cb interleaved  */
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
