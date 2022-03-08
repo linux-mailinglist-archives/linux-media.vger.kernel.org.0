@@ -2,171 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F3DE4D1754
-	for <lists+linux-media@lfdr.de>; Tue,  8 Mar 2022 13:35:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BF604D1839
+	for <lists+linux-media@lfdr.de>; Tue,  8 Mar 2022 13:48:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242278AbiCHMgO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Mar 2022 07:36:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33238 "EHLO
+        id S239109AbiCHMtx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Mar 2022 07:49:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230224AbiCHMgO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 07:36:14 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573B33A703
-        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 04:35:17 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CBAD260B09
-        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 12:35:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27E73C340EB;
-        Tue,  8 Mar 2022 12:35:14 +0000 (UTC)
-Message-ID: <af0230cd-cdeb-8d9d-1c64-3550e92cd0bd@xs4all.nl>
-Date:   Tue, 8 Mar 2022 13:35:13 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 1/2] Add a V4L2 control to allow configuring BLC from
- userspace.
-Content-Language: en-US
-To:     Arec Kao <arec.kao@intel.com>, linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, andy.yeh@intel.com, tfiga@google.com
+        with ESMTP id S230080AbiCHMtw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 07:49:52 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2649127CDC
+        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 04:48:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646743736; x=1678279736;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DA/GkyBUS4UdGUsniLWfF8L001zsuJ1A9P/ordV3ctQ=;
+  b=GTPf6LNRDn/8dmzBy/7ioXzHP1pJzwiQnYLtwR69hElJ4QMGJSN6JDtD
+   hXnwcsdrDd0oVGkAmkJ2ZIg7O3gqZW2u/37Dpi9MrWIeFsgz041a/AHbt
+   v0zhV1xTI9KedbzHBOfgecBdNh23xbx6D/iT38cQmQJwrcpbgk1mT2fiT
+   YEDM2DSyqiGE6o+kR/V1OeZYZQfJNLtN6kQeGrHIkS2eHzZ/u+/tgbUlw
+   3MLQeuJFzp2SZgNFbjPs3lJwKdE7sL40DGIwsNTs4VjZYULS4rxAGq033
+   p8LCt5yYXnIu3aOjmPGd+uUKqWHRAEmSRgQq92u+zlcnOPnII5XI2dV+B
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="317903399"
+X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; 
+   d="scan'208";a="317903399"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2022 04:48:55 -0800
+X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; 
+   d="scan'208";a="641735216"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2022 04:48:54 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 1B87D201AA;
+        Tue,  8 Mar 2022 14:48:52 +0200 (EET)
+Date:   Tue, 8 Mar 2022 14:48:52 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Arec Kao <arec.kao@intel.com>
+Cc:     linux-media@vger.kernel.org, andy.yeh@intel.com, tfiga@google.com
+Subject: Re: [PATCH 2/2] Re-run BLC when gain change
+Message-ID: <YidQtF28hqh6Ew7j@paasikivi.fi.intel.com>
 References: <20220308033839.3773-1-arec.kao@intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220308033839.3773-1-arec.kao@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+ <20220308033839.3773-2-arec.kao@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220308033839.3773-2-arec.kao@intel.com>
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/8/22 04:38, Arec Kao wrote:
-> Trigger BLC update when analog gain change in specific range.
-> 
-> Signed-off-by: Arec Kao <arec.kao@intel.com>
-> ---
->  drivers/media/i2c/ov5675.c                | 41 ++++++++++++++++++++++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c |  1 +
->  include/uapi/linux/v4l2-controls.h        |  1 +
->  3 files changed, 42 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-> index 82ba9f56baec..39a0a7a06249 100644
-> --- a/drivers/media/i2c/ov5675.c
-> +++ b/drivers/media/i2c/ov5675.c
-> @@ -74,6 +74,13 @@
->  #define OV5675_REG_FORMAT1		0x3820
->  #define OV5675_REG_FORMAT2		0x373d
->  
-> +/* BLC Control */
-> +#define OV5675_REG_BLC_CTRL10		0x4010
-> +#define OV5675_BLC_ENABLE		BIT(6) /* Gain change BLC trigger enable */
-> +
-> +#define OV5675_REG_BLC_CTRL11		0x4011
-> +#define OV5675_BLC_MULTI_FRAME_ENABLE	BIT(4) /* Gain change BLC trigger multi-frame enable */
-> +
->  #define to_ov5675(_sd)			container_of(_sd, struct ov5675, sd)
->  
->  enum {
-> @@ -684,6 +691,34 @@ static int ov5675_set_ctrl_vflip(struct ov5675 *ov5675, u8 ctrl_val)
->  				ctrl_val ? val | BIT(1) : val & ~BIT(1));
->  }
->  
-> +static int ov5675_update_blc(struct ov5675 *ov5675, u8 ctrl_val)
-> +{
-> +	int ret;
-> +	u32 val;
-> +
-> +	ret = ov5675_read_reg(ov5675, OV5675_REG_BLC_CTRL10,
-> +			      OV5675_REG_VALUE_08BIT, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov5675_write_reg(ov5675, OV5675_REG_BLC_CTRL10,
-> +			       OV5675_REG_VALUE_08BIT,
-> +			       ctrl_val ? val | OV5675_BLC_ENABLE :
-> +			       val & ~OV5675_BLC_ENABLE);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov5675_read_reg(ov5675, OV5675_REG_BLC_CTRL11,
-> +			      OV5675_REG_VALUE_08BIT, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return ov5675_write_reg(ov5675, OV5675_REG_BLC_CTRL11,
-> +				OV5675_REG_VALUE_08BIT,
-> +				ctrl_val ? val | OV5675_BLC_MULTI_FRAME_ENABLE :
-> +				val & ~OV5675_BLC_MULTI_FRAME_ENABLE);
-> +}
-> +
->  static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct ov5675 *ov5675 = container_of(ctrl->handler,
-> @@ -748,6 +783,9 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
->  		ov5675_set_ctrl_vflip(ov5675, ctrl->val);
->  		break;
->  
-> +	case V4L2_CID_BLC:
-> +		ret = ov5675_update_blc(ov5675, ctrl->val);
-> +		break;
->  	default:
->  		ret = -EINVAL;
->  		break;
-> @@ -819,7 +857,8 @@ static int ov5675_init_controls(struct ov5675 *ov5675)
->  			  V4L2_CID_HFLIP, 0, 1, 1, 0);
->  	v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops,
->  			  V4L2_CID_VFLIP, 0, 1, 1, 0);
-> -
-> +	v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops,
-> +			  V4L2_CID_BLC, 0, 1, 1, 1);
+Hi Arec,
 
-It's an integer control, but used as a bool. So shouldn't it be a bool control?
-Without the documentation of what it does exactly it is hard to tell.
+Thanks for the patch.
 
->  	if (ctrl_hdlr->error)
->  		return ctrl_hdlr->error;
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 54ca4e6b820b..2b0b295fc047 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1110,6 +1110,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_TEST_PATTERN_BLUE:	return "Blue Pixel Value";
->  	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
->  	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
-> +	case V4L2_CID_BLC:			return "Black Level Calibration";
->  
->  	/* Image processing controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index c8e0f84d204d..0a0fb1283124 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1126,6 +1126,7 @@ enum v4l2_jpeg_chroma_subsampling {
->  #define V4L2_CID_TEST_PATTERN_GREENB		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 7)
->  #define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
->  #define V4L2_CID_NOTIFY_GAINS			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 9)
-> +#define V4L2_CID_BLC				(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 10)
+On Tue, Mar 08, 2022 at 11:38:39AM +0800, Arec Kao wrote:
+> Changing the gain affects the black-level through the device;
+> the gain should therefore not be changed during a BLC procedure.
+> If the gain changes, then the BLC routine should be re-run
+> in some scenarios.
 
-Please rename this to V4L2_CID_BLACK_LEVEL_CALIB or _CALIBRATION.
+Could you also explain what are the scenarios the BLC routine should be
+re-run and how does the user space know this should be done? Could this be
+done in the driver instead without involving the user space?
 
-Control names should be descriptive, and I had no idea what BLC meant.
+-- 
+Kind regards,
 
-I'm leaning to writing _CALIBRATION in full, but Laurent might prefer something
-shorter. _CALIB is also understandable, I think.
-
-Regards,
-
-	Hans
-
->  
->  
->  /* Image processing controls */
-
+Sakari Ailus
