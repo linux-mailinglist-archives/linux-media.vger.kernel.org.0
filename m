@@ -2,119 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06C084D0CB3
-	for <lists+linux-media@lfdr.de>; Tue,  8 Mar 2022 01:17:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0289F4D0DF2
+	for <lists+linux-media@lfdr.de>; Tue,  8 Mar 2022 03:21:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245325AbiCHASg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Mar 2022 19:18:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38922 "EHLO
+        id S243788AbiCHCWt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Mar 2022 21:22:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244050AbiCHASf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Mar 2022 19:18:35 -0500
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DE332679;
-        Mon,  7 Mar 2022 16:17:39 -0800 (PST)
-Received: by mail-lj1-x233.google.com with SMTP id l12so22803279ljh.12;
-        Mon, 07 Mar 2022 16:17:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=7qQ2UPHfggKLpoo8clS5DCRvOxKGuJ2u7/O95gt+nh0=;
-        b=Y9AaF3vYVObdlV4tqCqvgbtaR0uL71cSaqkRVD+gxb2eCEgILGeNhcVW8uRAGWUUPO
-         TVMYPo1IVe3FiXArgYU2moX9ZDWQjHAOuR3YCQDShx9bYEstZmGIdL34uUZH+kzzElbg
-         Yxxjl2PFuGlWbwdL/Yy7/6dnlx8IU+pbYOhe9FsDVqJ2fsALFXOq1pKYDAvLtesx+Vb4
-         WAzQfrnRgK6RT+I3dFnBXKKKB0evXXuPKaWktqmXoavI8JIio+Pl/W6+wBSp5vDU/rBo
-         Ob3ajld012Ydpm8yCLSBFZYOzAcfkIouhIgecEpreY7yHtTkcEcOdcmnxD8R5SVJRtb1
-         Rw5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=7qQ2UPHfggKLpoo8clS5DCRvOxKGuJ2u7/O95gt+nh0=;
-        b=s6/LOd5iZdDWGN0LRy/0R9ewdEXJoCqoMmHERF6V6pgEyJIiOxp5t3ijWcc1BvSPud
-         w0Z88xp87QmopROH8S2JFRPCJPRNW8unhpBiuKXQHsbnEe2bHae6iRwRLNNitpjsgLXC
-         71i+d/oN82rFaJXMeBS5p6UFMYX8C0qKfpcPqaemgNCRsSBHDG4FYoAuUkIUd6rnpTZz
-         NGw7nqEjlEpgCUczT0IKBDAN+jDtt+wYdiyY1IU5jFkBCG4RxYetsXthpVP+MyANMq3w
-         Hfj9Vj7wnqmnYd8LIlCuVsB9yuGxL7VOXVbdU+JMCDypFqt4SquiRaOyUyx+0YxP3+ne
-         p9jA==
-X-Gm-Message-State: AOAM530395qdSjXnKHWa+1TXaPqbD7MEtDS+begkCQbKwZUNyhal5obX
-        /Mx6z3EqWBTJ+GAtecJuw3k=
-X-Google-Smtp-Source: ABdhPJz8gPXv9lQFUT9LaedMm8Bcu4wn9HEFRG9bGBjyz9H3VvAx/T9d+5sXFOG+F6ZFqKyK6qeqwA==
-X-Received: by 2002:a2e:7a1a:0:b0:246:210:65cd with SMTP id v26-20020a2e7a1a000000b00246021065cdmr8974169ljc.99.1646698657231;
-        Mon, 07 Mar 2022 16:17:37 -0800 (PST)
-Received: from [192.168.2.145] (109-252-136-171.dynamic.spd-mgts.ru. [109.252.136.171])
-        by smtp.googlemail.com with ESMTPSA id bq42-20020a056512152a00b00447431cc768sm2764256lfb.170.2022.03.07.16.17.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Mar 2022 16:17:36 -0800 (PST)
-Message-ID: <e3c8078d-0e1a-6332-fbd5-6339561cd24d@gmail.com>
-Date:   Tue, 8 Mar 2022 03:17:35 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] MAINTAINERS: rectify entry for MEDIA DRIVERS FOR NVIDIA
- TEGRA - VDE
-Content-Language: en-US
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220307145935.13178-1-lukas.bulwahn@gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <20220307145935.13178-1-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S236987AbiCHCWt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Mar 2022 21:22:49 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 121A73205B
+        for <linux-media@vger.kernel.org>; Mon,  7 Mar 2022 18:21:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646706114; x=1678242114;
+  h=from:to:cc:subject:date:message-id;
+  bh=DGPk7/csTKegUNnSklIpHpZrhvvCsmVEYc8er6c7yLA=;
+  b=F1SXQUL5d+Gu4+v5g9QspsvXauaPbIuNKFwLrQVHd8lEyR0eC+9Ty4qk
+   r5MVW3xewDTSYo2XHMcQZWg8HNPPnC4PWfZVT7G393tbnViVWhSRk2y58
+   OPtXjD3AuQWzF2NJ1PO8Xj9ff8YR2nlaUIxveRNlpWnme4Gow80rfgNqf
+   JUGMAvVgiGYoQAjuBjhDN/8PVZC0To2koRU3tLd8M+Zly8RwHv/PFd/pQ
+   NjJH1UROojrQZB0w7vRXjKktIR4u1QhUnTk+W1yT4dC+A13Yx6QP3wZ+8
+   qQaatp8lcmeob3rctwguhOD6PcnXkv7dLv0K9ysKOu1WAKXpNata4axHe
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="254758327"
+X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; 
+   d="scan'208";a="254758327"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 18:21:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; 
+   d="scan'208";a="711356430"
+Received: from arec-bm6650.itwn.intel.com ([10.5.253.20])
+  by orsmga005.jf.intel.com with ESMTP; 07 Mar 2022 18:21:52 -0800
+From:   Arec Kao <arec.kao@intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     sakari.ailus@linux.intel.com, andy.yeh@intel.com, tfiga@google.com,
+        arec.kao@intel.com
+Subject: [PATCH 1/2] Add a V4L2 control to allow configuring BLC from userspace.
+Date:   Tue,  8 Mar 2022 11:38:38 +0800
+Message-Id: <20220308033839.3773-1-arec.kao@intel.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-07.03.2022 17:59, Lukas Bulwahn пишет:
-> Commit ccc3016261ed ("media: dt: bindings: tegra-vde: Convert to schema")
-> converts nvidia,tegra-vde.txt to nvidia,tegra-vde.yaml, but missed to
-> adjust its reference in MAINTAINERS.
-> 
-> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
-> broken reference.
-> 
-> Repair this file reference in  MEDIA DRIVERS FOR NVIDIA TEGRA - VDE.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> Dmitry, please ack.
-> 
-> Thierry, please pick this minor non-urgent clean-up patch.
-> 
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 05fd080b82f3..2b96a22cf5ea 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11964,7 +11964,7 @@ L:	linux-media@vger.kernel.org
->  L:	linux-tegra@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
-> -F:	Documentation/devicetree/bindings/media/nvidia,tegra-vde.txt
-> +F:	Documentation/devicetree/bindings/media/nvidia,tegra-vde.yaml
->  F:	drivers/staging/media/tegra-vde/
->  
->  MEDIA DRIVERS FOR RENESAS - CEU
+Trigger BLC update when analog gain change in specific range.
 
-This patch will have to go via the media tree. You'll may need to rebase
-it on a recent linux-next soon because the driver path was changed
-recently, otherwise maybe Mauro could resolve the merge conflict while
-applying the patch.
+Signed-off-by: Arec Kao <arec.kao@intel.com>
+---
+ drivers/media/i2c/ov5675.c                | 41 ++++++++++++++++++++++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c |  1 +
+ include/uapi/linux/v4l2-controls.h        |  1 +
+ 3 files changed, 42 insertions(+), 1 deletion(-)
 
-Acked-by: Dmitry Osipenko <digetx@gmail.com>
+diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+index 82ba9f56baec..39a0a7a06249 100644
+--- a/drivers/media/i2c/ov5675.c
++++ b/drivers/media/i2c/ov5675.c
+@@ -74,6 +74,13 @@
+ #define OV5675_REG_FORMAT1		0x3820
+ #define OV5675_REG_FORMAT2		0x373d
+ 
++/* BLC Control */
++#define OV5675_REG_BLC_CTRL10		0x4010
++#define OV5675_BLC_ENABLE		BIT(6) /* Gain change BLC trigger enable */
++
++#define OV5675_REG_BLC_CTRL11		0x4011
++#define OV5675_BLC_MULTI_FRAME_ENABLE	BIT(4) /* Gain change BLC trigger multi-frame enable */
++
+ #define to_ov5675(_sd)			container_of(_sd, struct ov5675, sd)
+ 
+ enum {
+@@ -684,6 +691,34 @@ static int ov5675_set_ctrl_vflip(struct ov5675 *ov5675, u8 ctrl_val)
+ 				ctrl_val ? val | BIT(1) : val & ~BIT(1));
+ }
+ 
++static int ov5675_update_blc(struct ov5675 *ov5675, u8 ctrl_val)
++{
++	int ret;
++	u32 val;
++
++	ret = ov5675_read_reg(ov5675, OV5675_REG_BLC_CTRL10,
++			      OV5675_REG_VALUE_08BIT, &val);
++	if (ret)
++		return ret;
++
++	ret = ov5675_write_reg(ov5675, OV5675_REG_BLC_CTRL10,
++			       OV5675_REG_VALUE_08BIT,
++			       ctrl_val ? val | OV5675_BLC_ENABLE :
++			       val & ~OV5675_BLC_ENABLE);
++	if (ret)
++		return ret;
++
++	ret = ov5675_read_reg(ov5675, OV5675_REG_BLC_CTRL11,
++			      OV5675_REG_VALUE_08BIT, &val);
++	if (ret)
++		return ret;
++
++	return ov5675_write_reg(ov5675, OV5675_REG_BLC_CTRL11,
++				OV5675_REG_VALUE_08BIT,
++				ctrl_val ? val | OV5675_BLC_MULTI_FRAME_ENABLE :
++				val & ~OV5675_BLC_MULTI_FRAME_ENABLE);
++}
++
+ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct ov5675 *ov5675 = container_of(ctrl->handler,
+@@ -748,6 +783,9 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		ov5675_set_ctrl_vflip(ov5675, ctrl->val);
+ 		break;
+ 
++	case V4L2_CID_BLC:
++		ret = ov5675_update_blc(ov5675, ctrl->val);
++		break;
+ 	default:
+ 		ret = -EINVAL;
+ 		break;
+@@ -819,7 +857,8 @@ static int ov5675_init_controls(struct ov5675 *ov5675)
+ 			  V4L2_CID_HFLIP, 0, 1, 1, 0);
+ 	v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops,
+ 			  V4L2_CID_VFLIP, 0, 1, 1, 0);
+-
++	v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops,
++			  V4L2_CID_BLC, 0, 1, 1, 1);
+ 	if (ctrl_hdlr->error)
+ 		return ctrl_hdlr->error;
+ 
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+index 54ca4e6b820b..2b0b295fc047 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+@@ -1110,6 +1110,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_TEST_PATTERN_BLUE:	return "Blue Pixel Value";
+ 	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
+ 	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
++	case V4L2_CID_BLC:			return "Black Level Calibration";
+ 
+ 	/* Image processing controls */
+ 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index c8e0f84d204d..0a0fb1283124 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -1126,6 +1126,7 @@ enum v4l2_jpeg_chroma_subsampling {
+ #define V4L2_CID_TEST_PATTERN_GREENB		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 7)
+ #define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
+ #define V4L2_CID_NOTIFY_GAINS			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 9)
++#define V4L2_CID_BLC				(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 10)
+ 
+ 
+ /* Image processing controls */
+-- 
+2.17.1
+
