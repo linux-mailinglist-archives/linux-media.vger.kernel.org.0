@@ -2,164 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA6DA4D0F8A
-	for <lists+linux-media@lfdr.de>; Tue,  8 Mar 2022 06:52:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75D404D106A
+	for <lists+linux-media@lfdr.de>; Tue,  8 Mar 2022 07:42:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233708AbiCHFxW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Mar 2022 00:53:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47450 "EHLO
+        id S244684AbiCHGnk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Mar 2022 01:43:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244208AbiCHFxS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 00:53:18 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D61CE25
-        for <linux-media@vger.kernel.org>; Mon,  7 Mar 2022 21:52:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B3ED7B816FB
-        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 05:52:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 405C7C340EC
-        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 05:52:19 +0000 (UTC)
-Date:   Tue, 08 Mar 2022 06:52:17 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20220308055219.405C7C340EC@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S234890AbiCHGnc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 01:43:32 -0500
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06F61260D;
+        Mon,  7 Mar 2022 22:42:35 -0800 (PST)
+Received: by mail-qv1-xf2a.google.com with SMTP id jo29so1662857qvb.5;
+        Mon, 07 Mar 2022 22:42:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3BlhCpzOl8RmNINpEx6ZksN8PuzFGiT+rReK1e6qksg=;
+        b=U3b0Pp6Ijjok03//V1wBwEFHZ7gTBQ8F2ZBI4ch/90od19po2tzo1FBwcz3e/d/UrA
+         8T0xqVnuRugaqn17fibFF/skhjednRMy39yTgtuAxNGp/Fj10qAR077tzRpK4GVndeQz
+         8k0jYRabxXUVI4mHoyd4vwlbC1ZwIxyy9ddIZUb9OSWEQIXox3K1YG5+aP5ZDbHDCjNu
+         JOv4TXTa3yxFKIN6IHVHILud4f0gaPgrZD33sQnQtTQlKNntp7YLd+jqD1RjkELPgsbO
+         U4GqAcB4vmamiio1LyGL+fwjDwiiYWMxRR5zVCV3L1+QFVnoBR66mK13h6ptdQKfgnEo
+         kNNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3BlhCpzOl8RmNINpEx6ZksN8PuzFGiT+rReK1e6qksg=;
+        b=qanQgGuGn3ZCczlq73rMEozMEwgqYrC+r37EcO2s1K71Fq7+Rq2NizMu0ksuveqDPS
+         fGS1ZpFPiF/s9aakL6Q+QZ7gWv7CGf9MzYl2n8nc6v6cq1MmEkYcuYzcvh2dLan7lbT8
+         T5BN3DeOzreG4Kuk0LOrIJF5TJ+ehWKC96vzWAEr8gvjkGcrljRQtVm33CRdVeGxE84o
+         oQnptnXQMHljYmdkZFU61Zgj+ICaBjB5+T7r1D+mBkT8eS4U3xIzZ3gOM46dSaHr7gs2
+         4Z2jf/Xrxa40DQpg+qybQeTtBbf/HUYeh6H750Q18GrDinUi0rQxH8aIpa3bjDiktZzj
+         a7zg==
+X-Gm-Message-State: AOAM530mOQXysrp+ahCZeifX+ObDtasCyzpPwPeRLCE+ZAyv527nD+nY
+        FF0WZOHtStuOWbpEsdL7en9eR693o3A=
+X-Google-Smtp-Source: ABdhPJyL+ONQKKz2WT8OVKHKyi+s1c6O+NGOtB4Ij3TgkDX1Q/RWspsXGBGtOWiHRHwj6SoQlOtVbw==
+X-Received: by 2002:a05:6214:1d23:b0:432:c15c:a09a with SMTP id f3-20020a0562141d2300b00432c15ca09amr11255706qvd.34.1646721755053;
+        Mon, 07 Mar 2022 22:42:35 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id de18-20020a05620a371200b00662cf4b5631sm7314617qkb.23.2022.03.07.22.42.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Mar 2022 22:42:34 -0800 (PST)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To:     prabhakar.csengg@gmail.com
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Minghao Chi <chi.minghao@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] media: davinci: Use platform_get_irq() to get the interrupt
+Date:   Tue,  8 Mar 2022 06:42:28 +0000
+Message-Id: <20220308064228.2078109-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Minghao Chi (CGEL ZTE) <chi.minghao@zte.com.cn>
 
-Results of the daily build of media_tree:
+platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+allocation of IRQ resources in DT core code, this causes an issue
+when using hierarchical interrupt domains using "interrupts" property
+in the node as this bypasses the hierarchical setup and messes up the
+irq chaining.
 
-date:			Tue Mar  8 05:00:11 CET 2022
-media-tree git hash:	b3627647f9ea7473d10fb08a95fd7c4133a17ca4
-media_build git hash:	d5d4c1ff328b8464bd0f55aea299ab5f2a7856ec
-v4l-utils git hash:	482610beb4a0d9e5d12783f1b734945677782c2e
-edid-decode git hash:	388f4dd7f438ecfe8d61a2a458899fdc15dd1af2
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.3
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.3
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: ca10acfc66d427061b8da07cf8d33ccc3ac9ce54
-host hardware:		x86_64
-host os:		5.16.0-1-amd64
+In preparation for removal of static setup of IRQ resource from DT core
+code use platform_get_irq().
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.246-i686: OK
-linux-4.9.246-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.246-i686: OK
-linux-4.14.246-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.206-i686: OK
-linux-4.19.206-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16.1-i686: OK
-linux-5.16.1-x86_64: OK
-linux-5.17-rc1-i686: OK
-linux-5.17-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
-kerneldoc: WARNINGS
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Minghao Chi (CGEL ZTE) <chi.minghao@zte.com.cn>
+---
+ drivers/media/platform/davinci/vpfe_capture.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-Detailed results are available here:
+diff --git a/drivers/media/platform/davinci/vpfe_capture.c b/drivers/media/platform/davinci/vpfe_capture.c
+index 0a2226b321d7..b3cafa16a1ad 100644
+--- a/drivers/media/platform/davinci/vpfe_capture.c
++++ b/drivers/media/platform/davinci/vpfe_capture.c
+@@ -1674,11 +1674,10 @@ static int vpfe_probe(struct platform_device *pdev)
+ {
+ 	struct vpfe_subdev_info *sdinfo;
+ 	struct vpfe_config *vpfe_cfg;
+-	struct resource *res1;
+ 	struct vpfe_device *vpfe_dev;
+ 	struct i2c_adapter *i2c_adap;
+ 	struct video_device *vfd;
+-	int ret, i, j;
++	int ret, i, j, irq;
+ 	int num_subdevs = 0;
+ 
+ 	/* Get the pointer to the device object */
+@@ -1717,24 +1716,24 @@ static int vpfe_probe(struct platform_device *pdev)
+ 
+ 	strscpy(ccdc_cfg->name, vpfe_cfg->ccdc, sizeof(ccdc_cfg->name));
+ 	/* Get VINT0 irq resource */
+-	res1 = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+-	if (!res1) {
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0) {
+ 		v4l2_err(pdev->dev.driver,
+ 			 "Unable to get interrupt for VINT0\n");
+ 		ret = -ENODEV;
+ 		goto probe_free_ccdc_cfg_mem;
+ 	}
+-	vpfe_dev->ccdc_irq0 = res1->start;
++	vpfe_dev->ccdc_irq0 = irq;
+ 
+ 	/* Get VINT1 irq resource */
+-	res1 = platform_get_resource(pdev, IORESOURCE_IRQ, 1);
+-	if (!res1) {
++	irq = platform_get_irq(pdev, 1);
++	if (irq < 0) {
+ 		v4l2_err(pdev->dev.driver,
+ 			 "Unable to get interrupt for VINT1\n");
+ 		ret = -ENODEV;
+ 		goto probe_free_ccdc_cfg_mem;
+ 	}
+-	vpfe_dev->ccdc_irq1 = res1->start;
++	vpfe_dev->ccdc_irq1 = irq;
+ 
+ 	ret = request_irq(vpfe_dev->ccdc_irq0, vpfe_isr, 0,
+ 			  "vpfe_capture0", vpfe_dev);
+-- 
+2.25.1
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
