@@ -2,311 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 340994D3AE7
-	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 21:16:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69D8C4D3B06
+	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 21:26:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235778AbiCIURc convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 9 Mar 2022 15:17:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47774 "EHLO
+        id S234935AbiCIU1O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Mar 2022 15:27:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238112AbiCIURb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 15:17:31 -0500
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E5D4B0D2C
-        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 12:16:30 -0800 (PST)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nS2jU-00FMfM-MU; Wed, 09 Mar 2022 20:16:29 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nS2jT-008q7a-Bv; Wed, 09 Mar 2022 20:16:26 +0000
-Date:   Wed, 9 Mar 2022 20:16:26 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1985236927.1.1646856986817@builder.linuxtv.org>
-In-Reply-To: <818872916.0.1646856111427@builder.linuxtv.org>
-References: <818872916.0.1646856111427@builder.linuxtv.org>
-Subject: Build failed in Jenkins: camorama #33
+        with ESMTP id S238120AbiCIU1N (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 15:27:13 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCCF14754A;
+        Wed,  9 Mar 2022 12:26:13 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75D8EA50;
+        Wed,  9 Mar 2022 21:26:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1646857571;
+        bh=C0hndd3YnZnssTuhjaC3YZSqP9LJ07H5lC8NuZjhgbc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mYkdklsAt99t3m0fgQ7OJP0yj0wYWZlTDTI+wlgUNPCIsLkLby7RSwvO5PTzsUViS
+         L+NYkXxuaCJJC8jk1x5hQQFagLJwBULp8DwSD3d8vRd6vhIWyfIlsEN3URPgpjBwwl
+         njfUMhopMW3J2eGsK/WLaRKiDZq0eZ/DOuBw/F2A=
+Date:   Wed, 9 Mar 2022 22:25:56 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        stanimir.varbanov@linaro.org, tomi.valkeinen@ideasonboard.com,
+        robh+dt@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 6/9] media: uapi: Add a control for DW100 driver
+Message-ID: <YikNVPsovdUDxJEB@pendragon.ideasonboard.com>
+References: <20220308184829.38242-1-xavier.roumegue@oss.nxp.com>
+ <20220308184829.38242-7-xavier.roumegue@oss.nxp.com>
+ <1b2f72c783e7a83956acc788888c539bb83fe995.camel@ndufresne.ca>
+ <986c4b3c-e346-e5b5-7fc9-497d8a4fc89f@oss.nxp.com>
+ <5a43a326a270051df1f7b8402d07b443b02331b6.camel@ndufresne.ca>
+ <d4d170c3-b4df-47ee-28b1-09a4c8ebc5f6@oss.nxp.com>
+ <8d7db603e85b2bf1f1d7d581028e7d9f578ec643.camel@ndufresne.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: camorama
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8d7db603e85b2bf1f1d7d581028e7d9f578ec643.camel@ndufresne.ca>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,LONG_TERM_PRICE,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/camorama/33/display/redirect?page=changes>
+Hi Nicolas and Xavier,
 
-Changes:
+On Wed, Mar 09, 2022 at 03:08:06PM -0500, Nicolas Dufresne wrote:
+> Le mercredi 09 mars 2022 à 00:16 +0100, Xavier Roumegue (OSS) a écrit :
+> > On 3/8/22 21:28, Nicolas Dufresne wrote:
+> > > Le mardi 08 mars 2022 à 20:42 +0100, Xavier Roumegue (OSS) a écrit :
+> > > > On 3/8/22 20:15, Nicolas Dufresne wrote:
+> > > > > Le mardi 08 mars 2022 à 19:48 +0100, Xavier Roumegue a écrit :
+> > > > > > The DW100 driver gets the dewarping mapping as a binary blob from the
+> > > > > > userspace application through a custom control.
+> > > > > > The blob format is hardware specific so create a dedicated control for
+> > > > > > this purpose.
+> > > > > > 
+> > > > > > Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+> > > > > > ---
+> > > > > >    Documentation/userspace-api/media/drivers/dw100.rst |  7 +++++++
+> > > > > >    include/uapi/linux/dw100.h                          | 11 +++++++++++
+> > > > > >    2 files changed, 18 insertions(+)
+> > > > > >    create mode 100644 include/uapi/linux/dw100.h
+> > > > > > 
+> > > > > > diff --git a/Documentation/userspace-api/media/drivers/dw100.rst b/Documentation/userspace-api/media/drivers/dw100.rst
+> > > > > > index 20aeae63a94f..3abad05849ad 100644
+> > > > > > --- a/Documentation/userspace-api/media/drivers/dw100.rst
+> > > > > > +++ b/Documentation/userspace-api/media/drivers/dw100.rst
+> > > > > > @@ -20,4 +20,11 @@ match the expected size inherited from the destination image resolution.
+> > > > > >    More details on the DW100 hardware operations can be found in
+> > > > > >    *chapter 13.15 DeWarp* of IMX8MP_ reference manuel.
+> > > > > >    
+> > > > > > +The Vivante DW100 m2m driver implements the following driver-specific control:
+> > > > > > +
+> > > > > > +``V4L2_CID_DW100_MAPPING (integer)``
+> > > > > > +    Specifies to DW100 driver its dewarping map (aka LUT) blob as described in
+> > > > > > +    *chapter 13.15.2.3 Dewarping Remap* of IMX8MP_ reference manual as an U32
+> > > > > > +    dynamic array.
+> > > > > > +
+> > > > > >    .. _IMX8MP: https://www.nxp.com/webapp/Download?colCode=IMX8MPIEC
+> > > > > 
+> > > > > This point to a document names "i.MX 8M Plus Applications Processor Datasheet
+> > > > > for Industrial Products" which does not contain that reference.
+> > > > My bad.. Wrong link. :)
+> > > > Will repost with correct link.
+> > > 
+> > > Thanks. What I wanted to check is if it actually made sense to expose the
+> > > synthetized HW LUT. But for this, one need to share the parameters / algo needed
+> > > to generate them.
+> >
+> > There is no special dewarping algorithm which strictly depends on the 
+> > dw100 IP, or optimized for the IP capabilities.
+> > 
+> >   This way we can compare against other popular dewarp
+> > > algorithms / API and see if they have something in common.
+> >
+> > The dw100 hw lut description is rather close to a how you implement 
+> > dewarping with openGL taking benefit of the shader pipeline stage.
+> > The main differences with OpenGL implementation are:
+> > - Fixed vertices coordinates (16x16) vs any
+> > - Limited resolution on input (texture) coordinates (UQ12.4) vs float
+> > 
+> > Standard routines from OpenCV such as initUndistortRectifyMap()
+> > https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#ga7dfb72c9cf9780a347fbe3d1c47e5d5a
+> > can be used to generate the binary blob, with an additional decimation 
+> > processing stage to satisfy the 16x16 macro block vertices grid and the 
+> > fixed point format.
+> > 
+> > > The issue I see with this control is relate to the message it gives. When adding
+> > > controls for the prosperity, we want these control to actually be usable. This
+> > > is possible if the documentation makes its usage obvious, or if there is Open
+> > > Source userland to support that.
+> >
+> > So yes, most famous vision opensource project such OpenCV can be used to 
+> > generate the blob.
+> >
+> > > None of this is met, so as a side effect, this looks like NXP sneaking in
+> > > private blob control into a publicly maintained Open Source project.
+> >
+> > I then disagree with this statement considering my previous comments.
+> > 
+> > I plan to release publicly some programming examples on how to generate 
+> > the dewarping map only using openCV library routines and aligned with 
+> > lenses calibration state of the art method.
+> > A dedicated openCV module taking benefit of the DW100 will be published 
+> > as well.
+> > 
+> > A long term target is to add its support in libcamera, combined with all 
+> > media components (CSI, ISP, ISI) pulled from upstream kernel tree.
+> > 
+> >   This isn't
+> > > truly aligned with how V4L2 controls are meant to be. Doing trivial lut
+> > > synthesis in the kernel could be fine though.
+> >
+> > I am not sure what you meant with this comment.
+> > 
+> > As part of this patch series, an identity map is generated in the driver 
+> > which should be enough for anyone familiar with dewarping process.
+> > If you meant to generate the remapping table from the lens calibration 
+> > data, I don't think this is a reasonable option considering the 
+> > NP-completeness of the problem.
+> > 
+> > If this is the idea of binary blob (despite its public format 
+> > description) which hurts you, the map can be exposed to the kernel in a 
+> > more human readable format such Image_in(xin, yin) -> Image_out(xout, 
+> > yout) in UQ1.31 format but will add extra processing at runtime for 
+> > something which has to be done anyway offline, and memory overhead. But 
+> > I don't think we can end with a generic v4l2 control considering the 
+> > hardware restrictions (vertices position, limited fixed point 
+> > resolution, etc..).
+> 
+> Please avoid implication that I would be *hurt* by your patchset.
 
-[Mauro Carvalho Chehab] Remove (autogen.sh) generated files from git
+There are many developers in the community for who code is their baby,
+so being hurt by a patch series is actually a feeling that can occurs
+:-) I don't think anyone is trying to hurt anyone here. There was a bit
+of miscommunication in the beginning as Xavier's cover letter didn't
+outline the userspace development plans, and that has been clarified
+now. The driver may expose a hardware-specific configuration blob to
+userspace, but that will be fully supported by an open-source userspace
+implementation.
 
-[Mauro Carvalho Chehab] Add --input cmdline option to select v4l device input
+> Your imagination will make you read my comment as saying something it is not. My
+> comment are strictly scoped within the information you have provided with the
+> patchset to justify adding a vendor control in contrast to providing controls
+> that would be reused by another driver later. I'm not into lense or anything, I
+> strictly review the userland APIs that you submitted with care on documentation
+> and usability.
+> 
+> Try and ignore everything you know and the inner of this hardware design, and
+> perhaps about dewarping technique and you may endup with a different read of
+> your patchset. My impression while reading it is that I would not be able to use
+> it due to lack of example. And if NXP website would stop hosting the
+> documentation, this would make it just impossible. Time have showed that vendor
+> controls are rarely the solution and should only be added with great care and
+> good documentation. For a first driver supporting a technology like this one, it
+> could be acceptable, assuming it is documented in a future proof way.
 
-[Mauro Carvalho Chehab] Commit msgmerge generated po file changes
+While I'm not sure there would be value in trying to standardize the
+control here, documenting it in the kernel instead of simply referring
+to the reference manual could indeed be nice. That's a bit of extra work
+for little immediate gain, but it would be more future-proof.
 
-[Mauro Carvalho Chehab] Fix typo "installl" with 3 L's
+> All the information and the rationale you are adding in this reply can be added
+> in the next submission. What I think you should strictly address:
+> 
+> - The LUT format and meaning should be documented directly in the Linux Kernel
+> documentation. Having to register an account with NXP in order to download the
+> documentation is not acceptable and not future safe.
 
+We don't *necessarily* need to fully document the format in the kernel
+documentation itself (but we *can*), it could also be documented as part
+of an open-source userspace project (think about GPU command streams
+that are not documented on the kernel side but in Mesa). In any case,
+the documentation should be provided to merge the driver, even if it
+lives as part of a userspace project.
 
-------------------------------------------
-[...truncated 17.40 KB...]
-checking whether C compiler accepts -Wmissing-include-dirs... yes
-checking whether C compiler accepts -Wunused-but-set-variable... yes
-checking whether C compiler accepts -Warray-bounds... yes
-checking whether C compiler accepts -Wreturn-type... yes
-checking whether C compiler accepts -Wswitch-enum... yes
-checking whether C compiler accepts -Wswitch-default... yes
-checking whether C compiler accepts -Wduplicated-cond... yes
-checking whether C compiler accepts -Wduplicated-branches... yes
-checking whether C compiler accepts -Wlogical-op... yes
-checking whether C compiler accepts -Wrestrict... yes
-checking whether C compiler accepts -Wnull-dereference... yes
-checking whether C compiler accepts -Wdouble-promotion... yes
-checking whether C compiler accepts -Wno-error=unused-parameter... yes
-checking whether C compiler accepts -Wno-error=missing-field-initializers... yes
-checking whether C compiler accepts -Werror=unknown-warning-option... (cached) no
-checking whether the linker accepts -Wl,--as-needed... yes
-checking whether the linker accepts -Wl,--as-needed... yes
-checking whether the linker accepts -Wl,-z,relro... yes
-checking whether the linker accepts -Wl,-z,relro... yes
-checking whether the linker accepts -Wl,-z,now... yes
-checking whether the linker accepts -Wl,-z,now... yes
-checking whether the linker accepts -Wl,-z,noexecstack... yes
-checking whether the linker accepts -Wl,-z,noexecstack... yes
-checking whether the linker accepts -Wl,--no-as-needed... yes
-checking whether the linker accepts -Wl,--fatal-warnings... yes
-checking whether the linker accepts -Wl,-fatal_warnings... no
-checking whether the linker accepts -Wl,--no-as-needed... yes
-checking for pkg-config... /usr/bin/pkg-config
-checking pkg-config is at least version 0.16... yes
-checking for gdk-pixbuf-2.0 gtk+-3.0 >= 3.10 cairo... yes
-checking that generated files are newer than configure... done
-configure: creating ./config.status
-config.status: creating Makefile
-config.status: creating src/Makefile
-config.status: creating data/Makefile
-config.status: creating po/Makefile.in
-config.status: creating config.h
-config.status: config.h is unchanged
-config.status: executing po-directories commands
-config.status: creating po/POTFILES
-config.status: creating po/Makefile
-config.status: executing depfiles commands
+> - You forgot to provide the output of v4l2-compliance, I didn't mention yet, but
+> that would have come of course.
+> 
+> The rest are just nice to have, though generally wanted.
+> 
+> - The name of the control could be made more descriptive. The lut is mapping
+> what in one word ? And that word could be added to the name.
+> - The patchset could mention userland code that uses it, which show that this is
+> actually tested*
+> - There is other feature you mention, unrelated to the dewarp feature. You
+> haven't said with what userland these have been tested. M2M scaling, csc and
+> crop are generic should just work with existing userland. You could use
+> GStreamer as an example.
+> 
+> * You'll find this funny, or perhaps even insulting at first, but you'd be
+> surprise how much code (specially from ARM SoC vendors) that get sent every year
+> that don't even compile or have never been tested after being up-ported from an
+> older tree. And that is only scratching the surface of the problem we have to
+> deal with. Notably drivers were only 1 pixel format out of let's say 10 have
+> been tested that comes with broken stride and memory buffer size calculation
+> causing much larger troubles in the system.
 
-compile time options summary
-============================
+While I don't necessarily disagree, and while I understand it may make
+you cautious (as we say in French, chat échaudé craint l'eau froide),
+let's remember to be welcoming to new contributions without any
+prejudice.
 
-    Gtk version to use: 3
-+ make clean
-Making clean in src
-make[1]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/src'>
-test -z "camorama" || rm -f camorama
-rm -f *.o
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/src'>
-Making clean in data
-make[1]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/data'>
-rm -f org.gnome.camorama.gschema.valid 
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/data'>
-Making clean in po
-make[1]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-rm -f *.insert-header
-rm -f remove-potcdate.sed
-rm -f ./stamp-poT
-rm -f core core.* camorama.po camorama.1po camorama.2po *.new.po
-rm -fr *.o
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-make[1]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/'>
-test -z "camorama.desktop camorama.appdata.xml po/camorama.pot" || rm -f camorama.desktop camorama.appdata.xml po/camorama.pot
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/'>
-+ make
-make  all-recursive
-make[1]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/'>
-Making all in src
-make[2]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/src'>
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT callbacks.o -MD -MP -MF .deps/callbacks.Tpo -c -o callbacks.o callbacks.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT camorama-filter-chain.o -MD -MP -MF .deps/camorama-filter-chain.Tpo -c -o camorama-filter-chain.o camorama-filter-chain.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT camorama-filter-laplace.o -MD -MP -MF .deps/camorama-filter-laplace.Tpo -c -o camorama-filter-laplace.o camorama-filter-laplace.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT camorama-filter-mirror.o -MD -MP -MF .deps/camorama-filter-mirror.Tpo -c -o camorama-filter-mirror.o camorama-filter-mirror.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT camorama-filter-reichardt.o -MD -MP -MF .deps/camorama-filter-reichardt.Tpo -c -o camorama-filter-reichardt.o camorama-filter-reichardt.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT camorama-window.o -MD -MP -MF .deps/camorama-window.Tpo -c -o camorama-window.o camorama-window.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT filter.o -MD -MP -MF .deps/filter.Tpo -c -o filter.o filter.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT main.o -MD -MP -MF .deps/main.Tpo -c -o main.o main.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT support.o -MD -MP -MF .deps/support.Tpo -c -o support.o support.c
-mv -f .deps/camorama-filter-laplace.Tpo .deps/camorama-filter-laplace.Po
-mv -f .deps/camorama-filter-mirror.Tpo .deps/camorama-filter-mirror.Po
-mv -f .deps/camorama-filter-reichardt.Tpo .deps/camorama-filter-reichardt.Po
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT v4l.o -MD -MP -MF .deps/v4l.Tpo -c -o v4l.o v4l.c
-gcc -DHAVE_CONFIG_H -I. -I..  -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -g   -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -MT fileio.o -MD -MP -MF .deps/fileio.Tpo -c -o fileio.o fileio.c
-mv -f .deps/camorama-filter-chain.Tpo .deps/camorama-filter-chain.Po
-mv -f .deps/support.Tpo .deps/support.Po
-mv -f .deps/main.Tpo .deps/main.Po
-mv -f .deps/fileio.Tpo .deps/fileio.Po
-mv -f .deps/camorama-window.Tpo .deps/camorama-window.Po
-mv -f .deps/filter.Tpo .deps/filter.Po
-mv -f .deps/callbacks.Tpo .deps/callbacks.Po
-mv -f .deps/v4l.Tpo .deps/v4l.Po
-gcc -fno-strict-aliasing -Wnested-externs -Wmissing-prototypes -Wstrict-prototypes -Wdeclaration-after-statement -Wimplicit-function-declaration -Wold-style-definition -Wjump-misses-init -Wall -Wextra -Wundef -Wwrite-strings -Wpointer-arith -Wmissing-declarations -Wredundant-decls -Wno-unused-parameter -Wno-missing-field-initializers -Wformat=2 -Wcast-align -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds -Wreturn-type -Wswitch-enum -Wswitch-default -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wrestrict -Wnull-dereference -Wdouble-promotion -Wno-error=unused-parameter -Wno-error=missing-field-initializers -DCAMORAMA_UI='"camorama-gtk3.ui"' -g -O2 -Wl,--no-as-needed  -o camorama callbacks.o camorama-filter-chain.o camorama-filter-laplace.o camorama-filter-mirror.o camorama-filter-reichardt.o camorama-window.o filter.o main.o support.o v4l.o fileio.o  -lgtk-3 -lgdk-3 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -latk-1.0 -lcairo-gobject -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lcairo -lv4l2 -lm 
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/src'>
-Making all in data
-make[2]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/data'>
-/usr/bin/glib-compile-schemas --strict --dry-run  --schema-file=org.gnome.camorama.gschema.xml && mkdir -p . && touch org.gnome.camorama.gschema.valid
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/data'>
-Making all in po
-make[2]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-make camorama.pot-update
-make[3]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-sed -e '/^#/d' remove-potcdate.sin > t-remove-potcdate.sed
-mv t-remove-potcdate.sed remove-potcdate.sed
-package_gnu=""; \
-test -n "$package_gnu" || { \
-  if { if (LC_ALL=C find --version) 2>/dev/null | grep GNU >/dev/null; then \
-         LC_ALL=C find -L .. -maxdepth 1 -type f -size -10000000c -exec grep -i 'GNU camorama' /dev/null '{}' ';' 2>/dev/null; \
-       else \
-         LC_ALL=C grep -i 'GNU camorama' ../* 2>/dev/null; \
-       fi; \
-     } | grep -v 'libtool:' >/dev/null; then \
-     package_gnu=yes; \
-   else \
-     package_gnu=no; \
-   fi; \
-}; \
-if test "$package_gnu" = "yes"; then \
-  package_prefix='GNU '; \
-else \
-  package_prefix=''; \
-fi; \
-if test -n '' || test 'https://github.com/alessio/camorama' = '@'PACKAGE_BUGREPORT'@'; then \
-  msgid_bugs_address=''; \
-else \
-  msgid_bugs_address='https://github.com/alessio/camorama'; \
-fi; \
-case `/usr/bin/xgettext --version | sed 1q | sed -e 's,^[^0-9]*,,'` in \
-  '' | 0.[0-9] | 0.[0-9].* | 0.1[0-5] | 0.1[0-5].* | 0.16 | 0.16.[0-1]*) \
-    /usr/bin/xgettext --default-domain=camorama --directory=.. \
-      --add-comments=TRANSLATORS: \
-      --files-from=./POTFILES.in \
-      --copyright-holder='Camorama developers' \
-      --msgid-bugs-address="$msgid_bugs_address" \
-      --keyword=_ --keyword=N_  \
-    ;; \
-  *) \
-    /usr/bin/xgettext --default-domain=camorama --directory=.. \
-      --add-comments=TRANSLATORS: \
-      --files-from=./POTFILES.in \
-      --copyright-holder='Camorama developers' \
-      --package-name="${package_prefix}camorama" \
-      --package-version='0.20.7' \
-      --msgid-bugs-address="$msgid_bugs_address" \
-      --keyword=_ --keyword=N_  \
-    ;; \
-esac
-/usr/bin/xgettext: warning: a fallback ITS rule file '/usr/share/gettext-0.21/its/metainfo.its' is used; it may not be in sync with the upstream
-test ! -f camorama.po || { \
-  if test -f ./camorama.pot-header; then \
-    sed -e '1,/^#$/d' < camorama.po > camorama.1po && \
-    cat ./camorama.pot-header camorama.1po > camorama.po && \
-    rm -f camorama.1po \
-    || exit 1; \
-  fi; \
-  if test -f ./camorama.pot; then \
-    sed -f remove-potcdate.sed < ./camorama.pot > camorama.1po && \
-    sed -f remove-potcdate.sed < camorama.po > camorama.2po && \
-    if cmp camorama.1po camorama.2po >/dev/null 2>&1; then \
-      rm -f camorama.1po camorama.2po camorama.po; \
-    else \
-      rm -f camorama.1po camorama.2po ./camorama.pot && \
-      mv camorama.po ./camorama.pot; \
-    fi; \
-  else \
-    mv camorama.po ./camorama.pot; \
-  fi; \
-}
-make[3]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-test ! -f ./camorama.pot || \
-  test -z "am.gmo ar.gmo az.gmo be.gmo bg.gmo bs.gmo ca.gmo cs.gmo da.gmo de.gmo dz.gmo en_CA.gmo en_GB.gmo es.gmo eu.gmo fa.gmo fi.gmo fr.gmo ga.gmo gl.gmo gu.gmo hi.gmo hr.gmo it.gmo ja.gmo lv.gmo mk.gmo ml.gmo ms.gmo nb.gmo ne.gmo nl.gmo pa.gmo pl.gmo pt.gmo pt_BR.gmo rw.gmo sl.gmo sq.gmo sr.gmo sr@Latn.gmo sv.gmo ta.gmo tr.gmo uk.gmo vi.gmo zh_CN.gmo zh_TW.gmo" || make am.gmo ar.gmo az.gmo be.gmo bg.gmo bs.gmo ca.gmo cs.gmo da.gmo de.gmo dz.gmo en_CA.gmo en_GB.gmo es.gmo eu.gmo fa.gmo fi.gmo fr.gmo ga.gmo gl.gmo gu.gmo hi.gmo hr.gmo it.gmo ja.gmo lv.gmo mk.gmo ml.gmo ms.gmo nb.gmo ne.gmo nl.gmo pa.gmo pl.gmo pt.gmo pt_BR.gmo rw.gmo sl.gmo sq.gmo sr.gmo sr@Latn.gmo sv.gmo ta.gmo tr.gmo uk.gmo vi.gmo zh_CN.gmo zh_TW.gmo
-make[3]: Entering directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-/usr/bin/msgmerge --update  --lang=am --previous am.po camorama.pot
-/usr/bin/msgmerge --update  --lang=az --previous az.po camorama.pot
-/usr/bin/msgmerge --update  --lang=ar --previous ar.po camorama.pot
-/usr/bin/msgmerge --update  --lang=be --previous be.po camorama.pot
-/usr/bin/msgmerge --update  --lang=bg --previous bg.po camorama.pot
-/usr/bin/msgmerge --update  --lang=bs --previous bs.po camorama.pot
-/usr/bin/msgmerge --update  --lang=ca --previous ca.po camorama.pot
-/usr/bin/msgmerge --update  --lang=cs --previous cs.po camorama.pot
-/usr/bin/msgmerge --update  --lang=da --previous da.po camorama.pot
-.............................................................. done.
-. done.
-.. done.
-......................................................................................... done.
-...... done.
-........ done.
-................ done.
- done.
-..................... done.
-/usr/bin/msgmerge --update  --lang=de --previous de.po camorama.pot
-/usr/bin/msgmerge --update  --lang=dz --previous dz.po camorama.pot
-/usr/bin/msgmerge --update  --lang=en_CA --previous en_CA.po camorama.pot
-/usr/bin/msgmerge --update  --lang=eu --previous eu.po camorama.pot
-/usr/bin/msgmerge --update  --lang=es --previous es.po camorama.pot
-/usr/bin/msgmerge --update  --lang=fa --previous fa.po camorama.pot
-/usr/bin/msgmerge --update  --lang=en_GB --previous en_GB.po camorama.pot
-/usr/bin/msgmerge --update  --lang=fr --previous fr.po camorama.pot
-/usr/bin/msgmerge --update  --lang=fi --previous fi.po camorama.pot
-........................ done.
-...................................................................... done.
- done.
-....................... done.
-../usr/bin/msgmerge --update  --lang=ga --previous ga.po camorama.pot
-..................... done.
-. done.
-/usr/bin/msgmerge --update  --lang=gu --previous gu.po camorama.pot
-/usr/bin/msgmerge --update  --lang=gl --previous gl.po camorama.pot
-........................ done.
-............................................... done.
-.... done.
-...................../usr/bin/msgmerge --update  --lang=hi --previous hi.po camorama.pot
-/usr/bin/msgmerge --update  --lang=hr --previous hr.po camorama.pot
-... done.
-...................................................... done.
- done.
-/usr/bin/msgmerge --update  --lang=it --previous it.po camorama.pot
-/usr/bin/msgmerge --update  --lang=lv --previous lv.po camorama.pot
-/usr/bin/msgmerge --update  --lang=ja --previous ja.po camorama.pot
-/usr/bin/msgmerge --update  --lang=mk --previous mk.po camorama.pot
-.................................................. done.
- done.
-/usr/bin/msgmerge --update  --lang=ml --previous ml.po camorama.pot
-/usr/bin/msgmerge --update  --lang=ms --previous ms.po camorama.pot
-it.po:36:9: syntax error
-/usr/bin/msgmerge --update  --lang=nb --previous nb.po camorama.pot
-/usr/bin/msgmerge: found 1 fatal error
-make[3]: *** [Makefile:343: it.po] Error 1
-make[3]: *** Waiting for unfinished jobs....
-.................................... done.
-/usr/bin/msgmerge --update  --lang=nl --previous nl.po camorama.pot
-......................................./usr/bin/msgmerge --update  --lang=ne --previous ne.po camorama.pot
-........ done.
- done.
-...................................................... done.
-......................... done.
-.... done.
-......................................................... done.
- done.
-make[3]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-make[2]: *** [Makefile:251: stamp-po] Error 2
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/po'>
-make[1]: *** [Makefile:544: all-recursive] Error 1
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/camorama/ws/'>
-make: *** [Makefile:400: all] Error 2
-Build step 'Execute shell' marked build as failure
+> > Adding a generic dewarping API to V4L2 is possible but this was not the 
+> > scope of this patchset, and anyway missing data on any existing public 
+> > dewarp hardware implementation supported by the kernel is somehow a 
+> > blocker for this.
+> 
+> I was asking to share about your research that made you opt-out any kind of non-
+> vendor control for this feature. From your original submission, it would have
+> been ill advised for me to assume anything. Note that programming interface for
+> a V4L2 driver does not need to be based on other hardware vendor interface. I'm
+> not in this industry, but there could have been an industry standard for
+> expressing lense correction, produce through a a calibration process. The one
+> thing I've been assuming is that you are in the industry and would be able to
+> share a bit on that.
+> 
+> > > > > > diff --git a/include/uapi/linux/dw100.h b/include/uapi/linux/dw100.h
+> > > > > > new file mode 100644
+> > > > > > index 000000000000..0ef926c61cf0
+> > > > > > --- /dev/null
+> > > > > > +++ b/include/uapi/linux/dw100.h
+> > > > > > @@ -0,0 +1,11 @@
+> > > > > > +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+> > > > > > +/* Copyright 2022 NXP */
+> > > > > > +
+> > > > > > +#ifndef __UAPI_DW100_H__
+> > > > > > +#define __UAPI_DW100_H__
+> > > > > > +
+> > > > > > +#include <linux/v4l2-controls.h>
+> > > > > > +
+> > > > > > +#define V4L2_CID_DW100_MAPPING		(V4L2_CID_USER_DW100_BASE + 1)
+> > > > > > +
+> > > > > > +#endif
+
+-- 
+Regards,
+
+Laurent Pinchart
