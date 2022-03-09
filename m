@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CB034D3704
-	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 18:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9A5F4D37CF
+	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 18:45:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236735AbiCIRAG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Mar 2022 12:00:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41526 "EHLO
+        id S235989AbiCIRB7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Mar 2022 12:01:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235687AbiCIQ7s (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 11:59:48 -0500
+        with ESMTP id S235812AbiCIRBw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 12:01:52 -0500
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4207101F02
-        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 08:46:59 -0800 (PST)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id A3AAD32001BB;
-        Wed,  9 Mar 2022 11:46:15 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 09 Mar 2022 11:46:16 -0500
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70992160FE4
+        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 08:49:53 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 869503201E88;
+        Wed,  9 Mar 2022 11:49:52 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Wed, 09 Mar 2022 11:49:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
         cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; bh=KBcncglZnZdYu4ArmjsjLKxPTGCVQYS1dQ79/t
-        wzK+s=; b=JntAIno4LQWoKjOlclaJN5rbd1T3/s6RSyBLqLi9LidZzh+B4fsA5L
-        Kkvw8HX32sjtwW+wtA0r47JiNglm0BZ/o92L1oYryIY293HEayWfXio9oQQWf9Vi
-        t8Q07CPOOi5zUsjl2JpjxUGzIB4kjaM6ciFzLCzpbBkXYPJsSgyir6uuAHq5ZBMc
-        ZUMGzIMxUMhIyE8fWKxycCWpHXsZiJ//NTnfYdNdfMKCnzMZw6mkgypRnxvL1+KK
-        TM/11iTItWA1iLJ79vnPmhW2joGtopdM6oa1WfxdbNncXyzTB40f0U56FbxvW44g
-        RJAYw54KQn3ZHaPWitNwWzMzrORvSy/A==
+        :subject:to:to; s=fm3; bh=ajJcFNT9kvVGRVb35GoeQGaLTl/fgyA0mExoJp
+        17Mcg=; b=Ed+UoUJF+2+ZLXg2/MPSRBVQQh0k1zkAH237jI/x5MiLNxuNY+ooQw
+        rQ9jeJMXedyk/ATNofHGnkMEN9QrU56aEi8l7FGVZ6Amss5E46TSeXTqha5c8H7E
+        OZ6NRdNzX/UPD1H7OaVWP6Pm7wV+R45IyRlO96ltqA/943JKeoUSIIMfZ/Bf+Cwe
+        FpTJApiSFm6eXVgEYKoGXsgalen7YUjyuk+z9eXPJ/LJUQOiUntPlI+PYX5R3FiZ
+        DlV5o0gQtbmsCjESnKixt6zpyZNM0nhaVSDq0QmEsFHmKDzt4G3oLMMveoope45L
+        h+xgOhdohEjjwRMNX9+dySt72GTapSyA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:from:from
         :in-reply-to:in-reply-to:message-id:mime-version:references
         :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=KBcncglZnZdYu4Arm
-        jsjLKxPTGCVQYS1dQ79/twzK+s=; b=fDUKq75W8KGStdbUCRgoLZUnr/DAdaeWU
-        pgm6+Kr+S++c56yn0lvyyRUemQPylIhqyzHNzs4L3Q3r/w6hHgxjHGt1Alq/7NhG
-        wbDIxE8ezeKFPzmDzXlllb7rhcGCriUam1X47MONXn8q75r2vW2st00daHBH3j4W
-        aiK2wYs4Oa5FiQstSRzT2LOZNy8eYYb5HzOHIiQds8+7bdE7c3Z+W3gu10/3j0VL
-        7jkUpL/oOGYg0ntDkjw+d0iqU/6qfwT+7KXXPC1ZAFHd7kI32ZHullBUkrTrtc/7
-        YWb1J0hPJ194aGPEVhgA3BQq9dQPRkwhhyr4b8bvElrp146DTbWNQ==
-X-ME-Sender: <xms:19koYkoD2m0PFFyXGujYPBW_4a9Zgf_mAWOjwrWdzpg5E-MdggeYPg>
-    <xme:19koYqr-9SC4IouFY0vK_1I4bZKQIIYkd9Z4pV9Pwr-iKliZL4QCkeRXteDbe6e_M
-    Le__3nOfQSIzuEnEjI>
-X-ME-Received: <xmr:19koYpOCojOO50-92p6nQjh1MNcgBf3-luzroTXSA6vO5BeAKW9wiw>
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ajJcFNT9kvVGRVb35
+        GoeQGaLTl/fgyA0mExoJp17Mcg=; b=NzKBEOOwZ88nzU6ESuwRSD6Y0n3AlHIOI
+        gWKWpMOshcsYOYPcAaZXCCiKYBy4Rsx+k9C1jPIuFoGYb2BjqeZeYgGxjZZbcZWP
+        DUiofVUAHUu3SzE37xSo4Ilq09v28YzsLvWrH1ddajormpADu07wNhfe4Cuk4jJn
+        E5eC93EPet8QZyeGoTs2Vo8ZIHz/moNVnOd6SzG6YutQGiiwyL8S0zcX2SkLR387
+        FKYmwbXs7UKUZX7fzBGdVnC/4/vRGoFDHKlI8P/Q4vuIsExE8K28xYrw0+/GrWud
+        c4TrVUG11EgET34HayVfES9RC9XJy+UQrxphCGhNhls1GR+Mf51GA==
+X-ME-Sender: <xms:r9ooYlgPv1jIbxuEjzB5JxQZbNkuE1EWAhKfhcV1RO2gBNZrKbHGeQ>
+    <xme:r9ooYqC0OC7a9_y5oFJ6Hp0u4548zr_TuYYh9aJdYi0KhtD19wQcbFjyju0IdCMZ4
+    3I-gLmSAq5XXGUOw_Q>
+X-ME-Received: <xmr:r9ooYlEATdsiSY_HCbxD7nF_UNUmvwxT4lPPe0fWZVWMC3XKtD-IrQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddukedgleduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -52,28 +52,28 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddukedgleduucetufdoteggod
     ftrfgrthhtvghrnhepffelvddujefgieetvdelveetudeukeektdejvdegvdfgudelteff
     ueejvdevkeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
     homhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:19koYr4W6RtkzyTT1AJQvLGvUOtmpqQGSh8vpn9HIx-xPkaItVIAXw>
-    <xmx:19koYj4nGURzQhHcxtr1voOOng4wdsdcPGXc2zVknjItarlyN13_PA>
-    <xmx:19koYrgFBgqOlirK5ErjRv2nObBlkggpR2IJZQtL0Cw54SMikTSUHw>
-    <xmx:19koYm3dXHw8xXbUk0JPlaeV--DVelodc-bHuYCie56BO-M6wutEMA>
+X-ME-Proxy: <xmx:r9ooYqRUoVvPHAtEpN_bISySBhBsQs7_4TceArSpqzDVG6znarILTA>
+    <xmx:r9ooYiwmMHHZfZYQWcDDb148Ga9k7uAa0yPu3pIyAwUEUutNSURjfA>
+    <xmx:r9ooYg5lQk32SDfK1VyZUE_vpuN2T46vTVMuWEeN7Hse3zf0m7-h0w>
+    <xmx:sNooYstOuSui1dyjzKtGfoRSZ4x412fUZeGwS8YXUCoOtEyV-EUCog>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Mar 2022 11:45:58 -0500 (EST)
-Date:   Wed, 9 Mar 2022 18:45:55 +0200
+ 9 Mar 2022 11:49:49 -0500 (EST)
+Date:   Wed, 9 Mar 2022 18:49:46 +0200
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
         Paul Elder <paul.elder@ideasonboard.com>,
         Tomasz Figa <tfiga@google.com>,
         linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 03/17] media: rkisp1: isp: Fix and simplify
+Subject: Re: [PATCH v2 04/17] media: rkisp1: resizer: Fix and simplify
  (un)registration
-Message-ID: <20220309164555.asaobof3rknw6vaw@guri>
+Message-ID: <20220309164946.non2nvqjckwdtqem@guri>
 References: <20220304171925.1592-1-laurent.pinchart@ideasonboard.com>
- <20220304171925.1592-4-laurent.pinchart@ideasonboard.com>
+ <20220304171925.1592-5-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220304171925.1592-4-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220304171925.1592-5-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
@@ -85,93 +85,105 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 04.03.2022 19:19, Laurent Pinchart wrote:
-> The rkisp1_isp_register() and rkisp1_isp_unregister() functions don't
+> The rkisp1_rsz_register() and rkisp1_rsz_unregister() functions don't
 > destroy the mutex (in the error path for the former). Fix this, simplify
 > error handling at registration time as media_entity_cleanup() can be
-> called on an uninitialized entity, and make rkisp1_isp_unregister() and
-> safe to be called on an unregistered isp subdev to prepare for
-> simplification of error handling at probe time.
+> called on an uninitialized entity, and make rkisp1_rsz_unregister() and
+> rkisp1_resizer_devs_unregister() safe to be called on an unregistered
+> resizer subdev to prepare for simplification of error handling at probe
+> time.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+
+Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
+
 > ---
->  .../platform/rockchip/rkisp1/rkisp1-capture.c |  4 ++--
->  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 20 ++++++++++++-------
->  2 files changed, 15 insertions(+), 9 deletions(-)
+> Changes since v1:
 > 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> index 96a7e6c0a622..eedf4bb1c74c 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -1371,14 +1371,14 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
->  	if (ret) {
->  		dev_err(cap->rkisp1->dev,
->  			"vb2 queue init failed (err=%d)\n", ret);
-> -		return ret;
-> +		goto error;
->  	}
+> - Reset rsz->rkisp1 in rkisp1_resizer_devs_register()
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-resizer.c | 34 +++++++++----------
+>  1 file changed, 17 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> index 2070f4b06705..df2beee1be99 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> @@ -782,8 +782,12 @@ static const struct v4l2_subdev_ops rkisp1_rsz_ops = {
 >  
->  	vdev->queue = q;
+>  static void rkisp1_rsz_unregister(struct rkisp1_resizer *rsz)
+>  {
+> +	if (!rsz->rkisp1)
+> +		return;
+> +
+>  	v4l2_device_unregister_subdev(&rsz->sd);
+>  	media_entity_cleanup(&rsz->sd.entity);
+> +	mutex_destroy(&rsz->ops_lock);
+>  }
 >  
->  	ret = media_entity_pads_init(&vdev->entity, 1, &node->pad);
->  	if (ret)
-> -		return ret;
-> +		goto error;
-
-I think these two chunks belong to previous patch?
-
-Thanks,
-Dafna
-
->  
->  	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
->  	if (ret) {
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> index 2a35bf24e54e..f84e53b60ee1 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> @@ -1090,29 +1090,35 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1)
->  	mutex_init(&isp->ops_lock);
->  	ret = media_entity_pads_init(&sd->entity, RKISP1_ISP_PAD_MAX, pads);
+>  static int rkisp1_rsz_register(struct rkisp1_resizer *rsz)
+> @@ -821,47 +825,43 @@ static int rkisp1_rsz_register(struct rkisp1_resizer *rsz)
+>  	mutex_init(&rsz->ops_lock);
+>  	ret = media_entity_pads_init(&sd->entity, RKISP1_RSZ_PAD_MAX, pads);
 >  	if (ret)
 > -		return ret;
 > +		goto error;
 >  
->  	ret = v4l2_device_register_subdev(&rkisp1->v4l2_dev, sd);
+>  	ret = v4l2_device_register_subdev(&rsz->rkisp1->v4l2_dev, sd);
 >  	if (ret) {
->  		dev_err(rkisp1->dev, "Failed to register isp subdev\n");
+>  		dev_err(sd->dev, "Failed to register resizer subdev\n");
 > -		goto err_cleanup_media_entity;
 > +		goto error;
 >  	}
 >  
->  	rkisp1_isp_init_config(sd, &state);
-> +
+>  	rkisp1_rsz_init_config(sd, &state);
 >  	return 0;
 >  
 > -err_cleanup_media_entity:
 > +error:
 >  	media_entity_cleanup(&sd->entity);
 > -
-> +	mutex_destroy(&isp->ops_lock);
-> +	isp->sd.flags = 0;
+> +	mutex_destroy(&rsz->ops_lock);
 >  	return ret;
 >  }
 >  
->  void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
+>  int rkisp1_resizer_devs_register(struct rkisp1_device *rkisp1)
 >  {
-> -	struct v4l2_subdev *sd = &rkisp1->isp.sd;
-> +	struct rkisp1_isp *isp = &rkisp1->isp;
+> -	struct rkisp1_resizer *rsz;
+> -	unsigned int i, j;
+> +	unsigned int i;
+>  	int ret;
 >  
-> -	v4l2_device_unregister_subdev(sd);
-> -	media_entity_cleanup(&sd->entity);
-> +	if (!isp->sd.flags)
-> +		return;
+>  	for (i = 0; i < ARRAY_SIZE(rkisp1->resizer_devs); i++) {
+> -		rsz = &rkisp1->resizer_devs[i];
+> +		struct rkisp1_resizer *rsz = &rkisp1->resizer_devs[i];
 > +
-> +	v4l2_device_unregister_subdev(&isp->sd);
-> +	media_entity_cleanup(&isp->sd.entity);
-> +	mutex_destroy(&isp->ops_lock);
+>  		rsz->rkisp1 = rkisp1;
+>  		rsz->id = i;
+> +
+>  		ret = rkisp1_rsz_register(rsz);
+> -		if (ret)
+> -			goto err_unreg_resizer_devs;
+> +		if (ret) {
+> +			rsz->rkisp1 = NULL;
+> +			rkisp1_resizer_devs_unregister(rkisp1);
+> +			return ret;
+> +		}
+>  	}
+>  
+>  	return 0;
+> -
+> -err_unreg_resizer_devs:
+> -	for (j = 0; j < i; j++) {
+> -		rsz = &rkisp1->resizer_devs[j];
+> -		rkisp1_rsz_unregister(rsz);
+> -	}
+> -
+> -	return ret;
 >  }
 >  
->  /* ----------------------------------------------------------------------------
+>  void rkisp1_resizer_devs_unregister(struct rkisp1_device *rkisp1)
 > -- 
 > Regards,
 > 
