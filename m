@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 562FA4D324F
-	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 16:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B41E4D3246
+	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 16:58:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234082AbiCIP6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Mar 2022 10:58:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54642 "EHLO
+        id S234091AbiCIP6j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Mar 2022 10:58:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234081AbiCIP6e (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 10:58:34 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C6763CA47
-        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 07:57:34 -0800 (PST)
+        with ESMTP id S234088AbiCIP6h (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 10:58:37 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 960674926A
+        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 07:57:37 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 779FC61650
-        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 15:57:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FFDEC340F3;
-        Wed,  9 Mar 2022 15:57:33 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 326D5B80F6F
+        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 15:57:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A4D6C340E8;
+        Wed,  9 Mar 2022 15:57:34 +0000 (UTC)
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 5/6] cec: add xfer_timeout_ms field
-Date:   Wed,  9 Mar 2022 16:57:25 +0100
-Message-Id: <20220309155726.1258388-6-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 6/6] cec: add optional adap_configured callback
+Date:   Wed,  9 Mar 2022 16:57:26 +0100
+Message-Id: <20220309155726.1258388-7-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220309155726.1258388-1-hverkuil-cisco@xs4all.nl>
 References: <20220309155726.1258388-1-hverkuil-cisco@xs4all.nl>
@@ -41,117 +41,89 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allow drivers to change the transmit timeout value, i.e. after how
-long should a transmit be considered 'lost', i.e. the corresponding
-cec_transmit_done_ts was never called.
-
-Some CEC devices have their own timeout, and so this timeout value must be
-longer than that hardware timeout value. If it is shorter then the
-framework would consider the transmit lost, even though it is effectively
-still in progress at the hardware level.
+This new optional callback is called when the adapter is fully configured
+or fully unconfigured. Some drivers may have to take action when this
+happens.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/cec/core/cec-adap.c | 17 +++--------------
- drivers/media/cec/core/cec-core.c | 14 ++++++++++++++
- include/media/cec.h               |  3 +++
- 3 files changed, 20 insertions(+), 14 deletions(-)
+ Documentation/driver-api/media/cec-core.rst | 13 ++++++++++++-
+ drivers/media/cec/core/cec-adap.c           |  4 ++++
+ include/media/cec.h                         |  1 +
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/driver-api/media/cec-core.rst b/Documentation/driver-api/media/cec-core.rst
+index c6194ee81c41..ae0d20798edc 100644
+--- a/Documentation/driver-api/media/cec-core.rst
++++ b/Documentation/driver-api/media/cec-core.rst
+@@ -109,6 +109,7 @@ your driver:
+ 		int (*adap_monitor_all_enable)(struct cec_adapter *adap, bool enable);
+ 		int (*adap_monitor_pin_enable)(struct cec_adapter *adap, bool enable);
+ 		int (*adap_log_addr)(struct cec_adapter *adap, u8 logical_addr);
++		void (*adap_configured)(struct cec_adapter *adap, bool configured);
+ 		int (*adap_transmit)(struct cec_adapter *adap, u8 attempts,
+ 				      u32 signal_free_time, struct cec_msg *msg);
+ 		void (*adap_status)(struct cec_adapter *adap, struct seq_file *file);
+@@ -117,7 +118,7 @@ your driver:
+ 		/* Error injection callbacks */
+ 		...
+ 
+-		/* High-level callbacks */
++		/* High-level callback */
+ 		...
+ 	};
+ 
+@@ -178,6 +179,16 @@ can receive directed messages to that address.
+ Note that adap_log_addr must return 0 if logical_addr is CEC_LOG_ADDR_INVALID.
+ 
+ 
++Called when the adapter is fully configured or unconfigured::
++
++	void (*adap_configured)(struct cec_adapter *adap, bool configured);
++
++If configured == true, then the adapter is fully configured, i.e. all logical
++addresses have been successfully claimed. If configured == false, then the
++adapter is unconfigured. If the driver has to take specific actions after
++(un)configuration, then that can be done through this optional callback.
++
++
+ To transmit a new message::
+ 
+ 	int (*adap_transmit)(struct cec_adapter *adap, u8 attempts,
 diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index a8735697e84d..77bfbd075420 100644
+index 77bfbd075420..bd8def575ab5 100644
 --- a/drivers/media/cec/core/cec-adap.c
 +++ b/drivers/media/cec/core/cec-adap.c
-@@ -27,18 +27,6 @@ static void cec_fill_msg_report_features(struct cec_adapter *adap,
- 					 struct cec_msg *msg,
- 					 unsigned int la_idx);
+@@ -1346,6 +1346,8 @@ static void cec_adap_unconfigure(struct cec_adapter *adap)
+ 	cec_flush(adap);
+ 	wake_up_interruptible(&adap->kthread_waitq);
+ 	cec_post_state_event(adap);
++	if (adap->ops->adap_configured)
++		adap->ops->adap_configured(adap, false);
+ }
  
--/*
-- * 400 ms is the time it takes for one 16 byte message to be
-- * transferred and 5 is the maximum number of retries. Add
-- * another 100 ms as a margin. So if the transmit doesn't
-- * finish before that time something is really wrong and we
-- * have to time out.
-- *
-- * This is a sign that something it really wrong and a warning
-- * will be issued.
-- */
--#define CEC_XFER_TIMEOUT_MS (5 * 400 + 100)
--
- #define call_op(adap, op, arg...) \
- 	(adap->ops->op ? adap->ops->op(adap, ## arg) : 0)
+ /*
+@@ -1527,6 +1529,8 @@ static int cec_config_thread_func(void *arg)
+ 	adap->kthread_config = NULL;
+ 	complete(&adap->config_completion);
+ 	mutex_unlock(&adap->lock);
++	if (adap->ops->adap_configured)
++		adap->ops->adap_configured(adap, true);
+ 	return 0;
  
-@@ -492,7 +480,7 @@ int cec_thread_func(void *_adap)
- 				kthread_should_stop() ||
- 				(!adap->transmit_in_progress &&
- 				 !list_empty(&adap->transmit_queue)),
--				msecs_to_jiffies(CEC_XFER_TIMEOUT_MS));
-+				msecs_to_jiffies(adap->xfer_timeout_ms));
- 			timeout = err == 0;
- 		} else {
- 			/* Otherwise we just wait for something to happen. */
-@@ -518,7 +506,8 @@ int cec_thread_func(void *_adap)
- 			 * adapter driver, or the CEC bus is in some weird
- 			 * state. On rare occasions it can happen if there is
- 			 * so much traffic on the bus that the adapter was
--			 * unable to transmit for CEC_XFER_TIMEOUT_MS (2.1s).
-+			 * unable to transmit for xfer_timeout_ms (2.1s by
-+			 * default).
- 			 */
- 			if (adap->transmitting) {
- 				pr_warn("cec-%s: message %*ph timed out\n", adap->name,
-diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
-index a3ab6a43fb14..d99aec468d24 100644
---- a/drivers/media/cec/core/cec-core.c
-+++ b/drivers/media/cec/core/cec-core.c
-@@ -20,6 +20,18 @@
- #define CEC_NUM_DEVICES	256
- #define CEC_NAME	"cec"
- 
-+/*
-+ * 400 ms is the time it takes for one 16 byte message to be
-+ * transferred and 5 is the maximum number of retries. Add
-+ * another 100 ms as a margin. So if the transmit doesn't
-+ * finish before that time something is really wrong and we
-+ * have to time out.
-+ *
-+ * This is a sign that something it really wrong and a warning
-+ * will be issued.
-+ */
-+#define CEC_XFER_TIMEOUT_MS (5 * 400 + 100)
-+
- int cec_debug;
- module_param_named(debug, cec_debug, int, 0644);
- MODULE_PARM_DESC(debug, "debug level (0-2)");
-@@ -331,6 +343,8 @@ int cec_register_adapter(struct cec_adapter *adap,
- 
- 	adap->owner = parent->driver->owner;
- 	adap->devnode.dev.parent = parent;
-+	if (!adap->xfer_timeout_ms)
-+		adap->xfer_timeout_ms = CEC_XFER_TIMEOUT_MS;
- 
- #ifdef CONFIG_MEDIA_CEC_RC
- 	if (adap->capabilities & CEC_CAP_RC) {
+ unconfigure:
 diff --git a/include/media/cec.h b/include/media/cec.h
-index a2a9a5eebae8..7cf1e9caeb47 100644
+index 7cf1e9caeb47..40f9920eb219 100644
 --- a/include/media/cec.h
 +++ b/include/media/cec.h
-@@ -168,6 +168,8 @@ struct cec_adap_ops {
-  *			invalidated while the transmit is ongoing. In that
-  *			case the transmit will finish, but will not retransmit
-  *			and be marked as ABORTED.
-+ * @xfer_timeout_ms:	the transfer timeout in ms.
-+ *			If 0, then timeout after 2.1 ms.
-  * @kthread_config:	kthread used to configure a CEC adapter
-  * @config_completion:	used to signal completion of the config kthread
-  * @kthread:		main CEC processing thread
-@@ -223,6 +225,7 @@ struct cec_adapter {
- 	struct cec_data *transmitting;
- 	bool transmit_in_progress;
- 	bool transmit_in_progress_aborted;
-+	unsigned int xfer_timeout_ms;
- 
- 	struct task_struct *kthread_config;
- 	struct completion config_completion;
+@@ -118,6 +118,7 @@ struct cec_adap_ops {
+ 	int (*adap_monitor_all_enable)(struct cec_adapter *adap, bool enable);
+ 	int (*adap_monitor_pin_enable)(struct cec_adapter *adap, bool enable);
+ 	int (*adap_log_addr)(struct cec_adapter *adap, u8 logical_addr);
++	void (*adap_configured)(struct cec_adapter *adap, bool configured);
+ 	int (*adap_transmit)(struct cec_adapter *adap, u8 attempts,
+ 			     u32 signal_free_time, struct cec_msg *msg);
+ 	void (*adap_status)(struct cec_adapter *adap, struct seq_file *file);
 -- 
 2.34.1
 
