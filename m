@@ -2,50 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34C474D34A6
-	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 17:26:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F8AB4D3595
+	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 18:42:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235668AbiCIQ0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Mar 2022 11:26:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39418 "EHLO
+        id S236032AbiCIQeQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Mar 2022 11:34:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238392AbiCIQWB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 11:22:01 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A46B3A5
-        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 08:21:01 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nRz3b-000514-1o; Wed, 09 Mar 2022 17:20:59 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nRz3a-003iS3-Mo; Wed, 09 Mar 2022 17:20:57 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nRz3Y-000Bo7-Al; Wed, 09 Mar 2022 17:20:56 +0100
-Message-ID: <d75bbdb1fd01f0c1ff89efe1369860cfccc52f5f.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] media: coda: Add more H264 levels for CODA960
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Fabio Estevam <festevam@gmail.com>, hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
-        ezequiel@collabora.com, kernel@iktek.de, stable@vger.kernel.org,
-        Fabio Estevam <festevam@denx.de>
-Date:   Wed, 09 Mar 2022 17:20:56 +0100
-In-Reply-To: <20220309143322.1755281-2-festevam@gmail.com>
-References: <20220309143322.1755281-1-festevam@gmail.com>
-         <20220309143322.1755281-2-festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.38.3-1 
+        with ESMTP id S235408AbiCIQ1a (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 11:27:30 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 924412BB1A;
+        Wed,  9 Mar 2022 08:22:31 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2F121B82224;
+        Wed,  9 Mar 2022 16:22:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C87DBC340F5;
+        Wed,  9 Mar 2022 16:22:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646842948;
+        bh=Yu0TsGuK32wvpI2+J3C3f/SaYvUuvXGxBS3dMIFnfLU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=h2MtXokjWYFs0We/K82MchVDJRT1q2LJL8bcsbZCMfN5nEsD6B+w9AxkaN1rlEnqu
+         WSb9e+zw67BL7Gx33sqqqjc8SfbrYHCzjzJDJZzLrq3c70IQaRzteA5VdXj8y+TS0N
+         d/LxuzQRymJujghUd2UKHCaeE3MCFl3FhDwEWhzl9X/5sQsYSdTeOSzeaz6mltrBXy
+         rljTXKzcUASWuiuzfVi2RChiUxTRg/0V2o1/Akok3DZN+ZPyNtS+IlUCPuIFeIM+m/
+         S7uryCUvdbPHrSA2jjRWhdH/e2q5yJ8VSgvAvhLcnC9SXCW2JLqG3vtWxwWwk2KgrH
+         w+HAoifCtfwaA==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1nRz50-00E6Ab-6y; Wed, 09 Mar 2022 17:22:26 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Walls <awalls@md.metrocast.net>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux1394-devel@lists.sourceforge.net
+Subject: [PATCH 0/5] media: sort Makefile entries
+Date:   Wed,  9 Mar 2022 17:22:20 +0100
+Message-Id: <cover.1646842741.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -54,59 +59,79 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gTWksIDIwMjItMDMtMDkgYXQgMTE6MzMgLTAzMDAsIEZhYmlvIEVzdGV2YW0gd3JvdGU6Cj4g
-RnJvbTogTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPgo+
-IAo+IFRoaXMgYWRkIEgyNjQgbGV2ZWwgNC4xLCA0LjIgYW5kIDUuMCB0byB0aGUgbGlzdCBvZiBz
-dXBwb3J0ZWQKPiBmb3JtYXRzLgo+IFdoaWxlIHRoZSBoYXJkd2FyZSBkb2VzIG5vdCBmdWxseSBz
-dXBwb3J0IHRoZXNlIGxldmVscywgaXQgZG8gc3VwcG9ydAo+IG1vc3Qgb2YgdGhlbS4gVGhlIGNv
-bnN0cmFpbnRzIG9uIGZyYW1lIHNpemUgYW5kIHBpeGVsIGZvcm1hdHMgYWxyZWFkeQo+IGNvdmVy
-IHRoZSBsaW1pdGF0aW9uLgo+IAo+IFRoaXMgZml4ZXMgbmVnb3RpYXRpb24gb2YgbGV2ZWwgb24g
-R1N0cmVhbWVyIDEuMTcuMS4KPiAKPiBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwo+IEZpeGVz
-OiA0MmE2ODAxMmU2N2MyICgibWVkaWE6IGNvZGE6IGFkZCByZWFkLW9ubHkgaC4yNjQgZGVjb2Rl
-cgo+IHByb2ZpbGUvbGV2ZWwgY29udHJvbHMiKQo+IFNpZ25lZC1vZmYtYnk6IE5pY29sYXMgRHVm
-cmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBF
-emVxdWllbCBHYXJjaWEgPGV6ZXF1aWVsQGNvbGxhYm9yYS5jb20+Cj4gVGVzdGVkLWJ5OiBQYXNj
-YWwgU3BlY2sgPGtlcm5lbEBpa3Rlay5kZT4KPiBTaWduZWQtb2ZmLWJ5OiBGYWJpbyBFc3RldmFt
-IDxmZXN0ZXZhbUBkZW54LmRlPgo+IC0tLQo+IENoYW5nZXMgc2luY2UgdjE6Cj4gLSBOb25lIC0g
-b25seSBhZGRlZCBQYXNjYWwncyBUZXN0ZWQtYnkgdGFnLgo+IAo+IMKgZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS9jb2RhL2NvZGEtY29tbW9uLmMgfCA3ICsrKysrLS0KPiDCoDEgZmlsZSBjaGFuZ2Vk
-LCA1IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvbWVkaWEvcGxhdGZvcm0vY29kYS9jb2RhLWNvbW1vbi5jCj4gYi9kcml2ZXJzL21lZGlhL3Bs
-YXRmb3JtL2NvZGEvY29kYS1jb21tb24uYwo+IGluZGV4IDUzYjJkZDFiMjY4Yy4uZjEyMzRhZDI0
-ZjY1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY29kYS9jb2RhLWNvbW1v
-bi5jCj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9jb2RhL2NvZGEtY29tbW9uLmMKPiBA
-QCAtMjM2NCw3ICsyMzY0LDEwIEBAIHN0YXRpYyB2b2lkIGNvZGFfZW5jb2RlX2N0cmxzKHN0cnVj
-dCBjb2RhX2N0eAo+ICpjdHgpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgKDEgPDwgVjRMMl9NUEVHX1ZJREVPX0gyNjRfTEVWRUxfM18wKSB8Cj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKDEgPDwg
-VjRMMl9NUEVHX1ZJREVPX0gyNjRfTEVWRUxfM18xKSB8Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKDEgPDwgVjRMMl9NUEVHX1ZJREVPX0gyNjRf
-TEVWRUxfM18yKSB8Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCAoMSA8PCBWNEwyX01QRUdfVklERU9fSDI2NF9MRVZFTF80XzApKSwKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICgxIDw8IFY0TDJfTVBF
-R19WSURFT19IMjY0X0xFVkVMXzRfMCkgfAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgKDEgPDwgVjRMMl9NUEVHX1ZJREVPX0gyNjRfTEVWRUxfNF8x
-KSB8Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAo
-MSA8PCBWNEwyX01QRUdfVklERU9fSDI2NF9MRVZFTF80XzIpIHwKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICgxIDw8IFY0TDJfTVBFR19WSURFT19I
-MjY0X0xFVkVMXzVfMCkpLAoKSSBzdGlsbCB0aGluayB0aGlzIGlzIHdyb25nIFsxXSwgdGhlIHZl
-bmRvciBvbmx5IGFkdmVydGlzZXMgc3VwcG9ydCBmb3IKbGV2ZWwgNC4wLiBBdCBsZWFzdCBsZXZl
-bCA1LjAgbXVzdCBiZSBkcm9wcGVkLCBhcyB3ZSBkb24ndCBzdXBwb3J0IHRoZQpmcmFtZSBzaXpl
-IHJlcXVpcmVtZW50LgoKWzFdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8xMTA5ODBmZWE5
-YzI0ZWU0NDk0ODdiNWQyODgyMmRjY2Y3OTYyNDk0LmNhbWVsQHBlbmd1dHJvbml4LmRlLyN0Cgo+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoFY0TDJfTVBF
-R19WSURFT19IMjY0X0xFVkVMXzRfMCk7Cj4gwqDCoMKgwqDCoMKgwqDCoH0KPiDCoMKgwqDCoMKg
-wqDCoMKgdjRsMl9jdHJsX25ld19zdGQoJmN0eC0+Y3RybHMsICZjb2RhX2N0cmxfb3BzLAo+IEBA
-IC0yNDM3LDcgKzI0NDAsNyBAQCBzdGF0aWMgdm9pZCBjb2RhX2RlY29kZV9jdHJscyhzdHJ1Y3Qg
-Y29kYV9jdHgKPiAqY3R4KQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY3R4LT5kZXYtPmRldnR5
-cGUtPnByb2R1Y3QgPT0gQ09EQV83NTQxKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgbWF4ID0gVjRMMl9NUEVHX1ZJREVPX0gyNjRfTEVWRUxfNF8wOwo+IMKgwqDCoMKgwqDCoMKg
-wqBlbHNlIGlmIChjdHgtPmRldi0+ZGV2dHlwZS0+cHJvZHVjdCA9PSBDT0RBXzk2MCkKPiAtwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbWF4ID0gVjRMMl9NUEVHX1ZJREVPX0gyNjRfTEVW
-RUxfNF8xOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBtYXggPSBWNEwyX01QRUdf
-VklERU9fSDI2NF9MRVZFTF81XzA7CgpJJ20gbm90IHNvIHN1cmUgYWJvdXQgdGhpcyBvbmUsIGJ1
-dCBJIHRoaW5rIGl0IGlzIHdyb25nIGFzIHdlbGwsIGZvcgp0aGUgc2FtZSByZWFzb24uIE5pY29s
-YXMgd2FudGVkIHRvIHJlZHVjZSB0aGlzIHRvIGxldmVsIDQuMiBpbiB2MiBbMl0uCgpbMl0gaHR0
-cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsL2Y0MDlkNGRkYWQwYTM1MmNhN2VjODQ2OTljOTRhNjRl
-NWRiZjA0MDcuY2FtZWxAY29sbGFib3JhLmNvbS8KCnJlZ2FyZHMKUGhpbGlwcAo=
+Entries at Makefiles end being merged on random order. 
+
+Sort them on alphabetical order. I'm preparing similar changes for Kconfig
+entries too.
+
+Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Mauro Carvalho Chehab (5):
+  media: xc2028: rename the driver from tuner-xc2028
+  media: platform: Makefile: group some Makefile options
+  media: Makefiles: remove extra spaces
+  media: dvb-frontend: remove TUNER_ from some DVB frontend Kconfig
+    options
+  media: Makefiles: sort entries where it fits
+
+ .../admin-guide/media/i2c-cardlist.rst        |   2 +-
+ MAINTAINERS                                   |   2 +-
+ drivers/media/Makefile                        |   4 +-
+ drivers/media/cec/platform/Makefile           |  16 +-
+ drivers/media/common/Makefile                 |   4 +-
+ drivers/media/common/b2c2/Kconfig             |   4 +-
+ drivers/media/common/videobuf2/Makefile       |   6 +-
+ drivers/media/dvb-frontends/Kconfig           |   8 +-
+ drivers/media/dvb-frontends/Makefile          | 192 +++++++++---------
+ drivers/media/dvb-frontends/cx24113.h         |   2 +-
+ drivers/media/dvb-frontends/dib0070.h         |   2 +-
+ drivers/media/dvb-frontends/dib0090.h         |   2 +-
+ drivers/media/dvb-frontends/itd1000.h         |   2 +-
+ drivers/media/firewire/Makefile               |   2 +-
+ drivers/media/i2c/Makefile                    |  92 ++++-----
+ drivers/media/pci/Makefile                    |  18 +-
+ drivers/media/pci/cx18/cx18-driver.c          |   2 +-
+ drivers/media/pci/cx18/cx18-dvb.c             |   2 +-
+ drivers/media/pci/cx18/cx18-gpio.c            |   2 +-
+ drivers/media/pci/cx23885/Kconfig             |   2 +-
+ drivers/media/pci/cx23885/cx23885-cards.c     |   2 +-
+ drivers/media/pci/cx23885/cx23885-dvb.c       |   2 +-
+ drivers/media/pci/cx23885/cx23885-video.c     |   2 +-
+ drivers/media/pci/cx88/cx88.h                 |   2 +-
+ drivers/media/pci/ivtv/ivtv-driver.c          |   2 +-
+ drivers/media/pci/ivtv/ivtv-gpio.c            |   2 +-
+ drivers/media/pci/saa7134/saa7134-cards.c     |   2 +-
+ drivers/media/pci/saa7134/saa7134-dvb.c       |   2 +-
+ drivers/media/platform/Makefile               | 147 ++++++--------
+ drivers/media/radio/Makefile                  |  42 ++--
+ drivers/media/rc/Makefile                     |  45 ++--
+ drivers/media/rc/keymaps/Makefile             |  33 +--
+ drivers/media/spi/Makefile                    |   5 +-
+ drivers/media/test-drivers/Makefile           |  13 +-
+ drivers/media/tuners/Makefile                 |  66 +++---
+ drivers/media/tuners/tuner-types.c            |   2 +-
+ .../{tuner-xc2028-types.h => xc2028-types.h}  |   6 +-
+ .../media/tuners/{tuner-xc2028.c => xc2028.c} |   6 +-
+ .../media/tuners/{tuner-xc2028.h => xc2028.h} |   2 +-
+ drivers/media/tuners/xc4000.c                 |   2 +-
+ drivers/media/usb/Makefile                    |  25 +--
+ drivers/media/usb/dvb-usb/Kconfig             |   6 +-
+ drivers/media/usb/dvb-usb/cxusb.c             |   2 +-
+ drivers/media/usb/dvb-usb/dib0700_devices.c   |   2 +-
+ drivers/media/usb/em28xx/em28xx-i2c.c         |   2 +-
+ drivers/media/usb/em28xx/em28xx.h             |   2 +-
+ drivers/media/usb/gspca/Makefile              |  88 ++++----
+ drivers/media/usb/tm6000/tm6000-cards.c       |   2 +-
+ drivers/media/usb/tm6000/tm6000-dvb.c         |   2 +-
+ drivers/media/usb/tm6000/tm6000-i2c.c         |   2 +-
+ drivers/media/v4l2-core/Makefile              |  29 ++-
+ drivers/media/v4l2-core/tuner-core.c          |   2 +-
+ 52 files changed, 450 insertions(+), 465 deletions(-)
+ rename drivers/media/tuners/{tuner-xc2028-types.h => xc2028-types.h} (96%)
+ rename drivers/media/tuners/{tuner-xc2028.c => xc2028.c} (99%)
+ rename drivers/media/tuners/{tuner-xc2028.h => xc2028.h} (99%)
+
+-- 
+2.35.1
+
 
