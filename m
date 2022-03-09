@@ -2,108 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FE1A4D308F
-	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 14:51:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96E114D30B0
+	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 15:00:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233302AbiCINvI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Mar 2022 08:51:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59346 "EHLO
+        id S231778AbiCIOAF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Mar 2022 09:00:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232800AbiCINvG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 08:51:06 -0500
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E25FE15042A;
-        Wed,  9 Mar 2022 05:50:07 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 9EBDCC000A;
-        Wed,  9 Mar 2022 13:50:03 +0000 (UTC)
-Date:   Wed, 9 Mar 2022 14:50:01 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: i2c: rdacm2x: properly set subdev entity
- function
-Message-ID: <20220309135001.gsffmzd7qezyib2c@uno.localdomain>
-References: <20220309115507.30019-1-laurentiu.palcu@oss.nxp.com>
+        with ESMTP id S230470AbiCIOAF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 09:00:05 -0500
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E8465BD3C;
+        Wed,  9 Mar 2022 05:59:06 -0800 (PST)
+Received: by mail-ot1-f43.google.com with SMTP id k9-20020a056830242900b005ad25f8ebfdso1778654ots.7;
+        Wed, 09 Mar 2022 05:59:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9WQKUq5qEG5jbo/MSG1p6dhiqJZzacE/65VAuqXyMI8=;
+        b=xa3SXitqsSSgxuJxllJ4K3pHyrOWxcLYQM7QUm32lJesf3ZYiqo2G8xda9Sm98WIQi
+         whBKBvAxhpAp7hcl1BbNK8n371KiUgemtreAOunAyCpIHh7iyLvdUMWl5Ncumj6ZmEgK
+         CN+wP55b4KZOlWtEcIo0B/SH8VoW61EMTsX6peNuREh0bZ7H8GimR36X01wzRTjV454P
+         jU1HHDCRF1ZAcscZl8Lr+S/roJiA24URuBYcaPLA0SQf/hoDNbDi4opEv8kIomGwuktT
+         2WMeH4x5RnJ0MRi2bGPfwBDFiHlLQK7xnIHC1v64Wwt6H8kbFLAhKMkk7VqimqHMROVp
+         6v5w==
+X-Gm-Message-State: AOAM530FVUL5fTAhubzJ3C/Da4u9Y+3aQ4w/rqoIs8mXSLr51huXQHpK
+        BH4OnKi8uf5+lfdM04iXWQ==
+X-Google-Smtp-Source: ABdhPJyIdw5ufiYGJL0AhzWJGoQk9y5LeODaq2SRRogv/yy+DGd+T6GkLzBW7LpSkOVWfkrCfnPzuw==
+X-Received: by 2002:a05:6830:2055:b0:5b2:5659:542f with SMTP id f21-20020a056830205500b005b25659542fmr3189142otp.189.1646834345759;
+        Wed, 09 Mar 2022 05:59:05 -0800 (PST)
+Received: from rob (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id s82-20020acadb55000000b002d9ce64bea0sm967979oig.48.2022.03.09.05.59.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Mar 2022 05:59:05 -0800 (PST)
+Received: (nullmailer pid 2792610 invoked by uid 1000);
+        Wed, 09 Mar 2022 13:59:04 -0000
+Date:   Wed, 9 Mar 2022 06:59:04 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Petko Manolov <petko.manolov@konsulko.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@iki.fi,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] dt-bindings: media: add ovti,ovm6211 bindings
+Message-ID: <20220309135904.GA2790178@robh.at.kernel.org>
+References: <20220309102215.891001-1-petko.manolov@konsulko.com>
+ <20220309102215.891001-3-petko.manolov@konsulko.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220309115507.30019-1-laurentiu.palcu@oss.nxp.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220309102215.891001-3-petko.manolov@konsulko.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurentiu
-
-On Wed, Mar 09, 2022 at 01:55:06PM +0200, Laurentiu Palcu wrote:
-> The subdevice entity function was left unset, which produces a warning
-> when probing the device:
->
-> mxc-md bus@58000000:camera: Entity type for entity rdacm20 19-0051 was
-> not initialized!
->
-> This patch will set entity function to MEDIA_ENT_F_CAM_SENSOR and leave
-> flags unset.
->
-> Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
-> Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-
-Thanks!
-
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
+On Wed, Mar 09, 2022 at 12:22:15PM +0200, Petko Manolov wrote:
+> Omnivision OVM6211 MIPI CSI-2 sensor bindings.
+> 
+> Signed-off-by: Petko Manolov <petko.manolov@konsulko.com>
 > ---
-> Changes in v2:
-> 	* leave entity flags unset;
->
-> Cheers,
-> Laurentiu
->
->  drivers/media/i2c/rdacm20.c | 2 +-
->  drivers/media/i2c/rdacm21.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> index 025a610de893..9c6f66cab564 100644
-> --- a/drivers/media/i2c/rdacm20.c
-> +++ b/drivers/media/i2c/rdacm20.c
-> @@ -611,7 +611,7 @@ static int rdacm20_probe(struct i2c_client *client)
->  		goto error_free_ctrls;
->
->  	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
-> -	dev->sd.entity.flags |= MEDIA_ENT_F_CAM_SENSOR;
-> +	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
->  	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
->  	if (ret < 0)
->  		goto error_free_ctrls;
-> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-> index 12ec5467ed1e..ef31cf5f23ca 100644
-> --- a/drivers/media/i2c/rdacm21.c
-> +++ b/drivers/media/i2c/rdacm21.c
-> @@ -583,7 +583,7 @@ static int rdacm21_probe(struct i2c_client *client)
->  		goto error_free_ctrls;
->
->  	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
-> -	dev->sd.entity.flags |= MEDIA_ENT_F_CAM_SENSOR;
-> +	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
->  	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
->  	if (ret < 0)
->  		goto error_free_ctrls;
-> --
-> 2.17.1
->
+>  .../devicetree/bindings/media/i2c/ovm6211.txt | 49 +++++++++++++++++++
+
+Not sure how you got to v5 already, but bindings must be in DT schema 
+format now.
+
+Rob
