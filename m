@@ -2,243 +2,412 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 759EB4D30D3
-	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 15:09:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E70E44D30F8
+	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 15:24:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231860AbiCIOKu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Mar 2022 09:10:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35100 "EHLO
+        id S233534AbiCIOZT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Mar 2022 09:25:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230390AbiCIOKt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 09:10:49 -0500
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE5D4C7D65
-        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 06:09:48 -0800 (PST)
-Received: by mail-lj1-x229.google.com with SMTP id o6so3297507ljp.3
-        for <linux-media@vger.kernel.org>; Wed, 09 Mar 2022 06:09:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=CPe8bKDOGFbEJYuovUcGVJlaIhVK9FMPHHZCWAVe7aw=;
-        b=m3DsSZ0xqQSdl6tGkBZQ37CW9ZPstB64sVo+5SHt+HE3aIPyr4m+OKyvwPmaVqPeBu
-         cgp7JAXxRwQaqcktR/ytbRav/r0rYkm0GFhjG0lrW8vxFIvV8ZqDn0d0WD698LBL79kG
-         gDzwdNZFnPgqxwg5AbXKEfq0eFfC+4IdeZNNL5NsRiJC2a1KSIURFIAj7il01dgBvmbz
-         WinbObOsIs+Cpae3Vk0xpV9JXjDgtiOhXO+wwqzsRBGeOp8wlLUsIZ5r8DAap0ybtfKR
-         zrzaHlEGZwAd2kHNYR00oIrwmO0XDadKoNrq3rU+Cn1juUib3dM7s7scmKWFggMiv6zb
-         Z01g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=CPe8bKDOGFbEJYuovUcGVJlaIhVK9FMPHHZCWAVe7aw=;
-        b=USu3Q+yGLx+jDjDKZQho/qw6FefwyM4/cjm0Ul6PYl2uEh8k24TT0Xx2+60mtMHIDc
-         XKRG8TPwGfGqFVTQ95kad/42mUFjbdr9t3f8P7h6RTrPDKDiH3lR+cSEL2Vet8CYBHpQ
-         gB6eex/uO3RNXpVa0q08Usf9s/4JyymQI5+HIdPZhvrqaoRcSEjPIi18ISi5fPVn8wXf
-         A+KWKGXom1Xx7fJd4ROXESSaf6Qo0hz679e9ZnM84s3xkEOaVRyf+h7kXpBi8KyvuIEa
-         16/lDwSY5QDfvsYSrK2CxHUCiS5TjjN3YVVpBo6c0dVtEKXTeI1yxH/Wtf/kSeSF+iCP
-         tu9Q==
-X-Gm-Message-State: AOAM533N/9eo7xinErG8SMuumhd5SmOPrCcHagsKU0rMPYCLXsR4s5eE
-        zqYmZbAaY03E4+BkbZNQTz8=
-X-Google-Smtp-Source: ABdhPJx4eLwmqa4CmKhlC3REWkJYzkANkc3bXMaN94T0hNw5vstNU93xQIi2wlNPLEU0t8LfQAiM4w==
-X-Received: by 2002:a2e:a587:0:b0:247:b6ba:82f6 with SMTP id m7-20020a2ea587000000b00247b6ba82f6mr13919624ljp.492.1646834984965;
-        Wed, 09 Mar 2022 06:09:44 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id v1-20020ac25581000000b004484e0360a0sm413070lfg.226.2022.03.09.06.09.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Mar 2022 06:09:44 -0800 (PST)
-Date:   Wed, 9 Mar 2022 16:09:33 +0200
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Shashank Sharma <contactshashanksharma@gmail.com>,
-        linux-media@vger.kernel.org,
-        Shashank Sharma <shashank.sharma@amd.com>,
-        Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 1/3] edid-decode: Introduce libedid-decode wrapper
-Message-ID: <20220309160933.78aba02a@eldfell>
-In-Reply-To: <ac619e70-bedf-8855-f3e5-7f2aa3dc4f17@xs4all.nl>
-References: <20220304125001.1732057-1-contactshashanksharma@gmail.com>
- <faf5be22-07a2-f928-085e-1a1e2aa01b12@xs4all.nl>
- <20220308163053.70c81c0d@eldfell>
- <ac619e70-bedf-8855-f3e5-7f2aa3dc4f17@xs4all.nl>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S230237AbiCIOZS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 09:25:18 -0500
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D63810DA68
+        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 06:24:17 -0800 (PST)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id CD519C0008;
+        Wed,  9 Mar 2022 14:24:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1646835856;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0ZN9jSly+fcddySCvwE3oSSJN64nh0yp/bM9JTXe8Wg=;
+        b=Cneo+92nSgq8xOg7aVFI16YypJcPL7OWdQoAPq9NHES3APLpO0pRwJsO8tud1BfOfpohe8
+        voTsfopaepZKXEzn2jtrpC+326DxRX0pEmDUSkM7oP1q+/hmsugiaXeGloQv11uz3Qw4I9
+        AmyLmsXvHCGNswhYB1idgoTz+qJpxdyDiRiJbTnjQ8EM1NlUSa+NNGEJyG4bu/K0kxvyg4
+        dTaldZSW12iHMyXTYfh9Q4PZSfHA1ezSrVTAoI72oX2d7psekcL6tAVuk6qj3LL8qNFeZ/
+        v01JA+3mFGEIz0rKjnufTeIJmrXsuJwBchVw6A8j+6Ewa+wkI/B7tM5Ci/Ah+w==
+Date:   Wed, 9 Mar 2022 15:24:15 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: ov5640: Use runtime PM
+Message-ID: <Yii4jxm8MLxlC0Lb@aptenodytes>
+References: <20220309113232.1182362-1-paul.elder@ideasonboard.com>
+ <20220309134757.43uoopt5qbgonuup@uno.localdomain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/vfEzAq0GQt/8+FXAl2+Sytx";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="FrNrtn8KNAR6uPk2"
+Content-Disposition: inline
+In-Reply-To: <20220309134757.43uoopt5qbgonuup@uno.localdomain>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---Sig_/vfEzAq0GQt/8+FXAl2+Sytx
-Content-Type: text/plain; charset=US-ASCII
+
+--FrNrtn8KNAR6uPk2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 8 Mar 2022 17:36:47 +0100
-Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+Hi Jacopo,
 
-> Hi Pekka,
+On Wed 09 Mar 22, 14:47, Jacopo Mondi wrote:
+> Hi Paul,
 >=20
-> On 3/8/22 15:30, Pekka Paalanen wrote:
-> > On Tue, 8 Mar 2022 13:09:37 +0100
-> > Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> >  =20
-> >> Hi Shashank,
-> >>
-> >> There is no cover letter for this series, so I'll just reply to the
-> >> first patch, but my comments are high-level and not specific to this
-> >> patch.
-> >>
-> >> To be honest, I am not at all convinced that using edid-decode as a
-> >> parser library is the right thing to do. It was never written with that
-> >> in mind. =20
-> >=20
-> > Hi Hans,
-> >=20
-> > in https://www.spinics.net/lists/linux-media/msg190064.html you wrote:
-
-...
-
-> >> I think edid-decode can function very well as a reference source for
-> >> a real EDID parser since edid-decode is very complete, but not as a
-> >> EDID parser library. =20
-> >=20
-> > It would be a shame to have to fork edid-decode into something else and
-> > then play catch-up with the real edid-decode for all times to come. Or
-> > are you perhaps hoping that the fork would eventually completely
-> > supersede the original project and developers would migrate to the new
-> > one?
-> >=20
-> > It would be really nice to be able to involve the community around
-> > edid-decode to make sure we get the library right, but if the library
-> > is somewhere else, would that happen? Or are we left with yet another
-> > half-written ad hoc EDID parsing code base used by maybe two display
-> > servers?
-> >=20
-> > Maybe we could at least work on this proposal for a while to see what
-> > it will start to look like before dismissing it? =20
+> On Wed, Mar 09, 2022 at 08:32:32PM +0900, Paul Elder wrote:
+> > Switch to using runtime PM for power management.
 >=20
-> If you are willing to put in the effort, then I think you would have to
-> first rework the code bit by bit into different layers:
+> What happens if CONFIG_PM is not selected ? Two of the existing
+> sensor drivers in mainline depends on PM but not the ov5640, and I'm
+> not sure we should depend on PM to be able to compile the module.
 
-Hi Hans,
+I think the direction for the media subsystem is to use runtime pm
+everywhere possible, which is not opional (like traditional PM) so
+I really thinks it makes sense to have the sensor driver depend on it.
 
-thanks! If Shashank agrees, we can see how this would start to look
-like. I suppose there would be the occasional patch series sent to this
-mailing list and publicly discussed between me and Shashank while we
-iterate. You could mostly ignore it if you want until the two of us
-need your guidance.
+The alternative would probably be to keep the s_power implementation
+when !CONFIG_PM which is certinaly not something we want.
 
-Even if it turns out that this cannot go into edid-decode upstream, I
-don't think the exercise is going to go to waste. It would be the
-beginnings of a new project.
+> Also I see very few #ifdef CONFIG_PM in drivers/media/i2c so either
+> the CONFIG_PM dependency is not an issue or most sensor drivers don't
+> care.
 
-> E.g. parse_base_block() would be split into two functions: a parse_base_b=
-lock()
-> that parses the base block into C structures, and it also does the confor=
-mity
-> checks, where the output of that is just written to an internal buffer, as
-> happens today. The --check-inline option functionality would be hard to s=
-upport,
-> I suspect, but I think it is OK to drop that. I at least rarely use it.
+This seems like an overlook, I think drivers that rely on runtime pm
+do need to depend on PM in Kconfig.
 
-For --check-inline, maybe, maybe not. open_memstream() is a thing,
-giving us a FILE*. Depending on --check-inline, the FILE* to complain
-to could be either stderr or an internal buffer from open_memstream().
-Or the C++ equivalent.
+Cheers,
 
-> And on top of that there is a print_base_block that produces the human
-> readable output based on the result of the parse_base_block.
+Paul
+
+
+> Also, could you base this patch on sakari's tree master branc which
+> contains my ov5640 patches that will land in v5.18 to avoid future
+> rebases ?
+> https://git.linuxtv.org/sailus/media_tree.git
 >=20
-> Later the parse functions can be put in a library which edid-decode uses.
+> >
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > ---
+> >  drivers/media/i2c/ov5640.c | 108 ++++++++++++++++++++++---------------
+> >  1 file changed, 64 insertions(+), 44 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> > index ddbd71394db3..8e95096ba67b 100644
+> > --- a/drivers/media/i2c/ov5640.c
+> > +++ b/drivers/media/i2c/ov5640.c
+> > @@ -15,6 +15,7 @@
+> >  #include <linux/init.h>
+> >  #include <linux/module.h>
+> >  #include <linux/of_device.h>
+> > +#include <linux/pm_runtime.h>
+> >  #include <linux/regulator/consumer.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/types.h>
+> > @@ -240,7 +241,7 @@ struct ov5640_dev {
+> >  	/* lock to protect all members below */
+> >  	struct mutex lock;
+> >
+> > -	int power_count;
+> > +	bool powered;
 >=20
-> It should be possible to do this conversion bit by bit, so it's easier to=
- merge
-> and maintain.
+> 'powered' is never reset to false when the chip is powered off.
 >=20
-> But it is a *lot* of work since you will also have to make C headers for =
-all
-> the EDID structures.
-
-Thank you for the suggestions and warnings. I suspect we shouldn't aim
-to land the first part until we have a good idea of the later parts, so
-that edid-decode does not end up with half a conversion if the later
-parts turn out too messy.
-
-> Can the library be C++ or do you need C structs only? If C++ is OK, then =
-that
-> will simplify matters.
-
-The only thing that absolutely must be C is the library public API.
-What I've been imagining so far is that we would have a low-level and a
-high-level API, as I alluded to in my previous email. Other than that,
-I don't know yet.
-
-Internals are totally fine to keep as C++.
-
-> In any case, I think I would like to see a proof-of-concept where the base
-> block parsing is modified in such a way as I described above. If that mak=
-es
-> sense, then this can be extended to the other extension blocks. And for t=
-he
-> CTA and DisplayID extension blocks you can probably do the conversion one
-> Data Block type at a time.
+> I would avoid tracking the power state manually but rely instead
+> on the value returned from pm_runtime_get_if_in_use().
 >=20
-> In any case, this series is just not useful as proof-of-concept.
+> >
+> >  	struct v4l2_mbus_framefmt fmt;
+> >  	bool pending_fmt_change;
+> > @@ -2148,6 +2149,8 @@ static int ov5640_set_power(struct ov5640_dev *se=
+nsor, bool on)
+> >  	if (!on)
+> >  		ov5640_set_power_off(sensor);
+> >
+> > +	sensor->powered =3D on;
+> > +
+> >  	return 0;
+> >
+> >  power_off:
+> > @@ -2157,37 +2160,6 @@ static int ov5640_set_power(struct ov5640_dev *s=
+ensor, bool on)
+> >
+> >  /* --------------- Subdev Operations --------------- */
+> >
+> > -static int ov5640_s_power(struct v4l2_subdev *sd, int on)
+> > -{
+> > -	struct ov5640_dev *sensor =3D to_ov5640_dev(sd);
+> > -	int ret =3D 0;
+> > -
+> > -	mutex_lock(&sensor->lock);
+> > -
+> > -	/*
+> > -	 * If the power count is modified from 0 to !=3D 0 or from !=3D 0 to =
+0,
+> > -	 * update the power state.
+> > -	 */
+> > -	if (sensor->power_count =3D=3D !on) {
+> > -		ret =3D ov5640_set_power(sensor, !!on);
+> > -		if (ret)
+> > -			goto out;
+> > -	}
+> > -
+> > -	/* Update the power count. */
+> > -	sensor->power_count +=3D on ? 1 : -1;
+> > -	WARN_ON(sensor->power_count < 0);
+> > -out:
+> > -	mutex_unlock(&sensor->lock);
+> > -
+> > -	if (on && !ret && sensor->power_count =3D=3D 1) {
+> > -		/* restore controls */
+> > -		ret =3D v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
+> > -	}
+> > -
+> > -	return ret;
+> > -}
+> > -
+> >  static int ov5640_try_frame_interval(struct ov5640_dev *sensor,
+> >  				     struct v4l2_fract *fi,
+> >  				     u32 width, u32 height)
+> > @@ -2663,6 +2635,9 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctr=
+l *ctrl)
+> >
+> >  	/* v4l2_ctrl_lock() locks our own mutex */
+> >
+> > +	if (!sensor->powered)
+> > +		return 0;
+> > +
+> >  	switch (ctrl->id) {
+> >  	case V4L2_CID_AUTOGAIN:
+> >  		val =3D ov5640_get_gain(sensor);
+> > @@ -2694,7 +2669,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+> >  	 * not apply any controls to H/W at this time. Instead
+> >  	 * the controls will be restored right after power-up.
+> >  	 */
+> > -	if (sensor->power_count =3D=3D 0)
+> > +	if (!sensor->powered)
+> >  		return 0;
+> >
+> >  	switch (ctrl->id) {
+> > @@ -2945,6 +2920,12 @@ static int ov5640_s_stream(struct v4l2_subdev *s=
+d, int enable)
+> >  	struct ov5640_dev *sensor =3D to_ov5640_dev(sd);
+> >  	int ret =3D 0;
+> >
+> > +	if (enable) {
+> > +		ret =3D pm_runtime_resume_and_get(&sensor->i2c_client->dev);
+> > +		if (ret < 0)
+> > +			return ret;
+> > +	}
+> > +
+> >  	mutex_lock(&sensor->lock);
+> >
+> >  	if (sensor->streaming =3D=3D !enable) {
+> > @@ -2969,13 +2950,17 @@ static int ov5640_s_stream(struct v4l2_subdev *=
+sd, int enable)
+> >  		if (!ret)
+> >  			sensor->streaming =3D enable;
+> >  	}
+> > +
+> >  out:
+> >  	mutex_unlock(&sensor->lock);
+> > +
+> > +	if (!enable || ret)
+> > +		pm_runtime_put(&sensor->i2c_client->dev);
+> > +
+> >  	return ret;
+> >  }
+> >
+> >  static const struct v4l2_subdev_core_ops ov5640_core_ops =3D {
+> > -	.s_power =3D ov5640_s_power,
+> >  	.log_status =3D v4l2_ctrl_subdev_log_status,
+> >  	.subscribe_event =3D v4l2_ctrl_subdev_subscribe_event,
+> >  	.unsubscribe_event =3D v4l2_event_subdev_unsubscribe,
+> > @@ -3019,15 +3004,11 @@ static int ov5640_check_chip_id(struct ov5640_d=
+ev *sensor)
+> >  	int ret =3D 0;
+> >  	u16 chip_id;
+> >
+> > -	ret =3D ov5640_set_power_on(sensor);
+> > -	if (ret)
+> > -		return ret;
+> > -
+> >  	ret =3D ov5640_read_reg16(sensor, OV5640_REG_CHIP_ID, &chip_id);
+> >  	if (ret) {
+> >  		dev_err(&client->dev, "%s: failed to read chip identifier\n",
+> >  			__func__);
+> > -		goto power_off;
+> > +		return ret;
+> >  	}
+> >
+> >  	if (chip_id !=3D 0x5640) {
+> > @@ -3036,8 +3017,6 @@ static int ov5640_check_chip_id(struct ov5640_dev=
+ *sensor)
+> >  		ret =3D -ENXIO;
+> >  	}
+> >
+> > -power_off:
+> > -	ov5640_set_power_off(sensor);
+> >  	return ret;
+> >  }
+> >
+> > @@ -3158,20 +3137,35 @@ static int ov5640_probe(struct i2c_client *clie=
+nt)
+> >
+> >  	mutex_init(&sensor->lock);
+> >
+> > -	ret =3D ov5640_check_chip_id(sensor);
+> > +	ret =3D ov5640_init_controls(sensor);
+> >  	if (ret)
+> >  		goto entity_cleanup;
+> >
+> > -	ret =3D ov5640_init_controls(sensor);
+> > +	ret =3D ov5640_set_power(sensor, true);
+> > +	if (ret)
+> > +		goto free_ctrls;
+> > +
+> > +	ret =3D ov5640_check_chip_id(sensor);
+> >  	if (ret)
+> >  		goto entity_cleanup;
+>=20
+> Should you power_off if identifying the chip fails ?
+>=20
+> On the other hand, enabling runtime_pm before identifying the chip
+> might help having a simpler error handling path ?
+>=20
+> Something like:
+>=20
+> ...
+> 	pm_runtime_set_active(dev);
+> 	pm_runtime_enable(dev);
+> 	pm_runtime_get(dev);
+>=20
+> 	ret =3D ov5640_check_chip_id(sensor);
+> 	if (ret)
+> 		goto err_pm_runtime;
+>=20
+> 	ret =3D v4l2_async_register_subdev_sensor(&sensor->sd);
+> 	if (ret)
+> 		goto err_pm_runtime;
+>=20
+> 	pm_runtime_set_autosuspend_delay(dev, 1000);
+> 	pm_runtime_use_autosuspend(dev);
+> 	pm_runtime_put_autosuspend(dev);
+>=20
+> 	return 0;
+>=20
+> err_pm_runtime:
+> 	pm_runtime_put(dev);
+> 	pm_runtime_disable(dev);
+> 	pm_runtime_put_noidle(dev);
+> ...
+>=20
+> Tested by forcing an early return from ov5640_check_chip_id() and I
+> get no warnings about unbalanced runtime_pm counters.
+>=20
+> >
+> > +	pm_runtime_set_active(dev);
+> > +	pm_runtime_get_noresume(dev);
+> > +	pm_runtime_enable(dev);
+> > +
+> >  	ret =3D v4l2_async_register_subdev_sensor(&sensor->sd);
+> >  	if (ret)
+> > -		goto free_ctrls;
+> > +		goto err_pm_runtime;
+> > +
+> > +	pm_runtime_set_autosuspend_delay(dev, 1000);
+>=20
+> Is this dealy required, where does it come from ?
+>=20
+> Thanks
+>   j
+>=20
+>=20
+> > +	pm_runtime_use_autosuspend(dev);
+> > +	pm_runtime_put_autosuspend(dev);
+> >
+> >  	return 0;
+> >
+> > +err_pm_runtime:
+> > +	pm_runtime_disable(dev);
+> > +	pm_runtime_put_noidle(dev);
+> >  free_ctrls:
+> >  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+> >  entity_cleanup:
+> > @@ -3193,6 +3187,31 @@ static int ov5640_remove(struct i2c_client *clie=
+nt)
+> >  	return 0;
+> >  }
+> >
+> > +static int __maybe_unused ov5640_sensor_suspend(struct device *dev)
+> > +{
+> > +	struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
+> > +	struct ov5640_dev *ov5640 =3D to_ov5640_dev(sd);
+> > +
+> > +	return ov5640_set_power(ov5640, false);
+> > +}
+> > +
+> > +static int __maybe_unused ov5640_sensor_resume(struct device *dev)
+> > +{
+> > +	struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
+> > +	struct ov5640_dev *ov5640 =3D to_ov5640_dev(sd);
+> > +	int ret;
+> > +
+> > +	ret =3D ov5640_set_power(ov5640, true);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return v4l2_ctrl_handler_setup(&ov5640->ctrls.handler);
+> > +}
+> > +
+> > +static const struct dev_pm_ops ov5640_pm_ops =3D {
+> > +	SET_RUNTIME_PM_OPS(ov5640_sensor_suspend, ov5640_sensor_resume, NULL)
+> > +};
+> > +
+> >  static const struct i2c_device_id ov5640_id[] =3D {
+> >  	{"ov5640", 0},
+> >  	{},
+> > @@ -3209,6 +3228,7 @@ static struct i2c_driver ov5640_i2c_driver =3D {
+> >  	.driver =3D {
+> >  		.name  =3D "ov5640",
+> >  		.of_match_table	=3D ov5640_dt_ids,
+> > +		.pm =3D &ov5640_pm_ops,
+> >  	},
+> >  	.id_table =3D ov5640_id,
+> >  	.probe_new =3D ov5640_probe,
+> > --
+> > 2.30.2
+> >
 
-I agree. A cover letter to set up your expectations would have been in orde=
-r.
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-Btw. how does edid-decode regression testing work? I thought I asked in
-the past, but I can't find my question or answer. I know what
-edid-decode README and test/README says about it, but how does one
-actually run through the tests?
-
-One thing I'm a little wary of is the edid-decode.js target in the
-Makefile. How do you test that?
-
-On the other hand, if merging into edid-decode does not work, a new
-project could have several benefits if I get to decide:
-
-- Meson build system
-- automated test suite in the project
-- Gitlab workflow hosted by freedesktop.org
-- CI
-
-I must admit it is really tempting, but I'm scared of the amount of
-work needed to establish a new project.
-
-I assume you are not interested in any of that in the current upstream
-project, are you?
-
-
-Thanks,
-pq
-
---Sig_/vfEzAq0GQt/8+FXAl2+Sytx
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--FrNrtn8KNAR6uPk2
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmIotR0ACgkQI1/ltBGq
-qqdCXxAAi2aFRG3Mdk7mAGXew/HrCu0aPm904r+8fIEZXkOdJh7MHtWD7Hs9YRcc
-XNnyI04+qjm/MYiybY+3gH2TtKJ7qJRbKs7hMBq80YIbih9x0nQOZdW2sdqDvN+C
-RCAZXAr5k3niOw/MEXwTclhmP99HQwL3OCJozL6OiPTLAipTL40Mb4Ktr0sbjMjH
-hDFKgSa3JmFSTDQgkpkFOOivtzcLWZo2ki0uPJNTDZGOotu8IggksLSqUnnuLifg
-+h+Uib200wemBANjq5DNkAJvak8SXMZO2A3OhBkcoRLQ05SKG+2JYoF6Zqrq9OcG
-obEPiytTOYhZPgL04E3lP9cR1/Y7wCCG1iGBRvYB0Z8wz+aW3C16ZTJxT6INliu0
-jRnq7sdUCWn0H3JaVxRffuLNPkZ7sRd79qcuW/rxWBMI9uRc5Htszx7a8Uja0jY4
-OVv4cEE1n+BdtsurBEnsoSn6SU9B6v5znNm8pgPRVyx4IDRiMwAac+QqmMrL98uI
-+o3LXGYZW7Otmsope7/LsBHNvg6nvx+05Q/fvEjsl5fHlkidM+kySoKhXcg7pSR2
-Uj5JvHDUev2ATDvULf8BrqUtNb35Ibv2JhDfNO6oCEV24Wzi+fn1F4WeU7XpXFkM
-PlZjdDNXZ+cXp64YgsjR/YBosRxgIn40IZbmFnmhJ3wWExcBMJU=
-=fQXJ
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIouI4ACgkQ3cLmz3+f
+v9EEPQf/RZHa9nYGVRrhuKwALpMn0XES/6foTaYA5kXmTs1chGwdchqMVXZeSUNM
+4JeY89w8E1XehhMdjz4a6BqLoYE3DfvN9nkZQGfUdldKfKWcpkkgLOBamMMK+F7R
+Y7UXuzItybi3I/AMqSlRxDIcQSNpuv9egfV/6QeLzdZXxFIn8q3amWuWKQ3Bpwyv
+/1H5Yxr9mi4BA9QqicHMTolJeXmu24X4yR802xRZMZjnzc8NUhEix2TycGNswrZD
+hypsw3rw5CO9EkAW2yYVQ4Y17O0pMr8ZJgPDM1NoRBwmhuWQnFcPMx5FwzdkZq18
+Sy0lTDFnvgzdkiX0D0dImRLWHh1liw==
+=/6t/
 -----END PGP SIGNATURE-----
 
---Sig_/vfEzAq0GQt/8+FXAl2+Sytx--
+--FrNrtn8KNAR6uPk2--
