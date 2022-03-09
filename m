@@ -2,412 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E70E44D30F8
-	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 15:24:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39D244D3100
+	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 15:31:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233534AbiCIOZT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Mar 2022 09:25:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40716 "EHLO
+        id S233538AbiCIOcT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Mar 2022 09:32:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230237AbiCIOZS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 09:25:18 -0500
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D63810DA68
-        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 06:24:17 -0800 (PST)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id CD519C0008;
-        Wed,  9 Mar 2022 14:24:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1646835856;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0ZN9jSly+fcddySCvwE3oSSJN64nh0yp/bM9JTXe8Wg=;
-        b=Cneo+92nSgq8xOg7aVFI16YypJcPL7OWdQoAPq9NHES3APLpO0pRwJsO8tud1BfOfpohe8
-        voTsfopaepZKXEzn2jtrpC+326DxRX0pEmDUSkM7oP1q+/hmsugiaXeGloQv11uz3Qw4I9
-        AmyLmsXvHCGNswhYB1idgoTz+qJpxdyDiRiJbTnjQ8EM1NlUSa+NNGEJyG4bu/K0kxvyg4
-        dTaldZSW12iHMyXTYfh9Q4PZSfHA1ezSrVTAoI72oX2d7psekcL6tAVuk6qj3LL8qNFeZ/
-        v01JA+3mFGEIz0rKjnufTeIJmrXsuJwBchVw6A8j+6Ewa+wkI/B7tM5Ci/Ah+w==
-Date:   Wed, 9 Mar 2022 15:24:15 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: ov5640: Use runtime PM
-Message-ID: <Yii4jxm8MLxlC0Lb@aptenodytes>
-References: <20220309113232.1182362-1-paul.elder@ideasonboard.com>
- <20220309134757.43uoopt5qbgonuup@uno.localdomain>
+        with ESMTP id S229703AbiCIOcS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 09:32:18 -0500
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2073.outbound.protection.outlook.com [40.107.244.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E884E1520FE
+        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 06:31:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yv7uU6CQ/iFRV8kdXuXkYDNMGFgSjNurkm+hIwbV54SaYIwvtwBuw5S62RghW7oqk5KXGPBQt+5Js7g4rnvA09HLLsrWotZ0PZ9YhCgR264ZQAaNmVzRw5q9wqzBO+HDLPo/La3u9Hi1ufKwOdMOZ86QB+kHEt72sYoHCzD9gwp1Yiv7RkIejd+QWaGAdollrvNcyNZlW+ZRtt/xwAUis1p82fcS0S7JBPvFTfHNDtyDHF9oGxwy831rl9MZMRA/eiq3sJ7ZHiOacUWlpCxSITEn0jiqOC19Pe97piZCSu6dMmG+5EdQsMqH47RlJLQZbsMyl1BKFcxRcZi6HfvZWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=65ROGVlzyJ5vKTuZH4hAGnSwkptpDsGj1Hlzeub6igY=;
+ b=j0k6FhjTbBT+674CqGmNfCxMJvN5h1wTYRmiqYYqGPaE8byt18lzp+9lD9LTP90/4ROhVfSx7JIlcb8raDPKoRaLDm0ueUP7pd7u9/eAbbM4P7AnHeRntafeHbxIjvNJEMDF4sctkRrFaUgEB6PMYhDMuX4ZNM8ha3nEuDdocso+Ryz/6QGUgmr4IddMvKaAH7ACkVUz40DIaAL4CEMUKrih3+8OAZ6bxkYt/WbdIKLeBfrEkdz71/UovpBx/Nx8W+6tsCHCL48CvDuzhOSgUl0kRXb4LpO+yL7zO0g+SWcrWxCfxVk0RDqlJa4i3q4U7ShGP0nC4iPlu4nCCELDcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=65ROGVlzyJ5vKTuZH4hAGnSwkptpDsGj1Hlzeub6igY=;
+ b=sFzdog1D2xneXG/Liz4NmN6ixShLL6y+cGNKQJbwRprtC8werSDKJRVV+LjUe/CCbJ5SueimlNUVWkWB71hmzyeKPqp51v3KcVTHfjZiMxktAuoMZJN4l5VLnGvvkvWHbgvL7B6WQT1KeYCcr4TDfMIkSXqF1QVYMu7mUAmx9lM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by BN7PR12MB2595.namprd12.prod.outlook.com (2603:10b6:408:30::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Wed, 9 Mar
+ 2022 14:31:17 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::f037:e2a1:f108:125a]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::f037:e2a1:f108:125a%8]) with mapi id 15.20.5038.027; Wed, 9 Mar 2022
+ 14:31:17 +0000
+Message-ID: <af561b6e-1aa5-dc81-cc19-98da443eeffb@amd.com>
+Date:   Wed, 9 Mar 2022 15:31:11 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 1/3] edid-decode: Introduce libedid-decode wrapper
+Content-Language: en-US
+To:     Pekka Paalanen <ppaalanen@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Shashank Sharma <contactshashanksharma@gmail.com>,
+        linux-media@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>
+References: <20220304125001.1732057-1-contactshashanksharma@gmail.com>
+ <faf5be22-07a2-f928-085e-1a1e2aa01b12@xs4all.nl>
+ <20220308163053.70c81c0d@eldfell>
+ <ac619e70-bedf-8855-f3e5-7f2aa3dc4f17@xs4all.nl>
+ <20220309160933.78aba02a@eldfell>
+From:   "Sharma, Shashank" <shashank.sharma@amd.com>
+In-Reply-To: <20220309160933.78aba02a@eldfell>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0024.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::15) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="FrNrtn8KNAR6uPk2"
-Content-Disposition: inline
-In-Reply-To: <20220309134757.43uoopt5qbgonuup@uno.localdomain>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3d82498c-f542-449f-1f16-08da01d97875
+X-MS-TrafficTypeDiagnostic: BN7PR12MB2595:EE_
+X-Microsoft-Antispam-PRVS: <BN7PR12MB2595EA07BF0733C82C6D4491F20A9@BN7PR12MB2595.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6dYUY4XMfJI7vZ6ZZNroO10uRZxQYEVpr+QAuTqiyS9SKORsCwFg0faF8UZWUzJFq+Q+ncybkMFgKh4aBRXuvbrcc/TN1SMMCtemo/Ze3QZV8uVG5dqBKc2ehk6goa7Q8aVbCLizq9yZ3nsEXhc7LHSHygNidCvdldR6oTDLzlpEQyxc5sGwkTnfMSByGzlxVIoa4vpZGUUKxABPuwmPTrJaJ3NuYb/aY2tR1Ahs+XFjAoJuX2MtaLpCk5Qc1OLv0V7iUQdl+eByXx4YvvF97HRV8YuWASs1slVj8Djy+kt7jnAF35tigi7EAntS4RrllBwUqpHIOJZV3eNLP9tFFg82EBqtLcOWtL11zTybYOCcbkjd8QC7Yrfy2NCYFHdu5qdMuF3uv+womHbpECI8FVQbpDJgAkHnszQYwd+G6kVZKJCCbdAKLLPGZn3HMsUOoO5BhMqd3CNAZ2RXDJwO9xUp0uXl+kUXzG5lMjF+I+BgTt87V7HJZcXvI4erE4t30L62z61Ox5s4N9nESSgeYNKsc+XQRC0+XsU12GoHce976Qba4/qfCfkdeiB11+x2JR/jYZatl7PyfWm+4bz+dhHdXCcb2c8+nYaqguyzzkaxkJP95irtmjigS5D9yZwJnIHjLfEirfZwNCC1T2DzF9wAe1hyiCX8dUbZ8mVYjQXEq9hodoAFCs5i0EXpT6jlRS0RhUTD7kNibRFZgM3ditizmidGcPb5APR6kvC6GgECbngavAJvcxY9YoqDmwmL
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(5660300002)(2906002)(6512007)(508600001)(66476007)(38100700002)(2616005)(6666004)(53546011)(186003)(26005)(6506007)(8936002)(86362001)(83380400001)(31696002)(316002)(36756003)(54906003)(110136005)(4326008)(66556008)(6486002)(8676002)(66946007)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dTNleUlrV0s3NFVoOURIN1NUTnFjOGNIczRLdG5Vb2FxOVU4cEZ6L2xZcy9J?=
+ =?utf-8?B?c2lkTExkcXVKdG9OMEgvQnBkNXRheHpsWDB6MmhxWmJLM2xCY1BzajV2aWV2?=
+ =?utf-8?B?Y3ZhMEFMbkducU9xcXlBaTQxa3JqVEl2ZVkzb0FpeGZRWHlHbSszTkdGQmI2?=
+ =?utf-8?B?NU42RDVrNzlyeFJYSUh1MnNHdUhHaEw1SDludkJEN3owNGwyYWVEbk1TcEht?=
+ =?utf-8?B?NUVmRkFWcmRqYjFnREhqZzJLeEtIaFk0aXJYcFQ1RzJOc2RBNXlNQmFHd0Mr?=
+ =?utf-8?B?Z1ZBUE1CWkZHK1FLSERVMmdxL3JrTFUzUC9ldllHL2NiWFUxbzQwVS9FWG1p?=
+ =?utf-8?B?cmNhRjZlNFRvV1UxYkNvUHhmczZ5OU94eXA4em5MYVk2eVY0Q0FHWm1PeTZn?=
+ =?utf-8?B?T2lVUzZNTlMrMDBRUkQ4S0d4YnZhVzl4bU9OUTIrUXdqYnM3bXIwQUIyVXhv?=
+ =?utf-8?B?VTRHU3dsdGZTYWVJcE9ZZlQ2Z1RCZGJFa1NmY3lRZmEvU09UZGlTRU1QbHdT?=
+ =?utf-8?B?TWRCRXI5Uis5YW5pKzlWZnFpOWU3RElyV2xXUmk4Y2xVM3N3dGh2aWVXWExB?=
+ =?utf-8?B?OStteDFqSWJKMVp4VnBoVnZ3ZndXMTkxeHhZTHFXTkhLaXZSL3RrY0dUOVln?=
+ =?utf-8?B?ay9lNERUTldzUWpMWkN3Szdxc0ZxQzRHaWxXZmE5QVl6TFRUK3dYN2RKSVRS?=
+ =?utf-8?B?cnJKSEFqTXowRE01aEd1NjhGMVh1VDJ1cnBqWVdXdjV5OENCUXkvVFpyaElo?=
+ =?utf-8?B?OXJYVWowOG1Jb2lJeDZpU1JnZmpJcUtnYWtnRGg0dDkyTDhqVXB3M3pmbUpj?=
+ =?utf-8?B?RWVnRlBRb3Bkb2g0NG5TVlpmdXhmQnJYL3RHbCtpUlpnTjlQT281dEx5S2Ir?=
+ =?utf-8?B?bHB5ZVlrRTh2aVB6eEw2QkQybEU4Y0x5S3ZDNTlJYnErYm9IWXZYZXp3SE5Q?=
+ =?utf-8?B?cHpiT0gvOVZGd3g1WVpOK0s1c1VBZ0NvZkUyb3BEUmtoL2VlZUl1NlZ5U0R5?=
+ =?utf-8?B?K3VUWGxQajd4K3o1QWwxbFpsaGdVK0RwL3QyRUhod3VnQWtleWtWWUZnNHJU?=
+ =?utf-8?B?MHEvNVNLdmQ4SzNxanVVbVlsKzNRQ3BBVExCN0V0dXRQN213Z0trd200Wmpq?=
+ =?utf-8?B?MzUwRk9CTENDNms1UFFyVDgrS3hhUHk4aGhoSnZ2K1MzamRNdUJUeUdrS3Fs?=
+ =?utf-8?B?akdCVUFlbVY3SjFJQ014T1k4RjNEUzltRTJnYUJPYUR2UmJNWC9WN1dTL0RO?=
+ =?utf-8?B?N3gyOUVucTdpTFN4a3gycENxa0xlbU5FdnV6OTA1Wm51Mk84NDk5dEFqdTZX?=
+ =?utf-8?B?Q0ttaFBtSks1ZTI3aDZORzFOS0Z6alBiZmJpeG8reDRjUXFYUGpwazFFRi9Z?=
+ =?utf-8?B?ZzkrVm1od2tkd0IxZWoyZzlhWk9Zem5QbzhVNWZIVDZmajFvT3pXMTV2anVZ?=
+ =?utf-8?B?WXBWOHpmVXNCa1VqMHU3ZFJERXJpRnhVV2RQU3FDNzJmMXljOU9QWWRnMlV0?=
+ =?utf-8?B?YjhJNk5kWmJLN3ZYOENpSmZMUnF5Z3VacWJ1T2lZMncwaVA2RkhKNTQ4Wml6?=
+ =?utf-8?B?UVVCNklPQWVITXkybzVlVnpKaDVkY0lia2dJek13K3hVODhaR3k0Ni9XelVL?=
+ =?utf-8?B?K3ZMWGU0azcrTzJ1Tnc4bXJnVnRFQnRzdUwzd3VMNVAzNHVsWmN2NUtoUjAw?=
+ =?utf-8?B?WW83STVEeHdXcFpndkRvbDI4SFNxQ25uRytyd2xlNW1ncXRZVU9BMWpWd0Rm?=
+ =?utf-8?B?MXdrK1BvOWl2VFFneEFUMVVFK1FOTnlqQ09mYmc0elNyUDFwWVlUcStOUlJa?=
+ =?utf-8?B?UjJPWFB0YVRuOERrcnZvQ3FoVmlkTjBiWXNrSUFtdG1CUUZhTnhyYmNPakZo?=
+ =?utf-8?B?ZHk0Y2NGNXZLN1RvOWk1ZnZsWE8xL2QvOU1zRVpFMkxVK0lkWlRLN1dTSmtU?=
+ =?utf-8?B?UVBOSmJFWUN4ekg1UmQwQmtrQzk0Y1NyUGEzR1dnZkNSc1A4YVVGc1pQcnBi?=
+ =?utf-8?B?NkpvdWNFaVJUbVpseVlEYnVGdTZiSTlyd1JVYThBajZrU2RQV2ZKOXMzUDFo?=
+ =?utf-8?B?eUFFamRYU0d5TnF1UHZXcU5TQUplOUk1ZDVXcFJJYUt3YTBtY09yamRLY1Fp?=
+ =?utf-8?B?ZmtVVnFuTDJSYTNTL1FTY0JQQWwwTWM1QVdEMTBZT3Q5MVhXSmhBQmRDNU41?=
+ =?utf-8?Q?wkgR10v8nUDd53gtzcOCZko=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d82498c-f542-449f-1f16-08da01d97875
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2022 14:31:16.9474
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AUpdeueJzKbsRwufup68/o+gNjafAY1Abm9qU2IGa2kqWA/N9PqAc/F2bgYcivyh08DkNXGQuu21DB0lMkEH0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR12MB2595
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello Hans, Pekka,
 
---FrNrtn8KNAR6uPk2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for providing your feedbacks on the first level draft of the 
+library, and for your inputs.
 
-Hi Jacopo,
+On 3/9/2022 3:09 PM, Pekka Paalanen wrote:
+> Hi Hans,
+> 
+> thanks! If Shashank agrees, we can see how this would start to look
+> like. I suppose there would be the occasional patch series sent to this
+> mailing list and publicly discussed between me and Shashank while we
+> iterate. You could mostly ignore it if you want until the two of us
+> need your guidance.
+> 
+> Even if it turns out that this cannot go into edid-decode upstream, I
+> don't think the exercise is going to go to waste. It would be the
+> beginnings of a new project.
 
-On Wed 09 Mar 22, 14:47, Jacopo Mondi wrote:
-> Hi Paul,
->=20
-> On Wed, Mar 09, 2022 at 08:32:32PM +0900, Paul Elder wrote:
-> > Switch to using runtime PM for power management.
->=20
-> What happens if CONFIG_PM is not selected ? Two of the existing
-> sensor drivers in mainline depends on PM but not the ov5640, and I'm
-> not sure we should depend on PM to be able to compile the module.
+Based on what I could understand from the discussion so far, I could see 
+that we have some basic requirements which are suggested by both of you, 
+like:
 
-I think the direction for the media subsystem is to use runtime pm
-everywhere possible, which is not opional (like traditional PM) so
-I really thinks it makes sense to have the sensor driver depend on it.
+- We want to keep the current structure of EDID-decode as unchanged as 
+possible, and want to keep the C++ states internal.
+- We want to make sure that the new library (if any) is C API, and apart 
+from parsing the EDID, should be independent of EDID-decode core logic.
 
-The alternative would probably be to keep the s_power implementation
-when !CONFIG_PM which is certinaly not something we want.
+May I propose something which might be able to keep both the 
+expectations maintained upto a certain point, and does solve the purpose 
+as well ? Please consider this and let me know how does it sounds:
 
-> Also I see very few #ifdef CONFIG_PM in drivers/media/i2c so either
-> the CONFIG_PM dependency is not an issue or most sensor drivers don't
-> care.
+- We add a C wrapper library with following set of functions:
+	- parse_edid_init()
+	- query_a_particular_info_from_edid()
+	- destroy_edid()
+- At init, Client app calls the library parse_edid_init() function with 
+EDID (file node or raw data), this is when The library layer allocates a 
+C struct for this EDID, which has two parts
+	- base block stuff,
+	- extension blocks stuff,
+- The library calls the internal edid-decode core function just to parse 
+EDID, and get the edid-state, and then fills this C structure with all 
+the information from edid-state.
+- The library caches the C structure for the EDID, and gives user an 
+identifier for this EDID.
+- At a later stage, when this client tries to extract a particular 
+infomration from EDID (like does this display support YCBCR420), the 
+library identifies the EDID from cached EDID, and extracts the 
+information from cached C struct and responds to the caller API.
+- During the display disconnection, client calls and asks the library to 
+destroy the EDID structures, and it does.
 
-This seems like an overlook, I think drivers that rely on runtime pm
-do need to depend on PM in Kconfig.
+In this way, this library becomes the CPP->C translation layer, and it 
+takes all the overheads like, and will use the edid-decode core APIs 
+just for parsing the EDID. The edid-decode state remains internal, used 
+immediately, and not being exposed to another process.
 
-Cheers,
+Will that be something you guys would like to see as a prototype code ?
 
-Paul
+- Shashank
 
-
-> Also, could you base this patch on sakari's tree master branc which
-> contains my ov5640 patches that will land in v5.18 to avoid future
-> rebases ?
-> https://git.linuxtv.org/sailus/media_tree.git
->=20
-> >
-> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/ov5640.c | 108 ++++++++++++++++++++++---------------
-> >  1 file changed, 64 insertions(+), 44 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index ddbd71394db3..8e95096ba67b 100644
-> > --- a/drivers/media/i2c/ov5640.c
-> > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -15,6 +15,7 @@
-> >  #include <linux/init.h>
-> >  #include <linux/module.h>
-> >  #include <linux/of_device.h>
-> > +#include <linux/pm_runtime.h>
-> >  #include <linux/regulator/consumer.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/types.h>
-> > @@ -240,7 +241,7 @@ struct ov5640_dev {
-> >  	/* lock to protect all members below */
-> >  	struct mutex lock;
-> >
-> > -	int power_count;
-> > +	bool powered;
->=20
-> 'powered' is never reset to false when the chip is powered off.
->=20
-> I would avoid tracking the power state manually but rely instead
-> on the value returned from pm_runtime_get_if_in_use().
->=20
-> >
-> >  	struct v4l2_mbus_framefmt fmt;
-> >  	bool pending_fmt_change;
-> > @@ -2148,6 +2149,8 @@ static int ov5640_set_power(struct ov5640_dev *se=
-nsor, bool on)
-> >  	if (!on)
-> >  		ov5640_set_power_off(sensor);
-> >
-> > +	sensor->powered =3D on;
-> > +
-> >  	return 0;
-> >
-> >  power_off:
-> > @@ -2157,37 +2160,6 @@ static int ov5640_set_power(struct ov5640_dev *s=
-ensor, bool on)
-> >
-> >  /* --------------- Subdev Operations --------------- */
-> >
-> > -static int ov5640_s_power(struct v4l2_subdev *sd, int on)
-> > -{
-> > -	struct ov5640_dev *sensor =3D to_ov5640_dev(sd);
-> > -	int ret =3D 0;
-> > -
-> > -	mutex_lock(&sensor->lock);
-> > -
-> > -	/*
-> > -	 * If the power count is modified from 0 to !=3D 0 or from !=3D 0 to =
-0,
-> > -	 * update the power state.
-> > -	 */
-> > -	if (sensor->power_count =3D=3D !on) {
-> > -		ret =3D ov5640_set_power(sensor, !!on);
-> > -		if (ret)
-> > -			goto out;
-> > -	}
-> > -
-> > -	/* Update the power count. */
-> > -	sensor->power_count +=3D on ? 1 : -1;
-> > -	WARN_ON(sensor->power_count < 0);
-> > -out:
-> > -	mutex_unlock(&sensor->lock);
-> > -
-> > -	if (on && !ret && sensor->power_count =3D=3D 1) {
-> > -		/* restore controls */
-> > -		ret =3D v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
-> > -	}
-> > -
-> > -	return ret;
-> > -}
-> > -
-> >  static int ov5640_try_frame_interval(struct ov5640_dev *sensor,
-> >  				     struct v4l2_fract *fi,
-> >  				     u32 width, u32 height)
-> > @@ -2663,6 +2635,9 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctr=
-l *ctrl)
-> >
-> >  	/* v4l2_ctrl_lock() locks our own mutex */
-> >
-> > +	if (!sensor->powered)
-> > +		return 0;
-> > +
-> >  	switch (ctrl->id) {
-> >  	case V4L2_CID_AUTOGAIN:
-> >  		val =3D ov5640_get_gain(sensor);
-> > @@ -2694,7 +2669,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
-> >  	 * not apply any controls to H/W at this time. Instead
-> >  	 * the controls will be restored right after power-up.
-> >  	 */
-> > -	if (sensor->power_count =3D=3D 0)
-> > +	if (!sensor->powered)
-> >  		return 0;
-> >
-> >  	switch (ctrl->id) {
-> > @@ -2945,6 +2920,12 @@ static int ov5640_s_stream(struct v4l2_subdev *s=
-d, int enable)
-> >  	struct ov5640_dev *sensor =3D to_ov5640_dev(sd);
-> >  	int ret =3D 0;
-> >
-> > +	if (enable) {
-> > +		ret =3D pm_runtime_resume_and_get(&sensor->i2c_client->dev);
-> > +		if (ret < 0)
-> > +			return ret;
-> > +	}
-> > +
-> >  	mutex_lock(&sensor->lock);
-> >
-> >  	if (sensor->streaming =3D=3D !enable) {
-> > @@ -2969,13 +2950,17 @@ static int ov5640_s_stream(struct v4l2_subdev *=
-sd, int enable)
-> >  		if (!ret)
-> >  			sensor->streaming =3D enable;
-> >  	}
-> > +
-> >  out:
-> >  	mutex_unlock(&sensor->lock);
-> > +
-> > +	if (!enable || ret)
-> > +		pm_runtime_put(&sensor->i2c_client->dev);
-> > +
-> >  	return ret;
-> >  }
-> >
-> >  static const struct v4l2_subdev_core_ops ov5640_core_ops =3D {
-> > -	.s_power =3D ov5640_s_power,
-> >  	.log_status =3D v4l2_ctrl_subdev_log_status,
-> >  	.subscribe_event =3D v4l2_ctrl_subdev_subscribe_event,
-> >  	.unsubscribe_event =3D v4l2_event_subdev_unsubscribe,
-> > @@ -3019,15 +3004,11 @@ static int ov5640_check_chip_id(struct ov5640_d=
-ev *sensor)
-> >  	int ret =3D 0;
-> >  	u16 chip_id;
-> >
-> > -	ret =3D ov5640_set_power_on(sensor);
-> > -	if (ret)
-> > -		return ret;
-> > -
-> >  	ret =3D ov5640_read_reg16(sensor, OV5640_REG_CHIP_ID, &chip_id);
-> >  	if (ret) {
-> >  		dev_err(&client->dev, "%s: failed to read chip identifier\n",
-> >  			__func__);
-> > -		goto power_off;
-> > +		return ret;
-> >  	}
-> >
-> >  	if (chip_id !=3D 0x5640) {
-> > @@ -3036,8 +3017,6 @@ static int ov5640_check_chip_id(struct ov5640_dev=
- *sensor)
-> >  		ret =3D -ENXIO;
-> >  	}
-> >
-> > -power_off:
-> > -	ov5640_set_power_off(sensor);
-> >  	return ret;
-> >  }
-> >
-> > @@ -3158,20 +3137,35 @@ static int ov5640_probe(struct i2c_client *clie=
-nt)
-> >
-> >  	mutex_init(&sensor->lock);
-> >
-> > -	ret =3D ov5640_check_chip_id(sensor);
-> > +	ret =3D ov5640_init_controls(sensor);
-> >  	if (ret)
-> >  		goto entity_cleanup;
-> >
-> > -	ret =3D ov5640_init_controls(sensor);
-> > +	ret =3D ov5640_set_power(sensor, true);
-> > +	if (ret)
-> > +		goto free_ctrls;
-> > +
-> > +	ret =3D ov5640_check_chip_id(sensor);
-> >  	if (ret)
-> >  		goto entity_cleanup;
->=20
-> Should you power_off if identifying the chip fails ?
->=20
-> On the other hand, enabling runtime_pm before identifying the chip
-> might help having a simpler error handling path ?
->=20
-> Something like:
->=20
-> ...
-> 	pm_runtime_set_active(dev);
-> 	pm_runtime_enable(dev);
-> 	pm_runtime_get(dev);
->=20
-> 	ret =3D ov5640_check_chip_id(sensor);
-> 	if (ret)
-> 		goto err_pm_runtime;
->=20
-> 	ret =3D v4l2_async_register_subdev_sensor(&sensor->sd);
-> 	if (ret)
-> 		goto err_pm_runtime;
->=20
-> 	pm_runtime_set_autosuspend_delay(dev, 1000);
-> 	pm_runtime_use_autosuspend(dev);
-> 	pm_runtime_put_autosuspend(dev);
->=20
-> 	return 0;
->=20
-> err_pm_runtime:
-> 	pm_runtime_put(dev);
-> 	pm_runtime_disable(dev);
-> 	pm_runtime_put_noidle(dev);
-> ...
->=20
-> Tested by forcing an early return from ov5640_check_chip_id() and I
-> get no warnings about unbalanced runtime_pm counters.
->=20
-> >
-> > +	pm_runtime_set_active(dev);
-> > +	pm_runtime_get_noresume(dev);
-> > +	pm_runtime_enable(dev);
-> > +
-> >  	ret =3D v4l2_async_register_subdev_sensor(&sensor->sd);
-> >  	if (ret)
-> > -		goto free_ctrls;
-> > +		goto err_pm_runtime;
-> > +
-> > +	pm_runtime_set_autosuspend_delay(dev, 1000);
->=20
-> Is this dealy required, where does it come from ?
->=20
-> Thanks
->   j
->=20
->=20
-> > +	pm_runtime_use_autosuspend(dev);
-> > +	pm_runtime_put_autosuspend(dev);
-> >
-> >  	return 0;
-> >
-> > +err_pm_runtime:
-> > +	pm_runtime_disable(dev);
-> > +	pm_runtime_put_noidle(dev);
-> >  free_ctrls:
-> >  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
-> >  entity_cleanup:
-> > @@ -3193,6 +3187,31 @@ static int ov5640_remove(struct i2c_client *clie=
-nt)
-> >  	return 0;
-> >  }
-> >
-> > +static int __maybe_unused ov5640_sensor_suspend(struct device *dev)
-> > +{
-> > +	struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
-> > +	struct ov5640_dev *ov5640 =3D to_ov5640_dev(sd);
-> > +
-> > +	return ov5640_set_power(ov5640, false);
-> > +}
-> > +
-> > +static int __maybe_unused ov5640_sensor_resume(struct device *dev)
-> > +{
-> > +	struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
-> > +	struct ov5640_dev *ov5640 =3D to_ov5640_dev(sd);
-> > +	int ret;
-> > +
-> > +	ret =3D ov5640_set_power(ov5640, true);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return v4l2_ctrl_handler_setup(&ov5640->ctrls.handler);
-> > +}
-> > +
-> > +static const struct dev_pm_ops ov5640_pm_ops =3D {
-> > +	SET_RUNTIME_PM_OPS(ov5640_sensor_suspend, ov5640_sensor_resume, NULL)
-> > +};
-> > +
-> >  static const struct i2c_device_id ov5640_id[] =3D {
-> >  	{"ov5640", 0},
-> >  	{},
-> > @@ -3209,6 +3228,7 @@ static struct i2c_driver ov5640_i2c_driver =3D {
-> >  	.driver =3D {
-> >  		.name  =3D "ov5640",
-> >  		.of_match_table	=3D ov5640_dt_ids,
-> > +		.pm =3D &ov5640_pm_ops,
-> >  	},
-> >  	.id_table =3D ov5640_id,
-> >  	.probe_new =3D ov5640_probe,
-> > --
-> > 2.30.2
-> >
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---FrNrtn8KNAR6uPk2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIouI4ACgkQ3cLmz3+f
-v9EEPQf/RZHa9nYGVRrhuKwALpMn0XES/6foTaYA5kXmTs1chGwdchqMVXZeSUNM
-4JeY89w8E1XehhMdjz4a6BqLoYE3DfvN9nkZQGfUdldKfKWcpkkgLOBamMMK+F7R
-Y7UXuzItybi3I/AMqSlRxDIcQSNpuv9egfV/6QeLzdZXxFIn8q3amWuWKQ3Bpwyv
-/1H5Yxr9mi4BA9QqicHMTolJeXmu24X4yR802xRZMZjnzc8NUhEix2TycGNswrZD
-hypsw3rw5CO9EkAW2yYVQ4Y17O0pMr8ZJgPDM1NoRBwmhuWQnFcPMx5FwzdkZq18
-Sy0lTDFnvgzdkiX0D0dImRLWHh1liw==
-=/6t/
------END PGP SIGNATURE-----
-
---FrNrtn8KNAR6uPk2--
