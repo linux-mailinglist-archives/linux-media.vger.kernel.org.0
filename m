@@ -2,121 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B17F14D3782
-	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 18:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50F474D372E
+	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 18:44:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236789AbiCIRLB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Mar 2022 12:11:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42130 "EHLO
+        id S237255AbiCIRFZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Mar 2022 12:05:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237035AbiCIRKo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 12:10:44 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D5ABBE1A;
-        Wed,  9 Mar 2022 09:02:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646845367; x=1678381367;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OkzOLsVy4bRJDx790ntahgYsXuWH4OdPbeR3N+MAs4w=;
-  b=fNzBSjolukK7hTgIQpar7fJde2+1hgaW+Eq9cgM+URzYcTzzO20qL332
-   cjnLjJwbnbSRHMWxIo4ltXApZPFTuba1tqe/xagVGYcPmiK7CZLJIhmKm
-   uFfViolQ09MQME5mRPdp9NYLNffNS7bcvqFq0gVqo7LdaHTnrL1rV6NQF
-   jsMZjV2OIJNkVXrS7a8YOlwkdKRTPXyiGQ8Pfw77V8IeJrbwFGg3v8+tp
-   5zGJjTaFBZZzIHM51UpNEpVmQa9GNvGMPBI33oQR4gyYjtH6GII8ZvZk9
-   A6SsTIr5j1fKzokTd59ewMyHDm5CozeVTE1+0YplR3SSZsn1I0h8XZE+v
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="254761940"
-X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; 
-   d="scan'208";a="254761940"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2022 08:50:42 -0800
-X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; 
-   d="scan'208";a="644096964"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2022 08:50:39 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 711152051A;
-        Wed,  9 Mar 2022 18:50:37 +0200 (EET)
-Date:   Wed, 9 Mar 2022 18:50:37 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Kate Hsuan <hpa@redhat.com>
-Cc:     Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        with ESMTP id S238700AbiCIRD5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 12:03:57 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CF9A1AAA6B
+        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 08:52:30 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id h8-20020a25e208000000b00628c0565607so2182583ybe.0
+        for <linux-media@vger.kernel.org>; Wed, 09 Mar 2022 08:52:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=b9rEV04bDQiBKY+clzVAAUwX0PEEzTz5v0uyyD6Ky9s=;
+        b=XPzsQHeRUNiY59+5nJm7mrBdRIxBkcExNssQMplqKGecYVGAuoWNOzfsQ/CRHGT3Eb
+         L8N78lNgsuxsZppqNYdkHimSfJaRLuWqSnEH8yK3GxU8bsscjb4ePNbipVnp6tCT8IVF
+         UaUIxl8y648Eqm5tHOyCh2213Fk/nnv9V9GWAOVVkJeRQIHfCE/FgeEvesm4pyz9OWp/
+         jT/gMhsLrbq/1Tv7Gt/fcrwf/RPUzCl8lb+iIaUhtm6WEF9fuNYOWUF4Z36cCRwe+NRS
+         IxH3+7RqukqcHYT+xGqH3TFqjhzJCVwErPB8Qpl0MdPoc7qtVg+T57NWV82loz0fFGAg
+         92Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=b9rEV04bDQiBKY+clzVAAUwX0PEEzTz5v0uyyD6Ky9s=;
+        b=vz+ng88IxB0QL5S34JF2oB1PPzeeB859LP0sFRe5fDLwEGmxporv7s+k6xP8Az6n5D
+         DtpQo3TWTnxy9hZCIXP2/dyAv11eUmb0CBQiidrpAhVqqGljNuPBG9qzDwFlKN/xCq+o
+         KQFObitkcNelo5hwhbTUEeitzP0kSyxUIrVe4UKkfAmocIFVTb7wbUcLGARpxOUWSdbE
+         fAvZiCJcFJORQazfULCgBDtHNcussYw083qlscfKxajak4uzeaTSo5788ppZNorNgaqz
+         y+EIvR3NvbCWDpPk9A52ElyGrwu3JnphHIRTtpfmD8LPgz+fP9vPPilToiBEkZar1XDM
+         Haqg==
+X-Gm-Message-State: AOAM532y76Vu8ZdcQsm+iau0Qe88J6mAz/7U6r756NdWvz03TQU9BlX5
+        YsPS9Ww/Sureo0ykkI8cfNztaItMsbEpeiU=
+X-Google-Smtp-Source: ABdhPJwRyTuMCrRO/Vp1TWAVYo92UjVf5vBh6X32/4NRRO9jJMcVfdRLSkjJkXNfpEsU2vu7P7SPJtB45/CUe/4=
+X-Received: from tj2.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:187])
+ (user=tjmercier job=sendgmr) by 2002:a25:3494:0:b0:628:7de8:fe8c with SMTP id
+ b142-20020a253494000000b006287de8fe8cmr566332yba.68.1646844747351; Wed, 09
+ Mar 2022 08:52:27 -0800 (PST)
+Date:   Wed,  9 Mar 2022 16:52:10 +0000
+Message-Id: <20220309165222.2843651-1-tjmercier@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
+Subject: [RFC v3 0/8] Proposal for a GPU cgroup controller
+From:   "T.J. Mercier" <tjmercier@google.com>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, hdegoede@redhat.com
-Subject: Re: [PATCH v2] staging: media: ipu3: Fix AF x_start position when
- rightmost stripe is used
-Message-ID: <Yija3YQ55gvCtKdR@paasikivi.fi.intel.com>
-References: <20220309063456.102895-1-hpa@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220309063456.102895-1-hpa@redhat.com>
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>
+Cc:     kaleshsingh@google.com, Kenny.Ho@amd.com,
+        "T.J. Mercier" <tjmercier@google.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kate,
+This patch series revisits the proposal for a GPU cgroup controller to
+track and limit memory allocations by various device/allocator
+subsystems. The patch series also contains a simple prototype to
+illustrate how Android intends to implement DMA-BUF allocator
+attribution using the GPU cgroup controller. The prototype does not
+include resource limit enforcements.
 
-Thanks for the update.
+Changelog:
+v3:
+Remove Upstreaming Plan from gpu-cgroup.rst per John Stultz
 
-On Wed, Mar 09, 2022 at 02:34:56PM +0800, Kate Hsuan wrote:
-> For the AF configuration, if the rightmost stripe is used, the AF scene
-> will be at the incorrect location of the sensor.
-> 
-> The AF coordinate may be set to the right part of the sensor. This
-> configuration would lead to x_start being greater than the
-> down_scaled_stripes offset and the leftmost stripe would be disabled
-> and only the rightmost stripe is used to control the AF coordinate. If
-> the x_start doesn't perform any adjustments, the AF coordinate will be
-> at the wrong place of the sensor since down_scaled_stripes offset
-> would be the new zero of the coordinate system.
-> 
-> In this patch, if only the rightmost stripe is used, x_start should
-> minus down_scaled_stripes offset to maintain its correctness of AF
-> scene coordinate.
-> 
-> Changes in v2:
-> 1. Remove the setting of the first stripe.
-> 
-> Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> ---
->  drivers/staging/media/ipu3/ipu3-css-params.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-> index d9e3c3785075..5a8c07f34756 100644
-> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
-> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-> @@ -2556,6 +2556,10 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
->  		/* Enable only for rightmost stripe, disable left */
->  		acc->af.stripes[0].grid_cfg.y_start &=
->  			~IPU3_UAPI_GRID_Y_START_EN;
-> +		acc->af.stripes[1].grid_cfg.x_start -=
-> +			acc->stripe.down_scaled_stripes[1].offset;
-> +		acc->af.stripes[1].grid_cfg.x_end -=
-> +			acc->stripe.down_scaled_stripes[1].offset;
+Use more common dual author commit message format per John Stultz
 
-Could you calculate these the same way as in the case both stripes are
-enabled? Some bits in x_start is masked and then x_end is calculated from
-width.
+Remove android from binder changes title per Todd Kjos
 
->  	} else if (acc->af.config.grid_cfg.x_end <=
->  		   acc->stripe.bds_out_stripes[0].width - min_overlap) {
->  		/* Enable only for leftmost stripe, disable right */
+Add a kselftest for this new behavior per Greg Kroah-Hartman
 
--- 
-Regards,
+Include details on behavior for all combinations of kernel/userspace
+versions in changelog (thanks Suren Baghdasaryan) per Greg Kroah-Hartman.
 
-Sakari Ailus
+Fix pid and uid types in binder UAPI header
+
+v2:
+See the previous revision of this change submitted by Hridya Valsaraju
+at: https://lore.kernel.org/all/20220115010622.3185921-1-hridya@google.com/
+
+Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
+heap to a single dma-buf function for all heaps per Daniel Vetter and
+Christian K=C3=B6nig. Pointers to struct gpucg and struct gpucg_device
+tracking the current associations were added to the dma_buf struct to
+achieve this.
+
+Fix incorrect Kconfig help section indentation per Randy Dunlap.
+
+History of the GPU cgroup controller
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The GPU/DRM cgroup controller came into being when a consensus[1]
+was reached that the resources it tracked were unsuitable to be integrated
+into memcg. Originally, the proposed controller was specific to the DRM
+subsystem and was intended to track GEM buffers and GPU-specific
+resources[2]. In order to help establish a unified memory accounting model
+for all GPU and all related subsystems, Daniel Vetter put forth a
+suggestion to move it out of the DRM subsystem so that it can be used by
+other DMA-BUF exporters as well[3]. This RFC proposes an interface that
+does the same.
+
+[1]: https://patchwork.kernel.org/project/dri-devel/cover/20190501140438.95=
+06-1-brian.welty@intel.com/#22624705
+[2]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@int=
+el.com/
+[3]: https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
+
+Hridya Valsaraju (5):
+  gpu: rfc: Proposal for a GPU cgroup controller
+  cgroup: gpu: Add a cgroup controller for allocator attribution of GPU
+    memory
+  dmabuf: heaps: export system_heap buffers with GPU cgroup charging
+  dmabuf: Add gpu cgroup charge transfer function
+  binder: Add a buffer flag to relinquish ownership of fds
+
+T.J. Mercier (3):
+  dmabuf: Use the GPU cgroup charge/uncharge APIs
+  binder: use __kernel_pid_t and __kernel_uid_t for userspace
+  selftests: Add binder cgroup gpu memory transfer test
+
+ Documentation/gpu/rfc/gpu-cgroup.rst          | 183 +++++++
+ Documentation/gpu/rfc/index.rst               |   4 +
+ drivers/android/binder.c                      |  26 +
+ drivers/dma-buf/dma-buf.c                     | 100 ++++
+ drivers/dma-buf/dma-heap.c                    |  27 +
+ drivers/dma-buf/heaps/system_heap.c           |   3 +
+ include/linux/cgroup_gpu.h                    | 127 +++++
+ include/linux/cgroup_subsys.h                 |   4 +
+ include/linux/dma-buf.h                       |  22 +-
+ include/linux/dma-heap.h                      |  11 +
+ include/uapi/linux/android/binder.h           |   5 +-
+ init/Kconfig                                  |   7 +
+ kernel/cgroup/Makefile                        |   1 +
+ kernel/cgroup/gpu.c                           | 304 +++++++++++
+ .../selftests/drivers/android/binder/Makefile |   8 +
+ .../drivers/android/binder/binder_util.c      | 254 +++++++++
+ .../drivers/android/binder/binder_util.h      |  32 ++
+ .../selftests/drivers/android/binder/config   |   4 +
+ .../binder/test_dmabuf_cgroup_transfer.c      | 480 ++++++++++++++++++
+ 19 files changed, 1598 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/gpu/rfc/gpu-cgroup.rst
+ create mode 100644 include/linux/cgroup_gpu.h
+ create mode 100644 kernel/cgroup/gpu.c
+ create mode 100644 tools/testing/selftests/drivers/android/binder/Makefile
+ create mode 100644 tools/testing/selftests/drivers/android/binder/binder_u=
+til.c
+ create mode 100644 tools/testing/selftests/drivers/android/binder/binder_u=
+til.h
+ create mode 100644 tools/testing/selftests/drivers/android/binder/config
+ create mode 100644 tools/testing/selftests/drivers/android/binder/test_dma=
+buf_cgroup_transfer.c
+
+--=20
+2.35.1.616.g0bdcbb4464-goog
+
