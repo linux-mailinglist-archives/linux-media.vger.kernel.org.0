@@ -2,89 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CB574D2FE5
-	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 14:27:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 470C94D2FFC
+	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 14:33:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233045AbiCIN2W convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 9 Mar 2022 08:28:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
+        id S231527AbiCINe0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Mar 2022 08:34:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233054AbiCIN2R (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 08:28:17 -0500
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F20FC179A23
-        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 05:27:16 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-160-wPh6XVYnMO6xz5O7kLCKzQ-1; Wed, 09 Mar 2022 13:27:13 +0000
-X-MC-Unique: wPh6XVYnMO6xz5O7kLCKzQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Wed, 9 Mar 2022 13:27:12 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Wed, 9 Mar 2022 13:27:12 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Ming Qian' <ming.qian@nxp.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
-CC:     "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        "linux-imx@nxp.com" <linux-imx@nxp.com>,
-        "aisheng.dong@nxp.com" <aisheng.dong@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [PATCH] media: amphion: fix some error related with undefined
- reference to __divdi3
-Thread-Topic: [PATCH] media: amphion: fix some error related with undefined
- reference to __divdi3
-Thread-Index: AQHYM3L8GZ+lovzwK0mz9blnfGfUO6y3C10w
-Date:   Wed, 9 Mar 2022 13:27:12 +0000
-Message-ID: <ab877a4470324d20b558538b52f69391@AcuMS.aculab.com>
-References: <20220309050221.971-1-ming.qian@nxp.com>
-In-Reply-To: <20220309050221.971-1-ming.qian@nxp.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S230323AbiCINeZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 08:34:25 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5DE313CA09
+        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 05:33:25 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4E334B82165
+        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 13:33:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 285EAC340E8;
+        Wed,  9 Mar 2022 13:33:21 +0000 (UTC)
+Message-ID: <c662ab37-6e47-59f1-0bbc-4003b905f70a@xs4all.nl>
+Date:   Wed, 9 Mar 2022 14:33:20 +0100
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [bug report] media: amphion: add vpu core driver
 Content-Language: en-US
+To:     Dan Carpenter <dan.carpenter@oracle.com>, ming.qian@nxp.com
+Cc:     linux-media@vger.kernel.org
+References: <20220309104337.GA29869@kili>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220309104337.GA29869@kili>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ming Qian
-> Sent: 09 March 2022 05:02
-...
-> 3. use 'val >> 1' instead of ' val / 2'
+Hi Dan,
 
-The compiler should do that anyway.
+On 3/9/22 11:43, Dan Carpenter wrote:
+> Hello Ming Qian,
+> 
+> The patch 9f599f351e86: "media: amphion: add vpu core driver" from
+> Feb 24, 2022, leads to the following Smatch static checker warning:
+> 
+> 	drivers/media/platform/amphion/vpu_core.c:654 vpu_core_probe()
+> 	warn: pm_runtime_get_sync() also returns 1 on success
 
-Especially for unsigned values.
-And it has the wrong (different) rounding for negative values.
+Odd, I didn't get this warning when I ran smatch.
 
-	David
+I'm running smatch from the master branch of git://repo.or.cz/smatch.git.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+To be honest, I don't see the string 'also returns' at all in the git repo.
 
+I'd really like to see this warning since it's so easy to get pm_runtime_get_sync()
+wrong, and to miss it as a reviewer as well.
+
+Regards,
+
+	Hans
