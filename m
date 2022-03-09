@@ -2,126 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E64D4D27B5
-	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 05:07:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 963B14D2744
+	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 05:07:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231423AbiCICTo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Mar 2022 21:19:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45194 "EHLO
+        id S231641AbiCIDII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Mar 2022 22:08:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231279AbiCICTo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 21:19:44 -0500
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 970B255769
-        for <linux-media@vger.kernel.org>; Tue,  8 Mar 2022 18:18:42 -0800 (PST)
-Received: by mail-il1-x12b.google.com with SMTP id h2so511436ila.12
-        for <linux-media@vger.kernel.org>; Tue, 08 Mar 2022 18:18:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=dzFAOxXC/7RCVjCuqlK9btoE0XiuVI7vKQUl87dn2ow=;
-        b=EH18Vr9kkfhJ0Xj7waoPuYg4xRN8+uNJHIITpkWABJwEIdrXgO9Qvzdb7ena5TZS3u
-         4qif5pt71gcaZojshCrTa0gshEPaVYxl9UkCMiHGSIMPz6peJMfhnCz7aU697JT0XgoD
-         rqv3NCsx1EQ+VA+rwTwlaPhwNNU/BrcZXB9Vpinx+B7UOZHBPvqmeWHNCW/YP5W8TrOB
-         TXHMmF9ILGQwyKxapzIyD5eDQYEhwv+jlxqCOO39X0i04shddIFVLNRNOPNstFs5j9w+
-         kpxDf/I0SwOWu3PUUOLsMB72NZ7VLRWeBbzAm9UqtLKpAXZuKjdsW5lYR9Z1kfBXdQls
-         6qwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=dzFAOxXC/7RCVjCuqlK9btoE0XiuVI7vKQUl87dn2ow=;
-        b=jhoCvlrXZJXc6RMqkAmJXvwNblXQUlZKbB99ppasetB1pCBGtFh7kT0Cli3cCy+xtS
-         /moaYPDPKbgSPkv4R960AoFZjPceoAPyvuMYDgJEn+LjVLtGobfPu4Ir2TzpaA5qR5AB
-         h1QGXbVwVLg5YFaYoS6PAoCmz4aYKRyx9dME8NMwKVUJwZkCxoAjBxwIyaNbkrAignFK
-         Xwl1LO7vxuvhpEiC4k1xyR/ecNOfYniXYU1BHbzWYYLjIzieomlTs/iG/QrFmlCqFU1D
-         Ekh5ChHQdWaNndXpxIK7vJZPEysM4Dml4N5i2y0zgmPQWryx7VGMOhAMhYAQVohdbdQa
-         xfDg==
-X-Gm-Message-State: AOAM532hfeBD7MC1XsIxCtUzG9k51O7BYkcc30Cw3SJfnNhgS+7BUs6U
-        rlOj2EILgQILUq5MTpySoiWv7wq4kbqedtdZ+Y4=
-X-Google-Smtp-Source: ABdhPJzsjuZwzK6YRI/dTFNSojo+0qgPE2OtxjP9+5k8b7AVcHCOypwTsbtXQy4ARZ44oKOXkPLPQJYn8v0wFlOVYvM=
-X-Received: by 2002:a92:b009:0:b0:2c2:c409:1252 with SMTP id
- x9-20020a92b009000000b002c2c4091252mr18208295ilh.8.1646792321865; Tue, 08 Mar
- 2022 18:18:41 -0800 (PST)
+        with ESMTP id S231633AbiCIDII (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Mar 2022 22:08:08 -0500
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC5714A6F0;
+        Tue,  8 Mar 2022 19:07:08 -0800 (PST)
+X-UUID: daade56b740b43d3b91adfd9e2c0c7f3-20220309
+X-UUID: daade56b740b43d3b91adfd9e2c0c7f3-20220309
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <miles.chen@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 246531414; Wed, 09 Mar 2022 11:04:32 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 9 Mar 2022 11:04:31 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 9 Mar 2022 11:04:31 +0800
+From:   Miles Chen <miles.chen@mediatek.com>
+To:     <lukas.bulwahn@gmail.com>
+CC:     <bin.liu@mediatek.com>, <kernel-janitors@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <matthias.bgg@gmail.com>,
+        <mchehab@kernel.org>
+Subject: Re: [PATCH RFC] MAINTAINERS: drop unreachable contact for MEDIATEK JPEG DRIVER
+Date:   Wed, 9 Mar 2022 11:04:31 +0800
+Message-ID: <20220309030431.31247-1-miles.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220308114300.12502-1-lukas.bulwahn@gmail.com>
+References: <20220308114300.12502-1-lukas.bulwahn@gmail.com>
 MIME-Version: 1.0
-Sender: adamsfrancis145@gmail.com
-Received: by 2002:a05:6602:1352:0:0:0:0 with HTTP; Tue, 8 Mar 2022 18:18:41
- -0800 (PST)
-From:   Vera Wilfred <vera.wilfried145@gmail.com>
-Date:   Wed, 9 Mar 2022 03:18:41 +0100
-X-Google-Sender-Auth: xFQCXLBMiFERHbT9-MWPlxZRacE
-Message-ID: <CAGVJC0MhAWH+EK9RvvRqN7G9u9==L+QsSU6ijZXr23w4tnaHng@mail.gmail.com>
-Subject: Hallo
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=7.4 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,HK_SCAM,LOTS_OF_MONEY,
-        MILLION_USD,MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_MONEY_PERCENT,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:12b listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5062]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [vera.wilfried145[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [adamsfrancis145[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 MILLION_USD BODY: Talks about millions of dollars
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  0.0 HK_SCAM No description available.
-        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
-        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
-        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
-        *  3.5 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-Hello,
+Hi Lukas,
 
-I am Miss Vera Wilfred from Abidjan, C=C3=B4te D'Ivoire (Ivory Coast) . I
-am a 22 years old girl orphan, that is as a result of having no
-parents, I have about ($10.500,000.00 United state dollars ) Ten
-million, five hundred thousand United state dollars.
+> After sending a patch to Rick Chang, the mediatek mail server responded:
+> 
+>   ** Message not delivered **
+> 
+>   Your message couldn't be delivered to rick.chang@mediatek.com because
+>   the remote server is misconfigured. See technical details below for more
+>   information.
+> 
+>   The response from the remote server was:
+>   550 Relaying mail to rick.chang@mediatek.com is not allowed
+> 
+> So, drop Rick Chang from the MEDIATEK JPEG DRIVER section.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-Which I inherited from my late father he Deposited the fund in a fixed
-/ suspense account in one of the prime banks here in Abidjan,
+I confirmed that Rick Chang has left Mediatek, so it is ok to remove his name.
 
-My father used my name as his only daughter and only child for the
-next of kin to the fund.
+Reviewed-by: Miles Chen <miles.chen@mediatek.com>
 
-Secondly, on your full acceptance to work with me regarding this
-purpose, kindly indicate your interest by replying back to me so that
-I will furnish you with the needful information and the details on how
-to proceed further. I will offer you 20% of the money for your help.
-
-May God bless you for your prompt attention, My best and lovely
-Regards to you and all your family as you contact me for more details.
-
-I need your assistant to help me invest this fund in your country
-,contact me now for more details.
-Thanks
-
-Vera Wilfred.
+Thanks,
+Miles
