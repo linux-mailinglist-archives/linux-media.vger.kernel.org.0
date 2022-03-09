@@ -2,91 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32F2F4D3545
-	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 18:41:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87B4A4D355D
+	for <lists+linux-media@lfdr.de>; Wed,  9 Mar 2022 18:41:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235126AbiCIQhF convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 9 Mar 2022 11:37:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
+        id S235535AbiCIQoO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Mar 2022 11:44:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235200AbiCIQey (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 11:34:54 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9703FA1BFA
-        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 08:29:53 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nRzCB-000641-6H; Wed, 09 Mar 2022 17:29:51 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nRzCB-003iSZ-5n; Wed, 09 Mar 2022 17:29:50 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nRzC9-000BuZ-BC; Wed, 09 Mar 2022 17:29:49 +0100
-Message-ID: <25171f0f4e2712fdcae7b2fc2e7792f8f744db6c.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] media: coda: Add more H264 levels for CODA960
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Fabio Estevam <festevam@gmail.com>, hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
-        ezequiel@collabora.com, kernel@iktek.de, stable@vger.kernel.org,
-        Fabio Estevam <festevam@denx.de>
-Date:   Wed, 09 Mar 2022 17:29:49 +0100
-In-Reply-To: <d75bbdb1fd01f0c1ff89efe1369860cfccc52f5f.camel@pengutronix.de>
-References: <20220309143322.1755281-1-festevam@gmail.com>
-         <20220309143322.1755281-2-festevam@gmail.com>
-         <d75bbdb1fd01f0c1ff89efe1369860cfccc52f5f.camel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.38.3-1 
+        with ESMTP id S237522AbiCIQkX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 11:40:23 -0500
+Received: from hillosipuli.retiisi.eu (retiisi.eu [95.216.213.190])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD3214D273
+        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 08:33:16 -0800 (PST)
+Received: from lanttu.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::c1:2])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 38A10634C90;
+        Wed,  9 Mar 2022 18:33:11 +0200 (EET)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
+Subject: [PATCH v3 0/5] Set bus_info field in framework
+Date:   Wed,  9 Mar 2022 18:31:07 +0200
+Message-Id: <20220309163112.11708-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabio, Nicolas,
+Hi folks,
 
-On Mi, 2022-03-09 at 17:20 +0100, Philipp Zabel wrote:
-[...]
-> I still think this is wrong [1], the vendor only advertises support
-> for level 4.0. At least level 5.0 must be dropped, as we don't
-> support the frame size requirement.
+This innocuous-looking patchset moves setting the bus_info fields in
+struct media_device and struct v4l2_capability from drivers to the
+framework for PCI and platform devices. USB and I²C devices are possible,
+too, but not yet implemented. Using this is optional so that drivers which
+have special requirements or archaic bugs are unaffected.
 
-Looking at my notes, I've never seen the encoder produce streams with
-levels 1.1, 1.2, 1.3, 2.1, 2.2, or 4.1. Has anybody else?
-Level 4.2 streams can be produced though, just not at realtime speeds.
+If people like this, I'll see if the same could be done to the driver
+fields.
 
-Also, this encoder control change has no effect unless max is changed
-as well. I think it should look as follows:
+I have patches for USB, too, but those require changes in USB core
+(namely exporting the relevant functions).
 
- 	if (ctx->dev->devtype->product == CODA_960) {
- 		v4l2_ctrl_new_std_menu(&ctx->ctrls, &coda_ctrl_ops,
- 			V4L2_CID_MPEG_VIDEO_H264_LEVEL,
--			V4L2_MPEG_VIDEO_H264_LEVEL_4_0,
--			~((1 << V4L2_MPEG_VIDEO_H264_LEVEL_2_0) |
-+			V4L2_MPEG_VIDEO_H264_LEVEL_4_2,
-+			~((1 << V4L2_MPEG_VIDEO_H264_LEVEL_1_0) |
-+			  (1 << V4L2_MPEG_VIDEO_H264_LEVEL_2_0) |
- 			  (1 << V4L2_MPEG_VIDEO_H264_LEVEL_3_0) |
- 			  (1 << V4L2_MPEG_VIDEO_H264_LEVEL_3_1) |
- 			  (1 << V4L2_MPEG_VIDEO_H264_LEVEL_3_2) |
--			  (1 << V4L2_MPEG_VIDEO_H264_LEVEL_4_0)),
-+			  (1 << V4L2_MPEG_VIDEO_H264_LEVEL_4_0) |
-+			  (1 << V4L2_MPEG_VIDEO_H264_LEVEL_4_2)),
- 			V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
- 	}
- 	v4l2_ctrl_new_std(&ctx->ctrls, &coda_ctrl_ops,
+since v2:
 
-regards
-Philipp
+- Move non-redundant documentation on media_device_init() to the header.
+
+- Fix struct name in media_device_register() documentation (new patch).
+
+- media_set_bus_info() sets the bus_info field unconditionally, reflect
+  this in the documentation.
+
+- Document that media_set_bus_info() isn't meant to be called from
+  drivers.
+
+since v1:
+
+- Make media_set_bus_info() a function, pass field size as an argument.
+
+- Drop a few bad driver changes. Remove now-redundant local variables.
+
+- Document the functionality for media_device_init(), V4L2 side doesn't
+  have a proper place for documentation and I don't think it's something
+  that should go to this set.
+
+- Remove redundant kerneldoc in mc-device.c.
+
+- Set bus_info in querycap unconditionally, before calling driver callback
+  that can override it.
+
+Sakari Ailus (4):
+  mc: Remove redundant documentation
+  mc: Provide a helper for setting bus_info field
+  mc: Set bus_info in media_device_init()
+  v4l: ioctl: Set bus_info in v4l_querycap()
+
+ drivers/media/common/saa7146/saa7146_video.c  |  1 -
+ drivers/media/mc/mc-device.c                  | 19 ++--------
+ drivers/media/pci/bt8xx/bttv-driver.c         |  2 -
+ drivers/media/pci/cx18/cx18-ioctl.c           |  2 -
+ drivers/media/pci/cx88/cx88-blackbird.c       |  1 -
+ drivers/media/pci/cx88/cx88-video.c           |  1 -
+ drivers/media/pci/dt3155/dt3155.c             |  3 --
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  6 ---
+ drivers/media/pci/ivtv/ivtv-ioctl.c           |  1 -
+ drivers/media/pci/meye/meye.c                 |  1 -
+ drivers/media/pci/saa7134/saa7134-video.c     |  1 -
+ drivers/media/pci/saa7164/saa7164-encoder.c   |  1 -
+ drivers/media/pci/saa7164/saa7164-vbi.c       |  1 -
+ .../media/pci/solo6x10/solo6x10-v4l2-enc.c    |  2 -
+ drivers/media/pci/solo6x10/solo6x10-v4l2.c    |  2 -
+ drivers/media/pci/sta2x11/sta2x11_vip.c       |  2 -
+ drivers/media/pci/tw5864/tw5864-video.c       |  1 -
+ drivers/media/pci/tw68/tw68-video.c           |  3 --
+ drivers/media/pci/tw686x/tw686x-video.c       |  2 -
+ .../media/platform/allegro-dvt/allegro-core.c |  5 ---
+ drivers/media/platform/davinci/vpbe_display.c |  2 -
+ drivers/media/platform/davinci/vpif_capture.c |  2 -
+ drivers/media/platform/davinci/vpif_display.c |  2 -
+ drivers/media/platform/exynos-gsc/gsc-m2m.c   |  5 ---
+ drivers/media/platform/exynos4-is/common.c    |  2 -
+ drivers/media/platform/exynos4-is/fimc-lite.c |  4 --
+ drivers/media/platform/imx-jpeg/mxc-jpeg.c    |  4 --
+ .../media/platform/marvell-ccic/cafe-driver.c |  1 -
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.c   |  2 -
+ .../media/platform/qcom/camss/camss-video.c   |  4 --
+ drivers/media/platform/rcar-vin/rcar-core.c   |  2 -
+ drivers/media/platform/rcar-vin/rcar-v4l2.c   |  4 --
+ drivers/media/platform/rcar_jpu.c             |  2 -
+ drivers/media/platform/s5p-jpeg/jpeg-core.c   |  2 -
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  |  2 -
+ drivers/media/platform/s5p-mfc/s5p_mfc_enc.c  |  2 -
+ drivers/media/platform/stm32/stm32-dcmi.c     |  2 -
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  2 -
+ .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |  4 --
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  2 -
+ drivers/media/platform/ti-vpe/cal-video.c     |  4 --
+ drivers/media/platform/ti-vpe/cal.c           |  2 -
+ drivers/media/platform/vsp1/vsp1_drv.c        |  2 -
+ drivers/media/platform/vsp1/vsp1_histo.c      |  2 -
+ drivers/media/platform/vsp1/vsp1_video.c      |  2 -
+ drivers/media/radio/radio-maxiradio.c         |  2 -
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  4 ++
+ include/media/media-device.h                  | 37 ++++++++++++++++---
+ 48 files changed, 39 insertions(+), 125 deletions(-)
+
+-- 
+2.30.2
+
+
+
+Sakari Ailus (5):
+  mc: Remove redundant documentation
+  mc: media_device_init() initialises a media_device, not media_entity
+  mc: Provide a helper for setting bus_info field
+  mc: Set bus_info in media_device_init()
+  v4l: ioctl: Set bus_info in v4l_querycap()
+
+ drivers/media/common/saa7146/saa7146_video.c  |  1 -
+ drivers/media/mc/mc-device.c                  | 19 ++-----
+ drivers/media/pci/bt8xx/bttv-driver.c         |  2 -
+ drivers/media/pci/cx18/cx18-ioctl.c           |  2 -
+ drivers/media/pci/cx88/cx88-blackbird.c       |  1 -
+ drivers/media/pci/cx88/cx88-video.c           |  1 -
+ drivers/media/pci/dt3155/dt3155.c             |  3 --
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  6 ---
+ drivers/media/pci/ivtv/ivtv-ioctl.c           |  1 -
+ drivers/media/pci/meye/meye.c                 |  1 -
+ drivers/media/pci/saa7134/saa7134-video.c     |  1 -
+ drivers/media/pci/saa7164/saa7164-encoder.c   |  1 -
+ drivers/media/pci/saa7164/saa7164-vbi.c       |  1 -
+ .../media/pci/solo6x10/solo6x10-v4l2-enc.c    |  2 -
+ drivers/media/pci/solo6x10/solo6x10-v4l2.c    |  2 -
+ drivers/media/pci/sta2x11/sta2x11_vip.c       |  2 -
+ drivers/media/pci/tw5864/tw5864-video.c       |  1 -
+ drivers/media/pci/tw68/tw68-video.c           |  3 --
+ drivers/media/pci/tw686x/tw686x-video.c       |  2 -
+ .../media/platform/allegro-dvt/allegro-core.c |  5 --
+ drivers/media/platform/davinci/vpbe_display.c |  2 -
+ drivers/media/platform/davinci/vpif_capture.c |  2 -
+ drivers/media/platform/davinci/vpif_display.c |  2 -
+ drivers/media/platform/exynos-gsc/gsc-m2m.c   |  5 --
+ drivers/media/platform/exynos4-is/common.c    |  2 -
+ drivers/media/platform/exynos4-is/fimc-lite.c |  4 --
+ drivers/media/platform/imx-jpeg/mxc-jpeg.c    |  4 --
+ .../media/platform/marvell-ccic/cafe-driver.c |  1 -
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.c   |  2 -
+ .../media/platform/qcom/camss/camss-video.c   |  4 --
+ drivers/media/platform/rcar-vin/rcar-core.c   |  2 -
+ drivers/media/platform/rcar-vin/rcar-v4l2.c   |  4 --
+ drivers/media/platform/rcar_jpu.c             |  2 -
+ drivers/media/platform/s5p-jpeg/jpeg-core.c   |  2 -
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  |  2 -
+ drivers/media/platform/s5p-mfc/s5p_mfc_enc.c  |  2 -
+ drivers/media/platform/stm32/stm32-dcmi.c     |  2 -
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  2 -
+ .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |  4 --
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  2 -
+ drivers/media/platform/ti-vpe/cal-video.c     |  4 --
+ drivers/media/platform/ti-vpe/cal.c           |  2 -
+ drivers/media/platform/vsp1/vsp1_drv.c        |  2 -
+ drivers/media/platform/vsp1/vsp1_histo.c      |  2 -
+ drivers/media/platform/vsp1/vsp1_video.c      |  2 -
+ drivers/media/radio/radio-maxiradio.c         |  2 -
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  4 ++
+ include/media/media-device.h                  | 52 +++++++++++++++----
+ 48 files changed, 49 insertions(+), 130 deletions(-)
+
+-- 
+2.30.2
+
