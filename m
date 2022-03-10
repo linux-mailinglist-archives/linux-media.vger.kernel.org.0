@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1D4B4D4F40
-	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 17:29:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96EC74D4F3D
+	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 17:29:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243881AbiCJQ33 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Mar 2022 11:29:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41562 "EHLO
+        id S242918AbiCJQ3m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Mar 2022 11:29:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239972AbiCJQ31 (ORCPT
+        with ESMTP id S244367AbiCJQ3a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Mar 2022 11:29:27 -0500
+        Thu, 10 Mar 2022 11:29:30 -0500
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 67D134C425;
-        Thu, 10 Mar 2022 08:28:25 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 616584C43A;
+        Thu, 10 Mar 2022 08:28:28 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.90,171,1643641200"; 
-   d="scan'208";a="113985123"
+   d="scan'208";a="113985127"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 11 Mar 2022 01:28:25 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 11 Mar 2022 01:28:28 +0900
 Received: from localhost.localdomain (unknown [10.226.92.47])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CF92140A24DC;
-        Fri, 11 Mar 2022 01:28:22 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A006840A24FD;
+        Fri, 11 Mar 2022 01:28:25 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>
@@ -33,9 +33,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/3] media: vsp1: Add support to deassert/assert reset line
-Date:   Thu, 10 Mar 2022 16:28:13 +0000
-Message-Id: <20220310162814.22234-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 3/3] media: vsp1: Add support for RZ/G2L VSPD
+Date:   Thu, 10 Mar 2022 16:28:14 +0000
+Message-Id: <20220310162814.22234-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220310162814.22234-1-biju.das.jz@bp.renesas.com>
 References: <20220310162814.22234-1-biju.das.jz@bp.renesas.com>
@@ -48,90 +48,160 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As the resets DT property is mandatory, and is present in all .dtsi
-in mainline, add support to perform deassert/assert using reference
-counted reset handle.
+The RZ/G2L VSPD provides a single VSPD instance. It has the following
+sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+
+The VSPD block on RZ/G2L does not have a version register, so added a
+new compatible string "renesas,rzg2l-vsp2" with a data pointer containing
+the info structure. Also the reset line is shared with the DU module.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
 v1->v2:
- * Used reference counted reset handle to perform deassert/assert
+ * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
+ * Added standalone device info for rzg2l-vsp2.
+ * Added vsp1_lookup helper function.
+ * Updated comments for LIF0 buffer attribute register
+ * Used last ID for rzg2l-vsp2.
 RFC->v1:
- * Added reset support as separate patch
- * Moved rstc just after the bus_master field in struct vsp1_device
+ * Used data pointer containing info structure to retrieve version information
 RFC:
  * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
 ---
- drivers/media/platform/vsp1/vsp1.h     |  1 +
- drivers/media/platform/vsp1/vsp1_drv.c | 21 ++++++++++++++++++++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
+ drivers/media/platform/vsp1/vsp1_drv.c  | 43 +++++++++++++++++++------
+ drivers/media/platform/vsp1/vsp1_lif.c  | 15 +++++----
+ drivers/media/platform/vsp1/vsp1_regs.h |  2 ++
+ 3 files changed, 44 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/media/platform/vsp1/vsp1.h b/drivers/media/platform/vsp1/vsp1.h
-index 37cf33c7e6ca..c5da829c79b5 100644
---- a/drivers/media/platform/vsp1/vsp1.h
-+++ b/drivers/media/platform/vsp1/vsp1.h
-@@ -79,6 +79,7 @@ struct vsp1_device {
- 	void __iomem *mmio;
- 	struct rcar_fcp_device *fcp;
- 	struct device *bus_master;
-+	struct reset_control *rstc;
- 
- 	struct vsp1_brx *brs;
- 	struct vsp1_brx *bru;
 diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-index 502c7d9d6890..dbe90ceec327 100644
+index dbe90ceec327..9ed568db22f4 100644
 --- a/drivers/media/platform/vsp1/vsp1_drv.c
 +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-@@ -16,6 +16,7 @@
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/reset.h>
- #include <linux/videodev2.h>
+@@ -814,11 +814,36 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 	},
+ };
  
- #include <media/rcar-fcp.h>
-@@ -569,7 +570,19 @@ static void vsp1_mask_all_interrupts(struct vsp1_device *vsp1)
-  */
- int vsp1_device_get(struct vsp1_device *vsp1)
++static const struct vsp1_device_info rzg2l_vsp2_device_info = {
++		.version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
++		.model = "VSP2-D",
++		.gen = 3,
++		.features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL,
++		.lif_count = 1,
++		.rpf_count = 2,
++		.wpf_count = 1,
++};
++
++static const struct vsp1_device_info *vsp1_lookup(struct vsp1_device *vsp1,
++						  u32 version)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
++		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == version) {
++			vsp1->info = &vsp1_device_infos[i];
++			break;
++		}
++	}
++
++	return vsp1->info;
++}
++
+ static int vsp1_probe(struct platform_device *pdev)
  {
--	return pm_runtime_resume_and_get(vsp1->dev);
-+	int ret = reset_control_deassert(vsp1->rstc);
-+
-+	if (ret < 0)
-+		goto err;
-+
-+	ret = pm_runtime_resume_and_get(vsp1->dev);
-+	if (ret < 0)
-+		goto err;
-+
-+	return 0;
-+err:
-+	reset_control_assert(vsp1->rstc);
-+	return ret;
- }
+ 	struct vsp1_device *vsp1;
+ 	struct device_node *fcp_node;
+-	unsigned int i;
++	u32 version;
+ 	int ret;
+ 	int irq;
  
- /*
-@@ -581,6 +594,7 @@ int vsp1_device_get(struct vsp1_device *vsp1)
- void vsp1_device_put(struct vsp1_device *vsp1)
- {
- 	pm_runtime_put_sync(vsp1->dev);
-+	reset_control_assert(vsp1->rstc);
- }
+@@ -874,24 +899,21 @@ static int vsp1_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		goto done;
  
- /* -----------------------------------------------------------------------------
-@@ -827,6 +841,11 @@ static int vsp1_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
+-	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+-
+-	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+-		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+-		    vsp1_device_infos[i].version) {
+-			vsp1->info = &vsp1_device_infos[i];
+-			break;
+-		}
++	vsp1->info = of_device_get_match_data(&pdev->dev);
++	if (!vsp1->info) {
++		version = vsp1_read(vsp1, VI6_IP_VERSION);
++		vsp1->info = vsp1_lookup(vsp1, version);
+ 	}
  
-+	vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
-+	if (IS_ERR(vsp1->rstc))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
-+				     "failed to get reset ctrl\n");
-+
- 	/* FCP (optional). */
- 	fcp_node = of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0);
- 	if (fcp_node) {
+ 	if (!vsp1->info) {
+ 		dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
+-			vsp1->version);
++			version);
+ 		vsp1_device_put(vsp1);
+ 		ret = -ENXIO;
+ 		goto done;
+ 	}
+ 
++	vsp1->version = vsp1->info->version;
+ 	dev_dbg(&pdev->dev, "IP version 0x%08x\n", vsp1->version);
+ 
+ 	/*
+@@ -943,6 +965,7 @@ static int vsp1_remove(struct platform_device *pdev)
+ static const struct of_device_id vsp1_of_match[] = {
+ 	{ .compatible = "renesas,vsp1" },
+ 	{ .compatible = "renesas,vsp2" },
++	{ .compatible = "renesas,rzg2l-vsp2", .data = &rzg2l_vsp2_device_info },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, vsp1_of_match);
+diff --git a/drivers/media/platform/vsp1/vsp1_lif.c b/drivers/media/platform/vsp1/vsp1_lif.c
+index 6a6857ac9327..61a397c8f9bc 100644
+--- a/drivers/media/platform/vsp1/vsp1_lif.c
++++ b/drivers/media/platform/vsp1/vsp1_lif.c
+@@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
+ 
+ 	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
+ 	case VI6_IP_VERSION_MODEL_VSPD_V3:
++	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
+ 		hbth = 0;
+ 		obth = 1500;
+ 		lbth = 0;
+@@ -130,13 +131,15 @@ static void lif_configure_stream(struct vsp1_entity *entity,
+ 			VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
+ 
+ 	/*
+-	 * On R-Car V3M the LIF0 buffer attribute register has to be set to a
+-	 * non-default value to guarantee proper operation (otherwise artifacts
+-	 * may appear on the output). The value required by the manual is not
+-	 * explained but is likely a buffer size or threshold.
++	 * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
++	 * set to a non-default value to guarantee proper operation (otherwise
++	 * artifacts may appear on the output). The value required by the
++	 * manual is not explained but is likely a buffer size or threshold.
+ 	 */
+-	if ((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
+-	    (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M))
++	if (((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
++	    (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M)) ||
++	    ((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
++	     VI6_IP_VERSION_MODEL_VSPD_RZG2L))
+ 		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
+ 			       VI6_LIF_LBA_LBA0 |
+ 			       (1536 << VI6_LIF_LBA_LBA1_SHIFT));
+diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
+index fae7286eb01e..3dda11fe4e08 100644
+--- a/drivers/media/platform/vsp1/vsp1_regs.h
++++ b/drivers/media/platform/vsp1/vsp1_regs.h
+@@ -767,6 +767,8 @@
+ #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
+ #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
+ #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
++/* RZ/G2L SoC's have no version register, So using last ID for the version */
++#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0xff << 8)
+ 
+ #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
+ #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
 -- 
 2.17.1
 
