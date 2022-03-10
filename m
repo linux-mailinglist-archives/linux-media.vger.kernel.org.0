@@ -2,51 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 210874D3F05
-	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 02:54:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 495C74D3F07
+	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 02:55:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231747AbiCJBzU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Mar 2022 20:55:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38658 "EHLO
+        id S235197AbiCJB4h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Mar 2022 20:56:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232234AbiCJBzS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 20:55:18 -0500
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70058.outbound.protection.outlook.com [40.107.7.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A7CA128658
-        for <linux-media@vger.kernel.org>; Wed,  9 Mar 2022 17:54:18 -0800 (PST)
+        with ESMTP id S232234AbiCJB4g (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Mar 2022 20:56:36 -0500
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60063.outbound.protection.outlook.com [40.107.6.63])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67133127D76;
+        Wed,  9 Mar 2022 17:55:35 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nmZ6IinbQAbA86fcu9M5IBmZywjQf9IDNv9YpZkq7HZxP4AlPkC3ksfbv7FlSP6umxAiseQZ/Rm8I+VCa/yoRemF6wQMi3KENmkrPrXOdQsI8pk+zB76r7mj1ACbm4uWOYniDn6pSXB/kIURitzzCaNAvH7l6GdqrgJhtTJ1ZJX/rv/dR8xmGTK9XQXrQYsjwRKtQY9C2Nz+i+5oWH/7PLt3hzcqkUsoC/DH8jZ3ichCfgowt+NQQHpgwOTGc7iZDKDgzPlyonZKDpBoHViEdMUM9lQ/ftDOGoruaRWlDUFLWNuxdIcbwyS34CcF113q3B+ZoN7jmgGtdwblNXaTEA==
+ b=VtMPuHoQ2cKas44xjTe/unIpV4HOwV28MYIHdYQ23iCmJTjnleIg7tSKminGUH0pKGPcPyLYfmoDOtYvJQn1GevFj41cKx5NOFBiTEoG/A1yIiee99UgYAhYOaZPZwwl9peT+V+TwbQOMGmGAKwRmMXLqOyNlVLEGBbGJfVpbJUwFSBEJCczTkxy2X5MiLh7P8G2NYXygmL+9p1gI2QlXYYyx2308ZFG+UDtFfmtB2AssircaAXNyez9liW0jUOPRbMGrD8sUfOWEPm9atiZ3NbZ06tEsljnyOIDi4E9YT1/FCCvvujbo5xkyjEnK3KI5VRIyhwaVbcYYDB1M2Pl/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m2SyORjA/dj7odKlnQKrRXzwrJZyyDnsjYzCHdxABVA=;
- b=TZcVgoNqTfY/j77rbViAFfJ2TVjh1+SHALkTzUJw5qCwPFgz19/jEahbjt/quvcmlhy0lGmhnM3yO4kZjl09E8T9DLKVV+s0nLD3IcTMLvu3Bnr35L8JLjYeskGNFS+WriCuVgx9nIR3jmOgcT9nJhbh7YpV6FMzGN4299t8Vhpn6iXlWSXRcLEpsOTpg71iBMvhYKe+VADQTV/x4U5mRz31hQriwEZBxLm3bTbwae8S0gyW+U9hVWBV83ikhW57FzhtYEIDWtB4h0CJn9ViTbXaNhJJifucIMKapaJH9qQcVf0bz4iGgWg3myfTsQJ8Jrg01OZ7k6dxDjkYJZCEkA==
+ bh=Vitq4zTCmNGEnCRl4d9WGugAVbzJOMxmnkVxHhyhUMg=;
+ b=CLfNtu/mBJjAOdltC+tC1vjod8lZX2IuVEqA6BhXxkjzcUqs1RMwudRhkh/kidqYxu83GvebdhEpW2H/m8MoRJksl0hjiqmBN+8XKcR4kol6X5Lsx3n4zKLlQsrQbbcntlX6L//5Y4z5hvgL/E/wtUEpO0zhP+Mgajp4CJDkwfR0KsaBF1IK0ew5YEhrY5IauLLlk77jF5SvqJNIxttEI9p4Qn1SS+aC3Y9+YG6K+XZfyPkZVCUkP0ihVyMy8yq9KzA5FejHJ48238AGhqyyssFTjpPOn3wGRnC2yKGemiWfDdhWghVrPH8+2x1ZBruyk20UG8ggpbaIGXMKtFUEtQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m2SyORjA/dj7odKlnQKrRXzwrJZyyDnsjYzCHdxABVA=;
- b=ahyZoVEbxvecNdFL3WToPgHidu/AFQ0+u5O+AtJf/NvImXM8AH0k5Gz5DmkZNui7/Lb7kOUdqtg6Uz43dywm1QTDZOmUlr7R6Nb/zteH2/eRpzRA5syqARu6gsFVFiZCZ+XvnqbX071j+7G95oW5N8BwzpmSeHk4QoBtW06qUrI=
+ bh=Vitq4zTCmNGEnCRl4d9WGugAVbzJOMxmnkVxHhyhUMg=;
+ b=gxQYSh+4d5DwxdCa54qXvkxCh8u9fFuf+9DlBZNWG8KhrC3AMR/SLI4khn+IJoOifrFQx8WSc2h3c6vyCBGcV9gW7osZi03vry8Cfk/iJky3QrSPl4CteKcHHD4eU7CRxxJxh4pjEa73ZWDRSgyVhC3VrrRXPptKWng12zd0irY=
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
  by DB3PR0402MB3754.eurprd04.prod.outlook.com (2603:10a6:8:6::26) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Thu, 10 Mar
- 2022 01:54:15 +0000
+ 2022 01:55:33 +0000
 Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::c39:69cf:c4ea:967]) by AM6PR04MB6341.eurprd04.prod.outlook.com
  ([fe80::c39:69cf:c4ea:967%5]) with mapi id 15.20.5038.027; Thu, 10 Mar 2022
- 01:54:15 +0000
+ 01:55:33 +0000
 From:   Ming Qian <ming.qian@nxp.com>
 To:     Dan Carpenter <dan.carpenter@oracle.com>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: RE: [EXT] [bug report] media: amphion: add vpu core driver
-Thread-Topic: [EXT] [bug report] media: amphion: add vpu core driver
-Thread-Index: AQHYM6KUL9YHEisbNkSp/VoyJkHA+Ky33BEw
-Date:   Thu, 10 Mar 2022 01:54:15 +0000
-Message-ID: <AM6PR04MB634110C2096D162B1F0EC952E70B9@AM6PR04MB6341.eurprd04.prod.outlook.com>
-References: <20220309104337.GA29869@kili>
-In-Reply-To: <20220309104337.GA29869@kili>
+CC:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [EXT] Re: [PATCH v18 06/15] media: amphion: add vpu v4l2 m2m
+ support
+Thread-Topic: [EXT] Re: [PATCH v18 06/15] media: amphion: add vpu v4l2 m2m
+ support
+Thread-Index: AQHYKSkysBAlcdqrbUaZjaHXcN2sx6y3AOkAgADwUkA=
+Date:   Thu, 10 Mar 2022 01:55:33 +0000
+Message-ID: <AM6PR04MB6341451D5139D2EFFDAD44DFE70B9@AM6PR04MB6341.eurprd04.prod.outlook.com>
+References: <cover.1645670589.git.ming.qian@nxp.com>
+ <8af3c8cb6ab6b02461ad67ce21b8058f5c5caf4d.1645670589.git.ming.qian@nxp.com>
+ <20220309113420.GA2592@kili>
+In-Reply-To: <20220309113420.GA2592@kili>
 Accept-Language: zh-CN, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -54,56 +71,56 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d2ecc2b9-10e8-4e33-1414-08da0238e1c3
+x-ms-office365-filtering-correlation-id: 7e528246-b46a-458f-e323-08da02390fff
 x-ms-traffictypediagnostic: DB3PR0402MB3754:EE_
-x-microsoft-antispam-prvs: <DB3PR0402MB37548FD8ED362F151CC838BCE70B9@DB3PR0402MB3754.eurprd04.prod.outlook.com>
+x-microsoft-antispam-prvs: <DB3PR0402MB37542560F14EFBC9433F6FDBE70B9@DB3PR0402MB3754.eurprd04.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: cxpa6gpSyWNlTvWjN+hbV7A3WdVO+VOUzjAZmHI3bdsS/Z+Bxf7lQbz4jHoy2G3ZAAyg/e4tMYhAa7gfZZ+2OxAg+JFiIUibO4LCBjzllzxm184kRrXLQyVtD6WdrXluKO1nranVL3n5eI3VbxbrYY38+x5bebsy943VPWgO2Mmixt71l/nOZGdehj2c6N5t4HAmPnrB6RQNgfhJuOzxIFZnrP4ELw0QITq70NCBrCoxXo9IY9zyZHGz32ZocTJ8j8fsfW1JZluJ3n78Ip9oxvFoQB5o7mpzsiSFEC8dCh9u6meFpxGqheDzg7kpmdmJ+UdtCHaI1keAAc3pm2LmVPyfvlTrXTAfzP2+KbfRsQt8T/iW/g/mOpBS5JfjWIqNw1lJt3cLtiALvg3TPWnqB5z9cBWA6uOeaoIpHmvt45IqXb7fpmEFETUTWSWvnEkmnnSgB/1J6Bh3a7IItSNFp/rfRQYQVCw6uZkTfta5Pg/dVgF1rsryPj/KDZY1HDnjzmTaZ19kDF6H4fnMRdOsGkOj6VIZGaF/G02lfJ8s3cZ+4uhGpTQZDCQWagBmd5WWfgyFOAQDVh9rWyMwQjRzowgofbhcRxjcJnHYiJn9UOuxsj13Ye9kuK8onZLqYqI9+52O20puhXsFYYrKsYpAByVBhXQYGweJTPYLuC21125PbVUhtJd/pGXmYBzLuX3135BzLegP8P+fA/b34Kkm5b5879+8QTKoUa8bbYOgpX6i9IG91YCGSaA8anxXXx5l
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66556008)(26005)(186003)(4326008)(8676002)(76116006)(122000001)(64756008)(66946007)(66446008)(38100700002)(53546011)(316002)(6916009)(6506007)(55016003)(33656002)(9686003)(7696005)(8936002)(5660300002)(52536014)(44832011)(71200400001)(508600001)(83380400001)(2906002)(38070700005)(66476007)(86362001);DIR:OUT;SFP:1101;
+x-microsoft-antispam-message-info: aMEJZUD7P+uV1CVDOrn5LKBq7stEj9+ejQCvNxkF/I8J/iXE5Kz41ncFkq1hKPqk9jM0fI543dB31zW3XaNcXdZJ7yKbqlMxmKvaGDigirbQYaTdx3rsT/H0u8mmQbUvzclV05HeaW9rJq4syFlbz3awyEptvwZoMTM89Bk7hhnAovPWNrTUKgGqNM6qPCYOm2gj9G8UTYnlBOTtIFSuZwg5DtG0b1w9ictNpdUbeKcTKwJrDIUfIao9pQAW321I5KZyH1hIQFj/KdQB7SHPspGVv9oSDicXwu3NdCQUSRCPNDwRxIckHIUlZH8n6FUnJpHvltT5J2BJam1vtSYkXA5GKkLpSDSokjyJxbSr3kfI3OGD0t3lx6oiNIDc6z0qjGliwZJ5UN/XkKmLlCu9VMMJqGkcQJ8/lIdkaAPODuu8EK3T0O3XYRxIw1XrPDAXyz+WiJ/hsNkU7j4tnFRC+dYrQ/gSug9cPhoGpPMGPHqAibEZenPDYqdrBQX3HTZS0LaK6KHvDX24H8HLdBphkNpUZSrWnbAeXr9mTW9KQLZvKBSU4cbBM88C5WIt/1ksLOWOxhrZCg7F5k9ACQRkyBBW52/zkCSBE4OfbSEMOlJg877Q8TLJE1UP7CU8dAJl8wQB4aM1os+NJhF8ixV4z0X8afjFuUnEnL8QNTjr8iX7AKcdhQlQJIj1ooZi3dCjmsDqXzLNAHFklYeSRXDDfVz2bRudO+806rfNj6cVqm8ReHOFaW+h6XQ9rsiJ++5x
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66556008)(26005)(186003)(4326008)(8676002)(76116006)(122000001)(64756008)(66946007)(66446008)(38100700002)(54906003)(53546011)(316002)(6916009)(6506007)(55016003)(33656002)(9686003)(7696005)(7416002)(8936002)(5660300002)(52536014)(44832011)(71200400001)(508600001)(83380400001)(2906002)(38070700005)(66476007)(86362001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?U3euizOTDSI2nN4/zZQwYUhf9ZWCQ10KLDSFiQAzb6GqApiMeGQUyaDIApBn?=
- =?us-ascii?Q?vLQRrRx05QozC4qt9I1/VaAvq3BqRgOFAPRmRbxNwPKLpo0DXqIkgdvv/hBs?=
- =?us-ascii?Q?TY9Y0arIAvCXRLS8bJPBupCqjyt12H0nZPB2jZWVs7O0AE87XyNuJIF3jAc0?=
- =?us-ascii?Q?ZJOJB/tQK7rMfXrclK3RWrAbf3Ic486JrStRJsO03X7ODv7AeITpWWBpXQIV?=
- =?us-ascii?Q?qZuClpzecFF77HH6OmyMk9+XexDpW295t3dgdruNQVgSgzNnbFPiDBSAWjOf?=
- =?us-ascii?Q?4eWcDZPlUTTTZermXCZSCEw9JDIaaAD6Q00e/Gw761RFrlyrOujucrSJOD1n?=
- =?us-ascii?Q?2SV5Yv+cxD3lH3eSoYJyPauLeJHNCh0b6jPMoko0XL7BlVyHX8AP8L9MKw/X?=
- =?us-ascii?Q?+/uxYcs5vYGZQPBAVTfFiQpuZmzNeBdXkJ7JjW2X+kuh8DU99sIBN8GXrQJk?=
- =?us-ascii?Q?B+TIRbu6C2vNHZMCnXqPdazdpj3XZ8fpBD2iF23F9zwUw5C1UJO6wMPpJyZq?=
- =?us-ascii?Q?dgNVKS4q81RMsxAQC4FMofYSIIei02jYlqaNJpXQRQqJbn+2ewnrTUZsgxRN?=
- =?us-ascii?Q?ptE35+hdCVb04o339aeGjzZq+QEdKuTbBdqwFg7FsmwgirdyV3xZfKfqpdxD?=
- =?us-ascii?Q?U5Y3Uj88lvpNqR3n39i8t58sWJuy2uFLuzEh2rEUuD78FJjZrnrbVG0q2e8A?=
- =?us-ascii?Q?nuhcn+rIxl56Fo1qBRCt9tQLVXTVX1Mttaw9OURMg/Gc8C4LRdnLZO71EaRR?=
- =?us-ascii?Q?Mx+nfZFjSrcmI3ZSJF+2O/QzvlC35654UXAzSDgp3a2JLLCBuaqB8XN0YIFJ?=
- =?us-ascii?Q?0naWCrYx1bEEDzrmTblc4f16kRRonLV0pjrgheAOGS1awz5EK+k1riYr9KAx?=
- =?us-ascii?Q?yDJduGaFHIhokaVQDTovAS2Bq4zO8lRJB+mKy828Wud+554hRCwKHOjkmqoX?=
- =?us-ascii?Q?If7oJRN5XSfJCIjFpQPB98XTFEhIvTDOf1duXZvhiF90F5E2pqIwiqkAcOnC?=
- =?us-ascii?Q?AOa1PuWL9p1mweA+OWKeBQgIHyDLOepxL3yDpC0Q5CwnQqR4XcfBBO1QasEC?=
- =?us-ascii?Q?yEmhu9wDdJd4UDVbOLJR48CvFyirVgoVBHC7yap8b6V6INCBeCSuAmEis+uR?=
- =?us-ascii?Q?PoSQyp9nfmaEBG8a2qJWa/42RuK8y6Dmoh6d/LcAlBlsrF29GG6wdeqod99j?=
- =?us-ascii?Q?+hl2025ahzBEgwcKbBajfFy2p8Mg2VbQDnxwfX0H40igMg2DmUBqnm/hdtQI?=
- =?us-ascii?Q?TjXYc41bFMIk9rRU8Ct+iVxJalr3tsXI9ki9pPKzhKe8y+oCvIppnJ+1Kf1u?=
- =?us-ascii?Q?k2+oJcaKMzqzsVVwNfuxSGVLsGx6saTQCw5RLVrK3q5zu9r0ZI9TuoUgke5w?=
- =?us-ascii?Q?2UR5VBnaDlDvemvcJzqTUzeRsJZSdFpUs1QYofe9RaIx34jP3wGBUct80Uwi?=
- =?us-ascii?Q?gDT0WjEXPN5OWBTguVtIDjEbYKiMaNFxKizE7ygyNo7gC/KIdmtpunBT1xTC?=
- =?us-ascii?Q?IAOAskFhnxUvXm7NbB5H+zpOU6Vfkt0UmbCc92VAlZrX7pZj9Tuv4kJt//MI?=
- =?us-ascii?Q?Z0xFJwztKWgwOPIUqehFMo9AWmD6gQY2ujmH/xUh23a5MN0Q7FNf8f447il/?=
- =?us-ascii?Q?ug=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?g441ZZYOMrXSaBh3StvuAATj67spX5KKHVh6YOSM+xIwAXTnxufYNeXwkJlt?=
+ =?us-ascii?Q?Ld+ik1kGX11wMtovpL7qcrJdCIUmtWkbz8yOY9+MMt3Qv54huTkfWk9Wi70A?=
+ =?us-ascii?Q?AqlyNdDYEwc68ahvNwMkWD8soJgkktP80Lu67+7FPcIPj2IP65cbX5uEVIY/?=
+ =?us-ascii?Q?BA0SlndThb8epi8+lWe0DWr4x4Hqa+z3dDyKlq6czuJvM7Qgvebjk/RwG0qa?=
+ =?us-ascii?Q?FKJ44h/e1YVbaxRuwzSFenLlA/GKC/y3/duGqjCxw4H4CGNF+v3WQjE/yiU1?=
+ =?us-ascii?Q?LNGYf+lzuXPTMGMQdkpByyOCM6/Ro5Jn7s9G2V3gfJdR1Dt9mHNmNC5NUoCc?=
+ =?us-ascii?Q?ZJ+8de/dCCi+xbQqRVM705ZW53Kl3dTfc01VnRZtobePLdH8pSVHdTAdhUJZ?=
+ =?us-ascii?Q?LF4L1Zk/ss/MNNdfz/pRec8FrgmA67/ttKcxfZudsTbofAJwSc0fxElTyWMr?=
+ =?us-ascii?Q?xSfIkkujinFcUnkwUbXn/1neMpgu9aY7u54cOM8ZoiL+97nuzgsvK1JUNY/W?=
+ =?us-ascii?Q?+PEo/OISrAkOji1hxuGxzC/4E5oTNGbisyohf6oc7vXJo+Rng+NuBwioanqX?=
+ =?us-ascii?Q?5jSKB2L/hfLmiynYTK7Qz8YSLslMnWsdYii+DkMHnX6j/g1H7xa9rOMXrZKC?=
+ =?us-ascii?Q?njQ3zm8AJhqrBI5ZW2cKWLL1dlKLzGKuL0z1vFsrHhZyapyE7V3uVV74IkIX?=
+ =?us-ascii?Q?C6tM9PcplTTXSpsjp/mW/6y64TXWZwQRFCS3HVlZ+Fd1jREg6wEtmv+JomFj?=
+ =?us-ascii?Q?oXWLqu0zrzEmvh/NeBPpwpQ93oczNOvYd0vukEvu3iz/+MC/GjC0JrASf2C0?=
+ =?us-ascii?Q?MHrna8rZVPOtLrAPhXsDpIni56yttWpVlgb53v8Mk4uumW5AO/BEO2t91bfs?=
+ =?us-ascii?Q?kq52xYqs4bwql6pniT4lnOmsbXM2tJkvJZHEiy92KAtcAH81qsAg5qLG9cMb?=
+ =?us-ascii?Q?tv1PRnwxhvoqp9Mp9Vth3AIZDMmkAMNSM5/uHdSqgb/VOS1bFSmOqm9BJEF2?=
+ =?us-ascii?Q?f8CWZp1HlBv8s4nEQ7/ek2xnNw/xocneL/WctJb6mCa+sZQ58nz5yrHzDiAn?=
+ =?us-ascii?Q?b3yibVtQ22Pnz/Z7NqH9NreIw9SADiJhYARR07sQu7HajRDtkPpAhNYpX7uu?=
+ =?us-ascii?Q?lkRU47GInE/WxCVPaoif29flpBczBfbFaOguqeBaxumbZSSvktpgDoelRypG?=
+ =?us-ascii?Q?aCTUCJ4XFddnr2kLa0oKFcNk7B2Tbfd+R5pLZ8mvctu9jCWdD9rxmeeHB+8n?=
+ =?us-ascii?Q?7H6gsiHBSFIjJITxlCE3UtfisbKvDoUCsj+imYdJN5OoX/j8KIaHFqBCz1q1?=
+ =?us-ascii?Q?zZFwQM+AM2jug5PyRgWUf/ja0a1TbvWIFocmqW9UhmWIyeeb3KziavpaGOnu?=
+ =?us-ascii?Q?GMkJdzf6Pzq3miXcJlYWXIpSdN6yUJdlX5PdcrPugLBLXF2C9prQvnZ+aWYh?=
+ =?us-ascii?Q?5cJxeaJBzhwu4UROUedcOopPZOJIGMnjUqO6C0daBqOxsz2yohEgs7y+dXYF?=
+ =?us-ascii?Q?tC8tMxIKgJTjhSFDapRECQWXyEyC02/i64XphK14ACo/OZB+z6AXW1d2twNx?=
+ =?us-ascii?Q?DhmX4VdVn94Me2jKOCeaxYPmGUku7oayVEWqZghHcKP0yMxA1o7dNqcvnp+6?=
+ =?us-ascii?Q?mg=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2ecc2b9-10e8-4e33-1414-08da0238e1c3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2022 01:54:15.4647
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e528246-b46a-458f-e323-08da02390fff
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2022 01:55:33.0541
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: U4Pftxt96XJGLGNo7wNIkFQ2qkBQVK2/uPLM+guMDe/jmlGk82DPw7fQeTXLBqPwb+0NB58pncPMWHb4H6k/rg==
+X-MS-Exchange-CrossTenant-userprincipalname: Aek/JmKfSITOjT3AMk5AvDdIpj1Aab1c5pc8xET5MiefdZt9ju5oYjJoutfnxjKncvgobBCofXiQDl0o9lkhvQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0402MB3754
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -117,143 +134,192 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 > -----Original Message-----
 > From: Dan Carpenter [mailto:dan.carpenter@oracle.com]
-> Sent: Wednesday, March 9, 2022 6:44 PM
+> Sent: Wednesday, March 9, 2022 7:34 PM
 > To: Ming Qian <ming.qian@nxp.com>
-> Cc: linux-media@vger.kernel.org
-> Subject: [EXT] [bug report] media: amphion: add vpu core driver
+> Cc: mchehab@kernel.org; shawnguo@kernel.org; robh+dt@kernel.org;
+> s.hauer@pengutronix.de; hverkuil-cisco@xs4all.nl; kernel@pengutronix.de;
+> festevam@gmail.com; dl-linux-imx <linux-imx@nxp.com>; Aisheng Dong
+> <aisheng.dong@nxp.com>; linux-media@vger.kernel.org;
+> linux-kernel@vger.kernel.org; devicetree@vger.kernel.org;
+> linux-arm-kernel@lists.infradead.org
+> Subject: [EXT] Re: [PATCH v18 06/15] media: amphion: add vpu v4l2 m2m
+> support
 >=20
 > Caution: EXT Email
 >=20
-> Hello Ming Qian,
+> This code has a serious case of the u32 pox.  There are times where u32 i=
+s
+> specified in the hardware or network spec.  That's when a u32 is appropri=
+ate.
+> Also for bit masks.  Otherwise "int" is normally the correct type.  If it=
+'s a size
+> value then unsigned long, long, or unsigned long long is probably correct=
+.
 >=20
-> The patch 9f599f351e86: "media: amphion: add vpu core driver" from Feb 24=
-,
-> 2022, leads to the following Smatch static checker warning:
+> INT_MAX is just over 2 billion.  If you make a number line then most numb=
+ers
+> are going to be near the zero.  You have 10 fingers.  You have
+> 2 phones.  2 cars.  3 monitors connected to your computer.  200 error
+> codes.  You're never going to even get close to the 2 billion limit.
 >=20
->         drivers/media/platform/amphion/vpu_core.c:654 vpu_core_probe()
->         warn: pm_runtime_get_sync() also returns 1 on success
+> For situations where the numbers get very large, then the band on the num=
+ber
+> line between 2 and 4 billion is very narrow.  I can name people who have =
+over
+> a billion dollars but I cannot name even one who falls exactly between 2 =
+and 4
+> billion.
 >=20
-> drivers/media/platform/amphion/vpu_core.c
->     577 static int vpu_core_probe(struct platform_device *pdev)
->     578 {
->     579         struct device *dev =3D &pdev->dev;
->     580         struct vpu_core *core;
->     581         struct vpu_dev *vpu =3D dev_get_drvdata(dev->parent);
->     582         struct vpu_shared_addr *iface;
->     583         u32 iface_data_size;
->     584         int ret;
->     585
->     586         dev_dbg(dev, "probe\n");
->     587         if (!vpu)
->     588                 return -EINVAL;
->     589         core =3D devm_kzalloc(dev, sizeof(*core), GFP_KERNEL);
->     590         if (!core)
->     591                 return -ENOMEM;
->     592
->     593         core->pdev =3D pdev;
->     594         core->dev =3D dev;
->     595         platform_set_drvdata(pdev, core);
->     596         core->vpu =3D vpu;
->     597         INIT_LIST_HEAD(&core->instances);
->     598         mutex_init(&core->lock);
->     599         mutex_init(&core->cmd_lock);
->     600         init_completion(&core->cmp);
->     601         init_waitqueue_head(&core->ack_wq);
->     602         core->state =3D VPU_CORE_DEINIT;
->     603
->     604         core->res =3D of_device_get_match_data(dev);
->     605         if (!core->res)
->     606                 return -ENODEV;
->     607
->     608         core->type =3D core->res->type;
->     609         core->id =3D of_alias_get_id(dev->of_node, "vpu_core");
->     610         if (core->id < 0) {
->     611                 dev_err(dev, "can't get vpu core id\n");
->     612                 return core->id;
->     613         }
->     614         dev_info(core->dev, "[%d] =3D %s\n", core->id,
-> vpu_core_type_desc(core->type));
->     615         ret =3D vpu_core_parse_dt(core, dev->of_node);
->     616         if (ret)
->     617                 return ret;
->     618
->     619         core->base =3D devm_platform_ioremap_resource(pdev, 0);
->     620         if (IS_ERR(core->base))
->     621                 return PTR_ERR(core->base);
->     622
->     623         if (!vpu_iface_check_codec(core)) {
->     624                 dev_err(core->dev, "is not supported\n");
->     625                 return -EINVAL;
->     626         }
->     627
->     628         ret =3D vpu_mbox_init(core);
->     629         if (ret)
->     630                 return ret;
->     631
->     632         iface =3D devm_kzalloc(dev, sizeof(*iface), GFP_KERNEL);
->     633         if (!iface)
->     634                 return -ENOMEM;
->     635
->     636         iface_data_size =3D vpu_iface_get_data_size(core);
->     637         if (iface_data_size) {
->     638                 iface->priv =3D devm_kzalloc(dev, iface_data_size=
-,
-> GFP_KERNEL);
->     639                 if (!iface->priv)
->     640                         return -ENOMEM;
->     641         }
->     642
->     643         ret =3D vpu_iface_init(core, iface, &core->rpc, core->fw.=
-phys);
->     644         if (ret) {
->     645                 dev_err(core->dev, "init iface fail, ret =3D %d\n=
-", ret);
->     646                 return ret;
->     647         }
->     648
->     649         vpu_iface_config_system(core, vpu->res->mreg_base,
-> vpu->base);
->     650         vpu_iface_set_log_buf(core, &core->log);
->     651
->     652         pm_runtime_enable(dev);
->     653         ret =3D pm_runtime_get_sync(dev);
-> --> 654         if (ret) {
->                     ^^^
-> This isn't right.
+> In other words u32 is almost useless for describing anything.  If somethi=
+ng
+> cannot fit in a int then it's not going to fit into a u32 either and you =
+should use
+> a u64 instead.
 >=20
->     655                 pm_runtime_put_noidle(dev);
->     656                 pm_runtime_set_suspended(dev);
->     657                 goto err_runtime_disable;
->     658         }
+> Some people think that unsigned values are more safe than signed values.
+> It is true, in certain limited cases that the invisible side effects of u=
+nsigned
+> math can protect you.  But mostly the invisible side effects create surpr=
+ises
+> and bugs.  And again if you have to pick an unsigned type pick an u64
+> because it is harder to have an integer overflow on a
+> 64 bit type vs a 32 bit type.
 >=20
-> The documentation for pm_runtime_get_sync() suggests using
-> pm_runtime_resume_and_get() instead.  I think you can just do
->=20
->         ret =3D pm_runtime_resume_and_get(dev);
->         if (ret)
->                 goto err_runtime_disable;
->=20
+> Avoid u32 types where ever you can, they only cause bugs.
 
-Got it, I'll fix it
+OK, I think you're right, I'll check and fix it according to your comments
+Thanks very much for your reivew
 
->     659
->     660         ret =3D vpu_core_register(dev->parent, core);
->     661         if (ret)
->     662                 goto err_core_register;
->     663         core->parent =3D dev->parent;
->     664
->     665         pm_runtime_put_sync(dev);
->     666         vpu_core_create_dbgfs_file(core);
->     667
->     668         return 0;
->     669
->     670 err_core_register:
->     671         pm_runtime_put_sync(dev);
->     672 err_runtime_disable:
->     673         pm_runtime_disable(dev);
->     674
->     675         return ret;
->     676 }
+>=20
+> > +u32 vpu_helper_copy_from_stream_buffer(struct vpu_buffer
+> *stream_buffer,
+> > +                                    u32 *rptr, u32 size, void *dst) {
+> > +     u32 offset;
+> > +     u32 start;
+> > +     u32 end;
+> > +     void *virt;
+> > +
+> > +     if (!stream_buffer || !rptr || !dst)
+> > +             return -EINVAL;
+>=20
+> This function returns negatives.
+>=20
+> > +
+> > +     if (!size)
+> > +             return 0;
+> > +
+> > +     offset =3D *rptr;
+> > +     start =3D stream_buffer->phys;
+> > +     end =3D start + stream_buffer->length;
+> > +     virt =3D stream_buffer->virt;
+> > +
+> > +     if (offset < start || offset > end)
+> > +             return -EINVAL;
+> > +
+> > +     if (offset + size <=3D end) {
+>=20
+> Check for integer overflows?
+>=20
+>=20
+> > +             memcpy(dst, virt + (offset - start), size);
+> > +     } else {
+> > +             memcpy(dst, virt + (offset - start), end - offset);
+> > +             memcpy(dst + end - offset, virt, size + offset - end);
+> > +     }
+> > +
+> > +     *rptr =3D vpu_helper_step_walk(stream_buffer, offset, size);
+> > +     return size;
+>=20
+> This function always returns size on success.  Just return 0 on success.
+>=20
+> > +}
+> > +
+> > +u32 vpu_helper_copy_to_stream_buffer(struct vpu_buffer *stream_buffer,
+> > +                                  u32 *wptr, u32 size, void *src) {
+> > +     u32 offset;
+> > +     u32 start;
+> > +     u32 end;
+> > +     void *virt;
+> > +
+> > +     if (!stream_buffer || !wptr || !src)
+> > +             return -EINVAL;
+>=20
+> Signedness bug.
+>=20
+> > +
+> > +     if (!size)
+> > +             return 0;
+> > +
+> > +     offset =3D *wptr;
+> > +     start =3D stream_buffer->phys;
+> > +     end =3D start + stream_buffer->length;
+> > +     virt =3D stream_buffer->virt;
+> > +     if (offset < start || offset > end)
+> > +             return -EINVAL;
+>=20
+> Signedness.
+>=20
+> > +
+> > +     if (offset + size <=3D end) {
+>=20
+> Check for integer overflow?
+>=20
+> > +             memcpy(virt + (offset - start), src, size);
+> > +     } else {
+> > +             memcpy(virt + (offset - start), src, end - offset);
+> > +             memcpy(virt, src + end - offset, size + offset - end);
+> > +     }
+> > +
+> > +     *wptr =3D vpu_helper_step_walk(stream_buffer, offset, size);
+> > +
+> > +     return size;
+>=20
+> Just return zero on success.  No need to return a known parameter.
+>=20
+> > +}
+> > +
+> > +u32 vpu_helper_memset_stream_buffer(struct vpu_buffer *stream_buffer,
+> > +                                 u32 *wptr, u8 val, u32 size) {
+> > +     u32 offset;
+> > +     u32 start;
+> > +     u32 end;
+> > +     void *virt;
+> > +
+> > +     if (!stream_buffer || !wptr)
+> > +             return -EINVAL;
+>=20
+> Signedness.
+>=20
+> > +
+> > +     if (!size)
+> > +             return 0;
+> > +
+> > +     offset =3D *wptr;
+> > +     start =3D stream_buffer->phys;
+> > +     end =3D start + stream_buffer->length;
+> > +     virt =3D stream_buffer->virt;
+> > +     if (offset < start || offset > end)
+> > +             return -EINVAL;
+> > +
+> > +     if (offset + size <=3D end) {
+>=20
+> Check for overflow?
+>=20
+> > +             memset(virt + (offset - start), val, size);
+> > +     } else {
+> > +             memset(virt + (offset - start), val, end - offset);
+> > +             memset(virt, val, size + offset - end);
+> > +     }
+> > +
+> > +     offset +=3D size;
+> > +     if (offset >=3D end)
+> > +             offset -=3D stream_buffer->length;
+> > +
+> > +     *wptr =3D offset;
+> > +
+> > +     return size;
+> > +}
 >=20
 > regards,
 > dan carpenter
+
