@@ -2,133 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B58C04D4F59
-	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 17:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93CBB4D4F5F
+	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 17:34:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242726AbiCJQdv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Mar 2022 11:33:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51898 "EHLO
+        id S239934AbiCJQfK convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 10 Mar 2022 11:35:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236913AbiCJQdt (ORCPT
+        with ESMTP id S239304AbiCJQfJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Mar 2022 11:33:49 -0500
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 586D9B4587;
-        Thu, 10 Mar 2022 08:32:46 -0800 (PST)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22AGEo0P026874;
-        Thu, 10 Mar 2022 17:32:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=QOUPb/MXDpAhDlvBmQeOiY48BmrgZ+iOxXTy3hwTuKk=;
- b=ilAVPNarl8JUDS3F88iBufFFGv6LPPSul+Vi43t7WQcYIXix1rg45qJRoXE4qICCXi40
- ZZSirC+lq0LMRs0Ec9qo+NssxoY2EzBHsAeRWpmNd+hy+51tY+M4ZekemncpPWCFlpWx
- htvLVr4a3v8pzN6sj5knrn18NK8fJ0sDjcxWfh6eDam2lmQOvQIVZlWs9YaPM880zY5r
- 1Up3uxzjzn/t4i9PIWvXi/afI1cgu4oxSdRn/7Pdq4bEbruTB0u9Dh1G+g13njGdRWb3
- epRrfUKUL5+tO78xNUO5cyZpHpiLsmlYuG9tNCuHy94kLGSnV89vOWl6FRt2/qfhB761 UQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3embmh7mun-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 10 Mar 2022 17:32:34 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 98C2E100038;
-        Thu, 10 Mar 2022 17:32:33 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 91A8C232FEF;
-        Thu, 10 Mar 2022 17:32:33 +0100 (CET)
-Received: from [10.201.23.19] (10.75.127.44) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 10 Mar
- 2022 17:32:32 +0100
-Subject: Re: [PATCH v3] media: st-delta: Fix PM disable depth imbalance in
- delta_probe
-To:     Miaoqian Lin <linmq006@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Griffin <peter.griffin@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <2a3b4095-7b63-4da5-d0fa-43ba86715504@xs4all.nl>
- <20220307080859.14475-1-linmq006@gmail.com>
-From:   Hugues FRUCHET - FOSS <hugues.fruchet@foss.st.com>
-Message-ID: <9d543059-2a3b-e5b2-59f2-30819d49b74b@foss.st.com>
-Date:   Thu, 10 Mar 2022 17:32:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 10 Mar 2022 11:35:09 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B40D192E0C
+        for <linux-media@vger.kernel.org>; Thu, 10 Mar 2022 08:34:08 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1nSLjq-0007u3-00; Thu, 10 Mar 2022 17:34:06 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1nSLjp-003uun-4X; Thu, 10 Mar 2022 17:34:04 +0100
+Received: from pza by lupine with local (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1nSLjn-000BDj-Dr; Thu, 10 Mar 2022 17:34:03 +0100
+Message-ID: <5321c864355578750d814024a1902ce2362e1f9a.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/3] media: vsp1: Add support to deassert/assert
+ reset line
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Thu, 10 Mar 2022 17:34:03 +0100
+In-Reply-To: <20220310162814.22234-3-biju.das.jz@bp.renesas.com>
+References: <20220310162814.22234-1-biju.das.jz@bp.renesas.com>
+         <20220310162814.22234-3-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-In-Reply-To: <20220307080859.14475-1-linmq006@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-10_06,2022-03-09_01,2022-02-23_01
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Miaoqian Lin,
-
-Thanks for the patch !
-
-Acked-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-
-BR,
-Hugues.
-
-On 3/7/22 9:08 AM, Miaoqian Lin wrote:
-> The pm_runtime_enable will decrease power disable depth.
-> If the probe fails, we should use pm_runtime_disable() to balance
-> pm_runtime_enable().
+On Do, 2022-03-10 at 16:28 +0000, Biju Das wrote:
+> As the resets DT property is mandatory, and is present in all .dtsi
+> in mainline, add support to perform deassert/assert using reference
+> counted reset handle.
 > 
-> Fixes: f386509 ("[media] st-delta: STiH4xx multi-format video decoder v4l2 driver")
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> changes in v2:
-> - remove unused label.
-> changes in v3:
-> - add err_pm_disable label and update related 'goto err'.
-> - update commit message
+> v1->v2:
+>  * Used reference counted reset handle to perform deassert/assert
+> RFC->v1:
+>  * Added reset support as separate patch
+>  * Moved rstc just after the bus_master field in struct vsp1_device
+> RFC:
+>  * 
+> https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
 > ---
->   drivers/media/platform/sti/delta/delta-v4l2.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+>  drivers/media/platform/vsp1/vsp1.h     |  1 +
+>  drivers/media/platform/vsp1/vsp1_drv.c | 21 ++++++++++++++++++++-
+>  2 files changed, 21 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/sti/delta/delta-v4l2.c b/drivers/media/platform/sti/delta/delta-v4l2.c
-> index c887a31ebb54..420ad4d8df5d 100644
-> --- a/drivers/media/platform/sti/delta/delta-v4l2.c
-> +++ b/drivers/media/platform/sti/delta/delta-v4l2.c
-> @@ -1859,7 +1859,7 @@ static int delta_probe(struct platform_device *pdev)
->   	if (ret) {
->   		dev_err(delta->dev, "%s failed to initialize firmware ipc channel\n",
->   			DELTA_PREFIX);
-> -		goto err;
-> +		goto err_pm_disable;
->   	}
->   
->   	/* register all available decoders */
-> @@ -1873,7 +1873,7 @@ static int delta_probe(struct platform_device *pdev)
->   	if (ret) {
->   		dev_err(delta->dev, "%s failed to register V4L2 device\n",
->   			DELTA_PREFIX);
-> -		goto err;
-> +		goto err_pm_disable;
->   	}
->   
->   	delta->work_queue = create_workqueue(DELTA_NAME);
-> @@ -1898,6 +1898,8 @@ static int delta_probe(struct platform_device *pdev)
->   	destroy_workqueue(delta->work_queue);
->   err_v4l2:
->   	v4l2_device_unregister(&delta->v4l2_dev);
-> +err_pm_disable:
-> +	pm_runtime_disable(dev);
->   err:
->   	return ret;
->   }
-> 
+> diff --git a/drivers/media/platform/vsp1/vsp1.h
+> b/drivers/media/platform/vsp1/vsp1.h
+> index 37cf33c7e6ca..c5da829c79b5 100644
+> --- a/drivers/media/platform/vsp1/vsp1.h
+> +++ b/drivers/media/platform/vsp1/vsp1.h
+> @@ -79,6 +79,7 @@ struct vsp1_device {
+>         void __iomem *mmio;
+>         struct rcar_fcp_device *fcp;
+>         struct device *bus_master;
+> +       struct reset_control *rstc;
+>  
+>         struct vsp1_brx *brs;
+>         struct vsp1_brx *bru;
+> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c
+> b/drivers/media/platform/vsp1/vsp1_drv.c
+> index 502c7d9d6890..dbe90ceec327 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+>  #include <linux/videodev2.h>
+>  
+>  #include <media/rcar-fcp.h>
+> @@ -569,7 +570,19 @@ static void vsp1_mask_all_interrupts(struct
+> vsp1_device *vsp1)
+>   */
+>  int vsp1_device_get(struct vsp1_device *vsp1)
+>  {
+> -       return pm_runtime_resume_and_get(vsp1->dev);
+> +       int ret = reset_control_deassert(vsp1->rstc);
+> +
+> +       if (ret < 0)
+> +               goto err;
+
+If reset_control_deassert() failed, return ret directly, do not jump to
+err: to call reset_control_assert().
+
+> +
+> +       ret = pm_runtime_resume_and_get(vsp1->dev);
+> +       if (ret < 0)
+> +               goto err;
+> +
+> +       return 0;
+> +err:
+> +       reset_control_assert(vsp1->rstc);
+> +       return ret;
+>  }
+
+With that fixed,
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+
+regards
+Philipp
