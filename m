@@ -2,231 +2,539 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CFDC4D4402
-	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 10:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4AF74D4446
+	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 11:07:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236895AbiCJJya (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Mar 2022 04:54:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36880 "EHLO
+        id S234478AbiCJKIy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Mar 2022 05:08:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241072AbiCJJyV (ORCPT
+        with ESMTP id S232268AbiCJKIx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Mar 2022 04:54:21 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2136.outbound.protection.outlook.com [40.107.114.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 687D8B151A;
-        Thu, 10 Mar 2022 01:53:09 -0800 (PST)
+        Thu, 10 Mar 2022 05:08:53 -0500
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2047.outbound.protection.outlook.com [40.107.21.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11DEE12609;
+        Thu, 10 Mar 2022 02:07:50 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hx8DBv3DG/XnpTij886QMcje9Tm2DzeJMGHwaQaKk6t2LnhN9E4ZThqiRneUr6vtLyCBBI3BtdOlrz1Xw13p5moN/VucbQ+iPgOzWkIz4DvvvWktQIe1gb7lIq2y1pWk4QCu8tOma7w+C1XcaoJ2VEIzjiE17WsQ19NzCHkM/IL51iA2mNSVMSI9Wc73VeuggVoxyfda0HdhF0Z+bxhD7LkBk45SO24aagpRxdQlHM/JgxbdPxn7Wb6CCtmM1YZLk5grs4iYRzpE5YYATZPmObfTQ+Tf+JKUWai/OgUPHLl0PVrWoS9t2M5Gz39uCYQJ+eKbuo8ps6NSXprrUx4AFw==
+ b=Wl6EzDqVQGWsvomz2YF02pqAqVLHO4oBbw6LsU50HKzH7cLyxGTOSAuelTirW3A3cIGdeDZNPHX3D9F58u7MfN+DpCebyi09XG+suoW+se0SucLC6gSC6s+ot2wEGBx4me3i8Ixr3KtfVsXbRm2V/sO+GO4omafWBGdoUgJM6eJI7uNBMKzdqEzopydKbLHOoruKdICGYMvmcxcfSyoH/LbB3d5Dl+Zpoql373GcvWqMqemtZlaBF+xgbxquk1ZUZTzyLZuMrgoH5zcnfn0Y7/74Iz+GSGfw9BcMQV9K6cMpG79eMyicpl3P7FbzLvxH4uoGOtGYzqvlDVwjlZk2Sw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1cyY4abdhhM+p0YDExGY74Jtri9qoCYScidI23EAx6Q=;
- b=CvLTMSepN559G72Wov6ymCl0xJbG0ejeAXkK3mTL2bvt+SEDBR5pmosWdopA9yajXiQRODoG0Pvm8CcXp5n6J1cD2G6bdbn7Lu/oLNsyUnSFDgV9YcdAXef8JMraK4ouSqw+Qqzp8zkirEV/Nu+0jmCN5Q180l4Cbwc+Cmp3o0dkGIfDhgViPW2/9cxVlMO/SiaYySklrMV6wscRsrOCih0ffmiZaQclGbJLMYm6YCJ2AW5jZ/1mKs6FXOzd9Ilw7Wv3wlOY7IGoX/tWHUAgQKAeSndV85eSBfiRZodmyyIFRmJM0B1Kvx75U49YpMloTjLXO0AECo2wi1252X3vng==
+ bh=QVSYOdtcA7TmJ9SGDzUoTRPtxRlN6jgQ83xVhLMfPts=;
+ b=XL655tsekXBUhf4OFkrTiyGyGKoNiZnaNK6Nhe9Zr1xCsTzIvzwUWSeBgopMngXanxRNUjpXSEq0PJJGMUMjX/YwVmtRdN+dnX16oef0cfYtlJQ38Z1tskXU7Pv17eXudyGDUH3dFa42utxve+EWEgL65D8Vh6416+3UhCctKUpVnlshEh7jUltjigqhvfxo46FoWki7NigZnJ4/JotB8Pyr5G/AXb24TeMgcuH4fqeepaU50pjtaiu4pgUNfy54B7W5EhWkLYwznCMlmUqbdgc4pwAtWfafsvnyO1C/ln3CkHdAkbdPSweHFatuBYxh5ypJT2pn7BP4YJDnAkr/sQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1cyY4abdhhM+p0YDExGY74Jtri9qoCYScidI23EAx6Q=;
- b=aSLDvjUNGfZRdl5sGcSsqAAYphHhEdn6Ehl9z1SdtJa7FClsXo+nDGbScXM4aAgqCAyEsvMYF8PUwxdsdfI9sOy84SS6/nz8Mef8ayndfmed6xEV9htFoajLYQaooNnxKhQmZQTTRL9lTxQp3Hi8wLtVby8QrDgl6OF8+0D0VTg=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYAPR01MB3520.jpnprd01.prod.outlook.com (2603:1096:404:c1::16) with
+ bh=QVSYOdtcA7TmJ9SGDzUoTRPtxRlN6jgQ83xVhLMfPts=;
+ b=CRPn1BzvtstPGb69tLN2dmaUhSn05iEcnaG+9aMdUv8tieLFsKQ6SUnmWMDXt4qC3p2R7Wpue1FaRSag0tGDAuRg8azacBVD8PEgDNQusBEaJi2eSGyKYYolpPL/nD7nwOroemyfdhJmVrLOTjACMqaFIq2xqrexo9X3ob+N6tU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by DB6PR0401MB2677.eurprd04.prod.outlook.com (2603:10a6:4:38::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Thu, 10 Mar
- 2022 09:53:07 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::58d9:6a15:cebd:5500]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::58d9:6a15:cebd:5500%4]) with mapi id 15.20.5038.023; Thu, 10 Mar 2022
- 09:53:07 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH 3/3] media: vsp1: Add support for RZ/G2L VSPD
-Thread-Topic: [PATCH 3/3] media: vsp1: Add support for RZ/G2L VSPD
-Thread-Index: AQHYM+5AeJxexxDclU2PUbIF1R4c/ay4Xh8AgAAA1ZA=
-Date:   Thu, 10 Mar 2022 09:53:06 +0000
-Message-ID: <OS0PR01MB59227D305D9CD055809F32A0860B9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220309194521.7028-1-biju.das.jz@bp.renesas.com>
- <20220309194521.7028-4-biju.das.jz@bp.renesas.com>
- <CAMuHMdV8kuqD31n8wkkuu_UFc6aMnr3LrfD4rNboxO6wJqcF4Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdV8kuqD31n8wkkuu_UFc6aMnr3LrfD4rNboxO6wJqcF4Q@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6eab070b-2d63-4bc5-588e-08da027bc70c
-x-ms-traffictypediagnostic: TYAPR01MB3520:EE_
-x-microsoft-antispam-prvs: <TYAPR01MB3520C780231ABD2AFD9F2393860B9@TYAPR01MB3520.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: nemjNqIv56X+AxKiuvXjCWrkmhP9DOJ/cUcs4A+sBseyRA0qsES8VD5ILayiaPTX6DQX9sVLkK9sr2AGGCjeeTSFYXEW7tyd4tyUMj3SPNUpQZbwnvtd0zf/rcHSkSuMs+lpox9Ca+AHoGFaS9iDXVZaPB0xry21pRg1jJYYvgCFlLCdA2/u8GhMAaWJbXW6zl6xp13Kv0DIScnxg77oYblOqruFNQqtgDyw/Dkd9M95q9IOAt2w9br0rXjO1ePI6pLQl1U2W1y5rEG5iEaG4qpo3uce7U8w1cuEkuecUCLmN+W4908w+ZNRlGK/oxmZ74X8Ce4vgVdFXcLfcdJ/lxBq8ydItI45B20DmiRHfdciY2QGJfUQEkt95ao+L2mxAk9VhtlH+bpPm8ywCQXwzHEjk1WqIC1inhwZVxz5ehy5ydmXJeCN0qm+kAQwUjsSel1c/ie0fVmUKZKk7gCy8HLiIbA2/tuR1tamzahrZY7w/R8QKeinSm3lS1DNCx9KDJ+YmcWXoDjelNeW9De1eeVvZ/xgRlnxhpfuoU5K98GwCK/nVJ2Shas/MdpssmokSA3118tev21WN0XuTwiA8bvkFIBmjlQ0+ngDZ25U1zGXME3hiYV6g7OIM800/JxSfofZw7lKwNQhR7Pyu7EJlyDeTekxsh7LBNBn4tBDcgGkCapEJQI33EFWq+n1aab86537h+iFCBuwvl0RTq27Vg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(86362001)(66446008)(66476007)(8676002)(71200400001)(64756008)(66556008)(4326008)(66946007)(76116006)(5660300002)(33656002)(6506007)(7696005)(2906002)(53546011)(8936002)(52536014)(26005)(186003)(107886003)(83380400001)(38100700002)(508600001)(6916009)(55016003)(54906003)(122000001)(38070700005)(316002)(9686003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?B/+U0K71NkQz7KliCRkXjOavVSMR42PgBS6egp5/r/Yt0GLjhpk8HzGP3kfH?=
- =?us-ascii?Q?Jj3p2kc1vfkO/s+Z4tnSxmYF/nCp/lud63HpXpYyY2tsxFHt+tYUvkW+ykMr?=
- =?us-ascii?Q?EeiGENeJkXGTqGTD0GUPT6OLt9XJccR2hFRfJGoWdIRJ2Z8n/s7XAv+qiq9K?=
- =?us-ascii?Q?rlgCkcZFJGHdMmMZ3qxow05VL8XY9rWB9HzHNq9BMNiPwQFkFGlP0vEjl6PI?=
- =?us-ascii?Q?Gzno6QFJe79AYfEcONiVj0vSdJNXq/K9zseBCstrW8ZRMJVIMhb9lPbjUR2T?=
- =?us-ascii?Q?eDxvPNQdTpHXO3H4lwYubfadj1jPP9OjlHiRZJQX6Fx9stvGIMZaTrz1r8zp?=
- =?us-ascii?Q?hqA7yjVO0WfMhHMznJBZ9hEfJyCAQrtzUZDFTXVBuRgdN300wmdkkAB/X4tH?=
- =?us-ascii?Q?595FzigEuEbT33tGut8QvFbCGDoG4F3ZR8SipIh6Etb18vEVcVJJ55mNKPUX?=
- =?us-ascii?Q?1bOM7m0Tbf9DbtTf68b+m4IC8dIMDTFYi0JTDkFbP5Yi4cmklRrCYChm4c4S?=
- =?us-ascii?Q?f9rCdbJcsFuHYVd4hEh6pSf1F1mxt0A3IUoWpFrFewh85vFK2jq9d+QmIwyC?=
- =?us-ascii?Q?T5Ic3IgtQpe8UFXcTMXrOyghKQTMjmuefNI9b2XVK+KR3+FSx3Ts3xBUR5oI?=
- =?us-ascii?Q?Co57zpTZJQsltJpUo57lRL0fX88mqeGhTLsC8s8uWMi8fRk70NP+9AItdfaD?=
- =?us-ascii?Q?mdkU6TbP484DFcLs7cooldLVXMzKKQHCTLPMDyOER97ng/7lVdP+CvU07ELw?=
- =?us-ascii?Q?fb06DCwAnhX70NDDDYc3UnIfEQY4x8kTgg8b/Ybnhbxi8/67qJe7lfaYSWUR?=
- =?us-ascii?Q?YX/bTt9zFROiBz0KUArBFqDArfxnXStFxt4AYoiLtyp6CFG2J+VqtTRzelZw?=
- =?us-ascii?Q?SnzNyDgjyd/ukibUI9aQluxNj3x8tGjmEXKgXlqIowZbgmU3cxI1YEdiIQHl?=
- =?us-ascii?Q?NGP5EjqjBxp1j7ADo7AJq9l0r/noJ8N3+7fniEWcLBIErBaftLaIxrYLuoGE?=
- =?us-ascii?Q?CMcEY3tgngUrQ2A7AwWYUo93VU1dbarj25/ctpmbYjcn0d7pXtNGK5c+IBJ9?=
- =?us-ascii?Q?oYwHEBTh+6So6zx4euKGpZMKp6itATzysLHXSyudCHJ8FfG18s56f1muJ5Se?=
- =?us-ascii?Q?g0/CDeB7weSHnx8sZzrKFK8sFefKckmW1UOxKqNlQpnYfZgLDlg5AfbGpaR9?=
- =?us-ascii?Q?h7SF+YJeg+TjbzBtxqNboAPwbgFtHohV0Qg/Qcy/9vZwZWovM5UeIMsvhmtY?=
- =?us-ascii?Q?pM7TwDsqQTSnf80U72WDV6D5X8PFisb8SBNHrkSg3YcyTBX/MMN9e92lVbok?=
- =?us-ascii?Q?FTnkdJKSZDEReQdvQGJnOwbeFxm0c9V0VNhb62iuOJKZDPWkkeYnIVIVi1ll?=
- =?us-ascii?Q?+WKNiCb3COZ+iGC6fUMDztXBsvmbn/u8pFcxh557x7NkpFVmOPdLk++9hgSw?=
- =?us-ascii?Q?MXwqwMVNDIGrMHVSCBXMMM2hO00HgSG8D6oFkK+H2FgbDlNpZK6N+GyURD1v?=
- =?us-ascii?Q?6NvnOxJQ0KXFidViwbWZQQYxERh/cngleLQu2Zv4URovvwzPbvsjkp/DwcTu?=
- =?us-ascii?Q?VMklv2bcSp8PLYINAlYCf69n76bfh25osdSH6M7oeSvp5/nbUm4YBqgitEI9?=
- =?us-ascii?Q?ORdPQL0/W3jIyObARRBxjUdmPj6EeGj8ZURIKq8T8VF+wAjlxDhs6jDUmsXo?=
- =?us-ascii?Q?pZ2pXg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.19; Thu, 10 Mar
+ 2022 10:07:47 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::c39:69cf:c4ea:967]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::c39:69cf:c4ea:967%5]) with mapi id 15.20.5038.027; Thu, 10 Mar 2022
+ 10:07:46 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
+        s.hauer@pengutronix.de
+Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: amphion: fix some issues to improve robust
+Date:   Thu, 10 Mar 2022 18:07:31 +0800
+Message-Id: <20220310100731.5417-1-ming.qian@nxp.com>
+X-Mailer: git-send-email 2.33.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0013.apcprd02.prod.outlook.com
+ (2603:1096:4:194::21) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1f6e3435-aac9-4b45-1820-08da027dd354
+X-MS-TrafficTypeDiagnostic: DB6PR0401MB2677:EE_
+X-Microsoft-Antispam-PRVS: <DB6PR0401MB2677FEF706BD0DAC1AB89F14E70B9@DB6PR0401MB2677.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tw/MDyn0plhEmKVaKy+5DWDeuIog+8lYICo3ajG1piWrFBjaspF8gSDdRGnUUhkBwkU90yyvqHF9QRZG/xf8cR7gxrJAbuB3zZTlGNGFJDK0WYLSW3G4Rl0i5TmImz2VmqiL6hB44OH6rmYsJL4SnbD25cKFldf5LGPgjRUqKMEH7abOoZ/vk8LbYM+yfgviXLtWPfm6QdMkt/IxRO8LTxYe+FxOsBmyBtC+utAHGtNyjRPnaMFcTMzMJQV5/GKfUUOHxVrF4pGidAZXfKXoCZVqBVD5RiouDtnjDy7KvuohR9G2NSiKUfvG2xo1gKJceHiVFukeZhxShvVmDsENLLHq1PJBmFUQDfIk1zxtforP6ox6IBhwdonLYY23ktC/UJrf6m7CWccuRNdLfFu7MJY7YZ+nmAiMuedJPrqyo/USa3ZVPa077smEQuIDx0lbcZe7GchzAM2irFG2+38btUAoEBpa3ewgj/6zPhIFTP/2QYVhVGBO5RoszBrqmZ8LRazWkKEUMlEQnbYTgRyaLzz/eq3iwBkFVOcShRzxDzsGq10xS+CR/oQrhwnzwp3CWrbPthDK1c7+2tonZXcd3SdyZFzHiDH44ytiMQZYRn+fBP938zWiA7xRGehDo2yvde3Fjy/a6PjklfSHqX1+WaQgpJYBXrvRI4ICAspDvFCZymKI71ON1ZaqJPe5CGYKXDo31ttK725awW6zj08OtA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66556008)(66476007)(8676002)(5660300002)(4326008)(86362001)(6666004)(66946007)(30864003)(316002)(7416002)(2906002)(38350700002)(8936002)(38100700002)(44832011)(1076003)(2616005)(36756003)(26005)(186003)(6512007)(6506007)(52116002)(508600001)(83380400001)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fSaaxKeBc8KeGN+2k7Xvz0sY/V40UbY9xzrND7hCeXAcWTMehmN3iY+j1Bkf?=
+ =?us-ascii?Q?d2hkd4BtxGSFNd7NJZV1xt1EDWILeFm7j19xVfdbqmap3HjQnd6uZ8qWT0ZC?=
+ =?us-ascii?Q?cguHluHXZwMePyT++z3BEqtNk2T4bVZ2LVc/fT4hhYZA0wY+RnwqCyHgIPBW?=
+ =?us-ascii?Q?fSVj+yEnP6EHgDV2fyJ4BR23hXi3Z+f8+38Ty9+gysqugk/Kyx9kVT/sBPLB?=
+ =?us-ascii?Q?EeOsk4/Bp6i7jD5oHqytSE7DmfjxSmVuq2PCz+LOrAC04bz+bXDTL3Nnu23G?=
+ =?us-ascii?Q?50ibfgKExrByZOILJXV3v6OdrHI8jOdEB5RNdae7A2IIqvHyx5msia9M0Smt?=
+ =?us-ascii?Q?fc7tqo0Ybx9G1zcWGZYWrNHG0O3UVuyp4ALL0LE8k2a/lYwvsGB2rQbEA1Fi?=
+ =?us-ascii?Q?dSNJ1hfjCJTpmosLNJCbVA6GrmLvZ7VmsGi/GTBV93yFiYEEywnTDo93hVMw?=
+ =?us-ascii?Q?RxJ1t0uXkl/qC4EW8GSkA83oz778KFB3N/MkiTI99FGTExnGQchqU2EktYbP?=
+ =?us-ascii?Q?ovYxyTGaeo2EuemQfbcu5OLW+cx7rDOIY2efxTwpxtJZpmxvpOrbx3FODG+r?=
+ =?us-ascii?Q?1klHAjjBccDwdxLXCkF/dUYdAyNQngLZVK3pQjrHhMnpSDSLXZ8xhcEigRiV?=
+ =?us-ascii?Q?174SVtd0QjMo9WgDZQDZu8yO1yTW5zufczjgeP5B73mFy4jHBMOl7rAl1Qlx?=
+ =?us-ascii?Q?4BVRx5RG7UZ+YwlLv8FIKEExRCzBGLM2VVsKciNKiafjJwuCveyEqpwLpMiP?=
+ =?us-ascii?Q?GU7jDSQUHCTL8xB8XNJ23coZv2sx3heaYgO3X/dNf3GTDjwf8VD1WZ7XmhG1?=
+ =?us-ascii?Q?VhA+HygeblqbclGT5vsG4iHey7jGPTX+hrh3ee8xS/B0mHeU6Ave4Hy0ZSyu?=
+ =?us-ascii?Q?jN7JQySxALPox953YviCtpqAtIR6s4pPktnhFHR9Ql749k9coCya2SMC9L/t?=
+ =?us-ascii?Q?D9ZnlFnRJc9hTbTkIZeQPN2UyXVYIXvp149BVkU/sgV1Em4vpF24sjeREflJ?=
+ =?us-ascii?Q?0mgxYA6j4T28IJOuHbVNpLYcwFaIr7NovnX/WEgMXAL1fyRmgx78P4np2qTj?=
+ =?us-ascii?Q?asaWxJf9JLXTjC4KUJcLk6M9Cu/Jk20xDUF6HTDuBH1kGSy+D+Ci2FDDz266?=
+ =?us-ascii?Q?4TyrqUVDVK/TScUplOlpFPenNJtsleELeygnoZaBorjpBuywaY8BS27FgQpX?=
+ =?us-ascii?Q?kTRNX6fJGvW0s4cZSgAiWhKvYyv7tRt+ij6aZV4fYNS6nY93C/JsriJiGzna?=
+ =?us-ascii?Q?FO8uZKXn27wjhFxmacxk1fRFMxujR9tE9esWXx8cj26rYc4ulXzXic0bm6+l?=
+ =?us-ascii?Q?XD1RvuglF+JnFXlZHvntU8z8ypTvzBTyA15/FBLEtSoJpCjkoBC9HRP5NsBM?=
+ =?us-ascii?Q?on8w72o69N6ZTR2pxwvZyJi3364ZO5NshQZJ3+FZBwfRor3pl5OV3LwW3lRg?=
+ =?us-ascii?Q?aPfKrFlq0l6ug/rUrTELr6+Uz6N55ZruvDqYsQy5iWgET68v9AQ0BB9ZpXEM?=
+ =?us-ascii?Q?dmffkLhugCyxtxYW+Ay3hr1zcZbzY4qM74PunLNbzac6iCJkRDXsA8JM4eK3?=
+ =?us-ascii?Q?FGUc9PHIn1bPalA5MfQnQyHUe8iTqo6QRFArbQXqAab/Xb+kA6DiCnFqRX4/?=
+ =?us-ascii?Q?SHWPWS4TO7tYdKnblFl3pmw=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f6e3435-aac9-4b45-1820-08da027dd354
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6eab070b-2d63-4bc5-588e-08da027bc70c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2022 09:53:06.9117
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2022 10:07:46.8517
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3K7F8XF1sJ01cyOp8NHqAjBnzQdQ3g9iG7KkWuqsvupzQqOHkP/TcCPaJ42cU9rldnTPkqz7CGhilV6aWCQSLWbwWwAaancQP6Irfdtt7zE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3520
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 77Q3qBfT9rPV+miK3rV4i3s3nzyuNe1n5jgZocJt5/E7pMc1NQoP3j4SbU776EH1CHN2zBJoLrNEs6dOY28yrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0401MB2677
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+fix some issues reported by Dan,
+1. fix some signedness bug
+2. don't use u32 as function return value
+3. prevent a divide by zero bug
+4. Just return zero on success, don't return a known parameter
+5. check the validity of some variables
+6. reset buffer state when return buffers
 
-Thanks for the feedback.
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/media/platform/amphion/vpu_core.c    |  2 +-
+ drivers/media/platform/amphion/vpu_helpers.c | 13 +++--
+ drivers/media/platform/amphion/vpu_helpers.h |  6 +-
+ drivers/media/platform/amphion/vpu_imx8q.c   |  2 +-
+ drivers/media/platform/amphion/vpu_imx8q.h   |  2 +-
+ drivers/media/platform/amphion/vpu_malone.c  | 59 ++++++++++++--------
+ drivers/media/platform/amphion/vpu_msgs.c    |  6 +-
+ drivers/media/platform/amphion/vpu_rpc.c     |  4 +-
+ drivers/media/platform/amphion/vpu_rpc.h     |  4 +-
+ drivers/media/platform/amphion/vpu_v4l2.c    |  8 ++-
+ drivers/media/platform/amphion/vpu_windsor.c |  6 ++
+ 11 files changed, 69 insertions(+), 43 deletions(-)
 
-> Subject: Re: [PATCH 3/3] media: vsp1: Add support for RZ/G2L VSPD
->=20
-> Hi Biju,
->=20
-> On Wed, Mar 9, 2022 at 8:45 PM Biju Das <biju.das.jz@bp.renesas.com>
-> wrote:
-> > The RZ/G2L VSPD provides a single VSPD instance. It has the following
-> > sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
-> >
-> > The VSPD block on RZ/G2L does not have a version register, so added a
-> > new compatible string "renesas,vsp2-rzg2l" with a data pointer
-> > containing the info structure. Also the reset line is shared with the
-> > DU module so devm_reset_control_get_shared() call is used in case of
-> RZ/G2L.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > RFC->v1:
-> >  * Used data pointer containing info structure to retrieve version
-> > information
-> > RFC:
-> >  *
->=20
-> Thanks for the update!
->=20
-> > --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> > +++ b/drivers/media/platform/vsp1/vsp1_drv.c
->=20
-> > @@ -841,7 +849,14 @@ static int vsp1_probe(struct platform_device *pdev=
-)
-> >         if (irq < 0)
-> >                 return irq;
-> >
-> > -       vsp1->rstc =3D devm_reset_control_get_exclusive(&pdev->dev, NUL=
-L);
-> > +       vsp1->info =3D of_device_get_match_data(&pdev->dev);
-> > +       if (vsp1->info) {
-> > +               vsp1->version =3D vsp1->info->version;
-> > +               vsp1->rstc =3D devm_reset_control_get_shared(&pdev->dev=
-,
-> NULL);
-> > +       } else {
-> > +               vsp1->rstc =3D
-> > + devm_reset_control_get_exclusive(&pdev->dev, NULL);
->=20
-> Making the reset control shared or exclusive dependent on the presence of
-> match data looks fragile to me.  I think you want to check the IP version
-> instead (ideally, the SoC, as this is an integration feature).
-> Or just make it shared unconditionally (in the previous patch)?
+diff --git a/drivers/media/platform/amphion/vpu_core.c b/drivers/media/platform/amphion/vpu_core.c
+index 968b578700e3..a5dcb4abf954 100644
+--- a/drivers/media/platform/amphion/vpu_core.c
++++ b/drivers/media/platform/amphion/vpu_core.c
+@@ -472,7 +472,7 @@ struct vpu_inst *vpu_core_find_instance(struct vpu_core *core, u32 index)
+ 	struct vpu_inst *tmp;
+ 
+ 	mutex_lock(&core->lock);
+-	if (!test_bit(index, &core->instance_mask))
++	if (index >= core->supported_instance_count || !test_bit(index, &core->instance_mask))
+ 		goto exit;
+ 	list_for_each_entry(tmp, &core->instances, list) {
+ 		if (tmp->id == index) {
+diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/media/platform/amphion/vpu_helpers.c
+index 768abf89e606..e9aeb3453dfc 100644
+--- a/drivers/media/platform/amphion/vpu_helpers.c
++++ b/drivers/media/platform/amphion/vpu_helpers.c
+@@ -197,7 +197,7 @@ u32 vpu_helper_get_plane_size(u32 fmt, u32 w, u32 h, int plane_no,
+ 	}
+ }
+ 
+-u32 vpu_helper_copy_from_stream_buffer(struct vpu_buffer *stream_buffer,
++int vpu_helper_copy_from_stream_buffer(struct vpu_buffer *stream_buffer,
+ 				       u32 *rptr, u32 size, void *dst)
+ {
+ 	u32 offset;
+@@ -227,10 +227,11 @@ u32 vpu_helper_copy_from_stream_buffer(struct vpu_buffer *stream_buffer,
+ 	}
+ 
+ 	*rptr = vpu_helper_step_walk(stream_buffer, offset, size);
+-	return size;
++
++	return 0;
+ }
+ 
+-u32 vpu_helper_copy_to_stream_buffer(struct vpu_buffer *stream_buffer,
++int vpu_helper_copy_to_stream_buffer(struct vpu_buffer *stream_buffer,
+ 				     u32 *wptr, u32 size, void *src)
+ {
+ 	u32 offset;
+@@ -260,10 +261,10 @@ u32 vpu_helper_copy_to_stream_buffer(struct vpu_buffer *stream_buffer,
+ 
+ 	*wptr = vpu_helper_step_walk(stream_buffer, offset, size);
+ 
+-	return size;
++	return 0;
+ }
+ 
+-u32 vpu_helper_memset_stream_buffer(struct vpu_buffer *stream_buffer,
++int vpu_helper_memset_stream_buffer(struct vpu_buffer *stream_buffer,
+ 				    u32 *wptr, u8 val, u32 size)
+ {
+ 	u32 offset;
+@@ -297,7 +298,7 @@ u32 vpu_helper_memset_stream_buffer(struct vpu_buffer *stream_buffer,
+ 
+ 	*wptr = offset;
+ 
+-	return size;
++	return 0;
+ }
+ 
+ u32 vpu_helper_get_free_space(struct vpu_inst *inst)
+diff --git a/drivers/media/platform/amphion/vpu_helpers.h b/drivers/media/platform/amphion/vpu_helpers.h
+index 130d1357c032..bc28350958be 100644
+--- a/drivers/media/platform/amphion/vpu_helpers.h
++++ b/drivers/media/platform/amphion/vpu_helpers.h
+@@ -19,11 +19,11 @@ u32 vpu_helper_valid_frame_width(struct vpu_inst *inst, u32 width);
+ u32 vpu_helper_valid_frame_height(struct vpu_inst *inst, u32 height);
+ u32 vpu_helper_get_plane_size(u32 fmt, u32 width, u32 height, int plane_no,
+ 			      u32 stride, u32 interlaced, u32 *pbl);
+-u32 vpu_helper_copy_from_stream_buffer(struct vpu_buffer *stream_buffer,
++int vpu_helper_copy_from_stream_buffer(struct vpu_buffer *stream_buffer,
+ 				       u32 *rptr, u32 size, void *dst);
+-u32 vpu_helper_copy_to_stream_buffer(struct vpu_buffer *stream_buffer,
++int vpu_helper_copy_to_stream_buffer(struct vpu_buffer *stream_buffer,
+ 				     u32 *wptr, u32 size, void *src);
+-u32 vpu_helper_memset_stream_buffer(struct vpu_buffer *stream_buffer,
++int vpu_helper_memset_stream_buffer(struct vpu_buffer *stream_buffer,
+ 				    u32 *wptr, u8 val, u32 size);
+ u32 vpu_helper_get_free_space(struct vpu_inst *inst);
+ u32 vpu_helper_get_used_space(struct vpu_inst *inst);
+diff --git a/drivers/media/platform/amphion/vpu_imx8q.c b/drivers/media/platform/amphion/vpu_imx8q.c
+index 606cc53125f8..f14c2b8312a8 100644
+--- a/drivers/media/platform/amphion/vpu_imx8q.c
++++ b/drivers/media/platform/amphion/vpu_imx8q.c
+@@ -165,7 +165,7 @@ int vpu_imx8q_on_firmware_loaded(struct vpu_core *core)
+ 	return 0;
+ }
+ 
+-u32 vpu_imx8q_check_memory_region(dma_addr_t base, dma_addr_t addr, u32 size)
++int vpu_imx8q_check_memory_region(dma_addr_t base, dma_addr_t addr, u32 size)
+ {
+ 	const struct vpu_rpc_region_t imx8q_regions[] = {
+ 		{0x00000000, 0x08000000, VPU_CORE_MEMORY_CACHED},
+diff --git a/drivers/media/platform/amphion/vpu_imx8q.h b/drivers/media/platform/amphion/vpu_imx8q.h
+index d63a2747e29c..9deffd7dde42 100644
+--- a/drivers/media/platform/amphion/vpu_imx8q.h
++++ b/drivers/media/platform/amphion/vpu_imx8q.h
+@@ -108,7 +108,7 @@ int vpu_imx8q_set_system_cfg_common(struct vpu_rpc_system_config *config, u32 re
+ int vpu_imx8q_boot_core(struct vpu_core *core);
+ int vpu_imx8q_get_power_state(struct vpu_core *core);
+ int vpu_imx8q_on_firmware_loaded(struct vpu_core *core);
+-u32 vpu_imx8q_check_memory_region(dma_addr_t base, dma_addr_t addr, u32 size);
++int vpu_imx8q_check_memory_region(dma_addr_t base, dma_addr_t addr, u32 size);
+ bool vpu_imx8q_check_codec(enum vpu_core_type type);
+ bool vpu_imx8q_check_fmt(enum vpu_core_type type, u32 pixelfmt);
+ 
+diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
+index d9cecbb42b2a..1212f7919957 100644
+--- a/drivers/media/platform/amphion/vpu_malone.c
++++ b/drivers/media/platform/amphion/vpu_malone.c
+@@ -1006,8 +1006,8 @@ static int vpu_malone_add_padding_scode(struct vpu_buffer *stream_buffer,
+ 					u32 pixelformat, u32 scode_type)
+ {
+ 	u32 wptr;
+-	u32 size;
+-	u32 total_size = 0;
++	int size;
++	int total_size = 0;
+ 	const struct malone_padding_scode *ps;
+ 	const u32 padding_size = 4096;
+ 	int ret;
+@@ -1024,7 +1024,7 @@ static int vpu_malone_add_padding_scode(struct vpu_buffer *stream_buffer,
+ 
+ 	size = sizeof(ps->data);
+ 	ret = vpu_helper_copy_to_stream_buffer(stream_buffer, &wptr, size, (void *)ps->data);
+-	if (ret < size)
++	if (ret < 0)
+ 		return -EINVAL;
+ 	total_size += size;
+ 
+@@ -1234,12 +1234,15 @@ static int vpu_malone_insert_scode_seq(struct malone_scode_t *scode, u32 codec_i
+ 					       &scode->wptr,
+ 					       sizeof(hdr),
+ 					       hdr);
+-	return ret;
++	if (ret < 0)
++		return ret;
++	return sizeof(hdr);
+ }
+ 
+ static int vpu_malone_insert_scode_pic(struct malone_scode_t *scode, u32 codec_id, u32 ext_size)
+ {
+ 	u8 hdr[MALONE_PAYLOAD_HEADER_SIZE];
++	int ret;
+ 
+ 	set_payload_hdr(hdr,
+ 			SCODE_PICTURE,
+@@ -1247,10 +1250,13 @@ static int vpu_malone_insert_scode_pic(struct malone_scode_t *scode, u32 codec_i
+ 			ext_size + vb2_get_plane_payload(scode->vb, 0),
+ 			scode->inst->out_format.width,
+ 			scode->inst->out_format.height);
+-	return vpu_helper_copy_to_stream_buffer(&scode->inst->stream_buffer,
+-						&scode->wptr,
+-						sizeof(hdr),
+-						hdr);
++	ret = vpu_helper_copy_to_stream_buffer(&scode->inst->stream_buffer,
++					       &scode->wptr,
++					       sizeof(hdr),
++					       hdr);
++	if (ret < 0)
++		return ret;
++	return sizeof(hdr);
+ }
+ 
+ static int vpu_malone_insert_scode_vc1_g_pic(struct malone_scode_t *scode)
+@@ -1258,6 +1264,7 @@ static int vpu_malone_insert_scode_vc1_g_pic(struct malone_scode_t *scode)
+ 	struct vb2_v4l2_buffer *vbuf;
+ 	u8 nal_hdr[MALONE_VC1_NAL_HEADER_LEN];
+ 	u32 *data = NULL;
++	int ret;
+ 
+ 	vbuf = to_vb2_v4l2_buffer(scode->vb);
+ 	data = vb2_plane_vaddr(scode->vb, 0);
+@@ -1268,10 +1275,13 @@ static int vpu_malone_insert_scode_vc1_g_pic(struct malone_scode_t *scode)
+ 		return 0;
+ 
+ 	create_vc1_nal_pichdr(nal_hdr);
+-	return vpu_helper_copy_to_stream_buffer(&scode->inst->stream_buffer,
+-						&scode->wptr,
+-						sizeof(nal_hdr),
+-						nal_hdr);
++	ret = vpu_helper_copy_to_stream_buffer(&scode->inst->stream_buffer,
++					       &scode->wptr,
++					       sizeof(nal_hdr),
++					       nal_hdr);
++	if (ret < 0)
++		return ret;
++	return sizeof(nal_hdr);
+ }
+ 
+ static int vpu_malone_insert_scode_vc1_l_seq(struct malone_scode_t *scode)
+@@ -1282,8 +1292,7 @@ static int vpu_malone_insert_scode_vc1_l_seq(struct malone_scode_t *scode)
+ 
+ 	scode->need_data = 0;
+ 
+-	ret = vpu_malone_insert_scode_seq(scode, MALONE_CODEC_ID_VC1_SIMPLE,
+-					  sizeof(rcv_seqhdr));
++	ret = vpu_malone_insert_scode_seq(scode, MALONE_CODEC_ID_VC1_SIMPLE, sizeof(rcv_seqhdr));
+ 	if (ret < 0)
+ 		return ret;
+ 	size = ret;
+@@ -1299,7 +1308,7 @@ static int vpu_malone_insert_scode_vc1_l_seq(struct malone_scode_t *scode)
+ 
+ 	if (ret < 0)
+ 		return ret;
+-	size += ret;
++	size += sizeof(rcv_seqhdr);
+ 	return size;
+ }
+ 
+@@ -1322,7 +1331,7 @@ static int vpu_malone_insert_scode_vc1_l_pic(struct malone_scode_t *scode)
+ 					       rcv_pichdr);
+ 	if (ret < 0)
+ 		return ret;
+-	size += ret;
++	size += sizeof(rcv_pichdr);
+ 	return size;
+ }
+ 
+@@ -1346,7 +1355,7 @@ static int vpu_malone_insert_scode_vp8_seq(struct malone_scode_t *scode)
+ 					       ivf_hdr);
+ 	if (ret < 0)
+ 		return ret;
+-	size += ret;
++	size += sizeof(ivf_hdr);
+ 
+ 	return size;
+ }
+@@ -1369,7 +1378,7 @@ static int vpu_malone_insert_scode_vp8_pic(struct malone_scode_t *scode)
+ 					       ivf_hdr);
+ 	if (ret < 0)
+ 		return ret;
+-	size += ret;
++	size += sizeof(ivf_hdr);
+ 
+ 	return size;
+ }
+@@ -1470,9 +1479,9 @@ static int vpu_malone_input_frame_data(struct vpu_malone_str_buffer __iomem *str
+ 					       &wptr,
+ 					       vb2_get_plane_payload(vb, 0),
+ 					       vb2_plane_vaddr(vb, 0));
+-	if (ret < vb2_get_plane_payload(vb, 0))
++	if (ret < 0)
+ 		return -ENOMEM;
+-	size += ret;
++	size += vb2_get_plane_payload(vb, 0);
+ 
+ 	vpu_malone_update_wptr(str_buf, wptr);
+ 
+@@ -1500,7 +1509,7 @@ static int vpu_malone_input_stream_data(struct vpu_malone_str_buffer __iomem *st
+ 					       &wptr,
+ 					       vb2_get_plane_payload(vb, 0),
+ 					       vb2_plane_vaddr(vb, 0));
+-	if (ret < vb2_get_plane_payload(vb, 0))
++	if (ret < 0)
+ 		return -ENOMEM;
+ 
+ 	vpu_malone_update_wptr(str_buf, wptr);
+@@ -1566,9 +1575,13 @@ static bool vpu_malone_check_ready(struct vpu_shared_addr *shared, u32 instance)
+ 	u32 size = desc->end - desc->start;
+ 	u32 rptr = desc->rptr;
+ 	u32 wptr = desc->wptr;
+-	u32 used = (wptr + size - rptr) % size;
++	u32 used;
++
++	if (!size)
++		return true;
+ 
+-	if (!size || used < (size >> 1))
++	used = (wptr + size - rptr) % size;
++	if (used < (size >> 1))
+ 		return true;
+ 
+ 	return false;
+diff --git a/drivers/media/platform/amphion/vpu_msgs.c b/drivers/media/platform/amphion/vpu_msgs.c
+index 68df43913904..58502c51ddb3 100644
+--- a/drivers/media/platform/amphion/vpu_msgs.c
++++ b/drivers/media/platform/amphion/vpu_msgs.c
+@@ -214,7 +214,7 @@ static int vpu_session_handle_msg(struct vpu_inst *inst, struct vpu_rpc_event *m
+ 
+ static bool vpu_inst_receive_msg(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
+ {
+-	u32 bytes = sizeof(struct vpu_rpc_event_header);
++	unsigned long bytes = sizeof(struct vpu_rpc_event_header);
+ 	u32 ret;
+ 
+ 	memset(pkt, 0, sizeof(*pkt));
+@@ -246,7 +246,7 @@ void vpu_inst_run_work(struct work_struct *work)
+ 
+ static void vpu_inst_handle_msg(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
+ {
+-	u32 bytes;
++	unsigned long bytes;
+ 	u32 id = pkt->hdr.id;
+ 	int ret;
+ 
+@@ -337,7 +337,7 @@ void vpu_msg_delayed_work(struct work_struct *work)
+ {
+ 	struct vpu_core *core;
+ 	struct delayed_work *dwork;
+-	u32 bytes = sizeof(bytes);
++	unsigned long bytes = sizeof(u32);
+ 	u32 i;
+ 
+ 	if (!work)
+diff --git a/drivers/media/platform/amphion/vpu_rpc.c b/drivers/media/platform/amphion/vpu_rpc.c
+index 6e01abaa5d16..18a164766409 100644
+--- a/drivers/media/platform/amphion/vpu_rpc.c
++++ b/drivers/media/platform/amphion/vpu_rpc.c
+@@ -20,7 +20,7 @@
+ #include "vpu_windsor.h"
+ #include "vpu_malone.h"
+ 
+-u32 vpu_iface_check_memory_region(struct vpu_core *core, dma_addr_t addr, u32 size)
++int vpu_iface_check_memory_region(struct vpu_core *core, dma_addr_t addr, u32 size)
+ {
+ 	struct vpu_iface_ops *ops = vpu_core_get_iface(core);
+ 
+@@ -63,6 +63,8 @@ static int vpu_rpc_send_cmd_buf(struct vpu_shared_addr *shared, struct vpu_rpc_e
+ 	u32 wptr;
+ 	u32 i;
+ 
++	if (cmd->hdr.num > 0xff || cmd->hdr.num >= ARRAY_SIZE(cmd->data))
++		return -EINVAL;
+ 	desc = shared->cmd_desc;
+ 	space = vpu_rpc_check_buffer_space(desc, true);
+ 	if (space < (((cmd->hdr.num + 1) << 2) + 16))
+diff --git a/drivers/media/platform/amphion/vpu_rpc.h b/drivers/media/platform/amphion/vpu_rpc.h
+index c764ff52d026..5ea4f8aff846 100644
+--- a/drivers/media/platform/amphion/vpu_rpc.h
++++ b/drivers/media/platform/amphion/vpu_rpc.h
+@@ -43,7 +43,7 @@ struct vpu_iface_ops {
+ 	bool (*check_codec)(enum vpu_core_type type);
+ 	bool (*check_fmt)(enum vpu_core_type type, u32 pixelfmt);
+ 	u32 (*get_data_size)(void);
+-	u32 (*check_memory_region)(dma_addr_t base, dma_addr_t addr, u32 size);
++	int (*check_memory_region)(dma_addr_t base, dma_addr_t addr, u32 size);
+ 	int (*boot_core)(struct vpu_core *core);
+ 	int (*shutdown_core)(struct vpu_core *core);
+ 	int (*restore_core)(struct vpu_core *core);
+@@ -113,7 +113,7 @@ struct vpu_rpc_region_t {
+ 
+ struct vpu_iface_ops *vpu_core_get_iface(struct vpu_core *core);
+ struct vpu_iface_ops *vpu_inst_get_iface(struct vpu_inst *inst);
+-u32 vpu_iface_check_memory_region(struct vpu_core *core, dma_addr_t addr, u32 size);
++int vpu_iface_check_memory_region(struct vpu_core *core, dma_addr_t addr, u32 size);
+ 
+ static inline bool vpu_iface_check_codec(struct vpu_core *core)
+ {
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index 6fe077a685e8..9c0704cd5766 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -403,11 +403,15 @@ void vpu_vb2_buffers_return(struct vpu_inst *inst, unsigned int type, enum vb2_b
+ 	struct vb2_v4l2_buffer *buf;
+ 
+ 	if (V4L2_TYPE_IS_OUTPUT(type)) {
+-		while ((buf = v4l2_m2m_src_buf_remove(inst->fh.m2m_ctx)))
++		while ((buf = v4l2_m2m_src_buf_remove(inst->fh.m2m_ctx))) {
++			vpu_set_buffer_state(buf, VPU_BUF_STATE_IDLE);
+ 			v4l2_m2m_buf_done(buf, state);
++		}
+ 	} else {
+-		while ((buf = v4l2_m2m_dst_buf_remove(inst->fh.m2m_ctx)))
++		while ((buf = v4l2_m2m_dst_buf_remove(inst->fh.m2m_ctx))) {
++			vpu_set_buffer_state(buf, VPU_BUF_STATE_IDLE);
+ 			v4l2_m2m_buf_done(buf, state);
++		}
+ 	}
+ }
+ 
+diff --git a/drivers/media/platform/amphion/vpu_windsor.c b/drivers/media/platform/amphion/vpu_windsor.c
+index a056ad624e9b..1526af2ef9da 100644
+--- a/drivers/media/platform/amphion/vpu_windsor.c
++++ b/drivers/media/platform/amphion/vpu_windsor.c
+@@ -818,12 +818,18 @@ int vpu_windsor_config_memory_resource(struct vpu_shared_addr *shared,
+ 
+ 	switch (type) {
+ 	case MEM_RES_ENC:
++		if (index >= ARRAY_SIZE(pool->enc_frames))
++			return -EINVAL;
+ 		res = &pool->enc_frames[index];
+ 		break;
+ 	case MEM_RES_REF:
++		if (index >= ARRAY_SIZE(pool->ref_frames))
++			return -EINVAL;
+ 		res = &pool->ref_frames[index];
+ 		break;
+ 	case MEM_RES_ACT:
++		if (index)
++			return -EINVAL;
+ 		res = &pool->act_frame;
+ 		break;
+ 	default:
+-- 
+2.33.0
 
-Agreed.
-
->=20
-> > +       }
-> > +
-> >         if (IS_ERR(vsp1->rstc))
-> >                 return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
-> >                                      "failed to get reset ctrl\n"); @@
-> > -874,13 +889,15 @@ static int vsp1_probe(struct platform_device *pdev)
-> >         if (ret < 0)
-> >                 goto done;
-> >
-> > -       vsp1->version =3D vsp1_read(vsp1, VI6_IP_VERSION);
-> > +       if (!vsp1->info) {
-> > +               vsp1->version =3D vsp1_read(vsp1, VI6_IP_VERSION);
-> >
-> > -       for (i =3D 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-> > -               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) =3D=3D
-> > -                   vsp1_device_infos[i].version) {
-> > -                       vsp1->info =3D &vsp1_device_infos[i];
-> > -                       break;
-> > +               for (i =3D 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-> > +                       if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK)
-> =3D=3D
-> > +                           vsp1_device_infos[i].version) {
-> > +                               vsp1->info =3D &vsp1_device_infos[i];
-> > +                               break;
-> > +                       }
-> >                 }
-> >         }
-> >
-> > @@ -943,6 +960,7 @@ static int vsp1_remove(struct platform_device
-> > *pdev)  static const struct of_device_id vsp1_of_match[] =3D {
-> >         { .compatible =3D "renesas,vsp1" },
-> >         { .compatible =3D "renesas,vsp2" },
-> > +       { .compatible =3D "renesas,vsp2-rzg2l", .data =3D
-> > + &vsp1_device_infos[14] },
-> >         { },
->=20
-> Is VI6_IP_VERSION_MODEL_VSPD_RZG2L =3D 0x1b an official number?
-> If yes, it might make sense to change the compatible value to
-> "renesas,vsp2-0x1b".
-
-No, it is not official one. I just use 0x1b as no one claimed it.
-
-Cheers,
-Biju
