@@ -2,76 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BF484D47FB
-	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 14:24:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 263244D483C
+	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 14:38:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242373AbiCJNY6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Mar 2022 08:24:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43400 "EHLO
+        id S242494AbiCJNiB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Mar 2022 08:38:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236943AbiCJNY5 (ORCPT
+        with ESMTP id S242537AbiCJNh6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Mar 2022 08:24:57 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1DE09A4DC;
-        Thu, 10 Mar 2022 05:23:52 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id D40B310001B; Thu, 10 Mar 2022 13:23:50 +0000 (UTC)
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>, smatch@vger.kernel.org
-Subject: [PATCH] media: lirc: suppress false positive smatch warning
-Date:   Thu, 10 Mar 2022 13:23:50 +0000
-Message-Id: <20220310132350.78729-1-sean@mess.org>
-X-Mailer: git-send-email 2.30.2
+        Thu, 10 Mar 2022 08:37:58 -0500
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10D6114EF6D
+        for <linux-media@vger.kernel.org>; Thu, 10 Mar 2022 05:36:56 -0800 (PST)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22AAWjrW023817
+        for <linux-media@vger.kernel.org>; Thu, 10 Mar 2022 14:36:55 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=selector1;
+ bh=lfactqUkR5E9ZfJ2zEvCzB/RC4V10vE3GEhE/dE6Jaw=;
+ b=RfHe7y8EKiTprNUTfpNWV8s3If203XpOvXs1zn11obyVB/MFwYPqTTcDAUnStaUXA54+
+ TbG9EIjh5/hUdYzBgpJUt20GsknDVgOtkUcm9ke6KECYSGJJarwhyGP0XJ2B4156rXnO
+ X+jwNrsS4Fl8d+k7/ydvsHEC8i3OuMkvQRYit7BN2Up1zPD3W7h8dGYJ2BPuA1C9Sr9D
+ LOudsJ1Ei68gy4m6VeFxUWaA4KRbOf9rM5LmZ/PsM4XWNdDITQuZgfeNWowhpodHEPhk
+ ifMfCNodn0Mjo0z+H1A062d7GEryAhEn6LxdyyOKCV4w0IN29p5dIKrBF5hdeP8m5L23 sA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ekymmsb12-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-media@vger.kernel.org>; Thu, 10 Mar 2022 14:36:55 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C061110002A
+        for <linux-media@vger.kernel.org>; Thu, 10 Mar 2022 14:36:54 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node1.st.com [10.75.127.4])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2C4BC209727
+        for <linux-media@vger.kernel.org>; Thu, 10 Mar 2022 14:36:54 +0100 (CET)
+Received: from localhost (10.75.127.48) by SFHDAG2NODE1.st.com (10.75.127.4)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 10 Mar 2022 14:36:53
+ +0100
+From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+To:     <linux-media@vger.kernel.org>
+CC:     <alain.volmat@foss.st.com>, <hugues.fruchet@foss.st.com>,
+        <sylvain.petinot@foss.st.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Subject: [PATCH 0/2] media: Add ST VGXY61 camera sensor driver
+Date:   Thu, 10 Mar 2022 14:32:53 +0100
+Message-ID: <20220310133255.1946530-1-benjamin.mugnier@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.48]
+X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE1.st.com
+ (10.75.127.4)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-10_03,2022-03-09_01,2022-02-23_01
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The latest smatch says:
+Hello,
 
-drivers/media/rc/lirc_dev.c:632 lirc_read_mode2() error: uninitialized symbol 'copied'.
-drivers/media/rc/lirc_dev.c:671 lirc_read_scancode() error: uninitialized symbol 'copied'.
+This series adds a driver for the ST VGXY61 camera sensor.  This camera sensor is using the i2c bus
+for control and the csi-2 bus for data.
 
-This is a false positive since in all reaching code paths, copied will
-be set. Work around this by providing a zero initializer for copied.
+Tested on DragonBoard 410c and on Raspberry Pi 4. DT bindings are in 1/2, and the driver in
+2/2.
 
-Cc: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: smatch@vger.kernel.org
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/rc/lirc_dev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Benjamin Mugnier (2):
+  media: dt-bindings: media: i2c: Add ST VGXY61 camera sensor binding
+  media: i2c: Add driver for ST VGXY61 camera sensor
 
-diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
-index 765375bda0c6..efa09beae6a7 100644
---- a/drivers/media/rc/lirc_dev.c
-+++ b/drivers/media/rc/lirc_dev.c
-@@ -601,7 +601,7 @@ static ssize_t lirc_read_mode2(struct file *file, char __user *buffer,
- {
- 	struct lirc_fh *fh = file->private_data;
- 	struct rc_dev *rcdev = fh->rc;
--	unsigned int copied;
-+	unsigned int copied = 0;
- 	int ret;
- 
- 	if (length < sizeof(unsigned int) || length % sizeof(unsigned int))
-@@ -639,7 +639,7 @@ static ssize_t lirc_read_scancode(struct file *file, char __user *buffer,
- {
- 	struct lirc_fh *fh = file->private_data;
- 	struct rc_dev *rcdev = fh->rc;
--	unsigned int copied;
-+	unsigned int copied = 0;
- 	int ret;
- 
- 	if (length < sizeof(struct lirc_scancode) ||
+ .../bindings/media/i2c/st,st-vgxy61.yaml      |  134 ++
+ MAINTAINERS                                   |   10 +
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/st-vgxy61.c                 | 1919 +++++++++++++++++
+ 5 files changed, 2075 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
+ create mode 100644 drivers/media/i2c/st-vgxy61.c
+
 -- 
-2.35.1
+2.25.1
 
