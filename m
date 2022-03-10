@@ -2,217 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CE684D49B7
-	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 15:52:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 705C54D4C59
+	for <lists+linux-media@lfdr.de>; Thu, 10 Mar 2022 16:02:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240776AbiCJOeo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Mar 2022 09:34:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50108 "EHLO
+        id S245287AbiCJOzY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Mar 2022 09:55:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344043AbiCJObi (ORCPT
+        with ESMTP id S1346407AbiCJOoB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Mar 2022 09:31:38 -0500
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E73A5EBBAE
-        for <linux-media@vger.kernel.org>; Thu, 10 Mar 2022 06:29:28 -0800 (PST)
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 79FED3F32D
-        for <linux-media@vger.kernel.org>; Thu, 10 Mar 2022 14:29:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1646922566;
-        bh=hwp6Ky+UBrJRSHg4i+lJTamBUoAq8Hop7/mY//2Mbe4=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=hRwicyvT5HiX87qz1Y/DQdi37MLOzYQL538Fu5lBLW/9J9Snc4p8IitO2eZGLHT4B
-         yb6JiM/idn5beIKQMv6q7vFU+I1m3Qu86osXElfSxneetrnPuf/QJkUdGrYPQNYBHj
-         cpqQy0xdK68bhJxqO/fTV8NumgAfi4yRscLdJvpNaja+Lqje85Fyq4FAjSwW2ZKDpq
-         O0uR4lXIDP190/YRw6IrDQrsLsK5kkknVXbe0fkz1k/8sg7x2CJTiRKOZ7MEtUX2EG
-         l6K11v35u/94ypCjEsak8PLdl2AVcTkV8YN2rT7x4eubVPEXcRQ5DCimzu5h/OxXRt
-         ZB8VgnQxSzCNg==
-Received: by mail-ej1-f71.google.com with SMTP id x2-20020a1709065ac200b006d9b316257fso3208390ejs.12
-        for <linux-media@vger.kernel.org>; Thu, 10 Mar 2022 06:29:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=hwp6Ky+UBrJRSHg4i+lJTamBUoAq8Hop7/mY//2Mbe4=;
-        b=ndRIV+90CCmxnnyNeWpKJDICpFPcRI1nhgQD4UtII7HmV+NObdo7gKyGlDSr7Sp/QY
-         TPdPRQNBjjvvVsTfERYzUg9qZo1XvV7MC1z5n246HKvobxl54T9rUCEwZnFNpjZw9fXx
-         oX8YxheurV6/7HY0qKpN8ptLX2pAokgqfNhD8Z5oahxhOn6HkjDZtRcXZ/YyhhPlny+A
-         yPjiLMleprd7NIRM5z/DMXUI7mZoJDYfEauXUlHpFDs6xU1bV3CQjWSNJfG4HpidT3zf
-         lDMSpsezdhL90nHEE1v8Pt2tQ4a4PQ4CiTEZ5qzGrCI511mJAuQCSMOM9lUIWxaZGhJa
-         8g/A==
-X-Gm-Message-State: AOAM532TV3SIKjotj6T9mM0xqhkKGMBnhy+ez38WLbz2Vgpri4l/jUiT
-        toO2c6Nke/nr8wbrscJ4BjajY1oeA7JH8zIMk/Qb80MzkRNghKxik9Xf0A0k5vQPXq8r4p4R51S
-        hSn3Mw6YEgry79NF/hzLBdye6mLvJSRC01kxGJPLR
-X-Received: by 2002:a17:906:7245:b0:6cf:d3c6:8c63 with SMTP id n5-20020a170906724500b006cfd3c68c63mr4260039ejk.677.1646922566026;
-        Thu, 10 Mar 2022 06:29:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw7Ev2mnxBZlEpVqVQMpzsj789u82+ktkRTOCKPlAE6anRMFsefp2hW8KFgtmBRXCA/ThaKOw==
-X-Received: by 2002:a17:906:7245:b0:6cf:d3c6:8c63 with SMTP id n5-20020a170906724500b006cfd3c68c63mr4260010ejk.677.1646922565787;
-        Thu, 10 Mar 2022 06:29:25 -0800 (PST)
-Received: from [192.168.0.144] (xdsl-188-155-174-239.adslplus.ch. [188.155.174.239])
-        by smtp.gmail.com with ESMTPSA id z8-20020a170906270800b006bbd3efa6b8sm1862913ejc.80.2022.03.10.06.29.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Mar 2022 06:29:25 -0800 (PST)
-Message-ID: <d7e2a189-2773-b37a-7449-0b5138e45ded@canonical.com>
-Date:   Thu, 10 Mar 2022 15:29:24 +0100
+        Thu, 10 Mar 2022 09:44:01 -0500
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 591761405C4;
+        Thu, 10 Mar 2022 06:42:52 -0800 (PST)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22ADe42G010334;
+        Thu, 10 Mar 2022 14:42:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=HgVWTxPqoAGBWM33n2PJFLwM4mbPNH3UrxbG254fdK8=;
+ b=OqsB0oWdWBusfhw34q/ZcfUGoP5hVbSJV1nvgAVOpJkMPITjZp35DfO/pDNVZoUz+xoT
+ 8XxgMq5L3XEuC1GmZlKBuK1FjP8yD4LDnBcjJ3x8ufEPi5Qxep8j/0p1MgdAWTzBa05k
+ S6d6ucO2T+lD5rsIaEa5bXQtizmp7iOG0HqGe1xzMW4ED81K7BH5rSsFHNFMTe8hHBNa
+ FCoSAcTunzwT33KdCoeEyIbbD/fMW0t9l79480dAwqWZTo1I2gRpoNROYYq8zGsRyyn7
+ ON25pFxrfTTsZkoqtrwPMJ5svcq/HORWcHjBFjRYZcHXzqVi/C06Lhfzih3qorTZqu1n JQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3ekxn2nn8d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 10 Mar 2022 14:42:49 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22AEaOQi033948;
+        Thu, 10 Mar 2022 14:42:48 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2173.outbound.protection.outlook.com [104.47.57.173])
+        by userp3020.oracle.com with ESMTP id 3envvnacmt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 10 Mar 2022 14:42:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nWJ1bKgxTAPyfuew1TDlw3670IoOOHfq5XZKJ3F4VOdPX0yCy3r+8Kwz/zF/AA9XmQ3SduI2divAvoFLVVNlwbmAee0TOZhkewk1X6+ETEpt7HjgksL5bYnbCpfwY07DXo6qzcX337mwz3OTi5TQDBVv1E4u/6M3RyygD6bRb1ivxj3PrqvUFpywt/QXCW0lQTojILI9/bmYYYynNtWx3E87Y54n1aVGwr13GOyhoqqsw//dlmc9S86mqPG2T5l4wxNrl3ewfzXzgDzZ/MkhrHta8DlRvUmOAnslugUWTeDkM0AUq1QX7CU0WFJtCQ0HGClOnCBfE8qcNiCaR+nL2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HgVWTxPqoAGBWM33n2PJFLwM4mbPNH3UrxbG254fdK8=;
+ b=OWr/Q4TD6C/sEARCLDWOLAbBHt9YmfbJCUp6b47PMDlWlJq/xJzOz4RpaLSZe+gpXTJCC1gfylf3k3tJED5xyh30UAnd8JFvbMU6qn7lGTFrbOpbncuRRbf+ExXwlMdS7n32u6jcDz+PPTq0IchOpMuAHp7F7B4Koqzi8JIvY/7b44RkT6SCZRc3ju7lbD47SKdn1iZbnU9i/iNad1g735SGjGfUv/aJ4RunhYRwLK6O8MjpOADwuPp+6PUQ5I8xurGMl2Cr9fUDnMZI0CRkBVjlsGPnPVM2Dkr83WtvTTbBQvrnH9dFVqUxX2O6cdtwJSh0Nss2uVKwRip/39SStg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HgVWTxPqoAGBWM33n2PJFLwM4mbPNH3UrxbG254fdK8=;
+ b=XwY7UdDPROfxuiGyJILVy0MzgaPOJCwRstkgccWfyvzwSUuC19ONRK+/ArcsGBFcKgUxiS2Fe19V1CKF6Jrjh6r4VTTYXhh88D1E1jctZvUGCbP2HvaP06eEm3vMqBoB0TnC/QiD6Aj4aoSJqXZEu0l59RIpFuiUzp4WHjH08Uc=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CY4PR10MB1400.namprd10.prod.outlook.com
+ (2603:10b6:903:22::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.22; Thu, 10 Mar
+ 2022 14:42:46 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::2c3d:92b5:42b3:c1c5%4]) with mapi id 15.20.5061.022; Thu, 10 Mar 2022
+ 14:42:46 +0000
+Date:   Thu, 10 Mar 2022 17:42:30 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, smatch@vger.kernel.org
+Subject: Re: [PATCH] media: lirc: suppress false positive smatch warning
+Message-ID: <20220310144230.GI3315@kadam>
+References: <20220310132350.78729-1-sean@mess.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220310132350.78729-1-sean@mess.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0024.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::15)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/6] media: dt-bindings: i2c: Document ov5670
-Content-Language: en-US
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
-Cc:     jeanmichel.hautbois@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com, paul.kocialkowski@bootlin.com,
-        sakari.ailus@iki.fi, paul.elder@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
-        <linux-media@vger.kernel.org>, robh@kernel.org,
-        devicetree@vger.kernel.org
-References: <20220310130829.96001-1-jacopo@jmondi.org>
- <20220310130829.96001-2-jacopo@jmondi.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220310130829.96001-2-jacopo@jmondi.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 09741f24-ed20-4bf6-ec9c-08da02a43dac
+X-MS-TrafficTypeDiagnostic: CY4PR10MB1400:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR10MB1400E3E1FFD9D589534DAC268E0B9@CY4PR10MB1400.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ynllXZPKqiSzHuz9u+pmn/ZrlT7NZbTrkNuPXmlP8Bo5sMHoW4jm390J2PMcTCWxxJdp9WBHcxnKUFYPLiR6mYWei1hWLn6yrTfApQ0hDkUQ4ePZw7pDg46dkAfghAs6fa4w3vcErKprZ7OcTDvPKguIvmmLWZrmc+/o+T45Zwe+v5/6wGon5wKMX4hqC+anBTHjsiBPnrgK/BgrXfOlc5KpwGpnZ7m7InaaF54ndkhLTRwflMdQyvMJyBgFxMtfJbpSX918RQIQTFwodXt+pL4s44Xx4bKIQhivxhcO8lMInPeZQG7tS7VFy9vCqbOwWIc7o1vou2wXeSqohT7Y++7oAbsfM6TgREvKLUHs3ZROFa82QzOXyRQyoYPtszt4b5pA29f5djHRS0URoiuzEBr0D6eckHd3mAsudV9dqUjpy2nmOIB6Hp0DNlLZ+9LoOJT1e4FOmEDm/iNwT/APTV08k1TFwspEvFy+kPaXCO15Bu568MvIm8UNOwVo/iK/zzfOowdch+qGux7ExFQ7uf2FMA6eJTGd9UgMzA+Yrj0O2JuvEWx+O2koxlZi6dswBvQWcCqhi31DGptMv26VaNetE1ecIIS5jdzKMXIJXHq49L/J4mbM9n330pMDgcB2SqLzCWjb2MShHGKUvbdLReRW7EVISoZtrVmjT0VSXRfPdiPrMLcHi3BWHPnV4NvNrWcXKqhcC115mrWGGCSLDw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(8676002)(66556008)(66476007)(66946007)(8936002)(4744005)(6916009)(316002)(4326008)(52116002)(86362001)(33716001)(33656002)(1076003)(9686003)(6512007)(6506007)(6666004)(186003)(44832011)(26005)(2906002)(508600001)(6486002)(5660300002)(38100700002)(38350700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1/DtQ7gPK0wgWwydgg9drI1Xtsq30xkEORQRcFtSRD3vZLEe9BdYrdFpgE+2?=
+ =?us-ascii?Q?tQoKY0UybTgHzc9Osi7UhrtJidxPhgu2vv3vWABgoEfuGPoK7jHBdAtoGWOJ?=
+ =?us-ascii?Q?UNdDAvF4RoRb4M/Iy3ZCE3flno4fFyjt+aAk6sbLOZVAd9KWIO3rDuEQy/6M?=
+ =?us-ascii?Q?QTFqPqP4j8ZJ+CG5DqLdhbcvGprHGNFwJApBetu5nPoC8NZHbozeDMyUw+FP?=
+ =?us-ascii?Q?zSoIsa97nVzHRIsqix6RVA0KDZqQUlWnrCCkacEqDjNJZyFPU7BhdeWmWS2g?=
+ =?us-ascii?Q?e/dSYASJzDegNMG/ejzyw56sLMf11LDeFF40Qh1vE9vod1W542TG5JQAVrIa?=
+ =?us-ascii?Q?SvYYsdUUAhPyHRl/D1ojNpHNyAHJzfdVEVSkmeE1hJKjQpcD35ZiuCe0dREk?=
+ =?us-ascii?Q?FKecOdcluLjN7wwDx7+8+thi4jvdpCA/IxdCAUa7M2nvw32XkVRMyThWKp1h?=
+ =?us-ascii?Q?4SOiBP+Qy0vW/q9TsS+5dDA5vmGxmrC/Y1JDRNwWjtK6GF9kcHuR1z5aWc4v?=
+ =?us-ascii?Q?Lpvvq5A14N7kuOHr5SVwMzXpv4cmiIC5Gh9gGZIy5JMRiwzo2viz3riqlJfa?=
+ =?us-ascii?Q?MReJ0R+fvfjZ8n8Lkz6X+meD73xC/IXhtkl/bDFD6xtoFhSXMR0NPtvsRm0R?=
+ =?us-ascii?Q?fdmrdsguGobvatSLwcgeJvd85Oz0+/+UQfelKUyiq4ZOYsdJnF542FKMN4QQ?=
+ =?us-ascii?Q?XkAFr4/0t/zAY+fAubIwYzv9xaXM/RoH8kjy8gx9cV5I8Pw7vE4DdKDsSLdI?=
+ =?us-ascii?Q?YWu+JN2ThOYPXnJtPLD6EHx/3y3th97CbA1QsP49Xvxb1d8fotY+lV2L1DPG?=
+ =?us-ascii?Q?i0fttcrq3wYiVK1wIdzbthyHqOXzJdSWv3z2isvkyB/x1F/1pozHSzdcc08z?=
+ =?us-ascii?Q?k9G6VuI+JYMMYUO9KTI87BmCH0s7HlqAwHeUrBv99pKyM+lngLOPjjYPiJ4G?=
+ =?us-ascii?Q?Zzwe9rjJUmOeraJU2578dVoYuFt8K6nCg9QviWx00M06knW5z8m7NTsSRayh?=
+ =?us-ascii?Q?Ajwn5oa8EaecQXgQVaOOJz9sadSx3hY6TnfV7iN22K8e5CevhxsB77cUbWDL?=
+ =?us-ascii?Q?nUuT24K4njFz/p4SiVjIAMKWL+vZUMNgZEsUxyz8DS7A5QYdGDZTtVrVuqQw?=
+ =?us-ascii?Q?9ivnD41jLr3R8z30jieHBSiJIUGbsfdUXt9QlcvDoImaqo20hA96mYXvzvi+?=
+ =?us-ascii?Q?z6r4vs5Qz3NtEFKvoz9qQjIWZ8avQEZJ30OtXbtQuUcCgBChvz8A5KRClyfX?=
+ =?us-ascii?Q?ayxho1eclwr7BNYKL/bM0b1fEKknbSDfp3ZjF2S7lyxIKQfC1ynPFCDJlI7T?=
+ =?us-ascii?Q?xf/6muR2j4/PrEgucg3jhv5yxbPBeE+oxbUKfHj6ZjKXtrjkNVhJwETRWMMP?=
+ =?us-ascii?Q?4e7YL51wsBbq/UYbYz6SSilJPhKVWNoTTesMgujfR3sbCl6OLQ9oLlJyWks9?=
+ =?us-ascii?Q?1aK9CGLd146LwsAYvUdic+QJGsmMBWzEhroeiZL/djL6kXyzFl8w5g=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09741f24-ed20-4bf6-ec9c-08da02a43dac
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2022 14:42:46.0856
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aSBtzu9bgIjrvwur34XUm9RGc2vKHSGL/93HbDZ5oXJONPKCDssCx0lAU2xaP4NAQMUr+tmzwA3SW4b3k9iDxGkj9QYgDHCPfP7yGDa/QyI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1400
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10281 signatures=692062
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ phishscore=0 malwarescore=0 suspectscore=0 mlxscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203100079
+X-Proofpoint-ORIG-GUID: ZQcDFH0JrE7J_6tfrGZadI7wqIp6Gvj-
+X-Proofpoint-GUID: ZQcDFH0JrE7J_6tfrGZadI7wqIp6Gvj-
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/03/2022 14:08, Jacopo Mondi wrote:
-> Provide the bindings documentation for Omnivision OV5670 image sensor.
+On Thu, Mar 10, 2022 at 01:23:50PM +0000, Sean Young wrote:
+> The latest smatch says:
 > 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  .../devicetree/bindings/media/i2c/ov5670.yaml | 93 +++++++++++++++++++
-
-Add the file to maintainers entry.
-
->  1 file changed, 93 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5670.yaml
+> drivers/media/rc/lirc_dev.c:632 lirc_read_mode2() error: uninitialized symbol 'copied'.
+> drivers/media/rc/lirc_dev.c:671 lirc_read_scancode() error: uninitialized symbol 'copied'.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5670.yaml b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
-> new file mode 100644
-> index 000000000000..dc4a3297bf6f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
+> This is a false positive since in all reaching code paths, copied will
+> be set. Work around this by providing a zero initializer for copied.
+> 
+> Cc: Dan Carpenter <dan.carpenter@oracle.com>
+> Cc: smatch@vger.kernel.org
+> Signed-off-by: Sean Young <sean@mess.org>
 
-Missing vendor prefix in file name.
+I'm sorry for this.  I can't reproduce this on my system.  I just did a
+push for something unrelated and I don't know what the previous HEAD
+was...
 
-> @@ -0,0 +1,93 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ov5670.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Omnivision OV5670 5 Megapixels raw image sensor
-> +
-> +maintainers:
-> +  - Jacopo Mondi <jacopo@jmondi.org>
+regards,
+dan carpenter
 
-Please add also driver maintainer.
-
-> +
-> +description: |-
-> +  The OV5670 is a 5 Megapixels raw image sensor which provides images in 10-bits
-> +  RAW BGGR Bayer format on a 2 data lanes MIPI CSI-2 serial interface and is
-> +  controlled through an I2C compatible control bus.
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov5670
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clock-frequency:
-> +    description: Frequency of the xclk clock.
-
-Is the xclk external clock coming to the sensor? If yes, there should be
-a "clocks" property.
-
-> +
-> +  pwdn-gpios:
-> +    description: Reference to the GPIO connected to the PWDNB pin. Active low.
-
-maxItems
-
-> +
-> +  reset-gpios:
-> +    description:
-> +      Reference to the GPIO connected to the XSHUTDOWN pin. Active low.
-
-maxItems
-
-> +
-> +  avdd-supply:
-> +    description: Analog circuit power. Typically 2.8V.
-> +
-> +  dvdd-supply:
-> +    description: Digital circuit power. Typically 1.2V.
-> +
-> +  dovdd-supply:
-> +    description: Digital I/O circuit power. Typically 2.8V or 1.8V.
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            description: The sensor supports 1 or 2 data lanes operations.
-> +            minItems: 1
-> +            maxItems: 2
-> +            items:
-> +              maximum: 2
-
-Is '0' also allowed? If not then maybe 'enum: [ 1, 2 ]'
-
-no clock-lanes?
-
-> +
-> +          clock-noncontinuous: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clock-frequency
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ov5670: sensor@36 {
-> +            compatible = "ovti,ov5670";
-> +            reg = <0x36>;
-> +
-> +            clock-frequency=<19200000>;
-
-Missing spaces around '='.
-
-
-
-Best regards,
-Krzysztof
