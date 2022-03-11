@@ -2,132 +2,521 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5F3E4D6057
-	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 12:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 789834D6059
+	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 12:03:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348175AbiCKLD7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Mar 2022 06:03:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45704 "EHLO
+        id S1348161AbiCKLDx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Mar 2022 06:03:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239577AbiCKLD5 (ORCPT
+        with ESMTP id S239577AbiCKLDv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Mar 2022 06:03:57 -0500
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF4BF1118;
-        Fri, 11 Mar 2022 03:02:52 -0800 (PST)
-Received: by mail-qt1-f169.google.com with SMTP id c4so7006206qtx.1;
-        Fri, 11 Mar 2022 03:02:52 -0800 (PST)
+        Fri, 11 Mar 2022 06:03:51 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1613BC03
+        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 03:02:48 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id r65so4919644wma.2
+        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 03:02:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GFp62pGudTaAvJCQbs/e68j4lgVVveBITWzF5FI2cio=;
+        b=mY5b6auw+fLSBfJsiVWN8aPcW/cROWCyRbyjwtKw3Wm740m1fqoT+fRsAGAue/+WVy
+         JLBoFTHAgSliLtogVwFXDZ7YgMto+ZxaTjl5LxiCClliB0akrTmc6WnXJA0b+H5zzDbb
+         QtcnN/nIKLFdldn92ktNz/Yn9N7NE+SGj6s+8/Wkl2gA6vSKx3/23sM4AZjViF7U1gKE
+         oaBfilvTQwHKVOvmX4K+9bQykcOBpgN6I4Uy2u6975UN7a5hHB/tPH4mhP7rlvhFlxcH
+         jdzyOoklBK0DmCPTXRrUWZA/ZGzK04PPSfNGUjkNw0drJKD0CGk66g2WrM08J0ws/sGC
+         pxmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dENfo9gO0b1pTsO4dzfVrH92BU65Hwt+u9hDhomrtzg=;
-        b=jsvdgq+wxgCEND9wZJ9suYrVBgkniZnG5TRua64sE/n1be8ljFp44aRd9Vl606w8bm
-         YUq7SDtRHTiS8EjsqAu1vOmUnATmZxtvnbwYOAqw54T3hRbPcAIWdmvq3dgolZWNGpRL
-         gJL5w0etkdiLjGjsYgxpi3++ltPULtOoEnclXZgBlnu3b+vX/wFkCMKJUK5e1Qh5kveL
-         o7k9R9JTWFhDGeeyDw0E7lodAJluy/hRbmOJf8YVgOQNSFHzk89z48nytiBp/tMNg0rt
-         bW4IUZ3rtsKuKHdjWNMcbHEylvKTgaMx5gUJYzlcMBNchMzn+GsrdQ6ZVwPowyDzrCnC
-         8vew==
-X-Gm-Message-State: AOAM532khIAQjd9TDqn3gkJVkHgKEgNwz6axC8PwaN0qWyj9Xg6RA8G9
-        GXlLRke6FgrxTrL6gEysgZxlAAETVMtFIA==
-X-Google-Smtp-Source: ABdhPJw/prIQ5nVvU/TS7RQFThTAtU4PHYz44d8OVp79mMtfE0HMBh247243gwoNGsxsLxDNt2Zslw==
-X-Received: by 2002:a05:622a:15ca:b0:2e1:a754:ffab with SMTP id d10-20020a05622a15ca00b002e1a754ffabmr7500809qty.486.1646996571547;
-        Fri, 11 Mar 2022 03:02:51 -0800 (PST)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id t7-20020a05622a01c700b002e1b3555c2fsm2496463qtw.26.2022.03.11.03.02.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Mar 2022 03:02:51 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id g26so16386416ybj.10;
-        Fri, 11 Mar 2022 03:02:50 -0800 (PST)
-X-Received: by 2002:a25:bc8f:0:b0:628:8649:5c4b with SMTP id
- e15-20020a25bc8f000000b0062886495c4bmr7339485ybk.207.1646996569857; Fri, 11
- Mar 2022 03:02:49 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GFp62pGudTaAvJCQbs/e68j4lgVVveBITWzF5FI2cio=;
+        b=68QvS+NjhdVzRhES8MdipyDl93GPw6pfPg2QFoz8Q2uMjMKQCUpyWLrAFGUgi0i/X+
+         IbNw7ADbd4LAjUIgl+6rq7gvEjShJtyMXLQkqSBXezu7oKWGQVhZ9P7hzYorIOz8YZbl
+         cPGnKYHxZ/eKwkUfJDjae+6Bia2WFXvnpO0oBneVVLX+nbUmMKhqi5zMnjubl2TuX0G+
+         20/st8SMM3YJn69UShOq/QFYhOlGz7C2S5CqqbqtMlT7Y5MovN4MmS3roh+vzgqGsQlb
+         UaFEr0WlA110jauddEWaoRc67FNDVmS+SK31fAGhmc1+TFagGKJOK98ly/1PWM3X/yxS
+         xNbA==
+X-Gm-Message-State: AOAM533+gUe7kW1QGrretk2dMRw5AwJI5kEUM/EZvMbJNU9JEhRh/3aE
+        10CbUyDPOFH+r0iz3de9J5M=
+X-Google-Smtp-Source: ABdhPJyk4yIn1WFbf96nZxzhOJ3I+drGMsJY0s8+/LEosCFddwYZ7RIwF4aZnr2+6CN5MudvPun/NQ==
+X-Received: by 2002:a05:600c:3c9c:b0:389:cc3b:9462 with SMTP id bg28-20020a05600c3c9c00b00389cc3b9462mr12281996wmb.105.1646996566458;
+        Fri, 11 Mar 2022 03:02:46 -0800 (PST)
+Received: from able.fritz.box (p5b0eab60.dip0.t-ipconnect.de. [91.14.171.96])
+        by smtp.gmail.com with ESMTPSA id 9-20020a1c0209000000b003868897278asm10170918wmc.23.2022.03.11.03.02.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Mar 2022 03:02:45 -0800 (PST)
+From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
+        <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To:     sumit.semwal@linaro.org, gustavo@padovan.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH 1/2] dma-buf: add dma_fence_unwrap
+Date:   Fri, 11 Mar 2022 12:02:43 +0100
+Message-Id: <20220311110244.1245-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220311103803.25239-1-biju.das.jz@bp.renesas.com> <20220311103803.25239-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220311103803.25239-4-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 11 Mar 2022 12:02:37 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXR_8LzzK+S4S3WAbHbDTBcGj3T9U5jPUv84RifQCqC-A@mail.gmail.com>
-Message-ID: <CAMuHMdXR_8LzzK+S4S3WAbHbDTBcGj3T9U5jPUv84RifQCqC-A@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] media: vsp1: Add support for RZ/G2L VSPD
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
+Add a general purpose helper to deep dive into dma_fence_chain/dma_fence_array
+structures and iterate over all the fences in them.
 
-On Fri, Mar 11, 2022 at 11:38 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The RZ/G2L VSPD provides a single VSPD instance. It has the following
-> sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
->
-> The VSPD block on RZ/G2L does not have a version register, so added a
-> new compatible string "renesas,rzg2l-vsp2" with a data pointer containing
-> the info structure. Also the reset line is shared with the DU module.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2->v3:
->  * Fixed version comparison in vsp1_lookup()
+This is useful when we need to flatten out all fences in those structures.
 
-Thanks for the update!
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ Documentation/driver-api/dma-buf.rst  |   6 +
+ drivers/dma-buf/Makefile              |   1 +
+ drivers/dma-buf/selftests.h           |   1 +
+ drivers/dma-buf/st-dma-fence-unwrap.c | 279 ++++++++++++++++++++++++++
+ include/linux/dma-fence-unwrap.h      |  99 +++++++++
+ 5 files changed, 386 insertions(+)
+ create mode 100644 drivers/dma-buf/st-dma-fence-unwrap.c
+ create mode 100644 include/linux/dma-fence-unwrap.h
 
-> --- a/drivers/media/platform/vsp1/vsp1_lif.c
-> +++ b/drivers/media/platform/vsp1/vsp1_lif.c
-> @@ -130,13 +131,15 @@ static void lif_configure_stream(struct vsp1_entity *entity,
->                         VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
->
->         /*
-> -        * On R-Car V3M the LIF0 buffer attribute register has to be set to a
-> -        * non-default value to guarantee proper operation (otherwise artifacts
-> -        * may appear on the output). The value required by the manual is not
-> -        * explained but is likely a buffer size or threshold.
-> +        * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
-> +        * set to a non-default value to guarantee proper operation (otherwise
-> +        * artifacts may appear on the output). The value required by the
-> +        * manual is not explained but is likely a buffer size or threshold.
->          */
-> -       if ((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
-> -           (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M))
-> +       if (((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
-> +           (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M)) ||
-> +           ((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
-> +            VI6_IP_VERSION_MODEL_VSPD_RZG2L))
->                 vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
->                                VI6_LIF_LBA_LBA0 |
->                                (1536 << VI6_LIF_LBA_LBA1_SHIFT));
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+index 2cd7db82d9fe..7209500f08c8 100644
+--- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -194,6 +194,12 @@ DMA Fence Chain
+ .. kernel-doc:: include/linux/dma-fence-chain.h
+    :internal:
+ 
++DMA Fence unwrap
++~~~~~~~~~~~~~~~~
++
++.. kernel-doc:: include/linux/dma-fence-unwrap.h
++   :internal:
++
+ DMA Fence uABI/Sync File
+ ~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+index 511805dbeb75..4c9eb53ba3f8 100644
+--- a/drivers/dma-buf/Makefile
++++ b/drivers/dma-buf/Makefile
+@@ -12,6 +12,7 @@ dmabuf_selftests-y := \
+ 	selftest.o \
+ 	st-dma-fence.o \
+ 	st-dma-fence-chain.o \
++	st-dma-fence-unwrap.o \
+ 	st-dma-resv.o
+ 
+ obj-$(CONFIG_DMABUF_SELFTESTS)	+= dmabuf_selftests.o
+diff --git a/drivers/dma-buf/selftests.h b/drivers/dma-buf/selftests.h
+index 97d73aaa31da..851965867d9c 100644
+--- a/drivers/dma-buf/selftests.h
++++ b/drivers/dma-buf/selftests.h
+@@ -12,4 +12,5 @@
+ selftest(sanitycheck, __sanitycheck__) /* keep first (igt selfcheck) */
+ selftest(dma_fence, dma_fence)
+ selftest(dma_fence_chain, dma_fence_chain)
++selftest(dma_fence_unwrap, dma_fence_unwrap)
+ selftest(dma_resv, dma_resv)
+diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
+new file mode 100644
+index 000000000000..d821faaebe93
+--- /dev/null
++++ b/drivers/dma-buf/st-dma-fence-unwrap.c
+@@ -0,0 +1,279 @@
++// SPDX-License-Identifier: MIT
++
++/*
++ * Copyright (C) 2022 Advanced Micro Devices, Inc.
++ */
++
++#include <linux/dma-fence-unwrap.h>
++#if 0
++#include <linux/kernel.h>
++#include <linux/kthread.h>
++#include <linux/mm.h>
++#include <linux/sched/signal.h>
++#include <linux/slab.h>
++#include <linux/spinlock.h>
++#include <linux/random.h>
++#endif
++
++#include "selftest.h"
++
++#define CHAIN_SZ (4 << 10)
++
++static struct kmem_cache *slab_fences;
++
++static inline struct mock_fence {
++	struct dma_fence base;
++	spinlock_t lock;
++} *to_mock_fence(struct dma_fence *f) {
++	return container_of(f, struct mock_fence, base);
++}
++
++static const char *mock_name(struct dma_fence *f)
++{
++	return "mock";
++}
++
++static void mock_fence_release(struct dma_fence *f)
++{
++	kmem_cache_free(slab_fences, to_mock_fence(f));
++}
++
++static const struct dma_fence_ops mock_ops = {
++	.get_driver_name = mock_name,
++	.get_timeline_name = mock_name,
++	.release = mock_fence_release,
++};
++
++static struct dma_fence *mock_fence(void)
++{
++	struct mock_fence *f;
++
++	f = kmem_cache_alloc(slab_fences, GFP_KERNEL);
++	if (!f)
++		return NULL;
++
++	spin_lock_init(&f->lock);
++	dma_fence_init(&f->base, &mock_ops, &f->lock, 0, 0);
++
++	return &f->base;
++}
++
++static struct dma_fence *mock_array(unsigned int num_fences, ...)
++{
++	struct dma_fence_array *array;
++	struct dma_fence **fences;
++	va_list valist;
++	int i;
++
++	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
++	if (!fences)
++		return NULL;
++
++	va_start(valist, num_fences);
++	for (i = 0; i < num_fences; ++i)
++		fences[i] = va_arg(valist, typeof(*fences));
++	va_end(valist);
++
++	array = dma_fence_array_create(num_fences, fences,
++				       dma_fence_context_alloc(1),
++				       1, false);
++	if (!array)
++		goto cleanup;
++	return &array->base;
++
++cleanup:
++	for (i = 0; i < num_fences; ++i)
++		dma_fence_put(fences[i]);
++	kfree(fences);
++	return NULL;
++}
++
++static struct dma_fence *mock_chain(struct dma_fence *prev,
++				    struct dma_fence *fence)
++{
++	struct dma_fence_chain *f;
++
++	f = dma_fence_chain_alloc();
++	if (!f) {
++		dma_fence_put(prev);
++		dma_fence_put(fence);
++		return NULL;
++	}
++
++	dma_fence_chain_init(f, prev, fence, 1);
++	return &f->base;
++}
++
++static int sanitycheck(void *arg)
++{
++	struct dma_fence *f, *chain, *array;
++	int err = 0;
++
++	f = mock_fence();
++	if (!f)
++		return -ENOMEM;
++
++	array = mock_array(1, f);
++	if (!array)
++		return -ENOMEM;
++
++	chain = mock_chain(NULL, array);
++	if (!chain)
++		return -ENOMEM;
++
++	dma_fence_signal(f);
++	dma_fence_put(chain);
++	return err;
++}
++
++static int unwrap_array(void *arg)
++{
++	struct dma_fence *fence, *f1, *f2, *array;
++	struct dma_fence_unwrap iter;
++	int err = 0;
++
++	f1 = mock_fence();
++	if (!f1)
++		return -ENOMEM;
++
++	f2 = mock_fence();
++	if (!f2) {
++		dma_fence_put(f1);
++		return -ENOMEM;
++	}
++
++	array = mock_array(2, f1, f2);
++	if (!array)
++		return -ENOMEM;
++
++	dma_fence_unwrap_for_each(fence, &iter, array) {
++		if (fence == f1) {
++			f1 = NULL;
++		} else if (fence == f2) {
++			f2 = NULL;
++		} else {
++			pr_err("Unexpected fence!\n");
++			err = -EINVAL;
++		}
++	}
++
++	if (f1 || f2) {
++		pr_err("Not all fences seen!\n");
++		err = -EINVAL;
++	}
++
++	dma_fence_signal(f1);
++	dma_fence_signal(f2);
++	dma_fence_put(array);
++	return 0;
++}
++
++static int unwrap_chain(void *arg)
++{
++	struct dma_fence *fence, *f1, *f2, *chain;
++	struct dma_fence_unwrap iter;
++	int err = 0;
++
++	f1 = mock_fence();
++	if (!f1)
++		return -ENOMEM;
++
++	f2 = mock_fence();
++	if (!f2) {
++		dma_fence_put(f1);
++		return -ENOMEM;
++	}
++
++	chain = mock_chain(f1, f2);
++	if (!chain)
++		return -ENOMEM;
++
++	dma_fence_unwrap_for_each(fence, &iter, chain) {
++		if (fence == f1) {
++			f1 = NULL;
++		} else if (fence == f2) {
++			f2 = NULL;
++		} else {
++			pr_err("Unexpected fence!\n");
++			err = -EINVAL;
++		}
++	}
++
++	if (f1 || f2) {
++		pr_err("Not all fences seen!\n");
++		err = -EINVAL;
++	}
++
++	dma_fence_signal(f1);
++	dma_fence_signal(f2);
++	dma_fence_put(chain);
++	return 0;
++}
++
++static int unwrap_chain_array(void *arg)
++{
++	struct dma_fence *fence, *f1, *f2, *array, *chain;
++	struct dma_fence_unwrap iter;
++	int err = 0;
++
++	f1 = mock_fence();
++	if (!f1)
++		return -ENOMEM;
++
++	f2 = mock_fence();
++	if (!f2) {
++		dma_fence_put(f1);
++		return -ENOMEM;
++	}
++
++	array = mock_array(2, f1, f2);
++	if (!array)
++		return -ENOMEM;
++
++	chain = mock_chain(NULL, array);
++	if (!chain)
++		return -ENOMEM;
++
++	dma_fence_unwrap_for_each(fence, &iter, chain) {
++		if (fence == f1) {
++			f1 = NULL;
++		} else if (fence == f2) {
++			f2 = NULL;
++		} else {
++			pr_err("Unexpected fence!\n");
++			err = -EINVAL;
++		}
++	}
++
++	if (f1 || f2) {
++		pr_err("Not all fences seen!\n");
++		err = -EINVAL;
++	}
++
++	dma_fence_signal(f1);
++	dma_fence_signal(f2);
++	dma_fence_put(chain);
++	return 0;
++}
++
++int dma_fence_unwrap(void)
++{
++	static const struct subtest tests[] = {
++		SUBTEST(sanitycheck),
++		SUBTEST(unwrap_array),
++		SUBTEST(unwrap_chain),
++		SUBTEST(unwrap_chain_array),
++	};
++	int ret;
++
++	slab_fences = KMEM_CACHE(mock_fence,
++				 SLAB_TYPESAFE_BY_RCU |
++				 SLAB_HWCACHE_ALIGN);
++	if (!slab_fences)
++		return -ENOMEM;
++
++	ret = subtests(tests, NULL);
++
++	kmem_cache_destroy(slab_fences);
++	return ret;
++}
+diff --git a/include/linux/dma-fence-unwrap.h b/include/linux/dma-fence-unwrap.h
+new file mode 100644
+index 000000000000..54963df00c98
+--- /dev/null
++++ b/include/linux/dma-fence-unwrap.h
+@@ -0,0 +1,99 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * fence-chain: chain fences together in a timeline
++ *
++ * Copyright (C) 2022 Advanced Micro Devices, Inc.
++ * Authors:
++ *	Christian König <christian.koenig@amd.com>
++ */
++
++#ifndef __LINUX_DMA_FENCE_UNWRAP_H
++#define __LINUX_DMA_FENCE_UNWRAP_H
++
++#include <linux/dma-fence-chain.h>
++#include <linux/dma-fence-array.h>
++
++/**
++ * struct dma_fence_unwrap - cursor into the container structure
++ */
++struct dma_fence_unwrap {
++	/**
++	 * @chain: potential dma_fence_chain, but can be other fence as well
++	 */
++	struct dma_fence *chain;
++	/**
++	 * @array: potential dma_fence_array, but can be other fence as well
++	 */
++	struct dma_fence *array;
++	/**
++	 * @index: last returned index if @array is really a dma_fence_array
++	 */
++	unsigned int index;
++};
++
++/**
++ * dma_fence_unwrap_array - helper to unwrap dma_fence_arrays
++ * @cursor: cursor to initialize
++ *
++ * Helper function to unwrap dma_fence_array containers, don't touch directly.
++ * Use dma_fence_unwrap_first/next instead.
++ */
++static inline struct dma_fence *
++dma_fence_unwrap_array(struct dma_fence_unwrap * cursor)
++{
++	cursor->array = dma_fence_chain_contained(cursor->chain);
++	cursor->index = 0;
++	return dma_fence_array_first(cursor->array);
++}
++
++/**
++ * dma_fence_unwrap_first - return the first fence from fence containers
++ * @head: the entrypoint into the containers
++ * @cursor: current position inside the containers
++ *
++ * Unwraps potential dma_fence_chain/dma_fence_array containers and return the
++ * first fence.
++ */
++static inline struct dma_fence *
++dma_fence_unwrap_first(struct dma_fence *head, struct dma_fence_unwrap *cursor)
++{
++	cursor->chain = dma_fence_get(head);
++	return dma_fence_unwrap_array(cursor);
++}
++
++/**
++ * dma_fence_unwrap_next - return the next fence from a fence containers
++ * @cursor: current position inside the containers
++ *
++ * Continue unwrapping the dma_fence_chain/dma_fence_array containers and return
++ * the next fence from them.
++ */
++static inline struct dma_fence *
++dma_fence_unwrap_next(struct dma_fence_unwrap *cursor)
++{
++	struct dma_fence *tmp;
++
++	++cursor->index;
++	tmp = dma_fence_array_next(cursor->array, cursor->index);
++	if (tmp)
++		return tmp;
++
++	cursor->chain = dma_fence_chain_walk(cursor->chain);
++	return dma_fence_unwrap_array(cursor);
++}
++
++/**
++ * dma_fence_unwrap_for_each - iterate over all fences in containers
++ * @fence: current fence
++ * @cursor: current position inside the containers
++ * @head: starting point for the iterator
++ *
++ * Unwrap dma_fence_chain and dma_fence_array containers and deep dive into all
++ * potential fences in them. If @head is just a normal fence only that one is
++ * returned.
++ */
++#define dma_fence_unwrap_for_each(fence, cursor, head)			\
++	for (fence = dma_fence_unwrap_first(head, cursor); fence;	\
++	     fence = dma_fence_unwrap_next(cursor))
++
++#endif
+-- 
+2.25.1
 
-LGTM, although using a feature bit in vsp1_device_info, or just a
-switch() statement here, would probably be better.
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
