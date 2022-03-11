@@ -2,302 +2,343 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E17F94D6209
-	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 14:06:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C17394D622D
+	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 14:13:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238154AbiCKNHj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Mar 2022 08:07:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35306 "EHLO
+        id S1348821AbiCKNOu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Mar 2022 08:14:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232658AbiCKNHi (ORCPT
+        with ESMTP id S1348820AbiCKNOt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Mar 2022 08:07:38 -0500
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573CC1C1ED0
-        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 05:06:35 -0800 (PST)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nSeyX-003Wjh-KA; Fri, 11 Mar 2022 13:06:33 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nSeyV-00F4Hv-L6; Fri, 11 Mar 2022 13:06:31 +0000
-Date:   Fri, 11 Mar 2022 13:06:30 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <2066725389.2.1647003991064@builder.linuxtv.org>
-Subject: Build failed in Jenkins: linux-media #273
+        Fri, 11 Mar 2022 08:14:49 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59AB21C1EED
+        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 05:13:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647004426; x=1678540426;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=giZ7IIMZ/GZXM+3ttowFGvT3pPSzWAlrMhg8Vf7c8so=;
+  b=AK/DtCONhKAAg/izVqEx3wBNMnodM8Fge9+T8XXaa+H1MF12z3lqHfEU
+   8ZnRaiqmkbepTwqdqGc8+a8nzzrxNsuFxpyimz/p8cLjIHFsPIgwQeb4Y
+   91exs8kpqpOJ0+UT4T1TYTHWpl9v+zRx9+xlB/4K2erBNekdDdw+IKQzw
+   fWIo+P1/RngeFjduUuq78jcjrU/Sv9Yra7sYLMHMxGNtn+InuZhe68ivq
+   tIlcWKTsXDAOsThEoRHyZRD8GWgTXaQJesYw7YkEyRRyuxRmFzdA6kGGD
+   oepZYr5uN8t9FQNv76TAtPkv5bLYcw3iO1dCtkkGtG7LJsvfijHtn0nz1
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="255518687"
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; 
+   d="scan'208";a="255518687"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 05:13:45 -0800
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; 
+   d="scan'208";a="781860586"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 05:13:43 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 8C0EC2036B;
+        Fri, 11 Mar 2022 15:13:11 +0200 (EET)
+Date:   Fri, 11 Mar 2022 15:13:11 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        alain.volmat@foss.st.com, hugues.fruchet@foss.st.com,
+        sylvain.petinot@foss.st.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 1/2] media: dt-bindings: media: i2c: Add ST VGXY61 camera
+ sensor binding
+Message-ID: <YitK59bd7D0jF0qd@paasikivi.fi.intel.com>
+References: <20220310133255.1946530-1-benjamin.mugnier@foss.st.com>
+ <20220310133255.1946530-2-benjamin.mugnier@foss.st.com>
+ <CAPY8ntBBrdYBUHk1qzy6Z3xAZbaP5jtnS6CGM=RoyhzrLhJm+A@mail.gmail.com>
+ <20abde54-4a26-98fe-f0fb-de51ad1be6c8@foss.st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: linux-media
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20abde54-4a26-98fe-f0fb-de51ad1be6c8@foss.st.com>
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/linux-media/273/display/redirect>
+Hi Benjamin,
 
-Changes:
+On Fri, Mar 11, 2022 at 12:25:38PM +0100, Benjamin Mugnier wrote:
+> Hi Dave,
+> 
+> Thank you for your review.
+> 
+> On 10/03/2022 16:38, Dave Stevenson wrote:
+> > Hi Benjamin
+> > 
+> > cc Laurent and Sakari as maintainers of video-interfaces.yaml
+> > 
+> > On Thu, 10 Mar 2022 at 13:37, Benjamin Mugnier
+> > <benjamin.mugnier@foss.st.com> wrote:
+> >>
+> >> Add device tree binding for the ST VGXY61 camera sensor, and update
+> >> MAINTAINERS file.
+> >>
+> >> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> >> ---
+> >>  .../bindings/media/i2c/st,st-vgxy61.yaml      | 134 ++++++++++++++++++
+> >>  MAINTAINERS                                   |  10 ++
+> >>  2 files changed, 144 insertions(+)
+> >>  create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml b/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
+> >> new file mode 100644
+> >> index 000000000000..8740ed2623e4
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
+> >> @@ -0,0 +1,134 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> >> +# Copyright (c) 2022 STMicroelectronics SA.
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/media/i2c/st,st-vgxy61.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: STMicroelectronics VGxy61 HDR Global Shutter Sensor Family Device Tree Bindings
+> >> +
+> >> +maintainers:
+> >> +  - Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> >> +  - Sylvain Petinot <sylvain.petinot@foss.st.com>
+> >> +
+> >> +description: |-
+> >> +  STMicroelectronics VGxy61 family has a CSI-2 output port. CSI-2 output is a
+> >> +  quad lanes 800Mbps per lane.
+> >> +  Supported formats are RAW8, RAW10, RAW12, RAW14 and RAW16.
+> >> +  Following part number are supported
+> >> +  - VG5661 and VG6661 are 1.6 Mpx (1464 x 1104) monochrome and color sensors.
+> >> +  Maximum frame rate is 75 fps.
+> >> +  - VG5761 and VG6761 are 2.3 Mpx (1944 x 1204) monochrome and color sensors.
+> >> +  Maximum frame rate is 60 fps.
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    const: st,st-vgxy61
+> >> +
+> >> +  reg:
+> >> +    maxItems: 1
+> >> +
+> >> +  clocks:
+> >> +    maxItems: 1
+> >> +
+> >> +  clock-names:
+> >> +    description:
+> >> +      Input clock for the sensor.
+> >> +    items:
+> >> +      - const: xclk
 
+Do you need this if you have a single clock?
 
-------------------------------------------
-[...truncated 92253 lines...]
-  CC [M]  drivers/staging/rtl8192u/r819xU_cmdpkt.o
-  CC [M]  drivers/staging/rtl8192u/r8192U_dm.o
-  CC [M]  drivers/staging/rtl8192u/r819xU_firmware_img.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_softmac_wx.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_ieee80211.o
-  CC [M]  drivers/staging/r8188eu/hal/HalPhyRf_8188e.o
-  CC [M]  drivers/staging/r8188eu/hal/HalPwrSeqCmd.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_dm.o
-  CC      drivers/staging/wfx/data_rx.o
-  CC      drivers/staging/wfx/scan.o
-  CC      drivers/staging/wfx/sta.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.o
-  CC [M]  drivers/staging/rtl8192e/rtl819x_BAProc.o
-  CC [M]  drivers/staging/rtl8192e/rtl819x_HTProc.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_mlme.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_eeprom.o
-  CC [M]  drivers/staging/rtl8192e/rtl819x_TSProc.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.o
-  CC      drivers/staging/wfx/key.o
-  CC [M]  drivers/staging/r8188eu/hal/Hal8188EPwrSeq.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_crypt_ccmp.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_ethtool.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_pci.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_crypt_tkip.o
-  CC [M]  drivers/staging/rtl8192e/rtllib_crypt_wep.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_mlme_ext.o
-  CC [M]  drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_odm.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_rx.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_pm.o
-  LD [M]  drivers/staging/rtl8192e/rtllib.o
-  CC      drivers/staging/wfx/main.o
-  CC      drivers/staging/wfx/debug.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_pwrctrl.o
-  CC      drivers/staging/wfx/bus_spi.o
-  CC [M]  drivers/staging/r8188eu/hal/hal_intf.o
-  CC      drivers/staging/wfx/bus_sdio.o
-  CC [M]  drivers/staging/r8188eu/hal/hal_com.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_ps.o
-  CC [M]  drivers/staging/r8188eu/hal/odm.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_recv.o
-  CC [M]  drivers/staging/rtl8192e/rtl8192e/rtl_wx.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_rf.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_debug.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_HWConfig.o
-  AR      drivers/staging/wfx/built-in.a
-  CC [M]  drivers/staging/r8188eu/hal/odm_RegConfig8188E.o
-  CC [M]  drivers/staging/r8188eu/hal/odm_RTL8188E.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_cmd.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_dm.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_security.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_tx.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_hal_init.o
-  LD [M]  drivers/staging/rtl8192e/rtl8192e/r8192e_pci.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_phycfg.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_rf6052.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_rxdesc.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188e_xmit.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_wx.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_module.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac_wx.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/rtl819x_HTProc.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_sta_mgt.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/rtl819x_TSProc.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_wlan_util.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/rtl819x_BAProc.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188eu_recv.o
-  CC [M]  drivers/staging/r8188eu/hal/rtl8188eu_xmit.o
-  CC [M]  drivers/staging/r8188eu/hal/usb_halinit.o
-  CC [M]  drivers/staging/r8188eu/hal/usb_ops_linux.o
-  CC [M]  drivers/staging/r8188eu/os_dep/ioctl_linux.o
-  CC [M]  drivers/staging/rtl8192u/ieee80211/dot11d.o
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_xmit.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_intf.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_com.o
-  CC [M]  drivers/staging/r8188eu/os_dep/mlme_linux.o
-  CC [M]  drivers/staging/r8188eu/os_dep/os_intfs.o
-  CC [M]  drivers/staging/r8188eu/os_dep/osdep_service.o
-  CC [M]  drivers/staging/r8188eu/os_dep/recv_linux.o
-  CC [M]  drivers/staging/r8188eu/os_dep/usb_intf.o
-  LD [M]  drivers/staging/rtl8192u/r8192u_usb.o
-  CC [M]  drivers/staging/r8188eu/os_dep/usb_ops_linux.o
-  CC [M]  drivers/staging/r8188eu/os_dep/xmit_linux.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_com_phycfg.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_btcoex.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_ap.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_br_ext.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_sdio.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_cmd.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_efuse.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_ieee80211.o
-  CC [M]  drivers/staging/vt6655/device_main.o
-  CC [M]  drivers/staging/vt6655/card.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_ioctl_set.o
-  CC [M]  drivers/staging/vt6656/main_usb.o
-  CC [M]  drivers/staging/gdm724x/gdm_lte.o
-  AR      drivers/staging/built-in.a
-  CC [M]  drivers/staging/gdm724x/netlink_k.o
-  CC [M]  drivers/staging/gdm724x/gdm_usb.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_iol.o
-  CC [M]  drivers/staging/rtl8723bs/hal/hal_pwr_seq.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalPhyRf.o
-  CC [M]  drivers/staging/vt6655/channel.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.o
-  CC [M]  drivers/staging/vt6656/card.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_led.o
-  CC [M]  drivers/staging/vt6656/mac.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_CfoTracking.o
-  CC [M]  drivers/staging/gdm724x/gdm_endian.o
-  CC [M]  drivers/staging/gdm724x/gdm_tty.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_mlme.o
-  CC [M]  drivers/staging/gdm724x/gdm_mux.o
-  LD [M]  drivers/staging/gdm724x/gdmulte.o
-  CC [M]  drivers/staging/vt6656/baseband.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_DIG.o
-  CC [M]  drivers/staging/vt6655/mac.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_mlme_ext.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_pwrctrl.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_DynamicBBPowerSaving.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_DynamicTxPower.o
-  CC      drivers/mux/core.o
-  CC      drivers/mux/adg792a.o
-  LD [M]  drivers/staging/gdm724x/gdmtty.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.o
-  CC [M]  drivers/staging/vt6656/wcmd.o
-  CC [M]  drivers/staging/vt6656/rxtx.o
-  CC [M]  drivers/staging/vt6655/baseband.o
-  CC [M]  drivers/staging/vt6655/rxtx.o
-  CC [M]  drivers/staging/vt6655/dpc.o
-  CC [M]  drivers/staging/vt6655/power.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_p2p.o
-  CC      drivers/mux/adgs1408.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_HWConfig.o
-  CC [M]  drivers/staging/vt6656/power.o
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.o
-  CC      drivers/mux/gpio.o
-  CC      drivers/mux/mmio.o
-  CC [M]  drivers/staging/vt6656/key.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_recv.o
-  CC [M]  drivers/staging/vt6655/srom.o
-  CC [M]  drivers/staging/vt6655/key.o
-  CC [M]  drivers/staging/vt6655/rf.o
-  CC [M]  drivers/staging/vt6656/rf.o
-  AR      drivers/mux/built-in.a
-  CC [M]  drivers/staging/rtl8723bs/hal/odm_RegConfig8723B.o
-  CC [M]  drivers/staging/vt6656/usbpipe.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_dm.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.o
-  LD [M]  drivers/staging/vt6655/vt6655_stage.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.o
-  CC      drivers/visorbus/visorbus_main.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_rf.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.o
-  CC      drivers/siox/siox-core.o
-  CC [M]  drivers/staging/vt6656/channel.o
-  CC      drivers/siox/siox-bus-gpio.o
-  CC      drivers/visorbus/visorchannel.o
-  CC      drivers/visorbus/visorchipset.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723bs_recv.o
-  CC [M]  drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_security.o
-  CC [M]  drivers/staging/rtl8723bs/hal/sdio_halinit.o
-  AR      drivers/siox/built-in.a
-  CC [M]  drivers/staging/rtl8723bs/hal/sdio_ops.o
-  LD [M]  drivers/staging/vt6656/vt6656_stage.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_sta_mgt.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_wlan_util.o
-  CC      drivers/gnss/core.o
-  AR      drivers/visorbus/built-in.a
-  CC      drivers/gnss/serial.o
-  CC      drivers/gnss/mtk.o
-  CC      drivers/gnss/sirf.o
-  CC      drivers/gnss/ubx.o
-  CC      drivers/gnss/usb.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.o
-  CC      drivers/counter/counter-core.o
-  CC [M]  drivers/staging/r8188eu/core/rtw_xmit.o
-  CC      drivers/interconnect/core.o
-  CC      drivers/interconnect/imx/imx.o
-  CC      drivers/interconnect/samsung/exynos.o
-  CC      drivers/interconnect/bulk.o
-  CC      drivers/interconnect/imx/imx8mm.o
-  AR      drivers/gnss/built-in.a
-  CC      drivers/interconnect/imx/imx8mq.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.o
-  AR      drivers/interconnect/samsung/built-in.a
-  CC      drivers/counter/counter-sysfs.o
-  CC      drivers/counter/counter-chrdev.o
-  CC      drivers/interconnect/imx/imx8mn.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.o
-  CC [M]  drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.o
-  CC      drivers/most/core.o
-  LD [M]  drivers/staging/r8188eu/r8188eu.o
-  AR      drivers/interconnect/imx/built-in.a
-  CC      drivers/counter/104-quad-8.o
-  AR      drivers/interconnect/built-in.a
-  CC      drivers/counter/interrupt-cnt.o
-  CC      drivers/counter/stm32-timer-cnt.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/ioctl_linux.o
-  CC      drivers/counter/stm32-lptimer-cnt.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/mlme_linux.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/osdep_service.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/os_intfs.o
-  CC      drivers/counter/ti-eqep.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/recv_linux.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/sdio_intf.o
-  CC      drivers/most/configfs.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/wifi_regd.o
-  CC [M]  drivers/staging/rtl8723bs/os_dep/xmit_linux.o
-  CC      drivers/counter/ftm-quaddec.o
-  CC      drivers/most/most_usb.o
-  CC      drivers/counter/microchip-tcb-capture.o
-  CC      drivers/counter/intel-qep.o
-  CC      drivers/most/most_cdev.o
-  CC      drivers/most/most_snd.o
-  LD [M]  drivers/staging/rtl8723bs/r8723bs.o
-  AR      drivers/counter/built-in.a
-  AR      drivers/most/built-in.a
-  AR      drivers/built-in.a
-  GEN     .version
-  CHK     include/generated/compile.h
-  LD      vmlinux.o
-  OBJTOOL vmlinux.o
-Killed
-make[1]: *** [/var/lib/jenkins/workspace/linux-media/Makefile:1155: vmlinux] Error 137
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-make: *** [Makefile:219: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch x86_64 (builtin/mod)
-[Pipeline] // parallel
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Declarative: Post Actions)
-[Pipeline] step
+Also see Documentation/driver-api/media/camera-sensor.rst .
+
+> >> +
+> >> +  VCORE-supply:
+> >> +    description:
+> >> +      Sensor digital core supply. Must be 1.2 volts.
+> >> +
+> >> +  VDDIO-supply:
+> >> +    description:
+> >> +      Sensor digital IO supply. Must be 1.8 volts.
+> >> +
+> >> +  VANA-supply:
+> >> +    description:
+> >> +      Sensor analog supply. Must be 2.8 volts.
+> >> +
+> >> +  reset-gpios:
+> >> +    description:
+> >> +      Reference to the GPIO connected to the reset pin, if any.
+> >> +      This is an active low signal to the vgxy61.
+> >> +
+> >> +  invert-gpios-polarity:
+> >> +    description:
+> >> +      If gpios polarity should be inversed
+> > 
+> > s/inversed/inverted
+> > 
+> 
+> Ok.
+> 
+> >> +    type: boolean
+> >> +
+> >> +  slave-mode:
+> >> +    description:
+> >> +      If the sensor operates in slave mode
+> >> +    type: boolean
+> > 
+> > This is one I've been meaning to raise for a while.
+> > Is DT the correct place to be configuring hardware sync options for
+> > image sensors? (There may be the linguistic discussions over master /
+> > slave terminology too).
+> > We also have IMX477 and a number of other sensors that support
+> > external sync control of some form.
+> > 
+> > As I see it, there are nominally 3 settings - disabled (reduces EMC
+> > noise), generate syncs, and receive syncs.
+> > For test purposes it would be useful to be able to switch between
+> > generate and receive modes at runtime, so that would make it a control
+> > instead of being fixed in DT.
+> > 
+> > If it should be configured in DT, then how does ACPI need to handle it?
+> > 
+> > If DT is the correct place to define the role, should it be in
+> > video-interfaces.yaml as an optional property, instead of being a
+> > sensor specific binding?
+> > 
+> > Sorry, more questions rather than answers.
+> > 
+> >   Dave
+> 
+> Maybe I can provide additional info on this sensor to help find an
+> answer. The "slave mode" has 2 settings: enabled or disabled. If disabled
+> you are in master mode ('generate sync' and 'disabled' modes Dave
+> mentionned, they are the same here), and if enabled you are in slave mode
+> ('receive sync'). As you said he master sends frame sync signals to the
+> slave each frame acquired, this allows both sensors to synchronize
+> themselves.
+> 
+> I put this in the device tree as we only use it for 3D stereocam boards
+> which already have 2 sensors on them, meaning this is hardware specific.
+> I don't have any use case where we manually wire 2 sensors on 2 separate
+> boards. One good point you mentioned is that I may not always want run
+> this board in master/slaver, and both sensors could run on master mode
+> without interacting with each other, thus justifying a dedicated v4l2
+> control.
+> 
+> Any ideas on how to name it instead of "slave mode" for coherency between
+> sensors?
+
+How is this wired? The slave-mode property documentation explicitly refers
+to synchronisation signals that do not exists in CSI-2.
+
+> 
+> 
+> Regard,
+> 
+> Benjamin
+> 
+> > 
+> >> +    #TODO check all this or copy from elsewhere
+> 
+> Just noticed this and will remove it.
+> 
+> >> +  port:
+> >> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> >> +    additionalProperties: false
+> >> +
+> >> +    properties:
+> >> +      endpoint:
+> >> +        $ref: /schemas/media/video-interfaces.yaml#
+> >> +        unevaluatedProperties: false
+> >> +
+> >> +        properties:
+> >> +          clock-lane:
+> >> +            description:
+> >> +              Clock lane index
+> >> +            maxItems: 1
+
+Does the device support lane reordering? If not, please drop.
+
+> >> +
+> >> +          data-lanes:
+> >> +            description:
+> >> +              CSI lanes to use
+> >> +            items:
+> >> +              - const: 1
+> >> +              - const: 2
+> >> +              - const: 3
+> >> +              - const: 4
+
+Which lane configurations does the device support? If it's four lanes only,
+then you can drop this property, too.
+
+> >> +
+> >> +          remote-endpoint: true
+> >> +
+> >> +        required:
+> >> +          - clock-lane
+> >> +          - data-lanes
+> >> +          - remote-endpoint
+
+Listing remote-endpoint here isn't needed as this comes from the schema.
+
+> >> +
+> >> +required:
+> >> +  - compatible
+> >> +  - clocks
+> >> +  - clock-names
+> >> +  - VCORE-supply
+> >> +  - VDDIO-supply
+> >> +  - VANA-supply
+> >> +
+> >> +additionalProperties: false
+> >> +
+> >> +examples:
+> >> +  - |
+> >> +    #include <dt-bindings/gpio/gpio.h>
+> >> +    i2c {
+> >> +        #address-cells = <1>;
+> >> +        #size-cells = <0>;
+> >> +        vgxy61: csi2tx@10 {
+> >> +            compatible = "st,st-vgxy61";
+> >> +            reg = <0x10>;
+> >> +            status = "okay";
+> >> +            clocks = <&clk_ext_camera>;
+> >> +            clock-names = "xclk";
+> >> +            VCORE-supply = <&v1v2>;
+> >> +            VDDIO-supply = <&v1v8>;
+> >> +            VANA-supply = <&v2v8>;
+> >> +            reset-gpios = <&mfxgpio 18 GPIO_ACTIVE_LOW>;
+> >> +            port {
+> >> +                ep0: endpoint {
+> >> +                    clock-lane = <0>;
+> >> +                    data-lanes = <1 2 3 4>;
+> >> +                    remote-endpoint = <&mipi_csi2_out>;
+> >> +                };
+> >> +            };
+> >> +        };
+> >> +    };
+> >> +...
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index 83d27b57016f..f358d15f68a0 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -18297,6 +18297,16 @@ S:     Maintained
+> >>  F:     Documentation/hwmon/stpddc60.rst
+> >>  F:     drivers/hwmon/pmbus/stpddc60.c
+> >>
+> >> +ST VGXY61 DRIVER
+> >> +M:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> >> +M:     Sylvain Petinot <sylvain.petinot@foss.st.com>
+> >> +L:     linux-media@vger.kernel.org
+> >> +S:     Maintained
+> >> +T:     git git://linuxtv.org/media_tree.git
+> >> +F:     Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.txt
+> >> +F:     drivers/media/i2c/st-vgxy61.c
+> >> +
+
+Extra newline.
+
+> >> +
+> >>  ST VL53L0X ToF RANGER(I2C) IIO DRIVER
+> >>  M:     Song Qiang <songqiang1304521@gmail.com>
+> >>  L:     linux-iio@vger.kernel.org
+> >> --
+> >> 2.25.1
+> >>
+
+-- 
+Kind regards,
+
+Sakari Ailus
