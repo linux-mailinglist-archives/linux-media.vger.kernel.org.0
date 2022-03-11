@@ -2,91 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5560D4D65CF
-	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 17:12:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73A7C4D65DE
+	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 17:17:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349893AbiCKQND (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Mar 2022 11:13:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60886 "EHLO
+        id S233979AbiCKQS3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Mar 2022 11:18:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350180AbiCKQMy (ORCPT
+        with ESMTP id S230255AbiCKQS3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Mar 2022 11:12:54 -0500
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3D381D037E
-        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 08:11:50 -0800 (PST)
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 8974D3F799
-        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 16:11:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1647015109;
-        bh=/xDMIzok4BBqRbQwzpcKq4weLtnmbOgtjmLGusIUnSs=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=C/LiDFmJp2T72kgLbnltavjoVUezlkggIvjB5G++Xu9Hj/CXfbLeIX2HCOdc+Ri6p
-         8qYWhZRUvmCI0XHJF7IJASItmu3W9U+J/lbQUFEzTmdjDQkJk46cRBQlT+Y1RMVoQ4
-         PvHJnW7wKcJFa7UPv+xnRnSuZz6+WSBMjrXkDDjQGVtxrsAawlNShukFNdwqqbL3mH
-         ezKpAlVjFUduIwe5xzEDLXHd9xZ3J7yo3PcTU2cBvi2b1UxO6P+5cRUd5V1Lki2KZ6
-         2NwMw0DosHps9AoN8mhin/lQ0TMhAncrTI9bxORMKDLg6pd0V/CqXbwVQ/fZvE+TVu
-         DVmhemWt2z1BA==
-Received: by mail-ej1-f70.google.com with SMTP id r18-20020a17090609d200b006a6e943d09eso5164329eje.20
-        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 08:11:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=/xDMIzok4BBqRbQwzpcKq4weLtnmbOgtjmLGusIUnSs=;
-        b=XgAFcqUoL0CrQP7aFzMGX1jmg28AMpgGruFJjwYMMLZCzFoIPjSq9HU4Q/hVk/5y6N
-         YfDUZK6oGjInyC2sUU+tx/V4Lr79R5H5jrP9s7wW7oqpQPymOHXEMjeKNxn6KD0liv6V
-         ld1WYzVsUNEUaRFMlLpI8AMTaehLgb8vWMv7n5/VnsNsT80ard7bEENMBqy3NroE4UgC
-         iAn3perR9Dqozoib6o00Iy5WCDqZN6ucgRTsBk5zMdP3Xu+hLr1faTPHqAapGzUFfzYR
-         UqIrRa7qxC9zcQkYwn+8SuXwjTywDMaTga2Z3T3SVT6Kwwy9CpVRsSDg7INicZzdbSpo
-         tyCg==
-X-Gm-Message-State: AOAM533kB9gUkR1zE/3dvaVzLvERmBEPUZaW2NQlPeMgpXdRA8jO6iax
-        vfsJcjXwVjg3ulI6piImA42jZb6I+CEML4OjBilPDbE4v6vCyjdYh6U06NzJ2XyLFIn+JAN+xAB
-        jRKU+hryJon4Amwst50SFAxXhaFJtfdnAN+YtHVSW
-X-Received: by 2002:a05:6402:26d0:b0:416:7165:269a with SMTP id x16-20020a05640226d000b004167165269amr9544155edd.61.1647015108733;
-        Fri, 11 Mar 2022 08:11:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxTav262hWXWOXyPGnNM+3qtnOwIKLLt7d0bT1AqbyctOKkU7uc1Sdn3xGaaAJaB5adGJmX9w==
-X-Received: by 2002:a05:6402:26d0:b0:416:7165:269a with SMTP id x16-20020a05640226d000b004167165269amr9544129edd.61.1647015108470;
-        Fri, 11 Mar 2022 08:11:48 -0800 (PST)
-Received: from [192.168.0.148] (xdsl-188-155-174-239.adslplus.ch. [188.155.174.239])
-        by smtp.gmail.com with ESMTPSA id g21-20020a056402115500b00413c824e422sm3363331edw.72.2022.03.11.08.11.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Mar 2022 08:11:47 -0800 (PST)
-Message-ID: <5f81a066-0d28-59ed-ec55-3861766025e6@canonical.com>
-Date:   Fri, 11 Mar 2022 17:11:47 +0100
+        Fri, 11 Mar 2022 11:18:29 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC0201B45F3
+        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 08:17:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647015444; x=1678551444;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=yyPVRfcwQMWAUXo2WqNU02KTdzN0qNIuvJopM4W7I4k=;
+  b=R5PMMhutPI5mH63Uh1FyV8L+2MrZTeJym9WI50TKIbsIvMUieYI1IvTm
+   My7wF7iY5R+7KsrTN9d5dt0f+VDTiHTast4hUuF0R087DMUK/6V/x7+HH
+   No43iqSUtTaMMgD+sdg7u1dubLgA7D86ZIKR8qcvEA6gKwAtApRFRB9yv
+   CzrCJUBNyRc8hq37VeXJe4Oklv5b4dNCC1wWpYwzNrNU5pA8yxSNTcszh
+   xkmiobNf89smiecpgKB6GcsGroQxaR5gvek7I1ydB/v/ndJ+GrMPRhtYh
+   FuprZ1+yBikVmO322+9jw8iO9mOvxNQVq4K5onGd/OCqWC5KzkirJ3Agj
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="253164896"
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; 
+   d="scan'208";a="253164896"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 08:17:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; 
+   d="scan'208";a="597154526"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 11 Mar 2022 08:17:22 -0800
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nShxB-0006if-9W; Fri, 11 Mar 2022 16:17:21 +0000
+Date:   Sat, 12 Mar 2022 00:16:40 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>, sumit.semwal@linaro.org,
+        gustavo@padovan.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc:     kbuild-all@lists.01.org,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 2/2] dma-buf/sync-file: fix warning about fence containers
+Message-ID: <202203120047.SyXpIs6H-lkp@intel.com>
+References: <20220311110244.1245-2-christian.koenig@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/6] media: dt-bindings: i2c: Document ov5670
-Content-Language: en-US
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        jeanmichel.hautbois@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com, paul.kocialkowski@bootlin.com,
-        sakari.ailus@iki.fi, paul.elder@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
-        <linux-media@vger.kernel.org>, robh@kernel.org,
-        devicetree@vger.kernel.org
-References: <20220310130829.96001-1-jacopo@jmondi.org>
- <20220310130829.96001-2-jacopo@jmondi.org>
- <d7e2a189-2773-b37a-7449-0b5138e45ded@canonical.com>
- <20220310171634.qiqnq376qizrqhw5@uno.localdomain>
- <7eb33fe1-2470-7096-b77b-d147c2e55fec@canonical.com>
- <20220311160524.wyfk5vj33xt4umgi@uno.localdomain>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220311160524.wyfk5vj33xt4umgi@uno.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220311110244.1245-2-christian.koenig@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -94,225 +68,80 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/03/2022 17:05, Jacopo Mondi wrote:
-> Hi Krzysztof,
-> 
-> On Thu, Mar 10, 2022 at 06:26:02PM +0100, Krzysztof Kozlowski wrote:
->> On 10/03/2022 18:16, Jacopo Mondi wrote:
->>> Hi Krzysztof
->>>
->>> On Thu, Mar 10, 2022 at 03:29:24PM +0100, Krzysztof Kozlowski wrote:
->>>> On 10/03/2022 14:08, Jacopo Mondi wrote:
->>>>> Provide the bindings documentation for Omnivision OV5670 image sensor.
->>>>>
->>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->>>>> ---
->>>>>  .../devicetree/bindings/media/i2c/ov5670.yaml | 93 +++++++++++++++++++
->>>>
->>>> Add the file to maintainers entry.
->>>>
->>>
->>> Right
->>>
->>>>>  1 file changed, 93 insertions(+)
->>>>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5670.yaml
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5670.yaml b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
->>>>> new file mode 100644
->>>>> index 000000000000..dc4a3297bf6f
->>>>> --- /dev/null
->>>>> +++ b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
->>>>
->>>> Missing vendor prefix in file name.
->>>>
->>>
->>> Right x2
->>>
->>>>> @@ -0,0 +1,93 @@
->>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>>> +%YAML 1.2
->>>>> +---
->>>>> +$id: http://devicetree.org/schemas/media/i2c/ov5670.yaml#
->>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>> +
->>>>> +title: Omnivision OV5670 5 Megapixels raw image sensor
->>>>> +
->>>>> +maintainers:
->>>>> +  - Jacopo Mondi <jacopo@jmondi.org>
->>>>
->>>> Please add also driver maintainer.
->>>>
->>>
->>> I never got what the policy was, if the maintainer entries here only
->>> refer to the binding file or to the driver too
->>
->> It is a person responsible for the bindings, so indeed it might not feed
->> existing maintainer.
->>
->>>
->>>>> +
->>>>> +description: |-
->>>>> +  The OV5670 is a 5 Megapixels raw image sensor which provides images in 10-bits
->>>>> +  RAW BGGR Bayer format on a 2 data lanes MIPI CSI-2 serial interface and is
->>>>> +  controlled through an I2C compatible control bus.
->>>>> +
->>>>> +properties:
->>>>> +  compatible:
->>>>> +    const: ovti,ov5670
->>>>> +
->>>>> +  reg:
->>>>> +    maxItems: 1
->>>>> +
->>>>> +  clock-frequency:
->>>>> +    description: Frequency of the xclk clock.
->>>>
->>>> Is the xclk external clock coming to the sensor? If yes, there should be
->>>> a "clocks" property.
->>>>
->>>
->>> To be honest I was not sure about this, as clock-frequency is already
->>> used by the driver for the ACPI part, but it seems to in DT bindings
->>> it is a property meant to be specified in the clock providers, even if
->>> Documentation/devicetree/bindings/clock/clock-bindings.txt doesn't
->>> really clarify this
->>>
->>> Clock consumer should rather use 'clocks' and point to the provider's
->>> phandle if my understanding is right.
->>
->> This is a clock-frequency, not clock reference. For external clocks, a
-> 
-> Yes, I was suggesting to replace clock-frequency with clocks, that
-> accepts a phandle.
-> 
-> The thing is, the driver parses 'clock-frequency'
-> 	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
-> 
-> which I assume comes from ACPI (as the driver was developed for an
-> ACPI platform).
-> 
-> If in DTS we don't use it, I then need to
-> 
-> #ifdef CONFIG_ACPI
-> 
-> #elif defined CONFIG_OF
-> 
-> #endif
-> 
-> Which I would really like to avoid.
-> 
-> Anyone with ACPI experience that knows where clock-frequency comes
-> from ?
+Hi "Christian,
 
-I would assume that ACPI simply does not support common clock framework,
-so it had to use clock-frequency. Several of such drivers were added by
-folks from Intel which use ACPI, not Devicetree.
+I love your patch! Perhaps something to improve:
 
-> 
->> clock phandles + assigned-clock-rates should be rather used. However for
->> internal clocks, this is a perfectly valid property.
->>
->> Therefore the question is - what is the "xclk"?
-> 
-> xclk is the clock fed to the sensor, which which all its internal
-> clocks are generated, so it's indeed an 'external' clock. As I've
-> said, clock-frequency seems to be meant for clock providers, and
-> the image sensor is a clock consumer.
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.17-rc7 next-20220310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Regardless whether clock-frequency stays or not, you need the clocks
-property in such case.
+url:    https://github.com/0day-ci/linux/commits/Christian-K-nig/dma-buf-add-dma_fence_unwrap/20220311-190352
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 79b00034e9dcd2b065c1665c8b42f62b6b80a9be
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20220312/202203120047.SyXpIs6H-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/ca3584ac05c4a450e69b1c6bcb0672b5ab026c7c
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Christian-K-nig/dma-buf-add-dma_fence_unwrap/20220311-190352
+        git checkout ca3584ac05c4a450e69b1c6bcb0672b5ab026c7c
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/dma-buf/
 
-> 
->>
->>>
->>>>> +
->>>>> +  pwdn-gpios:
->>>>> +    description: Reference to the GPIO connected to the PWDNB pin. Active low.
->>>>
->>>> maxItems
->>>>
->>>
->>> I thought it was not necessary with a single description: entry. But
->>> looking at the dt-schema source I fail to find any commit mentioning
->>> that.
->>
->> The purpose of maxItems is to constrain the number of GPIOs, so two
->> would be incorrect.
->>
-> 
-> I recall that with a single description entry then maxItems: 1 was
-> assumed by the dt-schema validator, but I cannot find references to
-> any commit, so I'll add it.
-> 
->>>
->>>>> +
->>>>> +  reset-gpios:
->>>>> +    description:
->>>>> +      Reference to the GPIO connected to the XSHUTDOWN pin. Active low.
->>>>
->>>> maxItems
->>>>
->>>>> +
->>>>> +  avdd-supply:
->>>>> +    description: Analog circuit power. Typically 2.8V.
->>>>> +
->>>>> +  dvdd-supply:
->>>>> +    description: Digital circuit power. Typically 1.2V.
->>>>> +
->>>>> +  dovdd-supply:
->>>>> +    description: Digital I/O circuit power. Typically 2.8V or 1.8V.
->>>>> +
->>>>> +  port:
->>>>> +    $ref: /schemas/graph.yaml#/$defs/port-base
->>>>> +    additionalProperties: false
->>>>> +
->>>>> +    properties:
->>>>> +      endpoint:
->>>>> +        $ref: /schemas/media/video-interfaces.yaml#
->>>>> +        unevaluatedProperties: false
->>>>> +
->>>>> +        properties:
->>>>> +          data-lanes:
->>>>> +            description: The sensor supports 1 or 2 data lanes operations.
->>>>> +            minItems: 1
->>>>> +            maxItems: 2
->>>>> +            items:
->>>>> +              maximum: 2
->>>>
->>>> Is '0' also allowed? If not then maybe 'enum: [ 1, 2 ]'
->>>
->>> No 0 is not allowed, but the data-lanes properties should accept any
->>> of the following combinations
->>>         <1>
->>>         <1 2>
->>>         <2 1>
->>>
->>> As the chip seems to support lane re-ordering.
->>>
->>> using enum would allow to between <1> or <2> if I got it right?
->>
->> Yeah, enum would be equivalent. I find it more readable, than min+max,
->> but it's not a strong preference.
->>
-> 
-> I don't think enum is equivalent, as it specifies a set of valid values
-> a property can assume, but it does not support arrays.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-It is equivalent, just has to be used in equivalent way.
+All warnings (new ones prefixed by >>):
 
-> 
-> https://json-schema.org/draft/2020-12/json-schema-validation.html#rfc.section.6.16.1.2.
-> 
-> enum
->   The value of this keyword MUST be an array. This array SHOULD have
->   at least one element. Elements in the array SHOULD be unique.
-> 
->   An instance validates successfully against this keyword if its value
->   is equal to one of the elements in this keyword's array value.
-> > In facts:
-
-That's not good usage. See for example:
-Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+   In file included from drivers/dma-buf/sync_file.c:8:
+   include/linux/dma-fence-unwrap.h: In function 'dma_fence_unwrap_array':
+   include/linux/dma-fence-unwrap.h:44:18: error: implicit declaration of function 'dma_fence_chain_contained'; did you mean 'dma_fence_chain_init'? [-Werror=implicit-function-declaration]
+      44 |  cursor->array = dma_fence_chain_contained(cursor->chain);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                  dma_fence_chain_init
+>> include/linux/dma-fence-unwrap.h:44:16: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      44 |  cursor->array = dma_fence_chain_contained(cursor->chain);
+         |                ^
+   include/linux/dma-fence-unwrap.h:46:9: error: implicit declaration of function 'dma_fence_array_first'; did you mean 'dma_fence_array_create'? [-Werror=implicit-function-declaration]
+      46 |  return dma_fence_array_first(cursor->array);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         dma_fence_array_create
+>> include/linux/dma-fence-unwrap.h:46:9: warning: returning 'int' from a function with return type 'struct dma_fence *' makes pointer from integer without a cast [-Wint-conversion]
+      46 |  return dma_fence_array_first(cursor->array);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-fence-unwrap.h: In function 'dma_fence_unwrap_next':
+   include/linux/dma-fence-unwrap.h:77:8: error: implicit declaration of function 'dma_fence_array_next'; did you mean 'dma_fence_unwrap_next'? [-Werror=implicit-function-declaration]
+      77 |  tmp = dma_fence_array_next(cursor->array, cursor->index);
+         |        ^~~~~~~~~~~~~~~~~~~~
+         |        dma_fence_unwrap_next
+   include/linux/dma-fence-unwrap.h:77:6: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      77 |  tmp = dma_fence_array_next(cursor->array, cursor->index);
+         |      ^
+   cc1: some warnings being treated as errors
 
 
-Best regards,
-Krzysztof
+vim +44 include/linux/dma-fence-unwrap.h
+
+088aa14c0f5cad Christian König 2022-03-11  33  
+088aa14c0f5cad Christian König 2022-03-11  34  /**
+088aa14c0f5cad Christian König 2022-03-11  35   * dma_fence_unwrap_array - helper to unwrap dma_fence_arrays
+088aa14c0f5cad Christian König 2022-03-11  36   * @cursor: cursor to initialize
+088aa14c0f5cad Christian König 2022-03-11  37   *
+088aa14c0f5cad Christian König 2022-03-11  38   * Helper function to unwrap dma_fence_array containers, don't touch directly.
+088aa14c0f5cad Christian König 2022-03-11  39   * Use dma_fence_unwrap_first/next instead.
+088aa14c0f5cad Christian König 2022-03-11  40   */
+088aa14c0f5cad Christian König 2022-03-11  41  static inline struct dma_fence *
+088aa14c0f5cad Christian König 2022-03-11  42  dma_fence_unwrap_array(struct dma_fence_unwrap * cursor)
+088aa14c0f5cad Christian König 2022-03-11  43  {
+088aa14c0f5cad Christian König 2022-03-11 @44  	cursor->array = dma_fence_chain_contained(cursor->chain);
+088aa14c0f5cad Christian König 2022-03-11  45  	cursor->index = 0;
+088aa14c0f5cad Christian König 2022-03-11 @46  	return dma_fence_array_first(cursor->array);
+088aa14c0f5cad Christian König 2022-03-11  47  }
+088aa14c0f5cad Christian König 2022-03-11  48  
+
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
