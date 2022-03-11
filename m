@@ -2,323 +2,740 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 053844D606C
-	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 12:13:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 933764D6071
+	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 12:16:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233270AbiCKLO1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Mar 2022 06:14:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39386 "EHLO
+        id S1348187AbiCKLRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Mar 2022 06:17:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbiCKLO0 (ORCPT
+        with ESMTP id S245571AbiCKLRY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Mar 2022 06:14:26 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD4C014146A
-        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 03:13:21 -0800 (PST)
-Received: from pyrite.rasen.tech (h175-177-042-148.catv02.itscom.jp [175.177.42.148])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 322C5488;
-        Fri, 11 Mar 2022 12:13:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1646997197;
-        bh=2HFP6Cn6UzJwU0d8zIn+mqMsVxBRR5VuC3F5qoxEiEQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=c+hYIcZwDLjOARwNrhJMxXeP0gIbJE9rdtpUOpR/dcXVUBDCssUbPmdu3/coEcJng
-         7snUydtLsWm5t24DHH+HUU9jS0z/D7ZZ7+lJZlaolbnKx4CXGDA/S7gKH9J6KE2FCK
-         T9+KmiddW8KkAqYeQLIZnaUKnulqVYtMFhpypTM8=
-From:   Paul Elder <paul.elder@ideasonboard.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Martina Krasteva <martinax.krasteva@intel.com>,
-        Shawn Tu <shawnx.tu@intel.com>, Arec Kao <arec.kao@intel.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jimmy Su <jimmy.su@intel.com>,
-        Martin Kepplinger <martink@posteo.de>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jmondi@jmondi.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v2] media: ov5640: Use runtime PM
-Date:   Fri, 11 Mar 2022 20:12:59 +0900
-Message-Id: <20220311111259.3220718-1-paul.elder@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
+        Fri, 11 Mar 2022 06:17:24 -0500
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 997341B65F0;
+        Fri, 11 Mar 2022 03:16:19 -0800 (PST)
+Received: by mail-oo1-xc35.google.com with SMTP id 6-20020a4a0906000000b0031d7eb98d31so10121257ooa.10;
+        Fri, 11 Mar 2022 03:16:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6byhpEWKN3shk+yCqnEMa97EHiol0IXfC7Y+/Yki8ow=;
+        b=FPIcmsv3zeDMV8Hr00b3wmMxG8j4bAoX3qE693KClSRav4/TZHiTgr4mwDEY/44WxH
+         qf4142jJr8io0ixkQCrgCuKsPzar4Ad/1mT9Us2MDF14HIp2UWN5dwN0qLMx5N8KzbND
+         TDapLNX/otNTxfasVb1szLz9u2Zwyxlm1lb2Z3Hmz3V9rj9DhZKB2Z+hx/krXsL+yl2A
+         qqTIsWlco7jozr0G2h2CYw0aeT5ldeJzPZ23RiGpeE/zz80QulnmbNghXW+QUwpnLtCM
+         xyTtslqXUk8O3bEKJ7DfGAx3sgjOYbX9XkLds7kAz2iluDmh6iSMhU/m9YYwRby3J6wH
+         deBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6byhpEWKN3shk+yCqnEMa97EHiol0IXfC7Y+/Yki8ow=;
+        b=NDle0ngJ+c+NaJDjFo3Xq6IlT+AkmlmfgGDdRx6folhs6sFRX3uDa8GwyuIPejXpMS
+         xkYOsHsyYCvazAEz5qzwk2JRKqloCcSbgywj98pGmJYHArXEDyUjMb1FjHSExCs0ZbVJ
+         VYkx/FWpFn3o7kfhXG7PJYLZg1K0AS6kF2jXiIkyXTexPPqK8r4vOdAfGDVsPxaMvpcy
+         2kVqMBPkyQZRtAx2Fp6AMy0Y18J7+ZKCPM8f6nUqnSQoSMfEXrS9wBtw/ifi3/BuT51m
+         /8GPIx5CfwpRTjY+XDcAKT2jE2X8jSUJD4Un2XYHvfqmt2VFr+K1xc/vnT5sLsXqZx0V
+         kycw==
+X-Gm-Message-State: AOAM533kAFz1pfgrv2d/Rs4BA2/3KMs/O25aMwI8sKqiAZ1a0WSomMcZ
+        xK0ZGAndmmUW3kixPUjXaTE=
+X-Google-Smtp-Source: ABdhPJzoKj4N0SKZ/VeU/LYMwd+rI0B+mpf1limNe56i2WDFhtT4sEOHgpWdeQBPO21g8VI8Tu+1kQ==
+X-Received: by 2002:a05:6870:a18a:b0:da:b3f:3244 with SMTP id a10-20020a056870a18a00b000da0b3f3244mr5145593oaf.244.1646997378719;
+        Fri, 11 Mar 2022 03:16:18 -0800 (PST)
+Received: from localhost.localdomain ([2804:431:c7f1:1baa:c5b3:a58c:be68:495f])
+        by smtp.gmail.com with ESMTPSA id a20-20020a056870001400b000daad453cdfsm2194719oaa.49.2022.03.11.03.16.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Mar 2022 03:16:18 -0800 (PST)
+From:   "Carlos E. C. Barbosa" <climacobarbosacee@gmail.com>
+X-Google-Original-From: "Carlos E. C. Barbosa" <barbosa.carlos.ec@gmail.com>
+To:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6] media: vimc: get pixformat info from v4l2_format_info
+Date:   Fri, 11 Mar 2022 08:16:57 -0300
+Message-Id: <20220311111657.56038-1-barbosa.carlos.ec@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Switch to using runtime PM for power management.
+Removes overlapping structures
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+Repurposes vimc_pix_map to strictly mapping formats, making it
+a local structure.
+
+Replaces all of its functions and remaps the calls to the matching
+v4l2_format_info.
 
 ---
+
+Changes in v6:
+- replace all vimc_pix_map returning functions with v4l2_format_info
+  ones (as previously suggested by Dafna)
+- adds is_on_table functions to verify support (to be used only when
+  no other info is required)
+
+Changes in v5:
+- .bayer member was removed and replaced by v4l2 functions calls
+
+Changes in v4:
+- Unused variables were removed
+
+Changes in v3:
+- Change declaration order of variables and some minor style changes
+
 Changes in v2:
-- replace manual tracking of power status with pm_runtime_get_if_in_use
-- power on the sensor before reading the checking the chip id
-- add dependency on PM to Kconfig
----
- drivers/media/i2c/Kconfig  |   1 +
- drivers/media/i2c/ov5640.c | 112 ++++++++++++++++++++++---------------
- 2 files changed, 67 insertions(+), 46 deletions(-)
+- Const qualifiers are not removed
+- Bayer flag is kept
+- Unnecessary changes are not made anymore
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index e7194c1be4d2..97c3611d9304 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -1025,6 +1025,7 @@ config VIDEO_OV5640
- 	tristate "OmniVision OV5640 sensor support"
- 	depends on OF
- 	depends on GPIOLIB && VIDEO_V4L2 && I2C
-+	depends on PM
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
- 	select V4L2_FWNODE
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 4de83d0ef85d..454ffd3c6d59 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -15,6 +15,7 @@
- #include <linux/init.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-@@ -445,8 +446,6 @@ struct ov5640_dev {
- 	/* lock to protect all members below */
- 	struct mutex lock;
+v4l2-compliance -m /dev/media0 output:
+https://pastebin.com/BRjMP3wP
+
+Signed-off-by: Carlos E. C. Barbosa <barbosa.carlos.ec@gmail.com>
+---
+ .../media/test-drivers/vimc/vimc-capture.c    | 37 +++++----
+ drivers/media/test-drivers/vimc/vimc-common.c | 81 ++++++-------------
+ drivers/media/test-drivers/vimc/vimc-common.h | 37 ++++++---
+ .../media/test-drivers/vimc/vimc-debayer.c    | 16 ++--
+ drivers/media/test-drivers/vimc/vimc-scaler.c | 30 ++++---
+ drivers/media/test-drivers/vimc/vimc-sensor.c | 27 ++++---
+ 6 files changed, 108 insertions(+), 120 deletions(-)
+
+diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
+index d1e2d0739c00..985eaddf9e4a 100644
+--- a/drivers/media/test-drivers/vimc/vimc-capture.c
++++ b/drivers/media/test-drivers/vimc/vimc-capture.c
+@@ -85,8 +85,9 @@ static int vimc_cap_g_fmt_vid_cap(struct file *file, void *priv,
+ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
+ 				    struct v4l2_format *f)
+ {
++	bool is_on_vmap_table;
+ 	struct v4l2_pix_format *format = &f->fmt.pix;
+-	const struct vimc_pix_map *vpix;
++	const struct v4l2_format_info *vinfo;
  
--	int power_count;
--
- 	struct v4l2_mbus_framefmt fmt;
- 	bool pending_fmt_change;
+ 	format->width = clamp_t(u32, format->width, VIMC_FRAME_MIN_WIDTH,
+ 				VIMC_FRAME_MAX_WIDTH) & ~1;
+@@ -94,13 +95,15 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
+ 				 VIMC_FRAME_MAX_HEIGHT) & ~1;
  
-@@ -2693,37 +2692,6 @@ static int ov5640_set_power(struct ov5640_dev *sensor, bool on)
- 
- /* --------------- Subdev Operations --------------- */
- 
--static int ov5640_s_power(struct v4l2_subdev *sd, int on)
--{
--	struct ov5640_dev *sensor = to_ov5640_dev(sd);
--	int ret = 0;
--
--	mutex_lock(&sensor->lock);
--
--	/*
--	 * If the power count is modified from 0 to != 0 or from != 0 to 0,
--	 * update the power state.
--	 */
--	if (sensor->power_count == !on) {
--		ret = ov5640_set_power(sensor, !!on);
--		if (ret)
--			goto out;
+ 	/* Don't accept a pixelformat that is not on the table */
+-	vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
+-	if (!vpix) {
++	is_on_vmap_table = vimc_pixelformat_is_on_table(format->pixelformat);
++
++	if (!is_on_vmap_table)
+ 		format->pixelformat = fmt_default.pixelformat;
+-		vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
 -	}
--
--	/* Update the power count. */
--	sensor->power_count += on ? 1 : -1;
--	WARN_ON(sensor->power_count < 0);
--out:
--	mutex_unlock(&sensor->lock);
--
--	if (on && !ret && sensor->power_count == 1) {
--		/* restore controls */
--		ret = v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
--	}
--
--	return ret;
--}
--
- static int ov5640_try_frame_interval(struct ov5640_dev *sensor,
- 				     struct v4l2_fract *fi,
- 				     u32 width, u32 height)
-@@ -3288,6 +3256,9 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 
- 	/* v4l2_ctrl_lock() locks our own mutex */
- 
-+	if (!pm_runtime_get_if_in_use(&sensor->i2c_client->dev))
-+		return 0;
 +
- 	switch (ctrl->id) {
- 	case V4L2_CID_AUTOGAIN:
- 		val = ov5640_get_gain(sensor);
-@@ -3303,6 +3274,8 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
++	vinfo = v4l2_format_info(format->pixelformat);
++
+ 	/* TODO: Add support for custom bytesperline values */
+-	format->bytesperline = format->width * vpix->bpp;
++	format->bytesperline = format->width * vinfo->bpp[0];
+ 	format->sizeimage = format->bytesperline * format->height;
+ 
+ 	if (format->field == V4L2_FIELD_ANY)
+@@ -150,21 +153,21 @@ static int vimc_cap_s_fmt_vid_cap(struct file *file, void *priv,
+ static int vimc_cap_enum_fmt_vid_cap(struct file *file, void *priv,
+ 				     struct v4l2_fmtdesc *f)
+ {
+-	const struct vimc_pix_map *vpix;
++	const struct v4l2_format_info *vinfo;
+ 
+ 	if (f->mbus_code) {
+ 		if (f->index > 0)
+ 			return -EINVAL;
+ 
+-		vpix = vimc_pix_map_by_code(f->mbus_code);
++		vinfo = vimc_format_info_by_mbus_code(f->mbus_code);
+ 	} else {
+-		vpix = vimc_pix_map_by_index(f->index);
++		vinfo = vimc_format_info_by_vmap_index(f->index);
  	}
  
-+	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-+
+-	if (!vpix)
++	if (!vinfo)
+ 		return -EINVAL;
+ 
+-	f->pixelformat = vpix->pixelformat;
++	f->pixelformat = vinfo->format;
+ 
  	return 0;
  }
+@@ -172,14 +175,14 @@ static int vimc_cap_enum_fmt_vid_cap(struct file *file, void *priv,
+ static int vimc_cap_enum_framesizes(struct file *file, void *fh,
+ 				    struct v4l2_frmsizeenum *fsize)
+ {
+-	const struct vimc_pix_map *vpix;
++	bool is_on_vmap_table;
  
-@@ -3334,7 +3307,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
- 	 * not apply any controls to H/W at this time. Instead
- 	 * the controls will be restored right after power-up.
- 	 */
--	if (sensor->power_count == 0)
-+	if (!pm_runtime_get_if_in_use(&sensor->i2c_client->dev))
- 		return 0;
+ 	if (fsize->index)
+ 		return -EINVAL;
  
- 	switch (ctrl->id) {
-@@ -3376,6 +3349,8 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	}
+ 	/* Only accept code in the pix map table */
+-	vpix = vimc_pix_map_by_code(fsize->pixel_format);
+-	if (!vpix)
++	is_on_vmap_table = vimc_pixelformat_is_on_table(fsize->pixel_format);
++	if (!is_on_vmap_table)
+ 		return -EINVAL;
  
-+	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-+
- 	return ret;
- }
+ 	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
+@@ -398,7 +401,7 @@ static struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+ 					    const char *vcfg_name)
+ {
+ 	struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
+-	const struct vimc_pix_map *vpix;
++	const struct v4l2_format_info *vinfo;
+ 	struct vimc_cap_device *vcap;
+ 	struct video_device *vdev;
+ 	struct vb2_queue *q;
+@@ -450,8 +453,8 @@ static struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
  
-@@ -3657,6 +3632,12 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
- 	struct ov5640_dev *sensor = to_ov5640_dev(sd);
- 	int ret = 0;
+ 	/* Set default frame format */
+ 	vcap->format = fmt_default;
+-	vpix = vimc_pix_map_by_pixelformat(vcap->format.pixelformat);
+-	vcap->format.bytesperline = vcap->format.width * vpix->bpp;
++	vinfo = v4l2_format_info(vcap->format.pixelformat);
++	vcap->format.bytesperline = vcap->format.width * vinfo->bpp[0];
+ 	vcap->format.sizeimage = vcap->format.bytesperline *
+ 				 vcap->format.height;
  
-+	if (enable) {
-+		ret = pm_runtime_resume_and_get(&sensor->i2c_client->dev);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
- 	mutex_lock(&sensor->lock);
- 
- 	if (sensor->streaming == !enable) {
-@@ -3681,8 +3662,13 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
- 		if (!ret)
- 			sensor->streaming = enable;
- 	}
-+
- out:
- 	mutex_unlock(&sensor->lock);
-+
-+	if (!enable || ret)
-+		pm_runtime_put(&sensor->i2c_client->dev);
-+
- 	return ret;
- }
- 
-@@ -3704,7 +3690,6 @@ static int ov5640_init_cfg(struct v4l2_subdev *sd,
- }
- 
- static const struct v4l2_subdev_core_ops ov5640_core_ops = {
--	.s_power = ov5640_s_power,
- 	.log_status = v4l2_ctrl_subdev_log_status,
- 	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
- 	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-@@ -3750,15 +3735,11 @@ static int ov5640_check_chip_id(struct ov5640_dev *sensor)
- 	int ret = 0;
- 	u16 chip_id;
- 
--	ret = ov5640_set_power_on(sensor);
--	if (ret)
--		return ret;
--
- 	ret = ov5640_read_reg16(sensor, OV5640_REG_CHIP_ID, &chip_id);
- 	if (ret) {
- 		dev_err(&client->dev, "%s: failed to read chip identifier\n",
- 			__func__);
--		goto power_off;
-+		return ret;
- 	}
- 
- 	if (chip_id != 0x5640) {
-@@ -3767,8 +3748,6 @@ static int ov5640_check_chip_id(struct ov5640_dev *sensor)
- 		ret = -ENXIO;
- 	}
- 
--power_off:
--	ov5640_set_power_off(sensor);
- 	return ret;
- }
- 
-@@ -3863,20 +3842,35 @@ static int ov5640_probe(struct i2c_client *client)
- 
- 	mutex_init(&sensor->lock);
- 
--	ret = ov5640_check_chip_id(sensor);
-+	ret = ov5640_init_controls(sensor);
- 	if (ret)
- 		goto entity_cleanup;
- 
--	ret = ov5640_init_controls(sensor);
-+	ret = ov5640_set_power(sensor, true);
- 	if (ret)
--		goto entity_cleanup;
-+		goto free_ctrls;
-+
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
-+	pm_runtime_get(dev);
-+
-+	ret = ov5640_check_chip_id(sensor);
-+	if (ret)
-+		goto err_pm_runtime;
- 
- 	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
- 	if (ret)
--		goto free_ctrls;
-+		goto err_pm_runtime;
-+
-+	pm_runtime_set_autosuspend_delay(dev, 1000);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_put_autosuspend(dev);
- 
- 	return 0;
- 
-+err_pm_runtime:
-+	pm_runtime_disable(dev);
-+	pm_runtime_put_noidle(dev);
- free_ctrls:
- 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
- entity_cleanup:
-@@ -3898,6 +3892,31 @@ static int ov5640_remove(struct i2c_client *client)
- 	return 0;
- }
- 
-+static int __maybe_unused ov5640_sensor_suspend(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov5640_dev *ov5640 = to_ov5640_dev(sd);
-+
-+	return ov5640_set_power(ov5640, false);
-+}
-+
-+static int __maybe_unused ov5640_sensor_resume(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov5640_dev *ov5640 = to_ov5640_dev(sd);
-+	int ret;
-+
-+	ret = ov5640_set_power(ov5640, true);
-+	if (ret)
-+		return ret;
-+
-+	return v4l2_ctrl_handler_setup(&ov5640->ctrls.handler);
-+}
-+
-+static const struct dev_pm_ops ov5640_pm_ops = {
-+	SET_RUNTIME_PM_OPS(ov5640_sensor_suspend, ov5640_sensor_resume, NULL)
-+};
-+
- static const struct i2c_device_id ov5640_id[] = {
- 	{"ov5640", 0},
- 	{},
-@@ -3914,6 +3933,7 @@ static struct i2c_driver ov5640_i2c_driver = {
- 	.driver = {
- 		.name  = "ov5640",
- 		.of_match_table	= ov5640_dt_ids,
-+		.pm = &ov5640_pm_ops,
+diff --git a/drivers/media/test-drivers/vimc/vimc-common.c b/drivers/media/test-drivers/vimc/vimc-common.c
+index 7b27153c0728..9e569df0197e 100644
+--- a/drivers/media/test-drivers/vimc/vimc-common.c
++++ b/drivers/media/test-drivers/vimc/vimc-common.c
+@@ -24,8 +24,6 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
+ 			MEDIA_BUS_FMT_BGR888_3X8
+ 		},
+ 		.pixelformat = V4L2_PIX_FMT_BGR24,
+-		.bpp = 3,
+-		.bayer = false,
  	},
- 	.id_table = ov5640_id,
- 	.probe_new = ov5640_probe,
+ 	{
+ 		.code = {
+@@ -39,140 +37,96 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
+ 			MEDIA_BUS_FMT_GBR888_1X24
+ 		},
+ 		.pixelformat = V4L2_PIX_FMT_RGB24,
+-		.bpp = 3,
+-		.bayer = false,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_ARGB8888_1X32 },
+ 		.pixelformat = V4L2_PIX_FMT_ARGB32,
+-		.bpp = 4,
+-		.bayer = false,
+ 	},
+ 
+ 	/* Bayer formats */
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SBGGR8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SBGGR8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SGBRG8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SGBRG8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SGRBG8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SGRBG8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SRGGB8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SRGGB8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SBGGR10_1X10 },
+ 		.pixelformat = V4L2_PIX_FMT_SBGGR10,
+-		.bpp = 2,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SGBRG10_1X10 },
+ 		.pixelformat = V4L2_PIX_FMT_SGBRG10,
+-		.bpp = 2,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SGRBG10_1X10 },
+ 		.pixelformat = V4L2_PIX_FMT_SGRBG10,
+-		.bpp = 2,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SRGGB10_1X10 },
+ 		.pixelformat = V4L2_PIX_FMT_SRGGB10,
+-		.bpp = 2,
+-		.bayer = true,
+ 	},
+ 
+ 	/* 10bit raw bayer a-law compressed to 8 bits */
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SBGGR10ALAW8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SGBRG10ALAW8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SGRBG10ALAW8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SRGGB10ALAW8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 
+ 	/* 10bit raw bayer DPCM compressed to 8 bits */
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SBGGR10DPCM8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SGBRG10DPCM8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SGRBG10DPCM8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8 },
+ 		.pixelformat = V4L2_PIX_FMT_SRGGB10DPCM8,
+-		.bpp = 1,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SBGGR12_1X12 },
+ 		.pixelformat = V4L2_PIX_FMT_SBGGR12,
+-		.bpp = 2,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SGBRG12_1X12 },
+ 		.pixelformat = V4L2_PIX_FMT_SGBRG12,
+-		.bpp = 2,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SGRBG12_1X12 },
+ 		.pixelformat = V4L2_PIX_FMT_SGRBG12,
+-		.bpp = 2,
+-		.bayer = true,
+ 	},
+ 	{
+ 		.code = { MEDIA_BUS_FMT_SRGGB12_1X12 },
+ 		.pixelformat = V4L2_PIX_FMT_SRGGB12,
+-		.bpp = 2,
+-		.bayer = true,
+ 	},
+ };
+ 
+@@ -186,12 +140,12 @@ bool vimc_is_source(struct media_entity *ent)
+ 	return true;
+ }
+ 
+-const struct vimc_pix_map *vimc_pix_map_by_index(unsigned int i)
++const struct v4l2_format_info *vimc_format_info_by_vmap_index(unsigned int i)
+ {
+ 	if (i >= ARRAY_SIZE(vimc_pix_map_list))
+ 		return NULL;
+ 
+-	return &vimc_pix_map_list[i];
++	return v4l2_format_info(vimc_pix_map_list[i].pixelformat);
+ }
+ 
+ u32 vimc_mbus_code_by_index(unsigned int index)
+@@ -211,28 +165,41 @@ u32 vimc_mbus_code_by_index(unsigned int index)
+ 	return 0;
+ }
+ 
+-const struct vimc_pix_map *vimc_pix_map_by_code(u32 code)
++const struct v4l2_format_info *vimc_format_info_by_mbus_code(u32 code)
+ {
+ 	unsigned int i, j;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(vimc_pix_map_list); i++) {
+ 		for (j = 0; j < ARRAY_SIZE(vimc_pix_map_list[i].code); j++) {
+ 			if (vimc_pix_map_list[i].code[j] == code)
+-				return &vimc_pix_map_list[i];
++				return v4l2_format_info(vimc_pix_map_list[i].pixelformat);
+ 		}
+ 	}
+ 	return NULL;
+ }
+ 
+-const struct vimc_pix_map *vimc_pix_map_by_pixelformat(u32 pixelformat)
++bool vimc_pixelformat_is_on_table(u32 format)
+ {
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(vimc_pix_map_list); i++) {
+-		if (vimc_pix_map_list[i].pixelformat == pixelformat)
+-			return &vimc_pix_map_list[i];
++		if (vimc_pix_map_list[i].pixelformat == format)
++			return true;
+ 	}
+-	return NULL;
++	return false;
++}
++
++bool vimc_mbus_code_is_on_table(u32 code)
++{
++	unsigned int i, j;
++
++	for (i = 0; i < ARRAY_SIZE(vimc_pix_map_list); i++) {
++		for (j = 0; j < ARRAY_SIZE(vimc_pix_map_list[i].code); j++) {
++			if (vimc_pix_map_list[i].code[j] == code)
++				return true;
++		}
++	}
++	return false;
+ }
+ 
+ static int vimc_get_pix_format(struct media_pad *pad,
+@@ -242,7 +209,7 @@ static int vimc_get_pix_format(struct media_pad *pad,
+ 		struct v4l2_subdev *sd =
+ 			media_entity_to_v4l2_subdev(pad->entity);
+ 		struct v4l2_subdev_format sd_fmt;
+-		const struct vimc_pix_map *pix_map;
++		const struct v4l2_format_info *vinfo;
+ 		int ret;
+ 
+ 		sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+@@ -253,8 +220,8 @@ static int vimc_get_pix_format(struct media_pad *pad,
+ 			return ret;
+ 
+ 		v4l2_fill_pix_format(fmt, &sd_fmt.format);
+-		pix_map = vimc_pix_map_by_code(sd_fmt.format.code);
+-		fmt->pixelformat = pix_map->pixelformat;
++		vinfo = vimc_format_info_by_mbus_code(sd_fmt.format.code);
++		fmt->pixelformat = vinfo->format;
+ 	} else if (is_media_entity_v4l2_video_device(pad->entity)) {
+ 		struct video_device *vdev = container_of(pad->entity,
+ 							 struct video_device,
+diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+index ba1930772589..5f7f63fda779 100644
+--- a/drivers/media/test-drivers/vimc/vimc-common.h
++++ b/drivers/media/test-drivers/vimc/vimc-common.h
+@@ -72,18 +72,14 @@ do {									\
+  * struct vimc_pix_map - maps media bus code with v4l2 pixel format
+  *
+  * @code:		media bus format code defined by MEDIA_BUS_FMT_* macros
+- * @bpp:		number of bytes each pixel occupies
+  * @pixelformat:	pixel format defined by V4L2_PIX_FMT_* macros
+- * @bayer:		true if this is a bayer format
+  *
+  * Struct which matches the MEDIA_BUS_FMT_* codes with the corresponding
+  * V4L2_PIX_FMT_* fourcc pixelformat and its bytes per pixel (bpp)
+  */
+ struct vimc_pix_map {
+ 	unsigned int code[VIMC_PIX_FMT_MAX_CODES];
+-	unsigned int bpp;
+ 	u32 pixelformat;
+-	bool bayer;
+ };
+ 
+ /**
+@@ -173,34 +169,49 @@ extern struct vimc_ent_type vimc_sca_type;
+ extern struct vimc_ent_type vimc_cap_type;
+ 
+ /**
+- * vimc_pix_map_by_index - get vimc_pix_map struct by its index
++ * vimc_format_info_by_vmap_index - get v4l2_format_info struct by its vmap's index
+  *
+- * @i:			index of the vimc_pix_map struct in vimc_pix_map_list
++ * @i:			index of format containing struct in vimc_pix_map_list
+  */
+-const struct vimc_pix_map *vimc_pix_map_by_index(unsigned int i);
++const struct v4l2_format_info *vimc_format_info_by_vmap_index(unsigned int i);
+ 
+ /**
+  * vimc_mbus_code_by_index - get mbus code by its index
+  *
+- * @index:		index of the mbus code in vimc_pix_map_list
++ * @index:		index of mbus code containing struct in vimc_pix_map_list
+  *
+  * Returns 0 if no mbus code is found for the given index.
+  */
+ u32 vimc_mbus_code_by_index(unsigned int index);
+ 
+ /**
+- * vimc_pix_map_by_code - get vimc_pix_map struct by media bus code
++ * vimc_format_info_by_mbus_code - get v4l2_format_info struct by media bus code
+  *
+  * @code:		media bus format code defined by MEDIA_BUS_FMT_* macros
+  */
+-const struct vimc_pix_map *vimc_pix_map_by_code(u32 code);
++const struct v4l2_format_info *vimc_format_info_by_mbus_code(u32 code);
+ 
+ /**
+- * vimc_pix_map_by_pixelformat - get vimc_pix_map struct by v4l2 pixel format
++ * vimc_pixelformat_is_on_table - verify if pixel format is supported
++ * (i.e. contained in vimc pix map table)
+  *
+- * @pixelformat:	pixel format defined by V4L2_PIX_FMT_* macros
++ * @format:		V4l2 pixel format identifier defined by V4L2_PIX_FMT* macros
++ *
++ * Should only be used when no more info is required
++ */
++
++bool vimc_pixelformat_is_on_table(u32 format);
++
++/**
++ * vimc_pixelformat_is_on_table - verify if pixel format is supported
++ * (i.e. contained in vimc pix map table)
++ *
++ * @code:		media bus format code defined by MEDIA_BUS_FMT_* macros
++ *
++ * Should only be used when no more info is required
+  */
+-const struct vimc_pix_map *vimc_pix_map_by_pixelformat(u32 pixelformat);
++
++bool vimc_mbus_code_is_on_table(u32 code);
+ 
+ /**
+  * vimc_ent_sd_register - initialize and register a subdev node
+diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
+index 2d06cdbacc76..31d599ba54d0 100644
+--- a/drivers/media/test-drivers/vimc/vimc-debayer.c
++++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
+@@ -318,13 +318,13 @@ static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
+ 				       unsigned int col,
+ 				       unsigned int rgb[3])
+ {
+-	const struct vimc_pix_map *vpix;
++	const struct v4l2_format_info *vinfo;
+ 	unsigned int i, index;
+ 
+-	vpix = vimc_pix_map_by_code(vdeb->src_code);
++	vinfo = vimc_format_info_by_mbus_code(vdeb->src_code);
+ 	index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+ 	for (i = 0; i < 3; i++) {
+-		switch (vpix->pixelformat) {
++		switch (vinfo->format) {
+ 		case V4L2_PIX_FMT_RGB24:
+ 			vdeb->src_frame[index + i] = rgb[i];
+ 			break;
+@@ -340,20 +340,20 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+ 	struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
+ 
+ 	if (enable) {
+-		const struct vimc_pix_map *vpix;
++		const struct v4l2_format_info *vinfo;
+ 		unsigned int frame_size;
+ 
+ 		if (vdeb->src_frame)
+ 			return 0;
+ 
+ 		/* Calculate the frame size of the source pad */
+-		vpix = vimc_pix_map_by_code(vdeb->src_code);
++		vinfo = vimc_format_info_by_mbus_code(vdeb->src_code);
+ 		frame_size = vdeb->sink_fmt.width * vdeb->sink_fmt.height *
+-				vpix->bpp;
++				vinfo->bpp[0];
+ 
+ 		/* Save the bytes per pixel of the sink */
+-		vpix = vimc_pix_map_by_code(vdeb->sink_fmt.code);
+-		vdeb->sink_bpp = vpix->bpp;
++		vinfo = vimc_format_info_by_mbus_code(vdeb->sink_fmt.code);
++		vdeb->sink_bpp = vinfo->bpp[0];
+ 
+ 		/* Get the corresponding pixel map from the table */
+ 		vdeb->sink_pix_map =
+diff --git a/drivers/media/test-drivers/vimc/vimc-scaler.c b/drivers/media/test-drivers/vimc/vimc-scaler.c
+index 820b8f5b502f..006506f84a6e 100644
+--- a/drivers/media/test-drivers/vimc/vimc-scaler.c
++++ b/drivers/media/test-drivers/vimc/vimc-scaler.c
+@@ -93,15 +93,17 @@ static int vimc_sca_enum_mbus_code(struct v4l2_subdev *sd,
+ 				   struct v4l2_subdev_mbus_code_enum *code)
+ {
+ 	u32 mbus_code = vimc_mbus_code_by_index(code->index);
+-	const struct vimc_pix_map *vpix;
++	const struct v4l2_format_info *vinfo;
+ 
+ 	if (!mbus_code)
+ 		return -EINVAL;
+ 
+-	vpix = vimc_pix_map_by_code(mbus_code);
++	vinfo = vimc_format_info_by_mbus_code(mbus_code);
++	if (!vinfo)
++		return -EINVAL;
+ 
+ 	/* We don't support bayer format */
+-	if (!vpix || vpix->bayer)
++	if (v4l2_is_format_bayer(vinfo))
+ 		return -EINVAL;
+ 
+ 	code->code = mbus_code;
+@@ -113,14 +115,18 @@ static int vimc_sca_enum_frame_size(struct v4l2_subdev *sd,
+ 				    struct v4l2_subdev_state *sd_state,
+ 				    struct v4l2_subdev_frame_size_enum *fse)
+ {
+-	const struct vimc_pix_map *vpix;
++	const struct v4l2_format_info *vinfo;
+ 
+ 	if (fse->index)
+ 		return -EINVAL;
+ 
+ 	/* Only accept code in the pix map table in non bayer format */
+-	vpix = vimc_pix_map_by_code(fse->code);
+-	if (!vpix || vpix->bayer)
++	vinfo = vimc_format_info_by_mbus_code(fse->code);
++
++	if (!vinfo)
++		return -EINVAL;
++
++	if (v4l2_is_format_bayer(vinfo))
+ 		return -EINVAL;
+ 
+ 	fse->min_width = VIMC_FRAME_MIN_WIDTH;
+@@ -184,11 +190,11 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+ 	 * pad, the source pad only follows.
+ 	 */
+ 	if (format->pad == VIMC_SCA_SINK) {
+-		const struct vimc_pix_map *vpix;
++		const struct v4l2_format_info *vinfo;
+ 
+ 		/* Only accept code in the pix map table in non bayer format. */
+-		vpix = vimc_pix_map_by_code(format->format.code);
+-		if (vpix && !vpix->bayer)
++		vinfo = vimc_format_info_by_mbus_code(format->format.code);
++		if (vinfo && !v4l2_is_format_bayer(vinfo))
+ 			fmt->code = format->format.code;
+ 		else
+ 			fmt->code = fmt_default.code;
+@@ -307,15 +313,15 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+ 	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+ 
+ 	if (enable) {
+-		const struct vimc_pix_map *vpix;
++		const struct v4l2_format_info *vinfo;
+ 		unsigned int frame_size;
+ 
+ 		if (vsca->src_frame)
+ 			return 0;
+ 
+ 		/* Save the bytes per pixel of the sink */
+-		vpix = vimc_pix_map_by_code(vsca->fmt[VIMC_SCA_SINK].code);
+-		vsca->bpp = vpix->bpp;
++		vinfo = vimc_format_info_by_mbus_code(vsca->fmt[VIMC_SCA_SINK].code);
++		vsca->bpp = vinfo->bpp[0];
+ 
+ 		/* Calculate the frame size of the source pad */
+ 		frame_size = vsca->fmt[VIMC_SCA_SRC].width
+diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
+index 74ab79cadb5d..159b39498996 100644
+--- a/drivers/media/test-drivers/vimc/vimc-sensor.c
++++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+@@ -74,14 +74,14 @@ static int vimc_sen_enum_frame_size(struct v4l2_subdev *sd,
+ 				    struct v4l2_subdev_state *sd_state,
+ 				    struct v4l2_subdev_frame_size_enum *fse)
+ {
+-	const struct vimc_pix_map *vpix;
++	bool is_on_vmap_table;
+ 
+ 	if (fse->index)
+ 		return -EINVAL;
+ 
+ 	/* Only accept code in the pix map table */
+-	vpix = vimc_pix_map_by_code(fse->code);
+-	if (!vpix)
++	is_on_vmap_table = vimc_mbus_code_is_on_table(fse->code);
++	if (!is_on_vmap_table)
+ 		return -EINVAL;
+ 
+ 	fse->min_width = VIMC_FRAME_MIN_WIDTH;
+@@ -108,14 +108,15 @@ static int vimc_sen_get_fmt(struct v4l2_subdev *sd,
+ 
+ static void vimc_sen_tpg_s_format(struct vimc_sen_device *vsen)
+ {
+-	const struct vimc_pix_map *vpix =
+-				vimc_pix_map_by_code(vsen->mbus_format.code);
++	const struct v4l2_format_info *vinfo =
++				vimc_format_info_by_mbus_code(vsen->mbus_format.code);
+ 
+ 	tpg_reset_source(&vsen->tpg, vsen->mbus_format.width,
+ 			 vsen->mbus_format.height, vsen->mbus_format.field);
+-	tpg_s_bytesperline(&vsen->tpg, 0, vsen->mbus_format.width * vpix->bpp);
++	tpg_s_bytesperline(&vsen->tpg, 0, vsen->mbus_format.width *
++							vinfo->bpp[0]);
+ 	tpg_s_buf_height(&vsen->tpg, vsen->mbus_format.height);
+-	tpg_s_fourcc(&vsen->tpg, vpix->pixelformat);
++	tpg_s_fourcc(&vsen->tpg, vinfo->format);
+ 	/* TODO: add support for V4L2_FIELD_ALTERNATE */
+ 	tpg_s_field(&vsen->tpg, vsen->mbus_format.field, false);
+ 	tpg_s_colorspace(&vsen->tpg, vsen->mbus_format.colorspace);
+@@ -126,11 +127,11 @@ static void vimc_sen_tpg_s_format(struct vimc_sen_device *vsen)
+ 
+ static void vimc_sen_adjust_fmt(struct v4l2_mbus_framefmt *fmt)
+ {
+-	const struct vimc_pix_map *vpix;
++	bool is_on_vmap_table;
+ 
+ 	/* Only accept code in the pix map table */
+-	vpix = vimc_pix_map_by_code(fmt->code);
+-	if (!vpix)
++	is_on_vmap_table = vimc_mbus_code_is_on_table(fmt->code);
++	if (!is_on_vmap_table)
+ 		fmt->code = fmt_default.code;
+ 
+ 	fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
+@@ -247,14 +248,14 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+ 				container_of(sd, struct vimc_sen_device, sd);
+ 
+ 	if (enable) {
+-		const struct vimc_pix_map *vpix;
++		const struct v4l2_format_info *vinfo;
+ 		unsigned int frame_size;
+ 
+ 		vsen->start_stream_ts = ktime_get_ns();
+ 
+ 		/* Calculate the frame size */
+-		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
+-		frame_size = vsen->mbus_format.width * vpix->bpp *
++		vinfo = vimc_format_info_by_mbus_code(vsen->mbus_format.code);
++		frame_size = vsen->mbus_format.width * vinfo->bpp[0] *
+ 			     vsen->mbus_format.height;
+ 
+ 		/*
 -- 
-2.30.2
+2.35.1
 
