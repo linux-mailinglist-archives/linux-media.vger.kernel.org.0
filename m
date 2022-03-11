@@ -2,74 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 953F74D637C
-	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 15:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 241A74D6385
+	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 15:35:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349364AbiCKOew convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 11 Mar 2022 09:34:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52608 "EHLO
+        id S243760AbiCKOg6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Mar 2022 09:36:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237268AbiCKOev (ORCPT
+        with ESMTP id S237079AbiCKOg5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Mar 2022 09:34:51 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B5B81C8871
-        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 06:33:46 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nSgKp-0008D9-Tb; Fri, 11 Mar 2022 15:33:39 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nSgKp-0004KX-FI; Fri, 11 Mar 2022 15:33:38 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nSgKn-0008oR-9P; Fri, 11 Mar 2022 15:33:37 +0100
-Message-ID: <f5d38f7f26a7993bcf933eacf4a99eb20aa6012c.camel@pengutronix.de>
-Subject: Re: [PATCH v2 13/38] media: platform: coda: move config to its own
- file
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Fri, 11 Mar 2022 09:36:57 -0500
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 398AA1C8D93;
+        Fri, 11 Mar 2022 06:35:53 -0800 (PST)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id BADB9240012;
+        Fri, 11 Mar 2022 14:35:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1647009351;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=XT+M29uVA0vJ1WSKa+wbExMQdXBbv2jocdFEg0seS+M=;
+        b=Cy+Kn6dBk6RepjY0iXSK5OBNQ3WeErvF+tgHZwZqmSxJwCGjI1zfYF5poSCECorUyeoSbY
+        ZxFyq6FuOlExsdLnPajNiLaGPZtpPxJ3ozPQdNLoh6i9JYEIAXeTTWyRi8dyVRy82xXJ2O
+        CeLAbA2ysa6a0HvHwxMTqxf6Bf67PJopc/PYJTJoI0IlrHhJiQ6l4oTE8RPkvaC8eCcdF2
+        zJarh3J2do+KObPD2Y4zXsGTmdWpcqBKKXb3ua3jS0diMn7QqRR9cGBJOYcltUwMOmPeAv
+        jtcJv8gr6a7cGaz7kQO4vZFdU42LhZkmqo/tC6YbqIjtQV+xv0X+hC+kGjuYCw==
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ming Qian <ming.qian@nxp.com>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Date:   Fri, 11 Mar 2022 15:33:37 +0100
-In-Reply-To: <8471590ec0809292a61396dd7d2af1f3ac8a3174.1647006877.git.mchehab@kernel.org>
-References: <cover.1647006877.git.mchehab@kernel.org>
-         <8471590ec0809292a61396dd7d2af1f3ac8a3174.1647006877.git.mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.38.3-1 
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v3 00/46] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / CSI Rework
+Date:   Fri, 11 Mar 2022 15:34:46 +0100
+Message-Id: <20220311143532.265091-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fr, 2022-03-11 at 15:07 +0100, Mauro Carvalho Chehab wrote:
-> In order to better organize the platform/Kconfig, place
-> coda-specific config stuff on a separate Kconfig file.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+This new version is an offspring from the big "Allwinner A31/A83T
+MIPI CSI-2 Support and A31 ISP Support" series, which was split into
+individual series for better clarity and handling.
 
-One should be enough? The contents are
+This part only concerns the rework of the CSI driver to support the MIPI CSI-2
+and ISP workflows.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Changes since all-in-one v2:
+- Reworked capture video device registration, which stays in the main path.
+- Reworked async subdev handling with a dedicated structure holding the
+  corresponding source to avoid matching in the driver;
+- Added mutex for mbus format serialization;
+- Remove useless else in link_validate;
+- Reworked commit logs to include missing information;
+- Cleaned up Kconfig, added PM dependency;
+- Moved platform-specific clock rate to of match data;
+- Added collected Reviewed-by tags;
+- Updated copyright years;
 
-regards
-Philipp
+Paul Kocialkowski (46):
+  media: sun6i-csi: Define and use driver name and (reworked)
+    description
+  media: sun6i-csi: Refactor main driver data structures
+  media: sun6i-csi: Grab bus clock instead of passing it to regmap
+  media: sun6i-csi: Tidy up platform code
+  media: sun6i-csi: Always set exclusive module clock rate
+  media: sun6i-csi: Define and use variant to get module clock rate
+  media: sun6i-csi: Use runtime pm for clocks and reset
+  media: sun6i-csi: Tidy up Kconfig
+  media: sun6i-csi: Tidy up v4l2 code
+  media: sun6i-csi: Tidy up video code
+  media: sun6i-csi: Pass and store csi device directly in video code
+  media: sun6i-csi: Register the media device after creation
+  media: sun6i-csi: Add media ops with link notify callback
+  media: sun6i-csi: Introduce and use video helper functions
+  media: sun6i-csi: Move csi buffer definition to main header file
+  media: sun6i-csi: Add bridge v4l2 subdev with port management
+  media: sun6i-csi: Rename sun6i_video to sun6i_csi_capture
+  media: sun6i-csi: Add capture state using vsync for page flip
+  media: sun6i-csi: Rework register definitions, invert misleading
+    fields
+  media: sun6i-csi: Add dimensions and format helpers to capture
+  media: sun6i-csi: Implement address configuration without indirection
+  media: sun6i-csi: Split stream sequences and irq code in capture
+  media: sun6i-csi: Move power management to runtime pm in capture
+  media: sun6i-csi: Move register configuration to capture
+  media: sun6i-csi: Rework capture format management with helper
+  media: sun6i-csi: Remove custom format helper and rework configure
+  media: sun6i-csi: Add bridge dimensions and format helpers
+  media: sun6i-csi: Get mbus code from bridge instead of storing it
+  media: sun6i-csi: Tidy capture configure code
+  media: sun6i-csi: Introduce bridge format structure, list and helper
+  media: sun6i-csi: Introduce capture format structure, list and helper
+  media: sun6i-csi: Configure registers from format tables
+  media: sun6i-csi: Introduce format match structure, list and helper
+  media: sun6i-csi: Implement capture link validation with logic
+  media: sun6i-csi: Get bridge subdev directly in capture stream ops
+  media: sun6i-csi: Move hardware control to the bridge
+  media: sun6i-csi: Unset bridge source on capture streamon fail
+  media: sun6i-csi: Rename the capture video device to sun6i-csi-capture
+  media: sun6i-csi: Cleanup headers and includes, update copyright lines
+  media: sun6i-csi: Add support for MIPI CSI-2 to the bridge code
+  media: sun6i-csi: Only configure capture when streaming
+  media: sun6i-csi: Add extra checks to the interrupt routine
+  media: sun6i-csi: Request a shared interrupt
+  media: sun6i-csi: Detect the availability of the ISP
+  media: sun6i-csi: Add support for hooking to the isp devices
+  MAINTAINERS: Add myself as sun6i-csi maintainer and rename/move entry
+
+ MAINTAINERS                                   |   17 +-
+ .../media/platform/sunxi/sun6i-csi/Kconfig    |    9 +-
+ .../media/platform/sunxi/sun6i-csi/Makefile   |    2 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 1086 +++++-----------
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  154 +--
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  883 +++++++++++++
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   70 ++
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 1102 +++++++++++++++++
+ .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   89 ++
+ .../platform/sunxi/sun6i-csi/sun6i_csi_reg.h  |  362 +++---
+ .../platform/sunxi/sun6i-csi/sun6i_video.c    |  681 ----------
+ .../platform/sunxi/sun6i-csi/sun6i_video.h    |   38 -
+ 12 files changed, 2688 insertions(+), 1805 deletions(-)
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+ delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+ delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.h
+
+-- 
+2.35.1
+
