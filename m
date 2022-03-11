@@ -2,65 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8780D4D68C6
-	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 19:52:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F31DA4D6970
+	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 21:25:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345153AbiCKSyA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Mar 2022 13:54:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51634 "EHLO
+        id S1351236AbiCKUZu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Mar 2022 15:25:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350138AbiCKSx7 (ORCPT
+        with ESMTP id S1347773AbiCKUZt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Mar 2022 13:53:59 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CAB6F7441
-        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 10:52:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647024774; x=1678560774;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=HPBPOXoL/N182wEXUNP+tY5sANWLFLzGilUZ02/k/WI=;
-  b=hfP1trXZEp3P8sCyAyIW/OTyLEI/HlvknFkRY5lvpVf+ypkv9UgZyT2K
-   /Lw64slTXlnxErSpiQUzMnsIjLuq08syfBnFuXaQPL1VBAu5cfbtNtQ3Z
-   t80NCeno59/a3w38DVKSCqQekAn6fAAZetnVe9BHUGszbKO5TLDpfIMrB
-   N62Uo1ZO4ufJRCZsfG7kSJ6p8twltkj8QReOJIiRKyU6EcdcFhQbezLYf
-   tsqX+ayMfxJl1hs2rGKqsS8GyX27OZ2ObPAYZkMKxxKHG9dQT36Wdzfr6
-   ty+6olrBTqTFkiWHbOEStRS40lQ3SFwpa3pOz6zyXtqepkyb8IwTqIjNO
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10283"; a="255579502"
-X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; 
-   d="scan'208";a="255579502"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 10:52:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; 
-   d="scan'208";a="645019154"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 11 Mar 2022 10:52:45 -0800
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nSkNZ-0006xC-1h; Fri, 11 Mar 2022 18:52:45 +0000
-Date:   Sat, 12 Mar 2022 02:51:51 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>, sumit.semwal@linaro.org,
-        gustavo@padovan.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Cc:     kbuild-all@lists.01.org,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 2/2] dma-buf/sync-file: fix warning about fence containers
-Message-ID: <202203120217.BFa438j9-lkp@intel.com>
-References: <20220311110244.1245-2-christian.koenig@amd.com>
+        Fri, 11 Mar 2022 15:25:49 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5CA461A32
+        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 12:24:45 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nSloK-00067h-1C; Fri, 11 Mar 2022 21:24:28 +0100
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nSloI-0002Od-92; Fri, 11 Mar 2022 21:24:26 +0100
+Date:   Fri, 11 Mar 2022 21:24:26 +0100
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v3 0/5] media: uvcvideo: Fix race conditions
+Message-ID: <20220311202426.GE23776@pengutronix.de>
+References: <20200917022547.198090-1-linux@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="tMbDGjvJuJijemkf"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220311110244.1245-2-christian.koenig@amd.com>
+In-Reply-To: <20200917022547.198090-1-linux@roeck-us.net>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 21:23:51 up 91 days,  5:09, 69 users,  load average: 0.20, 0.23,
+ 0.19
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,116 +60,142 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi "Christian,
 
-I love your patch! Yet something to improve:
+--tMbDGjvJuJijemkf
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v5.17-rc7 next-20220310]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Ping!
 
-url:    https://github.com/0day-ci/linux/commits/Christian-K-nig/dma-buf-add-dma_fence_unwrap/20220311-190352
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 79b00034e9dcd2b065c1665c8b42f62b6b80a9be
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20220312/202203120217.BFa438j9-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/ca3584ac05c4a450e69b1c6bcb0672b5ab026c7c
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Christian-K-nig/dma-buf-add-dma_fence_unwrap/20220311-190352
-        git checkout ca3584ac05c4a450e69b1c6bcb0672b5ab026c7c
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+This series seems to be hanging around. It would be nice to get these
+patches upstream, as they help my uvc-gadget workflow. Without them it
+is likely that in the development cases my gadget won't start and then
+leave the whole xhci controller broken.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+@Laurent, what do you think?
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/dma-buf/sync_file.c:8:
-   include/linux/dma-fence-unwrap.h: In function 'dma_fence_unwrap_array':
->> include/linux/dma-fence-unwrap.h:44:18: error: implicit declaration of function 'dma_fence_chain_contained'; did you mean 'dma_fence_chain_init'? [-Werror=implicit-function-declaration]
-      44 |  cursor->array = dma_fence_chain_contained(cursor->chain);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                  dma_fence_chain_init
-   include/linux/dma-fence-unwrap.h:44:16: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      44 |  cursor->array = dma_fence_chain_contained(cursor->chain);
-         |                ^
->> include/linux/dma-fence-unwrap.h:46:9: error: implicit declaration of function 'dma_fence_array_first'; did you mean 'dma_fence_array_create'? [-Werror=implicit-function-declaration]
-      46 |  return dma_fence_array_first(cursor->array);
-         |         ^~~~~~~~~~~~~~~~~~~~~
-         |         dma_fence_array_create
-   include/linux/dma-fence-unwrap.h:46:9: warning: returning 'int' from a function with return type 'struct dma_fence *' makes pointer from integer without a cast [-Wint-conversion]
-      46 |  return dma_fence_array_first(cursor->array);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-fence-unwrap.h: In function 'dma_fence_unwrap_next':
->> include/linux/dma-fence-unwrap.h:77:8: error: implicit declaration of function 'dma_fence_array_next'; did you mean 'dma_fence_unwrap_next'? [-Werror=implicit-function-declaration]
-      77 |  tmp = dma_fence_array_next(cursor->array, cursor->index);
-         |        ^~~~~~~~~~~~~~~~~~~~
-         |        dma_fence_unwrap_next
-   include/linux/dma-fence-unwrap.h:77:6: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      77 |  tmp = dma_fence_array_next(cursor->array, cursor->index);
-         |      ^
-   cc1: some warnings being treated as errors
+Regards,
+Michael
 
 
-vim +44 include/linux/dma-fence-unwrap.h
+On Wed, Sep 16, 2020 at 07:25:42PM -0700, Guenter Roeck wrote:
+>Something seems to have gone wrong with v3 of this patch series.
+>I am sure I sent it out, but I don't find it anywhere.
+>Resending. Sorry for any duplicates.
+>
+>The uvcvideo code has no lock protection against USB disconnects
+>while video operations are ongoing. This has resulted in random
+>error reports, typically pointing to a crash in usb_ifnum_to_if(),
+>called from usb_hcd_alloc_bandwidth(). A typical traceback is as
+>follows.
+>
+>usb 1-4: USB disconnect, device number 3
+>BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+>PGD 0 P4D 0
+>Oops: 0000 [#1] PREEMPT SMP PTI
+>CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca3=
+6db06 #1
+>Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
+>RIP: 0010:usb_ifnum_to_if+0x29/0x40
+>Code: <...>
+>RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
+>RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
+>RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
+>RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
+>R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
+>R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
+>FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
+>CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
+>Call Trace:
+> usb_hcd_alloc_bandwidth+0x1ee/0x30f
+> usb_set_interface+0x1a3/0x2b7
+> uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
+> uvc_video_start_streaming+0x91/0xdd [uvcvideo]
+> uvc_start_streaming+0x28/0x5d [uvcvideo]
+> vb2_start_streaming+0x61/0x143 [videobuf2_common]
+> vb2_core_streamon+0xf7/0x10f [videobuf2_common]
+> uvc_queue_streamon+0x2e/0x41 [uvcvideo]
+> uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
+> __video_do_ioctl+0x33d/0x42a
+> video_usercopy+0x34e/0x5ff
+> ? video_ioctl2+0x16/0x16
+> v4l2_ioctl+0x46/0x53
+> do_vfs_ioctl+0x50a/0x76f
+> ksys_ioctl+0x58/0x83
+> __x64_sys_ioctl+0x1a/0x1e
+> do_syscall_64+0x54/0xde
+>
+>While there are not many references to this problem on mailing lists, it is
+>reported on a regular basis on various Chromebooks (roughly 300 reports
+>per month). The problem is relatively easy to reproduce by adding msleep()
+>calls into the code.
+>
+>I tried to reproduce the problem with non-uvcvideo webcams, but was
+>unsuccessful. I was unable to get Philips (pwc) webcams to work. gspca
+>based webcams don't experience the problem, or at least I was unable to
+>reproduce it (The gspa driver does not trigger sending USB messages in the
+>open function, and otherwise uses the locking mechanism provided by the
+>v4l2/vb2 core).
+>
+>I don't presume to claim that I found every issue, but this patch series
+>should fix at least the major problems.
+>
+>The patch series was tested exensively on a Chromebook running chromeos-4.=
+19
+>and on a Linux system running a v5.8.y based kernel.
+>
+>v3:
+>- In patch 5/5, add missing calls to usb_autopm_put_interface() and kfree()
+>  to failure code path
+>
+>v2:
+>- Added details about problem frequency and testing with non-uvc webcams
+>  to summary
+>- In patch 4/5, return EPOLLERR instead of -ENODEV on poll errors
+>- Fix description in patch 5/5
+>
+>----------------------------------------------------------------
+>Guenter Roeck (5):
+>      media: uvcvideo: Cancel async worker earlier
+>      media: uvcvideo: Lock video streams and queues while unregistering
+>      media: uvcvideo: Release stream queue when unregistering video device
+>      media: uvcvideo: Protect uvc queue file operations against disconnect
+>      media: uvcvideo: Abort uvc_v4l2_open if video device is unregistered
+>
+> drivers/media/usb/uvc/uvc_ctrl.c   | 11 ++++++----
+> drivers/media/usb/uvc/uvc_driver.c | 12 ++++++++++
+> drivers/media/usb/uvc/uvc_queue.c  | 32 +++++++++++++++++++++++++--
+> drivers/media/usb/uvc/uvc_v4l2.c   | 45 +++++++++++++++++++++++++++++++++=
++++--
+> drivers/media/usb/uvc/uvcvideo.h   |  1 +
+> 5 files changed, 93 insertions(+), 8 deletions(-)
 
-088aa14c0f5cad Christian König 2022-03-11  33  
-088aa14c0f5cad Christian König 2022-03-11  34  /**
-088aa14c0f5cad Christian König 2022-03-11  35   * dma_fence_unwrap_array - helper to unwrap dma_fence_arrays
-088aa14c0f5cad Christian König 2022-03-11  36   * @cursor: cursor to initialize
-088aa14c0f5cad Christian König 2022-03-11  37   *
-088aa14c0f5cad Christian König 2022-03-11  38   * Helper function to unwrap dma_fence_array containers, don't touch directly.
-088aa14c0f5cad Christian König 2022-03-11  39   * Use dma_fence_unwrap_first/next instead.
-088aa14c0f5cad Christian König 2022-03-11  40   */
-088aa14c0f5cad Christian König 2022-03-11  41  static inline struct dma_fence *
-088aa14c0f5cad Christian König 2022-03-11  42  dma_fence_unwrap_array(struct dma_fence_unwrap * cursor)
-088aa14c0f5cad Christian König 2022-03-11  43  {
-088aa14c0f5cad Christian König 2022-03-11 @44  	cursor->array = dma_fence_chain_contained(cursor->chain);
-088aa14c0f5cad Christian König 2022-03-11  45  	cursor->index = 0;
-088aa14c0f5cad Christian König 2022-03-11 @46  	return dma_fence_array_first(cursor->array);
-088aa14c0f5cad Christian König 2022-03-11  47  }
-088aa14c0f5cad Christian König 2022-03-11  48  
-088aa14c0f5cad Christian König 2022-03-11  49  /**
-088aa14c0f5cad Christian König 2022-03-11  50   * dma_fence_unwrap_first - return the first fence from fence containers
-088aa14c0f5cad Christian König 2022-03-11  51   * @head: the entrypoint into the containers
-088aa14c0f5cad Christian König 2022-03-11  52   * @cursor: current position inside the containers
-088aa14c0f5cad Christian König 2022-03-11  53   *
-088aa14c0f5cad Christian König 2022-03-11  54   * Unwraps potential dma_fence_chain/dma_fence_array containers and return the
-088aa14c0f5cad Christian König 2022-03-11  55   * first fence.
-088aa14c0f5cad Christian König 2022-03-11  56   */
-088aa14c0f5cad Christian König 2022-03-11  57  static inline struct dma_fence *
-088aa14c0f5cad Christian König 2022-03-11  58  dma_fence_unwrap_first(struct dma_fence *head, struct dma_fence_unwrap *cursor)
-088aa14c0f5cad Christian König 2022-03-11  59  {
-088aa14c0f5cad Christian König 2022-03-11  60  	cursor->chain = dma_fence_get(head);
-088aa14c0f5cad Christian König 2022-03-11  61  	return dma_fence_unwrap_array(cursor);
-088aa14c0f5cad Christian König 2022-03-11  62  }
-088aa14c0f5cad Christian König 2022-03-11  63  
-088aa14c0f5cad Christian König 2022-03-11  64  /**
-088aa14c0f5cad Christian König 2022-03-11  65   * dma_fence_unwrap_next - return the next fence from a fence containers
-088aa14c0f5cad Christian König 2022-03-11  66   * @cursor: current position inside the containers
-088aa14c0f5cad Christian König 2022-03-11  67   *
-088aa14c0f5cad Christian König 2022-03-11  68   * Continue unwrapping the dma_fence_chain/dma_fence_array containers and return
-088aa14c0f5cad Christian König 2022-03-11  69   * the next fence from them.
-088aa14c0f5cad Christian König 2022-03-11  70   */
-088aa14c0f5cad Christian König 2022-03-11  71  static inline struct dma_fence *
-088aa14c0f5cad Christian König 2022-03-11  72  dma_fence_unwrap_next(struct dma_fence_unwrap *cursor)
-088aa14c0f5cad Christian König 2022-03-11  73  {
-088aa14c0f5cad Christian König 2022-03-11  74  	struct dma_fence *tmp;
-088aa14c0f5cad Christian König 2022-03-11  75  
-088aa14c0f5cad Christian König 2022-03-11  76  	++cursor->index;
-088aa14c0f5cad Christian König 2022-03-11 @77  	tmp = dma_fence_array_next(cursor->array, cursor->index);
-088aa14c0f5cad Christian König 2022-03-11  78  	if (tmp)
-088aa14c0f5cad Christian König 2022-03-11  79  		return tmp;
-088aa14c0f5cad Christian König 2022-03-11  80  
-088aa14c0f5cad Christian König 2022-03-11  81  	cursor->chain = dma_fence_chain_walk(cursor->chain);
-088aa14c0f5cad Christian König 2022-03-11  82  	return dma_fence_unwrap_array(cursor);
-088aa14c0f5cad Christian König 2022-03-11  83  }
-088aa14c0f5cad Christian König 2022-03-11  84  
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
----
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--tMbDGjvJuJijemkf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmIrr/cACgkQC+njFXoe
+LGRA4g/+KvQi5uOxFenYGbM0J+jQavy4mhKYu8IFNgaYCI8WqT5DLfOBJD0f9Eci
+9LmulNmiXU3jrlOonei+CPflTdFnk3IozSrPuy1wJzHek+DGPtA00ml0jKqgbFTl
+BD1MJev6ollmCro9Jn/KnF49VruG6mmA8E8sr/VzbSUtoVyC0ZEJbUm1NFOcjHEO
+Up3H5pnFJQBrNMcZb9FnvrOi6xMeN2R6fhhFilVwL+xqEuv3vXL28/3IAZ9yNDhG
+qo84FNA1EL69WOkwdgSrXAPCEKucDMCD00DTGEZXr57xJ2uXnxuSFq5917umoL1p
+M2FOqiHGNskfyWnHemBtGi4qehaslcjim9Jxw/zecuOISvbntayJptvh4rY5634Q
+55xns3AokadO8ftkAgvsGmR3qLucDdBtCqKSPR9J35iNMYrY6WUg6IAcKmKI6bQT
+F+466+7A/nY7CqNhafFNd9CpcKYUaDH398sVCzINtKoJjALLwHXJ+wnFDbIK086A
+zzMzBsOgKitiJHZz8hnUt3EgOj4ZQ3RIonfzAJCZvznmkWzaRWUtLLf8yd0Y89mB
+47xct01SNZBFKPQrsuk9WCvJHX50aLpcfkWSgS0hrjI7DsmRweemAuYYpEZzeHwu
+4SHjsXe9dN+X1k0W9K3rYIGhwAz7X7qoTetITsiTvpEqGFn2RSc=
+=Tavr
+-----END PGP SIGNATURE-----
+
+--tMbDGjvJuJijemkf--
