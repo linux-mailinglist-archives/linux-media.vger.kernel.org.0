@@ -2,121 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1567A4D5E8F
-	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 10:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7471B4D5F00
+	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 10:58:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344843AbiCKJgd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Mar 2022 04:36:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55784 "EHLO
+        id S1347751AbiCKJ7k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Mar 2022 04:59:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232430AbiCKJgc (ORCPT
+        with ESMTP id S240844AbiCKJ7i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Mar 2022 04:36:32 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B64331BE0F2
-        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 01:35:29 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nSbgE-0003Pw-H3; Fri, 11 Mar 2022 10:35:26 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nSbgE-0001SK-OO; Fri, 11 Mar 2022 10:35:25 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nSbgC-0002tS-Hw; Fri, 11 Mar 2022 10:35:24 +0100
-Message-ID: <e44d9964784fe5b00697373531ab8fbad5bdf990.camel@pengutronix.de>
-Subject: Re: [PATCH v3 2/2] media: coda: Add more H264 levels for CODA960
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Fabio Estevam <festevam@gmail.com>, hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
-        ezequiel@collabora.com, kernel@iktek.de, stable@vger.kernel.org,
-        Fabio Estevam <festevam@denx.de>
-Date:   Fri, 11 Mar 2022 10:35:24 +0100
-In-Reply-To: <20220309173636.1879419-2-festevam@gmail.com>
-References: <20220309173636.1879419-1-festevam@gmail.com>
-         <20220309173636.1879419-2-festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.38.3-1 
+        Fri, 11 Mar 2022 04:59:38 -0500
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B7F4199E;
+        Fri, 11 Mar 2022 01:58:31 -0800 (PST)
+Received: by mail-qt1-f178.google.com with SMTP id s15so6866354qtk.10;
+        Fri, 11 Mar 2022 01:58:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BrEpZif76TmKwCPFDGrRusv6mAnQRTigyHyseK33rgE=;
+        b=RORDpFG/B/3JWN5kUH0V1qUkYgJbOi5hf5yyPRDccaQnDXkddCO4GPLp7v4vamnTl/
+         KUFs+dybgPWc2SdCryBBBMi92v9fjYWU9ZakjuhV7hm1UCA0GAiWxj1F5yejJaTuwBOJ
+         LtuYn42Q63XN09Yg0cjSu9paCJvqOlL5WrzfcBAGvns69KF7lKTfj3vIeh8irhJIEFRD
+         pqZnBz/iCF+4VytG+sCMYwq0xX8SvzhlmsUCb1JPkKZLtuwLv9SI4W7UeFwcyko12oSk
+         Q4TiO+FjR8Gc1KNRAYUDLNNO9sZ4lykfDfpgRCjxK7BGH7Qo6ShXoeNebdebsytmvpG1
+         RjQA==
+X-Gm-Message-State: AOAM532mURMgX/sof+1+mgwLfAVFRrPOjmD/JplhWTshIouy8K8WWRCg
+        hF2tcX/1KjWFPB7F8j3ALbfDrNoy0Z4daw==
+X-Google-Smtp-Source: ABdhPJwbX1eWHKYXBbszynC40m+MAI49/kkBXGdVZRsw08hfXFjff//tNkDjVcnfJjL5uEMT9Mn+7A==
+X-Received: by 2002:a05:622a:48f:b0:2dd:b41a:e206 with SMTP id p15-20020a05622a048f00b002ddb41ae206mr7415874qtx.274.1646992709482;
+        Fri, 11 Mar 2022 01:58:29 -0800 (PST)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id 75-20020a37044e000000b0067d47fb5aa4sm2875546qke.63.2022.03.11.01.58.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Mar 2022 01:58:28 -0800 (PST)
+Received: by mail-yb1-f170.google.com with SMTP id j2so16286118ybu.0;
+        Fri, 11 Mar 2022 01:58:28 -0800 (PST)
+X-Received: by 2002:a25:c54a:0:b0:628:9d7f:866a with SMTP id
+ v71-20020a25c54a000000b006289d7f866amr7460415ybe.546.1646992707870; Fri, 11
+ Mar 2022 01:58:27 -0800 (PST)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220310162814.22234-1-biju.das.jz@bp.renesas.com> <20220310162814.22234-4-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220310162814.22234-4-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 11 Mar 2022 10:58:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU4K3xJE=q4-yS+UOefvP4FT6U1uQQ1ig1S8QnwDYr_HQ@mail.gmail.com>
+Message-ID: <CAMuHMdU4K3xJE=q4-yS+UOefvP4FT6U1uQQ1ig1S8QnwDYr_HQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] media: vsp1: Add support for RZ/G2L VSPD
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gTWksIDIwMjItMDMtMDkgYXQgMTQ6MzYgLTAzMDAsIEZhYmlvIEVzdGV2YW0gd3JvdGU6Cj4g
-RnJvbTogTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPgo+
-IAo+IEFkZCBIMjY0IGxldmVsIDEuMCwgNC4xLCA0LjIgdG8gdGhlIGxpc3Qgb2Ygc3VwcG9ydGVk
-IGZvcm1hdHMuCj4gV2hpbGUgdGhlIGhhcmR3YXJlIGRvZXMgbm90IGZ1bGx5IHN1cHBvcnQgdGhl
-c2UgbGV2ZWxzLCBpdCBkb2VzCj4gc3VwcG9ydAo+IG1vc3Qgb2YgdGhlbS4gVGhlIGNvbnN0cmFp
-bnRzIG9uIGZyYW1lIHNpemUgYW5kIHBpeGVsIGZvcm1hdHMgYWxyZWFkeQo+IGNvdmVyIHRoZSBs
-aW1pdGF0aW9uLgo+IAo+IFRoaXMgZml4ZXMgbmVnb3RpYXRpb24gb2YgbGV2ZWwgb24gR1N0cmVh
-bWVyIDEuMTcuMS4KPiAKPiBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwo+IEZpeGVzOiA0MmE2
-ODAxMmU2N2MyICgibWVkaWE6IGNvZGE6IGFkZCByZWFkLW9ubHkgaC4yNjQgZGVjb2Rlcgo+IHBy
-b2ZpbGUvbGV2ZWwgY29udHJvbHMiKQo+IFN1Z2dlc3RlZC1ieTogUGhpbGlwcCBaYWJlbCA8cC56
-YWJlbEBwZW5ndXRyb25peC5kZT4KPiBTaWduZWQtb2ZmLWJ5OiBOaWNvbGFzIER1ZnJlc25lIDxu
-aWNvbGFzLmR1ZnJlc25lQGNvbGxhYm9yYS5jb20+Cj4gU2lnbmVkLW9mZi1ieTogRXplcXVpZWwg
-R2FyY2lhIDxlemVxdWllbEBjb2xsYWJvcmEuY29tPgo+IFNpZ25lZC1vZmYtYnk6IEZhYmlvIEVz
-dGV2YW0gPGZlc3RldmFtQGRlbnguZGU+Cj4gLS0tCj4gQ2hhbmdlcyBzaW5jZSB2MjoKPiAtIFJl
-bW92ZSA1LjAgbGV2ZWwgYW5kIHVzZSBQaGlsbGlwJ3Mgc3VnZ2VzdGlvbiB0byBnZXQgdGhlIGNv
-cnJlY3QKPiBsZXZlbHMKPiBiZWluZyByZXBvcnRlZCBieSB2NGwyaDI2NGVuYzoKPiAKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGgyNjRfbGV2ZWwgMHgwMDk5MGE2
-NyAobWVudSnCoMKgIDogbWluPTAgbWF4PTEzCj4gZGVmYXVsdD0xMSB2YWx1ZT0xMQo+IMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAwOiAxCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoDU6IDIKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgODogMwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqA5OiAzLjEKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgMTA6IDMuMgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAxMTogNAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAxMjogNC4xCj4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDEzOiA0
-LjIKPiAKPiDCoGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY29kYS9jb2RhLWNvbW1vbi5jIHwgOSAr
-KysrKystLS0KPiDCoDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25z
-KC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY29kYS9jb2RhLWNv
-bW1vbi5jCj4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2NvZGEvY29kYS1jb21tb24uYwo+IGlu
-ZGV4IDI4MGQ3N2YxNTY3Yy4uZGE4YmMxZjg3YmEwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbWVk
-aWEvcGxhdGZvcm0vY29kYS9jb2RhLWNvbW1vbi5jCj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0
-Zm9ybS9jb2RhL2NvZGEtY29tbW9uLmMKPiBAQCAtMjM0OSwxMiArMjM0OSwxNSBAQCBzdGF0aWMg
-dm9pZCBjb2RhX2VuY29kZV9jdHJscyhzdHJ1Y3QgY29kYV9jdHgKPiAqY3R4KQo+IMKgwqDCoMKg
-wqDCoMKgwqBpZiAoY3R4LT5kZXYtPmRldnR5cGUtPnByb2R1Y3QgPT0gQ09EQV85NjApIHsKPiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHY0bDJfY3RybF9uZXdfc3RkX21lbnUoJmN0
-eC0+Y3RybHMsICZjb2RhX2N0cmxfb3BzLAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoFY0TDJfQ0lEX01QRUdfVklERU9fSDI2NF9MRVZFTCwKPiAtwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoFY0TDJfTVBFR19WSURF
-T19IMjY0X0xFVkVMXzRfMCwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoH4oKDEgPDwgVjRMMl9NUEVHX1ZJREVPX0gyNjRfTEVWRUxfMl8wKSB8Cj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBWNEwyX01QRUdfVklE
-RU9fSDI2NF9MRVZFTF80XzIsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqB+KCgxIDw8IFY0TDJfTVBFR19WSURFT19IMjY0X0xFVkVMXzFfMCkgfAo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKDEgPDwgVjRM
-Ml9NUEVHX1ZJREVPX0gyNjRfTEVWRUxfMl8wKSB8Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKDEgPDwgVjRMMl9NUEVHX1ZJREVPX0gyNjRfTEVW
-RUxfM18wKSB8Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgKDEgPDwgVjRMMl9NUEVHX1ZJREVPX0gyNjRfTEVWRUxfM18xKSB8Cj4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKDEgPDwgVjRMMl9NUEVH
-X1ZJREVPX0gyNjRfTEVWRUxfM18yKSB8Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAoMSA8PCBWNEwyX01QRUdfVklERU9fSDI2NF9MRVZFTF80XzAp
-KSwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICgx
-IDw8IFY0TDJfTVBFR19WSURFT19IMjY0X0xFVkVMXzRfMCkgfAo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKDEgPDwgVjRMMl9NUEVHX1ZJREVPX0gy
-NjRfTEVWRUxfNF8xKSB8Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAoMSA8PCBWNEwyX01QRUdfVklERU9fSDI2NF9MRVZFTF80XzIpKSwKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBWNEwyX01QRUdfVklE
-RU9fSDI2NF9MRVZFTF80XzApOwo+IMKgwqDCoMKgwqDCoMKgwqB9Cj4gwqDCoMKgwqDCoMKgwqDC
-oHY0bDJfY3RybF9uZXdfc3RkKCZjdHgtPmN0cmxzLCAmY29kYV9jdHJsX29wcywKClJldmlld2Vk
-LWJ5OiBQaGlsaXBwIFphYmVsIDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPgoKcmVnYXJkcwpQaGls
-aXBwCg==
+Hi Biju,
 
+On Thu, Mar 10, 2022 at 5:28 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> The RZ/G2L VSPD provides a single VSPD instance. It has the following
+> sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+>
+> The VSPD block on RZ/G2L does not have a version register, so added a
+> new compatible string "renesas,rzg2l-vsp2" with a data pointer containing
+> the info structure. Also the reset line is shared with the DU module.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
+>  * Added standalone device info for rzg2l-vsp2.
+>  * Added vsp1_lookup helper function.
+>  * Updated comments for LIF0 buffer attribute register
+>  * Used last ID for rzg2l-vsp2.
+
+Thanks for the update!
+
+> --- a/drivers/media/platform/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+> @@ -814,11 +814,36 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+>         },
+>  };
+>
+> +static const struct vsp1_device_info rzg2l_vsp2_device_info = {
+> +               .version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
+> +               .model = "VSP2-D",
+> +               .gen = 3,
+> +               .features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL,
+> +               .lif_count = 1,
+> +               .rpf_count = 2,
+> +               .wpf_count = 1,
+> +};
+> +
+> +static const struct vsp1_device_info *vsp1_lookup(struct vsp1_device *vsp1,
+> +                                                 u32 version)
+> +{
+> +       unsigned int i;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+> +               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == version) {
+
+While moving this block, you replaced the wrong side of the comparison
+by "version".
+
+> +                       vsp1->info = &vsp1_device_infos[i];
+> +                       break;
+> +               }
+
+> @@ -874,24 +899,21 @@ static int vsp1_probe(struct platform_device *pdev)
+>         if (ret < 0)
+>                 goto done;
+>
+> -       vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+> -
+> -       for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+> -               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+> -                   vsp1_device_infos[i].version) {
+> -                       vsp1->info = &vsp1_device_infos[i];
+> -                       break;
+> -               }
+> +       vsp1->info = of_device_get_match_data(&pdev->dev);
+> +       if (!vsp1->info) {
+> +               version = vsp1_read(vsp1, VI6_IP_VERSION);
+> +               vsp1->info = vsp1_lookup(vsp1, version);
+>         }
+
+The rest LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
