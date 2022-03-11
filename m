@@ -2,190 +2,355 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA44C4D611A
-	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 12:59:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2712C4D6177
+	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 13:24:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348444AbiCKMAq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Mar 2022 07:00:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34060 "EHLO
+        id S1347514AbiCKMZD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Mar 2022 07:25:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239962AbiCKMAp (ORCPT
+        with ESMTP id S238228AbiCKMZC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Mar 2022 07:00:45 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2128.outbound.protection.outlook.com [40.107.114.128])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54EE51AA042;
-        Fri, 11 Mar 2022 03:59:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O0NMBgyoQIQsY6tly4oS+3Pc+sRLzAgrgc336mhVitIJQS9PY1oyVuo6XfhNIs4UM3KjLhmOeuvOgqs76cJ9g6GjUpvpvPnK57m8qn/mbRtsyzFbwK+wDZrGE0NBh8BVUs+8w/Y17qzWFmsYwlI9xglO4Tk1mFCuKEMH/JS/S9oV0GwETLrsU9rUizRQ6C4lQwATtzWknQk5KXwGSNZHmTwdroiIB7glKFxEXXiy5ZCaZdHRiLMQlsIbyO1tpqHB/yHcxSKK3sAb3SjiCx52BrO6Mk/umnzkrDGtkx/LD5Annir2sl5TCcljQAt5tfSkeE495YsRdcmZmXgwIHw/mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XVVGwk0KSKxAskyNPyZH46mO5tQKwhun0IeIs3EloWc=;
- b=LwoTYuk88gj/dDEqZlDXrykCvYRecYCKGjqtgP3gzLesSNU9QVaFc6KVy7bQe2zY2m6KryImvE+d35GM3Qw5U1l4qxWi5mAFm6UPRUI2ylNZtw5OLE9lZMOmGugbtMiz1oNb9MTWFa7KZF+4gn603UYGGmnvw96l4f6ZzKkRCMyQZzgYMyk5CFS4wYVbdnF7KhG/ECNzPm5825HCUpWccCloVp9D+JvToh1ysKgzmKdcWeWI1o5MPHu8EgpuJC8Mqc7RO0Q3OB+3FMu4pv6tITJaCCXaWUfDjRhyIkuNKvB8H5tpz/KeKyLTsTC7PoXI2eHIgxReRW+J2IzCkzlW0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XVVGwk0KSKxAskyNPyZH46mO5tQKwhun0IeIs3EloWc=;
- b=YLx+BsxURlqFNAJFDIVbQZzKvJl/CEus8kcwvYsNpCsJfrq9AtD3nGYl8nWm48TVcttNDFOvWaIpiyCAPMX90CvShGghbXehPCl5RylI4vl3i5YQH+r004Wx/O8xyqD/WG507a8In8xNqZf1b3uE1rDZH4Jiq6t9U+hsjIYGohk=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSAPR01MB3697.jpnprd01.prod.outlook.com (2603:1096:604:5e::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.21; Fri, 11 Mar
- 2022 11:59:40 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::58d9:6a15:cebd:5500]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::58d9:6a15:cebd:5500%4]) with mapi id 15.20.5038.029; Fri, 11 Mar 2022
- 11:59:39 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Fri, 11 Mar 2022 07:25:02 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 476BC19BE7A
+        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 04:23:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647001439; x=1678537439;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pZWD1rNmJLfszAyp3DGFagoUXZe7dl9CbWB5VfWRPY4=;
+  b=E7q5bhBMg+OgBy2nAlwVfEC3bw4FVpTb5mwVqkrPCkUOq0rfAS4xuIH0
+   RM2/q/tiAJW/5g3Vxwk+0+hGJbJXkyfxy/qBA/L+m2Ds7VipzT2pXTkSz
+   1iXGfGbBgj8CP+GwuabjwvLyzq7+3srRCN0QBHTWLDqLjrbmYS1kXvmOk
+   UIWxAD3wmgM02tFYIYVsJ1RssSn2RkDk9VH0Dc9/YlOjItCAqwmiicMd3
+   zJII++C6rTWQvnUb74nyZ4/GH+EOn+saOOupY/kPTWYycu/eSYwHBIWWG
+   rSfC/fbQRa+UHaJuuQ79n9hyny+PcnRRF+IHWFj01gbCZUQdmj/5RT46S
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="253125553"
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; 
+   d="scan'208";a="253125553"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 04:23:58 -0800
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; 
+   d="scan'208";a="689049281"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 04:23:55 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 3C97920375;
+        Fri, 11 Mar 2022 14:23:53 +0200 (EET)
+Date:   Fri, 11 Mar 2022 14:23:53 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Paul Elder <paul.elder@ideasonboard.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Martina Krasteva <martinax.krasteva@intel.com>,
+        Shawn Tu <shawnx.tu@intel.com>, Arec Kao <arec.kao@intel.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v3 3/3] media: vsp1: Add support for RZ/G2L VSPD
-Thread-Topic: [PATCH v3 3/3] media: vsp1: Add support for RZ/G2L VSPD
-Thread-Index: AQHYNTQfEiYofw8zsUmHn0fkdRi3u6y6BKCAgAAO9bA=
-Date:   Fri, 11 Mar 2022 11:59:39 +0000
-Message-ID: <OS0PR01MB5922CA9A089C035AFBE2AB19860C9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220311103803.25239-1-biju.das.jz@bp.renesas.com>
- <20220311103803.25239-4-biju.das.jz@bp.renesas.com>
- <CAMuHMdXR_8LzzK+S4S3WAbHbDTBcGj3T9U5jPUv84RifQCqC-A@mail.gmail.com>
-In-Reply-To: <CAMuHMdXR_8LzzK+S4S3WAbHbDTBcGj3T9U5jPUv84RifQCqC-A@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 70afee53-42bc-4ccb-2ec2-08da03569f2e
-x-ms-traffictypediagnostic: OSAPR01MB3697:EE_
-x-microsoft-antispam-prvs: <OSAPR01MB369767F9671D3CB2C8D0873B860C9@OSAPR01MB3697.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: aBKCtozKi8wysu7wLzuTcPgV18EjI2wEmfbqgEU+w/VP6/V9idWRhEY20kohBFld4DoYn0JLX6379yfFtHhm0r9k+5A+zkZWz6RHouOtnntPBamnVZEuhO/qhRE4wzKz8NyqsdTa/SdjuRoXfVhZg5+ubzisHtYt6K9Zuu0KAI+TbIJDZOYZtvZdTGVm9C0gLAR0dUNfK7FXeQqCpEJ3RqcUABH9WXPxqlE51dRJ+C2yNCDLqSGb2c1AIkz17ymjYjQUgEIZlSYtpGMZccjg/kNZmi8zDQKIMS9M61tBOsr5Ayg1JklFuJE7VfX5wcEozZDd71si7knlwL/rqLqLBR04JYe0rzJ6G/af5eIDwWVM5atXBCBQ8TpYnef4YZj8Vd9BrdfDwa0CweMO+nyGGb4GOKRYtLFSy+LyK9nOF/jPFlImL6sL2djwv+3WjXYxjLJEgsbp+uSNyLlb7xL4UNHOml00+on4kPgrpBt/WL3HeIDJqA2OkgEStO4xlV7ASamP6J+joeDbbK3RK4Aj/gOFO8HFpsz6fcWzvFIG+a1zjojeO4Vof6OuyuyqxjrMiwHEsDerAf8K9s7opsl01hhlYF/tKw4jawAanFK82g2JntCJcHNOvbfp2SRvBI/IACzm/PAnLAFvIms3FpT4XYGSkwadOdpDhCC5hSXwYNlmsgPB0J148ua/yH5u3D1iFtSBTZWhYoLDsGCMXLzb+A==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(5660300002)(8936002)(52536014)(122000001)(6506007)(9686003)(7696005)(38070700005)(86362001)(38100700002)(2906002)(83380400001)(71200400001)(316002)(186003)(26005)(6916009)(54906003)(107886003)(64756008)(4326008)(53546011)(66446008)(66476007)(66556008)(76116006)(66946007)(8676002)(33656002)(508600001)(55016003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Tzh1eUJ2blpmMkorZ2didVptbFlLRGN2TFJ5VFlEamxvS2JEREVmNmJadzV2?=
- =?utf-8?B?a3BkZk5NSlhmcmVUOXZIR2hjRjQyZFhWeTdZbmFzTmVKRzA0T0d2aStmMmh5?=
- =?utf-8?B?NHVpOFdBUGdtaElWd3ExTlE4d2dwWXFOQkZhUTZBdEZ5eDZuM3lnbDRXSUZk?=
- =?utf-8?B?NUJFYXBFbnRRdWtUVUZCOVNPTWRGWmFBMWtjN3hrcmgzbmJDdjZDUlNteFVv?=
- =?utf-8?B?Rmp2SUVQdUdDclV2OWtFK1BNSElRQUhPeEJubEZJR09kaStvUE5pL0JjM04x?=
- =?utf-8?B?UDdJVHNXVTBaL0J3RTNHOWJQaHd3QVo5dWc3ZHBSQis3QU1xcWErekxUalBz?=
- =?utf-8?B?RklSZ1Y1SDRTSnkvbzN3Rm1SSnhkS2xVNE9IQ2hZQjltRVZhNnVDSVQvMDl5?=
- =?utf-8?B?RnlCSUMvUW1PZ3JLTjM1RkJUR21mQlNQZ0JXUDRwWmdzMUEwUVRPTDdDZW5n?=
- =?utf-8?B?NDl0bVZqck5WNTNGODVCYUlMcy9yQzFuM3Ftb0tEaFVXUVpSMWRERjU0WW9G?=
- =?utf-8?B?OXlyUWd0a3dhT2FEUWN1RmNoZ3ZpTDZjb2o1YVpKdVFzeGI2YStBeDRYTFNs?=
- =?utf-8?B?djB6aU1laENraXZBNHJTNVZyNzk0U2IyeTdSdXgxdnBidGExdVlnNXUwaXhu?=
- =?utf-8?B?Nkw5OVNXazdlbER6RHY0TU1STWNlYVpqMzlmL2wzZkNsVUE4YTN3dlAzTmwv?=
- =?utf-8?B?UFpGclBTNkRDQ1RsK2xPVXJPQUduaStpS0djWUxQbUEvK1dQVE5LUUdOQmJW?=
- =?utf-8?B?MFp1cXh2L2JvV2Q3YjNONWpmVktqVjJtVWw3dHBIbHY4OXpCRTk1MXYycThP?=
- =?utf-8?B?SWg1ZzRreVNPRElpclYvbE5TSUowUkVDWUlYcGw1dzFyUklyRnJ3NDFocGs5?=
- =?utf-8?B?VTFSdEhDNW1JLzM1U2lsaTZEYzNsWGhJOW95cTUyK2lxWmhwR25jYnVCQ0Rh?=
- =?utf-8?B?aFFUUTNXVlFld0tCUmh2RHFFWTFVOFdDZHIvd3RpalZoNDBjeE1UUlJGZ2tU?=
- =?utf-8?B?RXhQL1hZbFFxRVlDNDhrTENHM0xiSkk4YjZrZHcxckEwQXNiZGNGT1VOcnBt?=
- =?utf-8?B?YTNQR3JNOUpCOVRtUTlLSlF0dytJUlhhQjExWkIwbzBGZUUzSHdtbi9rMm1X?=
- =?utf-8?B?eFJBaWg0S09uN2pxQTc4Y1djcTREWFVwejZISytyQnlNN3Q3WVlUaFF5ZURT?=
- =?utf-8?B?YWJxbmV6amdVeUZJcHd6Q3Y5d0pJNkJZNXFQRWFVNStNWmxNRUZLZkNLdk05?=
- =?utf-8?B?MmRmRjRPaUFsNWgzSmovNVZNMm5oK3VlWGsydEJDdDdLeEFXbHZ6WW9sUXBq?=
- =?utf-8?B?OW9jcHJZdGtLOGNmamY5SjA1S2d4UG9XcDlPc3gyZGxzTitNVG1JQTBqTWw3?=
- =?utf-8?B?bUJnaHR3eXBra1gxdTVxd2tyNG5mVTVkdmxaeEtjUVpsS2sxaExHeFNZcjlL?=
- =?utf-8?B?VzZsbms3NEJteHp6d0dpSVdYeEFMSkJwNDVMNzM5ZnFMbDJVVUZPWG5qdFFv?=
- =?utf-8?B?THhIZVlDbnVKbkl2MnA1WE8wUXFzNnVRYnl2eVJxMElaamhieVllUTl2SEFx?=
- =?utf-8?B?WWJoeDFxQ2NKQmRjc2FYdTNRZVgyMWJHTXpxZGYraFpoT28xWUxjR2VWYlNL?=
- =?utf-8?B?UU1HbUUwZjNIeTB1NTJYVGZiUElOV2VUZDZ2dnorUTN3YmNyaFFNOGtNdnNx?=
- =?utf-8?B?ZktXaXlhOWhlMzU2ZmY5NExsc2FsN1Nvd0JaLzdRQjZ6MTAwSkhZNEVHTWVq?=
- =?utf-8?B?V0toRHhaSmp3NWU1OGdLRGlZS0JvTXluQlpZRndvbHVPU0xFd2RzZlhNV3pq?=
- =?utf-8?B?elRTY1ZVQlR1aVZuK1Y4WGcxZGNCelR1TkdLd3RnUWdMSWxsR2NpbElvZnF4?=
- =?utf-8?B?ZUZUQ3Z2Q003aE5QbkNEWGltMzJzN1RFeG5WU3lPeDlaWTFRcW5tbXdwTlFW?=
- =?utf-8?B?ejhob01sVUx6bk1mcGg5cy9ENXYvaTN2b1ZmVzBTT1pzMVhKRjh0MEhQUkh1?=
- =?utf-8?B?aHRuSTlOUnFBPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Jimmy Su <jimmy.su@intel.com>,
+        Martin Kepplinger <martink@posteo.de>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jmondi@jmondi.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] media: ov5640: Use runtime PM
+Message-ID: <Yis/WZFBC49uoRg6@paasikivi.fi.intel.com>
+References: <20220311111259.3220718-1-paul.elder@ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70afee53-42bc-4ccb-2ec2-08da03569f2e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2022 11:59:39.8521
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: atGgC5fy39be9Ny/Rhtftq81gR6DQqcv5/tT9EbIQE/e6KA5aB2eDH/+rpOpeQOQIYelvr9NUzLbPJliyMstFJYU22zvId+W3PycmXkeKw8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB3697
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220311111259.3220718-1-paul.elder@ideasonboard.com>
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0ggdjMgMy8zXSBtZWRpYTogdnNwMTogQWRkIHN1cHBvcnQgZm9yIFJaL0cyTCBWU1BEDQo+
-IA0KPiBIaSBCaWp1LA0KPiANCj4gT24gRnJpLCBNYXIgMTEsIDIwMjIgYXQgMTE6MzggQU0gQmlq
-dSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMuY29tPg0KPiB3cm90ZToNCj4gPiBUaGUgUlov
-RzJMIFZTUEQgcHJvdmlkZXMgYSBzaW5nbGUgVlNQRCBpbnN0YW5jZS4gSXQgaGFzIHRoZSBmb2xs
-b3dpbmcNCj4gPiBzdWIgbW9kdWxlcyBNQVUsIENUVSwgUlBGLCBEUFIsIExVVCwgQlJTLCBXUEYg
-YW5kIExJRi4NCj4gPg0KPiA+IFRoZSBWU1BEIGJsb2NrIG9uIFJaL0cyTCBkb2VzIG5vdCBoYXZl
-IGEgdmVyc2lvbiByZWdpc3Rlciwgc28gYWRkZWQgYQ0KPiA+IG5ldyBjb21wYXRpYmxlIHN0cmlu
-ZyAicmVuZXNhcyxyemcybC12c3AyIiB3aXRoIGEgZGF0YSBwb2ludGVyDQo+ID4gY29udGFpbmlu
-ZyB0aGUgaW5mbyBzdHJ1Y3R1cmUuIEFsc28gdGhlIHJlc2V0IGxpbmUgaXMgc2hhcmVkIHdpdGgg
-dGhlIERVDQo+IG1vZHVsZS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1
-LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPiBSZXZpZXdlZC1ieTogTGFkIFByYWJoYWthciA8
-cHJhYmhha2FyLm1haGFkZXYtbGFkLnJqQGJwLnJlbmVzYXMuY29tPg0KPiA+IC0tLQ0KPiA+IHYy
-LT52MzoNCj4gPiAgKiBGaXhlZCB2ZXJzaW9uIGNvbXBhcmlzb24gaW4gdnNwMV9sb29rdXAoKQ0K
-PiANCj4gVGhhbmtzIGZvciB0aGUgdXBkYXRlIQ0KPiANCj4gPiAtLS0gYS9kcml2ZXJzL21lZGlh
-L3BsYXRmb3JtL3ZzcDEvdnNwMV9saWYuYw0KPiA+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZv
-cm0vdnNwMS92c3AxX2xpZi5jDQo+ID4gQEAgLTEzMCwxMyArMTMxLDE1IEBAIHN0YXRpYyB2b2lk
-IGxpZl9jb25maWd1cmVfc3RyZWFtKHN0cnVjdA0KPiB2c3AxX2VudGl0eSAqZW50aXR5LA0KPiA+
-ICAgICAgICAgICAgICAgICAgICAgICAgIFZJNl9MSUZfQ1RSTF9SRVFTRUwgfCBWSTZfTElGX0NU
-UkxfTElGX0VOKTsNCj4gPg0KPiA+ICAgICAgICAgLyoNCj4gPiAtICAgICAgICAqIE9uIFItQ2Fy
-IFYzTSB0aGUgTElGMCBidWZmZXIgYXR0cmlidXRlIHJlZ2lzdGVyIGhhcyB0byBiZSBzZXQNCj4g
-dG8gYQ0KPiA+IC0gICAgICAgICogbm9uLWRlZmF1bHQgdmFsdWUgdG8gZ3VhcmFudGVlIHByb3Bl
-ciBvcGVyYXRpb24gKG90aGVyd2lzZQ0KPiBhcnRpZmFjdHMNCj4gPiAtICAgICAgICAqIG1heSBh
-cHBlYXIgb24gdGhlIG91dHB1dCkuIFRoZSB2YWx1ZSByZXF1aXJlZCBieSB0aGUgbWFudWFsDQo+
-IGlzIG5vdA0KPiA+IC0gICAgICAgICogZXhwbGFpbmVkIGJ1dCBpcyBsaWtlbHkgYSBidWZmZXIg
-c2l6ZSBvciB0aHJlc2hvbGQuDQo+ID4gKyAgICAgICAgKiBPbiBSLUNhciBWM00gYW5kIFJaL0cy
-TCB0aGUgTElGMCBidWZmZXIgYXR0cmlidXRlIHJlZ2lzdGVyDQo+IGhhcyB0byBiZQ0KPiA+ICsg
-ICAgICAgICogc2V0IHRvIGEgbm9uLWRlZmF1bHQgdmFsdWUgdG8gZ3VhcmFudGVlIHByb3BlciBv
-cGVyYXRpb24NCj4gKG90aGVyd2lzZQ0KPiA+ICsgICAgICAgICogYXJ0aWZhY3RzIG1heSBhcHBl
-YXIgb24gdGhlIG91dHB1dCkuIFRoZSB2YWx1ZSByZXF1aXJlZCBieQ0KPiB0aGUNCj4gPiArICAg
-ICAgICAqIG1hbnVhbCBpcyBub3QgZXhwbGFpbmVkIGJ1dCBpcyBsaWtlbHkgYSBidWZmZXIgc2l6
-ZSBvcg0KPiB0aHJlc2hvbGQuDQo+ID4gICAgICAgICAgKi8NCj4gPiAtICAgICAgIGlmICgoZW50
-aXR5LT52c3AxLT52ZXJzaW9uICYgVkk2X0lQX1ZFUlNJT05fTUFTSykgPT0NCj4gPiAtICAgICAg
-ICAgICAoVkk2X0lQX1ZFUlNJT05fTU9ERUxfVlNQRF9WMyB8IFZJNl9JUF9WRVJTSU9OX1NPQ19W
-M00pKQ0KPiA+ICsgICAgICAgaWYgKCgoZW50aXR5LT52c3AxLT52ZXJzaW9uICYgVkk2X0lQX1ZF
-UlNJT05fTUFTSykgPT0NCj4gPiArICAgICAgICAgICAoVkk2X0lQX1ZFUlNJT05fTU9ERUxfVlNQ
-RF9WMyB8IFZJNl9JUF9WRVJTSU9OX1NPQ19WM00pKSB8fA0KPiA+ICsgICAgICAgICAgICgoZW50
-aXR5LT52c3AxLT52ZXJzaW9uICYgVkk2X0lQX1ZFUlNJT05fTUFTSykgPT0NCj4gPiArICAgICAg
-ICAgICAgVkk2X0lQX1ZFUlNJT05fTU9ERUxfVlNQRF9SWkcyTCkpDQo+ID4gICAgICAgICAgICAg
-ICAgIHZzcDFfbGlmX3dyaXRlKGxpZiwgZGxiLCBWSTZfTElGX0xCQSwNCj4gPiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgVkk2X0xJRl9MQkFfTEJBMCB8DQo+ID4gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICgxNTM2IDw8IFZJNl9MSUZfTEJBX0xCQTFfU0hJRlQpKTsNCj4g
-DQo+IExHVE0sIGFsdGhvdWdoIHVzaW5nIGEgZmVhdHVyZSBiaXQgaW4gdnNwMV9kZXZpY2VfaW5m
-bywgb3IganVzdCBhDQo+IHN3aXRjaCgpIHN0YXRlbWVudCBoZXJlLCB3b3VsZCBwcm9iYWJseSBi
-ZSBiZXR0ZXIuDQoNCkkgd2lsbCBnbyB3aXRoIHN3aXRjaCBzdGF0ZW1lbnQsIGFzIFYzTSgweDE4
-MDEpIGFuZCBWM0goMHgxODAyKSBzaGFyZXMgc2FtZSBpbmZvDQphbmQgU29DIHNlcGFyYXRpb24g
-dG8gYmUgZG9uZSBoZXJlIHRvIGlkZW50aWZ5IHRoZSBWM00uDQoNCkNoZWVycywNCkJpanUNCg0K
-DQo+IA0KPiBSZXZpZXdlZC1ieTogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydCtyZW5lc2FzQGds
-aWRlci5iZT4NCj4gDQo+IEdye29ldGplLGVldGluZ31zLA0KPiANCj4gICAgICAgICAgICAgICAg
-ICAgICAgICAgR2VlcnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBUaGVyZSdz
-IGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtDQo+IG02OGsub3JnDQo+
-IA0KPiBJbiBwZXJzb25hbCBjb252ZXJzYXRpb25zIHdpdGggdGVjaG5pY2FsIHBlb3BsZSwgSSBj
-YWxsIG15c2VsZiBhIGhhY2tlci4NCj4gQnV0IHdoZW4gSSdtIHRhbGtpbmcgdG8gam91cm5hbGlz
-dHMgSSBqdXN0IHNheSAicHJvZ3JhbW1lciIgb3Igc29tZXRoaW5nDQo+IGxpa2UgdGhhdC4NCj4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBUb3J2YWxkcw0K
+Hi Paul,
+
+Thanks for the update.
+
+On Fri, Mar 11, 2022 at 08:12:59PM +0900, Paul Elder wrote:
+> Switch to using runtime PM for power management.
+> 
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> 
+> ---
+> Changes in v2:
+> - replace manual tracking of power status with pm_runtime_get_if_in_use
+> - power on the sensor before reading the checking the chip id
+> - add dependency on PM to Kconfig
+> ---
+>  drivers/media/i2c/Kconfig  |   1 +
+>  drivers/media/i2c/ov5640.c | 112 ++++++++++++++++++++++---------------
+>  2 files changed, 67 insertions(+), 46 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index e7194c1be4d2..97c3611d9304 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -1025,6 +1025,7 @@ config VIDEO_OV5640
+>  	tristate "OmniVision OV5640 sensor support"
+>  	depends on OF
+>  	depends on GPIOLIB && VIDEO_V4L2 && I2C
+> +	depends on PM
+
+I think this is not needed as the sensor is powered on explicitly in probe.
+
+You should similarly power it off explicitly in remove, set the runtime PM
+status suspended and disable runtime PM. See e.g. imx319 driver for an
+example. It doesn't have resume callback but that doesn't really matter ---
+it's just ACPI-only.
+
+>  	select MEDIA_CONTROLLER
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	select V4L2_FWNODE
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 4de83d0ef85d..454ffd3c6d59 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/init.h>
+>  #include <linux/module.h>
+>  #include <linux/of_device.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/slab.h>
+>  #include <linux/types.h>
+> @@ -445,8 +446,6 @@ struct ov5640_dev {
+>  	/* lock to protect all members below */
+>  	struct mutex lock;
+>  
+> -	int power_count;
+> -
+>  	struct v4l2_mbus_framefmt fmt;
+>  	bool pending_fmt_change;
+>  
+> @@ -2693,37 +2692,6 @@ static int ov5640_set_power(struct ov5640_dev *sensor, bool on)
+>  
+>  /* --------------- Subdev Operations --------------- */
+>  
+> -static int ov5640_s_power(struct v4l2_subdev *sd, int on)
+> -{
+> -	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> -	int ret = 0;
+> -
+> -	mutex_lock(&sensor->lock);
+> -
+> -	/*
+> -	 * If the power count is modified from 0 to != 0 or from != 0 to 0,
+> -	 * update the power state.
+> -	 */
+> -	if (sensor->power_count == !on) {
+> -		ret = ov5640_set_power(sensor, !!on);
+> -		if (ret)
+> -			goto out;
+> -	}
+> -
+> -	/* Update the power count. */
+> -	sensor->power_count += on ? 1 : -1;
+> -	WARN_ON(sensor->power_count < 0);
+> -out:
+> -	mutex_unlock(&sensor->lock);
+> -
+> -	if (on && !ret && sensor->power_count == 1) {
+> -		/* restore controls */
+> -		ret = v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
+> -	}
+> -
+> -	return ret;
+> -}
+> -
+>  static int ov5640_try_frame_interval(struct ov5640_dev *sensor,
+>  				     struct v4l2_fract *fi,
+>  				     u32 width, u32 height)
+> @@ -3288,6 +3256,9 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+>  
+>  	/* v4l2_ctrl_lock() locks our own mutex */
+>  
+> +	if (!pm_runtime_get_if_in_use(&sensor->i2c_client->dev))
+> +		return 0;
+> +
+>  	switch (ctrl->id) {
+>  	case V4L2_CID_AUTOGAIN:
+>  		val = ov5640_get_gain(sensor);
+> @@ -3303,6 +3274,8 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+>  		break;
+>  	}
+>  
+> +	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -3334,7 +3307,7 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	 * not apply any controls to H/W at this time. Instead
+>  	 * the controls will be restored right after power-up.
+>  	 */
+> -	if (sensor->power_count == 0)
+> +	if (!pm_runtime_get_if_in_use(&sensor->i2c_client->dev))
+>  		return 0;
+>  
+>  	switch (ctrl->id) {
+> @@ -3376,6 +3349,8 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+>  		break;
+>  	}
+>  
+> +	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
+> +
+>  	return ret;
+>  }
+>  
+> @@ -3657,6 +3632,12 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+>  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+>  	int ret = 0;
+>  
+> +	if (enable) {
+> +		ret = pm_runtime_resume_and_get(&sensor->i2c_client->dev);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+>  	mutex_lock(&sensor->lock);
+>  
+>  	if (sensor->streaming == !enable) {
+> @@ -3681,8 +3662,13 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+>  		if (!ret)
+>  			sensor->streaming = enable;
+>  	}
+> +
+>  out:
+>  	mutex_unlock(&sensor->lock);
+> +
+> +	if (!enable || ret)
+> +		pm_runtime_put(&sensor->i2c_client->dev);
+> +
+>  	return ret;
+>  }
+>  
+> @@ -3704,7 +3690,6 @@ static int ov5640_init_cfg(struct v4l2_subdev *sd,
+>  }
+>  
+>  static const struct v4l2_subdev_core_ops ov5640_core_ops = {
+> -	.s_power = ov5640_s_power,
+>  	.log_status = v4l2_ctrl_subdev_log_status,
+>  	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+>  	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> @@ -3750,15 +3735,11 @@ static int ov5640_check_chip_id(struct ov5640_dev *sensor)
+>  	int ret = 0;
+>  	u16 chip_id;
+>  
+> -	ret = ov5640_set_power_on(sensor);
+> -	if (ret)
+> -		return ret;
+> -
+>  	ret = ov5640_read_reg16(sensor, OV5640_REG_CHIP_ID, &chip_id);
+>  	if (ret) {
+>  		dev_err(&client->dev, "%s: failed to read chip identifier\n",
+>  			__func__);
+> -		goto power_off;
+> +		return ret;
+>  	}
+>  
+>  	if (chip_id != 0x5640) {
+> @@ -3767,8 +3748,6 @@ static int ov5640_check_chip_id(struct ov5640_dev *sensor)
+>  		ret = -ENXIO;
+>  	}
+>  
+> -power_off:
+> -	ov5640_set_power_off(sensor);
+>  	return ret;
+>  }
+>  
+> @@ -3863,20 +3842,35 @@ static int ov5640_probe(struct i2c_client *client)
+>  
+>  	mutex_init(&sensor->lock);
+>  
+> -	ret = ov5640_check_chip_id(sensor);
+> +	ret = ov5640_init_controls(sensor);
+>  	if (ret)
+>  		goto entity_cleanup;
+>  
+> -	ret = ov5640_init_controls(sensor);
+> +	ret = ov5640_set_power(sensor, true);
+>  	if (ret)
+> -		goto entity_cleanup;
+> +		goto free_ctrls;
+> +
+> +	pm_runtime_set_active(dev);
+> +	pm_runtime_enable(dev);
+> +	pm_runtime_get(dev);
+> +
+> +	ret = ov5640_check_chip_id(sensor);
+> +	if (ret)
+> +		goto err_pm_runtime;
+>  
+>  	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
+>  	if (ret)
+> -		goto free_ctrls;
+> +		goto err_pm_runtime;
+> +
+> +	pm_runtime_set_autosuspend_delay(dev, 1000);
+> +	pm_runtime_use_autosuspend(dev);
+> +	pm_runtime_put_autosuspend(dev);
+>  
+>  	return 0;
+>  
+> +err_pm_runtime:
+> +	pm_runtime_disable(dev);
+> +	pm_runtime_put_noidle(dev);
+>  free_ctrls:
+>  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+>  entity_cleanup:
+> @@ -3898,6 +3892,31 @@ static int ov5640_remove(struct i2c_client *client)
+>  	return 0;
+>  }
+>  
+> +static int __maybe_unused ov5640_sensor_suspend(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov5640_dev *ov5640 = to_ov5640_dev(sd);
+> +
+> +	return ov5640_set_power(ov5640, false);
+> +}
+> +
+> +static int __maybe_unused ov5640_sensor_resume(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov5640_dev *ov5640 = to_ov5640_dev(sd);
+> +	int ret;
+> +
+> +	ret = ov5640_set_power(ov5640, true);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_ctrl_handler_setup(&ov5640->ctrls.handler);
+> +}
+> +
+> +static const struct dev_pm_ops ov5640_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(ov5640_sensor_suspend, ov5640_sensor_resume, NULL)
+> +};
+> +
+>  static const struct i2c_device_id ov5640_id[] = {
+>  	{"ov5640", 0},
+>  	{},
+> @@ -3914,6 +3933,7 @@ static struct i2c_driver ov5640_i2c_driver = {
+>  	.driver = {
+>  		.name  = "ov5640",
+>  		.of_match_table	= ov5640_dt_ids,
+> +		.pm = &ov5640_pm_ops,
+>  	},
+>  	.id_table = ov5640_id,
+>  	.probe_new = ov5640_probe,
+
+-- 
+Kind regards,
+
+Sakari Ailus
