@@ -2,192 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 927964D66FC
-	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 18:01:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6228E4D6725
+	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 18:06:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350412AbiCKRBy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Mar 2022 12:01:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35754 "EHLO
+        id S239763AbiCKRHX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Mar 2022 12:07:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237446AbiCKRBy (ORCPT
+        with ESMTP id S231310AbiCKRHW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Mar 2022 12:01:54 -0500
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F4414EA19
-        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 09:00:49 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 3D0E81BF205;
-        Fri, 11 Mar 2022 17:00:46 +0000 (UTC)
-Date:   Fri, 11 Mar 2022 18:00:45 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Fri, 11 Mar 2022 12:07:22 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 339A31D639F
+        for <linux-media@vger.kernel.org>; Fri, 11 Mar 2022 09:06:18 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA141486;
+        Fri, 11 Mar 2022 18:06:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1647018376;
+        bh=J4524NyD8nQMYefUkvWTZMhvPJGDU8k4X80us/zKE50=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eBN/ehsTqDtz7SnYvOwPpF00bvyPBiNSsj5VqM1QIiQqkHXePJ7sy5mK+1GSzDTqs
+         fqG2UkH+QZRQrqS+N96fSs/v07oFEm8zX0MY2kWxkkreStPVHKzMIrlEaPVcqYrDq2
+         w9mhNcZMGWmQf7gdav+zMe7M/ARCJKjGJvGRLqLQ=
+Date:   Fri, 11 Mar 2022 19:05:59 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
         kernel@pengutronix.de, linux-imx@nxp.com,
         Paul Elder <paul.elder@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 4/4] media: imx: imx-mipi-csis: Simplify runtime PM
- implementation
-Message-ID: <20220311170045.k2dmhbwupfjqws22@uno.localdomain>
+Subject: Re: [PATCH 1/4] media: imx: imx-mipi-csis: Don't use .s_power()
+Message-ID: <YiuBd+azwX6uCkZ9@pendragon.ideasonboard.com>
 References: <20220311135535.30108-1-laurent.pinchart@ideasonboard.com>
- <20220311135535.30108-5-laurent.pinchart@ideasonboard.com>
+ <20220311135535.30108-2-laurent.pinchart@ideasonboard.com>
+ <20220311163443.f6yxh23gqm7x5r3p@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220311135535.30108-5-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220311163443.f6yxh23gqm7x5r3p@uno.localdomain>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Jacopo,
 
-On Fri, Mar 11, 2022 at 03:55:35PM +0200, Laurent Pinchart wrote:
-> The runtime PM resume handler is guaranteed to be called on a suspended
-> device, and the suspend handler on a resumed device. The implementation
-> can thus be simplified.
->
-> While at it, rename the mipi_csis_device state field to powered, as the
-> now state contains a single flag only.
+On Fri, Mar 11, 2022 at 05:34:43PM +0100, Jacopo Mondi wrote:
+> On Fri, Mar 11, 2022 at 03:55:32PM +0200, Laurent Pinchart wrote:
+> > The subdev .s_power() operation is deprecated. Drop it, requiring sensor
+> > drivers to correctly use runtime PM instead of relying on .s_power().
+> >
+> > As this driver has just been moved out of staging, and necessary drivers
+> > to implement a full camera pipeline are still in staging, no platform
+> > depends yet on this API being called. There is thus no risk of
+> > regression.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/imx/imx-mipi-csis.c | 11 ++---------
+> >  1 file changed, 2 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
+> > index 7baedc854186..6e06d19c1334 100644
+> > --- a/drivers/media/platform/imx/imx-mipi-csis.c
+> > +++ b/drivers/media/platform/imx/imx-mipi-csis.c
+> > @@ -937,7 +937,7 @@ static struct mipi_csis_device *sd_to_mipi_csis_device(struct v4l2_subdev *sdev)
+> >  static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> >  {
+> >  	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
+> > -	int ret;
+> > +	int ret = 0;
+> >
+> >  	if (enable) {
+> >  		ret = mipi_csis_calculate_params(csis);
+> > @@ -949,10 +949,6 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> >  		ret = pm_runtime_resume_and_get(csis->dev);
+> >  		if (ret < 0)
+> >  			return ret;
+> > -
+> > -		ret = v4l2_subdev_call(csis->src_sd, core, s_power, 1);
+> > -		if (ret < 0 && ret != -ENOIOCTLCMD)
+> > -			goto done;
+> >  	}
+> >
+> >  	mutex_lock(&csis->lock);
+> > @@ -973,9 +969,7 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> >  		csis->state |= ST_STREAMING;
+> >  	} else {
+> >  		v4l2_subdev_call(csis->src_sd, video, s_stream, 0);
+> > -		ret = v4l2_subdev_call(csis->src_sd, core, s_power, 0);
+> > -		if (ret == -ENOIOCTLCMD)
+> > -			ret = 0;
+> > +
+> 
+> I think mipi_csis_s_stream() could be simplified even more
+> 
+> Now it looks like
+> 
+>                 if (enable) {
+>                         pm_resume_and_get();
+>                         ...
+>                 }
+> 
+>                 mutex_lock();
+> 
+>                 if (enable) {
+> 
+>                 } else {
+> 
+>                 }
+> 
+>         out:
+>                 mutex_unlock()
+>                 if (ret < 0 || !enable)
+>                         pm_runtime_put()
+> 
+>                 return ret;
+> 
+> Would it look better as
+> 
+>                 if (!enable) {
+>                         lock();
+>                         ...
+>                         pm_runtime_put();
+>                         ...
+>                         unlock();
+>                         return;
+>                 }
+> 
+>                 /* non critical section stuff */
+>                 pm_resume_and_get();
+> 
+>                 lock();
+> 
+>                 /* critical section stuff */
+>                 if (ret)
+>                         goto out;
+> 
+>                 unlock();
+> 
+>                 return 0;
+> 
+>         out:
+>                 pm_runtime_put();
+>                 return ret;
 
-Can we instead rely on pm_runtime_get_if_in_use() instead of manual
-tracking the power state ?
+Additional cleanup is likely possible, I haven't really looked at that.
+I was happy anough with a first simplification :-)
 
-After all, the powered flag is only used in:
+> This patch is good though, so the rework if desired can be done on top
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> 
+> >  		mipi_csis_stop_stream(csis);
+> >  		csis->state &= ~ST_STREAMING;
+> >  		if (csis->debug.enable)
+> > @@ -985,7 +979,6 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> >  unlock:
+> >  	mutex_unlock(&csis->lock);
+> >
+> > -done:
+> >  	if (!enable || ret < 0)
+> >  		pm_runtime_put(csis->dev);
+> >
 
-static int mipi_csis_log_status(struct v4l2_subdev *sd)
-{
-	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
+-- 
+Regards,
 
-	mutex_lock(&csis->lock);
-	mipi_csis_log_counters(csis, true);
-	if (csis->debug.enable && csis->powered)
-		mipi_csis_dump_regs(csis);
-	mutex_unlock(&csis->lock);
-
-	return 0;
-}
-
-which could be simplified as
-
-static int mipi_csis_log_status(struct v4l2_subdev *sd)
-{
-	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
-
-	mipi_csis_log_counters(csis, true);
-
-	if (!csis->debug.enable)
-                return 0;
-
-	mutex_lock(&csis->lock);
-
-        if (!pm_runtime_get_if_in_use())
-                goto unlock;
-
-        mipi_csis_dump_regs(csis);
-
-        pm_runtime_put();
-
-unlock:
-	mutex_unlock(&csis->lock);
-
-	return 0;
-}
-
-Thanks
-  j
-
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/media/platform/imx/imx-mipi-csis.c | 38 ++++++++++------------
->  1 file changed, 17 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-> index d656b8bfcc33..f6ff8d50843c 100644
-> --- a/drivers/media/platform/imx/imx-mipi-csis.c
-> +++ b/drivers/media/platform/imx/imx-mipi-csis.c
-> @@ -248,10 +248,6 @@
->  #define MIPI_CSI2_DATA_TYPE_RAW14		0x2d
->  #define MIPI_CSI2_DATA_TYPE_USER(x)		(0x30 + (x))
->
-> -enum {
-> -	ST_POWERED	= 1,
-> -};
-> -
->  struct mipi_csis_event {
->  	bool debug;
->  	u32 mask;
-> @@ -331,10 +327,10 @@ struct mipi_csis_device {
->  	u32 hs_settle;
->  	u32 clk_settle;
->
-> -	struct mutex lock;	/* Protect csis_fmt, format_mbus and state */
-> +	struct mutex lock;	/* Protect csis_fmt, format_mbus and powered */
->  	const struct csis_pix_format *csis_fmt;
->  	struct v4l2_mbus_framefmt format_mbus[CSIS_PADS_NUM];
-> -	u32 state;
-> +	bool powered;
->
->  	spinlock_t slock;	/* Protect events */
->  	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
-> @@ -1193,7 +1189,7 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
->
->  	mutex_lock(&csis->lock);
->  	mipi_csis_log_counters(csis, true);
-> -	if (csis->debug.enable && (csis->state & ST_POWERED))
-> +	if (csis->debug.enable && csis->powered)
->  		mipi_csis_dump_regs(csis);
->  	mutex_unlock(&csis->lock);
->
-> @@ -1354,13 +1350,14 @@ static int __maybe_unused mipi_csis_runtime_suspend(struct device *dev)
->  	int ret = 0;
->
->  	mutex_lock(&csis->lock);
-> -	if (csis->state & ST_POWERED) {
-> -		ret = mipi_csis_phy_disable(csis);
-> -		if (ret)
-> -			goto unlock;
-> -		mipi_csis_clk_disable(csis);
-> -		csis->state &= ~ST_POWERED;
-> -	}
-> +
-> +	ret = mipi_csis_phy_disable(csis);
-> +	if (ret)
-> +		goto unlock;
-> +
-> +	mipi_csis_clk_disable(csis);
-> +
-> +	csis->powered = false;
->
->  unlock:
->  	mutex_unlock(&csis->lock);
-> @@ -1376,14 +1373,13 @@ static int __maybe_unused mipi_csis_runtime_resume(struct device *dev)
->
->  	mutex_lock(&csis->lock);
->
-> -	if (!(csis->state & ST_POWERED)) {
-> -		ret = mipi_csis_phy_enable(csis);
-> -		if (ret)
-> -			goto unlock;
-> +	ret = mipi_csis_phy_enable(csis);
-> +	if (ret)
-> +		goto unlock;
->
-> -		csis->state |= ST_POWERED;
-> -		mipi_csis_clk_enable(csis);
-> -	}
-> +	mipi_csis_clk_enable(csis);
-> +
-> +	csis->powered = true;
->
->  unlock:
->  	mutex_unlock(&csis->lock);
-> --
-> Regards,
->
-> Laurent Pinchart
->
+Laurent Pinchart
