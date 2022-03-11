@@ -2,46 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E77074D65BB
-	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 17:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B76C4D65C6
+	for <lists+linux-media@lfdr.de>; Fri, 11 Mar 2022 17:07:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350096AbiCKQGh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Mar 2022 11:06:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48574 "EHLO
+        id S1350106AbiCKQIm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Mar 2022 11:08:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350093AbiCKQGf (ORCPT
+        with ESMTP id S1349896AbiCKQIi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Mar 2022 11:06:35 -0500
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6EAF1D0D46;
-        Fri, 11 Mar 2022 08:05:29 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id D9F4B1C0006;
-        Fri, 11 Mar 2022 16:05:25 +0000 (UTC)
-Date:   Fri, 11 Mar 2022 17:05:24 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        jeanmichel.hautbois@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com, paul.kocialkowski@bootlin.com,
-        sakari.ailus@iki.fi, paul.elder@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
-        <linux-media@vger.kernel.org>, robh@kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/6] media: dt-bindings: i2c: Document ov5670
-Message-ID: <20220311160524.wyfk5vj33xt4umgi@uno.localdomain>
-References: <20220310130829.96001-1-jacopo@jmondi.org>
- <20220310130829.96001-2-jacopo@jmondi.org>
- <d7e2a189-2773-b37a-7449-0b5138e45ded@canonical.com>
- <20220310171634.qiqnq376qizrqhw5@uno.localdomain>
- <7eb33fe1-2470-7096-b77b-d147c2e55fec@canonical.com>
+        Fri, 11 Mar 2022 11:08:38 -0500
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2061.outbound.protection.outlook.com [40.107.22.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D1C6AE51;
+        Fri, 11 Mar 2022 08:07:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FT6BadjqOYa16B7aT0UICLnPKS6Gb8KokTUZaxN2j2XpDiGKOq9UevT4dCiPKPTzUu3ZQtgFpiG6yQbewMnfGtys6tAeJPW4lDzLymM19zKDlwQIjjqsFmUsfr4d/8sjsSgnoY4RW82gmgGFwV++LIfEWCRMIUwQbqYOjLVDpaUdYVi1w0LpDFXegXXQRGi4ZqQDiBRiue9N1BLp4lZBsUJNxzV8tyDqu0dHoVlSnRf8frOwFf80K/2/Qo5nTaAIQrGL6FzQTMe2GMf4QgmWdRF0oET2GEme624eO/y9MThingXFj98z2n7fREr+nM9lWGVsa+9R+/2EcuJ6x7hZ9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HNepBWjtxQKShMxNuZe1K4BB8Qi+PFLvUJoRAP+UZxI=;
+ b=Vdxz4KR37uq6Pw4HVNcUZvrE4xEijorht8ueHC0P/leKPKR0Kj0EQvQOiSZCZB5bXma4BPY7FLKAq7mkvXC/MlvqI7JXi32t1eqoc9wISw6gk6Ht8BG5SB/bodn/exkUe6Om24xazxBVZ93u1PD0eJM956YYnIhIOEUTAN295CzzDYWa8qFmgCpRzwZgzRKX2bx1R8F9ylr6wayabxJIkL6Qt8W4XO6KO1DIxUVS3TCW1fZw60ooOq6K3gYIhscULpFpH/5WMnSh8ZyIWCWn29TfsQ9D612zxw7DlnQIL+NZWcpgkD3+QORi/pUT6D/57iDrznklDhepuHzGJ2w3Xg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HNepBWjtxQKShMxNuZe1K4BB8Qi+PFLvUJoRAP+UZxI=;
+ b=FKkobPjmEisp1JtflO4HoTH6gjyJ7gaXtNBxhVy/oouvNmPnDZNNtbBCm7Ui2rGSZYeWW6bQX9/KK82wEK3dFWjrl/ZoOoiMK41LuKZpRietIUwS5Z8pn5GmMzSBcbpbWlqDtgECVL7XnoyLvz2jKGgNMxqcIIizJFV6u38oDiY=
+Received: from PAXPR04MB8799.eurprd04.prod.outlook.com (2603:10a6:102:20e::5)
+ by DB7PR04MB5241.eurprd04.prod.outlook.com (2603:10a6:10:1d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.30; Fri, 11 Mar
+ 2022 16:07:09 +0000
+Received: from PAXPR04MB8799.eurprd04.prod.outlook.com
+ ([fe80::d5e0:7bb6:f3f9:6068]) by PAXPR04MB8799.eurprd04.prod.outlook.com
+ ([fe80::d5e0:7bb6:f3f9:6068%8]) with mapi id 15.20.5038.027; Fri, 11 Mar 2022
+ 16:07:09 +0000
+From:   Shijie Qin <shijie.qin@nxp.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     =?iso-8859-1?Q?Niklas_S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ming Qian <ming.qian@nxp.com>, Eagle Zhou <eagle.zhou@nxp.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: RE: [EXT] [PATCH v2 12/38] media: platform: amphion: move config to
+ its own file
+Thread-Topic: [EXT] [PATCH v2 12/38] media: platform: amphion: move config to
+ its own file
+Thread-Index: AQHYNVGmrgBsl7k+XkK/GnI9tHTCMKy6WS0A
+Date:   Fri, 11 Mar 2022 16:07:09 +0000
+Message-ID: <PAXPR04MB8799D3526876EED3BECCDA299F0C9@PAXPR04MB8799.eurprd04.prod.outlook.com>
+References: <cover.1647006877.git.mchehab@kernel.org>
+ <3aa6e54b5f1e3c4ca8eb5a7c2284513f9b555bf5.1647006877.git.mchehab@kernel.org>
+In-Reply-To: <3aa6e54b5f1e3c4ca8eb5a7c2284513f9b555bf5.1647006877.git.mchehab@kernel.org>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6eb4d0b8-dc5d-45b9-257f-08da0379327a
+x-ms-traffictypediagnostic: DB7PR04MB5241:EE_
+x-microsoft-antispam-prvs: <DB7PR04MB5241A87BA3F86616524D67A39F0C9@DB7PR04MB5241.eurprd04.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0d6RFvycjttogYgHwPyp5I8gbUBtiV+zGWOKfRND0kc26wCwu1F/F6BGjjiMx+qAyNvAB0M8Su5/OzHCITmkU/Uc8mrBncsSmiFzUBwjfPCdjPLz5n/W1ABiS57PIjrv/SduD+3emdDSu7vhCStxXe2TG9ctjIPsTtYHjo2EZRRFA+4KhwJNFpW0Y27e47SszSSPZNc+lQi8zJq5+WO4uIGuhLMnvf0O/I3994syfPSzHSNvPV/T7asBIWdXnTlcakQHS8BhcYY499aIUdx2THCszHuJFBMivkOcUqHdKpcMjSNAIw7OaN5FtzeiAwCers32yM8H+TG+aLaYOGXdWGwVThk/3w4zXKCqZhKFUTgMMsYL5CQYdRh7t/HlQtNNt6mK5d8pN1xl2z3pl4R1fRY09YONEZdmmMapfQ8JJ4G8Zh7o24Qgy9kCuc+03Cb1CDVztvDRR2eXB9G9VVrMH+ugyCnTM5hdxvdWCHFgZWEUw7UZcJglp0SJG9erRVKM0Yjlb2RvHYk4LzbCC+jL12ICzbLi2zp9UkYJi0IqBDWtc5y+ziNxqqev/6w9Ud+N+KqNeLCAFPyvydB69b1zEcjU4nDYJuj3ifvqrmnhbPknJ9qcjR5dD/eCCBGJiogPhOFM+PCy0CFkdQzA16+OrcnVriHF4EbmZrNJyHYl812U7i2Ohu1Kzt2L+CYkzvNxQXm4tv7aAac6XD+q7GmYD20mxXyxSGthwVFUvK44TqcpfM64Jv6UhdQMt4sx72xC4LJvPYDY7rR575i7H57KhvCzE6cdC7/C8nuBgxakoIs=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66946007)(44832011)(52536014)(8936002)(38070700005)(33656002)(8676002)(66556008)(66476007)(66446008)(5660300002)(64756008)(76116006)(66574015)(83380400001)(966005)(55016003)(122000001)(6506007)(7696005)(186003)(26005)(38100700002)(9686003)(71200400001)(498600001)(2906002)(4326008)(6916009)(54906003)(45080400002)(86362001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?5V8CGrRNO0GALKaMCx/+7TO+SifNVEy/Arjquc+vrJ/5A2SLu3GN8WWuNA?=
+ =?iso-8859-1?Q?R//hToL9FiSyZ4n/JBI35dA7PhlqC4OfIew0dCtUdFG04395/kYEmkd+rF?=
+ =?iso-8859-1?Q?DeBKhU+Vg7yq1PxfcwmXGN9wkeKqLRMulnN4fM38LsUP/d2q1Kv1Js3Oxh?=
+ =?iso-8859-1?Q?/Ks6gJ1hvKGxTMa+L3mAo2KAP5jNlAQideV1ClXUlkkCq3IspA8eQPCyqQ?=
+ =?iso-8859-1?Q?0OqjNDw66KnMKKI8+G06MkjQUpDHdQvclSGx/dgvOhYPkD5zKS/OCScKyB?=
+ =?iso-8859-1?Q?HeyW4wfPxLY+cd4neAgdSAUfKmrUNm+P7N16B1nNkemU3m1s7PXR0IVIgE?=
+ =?iso-8859-1?Q?gCnair3rLIfPuXzJe4fsfHGOjGPGcQnIsiGvweCOvRzYpU/aU26Jf3PaW6?=
+ =?iso-8859-1?Q?afp0tCEDt80w5nIJuWAt/eiT1aLZNPV6XpkWmd8LR08gek5wIA6bNrwAdz?=
+ =?iso-8859-1?Q?T4jKYna/pqo2usVjH8rkKIYdrz6Vy4Q+uAH22ry3wql2cNPYZNCpt6vdnr?=
+ =?iso-8859-1?Q?hSRKxqtf/nnRVpH0vM4hpSKApAt87Rbj6P2rr2rnZx6bytzJjlQ+MosCIR?=
+ =?iso-8859-1?Q?TwaW9J9pZWvg7mJVPcLkpzl00lSTn3NGavgurEkO72H++MgkSXieoPQqAP?=
+ =?iso-8859-1?Q?Iu3eVFgj4x2YpNdGet+OggMzEk7HWcDHMweRYIejFYH6DLkBsZ/bq1AwMq?=
+ =?iso-8859-1?Q?7OoyNIuS3NoL+McctVKS6TMqKtMMOUupkhG20pTg9DbaBnbXNdtskirM7k?=
+ =?iso-8859-1?Q?Kqf7j/Sye/Ipu1jHRWbRsh9onCfRoMLfnJU6KkRgWhMenuLk7YBgd+Bucn?=
+ =?iso-8859-1?Q?wDxtHpZDJJvQvSZcFVJu/PtpLCG5iSL9jDIzRZUzBOz47ay4nH0CsSWbBt?=
+ =?iso-8859-1?Q?8fENF/AqzBxtz8//3Ek/mS7qBiYOblzv3jRJIDfWLnB5LYHmHxr/40+IWr?=
+ =?iso-8859-1?Q?Gbg+glm8iVHwfQvlrjR495+Wr5/w/bazSgFpeJUpeGGG8gfXDYdWHhBeS9?=
+ =?iso-8859-1?Q?oe0ipVMRbVmN5CgynlCgFhQworb/WnoX24K7zEvIlhz61cgM2k2V+pxX72?=
+ =?iso-8859-1?Q?du9rieO2bh8ZeMAsEo4XL+T5jAuw9sXxVUC0UCRbmEj29YlmpdJ0IewTlv?=
+ =?iso-8859-1?Q?/kNQWe+7Eo1m1byeuSwfG9iaada0npeZDa3MJeOJTdwSzitLmUHszdUYHF?=
+ =?iso-8859-1?Q?YE2RfLsnVKp7ros/XUD3WDBsxjs2FgpE36sNtxT3gJIti1MW/qFSSBBRXq?=
+ =?iso-8859-1?Q?P25PIk/V3UkcNInuH8MQ075A5bf9DWN1m6I5MyXnPQXO6RDXc8oN43oTVv?=
+ =?iso-8859-1?Q?NKhtkCQzAskITrf3J8vIpDNZEMfpXpCCAoLYGYkJxTvsgI7O4tKR7v2xog?=
+ =?iso-8859-1?Q?MMS+0sx326mza5SbYMsRU+eLk0BtzOO+po5a+1VctUWPJxFeKfMJCPIamC?=
+ =?iso-8859-1?Q?M/N9mtlmct6PpcsITDO7z24RQCRpgjXE/UcN9kpP3jDM/yPPsN9zu+214u?=
+ =?iso-8859-1?Q?GFQrmtL2sxPVBoomv+TpNGduOXIbSdEz1gtbILNQamDsx3NT4ueGFOWuPO?=
+ =?iso-8859-1?Q?DMCat8ra/14TRTlMm7xIF3b+BOaTDezeRP0U825KZXpgbvimxHtz1XJbNO?=
+ =?iso-8859-1?Q?lSWSX6i+9b8fjA5yIxeCoVXIYwZMsLRi7SVH+LRcmaVAR4Uvn3o+h+5A?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7eb33fe1-2470-7096-b77b-d147c2e55fec@canonical.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6eb4d0b8-dc5d-45b9-257f-08da0379327a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2022 16:07:09.8357
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NumBRrSiOI741C3V8WKCfiQwmhgQtQJwmjpcA9uj3HgWy0Qj6X6fEOrB+MHSQ6qC1tOVbs6Xq9L/6WOlWSPQhA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB5241
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -49,283 +127,118 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
-
-On Thu, Mar 10, 2022 at 06:26:02PM +0100, Krzysztof Kozlowski wrote:
-> On 10/03/2022 18:16, Jacopo Mondi wrote:
-> > Hi Krzysztof
-> >
-> > On Thu, Mar 10, 2022 at 03:29:24PM +0100, Krzysztof Kozlowski wrote:
-> >> On 10/03/2022 14:08, Jacopo Mondi wrote:
-> >>> Provide the bindings documentation for Omnivision OV5670 image sensor.
-> >>>
-> >>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> >>> ---
-> >>>  .../devicetree/bindings/media/i2c/ov5670.yaml | 93 +++++++++++++++++++
-> >>
-> >> Add the file to maintainers entry.
-> >>
-> >
-> > Right
-> >
-> >>>  1 file changed, 93 insertions(+)
-> >>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5670.yaml
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5670.yaml b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
-> >>> new file mode 100644
-> >>> index 000000000000..dc4a3297bf6f
-> >>> --- /dev/null
-> >>> +++ b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
-> >>
-> >> Missing vendor prefix in file name.
-> >>
-> >
-> > Right x2
-> >
-> >>> @@ -0,0 +1,93 @@
-> >>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >>> +%YAML 1.2
-> >>> +---
-> >>> +$id: http://devicetree.org/schemas/media/i2c/ov5670.yaml#
-> >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >>> +
-> >>> +title: Omnivision OV5670 5 Megapixels raw image sensor
-> >>> +
-> >>> +maintainers:
-> >>> +  - Jacopo Mondi <jacopo@jmondi.org>
-> >>
-> >> Please add also driver maintainer.
-> >>
-> >
-> > I never got what the policy was, if the maintainer entries here only
-> > refer to the binding file or to the driver too
->
-> It is a person responsible for the bindings, so indeed it might not feed
-> existing maintainer.
->
-> >
-> >>> +
-> >>> +description: |-
-> >>> +  The OV5670 is a 5 Megapixels raw image sensor which provides images in 10-bits
-> >>> +  RAW BGGR Bayer format on a 2 data lanes MIPI CSI-2 serial interface and is
-> >>> +  controlled through an I2C compatible control bus.
-> >>> +
-> >>> +properties:
-> >>> +  compatible:
-> >>> +    const: ovti,ov5670
-> >>> +
-> >>> +  reg:
-> >>> +    maxItems: 1
-> >>> +
-> >>> +  clock-frequency:
-> >>> +    description: Frequency of the xclk clock.
-> >>
-> >> Is the xclk external clock coming to the sensor? If yes, there should be
-> >> a "clocks" property.
-> >>
-> >
-> > To be honest I was not sure about this, as clock-frequency is already
-> > used by the driver for the ACPI part, but it seems to in DT bindings
-> > it is a property meant to be specified in the clock providers, even if
-> > Documentation/devicetree/bindings/clock/clock-bindings.txt doesn't
-> > really clarify this
-> >
-> > Clock consumer should rather use 'clocks' and point to the provider's
-> > phandle if my understanding is right.
->
-> This is a clock-frequency, not clock reference. For external clocks, a
-
-Yes, I was suggesting to replace clock-frequency with clocks, that
-accepts a phandle.
-
-The thing is, the driver parses 'clock-frequency'
-	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
-
-which I assume comes from ACPI (as the driver was developed for an
-ACPI platform).
-
-If in DTS we don't use it, I then need to
-
-#ifdef CONFIG_ACPI
-
-#elif defined CONFIG_OF
-
-#endif
-
-Which I would really like to avoid.
-
-Anyone with ACPI experience that knows where clock-frequency comes
-from ?
-
-> clock phandles + assigned-clock-rates should be rather used. However for
-> internal clocks, this is a perfectly valid property.
->
-> Therefore the question is - what is the "xclk"?
-
-xclk is the clock fed to the sensor, which which all its internal
-clocks are generated, so it's indeed an 'external' clock. As I've
-said, clock-frequency seems to be meant for clock providers, and
-the image sensor is a clock consumer.
-
->
-> >
-> >>> +
-> >>> +  pwdn-gpios:
-> >>> +    description: Reference to the GPIO connected to the PWDNB pin. Active low.
-> >>
-> >> maxItems
-> >>
-> >
-> > I thought it was not necessary with a single description: entry. But
-> > looking at the dt-schema source I fail to find any commit mentioning
-> > that.
->
-> The purpose of maxItems is to constrain the number of GPIOs, so two
-> would be incorrect.
->
-
-I recall that with a single description entry then maxItems: 1 was
-assumed by the dt-schema validator, but I cannot find references to
-any commit, so I'll add it.
-
-> >
-> >>> +
-> >>> +  reset-gpios:
-> >>> +    description:
-> >>> +      Reference to the GPIO connected to the XSHUTDOWN pin. Active low.
-> >>
-> >> maxItems
-> >>
-> >>> +
-> >>> +  avdd-supply:
-> >>> +    description: Analog circuit power. Typically 2.8V.
-> >>> +
-> >>> +  dvdd-supply:
-> >>> +    description: Digital circuit power. Typically 1.2V.
-> >>> +
-> >>> +  dovdd-supply:
-> >>> +    description: Digital I/O circuit power. Typically 2.8V or 1.8V.
-> >>> +
-> >>> +  port:
-> >>> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> >>> +    additionalProperties: false
-> >>> +
-> >>> +    properties:
-> >>> +      endpoint:
-> >>> +        $ref: /schemas/media/video-interfaces.yaml#
-> >>> +        unevaluatedProperties: false
-> >>> +
-> >>> +        properties:
-> >>> +          data-lanes:
-> >>> +            description: The sensor supports 1 or 2 data lanes operations.
-> >>> +            minItems: 1
-> >>> +            maxItems: 2
-> >>> +            items:
-> >>> +              maximum: 2
-> >>
-> >> Is '0' also allowed? If not then maybe 'enum: [ 1, 2 ]'
-> >
-> > No 0 is not allowed, but the data-lanes properties should accept any
-> > of the following combinations
-> >         <1>
-> >         <1 2>
-> >         <2 1>
-> >
-> > As the chip seems to support lane re-ordering.
-> >
-> > using enum would allow to between <1> or <2> if I got it right?
->
-> Yeah, enum would be equivalent. I find it more readable, than min+max,
-> but it's not a strong preference.
->
-
-I don't think enum is equivalent, as it specifies a set of valid values
-a property can assume, but it does not support arrays.
-
-https://json-schema.org/draft/2020-12/json-schema-validation.html#rfc.section.6.16.1.2.
-
-enum
-  The value of this keyword MUST be an array. This array SHOULD have
-  at least one element. Elements in the array SHOULD be unique.
-
-  An instance validates successfully against this keyword if its value
-  is equal to one of the elements in this keyword's array value.
-
-In facts:
-
---- a/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
-@@ -52,10 +52,7 @@ properties:
-         properties:
-           data-lanes:
-             description: The sensor supports 1 or 2 data lanes operations.
--            minItems: 1
--            maxItems: 2
--            items:
--              maximum: 2
-+            enum: [1, 2]
 
 
-Results in:
+> -----Original Message-----
+> From: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Sent: Friday, March 11, 2022 10:07 PM
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>; Niklas S=F6derlund
+> <niklas.soderlund+renesas@ragnatech.se>; Dmitry Osipenko
+> <digetx@gmail.com>; Hans Verkuil <hverkuil-cisco@xs4all.nl>; Laurent
+> Pinchart <laurent.pinchart@ideasonboard.com>; Ming Qian
+> <ming.qian@nxp.com>; Shijie Qin <shijie.qin@nxp.com>; Eagle Zhou
+> <eagle.zhou@nxp.com>; linux-kernel@vger.kernel.org; linux-
+> media@vger.kernel.org
+> Subject: [EXT] [PATCH v2 12/38] media: platform: amphion: move config to =
+its
+> own file
+>=20
+> Caution: EXT Email
+>=20
+> In order to better organize the platform/Kconfig, place amphion-specific
+> config stuff on a separate Kconfig file.
+>=20
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+   Reviewed-by: Shijie Qin <shijie.qin@nxp.com>
 
-Documentation/devicetree/bindings/media/i2c/ov5670.example.dt.yaml: sensor@36: port:endpoint:data-lanes:0: [1, 2] is too long
+> ---
+>=20
+> To avoid mailbombing on a large number of people, only mailing lists were
+> C/C on the cover.
+> See [PATCH v2 00/38] at:
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore.=
+k
+> ernel.org%2Fall%2Fcover.1647006877.git.mchehab%40kernel.org%2F&amp;d
+> ata=3D04%7C01%7Cshijie.qin%40nxp.com%7C00b6f167648a4f003f8908da0368c
+> 7c6%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637826045803762
+> 164%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2lu
+> MzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3DRHvKEtSj%2B9
+> sffB4enxmXoP1FD3%2FQj0MPlDe2WjrjgLQ%3D&amp;reserved=3D0
+>=20
+>  drivers/media/platform/Kconfig         | 21 +--------------------
+>  drivers/media/platform/amphion/Kconfig | 20 ++++++++++++++++++++
+>  2 files changed, 21 insertions(+), 20 deletions(-)  create mode 100644
+> drivers/media/platform/amphion/Kconfig
+>=20
+> diff --git a/drivers/media/platform/Kconfig
+> b/drivers/media/platform/Kconfig index e795a0862841..25cfda75e625
+> 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -47,6 +47,7 @@ source "drivers/media/platform/marvell-ccic/Kconfig"
+>=20
+>  source "drivers/media/platform/via/Kconfig"
+>=20
+> +source "drivers/media/platform/amphion/Kconfig"
+>  source "drivers/media/platform/cadence/Kconfig"
+>=20
+>  source "drivers/media/platform/davinci/Kconfig"
+> @@ -535,26 +536,6 @@ config VIDEO_TEGRA_VDE
+>            Support for the NVIDIA Tegra video decoder unit.
+>            To compile this driver as a module choose m here.
+>=20
+> -config VIDEO_AMPHION_VPU
+> -       tristate "Amphion VPU (Video Processing Unit) Codec IP"
+> -       depends on V4L_MEM2MEM_DRIVERS
+> -       depends on ARCH_MXC || COMPILE_TEST
+> -       depends on MEDIA_SUPPORT
+> -       depends on VIDEO_DEV
+> -       depends on VIDEO_V4L2
+> -       select MEDIA_CONTROLLER
+> -       select V4L2_MEM2MEM_DEV
+> -       select VIDEOBUF2_DMA_CONTIG
+> -       select VIDEOBUF2_VMALLOC
+> -       help
+> -         Amphion VPU Codec IP contains two parts: Windsor and Malone.
+> -         Windsor is encoder that supports H.264, and Malone is decoder
+> -         that supports H.264, HEVC, and other video formats.
+> -         This is a V4L2 driver for NXP MXC 8Q video accelerator hardware=
+.
+> -         It accelerates encoding and decoding operations on
+> -         various NXP SoCs.
+> -         To compile this driver as a module choose m here.
+> -
+>  # TI VIDEO PORT Helper Modules
+>  # These will be selected by VPE and VIP  config VIDEO_TI_VPDMA diff --gi=
+t
+> a/drivers/media/platform/amphion/Kconfig
+> b/drivers/media/platform/amphion/Kconfig
+> new file mode 100644
+> index 000000000000..13899649f766
+> --- /dev/null
+> +++ b/drivers/media/platform/amphion/Kconfig
+> @@ -0,0 +1,20 @@
+> +# SPDX-License-Identifier: GPL-2.0-only config VIDEO_AMPHION_VPU
+> +       tristate "Amphion VPU (Video Processing Unit) Codec IP"
+> +       depends on V4L_MEM2MEM_DRIVERS
+> +       depends on ARCH_MXC || COMPILE_TEST
+> +       depends on MEDIA_SUPPORT
+> +       depends on VIDEO_DEV
+> +       depends on VIDEO_V4L2
+> +       select MEDIA_CONTROLLER
+> +       select V4L2_MEM2MEM_DEV
+> +       select VIDEOBUF2_DMA_CONTIG
+> +       select VIDEOBUF2_VMALLOC
+> +       help
+> +         Amphion VPU Codec IP contains two parts: Windsor and Malone.
+> +         Windsor is encoder that supports H.264, and Malone is decoder
+> +         that supports H.264, HEVC, and other video formats.
+> +         This is a V4L2 driver for NXP MXC 8Q video accelerator hardware=
+.
+> +         It accelerates encoding and decoding operations on
+> +         various NXP SoCs.
+> +         To compile this driver as a module choose m here.
+> --
+> 2.35.1
 
-If instead
-
---- a/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
-@@ -54,8 +54,7 @@ properties:
-             description: The sensor supports 1 or 2 data lanes operations.
-             minItems: 1
-             maxItems: 2
--            items:
--              maximum: 2
-+            enum: [1, 2]
-
-I get
-Documentation/devicetree/bindings/media/i2c/ov5670.yaml:
-properties:port:properties:endpoint:properties:data-lanes:
-'enum' should not be valid under {'enum': ['const', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'minimum', 'maximum', 'multipleOf', 'pattern']}
-	hint: Scalar and array keywords cannot be mixed
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-
-Thanks
-   j
-
-> >
-> > as the data-lane property is defined in video-interfaces.yaml
-> >
-> >   data-lanes:
-> >     $ref: /schemas/types.yaml#/definitions/uint32-array
-> >     minItems: 1
-> >     maxItems: 8
-> >     items:
-> >       # Assume up to 9 physical lane indices
-> >       maximum: 8
-> >     description:
-> >       An array of physical data lane indexes. Position of an entry determines
-> >       the logical lane number, while the value of an entry indicates physical
-> >       lane, e.g. for 2-lane MIPI CSI-2 bus we could have "data-lanes = <1 2>;",
-> >       assuming the clock lane is on hardware lane 0. If the hardware does not
-> >       support lane reordering, monotonically incremented values shall be used
-> >       from 0 or 1 onwards, depending on whether or not there is also a clock
-> >       lane. This property is valid for serial busses only (e.g. MIPI CSI-2).
-> >
-> > I did the same but restricted the max number of items to 2, and the
-> > maximum value to 2 as well
->
-> Makes sense, but you should also restrict the minimum (so not 0). enum
-> solves this.
->
-> >
-> >>
-> >> no clock-lanes?
-> >>
-> >
-> > clock lane is fixed on lane #0 afaict
->
-> ok
->
->
-> Best regards,
-> Krzysztof
