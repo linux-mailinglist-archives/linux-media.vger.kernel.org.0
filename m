@@ -2,178 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7478B4D6DEB
-	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 11:08:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6721C4D6E2A
+	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 11:31:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231681AbiCLKJu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Mar 2022 05:09:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44992 "EHLO
+        id S231148AbiCLKcL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Mar 2022 05:32:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231656AbiCLKJs (ORCPT
+        with ESMTP id S230371AbiCLKcF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Mar 2022 05:09:48 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFC7021F9D7
-        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 02:08:43 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id q11so9646729pln.11
-        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 02:08:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XBkUs4cDEh7cGme8nvi6DRoD473BuT/65cMNIANA6kg=;
-        b=qqrFxDtNPmebmRhEKI/0NjR3h2txIrNZsbHIQyirapsMejHKtBJuUXpC4CuzUQzy+j
-         7MBEHl7XyYnB/ef82iHhANzR+4q20BBxcogXCUYB0LsFC2JqEeoLpAOuJkSbCc7cu28A
-         clAv2F2t2CE4+vkhZhB2HqFJT32fps1QI2s3zke/fEA4NnOQpHXhxyTrQkzQz40eghSK
-         WXbOSfPutXZvev9BDgaJeOCbWG1zRmJc/ipd7eoJDrG0TSjsJ1uZqeGSArOyvOvXWJ6a
-         bW333jvmpEJR0qMgLuTAXaqDnWSblgwpmeuc/diJcDQ6PfmJs13o33t1EYAUToYr1Ujj
-         7y+Q==
+        Sat, 12 Mar 2022 05:32:05 -0500
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E44EE23DE85
+        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 02:30:59 -0800 (PST)
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 4C1C53F79D
+        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 10:30:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1647081058;
+        bh=j2V/KUxiHqc+0Z6K00nFXFKy/NzWQiF3+GmyvFdBivI=;
+        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+         In-Reply-To:Content-Type;
+        b=nNI0kBzph1Ms5SE2/qusGlwZpNUQW5iAwa5dHlqH4tSr3LRT7Xlt1gfmyxy3WneT7
+         uPMYBNX/Qo9v8QJXSXzUy63Sn7EYB8UvH4rf0xDG7JTnFEjByhxI7/8hcPUE5O/1AX
+         HeWF6NCEC31dgCAjO6Z0R09DVQsj/SlU9ejKQ+fK/yEuXmXQdK0JC0ok55guhAqlkv
+         pvSbZimPal7dFjb10bSvQkpG6jqDdxyk+bqRT37skFI5vi2b3ZpOgn75jBPO+QxT5i
+         Zbk5bKxdE8gg4IL38ci9i6MDn2FSzCi4DXPwI+Iy+lpkCT8xwSauQ/2KSbPzg+l/R4
+         SXoQXkKBYTRmw==
+Received: by mail-ej1-f72.google.com with SMTP id hr26-20020a1709073f9a00b006d6d1ee8cf8so6124568ejc.19
+        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 02:30:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XBkUs4cDEh7cGme8nvi6DRoD473BuT/65cMNIANA6kg=;
-        b=3kePSM3VAWtId/mMD401gtZtB2j3I6zccUk37uH8wWR0qzI9+Izam2hkyOW7Vw2Uh+
-         ZG0WoUNf+j4HdjNbjcF5ns1TkDnwY73NFphtGEx13FHr4045odl6HCQGH1Wen00S45r8
-         7uO0KpVE0v3yGMmf9heqiUG5O7bbPDQLOJAO4aRvFCdR7iFktGl14qeQUYlAOh4GNprc
-         DA+ri7F/R2t7Ph5O4X/UdtaoZxkvsI4aOAoIp77SzMYHxW2jkmbK/0Q8A7f5GSD98rzC
-         5OI6rOghUb+mfwwfPs1Fq+8iVtFbTq2cgoVfNL/lR7xysS435ZLC2cabw3oGSqQf1Gw8
-         dW1Q==
-X-Gm-Message-State: AOAM533tbZjkV9a1NUnA+wav6eHKQEX4RnNmi76grGYUrxOPPPIsyVQZ
-        SKDGN82KjWKZGhc6r9VmpBYPRN0ToD++5s0TrlDSfQ==
-X-Google-Smtp-Source: ABdhPJygr/AMMTAACupNOM2mgpqdZHpcr+uF0kJe3Q4pIdneeG8n+Deg6+8AbstBqDC3C6sQYMJcE3tkSaDCqZi08a8=
-X-Received: by 2002:a17:90b:906:b0:1be:e765:882 with SMTP id
- bo6-20020a17090b090600b001bee7650882mr15235648pjb.152.1647079723285; Sat, 12
- Mar 2022 02:08:43 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=j2V/KUxiHqc+0Z6K00nFXFKy/NzWQiF3+GmyvFdBivI=;
+        b=zEJn+bjRxsW1QhfFfqUvTPt+4WkEksMgb8cug3ozgetPwM9rtC99xw56r2GsTlxzyW
+         7+Sl6njhuQDOYPiPVL/VxKtEVP3oYbXukDuxqdv75qzQb1fOU9VrYsPolb4vhz3+FaXM
+         zaNbJRvruOVIarkxjxMLp8T9MWBk4VsuI+8cAOmZN0faY5d38xUArqeiZKlw5/Fs6XOi
+         ukptqUGeCifvXfa1qhbjjMiRQos67DnnBOkA1JfR7aVSQxCLh2hWJChvSx1tWGQPzhWY
+         j18ZIFNIDJBV5J4TbLEDgyZ2NN3Xkz+WCCPUAIhoZUPogvUnaeJBmcXQ4I8X9/ffS51w
+         q8Rw==
+X-Gm-Message-State: AOAM532zVKzier774zTlD1vPdAXePQ0N6reNSemRnJEUpbC7Pl2Jgs0x
+        Kuo2/whlzK4ActpZEj+VQ5vOsN2BBi5B2oI4L6rHUCAPNqZUDfoAtV/Mh44biGjFd1+DfNWzYdf
+        OUI62prM9HkEWFTxwQrbGBKlFhGvSUOOCB3Z/SBIX
+X-Received: by 2002:a17:906:3144:b0:6ce:de5d:5e3b with SMTP id e4-20020a170906314400b006cede5d5e3bmr12030981eje.689.1647081057521;
+        Sat, 12 Mar 2022 02:30:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy71+evCpi6+Mi8YKxGgqzbdqbQ9b9ELPlodTfx8eTiRZultwyBotE/NZ9sq37I6sHZ88ZXEA==
+X-Received: by 2002:a17:906:3144:b0:6ce:de5d:5e3b with SMTP id e4-20020a170906314400b006cede5d5e3bmr12030970eje.689.1647081057300;
+        Sat, 12 Mar 2022 02:30:57 -0800 (PST)
+Received: from [192.168.0.148] (xdsl-188-155-174-239.adslplus.ch. [188.155.174.239])
+        by smtp.gmail.com with ESMTPSA id p15-20020a170906784f00b006ccb9e1278csm4091263ejm.6.2022.03.12.02.30.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Mar 2022 02:30:56 -0800 (PST)
+Message-ID: <13b67ef0-8031-fb99-5c57-05ea07f14975@canonical.com>
+Date:   Sat, 12 Mar 2022 11:30:55 +0100
 MIME-Version: 1.0
-References: <cover.1647006877.git.mchehab@kernel.org> <b1803d005b2f671d238fc8579882a493c173d1ef.1647006877.git.mchehab@kernel.org>
-In-Reply-To: <b1803d005b2f671d238fc8579882a493c173d1ef.1647006877.git.mchehab@kernel.org>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Sat, 12 Mar 2022 11:08:32 +0100
-Message-ID: <CAG3jFyvxb5Q+bYu4=SReSku9=LrGD2h_O10W40+0+XsHk1XLJQ@mail.gmail.com>
-Subject: Re: [PATCH v2 38/38] drivers: media: platform: move some manufacturer entries
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Ming Qian <ming.qian@nxp.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/6] media: dt-bindings: i2c: Document ov5670
+Content-Language: en-US
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        jeanmichel.hautbois@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com, paul.kocialkowski@bootlin.com,
+        sakari.ailus@iki.fi, paul.elder@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
+        <linux-media@vger.kernel.org>, robh@kernel.org,
+        devicetree@vger.kernel.org
+References: <20220310130829.96001-1-jacopo@jmondi.org>
+ <20220310130829.96001-2-jacopo@jmondi.org>
+ <d7e2a189-2773-b37a-7449-0b5138e45ded@canonical.com>
+ <20220310171634.qiqnq376qizrqhw5@uno.localdomain>
+ <7eb33fe1-2470-7096-b77b-d147c2e55fec@canonical.com>
+ <20220311160524.wyfk5vj33xt4umgi@uno.localdomain>
+ <5f81a066-0d28-59ed-ec55-3861766025e6@canonical.com>
+ <20220311180024.duxcap6yjv6slx2t@uno.localdomain>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220311180024.duxcap6yjv6slx2t@uno.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 11 Mar 2022 at 15:10, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
->
-> As there are 4 manufacturer's directories with multiple sources
-> (qcom, rockchip, sti and sunxi), move the sources from
-> platform/Kconfig to their specific Konfig files.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
->
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH v2 00/38] at: https://lore.kernel.org/all/cover.1647006877.git.mchehab@kernel.org/
->
->  drivers/media/platform/Kconfig          | 13 +++----------
->  drivers/media/platform/qcom/Kconfig     |  3 +++
->  drivers/media/platform/rockchip/Kconfig |  3 +++
->  drivers/media/platform/sti/Kconfig      |  5 +++++
->  drivers/media/platform/sunxi/Kconfig    |  2 ++
->  5 files changed, 16 insertions(+), 10 deletions(-)
->  create mode 100644 drivers/media/platform/qcom/Kconfig
->  create mode 100644 drivers/media/platform/rockchip/Kconfig
->  create mode 100644 drivers/media/platform/sti/Kconfig
->
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index 527e9f08008b..a3ad25c6a56c 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -85,23 +85,16 @@ source "drivers/media/platform/mtk-vpu/Kconfig"
->  source "drivers/media/platform/nxp/Kconfig"
->  source "drivers/media/platform/omap3isp/Kconfig"
->  source "drivers/media/platform/omap/Kconfig"
-> -source "drivers/media/platform/qcom/camss/Kconfig"
-> -source "drivers/media/platform/qcom/venus/Kconfig"
-> +source "drivers/media/platform/qcom/Kconfig"
->  source "drivers/media/platform/renesas/Kconfig"
-> -source "drivers/media/platform/rockchip/rga/Kconfig"
-> -source "drivers/media/platform/rockchip/rkisp1/Kconfig"
-> +source "drivers/media/platform/rockchip/Kconfig"
->  source "drivers/media/platform/s3c-camif/Kconfig"
->  source "drivers/media/platform/s5p-g2d/Kconfig"
->  source "drivers/media/platform/s5p-jpeg/Kconfig"
->  source "drivers/media/platform/s5p-mfc/Kconfig"
-> -source "drivers/media/platform/sti/bdisp/Kconfig"
-> -source "drivers/media/platform/sti/c8sectpfe/Kconfig"
-> -source "drivers/media/platform/sti/delta/Kconfig"
-> -source "drivers/media/platform/sti/hva/Kconfig"
-> +source "drivers/media/platform/sti/Kconfig"
->  source "drivers/media/platform/stm32/Kconfig"
->  source "drivers/media/platform/sunxi/Kconfig"
-> -source "drivers/media/platform/sunxi/sun8i-di/Kconfig"
-> -source "drivers/media/platform/sunxi/sun8i-rotate/Kconfig"
->  source "drivers/media/platform/tegra/vde/Kconfig"
->  source "drivers/media/platform/ti-vpe/Kconfig"
->  source "drivers/media/platform/via/Kconfig"
-> diff --git a/drivers/media/platform/qcom/Kconfig b/drivers/media/platform/qcom/Kconfig
-> new file mode 100644
-> index 000000000000..aa2428f641d3
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/Kconfig
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +source "drivers/media/platform/qcom/camss/Kconfig"
-> +source "drivers/media/platform/qcom/venus/Kconfig"
-> diff --git a/drivers/media/platform/rockchip/Kconfig b/drivers/media/platform/rockchip/Kconfig
-> new file mode 100644
-> index 000000000000..c7ba06388780
-> --- /dev/null
-> +++ b/drivers/media/platform/rockchip/Kconfig
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +source "drivers/media/platform/rockchip/rga/Kconfig"
-> +source "drivers/media/platform/rockchip/rkisp1/Kconfig"
-> diff --git a/drivers/media/platform/sti/Kconfig b/drivers/media/platform/sti/Kconfig
-> new file mode 100644
-> index 000000000000..9fb5e78a92cf
-> --- /dev/null
-> +++ b/drivers/media/platform/sti/Kconfig
-> @@ -0,0 +1,5 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +source "drivers/media/platform/sti/bdisp/Kconfig"
-> +source "drivers/media/platform/sti/c8sectpfe/Kconfig"
-> +source "drivers/media/platform/sti/delta/Kconfig"
-> +source "drivers/media/platform/sti/hva/Kconfig"
-> diff --git a/drivers/media/platform/sunxi/Kconfig b/drivers/media/platform/sunxi/Kconfig
-> index 7151cc249afa..a10032215b08 100644
-> --- a/drivers/media/platform/sunxi/Kconfig
-> +++ b/drivers/media/platform/sunxi/Kconfig
-> @@ -2,3 +2,5 @@
->
->  source "drivers/media/platform/sunxi/sun4i-csi/Kconfig"
->  source "drivers/media/platform/sunxi/sun6i-csi/Kconfig"
-> +source "drivers/media/platform/sunxi/sun8i-di/Kconfig"
-> +source "drivers/media/platform/sunxi/sun8i-rotate/Kconfig"
-> --
-> 2.35.1
->
+On 11/03/2022 19:00, Jacopo Mondi wrote:
+> Hi Krzysztof
+> 
+> On Fri, Mar 11, 2022 at 05:11:47PM +0100, Krzysztof Kozlowski wrote:
+>> On 11/03/2022 17:05, Jacopo Mondi wrote:
+>>> Hi Krzysztof,
+>>>
+>>> On Thu, Mar 10, 2022 at 06:26:02PM +0100, Krzysztof Kozlowski wrote:
+>>>> On 10/03/2022 18:16, Jacopo Mondi wrote:
+>>>>> Hi Krzysztof
+>>>>>
+>>>>> On Thu, Mar 10, 2022 at 03:29:24PM +0100, Krzysztof Kozlowski wrote:
+>>>>>> On 10/03/2022 14:08, Jacopo Mondi wrote:
+>>>>>>> Provide the bindings documentation for Omnivision OV5670 image sensor.
+>>>>>>>
+>>>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+>>>>>>> ---
+>>>>>>>  .../devicetree/bindings/media/i2c/ov5670.yaml | 93 +++++++++++++++++++
+>>>>>>
+>>>>>> Add the file to maintainers entry.
+>>>>>>
+>>>>>
+>>>>> Right
+>>>>>
+>>>>>>>  1 file changed, 93 insertions(+)
+>>>>>>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5670.yaml
+>>>>>>>
+>>>>>>> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5670.yaml b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
+>>>>>>> new file mode 100644
+>>>>>>> index 000000000000..dc4a3297bf6f
+>>>>>>> --- /dev/null
+>>>>>>> +++ b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
+>>>>>>
+>>>>>> Missing vendor prefix in file name.
+>>>>>>
+>>>>>
+>>>>> Right x2
+>>>>>
+>>>>>>> @@ -0,0 +1,93 @@
+>>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>>>>> +%YAML 1.2
+>>>>>>> +---
+>>>>>>> +$id: http://devicetree.org/schemas/media/i2c/ov5670.yaml#
+>>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>>>>> +
+>>>>>>> +title: Omnivision OV5670 5 Megapixels raw image sensor
+>>>>>>> +
+>>>>>>> +maintainers:
+>>>>>>> +  - Jacopo Mondi <jacopo@jmondi.org>
+>>>>>>
+>>>>>> Please add also driver maintainer.
+>>>>>>
+>>>>>
+>>>>> I never got what the policy was, if the maintainer entries here only
+>>>>> refer to the binding file or to the driver too
+>>>>
+>>>> It is a person responsible for the bindings, so indeed it might not feed
+>>>> existing maintainer.
+>>>>
+>>>>>
+>>>>>>> +
+>>>>>>> +description: |-
+>>>>>>> +  The OV5670 is a 5 Megapixels raw image sensor which provides images in 10-bits
+>>>>>>> +  RAW BGGR Bayer format on a 2 data lanes MIPI CSI-2 serial interface and is
+>>>>>>> +  controlled through an I2C compatible control bus.
+>>>>>>> +
+>>>>>>> +properties:
+>>>>>>> +  compatible:
+>>>>>>> +    const: ovti,ov5670
+>>>>>>> +
+>>>>>>> +  reg:
+>>>>>>> +    maxItems: 1
+>>>>>>> +
+>>>>>>> +  clock-frequency:
+>>>>>>> +    description: Frequency of the xclk clock.
+>>>>>>
+>>>>>> Is the xclk external clock coming to the sensor? If yes, there should be
+>>>>>> a "clocks" property.
+>>>>>>
+>>>>>
+>>>>> To be honest I was not sure about this, as clock-frequency is already
+>>>>> used by the driver for the ACPI part, but it seems to in DT bindings
+>>>>> it is a property meant to be specified in the clock providers, even if
+>>>>> Documentation/devicetree/bindings/clock/clock-bindings.txt doesn't
+>>>>> really clarify this
+>>>>>
+>>>>> Clock consumer should rather use 'clocks' and point to the provider's
+>>>>> phandle if my understanding is right.
+>>>>
+>>>> This is a clock-frequency, not clock reference. For external clocks, a
+>>>
+>>> Yes, I was suggesting to replace clock-frequency with clocks, that
+>>> accepts a phandle.
+>>>
+>>> The thing is, the driver parses 'clock-frequency'
+>>> 	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
+>>>
+>>> which I assume comes from ACPI (as the driver was developed for an
+>>> ACPI platform).
+>>>
+>>> If in DTS we don't use it, I then need to
+>>>
+>>> #ifdef CONFIG_ACPI
+>>>
+>>> #elif defined CONFIG_OF
+>>>
+>>> #endif
+>>>
+>>> Which I would really like to avoid.
+>>>
+>>> Anyone with ACPI experience that knows where clock-frequency comes
+>>> from ?
+>>
+>> I would assume that ACPI simply does not support common clock framework,
+>> so it had to use clock-frequency. Several of such drivers were added by
+>> folks from Intel which use ACPI, not Devicetree.
+>>
+>>>
+>>>> clock phandles + assigned-clock-rates should be rather used. However for
+>>>> internal clocks, this is a perfectly valid property.
+>>>>
+>>>> Therefore the question is - what is the "xclk"?
+>>>
+>>> xclk is the clock fed to the sensor, which which all its internal
+>>> clocks are generated, so it's indeed an 'external' clock. As I've
+>>> said, clock-frequency seems to be meant for clock providers, and
+>>> the image sensor is a clock consumer.
+>>
+>> Regardless whether clock-frequency stays or not, you need the clocks
+>> property in such case.
+>>
+> 
+> Yes, I will have to ifdef in the driver if no better alternatives
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+I do not see the need of ifdefs... BTW, imx258 has exactly that case -
+clock-frequency coming from ACPI world but not added to DT bindings.
+
+Best regards,
+Krzysztof
