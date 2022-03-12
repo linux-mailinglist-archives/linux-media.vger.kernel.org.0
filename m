@@ -2,142 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E5134D7079
-	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 20:00:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BECB64D709C
+	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 20:50:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231589AbiCLSwJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Mar 2022 13:52:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56342 "EHLO
+        id S232521AbiCLTv4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Mar 2022 14:51:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230452AbiCLSwG (ORCPT
+        with ESMTP id S229908AbiCLTv4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Mar 2022 13:52:06 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A5A414076D
-        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 10:50:59 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD5CB183C;
-        Sat, 12 Mar 2022 19:50:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647111058;
-        bh=AKx3scubGuB11zo319vCyuxVmBrzwLvbWOULCTJFKCc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=niFu+wlqxLmpCM/tApZpuvTbSxf0YzxfajjHPnPvGYAHe72i3BZugMSO8qbqer8RS
-         LZVTuNyaxXtx28NnzZFp6HEKDJFmOfDzynQgqCcCO+xkkuNUU+E8QZ8wawgB6nnjrP
-         kck0Z0xZ3VErLXOAXg2d0WhgZUn6yDcfPkZLc2H0=
-Date:   Sat, 12 Mar 2022 20:50:40 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 2/2] media: imx: imx-mipi-csis: Drop powered flag
-Message-ID: <YizrgHiUiOeSImw3@pendragon.ideasonboard.com>
-References: <20220311135535.30108-1-laurent.pinchart@ideasonboard.com>
- <20220312152505.145453-2-jacopo@jmondi.org>
+        Sat, 12 Mar 2022 14:51:56 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E384673DF;
+        Sat, 12 Mar 2022 11:50:41 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id n19so20597445lfh.8;
+        Sat, 12 Mar 2022 11:50:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=1xX6m7maqJLmZyW32NaxaiPZ6O1tqNAYkIzpjmsF0pc=;
+        b=mEdLC06RPfSimrlPnyEi8F6/dnUwF03x4mlJeXaB3HvVJSRdTAFFPvz1uOGf4p/iJn
+         MNRFyuyNaFMZrLbyWShFqnyP8OX3r1p4LNM5Sy2yn1o77Z+g9XB9F6XEi0mt8p2RUxkx
+         VP+Q8G16+Gn5DSU/LaXXwua7bZZ5T1k4hJWxRsX6ctB35psDihocwnJyUkAhoNmGI0we
+         4evuu4m8fYUxncUxm5/MEdMo+kEFxNmKL9Ii/gVvES8YmbAkpwDuCYtsxjIXM01nGxqH
+         2BNd0948eri3pen151EMR6djSkXb+MEXmo3Fy7/c+wwk6msUAOR1iJCZjhkpvQ1dH0Vs
+         Gu2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=1xX6m7maqJLmZyW32NaxaiPZ6O1tqNAYkIzpjmsF0pc=;
+        b=4AuTfqVppg1aELvjkAciIHwEUj9Q0m8+rN68x0fB4UEhfoUdwD4mirHlj1haFEatLx
+         z1eLS+n+eHx8O/X3Uw/k8a68SvkIy8iHtV2znWBgMolaMZuVTMZt0uwWJG1XmONIAN4s
+         51Z5y5SP608/j9iIt/gzaK1eN4wxBwajqlG2nu32gF0WR6CJlS9hFmEoJGf4f/ex8Azs
+         me2YL+6Xt8dnDyDzOWjOwclLvP7OmqIwuCtDZdckwoFrHJ/82302ewbSR+Wtr6bPMIMH
+         YNxezYN7I/mObOfYzlDsOufFxtVGZEkG9kjHodRv1mDKw0rnSsoMGEhxSSCtu08Gxmob
+         CM7w==
+X-Gm-Message-State: AOAM531IVNSRhVGCwb4wIn/aimy13XC8+O4ePbhpLxBZ7LXDLBFev+bX
+        klM77I6cCtAY76vtbMmTNqI=
+X-Google-Smtp-Source: ABdhPJwQrfzNAkNevM1aTBhIdkJxxGjA0G/4a8DKixMDa24Qj1wyzaJLb952CvIJwltnsxGiDKhUAg==
+X-Received: by 2002:a05:6512:1105:b0:448:8f4e:d5d0 with SMTP id l5-20020a056512110500b004488f4ed5d0mr317084lfg.182.1647114639435;
+        Sat, 12 Mar 2022 11:50:39 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.229.107])
+        by smtp.gmail.com with ESMTPSA id p12-20020a056512138c00b0044833f1cd85sm2342644lfa.62.2022.03.12.11.50.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Mar 2022 11:50:38 -0800 (PST)
+Message-ID: <11fa30cb-9b56-ab8c-1352-279052945432@gmail.com>
+Date:   Sat, 12 Mar 2022 22:50:37 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220312152505.145453-2-jacopo@jmondi.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH] media: stkwebcam: move stk_camera_read_reg() scratch
+ buffer to struct stk_camera
+Content-Language: en-US
+To:     trix@redhat.com, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        cai.huoqing@linux.dev, xose.vazquez@gmail.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220312173049.1410977-1-trix@redhat.com>
+From:   Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20220312173049.1410977-1-trix@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Trix,
 
-Thank you for the patch.
-
-On Sat, Mar 12, 2022 at 04:25:05PM +0100, Jacopo Mondi wrote:
-> The mipi_csis_device.powered flag only serves for the purpose of
-> not accessing registers in mipi_csis_log_status() when the interface
-> is not powered up.
+On 3/12/22 20:30, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
 > 
-> Instead of manually tracking the power state, rely on
-> pm_runtime_get_if_in_use() and remove the flag.
+> In stk_camera_read_reg() a single byte buffer is alloc-ed and
+> freed on every function call.  Since the size is known,
+> move the buffer to the struct stk_camera where it will be alloc-ed
+> and freed once.
 > 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> Signed-off-by: Tom Rix <trix@redhat.com>
 > ---
->  drivers/media/platform/imx/imx-mipi-csis.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
+>   drivers/media/usb/stkwebcam/stk-webcam.c | 11 ++---------
+>   drivers/media/usb/stkwebcam/stk-webcam.h |  2 ++
+>   2 files changed, 4 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-> index fa00b36fc394..505dd373b40c 100644
-> --- a/drivers/media/platform/imx/imx-mipi-csis.c
-> +++ b/drivers/media/platform/imx/imx-mipi-csis.c
-> @@ -327,10 +327,9 @@ struct mipi_csis_device {
->  	u32 hs_settle;
->  	u32 clk_settle;
-> 
-> -	struct mutex lock;	/* Protect csis_fmt, format_mbus and powered */
-> +	struct mutex lock;	/* Protect csis_fmt and format_mbus */
->  	const struct csis_pix_format *csis_fmt;
->  	struct v4l2_mbus_framefmt format_mbus[CSIS_PADS_NUM];
-> -	bool powered;
-> 
->  	spinlock_t slock;	/* Protect events */
->  	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
-> @@ -1176,8 +1175,15 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
-> 
->  	mutex_lock(&csis->lock);
->  	mipi_csis_log_counters(csis, true);
-> -	if (csis->debug.enable && csis->powered)
-> -		mipi_csis_dump_regs(csis);
-> +	if (!csis->debug.enable ||
-> +	    !pm_runtime_get_if_in_use(csis->dev))
-> +		goto unlock;
-> +
-> +	mipi_csis_dump_regs(csis);
-> +
-> +	pm_runtime_put(csis->dev);
-> +
-> +unlock:
-
-I like this change, but I think we can go one step further and drop the
-lock here, as there's no powered field to access anymore:
-
-	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
-
-	mipi_csis_log_counters(csis, true);
-
-	if (csis->debug.enable && pm_runtime_get_if_in_use(csi->dev)) {
-		mipi_csis_dump_regs(csis);
-		pm_runtime_put(csis->dev);
-	}
-
-	return 0;
-
-A third patch could then drop the lock from mipi_csis_runtime_suspend()
-and mipi_csis_runtime_resume(). What do you think ?
-
->  	mutex_unlock(&csis->lock);
-> 
->  	return 0;
-> @@ -1344,8 +1350,6 @@ static int __maybe_unused mipi_csis_runtime_suspend(struct device *dev)
-> 
->  	mipi_csis_clk_disable(csis);
-> 
-> -	csis->powered = false;
+> diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
+> index 5b822214ccc5c..787edb3d47c23 100644
+> --- a/drivers/media/usb/stkwebcam/stk-webcam.c
+> +++ b/drivers/media/usb/stkwebcam/stk-webcam.c
+> @@ -150,25 +150,18 @@ int stk_camera_write_reg(struct stk_camera *dev, u16 index, u8 value)
+>   int stk_camera_read_reg(struct stk_camera *dev, u16 index, u8 *value)
+>   {
+>   	struct usb_device *udev = dev->udev;
+> -	unsigned char *buf;
+>   	int ret;
+>   
+> -	buf = kmalloc(sizeof(u8), GFP_KERNEL);
+> -	if (!buf)
+> -		return -ENOMEM;
 > -
->  unlock:
->  	mutex_unlock(&csis->lock);
-> 
-> @@ -1366,8 +1370,6 @@ static int __maybe_unused mipi_csis_runtime_resume(struct device *dev)
-> 
->  	mipi_csis_clk_enable(csis);
-> 
-> -	csis->powered = true;
-> -
->  unlock:
->  	mutex_unlock(&csis->lock);
-> 
+>   	ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
+>   			0x00,
+>   			USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+>   			0x00,
+>   			index,
+> -			buf,
+> +			&dev->read_reg_scratch,
+>   			sizeof(u8),
+>   			500);
 
--- 
-Regards,
 
-Laurent Pinchart
+Wouldn't it be better to move to modern USB API like usb_control_msg_recv()?
+
+This API does not require buffer to be allocated via kmalloc(), so you 
+will be able to use value directly.
+
+
+
+
+With regards,
+Pavel Skripkin
