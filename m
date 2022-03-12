@@ -2,122 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81B5C4D6D3A
-	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 08:22:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2D544D6D72
+	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 09:04:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231219AbiCLHXu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Mar 2022 02:23:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39040 "EHLO
+        id S231201AbiCLIFZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Mar 2022 03:05:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231205AbiCLHXu (ORCPT
+        with ESMTP id S230413AbiCLIFY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Mar 2022 02:23:50 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2139.outbound.protection.outlook.com [40.107.113.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C486420D894;
-        Fri, 11 Mar 2022 23:22:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gbBWwS6oEwqa2R41wMj5wRO6V9pH8mrqSE/zLpxN+uc3a5+pVhENbUr4egpJKpzZ5H6wjnysoTmYc1TTGptK3zeW6llIQO9h3G0SuH7f0rS4fwuoIhHcQQZgA2S1oPmTOy1RKzpZO6ndkTvPOFKanQa2fczbpnCwnhn2/AIWaTrY0an/eis0OhjWoPs0i9Z/IgiiotYMUJm+ypGDqZ6fJ41YO2Ci6L7xtkHwDzo3SdGXSwCc0GXj5anMfkR94HbSGF3xNh82B/7kSRf9ECUdv8WGBDhp4G1qvsUUq/I/fMkTUXxRR97s0F9FhIOVOPMaY5+2RRZEQ9Kcn2cERNYggQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UFYG0RiW1wZKBKnjbESkES5kFsmVnAJabdyWEQSkWJ0=;
- b=PpEnMbNFxjCafFRs8wBh5Tye9z4hXZfFDqTeB97Rm6SDZaKg2B3h/IN2FVQn4JP2nUVNxpEGgRlq6LYKcwLmVVJnW7b8YcYAnbKCydm6DcOc1wcddnBedATOClZz+7mb08anpAQqGuLWd3LSlW67ZB5DStZmEvUP6YsLWDNYq/O4trtUeaVHmsnpmehPQGl4sP+P6B//rxVeiuCAaQZCs67srAWwrtBFr76M0kioy9ozT8myv3hBcHtgFntIgiD38Z7V0EsUnvvGR0cpF8N4o1jjImxs9kK2OIUtAMWL+Rx6wx3GQ36RkK3dfAC6ZJgCgd/M3xaXU1KtPKr/GOaV+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UFYG0RiW1wZKBKnjbESkES5kFsmVnAJabdyWEQSkWJ0=;
- b=NsmicUY4Z8N0peFtxK+P7RZ4nLxv5uqZJyKLk2srQeiQz7vKkYDCUd2oQSeNOKiZXDehIDa1EQx42Dma+yG2dj6vy/RiRNqeK1PtbDujbhnQZEmscnOzumDh+HTPCO9DDlcXzfp4Xz6QdPml5KypKWMlY/9l0o7tqnacAnj5HzA=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB8194.jpnprd01.prod.outlook.com (2603:1096:604:174::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.21; Sat, 12 Mar
- 2022 07:22:33 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::cc77:910b:66c1:524b]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::cc77:910b:66c1:524b%5]) with mapi id 15.20.5061.025; Sat, 12 Mar 2022
- 07:22:32 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v4 3/3] media: vsp1: Add support for RZ/G2L VSPD
-Thread-Topic: [PATCH v4 3/3] media: vsp1: Add support for RZ/G2L VSPD
-Thread-Index: AQHYNUg6quTVs1n6bkyC4b6GP4ysoay7WMTA
-Date:   Sat, 12 Mar 2022 07:22:32 +0000
-Message-ID: <OS0PR01MB59226770E359A2611C1F77B8860D9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220311130158.27158-1-biju.das.jz@bp.renesas.com>
- <20220311130158.27158-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220311130158.27158-4-biju.das.jz@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3de5630a-8104-44b7-4853-08da03f91300
-x-ms-traffictypediagnostic: OS3PR01MB8194:EE_
-x-microsoft-antispam-prvs: <OS3PR01MB81944C7238BB0ABBF649D8DD860D9@OS3PR01MB8194.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: iRQg3BHVAG7U/Fxk82lt4c7n23WzTsRWCrE6RFaBqJKs1bCkkHdIDKre6trv8q/YS7DukXh1joMep9vZf3Y1H6bGnfC9jkNBxQWy93v3eqYd8KfSU6yEG6Ypt25lyaRM0TkmnEycNC2eO9AmJp8kERVEs48xnVzla22Iye+zISRyE9egPamiXrdtfWX/XkONtGf5+Y6PDIxOD/pvHzTrt0Ew6XMDc3+0PIwHhhTi0Py5Bm2eUkRYfw2j32tHQTwpjd2wYwvoLujHjUbP1xxopmpEYQ7oMrhHI87IbekRllaunltVHHXmq0dq9o8eOGpDBrM2kB1cFp+Oky13wztwvaBXcyj+iaXDfyI9PHSp3LiR5DuGUIzUrgipk7hRzdPuPufbe49stUKNxHrLU6O3CPj7Ok/dYDBePlkoFpdzPsDd88PsUkegCVrfT628B7yBB/8wmGGNZ5xfdTaKIX4ZxaSbXPNB36Ze0TuKiXlWWcOiYlBOmNRk/I3x8tFTGpHbcWbfhLaELVJrqj87uJB89bZLuanEGnCn7D5y3Ia9f7UFH0oIzHuib3xWgYVL6CWWa8/XjmMBgPzq1eeXm3fj/RJSyq0AoCztwVhCwkCD8cFiaxEEtN+NizX+oznKLdQDFDL0xK18o3FLTS/q0+G75vL4vhrOQz8Ns4EQ3d7kam0JO1DkeWgMJLYh6ssCdHgR9XQkNf6/K2FmRXGBZW5/DQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38070700005)(9686003)(2906002)(55016003)(316002)(7696005)(6506007)(122000001)(54906003)(38100700002)(110136005)(71200400001)(66476007)(83380400001)(26005)(508600001)(186003)(86362001)(33656002)(5660300002)(52536014)(4326008)(76116006)(107886003)(66946007)(64756008)(8676002)(8936002)(66556008)(66446008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?1n++dFLqpe90CH8BZtc6rs8XcEPaFPRv6e8LINifnce9JHvqtlMgfH2M90Rd?=
- =?us-ascii?Q?OxXQ0dhOt4t/4qCi5z2rjcrVHODGtNe5cO+vtLtO2vLa3ry21XT2UsbSYfUm?=
- =?us-ascii?Q?x9NnaATW2bzoh4uzbOVa/DyNidQmi5D2wxCEr0oMIOtGvOY/jUubBMGIeE2f?=
- =?us-ascii?Q?oJ/CxlbZ5hp2K8dOC1etGnXT1pgnz/gxgvPxVqpX7xiNhQ0z6QYkn0AT1lIV?=
- =?us-ascii?Q?HkKEiS3MdQUf8pIypVoH0dY5OUcvjLF4doxebrdczNMq9cmzCBlGyD/bAaCT?=
- =?us-ascii?Q?XCRMCrfRJQ6EQwZpz+BuT5sLc20W8eecVN2v8xC00EeTokLHUh84Tw0PQ3mB?=
- =?us-ascii?Q?c+It0jnRAuwgCtTndueeb6sUtoBz3w/BrmdEPNNQeFw/ihNv6ZMnVhS79wvi?=
- =?us-ascii?Q?nCVCbHGR/gL4Tc7D1//L44mdo/DSsWpVHY3KvZPn2DTtz1+d6E4mCkJp3IHE?=
- =?us-ascii?Q?E+ZoZUOlAYZCPD6WssOnMhb0VaPauE8pfMiJmnG6XKWZecSSKszwRFevbq3H?=
- =?us-ascii?Q?riULtdaCRxsb5WveSULJ5lm9jLEh5QJ4M6YIzqji0vPsaGsrCKVBVHIQ/oES?=
- =?us-ascii?Q?tZEfJqvCMcfN2PsVSojdLKdcGon+JEyDETVEVOVXnPkG6W6SrVCYlev2mLDu?=
- =?us-ascii?Q?Hy+eW4PjlTDrY4EPZvGhHOp9Omo8KxM5uZw4TdX/nVbKkLa8KBNHEsOuTxc2?=
- =?us-ascii?Q?uQUEcb0hArBdOH5ETDsDhgGVnPMhY/lM7DTVOX5LA0NtNew+oU4ld+HCzTNe?=
- =?us-ascii?Q?om5TfBgX29q+CH/P1I7YVN+e4UvkDecy1SDUmRGCSlXvzEMneS+RQD6pWirK?=
- =?us-ascii?Q?TAJLSQjtsWIlHN3ztzKrvhdHycVPhiZinj0R+MtHrJtX6p3iV01j3bPz97jb?=
- =?us-ascii?Q?VrOwVbrOLr6F7A75FBybEn6SrVwqb2RGDtXUbdrLYRPz9CznJe2xlvayoC0H?=
- =?us-ascii?Q?tSxfLNQ6eR+xOJOrpbj1vimn6cCxGbQL+aIjiJpC4Khh1L+CLApXyr9Ufrt2?=
- =?us-ascii?Q?8dy7IaqJnEuOA24Y1DFNCM3UPxArVwSP3F0uPiakPkOYKAEXOBlwDhC1wlIN?=
- =?us-ascii?Q?AxO7LW+Dom6g+2RuIQ2iKnHLtoJJv6lGnO6Ol6ppBGN9WLxY46xsmmxqCBzJ?=
- =?us-ascii?Q?9dNcMT/d8FKqY3U+mFPvdnjFe8vHhzWiGXSGVtsf9AtKYaYAHM64drW+eAgw?=
- =?us-ascii?Q?JeLPYTag15DvqHTdCSyNrnDHLly6lm1IaLoWYHCjKaIsGY0pIHyuBxm0SqmI?=
- =?us-ascii?Q?m5DR9kwKplpbOXiz6p8jtE5CieWdwwDd4G/k+7ZszrxUvoZKmaOZasQTyorM?=
- =?us-ascii?Q?AGXfW4TbjnDH7p2kCizizxlXy0yPZuuYGVBkd/sV8p4jcnWpROTeqQ5s3omu?=
- =?us-ascii?Q?/p2/7VFOihk+LS4lhH1A85kUyiqvrk4thOj+r6T9r2Pcmvj/5K39Qpx1gJHe?=
- =?us-ascii?Q?7rTvVFEMERFFEOJXbsm1fvRjNR6mOMNkZY6RNbbTZCcIwxqEk0f64A=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Sat, 12 Mar 2022 03:05:24 -0500
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C44ED23D5BF
+        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 00:04:19 -0800 (PST)
+Received: by mail-io1-f72.google.com with SMTP id f7-20020a056602088700b00645ebbe277cso8003526ioz.22
+        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 00:04:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=5zOjHs3cDSO0d/sc2bYpHYPQ7grv3p5Pd+1pHqicW7k=;
+        b=xtVoYXkER+lY5VVPuH93SiUyOXxvIQKrdye+DVQDZLQK+9PYyWH+pTXpcEqLCcHjQI
+         +FyRAftYoeMv8puxCnmYGxbva77cul0rnXtmA6i+OqBRys2QDXrigR44QvDkoCEKVjmR
+         XoENDG4+5gZPez6JpCf+TrDYRzZMo25vDxRCxvIAR+yueFb5Vh9WP0vuq7UXv6VFK4fz
+         h3c1bwFmZ/7Aj+ZrORTgiT6iV/1sa/2+s1ug8wv/iHza89d3yuiTJe+yUDzHlpBJbTnZ
+         dToVJqTVwEgl8/35tEkCOOpgeHQ4gR4ibhz8J1oxEpRGoqsMIH/wVklqLqhUKIhfKRSl
+         LR4w==
+X-Gm-Message-State: AOAM530DwWk5jkN6xMKylb+A0bFp5BriCpUUbM8ozPK28KGQiQWZ2Mih
+        Da/y4hPKjxc/N7cB+GgFibIJt4vOjGE7v+WF9Vi7rOFE3iGy
+X-Google-Smtp-Source: ABdhPJxGVWggqKaOvI8uV4fq9PifdIw3pZTopnX1If/fbvee7OSbGfz804S8ZmkgGbIQXfz3JTErP+2vjS9eGsZ5VnPSAVA2rWQs
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3de5630a-8104-44b7-4853-08da03f91300
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2022 07:22:32.5622
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yFJ9ssE3N1/V/J3N/ewsjO4kUXKD/AQsSkJ0t2uOCcEaLGxH/3kwuqN4doq4uTkLdFlK+jfOSiiu8abPtqd+lVZTSy5KQ7CVWm9YEAiE4SY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8194
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Received: by 2002:a05:6e02:1d89:b0:2c6:5a4f:5bb5 with SMTP id
+ h9-20020a056e021d8900b002c65a4f5bb5mr11670304ila.210.1647072259089; Sat, 12
+ Mar 2022 00:04:19 -0800 (PST)
+Date:   Sat, 12 Mar 2022 00:04:19 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ec2a8205da00e46f@google.com>
+Subject: [syzbot] WARNING in drm_prime_destroy_file_private
+From:   syzbot <syzbot+2448673875b4e20db46a@syzkaller.appspotmail.com>
+To:     airlied@linux.ie, christian.koenig@amd.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
+        tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -125,200 +57,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+Hello,
 
-> <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Subject: [PATCH v4 3/3] media: vsp1: Add support for RZ/G2L VSPD
->=20
-> The RZ/G2L VSPD provides a single VSPD instance. It has the following sub
-> modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
->=20
-> The VSPD block on RZ/G2L does not have a version register, so added a new
-> compatible string "renesas,rzg2l-vsp2" with a data pointer containing the
-> info structure. Also the reset line is shared with the DU module.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v3->v4:
->  * Added Rb tag from Geert
->  * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
-> v2->v3:
->  * Fixed version comparison in vsp1_lookup()
-> v1->v2:
->  * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
->  * Added standalone device info for rzg2l-vsp2.
->  * Added vsp1_lookup helper function.
->  * Updated comments for LIF0 buffer attribute register
->  * Used last ID for rzg2l-vsp2.
-> RFC->v1:
->  * Used data pointer containing info structure to retrieve version
-> information
-> RFC:
-> ---
->  drivers/media/platform/vsp1/vsp1_drv.c  | 44 +++++++++++++++++++------
-> drivers/media/platform/vsp1/vsp1_lif.c  | 16 +++++----
-> drivers/media/platform/vsp1/vsp1_regs.h |  2 ++
->  3 files changed, 46 insertions(+), 16 deletions(-)
->=20
-> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c
-> b/drivers/media/platform/vsp1/vsp1_drv.c
-> index 699d7d985df4..4eef6d525eda 100644
-> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> @@ -811,11 +811,37 @@ static const struct vsp1_device_info
-> vsp1_device_infos[] =3D {
->  	},
->  };
->=20
-> +static const struct vsp1_device_info rzg2l_vsp2_device_info =3D {
-> +		.version =3D VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-> +		.model =3D "VSP2-D",
-> +		.gen =3D 3,
-> +		.features =3D VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP |
-> VSP1_HAS_EXT_DL,
-> +		.lif_count =3D 1,
-> +		.rpf_count =3D 2,
-> +		.wpf_count =3D 1,
-> +};
-> +
-> +static const struct vsp1_device_info *vsp1_lookup(struct vsp1_device
-> *vsp1,
-> +						  u32 version)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-> +		if ((version & VI6_IP_VERSION_MODEL_MASK) =3D=3D
-> +		    vsp1_device_infos[i].version) {
-> +			vsp1->info =3D &vsp1_device_infos[i];
-> +			break;
-> +		}
-> +	}
-> +
-> +	return vsp1->info;
-> +}
-> +
->  static int vsp1_probe(struct platform_device *pdev)  {
->  	struct vsp1_device *vsp1;
->  	struct device_node *fcp_node;
-> -	unsigned int i;
-> +	u32 version;
->  	int ret;
->  	int irq;
->=20
-> @@ -871,24 +897,21 @@ static int vsp1_probe(struct platform_device *pdev)
->  	if (ret < 0)
->  		goto done;
->=20
-> -	vsp1->version =3D vsp1_read(vsp1, VI6_IP_VERSION);
-> -
-> -	for (i =3D 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-> -		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) =3D=3D
-> -		    vsp1_device_infos[i].version) {
-> -			vsp1->info =3D &vsp1_device_infos[i];
-> -			break;
-> -		}
-> +	vsp1->info =3D of_device_get_match_data(&pdev->dev);
-> +	if (!vsp1->info) {
-> +		version =3D vsp1_read(vsp1, VI6_IP_VERSION);
-> +		vsp1->info =3D vsp1_lookup(vsp1, version);
->  	}
->=20
->  	if (!vsp1->info) {
->  		dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
-> -			vsp1->version);
-> +			version);
->  		vsp1_device_put(vsp1);
->  		ret =3D -ENXIO;
->  		goto done;
->  	}
->=20
-> +	vsp1->version =3D vsp1->info->version;
->  	dev_dbg(&pdev->dev, "IP version 0x%08x\n", vsp1->version);
->=20
->  	/*
-> @@ -940,6 +963,7 @@ static int vsp1_remove(struct platform_device *pdev)
-> static const struct of_device_id vsp1_of_match[] =3D {
->  	{ .compatible =3D "renesas,vsp1" },
->  	{ .compatible =3D "renesas,vsp2" },
-> +	{ .compatible =3D "renesas,rzg2l-vsp2", .data =3D
-> &rzg2l_vsp2_device_info
-> +},
->  	{ },
->  };
->  MODULE_DEVICE_TABLE(of, vsp1_of_match); diff --git
-> a/drivers/media/platform/vsp1/vsp1_lif.c
-> b/drivers/media/platform/vsp1/vsp1_lif.c
-> index 6a6857ac9327..37b767adba23 100644
-> --- a/drivers/media/platform/vsp1/vsp1_lif.c
-> +++ b/drivers/media/platform/vsp1/vsp1_lif.c
-> @@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity
-> *entity,
->=20
->  	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
->  	case VI6_IP_VERSION_MODEL_VSPD_V3:
-> +	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
->  		hbth =3D 0;
->  		obth =3D 1500;
->  		lbth =3D 0;
-> @@ -130,16 +131,19 @@ static void lif_configure_stream(struct vsp1_entity
-> *entity,
->  			VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
->=20
->  	/*
-> -	 * On R-Car V3M the LIF0 buffer attribute register has to be set to
-> a
-> -	 * non-default value to guarantee proper operation (otherwise
-> artifacts
-> -	 * may appear on the output). The value required by the manual is
-> not
-> -	 * explained but is likely a buffer size or threshold.
-> +	 * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to
-> be
-> +	 * set to a non-default value to guarantee proper operation
-> (otherwise
-> +	 * artifacts may appear on the output). The value required by the
-> +	 * manual is not explained but is likely a buffer size or threshold.
->  	 */
-> -	if ((entity->vsp1->version & VI6_IP_VERSION_MASK) =3D=3D
-> -	    (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M))
-> +	switch (entity->vsp1->version & VI6_IP_VERSION_MODEL_MASK) {
+syzbot found the following issue on:
 
-My bad, It is VI6_IP_VERSION_MASK, not VI6_IP_VERSION_MODEL_MASK. I will se=
-nd V5 fixing this.
+HEAD commit:    ea4424be1688 Merge tag 'mtd/fixes-for-5.17-rc8' of git://g..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14095f9e700000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=aba0ab2928a512c2
+dashboard link: https://syzkaller.appspot.com/bug?extid=2448673875b4e20db46a
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 
-Cheers,
-Biju
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+2448673875b4e20db46a@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 16791 at drivers/gpu/drm/drm_prime.c:228 drm_prime_destroy_file_private+0x3e/0x50 drivers/gpu/drm/drm_prime.c:228
+Modules linked in:
+CPU: 1 PID: 16791 Comm: syz-executor.5 Not tainted 5.17.0-rc7-syzkaller-00020-gea4424be1688 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:drm_prime_destroy_file_private+0x3e/0x50 drivers/gpu/drm/drm_prime.c:228
+Code: 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 1f 48 8b 83 90 00 00 00 48 85 c0 75 06 5b e9 e7 6c 1d fd e8 e2 6c 1d fd <0f> 0b 5b e9 da 6c 1d fd e8 05 5a 64 fd eb da 0f 1f 00 41 55 49 89
+RSP: 0018:ffffc90002af79e0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888025e72370 RCX: 0000000000000000
+RDX: ffff8880727aa1c0 RSI: ffffffff845a788e RDI: ffff888025e72400
+RBP: ffff8881471d4068 R08: 0000000000000001 R09: 0000000000000001
+R10: ffffffff817e23e8 R11: 0000000000088078 R12: ffff888025e72000
+R13: ffff888025e722b8 R14: ffff8881471d4098 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffea39ef0d8 CR3: 00000000791d8000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ drm_file_free.part.0+0x6e5/0xb80 drivers/gpu/drm/drm_file.c:291
+ drm_file_free drivers/gpu/drm/drm_file.c:248 [inline]
+ drm_close_helper.isra.0+0x17d/0x1f0 drivers/gpu/drm/drm_file.c:308
+ drm_release+0x1e6/0x530 drivers/gpu/drm/drm_file.c:495
+ __fput+0x286/0x9f0 fs/file_table.c:317
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+ exit_task_work include/linux/task_work.h:32 [inline]
+ do_exit+0xb29/0x2a30 kernel/exit.c:806
+ do_group_exit+0xd2/0x2f0 kernel/exit.c:935
+ get_signal+0x45a/0x2490 kernel/signal.c:2863
+ arch_do_signal_or_restart+0x2a9/0x1c40 arch/x86/kernel/signal.c:868
+ handle_signal_work kernel/entry/common.c:148 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:172 [inline]
+ exit_to_user_mode_prepare+0x17d/0x290 kernel/entry/common.c:207
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:289 [inline]
+ syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:300
+ ret_from_fork+0x15/0x30 arch/x86/entry/entry_64.S:288
+RIP: 0033:0x7f836c6a0471
+Code: Unable to access opcode bytes at RIP 0x7f836c6a0447.
+RSP: 002b:00007f836afd22f0 EFLAGS: 00000206 ORIG_RAX: 0000000000000038
+RAX: 0000000000000000 RBX: 00007f836afd2700 RCX: 00007f836c6a0471
+RDX: 00007f836afd29d0 RSI: 00007f836afd22f0 RDI: 00000000003d0f00
+RBP: 00007ffed5e285a0 R08: 00007f836afd2700 R09: 00007f836afd2700
+R10: 00007f836afd29d0 R11: 0000000000000206 R12: 00007ffed5e2840e
+R13: 00007ffed5e2840f R14: 00007f836afd2300 R15: 0000000000022000
+ </TASK>
 
 
-> +	case (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M):
-> +	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
->  		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
->  			       VI6_LIF_LBA_LBA0 |
->  			       (1536 << VI6_LIF_LBA_LBA1_SHIFT));
-> +		break;
-> +	}
->  }
->=20
->  static const struct vsp1_entity_operations lif_entity_ops =3D { diff --g=
-it
-> a/drivers/media/platform/vsp1/vsp1_regs.h
-> b/drivers/media/platform/vsp1/vsp1_regs.h
-> index fae7286eb01e..3dda11fe4e08 100644
-> --- a/drivers/media/platform/vsp1/vsp1_regs.h
-> +++ b/drivers/media/platform/vsp1/vsp1_regs.h
-> @@ -767,6 +767,8 @@
->  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
->  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
->  #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-> +/* RZ/G2L SoC's have no version register, So using last ID for the
-> version */
-> +#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0xff << 8)
->=20
->  #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
->  #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
-> --
-> 2.17.1
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
