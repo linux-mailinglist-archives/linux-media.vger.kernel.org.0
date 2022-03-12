@@ -2,42 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F36D4D6FBE
-	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 16:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBF9C4D6FBF
+	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 16:31:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231470AbiCLPbc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Mar 2022 10:31:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42508 "EHLO
+        id S231744AbiCLPcV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Mar 2022 10:32:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230460AbiCLPbb (ORCPT
+        with ESMTP id S230460AbiCLPcV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Mar 2022 10:31:31 -0500
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A51F60CCC
-        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 07:30:25 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5512840002;
-        Sat, 12 Mar 2022 15:30:20 +0000 (UTC)
-Date:   Sat, 12 Mar 2022 16:30:19 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 4/4] media: imx: imx-mipi-csis: Simplify runtime PM
- implementation
-Message-ID: <20220312153019.itvzd5udsuvpxpox@uno.localdomain>
-References: <20220311135535.30108-1-laurent.pinchart@ideasonboard.com>
- <20220311135535.30108-5-laurent.pinchart@ideasonboard.com>
- <20220311170045.k2dmhbwupfjqws22@uno.localdomain>
- <YiuCRX9NA0Dp9kpD@pendragon.ideasonboard.com>
+        Sat, 12 Mar 2022 10:32:21 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E90F192580;
+        Sat, 12 Mar 2022 07:31:14 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D3CBC60FE8;
+        Sat, 12 Mar 2022 15:31:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 014BBC340EB;
+        Sat, 12 Mar 2022 15:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647099073;
+        bh=bDZ5NHHcQ90J++YX6s/PLHNFT8CKgniuzbMo97CWXHQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KFQyc9EB4uB/9ZHnOI1jDok+Gtl1TMUJ1ME63v6hbGeEUMJO5Rx0H2Nvy8r0tf492
+         WMBc5KEx6EU/VLzOfqh6Q+1w1zN6JdSAOvZHbN8Ut0IQT/kEdq/97lQNUPHCjYdMH+
+         +Ym7J9B/4AOdIMXKGn6YtKypKIQHPaCLTwqRxXmsQHsusPxUA2IsZHjwfze4ENZVT9
+         IvVb8a4syaDHid5BWIouHIwzRA0ihrsEBl1GWRyFqT0ruXnozCHs17rI37AGp6QIo3
+         1Y2w0iQXo3bxFNxdv3dU56R3/eZ1qAthTHUSBlzTDmECsuKyugS/Z7WDUqx9vjSi8X
+         /pGNNd8de21gQ==
+Date:   Sat, 12 Mar 2022 16:31:05 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Cai Huoqing <caihuoqing@baidu.com>,
+        Dillon Min <dillon.minfei@gmail.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Julia Lawall <Julia.Lawall@inria.fr>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ming Qian <ming.qian@nxp.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 07/38] media: platform: place NXP drivers on a
+ separate dir
+Message-ID: <20220312163105.1e97ba0c@coco.lan>
+In-Reply-To: <7dedaf783d9bc7d26adb427003c17bcdc3f82193.camel@pengutronix.de>
+References: <cover.1647006877.git.mchehab@kernel.org>
+        <723fbc3e03d8817916a085e218befd6400d299a3.1647006877.git.mchehab@kernel.org>
+        <7dedaf783d9bc7d26adb427003c17bcdc3f82193.camel@pengutronix.de>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YiuCRX9NA0Dp9kpD@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,165 +77,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Em Fri, 11 Mar 2022 15:33:36 +0100
+Philipp Zabel <p.zabel@pengutronix.de> escreveu:
 
-On Fri, Mar 11, 2022 at 07:09:25PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> On Fri, Mar 11, 2022 at 06:00:45PM +0100, Jacopo Mondi wrote:
-> > On Fri, Mar 11, 2022 at 03:55:35PM +0200, Laurent Pinchart wrote:
-> > > The runtime PM resume handler is guaranteed to be called on a suspended
-> > > device, and the suspend handler on a resumed device. The implementation
-> > > can thus be simplified.
-> > >
-> > > While at it, rename the mipi_csis_device state field to powered, as the
-> > > now state contains a single flag only.
-> >
-> > Can we instead rely on pm_runtime_get_if_in_use() instead of manual
-> > tracking the power state ?
-> >
-> > After all, the powered flag is only used in:
-> >
-> > static int mipi_csis_log_status(struct v4l2_subdev *sd)
-> > {
-> > 	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
-> >
-> > 	mutex_lock(&csis->lock);
-> > 	mipi_csis_log_counters(csis, true);
-> > 	if (csis->debug.enable && csis->powered)
-> > 		mipi_csis_dump_regs(csis);
-> > 	mutex_unlock(&csis->lock);
-> >
-> > 	return 0;
-> > }
-> >
-> > which could be simplified as
-> >
-> > static int mipi_csis_log_status(struct v4l2_subdev *sd)
-> > {
-> > 	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
-> >
-> > 	mipi_csis_log_counters(csis, true);
-> >
-> > 	if (!csis->debug.enable)
-> >                 return 0;
-> >
-> > 	mutex_lock(&csis->lock);
-> >
-> >         if (!pm_runtime_get_if_in_use())
-> >                 goto unlock;
-> >
-> >         mipi_csis_dump_regs(csis);
-> >
-> >         pm_runtime_put();
-> >
-> > unlock:
-> > 	mutex_unlock(&csis->lock);
-> >
-> > 	return 0;
-> > }
->
-> That's a good idea. Do you mind if I do so on a patch on top of this
-> one, to not mix two separate changes ?
->
+> On Fr, 2022-03-11 at 15:07 +0100, Mauro Carvalho Chehab wrote:
+> > In order to cleanup the main platform media directory, move NXP
+> > driver to its own directory.
+> >=20
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > ---
+> >=20
+> > To avoid mailbombing on a large number of people, only mailing lists
+> > were C/C on the cover.
+> > See [PATCH v2 00/38] at: =20
+> > https://lore.kernel.org/all/cover.1647006877.git.mchehab@kernel.org/
+> >  =20
+> [...]
+> > diff --git a/drivers/media/platform/nxp/Makefile
+> > b/drivers/media/platform/nxp/Makefile
+> > new file mode 100644
+> > index 000000000000..147bd7ad4ef4
+> > --- /dev/null
+> > +++ b/drivers/media/platform/nxp/Makefile
+> > @@ -0,0 +1,5 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +
+> > +obj-$(CONFIG_VIDEO_IMX_PXP)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=3D imx-pxp.o
+> > +obj-$(CONFIG_VIDEO_VIU)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0+=3D fsl-viu.o
+> > +obj-$(CONFIG_VIDEO_MX2_EMMAPRP)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=3D mx2_emmaprp.o=
+ =20
+>=20
+> Should these be sorted as well?
 
-I sent two patches in reply to this series for you to collect on v2 if
-desired.
+I'll sort and drop the extra whitespaces.
 
-Please add
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-to all patches in v2.
+>=20
+> regards
+> Philipp
 
-Thanks
-   j
 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  drivers/media/platform/imx/imx-mipi-csis.c | 38 ++++++++++------------
-> > >  1 file changed, 17 insertions(+), 21 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-> > > index d656b8bfcc33..f6ff8d50843c 100644
-> > > --- a/drivers/media/platform/imx/imx-mipi-csis.c
-> > > +++ b/drivers/media/platform/imx/imx-mipi-csis.c
-> > > @@ -248,10 +248,6 @@
-> > >  #define MIPI_CSI2_DATA_TYPE_RAW14		0x2d
-> > >  #define MIPI_CSI2_DATA_TYPE_USER(x)		(0x30 + (x))
-> > >
-> > > -enum {
-> > > -	ST_POWERED	= 1,
-> > > -};
-> > > -
-> > >  struct mipi_csis_event {
-> > >  	bool debug;
-> > >  	u32 mask;
-> > > @@ -331,10 +327,10 @@ struct mipi_csis_device {
-> > >  	u32 hs_settle;
-> > >  	u32 clk_settle;
-> > >
-> > > -	struct mutex lock;	/* Protect csis_fmt, format_mbus and state */
-> > > +	struct mutex lock;	/* Protect csis_fmt, format_mbus and powered */
-> > >  	const struct csis_pix_format *csis_fmt;
-> > >  	struct v4l2_mbus_framefmt format_mbus[CSIS_PADS_NUM];
-> > > -	u32 state;
-> > > +	bool powered;
-> > >
-> > >  	spinlock_t slock;	/* Protect events */
-> > >  	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
-> > > @@ -1193,7 +1189,7 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
-> > >
-> > >  	mutex_lock(&csis->lock);
-> > >  	mipi_csis_log_counters(csis, true);
-> > > -	if (csis->debug.enable && (csis->state & ST_POWERED))
-> > > +	if (csis->debug.enable && csis->powered)
-> > >  		mipi_csis_dump_regs(csis);
-> > >  	mutex_unlock(&csis->lock);
-> > >
-> > > @@ -1354,13 +1350,14 @@ static int __maybe_unused mipi_csis_runtime_suspend(struct device *dev)
-> > >  	int ret = 0;
-> > >
-> > >  	mutex_lock(&csis->lock);
-> > > -	if (csis->state & ST_POWERED) {
-> > > -		ret = mipi_csis_phy_disable(csis);
-> > > -		if (ret)
-> > > -			goto unlock;
-> > > -		mipi_csis_clk_disable(csis);
-> > > -		csis->state &= ~ST_POWERED;
-> > > -	}
-> > > +
-> > > +	ret = mipi_csis_phy_disable(csis);
-> > > +	if (ret)
-> > > +		goto unlock;
-> > > +
-> > > +	mipi_csis_clk_disable(csis);
-> > > +
-> > > +	csis->powered = false;
-> > >
-> > >  unlock:
-> > >  	mutex_unlock(&csis->lock);
-> > > @@ -1376,14 +1373,13 @@ static int __maybe_unused mipi_csis_runtime_resume(struct device *dev)
-> > >
-> > >  	mutex_lock(&csis->lock);
-> > >
-> > > -	if (!(csis->state & ST_POWERED)) {
-> > > -		ret = mipi_csis_phy_enable(csis);
-> > > -		if (ret)
-> > > -			goto unlock;
-> > > +	ret = mipi_csis_phy_enable(csis);
-> > > +	if (ret)
-> > > +		goto unlock;
-> > >
-> > > -		csis->state |= ST_POWERED;
-> > > -		mipi_csis_clk_enable(csis);
-> > > -	}
-> > > +	mipi_csis_clk_enable(csis);
-> > > +
-> > > +	csis->powered = true;
-> > >
-> > >  unlock:
-> > >  	mutex_unlock(&csis->lock);
->
-> --
-> Regards,
->
-> Laurent Pinchart
+
+Thanks,
+Mauro
