@@ -2,103 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6BEA4D7147
-	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 23:20:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 871504D7198
+	for <lists+linux-media@lfdr.de>; Sun, 13 Mar 2022 00:49:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232213AbiCLWVS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Mar 2022 17:21:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40674 "EHLO
+        id S232797AbiCLXtx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Mar 2022 18:49:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231289AbiCLWVS (ORCPT
+        with ESMTP id S231400AbiCLXtw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Mar 2022 17:21:18 -0500
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C977114FC8
-        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 14:20:12 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 913211B00120;
-        Sun, 13 Mar 2022 00:20:10 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1647123610;
+        Sat, 12 Mar 2022 18:49:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5BADA369CA
+        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 15:48:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647128924;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Q5BN0rtxBwmS1MN2YZdGnvZ+cHARBaKYqcvcMI9n4oA=;
-        b=FIZYn7j9Ht2Soy0LYS4o62vwpbx7F465L7GR+W4/KT7xqMVUz9UcQ6cN2IUL9N1r1kvFZ0
-        /Ys/SKcOSxC0KFyxPv6XR3sOYMU1g6YbV0kDhSkQa+k7djgnii9SbsDhD4IQm3GG4ILdRB
-        5cfIzh6OoQ0S124Z5oyxEdqgiDoUczoCjBNY//hsz+1zIOziHom7KBOo2GnW9buJFteQ21
-        x/9Q1vGr4GjYAC8npHKw3cnU5byWdmDfLZlW43ZEH0MHn1OtYi72Qh/a14cbEEXI9JXtK9
-        T93moDXha+TbIjV9qcX9uIU/N5h9Q3QoGueX8XEXDNCpgSZ1QXXZQtQ4s/66uA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 40485634C93;
-        Sun, 13 Mar 2022 00:20:10 +0200 (EET)
-Date:   Sun, 13 Mar 2022 00:20:10 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        kernel@pengutronix.de, linux-imx@nxp.com,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH 4/4] media: imx: imx-mipi-csis: Simplify runtime PM
- implementation
-Message-ID: <Yi0cmjHAjUH1VS6Q@valkosipuli.retiisi.eu>
-References: <20220311135535.30108-1-laurent.pinchart@ideasonboard.com>
- <20220311135535.30108-5-laurent.pinchart@ideasonboard.com>
- <Yi0cP9pJTQSUFRAp@valkosipuli.retiisi.eu>
+        bh=l2x5t1DTMrr+F4JZEN4o27QeKTa0qaAj+e9wVSLV6fQ=;
+        b=Bg9WBobaHZrn+u0tSAI9wdXV2fw2Mr2W6cNUTvV29Eya0P2rVllBje8cOLTx5qGCzEE9B+
+        092+TDYb6mVAR8M7at2/gPLh5B7xZhouFrj242Rv1CMwQlnx1PMGCDGG929UNBip0V4HOV
+        Cm2Z8iu2erOrm/Eab6U5dKfRamp4Rvo=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-572-FTwqxbI_MVSR4h3B9LE5cQ-1; Sat, 12 Mar 2022 18:48:42 -0500
+X-MC-Unique: FTwqxbI_MVSR4h3B9LE5cQ-1
+Received: by mail-qk1-f200.google.com with SMTP id 207-20020a3706d8000000b0067b322bef9eso8861542qkg.3
+        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 15:48:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=l2x5t1DTMrr+F4JZEN4o27QeKTa0qaAj+e9wVSLV6fQ=;
+        b=OZYWh9DB4nfLv75nGBbBLWv8vIkBJ+agpH7loA5MVaN0R9lFxjjizSomNTRoA94KJk
+         VKWRZzStWSlVg1RbiFy5oIgSbItkm8OF+9QmsbUSQjFJdP07uDrNa+pW+iUV0habNlIV
+         dZCRcs7tA9ttdMd3MFzeQH3ejwbiGrpSuJDZ3ng8zs86s7vF9JroEw3/3X5ur0Ot4j6q
+         sJ168vg7SuiQMLvuUQKPpPvzFccWjs5n4dHayoJcQWafWSm2hHfRocpXlMOQdtK1dkEz
+         Yn5We1QhBSG72eK3FnG4udGqREePsIte20zKlr3RXZq9htRcvHJq9+jIHmyL6q0oazLv
+         uzAQ==
+X-Gm-Message-State: AOAM531KG/RwlZwTIiHZCfomoKxsHCpVV7YERuAxRdfdp7yS0INSQ26T
+        DvuxPhYdEMJ30wffk2+Xd4+is5zRj1EurzZQKiPIS+M2SBdghHXjUrQ90U9eSL2dUiM7yWogn1h
+        7KauO/WL83frDfSrCsaonO84=
+X-Received: by 2002:a37:4550:0:b0:473:b21a:5c90 with SMTP id s77-20020a374550000000b00473b21a5c90mr10220973qka.158.1647128922336;
+        Sat, 12 Mar 2022 15:48:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwTmHxO4uNTRJa2T6jaaBQ3swvJN6GUQj6QJkiVPbAOilb5IQ0I7gj2PGDGbNE/dYh9g10U6A==
+X-Received: by 2002:a37:4550:0:b0:473:b21a:5c90 with SMTP id s77-20020a374550000000b00473b21a5c90mr10220965qka.158.1647128922110;
+        Sat, 12 Mar 2022 15:48:42 -0800 (PST)
+Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
+        by smtp.gmail.com with ESMTPSA id o21-20020ac85a55000000b002e16389b501sm8462867qta.96.2022.03.12.15.48.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Mar 2022 15:48:41 -0800 (PST)
+Subject: Re: [PATCH] media: stkwebcam: move stk_camera_read_reg() scratch
+ buffer to struct stk_camera
+To:     Pavel Skripkin <paskripkin@gmail.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, cai.huoqing@linux.dev,
+        xose.vazquez@gmail.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220312173049.1410977-1-trix@redhat.com>
+ <65a1d178-8511-a023-2655-94540114086c@gmail.com>
+From:   Tom Rix <trix@redhat.com>
+Message-ID: <c3723690-cacb-0c42-cc5d-397a3363b4da@redhat.com>
+Date:   Sat, 12 Mar 2022 15:48:39 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yi0cP9pJTQSUFRAp@valkosipuli.retiisi.eu>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1647123610; a=rsa-sha256;
-        cv=none;
-        b=QllOn3DhDc57Yc1TOrBIDJj/2nQ24yDW85TcqQu0ZWeL6bd/cKMu6z3t8gcB9TTdCvdzfD
-        dhwCkzgysfu899hwdwxPNt1vWtd7gwk3P/vUHFOg/L2cB2rCdL51g/2jr17SEpQvKks19Y
-        WRo2wQeynQ6v6gqGyv6uNtWee8p77mcH8cRyz9Frf4R3oMTendlTGPt4Vn3o9pGDkS63eO
-        5+oon1WqyIw1eXhAOhf9v7guNOHKcyBYiu2FzYVjAczuoWrzSIEmII7DhEHP4hC8lhS3id
-        iBxpjwtjYGp298vXGLWHhsEuJSMXK62h8j7SN1CwihR9dIuo9OOVnK9oBQc/QA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1647123610;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Q5BN0rtxBwmS1MN2YZdGnvZ+cHARBaKYqcvcMI9n4oA=;
-        b=SbcopRLq0LpaFTgIEsVjwjT1CIKgZXfjLJ4UCn2cO4Q+gkR4Z83ERnZKO2firlqOoYZ9wy
-        no7Gb3HMFcNHUqaD3ym/2DcjGEwQcxz5KfbwyjaqHXiZcENpgfoC82+6YPXz6Gg0mzipTX
-        /YvZ3fLbBzTxU+GK05OLWLGxEpVbUkXMk+U/dP/6Jz7YEw2jc0HbBUUVRpkZ38jpvWo+fy
-        UQCS71IBeqIoZzbBRURmr8zyOrXyyYK8akAW9wzlrI0gVozW/oQCyPEQxaodWHp52f8hCS
-        bV01ATOOBMyF9pzWrLA41MkpqvMhKU+ZARA5UdtdxmOtdOpXByFkizCrHMSuEg==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <65a1d178-8511-a023-2655-94540114086c@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Mar 13, 2022 at 12:18:39AM +0200, Sakari Ailus wrote:
-> > @@ -1193,7 +1189,7 @@ static int mipi_csis_log_status(struct v4l2_subdev *sd)
-> >  
-> >  	mutex_lock(&csis->lock);
-> >  	mipi_csis_log_counters(csis, true);
-> > -	if (csis->debug.enable && (csis->state & ST_POWERED))
-> > +	if (csis->debug.enable && csis->powered)
-> 
-> Could you use instead pm_runtime_get_if_active() instead? You could then
-> drop the field.
 
-Ah, I see Jacopo already posted a patch to do that. Feel free to ignore.
+On 3/12/22 11:58 AM, Pavel Skripkin wrote:
+> On 3/12/22 20:30, trix@redhat.com wrote:
+>> From: Tom Rix <trix@redhat.com>
+>>
+>> In stk_camera_read_reg() a single byte buffer is alloc-ed and
+>> freed on every function call.  Since the size is known,
+>> move the buffer to the struct stk_camera where it will be alloc-ed
+>> and freed once.
+>>
+>> Signed-off-by: Tom Rix <trix@redhat.com>
+>> ---
+>>   drivers/media/usb/stkwebcam/stk-webcam.c | 11 ++---------
+>>   drivers/media/usb/stkwebcam/stk-webcam.h |  2 ++
+>>   2 files changed, 4 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c 
+>> b/drivers/media/usb/stkwebcam/stk-webcam.c
+>> index 5b822214ccc5c..787edb3d47c23 100644
+>> --- a/drivers/media/usb/stkwebcam/stk-webcam.c
+>> +++ b/drivers/media/usb/stkwebcam/stk-webcam.c
+>> @@ -150,25 +150,18 @@ int stk_camera_write_reg(struct stk_camera 
+>> *dev, u16 index, u8 value)
+>>   int stk_camera_read_reg(struct stk_camera *dev, u16 index, u8 *value)
+>
+> And just random note: there are 4 possible uninit value bugs.
+>
+> stk_start_stream() calls stk_camera_read_reg 4 times, but ignores 
+> return values.
+>
+> stk_camera_read_reg() should have __must_check annotation and return 
+> value should be checked on each call.
+>
+>
+> If you have time you can take care of it :) Or I will fix it one day...
 
--- 
-Sakari Ailus
+These do show up in my usual static analysis and it why I was looking at 
+this file.
+
+And was sidetracked by the short malloc.
+
+Unfortunately I looked and there are many other similar instances 
+treewide ~100
+
+These aren't caught in checkpatch, so working on that..
+
+Tom
+
+>
+>
+>
+>
+>
+> With regards,
+> Pavel Skripkin
+>
+
