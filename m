@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BECB64D709C
-	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 20:50:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 199CE4D70A5
+	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 20:58:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232521AbiCLTv4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Mar 2022 14:51:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55388 "EHLO
+        id S232533AbiCLT73 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Mar 2022 14:59:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229908AbiCLTv4 (ORCPT
+        with ESMTP id S229613AbiCLT72 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Mar 2022 14:51:56 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E384673DF;
-        Sat, 12 Mar 2022 11:50:41 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id n19so20597445lfh.8;
-        Sat, 12 Mar 2022 11:50:41 -0800 (PST)
+        Sat, 12 Mar 2022 14:59:28 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F3C19F6CE;
+        Sat, 12 Mar 2022 11:58:22 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id l20so20607538lfg.12;
+        Sat, 12 Mar 2022 11:58:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=1xX6m7maqJLmZyW32NaxaiPZ6O1tqNAYkIzpjmsF0pc=;
-        b=mEdLC06RPfSimrlPnyEi8F6/dnUwF03x4mlJeXaB3HvVJSRdTAFFPvz1uOGf4p/iJn
-         MNRFyuyNaFMZrLbyWShFqnyP8OX3r1p4LNM5Sy2yn1o77Z+g9XB9F6XEi0mt8p2RUxkx
-         VP+Q8G16+Gn5DSU/LaXXwua7bZZ5T1k4hJWxRsX6ctB35psDihocwnJyUkAhoNmGI0we
-         4evuu4m8fYUxncUxm5/MEdMo+kEFxNmKL9Ii/gVvES8YmbAkpwDuCYtsxjIXM01nGxqH
-         2BNd0948eri3pen151EMR6djSkXb+MEXmo3Fy7/c+wwk6msUAOR1iJCZjhkpvQ1dH0Vs
-         Gu2g==
+        bh=XKl/d0mo7z+8QanaXzNtR7ZkSnHh49IBxZx284NoA9c=;
+        b=i7PFwUrFM/0FCz4V5WaUwSmG8F2XqdbJKfN4mDPwRAy+jxtOOG9KXbMY+qqKe9ZgC2
+         84nILEWiWM+8UoX44b6TL2RsNXnHE1JhOTTt+JXR8F8au9f7Fg4qG4GoQZRNsYrmiyQh
+         hNkWraJElFh9jVkGABwlMW3HdJJIQfljsdOyH29TzPNCsJFpnkBU1rzsfgM0hbqh4Qtd
+         BWQBW0yD45z59wDpP8JcYtfV8XEpR6yTaamxr+LaJnPrEzkUKr813OhiWb69RnJQttpX
+         AWDxlOyvaj9fZpX4CiR3yZsJPYa2w/ZQ/Z6PpimQOJe2T4LAlID4/+/E/4vBmo+2If8L
+         aEVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=1xX6m7maqJLmZyW32NaxaiPZ6O1tqNAYkIzpjmsF0pc=;
-        b=4AuTfqVppg1aELvjkAciIHwEUj9Q0m8+rN68x0fB4UEhfoUdwD4mirHlj1haFEatLx
-         z1eLS+n+eHx8O/X3Uw/k8a68SvkIy8iHtV2znWBgMolaMZuVTMZt0uwWJG1XmONIAN4s
-         51Z5y5SP608/j9iIt/gzaK1eN4wxBwajqlG2nu32gF0WR6CJlS9hFmEoJGf4f/ex8Azs
-         me2YL+6Xt8dnDyDzOWjOwclLvP7OmqIwuCtDZdckwoFrHJ/82302ewbSR+Wtr6bPMIMH
-         YNxezYN7I/mObOfYzlDsOufFxtVGZEkG9kjHodRv1mDKw0rnSsoMGEhxSSCtu08Gxmob
-         CM7w==
-X-Gm-Message-State: AOAM531IVNSRhVGCwb4wIn/aimy13XC8+O4ePbhpLxBZ7LXDLBFev+bX
-        klM77I6cCtAY76vtbMmTNqI=
-X-Google-Smtp-Source: ABdhPJwQrfzNAkNevM1aTBhIdkJxxGjA0G/4a8DKixMDa24Qj1wyzaJLb952CvIJwltnsxGiDKhUAg==
-X-Received: by 2002:a05:6512:1105:b0:448:8f4e:d5d0 with SMTP id l5-20020a056512110500b004488f4ed5d0mr317084lfg.182.1647114639435;
-        Sat, 12 Mar 2022 11:50:39 -0800 (PST)
+        bh=XKl/d0mo7z+8QanaXzNtR7ZkSnHh49IBxZx284NoA9c=;
+        b=JeP7X7N0t8sr9b7mSvLpPcIiakJT8PGLwejIb6HycylUBdTFLVBVXZH/+uOvpsdiAJ
+         DhgE5jFCNIMZtGqsvnF1PR+n08dVzcrQ5Eitu7XuvDhfWkIGl0BqBZgvYBRoloh7Wn9a
+         dUV0oP3ySG2N0P6a/WAgnO8K+217n8OwjwmhnTRljqjfC/aKM389pNOu3K7FUmwhE6zf
+         PhaH38yBPhesotQX3b3G+oOsQDmVLImTle8qXB+NcKrhQlpjLwfZmFTS3MlSAvwQn0EX
+         0XYbBNkyMXAfS+ADvsc13+zabDaKO/v6H+UVr+Zn7bqgGB2QFzo6kkLd8jZlYBbZi9kn
+         E3bA==
+X-Gm-Message-State: AOAM532LFnllncFgCDHW/z6kKJCoBE1mC+q7IV3cjsLKAvXZcFCOueRQ
+        B4sCxGxdygguZ7p+2SoJAjQ=
+X-Google-Smtp-Source: ABdhPJw6zsEpxNadwPPyYVuiG5kuEju3IZ06xTbxP19NlBDB/v7kGj8kxT7Ib0JvNH/r9nKU5aZhVA==
+X-Received: by 2002:a05:6512:16a7:b0:445:862e:a1ba with SMTP id bu39-20020a05651216a700b00445862ea1bamr8947033lfb.85.1647115100439;
+        Sat, 12 Mar 2022 11:58:20 -0800 (PST)
 Received: from [192.168.1.11] ([94.103.229.107])
-        by smtp.gmail.com with ESMTPSA id p12-20020a056512138c00b0044833f1cd85sm2342644lfa.62.2022.03.12.11.50.38
+        by smtp.gmail.com with ESMTPSA id x10-20020a19f60a000000b0044858b2ec41sm2136727lfe.187.2022.03.12.11.58.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 12 Mar 2022 11:50:38 -0800 (PST)
-Message-ID: <11fa30cb-9b56-ab8c-1352-279052945432@gmail.com>
-Date:   Sat, 12 Mar 2022 22:50:37 +0300
+        Sat, 12 Mar 2022 11:58:19 -0800 (PST)
+Message-ID: <65a1d178-8511-a023-2655-94540114086c@gmail.com>
+Date:   Sat, 12 Mar 2022 22:58:18 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
@@ -75,8 +75,6 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Trix,
-
 On 3/12/22 20:30, trix@redhat.com wrote:
 > From: Tom Rix <trix@redhat.com>
 > 
@@ -97,30 +95,18 @@ On 3/12/22 20:30, trix@redhat.com wrote:
 > +++ b/drivers/media/usb/stkwebcam/stk-webcam.c
 > @@ -150,25 +150,18 @@ int stk_camera_write_reg(struct stk_camera *dev, u16 index, u8 value)
 >   int stk_camera_read_reg(struct stk_camera *dev, u16 index, u8 *value)
->   {
->   	struct usb_device *udev = dev->udev;
-> -	unsigned char *buf;
->   	int ret;
->   
-> -	buf = kmalloc(sizeof(u8), GFP_KERNEL);
-> -	if (!buf)
-> -		return -ENOMEM;
-> -
->   	ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
->   			0x00,
->   			USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
->   			0x00,
->   			index,
-> -			buf,
-> +			&dev->read_reg_scratch,
->   			sizeof(u8),
->   			500);
+
+And just random note: there are 4 possible uninit value bugs.
+
+stk_start_stream() calls stk_camera_read_reg 4 times, but ignores return 
+values.
+
+stk_camera_read_reg() should have __must_check annotation and return 
+value should be checked on each call.
 
 
-Wouldn't it be better to move to modern USB API like usb_control_msg_recv()?
+If you have time you can take care of it :) Or I will fix it one day...
 
-This API does not require buffer to be allocated via kmalloc(), so you 
-will be able to use value directly.
 
 
 
