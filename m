@@ -2,114 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 199CE4D70A5
-	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 20:58:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F7444D70C5
+	for <lists+linux-media@lfdr.de>; Sat, 12 Mar 2022 21:17:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232533AbiCLT73 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Mar 2022 14:59:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52532 "EHLO
+        id S231479AbiCLUSr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Mar 2022 15:18:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbiCLT72 (ORCPT
+        with ESMTP id S230017AbiCLUSq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Mar 2022 14:59:28 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F3C19F6CE;
-        Sat, 12 Mar 2022 11:58:22 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id l20so20607538lfg.12;
-        Sat, 12 Mar 2022 11:58:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=XKl/d0mo7z+8QanaXzNtR7ZkSnHh49IBxZx284NoA9c=;
-        b=i7PFwUrFM/0FCz4V5WaUwSmG8F2XqdbJKfN4mDPwRAy+jxtOOG9KXbMY+qqKe9ZgC2
-         84nILEWiWM+8UoX44b6TL2RsNXnHE1JhOTTt+JXR8F8au9f7Fg4qG4GoQZRNsYrmiyQh
-         hNkWraJElFh9jVkGABwlMW3HdJJIQfljsdOyH29TzPNCsJFpnkBU1rzsfgM0hbqh4Qtd
-         BWQBW0yD45z59wDpP8JcYtfV8XEpR6yTaamxr+LaJnPrEzkUKr813OhiWb69RnJQttpX
-         AWDxlOyvaj9fZpX4CiR3yZsJPYa2w/ZQ/Z6PpimQOJe2T4LAlID4/+/E/4vBmo+2If8L
-         aEVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=XKl/d0mo7z+8QanaXzNtR7ZkSnHh49IBxZx284NoA9c=;
-        b=JeP7X7N0t8sr9b7mSvLpPcIiakJT8PGLwejIb6HycylUBdTFLVBVXZH/+uOvpsdiAJ
-         DhgE5jFCNIMZtGqsvnF1PR+n08dVzcrQ5Eitu7XuvDhfWkIGl0BqBZgvYBRoloh7Wn9a
-         dUV0oP3ySG2N0P6a/WAgnO8K+217n8OwjwmhnTRljqjfC/aKM389pNOu3K7FUmwhE6zf
-         PhaH38yBPhesotQX3b3G+oOsQDmVLImTle8qXB+NcKrhQlpjLwfZmFTS3MlSAvwQn0EX
-         0XYbBNkyMXAfS+ADvsc13+zabDaKO/v6H+UVr+Zn7bqgGB2QFzo6kkLd8jZlYBbZi9kn
-         E3bA==
-X-Gm-Message-State: AOAM532LFnllncFgCDHW/z6kKJCoBE1mC+q7IV3cjsLKAvXZcFCOueRQ
-        B4sCxGxdygguZ7p+2SoJAjQ=
-X-Google-Smtp-Source: ABdhPJw6zsEpxNadwPPyYVuiG5kuEju3IZ06xTbxP19NlBDB/v7kGj8kxT7Ib0JvNH/r9nKU5aZhVA==
-X-Received: by 2002:a05:6512:16a7:b0:445:862e:a1ba with SMTP id bu39-20020a05651216a700b00445862ea1bamr8947033lfb.85.1647115100439;
-        Sat, 12 Mar 2022 11:58:20 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.229.107])
-        by smtp.gmail.com with ESMTPSA id x10-20020a19f60a000000b0044858b2ec41sm2136727lfe.187.2022.03.12.11.58.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 12 Mar 2022 11:58:19 -0800 (PST)
-Message-ID: <65a1d178-8511-a023-2655-94540114086c@gmail.com>
-Date:   Sat, 12 Mar 2022 22:58:18 +0300
+        Sat, 12 Mar 2022 15:18:46 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B4E1205977
+        for <linux-media@vger.kernel.org>; Sat, 12 Mar 2022 12:17:40 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30D0D475;
+        Sat, 12 Mar 2022 21:17:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1647116258;
+        bh=Lot+wKK3rW9ns5fAGx3BzrsKLNG1w3GAl6YBnnieaTQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dQrgIuNfOvSA73aBq3HJrvNjR1YxhtmUZi76ll9J0P9M8yGngvX+OWQPJLSVFdA1P
+         lS7zDyjMlWTKlKSsHm4UwZzUM+u72VJZew8WumeYRjy2GyXbiavZTpLn1Ahe21ad3+
+         8AZU/HGNZJHC7+AGR+V/w4p7y5xBAPCDolS7QQuI=
+Date:   Sat, 12 Mar 2022 22:17:21 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
+        kernel@pengutronix.de, linux-imx@nxp.com,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH 1/2] media: imx: imx-mipi-csis: Simplify
+ mipi_csis_s_stream()
+Message-ID: <Yiz/0XGw1sCXpA95@pendragon.ideasonboard.com>
+References: <20220311135535.30108-1-laurent.pinchart@ideasonboard.com>
+ <20220312152505.145453-1-jacopo@jmondi.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH] media: stkwebcam: move stk_camera_read_reg() scratch
- buffer to struct stk_camera
-Content-Language: en-US
-To:     trix@redhat.com, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        cai.huoqing@linux.dev, xose.vazquez@gmail.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220312173049.1410977-1-trix@redhat.com>
-From:   Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20220312173049.1410977-1-trix@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220312152505.145453-1-jacopo@jmondi.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/12/22 20:30, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
+Hi Jacopo,
+
+Thank you for the patch.
+
+On Sat, Mar 12, 2022 at 04:25:04PM +0100, Jacopo Mondi wrote:
+> Simplify the mipi_csis_s_stream() function.
 > 
-> In stk_camera_read_reg() a single byte buffer is alloc-ed and
-> freed on every function call.  Since the size is known,
-> move the buffer to the struct stk_camera where it will be alloc-ed
-> and freed once.
+> This actually fixes a bug, as if calling the subdev's s_stream(1) fails,
+> mipi_csis_stop_stream() was not called.
 > 
-> Signed-off-by: Tom Rix <trix@redhat.com>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->   drivers/media/usb/stkwebcam/stk-webcam.c | 11 ++---------
->   drivers/media/usb/stkwebcam/stk-webcam.h |  2 ++
->   2 files changed, 4 insertions(+), 9 deletions(-)
+>  drivers/media/platform/imx/imx-mipi-csis.c | 58 ++++++++++++----------
+>  1 file changed, 33 insertions(+), 25 deletions(-)
 > 
-> diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
-> index 5b822214ccc5c..787edb3d47c23 100644
-> --- a/drivers/media/usb/stkwebcam/stk-webcam.c
-> +++ b/drivers/media/usb/stkwebcam/stk-webcam.c
-> @@ -150,25 +150,18 @@ int stk_camera_write_reg(struct stk_camera *dev, u16 index, u8 value)
->   int stk_camera_read_reg(struct stk_camera *dev, u16 index, u8 *value)
+> diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
+> index c4d1a6fe5007..fa00b36fc394 100644
+> --- a/drivers/media/platform/imx/imx-mipi-csis.c
+> +++ b/drivers/media/platform/imx/imx-mipi-csis.c
+> @@ -910,43 +910,51 @@ static struct mipi_csis_device *sd_to_mipi_csis_device(struct v4l2_subdev *sdev)
+>  static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+>  {
+>  	struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
+> -	int ret = 0;
+> +	int ret;
+> 
+> -	if (enable) {
+> -		ret = mipi_csis_calculate_params(csis);
+> -		if (ret < 0)
+> -			return ret;
+> +	if (!enable) {
+> +		mutex_lock(&csis->lock);
+> 
+> -		mipi_csis_clear_counters(csis);
+> +		v4l2_subdev_call(csis->src_sd, video, s_stream, 0);
+> 
+> -		ret = pm_runtime_resume_and_get(csis->dev);
+> -		if (ret < 0)
+> -			return ret;
+> +		mipi_csis_stop_stream(csis);
+> +		if (csis->debug.enable)
+> +			mipi_csis_log_counters(csis, true);
+> +
+> +		pm_runtime_put(csis->dev);
+> +
+> +		mutex_unlock(&csis->lock);
 
-And just random note: there are 4 possible uninit value bugs.
+You can move the mutex_unlock() call before pm_runtime_put().
 
-stk_start_stream() calls stk_camera_read_reg 4 times, but ignores return 
-values.
+> +
+> +		return 0;
+>  	}
+> 
+> -	mutex_lock(&csis->lock);
+> +	ret = mipi_csis_calculate_params(csis);
+> +	if (ret < 0)
+> +		return ret;
+> 
+> -	if (enable) {
+> -		mipi_csis_start_stream(csis);
+> -		ret = v4l2_subdev_call(csis->src_sd, video, s_stream, 1);
+> -		if (ret < 0)
+> -			goto unlock;
+> +	mipi_csis_clear_counters(csis);
+> 
+> -		mipi_csis_log_counters(csis, true);
+> -	} else {
+> -		v4l2_subdev_call(csis->src_sd, video, s_stream, 0);
+> +	ret = pm_runtime_resume_and_get(csis->dev);
+> +	if (ret < 0)
+> +		return ret;
+> 
+> -		mipi_csis_stop_stream(csis);
+> +	mutex_lock(&csis->lock);
+> 
+> -		if (csis->debug.enable)
+> -			mipi_csis_log_counters(csis, true);
+> -	}
+> +	mipi_csis_start_stream(csis);
+> +	ret = v4l2_subdev_call(csis->src_sd, video, s_stream, 1);
+> +	if (ret < 0)
+> +		goto out;
+> +
+> +	mipi_csis_log_counters(csis, true);
+> 
+> -unlock:
+>  	mutex_unlock(&csis->lock);
+> 
+> -	if (!enable || ret < 0)
+> -		pm_runtime_put(csis->dev);
+> +	return 0;
+> +
+> +out:
+> +	mipi_csis_stop_stream(csis);
+> +	pm_runtime_put(csis->dev);
+> +	mutex_unlock(&csis->lock);
 
-stk_camera_read_reg() should have __must_check annotation and return 
-value should be checked on each call.
+Here too.
 
+When there's a single error path I'm tempted to just inline error
+handling instead of using a goto, but I don't mind either way.
 
-If you have time you can take care of it :) Or I will fix it one day...
+> 
+>  	return ret;
+>  }
 
+-- 
+Regards,
 
-
-
-
-With regards,
-Pavel Skripkin
+Laurent Pinchart
