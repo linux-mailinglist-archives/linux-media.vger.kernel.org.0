@@ -2,56 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E88ED4D75DF
-	for <lists+linux-media@lfdr.de>; Sun, 13 Mar 2022 15:31:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B68AC4D75E2
+	for <lists+linux-media@lfdr.de>; Sun, 13 Mar 2022 15:33:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234636AbiCMOcI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Mar 2022 10:32:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51216 "EHLO
+        id S232925AbiCMOel (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Mar 2022 10:34:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231244AbiCMOcF (ORCPT
+        with ESMTP id S230121AbiCMOei (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Mar 2022 10:32:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C5439BAF4;
-        Sun, 13 Mar 2022 07:30:56 -0700 (PDT)
+        Sun, 13 Mar 2022 10:34:38 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C093362A0D
+        for <linux-media@vger.kernel.org>; Sun, 13 Mar 2022 07:33:30 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D940475;
-        Sun, 13 Mar 2022 15:30:54 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3C14475;
+        Sun, 13 Mar 2022 15:33:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647181854;
-        bh=2L3uQ23BV1U99lMvOCcYdT4LXyXWmzIPIvwbRSFRyUY=;
+        s=mail; t=1647182009;
+        bh=fVrvOK+dW/7LcD2Ukxc0fAbOw0yh/fZGW4Q1raQuR64=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EwoxUcAGer6ZLjuimbW2bklZU9D9q++zsNapryOyV++pKQcBEdmMu1TcQQeVBW4Ra
-         5kfoifShqHhbXeW9Py+2qQAu9NegE8vW8Pq0p8OuD+Vj/UKa1q7Uyqt0rLTmRXEfNh
-         zR4tggzGlJMoJANhilbK0nB+z9VxNbFfCO6XqLC8=
-Date:   Sun, 13 Mar 2022 16:30:37 +0200
+        b=VO6BAWWH4po2S0dyJ4oWFoqXtQOWCgrQk+SMfbUsdYmiaCxT0ETwYAIbqyInyHDjd
+         ebAyBthsfJsd+oiko6BScK7T2qtzvWjp1O3ee75jnmneUrbldLdkz1+7KZwulv3eZV
+         nsJ9w/pi4daucBCyjwZ4Q8S3OtJlLZQMoJHlO4dQ=
+Date:   Sun, 13 Mar 2022 16:33:12 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
         jeanmichel.hautbois@ideasonboard.com,
         paul.kocialkowski@bootlin.com, sakari.ailus@iki.fi,
         paul.elder@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         "open list:OMNIVISION OV5670 SENSOR DRIVER" 
-        <linux-media@vger.kernel.org>, robh@kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/6] media: dt-bindings: i2c: Document ov5670
-Message-ID: <Yi4ADe04VGarQ437@pendragon.ideasonboard.com>
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 2/6] media: i2c: ov5670: Allow probing with OF
+Message-ID: <Yi4AqIrOWBEY7DHU@pendragon.ideasonboard.com>
 References: <20220310130829.96001-1-jacopo@jmondi.org>
- <20220310130829.96001-2-jacopo@jmondi.org>
- <d7e2a189-2773-b37a-7449-0b5138e45ded@canonical.com>
- <20220310171634.qiqnq376qizrqhw5@uno.localdomain>
- <7eb33fe1-2470-7096-b77b-d147c2e55fec@canonical.com>
- <20220311160524.wyfk5vj33xt4umgi@uno.localdomain>
- <5f81a066-0d28-59ed-ec55-3861766025e6@canonical.com>
- <20220311180024.duxcap6yjv6slx2t@uno.localdomain>
- <13b67ef0-8031-fb99-5c57-05ea07f14975@canonical.com>
+ <20220310130829.96001-3-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <13b67ef0-8031-fb99-5c57-05ea07f14975@canonical.com>
+In-Reply-To: <20220310130829.96001-3-jacopo@jmondi.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -61,136 +52,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Jacopo,
 
-On Sat, Mar 12, 2022 at 11:30:55AM +0100, Krzysztof Kozlowski wrote:
-> On 11/03/2022 19:00, Jacopo Mondi wrote:
-> > On Fri, Mar 11, 2022 at 05:11:47PM +0100, Krzysztof Kozlowski wrote:
-> >> On 11/03/2022 17:05, Jacopo Mondi wrote:
-> >>> On Thu, Mar 10, 2022 at 06:26:02PM +0100, Krzysztof Kozlowski wrote:
-> >>>> On 10/03/2022 18:16, Jacopo Mondi wrote:
-> >>>>> On Thu, Mar 10, 2022 at 03:29:24PM +0100, Krzysztof Kozlowski wrote:
-> >>>>>> On 10/03/2022 14:08, Jacopo Mondi wrote:
-> >>>>>>> Provide the bindings documentation for Omnivision OV5670 image sensor.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> >>>>>>> ---
-> >>>>>>>  .../devicetree/bindings/media/i2c/ov5670.yaml | 93 +++++++++++++++++++
-> >>>>>>
-> >>>>>> Add the file to maintainers entry.
-> >>>>>
-> >>>>> Right
-> >>>>>
-> >>>>>>>  1 file changed, 93 insertions(+)
-> >>>>>>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5670.yaml
-> >>>>>>>
-> >>>>>>> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5670.yaml b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
-> >>>>>>> new file mode 100644
-> >>>>>>> index 000000000000..dc4a3297bf6f
-> >>>>>>> --- /dev/null
-> >>>>>>> +++ b/Documentation/devicetree/bindings/media/i2c/ov5670.yaml
-> >>>>>>
-> >>>>>> Missing vendor prefix in file name.
-> >>>>>
-> >>>>> Right x2
-> >>>>>
-> >>>>>>> @@ -0,0 +1,93 @@
-> >>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >>>>>>> +%YAML 1.2
-> >>>>>>> +---
-> >>>>>>> +$id: http://devicetree.org/schemas/media/i2c/ov5670.yaml#
-> >>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >>>>>>> +
-> >>>>>>> +title: Omnivision OV5670 5 Megapixels raw image sensor
-> >>>>>>> +
-> >>>>>>> +maintainers:
-> >>>>>>> +  - Jacopo Mondi <jacopo@jmondi.org>
-> >>>>>>
-> >>>>>> Please add also driver maintainer.
-> >>>>>
-> >>>>> I never got what the policy was, if the maintainer entries here only
-> >>>>> refer to the binding file or to the driver too
-> >>>>
-> >>>> It is a person responsible for the bindings, so indeed it might not feed
-> >>>> existing maintainer.
-> >>>>
-> >>>>>>> +
-> >>>>>>> +description: |-
-> >>>>>>> +  The OV5670 is a 5 Megapixels raw image sensor which provides images in 10-bits
-> >>>>>>> +  RAW BGGR Bayer format on a 2 data lanes MIPI CSI-2 serial interface and is
-> >>>>>>> +  controlled through an I2C compatible control bus.
-> >>>>>>> +
-> >>>>>>> +properties:
-> >>>>>>> +  compatible:
-> >>>>>>> +    const: ovti,ov5670
-> >>>>>>> +
-> >>>>>>> +  reg:
-> >>>>>>> +    maxItems: 1
-> >>>>>>> +
-> >>>>>>> +  clock-frequency:
-> >>>>>>> +    description: Frequency of the xclk clock.
-> >>>>>>
-> >>>>>> Is the xclk external clock coming to the sensor? If yes, there should be
-> >>>>>> a "clocks" property.
-> >>>>>
-> >>>>> To be honest I was not sure about this, as clock-frequency is already
-> >>>>> used by the driver for the ACPI part, but it seems to in DT bindings
-> >>>>> it is a property meant to be specified in the clock providers, even if
-> >>>>> Documentation/devicetree/bindings/clock/clock-bindings.txt doesn't
-> >>>>> really clarify this
-> >>>>>
-> >>>>> Clock consumer should rather use 'clocks' and point to the provider's
-> >>>>> phandle if my understanding is right.
-> >>>>
-> >>>> This is a clock-frequency, not clock reference. For external clocks, a
-> >>>
-> >>> Yes, I was suggesting to replace clock-frequency with clocks, that
-> >>> accepts a phandle.
-> >>>
-> >>> The thing is, the driver parses 'clock-frequency'
-> >>> 	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
-> >>>
-> >>> which I assume comes from ACPI (as the driver was developed for an
-> >>> ACPI platform).
-> >>>
-> >>> If in DTS we don't use it, I then need to
-> >>>
-> >>> #ifdef CONFIG_ACPI
-> >>>
-> >>> #elif defined CONFIG_OF
-> >>>
-> >>> #endif
-> >>>
-> >>> Which I would really like to avoid.
-> >>>
-> >>> Anyone with ACPI experience that knows where clock-frequency comes
-> >>> from ?
-> >>
-> >> I would assume that ACPI simply does not support common clock framework,
-> >> so it had to use clock-frequency. Several of such drivers were added by
-> >> folks from Intel which use ACPI, not Devicetree.
-> >>
-> >>>> clock phandles + assigned-clock-rates should be rather used. However for
-> >>>> internal clocks, this is a perfectly valid property.
-> >>>>
-> >>>> Therefore the question is - what is the "xclk"?
-> >>>
-> >>> xclk is the clock fed to the sensor, which which all its internal
-> >>> clocks are generated, so it's indeed an 'external' clock. As I've
-> >>> said, clock-frequency seems to be meant for clock providers, and
-> >>> the image sensor is a clock consumer.
-> >>
-> >> Regardless whether clock-frequency stays or not, you need the clocks
-> >> property in such case.
-> > 
-> > Yes, I will have to ifdef in the driver if no better alternatives
+Thank you for the patch.
+
+On Thu, Mar 10, 2022 at 02:08:25PM +0100, Jacopo Mondi wrote:
+> The ov5670 driver currently only supports probing using ACPI matching.
+> Add support for OF and add a missing header inclusion.
 > 
-> I do not see the need of ifdefs... BTW, imx258 has exactly that case -
-> clock-frequency coming from ACPI world but not added to DT bindings.
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  drivers/media/i2c/ov5670.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
+> index 02f75c18e480..39786f3c9489 100644
+> --- a/drivers/media/i2c/ov5670.c
+> +++ b/drivers/media/i2c/ov5670.c
+> @@ -3,7 +3,9 @@
+>  
+>  #include <linux/acpi.h>
+>  #include <linux/i2c.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+> +#include <linux/of.h>
+>  #include <linux/pm_runtime.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+> @@ -2583,6 +2585,12 @@ static const struct acpi_device_id ov5670_acpi_ids[] = {
+>  };
+>  
+>  MODULE_DEVICE_TABLE(acpi, ov5670_acpi_ids);
+> +#elif defined CONFIG_OF
 
-The driver can call clk_get_rate() when a clock is provided, and use the
-clock-frequency property otherwise. I also don't think conditional
-compilation is needed.
+This should be
+
+#ifdef CONFIG_OF
+...
+#endif
+
+to support kernels compiled with both CONFIG_ACPI and CONFIG_OF.
+
+With this fixed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +static const struct of_device_id ov5670_of_ids[] = {
+> +	{ .compatible = "ovti,ov5670" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, ov5670_of_ids);
+>  #endif
+>  
+>  static struct i2c_driver ov5670_i2c_driver = {
+> @@ -2590,6 +2598,7 @@ static struct i2c_driver ov5670_i2c_driver = {
+>  		.name = "ov5670",
+>  		.pm = &ov5670_pm_ops,
+>  		.acpi_match_table = ACPI_PTR(ov5670_acpi_ids),
+> +		.of_match_table = of_match_ptr(ov5670_of_ids),
+>  	},
+>  	.probe_new = ov5670_probe,
+>  	.remove = ov5670_remove,
 
 -- 
 Regards,
