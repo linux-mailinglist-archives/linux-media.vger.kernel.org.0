@@ -2,315 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6D514D75F7
-	for <lists+linux-media@lfdr.de>; Sun, 13 Mar 2022 15:53:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A73FF4D7638
+	for <lists+linux-media@lfdr.de>; Sun, 13 Mar 2022 16:12:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232907AbiCMOy7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Mar 2022 10:54:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40050 "EHLO
+        id S234891AbiCMPNU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Mar 2022 11:13:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230198AbiCMOy6 (ORCPT
+        with ESMTP id S234928AbiCMPNE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Mar 2022 10:54:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 330DB1D302
-        for <linux-media@vger.kernel.org>; Sun, 13 Mar 2022 07:53:50 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97856475;
-        Sun, 13 Mar 2022 15:53:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647183228;
-        bh=tIW3kPy2XzWE2cf6I6vOISFi+fh9bdWqzBU2svhBjS0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jzd+mAopvml0mI8lTilYG/aj7qkJM6hXs5AlyE+LXVyI7HK2v3h2BeowjWKfAforn
-         XnK6RYLJY8c7aEgIjWgMZQYa+0MxsxJXKfCJPxX6XQmVQvBn85ZYPdbIheaQ8lqu+4
-         SQ6/YKQVQ6Rat9VRqu1yoSlHjnWhm8MVEtPuYJC0=
-Date:   Sun, 13 Mar 2022 16:53:32 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        alain.volmat@foss.st.com, hugues.fruchet@foss.st.com,
-        sylvain.petinot@foss.st.com
-Subject: Re: [PATCH 1/2] media: dt-bindings: media: i2c: Add ST VGXY61 camera
- sensor binding
-Message-ID: <Yi4FbHVMECS165Kv@pendragon.ideasonboard.com>
-References: <20220310133255.1946530-1-benjamin.mugnier@foss.st.com>
- <20220310133255.1946530-2-benjamin.mugnier@foss.st.com>
- <CAPY8ntBBrdYBUHk1qzy6Z3xAZbaP5jtnS6CGM=RoyhzrLhJm+A@mail.gmail.com>
- <20abde54-4a26-98fe-f0fb-de51ad1be6c8@foss.st.com>
- <YitK59bd7D0jF0qd@paasikivi.fi.intel.com>
+        Sun, 13 Mar 2022 11:13:04 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B27BC88B1D;
+        Sun, 13 Mar 2022 08:11:35 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id q10so18493812ljc.7;
+        Sun, 13 Mar 2022 08:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=/YZP9Ni2/PwKGjjsTkna0G1iD0zfuNVerQEipZQiGvA=;
+        b=b1ujd0ijJIGHBJN+zrURnFyHRx4NopdcVGI0z9MfmBCpfGy2OdHjc5FX16lcehD14G
+         /w45pj2zr947mi2rn7XgbCFPuHlIucaV+3vNc3DgsSwX6Nw/M6/nd+HPGGqp55iAcwF8
+         4SXE/3cfMCuJKVazPCJjgZvyoWKV2wupiADe8ryXr6rf8i5d4n7/RppwwNnArHMirdVz
+         Cger62S9mh1AWsMinGAIbro9loEjL5d6FwGyiLlNitsjGBrpukIftWzMAhL1WWZUlCJG
+         nRgmur7C3hQZEvbVwxCZQY4JdqUBnsAxVzfFA4b25Pqc1Ar3R4K3PVI9UC/1pTfBM3ec
+         uf+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=/YZP9Ni2/PwKGjjsTkna0G1iD0zfuNVerQEipZQiGvA=;
+        b=ZjAMyAal5lFf7pnyXjFuSUC7ygnU1SiDAaeQaBUapnC087JIxHqy/trak4s8H3cjdf
+         DILz7cTUhSZEqFHYe1XryObSTAdBVgkWiHTy00NysuwW2qNDOfJtoFSCipeTDWd4DSL1
+         WN6U7UChDT87/XMDwia+vgrhz4rSpTcQxAUOFGlVa49ZN0ZKAocDuC2vZx/qQew47Xu+
+         9uFrb6Cwrn+x2vlH32RqHH+aHk+Di5plhiRanPzc/IdpXu4WFb4gWkU/diaFasFpx+6s
+         ZtdtM+srRcy/FjxYdexhKZw4dD2dju9C/DWjTIS0uF/0HPqadzIse6jPArQQGotiXc4m
+         gQgA==
+X-Gm-Message-State: AOAM532lY3uMI5wDbrTVtFefctDlS4ACkgGhaphBMWtBynCFntKtar/6
+        jAogw7NHhQRAA0tAyDCEO0E=
+X-Google-Smtp-Source: ABdhPJyYfMsmbhnKzf9G48TbiEjgm3TG236ZS2wwECO+FK3GwCwJOcE9wxPcZGcCj1Cj2myeRtNO6Q==
+X-Received: by 2002:a2e:b0cc:0:b0:235:dcdf:e6e9 with SMTP id g12-20020a2eb0cc000000b00235dcdfe6e9mr12399014ljl.88.1647184277427;
+        Sun, 13 Mar 2022 08:11:17 -0700 (PDT)
+Received: from [192.168.1.11] ([94.103.229.107])
+        by smtp.gmail.com with ESMTPSA id i6-20020a2ea366000000b00248073ae9a2sm2851984ljn.84.2022.03.13.08.11.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Mar 2022 08:11:16 -0700 (PDT)
+Message-ID: <0d8dfedb-1c2c-1a70-18dc-0c4439cf4bda@gmail.com>
+Date:   Sun, 13 Mar 2022 18:11:15 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YitK59bd7D0jF0qd@paasikivi.fi.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH] media: stkwebcam: move stk_camera_read_reg() scratch
+ buffer to struct stk_camera
+Content-Language: en-US
+To:     Tom Rix <trix@redhat.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, cai.huoqing@linux.dev,
+        xose.vazquez@gmail.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220312173049.1410977-1-trix@redhat.com>
+ <65a1d178-8511-a023-2655-94540114086c@gmail.com>
+ <c3723690-cacb-0c42-cc5d-397a3363b4da@redhat.com>
+From:   Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <c3723690-cacb-0c42-cc5d-397a3363b4da@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Tom,
 
-On Fri, Mar 11, 2022 at 03:13:11PM +0200, Sakari Ailus wrote:
-> On Fri, Mar 11, 2022 at 12:25:38PM +0100, Benjamin Mugnier wrote:
-> > On 10/03/2022 16:38, Dave Stevenson wrote:
-> > > On Thu, 10 Mar 2022 at 13:37, Benjamin Mugnier wrote:
-> > >>
-> > >> Add device tree binding for the ST VGXY61 camera sensor, and update
-> > >> MAINTAINERS file.
-> > >>
-> > >> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> > >> ---
-> > >>  .../bindings/media/i2c/st,st-vgxy61.yaml      | 134 ++++++++++++++++++
-> > >>  MAINTAINERS                                   |  10 ++
-> > >>  2 files changed, 144 insertions(+)
-> > >>  create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
-> > >>
-> > >> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml b/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
-> > >> new file mode 100644
-> > >> index 000000000000..8740ed2623e4
-> > >> --- /dev/null
-> > >> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
-> > >> @@ -0,0 +1,134 @@
-> > >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > >> +# Copyright (c) 2022 STMicroelectronics SA.
-> > >> +%YAML 1.2
-> > >> +---
-> > >> +$id: http://devicetree.org/schemas/media/i2c/st,st-vgxy61.yaml#
-> > >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > >> +
-> > >> +title: STMicroelectronics VGxy61 HDR Global Shutter Sensor Family Device Tree Bindings
-> > >> +
-> > >> +maintainers:
-> > >> +  - Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> > >> +  - Sylvain Petinot <sylvain.petinot@foss.st.com>
-> > >> +
-> > >> +description: |-
-> > >> +  STMicroelectronics VGxy61 family has a CSI-2 output port. CSI-2 output is a
-> > >> +  quad lanes 800Mbps per lane.
-> > >> +  Supported formats are RAW8, RAW10, RAW12, RAW14 and RAW16.
-> > >> +  Following part number are supported
-> > >> +  - VG5661 and VG6661 are 1.6 Mpx (1464 x 1104) monochrome and color sensors.
-> > >> +  Maximum frame rate is 75 fps.
-> > >> +  - VG5761 and VG6761 are 2.3 Mpx (1944 x 1204) monochrome and color sensors.
-> > >> +  Maximum frame rate is 60 fps.
-> > >> +
-> > >> +properties:
-> > >> +  compatible:
-> > >> +    const: st,st-vgxy61
-> > >> +
-> > >> +  reg:
-> > >> +    maxItems: 1
-> > >> +
-> > >> +  clocks:
-> > >> +    maxItems: 1
-> > >> +
-> > >> +  clock-names:
-> > >> +    description:
-> > >> +      Input clock for the sensor.
-> > >> +    items:
-> > >> +      - const: xclk
+On 3/13/22 02:48, Tom Rix wrote:
+> These do show up in my usual static analysis and it why I was looking at
+> this file.
 > 
-> Do you need this if you have a single clock?
+> And was sidetracked by the short malloc.
 > 
-> Also see Documentation/driver-api/media/camera-sensor.rst .
+> Unfortunately I looked and there are many other similar instances
+> treewide ~100
 > 
-> > >> +
-> > >> +  VCORE-supply:
-> > >> +    description:
-> > >> +      Sensor digital core supply. Must be 1.2 volts.
-> > >> +
-> > >> +  VDDIO-supply:
-> > >> +    description:
-> > >> +      Sensor digital IO supply. Must be 1.8 volts.
-> > >> +
-> > >> +  VANA-supply:
-> > >> +    description:
-> > >> +      Sensor analog supply. Must be 2.8 volts.
-> > >> +
-> > >> +  reset-gpios:
-> > >> +    description:
-> > >> +      Reference to the GPIO connected to the reset pin, if any.
-> > >> +      This is an active low signal to the vgxy61.
-> > >> +
-> > >> +  invert-gpios-polarity:
-> > >> +    description:
-> > >> +      If gpios polarity should be inversed
-> > > 
-> > > s/inversed/inverted
-> > > 
-> > 
-> > Ok.
-> > 
-> > >> +    type: boolean
-> > >> +
-> > >> +  slave-mode:
-> > >> +    description:
-> > >> +      If the sensor operates in slave mode
-> > >> +    type: boolean
-> > > 
-> > > This is one I've been meaning to raise for a while.
-> > > Is DT the correct place to be configuring hardware sync options for
-> > > image sensors? (There may be the linguistic discussions over master /
-> > > slave terminology too).
-> > > We also have IMX477 and a number of other sensors that support
-> > > external sync control of some form.
-> > > 
-> > > As I see it, there are nominally 3 settings - disabled (reduces EMC
-> > > noise), generate syncs, and receive syncs.
-> > > For test purposes it would be useful to be able to switch between
-> > > generate and receive modes at runtime, so that would make it a control
-> > > instead of being fixed in DT.
-> > > 
-> > > If it should be configured in DT, then how does ACPI need to handle it?
-> > > 
-> > > If DT is the correct place to define the role, should it be in
-> > > video-interfaces.yaml as an optional property, instead of being a
-> > > sensor specific binding?
-> > > 
-> > > Sorry, more questions rather than answers.
-> > > 
-> > >   Dave
-> > 
-> > Maybe I can provide additional info on this sensor to help find an
-> > answer. The "slave mode" has 2 settings: enabled or disabled. If disabled
-> > you are in master mode ('generate sync' and 'disabled' modes Dave
-> > mentionned, they are the same here), and if enabled you are in slave mode
-> > ('receive sync'). As you said he master sends frame sync signals to the
-> > slave each frame acquired, this allows both sensors to synchronize
-> > themselves.
-> > 
-> > I put this in the device tree as we only use it for 3D stereocam boards
-> > which already have 2 sensors on them, meaning this is hardware specific.
-> > I don't have any use case where we manually wire 2 sensors on 2 separate
-> > boards. One good point you mentioned is that I may not always want run
-> > this board in master/slaver, and both sensors could run on master mode
-> > without interacting with each other, thus justifying a dedicated v4l2
-> > control.
-> > 
-> > Any ideas on how to name it instead of "slave mode" for coherency between
-> > sensors?
-> 
-> How is this wired? The slave-mode property documentation explicitly refers
-> to synchronisation signals that do not exists in CSI-2.
 
-What is slave mode in this case ? Does it only mean that the sensor is
-externally triggered, or is there something else ? For parallel
-interfaces with H/V sync there's a possibility of the H/V sync signals
-being inputs instead of outputs, but that's not applicable to CSI-2.
+Most of them are in very old drivers and I don't think they ever be 
+fixed. I've looked into one bug reported by syzkaller and there was like 
+30 calls w/o proper error handling in one driver. Redoing whole driver 
+logic without access to hw seems dangerous :))
 
-> > >> +    #TODO check all this or copy from elsewhere
-> > 
-> > Just noticed this and will remove it.
-> > 
-> > >> +  port:
-> > >> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > >> +    additionalProperties: false
-> > >> +
-> > >> +    properties:
-> > >> +      endpoint:
-> > >> +        $ref: /schemas/media/video-interfaces.yaml#
-> > >> +        unevaluatedProperties: false
-> > >> +
-> > >> +        properties:
-> > >> +          clock-lane:
-> > >> +            description:
-> > >> +              Clock lane index
-> > >> +            maxItems: 1
-> 
-> Does the device support lane reordering? If not, please drop.
-> 
-> > >> +
-> > >> +          data-lanes:
-> > >> +            description:
-> > >> +              CSI lanes to use
-> > >> +            items:
-> > >> +              - const: 1
-> > >> +              - const: 2
-> > >> +              - const: 3
-> > >> +              - const: 4
-> 
-> Which lane configurations does the device support? If it's four lanes only,
-> then you can drop this property, too.
-> 
-> > >> +
-> > >> +          remote-endpoint: true
-> > >> +
-> > >> +        required:
-> > >> +          - clock-lane
-> > >> +          - data-lanes
-> > >> +          - remote-endpoint
-> 
-> Listing remote-endpoint here isn't needed as this comes from the schema.
-> 
-> > >> +
-> > >> +required:
-> > >> +  - compatible
-> > >> +  - clocks
-> > >> +  - clock-names
-> > >> +  - VCORE-supply
-> > >> +  - VDDIO-supply
-> > >> +  - VANA-supply
-> > >> +
-> > >> +additionalProperties: false
-> > >> +
-> > >> +examples:
-> > >> +  - |
-> > >> +    #include <dt-bindings/gpio/gpio.h>
-> > >> +    i2c {
-> > >> +        #address-cells = <1>;
-> > >> +        #size-cells = <0>;
-> > >> +        vgxy61: csi2tx@10 {
-> > >> +            compatible = "st,st-vgxy61";
-> > >> +            reg = <0x10>;
-> > >> +            status = "okay";
-> > >> +            clocks = <&clk_ext_camera>;
-> > >> +            clock-names = "xclk";
-> > >> +            VCORE-supply = <&v1v2>;
-> > >> +            VDDIO-supply = <&v1v8>;
-> > >> +            VANA-supply = <&v2v8>;
-> > >> +            reset-gpios = <&mfxgpio 18 GPIO_ACTIVE_LOW>;
-> > >> +            port {
-> > >> +                ep0: endpoint {
-> > >> +                    clock-lane = <0>;
-> > >> +                    data-lanes = <1 2 3 4>;
-> > >> +                    remote-endpoint = <&mipi_csi2_out>;
-> > >> +                };
-> > >> +            };
-> > >> +        };
-> > >> +    };
-> > >> +...
-> > >> diff --git a/MAINTAINERS b/MAINTAINERS
-> > >> index 83d27b57016f..f358d15f68a0 100644
-> > >> --- a/MAINTAINERS
-> > >> +++ b/MAINTAINERS
-> > >> @@ -18297,6 +18297,16 @@ S:     Maintained
-> > >>  F:     Documentation/hwmon/stpddc60.rst
-> > >>  F:     drivers/hwmon/pmbus/stpddc60.c
-> > >>
-> > >> +ST VGXY61 DRIVER
-> > >> +M:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> > >> +M:     Sylvain Petinot <sylvain.petinot@foss.st.com>
-> > >> +L:     linux-media@vger.kernel.org
-> > >> +S:     Maintained
-> > >> +T:     git git://linuxtv.org/media_tree.git
-> > >> +F:     Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.txt
-> > >> +F:     drivers/media/i2c/st-vgxy61.c
-> > >> +
-> 
-> Extra newline.
-> 
-> > >> +
-> > >>  ST VL53L0X ToF RANGER(I2C) IIO DRIVER
-> > >>  M:     Song Qiang <songqiang1304521@gmail.com>
-> > >>  L:     linux-iio@vger.kernel.org
 
--- 
-Regards,
+> These aren't caught in checkpatch, so working on that..
+> 
 
-Laurent Pinchart
+I think, it's not checkpath responsibility. Maybe it worth adding such 
+check to smatch. I tried to implement such checker, but never finished it :(
+
+
+
+With regards,
+Pavel Skripkin
