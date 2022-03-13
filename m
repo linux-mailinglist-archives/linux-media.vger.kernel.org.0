@@ -2,300 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F2664D74D3
-	for <lists+linux-media@lfdr.de>; Sun, 13 Mar 2022 12:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6962A4D74E8
+	for <lists+linux-media@lfdr.de>; Sun, 13 Mar 2022 12:04:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234668AbiCMLB0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Mar 2022 07:01:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49298 "EHLO
+        id S232041AbiCMLGD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Mar 2022 07:06:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234654AbiCMLBX (ORCPT
+        with ESMTP id S230514AbiCMLGC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Mar 2022 07:01:23 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BD3ED4464;
-        Sun, 13 Mar 2022 04:00:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C328CB80CA9;
-        Sun, 13 Mar 2022 11:00:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9060C340EC;
-        Sun, 13 Mar 2022 11:00:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647169213;
-        bh=K6raQ3hcVYXvtlWvYXOLgzshf6ywpYtouqfgtS4XSgI=;
-        h=Date:From:Cc:Subject:In-Reply-To:References:From;
-        b=f6FajvJWGzBUEAJpip4FTCW+ziT2N4Fes+bwxhm6P4X7wHhwUaOMcP7i6caQXwqAV
-         SWFJaTRBzr7UeVqgZ+iQvK2L3/es8ZmF5h5H5xaq7iNbSQ7hOWUmfOoqgkr4yH0Kyi
-         NtI8zelQGEh4QkIsNyt+pRe1NmA2S5GeVN6NyJtGOiToEcx9OvPpDe6BbFPYjsJ0TW
-         Q2BxYhRUItV5G1A7lThY+qbpnEFFMkYGlshPOVw01Xmd9feBk2BRWRn4e0xWiwwXF3
-         /6jc7G1QK35edetsIKmeke+nHWz8o2iqh3gG38fXqgG+tLtV3iKAFRUZpClo/8XJVp
-         Lk/RW6spFk5+g==
-Date:   Sun, 13 Mar 2022 12:00:02 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Eddie James <eajames@linux.ibm.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        openbmc@lists.ozlabs.org
-Subject: Re: [PATCH 00/24] Organize media platform drivers per manufacturer
-Message-ID: <20220313120002.0d782ce7@coco.lan>
-In-Reply-To: <cover.1647167750.git.mchehab@kernel.org>
-References: <cover.1647167750.git.mchehab@kernel.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        Sun, 13 Mar 2022 07:06:02 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D527B562
+        for <linux-media@vger.kernel.org>; Sun, 13 Mar 2022 04:04:51 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nTM1m-006F72-2p; Sun, 13 Mar 2022 11:04:46 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nTM1k-003ERq-5v; Sun, 13 Mar 2022 11:04:43 +0000
+Date:   Sun, 13 Mar 2022 11:04:43 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        mchehab@linuxtv.org
+Message-ID: <831443811.0.1647169483615@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media_stage_gcc #51
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MISSING_HEADERS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media_stage_gcc
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sun, 13 Mar 2022 11:51:41 +0100
-Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+See <https://builder.linuxtv.org/job/media_stage_gcc/51/display/redirect?page=changes>
 
-> This series comes after the one I sent earlier today sorting media/platform Makefile and Kconfig.
-> 
-> It basically groups all drivers per vendor, ensuring that each vendor has a Makefile/Kconfig
-> pair.
-> 
-> The end goal is to keep the platform Makefile/Kconfig clean and easier to maintain, less
-> prune to errors. After applying both series, the size of such files were drastically reduced:
-> 
-> 	 drivers/media/platform/Kconfig  |  731 ++------------------------------
-> 	 drivers/media/platform/Makefile |  115 +----
-> 	 2 files changed, 78 insertions(+), 768 deletions(-)
-> 
-> Mauro Carvalho Chehab (24):
->   media: platform: rename coda/ to chips-media/
->   media: platform: rename marvell-ccic/ to marvell/
->   media: platform: rename meson/ge2d/ to amlogic/meson-ge2d/
->   media: platform: rename mtk-jpeg/ to mediatek/mtk-jpeg/
->   media: platform: rename mtk-mdp/ to mediatek/mtk-mdp/
->   media: platform: rename mtk-vcodec/ to mediatek/mtk-vcodec/
->   media: platform: rename mtk-vpu/ to mediatek/mtk-vpu/
->   media: platform: rename sunxi/ to allwinner/
->   media: platform: rename tegra/vde/ to nvidia/tegra-vde/
->   media: platform: rename amphion/ to nxp/amphion/
->   media: platform: rename exynos4-is/ to samsung/exynos4-is/
->   media: platform: rename exynos-gsc/ to samsung/exynos-gsc/
->   media: platform: rename s3c-camif/ to samsung/s3c-camif/
->   media: platform: rename s5p-g2d/ to samsung/s5p-g2d/
->   media: platform: rename s5p-jpeg/ to samsung/s5p-jpeg/
->   media: platform: rename s5p-mfc/ to samsung/s5p-mfc/
->   media: platform: rename stm32/ to sti/stm32/
->   media: platform: rename am437x/ to ti/am437x/
->   media: platform: rename davinci/ to ti/davinci/
->   media: platform: rename omap3isp/ to ti/omap3isp/
->   media: platform: rename omap/ to ti/omap/
->   media: platform: rename ti-vpe/ to ti/vpe/
->   media: platform: Create vendor/{Makefile,Kconfig} files
+Changes:
 
-Worth mention that, while the above changes are really trivial, it is
-no fun to do them individually. It is also subject to errors.
+[Mauro Carvalho Chehab] media: platform: rename coda/ to chips-media/
 
-So, after manually doing a couple of them, I decided to revert
-to the original state and do it via the script below, checking
-the patches and editing the last one.
+[Mauro Carvalho Chehab] media: platform: rename marvell-ccic/ to marvell/
 
-Thanks,
-Mauro
+[Mauro Carvalho Chehab] media: platform: rename meson/ge2d/ to amlogic/meson-ge2d/
 
----
+[Mauro Carvalho Chehab] media: platform: rename mtk-jpeg/ to mediatek/mtk-jpeg/
 
-#!/bin/bash -e
+[Mauro Carvalho Chehab] media: platform: rename mtk-mdp/ to mediatek/mtk-mdp/
 
-export LC_ALL=C # Needed by sort
+[Mauro Carvalho Chehab] media: platform: rename mtk-vcodec/ to mediatek/mtk-vcodec/
 
-TMP=$(mktemp /tmp/rename.XXXXXXXXX)
+[Mauro Carvalho Chehab] media: platform: rename mtk-vpu/ to mediatek/mtk-vpu/
 
-trap 'catch $LINENO' ERR SIGINT
-catch()
-{
-	echo "Error on line $1"
-	rm $TMP || true
-	exit 1
-}
+[Mauro Carvalho Chehab] media: platform: rename sunxi/ to allwinner/
 
-sort_makefile()
-{
-	# sort Makefile
-	sed '/^obj-y/Q' drivers/media/platform/Makefile> $TMP
-	grep "^obj-y" drivers/media/platform/Makefile |sort | uniq >> $TMP
-	cat <<EOF >> $TMP
+[Mauro Carvalho Chehab] media: platform: rename tegra/vde/ to nvidia/tegra-vde/
 
-# Please place here only ancillary drivers that aren't SoC-specific
-# Please keep it alphabetically sorted by Kconfig name
-# (e. g. LC_ALL=C sort Makefile)
-obj-\$(CONFIG_VIDEO_MEM2MEM_DEINTERLACE)	+= m2m-deinterlace.o
-obj-\$(CONFIG_VIDEO_MUX)			+= video-mux.o
-EOF
-	mv $TMP drivers/media/platform/Makefile
-}
+[Mauro Carvalho Chehab] media: platform: rename amphion/ to nxp/amphion/
 
-sort_kconfig()
-{
-	# sort Kconfig
-	sed '/^source/Q' drivers/media/platform/Kconfig> $TMP
-	grep "^source" drivers/media/platform/Kconfig |sort | uniq >> $TMP
-	cat <<EOF >> $TMP
+[Mauro Carvalho Chehab] media: platform: rename exynos4-is/ to samsung/exynos4-is/
 
-endif # MEDIA_PLATFORM_DRIVERS
-EOF
+[Mauro Carvalho Chehab] media: platform: rename exynos-gsc/ to samsung/exynos-gsc/
 
-	mv $TMP drivers/media/platform/Kconfig
-}
+[Mauro Carvalho Chehab] media: platform: rename s3c-camif/ to samsung/s3c-camif/
 
-do_rename_vendor()
-{
-	old=$(echo $1 |perl -ne 's,/$,,; print $_')
-	new=$(echo $2 |perl -ne 's,/$,,; print $_')
+[Mauro Carvalho Chehab] media: platform: rename s5p-g2d/ to samsung/s5p-g2d/
 
-	echo "$old -> $new"
+[Mauro Carvalho Chehab] media: platform: rename s5p-jpeg/ to samsung/s5p-jpeg/
 
-	mkdir -p dirname drivers/media/platform/$new
+[Mauro Carvalho Chehab] media: platform: rename s5p-mfc/ to samsung/s5p-mfc/
 
-	git mv drivers/media/platform/$old/* drivers/media/platform/$new/
+[Mauro Carvalho Chehab] media: platform: rename stm32/ to sti/stm32/
 
-	sed s,$old/,$new/, -i $(find drivers/media/platform/ -name Kconfig) $(find drivers/media/platform/ -name Makefile)
-	sed s,drivers/media/platform/$old,drivers/media/platform/$new, -i $(git grep -l drivers/media/platform/$old) || true
+[Mauro Carvalho Chehab] media: platform: rename am437x/ to ti/am437x/
 
-	# Remove obj files, to make the directory cleaner
-	rm -rf drivers/media/platform/$old/ || true
+[Mauro Carvalho Chehab] media: platform: rename davinci/ to ti/davinci/
 
-	sort_makefile
-	sort_kconfig
+[Mauro Carvalho Chehab] media: platform: rename omap3isp/ to ti/omap3isp/
 
-	cat <<EOF >> $TMP
-media: platform: rename $old/ to $new/
+[Mauro Carvalho Chehab] media: platform: rename omap/ to ti/omap/
 
-As the end goal is to have platform drivers split by vendor,
-rename $old/ to $new/.
-EOF
+[Mauro Carvalho Chehab] media: platform: rename ti-vpe/ to ti/vpe/
 
-	git commit -as -m "$(cat $TMP)" --no-edit
-}
+[Mauro Carvalho Chehab] media: platform: Create vendor/{Makefile,Kconfig} files
 
-do_rename_vendor coda chips-media
-do_rename_vendor marvell-ccic/ marvell/
-do_rename_vendor meson/ge2d/ amlogic/meson-ge2d/
-do_rename_vendor mtk-jpeg mediatek/mtk-jpeg
-do_rename_vendor mtk-mdp mediatek/mtk-mdp
-do_rename_vendor mtk-vcodec mediatek/mtk-vcodec
-do_rename_vendor mtk-vpu mediatek/mtk-vpu
-do_rename_vendor sunxi/ allwinner/
-do_rename_vendor tegra/vde nvidia/tegra-vde
-do_rename_vendor amphion nxp/amphion
-do_rename_vendor exynos4-is/ samsung/exynos4-is/
-do_rename_vendor exynos-gsc samsung/exynos-gsc
-do_rename_vendor s3c-camif samsung/s3c-camif
-do_rename_vendor s5p-g2d samsung/s5p-g2d
-do_rename_vendor s5p-jpeg samsung/s5p-jpeg
-do_rename_vendor s5p-mfc samsung/s5p-mfc
-do_rename_vendor stm32 sti/stm32
-do_rename_vendor am437x/ ti/am437x/
-do_rename_vendor davinci ti/davinci
-do_rename_vendor omap3isp ti/omap3isp
-do_rename_vendor omap ti/omap
-do_rename_vendor ti-vpe ti/vpe
+[Mauro Carvalho Chehab] media: Kconfig: cleanup VIDEO_DEV dependencies
 
-# Create or update drivers/media/platform/*/Kconfig
+[Mauro Carvalho Chehab] media: platform/*/Kconfig: make menus more uniform
 
-IFS=$'\n'
 
-# Fixup Kconfig files
-for i in $(cat drivers/media/platform/Kconfig|perl -ne 'if (m,platform/([^/]+)/([^/]+)/Kconfig,) { print "$1 $2\n" }'); do
-        echo "Handling $i Kconfig entries"
-
-        a=$(echo $i|cut -d' ' -f1)
-        b=$(echo $i|cut -d' ' -f2)
-
-	kconfig="drivers/media/platform/$a/$b/Kconfig"
-	parent="drivers/media/platform/$a/Kconfig"
-
-        if [ ! -e $parent ]; then
-                echo "creating $parent..."
-                echo "# SPDX-License-Identifier: GPL-2.0" > $parent
-		git add $parent
-        fi
-
-        echo "source \"$kconfig\"" >> drivers/media/platform/$a/Kconfig
-        echo "source \"$parent\"" >> drivers/media/platform/Kconfig
-
-        sed s,$kconfig,$parent, -i drivers/media/platform/Kconfig
-
-        echo "sorting..."
-	sort_kconfig
-done
-
-# Create or update drivers/media/platform/*/Makefile
-
-for i in $(cat drivers/media/platform/Makefile|perl -ne 'if (m,.*=\s*([^/]+)/([^/]+)/,) { print "$1 $2\n" }'); do
-        echo "Handling $i Makefile entries"
-
-        a=$(echo $i|cut -d' ' -f1)
-        b=$(echo $i|cut -d' ' -f2)
-
-        make="$a/$b/"
-        parent="$a/"
-
-        if [ ! -e drivers/media/platform/$a/Makefile ]; then
-                echo "creating $parent..."
-                echo "# SPDX-License-Identifier: GPL-2.0" > drivers/media/platform/$a/Makefile
-                git add drivers/media/platform/$a/Makefile
-        fi
-        echo "obj-y += $b/" >> drivers/media/platform/$a/Makefile
-        echo "obj-y += $parent" >> drivers/media/platform/Makefile
-
-        sed s,$make\$,$parent, -i drivers/media/platform/Makefile
-done
-
-sort_kconfig
-sort_makefile
-
-	cat <<EOF >> $TMP
-media: platform: Create vendor/{Makefile,Kconfig} files
-
-Instead of placing multiple per-vendor entries at the
-platform/{Makefile,Kconfig}, create them at the per-vendor
-directories.
-EOF
-
-git commit -as -m "$(cat $TMP)" --no-edit
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media_stage_gcc/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media_stage_gcc/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_stage.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_stage.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_stage.git +refs/heads/*:refs/remotes/origin/* # timeout=30
+Seen branch in repository origin/master
+Seen 1 remote branch
+ > git show-ref --tags -d # timeout=10
+Checking out Revision 9d8c4cc1be6c37e66662141f1a3ebc8b54cb8dae (origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 9d8c4cc1be6c37e66662141f1a3ebc8b54cb8dae # timeout=10
+Commit message: "media: platform/*/Kconfig: make menus more uniform"
+ > git rev-list --no-walk 42ae3d28d4d822f3e14db76b99f2f4c41688ae3e # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 9d8c4cc1be6c37e66662141f1a3ebc8b54cb8dae^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_stage.git'
+[GitCheckoutListener] Found previous build 'media_stage_gcc #50' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '42ae3d2'
+[GitCheckoutListener] -> Using head commit '9d8c4cc' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@145a50b3'
+[GitCheckoutListener] -> Recorded 200 new commits
+[media_stage_gcc] $ /bin/sh -xe /tmp/jenkins2668577474544715585.sh
++ export CCACHE_DIR=/var/lib/jenkins/.ccache
++ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
++ make W=1 allyesconfig
+#
+# configuration written to .config
+#
++ ./scripts/config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS -d CHECK_SIGNATURE
++ make W=1 init
+  SYNC    include/config/auto.conf.cmd
+  DESCEND objtool
+  CALL    scripts/atomic/check-atomics.sh
+  CALL    scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
++ make W=1 -j9 drivers/staging/media/
+  DESCEND objtool
+  CALL    scripts/atomic/check-atomics.sh
+  CALL    scripts/checksyscalls.sh
++ make W=1 -j9 drivers/media/
+  DESCEND objtool
+  CALL    scripts/atomic/check-atomics.sh
+  CALL    scripts/checksyscalls.sh
+  CC      drivers/media/platform/allwinner/sun4i-csi/sun4i_csi.o
+  CC      drivers/media/platform/allwinner/sun4i-csi/sun4i_dma.o
+  CC      drivers/media/platform/allwinner/sun6i-csi/sun6i_video.o
+  CC      drivers/media/platform/allwinner/sun6i-csi/sun6i_csi.o
+  CC      drivers/media/platform/allwinner/sun4i-csi/sun4i_v4l2.o
+  CC      drivers/media/platform/allwinner/sun8i-di/sun8i-di.o
+  CC      drivers/media/platform/allwinner/sun8i-rotate/sun8i_rotate.o
+  CC      drivers/media/platform/allwinner/sun8i-rotate/sun8i_formats.o
+  CC      drivers/media/platform/amlogic/meson-ge2d/ge2d.o
+  AR      drivers/media/platform/allwinner/sun6i-csi/built-in.a
+  CC      drivers/media/platform/chips-media/coda-common.o
+  CC      drivers/media/platform/chips-media/coda-bit.o
+  AR      drivers/media/platform/allwinner/sun4i-csi/built-in.a
+  CC      drivers/media/platform/chips-media/coda-gdi.o
+  CC      drivers/media/platform/chips-media/coda-h264.o
+  CC      drivers/media/platform/chips-media/coda-mpeg2.o
+  AR      drivers/media/platform/allwinner/sun8i-rotate/built-in.a
+  CC      drivers/media/platform/chips-media/coda-mpeg4.o
+  AR      drivers/media/platform/allwinner/sun8i-di/built-in.a
+  AR      drivers/media/platform/allwinner/built-in.a
+  CC      drivers/media/platform/chips-media/coda-jpeg.o
+  CC      drivers/media/platform/marvell/cafe-driver.o
+  AR      drivers/media/platform/amlogic/meson-ge2d/built-in.a
+  AR      drivers/media/platform/amlogic/built-in.a
+  CC      drivers/media/platform/chips-media/imx-vdoa.o
+  CC      drivers/media/platform/mediatek/mtk-jpeg/mtk_jpeg_core.o
+  CC      drivers/media/platform/mediatek/mtk-jpeg/mtk_jpeg_dec_hw.o
+  CC      drivers/media/platform/mediatek/mtk-jpeg/mtk_jpeg_dec_parse.o
+  CC      drivers/media/platform/mediatek/mtk-jpeg/mtk_jpeg_enc_hw.o
+  CC      drivers/media/platform/marvell/mcam-core.o
+scripts/Makefile.build:44: drivers/media/platform/nvidia/Makefile: No such file or directory
+make[4]: *** No rule to make target 'drivers/media/platform/nvidia/Makefile'.  Stop.
+make[3]: *** [scripts/Makefile.build:550: drivers/media/platform/nvidia] Error 2
+make[3]: *** Waiting for unfinished jobs....
+  CC      drivers/media/platform/marvell/mmp-driver.o
+  CC      drivers/media/platform/mediatek/mtk-mdp/mtk_mdp_core.o
+  CC      drivers/media/platform/mediatek/mtk-mdp/mtk_mdp_comp.o
+  CC      drivers/media/platform/mediatek/mtk-mdp/mtk_mdp_m2m.o
+  CC      drivers/media/platform/mediatek/mtk-mdp/mtk_mdp_regs.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/vdec/vdec_h264_if.o
+  AR      drivers/media/platform/mediatek/mtk-jpeg/built-in.a
+  CC      drivers/media/platform/mediatek/mtk-vcodec/vdec/vdec_vp8_if.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/vdec/vdec_vp9_if.o
+  CC      drivers/media/platform/mediatek/mtk-mdp/mtk_mdp_vpu.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/vdec/vdec_h264_req_if.o
+  CC      drivers/media/platform/mediatek/mtk-vpu/mtk_vpu.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_dec_drv.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/vdec_drv_if.o
+  AR      drivers/media/platform/marvell/built-in.a
+  CC      drivers/media/platform/mediatek/mtk-vcodec/vdec_vpu_if.o
+  AR      drivers/media/platform/chips-media/built-in.a
+  CC      drivers/media/platform/mediatek/mtk-vcodec/vdec_msg_queue.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_dec.o
+  AR      drivers/media/platform/mediatek/mtk-mdp/built-in.a
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_dec_stateful.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_dec_stateless.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_dec_pm.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/venc/venc_vp8_if.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/venc/venc_h264_if.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_enc.o
+  AR      drivers/media/platform/mediatek/mtk-vpu/built-in.a
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_enc_drv.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_enc_pm.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/venc_drv_if.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/venc_vpu_if.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_intr.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_util.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_fw.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_fw_vpu.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_fw_scp.o
+  CC      drivers/media/platform/mediatek/mtk-vcodec/mtk_vcodec_dec_hw.o
+  AR      drivers/media/platform/mediatek/mtk-vcodec/built-in.a
+  AR      drivers/media/platform/mediatek/built-in.a
+make[2]: *** [scripts/Makefile.build:550: drivers/media/platform] Error 2
+make[1]: *** [scripts/Makefile.build:550: drivers/media] Error 2
+make: *** [Makefile:1831: drivers] Error 2
+Build step 'Execute shell' marked build as failure
