@@ -2,156 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 944E14D737F
-	for <lists+linux-media@lfdr.de>; Sun, 13 Mar 2022 08:23:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A26E4D73F5
+	for <lists+linux-media@lfdr.de>; Sun, 13 Mar 2022 10:27:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233860AbiCMHYL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Mar 2022 03:24:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46368 "EHLO
+        id S234135AbiCMJ2Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Mar 2022 05:28:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233603AbiCMHXK (ORCPT
+        with ESMTP id S231891AbiCMJ2X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Mar 2022 03:23:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B9721945C3;
-        Sat, 12 Mar 2022 23:21:58 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EE60560F74;
-        Sun, 13 Mar 2022 07:21:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D74DAC36AFE;
-        Sun, 13 Mar 2022 07:21:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647156114;
-        bh=kW9qVy+SfLizvyA+Wv88ZMn7Oou1yegsNRLTfWjNngw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UKmwiD6LAyQaeyqAWOZxuDB3qnn3vZRjuORNfEfEjh+4X+a1r0N50DKQ5lncrK5Tm
-         Ppl7Y2vweQs3yF3x/DJhU8npPmrgfEDTF55KBE3hOTOcOSw7X9DWn8JOZf1OHlgXiX
-         QrwLui4Vb2LqOIgJwCtHiPO0OHl2NARiaQ5b0D1SxEAgWXLxWb/E/S5hAJo8JA1NNk
-         hiQ5SBbbz/NK5Cf4RTbSeJQPNHZJdsRspMUgcSjYEMATWSZP4ZcgROOPGIeD3/yEd1
-         /9/ePvr1Ydj9OShNuRU31u9bI+f1n1RLofNBhVpKIn3eXwWLYsizoCGlG5KBzBtnDw
-         WBu9ZLpvyozqA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1nTIY4-0012y0-LR; Sun, 13 Mar 2022 08:21:52 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ming Qian <ming.qian@nxp.com>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH v3 39/39] media: platform: Kconfig: place platform drivers on a submenu
-Date:   Sun, 13 Mar 2022 08:21:48 +0100
-Message-Id: <8d251866e64326a98f1d21e0ac0e150c46c0498c.1647155572.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1647155572.git.mchehab@kernel.org>
-References: <cover.1647155572.git.mchehab@kernel.org>
+        Sun, 13 Mar 2022 05:28:23 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0A7FA22D;
+        Sun, 13 Mar 2022 01:27:16 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DA62492;
+        Sun, 13 Mar 2022 10:27:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1647163634;
+        bh=5fzYKPeKVvCjG/8w4Q5PwtknY0GBcf3hhFb+xSV4Duo=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=pqxofatWVI8GVPkQ0HFaYe4BvJ0C/aENfgfajKDN1vDh3Yo92r/8D6W8OeduuRIrv
+         gDc99C1vX1orqCtnI1z44XT5J7QQVe9A1aBCF61RdvV5R0qUg99F0WetZU2frbp9Br
+         4+MLCsPgv7AMnDfXoF/7uADBpvkx3Gfa7sCmkxDA=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Yi0IH48oA8ztvX8K@latitude>
+References: <20220312203323.626657-1-j.neuschaefer@gmx.net> <Yi0F6mUm7iCRGvCt@pendragon.ideasonboard.com> <Yi0IH48oA8ztvX8K@latitude>
+Subject: Re: [PATCH] docs: media: uvcvideo: Update mailing list address
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Jonathan =?utf-8?q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        linux-media@vger.kernel.org, linux-uvc-devel@lists.sourceforge.net,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org
+To:     Jonathan =?utf-8?q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date:   Sun, 13 Mar 2022 09:27:12 +0000
+Message-ID: <164716363247.3407360.2736836911812651199@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Just like media bus drivers, place platform drivers on a
-submenu, in order to better organize user-selection:
+Quoting Jonathan Neusch=C3=A4fer (2022-03-12 20:52:47)
+> On Sat, Mar 12, 2022 at 10:43:22PM +0200, Laurent Pinchart wrote:
+> > Hi Jonathan,
+> >=20
+> > Thank you for the patch.
+> >=20
+> > On Sat, Mar 12, 2022 at 09:33:22PM +0100, Jonathan Neusch=C3=A4fer wrot=
+e:
+> > > The mailing list address for UVC development has changed a while ago,
+> > > but it was only updated in MAINTAINERS, not in the documentation.
+> > > Update it there, too.
+> >=20
+> > Thanks for bringing this to my attention, I didn't know we were still
+> > referencing that old list.
+> >=20
+> > How about moving to the linux-media@vger.kernel.org mailing list instead
+> > ? I don't see many reasons to treat this driver with a special mailing
+> > list anymore.
+>=20
+> Fine by me, but I'll wait for the opinion of others who more regularly
+> contribute to the media subsystem.
 
-    Media drivers  --->
-	    *** media drivers ***
-	[*] Media USB Adapters  --->
-	[*] Media PCI Adapters  --->
-	-*- Radio Adapters  --->
-	[*] Media platform devices  --->
-	    *** MMC/SDIO DVB adapters ***
-	< > Siano SMS1xxx based MDTV via SDIO interface
-	[*] V4L test drivers  --->
-	[*] DVB test drivers  --->
-	    *** FireWire (IEEE 1394) Adapters ***
-	<*> FireDTV and FloppyDTV
-	    *** common driver options ***
-	[ ] Enable Remote Controller support for Siano devices
-	[ ] Enable debugfs for smsdvb
+Being subscribed to the linux-uvc-devel list, and seeing that it's a
+black hole where people post, and unfortunately get very little to no
+response I certainly concur that it needs to be changed.
 
-As this submenu depends on MEDIA_PLATFORM_DRIVERS and defaults to "y",
-there's no need to change already-existing .config entries, nor touch
-the several make *_defconfig.
+I don't think we can guarantee a better response with linux-media, but
+at least it's the right place, where the driver is actually maintained.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
+So I also believe it should be moved to linux-media.
 
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH v3 00/39] at: https://lore.kernel.org/all/cover.1647155572.git.mchehab@kernel.org/
+--
+Kieran
 
- drivers/media/Kconfig          |  8 +++++---
- drivers/media/platform/Kconfig | 10 ++++++++++
- 2 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index f3f24c63536b..01b536863657 100644
---- a/drivers/media/Kconfig
-+++ b/drivers/media/Kconfig
-@@ -216,13 +216,12 @@ menu "Media drivers"
- comment "Drivers filtered as selected at 'Filter media drivers'"
- 	depends on MEDIA_SUPPORT_FILTER
- 
-+comment "media drivers"
-+
- source "drivers/media/usb/Kconfig"
- source "drivers/media/pci/Kconfig"
- source "drivers/media/radio/Kconfig"
- 
--# Common driver options
--source "drivers/media/common/Kconfig"
--
- if MEDIA_PLATFORM_SUPPORT
- source "drivers/media/platform/Kconfig"
- source "drivers/media/mmc/Kconfig"
-@@ -234,6 +233,9 @@ endif
- 
- source "drivers/media/firewire/Kconfig"
- 
-+# Common driver options
-+source "drivers/media/common/Kconfig"
-+
- endmenu
- 
- #
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index e3316fa37a8f..721f27ef0130 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -3,6 +3,14 @@
- # Platform drivers
- #	Most drivers here are currently for webcam support
- 
-+menuconfig MEDIA_PLATFORM_DRIVERS
-+	bool "Media platform devices"
-+	default "y"
-+	help
-+	  Say Y here to enable support for platform-specific media drivers.
-+
-+if MEDIA_PLATFORM_DRIVERS
-+
- config V4L_PLATFORM_DRIVERS
- 	bool "V4L platform devices"
- 	help
-@@ -91,3 +99,5 @@ source "drivers/media/platform/tegra/vde/Kconfig"
- source "drivers/media/platform/ti-vpe/Kconfig"
- source "drivers/media/platform/via/Kconfig"
- source "drivers/media/platform/xilinx/Kconfig"
-+
-+endif # MEDIA_PLATFORM_DRIVERS
--- 
-2.35.1
-
+>=20
+>=20
+> Jonathan
