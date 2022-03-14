@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23EC54D890E
-	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 17:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A9E94D8912
+	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 17:27:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242998AbiCNQ2q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Mar 2022 12:28:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53068 "EHLO
+        id S243000AbiCNQ2r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Mar 2022 12:28:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243005AbiCNQ2p (ORCPT
+        with ESMTP id S242996AbiCNQ2q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Mar 2022 12:28:45 -0400
+        Mon, 14 Mar 2022 12:28:46 -0400
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C16AB7DF
-        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 09:27:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B649BC1A
+        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 09:27:36 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 6F8D0240007;
-        Mon, 14 Mar 2022 16:27:30 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id B804A240006;
+        Mon, 14 Mar 2022 16:27:32 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
@@ -27,9 +27,9 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         sakari.ailus@iki.fi, paul.elder@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org (open list:OMNIVISION OV5670 SENSOR DRIVER)
-Subject: [PATCH v2 3/8] media: i2c: ov5670: Probe clocks with OF
-Date:   Mon, 14 Mar 2022 17:27:09 +0100
-Message-Id: <20220314162714.153970-4-jacopo@jmondi.org>
+Subject: [PATCH v2 4/8] media: i2c: ov5670: Probe regulators
+Date:   Mon, 14 Mar 2022 17:27:10 +0100
+Message-Id: <20220314162714.153970-5-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314162714.153970-1-jacopo@jmondi.org>
 References: <20220314162714.153970-1-jacopo@jmondi.org>
@@ -44,70 +44,86 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for probing the main system clock using the common clock
-framework and its OF bindings.
+The OV5670 has three power supplies (AVDD, DOVDD and DVDD).
 
-Maintain ACPI compatibility by falling back to parse 'clock-frequency'
-if the no clock device reference is available.
+Probe them in the driver to prepare controlling with runtime_pm
+operations.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5670.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+ drivers/media/i2c/ov5670.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-index 721441024598..25d792794fc7 100644
+index 25d792794fc7..832355f65e52 100644
 --- a/drivers/media/i2c/ov5670.c
 +++ b/drivers/media/i2c/ov5670.c
-@@ -2,6 +2,7 @@
- // Copyright (c) 2017 Intel Corporation.
- 
- #include <linux/acpi.h>
-+#include <linux/clk.h>
- #include <linux/i2c.h>
- #include <linux/mod_devicetable.h>
+@@ -8,6 +8,7 @@
  #include <linux/module.h>
-@@ -1819,6 +1820,8 @@ struct ov5670 {
- 	struct v4l2_subdev sd;
- 	struct media_pad pad;
+ #include <linux/of.h>
+ #include <linux/pm_runtime.h>
++#include <linux/regulator/consumer.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-event.h>
+@@ -86,6 +87,14 @@ struct ov5670_link_freq_config {
+ 	const struct ov5670_reg_list reg_list;
+ };
  
-+	struct clk *clk;
++static const char * const ov5670_supply_names[] = {
++	"avdd",		/* Analog power */
++	"dvdd",		/* Digital power */
++	"dovdd",	/* Digital output power */
++};
 +
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	/* V4L2 Controls */
- 	struct v4l2_ctrl *link_freq;
-@@ -2478,10 +2481,6 @@ static int ov5670_probe(struct i2c_client *client)
- 	bool full_power;
- 	int ret;
++#define OV5670_NUM_SUPPLIES ARRAY_SIZE(ov5670_supply_names)
++
+ struct ov5670_mode {
+ 	/* Frame width in pixels */
+ 	u32 width;
+@@ -1833,6 +1842,9 @@ struct ov5670 {
+ 	/* Current mode */
+ 	const struct ov5670_mode *cur_mode;
  
--	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
--	if (input_clk != 19200000)
--		return -EINVAL;
--
- 	ov5670 = devm_kzalloc(&client->dev, sizeof(*ov5670), GFP_KERNEL);
- 	if (!ov5670) {
- 		ret = -ENOMEM;
-@@ -2489,6 +2488,20 @@ static int ov5670_probe(struct i2c_client *client)
- 		goto error_print;
- 	}
++	/* Regulators */
++	struct regulator_bulk_data supplies[OV5670_NUM_SUPPLIES];
++
+ 	/* To serialize asynchronus callbacks */
+ 	struct mutex mutex;
  
-+	/* OF uses the common clock framework, ACPI uses "clock-frequency". */
-+	ov5670->clk = devm_clk_get_optional(&client->dev, NULL);
-+	if (IS_ERR(ov5670->clk))
-+		return dev_err_probe(&client->dev, PTR_ERR(ov5670->clk),
-+				     "error getting clock\n");
+@@ -2473,6 +2485,18 @@ static const struct v4l2_subdev_internal_ops ov5670_internal_ops = {
+ 	.open = ov5670_open,
+ };
+ 
++static int ov5670_regulators_probe(struct ov5670 *ov5670)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&ov5670->sd);
++	unsigned int i;
 +
-+	if (ov5670->clk)
-+		input_clk = clk_get_rate(ov5670->clk);
-+	else
-+		device_property_read_u32(&client->dev, "clock-frequency",
-+					 &input_clk);
-+	if (input_clk != 19200000)
-+		return -EINVAL;
++	for (i = 0; i < OV5670_NUM_SUPPLIES; i++)
++		ov5670->supplies[i].supply = ov5670_supply_names[i];
 +
++	return devm_regulator_bulk_get(&client->dev, OV5670_NUM_SUPPLIES,
++				       ov5670->supplies);
++}
++
+ static int ov5670_probe(struct i2c_client *client)
+ {
+ 	struct ov5670 *ov5670;
+@@ -2505,6 +2529,12 @@ static int ov5670_probe(struct i2c_client *client)
  	/* Initialize subdev */
  	v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops);
  
++	ret = ov5670_regulators_probe(ov5670);
++	if (ret) {
++		err_msg = "Regulators probe failed";
++		goto error_print;
++	}
++
+ 	full_power = acpi_dev_state_d0(&client->dev);
+ 	if (full_power) {
+ 		/* Check module identity */
 -- 
 2.35.1
 
