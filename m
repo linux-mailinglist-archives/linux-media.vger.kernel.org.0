@@ -2,107 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BBE04D7DB1
-	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 09:41:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18FCD4D7DB7
+	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 09:42:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235652AbiCNImM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Mar 2022 04:42:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59438 "EHLO
+        id S236689AbiCNIn1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Mar 2022 04:43:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbiCNImM (ORCPT
+        with ESMTP id S236675AbiCNInY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Mar 2022 04:42:12 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C11D3C485;
-        Mon, 14 Mar 2022 01:41:00 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22E8W6Gm026719;
-        Mon, 14 Mar 2022 09:40:02 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=selector1; bh=myxRaXF7Vh1hom2EyP1oBMMoYj0tzQQHrP5Q5LaW5eM=;
- b=EulMrCmsuYdRv3+6aAPzwPbanFQYssovU29+YmWql1Xd7KLulmm444ZtM2n+rScohaNh
- hk7poVuAV6A+9ZbVViSghmAnfWQAyub7N9KJHwXobIoYKB3Lk0XRtrYdkFkMEY1aKLTE
- 8ZpN39lIS2vxvjfRyXk03Az6CQ1MWNMmBaOjDYfs3fk/vnsbSKpe64QLxV5IX6t4vjBj
- iiN0rtM68wJLpTnUjDl6pZKdvAkheHrO0LfOcuMdLZe/mGdqWruzbm+OsppVG56RAuaC
- RBzrO7G+VGwJWGWLa+aPj8xBbztlIPNXIlMJyxuB75peAhNKAmuPvcPcjXEQCAAABaHL ww== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3erhtp13pc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 14 Mar 2022 09:40:02 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id DB1E010002A;
-        Mon, 14 Mar 2022 09:39:56 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8ECFA2132C8;
-        Mon, 14 Mar 2022 09:39:56 +0100 (CET)
-Received: from gnbcxd0016.gnb.st.com (10.75.127.45) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Mon, 14 Mar
- 2022 09:39:56 +0100
-Date:   Mon, 14 Mar 2022 09:39:42 +0100
-From:   Alain Volmat <alain.volmat@foss.st.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Alexey Khoroshilov <khoroshilov@ispras.ru>,
-        Dillon Min <dillon.minfei@gmail.com>,
-        Dmitriy Ulitin <ulitin@ispras.ru>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Ming Qian <ming.qian@nxp.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>
-Subject: Re: [PATCH 17/24] media: platform: rename stm32/ to sti/stm32/
-Message-ID: <20220314083942.GA526468@gnbcxd0016.gnb.st.com>
-Mail-Followup-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Alexey Khoroshilov <khoroshilov@ispras.ru>,
-        Dillon Min <dillon.minfei@gmail.com>,
-        Dmitriy Ulitin <ulitin@ispras.ru>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Ming Qian <ming.qian@nxp.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-References: <cover.1647167750.git.mchehab@kernel.org>
- <dc5be62a56ac19c6f49f4c8432558fd7b0efe7e6.1647167750.git.mchehab@kernel.org>
+        Mon, 14 Mar 2022 04:43:24 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D4F63F333
+        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 01:42:14 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 95C5E240011;
+        Mon, 14 Mar 2022 08:42:10 +0000 (UTC)
+Date:   Mon, 14 Mar 2022 09:42:08 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        jeanmichel.hautbois@ideasonboard.com,
+        paul.kocialkowski@bootlin.com, sakari.ailus@iki.fi,
+        paul.elder@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 2/6] media: i2c: ov5670: Allow probing with OF
+Message-ID: <20220314084208.ndamzsmki465uoor@uno.localdomain>
+References: <20220310130829.96001-1-jacopo@jmondi.org>
+ <20220310130829.96001-3-jacopo@jmondi.org>
+ <Yi4AqIrOWBEY7DHU@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <dc5be62a56ac19c6f49f4c8432558fd7b0efe7e6.1647167750.git.mchehab@kernel.org>
-X-Disclaimer: ce message est personnel / this message is private
-X-Originating-IP: [10.75.127.45]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-14_02,2022-03-11_02,2022-02-23_01
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
+In-Reply-To: <Yi4AqIrOWBEY7DHU@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -110,113 +46,83 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Laurent,
 
-I don't think stm32 should be put within the sti platform folder.
-sti and stm32 are 2 different platforms from ST Microelectronics.
-STi refers to the platform with SoCs such as STiH407/STiH410 and STiH418
-while stm32 are all STM32 ones. Those two platforms aren't related.
-What about having a folder stmicro or stmicroelectronics (too long
-probably :D) with the 2 folders sti and stm32 into it ?
+On Sun, Mar 13, 2022 at 04:33:12PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Thu, Mar 10, 2022 at 02:08:25PM +0100, Jacopo Mondi wrote:
+> > The ov5670 driver currently only supports probing using ACPI matching.
+> > Add support for OF and add a missing header inclusion.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  drivers/media/i2c/ov5670.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
+> > index 02f75c18e480..39786f3c9489 100644
+> > --- a/drivers/media/i2c/ov5670.c
+> > +++ b/drivers/media/i2c/ov5670.c
+> > @@ -3,7 +3,9 @@
+> >
+> >  #include <linux/acpi.h>
+> >  #include <linux/i2c.h>
+> > +#include <linux/mod_devicetable.h>
+> >  #include <linux/module.h>
+> > +#include <linux/of.h>
+> >  #include <linux/pm_runtime.h>
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-device.h>
+> > @@ -2583,6 +2585,12 @@ static const struct acpi_device_id ov5670_acpi_ids[] = {
+> >  };
+> >
+> >  MODULE_DEVICE_TABLE(acpi, ov5670_acpi_ids);
+> > +#elif defined CONFIG_OF
+>
+> This should be
+>
+> #ifdef CONFIG_OF
+> ...
+> #endif
+>
+> to support kernels compiled with both CONFIG_ACPI and CONFIG_OF.
 
-Alain
+Actually, as kernel test robot reported, I should declare the id
+tables unconditionally, and let of_match_ptr() and ACPI_PTR() macros
+expand to NULL if the corresponding symbol is not defined
 
-On Sun, Mar 13, 2022 at 11:51:58AM +0100, Mauro Carvalho Chehab wrote:
-> As the end goal is to have platform drivers split by vendor,
-> rename stm32/ to sti/stm32/.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
-> 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH 00/24] at: https://lore.kernel.org/all/cover.1647167750.git.mchehab@kernel.org/
-> 
->  MAINTAINERS                                               | 2 +-
->  drivers/media/platform/Kconfig                            | 2 +-
->  drivers/media/platform/Makefile                           | 2 +-
->  drivers/media/platform/{ => sti}/stm32/Kconfig            | 0
->  drivers/media/platform/{ => sti}/stm32/Makefile           | 0
->  drivers/media/platform/{ => sti}/stm32/dma2d/dma2d-hw.c   | 0
->  drivers/media/platform/{ => sti}/stm32/dma2d/dma2d-regs.h | 0
->  drivers/media/platform/{ => sti}/stm32/dma2d/dma2d.c      | 0
->  drivers/media/platform/{ => sti}/stm32/dma2d/dma2d.h      | 0
->  drivers/media/platform/{ => sti}/stm32/stm32-dcmi.c       | 0
->  10 files changed, 3 insertions(+), 3 deletions(-)
->  rename drivers/media/platform/{ => sti}/stm32/Kconfig (100%)
->  rename drivers/media/platform/{ => sti}/stm32/Makefile (100%)
->  rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d-hw.c (100%)
->  rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d-regs.h (100%)
->  rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d.c (100%)
->  rename drivers/media/platform/{ => sti}/stm32/dma2d/dma2d.h (100%)
->  rename drivers/media/platform/{ => sti}/stm32/stm32-dcmi.c (100%)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7711a5ea125e..620705e0f043 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12046,7 +12046,7 @@ L:	linux-media@vger.kernel.org
->  S:	Supported
->  T:	git git://linuxtv.org/media_tree.git
->  F:	Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-> -F:	drivers/media/platform/stm32/stm32-dcmi.c
-> +F:	drivers/media/platform/sti/stm32/stm32-dcmi.c
->  
->  MEDIA INPUT INFRASTRUCTURE (V4L/DVB)
->  M:	Mauro Carvalho Chehab <mchehab@kernel.org>
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index c3594807f8d7..cf373bfbca1b 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -95,7 +95,7 @@ source "drivers/media/platform/samsung/s5p-g2d/Kconfig"
->  source "drivers/media/platform/samsung/s5p-jpeg/Kconfig"
->  source "drivers/media/platform/samsung/s5p-mfc/Kconfig"
->  source "drivers/media/platform/sti/Kconfig"
-> -source "drivers/media/platform/stm32/Kconfig"
-> +source "drivers/media/platform/sti/stm32/Kconfig"
->  source "drivers/media/platform/ti-vpe/Kconfig"
->  source "drivers/media/platform/via/Kconfig"
->  source "drivers/media/platform/xilinx/Kconfig"
-> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> index 6a766acfbe37..e3dd2331003a 100644
-> --- a/drivers/media/platform/Makefile
-> +++ b/drivers/media/platform/Makefile
-> @@ -40,7 +40,7 @@ obj-y += sti/bdisp/
->  obj-y += sti/c8sectpfe/
->  obj-y += sti/delta/
->  obj-y += sti/hva/
-> -obj-y += stm32/
-> +obj-y += sti/stm32/
->  obj-y += ti-vpe/
->  obj-y += via/
->  obj-y += xilinx/
-> diff --git a/drivers/media/platform/stm32/Kconfig b/drivers/media/platform/sti/stm32/Kconfig
-> similarity index 100%
-> rename from drivers/media/platform/stm32/Kconfig
-> rename to drivers/media/platform/sti/stm32/Kconfig
-> diff --git a/drivers/media/platform/stm32/Makefile b/drivers/media/platform/sti/stm32/Makefile
-> similarity index 100%
-> rename from drivers/media/platform/stm32/Makefile
-> rename to drivers/media/platform/sti/stm32/Makefile
-> diff --git a/drivers/media/platform/stm32/dma2d/dma2d-hw.c b/drivers/media/platform/sti/stm32/dma2d/dma2d-hw.c
-> similarity index 100%
-> rename from drivers/media/platform/stm32/dma2d/dma2d-hw.c
-> rename to drivers/media/platform/sti/stm32/dma2d/dma2d-hw.c
-> diff --git a/drivers/media/platform/stm32/dma2d/dma2d-regs.h b/drivers/media/platform/sti/stm32/dma2d/dma2d-regs.h
-> similarity index 100%
-> rename from drivers/media/platform/stm32/dma2d/dma2d-regs.h
-> rename to drivers/media/platform/sti/stm32/dma2d/dma2d-regs.h
-> diff --git a/drivers/media/platform/stm32/dma2d/dma2d.c b/drivers/media/platform/sti/stm32/dma2d/dma2d.c
-> similarity index 100%
-> rename from drivers/media/platform/stm32/dma2d/dma2d.c
-> rename to drivers/media/platform/sti/stm32/dma2d/dma2d.c
-> diff --git a/drivers/media/platform/stm32/dma2d/dma2d.h b/drivers/media/platform/sti/stm32/dma2d/dma2d.h
-> similarity index 100%
-> rename from drivers/media/platform/stm32/dma2d/dma2d.h
-> rename to drivers/media/platform/sti/stm32/dma2d/dma2d.h
-> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/sti/stm32/stm32-dcmi.c
-> similarity index 100%
-> rename from drivers/media/platform/stm32/stm32-dcmi.c
-> rename to drivers/media/platform/sti/stm32/stm32-dcmi.c
-> -- 
-> 2.35.1
-> 
+https://patchwork.linuxtv.org/project/linux-media/patch/20220310130829.96001-3-jacopo@jmondi.org/#135841
+
+>
+> With this fixed,
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks
+   j
+
+>
+> > +static const struct of_device_id ov5670_of_ids[] = {
+> > +	{ .compatible = "ovti,ov5670" },
+> > +	{ /* sentinel */ }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, ov5670_of_ids);
+> >  #endif
+> >
+> >  static struct i2c_driver ov5670_i2c_driver = {
+> > @@ -2590,6 +2598,7 @@ static struct i2c_driver ov5670_i2c_driver = {
+> >  		.name = "ov5670",
+> >  		.pm = &ov5670_pm_ops,
+> >  		.acpi_match_table = ACPI_PTR(ov5670_acpi_ids),
+> > +		.of_match_table = of_match_ptr(ov5670_of_ids),
+> >  	},
+> >  	.probe_new = ov5670_probe,
+> >  	.remove = ov5670_remove,
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
