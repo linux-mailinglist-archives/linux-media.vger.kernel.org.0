@@ -2,195 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D5694D8BC9
-	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 19:31:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A2754D8DA7
+	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 21:01:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242362AbiCNSca (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Mar 2022 14:32:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42552 "EHLO
+        id S244816AbiCNUCZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Mar 2022 16:02:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234274AbiCNSc3 (ORCPT
+        with ESMTP id S236350AbiCNUCU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Mar 2022 14:32:29 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD373DDC9;
-        Mon, 14 Mar 2022 11:31:17 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id r22so23226020ljd.4;
-        Mon, 14 Mar 2022 11:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Ow6NpoOileaE6RaQfZy2uFKEhAsGL1nXF6bHUI30F+I=;
-        b=GAK6D1niok8PeJ64e/Gidnlqu5e/Jo06XjvEx3tIyEYJrBblWxbdzXHTcBd7LdSq6O
-         JybTG6NEAlfe7FvFv5/dk11qNBakfR88lRfVirNUSghrHUJlIRBoXRrszFGiVUd72y5I
-         sXDlaq3+1IT2wUG8PsarwuMgn6X0Eav9wjp1yq5GkUrld9UzyJavne1eVtJ+RNZJaAjs
-         KDy6srJQ6g2MZ8C4PTI3mIXSmh4bW/oeZ9K1HmTplGkv4VRF31S9rsZJIcRMKuhwj+tg
-         qoQ4QjB7EDBPH8r14QMSoEElRI8sFOTFVGdQJbe/FMyz8ePNTNHCCzMe0dnQXtbMo14k
-         YEsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Ow6NpoOileaE6RaQfZy2uFKEhAsGL1nXF6bHUI30F+I=;
-        b=DjDBt6C3D7rQcQ6Q1fIpduNeFWD7SnIWzQY5gwv84CXJnRtrjgBKrkT+PQImf1rsjx
-         MI3YRQlGMkHhjs+h8aN0BWqT69I0B5t3ag3qCqu8xaBbfNph/GB1okLGwyaw+/2V6f1L
-         MKV1lCyl9H/HYZmC8Amp/t5DFjqsEh+VVngGhT33wWgBg1ptj4aAeyOUcc3PziwpQb72
-         WqGYAGBrFNr8alD83gxrBbnnoZHaX6LhFOsQnkywF/6Hcb/n2+bHesZoK/wE1HzzPDBc
-         PgziGm0f2+jilkBSYo9N233ML5mxMmoKPgjfDspuodocOMjPDa5xfwpjiK5sLSJ3xZUF
-         B0+w==
-X-Gm-Message-State: AOAM532Yra/BH6G4V3TSyd9urE5N3/4gPXN5ytVUUgNmYfgTcmKjQmfG
-        xJc/V35BtxypiEBQw6Ana1E=
-X-Google-Smtp-Source: ABdhPJytlp4YJnH28VUeZgTJ+Y0yHlAs/KSPcA0mbLXZCrp+7ER9DILTUeA/7Y2lhrhrub+SN/jJ+A==
-X-Received: by 2002:a2e:a0c3:0:b0:247:eba1:366b with SMTP id f3-20020a2ea0c3000000b00247eba1366bmr14575792ljm.190.1647282673388;
-        Mon, 14 Mar 2022 11:31:13 -0700 (PDT)
-Received: from [10.0.0.127] (91-159-150-230.elisa-laajakaista.fi. [91.159.150.230])
-        by smtp.gmail.com with ESMTPSA id f11-20020a056512228b00b004487997379esm2093422lfu.158.2022.03.14.11.31.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Mar 2022 11:31:12 -0700 (PDT)
-Message-ID: <a169eef7-2f46-3ca1-db56-88adbce6a7c3@gmail.com>
-Date:   Mon, 14 Mar 2022 20:31:12 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 60/67] media: platform: rename omap/ to ti/omap/
-Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
+        Mon, 14 Mar 2022 16:02:20 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4218610FC5
+        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 13:01:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647288068; x=1678824068;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=PrU19NRSzKE0l7xUIiLswjnkt9AwKvxcDu3XUCq6yTo=;
+  b=V+ZGL1DzvsvUvTCsCZZyI/bRJA/DqJUtSarZhFc9mCgwPBwqLw3kZ1uw
+   o/Grgzg6+NFVSEhwUYNr3lree33asav6W3XL9d+qrrDfz0QkeZw5wCKGn
+   gkdYcBRN3w100LzTPnC+efU0IxZffHANS4PrEBig2UI4vthYCoG3ubIGA
+   IwRN94uHwiQgkTOL+1aHDLBLiyZuCvUY21XOAmN1/dc438p1ZRrIdn25N
+   kkOZ8r/SN+0dAoyh1KLRNORoEA5gMHgwnUCmHmiBeLnnhRVRFaFQVtCjd
+   Yh/DKYF0hIImLqgV/pqX/2CPwGUYGXUBjpIffkx95dO0anPy4Y0DskHik
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="236081115"
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; 
+   d="scan'208";a="236081115"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 13:01:07 -0700
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400"; 
+   d="scan'208";a="643987860"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 13:01:03 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id E8641205BD;
+        Mon, 14 Mar 2022 22:01:00 +0200 (EET)
+Date:   Mon, 14 Mar 2022 22:01:00 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ming Qian <ming.qian@nxp.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <cover.1647274406.git.mchehab@kernel.org>
- <b01e1edbcf0589d1f3150340db6c2e81d034975a.1647274407.git.mchehab@kernel.org>
-From:   =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <b01e1edbcf0589d1f3150340db6c2e81d034975a.1647274407.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Martina Krasteva <martinax.krasteva@intel.com>,
+        Shawn Tu <shawnx.tu@intel.com>, Arec Kao <arec.kao@intel.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jimmy Su <jimmy.su@intel.com>,
+        Martin Kepplinger <martink@posteo.de>,
+        Daniel Scally <djrscally@gmail.com>,
+        Jacopo Mondi <jmondi@jmondi.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] media: ov5640: Use runtime PM
+Message-ID: <Yi+e/IK+eVpKit/F@paasikivi.fi.intel.com>
+References: <20220311111259.3220718-1-paul.elder@ideasonboard.com>
+ <Yis/WZFBC49uoRg6@paasikivi.fi.intel.com>
+ <YitA0dI2mM4ACdaL@pendragon.ideasonboard.com>
+ <YitLit9LC2zlOfdh@paasikivi.fi.intel.com>
+ <YitMt7hVA2okuQ8x@pendragon.ideasonboard.com>
+ <YitPaq2yYnrKsq4f@paasikivi.fi.intel.com>
+ <Yi3rQGmeXQD70Tkh@pendragon.ideasonboard.com>
+ <Yi3z2nR8j+ee4E4m@paasikivi.fi.intel.com>
+ <Yi38zOHsh68FrrKK@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Yi38zOHsh68FrrKK@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-5.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Laurent,
 
-On 14/03/2022 18:34, Mauro Carvalho Chehab wrote:
-> As the end goal is to have platform drivers split by vendor,
-> rename omap/ to ti/omap/.
-Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
+On Sun, Mar 13, 2022 at 04:16:44PM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> On Sun, Mar 13, 2022 at 03:38:34PM +0200, Sakari Ailus wrote:
+> > On Sun, Mar 13, 2022 at 03:01:52PM +0200, Laurent Pinchart wrote:
+> > > On Fri, Mar 11, 2022 at 03:32:26PM +0200, Sakari Ailus wrote:
+> > > > On Fri, Mar 11, 2022 at 03:20:55PM +0200, Laurent Pinchart wrote:
+> > > > > On Fri, Mar 11, 2022 at 03:15:54PM +0200, Sakari Ailus wrote:
+> > > > > > On Fri, Mar 11, 2022 at 02:30:09PM +0200, Laurent Pinchart wrote:
+> > > > > > > On Fri, Mar 11, 2022 at 02:23:53PM +0200, Sakari Ailus wrote:
+> > > > > > > > On Fri, Mar 11, 2022 at 08:12:59PM +0900, Paul Elder wrote:
+> > > > > > > > > Switch to using runtime PM for power management.
+> > > > > > > > > 
+> > > > > > > > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > > > > > > > > 
+> > > > > > > > > ---
+> > > > > > > > > Changes in v2:
+> > > > > > > > > - replace manual tracking of power status with pm_runtime_get_if_in_use
+> > > > > > > > > - power on the sensor before reading the checking the chip id
+> > > > > > > > > - add dependency on PM to Kconfig
+> > > > > > > > > ---
+> > > > > > > > >  drivers/media/i2c/Kconfig  |   1 +
+> > > > > > > > >  drivers/media/i2c/ov5640.c | 112 ++++++++++++++++++++++---------------
+> > > > > > > > >  2 files changed, 67 insertions(+), 46 deletions(-)
+> > > > > > > > > 
+> > > > > > > > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > > > > > > > index e7194c1be4d2..97c3611d9304 100644
+> > > > > > > > > --- a/drivers/media/i2c/Kconfig
+> > > > > > > > > +++ b/drivers/media/i2c/Kconfig
+> > > > > > > > > @@ -1025,6 +1025,7 @@ config VIDEO_OV5640
+> > > > > > > > >  	tristate "OmniVision OV5640 sensor support"
+> > > > > > > > >  	depends on OF
+> > > > > > > > >  	depends on GPIOLIB && VIDEO_V4L2 && I2C
+> > > > > > > > > +	depends on PM
+> > > > > > > > 
+> > > > > > > > I think this is not needed as the sensor is powered on explicitly in probe.
+> > > > > > > > 
+> > > > > > > > You should similarly power it off explicitly in remove, set the runtime PM
+> > > > > > > > status suspended and disable runtime PM. See e.g. imx319 driver for an
+> > > > > > > > example. It doesn't have resume callback but that doesn't really matter ---
+> > > > > > > > it's just ACPI-only.
+> > > > > > > 
+> > > > > > > Do we want to continue supporting !PM ? Does it have any real use case
+> > > > > > > when dealing with camera sensors ?
+> > > > > > 
+> > > > > > Probably not much.
+> > > > > > 
+> > > > > > The changes I proposed are not eve related on runtime PM. Hence the
+> > > > > > question here is whether there should be a dependency to CONFIG_PM or not,
+> > > > > > and as there's no technical reason to have it, it should be omitted.
+> > > > > 
+> > > > > But if there's no real use case for !PM, wouldn't we be better off
+> > > > > depending on PM and simplifying the probe functions instead ?
+> > > > 
+> > > > What would change in the probe function if runtime PM was required by the
+> > > > driver?
+> > > 
+> > > We wouldn't need the complicated dance of calling
+> > > 
+> > > 	ret = ov5640_set_power(sensor, true);
+> > > 	if (ret)
+> > > 		goto free_ctrls;
+> > > 
+> > > 	pm_runtime_set_active(dev);
+> > > 	pm_runtime_enable(dev);
+> > > 	pm_runtime_get(dev);
+> > 
+> > pm_runtime_get() is redundant here.
+> > 
+> > > 
+> > > but could write it as
+> > > 
+> > > 	pm_runtime_enable(dev);
+> > > 	pm_runtime_resume_and_get(dev);
+> > 
+> > You'll need put here, too.
+> 
+> Yes, after reading the version register (or doing any other harware
+> access). Actually the full code would be
+> 
+> 
+>  	pm_runtime_enable(dev);
+>  	pm_runtime_resume_and_get(dev);
+> 
+> 	/* Hardware access */
+> 
+> 	pm_runtime_set_autosuspend_delay(dev, 1000);
+> 	pm_runtime_use_autosuspend(dev);
+> 	pm_runtime_put_autosuspend(dev);
+> 
+> (plus error handling).
+> 
+> If the probe function doesn't need to access the hardware, then
+> the above becomes
+> 
+> 	pm_runtime_enable(dev);
+> 	pm_runtime_set_autosuspend_delay(dev, 1000);
+> 	pm_runtime_use_autosuspend(dev);
+> 
+> instead of having to power up the device just in case !PM.
+> 
+> > Also the latter only works on DT-based systems so it's not an option for
+> > most of the drivers.
+> 
+> How so, what's wrong with the above for ACPI-based system ?
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
-> 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH v2 00/67] at: https://lore.kernel.org/all/cover.1647274406.git.mchehab@kernel.org/
-> 
->  drivers/media/platform/Kconfig                        | 2 +-
->  drivers/media/platform/Makefile                       | 2 +-
->  drivers/media/platform/{ => ti}/omap/Kconfig          | 0
->  drivers/media/platform/{ => ti}/omap/Makefile         | 0
->  drivers/media/platform/{ => ti}/omap/omap_vout.c      | 0
->  drivers/media/platform/{ => ti}/omap/omap_vout_vrfb.c | 0
->  drivers/media/platform/{ => ti}/omap/omap_vout_vrfb.h | 0
->  drivers/media/platform/{ => ti}/omap/omap_voutdef.h   | 0
->  drivers/media/platform/{ => ti}/omap/omap_voutlib.c   | 0
->  drivers/media/platform/{ => ti}/omap/omap_voutlib.h   | 0
->  10 files changed, 2 insertions(+), 2 deletions(-)
->  rename drivers/media/platform/{ => ti}/omap/Kconfig (100%)
->  rename drivers/media/platform/{ => ti}/omap/Makefile (100%)
->  rename drivers/media/platform/{ => ti}/omap/omap_vout.c (100%)
->  rename drivers/media/platform/{ => ti}/omap/omap_vout_vrfb.c (100%)
->  rename drivers/media/platform/{ => ti}/omap/omap_vout_vrfb.h (100%)
->  rename drivers/media/platform/{ => ti}/omap/omap_voutdef.h (100%)
->  rename drivers/media/platform/{ => ti}/omap/omap_voutlib.c (100%)
->  rename drivers/media/platform/{ => ti}/omap/omap_voutlib.h (100%)
-> 
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index 4f95ea9b1221..43a654e87613 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -81,7 +81,6 @@ source "drivers/media/platform/mediatek/mtk-vcodec/Kconfig"
->  source "drivers/media/platform/mediatek/mtk-vpu/Kconfig"
->  source "drivers/media/platform/nvidia/tegra-vde/Kconfig"
->  source "drivers/media/platform/nxp/Kconfig"
-> -source "drivers/media/platform/omap/Kconfig"
->  source "drivers/media/platform/qcom/Kconfig"
->  source "drivers/media/platform/renesas/Kconfig"
->  source "drivers/media/platform/rockchip/Kconfig"
-> @@ -96,6 +95,7 @@ source "drivers/media/platform/stm/stm32/Kconfig"
->  source "drivers/media/platform/ti-vpe/Kconfig"
->  source "drivers/media/platform/ti/am437x/Kconfig"
->  source "drivers/media/platform/ti/davinci/Kconfig"
-> +source "drivers/media/platform/ti/omap/Kconfig"
->  source "drivers/media/platform/ti/omap3isp/Kconfig"
->  source "drivers/media/platform/via/Kconfig"
->  source "drivers/media/platform/xilinx/Kconfig"
-> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> index c2bab3ba9ef6..39fa6aaad13b 100644
-> --- a/drivers/media/platform/Makefile
-> +++ b/drivers/media/platform/Makefile
-> @@ -21,7 +21,6 @@ obj-y += mediatek/mtk-vcodec/
->  obj-y += mediatek/mtk-vpu/
->  obj-y += nvidia/tegra-vde/
->  obj-y += nxp/
-> -obj-y += omap/
->  obj-y += qcom/camss/
->  obj-y += qcom/venus/
->  obj-y += renesas/
-> @@ -41,6 +40,7 @@ obj-y += stm/stm32/
->  obj-y += ti-vpe/
->  obj-y += ti/am437x/
->  obj-y += ti/davinci/
-> +obj-y += ti/omap/
->  obj-y += ti/omap3isp/
->  obj-y += via/
->  obj-y += xilinx/
-> diff --git a/drivers/media/platform/omap/Kconfig b/drivers/media/platform/ti/omap/Kconfig
-> similarity index 100%
-> rename from drivers/media/platform/omap/Kconfig
-> rename to drivers/media/platform/ti/omap/Kconfig
-> diff --git a/drivers/media/platform/omap/Makefile b/drivers/media/platform/ti/omap/Makefile
-> similarity index 100%
-> rename from drivers/media/platform/omap/Makefile
-> rename to drivers/media/platform/ti/omap/Makefile
-> diff --git a/drivers/media/platform/omap/omap_vout.c b/drivers/media/platform/ti/omap/omap_vout.c
-> similarity index 100%
-> rename from drivers/media/platform/omap/omap_vout.c
-> rename to drivers/media/platform/ti/omap/omap_vout.c
-> diff --git a/drivers/media/platform/omap/omap_vout_vrfb.c b/drivers/media/platform/ti/omap/omap_vout_vrfb.c
-> similarity index 100%
-> rename from drivers/media/platform/omap/omap_vout_vrfb.c
-> rename to drivers/media/platform/ti/omap/omap_vout_vrfb.c
-> diff --git a/drivers/media/platform/omap/omap_vout_vrfb.h b/drivers/media/platform/ti/omap/omap_vout_vrfb.h
-> similarity index 100%
-> rename from drivers/media/platform/omap/omap_vout_vrfb.h
-> rename to drivers/media/platform/ti/omap/omap_vout_vrfb.h
-> diff --git a/drivers/media/platform/omap/omap_voutdef.h b/drivers/media/platform/ti/omap/omap_voutdef.h
-> similarity index 100%
-> rename from drivers/media/platform/omap/omap_voutdef.h
-> rename to drivers/media/platform/ti/omap/omap_voutdef.h
-> diff --git a/drivers/media/platform/omap/omap_voutlib.c b/drivers/media/platform/ti/omap/omap_voutlib.c
-> similarity index 100%
-> rename from drivers/media/platform/omap/omap_voutlib.c
-> rename to drivers/media/platform/ti/omap/omap_voutlib.c
-> diff --git a/drivers/media/platform/omap/omap_voutlib.h b/drivers/media/platform/ti/omap/omap_voutlib.h
-> similarity index 100%
-> rename from drivers/media/platform/omap/omap_voutlib.h
-> rename to drivers/media/platform/ti/omap/omap_voutlib.h
+I²C devices are already powered on for probe on ACPI based systems.
 
 -- 
-PÃ©ter
+Regards,
+
+Sakari Ailus
