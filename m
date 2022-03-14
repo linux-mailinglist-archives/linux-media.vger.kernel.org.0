@@ -2,107 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2F5C4D8AA9
-	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 18:22:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F4354D8B87
+	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 19:18:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236909AbiCNRXe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Mar 2022 13:23:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40706 "EHLO
+        id S243690AbiCNSTW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Mar 2022 14:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229968AbiCNRXe (ORCPT
+        with ESMTP id S238339AbiCNSTW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Mar 2022 13:23:34 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D14683F309;
-        Mon, 14 Mar 2022 10:22:23 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id g20so20931782edw.6;
-        Mon, 14 Mar 2022 10:22:23 -0700 (PDT)
+        Mon, 14 Mar 2022 14:19:22 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E0DC13DCF
+        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 11:18:09 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id 25so23157850ljv.10
+        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 11:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GaBMEcrePt+w27MCrGFS0ZRIBB+TLDUM++NKsoUse28=;
-        b=F/GbgPgJJas+sWwxDfEdIEAV9MWpQmQZ6gGHvDgtsLI4ueojnctMqU+Ro0y6CE2jQ7
-         7HfL0iW/kaYCw+0kfIOftIbVIwr6QG6MYwB9MVnen+D5b9abOs9torl8wGRAu7pdQm/i
-         +FsSIKv3ftoqqo98xW4SbXxB3S9BeXWDR57rNoVIjO2wEh/n6XaeI5g7mVip+Z524Cyi
-         KrhWaUk0jLHNnh1HFg16Z87GrqIRn95tDPK0/8M6r/fC5vRSO8jGGlWGxeU4oTOxuv1I
-         I6yIkpSjzQalprgeeLcAnrb06WXcdkH68KPhC48XBm+zYHKs2a2WbqNEVl2b/II74CWe
-         r6sA==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=EaUHmdZ87qFbfpgGvP+lfvqYtgcNelL/CAyS1EJnQ2E=;
+        b=FXSYhrdCJCKXWSZ8hZXw1W0kaKhv3aSN6xUIDR43VSDNJF1pQ4FhAw2GNVj8wfa8fy
+         Oklh0xNzXLY8PQ1SX57ppPjkgzqfOvT1MMQrgJGaEA2lWHyQgnI1TNX+orfoJ35sNr7G
+         4H+PV//y5JLU7lYkf9SMz1ve0aIntsTNCgW6j06HfcNJvQUiYrKB+kfy53lnY9sZaAm8
+         zklZeTfWw6xCtJRaqMHlcqaLLYdX5DAseWHbB/GuoNS7bUD7GxQATmYCZnwinu/xA1MA
+         LwQGqaHuNh/A4C7nU1gM3uJrncDbeM79A9bCyLhbUPQKqMIx+aQSb3ZlAff+MSV2OKOk
+         4RGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GaBMEcrePt+w27MCrGFS0ZRIBB+TLDUM++NKsoUse28=;
-        b=v3BPBKzV6rLXiJ/ytoPCNIJ4uNiQ5M32bomNuhCeXmZmWCS5pe9o0PGc0xZSOTFwTa
-         9BRsCNsS5qANzJuuAgS+HXgn8xX678bcx1H7x/U3KV3Dt8VYYKbfbnTrlPfY8FWkNYWO
-         +7hLcw/RuTdJeJ3iRrFvfzn3bU2MmF7b8zshYn3llatON251jnsluVnorcDSpIYsQRB2
-         8Ac6M6nhugdsFF/YOankJL+6Fl570GLuYsWKQvQchADEa1bZLzvpi1mPVx9qVKo88ZHy
-         9iIgdHzefLroM08tYyz3nv74nDphRXOIn+LTgCnb9/dnTdBNtkDgYC+/RmDu1yQZ3Kkm
-         h7VQ==
-X-Gm-Message-State: AOAM530/2rBbecz0Dd950JG/hZAbEWb8+5WW9UNZY3erhm4e/IA1zjGt
-        7JEF1J4kfB34zj9TBbQQhwY=
-X-Google-Smtp-Source: ABdhPJyE14lC5sdDZko7CQASEf8TpHDb+WCoI++ZZovUsci3NcAk1M2ARl/8wru+mO0QLzE8MgfoCQ==
-X-Received: by 2002:aa7:dd17:0:b0:416:320:5e56 with SMTP id i23-20020aa7dd17000000b0041603205e56mr21902178edv.240.1647278542246;
-        Mon, 14 Mar 2022 10:22:22 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id q15-20020a1709060e4f00b006cdf4535cf2sm7037886eji.67.2022.03.14.10.22.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Mar 2022 10:22:21 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Jia-Ju Bai <baijiaju1990@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Ming Qian <ming.qian@nxp.com>,
-        Ondrej Jirman <megous@megous.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 47/67] media: platform: rename sunxi/ to allwinner/
-Date:   Mon, 14 Mar 2022 18:22:20 +0100
-Message-ID: <2816975.e9J7NaK4W3@kista>
-In-Reply-To: <85266b480902079391d4206b8aa276ff131a730f.1647274407.git.mchehab@kernel.org>
-References: <cover.1647274406.git.mchehab@kernel.org> <85266b480902079391d4206b8aa276ff131a730f.1647274407.git.mchehab@kernel.org>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=EaUHmdZ87qFbfpgGvP+lfvqYtgcNelL/CAyS1EJnQ2E=;
+        b=smXk/bL8p196b1BABsA2x9fJ1RKfbMK7M2UbhHFO6HVYO5lxv3+LDF4kNFh40ke2Pj
+         1cFmlSwsaLT1SuPBvklsEBtrD/58CGTqEVOuHAa+uSXbjKCynZKPiEGbziUt8ywTl16l
+         ek7RSyTcvZDJUVCfIxOc++8uRskXQtFMB6lUWtbesrFY8ObkVLWYzcTWv83atfoVs8xZ
+         rlk0uCOQBHEN6dHcxgCceoPNEmPqWf/21xsCvW5/s92Z8khs9xRfWJIrk3kfIeHjLwCQ
+         otyL7gaqL8zGZG9jUVkXGu/DOiOb4ItSyATsGqF7Tqf79oFHbtGfA7qGwwq517tQbuaY
+         O0og==
+X-Gm-Message-State: AOAM5311gjz0xjqlQ2eBYm72BYpI44U+okxPMxXL0o8qXuhb/LKHQ03s
+        juMUD0JCVptKftqQganme46GWnYNThVneLL9lkM=
+X-Google-Smtp-Source: ABdhPJwomYMLBzkyg51nboug7vXQyoLcMCR5+4ADvcCVNhO2DxKMCEp8GrjEuuvt0WVv0JGEMPoPcSuWYj1bsOGC+88=
+X-Received: by 2002:a2e:b8d1:0:b0:249:24e6:356f with SMTP id
+ s17-20020a2eb8d1000000b0024924e6356fmr7822875ljp.511.1647281886865; Mon, 14
+ Mar 2022 11:18:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:ab3:6289:0:0:0:0:0 with HTTP; Mon, 14 Mar 2022 11:18:06
+ -0700 (PDT)
+Reply-To: db.bankdirecttg@gmail.com
+From:   "db.bankdirecttg@gmail.com" <mdialo008@gmail.com>
+Date:   Mon, 14 Mar 2022 18:18:06 +0000
+Message-ID: <CAFmzXQTv_N1HZ-vhW3PyWm=3RnDsYDDkhXm_2=zn0oarJkP1ng@mail.gmail.com>
+Subject: Hello
+To:     mdialo008@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
+        NAME_EMAIL_DIFF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne ponedeljek, 14. marec 2022 ob 17:34:42 CET je Mauro Carvalho Chehab 
-napisal(a):
-> As the end goal is to have platform drivers split by vendor,
-> rename sunxi/ to allwinner/.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+--=20
+Irod=C3=A1nk el=C3=A9rhet=C5=91s=C3=A9ge: 2554 Road Of Kpalime Face Pharmac=
+y Bet, Lome, Gulf.
 
-I would rather not do that. Everything related to Allwinner is called sunxi, 
-albeit there are a few outliers. This is similar to Amlogic/meson situation.
+Ez a WU bank igazgat=C3=B3ja =C3=A9rtes=C3=ADti =C3=96nt arr=C3=B3l, hogy a=
+ Nemzetk=C3=B6zi
+Valutaalap (IMF) 850 000,00 USD k=C3=A1rt=C3=A9r=C3=ADt=C3=A9st fizet =C3=
+=96nnek, mert
+megtal=C3=A1lta az =C3=96n e-mail c=C3=ADm=C3=A9t a csal=C3=A1s =C3=A1ldoza=
+tainak list=C3=A1j=C3=A1n. Hajland=C3=B3
+vagy venni ezt az alapot vagy sem?
 
-Best regards,
-Jernej
+V=C3=A1rjuk s=C3=BCrg=C5=91s h=C3=ADr=C3=A9t.
 
-
+Tisztelettel
+  Tony Albert
+  BANKIGAZGAT=C3=93
+Vegye fel a kapcsolatot a Whatsappal, +22892905783
