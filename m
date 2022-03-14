@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CCAE4D890D
-	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 17:27:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23EC54D890E
+	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 17:27:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242997AbiCNQ2n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Mar 2022 12:28:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52988 "EHLO
+        id S242998AbiCNQ2q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Mar 2022 12:28:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242998AbiCNQ2m (ORCPT
+        with ESMTP id S243005AbiCNQ2p (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Mar 2022 12:28:42 -0400
+        Mon, 14 Mar 2022 12:28:45 -0400
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A49A9BC06
-        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 09:27:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C16AB7DF
+        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 09:27:33 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 27165240016;
-        Mon, 14 Mar 2022 16:27:27 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 6F8D0240007;
+        Mon, 14 Mar 2022 16:27:30 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
@@ -27,9 +27,9 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         sakari.ailus@iki.fi, paul.elder@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org (open list:OMNIVISION OV5670 SENSOR DRIVER)
-Subject: [PATCH v2 2/8] media: i2c: ov5670: Allow probing with OF
-Date:   Mon, 14 Mar 2022 17:27:08 +0100
-Message-Id: <20220314162714.153970-3-jacopo@jmondi.org>
+Subject: [PATCH v2 3/8] media: i2c: ov5670: Probe clocks with OF
+Date:   Mon, 14 Mar 2022 17:27:09 +0100
+Message-Id: <20220314162714.153970-4-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314162714.153970-1-jacopo@jmondi.org>
 References: <20220314162714.153970-1-jacopo@jmondi.org>
@@ -44,50 +44,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The ov5670 driver currently only supports probing using ACPI matching.
-Add support for OF and add a missing header inclusion.
+Add support for probing the main system clock using the common clock
+framework and its OF bindings.
+
+Maintain ACPI compatibility by falling back to parse 'clock-frequency'
+if the no clock device reference is available.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ov5670.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/media/i2c/ov5670.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-index 02f75c18e480..721441024598 100644
+index 721441024598..25d792794fc7 100644
 --- a/drivers/media/i2c/ov5670.c
 +++ b/drivers/media/i2c/ov5670.c
-@@ -3,7 +3,9 @@
+@@ -2,6 +2,7 @@
+ // Copyright (c) 2017 Intel Corporation.
  
  #include <linux/acpi.h>
++#include <linux/clk.h>
  #include <linux/i2c.h>
-+#include <linux/mod_devicetable.h>
+ #include <linux/mod_devicetable.h>
  #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/pm_runtime.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-@@ -2585,11 +2587,20 @@ static const struct acpi_device_id ov5670_acpi_ids[] = {
- MODULE_DEVICE_TABLE(acpi, ov5670_acpi_ids);
- #endif
+@@ -1819,6 +1820,8 @@ struct ov5670 {
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
  
-+#ifdef CONFIG_OF
-+static const struct of_device_id ov5670_of_ids[] = {
-+	{ .compatible = "ovti,ov5670" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ov5670_of_ids);
-+#endif
++	struct clk *clk;
 +
- static struct i2c_driver ov5670_i2c_driver = {
- 	.driver = {
- 		.name = "ov5670",
- 		.pm = &ov5670_pm_ops,
- 		.acpi_match_table = ACPI_PTR(ov5670_acpi_ids),
-+		.of_match_table = of_match_ptr(ov5670_of_ids),
- 	},
- 	.probe_new = ov5670_probe,
- 	.remove = ov5670_remove,
+ 	struct v4l2_ctrl_handler ctrl_handler;
+ 	/* V4L2 Controls */
+ 	struct v4l2_ctrl *link_freq;
+@@ -2478,10 +2481,6 @@ static int ov5670_probe(struct i2c_client *client)
+ 	bool full_power;
+ 	int ret;
+ 
+-	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
+-	if (input_clk != 19200000)
+-		return -EINVAL;
+-
+ 	ov5670 = devm_kzalloc(&client->dev, sizeof(*ov5670), GFP_KERNEL);
+ 	if (!ov5670) {
+ 		ret = -ENOMEM;
+@@ -2489,6 +2488,20 @@ static int ov5670_probe(struct i2c_client *client)
+ 		goto error_print;
+ 	}
+ 
++	/* OF uses the common clock framework, ACPI uses "clock-frequency". */
++	ov5670->clk = devm_clk_get_optional(&client->dev, NULL);
++	if (IS_ERR(ov5670->clk))
++		return dev_err_probe(&client->dev, PTR_ERR(ov5670->clk),
++				     "error getting clock\n");
++
++	if (ov5670->clk)
++		input_clk = clk_get_rate(ov5670->clk);
++	else
++		device_property_read_u32(&client->dev, "clock-frequency",
++					 &input_clk);
++	if (input_clk != 19200000)
++		return -EINVAL;
++
+ 	/* Initialize subdev */
+ 	v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops);
+ 
 -- 
 2.35.1
 
