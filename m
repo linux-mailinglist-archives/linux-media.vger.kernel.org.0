@@ -2,160 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71DCB4D7B48
-	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 08:09:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F10AC4D7B7B
+	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 08:22:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236516AbiCNHKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Mar 2022 03:10:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33846 "EHLO
+        id S236598AbiCNHXt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Mar 2022 03:23:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229977AbiCNHKW (ORCPT
+        with ESMTP id S236604AbiCNHXm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Mar 2022 03:10:22 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE174091B
-        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 00:09:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BE3FCB80D38
-        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 07:09:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A03CC340EE;
-        Mon, 14 Mar 2022 07:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647241750;
-        bh=f/Y7oPlLBfeIpd4oHNPHWbCWiYfGD2KqN1ZGu91fkP4=;
-        h=Date:From:To:Subject:In-Reply-To:References:From;
-        b=TRnl0hPjwU9wYrBhF21CaMG/aDgdFoGoRnGcCiH4IYR5yqog/hmpZWYDlXIIkgsXi
-         PmZdp2kx+P2KlnF/eWwC371VTzJtLw4mhSuZ4CMNHkUpcmUniQcCH7w+y6kFx/YxKv
-         hN28vGofyW7MxqprgmkbSeEoaUKa8JSQBzhFEe6GCKTqsGcuUrI4sbdajo3jOJe9DV
-         SzAXdp6lRscEN4OYqrM8erZvKqxlLoYGjs6xBOBdmLt4oh5eElbImkn/nw0p6k9Zhs
-         QtJDdJbi/WLqEC3o6Yv1Ib3e90ZyjC09sz2JD3+f9XgLpetnHzFJ8s67DmOSAAJxjt
-         iCQJjyP+WL3Jg==
-Date:   Mon, 14 Mar 2022 08:09:06 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 10/39] media: platform: place Renesas drivers on a
- separate dir
-Message-ID: <20220314080906.6d9381ce@coco.lan>
-In-Reply-To: <Yi3k3wD5IBhT/VQR@pendragon.ideasonboard.com>
-References: <cover.1647155572.git.mchehab@kernel.org>
-        <8f9726e9df5f4fb1df17aebc30b0fee07c2ca44a.1647155572.git.mchehab@kernel.org>
-        <Yi3k3wD5IBhT/VQR@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        Mon, 14 Mar 2022 03:23:42 -0400
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-eopbgr140053.outbound.protection.outlook.com [40.107.14.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9923140A19;
+        Mon, 14 Mar 2022 00:22:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hszfeKvM3NiqNhh4sNIDw9aC0Icz+zJWkOIGnIhxRKuVl1EleEvVfEfku2olq2G/WFRVityZHMqzw+J6bz4e9OoLHB5+1+IbuBy2qARYzCqKNCbPBtshkOkfsd7QoBXGDQgk3luww3p2FBBu7OU0ETtUSEbyO0N9PjzdvlgfutQULLuC4hVV84IbXDxc3+lpTTpMuELCwRjA20Flfk3DTBRHD1cjaQQ7POVykYdDTWn4NsI/D5QyUjVagf8ZdRrcJRl+8ZH3go0x80Oao6ydVT9lzUCaNQVZ7R5CjEzTEofCosybN/sd/sd6s1iNx1UM3ggL4YoVpk3RBV/JdWJOdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bBQP2MmE4zLC6uYJwImphwCLNW4mFWOGPChqqFzq/VM=;
+ b=FqDvaOzKwp0J/bdgZYFHIn3wo467dS4Sl2Vrd0i0rKSM7WMKw6vO8nCcy8oWxcbCZIU68veO4tbjs6EyJx5WGn7WqitL6rKTd3qkyJ+X2kI1Oe+eq3jAILhtPoq9Ox4I9ypp+6QYRLKqRvnK4vcV2BeuUOAYnbIOwGKybhTn6R8oeeYvYlq8KvmKYo9dPhVwV0sfKexpOM+iNmZzFLQ4DsDKk2TNr8RshQaZVLIHtpoGgyz4rPPfDvfNPHH17h72PTE4lN7CExSJJgNCUTYj8a/lDKD1DtIip/3WWq/ousQUhKmRlvL9CbQAY9WI0Knk4lujKt1oh2/SRq3cheQMaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bBQP2MmE4zLC6uYJwImphwCLNW4mFWOGPChqqFzq/VM=;
+ b=ZMiNlhw5oOGthwSq2pAKGA88gOlaJSBM8MU7Ii4LYgXGo8wNCsmycwf+GtP3uwMWUDTeaeytQb25q3OxRtOFyjjVCXXAm64zgXnc7qivyeKU8q1WB0+0T4zcI8sHHNxyztu/SvduLyf1MKkn1VESiJwE+y72ygZpKOIgSTi7+us=
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by VI1PR04MB6191.eurprd04.prod.outlook.com (2603:10a6:803:f8::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.28; Mon, 14 Mar
+ 2022 07:22:30 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::c39:69cf:c4ea:967]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::c39:69cf:c4ea:967%5]) with mapi id 15.20.5061.026; Mon, 14 Mar 2022
+ 07:22:30 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     Lijun Fang <fanglijun3@huawei.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     Shijie Qin <shijie.qin@nxp.com>, Eagle Zhou <eagle.zhou@nxp.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "xuqiang36@huawei.com" <xuqiang36@huawei.com>
+Subject: RE: [PATCH] media: amphion: Add missing of_node_put() in
+ vpu_core_parse_dt
+Thread-Topic: [PATCH] media: amphion: Add missing of_node_put() in
+ vpu_core_parse_dt
+Thread-Index: AQHYN2qDmrXoQOWOAE6bqCxhuuKd8ay+eVPQ
+Date:   Mon, 14 Mar 2022 07:22:30 +0000
+Message-ID: <AM6PR04MB63411E778D7D0F0495A415B0E70F9@AM6PR04MB6341.eurprd04.prod.outlook.com>
+References: <20220314060952.66762-1-fanglijun3@huawei.com>
+In-Reply-To: <20220314060952.66762-1-fanglijun3@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ee51c570-b373-4d08-6d6b-08da058b669d
+x-ms-traffictypediagnostic: VI1PR04MB6191:EE_
+x-microsoft-antispam-prvs: <VI1PR04MB61915A738072C07747AB1494E70F9@VI1PR04MB6191.eurprd04.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: C6/QJu1Qphn/EdkrXTi7nUSP8jk8GbwWX8o5L6xWXsq4ot3Ltd6qqdmot1nWmeCu7XUrTCKpzjLC+AMzylRZMQ9CxG+TBd0qSsHy+xsarqKuhvrUBbVwhVP3hG0Axnrer32G/E5b1VVI8j0I/nkK4XsIn3R736vvbdg0xqYCusAcBw0eAeKnkong6vmxciJ1NQh6IGrY6PoLanWTVGMHOPqR5L0al8wUi3ModsqMWzkJIijpOg9z98Ej7/GQ+wX44i6WRhJbAn+Iya/fznkDDNnVYHRXFhD7QvJtIRWc8LKjDcQ/t3ndPacHvt1+nj8vjHbsgpqFEQSncgfZXCph9bke5IuHcS1K3ejm/u4pUotLWVBfdsv4GD0BC17y9mkM2+ke+kD5NtcyA8pXL//x23crnbxQN2iBZK+1mIMizZRsY51ialVD1GDDVh2Bfa0xInwIaBKxZkFCa+x56cw1tfToo9YYhlJxzdsCXgr20fWlw+eK7Dii8Udb2tDjQNK8VAqnXQV0dAod2K1reSM+aBQjc04NSHggzigUOXkKxBdh2t4yADPNXuK90AwY7nxrrgxNflUoZKvImVposPFHrs02CEAXT3j44CNziuxaL5TrvAJXD5AAEx7tkgolllManDx5ZbsWyyBordo1INXd0CwvwczQvR8Zl/nAvvd+QNUoyWQe/bASVpAK2v66i4/k/pYUjaCz/0lEufjpbcgPQw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38100700002)(55016003)(110136005)(54906003)(52536014)(26005)(186003)(498600001)(5660300002)(2906002)(38070700005)(8936002)(86362001)(76116006)(33656002)(9686003)(6506007)(7696005)(8676002)(53546011)(71200400001)(44832011)(122000001)(66946007)(4326008)(64756008)(66446008)(66476007)(66556008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ziDtPMag8ivCayZnWP38gK23L4Kt3itBZaeWuzjBzvaEDhxdAsxLIF5DKuik?=
+ =?us-ascii?Q?yGSs+SDnWc/JDYSf8w9asjRQ+mWTRsjZzGk18Jc8oX8rRinZYH1YLZdKwr4q?=
+ =?us-ascii?Q?GMDYZA41SxgrJUsaKzJPWF1QGzEj0Hxuy9cgAPAGpAPDetK7xS2Qqk4SE3I8?=
+ =?us-ascii?Q?AbYDny9Iepxp5WMOTObwm660n0R6wcfywYcMy2J3kv36qSNp3V+BImH8Ge+3?=
+ =?us-ascii?Q?A9PRk3z/4MkBjVCveWxrArdCJxG/E4hCz4DoB6b1IxRe41FZYvckJDkUJTB8?=
+ =?us-ascii?Q?iUsxKXKII+sLMO/72jQX3+chb11FDSWKJGjCuwKbtvvyOpHLUGgvviPyNuwG?=
+ =?us-ascii?Q?d/A06FJKvE+0LHfHp1IJAW7jHcZOBcWTDrdFvOjnEfV/kYbo3G2jQxfMp7Xc?=
+ =?us-ascii?Q?/wdCgMv6+H93tuS8EwNfZCHDY/BFwwf3sHLX91n6vXHt5E1jS5A+38GRQw8N?=
+ =?us-ascii?Q?AGAcnBw02otmTIgnd25JCJlA3TFrtsMCCjmI42i+K/stpX+k2uE9EKDWHUjj?=
+ =?us-ascii?Q?rg3aaDnSq90iZjKJMva/JgCnBw6oRTTql8zNTGunIwoOlRS48klyUpQH7a8u?=
+ =?us-ascii?Q?fYvrome2rEscdNMI8FCCLVKSxRc5uOgvb2O9+BDesEV70IO8MVBJm/2JOrUo?=
+ =?us-ascii?Q?XgnKf2TD/ejGiN/gml3F4kUeo/oFiIBnxVdQr4q4ZDPW27xBA2x5XFNLHnCv?=
+ =?us-ascii?Q?FMrrhbQvPf0gAR1+mjfqmLLyIefrB6SkqdAe3mW7Xr5ynUGn0bgrfo04JIbu?=
+ =?us-ascii?Q?3AAxx0XS0JSu3jghhtsKraoZ1sf00oLphLE/zgsPHAAFs/LAhw3Vyb0YNvVN?=
+ =?us-ascii?Q?jkWSiFG7qFtjmxf4Utcu1RRGFl1RsGxag8/mMO1hurDz9uXsiuwf/YvmllMs?=
+ =?us-ascii?Q?xzvgr0YH2zrxS/kKHMm2r0ycvQbiT32q6yY04FCO9SLxrEz3h6tMnkEzByVV?=
+ =?us-ascii?Q?FmXUQwRJOpGKX3gcoWTp8eU9pCwDgr9M0x3l+HQQD8pY0Tfzqkxqn1I9uQ6D?=
+ =?us-ascii?Q?+OCr8TYaxayUFso/qfcD8AdDxZF8h0k+hyX/EspA5yfkJyQ1ooPeyuGUzjf9?=
+ =?us-ascii?Q?dgZWZqYOYKNK1//g+HJ1P0tiPVYHohJ3Rbv1X4lJXxdYtoxgo48prhBBijz7?=
+ =?us-ascii?Q?e6slO43DRDYmMv4plNxSILYwWIrSfdInHlCrcyCfscnCNsbNSQmEGn/+TAud?=
+ =?us-ascii?Q?54XeqRzv0jf2urN+8AbFo8/IsYBGM6vMNyjE5gZPg5o4LOp43mDLt8qZlsuJ?=
+ =?us-ascii?Q?7RH1NFuA0EZkvQtX8MDGXPLg+HZJMrJXr0goQEMnZKnstAjwVCmbgTTs2hih?=
+ =?us-ascii?Q?+uT7F248V9CH4fC29CFDgU5F25+2+RDPuxWfjp+Sqp7Sw2jFHgE5xJwbJj22?=
+ =?us-ascii?Q?BoQcIls0GxBJGNkUnolF7F2aspzhSKzTVOqZaLB2tydJ+tYm+bi8gcJSiQJm?=
+ =?us-ascii?Q?aWF37+JjVcI=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee51c570-b373-4d08-6d6b-08da058b669d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2022 07:22:30.5126
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iW3yjDeYe8OuQgWJO4og2AMwpqrzmb75BQ2JF+UrGsiblvwT5xUPmoW3bd88kkPbSiLDLYI2Mtt8hMUY3s1TFg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6191
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sun, 13 Mar 2022 14:34:39 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+> From: Lijun Fang [mailto:fanglijun3@huawei.com]
+> Sent: Monday, March 14, 2022 2:10 PM
+> To: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org
+> Cc: Ming Qian <ming.qian@nxp.com>; Shijie Qin <shijie.qin@nxp.com>; Eagle
+> Zhou <eagle.zhou@nxp.com>; mchehab@kernel.org; hverkuil-cisco@xs4all.nl;
+> xuqiang36@huawei.com
+> Subject: [PATCH] media: amphion: Add missing of_node_put() in
+> vpu_core_parse_dt
+>=20
+> The device_node pointer is returned by of_parse_phandle()  with refcount
+> incremented. We should use of_node_put() on it when done.
+>=20
+> Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
+> Signed-off-by: Lijun Fang <fanglijun3@huawei.com>
 
-> Hi Mauro,
-> 
-> Thank you for the patch.
-> 
-> On Sun, Mar 13, 2022 at 08:21:19AM +0100, Mauro Carvalho Chehab wrote:
-> > In order to cleanup the main platform media directory, move Renesas
-> > driver to its own directory.
-> > 
+Reviewed-by: Ming Qian <ming.qian@nxp.com>
 
-...
+> ---
+>  drivers/media/platform/amphion/vpu_core.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/amphion/vpu_core.c
+> b/drivers/media/platform/amphion/vpu_core.c
+> index 016554387f3f..74edc4abbdaa 100644
+> --- a/drivers/media/platform/amphion/vpu_core.c
+> +++ b/drivers/media/platform/amphion/vpu_core.c
+> @@ -529,10 +529,12 @@ static int vpu_core_parse_dt(struct vpu_core *core,
+> struct device_node *np)
+>  	}
+>  	if (of_address_to_resource(node, 0, &res)) {
+>  		dev_err(core->dev, "boot-region of_address_to_resource error\n");
+> +		of_node_put(node);
+>  		return -EINVAL;
+>  	}
+>  	core->fw.phys =3D res.start;
+>  	core->fw.length =3D resource_size(&res);
+> +	of_node_put(node);
+>=20
+>  	node =3D of_parse_phandle(np, "memory-region", 1);
+>  	if (!node) {
+> @@ -541,10 +543,12 @@ static int vpu_core_parse_dt(struct vpu_core *core,
+> struct device_node *np)
+>  	}
+>  	if (of_address_to_resource(node, 0, &res)) {
+>  		dev_err(core->dev, "rpc-region of_address_to_resource error\n");
+> +		of_node_put(node);
+>  		return -EINVAL;
+>  	}
+>  	core->rpc.phys =3D res.start;
+>  	core->rpc.length =3D resource_size(&res);
+> +	of_node_put(node);
+>=20
+>  	if (core->rpc.length < core->res->rpc_size + core->res->fwlog_size) {
+>  		dev_err(core->dev, "the rpc-region <%pad, 0x%x> is not enough\n",
+> --
+> 2.17.1
 
-> > +config VIDEO_RENESAS_FCP
-> > +	tristate "Renesas Frame Compression Processor"
-> > +	depends on V4L_MEM2MEM_DRIVERS
-> > +	depends on ARCH_RENESAS || COMPILE_TEST
-> > +	depends on OF
-> > +	help
-> > +	  This is a driver for the Renesas Frame Compression Processor (FCP).
-> > +	  The FCP is a companion module of video processing modules in the
-> > +	  Renesas R-Car Gen3 and RZ/G2 SoCs. It handles memory access for
-> > +	  the codec, VSP and FDP modules.
-> > +
-> > +	  To compile this driver as a module, choose M here: the module
-> > +	  will be called rcar-fcp.  
-> 
-> This should go before FDP1.
-
-I'll do the reorder on the next version as proposed by you.
-
-FYI, I opted to not sort the manufacturer's Kconfig files on this series
-by purpose. After those patch series, the per-vendor Kconfig menus
-have only a few drivers (up to ~10 config symbols). That makes it
-a lot more manageable than what we had before. So, from my side, I don't
-have any special requirements about Kconfig order.
-
-On other words, the order inside each vendor-specific Kconfig
-file should be a decision taken by the driver maintainers, which should
-decide what fits better for them, considering that:
-
-- the per-vendor driver order may not be in alphabetical order, as
-  it may make sense to group drivers per type, platform and/or by
-  its dependency chain;
-
-- It is now easy to sort the per-vendor entries alphabetically,
-  either per config title or per Kconfig symbol.
-
-- Now that the main sort criteria is per-vendor, IMO it makes sense to
-  have a per-vendor symbol space, e. g., instead of having:
-
-	config VIDEO_RCAR_CSI2
-	config VIDEO_RCAR_VIN
-	config VIDEO_RCAR_ISP
-	config VIDEO_RENESAS_CEU
-	config VIDEO_SH_VOU
-	config VIDEO_RENESAS_FCP
-	config VIDEO_RENESAS_FDP1
-	config VIDEO_RENESAS_JPU
-	config VIDEO_RENESAS_VSP1
-	config VIDEO_RCAR_DRIF
-
-It could make sense to have all of them prepended with VIDEO_RENESAS:
-
-	config VIDEO_RENESAS_CAR_CSI2
-	config VIDEO_RENESAS_CAR_VIN
-	config VIDEO_RENESAS_CAR_ISP
-	config VIDEO_RENESAS_CEU
-	config VIDEO_RENESAS_SH_VOU
-	config VIDEO_RENESAS_FCP
-	config VIDEO_RENESAS_FDP1
-	config VIDEO_RENESAS_JPU
-	config VIDEO_RENESAS_VSP1
-	config VIDEO_RENESAS_CAR_DRIF
-
-or some other variant of that, to produce smaller names, like using the
-prefix adopted at the stock market (RNE, I guess): 
-
-	config VIDEO_RNE_CAR_CSI2
-	config VIDEO_RNE_CAR_VIN
-	config VIDEO_RNE_CAR_ISP
-	config VIDEO_RNE_CEU
-	config VIDEO_RNE_SH_VOU
-	config VIDEO_RNE_FCP
-	config VIDEO_RNE_FDP1
-	config VIDEO_RNE_JPU
-	config VIDEO_RNE_VSP1
-	config VIDEO_RNE_CAR_DRIF
-
-With a change like that, a per Kconfig-symbol alphabetic order will change.
-
-> 
-> The FCP isn't a memory-to-memory device by the way, it's an ancillary
-> device that handles compression of data transmitted on the bus between a
-> DMA engine and memory. It's fine keeping it here, as it's related to the
-> memory-to-memory devices.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thanks,
-Mauro
