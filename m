@@ -2,105 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9E244D7D28
-	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 09:05:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A80014D7D56
+	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 09:09:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237438AbiCNIGL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Mar 2022 04:06:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57644 "EHLO
+        id S237600AbiCNIKK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Mar 2022 04:10:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238871AbiCNIEp (ORCPT
+        with ESMTP id S237614AbiCNIKH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Mar 2022 04:04:45 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF491F605
-        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 01:02:35 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id b19so111259wrh.11
-        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 01:02:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=FCTa1MEHZ8RflaCaL+Kv3IB7oupUyUxIYhWpI7cZElk=;
-        b=CPYvO7CXsDtRHFv+aDgUHU3k7MoLfFq17gtgRZR4JdQQpMZli8AiYNEUu+PbzficSb
-         kDLK7fNDlYCoxWfM3BOU2HueKNJDZIK7I8FZ6wWB9ui2crHxS9Xs4NT9/goKSvhMxDaC
-         Su/z3KOd5lN3ajtVx0cM1iXhpFPSDH2ClbJUQMQ4FZayf+7vJ1C2ZcNeR5klliK+Zh8G
-         yC+yUtrQhzURXVIK4aC3wcr1GxrSzO65DF7KDecC6oL00uM9/eG1Nn13sUKmdnUE3x+J
-         HCgbhL6ICpV2tGofvMIQEVBoxio1VM2bYHKzKXhsw+s4FNCnL8RBXUZ86ObcZVOCX5IQ
-         z8uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=FCTa1MEHZ8RflaCaL+Kv3IB7oupUyUxIYhWpI7cZElk=;
-        b=3I/bOxwfSMy3Q+cup+xq0+2JUg2A2KksIPn2NRupldb2uJlxNL4VZprj+lPR8YT/ci
-         0xHls/49ur0Ws/Z+NI2rIN/njQhQE1MMU/Qk/3xBidP2zxoKBOJSjL9voGldaJaWH2U3
-         CXN0FMQ+WpXUJJB+2sJ9uAQHqQIBjv8R9vtMNjOSJoJ61M09y6eLJcfKM9Mnm2WIcjjd
-         EXWJdREko9o/PWz4R2r2OM95NfIFg6bh/z1NkU/Hb3kZbs1sPWuywrlpJYp6BubKk54B
-         ZM+JJ7RBWcUx3YgX1LSYz5jDCAUf5TzOWvDkraqM1p9f2y/Fi/t7KPogPdRSW0VAm3PT
-         8Cxw==
-X-Gm-Message-State: AOAM533GtAw8ql8ZbBGUHIyVJpzKC9PZeaDWtErjY6YEV5rBwEK8k0jJ
-        MooPyiV7o8/h2YanY8agElWSpQ==
-X-Google-Smtp-Source: ABdhPJygPodjlvvW7OainAGLKsdDvzFoilMLfj02cRFY2jabbkEhO2PBY0GqOsOjtLsFBdJBcYu+Ag==
-X-Received: by 2002:a5d:51cb:0:b0:203:8dff:e9e4 with SMTP id n11-20020a5d51cb000000b002038dffe9e4mr13637700wrv.512.1647244935364;
-        Mon, 14 Mar 2022 01:02:15 -0700 (PDT)
-Received: from ?IPV6:2001:861:44c0:66c0:67f0:57f7:2185:6d18? ([2001:861:44c0:66c0:67f0:57f7:2185:6d18])
-        by smtp.gmail.com with ESMTPSA id o6-20020a5d6846000000b001f044a8e214sm12331808wrw.107.2022.03.14.01.02.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Mar 2022 01:02:14 -0700 (PDT)
-Message-ID: <846c8a4f-73ed-5003-1c7c-578d580a9833@baylibre.com>
-Date:   Mon, 14 Mar 2022 09:02:19 +0100
+        Mon, 14 Mar 2022 04:10:07 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07DA8E094;
+        Mon, 14 Mar 2022 01:08:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 5224DCE10A8;
+        Mon, 14 Mar 2022 08:08:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27B61C340E9;
+        Mon, 14 Mar 2022 08:08:48 +0000 (UTC)
+Message-ID: <430ded35-898e-47dd-c287-f3979a04af48@xs4all.nl>
+Date:   Mon, 14 Mar 2022 09:08:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] media: meson-ir-tx: fix platform_get_irq.cocci warning
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v3 1/2] media: v4l2-ctrls: Add intra-refresh type control
 Content-Language: en-US
-To:     Yihao Han <hanyihao@vivo.com>, Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     kernel@vivo.com
-References: <20220310074059.12269-1-hanyihao@vivo.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <20220310074059.12269-1-hanyihao@vivo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     quic_dikshita@quicinc.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, ezequiel@collabora.com,
+        stanimir.varbanov@linaro.org, quic_vgarodia@quicinc.com,
+        quic_majja@quicinc.com, quic_jdas@quicinc.com
+References: <1647244809-25340-1-git-send-email-quic_dikshita@quicinc.com>
+ <1647244809-25340-2-git-send-email-quic_dikshita@quicinc.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <1647244809-25340-2-git-send-email-quic_dikshita@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/03/2022 08:40, Yihao Han wrote:
-> Remove dev_err() messages after platform_get_irq*() failures.
-> platform_get_irq() already prints an error.
-> 
-> Generated by: scripts/coccinelle/api/platform_get_irq.cocci
-> 
-> Signed-off-by: Yihao Han <hanyihao@vivo.com>
-> ---
->   drivers/media/rc/meson-ir-tx.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/rc/meson-ir-tx.c b/drivers/media/rc/meson-ir-tx.c
-> index 63e1dbf0a4e9..abdb62b16e98 100644
-> --- a/drivers/media/rc/meson-ir-tx.c
-> +++ b/drivers/media/rc/meson-ir-tx.c
-> @@ -323,10 +323,8 @@ static int __init meson_irtx_probe(struct platform_device *pdev)
->   		return PTR_ERR(ir->reg_base);
->   
->   	irq = platform_get_irq(pdev, 0);
-> -	if (irq < 0) {
-> -		dev_err(dev, "no irq resource found\n");
-> +	if (irq < 0)
->   		return -ENODEV;
-> -	}
->   
->   	ir->dev = dev;
->   	ir->carrier = MIRTX_DEFAULT_CARRIER;
+Hi Dikshita,
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+Some small comments below:
+
+On 3/14/22 09:00, quic_dikshita@quicinc.com wrote:
+> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> 
+> Add a control to set intra-refresh type.
+> 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 27 ++++++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  9 ++++++++
+>  include/uapi/linux/v4l2-controls.h                 |  5 ++++
+>  3 files changed, 41 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 4cd7c54..2406272 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -1180,6 +1180,33 @@ enum v4l2_mpeg_video_h264_entropy_mode -
+>      is set to non zero value.
+>      Applicable to H264, H263 and MPEG4 encoder.
+>  
+> +``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE (enum)``
+> +
+> +enum v4l2_mpeg_video_intra_refresh_period_type -
+> +    Sets the type of intra refresh. The period to refresh
+> +    the whole frame is specified by V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD.
+> +    Note if the client sets this control to either
+> +    ``V4L2_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_RANDOM``or
+> +    ``V4L2_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_CYCLIC``
+> +    the ``V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB`` control
+> +    shall be ignored.
+
+No, that's not right. Just drop this sentence. This control just sets
+the type, and whether CYCLIC_INTRA_REFRESH_MB is used or not depends
+on INTRA_REFRESH_PERIOD, but that has nothing to do with this control.
+
+> +    And if this control is not present that it is undefined what
+> +    refresh type is used and it is upto the drive to decide.
+
+upto -> up to
+
+> +    Applicable to H264 and HEVC encoders. Possible values are:
+> +
+> +.. tabularcolumns:: |p{9.6cm}|p{7.9cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +
+> +    * - ``V4L2_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_RANDOM``
+> +      - The whole frame is completely refreshed randomly
+> +      after the specified period.
+> +    * - ``V4L2_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_CYCLIC``
+> +      - The whole frame MBs are completely refreshed in cyclic order
+> +      after the specified period.
+> +
+>  ``V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD (integer)``
+>      Intra macroblock refresh period. This sets the period to refresh
+>      the whole frame. In other words, this defines the number of frames
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index 54ca4e6..451c8b0 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -572,6 +572,11 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>  		"VBV/CPB Limit",
+>  		NULL,
+>  	};
+> +	static const char * const intra_refresh_period_type[] = {
+> +		"Random",
+> +		"Cyclic",
+> +		NULL,
+> +	};
+>  
+>  	switch (id) {
+>  	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
+> @@ -705,6 +710,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>  		return hevc_start_code;
+>  	case V4L2_CID_CAMERA_ORIENTATION:
+>  		return camera_orientation;
+> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:
+> +		return intra_refresh_period_type;
+>  	default:
+>  		return NULL;
+>  	}
+> @@ -834,6 +841,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:	return "Decoder Slice Interface";
+>  	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:	return "MPEG4 Loop Filter Enable";
+>  	case V4L2_CID_MPEG_VIDEO_CYCLIC_INTRA_REFRESH_MB:	return "Number of Intra Refresh MBs";
+> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:	return "Intra Refresh Type";
+
+"Intra Refresh Period Type"
+
+>  	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD:		return "Intra Refresh Period";
+>  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:		return "Frame Level Rate Control Enable";
+>  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:			return "H264 MB Level Rate Control";
+> @@ -1360,6 +1368,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_STATELESS_H264_DECODE_MODE:
+>  	case V4L2_CID_STATELESS_H264_START_CODE:
+>  	case V4L2_CID_CAMERA_ORIENTATION:
+> +	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:
+>  		*type = V4L2_CTRL_TYPE_MENU;
+>  		break;
+>  	case V4L2_CID_LINK_FREQ:
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index c8e0f84..e7df4c5 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -443,6 +443,11 @@ enum v4l2_mpeg_video_multi_slice_mode {
+>  #define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES		(V4L2_CID_CODEC_BASE+234)
+>  #define V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR		(V4L2_CID_CODEC_BASE+235)
+>  #define V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD	(V4L2_CID_CODEC_BASE+236)
+> +#define V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE	(V4L2_CID_CODEC_BASE+237)
+> +enum v4l2_mpeg_video_intra_refresh_period_type {
+> +	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_RANDOM	= 0,
+> +	V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_CYCLIC	= 1,
+> +};
+>  
+>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_CODEC_BASE+270)
+
+Regards,
+
+	Hans
