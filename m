@@ -2,131 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97B6C4D7F77
-	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 11:10:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 367AB4D7F9D
+	for <lists+linux-media@lfdr.de>; Mon, 14 Mar 2022 11:16:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238361AbiCNKLP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Mar 2022 06:11:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51488 "EHLO
+        id S238450AbiCNKRG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Mar 2022 06:17:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238348AbiCNKLM (ORCPT
+        with ESMTP id S230383AbiCNKRC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Mar 2022 06:11:12 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD5823BFA3;
-        Mon, 14 Mar 2022 03:10:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1647252603; x=1678788603;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=doXGk5p8tT7N4V05wwPZ5/b5HZpry0GoqXMs9hAYbss=;
-  b=cnKMSmaSXrI4moe+D9t7kf+X9iJBM1jllZYM8vMi3Pcack8fmtKVtfpk
-   aTWCyZv9nIJLms190fDdrpBjgrX0bojAeiBo2/a79cINFnNOPFmFSiNcR
-   5Qydw0WkQReWjjPHcsGh2/qkGKxEPYuFh43zep1TP1OQmAjU8BIbdfuHI
-   M=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
-  by alexa-out.qualcomm.com with ESMTP; 14 Mar 2022 03:10:02 -0700
-X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 14 Mar 2022 03:10:00 -0700
-X-QCInternal: smtphost
-Received: from hu-dikshita-hyd.qualcomm.com (HELO hu-sgudaval-hyd.qualcomm.com) ([10.213.110.13])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 14 Mar 2022 15:39:45 +0530
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
-        id BCCB34676; Mon, 14 Mar 2022 15:39:44 +0530 (+0530)
-From:   quic_dikshita@quicinc.com
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hverkuil-cisco@xs4all.nl
-Cc:     linux-arm-msm@vger.kernel.org, ezequiel@collabora.com,
-        stanimir.varbanov@linaro.org, quic_vgarodia@quicinc.com,
-        quic_majja@quicinc.com, quic_jdas@quicinc.com,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: [PATCH v4 2/2] venus: venc: Add support for intra-refresh mode
-Date:   Mon, 14 Mar 2022 15:39:34 +0530
-Message-Id: <1647252574-30451-3-git-send-email-quic_dikshita@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1647252574-30451-1-git-send-email-quic_dikshita@quicinc.com>
-References: <1647252574-30451-1-git-send-email-quic_dikshita@quicinc.com>
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 14 Mar 2022 06:17:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BFE0E3CFD5
+        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 03:15:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647252950;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=yBBtuI6F18YPuS7YTSgGKI6xMx2O4uTZcjV3VPAgn7U=;
+        b=Ffj2cKVVjuTixVsOSlF6dsoEYKbxR/DTJ76vJ7PqTjw2Pyt9gZuzwj3wLnayqVRa/EsZ0S
+        IUva0pXa29ESNz8/9mscQZhacxxpENM6W9MPm34Du1BJMUyF8EWT+Jqb16EDDbhn9epUrD
+        xSI3Ly2lYzgv55DhiC9kCDJ8Uyr+J5k=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-561-YQeAdOhmOyeUuGI8kVL1zw-1; Mon, 14 Mar 2022 06:15:45 -0400
+X-MC-Unique: YQeAdOhmOyeUuGI8kVL1zw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8EEF3802AC4;
+        Mon, 14 Mar 2022 10:15:44 +0000 (UTC)
+Received: from kate-fedora.redhat.com (unknown [10.2.16.91])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C4C874AE321;
+        Mon, 14 Mar 2022 10:15:41 +0000 (UTC)
+From:   Kate Hsuan <hpa@redhat.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, hdegoede@redhat.com,
+        Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v3 1/2] staging: media: ipu3: Fix AF x_start position when rightmost stripe is used
+Date:   Mon, 14 Mar 2022 18:15:22 +0800
+Message-Id: <20220314101523.129672-1-hpa@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+For the AF configuration, if the rightmost stripe is used, the AF scene
+will be at the incorrect location of the sensor.
 
-Add support for intra-refresh type v4l2 control.
+The AF coordinate may be set to the right part of the sensor. This
+configuration would lead to x_start being greater than the
+down_scaled_stripes offset and the leftmost stripe would be disabled
+and only the rightmost stripe is used to control the AF coordinate. If
+the x_start doesn't perform any adjustments, the AF coordinate will be
+at the wrong place of the sensor since down_scaled_stripes offset
+would be the new zero of the coordinate system.
 
-Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In this patch, if only the rightmost stripe is used, x_start should
+minus down_scaled_stripes offset to maintain its correctness of AF
+scene coordinate.
+
+Changes in v2:
+1. Remove the setting of the first stripe.
+
+Signed-off-by: Kate Hsuan <hpa@redhat.com>
 ---
- drivers/media/platform/qcom/venus/core.h       |  1 +
- drivers/media/platform/qcom/venus/venc.c       |  6 +++++-
- drivers/media/platform/qcom/venus/venc_ctrls.c | 10 ++++++++++
- 3 files changed, 16 insertions(+), 1 deletion(-)
+ drivers/staging/media/ipu3/ipu3-css-params.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 7c3bac0..65c0f01 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -260,6 +260,7 @@ struct venc_controls {
- 
- 	u32 header_mode;
- 	bool aud_enable;
-+	u32 intra_refresh_type;
- 	u32 intra_refresh_period;
- 
- 	struct {
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 84bafc3..bff8caf 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -893,8 +893,12 @@ static int venc_set_properties(struct venus_inst *inst)
- 				mbs++;
- 			mbs /= ctr->intra_refresh_period;
- 
--			intra_refresh.mode = HFI_INTRA_REFRESH_RANDOM;
- 			intra_refresh.cir_mbs = mbs;
-+			if (ctr->intra_refresh_type ==
-+			    V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_CYCLIC)
-+				intra_refresh.mode = HFI_INTRA_REFRESH_CYCLIC;
-+			else
-+				intra_refresh.mode = HFI_INTRA_REFRESH_RANDOM;
- 		}
- 
- 		ptype = HFI_PROPERTY_PARAM_VENC_INTRA_REFRESH;
-diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-index 1ada42d..51f5a572 100644
---- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-@@ -316,6 +316,9 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
- 		ctr->mastering = *ctrl->p_new.p_hdr10_mastering;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:
-+		ctr->intra_refresh_type = ctrl->val;
-+		break;
- 	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD:
- 		ctr->intra_refresh_period = ctrl->val;
- 		break;
-@@ -582,6 +585,13 @@ int venc_ctrl_init(struct venus_inst *inst)
- 				   V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY,
- 				   v4l2_ctrl_ptr_create(NULL));
- 
-+	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
-+			       V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE,
-+			       V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_CYCLIC,
-+			       ~((1 << V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_RANDOM) |
-+			       (1 << V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_CYCLIC)),
-+			       V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE_RANDOM);
-+
- 	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
- 			  V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD, 0,
- 			  ((4096 * 2304) >> 8), 1, 0);
+diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
+index d9e3c3785075..5a8c07f34756 100644
+--- a/drivers/staging/media/ipu3/ipu3-css-params.c
++++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+@@ -2556,6 +2556,10 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
+ 		/* Enable only for rightmost stripe, disable left */
+ 		acc->af.stripes[0].grid_cfg.y_start &=
+ 			~IPU3_UAPI_GRID_Y_START_EN;
++		acc->af.stripes[1].grid_cfg.x_start -=
++			acc->stripe.down_scaled_stripes[1].offset;
++		acc->af.stripes[1].grid_cfg.x_end -=
++			acc->stripe.down_scaled_stripes[1].offset;
+ 	} else if (acc->af.config.grid_cfg.x_end <=
+ 		   acc->stripe.bds_out_stripes[0].width - min_overlap) {
+ 		/* Enable only for leftmost stripe, disable right */
 -- 
-2.7.4
+2.35.1
 
