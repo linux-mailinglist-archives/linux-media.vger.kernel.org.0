@@ -2,85 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 726E54DA266
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 19:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E4534DA27E
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 19:39:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351041AbiCOS1d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 14:27:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39452 "EHLO
+        id S1351079AbiCOSkI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 14:40:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241136AbiCOS1c (ORCPT
+        with ESMTP id S1350999AbiCOSkG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 14:27:32 -0400
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEB795A0A5
-        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 11:26:19 -0700 (PDT)
-Received: by mail-qv1-xf34.google.com with SMTP id 13so151811qvq.8
-        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 11:26:19 -0700 (PDT)
+        Tue, 15 Mar 2022 14:40:06 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64BFE2127B
+        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 11:38:53 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id qa43so43063056ejc.12
+        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 11:38:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=l3gXoXKLC0zHJI2/h4gKXr3SExv7m4/0z9HVf//L8tk=;
-        b=nDqLXcEulqyBYqM2e5KW+Vmk8p5TpN5uxmQ66Z9BvPnmJUBJ/P/oX41mOgrQCrTg2U
-         Ph4GuJPQUrYP+yDki6Uk5Qn7GyNd/qggfbQ9p8jY6Zv8xFWyZEa1ARSn3RGPu1zvwVaF
-         2hWnQN7b7f2VGRuQ6iGkRehWB4YFLYNKyPEPLbnNpjvRE2EnzVJ8XnKGTBLzPyRdG6Px
-         nMtrnq3Ql1qoe2FEfoWLHf3cvKqPvuzKbXS+tfAZQN4/MKNLX7NqQMc/r2FLBtm0VoWf
-         PnqQc15+Q8OOJW/EL1ogxEX33MK82bTqWUJn+YzrZSRPVorP2UPFZSSA/90+R2D/GH12
-         f/Nw==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=S5xN0LCVYAtggu2f/gAi1o9QRydaM2JP7kyxLdP/1Ik=;
+        b=FIFMd3CF8lC4Sh+x5WjNIVGrtkUS53LRU1v3wZksVCqyQ8YulxgMhEzYMDOI+0I+/o
+         ZiI2PB+6NgCiImpud0tPLkpmlYIrP/TrDvSgP8noAhI5hxfvSI0riXWEpqWBaHRuvKv6
+         1CuLzHCnKncZNF3VlgyZBhmPQKCmM6ymSfR2GDFaXlD8EAcs6wETbF0vIApMdoRlZCl+
+         lt7dLwfrA8oLCnmabTJ+alaoLq9wmruy15/MEVTzRLJ9Bc6Rx9/LDnoYprqzOcokoOzR
+         ap3ANOZqHHuH4oVJGuQQPObYLnn2X3uoL27YBsSdZ8s6s4wBMXcpwdgec4oXXRMAKktJ
+         G2Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=l3gXoXKLC0zHJI2/h4gKXr3SExv7m4/0z9HVf//L8tk=;
-        b=y1Cn3KjiZ7FoeyLIlfw2o9ILb480awXA2P6kpCsnydvbj7Egu5jBtjbsDAzLRjDFhN
-         zyV2Q2wvvy4066P9t7lM+1/XmHUb0X6QZS+XzR5ITqgd3vBFiX94G0UjcCETv2soEPBw
-         puMpooO8TCeBHdx9/NLqRCR9f6z7cZNFbleq9zL0by8GGIx2Uyxl240olcRxzo6O23xM
-         f1YfCOPEkh2OBaQPI/uJ7CF0lruCYCUsqbuw9SzgAa+43ffSzpexFLVcbpBeGwArHMVu
-         D5cXLhnIhHUPCY7u8KR3SceJFlVUlEokGCa0SnAv53B7gAzVtohxV2UEIfxmSMObYgYf
-         rtAg==
-X-Gm-Message-State: AOAM530HHimvCKvRCA9nYMyFQ/Xx9n1vZBXDqIMNHVZom98EyUpBqkaM
-        45fkLy/FgTRn0tdi3DOLgRfZnQ==
-X-Google-Smtp-Source: ABdhPJyNUQu+vjW2T7gMj/Px7A+cgWb0gtqHLTBtL1b0oOx07mBP2G2ejfg0/I8SsFbwSLThIGq/HQ==
-X-Received: by 2002:a05:6214:c87:b0:435:4e8d:1866 with SMTP id r7-20020a0562140c8700b004354e8d1866mr22665774qvr.22.1647368778884;
-        Tue, 15 Mar 2022 11:26:18 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id d19-20020a05622a05d300b002e1e720ddcesm847324qtb.4.2022.03.15.11.26.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Mar 2022 11:26:18 -0700 (PDT)
-Message-ID: <d3e1957d65f8847c5cce5788c06e125d4e06e7dd.camel@ndufresne.ca>
-Subject: Re: [PATCH 10/24] media: platform: rename amphion/ to nxp/amphion/
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ming Qian <ming.qian@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Shijie Qin <shijie.qin@nxp.com>,
-        Zhou Peng <eagle.zhou@nxp.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Date:   Tue, 15 Mar 2022 14:26:17 -0400
-In-Reply-To: <74af5c2eb40369185a5a233b106513cbc14401c0.1647167750.git.mchehab@kernel.org>
-References: <cover.1647167750.git.mchehab@kernel.org>
-         <74af5c2eb40369185a5a233b106513cbc14401c0.1647167750.git.mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S5xN0LCVYAtggu2f/gAi1o9QRydaM2JP7kyxLdP/1Ik=;
+        b=cdCWWRVkaSEgA+Msse2aO64dP4LPdvFzsGfGkJS52ASjtFUGz7S0h8Ndvq5M68eyo/
+         F6s6KmgvFyytV+AY5DCsvbwYwn2ELTTLeOL8/MoXb/UFeoWCwLz27yQ5ydEHOtYbqMYf
+         quoe+rCIiTTOMdMECeDgAz7fjXJhd8NQSnCbHPAGUbihoHOsM63nwS+Drk4pmqKQAiXl
+         wcD7y9K3PdkthzzaovfqZUmVlBPQMU6o5+Rh3Rnnaw/tSmreMPb0L960ZT/xBUcnSMYV
+         GbDKMw5fi5yaYREniYUOWHr8HW6udlmEU3wkmHIju4cQlLiay63IMWYWpyfaXnfd8pBl
+         ioRg==
+X-Gm-Message-State: AOAM530/swzWh3SjiudvA13etb4lv2A0rKOTy/d7xZkTkRRID0oHneTB
+        vWjp0NJZCfqtcbuezdx+cuf+VkKim9Gyvvy8O9agHQ==
+X-Google-Smtp-Source: ABdhPJyYqd3mz/1MbrLULNPPyseYuJ3CXspNqst/M7/T3fPNwP5V06A4eu/7hiIp27ge9P0crOGBTJHPv9IXZt6VAsM=
+X-Received: by 2002:a17:906:4785:b0:6df:6784:a7f8 with SMTP id
+ cw5-20020a170906478500b006df6784a7f8mr2656646ejc.301.1647369531846; Tue, 15
+ Mar 2022 11:38:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220301042225.1540019-1-wenst@chromium.org> <CAGXv+5F-Nir_OHbenYntDhOVFviLP1n-dZcaw07GohSc=YK6SA@mail.gmail.com>
+In-Reply-To: <CAGXv+5F-Nir_OHbenYntDhOVFviLP1n-dZcaw07GohSc=YK6SA@mail.gmail.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Tue, 15 Mar 2022 15:38:40 -0300
+Message-ID: <CAAEAJfCdj1fbvt1Aj2SiH8HN=UoG8_F+TY99xVWDcZy2xnS8ew@mail.gmail.com>
+Subject: Re: [PATCH v3] media: hantro: Implement support for encoder commands
+To:     Chen-Yu Tsai <wenst@chromium.org>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,264 +73,225 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le dimanche 13 mars 2022 à 11:51 +0100, Mauro Carvalho Chehab a écrit :
-> As the end goal is to have platform drivers split by vendor,
-> rename amphion/ to nxp/amphion/.
+On Mon, Mar 14, 2022 at 3:59 AM Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> Hi Ezequiel,
+>
+> On Tue, Mar 1, 2022 at 12:22 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
+> >
+> > The V4L2 stateful encoder uAPI specification requires that drivers
+> > support the ENCODER_CMD ioctl to allow draining of buffers. This
+> > however was not implemented, and causes issues for some userspace
+> > applications.
+> >
+> > Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
+> > This is entirely based on existing code found in the vicodec test
+> > driver.
+> >
+> > Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>
+> Gentle ping on this patch. Any comments?
+>
 
-Amphion Semi is a chip vendor, just like Hantro (now owned merged in
-Verisilicon) and Chips&Media. Their hardware could be found on other SoC in the
-future. Note this one got acquired by Allegro, and it isn't clear if they will
-continue that product or not. Unlike CODA, which is a product name, the driver
-implement support for both known products (Malone, the decoder and Windsor, the
-encoder).
+Pong. I have been a tad busy the past weeks and haven't been able
+to review this yet. Sorry about that.
 
-https://www.finsmes.com/2019/10/allegro-dvt-acquires-amphion-semiconductor.html
+Meanwhile, and given how delicate this code path is in our experience,
+have you guys run regressions tests with this patch, in particular with decode?
 
-I'm not sure what to suggest here yet. allegro/amphion/ could be a workaround ?
+Thanks,
+Ezequiel
 
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
-> 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH 00/24] at: https://lore.kernel.org/all/cover.1647167750.git.mchehab@kernel.org/
-> 
->  MAINTAINERS                                            | 2 +-
->  drivers/media/platform/Kconfig                         | 2 +-
->  drivers/media/platform/Makefile                        | 2 +-
->  drivers/media/platform/{ => nxp}/amphion/Kconfig       | 0
->  drivers/media/platform/{ => nxp}/amphion/Makefile      | 0
->  drivers/media/platform/{ => nxp}/amphion/vdec.c        | 0
->  drivers/media/platform/{ => nxp}/amphion/venc.c        | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu.h         | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_cmds.c    | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_cmds.h    | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_codec.h   | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_color.c   | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_core.c    | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_core.h    | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_dbg.c     | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_defs.h    | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_drv.c     | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_helpers.c | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_helpers.h | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_imx8q.c   | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_imx8q.h   | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_malone.c  | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_malone.h  | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_mbox.c    | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_mbox.h    | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_msgs.c    | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_msgs.h    | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_rpc.c     | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_rpc.h     | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_v4l2.c    | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_v4l2.h    | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_windsor.c | 0
->  drivers/media/platform/{ => nxp}/amphion/vpu_windsor.h | 0
->  33 files changed, 3 insertions(+), 3 deletions(-)
->  rename drivers/media/platform/{ => nxp}/amphion/Kconfig (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/Makefile (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vdec.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/venc.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_cmds.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_cmds.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_codec.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_color.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_core.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_core.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_dbg.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_defs.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_drv.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_helpers.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_helpers.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_imx8q.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_imx8q.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_malone.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_malone.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_mbox.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_mbox.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_msgs.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_msgs.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_rpc.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_rpc.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_v4l2.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_v4l2.h (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_windsor.c (100%)
->  rename drivers/media/platform/{ => nxp}/amphion/vpu_windsor.h (100%)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c9333d46047e..74901acf8f06 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1037,7 +1037,7 @@ M:	Zhou Peng <eagle.zhou@nxp.com>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/media/amphion,vpu.yaml
-> -F:	drivers/media/platform/amphion/
-> +F:	drivers/media/platform/nxp/amphion/
->  
->  AMS AS73211 DRIVER
->  M:	Christian Eggers <ceggers@arri.de>
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index f07ab9a98e3b..2e3925408aa0 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -69,7 +69,6 @@ source "drivers/media/platform/allegro-dvt/Kconfig"
->  source "drivers/media/platform/allwinner/Kconfig"
->  source "drivers/media/platform/am437x/Kconfig"
->  source "drivers/media/platform/amlogic/meson-ge2d/Kconfig"
-> -source "drivers/media/platform/amphion/Kconfig"
->  source "drivers/media/platform/aspeed/Kconfig"
->  source "drivers/media/platform/atmel/Kconfig"
->  source "drivers/media/platform/cadence/Kconfig"
-> @@ -85,6 +84,7 @@ source "drivers/media/platform/mediatek/mtk-vcodec/Kconfig"
->  source "drivers/media/platform/mediatek/mtk-vpu/Kconfig"
->  source "drivers/media/platform/nvidia/tegra-vde/Kconfig"
->  source "drivers/media/platform/nxp/Kconfig"
-> +source "drivers/media/platform/nxp/amphion/Kconfig"
->  source "drivers/media/platform/omap/Kconfig"
->  source "drivers/media/platform/omap3isp/Kconfig"
->  source "drivers/media/platform/qcom/Kconfig"
-> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> index ce9909534218..7a28b60dbbe6 100644
-> --- a/drivers/media/platform/Makefile
-> +++ b/drivers/media/platform/Makefile
-> @@ -9,7 +9,6 @@ obj-y += allegro-dvt/
->  obj-y += allwinner/
->  obj-y += am437x/
->  obj-y += amlogic/meson-ge2d/
-> -obj-y += amphion/
->  obj-y += aspeed/
->  obj-y += atmel/
->  obj-y += cadence/
-> @@ -25,6 +24,7 @@ obj-y += mediatek/mtk-vcodec/
->  obj-y += mediatek/mtk-vpu/
->  obj-y += nvidia/tegra-vde/
->  obj-y += nxp/
-> +obj-y += nxp/amphion/
->  obj-y += omap/
->  obj-y += omap3isp/
->  obj-y += qcom/camss/
-> diff --git a/drivers/media/platform/amphion/Kconfig b/drivers/media/platform/nxp/amphion/Kconfig
-> similarity index 100%
-> rename from drivers/media/platform/amphion/Kconfig
-> rename to drivers/media/platform/nxp/amphion/Kconfig
-> diff --git a/drivers/media/platform/amphion/Makefile b/drivers/media/platform/nxp/amphion/Makefile
-> similarity index 100%
-> rename from drivers/media/platform/amphion/Makefile
-> rename to drivers/media/platform/nxp/amphion/Makefile
-> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/nxp/amphion/vdec.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vdec.c
-> rename to drivers/media/platform/nxp/amphion/vdec.c
-> diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/nxp/amphion/venc.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/venc.c
-> rename to drivers/media/platform/nxp/amphion/venc.c
-> diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platform/nxp/amphion/vpu.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu.h
-> rename to drivers/media/platform/nxp/amphion/vpu.h
-> diff --git a/drivers/media/platform/amphion/vpu_cmds.c b/drivers/media/platform/nxp/amphion/vpu_cmds.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_cmds.c
-> rename to drivers/media/platform/nxp/amphion/vpu_cmds.c
-> diff --git a/drivers/media/platform/amphion/vpu_cmds.h b/drivers/media/platform/nxp/amphion/vpu_cmds.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_cmds.h
-> rename to drivers/media/platform/nxp/amphion/vpu_cmds.h
-> diff --git a/drivers/media/platform/amphion/vpu_codec.h b/drivers/media/platform/nxp/amphion/vpu_codec.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_codec.h
-> rename to drivers/media/platform/nxp/amphion/vpu_codec.h
-> diff --git a/drivers/media/platform/amphion/vpu_color.c b/drivers/media/platform/nxp/amphion/vpu_color.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_color.c
-> rename to drivers/media/platform/nxp/amphion/vpu_color.c
-> diff --git a/drivers/media/platform/amphion/vpu_core.c b/drivers/media/platform/nxp/amphion/vpu_core.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_core.c
-> rename to drivers/media/platform/nxp/amphion/vpu_core.c
-> diff --git a/drivers/media/platform/amphion/vpu_core.h b/drivers/media/platform/nxp/amphion/vpu_core.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_core.h
-> rename to drivers/media/platform/nxp/amphion/vpu_core.h
-> diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/nxp/amphion/vpu_dbg.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_dbg.c
-> rename to drivers/media/platform/nxp/amphion/vpu_dbg.c
-> diff --git a/drivers/media/platform/amphion/vpu_defs.h b/drivers/media/platform/nxp/amphion/vpu_defs.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_defs.h
-> rename to drivers/media/platform/nxp/amphion/vpu_defs.h
-> diff --git a/drivers/media/platform/amphion/vpu_drv.c b/drivers/media/platform/nxp/amphion/vpu_drv.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_drv.c
-> rename to drivers/media/platform/nxp/amphion/vpu_drv.c
-> diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/media/platform/nxp/amphion/vpu_helpers.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_helpers.c
-> rename to drivers/media/platform/nxp/amphion/vpu_helpers.c
-> diff --git a/drivers/media/platform/amphion/vpu_helpers.h b/drivers/media/platform/nxp/amphion/vpu_helpers.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_helpers.h
-> rename to drivers/media/platform/nxp/amphion/vpu_helpers.h
-> diff --git a/drivers/media/platform/amphion/vpu_imx8q.c b/drivers/media/platform/nxp/amphion/vpu_imx8q.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_imx8q.c
-> rename to drivers/media/platform/nxp/amphion/vpu_imx8q.c
-> diff --git a/drivers/media/platform/amphion/vpu_imx8q.h b/drivers/media/platform/nxp/amphion/vpu_imx8q.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_imx8q.h
-> rename to drivers/media/platform/nxp/amphion/vpu_imx8q.h
-> diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/nxp/amphion/vpu_malone.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_malone.c
-> rename to drivers/media/platform/nxp/amphion/vpu_malone.c
-> diff --git a/drivers/media/platform/amphion/vpu_malone.h b/drivers/media/platform/nxp/amphion/vpu_malone.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_malone.h
-> rename to drivers/media/platform/nxp/amphion/vpu_malone.h
-> diff --git a/drivers/media/platform/amphion/vpu_mbox.c b/drivers/media/platform/nxp/amphion/vpu_mbox.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_mbox.c
-> rename to drivers/media/platform/nxp/amphion/vpu_mbox.c
-> diff --git a/drivers/media/platform/amphion/vpu_mbox.h b/drivers/media/platform/nxp/amphion/vpu_mbox.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_mbox.h
-> rename to drivers/media/platform/nxp/amphion/vpu_mbox.h
-> diff --git a/drivers/media/platform/amphion/vpu_msgs.c b/drivers/media/platform/nxp/amphion/vpu_msgs.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_msgs.c
-> rename to drivers/media/platform/nxp/amphion/vpu_msgs.c
-> diff --git a/drivers/media/platform/amphion/vpu_msgs.h b/drivers/media/platform/nxp/amphion/vpu_msgs.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_msgs.h
-> rename to drivers/media/platform/nxp/amphion/vpu_msgs.h
-> diff --git a/drivers/media/platform/amphion/vpu_rpc.c b/drivers/media/platform/nxp/amphion/vpu_rpc.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_rpc.c
-> rename to drivers/media/platform/nxp/amphion/vpu_rpc.c
-> diff --git a/drivers/media/platform/amphion/vpu_rpc.h b/drivers/media/platform/nxp/amphion/vpu_rpc.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_rpc.h
-> rename to drivers/media/platform/nxp/amphion/vpu_rpc.h
-> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/nxp/amphion/vpu_v4l2.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_v4l2.c
-> rename to drivers/media/platform/nxp/amphion/vpu_v4l2.c
-> diff --git a/drivers/media/platform/amphion/vpu_v4l2.h b/drivers/media/platform/nxp/amphion/vpu_v4l2.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_v4l2.h
-> rename to drivers/media/platform/nxp/amphion/vpu_v4l2.h
-> diff --git a/drivers/media/platform/amphion/vpu_windsor.c b/drivers/media/platform/nxp/amphion/vpu_windsor.c
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_windsor.c
-> rename to drivers/media/platform/nxp/amphion/vpu_windsor.c
-> diff --git a/drivers/media/platform/amphion/vpu_windsor.h b/drivers/media/platform/nxp/amphion/vpu_windsor.h
-> similarity index 100%
-> rename from drivers/media/platform/amphion/vpu_windsor.h
-> rename to drivers/media/platform/nxp/amphion/vpu_windsor.h
 
+> > ---
+> >
+> > Changes since v2:
+> > - Dropped RFC tag
+> > - Added Reviewed-by from Benjamin
+> > - Replace direct access to vb->planes[i].bytesused with
+> >   vb2_set_plane_payload()
+> >
+> > Changes since v1:
+> > - Correctly handle last buffers that are empty
+> > - Correctly handle last buffers that just got queued
+> > - Disable (TRY_)ENCODER_CMD ioctls for hantro decoder
+> >
+> > This is based on linux-next-20220208, and was tested on RK3399 with
+> > Gstreamer running the JPEG encoder. It was also tested on ChromeOS
+> > 5.10 on Kevin with the video encoder used in ChromeOS ARC, which
+> > requires this. For ChromeOS, both encoder and decoder tests were run
+> > to check for regressions.
+> >
+> > Everything really works OK now, but since I'm not very familiar with
+> > the mem2mem framework, I might be missing something, causing resource
+> > leaks. Hence this patch is labeled RFC.
+> >
+> > Last, I suppose we could also add support for (TRY_)DECODER_CMD now?
+> >
+> >  drivers/staging/media/hantro/hantro_drv.c  | 17 +++++-
+> >  drivers/staging/media/hantro/hantro_v4l2.c | 68 +++++++++++++++++++++-
+> >  2 files changed, 81 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> > index bc9bcb4eaf46..99bc650a5a93 100644
+> > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > @@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
+> >         return hantro_get_dec_buf_addr(ctx, buf);
+> >  }
+> >
+> > +static const struct v4l2_event hantro_eos_event = {
+> > +       .type = V4L2_EVENT_EOS
+> > +};
+> > +
+> >  static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+> >                                     struct hantro_ctx *ctx,
+> >                                     enum vb2_buffer_state result)
+> > @@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+> >         src->sequence = ctx->sequence_out++;
+> >         dst->sequence = ctx->sequence_cap++;
+> >
+> > +       if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
+> > +               dst->flags |= V4L2_BUF_FLAG_LAST;
+> > +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> > +               v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
+> > +       }
+> > +
+> >         v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
+> >                                          result);
+> >  }
+> > @@ -807,10 +817,13 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
+> >         snprintf(vfd->name, sizeof(vfd->name), "%s-%s", match->compatible,
+> >                  funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER ? "enc" : "dec");
+> >
+> > -       if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER)
+> > +       if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
+> >                 vpu->encoder = func;
+> > -       else
+> > +       } else {
+> >                 vpu->decoder = func;
+> > +               v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+> > +               v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
+> > +       }
+> >
+> >         video_set_drvdata(vfd, vpu);
+> >
+> > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> > index 67148ba346f5..aa10ecd04c9c 100644
+> > --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> > @@ -628,6 +628,39 @@ static int vidioc_s_selection(struct file *file, void *priv,
+> >         return 0;
+> >  }
+> >
+> > +static const struct v4l2_event hantro_eos_event = {
+> > +       .type = V4L2_EVENT_EOS
+> > +};
+> > +
+> > +static int vidioc_encoder_cmd(struct file *file, void *priv,
+> > +                             struct v4l2_encoder_cmd *ec)
+> > +{
+> > +       struct hantro_ctx *ctx = fh_to_ctx(priv);
+> > +       int ret;
+> > +
+> > +       ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
+> > +       if (ret < 0)
+> > +               return ret;
+> > +
+> > +       if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
+> > +           !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
+> > +               return 0;
+> > +
+> > +       ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
+> > +       if (ret < 0)
+> > +               return ret;
+> > +
+> > +       if (ec->cmd == V4L2_ENC_CMD_STOP &&
+> > +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
+> > +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> > +
+> > +       if (ec->cmd == V4L2_ENC_CMD_START &&
+> > +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
+> > +               vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+> >         .vidioc_querycap = vidioc_querycap,
+> >         .vidioc_enum_framesizes = vidioc_enum_framesizes,
+> > @@ -657,6 +690,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+> >
+> >         .vidioc_g_selection = vidioc_g_selection,
+> >         .vidioc_s_selection = vidioc_s_selection,
+> > +
+> > +       .vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
+> > +       .vidioc_encoder_cmd = vidioc_encoder_cmd,
+> >  };
+> >
+> >  static int
+> > @@ -733,8 +769,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
+> >          * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
+> >          * it to buffer length).
+> >          */
+> > -       if (V4L2_TYPE_IS_CAPTURE(vq->type))
+> > -               vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
+> > +       if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
+> > +               if (ctx->is_encoder)
+> > +                       vb2_set_plane_payload(vb, 0, 0);
+> > +               else
+> > +                       vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
+> > +       }
+> >
+> >         return 0;
+> >  }
+> > @@ -744,6 +784,22 @@ static void hantro_buf_queue(struct vb2_buffer *vb)
+> >         struct hantro_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+> >         struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> >
+> > +       if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
+> > +           vb2_is_streaming(vb->vb2_queue) &&
+> > +           v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
+> > +               unsigned int i;
+> > +
+> > +               for (i = 0; i < vb->num_planes; i++)
+> > +                       vb2_set_plane_payload(vb, i, 0);
+> > +
+> > +               vbuf->field = V4L2_FIELD_NONE;
+> > +               vbuf->sequence = ctx->sequence_cap++;
+> > +
+> > +               v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, vbuf);
+> > +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> > +               return;
+> > +       }
+> > +
+> >         v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
+> >  }
+> >
+> > @@ -759,6 +815,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
+> >         struct hantro_ctx *ctx = vb2_get_drv_priv(q);
+> >         int ret = 0;
+> >
+> > +       v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
+> > +
+> >         if (V4L2_TYPE_IS_OUTPUT(q->type))
+> >                 ctx->sequence_out = 0;
+> >         else
+> > @@ -831,6 +889,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
+> >                 hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
+> >         else
+> >                 hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
+> > +
+> > +       v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
+> > +
+> > +       if (V4L2_TYPE_IS_OUTPUT(q->type) &&
+> > +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
+> > +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> >  }
+> >
+> >  static void hantro_buf_request_complete(struct vb2_buffer *vb)
+> > --
+> > 2.35.1.574.g5d30c73bfb-goog
+> >
