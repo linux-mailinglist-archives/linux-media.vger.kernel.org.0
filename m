@@ -2,131 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E37B54D9409
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 06:40:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E207A4D9426
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 06:53:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344998AbiCOFl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 01:41:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52026 "EHLO
+        id S239615AbiCOFyh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 01:54:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344987AbiCOFl0 (ORCPT
+        with ESMTP id S237121AbiCOFyg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 01:41:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5785D2B25A;
-        Mon, 14 Mar 2022 22:40:15 -0700 (PDT)
+        Tue, 15 Mar 2022 01:54:36 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD33237DD
+        for <linux-media@vger.kernel.org>; Mon, 14 Mar 2022 22:53:24 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D0D5C61230;
-        Tue, 15 Mar 2022 05:40:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19E2AC340E8;
-        Tue, 15 Mar 2022 05:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647322814;
-        bh=wXWPVXRPXENP8NALGralEqtS/drLb+SU4td0zBti85A=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=SjyYaCDrBrxyzNRbxFxckn94UJrvFdqkrAYM80hBMEh14/035F6SfjhZOIczhfubO
-         U8PI9fVMEk4CJKylYZH6Frv8NlKImGJuhlyI+LSnVT8jXqNwYDkjgJPh7VAO4kubf1
-         P3G+OsBafh6RuaazbR2aOdcVAsYAsoAhlvdy6f5MvAbanXIiqZrr4xqnlsInx6HlUx
-         pR3WOwBPhShKg2I0OsAaFGRMVZG0yFEAk5YhdVU5jhOa/mXRgR7fUpySIMA5N1zBvy
-         Lno+1T4Oqu+ZUzJRhfri+MST2t/4RS+rb4quJR331WRe3RZuMuGNIuTMvr0PPvh8h2
-         OX32b4tZQh53w==
-Date:   Tue, 15 Mar 2022 06:40:05 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc:     Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Jia-Ju Bai <baijiaju1990@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Ming Qian <ming.qian@nxp.com>,
-        Ondrej Jirman <megous@megous.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 47/67] media: platform: rename sunxi/ to allwinner/
-Message-ID: <20220315064005.10ecdab2@coco.lan>
-In-Reply-To: <2816975.e9J7NaK4W3@kista>
-References: <cover.1647274406.git.mchehab@kernel.org>
-        <85266b480902079391d4206b8aa276ff131a730f.1647274407.git.mchehab@kernel.org>
-        <2816975.e9J7NaK4W3@kista>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        by ams.source.kernel.org (Postfix) with ESMTPS id B25E9B810FD
+        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 05:53:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12090C340E8
+        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 05:53:20 +0000 (UTC)
+Date:   Tue, 15 Mar 2022 06:53:19 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220315055321.12090C340E8@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 14 Mar 2022 18:22:20 +0100
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> escreveu:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-> Dne ponedeljek, 14. marec 2022 ob 17:34:42 CET je Mauro Carvalho Chehab=20
-> napisal(a):
-> > As the end goal is to have platform drivers split by vendor,
-> > rename sunxi/ to allwinner/.
-> >=20
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org> =20
->=20
-> I would rather not do that. Everything related to Allwinner is called sun=
-xi,=20
-> albeit there are a few outliers. This is similar to Amlogic/meson situati=
-on.
+Results of the daily build of media_tree:
 
-The rationale of having one directory per manufacturer is that, if drivers
-for newer platforms with different names from the same manufacturers are=20
-added, those will still fit under allwinner/ and amlogic/.
+date:			Tue Mar 15 05:00:10 CET 2022
+media-tree git hash:	a7d36ceef06723b2c7f11f77d048566c3a81107f
+media_build git hash:	d5d4c1ff328b8464bd0f55aea299ab5f2a7856ec
+v4l-utils git hash:	a1f1fdbf9bf14b83035c269c996f19dac990590d
+edid-decode git hash:	dcbaacd6b362628aaa3bf2982516cf52cbc1b28a
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7813-g5b52dbc3-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d6aad71281c06f1e37321d5baf97704802f54486
+host hardware:		x86_64
+host os:		5.16.0-1-amd64
 
-The Kconfig names for sunxi and meson didn't change, nor the driver's name.=
-=20
-Also, the directories under allwinner preserve sun<x>i name on them:
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.246-i686: OK
+linux-4.9.246-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.246-i686: OK
+linux-4.14.246-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.206-i686: OK
+linux-4.19.206-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16.1-i686: OK
+linux-5.16.1-x86_64: OK
+linux-5.17-rc1-i686: OK
+linux-5.17-rc1-x86_64: OK
+apps: OK
+spec-git: WARNINGS
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: WARNINGS
+kerneldoc: WARNINGS
 
-	drivers/media/platform/allwinner/
-	=E2=94=9C=E2=94=80=E2=94=80 sun4i-csi
-	=E2=94=9C=E2=94=80=E2=94=80 sun6i-csi
-	=E2=94=9C=E2=94=80=E2=94=80 sun8i-di
-	=E2=94=94=E2=94=80=E2=94=80 sun8i-rotate
+Detailed results are available here:
 
-and so the directory under amlogic/:
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
 
-	drivers/media/platform/amlogic/
-	=E2=94=94=E2=94=80=E2=94=80 meson-ge2d
+Detailed regression test results are available here:
 
-Now, if Allinner decides to release a new platforms named after another sta=
-r,
-let's say, "Vega" and "Rigel", it would be just a matter of adding=20
-"vega/" and "rigel/" directories under allwinner. No need to touch
-media/platform/Kconfig and media/platform/Makefile. Everything will happen
-on much more smaller vendor-specific Kconfig/Makefile.
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
 
-See for instance, TI. We had initially a single driver, and everywhere it
-was called "omap", which was had gained different versions (omap2, omap3,=20
-...). Then, TI decided to use other names for newer IP (davinci, am437x),=20
-and now the current development is at cal and vpe.
+Full logs are available here:
 
-If we had placed a ti/ directory by the time omap were added (and the
-same for the other vendors), we would have avoided the need of this
-reorg.
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
 
-Thanks,
-Mauro
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
