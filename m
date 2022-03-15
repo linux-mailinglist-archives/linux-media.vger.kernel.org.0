@@ -2,137 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BC304D95BE
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 08:56:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D20F4D95CD
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 08:59:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345714AbiCOH5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 03:57:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39346 "EHLO
+        id S1345735AbiCOIAf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 04:00:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236001AbiCOH5o (ORCPT
+        with ESMTP id S229500AbiCOIAe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 03:57:44 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6FB214BBB8
-        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 00:56:31 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-216-xYBwVrWXPkuS3LcJVzhFpQ-1; Tue, 15 Mar 2022 07:56:28 +0000
-X-MC-Unique: xYBwVrWXPkuS3LcJVzhFpQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.32; Tue, 15 Mar 2022 07:56:27 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.033; Tue, 15 Mar 2022 07:56:26 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     "'T.J. Mercier'" <tjmercier@google.com>,
-        Todd Kjos <tkjos@google.com>
-CC:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?utf-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        "Hridya Valsaraju" <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Sumit Semwal" <sumit.semwal@linaro.org>,
-        =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        "Brian Starkey" <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        "Tejun Heo" <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        "Kenny.Ho@amd.com" <Kenny.Ho@amd.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Subject: RE: [RFC v3 7/8] binder: use __kernel_pid_t and __kernel_uid_t for
- userspace
-Thread-Topic: [RFC v3 7/8] binder: use __kernel_pid_t and __kernel_uid_t for
- userspace
-Thread-Index: AQHYN/2hnJZ5hPm3HkKIFJirFaEIKazAEl4g
-Date:   Tue, 15 Mar 2022 07:56:26 +0000
-Message-ID: <a365a5f6c7864a879b133b99d1f43fb2@AcuMS.aculab.com>
-References: <20220309165222.2843651-1-tjmercier@google.com>
- <20220309165222.2843651-8-tjmercier@google.com>
- <CAHRSSEy5_h9LJB4q5_OJA7fSq=ROo68UaK+hdPz-Vj-wac1Qhg@mail.gmail.com>
- <CABdmKX1G0Rwmz7=BP1ER+TmtrnkGiE0nROsPTHKxnj=6bHhY3Q@mail.gmail.com>
-In-Reply-To: <CABdmKX1G0Rwmz7=BP1ER+TmtrnkGiE0nROsPTHKxnj=6bHhY3Q@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Tue, 15 Mar 2022 04:00:34 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01F8B26114;
+        Tue, 15 Mar 2022 00:59:21 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 72EC41B0016E;
+        Tue, 15 Mar 2022 09:59:18 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1647331158;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=x+5sXNfWorDDHdOVeryHlgE2mDRzFJBXTC/7eUPRbDs=;
+        b=IcjocGzaWJvVE9/O4cb2FI9zaUwvUsQ+RukKEovpgzEugF6xRH6hZBhAH0khuqalaiK0bH
+        SCMa+YwJGWMDN8iwfAQswfVVfN/sPXxMdGiKiXudOKnBjAZJXI48KsyHmmyNvKncB1SKgS
+        vghsPqakxvWCtmxBxL4Pl5MiaEy2F/siyzd6tKUEqsiCsN9dG4VA6+nh3tYPFtU0/h4YyV
+        dR4Ux3p8uO36zM0ieTUp9Sfj56xcYvTo+2YYokGo3v5eI0k269DNkk8WXU3p2xgIZrWitH
+        AhO39jVe/RsQ8P46TY1Pgr1uD5R+heJYNiwE+ZV2BCY0yM5IsUd4tkhNiXaCeA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 03BE6634C90;
+        Tue, 15 Mar 2022 09:59:17 +0200 (EET)
+Date:   Tue, 15 Mar 2022 09:59:17 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        jeanmichel.hautbois@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com, paul.kocialkowski@bootlin.com,
+        paul.elder@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
+        <linux-media@vger.kernel.org>, robh@kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/8] media: dt-bindings: i2c: Document ov5670
+Message-ID: <YjBHVY/clnMUlNFj@valkosipuli.retiisi.eu>
+References: <20220314162714.153970-1-jacopo@jmondi.org>
+ <20220314162714.153970-2-jacopo@jmondi.org>
+ <ba09e048-d619-5bd2-e6c3-da071a6d2ab6@canonical.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ba09e048-d619-5bd2-e6c3-da071a6d2ab6@canonical.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1647331158; a=rsa-sha256;
+        cv=none;
+        b=bT2gxhw7BHIOtLAwMHvhGOf9i622vziJTBf6sODRYEvk//CGeAxbI5M4Qo/2ECNu9hkRAl
+        Rl5zat4D+JhZSQmX6wEvLy5zGMnN0GzKAaN3j33e2P48YqAoYKX6lfN9uPcfOmiR/xMpB9
+        zYuThgt9guLoeIPyQd9wbWMSKJiIvKzL6IYFOxqUrp1SmR6ABtJ/Rdd0/1ZFteT9dpjmTQ
+        gk/341Sa2eWCLG+CLHad3o7JNQFpzmY7pPfB9WS5v3WxHyeZAwUNR5HWlLqtIR/OaALFxm
+        Jo703Odh7sGwyg6jY/lbwOA/om/+6Ab35MjWUAZtV67Zlqww3kHfU5so981HaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1647331158;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=x+5sXNfWorDDHdOVeryHlgE2mDRzFJBXTC/7eUPRbDs=;
+        b=MLp0EoyvEBMQssbsEKPhtg5fFyOWTjvVprtZCVuKvCBj0LJgF1oMm/Qcbj5/Av4DkpKL93
+        5Y8BQRYAUIPYYuJ9IFwKxdaArEHRJo2YqJHMazLcwNnjlH+e7SeB3NX+fCTkB5QxrMcs71
+        JZA8iy1XppcoAC2FnTl37wfvSLo/Han+nXdW8vJkv5qLgS6MF5D6Wb39O2BS2y+XuFMpre
+        D/zzNrFp4eBfQgWklgJbMfCwn9xSDa90CyECx5raFICaDhl8zhYhFVff+3299DjkRFnrSd
+        OXGgL0sho4G8DlBR4JGdlTYLAYlsxz9OnXGwM0A2xYOiA++rQkorXlGfnqv6sw==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RnJvbTogVC5KLiBNZXJjaWVyDQo+IFNlbnQ6IDE0IE1hcmNoIDIwMjIgMjM6NDUNCj4gDQo+IE9u
-IFRodSwgTWFyIDEwLCAyMDIyIGF0IDExOjMzIEFNIFRvZGQgS2pvcyA8dGtqb3NAZ29vZ2xlLmNv
-bT4gd3JvdGU6DQo+ID4NCj4gPiBPbiBXZWQsIE1hciA5LCAyMDIyIGF0IDg6NTIgQU0gVC5KLiBN
-ZXJjaWVyIDx0am1lcmNpZXJAZ29vZ2xlLmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gVGhlIGtl
-cm5lbCBpbnRlcmZhY2Ugc2hvdWxkIHVzZSB0eXBlcyB0aGF0IHRoZSBrZXJuZWwgZGVmaW5lcyBp
-bnN0ZWFkIG9mDQo+ID4gPiBwaWRfdCBhbmQgdWlkX3QsIHdob3NlIGRlZmluaXRvbiBpcyBvd25l
-ZCBieSBsaWJjLiBUaGlzIGZpeGVzIHRoZSBoZWFkZXINCj4gPiA+IHNvIHRoYXQgaXQgY2FuIGJl
-IGluY2x1ZGVkIHdpdGhvdXQgZmlyc3QgaW5jbHVkaW5nIHN5cy90eXBlcy5oLg0KPiA+ID4NCj4g
-PiA+IFNpZ25lZC1vZmYtYnk6IFQuSi4gTWVyY2llciA8dGptZXJjaWVyQGdvb2dsZS5jb20+DQo+
-ID4gPiAtLS0NCj4gPiA+ICBpbmNsdWRlL3VhcGkvbGludXgvYW5kcm9pZC9iaW5kZXIuaCB8IDQg
-KystLQ0KPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
-KC0pDQo+ID4gPg0KPiA+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9saW51eC9hbmRyb2lk
-L2JpbmRlci5oIGIvaW5jbHVkZS91YXBpL2xpbnV4L2FuZHJvaWQvYmluZGVyLmgNCj4gPiA+IGlu
-ZGV4IDE2OWZkNTA2OWExYS4uYWEyODQ1NGRiY2EzIDEwMDY0NA0KPiA+ID4gLS0tIGEvaW5jbHVk
-ZS91YXBpL2xpbnV4L2FuZHJvaWQvYmluZGVyLmgNCj4gPiA+ICsrKyBiL2luY2x1ZGUvdWFwaS9s
-aW51eC9hbmRyb2lkL2JpbmRlci5oDQo+ID4gPiBAQCAtMjg5LDggKzI4OSw4IEBAIHN0cnVjdCBi
-aW5kZXJfdHJhbnNhY3Rpb25fZGF0YSB7DQo+ID4gPg0KPiA+ID4gICAgICAgICAvKiBHZW5lcmFs
-IGluZm9ybWF0aW9uIGFib3V0IHRoZSB0cmFuc2FjdGlvbi4gKi8NCj4gPiA+ICAgICAgICAgX191
-MzIgICAgICAgICAgIGZsYWdzOw0KPiA+ID4gLSAgICAgICBwaWRfdCAgICAgICAgICAgc2VuZGVy
-X3BpZDsNCj4gPiA+IC0gICAgICAgdWlkX3QgICAgICAgICAgIHNlbmRlcl9ldWlkOw0KPiA+ID4g
-KyAgICAgICBfX2tlcm5lbF9waWRfdCAgc2VuZGVyX3BpZDsNCj4gPiA+ICsgICAgICAgX19rZXJu
-ZWxfdWlkX3QgIHNlbmRlcl9ldWlkOw0KPiA+DQo+ID4gQXJlIHdlIGd1YXJhbnRlZWQgdGhhdCB0
-aGlzIGRvZXMgbm90IGFmZmVjdCB0aGUgVUFQSSBhdCBhbGw/IFVzZXJzcGFjZQ0KPiA+IGNvZGUg
-dXNpbmcgdGhpcyBkZWZpbml0aW9uIHdpbGwgaGF2ZSB0byBydW4gd2l0aCBrZXJuZWxzIHVzaW5n
-IHRoZSBvbGQNCj4gPiBkZWZpbml0aW9uIGFuZCB2aXNhLXZlcnNhLg0KPiANCj4gQSBzdGFuZGFy
-ZHMgY29tcGxpYW50IHVzZXJzcGFjZSBzaG91bGQgYmUgZXhwZWN0aW5nIGEgc2lnbmVkIGludGVn
-ZXINCj4gdHlwZSBoZXJlLiBTbyB0aGUgb25seSB3YXkgSSBjYW4gdGhpbmsgdXNlcnNwYWNlIHdv
-dWxkIGJlIGFmZmVjdGVkIGlzDQo+IGlmOg0KPiAxKSBwaWRfdCBpcyBhIGxvbmcgQU5EDQo+IDIp
-IHNpemVvZihsb25nKSA+IHNpemVvZihpbnQpIEFORA0KPiAzKSBDb25zdW1lcnMgb2YgdGhlIHBp
-ZF90IGRlZmluaXRpb24gYWN0dWFsbHkgYXR0ZW1wdCB0byBtdXRhdGUgdGhlDQo+IHJlc3VsdCB0
-byBtYWtlIHVzZSBvZiBleHRyYSBiaXRzIGluIHRoZSB2YXJpYWJsZSAod2hpY2ggYXJlIG5vdCB0
-aGVyZSkNCg0KT3IgdGhlIHVzZXJzcGFjZSBoZWFkZXJzIGhhdmUgYSAxNmJpdCBwaWRfdC4NCg0K
-SSBjYW4ndCBoZWxwIGZlZWxpbmcgdGhhdCB1YXBpIGhlYWRlcnMgc2hvdWxkIG9ubHkgdXNlIGV4
-cGxpY2l0DQpmaXhlZCBzaXplZCB0eXBlcy4NClRoZXJlIGlzIG5vIHBvaW50IGluZGlyZWN0aW5n
-IHRoZSB0eXBlIG5hbWVzIC0gdGhlIHNpemVzIHN0aWxsDQpjYW4ndCBiZSBjaGFuZ2VzLg0KDQoJ
-RGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1v
-dW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEz
-OTczODYgKFdhbGVzKQ0K
+Hi Krzysztof, Jacopo,
 
+On Tue, Mar 15, 2022 at 08:32:58AM +0100, Krzysztof Kozlowski wrote:
+> On 14/03/2022 17:27, Jacopo Mondi wrote:
+> > Provide the bindings documentation for Omnivision OV5670 image sensor.
+> > 
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > 
+> > ---
+> > v1->v2 (comments from Krzysztof)
+> > 
+> > - Rename to include manufacturer name
+> > - Add entry to MAINTAINERS
+> > - Add maxItems: to -gpios properties
+> > - Use common clock properties
+> > - Use enum: [1, 2] for data lanes
+> > - Fix whitespace issue in example
+> > ---
+> > 
+> >  .../bindings/media/i2c/ovti,ov5670.yaml       | 99 +++++++++++++++++++
+> >  MAINTAINERS                                   |  1 +
+> >  2 files changed, 100 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
+> > new file mode 100644
+> > index 000000000000..73cf72203f17
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
+> > @@ -0,0 +1,99 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5670.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Omnivision OV5670 5 Megapixels raw image sensor
+> > +
+> > +maintainers:
+> > +  - Jacopo Mondi <jacopo@jmondi.org>
+> > +
+> > +description: |-
+> > +  The OV5670 is a 5 Megapixels raw image sensor which provides images in 10-bits
+> > +  RAW BGGR Bayer format on a 2 data lanes MIPI CSI-2 serial interface and is
+> > +  controlled through an I2C compatible control bus.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: ovti,ov5670
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  assigned-clocks: true
+> > +  assigned-clock-parents: true
+> > +  assigned-clock-rates: true
+> 
+> You should not need these. These are coming with schema. You can add
+> these to example schema below and double-check.
+
+They should probably be required actually.
+
+> 
+> > +
+> > +  clocks:
+> > +    description: System clock. From 6 to 27 MHz.
+> > +    maxItems: 1
+> > +
+> > +  pwdn-gpios:
+> > +    description: Reference to the GPIO connected to the PWDNB pin. Active low.
+> 
+> This does not look like a standard property, so you need a vendor prefix.
+
+The similarly named property exists elsewhere. I wouldn't use a vendor
+prefix, also for the reason that the functionality is quite common. I guess
+alternative name would be possible, too --- "shutdown" seems to be more
+common.
+
+-- 
+Regards,
+
+Sakari Ailus
