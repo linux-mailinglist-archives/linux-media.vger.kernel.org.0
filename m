@@ -2,52 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F22CE4D943B
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 06:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3C674D9452
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 07:06:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243546AbiCOF55 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 01:57:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58042 "EHLO
+        id S1345108AbiCOGHR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 02:07:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237618AbiCOF54 (ORCPT
+        with ESMTP id S1345097AbiCOGHQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 01:57:56 -0400
+        Tue, 15 Mar 2022 02:07:16 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E601D39839;
-        Mon, 14 Mar 2022 22:56:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13DBE37BCE;
+        Mon, 14 Mar 2022 23:06:03 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 650236122E;
-        Tue, 15 Mar 2022 05:56:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 434B6C340E8;
-        Tue, 15 Mar 2022 05:56:41 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 89304612D3;
+        Tue, 15 Mar 2022 06:06:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64C2CC340EE;
+        Tue, 15 Mar 2022 06:06:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647323801;
+        s=k20201202; t=1647324361;
         bh=l1m59ElkdHw6mcbFcu6Xbob8fE2FfA8JUePBFSXOvo8=;
         h=From:To:Cc:Subject:Date:From;
-        b=unu/9M8vJ7LRM5J0XWhpoa6DuvuDbVlyejcz6UdHNojKpJmUav3x0T2CoLRXWZ7ic
-         58N6SwKRBrU6WFD/HIbTJ1Wdt01kMllKQjMkvHvTbDzeFhq5B92zdbHqnxib6Yjpsu
-         JkhI/SGPK4VB1dL8nU1ciHzB8iPPAbuR1FFn8SbJ5Zs1emNSJEWrLIfW5YQy4luQC/
-         MbB/tyruGnXr6AnoLSlHp9dv/VkdKO0xicaDyXsJ0e+fBjyY69BnzJnh4aAUpBGG1P
-         xUljU0cpa0TrV8EhUntCjwwAwtBYuuZkb4E+6QWf8MOzXK5migDSjgywuLbtTXpFzx
-         8kpSIXc3l4D+A==
+        b=sctuZ97tuzt50U1gB6Twf9xPfXGZz7ebIkWS7kheQ0OK2JRIuo2xq2on6dVI80TOM
+         OMp8ZsmpMnp0VAwpNx3X04FExsJicPupIGbIPUXR7n//QUG+DzpH+2CenhS8v45xro
+         XbckoCaTGVRgZBuFmKriRJ7OS5tNYuiRlnsPMimAMaKC2xD3mpFUj1D9RHZOIhJZzm
+         d6f8iS+UL9iOEzJYx9ldptak5VI8Mdhe1HDasM7EPQrv0PKlRf7EEZF30CDaZwAU4H
+         Gwg1Vbe7qZzz7PeIJjhg9es7FCabVT/h5i/AW7NpBoq7SHM9i2W9TOnANaBeI+JUjS
+         RMS0NPgz6WZbA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1nU0Ag-002Bou-Lg; Tue, 15 Mar 2022 06:56:38 +0100
+        id 1nU0Ji-002BxO-QH; Tue, 15 Mar 2022 07:05:58 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
         Jimmy Su <jimmy.su@intel.com>,
         Martina Krasteva <martinax.krasteva@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Shawn Tu <shawnx.tu@intel.com>, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: i2c: Kconfig: move camera drivers to the top
-Date:   Tue, 15 Mar 2022 06:56:36 +0100
-Message-Id: <f2d22b8cdf095b6b907eafa1b92c8c3a046b61be.1647323789.git.mchehab@kernel.org>
+Subject: [PATCH 1/2] media: i2c: Kconfig: move camera drivers to the top
+Date:   Tue, 15 Mar 2022 07:05:56 +0100
+Message-Id: <f2d22b8cdf095b6b907eafa1b92c8c3a046b61be.1647324346.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
