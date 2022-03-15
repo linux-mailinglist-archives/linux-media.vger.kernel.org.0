@@ -2,161 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D3054DA552
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 23:25:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56FA84DA591
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 23:45:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350805AbiCOW1G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 18:27:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40412 "EHLO
+        id S1349585AbiCOWqR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 18:46:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234619AbiCOW1F (ORCPT
+        with ESMTP id S242472AbiCOWqQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 18:27:05 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73F995C642;
-        Tue, 15 Mar 2022 15:25:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1647383146;
-        bh=gezpXeqZKeOJgDNVmlP/PASqXl6EtLGYAMMQ2OJLYQY=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=QyWmUIYlRBwGPhkUKKtM4v1zuBslyxNpEwfNgDBqctJiMv/HQ0uM0uDy457fI44uP
-         J9I1zsA2nr4vJgZTwtLjxBsd0mRNOsnp1fZQr6klIqidOSCVqPfgGf6AAogsyJdU7t
-         xhQksL3h56XU7epGKg9f4cT5Z3daRkN0CR5420Gg=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([5.146.194.160]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M1po0-1nWSX41bEO-002CPA; Tue, 15
- Mar 2022 23:25:46 +0100
-Date:   Tue, 15 Mar 2022 23:25:43 +0100
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2] docs: media: uvcvideo: Use linux-media mailing list
-Message-ID: <YjESZwTHRuD4pBkY@latitude>
-References: <20220315221007.1045878-1-j.neuschaefer@gmx.net>
- <YjEQz1GhLV0Kf3mO@pendragon.ideasonboard.com>
+        Tue, 15 Mar 2022 18:46:16 -0400
+X-Greylist: delayed 903 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 15 Mar 2022 15:45:03 PDT
+Received: from exchange.dreamry.org (unknown [209.141.61.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 258AC13E09
+        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 15:45:03 -0700 (PDT)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; d=dreamry.org; s=exchange; c=simple/simple;
+        t=1647383392; h=from:subject:to:date:message-id;
+        bh=Z8O/KRORfr7mgqLijq/FYp4eMkLVJ0Es72yd5cIiFdo=;
+        b=V+NMpmg8ILIqfpwaKQuJImvKpk9Lm0CivQP7xhJ8erE+g1Bey3yWf+VnM5IIqNG/4UwEM4KQKQB
+        DVcbZsUEyW42X/uAv/HjIDSVw4ETc/tRSF2BdYhhQJHJXr5JGDXXvPOD+26FC+u6d7a11yGUDaM+b
+        D75kMyoHiz7oxXKZNoU/qWzS5u0dFXXdCgV6wdoyb3ivbSo0OJXgzUlX61wAOlQ/l5yjfXCfYEPJE
+        B17oHldoK10iUKqohE+OPxdOzx5vWfuxBM52+MeK+RBSIyozhKau6LMhRWiUtBvtF2SnM4aHHoicZ
+        tVBTyKvkkfG1Od3mJ9GodMkmKK9Q+CFnLcBA==
+Received: from Exchange.dreamry.org (10.0.40.11) by Exchange.dreamry.org
+ (10.0.40.11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 15 Mar
+ 2022 15:29:51 -0700
+Received: from Beryllium.dreamry.org (10.0.5.100) by Exchange.dreamry.org
+ (10.0.40.11) with Microsoft SMTP Server id 15.2.986.22 via Frontend
+ Transport; Tue, 15 Mar 2022 15:29:51 -0700
+From:   Wencey Wang <wenceywang@dreamry.org>
+To:     <linux-media@vger.kernel.org>
+CC:     Wencey Wang <wenceywang@dreamry.org>
+Subject: [PATCH] edid-decode: Fix Visual Studio builds. Use static crt while release compiles.
+Date:   Wed, 16 Mar 2022 06:27:01 +0800
+Message-ID: <20220315222700.2038-1-wenceywang@dreamry.org>
+X-Mailer: git-send-email 2.33.0.windows.2
+In-Reply-To: <wenceywang@dreamry.org>
+References: <wenceywang@dreamry.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="PGBuFKEhEAhjKk2F"
-Content-Disposition: inline
-In-Reply-To: <YjEQz1GhLV0Kf3mO@pendragon.ideasonboard.com>
-X-Provags-ID: V03:K1:clt0/13K0OpCOrZ4/Ou8E73ptSswZsChTokDqf2zWHsvJl2Bn7t
- 9jFCeqIzPnvFSQclIBYEbjJaP3O+jBsSSi7RFaSMvBQguRs8fLsU8es9gFqX5rPi3pRXYO0
- GRKxeXNUfTErJ9GOhzggqfVoEEHKWcHMnvKGAT4haK7ALtWJS1bn77uwleYy+LxkXbKx9uo
- qHY9yXgVq1V6CSdFjsmKg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nSIlKLXDZuc=:hfKmDuGNFnMfDa7BNLeAvZ
- f+kKQ9SpctqjtmV7MkVodM4LVZ4uyHq8E2/d/ibgjay/2A0QgOf+PHOpHyfT5qvlgKL4R8nMw
- AAbhKviuLCx+o8h0HAaLMaE9XNFG7nOO3NDlarma1ddftrcPg8Zlqc0QlwGx7+pSxr3Q6rF/J
- pP6v1u0I9dG68FclOKqBBAojgyKUrmukpbPhGAAf2MukD9mutQkg5lec0N5nWIm/AFJziakNE
- 2Ny8rU7svlAJ95mlvnbF6LvUA1qBmGZGq3qNdtrcbemOJFcQhaBlnFSlg1RpWVaVcP0FJ01WD
- 2e7KvfbD8BQJQgFCNxuo1dvsVYN1ItXUPgIpbShBPVpTuo76gb/YTrzD7jePteG3cZrSzwVFK
- eaucp7DieLkSuBvWMwf85ArTzEH3lW50GQ3HRUTesa4QpCbF6ahfOsCNQmF0mdu2Z9uthJqV7
- b0ODZ/uRJ8NocN7ZO5nMD8u8S8Ada5bpMDZHqn6wvudWW4F4qFHFIuo5er0w8dZyBESjTSJVy
- TU8u9o+Tt/3Ih0VwV3V8sgcnRQaBinIebcwA+ulENJG9ncKSnjySv7XJTPsAK9evIy/aAYDrI
- JVXV9bwXfHV6VSMSKRFce11bw4hwFzzx5Tf51YqZFzxE52juKYMZzKfLi9rajwXRMZXGUnG9k
- CitCILWY3ZqfvcIR6NrelisFrcJbXp5aSQUdl2rmv8N8vIGdboZUPdH5HOLarwjAtbCc0x32g
- XbrxJRFGcUZ3wIjGXc/pT3BExvYTEu2QWG+RnX0GkAA9fUPDu0CpHsR9k8ze24+aCu65tN+Hz
- 0dQzbIdKDyVqlf9oXuXlMRUY5hnEIJTLtsllUUicJIIMtvqcsCYdMxuUP7g9klhyF65g0mXyg
- 38zFqMn/B9Grp8y7xfehxHfdsd2cHMzKZqQ9kcJN3vmmOCbcEHQye2XvRjI1ubcSFfL55wc+p
- QWOepwbrWK5Syfiob8nld5sivv3dn5nwqxecRVySDWeUb3fp+GLnhMIUYR4awTCV8PxBIz54c
- 9agm0hBi4bu61fyLerE+6YjsrmSxRUUv7gtIpIwLvgiU1b5I2bb/TepZ1XEyxvumQPkEY/AoE
- Nj7u6zL02V+LWw=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Fix Visual Studio build with project file edited and getsubopt from musl.
+Uses static crt while release build to get rid of msvcrt.dll
 
---PGBuFKEhEAhjKk2F
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Wencey Wang <wenceywang@dreamry.org>
+---
+ vs/edid-decode.vcxproj         |  9 +++++--
+ vs/edid-decode.vcxproj.filters | 12 +++++++++
+ vs/getopt.h                    |  3 +++
+ vs/getsubopt.c                 | 46 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 68 insertions(+), 2 deletions(-)
+ create mode 100644 vs/getsubopt.c
 
-On Wed, Mar 16, 2022 at 12:18:55AM +0200, Laurent Pinchart wrote:
-> Hi Jonathan,
->=20
-> Thank you for the patch.
->=20
-> On Tue, Mar 15, 2022 at 11:10:06PM +0100, Jonathan Neusch=C3=A4fer wrote:
-> > As discussed with other developers, the linux-uvc-devel mailing list is
-> > not very useful anymore, and it's better to send people to the general
-> > linux-media mailing list.
-> >=20
-> > Replace/remove the old mailing list address in uvcvideo.rst and
-> > MAINTAINERS.
-> >=20
-> > Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-> > ---
-> >=20
-> > v2:
-> > - Changed mailing list to linux-media@vger.kernel.org instead
-> >=20
-> > v1:
-> > - https://lore.kernel.org/lkml/20220312203323.626657-1-j.neuschaefer@gm=
-x.net/
-> > ---
-> >  Documentation/userspace-api/media/drivers/uvcvideo.rst | 2 +-
-> >  MAINTAINERS                                            | 1 -
->=20
-> This looks good, but I think we should also add the following:
->=20
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/u=
-vc_driver.c
-> index 5f394d4efc21..6c6a82af07ce 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2443,7 +2443,7 @@ static int uvc_probe(struct usb_interface *intf,
->  			 "Forcing device quirks to 0x%x by module parameter for testing purpo=
-se.\n",
->  			 dev->quirks);
->  		dev_info(&dev->udev->dev,
-> -			 "Please report required quirks to the linux-uvc-devel mailing list.\=
-n");
-> +			 "Please report required quirks to the linux-media mailing list.\n");
->  	}
->=20
->  	if (dev->info->uvc_version) {
->=20
-> If you're fine with that change, there's no need to resubmit, I can
-> handle this locally.
->=20
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+diff --git a/vs/edid-decode.vcxproj b/vs/edid-decode.vcxproj
+index c9213ab..7b840ac 100644
+--- a/vs/edid-decode.vcxproj
++++ b/vs/edid-decode.vcxproj
+@@ -21,13 +21,13 @@
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+     <ConfigurationType>Application</ConfigurationType>
+     <UseDebugLibraries>true</UseDebugLibraries>
+-    <PlatformToolset>v142</PlatformToolset>
++    <PlatformToolset>v143</PlatformToolset>
+     <CharacterSet>Unicode</CharacterSet>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+     <ConfigurationType>Application</ConfigurationType>
+     <UseDebugLibraries>false</UseDebugLibraries>
+-    <PlatformToolset>v142</PlatformToolset>
++    <PlatformToolset>v143</PlatformToolset>
+     <WholeProgramOptimization>true</WholeProgramOptimization>
+     <CharacterSet>Unicode</CharacterSet>
+   </PropertyGroup>
+@@ -85,6 +85,7 @@
+       <ConformanceMode>true</ConformanceMode>
+       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <DisableSpecificWarnings>4244; 4018; 4267; 4996; 26451; 6385; 6001</DisableSpecificWarnings>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+     </ClCompile>
+     <Link>
+       <SubSystem>Console</SubSystem>
+@@ -94,6 +95,8 @@
+     </Link>
+   </ItemDefinitionGroup>
+   <ItemGroup>
++    <ClCompile Include="..\calc-gtf-cvt.cpp" />
++    <ClCompile Include="..\calc-ovt.cpp" />
+     <ClCompile Include="getopt.c" />
+     <ClCompile Include="..\edid-decode.cpp" />
+     <ClCompile Include="..\parse-base-block.cpp" />
+@@ -102,8 +105,10 @@
+     <ClCompile Include="..\parse-displayid-block.cpp" />
+     <ClCompile Include="..\parse-ls-ext-block.cpp" />
+     <ClCompile Include="..\parse-vtb-ext-block.cpp" />
++    <ClCompile Include="getsubopt.c" />
+   </ItemGroup>
+   <ItemGroup>
++    <ClInclude Include="..\oui.h" />
+     <ClInclude Include="getopt.h" />
+     <ClInclude Include="unistd.h" />
+     <ClInclude Include="..\edid-decode.h" />
+diff --git a/vs/edid-decode.vcxproj.filters b/vs/edid-decode.vcxproj.filters
+index 68e8b7d..b98ab04 100644
+--- a/vs/edid-decode.vcxproj.filters
++++ b/vs/edid-decode.vcxproj.filters
+@@ -34,6 +34,15 @@
+     <ClCompile Include="..\edid-decode.cpp">
+       <Filter>edid-decode</Filter>
+     </ClCompile>
++    <ClCompile Include="getsubopt.c">
++      <Filter>windows-unix</Filter>
++    </ClCompile>
++    <ClCompile Include="..\calc-gtf-cvt.cpp">
++      <Filter>edid-decode</Filter>
++    </ClCompile>
++    <ClCompile Include="..\calc-ovt.cpp">
++      <Filter>edid-decode</Filter>
++    </ClCompile>
+   </ItemGroup>
+   <ItemGroup>
+     <ClInclude Include="..\edid-decode.h">
+@@ -45,5 +54,8 @@
+     <ClInclude Include="unistd.h">
+       <Filter>windows-unix</Filter>
+     </ClInclude>
++    <ClInclude Include="..\oui.h">
++      <Filter>edid-decode</Filter>
++    </ClInclude>
+   </ItemGroup>
+ </Project>
+\ No newline at end of file
+diff --git a/vs/getopt.h b/vs/getopt.h
+index e34761d..a13c720 100644
+--- a/vs/getopt.h
++++ b/vs/getopt.h
+@@ -90,6 +90,9 @@ enum    		/* permitted values for its `has_arg' field...	*/
+ 
+ extern int getopt_long( int, char * const [], const char *, const struct option *, int * );
+ extern int getopt_long_only( int, char * const [], const char *, const struct option *, int * );
++
++extern int getsubopt(char** opt, char* const* keys, char** val);
++
+ /*
+  * Previous MinGW implementation had...
+  */
+diff --git a/vs/getsubopt.c b/vs/getsubopt.c
+new file mode 100644
+index 0000000..6aedffa
+--- /dev/null
++++ b/vs/getsubopt.c
+@@ -0,0 +1,46 @@
++/**
++ * Copyright © 2005-2020 Rich Felker, et al.
++ * 
++ * Permission is hereby granted, free of charge, to any person obtaining
++ * a copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, sublicense, and/or sell copies of the Software, and to
++ * permit persons to whom the Software is furnished to do so, subject to
++ * the following conditions:
++ * 
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
++ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
++ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
++ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
++ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++#include <stdlib.h>
++#include <string.h>
++
++int getsubopt(char** opt, char* const* keys, char** val)
++{
++	char* s = *opt;
++	int i;
++
++	*val = NULL;
++	*opt = strchr(s, ',');
++	if (*opt) *(*opt)++ = 0;
++	else *opt = s + strlen(s);
++
++	for (i = 0; keys[i]; i++) {
++		size_t l = strlen(keys[i]);
++		if (strncmp(keys[i], s, l)) continue;
++		if (s[l] == '=')
++			*val = s + l + 1;
++		else if (s[l]) continue;
++		return i;
++	}
++	return -1;
++}
+-- 
+2.33.0.windows.2
 
-Ah, just before I saw your reply, I noticed this instance too, and sent
-a separate patch for it.
-
-I'll leave it up to you to handle it as you wish, I'm fine with it
-either way.
-
-
-Thanks,
-Jonathan
-
---PGBuFKEhEAhjKk2F
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAmIxEkYACgkQCDBEmo7z
-X9sUFg//Vw0uunjOIswQsWyVk3L9vHSpYa6ITOCuogT0/MozqLcCtbi8b55iU7Qx
-eyJueNPPi+4HrF7yk1Ur8yCw63p53rpy1YV2JQGLjY8BVRotTxX9vqAgerbuKzFt
-l6+31+Pqvt8CB0R7OSjtDdWfhNco0doYijGKta7Zjd2WC9RqIeWlSgCYopoWQdX6
-4Kz9+BhWpuFIee0fMT3ff2JTakf7NNgCUAigAM8rn8MLLu0uyDxaa+2gJgY2v+/y
-8nHVdraG+IOkEVA6J5X4qRTpMk5usV30sHbUEiQxpeZ0A8fDPyK1OdTmuqVB9igJ
-7AEByXFtldkHrMxt6RBAL1aytH890hVXNvsP5g4hYzYnPPrxRYYBdWWY4OfLTDuw
-BQ6n7anRTT8CdIjY7yeSGtQrh+fa2WenuxwjKnOFEvj7AmDjrUZ4huUaLY1/NBvz
-n/VuuR9hG+Y9yN1JCT9pA8Kz3nrdr7VLBn8Mr2pWvaNK701nak6+zN6+mX6yLRqu
-/5QpkLAVX0dm7jDkbmguGkwkYuQEKccthtzI5kug4bRcdjsZNknOJDxBEDlZTbKb
-5zBfD6jrZOYvkkEQHlomGc6MD8GyN/szwM4cKlfOHyfevNmf4UD1ZOe6kw3UOCiJ
-zLg4YdLkBBMQ0JwhXgD1vqNa5TzV0F+3gmGZynsHQ/r+f68cKMM=
-=0Tc0
------END PGP SIGNATURE-----
-
---PGBuFKEhEAhjKk2F--
