@@ -2,126 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F6704DA37C
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 20:51:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9DD64DA383
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 20:55:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242780AbiCOTwl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 15:52:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39514 "EHLO
+        id S1351488AbiCOT4X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 15:56:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234402AbiCOTwk (ORCPT
+        with ESMTP id S235514AbiCOT4W (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 15:52:40 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8631275C;
-        Tue, 15 Mar 2022 12:51:28 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id d10so43826334eje.10;
-        Tue, 15 Mar 2022 12:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=c4mW0RIi6ae0ro8RnphpYWbFSmPVIVZ/Yq/iQ15Ckcc=;
-        b=VkovmwjNTFIcCmhapNNDEz0ANIJtO1Eo5FmGf1ZyJKNtWOiVrrHj45CObw+UwQSV4e
-         wJeQfjsGyrHMPS+WUN2mHLED6ydXQsFVwKIo8O5k6PjN/M8OONaxc6/WrTwplNxlLGNt
-         sru4h639itvUkezFz+Lgu9hOsiV+gkhfdPZUoLyPnNQwMki3e1wcteL4BhebPdQExLYr
-         KgCWH8kcA+t6q6AsBvADshjq6otkargoJsCXmJAeGXpCzf4n58Qbt8lzFhrgSq8STi1o
-         lHrmIE7G67hZvJzXPvmTbzDhZ6PYnG9b2tmYqUC0yC/jP2HwdIIRYNgHq1YJ6YfRM91a
-         S+8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=c4mW0RIi6ae0ro8RnphpYWbFSmPVIVZ/Yq/iQ15Ckcc=;
-        b=IXI+AzuA8e3kc0xVu75g7RvBqqBH+m2yw7amw32bZZ+21kR1itQuWcaMc3TOybGWYz
-         gHtcKMElve09b/9E1Utkce1mRs4RaWXbeAHcsTT0dGTGiQk1O5N46q2d7W3GfeK+gmWz
-         iEDBaVwEvoDpmtYTFAlr8/PeLonsM9I3MU8xyPbJJFkbLPGhqOHSfCcXHZLfbuqKg5iK
-         pXJpEJhPntkXHMa1sXNvASAINNKIn2r3DK3EIe6X2qbmLrcRyKaigdGsyoll2gTQn2tK
-         pEP8gonuGLwQ7F/TiQJm55FeTT1nhrkJgBcSLhOGaLBkpMtf2KzX4Q8IZiWGBZsLgBlr
-         3oMg==
-X-Gm-Message-State: AOAM532r2+K86w9ThlC6xNaGJzPiejBpEvi4wQslFAhok4LGqCzqZSvU
-        ioMz+usqOa+IQgZ+PVEPVvwfBYbCFW/Zlw==
-X-Google-Smtp-Source: ABdhPJwxOJVNfqcyOw+90b/wsi8sy2CbO7R38IKLMwGLeMuVFc+KW08b442TMAY+dr+jgagXCOtN2A==
-X-Received: by 2002:a17:906:53c7:b0:6ce:6f32:ce53 with SMTP id p7-20020a17090653c700b006ce6f32ce53mr24232089ejo.352.1647373886996;
-        Tue, 15 Mar 2022 12:51:26 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id w6-20020a170906d20600b006ca00cb99e0sm6019ejz.34.2022.03.15.12.51.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Mar 2022 12:51:26 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 08/46] media: sun6i-csi: Tidy up Kconfig
-Date:   Tue, 15 Mar 2022 20:51:25 +0100
-Message-ID: <1737020.TLkxdtWsSY@kista>
-In-Reply-To: <20220311143532.265091-9-paul.kocialkowski@bootlin.com>
-References: <20220311143532.265091-1-paul.kocialkowski@bootlin.com> <20220311143532.265091-9-paul.kocialkowski@bootlin.com>
+        Tue, 15 Mar 2022 15:56:22 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF15A4664C
+        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 12:55:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647374109; x=1678910109;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gWipP3JrvoAViXDV6kxk86LH0coy/l0xX+PB4S0GySY=;
+  b=Epw74s31QWG0nNv/KOk9p2qI24MkEzJpntNEAEcMuwh/DvmivFWw6N4D
+   hUNtGYrpvUpG+YVr0aFCFnrza9VcBrm+WEWoibytJVgnHDavWviOhp1jV
+   R0ENNAV50Nqh4rYhBRNQlUfBUlUHxOeUBaaf9iMdeO7A9Sbbb6rgOmC8E
+   kddUJb4XWmaZSEQNeDUnvqHFHDkNBcU98dgXrAYbodApX7O7X0F1fkvPY
+   xByNjGU5mVbgv/ZwR2kLwWlQi6OLS4QbxWOf4Laj+RIk55pnUQvNEtVrI
+   7dQzXY9Mk6mGyAk82YCyffDKf5DFhZvZTH4tUPYH4c+QeyDRoKvPpqHiw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256135532"
+X-IronPort-AV: E=Sophos;i="5.90,184,1643702400"; 
+   d="scan'208";a="256135532"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2022 12:55:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,184,1643702400"; 
+   d="scan'208";a="498164486"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 15 Mar 2022 12:55:08 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nUDG7-000BRQ-9P; Tue, 15 Mar 2022 19:55:07 +0000
+Date:   Wed, 16 Mar 2022 03:54:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-media@vger.kernel.org
+Subject: [linux-next:master 12079/12845]
+ drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h:35:6: warning: no
+ previous prototype for 'fimc_isp_video_device_unregister'
+Message-ID: <202203160306.SfWO9QWV-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 11. marec 2022 ob 15:34:54 CET je Paul Kocialkowski napisal(a):
-> Update the option title and help, group related options together,
-> add dependency on VIDEO_DEV since the driver uses it.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/media/platform/sunxi/sun6i-csi/Kconfig | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/Kconfig b/drivers/media/
-platform/sunxi/sun6i-csi/Kconfig
-> index fd03e48f0c8a..a88978eba455 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-> @@ -1,12 +1,13 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  config VIDEO_SUN6I_CSI
-> -	tristate "Allwinner V3s Camera Sensor Interface driver"
-> -	depends on PM && VIDEO_V4L2 && COMMON_CLK  && HAS_DMA
-> +	tristate "Allwinner A31 Camera Sensor Interface (CSI) Driver"
->  	depends on ARCH_SUNXI || COMPILE_TEST
-> +	depends on PM && COMMON_CLK && HAS_DMA
-> +	depends on VIDEO_DEV && VIDEO_V4L2
-> +	select REGMAP_MMIO
->  	select MEDIA_CONTROLLER
->  	select VIDEO_V4L2_SUBDEV_API
->  	select VIDEOBUF2_DMA_CONTIG
-> -	select REGMAP_MMIO
->  	select V4L2_FWNODE
->  	help
-> -	   Support for the Allwinner Camera Sensor Interface Controller on 
-V3s.
-> +	   Support for the Allwinner A31 Camera Sensor Interface (CSI) 
-controller.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a32cd981a6da2373c093d471ee4405a915e217d5
+commit: e94d7863a951d040f0e200b96ae3bcc0b9ab0028 [12079/12845] media: platform: rename exynos4-is/ to samsung/exynos4-is/
+config: powerpc64-randconfig-r035-20220314 (https://download.01.org/0day-ci/archive/20220316/202203160306.SfWO9QWV-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=e94d7863a951d040f0e200b96ae3bcc0b9ab0028
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout e94d7863a951d040f0e200b96ae3bcc0b9ab0028
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/media/
 
-While at it, it would be nice to somehow indicate that it's compatible with 
-more than one SoC.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Best regards,
-Jernej
+All warnings (new ones prefixed by >>):
 
-> -- 
-> 2.35.1
-> 
-> 
+   In file included from drivers/media/platform/samsung/exynos4-is/fimc-isp.c:25:
+>> drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h:35:6: warning: no previous prototype for 'fimc_isp_video_device_unregister' [-Wmissing-prototypes]
+      35 | void fimc_isp_video_device_unregister(struct fimc_isp *isp,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+vim +/fimc_isp_video_device_unregister +35 drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h
+
+34947b8aebe3f2d drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  34  
+34947b8aebe3f2d drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20 @35  void fimc_isp_video_device_unregister(struct fimc_isp *isp,
+34947b8aebe3f2d drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  36  				enum v4l2_buf_type type)
+34947b8aebe3f2d drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  37  {
+34947b8aebe3f2d drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  38  }
+34947b8aebe3f2d drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  39  #endif /* !CONFIG_VIDEO_EXYNOS4_ISP_DMA_CAPTURE */
+34947b8aebe3f2d drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  40  
+
+:::::: The code at line 35 was first introduced by commit
+:::::: 34947b8aebe3f2d4eceb65fceafa92bf8dc97d96 [media] exynos4-is: Add the FIMC-IS ISP capture DMA driver
+
+:::::: TO: Sylwester Nawrocki <s.nawrocki@samsung.com>
+:::::: CC: Mauro Carvalho Chehab <m.chehab@samsung.com>
+
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
