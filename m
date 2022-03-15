@@ -2,136 +2,239 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9F1C4DA091
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 17:55:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E08E4DA096
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 17:56:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346697AbiCOQ44 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 12:56:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42550 "EHLO
+        id S1350342AbiCOQ5u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 12:57:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243479AbiCOQ4y (ORCPT
+        with ESMTP id S1346711AbiCOQ5o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 12:56:54 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5207756C25
-        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 09:55:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 09176B810EE
-        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 16:55:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3539C340E8;
-        Tue, 15 Mar 2022 16:55:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647363339;
-        bh=8ARYFhjWfd7G/MaMBnSlEToE5LqJPYI3a47OYB8X3ko=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PVWHwvXPSZhU8/4TlfZn/9l1E2x/H4YA9CiYkuZY4hsRwamcwcHEueH/I63xjj1r1
-         Qkvsilmo7jWwqAN7LcWY7jPuiWXD8nTl1EnyuOVhk7WfLKx1o96ITCuAcJRsAEhQ84
-         B7lqbouv0m16EINbjsCbOjg+/CdmwpyyWtM11jWQ/kFu9fPAvdDTs2impDh2YYB/an
-         OhodRVQkUPp6xXL8oxKkgIMO4nr6PRi0Ncx9mjDw7rDjdWqShNFYYbsAPgpaZEYUqI
-         bc8bcW6Ux9VGzB+HX/nWD19cTAUkwLTJkq8+2Ah6YZWkUPDPTXldeAFmc9X2kJG8xn
-         E8ZTOvEk4zdOg==
-Date:   Tue, 15 Mar 2022 09:55:32 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        krzysztof.kozlowski@canonical.com,
-        jeanmichel.hautbois@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com, paul.kocialkowski@bootlin.com,
-        sakari.ailus@iki.fi, paul.elder@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tue, 15 Mar 2022 12:57:44 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85F97574B2;
+        Tue, 15 Mar 2022 09:56:31 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id hw13so40844606ejc.9;
+        Tue, 15 Mar 2022 09:56:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=c0Q22kpGLVZq/R4WLU6kl2JzaO/emU6B5qw6iFxTTnk=;
+        b=nkppdkb4w3W3RmuSkaW7X7X834GwEP8BcqYaHW6IbiaIjIOLtdoFISOpGh+UFyvkpK
+         rgvHTlRpftx+n5OtJipmyqcyI0fg+M5Nd3qz0npsXTH3lhrIMJImrzY/3ikee2oHNrE0
+         HZzrwOlsLlsVbRGwZQNC5VmbFWAaRAvEVPpfo7UWIJ1bk+5SM6E4qOaT9HfIlQ08acfS
+         90bxgjQ01adADEFBdG8HugC6qkGlZ+djyyUsUNV43bCtdWnTgfuuuedwt1kij5s2y7eQ
+         UiEbkb3bTbv2rIMVrhCXNb4TyftlwOwojvrueDvj4fgi82Rtfn0a6u8wa81DnP0hE1nG
+         GzhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=c0Q22kpGLVZq/R4WLU6kl2JzaO/emU6B5qw6iFxTTnk=;
+        b=GQzxrBEuOpYMgNdy4duNZnczBXBTaFU46xiYEN4g47oRI02MJHQX4Y4JfcWr0xDdLO
+         fNC/vNNKEUxhixAmNM8d5EEq82FargRrYSj8JtEeK3N2kMOaEvpataiPUNkNxFwZpuH8
+         YBqNe3FoMqqNtfm8OOz5tAwcvxyXlmvaPka3C3/DSTybVm/qDbgv/s0xozqEr7edKhTg
+         GcFI4vmg32Zm1Rd51JwL+wF6y9ZBwg4OwTFsWDmIsQiMboDeYfglVAIhaZiqfVRfQ/Nq
+         w0z4unmFMZdEKYPlhWDjj0k6MUq5/16v1SX4NPbBoMjl8TBD8I3YevCllyi9gIvblUyq
+         iA+A==
+X-Gm-Message-State: AOAM532vX/C/ZOnzqCMEzqnuRYrsIIZsuhoeyuwkuwP5Y08LPbv5FS0T
+        luxt+GbGK4mzQ+sv74K4oKU=
+X-Google-Smtp-Source: ABdhPJwKxr5OccFB7rrLAlG9vuFY6y4EcCrPoPUEU4VBoGHbde2eqW38JFpRTIzyeXetqTfwmHmJpg==
+X-Received: by 2002:a17:906:c211:b0:6ce:e221:4c21 with SMTP id d17-20020a170906c21100b006cee2214c21mr23819148ejz.691.1647363384322;
+        Tue, 15 Mar 2022 09:56:24 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id p14-20020a05640210ce00b00413211746d4sm9813056edu.51.2022.03.15.09.56.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Mar 2022 09:56:23 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ming Qian <ming.qian@nxp.com>, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 8/8] media: i2c: ov5670: Add .get_selection() support
-Message-ID: <YjDFBKhV0ALzu36l@dev-arch.thelio-3990X>
-References: <20220314162714.153970-9-jacopo@jmondi.org>
- <202203151238.pCKNarov-lkp@intel.com>
+Subject: Re: [PATCH v2 37/67] media: platform: Kconfig: sort entries
+Date:   Tue, 15 Mar 2022 17:56:22 +0100
+Message-ID: <3163040.44csPzL39Z@kista>
+In-Reply-To: <76c0f364de11dc6a9a27f2d294145f261b7d0e61.1647274406.git.mchehab@kernel.org>
+References: <cover.1647274406.git.mchehab@kernel.org> <76c0f364de11dc6a9a27f2d294145f261b7d0e61.1647274406.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202203151238.pCKNarov-lkp@intel.com>
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 15, 2022 at 12:18:48PM +0800, kernel test robot wrote:
-> Hi Jacopo,
+Dne ponedeljek, 14. marec 2022 ob 17:34:32 CET je Mauro Carvalho Chehab 
+napisal(a):
+> Now that each non-generic driver has their own directory,
+> sort the entries.
 > 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on media-tree/master]
-> [also build test ERROR on linus/master v5.17-rc8 next-20220310]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Jacopo-Mondi/media-i2c-ov5670-OF-support-runtime_pm-regulators/20220315-003034
-> base:   git://linuxtv.org/media_tree.git master
-> config: i386-randconfig-a012-20220314 (https://download.01.org/0day-ci/archive/20220315/202203151238.pCKNarov-lkp@intel.com/config)
-> compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 3e4950d7fa78ac83f33bbf1658e2f49a73719236)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/0day-ci/linux/commit/c619a8eee6477517dfaa05511344d0bddc4e1c55
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Jacopo-Mondi/media-i2c-ov5670-OF-support-runtime_pm-regulators/20220315-003034
->         git checkout c619a8eee6477517dfaa05511344d0bddc4e1c55
->         # save the config file to linux build tree
->         mkdir build_dir
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/media/i2c/ov5670.c:1787:18: error: initializer element is not a compile-time constant
->                    .analog_crop = ov5670_analog_crop,
->                                   ^~~~~~~~~~~~~~~~~~
->    1 error generated.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
 
-GCC versions prior to 8 will complain about this as well:
+For sunxi:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-$ gcc --version | head -1
-gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+Best regards,
+Jernej
 
-$ make -j"$(nproc)" mrproper allmodconfig drivers/media/i2c/ov5670.o
-drivers/media/i2c/ov5670.c:1787:18: error: initializer element is not constant
-   .analog_crop = ov5670_analog_crop,
-                  ^~~~~~~~~~~~~~~~~~
-drivers/media/i2c/ov5670.c:1787:18: note: (near initialization for ‘supported_modes[0].analog_crop’)
-drivers/media/i2c/ov5670.c:1799:18: error: initializer element is not constant
-   .analog_crop = ov5670_analog_crop,
-                  ^~~~~~~~~~~~~~~~~~
-drivers/media/i2c/ov5670.c:1799:18: note: (near initialization for ‘supported_modes[1].analog_crop’)
-drivers/media/i2c/ov5670.c:1811:18: error: initializer element is not constant
-   .analog_crop = ov5670_analog_crop,
-                  ^~~~~~~~~~~~~~~~~~
-drivers/media/i2c/ov5670.c:1811:18: note: (near initialization for ‘supported_modes[2].analog_crop’)
-drivers/media/i2c/ov5670.c:1823:18: error: initializer element is not constant
-   .analog_crop = ov5670_analog_crop,
-                  ^~~~~~~~~~~~~~~~~~
-drivers/media/i2c/ov5670.c:1823:18: note: (near initialization for ‘supported_modes[3].analog_crop’)
-drivers/media/i2c/ov5670.c:1836:18: error: initializer element is not constant
-   .analog_crop = ov5670_analog_crop,
-                  ^~~~~~~~~~~~~~~~~~
-drivers/media/i2c/ov5670.c:1836:18: note: (near initialization for ‘supported_modes[4].analog_crop’)
-drivers/media/i2c/ov5670.c:1848:18: error: initializer element is not constant
-   .analog_crop = ov5670_analog_crop,
-                  ^~~~~~~~~~~~~~~~~~
-drivers/media/i2c/ov5670.c:1848:18: note: (near initialization for ‘supported_modes[5].analog_crop’)
-scripts/Makefile.build:288: recipe for target 'drivers/media/i2c/ov5670.o' failed
+> 
+> To avoid mailbombing on a large number of people, only mailing lists were C/
+C on the cover.
+> See [PATCH v2 00/67] at: https://lore.kernel.org/all/cover.
+1647274406.git.mchehab@kernel.org/
+> 
+>  drivers/media/platform/Kconfig | 98 +++++++++++++++-------------------
+>  1 file changed, 43 insertions(+), 55 deletions(-)
+> 
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index d5aedc6b5ca3..b7c60969c974 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -29,84 +29,72 @@ config V4L_MEM2MEM_DRIVERS
+>  	  to capture and output drivers, which use memory buffers for just
+>  	  one of those.
+>  
+> +# Ancillary drivers
+> +
+> +config VIDEO_MEM2MEM_DEINTERLACE
+> +	tristate "Deinterlace support"
+> +	depends on V4L_MEM2MEM_DRIVERS
+> +	depends on VIDEO_DEV && VIDEO_V4L2
+> +	depends on HAS_DMA
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select V4L2_MEM2MEM_DEV
+> +	help
+> +	    Generic deinterlacing V4L2 driver.
+> +
+> +config VIDEO_MUX
+> +	tristate "Video Multiplexer"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	select MULTIPLEXER
+> +	depends on VIDEO_V4L2 && OF
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select REGMAP
+> +	select V4L2_FWNODE
+> +	help
+> +	  This driver provides support for N:1 video bus multiplexers.
+> +
+> +# Platform drivers - Please keep it alphabetically sorted
+> +
+> +# TODO: create per-manufacturer directories
+> +
+>  source "drivers/media/platform/allegro-dvt/Kconfig"
+> -source "drivers/media/platform/nxp/Kconfig"
+> -
+> -source "drivers/media/platform/renesas/Kconfig"
+> -
+> -# V4L platform drivers
+> -
+> -source "drivers/media/platform/marvell-ccic/Kconfig"
+> -
+> -source "drivers/media/platform/via/Kconfig"
+> -
+> +source "drivers/media/platform/am437x/Kconfig"
+>  source "drivers/media/platform/amphion/Kconfig"
+> +source "drivers/media/platform/aspeed/Kconfig"
+> +source "drivers/media/platform/atmel/Kconfig"
+>  source "drivers/media/platform/cadence/Kconfig"
+> -
+>  source "drivers/media/platform/coda/Kconfig"
+>  source "drivers/media/platform/davinci/Kconfig"
+> -
+>  source "drivers/media/platform/exynos-gsc/Kconfig"
+> +source "drivers/media/platform/exynos4-is/Kconfig"
+> +source "drivers/media/platform/intel/Kconfig"
+> +source "drivers/media/platform/marvell-ccic/Kconfig"
+>  source "drivers/media/platform/meson/ge2d/Kconfig"
+>  source "drivers/media/platform/mtk-jpeg/Kconfig"
+>  source "drivers/media/platform/mtk-mdp/Kconfig"
+>  source "drivers/media/platform/mtk-vcodec/Kconfig"
+>  source "drivers/media/platform/mtk-vpu/Kconfig"
+> -source "drivers/media/platform/omap3isp/Kconfig"
+> +source "drivers/media/platform/nxp/Kconfig"
+>  source "drivers/media/platform/omap/Kconfig"
+> +source "drivers/media/platform/omap3isp/Kconfig"
+>  source "drivers/media/platform/qcom/camss/Kconfig"
+>  source "drivers/media/platform/qcom/venus/Kconfig"
+> -
+> -source "drivers/media/platform/aspeed/Kconfig"
+> +source "drivers/media/platform/renesas/Kconfig"
+>  source "drivers/media/platform/rockchip/rga/Kconfig"
+>  source "drivers/media/platform/rockchip/rkisp1/Kconfig"
+>  source "drivers/media/platform/s3c-camif/Kconfig"
+>  source "drivers/media/platform/s5p-g2d/Kconfig"
+>  source "drivers/media/platform/s5p-jpeg/Kconfig"
+> +source "drivers/media/platform/s5p-mfc/Kconfig"
+> +source "drivers/media/platform/sti/bdisp/Kconfig"
+> +source "drivers/media/platform/sti/c8sectpfe/Kconfig"
+> +source "drivers/media/platform/sti/delta/Kconfig"
+>  source "drivers/media/platform/sti/hva/Kconfig"
+>  source "drivers/media/platform/stm32/Kconfig"
+> +source "drivers/media/platform/sunxi/Kconfig"
+>  source "drivers/media/platform/sunxi/sun8i-di/Kconfig"
+>  source "drivers/media/platform/sunxi/sun8i-rotate/Kconfig"
+>  source "drivers/media/platform/tegra/vde/Kconfig"
+>  source "drivers/media/platform/ti-vpe/Kconfig"
+> -
+> -config VIDEO_MUX
+> -	tristate "Video Multiplexer"
+> -	depends on V4L_PLATFORM_DRIVERS
+> -	select MULTIPLEXER
+> -	depends on VIDEO_V4L2 && OF
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select REGMAP
+> -	select V4L2_FWNODE
+> -	help
+> -	  This driver provides support for N:1 video bus multiplexers.
+> -
+> -source "drivers/media/platform/intel/Kconfig"
+> -
+> -source "drivers/media/platform/exynos4-is/Kconfig"
+> -source "drivers/media/platform/am437x/Kconfig"
+> +source "drivers/media/platform/via/Kconfig"
+>  source "drivers/media/platform/xilinx/Kconfig"
+> -source "drivers/media/platform/atmel/Kconfig"
+> -source "drivers/media/platform/sunxi/Kconfig"
+> -
+> -# Mem2mem drivers
+> -
+> -config VIDEO_MEM2MEM_DEINTERLACE
+> -	tristate "Deinterlace support"
+> -	depends on V4L_MEM2MEM_DRIVERS
+> -	depends on VIDEO_DEV && VIDEO_V4L2
+> -	depends on HAS_DMA
+> -	select VIDEOBUF2_DMA_CONTIG
+> -	select V4L2_MEM2MEM_DEV
+> -	help
+> -	    Generic deinterlacing V4L2 driver.
+> -
+> -source "drivers/media/platform/s5p-mfc/Kconfig"
+> -
+> -source "drivers/media/platform/sti/bdisp/Kconfig"
+> -
+> -source "drivers/media/platform/sti/delta/Kconfig"
+> -
+> -# DVB platform drivers
+> -source "drivers/media/platform/sti/c8sectpfe/Kconfig"
+> -- 
+> 2.35.1
+> 
+> 
 
-clang may eventually support this: https://reviews.llvm.org/D76096
 
-Cheers,
-Nathan
