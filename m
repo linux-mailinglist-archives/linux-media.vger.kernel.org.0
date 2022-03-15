@@ -2,183 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6810E4DA404
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 21:30:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A764A4DA50C
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 23:10:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351714AbiCOUcI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 16:32:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32898 "EHLO
+        id S237718AbiCOWLc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 18:11:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241887AbiCOUcI (ORCPT
+        with ESMTP id S229457AbiCOWLb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 16:32:08 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE88286E7;
-        Tue, 15 Mar 2022 13:30:54 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id E86B420B23;
-        Tue, 15 Mar 2022 22:30:51 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1647376252;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=snG9Sh9SpqyFLhaSZI/Eu8oN95lAgHlKVKh1BYZrKYY=;
-        b=yB75UOdC48QqpjzfKMD9rAAP9fhJxtBjCw7FvoUKnr9NLM5AUhKwGxqusQyVA8YLG+J7m4
-        ao/kYN5/Wk4z0FXIQQgtrILef4E6MbzLjb1K8pQI1fo0YpS3IX35QGcJuRkKXDrbxBC4nN
-        kijkZK5KoT0mTTEKbSeEXie8zVhI0Oc=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 73249634C90;
-        Tue, 15 Mar 2022 22:30:51 +0200 (EET)
-Date:   Tue, 15 Mar 2022 22:30:51 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        jeanmichel.hautbois@ideasonboard.com,
-        paul.kocialkowski@bootlin.com, paul.elder@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
-        <linux-media@vger.kernel.org>, robh@kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/8] media: dt-bindings: i2c: Document ov5670
-Message-ID: <YjD3e14U0Hcqtob3@valkosipuli.retiisi.eu>
-References: <20220314162714.153970-1-jacopo@jmondi.org>
- <20220314162714.153970-2-jacopo@jmondi.org>
- <ba09e048-d619-5bd2-e6c3-da071a6d2ab6@canonical.com>
- <YjBHVY/clnMUlNFj@valkosipuli.retiisi.eu>
- <58745ae2-40be-65f6-bea6-f62d8935719f@canonical.com>
- <YjCK75F7Xmiy8nGF@valkosipuli.retiisi.eu>
- <YjCOL2H33oc2pOWN@pendragon.ideasonboard.com>
+        Tue, 15 Mar 2022 18:11:31 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702AC55489;
+        Tue, 15 Mar 2022 15:10:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1647382211;
+        bh=xM4oQR7OIYhkFU4WGIccTCaere6PdIYnlMfBAvjxxBg=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=Ol3kShPLRkRdDbiv96OKUfWMW9cxEKFgg8JVBNTXP3VjxwCLrcnG526uuu1NKhx9Y
+         JUjzi+9qmACwthiEjMkmEP8GDVn7f2JyEBoo+Y/mzQNmd0bu0sTtUrsJNNiC7fcpIK
+         F2zShaWXKuCk7MihzoBVd6bODKNEHZnMNvMbVIA0=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([5.146.194.160]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N8XPt-1o7pND3Vtx-014Vu0; Tue, 15
+ Mar 2022 23:10:10 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v2] docs: media: uvcvideo: Use linux-media mailing list
+Date:   Tue, 15 Mar 2022 23:10:06 +0100
+Message-Id: <20220315221007.1045878-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YjCOL2H33oc2pOWN@pendragon.ideasonboard.com>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1647376252; a=rsa-sha256; cv=none;
-        b=x2ukAWIIxapMFtBrPqVUxTTvppIgKd0axPUSAonVNNYMH1a08Bm/75m7+1poSo/EZiHNEi
-        a3H8QwNeVzBGVBkzoxUY/yenTqSZu+Zbf/ixzfLwTsIh/kA2eI6YrvrmEuo/+6PF0YvBOt
-        O46S8ZyOt5fRJFbiHWJghC3lgF5o6bo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1647376252;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=snG9Sh9SpqyFLhaSZI/Eu8oN95lAgHlKVKh1BYZrKYY=;
-        b=H1Pjc32zkB4PPTViCAUBpqXyNeWPHeeJwHTDSMWK7MgotykTqWVO/Q6QYpHCRtbvz4IH0/
-        5QiVTizQ6GiJqKNE0ij7gGLvWKp0UMP2QmKIcwW92UGcbnkw/5ObVT6XEJAFQ9AydubR6i
-        zfhtYvgiEIqt2tLh7W0p+kCTTlmhSQ0=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:zoHKQfF+3R9vbpcfwUudeUTFqC5qNt5OTi6HV9gEsEIjLZxYnBw
+ ArJ3NyQPJnaMvcL/KI/kwoQ2b069LedHhdhvk+yIxZ0M+zQISsFxhnS6DdKMu1Tp5cLrG27
+ wSEf8fIcpTWPfwPfJZ0bTHLNt5wiAd7Cr+Ip+XFf1PWCE4vz8rKKjxva7MnFymFIVyAtVsQ
+ HMb6J8nM42GkKHBLWkZxQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wb6X+o6SB5s=:Oxik5vkStHR0aks5xkOYog
+ xr+dUodkqkmm2lRx+xyd1suYFCbpBmP9ytwBGmSr6rQJlyPeKS0ZXO2O3WPeOFU9SxZYUnmR2
+ 2lsnQAOJhrSjDStTxvtIhzSxyeCMyd+YKOBlDWAdyByNTvQ5MlT/hgJzTtXpX1/hFFkrrJH/u
+ /gfeUvGR2IYM6OCTls8Y1x6hKlzS1/pQpTxZD5ydg0tgD9b4jlwX1WmcYXE7Ejp22RvEkMpiL
+ KQhxRRpe0wGQZnkq8BCdMJi23SQPay5ogKYgi8OQ9Nvq3PhUGZmOptxnvoX6u55oVjE7j3V5C
+ GfVFr67SlaXSi9OrxoYAGvLY0dZhkm1gFXvDdzXzC4Fb/e/0qpU+4THRW6ZXRLyvPGyx/5xZF
+ w1GiaGDjUcWTWjPWMgI9LIQv7IcnCbLK3xfM9KbKiqtQFQe/vUiC/jse0VrvV1HkVSwfx1687
+ 91etbEMBhz7uHXvwdGxo+ko0Yx2dl5ypNKZwKjO9KAVHQNjVZa7bedAW6od6rL/l6O4GL0GF0
+ uPSGtCsYu79XvaoFu7Vo9fvfqK2D4CzveI31U5wEgY9+vBKqn3TxdVR3XoevfqKKxRQptYKey
+ yb4iJDYQeFIkwXQxl5SR+upi81ztvGU8SpTgJ+tIBEBHA5hJm1PExRfRj8GzImiePRr4ffCak
+ vXEhORs741dipPoT/VsoQiaNHnbQZB3FBb2vy+xuOfn5W1MXujJpPBI6j1nsUUEF1OJRzREJD
+ Hg5JZEKD418/EZ64NpeQcCMYJilXl5jr1BGDrFSIvc6HvUfxL65/R09XhtpKqm4PV86c5MiWi
+ 2OvZPphRwnTK4egfoBH0kt/jHl9KkqlSemgrdB+1+YH+LtY/7+9xaNKWJ0nS/MHc/8bHVT7YG
+ naij6aG+ch0OXvxoZWwY6Us5AF0m6XLKBqeSRAaLm1/asAFW/B0rr7xRqwCEg3yXyoXUHyZUx
+ sm91ZLOL60Lfeuuq47oIMmtEFHWkQbAkA5MhYpNQGij5NIyNGt9lxL8JeHFbJRcgiZu3kz6YH
+ zshkjKFXXKHNcfdHq77DSzrWoQAR+qYJzTcTCQEtOlPr6nuMirhAPc1FFEa5x+u6HYyN16t+V
+ ne6dXevpJLgDBM=
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+As discussed with other developers, the linux-uvc-devel mailing list is
+not very useful anymore, and it's better to send people to the general
+linux-media mailing list.
 
-On Tue, Mar 15, 2022 at 03:01:35PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Tue, Mar 15, 2022 at 02:47:43PM +0200, Sakari Ailus wrote:
-> > On Tue, Mar 15, 2022 at 09:03:41AM +0100, Krzysztof Kozlowski wrote:
-> > > On 15/03/2022 08:59, Sakari Ailus wrote:
-> > > > On Tue, Mar 15, 2022 at 08:32:58AM +0100, Krzysztof Kozlowski wrote:
-> > > >> On 14/03/2022 17:27, Jacopo Mondi wrote:
-> > > >>> Provide the bindings documentation for Omnivision OV5670 image sensor.
-> > > >>>
-> > > >>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > >>>
-> > > >>> ---
-> > > >>> v1->v2 (comments from Krzysztof)
-> > > >>>
-> > > >>> - Rename to include manufacturer name
-> > > >>> - Add entry to MAINTAINERS
-> > > >>> - Add maxItems: to -gpios properties
-> > > >>> - Use common clock properties
-> > > >>> - Use enum: [1, 2] for data lanes
-> > > >>> - Fix whitespace issue in example
-> > > >>> ---
-> > > >>>
-> > > >>>  .../bindings/media/i2c/ovti,ov5670.yaml       | 99 +++++++++++++++++++
-> > > >>>  MAINTAINERS                                   |  1 +
-> > > >>>  2 files changed, 100 insertions(+)
-> > > >>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
-> > > >>>
-> > > >>> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
-> > > >>> new file mode 100644
-> > > >>> index 000000000000..73cf72203f17
-> > > >>> --- /dev/null
-> > > >>> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
-> > > >>> @@ -0,0 +1,99 @@
-> > > >>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > >>> +%YAML 1.2
-> > > >>> +---
-> > > >>> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5670.yaml#
-> > > >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > >>> +
-> > > >>> +title: Omnivision OV5670 5 Megapixels raw image sensor
-> > > >>> +
-> > > >>> +maintainers:
-> > > >>> +  - Jacopo Mondi <jacopo@jmondi.org>
-> > > >>> +
-> > > >>> +description: |-
-> > > >>> +  The OV5670 is a 5 Megapixels raw image sensor which provides images in 10-bits
-> > > >>> +  RAW BGGR Bayer format on a 2 data lanes MIPI CSI-2 serial interface and is
-> > > >>> +  controlled through an I2C compatible control bus.
-> > > >>> +
-> > > >>> +properties:
-> > > >>> +  compatible:
-> > > >>> +    const: ovti,ov5670
-> > > >>> +
-> > > >>> +  reg:
-> > > >>> +    maxItems: 1
-> > > >>> +
-> > > >>> +  assigned-clocks: true
-> > > >>> +  assigned-clock-parents: true
-> > > >>> +  assigned-clock-rates: true
-> > > >>
-> > > >> You should not need these. These are coming with schema. You can add
-> > > >> these to example schema below and double-check.
-> > > > 
-> > > > They should probably be required actually.
-> > > 
-> > > Why required? The hardware can work with different clocks, get their
-> > > rate and configure internal PLLs/clocks to new value. Having it required
-> > > might have sense for current implementation of driver but this is
-> > > independent of bindings. Bindings do not describe driver, but hardware.
-> > 
-> > We've had this discussion before and the result of that was this (see
-> > "Handling clocks"):
-> > 
-> > Documentation/driver-api/media/camera-sensor.rst
-> 
-> I don't think those properties should be required in the sensor
-> bindings. There are platforms where the clock provided to the sensor
-> comes from a fixed-frequency oscillator, assigning a rate or parent
-> makes no sense for those (assigning a parent would actually be
-> impossible).
-> 
-> Assigning a parent or rate is fine when applicable, but as it can't be
-> required, there's also no point in listing the properties here.
+Replace/remove the old mailing list address in uvcvideo.rst and
+MAINTAINERS.
 
-The cases where the clock is fixed are quite rare but admittedly they
-exist.
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
 
-It's just easy to get this wrong.
+v2:
+- Changed mailing list to linux-media@vger.kernel.org instead
 
--- 
-Sakari Ailus
+v1:
+- https://lore.kernel.org/lkml/20220312203323.626657-1-j.neuschaefer@gmx.n=
+et/
+=2D--
+ Documentation/userspace-api/media/drivers/uvcvideo.rst | 2 +-
+ MAINTAINERS                                            | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/Documentation/userspace-api/media/drivers/uvcvideo.rst b/Docu=
+mentation/userspace-api/media/drivers/uvcvideo.rst
+index e5fd8fad333c9..a290f9fadae9d 100644
+=2D-- a/Documentation/userspace-api/media/drivers/uvcvideo.rst
++++ b/Documentation/userspace-api/media/drivers/uvcvideo.rst
+@@ -7,7 +7,7 @@ This file documents some driver-specific aspects of the UV=
+C driver, such as
+ driver-specific ioctls and implementation notes.
+
+ Questions and remarks can be sent to the Linux UVC development mailing li=
+st at
+-linux-uvc-devel@lists.berlios.de.
++linux-media@vger.kernel.org.
+
+
+ Extension Unit (XU) support
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 05fd080b82f3a..8a0aeb1b98786 100644
+=2D-- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20154,7 +20154,6 @@ F:	drivers/usb/host/uhci*
+
+ USB VIDEO CLASS
+ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+-L:	linux-uvc-devel@lists.sourceforge.net (subscribers-only)
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	http://www.ideasonboard.org/uvc/
+=2D-
+2.35.1
+
