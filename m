@@ -2,174 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C90C4DA2E4
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 20:03:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B1FF4DA33A
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 20:23:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351280AbiCOTES (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 15:04:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55102 "EHLO
+        id S1351330AbiCOTYI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 15:24:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351250AbiCOTEG (ORCPT
+        with ESMTP id S1345039AbiCOTYH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 15:04:06 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B37AF5A158
-        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 12:02:49 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id r13so43573931ejd.5
-        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 12:02:49 -0700 (PDT)
+        Tue, 15 Mar 2022 15:24:07 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 956902670;
+        Tue, 15 Mar 2022 12:22:54 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a8so43671946ejc.8;
+        Tue, 15 Mar 2022 12:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nYOjHF+WhaOll744zl3KXczQ6UnybRfVr7cW3I5uN/U=;
-        b=eWq9aQSnpFSM7gGPtqgzIwr8bb/qKsDMvo0mIbS4s59AMIIHEMyCDMwhpLWRS+EYBR
-         qN4oTEZNXWPjiFCM5wbN4L3FVB0yMfHlzKy9DLlhHVCdkUAg+H8m96o6+l6phOAtZZtL
-         HqEaabMV1A231GA5THyiGjQn+CcdPV6Wcj7+UPW4PCAGWku/81HP+8C5q//5lWvhO0Pu
-         3zeib+NRZoI9eWeTsoj34Li0T9JVhg3Z1kUYOR1XGxD8A2nRmcx8ve9PFlZCqJIC6N4E
-         zEz1m0vSJoc3+NJsHrbvJr8ATMwQ+P3zv+QChYRQcRSYL4oNsBWZ06rrB2G0G0fVIJ1p
-         NQSA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=YUZLGSm75zNh7rcYmCCbe97E+affE9AzchNO0OWxx4o=;
+        b=cCFx+shCgIVka6s5fOiT+wREmOnQNIvnqKe3Op2trhAh9UheCWIrFXkW+s4OGLFZg8
+         3f/hmiwIx6xETfTpBaDhyvsp5e+la/BaRAVUo2Hkn6VhJXBpNLUZ/CebWTe5+I+2TArn
+         ZoBmhqvS42Fi+0U9YGhV3OF6TPzuxEBnrZBiIsOD4DMGpr5lWzbl78BTF0XGGGVBuHvd
+         Nfw9hlez1k1oCKSRv2Y4mmiL6RFdUgYbaZvJjwxwucRWtjNXJqOEnjyewIILyqKQzY8A
+         ptO4vaPR/B9wl75cLXCpPreHkpJaVDgWAjbySHrWO/oP3/F6vfvVFzIh7iUTLmAPk1c+
+         VoSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nYOjHF+WhaOll744zl3KXczQ6UnybRfVr7cW3I5uN/U=;
-        b=ReeL2SSyKn5BxeD3CX/Hk7leG1kGpZ+9wxD4niErjth7pu/lM1HS+/TMXQnyljfUWF
-         1LaBa77oG5YIh1BlSqVB41omx2MwnNOGQzk562J1RR6B+fFYz0ctqAXVGOPkscO4XliP
-         nBs54Ek4rmXr5MruxLVpfYCJsSAeXbVxLygtwflUCN5QCnNvdyXFfO1thcER7f7yKpvb
-         nM8QI3Z3VJLbiqmMbwl80+QHLHCOgEcu+X5HWdWHlNcH51Tc4erUq7R/gvlaPyOCtM4S
-         mosM2/nD84ke38dA824TsbESBv69YRAvWqtfiHQqX8933TEEy9XNAwjJyn9ToGN53LmT
-         2ZAw==
-X-Gm-Message-State: AOAM533IOeVmI+5SPMFqUx0fbGnfHVFE/CqgIyxRXjJlOGcdbaBVLxoW
-        MLuHJGfQPYSQDy2Amj4ibjS8gkKmqjigYGWeRsWv1g==
-X-Google-Smtp-Source: ABdhPJxRVh2ZUD0Nbieh2mZpcZVRDFfmA10fIZydckRgsnzTb2ustxoM9NqZuPCgmtI1mueDRq1Ne12Wp4MutQ+KdLw=
-X-Received: by 2002:a17:907:7f2a:b0:6d6:df12:7f57 with SMTP id
- qf42-20020a1709077f2a00b006d6df127f57mr23761361ejc.122.1647370967391; Tue, 15
- Mar 2022 12:02:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220309165222.2843651-1-tjmercier@google.com>
- <20220309165222.2843651-8-tjmercier@google.com> <CAHRSSEy5_h9LJB4q5_OJA7fSq=ROo68UaK+hdPz-Vj-wac1Qhg@mail.gmail.com>
- <CABdmKX1G0Rwmz7=BP1ER+TmtrnkGiE0nROsPTHKxnj=6bHhY3Q@mail.gmail.com> <a365a5f6c7864a879b133b99d1f43fb2@AcuMS.aculab.com>
-In-Reply-To: <a365a5f6c7864a879b133b99d1f43fb2@AcuMS.aculab.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Tue, 15 Mar 2022 12:02:35 -0700
-Message-ID: <CABdmKX3NEm8+pDBj2VG-r8E91CVHwQ+gGcKhG8D=5MgWcgincg@mail.gmail.com>
-Subject: Re: [RFC v3 7/8] binder: use __kernel_pid_t and __kernel_uid_t for userspace
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Todd Kjos <tkjos@google.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=YUZLGSm75zNh7rcYmCCbe97E+affE9AzchNO0OWxx4o=;
+        b=uVoZgJiw66xsB0H5co4iUY5iBwPizMO75+iH2fTAEE2J6W1O6BXkBr2VMO+xplleiC
+         oGsrW7+hTImUKDKeAhTuXPA/Zd6cctF7V/smE3Wu14TJhmS9nYfBIUPpzEKXewkYtm3n
+         09hdItzGbEwS7A6zNWvBPxRUZ9Raf5uxswpa37gSwDCWtxLqmQynNZ8LsWKecd388Iah
+         CHXf+0VVTOg9fvPhOqdvmQC475GVNRP+8IDqX1ooUQSRln4IxjYKOVnzwM7C7tncpDf4
+         o96Hh5ecUKKMYooaaKurJ3BXBUBXfEWickTZ5s8G/PitImxeBEZohQHtri9jOIt1cUjm
+         xktA==
+X-Gm-Message-State: AOAM533gD3GLgdoUgq73da2LAQzgZHfIFq8meXdwHbIkXpZ9vn5YJ6dV
+        XEkHQF2ycAioWPGld0qdVmooEVdBUtMvjg==
+X-Google-Smtp-Source: ABdhPJx3oMQvDZcegvWM9E7xJZyXa9HzvY7rQWf3ct9h7oMvijJQwqMRKb2G2l22n3jGgUQYENCK5Q==
+X-Received: by 2002:a17:906:52c7:b0:6ce:a880:50a3 with SMTP id w7-20020a17090652c700b006cea88050a3mr23528658ejn.437.1647372172743;
+        Tue, 15 Mar 2022 12:22:52 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id n4-20020a056402060400b00415a1f9a4dasm9918377edv.91.2022.03.15.12.22.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Mar 2022 12:22:52 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        "Kenny.Ho@amd.com" <Kenny.Ho@amd.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 03/46] media: sun6i-csi: Grab bus clock instead of passing it to regmap
+Date:   Tue, 15 Mar 2022 20:22:50 +0100
+Message-ID: <2361247.jE0xQCEvom@kista>
+In-Reply-To: <20220311143532.265091-4-paul.kocialkowski@bootlin.com>
+References: <20220311143532.265091-1-paul.kocialkowski@bootlin.com> <20220311143532.265091-4-paul.kocialkowski@bootlin.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 15, 2022 at 12:56 AM David Laight <David.Laight@aculab.com> wrote:
->
-> From: T.J. Mercier
-> > Sent: 14 March 2022 23:45
-> >
-> > On Thu, Mar 10, 2022 at 11:33 AM Todd Kjos <tkjos@google.com> wrote:
-> > >
-> > > On Wed, Mar 9, 2022 at 8:52 AM T.J. Mercier <tjmercier@google.com> wrote:
-> > > >
-> > > > The kernel interface should use types that the kernel defines instead of
-> > > > pid_t and uid_t, whose definiton is owned by libc. This fixes the header
-> > > > so that it can be included without first including sys/types.h.
-> > > >
-> > > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > > > ---
-> > > >  include/uapi/linux/android/binder.h | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/android/binder.h
-> > > > index 169fd5069a1a..aa28454dbca3 100644
-> > > > --- a/include/uapi/linux/android/binder.h
-> > > > +++ b/include/uapi/linux/android/binder.h
-> > > > @@ -289,8 +289,8 @@ struct binder_transaction_data {
-> > > >
-> > > >         /* General information about the transaction. */
-> > > >         __u32           flags;
-> > > > -       pid_t           sender_pid;
-> > > > -       uid_t           sender_euid;
-> > > > +       __kernel_pid_t  sender_pid;
-> > > > +       __kernel_uid_t  sender_euid;
-> > >
-> > > Are we guaranteed that this does not affect the UAPI at all? Userspace
-> > > code using this definition will have to run with kernels using the old
-> > > definition and visa-versa.
-> >
-> > A standards compliant userspace should be expecting a signed integer
-> > type here. So the only way I can think userspace would be affected is
-> > if:
-> > 1) pid_t is a long AND
-> > 2) sizeof(long) > sizeof(int) AND
-> > 3) Consumers of the pid_t definition actually attempt to mutate the
-> > result to make use of extra bits in the variable (which are not there)
->
-> Or the userspace headers have a 16bit pid_t.
+Hi Paul!
 
-Since the kernel uses an int for PIDs, wouldn't a 16 bit pid_t already
-be potentially broken (overflow) on systems where int is not 16 bits?
-On systems where int is 16 bits, there is no change here except to
-achieve uniform use of __kernel_pid_t in the kernel headers and fix
-the include problem.
+Dne petek, 11. marec 2022 ob 15:34:49 CET je Paul Kocialkowski napisal(a):
+> Since the bus clock alone is not enough to get access to the registers,
+> don't pass it to regmap and manage it instead just like the other
+> clocks.
+> 
 
->
-> I can't help feeling that uapi headers should only use explicit
-> fixed sized types.
-> There is no point indirecting the type names - the sizes still
-> can't be changes.
+Let me ask it in another way, is bus clock needed only for register access? If 
+yes, it makes sense to keep it enabled only during register access.
 
-I think it's still unlikely to be an actual problem. For example there
-are other occasions where a switch like this was made:
-https://github.com/torvalds/linux/commit/694a58e29ef27c4c26f103a9decfd053f94dd34c
-https://github.com/torvalds/linux/commit/269b8fd5d058f2c0da01a42b20315ffc2640d99b
+Best regards,
+Jernej
 
-And also since Binder's only known user is Android through Bionic
-which already expects the type of pid_t to be __kernel_pid_t.
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 10 ++++++++--
+>  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h |  1 +
+>  2 files changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/
+media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> index 5fbaa1e99412..dc79f3c14336 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> @@ -827,13 +827,19 @@ static int sun6i_csi_resource_request(struct 
+sun6i_csi_device *csi_dev,
+>  	if (IS_ERR(io_base))
+>  		return PTR_ERR(io_base);
+>  
+> -	csi_dev->regmap = devm_regmap_init_mmio_clk(&pdev->dev, "bus", 
+io_base,
+> -						    
+&sun6i_csi_regmap_config);
+> +	csi_dev->regmap = devm_regmap_init_mmio(&pdev->dev, io_base,
+> +						
+&sun6i_csi_regmap_config);
+>  	if (IS_ERR(csi_dev->regmap)) {
+>  		dev_err(&pdev->dev, "Failed to init register map\n");
+>  		return PTR_ERR(csi_dev->regmap);
+>  	}
+>  
+> +	csi_dev->clk_bus = devm_clk_get(&pdev->dev, "bus");
+> +	if (IS_ERR(csi_dev->clk_bus)) {
+> +		dev_err(&pdev->dev, "Unable to acquire bus clock\n");
+> +		return PTR_ERR(csi_dev->clk_bus);
+> +	}
+> +
+>  	csi_dev->clk_mod = devm_clk_get(&pdev->dev, "mod");
+>  	if (IS_ERR(csi_dev->clk_mod)) {
+>  		dev_err(&pdev->dev, "Unable to acquire csi clock\n");
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/
+media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> index e4e7ac6c869f..356661b413f8 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> @@ -51,6 +51,7 @@ struct sun6i_csi_device {
+>  	struct sun6i_video		video;
+>  
+>  	struct regmap			*regmap;
+> +	struct clk			*clk_bus;
+>  	struct clk			*clk_mod;
+>  	struct clk			*clk_ram;
+>  	struct reset_control		*reset;
+> -- 
+> 2.35.1
+> 
+> 
 
 
->
->         David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
