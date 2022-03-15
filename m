@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D17B54D95EF
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 09:12:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D432C4D95F2
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 09:14:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345754AbiCOINR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 04:13:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41418 "EHLO
+        id S1345763AbiCOIPO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 04:15:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238106AbiCOINQ (ORCPT
+        with ESMTP id S237121AbiCOIPN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 04:13:16 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7098F48898
-        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 01:12:05 -0700 (PDT)
+        Tue, 15 Mar 2022 04:15:13 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25FE727B29
+        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 01:14:02 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0CD8EE;
-        Tue, 15 Mar 2022 09:12:03 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 021F1EE;
+        Tue, 15 Mar 2022 09:13:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647331923;
-        bh=XyJ5LByIQlyFC0emHbI6XDHjAWkLAhAy5RLAmommaF8=;
+        s=mail; t=1647332040;
+        bh=uL7vkvN6RoFWZKuCo9GBqNyqMfqS48rNtStX3wI122g=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JN9jvV2/+sPZVcsKY+ZxniTiGJ6JCgKG7Y97YgArPUblQtYi72o3s9VKqUGtU3DrJ
-         tG2LZLPeuwiMiWI6qJgYzlmtfyVDJ+1ECMac5HmKrUI1B/plojQSIpR+bXl+zb7s3O
-         uEEB2QIZCofIYqigGdVnZV1Qqydf8RqAaw566aP4=
-Date:   Tue, 15 Mar 2022 10:11:46 +0200
+        b=ssdWfScE4b9hFaahym11EG0wX/HDM8EKLTCk4wruZINv7ODXtS7UAgnNy1MWSgdJx
+         qW9S72daKkKxJVDwXvPEbaaHdJcKs/h+3VZ5u7L+rFJ6XAcyFGWsZkBQ+UA0QS3JBA
+         VMpm5n/3K87M3tJBOmKHojKRCveszH3q14X3uI20=
+Date:   Tue, 15 Mar 2022 10:13:43 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
@@ -36,14 +36,14 @@ Cc:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         "open list:OMNIVISION OV5670 SENSOR DRIVER" 
         <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v2 3/8] media: i2c: ov5670: Probe clocks with OF
-Message-ID: <YjBKQrdiOo1/EWck@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 7/8] media: i2c: ov5670: Implement init_cfg
+Message-ID: <YjBKtxTdwrf8cp+O@pendragon.ideasonboard.com>
 References: <20220314162714.153970-1-jacopo@jmondi.org>
- <20220314162714.153970-4-jacopo@jmondi.org>
+ <20220314162714.153970-8-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220314162714.153970-4-jacopo@jmondi.org>
+In-Reply-To: <20220314162714.153970-8-jacopo@jmondi.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -57,83 +57,106 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Mon, Mar 14, 2022 at 05:27:09PM +0100, Jacopo Mondi wrote:
-> Add support for probing the main system clock using the common clock
-> framework and its OF bindings.
+On Mon, Mar 14, 2022 at 05:27:13PM +0100, Jacopo Mondi wrote:
+> Implement the .init_cfg() pad operation and initialize the default
+> format.
 > 
-> Maintain ACPI compatibility by falling back to parse 'clock-frequency'
-> if the no clock device reference is available.
+> With .init_cfg() pad operation implemented the deprecated .open()
+> internal operation can now be dropped.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  drivers/media/i2c/ov5670.c | 21 +++++++++++++++++----
->  1 file changed, 17 insertions(+), 4 deletions(-)
+>  drivers/media/i2c/ov5670.c | 46 +++++++++++++++++---------------------
+>  1 file changed, 20 insertions(+), 26 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-> index 721441024598..25d792794fc7 100644
+> index c3f773524d5f..9aa82774f8a6 100644
 > --- a/drivers/media/i2c/ov5670.c
 > +++ b/drivers/media/i2c/ov5670.c
-> @@ -2,6 +2,7 @@
->  // Copyright (c) 2017 Intel Corporation.
+> @@ -1958,27 +1958,6 @@ static int ov5670_write_reg_list(struct ov5670 *ov5670,
+>  	return ov5670_write_regs(ov5670, r_list->regs, r_list->num_of_regs);
+>  }
 >  
->  #include <linux/acpi.h>
-> +#include <linux/clk.h>
->  #include <linux/i2c.h>
->  #include <linux/mod_devicetable.h>
->  #include <linux/module.h>
-> @@ -1819,6 +1820,8 @@ struct ov5670 {
->  	struct v4l2_subdev sd;
->  	struct media_pad pad;
->  
-> +	struct clk *clk;
-> +
->  	struct v4l2_ctrl_handler ctrl_handler;
->  	/* V4L2 Controls */
->  	struct v4l2_ctrl *link_freq;
-> @@ -2478,10 +2481,6 @@ static int ov5670_probe(struct i2c_client *client)
->  	bool full_power;
->  	int ret;
->  
-> -	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
-> -	if (input_clk != 19200000)
-> -		return -EINVAL;
+> -/* Open sub-device */
+> -static int ov5670_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> -{
+> -	struct ov5670 *ov5670 = to_ov5670(sd);
+> -	struct v4l2_mbus_framefmt *try_fmt =
+> -				v4l2_subdev_get_try_format(sd, fh->state, 0);
 > -
->  	ov5670 = devm_kzalloc(&client->dev, sizeof(*ov5670), GFP_KERNEL);
->  	if (!ov5670) {
->  		ret = -ENOMEM;
-> @@ -2489,6 +2488,20 @@ static int ov5670_probe(struct i2c_client *client)
->  		goto error_print;
+> -	mutex_lock(&ov5670->mutex);
+> -
+> -	/* Initialize try_fmt */
+> -	try_fmt->width = ov5670->cur_mode->width;
+> -	try_fmt->height = ov5670->cur_mode->height;
+> -	try_fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> -	try_fmt->field = V4L2_FIELD_NONE;
+> -
+> -	/* No crop or compose */
+> -	mutex_unlock(&ov5670->mutex);
+> -
+> -	return 0;
+> -}
+> -
+>  static int ov5670_update_digital_gain(struct ov5670 *ov5670, u32 d_gain)
+>  {
+>  	int ret;
+> @@ -2178,6 +2157,25 @@ static int ov5670_init_controls(struct ov5670 *ov5670)
+>  	return ret;
+>  }
+>  
+> +static int ov5670_init_cfg(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_state *state)
+> +{
+> +	struct v4l2_mbus_framefmt *fmt =
+> +				v4l2_subdev_get_try_format(sd, state, 0);
+> +	const struct ov5670_mode *default_mode = &supported_modes[0];
+> +
+> +	fmt->width = default_mode->width;
+> +	fmt->height = default_mode->height;
+> +	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +	fmt->field = V4L2_FIELD_NONE;
+> +	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> +	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(V4L2_COLORSPACE_SRGB);
+> +	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> +	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(V4L2_COLORSPACE_SRGB);
+> +
+> +	return 0;
+> +}
+> +
+>  static int ov5670_enum_mbus_code(struct v4l2_subdev *sd,
+>  				 struct v4l2_subdev_state *sd_state,
+>  				 struct v4l2_subdev_mbus_code_enum *code)
+> @@ -2499,6 +2497,7 @@ static const struct v4l2_subdev_video_ops ov5670_video_ops = {
+>  };
+>  
+>  static const struct v4l2_subdev_pad_ops ov5670_pad_ops = {
+> +	.init_cfg = ov5670_init_cfg,
+>  	.enum_mbus_code = ov5670_enum_mbus_code,
+>  	.get_fmt = ov5670_get_pad_format,
+>  	.set_fmt = ov5670_set_pad_format,
+> @@ -2520,10 +2519,6 @@ static const struct media_entity_operations ov5670_subdev_entity_ops = {
+>  	.link_validate = v4l2_subdev_link_validate,
+>  };
+>  
+> -static const struct v4l2_subdev_internal_ops ov5670_internal_ops = {
+> -	.open = ov5670_open,
+> -};
+> -
+>  static int ov5670_regulators_probe(struct ov5670 *ov5670)
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(&ov5670->sd);
+> @@ -2629,7 +2624,6 @@ static int ov5670_probe(struct i2c_client *client)
+>  		goto error_mutex_destroy;
 >  	}
 >  
-> +	/* OF uses the common clock framework, ACPI uses "clock-frequency". */
-> +	ov5670->clk = devm_clk_get_optional(&client->dev, NULL);
-> +	if (IS_ERR(ov5670->clk))
-> +		return dev_err_probe(&client->dev, PTR_ERR(ov5670->clk),
-> +				     "error getting clock\n");
-> +
-> +	if (ov5670->clk)
-> +		input_clk = clk_get_rate(ov5670->clk);
-> +	else
-> +		device_property_read_u32(&client->dev, "clock-frequency",
-> +					 &input_clk);
-
-This will try to use the clock-frequency property on OF-based systems if
-no clock is specified. Could we instead have
-
-	if (probed through OF) {
-		use clock
-	} else {
-		use clock-frequency
-	}
-
-?
-
-> +	if (input_clk != 19200000)
-> +		return -EINVAL;
-> +
->  	/* Initialize subdev */
->  	v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops);
->  
+> -	ov5670->sd.internal_ops = &ov5670_internal_ops;
+>  	ov5670->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+>  			    V4L2_SUBDEV_FL_HAS_EVENTS;
+>  	ov5670->sd.entity.ops = &ov5670_subdev_entity_ops;
 
 -- 
 Regards,
