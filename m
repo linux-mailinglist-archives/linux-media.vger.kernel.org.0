@@ -2,148 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D50174D9CAC
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 14:53:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F09C4D9DC6
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 15:37:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347358AbiCONyi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 09:54:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40954 "EHLO
+        id S243899AbiCOOjB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 10:39:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235678AbiCONyi (ORCPT
+        with ESMTP id S243953AbiCOOjA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 09:54:38 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 036CB3388F
-        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 06:53:25 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id r6so28674705wrr.2
-        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 06:53:24 -0700 (PDT)
+        Tue, 15 Mar 2022 10:39:00 -0400
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2BD2BE
+        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 07:37:47 -0700 (PDT)
+Received: by mail-oo1-xc29.google.com with SMTP id l24-20020a4a8558000000b00320d5a1f938so24637202ooh.8
+        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 07:37:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:content-transfer-encoding:date:message-id:cc:subject
-         :from:to:references:in-reply-to;
-        bh=olsmTLLGKwSXQ0dZNDDliQg/YSTi666jkRwfRGen/oo=;
-        b=jJ+hma0UV4212rH/Cp2AFCXr6b8954oIOh5xOhyrUfh7CC6D9tS78HAv+00fPLkSCu
-         zwxUJIoGdETy/2MhiLkBLBZ5V1ag4WsyrIW5r976imJQ1i/13RWJgYU3hrWRmPIFDORv
-         0tszkcI/uK1qAraqeVRML+WTDH4/7uK7OWijdiT6ZS/u6nykt1V52mgny542BpFZ4ONa
-         scmkpNjHtjmj5DWwVCq6AGpjBPKulVaXzCMlET3GOOjoreG2VUtT3HfbkdI9Ow8gNt8I
-         jB7FlqzKsSVmbri3/iAoY9l4dvF130XojD5ZPS3Zed4ZGuXORoyxBxgbczdBATjCy2dL
-         FMxw==
+        d=landley-net.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=rpmKOoeraRuQGQUThehNRRx57Aisb5avAtGzINvQREA=;
+        b=btYHhIM/2AcNT2mHGxMQPLP23iKlNVDyc/vZohM3qpDd7+3O/i/a2gd+sL94O0MNmE
+         as02/VxgKVf31ZMRpUKgErJLODlFTaVhOcYu2+ESfiqlzPXtbyWkfTDpNmxPt3xVMhOn
+         iL2pIzOqtP63EW/rpznJdR20E2Czy/P7+hFV+9+d7A9r1IsR6el4+qICVp6d9tudWqyy
+         PU5vc4wCDO0tSwkcVXStOPm02tVPmKINAIcxy/vE4Kljap5BICXGKBemh4RtgicAlEgS
+         ZUA/oAcTydN2vOzeCEFHuwNx1PP/KdrPv2syTmdHRAvKTtjKivWUkdgXTfsJM+NddxMG
+         1msQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:content-transfer-encoding:date
-         :message-id:cc:subject:from:to:references:in-reply-to;
-        bh=olsmTLLGKwSXQ0dZNDDliQg/YSTi666jkRwfRGen/oo=;
-        b=U3PIfhRh7vAayDBRwHBqZ6UaI5qZ0+KM1dxPXzzh8hNP3oFm3L03DCbiGeLEroLn3e
-         hixTpfTixDHHgXE9e3Rxn8lCa9mc7vr728/CXth1ysB9+LjXBAgsiWxW7y5KcmA/hOqT
-         aky0qB+Rmj6heOn9qxYimFDtzC581pCzvERWcTT+XcVu0jefQgieZ2YWArpmV9uczhRt
-         EphAiFVeWN2wBujibZyUf+Pp8LDcNaef4awBVM8NmRlbRXCv5vAyXWrfHXyuWkCR+XUM
-         H1FSH8o9pwwt70tkKdrcNAKVQmwKM9oRtuNX10dVPEPG5bk37VqbpQ3g8ZAMtcePicil
-         0kGQ==
-X-Gm-Message-State: AOAM531vQ1LVGLjxT1OgKU9T4q3tA6Sb9d6iJvgwcOfrgXGBkBsgMMXN
-        Pr5OWaZNYGkiW1Uv/BXYOR/9w/HhiW8=
-X-Google-Smtp-Source: ABdhPJyIQqRTm5fnoBZO9GH/oim3E3j6U9H6R2SnFwSJneewoGOXPRUmH0LbNuT8RDaJnx+ZVlDMbg==
-X-Received: by 2002:a05:6000:15c3:b0:203:b7a0:ae6b with SMTP id y3-20020a05600015c300b00203b7a0ae6bmr7498532wry.692.1647352403442;
-        Tue, 15 Mar 2022 06:53:23 -0700 (PDT)
-Received: from localhost (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
-        by smtp.gmail.com with ESMTPSA id 10-20020adf808a000000b001edd413a952sm15781868wrl.95.2022.03.15.06.53.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Mar 2022 06:53:23 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Tue, 15 Mar 2022 13:53:21 +0000
-Message-Id: <CIKHOTOFTHZS.2GNLCTM1A0CKB@arch-thunder>
-Cc:     <linux-media@vger.kernel.org>, <kernel@pengutronix.de>,
-        <linux-imx@nxp.com>, "Paul Elder" <paul.elder@ideasonboard.com>,
-        "Sakari Ailus" <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 4/5] media: imx: imx-mipi-csis: Remove duplicated check
-From:   "Rui Miguel Silva" <rmfrfs@gmail.com>
-To:     "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
-        "Jacopo Mondi" <jacopo@jmondi.org>
-References: <20220314103941.46021-1-jacopo@jmondi.org>
- <20220314103941.46021-5-jacopo@jmondi.org>
- <YjB4zDdyQxJG6u7U@pendragon.ideasonboard.com>
- <20220315122748.npt244uyzvewqmhw@uno.localdomain>
- <YjCOt9okSYIXjUJF@pendragon.ideasonboard.com>
-In-Reply-To: <YjCOt9okSYIXjUJF@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
-        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rpmKOoeraRuQGQUThehNRRx57Aisb5avAtGzINvQREA=;
+        b=ktOwkEzm1gtYRmKNVbjSXP/zIDUszBphIVBoEjyqvPqc65Ff10/DHvztdwyFdB8Bev
+         BA+p81YjADvo43DQD+Ues1m2HBLiHRtRXTTHfmn4eoxCGD22stjCEOeEILxVrReavr9V
+         jhnca4bV1mXAq/7qM5ntFdpn5iki3V9PIbhw0Q+S3PRnJMbxevIvye6jLOgrlNF9/+sc
+         LfFuWMgVJpXHXmcx9PBO7bQitK5e7Ya5YmYudfcSmaRlyU9S1dFpHPth4ZTPpsMxgxZ1
+         kLFQ4BmDuWplSJPRdM8qw2rrUQkv14dXnAGG++h7fWr5t0IpCfkhz5K3aqRZJjGxKXAk
+         Ag5g==
+X-Gm-Message-State: AOAM532IGZhBxSq1t6tpRle0UQbpM0cFArUsFQDGhjkUkn02+iHQp8kn
+        Nn3+tMH9+YxZF6IJQHVfcaaOJA==
+X-Google-Smtp-Source: ABdhPJyvcljfmAWOAbxTQiajM8RYB5b1DsFb2rJguap6VrzxZaYDzEGfjeZQOutf0ny2oZHd4aTvXw==
+X-Received: by 2002:a05:6870:4251:b0:d9:b7ee:f0ab with SMTP id v17-20020a056870425100b000d9b7eef0abmr1726880oac.56.1647355066566;
+        Tue, 15 Mar 2022 07:37:46 -0700 (PDT)
+Received: from [192.168.86.188] ([136.62.4.88])
+        by smtp.gmail.com with ESMTPSA id f10-20020a4a8f4a000000b00320e5ecfecdsm8863070ool.46.2022.03.15.07.37.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Mar 2022 07:37:46 -0700 (PDT)
+Subject: Re: [PATCH v13 1/6] soc: mediatek: mutex: add common interface to
+ accommodate multiple modules operationg MUTEX
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
+        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        menghui.lin@mediatek.com, sj.huang@mediatek.com,
+        allen-kh.cheng@mediatek.com, randy.wu@mediatek.com,
+        jason-jh.lin@mediatek.com, roy-cw.yeh@mediatek.com,
+        river.cheng@mediatek.com, srv_heupstream@mediatek.com,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20220315061031.21642-1-moudy.ho@mediatek.com>
+ <20220315061031.21642-2-moudy.ho@mediatek.com>
+ <ed5418b4-e353-d879-f9b0-7a9de8fed862@collabora.com>
+From:   Rob Landley <rob@landley.net>
+Message-ID: <4fa1dd33-adeb-a8ae-0ded-51a813347252@landley.net>
+Date:   Tue, 15 Mar 2022 09:41:25 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <ed5418b4-e353-d879-f9b0-7a9de8fed862@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-On Tue Mar 15, 2022 at 1:03 PM WET, Laurent Pinchart wrote:
-
-> Hi Jacopo,
->
-> On Tue, Mar 15, 2022 at 01:27:48PM +0100, Jacopo Mondi wrote:
-> > On Tue, Mar 15, 2022 at 01:30:20PM +0200, Laurent Pinchart wrote:
-> > > On Mon, Mar 14, 2022 at 11:39:40AM +0100, Jacopo Mondi wrote:
-> > > > The mipi_csis_log_counters() function already checks for
-> > > > csis->debug.enable, it is not necessary to do the same in the calle=
-r.
-> > >
-> > > Does it ? It does only to decide whether or not to print counters tha=
-t
-> > > have a zero value.
-> >=20
-> > Roght, I mis-read the condition there.
-> >=20
-> > What is the usage of the counters logger ? Should we make it
-> > conditional to debug.enable ?
->
-> It's been there from the very beginning, so I'm not sure what the
-> expected use cases where. I'd be tempted to actually move it to debugfs,
-> possibly with a single warning message at stream start if any error is
-> detected.
->
-> Rui, what do you think ?
-
-This were there to trace events when debug is enable or irq_src_errors
-where thrown in the irq_handler and report them at start stream.
-
-But, it looks good to move it to debugfs. Thanks for your and Jacopo
-work on this to improve it.
-
-Cheers,
-     Rui
->
-> > > > Compatc the code in the caller as well by removing an empty line.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > ---
-> > > >  drivers/media/platform/imx/imx-mipi-csis.c | 5 +----
-> > > >  1 file changed, 1 insertion(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/m=
-edia/platform/imx/imx-mipi-csis.c
-> > > > index 4a6152c13d52..4bb469fcb6b3 100644
-> > > > --- a/drivers/media/platform/imx/imx-mipi-csis.c
-> > > > +++ b/drivers/media/platform/imx/imx-mipi-csis.c
-> > > > @@ -913,11 +913,8 @@ static int mipi_csis_s_stream(struct v4l2_subd=
-ev *sd, int enable)
-> > > >
-> > > >  	if (!enable) {
-> > > >  		v4l2_subdev_call(csis->src_sd, video, s_stream, 0);
-> > > > -
-> > > >  		mipi_csis_stop_stream(csis);
-> > > > -		if (csis->debug.enable)
-> > > > -			mipi_csis_log_counters(csis, true);
-> > > > -
-> > > > +		mipi_csis_log_counters(csis, true);
-> > > >  		pm_runtime_put(csis->dev);
-> > > >
-> > > >  		return 0;
->
-> --=20
-> Regards,
->
-> Laurent Pinchart
 
 
+On 3/15/22 4:10 AM, AngeloGioacchino Del Regno wrote:
+> Il 15/03/22 07:10, Moudy Ho ha scritto:
+>> In order to allow multiple modules to operate MUTEX hardware through
+>> a common interfrace, a flexible index "mtk_mutex_table_index" needs to
+>> be added to replace original component ID so that like DDP and MDP
+>> can add their own MUTEX table settings independently.
+>> 
+>> In addition, 4 generic interface "mtk_mutex_set_mod", "mtk_mutex_set_sof",
+>> "mtk_mutex_clear_mod" and "mtk_mutex_clear_sof" have been added, which is
+>> expected to replace the "mtk_mutex_add_comp" and "mtk_mutex_remove_comp"
+>> pair originally dedicated to DDP in the future.
+>> 
+>> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+>> ---
+>>   drivers/soc/mediatek/mtk-mutex.c       | 122 +++++++++++++++++++++++++
+>>   include/linux/soc/mediatek/mtk-mutex.h |  33 +++++++
+>>   2 files changed, 155 insertions(+)
+>> 
+>> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
+>> index aaf8fc1abb43..778b01ce9e8f 100644
+>> --- a/drivers/soc/mediatek/mtk-mutex.c
+>> +++ b/drivers/soc/mediatek/mtk-mutex.c
+>> @@ -156,6 +156,7 @@ struct mtk_mutex_data {
+>>   	const unsigned int *mutex_sof;
+>>   	const unsigned int mutex_mod_reg;
+>>   	const unsigned int mutex_sof_reg;
+>> +	const unsigned long long *mutex_table_mod;
+> 
+> Can we change this to u64 instead?
 
+Linux is still LP64, correct?
+
+Rob
