@@ -2,153 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 859CB4D96DE
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 09:57:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEFFD4D970F
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 10:04:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346275AbiCOI6N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 04:58:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53864 "EHLO
+        id S1346326AbiCOJFM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 05:05:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346271AbiCOI6L (ORCPT
+        with ESMTP id S239046AbiCOJFL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 04:58:11 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9E34D9C0
-        for <linux-media@vger.kernel.org>; Tue, 15 Mar 2022 01:57:00 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4D16929;
-        Tue, 15 Mar 2022 09:56:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647334618;
-        bh=tlYXiTFGUbHDBWQXjg4+wdX537Ssk8ffBW6LBiAgp14=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HKzsOenI/MwY0arvMz5JtUuvO1aUxE29RaXLws+0+mB8rJwTM5JYBtqHD990zRbzu
-         qiLsaZ4+m4alObzKEiO2G1PZMR33acmcX9R/5YOvV2fs66CAl9xU6aZT+txtEBIFtR
-         oKhjc7xlBLAgqei+FEbei3Evy0ZWb7BxT8ozy2FY=
-Date:   Tue, 15 Mar 2022 10:56:41 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        krzysztof.kozlowski@canonical.com,
-        jeanmichel.hautbois@ideasonboard.com,
-        paul.kocialkowski@bootlin.com, sakari.ailus@iki.fi,
-        paul.elder@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v2 3/8] media: i2c: ov5670: Probe clocks with OF
-Message-ID: <YjBUybAyqnBRdI+v@pendragon.ideasonboard.com>
-References: <20220314162714.153970-1-jacopo@jmondi.org>
- <20220314162714.153970-4-jacopo@jmondi.org>
- <YjBKQrdiOo1/EWck@pendragon.ideasonboard.com>
- <20220315084618.ol6ekvgvn5ldgif7@uno.localdomain>
+        Tue, 15 Mar 2022 05:05:11 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEAA3DEEB;
+        Tue, 15 Mar 2022 02:03:59 -0700 (PDT)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 22F4JpZr013528;
+        Tue, 15 Mar 2022 10:03:00 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=0ouzyT1rFXeSjPxJyzhJcbxpSD0Ueawx3dFZ0P2dIG0=;
+ b=NlBqvGPm9NAUgA1qN+TGAL45p5hlHEsUU1xX9ZQpHndbTIOIccCQunO7+JOEHJRrWUv2
+ NHBGgvynWPmRc2LQ9EMxTUrniKfMdxU4bsNRJRQ0MK2+Nt90eVr3nFtYGfpUF2Y2cWZc
+ zuL9BMUvRPVUOJyc1/hHSLSIOsvfCTI8sDY9YSbM74Gq0Q6mYzgWsse3esOeAw4suKRd
+ ml/bWeIDJPAEbA+YcTlDLXYYNESC1D9csFhT7bpqGagAOJMnruNYi9qFMNg+5BUEuTpm
+ AGG/mVvzVVOyj5da/gy3XRlz3u/XLSUy8z2p7ILWKbCSUQjvwZXPCOCzRWMR3uilDjwm 8w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3et63h54ra-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 15 Mar 2022 10:03:00 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 77A3810002A;
+        Tue, 15 Mar 2022 10:02:54 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A39C92138E7;
+        Tue, 15 Mar 2022 10:02:54 +0100 (CET)
+Received: from [10.201.23.19] (10.75.127.49) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Tue, 15 Mar
+ 2022 10:02:53 +0100
+Subject: Re: [PATCH 17/24] media: platform: rename stm32/ to sti/stm32/
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     Alain Volmat <alain.volmat@foss.st.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Alexey Khoroshilov <khoroshilov@ispras.ru>,
+        Dillon Min <dillon.minfei@gmail.com>,
+        Dmitriy Ulitin <ulitin@ispras.ru>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Ming Qian <ming.qian@nxp.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>
+References: <cover.1647167750.git.mchehab@kernel.org>
+ <dc5be62a56ac19c6f49f4c8432558fd7b0efe7e6.1647167750.git.mchehab@kernel.org>
+ <20220314083942.GA526468@gnbcxd0016.gnb.st.com>
+ <20220314121454.7432e231@coco.lan>
+ <1122a956-0650-f948-512b-d3447e34df30@foss.st.com>
+ <20220314141008.13e32acd@coco.lan>
+From:   Hugues FRUCHET - FOSS <hugues.fruchet@foss.st.com>
+Message-ID: <8a4782f3-53d0-7af7-2034-e31879efbc45@foss.st.com>
+Date:   Tue, 15 Mar 2022 10:02:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220315084618.ol6ekvgvn5ldgif7@uno.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220314141008.13e32acd@coco.lan>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-14_14,2022-03-14_02,2022-02-23_01
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Mauro,
 
-On Tue, Mar 15, 2022 at 09:46:18AM +0100, Jacopo Mondi wrote:
-> On Tue, Mar 15, 2022 at 10:11:46AM +0200, Laurent Pinchart wrote:
-> > On Mon, Mar 14, 2022 at 05:27:09PM +0100, Jacopo Mondi wrote:
-> > > Add support for probing the main system clock using the common clock
-> > > framework and its OF bindings.
-> > >
-> > > Maintain ACPI compatibility by falling back to parse 'clock-frequency'
-> > > if the no clock device reference is available.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > >  drivers/media/i2c/ov5670.c | 21 +++++++++++++++++----
-> > >  1 file changed, 17 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-> > > index 721441024598..25d792794fc7 100644
-> > > --- a/drivers/media/i2c/ov5670.c
-> > > +++ b/drivers/media/i2c/ov5670.c
-> > > @@ -2,6 +2,7 @@
-> > >  // Copyright (c) 2017 Intel Corporation.
-> > >
-> > >  #include <linux/acpi.h>
-> > > +#include <linux/clk.h>
-> > >  #include <linux/i2c.h>
-> > >  #include <linux/mod_devicetable.h>
-> > >  #include <linux/module.h>
-> > > @@ -1819,6 +1820,8 @@ struct ov5670 {
-> > >  	struct v4l2_subdev sd;
-> > >  	struct media_pad pad;
-> > >
-> > > +	struct clk *clk;
-> > > +
-> > >  	struct v4l2_ctrl_handler ctrl_handler;
-> > >  	/* V4L2 Controls */
-> > >  	struct v4l2_ctrl *link_freq;
-> > > @@ -2478,10 +2481,6 @@ static int ov5670_probe(struct i2c_client *client)
-> > >  	bool full_power;
-> > >  	int ret;
-> > >
-> > > -	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
-> > > -	if (input_clk != 19200000)
-> > > -		return -EINVAL;
-> > > -
-> > >  	ov5670 = devm_kzalloc(&client->dev, sizeof(*ov5670), GFP_KERNEL);
-> > >  	if (!ov5670) {
-> > >  		ret = -ENOMEM;
-> > > @@ -2489,6 +2488,20 @@ static int ov5670_probe(struct i2c_client *client)
-> > >  		goto error_print;
-> > >  	}
-> > >
-> > > +	/* OF uses the common clock framework, ACPI uses "clock-frequency". */
-> > > +	ov5670->clk = devm_clk_get_optional(&client->dev, NULL);
-> > > +	if (IS_ERR(ov5670->clk))
-> > > +		return dev_err_probe(&client->dev, PTR_ERR(ov5670->clk),
-> > > +				     "error getting clock\n");
-> > > +
-> > > +	if (ov5670->clk)
-> > > +		input_clk = clk_get_rate(ov5670->clk);
-> > > +	else
-> > > +		device_property_read_u32(&client->dev, "clock-frequency",
-> > > +					 &input_clk);
-> >
-> > This will try to use the clock-frequency property on OF-based systems if
-> > no clock is specified. Could we instead have
+sti and stm32 architectures don't have the same maintainers nor same 
+mailing list as you can see below:
+
+ARM/STM32 ARCHITECTURE
+M:    Maxime Coquelin <mcoquelin.stm32@gmail.com>
+M:    Alexandre Torgue <alexandre.torgue@foss.st.com>
+L:    linux-stm32@st-md-mailman.stormreply.com (moderated for 
+non-subscribers)
+L:    linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+S:    Maintained
+T:    git 
+git://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
+F:    arch/arm/boot/dts/stm32*
+F:    arch/arm/mach-stm32/
+F:    drivers/clocksource/armv7m_systick.c
+N:    stm32
+N:    stm
+
+ARM/STI ARCHITECTURE
+M:    Patrice Chotard <patrice.chotard@foss.st.com>
+L:    linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+S:    Maintained
+W:    http://www.stlinux.com
+F:    Documentation/devicetree/bindings/i2c/i2c-st.txt
+F:    arch/arm/boot/dts/sti*
+F:    arch/arm/mach-sti/
+F:    drivers/ata/ahci_st.c
+F:    drivers/char/hw_random/st-rng.c
+F:    drivers/clocksource/arm_global_timer.c
+F:    drivers/clocksource/clksrc_st_lpc.c
+F:    drivers/cpufreq/sti-cpufreq.c
+F:    drivers/dma/st_fdma*
+F:    drivers/i2c/busses/i2c-st.c
+F:    drivers/media/platform/sti/c8sectpfe/
+F:    drivers/media/rc/st_rc.c
+F:    drivers/mmc/host/sdhci-st.c
+F:    drivers/phy/st/phy-miphy28lp.c
+F:    drivers/phy/st/phy-stih407-usb.c
+F:    drivers/pinctrl/pinctrl-st.c
+F:    drivers/remoteproc/st_remoteproc.c
+F:    drivers/remoteproc/st_slim_rproc.c
+F:    drivers/reset/sti/
+F:    drivers/rtc/rtc-st-lpc.c
+F:    drivers/tty/serial/st-asc.c
+F:    drivers/usb/dwc3/dwc3-st.c
+F:    drivers/usb/host/ehci-st.c
+F:    drivers/usb/host/ohci-st.c
+F:    drivers/watchdog/st_lpc_wdt.c
+F:    include/linux/remoteproc/st_slim_rproc.h
+
+
+but anyway, if this is really important for you to have a top folder to 
+group all ST stuff, we prefer to have "st" prefix than "stm":
+ > 	./drivers/media/platform/st/sti/
+ > 	./drivers/media/platform/st/stm32/
+
+But one more time, our flavour is to stick to:
+ > 	./drivers/media/platform/sti/
+ > 	./drivers/media/platform/stm32/
+
+
+Best regards,
+Hugues.
+
+On 3/14/22 2:10 PM, Mauro Carvalho Chehab wrote:
+> Em Mon, 14 Mar 2022 12:34:47 +0100
+> Hugues FRUCHET - FOSS <hugues.fruchet@foss.st.com> escreveu:
 > 
-> 'clocks' is listed as a required property in the OF bindings and my
-> understanding is that driver assume DTS are correct.
+>> Hi Mauro,
+>>
+>> Ideally we would like to stick to sti/ and stm32/ at same level, as it
+>> is done in various other locations:
+>>
+>> ./Documentation/arm/sti/
+>> ./Documentation/arm/stm32/
+>>
+>> ./arch/arm/mach-sti
+>> ./arch/arm/mach-stm32
+>>
+>> ./drivers/media/cec/platform/sti/
+>> ./drivers/media/cec/platform/stm32/
+>>
+>> ./drivers/gpu/drm/sti/
+>> ./drivers/gpu/drm/stm/
+>>
+>> ./sound/soc/sti/
+>> ./sound/soc/stm/
+>>
+>> Is this possible to keep those media folders as is ?
 > 
-> > 	if (probed through OF) {
+> If we add them under:
+> 	./drivers/media/platform/stm/sti/
+> 	./drivers/media/platform/stm/stm32/
 > 
-> Otherwise yes, I can check for dev->of_node
-> But again, I don't think drivers should have to work-around broken DTS
-
-Not working around, but if we fail when DT is broken, it can help
-avoiding broken DT spreading in the wild, which we would then need to
-support forever.
-
-> > 		use clock
-> > 	} else {
-> > 		use clock-frequency
-> > 	}
-> >
-> > ?
-> >
-> > > +	if (input_clk != 19200000)
-> > > +		return -EINVAL;
-> > > +
-> > >  	/* Initialize subdev */
-> > >  	v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops);
-> > >
-
--- 
-Regards,
-
-Laurent Pinchart
+> They'll both be at the same level.
+> 
+> It has been increasingly hard to maintain media/platform, as the file
+> become too big and disorganized. Sorting it per-vendor seems to be the
+> best thing, as it will keep things better organized.
+> 
+> As a side effect, with such kind of change, it is now possible to
+> have a MAINTAINERS entry that would point to a mailing list and/or
+> some SoC maintainers/reviewers that should be c/c to all patches
+> affecting drivers/media/platform/<vendor>.
+> 
+> Thanks,
+> Mauro
+> 
