@@ -2,122 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 578084D9450
-	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 07:06:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD54A4D945D
+	for <lists+linux-media@lfdr.de>; Tue, 15 Mar 2022 07:10:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345088AbiCOGHQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 02:07:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49012 "EHLO
+        id S1345136AbiCOGMA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 02:12:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243546AbiCOGHP (ORCPT
+        with ESMTP id S1345130AbiCOGL7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 02:07:15 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E779D49F0A;
-        Mon, 14 Mar 2022 23:06:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9A883B80F96;
-        Tue, 15 Mar 2022 06:06:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B0C8C340E8;
-        Tue, 15 Mar 2022 06:06:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647324361;
-        bh=QZSeIPPqcpDbCmahkEFz7bv6hHEXwmVyN9YGitV6Xok=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qC+o4y5XvxZV+TDdT9Moc9Y7mKtW5Jx4N1/HMZ1gnpLFbCNQAHo6ZtWNEPll4kiay
-         1d4b+b3Cummwbsp0D1Q31PnsWomNA11CyLvNsvmhWxb/N5aR7RFqYnaeU6CynL+5kg
-         abLsoId0YHJF7g24hebZCyJkcLZ6DpkLOxnhpzBJHMFaqLvLoGMm8ZUFyiih9UalHS
-         Fcrkys2LCuJMXzLSx7Vs42SG+VXx/nujoPXbIPXRTJgnAhOFYob2vAxbU2L124pwKc
-         leN5CFuSnrWDwqTWfRzOKgsMiOJlgYAUueJdmGkQy+pzTV7hSF/NmBtDMyXLxXiOsb
-         mttwe27roQXZA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1nU0Ji-002BxR-Sp; Tue, 15 Mar 2022 07:05:58 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
+        Tue, 15 Mar 2022 02:11:59 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE58D49F9D;
+        Mon, 14 Mar 2022 23:10:43 -0700 (PDT)
+X-UUID: 52e7772a1b344b7ba5712f34ced2494a-20220315
+X-UUID: 52e7772a1b344b7ba5712f34ced2494a-20220315
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1054390598; Tue, 15 Mar 2022 14:10:40 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Tue, 15 Mar 2022 14:10:38 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 15 Mar 2022 14:10:38 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH 2/2] media: spi: Kconfig: Place SPI drivers on a single menu
-Date:   Tue, 15 Mar 2022 07:05:57 +0100
-Message-Id: <7064723b900730175fbeabf5d696ec21ee70b418.1647324346.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <f2d22b8cdf095b6b907eafa1b92c8c3a046b61be.1647324346.git.mchehab@kernel.org>
-References: <f2d22b8cdf095b6b907eafa1b92c8c3a046b61be.1647324346.git.mchehab@kernel.org>
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <tfiga@chromium.org>, <drinkcat@chromium.org>,
+        <pihsun@chromium.org>, <hsinyi@google.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        <menghui.lin@mediatek.com>, <sj.huang@mediatek.com>,
+        <allen-kh.cheng@mediatek.com>, <randy.wu@mediatek.com>,
+        <moudy.ho@mediatek.com>, <jason-jh.lin@mediatek.com>,
+        <roy-cw.yeh@mediatek.com>, <river.cheng@mediatek.com>,
+        <srv_heupstream@mediatek.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v13 0/6] Add mutex support for MDP
+Date:   Tue, 15 Mar 2022 14:10:25 +0800
+Message-ID: <20220315061031.21642-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,MAY_BE_FORGED,
+        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It makes no sense to have two menus for SPI drivers, each
-one with a single driver. Merge them and keep the Kconfig
-sorted.
+Change since V12:
+- Rebase on linux-next
+- Remove ISP related settings in MMSYS
+- Removed CMDQ operations previously used by MDP in MMSYS
+- Move mediatek MUTEX dt-binding path
+- Add additional property in MUTEX for CMDQ operations
 
-Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
- drivers/media/spi/Kconfig | 26 +++++++++-----------------
- 1 file changed, 9 insertions(+), 17 deletions(-)
+Change since V11:
+- Rebase on v5.17-rc6.
 
-diff --git a/drivers/media/spi/Kconfig b/drivers/media/spi/Kconfig
-index 01e4e6cce027..4656afae5bb4 100644
---- a/drivers/media/spi/Kconfig
-+++ b/drivers/media/spi/Kconfig
-@@ -1,25 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0-only
--if VIDEO_DEV
-+if VIDEO_DEV && SPI
- 
- comment "SPI I2C drivers auto-selected by 'Autoselect ancillary drivers'"
- 	depends on MEDIA_HIDE_ANCILLARY_SUBDRV && SPI
- 
--menu "SPI helper chips"
--	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
--
--config VIDEO_GS1662
--	tristate "Gennum Serializers video"
--	depends on SPI && VIDEO_DEV
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	help
--	  Enable the GS1662 driver which serializes video streams.
--
--endmenu
--
--endif
--
--if SPI
- menu "Media SPI Adapters"
- 
- config CXD2880_SPI_DRV
-@@ -29,6 +13,14 @@ config CXD2880_SPI_DRV
- 	help
- 	  Choose if you would like to have SPI interface support for Sony CXD2880.
- 
-+config VIDEO_GS1662
-+	tristate "Gennum Serializers video"
-+	depends on SPI && VIDEO_DEV
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	help
-+	  Enable the GS1662 driver which serializes video streams.
-+
- endmenu
- 
- endif
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?h=v5.17-next/soc&id=5f9b5b757e44de47ebdc116c14b90e3cc8bc7acb
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?h=v5.17-next/soc&id=831785f0e5b919c29e1bc5f9a74e9ebd38289e24
+[3]: https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?h=v5.17-next/soc&id=15f1768365aed810826a61fef4a744437aa5b426
+
+Change since v10:
+- For some ISP application scenarios, such as preview and recording
+  at the same time.
+  The routing table needs to be discarded, and the calculation result
+  on the SCP side is used to write a suitable mux setting for
+  1 input and 2 output.
+- Adjust the GCE client register parsing method to avoid redundant warning logs.
+
+Change since v9:
+- Add API for MDP getting mutex mod.
+
+Hi,
+
+This patch splits mmsys and mutex settings from Media Data Path 3 (MDP3),
+and original mailling list list below:
+https://patchwork.kernel.org/project/linux-mediatek/cover/20211201095031.31606-1-moudy.ho@mediatek.com/
+Corresponding settings and interfaces are added for MDP operation in the
+mutex drivers, which increases the independence of the modules
+
+Moudy Ho (6):
+  soc: mediatek: mutex: add common interface to accommodate multiple
+    modules operationg MUTEX
+  soc: mediatek: mutex: add 8183 MUTEX MOD settings for MDP
+  dt-bindings: soc: mediatek: move out common module from display folder
+  dt-bindings: soc: mediatek: add gce-client-reg for MUTEX
+  dts: arm64: mt8183: add GCE client property for Mediatek MUTEX
+  soc: mediatek: mutex: add functions that operate registers by CMDQ
+
+ .../mediatek/mediatek,mutex.yaml              |  18 +-
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |   1 +
+ drivers/soc/mediatek/mtk-mutex.c              | 185 +++++++++++++++++-
+ include/linux/soc/mediatek/mtk-mutex.h        |  35 ++++
+ 4 files changed, 231 insertions(+), 8 deletions(-)
+ rename Documentation/devicetree/bindings/{display => soc}/mediatek/mediatek,mutex.yaml (77%)
+
 -- 
-2.35.1
+2.18.0
 
