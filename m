@@ -2,45 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 500474DAF47
-	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 12:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C38624DAF55
+	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 13:05:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355468AbiCPL5X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Mar 2022 07:57:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48684 "EHLO
+        id S1355567AbiCPMG6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Mar 2022 08:06:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355172AbiCPL5V (ORCPT
+        with ESMTP id S1355562AbiCPMG6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Mar 2022 07:57:21 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 405DE5EDF8;
-        Wed, 16 Mar 2022 04:56:06 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,186,1643641200"; 
-   d="scan'208";a="114614169"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 16 Mar 2022 20:56:05 +0900
-Received: from localhost.localdomain (unknown [10.226.92.179])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 38C424004BA9;
-        Wed, 16 Mar 2022 20:56:03 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wed, 16 Mar 2022 08:06:58 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3935443E3
+        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 05:05:42 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id F10971BF205;
+        Wed, 16 Mar 2022 12:05:38 +0000 (UTC)
+Date:   Wed, 16 Mar 2022 13:05:37 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v6 3/3] media: renesas: vsp1: Add support for RZ/G2L VSPD
-Date:   Wed, 16 Mar 2022 11:55:51 +0000
-Message-Id: <20220316115551.29222-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220316115551.29222-1-biju.das.jz@bp.renesas.com>
-References: <20220316115551.29222-1-biju.das.jz@bp.renesas.com>
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v11 35/36] media: v4l2-subdev: Add subdev
+ .(enable|disable)_streams() operations
+Message-ID: <20220316120537.a5nh3zif7jxoy54s@uno.localdomain>
+References: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
+ <20220301161156.1119557-36-tomi.valkeinen@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220301161156.1119557-36-tomi.valkeinen@ideasonboard.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,208 +46,408 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The RZ/G2L VSPD provides a single VSPD instance. It has the following
-sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+Hi Tomi,
 
-The VSPD block on RZ/G2L does not have a version register, so added a
-new compatible string "renesas,rzg2l-vsp2" with a data pointer containing
-the info structure. Also the reset line is shared with the DU module.
+On Tue, Mar 01, 2022 at 06:11:55PM +0200, Tomi Valkeinen wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> Add two new subdev pad operations, .enable_streams() and
+> .disable_streams(), to allow control of individual streams per pad. This
+> is a superset of what the video .s_stream() operation implements.
+>
+> To help with handling of backward compatibility, add two wrapper
+> functions around those operations, and require their usage in drivers.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 216 ++++++++++++++++++++++++++
+>  include/media/v4l2-subdev.h           |  85 ++++++++++
+>  2 files changed, 301 insertions(+)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 6a9fc62dacbf..f75a1995a70b 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1698,6 +1698,222 @@ __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
+>  }
+>  EXPORT_SYMBOL_GPL(__v4l2_subdev_next_active_route);
+>
+> +static int v4l2_subdev_enable_streams_fallback(struct v4l2_subdev *sd, u32 pad,
+> +					       u64 streams_mask)
+> +{
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	/*
+> +	 * The subdev doesn't implement pad-based stream enable, fall back
+> +	 * on the .s_stream() operation. This can only be done for subdevs that
+> +	 * have a single source pad, as sd->enabled_streams is global to the
+> +	 * subdev.
+> +	 */
+> +	if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
+> +		return -EOPNOTSUPP;
+> +
+> +	for (i = 0; i < sd->entity.num_pads; ++i) {
+> +		if (i != pad && sd->entity.pads[i].flags & MEDIA_PAD_FL_SOURCE)
+> +			return -EOPNOTSUPP;
+> +	}
+> +
+> +	if (sd->enabled_streams & streams_mask)
+> +		return -EALREADY;
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v5->v6:
- * Rebased to media_staging and updated commit header
- * Removed the extra tab from rzg2l_vsp2_device_info
- * Changed the function vsp1_lookup->vsp1_lookup_info and
-   all info match related code moved here.
- * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
-   distinguish HW & SW IP_VSP_Version.
- * Used 0x80 for RZG2L VSPD model and SoC identification
- * Updated Switch() for LIF0 buffer attribute handling.
-v4->v5:
- * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
- * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
-   for RZ/G2L SoC's.
-v3->v4:
- * Added Rb tag from Geert
- * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
-v2->v3:
- * Fixed version comparison in vsp1_lookup()
-v1->v2:
- * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
- * Added standalone device info for rzg2l-vsp2.
- * Added vsp1_lookup helper function.
- * Updated comments for LIF0 buffer attribute register
- * Used last ID for rzg2l-vsp2.
-RFC->v1:
- * Used data pointer containing info structure to retrieve version information
-RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
----
- .../media/platform/renesas/vsp1/vsp1_drv.c    | 56 ++++++++++++++-----
- .../media/platform/renesas/vsp1/vsp1_lif.c    | 18 ++++--
- .../media/platform/renesas/vsp1/vsp1_regs.h   |  8 +++
- 3 files changed, 62 insertions(+), 20 deletions(-)
+I wonder if a few dev_dbg on errors might save someone an headache
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index 159b68fa0829..f1f52c0c1c59 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -812,11 +812,47 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 	},
- };
- 
-+static const struct vsp1_device_info rzg2l_vsp2_device_info = {
-+	.version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-+	.model = "VSP2-D",
-+	.gen = 3,
-+	.features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL,
-+	.lif_count = 1,
-+	.rpf_count = 2,
-+	.wpf_count = 1,
-+};
-+
-+static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
-+{
-+	const struct vsp1_device_info *info;
-+	unsigned int i;
-+
-+	/*
-+	 * Try the info stored in match data first for devices that don't have
-+	 * a version register.
-+	 */
-+	info = of_device_get_match_data(vsp1->dev);
-+	if (info)
-+		return info;
-+
-+	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
-+
-+	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-+		info = &vsp1_device_infos[i];
-+
-+		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == info->version)
-+			return info;
-+	}
-+
-+	dev_err(vsp1->dev, "unsupported IP version 0x%08x\n", vsp1->version);
-+
-+	return NULL;
-+}
-+
- static int vsp1_probe(struct platform_device *pdev)
- {
- 	struct vsp1_device *vsp1;
- 	struct device_node *fcp_node;
--	unsigned int i;
- 	int ret;
- 	int irq;
- 
-@@ -872,25 +908,16 @@ static int vsp1_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		goto done;
- 
--	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
--
--	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
--		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
--		    vsp1_device_infos[i].version) {
--			vsp1->info = &vsp1_device_infos[i];
--			break;
--		}
--	}
--
-+	vsp1->info = vsp1_lookup_info(vsp1);
- 	if (!vsp1->info) {
--		dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
--			vsp1->version);
- 		vsp1_device_put(vsp1);
- 		ret = -ENXIO;
- 		goto done;
- 	}
- 
--	dev_dbg(&pdev->dev, "IP version 0x%08x\n", vsp1->version);
-+	if ((vsp1->version & VI6_IP_VERSION_VSP_MASK) != VI6_IP_VERSION_VSP)
-+		vsp1->version = VI6_IP_VERSION_VSP_SW | vsp1->info->version |
-+				VI6_IP_VERSION_SOC_RZG2L;
- 
- 	/*
- 	 * Previous use of the hardware (e.g. by the bootloader) could leave
-@@ -941,6 +968,7 @@ static int vsp1_remove(struct platform_device *pdev)
- static const struct of_device_id vsp1_of_match[] = {
- 	{ .compatible = "renesas,vsp1" },
- 	{ .compatible = "renesas,vsp2" },
-+	{ .compatible = "renesas,rzg2l-vsp2", .data = &rzg2l_vsp2_device_info },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, vsp1_of_match);
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-index 6a6857ac9327..e36ed2d2b22b 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-@@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 
- 	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
- 	case VI6_IP_VERSION_MODEL_VSPD_V3:
-+	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
- 		hbth = 0;
- 		obth = 1500;
- 		lbth = 0;
-@@ -130,16 +131,21 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 			VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
- 
- 	/*
--	 * On R-Car V3M the LIF0 buffer attribute register has to be set to a
--	 * non-default value to guarantee proper operation (otherwise artifacts
--	 * may appear on the output). The value required by the manual is not
--	 * explained but is likely a buffer size or threshold.
-+	 * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
-+	 * set to a non-default value to guarantee proper operation (otherwise
-+	 * artifacts may appear on the output). The value required by the
-+	 * manual is not explained but is likely a buffer size or threshold.
- 	 */
--	if ((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
--	    (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M))
-+	switch (entity->vsp1->version) {
-+	case (VI6_IP_VERSION_VSP | VI6_IP_VERSION_MODEL_VSPD_V3 |
-+	      VI6_IP_VERSION_SOC_V3M):
-+	case (VI6_IP_VERSION_VSP_SW | VI6_IP_VERSION_MODEL_VSPD_RZG2L |
-+	      VI6_IP_VERSION_SOC_RZG2L):
- 		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
- 			       VI6_LIF_LBA_LBA0 |
- 			       (1536 << VI6_LIF_LBA_LBA1_SHIFT));
-+		break;
-+	}
- }
- 
- static const struct vsp1_entity_operations lif_entity_ops = {
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-index fae7286eb01e..e66553c42e50 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-@@ -767,6 +767,8 @@
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
- #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-+/* RZ/G2L SoC's have no version register, So use 0x80 as the model version */
-+#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
- 
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
-@@ -780,6 +782,12 @@
- #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
-+/* RZ/G2L SoC's have no version register, So use 0x80 for SoC Identification */
-+#define VI6_IP_VERSION_SOC_RZG2L	(0x80 << 0)
-+
-+#define VI6_IP_VERSION_VSP_MASK		(0xffff << 16)
-+#define VI6_IP_VERSION_VSP		(0x0101 << 16) /* HW VSP version */
-+#define VI6_IP_VERSION_VSP_SW		(0xfffe << 16) /* SW VSP version */
- 
- /* -----------------------------------------------------------------------------
-  * RPF CLUT Registers
--- 
-2.17.1
+> +
+> +	/* Start streaming when the first streams are enabled. */
+> +	if (!sd->enabled_streams) {
+> +		ret = v4l2_subdev_call(sd, video, s_stream, 1);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	sd->enabled_streams |= streams_mask;
+> +
+> +	return 0;
+> +}
+> +
+> +int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+> +			       u64 streams_mask)
+> +{
+> +	struct device *dev = sd->entity.graph_obj.mdev->dev;
+> +	struct v4l2_subdev_state *state;
+> +	u64 found_streams = 0;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	/* A few basic sanity checks first. */
+> +	if (pad >= sd->entity.num_pads)
+> +		return -EINVAL;
 
+Should we make sure pad is a SOURCE (and remove the same check in the
+_fallback version) ?
+
+> +
+> +	if (!streams_mask)
+> +		return 0;
+> +
+> +	/* Fallback on .s_stream() if .enable_streams() isn't available. */
+> +	if (!sd->ops->pad || !sd->ops->pad->enable_streams)
+> +		return v4l2_subdev_enable_streams_fallback(sd, pad,
+> +							   streams_mask);
+> +
+> +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> +
+> +	/*
+> +	 * Verify that the requested streams exist and that they are not
+> +	 * already enabled.
+> +	 */
+> +	for (i = 0; i < state->stream_configs.num_configs; ++i) {
+> +		struct v4l2_subdev_stream_config *cfg =
+> +			&state->stream_configs.configs[i];
+> +
+> +		if (cfg->pad != pad || !(streams_mask & BIT(cfg->stream)))
+> +			continue;
+> +
+> +		found_streams |= BIT(cfg->stream);
+> +
+> +		if (cfg->enabled) {
+> +			dev_dbg(dev, "stream %u already enabled on %s/%u\n",
+> +				cfg->stream, sd->entity.name, pad);
+> +			ret = -EALREADY;
+> +			goto done;
+> +		}
+> +	}
+> +
+> +	if (found_streams != streams_mask) {
+> +		dev_dbg(dev, "streams 0x%llx not found on %s/%u\n",
+
+nit: I would use the more usual form of entity:pad in the error
+message
+
+I like the idea :)
+
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+  j
+
+> +			streams_mask & ~found_streams, sd->entity.name, pad);
+> +		ret = -EINVAL;
+> +		goto done;
+> +	}
+> +
+> +	/* Call the .enable_streams() operation. */
+> +	ret = v4l2_subdev_call(sd, pad, enable_streams, state, pad,
+> +			       streams_mask);
+> +	if (ret)
+> +		goto done;
+> +
+> +	/* Mark the streams as enabled. */
+> +	for (i = 0; i < state->stream_configs.num_configs; ++i) {
+> +		struct v4l2_subdev_stream_config *cfg =
+> +			&state->stream_configs.configs[i];
+> +
+> +		if (cfg->pad == pad && (streams_mask & BIT(cfg->stream)))
+> +			cfg->enabled = true;
+> +	}
+> +
+> +done:
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_enable_streams);
+> +
+> +static int v4l2_subdev_disable_streams_fallback(struct v4l2_subdev *sd, u32 pad,
+> +						u64 streams_mask)
+> +{
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	/*
+> +	 * If the subdev doesn't implement pad-based stream enable, fall  back
+> +	 * on the .s_stream() operation. This can only be done for subdevs that
+> +	 * have a single source pad, as sd->enabled_streams is global to the
+> +	 * subdev.
+> +	 */
+> +	if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
+> +		return -EOPNOTSUPP;
+> +
+> +	for (i = 0; i < sd->entity.num_pads; ++i) {
+> +		if (i != pad && sd->entity.pads[i].flags & MEDIA_PAD_FL_SOURCE)
+> +			return -EOPNOTSUPP;
+> +	}
+> +
+> +	if ((sd->enabled_streams & streams_mask) != streams_mask)
+> +		return -EALREADY;
+> +
+> +	/* Stop streaming when the last streams are disabled. */
+> +	if (!(sd->enabled_streams & ~streams_mask)) {
+> +		ret = v4l2_subdev_call(sd, video, s_stream, 0);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	sd->enabled_streams &= ~streams_mask;
+> +
+> +	return 0;
+> +}
+> +
+> +int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
+> +				u64 streams_mask)
+> +{
+> +	struct device *dev = sd->entity.graph_obj.mdev->dev;
+> +	struct v4l2_subdev_state *state;
+> +	u64 found_streams = 0;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	/* A few basic sanity checks first. */
+> +	if (pad >= sd->entity.num_pads)
+> +		return -EINVAL;
+> +
+> +	if (!streams_mask)
+> +		return 0;
+> +
+> +	/* Fallback on .s_stream() if .disable_streams() isn't available. */
+> +	if (!sd->ops->pad || !sd->ops->pad->disable_streams)
+> +		return v4l2_subdev_disable_streams_fallback(sd, pad,
+> +							    streams_mask);
+> +
+> +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> +
+> +	/*
+> +	 * Verify that the requested streams exist and that they are not
+> +	 * already disabled.
+> +	 */
+> +	for (i = 0; i < state->stream_configs.num_configs; ++i) {
+> +		struct v4l2_subdev_stream_config *cfg =
+> +			&state->stream_configs.configs[i];
+> +
+> +		if (cfg->pad != pad || !(streams_mask & BIT(cfg->stream)))
+> +			continue;
+> +
+> +		found_streams |= BIT(cfg->stream);
+> +
+> +		if (!cfg->enabled) {
+> +			dev_dbg(dev, "stream %u already disabled on %s/%u\n",
+> +				cfg->stream, sd->entity.name, pad);
+> +			ret = -EALREADY;
+> +			goto done;
+> +		}
+> +	}
+> +
+> +	if (found_streams != streams_mask) {
+> +		dev_dbg(dev, "streams 0x%llx not found on %s/%u\n",
+> +			streams_mask & ~found_streams, sd->entity.name, pad);
+> +		ret = -EINVAL;
+> +		goto done;
+> +	}
+> +
+> +	/* Call the .disable_streams() operation. */
+> +	ret = v4l2_subdev_call(sd, pad, disable_streams, state, pad,
+> +			       streams_mask);
+> +	if (ret)
+> +		goto done;
+> +
+> +	/* Mark the streams as disabled. */
+> +	for (i = 0; i < state->stream_configs.num_configs; ++i) {
+> +		struct v4l2_subdev_stream_config *cfg =
+> +			&state->stream_configs.configs[i];
+> +
+> +		if (cfg->pad == pad && (streams_mask & BIT(cfg->stream)))
+> +			cfg->enabled = false;
+> +	}
+> +
+> +done:
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_disable_streams);
+> +
+>  #endif /* CONFIG_MEDIA_CONTROLLER */
+>
+>  void v4l2_subdev_init(struct v4l2_subdev *sd, const struct v4l2_subdev_ops *ops)
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 992debe116ac..bb1713863973 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -702,6 +702,7 @@ struct v4l2_subdev_pad_config {
+>   *
+>   * @pad: pad number
+>   * @stream: stream number
+> + * @enabled: has the stream been enabled with v4l2_subdev_enable_stream()
+>   * @fmt: &struct v4l2_mbus_framefmt
+>   * @crop: &struct v4l2_rect to be used for crop
+>   * @compose: &struct v4l2_rect to be used for compose
+> @@ -711,6 +712,7 @@ struct v4l2_subdev_pad_config {
+>  struct v4l2_subdev_stream_config {
+>  	u32 pad;
+>  	u32 stream;
+> +	bool enabled;
+>
+>  	struct v4l2_mbus_framefmt fmt;
+>  	struct v4l2_rect crop;
+> @@ -816,6 +818,18 @@ struct v4l2_subdev_state {
+>   *
+>   * @set_routing: enable or disable data connection routes described in the
+>   *		 subdevice routing table.
+> + *
+> + * @enable_streams: Enable the streams defined in streams_mask on the given
+> + *	source pad. Subdevs that implement this operation must use the active
+> + *	state management provided by the subdev core (enabled through a call to
+> + *	v4l2_subdev_init_finalize() at initialization time). Do not call
+> + *	directly, use v4l2_subdev_enable_streams() instead.
+> + *
+> + * @disable_streams: Disable the streams defined in streams_mask on the given
+> + *	source pad. Subdevs that implement this operation must use the active
+> + *	state management provided by the subdev core (enabled through a call to
+> + *	v4l2_subdev_init_finalize() at initialization time). Do not call
+> + *	directly, use v4l2_subdev_disable_streams() instead.
+>   */
+>  struct v4l2_subdev_pad_ops {
+>  	int (*init_cfg)(struct v4l2_subdev *sd,
+> @@ -862,6 +876,12 @@ struct v4l2_subdev_pad_ops {
+>  			   struct v4l2_subdev_state *state,
+>  			   enum v4l2_subdev_format_whence which,
+>  			   struct v4l2_subdev_krouting *route);
+> +	int (*enable_streams)(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_state *state, u32 pad,
+> +			      u64 streams_mask);
+> +	int (*disable_streams)(struct v4l2_subdev *sd,
+> +			       struct v4l2_subdev_state *state, u32 pad,
+> +			       u64 streams_mask);
+>  };
+>
+>  /**
+> @@ -1007,6 +1027,10 @@ struct v4l2_subdev_platform_data {
+>   * @active_state: Active state for the subdev (NULL for subdevs tracking the
+>   *		  state internally). Initialized by calling
+>   *		  v4l2_subdev_init_finalize().
+> + * @enabled_streams: Bitmask of enabled streams used by
+> + *		     v4l2_subdev_enable_streams() and
+> + *		     v4l2_subdev_disable_streams() helper functions for fallback
+> + *		     cases.
+>   *
+>   * Each instance of a subdev driver should create this struct, either
+>   * stand-alone or embedded in a larger struct.
+> @@ -1052,6 +1076,7 @@ struct v4l2_subdev {
+>  	 * doesn't support it.
+>  	 */
+>  	struct v4l2_subdev_state *active_state;
+> +	u64 enabled_streams;
+>  };
+>
+>
+> @@ -1589,6 +1614,66 @@ __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
+>  	for ((route) = NULL;                  \
+>  	     ((route) = __v4l2_subdev_next_active_route((routing), (route)));)
+>
+> +/**
+> + * v4l2_subdev_enable_streams() - Enable streams on a pad
+> + * @sd: The subdevice
+> + * @pad: The pad
+> + * @streams_mask: Bitmask of streams to enable
+> + *
+> + * This function enables streams on a source @pad of a subdevice. The pad is
+> + * identified by its index, while the streams are identified by the
+> + * @streams_mask bitmask. This allows enabling multiple streams on a pad at
+> + * once.
+> + *
+> + * Enabling a stream that is already enabled isn't allowed. If @streams_mask
+> + * contains an already enabled stream, this function returns -EALREADY without
+> + * performing any operation.
+> + *
+> + * Per-stream enable is only available for subdevs that implement the
+> + * .enable_streams() and .disable_streams() operations. For other subdevs, this
+> + * function implements a best-effort compatibility by calling the .s_stream()
+> + * operation, limited to subdevs that have a single source pad.
+> + *
+> + * Return:
+> + * * 0: Success
+> + * * -EALREADY: One of the streams in streams_mask is already enabled
+> + * * -EINVAL: The pad index is invalid, or doesn't correspond to a source pad
+> + * * -EOPNOTSUPP: Falling back to the legacy .s_stream() operation is
+> + *   impossible because the subdev has multiple source pads
+> + */
+> +int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+> +			       u64 streams_mask);
+> +
+> +/**
+> + * v4l2_subdev_disable_streams() - Disable streams on a pad
+> + * @sd: The subdevice
+> + * @pad: The pad
+> + * @streams_mask: Bitmask of streams to disable
+> + *
+> + * This function disables streams on a source @pad of a subdevice. The pad is
+> + * identified by its index, while the streams are identified by the
+> + * @streams_mask bitmask. This allows disabling multiple streams on a pad at
+> + * once.
+> + *
+> + * Disabling a streams that is not enabled isn't allowed. If @streams_mask
+> + * contains a disabled stream, this function returns -EALREADY without
+> + * performing any operation.
+> + *
+> + * Per-stream disable is only available for subdevs that implement the
+> + * .enable_streams() and .disable_streams() operations. For other subdevs, this
+> + * function implements a best-effort compatibility by calling the .s_stream()
+> + * operation, limited to subdevs that have a single source pad.
+> + *
+> + * Return:
+> + * * 0: Success
+> + * * -EALREADY: One of the streams in streams_mask is not enabled
+> + * * -EINVAL: The pad index is invalid, or doesn't correspond to a source pad
+> + * * -EOPNOTSUPP: Falling back to the legacy .s_stream() operation is
+> + *   impossible because the subdev has multiple source pads
+> + */
+> +int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
+> +				u64 streams_mask);
+> +
+>  #endif /* CONFIG_MEDIA_CONTROLLER */
+>
+>  /**
+> --
+> 2.25.1
+>
