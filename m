@@ -2,111 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 159434DABC8
-	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 08:25:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B30FC4DAC32
+	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 09:04:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348455AbiCPH0o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Mar 2022 03:26:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45962 "EHLO
+        id S242259AbiCPIFp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Mar 2022 04:05:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354042AbiCPH0m (ORCPT
+        with ESMTP id S237841AbiCPIFn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Mar 2022 03:26:42 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9796B5FF3B;
-        Wed, 16 Mar 2022 00:25:26 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id t1so1610929edc.3;
-        Wed, 16 Mar 2022 00:25:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=k2XDkxW4pcLGrgBabuAmAWd2wJ7suNpD4bXx0nDuw4w=;
-        b=e87GAQob7VcIIZSaxRDrpHGZbYz0ZLqpbpsbExBi7EtftlKzsTJpNifAKitn4+JP7O
-         0bcmBf8LEgJP/UMjC0df3Brsms6H4l2DLgnzJq1LLbpKrAfpXXsZQQV043DiOmOAT6D2
-         eoxkM2OQPP3m6nYcsOUM8ZNdroy0XKNotNJsX7jOhw5lgVbSMY/HTS4ucOA9FWbabWSI
-         2rLUDsW/81XtrV7kaSxTGL86iPvWnvvOF2olzaA0RsjETSgkSOETvBD60d7FbRBCVBi1
-         YXj+ZdgJVi6KknqY7nXvfgbKM8pBAwJ7QG9AWhzX4Xwg9evIKsUaoKs1hC7hp9fnODwc
-         hQJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=k2XDkxW4pcLGrgBabuAmAWd2wJ7suNpD4bXx0nDuw4w=;
-        b=IdsMZX2O0qGaTG+a3v37hNMLqZZEDInvI2Qjc/0r6AgU9x1WISGHv1DM2PoYeWrhdy
-         CfNsWaCHCD9OGFBP8DmrmOCsAH9rlzhqXhXMKVvbtuZ9ZMI95sWJAE3TrPRmXstZh570
-         egE1OEX+FPq32WCBfJHOPUPAMpNfodZlz7h+qXzza0plE7+mjffHMXw1WnDLfuESF76C
-         BAXTxpB+L0l4RQloOkn32wfDPbmL89WQK2ldCdFmZXJu27eqJ287w5JA/6CgY4yTEFEL
-         qLJsk4L9jlcQ2FbgUafD3OA9L3Y6PE0/buZCRAiPCEHv1Ut4TNMu893AqPSvR6IRm9Jc
-         HYXA==
-X-Gm-Message-State: AOAM531gzjMyN8R6mlwLrHO7fBL+1qrsA+KXV4wpLwS5hS9yMPDJwIvv
-        r4bhIh4MVenlsbxt0u1LCKdP2yUJxf0=
-X-Google-Smtp-Source: ABdhPJxyekmY0haMxC8PoH31GMrAN1hP/z/MhOAc/9HVXy5Z5yU61UaHNqQ45lG2uvlq/M7CCL85BA==
-X-Received: by 2002:a05:6402:40d1:b0:418:e73c:a1a8 with SMTP id z17-20020a05640240d100b00418e73ca1a8mr1850794edb.321.1647415524913;
-        Wed, 16 Mar 2022 00:25:24 -0700 (PDT)
-Received: from felia.fritz.box (200116b826783100351493f9f729970f.dip.versatel-1u1.de. [2001:16b8:2678:3100:3514:93f9:f729:970f])
-        by smtp.gmail.com with ESMTPSA id y19-20020a1709064b1300b006dabe44a6edsm515502eju.141.2022.03.16.00.25.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 00:25:24 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] MAINTAINERS: adjust entries to nxp driver movement in media platform
-Date:   Wed, 16 Mar 2022 08:25:17 +0100
-Message-Id: <20220316072517.3607-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 16 Mar 2022 04:05:43 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E558B5E773
+        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 01:04:29 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 75AC820B21;
+        Wed, 16 Mar 2022 10:04:27 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1647417867;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=SfC0TV4jGxLS+sCGag4EFcmiFeKayyLwllvD8xMOiB0=;
+        b=sWjRPxPN111nQ5xc6pSofjJ1IrfJsRp2I+epoYk9xhLtH4XatXwNG/Zzdda5UjqfxplUd6
+        /30XOJcpV51pd3Ml0s6vei12NnnNe1aZEcYuu/vw/revb1Ltc/SZ2kr6jufk7Qru+27Dv7
+        JFNA+o8RDOw1qkC4f5k9GwKly7TCM2w=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A738C634C90;
+        Wed, 16 Mar 2022 10:04:26 +0200 (EET)
+Date:   Wed, 16 Mar 2022 10:04:26 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        krzysztof.kozlowski@canonical.com,
+        jeanmichel.hautbois@ideasonboard.com,
+        paul.kocialkowski@bootlin.com, paul.elder@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v2 3/8] media: i2c: ov5670: Probe clocks with OF
+Message-ID: <YjGaCjIjs3u10JY5@valkosipuli.retiisi.eu>
+References: <20220314162714.153970-1-jacopo@jmondi.org>
+ <20220314162714.153970-4-jacopo@jmondi.org>
+ <YjBKQrdiOo1/EWck@pendragon.ideasonboard.com>
+ <20220315084618.ol6ekvgvn5ldgif7@uno.localdomain>
+ <YjBUybAyqnBRdI+v@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YjBUybAyqnBRdI+v@pendragon.ideasonboard.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1647417867; a=rsa-sha256; cv=none;
+        b=EG3fvNLqOtL4ZPSWOOX8V3TGwbVRKZu539NwFVEexsRUCu8WJuRU72Lz3yuQd34ApJBai3
+        RDGZrhwxXnOJ3G1+7szv+Ewece7EWxuPWWebzwLnw1/KbQpn8GFAX8+M7feXKSNNvmubUt
+        xHwuK0zzJnvTLzFh3vIhgvCnUb3gi0o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1647417867;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=SfC0TV4jGxLS+sCGag4EFcmiFeKayyLwllvD8xMOiB0=;
+        b=k6SIrRPTfl3iKzyE3vlqLWvjtJY3B0WFUeJAjxgfS8pDEQws2CtPsVOtdJAYUYDwU1++zV
+        6Zor9N2OXorboL6WFknOxg/RlsoBVhCTdVAquSx8SqYkS7RbYlXZuKRLuyMamSFN/T6pIb
+        3cJm//APazXJRH83CPxsplisgeEX6+o=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit 46fb99951fe2 ("media: platform: place NXP drivers on a separate dir")
-moves various files in media/platform into a nxp subdirectory. It adjusts
-the section MEDIA DRIVER FOR FREESCALE IMX PXP in MAINTAINERS, but misses
-some references in NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER and MEDIA DRIVERS
-FOR FREESCALE IMX7.
+Hi Laurent, Jacopo,
 
-Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
-broken reference.
+On Tue, Mar 15, 2022 at 10:56:41AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+> 
+> On Tue, Mar 15, 2022 at 09:46:18AM +0100, Jacopo Mondi wrote:
+> > On Tue, Mar 15, 2022 at 10:11:46AM +0200, Laurent Pinchart wrote:
+> > > On Mon, Mar 14, 2022 at 05:27:09PM +0100, Jacopo Mondi wrote:
+> > > > Add support for probing the main system clock using the common clock
+> > > > framework and its OF bindings.
+> > > >
+> > > > Maintain ACPI compatibility by falling back to parse 'clock-frequency'
+> > > > if the no clock device reference is available.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > ---
+> > > >  drivers/media/i2c/ov5670.c | 21 +++++++++++++++++----
+> > > >  1 file changed, 17 insertions(+), 4 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
+> > > > index 721441024598..25d792794fc7 100644
+> > > > --- a/drivers/media/i2c/ov5670.c
+> > > > +++ b/drivers/media/i2c/ov5670.c
+> > > > @@ -2,6 +2,7 @@
+> > > >  // Copyright (c) 2017 Intel Corporation.
+> > > >
+> > > >  #include <linux/acpi.h>
+> > > > +#include <linux/clk.h>
+> > > >  #include <linux/i2c.h>
+> > > >  #include <linux/mod_devicetable.h>
+> > > >  #include <linux/module.h>
+> > > > @@ -1819,6 +1820,8 @@ struct ov5670 {
+> > > >  	struct v4l2_subdev sd;
+> > > >  	struct media_pad pad;
+> > > >
+> > > > +	struct clk *clk;
+> > > > +
+> > > >  	struct v4l2_ctrl_handler ctrl_handler;
+> > > >  	/* V4L2 Controls */
+> > > >  	struct v4l2_ctrl *link_freq;
+> > > > @@ -2478,10 +2481,6 @@ static int ov5670_probe(struct i2c_client *client)
+> > > >  	bool full_power;
+> > > >  	int ret;
+> > > >
+> > > > -	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
+> > > > -	if (input_clk != 19200000)
+> > > > -		return -EINVAL;
+> > > > -
+> > > >  	ov5670 = devm_kzalloc(&client->dev, sizeof(*ov5670), GFP_KERNEL);
+> > > >  	if (!ov5670) {
+> > > >  		ret = -ENOMEM;
+> > > > @@ -2489,6 +2488,20 @@ static int ov5670_probe(struct i2c_client *client)
+> > > >  		goto error_print;
+> > > >  	}
+> > > >
+> > > > +	/* OF uses the common clock framework, ACPI uses "clock-frequency". */
+> > > > +	ov5670->clk = devm_clk_get_optional(&client->dev, NULL);
+> > > > +	if (IS_ERR(ov5670->clk))
+> > > > +		return dev_err_probe(&client->dev, PTR_ERR(ov5670->clk),
+> > > > +				     "error getting clock\n");
+> > > > +
+> > > > +	if (ov5670->clk)
+> > > > +		input_clk = clk_get_rate(ov5670->clk);
+> > > > +	else
+> > > > +		device_property_read_u32(&client->dev, "clock-frequency",
+> > > > +					 &input_clk);
+> > >
+> > > This will try to use the clock-frequency property on OF-based systems if
+> > > no clock is specified. Could we instead have
+> > 
+> > 'clocks' is listed as a required property in the OF bindings and my
+> > understanding is that driver assume DTS are correct.
+> > 
+> > > 	if (probed through OF) {
+> > 
+> > Otherwise yes, I can check for dev->of_node
+> > But again, I don't think drivers should have to work-around broken DTS
+> 
+> Not working around, but if we fail when DT is broken, it can help
+> avoiding broken DT spreading in the wild, which we would then need to
+> support forever.
 
-Adjust the file references in the NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER and
-MEDIA DRIVERS FOR FREESCALE IMX7 sections.
+If you think this is necessary (I'm not all that sure), then please check
+this using is_of_node().
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-Mauro, please pick this minor clean-up on your -next tree on top of the
-commit above.
+There are other drivers that could take clock-frequency from DT (grep for
+reading clock-frequency with more indentation than one tab stop), too, even
+if the bindings don't document that. I wouldn't expect that anyway since
+clock control won't work there anyway.
 
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5eacf125e052..c4f54cf46ae8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12130,7 +12130,7 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/admin-guide/media/imx7.rst
- F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
- F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
--F:	drivers/media/platform/imx/imx-mipi-csis.c
-+F:	drivers/media/platform/nxp/imx-mipi-csis.c
- F:	drivers/staging/media/imx/imx7-media-csi.c
- 
- MEDIA DRIVERS FOR HELENE
-@@ -14166,7 +14166,7 @@ R:	NXP Linux Team <linux-imx@nxp.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
--F:	drivers/media/platform/imx-jpeg
-+F:	drivers/media/platform/nxp/imx-jpeg
- 
- NZXT-KRAKEN2 HARDWARE MONITORING DRIVER
- M:	Jonas Malaco <jonas@protocubo.io>
 -- 
-2.17.1
+Regards,
 
+Sakari Ailus
