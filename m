@@ -2,144 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A22694DABBC
-	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 08:19:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 159434DABC8
+	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 08:25:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352364AbiCPHUa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Mar 2022 03:20:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60308 "EHLO
+        id S1348455AbiCPH0o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Mar 2022 03:26:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244761AbiCPHU2 (ORCPT
+        with ESMTP id S1354042AbiCPH0m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Mar 2022 03:20:28 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98939488BB
-        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 00:19:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647415154; x=1678951154;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DDQEP6e/Y5YWlyDWaBIQAbpc44/FvC8SizlEDT5kG40=;
-  b=lAtXU6T4XVCpjAYHBD57yS7qCQUwFpRTAKx1WgdlohjJm5pmzQUVMnNx
-   BORXwgZp/I2vN+VzvD62q1KMIFZLBCmyz/WxG2gFHk0bAC020aU3iXUVq
-   dvaxWK4dm6Y1BpokgNO8ZxyN4h9Ha4i9k5wxBk7ObeEe/fqUDWUgVxxar
-   rE0PvTUaAKg2T3AEWA0QPEpqWleetvzYBH+KdYXG0gZ9G1UpWUzABh/nB
-   U1VsC211Ek5JlcTxeNoFEwqTr5twru6wv6g8sS0mCoTPuAbpeMGTKjlLd
-   RH4v4QUK1xt2s9s6y2zFcq6g/jAb75KDijw30q1Ov2VZnZmUZ6fROB+hU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="342942250"
-X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; 
-   d="scan'208";a="342942250"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 00:19:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; 
-   d="scan'208";a="714486242"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 16 Mar 2022 00:19:12 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nUNw7-000C6y-Ga; Wed, 16 Mar 2022 07:19:11 +0000
-Date:   Wed, 16 Mar 2022 15:18:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [linux-next:master 12105/12845] ld.lld: error: undefined symbol:
- v4l2_subdev_init
-Message-ID: <202203161553.JYzuCtdr-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Wed, 16 Mar 2022 03:26:42 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9796B5FF3B;
+        Wed, 16 Mar 2022 00:25:26 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id t1so1610929edc.3;
+        Wed, 16 Mar 2022 00:25:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=k2XDkxW4pcLGrgBabuAmAWd2wJ7suNpD4bXx0nDuw4w=;
+        b=e87GAQob7VcIIZSaxRDrpHGZbYz0ZLqpbpsbExBi7EtftlKzsTJpNifAKitn4+JP7O
+         0bcmBf8LEgJP/UMjC0df3Brsms6H4l2DLgnzJq1LLbpKrAfpXXsZQQV043DiOmOAT6D2
+         eoxkM2OQPP3m6nYcsOUM8ZNdroy0XKNotNJsX7jOhw5lgVbSMY/HTS4ucOA9FWbabWSI
+         2rLUDsW/81XtrV7kaSxTGL86iPvWnvvOF2olzaA0RsjETSgkSOETvBD60d7FbRBCVBi1
+         YXj+ZdgJVi6KknqY7nXvfgbKM8pBAwJ7QG9AWhzX4Xwg9evIKsUaoKs1hC7hp9fnODwc
+         hQJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=k2XDkxW4pcLGrgBabuAmAWd2wJ7suNpD4bXx0nDuw4w=;
+        b=IdsMZX2O0qGaTG+a3v37hNMLqZZEDInvI2Qjc/0r6AgU9x1WISGHv1DM2PoYeWrhdy
+         CfNsWaCHCD9OGFBP8DmrmOCsAH9rlzhqXhXMKVvbtuZ9ZMI95sWJAE3TrPRmXstZh570
+         egE1OEX+FPq32WCBfJHOPUPAMpNfodZlz7h+qXzza0plE7+mjffHMXw1WnDLfuESF76C
+         BAXTxpB+L0l4RQloOkn32wfDPbmL89WQK2ldCdFmZXJu27eqJ287w5JA/6CgY4yTEFEL
+         qLJsk4L9jlcQ2FbgUafD3OA9L3Y6PE0/buZCRAiPCEHv1Ut4TNMu893AqPSvR6IRm9Jc
+         HYXA==
+X-Gm-Message-State: AOAM531gzjMyN8R6mlwLrHO7fBL+1qrsA+KXV4wpLwS5hS9yMPDJwIvv
+        r4bhIh4MVenlsbxt0u1LCKdP2yUJxf0=
+X-Google-Smtp-Source: ABdhPJxyekmY0haMxC8PoH31GMrAN1hP/z/MhOAc/9HVXy5Z5yU61UaHNqQ45lG2uvlq/M7CCL85BA==
+X-Received: by 2002:a05:6402:40d1:b0:418:e73c:a1a8 with SMTP id z17-20020a05640240d100b00418e73ca1a8mr1850794edb.321.1647415524913;
+        Wed, 16 Mar 2022 00:25:24 -0700 (PDT)
+Received: from felia.fritz.box (200116b826783100351493f9f729970f.dip.versatel-1u1.de. [2001:16b8:2678:3100:3514:93f9:f729:970f])
+        by smtp.gmail.com with ESMTPSA id y19-20020a1709064b1300b006dabe44a6edsm515502eju.141.2022.03.16.00.25.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Mar 2022 00:25:24 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] MAINTAINERS: adjust entries to nxp driver movement in media platform
+Date:   Wed, 16 Mar 2022 08:25:17 +0100
+Message-Id: <20220316072517.3607-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a32cd981a6da2373c093d471ee4405a915e217d5
-commit: 4a598f62a03bd0e48f0be36cf32829291392cca8 [12105/12845] media: platform/*/Kconfig: make manufacturer menus more uniform
-config: arm-randconfig-r032-20220316 (https://download.01.org/0day-ci/archive/20220316/202203161553.JYzuCtdr-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6ec1e3d798f8eab43fb3a91028c6ab04e115fcb)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=4a598f62a03bd0e48f0be36cf32829291392cca8
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 4a598f62a03bd0e48f0be36cf32829291392cca8
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+Commit 46fb99951fe2 ("media: platform: place NXP drivers on a separate dir")
+moves various files in media/platform into a nxp subdirectory. It adjusts
+the section MEDIA DRIVER FOR FREESCALE IMX PXP in MAINTAINERS, but misses
+some references in NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER and MEDIA DRIVERS
+FOR FREESCALE IMX7.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
+broken reference.
 
-All errors (new ones prefixed by >>):
+Adjust the file references in the NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER and
+MEDIA DRIVERS FOR FREESCALE IMX7 sections.
 
->> ld.lld: error: undefined symbol: v4l2_subdev_init
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_probe) in archive drivers/built-in.a
---
->> ld.lld: error: undefined symbol: v4l2_get_link_freq
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_s_stream) in archive drivers/built-in.a
---
->> ld.lld: error: undefined symbol: v4l2_subdev_call_wrappers
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_s_stream) in archive drivers/built-in.a
---
->> ld.lld: error: undefined symbol: v4l_bound_align_image
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_set_fmt) in archive drivers/built-in.a
---
->> ld.lld: error: undefined symbol: v4l2_create_fwnode_links_to_pad
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_notify_bound) in archive drivers/built-in.a
---
->> ld.lld: error: undefined symbol: v4l2_subdev_get_fwnode_pad_1_to_1
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_entity_ops) in archive drivers/built-in.a
---
->> ld.lld: error: undefined symbol: v4l2_subdev_link_validate
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_entity_ops) in archive drivers/built-in.a
---
->> ld.lld: error: undefined symbol: v4l2_async_nf_init
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_probe) in archive drivers/built-in.a
---
->> ld.lld: error: undefined symbol: v4l2_fwnode_endpoint_parse
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_probe) in archive drivers/built-in.a
---
->> ld.lld: error: undefined symbol: __v4l2_async_nf_add_fwnode_remote
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_probe) in archive drivers/built-in.a
---
->> ld.lld: error: undefined symbol: v4l2_async_nf_unregister
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_probe) in archive drivers/built-in.a
-   >>> referenced by imx-mipi-csis.c
-   >>> media/platform/nxp/imx-mipi-csis.o:(mipi_csis_remove) in archive drivers/built-in.a
-..
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on MEDIA_SUPPORT && VIDEO_DEV && MEDIA_CONTROLLER
-   Selected by
-   - VIDEO_IMX_MIPI_CSIS && MEDIA_SUPPORT && MEDIA_PLATFORM_SUPPORT && MEDIA_PLATFORM_DRIVERS
-
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Mauro, please pick this minor clean-up on your -next tree on top of the
+commit above.
+
+ MAINTAINERS | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5eacf125e052..c4f54cf46ae8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12130,7 +12130,7 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/admin-guide/media/imx7.rst
+ F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+ F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+-F:	drivers/media/platform/imx/imx-mipi-csis.c
++F:	drivers/media/platform/nxp/imx-mipi-csis.c
+ F:	drivers/staging/media/imx/imx7-media-csi.c
+ 
+ MEDIA DRIVERS FOR HELENE
+@@ -14166,7 +14166,7 @@ R:	NXP Linux Team <linux-imx@nxp.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+-F:	drivers/media/platform/imx-jpeg
++F:	drivers/media/platform/nxp/imx-jpeg
+ 
+ NZXT-KRAKEN2 HARDWARE MONITORING DRIVER
+ M:	Jonas Malaco <jonas@protocubo.io>
+-- 
+2.17.1
+
