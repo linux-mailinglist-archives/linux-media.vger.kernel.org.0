@@ -2,97 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E6384DA79C
-	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 02:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D0324DA7E6
+	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 03:25:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353040AbiCPBzD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 21:55:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48850 "EHLO
+        id S238498AbiCPC03 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 22:26:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353034AbiCPBzD (ORCPT
+        with ESMTP id S237405AbiCPC02 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 21:55:03 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB2933EAE;
-        Tue, 15 Mar 2022 18:53:50 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id mv2-20020a17090b198200b001c65bae5744so85356pjb.5;
-        Tue, 15 Mar 2022 18:53:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=Xg15yRMMviMUzCglDMY0HU4537JOOxmewNboEJ+Yvmc=;
-        b=GN96DWJnWxNOD0u11hog6ZGPYYlLhk60WwKms/taP8LsrGfAGw3YhwVt3nV7ogpKoM
-         wP34cx/jyovqeszzWM/cE/AeDAya+iwKyWi3cQwfq2Dli3nJyuJXQDhHFh2ugfDBnstQ
-         oEkYWhO9R4wXixYXLWajaMfzG9WllB/0lkk5Wzf7speXHBkynv6H0zzqjR1OZwyrKtZS
-         gWWMyFj1y/LxutvVtIylzZFIFSAh8xrSdyZafU/prn6JSaD81k5Dho4ABiRx3oiI7Z90
-         x/xHaMBGGYp2Gf0SOouDNta2vDF2ZlP+imS3RZvMR13naGbkngsCoc72jJcMLQe2LYwR
-         Rr0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Xg15yRMMviMUzCglDMY0HU4537JOOxmewNboEJ+Yvmc=;
-        b=IvvNhXVhu32iAQzb1Os5LAi4qqfiDQQC7nX0d2/foG5KaetvQXQ1h6YQ4ASHw/9amg
-         hJ4igbDtNhetokTr2KKqWLD3gqH6dYqRAL8Zkw4yPxFuSJ3DcA9+zD3fPHvkN/dbjFNd
-         ymmMByPWQ/DErJ8qgR1jucR7YGnEykf5T2mitkwoigaVrN/KKrqjVJZznrwFC5dbeqou
-         exNUSj2j3EEjl6/ew2648W+Q8RmmGQVvo9u612z4l1O+nb5tSF/L7Xj9JdPcPMWnD7Fl
-         VFgeSEJtEehYijRARVir0fnUoTO9CWMuWwb5ADcQehJNZ3WePmP2eFQoyDFvmMxe/y9p
-         mP0A==
-X-Gm-Message-State: AOAM530a4RT7G/rugBWZCt92nIZOg73lqvVr6gYjhJoGX/Oqhx2N4nul
-        1SsakFjh0pn7eaSgQVf4TNO0HCEkmbQ1Neuecjo=
-X-Google-Smtp-Source: ABdhPJyCqm/iPBayX1NkaXkG7E6Q84g5TtKGOSYe9QvfuFM8fB8UglAAnVh10BeyH4UIhj9wU+vcjQ==
-X-Received: by 2002:a17:90b:17ca:b0:1bf:6188:cc00 with SMTP id me10-20020a17090b17ca00b001bf6188cc00mr7920821pjb.2.1647395629762;
-        Tue, 15 Mar 2022 18:53:49 -0700 (PDT)
-Received: from localhost.localdomain ([159.226.95.43])
-        by smtp.googlemail.com with ESMTPSA id i15-20020a63b30f000000b003803aee35a2sm533256pgf.31.2022.03.15.18.53.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Mar 2022 18:53:49 -0700 (PDT)
-From:   Miaoqian Lin <linmq006@gmail.com>
-To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tue, 15 Mar 2022 22:26:28 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D73E924F0A;
+        Tue, 15 Mar 2022 19:25:14 -0700 (PDT)
+X-UUID: ef7dc8dcbffc42f08972bc2395417310-20220316
+X-UUID: ef7dc8dcbffc42f08972bc2395417310-20220316
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <ck.hu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 995455425; Wed, 16 Mar 2022 10:25:09 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 16 Mar 2022 10:25:08 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 16 Mar
+ 2022 10:25:06 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 16 Mar 2022 10:25:06 +0800
+Message-ID: <00a1b51452d0a8fcdd9807845580678f6739e974.camel@mediatek.com>
+Subject: Re: [PATCH v13 1/6] soc: mediatek: mutex: add common interface to
+ accommodate multiple modules operationg MUTEX
+From:   CK Hu <ck.hu@mediatek.com>
+To:     Moudy Ho <moudy.ho@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Kyunmin Park <kyungmin.park@samsung.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linmq006@gmail.com
-Subject: [PATCH] media: exynos4-is: Change clk_disable to clk_disable_unprepare
-Date:   Wed, 16 Mar 2022 01:53:44 +0000
-Message-Id: <20220316015344.5120-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Jernej Skrabec" <jernej.skrabec@siol.net>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <tfiga@chromium.org>, <drinkcat@chromium.org>,
+        <pihsun@chromium.org>, <hsinyi@google.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        <menghui.lin@mediatek.com>, <sj.huang@mediatek.com>,
+        <allen-kh.cheng@mediatek.com>, <randy.wu@mediatek.com>,
+        <jason-jh.lin@mediatek.com>, <roy-cw.yeh@mediatek.com>,
+        <river.cheng@mediatek.com>, <srv_heupstream@mediatek.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date:   Wed, 16 Mar 2022 10:25:06 +0800
+In-Reply-To: <20220315061031.21642-2-moudy.ho@mediatek.com>
+References: <20220315061031.21642-1-moudy.ho@mediatek.com>
+         <20220315061031.21642-2-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The corresponding API for clk_prepare_enable is clk_disable_unprepare,
-other than clk_disable_unprepare.
+Hi, Moudy:
 
-Fix this by changing clk_disable to clk_disable_unprepare.
+On Tue, 2022-03-15 at 14:10 +0800, Moudy Ho wrote:
+> In order to allow multiple modules to operate MUTEX hardware through
+> a common interfrace, a flexible index "mtk_mutex_table_index" needs
+> to
+> be added to replace original component ID so that like DDP and MDP
+> can add their own MUTEX table settings independently.
+> 
+> In addition, 4 generic interface "mtk_mutex_set_mod",
+> "mtk_mutex_set_sof",
+> "mtk_mutex_clear_mod" and "mtk_mutex_clear_sof" have been added,
+> which is
+> expected to replace the "mtk_mutex_add_comp" and
+> "mtk_mutex_remove_comp"
+> pair originally dedicated to DDP in the future.
+> 
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>  drivers/soc/mediatek/mtk-mutex.c       | 122
+> +++++++++++++++++++++++++
+>  include/linux/soc/mediatek/mtk-mutex.h |  33 +++++++
+>  2 files changed, 155 insertions(+)
+> 
 
-Fixes: b4155d7d5b2c ("[media] exynos4-is: Ensure fimc-is clocks are not enabled until properly configured")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/media/platform/exynos4-is/fimc-is.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[snip]
 
-diff --git a/drivers/media/platform/exynos4-is/fimc-is.c b/drivers/media/platform/exynos4-is/fimc-is.c
-index e55e411038f4..8e88b0f6662d 100644
---- a/drivers/media/platform/exynos4-is/fimc-is.c
-+++ b/drivers/media/platform/exynos4-is/fimc-is.c
-@@ -140,7 +140,7 @@ static int fimc_is_enable_clocks(struct fimc_is *is)
- 			dev_err(&is->pdev->dev, "clock %s enable failed\n",
- 				fimc_is_clocks[i]);
- 			for (--i; i >= 0; i--)
--				clk_disable(is->clocks[i]);
-+				clk_disable_unprepare(is->clocks[i]);
- 			return ret;
- 		}
- 		pr_debug("enabled clock: %s\n", fimc_is_clocks[i]);
--- 
-2.17.1
+> 
+> diff --git a/include/linux/soc/mediatek/mtk-mutex.h
+> b/include/linux/soc/mediatek/mtk-mutex.h
+> index 6fe4ffbde290..c8355bb0e6d6 100644
+> --- a/include/linux/soc/mediatek/mtk-mutex.h
+> +++ b/include/linux/soc/mediatek/mtk-mutex.h
+> @@ -10,14 +10,47 @@ struct regmap;
+>  struct device;
+>  struct mtk_mutex;
+>  
+> +enum mtk_mutex_table_index {
+> +	MUTEX_TABLE_IDX_NONE = 0,	/* Invalid engine */
+
+Useless, so remove this.
+
+> +
+> +	/* MDP table index */
+> +	MUTEX_TABLE_IDX_MDP_RDMA0,
+> +	MUTEX_TABLE_IDX_MDP_RSZ0,
+> +	MUTEX_TABLE_IDX_MDP_RSZ1,
+> +	MUTEX_TABLE_IDX_MDP_TDSHP0,
+> +	MUTEX_TABLE_IDX_MDP_WROT0,
+> +	MUTEX_TABLE_IDX_MDP_WDMA,
+> +	MUTEX_TABLE_IDX_MDP_AAL0,
+> +	MUTEX_TABLE_IDX_MDP_CCORR0,
+> +
+> +	/* DDP table index */
+> +	MUTEX_TABLE_IDX_DDP_DSI0,
+> +	MUTEX_TABLE_IDX_DDP_DSI1,
+> +	MUTEX_TABLE_IDX_DDP_DSI2,
+> +	MUTEX_TABLE_IDX_DDP_DSI3,
+> +	MUTEX_TABLE_IDX_DDP_DPI0,
+> +	MUTEX_TABLE_IDX_DDP_DPI1,
+> +	MUTEX_TABLE_IDX_DDP_DP_INTF0,
+> +	MUTEX_TABLE_IDX_DDP_DP_INTF1,
+
+If this patch would support DDP, add all DDP index. If this patch does
+not support DDP, remove these.
+
+Regards,
+CK
+
+> +
+> +	MUTEX_TABLE_IDX_MAX		/* ALWAYS keep at the end */
+> +};
+> +
+>  struct mtk_mutex *mtk_mutex_get(struct device *dev);
+>  int mtk_mutex_prepare(struct mtk_mutex *mutex);
+>  void mtk_mutex_add_comp(struct mtk_mutex *mutex,
+>  			enum mtk_ddp_comp_id id);
+> +void mtk_mutex_set_mod(struct mtk_mutex *mutex,
+> +		       enum mtk_mutex_table_index idx);
+> +void mtk_mutex_set_sof(struct mtk_mutex *mutex,
+> +		       enum mtk_mutex_table_index idx);
+>  void mtk_mutex_enable(struct mtk_mutex *mutex);
+>  void mtk_mutex_disable(struct mtk_mutex *mutex);
+>  void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
+>  			   enum mtk_ddp_comp_id id);
+> +void mtk_mutex_clear_mod(struct mtk_mutex *mutex,
+> +			 enum mtk_mutex_table_index idx);
+> +void mtk_mutex_clear_sof(struct mtk_mutex *mutex);
+>  void mtk_mutex_unprepare(struct mtk_mutex *mutex);
+>  void mtk_mutex_put(struct mtk_mutex *mutex);
+>  void mtk_mutex_acquire(struct mtk_mutex *mutex);
 
