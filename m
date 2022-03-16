@@ -2,165 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D54F4DB32D
-	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 15:25:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D5E74DB3A6
+	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 15:49:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347561AbiCPO0c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Mar 2022 10:26:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40234 "EHLO
+        id S1356877AbiCPOua (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Mar 2022 10:50:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235985AbiCPO0b (ORCPT
+        with ESMTP id S1356873AbiCPOu3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Mar 2022 10:26:31 -0400
-Received: from hostingweb31-40.netsons.net (hostingweb31-40.netsons.net [89.40.174.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D7423A1BD;
-        Wed, 16 Mar 2022 07:25:16 -0700 (PDT)
-Received: from [77.244.183.192] (port=63008 helo=[192.168.178.75])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1nUUaQ-000DFG-2U; Wed, 16 Mar 2022 15:25:14 +0100
-Message-ID: <02af807d-c35e-afc6-7a41-22eafd3c46f9@lucaceresoli.net>
-Date:   Wed, 16 Mar 2022 15:25:11 +0100
+        Wed, 16 Mar 2022 10:50:29 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E5F93A19C
+        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 07:49:13 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id p15so4710971ejc.7
+        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 07:49:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GrK4oI0aL0m0aF0KR8HpVMlkXWy3+EkhMGIps7oxctg=;
+        b=eGepqlx2x6laABIAUKkLN3dFp0ta+pgrr3/Ky9x7h/Fuh/VJpoWIGjUCzdSK28wHP2
+         X9ajg2mT4mxxYQTwccanODm6yqSnXiah3xCKj9nFI4nStuVnR4SsNwwYHYNeZROPbzfx
+         g+Q5FcVdREaK8lktXHQfF8WCXRYAa1+U8QSi5m/ztm/aa29NRptbFkdBGPT9JfjYX2iq
+         q/HVIk0thVBelkDwVrrVLP3eQjP5yn0r5eOVX3GJo2Ukzg78X/Mlz4D9CLKEdkvcPKiN
+         0p2lIK7U3/MWhQQM/aaXI+KsPj3b3vMrSaef2ZabEhFr547jbv1i7/zaDla2wS+6riDM
+         Fc/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GrK4oI0aL0m0aF0KR8HpVMlkXWy3+EkhMGIps7oxctg=;
+        b=Yglfvy43x9+PkCuINxxlQEBK6XwRhRu7Ca8ZLDC8xmwClEJGJxmDqbYU8Eb1JN9Fpg
+         zsMuXyZchVrmtbafVizgyyGbpGghJY/j79sDLv/qQfn6/7SWwxbI3na4rc0yaqrpIZD6
+         NlsdRJfLpApk/cY86T/MdrUnYyr3ueS+bGtSkjlPJHg8sSAcywQjiKMq9UxfTqh00wVD
+         UqHRDDl5CTjVYdtCLjPgMWy//VMR/KMr4NfkcfOv1VDKqzOg2sVMV9g+pnsa6yHnu8+m
+         FBat1QUfyTflXMy/dOkkqqHeG2rgY3sqJ+u9KeGvGFwnVABU1/xN6bqrUpPcprFOQmDZ
+         wZyA==
+X-Gm-Message-State: AOAM532qll6cB66/FAgGPS8hGVMGiM0HdQaQNkbQiJr/YkPV9MfrV2T/
+        XbqiJ6w1iBcb/lW5DTLCVbHcQw==
+X-Google-Smtp-Source: ABdhPJyMIMnxC8odPNy1UjAfJDtvUstvou20fBBVuhdUzeTNGd4u0R32pdbVrsqHZGAcBMpet/rAww==
+X-Received: by 2002:a17:907:3d89:b0:6df:802d:df43 with SMTP id he9-20020a1709073d8900b006df802ddf43mr325627ejc.76.1647442151543;
+        Wed, 16 Mar 2022 07:49:11 -0700 (PDT)
+Received: from bismarck.berto.se (p54ac5043.dip0.t-ipconnect.de. [84.172.80.67])
+        by smtp.googlemail.com with ESMTPSA id f26-20020a50ee9a000000b004160c295356sm1084337edr.5.2022.03.16.07.49.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Mar 2022 07:49:11 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] media: rcar-vin: Add check that input interface and format are valid
+Date:   Wed, 16 Mar 2022 15:48:39 +0100
+Message-Id: <20220316144839.2312556-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFCv3 2/6] i2c: add I2C Address Translator (ATR) support
-Content-Language: en-US
-To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
-Cc:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        "Mutanen, Mikko" <Mikko.Mutanen@fi.rohmeurope.com>
-References: <20220206115939.3091265-1-luca@lucaceresoli.net>
- <20220206115939.3091265-3-luca@lucaceresoli.net>
- <a8796cde-e97b-7157-33ac-1b6020053c5d@fi.rohmeurope.com>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-In-Reply-To: <a8796cde-e97b-7157-33ac-1b6020053c5d@fi.rohmeurope.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Matti,
+Add a check to make sure the input interface (CSI-2 or parallel) allow
+for the requested input bus format. If not inform the user and error out
+rather then try to continue with incorrect settings.
 
-On 16/03/22 15:11, Vaittinen, Matti wrote:
-> Hi dee Ho peeps!
-> 
-> On 2/6/22 13:59, Luca Ceresoli wrote:
->> An ATR is a device that looks similar to an i2c-mux: it has an I2C
->> slave "upstream" port and N master "downstream" ports, and forwards
->> transactions from upstream to the appropriate downstream port. But is
->> is different in that the forwarded transaction has a different slave
->> address. The address used on the upstream bus is called the "alias"
->> and is (potentially) different from the physical slave address of the
->> downstream chip.
->>
->> Add a helper file (just like i2c-mux.c for a mux or switch) to allow
->> implementing ATR features in a device driver. The helper takes care or
->> adapter creation/destruction and translates addresses at each transaction.
->>
-> 
-> snip
-> 
->> diff --git a/drivers/i2c/Kconfig b/drivers/i2c/Kconfig
->> index 438905e2a1d0..c6d1a345ea6d 100644
->> --- a/drivers/i2c/Kconfig
->> +++ b/drivers/i2c/Kconfig
->> @@ -71,6 +71,15 @@ config I2C_MUX
->>   
->>   source "drivers/i2c/muxes/Kconfig"
->>   
->> +config I2C_ATR
->> +	tristate "I2C Address Translator (ATR) support"
->> +	help
->> +	  Enable support for I2C Address Translator (ATR) chips.
->> +
->> +	  An ATR allows accessing multiple I2C busses from a single
->> +	  physical bus via address translation instead of bus selection as
->> +	  i2c-muxes do.
->> +
-> 
-> I continued playing with the ROHM (de-)serializer and ended up having 
-> .config where the I2C_ATR was ='m', while my ATR driver was ='y' even 
-> though it selects the I2C_ATR.
-> 
-> Yep, most probably my error somewhere.
-> 
-> Anyways, this made me think that most of the I2C_ATR users are likely to 
-> just silently select the I2C_ATR, right? The I2C_ATR has no much reason 
-> to be compiled in w/o users, right? So perhaps the menu entry for 
-> selecting the I2C_ATR could be dropped(?) Do we really need this entry 
-> in already long list of configs to be manually picked?
+While at it add the missing define for RGB666 that is not yet supported
+in the driver but we can preemptively check for it in this context
+already.
 
-Maybe we could make it a blind option, sure. The only reason it could be
-useful that it's visible is that one might implement a user driver could
-be written out of tree. I don't care very much about that, but it is
-possible. Maybe it's the reason for I2C_MUX to be a visible option too.
-Peter?
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/platform/rcar-vin/rcar-dma.c | 25 ++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
->> +struct i2c_atr *i2c_atr_new(struct i2c_adapter *parent, struct device *dev,
->> +			    const struct i2c_atr_ops *ops, int max_adapters)
->> +{
->> +	struct i2c_atr *atr;
->> +
->> +	if (!ops || !ops->attach_client || !ops->detach_client)
->> +		return ERR_PTR(-EINVAL);
->> +
-> 
-> I believe that most of the attach_client implementations will have 
-> similar approach of allocating and populating an address-pool and 
-> searching for first unused address. As a 'further dev' it'd be great to 
-> see a common helper implementation for attach/detach - perhaps so that 
-> the atr drivers would only need to specify the slave-address 
-> configuration register(s) / mask and the use a 'generic' attach/detach 
-> helpers. Well, just thinking how to reduce the code from actual IC 
-> drivers but this is really not something that is required during this 
-> initial series :)
-> 
-> Also, devm-variants would be great - although that falls to the same 
-> category of things that do not need to be done immediately - but would 
-> perhaps be worth considering in the future.
-
-Both of your proposals make sense, however I did deliberately not
-generalize too much because I knew only one chipset. I don't like trying
-to generalize for an unpredictable future use case, it generally leads
-(me) to generalizing in the wrong direction. That means you'd be very
-welcome to propose helpers and/or devm variants, possibly in the same
-patchset as the first Rohm serdes driver. ;)
-
-> Reviewed-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-
-Thanks for your review!
-
+diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+index 8136bc75e7c47cdd..950cadd7c3133ba1 100644
+--- a/drivers/media/platform/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+@@ -77,6 +77,7 @@
+ 
+ /* Register bit fields for R-Car VIN */
+ /* Video n Main Control Register bits */
++#define VNMC_INF_MASK		(7 << 16)
+ #define VNMC_DPINE		(1 << 27) /* Gen3 specific */
+ #define VNMC_SCLE		(1 << 26) /* Gen3 specific */
+ #define VNMC_FOC		(1 << 21)
+@@ -88,6 +89,7 @@
+ #define VNMC_INF_RAW8		(4 << 16)
+ #define VNMC_INF_YUV16		(5 << 16)
+ #define VNMC_INF_RGB888		(6 << 16)
++#define VNMC_INF_RGB666		(7 << 16)
+ #define VNMC_VUP		(1 << 10)
+ #define VNMC_IM_ODD		(0 << 3)
+ #define VNMC_IM_ODD_EVEN	(1 << 3)
+@@ -707,6 +709,29 @@ static int rvin_setup(struct rvin_dev *vin)
+ 		break;
+ 	}
+ 
++	/* Make sure input interface and input format is valid. */
++	if (vin->info->model == RCAR_GEN3) {
++		switch (vnmc & VNMC_INF_MASK) {
++		case VNMC_INF_YUV8_BT656:
++		case VNMC_INF_YUV10_BT656:
++		case VNMC_INF_YUV16:
++		case VNMC_INF_RGB666:
++			if (vin->is_csi) {
++				vin_err(vin, "Invalid setting in MIPI CSI2\n");
++				return -EINVAL;
++			}
++			break;
++		case VNMC_INF_RAW8:
++			if (!vin->is_csi) {
++				vin_err(vin, "Invalid setting in Digital Pins\n");
++				return -EINVAL;
++			}
++			break;
++		default:
++			break;
++		}
++	}
++
+ 	/* Enable VSYNC Field Toggle mode after one VSYNC input */
+ 	if (vin->info->model == RCAR_GEN3)
+ 		dmr2 = VNDMR2_FTEV;
 -- 
-Luca
+2.35.1
+
