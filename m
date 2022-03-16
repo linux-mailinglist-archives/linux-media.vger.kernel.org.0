@@ -2,131 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 715A54DB0C9
-	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 14:14:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 415714DB164
+	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 14:26:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356117AbiCPNPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Mar 2022 09:15:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46768 "EHLO
+        id S235852AbiCPN2E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Mar 2022 09:28:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231411AbiCPNPW (ORCPT
+        with ESMTP id S1356390AbiCPN15 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Mar 2022 09:15:22 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 223172FFF4;
-        Wed, 16 Mar 2022 06:14:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BFA6EB81AF1;
-        Wed, 16 Mar 2022 13:14:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68261C340E9;
-        Wed, 16 Mar 2022 13:14:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647436445;
-        bh=PPEdrkC2g3AuMzIflKtsmZp90mDJiQKJzTZHqWU7j2U=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=dsQEHOPi4VCSBnpZQFMtW9oY+THFPTyhl3Y/NRkS65ZWneiV0VUm9UOuKn/GC4XO6
-         MIkWB9Hum2j9HAl2keiGrrH17W3rHooUubujo4wvxFVpETB4uzHtkiRR8EzibKmvMq
-         7ZBNg+uZpMGItP3htNY/EPIb2WVVhKufl49dNTWzxmSN3qzHWuQiq3vZkZnWApI5CI
-         nx0i4JWp1RSM+0Dwu2WSPz+fPLdfHC6MGWzz9LWZxFgEZUxz+xfkOYa07uw2IWJPEf
-         02hMl7yIkzBtmyJrTM4n2CrLmW0yv9/4EOJq21Q2SgaTXs9opGPrVJBKaa9hMhnPbS
-         aLwgaUe5PWmVw==
-Date:   Wed, 16 Mar 2022 14:13:57 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Jia-Ju Bai <baijiaju1990@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Ming Qian <ming.qian@nxp.com>,
-        Ondrej Jirman <megous@megous.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Wed, 16 Mar 2022 09:27:57 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078345FF2E;
+        Wed, 16 Mar 2022 06:26:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647437203; x=1678973203;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vnRswGehRJLFAaBCzvBCJdjOnc3qj7r4WnbNFLMazzs=;
+  b=bLsjJb77BDQAz8l4zvmsDoGWXO2wyOzRjtM+EjqJDhMcW/wZ80J5iO1G
+   rpO6ca7jQfR4ztX+PJHiBOwmuTq2KzuSMpNsz4cF/qZNiGHjl84H7K3z/
+   XuxvpUrshvf43G7Kt1ZBmNfPiLKB51pUYs84rb5587bJv28QXnqwFIxg2
+   nWvhElsTCk+O/fDJJGcX3vkDsuhIeHubgcWdOHUeVfXvlX3tdlRxRtNvD
+   4boyTXbJ5Mdn/aSYIo3IOu1Weu9YXpmC9IIbVe4Gp+aPFPiexo1dy7UX2
+   P5NaGN69CidL7a3bl+Ea7LrGWBcq0r1YIe4Jg552XhapjAyQf3DyAa/Ty
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256311559"
+X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; 
+   d="scan'208";a="256311559"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 06:26:41 -0700
+X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; 
+   d="scan'208";a="634975950"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 06:26:36 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id A50C620090;
+        Wed, 16 Mar 2022 15:26:34 +0200 (EET)
+Date:   Wed, 16 Mar 2022 15:26:34 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
         Yong Deng <yong.deng@magewell.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 47/67] media: platform: rename sunxi/ to allwinner/
-Message-ID: <20220316141357.2a460bf3@coco.lan>
-In-Reply-To: <5701348.MhkbZ0Pkbq@kista>
-References: <cover.1647274406.git.mchehab@kernel.org>
-        <20220315092736.7e805c81@coco.lan>
-        <YjBPuafv1B5dbu/r@pendragon.ideasonboard.com>
-        <5701348.MhkbZ0Pkbq@kista>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 7/9] dt-bindings: media: Add Allwinner A83T MIPI CSI-2
+ bindings documentation
+Message-ID: <YjHlisNfdobeAta7@paasikivi.fi.intel.com>
+References: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
+ <20220302220739.144303-8-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220302220739.144303-8-paul.kocialkowski@bootlin.com>
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 15 Mar 2022 19:04:05 +0100
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> escreveu:
+Hi Paul,
 
-> > > By organizing entries per vendor, while we may need to do puntual
-> > > per-vendor adjustments when they rename and change IP with other
-> > > vendors, the global platform Kconfig/Make will contain a single entry
-> > > per vendor. I can't foresee any need to change this in the future,
-> > > if we take care of keeping the entries there properly sorted.
-> > >=20
-> > > With regards to naming the per-vendor directory, while I do prefer to=
- have
-> > > the  directories named after the vendor, and not after a vendor's nic=
-k=20
-> > > name, It should also be ok to use a vendor's nick name, provided that=
-=20
-> > > such name is meant to be used by all their current and future IP.
-> > >=20
-> > > Not sure if "sunxi" is actually a vendor's nick name. It sounds
-> > > much likely that it is, instead, a brand name that covers their=20
-> > > current media-related SoC.=20
-> > >=20
-> > > Can someone from the vendor shed a light on it? =20
->=20
-> Allwinner (as a company) isn't directly involved in maintaining upstream =
-Linux=20
-> support. Drivers are provided by linux-sunxi community, sometimes by clea=
-ning=20
-> up vendor drivers or more often by writing them from scratch.
->=20
-> That being said, "sunxi" is extensively used in vendor kernel, most often=
- it's=20
-> directory name containing vendor specific driver. It's derived from SoC f=
-amily=20
-> name, like sun4i, sun5i, sun5i, sun50i, etc. where number is replaced wit=
-h X.
->=20
-> sunxi is synonym for Allwinner basically from the start. Community build=
-=20
-> around these SoCs is called linux-sunxi and even entry in MAINTAINERS con=
-tains=20
-> both names: "ARM/Allwinner sunXi SoC support". Note that sunxi is not lim=
-ited=20
-> to ARM SoCs. RISC-V family is called sun20i.
->=20
-> Hope this helps.
+Thanks for the patch.
 
-Ok, so let's then keep it named as "sunxi", and place all drivers from=20
-Allwinner there.
+On Wed, Mar 02, 2022 at 11:07:37PM +0100, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A83T
+> MIPI CSI-2 controller.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 138 ++++++++++++++++++
+>  1 file changed, 138 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+> new file mode 100644
+> index 000000000000..75121b402435
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+> @@ -0,0 +1,138 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/allwinner,sun8i-a83t-mipi-csi2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner A83T MIPI CSI-2 Device Tree Bindings
+> +
+> +maintainers:
+> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: allwinner,sun8i-a83t-mipi-csi2
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Bus Clock
+> +      - description: Module Clock
+> +      - description: MIPI-specific Clock
+> +      - description: Misc CSI Clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bus
+> +      - const: mod
+> +      - const: mipi
+> +      - const: misc
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: Input port, connect to a MIPI CSI-2 sensor
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
 
-Thanks,
-Mauro
+Does the hardware support lane reordering? If not, the property should be
+omitted here.
+
+I can also remove the three lines here while applying the patches.
+
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +        additionalProperties: false
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: Output port, connect to a CSI controller
+> +
+> +        properties:
+> +          reg:
+> +            const: 1
+> +
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +        additionalProperties: false
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
+> +    #include <dt-bindings/reset/sun8i-a83t-ccu.h>
+> +
+> +    mipi_csi2: csi@1cb1000 {
+> +        compatible = "allwinner,sun8i-a83t-mipi-csi2";
+> +        reg = <0x01cb1000 0x1000>;
+> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&ccu CLK_BUS_CSI>,
+> +                 <&ccu CLK_CSI_SCLK>,
+> +                 <&ccu CLK_MIPI_CSI>,
+> +                 <&ccu CLK_CSI_MISC>;
+> +        clock-names = "bus", "mod", "mipi", "misc";
+> +        resets = <&ccu RST_BUS_CSI>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            mipi_csi2_in: port@0 {
+> +                reg = <0>;
+> +
+> +                mipi_csi2_in_ov8865: endpoint {
+> +                    data-lanes = <1 2 3 4>;
+> +
+> +                    remote-endpoint = <&ov8865_out_mipi_csi2>;
+> +                };
+> +            };
+> +
+> +            mipi_csi2_out: port@1 {
+> +                reg = <1>;
+> +
+> +                mipi_csi2_out_csi: endpoint {
+> +                    remote-endpoint = <&csi_in_mipi_csi2>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+
+-- 
+Kind regards,
+
+Sakari Ailus
