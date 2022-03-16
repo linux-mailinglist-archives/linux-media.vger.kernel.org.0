@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 415714DB164
-	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 14:26:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4A454DB168
+	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 14:27:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235852AbiCPN2E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Mar 2022 09:28:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49880 "EHLO
+        id S1349539AbiCPN2p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Mar 2022 09:28:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356390AbiCPN15 (ORCPT
+        with ESMTP id S238803AbiCPN2o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Mar 2022 09:27:57 -0400
+        Wed, 16 Mar 2022 09:28:44 -0400
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078345FF2E;
-        Wed, 16 Mar 2022 06:26:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5237D60074;
+        Wed, 16 Mar 2022 06:27:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647437203; x=1678973203;
+  t=1647437250; x=1678973250;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vnRswGehRJLFAaBCzvBCJdjOnc3qj7r4WnbNFLMazzs=;
-  b=bLsjJb77BDQAz8l4zvmsDoGWXO2wyOzRjtM+EjqJDhMcW/wZ80J5iO1G
-   rpO6ca7jQfR4ztX+PJHiBOwmuTq2KzuSMpNsz4cF/qZNiGHjl84H7K3z/
-   XuxvpUrshvf43G7Kt1ZBmNfPiLKB51pUYs84rb5587bJv28QXnqwFIxg2
-   nWvhElsTCk+O/fDJJGcX3vkDsuhIeHubgcWdOHUeVfXvlX3tdlRxRtNvD
-   4boyTXbJ5Mdn/aSYIo3IOu1Weu9YXpmC9IIbVe4Gp+aPFPiexo1dy7UX2
-   P5NaGN69CidL7a3bl+Ea7LrGWBcq0r1YIe4Jg552XhapjAyQf3DyAa/Ty
+  bh=H3eR4ffkE3oVB+3S4NOOn5kmmmYiIAis+JFyVC1vbpw=;
+  b=P3Ws47T2bKBbSeRULSuEwPm3kMr5/uapAOAwGnDUx6K45ZzQR2m29ZmO
+   Y2KYswG8xbyKrFkOQFeaa+8ouLCwkQN/U2s94OtIihyj/8qz7MQMnENOt
+   87P7ADIa6i0M5Zv6esN+/lOKJQXuvlIeGIIVvOIVXUvXJxHmvAv5L+2zw
+   ldmP/l5XRfzii5nfuGLUtu+eRUrUwTmk7/Qhvnok0i35rQtcwWou6hRIm
+   nOvnabEWlo5KxUbPsnjVu6mrlj1vszH4V3bJIa+TV9Ij4ehhfKnioNx+k
+   O4mQa7PDB8SKV8oochnU+2gmHaQ2KE+EookRcDk9MVLgGBzyLmDa8vus/
    g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256311559"
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256311786"
 X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; 
-   d="scan'208";a="256311559"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 06:26:41 -0700
+   d="scan'208";a="256311786"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 06:27:30 -0700
 X-IronPort-AV: E=Sophos;i="5.90,186,1643702400"; 
-   d="scan'208";a="634975950"
+   d="scan'208";a="516331411"
 Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 06:26:36 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 06:27:25 -0700
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id A50C620090;
-        Wed, 16 Mar 2022 15:26:34 +0200 (EET)
-Date:   Wed, 16 Mar 2022 15:26:34 +0200
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 2EEEA20090;
+        Wed, 16 Mar 2022 15:27:23 +0200 (EET)
+Date:   Wed, 16 Mar 2022 15:27:23 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -56,17 +56,16 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Kishon Vijay Abraham I <kishon@ti.com>,
         Vinod Koul <vkoul@kernel.org>,
         Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 7/9] dt-bindings: media: Add Allwinner A83T MIPI CSI-2
- bindings documentation
-Message-ID: <YjHlisNfdobeAta7@paasikivi.fi.intel.com>
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 5/9] media: sunxi: Add support for the A31 MIPI CSI-2
+ controller
+Message-ID: <YjHluwVnbPyHo1kp@paasikivi.fi.intel.com>
 References: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
- <20220302220739.144303-8-paul.kocialkowski@bootlin.com>
+ <20220302220739.144303-6-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220302220739.144303-8-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20220302220739.144303-6-paul.kocialkowski@bootlin.com>
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
@@ -79,169 +78,109 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Paul,
 
-Thanks for the patch.
+Thanks for the set.
 
-On Wed, Mar 02, 2022 at 11:07:37PM +0100, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the Allwinner A83T
-> MIPI CSI-2 controller.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 138 ++++++++++++++++++
->  1 file changed, 138 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
-> new file mode 100644
-> index 000000000000..75121b402435
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
-> @@ -0,0 +1,138 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/allwinner,sun8i-a83t-mipi-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+On Wed, Mar 02, 2022 at 11:07:35PM +0100, Paul Kocialkowski wrote:
+...
+> +static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+> +{
+> +	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
+> +	struct v4l2_subdev *source_subdev = csi2_dev->bridge.source_subdev;
+> +	union phy_configure_opts dphy_opts = { 0 };
+> +	struct phy_configure_opts_mipi_dphy *dphy_cfg = &dphy_opts.mipi_dphy;
+> +	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
+> +	const struct sun6i_mipi_csi2_format *format;
+> +	struct phy *dphy = csi2_dev->dphy;
+> +	struct device *dev = csi2_dev->dev;
+> +	struct v4l2_ctrl *ctrl;
+> +	unsigned int lanes_count =
+> +		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+> +	unsigned long pixel_rate;
+> +	/* Initialize to 0 to use both in disable label (ret != 0) and off. */
+> +	int ret = 0;
 > +
-> +title: Allwinner A83T MIPI CSI-2 Device Tree Bindings
+> +	if (!source_subdev)
+> +		return -ENODEV;
 > +
-> +maintainers:
-> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> +	if (!on) {
+> +		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+> +		goto disable;
+> +	}
 > +
-> +properties:
-> +  compatible:
-> +    const: allwinner,sun8i-a83t-mipi-csi2
+> +	/* Runtime PM */
 > +
-> +  reg:
-> +    maxItems: 1
+> +	ret = pm_runtime_resume_and_get(dev);
+> +	if (ret < 0)
+> +		return ret;
 > +
-> +  interrupts:
-> +    maxItems: 1
+> +	/* Sensor Pixel Rate */
 > +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +      - description: MIPI-specific Clock
-> +      - description: Misc CSI Clock
+> +	ctrl = v4l2_ctrl_find(source_subdev->ctrl_handler, V4L2_CID_PIXEL_RATE);
+> +	if (!ctrl) {
+> +		dev_err(dev, "missing sensor pixel rate\n");
+> +		ret = -ENODEV;
+> +		goto error_pm;
+> +	}
 > +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +      - const: mipi
-> +      - const: misc
+> +	pixel_rate = (unsigned long)v4l2_ctrl_g_ctrl_int64(ctrl);
+> +	if (!pixel_rate) {
+> +		dev_err(dev, "missing (zero) sensor pixel rate\n");
+> +		ret = -ENODEV;
+> +		goto error_pm;
+> +	}
 > +
-> +  resets:
-> +    maxItems: 1
+> +	/* D-PHY */
 > +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: Input port, connect to a MIPI CSI-2 sensor
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              clock-lanes:
-> +                maxItems: 1
+> +	if (!lanes_count) {
 
-Does the hardware support lane reordering? If not, the property should be
-omitted here.
+I first thought this check could be moved to the beginning, but it's also
+redundant. v4l2_fwnode_endpoint_parse() will check the configuration is
+valid, i.e. the number of lanes is not zero.
 
-I can also remove the three lines here while applying the patches.
+But should you add checks to make sure the hardware supports what has been
+configured? I'd do that right after parsing the endpoint.
 
+And you only seem to be using the number of data lanes, nothing more. So
+I'd store that, instead of the entire parsed v4l2_fwnode_endpoint.
+
+The same applies to patch 8.
+
+I think these could be done on top of this set after it is merged. Up to
+you.
+
+...
+
+> +static int
+> +sun6i_mipi_csi2_bridge_source_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+> +{
+> +	struct v4l2_async_notifier *notifier = &csi2_dev->bridge.notifier;
+> +	struct v4l2_fwnode_endpoint *endpoint = &csi2_dev->bridge.endpoint;
+> +	struct v4l2_async_subdev *subdev_async;
+> +	struct fwnode_handle *handle;
+> +	struct device *dev = csi2_dev->dev;
+> +	int ret;
 > +
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
+> +	handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
+> +						 FWNODE_GRAPH_ENDPOINT_NEXT);
+> +	if (!handle)
+> +		return -ENODEV;
 > +
-> +            required:
-> +              - data-lanes
+> +	endpoint->bus_type = V4L2_MBUS_CSI2_DPHY;
 > +
-> +        additionalProperties: false
+> +	ret = v4l2_fwnode_endpoint_parse(handle, endpoint);
+> +	if (ret)
+> +		goto complete;
 > +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: Output port, connect to a CSI controller
+> +	subdev_async = v4l2_async_nf_add_fwnode_remote(notifier, handle,
+> +		struct v4l2_async_subdev);
+> +	if (IS_ERR(subdev_async))
+> +		ret = PTR_ERR(subdev_async);
 > +
-> +        properties:
-> +          reg:
-> +            const: 1
+> +complete:
+> +	fwnode_handle_put(handle);
 > +
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +        additionalProperties: false
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
-> +    #include <dt-bindings/reset/sun8i-a83t-ccu.h>
-> +
-> +    mipi_csi2: csi@1cb1000 {
-> +        compatible = "allwinner,sun8i-a83t-mipi-csi2";
-> +        reg = <0x01cb1000 0x1000>;
-> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ccu CLK_BUS_CSI>,
-> +                 <&ccu CLK_CSI_SCLK>,
-> +                 <&ccu CLK_MIPI_CSI>,
-> +                 <&ccu CLK_CSI_MISC>;
-> +        clock-names = "bus", "mod", "mipi", "misc";
-> +        resets = <&ccu RST_BUS_CSI>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            mipi_csi2_in: port@0 {
-> +                reg = <0>;
-> +
-> +                mipi_csi2_in_ov8865: endpoint {
-> +                    data-lanes = <1 2 3 4>;
-> +
-> +                    remote-endpoint = <&ov8865_out_mipi_csi2>;
-> +                };
-> +            };
-> +
-> +            mipi_csi2_out: port@1 {
-> +                reg = <1>;
-> +
-> +                mipi_csi2_out_csi: endpoint {
-> +                    remote-endpoint = <&csi_in_mipi_csi2>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+> +	return ret;
+> +}
 
 -- 
 Kind regards,
