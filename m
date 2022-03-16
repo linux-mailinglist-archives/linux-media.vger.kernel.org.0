@@ -2,95 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 028914DA6BE
-	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 01:16:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E6384DA79C
+	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 02:53:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351218AbiCPAPb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Mar 2022 20:15:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55504 "EHLO
+        id S1353040AbiCPBzD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Mar 2022 21:55:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344418AbiCPAPa (ORCPT
+        with ESMTP id S1353034AbiCPBzD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Mar 2022 20:15:30 -0400
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB3B91CFF7;
-        Tue, 15 Mar 2022 17:14:16 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0V7JcKdl_1647389652;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0V7JcKdl_1647389652)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 16 Mar 2022 08:14:13 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     mchehab@kernel.org
-Cc:     matthias.bgg@gmail.com, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] media: platform: Remove unnecessary print function dev_err()
-Date:   Wed, 16 Mar 2022 08:14:11 +0800
-Message-Id: <20220316001411.80167-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 15 Mar 2022 21:55:03 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB2933EAE;
+        Tue, 15 Mar 2022 18:53:50 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id mv2-20020a17090b198200b001c65bae5744so85356pjb.5;
+        Tue, 15 Mar 2022 18:53:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=Xg15yRMMviMUzCglDMY0HU4537JOOxmewNboEJ+Yvmc=;
+        b=GN96DWJnWxNOD0u11hog6ZGPYYlLhk60WwKms/taP8LsrGfAGw3YhwVt3nV7ogpKoM
+         wP34cx/jyovqeszzWM/cE/AeDAya+iwKyWi3cQwfq2Dli3nJyuJXQDhHFh2ugfDBnstQ
+         oEkYWhO9R4wXixYXLWajaMfzG9WllB/0lkk5Wzf7speXHBkynv6H0zzqjR1OZwyrKtZS
+         gWWMyFj1y/LxutvVtIylzZFIFSAh8xrSdyZafU/prn6JSaD81k5Dho4ABiRx3oiI7Z90
+         x/xHaMBGGYp2Gf0SOouDNta2vDF2ZlP+imS3RZvMR13naGbkngsCoc72jJcMLQe2LYwR
+         Rr0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Xg15yRMMviMUzCglDMY0HU4537JOOxmewNboEJ+Yvmc=;
+        b=IvvNhXVhu32iAQzb1Os5LAi4qqfiDQQC7nX0d2/foG5KaetvQXQ1h6YQ4ASHw/9amg
+         hJ4igbDtNhetokTr2KKqWLD3gqH6dYqRAL8Zkw4yPxFuSJ3DcA9+zD3fPHvkN/dbjFNd
+         ymmMByPWQ/DErJ8qgR1jucR7YGnEykf5T2mitkwoigaVrN/KKrqjVJZznrwFC5dbeqou
+         exNUSj2j3EEjl6/ew2648W+Q8RmmGQVvo9u612z4l1O+nb5tSF/L7Xj9JdPcPMWnD7Fl
+         VFgeSEJtEehYijRARVir0fnUoTO9CWMuWwb5ADcQehJNZ3WePmP2eFQoyDFvmMxe/y9p
+         mP0A==
+X-Gm-Message-State: AOAM530a4RT7G/rugBWZCt92nIZOg73lqvVr6gYjhJoGX/Oqhx2N4nul
+        1SsakFjh0pn7eaSgQVf4TNO0HCEkmbQ1Neuecjo=
+X-Google-Smtp-Source: ABdhPJyCqm/iPBayX1NkaXkG7E6Q84g5TtKGOSYe9QvfuFM8fB8UglAAnVh10BeyH4UIhj9wU+vcjQ==
+X-Received: by 2002:a17:90b:17ca:b0:1bf:6188:cc00 with SMTP id me10-20020a17090b17ca00b001bf6188cc00mr7920821pjb.2.1647395629762;
+        Tue, 15 Mar 2022 18:53:49 -0700 (PDT)
+Received: from localhost.localdomain ([159.226.95.43])
+        by smtp.googlemail.com with ESMTPSA id i15-20020a63b30f000000b003803aee35a2sm533256pgf.31.2022.03.15.18.53.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Mar 2022 18:53:49 -0700 (PDT)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Kyunmin Park <kyungmin.park@samsung.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linmq006@gmail.com
+Subject: [PATCH] media: exynos4-is: Change clk_disable to clk_disable_unprepare
+Date:   Wed, 16 Mar 2022 01:53:44 +0000
+Message-Id: <20220316015344.5120-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The print function dev_err() is redundant because platform_get_irq()
-already prints an error.
+The corresponding API for clk_prepare_enable is clk_disable_unprepare,
+other than clk_disable_unprepare.
 
-Eliminate the follow coccicheck warnings:
-./drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c:119:2-9:
-line 119 is redundant because platform_get_irq() already prints an error
-./drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c:103:2-9:
-line 103 is redundant because platform_get_irq() already prints an error
+Fix this by changing clk_disable to clk_disable_unprepare.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Fixes: b4155d7d5b2c ("[media] exynos4-is: Ensure fimc-is clocks are not enabled until properly configured")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 ---
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 4 +---
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c  | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ drivers/media/platform/exynos4-is/fimc-is.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-index 48dad9bb13d2..df7b25e9cbc8 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-@@ -115,10 +115,8 @@ static int mtk_vcodec_init_dec_resources(struct mtk_vcodec_dev *dev)
- 		return 0;
- 
- 	dev->dec_irq = platform_get_irq(pdev, 0);
--	if (dev->dec_irq < 0) {
--		dev_err(&pdev->dev, "failed to get irq number");
-+	if (dev->dec_irq < 0)
- 		return dev->dec_irq;
--	}
- 
- 	irq_set_status_flags(dev->dec_irq, IRQ_NOAUTOEN);
- 	ret = devm_request_irq(&pdev->dev, dev->dec_irq,
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
-index 8d2a641d92f1..5f07313676bb 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
-@@ -99,10 +99,8 @@ static int mtk_vdec_hw_init_irq(struct mtk_vdec_hw_dev *dev)
- 	int ret;
- 
- 	dev->dec_irq = platform_get_irq(pdev, 0);
--	if (dev->dec_irq < 0) {
--		dev_err(&pdev->dev, "Failed to get irq resource");
-+	if (dev->dec_irq < 0)
- 		return dev->dec_irq;
--	}
- 
- 	irq_set_status_flags(dev->dec_irq, IRQ_NOAUTOEN);
- 	ret = devm_request_irq(&pdev->dev, dev->dec_irq,
+diff --git a/drivers/media/platform/exynos4-is/fimc-is.c b/drivers/media/platform/exynos4-is/fimc-is.c
+index e55e411038f4..8e88b0f6662d 100644
+--- a/drivers/media/platform/exynos4-is/fimc-is.c
++++ b/drivers/media/platform/exynos4-is/fimc-is.c
+@@ -140,7 +140,7 @@ static int fimc_is_enable_clocks(struct fimc_is *is)
+ 			dev_err(&is->pdev->dev, "clock %s enable failed\n",
+ 				fimc_is_clocks[i]);
+ 			for (--i; i >= 0; i--)
+-				clk_disable(is->clocks[i]);
++				clk_disable_unprepare(is->clocks[i]);
+ 			return ret;
+ 		}
+ 		pr_debug("enabled clock: %s\n", fimc_is_clocks[i]);
 -- 
-2.20.1.7.g153144c
+2.17.1
 
