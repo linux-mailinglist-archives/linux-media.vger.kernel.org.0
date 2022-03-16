@@ -2,179 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B30FC4DAC32
-	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 09:04:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08DBA4DAC35
+	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 09:04:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242259AbiCPIFp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Mar 2022 04:05:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34692 "EHLO
+        id S1347637AbiCPIGA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Mar 2022 04:06:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237841AbiCPIFn (ORCPT
+        with ESMTP id S245632AbiCPIF7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Mar 2022 04:05:43 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E558B5E773
-        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 01:04:29 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 75AC820B21;
-        Wed, 16 Mar 2022 10:04:27 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1647417867;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=SfC0TV4jGxLS+sCGag4EFcmiFeKayyLwllvD8xMOiB0=;
-        b=sWjRPxPN111nQ5xc6pSofjJ1IrfJsRp2I+epoYk9xhLtH4XatXwNG/Zzdda5UjqfxplUd6
-        /30XOJcpV51pd3Ml0s6vei12NnnNe1aZEcYuu/vw/revb1Ltc/SZ2kr6jufk7Qru+27Dv7
-        JFNA+o8RDOw1qkC4f5k9GwKly7TCM2w=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A738C634C90;
-        Wed, 16 Mar 2022 10:04:26 +0200 (EET)
-Date:   Wed, 16 Mar 2022 10:04:26 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        krzysztof.kozlowski@canonical.com,
-        jeanmichel.hautbois@ideasonboard.com,
-        paul.kocialkowski@bootlin.com, paul.elder@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v2 3/8] media: i2c: ov5670: Probe clocks with OF
-Message-ID: <YjGaCjIjs3u10JY5@valkosipuli.retiisi.eu>
-References: <20220314162714.153970-1-jacopo@jmondi.org>
- <20220314162714.153970-4-jacopo@jmondi.org>
- <YjBKQrdiOo1/EWck@pendragon.ideasonboard.com>
- <20220315084618.ol6ekvgvn5ldgif7@uno.localdomain>
- <YjBUybAyqnBRdI+v@pendragon.ideasonboard.com>
+        Wed, 16 Mar 2022 04:05:59 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 802035E775
+        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 01:04:45 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a8so2413344ejc.8
+        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 01:04:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=r+BKzQ5VcnkpXh3L9rfiU1fCPQ3+SKfhOrD6+TlJ+20=;
+        b=Lh0RdbmqOYk+/5AzuCC/gQco8sqH0r4b19ByZI7ZEhBT4cqr6Xx8ziYIKgrV+eHYXa
+         L48gvqzR5VGc6yxtdXVLiOHcwKD9LfXfs7MJyYwmJMZuMmFYV82GjwW98hdCJwFUlDWL
+         VD8Q5hy9EP7P/eW2Kwx/aQgBWlfeYWGx7+Cqw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=r+BKzQ5VcnkpXh3L9rfiU1fCPQ3+SKfhOrD6+TlJ+20=;
+        b=iK/9TLFftrDMPjGslGXNg8XNpy94zb6y+Ogi5X/NX2d1evHuzwV2P+MMRl1xpRjBLr
+         vYQSiINTX1Qao7zkQo1XbF+f4ZPGz3HFCWDpNTa19AK+VLQq7/sUdFnpKk2y3qk9z87u
+         MCX6tt88rCywroIjBvzpaa6+GAwLuDZIGALUvNRkj0YaupJPMpml/mhdMtGhWIzGUArU
+         O/3O3J0+4QxNCnQQgQE2tdvrE6nLTQ8vmZcmAtoiF15oeZ3Ec/vHBbanmwM716TTd/1A
+         VW+9lj0LsF6Za14Htgk1BcV7k+TPcJcvHtIXwR2rANuEght27/2uP/lNGUyrfs8M1MSC
+         BpOA==
+X-Gm-Message-State: AOAM532bE5w0b0sn+thPJnYG8/QroXJkPElXF499PTfs5s+65a9GpIhw
+        FEYdfL56CsHJMei5qlR/8a3sIzye1RyKHQ==
+X-Google-Smtp-Source: ABdhPJz80YBJQ3KqLpzQC0B8Nz1qO/A1f3NZsQ9gs29ZHsDwMU1V1yH1ttezxZZ/297lgiKgrqueFA==
+X-Received: by 2002:a17:907:3f8d:b0:6d5:bb03:c4c6 with SMTP id hr13-20020a1709073f8d00b006d5bb03c4c6mr26220060ejc.680.1647417884008;
+        Wed, 16 Mar 2022 01:04:44 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
+        by smtp.gmail.com with ESMTPSA id sh42-20020a1709076eaa00b006df78692a9csm546992ejc.94.2022.03.16.01.04.42
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Mar 2022 01:04:43 -0700 (PDT)
+Received: by mail-ed1-f49.google.com with SMTP id b15so1704592edn.4
+        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 01:04:42 -0700 (PDT)
+X-Received: by 2002:a05:6402:278f:b0:416:a887:9853 with SMTP id
+ b15-20020a056402278f00b00416a8879853mr28633767ede.44.1647417882462; Wed, 16
+ Mar 2022 01:04:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YjBUybAyqnBRdI+v@pendragon.ideasonboard.com>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1647417867; a=rsa-sha256; cv=none;
-        b=EG3fvNLqOtL4ZPSWOOX8V3TGwbVRKZu539NwFVEexsRUCu8WJuRU72Lz3yuQd34ApJBai3
-        RDGZrhwxXnOJ3G1+7szv+Ewece7EWxuPWWebzwLnw1/KbQpn8GFAX8+M7feXKSNNvmubUt
-        xHwuK0zzJnvTLzFh3vIhgvCnUb3gi0o=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1647417867;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=SfC0TV4jGxLS+sCGag4EFcmiFeKayyLwllvD8xMOiB0=;
-        b=k6SIrRPTfl3iKzyE3vlqLWvjtJY3B0WFUeJAjxgfS8pDEQws2CtPsVOtdJAYUYDwU1++zV
-        6Zor9N2OXorboL6WFknOxg/RlsoBVhCTdVAquSx8SqYkS7RbYlXZuKRLuyMamSFN/T6pIb
-        3cJm//APazXJRH83CPxsplisgeEX6+o=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220315222146.1051303-1-j.neuschaefer@gmx.net>
+In-Reply-To: <20220315222146.1051303-1-j.neuschaefer@gmx.net>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 16 Mar 2022 09:04:30 +0100
+X-Gmail-Original-Message-ID: <CANiDSCumFwO3WX76BtS0gS3=CdDSJEFQ56yX7LqLOpJzGa9a9w@mail.gmail.com>
+Message-ID: <CANiDSCumFwO3WX76BtS0gS3=CdDSJEFQ56yX7LqLOpJzGa9a9w@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Send users to linux-media mailing list
+ instead of linux-uvc-devel
+To:     =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, Jacopo,
+On Wed, 16 Mar 2022 at 03:47, Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.n=
+et> wrote:
+>
+> The linux-uvc-devel mailing list has been deprecated in documentation
+> and MAINTAINERS. Update this message printed by the driver, as well.
+>
+> Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/u=
+vc_driver.c
+> index 5f394d4efc21c..6c6a82af07cee 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2443,7 +2443,7 @@ static int uvc_probe(struct usb_interface *intf,
+>                          "Forcing device quirks to 0x%x by module paramet=
+er for testing purpose.\n",
+>                          dev->quirks);
+>                 dev_info(&dev->udev->dev,
+> -                        "Please report required quirks to the linux-uvc-=
+devel mailing list.\n");
+> +                        "Please report required quirks to the linux-medi=
+a mailing list.\n");
+>         }
+>
+>         if (dev->info->uvc_version) {
+> --
+> 2.35.1
+>
 
-On Tue, Mar 15, 2022 at 10:56:41AM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
-> 
-> On Tue, Mar 15, 2022 at 09:46:18AM +0100, Jacopo Mondi wrote:
-> > On Tue, Mar 15, 2022 at 10:11:46AM +0200, Laurent Pinchart wrote:
-> > > On Mon, Mar 14, 2022 at 05:27:09PM +0100, Jacopo Mondi wrote:
-> > > > Add support for probing the main system clock using the common clock
-> > > > framework and its OF bindings.
-> > > >
-> > > > Maintain ACPI compatibility by falling back to parse 'clock-frequency'
-> > > > if the no clock device reference is available.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > ---
-> > > >  drivers/media/i2c/ov5670.c | 21 +++++++++++++++++----
-> > > >  1 file changed, 17 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-> > > > index 721441024598..25d792794fc7 100644
-> > > > --- a/drivers/media/i2c/ov5670.c
-> > > > +++ b/drivers/media/i2c/ov5670.c
-> > > > @@ -2,6 +2,7 @@
-> > > >  // Copyright (c) 2017 Intel Corporation.
-> > > >
-> > > >  #include <linux/acpi.h>
-> > > > +#include <linux/clk.h>
-> > > >  #include <linux/i2c.h>
-> > > >  #include <linux/mod_devicetable.h>
-> > > >  #include <linux/module.h>
-> > > > @@ -1819,6 +1820,8 @@ struct ov5670 {
-> > > >  	struct v4l2_subdev sd;
-> > > >  	struct media_pad pad;
-> > > >
-> > > > +	struct clk *clk;
-> > > > +
-> > > >  	struct v4l2_ctrl_handler ctrl_handler;
-> > > >  	/* V4L2 Controls */
-> > > >  	struct v4l2_ctrl *link_freq;
-> > > > @@ -2478,10 +2481,6 @@ static int ov5670_probe(struct i2c_client *client)
-> > > >  	bool full_power;
-> > > >  	int ret;
-> > > >
-> > > > -	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
-> > > > -	if (input_clk != 19200000)
-> > > > -		return -EINVAL;
-> > > > -
-> > > >  	ov5670 = devm_kzalloc(&client->dev, sizeof(*ov5670), GFP_KERNEL);
-> > > >  	if (!ov5670) {
-> > > >  		ret = -ENOMEM;
-> > > > @@ -2489,6 +2488,20 @@ static int ov5670_probe(struct i2c_client *client)
-> > > >  		goto error_print;
-> > > >  	}
-> > > >
-> > > > +	/* OF uses the common clock framework, ACPI uses "clock-frequency". */
-> > > > +	ov5670->clk = devm_clk_get_optional(&client->dev, NULL);
-> > > > +	if (IS_ERR(ov5670->clk))
-> > > > +		return dev_err_probe(&client->dev, PTR_ERR(ov5670->clk),
-> > > > +				     "error getting clock\n");
-> > > > +
-> > > > +	if (ov5670->clk)
-> > > > +		input_clk = clk_get_rate(ov5670->clk);
-> > > > +	else
-> > > > +		device_property_read_u32(&client->dev, "clock-frequency",
-> > > > +					 &input_clk);
-> > >
-> > > This will try to use the clock-frequency property on OF-based systems if
-> > > no clock is specified. Could we instead have
-> > 
-> > 'clocks' is listed as a required property in the OF bindings and my
-> > understanding is that driver assume DTS are correct.
-> > 
-> > > 	if (probed through OF) {
-> > 
-> > Otherwise yes, I can check for dev->of_node
-> > But again, I don't think drivers should have to work-around broken DTS
-> 
-> Not working around, but if we fail when DT is broken, it can help
-> avoiding broken DT spreading in the wild, which we would then need to
-> support forever.
 
-If you think this is necessary (I'm not all that sure), then please check
-this using is_of_node().
-
-There are other drivers that could take clock-frequency from DT (grep for
-reading clock-frequency with more indentation than one tab stop), too, even
-if the bindings don't document that. I wouldn't expect that anyway since
-clock control won't work there anyway.
-
--- 
-Regards,
-
-Sakari Ailus
+--=20
+Ricardo Ribalda
