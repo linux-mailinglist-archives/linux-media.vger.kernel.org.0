@@ -2,76 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3533A4DAD90
-	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 10:33:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DE6A4DADB5
+	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 10:47:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354895AbiCPJfI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Mar 2022 05:35:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50304 "EHLO
+        id S1354951AbiCPJsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Mar 2022 05:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242712AbiCPJfH (ORCPT
+        with ESMTP id S1348960AbiCPJsq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Mar 2022 05:35:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D646013EB2
-        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 02:33:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647423232;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=g0QoVJurl6KK3rlbhKndKVTVS4HCyEO8q4IyxNqkWMk=;
-        b=GHGYq9UjezB+iLzMUe4QU5ZGC97c+JoSqEoqIp52gNv0qra5WEKw8DJ3CYHZKDcw6tDtjA
-        HVpySLHFKKHRqe36TAYDhvI78YiNtEkFMgZlN4hWQHWcYguVkdBPK/OYH/rNUS2q+3eZ49
-        /Qkq4vynckA0JPA/L2RSZuskQT+9oF0=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-421-Ns-aAbLNP6e1j8xGQ5lKqw-1; Wed, 16 Mar 2022 05:33:51 -0400
-X-MC-Unique: Ns-aAbLNP6e1j8xGQ5lKqw-1
-Received: by mail-oo1-f71.google.com with SMTP id a66-20020a4a4c45000000b00320f84498feso1066266oob.21
-        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 02:33:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g0QoVJurl6KK3rlbhKndKVTVS4HCyEO8q4IyxNqkWMk=;
-        b=E78FiDh8ZvjaGXPMHh7ITPe9wtApgyy5H8/qA3vACIyOHZI3GfoswGQIODLSjNXkAR
-         fWA4VPvu8Vag9MEaGQhv/PHx0HTPJEnc5+e5FOmx9GXx05SnsPs1u/z1SRCYTvBd3H0C
-         R7xdcN6fzgyFZmgSuUWo1i+RyqCSTgh9DV36e4rSZ2jaVmuqoNNjc1wcg/v271Oif4ec
-         DRAdBqyd6eTxk8XgGuoUFLF5RCrVcCnTK9Mgqm9ul6Ens6vWyYEbILVeicvppmBl7e3G
-         NZqFjxpGV2AjcOKmzc1ZOydzLnH4M4xw7t227wFo+0FdT1w7r1UpJ8yR5yTIhV2kbPdc
-         UZwQ==
-X-Gm-Message-State: AOAM531IARxZhil6g0o+0SjYVmXbGBT5IyCZoBxI0P/ARt2vAwFu4qQ5
-        iKDaohcgSH58qob7B2uR1j2nDpQCteAcQFwAxb7Q4lrzuj8gzgG34eW+ZunSqzxuYmhJWXrHivr
-        lLp/OGPH7YZJCs1670f9aDvYKOyhmlPNUHqSl9O8=
-X-Received: by 2002:a05:6870:14c5:b0:da:ab41:3a78 with SMTP id l5-20020a05687014c500b000daab413a78mr3273463oab.23.1647423230814;
-        Wed, 16 Mar 2022 02:33:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSH0VjypowhPYfTXaUbcR6ddqy3et+gJ4RZnTZUs3ieCNnMAY9fFRbvaHeehLpfn97TUxEhlwCZ7C2THapvzg=
-X-Received: by 2002:a05:6870:14c5:b0:da:ab41:3a78 with SMTP id
- l5-20020a05687014c500b000daab413a78mr3273454oab.23.1647423230510; Wed, 16 Mar
- 2022 02:33:50 -0700 (PDT)
+        Wed, 16 Mar 2022 05:48:46 -0400
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54ACC63BC9
+        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 02:47:32 -0700 (PDT)
+Received: from lanttu.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::c1:2])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 99E9C634C90
+        for <linux-media@vger.kernel.org>; Wed, 16 Mar 2022 11:47:29 +0200 (EET)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 1/2] media: ccs: Use %u for printing unsigned values, remove extra debug print
+Date:   Wed, 16 Mar 2022 11:45:24 +0200
+Message-Id: <20220316094525.53664-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220314101523.129672-1-hpa@redhat.com> <YjGncJFYky69Fjmz@paasikivi.fi.intel.com>
-In-Reply-To: <YjGncJFYky69Fjmz@paasikivi.fi.intel.com>
-From:   Kate Hsuan <hpa@redhat.com>
-Date:   Wed, 16 Mar 2022 17:33:39 +0800
-Message-ID: <CAEth8oGMyO6BJ6kPuXYYZ_bGmwq+AfGMrrcK38UxtnJs1NfjRg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] staging: media: ipu3: Fix AF x_start position when
- rightmost stripe is used
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Hans De Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,73 +35,155 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Use %u for printing unsigned integer or u32 values. In a lot of cases %d
+was being used instead.
 
-On Wed, Mar 16, 2022 at 5:02 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Kate,
->
-> On Mon, Mar 14, 2022 at 06:15:22PM +0800, Kate Hsuan wrote:
-> > For the AF configuration, if the rightmost stripe is used, the AF scene
-> > will be at the incorrect location of the sensor.
-> >
-> > The AF coordinate may be set to the right part of the sensor. This
-> > configuration would lead to x_start being greater than the
-> > down_scaled_stripes offset and the leftmost stripe would be disabled
-> > and only the rightmost stripe is used to control the AF coordinate. If
-> > the x_start doesn't perform any adjustments, the AF coordinate will be
-> > at the wrong place of the sensor since down_scaled_stripes offset
-> > would be the new zero of the coordinate system.
-> >
-> > In this patch, if only the rightmost stripe is used, x_start should
-> > minus down_scaled_stripes offset to maintain its correctness of AF
-> > scene coordinate.
-> >
-> > Changes in v2:
-> > 1. Remove the setting of the first stripe.
-> >
-> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> > ---
-> >  drivers/staging/media/ipu3/ipu3-css-params.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-> > index d9e3c3785075..5a8c07f34756 100644
-> > --- a/drivers/staging/media/ipu3/ipu3-css-params.c
-> > +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-> > @@ -2556,6 +2556,10 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
-> >               /* Enable only for rightmost stripe, disable left */
-> >               acc->af.stripes[0].grid_cfg.y_start &=
-> >                       ~IPU3_UAPI_GRID_Y_START_EN;
-> > +             acc->af.stripes[1].grid_cfg.x_start -=
-> > +                     acc->stripe.down_scaled_stripes[1].offset;
-> > +             acc->af.stripes[1].grid_cfg.x_end -=
-> > +                     acc->stripe.down_scaled_stripes[1].offset;
->
-> Could you calculate the values the same way as for the two stripes case, as
-> I've been asking since v1?
+Also remove an extra debug print --- the number of lanes is already
+printed by V4L2 when parsing fwnode endpoints when dynamic debug is
+enabled.
 
-Sorry for my misunderstanding of the comments.
-You mean x_end could be estimated by the width here and could use the
-same way as for two stripes case to estimate this.
-I'll correct this in my v4 patch. :)
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/i2c/ccs/ccs-core.c | 32 +++++++++++++++-----------------
+ 1 file changed, 15 insertions(+), 17 deletions(-)
 
-Thank you.
-
->
-> >       } else if (acc->af.config.grid_cfg.x_end <=
-> >                  acc->stripe.bds_out_stripes[0].width - min_overlap) {
-> >               /* Enable only for leftmost stripe, disable right */
->
-> --
-> Regards,
->
-> Sakari Ailus
->
-
-
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index 03e841b8443f..547e18b6b4c4 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -121,7 +121,7 @@ void ccs_replace_limit(struct ccs_sensor *sensor,
+ 
+ 	linfo = &ccs_limits[ccs_limit_offsets[limit].info];
+ 
+-	dev_dbg(&client->dev, "quirk: 0x%8.8x \"%s\" %u = %d, 0x%x\n",
++	dev_dbg(&client->dev, "quirk: 0x%8.8x \"%s\" %u = %u, 0x%x\n",
+ 		linfo->reg, linfo->name, offset, val, val);
+ 
+ 	ccs_assign_limit(ptr, ccs_reg_width(linfo->reg), val);
+@@ -288,7 +288,7 @@ static int ccs_read_frame_fmt(struct ccs_sensor *sensor)
+ 				CCS_FRAME_FORMAT_DESCRIPTOR_4_PIXELS_MASK;
+ 		} else {
+ 			dev_dbg(&client->dev,
+-				"invalid frame format model type %d\n",
++				"invalid frame format model type %u\n",
+ 				fmt_model_type);
+ 			return -EINVAL;
+ 		}
+@@ -320,7 +320,7 @@ static int ccs_read_frame_fmt(struct ccs_sensor *sensor)
+ 		}
+ 
+ 		dev_dbg(&client->dev,
+-			"%s pixels: %d %s (pixelcode %u)\n",
++			"%s pixels: %u %s (pixelcode %u)\n",
+ 			what, pixels, which, pixelcode);
+ 
+ 		if (i < ncol_desc) {
+@@ -353,9 +353,9 @@ static int ccs_read_frame_fmt(struct ccs_sensor *sensor)
+ 		sensor->image_start = sensor->embedded_end;
+ 	}
+ 
+-	dev_dbg(&client->dev, "embedded data from lines %d to %d\n",
++	dev_dbg(&client->dev, "embedded data from lines %u to %u\n",
+ 		sensor->embedded_start, sensor->embedded_end);
+-	dev_dbg(&client->dev, "image data starts at line %d\n",
++	dev_dbg(&client->dev, "image data starts at line %u\n",
+ 		sensor->image_start);
+ 
+ 	return 0;
+@@ -571,7 +571,7 @@ static u32 ccs_pixel_order(struct ccs_sensor *sensor)
+ 
+ 	flip ^= sensor->hvflip_inv_mask;
+ 
+-	dev_dbg(&client->dev, "flip %d\n", flip);
++	dev_dbg(&client->dev, "flip %u\n", flip);
+ 	return sensor->default_pixel_order ^ flip;
+ }
+ 
+@@ -1056,18 +1056,18 @@ static int ccs_get_mbus_formats(struct ccs_sensor *sensor)
+ 
+ 	type = CCS_LIM(sensor, DATA_FORMAT_MODEL_TYPE);
+ 
+-	dev_dbg(&client->dev, "data_format_model_type %d\n", type);
++	dev_dbg(&client->dev, "data_format_model_type %u\n", type);
+ 
+ 	rval = ccs_read(sensor, PIXEL_ORDER, &pixel_order);
+ 	if (rval)
+ 		return rval;
+ 
+ 	if (pixel_order >= ARRAY_SIZE(pixel_order_str)) {
+-		dev_dbg(&client->dev, "bad pixel order %d\n", pixel_order);
++		dev_dbg(&client->dev, "bad pixel order %u\n", pixel_order);
+ 		return -EINVAL;
+ 	}
+ 
+-	dev_dbg(&client->dev, "pixel order %d (%s)\n", pixel_order,
++	dev_dbg(&client->dev, "pixel order %u (%s)\n", pixel_order,
+ 		pixel_order_str[pixel_order]);
+ 
+ 	switch (type) {
+@@ -1105,7 +1105,7 @@ static int ccs_get_mbus_formats(struct ccs_sensor *sensor)
+ 			    (fmt & CCS_DATA_FORMAT_DESCRIPTOR_COMPRESSED_MASK))
+ 				continue;
+ 
+-			dev_dbg(&client->dev, "jolly good! %d\n", j);
++			dev_dbg(&client->dev, "jolly good! %u\n", j);
+ 
+ 			sensor->default_mbus_frame_fmts |= 1 << j;
+ 		}
+@@ -1999,7 +1999,7 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
+ 
+ 	mutex_lock(&sensor->mutex);
+ 
+-	dev_err(&client->dev, "subdev %s, pad %d, index %d\n",
++	dev_err(&client->dev, "subdev %s, pad %u, index %u\n",
+ 		subdev->name, code->pad, code->index);
+ 
+ 	if (subdev != &sensor->src->sd || code->pad != CCS_PAD_SRC) {
+@@ -2017,7 +2017,7 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
+ 
+ 		if (idx == code->index) {
+ 			code->code = ccs_csi_data_formats[i].code;
+-			dev_err(&client->dev, "found index %d, i %d, code %x\n",
++			dev_err(&client->dev, "found index %u, i %u, code %x\n",
+ 				code->index, i, code->code);
+ 			rval = 0;
+ 			break;
+@@ -2386,7 +2386,7 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
+ 	max_m = clamp(max_m, CCS_LIM(sensor, SCALER_M_MIN),
+ 		      CCS_LIM(sensor, SCALER_M_MAX));
+ 
+-	dev_dbg(&client->dev, "scaling: a %d b %d max_m %d\n", a, b, max_m);
++	dev_dbg(&client->dev, "scaling: a %u b %u max_m %u\n", a, b, max_m);
+ 
+ 	min = min(max_m, min(a, b));
+ 	max = min(max_m, max(a, b));
+@@ -2416,7 +2416,7 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
+ 			sel->r.height,
+ 			sel->flags);
+ 
+-		dev_dbg(&client->dev, "trying factor %d (%d)\n", try[i], i);
++		dev_dbg(&client->dev, "trying factor %u (%u)\n", try[i], i);
+ 
+ 		if (this > best) {
+ 			scale_m = try[i];
+@@ -3221,8 +3221,6 @@ static int ccs_get_hwconfig(struct ccs_sensor *sensor, struct device *dev)
+ 		goto out_err;
+ 	}
+ 
+-	dev_dbg(dev, "lanes %u\n", hwcfg->lanes);
+-
+ 	rval = fwnode_property_read_u32(fwnode, "rotation", &rotation);
+ 	if (!rval) {
+ 		switch (rotation) {
+@@ -3244,7 +3242,7 @@ static int ccs_get_hwconfig(struct ccs_sensor *sensor, struct device *dev)
+ 	if (rval)
+ 		dev_info(dev, "can't get clock-frequency\n");
+ 
+-	dev_dbg(dev, "clk %d, mode %d\n", hwcfg->ext_clk,
++	dev_dbg(dev, "clk %u, mode %u\n", hwcfg->ext_clk,
+ 		hwcfg->csi_signalling_mode);
+ 
+ 	if (!bus_cfg.nr_of_link_frequencies) {
 -- 
-BR,
-Kate
+2.30.2
 
