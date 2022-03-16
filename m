@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14C464DB53E
-	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 16:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 975E64DB531
+	for <lists+linux-media@lfdr.de>; Wed, 16 Mar 2022 16:47:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357344AbiCPPsQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Mar 2022 11:48:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54028 "EHLO
+        id S1357343AbiCPPsV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Mar 2022 11:48:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357340AbiCPPsQ (ORCPT
+        with ESMTP id S1357347AbiCPPsR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Mar 2022 11:48:16 -0400
+        Wed, 16 Mar 2022 11:48:17 -0400
 Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5336D38E;
-        Wed, 16 Mar 2022 08:47:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36096D394;
+        Wed, 16 Mar 2022 08:47:02 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id A75DE24000D;
-        Wed, 16 Mar 2022 15:46:58 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 2CEFF240005;
+        Wed, 16 Mar 2022 15:46:59 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     niklas.soderlund@ragnatech.se, laurent.pinchart@ideasonboard.com
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         tomi.valkeinen@ideasonboard.com, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 03/10] media: adv748x: Move format to subdev state
-Date:   Wed, 16 Mar 2022 16:46:34 +0100
-Message-Id: <20220316154641.511667-4-jacopo+renesas@jmondi.org>
+Subject: [PATCH v2 04/10] media: adv748x: Implement .get_frame_desc()
+Date:   Wed, 16 Mar 2022 16:46:35 +0100
+Message-Id: <20220316154641.511667-5-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220316154641.511667-1-jacopo+renesas@jmondi.org>
 References: <20220316154641.511667-1-jacopo+renesas@jmondi.org>
@@ -40,137 +40,133 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move format handling to the v4l2_subdev state and store it per
-(pad, stream) combination.
+Implement the get_frame_desc subdev pad operation.
 
-Now that the image format is stored in the subdev state, it can be
-accessed through v4l2_subdev_get_fmt() instead of open-coding it.
+Implement the get_frame_desc pad operation to allow retrieving the
+stream configuration of the adv748x csi2 subdevice.
 
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- drivers/media/i2c/adv748x/adv748x-csi2.c | 77 +++++-------------------
- drivers/media/i2c/adv748x/adv748x.h      |  1 -
- 2 files changed, 16 insertions(+), 62 deletions(-)
+ drivers/media/i2c/adv748x/adv748x-csi2.c | 94 ++++++++++++++++++++++++
+ 1 file changed, 94 insertions(+)
 
 diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-index 9e0957501d70..8326cfe6192a 100644
+index 8326cfe6192a..91cd70739e9d 100644
 --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
 +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-@@ -178,78 +178,33 @@ static int adv748x_csi2_init_cfg(struct v4l2_subdev *sd,
- 	return v4l2_subdev_set_routing(sd, state, &routing);
- }
+@@ -14,6 +14,50 @@
  
--static struct v4l2_mbus_framefmt *
--adv748x_csi2_get_pad_format(struct v4l2_subdev *sd,
--			    struct v4l2_subdev_state *sd_state,
--			    unsigned int pad, u32 which)
--{
--	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
--
--	if (which == V4L2_SUBDEV_FORMAT_TRY)
--		return v4l2_subdev_get_try_format(sd, sd_state, pad);
--
--	return &tx->format;
--}
--
--static int adv748x_csi2_get_format(struct v4l2_subdev *sd,
--				   struct v4l2_subdev_state *sd_state,
--				   struct v4l2_subdev_format *sdformat)
--{
--	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
--	struct adv748x_state *state = tx->state;
--	struct v4l2_mbus_framefmt *mbusformat;
--
--	mbusformat = adv748x_csi2_get_pad_format(sd, sd_state, sdformat->pad,
--						 sdformat->which);
--	if (!mbusformat)
--		return -EINVAL;
--
--	mutex_lock(&state->mutex);
--
--	sdformat->format = *mbusformat;
--
--	mutex_unlock(&state->mutex);
--
--	return 0;
--}
--
- static int adv748x_csi2_set_format(struct v4l2_subdev *sd,
- 				   struct v4l2_subdev_state *sd_state,
- 				   struct v4l2_subdev_format *sdformat)
- {
--	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
--	struct adv748x_state *state = tx->state;
--	struct v4l2_mbus_framefmt *mbusformat;
-+	struct v4l2_mbus_framefmt *fmt;
- 	int ret = 0;
+ #include "adv748x.h"
  
--	mbusformat = adv748x_csi2_get_pad_format(sd, sd_state, sdformat->pad,
--						 sdformat->which);
--	if (!mbusformat)
-+	/* Do not allow to set format on the multiplexed source pad. */
-+	if (sdformat->pad == ADV748X_CSI2_SOURCE)
- 		return -EINVAL;
- 
--	mutex_lock(&state->mutex);
--
--	if (sdformat->pad == ADV748X_CSI2_SOURCE) {
--		const struct v4l2_mbus_framefmt *sink_fmt;
--
--		sink_fmt = adv748x_csi2_get_pad_format(sd, sd_state,
--						       ADV748X_CSI2_SINK,
--						       sdformat->which);
--
--		if (!sink_fmt) {
--			ret = -EINVAL;
--			goto unlock;
--		}
-+	fmt = v4l2_subdev_state_get_stream_format(sd_state, sdformat->pad,
-+						  sdformat->stream);
-+	if (!fmt)
++/* Describes a format bit depth and CSI-2 defined Data Type. */
++struct adv748x_csi2_format_info {
++	u8 dt;
++	u8 bpp;
++};
++
++static int adv748x_csi2_get_format_info(struct adv748x_csi2 *tx,
++					u32 mbus_code,
++					struct adv748x_csi2_format_info *fmt)
++{
++	switch (mbus_code) {
++	case MEDIA_BUS_FMT_YUYV8_1X16:
++	case MEDIA_BUS_FMT_YUYV8_2X8:
++		fmt->dt = 0x1e;
++		fmt->bpp = 16;
++		break;
++	case MEDIA_BUS_FMT_YUYV10_2X10:
++	case MEDIA_BUS_FMT_YUYV10_1X20:
++		fmt->dt = 0x1f;
++		fmt->bpp = 20;
++		break;
++	case MEDIA_BUS_FMT_RGB565_1X16:
++	case MEDIA_BUS_FMT_RGB565_2X8_LE:
++	case MEDIA_BUS_FMT_RGB565_2X8_BE:
++		fmt->dt = 0x22;
++		fmt->bpp = 16;
++		break;
++	case MEDIA_BUS_FMT_RGB666_1X18:
++		fmt->dt = 0x23;
++		fmt->bpp = 18;
++		break;
++	case MEDIA_BUS_FMT_RGB888_1X24:
++		fmt->dt = 0x24;
++		fmt->bpp = 24;
++		break;
++	default:
++		dev_err(tx->state->dev,
++			"Unsupported media bus code: %u\n", mbus_code);
 +		return -EINVAL;
- 
--		sdformat->format = *sink_fmt;
--	}
-+	*fmt = sdformat->format;
- 
--	*mbusformat = sdformat->format;
-+	/* Propagate format to the other end of the route. */
-+	fmt = v4l2_subdev_state_get_opposite_stream_format(sd_state, sdformat->pad,
-+							   sdformat->stream);
-+	if (!fmt)
-+		return ret;
- 
--unlock:
--	mutex_unlock(&state->mutex);
-+	*fmt = sdformat->format;
- 
--	return ret;
++	}
++
 +	return 0;
++}
++
+ int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx, unsigned int vc)
+ {
+ 	return tx_write(tx, ADV748X_CSI_VC_REF, vc << ADV748X_CSI_VC_REF_SHIFT);
+@@ -221,11 +265,61 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
+ 	return 0;
  }
  
- static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
-@@ -268,7 +223,7 @@ static int adv748x_csi2_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad
- 
++static int adv748x_csi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
++				       struct v4l2_mbus_frame_desc *fd)
++{
++	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
++	struct adv748x_csi2_format_info info = {};
++	struct v4l2_mbus_frame_desc_entry *entry;
++	struct v4l2_subdev_route *route;
++	struct v4l2_subdev_state *state;
++	struct v4l2_mbus_framefmt *fmt;
++	int ret;
++
++	if (pad != ADV748X_CSI2_SOURCE)
++		return -EINVAL;
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++
++	/* A single route is available. */
++	route = &state->routing.routes[0];
++	fmt = v4l2_subdev_state_get_stream_format(state, pad,
++						  route->source_stream);
++	if (!fmt) {
++		ret = -EINVAL;
++		goto out;
++	}
++
++	ret = adv748x_csi2_get_format_info(tx, fmt->code, &info);
++	if (ret)
++		goto out;
++
++	memset(fd, 0, sizeof(*fd));
++
++	/* A single stream is available. */
++	fd->num_entries = 1;
++	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
++
++	entry = &fd->entry[0];
++	entry->stream = 0;
++	entry->flags = V4L2_MBUS_FRAME_DESC_FL_LEN_MAX;
++	entry->length = fmt->width * fmt->height * info.bpp / 8;
++	entry->pixelcode = fmt->code;
++	entry->bus.csi2.vc = route->source_stream;
++	entry->bus.csi2.dt = info.dt;
++
++out:
++	v4l2_subdev_unlock_state(state);
++
++	return ret;
++}
++
  static const struct v4l2_subdev_pad_ops adv748x_csi2_pad_ops = {
  	.init_cfg = adv748x_csi2_init_cfg,
--	.get_fmt = adv748x_csi2_get_format,
-+	.get_fmt = v4l2_subdev_get_fmt,
+ 	.get_fmt = v4l2_subdev_get_fmt,
  	.set_fmt = adv748x_csi2_set_format,
  	.get_mbus_config = adv748x_csi2_get_mbus_config,
++	.get_frame_desc = adv748x_csi2_get_frame_desc,
  };
-diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
-index d651c8390e6f..98a3b3e0642a 100644
---- a/drivers/media/i2c/adv748x/adv748x.h
-+++ b/drivers/media/i2c/adv748x/adv748x.h
-@@ -78,7 +78,6 @@ enum adv748x_csi2_pads {
  
- struct adv748x_csi2 {
- 	struct adv748x_state *state;
--	struct v4l2_mbus_framefmt format;
- 	unsigned int page;
- 	unsigned int port;
- 	unsigned int num_lanes;
+ /* -----------------------------------------------------------------------------
 -- 
 2.35.1
 
