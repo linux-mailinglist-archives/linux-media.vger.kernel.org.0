@@ -2,228 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FD1A4DCB47
-	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 17:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECF894DCCE1
+	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 18:47:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236522AbiCQQ0z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Mar 2022 12:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39328 "EHLO
+        id S236864AbiCQRtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Mar 2022 13:49:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234815AbiCQQ0x (ORCPT
+        with ESMTP id S237121AbiCQRtC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Mar 2022 12:26:53 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A021CF4A3;
-        Thu, 17 Mar 2022 09:25:34 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 022D71C000F;
-        Thu, 17 Mar 2022 16:25:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1647534333;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ALLei3Iid7g2f1Vlipcd3o4ARbpYuWc1mA/FuF55Vc8=;
-        b=k9f2Sl/YQbbeQF2+xpKVWjRLn+R21VdIU6zkCahjTpxNn0SWaJien4auiqVQBavL9Qm+E7
-        eprs5GO1ca5uE+oIgeltqYtcB83uVuDX8DtdW+WQY4cXY7plXWp9owt+qOlx/AbKnkNUWj
-        1ocrN2PvfVeGSjNYZoPphiLcKjwcp9cTI+QfuW56iHcjvde17Ph83Hw6JngXQjMkXUPG+4
-        T+TZbml6cUtyYqEEYExF6T98cRR/bmNV+UZ8qy3moYP7czZzwQ0uBMhVlMzVzCOmJh4th4
-        2KGYIaiIilZoAOtv/Of545k1tyQm/1SE7x+DLL6G1LfbmJ3/iL21LoML05pu5Q==
-Date:   Thu, 17 Mar 2022 17:25:29 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 5/9] media: sunxi: Add support for the A31 MIPI CSI-2
- controller
-Message-ID: <YjNg+T+J1YkOm9LE@aptenodytes>
-References: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
- <20220302220739.144303-6-paul.kocialkowski@bootlin.com>
- <YjHluwVnbPyHo1kp@paasikivi.fi.intel.com>
+        Thu, 17 Mar 2022 13:49:02 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3096721C056
+        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 10:47:21 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id bi12so12348504ejb.3
+        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 10:47:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=t84kKey6q9c30GJfdMOQiMBmiwH5qhCjtQRjgI8B4W4=;
+        b=IEFHehIWj07FfKoA2zr2Jb7tw4Qvjic4zuiFDxNMexn6Uitbm5H0Jmiy3rvte0L4Bg
+         Mlraokic0slMZ+xT1AjRoHgWjEpYdw0VjiPfzfY8ldjOnilRKOXsKsy1W7MJFyP6dkrH
+         8LfQWYapEu3vmhgMl4cQe+0M7rtaLyVLUkj9OHOz3BEWbBdWtZ9smE6cOMBmufOpifty
+         xRi9sx1WiiokAynPZuTSOhS7Idzd9LY1KiSfusfqmt9OsSUJYmNfo2qKXxT2LeoIf8Fg
+         pcPLvvU/6lYJtOuuYoHnJaHbu16QZIJPH9vRuyYR9RvT0EI3ihBoAkxt4hZm293t1Hh1
+         5ODw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=t84kKey6q9c30GJfdMOQiMBmiwH5qhCjtQRjgI8B4W4=;
+        b=5Snd/j8scmsxLamRUlPOYVABQ9PFwqBxtSZUenCPdIZSEt8xg/RbgpURGgu6TmbZ1y
+         RKprH9aaWYIhlVg3/HdmeWcVLxsQSC9QAI6uCJ5Jrfuk5575HpB732ohAciSwG9T4L4o
+         Vr2L8pAF3NG98847VfJSKRme986FFbQhLrdwsS1uEvYZH/soGnC5daZcaGBgv0uiIx7+
+         d8cx3hhNwKavHxQqyW0Hi3e8ni9tajbZJ6y0ppRTpDsOZzos2KeiYYEmdCWYxocUhZUt
+         rMH/6r/3Z46NMX3XlZzgGyhquNOMskD0x5ockPRQm0Di8LCDMtjakiGMLi8QBDVRpKn7
+         2trg==
+X-Gm-Message-State: AOAM5301xKtvm6C4HTnOoxGymxeMSugcLuhOdBpaHKWPJ19UvutEHiwf
+        QO5ng6XhExaoHvf7fdBLrba0hpAgrDX62r0UBIcwGIJJ97YjBg==
+X-Google-Smtp-Source: ABdhPJyH92j/aLbOSrdG3dH30aOlaIBsmwDJRqXEuCLsMexiTBfaZTw6jUMfTKUjkGwKWUq7SQKI/O0fsJjBuH6sZ0w=
+X-Received: by 2002:a17:907:2d89:b0:6db:b83d:f93 with SMTP id
+ gt9-20020a1709072d8900b006dbb83d0f93mr5481267ejc.742.1647539239420; Thu, 17
+ Mar 2022 10:47:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="bi/43uRme1u2xO1q"
-Content-Disposition: inline
-In-Reply-To: <YjHluwVnbPyHo1kp@paasikivi.fi.intel.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Thu, 17 Mar 2022 17:47:03 +0000
+Message-ID: <CAPY8ntA06L1Xsph79sv9t7MiDSNeSO2vADevuXZdXQdhWpSmow@mail.gmail.com>
+Subject: Using the Selection API with image sensors for arbitrary cropping
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        libcamera devel <libcamera-devel@lists.libcamera.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi All
 
---bi/43uRme1u2xO1q
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm trying to tally the selection API documentation for image sensors
+with implementing it in practice, specifically over arbitrary cropping
+on the sensor.
 
-Hi Sakari,
+I've had a downstream PR for IMX219 that adds support for the
+selection API to allow arbitrary cropping and selection of binning
+mode [1].
 
-On Wed 16 Mar 22, 15:27, Sakari Ailus wrote:
-> Hi Paul,
->=20
-> Thanks for the set.
->=20
-> On Wed, Mar 02, 2022 at 11:07:35PM +0100, Paul Kocialkowski wrote:
-> ...
-> > +static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
-> > +{
-> > +	struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata(subde=
-v);
-> > +	struct v4l2_subdev *source_subdev =3D csi2_dev->bridge.source_subdev;
-> > +	union phy_configure_opts dphy_opts =3D { 0 };
-> > +	struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mipi_dph=
-y;
-> > +	struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus_for=
-mat;
-> > +	const struct sun6i_mipi_csi2_format *format;
-> > +	struct phy *dphy =3D csi2_dev->dphy;
-> > +	struct device *dev =3D csi2_dev->dev;
-> > +	struct v4l2_ctrl *ctrl;
-> > +	unsigned int lanes_count =3D
-> > +		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
-> > +	unsigned long pixel_rate;
-> > +	/* Initialize to 0 to use both in disable label (ret !=3D 0) and off.=
- */
-> > +	int ret =3D 0;
-> > +
-> > +	if (!source_subdev)
-> > +		return -ENODEV;
-> > +
-> > +	if (!on) {
-> > +		v4l2_subdev_call(source_subdev, video, s_stream, 0);
-> > +		goto disable;
-> > +	}
-> > +
-> > +	/* Runtime PM */
-> > +
-> > +	ret =3D pm_runtime_resume_and_get(dev);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	/* Sensor Pixel Rate */
-> > +
-> > +	ctrl =3D v4l2_ctrl_find(source_subdev->ctrl_handler, V4L2_CID_PIXEL_R=
-ATE);
-> > +	if (!ctrl) {
-> > +		dev_err(dev, "missing sensor pixel rate\n");
-> > +		ret =3D -ENODEV;
-> > +		goto error_pm;
-> > +	}
-> > +
-> > +	pixel_rate =3D (unsigned long)v4l2_ctrl_g_ctrl_int64(ctrl);
-> > +	if (!pixel_rate) {
-> > +		dev_err(dev, "missing (zero) sensor pixel rate\n");
-> > +		ret =3D -ENODEV;
-> > +		goto error_pm;
-> > +	}
-> > +
-> > +	/* D-PHY */
-> > +
-> > +	if (!lanes_count) {
->=20
-> I first thought this check could be moved to the beginning, but it's also
-> redundant. v4l2_fwnode_endpoint_parse() will check the configuration is
-> valid, i.e. the number of lanes is not zero.
+The docs for "Writing camera sensor drivers" [2] lists the two options
+as either freely configurable via multiple subdevices, or register
+based. It doesn't apparently cover just cropping (there is no scaler
+on IMX219), but there is the IMX274 driver that implements setting the
+sensor cropping via the selection API [3].
 
-Good to know, thanks!
+The current IMX219 register-based modes are
+- 3280x2464 up to 15fps
+- 1920x1080 up to 30fps as a crop of the 3280x2464 mode
+- 1640x1232 up to 40fps, 2x2 binned
+- 640x480 up to 200fps, "special" 2x2 binning and cropped.
 
-> But should you add checks to make sure the hardware supports what has been
-> configured? I'd do that right after parsing the endpoint.
+The main issue is that implementing the selection API reduces the
+number of modes that can be selected directly via set_fmt to the base
+3280x2464 and 1640x1232. Surely that constitutes a regression as use
+cases that did work now don't, and therefore it is not acceptable.
+3280x2464 can't run at 30fps, therefore we can't easily get a 1080p30
+source without additional knowledge of modes and crop settings.
 
-I guess you mean checking that we don't get more than 4 lanes?
-And maybe something related to lane ordering too?
+So how should the selection API be implemented without introducing regressions?
+Is it permitted to enumerate the extra modes as before and have them
+update the crop rectangle? The docs [4] say not:
+"Drivers shall set the active crop rectangle to the default when the
+driver is first loaded, but not later."
+which leaves a bit of a quandry.
 
-> And you only seem to be using the number of data lanes, nothing more. So
-> I'd store that, instead of the entire parsed v4l2_fwnode_endpoint.
+If we do drop the existing modes it just pushes the problem of which
+modes to select onto the client. Most likely you end up with an
+extended sensor specific helper in libcamera with a list of modes and
+the framerates that each can achieve, pretty much identical to the
+list of modes in the kernel at present.
+Any other clients are forced to jump through similar hoops (unlikely
+to happen), or we rename it to Video 4 Libcamera 2 ;-)
 
-That's correct, why not.
+Making that shift also means that selecting the special binning mode
+has to be done via some other heuristics. AIUI it's optimised for high
+frame rates so that's possible (but not nice).
 
-> The same applies to patch 8.
->=20
-> I think these could be done on top of this set after it is merged. Up to
-> you.
+Guidance sought please.
 
-I'll go for another iteration.
+Thanks
+  Dave
 
-Thanks!
-
-Paul
-
-> ...
->=20
-> > +static int
-> > +sun6i_mipi_csi2_bridge_source_setup(struct sun6i_mipi_csi2_device *csi=
-2_dev)
-> > +{
-> > +	struct v4l2_async_notifier *notifier =3D &csi2_dev->bridge.notifier;
-> > +	struct v4l2_fwnode_endpoint *endpoint =3D &csi2_dev->bridge.endpoint;
-> > +	struct v4l2_async_subdev *subdev_async;
-> > +	struct fwnode_handle *handle;
-> > +	struct device *dev =3D csi2_dev->dev;
-> > +	int ret;
-> > +
-> > +	handle =3D fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
-> > +						 FWNODE_GRAPH_ENDPOINT_NEXT);
-> > +	if (!handle)
-> > +		return -ENODEV;
-> > +
-> > +	endpoint->bus_type =3D V4L2_MBUS_CSI2_DPHY;
-> > +
-> > +	ret =3D v4l2_fwnode_endpoint_parse(handle, endpoint);
-> > +	if (ret)
-> > +		goto complete;
-> > +
-> > +	subdev_async =3D v4l2_async_nf_add_fwnode_remote(notifier, handle,
-> > +		struct v4l2_async_subdev);
-> > +	if (IS_ERR(subdev_async))
-> > +		ret =3D PTR_ERR(subdev_async);
-> > +
-> > +complete:
-> > +	fwnode_handle_put(handle);
-> > +
-> > +	return ret;
-> > +}
->=20
-> --=20
-> Kind regards,
->=20
-> Sakari Ailus
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---bi/43uRme1u2xO1q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIzYPkACgkQ3cLmz3+f
-v9FKsQf/REx8HWGAsHL4EqjK6NNY4P9j3krw6UROSlwsH6bZY5rQyi+CvqZgK3/P
-yD7lqlJLu0Ejaifq6TFv/2G5trwxpR9CMdUS4XDGLKMNpQwFQihPIKN9GeZaB9GJ
-xEWMgbnwMd+j7ip9XOPtQNNLMmEiuGEJe1cNgWNOlY6srAvLgJ9oe6ceUhEJoGWa
-OZhAZ7ZUYNY0QAxZ343P3W9cIvGEOJEDGXEz29BUlNH3XKvzFyw6esG7CI606aE0
-HoNlm/6r3uPwvjcmTu8TmX/bAFInySEN+KED2AQEFJfNnX3OQSLgwz+nM857wva7
-0iXY8fnh8ItjVpkNOGg8hZ066dzSCg==
-=1gfj
------END PGP SIGNATURE-----
-
---bi/43uRme1u2xO1q--
+[1] https://github.com/raspberrypi/linux/pull/4935
+[2] https://www.kernel.org/doc/html/latest/driver-api/media/camera-sensor.html#frame-size
+[3] https://github.com/torvalds/linux/blob/master/drivers/media/i2c/imx274.c
+[4] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/selection-api-configuration.html#configuration-of-video-capture
