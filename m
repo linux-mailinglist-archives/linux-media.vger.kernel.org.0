@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77C614DC6B3
-	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 13:54:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 158434DC6CA
+	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 13:54:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234264AbiCQMzi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Mar 2022 08:55:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37020 "EHLO
+        id S234293AbiCQMzx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Mar 2022 08:55:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234187AbiCQMzR (ORCPT
+        with ESMTP id S234208AbiCQMzV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Mar 2022 08:55:17 -0400
+        Thu, 17 Mar 2022 08:55:21 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F634A27CD
-        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 05:53:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A869A27F9
+        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 05:53:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D4B1DB81EA6
-        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 12:53:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18B5FC36AE3;
-        Thu, 17 Mar 2022 12:53:48 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DCF78B81EA7
+        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 12:53:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F17C36AF2;
+        Thu, 17 Mar 2022 12:53:49 +0000 (UTC)
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv3 1/7] cec: call enable_adap on s_log_addrs
-Date:   Thu, 17 Mar 2022 13:53:40 +0100
-Message-Id: <20220317125346.145105-2-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv3 2/7] cec: abort if the current transmit was canceled
+Date:   Thu, 17 Mar 2022 13:53:41 +0100
+Message-Id: <20220317125346.145105-3-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220317125346.145105-1-hverkuil-cisco@xs4all.nl>
 References: <20220317125346.145105-1-hverkuil-cisco@xs4all.nl>
@@ -42,380 +42,106 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Don't enable/disable the adapter if the first fh is opened or the
-last fh is closed, instead do this when the adapter is configured
-or unconfigured, and also when we enter Monitor All or Monitor Pin
-mode for the first time or we exit the Monitor All/Pin mode for the
-last time.
+If a transmit-in-progress was canceled, then, once the transmit
+is done, mark it as aborted and refrain from retrying the transmit.
 
-However, if needs_hpd is true, then do this when the physical
-address is set or cleared: in that case the adapter typically is
-powered by the HPD, so it really is disabled when the HPD is low.
-This case (needs_hpd is true) was already handled in this way, so
-this wasn't changed.
+To signal this situation the new transmit_in_progress_aborted field is
+set to true.
 
-The problem with the old behavior was that if the HPD goes low when
-no fh is open, and a transmit was in progress, then the adapter would
-be disabled, typically stopping the transmit immediately which
-leaves a partial message on the bus, which isn't nice and can confuse
-some adapters.
-
-It makes much more sense to disable it only when the adapter is
-unconfigured and we're not monitoring the bus, since then you really
-won't be using it anymore.
-
-To keep track of this store a CEC activation count and call adap_enable
-only when it goes from 0 to 1 or back to 0.
+The old implementation would just set adap->transmitting to NULL and
+set adap->transmit_in_progress to false, but on the hardware level
+the transmit was still ongoing. However, the framework would think
+the transmit was aborted, and if a new transmit was issued, then
+it could overwrite the HW buffer containing the old transmit with the
+new transmit, leading to garbled data on the CEC bus.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/cec/core/cec-adap.c | 174 ++++++++++++++++++++++--------
- drivers/media/cec/core/cec-api.c  |  18 +---
- include/media/cec.h               |   2 +
- 3 files changed, 130 insertions(+), 64 deletions(-)
+ drivers/media/cec/core/cec-adap.c | 11 ++++++++---
+ include/media/cec.h               |  6 ++++++
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index 2e12331c12a9..1a095308f3ab 100644
+index 1a095308f3ab..96968d18d7ac 100644
 --- a/drivers/media/cec/core/cec-adap.c
 +++ b/drivers/media/cec/core/cec-adap.c
-@@ -1552,6 +1552,7 @@ static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
- 					   "ceccfg-%s", adap->name);
- 	if (IS_ERR(adap->kthread_config)) {
- 		adap->kthread_config = NULL;
-+		adap->is_configuring = false;
- 	} else if (block) {
- 		mutex_unlock(&adap->lock);
- 		wait_for_completion(&adap->config_completion);
-@@ -1559,59 +1560,90 @@ static void cec_claim_log_addrs(struct cec_adapter *adap, bool block)
+@@ -421,7 +421,7 @@ static void cec_flush(struct cec_adapter *adap)
+ 		cec_data_cancel(data, CEC_TX_STATUS_ABORTED);
  	}
- }
+ 	if (adap->transmitting)
+-		cec_data_cancel(adap->transmitting, CEC_TX_STATUS_ABORTED);
++		adap->transmit_in_progress_aborted = true;
  
-+/*
-+ * Helper functions to enable/disable the CEC adapter.
-+ *
-+ * These functions are called with adap->lock held.
-+ */
-+static int cec_activate_cnt_inc(struct cec_adapter *adap)
-+{
-+	int ret;
-+
-+	if (adap->activate_cnt++)
-+		return 0;
-+
-+	/* serialize adap_enable */
-+	mutex_lock(&adap->devnode.lock);
-+	adap->last_initiator = 0xff;
-+	adap->transmit_in_progress = false;
-+	ret = adap->ops->adap_enable(adap, true);
-+	if (ret)
-+		adap->activate_cnt--;
-+	mutex_unlock(&adap->devnode.lock);
-+	return ret;
-+}
-+
-+static void cec_activate_cnt_dec(struct cec_adapter *adap)
-+{
-+	if (WARN_ON(!adap->activate_cnt))
-+		return;
-+
-+	if (--adap->activate_cnt)
-+		return;
-+
-+	/* serialize adap_enable */
-+	mutex_lock(&adap->devnode.lock);
-+	WARN_ON(adap->ops->adap_enable(adap, false));
-+	adap->last_initiator = 0xff;
-+	adap->transmit_in_progress = false;
-+	mutex_unlock(&adap->devnode.lock);
-+}
-+
- /* Set a new physical address and send an event notifying userspace of this.
-  *
-  * This function is called with adap->lock held.
-  */
- void __cec_s_phys_addr(struct cec_adapter *adap, u16 phys_addr, bool block)
- {
-+	bool becomes_invalid = phys_addr == CEC_PHYS_ADDR_INVALID;
-+	bool is_invalid = adap->phys_addr == CEC_PHYS_ADDR_INVALID;
-+
- 	if (phys_addr == adap->phys_addr)
- 		return;
--	if (phys_addr != CEC_PHYS_ADDR_INVALID && adap->devnode.unregistered)
-+	if (!becomes_invalid && adap->devnode.unregistered)
- 		return;
+ 	/* Cancel the pending timeout work. */
+ 	list_for_each_entry_safe(data, n, &adap->wait_queue, list) {
+@@ -572,6 +572,7 @@ int cec_thread_func(void *_adap)
+ 		if (data->attempts == 0)
+ 			data->attempts = attempts;
  
- 	dprintk(1, "new physical address %x.%x.%x.%x\n",
- 		cec_phys_addr_exp(phys_addr));
--	if (phys_addr == CEC_PHYS_ADDR_INVALID ||
--	    adap->phys_addr != CEC_PHYS_ADDR_INVALID) {
-+	if (becomes_invalid || !is_invalid) {
- 		adap->phys_addr = CEC_PHYS_ADDR_INVALID;
- 		cec_post_state_event(adap);
- 		cec_adap_unconfigure(adap);
--		/* Disabling monitor all mode should always succeed */
--		if (adap->monitor_all_cnt)
--			WARN_ON(call_op(adap, adap_monitor_all_enable, false));
--		/* serialize adap_enable */
--		mutex_lock(&adap->devnode.lock);
--		if (adap->needs_hpd || list_empty(&adap->devnode.fhs)) {
--			WARN_ON(adap->ops->adap_enable(adap, false));
--			adap->transmit_in_progress = false;
-+		if (becomes_invalid && adap->needs_hpd) {
-+			/* Disable monitor-all/pin modes if needed */
-+			if (adap->monitor_all_cnt)
-+				WARN_ON(call_op(adap, adap_monitor_all_enable, false));
-+			if (adap->monitor_pin_cnt)
-+				WARN_ON(call_op(adap, adap_monitor_pin_enable, false));
-+			cec_activate_cnt_dec(adap);
- 			wake_up_interruptible(&adap->kthread_waitq);
- 		}
--		mutex_unlock(&adap->devnode.lock);
--		if (phys_addr == CEC_PHYS_ADDR_INVALID)
-+		if (becomes_invalid)
- 			return;
++		adap->transmit_in_progress_aborted = false;
+ 		/* Tell the adapter to transmit, cancel on error */
+ 		if (adap->ops->adap_transmit(adap, data->attempts,
+ 					     signal_free_time, &data->msg))
+@@ -599,6 +600,8 @@ void cec_transmit_done_ts(struct cec_adapter *adap, u8 status,
+ 	struct cec_msg *msg;
+ 	unsigned int attempts_made = arb_lost_cnt + nack_cnt +
+ 				     low_drive_cnt + error_cnt;
++	bool done = status & (CEC_TX_STATUS_MAX_RETRIES | CEC_TX_STATUS_OK);
++	bool aborted = adap->transmit_in_progress_aborted;
+ 
+ 	dprintk(2, "%s: status 0x%02x\n", __func__, status);
+ 	if (attempts_made < 1)
+@@ -619,6 +622,7 @@ void cec_transmit_done_ts(struct cec_adapter *adap, u8 status,
+ 		goto wake_thread;
+ 	}
+ 	adap->transmit_in_progress = false;
++	adap->transmit_in_progress_aborted = false;
+ 
+ 	msg = &data->msg;
+ 
+@@ -639,8 +643,7 @@ void cec_transmit_done_ts(struct cec_adapter *adap, u8 status,
+ 	 * the hardware didn't signal that it retried itself (by setting
+ 	 * CEC_TX_STATUS_MAX_RETRIES), then we will retry ourselves.
+ 	 */
+-	if (data->attempts > attempts_made &&
+-	    !(status & (CEC_TX_STATUS_MAX_RETRIES | CEC_TX_STATUS_OK))) {
++	if (!aborted && data->attempts > attempts_made && !done) {
+ 		/* Retry this message */
+ 		data->attempts -= attempts_made;
+ 		if (msg->timeout)
+@@ -655,6 +658,8 @@ void cec_transmit_done_ts(struct cec_adapter *adap, u8 status,
+ 		goto wake_thread;
  	}
  
--	/* serialize adap_enable */
--	mutex_lock(&adap->devnode.lock);
--	adap->last_initiator = 0xff;
--	adap->transmit_in_progress = false;
--
--	if (adap->needs_hpd || list_empty(&adap->devnode.fhs)) {
--		if (adap->ops->adap_enable(adap, true)) {
--			mutex_unlock(&adap->devnode.lock);
-+	if (is_invalid && adap->needs_hpd) {
-+		if (cec_activate_cnt_inc(adap))
- 			return;
--		}
--	}
--
--	if (adap->monitor_all_cnt &&
--	    call_op(adap, adap_monitor_all_enable, true)) {
--		if (adap->needs_hpd || list_empty(&adap->devnode.fhs))
--			WARN_ON(adap->ops->adap_enable(adap, false));
--		mutex_unlock(&adap->devnode.lock);
--		return;
-+		/*
-+		 * Re-enable monitor-all/pin modes if needed. We warn, but
-+		 * continue if this fails as this is not a critical error.
-+		 */
-+		if (adap->monitor_all_cnt)
-+			WARN_ON(call_op(adap, adap_monitor_all_enable, true));
-+		if (adap->monitor_pin_cnt)
-+			WARN_ON(call_op(adap, adap_monitor_pin_enable, true));
- 	}
--	mutex_unlock(&adap->devnode.lock);
++	if (aborted && !done)
++		status |= CEC_TX_STATUS_ABORTED;
+ 	data->attempts = 0;
  
- 	adap->phys_addr = phys_addr;
- 	cec_post_state_event(adap);
-@@ -1676,6 +1708,8 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
- 		return -ENODEV;
- 
- 	if (!log_addrs || log_addrs->num_log_addrs == 0) {
-+		if (!adap->is_configuring && !adap->is_configured)
-+			return 0;
- 		cec_adap_unconfigure(adap);
- 		adap->log_addrs.num_log_addrs = 0;
- 		for (i = 0; i < CEC_MAX_LOG_ADDRS; i++)
-@@ -1683,6 +1717,8 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
- 		adap->log_addrs.osd_name[0] = '\0';
- 		adap->log_addrs.vendor_id = CEC_VENDOR_ID_NONE;
- 		adap->log_addrs.cec_version = CEC_OP_CEC_VERSION_2_0;
-+		if (!adap->needs_hpd)
-+			cec_activate_cnt_dec(adap);
- 		return 0;
- 	}
- 
-@@ -1816,6 +1852,12 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
- 		       sizeof(log_addrs->features[i]));
- 	}
- 
-+	if (!adap->needs_hpd && !adap->is_configuring && !adap->is_configured) {
-+		int ret = cec_activate_cnt_inc(adap);
-+
-+		if (ret)
-+			return ret;
-+	}
- 	log_addrs->log_addr_mask = adap->log_addrs.log_addr_mask;
- 	adap->log_addrs = *log_addrs;
- 	if (adap->phys_addr != CEC_PHYS_ADDR_INVALID)
-@@ -2119,20 +2161,37 @@ static int cec_receive_notify(struct cec_adapter *adap, struct cec_msg *msg,
-  */
- int cec_monitor_all_cnt_inc(struct cec_adapter *adap)
- {
--	int ret = 0;
-+	int ret;
- 
--	if (adap->monitor_all_cnt == 0)
--		ret = call_op(adap, adap_monitor_all_enable, 1);
--	if (ret == 0)
--		adap->monitor_all_cnt++;
-+	if (adap->monitor_all_cnt++)
-+		return 0;
-+
-+	if (!adap->needs_hpd) {
-+		ret = cec_activate_cnt_inc(adap);
-+		if (ret) {
-+			adap->monitor_all_cnt--;
-+			return ret;
-+		}
-+	}
-+
-+	ret = call_op(adap, adap_monitor_all_enable, true);
-+	if (ret) {
-+		adap->monitor_all_cnt--;
-+		if (!adap->needs_hpd)
-+			cec_activate_cnt_dec(adap);
-+	}
- 	return ret;
- }
- 
- void cec_monitor_all_cnt_dec(struct cec_adapter *adap)
- {
--	adap->monitor_all_cnt--;
--	if (adap->monitor_all_cnt == 0)
--		WARN_ON(call_op(adap, adap_monitor_all_enable, 0));
-+	if (WARN_ON(!adap->monitor_all_cnt))
-+		return;
-+	if (--adap->monitor_all_cnt)
-+		return;
-+	WARN_ON(call_op(adap, adap_monitor_all_enable, false));
-+	if (!adap->needs_hpd)
-+		cec_activate_cnt_dec(adap);
- }
- 
- /*
-@@ -2142,20 +2201,37 @@ void cec_monitor_all_cnt_dec(struct cec_adapter *adap)
-  */
- int cec_monitor_pin_cnt_inc(struct cec_adapter *adap)
- {
--	int ret = 0;
-+	int ret;
- 
--	if (adap->monitor_pin_cnt == 0)
--		ret = call_op(adap, adap_monitor_pin_enable, 1);
--	if (ret == 0)
--		adap->monitor_pin_cnt++;
-+	if (adap->monitor_pin_cnt++)
-+		return 0;
-+
-+	if (!adap->needs_hpd) {
-+		ret = cec_activate_cnt_inc(adap);
-+		if (ret) {
-+			adap->monitor_pin_cnt--;
-+			return ret;
-+		}
-+	}
-+
-+	ret = call_op(adap, adap_monitor_pin_enable, true);
-+	if (ret) {
-+		adap->monitor_pin_cnt--;
-+		if (!adap->needs_hpd)
-+			cec_activate_cnt_dec(adap);
-+	}
- 	return ret;
- }
- 
- void cec_monitor_pin_cnt_dec(struct cec_adapter *adap)
- {
--	adap->monitor_pin_cnt--;
--	if (adap->monitor_pin_cnt == 0)
--		WARN_ON(call_op(adap, adap_monitor_pin_enable, 0));
-+	if (WARN_ON(!adap->monitor_pin_cnt))
-+		return;
-+	if (--adap->monitor_pin_cnt)
-+		return;
-+	WARN_ON(call_op(adap, adap_monitor_pin_enable, false));
-+	if (!adap->needs_hpd)
-+		cec_activate_cnt_dec(adap);
- }
- 
- #ifdef CONFIG_DEBUG_FS
-@@ -2169,6 +2245,7 @@ int cec_adap_status(struct seq_file *file, void *priv)
- 	struct cec_data *data;
- 
- 	mutex_lock(&adap->lock);
-+	seq_printf(file, "activation count: %u\n", adap->activate_cnt);
- 	seq_printf(file, "configured: %d\n", adap->is_configured);
- 	seq_printf(file, "configuring: %d\n", adap->is_configuring);
- 	seq_printf(file, "phys_addr: %x.%x.%x.%x\n",
-@@ -2183,6 +2260,9 @@ int cec_adap_status(struct seq_file *file, void *priv)
- 	if (adap->monitor_all_cnt)
- 		seq_printf(file, "file handles in Monitor All mode: %u\n",
- 			   adap->monitor_all_cnt);
-+	if (adap->monitor_pin_cnt)
-+		seq_printf(file, "file handles in Monitor Pin mode: %u\n",
-+			   adap->monitor_pin_cnt);
- 	if (adap->tx_timeouts) {
- 		seq_printf(file, "transmit timeouts: %u\n",
- 			   adap->tx_timeouts);
-diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
-index d72ad48c9898..0284db12842b 100644
---- a/drivers/media/cec/core/cec-api.c
-+++ b/drivers/media/cec/core/cec-api.c
-@@ -586,18 +586,6 @@ static int cec_open(struct inode *inode, struct file *filp)
- 		return err;
- 	}
- 
--	/* serialize adap_enable */
--	mutex_lock(&devnode->lock);
--	if (list_empty(&devnode->fhs) &&
--	    !adap->needs_hpd &&
--	    adap->phys_addr == CEC_PHYS_ADDR_INVALID) {
--		err = adap->ops->adap_enable(adap, true);
--		if (err) {
--			mutex_unlock(&devnode->lock);
--			kfree(fh);
--			return err;
--		}
--	}
- 	filp->private_data = fh;
- 
- 	/* Queue up initial state events */
-@@ -625,6 +613,7 @@ static int cec_open(struct inode *inode, struct file *filp)
- 	}
- #endif
- 
-+	mutex_lock(&devnode->lock);
- 	mutex_lock(&devnode->lock_fhs);
- 	list_add(&fh->list, &devnode->fhs);
- 	mutex_unlock(&devnode->lock_fhs);
-@@ -656,15 +645,10 @@ static int cec_release(struct inode *inode, struct file *filp)
- 		cec_monitor_all_cnt_dec(adap);
- 	mutex_unlock(&adap->lock);
- 
--	/* serialize adap_enable */
- 	mutex_lock(&devnode->lock);
- 	mutex_lock(&devnode->lock_fhs);
- 	list_del(&fh->list);
- 	mutex_unlock(&devnode->lock_fhs);
--	if (cec_is_registered(adap) && list_empty(&devnode->fhs) &&
--	    !adap->needs_hpd && adap->phys_addr == CEC_PHYS_ADDR_INVALID) {
--		WARN_ON(adap->ops->adap_enable(adap, false));
--	}
- 	mutex_unlock(&devnode->lock);
- 
- 	/* Unhook pending transmits from this filehandle. */
+ 	/* Always set CEC_TX_STATUS_MAX_RETRIES on error */
 diff --git a/include/media/cec.h b/include/media/cec.h
-index 77346f757036..97c5f5bfcbd0 100644
+index 97c5f5bfcbd0..31d704f36707 100644
 --- a/include/media/cec.h
 +++ b/include/media/cec.h
-@@ -185,6 +185,7 @@ struct cec_adap_ops {
-  *	Drivers that need this can set this field to true after the
-  *	cec_allocate_adapter() call.
-  * @last_initiator:	the initiator of the last transmitted message.
-+ * @activate_cnt:	number of times that CEC is activated
-  * @monitor_all_cnt:	number of filehandles monitoring all msgs
-  * @monitor_pin_cnt:	number of filehandles monitoring pin changes
-  * @follower_cnt:	number of filehandles in follower mode
-@@ -236,6 +237,7 @@ struct cec_adapter {
- 	bool cec_pin_is_high;
- 	bool adap_controls_phys_addr;
- 	u8 last_initiator;
-+	u32 activate_cnt;
- 	u32 monitor_all_cnt;
- 	u32 monitor_pin_cnt;
- 	u32 follower_cnt;
+@@ -163,6 +163,11 @@ struct cec_adap_ops {
+  * @wait_queue:		queue of transmits waiting for a reply
+  * @transmitting:	CEC messages currently being transmitted
+  * @transmit_in_progress: true if a transmit is in progress
++ * @transmit_in_progress_aborted: true if a transmit is in progress is to be
++ *			aborted. This happens if the logical address is
++ *			invalidated while the transmit is ongoing. In that
++ *			case the transmit will finish, but will not retransmit
++ *			and be marked as ABORTED.
+  * @kthread_config:	kthread used to configure a CEC adapter
+  * @config_completion:	used to signal completion of the config kthread
+  * @kthread:		main CEC processing thread
+@@ -218,6 +223,7 @@ struct cec_adapter {
+ 	struct list_head wait_queue;
+ 	struct cec_data *transmitting;
+ 	bool transmit_in_progress;
++	bool transmit_in_progress_aborted;
+ 
+ 	struct task_struct *kthread_config;
+ 	struct completion config_completion;
 -- 
 2.34.1
 
