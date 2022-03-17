@@ -2,147 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2440D4DC8DC
-	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 15:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21CA94DC8EF
+	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 15:40:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235137AbiCQOim (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Mar 2022 10:38:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47764 "EHLO
+        id S235177AbiCQOk6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Mar 2022 10:40:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235131AbiCQOil (ORCPT
+        with ESMTP id S234486AbiCQOk5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Mar 2022 10:38:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C225C1D66CD
-        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 07:37:24 -0700 (PDT)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DAE948F;
-        Thu, 17 Mar 2022 15:37:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647527841;
-        bh=EiHK/2QtNkkncFLVJhxK3TLugudz6hQS4BikZ+iIUaQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LUECFsCqysqHZyg1NZbrSpaKHLGehV/bZeCoyuXlE9KWQazfUI0DY5cUyl5FMPUBU
-         sP/6VPEaoIx7oef7uME4WFuP0skzdAamFsIe/clld01fkp/smNz/C/aBCF1+bhmjVO
-         CBztRHkVIIzhWEIHEIBp0+e0ZaACzDzVnFsc5RYU=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: [PATCH 2/2] media: v4l2: Sanitize colorspace values in the framework
-Date:   Thu, 17 Mar 2022 16:37:00 +0200
-Message-Id: <20220317143700.12769-3-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220317143700.12769-1-laurent.pinchart@ideasonboard.com>
-References: <20220317143700.12769-1-laurent.pinchart@ideasonboard.com>
+        Thu, 17 Mar 2022 10:40:57 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B83CDA6F3;
+        Thu, 17 Mar 2022 07:39:36 -0700 (PDT)
+X-UUID: 7c0b814030aa4ab5b3e707a09d2f0dd4-20220317
+X-UUID: 7c0b814030aa4ab5b3e707a09d2f0dd4-20220317
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 851944695; Thu, 17 Mar 2022 22:39:29 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Thu, 17 Mar 2022 22:39:28 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 17 Mar
+ 2022 22:39:27 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 17 Mar 2022 22:39:27 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <tfiga@chromium.org>, <drinkcat@chromium.org>,
+        <pihsun@chromium.org>, <hsinyi@google.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        <menghui.lin@mediatek.com>, <sj.huang@mediatek.com>,
+        <allen-kh.cheng@mediatek.com>, <randy.wu@mediatek.com>,
+        <moudy.ho@mediatek.com>, <jason-jh.lin@mediatek.com>,
+        <roy-cw.yeh@mediatek.com>, <river.cheng@mediatek.com>,
+        <srv_heupstream@mediatek.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v14 0/6] Add mutex support for MDP
+Date:   Thu, 17 Mar 2022 22:39:20 +0800
+Message-ID: <20220317143926.15835-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Extend the format sanitization code in the framework to handle invalid
-values for the colorspace-related fields.
+Change since V13:
+- Rebase on linux-next tag:next-20220316
+- Adjust the MUTEX MOD table structure and corresponding functions.
+- Adjust the definition style about 8183 MDP MOD.
+- Remove redundant definitions and enumerations.
+- Adjust the CMDQ operation in MUTEX to be backward compatible
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/v4l2-core/v4l2-ioctl.c | 65 +++++++++++++++++++++++-----
- 1 file changed, 55 insertions(+), 10 deletions(-)
+Change since V12:
+- Rebase on linux-next
+- Remove ISP related settings in MMSYS
+- Removed CMDQ operations previously used by MDP in MMSYS
+- Move mediatek MUTEX dt-binding path
+- Add additional property in MUTEX for CMDQ operations
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 4fe3f21f8bb4..01cfd3442ba5 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1006,6 +1006,31 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
- 	return -EINVAL;
- }
- 
-+static void v4l_sanitize_colorspace(u32 pixelformat, u32 *colorspace,
-+				    u32 *encoding, u32 *quantization,
-+				    u32 *xfer_func)
-+{
-+	bool is_hsv = pixelformat == V4L2_PIX_FMT_HSV24 ||
-+		      pixelformat == V4L2_PIX_FMT_HSV32;
-+
-+	if (!v4l2_is_colorspace_valid(*colorspace)) {
-+		*colorspace = V4L2_COLORSPACE_DEFAULT;
-+		*encoding = V4L2_YCBCR_ENC_DEFAULT;
-+		*quantization = V4L2_QUANTIZATION_DEFAULT;
-+		*xfer_func = V4L2_XFER_FUNC_DEFAULT;
-+	}
-+
-+	if ((!is_hsv && !v4l2_is_ycbcr_enc_valid(*encoding)) ||
-+	    (is_hsv && !v4l2_is_hsv_enc_valid(*encoding)))
-+		*encoding = V4L2_YCBCR_ENC_DEFAULT;
-+
-+	if (!v4l2_is_quant_valid(*quantization))
-+		*quantization = V4L2_QUANTIZATION_DEFAULT;
-+
-+	if (!v4l2_is_xfer_func_valid(*xfer_func))
-+		*xfer_func = V4L2_XFER_FUNC_DEFAULT;
-+}
-+
- static void v4l_sanitize_format(struct v4l2_format *fmt)
- {
- 	unsigned int offset;
-@@ -1025,20 +1050,40 @@ static void v4l_sanitize_format(struct v4l2_format *fmt)
- 	 * field to the magic value when the extended pixel format structure
- 	 * isn't used by applications.
- 	 */
-+	if (fmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-+	    fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) {
-+		if (fmt->fmt.pix.priv != V4L2_PIX_FMT_PRIV_MAGIC) {
-+			fmt->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
- 
--	if (fmt->type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
--	    fmt->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
--		return;
-+			offset = offsetof(struct v4l2_pix_format, priv)
-+			       + sizeof(fmt->fmt.pix.priv);
-+			memset(((void *)&fmt->fmt.pix) + offset, 0,
-+			       sizeof(fmt->fmt.pix) - offset);
-+		}
-+	}
- 
--	if (fmt->fmt.pix.priv == V4L2_PIX_FMT_PRIV_MAGIC)
--		return;
-+	/* Replace invalid colorspace values with defaults. */
-+	if (fmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-+	    fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) {
-+		v4l_sanitize_colorspace(fmt->fmt.pix.pixelformat,
-+					&fmt->fmt.pix.colorspace,
-+					&fmt->fmt.pix.ycbcr_enc,
-+					&fmt->fmt.pix.quantization,
-+					&fmt->fmt.pix.xfer_func);
-+	} else if (fmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
-+		   fmt->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-+		u32 ycbcr_enc = fmt->fmt.pix_mp.ycbcr_enc;
-+		u32 quantization = fmt->fmt.pix_mp.quantization;
-+		u32 xfer_func = fmt->fmt.pix_mp.xfer_func;
- 
--	fmt->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
-+		v4l_sanitize_colorspace(fmt->fmt.pix_mp.pixelformat,
-+					&fmt->fmt.pix_mp.colorspace, &ycbcr_enc,
-+					&quantization, &xfer_func);
- 
--	offset = offsetof(struct v4l2_pix_format, priv)
--	       + sizeof(fmt->fmt.pix.priv);
--	memset(((void *)&fmt->fmt.pix) + offset, 0,
--	       sizeof(fmt->fmt.pix) - offset);
-+		fmt->fmt.pix_mp.ycbcr_enc = ycbcr_enc;
-+		fmt->fmt.pix_mp.quantization = quantization;
-+		fmt->fmt.pix_mp.xfer_func = xfer_func;
-+	}
- }
- 
- static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
+Change since V11:
+- Rebase on v5.17-rc6.
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?h=v5.17-next/soc&id=5f9b5b757e44de47ebdc116c14b90e3cc8bc7acb
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?h=v5.17-next/soc&id=831785f0e5b919c29e1bc5f9a74e9ebd38289e24
+[3]: https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?h=v5.17-next/soc&id=15f1768365aed810826a61fef4a744437aa5b426
+
+Change since v10:
+- For some ISP application scenarios, such as preview and recording
+  at the same time.
+  The routing table needs to be discarded, and the calculation result
+  on the SCP side is used to write a suitable mux setting for
+  1 input and 2 output.
+- Adjust the GCE client register parsing method to avoid redundant warning logs.
+
+Change since v9:
+- Add API for MDP getting mutex mod.
+
+Hi,
+
+This patch splits mmsys and mutex settings from Media Data Path 3 (MDP3),
+and original mailling list list below:
+https://patchwork.kernel.org/project/linux-mediatek/cover/20211201095031.31606-1-moudy.ho@mediatek.com/
+Corresponding settings and interfaces are added for MDP operation in the
+mutex drivers, which increases the independence of the modules
+
+Moudy Ho (6):
+  soc: mediatek: mutex: add common interface to accommodate multiple
+    modules operationg MUTEX
+  soc: mediatek: mutex: add 8183 MUTEX MOD settings for MDP
+  dt-bindings: soc: mediatek: move out common module from display folder
+  dt-bindings: soc: mediatek: add gce-client-reg for MUTEX
+  dts: arm64: mt8183: add GCE client property for Mediatek MUTEX
+  soc: mediatek: mutex: add functions that operate registers by CMDQ
+
+ .../mediatek/mediatek,mutex.yaml              |  10 +-
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |   1 +
+ drivers/soc/mediatek/mtk-mutex.c              | 187 +++++++++++++++++-
+ include/linux/soc/mediatek/mtk-mutex.h        |  23 +++
+ 4 files changed, 219 insertions(+), 2 deletions(-)
+ rename Documentation/devicetree/bindings/{display => soc}/mediatek/mediatek,mutex.yaml (83%)
+
 -- 
-Regards,
-
-Laurent Pinchart
+2.18.0
 
