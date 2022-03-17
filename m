@@ -2,100 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 155954DC0B0
-	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 09:10:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C4144DC0DC
+	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 09:19:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230322AbiCQIMH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Mar 2022 04:12:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37094 "EHLO
+        id S231149AbiCQIVG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Mar 2022 04:21:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229595AbiCQIMH (ORCPT
+        with ESMTP id S231138AbiCQIVF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Mar 2022 04:12:07 -0400
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53D21FD3;
-        Thu, 17 Mar 2022 01:10:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647504651; x=1679040651;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BXBqqHeuv6Kfo6eqhu67KJHFiGvTClaGi6ULPJtbxU0=;
-  b=b6gRnfwYrflE/pm0iP1zrVnL7QEI3IVrzPur6C/fL5kr/qNbmmfcBnF8
-   SHIOl3SfRhPncPvRQuHHOBnkP8Fioy7xPktFRWZUkl0ySes1Y3hKDMgcl
-   VsCFln2z2XB9arUdLikaHBODRMBTYGCASuZBhZUWZGPdwadmoQQKmm0H3
-   ET2is5Mlee0NwKEa5VbNwuuU3cFkdUDVzzYk21SzOS8BK9gHdhfFnsAUd
-   xm3JyCag1baVo14QEcf5HajPpr52bpK3fOaWUtKZXWBQ9sbdHNCWfprN5
-   HT1YBoNo41JEyxExQIz/dRLwR7FxrFD0m+jQr0tioesPwGDqERDz/CMDK
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="317530444"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="317530444"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2022 01:10:50 -0700
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="541277274"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2022 01:10:48 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 37AE720090;
-        Thu, 17 Mar 2022 10:10:46 +0200 (EET)
-Date:   Thu, 17 Mar 2022 10:10:46 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Kate Hsuan <hpa@redhat.com>
-Cc:     Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, hdegoede@redhat.com
-Subject: Re: [PATCH v4] staging: media: ipu3: Fix AF x_start position when
- rightmost stripe is used
-Message-ID: <YjLtBv1/DiqH4/ez@paasikivi.fi.intel.com>
-References: <20220317075713.10633-1-hpa@redhat.com>
+        Thu, 17 Mar 2022 04:21:05 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF741637F9
+        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 01:19:48 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 11BC01BF20C;
+        Thu, 17 Mar 2022 08:19:44 +0000 (UTC)
+Date:   Thu, 17 Mar 2022 09:19:43 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     kernel test robot <lkp@intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [linux-next:master 12222/13209] ERROR: modpost:
+ "v4l2_subdev_link_validate" [drivers/media/platform/nxp/imx-mipi-csis.ko]
+ undefined!
+Message-ID: <20220317081943.imr6o6l5nyhoehxi@uno.localdomain>
+References: <202203170501.AhqUekoF-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220317075713.10633-1-hpa@redhat.com>
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <202203170501.AhqUekoF-lkp@intel.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 17, 2022 at 03:57:13PM +0800, Kate Hsuan wrote:
-> For the AF configuration, if the rightmost stripe is used, the AF scene
-> will be at the incorrect location of the sensor.
-> 
-> The AF coordinate may be set to the right part of the sensor. This
-> configuration would lead to x_start being greater than the
-> down_scaled_stripes offset and the leftmost stripe would be disabled
-> and only the rightmost stripe is used to control the AF coordinate. If
-> the x_start doesn't perform any adjustments, the AF coordinate will be
-> at the wrong place of the sensor since down_scaled_stripes offset
-> would be the new zero of the coordinate system.
-> 
-> In this patch, if only the rightmost stripe is used, x_start should
-> minus down_scaled_stripes offset to maintain its correctness of AF
-> scene coordinate.
-> 
-> Changes in v2:
-> 1. Remove the setting of the first stripe.
-> 
-> Changes in v4:
-> 1. x_start is estimated based on the method for both stripes are enabled.
-> 2. x_end is estimated based on the width.
-> 
-> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+Laurent, Mauro,
 
-Thanks, Kate!
+        I'm having a bit of troubles to get what's missing in the CSIS Kconfig
 
-Applied to my tree.
+On Thu, Mar 17, 2022 at 05:31:13AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   8a11187eb62b8b910d2c5484e1f5d160e8b11eb4
+> commit: 67d841549e43ddcfc8ecc75cf86df1c5b48fe007 [12222/13209] media: platform/*/Kconfig: make manufacturer menus more uniform
+> config: nios2-randconfig-r014-20220317 (https://download.01.org/0day-ci/archive/20220317/202203170501.AhqUekoF-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 11.2.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=67d841549e43ddcfc8ecc75cf86df1c5b48fe007
+>         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+>         git fetch --no-tags linux-next master
+>         git checkout 67d841549e43ddcfc8ecc75cf86df1c5b48fe007
+>         # save the config file to linux build tree
+>         mkdir build_dir
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
+>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+>
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>
+> >> ERROR: modpost: "v4l2_subdev_link_validate" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+> >> ERROR: modpost: "v4l2_subdev_get_fwnode_pad_1_to_1" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+> >> ERROR: modpost: "v4l_bound_align_image" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+> >> ERROR: modpost: "v4l2_async_register_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+> >> ERROR: modpost: "v4l2_async_subdev_nf_register" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+> >> ERROR: modpost: "__v4l2_async_nf_add_fwnode_remote" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+> >> ERROR: modpost: "v4l2_fwnode_endpoint_parse" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+> >> ERROR: modpost: "v4l2_async_nf_init" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+> >> ERROR: modpost: "v4l2_subdev_init" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+> >> ERROR: modpost: "v4l2_async_unregister_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+> WARNING: modpost: suppressed 5 unresolved symbol warnings because there were too many)
 
--- 
-Sakari Ailus
+The missing symbols here are from v4l2-subdev.c v4l2-async.c and
+v4l2-fwnode.c.
+
+The CSIS Kconfig entry looks like this
+
+# SPDX-License-Identifier: GPL-2.0-only
+
+-------------------------------------------------------------------------------
+menuconfig VIDEO_IMX
+	bool "V4L2 capture drivers for NXP i.MX devices"
+	depends on ARCH_MXC || COMPILE_TEST
+	depends on VIDEO_DEV && VIDEO_V4L2
+	help
+	  Say yes here to enable support for capture drivers on i.MX SoCs.
+	  Support for the single SoC features are selectable in the sub-menu
+	  options.
+
+if VIDEO_IMX
+
+config VIDEO_IMX_MIPI_CSIS
+	tristate "MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
+	select MEDIA_CONTROLLER
+	select V4L2_FWNODE
+	select VIDEO_V4L2_SUBDEV_API
+	default n
+	help
+	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
+	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
+
+endif # VIDEO_IMX
+-------------------------------------------------------------------------------
+
+The VIDEO_V4L2 dependency on the menu entry should make sure
+v4l2-subdev.c is selected
+
+------- drivers/media/v4l2-core/Makefile --------------
+
+videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
+			v4l2-event.o v4l2-subdev.o v4l2-common.o \
+			v4l2-ctrls-core.o v4l2-ctrls-api.o \
+			v4l2-ctrls-request.o v4l2-ctrls-defs.o
+
+obj-$(CONFIG_VIDEO_V4L2) += videodev.o
+--------------------------------------------------------
+
+and the driver selects V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API.
+
+I understand v4l2-async might be missing, but why are the other
+symbols not selected as it seems to me they should be ?
+
+>
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+>    Depends on MEDIA_SUPPORT && VIDEO_DEV && MEDIA_CONTROLLER
+
+VIDEO_DEV is not selected in the config file used by the robot to
+generate this report,
+
+CONFIG_MEDIA_SUPPORT=m
+# CONFIG_VIDEO_DEV is not set
+CONFIG_MEDIA_CONTROLLER=y
+
+so in this case CSIS should not be selectable as the parent menuconfig
+should not be visible if !VIDEO_DEV ?
+
+
+>    Selected by
+>    - VIDEO_IMX_MIPI_CSIS && MEDIA_SUPPORT && MEDIA_PLATFORM_SUPPORT && MEDIA_PLATFORM_DRIVERS
+>
+> ---
+> 0-DAY CI Kernel Test Service
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
