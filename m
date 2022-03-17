@@ -2,178 +2,470 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EBD2F4DC142
-	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 09:31:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8CB34DC175
+	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 09:38:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231312AbiCQIcc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Mar 2022 04:32:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39204 "EHLO
+        id S231376AbiCQIj4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Mar 2022 04:39:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231297AbiCQIca (ORCPT
+        with ESMTP id S229565AbiCQIjz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Mar 2022 04:32:30 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD2A6196D55
-        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 01:31:13 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 412B6493;
-        Thu, 17 Mar 2022 09:31:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647505871;
-        bh=zckWkHxnQHSG9CY9FWrVavqbKhRpSzeNobeFaVXdGkY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=r+VR2yMWdA5zzd3LDHdRtmMQdp61iZ27KbYlTA+E1I+/io9Jp3IRdeFNGTjDhR5kH
-         XJv8ZmJSltlDIi/nwXAPZxdDIO5JgwHPo3cIDvgyqvM4haCGt/s79ORgjp+x0sbG6i
-         v27cnhdvSuHtIcT3+DsRUMnYmqP3A889MtSyi0mI=
-Date:   Thu, 17 Mar 2022 10:30:54 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     kernel test robot <lkp@intel.com>,
+        Thu, 17 Mar 2022 04:39:55 -0400
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F08B3D0A92
+        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 01:38:37 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id E3C43240006;
+        Thu, 17 Mar 2022 08:38:32 +0000 (UTC)
+Date:   Thu, 17 Mar 2022 09:38:30 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [linux-next:master 12222/13209] ERROR: modpost:
- "v4l2_subdev_link_validate" [drivers/media/platform/nxp/imx-mipi-csis.ko]
- undefined!
-Message-ID: <YjLxvsxQNCxP8OwW@pendragon.ideasonboard.com>
-References: <202203170501.AhqUekoF-lkp@intel.com>
- <20220317081943.imr6o6l5nyhoehxi@uno.localdomain>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v11 26/36] media: subdev: add stream based configuration
+Message-ID: <20220317083830.x7tusv2goldsumzv@uno.localdomain>
+References: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
+ <20220301161156.1119557-27-tomi.valkeinen@ideasonboard.com>
+ <20220316095905.cbqz4lihcrfrbpv6@uno.localdomain>
+ <616883b2-a85f-de61-31a0-91b514f61bf4@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220317081943.imr6o6l5nyhoehxi@uno.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <616883b2-a85f-de61-31a0-91b514f61bf4@ideasonboard.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Tomi
 
-On Thu, Mar 17, 2022 at 09:19:43AM +0100, Jacopo Mondi wrote:
-> Laurent, Mauro,
-> 
->         I'm having a bit of troubles to get what's missing in the CSIS Kconfig
-> 
-> On Thu, Mar 17, 2022 at 05:31:13AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   8a11187eb62b8b910d2c5484e1f5d160e8b11eb4
-> > commit: 67d841549e43ddcfc8ecc75cf86df1c5b48fe007 [12222/13209] media: platform/*/Kconfig: make manufacturer menus more uniform
-> > config: nios2-randconfig-r014-20220317 (https://download.01.org/0day-ci/archive/20220317/202203170501.AhqUekoF-lkp@intel.com/config)
-> > compiler: nios2-linux-gcc (GCC) 11.2.0
-> > reproduce (this is a W=1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=67d841549e43ddcfc8ecc75cf86df1c5b48fe007
-> >         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> >         git fetch --no-tags linux-next master
-> >         git checkout 67d841549e43ddcfc8ecc75cf86df1c5b48fe007
-> >         # save the config file to linux build tree
-> >         mkdir build_dir
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
+On Thu, Mar 17, 2022 at 10:01:47AM +0200, Tomi Valkeinen wrote:
+> On 16/03/2022 11:59, Jacopo Mondi wrote:
+> > Hi Tomi
 > >
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
+> > On Tue, Mar 01, 2022 at 06:11:46PM +0200, Tomi Valkeinen wrote:
+> > > Add support to manage configurations (format, crop, compose) per stream,
+> > > instead of per pad. This is accomplished with data structures that hold
+> > > an array of all subdev's stream configurations.
+> > >
+> > > The number of streams can vary at runtime based on routing. Every time
+> > > the routing is changed, the stream configurations need to be
+> > > re-initialized.
+> > >
+> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > ---
+> > >   .../v4l/vidioc-subdev-enum-frame-interval.rst |   5 +-
+> > >   .../v4l/vidioc-subdev-enum-frame-size.rst     |   5 +-
+> > >   .../v4l/vidioc-subdev-enum-mbus-code.rst      |   5 +-
+> > >   .../media/v4l/vidioc-subdev-g-crop.rst        |   5 +-
+> > >   .../media/v4l/vidioc-subdev-g-fmt.rst         |   5 +-
+> > >   .../v4l/vidioc-subdev-g-frame-interval.rst    |   5 +-
+> > >   .../media/v4l/vidioc-subdev-g-selection.rst   |   5 +-
+> > >   drivers/media/v4l2-core/v4l2-subdev.c         | 129 ++++++++++++++++--
+> > >   include/media/v4l2-subdev.h                   |  48 +++++++
+> > >   include/uapi/linux/v4l2-subdev.h              |  28 +++-
+> > >   10 files changed, 218 insertions(+), 22 deletions(-)
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst
+> > > index 3703943b412f..8def4c05d3da 100644
+> > > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst
+> > > @@ -92,7 +92,10 @@ multiple pads of the same sub-device is not defined.
+> > >         - Frame intervals to be enumerated, from enum
+> > >   	:ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
+> > >       * - __u32
+> > > -      - ``reserved``\ [8]
+> > > +      - ``stream``
+> > > +      - Stream identifier.
+> > > +    * - __u32
+> > > +      - ``reserved``\ [7]
 > >
-> > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> > Does VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL (as well as
+> > VIDIOC_SUBDEV_G_FRAME_INTERVAL) need to be stream-aware ?
 > >
-> > >> ERROR: modpost: "v4l2_subdev_link_validate" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> > >> ERROR: modpost: "v4l2_subdev_get_fwnode_pad_1_to_1" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> > >> ERROR: modpost: "v4l_bound_align_image" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> > >> ERROR: modpost: "v4l2_async_register_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> > >> ERROR: modpost: "v4l2_async_subdev_nf_register" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> > >> ERROR: modpost: "__v4l2_async_nf_add_fwnode_remote" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> > >> ERROR: modpost: "v4l2_fwnode_endpoint_parse" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> > >> ERROR: modpost: "v4l2_async_nf_init" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> > >> ERROR: modpost: "v4l2_subdev_init" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> > >> ERROR: modpost: "v4l2_async_unregister_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> > WARNING: modpost: suppressed 5 unresolved symbol warnings because there were too many)
-> 
-> The missing symbols here are from v4l2-subdev.c v4l2-async.c and
-> v4l2-fwnode.c.
-> 
-> The CSIS Kconfig entry looks like this
-> 
-> # SPDX-License-Identifier: GPL-2.0-only
-> 
-> -------------------------------------------------------------------------------
-> menuconfig VIDEO_IMX
-> 	bool "V4L2 capture drivers for NXP i.MX devices"
-> 	depends on ARCH_MXC || COMPILE_TEST
-> 	depends on VIDEO_DEV && VIDEO_V4L2
-> 	help
-> 	  Say yes here to enable support for capture drivers on i.MX SoCs.
-> 	  Support for the single SoC features are selectable in the sub-menu
-> 	  options.
-> 
-> if VIDEO_IMX
-> 
-> config VIDEO_IMX_MIPI_CSIS
-> 	tristate "MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
-> 	select MEDIA_CONTROLLER
-> 	select V4L2_FWNODE
-> 	select VIDEO_V4L2_SUBDEV_API
-> 	default n
-> 	help
-> 	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
-> 	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
-> 
-> endif # VIDEO_IMX
-> -------------------------------------------------------------------------------
-> 
-> The VIDEO_V4L2 dependency on the menu entry should make sure
-> v4l2-subdev.c is selected
-> 
-> ------- drivers/media/v4l2-core/Makefile --------------
-> 
-> videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
-> 			v4l2-event.o v4l2-subdev.o v4l2-common.o \
-> 			v4l2-ctrls-core.o v4l2-ctrls-api.o \
-> 			v4l2-ctrls-request.o v4l2-ctrls-defs.o
-> 
-> obj-$(CONFIG_VIDEO_V4L2) += videodev.o
-> --------------------------------------------------------
-> 
-> and the driver selects V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API.
-> 
-> I understand v4l2-async might be missing, but why are the other
-> symbols not selected as it seems to me they should be ?
-> 
+> > What is the semantic of the stream identifiers for IOCTLs that seem to
+> > control a paramter which is global to the subdev ? Isn't the stream semantic
+> > required to be specified in the IOCTL documentation and not just added
+> > to the list of fields ?
+>
+> Why would it be global to the subdev? struct v4l2_subdev_frame_interval_enum
+> already has 'pad' field, so it operates on that pad. With streams, each
+> stream in a pad may have different characteristics, (similarly to different
+> pads in non-stream case), so it feels logical to me to add the 'stream'
+> field.
+>
+
+I understand a device with multiple output interfaces can decide to
+clock out frames at different speeds due to some bus configuration
+parameters. But I have an hard time immagine a device that can clock
+out frames at different rates on the same bus.
+
+> > >         - Reserved for future extensions. Applications and drivers must set
+> > >   	the array to zero.
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
+> > > index c25a9896df0e..3ef361c0dca7 100644
+> > > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
+> > > @@ -97,7 +97,10 @@ information about try formats.
+> > >         - Frame sizes to be enumerated, from enum
+> > >   	:ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
+> > >       * - __u32
+> > > -      - ``reserved``\ [8]
+> > > +      - ``stream``
+> > > +      - Stream identifier.
+> > > +    * - __u32
+> > > +      - ``reserved``\ [7]
+> > >         - Reserved for future extensions. Applications and drivers must set
+> > >   	the array to zero.
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+> > > index 417f1a19bcc4..248f6f9ee7c5 100644
+> > > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+> > > @@ -73,7 +73,10 @@ information about the try formats.
+> > >         - ``flags``
+> > >         - See :ref:`v4l2-subdev-mbus-code-flags`
+> > >       * - __u32
+> > > -      - ``reserved``\ [7]
+> > > +      - ``stream``
+> > > +      - Stream identifier.
+> > > +    * - __u32
+> > > +      - ``reserved``\ [6]
+> > >         - Reserved for future extensions. Applications and drivers must set
+> > >   	the array to zero.
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
+> > > index bd15c0a5a66b..1d267f7e7991 100644
+> > > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
+> > > @@ -96,7 +96,10 @@ modified format should be as close as possible to the original request.
+> > >         - ``rect``
+> > >         - Crop rectangle boundaries, in pixels.
+> > >       * - __u32
+> > > -      - ``reserved``\ [8]
+> > > +      - ``stream``
+> > > +      - Stream identifier.
+> > > +    * - __u32
+> > > +      - ``reserved``\ [7]
+> > >         - Reserved for future extensions. Applications and drivers must set
+> > >   	the array to zero.
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+> > > index 7acdbb939d89..ed253a1e44b7 100644
+> > > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+> > > @@ -102,7 +102,10 @@ should be as close as possible to the original request.
+> > >         - Definition of an image format, see :c:type:`v4l2_mbus_framefmt` for
+> > >   	details.
+> > >       * - __u32
+> > > -      - ``reserved``\ [8]
+> > > +      - ``stream``
+> > > +      - Stream identifier.
+> > > +    * - __u32
+> > > +      - ``reserved``\ [7]
+> > >         - Reserved for future extensions. Applications and drivers must set
+> > >   	the array to zero.
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst
+> > > index d7fe7543c506..842f962d2aea 100644
+> > > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst
+> > > @@ -90,7 +90,10 @@ the same sub-device is not defined.
+> > >         - ``interval``
+> > >         - Period, in seconds, between consecutive video frames.
+> > >       * - __u32
+> > > -      - ``reserved``\ [9]
+> > > +      - ``stream``
+> > > +      - Stream identifier.
+> > > +    * - __u32
+> > > +      - ``reserved``\ [8]
+> > >         - Reserved for future extensions. Applications and drivers must set
+> > >   	the array to zero.
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst
+> > > index f9172a42f036..6b629c19168c 100644
+> > > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst
+> > > @@ -94,7 +94,10 @@ Selection targets and flags are documented in
+> > >         - ``r``
+> > >         - Selection rectangle, in pixels.
+> > >       * - __u32
+> > > -      - ``reserved``\ [8]
+> > > +      - ``stream``
+> > > +      - Stream identifier.
+> > > +    * - __u32
+> > > +      - ``reserved``\ [7]
+> > >         - Reserved for future extensions. Applications and drivers must set
+> > >   	the array to zero.
+> > >
+> > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > index 1c836c2de86e..339d7b15e26c 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > @@ -149,14 +149,34 @@ static inline int check_pad(struct v4l2_subdev *sd, u32 pad)
+> > >   	return 0;
+> > >   }
 > >
-> > Kconfig warnings: (for reference only)
-> >    WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-> >    Depends on MEDIA_SUPPORT && VIDEO_DEV && MEDIA_CONTROLLER
-> 
-> VIDEO_DEV is not selected in the config file used by the robot to
-> generate this report,
-> 
-> CONFIG_MEDIA_SUPPORT=m
-> # CONFIG_VIDEO_DEV is not set
-> CONFIG_MEDIA_CONTROLLER=y
-> 
-> so in this case CSIS should not be selectable as the parent menuconfig
-> should not be visible if !VIDEO_DEV ?
+> > To be honest, the only IOCTL for which I have a clear idea of the
+> > stream paramter semantic is s/g_format.
+>
+> I admit I don't have much experience with some of these ioctls. But the idea
+> is simple: in non-stream case ioctls operate on a subdev pad, in stream case
+> those ioctls operate on a subdev pad + stream tuple.
+>
+> If there's an ioctl that truly operates on a pad only, then we need to drop
+> the stream parameter. But the ioctls don't look like that to me.
+>
 
-I think this is now fixed in the latest media tree, by
+As above mentioned I have an hard time reconciling streams and frame
+rate handling. Thinking about image sensors, changing the rate at
+which frames are clocked out for one stream modifies the frame rate
+globally for all of them. Other devices might behave differently ?
 
-commit e4e92b9a6d86fe4122290e521f50d64dc1404a4c
-Author: Mauro Carvalho Chehab <mchehab@kernel.org>
-Date:   Sun Mar 13 07:25:46 2022 +0100
-
-    media: Kconfig: cleanup VIDEO_DEV dependencies
-
-> >    Selected by
-> >    - VIDEO_IMX_MIPI_CSIS && MEDIA_SUPPORT && MEDIA_PLATFORM_SUPPORT && MEDIA_PLATFORM_DRIVERS
+> > > -static int check_state_pads(u32 which, struct v4l2_subdev_state *state)
+> > > +static int check_state_pads(struct v4l2_subdev *sd, u32 which,
+> > > +			    struct v4l2_subdev_state *state)
+> > >   {
+> > > +	if (sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED)
+> > > +		return 0;
+> > > +
+> > >   	if (which == V4L2_SUBDEV_FORMAT_TRY && (!state || !state->pads))
+> > >   		return -EINVAL;
+> > >
+> > >   	return 0;
+> > >   }
+> > >
+> > > +static int check_state_pad_stream(struct v4l2_subdev *sd,
+> > > +				  struct v4l2_subdev_state *state, u32 pad,
+> > > +				  u32 stream)
+> > > +{
+> > > +	struct v4l2_mbus_framefmt *fmt;
+> > > +
+> > > +	if (!(sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED))
+> > > +		return 0;
+> > > +
+> > > +	fmt = v4l2_subdev_state_get_stream_format(state, pad, stream);
+> > > +	if (!fmt)
+> > > +		return -EINVAL;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
 > >
-> > ---
-> > 0-DAY CI Kernel Test Service
-> > https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> > check_state_pads() is always called in conjunction with
+> > check_state_pad_stream(). I would have made a check_state() that
+> > handles the multiplexed and non-multiplexed case. But that's an
+> > implementation detail, so up to you.
+>
+> That's true. I think it looked a bit different in earlier versions, but
+> looking at it now, combining those two makes sense.
+>
+> > >   static inline int check_format(struct v4l2_subdev *sd,
+> > >   			       struct v4l2_subdev_state *state,
+> > >   			       struct v4l2_subdev_format *format)
+> > > @@ -165,7 +185,8 @@ static inline int check_format(struct v4l2_subdev *sd,
+> > >   		return -EINVAL;
+> > >
+> > >   	return check_which(format->which) ? : check_pad(sd, format->pad) ? :
+> > > -	       check_state_pads(format->which, state);
+> > > +	       check_state_pads(sd, format->which, state) ? :
+> > > +	       check_state_pad_stream(sd, state, format->pad, format->stream);
+> > >   }
+> > >
+> > >   static int call_get_fmt(struct v4l2_subdev *sd,
+> > > @@ -192,7 +213,8 @@ static int call_enum_mbus_code(struct v4l2_subdev *sd,
+> > >   		return -EINVAL;
+> > >
+> > >   	return check_which(code->which) ? : check_pad(sd, code->pad) ? :
+> > > -	       check_state_pads(code->which, state) ? :
+> > > +	       check_state_pads(sd, code->which, state) ? :
+> > > +	       check_state_pad_stream(sd, state, code->pad, code->stream) ? :
+> > >   	       sd->ops->pad->enum_mbus_code(sd, state, code);
+> > >   }
+> > >
+> > > @@ -204,7 +226,8 @@ static int call_enum_frame_size(struct v4l2_subdev *sd,
+> > >   		return -EINVAL;
+> > >
+> > >   	return check_which(fse->which) ? : check_pad(sd, fse->pad) ? :
+> > > -	       check_state_pads(fse->which, state) ? :
+> > > +	       check_state_pads(sd, fse->which, state) ? :
+> > > +	       check_state_pad_stream(sd, state, fse->pad, fse->stream) ? :
+> > >   	       sd->ops->pad->enum_frame_size(sd, state, fse);
+> > >   }
+> > >
+> > > @@ -239,7 +262,8 @@ static int call_enum_frame_interval(struct v4l2_subdev *sd,
+> > >   		return -EINVAL;
+> > >
+> > >   	return check_which(fie->which) ? : check_pad(sd, fie->pad) ? :
+> > > -	       check_state_pads(fie->which, state) ? :
+> > > +	       check_state_pads(sd, fie->which, state) ? :
+> > > +	       check_state_pad_stream(sd, state, fie->pad, fie->stream) ? :
+> > >   	       sd->ops->pad->enum_frame_interval(sd, state, fie);
+> >
+> > call_g_frame_interval and call_s_frame_interval do accept a struct
+> > v4l2_subdev_frame_interval paramter now. Should the validity of
+> > streams be checked there too ?
+>
+> Yes, I need to check this.
+>
+> > >   }
+> > >
+> > > @@ -251,7 +275,8 @@ static inline int check_selection(struct v4l2_subdev *sd,
+> > >   		return -EINVAL;
+> > >
+> > >   	return check_which(sel->which) ? : check_pad(sd, sel->pad) ? :
+> > > -	       check_state_pads(sel->which, state);
+> > > +	       check_state_pads(sd, sel->which, state) ? :
+> > > +	       check_state_pad_stream(sd, state, sel->pad, sel->stream);
+> > >   }
+> > >
+> > >   static int call_get_selection(struct v4l2_subdev *sd,
+> > > @@ -865,6 +890,71 @@ const struct v4l2_file_operations v4l2_subdev_fops = {
+> > >
+> > >   #ifdef CONFIG_MEDIA_CONTROLLER
+> > >
+> > > +static int
+> > > +v4l2_subdev_init_stream_configs(struct v4l2_subdev_stream_configs *stream_configs,
+> > > +				const struct v4l2_subdev_krouting *routing)
+> > > +{
+> > > +	u32 num_configs = 0;
+> > > +	unsigned int i;
+> > > +	u32 format_idx = 0;
+> > > +
+> > > +	kvfree(stream_configs->configs);
+> > > +	stream_configs->configs = NULL;
+> > > +	stream_configs->num_configs = 0;
+> > > +
+> > > +	/* Count number of formats needed */
+> > > +	for (i = 0; i < routing->num_routes; ++i) {
+> > > +		struct v4l2_subdev_route *route = &routing->routes[i];
+> >
+> > This is a good candidate for for_each_active_route()
+>
+> Indeed.
+>
+> > > +
+> > > +		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+> > > +			continue;
+> > > +
+> > > +		/*
+> > > +		 * Each route needs a format on both ends of the route, except
+> > > +		 * for source streams which only need one format.
+> > > +		 */
+> > > +		num_configs +=
+> > > +			(route->flags & V4L2_SUBDEV_ROUTE_FL_SOURCE) ? 1 : 2;
+> > > +	}
+> > > +
+> > > +	if (num_configs) {
+> > > +		stream_configs->configs =
+> > > +			kvcalloc(num_configs, sizeof(*stream_configs->configs),
+> > > +				 GFP_KERNEL);
+> > > +
+> > > +		if (!stream_configs->configs)
+> > > +			return -ENOMEM;
+> > > +
+> > > +		stream_configs->num_configs = num_configs;
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * Fill in the 'pad' and stream' value for each item in the array from
+> > > +	 * the routing table
+> > > +	 */
+> > > +	for (i = 0; i < routing->num_routes; ++i) {
+> > > +		struct v4l2_subdev_route *route = &routing->routes[i];
+> > > +		u32 idx;
+> > > +
+> > > +		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+> > > +			continue;
+> >
+> > you iterate only active routes again. Which makes me think that you
+> > could return after the first loop if (!num_configs) ?
+>
+> Yes, I think you're right.
+>
+> > > +
+> > > +		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_SOURCE)) {
+> > > +			idx = format_idx++;
+> > > +
+> > > +			stream_configs->configs[idx].pad = route->sink_pad;
+> > > +			stream_configs->configs[idx].stream = route->sink_stream;
+> > > +		}
+> > > +
+> > > +		idx = format_idx++;
+> > > +
+> > > +		stream_configs->configs[idx].pad = route->source_pad;
+> > > +		stream_configs->configs[idx].stream = route->source_stream;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >   int v4l2_subdev_get_fwnode_pad_1_to_1(struct media_entity *entity,
+> > >   				      struct fwnode_endpoint *endpoint)
+> > >   {
+> > > @@ -1042,7 +1132,8 @@ __v4l2_subdev_state_alloc(struct v4l2_subdev *sd, const char *lock_name,
+> > >   	else
+> > >   		state->lock = &state->_lock;
+> > >
+> > > -	if (sd->entity.num_pads) {
+> > > +	/* Drivers that support streams do not need the legacy pad config */
+> > > +	if (!(sd->flags & V4L2_SUBDEV_FL_MULTIPLEXED) && sd->entity.num_pads) {
+> > >   		state->pads = kvmalloc_array(sd->entity.num_pads,
+> > >   					     sizeof(*state->pads),
+> > >   					     GFP_KERNEL | __GFP_ZERO);
+> > > @@ -1083,6 +1174,7 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
+> > >   	mutex_destroy(&state->_lock);
+> > >
+> > >   	kfree(state->routing.routes);
+> > > +	kvfree(state->stream_configs.configs);
+> > >   	kvfree(state->pads);
+> > >   	kfree(state);
+> > >   }
+> > > @@ -1133,10 +1225,31 @@ int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
+> > >   		dst->num_routes = src->num_routes;
+> > >   	}
+> > >
+> > > -	return 0;
+> > > +	return v4l2_subdev_init_stream_configs(&state->stream_configs, dst);
+> > >   }
+> > >   EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing);
+> > >
+> > > +struct v4l2_mbus_framefmt *
+> > > +v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
+> > > +				    unsigned int pad, u32 stream)
+> > > +{
+> > > +	struct v4l2_subdev_stream_configs *stream_configs;
+> > > +	unsigned int i;
+> > > +
+> > > +	lockdep_assert_held(state->lock);
+> >
+> > This function is only called by check_state_pad_stream(). Does it
+>
+> It is used in multiple places later.
+>
+> > locks the state ? I understand this is temporary only as other users
+> > introduced later will lock the state ?
+>
+> The caller is supposed to lock the state. subdev_do_ioctl_lock() does it
+> here. Do you mean the call wrappers could be called via some other route?
 
--- 
-Regards,
+I was concerned calling v4l2_subdev_state_get_stream_format() from
+check_state_pad_stream() would trigger a lockdep warning. But I had
+missed subdev_do_ioctl_lock() in the call path.
 
-Laurent Pinchart
+Thanks
+  j
+
+>
+>  Tomi
