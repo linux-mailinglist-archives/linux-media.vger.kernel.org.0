@@ -2,213 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29F814DCABD
-	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 17:06:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F284D4DCB23
+	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 17:21:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233690AbiCQQHm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Mar 2022 12:07:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44298 "EHLO
+        id S236474AbiCQQWd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Mar 2022 12:22:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231328AbiCQQHm (ORCPT
+        with ESMTP id S233264AbiCQQWa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Mar 2022 12:07:42 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C32214075
-        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 09:06:24 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id B8BAA1B002BF;
-        Thu, 17 Mar 2022 18:06:21 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1647533181;
+        Thu, 17 Mar 2022 12:22:30 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86B6D215900;
+        Thu, 17 Mar 2022 09:21:12 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 01AC0E000E;
+        Thu, 17 Mar 2022 16:21:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1647534070;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=Ikz5uwkIG1b0k+LuAINxGxkBzaXBQaOzKnV9drWaack=;
-        b=ckYnJ9EGGvj1dR67Xu9ZXwQxSqA/r2xi0nhZFi0JGFcAGEY5bkd2Hp1MyCrr21n87nO8PJ
-        ztdGP7+vQNIgmqfiVh/KWlAlmzngi70HVDmak//6HzKH/7i6+vU5G1vuoTY0gry9fVqUyF
-        RYuJqlqdxhQFk2wUJYQlky/Gd30bgpK1KttKuuSSEVXlNajnqfYU4oIsETV/m4Q5gpj+Np
-        sRGsHPAhV5k7UXl4M5NQszOzLuPUm62b5MjJhVnTILkRP8qrAOUFIqYpIpE4qO+bwNSgKE
-        R5XHQ4FmxHIgy3V+/lfsZwV8YDgAMAU46bSINDNicgXGhhfiCJSa/u83UOrGCQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6B130634C90;
-        Thu, 17 Mar 2022 18:06:21 +0200 (EET)
-Date:   Thu, 17 Mar 2022 18:06:21 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 1/2] media: v4l2: Make colorspace validity checks more
- future-proof
-Message-ID: <YjNcfeVbSTLXwwwp@valkosipuli.retiisi.eu>
-References: <20220317143700.12769-1-laurent.pinchart@ideasonboard.com>
- <20220317143700.12769-2-laurent.pinchart@ideasonboard.com>
+        bh=p+cYBkfFFvELqWc9QhQrIx+yztmy6I4JHGArTu/5pHI=;
+        b=DTjpkPO+Rd8PPKRBmDgIFf8CocPlPj+9wu7TQwKkH/W0cTGtcxwD+qkLdZ4vVrrK5894tJ
+        qjWmm6zNPvtp7WuOoZYPoAABdrfPmfdjfZP5alH9VGaORL5zNcW1tO/qyUMSX6N9AfWvHb
+        9FtpA38vZpWNVGuIAL8VAY/jdqsLRy9GRiOiezU+eavHdCHz2CqFaHFQfKAU0Qa3D5f8Xl
+        ef2mEmAUL09Sfh6bPrDXj7UogiwjaJWP1CmTH1wXKu32D4wRi1/kLzHE7rWzx9Dm32lTYK
+        W0DPmtj0k73bDzoXYiEafY2Qh/JG7P24sh+DGhwDqUxrQlAK6mlG4BGScugF8A==
+Date:   Thu, 17 Mar 2022 17:21:07 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+        Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 7/9] dt-bindings: media: Add Allwinner A83T MIPI CSI-2
+ bindings documentation
+Message-ID: <YjNf827KuySLowK1@aptenodytes>
+References: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
+ <20220302220739.144303-8-paul.kocialkowski@bootlin.com>
+ <YjHlisNfdobeAta7@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="iiX+RlDO9qayM+ej"
 Content-Disposition: inline
-In-Reply-To: <20220317143700.12769-2-laurent.pinchart@ideasonboard.com>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1647533181; a=rsa-sha256;
-        cv=none;
-        b=W5ExHG/RQXHQ09yc7S2zugq0Qza5VYzd5V6V+5ArdxynLi9TCTO/Q5dsFsXE/tlj+DMxOQ
-        sbPen8miCWZ2pPa9yAM1cBsXIA1J9AqGUdTm3nrsahZp6010AtD599SOG7J5mssI/aE5nz
-        730xja4wKheTPyvmWDy014FxEWub8kXL65Og4Q2rZvF74PsbSfDr2tCHSJYxE397wm96NI
-        /xvYPKKDkPSH5d31ZN4TcWyKGPp3mPsvkXebP4pCIMBg7CiAldsXIIzEUj7q1NwpIqlsnj
-        VV/jxqwfGQyBZrJRUF21oDgvRKb0Q3vB/dmLRopBAScHouWtLa3cxGtTKsvSnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1647533181;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ikz5uwkIG1b0k+LuAINxGxkBzaXBQaOzKnV9drWaack=;
-        b=Do/cZUDRoWyiI3PRvWK4ZaPsdPsFd2Chjhc2GVRuUFm147N+jWBgOk4pcBzo6zuxNO0A98
-        KXbykoupoihQmOLorHIAGFDWuhtEcZF/4HPSAvebJZFkH5FRK3cXFYFUYG2GBTUS0N6WYB
-        sZBUwmS6q8K8/10s9ZR56lHODxYJN2z32wffwK9HMndujx+zIE8zu7eBmKdDQWwL4HPQ8t
-        y6ibaenFu9RB8rnok4zGHlempQTkfrtxSe58BF6yMHzjJ55NRajWePaCDH5kYababJOzrt
-        7aVbr8RAWEgioXZwnRhYHXtTDxdTxEyYIgnXo3Dq8amjUMUOpwCqLzl/cMZGMA==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <YjHlisNfdobeAta7@paasikivi.fi.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
 
-On Thu, Mar 17, 2022 at 04:36:59PM +0200, Laurent Pinchart wrote:
-> The helper functions that test validity of colorspace-related fields
-> use the last value of the corresponding enums. This isn't very
-> future-proof, as there's a high chance someone adding a new value may
-> forget to update the helpers. Add new "LAST" entries to the enumerations
-> to improve this, and keep them private to the kernel.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  include/media/v4l2-common.h    | 10 +++++-----
->  include/uapi/linux/videodev2.h | 29 +++++++++++++++++++++++++++++
->  2 files changed, 34 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index 3eb202259e8c..b686124e2ccf 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -563,19 +563,19 @@ static inline void v4l2_buffer_set_timestamp(struct v4l2_buffer *buf,
->  static inline bool v4l2_is_colorspace_valid(__u32 colorspace)
->  {
->  	return colorspace > V4L2_COLORSPACE_DEFAULT &&
-> -	       colorspace <= V4L2_COLORSPACE_DCI_P3;
-> +	       colorspace <= V4L2_COLORSPACE_LAST;
->  }
->  
->  static inline bool v4l2_is_xfer_func_valid(__u32 xfer_func)
->  {
->  	return xfer_func > V4L2_XFER_FUNC_DEFAULT &&
-> -	       xfer_func <= V4L2_XFER_FUNC_SMPTE2084;
-> +	       xfer_func <= V4L2_XFER_FUNC_LAST;
->  }
->  
->  static inline bool v4l2_is_ycbcr_enc_valid(__u8 ycbcr_enc)
->  {
->  	return ycbcr_enc > V4L2_YCBCR_ENC_DEFAULT &&
-> -	       ycbcr_enc <= V4L2_YCBCR_ENC_SMPTE240M;
-> +	       ycbcr_enc <= V4L2_YCBCR_ENC_LAST;
->  }
->  
->  static inline bool v4l2_is_hsv_enc_valid(__u8 hsv_enc)
-> @@ -585,8 +585,8 @@ static inline bool v4l2_is_hsv_enc_valid(__u8 hsv_enc)
->  
->  static inline bool v4l2_is_quant_valid(__u8 quantization)
->  {
-> -	return quantization == V4L2_QUANTIZATION_FULL_RANGE ||
-> -	       quantization == V4L2_QUANTIZATION_LIM_RANGE;
-> +	return quantization > V4L2_QUANTIZATION_DEFAULT &&
-> +	       quantization <= V4L2_QUANTIZATION_LAST;
->  }
->  
->  #endif /* V4L2_COMMON_H_ */
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 16dcd9dd1a50..099da1576db6 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -245,6 +245,14 @@ enum v4l2_colorspace {
->  
->  	/* DCI-P3 colorspace, used by cinema projectors */
->  	V4L2_COLORSPACE_DCI_P3        = 12,
-> +
-> +#ifdef __KERNEL__
-> +	/*
-> +	 * Largest supported colorspace value, used by the framework to check
-> +	 * for invalid values.
-> +	 */
-> +	V4L2_COLORSPACE_LAST          = 12,
+--iiX+RlDO9qayM+ej
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I might just add the enum there, it is more obvious it needs updating if
-it's right next to the previous one. Or rely on the compiler assigning the
-value, and update the code. Up to you.
+Hi Sakari,
 
-For both:
+On Wed 16 Mar 22, 15:26, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> Thanks for the patch.
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+And thanks for the review!
 
-> +#endif
->  };
->  
->  /*
-> @@ -283,6 +291,13 @@ enum v4l2_xfer_func {
->  	V4L2_XFER_FUNC_NONE        = 5,
->  	V4L2_XFER_FUNC_DCI_P3      = 6,
->  	V4L2_XFER_FUNC_SMPTE2084   = 7,
-> +#ifdef __KERNEL__
-> +	/*
-> +	 * Largest supported transfer function value, used by the framework to
-> +	 * check for invalid values.
-> +	 */
-> +	V4L2_XFER_FUNC_LAST        = 7,
-> +#endif
->  };
->  
->  /*
-> @@ -343,6 +358,13 @@ enum v4l2_ycbcr_encoding {
->  
->  	/* SMPTE 240M -- Obsolete HDTV */
->  	V4L2_YCBCR_ENC_SMPTE240M      = 8,
-> +#ifdef __KERNEL__
-> +	/*
-> +	 * Largest supported encoding value, used by the framework to check for
-> +	 * invalid values.
-> +	 */
-> +	V4L2_YCBCR_ENC_LAST           = 8,
-> +#endif
->  };
->  
->  /*
-> @@ -378,6 +400,13 @@ enum v4l2_quantization {
->  	V4L2_QUANTIZATION_DEFAULT     = 0,
->  	V4L2_QUANTIZATION_FULL_RANGE  = 1,
->  	V4L2_QUANTIZATION_LIM_RANGE   = 2,
-> +#ifdef __KERNEL__
-> +	/*
-> +	 * Largest supported quantization value, used by the framework to check
-> +	 * for invalid values.
-> +	 */
-> +	V4L2_QUANTIZATION_LAST        = 2,
-> +#endif
->  };
->  
->  /*
+> On Wed, Mar 02, 2022 at 11:07:37PM +0100, Paul Kocialkowski wrote:
+> > This introduces YAML bindings documentation for the Allwinner A83T
+> > MIPI CSI-2 controller.
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > ---
+> >  .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 138 ++++++++++++++++++
+> >  1 file changed, 138 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
+un8i-a83t-mipi-csi2.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun8i-a8=
+3t-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun8i=
+-a83t-mipi-csi2.yaml
+> > new file mode 100644
+> > index 000000000000..75121b402435
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi=
+-csi2.yaml
+> > @@ -0,0 +1,138 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/allwinner,sun8i-a83t-mipi-csi=
+2.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Allwinner A83T MIPI CSI-2 Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: allwinner,sun8i-a83t-mipi-csi2
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Bus Clock
+> > +      - description: Module Clock
+> > +      - description: MIPI-specific Clock
+> > +      - description: Misc CSI Clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: bus
+> > +      - const: mod
+> > +      - const: mipi
+> > +      - const: misc
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: Input port, connect to a MIPI CSI-2 sensor
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 0
+> > +
+> > +          endpoint:
+> > +            $ref: video-interfaces.yaml#
+> > +            unevaluatedProperties: false
+> > +
+> > +            properties:
+> > +              clock-lanes:
+> > +                maxItems: 1
+>=20
+> Does the hardware support lane reordering? If not, the property should be
+> omitted here.
 
--- 
-Regards,
+I'm not sure what this relates to. Is it about inverting the clock lane with
+a data lane? I'm a bit confused about logical vs physical lane in the conte=
+xt
+of MIPI CSI-2.
 
-Sakari Ailus
+The controller has dedicated pins for the clock and data lanes and supports
+filtering packets based on virtual channel or data type.
+
+Are the clock-lanes and data-lanes only relevant for reordering?
+IIRC they are also necessary to get the lanes count in the driver.
+
+> I can also remove the three lines here while applying the patches.
+
+I think this series will need another iteration anyway, so let's wait.
+
+Paul
+
+> > +
+> > +              data-lanes:
+> > +                minItems: 1
+> > +                maxItems: 4
+> > +
+> > +            required:
+> > +              - data-lanes
+> > +
+> > +        additionalProperties: false
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: Output port, connect to a CSI controller
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 1
+> > +
+> > +          endpoint:
+> > +            $ref: video-interfaces.yaml#
+> > +            unevaluatedProperties: false
+> > +
+> > +        additionalProperties: false
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - resets
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
+> > +    #include <dt-bindings/reset/sun8i-a83t-ccu.h>
+> > +
+> > +    mipi_csi2: csi@1cb1000 {
+> > +        compatible =3D "allwinner,sun8i-a83t-mipi-csi2";
+> > +        reg =3D <0x01cb1000 0x1000>;
+> > +        interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks =3D <&ccu CLK_BUS_CSI>,
+> > +                 <&ccu CLK_CSI_SCLK>,
+> > +                 <&ccu CLK_MIPI_CSI>,
+> > +                 <&ccu CLK_CSI_MISC>;
+> > +        clock-names =3D "bus", "mod", "mipi", "misc";
+> > +        resets =3D <&ccu RST_BUS_CSI>;
+> > +
+> > +        ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            mipi_csi2_in: port@0 {
+> > +                reg =3D <0>;
+> > +
+> > +                mipi_csi2_in_ov8865: endpoint {
+> > +                    data-lanes =3D <1 2 3 4>;
+> > +
+> > +                    remote-endpoint =3D <&ov8865_out_mipi_csi2>;
+> > +                };
+> > +            };
+> > +
+> > +            mipi_csi2_out: port@1 {
+> > +                reg =3D <1>;
+> > +
+> > +                mipi_csi2_out_csi: endpoint {
+> > +                    remote-endpoint =3D <&csi_in_mipi_csi2>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+>=20
+> --=20
+> Kind regards,
+>=20
+> Sakari Ailus
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--iiX+RlDO9qayM+ej
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIzX/MACgkQ3cLmz3+f
+v9E+pQf+IeGzh1lXPZrMZDTECUlOPK5l/zgJtpRtE5Gd7qzKbZm59v2L4YYnaBzC
+uT+MIgMHxJtyX90UobiXOilMW/yxilQFh/i00T4HMXEZ+VFxY6wVVUZt0/yZM33n
+U3EqJqMWT/cb14jgNFBi9jEX7Y08cRih1u8JZxnDBDnq/1KZL/csvquJ2Ljwczw0
+cMOQ+1L8liSsQiq7AlorcZLuFSLttMlbIZg+E2u9FNSBKcoF1iUpsDhSggXEVvs9
+rVxpT+YhxM6hNls7XR3LyeE7KdAfdcub5JFhUiq7oTJxQK+K6/0IWv8qBrq35k3u
+qcCt2yH9UO9dmAyhBky+qbS06yaJjA==
+=IJLv
+-----END PGP SIGNATURE-----
+
+--iiX+RlDO9qayM+ej--
