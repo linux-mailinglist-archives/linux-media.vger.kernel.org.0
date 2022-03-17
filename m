@@ -2,55 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 717CD4DC332
-	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 10:45:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 406DE4DC431
+	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 11:45:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232174AbiCQJqn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Mar 2022 05:46:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49458 "EHLO
+        id S232675AbiCQKql (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Mar 2022 06:46:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232172AbiCQJqm (ORCPT
+        with ESMTP id S230222AbiCQKqk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Mar 2022 05:46:42 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47F871AECBA
-        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 02:45:26 -0700 (PDT)
-Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43AAA493;
-        Thu, 17 Mar 2022 10:45:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647510324;
-        bh=M+DP0I2AtcJy+KpcV70u2keQR9grDyKJM9rc1QZ6ZBA=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=eaAz0ruOYa2ic7qbNjfnxddAU2JA6bSq9s/zVuYW1+HkpDI8K66Cj/AGEYCtBuY84
-         x0wzqt/ugmopQgmAq6GcIjEUBWdkMXzwRwhtyumR6jRv94/NsbINNnuz2Ucuarn0WC
-         BtzuhP5g9ye7xwP1Ojjbj6w+V82cce5YU6Vp8MXk=
-Message-ID: <71b68c2c-7b27-1217-617e-f0b9fcb48f2c@ideasonboard.com>
-Date:   Thu, 17 Mar 2022 11:45:21 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v11 36/36] media: v4l2-subdev: Add
- v4l2_subdev_s_stream_helper() function
-Content-Language: en-US
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Thu, 17 Mar 2022 06:46:40 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E621DEBAB
+        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 03:45:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647513924; x=1679049924;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W8Xdt9laOGXjV/BWIxbm7uanH5uJAfGkt6kmeoClN/g=;
+  b=gct514cEsvWIiZJgrrjjQemLIQ6h6hLAuu6Disfi4rF6l4i4fU0WNCO0
+   WQWtbXYLU0U8jA9lWAMV71aQ55Hq8t9ocoxpr14Dk5kJUnUzMSjeVC/k4
+   iUVnzVxjMz+BZ/Qwj9NssK8Xc4KsEjB2Lj1EQalwP/LKJgAMiudfKrp47
+   D4uSE6Xx+AiABlxCb4zySz1Ynk24uupJEyyrshpLNmeVF1JeXTFV1kibY
+   vz/f8rjrR/D2CXDOP+DCRUsWXqajH4hKmhyQlXr5+8rSoHbl2y5LdCA/b
+   gkkb5rgM49DqI27r/9oRr8RnemBMpS5ztBcM1p596fbEfc3ygaJ/z3z3U
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="238998969"
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
+   d="scan'208";a="238998969"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2022 03:45:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
+   d="scan'208";a="498785543"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 17 Mar 2022 03:45:21 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nUndA-000DbR-OZ; Thu, 17 Mar 2022 10:45:20 +0000
+Date:   Thu, 17 Mar 2022 18:45:07 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-media@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>
-References: <20220301161156.1119557-1-tomi.valkeinen@ideasonboard.com>
- <20220301161156.1119557-37-tomi.valkeinen@ideasonboard.com>
- <20220316121030.tc2srm7ajmuqhfdf@uno.localdomain>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20220316121030.tc2srm7ajmuqhfdf@uno.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Neil Armstrong <narmstrong@baylibre.com>
+Subject: [linux-next:master 12223/13209] imx-mipi-csis.c:undefined reference
+ to `v4l2_async_nf_init'
+Message-ID: <202203171840.ZXc3IgpZ-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,98 +66,72 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/03/2022 14:10, Jacopo Mondi wrote:
-> Hi Laurent,
-> 
-> On Tue, Mar 01, 2022 at 06:11:56PM +0200, Tomi Valkeinen wrote:
->> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>
->> The v4l2_subdev_s_stream_helper() helper can be used by subdevs that
->> implement the stream-aware .enable_streams() and .disable_streams()
->> operations to implement .s_stream(). This is limited to subdevs that
->> have a single source pad.
->>
->> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-subdev.c | 40 +++++++++++++++++++++++++++
->>   include/media/v4l2-subdev.h           | 17 ++++++++++++
->>   2 files changed, 57 insertions(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index f75a1995a70b..270445821f06 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -1914,6 +1914,46 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
->>   }
->>   EXPORT_SYMBOL_GPL(v4l2_subdev_disable_streams);
->>
->> +int v4l2_subdev_s_stream_helper(struct v4l2_subdev *sd, int enable)
->> +{
->> +	struct v4l2_subdev_state *state;
->> +	struct v4l2_subdev_route *route;
->> +	struct media_pad *pad;
->> +	u64 source_mask = 0;
->> +	int pad_index = -1;
->> +
->> +	/*
->> +	 * Find the source pad. This helper is meant for subdevs that have a
->> +	 * single source pad, so failures shouldn't happen, but catch them
->> +	 * loudly nonetheless as they indicate a driver bug.
->> +	 */
->> +	media_entity_for_each_pad(&sd->entity, pad) {
->> +		if (pad->flags & MEDIA_PAD_FL_SOURCE) {
->> +			pad_index = pad->index;
->> +			break;
->> +		}
->> +	}
->> +
->> +	if (WARN_ON(pad_index == -1))
->> +		return -EINVAL;
->> +
->> +	/*
->> +	 * As there's a single source pad, just collect all the source streams.
->> +	 */
->> +	state = v4l2_subdev_lock_and_get_active_state(sd);
->> +
->> +	for_each_active_route(&state->routing, route)
->> +		source_mask |= BIT(route->source_stream);
->> +
->> +	v4l2_subdev_unlock_state(state);
->> +
->> +	if (enable)
->> +		return v4l2_subdev_enable_streams(sd, pad_index, source_mask);
->> +	else
->> +		return v4l2_subdev_disable_streams(sd, pad_index, source_mask);
-> 
-> Or
->          return enable ? ...
->                        : ... ;
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8a11187eb62b8b910d2c5484e1f5d160e8b11eb4
+commit: e9e9e70a8b1099615d925e972dce7c7078aec3df [12223/13209] media: Kconfig: cleanup VIDEO_DEV dependencies
+config: nios2-buildonly-randconfig-r001-20220317 (https://download.01.org/0day-ci/archive/20220317/202203171840.ZXc3IgpZ-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=e9e9e70a8b1099615d925e972dce7c7078aec3df
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout e9e9e70a8b1099615d925e972dce7c7078aec3df
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
 
-I'm not sure if that's any better...
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
->> +}
->> +EXPORT_SYMBOL_GPL(v4l2_subdev_s_stream_helper);
->> +
->>   #endif /* CONFIG_MEDIA_CONTROLLER */
->>
->>   void v4l2_subdev_init(struct v4l2_subdev *sd, const struct v4l2_subdev_ops *ops)
->> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->> index bb1713863973..817452ec30bb 100644
->> --- a/include/media/v4l2-subdev.h
->> +++ b/include/media/v4l2-subdev.h
->> @@ -1674,6 +1674,23 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->>   int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
->>   				u64 streams_mask);
->>
->> +/**
->> + * v4l2_subdev_s_stream_helper() - Helper to implement the subdev s_stream
->> + *	operation using enable_streams and disable_streams
->> + * @sd: The subdevice
->> + * @enable: Enable to disable streaming
-> 
-> Enable or disable
+All errors (new ones prefixed by >>):
 
-Thanks.
+   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_async_register':
+>> imx-mipi-csis.c:(.text+0x374): undefined reference to `v4l2_async_nf_init'
+   imx-mipi-csis.c:(.text+0x374): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_async_nf_init'
+>> nios2-linux-ld: imx-mipi-csis.c:(.text+0x3a4): undefined reference to `v4l2_fwnode_endpoint_parse'
+   imx-mipi-csis.c:(.text+0x3a4): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_fwnode_endpoint_parse'
+>> nios2-linux-ld: imx-mipi-csis.c:(.text+0x434): undefined reference to `__v4l2_async_nf_add_fwnode_remote'
+   imx-mipi-csis.c:(.text+0x434): relocation truncated to fit: R_NIOS2_CALL26 against `__v4l2_async_nf_add_fwnode_remote'
+>> nios2-linux-ld: imx-mipi-csis.c:(.text+0x460): undefined reference to `v4l2_async_subdev_nf_register'
+   imx-mipi-csis.c:(.text+0x460): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_async_subdev_nf_register'
+>> nios2-linux-ld: imx-mipi-csis.c:(.text+0x484): undefined reference to `v4l2_async_register_subdev'
+   imx-mipi-csis.c:(.text+0x484): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_async_register_subdev'
+   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_notify_bound':
+   imx-mipi-csis.c:(.text+0x510): undefined reference to `v4l2_create_fwnode_links_to_pad'
+   imx-mipi-csis.c:(.text+0x510): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_create_fwnode_links_to_pad'
+   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_s_stream':
+   imx-mipi-csis.c:(.text+0x6e8): undefined reference to `v4l2_subdev_call_wrappers'
+   nios2-linux-ld: imx-mipi-csis.c:(.text+0x6ec): undefined reference to `v4l2_subdev_call_wrappers'
+   nios2-linux-ld: imx-mipi-csis.c:(.text+0x720): undefined reference to `v4l2_subdev_call_wrappers'
+   nios2-linux-ld: imx-mipi-csis.c:(.text+0x724): undefined reference to `v4l2_subdev_call_wrappers'
+   nios2-linux-ld: imx-mipi-csis.c:(.text+0x78c): undefined reference to `v4l2_get_link_freq'
+   imx-mipi-csis.c:(.text+0x78c): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_get_link_freq'
+   nios2-linux-ld: imx-mipi-csis.c:(.text+0x874): undefined reference to `v4l2_subdev_call_wrappers'
+   nios2-linux-ld: imx-mipi-csis.c:(.text+0x878): undefined reference to `v4l2_subdev_call_wrappers'
+   nios2-linux-ld: imx-mipi-csis.c:(.text+0x900): undefined reference to `v4l2_subdev_call_wrappers'
+   nios2-linux-ld: imx-mipi-csis.c:(.text+0x904): undefined reference to `v4l2_subdev_call_wrappers'
+   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_remove':
+>> imx-mipi-csis.c:(.text+0xa8c): undefined reference to `v4l2_async_nf_unregister'
+   imx-mipi-csis.c:(.text+0xa8c): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_async_nf_unregister'
+>> nios2-linux-ld: imx-mipi-csis.c:(.text+0xa94): undefined reference to `v4l2_async_nf_cleanup'
+   imx-mipi-csis.c:(.text+0xa94): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_async_nf_cleanup'
+>> nios2-linux-ld: imx-mipi-csis.c:(.text+0xa9c): undefined reference to `v4l2_async_unregister_subdev'
+   imx-mipi-csis.c:(.text+0xa9c): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_async_unregister_subdev'
+   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_probe':
+   imx-mipi-csis.c:(.text+0xe30): undefined reference to `v4l2_subdev_init'
+   imx-mipi-csis.c:(.text+0xe30): additional relocation overflows omitted from the output
+>> nios2-linux-ld: imx-mipi-csis.c:(.text+0x10ec): undefined reference to `v4l2_async_nf_unregister'
+   nios2-linux-ld: imx-mipi-csis.c:(.text+0x10f4): undefined reference to `v4l2_async_nf_cleanup'
+   nios2-linux-ld: imx-mipi-csis.c:(.text+0x10fc): undefined reference to `v4l2_async_unregister_subdev'
+   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_set_fmt':
+   imx-mipi-csis.c:(.text+0x1580): undefined reference to `v4l_bound_align_image'
+   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:(.rodata+0x4f0): undefined reference to `v4l2_subdev_get_fwnode_pad_1_to_1'
+   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:(.rodata+0x4f8): undefined reference to `v4l2_subdev_link_validate'
+   nios2-linux-ld: net/core/sock.o: in function `sk_destruct':
+   sock.c:(.text+0x4694): undefined reference to `__sk_defer_free_flush'
 
-  Tomi
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
