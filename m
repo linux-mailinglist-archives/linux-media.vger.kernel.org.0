@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C8414DC6D8
-	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 13:55:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48EDE4DC709
+	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 13:59:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234377AbiCQM4I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Mar 2022 08:56:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40346 "EHLO
+        id S234363AbiCQM72 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Mar 2022 08:59:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234254AbiCQMzg (ORCPT
+        with ESMTP id S235195AbiCQM6p (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Mar 2022 08:55:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B2FABF73
-        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 05:53:56 -0700 (PDT)
+        Thu, 17 Mar 2022 08:58:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A31429F6DD
+        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 05:56:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2CAC66157E
-        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 12:53:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0766EC36AE9;
-        Thu, 17 Mar 2022 12:53:54 +0000 (UTC)
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv3 7/7] cec: add optional adap_configured callback
-Date:   Thu, 17 Mar 2022 13:53:46 +0100
-Message-Id: <20220317125346.145105-8-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220317125346.145105-1-hverkuil-cisco@xs4all.nl>
-References: <20220317125346.145105-1-hverkuil-cisco@xs4all.nl>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3CF806157A
+        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 12:56:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6606FC340E9
+        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 12:56:10 +0000 (UTC)
+Message-ID: <66246ea5-2bd7-6c9e-56c8-9d683ec58ffc@xs4all.nl>
+Date:   Thu, 17 Mar 2022 13:56:08 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Content-Language: en-US
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH for v5.18] v4l2-ctrls: unlink all subscribed events
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -42,87 +42,92 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This new optional callback is called when the adapter is fully configured
-or fully unconfigured. Some drivers may have to take action when this
-happens.
+The v4l2_ctrl_handler_free() function must unlink all subscribed events
+of the control handler that is being freed, but it only did so for the
+controls owned by that control handler and not for the controls referred
+to by that control handler. This leaves stale data in the ev_subs list
+of those controls.
+
+The node list header is also properly initialized and list_del_init is
+called instead of list_del to ensure that list_empty() can be used
+to detect whether a v4l2_subscribed_event is part of a list or not.
+
+This makes v4l2_ctrl_del_event() more robust since it will not attempt
+to find the control if the v4l2_subscribed_event has already been unlinked
+from the control.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- Documentation/driver-api/media/cec-core.rst | 13 ++++++++++++-
- drivers/media/cec/core/cec-adap.c           |  2 ++
- include/media/cec.h                         |  1 +
- 3 files changed, 15 insertions(+), 1 deletion(-)
+ drivers/media/v4l2-core/v4l2-ctrls-api.c  | 7 +++++--
+ drivers/media/v4l2-core/v4l2-ctrls-core.c | 6 +++++-
+ drivers/media/v4l2-core/v4l2-event.c      | 1 +
+ 3 files changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/driver-api/media/cec-core.rst b/Documentation/driver-api/media/cec-core.rst
-index c6194ee81c41..ae0d20798edc 100644
---- a/Documentation/driver-api/media/cec-core.rst
-+++ b/Documentation/driver-api/media/cec-core.rst
-@@ -109,6 +109,7 @@ your driver:
- 		int (*adap_monitor_all_enable)(struct cec_adapter *adap, bool enable);
- 		int (*adap_monitor_pin_enable)(struct cec_adapter *adap, bool enable);
- 		int (*adap_log_addr)(struct cec_adapter *adap, u8 logical_addr);
-+		void (*adap_configured)(struct cec_adapter *adap, bool configured);
- 		int (*adap_transmit)(struct cec_adapter *adap, u8 attempts,
- 				      u32 signal_free_time, struct cec_msg *msg);
- 		void (*adap_status)(struct cec_adapter *adap, struct seq_file *file);
-@@ -117,7 +118,7 @@ your driver:
- 		/* Error injection callbacks */
- 		...
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+index db9baa0bd05f..d64b22cb182c 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+@@ -1159,13 +1159,16 @@ static int v4l2_ctrl_add_event(struct v4l2_subscribed_event *sev,
  
--		/* High-level callbacks */
-+		/* High-level callback */
- 		...
- 	};
- 
-@@ -178,6 +179,16 @@ can receive directed messages to that address.
- Note that adap_log_addr must return 0 if logical_addr is CEC_LOG_ADDR_INVALID.
- 
- 
-+Called when the adapter is fully configured or unconfigured::
+ static void v4l2_ctrl_del_event(struct v4l2_subscribed_event *sev)
+ {
+-	struct v4l2_ctrl *ctrl = v4l2_ctrl_find(sev->fh->ctrl_handler, sev->id);
++	struct v4l2_ctrl *ctrl = NULL;
 +
-+	void (*adap_configured)(struct cec_adapter *adap, bool configured);
-+
-+If configured == true, then the adapter is fully configured, i.e. all logical
-+addresses have been successfully claimed. If configured == false, then the
-+adapter is unconfigured. If the driver has to take specific actions after
-+(un)configuration, then that can be done through this optional callback.
-+
-+
- To transmit a new message::
++	if (!list_empty(&sev->node))
++		ctrl = v4l2_ctrl_find(sev->fh->ctrl_handler, sev->id);
  
- 	int (*adap_transmit)(struct cec_adapter *adap, u8 attempts,
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index d359c9972d06..d7d9057000b5 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -1336,6 +1336,7 @@ static void cec_adap_unconfigure(struct cec_adapter *adap)
- 	cec_flush(adap);
- 	wake_up_interruptible(&adap->kthread_waitq);
- 	cec_post_state_event(adap);
-+	call_void_op(adap, adap_configured, false);
+ 	if (!ctrl)
+ 		return;
+ 
+ 	v4l2_ctrl_lock(ctrl);
+-	list_del(&sev->node);
++	list_del_init(&sev->node);
+ 	v4l2_ctrl_unlock(ctrl);
  }
  
- /*
-@@ -1517,6 +1518,7 @@ static int cec_config_thread_func(void *arg)
- 	adap->kthread_config = NULL;
- 	complete(&adap->config_completion);
- 	mutex_unlock(&adap->lock);
-+	call_void_op(adap, adap_configured, true);
- 	return 0;
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+index 8968cec8454e..1a9d60cb119c 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+@@ -10,6 +10,7 @@
+ #include <linux/slab.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-event.h>
++#include <media/v4l2-fh.h>
+ #include <media/v4l2-fwnode.h>
  
- unconfigure:
-diff --git a/include/media/cec.h b/include/media/cec.h
-index 80340c9eb0f2..6f13b0222aa3 100644
---- a/include/media/cec.h
-+++ b/include/media/cec.h
-@@ -118,6 +118,7 @@ struct cec_adap_ops {
- 	int (*adap_monitor_all_enable)(struct cec_adapter *adap, bool enable);
- 	int (*adap_monitor_pin_enable)(struct cec_adapter *adap, bool enable);
- 	int (*adap_log_addr)(struct cec_adapter *adap, u8 logical_addr);
-+	void (*adap_configured)(struct cec_adapter *adap, bool configured);
- 	int (*adap_transmit)(struct cec_adapter *adap, u8 attempts,
- 			     u32 signal_free_time, struct cec_msg *msg);
- 	void (*adap_status)(struct cec_adapter *adap, struct seq_file *file);
+ #include "v4l2-ctrls-priv.h"
+@@ -1165,13 +1166,16 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
+ 	/* Free all nodes */
+ 	list_for_each_entry_safe(ref, next_ref, &hdl->ctrl_refs, node) {
+ 		list_del(&ref->node);
++		list_for_each_entry_safe(sev, next_sev, &ref->ctrl->ev_subs, node)
++			if (sev->fh->ctrl_handler == hdl)
++				list_del_init(&sev->node);
+ 		kfree(ref);
+ 	}
+ 	/* Free all controls owned by the handler */
+ 	list_for_each_entry_safe(ctrl, next_ctrl, &hdl->ctrls, node) {
+ 		list_del(&ctrl->node);
+ 		list_for_each_entry_safe(sev, next_sev, &ctrl->ev_subs, node)
+-			list_del(&sev->node);
++			list_del_init(&sev->node);
+ 		kvfree(ctrl);
+ 	}
+ 	kvfree(hdl->buckets);
+diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
+index c5ce9f11ad7b..2fd9f7187c04 100644
+--- a/drivers/media/v4l2-core/v4l2-event.c
++++ b/drivers/media/v4l2-core/v4l2-event.c
+@@ -246,6 +246,7 @@ int v4l2_event_subscribe(struct v4l2_fh *fh,
+ 	sev->fh = fh;
+ 	sev->ops = ops;
+ 	sev->elems = elems;
++	INIT_LIST_HEAD(&sev->node);
+ 
+ 	mutex_lock(&fh->subscribe_lock);
+ 
 -- 
 2.34.1
 
