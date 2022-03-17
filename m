@@ -2,41 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C4144DC0DC
-	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 09:19:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B23564DC0EA
+	for <lists+linux-media@lfdr.de>; Thu, 17 Mar 2022 09:22:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231149AbiCQIVG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Mar 2022 04:21:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44092 "EHLO
+        id S230472AbiCQIX6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Mar 2022 04:23:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231138AbiCQIVF (ORCPT
+        with ESMTP id S229690AbiCQIX6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Mar 2022 04:21:05 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF741637F9
-        for <linux-media@vger.kernel.org>; Thu, 17 Mar 2022 01:19:48 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 11BC01BF20C;
-        Thu, 17 Mar 2022 08:19:44 +0000 (UTC)
-Date:   Thu, 17 Mar 2022 09:19:43 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [linux-next:master 12222/13209] ERROR: modpost:
- "v4l2_subdev_link_validate" [drivers/media/platform/nxp/imx-mipi-csis.ko]
- undefined!
-Message-ID: <20220317081943.imr6o6l5nyhoehxi@uno.localdomain>
-References: <202203170501.AhqUekoF-lkp@intel.com>
+        Thu, 17 Mar 2022 04:23:58 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41DAC1C64A3;
+        Thu, 17 Mar 2022 01:22:41 -0700 (PDT)
+X-UUID: d7b9917ac22e40a6933a7fed8d9c3227-20220317
+X-UUID: d7b9917ac22e40a6933a7fed8d9c3227-20220317
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1592486316; Thu, 17 Mar 2022 16:22:35 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 17 Mar 2022 16:22:34 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 17 Mar 2022 16:22:32 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        <angelogioacchino.delregno@collabora.com>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>
+CC:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v3, 00/10] Enable two H264 encoder core on MT8195
+Date:   Thu, 17 Mar 2022 16:22:20 +0800
+Message-ID: <20220317082230.23622-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202203170501.AhqUekoF-lkp@intel.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -44,113 +68,99 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Laurent, Mauro,
+MT8195 has two H264 encoder cores, they have their own power-domains,
+clocks, interrupts, register base. The two H264 encoder cores can work
+together to achieve higher performance, it's a core mode called
+frame-racing, one core has 4K@30fps performance, two cores can achieve
+4K@60fps.
+The two encoder core encoding process looks like this:
 
-        I'm having a bit of troubles to get what's missing in the CSIS Kconfig
+    VENC Core0: frm#0....frm#2....frm#4....
+    VENC Core1: ..frm#1....frm#3....frm#5....
 
-On Thu, Mar 17, 2022 at 05:31:13AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   8a11187eb62b8b910d2c5484e1f5d160e8b11eb4
-> commit: 67d841549e43ddcfc8ecc75cf86df1c5b48fe007 [12222/13209] media: platform/*/Kconfig: make manufacturer menus more uniform
-> config: nios2-randconfig-r014-20220317 (https://download.01.org/0day-ci/archive/20220317/202203170501.AhqUekoF-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 11.2.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=67d841549e43ddcfc8ecc75cf86df1c5b48fe007
->         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->         git fetch --no-tags linux-next master
->         git checkout 67d841549e43ddcfc8ecc75cf86df1c5b48fe007
->         # save the config file to linux build tree
->         mkdir build_dir
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
-> >> ERROR: modpost: "v4l2_subdev_link_validate" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> >> ERROR: modpost: "v4l2_subdev_get_fwnode_pad_1_to_1" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> >> ERROR: modpost: "v4l_bound_align_image" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> >> ERROR: modpost: "v4l2_async_register_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> >> ERROR: modpost: "v4l2_async_subdev_nf_register" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> >> ERROR: modpost: "__v4l2_async_nf_add_fwnode_remote" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> >> ERROR: modpost: "v4l2_fwnode_endpoint_parse" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> >> ERROR: modpost: "v4l2_async_nf_init" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> >> ERROR: modpost: "v4l2_subdev_init" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> >> ERROR: modpost: "v4l2_async_unregister_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-> WARNING: modpost: suppressed 5 unresolved symbol warnings because there were too many)
+This series of patches are used to enable the two H264 encoder cores,
+encoding process will be changed:
+As-Is: Synchronous
+V4L2_VIDIOC_QBUF#0 --> device_run(triger encoder) --> wait encoder IRQ -->
+encoding done with result --> job_finish
+V4l2_VIDIOC_QBUF#1 --> device_run(triger encoder) --> wait encoder IRQ -->
+encoding done with result --> job_finish
+...
 
-The missing symbols here are from v4l2-subdev.c v4l2-async.c and
-v4l2-fwnode.c.
+To-Be: Asynchronous
+V4L2_VIDIOC_QBUF#0 --> device_run(triger encoder) --> job_finish
+..V4l2_VIDIOC_QBUF#1 --> device_run(triger encoder) --> job_finish
+(venc core0 may encode done here, done the encoding result to client)
+V4L2_VIDIOC_QBUF#2 --> device_run(triger encoder) --> job_finish.
 
-The CSIS Kconfig entry looks like this
+There is no "wait encoder IRQ" synchronous call during frame-racing mode
+encoding process, it can full use the two encoder cores to achieve higher
+performance.
 
-# SPDX-License-Identifier: GPL-2.0-only
+---
+This series patches dependent on:
+media_stage tree:
+[1]
+https://git.linuxtv.org/media_stage.git/commit/?id=b3627647f9ea7473d10fb08a95fd7c4133a17ca4
 
--------------------------------------------------------------------------------
-menuconfig VIDEO_IMX
-	bool "V4L2 capture drivers for NXP i.MX devices"
-	depends on ARCH_MXC || COMPILE_TEST
-	depends on VIDEO_DEV && VIDEO_V4L2
-	help
-	  Say yes here to enable support for capture drivers on i.MX SoCs.
-	  Support for the single SoC features are selectable in the sub-menu
-	  options.
+mt8192 decoder:
+[2] https://patchwork.kernel.org/project/linux-mediatek/list/?series=616991
 
-if VIDEO_IMX
+patch3 new venc dt-bindings included files
+[3] MM IOMMU binding:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20220217113453.13658-2-yong.wu@mediatek.com/
 
-config VIDEO_IMX_MIPI_CSIS
-	tristate "MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
-	select MEDIA_CONTROLLER
-	select V4L2_FWNODE
-	select VIDEO_V4L2_SUBDEV_API
-	default n
-	help
-	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
-	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
+[4] MT8195 power domain:
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=580579
 
-endif # VIDEO_IMX
--------------------------------------------------------------------------------
+changes compared with v2:
+- update venc core dt-bindings, add two new properties for current usage.
+- parse venc multi_core mode from device tree.
+- rebase to the newer linux media stage.
 
-The VIDEO_V4L2 dependency on the menu entry should make sure
-v4l2-subdev.c is selected
+changes compared with v1:
+- of_platform_populate was used in place of the component framework.
+- new yaml file for venc cores.
+- some modifications for patch v1's review comments.
+---
 
-------- drivers/media/v4l2-core/Makefile --------------
+Irui Wang (10):
+  media: mtk-vcodec: Use core type to indicate h264 and vp8 enc
+  media: mtk-vcodec: export encoder functions
+  dt-bindings: media: mtk-vcodec: Adds encoder cores dt-bindings for
+    mt8195
+  media: mtk-vcodec: Enable venc dual core usage
+  media: mtk-vcodec: mtk-vcodec: Rewrite venc power manage interface
+  media: mtk-vcodec: Add venc power on/off interface
+  media: mtk-vcodec: Rewrite venc clock interface
+  media: mtk-vcodec: Add more extra processing for venc_multi_core mode
+  media: mtk-vcodec: Add venc_multi_core mode encode process
+  media: mtk-vcodec: Done encode result to client
 
-videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
-			v4l2-event.o v4l2-subdev.o v4l2-common.o \
-			v4l2-ctrls-core.o v4l2-ctrls-api.o \
-			v4l2-ctrls-request.o v4l2-ctrls-defs.o
+ .../media/mediatek,vcodec-encoder-core.yaml   | 181 +++++++++++++++
+ .../media/mediatek,vcodec-encoder.yaml        |   1 -
+ drivers/media/platform/mtk-vcodec/Makefile    |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  36 ++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 113 +++++++---
+ .../platform/mtk-vcodec/mtk_vcodec_enc.h      |   7 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_core.c | 169 ++++++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_enc_core.h |  36 +++
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 107 +++++----
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 183 +++++++++++++--
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.h   |  11 +-
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     |  19 ++
+ .../platform/mtk-vcodec/mtk_vcodec_util.h     |   5 +
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   | 212 +++++++++++++++---
+ .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   3 +-
+ .../media/platform/mtk-vcodec/venc_drv_if.c   |  79 +++++--
+ .../media/platform/mtk-vcodec/venc_drv_if.h   |   7 +
+ .../media/platform/mtk-vcodec/venc_vpu_if.c   |  11 +-
+ .../media/platform/mtk-vcodec/venc_vpu_if.h   |   3 +-
+ 19 files changed, 1026 insertions(+), 161 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_core.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_core.h
 
-obj-$(CONFIG_VIDEO_V4L2) += videodev.o
---------------------------------------------------------
+-- 
+2.18.0
 
-and the driver selects V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API.
-
-I understand v4l2-async might be missing, but why are the other
-symbols not selected as it seems to me they should be ?
-
->
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
->    Depends on MEDIA_SUPPORT && VIDEO_DEV && MEDIA_CONTROLLER
-
-VIDEO_DEV is not selected in the config file used by the robot to
-generate this report,
-
-CONFIG_MEDIA_SUPPORT=m
-# CONFIG_VIDEO_DEV is not set
-CONFIG_MEDIA_CONTROLLER=y
-
-so in this case CSIS should not be selectable as the parent menuconfig
-should not be visible if !VIDEO_DEV ?
-
-
->    Selected by
->    - VIDEO_IMX_MIPI_CSIS && MEDIA_SUPPORT && MEDIA_PLATFORM_SUPPORT && MEDIA_PLATFORM_DRIVERS
->
-> ---
-> 0-DAY CI Kernel Test Service
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
