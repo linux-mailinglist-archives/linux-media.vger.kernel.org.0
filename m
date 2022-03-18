@@ -2,219 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DC634DE316
-	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 21:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C598B4DE356
+	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 22:15:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240984AbiCRVAd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Mar 2022 17:00:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33852 "EHLO
+        id S240990AbiCRVQ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Mar 2022 17:16:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240964AbiCRVA3 (ORCPT
+        with ESMTP id S230370AbiCRVQ2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Mar 2022 17:00:29 -0400
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B28B71B3F72
-        for <linux-media@vger.kernel.org>; Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
-Received: by mail-io1-xd34.google.com with SMTP id l18so10680888ioj.2
-        for <linux-media@vger.kernel.org>; Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oNAPpR+5qx5bHO8wJ1SIgWig3LUKuwuqLo641jvFAak=;
-        b=R3B03hXdzmRL4FMHavxss76+tb9Q0Hy78NbdGoHIgmWRsuIfciGr2JWywHMf/Kpkhf
-         QniqntLtfhiE8E3Wo0oxTFcS1KWerJtG5tNgnrk3j2xUiX43wMMg+/mjp1wKd5A4aRIu
-         ErIGjgvdava6sQlmLmDCO8Qr2P9RfzXvczFjE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oNAPpR+5qx5bHO8wJ1SIgWig3LUKuwuqLo641jvFAak=;
-        b=NPyBCRoHPqrTdnNbhwM/aLW+idOfchoho/W0hC1aSUtRXooxJsewRJow8A7zJ4ZQcN
-         ZetNPXM+itr0HM4rtXEnN0xaZqlh0nIiowKcSr+DQSo7tquWYnW7R9Os+VeTJyKHDaHw
-         1rYpTh5mrLJt+aOGz172xFAov5hrqz34Lhgb4A39TJhtmQ9Mq7ANuPxeUjqgIOnbtIsR
-         ScWJlPgrzy0zg6iXNPCuNqP3LkC5eGcys/Bln8G44KKWOUqwyZX0YBkD88ug3gXn2XsK
-         8hwc1vIHyRP2Uz5RHCScanBaDG8iqT4+FJuaZuwjrp62mM0Ky5ZxQFaohHkIoo25UvKL
-         nU+Q==
-X-Gm-Message-State: AOAM533KtELSsCBBoloiYOBB0ZWbd1btcQxhKT93FrvRaQzFTBXvEQGy
-        rTezorbtUUSsGbFcZhBwzh/7Ag==
-X-Google-Smtp-Source: ABdhPJw+g6qtXnLujFKVRv55AGvVhZcbGPndogV4eznqetPdpLwXYueCN6beIFsP8OoV/l235xaSaw==
-X-Received: by 2002:a5d:9542:0:b0:648:f92b:7bc6 with SMTP id a2-20020a5d9542000000b00648f92b7bc6mr5223132ios.73.1647637149068;
-        Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
-Received: from [192.168.1.128] ([71.205.29.0])
-        by smtp.gmail.com with ESMTPSA id d14-20020a056602328e00b006494aa126c2sm3528385ioz.11.2022.03.18.13.59.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Mar 2022 13:59:08 -0700 (PDT)
-Subject: Re: [PATCH 64/64] media: Kconfig: cleanup VIDEO_DEV dependencies
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Giulio Benetti <giulio.benetti@benettiengineering.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Heungjun Kim <riverful.kim@samsung.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-        Jeff LaBundy <jeff@labundy.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Joe Hung <joe_hung@ilitek.com>, Joel Stanley <joel@jms.id.au>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Fri, 18 Mar 2022 17:16:28 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66222D4456;
+        Fri, 18 Mar 2022 14:15:09 -0700 (PDT)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7855F8F;
+        Fri, 18 Mar 2022 22:15:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1647638108;
+        bh=Na+Khdu7qpM+zNB7HPPlbKyuDqSEBJssmhgJhcSc78Q=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Zhw1jOHrzgvCopfan+PsybiD4m1bPemUXKRNM0qRahNeYI5Zt+jrEMXOyjfJYytP8
+         RXxxI+Jc/poNrMuYi7iz3ZsIn0nG3qPvd7lBTRZTmyYQSlQkuMHyZrFsrG0tUs/SMY
+         FiSlg91dR17qJg1HTbkKYTr3IWqtIn5vZ+mYfiQ0=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Tomasz Figa <tfiga@chromium.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
-        Marek Vasut <marex@denx.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Martina Krasteva <martinax.krasteva@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Mike Isely <isely@pobox.com>, Ming Qian <ming.qian@nxp.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Olivier Lorin <o.lorin@laposte.net>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ray Jui <rjui@broadcom.com>,
-        Rick Chang <rick.chang@mediatek.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Scott Branden <sbranden@broadcom.com>,
-        Sean Young <sean@mess.org>, Shawn Guo <shawnguo@kernel.org>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Shijie Qin <shijie.qin@nxp.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Todor Tomov <todor.too@gmail.com>,
-        Vincent Knecht <vincent.knecht@mailoo.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        Yong Zhi <yong.zhi@intel.com>, Zhou Peng <eagle.zhou@nxp.com>,
-        alsa-devel@alsa-project.org, bcm-kernel-feedback-list@broadcom.com,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
-        openbmc@lists.ozlabs.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1647242578.git.mchehab@kernel.org>
- <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <9e02d88a-3344-8d91-c652-72cb989506de@linuxfoundation.org>
-Date:   Fri, 18 Mar 2022 14:59:05 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH 0/3] media: videobuf2: Expose vb2_queue_is_busy() to drivers
+Date:   Fri, 18 Mar 2022 23:14:43 +0200
+Message-Id: <20220318211446.11543-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/14/22 1:55 AM, Mauro Carvalho Chehab wrote:
-> media Kconfig has two entries associated to V4L API:
-> VIDEO_DEV and VIDEO_V4L2.
-> 
-> On Kernel 2.6.x, there were two V4L APIs, each one with its own flag.
-> VIDEO_DEV were meant to:
-> 	1) enable Video4Linux and make its Kconfig options to appear;
-> 	2) it makes the Kernel build the V4L core.
-> 
-> while VIDEO_V4L2 where used to distinguish between drivers that
-> implement the newer API and drivers that implemented the former one.
-> 
-> With time, such meaning changed, specially after the removal of
-> all V4L version 1 drivers.
-> 
-> At the current implementation, VIDEO_DEV only does (1): it enables
-> the media options related to V4L, that now has:
-> 
-> 	menu "Video4Linux options"
-> 		visible if VIDEO_DEV
-> 
-> 	source "drivers/media/v4l2-core/Kconfig"
-> 	endmenu
-> 
-> but it doesn't affect anymore the V4L core drivers.
-> 
-> The rationale is that the V4L2 core has a "soft" dependency
-> at the I2C bus, and now requires to select a number of other
-> Kconfig options:
-> 
-> 	config VIDEO_V4L2
-> 		tristate
-> 		depends on (I2C || I2C=n) && VIDEO_DEV
-> 		select RATIONAL
-> 		select VIDEOBUF2_V4L2 if VIDEOBUF2_CORE
-> 		default (I2C || I2C=n) && VIDEO_DEV
-> 
-> In the past, merging them would be tricky, but it seems that it is now
-> possible to merge those symbols, in order to simplify V4L dependencies.
-> 
-> Let's keep VIDEO_DEV, as this one is used on some make *defconfig
-> configurations.
-> 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
-> 
+Hello,
 
->   drivers/media/test-drivers/vicodec/Kconfig    |   2 +-
->   drivers/media/test-drivers/vimc/Kconfig       |   2 +-
->   drivers/media/test-drivers/vivid/Kconfig      |   2 +-
->
+This small patch series exposes the vb2_queue_is_busy() function,
+currently internal to videobuf2-v4l2.c, to drivers. The rationale is
+explained in patch 1/3, and the first use case shown in 3/3: it allows
+implementing additional checks at streamon time while keeping the owner
+check first (as it's cheap, compared to other checks that can be more
+expensive).
 
-For vimc change: (trimmed the recipient list to send response)
+Patch 2/3 is a driver-by cleanup.
 
-Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+Laurent Pinchart (3):
+  media: videobuf2-v4l2: Expose vb2_queue_is_busy() to drivers
+  media: vsp1: Don't open-code vb2_fop_release()
+  media: vsp1: Use vb2_queue_is_busy()
 
-thanks,
--- Shuah
+ .../media/common/videobuf2/videobuf2-v4l2.c   | 26 +++++++------------
+ .../media/platform/renesas/vsp1/vsp1_video.c  | 12 ++-------
+ include/media/videobuf2-v4l2.h                | 23 ++++++++++++++--
+ 3 files changed, 33 insertions(+), 28 deletions(-)
 
 
+base-commit: 71e6d0608e4d1b79069990c7dacb3600ced28a3b
+-- 
+Regards,
+
+Laurent Pinchart
 
