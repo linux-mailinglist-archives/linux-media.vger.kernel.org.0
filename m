@@ -2,88 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8ACF4DD132
-	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 00:32:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E37BE4DD36B
+	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 04:03:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230048AbiCQXdi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Mar 2022 19:33:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56158 "EHLO
+        id S232135AbiCRDEh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Mar 2022 23:04:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiCQXdg (ORCPT
+        with ESMTP id S231366AbiCRDEg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Mar 2022 19:33:36 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDE7C2986F6;
-        Thu, 17 Mar 2022 16:32:18 -0700 (PDT)
-X-UUID: c3f41a52f448425ebc731f678739e579-20220318
-X-UUID: c3f41a52f448425ebc731f678739e579-20220318
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <miles.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 48263738; Fri, 18 Mar 2022 07:32:12 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Fri, 18 Mar 2022 07:32:10 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 18 Mar 2022 07:32:10 +0800
-From:   Miles Chen <miles.chen@mediatek.com>
-To:     <irui.wang@mediatek.com>
-CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        <acourbot@chromium.org>, <andrew-ct.chen@mediatek.com>,
-        <angelogioacchino.delregno@collabora.com>,
-        <devicetree@vger.kernel.org>, <frkoenig@chromium.org>,
-        <hsinyi@chromium.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <longfei.wang@mediatek.com>,
-        <maoguang.meng@mediatek.com>, <matthias.bgg@gmail.com>,
-        <mchehab@kernel.org>, <robh+dt@kernel.org>,
-        <srv_heupstream@mediatek.com>, <tfiga@google.com>,
-        <tiffany.lin@mediatek.com>, <tzungbi@chromium.org>,
-        <yong.wu@mediatek.com>, <yunfei.dong@mediatek.com>
-Subject: Re: [PATCH v3, 03/10] dt-bindings: media: mtk-vcodec: Adds encoder cores dt-bindings for mt8195
-Date:   Fri, 18 Mar 2022 07:32:10 +0800
-Message-ID: <20220317233210.6744-1-miles.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220317082230.23622-4-irui.wang@mediatek.com>
-References: <20220317082230.23622-4-irui.wang@mediatek.com>
+        Thu, 17 Mar 2022 23:04:36 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D659E189A2B;
+        Thu, 17 Mar 2022 20:03:18 -0700 (PDT)
+Received: from canpemm500007.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KKTNM3kBzzcbDC;
+        Fri, 18 Mar 2022 11:03:15 +0800 (CST)
+Received: from localhost (10.174.179.215) by canpemm500007.china.huawei.com
+ (7.192.104.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Fri, 18 Mar
+ 2022 11:03:17 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <ming.qian@nxp.com>, <shijie.qin@nxp.com>, <eagle.zhou@nxp.com>,
+        <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH -next] media: platform: amphion: Fix build error without MAILBOX
+Date:   Fri, 18 Mar 2022 11:03:05 +0800
+Message-ID: <20220318030305.39120-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
 Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Originating-IP: [10.174.179.215]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ canpemm500007.china.huawei.com (7.192.104.62)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Irui,
+while COMPILE_TEST is y and MAILBOX is n, build fails:
 
-> +
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/media/mediatek,vcodec-encoder-core.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Mediatek Video Encoder Accelerator With Multi Core
+ERROR: modpost: "mbox_request_channel_byname" [drivers/media/platform/amphion/amphion-vpu.ko] undefined!
+ERROR: modpost: "mbox_free_channel" [drivers/media/platform/amphion/amphion-vpu.ko] undefined!
+ERROR: modpost: "mbox_send_message" [drivers/media/platform/amphion/amphion-vpu.ko] undefined!
 
-s/Mediatek/MediaTek/
-> +
-> +maintainers:
-> +  - Irui Wang <irui.wang@mediatek.com>
-> +
-> +description: |
-> +  Mediatek Video Encode is the video encode hardware present in Mediatek
+Adding a MAILBOX dependency in VIDEO_AMPHION_VPU to fix this.
 
-s/Mediatek/MediaTek/
+Fixes: 52b3a219dd4a ("media: platform: amphion: move config to its own file")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/media/platform/amphion/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +  SoCs which supports high resolution encoding functionalities. Required
-> +  parent and child device node.
-> +
+diff --git a/drivers/media/platform/amphion/Kconfig b/drivers/media/platform/amphion/Kconfig
+index 6eea97b7063a..4a363e07ccc9 100644
+--- a/drivers/media/platform/amphion/Kconfig
++++ b/drivers/media/platform/amphion/Kconfig
+@@ -7,7 +7,7 @@ config VIDEO_AMPHION_VPU
+ 	depends on V4L_MEM2MEM_DRIVERS
+ 	depends on ARCH_MXC || COMPILE_TEST
+ 	depends on MEDIA_SUPPORT
+-	depends on VIDEO_DEV
++	depends on VIDEO_DEV && MAILBOX
+ 	select MEDIA_CONTROLLER
+ 	select V4L2_MEM2MEM_DEV
+ 	select VIDEOBUF2_DMA_CONTIG
+-- 
+2.17.1
 
-Thanks,
-Miles
