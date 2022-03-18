@@ -2,69 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6DA24DD8A8
-	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 12:01:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD4A84DD9A6
+	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 13:19:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235613AbiCRLCg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Mar 2022 07:02:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42444 "EHLO
+        id S236157AbiCRMUQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Mar 2022 08:20:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235617AbiCRLCe (ORCPT
+        with ESMTP id S236180AbiCRMUO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Mar 2022 07:02:34 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F522D7ABC;
-        Fri, 18 Mar 2022 04:01:08 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id p5so3013363pfo.5;
-        Fri, 18 Mar 2022 04:01:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=+DfTezyTZEEgXa3A9GdADPNqeC5t3FMBzFeEqDv248I=;
-        b=flDJYeJw11Atosup9EVcV2btSWN1r1qbFUvRc2kOuCoL0/LO4gaVVakhSgRWpoD//U
-         +3BPSN29KgOWAa/CGHb3OmDPZPEMcHy5AQ+Ltv6X/d3VLimhfkhjdxJDGDHDz1/UCxr3
-         pUv6sRK2PMX9KUUWMUWoT0zMAoXiacU0Q9jHxPZ9QTtsyyCpEhoiqzucQEa7XnknVVwk
-         qxqwvCszpYntEcIlRrTN9sFzrs8pefU0DzYyESEvm6XflD0hJXDiLTveuCaIHOG9x5AA
-         zj7Gd+/sZA2bZZBIANqHSmq5m6ou7ktXnOhxGvNwEClXJ3cLFoWjmaSE4gfMPsUxB9Hp
-         rXbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=+DfTezyTZEEgXa3A9GdADPNqeC5t3FMBzFeEqDv248I=;
-        b=JtESDvzsO3zU8JwuOAnexfLKpFcPZujY/osiuemtYHkXu/ZDg3UqCdyZaAO2Ftbjw3
-         99o6rp1J4dbMJltIPeAEG1CD0zXUPMclQRRdH3EjDgCoPtdVetiapG+zsO/PCD4A1gYV
-         EeZ9TaOa5abjAySqVzJYWnEixF5+cFhVJEPxrSXmdqJf3CBKX2LSjUPjpCVWXaFXEE7S
-         PCiMdfXIZZvyxY9ZsX0DdBuokbuHIZs+HVuZtqY53KTBJHTlKphbYxg+tGdgh/qtOHY4
-         IArJEzOf0RSrO2zlhvAdRennYyGoPbNFM8Qaea0WNNF9cX6+4RwNUPQH4ddfrGsYJP6b
-         brZQ==
-X-Gm-Message-State: AOAM533bDu5wf582PIrJ24mSFeutCE5Bnuy+Qy1VQWaJW7lSnMaWFDW5
-        YM8D5Xtxf/kq7rvIbEmpMDY=
-X-Google-Smtp-Source: ABdhPJwdkiq3tFwjozVCjtQH0QfyWdY4uO8RrtKPh0PJaTcZeItVID4T4ekwLFEDdgtI6CNR277/2g==
-X-Received: by 2002:a05:6a00:198c:b0:4f7:7e0f:bfc2 with SMTP id d12-20020a056a00198c00b004f77e0fbfc2mr9225986pfl.44.1647601267807;
-        Fri, 18 Mar 2022 04:01:07 -0700 (PDT)
-Received: from localhost.localdomain ([159.226.95.43])
-        by smtp.googlemail.com with ESMTPSA id y3-20020a056a00190300b004fa2411bb92sm9276071pfi.93.2022.03.18.04.01.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Mar 2022 04:01:07 -0700 (PDT)
-From:   Miaoqian Lin <linmq006@gmail.com>
-To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Kyunmin Park <kyungmin.park@samsung.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linmq006@gmail.com
-Subject: [PATCH v2] media: exynos4-is: Change clk_disable to clk_disable_unprepare
-Date:   Fri, 18 Mar 2022 11:01:01 +0000
-Message-Id: <20220318110102.29506-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220316015344.5120-1-linmq006@gmail.com>
-References: <20220316015344.5120-1-linmq006@gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        Fri, 18 Mar 2022 08:20:14 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82819129246
+        for <linux-media@vger.kernel.org>; Fri, 18 Mar 2022 05:18:50 -0700 (PDT)
+Received: from perceval.ideasonboard.com (unknown [103.251.226.137])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 88AA3EE;
+        Fri, 18 Mar 2022 13:18:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1647605928;
+        bh=XP7aULoA2tQrmCCRBmDld8u5TjF7Spl85xESGlZNnZk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bLIQiKDxdltNKEoQGBLzjP5EQg43t1w7k8WqUKVGZpkiKn6opDztQbzELo03fdN1X
+         Xa+uJeuzJxc0wv018Fe36aOUXSNoKttkGK23GT+hmOii9JesE+VMk7GT1q6pvj+x4n
+         rQIsWh12ZYEN83lKHFJ8tCATqq9xwKTp5ErW3B38=
+From:   Umang Jain <umang.jain@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     bingbu.cao@intel.com, sakari.ailus@linux.intel.com,
+        libcamera-devel@lists.libcamera.org,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH 0/2] media: ipu3: Sequence number fix and improvements
+Date:   Fri, 18 Mar 2022 17:48:24 +0530
+Message-Id: <20220318121826.877187-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,33 +45,21 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The corresponding API for clk_prepare_enable is clk_disable_unprepare,
-other than clk_disable.
+The patch (1/2) fixes the issue where sequence number of buffers keep
+on incrementing during consecutive stream on/off cycles. The sequence
+number should be reset to 0, on every stream (re)start.
 
-Fix this by changing clk_disable to clk_disable_unprepare.
+Patch 2/2 is a just a drive-by patch while exploring ipu3-imgu driver
+codebase.
 
-Fixes: b4155d7d5b2c ("[media] exynos4-is: Ensure fimc-is clocks are not enabled until properly configured")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
-changes in v2:
-- fix typo in commit message.
----
- drivers/media/platform/exynos4-is/fimc-is.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Umang Jain (2):
+  media: staging/intel-ipu3: Reset imgu_video_device sequence
+  media: staging/intel-ipu3: Cleanup dummy buffers via helper
 
-diff --git a/drivers/media/platform/exynos4-is/fimc-is.c b/drivers/media/platform/exynos4-is/fimc-is.c
-index e55e411038f4..8e88b0f6662d 100644
---- a/drivers/media/platform/exynos4-is/fimc-is.c
-+++ b/drivers/media/platform/exynos4-is/fimc-is.c
-@@ -140,7 +140,7 @@ static int fimc_is_enable_clocks(struct fimc_is *is)
- 			dev_err(&is->pdev->dev, "clock %s enable failed\n",
- 				fimc_is_clocks[i]);
- 			for (--i; i >= 0; i--)
--				clk_disable(is->clocks[i]);
-+				clk_disable_unprepare(is->clocks[i]);
- 			return ret;
- 		}
- 		pr_debug("enabled clock: %s\n", fimc_is_clocks[i]);
+ drivers/staging/media/ipu3/ipu3-v4l2.c |  1 +
+ drivers/staging/media/ipu3/ipu3.c      | 25 +++++++++++--------------
+ 2 files changed, 12 insertions(+), 14 deletions(-)
+
 -- 
-2.17.1
+2.31.1
 
