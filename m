@@ -2,99 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7221B4DE3A5
-	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 22:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBEB44DE3A6
+	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 22:44:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241190AbiCRVp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Mar 2022 17:45:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55872 "EHLO
+        id S241192AbiCRVp4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Mar 2022 17:45:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240149AbiCRVp1 (ORCPT
+        with ESMTP id S240149AbiCRVpz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Mar 2022 17:45:27 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FE0C30A889;
-        Fri, 18 Mar 2022 14:44:07 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0EECEE;
-        Fri, 18 Mar 2022 22:44:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647639845;
-        bh=lkM33JzxB8ZwQlccUVMWHTdzLZc6UWqnwEQ6ggU1SSg=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=VdrcIW9RSjtT/OwU4U72oryvMN/ksi61aAtr+DIS9yYv7ZC8A5a7BlF2s/rQ5qh7s
-         WiqSDum/8b1v0sn6d4vtt2Vl615RNrLFNGJkKaCwfqTW+a8cPY+Qq6/7NGqOwL4mLf
-         YReOSbFnTaGXj3JVusQc2l9/qyvJtnH9iqvpukP4=
-Content-Type: text/plain; charset="utf-8"
+        Fri, 18 Mar 2022 17:45:55 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D84B830A884
+        for <linux-media@vger.kernel.org>; Fri, 18 Mar 2022 14:44:35 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id a1so11979906wrh.10
+        for <linux-media@vger.kernel.org>; Fri, 18 Mar 2022 14:44:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=dKFZHXhq5PDE6KlWlNRXum2aRz6p6t4t3h8m0N9KFFY=;
+        b=HmCYE8GC5Yt4UL20qU48XI4tRjp3Wkg4i+dr/vwBv+ysSq6N01zbkGqTDGlNmJ+H/x
+         d+BvM0WQpXhUUIOIaHDTdJEP5HvctDzUMXkWw2gd7Quk4Ib+tHfeMejZu6P7hxi8/ax7
+         JF12qmxWBlRXAWaOP83xxwW2rozFXgYoCgNyW/sg9XHum3CQjMw5Fb21t8J7UBqXpOY4
+         IMHyFVc2yg6+NMweBhYEVbUliSrKx0JE0pjCplaPhiHZpFfKBIHLsytiPgjRfxzuNA7G
+         1sxPpOiJWRYe9MBqmW71zDTeA2A/B+mmLsrX3A/8aYBIlm/ieD344hkPcaGrgjh3YLkC
+         Z80A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=dKFZHXhq5PDE6KlWlNRXum2aRz6p6t4t3h8m0N9KFFY=;
+        b=IuslIVVTyo8rxL3Fka1Xy9H43ep6zqidKfCOt1tpcBW1anlP3ey3HTrFcjm0M8BTQi
+         JKHEU2NnXDJAGqXpRAridoP7FjM+Mwe/nHHPK+nC6K1LhLq+WIdg26BJ83O/s/G/hvoN
+         lEDJEZJk+1vNNQGspCyiIYU5e90ECvbqRCW342dtnX2c+dfRw4s7g00WAnX9j4GTcHyu
+         ommj/SWQSQRvKquveWvQ0p57+vgWPCTHVwku1mRUEi12cmRNnTNsOzix8CKUeg0ZW2kc
+         RU9DbpSH8YmdDhwwC/Jhbmnw29ba73DrmBA6LyyYeM5q0dx3St30sqGMV3H+y+rXBrbu
+         KNBQ==
+X-Gm-Message-State: AOAM53225H5zfhnf7wfKBBEiQ9EdcHMpP1Yj2TuQLzHJyRytUouGHFD7
+        J6QTNc29AgfazLIGhk14BEIZfwB7ghc=
+X-Google-Smtp-Source: ABdhPJxUZvIBkWOzKqNx2yrBkFTsxNDaXOXpDzAPnYeT1lgblPo/eIL6+bZ4sctegmR5pddZDdg3YA==
+X-Received: by 2002:a05:6000:18a7:b0:203:72d1:9be5 with SMTP id b7-20020a05600018a700b0020372d19be5mr9389347wri.325.1647639874347;
+        Fri, 18 Mar 2022 14:44:34 -0700 (PDT)
+Received: from arch-thunder (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
+        by smtp.gmail.com with ESMTPSA id o2-20020a05600c4fc200b0038c90f61942sm864594wmq.28.2022.03.18.14.44.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Mar 2022 14:44:33 -0700 (PDT)
+Date:   Fri, 18 Mar 2022 21:44:30 +0000
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH] media: nxp: Restrict VIDEO_IMX_MIPI_CSIS to ARCH_MXC or
+ COMPILE_TEST
+Message-ID: <20220318214430.zzx4wcnlxu3ygjun@arch-thunder>
+References: <20220318203735.5923-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220318211446.11543-3-laurent.pinchart+renesas@ideasonboard.com>
-References: <20220318211446.11543-1-laurent.pinchart+renesas@ideasonboard.com> <20220318211446.11543-3-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH 2/3] media: vsp1: Don't open-code vb2_fop_release()
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Date:   Fri, 18 Mar 2022 21:44:03 +0000
-Message-ID: <164763984378.2211712.3085801061791359128@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220318203735.5923-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
+        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Laurent Pinchart (2022-03-18 21:14:45)
-> Use the vb2_fop_release() helper to replace the open-coded version. The
-> video->lock is assigned to the queue lock, used by vb2_fop_release(), so
-> the only functional difference is that v4l2_fh_release() is now called
-> before vsp1_device_put(). This should be harmless.
->=20
+Hi Laurent,
+On Fri, Mar 18, 2022 at 10:37:35PM +0200, Laurent Pinchart wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> The imx-mipi-csis driver is specific to NXP platforms. Restrict it to
+> those by default, and enable compilation with COMPILE_TEST to keep a
+> wide test coverage.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Seems to check out.
+Thanks, LGTM.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
+Cheers,
+     Rui
 > ---
->  drivers/media/platform/renesas/vsp1/vsp1_video.c | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
->=20
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/m=
-edia/platform/renesas/vsp1/vsp1_video.c
-> index 044eb5778820..8f53abc71db2 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> @@ -1129,19 +1129,11 @@ static int vsp1_video_open(struct file *file)
->  static int vsp1_video_release(struct file *file)
->  {
->         struct vsp1_video *video =3D video_drvdata(file);
-> -       struct v4l2_fh *vfh =3D file->private_data;
-> =20
-> -       mutex_lock(&video->lock);
-> -       if (video->queue.owner =3D=3D vfh) {
-> -               vb2_queue_release(&video->queue);
-> -               video->queue.owner =3D NULL;
-> -       }
-> -       mutex_unlock(&video->lock);
-> +       vb2_fop_release(file);
-> =20
->         vsp1_device_put(video->vsp1);
-> =20
-> -       v4l2_fh_release(file);
-> -
->         file->private_data =3D NULL;
-> =20
->         return 0;
-> --=20
+>  drivers/media/platform/nxp/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
+> index 7473096f5885..28f2bafc14d2 100644
+> --- a/drivers/media/platform/nxp/Kconfig
+> +++ b/drivers/media/platform/nxp/Kconfig
+> @@ -6,6 +6,7 @@ comment "NXP media platform drivers"
+>  
+>  config VIDEO_IMX_MIPI_CSIS
+>  	tristate "NXP MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
+> +	depends on ARCH_MXC || COMPILE_TEST
+>  	select MEDIA_CONTROLLER
+>  	select V4L2_FWNODE
+>  	select VIDEO_V4L2_SUBDEV_API
+> 
+> base-commit: 71e6d0608e4d1b79069990c7dacb3600ced28a3b
+> -- 
 > Regards,
->=20
+> 
 > Laurent Pinchart
->
+> 
