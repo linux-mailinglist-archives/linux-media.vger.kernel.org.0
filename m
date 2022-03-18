@@ -2,275 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ECBB4DE2A5
-	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 21:40:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DC634DE316
+	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 21:59:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240718AbiCRUl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Mar 2022 16:41:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51756 "EHLO
+        id S240984AbiCRVAd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Mar 2022 17:00:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240499AbiCRUl1 (ORCPT
+        with ESMTP id S240964AbiCRVA3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Mar 2022 16:41:27 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D566122BDC;
-        Fri, 18 Mar 2022 13:40:07 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id v35so17800502ybi.10;
-        Fri, 18 Mar 2022 13:40:07 -0700 (PDT)
+        Fri, 18 Mar 2022 17:00:29 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B28B71B3F72
+        for <linux-media@vger.kernel.org>; Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id l18so10680888ioj.2
+        for <linux-media@vger.kernel.org>; Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vVp1w9NSmxaFeYurA8RKxT/i3A6lZfLYPbCAR6Ix1v0=;
-        b=Fxm0IYClQ7mZTdGPutUhNB+CcRqg2eAXb4Xrt8BiZlgOp61krOQGkOtPDOhyF25tFB
-         h9uVxt3DtI0l7RPfkUMBfociPLwcv8v82aWtqjxodZVc39L5KTz52+0jYJCWgNC2rynx
-         QSPEsSDqgvsUezpR368TyL3KkqZApW0xUreL4P5GqkYFkIrxzM7gm9xu4+VEhBWFFCjA
-         gOf9VtS3xcDn2dqESKrO3JQRayt/tp1eeYpb1NPw0kqlaS+Gm8jGxSJZo1+B7uxk3jQI
-         mxsdY/jMfIcY6QtTMhAJVOL/H1uxJUMN09p65818HGfoz1oLLWfyaBMvmHN3h9GB44yG
-         w1Jw==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oNAPpR+5qx5bHO8wJ1SIgWig3LUKuwuqLo641jvFAak=;
+        b=R3B03hXdzmRL4FMHavxss76+tb9Q0Hy78NbdGoHIgmWRsuIfciGr2JWywHMf/Kpkhf
+         QniqntLtfhiE8E3Wo0oxTFcS1KWerJtG5tNgnrk3j2xUiX43wMMg+/mjp1wKd5A4aRIu
+         ErIGjgvdava6sQlmLmDCO8Qr2P9RfzXvczFjE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vVp1w9NSmxaFeYurA8RKxT/i3A6lZfLYPbCAR6Ix1v0=;
-        b=ELc0cH4A86IB41b1nMwml2KQ854FeG3Fp2XOAXa1kX9ljpMd1KVGau0Go4P0cL7gaY
-         P8aKw+MaX+g5aX6CA7o0f7e/5gwB3J/Y9yzjKV41VTJlJJx9mWLuXG4tX6o/KkcfH7DC
-         If8uE80eZ+94aSJrpSO6scZZUr5qOoXnDAQ3sBWqlSNeHuMGvxAAmNxNF2+J9rG3ifQy
-         uf490wFh2v88pieKd4m1Mj5cLjKGusBCr2NFPe0PTqbxRrMPiRLhc1GtmMQLYmIZWiDG
-         Ynz7idck/Oopk40GdpRZ0+TXy+jyWJIyBzb4kI9i74o4cvDquOL2VAzp/kdNE5ZunYxl
-         Vfug==
-X-Gm-Message-State: AOAM530Gj84vC8pVIoQ816PjIdlpfeCGhMBOJvHbRKuasUkInHGct49F
-        J8tpzUeMiauwtMH74fo4XiNpX+T/HruDEctzc5E=
-X-Google-Smtp-Source: ABdhPJww4JQScKFu65C+KZ/IY6mSJq4LNtDfEpDasGeaPwhtLJa0KbZioNUXf5I2xtaeR4leOrldqHNuqGTROpqOS2U=
-X-Received: by 2002:a25:3bd4:0:b0:633:6772:5ac1 with SMTP id
- i203-20020a253bd4000000b0063367725ac1mr11490111yba.431.1647636007056; Fri, 18
- Mar 2022 13:40:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220121010543.31385-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220121010543.31385-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <YgGfjMttGecxcuv+@robh.at.kernel.org>
-In-Reply-To: <YgGfjMttGecxcuv+@robh.at.kernel.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 18 Mar 2022 20:39:40 +0000
-Message-ID: <CA+V-a8v8y4MmZ8O_Nbii3wjmNv2sEcDMuXz4pgNkROrjQqMSLQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/4] media: dt-bindings: media: Document RZ/G2L CRU
-To:     Rob Herring <robh@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oNAPpR+5qx5bHO8wJ1SIgWig3LUKuwuqLo641jvFAak=;
+        b=NPyBCRoHPqrTdnNbhwM/aLW+idOfchoho/W0hC1aSUtRXooxJsewRJow8A7zJ4ZQcN
+         ZetNPXM+itr0HM4rtXEnN0xaZqlh0nIiowKcSr+DQSo7tquWYnW7R9Os+VeTJyKHDaHw
+         1rYpTh5mrLJt+aOGz172xFAov5hrqz34Lhgb4A39TJhtmQ9Mq7ANuPxeUjqgIOnbtIsR
+         ScWJlPgrzy0zg6iXNPCuNqP3LkC5eGcys/Bln8G44KKWOUqwyZX0YBkD88ug3gXn2XsK
+         8hwc1vIHyRP2Uz5RHCScanBaDG8iqT4+FJuaZuwjrp62mM0Ky5ZxQFaohHkIoo25UvKL
+         nU+Q==
+X-Gm-Message-State: AOAM533KtELSsCBBoloiYOBB0ZWbd1btcQxhKT93FrvRaQzFTBXvEQGy
+        rTezorbtUUSsGbFcZhBwzh/7Ag==
+X-Google-Smtp-Source: ABdhPJw+g6qtXnLujFKVRv55AGvVhZcbGPndogV4eznqetPdpLwXYueCN6beIFsP8OoV/l235xaSaw==
+X-Received: by 2002:a5d:9542:0:b0:648:f92b:7bc6 with SMTP id a2-20020a5d9542000000b00648f92b7bc6mr5223132ios.73.1647637149068;
+        Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
+Received: from [192.168.1.128] ([71.205.29.0])
+        by smtp.gmail.com with ESMTPSA id d14-20020a056602328e00b006494aa126c2sm3528385ioz.11.2022.03.18.13.59.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Mar 2022 13:59:08 -0700 (PDT)
+Subject: Re: [PATCH 64/64] media: Kconfig: cleanup VIDEO_DEV dependencies
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Fabio Estevam <festevam@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        Giulio Benetti <giulio.benetti@benettiengineering.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Heungjun Kim <riverful.kim@samsung.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Jacob Chen <jacob-chen@iotwrt.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+        Jeff LaBundy <jeff@labundy.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Joe Hung <joe_hung@ilitek.com>, Joel Stanley <joel@jms.id.au>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Marek Vasut <marex@denx.de>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Martina Krasteva <martinax.krasteva@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Mike Isely <isely@pobox.com>, Ming Qian <ming.qian@nxp.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Olivier Lorin <o.lorin@laposte.net>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ray Jui <rjui@broadcom.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Scott Branden <sbranden@broadcom.com>,
+        Sean Young <sean@mess.org>, Shawn Guo <shawnguo@kernel.org>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Shijie Qin <shijie.qin@nxp.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Todor Tomov <todor.too@gmail.com>,
+        Vincent Knecht <vincent.knecht@mailoo.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        Yong Zhi <yong.zhi@intel.com>, Zhou Peng <eagle.zhou@nxp.com>,
+        alsa-devel@alsa-project.org, bcm-kernel-feedback-list@broadcom.com,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
+        openbmc@lists.ozlabs.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1647242578.git.mchehab@kernel.org>
+ <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <9e02d88a-3344-8d91-c652-72cb989506de@linuxfoundation.org>
+Date:   Fri, 18 Mar 2022 14:59:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+On 3/14/22 1:55 AM, Mauro Carvalho Chehab wrote:
+> media Kconfig has two entries associated to V4L API:
+> VIDEO_DEV and VIDEO_V4L2.
+> 
+> On Kernel 2.6.x, there were two V4L APIs, each one with its own flag.
+> VIDEO_DEV were meant to:
+> 	1) enable Video4Linux and make its Kconfig options to appear;
+> 	2) it makes the Kernel build the V4L core.
+> 
+> while VIDEO_V4L2 where used to distinguish between drivers that
+> implement the newer API and drivers that implemented the former one.
+> 
+> With time, such meaning changed, specially after the removal of
+> all V4L version 1 drivers.
+> 
+> At the current implementation, VIDEO_DEV only does (1): it enables
+> the media options related to V4L, that now has:
+> 
+> 	menu "Video4Linux options"
+> 		visible if VIDEO_DEV
+> 
+> 	source "drivers/media/v4l2-core/Kconfig"
+> 	endmenu
+> 
+> but it doesn't affect anymore the V4L core drivers.
+> 
+> The rationale is that the V4L2 core has a "soft" dependency
+> at the I2C bus, and now requires to select a number of other
+> Kconfig options:
+> 
+> 	config VIDEO_V4L2
+> 		tristate
+> 		depends on (I2C || I2C=n) && VIDEO_DEV
+> 		select RATIONAL
+> 		select VIDEOBUF2_V4L2 if VIDEOBUF2_CORE
+> 		default (I2C || I2C=n) && VIDEO_DEV
+> 
+> In the past, merging them would be tricky, but it seems that it is now
+> possible to merge those symbols, in order to simplify V4L dependencies.
+> 
+> Let's keep VIDEO_DEV, as this one is used on some make *defconfig
+> configurations.
+> 
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> 
 
-Thank you for the review.
+>   drivers/media/test-drivers/vicodec/Kconfig    |   2 +-
+>   drivers/media/test-drivers/vimc/Kconfig       |   2 +-
+>   drivers/media/test-drivers/vivid/Kconfig      |   2 +-
+>
 
-On Mon, Feb 7, 2022 at 10:39 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Fri, Jan 21, 2022 at 01:05:41AM +0000, Lad Prabhakar wrote:
-> > Document the CRU block found on Renesas RZ/G2L SoC's.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v1->v2
-> > * Dropped CSI
-> > ---
-> >  .../bindings/media/renesas,rzg2l-cru.yaml     | 152 ++++++++++++++++++
-> >  1 file changed, 152 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> > new file mode 100644
-> > index 000000000000..a03fc6ef0117
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> > @@ -0,0 +1,152 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +# Copyright (C) 2022 Renesas Electronics Corp.
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/renesas,rzg2l-cru.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas RZ/G2L Camera Data Receiving Unit (CRU)
-> > +
-> > +maintainers:
-> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > +
-> > +description:
-> > +  The RZ/G2L Camera Data Receiving Unit (CRU) device provides video input
-> > +  capabilities for the Renesas RZ/G2L family of devices.
-> > +
-> > +  Depending on the instance the Image Processing input is connected to
-> > +  external SoC pins or to a CSI-2 receiver.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - items:
->
-> Don't need oneOf when there is only 1 entry.
->
-There are two more SoC's to be added as soon this patch series get
-merged, so to keep the changes minimal later I will keep oneOf here.
+For vimc change: (trimmed the recipient list to send response)
 
-> > +          - enum:
-> > +              - renesas,r9a07g044-cru     # RZ/G2{L,LC}
-> > +          - const: renesas,rzg2l-cru
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 3
-> > +
-> > +  interrupt-names:
-> > +    items:
-> > +      - const: image_conv
-> > +      - const: image_conv_err
-> > +      - const: axi_mst_err
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: CRU Main clock
-> > +      - description: CPU Register access clock
-> > +      - description: CRU image transfer clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: vclk
-> > +      - const: pclk
-> > +      - const: aclk
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    items:
-> > +      - description: CRU_PRESETN reset terminal
-> > +      - description: CRU_ARESETN reset terminal
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: presetn
-> > +      - const: aresetn
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description:
-> > +          Input port node, single endpoint describing a parallel input source.
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              hsync-active: true
-> > +              vsync-active: true
-> > +              bus-width: true
-> > +              data-shift: true
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description:
-> > +          Output port node, describing the RZ/G2L Image Processing module
-> > +          connected the CSI-2 receiver
->
-> > +
-> > +        properties:
-> > +          endpoint@0:
-> > +            $ref: /schemas/graph.yaml#/properties/endpoint
-> > +            description: Endpoint connected to CSI2.
-> > +
-> > +        anyOf:
-> > +          - required:
-> > +              - endpoint@0
->
-> You can drop all the endpoint stuff. Just 'endpoint' should be valid as
-> well for example. The graph schema covers all that.
->
-Will do.
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 
-Cheers,
-Prabhakar
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - interrupt-names
-> > +  - clocks
-> > +  - clock-names
-> > +  - resets
-> > +  - reset-names
-> > +  - power-domains
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  # Device node example with CSI-2
-> > +  - |
-> > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +    cru: video@10830000 {
-> > +            compatible = "renesas,r9a07g044-cru", "renesas,rzg2l-cru";
-> > +            reg = <0x10830000 0x400>;
-> > +            interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>,
-> > +                         <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
-> > +                         <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
-> > +            interrupt-names = "image_conv", "image_conv_err", "axi_mst_err";
-> > +            clocks = <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
-> > +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>,
-> > +                     <&cpg CPG_MOD R9A07G044_CRU_ACLK>;
-> > +            clock-names = "vclk", "pclk", "aclk";
-> > +            power-domains = <&cpg>;
-> > +            resets = <&cpg R9A07G044_CRU_PRESETN>,
-> > +                     <&cpg R9A07G044_CRU_ARESETN>;
-> > +            reset-names = "presetn", "aresetn";
-> > +
-> > +            ports {
-> > +                    #address-cells = <1>;
-> > +                    #size-cells = <0>;
-> > +
-> > +                    port@1 {
-> > +                            #address-cells = <1>;
-> > +                            #size-cells = <0>;
-> > +
-> > +                            reg = <1>;
-> > +
-> > +                            crucsi2: endpoint@0 {
-> > +                                    reg = <0>;
-> > +                                    remote-endpoint= <&csi2cru>;
-> > +                            };
-> > +                    };
-> > +            };
-> > +    };
-> > --
-> > 2.17.1
-> >
-> >
+thanks,
+-- Shuah
+
+
+
