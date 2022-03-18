@@ -2,86 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB5E54DD5C7
-	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 09:05:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E2AC4DD5EB
+	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 09:17:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233181AbiCRIGh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Mar 2022 04:06:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46402 "EHLO
+        id S233643AbiCRIS6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Mar 2022 04:18:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231597AbiCRIGg (ORCPT
+        with ESMTP id S233631AbiCRIS5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Mar 2022 04:06:36 -0400
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDF64220B1B;
-        Fri, 18 Mar 2022 01:05:17 -0700 (PDT)
-Received: by mail-qt1-f182.google.com with SMTP id 10so6302074qtz.11;
-        Fri, 18 Mar 2022 01:05:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wkNvcMCqZ/MJozq7eDdEGExLgcXdX/7/iK9I+erirLo=;
-        b=O5NjqS1izjN0fU6v1FRts+34A5MIGpKTExWmYOcJX1L+PBQUakMbXXdOncBd/+fHgD
-         ByLLBb0CM0dKU7jP4qT9gaYl9fX3YBux3lj3X1rG3245cv9enUZ27gMIJw2j0yMCpaAE
-         XyoasgohVdGlzFNVYFIQwOtY3ykrK86HV9Y00Kf6cASGPMx1RmW1QGyDCm7JHnuPpnp2
-         mIIkOZNa1FFvkgKoEOOlKd3vcbOAlP7XLOAEKCD+OJq3+ofK3Cxk1rhX1cwsxSP2k6nd
-         TpkSB7r3334U211a/7cJ8xlC+p2vHrGRK1qHV9vq3WAOOkWLVJO2Rk0BpDyMg2wtEfCu
-         BuDw==
-X-Gm-Message-State: AOAM531Hq3jAvM+4CjjKTAJojFD2ZxHwO30x1vXGEOjcndHrObu05s05
-        LCDRfOpKALDzngtNiNudvFtLx5ACFOCAp6U3
-X-Google-Smtp-Source: ABdhPJwTngDWRNIu4ss2hElqdg9uRUT2MpTJbvEM+Cy5GLes5g93RiV3lTuv1vUb2yqXOHVei5MPJg==
-X-Received: by 2002:ac8:7d52:0:b0:2e1:c6fa:aeac with SMTP id h18-20020ac87d52000000b002e1c6faaeacmr6487742qtb.507.1647590716741;
-        Fri, 18 Mar 2022 01:05:16 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id bm21-20020a05620a199500b0067d5e6c7bd8sm3512274qkb.56.2022.03.18.01.05.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Mar 2022 01:05:16 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id j2so14637224ybu.0;
-        Fri, 18 Mar 2022 01:05:16 -0700 (PDT)
-X-Received: by 2002:a25:dfd3:0:b0:629:24ff:eab0 with SMTP id
- w202-20020a25dfd3000000b0062924ffeab0mr8490596ybg.613.1647590716151; Fri, 18
- Mar 2022 01:05:16 -0700 (PDT)
+        Fri, 18 Mar 2022 04:18:57 -0400
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60087.outbound.protection.outlook.com [40.107.6.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51B932D9198;
+        Fri, 18 Mar 2022 01:17:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MM1pRZBlX/2PPRARAIpWnRtoDWXIll+nbu/MrWecfXGqvHVVo+W8QibV3IcxJ9w1fMU0EywnRhzJ8kBH82yU9kCJqLkFE5+ClEAXBnMCj8xqUS7mnaq1DqsD0xnN2/ox/ADJIMlHEXzwJvr+2Zh8SLxbnsF4NxgD2wUoAcTraXoMFerQiM4HFaHCP03+8Uwr1b7mU3mjSNGIYWeVBkHdIm+Tc2fH3ZxUgeTsKkwFRKackajQJm4jly6Et1o+OuH+iwy0u8SVP5Dtk+hx7pnTLyLo4G/ZnqjeOzLYvd6vTYuXBvA6zDIxv3j8HKmqahLJDbTQqgJc7sjIDi4DyP/WOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bmiwjKiLpp1ieB5rDWXFsz70aBHOHo4IFQMpx2g3/CM=;
+ b=QM4USn8iCkD7u1lzA14gH5iiZGkRC0uYUj7hrjuczIcPHtG/89xXwiElp3vXvLGeOU+uyv5ItBN/AngmJbgOHH+QXsLiOHtrkQRStOzZfW/sTEc+fLvu3nBdaSXB5JpsmGvXtvoW5/fdqQ6VasZ6kQxGOQhcJ50mY+YC1Y6dtc/8oSmpCsARRRgJof0PnJQa5Vhzb1IvL8lRqyQJ2JjvRjzC7l838Y+V+DGk25IWrn2k8nXl6a59U+ypkFthlC9BKtY6IFCziLlIYkolYmVW7dovmUs3ILWmi+YSaSmsW5YPvOvqPYLtFDZW9vvnCc2O88i9y9eiVhGbd6tumw/QhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bmiwjKiLpp1ieB5rDWXFsz70aBHOHo4IFQMpx2g3/CM=;
+ b=gsA6Cu/U7rJkOviQ2GwFqSQnf7Q9gvmqsRjru9uOBrYj+ATCPZzz5nXMLErlR94QONWKufePbSfIatRpBh0SCeivL6UR8Rw0hnPpIjn0mLza7gYjHC3/tiN7Im/Ge8V1slyEh/QnQBYKKEJyQ5ab3oEBbl9SGucXQU+QIATXPuQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB8PR04MB6346.eurprd04.prod.outlook.com (2603:10a6:10:10c::14)
+ by AM0PR04MB3954.eurprd04.prod.outlook.com (2603:10a6:208:63::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.18; Fri, 18 Mar
+ 2022 08:17:35 +0000
+Received: from DB8PR04MB6346.eurprd04.prod.outlook.com
+ ([fe80::a8a5:945f:4d08:69c2]) by DB8PR04MB6346.eurprd04.prod.outlook.com
+ ([fe80::a8a5:945f:4d08:69c2%4]) with mapi id 15.20.5081.018; Fri, 18 Mar 2022
+ 08:17:35 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        mirela.rabulea@oss.nxp.com
+Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 0/5] imx-jpeg: Support dynamic resolution change
+Date:   Fri, 18 Mar 2022 16:16:50 +0800
+Message-Id: <cover.1647590462.git.ming.qian@nxp.com>
+X-Mailer: git-send-email 2.33.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR06CA0015.apcprd06.prod.outlook.com
+ (2603:1096:4:186::7) To DB8PR04MB6346.eurprd04.prod.outlook.com
+ (2603:10a6:10:10c::14)
 MIME-Version: 1.0
-References: <20220317204903.28163-1-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20220317204903.28163-1-laurent.pinchart@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 18 Mar 2022 09:05:04 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX-frw9DNn38qLyogzz_7OnZO1TK3xMrwPYODNCfm=-uA@mail.gmail.com>
-Message-ID: <CAMuHMdX-frw9DNn38qLyogzz_7OnZO1TK3xMrwPYODNCfm=-uA@mail.gmail.com>
-Subject: Re: [PATCH] media: platform: renesas-ceu: Fix unused variable warning
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0120675c-54db-4c34-21da-08da08b7c1f5
+X-MS-TrafficTypeDiagnostic: AM0PR04MB3954:EE_
+X-Microsoft-Antispam-PRVS: <AM0PR04MB3954FCB3F60B2F478235B820E7139@AM0PR04MB3954.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DZm+N9/xdJHSXVRhnPitNp4bR2UbOsdELsl/eZZ/I3LbhSvkLUPP2YNdZDJsqMP0kFZ+sHveut0DckQadRufJVOTVte8ozyCzMUp82j7Oy5P9od+/gO0xbrWrdF794W3NGvovKY8HuvzwjuPl1mT9rDcvpDP7oJIsF4aJQaaX1U7N1JpHfqQXZfhYOQ6BNzp58e7mmhJ0cTXBVxsb3tv8l6Qc+B3o4wahforhVKPED69gsKdjXY15i3YOOjjb+khB9F/IGOFgafYssLr7jy4qismuiT8Zkd/nRV/Bj5WZwgLOZtQkKqPHZW8fWJGMu9Es7UiH/2YSH+i7jrt7YcN8lyMbRUOOmbHatqjoVZsmG/Ep7t86sAMU08EQwgKZae848+9WXoaFs0I08llhDDDUTlp0iJ5/ABKh/IDJ7Uo18YxnSK+NhMTUAy/h7TZEB3WHlGzkL+EN7rUi5FUsTjnsoofLioxr1En8Y5JvOkF4meeG553qUs2pzc69nz5fNqyknpeXfZEo1Ct6YIYQGbGjjgtvEb0qST6yGEAR13qOzK61TG71RjyI8WZVmSQe0aL9nX8Ed0R91YslBNfU6DvaNJEfsqAJSdBL/RmlSyWIBJvJK4HmJNVhVA3bWBSmUqn3urir5DjV9qY8GzxYQndJ/5rLzdytpvD3lsNcX8kjA1DGs3TXuP7M1IaQSYNwtf2K7L90jnDg5hbW1KKNtvfKA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR04MB6346.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6512007)(6506007)(6666004)(8676002)(4326008)(66946007)(86362001)(66556008)(66476007)(38100700002)(38350700002)(6486002)(508600001)(316002)(2616005)(186003)(26005)(36756003)(83380400001)(5660300002)(44832011)(7416002)(8936002)(4744005)(2906002)(52116002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zaxBGKpXQbpCnyBbE2KCN415bV5Op9tcD4NZ/RbYQF/GL9RzhgJ5DjifKxOs?=
+ =?us-ascii?Q?+e4IwpIEW1E2fNTynGZljpXhYyD+viuYcD6/fijMAJRRqJhLnY/eN3wkckel?=
+ =?us-ascii?Q?WP+6W2xtmgeiIA7L+uNuwDtNQmoR+LJzY1sUpjlhiCRo0KOmTfgWUqQzS7Zj?=
+ =?us-ascii?Q?TZSAuccQlrCy3TkM7iXimGT9yFq8NbuSwATp+Owp5axRTY8IW5ajoiWBwU0l?=
+ =?us-ascii?Q?+lcNqbSDG6EV2yflp+PgwMxcanysg5NubB9CPz0Hw2FV4MxfeQfN3yQaLgcr?=
+ =?us-ascii?Q?KRb/KH5oiN9QapXxVZUh2IalIGda+aENN9eslRhg9uBb4OUzOtZHJHrsJpSR?=
+ =?us-ascii?Q?g2Rgom2Rcrcmyjoh5+9gen7xnjgGWv9xdNwDYPhi3CQ+nJTDtQvt9d9E4azf?=
+ =?us-ascii?Q?3I22rd0FzdQo/z+EMsewGD72EgOf0/rbbhpy5tPAIW8gI0lfc9Zd9BQNhQDT?=
+ =?us-ascii?Q?rD0XOtMT97NhMpnNmIaQh5spNH5I9UQquYc2sx94WiFHI87xkqbs0ur2/uyi?=
+ =?us-ascii?Q?UtlSCm4hcXwqjfExy5W297Cdzu1ebpxz+c86AGoFCHZKOHZDBIU6DxiCQNxm?=
+ =?us-ascii?Q?Vu+n6mrjN6eanOixxloJ8B4uh/ZW2FyupQEBXS5sg187xP/rX+jWRS6fHHVN?=
+ =?us-ascii?Q?FOtOlz918Wg4RsYZWRzJHA4IFfyi1HsVNg+zu1VhwgDzbdceTkG9wFOvd7yD?=
+ =?us-ascii?Q?Fv/WDAtHG1rNaMr3yv+m2Qm13w0bgmGOALBsiKns3AmBfEy7rAkY1isVZgKX?=
+ =?us-ascii?Q?JkytxYTeFGNERdWP+SnUJs54uSGF2i/0iClvrOdD28BRFem3TqOu2QTpfe3j?=
+ =?us-ascii?Q?UyryCxKuVNvq7f/NBil+cQjf7OPQx1cmj4/QSKxpaxCLBcVj+yaTCcGqSZZm?=
+ =?us-ascii?Q?bugy7HWqgED+Lk9VOi0nm0nvmLeJ2pf2aeIOTFZc6rLWBv2B1p873Npx5ijS?=
+ =?us-ascii?Q?MXwxtiZOBU/NfxaPzTrpng12txuf+jTzNItkIV69b93rHX3RXlqoy7QFifpR?=
+ =?us-ascii?Q?UbUSS7dChPSxCJKpiDlkIF6MhdwrA4+yZe1ZGTI27Ag+6iAyVMVSjMUFniZl?=
+ =?us-ascii?Q?aEGNzWwwg/mZCRls4mxXRO3z3ixsnIMvVms8yzIj4hhWsDaeeMkErfnhKRRu?=
+ =?us-ascii?Q?VduCO0b+SOv63je7yXtNj6haDWorqc+jLYcV19nVYMLmMRbPT6Eji3B+7J2G?=
+ =?us-ascii?Q?x2zNZ6t/wXk/OZa+kz+jNLjnDNfPOzLA0o2FkS4w3mcrYOZFXs507J2dLz1i?=
+ =?us-ascii?Q?wiOkacTcm2pGTR36M9wRrBwA/Fagky7Ag5FkB7soC2nztCvxyNgXRtl63s88?=
+ =?us-ascii?Q?KqQhKFxQk/hUJ9aC+fBvk/OnxuY+fcmTiPoEg5VoptfPKdBfuzpbkoUZwnbo?=
+ =?us-ascii?Q?VVnLtx0aQ53kQCIJsvh8xXmpK/hO4Odkm/vcI81BRMllYABbyVJaofc5MrrW?=
+ =?us-ascii?Q?YITqlaWxQGv2bdrJjI+3Sjyh6iWV52+J?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0120675c-54db-4c34-21da-08da08b7c1f5
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR04MB6346.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2022 08:17:35.5888
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TCDABCUtXQU955n8MHtWA0t0wW/6+IyQDfVye2mM/vhSavIw4Vc/6coEmJE6gBbzR6Ym2e0hzAxpySxqq9KFZQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB3954
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 17, 2022 at 10:17 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> The ceu_data_rz variable is unused when CONFIG_OF isn't set. This
-> generates a compiler warning. Fix it.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+These patchset are to support dynamic resolution change.
+Avoid decoding error or even kernel panic.
+Otherwise, the Gstreamer v4l2videodec will fail to decode jpeg
+who is not decoded to yuyv.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Ming Qian (5):
+  media: imx-jpeg: Refactor function mxc_jpeg_parse
+  media: imx-jpeg: Identify and handle precision correctly
+  media: imx-jpeg: Propagate the output frame size to the capture side
+  media: imx-jpeg: Handle source change in a function
+  media: imx-jpeg: Support dynamic resolution change
 
-Gr{oetje,eeting}s,
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 244 ++++++++++++------
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.h    |   3 +
+ 2 files changed, 169 insertions(+), 78 deletions(-)
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+base-commit: 71e6d0608e4d1b79069990c7dacb3600ced28a3b
+-- 
+2.33.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
