@@ -2,44 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BEBD4DD7A3
-	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 11:07:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6DA24DD8A8
+	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 12:01:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234752AbiCRKJI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Mar 2022 06:09:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44276 "EHLO
+        id S235613AbiCRLCg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Mar 2022 07:02:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231978AbiCRKJH (ORCPT
+        with ESMTP id S235617AbiCRLCe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Mar 2022 06:09:07 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D01E2EBFB3;
-        Fri, 18 Mar 2022 03:07:48 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9D7928DB;
-        Fri, 18 Mar 2022 11:07:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647598066;
-        bh=XWVI4yjuu/sVZK3w+QHp2oEQXCNC9C0Caux/JZ2CpcE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RF9OGsxlD6pkttawBvGCjKtKbqrSFoHs5bsnC56S8P5s4fbUmtc7cVFdqta5mvEhJ
-         2onnVAcQze2nQAUGUgVkWVC9l/4n0GsNmDYWOpS4sbR/C7vOT4zskf0gDqhzZuRbRC
-         N2w6OCSAM3riXQMzgNGSl/6I7mZ6JmjALVc1p/SE=
-Date:   Fri, 18 Mar 2022 12:07:28 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH] media: platform: renesas-ceu: Fix unused variable warning
-Message-ID: <YjRZ4NGbw/wwHRWk@pendragon.ideasonboard.com>
-References: <20220317204903.28163-1-laurent.pinchart@ideasonboard.com>
- <164759787353.1484799.5883759969984812837@Monstersaurus>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <164759787353.1484799.5883759969984812837@Monstersaurus>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        Fri, 18 Mar 2022 07:02:34 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F522D7ABC;
+        Fri, 18 Mar 2022 04:01:08 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id p5so3013363pfo.5;
+        Fri, 18 Mar 2022 04:01:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=+DfTezyTZEEgXa3A9GdADPNqeC5t3FMBzFeEqDv248I=;
+        b=flDJYeJw11Atosup9EVcV2btSWN1r1qbFUvRc2kOuCoL0/LO4gaVVakhSgRWpoD//U
+         +3BPSN29KgOWAa/CGHb3OmDPZPEMcHy5AQ+Ltv6X/d3VLimhfkhjdxJDGDHDz1/UCxr3
+         pUv6sRK2PMX9KUUWMUWoT0zMAoXiacU0Q9jHxPZ9QTtsyyCpEhoiqzucQEa7XnknVVwk
+         qxqwvCszpYntEcIlRrTN9sFzrs8pefU0DzYyESEvm6XflD0hJXDiLTveuCaIHOG9x5AA
+         zj7Gd+/sZA2bZZBIANqHSmq5m6ou7ktXnOhxGvNwEClXJ3cLFoWjmaSE4gfMPsUxB9Hp
+         rXbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=+DfTezyTZEEgXa3A9GdADPNqeC5t3FMBzFeEqDv248I=;
+        b=JtESDvzsO3zU8JwuOAnexfLKpFcPZujY/osiuemtYHkXu/ZDg3UqCdyZaAO2Ftbjw3
+         99o6rp1J4dbMJltIPeAEG1CD0zXUPMclQRRdH3EjDgCoPtdVetiapG+zsO/PCD4A1gYV
+         EeZ9TaOa5abjAySqVzJYWnEixF5+cFhVJEPxrSXmdqJf3CBKX2LSjUPjpCVWXaFXEE7S
+         PCiMdfXIZZvyxY9ZsX0DdBuokbuHIZs+HVuZtqY53KTBJHTlKphbYxg+tGdgh/qtOHY4
+         IArJEzOf0RSrO2zlhvAdRennYyGoPbNFM8Qaea0WNNF9cX6+4RwNUPQH4ddfrGsYJP6b
+         brZQ==
+X-Gm-Message-State: AOAM533bDu5wf582PIrJ24mSFeutCE5Bnuy+Qy1VQWaJW7lSnMaWFDW5
+        YM8D5Xtxf/kq7rvIbEmpMDY=
+X-Google-Smtp-Source: ABdhPJwdkiq3tFwjozVCjtQH0QfyWdY4uO8RrtKPh0PJaTcZeItVID4T4ekwLFEDdgtI6CNR277/2g==
+X-Received: by 2002:a05:6a00:198c:b0:4f7:7e0f:bfc2 with SMTP id d12-20020a056a00198c00b004f77e0fbfc2mr9225986pfl.44.1647601267807;
+        Fri, 18 Mar 2022 04:01:07 -0700 (PDT)
+Received: from localhost.localdomain ([159.226.95.43])
+        by smtp.googlemail.com with ESMTPSA id y3-20020a056a00190300b004fa2411bb92sm9276071pfi.93.2022.03.18.04.01.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Mar 2022 04:01:07 -0700 (PDT)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Kyunmin Park <kyungmin.park@samsung.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linmq006@gmail.com
+Subject: [PATCH v2] media: exynos4-is: Change clk_disable to clk_disable_unprepare
+Date:   Fri, 18 Mar 2022 11:01:01 +0000
+Message-Id: <20220318110102.29506-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220316015344.5120-1-linmq006@gmail.com>
+References: <20220316015344.5120-1-linmq006@gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,52 +72,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 18, 2022 at 10:04:33AM +0000, Kieran Bingham wrote:
-> Quoting Laurent Pinchart (2022-03-17 20:49:03)
-> > The ceu_data_rz variable is unused when CONFIG_OF isn't set. This
-> > generates a compiler warning. Fix it.
-> 
-> Reported-by: kernel test robot <lkp@intel.com> ?
+The corresponding API for clk_prepare_enable is clk_disable_unprepare,
+other than clk_disable.
 
-Good point, I forgot that. Thanks.
+Fix this by changing clk_disable to clk_disable_unprepare.
 
-> but either way: 
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/renesas/renesas-ceu.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/renesas/renesas-ceu.c b/drivers/media/platform/renesas/renesas-ceu.c
-> > index 2e8dbacc414e..f70f91b006b7 100644
-> > --- a/drivers/media/platform/renesas/renesas-ceu.c
-> > +++ b/drivers/media/platform/renesas/renesas-ceu.c
-> > @@ -1606,15 +1606,15 @@ struct ceu_data {
-> >         u32 irq_mask;
-> >  };
-> >  
-> > -static const struct ceu_data ceu_data_rz = {
-> > -       .irq_mask = CEU_CETCR_ALL_IRQS_RZ,
-> > -};
-> > -
-> >  static const struct ceu_data ceu_data_sh4 = {
-> >         .irq_mask = CEU_CETCR_ALL_IRQS_SH4,
-> >  };
-> >  
-> >  #if IS_ENABLED(CONFIG_OF)
-> > +static const struct ceu_data ceu_data_rz = {
-> > +       .irq_mask = CEU_CETCR_ALL_IRQS_RZ,
-> > +};
-> > +
-> >  static const struct of_device_id ceu_of_match[] = {
-> >         { .compatible = "renesas,r7s72100-ceu", .data = &ceu_data_rz },
-> >         { .compatible = "renesas,r8a7740-ceu", .data = &ceu_data_rz },
-> > 
-> > base-commit: 10ed1ec9c9cab63310038579c2e1303324bfa44a
+Fixes: b4155d7d5b2c ("[media] exynos4-is: Ensure fimc-is clocks are not enabled until properly configured")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+changes in v2:
+- fix typo in commit message.
+---
+ drivers/media/platform/exynos4-is/fimc-is.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/media/platform/exynos4-is/fimc-is.c b/drivers/media/platform/exynos4-is/fimc-is.c
+index e55e411038f4..8e88b0f6662d 100644
+--- a/drivers/media/platform/exynos4-is/fimc-is.c
++++ b/drivers/media/platform/exynos4-is/fimc-is.c
+@@ -140,7 +140,7 @@ static int fimc_is_enable_clocks(struct fimc_is *is)
+ 			dev_err(&is->pdev->dev, "clock %s enable failed\n",
+ 				fimc_is_clocks[i]);
+ 			for (--i; i >= 0; i--)
+-				clk_disable(is->clocks[i]);
++				clk_disable_unprepare(is->clocks[i]);
+ 			return ret;
+ 		}
+ 		pr_debug("enabled clock: %s\n", fimc_is_clocks[i]);
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
