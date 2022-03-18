@@ -2,100 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 106334DD64A
-	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 09:39:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26A2C4DD672
+	for <lists+linux-media@lfdr.de>; Fri, 18 Mar 2022 09:49:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233845AbiCRIkT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Mar 2022 04:40:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54572 "EHLO
+        id S233953AbiCRIu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Mar 2022 04:50:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233811AbiCRIkT (ORCPT
+        with ESMTP id S233943AbiCRIu2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Mar 2022 04:40:19 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC7172E26;
-        Fri, 18 Mar 2022 01:38:56 -0700 (PDT)
-X-UUID: a5aae80ff55748a886439f9cafa3bc6f-20220318
-X-UUID: a5aae80ff55748a886439f9cafa3bc6f-20220318
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
-        (envelope-from <miles.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 792840434; Fri, 18 Mar 2022 16:38:46 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 18 Mar 2022 16:38:45 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 18 Mar
- 2022 16:38:44 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 18 Mar 2022 16:38:44 +0800
-From:   Miles Chen <miles.chen@mediatek.com>
-To:     <moudy.ho@mediatek.com>
-CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        <acourbot@chromium.org>, <allen-kh.cheng@mediatek.com>,
-        <angelogioacchino.delregno@collabora.com>,
-        <chunkuang.hu@kernel.org>, <daoyuan.huang@mediatek.com>,
-        <devicetree@vger.kernel.org>, <drinkcat@chromium.org>,
-        <geert+renesas@glider.be>, <hsinyi@google.com>,
-        <hverkuil-cisco@xs4all.nl>, <jason-jh.lin@mediatek.com>,
-        <jernej.skrabec@siol.net>, <laurent.pinchart@ideasonboard.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <maoguang.meng@mediatek.com>,
-        <matthias.bgg@gmail.com>, <mchehab@kernel.org>,
-        <menghui.lin@mediatek.com>, <miles.chen@mediatek.com>,
-        <pihsun@chromium.org>, <ping-hsun.wu@mediatek.com>,
-        <randy.wu@mediatek.com>, <river.cheng@mediatek.com>,
-        <rob@landley.net>, <robh+dt@kernel.org>, <roy-cw.yeh@mediatek.com>,
-        <sj.huang@mediatek.com>, <srv_heupstream@mediatek.com>,
-        <tfiga@chromium.org>
-Subject: Re: [PATCH v14 6/6] soc: mediatek: mutex: add functions that operate registers by CMDQ
-Date:   Fri, 18 Mar 2022 16:38:44 +0800
-Message-ID: <20220318083844.24859-1-miles.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <72f7feabe22064365457b5b72dfb1972ba2b3151.camel@mediatek.com>
-References: <72f7feabe22064365457b5b72dfb1972ba2b3151.camel@mediatek.com>
+        Fri, 18 Mar 2022 04:50:28 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FC899D0C4;
+        Fri, 18 Mar 2022 01:49:08 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id BEAB7E000F;
+        Fri, 18 Mar 2022 08:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1647593347;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+bAdKA3T8fJldt3bCutW94XcxG9KeQUgHALYsG5O6TU=;
+        b=J2tzoyCplqZnwfh5iT0yGbxyzZ4hKWazmRtP0vBd5WrBzslQy+Dz8PTvY5rkJeAhvZFtkx
+        zqjqeqWA/gq+LKAJTIetLiGCTVURg29P1UqocB+FR4DgXcYZZJXGRnGAq/wB2EMb1CA363
+        8Jaij9mhCFhI+LIszpmzbhRXPuFvBXPdPSZSOs6pUik4gopQBdyZI51TdhbCa96sKfrwAo
+        1Ndv/NaU+1Mlq3IB9G+v3ohL9DemGHyhBedEXyhcxROhGSwpx2z2v6MdgbPo2qc1/DGEsN
+        BIa+nP7a/rJFf2E/Ms+cU5Zn+KQk4ff4Ybfc7L0E6YBs+gI3VrhAG/LdqrYyQA==
+Date:   Fri, 18 Mar 2022 09:49:04 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 03/46] media: sun6i-csi: Grab bus clock instead of
+ passing it to regmap
+Message-ID: <YjRHgGgYfYODAmoi@aptenodytes>
+References: <20220311143532.265091-1-paul.kocialkowski@bootlin.com>
+ <20220311143532.265091-4-paul.kocialkowski@bootlin.com>
+ <2361247.jE0xQCEvom@kista>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
-        RDNS_NONE,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,
-        UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="gHLgdwLJSCzaTAAW"
+Content-Disposition: inline
+In-Reply-To: <2361247.jE0xQCEvom@kista>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Moudy,
 
->> >  		}
->> >  	}
->> >  
->> > +	if (of_address_to_resource(dev->of_node, 0, &addr) < 0)
->> > +		mtx->addr = 0L;
->> 
->> addr is phys_addr_t, which means that it holds a physical address.
->> 0 may be a valid address in some platforms, so I think
->> we should not set mtx->addr = 0L when of_address_to_resource fails.
->> Maybe probe fail by returning dev_err_probe()?
->> 
->> Thanks,
->> Miles
->
->Hi Miles,
->
->This does lead to the situation you mentioned, and sorry for the
->deficient dts parsing flow. Maybe we should follow "gce-client" usage
->and add a check condition when needed to avoid compatibility issues?
->
->Thanks,
->Moudy
+--gHLgdwLJSCzaTAAW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-According to Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml,
-it is required to have a reg field in the mutex node. So I think we can
-fail in this case.
+Hi Jernej,
 
-Thanks,
-Miles
+On Tue 15 Mar 22, 20:22, Jernej =C5=A0krabec wrote:
+> Hi Paul!
+>=20
+> Dne petek, 11. marec 2022 ob 15:34:49 CET je Paul Kocialkowski napisal(a):
+> > Since the bus clock alone is not enough to get access to the registers,
+> > don't pass it to regmap and manage it instead just like the other
+> > clocks.
+> >=20
+>=20
+> Let me ask it in another way, is bus clock needed only for register acces=
+s? If=20
+> yes, it makes sense to keep it enabled only during register access.
+
+Ah right, I lost sight that what regmap will do is to enable/disable the
+clock around register access. I understand there might be an advantage
+in terms of power consumption here.
+
+I haven't checked specifically, but since it was used like that before
+it's probably fine.
+
+Out of curiosity: is there any noticeable latency added by the process?
+
+Cheers,
+
+Paul
+
+> Best regards,
+> Jernej
+>=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 10 ++++++++--
+> >  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h |  1 +
+> >  2 files changed, 9 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drive=
+rs/
+> media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > index 5fbaa1e99412..dc79f3c14336 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > @@ -827,13 +827,19 @@ static int sun6i_csi_resource_request(struct=20
+> sun6i_csi_device *csi_dev,
+> >  	if (IS_ERR(io_base))
+> >  		return PTR_ERR(io_base);
+> > =20
+> > -	csi_dev->regmap =3D devm_regmap_init_mmio_clk(&pdev->dev, "bus",=20
+> io_base,
+> > -						   =20
+> &sun6i_csi_regmap_config);
+> > +	csi_dev->regmap =3D devm_regmap_init_mmio(&pdev->dev, io_base,
+> > +					=09
+> &sun6i_csi_regmap_config);
+> >  	if (IS_ERR(csi_dev->regmap)) {
+> >  		dev_err(&pdev->dev, "Failed to init register map\n");
+> >  		return PTR_ERR(csi_dev->regmap);
+> >  	}
+> > =20
+> > +	csi_dev->clk_bus =3D devm_clk_get(&pdev->dev, "bus");
+> > +	if (IS_ERR(csi_dev->clk_bus)) {
+> > +		dev_err(&pdev->dev, "Unable to acquire bus clock\n");
+> > +		return PTR_ERR(csi_dev->clk_bus);
+> > +	}
+> > +
+> >  	csi_dev->clk_mod =3D devm_clk_get(&pdev->dev, "mod");
+> >  	if (IS_ERR(csi_dev->clk_mod)) {
+> >  		dev_err(&pdev->dev, "Unable to acquire csi clock\n");
+> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drive=
+rs/
+> media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> > index e4e7ac6c869f..356661b413f8 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> > @@ -51,6 +51,7 @@ struct sun6i_csi_device {
+> >  	struct sun6i_video		video;
+> > =20
+> >  	struct regmap			*regmap;
+> > +	struct clk			*clk_bus;
+> >  	struct clk			*clk_mod;
+> >  	struct clk			*clk_ram;
+> >  	struct reset_control		*reset;
+> > --=20
+> > 2.35.1
+> >=20
+> >=20
+>=20
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--gHLgdwLJSCzaTAAW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmI0R4AACgkQ3cLmz3+f
+v9HeVQf8CKT1qm0Afb3D5ftaWSjBnvSaPjI1zrK0d267DdUOAMWvOOJp+8dLNx+b
+7y2dlj+4zVD8nIcixvmVJ5hR2APgzgz/lgiUnYBQa9EmU2fFufSbEx3ugT2+rkGr
+fOVtDhbGob1l3Es0HNTYFWOSTOu9uUsudlEGr+WazSJzTy6KD4wkc+osin8uGfMs
+7FVkADgg0MQn4svLRLpnL6/GJtFSh2jkiaHquket6AwoztJgOOMmETmUDq+Y1dWc
+rDOSI9emIa3I5lmO2/vkFOS/rTR1G4J2gkPqw3jOyW0lV+GrJ9O0cOQRQoRBwcjF
+9r3tjFy6ReRRxfFVHKFe9Jko7mftCg==
+=txhr
+-----END PGP SIGNATURE-----
+
+--gHLgdwLJSCzaTAAW--
