@@ -2,112 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 182994DE552
-	for <lists+linux-media@lfdr.de>; Sat, 19 Mar 2022 04:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1698C4DE5CB
+	for <lists+linux-media@lfdr.de>; Sat, 19 Mar 2022 04:58:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241862AbiCSDUW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Mar 2022 23:20:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51744 "EHLO
+        id S236330AbiCSEAE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Mar 2022 00:00:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241837AbiCSDUV (ORCPT
+        with ESMTP id S242119AbiCSD7u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Mar 2022 23:20:21 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F2F326D7
-        for <linux-media@vger.kernel.org>; Fri, 18 Mar 2022 20:19:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647659940; x=1679195940;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N/42G2gnZW2qRn/f31Z8PKlng25fnXfMB/1VSbtGjSY=;
-  b=dxfOE4UUGpwQJLa6ehybk3tqZPVrILZ/TuXx3l9Q1pYR1p6oZt9lSNIr
-   okM9to83yuj8QFrWD+cE9KhsucQliZwodiyNoN/rpCsosQsn8CEQkEU0/
-   Z8pz5MNxl3TKTPphAHOy5ZsDm7WmzijOzYE4gAShLqO4A7cUedbXTna5Y
-   T4UiuQct5MI654d/Rq/RgQhPBoZCfhSCK04bAurxGLiN5g4nMRQvBac/C
-   of0LirYCvQ74Vm2meJX5Aic4iMecyLsqyerysIJX5Mm1JqIFQYdMqgCao
-   50MBaYuJ00eUyNVh7kZhVweWDMzCChyk9GNSgFKlTg/sGL+qRqG7axKvA
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10290"; a="256090695"
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; 
-   d="scan'208";a="256090695"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2022 20:19:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; 
-   d="scan'208";a="517527861"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 18 Mar 2022 20:18:58 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nVPcH-000FTD-Qh; Sat, 19 Mar 2022 03:18:57 +0000
-Date:   Sat, 19 Mar 2022 11:18:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [linux-next:master 12686/13576] ERROR: modpost:
- "v4l2_subdev_link_validate" [drivers/media/platform/nxp/imx-mipi-csis.ko]
- undefined!
-Message-ID: <202203191117.j8hMzGCd-lkp@intel.com>
+        Fri, 18 Mar 2022 23:59:50 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6918C12A8F3;
+        Fri, 18 Mar 2022 20:57:52 -0700 (PDT)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22J2ro58012531;
+        Sat, 19 Mar 2022 03:57:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2021-07-09;
+ bh=dOCvppNUKgOlcA89bNUdrq8FTQRYfsjfsvR3rEo7hmg=;
+ b=rB4F0btdvmuQ8qSVzB0TI/MVdj6L1wLlPT1srOv4birzBP2VsA5D9mxqDnty9FGI031e
+ OhuXiDi8PP/hnk9+43pScgnlvc1Msx3IXhpur+XlVll5oz+03KUF4YG2ZJeO5ctAVyuc
+ ABInatOkvEpdjQe0XOBM3Vw23gTi3RCDw1NbsqI8/p8gXop58M1CrcTLpLi34DxilkOw
+ aIKWvxzBLmxogO1BmHkA0n6pbxmOlCrA4EQcUelFgQP2O0W9a5LqlQOoSqpIeuQaOZbZ
+ 7pKjNVt7qrQPqi5lf6wtbxwtbMHhpxhomcEA8IcEfMLaUK5a8MKBz0qkUbZ41JgSbvMB dA== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3ew6ss016q-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 19 Mar 2022 03:57:15 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 22J3uvsm007045;
+        Sat, 19 Mar 2022 03:57:14 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3ew5kyshp1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 19 Mar 2022 03:57:14 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 22J3v5Qm007126;
+        Sat, 19 Mar 2022 03:57:13 GMT
+Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
+        by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3ew5kyshmn-6;
+        Sat, 19 Mar 2022 03:57:13 +0000
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+To:     Julia Lawall <Julia.Lawall@inria.fr>, linux-can@vger.kernel.org
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-rdma@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+        linux-s390@vger.kernel.org,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        linux-clk@vger.kernel.org, linux-spi@vger.kernel.org,
+        Shayne Chen <shayne.chen@mediatek.com>, netdev@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, Jiri Olsa <jolsa@kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        linux-staging@lists.linux.dev, Namhyung Kim <namhyung@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-perf-users@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        Sven Schnelle <svens@linux.ibm.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-power@fi.rohmeurope.com, linux-mtd@lists.infradead.org,
+        target-devel@vger.kernel.org,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-mediatek@lists.infradead.org,
+        Christian Borntraeger <borntraeger@linux.ibm.com>
+Subject: Re: [PATCH 00/30] fix typos in comments
+Date:   Fri, 18 Mar 2022 23:56:56 -0400
+Message-Id: <164766213032.31329.14855996441316567317.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: ryygBDbx4ESlJehbCVsBuy2qL-PPuldd
+X-Proofpoint-GUID: ryygBDbx4ESlJehbCVsBuy2qL-PPuldd
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Mon, 14 Mar 2022 12:53:24 +0100, Julia Lawall wrote:
 
-First bad commit (maybe != root cause):
+> Various spelling mistakes in comments.
+> Detected with the help of Coccinelle.
+> 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6d72dda014a4753974eb08950089ddf71fec4f60
-commit: 772edc05cfcb96ce78aed17eef951d9e138f50eb [12686/13576] media: platform/*/Kconfig: make manufacturer menus more uniform
-config: nios2-randconfig-r031-20220319 (https://download.01.org/0day-ci/archive/20220319/202203191117.j8hMzGCd-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=772edc05cfcb96ce78aed17eef951d9e138f50eb
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 772edc05cfcb96ce78aed17eef951d9e138f50eb
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
+Applied to 5.18/scsi-queue, thanks!
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+[02/30] scsi: lpfc: fix typos in comments
+        https://git.kernel.org/mkp/scsi/c/9a866e6aaf4e
+[17/30] scsi: elx: libefc_sli: fix typos in comments
+        https://git.kernel.org/mkp/scsi/c/8037185d1ad8
+[24/30] scsi: qla2xxx: fix typos in comments
+        https://git.kernel.org/mkp/scsi/c/5419e0f15622
+[25/30] treewide: fix typos in comments
+        https://git.kernel.org/mkp/scsi/c/9d05790f5187
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "v4l2_subdev_link_validate" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_subdev_get_fwnode_pad_1_to_1" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_subdev_call_wrappers" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_get_link_freq" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_async_unregister_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_async_nf_cleanup" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_async_nf_unregister" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_async_register_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_async_subdev_nf_register" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "__v4l2_async_nf_add_fwnode_remote" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-WARNING: modpost: suppressed 6 unresolved symbol warnings because there were too many)
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on MEDIA_SUPPORT && VIDEO_DEV && MEDIA_CONTROLLER
-   Selected by
-   - VIDEO_IMX_MIPI_CSIS && MEDIA_SUPPORT && MEDIA_PLATFORM_SUPPORT && MEDIA_PLATFORM_DRIVERS
-
----
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+Martin K. Petersen	Oracle Linux Engineering
