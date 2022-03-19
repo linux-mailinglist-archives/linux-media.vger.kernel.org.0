@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 433954DE94E
+	by mail.lfdr.de (Postfix) with ESMTP id B3DC14DE94F
 	for <lists+linux-media@lfdr.de>; Sat, 19 Mar 2022 17:31:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243646AbiCSQcz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 19 Mar 2022 12:32:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35890 "EHLO
+        id S243644AbiCSQcx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Mar 2022 12:32:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243642AbiCSQcu (ORCPT
+        with ESMTP id S243638AbiCSQcu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Sat, 19 Mar 2022 12:32:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 264E223F9CF
-        for <linux-media@vger.kernel.org>; Sat, 19 Mar 2022 09:31:30 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8BB423F9CD
+        for <linux-media@vger.kernel.org>; Sat, 19 Mar 2022 09:31:29 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DD58E51;
-        Sat, 19 Mar 2022 17:31:25 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 79D0126E2;
+        Sat, 19 Mar 2022 17:31:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647707486;
-        bh=j4hkX6PH4+blXGF0tbTTGz04R+UcCuwp26s4lPuwk7Y=;
+        s=mail; t=1647707487;
+        bh=TZYcik4dG+rSsCkPCQkOBQpcllM4Z18+HB9vK0XUl5U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pRx0L1Prz5LYN/ZTMLDZV86g241c0Hre4ae23h49BETjICPG6eWnbc9WeP09nOkMq
-         O8V45nZH+Io0UHpkoyFh0XR8JCMWva82KUuXYHAFHNGh1ZtQCr8fHorXrojnUaqozW
-         yTmBMWu5j184+clQQovLlWIxJNBhCxlaxz3yQsrw=
+        b=qrlFXGDK0VWGQQdHhcvdERYfG7ms6xhtHdDJSopcYm/CjV1lUi275VOBUbU5s7Jfn
+         mQSCaM4wzW1/qVIdKYgqvy1QJvbsEVLEsiH/+n4i6WJyVhrytyhWeb/C8zncSo4kxe
+         mf0426RB1mO7U6JN4l9LYnXdnz/bIGGQroZmKPkY=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
@@ -32,9 +32,9 @@ Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
         Paul Elder <paul.elder@ideasonboard.com>,
         Tomasz Figa <tfiga@google.com>,
         linux-rockchip@lists.infradead.org
-Subject: [PATCH v3 02/17] media: rkisp1: capture: Fix and simplify (un)registration
-Date:   Sat, 19 Mar 2022 18:30:45 +0200
-Message-Id: <20220319163100.3083-3-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 03/17] media: rkisp1: isp: Fix and simplify (un)registration
+Date:   Sat, 19 Mar 2022 18:30:46 +0200
+Message-Id: <20220319163100.3083-4-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220319163100.3083-1-laurent.pinchart@ideasonboard.com>
 References: <20220319163100.3083-1-laurent.pinchart@ideasonboard.com>
@@ -49,98 +49,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The rkisp1_register_capture() and rkisp1_unregister_capture() functions
-don't destroy the mutex (in the error path for the former). Fix this and
-make rkisp1_unregister_capture() and rkisp1_capture_devs_unregister()
-safe to be called on an unregistered capture node to prepare for
+The rkisp1_isp_register() and rkisp1_isp_unregister() functions don't
+destroy the mutex (in the error path for the former). Fix this, simplify
+error handling at registration time as media_entity_cleanup() can be
+called on an uninitialized entity, and make rkisp1_isp_unregister() and
+safe to be called on an unregistered isp subdev to prepare for
 simplification of error handling at probe time.
-
-While at it, drop the double initialization of cap->rkisp1 in
-rkisp1_capture_devs_register() as the field is already initialized in
-rkisp1_capture_init().
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../platform/rockchip/rkisp1/rkisp1-capture.c | 30 +++++++++----------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 20 ++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-index e88749488969..6c54e95a529b 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-@@ -1326,8 +1326,12 @@ static const struct v4l2_file_operations rkisp1_fops = {
- 
- static void rkisp1_unregister_capture(struct rkisp1_capture *cap)
- {
-+	if (!video_is_registered(&cap->vnode.vdev))
-+		return;
-+
- 	media_entity_cleanup(&cap->vnode.vdev.entity);
- 	vb2_video_unregister_device(&cap->vnode.vdev);
-+	mutex_destroy(&cap->vnode.vlock);
- }
- 
- void rkisp1_capture_devs_unregister(struct rkisp1_device *rkisp1)
-@@ -1381,14 +1385,14 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
- 	if (ret) {
- 		dev_err(cap->rkisp1->dev,
- 			"vb2 queue init failed (err=%d)\n", ret);
--		return ret;
-+		goto error;
- 	}
- 
- 	vdev->queue = q;
- 
- 	ret = media_entity_pads_init(&vdev->entity, 1, &node->pad);
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+index 2a35bf24e54e..f84e53b60ee1 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+@@ -1090,29 +1090,35 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1)
+ 	mutex_init(&isp->ops_lock);
+ 	ret = media_entity_pads_init(&sd->entity, RKISP1_ISP_PAD_MAX, pads);
  	if (ret)
 -		return ret;
 +		goto error;
  
- 	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+ 	ret = v4l2_device_register_subdev(&rkisp1->v4l2_dev, sd);
  	if (ret) {
-@@ -1404,6 +1408,7 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
+ 		dev_err(rkisp1->dev, "Failed to register isp subdev\n");
+-		goto err_cleanup_media_entity;
++		goto error;
+ 	}
  
- error:
- 	media_entity_cleanup(&vdev->entity);
-+	mutex_destroy(&node->vlock);
+ 	rkisp1_isp_init_config(sd, &state);
++
+ 	return 0;
+ 
+-err_cleanup_media_entity:
++error:
+ 	media_entity_cleanup(&sd->entity);
+-
++	mutex_destroy(&isp->ops_lock);
++	isp->sd.flags = 0;
  	return ret;
  }
  
-@@ -1439,26 +1444,21 @@ rkisp1_capture_init(struct rkisp1_device *rkisp1, enum rkisp1_stream_id id)
- 
- int rkisp1_capture_devs_register(struct rkisp1_device *rkisp1)
+ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
  {
--	struct rkisp1_capture *cap;
--	unsigned int i, j;
-+	unsigned int i;
- 	int ret;
+-	struct v4l2_subdev *sd = &rkisp1->isp.sd;
++	struct rkisp1_isp *isp = &rkisp1->isp;
  
- 	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); i++) {
-+		struct rkisp1_capture *cap = &rkisp1->capture_devs[i];
+-	v4l2_device_unregister_subdev(sd);
+-	media_entity_cleanup(&sd->entity);
++	if (!isp->sd.flags)
++		return;
 +
- 		rkisp1_capture_init(rkisp1, i);
--		cap = &rkisp1->capture_devs[i];
--		cap->rkisp1 = rkisp1;
-+
- 		ret = rkisp1_register_capture(cap);
--		if (ret)
--			goto err_unreg_capture_devs;
-+		if (ret) {
-+			rkisp1_capture_devs_unregister(rkisp1);
-+			return ret;
-+		}
- 	}
- 
- 	return 0;
- 
--err_unreg_capture_devs:
--	for (j = 0; j < i; j++) {
--		cap = &rkisp1->capture_devs[j];
--		rkisp1_unregister_capture(cap);
--	}
--
--	return ret;
++	v4l2_device_unregister_subdev(&isp->sd);
++	media_entity_cleanup(&isp->sd.entity);
++	mutex_destroy(&isp->ops_lock);
  }
+ 
+ /* ----------------------------------------------------------------------------
 -- 
 Regards,
 
