@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABBBE4DE955
-	for <lists+linux-media@lfdr.de>; Sat, 19 Mar 2022 17:31:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04D294DE956
+	for <lists+linux-media@lfdr.de>; Sat, 19 Mar 2022 17:31:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243649AbiCSQc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S243653AbiCSQc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Sat, 19 Mar 2022 12:32:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36482 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243654AbiCSQc6 (ORCPT
+        with ESMTP id S243655AbiCSQc7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 19 Mar 2022 12:32:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20E6423F9CF
+        Sat, 19 Mar 2022 12:32:59 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F8423F9D4
         for <linux-media@vger.kernel.org>; Sat, 19 Mar 2022 09:31:37 -0700 (PDT)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E2B52A4E;
-        Sat, 19 Mar 2022 17:31:30 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 466DB2A51;
+        Sat, 19 Mar 2022 17:31:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1647707491;
-        bh=TqBg5fhyBEX12byXIFRqYrypcKV/sIW1uaIXi4fhJGo=;
+        bh=+I21XNPnxfBFcrpJBAdDAPtZrSNDC7LAAxQbMXt9Tcc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LLmS9r0lkk1fBv5UTigNDTWgZzsMUldtr1y7Q9f/pmVPoyWvzC4z6Ryxo6nw3JBxh
-         m8UjQqqEiM3dKUNZTIWsususzUl9dyh22CEtII86AmfIibvsPfE66cFRKsFk7Eplw9
-         Bvo5HDxOpjlcFNalLR0D753VDxe1HVMPrGqEFEU4=
+        b=qzB6UzGAgX4y0AyOK3IsOSO1SoTLiQZf9Nfuk3VdiUTif0/qVmJW748ly7ImJCDYt
+         E9GjkwddWJj06okP1H2EQGjiUvb+3f6a1b88IO8T2uH8bkQ1Xsu/SXo1LHb+iZbnTn
+         9PgIaYrcRz1I3eUkZ9SvhyWOwOJozIlmPSUc6hA0=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
@@ -32,9 +32,9 @@ Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
         Paul Elder <paul.elder@ideasonboard.com>,
         Tomasz Figa <tfiga@google.com>,
         linux-rockchip@lists.infradead.org
-Subject: [PATCH v3 08/17] media: rkisp1: regs: Don't use BIT() macro for multi-bit register fields
-Date:   Sat, 19 Mar 2022 18:30:51 +0200
-Message-Id: <20220319163100.3083-9-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 09/17] media: rkisp1: regs: Rename CCL, ICCL and IRCL registers with VI_ prefix
+Date:   Sat, 19 Mar 2022 18:30:52 +0200
+Message-Id: <20220319163100.3083-10-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220319163100.3083-1-laurent.pinchart@ideasonboard.com>
 References: <20220319163100.3083-1-laurent.pinchart@ideasonboard.com>
@@ -50,184 +50,165 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The BIT() macro is meant to represent a single bit. It is incorrectly
-used for register field values that store the value 1 in a multi-bit
-field. Use the usual (1 << n) construct for those.
+The documentation names the CCL, ICCL and IRCL registers with a VI_
+prefix, like the VI_ID and VI_DPCL registers. Fix the macro names
+accordingly.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../platform/rockchip/rkisp1/rkisp1-regs.h    | 52 +++++++++----------
- 1 file changed, 26 insertions(+), 26 deletions(-)
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 19 +++---
+ .../platform/rockchip/rkisp1/rkisp1-params.c  |  8 +--
+ .../platform/rockchip/rkisp1/rkisp1-regs.h    | 60 +++++++++----------
+ 3 files changed, 44 insertions(+), 43 deletions(-)
 
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+index f84e53b60ee1..e8abb57fb728 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+@@ -523,20 +523,21 @@ static void rkisp1_isp_stop(struct rkisp1_device *rkisp1)
+ 	readx_poll_timeout(readl, rkisp1->base_addr + RKISP1_CIF_ISP_RIS,
+ 			   val, val & RKISP1_CIF_ISP_OFF, 20, 100);
+ 	rkisp1_write(rkisp1,
+-		     RKISP1_CIF_IRCL_MIPI_SW_RST | RKISP1_CIF_IRCL_ISP_SW_RST,
+-		     RKISP1_CIF_IRCL);
+-	rkisp1_write(rkisp1, 0x0, RKISP1_CIF_IRCL);
++		     RKISP1_CIF_VI_IRCL_MIPI_SW_RST |
++		     RKISP1_CIF_VI_IRCL_ISP_SW_RST,
++		     RKISP1_CIF_VI_IRCL);
++	rkisp1_write(rkisp1, 0x0, RKISP1_CIF_VI_IRCL);
+ }
+ 
+ static void rkisp1_config_clk(struct rkisp1_device *rkisp1)
+ {
+-	u32 val = RKISP1_CIF_ICCL_ISP_CLK | RKISP1_CIF_ICCL_CP_CLK |
+-		  RKISP1_CIF_ICCL_MRSZ_CLK | RKISP1_CIF_ICCL_SRSZ_CLK |
+-		  RKISP1_CIF_ICCL_JPEG_CLK | RKISP1_CIF_ICCL_MI_CLK |
+-		  RKISP1_CIF_ICCL_IE_CLK | RKISP1_CIF_ICCL_MIPI_CLK |
+-		  RKISP1_CIF_ICCL_DCROP_CLK;
++	u32 val = RKISP1_CIF_VI_ICCL_ISP_CLK | RKISP1_CIF_VI_ICCL_CP_CLK |
++		  RKISP1_CIF_VI_ICCL_MRSZ_CLK | RKISP1_CIF_VI_ICCL_SRSZ_CLK |
++		  RKISP1_CIF_VI_ICCL_JPEG_CLK | RKISP1_CIF_VI_ICCL_MI_CLK |
++		  RKISP1_CIF_VI_ICCL_IE_CLK | RKISP1_CIF_VI_ICCL_MIPI_CLK |
++		  RKISP1_CIF_VI_ICCL_DCROP_CLK;
+ 
+-	rkisp1_write(rkisp1, val, RKISP1_CIF_ICCL);
++	rkisp1_write(rkisp1, val, RKISP1_CIF_VI_ICCL);
+ 
+ 	/* ensure sp and mp can run at the same time in V12 */
+ 	if (rkisp1->media_dev.hw_revision == RKISP1_V12) {
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+index d41823c861ca..7a172d47d475 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+@@ -1058,8 +1058,8 @@ static void rkisp1_ie_config(struct rkisp1_params *params,
+ static void rkisp1_ie_enable(struct rkisp1_params *params, bool en)
+ {
+ 	if (en) {
+-		rkisp1_param_set_bits(params, RKISP1_CIF_ICCL,
+-				      RKISP1_CIF_ICCL_IE_CLK);
++		rkisp1_param_set_bits(params, RKISP1_CIF_VI_ICCL,
++				      RKISP1_CIF_VI_ICCL_IE_CLK);
+ 		rkisp1_write(params->rkisp1, RKISP1_CIF_IMG_EFF_CTRL_ENABLE,
+ 			     RKISP1_CIF_IMG_EFF_CTRL);
+ 		rkisp1_param_set_bits(params, RKISP1_CIF_IMG_EFF_CTRL,
+@@ -1067,8 +1067,8 @@ static void rkisp1_ie_enable(struct rkisp1_params *params, bool en)
+ 	} else {
+ 		rkisp1_param_clear_bits(params, RKISP1_CIF_IMG_EFF_CTRL,
+ 					RKISP1_CIF_IMG_EFF_CTRL_ENABLE);
+-		rkisp1_param_clear_bits(params, RKISP1_CIF_ICCL,
+-					RKISP1_CIF_ICCL_IE_CLK);
++		rkisp1_param_clear_bits(params, RKISP1_CIF_VI_ICCL,
++					RKISP1_CIF_VI_ICCL_IE_CLK);
+ 	}
+ }
+ 
 diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-index d326214c7e07..9e786de23480 100644
+index 9e786de23480..4e2b73227e61 100644
 --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
 +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-@@ -11,7 +11,7 @@
- /* ISP_CTRL */
- #define RKISP1_CIF_ISP_CTRL_ISP_ENABLE			BIT(0)
- #define RKISP1_CIF_ISP_CTRL_ISP_MODE_RAW_PICT		(0 << 1)
--#define RKISP1_CIF_ISP_CTRL_ISP_MODE_ITU656		BIT(1)
-+#define RKISP1_CIF_ISP_CTRL_ISP_MODE_ITU656		(1 << 1)
- #define RKISP1_CIF_ISP_CTRL_ISP_MODE_ITU601		(2 << 1)
- #define RKISP1_CIF_ISP_CTRL_ISP_MODE_BAYER_ITU601	(3 << 1)
- #define RKISP1_CIF_ISP_CTRL_ISP_MODE_DATA_MODE		(4 << 1)
-@@ -33,37 +33,37 @@
- #define RKISP1_CIF_ISP_ACQ_PROP_HSYNC_LOW		BIT(1)
- #define RKISP1_CIF_ISP_ACQ_PROP_VSYNC_LOW		BIT(2)
- #define RKISP1_CIF_ISP_ACQ_PROP_BAYER_PAT_RGGB		(0 << 3)
--#define RKISP1_CIF_ISP_ACQ_PROP_BAYER_PAT_GRBG		BIT(3)
-+#define RKISP1_CIF_ISP_ACQ_PROP_BAYER_PAT_GRBG		(1 << 3)
- #define RKISP1_CIF_ISP_ACQ_PROP_BAYER_PAT_GBRG		(2 << 3)
- #define RKISP1_CIF_ISP_ACQ_PROP_BAYER_PAT_BGGR		(3 << 3)
- #define RKISP1_CIF_ISP_ACQ_PROP_BAYER_PAT(pat)		((pat) << 3)
- #define RKISP1_CIF_ISP_ACQ_PROP_YCBYCR			(0 << 7)
--#define RKISP1_CIF_ISP_ACQ_PROP_YCRYCB			BIT(7)
-+#define RKISP1_CIF_ISP_ACQ_PROP_YCRYCB			(1 << 7)
- #define RKISP1_CIF_ISP_ACQ_PROP_CBYCRY			(2 << 7)
- #define RKISP1_CIF_ISP_ACQ_PROP_CRYCBY			(3 << 7)
- #define RKISP1_CIF_ISP_ACQ_PROP_FIELD_SEL_ALL		(0 << 9)
--#define RKISP1_CIF_ISP_ACQ_PROP_FIELD_SEL_EVEN		BIT(9)
-+#define RKISP1_CIF_ISP_ACQ_PROP_FIELD_SEL_EVEN		(1 << 9)
- #define RKISP1_CIF_ISP_ACQ_PROP_FIELD_SEL_ODD		(2 << 9)
- #define RKISP1_CIF_ISP_ACQ_PROP_IN_SEL_12B		(0 << 12)
--#define RKISP1_CIF_ISP_ACQ_PROP_IN_SEL_10B_ZERO		BIT(12)
-+#define RKISP1_CIF_ISP_ACQ_PROP_IN_SEL_10B_ZERO		(1 << 12)
- #define RKISP1_CIF_ISP_ACQ_PROP_IN_SEL_10B_MSB		(2 << 12)
- #define RKISP1_CIF_ISP_ACQ_PROP_IN_SEL_8B_ZERO		(3 << 12)
- #define RKISP1_CIF_ISP_ACQ_PROP_IN_SEL_8B_MSB		(4 << 12)
+@@ -210,7 +210,7 @@
+ #define RKISP1_CIF_MI_XTD_FMT_CTRL_SP_CB_CR_SWAP	BIT(1)
+ #define RKISP1_CIF_MI_XTD_FMT_CTRL_DMA_CB_CR_SWAP	BIT(2)
  
- /* VI_DPCL */
- #define RKISP1_CIF_VI_DPCL_DMA_JPEG			(0 << 0)
--#define RKISP1_CIF_VI_DPCL_MP_MUX_MRSZ_MI		BIT(0)
-+#define RKISP1_CIF_VI_DPCL_MP_MUX_MRSZ_MI		(1 << 0)
- #define RKISP1_CIF_VI_DPCL_MP_MUX_MRSZ_JPEG		(2 << 0)
--#define RKISP1_CIF_VI_DPCL_CHAN_MODE_MP			BIT(2)
-+#define RKISP1_CIF_VI_DPCL_CHAN_MODE_MP			(1 << 2)
- #define RKISP1_CIF_VI_DPCL_CHAN_MODE_SP			(2 << 2)
- #define RKISP1_CIF_VI_DPCL_CHAN_MODE_MPSP		(3 << 2)
- #define RKISP1_CIF_VI_DPCL_DMA_SW_SPMUX			(0 << 4)
--#define RKISP1_CIF_VI_DPCL_DMA_SW_SI			BIT(4)
-+#define RKISP1_CIF_VI_DPCL_DMA_SW_SI			(1 << 4)
- #define RKISP1_CIF_VI_DPCL_DMA_SW_IE			(2 << 4)
- #define RKISP1_CIF_VI_DPCL_DMA_SW_JPEG			(3 << 4)
- #define RKISP1_CIF_VI_DPCL_DMA_SW_ISP			(4 << 4)
- #define RKISP1_CIF_VI_DPCL_IF_SEL_PARALLEL		(0 << 8)
--#define RKISP1_CIF_VI_DPCL_IF_SEL_SMIA			BIT(8)
-+#define RKISP1_CIF_VI_DPCL_IF_SEL_SMIA			(1 << 8)
- #define RKISP1_CIF_VI_DPCL_IF_SEL_MIPI			(2 << 8)
- #define RKISP1_CIF_VI_DPCL_DMA_IE_MUX_DMA		BIT(10)
- #define RKISP1_CIF_VI_DPCL_DMA_SP_MUX_DMA		BIT(11)
-@@ -112,26 +112,26 @@
- #define RKISP1_CIF_MI_SP_AUTOUPDATE_ENABLE		BIT(14)
- #define RKISP1_CIF_MI_LAST_PIXEL_SIG_ENABLE		BIT(15)
- #define RKISP1_CIF_MI_CTRL_BURST_LEN_LUM_16		(0 << 16)
--#define RKISP1_CIF_MI_CTRL_BURST_LEN_LUM_32		BIT(16)
-+#define RKISP1_CIF_MI_CTRL_BURST_LEN_LUM_32		(1 << 16)
- #define RKISP1_CIF_MI_CTRL_BURST_LEN_LUM_64		(2 << 16)
- #define RKISP1_CIF_MI_CTRL_BURST_LEN_CHROM_16		(0 << 18)
--#define RKISP1_CIF_MI_CTRL_BURST_LEN_CHROM_32		BIT(18)
-+#define RKISP1_CIF_MI_CTRL_BURST_LEN_CHROM_32		(1 << 18)
- #define RKISP1_CIF_MI_CTRL_BURST_LEN_CHROM_64		(2 << 18)
- #define RKISP1_CIF_MI_CTRL_INIT_BASE_EN			BIT(20)
- #define RKISP1_CIF_MI_CTRL_INIT_OFFSET_EN		BIT(21)
- #define RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8		(0 << 22)
--#define RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA		BIT(22)
-+#define RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA		(1 << 22)
- #define RKISP1_MI_CTRL_MP_WRITE_YUVINT			(2 << 22)
- #define RKISP1_MI_CTRL_MP_WRITE_RAW12			(2 << 22)
- #define RKISP1_MI_CTRL_SP_WRITE_PLA			(0 << 24)
--#define RKISP1_MI_CTRL_SP_WRITE_SPLA			BIT(24)
-+#define RKISP1_MI_CTRL_SP_WRITE_SPLA			(1 << 24)
- #define RKISP1_MI_CTRL_SP_WRITE_INT			(2 << 24)
- #define RKISP1_MI_CTRL_SP_INPUT_YUV400			(0 << 26)
--#define RKISP1_MI_CTRL_SP_INPUT_YUV420			BIT(26)
-+#define RKISP1_MI_CTRL_SP_INPUT_YUV420			(1 << 26)
- #define RKISP1_MI_CTRL_SP_INPUT_YUV422			(2 << 26)
- #define RKISP1_MI_CTRL_SP_INPUT_YUV444			(3 << 26)
- #define RKISP1_MI_CTRL_SP_OUTPUT_YUV400			(0 << 28)
--#define RKISP1_MI_CTRL_SP_OUTPUT_YUV420			BIT(28)
-+#define RKISP1_MI_CTRL_SP_OUTPUT_YUV420			(1 << 28)
- #define RKISP1_MI_CTRL_SP_OUTPUT_YUV422			(2 << 28)
- #define RKISP1_MI_CTRL_SP_OUTPUT_YUV444			(3 << 28)
- #define RKISP1_MI_CTRL_SP_OUTPUT_RGB565			(4 << 28)
-@@ -186,22 +186,22 @@
+-/* CCL */
++/* VI_CCL */
+ #define RKISP1_CIF_CCL_CIF_CLK_DIS			BIT(2)
+ /* VI_ISP_CLK_CTRL */
+ #define RKISP1_CIF_CLK_CTRL_ISP_RAW			BIT(0)
+@@ -241,32 +241,32 @@
+ #define RKISP1_CIF_CLK_CTRL_RSZS			BIT(25)
+ #define RKISP1_CIF_CLK_CTRL_MIPI			BIT(26)
+ #define RKISP1_CIF_CLK_CTRL_MARVINMI			BIT(27)
+-/* ICCL */
+-#define RKISP1_CIF_ICCL_ISP_CLK				BIT(0)
+-#define RKISP1_CIF_ICCL_CP_CLK				BIT(1)
+-#define RKISP1_CIF_ICCL_RES_2				BIT(2)
+-#define RKISP1_CIF_ICCL_MRSZ_CLK			BIT(3)
+-#define RKISP1_CIF_ICCL_SRSZ_CLK			BIT(4)
+-#define RKISP1_CIF_ICCL_JPEG_CLK			BIT(5)
+-#define RKISP1_CIF_ICCL_MI_CLK				BIT(6)
+-#define RKISP1_CIF_ICCL_RES_7				BIT(7)
+-#define RKISP1_CIF_ICCL_IE_CLK				BIT(8)
+-#define RKISP1_CIF_ICCL_SIMP_CLK			BIT(9)
+-#define RKISP1_CIF_ICCL_SMIA_CLK			BIT(10)
+-#define RKISP1_CIF_ICCL_MIPI_CLK			BIT(11)
+-#define RKISP1_CIF_ICCL_DCROP_CLK			BIT(12)
+-/* IRCL */
+-#define RKISP1_CIF_IRCL_ISP_SW_RST			BIT(0)
+-#define RKISP1_CIF_IRCL_CP_SW_RST			BIT(1)
+-#define RKISP1_CIF_IRCL_YCS_SW_RST			BIT(2)
+-#define RKISP1_CIF_IRCL_MRSZ_SW_RST			BIT(3)
+-#define RKISP1_CIF_IRCL_SRSZ_SW_RST			BIT(4)
+-#define RKISP1_CIF_IRCL_JPEG_SW_RST			BIT(5)
+-#define RKISP1_CIF_IRCL_MI_SW_RST			BIT(6)
+-#define RKISP1_CIF_IRCL_CIF_SW_RST			BIT(7)
+-#define RKISP1_CIF_IRCL_IE_SW_RST			BIT(8)
+-#define RKISP1_CIF_IRCL_SI_SW_RST			BIT(9)
+-#define RKISP1_CIF_IRCL_MIPI_SW_RST			BIT(11)
++/* VI_ICCL */
++#define RKISP1_CIF_VI_ICCL_ISP_CLK			BIT(0)
++#define RKISP1_CIF_VI_ICCL_CP_CLK			BIT(1)
++#define RKISP1_CIF_VI_ICCL_RES_2			BIT(2)
++#define RKISP1_CIF_VI_ICCL_MRSZ_CLK			BIT(3)
++#define RKISP1_CIF_VI_ICCL_SRSZ_CLK			BIT(4)
++#define RKISP1_CIF_VI_ICCL_JPEG_CLK			BIT(5)
++#define RKISP1_CIF_VI_ICCL_MI_CLK			BIT(6)
++#define RKISP1_CIF_VI_ICCL_RES_7			BIT(7)
++#define RKISP1_CIF_VI_ICCL_IE_CLK			BIT(8)
++#define RKISP1_CIF_VI_ICCL_SIMP_CLK			BIT(9)
++#define RKISP1_CIF_VI_ICCL_SMIA_CLK			BIT(10)
++#define RKISP1_CIF_VI_ICCL_MIPI_CLK			BIT(11)
++#define RKISP1_CIF_VI_ICCL_DCROP_CLK			BIT(12)
++/* VI_IRCL */
++#define RKISP1_CIF_VI_IRCL_ISP_SW_RST			BIT(0)
++#define RKISP1_CIF_VI_IRCL_CP_SW_RST			BIT(1)
++#define RKISP1_CIF_VI_IRCL_YCS_SW_RST			BIT(2)
++#define RKISP1_CIF_VI_IRCL_MRSZ_SW_RST			BIT(3)
++#define RKISP1_CIF_VI_IRCL_SRSZ_SW_RST			BIT(4)
++#define RKISP1_CIF_VI_IRCL_JPEG_SW_RST			BIT(5)
++#define RKISP1_CIF_VI_IRCL_MI_SW_RST			BIT(6)
++#define RKISP1_CIF_VI_IRCL_CIF_SW_RST			BIT(7)
++#define RKISP1_CIF_VI_IRCL_IE_SW_RST			BIT(8)
++#define RKISP1_CIF_VI_IRCL_SI_SW_RST			BIT(9)
++#define RKISP1_CIF_VI_IRCL_MIPI_SW_RST			BIT(11)
  
- /* MI_DMA_CTRL */
- #define RKISP1_CIF_MI_DMA_CTRL_BURST_LEN_LUM_16		(0 << 0)
--#define RKISP1_CIF_MI_DMA_CTRL_BURST_LEN_LUM_32		BIT(0)
-+#define RKISP1_CIF_MI_DMA_CTRL_BURST_LEN_LUM_32		(1 << 0)
- #define RKISP1_CIF_MI_DMA_CTRL_BURST_LEN_LUM_64		(2 << 0)
- #define RKISP1_CIF_MI_DMA_CTRL_BURST_LEN_CHROM_16	(0 << 2)
--#define RKISP1_CIF_MI_DMA_CTRL_BURST_LEN_CHROM_32	BIT(2)
-+#define RKISP1_CIF_MI_DMA_CTRL_BURST_LEN_CHROM_32	(1 << 2)
- #define RKISP1_CIF_MI_DMA_CTRL_BURST_LEN_CHROM_64	(2 << 2)
- #define RKISP1_CIF_MI_DMA_CTRL_READ_FMT_PLANAR		(0 << 4)
--#define RKISP1_CIF_MI_DMA_CTRL_READ_FMT_SPLANAR		BIT(4)
-+#define RKISP1_CIF_MI_DMA_CTRL_READ_FMT_SPLANAR		(1 << 4)
- #define RKISP1_CIF_MI_DMA_CTRL_FMT_YUV400		(0 << 6)
--#define RKISP1_CIF_MI_DMA_CTRL_FMT_YUV420		BIT(6)
-+#define RKISP1_CIF_MI_DMA_CTRL_FMT_YUV420		(1 << 6)
- #define RKISP1_CIF_MI_DMA_CTRL_READ_FMT_PACKED		(2 << 4)
- #define RKISP1_CIF_MI_DMA_CTRL_FMT_YUV422		(2 << 6)
- #define RKISP1_CIF_MI_DMA_CTRL_FMT_YUV444		(3 << 6)
- #define RKISP1_CIF_MI_DMA_CTRL_BYTE_SWAP		BIT(8)
- #define RKISP1_CIF_MI_DMA_CTRL_CONTINUOUS_ENA		BIT(9)
- #define RKISP1_CIF_MI_DMA_CTRL_RGB_BAYER_NO		(0 << 12)
--#define RKISP1_CIF_MI_DMA_CTRL_RGB_BAYER_8BIT		BIT(12)
-+#define RKISP1_CIF_MI_DMA_CTRL_RGB_BAYER_8BIT		(1 << 12)
- #define RKISP1_CIF_MI_DMA_CTRL_RGB_BAYER_16BIT		(2 << 12)
- /* MI_DMA_START */
- #define RKISP1_CIF_MI_DMA_START_ENABLE			BIT(0)
-@@ -282,10 +282,10 @@
- #define RKISP1_CIF_C_PROC_TONE_RESERVED			0xF000
- /* DUAL_CROP_CTRL */
- #define RKISP1_CIF_DUAL_CROP_MP_MODE_BYPASS		(0 << 0)
--#define RKISP1_CIF_DUAL_CROP_MP_MODE_YUV		BIT(0)
-+#define RKISP1_CIF_DUAL_CROP_MP_MODE_YUV		(1 << 0)
- #define RKISP1_CIF_DUAL_CROP_MP_MODE_RAW		(2 << 0)
- #define RKISP1_CIF_DUAL_CROP_SP_MODE_BYPASS		(0 << 2)
--#define RKISP1_CIF_DUAL_CROP_SP_MODE_YUV		BIT(2)
-+#define RKISP1_CIF_DUAL_CROP_SP_MODE_YUV		(1 << 2)
- #define RKISP1_CIF_DUAL_CROP_SP_MODE_RAW		(2 << 2)
- #define RKISP1_CIF_DUAL_CROP_CFG_UPD_PERMANENT		BIT(4)
- #define RKISP1_CIF_DUAL_CROP_CFG_UPD			BIT(5)
-@@ -294,7 +294,7 @@
- /* IMG_EFF_CTRL */
- #define RKISP1_CIF_IMG_EFF_CTRL_ENABLE			BIT(0)
- #define RKISP1_CIF_IMG_EFF_CTRL_MODE_BLACKWHITE		(0 << 1)
--#define RKISP1_CIF_IMG_EFF_CTRL_MODE_NEGATIVE		BIT(1)
-+#define RKISP1_CIF_IMG_EFF_CTRL_MODE_NEGATIVE		(1 << 1)
- #define RKISP1_CIF_IMG_EFF_CTRL_MODE_SEPIA		(2 << 1)
- #define RKISP1_CIF_IMG_EFF_CTRL_MODE_COLOR_SEL		(3 << 1)
- #define RKISP1_CIF_IMG_EFF_CTRL_MODE_EMBOSS		(4 << 1)
-@@ -314,7 +314,7 @@
+ /* C_PROC_CTR */
+ #define RKISP1_CIF_C_PROC_CTR_ENABLE			BIT(0)
+@@ -687,11 +687,11 @@
+ /*                            CIF Registers                            */
+ /* =================================================================== */
+ #define RKISP1_CIF_CTRL_BASE			0x00000000
+-#define RKISP1_CIF_CCL				(RKISP1_CIF_CTRL_BASE + 0x00000000)
++#define RKISP1_CIF_VI_CCL			(RKISP1_CIF_CTRL_BASE + 0x00000000)
+ #define RKISP1_CIF_VI_ID			(RKISP1_CIF_CTRL_BASE + 0x00000008)
+ #define RKISP1_CIF_VI_ISP_CLK_CTRL_V12		(RKISP1_CIF_CTRL_BASE + 0x0000000C)
+-#define RKISP1_CIF_ICCL				(RKISP1_CIF_CTRL_BASE + 0x00000010)
+-#define RKISP1_CIF_IRCL				(RKISP1_CIF_CTRL_BASE + 0x00000014)
++#define RKISP1_CIF_VI_ICCL			(RKISP1_CIF_CTRL_BASE + 0x00000010)
++#define RKISP1_CIF_VI_IRCL			(RKISP1_CIF_CTRL_BASE + 0x00000014)
+ #define RKISP1_CIF_VI_DPCL			(RKISP1_CIF_CTRL_BASE + 0x00000018)
  
- /* IMG_EFF_COLOR_SEL */
- #define RKISP1_CIF_IMG_EFF_COLOR_RGB			0
--#define RKISP1_CIF_IMG_EFF_COLOR_B			BIT(0)
-+#define RKISP1_CIF_IMG_EFF_COLOR_B			(1 << 0)
- #define RKISP1_CIF_IMG_EFF_COLOR_G			(2 << 0)
- #define RKISP1_CIF_IMG_EFF_COLOR_GB			(3 << 0)
- #define RKISP1_CIF_IMG_EFF_COLOR_R			(4 << 0)
-@@ -376,7 +376,7 @@
- 
- /* ISP HISTOGRAM CALCULATION : ISP_HIST_PROP */
- #define RKISP1_CIF_ISP_HIST_PROP_MODE_DIS_V10		(0 << 0)
--#define RKISP1_CIF_ISP_HIST_PROP_MODE_RGB_V10		BIT(0)
-+#define RKISP1_CIF_ISP_HIST_PROP_MODE_RGB_V10		(1 << 0)
- #define RKISP1_CIF_ISP_HIST_PROP_MODE_RED_V10		(2 << 0)
- #define RKISP1_CIF_ISP_HIST_PROP_MODE_GREEN_V10		(3 << 0)
- #define RKISP1_CIF_ISP_HIST_PROP_MODE_BLUE_V10		(4 << 0)
-@@ -639,7 +639,7 @@
- #define RKISP1_CIF_ISP_BLS_ENA				BIT(0)
- #define RKISP1_CIF_ISP_BLS_MODE_MEASURED		BIT(1)
- #define RKISP1_CIF_ISP_BLS_MODE_FIXED			0
--#define RKISP1_CIF_ISP_BLS_WINDOW_1			BIT(2)
-+#define RKISP1_CIF_ISP_BLS_WINDOW_1			(1 << 2)
- #define RKISP1_CIF_ISP_BLS_WINDOW_2			(2 << 2)
- 
- /* GAMMA-IN */
+ #define RKISP1_CIF_IMG_EFF_BASE			0x00000200
 -- 
 Regards,
 
