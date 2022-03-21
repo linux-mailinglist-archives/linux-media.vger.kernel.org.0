@@ -2,49 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B22C84E2252
-	for <lists+linux-media@lfdr.de>; Mon, 21 Mar 2022 09:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A288D4E226E
+	for <lists+linux-media@lfdr.de>; Mon, 21 Mar 2022 09:47:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345338AbiCUIk6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Mar 2022 04:40:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41822 "EHLO
+        id S1345398AbiCUIsl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Mar 2022 04:48:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245345AbiCUIkz (ORCPT
+        with ESMTP id S1345430AbiCUIsi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Mar 2022 04:40:55 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E18332B1B8;
-        Mon, 21 Mar 2022 01:39:28 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 111C61BF213;
-        Mon, 21 Mar 2022 08:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1647851967;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=JMfmUQxoYTTnscW8TYupXGpFLuQ3KiBZX5n0t2r2KvU=;
-        b=ZINXow/fqTOdibFY3IroekzbrCGELeJ/wgb/Ne81TBoliGoj7rBGdmNOYc5qo0AdbEqC4I
-        iX5cgqZFhQWcYCs+6LKx1lTSgqM8R+M6SEHtfaBSQyJIa3fV3gYGNyrx+J6C5JZtqqLXIv
-        iXTZg316pooXXJSgoM1p5GXkyFQQvtD8AhEOvJAnrcwPLHK8i0BUxwkH/jH26x+TBgstkK
-        WRaqdGkidqV4jzZXnTAoSFDron0tnORHJqv5rwco8P7M5PHpyuOO5PJAgFLKbnpqte1P74
-        GWa9H5pzLPYSYaD5hBdHHi0UxSTRAYBmCyJEPKLxcs0TmLrSXBgM/jvGYYccUg==
-Date:   Mon, 21 Mar 2022 09:39:26 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org
-Subject: Re: [PATCH resend] media: i2c: ov5648: fix wrong pointer passed to
- IS_ERR() and PTR_ERR()
-Message-ID: <Yjg5vl1prcd6y0rT@aptenodytes>
-References: <20220319035806.3299264-1-yangyingliang@huawei.com>
+        Mon, 21 Mar 2022 04:48:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B40FA76CF
+        for <linux-media@vger.kernel.org>; Mon, 21 Mar 2022 01:47:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1B6276112D
+        for <linux-media@vger.kernel.org>; Mon, 21 Mar 2022 08:47:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45E59C340E8
+        for <linux-media@vger.kernel.org>; Mon, 21 Mar 2022 08:47:09 +0000 (UTC)
+Message-ID: <e6d6e16c-e588-529d-1e6c-6dfe441d3d38@xs4all.nl>
+Date:   Mon, 21 Mar 2022 09:47:07 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="59QPluZI0vorPPeN"
-Content-Disposition: inline
-In-Reply-To: <20220319035806.3299264-1-yangyingliang@huawei.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH for v5.18] v4l2-ioctl.c: fix incorrect error path
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,72 +42,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+If allocating array_buf fails, or copying data from userspace into that
+buffer fails, then just free memory and return the error. Don't attempt
+to call video_put_user() since there is no point.
 
---59QPluZI0vorPPeN
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If writing the array back to userspace fails, then don't go to out_array_args,
+instead just continue with the regular code that just returns the error
+unless 'always_copy' is set. That flag was just completely ignored when
+writing back the array data.
 
-Hi Yang,
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 96e307fe3aab..92433234c430 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -3311,7 +3311,7 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+ 		array_buf = kvmalloc(array_size, GFP_KERNEL);
+ 		err = -ENOMEM;
+ 		if (array_buf == NULL)
+-			goto out_array_args;
++			goto out;
+ 		err = -EFAULT;
+ 		if (in_compat_syscall())
+ 			err = v4l2_compat_get_array_args(file, array_buf,
+@@ -3321,7 +3321,7 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+ 			err = copy_from_user(array_buf, user_ptr, array_size) ?
+ 								-EFAULT : 0;
+ 		if (err)
+-			goto out_array_args;
++			goto out;
+ 		*kernel_ptr = array_buf;
+ 	}
 
-On Sat 19 Mar 22, 11:58, Yang Yingliang wrote:
-> IS_ERR() and PTR_ERR() use wrong pointer, it should be
-> sensor->dovdd, fix it.
+@@ -3353,7 +3353,6 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+ 		} else if (copy_to_user(user_ptr, array_buf, array_size)) {
+ 			err = -EFAULT;
+ 		}
+-		goto out_array_args;
+ 	}
+ 	/*
+ 	 * Some ioctls can return an error, but still have valid
 
-Nice catch, thank-you!
-
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Cheers,
-
-Paul
-
-> Fixes: e43ccb0a045f ("media: i2c: Add support for the OV5648 image sensor=
-")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  drivers/media/i2c/ov5648.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
-> index 930ff6897044..dfcd33e9ee13 100644
-> --- a/drivers/media/i2c/ov5648.c
-> +++ b/drivers/media/i2c/ov5648.c
-> @@ -2498,9 +2498,9 @@ static int ov5648_probe(struct i2c_client *client)
-> =20
->  	/* DOVDD: digital I/O */
->  	sensor->dovdd =3D devm_regulator_get(dev, "dovdd");
-> -	if (IS_ERR(sensor->dvdd)) {
-> +	if (IS_ERR(sensor->dovdd)) {
->  		dev_err(dev, "cannot get DOVDD (digital I/O) regulator\n");
-> -		ret =3D PTR_ERR(sensor->dvdd);
-> +		ret =3D PTR_ERR(sensor->dovdd);
->  		goto error_endpoint;
->  	}
-> =20
-> --=20
-> 2.25.1
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---59QPluZI0vorPPeN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmI4Ob4ACgkQ3cLmz3+f
-v9HjNAgAmGq67LBBbTp9bg7Wg5UyQukKyemAP2kIIcBJyW4CZ0PlPTeK1E7G5OAN
-bOfhFNB9R4TyRiXlmy5/CxtJSEK7Bdfvim0H4PFGxcjFdZoo36/HkstIEX///l53
-4iOCFVTI52VDx3k9Rrc88229eGkvC0amYtUq9mhC3hdMytXdyDB2WTpW3RIjAZ9B
-OWQxvxmLwLjbOcC6ojLpPHopge1L/WnzcaRqS0VBok2kh3HZKK2zFKLCSZGl/orR
-RUn8fWkxld/gOqg93JuivfOvQYUuCFRnNrV5JEzQxDJx5YYmYYCaIGphl8vGi/qA
-aX1iG98ItVbmgMWxsQhc/VlbiUTcMg==
-=CWJH
------END PGP SIGNATURE-----
-
---59QPluZI0vorPPeN--
