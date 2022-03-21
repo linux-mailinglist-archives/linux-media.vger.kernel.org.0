@@ -2,165 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFA7A4E2614
-	for <lists+linux-media@lfdr.de>; Mon, 21 Mar 2022 13:10:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D41E4E261B
+	for <lists+linux-media@lfdr.de>; Mon, 21 Mar 2022 13:12:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240603AbiCUMLi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Mar 2022 08:11:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40990 "EHLO
+        id S1347216AbiCUMOO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Mar 2022 08:14:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234954AbiCUMLh (ORCPT
+        with ESMTP id S240603AbiCUMON (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Mar 2022 08:11:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0021B91ACC
-        for <linux-media@vger.kernel.org>; Mon, 21 Mar 2022 05:10:11 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E7D50291;
-        Mon, 21 Mar 2022 13:10:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647864610;
-        bh=3Wjm8UPfl5SVvEZM7H5WegTH9NzoTK+6Lr3a/+CdF+Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y9fLuoVXvmFfmIgZ+6GwCPsLeez2cWTMtAECqVHbS2+x5otNReUoiQO4xdnX4UIla
-         K3Rp8IMYm3FJ0+OXVj0HjLnFbndRMuHE3SKz3Vaqazi1vL/7peusdNOFuduq9rTMV2
-         gA4HhjccCaPFUlJQCWJqFhlXE8kQcKvm8G/TA35E=
-Date:   Mon, 21 Mar 2022 14:09:52 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [PATCH for v5.18] v4l2-ctrls: unlink all subscribed events
-Message-ID: <YjhrEHUaFftJOMHq@pendragon.ideasonboard.com>
-References: <66246ea5-2bd7-6c9e-56c8-9d683ec58ffc@xs4all.nl>
+        Mon, 21 Mar 2022 08:14:13 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04ABA1621A7
+        for <linux-media@vger.kernel.org>; Mon, 21 Mar 2022 05:12:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647864768; x=1679400768;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/iwgWB/Pj95NOLmoCdhY/JB+QJX072TvB1rH1TC6F1A=;
+  b=IV3+poChQPt2rP9uueRXcWU/wsdIrL+d0B0Ccaw7HRezUGa+G3Kx9ImO
+   eDtvKHJGWmkk2GTwbzZ3LuIm8ckTDf9IKc2FOSohswFwah3WUMwSVc2Yy
+   QuRJKbzXUz+fX/O5fjCv7tmipNZHLorHkeJAZpVxbpA+Lx/XzlVJm4CiE
+   oHgjc0fgT/ZI2g0/jys/Bj/AdJR0IUjKO9XB6raeNZnziERuh0mIEA/81
+   U0tbSfLlP0tpFlzemDYg/KhfSWDt/Cej0eUqsLr6jquVbVVh2l+5UPCSO
+   pk5QVwcGgiM/3NXaJqMnF3iYhFkUJhKc4Tj/nMbLkHoaPdxAQAYyWEEfA
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="257725208"
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; 
+   d="scan'208";a="257725208"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2022 05:12:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; 
+   d="scan'208";a="716473331"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 21 Mar 2022 05:12:45 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nWGtw-000Hoo-Mz; Mon, 21 Mar 2022 12:12:44 +0000
+Date:   Mon, 21 Mar 2022 20:11:57 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Tomasz Figa <tfiga@google.com>,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v3 13/17] media: rkisp1: Compile debugfs support
+ conditionally
+Message-ID: <202203212003.ngntIuxj-lkp@intel.com>
+References: <20220319163100.3083-14-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <66246ea5-2bd7-6c9e-56c8-9d683ec58ffc@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220319163100.3083-14-laurent.pinchart@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Laurent,
 
-Thank you for the patch.
+I love your patch! Yet something to improve:
 
-On Thu, Mar 17, 2022 at 01:56:08PM +0100, Hans Verkuil wrote:
-> The v4l2_ctrl_handler_free() function must unlink all subscribed events
-> of the control handler that is being freed, but it only did so for the
-> controls owned by that control handler and not for the controls referred
-> to by that control handler. This leaves stale data in the ev_subs list
-> of those controls.
-> 
-> The node list header is also properly initialized and list_del_init is
-> called instead of list_del to ensure that list_empty() can be used
-> to detect whether a v4l2_subscribed_event is part of a list or not.
-> 
-> This makes v4l2_ctrl_del_event() more robust since it will not attempt
-> to find the control if the v4l2_subscribed_event has already been unlinked
-> from the control.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/media/v4l2-core/v4l2-ctrls-api.c  | 7 +++++--
->  drivers/media/v4l2-core/v4l2-ctrls-core.c | 6 +++++-
->  drivers/media/v4l2-core/v4l2-event.c      | 1 +
->  3 files changed, 11 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> index db9baa0bd05f..d64b22cb182c 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> @@ -1159,13 +1159,16 @@ static int v4l2_ctrl_add_event(struct v4l2_subscribed_event *sev,
->  
->  static void v4l2_ctrl_del_event(struct v4l2_subscribed_event *sev)
->  {
-> -	struct v4l2_ctrl *ctrl = v4l2_ctrl_find(sev->fh->ctrl_handler, sev->id);
-> +	struct v4l2_ctrl *ctrl = NULL;
-> +
-> +	if (!list_empty(&sev->node))
-> +		ctrl = v4l2_ctrl_find(sev->fh->ctrl_handler, sev->id);
->  
->  	if (!ctrl)
->  		return;
+[auto build test ERROR on 71e6d0608e4d1b79069990c7dacb3600ced28a3b]
 
-I'd go for
+url:    https://github.com/0day-ci/linux/commits/Laurent-Pinchart/media-rkisp1-Misc-bug-fixes-and-cleanups/20220320-003349
+base:   71e6d0608e4d1b79069990c7dacb3600ced28a3b
+config: m68k-randconfig-r015-20220320 (https://download.01.org/0day-ci/archive/20220321/202203212003.ngntIuxj-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/11c5c07e897814001cfa8356922aeea602844787
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Laurent-Pinchart/media-rkisp1-Misc-bug-fixes-and-cleanups/20220320-003349
+        git checkout 11c5c07e897814001cfa8356922aeea602844787
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=m68k SHELL=/bin/bash drivers/media/platform/rockchip/rkisp1/
 
-	if (list_empty(&sdev->node))
-		return;
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-	ctrl = v4l2_ctrl_find(sev->fh->ctrl_handler, sev->id);
-	if (!ctrl)
-		return;
+All errors (new ones prefixed by >>):
 
-and drop the initialization of ctrl to NULL, it's easier to read.
+>> drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:16:6: error: redefinition of 'rkisp1_debug_init'
+      16 | void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+         |      ^~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:14:
+   drivers/media/platform/rockchip/rkisp1/rkisp1-common.h:525:20: note: previous definition of 'rkisp1_debug_init' with type 'void(struct rkisp1_device *)'
+     525 | static inline void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+         |                    ^~~~~~~~~~~~~~~~~
+>> drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:47:6: error: redefinition of 'rkisp1_debug_cleanup'
+      47 | void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:14:
+   drivers/media/platform/rockchip/rkisp1/rkisp1-common.h:528:20: note: previous definition of 'rkisp1_debug_cleanup' with type 'void(struct rkisp1_device *)'
+     528 | static inline void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
+         |                    ^~~~~~~~~~~~~~~~~~~~
 
->  
->  	v4l2_ctrl_lock(ctrl);
 
-v4l2_ctrl_lock() simply calls
+vim +/rkisp1_debug_init +16 drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
 
-	mutex_lock(ctrl->handler->lock);
-
-Is there any case where ctrl->handler != sev->fh->ctrl_handler ? If not
-this could be simplified to drop the v4l2_ctrl_find() call.
-
-> -	list_del(&sev->node);
-> +	list_del_init(&sev->node);
->  	v4l2_ctrl_unlock(ctrl);
->  }
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index 8968cec8454e..1a9d60cb119c 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -10,6 +10,7 @@
->  #include <linux/slab.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-event.h>
-> +#include <media/v4l2-fh.h>
->  #include <media/v4l2-fwnode.h>
->  
->  #include "v4l2-ctrls-priv.h"
-> @@ -1165,13 +1166,16 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
->  	/* Free all nodes */
->  	list_for_each_entry_safe(ref, next_ref, &hdl->ctrl_refs, node) {
->  		list_del(&ref->node);
-> +		list_for_each_entry_safe(sev, next_sev, &ref->ctrl->ev_subs, node)
-> +			if (sev->fh->ctrl_handler == hdl)
-> +				list_del_init(&sev->node);
-
-I have no idea how control reference works or what they're used for, so
-I can't tell if this is safe without locking ref->ctrl.
-
->  		kfree(ref);
->  	}
->  	/* Free all controls owned by the handler */
->  	list_for_each_entry_safe(ctrl, next_ctrl, &hdl->ctrls, node) {
->  		list_del(&ctrl->node);
->  		list_for_each_entry_safe(sev, next_sev, &ctrl->ev_subs, node)
-> -			list_del(&sev->node);
-> +			list_del_init(&sev->node);
->  		kvfree(ctrl);
->  	}
->  	kvfree(hdl->buckets);
-> diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
-> index c5ce9f11ad7b..2fd9f7187c04 100644
-> --- a/drivers/media/v4l2-core/v4l2-event.c
-> +++ b/drivers/media/v4l2-core/v4l2-event.c
-> @@ -246,6 +246,7 @@ int v4l2_event_subscribe(struct v4l2_fh *fh,
->  	sev->fh = fh;
->  	sev->ops = ops;
->  	sev->elems = elems;
-> +	INIT_LIST_HEAD(&sev->node);
->  
->  	mutex_lock(&fh->subscribe_lock);
+2521809005c614 Laurent Pinchart 2022-03-19  15  
+2521809005c614 Laurent Pinchart 2022-03-19 @16  void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+2521809005c614 Laurent Pinchart 2022-03-19  17  {
+2521809005c614 Laurent Pinchart 2022-03-19  18  	struct rkisp1_debug *debug = &rkisp1->debug;
+2521809005c614 Laurent Pinchart 2022-03-19  19  
+2521809005c614 Laurent Pinchart 2022-03-19  20  	debug->debugfs_dir = debugfs_create_dir(dev_name(rkisp1->dev), NULL);
+2521809005c614 Laurent Pinchart 2022-03-19  21  
+2521809005c614 Laurent Pinchart 2022-03-19  22  	debugfs_create_ulong("data_loss", 0444, debug->debugfs_dir,
+2521809005c614 Laurent Pinchart 2022-03-19  23  			     &debug->data_loss);
+2521809005c614 Laurent Pinchart 2022-03-19  24  	debugfs_create_ulong("outform_size_err", 0444,  debug->debugfs_dir,
+2521809005c614 Laurent Pinchart 2022-03-19  25  			     &debug->outform_size_error);
+2521809005c614 Laurent Pinchart 2022-03-19  26  	debugfs_create_ulong("img_stabilization_size_error", 0444,
+2521809005c614 Laurent Pinchart 2022-03-19  27  			     debug->debugfs_dir,
+2521809005c614 Laurent Pinchart 2022-03-19  28  			     &debug->img_stabilization_size_error);
+2521809005c614 Laurent Pinchart 2022-03-19  29  	debugfs_create_ulong("inform_size_error", 0444,  debug->debugfs_dir,
+2521809005c614 Laurent Pinchart 2022-03-19  30  			     &debug->inform_size_error);
+2521809005c614 Laurent Pinchart 2022-03-19  31  	debugfs_create_ulong("irq_delay", 0444,  debug->debugfs_dir,
+2521809005c614 Laurent Pinchart 2022-03-19  32  			     &debug->irq_delay);
+2521809005c614 Laurent Pinchart 2022-03-19  33  	debugfs_create_ulong("mipi_error", 0444, debug->debugfs_dir,
+2521809005c614 Laurent Pinchart 2022-03-19  34  			     &debug->mipi_error);
+2521809005c614 Laurent Pinchart 2022-03-19  35  	debugfs_create_ulong("stats_error", 0444, debug->debugfs_dir,
+2521809005c614 Laurent Pinchart 2022-03-19  36  			     &debug->stats_error);
+2521809005c614 Laurent Pinchart 2022-03-19  37  	debugfs_create_ulong("mp_stop_timeout", 0444, debug->debugfs_dir,
+2521809005c614 Laurent Pinchart 2022-03-19  38  			     &debug->stop_timeout[RKISP1_MAINPATH]);
+2521809005c614 Laurent Pinchart 2022-03-19  39  	debugfs_create_ulong("sp_stop_timeout", 0444, debug->debugfs_dir,
+2521809005c614 Laurent Pinchart 2022-03-19  40  			     &debug->stop_timeout[RKISP1_SELFPATH]);
+2521809005c614 Laurent Pinchart 2022-03-19  41  	debugfs_create_ulong("mp_frame_drop", 0444, debug->debugfs_dir,
+2521809005c614 Laurent Pinchart 2022-03-19  42  			     &debug->frame_drop[RKISP1_MAINPATH]);
+2521809005c614 Laurent Pinchart 2022-03-19  43  	debugfs_create_ulong("sp_frame_drop", 0444, debug->debugfs_dir,
+2521809005c614 Laurent Pinchart 2022-03-19  44  			     &debug->frame_drop[RKISP1_SELFPATH]);
+2521809005c614 Laurent Pinchart 2022-03-19  45  }
+2521809005c614 Laurent Pinchart 2022-03-19  46  
+2521809005c614 Laurent Pinchart 2022-03-19 @47  void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://01.org/lkp
