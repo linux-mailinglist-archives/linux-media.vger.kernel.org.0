@@ -2,65 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4CCD4E2479
-	for <lists+linux-media@lfdr.de>; Mon, 21 Mar 2022 11:37:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 396B74E2480
+	for <lists+linux-media@lfdr.de>; Mon, 21 Mar 2022 11:40:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346405AbiCUKjQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Mar 2022 06:39:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44020 "EHLO
+        id S1346422AbiCUKmD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Mar 2022 06:42:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238264AbiCUKjM (ORCPT
+        with ESMTP id S1346420AbiCUKmC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Mar 2022 06:39:12 -0400
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99FD0141FED
-        for <linux-media@vger.kernel.org>; Mon, 21 Mar 2022 03:37:47 -0700 (PDT)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 22LAbaHD021253;
-        Mon, 21 Mar 2022 05:37:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1647859056;
-        bh=n+ae04x6/Zjr2g0bUduYtkrYR9bZNC/+hFlL65D0gJ4=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=KNUeb59yzRYvHw+urKcw88aU9H7Gj0X19joiMj1za+bdhnaFxdUmIq6NM6gaoQJs7
-         xkCyg3yVZ1oyJRHPHvZOwZKF2Vr1OwlN+8SpAb5yaXKCbzR9RwmvxYAAd80efeflDt
-         DST/10xeFzPYyoe8pHa6sV5gU8UfSz0W6idp7jnQ=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 22LAbanl056203
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 21 Mar 2022 05:37:36 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Mon, 21
- Mar 2022 05:37:36 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Mon, 21 Mar 2022 05:37:36 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 22LAbZ6S024489;
-        Mon, 21 Mar 2022 05:37:35 -0500
-Date:   Mon, 21 Mar 2022 16:07:34 +0530
-From:   Pratyush Yadav <p.yadav@ti.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-CC:     <linux-media@vger.kernel.org>, <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <niklas.soderlund+renesas@ragnatech.se>,
+        Mon, 21 Mar 2022 06:42:02 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 527EC1427DD;
+        Mon, 21 Mar 2022 03:40:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647859236; x=1679395236;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9OjrZFNqm4ZxIsJx1m6bExELNQREp//INti7BcHSqOM=;
+  b=Uul91ffUxFP4R18KdtOTlwT1722GmR5VJavor7F9Pd9f2RooTgElP396
+   utdIqa2mFgnpVg8qFAhPIxYVcvtHCyFRMA7HVKHh4r8slVwlTD2/aT8PM
+   22dFvzom0hKju7vdmvrFr3+SBYmz3QeVcSSrrrs/0Q+A9UQH+EUAE33Wk
+   TbbgstwiZoAFx+52BYAV0PbbKgyeiR4TxIrNTo0oGpGEPp8EXkulszsyv
+   MpKEEUxz8ANvBXvCi/fvLFWj/5kwDiCTw0RzadUhhPVDHzAageSRyZ+iV
+   UGUh1f2eYHvQurfVOOw/ReVl73VBpZ896UNQGOWR5HCWjyBade5M8N+Hf
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="237463550"
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; 
+   d="scan'208";a="237463550"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2022 03:40:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; 
+   d="scan'208";a="582823444"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 21 Mar 2022 03:40:33 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nWFSi-000Hj2-CI; Mon, 21 Mar 2022 10:40:32 +0000
+Date:   Mon, 21 Mar 2022 18:40:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Yong Wu <yong.wu@mediatek.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v1 3/4] media-ctl: add support for routes and streams
-Message-ID: <20220321103734.yl6xdidu2c5rc26x@ti.com>
-References: <20211130141815.892354-1-tomi.valkeinen@ideasonboard.com>
- <20211130141815.892354-4-tomi.valkeinen@ideasonboard.com>
+        linux-media@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [mchehab-experimental:master 131/324] dtbs_check:
+ arch/arm/boot/dts/mt2701-evb.dt.yaml: jpegdec@15004000: 'mediatek,larb' does
+ not match any of the regexes: 'pinctrl-[0-9]+'
+Message-ID: <202203211844.tkcFwWd9-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211130141815.892354-4-tomi.valkeinen@ideasonboard.com>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,228 +66,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+tree:   https://git.linuxtv.org/mchehab/experimental.git master
+head:   71e6d0608e4d1b79069990c7dacb3600ced28a3b
+commit: 6d0990e6e844cfa045b1a7348f58964caceb4de4 [131/324] media: dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+reproduce: make ARCH=arm dtbs_check
 
-On 30/11/21 04:18PM, Tomi Valkeinen wrote:
-> Add support to get and set subdev routes and to get and set
-> configurations per stream.
-> 
-> Based on work from Sakari Ailus <sakari.ailus@linux.intel.com>.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-I tried this on TI's downstream fork with your routing patches. It works 
-fine for setting and viewing formats and routes.
 
-Tested-by: Pratyush Yadav <p.yadav@ti.com>
-
-I have not gone through the code too thoroughly. A few small things I 
-noticed below.
-
-> ---
->  utils/media-ctl/libmediactl.c   |  41 +++++
->  utils/media-ctl/libv4l2subdev.c | 256 ++++++++++++++++++++++++++++----
->  utils/media-ctl/media-ctl.c     | 113 +++++++++++---
->  utils/media-ctl/mediactl.h      |  16 ++
->  utils/media-ctl/options.c       |  15 +-
->  utils/media-ctl/options.h       |   1 +
->  utils/media-ctl/v4l2subdev.h    |  58 +++++++-
->  7 files changed, 444 insertions(+), 56 deletions(-)
-> 
-[...]
-> +int v4l2_subdev_get_routing(struct media_entity *entity,
-> +			    struct v4l2_subdev_route **routes,
-> +			    unsigned int *num_routes)
-> +{
-> +	struct v4l2_subdev_routing routing = { 0 };
-> +	struct v4l2_subdev_route *r;
-> +	int ret;
-> +
-> +	ret = v4l2_subdev_open(entity);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	routing.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> +
-> +	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_ROUTING, &routing);
-> +	if (ret == -1 && errno != ENOSPC)
-> +		return -errno;
-> +
-> +	r = calloc(routing.num_routes, sizeof(*r));
-> +	if (!r)
-
-calloc man page says:
-
-  If nmemb or size is 0, then calloc() returns either NULL, or a unique 
-  pointer value that can later be successfully passed to free().
-
-So if a subdev reports 0 routes then you could end up with a non-NULL 
-pointer that you should not use, other than to pass to free(). I don't 
-know if any implementation out there does actually return anything other 
-than NULL though. I suggest explicitly checking for num_routes == 0 to 
-avoid all this.
-
-> +		return -ENOMEM;
-> +
-> +	routing.routes = (uintptr_t)r;
-> +	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_ROUTING, &routing);
-> +	if (ret) {
-> +		free(r);
-> +		return ret;
-> +	}
-> +
-> +	*num_routes = routing.num_routes;
-> +	*routes = r;
-> +
-> +	return 0;
-> +}
-> +
->  int v4l2_subdev_get_dv_timings_caps(struct media_entity *entity,
->  	struct v4l2_dv_timings_cap *caps)
->  {
-[...]
-> @@ -306,6 +370,135 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
->  	return 0;
->  }
->  
-> +int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p)
-> +{
-> +	struct media_entity *entity;
-> +	struct v4l2_subdev_route *routes;
-> +	unsigned int num_routes;
-> +	char *end;
-> +	int ret;
-> +	int i;
-> +
-> +	entity = media_parse_entity(media, p, &end);
-> +	if (!entity)
-> +		return -EINVAL;
-> +
-> +	p = end;
-> +
-> +	if (*p != '[') {
-> +		media_dbg(media, "Expected '['\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	p++;
-> +
-> +	routes = calloc(256, sizeof(routes[0]));
-
-You are not checking for NULL here.
-
-> +	num_routes = 0;
-> +
-> +	while (*p != 0) {
-> +		struct v4l2_subdev_route *r = &routes[num_routes];
-> +
-> +		/* sink pad/stream */
-> +
-> +		r->sink_pad = strtoul(p, &end, 10);
-> +
-> +		if (*end != '/') {
-> +			media_dbg(media, "Expected '/'\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		p = end + 1;
-> +
-> +		r->sink_stream = strtoul(p, &end, 10);
-> +
-> +		for (; isspace(*end); ++end);
-> +
-> +		if (end[0] != '-' || end[1] != '>') {
-> +			media_dbg(media, "Expected '->'\n");
-> +			return -EINVAL;
-> +		}
-> +		p = end + 2;
-> +
-> +		/* source pad/stream */
-> +
-> +		r->source_pad = strtoul(p, &end, 10);
-> +
-> +		if (*end != '/') {
-> +			media_dbg(media, "Expected '/'\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		p = end + 1;
-> +
-> +		r->source_stream = strtoul(p, &end, 10);
-> +
-> +		/* flags */
-> +
-> +		for (; isspace(*end); ++end);
-> +
-> +		if (*end != '[') {
-> +			media_dbg(media, "Expected '['\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		for (end++; isspace(*end); ++end);
-> +
-> +		p = end;
-> +
-> +		r->flags = strtoul(p, &end, 0);
-> +
-> +		if (r->flags & ~(V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-> +				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
-> +				 V4L2_SUBDEV_ROUTE_FL_SOURCE)) {
-> +			media_dbg(media, "Bad route flags %#x\n", r->flags);
-> +			return -EINVAL;
-> +		}
-> +
-> +		for (; isspace(*end); ++end);
-> +
-> +		if (*end != ']') {
-> +			media_dbg(media, "Expected ']'\n");
-> +			return -EINVAL;
-> +		}
-> +		end++;
-> +
-> +		p = end;
-> +
-> +		num_routes++;
-> +
-> +		if (*p == ',') {
-> +			p++;
-> +			continue;
-> +		}
-> +
-> +		break;
-> +	}
-> +
-> +	if (*p != ']') {
-> +		media_dbg(media, "Expected ']'\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	for (i = 0; i < num_routes; ++i) {
-> +		struct v4l2_subdev_route *r = &routes[i];
-> +
-> +		media_dbg(entity->media,
-> +			  "Setting up route %s : %u/%u -> %u/%u, flags 0x%8.8x\n",
-> +			  entity->info.name,
-> +			  r->sink_pad, r->sink_stream,
-> +			  r->source_pad, r->source_stream,
-> +			  r->flags);
-> +	}
-> +
-> +	ret = v4l2_subdev_set_routing(entity, routes, num_routes);
-> +	if (ret) {
-> +		printf("VIDIOC_SUBDEV_S_ROUTING failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int v4l2_subdev_parse_format(struct media_device *media,
->  				    struct v4l2_mbus_framefmt *format,
->  				    const char *p, char **endp)
-[...]
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/mt2701-evb.dt.yaml: spi@11014000: 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	From schema: Documentation/devicetree/bindings/spi/mediatek,spi-mtk-nor.yaml
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /spi@11016000: failed to match any schema with compatible: ['mediatek,mt2701-spi']
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /spi@11017000: failed to match any schema with compatible: ['mediatek,mt2701-spi']
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /clock-controller@11220000: failed to match any schema with compatible: ['mediatek,mt2701-audsys', 'syscon']
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /clock-controller@11220000/audio-controller: failed to match any schema with compatible: ['mediatek,mt2701-audio']
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /pwm@1400a000: failed to match any schema with compatible: ['mediatek,mt2701-disp-pwm']
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /syscon@15000000: failed to match any schema with compatible: ['mediatek,mt2701-imgsys', 'syscon']
+>> arch/arm/boot/dts/mt2701-evb.dt.yaml: jpegdec@15004000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	From schema: Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
+>> arch/arm/boot/dts/mt2701-evb.dt.yaml: jpegenc@1500a000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	From schema: Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.yaml
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /syscon@16000000: failed to match any schema with compatible: ['mediatek,mt2701-vdecsys', 'syscon']
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt2701-hifsys', 'syscon']
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /syscon@1b000000: failed to match any schema with compatible: ['mediatek,mt2701-ethsys', 'syscon']
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /ethernet@1b100000: failed to match any schema with compatible: ['mediatek,mt2701-eth', 'syscon']
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt2701-bdpsys', 'syscon']
+   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /sound: failed to match any schema with compatible: ['mediatek,mt2701-cs42448-machine']
+   arch/arm/boot/dts/mt2701-evb.dt.yaml: bt_sco_codec: '#sound-dai-cells' is a required property
+   	From schema: Documentation/devicetree/bindings/sound/linux,bt-sco.yaml
+   arch/arm/boot/dts/mt2701-evb.dt.yaml: backlight_lcd: 'power-supply' is a required property
+--
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /ethernet@1b100000/mac@0: failed to match any schema with compatible: ['mediatek,eth-mac']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /ethernet@1b100000/mac@1: failed to match any schema with compatible: ['mediatek,eth-mac']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /ethernet@1b100000/mdio-bus/switch@0: failed to match any schema with compatible: ['mediatek,mt7530']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /crypto@1b240000: failed to match any schema with compatible: ['mediatek,eip97-crypto']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek,mt2701-bdpsys', 'syscon']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek,mt2701-bdpsys', 'syscon']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@13000000: failed to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'mediatek,mt2701-g3dsys', 'syscon']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@13000000: failed to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'mediatek,mt2701-g3dsys', 'syscon']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@15000000: failed to match any schema with compatible: ['mediatek,mt7623-imgsys', 'mediatek,mt2701-imgsys', 'syscon']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@15000000: failed to match any schema with compatible: ['mediatek,mt7623-imgsys', 'mediatek,mt2701-imgsys', 'syscon']
+>> arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml: jpegdec@15004000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	From schema: Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml: smi@1000c000: clock-names: ['apb', 'smi', 'async'] is too long
+   	From schema: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /ovl@14007000: failed to match any schema with compatible: ['mediatek,mt7623-disp-ovl', 'mediatek,mt2701-disp-ovl']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /ovl@14007000: failed to match any schema with compatible: ['mediatek,mt7623-disp-ovl', 'mediatek,mt2701-disp-ovl']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /rdma@14008000: failed to match any schema with compatible: ['mediatek,mt7623-disp-rdma', 'mediatek,mt2701-disp-rdma']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /rdma@14008000: failed to match any schema with compatible: ['mediatek,mt7623-disp-rdma', 'mediatek,mt2701-disp-rdma']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /wdma@14009000: failed to match any schema with compatible: ['mediatek,mt7623-disp-wdma', 'mediatek,mt2701-disp-wdma']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /wdma@14009000: failed to match any schema with compatible: ['mediatek,mt7623-disp-wdma', 'mediatek,mt2701-disp-wdma']
+   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /pwm@1400a000: failed to match any schema with compatible: ['mediatek,mt7623-disp-pwm', 'mediatek,mt2701-disp-pwm']
+--
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /ethernet@1b100000: failed to match any schema with compatible: ['mediatek,mt7623-eth', 'mediatek,mt2701-eth', 'syscon']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /ethernet@1b100000/mac@0: failed to match any schema with compatible: ['mediatek,eth-mac']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /ethernet@1b100000/mdio-bus/switch@0: failed to match any schema with compatible: ['mediatek,mt7530']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /crypto@1b240000: failed to match any schema with compatible: ['mediatek,eip97-crypto']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek,mt2701-bdpsys', 'syscon']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek,mt2701-bdpsys', 'syscon']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@13000000: failed to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'mediatek,mt2701-g3dsys', 'syscon']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@13000000: failed to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'mediatek,mt2701-g3dsys', 'syscon']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@15000000: failed to match any schema with compatible: ['mediatek,mt7623-imgsys', 'mediatek,mt2701-imgsys', 'syscon']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@15000000: failed to match any schema with compatible: ['mediatek,mt7623-imgsys', 'mediatek,mt2701-imgsys', 'syscon']
+>> arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml: jpegdec@15004000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	From schema: Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml: smi@1000c000: clock-names: ['apb', 'smi', 'async'] is too long
+   	From schema: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /ovl@14007000: failed to match any schema with compatible: ['mediatek,mt7623-disp-ovl', 'mediatek,mt2701-disp-ovl']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /ovl@14007000: failed to match any schema with compatible: ['mediatek,mt7623-disp-ovl', 'mediatek,mt2701-disp-ovl']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /rdma@14008000: failed to match any schema with compatible: ['mediatek,mt7623-disp-rdma', 'mediatek,mt2701-disp-rdma']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /rdma@14008000: failed to match any schema with compatible: ['mediatek,mt7623-disp-rdma', 'mediatek,mt2701-disp-rdma']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /wdma@14009000: failed to match any schema with compatible: ['mediatek,mt7623-disp-wdma', 'mediatek,mt2701-disp-wdma']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /wdma@14009000: failed to match any schema with compatible: ['mediatek,mt7623-disp-wdma', 'mediatek,mt2701-disp-wdma']
+   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /pwm@1400a000: failed to match any schema with compatible: ['mediatek,mt7623-disp-pwm', 'mediatek,mt2701-disp-pwm']
 
 -- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
+0-DAY CI Kernel Test Service
+https://01.org/lkp
