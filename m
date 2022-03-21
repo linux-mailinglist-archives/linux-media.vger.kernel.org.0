@@ -2,149 +2,1033 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 396B74E2480
-	for <lists+linux-media@lfdr.de>; Mon, 21 Mar 2022 11:40:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2260D4E2494
+	for <lists+linux-media@lfdr.de>; Mon, 21 Mar 2022 11:46:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346422AbiCUKmD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Mar 2022 06:42:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54726 "EHLO
+        id S1346365AbiCUKrW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Mar 2022 06:47:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346420AbiCUKmC (ORCPT
+        with ESMTP id S235884AbiCUKrV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Mar 2022 06:42:02 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 527EC1427DD;
-        Mon, 21 Mar 2022 03:40:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647859236; x=1679395236;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9OjrZFNqm4ZxIsJx1m6bExELNQREp//INti7BcHSqOM=;
-  b=Uul91ffUxFP4R18KdtOTlwT1722GmR5VJavor7F9Pd9f2RooTgElP396
-   utdIqa2mFgnpVg8qFAhPIxYVcvtHCyFRMA7HVKHh4r8slVwlTD2/aT8PM
-   22dFvzom0hKju7vdmvrFr3+SBYmz3QeVcSSrrrs/0Q+A9UQH+EUAE33Wk
-   TbbgstwiZoAFx+52BYAV0PbbKgyeiR4TxIrNTo0oGpGEPp8EXkulszsyv
-   MpKEEUxz8ANvBXvCi/fvLFWj/5kwDiCTw0RzadUhhPVDHzAageSRyZ+iV
-   UGUh1f2eYHvQurfVOOw/ReVl73VBpZ896UNQGOWR5HCWjyBade5M8N+Hf
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="237463550"
-X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; 
-   d="scan'208";a="237463550"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2022 03:40:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,198,1643702400"; 
-   d="scan'208";a="582823444"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 21 Mar 2022 03:40:33 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nWFSi-000Hj2-CI; Mon, 21 Mar 2022 10:40:32 +0000
-Date:   Mon, 21 Mar 2022 18:40:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Yong Wu <yong.wu@mediatek.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Mon, 21 Mar 2022 06:47:21 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 492F4387AD
+        for <linux-media@vger.kernel.org>; Mon, 21 Mar 2022 03:45:54 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91FF4291;
+        Mon, 21 Mar 2022 11:45:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1647859551;
+        bh=A0Lgl4N2OMMc01Kk2yEd8dTzqYKhMZvFwvi8GVM7miM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KJpKk8vM+5E+2l9CNfdERCLtyuGX+5NyF9uFwjukVe/dvLKiSqKi0RjYerPJjl6zP
+         ynRFIsncNuCe7wwhfugW4Jlp/IHvMpk6q45r4Jmkwh/xaV4A7Fn/AKZGc35yHe8B0x
+         Jld9F5vTjd06ccK5kSuvW8Wyu6pTEVWuCNwYkuh4=
+Date:   Mon, 21 Mar 2022 12:45:34 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [mchehab-experimental:master 131/324] dtbs_check:
- arch/arm/boot/dts/mt2701-evb.dt.yaml: jpegdec@15004000: 'mediatek,larb' does
- not match any of the regexes: 'pinctrl-[0-9]+'
-Message-ID: <202203211844.tkcFwWd9-lkp@intel.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Subject: Re: [PATCH v1 3/4] media-ctl: add support for routes and streams
+Message-ID: <YjhXTuUF+sZUKgNb@pendragon.ideasonboard.com>
+References: <20211130141815.892354-1-tomi.valkeinen@ideasonboard.com>
+ <20211130141815.892354-4-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20211130141815.892354-4-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.linuxtv.org/mchehab/experimental.git master
-head:   71e6d0608e4d1b79069990c7dacb3600ced28a3b
-commit: 6d0990e6e844cfa045b1a7348f58964caceb4de4 [131/324] media: dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-reproduce: make ARCH=arm dtbs_check
+Hi Tomi,
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Thank you for the patch.
 
+On Tue, Nov 30, 2021 at 04:18:14PM +0200, Tomi Valkeinen wrote:
+> Add support to get and set subdev routes and to get and set
+> configurations per stream.
+> 
+> Based on work from Sakari Ailus <sakari.ailus@linux.intel.com>.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  utils/media-ctl/libmediactl.c   |  41 +++++
+>  utils/media-ctl/libv4l2subdev.c | 256 ++++++++++++++++++++++++++++----
+>  utils/media-ctl/media-ctl.c     | 113 +++++++++++---
+>  utils/media-ctl/mediactl.h      |  16 ++
+>  utils/media-ctl/options.c       |  15 +-
+>  utils/media-ctl/options.h       |   1 +
+>  utils/media-ctl/v4l2subdev.h    |  58 +++++++-
+>  7 files changed, 444 insertions(+), 56 deletions(-)
+> 
+> diff --git a/utils/media-ctl/libmediactl.c b/utils/media-ctl/libmediactl.c
+> index 1fd6525b..537365d0 100644
+> --- a/utils/media-ctl/libmediactl.c
+> +++ b/utils/media-ctl/libmediactl.c
+> @@ -876,6 +876,47 @@ struct media_pad *media_parse_pad(struct media_device *media,
+>  	return &entity->pads[pad];
+>  }
+>  
+> +struct media_pad *media_parse_pad_stream(struct media_device *media,
+> +					 const char *p, unsigned int *stream,
+> +					 char **endp)
+> +{
+> +	struct media_pad *pad;
+> +	const char *orig_p = p;
+> +	char *ep;
+> +
+> +	pad = media_parse_pad(media, p, &ep);
+> +	if (pad == NULL)
+> +		return NULL;
+> +
+> +	p = ep;
+> +
+> +	if (*p == '/') {
+> +		unsigned int s;
+> +
+> +		p++;
+> +
+> +		s = strtoul(p, &ep, 10);
+> +
+> +		if (ep == p) {
+> +			printf("Unable to parse stream: '%s'\n", orig_p);
+> +			if (endp)
+> +				*endp = (char*)p;
+> +			return NULL;
+> +		}
+> +
+> +		*stream = s;
+> +
+> +		p++;
+> +	} else {
+> +		*stream = 0;
+> +	}
+> +
+> +	if (endp)
+> +		*endp = (char*)p;
+> +
+> +	return pad;
+> +}
+> +
+>  struct media_link *media_parse_link(struct media_device *media,
+>  				    const char *p, char **endp)
+>  {
+> diff --git a/utils/media-ctl/libv4l2subdev.c b/utils/media-ctl/libv4l2subdev.c
+> index 0d0afbe7..eb9e1cc4 100644
+> --- a/utils/media-ctl/libv4l2subdev.c
+> +++ b/utils/media-ctl/libv4l2subdev.c
+> @@ -63,7 +63,7 @@ void v4l2_subdev_close(struct media_entity *entity)
+>  }
+>  
+>  int v4l2_subdev_get_format(struct media_entity *entity,
+> -	struct v4l2_mbus_framefmt *format, unsigned int pad,
+> +	struct v4l2_mbus_framefmt *format, unsigned int pad, unsigned int stream,
+>  	enum v4l2_subdev_format_whence which)
+>  {
+>  	struct v4l2_subdev_format fmt;
+> @@ -75,6 +75,7 @@ int v4l2_subdev_get_format(struct media_entity *entity,
+>  
+>  	memset(&fmt, 0, sizeof(fmt));
+>  	fmt.pad = pad;
+> +	fmt.stream = stream;
+>  	fmt.which = which;
+>  
+>  	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_FMT, &fmt);
+> @@ -87,6 +88,7 @@ int v4l2_subdev_get_format(struct media_entity *entity,
+>  
+>  int v4l2_subdev_set_format(struct media_entity *entity,
+>  	struct v4l2_mbus_framefmt *format, unsigned int pad,
+> +	unsigned int stream,
+>  	enum v4l2_subdev_format_whence which)
+>  {
+>  	struct v4l2_subdev_format fmt;
+> @@ -98,6 +100,7 @@ int v4l2_subdev_set_format(struct media_entity *entity,
+>  
+>  	memset(&fmt, 0, sizeof(fmt));
+>  	fmt.pad = pad;
+> +	fmt.stream = stream;
+>  	fmt.which = which;
+>  	fmt.format = *format;
+>  
+> @@ -110,8 +113,8 @@ int v4l2_subdev_set_format(struct media_entity *entity,
+>  }
+>  
+>  int v4l2_subdev_get_selection(struct media_entity *entity,
+> -	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
+> -	enum v4l2_subdev_format_whence which)
+> +	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
+> +	unsigned int target, enum v4l2_subdev_format_whence which)
+>  {
+>  	union {
+>  		struct v4l2_subdev_selection sel;
+> @@ -149,8 +152,8 @@ int v4l2_subdev_get_selection(struct media_entity *entity,
+>  }
+>  
+>  int v4l2_subdev_set_selection(struct media_entity *entity,
+> -	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
+> -	enum v4l2_subdev_format_whence which)
+> +	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
+> +	unsigned int target, enum v4l2_subdev_format_whence which)
+>  {
+>  	union {
+>  		struct v4l2_subdev_selection sel;
+> @@ -164,6 +167,7 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
+>  
+>  	memset(&u.sel, 0, sizeof(u.sel));
+>  	u.sel.pad = pad;
+> +	u.sel.stream = stream;
+>  	u.sel.target = target;
+>  	u.sel.which = which;
+>  	u.sel.r = *rect;
+> @@ -178,6 +182,7 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
+>  
+>  	memset(&u.crop, 0, sizeof(u.crop));
+>  	u.crop.pad = pad;
+> +	u.crop.stream = stream;
+>  	u.crop.which = which;
+>  	u.crop.rect = *rect;
+>  
+> @@ -189,6 +194,63 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
+>  	return 0;
+>  }
+>  
+> +int v4l2_subdev_set_routing(struct media_entity *entity,
+> +			    struct v4l2_subdev_route *routes,
+> +			    unsigned int num_routes)
+> +{
+> +	struct v4l2_subdev_routing routing = {
+> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> +		.routes = (uintptr_t)routes,
+> +		.num_routes = num_routes,
+> +	};
+> +	int ret;
+> +
+> +	ret = v4l2_subdev_open(entity);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_ROUTING, &routing);
+> +	if (ret == -1)
+> +		return -errno;
+> +
+> +	return 0;
+> +}
+> +
+> +int v4l2_subdev_get_routing(struct media_entity *entity,
+> +			    struct v4l2_subdev_route **routes,
+> +			    unsigned int *num_routes)
+> +{
+> +	struct v4l2_subdev_routing routing = { 0 };
+> +	struct v4l2_subdev_route *r;
+> +	int ret;
+> +
+> +	ret = v4l2_subdev_open(entity);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	routing.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> +
+> +	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_ROUTING, &routing);
+> +	if (ret == -1 && errno != ENOSPC)
+> +		return -errno;
+> +
+> +	r = calloc(routing.num_routes, sizeof(*r));
+> +	if (!r)
+> +		return -ENOMEM;
+> +
+> +	routing.routes = (uintptr_t)r;
+> +	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_ROUTING, &routing);
+> +	if (ret) {
+> +		free(r);
+> +		return ret;
+> +	}
+> +
+> +	*num_routes = routing.num_routes;
+> +	*routes = r;
+> +
+> +	return 0;
+> +}
+> +
+>  int v4l2_subdev_get_dv_timings_caps(struct media_entity *entity,
+>  	struct v4l2_dv_timings_cap *caps)
+>  {
+> @@ -263,7 +325,7 @@ int v4l2_subdev_set_dv_timings(struct media_entity *entity,
+>  
+>  int v4l2_subdev_get_frame_interval(struct media_entity *entity,
+>  				   struct v4l2_fract *interval,
+> -				   unsigned int pad)
+> +				   unsigned int pad, unsigned int stream)
+>  {
+>  	struct v4l2_subdev_frame_interval ival;
+>  	int ret;
+> @@ -274,6 +336,7 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
+>  
+>  	memset(&ival, 0, sizeof(ival));
+>  	ival.pad = pad;
+> +	ival.stream = stream;
+>  
+>  	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &ival);
+>  	if (ret < 0)
+> @@ -285,7 +348,7 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
+>  
+>  int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+>  				   struct v4l2_fract *interval,
+> -				   unsigned int pad)
+> +				   unsigned int pad, unsigned int stream)
+>  {
+>  	struct v4l2_subdev_frame_interval ival;
+>  	int ret;
+> @@ -296,6 +359,7 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+>  
+>  	memset(&ival, 0, sizeof(ival));
+>  	ival.pad = pad;
+> +	ival.stream = stream;
+>  	ival.interval = *interval;
+>  
+>  	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &ival);
+> @@ -306,6 +370,135 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+>  	return 0;
+>  }
+>  
+> +int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p)
+> +{
+> +	struct media_entity *entity;
+> +	struct v4l2_subdev_route *routes;
+> +	unsigned int num_routes;
+> +	char *end;
+> +	int ret;
+> +	int i;
+> +
+> +	entity = media_parse_entity(media, p, &end);
+> +	if (!entity)
+> +		return -EINVAL;
+> +
+> +	p = end;
+> +
+> +	if (*p != '[') {
+> +		media_dbg(media, "Expected '['\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	p++;
+> +
+> +	routes = calloc(256, sizeof(routes[0]));
+> +	num_routes = 0;
+> +
+> +	while (*p != 0) {
+> +		struct v4l2_subdev_route *r = &routes[num_routes];
+> +
+> +		/* sink pad/stream */
+> +
+> +		r->sink_pad = strtoul(p, &end, 10);
+> +
+> +		if (*end != '/') {
+> +			media_dbg(media, "Expected '/'\n");
+> +			return -EINVAL;
+> +		}
+> +
+> +		p = end + 1;
+> +
+> +		r->sink_stream = strtoul(p, &end, 10);
+> +
+> +		for (; isspace(*end); ++end);
+> +
+> +		if (end[0] != '-' || end[1] != '>') {
+> +			media_dbg(media, "Expected '->'\n");
+> +			return -EINVAL;
+> +		}
+> +		p = end + 2;
+> +
+> +		/* source pad/stream */
+> +
+> +		r->source_pad = strtoul(p, &end, 10);
+> +
+> +		if (*end != '/') {
+> +			media_dbg(media, "Expected '/'\n");
+> +			return -EINVAL;
+> +		}
+> +
+> +		p = end + 1;
+> +
+> +		r->source_stream = strtoul(p, &end, 10);
+> +
+> +		/* flags */
+> +
+> +		for (; isspace(*end); ++end);
+> +
+> +		if (*end != '[') {
+> +			media_dbg(media, "Expected '['\n");
+> +			return -EINVAL;
+> +		}
+> +
+> +		for (end++; isspace(*end); ++end);
+> +
+> +		p = end;
+> +
+> +		r->flags = strtoul(p, &end, 0);
+> +
+> +		if (r->flags & ~(V4L2_SUBDEV_ROUTE_FL_ACTIVE |
+> +				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
+> +				 V4L2_SUBDEV_ROUTE_FL_SOURCE)) {
+> +			media_dbg(media, "Bad route flags %#x\n", r->flags);
+> +			return -EINVAL;
+> +		}
+> +
+> +		for (; isspace(*end); ++end);
+> +
+> +		if (*end != ']') {
+> +			media_dbg(media, "Expected ']'\n");
+> +			return -EINVAL;
+> +		}
+> +		end++;
+> +
+> +		p = end;
+> +
+> +		num_routes++;
+> +
+> +		if (*p == ',') {
+> +			p++;
+> +			continue;
+> +		}
+> +
+> +		break;
+> +	}
+> +
+> +	if (*p != ']') {
+> +		media_dbg(media, "Expected ']'\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (i = 0; i < num_routes; ++i) {
+> +		struct v4l2_subdev_route *r = &routes[i];
+> +
+> +		media_dbg(entity->media,
+> +			  "Setting up route %s : %u/%u -> %u/%u, flags 0x%8.8x\n",
+> +			  entity->info.name,
+> +			  r->sink_pad, r->sink_stream,
+> +			  r->source_pad, r->source_stream,
+> +			  r->flags);
+> +	}
+> +
+> +	ret = v4l2_subdev_set_routing(entity, routes, num_routes);
+> +	if (ret) {
+> +		printf("VIDIOC_SUBDEV_S_ROUTING failed: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int v4l2_subdev_parse_format(struct media_device *media,
+>  				    struct v4l2_mbus_framefmt *format,
+>  				    const char *p, char **endp)
+> @@ -441,7 +634,8 @@ static bool strhazit(const char *str, const char **p)
+>  }
+>  
+>  static struct media_pad *v4l2_subdev_parse_pad_format(
+> -	struct media_device *media, struct v4l2_mbus_framefmt *format,
+> +	struct media_device *media, unsigned int *stream,
+> +	struct v4l2_mbus_framefmt *format,
+>  	struct v4l2_rect *crop, struct v4l2_rect *compose,
+>  	struct v4l2_fract *interval, const char *p, char **endp)
+>  {
+> @@ -452,7 +646,7 @@ static struct media_pad *v4l2_subdev_parse_pad_format(
+>  
+>  	for (; isspace(*p); ++p);
+>  
+> -	pad = media_parse_pad(media, p, &end);
+> +	pad = media_parse_pad_stream(media, p, stream, &end);
+>  	if (pad == NULL) {
+>  		*endp = end;
+>  		return NULL;
+> @@ -674,6 +868,7 @@ static struct media_pad *v4l2_subdev_parse_pad_format(
+>  }
+>  
+>  static int set_format(struct media_pad *pad,
+> +		      unsigned int stream,
+>  		      struct v4l2_mbus_framefmt *format)
+>  {
+>  	int ret;
+> @@ -682,12 +877,12 @@ static int set_format(struct media_pad *pad,
+>  		return 0;
+>  
+>  	media_dbg(pad->entity->media,
+> -		  "Setting up format %s %ux%u on pad %s/%u\n",
+> +		  "Setting up format %s %ux%u on pad %s/%u/%u\n",
+>  		  v4l2_subdev_pixelcode_to_string(format->code),
+>  		  format->width, format->height,
+> -		  pad->entity->info.name, pad->index);
+> +		  pad->entity->info.name, pad->index, stream);
+>  
+> -	ret = v4l2_subdev_set_format(pad->entity, format, pad->index,
+> +	ret = v4l2_subdev_set_format(pad->entity, format, pad->index, stream,
+>  				     V4L2_SUBDEV_FORMAT_ACTIVE);
+>  	if (ret < 0) {
+>  		media_dbg(pad->entity->media,
+> @@ -704,8 +899,8 @@ static int set_format(struct media_pad *pad,
+>  	return 0;
+>  }
+>  
+> -static int set_selection(struct media_pad *pad, unsigned int target,
+> -			 struct v4l2_rect *rect)
+> +static int set_selection(struct media_pad *pad, unsigned int stream,
+> +			 unsigned int target, struct v4l2_rect *rect)
+>  {
+>  	int ret;
+>  
+> @@ -713,11 +908,11 @@ static int set_selection(struct media_pad *pad, unsigned int target,
+>  		return 0;
+>  
+>  	media_dbg(pad->entity->media,
+> -		  "Setting up selection target %u rectangle (%u,%u)/%ux%u on pad %s/%u\n",
+> +		  "Setting up selection target %u rectangle (%u,%u)/%ux%u on pad %s/%u/%u\n",
+>  		  target, rect->left, rect->top, rect->width, rect->height,
+> -		  pad->entity->info.name, pad->index);
+> +		  pad->entity->info.name, pad->index, stream);
+>  
+> -	ret = v4l2_subdev_set_selection(pad->entity, rect, pad->index,
+> +	ret = v4l2_subdev_set_selection(pad->entity, rect, pad->index, stream,
+>  					target, V4L2_SUBDEV_FORMAT_ACTIVE);
+>  	if (ret < 0) {
+>  		media_dbg(pad->entity->media,
+> @@ -733,7 +928,7 @@ static int set_selection(struct media_pad *pad, unsigned int target,
+>  	return 0;
+>  }
+>  
+> -static int set_frame_interval(struct media_pad *pad,
+> +static int set_frame_interval(struct media_pad *pad, unsigned int stream,
+>  			      struct v4l2_fract *interval)
+>  {
+>  	int ret;
+> @@ -742,11 +937,12 @@ static int set_frame_interval(struct media_pad *pad,
+>  		return 0;
+>  
+>  	media_dbg(pad->entity->media,
+> -		  "Setting up frame interval %u/%u on pad %s/%u\n",
+> +		  "Setting up frame interval %u/%u on pad %s/%u/%u\n",
+>  		  interval->numerator, interval->denominator,
+> -		  pad->entity->info.name, pad->index);
+> +		  pad->entity->info.name, pad->index, stream);
+>  
+> -	ret = v4l2_subdev_set_frame_interval(pad->entity, interval, pad->index);
+> +	ret = v4l2_subdev_set_frame_interval(pad->entity, interval, pad->index,
+> +					     stream);
+>  	if (ret < 0) {
+>  		media_dbg(pad->entity->media,
+>  			  "Unable to set frame interval: %s (%d)",
+> @@ -769,11 +965,13 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
+>  	struct v4l2_rect crop = { -1, -1, -1, -1 };
+>  	struct v4l2_rect compose = crop;
+>  	struct v4l2_fract interval = { 0, 0 };
+> +	unsigned int stream;
+>  	unsigned int i;
+>  	char *end;
+>  	int ret;
+>  
+> -	pad = v4l2_subdev_parse_pad_format(media, &format, &crop, &compose,
+> +	pad = v4l2_subdev_parse_pad_format(media, &stream,
+> +					   &format, &crop, &compose,
+>  					   &interval, p, &end);
+>  	if (pad == NULL) {
+>  		media_print_streampos(media, p, end);
+> @@ -782,26 +980,26 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
+>  	}
+>  
+>  	if (pad->flags & MEDIA_PAD_FL_SINK) {
+> -		ret = set_format(pad, &format);
+> +		ret = set_format(pad, stream, &format);
+>  		if (ret < 0)
+>  			return ret;
+>  	}
+>  
+> -	ret = set_selection(pad, V4L2_SEL_TGT_CROP, &crop);
+> +	ret = set_selection(pad, stream, V4L2_SEL_TGT_CROP, &crop);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = set_selection(pad, V4L2_SEL_TGT_COMPOSE, &compose);
+> +	ret = set_selection(pad, stream, V4L2_SEL_TGT_COMPOSE, &compose);
+>  	if (ret < 0)
+>  		return ret;
+>  
+>  	if (pad->flags & MEDIA_PAD_FL_SOURCE) {
+> -		ret = set_format(pad, &format);
+> +		ret = set_format(pad, stream, &format);
+>  		if (ret < 0)
+>  			return ret;
+>  	}
+>  
+> -	ret = set_frame_interval(pad, &interval);
+> +	ret = set_frame_interval(pad, stream, &interval);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> @@ -820,9 +1018,9 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
+>  			if (link->source == pad &&
+>  			    link->sink->entity->info.type == MEDIA_ENT_T_V4L2_SUBDEV) {
+>  				remote_format = format;
+> -				set_format(link->sink, &remote_format);
+> +				set_format(link->sink, stream, &remote_format);
+>  
+> -				ret = set_frame_interval(link->sink, &interval);
+> +				ret = set_frame_interval(link->sink, stream, &interval);
+>  				if (ret < 0 && ret != -EINVAL && ret != -ENOTTY)
+>  					return ret;
+>  			}
+> diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
+> index 84ee7a83..cff08428 100644
+> --- a/utils/media-ctl/media-ctl.c
+> +++ b/utils/media-ctl/media-ctl.c
+> @@ -75,23 +75,45 @@ static void print_flags(const struct flag_name *flag_names, unsigned int num_ent
+>  	}
+>  }
+>  
+> +static void v4l2_subdev_print_routes(struct media_entity *entity,
+> +				     struct v4l2_subdev_route *routes,
+> +				     unsigned int num_routes)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < num_routes; i++) {
+> +		const struct v4l2_subdev_route *r = &routes[i];
+> +
+> +		if (i == 0)
+> +			printf("\troutes:\n");
+> +
+> +		printf("\t\t%u/%u -> %u/%u [%s%s%s]\n",
+> +		       r->sink_pad, r->sink_stream,
+> +		       r->source_pad, r->source_stream,
+> +		       r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE ? "ACTIVE" : "INACTIVE",
+> +		       r->flags & V4L2_SUBDEV_ROUTE_FL_IMMUTABLE ? ", IMMUTABLE" : "",
+> +		       r->flags & V4L2_SUBDEV_ROUTE_FL_SOURCE ? ", SOURCE" : "");
+> +	}
+> +}
+> +
+>  static void v4l2_subdev_print_format(struct media_entity *entity,
+> -	unsigned int pad, enum v4l2_subdev_format_whence which)
+> +	unsigned int pad, unsigned int stream,
+> +	enum v4l2_subdev_format_whence which)
+>  {
+>  	struct v4l2_mbus_framefmt format;
+>  	struct v4l2_fract interval = { 0, 0 };
+>  	struct v4l2_rect rect;
+>  	int ret;
+>  
+> -	ret = v4l2_subdev_get_format(entity, &format, pad, which);
+> +	ret = v4l2_subdev_get_format(entity, &format, pad, stream, which);
+>  	if (ret != 0)
+>  		return;
+>  
+> -	ret = v4l2_subdev_get_frame_interval(entity, &interval, pad);
+> +	ret = v4l2_subdev_get_frame_interval(entity, &interval, pad, stream);
+>  	if (ret != 0 && ret != -ENOTTY && ret != -EINVAL)
+>  		return;
+>  
+> -	printf("\t\t[fmt:%s/%ux%u",
+> +	printf("\t\t[stream:%u fmt:%s/%ux%u", stream,
+>  	       v4l2_subdev_pixelcode_to_string(format.code),
+>  	       format.width, format.height);
+>  
+> @@ -118,28 +140,28 @@ static void v4l2_subdev_print_format(struct media_entity *entity,
+>  			       v4l2_subdev_quantization_to_string(format.quantization));
+>  	}
+>  
+> -	ret = v4l2_subdev_get_selection(entity, &rect, pad,
+> +	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
+>  					V4L2_SEL_TGT_CROP_BOUNDS,
+>  					which);
+>  	if (ret == 0)
+>  		printf("\n\t\t crop.bounds:(%u,%u)/%ux%u", rect.left, rect.top,
+>  		       rect.width, rect.height);
+>  
+> -	ret = v4l2_subdev_get_selection(entity, &rect, pad,
+> +	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
+>  					V4L2_SEL_TGT_CROP,
+>  					which);
+>  	if (ret == 0)
+>  		printf("\n\t\t crop:(%u,%u)/%ux%u", rect.left, rect.top,
+>  		       rect.width, rect.height);
+>  
+> -	ret = v4l2_subdev_get_selection(entity, &rect, pad,
+> +	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
+>  					V4L2_SEL_TGT_COMPOSE_BOUNDS,
+>  					which);
+>  	if (ret == 0)
+>  		printf("\n\t\t compose.bounds:(%u,%u)/%ux%u",
+>  		       rect.left, rect.top, rect.width, rect.height);
+>  
+> -	ret = v4l2_subdev_get_selection(entity, &rect, pad,
+> +	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
+>  					V4L2_SEL_TGT_COMPOSE,
+>  					which);
+>  	if (ret == 0)
+> @@ -455,16 +477,51 @@ static void media_print_topology_dot(struct media_device *media)
+>  }
+>  
+>  static void media_print_pad_text(struct media_entity *entity,
+> -				 const struct media_pad *pad)
+> +				 const struct media_pad *pad,
+> +				 struct v4l2_subdev_route *routes,
+> +				 unsigned int num_routes)
+>  {
+> +	unsigned int i;
+> +
+>  	if (media_entity_type(entity) != MEDIA_ENT_T_V4L2_SUBDEV)
+>  		return;
+>  
+> -	v4l2_subdev_print_format(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
+> -	v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
+> +	if (!routes) {
+> +		v4l2_subdev_print_format(entity, pad->index, 0, V4L2_SUBDEV_FORMAT_ACTIVE);
+> +		v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
+> +
+> +		if (pad->flags & MEDIA_PAD_FL_SOURCE)
+> +			v4l2_subdev_print_subdev_dv(entity);
+> +
+> +		return;
+> +	}
+> +
+> +	for (i = 0; i < num_routes; ++i) {
+> +		const struct v4l2_subdev_route *r = &routes[i];
+> +		unsigned int stream;
+> +
+> +		if (!(r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+> +			continue;
+>  
+> -	if (pad->flags & MEDIA_PAD_FL_SOURCE)
+> -		v4l2_subdev_print_subdev_dv(entity);
+> +		if (pad->flags & MEDIA_PAD_FL_SINK) {
+> +			if (r->sink_pad != pad->index)
+> +				continue;
+> +
+> +			stream = r->sink_stream;
+> +		} else {
+> +			if (r->source_pad != pad->index)
+> +				continue;
+> +
+> +			stream = r->source_stream;
+> +		}
+> +
+> +		v4l2_subdev_print_format(entity, pad->index, stream, V4L2_SUBDEV_FORMAT_ACTIVE);
+> +		v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
+> +
+> +		if (pad->flags & MEDIA_PAD_FL_SOURCE)
+> +			v4l2_subdev_print_subdev_dv(entity);
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/mt2701-evb.dt.yaml: spi@11014000: 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	From schema: Documentation/devicetree/bindings/spi/mediatek,spi-mtk-nor.yaml
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /spi@11016000: failed to match any schema with compatible: ['mediatek,mt2701-spi']
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /spi@11017000: failed to match any schema with compatible: ['mediatek,mt2701-spi']
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /clock-controller@11220000: failed to match any schema with compatible: ['mediatek,mt2701-audsys', 'syscon']
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /clock-controller@11220000/audio-controller: failed to match any schema with compatible: ['mediatek,mt2701-audio']
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /pwm@1400a000: failed to match any schema with compatible: ['mediatek,mt2701-disp-pwm']
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /syscon@15000000: failed to match any schema with compatible: ['mediatek,mt2701-imgsys', 'syscon']
->> arch/arm/boot/dts/mt2701-evb.dt.yaml: jpegdec@15004000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	From schema: Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
->> arch/arm/boot/dts/mt2701-evb.dt.yaml: jpegenc@1500a000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	From schema: Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.yaml
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /syscon@16000000: failed to match any schema with compatible: ['mediatek,mt2701-vdecsys', 'syscon']
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt2701-hifsys', 'syscon']
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /syscon@1b000000: failed to match any schema with compatible: ['mediatek,mt2701-ethsys', 'syscon']
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /ethernet@1b100000: failed to match any schema with compatible: ['mediatek,mt2701-eth', 'syscon']
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt2701-bdpsys', 'syscon']
-   arch/arm/boot/dts/mt2701-evb.dt.yaml:0:0: /sound: failed to match any schema with compatible: ['mediatek,mt2701-cs42448-machine']
-   arch/arm/boot/dts/mt2701-evb.dt.yaml: bt_sco_codec: '#sound-dai-cells' is a required property
-   	From schema: Documentation/devicetree/bindings/sound/linux,bt-sco.yaml
-   arch/arm/boot/dts/mt2701-evb.dt.yaml: backlight_lcd: 'power-supply' is a required property
---
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /ethernet@1b100000/mac@0: failed to match any schema with compatible: ['mediatek,eth-mac']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /ethernet@1b100000/mac@1: failed to match any schema with compatible: ['mediatek,eth-mac']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /ethernet@1b100000/mdio-bus/switch@0: failed to match any schema with compatible: ['mediatek,mt7530']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /crypto@1b240000: failed to match any schema with compatible: ['mediatek,eip97-crypto']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek,mt2701-bdpsys', 'syscon']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek,mt2701-bdpsys', 'syscon']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@13000000: failed to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'mediatek,mt2701-g3dsys', 'syscon']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@13000000: failed to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'mediatek,mt2701-g3dsys', 'syscon']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@15000000: failed to match any schema with compatible: ['mediatek,mt7623-imgsys', 'mediatek,mt2701-imgsys', 'syscon']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /syscon@15000000: failed to match any schema with compatible: ['mediatek,mt7623-imgsys', 'mediatek,mt2701-imgsys', 'syscon']
->> arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml: jpegdec@15004000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	From schema: Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml: smi@1000c000: clock-names: ['apb', 'smi', 'async'] is too long
-   	From schema: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /ovl@14007000: failed to match any schema with compatible: ['mediatek,mt7623-disp-ovl', 'mediatek,mt2701-disp-ovl']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /ovl@14007000: failed to match any schema with compatible: ['mediatek,mt7623-disp-ovl', 'mediatek,mt2701-disp-ovl']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /rdma@14008000: failed to match any schema with compatible: ['mediatek,mt7623-disp-rdma', 'mediatek,mt2701-disp-rdma']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /rdma@14008000: failed to match any schema with compatible: ['mediatek,mt7623-disp-rdma', 'mediatek,mt2701-disp-rdma']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /wdma@14009000: failed to match any schema with compatible: ['mediatek,mt7623-disp-wdma', 'mediatek,mt2701-disp-wdma']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /wdma@14009000: failed to match any schema with compatible: ['mediatek,mt7623-disp-wdma', 'mediatek,mt2701-disp-wdma']
-   arch/arm/boot/dts/mt7623n-rfb-emmc.dt.yaml:0:0: /pwm@1400a000: failed to match any schema with compatible: ['mediatek,mt7623-disp-pwm', 'mediatek,mt2701-disp-pwm']
---
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /ethernet@1b100000: failed to match any schema with compatible: ['mediatek,mt7623-eth', 'mediatek,mt2701-eth', 'syscon']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /ethernet@1b100000/mac@0: failed to match any schema with compatible: ['mediatek,eth-mac']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /ethernet@1b100000/mdio-bus/switch@0: failed to match any schema with compatible: ['mediatek,mt7530']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /crypto@1b240000: failed to match any schema with compatible: ['mediatek,eip97-crypto']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek,mt2701-bdpsys', 'syscon']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@1c000000: failed to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek,mt2701-bdpsys', 'syscon']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@13000000: failed to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'mediatek,mt2701-g3dsys', 'syscon']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@13000000: failed to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'mediatek,mt2701-g3dsys', 'syscon']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@15000000: failed to match any schema with compatible: ['mediatek,mt7623-imgsys', 'mediatek,mt2701-imgsys', 'syscon']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /syscon@15000000: failed to match any schema with compatible: ['mediatek,mt7623-imgsys', 'mediatek,mt2701-imgsys', 'syscon']
->> arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml: jpegdec@15004000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	From schema: Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml: smi@1000c000: clock-names: ['apb', 'smi', 'async'] is too long
-   	From schema: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /ovl@14007000: failed to match any schema with compatible: ['mediatek,mt7623-disp-ovl', 'mediatek,mt2701-disp-ovl']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /ovl@14007000: failed to match any schema with compatible: ['mediatek,mt7623-disp-ovl', 'mediatek,mt2701-disp-ovl']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /rdma@14008000: failed to match any schema with compatible: ['mediatek,mt7623-disp-rdma', 'mediatek,mt2701-disp-rdma']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /rdma@14008000: failed to match any schema with compatible: ['mediatek,mt7623-disp-rdma', 'mediatek,mt2701-disp-rdma']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /wdma@14009000: failed to match any schema with compatible: ['mediatek,mt7623-disp-wdma', 'mediatek,mt2701-disp-wdma']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /wdma@14009000: failed to match any schema with compatible: ['mediatek,mt7623-disp-wdma', 'mediatek,mt2701-disp-wdma']
-   arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dt.yaml:0:0: /pwm@1400a000: failed to match any schema with compatible: ['mediatek,mt7623-disp-pwm', 'mediatek,mt2701-disp-pwm']
+If a subdev has multiple routes coming from the same pad/stream
+(corresponding to the 1-N stream duplication use case), you will print
+the same format for the sink pad/stream multiple times.
+
+> +
+
+Extra blank line.
+
+> +	}
+>  }
+>  
+>  static void media_print_topology_text_entity(struct media_device *media,
+> @@ -480,11 +537,17 @@ static void media_print_topology_text_entity(struct media_device *media,
+>  	unsigned int num_links = media_entity_get_links_count(entity);
+>  	unsigned int j, k;
+>  	unsigned int padding;
+> +	struct v4l2_subdev_route *routes = NULL;
+> +	unsigned int num_routes = 0;
+> +
+> +	if (media_entity_type(entity) == MEDIA_ENT_T_V4L2_SUBDEV)
+> +		v4l2_subdev_get_routing(entity, &routes, &num_routes);
+>  
+>  	padding = printf("- entity %u: ", info->id);
+> -	printf("%s (%u pad%s, %u link%s)\n", info->name,
+> +	printf("%s (%u pad%s, %u link%s, %u route%s)\n", info->name,
+>  	       info->pads, info->pads > 1 ? "s" : "",
+> -	       num_links, num_links > 1 ? "s" : "");
+> +	       num_links, num_links > 1 ? "s" : "",
+> +	       num_routes, num_routes > 1 ? "s" : "");
+>  	printf("%*ctype %s subtype %s flags %x\n", padding, ' ',
+>  	       media_entity_type_to_string(info->type),
+>  	       media_entity_subtype_to_string(info->type),
+> @@ -492,12 +555,15 @@ static void media_print_topology_text_entity(struct media_device *media,
+>  	if (devname)
+>  		printf("%*cdevice node name %s\n", padding, ' ', devname);
+>  
+> +	if (media_entity_type(entity) == MEDIA_ENT_T_V4L2_SUBDEV)
+> +		v4l2_subdev_print_routes(entity, routes, num_routes);
+> +
+>  	for (j = 0; j < info->pads; j++) {
+>  		const struct media_pad *pad = media_entity_get_pad(entity, j);
+>  
+>  		printf("\tpad%u: %s\n", j, media_pad_type_to_string(pad->flags));
+>  
+> -		media_print_pad_text(entity, pad);
+> +		media_print_pad_text(entity, pad, routes, num_routes);
+>  
+>  		for (k = 0; k < num_links; k++) {
+>  			const struct media_link *link = media_entity_get_link(entity, k);
+> @@ -594,14 +660,16 @@ int main(int argc, char **argv)
+>  
+>  	if (media_opts.fmt_pad) {
+>  		struct media_pad *pad;
+> +		unsigned int stream;
+> +		char *p;
+>  
+> -		pad = media_parse_pad(media, media_opts.fmt_pad, NULL);
+> +		pad = media_parse_pad_stream(media, media_opts.fmt_pad, &stream, &p);
+>  		if (pad == NULL) {
+>  			printf("Pad '%s' not found\n", media_opts.fmt_pad);
+>  			goto out;
+>  		}
+>  
+> -		v4l2_subdev_print_format(pad->entity, pad->index,
+> +		v4l2_subdev_print_format(pad->entity, pad->index, stream,
+>  					 V4L2_SUBDEV_FORMAT_ACTIVE);
+>  	}
+>  
+> @@ -685,6 +753,15 @@ int main(int argc, char **argv)
+>  		}
+>  	}
+>  
+> +	if (media_opts.routes) {
+> +		ret = v4l2_subdev_parse_setup_routes(media, media_opts.routes);
+> +		if (ret) {
+> +			printf("Unable to setup routes: %s (%d)\n",
+> +			       strerror(-ret), -ret);
+> +			goto out;
+> +		}
+> +	}
+> +
+>  	if (media_opts.interactive) {
+>  		while (1) {
+>  			char buffer[32];
+> diff --git a/utils/media-ctl/mediactl.h b/utils/media-ctl/mediactl.h
+> index af360518..c0fc2962 100644
+> --- a/utils/media-ctl/mediactl.h
+> +++ b/utils/media-ctl/mediactl.h
+> @@ -394,6 +394,22 @@ struct media_entity *media_parse_entity(struct media_device *media,
+>  struct media_pad *media_parse_pad(struct media_device *media,
+>  				  const char *p, char **endp);
+>  
+> +/**
+> + * @brief Parse string to a pad and stream on the media device.
+> + * @param media - media device.
+> + * @param p - input string
+> + * @param stream - pointer to uint where the stream number is stored
+> + * @param endp - pointer to string where parsing ended
+> + *
+> + * Parse NULL terminated string describing a pad and stream and return its struct
+> + * media_pad instance and the stream number.
+> + *
+> + * @return Pointer to struct media_pad on success, NULL on failure.
+> + */
+> +struct media_pad *media_parse_pad_stream(struct media_device *media,
+> +					 const char *p, unsigned int *stream,
+> +					 char **endp);
+> +
+>  /**
+>   * @brief Parse string to a link on the media device.
+>   * @param media - media device.
+> diff --git a/utils/media-ctl/options.c b/utils/media-ctl/options.c
+> index 6d30d3dc..58ddec3c 100644
+> --- a/utils/media-ctl/options.c
+> +++ b/utils/media-ctl/options.c
+> @@ -63,6 +63,7 @@ static void usage(const char *argv0)
+>  	printf("    --get-v4l2 pad	Print the active format on a given pad\n");
+>  	printf("    --get-dv pad        Print detected and current DV timings on a given pad\n");
+>  	printf("    --set-dv pad	Configure DV timings on a given pad\n");
+> +	printf("-R, --set-routes routes Configure routes on a given subdev entity\n");
+>  	printf("-h, --help		Show verbose help and exit\n");
+>  	printf("-i, --interactive	Modify links interactively\n");
+>  	printf("-l, --links links	Comma-separated list of link descriptors to setup\n");
+> @@ -78,7 +79,7 @@ static void usage(const char *argv0)
+>  	printf("Links and formats are defined as\n");
+>  	printf("\tlinks           = link { ',' link } ;\n");
+>  	printf("\tlink            = pad '->' pad '[' flags ']' ;\n");
+> -	printf("\tpad             = entity ':' pad-number ;\n");
+> +	printf("\tpad             = entity ':' pad-number { '/' stream-number } ;\n");
+>  	printf("\tentity          = entity-number | ( '\"' entity-name '\"' ) ;\n");
+>  	printf("\n");
+>  	printf("\tv4l2            = pad '[' v4l2-properties ']' ;\n");
+> @@ -95,11 +96,16 @@ static void usage(const char *argv0)
+>  	printf("\trectangle       = '(' left ',' top, ')' '/' size ;\n");
+>  	printf("\tsize            = width 'x' height ;\n");
+>  	printf("\n");
+> +	printf("\troutes          = entity '[' route { ',' route } ']' ;\n");
+> +	printf("\troute           = pad-number '/' stream-number '->' pad-number '/' stream-number '[' route-flags ']' ;\n");
+> +	printf("\n");
+>  	printf("where the fields are\n");
+>  	printf("\tentity-number   Entity numeric identifier\n");
+>  	printf("\tentity-name     Entity name (string) \n");
+>  	printf("\tpad-number      Pad numeric identifier\n");
+> +	printf("\tstream-number   Stream numeric identifier\n");
+>  	printf("\tflags           Link flags (0: inactive, 1: active)\n");
+> +	printf("\troute-flags     Route flags (bitmask of route flags: active - 0x1, immutable - 0x2, source - 0x4)\n");
+>  	printf("\tfcc             Format FourCC\n");
+>  	printf("\twidth           Image width in pixels\n");
+>  	printf("\theight          Image height in pixels\n");
+> @@ -152,6 +158,7 @@ static struct option opts[] = {
+>  	{"get-v4l2", 1, 0, OPT_GET_FORMAT},
+>  	{"get-dv", 1, 0, OPT_GET_DV},
+>  	{"set-dv", 1, 0, OPT_SET_DV},
+> +	{"set-routes", 1, 0, 'R'},
+>  	{"help", 0, 0, 'h'},
+>  	{"interactive", 0, 0, 'i'},
+>  	{"links", 1, 0, 'l'},
+> @@ -237,7 +244,7 @@ int parse_cmdline(int argc, char **argv)
+>  	}
+>  
+>  	/* parse options */
+> -	while ((opt = getopt_long(argc, argv, "d:e:f:hil:prvV:",
+> +	while ((opt = getopt_long(argc, argv, "d:e:f:hil:prvV:R:",
+>  				  opts, NULL)) != -1) {
+>  		switch (opt) {
+>  		case 'd':
+> @@ -283,6 +290,10 @@ int parse_cmdline(int argc, char **argv)
+>  			media_opts.verbose = 1;
+>  			break;
+>  
+> +		case 'R':
+> +			media_opts.routes = optarg;
+> +			break;
+> +
+>  		case OPT_PRINT_DOT:
+>  			media_opts.print_dot = 1;
+>  			break;
+> diff --git a/utils/media-ctl/options.h b/utils/media-ctl/options.h
+> index b1751f56..8796f1b6 100644
+> --- a/utils/media-ctl/options.h
+> +++ b/utils/media-ctl/options.h
+> @@ -38,6 +38,7 @@ struct media_options
+>  	const char *fmt_pad;
+>  	const char *get_dv_pad;
+>  	const char *dv_pad;
+> +	const char *routes;
+>  };
+>  
+>  extern struct media_options media_opts;
+> diff --git a/utils/media-ctl/v4l2subdev.h b/utils/media-ctl/v4l2subdev.h
+> index a1813911..a8a6e7ad 100644
+> --- a/utils/media-ctl/v4l2subdev.h
+> +++ b/utils/media-ctl/v4l2subdev.h
+> @@ -64,7 +64,7 @@ void v4l2_subdev_close(struct media_entity *entity);
+>   * @return 0 on success, or a negative error code on failure.
+>   */
+>  int v4l2_subdev_get_format(struct media_entity *entity,
+> -	struct v4l2_mbus_framefmt *format, unsigned int pad,
+> +	struct v4l2_mbus_framefmt *format, unsigned int pad, unsigned int stream,
+>  	enum v4l2_subdev_format_whence which);
+>  
+>  /**
+> @@ -86,6 +86,7 @@ int v4l2_subdev_get_format(struct media_entity *entity,
+>   */
+>  int v4l2_subdev_set_format(struct media_entity *entity,
+>  	struct v4l2_mbus_framefmt *format, unsigned int pad,
+> +	unsigned int stream,
+>  	enum v4l2_subdev_format_whence which);
+>  
+>  /**
+> @@ -107,8 +108,8 @@ int v4l2_subdev_set_format(struct media_entity *entity,
+>   * @return 0 on success, or a negative error code on failure.
+>   */
+>  int v4l2_subdev_get_selection(struct media_entity *entity,
+> -	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
+> -	enum v4l2_subdev_format_whence which);
+> +	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
+> +	unsigned int target, enum v4l2_subdev_format_whence which);
+>  
+>  /**
+>   * @brief Set a selection rectangle on a pad.
+> @@ -129,8 +130,40 @@ int v4l2_subdev_get_selection(struct media_entity *entity,
+>   * @return 0 on success, or a negative error code on failure.
+>   */
+>  int v4l2_subdev_set_selection(struct media_entity *entity,
+> -	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
+> -	enum v4l2_subdev_format_whence which);
+> +	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
+> +	unsigned int target, enum v4l2_subdev_format_whence which);
+> +
+> +/**
+> + * @brief Get the routing table of a subdev media entity.
+> + * @param entity - subdev-device media entity.
+> + * @param routes - routes of the subdev.
+> + * @param num_routes - number of routes.
+> + *
+> + * Get the routes of @a entity and return them in an allocated array in @a routes
+> + * and the number of routes in @a num_routes.
+> + *
+> + * The caller is responsible for freeing the routes array after use.
+> + *
+> + * @return 0 on success, or a negative error code on failure.
+> + */
+> +int v4l2_subdev_get_routing(struct media_entity *entity,
+> +			    struct v4l2_subdev_route **routes,
+> +			    unsigned int *num_routes);
+> +
+> +/**
+> + * @brief Set the routing table of a subdev media entity.
+> + * @param entity - subdev-device media entity.
+> + * @param routes - routes of the subdev.
+> + * @param num_routes - number of routes.
+> + *
+> + * Set the routes of @a entity. The routes are given in @a routes with the
+> + * length of @a num_routes.
+> + *
+> + * @return 0 on success, or a negative error code on failure.
+> + */
+> +int v4l2_subdev_set_routing(struct media_entity *entity,
+> +			    struct v4l2_subdev_route *route,
+> +			    unsigned int num_routes);
+>  
+>  /**
+>   * @brief Query the digital video capabilities of a pad.
+> @@ -200,7 +233,7 @@ int v4l2_subdev_set_dv_timings(struct media_entity *entity,
+>   */
+>  
+>  int v4l2_subdev_get_frame_interval(struct media_entity *entity,
+> -	struct v4l2_fract *interval, unsigned int pad);
+> +	struct v4l2_fract *interval, unsigned int pad, unsigned int stream);
+>  
+>  /**
+>   * @brief Set the frame interval on a sub-device.
+> @@ -217,7 +250,7 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
+>   * @return 0 on success, or a negative error code on failure.
+>   */
+>  int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+> -	struct v4l2_fract *interval, unsigned int pad);
+> +	struct v4l2_fract *interval, unsigned int pad, unsigned int stream);
+>  
+>  /**
+>   * @brief Parse a string and apply format, crop and frame interval settings.
+> @@ -235,6 +268,17 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+>   */
+>  int v4l2_subdev_parse_setup_formats(struct media_device *media, const char *p);
+>  
+> +/**
+> + * @brief Parse a string and apply route settings.
+> + * @param media - media device.
+> + * @param p - input string
+> + *
+> + * Parse string @a p and apply route settings to a subdev.
+> + *
+> + * @return 0 on success, or a negative error code on failure.
+> + */
+> +int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p);
+> +
+>  /**
+>   * @brief Convert media bus pixel code to string.
+>   * @param code - input string
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Regards,
+
+Laurent Pinchart
