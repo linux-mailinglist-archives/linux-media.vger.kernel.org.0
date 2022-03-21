@@ -2,100 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 179094E330D
-	for <lists+linux-media@lfdr.de>; Mon, 21 Mar 2022 23:48:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 489C04E3323
+	for <lists+linux-media@lfdr.de>; Mon, 21 Mar 2022 23:56:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229718AbiCUWsT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Mar 2022 18:48:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52462 "EHLO
+        id S230189AbiCUWuj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Mar 2022 18:50:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229845AbiCUWsM (ORCPT
+        with ESMTP id S230187AbiCUWua (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Mar 2022 18:48:12 -0400
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34FE23A592C;
-        Mon, 21 Mar 2022 15:28:29 -0700 (PDT)
-Received: by mail-ot1-f54.google.com with SMTP id 17-20020a9d0611000000b005b251571643so11450201otn.2;
-        Mon, 21 Mar 2022 15:28:29 -0700 (PDT)
+        Mon, 21 Mar 2022 18:50:30 -0400
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D641A443A51;
+        Mon, 21 Mar 2022 15:30:23 -0700 (PDT)
+Received: by mail-oi1-f181.google.com with SMTP id s207so17759361oie.11;
+        Mon, 21 Mar 2022 15:30:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=P30I1IvBZVWzxnjjs8xKnvlDjjaGWLFseUJUE0t0iug=;
-        b=CrB+tMlFpjHTSXg8Gn2v8DWc7jPVjtUqLQ9CAHIZh1fY/0P633UHu7U/0Bgi+Vga5r
-         rXzASm9uKs403Y8WSjJxCkCoE1K2PUlGnTahtR919klWYuRFFt6NLob7hPejQCwjt3A0
-         0cIrdgZ2UqBn876GtK8jo1s/kEL+AAA1UQTwhadZiDVPFykLBLLNNI56gVUM45Q4P9UH
-         64B+VHllK1G8OLxgF7PvAiNNXcpDQ0R5CV2U3HFljF1w0/K6QP7cevdJ829zuPMpXhwz
-         eyUL9GVLyu2uQ1cVR4QvhdPmXpkZ2uxEXLIv276wE1KqKW63BLkBsTeA+a5Kjia8DYwI
-         ne3A==
-X-Gm-Message-State: AOAM531ueoXZTkDMZaXw19ZulsYy/Wn4v3gJdLINOB6vzhYvD3aZrH7U
-        L2bJCzDjY3uA6txGvtldaA==
-X-Google-Smtp-Source: ABdhPJwhjaMdN3trRKuth/6PhzKCiyCDabep5R8B9rofsON9bTADl679fotxe+oPsBcjqvQOnCb4+Q==
-X-Received: by 2002:a9d:7994:0:b0:5b2:3110:e69c with SMTP id h20-20020a9d7994000000b005b23110e69cmr8812492otm.267.1647901708497;
-        Mon, 21 Mar 2022 15:28:28 -0700 (PDT)
+        bh=zbp0hIb8uBy2/xVSmAWjwvVhJzm0B0givR3TBIiOw0Q=;
+        b=ECFyqAj1G+nUD67jd/CbWlSsNLp/9ZW/WNWfNTJ9WDvCiWgXbZk5Gah/DCrx3NW2N/
+         8SL6t8WK9dM+uLeiUx1bbaSba4Y/w7oO64JDhWwgz0ZOi4HARfurGomyotF+tCKLQS6p
+         81e9YrplS6nU1dgzN76mt5SXgSHy52UDGIcpE7Ir/eZWITUY+Le9oAj9sksemJV2HXAc
+         0XRDnSgoAfbGBtnAqvCn9ze3B5q662bUCMxS2y25TPgL+P+kvrlahEyOVext+Ho7aERm
+         e4yO9z6gBk5096BlSRCTGDrgn8OWMgFE451/ykcEqgX17imcolypywUqCOZ6cuK2dNRN
+         mXHw==
+X-Gm-Message-State: AOAM532Yt2BJuCtQWjTtF4/Fx3fozl/Com++mFAufxFDXnLGkCZhAGzR
+        WpXjVN4DSLQ5FDrtTMiFzg==
+X-Google-Smtp-Source: ABdhPJwt1zw6TNwDij87xVlDMEQVe7cTjU5dSscPmUpAKgOWzXQ8WYcqWpTBlrQ/KYGd/g16yMgQ4Q==
+X-Received: by 2002:a05:6808:30a2:b0:2da:3ab6:2c83 with SMTP id bl34-20020a05680830a200b002da3ab62c83mr675374oib.206.1647901823127;
+        Mon, 21 Mar 2022 15:30:23 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id g8-20020acab608000000b002ecf38fb699sm8030714oif.38.2022.03.21.15.28.26
+        by smtp.gmail.com with ESMTPSA id p18-20020a056830131200b005ccf8ac6207sm2491234otq.80.2022.03.21.15.30.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Mar 2022 15:28:27 -0700 (PDT)
-Received: (nullmailer pid 653541 invoked by uid 1000);
-        Mon, 21 Mar 2022 22:28:25 -0000
-Date:   Mon, 21 Mar 2022 17:28:25 -0500
+        Mon, 21 Mar 2022 15:30:22 -0700 (PDT)
+Received: (nullmailer pid 656090 invoked by uid 1000);
+        Mon, 21 Mar 2022 22:30:18 -0000
+Date:   Mon, 21 Mar 2022 17:30:18 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Moudy Ho <moudy.ho@mediatek.com>
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>, tfiga@chromium.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        jason-jh.lin@mediatek.com, river.cheng@mediatek.com,
-        linux-kernel@vger.kernel.org, roy-cw.yeh@mediatek.com,
-        srv_heupstream@mediatek.com,
-        Jernej Skrabec <jernej.skrabec@siol.net>, pihsun@chromium.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        devicetree@vger.kernel.org, hsinyi@google.com,
-        linux-arm-kernel@lists.infradead.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
         Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
+        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
         daoyuan huang <daoyuan.huang@mediatek.com>,
-        randy.wu@mediatek.com,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        allen-kh.cheng@mediatek.com, sj.huang@mediatek.com,
-        linux-mediatek@lists.infradead.org, drinkcat@chromium.org,
-        menghui.lin@mediatek.com,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Rob Landley <rob@landley.net>
-Subject: Re: [PATCH v14 3/6] dt-bindings: soc: mediatek: move out common
- module from display folder
-Message-ID: <Yjj8CanzmdHeX7qz@robh.at.kernel.org>
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        menghui.lin@mediatek.com, sj.huang@mediatek.com,
+        allen-kh.cheng@mediatek.com, randy.wu@mediatek.com,
+        jason-jh.lin@mediatek.com, roy-cw.yeh@mediatek.com,
+        river.cheng@mediatek.com, srv_heupstream@mediatek.com,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v14 4/6] dt-bindings: soc: mediatek: add gce-client-reg
+ for MUTEX
+Message-ID: <Yjj8eoXmsYRRvb1I@robh.at.kernel.org>
 References: <20220317143926.15835-1-moudy.ho@mediatek.com>
- <20220317143926.15835-4-moudy.ho@mediatek.com>
+ <20220317143926.15835-5-moudy.ho@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220317143926.15835-4-moudy.ho@mediatek.com>
+In-Reply-To: <20220317143926.15835-5-moudy.ho@mediatek.com>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 17 Mar 2022 22:39:23 +0800, Moudy Ho wrote:
-> In order to share the same hardware information with MDP3,
-> change the MUTEX dt-binding to the path "soc/mediatek".
+On Thu, Mar 17, 2022 at 10:39:24PM +0800, Moudy Ho wrote:
+> In order to allow modules with latency requirements such as MDP3
+> to set registers through CMDQ, add the relevant GCE property.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 > ---
->  .../bindings/{display => soc}/mediatek/mediatek,mutex.yaml      | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename Documentation/devicetree/bindings/{display => soc}/mediatek/mediatek,mutex.yaml (97%)
+>  .../devicetree/bindings/soc/mediatek/mediatek,mutex.yaml  | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+> index f825af49f820..a4892979480c 100644
+> --- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+> +++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+> @@ -60,6 +60,14 @@ properties:
+>        include/dt-bindings/gce/<chip>-gce.h of each chips.
+>      $ref: /schemas/types.yaml#/definitions/phandle-array
+>  
+> +  mediatek,gce-client-reg:
+> +    description: The register of client driver can be configured by gce with
+> +      4 arguments defined in this property, such as phandle of gce, subsys id,
+> +      register offset and size. Each GCE subsys id is mapping to a client
+> +      defined in the header include/dt-bindings/gce/<chip>-gce.h.
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    maxItems: 1
 
-Acked-by: Rob Herring <robh@kernel.org>
+items:
+  items:
+    - description: phandle of GCE
+    - description: GCE subsys id
+    - description: register offset
+    - description: register size
+
+> +
+>  required:
+>    - compatible
+>    - reg
+> -- 
+> 2.18.0
+> 
+> 
