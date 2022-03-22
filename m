@@ -2,119 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBD964E4289
-	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 16:10:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4891A4E433D
+	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 16:42:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238307AbiCVPMQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Mar 2022 11:12:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41532 "EHLO
+        id S238715AbiCVPni (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Mar 2022 11:43:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233694AbiCVPMP (ORCPT
+        with ESMTP id S235839AbiCVPng (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Mar 2022 11:12:15 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE1B4245BD;
-        Tue, 22 Mar 2022 08:10:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6C244B81D14;
-        Tue, 22 Mar 2022 15:10:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C6F8C340F8;
-        Tue, 22 Mar 2022 15:10:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647961845;
-        bh=iD3r2C8ohus5StZzu+HIHENCtSsyhMruFFh9RM7/ok0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lTfrr6Xx5T7dbCIZGWoVSA4ezDO8SPB4V6YiBOHileBU/8ywOv7AWeMUKIdBFO6mz
-         MvY51MObY0A/m/xTXiyLMLUAPYZ6+actWLn4LlYJqH3g/L4jHHzy1wCWg70oZIXspZ
-         U6x970s8lT3VvnYOpTRHlqx2tDKXxKQ8DwacUVkUrJ627HzygQZjwNdf37sragLX6I
-         bv5f/jPoJ3qdHmRLPmHthWGXr32polEsPw4OQWIeCq8MGYMWb/SYtKycLUnFl/f0w3
-         gU4qi+iDUfcOw13fViapVaP64M1Fj7vJK1yygwrMI30M63p4q3O58w9LVF3z2np3Le
-         yUcdLHGQehvQQ==
-Received: by mail-ej1-f48.google.com with SMTP id p15so36862235ejc.7;
-        Tue, 22 Mar 2022 08:10:45 -0700 (PDT)
-X-Gm-Message-State: AOAM531XSdB6/OWFAEaTqiF0zfcNM5lVuxjgPZXdnvcd8qGySgbFTyr9
-        txTki9x94MqUVpkO/HDZhsKqEE6CMN06Kin/yA==
-X-Google-Smtp-Source: ABdhPJwcstYlhae/VDeErmYlaX8hBZSodjccbiEArN1YhP3mCzfkMUHmbq6+FoN7ayATI+AtiuwrK2GB7QQaqZOLugM=
-X-Received: by 2002:a17:907:97c9:b0:6db:ab53:1fdf with SMTP id
- js9-20020a17090797c900b006dbab531fdfmr26610884ejc.406.1647961843159; Tue, 22
- Mar 2022 08:10:43 -0700 (PDT)
+        Tue, 22 Mar 2022 11:43:36 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D195D8C7CB
+        for <linux-media@vger.kernel.org>; Tue, 22 Mar 2022 08:42:08 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id w4so22122073edc.7
+        for <linux-media@vger.kernel.org>; Tue, 22 Mar 2022 08:42:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=nlDmFglz7whj/r0GBRKFJ24ATNTxPzzUgtpMW7485f4=;
+        b=CND1Tv8y6h1wN3nXUQIKzu8LJkbk/862t1GsMuYd+VkdxovrTkb3al98dhDbupbe12
+         QXuRoX6v14abx56NU7QF+9NGYzOFXPjIFilEb5iGh5vpslTno0fzKgvJfg5koKbmHz5d
+         vYj7LoRwC6XkP+3DLboyZVHpk8OUGbhumdqo9fqMS2jco8PbB4d+WrP5GBaK+jgACVjc
+         H3mKuCT2WW6HfHHoK5gzbP10+klCOPRsnAr11BVA7ZEnncpigY41CsoHDPS8S3Dlr0Ns
+         iZHZ/WcuewTT+kVQ6KA2kKz4zO/JxPoHq3uYjMYs2gCqp960E+gWubc8R1ajqLYXIZYY
+         OQZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=nlDmFglz7whj/r0GBRKFJ24ATNTxPzzUgtpMW7485f4=;
+        b=ejQg0q0I0ae49igEdIJKyEFQDIMVHOEJl0ua82uVpoWSXrZYZsnnPLlBjpAv5B9KRh
+         eH03yBpIK2DXGqwibAK6OreeV/X+tq+slHi669XiwXm1vhbjQMSyoMiF9JJ4wUF7fEY2
+         SXYXmYHnGNyjG5Z1/MTxSqt0nOxLfU8fe4XwVUAjr/nkugG/kQ4iP9RUWnH/tJ8EtNKe
+         PYUpw+I0BnSXgBE6MV5fGtEXAwHqvL38V477DwdQVl2F1LCEDXFfIJRqCaNr/LS9rd67
+         3G0TzRGQ7iK6Tr+uQUBv9vr3ZjaOQxHFvxST+WHWmNl2h4cmmYMZF1mfwFBXlAkngioi
+         i3sQ==
+X-Gm-Message-State: AOAM5311BqagO+5O3SFCcmGT2X15d+Vz4A3cJGPUVx+/VxfemUCBpXZk
+        wYduVAE3wsJ8WevnkCBr4+sGfYrSLJF4JiBN1GIyKw==
+X-Google-Smtp-Source: ABdhPJyfaNCeAne2eFe8CfwRN/f/oVNmY2Y/pOhZZsuRaOYGVMOQUibxtTc32t6sxxUnC/B69PTQ0uqLWnTvQDvhzLc=
+X-Received: by 2002:a05:6402:1e96:b0:418:ff57:ada2 with SMTP id
+ f22-20020a0564021e9600b00418ff57ada2mr27039663edf.197.1647963727136; Tue, 22
+ Mar 2022 08:42:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220317143926.15835-1-moudy.ho@mediatek.com> <20220317143926.15835-4-moudy.ho@mediatek.com>
- <Yjj8CanzmdHeX7qz@robh.at.kernel.org>
-In-Reply-To: <Yjj8CanzmdHeX7qz@robh.at.kernel.org>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Tue, 22 Mar 2022 23:10:32 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-nTojmt44ts2VtXU3_kNpbn=CniHJh8dDeM0bPj8ouRA@mail.gmail.com>
-Message-ID: <CAAOTY_-nTojmt44ts2VtXU3_kNpbn=CniHJh8dDeM0bPj8ouRA@mail.gmail.com>
-Subject: Re: [PATCH v14 3/6] dt-bindings: soc: mediatek: move out common
- module from display folder
-To:     Rob Herring <robh@kernel.org>
-Cc:     Moudy Ho <moudy.ho@mediatek.com>,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jason-JH Lin <jason-jh.lin@mediatek.com>,
-        river.cheng@mediatek.com,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        roy-cw.yeh@mediatek.com,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Pi-Hsun Shih <pihsun@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        DTML <devicetree@vger.kernel.org>,
-        Hsin-Yi Wang <hsinyi@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        randy.wu@mediatek.com,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        allen-kh.cheng@mediatek.com,
-        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        menghui.lin@mediatek.com,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Rob Landley <rob@landley.net>
+References: <20220309165222.2843651-1-tjmercier@google.com>
+ <20220309165222.2843651-2-tjmercier@google.com> <20220321173726.GA9640@blackbody.suse.cz>
+In-Reply-To: <20220321173726.GA9640@blackbody.suse.cz>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Tue, 22 Mar 2022 08:41:55 -0700
+Message-ID: <CABdmKX10jqubJr49JENaHpFnqHV88+Fb7iNZNH4T1Cy7n9y=ag@mail.gmail.com>
+Subject: Re: [RFC v3 1/8] gpu: rfc: Proposal for a GPU cgroup controller
+To:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rob Herring <robh@kernel.org> =E6=96=BC 2022=E5=B9=B43=E6=9C=8822=E6=97=A5 =
-=E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=886:28=E5=AF=AB=E9=81=93=EF=BC=9A
+On Mon, Mar 21, 2022 at 10:37 AM Michal Koutn=C3=BD <mkoutny@suse.com> wrot=
+e:
 >
-> On Thu, 17 Mar 2022 22:39:23 +0800, Moudy Ho wrote:
-> > In order to share the same hardware information with MDP3,
-> > change the MUTEX dt-binding to the path "soc/mediatek".
-
-Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-
-> >
-> > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> > ---
-> >  .../bindings/{display =3D> soc}/mediatek/mediatek,mutex.yaml      | 2 =
-+-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename Documentation/devicetree/bindings/{display =3D> soc}/mediatek/m=
-ediatek,mutex.yaml (97%)
-> >
+> Hello.
 >
-> Acked-by: Rob Herring <robh@kernel.org>
+> On Wed, Mar 09, 2022 at 04:52:11PM +0000, "T.J. Mercier" <tjmercier@googl=
+e.com> wrote:
+> > +The new cgroup controller would:
+> > +
+> > +* Allow setting per-cgroup limits on the total size of buffers charged=
+ to it.
+>
+> What is the meaning of the total? (I only have very na=C3=AFve
+> understanding of the device buffers.)
+
+So "total" is used twice here in two different contexts.
+The first one is the global "GPU" cgroup context. As in any buffer
+that any exporter claims is a GPU buffer, regardless of where/how it
+is allocated. So this refers to the sum of all gpu buffers of any
+type/source. An exporter contributes to this total by registering a
+corresponding gpucg_device and making charges against that device when
+it exports.
+The second one is in a per device context. This allows us to make a
+distinction between different types of GPU memory based on who
+exported the buffer. A single process can make use of several
+different types of dma buffers (for example cached and uncached
+versions of the same type of memory), and it would be useful to have
+different limits for each. These are distinguished by the device name
+string chosen when the gpucg_device is first registered.
+
+>
+> Is it like a) there's global pool of memory that is partitioned among
+> individual devices or b) each device has its own specific type of memory
+> and adding across two devices is adding apples and oranges or c) there
+> can be various devices both of a) and b) type?
+
+So I guess the most correct answer to this question is c.
+
+
+>
+> (Apologies not replying to previous versions and possibly missing
+> anything.)
+>
+> Thanks,
+> Michal
+>
