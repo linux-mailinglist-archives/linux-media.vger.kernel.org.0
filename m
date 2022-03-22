@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41C734E46F8
-	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 20:54:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 060124E47B6
+	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 21:46:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231989AbiCVTzg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Mar 2022 15:55:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49122 "EHLO
+        id S229753AbiCVUrc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Mar 2022 16:47:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231903AbiCVTzf (ORCPT
+        with ESMTP id S229735AbiCVUrc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Mar 2022 15:55:35 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74246326D6
-        for <linux-media@vger.kernel.org>; Tue, 22 Mar 2022 12:54:07 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id bi12so38586615ejb.3
-        for <linux-media@vger.kernel.org>; Tue, 22 Mar 2022 12:54:07 -0700 (PDT)
+        Tue, 22 Mar 2022 16:47:32 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE4AE2ADF
+        for <linux-media@vger.kernel.org>; Tue, 22 Mar 2022 13:46:03 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id c62so3658543edf.5
+        for <linux-media@vger.kernel.org>; Tue, 22 Mar 2022 13:46:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:from:date:message-id:subject:to;
-        bh=2IFYRENq9zVLhAc0a1SnihE0GiYXSFBR+q/ert1KUDo=;
-        b=FgC4D9R+eQhMUYWSU385Y5Xn7oXem72I6y3uhGx5a3YE51JGi9rm+w9m2Bhm4OE0JZ
-         WLBfbWeZPV3Otbx3wj+FDBbGdsThfM056022xK4wmumaEBj+eVR3cwb4b3E6A7o6NonG
-         BL83yVBcZY9Oe2FmLwlRewFbWRbvppFdIF1eA65tYUICUvn9bVa4JUqaa1O2eKqL3W1y
-         aQgY2Xycbq+Tg9f9o+TmB5TfVwwtL061xB/MgUo+lYxr6aEzQxVeduSku8xTIZSiuNYO
-         SgSgndlNN263D12KA5a7yfxgq46pCioNSXGXljJcjpMXbWJ0+6h8KhJ3+fm/636EJm9s
-         6OHg==
+        bh=qnZcWONuwZ2JxWEjRAa5hvEc2uBZsRXgW9PaQGqrcaI=;
+        b=iaz5tJfjQhdSbfzA9/WkJK3GAE2tDcmRdbZOHXD0qHYuTfIj/7esIG8t1Tj/pZGGmr
+         RndFb6rgFirJTbhLf5zyT5Orl4WeurwMHprsaqw52uvWXjVIIR2aX3xeUANecA5FKUyG
+         3HuGOUKMLyxNjgbsKIha2tX7bePN+qSEaF0+OjcDoG5Ch4eMWqA1Xu5YILQHVJIqear2
+         EzdkPhDJFgi+mCT63uQxG311s7fyw5dPEaRyS6oDPVLWiDsocftTrrdlpAApTpwuFrQg
+         OJRLP686kQAFLE4PrN7tkdoh3fr1naFJ9hhIytxmb+/SEjeAV1D6qleYMOZK9SsyVnhD
+         cT3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=2IFYRENq9zVLhAc0a1SnihE0GiYXSFBR+q/ert1KUDo=;
-        b=axqQH/NiYnx2mvk66pf1i6rDBsXJPrW+TrGg5CBhnRJSJwkQNkbJ9SJMWgVJJFAWvi
-         PHu3S48ImosywXw/NzYzmGe4duCFE/EuAokhGMdyhMciv8sWIec2qd0ZdVvE9w9Ar0zf
-         K1suBM2nBAaNUXSpFOzljR5Xbyn07FlER67cki/f3FOaHExo0U011zaG68w4sqMqGyaF
-         gES15solJjOjLM3t3IJFfTi0qWEq7M4XCWcfRkqHlf5dXl4l9HJi99rbkV8d2hqWDbgj
-         EfAv8Fgf+I30hpYl8OP8dRRacYavPUIY2dXOR+tmA+ySsvnRfwYIHbQlTVtrM8Fu3aFo
-         KMiA==
-X-Gm-Message-State: AOAM533ZP1IvuZ1+ocedPaPDQUPOntZQhwlCzY9f1KYRfiZXzQnFUkoB
-        a57ZLTQ+pFX8nhOW7eTOArFHTWV16ATd+V64rarGmYM4B/wXdIan
-X-Google-Smtp-Source: ABdhPJzxpP9eq0w6m848S14a1jqN8w/tFuaRAjQYvP+ut5X9X5v2OYGFY9mTUyAn3RD032XwthSzTRyBgaPNS2+hlaA=
-X-Received: by 2002:a17:906:358e:b0:6cf:61dd:5a1f with SMTP id
- o14-20020a170906358e00b006cf61dd5a1fmr27790385ejb.416.1647978845806; Tue, 22
- Mar 2022 12:54:05 -0700 (PDT)
+        bh=qnZcWONuwZ2JxWEjRAa5hvEc2uBZsRXgW9PaQGqrcaI=;
+        b=uI7niDgEd/wIBi4pLsQiromrxnnYr0Vu0+FzMbsdV9w3dDCEQwIKTh2lWFSX9qyMxT
+         6GGXBEQrHNddizR1SsJzM6w4Tqs/CLEBfoB7uFZfLlJLwgO7gEXFgcXhSoJhUUR7lAC5
+         optCmkDLUgfUmTKj/Clol0cz4DXXqLOQOGfjlhco7tq3qy2HtFhOBPL398b+v+R48ix9
+         pXIsx7GvkU2yDsyAK6T6qX68mHVDIert8bIm8HKr04yQb0fQV7fP6moJETsU9r8qmO89
+         d9m6LYC3W7BUYYdHo51BqlCYaPvzQ4pNYLMU4qxgg83M4NmdxF/7Pe+qgo6xjIKEMnGh
+         qTAw==
+X-Gm-Message-State: AOAM5316xkPIgqDGL5hSVW3ZRPsEgOMi/KWRY8eyXokbHFFiIoVysxyG
+        oy0PsXDb+M+AOvlINwV/FeUIU5e2mbgMbtJtwpODtsGF4k81ZULf
+X-Google-Smtp-Source: ABdhPJwx8S+EjhwqUF18HV8NCx4JvNw34IsU13iI3CqKZgVWXw1N+sW4+6CpvA/bR+fgbUlwWwjSHaf9Islq3Pmiz6U=
+X-Received: by 2002:a05:6402:14d1:b0:415:8df3:bfa4 with SMTP id
+ f17-20020a05640214d100b004158df3bfa4mr30369214edx.344.1647981962230; Tue, 22
+ Mar 2022 13:46:02 -0700 (PDT)
 MIME-Version: 1.0
 From:   Brandom Vasquez <bvasquezalcocer@gmail.com>
-Date:   Tue, 22 Mar 2022 14:53:54 -0500
-Message-ID: <CAAzk_gVd0fpZVH9cnsuNxUBkA68d5gdFq0Os3odi=tuQ9pKbMg@mail.gmail.com>
+Date:   Tue, 22 Mar 2022 15:45:51 -0500
+Message-ID: <CAAzk_gU_qG+aHPnzowUdEbbkWKO_6Noy5c19dTV+3dTPsRWteg@mail.gmail.com>
 Subject: Support for the eMPIA Technology, Inc. Masster AVCap
 To:     linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -60,6 +60,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, I was wondering if support for the eMPIA Technology, Inc. Masster
-AVCap is possible? or is too old? (first time writing to a mailing
-list don't know if I'm doing it right).
+Hi, somebody has thought of adding the eMPIA Technology, Inc. Masster
+AVCap to the supported devices?(first time writing to a mailing
+list don't know if I'm doing it right), or at least where I can start
+to try to do it myself, I wanted to use it on an old computer, and
+noticed it is not supported.
