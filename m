@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E45CE4E3871
-	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 06:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 011064E387B
+	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 06:32:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236682AbiCVF0z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Mar 2022 01:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42464 "EHLO
+        id S236729AbiCVF34 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Mar 2022 01:29:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236676AbiCVF0w (ORCPT
+        with ESMTP id S236709AbiCVF3t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Mar 2022 01:26:52 -0400
+        Tue, 22 Mar 2022 01:29:49 -0400
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DCCE626A
-        for <linux-media@vger.kernel.org>; Mon, 21 Mar 2022 22:25:25 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 9619E5C00FE;
-        Tue, 22 Mar 2022 01:25:24 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Tue, 22 Mar 2022 01:25:24 -0400
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8F31A4
+        for <linux-media@vger.kernel.org>; Mon, 21 Mar 2022 22:28:22 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 200045C01CA;
+        Tue, 22 Mar 2022 01:28:22 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Tue, 22 Mar 2022 01:28:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
         cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; bh=J5NcGo6wG6k1ELKa3Cmi8WR8NnWnqSWEW/5Wru
-        00YJ8=; b=QhLmR0b4c04UmKwQ39Lh1yIBaQLrpuVwFQSCf1omVogpB+rrjO8PMP
-        HN81y0UsB3Qa9OraKn2uuCCo+vkvDWotnfNIEUEn4aztP+y8rOw/C2aaeGQgbNDD
-        scNpf4akX45e0eoNywdvdjlVgaXqpi5PP26PoXFmRAPkI6RRLXT8MLrdlluszlgP
-        Q+U4EclTk76IDP7WFF+tOkq4WJrdmW5V0pBY0yGmAGjRiCFZeCo4fRYwuLhAxOu0
-        DmLBgIBQwxXOKkG8uGjpZNwImd9p5MbSPPJhcT1fO4gP5rgwEc7gkT9oFMlmZi0Y
-        R8A0051bNAXZqmg6AUjnnlZxFT3kAQZA==
+        :subject:to:to; s=fm3; bh=8jgDpsxqUOQbu2mBIjRlz77k0qMD3rjQK2TxnB
+        9T5LU=; b=i6hrsbSp1uWIMWQrdgK2kba1nSyNYlkfY/30Uu7iYWHcZiGq1jZ1c7
+        79dFOwbfF/hYc04WeQ7GyvAwibq5r/zURuRF4gC/jSGcFJs1LM+mHS0S/UnQJibO
+        mJmmdG3uIGgKqPdfa396sqLBVr7h1jEu4sONZqR7c5RBx7uVp6ct+8H5+lnktc7V
+        8e1LA1LJqSWxccVsBC/BdNEHm1KL1L3XsaZxuTYuaPLTXQU28wfUX1U460ureLO1
+        EYachiT4R2C4Mp6e50CQ/djf7T+VLgBTMJaFr4CShhXl7am0eFO5J8MemVRsGYW4
+        vSBPVtU0rZG/O2YGEy7cEQ6YRlRAIdgg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:from:from
         :in-reply-to:in-reply-to:message-id:mime-version:references
         :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=J5NcGo6wG6k1ELKa3
-        Cmi8WR8NnWnqSWEW/5Wru00YJ8=; b=OxUp+F1IDFj8F7x5ddKMae893T3UY8TtV
-        Tbyefc7d/rpfs04KdSB2Kr6cox/eqSeGXphbLyUv5RojqZW6dDZcrBJsJS2gXCW9
-        9uUQTVelCN/Ax1Re9qq8/vGxN7E917XRy9scTX21uz3Rwpz9uS1Ut2aB7BkkuW+T
-        8SeuiMaNe08Cf9fzxMOl3tZFAY0KRf17uSsUwkhOSR7ct3H5u4+S6Ygj5wAk5nz0
-        KR+DaO8qeqhvZ7eiJqrzTLwqWTtdc04RcUfSA8Ha4oak10dAWNMrjt5vw4E9AO1S
-        E4IeCkQrrdWmzX2+qn3TZsjovLTe/vZkfri99fm2b/wrxOMFTdh9Q==
-X-ME-Sender: <xms:xF05Yjp-FhDRA-CeUzm9myJZy36EazxNAp13zOM40TUTcXt71j3Obg>
-    <xme:xF05Ytr2aQChW6jsodd6ilC2hajgaqeHkGhmwTFyEoJ3vB52t_JxbsykUQMS-Wkk1
-    EYF1iMjcPIeih3KfjE>
-X-ME-Received: <xmr:xF05YgNPPvXiezB6n5tRP4UZ07UbVa4nE_rgWq1VnJBBBIHxMNFl83utBqwnGbLJhqFvuMr6zgvi5VSHTCyIJ_Nu>
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=8jgDpsxqUOQbu2mBI
+        jRlz77k0qMD3rjQK2TxnB9T5LU=; b=Ym5ougKxSWIe7oU9oq8tLL2RZhbV9oG0W
+        aght4EDCjYGXmHAJsTjqJU62BE34eEWBXKnIdYRcsxLbZNYjSSqSeW0EfvcX9U6v
+        IG2iTWoISocCgPejXgNM1eeErjXp/+AlwS9R3hL7N+zoZ+M/DCQv/lxvE7AgS47b
+        Lsai51d2eufkAiui+a4XVEANxgRX+Jwo5+idpBOTw7rFVuB0e/iOXQruqKqafb9h
+        aPrINTlxuCuLrl36HULhi/az50+JFPjyVTJeHh/fJ3n47pu8l8eUTmvi7uHRIa1F
+        n30dfOVrfp8LW7BEARTHnFudYSxXj3gSidQPyQxjd/vNMxBfnQJUg==
+X-ME-Sender: <xms:dV45YgMQ6Yztp9ufzTsR3nxZpap_gkiFLGDG00grJUG1TkMZFWBGfw>
+    <xme:dV45Ym-fWAi0YiDvPIibpZzsKDmAF1OBpKbfxCWq9etkERsosNaxGsqw1NZm-xyHk
+    MGKiG2sMTRyHZBF2XA>
+X-ME-Received: <xmr:dV45YnT0rWDdFjonpkbmpVbv4UwtxfnG0ge8X1RO1lxtKd-Y0KCgykZ6kFgvuVx7yEqQa8Gp2gvX0tn1PBmir-ze>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeggedgkedvucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,28 +53,28 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeggedgkedvucetufdoteggod
     ftrfgrthhtvghrnhepffelvddujefgieetvdelveetudeukeektdejvdegvdfgudelteff
     ueejvdevkeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
     homhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:xF05Ym7CKxyUwvVfPam-8Je8zT8EOBxph7hmt4h9Tm7LEw6DLn0ryQ>
-    <xmx:xF05Yi5h_CzsWnVUDYGwaj1aOgDYjE6aXZrt9YMJ2GG1SfnKk9TIqg>
-    <xmx:xF05YuhQE-Jg40QvwLby63fcGcZpF8OaA11behJtOgpEu2PQmMTn-w>
-    <xmx:xF05Yt3-yVkmiy5H2z74Ou50lkF1XXPLwbyfWTYwND_fRFprehfGBw>
+X-ME-Proxy: <xmx:dl45You5hKt-Vl7KPEi9lWivMRGKkOM3ISe5iJgZJX1eesQB3W1_Dg>
+    <xmx:dl45YoemnRh7_f7JvM4ax3n9z2AhwDGpsPIVTJcWzpFCUlIJcD-yTQ>
+    <xmx:dl45Ys3NFzY9xhENFbpjvadBfvfaUhUgWw-__JusOF4NpGZJzClS7g>
+    <xmx:dl45Yn55TImqmDt-eTqWizBaWLqs9_qtpstkLBy6k7NJDnVBipy9iQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 22 Mar 2022 01:25:22 -0400 (EDT)
-Date:   Tue, 22 Mar 2022 07:25:20 +0200
+ 22 Mar 2022 01:28:20 -0400 (EDT)
+Date:   Tue, 22 Mar 2022 07:28:18 +0200
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
         Paul Elder <paul.elder@ideasonboard.com>,
         Tomasz Figa <tfiga@google.com>,
         linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v3 15/17] media: rkisp1: debug: Add debugfs files to dump
- core and ISP registers
-Message-ID: <20220322052520.qiyf23lo4zuyuxfw@guri>
+Subject: Re: [PATCH v3 16/17] media: rkisp1: debug: Move resizer register
+ dump to debugfs
+Message-ID: <20220322052818.f7seus7fd5qdtl6p@guri>
 References: <20220319163100.3083-1-laurent.pinchart@ideasonboard.com>
- <20220319163100.3083-16-laurent.pinchart@ideasonboard.com>
+ <20220319163100.3083-17-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220319163100.3083-16-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220319163100.3083-17-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
@@ -86,124 +86,146 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 19.03.2022 18:30, Laurent Pinchart wrote:
-> It's useful to dumb the value of registers for debugging purpose. Add
-> two debugfs files to dump key core and ISP registers.
+> The debugfs support already includes support to dump core and ISP
+> registers. Move the resizer register dump there too to make the
+> userspace interface consistent.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 > ---
->  .../platform/rockchip/rkisp1/rkisp1-debug.c   | 72 +++++++++++++++++++
->  1 file changed, 72 insertions(+)
+>  .../platform/rockchip/rkisp1/rkisp1-debug.c   | 48 +++++++++++++++++++
+>  .../platform/rockchip/rkisp1/rkisp1-resizer.c | 37 --------------
+>  2 files changed, 48 insertions(+), 37 deletions(-)
 > 
 > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> index da3ed0ab697a..97be529a74e8 100644
+> index 97be529a74e8..c89779daf319 100644
 > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
 > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> @@ -17,6 +17,70 @@
->  #include "rkisp1-common.h"
->  #include "rkisp1-regs.h"
+> @@ -81,6 +81,50 @@ static int rkisp1_debug_dump_isp_regs_show(struct seq_file *m, void *p)
+>  }
+>  DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_isp_regs);
 >  
-> +struct rkisp1_debug_register {
-> +	u32 offset;
-
-I'd call it 'reg' or 'address' instead of 'offset' since it is really what we call reg
-
-> +	const char * const name;
-> +};
+> +#define RKISP1_DEBUG_RSZ_REG_DEC(name) { \
+> +	RKISP1_CIF_##name, RKISP1_CIF_##name##_SHD, #name, false \
+> +}
 > +
-> +#define RKISP1_DEBUG_REG(name)	{ RKISP1_CIF_##name, #name }
+> +#define RKISP1_DEBUG_RSZ_REG_HEX(name) { \
+> +	RKISP1_CIF_##name, RKISP1_CIF_##name##_SHD, #name, true \
+> +}
 > +
-> +static int rkisp1_debug_dump_regs(struct seq_file *m,
-> +				  const struct rkisp1_debug_register *regs)
+> +static int rkisp1_debug_dump_rsz_regs_show(struct seq_file *m, void *p)
 > +{
-> +	struct rkisp1_device *rkisp1 = m->private;
-> +	u32 val;
-> +	int ret;
+> +	static const struct {
+> +		u32 reg;
+> +		u32 shadow;
+> +		const char * const name;
+> +		bool hex;
+> +	} registers[] = {
+> +		RKISP1_DEBUG_RSZ_REG_HEX(RSZ_CTRL),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_SCALE_HY),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_SCALE_HCB),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_SCALE_HCR),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_SCALE_VY),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_SCALE_VC),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_PHASE_HY),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_PHASE_HC),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_PHASE_VY),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_PHASE_VC),
+> +		{ /* Sentinel */ },
+> +	};
 > +
-> +	ret = pm_runtime_get_if_in_use(rkisp1->dev);
-> +	if (ret)
-> +		return ret;
-
-Same comment as in the data collection patch, should it be
-if (ret <= 0)
-	return ret;
-?
-
-Thanks,
-Dafna
-
+> +	struct rkisp1_resizer *rsz = m->private;
+> +	typeof(registers[0]) *reg;
+> +	u32 val, shd;
 > +
-> +	for ( ; regs->name; ++regs) {
-> +		val = rkisp1_read(rkisp1, regs->offset);
-> +		seq_printf(m, "%14s: 0x%08x\n", regs->name, val);
+Why here we don't call the pm_runtime_get_if_in_use ?
+
+> +	for (reg = registers; reg->name; ++reg) {
+> +		val = rkisp1_read(rsz->rkisp1, rsz->regs_base + reg->reg);
+> +		shd = rkisp1_read(rsz->rkisp1, rsz->regs_base + reg->shadow);
+> +		seq_printf(m, reg->hex ? "%14s: 0x%08x/0x%08x\n" : "%14s: %u/%u\n",
+> +			   reg->name, val, shd);
 > +	}
-> +
-> +	pm_runtime_put(rkisp1->dev);
 > +
 > +	return 0;
 > +}
-> +
-> +static int rkisp1_debug_dump_core_regs_show(struct seq_file *m, void *p)
-> +{
-> +	static const struct rkisp1_debug_register registers[] = {
-> +		RKISP1_DEBUG_REG(VI_CCL),
-> +		RKISP1_DEBUG_REG(VI_ICCL),
-> +		RKISP1_DEBUG_REG(VI_IRCL),
-> +		RKISP1_DEBUG_REG(VI_DPCL),
-> +		RKISP1_DEBUG_REG(MI_CTRL),
-> +		RKISP1_DEBUG_REG(MI_BYTE_CNT),
-> +		RKISP1_DEBUG_REG(MI_CTRL_SHD),
-> +		RKISP1_DEBUG_REG(MI_RIS),
-> +		RKISP1_DEBUG_REG(MI_STATUS),
-> +		RKISP1_DEBUG_REG(MI_DMA_CTRL),
-> +		RKISP1_DEBUG_REG(MI_DMA_STATUS),
-> +		{ /* Sentinel */ },
-> +	};
-> +
-> +	return rkisp1_debug_dump_regs(m, registers);
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_core_regs);
-> +
-> +static int rkisp1_debug_dump_isp_regs_show(struct seq_file *m, void *p)
-> +{
-> +	static const struct rkisp1_debug_register registers[] = {
-> +		RKISP1_DEBUG_REG(ISP_CTRL),
-> +		RKISP1_DEBUG_REG(ISP_ACQ_PROP),
-> +		RKISP1_DEBUG_REG(ISP_FLAGS_SHD),
-> +		RKISP1_DEBUG_REG(ISP_RIS),
-> +		RKISP1_DEBUG_REG(ISP_ERR),
-> +		{ /* Sentinel */ },
-> +	};
-> +
-> +	return rkisp1_debug_dump_regs(m, registers);
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_isp_regs);
+> +DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_rsz_regs);
 > +
 >  #define RKISP1_DEBUG_DATA_COUNT_BINS	32
 >  #define RKISP1_DEBUG_DATA_COUNT_STEP	(4096 / RKISP1_DEBUG_DATA_COUNT_BINS)
 >  
-> @@ -68,6 +132,7 @@ DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_input_status);
->  void rkisp1_debug_init(struct rkisp1_device *rkisp1)
->  {
->  	struct rkisp1_debug *debug = &rkisp1->debug;
-> +	struct dentry *regs_dir;
->  
->  	debug->debugfs_dir = debugfs_create_dir(dev_name(rkisp1->dev), NULL);
->  
-> @@ -96,6 +161,13 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
->  			     &debug->frame_drop[RKISP1_SELFPATH]);
->  	debugfs_create_file("input_status", 0444, debug->debugfs_dir, rkisp1,
->  			    &rkisp1_debug_input_status_fops);
-> +
-> +	regs_dir = debugfs_create_dir("regs", debug->debugfs_dir);
-> +
-> +	debugfs_create_file("core", 0444, regs_dir, rkisp1,
-> +			    &rkisp1_debug_dump_core_regs_fops);
-> +	debugfs_create_file("isp", 0444, regs_dir, rkisp1,
-> +			    &rkisp1_debug_dump_isp_regs_fops);
+> @@ -168,6 +212,10 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>  			    &rkisp1_debug_dump_core_regs_fops);
+>  	debugfs_create_file("isp", 0444, regs_dir, rkisp1,
+>  			    &rkisp1_debug_dump_isp_regs_fops);
+> +	debugfs_create_file("mrsz", 0444, regs_dir, &rkisp1->resizer_devs[0],
+> +			    &rkisp1_debug_dump_rsz_regs_fops);
+> +	debugfs_create_file("srsz", 0444, regs_dir, &rkisp1->resizer_devs[1],
+> +			    &rkisp1_debug_dump_rsz_regs_fops);
+
+s/resizer_devs[0]/resizer_devs[RKISP1_MAINPATH]/
+s/resizer_devs[1]/resizer_devs[RKISP1_SELFPATH]/
+
+Thanks,
+Dafna
+
 >  }
 >  
 >  void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> index ac1b357a2a3a..1c07985c810d 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> @@ -203,41 +203,6 @@ static void rkisp1_dcrop_config(struct rkisp1_resizer *rsz)
+>   * Resizer hw configs
+>   */
+>  
+> -static void rkisp1_rsz_dump_regs(struct rkisp1_resizer *rsz)
+> -{
+> -	dev_dbg(rsz->rkisp1->dev,
+> -		"RSZ_CTRL 0x%08x/0x%08x\n"
+> -		"RSZ_SCALE_HY %d/%d\n"
+> -		"RSZ_SCALE_HCB %d/%d\n"
+> -		"RSZ_SCALE_HCR %d/%d\n"
+> -		"RSZ_SCALE_VY %d/%d\n"
+> -		"RSZ_SCALE_VC %d/%d\n"
+> -		"RSZ_PHASE_HY %d/%d\n"
+> -		"RSZ_PHASE_HC %d/%d\n"
+> -		"RSZ_PHASE_VY %d/%d\n"
+> -		"RSZ_PHASE_VC %d/%d\n",
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_CTRL),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_CTRL_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HY),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HY_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HCB),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HCB_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HCR),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HCR_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_VY),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_VY_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_VC),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_VC_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_HY),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_HY_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_HC),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_HC_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_VY),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_VY_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_VC),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_VC_SHD));
+> -}
+> -
+>  static void rkisp1_rsz_update_shadow(struct rkisp1_resizer *rsz,
+>  				     enum rkisp1_shadow_regs_when when)
+>  {
+> @@ -386,8 +351,6 @@ static void rkisp1_rsz_config(struct rkisp1_resizer *rsz,
+>  
+>  	/* set values in the hw */
+>  	rkisp1_rsz_config_regs(rsz, &sink_y, &sink_c, &src_y, &src_c, when);
+> -
+> -	rkisp1_rsz_dump_regs(rsz);
+>  }
+>  
+>  /* ----------------------------------------------------------------------------
 > -- 
 > Regards,
 > 
