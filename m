@@ -2,308 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE2514E3BD1
-	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 10:37:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8EC64E3BE0
+	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 10:46:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232632AbiCVJjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Mar 2022 05:39:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57656 "EHLO
+        id S231180AbiCVJrl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Mar 2022 05:47:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232608AbiCVJjS (ORCPT
+        with ESMTP id S231794AbiCVJrk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Mar 2022 05:39:18 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D6865F88;
-        Tue, 22 Mar 2022 02:37:50 -0700 (PDT)
-X-UUID: 9ef5b65970ee4d8bba8a8f4bf3a27690-20220322
-X-UUID: 9ef5b65970ee4d8bba8a8f4bf3a27690-20220322
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <ck.hu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1629472461; Tue, 22 Mar 2022 17:37:44 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 22 Mar 2022 17:37:43 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 22 Mar
- 2022 17:37:41 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 22 Mar 2022 17:37:41 +0800
-Message-ID: <0a81bedfecd0f691c4da06640c50fc409f1e2cb0.camel@mediatek.com>
-Subject: Re: [PATCH v14 1/6] soc: mediatek: mutex: add common interface to
- accommodate multiple modules operationg MUTEX
-From:   CK Hu <ck.hu@mediatek.com>
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Jernej Skrabec" <jernej.skrabec@siol.net>
-CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        <tfiga@chromium.org>, <drinkcat@chromium.org>,
-        <pihsun@chromium.org>, <hsinyi@google.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        <menghui.lin@mediatek.com>, <sj.huang@mediatek.com>,
-        <allen-kh.cheng@mediatek.com>, <randy.wu@mediatek.com>,
-        <jason-jh.lin@mediatek.com>, <roy-cw.yeh@mediatek.com>,
-        <river.cheng@mediatek.com>, <srv_heupstream@mediatek.com>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Tue, 22 Mar 2022 17:37:41 +0800
-In-Reply-To: <20220317143926.15835-2-moudy.ho@mediatek.com>
-References: <20220317143926.15835-1-moudy.ho@mediatek.com>
-         <20220317143926.15835-2-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Tue, 22 Mar 2022 05:47:40 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C5926A416
+        for <linux-media@vger.kernel.org>; Tue, 22 Mar 2022 02:46:09 -0700 (PDT)
+Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81A249DE;
+        Tue, 22 Mar 2022 10:46:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1647942367;
+        bh=IxZIMOt9d6XbBTCzYHOf+CRhAtDrs2+qQO9U6ScxHDw=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=DglucBrDYq4ccw1LXbCyhU7dVTsmLAn2Uc5wIGYUDibPoe00GcNjz6zmmfAXhPZz7
+         xEHI+CusWhTEM1jv38GOFC0hNLwbtiCpgpyPomClJOGluSm9XyTJ4Ht8tU/iKqtiNu
+         oHHWmkeYqbyTOIZL8TF2vCIp9rpP8F8QkhcNPGi0=
+Message-ID: <2661ceec-b90b-4c7c-0b65-631693b6f74b@ideasonboard.com>
+Date:   Tue, 22 Mar 2022 11:46:03 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 5/6] media: subdev: add v4l2_subdev_call_state_active()
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Pratyush Yadav <p.yadav@ti.com>
+References: <20220301105548.305191-1-tomi.valkeinen@ideasonboard.com>
+ <20220301105548.305191-6-tomi.valkeinen@ideasonboard.com>
+ <0653fa02-10d5-99cb-5adb-7c5ae262bf8c@xs4all.nl>
+ <381d99d4-ccc6-6066-03b2-4870ffdccfd5@ideasonboard.com>
+ <0d058225-d732-0368-b8be-562618ea9a8a@xs4all.nl>
+ <d40d3f0f-c1f1-301e-878d-7bdc33a494c6@ideasonboard.com>
+ <c7a49330-22a9-d24f-8b53-1dab1015c951@xs4all.nl>
+ <84e6019a-ed8a-918a-a4a9-0c868cc1b1b5@ideasonboard.com>
+ <3aa7a854-b2e3-12c5-0e2a-3d80b451ec80@xs4all.nl>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <3aa7a854-b2e3-12c5-0e2a-3d80b451ec80@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Moudy:
+On 22/03/2022 11:23, Hans Verkuil wrote:
 
-On Thu, 2022-03-17 at 22:39 +0800, Moudy Ho wrote:
-> In order to allow multiple modules to operate MUTEX hardware through
-> a common interfrace, a flexible index "mtk_mutex_table_index" needs
-> to
-> be added to replace original component ID so that like DDP and MDP
-> can add their own MUTEX table settings independently.
+> Can you make a patch that converts ov5648.c (or a similar driver) to use
+> sd->active_state? I'd like to see how that looks.
+
+I have ov5640, I can convert that one.
+> Right. So to confirm: the only reason a state-ware subdev set_fmt op is called
+> with a NULL state pointer is if it is called from non-MC bridge drivers? And if
+
+I hope so. There could be MC bridge or subdev drivers that call set_fmt 
+(or get_fmt) on other subdevs. I cannot figure out why that would be 
+done, though, and it sounds wrong to me. Afaik, with MC, set_fmt (and 
+other such calls) always come from the userspace, and each subdev is 
+configured separately from the others.
+
+But if there are such drivers, they'll get fixed along the non-MC bridge 
+drivers.
+
+> we would update those bridge drivers to always pass a non-NULL state pointer,
+> then such subdevs no longer need to care about this and can just use the state.
+
+That's correct.
+
+>>> 2.1) How to convert a bridge driver (either non-MC or MC, but no state support) to properly support a fully converted subdev (MC state-aware) driver?
+>>
+>> Converting non-MC driver to an MC driver is out of the context here, as it's not related to the active state. An MC bridge driver should work fine with state-aware subdev drivers, as the bridge driver
+>> should not call any of the subdev's state-related ops.
+>>
+>> To make a non-MC bridge driver support state-aware subdev drivers, they can use the macro in this patch.
 > 
-> In addition, 4 generic interface "mtk_mutex_set_mod",
-> "mtk_mutex_set_sof",
-> "mtk_mutex_clear_mod" and "mtk_mutex_clear_sof" have been added,
-> which is
-> expected to replace the "mtk_mutex_add_comp" and
-> "mtk_mutex_remove_comp"
-> pair originally dedicated to DDP in the future.
+> That sounds good to me.
 > 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
->  drivers/soc/mediatek/mtk-mutex.c       | 105
-> +++++++++++++++++++++++++
->  include/linux/soc/mediatek/mtk-mutex.h |  21 +++++
->  2 files changed, 126 insertions(+)
+> The only legacy bit about the macro, though, is the fact that v4l2_subdev_get_active_state()
+> can return NULL: that indicates that the subdev driver isn't properly state-aware.
 > 
-> diff --git a/drivers/soc/mediatek/mtk-mutex.c
-> b/drivers/soc/mediatek/mtk-mutex.c
-> index aaf8fc1abb43..f8c33186685a 100644
-> --- a/drivers/soc/mediatek/mtk-mutex.c
-> +++ b/drivers/soc/mediatek/mtk-mutex.c
-> @@ -151,11 +151,17 @@ enum mtk_mutex_sof_id {
->  	MUTEX_SOF_DSI3,
->  };
->  
-> +struct mtk_mutex_mod {
-> +	u8 tab;
+> So I think this should be a regular macro in v4l2-subdev.h.
+> 
+> Perhaps with a comment mentioning that v4l2_subdev_get_active_state() can be replaced by
+> v4l2_subdev_lock_and_get_active_state() once all subdevs are state-aware.
 
-tab is always 0 in this series, so remove this.
+Yes, that's true. I'll add the comment, and move this back to v4l2-subdev.h.
 
-> +	u32 value;
+>>> 2.2) What is the legacy code that such a bridge driver has to keep in order to work with older subdev drivers that are not yet MC state-aware?
+>>
+>> The older subdev drivers should keep working without any extra code.
+>>
+>>> The code needed for 1.2 and 2.2 (helper functions/macros) is legacy code, and can be marked as such.
+>>>> If this is clear, then we can work towards converting both subdev and
+>> bridge drivers and eventually (might take years!) get rid of the legacy code.
+>>>
+>>> Removing support for case 2 is probably something that we want to do sooner than later.
+>>>
+>>> For the CAL driver I do not consider non-MC support as legacy. It's legacy in the context of the CAL driver only, but API-wise it is not since there are many non-MC bridge drivers.
+>>
+>> That's true, but also, non-MC bridge drivers do not need to use this function if the subdev drivers use the method shown in 1.2. I think this is the question here:
+>>
+>> - Change all the callers and use the macro in this patch. Then the macro is not legacy.
+>> - Change the callees, in which case this macro is needed only in some cases where, for whatever reason, a specific callee has not been changed (yet?). In this case it's legacy.
+>>
+>> Changing the callers would be a nicer option, I think, but I also fear that it's very difficult and easily brings in bugs. I haven't looked closely, but I think it would be a big patch.
+> 
+> I believe changing the callers is the correct approach. Next to that I want to slowly
+> convert all subdevs to be state-aware (i.e. use sd->active_state etc). Based on past
+> experience it is a really bad idea to have all these variations in how subdevs work.
+> That should be minimized.
+> 
+> I suspect that modifying the callers isn't as bad as you might think. It is also the
+> sane approach: passing the active_state to the subdev really *is* what you want to do.
+> It is not a hack, it is the right thing. Adding a workaround in a subdev where a
+> NULL state is handled separately is, however, a hack, and a hack that is all to easy
+> to forget to implement in new drivers.
 
-Without tab, this struct is not necessary.
+Ok.
 
-> +};
-> +
->  struct mtk_mutex_data {
->  	const unsigned int *mutex_mod;
->  	const unsigned int *mutex_sof;
->  	const unsigned int mutex_mod_reg;
->  	const unsigned int mutex_sof_reg;
-> +	const struct mtk_mutex_mod *mutex_table_mod;
->  	const bool no_clk;
->  };
->  
-> @@ -445,6 +451,65 @@ void mtk_mutex_add_comp(struct mtk_mutex *mutex,
->  }
->  EXPORT_SYMBOL_GPL(mtk_mutex_add_comp);
->  
-> +void mtk_mutex_set_mod(struct mtk_mutex *mutex,
-> +		       enum mtk_mutex_table_index idx)
-> +{
-> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> mtk_mutex_ctx,
-> +						 mutex[mutex->id]);
-> +	unsigned int reg;
-> +	unsigned int offset;
-> +
-> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> +
-> +	if (idx < MUTEX_TABLE_IDX_MDP_RDMA0 ||
-> +	    idx >= MUTEX_TABLE_IDX_MAX)
+I'll send a v6 soon with the changes we've discussed, and I'll take a 
+look at ov5640.c and changing the callers.
 
-error message?
-
-> +		return;
-> +
-> +	if (mtx->data->mutex_table_mod[idx].tab)
-> +		offset = DISP_REG_MUTEX_MOD2(mutex->id);
-> +	else
-> +		offset = DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg,
-> +					    mutex->id);
-> +
-> +	reg = readl_relaxed(mtx->regs + offset);
-> +	reg |= 1 << mtx->data->mutex_table_mod[idx].value;
-> +	writel_relaxed(reg, mtx->regs + offset);
-> +}
-> +EXPORT_SYMBOL_GPL(mtk_mutex_set_mod);
-> +
-> +void mtk_mutex_set_sof(struct mtk_mutex *mutex,
-> +		       enum mtk_mutex_table_index idx)
-> +{
-> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> mtk_mutex_ctx,
-> +						 mutex[mutex->id]);
-> +	unsigned int sof_id;
-> +
-> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> +
-> +	if (idx < MUTEX_TABLE_IDX_MDP_RDMA0 ||
-> +	    idx >= MUTEX_TABLE_IDX_MAX)
-
-Ditto.
-
-> +		return;
-> +
-> +	switch (idx) {
-> +	case MUTEX_TABLE_IDX_MDP_RDMA0:
-> +	case MUTEX_TABLE_IDX_MDP_RSZ0:
-> +	case MUTEX_TABLE_IDX_MDP_RSZ1:
-> +	case MUTEX_TABLE_IDX_MDP_TDSHP0:
-> +	case MUTEX_TABLE_IDX_MDP_WROT0:
-> +	case MUTEX_TABLE_IDX_MDP_WDMA:
-> +	case MUTEX_TABLE_IDX_MDP_AAL0:
-> +	case MUTEX_TABLE_IDX_MDP_CCORR0:
-
-Error & return?
-
-Regards,
-CK
-
-> +	default:
-> +		sof_id = MUTEX_SOF_SINGLE_MODE;
-> +		break;
-> +	}
-> +
-> +	writel_relaxed(mtx->data->mutex_sof[sof_id],
-> +		       mtx->regs +
-> +		       DISP_REG_MUTEX_SOF(mtx->data->mutex_sof_reg,
-> mutex->id));
-> +}
-> +EXPORT_SYMBOL_GPL(mtk_mutex_set_sof);
-> +
->  void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
->  			   enum mtk_ddp_comp_id id)
->  {
-> @@ -485,6 +550,46 @@ void mtk_mutex_remove_comp(struct mtk_mutex
-> *mutex,
->  }
->  EXPORT_SYMBOL_GPL(mtk_mutex_remove_comp);
->  
-> +void mtk_mutex_clear_mod(struct mtk_mutex *mutex,
-> +			 enum mtk_mutex_table_index idx)
-> +{
-> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> mtk_mutex_ctx,
-> +						 mutex[mutex->id]);
-> +	unsigned int reg;
-> +	unsigned int offset;
-> +
-> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> +
-> +	if (idx < MUTEX_TABLE_IDX_MDP_RDMA0 ||
-> +	    idx >= MUTEX_TABLE_IDX_MAX)
-> +		return;
-> +
-> +	if (mtx->data->mutex_table_mod[idx].tab)
-> +		offset = DISP_REG_MUTEX_MOD2(mutex->id);
-> +	else
-> +		offset = DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg,
-> +					    mutex->id);
-> +
-> +	reg = readl_relaxed(mtx->regs + offset);
-> +	reg &= ~(1 << mtx->data->mutex_table_mod[idx].value);
-> +	writel_relaxed(reg, mtx->regs + offset);
-> +}
-> +EXPORT_SYMBOL_GPL(mtk_mutex_clear_mod);
-> +
-> +void mtk_mutex_clear_sof(struct mtk_mutex *mutex)
-> +{
-> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> mtk_mutex_ctx,
-> +						 mutex[mutex->id]);
-> +
-> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> +
-> +	writel_relaxed(MUTEX_SOF_SINGLE_MODE,
-> +		       mtx->regs +
-> +		       DISP_REG_MUTEX_SOF(mtx->data->mutex_sof_reg,
-> +					  mutex->id));
-> +}
-> +EXPORT_SYMBOL_GPL(mtk_mutex_clear_sof);
-> +
->  void mtk_mutex_enable(struct mtk_mutex *mutex)
->  {
->  	struct mtk_mutex_ctx *mtx = container_of(mutex, struct
-> mtk_mutex_ctx,
-> diff --git a/include/linux/soc/mediatek/mtk-mutex.h
-> b/include/linux/soc/mediatek/mtk-mutex.h
-> index 6fe4ffbde290..200f4365c950 100644
-> --- a/include/linux/soc/mediatek/mtk-mutex.h
-> +++ b/include/linux/soc/mediatek/mtk-mutex.h
-> @@ -10,14 +10,35 @@ struct regmap;
->  struct device;
->  struct mtk_mutex;
->  
-> +enum mtk_mutex_table_index {
-> +	/* MDP table index */
-> +	MUTEX_TABLE_IDX_MDP_RDMA0,
-> +	MUTEX_TABLE_IDX_MDP_RSZ0,
-> +	MUTEX_TABLE_IDX_MDP_RSZ1,
-> +	MUTEX_TABLE_IDX_MDP_TDSHP0,
-> +	MUTEX_TABLE_IDX_MDP_WROT0,
-> +	MUTEX_TABLE_IDX_MDP_WDMA,
-> +	MUTEX_TABLE_IDX_MDP_AAL0,
-> +	MUTEX_TABLE_IDX_MDP_CCORR0,
-> +
-> +	MUTEX_TABLE_IDX_MAX		/* ALWAYS keep at the end */
-> +};
-> +
->  struct mtk_mutex *mtk_mutex_get(struct device *dev);
->  int mtk_mutex_prepare(struct mtk_mutex *mutex);
->  void mtk_mutex_add_comp(struct mtk_mutex *mutex,
->  			enum mtk_ddp_comp_id id);
-> +void mtk_mutex_set_mod(struct mtk_mutex *mutex,
-> +		       enum mtk_mutex_table_index idx);
-> +void mtk_mutex_set_sof(struct mtk_mutex *mutex,
-> +		       enum mtk_mutex_table_index idx);
->  void mtk_mutex_enable(struct mtk_mutex *mutex);
->  void mtk_mutex_disable(struct mtk_mutex *mutex);
->  void mtk_mutex_remove_comp(struct mtk_mutex *mutex,
->  			   enum mtk_ddp_comp_id id);
-> +void mtk_mutex_clear_mod(struct mtk_mutex *mutex,
-> +			 enum mtk_mutex_table_index idx);
-> +void mtk_mutex_clear_sof(struct mtk_mutex *mutex);
->  void mtk_mutex_unprepare(struct mtk_mutex *mutex);
->  void mtk_mutex_put(struct mtk_mutex *mutex);
->  void mtk_mutex_acquire(struct mtk_mutex *mutex);
-
+  Tomi
