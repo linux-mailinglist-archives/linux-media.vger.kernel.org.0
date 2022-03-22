@@ -2,341 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4591B4E3A70
-	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 09:20:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0C6E4E3A92
+	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 09:29:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230379AbiCVIVr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Mar 2022 04:21:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34656 "EHLO
+        id S230498AbiCVIas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Mar 2022 04:30:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229833AbiCVIVq (ORCPT
+        with ESMTP id S229706AbiCVIar (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Mar 2022 04:21:46 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA075EDD6
-        for <linux-media@vger.kernel.org>; Tue, 22 Mar 2022 01:20:19 -0700 (PDT)
-Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DF98DFA;
-        Tue, 22 Mar 2022 09:20:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1647937216;
-        bh=hYR6st+9tVKKzB1cBqMUgxY9hSv4R4NsU88Z66DIClM=;
-        h=Date:Subject:From:To:References:In-Reply-To:From;
-        b=j6TA7AsoR6NTZ6rrPgM8XTK9zeI2XUUpk6kVCvnoKPUaH7dH1gvKxX2BXBSTEkLu0
-         jRh26lsDXLhB74fvyR1in/wDIPYIaAKy6ttPMuw85LUr1M+hA8CN/oBiIYCGXrleF1
-         5IzLejbsualmCRDguYDUiCSvvUc2SdNX/mjHl0pw=
-Message-ID: <1ae59a1b-d4d1-2fd3-1381-f05a962327e7@ideasonboard.com>
-Date:   Tue, 22 Mar 2022 10:20:13 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 5/6] media: subdev: add v4l2_subdev_call_state_active()
-Content-Language: en-US
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pratyush Yadav <p.yadav@ti.com>
-References: <20220301105548.305191-1-tomi.valkeinen@ideasonboard.com>
- <20220301105548.305191-6-tomi.valkeinen@ideasonboard.com>
- <0653fa02-10d5-99cb-5adb-7c5ae262bf8c@xs4all.nl>
- <381d99d4-ccc6-6066-03b2-4870ffdccfd5@ideasonboard.com>
- <0d058225-d732-0368-b8be-562618ea9a8a@xs4all.nl>
- <d40d3f0f-c1f1-301e-878d-7bdc33a494c6@ideasonboard.com>
- <c7a49330-22a9-d24f-8b53-1dab1015c951@xs4all.nl>
- <84e6019a-ed8a-918a-a4a9-0c868cc1b1b5@ideasonboard.com>
-In-Reply-To: <84e6019a-ed8a-918a-a4a9-0c868cc1b1b5@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Tue, 22 Mar 2022 04:30:47 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2057.outbound.protection.outlook.com [40.107.20.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3C4912AFC;
+        Tue, 22 Mar 2022 01:29:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F9z+fNwYgo8/cUT/SPh4kYtfPLefwSpVQvyqfsBNUdMQu3jz3Qnh2BytDRGA5iihOce9CC5h3yqAA673E88BH5lfKNTsptJoTnf1AnoxvL//2OQawMPXTQdgVsCIzc7ZVX84lSeeQ+E6lsjw3VapDS4Ip2aC8c386SnlOtPhd3bWcVG7ymXhujVEVA8wN9CV1pM2weGqzu9cpEu7yYzHKC7WB90Rn/6g47yd1Gmzw5qLYuOWdgvXtR+2Eq+4iGkIPBfxjj1t0KFMQmFsxbU5R3LFXqAeSmHt2Tg7Nfiv74aASbdJpJe1dZ12kGsVshSrPsBLX85ZgPoa369zrHf1RQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QLC6WA3DImuiSPO9+a6qjj4UKWIrSvWqS3Yz+gn9WP8=;
+ b=K5WF+eYFWIJy2gzZeqzl/26R84RJ7WYm9tfPLSyQTs9L5TgIfB+n8JLE536A8GDX/daTbwKbkr04vvZdLyH9DCd0cH+b7R0bHzoY7gz+gB7eQLRUZHjW4wfsnYarf8VPDMcgNkkBIFdbTYgNw7IKWrLq5a9t36m+62K+KUtT1F9iaWR3mKWex4czGjzyTu2a0/ziosK9C/U6b0j8HFJIqpq1jKvYf8iSmPm/mLQ+0D3wPRxNVWcL4AKrZsUFi2zXTmfclEBH7YlMeDJmrUIpq7L3NlRgowgQsM11zoDjnamsubmLdFACBjtDIdqRf+ZNualfkArwNWJBKAMPyuilGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QLC6WA3DImuiSPO9+a6qjj4UKWIrSvWqS3Yz+gn9WP8=;
+ b=OWQ6Th2ZdmOhb0qR0tx5VX1XYnKykGNPGFqUnrJ7e88QBreGyusOMB/XYw9ZJhryusI3VTUFK5jUBMxnVqHj4Tnd0LGaNTq0PEIAWDO8xzOPcfWzX67lx+v+seGyX9hgDt8HgHOtK9OW1Ej3bXC8AyzmGto+U3+qVdKSYuIxpuc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by AM6PR0402MB3639.eurprd04.prod.outlook.com (2603:10a6:209:19::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.22; Tue, 22 Mar
+ 2022 08:29:16 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::c39:69cf:c4ea:967]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::c39:69cf:c4ea:967%5]) with mapi id 15.20.5081.023; Tue, 22 Mar 2022
+ 08:29:16 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, shawnguo@kernel.org
+Cc:     hverkuil-cisco@xs4all.nl, robh+dt@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, aisheng.dong@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: amphion: ensure the buffer count is not less than min_buffer
+Date:   Tue, 22 Mar 2022 16:28:59 +0800
+Message-Id: <20220322082859.9834-1-ming.qian@nxp.com>
+X-Mailer: git-send-email 2.33.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0039.apcprd02.prod.outlook.com
+ (2603:1096:4:196::9) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: faee8183-0aab-458b-8379-08da0bde0d7c
+X-MS-TrafficTypeDiagnostic: AM6PR0402MB3639:EE_
+X-Microsoft-Antispam-PRVS: <AM6PR0402MB36393B29CCBFDCB8ADFEC8F4E7179@AM6PR0402MB3639.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UPIKnYxAjExUWICTMInxAFPxYxwF2OO2Nq9JA4x66c7q+8/78IdliAePF8sAa1DxJ2q2/wOtZAt1pZ+XSbo1tX4TcHZrLk9adAoj5UKE6qCSTw/ihWrkDqeI+qinNJJNGmwn5acUkDnuz8h/rfiDOHpmZOAgdVLPVKvHtmBEyH6qTgsdk1AIhiAtv8Lho52C4Rv6E/80/tCAikxKxOd5HaLB2ZeIdpq3rKVb9Oz5yHKqLl0LMmePFy0xInOGB8dvm2nw7xPUiPvJk6G5Q8zozXfg2mKafEdUKZAfv4w+8EYpd3/rBpHAJRkXj9ooUMrbjOGlX/feW9iSO8m8VJu9ONYeYk0MB+pFGgt59t7iQdbMWe48AYg5ivVF9imbig+KobDK7qXdzf7sdtspZm8xhpdxb+xHcSd1kxE1ra565tccLjTUk8BYjP2DJCUZAo7l3UBy8M75jwGufbdfuedodvmLuN0rqo1EOy0prDxwC4CMtXa3OBP3hSs3yR3IAWYSRao4De7n64tcP8B/KSpkQuHTZ/hUP3qIL+DxJBfxv+mIQ7BdAkHGJkTCHZJ1WFnaRyH2LqZJyAapnyf58CGJ4cX31PZBFLPelRJEHYLVLPXk1mv+fkQmCs32U+VpUBg2m62hvw7vlyHm3GK9vOV0kx3r2dH36ke0TpRMW+f7aRnJRHy0Q65K2VRUSJsOVqRKzTUgN+tBaXcb9R6NFGtlXg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8676002)(5660300002)(7416002)(2616005)(6666004)(508600001)(86362001)(8936002)(6486002)(4326008)(66556008)(66946007)(66476007)(186003)(26005)(38100700002)(38350700002)(2906002)(6512007)(52116002)(6506007)(44832011)(4744005)(36756003)(1076003)(316002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wKWXPfYOM/UxF8ycWekbziks3bCfAu8TRF9aPHdrjJ/a+tjzptt4YLckVDRG?=
+ =?us-ascii?Q?T8+JQIrrPHDoMSefIfpbxJbS4w48kDIhKlcKvAqySUD11mbOSQLVpFR9mqGo?=
+ =?us-ascii?Q?9z23Gc4HG4GTulgAKbXAqCfv2c1cMp7NHM8PudNXTkeL3Z0fJO1to/4ZYCx3?=
+ =?us-ascii?Q?Uj/xEbrdPJWSxWD4Y87oohciLtZgp5MyXDY65wyCf5zD3RdvI+f177N5CTxZ?=
+ =?us-ascii?Q?Jd7Fq7K7hb78IQieqMQTpphJwdZBrbMji33jAxL3QafIeFqXbWv3unZWyF3H?=
+ =?us-ascii?Q?krDiQn+/CBvurBEb/aQim9XV/tST9FiMtyUF9cZl7V+UiXBgIsHroXhrl6LW?=
+ =?us-ascii?Q?uzBqiLU2R7OiUlm/eb+mgKOEPupC6Kwc4VA/DtItJmxZudbBeAyJ3rc/iv6C?=
+ =?us-ascii?Q?3EjkCzkysNKvXkn2xupLZxbWgHr7k3DsCiDUWteQDYxZD3CgOdQzS6DcNYXQ?=
+ =?us-ascii?Q?mGCvuUD7Hk+Mzz9T+YAi4nEi1GP4N9PE9xr2+jLREsFNN/bxivaubeYicnA+?=
+ =?us-ascii?Q?DBu4C2mvex0OTk9zxGBGX0iY76t+LyS1eTuIhkebM3NHtgvo/MPgTzIpk85n?=
+ =?us-ascii?Q?S70RuRzBAc0jXcjqqk44GB3NWOpJuxw6W+Ylge/uN4O7qbR1r41Su6fOsDry?=
+ =?us-ascii?Q?ZgXBM/HHyMBJRwUp2864GISLION91FuB5oqqnQ3/TDpS1+agtkX8ZFIrkpz+?=
+ =?us-ascii?Q?yB2skKGkKVs4gjYc9SuyRWGMtTAd27QXU3rwm6wT8IdqFQiU00jWATwkVKUP?=
+ =?us-ascii?Q?4Tqv+uSjZH9fnO+uuG1curAz6oU9IuejqaBEAmEBw7n6ojf1iTXg/2rcgMHG?=
+ =?us-ascii?Q?4aFatdGzwGTDK4JDWwha9pCHN9AAcmFFLZHJVlzFwsgRTlpdKhpZuM+fmcus?=
+ =?us-ascii?Q?B29IoZc0No1IHGOBg+FhfcmfIlVnHGn7KuJpzUx8cOp0kKsXD5uEbV//cKPD?=
+ =?us-ascii?Q?VoDQ11aIQ3QSShp0e1Ll7L/B7CW9+JTBB+7p99nbM14Vxan+h01MSS7JO+EV?=
+ =?us-ascii?Q?EjnKihTyZczj2CjMslHvYTQbsI6gkbAQTrURCWIfhGXpKOWVCxg0Sx9hmzW1?=
+ =?us-ascii?Q?T5ttrxNzxPZCrueujwlTEt0XopySPI8Vvfzf+mbG+oPIlM3s/IPChfE3Bw/B?=
+ =?us-ascii?Q?K2qQUL/wbKlru5O7pk45s2eTVNPlqGor28GgdY+AXPB5SpkQJkUMSS+hpauO?=
+ =?us-ascii?Q?jGmIcFpvDIfG90EKQLfSlDBnc+ec2Ao0yq5Bia6kOHXfjj5DF2OD2oRE+al4?=
+ =?us-ascii?Q?ZznxO0G7urYD0nzMEyESa8ugQiwOCJqnQXNIVFyncOjv54UKHgkrLnrqABaQ?=
+ =?us-ascii?Q?WERORks6qGdp7wFEb2wLc3io/+uTWgh0K804tTA7UQfgbf4zlhweg7cIcCyV?=
+ =?us-ascii?Q?IFTQZvgQU0b8t1+TQXp0s8jlnNVebLRyIrU6RE8s8Y35KFuQu6mWosuFG3Bn?=
+ =?us-ascii?Q?FJFu8tpa+T8LLvm4zkn0wt5J09cABFn/?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: faee8183-0aab-458b-8379-08da0bde0d7c
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2022 08:29:16.6224
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MIEH4rKEG4aJYYkEaY/SQ0YJPhjjwz81aFwrsrmMw57PP1179TvNMMtH1aPiXW7fLcpdFjqlf6MgfJ5sZdO53A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0402MB3639
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+the output buffer count should >= min_buffer_out
+the capture buffer count should >= min_buffer_cap
 
-On 07/03/2022 16:00, Tomi Valkeinen wrote:
-> On 07/03/2022 11:51, Hans Verkuil wrote:
->> Hi Tomi,
->>
->> On 3/7/22 10:16, Tomi Valkeinen wrote:
->>> Hi Hans,
->>>
->>> On 07/03/2022 10:36, Hans Verkuil wrote:
->>>>
->>>>
->>>> On 3/7/22 08:16, Tomi Valkeinen wrote:
->>>>> Hi Hans,
->>>>>
->>>>> On 04/03/2022 15:34, Hans Verkuil wrote:
->>>>>> Hi Tomi,
->>>>>>
->>>>>> On 3/1/22 11:55, Tomi Valkeinen wrote:
->>>>>>> Add v4l2_subdev_call_state_active() macro to help calling subdev ops
->>>>>>> that take a subdev state as a parameter. Normally the v4l2 framework
->>>>>>> will lock and pass the correct subdev state to the subdev ops, 
->>>>>>> but there
->>>>>>> are legacy situations where this is not the case (e.g. non-MC video
->>>>>>> device driver calling set_fmt in a source subdev).
->>>>>>>
->>>>>>> As this macro is only needed for legacy use cases, the macro is 
->>>>>>> added in
->>>>>>> a new header file, v4l2-subdev-legacy.h.
->>>>>>>
->>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>>>>> ---
->>>>>>>     include/media/v4l2-subdev-legacy.h | 42 
->>>>>>> ++++++++++++++++++++++++++++++
->>>>>>>     1 file changed, 42 insertions(+)
->>>>>>>     create mode 100644 include/media/v4l2-subdev-legacy.h
->>>>>>>
->>>>>>> diff --git a/include/media/v4l2-subdev-legacy.h 
->>>>>>> b/include/media/v4l2-subdev-legacy.h
->>>>>>> new file mode 100644
->>>>>>> index 000000000000..6a61e579b629
->>>>>>> --- /dev/null
->>>>>>> +++ b/include/media/v4l2-subdev-legacy.h
->>>>>>> @@ -0,0 +1,42 @@
->>>>>>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->>>>>>> +/*
->>>>>>> + *  V4L2 sub-device legacy support header.
->>>>>>> + *
->>>>>>> + *  Copyright (C) 2022  Tomi Valkeinen 
->>>>>>> <tomi.valkeinen@ideasonboard.com>
->>>>>>> + */
->>>>>>> +
->>>>>>> +#ifndef _V4L2_SUBDEV_LEGACY_H
->>>>>>> +#define _V4L2_SUBDEV_LEGACY_H
->>>>>>> +
->>>>>>> +/**
->>>>>>> + * v4l2_subdev_call_state_active - call an operation of a 
->>>>>>> v4l2_subdev which
->>>>>>> + *                   takes state as a parameter, passing the
->>>>>>> + *                   subdev its active state.
->>>>>>> + *
->>>>>>> + * @sd: pointer to the &struct v4l2_subdev
->>>>>>> + * @o: name of the element at &struct v4l2_subdev_ops that 
->>>>>>> contains @f.
->>>>>>> + *     Each element there groups a set of callbacks functions.
->>>>>>> + * @f: callback function to be called.
->>>>>>> + *     The callback functions are defined in groups, according to
->>>>>>> + *     each element at &struct v4l2_subdev_ops.
->>>>>>> + * @args: arguments for @f.
->>>>>>> + *
->>>>>>> + * This is similar to v4l2_subdev_call(), except that this 
->>>>>>> version can only be
->>>>>>> + * used for ops that take a subdev state as a parameter. The 
->>>>>>> macro will get the
->>>>>>> + * active state and lock it before calling the op, and unlock it 
->>>>>>> after the
->>>>>>> + * call.
->>>>>>> + */
->>>>>>
->>>>>> You should explain why this is a legacy macro and, ideally, what 
->>>>>> would need to
->>>>>> be done to get rid of it. The first is in the commit log, but 
->>>>>> nobody reads that :-)
->>>>>>
->>>>>> But if just using it in a non-MC video device driver constitutes 
->>>>>> 'legacy' use,
->>>>>> then I disagree with that. There are many non-MC video device 
->>>>>> drivers, nothing
->>>>>> legacy about that.
->>>>>
->>>>> It's difficult to define all the scenarios where this can be used, 
->>>>> but the ones I can imagine fall under legacy (depending on how you 
->>>>> define that, though).
->>>>>
->>>>> I use this in CAL driver, which supports non-MC (legacy) and MC. 
->>>>> CAL has a bunch of video devices (one for each DMA engine) and two 
->>>>> CSI-2 PHY devices (v4l2 subdevs).
->>>>>
->>>>> When operating in MC mode, the userspace will call, e.g., set_fmt 
->>>>> in the PHY subdev, and so forth.
->>>>>
->>>>> But in non-MC case the userspace calls VIDIOC_S_FMT in the video 
->>>>> dev, and the video dev has to propagate that to the PHY subdev. I 
->>>>> do this propagation using the v4l2_subdev_call_state_active macro.
->>>>>
->>>>> I don't know if there are other drivers that support both non-MC 
->>>>> and MC modes. I could also just move this macro to the CAL driver, 
->>>>> and we could add this to the v4l2 framework if we see other drivers 
->>>>> using similar constructs.
->>>>
->>>> It is common to have non-MC drivers that call set_fmt of a subdev.
->>>> Wouldn't they all need to use this helper macro? If so, then this is 
->>>> NOT a
->>>> legacy use, it's just a non-MC driver use.
->>>
->>> These non-MC drivers that call set_fmt of a subdev, they're video 
->>> device drivers, right? In other words, there are no subdev drivers 
->>> that call set_fmt on other subdevs?
->>
->> Probably not, but I am not 100% certain. There are a few nested subdev 
->> cases, but I don't remember which.
->>
->>>
->>> This does get a bit complex, keeping the old and new code working 
->>> together. In this context, I think we have three different "classes":
->>>
->>> 1. non-MC
->>> 2. MC, no state support
->>> 3. MC, state support
->>
->> Are you talking about subdev drivers or bridge drivers? It's a bit 
->> confusing. I'm assuming it can be either.
-> 
-> Yes, I mean either one.
-> 
->>> We have classes 1 and 2 in upstream, and 3 will be enabled with this 
->>> series (and expanded with the streams series).
->>>
->>> Classes 1 and 2 continue working as before. If you have a pipeline 
->>> with only class 3 drivers, it works without any legacy "hacks". The 
->>> problems come when you combine 1 or 2 with 3. Or possibly the 
->>> problems appear only when combining class 1 and class 3, as class 2 
->>> drivers are not supposed to call subdev ops which take a state 
->>> parameter on other subdevs.
->>>
->>> A class 3 driver expects to get either a try or an active state as a 
->>> parameter, but class 1 drivers pass NULL for the active state. If you 
->>> write a class 3 driver and want it to work with class 1 (without any 
->>> changes to those drivers), you must do extra plumbing in the ops 
->>> functions, to catch the NULL state case and get & lock the state 
->>> yourself. If you do that, this macro is not needed.
->>>
->>> Alternatively, class 1 drivers could be changed to use this macro, so 
->>> that a possible class 3 driver in the pipeline would work without 
->>> additional code. But there are a lot of class 1 drivers, and thus 
->>> modifications, and I wasn't planning to go that way.
->>>
->>> The CAL driver I mentioned supports both class 1 and class 3 (via a 
->>> module parameter) in the video dev driver, and the class 1 mode uses 
->>> this macro as CAL's PHY subdev (part of the same driver) is a class 3 
->>> subdev. The class 1 support is legacy support in CAL's case.
->>>
->>> So... Depending on what kind of driver combinations we want to 
->>> support, this may or may not be legacy, depending on how you define 
->>> legacy =).
->>
->> Let me try to explain what my concerns are. Eventually I would really 
->> like all subdevs to be capable of working with MC bridge drivers, i.e. 
->> have state support. Bridge drivers can be either MC or non-MC.
->>
->> So I would like to know:
->>
->> 1.1) How to convert a subdev driver to a MC state-aware subdev driver?
-> 
-> I presume you mean how to convert an MC subdev driver to state-aware MC 
-> driver. If you have a non-MC subdev driver, then that first needs to be 
-> converted to an MC driver, which is out of scope here.
-> 
-> Here's an example commit where I convert OV10635 to streams:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git/commit/?h=streams/work-v11&id=ffb08af15f04ef2ce0a00bb356e957c839d6bccb 
-> 
-> 
-> However, the commit is on top of the streams series and I add support 
-> for multiple streams in addition to the active state, so 1) it's not as 
-> simple as it could be (e.g. get_frame_desc() and set_routing() ops could 
-> be left out), and 2) it's not using the old-style v4l2_subdev_pad_config 
-> (which is the only option on top of this series), but the new routes & 
-> streams.
-> 
-> So the example doesn't quite answer to your question... I haven't looked 
-> at implementing a driver which would be state-aware but not 
-> streams-aware, but I think it's essentially just:
-> 
-> - Use v4l2_subdev_init_finalize() to create the active state storage
-> - Always use state->pads instead of something stored in the driver's 
-> private data for active case.
-> 
->> 1.2) What is the legacy code that such a MC state-aware subdev driver 
->> has to keep in order to work with older bridge drivers that do not 
->> support such subdev drivers? (i.e. they pass NULL as the state)
-> 
-> I believe the only extra code needed is to handle the state == NULL 
-> case. This means adding code to each subdev op which has the state as a 
-> parameter, and doing, perhaps, something like this:
-> 
-> my_set_fmt(sd, _state, fmt)
-> {
->      state = _state
-> 
->      if (!_state)
->          state = v4l2_subdev_lock_and_get_active_state(sd);
-> 
->      ... use 'state' here ...
-> 
->      if (!_state)
->          v4l2_subdev_unlock_state(state);
-> }
-> 
-> Maybe we can somehow macro-ify the above, which creates a wrapper for 
-> the op. Or, as I mentioned, we could try to change all the drivers that 
-> do those calls, so that they use the macro in this patch instead.
-> 
->> 2.1) How to convert a bridge driver (either non-MC or MC, but no state 
->> support) to properly support a fully converted subdev (MC state-aware) 
->> driver?
-> 
-> Converting non-MC driver to an MC driver is out of the context here, as 
-> it's not related to the active state. An MC bridge driver should work 
-> fine with state-aware subdev drivers, as the bridge driver should not 
-> call any of the subdev's state-related ops.
-> 
-> To make a non-MC bridge driver support state-aware subdev drivers, they 
-> can use the macro in this patch.
-> 
->> 2.2) What is the legacy code that such a bridge driver has to keep in 
->> order to work with older subdev drivers that are not yet MC state-aware?
-> 
-> The older subdev drivers should keep working without any extra code.
-> 
->> The code needed for 1.2 and 2.2 (helper functions/macros) is legacy 
->> code, and can be marked as such.
->> > If this is clear, then we can work towards converting both subdev and 
-> bridge drivers and eventually (might take years!) get rid of the legacy 
-> code.
->>
->> Removing support for case 2 is probably something that we want to do 
->> sooner than later.
->>
->> For the CAL driver I do not consider non-MC support as legacy. It's 
->> legacy in the context of the CAL driver only, but API-wise it is not 
->> since there are many non-MC bridge drivers.
-> 
-> That's true, but also, non-MC bridge drivers do not need to use this 
-> function if the subdev drivers use the method shown in 1.2. I think this 
-> is the question here:
-> 
-> - Change all the callers and use the macro in this patch. Then the macro 
-> is not legacy.
-> - Change the callees, in which case this macro is needed only in some 
-> cases where, for whatever reason, a specific callee has not been changed 
-> (yet?). In this case it's legacy.
-> 
-> Changing the callers would be a nicer option, I think, but I also fear 
-> that it's very difficult and easily brings in bugs. I haven't looked 
-> closely, but I think it would be a big patch.
-> 
-> And it's not clear to me if there's a benefit: do all those drivers ever 
-> need to interact a state-aware subdev driver? If they do, maybe there 
-> are only a few such subdev drivers, and it's not a big issue to have the 
-> lock/unlock code in those state-aware subdev drivers. All the other 
-> state-aware subdev drivers would not need the legacy support code as 
-> they're used only in more modern pipelines.
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+---
+ drivers/media/platform/amphion/vpu_v4l2.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Did the above explain the situation enough? I'm ok with both options 
-(changing the callers or callees), but I also think we don't need to 
-make the decision know.
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index cbf3315605a9..72a0544f4da3 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -355,6 +355,10 @@ static int vpu_vb2_queue_setup(struct vb2_queue *vq,
+ 		return 0;
+ 	}
+ 
++	if (V4L2_TYPE_IS_OUTPUT(vq->type))
++		*buf_count = max_t(unsigned int, *buf_count, inst->min_buffer_out);
++	else
++		*buf_count = max_t(unsigned int, *buf_count, inst->min_buffer_cap);
+ 	*plane_count = cur_fmt->num_planes;
+ 	for (i = 0; i < cur_fmt->num_planes; i++)
+ 		psize[i] = cur_fmt->sizeimage[i];
+-- 
+2.33.0
 
-  Tomi
