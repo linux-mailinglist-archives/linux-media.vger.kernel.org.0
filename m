@@ -2,57 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 021394E3F78
-	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 14:24:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBD964E4289
+	for <lists+linux-media@lfdr.de>; Tue, 22 Mar 2022 16:10:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235495AbiCVNZ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Mar 2022 09:25:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50576 "EHLO
+        id S238307AbiCVPMQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Mar 2022 11:12:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235489AbiCVNZV (ORCPT
+        with ESMTP id S233694AbiCVPMP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Mar 2022 09:25:21 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 282A31260D;
-        Tue, 22 Mar 2022 06:23:53 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dmitry.osipenko)
-        with ESMTPSA id C68931F44055
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1647955432;
-        bh=UUZgFPZsB8wcF1U1Mz8f6AVwvcWgacxvmEXGc0YZ/vY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=WKpbgnfNeQ9DyrcI12UfHBreowSfUOHF2rQp2qynaOTsqV8ZvKeBPL9j0Ysz+dFbv
-         ev8TnK4xQHXmzmpHUBsUjxWbNpTCBmVvtOVUd7n3vWST3woPEJH9BZ37mD1EVgnCWW
-         TrKI6bx8XGxKhECDMzBlcCC/0mcAXlT1JIRpACiilzrQk4J35kSN+9l/xjmgVGZzLx
-         KIcSgbmlhQ9sZQa8AgIbfhoB43BnThIKq+jgIfq5KD1FC1+uX0dDSvvkX6ccR8sT2B
-         RszIyixlTXDl4+TGv+MhokLSm6jexnd+mCyLETAy51V3Ha5vzSXyMwyb1Bm7sPNr5d
-         YnWDZo7NbRvbw==
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Boris Brezillon <bbrezillon@collabora.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Laura Nao <laura.nao@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: [PATCH v1] media: videobuf2: Allow applications customize data offsets of capture buffers
-Date:   Tue, 22 Mar 2022 16:23:29 +0300
-Message-Id: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.35.1
+        Tue, 22 Mar 2022 11:12:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE1B4245BD;
+        Tue, 22 Mar 2022 08:10:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6C244B81D14;
+        Tue, 22 Mar 2022 15:10:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C6F8C340F8;
+        Tue, 22 Mar 2022 15:10:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1647961845;
+        bh=iD3r2C8ohus5StZzu+HIHENCtSsyhMruFFh9RM7/ok0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=lTfrr6Xx5T7dbCIZGWoVSA4ezDO8SPB4V6YiBOHileBU/8ywOv7AWeMUKIdBFO6mz
+         MvY51MObY0A/m/xTXiyLMLUAPYZ6+actWLn4LlYJqH3g/L4jHHzy1wCWg70oZIXspZ
+         U6x970s8lT3VvnYOpTRHlqx2tDKXxKQ8DwacUVkUrJ627HzygQZjwNdf37sragLX6I
+         bv5f/jPoJ3qdHmRLPmHthWGXr32polEsPw4OQWIeCq8MGYMWb/SYtKycLUnFl/f0w3
+         gU4qi+iDUfcOw13fViapVaP64M1Fj7vJK1yygwrMI30M63p4q3O58w9LVF3z2np3Le
+         yUcdLHGQehvQQ==
+Received: by mail-ej1-f48.google.com with SMTP id p15so36862235ejc.7;
+        Tue, 22 Mar 2022 08:10:45 -0700 (PDT)
+X-Gm-Message-State: AOAM531XSdB6/OWFAEaTqiF0zfcNM5lVuxjgPZXdnvcd8qGySgbFTyr9
+        txTki9x94MqUVpkO/HDZhsKqEE6CMN06Kin/yA==
+X-Google-Smtp-Source: ABdhPJwcstYlhae/VDeErmYlaX8hBZSodjccbiEArN1YhP3mCzfkMUHmbq6+FoN7ayATI+AtiuwrK2GB7QQaqZOLugM=
+X-Received: by 2002:a17:907:97c9:b0:6db:ab53:1fdf with SMTP id
+ js9-20020a17090797c900b006dbab531fdfmr26610884ejc.406.1647961843159; Tue, 22
+ Mar 2022 08:10:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+References: <20220317143926.15835-1-moudy.ho@mediatek.com> <20220317143926.15835-4-moudy.ho@mediatek.com>
+ <Yjj8CanzmdHeX7qz@robh.at.kernel.org>
+In-Reply-To: <Yjj8CanzmdHeX7qz@robh.at.kernel.org>
+From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date:   Tue, 22 Mar 2022 23:10:32 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-nTojmt44ts2VtXU3_kNpbn=CniHJh8dDeM0bPj8ouRA@mail.gmail.com>
+Message-ID: <CAAOTY_-nTojmt44ts2VtXU3_kNpbn=CniHJh8dDeM0bPj8ouRA@mail.gmail.com>
+Subject: Re: [PATCH v14 3/6] dt-bindings: soc: mediatek: move out common
+ module from display folder
+To:     Rob Herring <robh@kernel.org>
+Cc:     Moudy Ho <moudy.ho@mediatek.com>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jason-JH Lin <jason-jh.lin@mediatek.com>,
+        river.cheng@mediatek.com,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        roy-cw.yeh@mediatek.com,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Pi-Hsun Shih <pihsun@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        DTML <devicetree@vger.kernel.org>,
+        Hsin-Yi Wang <hsinyi@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        randy.wu@mediatek.com,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        allen-kh.cheng@mediatek.com,
+        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        menghui.lin@mediatek.com,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Rob Landley <rob@landley.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,75 +98,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use data offsets provided by applications for multi-planar capture
-buffers. This allows V4L to import and use dma-bufs exported by other
-subsystems in cases where application wants to customize data offsets
-of capture buffers in order to meet hardware alignment requirements of
-both dma-buf exporter and importer.
+Rob Herring <robh@kernel.org> =E6=96=BC 2022=E5=B9=B43=E6=9C=8822=E6=97=A5 =
+=E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=886:28=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On Thu, 17 Mar 2022 22:39:23 +0800, Moudy Ho wrote:
+> > In order to share the same hardware information with MDP3,
+> > change the MUTEX dt-binding to the path "soc/mediatek".
 
-This feature is wanted for providing a better support of media hardware
-found on Chromebooks. In particular display and camera ISP hardware of
-Rockchip and MediaTek SoCs require special handling by userspace because
-display h/w has specific alignment requirements that don't match default
-alignments expected by V4L and there is a need to customize the data
-offsets in case of multi-planar formats.
+Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 
-Some drivers already have preliminary support for data offsets
-customization of capture buffers, like NVIDIA Tegra video decoder driver
-for example, and V4L allows applications to provide data offsets for
-multi-planar output buffers, let's support such customization for the
-capture buffers as well.
-
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- Documentation/userspace-api/media/v4l/buffer.rst | 9 ++++++++-
- drivers/media/common/videobuf2/videobuf2-v4l2.c  | 7 +++++++
- 2 files changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
-index 4638ec64db00..75b1929e2acb 100644
---- a/Documentation/userspace-api/media/v4l/buffer.rst
-+++ b/Documentation/userspace-api/media/v4l/buffer.rst
-@@ -369,13 +369,20 @@ struct v4l2_plane
-       - ``data_offset``
-       - Offset in bytes to video data in the plane. Drivers must set this
- 	field when ``type`` refers to a capture stream, applications when
--	it refers to an output stream.
-+	it refers to an output or capture stream.
- 
- 	.. note::
- 
- 	   That data_offset is included  in ``bytesused``. So the
- 	   size of the image in the plane is ``bytesused``-``data_offset``
- 	   at offset ``data_offset`` from the start of the plane.
-+
-+	   For capture planes data_offset may be specified by applications
-+	   and by drivers. Driver may override application's offset or error
-+	   out buffer if offset can't be satisfied by hardware. This allows
-+	   applications to customize data offsets of imported dma-bufs.
-+	   Handling of application's offsets is driver-dependent, application
-+	   must use the resulting buffer offset.
-     * - __u32
-       - ``reserved[11]``
-       - Reserved for future use. Should be zeroed by drivers and
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index 6edf4508c636..929107a431cc 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -263,6 +263,13 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
- 						psrc->bytesused : pdst->length;
- 				pdst->data_offset = psrc->data_offset;
- 			}
-+		} else {
-+			for (plane = 0; plane < vb->num_planes; ++plane) {
-+				struct vb2_plane *pdst = &planes[plane];
-+				struct v4l2_plane *psrc = &b->m.planes[plane];
-+
-+				pdst->data_offset = psrc->data_offset;
-+			}
- 		}
- 	} else {
- 		/*
--- 
-2.35.1
-
+> >
+> > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> > ---
+> >  .../bindings/{display =3D> soc}/mediatek/mediatek,mutex.yaml      | 2 =
++-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  rename Documentation/devicetree/bindings/{display =3D> soc}/mediatek/m=
+ediatek,mutex.yaml (97%)
+> >
+>
+> Acked-by: Rob Herring <robh@kernel.org>
