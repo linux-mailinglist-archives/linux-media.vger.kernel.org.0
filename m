@@ -2,166 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7047C4E52BD
-	for <lists+linux-media@lfdr.de>; Wed, 23 Mar 2022 14:05:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6D934E52F8
+	for <lists+linux-media@lfdr.de>; Wed, 23 Mar 2022 14:22:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243536AbiCWNHI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Mar 2022 09:07:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49074 "EHLO
+        id S244239AbiCWNXh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Mar 2022 09:23:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236412AbiCWNHH (ORCPT
+        with ESMTP id S244233AbiCWNXf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Mar 2022 09:07:07 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 480546E369
-        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 06:05:38 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id p25so933383qkj.10
-        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 06:05:38 -0700 (PDT)
+        Wed, 23 Mar 2022 09:23:35 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BBD8403E1
+        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 06:22:05 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id bi12so2825096ejb.3
+        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 06:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=jP6H13YhnBeGfeYQzZ93Xibqu7njgIeGZjFH0n7MMa4=;
-        b=SVuc3CYsfFZNSxW31DMhZalADPrE6ytJWJ6fYRABmZqRer+hM1I5sG3ysnQbaxX4az
-         /I/tZmgbtqDnzRocLG4qvhI3WC7KFv99yPUmBamXoar2jTVUHmUsWCBOEtSt030geA+U
-         BEo2lntsE18w76kHid7lCBUoYeLCPKnyLwb/uDub7zaDZgbAk7sKZ+WosvjO6GsGVHOD
-         mEAWa2d0YNJ/RF3nXsSu1J/h0IRdieGzc57FA36WG4Fqe5mNM3AH6w/hRFMRGOGikpoM
-         0671oZPiP9IfaSvLOmcDSuBI+oXLGMbCKQ6ucMVCNzJTuimOc+rhbN5QnXPHA9mopXvi
-         qX4w==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=l+1fp5Or9NGgTzSThmUALq6yPKXxdpqHP2QdwrJdAo0=;
+        b=Yf2JS59+NhbHCjLE9Y4tEhd3k92P7PrN6SHNz0/g/qZNuMDTDmEgo2W9lrUvAKE+bl
+         VlrQ1vduYx28iWr1CW9he97IrIh5lCOwHYU4QdgNiaBMr/ClyEfWFrGuj1/tv+IUsdH2
+         hoXxM7xBcTRVNS+TphaGoNyz8G6t2mvdlVGHY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=jP6H13YhnBeGfeYQzZ93Xibqu7njgIeGZjFH0n7MMa4=;
-        b=pSzWGSd3wy3yY7y4qdsEjosQBlYVb+YVD3bJBXls7R9MHpENppNpSM26FPOUffE/Te
-         FBuvPmUWmY0GC6SL1nDNdGavjlWZ0yOjxZ/swy7032BQ1cyHdGhINoWboibwu79aj+d5
-         DAvQz5LjNomioPTn4lEo33ukkVenA6qJjxLxJrm4emIggaWtdq/ejXJRhEkz0i5F6YIn
-         1jQbPL9768mdn/W3hFKeIL47coqv06YoNoYHS9E/h6TZJcbLcEvU3k+P/yTLNIxlgt90
-         SFwYXeyFJgrsyqD8LNUi83kR+Wq4lpO0UMqYFJnIRbNG3kEPToeYUKlh5V58FeAtpLsh
-         2T7w==
-X-Gm-Message-State: AOAM532Cfbp1YNmp80AlMmfIfPhK7EZguFViQ24YJsTWXgk0NlRyKX3a
-        8cmw4vR38I3+M2/qcXTJZDzRNA==
-X-Google-Smtp-Source: ABdhPJyTImRZbWZybzHwuqooxwilNQZaFKxrxF+882HKRVaCtSuV6OwyhLLuhF5MwvoGm5gl2Whr5A==
-X-Received: by 2002:a05:620a:45a1:b0:67d:af98:10d5 with SMTP id bp33-20020a05620a45a100b0067daf9810d5mr18580578qkb.1.1648040737316;
-        Wed, 23 Mar 2022 06:05:37 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id y15-20020a05622a004f00b002e1aaa1738dsm16215255qtw.12.2022.03.23.06.05.36
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=l+1fp5Or9NGgTzSThmUALq6yPKXxdpqHP2QdwrJdAo0=;
+        b=BHSsN4oWKrqSDsMvCCiCW1ZAntD6XjdxQD7DFDofnlVuWipFaoQVMBIDz4bouqCYID
+         AoOzKnrHtnUXGTZje4y44Xg6KJ0UCnTDJxAec5DfPoI5pgInMT84f2lc3gDxbo648YjW
+         JwdgNd4Tw/IZfsWfwkla8WP1/AfluhL/Q7XQHdV5sAtaCZ/R702HJ4PKyoUuFfYC8JGv
+         RETy+HvYwWsT1XFVroW+0tby/SN4O9hXNvMUvNFlnqeEl6BQpOqA3PaRbrtkhLKX7lqo
+         1WngrCGpUepiyllEiIw7tPPQ8G86EBcxkLj2r3NtPtBkdsItGcJYys8Vp4Ak06x8AJex
+         Vb0Q==
+X-Gm-Message-State: AOAM531LFP6367QrOaY/5LOiktmQGZwMA6GO64PQ0WpR5b7ug6AMv8zP
+        /EWBrvsT0yxiRNDGnmfzPq8Mjg==
+X-Google-Smtp-Source: ABdhPJzrt4ulR2R6Mr81vt0b860rgmEcRf+dE4TvtYYJrPltu2t2sG4EBomF9g8Mx89gBVF/fzI0zw==
+X-Received: by 2002:a17:906:c18c:b0:6d5:8518:e567 with SMTP id g12-20020a170906c18c00b006d58518e567mr31199507ejz.37.1648041723649;
+        Wed, 23 Mar 2022 06:22:03 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id s20-20020a056402015400b00418f9574a36sm9630743edu.73.2022.03.23.06.22.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Mar 2022 06:05:36 -0700 (PDT)
-Message-ID: <a7c858461b99de2d4afad22d888acc3a74850240.camel@ndufresne.ca>
-Subject: Re: [PATCH v1] media: videobuf2: Allow applications customize data
- offsets of capture buffers
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Boris Brezillon <bbrezillon@collabora.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Laura Nao <laura.nao@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>
-Date:   Wed, 23 Mar 2022 09:05:35 -0400
-In-Reply-To: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
-References: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
+        Wed, 23 Mar 2022 06:22:03 -0700 (PDT)
+Date:   Wed, 23 Mar 2022 14:22:01 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Gal Pressman <galpress@amazon.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 04/23] RDMA: use dma_resv_wait() instead of extracting
+ the fence
+Message-ID: <Yjse+S0bf4P6QTfu@phenom.ffwll.local>
+References: <20220321135856.1331-1-christian.koenig@amd.com>
+ <20220321135856.1331-4-christian.koenig@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220321135856.1331-4-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
+On Mon, Mar 21, 2022 at 02:58:37PM +0100, Christian König wrote:
+> Use dma_resv_wait() instead of extracting the exclusive fence and
+> waiting on it manually.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
 
-thanks for giving a second look a this issue.
+Jason, can you ack this for merging through drm trees please?
 
-Le mardi 22 mars 2022 Ã  16:23 +0300, Dmitry Osipenko a Ã©critÂ :
-> Use data offsets provided by applications for multi-planar capture
-> buffers. This allows V4L to import and use dma-bufs exported by other
-> subsystems in cases where application wants to customize data offsets
-> of capture buffers in order to meet hardware alignment requirements of
-> both dma-buf exporter and importer.
-> 
-> This feature is wanted for providing a better support of media hardware
-> found on Chromebooks. In particular display and camera ISP hardware of
-> Rockchip and MediaTek SoCs require special handling by userspace because
-> display h/w has specific alignment requirements that don't match default
-> alignments expected by V4L and there is a need to customize the data
-> offsets in case of multi-planar formats.
-> 
-> Some drivers already have preliminary support for data offsets
-> customization of capture buffers, like NVIDIA Tegra video decoder driver
-> for example, and V4L allows applications to provide data offsets for
-> multi-planar output buffers, let's support such customization for the
-> capture buffers as well.
-> 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Thanks, Daniel
+
+> Cc: Leon Romanovsky <leon@kernel.org>
+> Cc: Maor Gottlieb <maorg@nvidia.com>
+> Cc: Gal Pressman <galpress@amazon.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
 > ---
->  Documentation/userspace-api/media/v4l/buffer.rst | 9 ++++++++-
->  drivers/media/common/videobuf2/videobuf2-v4l2.c  | 7 +++++++
->  2 files changed, 15 insertions(+), 1 deletion(-)
+>  drivers/infiniband/core/umem_dmabuf.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
-> index 4638ec64db00..75b1929e2acb 100644
-> --- a/Documentation/userspace-api/media/v4l/buffer.rst
-> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
-> @@ -369,13 +369,20 @@ struct v4l2_plane
->        - ``data_offset``
->        - Offset in bytes to video data in the plane. Drivers must set this
->  	field when ``type`` refers to a capture stream, applications when
-> -	it refers to an output stream.
-> +	it refers to an output or capture stream.
-
-There is a clear contradiction in this paragraph. Both the driver and the
-application MUST set the data_offset.
-
-Would it be possible to demo your idea by implementing this in a virtual driver
-? vivid already have data_offset for capture in some cases, you could verify if
-your idea works without any conflict in this scenario.
-
+> diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
+> index f0760741f281..d32cd7538835 100644
+> --- a/drivers/infiniband/core/umem_dmabuf.c
+> +++ b/drivers/infiniband/core/umem_dmabuf.c
+> @@ -16,7 +16,6 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
+>  {
+>  	struct sg_table *sgt;
+>  	struct scatterlist *sg;
+> -	struct dma_fence *fence;
+>  	unsigned long start, end, cur = 0;
+>  	unsigned int nmap = 0;
+>  	int i;
+> @@ -68,11 +67,8 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
+>  	 * may be not up-to-date. Wait for the exporter to finish
+>  	 * the migration.
+>  	 */
+> -	fence = dma_resv_excl_fence(umem_dmabuf->attach->dmabuf->resv);
+> -	if (fence)
+> -		return dma_fence_wait(fence, false);
+> -
+> -	return 0;
+> +	return dma_resv_wait_timeout(umem_dmabuf->attach->dmabuf->resv, false,
+> +				     false, MAX_SCHEDULE_TIMEOUT);
+>  }
+>  EXPORT_SYMBOL(ib_umem_dmabuf_map_pages);
 >  
->  	.. note::
->  
->  	   That data_offset is included  in ``bytesused``. So the
->  	   size of the image in the plane is ``bytesused``-``data_offset``
->  	   at offset ``data_offset`` from the start of the plane.
-> +
-> +	   For capture planes data_offset may be specified by applications
-> +	   and by drivers. Driver may override application's offset or error
-> +	   out buffer if offset can't be satisfied by hardware. This allows
-> +	   applications to customize data offsets of imported dma-bufs.
-> +	   Handling of application's offsets is driver-dependent, application
-> +	   must use the resulting buffer offset.
->      * - __u32
->        - ``reserved[11]``
->        - Reserved for future use. Should be zeroed by drivers and
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 6edf4508c636..929107a431cc 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -263,6 +263,13 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
->  						psrc->bytesused : pdst->length;
->  				pdst->data_offset = psrc->data_offset;
->  			}
-> +		} else {
-> +			for (plane = 0; plane < vb->num_planes; ++plane) {
-> +				struct vb2_plane *pdst = &planes[plane];
-> +				struct v4l2_plane *psrc = &b->m.planes[plane];
-> +
-> +				pdst->data_offset = psrc->data_offset;
-> +			}
->  		}
->  	} else {
->  		/*
+> -- 
+> 2.25.1
+> 
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
