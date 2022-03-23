@@ -2,122 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DB364E515E
-	for <lists+linux-media@lfdr.de>; Wed, 23 Mar 2022 12:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7047C4E52BD
+	for <lists+linux-media@lfdr.de>; Wed, 23 Mar 2022 14:05:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240671AbiCWLjA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Mar 2022 07:39:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45708 "EHLO
+        id S243536AbiCWNHI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Mar 2022 09:07:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232743AbiCWLi7 (ORCPT
+        with ESMTP id S236412AbiCWNHH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Mar 2022 07:38:59 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7E5175609;
-        Wed, 23 Mar 2022 04:37:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648035449; x=1679571449;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Xlkm9eWb6xvz+l7GN3+kAdWFAMPDPRRPwGgbpxQtuRE=;
-  b=R2iMFMwI63nGsfS6surgsKYoQhetqP3AmFnlRI1Iwm5UClv1lmgOj19v
-   BH9xyGMA1rWX/YUwd1xOXSkQgaM4h6pkITZXzvb6gNNqvpBFMWWsobqVJ
-   kwaFHuaNLginQM5Lb+CvmvL7REIzRFMGZ5OtDU2cT+idGjH3ISfA5RBgz
-   JJy7AzHny4tHJtL6weeOjMy0iJUXq+f6ghN4hbSxw6OSB8ZrfueaacSjL
-   PHOersPxPLPQlcLW9FhZtN+x6MXu8fUWY0RWFjHu1u9pvyVTJqSm028G6
-   odI5YE2VNetkw24YCQvEXKHOnKgpNZetk5zOo1Xl1vfvN5CEJAqbIPTW+
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="238691890"
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; 
-   d="scan'208";a="238691890"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 04:37:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; 
-   d="scan'208";a="519328436"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 23 Mar 2022 04:37:27 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nWzIs-000K10-Pv; Wed, 23 Mar 2022 11:37:26 +0000
-Date:   Wed, 23 Mar 2022 19:36:40 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [hverkuil-media-tree:tmp 407/423]
- drivers/media/platform/mediatek/mdp/mtk_mdp_core.c:31:34: warning: unused
- variable 'mtk_mdp_comp_dt_ids'
-Message-ID: <202203231910.QNuo5wZb-lkp@intel.com>
+        Wed, 23 Mar 2022 09:07:07 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 480546E369
+        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 06:05:38 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id p25so933383qkj.10
+        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 06:05:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=jP6H13YhnBeGfeYQzZ93Xibqu7njgIeGZjFH0n7MMa4=;
+        b=SVuc3CYsfFZNSxW31DMhZalADPrE6ytJWJ6fYRABmZqRer+hM1I5sG3ysnQbaxX4az
+         /I/tZmgbtqDnzRocLG4qvhI3WC7KFv99yPUmBamXoar2jTVUHmUsWCBOEtSt030geA+U
+         BEo2lntsE18w76kHid7lCBUoYeLCPKnyLwb/uDub7zaDZgbAk7sKZ+WosvjO6GsGVHOD
+         mEAWa2d0YNJ/RF3nXsSu1J/h0IRdieGzc57FA36WG4Fqe5mNM3AH6w/hRFMRGOGikpoM
+         0671oZPiP9IfaSvLOmcDSuBI+oXLGMbCKQ6ucMVCNzJTuimOc+rhbN5QnXPHA9mopXvi
+         qX4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=jP6H13YhnBeGfeYQzZ93Xibqu7njgIeGZjFH0n7MMa4=;
+        b=pSzWGSd3wy3yY7y4qdsEjosQBlYVb+YVD3bJBXls7R9MHpENppNpSM26FPOUffE/Te
+         FBuvPmUWmY0GC6SL1nDNdGavjlWZ0yOjxZ/swy7032BQ1cyHdGhINoWboibwu79aj+d5
+         DAvQz5LjNomioPTn4lEo33ukkVenA6qJjxLxJrm4emIggaWtdq/ejXJRhEkz0i5F6YIn
+         1jQbPL9768mdn/W3hFKeIL47coqv06YoNoYHS9E/h6TZJcbLcEvU3k+P/yTLNIxlgt90
+         SFwYXeyFJgrsyqD8LNUi83kR+Wq4lpO0UMqYFJnIRbNG3kEPToeYUKlh5V58FeAtpLsh
+         2T7w==
+X-Gm-Message-State: AOAM532Cfbp1YNmp80AlMmfIfPhK7EZguFViQ24YJsTWXgk0NlRyKX3a
+        8cmw4vR38I3+M2/qcXTJZDzRNA==
+X-Google-Smtp-Source: ABdhPJyTImRZbWZybzHwuqooxwilNQZaFKxrxF+882HKRVaCtSuV6OwyhLLuhF5MwvoGm5gl2Whr5A==
+X-Received: by 2002:a05:620a:45a1:b0:67d:af98:10d5 with SMTP id bp33-20020a05620a45a100b0067daf9810d5mr18580578qkb.1.1648040737316;
+        Wed, 23 Mar 2022 06:05:37 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id y15-20020a05622a004f00b002e1aaa1738dsm16215255qtw.12.2022.03.23.06.05.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Mar 2022 06:05:36 -0700 (PDT)
+Message-ID: <a7c858461b99de2d4afad22d888acc3a74850240.camel@ndufresne.ca>
+Subject: Re: [PATCH v1] media: videobuf2: Allow applications customize data
+ offsets of capture buffers
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Boris Brezillon <bbrezillon@collabora.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Laura Nao <laura.nao@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>
+Date:   Wed, 23 Mar 2022 09:05:35 -0400
+In-Reply-To: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
+References: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git tmp
-head:   f89d74081c909f1c547a611141a23d7670e44bed
-commit: 2023a99811110aebba9eee4aa09ef7bd21a8a249 [407/423] media: platform: rename mediatek/mtk-jpeg/ to mediatek/jpeg/
-config: hexagon-buildonly-randconfig-r005-20220323 (https://download.01.org/0day-ci/archive/20220323/202203231910.QNuo5wZb-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 902f4708fe1d03b0de7e5315ef875006a6adc319)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media_tree.git
-        git fetch --no-tags hverkuil-media-tree tmp
-        git checkout 2023a99811110aebba9eee4aa09ef7bd21a8a249
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/mediatek/mdp/
+Hi Dmitry,
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+thanks for giving a second look a this issue.
 
-All warnings (new ones prefixed by >>):
+Le mardi 22 mars 2022 Ã  16:23 +0300, Dmitry Osipenko a Ã©critÂ :
+> Use data offsets provided by applications for multi-planar capture
+> buffers. This allows V4L to import and use dma-bufs exported by other
+> subsystems in cases where application wants to customize data offsets
+> of capture buffers in order to meet hardware alignment requirements of
+> both dma-buf exporter and importer.
+> 
+> This feature is wanted for providing a better support of media hardware
+> found on Chromebooks. In particular display and camera ISP hardware of
+> Rockchip and MediaTek SoCs require special handling by userspace because
+> display h/w has specific alignment requirements that don't match default
+> alignments expected by V4L and there is a need to customize the data
+> offsets in case of multi-planar formats.
+> 
+> Some drivers already have preliminary support for data offsets
+> customization of capture buffers, like NVIDIA Tegra video decoder driver
+> for example, and V4L allows applications to provide data offsets for
+> multi-planar output buffers, let's support such customization for the
+> capture buffers as well.
+> 
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  Documentation/userspace-api/media/v4l/buffer.rst | 9 ++++++++-
+>  drivers/media/common/videobuf2/videobuf2-v4l2.c  | 7 +++++++
+>  2 files changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+> index 4638ec64db00..75b1929e2acb 100644
+> --- a/Documentation/userspace-api/media/v4l/buffer.rst
+> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
+> @@ -369,13 +369,20 @@ struct v4l2_plane
+>        - ``data_offset``
+>        - Offset in bytes to video data in the plane. Drivers must set this
+>  	field when ``type`` refers to a capture stream, applications when
+> -	it refers to an output stream.
+> +	it refers to an output or capture stream.
 
->> drivers/media/platform/mediatek/mdp/mtk_mdp_core.c:31:34: warning: unused variable 'mtk_mdp_comp_dt_ids' [-Wunused-const-variable]
-   static const struct of_device_id mtk_mdp_comp_dt_ids[] = {
-                                    ^
-   1 warning generated.
+There is a clear contradiction in this paragraph. Both the driver and the
+application MUST set the data_offset.
 
+Would it be possible to demo your idea by implementing this in a virtual driver
+? vivid already have data_offset for capture in some cases, you could verify if
+your idea works without any conflict in this scenario.
 
-vim +/mtk_mdp_comp_dt_ids +31 drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
+>  
+>  	.. note::
+>  
+>  	   That data_offset is included  in ``bytesused``. So the
+>  	   size of the image in the plane is ``bytesused``-``data_offset``
+>  	   at offset ``data_offset`` from the start of the plane.
+> +
+> +	   For capture planes data_offset may be specified by applications
+> +	   and by drivers. Driver may override application's offset or error
+> +	   out buffer if offset can't be satisfied by hardware. This allows
+> +	   applications to customize data offsets of imported dma-bufs.
+> +	   Handling of application's offsets is driver-dependent, application
+> +	   must use the resulting buffer offset.
+>      * - __u32
+>        - ``reserved[11]``
+>        - Reserved for future use. Should be zeroed by drivers and
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 6edf4508c636..929107a431cc 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -263,6 +263,13 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
+>  						psrc->bytesused : pdst->length;
+>  				pdst->data_offset = psrc->data_offset;
+>  			}
+> +		} else {
+> +			for (plane = 0; plane < vb->num_planes; ++plane) {
+> +				struct vb2_plane *pdst = &planes[plane];
+> +				struct v4l2_plane *psrc = &b->m.planes[plane];
+> +
+> +				pdst->data_offset = psrc->data_offset;
+> +			}
+>  		}
+>  	} else {
+>  		/*
 
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  30  
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08 @31  static const struct of_device_id mtk_mdp_comp_dt_ids[] = {
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  32  	{
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  33  		.compatible = "mediatek,mt8173-mdp-rdma",
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  34  		.data = (void *)MTK_MDP_RDMA
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  35  	}, {
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  36  		.compatible = "mediatek,mt8173-mdp-rsz",
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  37  		.data = (void *)MTK_MDP_RSZ
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  38  	}, {
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  39  		.compatible = "mediatek,mt8173-mdp-wdma",
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  40  		.data = (void *)MTK_MDP_WDMA
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  41  	}, {
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  42  		.compatible = "mediatek,mt8173-mdp-wrot",
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  43  		.data = (void *)MTK_MDP_WROT
-55d80506c5f7c3a drivers/media/platform/mtk-mdp/mtk_mdp_core.c Vincent Stehlé 2016-10-27  44  	},
-55d80506c5f7c3a drivers/media/platform/mtk-mdp/mtk_mdp_core.c Vincent Stehlé 2016-10-27  45  	{ },
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  46  };
-c8eb2d7e8202fd9 drivers/media/platform/mtk-mdp/mtk_mdp_core.c Minghsiu Tsai  2016-09-08  47  
-
-:::::: The code at line 31 was first introduced by commit
-:::::: c8eb2d7e8202fd9cb912f5d33cc34ede66dcb24a [media] media: Add Mediatek MDP Driver
-
-:::::: TO: Minghsiu Tsai <minghsiu.tsai@mediatek.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
