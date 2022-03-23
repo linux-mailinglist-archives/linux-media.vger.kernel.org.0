@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BECF24E5490
-	for <lists+linux-media@lfdr.de>; Wed, 23 Mar 2022 15:50:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C95F4E549E
+	for <lists+linux-media@lfdr.de>; Wed, 23 Mar 2022 15:54:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237571AbiCWOwK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Mar 2022 10:52:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40094 "EHLO
+        id S244902AbiCWOzk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Mar 2022 10:55:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237456AbiCWOwI (ORCPT
+        with ESMTP id S229828AbiCWOzj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Mar 2022 10:52:08 -0400
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE0897D01E;
-        Wed, 23 Mar 2022 07:50:36 -0700 (PDT)
+        Wed, 23 Mar 2022 10:55:39 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B15813F6C;
+        Wed, 23 Mar 2022 07:54:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648047036; x=1679583036;
+  t=1648047250; x=1679583250;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=fwXFLMb5LodOP5kgRkOCP/0VMxHCoX9GTRZSvMm0BBc=;
-  b=BrXGBxqo8+DAQGk9giAD6taP6DvBnUMPlXttb5vSpnrmwcJJxDxovu4z
-   QRJxmaJp/5rgkRC47Jfo2CDN8lku2GNMUWKc0DLkdJ5rzvQRZLk+ZwubS
-   zxqmfgZ+t+WjRKHZ9UcN1rcqFXObVHRvYiok0FES/Jb0S98f7F6muJtMt
-   fYeHgtSkbTEpylM97Bo7FqXjyRNtTGGXQ2+qfIpT71w7jP8WO1rWdgPlG
-   FSiiJKgBZk/2EUUpbtdS9PdeXqeAphY/i4A3DijNdjZiY8rq0/tczSAK9
-   iPnyb+8shHfMDLWM9iyvTYY0jQS10PaOyGANzncLvvKrkAHs+pT/vDX6A
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="318836459"
+   mime-version:in-reply-to;
+  bh=rSlpVK8+R01VAXYRit0qcvSrSRsMZS+hlQozzAGKVDA=;
+  b=EycwbQ9/HAATSsFlhvUcZ3ndnZhUyWKoqPQ1rjuS0s8Tq7i3NqIReljl
+   Gkw1QdLPP0GxLEebwo2YMYHQQqMZoaf1BxOykROHQ1A9GNROTqUOa/Zxv
+   wJJcA/N64miv8fS2eXg5nZBfXvVTrD+2O3IJ/ywN9b3y8GTRNjkthvL6/
+   FvUFtOv4lHhy85N3veuxaTt02AInVx95AttF1GqYoq/315fjTDpK8gr8k
+   dI91Pac+V+ywT7uzVlLna8m4IRAjPlC8h6U+GvVbxgRXiiJCV46zPXrzR
+   6ZK3cxZJ324tqPaBYcFqfytvbSLoiU7fDECCiU5eWvuj3UEhZ+ZygAHf9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="238069627"
 X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; 
-   d="scan'208";a="318836459"
+   d="scan'208";a="238069627"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 07:50:36 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 07:54:09 -0700
 X-IronPort-AV: E=Sophos;i="5.90,204,1643702400"; 
-   d="scan'208";a="544221372"
+   d="scan'208";a="544222466"
 Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 07:50:35 -0700
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 07:54:08 -0700
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id EB7362012F;
-        Wed, 23 Mar 2022 16:50:32 +0200 (EET)
-Date:   Wed, 23 Mar 2022 16:50:32 +0200
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 388572012F;
+        Wed, 23 Mar 2022 16:54:06 +0200 (EET)
+Date:   Wed, 23 Mar 2022 16:54:06 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         robh@kernel.org
-Subject: Re: [PATCH 2/2] dw9807-vcm: Add "dongwoon,dw9807" compatible string
-Message-ID: <YjszuFazVgIBw3gl@paasikivi.fi.intel.com>
+Subject: Re: [PATCH 1/2] dt-bindings: Convert Dongwoon dw9807-vcm bindings to
+ json-schema
+Message-ID: <Yjs0jjNMeqVl2HPj@paasikivi.fi.intel.com>
 References: <20220318165119.12191-1-sakari.ailus@linux.intel.com>
- <20220318165119.12191-3-sakari.ailus@linux.intel.com>
- <7e937551-fba4-760d-f3ce-16f811e10bd8@kernel.org>
+ <20220318165119.12191-2-sakari.ailus@linux.intel.com>
+ <035a1501-4a40-2f1a-2220-1a35a4419876@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7e937551-fba4-760d-f3ce-16f811e10bd8@kernel.org>
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+In-Reply-To: <035a1501-4a40-2f1a-2220-1a35a4419876@kernel.org>
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -65,38 +65,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krysztof,
+Hi Krzysztof,
 
-On Sun, Mar 20, 2022 at 12:58:08PM +0100, Krzysztof Kozlowski wrote:
+On Sun, Mar 20, 2022 at 12:56:48PM +0100, Krzysztof Kozlowski wrote:
 > On 18/03/2022 17:51, Sakari Ailus wrote:
-> > There is firmware out there that uses "dongwoon,dw9807" compatible string
-> > that never made it to upstream as-is. Add it to the driver to make it load
-> > on such systems.
-> > 
-> > The chip also has an EEPROM part which is AT24 compatible (for reading
-> > purposes) on a separate I²C address. Adding possible support for this in
-> > the future is not affected by this change.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/i2c/dw9807-vcm.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/media/i2c/dw9807-vcm.c b/drivers/media/i2c/dw9807-vcm.c
-> > index 95e06f13bc9ed..ada8e467a0450 100644
-> > --- a/drivers/media/i2c/dw9807-vcm.c
-> > +++ b/drivers/media/i2c/dw9807-vcm.c
-> > @@ -295,6 +295,8 @@ static int  __maybe_unused dw9807_vcm_resume(struct device *dev)
-> >  
-> >  static const struct of_device_id dw9807_of_table[] = {
-> >  	{ .compatible = "dongwoon,dw9807-vcm" },
-> > +	/* Compatibility for older firmware */
-> > +	{ .compatible = "dongwoon,dw9807" },
+> > +$id: http://devicetree.org/schemas/media/i2c/dongwoon,dw9807-vcm.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Dongwoon Anatech DW9807 voice coil lens driver
+> > +
+> > +maintainers:
+> > +  - Sakari Ailus <sakari.ailus@linux.intel.com>
+> > +
+> > +description: |
+> > +  DW9807 is a 10-bit DAC with current sink capability. It is intended for
+> > +  controlling voice coil lenses.
+> > +
+> > +properties:
+> > +
 > 
-> You need to add it to the bindings as well.
+> No blank line.
+> 
+> > +  compatible:
+> > +    const: "dongwoon,dw9807-vcm"
+> 
+> No quotes.
 
-Why? Generally things that are there for binary compatibility but
-deprecated are not documented in bindings.
+Hmm. Strings generally need to be quoted, including the compatible
+strings.
+
+I'll remove the extra blank lines.
 
 -- 
 Sakari Ailus
