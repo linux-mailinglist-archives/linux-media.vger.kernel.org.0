@@ -2,205 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B9914E57D5
-	for <lists+linux-media@lfdr.de>; Wed, 23 Mar 2022 18:50:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C18F74E590E
+	for <lists+linux-media@lfdr.de>; Wed, 23 Mar 2022 20:21:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343800AbiCWRvs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Mar 2022 13:51:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35600 "EHLO
+        id S244371AbiCWTXJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Mar 2022 15:23:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343785AbiCWRvp (ORCPT
+        with ESMTP id S1344225AbiCWTXI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Mar 2022 13:51:45 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8BBF84EF9
-        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 10:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1648057812;
-        bh=1RQBo04LciemdVXcvmw7hTtkhViCBD+s7mWTKnbp0Dk=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=dMLeMbtnJhDrR+KeHnYEDUXGznSa+SwERmS35iK5F7OYKoZWu+TxQM8kzA3813VPi
-         1BtW6za18dQXvhAGY9poxu95vma1zEmHvkq6OzU1adJyRszYC4nprzx7TH8eI3ZpmI
-         /M0oY/FYoOgOv8ObXhD1y0gsJtz21hYbm49H8i5Q=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [91.65.110.57] ([91.65.110.57]) by web-mail.gmx.net
- (3c-app-gmx-bs71.server.lan [172.19.170.216]) (via HTTP); Wed, 23 Mar 2022
- 18:50:12 +0100
+        Wed, 23 Mar 2022 15:23:08 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A30EF888C4
+        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 12:21:36 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id p25so1871459qkj.10
+        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 12:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Xf7Anw5O4djNCcchl12jKSadlP2dCVWJF57/u1df4zo=;
+        b=y0jR5RXN2RH4a0VWcFoadkrgZPaZmoU9Ebl30/0hX0UV2uvAPC+3vioTphZ9i/BSTl
+         jsAJppd03jUg9hU7pKw5v+jDmfCqo3Zf7Ya9EePcbyCs6w9myP9dhFTUVUqWHRlCAPwr
+         AfrPMYz2NlV48G0IytnO+f6v7EQNP8sBBqHUQTg08yEMDRit5VHTNEWSOgkPgrwy5MhS
+         wDWZvfHQJ9UJHii6mgR2KjSxy/PzQRY6pbUmRuFgc1BDcF1+BsG1vQqmKTamR6agbcdA
+         KztaMOH3w0XnBGik65euiRLeoynXbNY9ob3LPkx4NiYO9T0OeYkys5cAVRq/2CgPM+Mo
+         r5gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Xf7Anw5O4djNCcchl12jKSadlP2dCVWJF57/u1df4zo=;
+        b=4tWHJyF1ozpANkYFdt9BrAkJknkrIZktm23qTier9VSAYGQxxAOn/37lbAJ6dpjIXH
+         jK01G5H0HtPmIzy2rvbeypHBq6NmRTqhcAdmQCgbyCdzvfuZYWneQsCnT7xtS2Szx1na
+         I5yAVq9xKHGFN+cjsN2y9m+qQ2ACQCqXuITofFQ+8SjAl8YcmibW3s3lqXXpLCs0gEtW
+         /SCWkQfChQzPEoWOF13ndDR2y+OhGcqhpo7KLXQj1YfOWDNGyFXJkBKEOZ9592OpGwqb
+         nqXGroaCy66YLTs315n5VPYeHT1zUhSkCMg/Zj8lxC0/tKIAS2n3PQNqlwWQ3xt1+sH4
+         2NAw==
+X-Gm-Message-State: AOAM531FfJc9BjiTaZQBXuISc8tEbAgdOWJv6G/RxUfP92q7ZF3SzGl8
+        zjyc2yKmQbZ8QNKOr2UjPxpPkg==
+X-Google-Smtp-Source: ABdhPJy8q4bQ8WI0JQA+01J/Tm3G58PH/RVXg19krVNaKHs/7EHV4Eov5WeAwG+dueMU705LSxnpGQ==
+X-Received: by 2002:ae9:ed97:0:b0:67b:2755:310f with SMTP id c145-20020ae9ed97000000b0067b2755310fmr1008097qkg.117.1648063295747;
+        Wed, 23 Mar 2022 12:21:35 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id c20-20020a05622a025400b002e1dd71e797sm654716qtx.15.2022.03.23.12.21.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Mar 2022 12:21:35 -0700 (PDT)
+Message-ID: <5be83f0b343c04d877a2c2d805fb5f71ca9973b1.camel@ndufresne.ca>
+Subject: Re: [PATCH v1] media: videobuf2: Allow applications customize data
+ offsets of capture buffers
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Boris Brezillon <bbrezillon@collabora.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Laura Nao <laura.nao@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>
+Date:   Wed, 23 Mar 2022 15:21:34 -0400
+In-Reply-To: <9ec970d6-ea09-802c-419b-b2ef26800990@collabora.com>
+References: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
+         <a7c858461b99de2d4afad22d888acc3a74850240.camel@ndufresne.ca>
+         <9ec970d6-ea09-802c-419b-b2ef26800990@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
 MIME-Version: 1.0
-Message-ID: <trinity-6009a608-b0ff-4e1a-9b91-ba4a97f10324-1648057812747@3c-app-gmx-bs71>
-From:   Robert Schlabbach <robert_s@gmx.net>
-To:     Piotr Chmura <chmooreck@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH] si2157: unknown chip version Si2147-A30 ROM 0x50
-Content-Type: text/plain; charset=UTF-8
-Date:   Wed, 23 Mar 2022 18:50:12 +0100
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <6f84b7f4-3ede-ae55-e99b-a9d4108c80e2@gmail.com>
-References: <6f84b7f4-3ede-ae55-e99b-a9d4108c80e2@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:QrUxHWvzZuXuUSYAzjKsN7/u4zNjtPbqgguvVCrAK/irvujrEeDYNpLC2wrk7IryRfSwQ
- R5O35gfDY1GZ7onE/80+I4Z6bjtEbxS/hKb79uQz8C8GZCjCTifDU/aDi9dmU7XP2UN5HGAaIR7O
- qQ2jFvW4fji8yx8xlnRTvkCtnlatsfMwwcUXDJYDp91Uyd3QDMYowEC1jv7Xd9roXcBud/FN5OUh
- /vupxeOFfYJdDyfStkgy+eL6zzKWQGOcMRuhmvvqZMa4XrzZK76P4qttZzTCM7AeA6HD+E7lbM60
- sI=
-X-UI-Out-Filterresults: notjunk:1;V03:K0:77n48AdINdk=:WqGgfYSh5hHEzPcHdIUXzO
- NY+7o1gMSZv7kKV6qVklLNJHHx/Edim002cpjJgx/4rJi8+I+ssGMdRRGGp2/dwBzHSaLW4ya
- +uXKq5/LHl82NM5XwE4qFWnNn6s7WnUVqUU41umfoWrlvYAlf+leJBHFdM/2EzgDu6TswzjsH
- DqoMbAF9Djfyp8r/Easa4UDBSHEj4kGMkfzAYigfUJZ3xxGEeyaJvop82/48eh/h3p+4C18Bo
- CjcSDJINOmM5JYzvLsPZrCSvKKcJNHzpDngrfNa8BI1fu4WBJ1RwkfFHeC0vgs0pQzNuYwe8c
- 8ljUgC+AEwov1DrgBBFXSneV7N9+S+QEVcLcXwdSUydXp9QJIIsiBFhVSZbjggZ99QdQCefwJ
- F10+Smr3IDeap8R4ttXOOwHGI9HBbBzW1PxKVc3wZZPxJQUqigt3FEo6qQQb5kxkduFV4m2MX
- kF9o69tSbqzyv+ALjVDkJBwvUVo3COlM76wGi5delEwHs9JF4B8WsAWUeEarVSvayLv6DNXII
- CnSy/TzebVmQiR1onvC093maC6wQNy4mBFQt24aedKluEzs+B74hEqZ9aEjNt3c4kTlvj2I1R
- ku3P27RtWA4jdy6m5dqkCT/MHY4zNj2cMe7nAzW+wjn7HI93FUB4ENOiO/LcUl0W8GZI0JLdw
- PT8wkLu+WADlLr/9ryAsf8vyLKkp3LOVuhy82K241e12krSbWstJYxuHzBczHcoiF9zq+L1nI
- wsuT56LDiS4ew8LzS3MojOq99QommcDEXuv5z2jaQ9D1Dgze4XbqQazNC/VlpK3/1fUq0hETJ
- ePJiea6
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Le mercredi 23 mars 2022 à 17:28 +0300, Dmitry Osipenko a écrit :
+> Hi Nicolas,
+> 
+> On 3/23/22 16:05, Nicolas Dufresne wrote:
+> > Hi Dmitry,
+> > 
+> > thanks for giving a second look a this issue.
+> > 
+> > Le mardi 22 mars 2022 à 16:23 +0300, Dmitry Osipenko a écrit :
+> > > Use data offsets provided by applications for multi-planar capture
+> > > buffers. This allows V4L to import and use dma-bufs exported by other
+> > > subsystems in cases where application wants to customize data offsets
+> > > of capture buffers in order to meet hardware alignment requirements of
+> > > both dma-buf exporter and importer.
+> > > 
+> > > This feature is wanted for providing a better support of media hardware
+> > > found on Chromebooks. In particular display and camera ISP hardware of
+> > > Rockchip and MediaTek SoCs require special handling by userspace because
+> > > display h/w has specific alignment requirements that don't match default
+> > > alignments expected by V4L and there is a need to customize the data
+> > > offsets in case of multi-planar formats.
+> > > 
+> > > Some drivers already have preliminary support for data offsets
+> > > customization of capture buffers, like NVIDIA Tegra video decoder driver
+> > > for example, and V4L allows applications to provide data offsets for
+> > > multi-planar output buffers, let's support such customization for the
+> > > capture buffers as well.
+> > > 
+> > > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > > ---
+> > >  Documentation/userspace-api/media/v4l/buffer.rst | 9 ++++++++-
+> > >  drivers/media/common/videobuf2/videobuf2-v4l2.c  | 7 +++++++
+> > >  2 files changed, 15 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+> > > index 4638ec64db00..75b1929e2acb 100644
+> > > --- a/Documentation/userspace-api/media/v4l/buffer.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/buffer.rst
+> > > @@ -369,13 +369,20 @@ struct v4l2_plane
+> > >        - ``data_offset``
+> > >        - Offset in bytes to video data in the plane. Drivers must set this
+> > >  	field when ``type`` refers to a capture stream, applications when
+> > > -	it refers to an output stream.
+> > > +	it refers to an output or capture stream.
+> > 
+> > There is a clear contradiction in this paragraph. Both the driver and the
+> > application MUST set the data_offset.
+> 
+> I'm not sure where the contradiction is. Application must initialize the
+> data_offset and driver must set data_offset too, if it's appropriate to
+> do that for a particular driver.
+> 
+> > Would it be possible to demo your idea by implementing this in a virtual driver
+> > ? vivid already have data_offset for capture in some cases, you could verify if
+> > your idea works without any conflict in this scenario.
+> 
+> I actually considered implementing it in the vivid driver, but vivid
+> driver already sets the data_offset to fixed values [1], so I decided
+> that not to change it.
+> 
+> But maybe we actually could extend the vivid driver by accepting
+> data_offset from userspace for the cases where the fixed offset value is
+> zero in the driver.. not sure.
 
-I have now tested the patch and confirmed that it corrects the firmware
-load behavior=2E
+The is the core of the issue, how do you represent both a driver use of
+data_offset and a userland provided data_offset at the same time. Contradiction
+might be the wrong term, but minimally there is a large gap in the specification
+for which I don't have an easy answer.
 
-Before this patch it was:
+> 
+> [1]
+> https://elixir.bootlin.com/linux/latest/source/drivers/media/test-drivers/vivid/vivid-vid-cap.c#L172
+> 
+> I verified my idea using the NVIDIA Tegra video decoder driver, which
+> already takes data_offsets for capture planes [3] and libvdpau-tegra
+> imports DRM dma-bufs into the V4L driver [4][5].
+> 
+> [3]
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/media/platform/nvidia/tegra-vde/v4l2.c#n236
+> [4]
+> https://github.com/grate-driver/libvdpau-tegra/blob/master/src/decoder.c#L685
+> [5]
+> https://github.com/grate-driver/libvdpau-tegra/blob/master/src/v4l2.c#L359
+> 
+> The plan is to extend RK ISP driver with support of data_offsets next,
+> once we'll agree that this acceptable approach and we don't actually
+> need go back to implementing the new VIDIOC_EXT_QBUF ioctl [6].
+> 
+> [6]
+> https://patchwork.linuxtv.org/project/linux-media/cover/20210114180738.1758707-1-helen.koike@collabora.com/
+> 
+> This patch solves the problem for userspace when it wants to import
+> buffers into V4L in case of multi-planar formats, but it doesn't cover
+> all other possible cases that may require offsets customization too. On
+> the other hand, it's easy to start accepting data_offset for the capture
+> MPLANES without introducing new UAPIs, so I decided that will be best to
+> start easy with the simplest solution.
 
-[Mi M=C3=A4r 23 16:24:32 2022] si2157 12-0060: found a 'Silicon Labs Si215=
-7-A30 ROM 0x50'
-[Mi M=C3=A4r 23 16:24:32 2022] si2157 12-0060: firmware: direct-loading fi=
-rmware dvb-tuner-si2157-a30-01=2Efw
-[Mi M=C3=A4r 23 16:24:32 2022] si2157 12-0060: downloading firmware from f=
-ile 'dvb-tuner-si2157-a30-01=2Efw'
-[Mi M=C3=A4r 23 16:24:32 2022] si2157 12-0060: firmware version: 3=2E1=2E3
-
-I=2Ee=2E it directly loaded the "alt" firmware file=2E
-
-After applying this patch the behavior changed to:
-
-[Mi M=C3=A4r 23 16:45:01 2022] si2157 12-0060: found a 'Silicon Labs Si215=
-7-A30 ROM 0x50'
-[Mi M=C3=A4r 23 16:45:01 2022] si2157 12-0060: firmware: failed to load dv=
-b_driver_si2157_rom50=2Efw (-2)
-[Mi M=C3=A4r 23 16:45:01 2022] firmware_class: See https://wiki=2Edebian=
-=2Eorg/Firmware for information about missing firmware
-[Mi M=C3=A4r 23 16:45:01 2022] si2157 12-0060: firmware: direct-loading fi=
-rmware dvb-tuner-si2157-a30-01=2Efw
-[Mi M=C3=A4r 23 16:45:01 2022] si2157 12-0060: downloading firmware from f=
-ile 'dvb-tuner-si2157-a30-01=2Efw'
-[Mi M=C3=A4r 23 16:45:01 2022] si2157 12-0060: firmware version: 3=2E1=2E3
-
-So it first tried to load the new firmware file and then fell back to the
-"alt" one=2E
-
-And after renaming the firmware file to the new filename, I get:
-
-[Mi M=C3=A4r 23 16:47:19 2022] si2157 12-0062: found a 'Silicon Labs Si215=
-7-A30 ROM 0x50'
-[Mi M=C3=A4r 23 16:47:19 2022] si2157 12-0062: firmware: direct-loading fi=
-rmware dvb_driver_si2157_rom50=2Efw
-[Mi M=C3=A4r 23 16:47:19 2022] si2157 12-0062: downloading firmware from f=
-ile 'dvb_driver_si2157_rom50=2Efw'
-[Mi M=C3=A4r 23 16:47:20 2022] si2157 12-0062: firmware version: 3=2E1=2E3
-
-Tested-by: Robert Schlabbach <robert_s@gmx=2Enet>
-
-
-
-Gesendet:=C2=A0Mittwoch, 23=2E M=C3=A4rz 2022 um 00:08 Uhr
-Von:=C2=A0"Piotr Chmura" <chmooreck@gmail=2Ecom>
-An:=C2=A0linux-media@vger=2Ekernel=2Eorg
-Betreff:=C2=A0[PATCH] si2157: unknown chip version Si2147-A30 ROM 0x50
-This patch fixes firmware file names assignment in si2157 tuner=2E
-
-kernel version: 5=2E17=2E0
-device: 07ca:1871 AVerMedia Technologies, Inc=2E TD310 DVB-T/T2/C dongle
-
-modprobe gives error: unknown chip version Si2147-A30 ROM 0x50
-
-device worked fine on 2=2E16 series
-
-caused by:
-1=2E table si2157_tuners has swapped fields rom_id and required vs struct
-si2157_tuner_info=2E
-2=2E both firmware file names can be null for devices with required =3D=3D
-false - device uses build-in firmware in this case
-
-
-Tested on my device=2E
-
-
-Signed-of-by: Piotr Chmura <chmooreck@poczta=2Eonet=2Epl>
----
-
-diff -u a/drivers/media/tuners/si2157=2Ec b/drivers/media/tuners/si2157=2E=
-c
---- a/drivers/media/tuners/si2157=2Ec=C2=A0=C2=A0=C2=A0 2022-03-20 21:14:1=
-7=2E000000000 +0100
-+++ b/drivers/media/tuners/si2157=2Ec=C2=A0=C2=A0=C2=A0 2022-03-22 23:48:0=
-5=2E604408331 +0100
-@@ -77,16 +77,16 @@
-=C2=A0}
-
-=C2=A0static const struct si2157_tuner_info si2157_tuners[] =3D {
--=C2=A0=C2=A0=C2=A0 { SI2141, false, 0x60, SI2141_60_FIRMWARE, SI2141_A10_=
-FIRMWARE },
--=C2=A0=C2=A0=C2=A0 { SI2141, false, 0x61, SI2141_61_FIRMWARE, SI2141_A10_=
-FIRMWARE },
--=C2=A0=C2=A0=C2=A0 { SI2146, false, 0x11, SI2146_11_FIRMWARE, NULL },
--=C2=A0=C2=A0=C2=A0 { SI2147, false, 0x50, SI2147_50_FIRMWARE, NULL },
--=C2=A0=C2=A0=C2=A0 { SI2148, true,=C2=A0 0x32, SI2148_32_FIRMWARE, SI2158=
-_A20_FIRMWARE },
--=C2=A0=C2=A0=C2=A0 { SI2148, true,=C2=A0 0x33, SI2148_33_FIRMWARE, SI2158=
-_A20_FIRMWARE },
--=C2=A0=C2=A0=C2=A0 { SI2157, false, 0x50, SI2157_50_FIRMWARE, SI2157_A30_=
-FIRMWARE },
--=C2=A0=C2=A0=C2=A0 { SI2158, false, 0x50, SI2158_50_FIRMWARE, SI2158_A20_=
-FIRMWARE },
--=C2=A0=C2=A0=C2=A0 { SI2158, false, 0x51, SI2158_51_FIRMWARE, SI2158_A20_=
-FIRMWARE },
--=C2=A0=C2=A0=C2=A0 { SI2177, false, 0x50, SI2177_50_FIRMWARE, SI2157_A30_=
-FIRMWARE },
-+=C2=A0=C2=A0=C2=A0 { SI2141, 0x60, false, SI2141_60_FIRMWARE, SI2141_A10_=
-FIRMWARE },
-+=C2=A0=C2=A0=C2=A0 { SI2141, 0x61, false, SI2141_61_FIRMWARE, SI2141_A10_=
-FIRMWARE },
-+=C2=A0=C2=A0=C2=A0 { SI2146, 0x11, false, SI2146_11_FIRMWARE, NULL },
-+=C2=A0=C2=A0=C2=A0 { SI2147, 0x50, false, SI2147_50_FIRMWARE, NULL },
-+=C2=A0=C2=A0=C2=A0 { SI2148, 0x32, true,=C2=A0 SI2148_32_FIRMWARE, SI2158=
-_A20_FIRMWARE },
-+=C2=A0=C2=A0=C2=A0 { SI2148, 0x33, true,=C2=A0 SI2148_33_FIRMWARE, SI2158=
-_A20_FIRMWARE },
-+=C2=A0=C2=A0=C2=A0 { SI2157, 0x50, false, SI2157_50_FIRMWARE, SI2157_A30_=
-FIRMWARE },
-+=C2=A0=C2=A0=C2=A0 { SI2158, 0x50, false, SI2158_50_FIRMWARE, SI2158_A20_=
-FIRMWARE },
-+=C2=A0=C2=A0=C2=A0 { SI2158, 0x51, false, SI2158_51_FIRMWARE, SI2158_A20_=
-FIRMWARE },
-+=C2=A0=C2=A0=C2=A0 { SI2177, 0x50, false, SI2177_50_FIRMWARE, SI2157_A30_=
-FIRMWARE },
-=C2=A0};
-
-=C2=A0static int si2157_load_firmware(struct dvb_frontend *fe,
-@@ -178,7 +178,7 @@
-=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 }
-=C2=A0=C2=A0=C2=A0=C2=A0 }
-
--=C2=A0=C2=A0=C2=A0 if (!fw_name && !fw_alt_name) {
-+=C2=A0=C2=A0=C2=A0 if (required && !fw_name && !fw_alt_name) {
-=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 dev_err(&client->dev,
-=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 "unknown ch=
-ip version Si21%d-%c%c%c ROM 0x%02x\n",
-=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 part_id, cm=
-d=2Eargs[1], cmd=2Eargs[3], cmd=2Eargs[4], rom_id);
-=C2=A0
