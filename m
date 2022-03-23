@@ -2,94 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72CC94E53F0
-	for <lists+linux-media@lfdr.de>; Wed, 23 Mar 2022 15:05:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F422C4E543C
+	for <lists+linux-media@lfdr.de>; Wed, 23 Mar 2022 15:28:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244633AbiCWOHR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Mar 2022 10:07:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41890 "EHLO
+        id S244735AbiCWOaC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Mar 2022 10:30:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244629AbiCWOHR (ORCPT
+        with ESMTP id S231790AbiCWOaB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Mar 2022 10:07:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E04EB7E09B;
-        Wed, 23 Mar 2022 07:05:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 78AE1616DB;
-        Wed, 23 Mar 2022 14:05:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB3E2C340E8;
-        Wed, 23 Mar 2022 14:05:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648044345;
-        bh=1oAteS9kFdrvyEzNGdIhJUXXW3m2qPYEMmS/a468Uzo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=oAvdrJwwvv0nTDkqjTkFxUBB0Uv5Xs+zarFCEWHugKri/ymW17SYVahPoE5wAK5fM
-         FubYzfJjvyJKx3tzHi7m2z9xh1/fYcZEc0nEkGdjqwUVeTPM/GwZysQgjZmeh6hY4p
-         x/JfwA/kwpS2UPYH89Qs+2MLo8DJguNBl36zG7zPzaDubIsO23XtHF/N7U1Su9G9KE
-         Q6ldUWSTg26zKTJZtBhchqjoiKVw9zwV9rWakuQe4LS5n2uFEJ/VgOb3Re24xhjiKo
-         8Loh6fooVwyMU2w5mZEiuCST/IF08ylTShDUI/xLwbnG04nbLjNySVNpg00aaFuZxM
-         5KQ5KAGudir1A==
-Received: by mail-ej1-f41.google.com with SMTP id d10so3032633eje.10;
-        Wed, 23 Mar 2022 07:05:45 -0700 (PDT)
-X-Gm-Message-State: AOAM53074xT6D2BDVdoLmjAE/bvcdWeMP29cQ/0Zo3BsfJLySWp/oQYD
-        plmFa8/vcVlxmkHvdCN4E7ciL9puAzJIHJOYvQ==
-X-Google-Smtp-Source: ABdhPJy7E6vyxf070rK6ZOCxsK5AWkoUKOUi1IbGT0yD0nul4jRGmi2hr2Mpc0tM9FE9EBpY85DFp3LmxDC9L4QwWts=
-X-Received: by 2002:a17:907:1c1b:b0:6e0:6618:8ac with SMTP id
- nc27-20020a1709071c1b00b006e0661808acmr137550ejc.82.1648044344180; Wed, 23
- Mar 2022 07:05:44 -0700 (PDT)
+        Wed, 23 Mar 2022 10:30:01 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97C0260EC;
+        Wed, 23 Mar 2022 07:28:29 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dmitry.osipenko)
+        with ESMTPSA id 5333C1F44CF5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1648045708;
+        bh=uTVCR5ZdpxUM6s7MkLUaYHnuhsua3Eu575U/P4M4DTk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ooQiBjlAl+SB8sdeVy7w5cNkGkuz8W4WURWbiON3uHiEyZLEVvv/SBJIFfQ3sLroY
+         JMK4FVfb1AuJTJyHc7e9VifJ+Iuf0XBLMrgt8TKdE1zzEW3/+L0DSiPe3X0X7f2WdI
+         /19ZuRsmqtiPF8mH8uYbFUWq6skILrpgpHxmJvJ7+NyHZcBqvBKxUu690GGhAbo9hj
+         4OwfftyZXRJ8Pp7tVc39mADFY+QEDENdtslHU9LV1TYVqrwPyRtJXM9O4HcLKMsX8m
+         QQsryjNDuVByheFDU8ZE4agGdg+Ivm37XE4Jkz13EAE33N5j2xa9k4Nij60zQySPLP
+         n5AIzuk0YKSng==
+Message-ID: <9ec970d6-ea09-802c-419b-b2ef26800990@collabora.com>
+Date:   Wed, 23 Mar 2022 17:28:24 +0300
 MIME-Version: 1.0
-References: <20220301233501.2110047-1-robh@kernel.org>
-In-Reply-To: <20220301233501.2110047-1-robh@kernel.org>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 23 Mar 2022 09:05:32 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKs=00e_XdO4W0oML6DVrhR3CsSTD+Cfamcx52i=DAE9g@mail.gmail.com>
-Message-ID: <CAL_JsqKs=00e_XdO4W0oML6DVrhR3CsSTD+Cfamcx52i=DAE9g@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: media: mediatek,vcodec: Fix addressing cell sizes
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v1] media: videobuf2: Allow applications customize data
+ offsets of capture buffers
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Boris Brezillon <bbrezillon@collabora.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Laura Nao <laura.nao@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>
+References: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
+ <a7c858461b99de2d4afad22d888acc3a74850240.camel@ndufresne.ca>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <a7c858461b99de2d4afad22d888acc3a74850240.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 1, 2022 at 5:35 PM Rob Herring <robh@kernel.org> wrote:
->
-> 'dma-ranges' in the example is written for cell sizes of 2 cells, but
-> the schema and example specify sizes of 1 cell. As the h/w has a bus
-> address of >32-bits, cell sizes of 2 is correct. Update the schema's
-> '#address-cells' and '#size-cells' to be 2 and adjust the example
-> throughout.
->
-> There's no error currently because dtc only checks 'dma-ranges' is a
-> correct multiple number of cells (3) and the schema checking is based on
-> bracketing of entries.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> I noticed the driver is checking 'dma-ranges' itself. That's generally
-> wrong as the core code should be configuring bus dma masks
-> automatically.
-> ---
->  .../media/mediatek,vcodec-subdev-decoder.yaml | 122 +++++++++---------
->  1 file changed, 64 insertions(+), 58 deletions(-)
+Hi Nicolas,
 
-Can this fix be applied for rc1? Still failing in linux-next.
+On 3/23/22 16:05, Nicolas Dufresne wrote:
+> Hi Dmitry,
+> 
+> thanks for giving a second look a this issue.
+> 
+> Le mardi 22 mars 2022 à 16:23 +0300, Dmitry Osipenko a écrit :
+>> Use data offsets provided by applications for multi-planar capture
+>> buffers. This allows V4L to import and use dma-bufs exported by other
+>> subsystems in cases where application wants to customize data offsets
+>> of capture buffers in order to meet hardware alignment requirements of
+>> both dma-buf exporter and importer.
+>>
+>> This feature is wanted for providing a better support of media hardware
+>> found on Chromebooks. In particular display and camera ISP hardware of
+>> Rockchip and MediaTek SoCs require special handling by userspace because
+>> display h/w has specific alignment requirements that don't match default
+>> alignments expected by V4L and there is a need to customize the data
+>> offsets in case of multi-planar formats.
+>>
+>> Some drivers already have preliminary support for data offsets
+>> customization of capture buffers, like NVIDIA Tegra video decoder driver
+>> for example, and V4L allows applications to provide data offsets for
+>> multi-planar output buffers, let's support such customization for the
+>> capture buffers as well.
+>>
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> ---
+>>  Documentation/userspace-api/media/v4l/buffer.rst | 9 ++++++++-
+>>  drivers/media/common/videobuf2/videobuf2-v4l2.c  | 7 +++++++
+>>  2 files changed, 15 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+>> index 4638ec64db00..75b1929e2acb 100644
+>> --- a/Documentation/userspace-api/media/v4l/buffer.rst
+>> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
+>> @@ -369,13 +369,20 @@ struct v4l2_plane
+>>        - ``data_offset``
+>>        - Offset in bytes to video data in the plane. Drivers must set this
+>>  	field when ``type`` refers to a capture stream, applications when
+>> -	it refers to an output stream.
+>> +	it refers to an output or capture stream.
+> 
+> There is a clear contradiction in this paragraph. Both the driver and the
+> application MUST set the data_offset.
 
-Rob
+I'm not sure where the contradiction is. Application must initialize the
+data_offset and driver must set data_offset too, if it's appropriate to
+do that for a particular driver.
+
+> Would it be possible to demo your idea by implementing this in a virtual driver
+> ? vivid already have data_offset for capture in some cases, you could verify if
+> your idea works without any conflict in this scenario.
+
+I actually considered implementing it in the vivid driver, but vivid
+driver already sets the data_offset to fixed values [1], so I decided
+that not to change it.
+
+But maybe we actually could extend the vivid driver by accepting
+data_offset from userspace for the cases where the fixed offset value is
+zero in the driver.. not sure.
+
+[1]
+https://elixir.bootlin.com/linux/latest/source/drivers/media/test-drivers/vivid/vivid-vid-cap.c#L172
+
+I verified my idea using the NVIDIA Tegra video decoder driver, which
+already takes data_offsets for capture planes [3] and libvdpau-tegra
+imports DRM dma-bufs into the V4L driver [4][5].
+
+[3]
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/media/platform/nvidia/tegra-vde/v4l2.c#n236
+[4]
+https://github.com/grate-driver/libvdpau-tegra/blob/master/src/decoder.c#L685
+[5]
+https://github.com/grate-driver/libvdpau-tegra/blob/master/src/v4l2.c#L359
+
+The plan is to extend RK ISP driver with support of data_offsets next,
+once we'll agree that this acceptable approach and we don't actually
+need go back to implementing the new VIDIOC_EXT_QBUF ioctl [6].
+
+[6]
+https://patchwork.linuxtv.org/project/linux-media/cover/20210114180738.1758707-1-helen.koike@collabora.com/
+
+This patch solves the problem for userspace when it wants to import
+buffers into V4L in case of multi-planar formats, but it doesn't cover
+all other possible cases that may require offsets customization too. On
+the other hand, it's easy to start accepting data_offset for the capture
+MPLANES without introducing new UAPIs, so I decided that will be best to
+start easy with the simplest solution.
