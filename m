@@ -2,33 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5093A4E5E62
-	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 06:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D3794E5FD8
+	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 09:01:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347750AbiCXGBR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Mar 2022 02:01:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48634 "EHLO
+        id S1348662AbiCXIC6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Mar 2022 04:02:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346144AbiCXGBQ (ORCPT
+        with ESMTP id S1348771AbiCXICv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Mar 2022 02:01:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D05693994
-        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 22:59:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A6E4360B9F
-        for <linux-media@vger.kernel.org>; Thu, 24 Mar 2022 05:59:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0EA8C340EC
-        for <linux-media@vger.kernel.org>; Thu, 24 Mar 2022 05:59:43 +0000 (UTC)
-Date:   Thu, 24 Mar 2022 06:59:41 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220324055943.C0EA8C340EC@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        Thu, 24 Mar 2022 04:02:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3770199EDB
+        for <linux-media@vger.kernel.org>; Thu, 24 Mar 2022 01:01:20 -0700 (PDT)
+Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2B6CFEF;
+        Thu, 24 Mar 2022 09:01:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1648108877;
+        bh=O6M4Cnlxi1ly81MWrJPUej4sEWANfjAAqbG+nSIO4s8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=NRu606VLSqmwIgzXYAcAGDEMk29L5GujlBuKSLK1CxuiW/DnjKJUrBkrdjiuJRQtw
+         mOT6jpsRJ08WBoNN2JrJr4ylc2LfPM0ctQ8DBhEu230+RWwNg9+JoAFz0nmCzmemo/
+         4serT4tmrP6t4xkbsc3VlIAuzZZ3sZmIIZyKdMV4=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v6 0/8] v4l: subdev active state
+Date:   Thu, 24 Mar 2022 10:00:22 +0200
+Message-Id: <20220324080030.216716-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -36,131 +49,72 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi,
 
-Results of the daily build of media_tree:
+v6 of the subdev active state series. v5 can be found from:
 
-date:			Thu Mar 24 05:00:17 CET 2022
-media-tree git hash:	ba2c670ae84bad705ec023bfa7a48f7f8eab5e16
-media_build git hash:	47e6d5a60b5da94db0118fa795dd0fcba646a0c7
-v4l-utils git hash:	52b4b9f26e1f4ee606a4885c117c088d681887fe
-edid-decode git hash:	cb74358c289650322d91af60cb48a9d984509fd2
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7843-g5397282c-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b8290237ff3dbf2f4db9ce0ce89af0c339aa5c63
-host hardware:		x86_64
-host os:		5.16.0-1-amd64
+https://lore.kernel.org/all/20220301105548.305191-1-tomi.valkeinen@ideasonboard.com/
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.308-i686: OK
-linux-4.9.308-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.273-i686: OK
-linux-4.14.273-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.236-i686: OK
-linux-4.19.236-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16.1-i686: OK
-linux-5.16.1-x86_64: OK
-linux-5.17-rc1-i686: OK
-linux-5.17-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-kerneldoc: OK
+Changes since v5:
 
-Detailed results are available here:
+- Fix code-block in docs
+- State management wrappers (DEFINE_STATE_WRAPPER). These wrappers will handle
+  the cases where the caller does not pass the active state properly.
+- Added v4l2_subdev_get_fmt(). This can be used by state-enabled subdev drivers for
+  v4l2_subdev_pad_ops.get_fmt.
+- Drop the legacy .h file and have v4l2_subdev_call_state_active() in
+  v4l2-subdev.h. The macro is now part of the "add subdev state locking" patch
+  as it is used there.
+- Added v4l2_subdev_get_pad_* helpers. These are temporary helpers to get rid of
+  the "try" word. The v4l2_subdev_get_try_* functions should later be renamed and
+  these temporary macros dropped.
+- Rename v4l2_subdev_get_active_state() to v4l2_subdev_get_unlocked_active_state()
+- Fix v4l2_subdev_lock_and_get_active_state() when there is no active state
 
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
+I have pushed my work/test branch to:
 
-Detailed regression test results are available here:
+git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git streams/state-work
 
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
+It contains this series, ov5640 series from Jacopo, and a some hacks/fixes I
+needed. The important part there is the topmost commit: "ov5640: convert to
+active state", which shows how a sensor driver can be changed to support active
+state.
 
-Full logs are available here:
+A few notes about that patch:
+- It could perhaps be cleaner if the state was passed around in certain
+  functions instead of calling v4l2_subdev_get_locked_active_state() in
+  multiple places.
+- The driver has a private mutex, which was shared with the control handler. The
+  same mutex is now also used for the states. There are not many places where
+  the private mutex is used as it were, and those could be converted to just
+  lock the active state.
+- Only the format is handled via the state. The driver also has some
+  crop/selection code, but I wasn't sure how that works.
+- ov5640_get_fmt() goes away as we can just use the v4l2_subdev_get_fmt()
+- The driver uses the new helper macro to get the format, instead of the "try" version, e.g.
+  "fmt = v4l2_subdev_get_pad_format(&sensor->sd, state, 0);" to get the format
+  for pad 0 in the given state.
 
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+ Tomi
 
-The Media Infrastructure API from this daily build is here:
+Tomi Valkeinen (8):
+  media: subdev: rename subdev-state alloc & free
+  media: subdev: add active state to struct v4l2_subdev
+  media: subdev: add v4l2_subdev_get_pad_* helpers
+  media: subdev: pass also the active state to subdevs from ioctls
+  media: subdev: add subdev state locking
+  media: subdev: add locking wrappers to subdev op wrappers
+  media: subdev: add v4l2_subdev_get_fmt() helper function
+  media: Documentation: add documentation about subdev state
 
-https://hverkuil.home.xs4all.nl/spec/index.html
+ .../driver-api/media/v4l2-subdev.rst          |  75 ++++++
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |   9 +-
+ .../media/platform/renesas/vsp1/vsp1_entity.c |  10 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         | 194 ++++++++++++---
+ drivers/staging/media/tegra-video/vi.c        |  10 +-
+ include/media/v4l2-subdev.h                   | 220 +++++++++++++++++-
+ 6 files changed, 480 insertions(+), 38 deletions(-)
+
+-- 
+2.25.1
+
