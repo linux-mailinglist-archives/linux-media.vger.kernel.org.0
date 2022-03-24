@@ -2,78 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 269484E61AB
-	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 11:23:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1CF24E61B6
+	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 11:28:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349379AbiCXKY4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Mar 2022 06:24:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46808 "EHLO
+        id S1349466AbiCXK3h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Mar 2022 06:29:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238441AbiCXKYy (ORCPT
+        with ESMTP id S242686AbiCXK3g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Mar 2022 06:24:54 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7674C255B6
-        for <linux-media@vger.kernel.org>; Thu, 24 Mar 2022 03:23:22 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id jx9so4308692pjb.5
-        for <linux-media@vger.kernel.org>; Thu, 24 Mar 2022 03:23:22 -0700 (PDT)
+        Thu, 24 Mar 2022 06:29:36 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DA74D48;
+        Thu, 24 Mar 2022 03:28:03 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id t13so2228655pgn.8;
+        Thu, 24 Mar 2022 03:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=6hR2jbQSg4CSVD3f4OWHAyVNhhJ8Mh8GIYUAWVOX8mI=;
-        b=lDRfzFWKN+5QH11AqFkY+X0pvWQbEiGu6cKjWqwqTw1H/Ust18pn80OYh+WDRmxqiU
-         oOkEV1BTuW9pjT9LGHs6Z7H6LCFIuGQ2PqHzLqmOIrQKVI/8Ir1D6J0s2dntoNargGnd
-         IaD1eOS/3kr5X44JQDlm4bMfFE/QvjHEexKs8=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v18S/Wust0se2JgEJEHFd4XwP2b9IQYXjBP97AuU/xA=;
+        b=iJz7SCSfrIT1x61BUDPExYbOCZAvpVuHFIpjaFFNxKSHYIH3fLRtvkcOaU7n76bXuq
+         lxvZiH6FJhB+Ybj+TjwXSn1Y6MveLe4l3g2N9+ow9l4YtfJVpYEzjGXAm9N05O23FttO
+         11LIr2UgtgdhOxAOrFH1BM0599H6Esy/dBgqQW3FqEfXnr+rDTLwOueyFvGQM5tUj/+4
+         LND7eWQXU1eisGCwvcHbNoPDhvZquvK6c5OoHrEaiLv3uu5vhy/BR14ozIIoGHUysHp6
+         0ZhXbhw/sfI0oZUOZLFaRQ6zi38QmuO6bOeYHnWyNouD3BMiZvUkm6XYA6YAEgr4G64r
+         bCZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6hR2jbQSg4CSVD3f4OWHAyVNhhJ8Mh8GIYUAWVOX8mI=;
-        b=CZ+GILfaFpHRurREPZqadpDGKll7j/uVAMDNu4trMiV/1eSMbx/iSYIrpkN6cw4Rxa
-         dGLb37V8vO0kWwkkGldSfKZe5kdU7NtmtOCDKiqFej/MaKrZ6isb9x7TzIggxvTF2eFz
-         GORgC83Ipg52d2+2nIa7GU83T91UhnbDf6ccTDQ6EXv13sJfjgEryagay9OBHWqeq2Or
-         iRo4fFOKo04O40HqwVog9iI0LV0ED2/nHzlxMC8nX6IyeYZ4XeQGzr6pYrtxu0tD282f
-         oo4sJ7+dDJSW7FMHN8Z9TgukY+1jrBdfg73aSA6WTODFVZTxTzOIEIhakvUMbwGiCy1g
-         Hriw==
-X-Gm-Message-State: AOAM530kbuF24dH0vtxoVCy/dnhQ6+oTObCB+FpHBvqBZuqaKv5BydFh
-        rB6YsnFFBXZHBNbYc/bg4Zo9rA==
-X-Google-Smtp-Source: ABdhPJxq+/6bheF0HDrYCcPoo4W5reCHHq/NFJ/3QA9yOmyTPlanPgLY0yPNXRyzPODHB0KRBx8MhQ==
-X-Received: by 2002:a17:902:c652:b0:154:2920:df6d with SMTP id s18-20020a170902c65200b001542920df6dmr4906472pls.146.1648117401888;
-        Thu, 24 Mar 2022 03:23:21 -0700 (PDT)
-Received: from google.com ([2401:fa00:8f:203:f22a:8f8e:aca1:9b8c])
-        by smtp.gmail.com with ESMTPSA id rm5-20020a17090b3ec500b001c7559762e9sm9066552pjb.20.2022.03.24.03.23.19
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v18S/Wust0se2JgEJEHFd4XwP2b9IQYXjBP97AuU/xA=;
+        b=BeJhqX4DmbBztQT1Ly3rWEncHp9P5XTJWs7m4dZHtOJH8WDkVx16/mryd4/Jz0BPhC
+         sUJQB7yshQzVtEm58C7gLZHxKznuslw4QGhKGwGJ942ROFo9C8NfwtCEp5VPW4QDcg6v
+         7ZSqbq385/AxPzc5B1/qroEd4l32Sd/WPLw4XW4ns3Vn0INzpZwpOOA1W2hciYyq57xI
+         5pD0EIvOcmB4/tIX2OiV+knWSX5Te1n+5/Y/HP9xvPbD4Smnz4K4r9hGwNl5S+XXv7vP
+         4ohE2FVfhlQVFcyxTrwnvTYbvY0PQv/LzQU0fZyNxsDXAIWMi+wTT2CQSPs40V8HPeRG
+         w1Tg==
+X-Gm-Message-State: AOAM532wToKztt+5NDvXsNkTBuZekNrCeMV0a6LcYJ29RdC1jHi8luJE
+        tfi3gCaXBKN7+zzvefl4GHM=
+X-Google-Smtp-Source: ABdhPJy/b+fhtZNCm7gbm5YlutC9ZOiexbnJweTTLpAjoUkpDecrxVc6/YWWksnkR7gRS73UwCUaKQ==
+X-Received: by 2002:a05:6a00:10cb:b0:4f7:942:6a22 with SMTP id d11-20020a056a0010cb00b004f709426a22mr4696445pfu.84.1648117683145;
+        Thu, 24 Mar 2022 03:28:03 -0700 (PDT)
+Received: from slim.das-security.cn ([103.84.139.52])
+        by smtp.gmail.com with ESMTPSA id l18-20020a056a00141200b004f75395b2cesm2879507pfu.150.2022.03.24.03.28.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Mar 2022 03:23:21 -0700 (PDT)
-Date:   Thu, 24 Mar 2022 19:23:16 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Hangyu Hua <hbh25y@gmail.com>
-Cc:     mchehab@kernel.org, senozhatsky@chromium.org, caihuoqing@baidu.com,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: dvb_vb2: fix possible out of bound access
-Message-ID: <YjxGlIyYiULyAXy6@google.com>
-References: <20220324080119.40133-1-hbh25y@gmail.com>
+        Thu, 24 Mar 2022 03:28:02 -0700 (PDT)
+From:   Hangyu Hua <hbh25y@gmail.com>
+To:     sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hangyu Hua <hbh25y@gmail.com>
+Subject: [PATCH] media: mc: delete redundant code in __media_device_unregister_entity
+Date:   Thu, 24 Mar 2022 18:27:52 +0800
+Message-Id: <20220324102752.47077-1-hbh25y@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220324080119.40133-1-hbh25y@gmail.com>
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (22/03/24 16:01), Hangyu Hua wrote:
-> vb2_core_qbuf and vb2_core_querybuf don't check the range of b->index
-> controlled by the user.
-> 
-> Fix this by adding range checking code before using them.
-> 
-> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+media_gobj_destroy has already set graph_obj.mdev to NULL. There is no need to
+set it again.
 
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+---
+ drivers/media/mc/mc-device.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+index cf5e459b1d96..7727c619043e 100644
+--- a/drivers/media/mc/mc-device.c
++++ b/drivers/media/mc/mc-device.c
+@@ -605,7 +605,6 @@ static void __media_device_unregister_entity(struct media_entity *entity)
+ 
+ 	/* invoke entity_notify callbacks to handle entity removal?? */
+ 
+-	entity->graph_obj.mdev = NULL;
+ }
+ 
+ /**
+-- 
+2.25.1
+
