@@ -2,43 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BB704E69A0
-	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 21:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87D804E69CD
+	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 21:26:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347657AbiCXUIp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Mar 2022 16:08:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60970 "EHLO
+        id S1348962AbiCXU0l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Mar 2022 16:26:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241546AbiCXUIo (ORCPT
+        with ESMTP id S1353387AbiCXU0i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Mar 2022 16:08:44 -0400
+        Thu, 24 Mar 2022 16:26:38 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F285B245C;
-        Thu, 24 Mar 2022 13:07:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63DC4B8212;
+        Thu, 24 Mar 2022 13:25:05 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 381DA14CD;
-        Thu, 24 Mar 2022 21:07:09 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1BC51852;
+        Thu, 24 Mar 2022 21:25:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1648152429;
-        bh=0eOQsHYDIIbVZCbf67FHyRGuPJuqHwQLe+/L63VKp0Q=;
+        s=mail; t=1648153504;
+        bh=ZZ2CK86gTTo7D1QQXMRiTg4e02nEdAmkkQoefa7UwzA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PtRlmWJgOon/0zxahejq/GCd1M8wZ9DD2K2XAn07nlV2JUnwbIiIDZMYSQu3QWbNs
-         +jlqXrgN1XWNC/ApUkTqz3aS8tzV70gR5n8wKxPy/C8h78S/dDAcanz3bziHWiUd1v
-         VnhMaUIoYhXL/4nPMjOvwempy9FkUlBmc9q4qkh0=
-Date:   Thu, 24 Mar 2022 22:07:07 +0200
+        b=k8yrJ5DGX3+H0lQOXdNH7F4JLRswpatyhWBnZPfBLxvfMGhXCP3ewa/sC9dnwbPP9
+         ypXAfeZXfpy2R24eIU8vfp9yabT8qj2omFQbj+O5bZqT4DrmBzz11tRIYclSqxUN4h
+         doq1h4BrQuKtIIFdcYnPcF/61HXOKg8xu9HY/LG8=
+Date:   Thu, 24 Mar 2022 22:25:02 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Hangyu Hua <hbh25y@gmail.com>, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: uvc_v4l2: fix possible memory leak in
- uvc_ioctl_ctrl_map
-Message-ID: <YjzPa0iJ4OuCZ8q0@pendragon.ideasonboard.com>
-References: <20220324081718.41091-1-hbh25y@gmail.com>
- <CANiDSCvqQqOZ=uigeSz7ihe-y5XDLCRYD9+ZRULDE21td5rvEQ@mail.gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v2] media: uvcvideo: Fix handling on Bitmask controls
+Message-ID: <YjzTnlf92rY/X6Lv@pendragon.ideasonboard.com>
+References: <20220215184228.2531386-1-ribalda@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CANiDSCvqQqOZ=uigeSz7ihe-y5XDLCRYD9+ZRULDE21td5rvEQ@mail.gmail.com>
+In-Reply-To: <20220215184228.2531386-1-ribalda@chromium.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -48,34 +47,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 24, 2022 at 06:17:18PM +0100, Ricardo Ribalda wrote:
-> Isnt it a dupe of:
-> https://patchwork.linuxtv.org/project/linux-media/patch/20211008120914.69175-1-ribalda@chromium.org/
-> ?
+Hi Ricardo,
 
-It is. I'll review that one.
+Thank you for the patch.
 
-> On Thu, 24 Mar 2022 at 18:13, Hangyu Hua <hbh25y@gmail.com> wrote:
-> >
-> > map->name needs to be freed when uvc_ioctl_ctrl_map fails.
-> >
-> > Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
-> > ---
-> >  drivers/media/usb/uvc/uvc_v4l2.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > index 711556d13d03..e46a2f3b06cb 100644
-> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > @@ -93,6 +93,7 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
-> >
-> >         kfree(map->menu_info);
-> >  free_map:
-> > +       kfree(map->name);
-> >         kfree(map);
-> >
-> >         return ret;
+On Tue, Feb 15, 2022 at 06:42:28PM +0000, Ricardo Ribalda wrote:
+> Minimum and step values for V4L2_CTRL_TYPE_BITMASK controls should be 0.
+> There is no need to query the camera firmware about this and maybe get
+> invalid results.
+> 
+> Also value should be clamped to the min/max value advertised by the
+> hardware.
+> 
+> Fixes v4l2-compliane:
+> Control ioctls (Input 0):
+>                 fail: v4l2-test-controls.cpp(97): minimum must be 0 for a bitmask control
+> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
+
+What bitmask control do you have ? The driver has no standard control
+that use the V4L2_CTRL_TYPE_BITMASK type.
+
+UVC doesn't formally define bitmask control type
+(UVC_CTRL_DATA_TYPE_BITMASK). In UVC 1.1 only the UVC_CT_AE_MODE_CONTROL
+control has a bitmap type, and only one bit can be set at a type. It
+thus maps to a V4L2 menu control.
+
+In UVC 1.5 there are other controls documented as bitmap controls,
+which could map to the V4L2 bitmask control type. Those don't support
+GET_MIN and GET_MAX, but use GET_RES to report the list of bits that can
+be set. This should be mapped to the V4L2 control maximum value, which
+isn't handled by this patch. The last hunk is also incorrect, as it
+clamps the value to what is reported by GET_MIN and GET_MAX, instead of
+[0, GET_RES], but more than that, it should not just clamp the value,
+but check that all bits are valid.
+
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index b4f6edf968bc0..d8b9ab5b7fb85 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1156,7 +1156,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  		break;
+>  	}
+>  
+> -	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
+> +	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN &&
+> +	    mapping->v4l2_type != V4L2_CTRL_TYPE_BITMASK)
+>  		v4l2_ctrl->minimum = mapping->get(mapping, UVC_GET_MIN,
+>  				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
+>  
+> @@ -1164,7 +1165,8 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  		v4l2_ctrl->maximum = mapping->get(mapping, UVC_GET_MAX,
+>  				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
+>  
+> -	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
+> +	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES &&
+> +	    mapping->v4l2_type != V4L2_CTRL_TYPE_BITMASK)
+>  		v4l2_ctrl->step = mapping->get(mapping, UVC_GET_RES,
+>  				  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
+>  
+> @@ -1721,6 +1723,7 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+>  	/* Clamp out of range values. */
+>  	switch (mapping->v4l2_type) {
+>  	case V4L2_CTRL_TYPE_INTEGER:
+> +	case V4L2_CTRL_TYPE_BITMASK:
+>  		if (!ctrl->cached) {
+>  			ret = uvc_ctrl_populate_cache(chain, ctrl);
+>  			if (ret < 0)
 
 -- 
 Regards,
