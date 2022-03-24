@@ -2,153 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B4AD4E5BE8
-	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 00:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5093A4E5E62
+	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 06:59:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345715AbiCWXjV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Mar 2022 19:39:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53656 "EHLO
+        id S1347750AbiCXGBR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Mar 2022 02:01:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347106AbiCWXiw (ORCPT
+        with ESMTP id S1346144AbiCXGBQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Mar 2022 19:38:52 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF946E781
-        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 16:37:20 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id b24so3672187edu.10
-        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 16:37:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=lYs3d+G/MqnkVL5mPK5nuhjYbBx01naVFSe4Xk42kfM=;
-        b=lKb4AaK6N9O62KVZSBFpoXMFMKi2DX++d0hcldo7VKltrYvP1ZV+I9dYXZlx13MpxC
-         U6xbiC42KS2p1EnoJU/ZpUu2VFNzNn/B5ByWL9Zt/vr5XdA+yDneUYBZIcau3mhQ0muv
-         V4ah+EZCicq3OsyPu2g/e6akuJDlkHFQFQdx2jnBGU1XDVC3q67LkJ1lTpu2QD3b10Gm
-         //++HMvqfQRnNJ7DQNGYM/1Pf8y6AjoqHMxScOBz3cW/cZXBbkCYsHBTNfYHMC39INi5
-         cHWn+JRXaDWTnRSK6VSSXCSqWAo9ASLt+74RRIvM/eLnYs1Iz3CUqvYDSdMrTd/CQ+rq
-         7Uww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lYs3d+G/MqnkVL5mPK5nuhjYbBx01naVFSe4Xk42kfM=;
-        b=36nRfIYInSjksH1JidGV28ZnEt3QhByIrRhYKb2jGRI1teUQgM83g4zxawtpzeFFdG
-         l+Ago6FW3i0BxG36J/U7CQfnNmdoDfc1E9Wze/qdzMBH1c3D3X5DKCHYv9ewsasPbPh0
-         Hjh7nhjiVA3XOuL6RXcbf11Xkf4qjJVFp2UgYNZUtN8PNR6YVtfQC9vjS81aWAJY7Y9t
-         W6G3dBA3wuHCrgZfo/qgmf8IdQUIai6bnETzhAzqt04we4LI9bnuLD2bO7Ei7u5QeeDT
-         ydfUL2e1IgVn/4Dop1/ukFBabfjmfHf/5+YTzWJ9YU2Hz1wE7RwEjt6UqXnRtrvZLSR4
-         EAfw==
-X-Gm-Message-State: AOAM530a0ikVApAuAfw/VztkKQAwNHABAizOPX+xacic3GW8V/9BmyVc
-        lyvQb4KZslTIgIfZNVFAwXeoNF2SbYGOcZtkcvtDdg==
-X-Google-Smtp-Source: ABdhPJwADoSTh9axrzXODWW9/zmv/BOuIsIRoK4uginvkl+fxm/Pmh4atOmF02EcDNdhjJn90v29djoFR8TlCQGU8F0=
-X-Received: by 2002:a50:9b4f:0:b0:419:49af:429c with SMTP id
- a15-20020a509b4f000000b0041949af429cmr3390112edj.276.1648078639171; Wed, 23
- Mar 2022 16:37:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220322095223.GG8477@blackbody.suse.cz> <CABdmKX2hZChBO09xfhqB7EbH6RY9JdmDp7zh23DaGuwidn=v4w@mail.gmail.com>
-In-Reply-To: <CABdmKX2hZChBO09xfhqB7EbH6RY9JdmDp7zh23DaGuwidn=v4w@mail.gmail.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Wed, 23 Mar 2022 16:37:08 -0700
-Message-ID: <CABdmKX3Un=k3yU1BuCnEEoZkOqMovVrjcg=GiqDEtLZD_awX3g@mail.gmail.com>
-Subject: Re: [RFC v3 5/8] dmabuf: Add gpu cgroup charge transfer function
-To:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
-        "Subject: Re: [RFC v3 5/8] dmabuf: Add gpu cgroup charge transfer
-        function Reply-To: In-Reply-To:" 
-        <CABdmKX3+mTjxWzgrv44SKWT7mdGnQKMrv6c26d=iWdNPG7f1VQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 24 Mar 2022 02:01:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D05693994
+        for <linux-media@vger.kernel.org>; Wed, 23 Mar 2022 22:59:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A6E4360B9F
+        for <linux-media@vger.kernel.org>; Thu, 24 Mar 2022 05:59:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0EA8C340EC
+        for <linux-media@vger.kernel.org>; Thu, 24 Mar 2022 05:59:43 +0000 (UTC)
+Date:   Thu, 24 Mar 2022 06:59:41 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220324055943.C0EA8C340EC@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 22, 2022 at 9:47 AM T.J. Mercier <tjmercier@google.com> wrote:
->
-> On Tue, Mar 22, 2022 at 2:52 AM Michal Koutn=C3=BD <mkoutny@suse.com> wro=
-te:
-> >
-> > On Mon, Mar 21, 2022 at 04:54:26PM -0700, "T.J. Mercier"
-> > <tjmercier@google.com> wrote:
-> > > Since the charge is duplicated in two cgroups for a short period
-> > > before it is uncharged from the source cgroup I guess the situation
-> > > you're thinking about is a global (or common ancestor) limit?
-> >
-> > The common ancestor was on my mind (after the self-shortcut).
-> >
-> > > I can see how that would be a problem for transfers done this way and
-> > > an alternative would be to swap the order of the charge operations:
-> > > first uncharge, then try_charge. To be certain the uncharge is
-> > > reversible if the try_charge fails, I think I'd need either a mutex
-> > > used at all gpucg_*charge call sites or access to the gpucg_mutex,
-> >
-> > Yes, that'd provide safe conditions for such operations, although I'm
-> > not sure these special types of memory can afford global lock on their
-> > fast paths.
->
-> I have a benchmark I think is suitable, so let me try this change to
-> the transfer implementation and see how it compares.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I added a mutex to struct gpucg which is locked when charging the
-cgroup initially during allocation, and also only for the source
-cgroup during dma_buf_charge_transfer. Then I used a multithreaded
-benchmark where each thread allocates 4, 8, 16, or 32 DMA buffers and
-then sends them through Binder to another process with charge transfer
-enabled. This was intended to generate contention for the mutex in
-dma_buf_charge_transfer. The results of this benchmark show that the
-difference between a mutex protected charge transfer and an
-unprotected charge transfer is within measurement noise. The worst
-data point shows about 3% overheard for the mutex.
+Results of the daily build of media_tree:
 
-So I'll prep this change for the next revision. Thanks for pointing it out.
->
-> >
-> > > which implies adding transfer support to gpu.c as part of the gpucg_*
-> > > API itself and calling it here. Am I following correctly here?
-> >
-> > My idea was to provide a special API (apart from
-> > gpucp_{try_charge,uncharge}) to facilitate transfers...
-> >
-> > > This series doesn't actually add limit support just accounting, but
-> > > I'd like to get it right here.
-> >
-> > ...which could be implemented (or changed) depending on how the chargin=
-g
-> > is realized internally.
-> >
-> >
-> > Michal
+date:			Thu Mar 24 05:00:17 CET 2022
+media-tree git hash:	ba2c670ae84bad705ec023bfa7a48f7f8eab5e16
+media_build git hash:	47e6d5a60b5da94db0118fa795dd0fcba646a0c7
+v4l-utils git hash:	52b4b9f26e1f4ee606a4885c117c088d681887fe
+edid-decode git hash:	cb74358c289650322d91af60cb48a9d984509fd2
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7843-g5397282c-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b8290237ff3dbf2f4db9ce0ce89af0c339aa5c63
+host hardware:		x86_64
+host os:		5.16.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.273-i686: OK
+linux-4.14.273-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.236-i686: OK
+linux-4.19.236-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16.1-i686: OK
+linux-5.16.1-x86_64: OK
+linux-5.17-rc1-i686: OK
+linux-5.17-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
