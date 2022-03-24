@@ -2,59 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 569FE4E6039
-	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 09:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B5704E6075
+	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 09:37:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346286AbiCXITF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Mar 2022 04:19:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37750 "EHLO
+        id S1348972AbiCXIjK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Mar 2022 04:39:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344245AbiCXITE (ORCPT
+        with ESMTP id S238643AbiCXIjJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Mar 2022 04:19:04 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FA929BAD8;
-        Thu, 24 Mar 2022 01:17:34 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id k6so3940796plg.12;
-        Thu, 24 Mar 2022 01:17:34 -0700 (PDT)
+        Thu, 24 Mar 2022 04:39:09 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31D849BBAE;
+        Thu, 24 Mar 2022 01:37:38 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id k6so3989445plg.12;
+        Thu, 24 Mar 2022 01:37:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hORjNt7p5srcJ67bMMlDpkQB9q4uSrSXFGrY1gkdpyM=;
-        b=DtTX2JxVBf6yhnC62Db+CzG9bXaA8mhg9UCbbPZNW+GyzyL7rBq86kihF/Opgl3srC
-         38XE78gQnh4WIDQ8vO5spyJ2XP7JictzL0wMOB1efDlfBP/LYGn47CCKtq7Iz8k0QQdP
-         VGVTum9u1MHagE3tymJ5NzU7qLJiv4+sXKF2SIEK5CFfoN0nqilJkW1qwyB0CsM/MvAk
-         TJgVac41aq77uuevcv0RxJRhmees0hJsOBsxU8WEFycsr8JDRPa50Lk8EQWzGgAjTWNw
-         EEx5iufcBP4b2G3eKNFf8sMYzvqEAkGJB+dnyb8DkuaR0G9x9BgnXPGF8HlCUlt7ZYZS
-         N9yA==
+        bh=IXhYQHS4VNqf/GV/cJxxnwtzAOHEaduwd81EzKtbsnI=;
+        b=plSM3VwYch6XnDt4M+ew5Jpe3OJZ6zJCswrbKrS9FmEM0Zb8/LmCvz9x2sEqfvhWWO
+         JPTMiRVUDSeL164vpn19/N2W56HYNrEbV5rWuaL25HxDHQS2bkmZzMNbp1CD+UujJ8an
+         4VtioyKhu5fi8LbZKbuWXuPviEJcCxQnyghYmIHIMfjaa4Kuav6hQgo4hlJRCEPVQHGh
+         RZhQ1YA/BEzGiLGsiD2k38v0CBHl7gGTccZi321t9mF4ZEfsE6RBzWmI9E1/2paH7HML
+         zWUWNX6glxtg3UHpm7lUz46qdgrkOEYzqn6f9uQjkFYLeYWl5ZLjICQ8UK/nHfQxvIN1
+         s8Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hORjNt7p5srcJ67bMMlDpkQB9q4uSrSXFGrY1gkdpyM=;
-        b=zhLxCJUaU+3IADyvU6K7Wj61rMm17eXgNq1iTZ476Wg/ceh0JzGdE2WZt4SfCBLDgZ
-         VCDh8gKwDYewLjCOXAQki8JuS+cp1UfaWDYVLi3FgQ+CtVEHLyndzmv6XHB6HlelWHaK
-         VSvR0m9tqAkVP19kz3WGSWXcKhyzMVtYPQl33nDjMMoCvfTzPgMM9i2pCVld9sMkmv91
-         yoYe3D8cy38iLDbZgi+SJjwu6uZcKCQVLOK/i+WEgYuqQHv6b2qhdIivgoA0dlCaIhCh
-         s6N2+Ppw2Z7GldOZpXgJXaEX3+x+WJkVamCkRFe5ZJjZ/nYgUAO3/u9xsaXELxjK+sX0
-         vIjw==
-X-Gm-Message-State: AOAM532tNsvrUvfmgbXLNh5b7rU5xluJCOv28pRum9wswSC08UTd7RQg
-        3W4g0akRAA4CKFYWt1c2CFA=
-X-Google-Smtp-Source: ABdhPJx0Aio1HaPIhWX18pWOGE3LqBOkeNBrQ1px/ic2IcbQkrSdu4cDz1rcU3RndGPZjxu3+CngSA==
-X-Received: by 2002:a17:902:930b:b0:14d:b0c0:1f71 with SMTP id bc11-20020a170902930b00b0014db0c01f71mr4574601plb.113.1648109853554;
-        Thu, 24 Mar 2022 01:17:33 -0700 (PDT)
+        bh=IXhYQHS4VNqf/GV/cJxxnwtzAOHEaduwd81EzKtbsnI=;
+        b=ix3nJnNiidQINTLmHO8zs35F5RF+DFhZEkb6ubhKDC2y0k711IsEhXu7XUcg6UJKFr
+         Pm1v19UAWUQNr7SXnbTHGv0uwFNab9aOUvv382JlNha2AyIgrDsI86PqnXd+obTJhSGp
+         RBdKRzNelGMuKxK/C1RqsPpV5ju2Z653uL8wCmyojjsbPbxjDrVFdgGw8mEWcERpm/kC
+         m46i7MtA1bNdt9qMIDpdD4jd4zWuGXhrDOJZuTNlo+DfsspyY4JKOwoQTCqw/9D5Ua8/
+         zrFlw9JzTKbfUIF8eXHPZ9tCT1333PexAEw88OhourrYOVaVhRSkotuQIBFGF7ZXD614
+         I4pA==
+X-Gm-Message-State: AOAM532LjT37BHArFVts3joL1rzgcmibHQ4D+GWrhrnpPGTZKunQI5WE
+        8/z2Jlr29RW2nHi/QDpHERI=
+X-Google-Smtp-Source: ABdhPJyzShKJ4vQLUuiEeWac72aMhLVYjSSrsrD7Vm+92vH+ZI7xaWjZIOtvrtINE3EiKAW5oDFf3g==
+X-Received: by 2002:a17:902:f646:b0:151:d5b1:cbb4 with SMTP id m6-20020a170902f64600b00151d5b1cbb4mr4605810plg.150.1648111057790;
+        Thu, 24 Mar 2022 01:37:37 -0700 (PDT)
 Received: from slim.das-security.cn ([103.84.139.53])
-        by smtp.gmail.com with ESMTPSA id y9-20020a056a00180900b004faa45a2230sm2451502pfa.210.2022.03.24.01.17.31
+        by smtp.gmail.com with ESMTPSA id z9-20020a63b909000000b003823389e47csm1881046pge.9.2022.03.24.01.37.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Mar 2022 01:17:33 -0700 (PDT)
+        Thu, 24 Mar 2022 01:37:37 -0700 (PDT)
 From:   Hangyu Hua <hbh25y@gmail.com>
-To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+To:     jacob-chen@iotwrt.com, ezequiel@vanguardiasur.com.ar,
+        mchehab@kernel.org, heiko@sntech.de
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Hangyu Hua <hbh25y@gmail.com>
-Subject: [PATCH] media: uvc_v4l2: fix possible memory leak in uvc_ioctl_ctrl_map
-Date:   Thu, 24 Mar 2022 16:17:18 +0800
-Message-Id: <20220324081718.41091-1-hbh25y@gmail.com>
+Subject: [PATCH] media: rga: fix possible memory leak in rga_probe
+Date:   Thu, 24 Mar 2022 16:37:24 +0800
+Message-Id: <20220324083724.42654-1-hbh25y@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,25 +70,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-map->name needs to be freed when uvc_ioctl_ctrl_map fails.
+rga->m2m_dev needs to be freed when rga_probe fails.
 
 Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
 ---
- drivers/media/usb/uvc/uvc_v4l2.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/platform/rockchip/rga/rga.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 711556d13d03..e46a2f3b06cb 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -93,6 +93,7 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index 4de5e8d2b261..c2ce4fdcdb7f 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -865,7 +865,7 @@ static int rga_probe(struct platform_device *pdev)
  
- 	kfree(map->menu_info);
- free_map:
-+	kfree(map->name);
- 	kfree(map);
+ 	ret = pm_runtime_resume_and_get(rga->dev);
+ 	if (ret < 0)
+-		goto rel_vdev;
++		goto rel_m2m;
  
- 	return ret;
+ 	rga->version.major = (rga_read(rga, RGA_VERSION_INFO) >> 24) & 0xFF;
+ 	rga->version.minor = (rga_read(rga, RGA_VERSION_INFO) >> 20) & 0x0F;
+@@ -881,7 +881,7 @@ static int rga_probe(struct platform_device *pdev)
+ 					   DMA_ATTR_WRITE_COMBINE);
+ 	if (!rga->cmdbuf_virt) {
+ 		ret = -ENOMEM;
+-		goto rel_vdev;
++		goto rel_m2m;
+ 	}
+ 
+ 	rga->src_mmu_pages =
+@@ -918,6 +918,8 @@ static int rga_probe(struct platform_device *pdev)
+ free_dma:
+ 	dma_free_attrs(rga->dev, RGA_CMDBUF_SIZE, rga->cmdbuf_virt,
+ 		       rga->cmdbuf_phy, DMA_ATTR_WRITE_COMBINE);
++rel_m2m:
++	v4l2_m2m_release(rga->m2m_dev);
+ rel_vdev:
+ 	video_device_release(vfd);
+ unreg_v4l2_dev:
 -- 
 2.25.1
 
