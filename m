@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB4094E5FD6
-	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 09:01:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 222AF4E5FD7
+	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 09:01:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348774AbiCXIDF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1348775AbiCXIDF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 24 Mar 2022 04:03:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54332 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242442AbiCXIC6 (ORCPT
+        with ESMTP id S1348762AbiCXIC6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 24 Mar 2022 04:02:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF4191AE1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 719FF99ED5
         for <linux-media@vger.kernel.org>; Thu, 24 Mar 2022 01:01:27 -0700 (PDT)
 Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B56851852;
-        Thu, 24 Mar 2022 09:01:21 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83AEF1858;
+        Thu, 24 Mar 2022 09:01:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1648108882;
-        bh=rJlSjP4XRW7QLe5g9DHeDeBOxrTpEEzB/H/TfPrkRMs=;
+        s=mail; t=1648108883;
+        bh=nYVU7jnyboXZYlMS5/Ass4CAtHJp1LeY5ZxD1NV+nLE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gQD/qtuqcI36E5AVMM1bjWtRS2iuuqy2lm37qwltG3hgliqM+dCq3Cr2U0qtmZEqm
-         zhSpT9DVAFwIyxwqOOFqo/7ftltbG8nSCDwLvOvQzPmwb5woseNTDBauEARZgSOGBB
-         QXS+bN8M89U6cP0K5DfhuAC2+zP9CESr7ObS7tTg=
+        b=cMFBjKnOnhisC1PgqS7qD3Yu3ZPz559jGZasa+MMHhMkXbmXNozaZfn1QVYeM+Bxy
+         fr1m4+74TLMJ5uC4CxqefGkv6lcc6MWce/O7njhFUrhm3eh8qSoI8MLFPD9wdVINFr
+         IAsOf8yoWRY2uKK8XDTwta82fU4yqJE5ztmuqAmk=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -34,9 +34,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v6 6/8] media: subdev: add locking wrappers to subdev op wrappers
-Date:   Thu, 24 Mar 2022 10:00:28 +0200
-Message-Id: <20220324080030.216716-7-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v6 7/8] media: subdev: add v4l2_subdev_get_fmt() helper function
+Date:   Thu, 24 Mar 2022 10:00:29 +0200
+Message-Id: <20220324080030.216716-8-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220324080030.216716-1-tomi.valkeinen@ideasonboard.com>
 References: <20220324080030.216716-1-tomi.valkeinen@ideasonboard.com>
@@ -44,92 +44,81 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_FILL_THIS_FORM_SHORT,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It is common that media drivers call subdev ops in source subdevs, and
-pass NULL as the state. This was the way to indicate that the callee
-should use the callee's private active state.
-
-E.g.:
-
-v4l2_subdev_call(priv->source_sd, pad, get_fmt, NULL, &sd_fmt);
-
-Now that we have a real subdev active state in the v4l2_subdev struct,
-we want the caller to pass a proper state (when available). And
-furthermore, the state should be locked.
-
-This would mean changing all the callers, which is the long term goal.
-
-To fix this issue in the short term, let's add an extra wrapper layer to
-all v4l2_subdev_call_pad_wrappers which deal with states. These wrappers
-handle the state == NULL case by using the locked active state instead
-(when available).
+Add v4l2_subdev_get_fmt() helper function which implements
+v4l2_subdev_pad_ops.get_fmt using active state. Subdev drivers that
+support active state and do not need to do anything special in their
+get_fmt op can use this helper directly for v4l2_subdev_pad_ops.get_fmt.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 42 ++++++++++++++++++++++-----
- 1 file changed, 35 insertions(+), 7 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 18 ++++++++++++++++++
+ include/media/v4l2-subdev.h           | 17 +++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 824424f0a741..d8d1c9ef4dc4 100644
+index d8d1c9ef4dc4..cbc5ebff0656 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -319,14 +319,42 @@ static int call_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
- 	       sd->ops->pad->get_mbus_config(sd, pad, config);
+@@ -1029,6 +1029,24 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
+ }
+ EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
+ 
++int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
++			struct v4l2_subdev_format *format)
++{
++	struct v4l2_mbus_framefmt *fmt;
++
++	if (format->pad >= sd->entity.num_pads)
++		return -EINVAL;
++
++	fmt = v4l2_subdev_get_try_format(sd, state, format->pad);
++	if (!fmt)
++		return -EINVAL;
++
++	format->format = *fmt;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
++
+ #endif /* CONFIG_MEDIA_CONTROLLER */
+ 
+ void v4l2_subdev_init(struct v4l2_subdev *sd, const struct v4l2_subdev_ops *ops)
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 700ce376b22c..491bdbb1670c 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1300,6 +1300,23 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
+ 	return sd->active_state;
  }
  
-+/*
-+ * Create state-management wrapper for pad ops dealing with subdev state. The
-+ * wrapper handles the case where the caller does not provide the called
-+ * subdev's state. This should be removed when all the callers are fixed.
++/**
++ * v4l2_subdev_get_fmt() - Fill format based on state
++ * @sd: subdevice
++ * @state: subdevice state
++ * @format: pointer to &struct v4l2_subdev_format
++ *
++ * Fill @format->format field based on the information in the @format struct.
++ *
++ * This function can be used by the subdev drivers which support active state to
++ * implement v4l2_subdev_pad_ops.get_fmt if the subdev driver does not need to
++ * do anything special in their get_fmt op.
++ *
++ * Returns 0 on success, error value otherwise.
 + */
-+#define DEFINE_STATE_WRAPPER(f, arg_type)                                  \
-+	static int call_##f##_state(struct v4l2_subdev *sd,                \
-+				    struct v4l2_subdev_state *_state,      \
-+				    arg_type *format)                      \
-+	{                                                                  \
-+		struct v4l2_subdev_state *state = _state;                  \
-+		int ret;                                                   \
-+		if (!_state)                                               \
-+			state = v4l2_subdev_lock_and_get_active_state(sd); \
-+		ret = call_##f(sd, state, format);                         \
-+		if (!_state && state)                                      \
-+			v4l2_subdev_unlock_state(state);                   \
-+		return ret;                                                \
-+	}
++int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
++			struct v4l2_subdev_format *format);
 +
-+DEFINE_STATE_WRAPPER(get_fmt, struct v4l2_subdev_format);
-+DEFINE_STATE_WRAPPER(set_fmt, struct v4l2_subdev_format);
-+DEFINE_STATE_WRAPPER(enum_mbus_code, struct v4l2_subdev_mbus_code_enum);
-+DEFINE_STATE_WRAPPER(enum_frame_size, struct v4l2_subdev_frame_size_enum);
-+DEFINE_STATE_WRAPPER(enum_frame_interval, struct v4l2_subdev_frame_interval_enum);
-+DEFINE_STATE_WRAPPER(get_selection, struct v4l2_subdev_selection);
-+DEFINE_STATE_WRAPPER(set_selection, struct v4l2_subdev_selection);
-+
- static const struct v4l2_subdev_pad_ops v4l2_subdev_call_pad_wrappers = {
--	.get_fmt		= call_get_fmt,
--	.set_fmt		= call_set_fmt,
--	.enum_mbus_code		= call_enum_mbus_code,
--	.enum_frame_size	= call_enum_frame_size,
--	.enum_frame_interval	= call_enum_frame_interval,
--	.get_selection		= call_get_selection,
--	.set_selection		= call_set_selection,
-+	.get_fmt		= call_get_fmt_state,
-+	.set_fmt		= call_set_fmt_state,
-+	.enum_mbus_code		= call_enum_mbus_code_state,
-+	.enum_frame_size	= call_enum_frame_size_state,
-+	.enum_frame_interval	= call_enum_frame_interval_state,
-+	.get_selection		= call_get_selection_state,
-+	.set_selection		= call_set_selection_state,
- 	.get_edid		= call_get_edid,
- 	.set_edid		= call_set_edid,
- 	.dv_timings_cap		= call_dv_timings_cap,
+ #endif /* CONFIG_MEDIA_CONTROLLER */
+ 
+ /**
 -- 
 2.25.1
 
