@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FEBA4E5FDC
-	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 09:01:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 180A84E5FD2
+	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 09:01:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348772AbiCXIDE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Mar 2022 04:03:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54286 "EHLO
+        id S1348766AbiCXIDA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Mar 2022 04:03:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348781AbiCXICx (ORCPT
+        with ESMTP id S1348780AbiCXICx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 24 Mar 2022 04:02:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D55791AE1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 651C799ED5
         for <linux-media@vger.kernel.org>; Thu, 24 Mar 2022 01:01:22 -0700 (PDT)
 Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 943DB1308;
-        Thu, 24 Mar 2022 09:01:18 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D87714CD;
+        Thu, 24 Mar 2022 09:01:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1648108879;
-        bh=le4VML06Po5Sg6D/Sk529oUZcYRA420KQTQ8MD4QXn4=;
+        bh=rsVji2hD+87e+gDSymMZyQMGnzaMwO7BqmYRfTVlu5I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D3Ot6NHGXrd3mdLS+L2i4TG4FJ0QdGQS/9DfDG9XVAOb03km5Z1iPN3zB6hrgn9pu
-         RG9EDRWzB6EuUxQfCdOyPOZR5YgWgjMj0l3w19qbtbRObTm8Md6GYAAduOs9ubUyF1
-         a/h57O6KG9Yt46/EV45rGv7NBJzu5kpPdnp7pfcM=
+        b=g8xlOJ9Ga8NHejdWZOOQdKoWw9wUm45zuGjmqyxnRtrQ9fSUMJ29ij8FZRT42waod
+         n/CxJIcc/YX5PzywfPIkzxTzzggwKcjgLgkzYzcNf3fCal2qqTvhYZ0VEeR0940Izx
+         zKrN+j4pxb1RUC6R4DbxbN7SZsAOFIOmjRFzHYTw=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -34,9 +34,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v6 2/8] media: subdev: add active state to struct v4l2_subdev
-Date:   Thu, 24 Mar 2022 10:00:24 +0200
-Message-Id: <20220324080030.216716-3-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v6 3/8] media: subdev: add v4l2_subdev_get_pad_* helpers
+Date:   Thu, 24 Mar 2022 10:00:25 +0200
+Message-Id: <20220324080030.216716-4-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220324080030.216716-1-tomi.valkeinen@ideasonboard.com>
 References: <20220324080030.216716-1-tomi.valkeinen@ideasonboard.com>
@@ -51,147 +51,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a new 'active_state' field to struct v4l2_subdev to which we can
-store the active state of a subdev. This will place the subdev
-configuration into a known place, allowing us to use the state directly
-from the v4l2 framework, thus simplifying the drivers.
-
-Also add functions v4l2_subdev_init_finalize() and
-v4l2_subdev_cleanup(), which will allocate and free the active state.
-The functions are named in a generic way so that they can be also used
-for other subdev initialization work.
+The subdev state is now used for both try and active cases. We should
+rename v4l2_subdev_get_try_* helpers to v4l2_subdev_get_pad_*, but due
+to the size of that change lets add temporary wrapper helpers which can
+be used in drivers that support active state.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 21 ++++++++++
- include/media/v4l2-subdev.h           | 58 +++++++++++++++++++++++++++
- 2 files changed, 79 insertions(+)
+ include/media/v4l2-subdev.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 376595954db0..11a06e0aca0c 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -907,6 +907,27 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
- }
- EXPORT_SYMBOL_GPL(__v4l2_subdev_state_free);
- 
-+int v4l2_subdev_init_finalize(struct v4l2_subdev *sd)
-+{
-+	struct v4l2_subdev_state *state;
-+
-+	state = __v4l2_subdev_state_alloc(sd);
-+	if (IS_ERR(state))
-+		return PTR_ERR(state);
-+
-+	sd->active_state = state;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_init_finalize);
-+
-+void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
-+{
-+	__v4l2_subdev_state_free(sd->active_state);
-+	sd->active_state = NULL;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
-+
- #endif /* CONFIG_MEDIA_CONTROLLER */
- 
- void v4l2_subdev_init(struct v4l2_subdev *sd, const struct v4l2_subdev_ops *ops)
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 5d6f56648ad6..1bbe4383966c 100644
+index 1bbe4383966c..b9587a265b32 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -645,6 +645,9 @@ struct v4l2_subdev_ir_ops {
-  * This structure only needs to be passed to the pad op if the 'which' field
-  * of the main argument is set to %V4L2_SUBDEV_FORMAT_TRY. For
-  * %V4L2_SUBDEV_FORMAT_ACTIVE it is safe to pass %NULL.
-+ *
-+ * Note: This struct is also used in active state, and the 'try' prefix is
-+ * historical and to be removed.
-  */
- struct v4l2_subdev_pad_config {
- 	struct v4l2_mbus_framefmt try_fmt;
-@@ -885,6 +888,9 @@ struct v4l2_subdev_platform_data {
-  * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
-  *		     device using v4l2_async_register_subdev_sensor().
-  * @pdata: common part of subdevice platform data
-+ * @active_state: Active state for the subdev (NULL for subdevs tracking the
-+ *		  state internally). Initialized by calling
-+ *		  v4l2_subdev_init_finalize().
-  *
-  * Each instance of a subdev driver should create this struct, either
-  * stand-alone or embedded in a larger struct.
-@@ -916,6 +922,19 @@ struct v4l2_subdev {
- 	struct v4l2_async_notifier *notifier;
- 	struct v4l2_async_notifier *subdev_notifier;
- 	struct v4l2_subdev_platform_data *pdata;
-+
-+	/*
-+	 * The fields below are private, and should only be accessed via
-+	 * appropriate functions.
-+	 */
-+
-+	/*
-+	 * TODO: active_state should most likely be changed from a pointer to an
-+	 * embedded field. For the time being it's kept as a pointer to more
-+	 * easily catch uses of active_state in the cases where the driver
-+	 * doesn't support it.
-+	 */
-+	struct v4l2_subdev_state *active_state;
- };
+@@ -1042,6 +1042,16 @@ v4l2_subdev_get_try_compose(struct v4l2_subdev *sd,
+ 	return &state->pads[pad].try_compose;
+ }
  
- 
-@@ -1141,6 +1160,45 @@ struct v4l2_subdev_state *__v4l2_subdev_state_alloc(struct v4l2_subdev *sd);
-  */
- void __v4l2_subdev_state_free(struct v4l2_subdev_state *state);
- 
-+/**
-+ * v4l2_subdev_init_finalize() - Finalizes the initialization of the subdevice
-+ * @sd: The subdev
-+ *
-+ * This function finalizes the initialization of the subdev, including
-+ * allocation of the active state for the subdev.
-+ *
-+ * This function must be called by the subdev drivers that use the centralized
-+ * active state, after the subdev struct has been initialized and
-+ * media_entity_pads_init() has been called, but before registering the
-+ * subdev.
-+ *
-+ * The user must call v4l2_subdev_cleanup() when the subdev is being removed.
-+ */
-+int v4l2_subdev_init_finalize(struct v4l2_subdev *sd);
++/* Temprary helpers until v4l2_subdev_get_try_* functions have been renamed */
++#define v4l2_subdev_get_pad_format(sd, state, pad) \
++	v4l2_subdev_get_try_format(sd, state, pad)
 +
-+/**
-+ * v4l2_subdev_cleanup() - Releases the resources allocated by the subdevice
-+ * @sd: The subdevice
-+ *
-+ * This function will release the resources allocated in
-+ * v4l2_subdev_init_finalize.
-+ */
-+void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
++#define v4l2_subdev_get_pad_crop(sd, state, pad) \
++	v4l2_subdev_get_try_crop(sd, state, pad)
 +
-+/**
-+ * v4l2_subdev_get_active_state() - Returns the active subdev state for
-+ *				    subdevice
-+ * @sd: The subdevice
-+ *
-+ * Returns the active state for the subdevice, or NULL if the subdev does not
-+ * support active state.
-+ */
-+static inline struct v4l2_subdev_state *
-+v4l2_subdev_get_active_state(struct v4l2_subdev *sd)
-+{
-+	return sd->active_state;
-+}
++#define v4l2_subdev_get_pad_compose(sd, state, pad) \
++	v4l2_subdev_get_try_compose(sd, state, pad)
 +
- #endif /* CONFIG_MEDIA_CONTROLLER */
+ #endif
  
- /**
+ extern const struct v4l2_file_operations v4l2_subdev_fops;
 -- 
 2.25.1
 
