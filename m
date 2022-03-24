@@ -2,41 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B69B74E6471
-	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 14:52:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46E0E4E64BB
+	for <lists+linux-media@lfdr.de>; Thu, 24 Mar 2022 15:09:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350584AbiCXNx4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Mar 2022 09:53:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50186 "EHLO
+        id S1350744AbiCXOLB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Mar 2022 10:11:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236245AbiCXNx4 (ORCPT
+        with ESMTP id S1350739AbiCXOK4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Mar 2022 09:53:56 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D9C3A0BD0;
-        Thu, 24 Mar 2022 06:52:24 -0700 (PDT)
+        Thu, 24 Mar 2022 10:10:56 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B39C490FED;
+        Thu, 24 Mar 2022 07:09:24 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95BFA1844;
-        Thu, 24 Mar 2022 14:52:22 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3586D1844;
+        Thu, 24 Mar 2022 15:09:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1648129942;
-        bh=Te4JoDgpbXFsVGceZJvYn38hZ74flQXo5Sw37WpMpKw=;
+        s=mail; t=1648130963;
+        bh=GbGmvF7eeaO9TAnwm/DxoHYrq1TEVs4ck08bW82PFio=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JqwSUXrxZf6f/CZbctAv3jiH2aj0s8MNbIBCUa15+8DM8laiikUAH4rCuJ3Oho75k
-         8a/Z0AgdZ0ONPGficbWLe0XgAJW1xvzCOOoUp2hIB4pzcr5ABNC2fUcKpI3U4OB9gV
-         N/JFgWE2z5Av42vYk2hkHEmMc+6/wR58zaI6Bk0o=
-Date:   Thu, 24 Mar 2022 15:52:21 +0200
+        b=gOqJTdFrVufNVI251wxoxbTNjSaZxGjVAsKHqdcf8+eyU3Cew/Udy6HQknT78Dq2X
+         jd8Edq4ve93+1l2dc8oADG+gOQiG1FFytD7FE4MAAyNn2ftN4tc0paMf3G9dZC3Tga
+         OckRiwyetcjDF6iKRPAV/JHevoBEgBRWmC5qKJps=
+Date:   Thu, 24 Mar 2022 16:09:21 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Hangyu Hua <hbh25y@gmail.com>
 Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: uvc_video: fix bit overflow in uvc_probe_video
-Message-ID: <Yjx3laKM9Ah+1PRC@pendragon.ideasonboard.com>
-References: <20220324091308.44799-1-hbh25y@gmail.com>
+Subject: Re: [PATCH] media: uvc_v4l2: fix possible memory leak in
+ uvc_ioctl_ctrl_map
+Message-ID: <Yjx7kSoHA64J1VHc@pendragon.ideasonboard.com>
+References: <20220324081718.41091-1-hbh25y@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220324091308.44799-1-hbh25y@gmail.com>
+In-Reply-To: <20220324081718.41091-1-hbh25y@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -50,47 +51,32 @@ Hi Hangyu,
 
 Thank you for the patch.
 
-On Thu, Mar 24, 2022 at 05:13:08PM +0800, Hangyu Hua wrote:
-> probe->dwMaxPayloadTransferSize is a 32bit value, but bandwidth is 16bit. This
-> may lead to a bit overflow.
+On Thu, Mar 24, 2022 at 04:17:18PM +0800, Hangyu Hua wrote:
+> map->name needs to be freed when uvc_ioctl_ctrl_map fails.
 > 
 > Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
 > ---
->  drivers/media/usb/uvc/uvc_video.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/media/usb/uvc/uvc_v4l2.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 1b4cc934109e..cc4878373aa7 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -383,7 +383,7 @@ int uvc_probe_video(struct uvc_streaming *stream,
->  	struct uvc_streaming_control *probe)
->  {
->  	struct uvc_streaming_control probe_min, probe_max;
-> -	u16 bandwidth;
-> +	u32 bandwidth;
->  	unsigned int i;
->  	int ret;
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 711556d13d03..e46a2f3b06cb 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -93,6 +93,7 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
 >  
-> @@ -422,7 +422,7 @@ int uvc_probe_video(struct uvc_streaming *stream,
->  			break;
+>  	kfree(map->menu_info);
+>  free_map:
+> +	kfree(map->name);
+
+The memory is actually freed in uvc_ctrl_cleanup_mappings() in the
+non-error case. I think we could improve this by avoiding the kmemdup()
+in this function, and duplicating the name in __uvc_ctrl_add_mapping()
+instead. What do you think ?
+
+>  	kfree(map);
 >  
->  		bandwidth = probe->dwMaxPayloadTransferSize;
-> -		if (bandwidth <= stream->maxpsize)
-> +		if (bandwidth <= (u32)stream->maxpsize)
-
-The cast to u32 isn't needed, it's implicit.
-
-This could actually be written
-
-	if (probe->dwMaxPayloadTransferSize <= stream->maxpsize)
-
-The bandwidth local variable can be dropped. Could you submit a v2 with
-this change ?
-
->  			break;
->  
->  		if (stream->dev->quirks & UVC_QUIRK_PROBE_MINMAX) {
+>  	return ret;
 
 -- 
 Regards,
