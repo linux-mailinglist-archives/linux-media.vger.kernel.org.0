@@ -2,236 +2,325 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B81504E7D49
-	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 01:22:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AF4F4E7BA2
+	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 01:21:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229732AbiCYTb2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Mar 2022 15:31:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58542 "EHLO
+        id S231641AbiCYTrG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Mar 2022 15:47:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229843AbiCYTbQ (ORCPT
+        with ESMTP id S231607AbiCYTqw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Mar 2022 15:31:16 -0400
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73DF32986C3
-        for <linux-media@vger.kernel.org>; Fri, 25 Mar 2022 12:06:04 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id C08543200E60;
-        Fri, 25 Mar 2022 14:22:40 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Fri, 25 Mar 2022 14:22:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm3; bh=ZQaUt0eCTfYL4u
-        8m73mJTEsm09yFeWFLaBKPQ1lqkjA=; b=o139iP8rjeQyQna4QS4rWAjpKEjClX
-        U+gE56Bz7w8B5rU5P3HvqKZ1Mv2KI68XZRahUahNLbFw/ua4KXqnKRSge0nOykOr
-        fMKmDLZt56tkP4T1qaYkgTEn8OuIvgvhKiNJFIcPoRTLKtRUTwdwjnzOO1IE0c4P
-        iWECV3FTZv99/O+JMYwilnaY6MciHuNCDa42rKMDcrZz4cjajIJGFwPdW8SK3UBY
-        hxCvqirdM+MrvEZ9GGXTnORbKJmuR0FmXseO51ALX2BEigGsDMzRLamYsgQhtIoe
-        CbaIhfpEXoRAJhwXNfL2pLaElOWvco1EJDOVPjYAJoEA4Wkz3lxyO+Cg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=ZQaUt0eCTfYL4u8m73mJTEsm09yFeWFLaBKPQ1lqk
-        jA=; b=PpmnFm73cuD/U+3b9pRgdVOBThLK6fVGpHfkTHdCmBZoFevpO76OYr1O5
-        qLRwDUl95NwBlS7Mc9kAiZc+aZJpkpT6FlwjSZn6r4U7HHvpC+wy93+Qwusl8fU/
-        DLOjQUybuIqV1FMKy7q71Id7YL3dJXSyJUNnyNMvzeDgA+wdZDtzP9JXrrYhvHig
-        +9rhFBtxKnVJT1J/5zAAD9b5a9pUQq13HbRWMJ6J5CGdP8FsXAN8FhBwZWW6Fyd0
-        ivc42qG3hpqaLo03+y52wVawqdTODAGyYO1dPNvhEyjYCVUg76QmBip75Uvjoe6N
-        For/YYUcWXEAxk4nU0auSrq5QMGmA==
-X-ME-Sender: <xms:bwg-Ymo5P1yVfscqWQGjQJkgkL830aSNvnI_aLuD5GKZXUqcIRWEBw>
-    <xme:bwg-YkrKLja6c0xSz0N3HmUyUr6HVvMeClZH9YMS1u6GFT2Sob-xY8LKXBtjXkDtW
-    uewjJKof2k1kD1IOIg>
-X-ME-Received: <xmr:bwg-YrP1QruvPg5gWPk6-Jp-uNWDzCkuZ26bqHZkR7bvvRew9B6Lww>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehuddguddufecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpeffrghf
-    nhgrucfjihhrshgthhhfvghlugcuoegurghfnhgrsehfrghsthhmrghilhdrtghomheqne
-    cuggftrfgrthhtvghrnhepvedtgedugeetueeuueetueefheekuddvgeffgeejffejledv
-    ueeigeekkeevveefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:bwg-Yl7bKORqv_OAsg2S0lqau7aGoTCe2we85W7jFAxyyIOj6nwzXg>
-    <xmx:bwg-Yl6fZ9WoPYWGXgVPGYrOVGNBT2DpOJyN5zcIo2okgLpJj27u_Q>
-    <xmx:bwg-Yljr2-Vs2wsQMfmfA0jfIwdcQNFwW_Ni0js_T7Dw4nmArrgefg>
-    <xmx:cAg-Yo3mnP4cDPz2ySTAF_PVZmjZGlEb_-09L4PzxOIHotP4sBFghw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Mar 2022 14:22:38 -0400 (EDT)
-Date:   Fri, 25 Mar 2022 21:22:34 +0300
-From:   Dafna Hirschfeld <dafna@fastmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Tomasz Figa <tfiga@google.com>,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v3 14/17] media: rkisp1: debug: Collect input status by
- sampling ISP_FLAGS_SHD
-Message-ID: <20220325182234.dba4h4fglqsnj6d2@guri>
-References: <20220319163100.3083-1-laurent.pinchart@ideasonboard.com>
- <20220319163100.3083-15-laurent.pinchart@ideasonboard.com>
- <20220322035624.mpkrod4g42xgpyfy@guri>
- <YjmJmoIxWcCdyrgl@pendragon.ideasonboard.com>
+        Fri, 25 Mar 2022 15:46:52 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C23C11F163A
+        for <linux-media@vger.kernel.org>; Fri, 25 Mar 2022 12:28:38 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id u16so12152704wru.4
+        for <linux-media@vger.kernel.org>; Fri, 25 Mar 2022 12:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=gH4FlZPSvdM05yuw7tzaNO73Z2K8prK2H+jjDvpNuis=;
+        b=d40l9M2uv+9A0Z/fxIYLzYHc3thUODejPFLqDCdNu7w52RjZsM26BeWpxidzbPpb3C
+         aBZVn3UCwCsCzzg3y5Dy3tJ/bfUyB4Gv8HIRsrPcj9i1oxYQRlraicq3EUlyKslRyj4M
+         8DG/LvKrPSQAVfbG3ilvRFe3A0CXT0OGDY5nA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=gH4FlZPSvdM05yuw7tzaNO73Z2K8prK2H+jjDvpNuis=;
+        b=kZLZA5oOqhnRDTxZbtJHtfhdFssDirruiv1oYBbYzgCvo/Ip7wk4afIe8pXeRs0PEq
+         7KdWPrxtSZZTgWvw+aqoxcprso2FpwlkDI8tlnyIb+9hr6+v4BsbonUj+PViek5baguc
+         cfHFBIcnvYaN2BT76veHNUypkRbtBQBJA5c2uMh2mtd8/RG3UgTfWzzheXv+hqdmxgQ5
+         9uzGOs8jVHucUhQLGgFA564mx+CSC7cm8+vNWvZN4o94SWcVv0FokQDBHgU3l921M4/K
+         qL7PMAl+sxKp/roRzL6FO+xAUaCU+QfFVUcUw8T1yGdnUEv/9P3/CfCPXmwz3GVndDRW
+         0/rQ==
+X-Gm-Message-State: AOAM531Nimf3K9GIkhKsQziB/7AtLfnfpGsmL972hzFRmlF4Yqnpa6MW
+        81U+q8HmSUFnXaA4WXa7yAvlRg==
+X-Google-Smtp-Source: ABdhPJwVPaa9XAUGU4QKGKEto5cTp6s2aymfUjxPH5MVY1st856CsUc4nglVFFKF6rZYug/wTPo8Qg==
+X-Received: by 2002:a5d:4688:0:b0:203:f0cc:da10 with SMTP id u8-20020a5d4688000000b00203f0ccda10mr10531219wrq.87.1648236510620;
+        Fri, 25 Mar 2022 12:28:30 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id m20-20020a05600c4f5400b0038b5162260csm7753766wmq.23.2022.03.25.12.28.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Mar 2022 12:28:29 -0700 (PDT)
+Date:   Fri, 25 Mar 2022 20:28:28 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org,
+        gustavo@padovan.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 2/2] dma-buf/sync-file: fix warning about fence containers
+Message-ID: <Yj4X3MN0XlQo1U7U@phenom.ffwll.local>
+References: <20220311110244.1245-1-christian.koenig@amd.com>
+ <20220311110244.1245-2-christian.koenig@amd.com>
+ <Yj2VvjGUJl8kCS8H@phenom.ffwll.local>
+ <854a68de-2b35-df79-75bf-f13d7a67136f@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YjmJmoIxWcCdyrgl@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <854a68de-2b35-df79-75bf-f13d7a67136f@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22.03.2022 10:32, Laurent Pinchart wrote:
-> Hi Dafna,
-> 
-> On Tue, Mar 22, 2022 at 05:56:24AM +0200, Dafna Hirschfeld wrote:
-> > On 19.03.2022 18:30, Laurent Pinchart wrote:
-> > > The ISP_FLAGS_SHD register exposes the ISP parallel input signals (data
-> > > and synchronization) in real time. This can help debugging when the
-> > > device doesn't output any image. Sample the register 10000 times with a
-> > > 1Âµs delay and expose the result through debugfs.
+On Fri, Mar 25, 2022 at 11:35:49AM +0100, Christian König wrote:
+> Am 25.03.22 um 11:13 schrieb Daniel Vetter:
+> > On Fri, Mar 11, 2022 at 12:02:44PM +0100, Christian König wrote:
+> > > The dma_fence_chain containers can show up in sync_files as well resulting in
+> > > warnings that those can't be added to dma_fence_array containers when merging
+> > > multiple sync_files together.
 > > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > > Solve this by using the dma_fence_unwrap iterator to deep dive into the
+> > > contained fences and then add those flatten out into a dma_fence_array.
+> > > 
+> > > Signed-off-by: Christian König <christian.koenig@amd.com>
+> > I have no idea why we try to keep fences sorted, but oh well it looks like
+> > the merging is done correctly.
+> 
+> To be honest I don't fully know either.
+> 
+> Keeping the array sorted by context allows to merge it without adding
+> duplicates, but adding duplicates is not an extra overhead to begin with
+> because we always allocate memory for the worst case anyway.
+> 
+> Just keeping it around for now.
+
+Hm I guess if we want to keep that we could make that an invariant of dma
+fence arrays, i.e. sorted and deduplicated. Usually there should be few
+enough fences that de-duping shouldn't be expensive really.
+
+But no idea whether that's worth it.
+-Daniel
+
+> 
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> 
+> Thanks,
+> Christian.
+> 
+> > 
 > > > ---
-> > >  .../platform/rockchip/rkisp1/rkisp1-debug.c   | 54 +++++++++++++++++++
-> > >  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  9 ++++
-> > >  2 files changed, 63 insertions(+)
+> > >   drivers/dma-buf/sync_file.c | 141 +++++++++++++++++++-----------------
+> > >   1 file changed, 73 insertions(+), 68 deletions(-)
 > > > 
-> > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > > index 64b33774cbdf..da3ed0ab697a 100644
-> > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > > @@ -9,9 +9,61 @@
-> > >   */
-> > >  
-> > >  #include <linux/debugfs.h>
-> > > +#include <linux/delay.h>
-> > >  #include <linux/device.h>
-> > > +#include <linux/pm_runtime.h>
-> > > +#include <linux/seq_file.h>
-> > >  
-> > >  #include "rkisp1-common.h"
-> > > +#include "rkisp1-regs.h"
+> > > diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+> > > index 394e6e1e9686..b8dea4ec123b 100644
+> > > --- a/drivers/dma-buf/sync_file.c
+> > > +++ b/drivers/dma-buf/sync_file.c
+> > > @@ -5,6 +5,7 @@
+> > >    * Copyright (C) 2012 Google, Inc.
+> > >    */
+> > > +#include <linux/dma-fence-unwrap.h>
+> > >   #include <linux/export.h>
+> > >   #include <linux/file.h>
+> > >   #include <linux/fs.h>
+> > > @@ -172,20 +173,6 @@ static int sync_file_set_fence(struct sync_file *sync_file,
+> > >   	return 0;
+> > >   }
+> > > -static struct dma_fence **get_fences(struct sync_file *sync_file,
+> > > -				     int *num_fences)
+> > > -{
+> > > -	if (dma_fence_is_array(sync_file->fence)) {
+> > > -		struct dma_fence_array *array = to_dma_fence_array(sync_file->fence);
+> > > -
+> > > -		*num_fences = array->num_fences;
+> > > -		return array->fences;
+> > > -	}
+> > > -
+> > > -	*num_fences = 1;
+> > > -	return &sync_file->fence;
+> > > -}
+> > > -
+> > >   static void add_fence(struct dma_fence **fences,
+> > >   		      int *i, struct dma_fence *fence)
+> > >   {
+> > > @@ -210,86 +197,97 @@ static void add_fence(struct dma_fence **fences,
+> > >   static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
+> > >   					 struct sync_file *b)
+> > >   {
+> > > +	struct dma_fence *a_fence, *b_fence, **fences;
+> > > +	struct dma_fence_unwrap a_iter, b_iter;
+> > > +	unsigned int index, num_fences;
+> > >   	struct sync_file *sync_file;
+> > > -	struct dma_fence **fences = NULL, **nfences, **a_fences, **b_fences;
+> > > -	int i = 0, i_a, i_b, num_fences, a_num_fences, b_num_fences;
+> > >   	sync_file = sync_file_alloc();
+> > >   	if (!sync_file)
+> > >   		return NULL;
+> > > -	a_fences = get_fences(a, &a_num_fences);
+> > > -	b_fences = get_fences(b, &b_num_fences);
+> > > -	if (a_num_fences > INT_MAX - b_num_fences)
+> > > -		goto err;
+> > > +	num_fences = 0;
+> > > +	dma_fence_unwrap_for_each(a_fence, &a_iter, a->fence)
+> > > +		++num_fences;
+> > > +	dma_fence_unwrap_for_each(b_fence, &b_iter, b->fence)
+> > > +		++num_fences;
+> > > -	num_fences = a_num_fences + b_num_fences;
+> > > +	if (num_fences > INT_MAX)
+> > > +		goto err_free_sync_file;
+> > >   	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
+> > >   	if (!fences)
+> > > -		goto err;
+> > > +		goto err_free_sync_file;
+> > >   	/*
+> > > -	 * Assume sync_file a and b are both ordered and have no
+> > > -	 * duplicates with the same context.
+> > > +	 * We can't guarantee that fences in both a and b are ordered, but it is
+> > > +	 * still quite likely.
+> > >   	 *
+> > > -	 * If a sync_file can only be created with sync_file_merge
+> > > -	 * and sync_file_create, this is a reasonable assumption.
+> > > +	 * So attempt to order the fences as we pass over them and merge fences
+> > > +	 * with the same context.
+> > >   	 */
+> > > -	for (i_a = i_b = 0; i_a < a_num_fences && i_b < b_num_fences; ) {
+> > > -		struct dma_fence *pt_a = a_fences[i_a];
+> > > -		struct dma_fence *pt_b = b_fences[i_b];
+> > > -		if (pt_a->context < pt_b->context) {
+> > > -			add_fence(fences, &i, pt_a);
+> > > +	index = 0;
+> > > +	for (a_fence = dma_fence_unwrap_first(a->fence, &a_iter),
+> > > +	     b_fence = dma_fence_unwrap_first(b->fence, &b_iter);
+> > > +	     a_fence || b_fence; ) {
 > > > +
-> > > +#define RKISP1_DEBUG_DATA_COUNT_BINS	32
-> > > +#define RKISP1_DEBUG_DATA_COUNT_STEP	(4096 / RKISP1_DEBUG_DATA_COUNT_BINS)
+> > > +		if (!b_fence) {
+> > > +			add_fence(fences, &index, a_fence);
+> > > +			a_fence = dma_fence_unwrap_next(&a_iter);
 > > > +
-> > > +static int rkisp1_debug_input_status_show(struct seq_file *m, void *p)
-> > > +{
-> > > +	struct rkisp1_device *rkisp1 = m->private;
-> > > +	u16 data_count[RKISP1_DEBUG_DATA_COUNT_BINS] = { };
-> > 
-> > Since this is just a counter, it could be int/short
-> 
-> Isn't u16 a short already ? Or do you mean using "short" instead of
-> "u16" ? That would be functionally equivalent, but I picked u16 to make
-> the size explicit, given that it has to hold values up to 10000.
-
-I know that u# types are meant mainly/only to configure hardware, so I
-suggested 's/u16/short/' , but I don't really care.
-
-Thanks,
-Dafna
-
-> 
-> > > +	unsigned int hsync_count = 0;
-> > > +	unsigned int vsync_count = 0;
-> > > +	unsigned int i;
-> > > +	u32 data;
-> > > +	u32 val;
+> > > +		} else if (!a_fence) {
+> > > +			add_fence(fences, &index, b_fence);
+> > > +			b_fence = dma_fence_unwrap_next(&b_iter);
+> > > +
+> > > +		} else if (a_fence->context < b_fence->context) {
+> > > +			add_fence(fences, &index, a_fence);
+> > > +			a_fence = dma_fence_unwrap_next(&a_iter);
+> > > -			i_a++;
+> > > -		} else if (pt_a->context > pt_b->context) {
+> > > -			add_fence(fences, &i, pt_b);
+> > > +		} else if (b_fence->context < a_fence->context) {
+> > > +			add_fence(fences, &index, b_fence);
+> > > +			b_fence = dma_fence_unwrap_next(&b_iter);
+> > > +
+> > > +		} else if (__dma_fence_is_later(a_fence->seqno, b_fence->seqno,
+> > > +						a_fence->ops)) {
+> > > +			add_fence(fences, &index, a_fence);
+> > > +			a_fence = dma_fence_unwrap_next(&a_iter);
+> > > +			b_fence = dma_fence_unwrap_next(&b_iter);
+> > > -			i_b++;
+> > >   		} else {
+> > > -			if (__dma_fence_is_later(pt_a->seqno, pt_b->seqno,
+> > > -						 pt_a->ops))
+> > > -				add_fence(fences, &i, pt_a);
+> > > -			else
+> > > -				add_fence(fences, &i, pt_b);
+> > > -
+> > > -			i_a++;
+> > > -			i_b++;
+> > > +			add_fence(fences, &index, b_fence);
+> > > +			a_fence = dma_fence_unwrap_next(&a_iter);
+> > > +			b_fence = dma_fence_unwrap_next(&b_iter);
+> > >   		}
+> > >   	}
+> > > -	for (; i_a < a_num_fences; i_a++)
+> > > -		add_fence(fences, &i, a_fences[i_a]);
+> > > -
+> > > -	for (; i_b < b_num_fences; i_b++)
+> > > -		add_fence(fences, &i, b_fences[i_b]);
+> > > -
+> > > -	if (i == 0)
+> > > -		fences[i++] = dma_fence_get(a_fences[0]);
+> > > +	if (index == 0)
+> > > +		add_fence(fences, &index, dma_fence_get_stub());
+> > > -	if (num_fences > i) {
+> > > -		nfences = krealloc_array(fences, i, sizeof(*fences), GFP_KERNEL);
+> > > -		if (!nfences)
+> > > -			goto err;
+> > > +	if (num_fences > index) {
+> > > +		struct dma_fence **tmp;
+> > > -		fences = nfences;
+> > > +		/* Keep going even when reducing the size failed */
+> > > +		tmp = krealloc_array(fences, index, sizeof(*fences),
+> > > +				     GFP_KERNEL);
+> > > +		if (tmp)
+> > > +			fences = tmp;
+> > >   	}
+> > > -	if (sync_file_set_fence(sync_file, fences, i) < 0)
+> > > -		goto err;
+> > > +	if (sync_file_set_fence(sync_file, fences, index) < 0)
+> > > +		goto err_put_fences;
+> > >   	strlcpy(sync_file->user_name, name, sizeof(sync_file->user_name));
+> > >   	return sync_file;
+> > > -err:
+> > > -	while (i)
+> > > -		dma_fence_put(fences[--i]);
+> > > +err_put_fences:
+> > > +	while (index)
+> > > +		dma_fence_put(fences[--index]);
+> > >   	kfree(fences);
+> > > +
+> > > +err_free_sync_file:
+> > >   	fput(sync_file->file);
+> > >   	return NULL;
+> > > -
+> > >   }
+> > >   static int sync_file_release(struct inode *inode, struct file *file)
+> > > @@ -398,11 +396,13 @@ static int sync_fill_fence_info(struct dma_fence *fence,
+> > >   static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
+> > >   				       unsigned long arg)
+> > >   {
+> > > -	struct sync_file_info info;
+> > >   	struct sync_fence_info *fence_info = NULL;
+> > > -	struct dma_fence **fences;
+> > > +	struct dma_fence_unwrap iter;
+> > > +	struct sync_file_info info;
+> > > +	unsigned int num_fences;
+> > > +	struct dma_fence *fence;
 > > > +	int ret;
+> > >   	__u32 size;
+> > > -	int num_fences, ret, i;
+> > >   	if (copy_from_user(&info, (void __user *)arg, sizeof(info)))
+> > >   		return -EFAULT;
+> > > @@ -410,7 +410,9 @@ static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
+> > >   	if (info.flags || info.pad)
+> > >   		return -EINVAL;
+> > > -	fences = get_fences(sync_file, &num_fences);
+> > > +	num_fences = 0;
+> > > +	dma_fence_unwrap_for_each(fence, &iter, sync_file->fence)
+> > > +		++num_fences;
+> > >   	/*
+> > >   	 * Passing num_fences = 0 means that userspace doesn't want to
+> > > @@ -433,8 +435,11 @@ static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
+> > >   	if (!fence_info)
+> > >   		return -ENOMEM;
+> > > -	for (i = 0; i < num_fences; i++) {
+> > > -		int status = sync_fill_fence_info(fences[i], &fence_info[i]);
+> > > +	num_fences = 0;
+> > > +	dma_fence_unwrap_for_each(fence, &iter, sync_file->fence) {
+> > > +		int status;
 > > > +
-> > > +	ret = pm_runtime_get_if_in_use(rkisp1->dev);
-> > > +	if (ret)
-> > > +		return ret;
-> > 
-> > We want to return here if the device is not is use right?
-> > If so we should return if (ret <= 0)
+> > > +		status = sync_fill_fence_info(fence, &fence_info[num_fences++]);
+> > >   		info.status = info.status <= 0 ? info.status : status;
+> > >   	}
+> > > -- 
+> > > 2.25.1
+> > > 
 > 
-> Correct, I'll fix that.
-> 
-> > > +
-> > > +	/* Sample the ISP input port status 10000 times with a 1Âµs interval. */
-> > > +	for (i = 0; i < 10000; ++i) {
-> > > +		val = rkisp1_read(rkisp1, RKISP1_CIF_ISP_FLAGS_SHD);
-> > > +
-> > > +		data = (val & RKISP1_CIF_ISP_FLAGS_SHD_S_DATA_MASK)
-> > > +		     >> RKISP1_CIF_ISP_FLAGS_SHD_S_DATA_SHIFT;
-> > 
-> > What is this data? the docs only says
-> > "state of ISP input port s_data, for test purposes"
-> > I guess it indicate somehow the amount of actuall sensor data arrived?
-> > Could be nice to add explanation here.
-> 
-> I'd the 12-bit parallel (pixel) data at the ISP input. I can add a
-> comment.
-> 
-> > > +		data_count[data / RKISP1_DEBUG_DATA_COUNT_STEP]++;
-> > > +
-> > > +		if (val & RKISP1_CIF_ISP_FLAGS_SHD_S_HSYNC)
-> > > +			hsync_count++;
-> > > +		if (val & RKISP1_CIF_ISP_FLAGS_SHD_S_VSYNC)
-> > > +			vsync_count++;
-> > > +
-> > > +		udelay(1);
-> > > +	}
-> > > +
-> > > +	pm_runtime_put(rkisp1->dev);
-> > > +
-> > > +	seq_printf(m, "vsync: %u, hsync: %u\n", vsync_count, hsync_count);
-> > > +	seq_puts(m, "data:\n");
-> > > +	for (i = 0; i < ARRAY_SIZE(data_count); ++i)
-> > > +		seq_printf(m, "- [%04u:%04u]: %u\n",
-> > > +			   i * RKISP1_DEBUG_DATA_COUNT_STEP,
-> > > +			   (i + 1) * RKISP1_DEBUG_DATA_COUNT_STEP - 1,
-> > > +			   data_count[i]);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_input_status);
-> > >  
-> > >  void rkisp1_debug_init(struct rkisp1_device *rkisp1)
-> > >  {
-> > > @@ -42,6 +94,8 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
-> > >  			     &debug->frame_drop[RKISP1_MAINPATH]);
-> > >  	debugfs_create_ulong("sp_frame_drop", 0444, debug->debugfs_dir,
-> > >  			     &debug->frame_drop[RKISP1_SELFPATH]);
-> > > +	debugfs_create_file("input_status", 0444, debug->debugfs_dir, rkisp1,
-> > > +			    &rkisp1_debug_input_status_fops);
-> > >  }
-> > >  
-> > >  void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
-> > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> > > index 083d92ada73f..447c5f241d69 100644
-> > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> > > @@ -454,6 +454,15 @@
-> > >  #define RKISP1_CIF_ISP_DEMOSAIC_BYPASS			BIT(10)
-> > >  #define RKISP1_CIF_ISP_DEMOSAIC_TH(x)			((x) & 0xFF)
-> > >  
-> > > +/* ISP_FLAGS_SHD */
-> > > +#define RKISP1_CIF_ISP_FLAGS_SHD_ISP_ENABLE_SHD		BIT(0)
-> > > +#define RKISP1_CIF_ISP_FLAGS_SHD_ISP_ENABLE_INFORM_SHD	BIT(1)
-> > > +#define RKISP1_CIF_ISP_FLAGS_SHD_INFORM_FIELD		BIT(2)
-> > > +#define RKISP1_CIF_ISP_FLAGS_SHD_S_DATA_MASK		GENMASK(27, 16)
-> > > +#define RKISP1_CIF_ISP_FLAGS_SHD_S_DATA_SHIFT		16
-> > > +#define RKISP1_CIF_ISP_FLAGS_SHD_S_VSYNC		BIT(30)
-> > > +#define RKISP1_CIF_ISP_FLAGS_SHD_S_HSYNC		BIT(31)
-> > > +
-> > >  /* AWB */
-> > >  /* ISP_AWB_PROP */
-> > >  #define RKISP1_CIF_ISP_AWB_YMAX_CMP_EN			BIT(2)
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
