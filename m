@@ -2,110 +2,308 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F6BC4E7D21
-	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 01:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9679B4E7BBE
+	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 01:21:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232167AbiCYUXs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Mar 2022 16:23:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51022 "EHLO
+        id S232441AbiCYU7d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Mar 2022 16:59:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232152AbiCYUXr (ORCPT
+        with ESMTP id S232386AbiCYU7c (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Mar 2022 16:23:47 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F59A62A1E;
-        Fri, 25 Mar 2022 13:22:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648239731; x=1679775731;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c+Jo2f9qa8wqIGXPx9eITTauJDs5OOtXfRCmPSXzDLY=;
-  b=HWiaKIkq1uCSvEZ5+6YZk/rHoysxNAhkwUNpAhgBp9yx9+SzhdCKbaSC
-   U95Pbs0FUIcRakwOOImZh7n8pKqKoW5B8ESk1dfuuNCCeQ6TT7xMv6fOK
-   V84Hx8QfQPbxWi++auPIzuG//+Rjicj/VVBmr4bQiF6JUm7GKiKgLpiOd
-   vOvnKeZURBMFmAJ/TamlJMaxtZDzU8weqqZrhbKglnetCrAQcFl9bdF8Z
-   hnK8PPd01VllCkhmflRV4luyBvEao1jt1G6YFxy6OAMcK+UreqYANNo1b
-   iyzJnNdTOTskLNzSg1bEMrPYoDzeXycVjw2BPRREhb6hEUoJhcD6l+rIA
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10297"; a="246198366"
-X-IronPort-AV: E=Sophos;i="5.90,211,1643702400"; 
-   d="scan'208";a="246198366"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2022 13:22:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,211,1643702400"; 
-   d="scan'208";a="545212190"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 25 Mar 2022 13:22:09 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nXqRl-000MZR-7R; Fri, 25 Mar 2022 20:22:09 +0000
-Date:   Sat, 26 Mar 2022 04:21:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h:35:6:
- warning: no previous prototype for 'fimc_isp_video_device_unregister'
-Message-ID: <202203260407.3uIXrNn4-lkp@intel.com>
+        Fri, 25 Mar 2022 16:59:32 -0400
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2343EC1CA4;
+        Fri, 25 Mar 2022 13:57:58 -0700 (PDT)
+Received: by mail-oi1-f178.google.com with SMTP id b188so9437957oia.13;
+        Fri, 25 Mar 2022 13:57:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=z3+VYS4xPKT3Sdf1b5joxnxd0SFj54uCndKadNW/2TQ=;
+        b=alsNOtEYnPq51OIwzwksQL5OL4D7RAIqHjytQCHh4RfD4kDekk7whhtGuX8W3ZaEYT
+         jb20JwnbRji2HoEYpBleSOhPHA9k7Nl2BOckUos5xTlvJTYYYVcoVghvAhoZctIEGvvi
+         3jlQhnaH4n7RNF9NR4bw9fT/iIii1mvWFU5vrGmTF+scM3DEMa5EEsHzJWDrkld0SU+0
+         +Xzq6GLWGQUt9GaCrYBYFc7qVs448Z3j8FN28KB1uZSjsBWfFPHRVyu93mmHIgFcSceF
+         RXyoOS3BL4It3C0k8tkZu96fSru9xuo7TzL5RAA8VEgPmcmAnAR34nibmLYGmibPWABJ
+         6wcQ==
+X-Gm-Message-State: AOAM5324K7jTOoolCHa+fS7/1VM3K4ydJMhErX/WLoTb0UOb2si1O8Ep
+        fi4Ao3lcuQNKE+EClo24GQ==
+X-Google-Smtp-Source: ABdhPJwLuU1JxQeKfah2HDqtMt+U2DBPVvJlDyCn8tEkegt99JV81lgo622mxvcu3Tz1W8W7/F0Z4Q==
+X-Received: by 2002:a05:6808:10cb:b0:2da:88e4:e352 with SMTP id s11-20020a05680810cb00b002da88e4e352mr10265878ois.159.1648241877400;
+        Fri, 25 Mar 2022 13:57:57 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id u16-20020a056808151000b002f734da0881sm857728oiw.57.2022.03.25.13.57.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Mar 2022 13:57:56 -0700 (PDT)
+Received: (nullmailer pid 437457 invoked by uid 1000);
+        Fri, 25 Mar 2022 20:57:55 -0000
+Date:   Fri, 25 Mar 2022 15:57:55 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Irui Wang <irui.wang@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        angelogioacchino.delregno@collabora.com,
+        Yong Wu <yong.wu@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v3, 03/10] dt-bindings: media: mtk-vcodec: Adds encoder
+ cores dt-bindings for mt8195
+Message-ID: <Yj4s0zcHxz3U3wlc@robh.at.kernel.org>
+References: <20220317082230.23622-1-irui.wang@mediatek.com>
+ <20220317082230.23622-4-irui.wang@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220317082230.23622-4-irui.wang@mediatek.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   aa5b537b0ecc16992577b013f11112d54c7ce869
-commit: 238c84f71120f41c45301359902a912a19370f3d media: platform: rename exynos4-is/ to samsung/exynos4-is/
-date:   8 days ago
-config: nios2-buildonly-randconfig-r006-20220325 (https://download.01.org/0day-ci/archive/20220326/202203260407.3uIXrNn4-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=238c84f71120f41c45301359902a912a19370f3d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 238c84f71120f41c45301359902a912a19370f3d
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/media/
+On Thu, Mar 17, 2022 at 04:22:23PM +0800, Irui Wang wrote:
+> Adds encoder cores dt-bindings for mt8195.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Why?
 
-All warnings (new ones prefixed by >>):
+> 
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> ---
+>  .../media/mediatek,vcodec-encoder-core.yaml   | 181 ++++++++++++++++++
+>  .../media/mediatek,vcodec-encoder.yaml        |   1 -
+>  2 files changed, 181 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml
+> new file mode 100644
+> index 000000000000..fcfb48900c76
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml
+> @@ -0,0 +1,181 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/media/mediatek,vcodec-encoder-core.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Mediatek Video Encoder Accelerator With Multi Core
+> +
+> +maintainers:
+> +  - Irui Wang <irui.wang@mediatek.com>
+> +
+> +description: |
+> +  Mediatek Video Encode is the video encode hardware present in Mediatek
+> +  SoCs which supports high resolution encoding functionalities. Required
+> +  parent and child device node.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - mediatek,mt8195-vcodec-enc
+> +
+> +  mediatek,scp:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      The node of system control processor (SCP), using
+> +      the remoteproc & rpmsg framework.
+> +
+> +  mediatek,venc-multi-core:
+> +    type: boolean
+> +    description: |
+> +      Indicates whether the encoder has multiple cores or not.
 
-   In file included from drivers/media/platform/samsung/exynos4-is/fimc-isp.c:25:
->> drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h:35:6: warning: no previous prototype for 'fimc_isp_video_device_unregister' [-Wmissing-prototypes]
-      35 | void fimc_isp_video_device_unregister(struct fimc_isp *isp,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Isn't this implied by how many child nodes you have?
 
+> +
+> +  iommus:
+> +    minItems: 1
+> +    maxItems: 32
 
-vim +/fimc_isp_video_device_unregister +35 drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h
+You really have up to 32 IOMMUs?
 
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  34  
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20 @35  void fimc_isp_video_device_unregister(struct fimc_isp *isp,
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  36  				enum v4l2_buf_type type)
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  37  {
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  38  }
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  39  #endif /* !CONFIG_VIDEO_EXYNOS4_ISP_DMA_CAPTURE */
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  40  
+> +    description: |
+> +      List of the hardware port in respective IOMMU block for current Socs.
+> +      Refer to bindings/iommu/mediatek,iommu.yaml.
+> +
+> +  dma-ranges:
+> +    maxItems: 1
+> +    description: |
+> +      Describes the physical address space of IOMMU maps to memory.
+> +
+> +  "#address-cells":
+> +    const: 2
+> +
+> +  "#size-cells":
+> +    const: 2
+> +
+> +  ranges: true
+> +
+> +# Required child node:
+> +patternProperties:
+> +  "^venc-core@[0-9a-f]+$":
+> +    type: object
+> +    description: |
+> +      The video encoder core device node which should be added as subnodes to
+> +      the main venc node.
+> +
+> +    properties:
+> +      compatible:
+> +        items:
+> +         - const: mediatek,mtk-venc-core
+> +
+> +      reg:
+> +        maxItems: 1
+> +
+> +      mediatek,core-id:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: |
+> +          Current encoder core id.
 
-:::::: The code at line 35 was first introduced by commit
-:::::: 34947b8aebe3f2d4eceb65fceafa92bf8dc97d96 [media] exynos4-is: Add the FIMC-IS ISP capture DMA driver
+What is this for and what does its value correspond to in the h/w. We 
+generally don't do made up indices in DT.
 
-:::::: TO: Sylwester Nawrocki <s.nawrocki@samsung.com>
-:::::: CC: Mauro Carvalho Chehab <m.chehab@samsung.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> +
+> +      iommus:
+> +        minItems: 1
+> +        maxItems: 32
+> +        description: |
+> +          List of the hardware port in respective IOMMU block for current Socs.
+> +          Refer to bindings/iommu/mediatek,iommu.yaml.
+> +
+> +      interrupts:
+> +        maxItems: 1
+> +
+> +      clocks:
+> +        maxItems: 1
+> +
+> +      clock-names:
+> +        maxItems: 1
+> +
+> +      power-domains:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +      - mediatek,core-id
+> +      - iommus
+> +      - interrupts
+> +      - clocks
+> +      - clock-names
+> +      - assigned-clocks
+> +      - assigned-clock-parents
+> +      - power-domains
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - mediatek,scp
+> +  - iommus
+> +  - dma-ranges
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/memory/mt8195-memory-port.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/mt8195-clk.h>
+> +    #include <dt-bindings/power/mt8195-power.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        venc {
+> +            compatible = "mediatek,mt8195-vcodec-enc";
+> +            mediatek,scp = <&scp>;
+> +            mediatek,venc-multi-core;
+> +            iommus = <&iommu_vdo M4U_PORT_L19_VENC_RCPU>;
+> +            #address-cells = <2>;
+> +            #size-cells = <2>;
+> +            ranges;
+> +            dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+> +
+> +            venc-core@1a020000 {
+> +                compatible = "mediatek,mtk-venc-core";
+> +                reg = <0 0x1a020000 0 0x10000>;
+> +                mediatek,core-id = <0>;
+> +                iommus = <&iommu_vdo M4U_PORT_L19_VENC_RCPU>,
+> +                         <&iommu_vdo M4U_PORT_L19_VENC_REC>,
+> +                         <&iommu_vdo M4U_PORT_L19_VENC_BSDMA>,
+> +                         <&iommu_vdo M4U_PORT_L19_VENC_SV_COMV>,
+> +                         <&iommu_vdo M4U_PORT_L19_VENC_RD_COMV>,
+> +                         <&iommu_vdo M4U_PORT_L19_VENC_CUR_LUMA>,
+> +                         <&iommu_vdo M4U_PORT_L19_VENC_CUR_CHROMA>,
+> +                         <&iommu_vdo M4U_PORT_L19_VENC_REF_LUMA>,
+> +                         <&iommu_vdo M4U_PORT_L19_VENC_REF_CHROMA>;
+> +                interrupts = <GIC_SPI 341 IRQ_TYPE_LEVEL_HIGH 0>;
+> +                clocks = <&vencsys CLK_VENC_VENC>;
+> +                clock-names = "clk_venc";
+> +                assigned-clocks = <&topckgen CLK_TOP_VENC>;
+> +                assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D4>;
+> +                power-domains = <&spm MT8195_POWER_DOMAIN_VENC>;
+> +            };
+> +
+> +            venc-core@1b020000 {
+> +                compatible = "mediatek,mtk-venc-core";
+> +                reg = <0 0x1b020000 0 0x10000>;
+> +                mediatek,core-id = <1>;
+> +                iommus = <&iommu_vpp M4U_PORT_L20_VENC_RCPU>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_REC>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_BSDMA>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_SV_COMV>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_RD_COMV>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_CUR_LUMA>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_CUR_CHROMA>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_REF_LUMA>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_REF_CHROMA>;
+> +                interrupts = <GIC_SPI 346 IRQ_TYPE_LEVEL_HIGH 0>;
+> +                clocks = <&vencsys_core1 CLK_VENC_CORE1_VENC>;
+> +                clock-names = "clk_venc_core1";
+> +                assigned-clocks = <&topckgen CLK_TOP_VENC>;
+> +                assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D4>;
+> +                power-domains = <&spm MT8195_POWER_DOMAIN_VENC_CORE1>;
+> +            };
+> +        };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+> index e7b65a91c92c..0530a694bcbe 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+> @@ -21,7 +21,6 @@ properties:
+>        - mediatek,mt8173-vcodec-enc
+>        - mediatek,mt8183-vcodec-enc
+>        - mediatek,mt8192-vcodec-enc
+> -      - mediatek,mt8195-vcodec-enc
+>  
+>    reg:
+>      maxItems: 1
+> -- 
+> 2.18.0
+> 
+> 
