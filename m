@@ -2,81 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 147274E73FC
-	for <lists+linux-media@lfdr.de>; Fri, 25 Mar 2022 14:11:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CDEB4E74D5
+	for <lists+linux-media@lfdr.de>; Fri, 25 Mar 2022 15:09:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245121AbiCYNNJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Mar 2022 09:13:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52446 "EHLO
+        id S1358759AbiCYOKv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Mar 2022 10:10:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354181AbiCYNNF (ORCPT
+        with ESMTP id S1357958AbiCYOKq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Mar 2022 09:13:05 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E47DF48
-        for <linux-media@vger.kernel.org>; Fri, 25 Mar 2022 06:11:30 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id h4so1422175edr.3
-        for <linux-media@vger.kernel.org>; Fri, 25 Mar 2022 06:11:30 -0700 (PDT)
+        Fri, 25 Mar 2022 10:10:46 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76AD3D8F6E
+        for <linux-media@vger.kernel.org>; Fri, 25 Mar 2022 07:09:11 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id yy13so15634997ejb.2
+        for <linux-media@vger.kernel.org>; Fri, 25 Mar 2022 07:09:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=39vGWICtE1D8WySZuhFVZlySZosFxjBXRPANWqdHqJI=;
-        b=NTx2AJfNxhtsruI+24G5OYmC4RHPpFcxU392t4ad1qdWs3PL+wH61IGlUhqrZF/kj/
-         Y6u7so5LGZyjeNOaBNTyKVcVtcDy/DVeIH+UyQpE6gVpe/2Xh5kY+q3AEJxudzf4uv/d
-         SZdJHdcKlZojzwZs3vMPUoHiUOKKsoWVcj8y0UT9IhyIxtMF0KqTh+xag8oz+vRPGfdU
-         IC/EBlaXJHbP8ia07dtrBi/LGajTT6INsCG6oOEWPyR9Ro5yRTXCBrD8Dhdpg50WerI4
-         M8rrBkhR3hcsn3s1Jbi6LN5KZ38YGPOdjtiX7FDUzl32H1EjVIoJpuTLnuaw1vKNbuZ1
-         lZJg==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7Y8Ke4EKJ+n0sWG8HfMTEQMTwBxHtm/aFE+FUw2Eq8I=;
+        b=QTkG7yzE0VA3tbHnhVo79rmLtyvMtgtPYvmp6iOr44D+sx3bfReMFLwxq2nCuKe96j
+         8mkk6oHj/B/yiFiuZ4E1cAyeeKJdY9uPKzpddu+F1rUF9EIOq7re8ZayVHSH/XgVHsM3
+         0P1bykV/XRv6wrvpXrOEBr1jKLBJnKVzzy1jM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=39vGWICtE1D8WySZuhFVZlySZosFxjBXRPANWqdHqJI=;
-        b=xdeeDsxdBFPs14sdAkLMSMCXAEre9L7552ndc4DJ+G4zdS4FxXfDcXOqJ2/NxPvC58
-         9juPh9tuOLSMVSAN2nubYMoD5WlWi5/QWkBTRliWpCz2RpWBeNPUobEIf0+rjA7ht/NK
-         vAj3Y2c1LZKZnaPviVt8JJCBfyQtlF7bzj73Kb2dIvBR/KHap3EDJAJ1DWFi5hKzisAN
-         eUAUD1ibCUvSVd+dB5Sma0sai6Ic8XjDK0tnYxvpiRMzb8xxvnDC9MyzKFaF67HTEmf+
-         4/UWAS9GcU/wIKMh5sblcVl6qO8pNZtctv5ZJXQ4D2QiNo+jBvvdPWbuAzp+RZrmp7em
-         gKQA==
-X-Gm-Message-State: AOAM531COG0LdPJ+bogSmKnifCLtilo7R/TitjskSaemBU+WTI+8XBz/
-        WBf/OrJp5KNpSDkJK6YYddA3EgPpQLkKSkxtl9K1fA==
-X-Google-Smtp-Source: ABdhPJyY9ujjG8SdRD4j0AKKCRXtfcW1P0TEC08sIy7OcwjNsgCf8+3eqAIPJgf4CNG0xp7IsqUiUeoJWYb80ZrGmbc=
-X-Received: by 2002:a05:6402:1e92:b0:419:76:21a6 with SMTP id
- f18-20020a0564021e9200b00419007621a6mr12936544edf.128.1648213889593; Fri, 25
- Mar 2022 06:11:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
- <a7c858461b99de2d4afad22d888acc3a74850240.camel@ndufresne.ca>
- <9ec970d6-ea09-802c-419b-b2ef26800990@collabora.com> <5be83f0b343c04d877a2c2d805fb5f71ca9973b1.camel@ndufresne.ca>
- <fe24d151-6097-aa8e-7691-5e4d81fa42c6@collabora.com> <f80128c50d3dacff0af70bd88521abae42476f85.camel@ndufresne.ca>
-In-Reply-To: <f80128c50d3dacff0af70bd88521abae42476f85.camel@ndufresne.ca>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 25 Mar 2022 13:11:13 +0000
-Message-ID: <CAPY8ntBQBrWytYRbv50F-4TZJdCaSQs86r3vY6kJdp+oc6SxEQ@mail.gmail.com>
-Subject: Re: [PATCH v1] media: videobuf2: Allow applications customize data
- offsets of capture buffers
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7Y8Ke4EKJ+n0sWG8HfMTEQMTwBxHtm/aFE+FUw2Eq8I=;
+        b=Kn7+4JytSSWsvFnkQZAJrlSSV+UMTOfh9yhnaCAYAwnsM4o4cHXIjoGHc+VVehFA40
+         mz8rXx1en3+pNG8T0blQO98VGiQgd+VC4eUY8PxZwuqkbxbuABgON/gfZHWYWTpbg8rs
+         3f0vc2tWuai/WGxx8YffS55vw6NFv5ABmVaEU6Owag3TPCnF4lzu68j4PbM9K3Es78LQ
+         6KmJetaDhqLzlFhgWWIUtWzS9xeCpvEnp6xlW44djyji4Ng5mRi/ZtRzxysH8LUom6Cy
+         +iKqArAkDDeptCgvPzquU5fIgow3kwGA+xVF1eNrOM+WU+czeMO14/9iBWsPWfDYBRH9
+         mGEA==
+X-Gm-Message-State: AOAM531qINxrA5ELmM66wc7GS2GQnsuHr6tRmAEooJlpCOJfqLEU9tWM
+        F5EoVjEZ4UAz4O1J2BJf4i3Eng==
+X-Google-Smtp-Source: ABdhPJw1ItfY2GTfb7uKZb4wsLq5O6JtCDzlBoW9axGKsiN8kntiG06xG5p/w1ZtWRXklpS5iUODlw==
+X-Received: by 2002:a17:906:c307:b0:6df:c7d0:90e8 with SMTP id s7-20020a170906c30700b006dfc7d090e8mr11541350ejz.421.1648217349950;
+        Fri, 25 Mar 2022 07:09:09 -0700 (PDT)
+Received: from alco.corp.google.com ([2620:0:1059:10:c825:3420:d3ca:fdf1])
+        by smtp.gmail.com with ESMTPSA id u19-20020a17090617d300b006cea86ca384sm2328667eje.40.2022.03.25.07.09.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Mar 2022 07:09:09 -0700 (PDT)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Boris Brezillon <bbrezillon@collabora.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Laura Nao <laura.nao@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dmitry Osipenko <digetx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        senozhatsky@chromium.org, tfiga@chromium.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v3] media: uvcvideo: Fix handling on Bitmask controls
+Date:   Fri, 25 Mar 2022 15:09:06 +0100
+Message-Id: <20220325140906.482970-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,51 +68,134 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas & Dmitry
+Minimum and step values for V4L2_CTRL_TYPE_BITMASK controls should be 0.
+There is no need to query the camera firmware about this and maybe get
+invalid results.
 
-On Fri, 25 Mar 2022 at 12:32, Nicolas Dufresne <nicolas@ndufresne.ca> wrote=
-:
->
-> Le jeudi 24 mars 2022 =C3=A0 21:20 +0300, Dmitry Osipenko a =C3=A9crit :
-> > The root of the problem is that DRM UAPI is more flexible and allows to
-> > customize offsets for both S/MPLANEs, while V4L doesn't allow to do it
-> > at all. I'm exploring all the potential options, so far neither of the
-> > proposed variants is ideal.
->
-> In GStreamer kmssink, the way DRM is used, is that if you have 2 planes i=
-n your
-> pixel format, but only received 1 DMABuf, we will pass this DMABuf twice =
-(well
-> GEM handles, but twice), with appropriate offset.
->
-> With this in mind, the idea for V4L2 could be to always resort to MPLANE =
-for
-> this purpose. The tricky part for userland is that it needs to know the d=
-ual
-> pixel format and map that accordingly. That is a bit difficult and this i=
-s
-> something Helen was trying to address with the v4l2_buffer_ext (that and
-> allowing space to store DRM Modifiers in the future).
->
-> The second challenge is the overhead. In DRM, as we "prime" the DMABuf in=
-to
-> handles, this gives a kernel object to store any relevant information abo=
-ut the
-> buffer. So having it duplicate can be done at no cost. In V4L2, the drive=
-r would
-> need to handle that more often. Specially that despite the recommendation
-> (except for primary buffer decoder, were this is mandatory), we don't for=
-ce a
-> strict DMABuf / Buffer IDX  mapping.
+Also value should be masked to the max value advertised by the
+hardware.
 
-To throw another use case of data offsets into the mix, I'm keeping a
-watching eye on implementing stereoscopic capture into libcamera where
-we want to present the same buffer to the ISP twice (once for each
-eye) with either a vertical or horizontal offset between the two
-passes.
-Adding a data_offset of either a half line or half the frame is the
-easiest way around that one, although it could potentially be
-accommodated through the selection API setting a compose region
-instead.
+Finally, handle uvc 1.5 mask controls that use MAX instead of RES to
+describe the valid bits.
 
-  Dave
+Fixes v4l2-compliane:
+Control ioctls (Input 0):
+                fail: v4l2-test-controls.cpp(97): minimum must be 0 for a bitmask control
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+v3: Changes requested by Laurent
+
+Support controls that use GET_RES for describing the valid bits.
+
+ drivers/media/usb/uvc/uvc_ctrl.c | 53 ++++++++++++++++++++++++--------
+ 1 file changed, 41 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index b4f6edf968bc..d474fe07de84 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1078,6 +1078,25 @@ static const char *uvc_map_get_name(const struct uvc_control_mapping *map)
+ 	return "Unknown Control";
+ }
+ 
++static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
++			       struct uvc_control_mapping *mapping)
++{
++	/*
++	 * Some controls, like CT_AE_MODE_CONTROL use GET_RES to
++	 * represent the number of bits supported, those controls
++	 * do not list GET_MAX as supported.
++	 */
++	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
++		return mapping->get(mapping, UVC_GET_MAX,
++				    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
++
++	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
++		return mapping->get(mapping, UVC_GET_RES,
++				    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
++
++	return ~0;
++}
++
+ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+ 	struct uvc_control *ctrl,
+ 	struct uvc_control_mapping *mapping,
+@@ -1152,6 +1171,12 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+ 		v4l2_ctrl->step = 0;
+ 		return 0;
+ 
++	case V4L2_CTRL_TYPE_BITMASK:
++		v4l2_ctrl->minimum = 0;
++		v4l2_ctrl->maximum = uvc_get_ctrl_bitmap(ctrl, mapping);
++		v4l2_ctrl->step = 0;
++		return 0;
++
+ 	default:
+ 		break;
+ 	}
+@@ -1253,19 +1278,14 @@ int uvc_query_v4l2_menu(struct uvc_video_chain *chain,
+ 
+ 	menu_info = &mapping->menu_info[query_menu->index];
+ 
+-	if (mapping->data_type == UVC_CTRL_DATA_TYPE_BITMASK &&
+-	    (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)) {
+-		s32 bitmap;
+-
++	if (mapping->data_type == UVC_CTRL_DATA_TYPE_BITMASK) {
+ 		if (!ctrl->cached) {
+ 			ret = uvc_ctrl_populate_cache(chain, ctrl);
+ 			if (ret < 0)
+ 				goto done;
+ 		}
+ 
+-		bitmap = mapping->get(mapping, UVC_GET_RES,
+-				      uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
+-		if (!(bitmap & menu_info->value)) {
++		if (!(uvc_get_ctrl_bitmap(ctrl, mapping) & menu_info->value)) {
+ 			ret = -EINVAL;
+ 			goto done;
+ 		}
+@@ -1745,6 +1765,18 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+ 		value = xctrl->value;
+ 		break;
+ 
++	case V4L2_CTRL_TYPE_BITMASK:
++		if (!ctrl->cached) {
++			ret = uvc_ctrl_populate_cache(chain, ctrl);
++			if (ret < 0)
++				return ret;
++		}
++
++		xctrl->value = max(0, xctrl->value);
++		xctrl->value &= uvc_get_ctrl_bitmap(ctrl, mapping);
++		value = xctrl->value;
++		break;
++
+ 	case V4L2_CTRL_TYPE_BOOLEAN:
+ 		xctrl->value = clamp(xctrl->value, 0, 1);
+ 		value = xctrl->value;
+@@ -1758,17 +1790,14 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+ 		/* Valid menu indices are reported by the GET_RES request for
+ 		 * UVC controls that support it.
+ 		 */
+-		if (mapping->data_type == UVC_CTRL_DATA_TYPE_BITMASK &&
+-		    (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)) {
++		if (mapping->data_type == UVC_CTRL_DATA_TYPE_BITMASK) {
+ 			if (!ctrl->cached) {
+ 				ret = uvc_ctrl_populate_cache(chain, ctrl);
+ 				if (ret < 0)
+ 					return ret;
+ 			}
+ 
+-			step = mapping->get(mapping, UVC_GET_RES,
+-					uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
+-			if (!(step & value))
++			if (!(uvc_get_ctrl_bitmap(ctrl, mapping) & value))
+ 				return -EINVAL;
+ 		}
+ 
+-- 
+2.35.1.1021.g381101b075-goog
+
