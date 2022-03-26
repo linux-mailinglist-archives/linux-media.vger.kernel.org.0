@@ -2,173 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8E194E839B
-	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 19:55:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12FDB4E83BF
+	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 20:25:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233831AbiCZS5Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Mar 2022 14:57:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55194 "EHLO
+        id S234705AbiCZT0n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Mar 2022 15:26:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231740AbiCZS5P (ORCPT
+        with ESMTP id S231621AbiCZT0n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Mar 2022 14:57:15 -0400
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67C63241B69;
-        Sat, 26 Mar 2022 11:55:38 -0700 (PDT)
-Received: by mail-oi1-x22e.google.com with SMTP id 12so11626132oix.12;
-        Sat, 26 Mar 2022 11:55:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=od8p5pl2U97jeU4B5zrg7n+5mCzeV+pC/ksqgi0ZrCg=;
-        b=FLgjPZbpsRgixevsWBrkzNi6JX+0JOdLVae2WiE33dW2CYOkn5xqbMkUlVUP8W2wu7
-         GkxJRlQBc9JikV5LxxH776y/rCGduf9iWPHNwF2JwC98xLaDJOBMG8veU5JxGQ7nOAvJ
-         m/+JrXhLeGunBEipRoADOWS5rGjDCc6Gz4IggFgtvunK5yE88pyhHsgbZfGiHbN0KDJE
-         NB8NTlDVtPBrxk4PUIVxhTUnFKrA8WccJDTDtm7JqRWvIiRfCooKnwEhY3aTmayCwMpQ
-         V3hyLVfO0DlGQFzspBvlHmqHXQ6R9+E5kFXKetAYpzKWkBQUTmJFethoAMM1paiNI8zm
-         YaGw==
+        Sat, 26 Mar 2022 15:26:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A1A5815B063
+        for <linux-media@vger.kernel.org>; Sat, 26 Mar 2022 12:25:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1648322699;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ykDXlOPk2TFsdn08fWycm9GIyujKbG9G/UkGWmpaTzI=;
+        b=Xt43SD9KF2LDdjwItAtOn784ezA4hYi/twLdTJAAMc/gAdYG8lveFHuZwbcZGdoF4kkLjG
+        u4Sp8B3w/PFlmQn6Yd95JYqXXe/VqO5C3rqcVBQabFn9Zn0d0R+ipZ6q6t7XE/F4GORkVW
+        nklNsPv2hnJc7gSMsPTgorJtB4tw45E=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-256-N1bwjo0aNaK_u_koXm0NlQ-1; Sat, 26 Mar 2022 15:24:58 -0400
+X-MC-Unique: N1bwjo0aNaK_u_koXm0NlQ-1
+Received: by mail-qv1-f70.google.com with SMTP id fw9-20020a056214238900b0043522aa5b81so8324107qvb.21
+        for <linux-media@vger.kernel.org>; Sat, 26 Mar 2022 12:24:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=od8p5pl2U97jeU4B5zrg7n+5mCzeV+pC/ksqgi0ZrCg=;
-        b=r4k/ZLMSm2hGaZp0BJolxckS67SFML0s78RsE+8NiRJtTIJjiR7iTUcsPn2boAz2Vv
-         ybz7IlRpirjSR8WbZcmDUi67Wcdi/CEzM6IC75FzjbT5nPLL5uTrMwJ4OsKlNa4JEuV7
-         6kdnURfSa8SzqlfjT2hUHF2o46YRSK/+FU7aTVgoSqiwpoHmYmttls0pWSo8pEGumHfo
-         VJahmxfnNxAiHJtGzGQEfZkToklM6Hkq7P71exK6vCC8vpz1uiMqqs26cOr8wMZflN/v
-         PWEstBAt2MWu3qzuSeCYUKmLcIwynnKFScUNbwqPhMENULFQvDB4S2ey95MG6cdsR2IG
-         iviA==
-X-Gm-Message-State: AOAM530nuM0l5w3i2NKx96h5mNEYhFz/NwcMZWQRJgsZ9MFzEF3DaqbJ
-        oDO63FLHbDAVpIwc7lRXkd8=
-X-Google-Smtp-Source: ABdhPJwENpqHi0yoebC6ynBYdoBH1ZAUKF4tDj7px8PfwrXlpK2apNGv6Udv3OPe7ze8luScmr+hMg==
-X-Received: by 2002:a05:6808:118c:b0:2d4:4194:70db with SMTP id j12-20020a056808118c00b002d4419470dbmr8444758oil.93.1648320937799;
-        Sat, 26 Mar 2022 11:55:37 -0700 (PDT)
-Received: from [192.168.1.103] (cpe-24-31-246-181.kc.res.rr.com. [24.31.246.181])
-        by smtp.gmail.com with ESMTPSA id k4-20020a9d4b84000000b005b2310ebdffsm4697502otf.54.2022.03.26.11.55.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Mar 2022 11:55:37 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <f7bb9164-2f66-8985-5771-5f31ee5740b7@lwfinger.net>
-Date:   Sat, 26 Mar 2022 13:55:33 -0500
+        bh=ykDXlOPk2TFsdn08fWycm9GIyujKbG9G/UkGWmpaTzI=;
+        b=m3oObnEdb6+iK8YC/TmjNR/EKKtsz79bo3wg/6viptdRyrhjM1DKFJb3UiMU9N2EiD
+         PCQ8APne9y6Oo3hrpOvT/anTcLq71mpG+lwFi3mFtgS9zG+K7qoAA4wNCGcivYYDQerm
+         Bt0wRDnbeBq4HYClzK3NwPjcqlJlDIG5xY1FeK9s3tu/7zDdgGpafpNZ6nbb4t5Sd/Oj
+         Ac45Mo4vC9IpmOmWJnsWd3VJxzJE7KAACzCzn9759pNbwmeVqUaRu5014Pkmg/HDxWGA
+         Soqd/QraOUmuGxxfQLvSJGt71UEDktHb/nX27yX/sAmM35aQS2qYOmCSiIEi9Jd3AOXq
+         KezQ==
+X-Gm-Message-State: AOAM53238V2CwNCXXkUso6GK3Ei315LQwSDxQrHBAzlFuQTrGU6SmvdX
+        KRlGilf/Ez4qzs0tI26pmauilu7PByYfLz/NdVPpoK4ua1P6l7G8AljtehrrNHzHEY1PkQmULsA
+        R7kwwJmCPmt9ub1aObyEH3DE=
+X-Received: by 2002:a05:620a:1539:b0:67d:45f2:f5bd with SMTP id n25-20020a05620a153900b0067d45f2f5bdmr11127664qkk.313.1648322697791;
+        Sat, 26 Mar 2022 12:24:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz5Bbhbe4fNmCCiw0bHclSMqD4b5ogUJimIEaOAuMXEpuJ39XeDHBrgaI1Pk8q6ZmT7kZe2ug==
+X-Received: by 2002:a05:620a:1539:b0:67d:45f2:f5bd with SMTP id n25-20020a05620a153900b0067d45f2f5bdmr11127653qkk.313.1648322697470;
+        Sat, 26 Mar 2022 12:24:57 -0700 (PDT)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com. [24.205.208.113])
+        by smtp.gmail.com with ESMTPSA id b17-20020a05622a021100b002e1f86db385sm8064691qtx.68.2022.03.26.12.24.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Mar 2022 12:24:56 -0700 (PDT)
+From:   trix@redhat.com
+To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org, nathan@kernel.org,
+        ndesaulniers@google.com, hverkuil-cisco@xs4all.nl, vrzh@vrzh.net,
+        tomi.valkeinen@ideasonboard.com
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] media: staging: atomisp: rework reading the id and revision values
+Date:   Sat, 26 Mar 2022 12:18:53 -0700
+Message-Id: <20220326191853.2914552-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 21/22] rtw89: Replace comments with C99 initializers
-Content-Language: en-US
-To:     =?UTF-8?Q?Benjamin_St=c3=bcrz?= <benni@stuerz.xyz>, andrew@lunn.ch
-Cc:     sebastian.hesselbarth@gmail.com, gregory.clement@bootlin.com,
-        linux@armlinux.org.uk, linux@simtec.co.uk, krzk@kernel.org,
-        alim.akhtar@samsung.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
-        robert.moore@intel.com, rafael.j.wysocki@intel.com,
-        lenb@kernel.org, 3chas3@gmail.com, laforge@gnumonks.org,
-        arnd@arndb.de, gregkh@linuxfoundation.org, mchehab@kernel.org,
-        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org,
-        linus.walleij@linaro.org, brgl@bgdev.pl,
-        mike.marciniszyn@cornelisnetworks.com,
-        dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca,
-        pali@kernel.org, dmitry.torokhov@gmail.com, isdn@linux-pingi.de,
-        benh@kernel.crashing.org, fbarrat@linux.ibm.com, ajd@linux.ibm.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        nico@fluxnic.net, loic.poulain@linaro.org, kvalo@kernel.org,
-        pkshih@realtek.com, bhelgaas@google.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-acpi@vger.kernel.org, devel@acpica.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-input@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
-        wcn36xx@lists.infradead.org, linux-wireless@vger.kernel.org,
-        linux-pci@vger.kernel.org
-References: <20220326165909.506926-1-benni@stuerz.xyz>
- <20220326165909.506926-21-benni@stuerz.xyz>
-From:   Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <20220326165909.506926-21-benni@stuerz.xyz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/26/22 11:59, Benjamin Stürz wrote:
-> This replaces comments with C99's designated
-> initializers because the kernel supports them now.
-> 
-> Signed-off-by: Benjamin Stürz <benni@stuerz.xyz>
-> ---
->   drivers/net/wireless/realtek/rtw89/coex.c | 40 +++++++++++------------
->   1 file changed, 20 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/net/wireless/realtek/rtw89/coex.c b/drivers/net/wireless/realtek/rtw89/coex.c
-> index 684583955511..3c83a0bfb120 100644
-> --- a/drivers/net/wireless/realtek/rtw89/coex.c
-> +++ b/drivers/net/wireless/realtek/rtw89/coex.c
-> @@ -97,26 +97,26 @@ static const struct rtw89_btc_fbtc_slot s_def[] = {
->   };
->   
->   static const u32 cxtbl[] = {
-> -	0xffffffff, /* 0 */
-> -	0xaaaaaaaa, /* 1 */
-> -	0x55555555, /* 2 */
-> -	0x66555555, /* 3 */
-> -	0x66556655, /* 4 */
-> -	0x5a5a5a5a, /* 5 */
-> -	0x5a5a5aaa, /* 6 */
-> -	0xaa5a5a5a, /* 7 */
-> -	0x6a5a5a5a, /* 8 */
-> -	0x6a5a5aaa, /* 9 */
-> -	0x6a5a6a5a, /* 10 */
-> -	0x6a5a6aaa, /* 11 */
-> -	0x6afa5afa, /* 12 */
-> -	0xaaaa5aaa, /* 13 */
-> -	0xaaffffaa, /* 14 */
-> -	0xaa5555aa, /* 15 */
-> -	0xfafafafa, /* 16 */
-> -	0xffffddff, /* 17 */
-> -	0xdaffdaff, /* 18 */
-> -	0xfafadafa  /* 19 */
-> +	[0]  = 0xffffffff,
-> +	[1]  = 0xaaaaaaaa,
-> +	[2]  = 0x55555555,
-> +	[3]  = 0x66555555,
-> +	[4]  = 0x66556655,
-> +	[5]  = 0x5a5a5a5a,
-> +	[6]  = 0x5a5a5aaa,
-> +	[7]  = 0xaa5a5a5a,
-> +	[8]  = 0x6a5a5a5a,
-> +	[9]  = 0x6a5a5aaa,
-> +	[10] = 0x6a5a6a5a,
-> +	[11] = 0x6a5a6aaa,
-> +	[12] = 0x6afa5afa,
-> +	[13] = 0xaaaa5aaa,
-> +	[14] = 0xaaffffaa,
-> +	[15] = 0xaa5555aa,
-> +	[16] = 0xfafafafa,
-> +	[17] = 0xffffddff,
-> +	[18] = 0xdaffdaff,
-> +	[19] = 0xfafadafa
->   };
->   
->   struct rtw89_btc_btf_tlv {
+From: Tom Rix <trix@redhat.com>
 
+Clang static analysis reports this representative issue
+atomisp-ov2722.c:920:3: warning: 3rd function call
+  argument is an uninitialized value
+  dev_err(&client->dev, "sensor_id_high = 0x%x\n", high);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Is this change really necessary? Yes, the entries must be ordered; however, the 
-comment carries that information at very few extra characters. To me, this patch 
-looks like unneeded source churn. One other concern is that this driver is 
-backported to older kernels and older compilers by several distros. Will this 
-change require adding extra conditional statements to the source used in these 
-applications?
+high and low are only set when ov2722_read_reg() is successful.
+Reporting the high value when there is an error is not
+meaningful.  The later read for low is not checked.  high
+and low are or-ed together and checked against a non zero
+value.
 
-Larry
+Remove the unneeded error reporting for high.  Initialize
+high and low to 0 and use the id check to determine if
+the reads were successful
+
+The later read for revision is not checked.  If it
+fails the old high value will be used and the revision
+will be misreported.
+
+Since the revision is only reported and not checked or
+stored it is not necessary to return if the read with
+successful.  This makes the ret variable unnecessary
+so remove it.
+
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ .../media/atomisp/i2c/atomisp-ov2722.c        | 20 ++++++++-----------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+index da98094d7094a..d5d099ac1b707 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+@@ -906,22 +906,17 @@ static int ov2722_get_fmt(struct v4l2_subdev *sd,
+ static int ov2722_detect(struct i2c_client *client)
+ {
+ 	struct i2c_adapter *adapter = client->adapter;
+-	u16 high, low;
+-	int ret;
++	u16 high = 0, low = 0;
+ 	u16 id;
+ 	u8 revision;
+ 
+ 	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C))
+ 		return -ENODEV;
+ 
+-	ret = ov2722_read_reg(client, OV2722_8BIT,
+-			      OV2722_SC_CMMN_CHIP_ID_H, &high);
+-	if (ret) {
+-		dev_err(&client->dev, "sensor_id_high = 0x%x\n", high);
+-		return -ENODEV;
+-	}
+-	ret = ov2722_read_reg(client, OV2722_8BIT,
+-			      OV2722_SC_CMMN_CHIP_ID_L, &low);
++	ov2722_read_reg(client, OV2722_8BIT,
++			OV2722_SC_CMMN_CHIP_ID_H, &high);
++	ov2722_read_reg(client, OV2722_8BIT,
++			OV2722_SC_CMMN_CHIP_ID_L, &low);
+ 	id = (high << 8) | low;
+ 
+ 	if ((id != OV2722_ID) && (id != OV2720_ID)) {
+@@ -929,8 +924,9 @@ static int ov2722_detect(struct i2c_client *client)
+ 		return -ENODEV;
+ 	}
+ 
+-	ret = ov2722_read_reg(client, OV2722_8BIT,
+-			      OV2722_SC_CMMN_SUB_ID, &high);
++	high = 0;
++	ov2722_read_reg(client, OV2722_8BIT,
++			OV2722_SC_CMMN_SUB_ID, &high);
+ 	revision = (u8)high & 0x0f;
+ 
+ 	dev_dbg(&client->dev, "sensor_revision = 0x%x\n", revision);
+-- 
+2.26.3
 
