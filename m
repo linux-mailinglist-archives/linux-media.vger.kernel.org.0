@@ -2,61 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E7314E7FAF
-	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 08:01:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5623D4E7FC1
+	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 08:22:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231687AbiCZHCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Mar 2022 03:02:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53226 "EHLO
+        id S231789AbiCZHYB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Mar 2022 03:24:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230024AbiCZHCd (ORCPT
+        with ESMTP id S230024AbiCZHYB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Mar 2022 03:02:33 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA1D658808;
-        Sat, 26 Mar 2022 00:00:56 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id mr5-20020a17090b238500b001c67366ae93so14144133pjb.4;
-        Sat, 26 Mar 2022 00:00:56 -0700 (PDT)
+        Sat, 26 Mar 2022 03:24:01 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E853931A6;
+        Sat, 26 Mar 2022 00:22:25 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id u22so8345965pfg.6;
+        Sat, 26 Mar 2022 00:22:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=fa1rbYBBQP7PEVMDPwY0RhuBW3Duf2ev3235JlZkbm8=;
-        b=dEfsbVUQovawKbYpYISbhgtuU7fgE7yavOpkeXww/POh3OchS+0npy1MdGhfCEdqXq
-         PPfJ6Dmm8xhzVwUiVgeJMLXlEhAJQaR1uAnNKzJdykgZjlc4Vo6oofie3D8NXzpgvEMc
-         PLXJoNaA/CTyJISTdqpjLDZ4PIYyK3IK1ULRtfZGECU7JLAsOLFSBhm7x6MwAHXKcO8o
-         8IiFyWayY2EESn/NSal5BVJ6xECKp1Nlvy3oJRe0/oX/MDZoKvePdYMui70Kw9/1XGRG
-         PiroFgpwGsvWJ2m+NNn4Y5WaHWpq4rSU9U/j/SatIsavWorRFBkv721jisgA9omIWPRF
-         IMCQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=FrsCzHUOMb3jS+AAxbsvf5dDmNa3e9DNdcETUxBJfds=;
+        b=Lp3RFtqePdFuo2/WjIauHyHaoTOTEMVb9ii3Uole/f01OndxyJhBC1/GuFoF65UZF7
+         ckae7wl/Z2to1tdXx8Fqc07p8tQFKKiQttXbKjprpgZgsu33X65FT2wd3Y04XpY12KeV
+         cbV17gnh4+S0CBwd6JhN9h7GGywU2/t5mtfxWr1oSfsVCv+EZkiz3b7FyJf6MX71rmza
+         2ow27c1AM5GfkenA+AWq/dc20CAg+wtzygfTgDvrEatTOr9gWWqTGuXqgZYcH3OXtYg7
+         4nNCNhhVLmXli9lyg2/lMWd8ynr/rEhzuad8V193OGTeWxCNOB7oJeVtXHfsS9l5kk5l
+         1QGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=fa1rbYBBQP7PEVMDPwY0RhuBW3Duf2ev3235JlZkbm8=;
-        b=kgmevmECC2aUVaAJ8LOc9UH1fnCykN95hqMEKdtYGyHnTkdX79p2aLZYNPDbP+BWuI
-         4BaXlxIvMu9hauCA8PC2h5spUbZkKUV1ombIo3YpAw+Pq44tguDXNDKBM6YFcVjqietq
-         CSRnAVQ/sMGnAnY5kbF/5GcyFtZpClPDSPUfJQxgcBHU3MDW+MdJ5ePYWbxzU7kqy+tC
-         8HFRi9Gk7N6YqnxiwlwfMq9ZMlEDHaDOucYOyhQlBec/PgAICLV4q/PuvfbQnt1pp8hN
-         hxfAv1moGTWsG6bUzRhLK8BOM120Sq6GcdUvckydCrnGDNuWuUtSQMGF1JzdKAynl8dw
-         WbBg==
-X-Gm-Message-State: AOAM532OCkYyfv3WzeatP6Z8k1EseoYsbFqJONvjUpWIeed3yQyXp1kk
-        vgvSDra4M6OZyX4lbFsgdrk=
-X-Google-Smtp-Source: ABdhPJy/e2ZxNG4VTgxt+WXRzQezqLk4FSWFEC1dDVoNj1/UEUFo3DWg3fUl0nNHoPoUgdD+0/DAiQ==
-X-Received: by 2002:a17:903:2351:b0:154:5ab7:873d with SMTP id c17-20020a170903235100b001545ab7873dmr15352605plh.57.1648278056094;
-        Sat, 26 Mar 2022 00:00:56 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=FrsCzHUOMb3jS+AAxbsvf5dDmNa3e9DNdcETUxBJfds=;
+        b=7+h7kXU6D2L+5xKaAam3I2hpXK2Q9Agj88qTY+psrtyhRpVnYGvBUsbUO8TfqXJr7o
+         rIupz4Vopxd3rgsdzNWfcdpHAPgvqHuM7BPP+sBQV6csRqUMVBN+5YMJAxSbC6oebwGC
+         23CR1XfW7BvgggctD24NRSCo/6EhU+o0+vRrPqKDiFeW8SMRTJPf8a3qqUdGVu5RyhxN
+         0uymmuoY/T3J+qHBffCXHg2CcCXgD7P5pcU5nAUggRhMh6saPLYJUnU+MuHHpDK6MpMM
+         b2h5nV+jLN0BwxORKg/cxvrSGK2Tc5ceCKJunKmnTuzfhQnlvrGv7SLYQBM8xLBd2O0L
+         kKvw==
+X-Gm-Message-State: AOAM532IUMK9sOWjQ1Sq6/bDfCuc60cM0ctgYkuW42kd2mKAtDenUWyD
+        qPTiewHB9BFATgFEOidzc5o=
+X-Google-Smtp-Source: ABdhPJzQqLS8i9quyP+b1igcsB9qKJwqLnzZUNSbckVKnC/PM3Xn18cDs2WJ11eglVu3F3DWZY6FNA==
+X-Received: by 2002:a05:6a00:1702:b0:4fb:1450:22ad with SMTP id h2-20020a056a00170200b004fb145022admr6449174pfc.56.1648279344623;
+        Sat, 26 Mar 2022 00:22:24 -0700 (PDT)
 Received: from ubuntu.huawei.com ([119.3.119.18])
-        by smtp.googlemail.com with ESMTPSA id w13-20020a17090a5e0d00b001c7d4099670sm5477247pjf.28.2022.03.26.00.00.53
+        by smtp.googlemail.com with ESMTPSA id y15-20020a17090a1f4f00b001c7ecaf9e13sm3938520pjy.35.2022.03.26.00.22.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Mar 2022 00:00:55 -0700 (PDT)
+        Sat, 26 Mar 2022 00:22:24 -0700 (PDT)
 From:   Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To:     laurent.pinchart@ideasonboard.com
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, ribalda@chromium.org, xiam0nd.tong@gmail.com
-Subject: Re: [PATCH] uvc: fix missing check to determine if element is found in list
-Date:   Sat, 26 Mar 2022 15:00:49 +0800
-Message-Id: <20220326070049.10055-1-xiam0nd.tong@gmail.com>
+To:     mchehab@kernel.org
+Cc:     hverkuil-cisco@xs4all.nl, yangyingliang@huawei.com,
+        v4l@cerqueira.org, akpm@osdl.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Xiaomeng Tong <xiam0nd.tong@gmail.com>
+Subject: [PATCH v2] saa7134: fix incorrect check to determine if list is empty
+Date:   Sat, 26 Mar 2022 15:22:15 +0800
+Message-Id: <20220326072215.11608-1-xiam0nd.tong@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <YjnKvQZot2wnljmW@pendragon.ideasonboard.com>
-References: <YjnKvQZot2wnljmW@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -67,64 +66,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 22 Mar 2022 15:10:21 +0200, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> > > Fixes: d5e90b7a6cd1c ("[media] uvcvideo: Move to video_ioctl2")
-> > > Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_v4l2.c | 20 +++++++++++++-------
-> > >  1 file changed, 13 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > index 711556d13d03..e7cdc01ad277 100644
-> > > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > @@ -871,6 +871,7 @@ static int uvc_ioctl_enum_input(struct file *file, void *fh,
-> > >         struct uvc_video_chain *chain = handle->chain;
-> > >         const struct uvc_entity *selector = chain->selector;
-> > >         struct uvc_entity *iterm = NULL;
-> > > +       struct uvc_entity *it;
-> > >         u32 index = input->index;
-> > >         int pin = 0;
-> > >
-> > > @@ -878,22 +879,27 @@ static int uvc_ioctl_enum_input(struct file *file, void *fh,
-> > >             (chain->dev->quirks & UVC_QUIRK_IGNORE_SELECTOR_UNIT)) {
-> > >                 if (index != 0)
-> > >                         return -EINVAL;
-> > > -               list_for_each_entry(iterm, &chain->entities, chain) {
-> > > -                       if (UVC_ENTITY_IS_ITERM(iterm))
-> > > +               list_for_each_entry(it, &chain->entities, chain) {
-> > > +                       if (UVC_ENTITY_IS_ITERM(it)) {
-> > > +                               iterm = it;
-> > >                                 break;
-> > > +                       }
-> > >                 }
-> > > -               pin = iterm->id;
-> > > +               if (iterm)
-> > > +                       pin = iterm->id;
-> 
-> You can drop this, pin is not used anymore in the rest of the function.
-> 
-> > >         } else if (index < selector->bNrInPins) {
-> > >                 pin = selector->baSourceID[index];
-> > > -               list_for_each_entry(iterm, &chain->entities, chain) {
-> > > -                       if (!UVC_ENTITY_IS_ITERM(iterm))
-> > > +               list_for_each_entry(it, &chain->entities, chain) {
-> > > +                       if (!UVC_ENTITY_IS_ITERM(it))
-> > >                                 continue;
-> > > -                       if (iterm->id == pin)
-> > > +                       if (it->id == pin) {
-> 
-> And here you could use
-> 			if (it->id == selector->baSourceID[index]) {
-> 
-> and drop the local pin variable.
-> 
-> If you're fine with those small changes I can handle them when applying
-> the patch to my tree.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+The bug is here: "if (dev == NULL)".
 
-I'm fine with those small changes, thank you.
+The list iterator value will *always* be set and non-NULL by
+list_for_each_entry(), so it is incorrect to assume that the iterator
+value will be NULL if the list is empty. Instead, check with list_empty()
+and move the 'if' ahead, to fix this bug.
 
---
-Xiaomeng Tong
+Fixes: 4aabf6331f89c ("[PATCH] v4l: (951) Make saa7134-oss as a stand-alone module")
+Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+---
+changes since v1:
+ - check with list_empty() (Jakob Koschel)
+ - and move the 'if' ahead (Xiaomeng Tong)
+v1:https://lore.kernel.org/all/20220320025718.10053-1-xiam0nd.tong@gmail.com/
+---
+ drivers/media/pci/saa7134/saa7134-alsa.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/pci/saa7134/saa7134-alsa.c b/drivers/media/pci/saa7134/saa7134-alsa.c
+index fb24d2ed3621..4955f7e7c5bf 100644
+--- a/drivers/media/pci/saa7134/saa7134-alsa.c
++++ b/drivers/media/pci/saa7134/saa7134-alsa.c
+@@ -1215,18 +1215,21 @@ static int alsa_device_exit(struct saa7134_dev *dev)
+ static int saa7134_alsa_init(void)
+ {
+ 	struct saa7134_dev *dev = NULL;
++	struct saa7134_dev *iter;
+ 
+ 	saa7134_dmasound_init = alsa_device_init;
+ 	saa7134_dmasound_exit = alsa_device_exit;
+ 
+ 	pr_info("saa7134 ALSA driver for DMA sound loaded\n");
+ 
+-	list_for_each_entry(dev, &saa7134_devlist, devlist) {
+-		if (dev->pci->device == PCI_DEVICE_ID_PHILIPS_SAA7130)
++	list_for_each_entry(iter, &saa7134_devlist, devlist) {
++		dev = iter;
++
++		if (iter->pci->device == PCI_DEVICE_ID_PHILIPS_SAA7130)
+ 			pr_info("%s/alsa: %s doesn't support digital audio\n",
+-				dev->name, saa7134_boards[dev->board].name);
++				iter->name, saa7134_boards[iter->board].name);
+ 		else
+-			alsa_device_init(dev);
++			alsa_device_init(iter);
+ 	}
+ 
+ 	if (dev == NULL)
+-- 
+2.17.1
+
