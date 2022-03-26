@@ -2,60 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C89204E7EF4
-	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 05:49:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E7314E7FAF
+	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 08:01:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231217AbiCZEux (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Mar 2022 00:50:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57972 "EHLO
+        id S231687AbiCZHCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Mar 2022 03:02:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbiCZEuw (ORCPT
+        with ESMTP id S230024AbiCZHCd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Mar 2022 00:50:52 -0400
+        Sat, 26 Mar 2022 03:02:33 -0400
 Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B830B47AF4
-        for <linux-media@vger.kernel.org>; Fri, 25 Mar 2022 21:49:16 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id gp15-20020a17090adf0f00b001c7cd11b0b3so5135850pjb.3
-        for <linux-media@vger.kernel.org>; Fri, 25 Mar 2022 21:49:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA1D658808;
+        Sat, 26 Mar 2022 00:00:56 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id mr5-20020a17090b238500b001c67366ae93so14144133pjb.4;
+        Sat, 26 Mar 2022 00:00:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=FgKovwQZIQy5duDgUdhIyovUouTtqxzzT9r7I+yes3g=;
-        b=OK2wX7XUFJnblfWOjR0BZCAAwqD7SGYoTzRO0sgiKMn0bH3aVgx6TlTJjxUx6lk1ML
-         bYp/Re0es0H6HXoGB8SwEFaYRRkcKmSPh6bAAfbFIXrOcZrBHScZaYl4kQcaFFai4B5C
-         hYKlZGQuZO35+PTOuIP5NOrOO1gXSn+pHor0I/FaRnHiXVZRAoSDDigP04Xh9cB4mSJb
-         Fp8hWuaHFR18pMv9NfYtU3KkYGASFqI5mar3DJGfANHsY2xNkWIFLu5bUxtYub5eJP2H
-         eUcW02HYQ6uDiYT+12+iwq/lMqWn9VNcpxUPUkC2RXBQcfFKfYegUtVuY+hOmxFIya0V
-         BjPw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=fa1rbYBBQP7PEVMDPwY0RhuBW3Duf2ev3235JlZkbm8=;
+        b=dEfsbVUQovawKbYpYISbhgtuU7fgE7yavOpkeXww/POh3OchS+0npy1MdGhfCEdqXq
+         PPfJ6Dmm8xhzVwUiVgeJMLXlEhAJQaR1uAnNKzJdykgZjlc4Vo6oofie3D8NXzpgvEMc
+         PLXJoNaA/CTyJISTdqpjLDZ4PIYyK3IK1ULRtfZGECU7JLAsOLFSBhm7x6MwAHXKcO8o
+         8IiFyWayY2EESn/NSal5BVJ6xECKp1Nlvy3oJRe0/oX/MDZoKvePdYMui70Kw9/1XGRG
+         PiroFgpwGsvWJ2m+NNn4Y5WaHWpq4rSU9U/j/SatIsavWorRFBkv721jisgA9omIWPRF
+         IMCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=FgKovwQZIQy5duDgUdhIyovUouTtqxzzT9r7I+yes3g=;
-        b=x21Wix+bK7A73GaHDUKNXDnzqppR1RNYvfckmJNMQXsjBJugzLbCSVTQ/umeQ0bsVr
-         pY9wk421x5xPQMmAjXn0/czjOflaC6PfneyKMDYQYUsq79fE3AFumxQl7/yo0oQR3KA6
-         7ov3v9yug5txCR9SuKvU8HHHEZwuaJHB5cbAXAPx9wR6WHBgdYzHRtVCuovBiLYaL4TE
-         +a2ZAtrJhMQgKPUjgVs0RmwIZ0wufnW/TWjq3I54KBHQDyciKuPpSqPyZcBBqBP8iJdY
-         WpTwmr07+Yw34enfjutj21AZbOF5kwnFZT3NzW2npz8nr8CWl5ZlMe+SqDZG2SSGa/h+
-         2Vcw==
-X-Gm-Message-State: AOAM531tMovbY3P4qtZNYK1oIxHqc3JVv6ttDJqiEiJ+vQUQqgzI3NNS
-        g9R6UrP/6h37fX981lf4KcCS7AlnfbgT0w==
-X-Google-Smtp-Source: ABdhPJyVLCXA6NVyWZ1q6TGfVHfna5DqXGrKqot10KYkLfo9cBjCGYc8sCLYWiYLEK0reNtZjnOKbw==
-X-Received: by 2002:a17:90b:3851:b0:1c7:80f9:5306 with SMTP id nl17-20020a17090b385100b001c780f95306mr16552696pjb.207.1648270155206;
-        Fri, 25 Mar 2022 21:49:15 -0700 (PDT)
-Received: from kwang-MS-7B23 ([121.165.1.209])
-        by smtp.gmail.com with ESMTPSA id m14-20020a637d4e000000b00380b83e2e1fsm6574155pgn.70.2022.03.25.21.49.13
-        for <linux-media@vger.kernel.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=fa1rbYBBQP7PEVMDPwY0RhuBW3Duf2ev3235JlZkbm8=;
+        b=kgmevmECC2aUVaAJ8LOc9UH1fnCykN95hqMEKdtYGyHnTkdX79p2aLZYNPDbP+BWuI
+         4BaXlxIvMu9hauCA8PC2h5spUbZkKUV1ombIo3YpAw+Pq44tguDXNDKBM6YFcVjqietq
+         CSRnAVQ/sMGnAnY5kbF/5GcyFtZpClPDSPUfJQxgcBHU3MDW+MdJ5ePYWbxzU7kqy+tC
+         8HFRi9Gk7N6YqnxiwlwfMq9ZMlEDHaDOucYOyhQlBec/PgAICLV4q/PuvfbQnt1pp8hN
+         hxfAv1moGTWsG6bUzRhLK8BOM120Sq6GcdUvckydCrnGDNuWuUtSQMGF1JzdKAynl8dw
+         WbBg==
+X-Gm-Message-State: AOAM532OCkYyfv3WzeatP6Z8k1EseoYsbFqJONvjUpWIeed3yQyXp1kk
+        vgvSDra4M6OZyX4lbFsgdrk=
+X-Google-Smtp-Source: ABdhPJy/e2ZxNG4VTgxt+WXRzQezqLk4FSWFEC1dDVoNj1/UEUFo3DWg3fUl0nNHoPoUgdD+0/DAiQ==
+X-Received: by 2002:a17:903:2351:b0:154:5ab7:873d with SMTP id c17-20020a170903235100b001545ab7873dmr15352605plh.57.1648278056094;
+        Sat, 26 Mar 2022 00:00:56 -0700 (PDT)
+Received: from ubuntu.huawei.com ([119.3.119.18])
+        by smtp.googlemail.com with ESMTPSA id w13-20020a17090a5e0d00b001c7d4099670sm5477247pjf.28.2022.03.26.00.00.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Mar 2022 21:49:14 -0700 (PDT)
-Date:   Sat, 26 Mar 2022 13:49:10 +0900
-From:   Kwang Son <dev.kwang.son@gmail.com>
-To:     linux-media@vger.kernel.org
-Subject: media newbie want to contribue on staging devices
-Message-ID: <20220326044910.GA6192@kwang-MS-7B23>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+        Sat, 26 Mar 2022 00:00:55 -0700 (PDT)
+From:   Xiaomeng Tong <xiam0nd.tong@gmail.com>
+To:     laurent.pinchart@ideasonboard.com
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, ribalda@chromium.org, xiam0nd.tong@gmail.com
+Subject: Re: [PATCH] uvc: fix missing check to determine if element is found in list
+Date:   Sat, 26 Mar 2022 15:00:49 +0800
+Message-Id: <20220326070049.10055-1-xiam0nd.tong@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <YjnKvQZot2wnljmW@pendragon.ideasonboard.com>
+References: <YjnKvQZot2wnljmW@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -66,10 +67,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
-I try to contribute on media frameworks. I contributed small typo and
-want to jump on staging/media.(I guess it's good to start)
-I've seen git log to find some spot but hard to understands which
-one is relatively easy (and it looks some devices are just wait to deprecate).
-Anyone can recommend which one is more easy to get target devices(I'm
-ready to spend money on it) and really needs help?
+On Tue, 22 Mar 2022 15:10:21 +0200, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> > > Fixes: d5e90b7a6cd1c ("[media] uvcvideo: Move to video_ioctl2")
+> > > Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_v4l2.c | 20 +++++++++++++-------
+> > >  1 file changed, 13 insertions(+), 7 deletions(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> > > index 711556d13d03..e7cdc01ad277 100644
+> > > --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> > > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> > > @@ -871,6 +871,7 @@ static int uvc_ioctl_enum_input(struct file *file, void *fh,
+> > >         struct uvc_video_chain *chain = handle->chain;
+> > >         const struct uvc_entity *selector = chain->selector;
+> > >         struct uvc_entity *iterm = NULL;
+> > > +       struct uvc_entity *it;
+> > >         u32 index = input->index;
+> > >         int pin = 0;
+> > >
+> > > @@ -878,22 +879,27 @@ static int uvc_ioctl_enum_input(struct file *file, void *fh,
+> > >             (chain->dev->quirks & UVC_QUIRK_IGNORE_SELECTOR_UNIT)) {
+> > >                 if (index != 0)
+> > >                         return -EINVAL;
+> > > -               list_for_each_entry(iterm, &chain->entities, chain) {
+> > > -                       if (UVC_ENTITY_IS_ITERM(iterm))
+> > > +               list_for_each_entry(it, &chain->entities, chain) {
+> > > +                       if (UVC_ENTITY_IS_ITERM(it)) {
+> > > +                               iterm = it;
+> > >                                 break;
+> > > +                       }
+> > >                 }
+> > > -               pin = iterm->id;
+> > > +               if (iterm)
+> > > +                       pin = iterm->id;
+> 
+> You can drop this, pin is not used anymore in the rest of the function.
+> 
+> > >         } else if (index < selector->bNrInPins) {
+> > >                 pin = selector->baSourceID[index];
+> > > -               list_for_each_entry(iterm, &chain->entities, chain) {
+> > > -                       if (!UVC_ENTITY_IS_ITERM(iterm))
+> > > +               list_for_each_entry(it, &chain->entities, chain) {
+> > > +                       if (!UVC_ENTITY_IS_ITERM(it))
+> > >                                 continue;
+> > > -                       if (iterm->id == pin)
+> > > +                       if (it->id == pin) {
+> 
+> And here you could use
+> 			if (it->id == selector->baSourceID[index]) {
+> 
+> and drop the local pin variable.
+> 
+> If you're fine with those small changes I can handle them when applying
+> the patch to my tree.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I'm fine with those small changes, thank you.
+
+--
+Xiaomeng Tong
