@@ -2,189 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C9034E808F
-	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 12:18:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA7524E8203
+	for <lists+linux-media@lfdr.de>; Sat, 26 Mar 2022 18:00:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232662AbiCZLU0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Mar 2022 07:20:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55136 "EHLO
+        id S233821AbiCZRCQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Mar 2022 13:02:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232227AbiCZLUZ (ORCPT
+        with ESMTP id S233801AbiCZRCP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Mar 2022 07:20:25 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A43E245AF2
-        for <linux-media@vger.kernel.org>; Sat, 26 Mar 2022 04:18:47 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a02:3030:b:56bb:d8a:fe2d:6f23:cfa0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 817A11F46117;
-        Sat, 26 Mar 2022 11:18:45 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1648293525;
-        bh=N8ZLhwPZ+dmO9UW8tI0AnKhgPjo5tMpEN35XJxIUeIc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=J3DHxd/AzQ2oA4vylHDpTETQ8y0BEQoeihF3OdzB/XGUSU7lcNjEOETQ4sloMv5EB
-         sI9sEIuqqYo1eXhwEBVHn25yYDxiKsOntlyWwv/Vxp6Ro9vZUwCsMXt/fQeHhdeLOl
-         92izdabxC/Td6m0pRe9FQ1ZciRl9DQvc1H/m/T/vn7PDmPXxODQe/5kG81LpcgbB44
-         mkpEOEq7lfrl6Uvai603z9u3GOntgR/089Vj+Sban/lgN2DygJpNK9L2kAowBgqMLL
-         5CnQKornkJbZ7BQmlxCKERt+LbjOQQnTvAqtHq1tP9gYmkRJL3qFiR8wjP8BNX779C
-         Kb57Lh7Zd5RbA==
-Date:   Sat, 26 Mar 2022 12:18:42 +0100
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Kwang Son <dev.kwang.son@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: media newbie want to contribue on staging devices
-Message-ID: <20220326111842.5whsl4u3nagn3trm@basti-XPS-13-9310>
-References: <20220326044910.GA6192@kwang-MS-7B23>
+        Sat, 26 Mar 2022 13:02:15 -0400
+X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 26 Mar 2022 10:00:37 PDT
+Received: from stuerz.xyz (stuerz.xyz [IPv6:2001:19f0:5:15da:5400:3ff:fecc:7379])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56432B0A55;
+        Sat, 26 Mar 2022 10:00:37 -0700 (PDT)
+Received: by stuerz.xyz (Postfix, from userid 114)
+        id 9D1C6FBBCB; Sat, 26 Mar 2022 17:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=stuerz.xyz; s=mail;
+        t=1648314036; bh=yA14H5kSGXs8c9NCVOmgKRy/cJtHbkLoXQ2K5ISZu/k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=eY1iX0wlkZRA78TwrFBdZG5S+wos6UWvMNaeR3ebSkGbpl4BzyM69Wnujm+MCNQSH
+         XbYHpCtunp+VYPd+8B4Z5YGwrYKyldxYneKwJEtMuoQi4VfjayP4248ZkrvYzPbvb7
+         tGC3cCNQMmjqLyVHL80IqUG9N6enWqcQ/eJAksuxRO0+t/nSWobYmI6E3gPDs1NmYL
+         ++FZTGyvor1q8BXZzeNj7KNTMHP2+jtmpdc0KeaKsrUDcsC7Efw6IdkQp5pRDFDxi5
+         ZHAUmnDb1nehnND3R9P08aARBVYF4iAixYWRlLVzHEAsYgL1pTWrWTNVmmmb1i34gg
+         o2AMI/9CsY+SQ==
+Received: from benni-fedora.. (unknown [IPv6:2a02:8109:a100:1a48:ff0:ef2f:d4da:17d8])
+        by stuerz.xyz (Postfix) with ESMTPSA id E7EF6FB7D3;
+        Sat, 26 Mar 2022 17:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=stuerz.xyz; s=mail;
+        t=1648314033; bh=yA14H5kSGXs8c9NCVOmgKRy/cJtHbkLoXQ2K5ISZu/k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=M6I6oe9jogZM/zVnBnLg0eaNUUV4jcB+jkMO9qefS3HmAz419f42DcLOvKYiY1LvT
+         ker3YtWSKtrbYWXcC4P4Q34z4I0kvS8nnURN2zDZp/1ciFgjp8H5+LMGc47dFCGwK3
+         ZPM4LcjH7WSaWHLXUgQ1uu7Se/TXMvIZ6a51YDM4XN9HQOfPjY/V51c3xkYKlQc9Ff
+         sw/spsdrAwyTcjFyMYk3HffZ0vEu3G6iY0fWhPwKxCUfoge6rziWcIxAyYMFWRia7f
+         wJwSd/xnAYJBhYpaStdDoJq2gMpeyL3UlSNNsSRrS5W5qX2Ex1kaIwSG6rdxXYA+KQ
+         WQdOdxe313yGg==
+From:   =?UTF-8?q?Benjamin=20St=C3=BCrz?= <benni@stuerz.xyz>
+To:     andrew@lunn.ch
+Cc:     sebastian.hesselbarth@gmail.com, gregory.clement@bootlin.com,
+        linux@armlinux.org.uk, linux@simtec.co.uk, krzk@kernel.org,
+        alim.akhtar@samsung.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+        robert.moore@intel.com, rafael.j.wysocki@intel.com,
+        lenb@kernel.org, 3chas3@gmail.com, laforge@gnumonks.org,
+        arnd@arndb.de, gregkh@linuxfoundation.org, mchehab@kernel.org,
+        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org,
+        linus.walleij@linaro.org, brgl@bgdev.pl,
+        mike.marciniszyn@cornelisnetworks.com,
+        dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca,
+        pali@kernel.org, dmitry.torokhov@gmail.com, isdn@linux-pingi.de,
+        benh@kernel.crashing.org, fbarrat@linux.ibm.com, ajd@linux.ibm.com,
+        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        nico@fluxnic.net, loic.poulain@linaro.org, kvalo@kernel.org,
+        pkshih@realtek.com, bhelgaas@google.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@acpica.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-input@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
+        wcn36xx@lists.infradead.org, linux-wireless@vger.kernel.org,
+        linux-pci@vger.kernel.org,
+        =?UTF-8?q?Benjamin=20St=C3=BCrz?= <benni@stuerz.xyz>
+Subject: [PATCH 11/22] rdmavt: Replace comments with C99 initializers
+Date:   Sat, 26 Mar 2022 17:58:58 +0100
+Message-Id: <20220326165909.506926-11-benni@stuerz.xyz>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220326165909.506926-1-benni@stuerz.xyz>
+References: <20220326165909.506926-1-benni@stuerz.xyz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220326044910.GA6192@kwang-MS-7B23>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
+        PDS_OTHER_BAD_TLD,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Kwang Son,
+This replaces comments with C99's designated
+initializers because the kernel supports them now.
 
-On 26.03.2022 13:49, Kwang Son wrote:
->Hi all,
->I try to contribute on media frameworks. I contributed small typo and
->want to jump on staging/media.(I guess it's good to start)
->I've seen git log to find some spot but hard to understands which
->one is relatively easy (and it looks some devices are just wait to deprecate).
->Anyone can recommend which one is more easy to get target devices(I'm
->ready to spend money on it) and really needs help?
-
-So, first of all I would recommend you to think about which area of the
-Media subsystem is of interest to you, as the subsystem contains
-multiple different types of devices. There are:
-- codecs
-- I2C camera sensor devices
-- USB camera devices
-- Image Signal Processors (ISP)
-- Analog/Digital TV devices 
-- Software defined radio
-- And a few other more specific types ...
-
- From my point of view, it is just more fun to fix and improve a device
-if you are actually excited about the outcome and don't just do it to send
-patches to the Kernel.
-
+Signed-off-by: Benjamin Stürz <benni@stuerz.xyz>
 ---
+ drivers/infiniband/sw/rdmavt/rc.c | 62 +++++++++++++++----------------
+ 1 file changed, 31 insertions(+), 31 deletions(-)
 
-In case you are interested in working with codecs, I can suggest you a
-bit from my personal experience:
-Something like a RockPi4 contains multiple Multimedia devices currently
-located in staging (Hantro/RkVDEC), as well as an ISP (rkisp not in
-staging anymore but still has areas to be improved) and MIPI ports to
-work with cameras and displays.
-This means one thing you could start with is simply testing hardware codecs.
+diff --git a/drivers/infiniband/sw/rdmavt/rc.c b/drivers/infiniband/sw/rdmavt/rc.c
+index 4e5d4a27633c..121b8a23ac07 100644
+--- a/drivers/infiniband/sw/rdmavt/rc.c
++++ b/drivers/infiniband/sw/rdmavt/rc.c
+@@ -10,37 +10,37 @@
+  * Convert the AETH credit code into the number of credits.
+  */
+ static const u16 credit_table[31] = {
+-	0,                      /* 0 */
+-	1,                      /* 1 */
+-	2,                      /* 2 */
+-	3,                      /* 3 */
+-	4,                      /* 4 */
+-	6,                      /* 5 */
+-	8,                      /* 6 */
+-	12,                     /* 7 */
+-	16,                     /* 8 */
+-	24,                     /* 9 */
+-	32,                     /* A */
+-	48,                     /* B */
+-	64,                     /* C */
+-	96,                     /* D */
+-	128,                    /* E */
+-	192,                    /* F */
+-	256,                    /* 10 */
+-	384,                    /* 11 */
+-	512,                    /* 12 */
+-	768,                    /* 13 */
+-	1024,                   /* 14 */
+-	1536,                   /* 15 */
+-	2048,                   /* 16 */
+-	3072,                   /* 17 */
+-	4096,                   /* 18 */
+-	6144,                   /* 19 */
+-	8192,                   /* 1A */
+-	12288,                  /* 1B */
+-	16384,                  /* 1C */
+-	24576,                  /* 1D */
+-	32768                   /* 1E */
++	[0x00] = 0,
++	[0x01] = 1,
++	[0x02] = 2,
++	[0x03] = 3,
++	[0x04] = 4,
++	[0x05] = 6,
++	[0x06] = 8,
++	[0x07] = 12,
++	[0x08] = 16,
++	[0x09] = 24,
++	[0x0A] = 32,
++	[0x0B] = 48,
++	[0x0C] = 64,
++	[0x0D] = 96,
++	[0x0E] = 128,
++	[0x0F] = 192,
++	[0x10] = 256,
++	[0x11] = 384,
++	[0x12] = 512,
++	[0x13] = 768,
++	[0x14] = 1024,
++	[0x15] = 1536,
++	[0x16] = 2048,
++	[0x17] = 3072,
++	[0x18] = 4096,
++	[0x19] = 6144,
++	[0x1A] = 8192,
++	[0x1B] = 12288,
++	[0x1C] = 16384,
++	[0x1D] = 24576,
++	[0x1E] = 32768
+ };
+ 
+ /**
+-- 
+2.35.1
 
-There is a test framework for decoders called fluster:
-https://github.com/fluendo/fluster, it basically provides a series of
-test suites, containing encoded test videos, and a list of decoders to
-run over those suites.
-
-Fluster will create a GStreamer (https://gstreamer.freedesktop.org/) pipeline,
-which is basically a series of elements linked together, in this case:
-encoded byte stream -> codec parser -> hardware codec driver -> video converter -> video sink.
-And check if the decoder worked correctly by comparing the result with
-the reference.
-
-To get there you have to do the following steps:
-- Set up the latest Media subsystem Kernel on the RockPi4 (as a base you
-could use something like: https://www.armbian.com/rock-pi-4/, etc.)
-- Get & Build GStreamer with support for the hardware decoders:
-   ```
-   git clone https://gitlab.freedesktop.org/gstreamer/gstreamer.git
-   cd gstreamer
-   meson -Dauto_features=disabled -Dbad=enabled -Dbase=enabled -Dgood=enabled -Dgst-plugins-bad:debugutils=enabled -Dgst-plugins-bad:ivfparse=enabled -Dgst-plugins-bad:v4l2codecs=enabled -Dgst-plugins-bad:videoparsers=enabled -Dgst-plugins-base:app=enabled -Dgst-plugins-base:playback=enabled -Dgst-plugins-base:tools=enabled -Dgst-plugins-base:typefind=enabled -Dgst-plugins-base:videoconvert=enabled -Dgst-plugins-good:matroska=enabled -Dgstreamer:tools=enabled -Dwrap_mode=nofallback -Dgst-plugins-good:v4l2=enabled -Dgst-plugins-base:videotestsrc=enabled -Dgst-plugins-base:rawparse=enabled -Dbackend=ninja -C build
-   ninja -C build
-   ```
-- Get fluster, download test suites and run them:
-   ```
-   git clone https://github.com/fluendo/fluster.git
-   cd fluster
-   # example for a H264 vector
-   python3 fluster.py download JVT-AVC_V1
-   # store reference video
-   python3 fluster.py reference GStreamer-H.264-V4L2SL-Gst1.0 JVT-AVC_V1
-   # Run test on the single vector and store resulting video in results/
-   python3 fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-AVC_V1 -tv SVA_BA2_D -k
-   ```
-- Next you can pull the resulting image (as the run command was executed with `-k`),
-by simply moving the file to your dev machine with rsync:
-   ```
-   # pull the result
-   rsync user@192.168.199.99:/home/user/fluster/results/JVT-AVC_V1/SVA_BA2_D.out /tmp/SVA_BA2_D.yuv
-   # pull the reference
-   rsync user@192.168.199.99:/home/user/fluster/resources/JVT-AVC_V1/SVA_BA2_D/SVA_BA2_D.264 /tmp/SVA_BA2_D.264
-   ```
-- Look at the reference and the result with YUView (https://github.com/IENT/YUView), you can find the required dimensions, pixel format settings in the reference.
-
-This basic workflow can now be used to perform different tests with the
-drivers, search for errors in images and try to fix them through:
-- communication with the community in this mailing list
-- Search for fixes in downstream kernels, prominent example LibreElec (https://github.com/LibreELEC/LibreELEC.tv/tree/master/projects/Rockchip/patches/linux/default) and try to upstream (merging into the latest kernel) them.
-- Look at the reference code by the hardware vendor to find things that
-might be incorrect upstream or missing (https://github.com/JeffyCN/rockchip_mirrors/tree/mpp/mpp)
-- Reading the specification (when available) https://www.itu.int/rec/T-REC-H.264
-
----
-
-Additionally, it is always helpful to run the v4l2 compliance tests on
-drivers:
-```
-git clone https://git.linuxtv.org/v4l-utils.git
-cd v4l-utils
-./bootstrap.sh
-./configure
-make
-sudo make install
-```
-
-```
-v4l2-compliance -d /dev/media0
-```
-You can try to fix these errors and ask for clarification in this
-mailing list.
-
----
-
-One thing to keep in mind is that the main reason for those hardware codecs,
-mentioned above, to be located in staging is that the uABI of some of those
-codecs isn't stable yet.
-So, you might ask why isn't the uABI stable yet? The reason for that is
-that the subsystem maintainers want to see a usecase of that ABI to
-validate that the Kernel uABI isn't broken, because the uABI, once it is
-stable, has to be backwards compatible as multipe users might already be
-commited to it.
-
-In case you want to help there you could help to review the uABI merge
-request: https://patchwork.kernel.org/project/linux-media/list/?series=618760
-by reading through the changes and comparing it with the
-specification https://www.itu.int/rec/T-REC-H.265-202108-I/en
-
-Which is connected to the GStreamer plugin merge request:
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
-that you could also help to review.
-
----
-
-If you are more interested in video capture, you should take a look at
-libcamera https://www.libcamera.org/. You can ask them for issues they
-currently have with Kernel drivers (for example with IPU3).
-
----
-
-Hope this helps :)
-
-Greetings,
-Sebastian
