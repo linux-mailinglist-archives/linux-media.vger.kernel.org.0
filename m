@@ -2,76 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3356D4E8662
-	for <lists+linux-media@lfdr.de>; Sun, 27 Mar 2022 09:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4AA04E86FD
+	for <lists+linux-media@lfdr.de>; Sun, 27 Mar 2022 10:43:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235522AbiC0HGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Mar 2022 03:06:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47154 "EHLO
+        id S230482AbiC0IpR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Mar 2022 04:45:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233992AbiC0HGi (ORCPT
+        with ESMTP id S230229AbiC0IpQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Mar 2022 03:06:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 393411A4;
-        Sun, 27 Mar 2022 00:04:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BB29D60EC8;
-        Sun, 27 Mar 2022 07:04:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EF89C340EC;
-        Sun, 27 Mar 2022 07:04:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648364698;
-        bh=X/Z0U6GxGaaswFQP/q5cQDmThmBP/93x/RCyJbllhv0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KLWyEO1UbxHyNVoDNL/roXtV3ntCYrCI14DuGtZmrvURMsaENvGmBhcc+g2Hq6z55
-         pCz8tq91GZiUNxXtD3fqEWnRtwUk/l96208zjRGXFs2EG/+G48bk8zULB4LK0EyBCO
-         aWWHH+YRsiC/wOgoJRq0aI40DzEEiCr4RsfopyrJI/n/eGgI9D0pQwRi80UxYM9ku7
-         2WUBYW+VmxW0Jz1OfjOmv/4vfbdr93ZD/O/T0SKZemSzO6Zo0ZX5znzXDznONvXBDL
-         GLr1ezU2BVJR+IpBfBz929i/iI/6pQ6EsbwWjly85gGpXcS3yeJScuLR+bTihqYbI7
-         YtoQThz4uEpzA==
-Date:   Sun, 27 Mar 2022 10:04:54 +0300
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Benjamin =?iso-8859-1?Q?St=FCrz?= <benni@stuerz.xyz>
-Cc:     andrew@lunn.ch, sebastian.hesselbarth@gmail.com,
-        gregory.clement@bootlin.com, linux@armlinux.org.uk,
-        linux@simtec.co.uk, krzk@kernel.org, alim.akhtar@samsung.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, hpa@zytor.com, robert.moore@intel.com,
-        rafael.j.wysocki@intel.com, lenb@kernel.org, 3chas3@gmail.com,
-        laforge@gnumonks.org, arnd@arndb.de, gregkh@linuxfoundation.org,
-        mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
-        rric@kernel.org, linus.walleij@linaro.org, brgl@bgdev.pl,
-        mike.marciniszyn@cornelisnetworks.com,
-        dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca,
-        pali@kernel.org, dmitry.torokhov@gmail.com, isdn@linux-pingi.de,
-        benh@kernel.crashing.org, fbarrat@linux.ibm.com, ajd@linux.ibm.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        nico@fluxnic.net, loic.poulain@linaro.org, kvalo@kernel.org,
-        pkshih@realtek.com, bhelgaas@google.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-acpi@vger.kernel.org, devel@acpica.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-input@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
-        wcn36xx@lists.infradead.org, linux-wireless@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: Re: [PATCH 11/22] rdmavt: Replace comments with C99 initializers
-Message-ID: <YkAMlurdV15gNROq@unreal>
-References: <20220326165909.506926-1-benni@stuerz.xyz>
- <20220326165909.506926-11-benni@stuerz.xyz>
+        Sun, 27 Mar 2022 04:45:16 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5F4D12638;
+        Sun, 27 Mar 2022 01:43:34 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: sebastianfricke)
+        with ESMTPSA id C330E1F43B72
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1648370613;
+        bh=INLkQOuU6uxTQWGv+sxVcWj5yV5vGhrfHwKmC71mvdE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=k0rV74oa1wGyGe4JFG9iXe0ukLvmzk7b4yNpzvdNneOkZydGuVjgjnT3DI18F3E57
+         vZK2sOZp/R4uUhLKqR2++UmSDDeTxaPl+tD30FyN9fXZ83k3z8eZSWX7bd66vQjQHY
+         BfjKUmkT5ACQxDMYBxxRW1HO7Qo6IjK5vaxawpIYqBj9Yj1l4ffYombSAHs6/4ibJh
+         pJ62pLU01zqQYIcYFVwKaI2WyoWPFu6E3iFDzS587JJCPSNNcPE5rTr1U8MijZJiap
+         23BXjPXtSsWS+DMxqxRYqVmeem1492onNn7xjlxWyM4yIZl5FIeV8BmlW/jCu5gxGY
+         Oh7IvFN1hUtZA==
+From:   Sebastian Fricke <sebastian.fricke@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     acourbot@chromium.org, tfiga@chromium.org,
+        hverkuil-cisco@xs4all.nl,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner
+        sunXi SoC support),
+        linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [RFC PATCH v3 0/2] HEVC enhancements
+Date:   Sun, 27 Mar 2022 10:43:06 +0200
+Message-Id: <20220327084308.9053-1-sebastian.fricke@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220326165909.506926-11-benni@stuerz.xyz>
-X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,94 +60,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Mar 26, 2022 at 05:58:58PM +0100, Benjamin Stürz wrote:
-> This replaces comments with C99's designated
-> initializers because the kernel supports them now.
-> 
-> Signed-off-by: Benjamin Stürz <benni@stuerz.xyz>
-> ---
->  drivers/infiniband/sw/rdmavt/rc.c | 62 +++++++++++++++----------------
->  1 file changed, 31 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/infiniband/sw/rdmavt/rc.c b/drivers/infiniband/sw/rdmavt/rc.c
-> index 4e5d4a27633c..121b8a23ac07 100644
-> --- a/drivers/infiniband/sw/rdmavt/rc.c
-> +++ b/drivers/infiniband/sw/rdmavt/rc.c
-> @@ -10,37 +10,37 @@
->   * Convert the AETH credit code into the number of credits.
->   */
->  static const u16 credit_table[31] = {
-> -	0,                      /* 0 */
-> -	1,                      /* 1 */
-> -	2,                      /* 2 */
-> -	3,                      /* 3 */
-> -	4,                      /* 4 */
-> -	6,                      /* 5 */
-> -	8,                      /* 6 */
-> -	12,                     /* 7 */
-> -	16,                     /* 8 */
-> -	24,                     /* 9 */
-> -	32,                     /* A */
-> -	48,                     /* B */
-> -	64,                     /* C */
-> -	96,                     /* D */
-> -	128,                    /* E */
-> -	192,                    /* F */
-> -	256,                    /* 10 */
-> -	384,                    /* 11 */
-> -	512,                    /* 12 */
-> -	768,                    /* 13 */
-> -	1024,                   /* 14 */
-> -	1536,                   /* 15 */
-> -	2048,                   /* 16 */
-> -	3072,                   /* 17 */
-> -	4096,                   /* 18 */
-> -	6144,                   /* 19 */
-> -	8192,                   /* 1A */
-> -	12288,                  /* 1B */
-> -	16384,                  /* 1C */
-> -	24576,                  /* 1D */
-> -	32768                   /* 1E */
-> +	[0x00] = 0,
-> +	[0x01] = 1,
-> +	[0x02] = 2,
-> +	[0x03] = 3,
-> +	[0x04] = 4,
-> +	[0x05] = 6,
-> +	[0x06] = 8,
-> +	[0x07] = 12,
-> +	[0x08] = 16,
-> +	[0x09] = 24,
-> +	[0x0A] = 32,
-> +	[0x0B] = 48,
-> +	[0x0C] = 64,
-> +	[0x0D] = 96,
-> +	[0x0E] = 128,
-> +	[0x0F] = 192,
-> +	[0x10] = 256,
-> +	[0x11] = 384,
-> +	[0x12] = 512,
-> +	[0x13] = 768,
-> +	[0x14] = 1024,
-> +	[0x15] = 1536,
-> +	[0x16] = 2048,
-> +	[0x17] = 3072,
-> +	[0x18] = 4096,
-> +	[0x19] = 6144,
-> +	[0x1A] = 8192,
-> +	[0x1B] = 12288,
-> +	[0x1C] = 16384,
-> +	[0x1D] = 24576,
-> +	[0x1E] = 32768
->  };
+While reading the definitions for codecs, I felt that the definition
+list could be appended with the term used in HEVC. This makes the list
+more complete from my point of view, but I see that this is a slippery
+slope as we surely don't want to add every term from every codec (Thus
+the RFC).
 
-I have hard time to see any value in this commit, why is this change needed?
+Secondly, I renamed the H265 identifier found in the cedrus driver to
+HEVC. The idea here is mainly to align it with the other drivers like
+Hantro and RkVDEC, but also with the goal of using one identifier within
+the source tree (to simply searching for the term and also for less
+confusion).
 
-Thanks
+Changes since V1:
+- Kernel test robot reported some variables that had not replaced, I
+changed those.
 
->  
->  /**
-> -- 
-> 2.35.1
-> 
-> 
+Changes since V2:
+- A few more missed replacements
+
+Sebastian Fricke (2):
+  media: docs-rst: Append HEVC specific term
+  staging: media: cedrus: Rename H265 to HEVC
+
+ .../userspace-api/media/v4l/dev-decoder.rst   |   8 +-
+ drivers/staging/media/sunxi/cedrus/Makefile   |   2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  30 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |  14 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../cedrus/{cedrus_h265.c => cedrus_hevc.c}   | 438 +++++++++---------
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |   4 +-
+ .../staging/media/sunxi/cedrus/cedrus_regs.h  | 394 ++++++++--------
+ .../staging/media/sunxi/cedrus/cedrus_video.c |   4 +-
+ 9 files changed, 455 insertions(+), 449 deletions(-)
+ rename drivers/staging/media/sunxi/cedrus/{cedrus_h265.c => cedrus_hevc.c} (53%)
+
+-- 
+2.25.1
+
