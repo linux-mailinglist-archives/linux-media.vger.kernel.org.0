@@ -2,154 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F75D4E989F
-	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 15:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35FC54E98A7
+	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 15:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243443AbiC1Nsy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Mar 2022 09:48:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
+        id S243453AbiC1Ntp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Mar 2022 09:49:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243419AbiC1Nsv (ORCPT
+        with ESMTP id S231748AbiC1Nto (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Mar 2022 09:48:51 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3089A5E773
-        for <linux-media@vger.kernel.org>; Mon, 28 Mar 2022 06:47:10 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id v64-20020a1cac43000000b0038cfd1b3a6dso2924860wme.5
-        for <linux-media@vger.kernel.org>; Mon, 28 Mar 2022 06:47:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=lqWUovhT3deFfz1zrmG2BdScTmfXFTXlEBWbC7kOkUc=;
-        b=Casp3ieHRH0PsmFMjKH7TFdpT/TNQBYWEewfJb+0xu+uR1ofg9WJFp8XZHfsoJ6hWp
-         C3nRcv1dmEeOPPKeVzOxrD+erWCy3JA6tU8mIHsAGm/8BjsYzwvx7P5mI7L1KmNHeogG
-         38uNEFuvu5fJtLpThq9lRBZu4UJTQpGAB9zPox6v7iYfXD/Z14PGXT9t5owO2tQYWh0P
-         3dUo+G/1/czVs79WbHUKkU/6h2niPOopvKPMU5QpP07x/qfD1LrC5Cesac25l5SMzvon
-         esMFddga3HKSH7nNwn2IpXtOjAEGaytpRSosc2jrznnt1TPvUIg3fMjEdTz9d4Vfr7yu
-         igag==
+        Mon, 28 Mar 2022 09:49:44 -0400
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 023564D9CC;
+        Mon, 28 Mar 2022 06:48:04 -0700 (PDT)
+Received: by mail-ot1-f50.google.com with SMTP id e25-20020a0568301e5900b005b236d5d74fso10733953otj.0;
+        Mon, 28 Mar 2022 06:48:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=lqWUovhT3deFfz1zrmG2BdScTmfXFTXlEBWbC7kOkUc=;
-        b=womodSf5sDI3yFh5sLsuo3/XIYuTDsyYqBCG8QnTif6lMGRbQOj4vZoya6gnjpgEMV
-         lhiQTyGml0qFtk4SwRRY2AgX9qV8rUYJ+JUwX3Of+A84pLE2wSej53k1a1V1L+yzqHIC
-         qPtCF4Lt+yFY+W0jAy2OSFWElIff7wX2xH7WCCKneV1hjPiQYSXto8p9JBMDOB2lf3Fv
-         5n78WTqvw8o2L554cuk1LoNscP8BYdUoNzZUa/BKdpZ4/is68X0GZik6ACjskCOgY1jm
-         WKEU0rfnZUex2zxKYu+GrYYpT+VUCFEr7JdYPsU3Olo0NzhVeAelL4Az6mmtUJtATOxs
-         tn9w==
-X-Gm-Message-State: AOAM532KRXUH7KhsIjNghyZPtq9Y2oQaoJ3cm/frC7i0tDi3f/uPyNDN
-        1+iY2PMq0ZdaU/IxcdDbV3DZFQ==
-X-Google-Smtp-Source: ABdhPJwB0pYnLloiCs6wa/2INWNx44L+qT5u6Nb9H+6gXgQ9TsmBu3vjwmvbBF2kaoxeBO0KJ0MWbQ==
-X-Received: by 2002:a05:600c:4401:b0:38c:8df8:9797 with SMTP id u1-20020a05600c440100b0038c8df89797mr35783652wmn.13.1648475228582;
-        Mon, 28 Mar 2022 06:47:08 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id t4-20020a05600001c400b00203fb5dcf29sm12145898wrx.40.2022.03.28.06.47.06
+         :mime-version:content-disposition:in-reply-to;
+        bh=Q+/z8pUUWBfLzzFWh3TN26NfhrvM6nyqxbuLLyu+aLM=;
+        b=XcO5P1paW4ACcwCmIOlDpP94HZhIrb0biLIEp9PkoVOneEl/QcmCOJAkJkGn24mYYC
+         94HxBxcvihvoWqie8Vm0C1gb6rQJRJPkb8kskyvKaiM58k/87ZuXaYx4beaAs8sfhYYl
+         vr/EnEXS7DKuxxgQz7D2/OZyyBLyIcwz4xWeE6s1Qv9wU/4+pfUYVVvEH4+cu7YufMTY
+         bv3nr+s1AlGcUazPpIqybe4yXwMv9vdsPmQd1DjCWX7eHbcHiSMIK5GainLTyoGWK1IP
+         tYxXwUN592G+GeSNamPHuzfyutdbht8nn3pNXZsPETh4HCIJQ5yvluAD9dbfQdywWct/
+         IGEg==
+X-Gm-Message-State: AOAM531VihfSvo1CIp0/d10Z/C7957HgdB0nxuz3wgAx8En/hGbwJ22Q
+        rWd7gQqHNVYjaKM0w6pc4BcXwYXM6g==
+X-Google-Smtp-Source: ABdhPJzFImlqCXW1K8qUgADwrPbF+W8G33anvBPZNSZSnbvRxRupoA5RTvOjiP0UzvVLR7VCWkaWhg==
+X-Received: by 2002:a9d:454c:0:b0:5b2:3757:9fc6 with SMTP id p12-20020a9d454c000000b005b237579fc6mr10004371oti.314.1648475283257;
+        Mon, 28 Mar 2022 06:48:03 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id u14-20020a4ad0ce000000b0032174de7c2csm6804223oor.8.2022.03.28.06.48.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 06:47:08 -0700 (PDT)
-Date:   Mon, 28 Mar 2022 14:47:05 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Benjamin =?utf-8?B?U3TDvHJ6?= <benni@stuerz.xyz>
-Cc:     sebastian.hesselbarth@gmail.com, gregory.clement@bootlin.com,
-        linux@armlinux.org.uk, linux@simtec.co.uk, krzk@kernel.org,
-        alim.akhtar@samsung.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
-        robert.moore@intel.com, rafael.j.wysocki@intel.com,
-        lenb@kernel.org, 3chas3@gmail.com, laforge@gnumonks.org,
-        arnd@arndb.de, gregkh@linuxfoundation.org, mchehab@kernel.org,
-        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org,
-        linus.walleij@linaro.org, brgl@bgdev.pl,
-        mike.marciniszyn@cornelisnetworks.com,
-        dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca,
-        pali@kernel.org, dmitry.torokhov@gmail.com, isdn@linux-pingi.de,
-        benh@kernel.crashing.org, fbarrat@linux.ibm.com, ajd@linux.ibm.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        nico@fluxnic.net, loic.poulain@linaro.org, kvalo@kernel.org,
-        pkshih@realtek.com, bhelgaas@google.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-acpi@vger.kernel.org, devel@acpica.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-input@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
-        wcn36xx@lists.infradead.org, linux-wireless@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: Re: [PATCH 00/22] Replace comments with C99 initializers
-Message-ID: <20220328134705.lnxwwznhw622r2pr@maple.lan>
-References: <20220326165909.506926-1-benni@stuerz.xyz>
- <8f9271b6-0381-70a9-f0c2-595b2235866a@stuerz.xyz>
+        Mon, 28 Mar 2022 06:48:02 -0700 (PDT)
+Received: (nullmailer pid 2248085 invoked by uid 1000);
+        Mon, 28 Mar 2022 13:48:01 -0000
+Date:   Mon, 28 Mar 2022 08:48:01 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Irui Wang <irui.wang@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        angelogioacchino.delregno@collabora.com,
+        Yong Wu <yong.wu@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v3, 03/10] dt-bindings: media: mtk-vcodec: Adds encoder
+ cores dt-bindings for mt8195
+Message-ID: <YkG8ka1xY2k+HWi1@robh.at.kernel.org>
+References: <20220317082230.23622-1-irui.wang@mediatek.com>
+ <20220317082230.23622-4-irui.wang@mediatek.com>
+ <Yj4s0zcHxz3U3wlc@robh.at.kernel.org>
+ <ab2b24eeb51048227ad7b2ac659617a7da5b2e45.camel@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8f9271b6-0381-70a9-f0c2-595b2235866a@stuerz.xyz>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+In-Reply-To: <ab2b24eeb51048227ad7b2ac659617a7da5b2e45.camel@mediatek.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Mar 27, 2022 at 02:46:00PM +0200, Benjamin Stürz wrote:
-> This patch series replaces comments with C99's designated initializers
-> in a few places. It also adds some enum initializers. This is my first
-> time contributing to the Linux kernel, therefore I'm probably doing a
-> lot of things the wrong way. I'm sorry for that.
-
-Welcome!
-
-
-> I've gotten a few emails so far stating that this patch series is
-> unnecessary. Yes, in fact this patch series is not necessary by itself,
-> but it could help me understand how the whole process works and maybe I
-> could help somewhere, where help is actually needed.
-
-Have you been told the series is unnecessary or too big?
-
-Although all patches represent a variant of the same mechanical
-transformation but they are mostly unrelated to each other and, if
-accepted, they will be applied by many different people.
-
-Taken as a whole presenting this to maintainers as a 22 patch set is too
-big. I'd recommend starting with a smaller patch or patch series where
-all the patches get picked up by the same maintainer.
-
-
-> This patch itself is a no-op.
-
-PATCH 0/XX is for the covering letter. You should generate a template for
-it using the --cover-letter option of git format-patch. That way patch 0
-will contain the diffstat for the whole series (which is often useful
-to help understand what the series is for) and there is no need to
-make no-op changes.
-
-
-Daniel.
-
+On Sat, Mar 26, 2022 at 10:00:55AM +0800, Irui Wang wrote:
+> Dear Rob,
 > 
-> Signed-off-by: Benjamin Stürz <benni@stuerz.xyz>
-> ---
->  .gitignore | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Thanks for your review and comments.
 > 
-> diff --git a/.gitignore b/.gitignore
-> index 7afd412dadd2..706f667261eb 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -20,7 +20,7 @@
->  *.dtb
->  *.dtbo
->  *.dtb.S
-> -*.dwo
-> +*.dwo
->  *.elf
->  *.gcno
->  *.gz
-> -- 
-> 2.35.1
+> On Fri, 2022-03-25 at 15:57 -0500, Rob Herring wrote:
+> > On Thu, Mar 17, 2022 at 04:22:23PM +0800, Irui Wang wrote:
+> > > Adds encoder cores dt-bindings for mt8195.
+> > 
+> > Why?
+> mt8195 has two h264 encoder cores and we want to enable both of them.
+> the original encoder bindings file is for single core which may can not
+> handle it, so we new a core dt-bindings. We will think about it again
+> about this dt-bindings.
+> > 
+> > > 
+> > > Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> > > ---
+> > >  .../media/mediatek,vcodec-encoder-core.yaml   | 181
+> > > ++++++++++++++++++
+> > >  .../media/mediatek,vcodec-encoder.yaml        |   1 -
+> > >  2 files changed, 181 insertions(+), 1 deletion(-)
+> > >  create mode 100644
+> > > Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-
+> > > core.yaml
+> > > 
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-
+> > > core.yaml
+> > > b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-
+> > > core.yaml
+> > > new file mode 100644
+> > > index 000000000000..fcfb48900c76
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-
+> > > encoder-core.yaml
+> > > @@ -0,0 +1,181 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: "
+> > > http://devicetree.org/schemas/media/mediatek,vcodec-encoder-core.yaml#
+> > > "
+> > > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> > > +
+> > > +title: Mediatek Video Encoder Accelerator With Multi Core
+> > > +
+> > > +maintainers:
+> > > +  - Irui Wang <irui.wang@mediatek.com>
+> > > +
+> > > +description: |
+> > > +  Mediatek Video Encode is the video encode hardware present in
+> > > Mediatek
+> > > +  SoCs which supports high resolution encoding functionalities.
+> > > Required
+> > > +  parent and child device node.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - enum:
+> > > +          - mediatek,mt8195-vcodec-enc
+> > > +
+> > > +  mediatek,scp:
+> > > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > > +    description: |
+> > > +      The node of system control processor (SCP), using
+> > > +      the remoteproc & rpmsg framework.
+> > > +
+> > > +  mediatek,venc-multi-core:
+> > > +    type: boolean
+> > > +    description: |
+> > > +      Indicates whether the encoder has multiple cores or not.
+> > 
+> > Isn't this implied by how many child nodes you have?
+> It implies that we have child nodes, distinguish with single core,  
+
+Just check if you have a child node or not.
+
+
+> > > +  iommus:
+> > > +    minItems: 1
+> > > +    maxItems: 32
+> > 
+> > You really have up to 32 IOMMUs?
+> Currently, totally 27 IOMMUs and used 9 of them.
+> > 
+> > > +    description: |
+> > > +      List of the hardware port in respective IOMMU block for
+> > > current Socs.
+> > > +      Refer to bindings/iommu/mediatek,iommu.yaml.
+> > > +
+> > > +  dma-ranges:
+> > > +    maxItems: 1
+> > > +    description: |
+> > > +      Describes the physical address space of IOMMU maps to
+> > > memory.
+> > > +
+> > > +  "#address-cells":
+> > > +    const: 2
+> > > +
+> > > +  "#size-cells":
+> > > +    const: 2
+> > > +
+> > > +  ranges: true
+> > > +
+> > > +# Required child node:
+> > > +patternProperties:
+> > > +  "^venc-core@[0-9a-f]+$":
+> > > +    type: object
+> > > +    description: |
+> > > +      The video encoder core device node which should be added as
+> > > subnodes to
+> > > +      the main venc node.
+> > > +
+> > > +    properties:
+> > > +      compatible:
+> > > +        items:
+> > > +         - const: mediatek,mtk-venc-core
+> > > +
+> > > +      reg:
+> > > +        maxItems: 1
+> > > +
+> > > +      mediatek,core-id:
+> > > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > > +        description: |
+> > > +          Current encoder core id.
+> > 
+> > What is this for and what does its value correspond to in the h/w.
+> > We 
+> > generally don't do made up indices in DT.
+> It's for encoder core id, core@1a020000 must be core-0, core@1b020000
+> must be core-1, we add this property in each child node, so we can 
+> get core-id in drivers. If it can't ref "uint32" types yaml, would 
+> you mind giving some more suggestions ?
+
+I still don't understand why it is needed. What is 'core-0'?
+
+Is there some functional difference between the cores? If so, describe 
+that difference.
+
+Rob
