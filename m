@@ -2,98 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFBA14E916C
-	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 11:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7E754E9286
+	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 12:28:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239855AbiC1Jfj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Mar 2022 05:35:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60896 "EHLO
+        id S240262AbiC1KaV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Mar 2022 06:30:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232922AbiC1Jfi (ORCPT
+        with ESMTP id S240257AbiC1KaU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Mar 2022 05:35:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E07C0DFAE;
-        Mon, 28 Mar 2022 02:33:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 763D060F04;
-        Mon, 28 Mar 2022 09:33:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE0B4C004DD;
-        Mon, 28 Mar 2022 09:33:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648460036;
-        bh=vyhorH3ReopEjyyeOaqNXz1F+fuDMA3PtzKea0coFV8=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=N7gslZiAbUk2K0itCjecfsI/RWbD921JgzGNP2Kjob9tlNWKxpcv0XxXJfPNZin/w
-         A0IR7YQPjfgzcF8nfIw2Qp9ZjcFTNb7LTztL9AYoQlq+D0DFSUCrNS2qiH6JPnE1fC
-         d1KCYuVMQdA55JmSSOhMn38gdsnsuJiIvXS7xjuBjd+D58bh2S8/2S5hzqSNDwuMtF
-         wL6A4k/3MHLny+7jUG8f45x9h9oK0icdinMC+NM7pK2YaZF62B/PFs4TG4m+pXcVBe
-         gM+xB7pqzFL7oswhmEfyYWWLVgaR1DNvn0CsMhOvyHk4QEK83ayzd9+XQz5ZI40AA0
-         C+vN55O6TsHMw==
-From:   Kalle Valo <kvalo@kernel.org>
-To:     Benjamin =?utf-8?Q?St=C3=BCrz?= <benni@stuerz.xyz>
-Cc:     sebastian.hesselbarth@gmail.com, gregory.clement@bootlin.com,
-        linux@armlinux.org.uk, linux@simtec.co.uk, krzk@kernel.org,
-        alim.akhtar@samsung.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
-        robert.moore@intel.com, rafael.j.wysocki@intel.com,
-        lenb@kernel.org, 3chas3@gmail.com, laforge@gnumonks.org,
-        arnd@arndb.de, gregkh@linuxfoundation.org, mchehab@kernel.org,
-        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org,
-        linus.walleij@linaro.org, brgl@bgdev.pl,
-        mike.marciniszyn@cornelisnetworks.com,
-        dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca,
-        pali@kernel.org, dmitry.torokhov@gmail.com, isdn@linux-pingi.de,
-        benh@kernel.crashing.org, fbarrat@linux.ibm.com, ajd@linux.ibm.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        nico@fluxnic.net, loic.poulain@linaro.org, pkshih@realtek.com,
-        bhelgaas@google.com, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-acpi@vger.kernel.org,
-        devel@acpica.org, linux-atm-general@lists.sourceforge.net,
-        netdev@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-input@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-media@vger.kernel.org, wcn36xx@lists.infradead.org,
-        linux-wireless@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH 00/22] Replace comments with C99 initializers
-References: <20220326165909.506926-1-benni@stuerz.xyz>
-        <8f9271b6-0381-70a9-f0c2-595b2235866a@stuerz.xyz>
-Date:   Mon, 28 Mar 2022 12:33:42 +0300
-In-Reply-To: <8f9271b6-0381-70a9-f0c2-595b2235866a@stuerz.xyz> ("Benjamin
-        \=\?utf-8\?Q\?St\=C3\=BCrz\=22's\?\= message of "Sun, 27 Mar 2022 14:46:00 +0200")
-Message-ID: <87fsn2zaix.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        Mon, 28 Mar 2022 06:30:20 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65510522FD
+        for <linux-media@vger.kernel.org>; Mon, 28 Mar 2022 03:28:35 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id g20so16338846edw.6
+        for <linux-media@vger.kernel.org>; Mon, 28 Mar 2022 03:28:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=2fnW0hKm3/LoNJLASktWawEV8gjSA8FRX1R6A2wJmoc=;
+        b=AcbakU3oL6MVbrDUIllFrtKNdjGA58pmZ+0+Y+aRmRPr7qGEMAwr3+CnifI3kPcwMD
+         lVFQZkUGL+hNuNfowrtyQIQl7V2AJnr/FM1UAVCnU9xaCKIF41NfF4XCcDcy4xrxREyn
+         QVU0rtwTkF6CpqGBj0+urYVS9BGbbPStvFDgLXnF4sqTMC4aA0LVzXVbo732l9MoUuvP
+         YW0tFpvCKngyCg6/Sv0k+Q9Z6GuvSGE3O9jxlX9n37FnL1oEI3tBJFmP9ylrn4cblPAt
+         b/aA1KdvPicLOs8/a8bIF0SDH7pREkps3Hg/58ZLwwlfUzISlMrMCCtmbfGK16hIEaza
+         58cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=2fnW0hKm3/LoNJLASktWawEV8gjSA8FRX1R6A2wJmoc=;
+        b=MQkOX4bYHUJYhTm0WjGyo7n24TY9XzY/9fc99MoxqYvLAToN1TjxV+brrvGFna73dn
+         r8I+xOyBzTseXDFJ1bGugXmWuPVmdhD+0L4fSz32hyFfek8XRIOkvvk48gHNcypRY0Ze
+         n8ZB7ZAzTA1jACpzYhAll9XRspVrlwBPft6bbpQD0E0YbG4U0LpFLil4LSbQ8xyVRxID
+         G9IbLjQfpgL/Qv42v1zaZCVt0ACZKkwY0Be9j65+47NJXvfACs4UpVnYxYiAtVYvRzCZ
+         lz/LRA1nbBB2AEuS4ah5tUcKGMFUwl72JHpNDHpVrfzjRtjl8DbgJzblNTaP8OlNZf9g
+         upww==
+X-Gm-Message-State: AOAM531/DJpJ6FZUKCyjbojqmDqyea24Ky1wm4yqoHnwIV4ZTygaLYK4
+        KOgAb13P+2IBOd1fp/+Biwk=
+X-Google-Smtp-Source: ABdhPJwCTNosh9GI+S3j5GevCu9iAaWtBDkxqy67gDMWi3yh/+yzOHoB574Ou1NqeC8q0+4VIzZU1w==
+X-Received: by 2002:a05:6402:3689:b0:419:d380:ddbc with SMTP id ej9-20020a056402368900b00419d380ddbcmr8454741edb.230.1648463313648;
+        Mon, 28 Mar 2022 03:28:33 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1252:fb60:4276:c469:b15d:9dea? ([2a02:908:1252:fb60:4276:c469:b15d:9dea])
+        by smtp.gmail.com with ESMTPSA id u4-20020a170906780400b006ce69ff6050sm5729145ejm.69.2022.03.28.03.28.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Mar 2022 03:28:32 -0700 (PDT)
+Message-ID: <338d0623-1161-c958-101f-dc7d8ef12f99@gmail.com>
+Date:   Mon, 28 Mar 2022 12:28:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/2] dma-buf: add dma_fence_unwrap
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     sumit.semwal@linaro.org, gustavo@padovan.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, Dave Airlie <airlied@gmail.com>
+References: <20220311110244.1245-1-christian.koenig@amd.com>
+ <Yj3e0QjbnPoG7n4I@intel.com> <35cc3bd5-c0ab-0bd1-9603-4971234fbcd6@amd.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <35cc3bd5-c0ab-0bd1-9603-4971234fbcd6@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Benjamin St=C3=BCrz <benni@stuerz.xyz> writes:
+Hi Ville & Daniel,
 
-> This patch series replaces comments with C99's designated initializers
-> in a few places. It also adds some enum initializers. This is my first
-> time contributing to the Linux kernel, therefore I'm probably doing a
-> lot of things the wrong way. I'm sorry for that.
+Am 25.03.22 um 16:28 schrieb Christian König:
+> Am 25.03.22 um 16:25 schrieb Ville Syrjälä:
+>> On Fri, Mar 11, 2022 at 12:02:43PM +0100, Christian König wrote:
+>>> Add a general purpose helper to deep dive into 
+>>> dma_fence_chain/dma_fence_array
+>>> structures and iterate over all the fences in them.
+>>>
+>>> This is useful when we need to flatten out all fences in those 
+>>> structures.
+>>>
+>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> One of the dma-buf patches took down Intel CI. Looks like every
+>> machine oopses in some sync_file thing now:
+>> <1>[  260.470008] BUG: kernel NULL pointer dereference, address: 
+>> 0000000000000010
+>> <1>[  260.470020] #PF: supervisor read access in kernel mode
+>> <1>[  260.470025] #PF: error_code(0x0000) - not-present page
+>> <6>[  260.470030] PGD 0 P4D 0
+>> <4>[  260.470035] Oops: 0000 [#1] PREEMPT SMP NOPTI
+>> <4>[  260.470040] CPU: 0 PID: 5306 Comm: core_hotunplug Not tainted 
+>> 5.17.0-CI-CI_DRM_11405+ #1
+>> <4>[  260.470049] Hardware name: Intel Corporation Jasper Lake Client 
+>> Platform/Jasperlake DDR4 SODIMM RVP, BIOS 
+>> JSLSFWI1.R00.2385.D02.2010160831 10/16/2020
+>> <4>[  260.470058] RIP: 0010:dma_fence_array_first+0x19/0x20
 
-Just a small tip: If you are new, start with something small and learn
-from that. Don't do a controversial big patchset spanning multiple
-subsystems, that's the hard way to learn things. First submit one patch
-at a time to one subsystem and gain understanding of the process that
-way.
+I've looked into this and the root cause seems to be that the new code 
+doesn't handle dma_fence_arrays with zero elements.
 
---=20
-https://patchwork.kernel.org/project/linux-wireless/list/
+That is rather easy to fix, but a dma_fence_array with zero number of 
+elements is most likely a bug because under the wrong circumstances it 
+can create a dma_fence instance which will never signal.
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatc=
-hes
+I've send out a patch on Frinday ([PATCH] dma-buf: WIP 
+dma_fence_array_first fix) which avoids the crash and prints a warning 
+if anybody tries to create a dma_fence_array with zero length.
+
+Can you test this?
+
+Thanks in advance,
+Christian.
