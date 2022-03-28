@@ -2,133 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AF2E4E8E79
-	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 08:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F3E54E8F15
+	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 09:35:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236200AbiC1G4N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Mar 2022 02:56:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45126 "EHLO
+        id S238840AbiC1HhS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Mar 2022 03:37:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233282AbiC1G4L (ORCPT
+        with ESMTP id S238832AbiC1HhR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Mar 2022 02:56:11 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDEBD4F9EB
-        for <linux-media@vger.kernel.org>; Sun, 27 Mar 2022 23:54:30 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a8so26537232ejc.8
-        for <linux-media@vger.kernel.org>; Sun, 27 Mar 2022 23:54:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xfewahMQduua60SQdP4EeukDlDGZcPBvnxc8cD79M8o=;
-        b=gi+GB4JD6z9kBtNHKHdUh8A/OMFAhKgLNQXRrgV+AXonQbj4+i6wbyw3etsVbRXnlg
-         oX4hQJ+Y2pUbVzp8FFbejRp58s/dF5iB7lKXVo8v1GQ/nT10DnTnUbl1V3RGMQh3idhN
-         KfWlKtFJGPipz0HJqHP5Eu0nfZ26cnyzwlejI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xfewahMQduua60SQdP4EeukDlDGZcPBvnxc8cD79M8o=;
-        b=LB0k+Hg61yQw+I9R3nl493VV78tjE6GuPSMywhUX7XXyYkt23JfAGhaAUOKviNuT0q
-         W8A/V7TNdPr5xd9yuadrwLaosdGnYT/E3pRD8ILkJTfGTZc0pgbmKlibrRWrykZU2KYc
-         1JQtb3jHKi6oeNyveQoS1JSwaf7N8L96JfhX9OPs0/j0Jm5e5nM98I3t8+t507TFsdru
-         dcmWC8jPPo3KKQSjCwLgbQEf87MI+0zJC65bpjEG7MTSTKIL3jzvEB/HiJi8wygWs/tA
-         jDqGjzGWsETJReY7S+O+OWj/I0w6WL908FpZO2bJaGwrH2i58525KoLM8O4jo7l8tuZi
-         firA==
-X-Gm-Message-State: AOAM532Az/6Pp0lEom9nwAr8fv6A7PqxtFNmBmQ8+DMleaId293DULqE
-        UD0cuUZJHMDxYJDz75/runkSQQ==
-X-Google-Smtp-Source: ABdhPJzpDmF0dYWcyS4aSDkE54KYfrF8P6Gi4th1AV1BXClyQqdvv/brEwzhqWNq7yOCjAJVwr7rcQ==
-X-Received: by 2002:a17:907:1c16:b0:6d7:622b:efea with SMTP id nc22-20020a1709071c1600b006d7622befeamr25705224ejc.110.1648450469435;
-        Sun, 27 Mar 2022 23:54:29 -0700 (PDT)
-Received: from alco.corp.google.com ([2620:0:1059:10:eb2c:98f7:c302:40a1])
-        by smtp.gmail.com with ESMTPSA id a1-20020a1709063e8100b006ce06ed8aa7sm5596515ejj.142.2022.03.27.23.54.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Mar 2022 23:54:28 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org, Colin King <colin.i.king@gmail.com>,
-        tfiga@chromium.org
-Subject: [PATCH v5] media: uvcvideo: Fix memory leak if uvc_ctrl_add_mapping fails
-Date:   Mon, 28 Mar 2022 08:54:23 +0200
-Message-Id: <20220328065423.502709-1-ribalda@chromium.org>
-X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
+        Mon, 28 Mar 2022 03:37:17 -0400
+Received: from ssl.serverraum.org (ssl.serverraum.org [176.9.125.105])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32AF152E08;
+        Mon, 28 Mar 2022 00:35:36 -0700 (PDT)
+Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ssl.serverraum.org (Postfix) with ESMTPSA id 996C322205;
+        Mon, 28 Mar 2022 09:35:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
+        t=1648452932;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=KxoefHxHBWO4b2r56J13guP4925DtgDpQm/mM3H3NHE=;
+        b=tuCU6rLPvYS4HLC6WvfjKQhqUDH665lXMWAlcV1ZvVcUAxENEnflPFcNuuyc8aht4cF0vD
+        529FsUN8ktrT/KN6OUFARNq6IWFO3IOSOrMfmo/KVQdtdMYJgCPuDK23RHAPYVTLxUtwJA
+        nX3RJqpEHGTwMkah0v+hJrkIuvorQTU=
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 28 Mar 2022 09:35:30 +0200
+From:   Michael Walle <michael@walle.cc>
+To:     Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] i2c: at91: use dma safe buffers
+In-Reply-To: <20220303161724.3324948-1-michael@walle.cc>
+References: <20220303161724.3324948-1-michael@walle.cc>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <5673a4be5ac51d19529366c48afceb8c@walle.cc>
+X-Sender: michael@walle.cc
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move all the life cycle of the name to add_mapping. This simplifies
-the error handling inside uvc_ioctl_ctrl_map and solves a memory leak
-when kemmdup fails.
+Hi all,
 
-Also make sure that for custom controls, the user provides a valid name.
+Am 2022-03-03 17:17, schrieb Michael Walle:
+> The supplied buffer might be on the stack and we get the following 
+> error
+> message:
+> [    3.312058] at91_i2c e0070600.i2c: rejecting DMA map of vmalloc 
+> memory
+> 
+> Use i2c_{get,put}_dma_safe_msg_buf() to get a DMA-able memory region if
+> necessary.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Michael Walle <michael@walle.cc>
 
-Fixes: 07adedb5c606 ("media: uvcvideo: Use control names from framework")
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/usb/uvc/uvc_ctrl.c | 10 ++++++++++
- drivers/media/usb/uvc/uvc_v4l2.c |  8 ++++----
- 2 files changed, 14 insertions(+), 4 deletions(-)
+Any news here?
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index b4f6edf968bc..0e78233fc8a0 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -2188,11 +2188,21 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
- 	if (map == NULL)
- 		return -ENOMEM;
- 
-+	/* For UVCIOC_CTRL_MAP custom control */
-+	if (mapping->name) {
-+		map->name = kstrdup(mapping->name, GFP_KERNEL);
-+		if (!map->name) {
-+			kfree(map);
-+			return -ENOMEM;
-+		}
-+	}
-+
- 	INIT_LIST_HEAD(&map->ev_subs);
- 
- 	size = sizeof(*mapping->menu_info) * mapping->menu_count;
- 	map->menu_info = kmemdup(mapping->menu_info, size, GFP_KERNEL);
- 	if (map->menu_info == NULL) {
-+		kfree(map->name);
- 		kfree(map);
- 		return -ENOMEM;
- 	}
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 711556d13d03..ac829fb44b77 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -42,12 +42,12 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
- 	map->id = xmap->id;
- 	/* Non standard control id. */
- 	if (v4l2_ctrl_get_name(map->id) == NULL) {
--		map->name = kmemdup(xmap->name, sizeof(xmap->name),
--				    GFP_KERNEL);
--		if (!map->name) {
--			ret = -ENOMEM;
-+		if (xmap->name[0] == '\0') {
-+			ret = -EINVAL;
- 			goto free_map;
- 		}
-+		xmap->name[sizeof(xmap->name) - 1] = '\0';
-+		map->name = xmap->name;
- 	}
- 	memcpy(map->entity, xmap->entity, sizeof(map->entity));
- 	map->selector = xmap->selector;
--- 
-2.35.1.1021.g381101b075-goog
+> ---
+> 
+> I'm not sure if or which Fixes: tag I should add to this patch. The 
+> issue
+> seems to be since a very long time, but nobody seem to have triggered 
+> it.
+> FWIW, I'm using the sff,sfp driver, which triggers this.
 
+-michael
