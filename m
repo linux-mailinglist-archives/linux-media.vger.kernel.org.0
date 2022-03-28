@@ -2,50 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56A6F4EA0EA
-	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 22:03:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E31A4EA159
+	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 22:20:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344289AbiC1UCm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Mar 2022 16:02:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57332 "EHLO
+        id S1344448AbiC1UWI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Mar 2022 16:22:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344340AbiC1UCZ (ORCPT
+        with ESMTP id S1344410AbiC1UWA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Mar 2022 16:02:25 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BFF75D1AC;
-        Mon, 28 Mar 2022 13:00:28 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 173C11F438BD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1648497627;
-        bh=5bMWt8FIlhATFg8dWZpSwD375jbwZ9dZXKe/ctzMbWc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HgE8I+mDkxkQ2X9yVMvzFDQ4jmEqoeYUkBg3IBrZElVU6jyB8GKIFEdYDfaA5E7Nt
-         VsYfXmZ7jIXrWHsBn57QQHjFOKAl1GAF5icpLR08XgBFPqgxXS9XG7uySm7sNh7bcK
-         d3/7xeYZ3V/t6VinCbny8rAAZYBZ9TTaMEYUW1E+KTFs0+cQKnaPCTHEGvD3G40bBk
-         gTiAW3vZmHVzewLprpcQJTIwAXwFY+kphUECS2Ci6zv+k0HIzAHe2YAxl/LnRClop9
-         PEIrQU7bIWEKMK3Cq2pri/rmqXODlitsSCd2gAiS3y54w45iHyx+n+ae/sLMeutUl5
-         BYlnDrYQVnITw==
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     kernel@collabora.com, Alex Bee <knaerzche@gmail.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 24/24] media: rkvdec-h264: Don't hardcode SPS/PPS parameters
-Date:   Mon, 28 Mar 2022 15:59:36 -0400
-Message-Id: <20220328195936.82552-25-nicolas.dufresne@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
+        Mon, 28 Mar 2022 16:22:00 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B4740E4D;
+        Mon, 28 Mar 2022 13:20:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AAD83B81204;
+        Mon, 28 Mar 2022 20:20:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF991C340F0;
+        Mon, 28 Mar 2022 20:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648498816;
+        bh=DYKSgCLyLSG5eVAyXEXBJzv5wUb4KbwLHueX4TuM2es=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nccR77DmMt5fnc/o6gzPVyT3/n47SLxU5yK+UpwKdHx+DMcaLuX/6OketRHPbmZK4
+         q8cXPhOeS5U/lTt4ZBRJMWdOApW5jbpoUqhxVh/BedGBZMTMV5wkH3BtP7s6iGDW7Q
+         y0QdQapyEyF3Bt/RYtFN3DcVWfO6ymXfIwUMVbM0YopTHxL2aIt7JhbD6dj4ejWOxW
+         pc+m/7ZMIf0Ie62Bdb6sgKnlk4iE+Z9kmM5yyWzogfPqXEglCECce8tPm4qxiKW+nA
+         n66IatdJU8T97URqDPNt56LnxyLR99fOCTtEa0OoWadqYlrX2oFEX/OYDMGmH5+pqh
+         E51HpRAN1M85Q==
+Date:   Mon, 28 Mar 2022 13:20:14 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Benjamin =?UTF-8?B?U3TDvHJ6?= <benni@stuerz.xyz>
+Cc:     Kalle Valo <kvalo@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@acpica.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-input@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
+        wcn36xx@lists.infradead.org, linux-wireless@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Subject: Re: [PATCH 00/22] Replace comments with C99 initializers
+Message-ID: <20220328132014.6b8c0a21@kernel.org>
+In-Reply-To: <cc104272-d79a-41e1-f4de-cb78fb073991@stuerz.xyz>
+References: <20220326165909.506926-1-benni@stuerz.xyz>
+        <8f9271b6-0381-70a9-f0c2-595b2235866a@stuerz.xyz>
+        <87fsn2zaix.fsf@kernel.org>
+        <cc104272-d79a-41e1-f4de-cb78fb073991@stuerz.xyz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,55 +65,21 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Alex Bee <knaerzche@gmail.com>
+On Mon, 28 Mar 2022 13:51:42 +0200 Benjamin St=C3=BCrz wrote:
+> > Just a small tip: If you are new, start with something small and learn
+> > from that. Don't do a controversial big patchset spanning multiple
+> > subsystems, that's the hard way to learn things. First submit one patch
+> > at a time to one subsystem and gain understanding of the process that
+> > way.
+>=20
+> I actually thought this would be such simple thing. Do you know of any
+> good thing where to start? I already looked into drivers/staging/*/TODO
+> and didn't found something for me personally.
 
-Some SPS/PPS parameters are currently hardcoded in the driver
-even though so do exist in the uapi which is stable by now.
+FWIW on the netdev side there's work coming to convert a set of features
+from unsigned long to a BITMAP which will require converting a lot of
+drivers to an explicit helpers from direct access.
 
-Use them instead of hardcoding them.
+https://lore.kernel.org/all/20220324154932.17557-14-shenjian15@huawei.com/
 
-Conformance tests have shown there is no difference, but it might
-increase decoder performance.
-
-Signed-off-by: Alex Bee <knaerzche@gmail.com>
----
- drivers/staging/media/rkvdec/rkvdec-h264.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index 891c48bf6a51..91f65d78e453 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -655,13 +655,14 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
- 
- #define WRITE_PPS(value, field) set_ps_field(hw_ps->info, field, value)
- 	/* write sps */
--	WRITE_PPS(0xf, SEQ_PARAMETER_SET_ID);
--	WRITE_PPS(0xff, PROFILE_IDC);
--	WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
-+	WRITE_PPS(sps->seq_parameter_set_id, SEQ_PARAMETER_SET_ID);
-+	WRITE_PPS(sps->profile_idc, PROFILE_IDC);
-+	WRITE_PPS((sps->constraint_set_flags & 1 << 3) ? 1 : 0, CONSTRAINT_SET3_FLAG);
- 	WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
- 	WRITE_PPS(sps->bit_depth_luma_minus8, BIT_DEPTH_LUMA);
- 	WRITE_PPS(sps->bit_depth_chroma_minus8, BIT_DEPTH_CHROMA);
--	WRITE_PPS(0, QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
-+	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM_BYPASS),
-+		  QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
- 	WRITE_PPS(sps->log2_max_frame_num_minus4, LOG2_MAX_FRAME_NUM_MINUS4);
- 	WRITE_PPS(sps->max_num_ref_frames, MAX_NUM_REF_FRAMES);
- 	WRITE_PPS(sps->pic_order_cnt_type, PIC_ORDER_CNT_TYPE);
-@@ -679,8 +680,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
- 		  DIRECT_8X8_INFERENCE_FLAG);
- 
- 	/* write pps */
--	WRITE_PPS(0xff, PIC_PARAMETER_SET_ID);
--	WRITE_PPS(0x1f, PPS_SEQ_PARAMETER_SET_ID);
-+	WRITE_PPS(pps->pic_parameter_set_id, PIC_PARAMETER_SET_ID);
-+	WRITE_PPS(pps->seq_parameter_set_id, PPS_SEQ_PARAMETER_SET_ID);
- 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE),
- 		  ENTROPY_CODING_MODE_FLAG);
- 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT),
--- 
-2.34.1
-
+If it seems interesting enough you can try reaching out to Jian Shen.
