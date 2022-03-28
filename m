@@ -2,80 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 168BA4E959A
-	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 13:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 489FD4E95D3
+	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 13:54:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241715AbiC1Lqn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Mar 2022 07:46:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39096 "EHLO
+        id S242109AbiC1L4I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Mar 2022 07:56:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242493AbiC1Lne (ORCPT
+        with ESMTP id S242046AbiC1Lz7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Mar 2022 07:43:34 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE119275C6;
-        Mon, 28 Mar 2022 04:38:31 -0700 (PDT)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KRrJ55RMMzfZWN;
-        Mon, 28 Mar 2022 19:36:37 +0800 (CST)
-Received: from dggpemm500015.china.huawei.com (7.185.36.181) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 28 Mar 2022 19:38:14 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500015.china.huawei.com
- (7.185.36.181) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.21; Mon, 28 Mar
- 2022 19:38:14 +0800
-From:   Wang ShaoBo <bobo.shaobowang@huawei.com>
-CC:     <liwei391@huawei.com>, <cj.chengjian@huawei.com>,
-        <bobo.shaobowang@huawei.com>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-samsung-soc@vger.kernel.org>, <s.nawrocki@samsung.com>,
-        <mchehab@kernel.org>, <krzk@kernel.org>
-Subject: [PATCH -next] media: platform: change clk_disable to clk_disable_unprepare
-Date:   Mon, 28 Mar 2022 19:47:30 +0800
-Message-ID: <20220328114730.3944817-1-bobo.shaobowang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 28 Mar 2022 07:55:59 -0400
+Received: from stuerz.xyz (stuerz.xyz [IPv6:2001:19f0:5:15da:5400:3ff:fecc:7379])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34BBA3587B;
+        Mon, 28 Mar 2022 04:51:50 -0700 (PDT)
+Received: by stuerz.xyz (Postfix, from userid 114)
+        id DB5E3FA6D6; Mon, 28 Mar 2022 11:51:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=stuerz.xyz; s=mail;
+        t=1648468308; bh=3Wi+uKVZkL99swRaVau3EJ8BXQXDlu9JC1kflQpPOrg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=oUQch5AaF2NS4T0Fc7buc7qaKcaMKVG810YRJRo241bkl85duCMxS23fDm3GVMDw1
+         xL8wfFwfguE7DE2l/k4vVmJ5m+zw1ufGo67LfJIKzisY6pcfbZGcdaFk0B9ghPqfKS
+         I2W7g/SOQV7recVh3ztaUhpWJY1H9k0XjfmxF8AmYZ/fAW3ggk2byys8WeLu0ak9ah
+         IgL+/CAYYREpGVUMMRCs+UZIGRhzVjykJ9daQ0sVnnmKwNo2ovBFc7vsiaUCV/jRSa
+         ex0Ku60KERB06l+p4AJhX5EDQm9DgjMeTcaApMq8icB704ISrupDr4D5KxV4dtLzM0
+         6HAU3bjLTErUA==
+Received: from [IPV6:2a02:8109:a100:1a48::e7c] (unknown [IPv6:2a02:8109:a100:1a48::e7c])
+        by stuerz.xyz (Postfix) with ESMTPSA id 96ED2FA6AC;
+        Mon, 28 Mar 2022 11:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=stuerz.xyz; s=mail;
+        t=1648468306; bh=3Wi+uKVZkL99swRaVau3EJ8BXQXDlu9JC1kflQpPOrg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=zBafXC0qmHbBy2R0CwrqEVHxB0KbRcM6x7IR+QfcMB3oUVBkemOuTu17YEp7Cwbgd
+         Lw+gvLver4LCPJCOHCL2eAzpr1O+pT/EX986F+oA22O2GOoGJb/57oYXvhAOACQpb/
+         rN+svuiDvsbTolC94H1JtxdXdx0U3+g4ZYZxI9bHa94d/+r+oRSAJqz7+XAzj1cCh3
+         ict551S0UMWEtEMaDv06/XFQYnv7JqCdIWuWPwV30h6+Z5RIA9IJAECe2MRFrynB4K
+         mSzFCFSElIq/pRqE39gIg1HoMMEgNA6qMLNrZGciYbRFSH0ycDjGpa+qscnhjrtqTE
+         wSGn8LEPrkJpQ==
+Message-ID: <cc104272-d79a-41e1-f4de-cb78fb073991@stuerz.xyz>
+Date:   Mon, 28 Mar 2022 13:51:42 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggeme701-chm.china.huawei.com (10.1.199.97) To
- dggpemm500015.china.huawei.com (7.185.36.181)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 00/22] Replace comments with C99 initializers
+Content-Language: en-US
+To:     Kalle Valo <kvalo@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@acpica.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-input@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
+        wcn36xx@lists.infradead.org, linux-wireless@vger.kernel.org,
+        linux-pci@vger.kernel.org
+References: <20220326165909.506926-1-benni@stuerz.xyz>
+ <8f9271b6-0381-70a9-f0c2-595b2235866a@stuerz.xyz> <87fsn2zaix.fsf@kernel.org>
+From:   =?UTF-8?Q?Benjamin_St=c3=bcrz?= <benni@stuerz.xyz>
+In-Reply-To: <87fsn2zaix.fsf@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
+        NICE_REPLY_A,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Corresponding API pairs with clk_prepare_enable in fimc_is_enable_clocks()
-is clk_disable_unprepare, fix this by changing clk_disable to
-clk_disable_unprepare.
+On 28.03.22 11:33, Kalle Valo wrote:
+> Benjamin Stürz <benni@stuerz.xyz> writes:
+> 
+>> This patch series replaces comments with C99's designated initializers
+>> in a few places. It also adds some enum initializers. This is my first
+>> time contributing to the Linux kernel, therefore I'm probably doing a
+>> lot of things the wrong way. I'm sorry for that.
+> 
+> Just a small tip: If you are new, start with something small and learn
+> from that. Don't do a controversial big patchset spanning multiple
+> subsystems, that's the hard way to learn things. First submit one patch
+> at a time to one subsystem and gain understanding of the process that
+> way.
+> 
 
-Fixes: 9a761e436843 ("[media] exynos4-is: Add Exynos4x12 FIMC-IS driver")
-Signed-off-by: Wang ShaoBo <bobo.shaobowang@huawei.com>
----
- drivers/media/platform/samsung/exynos4-is/fimc-is.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I actually thought this would be such simple thing. Do you know of any
+good thing where to start? I already looked into drivers/staging/*/TODO
+and didn't found something for me personally.
 
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is.c b/drivers/media/platform/samsung/exynos4-is/fimc-is.c
-index e55e411038f4..8e88b0f6662d 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-is.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-is.c
-@@ -140,7 +140,7 @@ static int fimc_is_enable_clocks(struct fimc_is *is)
- 			dev_err(&is->pdev->dev, "clock %s enable failed\n",
- 				fimc_is_clocks[i]);
- 			for (--i; i >= 0; i--)
--				clk_disable(is->clocks[i]);
-+				clk_disable_unprepare(is->clocks[i]);
- 			return ret;
- 		}
- 		pr_debug("enabled clock: %s\n", fimc_is_clocks[i]);
--- 
-2.25.1
-
+Should I drop this patchset and start with something different? If yes,
+what would the proper way to drop it? Just announcing, that this is
+going nowhere in a separate patch?
