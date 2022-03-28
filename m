@@ -2,123 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC5DF4E8F28
-	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 09:39:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C88334E8F96
+	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 10:00:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238877AbiC1Hkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Mar 2022 03:40:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52294 "EHLO
+        id S239057AbiC1IBq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Mar 2022 04:01:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238875AbiC1Hki (ORCPT
+        with ESMTP id S234792AbiC1IBp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Mar 2022 03:40:38 -0400
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7112552E21;
-        Mon, 28 Mar 2022 00:38:56 -0700 (PDT)
-Received: from [192.168.0.3] (ip5f5aef5a.dynamic.kabel-deutschland.de [95.90.239.90])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: pmenzel)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id BB57661EA1927;
-        Mon, 28 Mar 2022 09:38:54 +0200 (CEST)
-Message-ID: <2e91b545-bde3-3626-e889-be268d01971c@molgen.mpg.de>
-Date:   Mon, 28 Mar 2022 09:38:54 +0200
+        Mon, 28 Mar 2022 04:01:45 -0400
+X-Greylist: delayed 502 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 28 Mar 2022 01:00:05 PDT
+Received: from mail.ourpartnership.pl (mail.ourpartnership.pl [80.211.82.238])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C402E68D
+        for <linux-media@vger.kernel.org>; Mon, 28 Mar 2022 01:00:05 -0700 (PDT)
+Received: by mail.ourpartnership.pl (Postfix, from userid 1001)
+        id 6FD0463A51; Mon, 28 Mar 2022 08:46:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ourpartnership.pl;
+        s=mail; t=1648453740;
+        bh=M1ZVeu3q6Upppe+FUx/3rgI7MKJXh389NZDbgCK1SX4=;
+        h=Date:From:To:Subject:From;
+        b=aUf5KeDIyGFNoKTO/NH/Wp8WYg5W3NSITh+LBdw3IS1fM3v0IzHrKtS5KqHf2X3hu
+         75W5QZRh1nUBW30nJbon2vqtNUM7BnnEPxUhrnjn/HOt3V2oSkmWkMFKH+m2W8hteD
+         I9qwQLS7Um61BI+OvZHAOgQK4b8hqNCsicMCc3NwbwEc2ublYp4OValJzs784mxCgA
+         BUQacHNq9yWd8DuKYBT2zO7xYwaoyvDEd0MekNTJw/3EScFK9/9VGAlCk6DdveJc80
+         ZvmrYqpOINMVdUI/fqGKG/YT7JmIHzBlL5b1X1FBoYgKsswpTvLsdeFEnwofj0WjP6
+         Mab0zyIGVaX6Q==
+Received: by mail.ourpartnership.pl for <linux-media@vger.kernel.org>; Mon, 28 Mar 2022 07:46:04 GMT
+Message-ID: <20220328074501-0.1.9.2b0v.0.3eha6skgmj@ourpartnership.pl>
+Date:   Mon, 28 Mar 2022 07:46:04 GMT
+From:   =?UTF-8?Q? "Arkadiusz_Soko=C5=82owski" ?= 
+        <arkadiusz.sokolowski@ourpartnership.pl>
+To:     <linux-media@vger.kernel.org>
+Subject: Koszty instalacji fotowoltaicznej
+X-Mailer: mail.ourpartnership.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] drm/amdgpu: resolve s3 hang for r7340
-Content-Language: en-US
-From:   Paul Menzel <pmenzel@molgen.mpg.de>
-To:     Zhenneng Li <lizhenneng@kylinos.cn>
-Cc:     Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Pan Xinhui <Xinhui.Pan@amd.com>,
-        Guchun Chen <guchun.chen@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Lijo Lazar <lijo.lazar@amd.com>, linux-kernel@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kevin Wang <kevin1.wang@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Evan Quan <evan.quan@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org
-References: <20220328040536.4121797-1-lizhenneng@kylinos.cn>
- <cd36a994-0c13-201c-522d-5f8af53e1e87@molgen.mpg.de>
-In-Reply-To: <cd36a994-0c13-201c-522d-5f8af53e1e87@molgen.mpg.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-[Cc: -Jack Zhang (invalid address)
+Dzie=C5=84 dobry,
 
-Am 28.03.22 um 09:36 schrieb Paul Menzel:
-> Dear Zhenneng,
-> 
-> 
-> Thank you for your patch.
-> 
-> Am 28.03.22 um 06:05 schrieb Zhenneng Li:
->> This is a workaround for s3 hang for r7340(amdgpu).
-> 
-> Is it hanging when resuming from S3? Maybe also use the line below for 
-> the commit message summary:
-> 
-> drm/amdgpu: Add 1 ms delay to init handler to fix s3 resume hang
-> 
-> Also, please add a space before the ( in “r7340(amdgpu)”.
-> 
->> When we test s3 with r7340 on arm64 platform, graphics card will hang up,
->> the error message are as follows:
->> Mar  4 01:14:11 greatwall-GW-XXXXXX-XXX kernel: [    1.599374][ 7] [  T291] amdgpu 0000:02:00.0: fb0: amdgpudrmfb frame buffer device
->> Mar  4 01:14:11 greatwall-GW-XXXXXX-XXX kernel: [    1.612869][ 7] [  T291] [drm:amdgpu_device_ip_late_init [amdgpu]] *ERROR* late_init of IP block <si_dpm> failed -22
->> Mar  4 01:14:11 greatwall-GW-XXXXXX-XXX kernel: [    1.623392][ 7] [  T291] amdgpu 0000:02:00.0: amdgpu_device_ip_late_init failed
->> Mar  4 01:14:11 greatwall-GW-XXXXXX-XXX kernel: [    1.630696][ 7] [  T291] amdgpu 0000:02:00.0: Fatal error during GPU init
->> Mar  4 01:14:11 greatwall-GW-XXXXXX-XXX kernel: [    1.637477][ 7] [  T291] [drm] amdgpu: finishing device.
-> 
-> The prefix in the beginning is not really needed. Only the stuff after 
-> `kernel: `.
-> 
-> Maybe also add the output of `lspci -nn -s …` for that r7340 device.
-> 
->> Change-Id: I5048b3894c0ca9faf2f4847ddab61f9eb17b4823
-> 
-> Without the Gerrit instance this belongs to, the Change-Id is of no use 
-> in the public.
-> 
->> Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> index 3987ecb24ef4..1eced991b5b2 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> @@ -2903,6 +2903,8 @@ static void 
->> amdgpu_device_delayed_init_work_handler(struct work_struct *work)
->>           container_of(work, struct amdgpu_device, delayed_init_work.work);
->>       int r;
->> +    mdelay(1);
->> +
-> 
-> Wow, I wonder how long it took you to find that workaround.
-> 
->>       r = amdgpu_ib_ring_tests(adev);
->>       if (r)
->>           DRM_ERROR("ib ring test failed (%d).\n", r);
-> 
-> 
-> Kind regards,
-> 
-> Paul
+stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
+ obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
+
+Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
+acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
+ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
+
+Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
+=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
+=2E
+
+Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
+temacie?
+
+
+Pozdrawiam
+Arkadiusz Soko=C5=82owski
