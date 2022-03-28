@@ -2,130 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19A364E8A74
-	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 00:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10E344E8CC2
+	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 06:00:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236895AbiC0WUT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Mar 2022 18:20:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46362 "EHLO
+        id S234301AbiC1EBm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Mar 2022 00:01:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232336AbiC0WUS (ORCPT
+        with ESMTP id S229627AbiC1EBk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Mar 2022 18:20:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C76A0E0CC
-        for <linux-media@vger.kernel.org>; Sun, 27 Mar 2022 15:18:38 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E8132F7;
-        Mon, 28 Mar 2022 00:18:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1648419516;
-        bh=iyYx8xuvB+IFQHIOlMbGBXD6/T6nblEEr/kpP5lIR2g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wiECim0I2z6LScPupQXlbu81sFVqMrBTEKD6PqsjH6sl0wOS+4LieEgE+l0DAiHbC
-         9KZ3ov9MQx9DRrftGkhRGXQRtmf6q4I+Hqtrgct4+3ZdYgRhuRyateR3AYoYtQpNoD
-         0h0fnyILyAzyHBrnXWaEdAH7uDZ5brraMQKo7Rtk=
-Date:   Mon, 28 Mar 2022 01:18:34 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, Colin King <colin.i.king@gmail.com>,
-        tfiga@chromium.org
-Subject: Re: [PATCH v4] media: uvcvideo: Fix memory leak if
- uvc_ctrl_add_mapping fails
-Message-ID: <YkDiumT/5oHnZLaQ@pendragon.ideasonboard.com>
-References: <20220324224232.385888-1-ribalda@chromium.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220324224232.385888-1-ribalda@chromium.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 28 Mar 2022 00:01:40 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC89E45069
+        for <linux-media@vger.kernel.org>; Sun, 27 Mar 2022 20:59:57 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id b11-20020a5b008b000000b00624ea481d55so9993893ybp.19
+        for <linux-media@vger.kernel.org>; Sun, 27 Mar 2022 20:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=ZanSM+z+bqiT+dazTvxIhzoTPKfBDbdIJDmpkh0ngiA=;
+        b=dEZSetUwhJ77JER9uOFHsQsp76JzF2DjT1q6+REMveb9Wt4BrGDGIQgD1zzZM9bma+
+         yhEZCho/DguXCN/LWIpS6/sXTLVs/7I8V57LnPEuNyRfMseJ+ScdFrLfEpJoGDWtMIFM
+         t64Dd1vWRIhCANW1YNotTj71VdF86eU/Z1yZ/2P1/oZx3uAbxFDxrqLAVLQm8PT6wR0S
+         qEnNzRfOZYWdnMNSE8GFnj9hFuliT0+m6mkGHNaGsEGbIMS5RBIfRao1fm6MCxklAbdl
+         N8IuezzihPA3MdxNEuigRrXDRU77mTQDN2Wi23Fw13t4QVAYQLDOIAduNv28SyaFtkAo
+         +W/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=ZanSM+z+bqiT+dazTvxIhzoTPKfBDbdIJDmpkh0ngiA=;
+        b=WIgdW3CDJh8CagOWB97POOmPd9xISdaBreZ8D44mukv0wRpJKR5o0HGtWPLm34602S
+         V2S9P4y2hiR79MmIJlladCE5Aa2FWSHGWZvHXBnx8N+U0Ah2dm5ZlqyNaWva80OPTifd
+         lA1GjjYTXGb6dZj+2sFrSnKeReuEcBv4DzQN/gVNmiwqL1267/pDjlAXEASIMyeJiB8E
+         u8b3DKJSPaxv2UOt0pzIhz+x9u1bzxUYK6z8Icz9rvN/M51pJ7g1Y17nglJk/dX6TAA/
+         NoL/yaRfQNIdpLvpGM84+2yy2OdCjZE/KX0l7a8MkG3KSPz+j8Lb9O3/okYTlRrMBk4J
+         0Cng==
+X-Gm-Message-State: AOAM530xG8+ld03IUc95WqefLv8aHoPbSSFpcrjnyjMKX12NnJvoLHhj
+        lMnARsKl/FTejHhHzOrrgKfC6hdRLgkYCs8=
+X-Google-Smtp-Source: ABdhPJxDNziGYjzb/ZRm1pevbyvVdw8eQjc7VwyCozk0n3Hczh8k36e8/hVih9NxH0h+d3gtUEehLBH2IOPtLgg=
+X-Received: from tj2.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:187])
+ (user=tjmercier job=sendgmr) by 2002:a25:25c3:0:b0:633:8079:1768 with SMTP id
+ l186-20020a2525c3000000b0063380791768mr21066931ybl.488.1648439997054; Sun, 27
+ Mar 2022 20:59:57 -0700 (PDT)
+Date:   Mon, 28 Mar 2022 03:59:39 +0000
+Message-Id: <20220328035951.1817417-1-tjmercier@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
+Subject: [RFC v4 0/8] Proposal for a GPU cgroup controller
+From:   "T.J. Mercier" <tjmercier@google.com>
+To:     tjmercier@google.com, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>
+Cc:     kaleshsingh@google.com, Kenny.Ho@amd.com, mkoutny@suse.com,
+        skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+This patch series revisits the proposal for a GPU cgroup controller to
+track and limit memory allocations by various device/allocator
+subsystems. The patch series also contains a simple prototype to
+illustrate how Android intends to implement DMA-BUF allocator
+attribution using the GPU cgroup controller. The prototype does not
+include resource limit enforcements.
 
-Thank you for the patch.
+Changelog:
+v4:
+Skip test if not run as root per Shuah Khan
 
-On Thu, Mar 24, 2022 at 11:42:32PM +0100, Ricardo Ribalda wrote:
-> Move all the life cycle of the name to add_mapping. This simplifies
-> the error handling inside uvc_ioctl_ctrl_map and solves a memory leak
-> when kemmdup fails.
-> 
-> Fixes: 07adedb5c606 ("media: uvcvideo: Use control names from framework")
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> 
-> Laurent:
-> Please note that I have added xmap->name[0] == '\0' check!
+Add better test logging for abnormal child termination per Shuah Khan
 
-Could you mention it in the commit message then ?
+Adjust ordering of charge/uncharge during transfer to avoid potentially
+hitting cgroup limit per Michal Koutn=C3=BD
 
->  drivers/media/usb/uvc/uvc_ctrl.c | 10 ++++++++++
->  drivers/media/usb/uvc/uvc_v4l2.c |  8 ++++----
->  2 files changed, 14 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index b4f6edf968bc..8b3bd516cb2f 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -2188,11 +2188,21 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
->  	if (map == NULL)
->  		return -ENOMEM;
->  
-> +	/* For UVCIOC_CTRL_MAP custom controls */
+Adjust gpucg_try_charge critical section for charge transfer functionality
 
-s/controls/controls./
+Fix uninitialized return code error for dmabuf_try_charge error case
 
-My R-B still applies.
+v3:
+Remove Upstreaming Plan from gpu-cgroup.rst per John Stultz
 
-> +	if (mapping->name) {
-> +		map->name = kstrdup(mapping->name, GFP_KERNEL);
-> +		if (!map->name) {
-> +			kfree(map);
-> +			return -ENOMEM;
-> +		}
-> +	}
-> +
->  	INIT_LIST_HEAD(&map->ev_subs);
->  
->  	size = sizeof(*mapping->menu_info) * mapping->menu_count;
->  	map->menu_info = kmemdup(mapping->menu_info, size, GFP_KERNEL);
->  	if (map->menu_info == NULL) {
-> +		kfree(map->name);
->  		kfree(map);
->  		return -ENOMEM;
->  	}
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 711556d13d03..ac829fb44b77 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -42,12 +42,12 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
->  	map->id = xmap->id;
->  	/* Non standard control id. */
->  	if (v4l2_ctrl_get_name(map->id) == NULL) {
-> -		map->name = kmemdup(xmap->name, sizeof(xmap->name),
-> -				    GFP_KERNEL);
-> -		if (!map->name) {
-> -			ret = -ENOMEM;
-> +		if (xmap->name[0] == '\0') {
-> +			ret = -EINVAL;
->  			goto free_map;
->  		}
-> +		xmap->name[sizeof(xmap->name) - 1] = '\0';
-> +		map->name = xmap->name;
->  	}
->  	memcpy(map->entity, xmap->entity, sizeof(map->entity));
->  	map->selector = xmap->selector;
+Use more common dual author commit message format per John Stultz
 
--- 
-Regards,
+Remove android from binder changes title per Todd Kjos
 
-Laurent Pinchart
+Add a kselftest for this new behavior per Greg Kroah-Hartman
+
+Include details on behavior for all combinations of kernel/userspace
+versions in changelog (thanks Suren Baghdasaryan) per Greg Kroah-Hartman.
+
+Fix pid and uid types in binder UAPI header
+
+v2:
+See the previous revision of this change submitted by Hridya Valsaraju
+at: https://lore.kernel.org/all/20220115010622.3185921-1-hridya@google.com/
+
+Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
+heap to a single dma-buf function for all heaps per Daniel Vetter and
+Christian K=C3=B6nig. Pointers to struct gpucg and struct gpucg_device
+tracking the current associations were added to the dma_buf struct to
+achieve this.
+
+Fix incorrect Kconfig help section indentation per Randy Dunlap.
+
+History of the GPU cgroup controller
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The GPU/DRM cgroup controller came into being when a consensus[1]
+was reached that the resources it tracked were unsuitable to be integrated
+into memcg. Originally, the proposed controller was specific to the DRM
+subsystem and was intended to track GEM buffers and GPU-specific
+resources[2]. In order to help establish a unified memory accounting model
+for all GPU and all related subsystems, Daniel Vetter put forth a
+suggestion to move it out of the DRM subsystem so that it can be used by
+other DMA-BUF exporters as well[3]. This RFC proposes an interface that
+does the same.
+
+[1]: https://patchwork.kernel.org/project/dri-devel/cover/20190501140438.95=
+06-1-brian.welty@intel.com/#22624705
+[2]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@int=
+el.com/
+[3]: https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
+
+Hridya Valsaraju (5):
+  gpu: rfc: Proposal for a GPU cgroup controller
+  cgroup: gpu: Add a cgroup controller for allocator attribution of GPU
+    memory
+  dmabuf: heaps: export system_heap buffers with GPU cgroup charging
+  dmabuf: Add gpu cgroup charge transfer function
+  binder: Add a buffer flag to relinquish ownership of fds
+
+T.J. Mercier (3):
+  dmabuf: Use the GPU cgroup charge/uncharge APIs
+  binder: use __kernel_pid_t and __kernel_uid_t for userspace
+  selftests: Add binder cgroup gpu memory transfer test
+
+ Documentation/gpu/rfc/gpu-cgroup.rst          | 183 +++++++
+ Documentation/gpu/rfc/index.rst               |   4 +
+ drivers/android/binder.c                      |  26 +
+ drivers/dma-buf/dma-buf.c                     | 107 ++++
+ drivers/dma-buf/dma-heap.c                    |  27 +
+ drivers/dma-buf/heaps/system_heap.c           |   3 +
+ include/linux/cgroup_gpu.h                    | 139 +++++
+ include/linux/cgroup_subsys.h                 |   4 +
+ include/linux/dma-buf.h                       |  22 +-
+ include/linux/dma-heap.h                      |  11 +
+ include/uapi/linux/android/binder.h           |   5 +-
+ init/Kconfig                                  |   7 +
+ kernel/cgroup/Makefile                        |   1 +
+ kernel/cgroup/gpu.c                           | 362 +++++++++++++
+ .../selftests/drivers/android/binder/Makefile |   8 +
+ .../drivers/android/binder/binder_util.c      | 254 +++++++++
+ .../drivers/android/binder/binder_util.h      |  32 ++
+ .../selftests/drivers/android/binder/config   |   4 +
+ .../binder/test_dmabuf_cgroup_transfer.c      | 484 ++++++++++++++++++
+ 19 files changed, 1679 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/gpu/rfc/gpu-cgroup.rst
+ create mode 100644 include/linux/cgroup_gpu.h
+ create mode 100644 kernel/cgroup/gpu.c
+ create mode 100644 tools/testing/selftests/drivers/android/binder/Makefile
+ create mode 100644 tools/testing/selftests/drivers/android/binder/binder_u=
+til.c
+ create mode 100644 tools/testing/selftests/drivers/android/binder/binder_u=
+til.h
+ create mode 100644 tools/testing/selftests/drivers/android/binder/config
+ create mode 100644 tools/testing/selftests/drivers/android/binder/test_dma=
+buf_cgroup_transfer.c
+
+--=20
+2.35.1.1021.g381101b075-goog
+
