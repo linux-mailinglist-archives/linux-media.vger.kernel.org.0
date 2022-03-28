@@ -2,152 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FCC24E9920
-	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 16:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6A014E9954
+	for <lists+linux-media@lfdr.de>; Mon, 28 Mar 2022 16:22:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243710AbiC1OP5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Mar 2022 10:15:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42806 "EHLO
+        id S241694AbiC1OYg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Mar 2022 10:24:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243702AbiC1OPs (ORCPT
+        with ESMTP id S239756AbiC1OYg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Mar 2022 10:15:48 -0400
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-eopbgr140051.outbound.protection.outlook.com [40.107.14.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DB4C24583;
-        Mon, 28 Mar 2022 07:14:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MxhskklRDiT/l5QOxxwxdwLybgfsq02fJeCW76B7LeRo6VCKApA3kCzgkHHnVj4UHU5yF8588G1J1GZoe43Uff//GV4Y9QFTGTSQAwfG5fyDI6rFCsvS7OGzOPbGqcq7o0aErwgmZG401R0zS9E4pXH4Pg+xukvXS23zlh4hbvrwpGdvTaxcS7xnP/JSDAFtynslmkOdCuyY/3C0xikZoEl1ACwwW20WMXdZXArp05UVv1fSuG8E7uy+Kncolo9h5KZRwdUVVPSQOhoRfaW3ATnzMhtzZC69DQE/N3QGPjqgIjO/JbICJv/PXS/PgDUzCUbT0/aM2i76WDavIvrzrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q3bzVS2olRdSdcMZ7JWcuE+gz3dxFoGQOYI1d2cIaLI=;
- b=arfBY9PhROofJ7yiTrBbobSIvSE9Zjme/5zCW9HEtWzgSOqWdvkD6L8YM1xpjlpsuK8x9zn91qnu79eWvnYHqtAasMiQzvs21ndBYj8tl6wOy2IwybDFQSH69IvjDD/qMeAkps0lresRn0O80dS3YvXhetmPmMHVyD/lahOPyx/Y/jXjkxkkqTfzf3leLuhYXRC/riSQLBBWHJNv/5afzGFp1s2Ws6fjxkZeTAR+8nDSiEZECsUhoxwv9j+/TM5SM74J/sKK4fk0Tp0E4CuZNQGz85wg36rXpfSGL/tq5pREpom137rUiXooKOb5qY4tjcXGSWPNPhLbqUXQafE1tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector2-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q3bzVS2olRdSdcMZ7JWcuE+gz3dxFoGQOYI1d2cIaLI=;
- b=DmDGj1Fi5TR8xcugXbb5NZXOuRaI2Xr20ptbWEZ41BDjzxzZBlUHZeRn0FaiTjaDPGmfTFogYsyPaarJTOSwd68RqMM5XxW1KAmT5br6gQBxtynfttPo4JhWctsLz/2Vngi+DxZ75zZQwJTyumX7bEoihhFMxCipu7ydAauJMAI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8703.eurprd04.prod.outlook.com (2603:10a6:102:21e::22)
- by AM0PR04MB4418.eurprd04.prod.outlook.com (2603:10a6:208:6d::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.22; Mon, 28 Mar
- 2022 14:14:04 +0000
-Received: from PAXPR04MB8703.eurprd04.prod.outlook.com
- ([fe80::45a8:8093:26f8:37d2]) by PAXPR04MB8703.eurprd04.prod.outlook.com
- ([fe80::45a8:8093:26f8:37d2%7]) with mapi id 15.20.5102.022; Mon, 28 Mar 2022
- 14:14:03 +0000
-From:   Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        stanimir.varbanov@linaro.org, laurent.pinchart@ideasonboard.com,
-        tomi.valkeinen@ideasonboard.com, robh+dt@kernel.org,
-        nicolas@ndufresne.ca, alexander.stein@ew.tq-group.com
-Cc:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v4 9/9] media: MAINTAINERS: add entry for i.MX8MP DW100 v4l2 mem2mem driver
-Date:   Mon, 28 Mar 2022 16:13:09 +0200
-Message-Id: <20220328141309.177611-10-xavier.roumegue@oss.nxp.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220328141309.177611-1-xavier.roumegue@oss.nxp.com>
-References: <20220328141309.177611-1-xavier.roumegue@oss.nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PR3P193CA0032.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:102:51::7) To PAXPR04MB8703.eurprd04.prod.outlook.com
- (2603:10a6:102:21e::22)
+        Mon, 28 Mar 2022 10:24:36 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851C05DE45
+        for <linux-media@vger.kernel.org>; Mon, 28 Mar 2022 07:22:54 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id l7-20020a05600c1d0700b0038c99618859so13076105wms.2
+        for <linux-media@vger.kernel.org>; Mon, 28 Mar 2022 07:22:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=0qMi19vJjaBiLl9cST+fBDBfq+lOIRwdfDjsTWbv4+A=;
+        b=F6SrEc540oQbJ4koNpIXnsQNTXkFgqI6U/3cDMxUWVC4DyuuAWQRvto0jWiQx+RygR
+         az1eH84A1QaOlVPcmO2sktRA6+Oq14ehcGOz9Wipe7TsmT4xpng2OUhP8KJzz26RUyKz
+         O3PYrAc8ylFBmFqVK6n23fC3EaqzGbjQigaF0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=0qMi19vJjaBiLl9cST+fBDBfq+lOIRwdfDjsTWbv4+A=;
+        b=s4MNne7hRo2Q1iYGioE8l/P7doZbFMGdYPZtoNYyTl/r1KlrVuVLYyblLxryA7AGL+
+         9HarDmBO2EDXvlkmAKMC6FIPkYuKiQrrqnrY3xsHTG0TS8bxLvfk84uisz0q60/Bdfdd
+         32t0Klf+nPtfaj0y+tFWzU9gJp+7QfDq8OZfm/yaMDPqPmWyVzVDIHLmUxUYjLuJxPhA
+         08DH5I0i/XqJJU8lbn5yNr8ELh5mi07SFtZ4EhpGUQzTWiAVKe+Wst8vVBEOyGjKgTI1
+         bQwOWqs+bKereUSIFjPKad349oPqw59Yj8G8pK76Hl+HXpszEpLkq2faNW7wQ8863hRE
+         i5tQ==
+X-Gm-Message-State: AOAM532neaF44HbZa55MBUFXR2eHKwnTggwjHoigg7L1dR931SfES3bU
+        FgtWl/Gi6+nacNSqLbS4Lk6+zQ==
+X-Google-Smtp-Source: ABdhPJy/CXlQv4q32M0C+eVPZAvzKzIlirYkPv5FpU1qt19fZsp2h8xi+lNT8j6s35IT6ynk7FjAsw==
+X-Received: by 2002:a05:600c:12c9:b0:38c:b319:6da2 with SMTP id v9-20020a05600c12c900b0038cb3196da2mr36510119wmd.125.1648477373048;
+        Mon, 28 Mar 2022 07:22:53 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id z5-20020a05600c0a0500b0037fa93193a8sm13921845wmp.44.2022.03.28.07.22.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Mar 2022 07:22:52 -0700 (PDT)
+Date:   Mon, 28 Mar 2022 16:22:50 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
+        <ville.syrjala@linux.intel.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        sumit.semwal@linaro.org, gustavo@padovan.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH 1/2] dma-buf: add dma_fence_unwrap
+Message-ID: <YkHEutP7ylbVgJjf@phenom.ffwll.local>
+References: <20220311110244.1245-1-christian.koenig@amd.com>
+ <Yj3e0QjbnPoG7n4I@intel.com>
+ <35cc3bd5-c0ab-0bd1-9603-4971234fbcd6@amd.com>
+ <338d0623-1161-c958-101f-dc7d8ef12f99@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 20ef2a51-0002-4d3a-873f-08da10c53683
-X-MS-TrafficTypeDiagnostic: AM0PR04MB4418:EE_
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-Microsoft-Antispam-PRVS: <AM0PR04MB4418C82F5B6F9744984F5641BA1D9@AM0PR04MB4418.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rfBKM+ULxbYYgVr0YDMsxRv85j57QdMuC0aDY5aaEdXMuzaVlppf9dP65b25SPzb24qROEZ0uEL01s5lMkwTQeG/b1Ec4CsREh+2yDgmEYnr1jhdpnNYEYEZYUhgvNt4mX8gMml46r4fJ7c+Xbf1psUgpsrqWJEWOW+oHnrM6sHDP7BGx2+xDhCN5pa05ak3bjJMdWiPO0UGs4weqcw/ybnKoq7xygGVmTgWbVXOjtL240PFehpLeygott1fdXv31+9voDjgIBX0OFGCd/X1sLHVVuRqFR3WFtHMhayi2dxlu6CCf04/212PrEzK4nh8jHNeggI1/PF4O4Dqb4m/MP1/qGr8j1GjlJwYqQ7KALF3Fp+Ng6s3l/t3cRlv8hXq7zJMLhEXwe/PfFHgwF0s5odwr/+73zARAzaA/AyDJQsz6aOIZT/btfFGG/I9YoSTpyLd6aIrxHOZrel8wz4hlMzohH9s1XCmQ7v4wgPTfnZ7NBDd9oL6PjPRQ4T6xUQHXsckeR73G2oAX5zMqrPUivo6E9SHFX0Hf4mKBSTxm4xb63Q19iSSGOazF8ouGwhnhctnk5tIjrfUY5wmmTgSC6ZCl6nQjhdmIXFq9H3NdR5bSQCS6ZT7l/uQdnSUjByr0SjPugKguybGJ/WTHLz2Xg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8703.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66946007)(66556008)(2906002)(86362001)(6512007)(44832011)(52116002)(7416002)(316002)(508600001)(8936002)(4326008)(186003)(6506007)(4744005)(38100700002)(66476007)(8676002)(6486002)(1076003)(5660300002)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RoYfkMl1BaeqMwCwvgUmhArxLPcaEFTCkU+23AHuEypj2y0JAoxCjZTLLDj1?=
- =?us-ascii?Q?ymgTOd+papi94qOltwxHtf0YVP8Cjjls0D4JErCZonG2pEFZcz16+4wW0VTp?=
- =?us-ascii?Q?o+v1DOw9Vk+TBcnAK6m6jtcYlvWO9un6B437TLMprUDQCpsj0m88vaLWMyVa?=
- =?us-ascii?Q?CRKr1GzD0UeZ2DKE8RDRUdlk8sUz3I4Y8o5/PHZ3I0EFAhCSVuA3JFLjIluC?=
- =?us-ascii?Q?TCPepnlPUeqolYjEWFZc/s7PbDVRV3HNODCzB+L7+FcWS/pQK2cvpi49WOTj?=
- =?us-ascii?Q?Q91VnmTSs2dSTYU8HdiVhK6zZqGIOz9+ZnZRtgzRpkUx4kq20Xf+KVuvaaAE?=
- =?us-ascii?Q?stYu9i7VoY5eee+TwV1GpQma6cw9a2Nombgp4g8fLoodhf71XLn53wykroMv?=
- =?us-ascii?Q?anNBp5rbknuVoN/kuKRNLlvfHXk5M01iYCQKz+uEOGXvJaXyOR1G20x0UH7X?=
- =?us-ascii?Q?LAu+96o364a61kWt+BsauvelM7Q0Zt4Bc9ItXwf0PrC7OTX/ZtWf9K6BwY8x?=
- =?us-ascii?Q?IWLFgHSeZ3ZFj2yieQ297tlCPuEr7sMtuO9GZJrx1rhDod3eQ6JppRDxDCir?=
- =?us-ascii?Q?Tmbcx+a84uC05oIT9VDpFxPt1ry8WZ5Wr39/nazJsFDgebXx87CroB1w+Xf9?=
- =?us-ascii?Q?wXcVH2dlDYCZnXTJrGuj0lCBWufPHqkHlfqQ4sr0NXrFionQBgYR76j+5j3F?=
- =?us-ascii?Q?x8lV3/wx2iuUga4/afeVzJ2ohOhhEgH3GAJWy1M4a+lTAEGJHc2x35X/wI9a?=
- =?us-ascii?Q?NaCW8WKby749nN2Mwva0gkjcVSi3SxkTT8PldF/QqTfFy06frFCMxfhOtQWO?=
- =?us-ascii?Q?57nNruVFqNd728J5N0PP2npXKCdq2OOHMsM4PIiPNT/QEHGboiZDCV2h/bbG?=
- =?us-ascii?Q?oUcnZla33vETUas9U3DFq3R+tn8GsEYAqQHc538Yll4Sb4/eLtB8TEXJW2n2?=
- =?us-ascii?Q?tNXn17ZgHHRcFsv40kNrhuwP3TC/7jOQl9af+1ztpndfzc+C5X7yxJb6b/mQ?=
- =?us-ascii?Q?vg8z3kWHatFYC1eLyAtkX6oPEPr/w/PZdGtggsHWgt51rQGgWhVFL2FWCgDl?=
- =?us-ascii?Q?OSkbf0nqzgVM7XJ/1uPlFcyvoAYi6A684HDJbzk7ZAPnrgKEQYymw8wIBdAL?=
- =?us-ascii?Q?Vqdm9JxevSY2FFeCDkUfx6yoooC268lclFTewxoTrCzVXhYd7Ff1ba+4XNV6?=
- =?us-ascii?Q?6d2yhDefJXXeLzUifKcZRZ8JqbhmqdaRxeh0GyzOTO1NJMW4w+/nVbd90VBH?=
- =?us-ascii?Q?oTV/A3aj4gs/WyDFRAs3/cTPfbd7dpuOaH9eeYy9yGafM0Jk5SU7Na6VWdJA?=
- =?us-ascii?Q?NBDJQf5h2yccojD7PdJu4Z1ycHBMeEtXzI9Fcca/v83BCT8dO3lGUjo18gwa?=
- =?us-ascii?Q?ucBif5UmG0YLYZUTZjvPKXS9FN0Kl4f/I0hmhxlesa2Ldde0G8DHUlLPzRKr?=
- =?us-ascii?Q?gC5FMSsS81yFH/WfuxBRko2wjq49DOSzmMi8YUMnI/TF88BZtHtPyw26OYFx?=
- =?us-ascii?Q?IvyNixRXE9iKyxb0gaC3RdT/5uJzIuF0mWsXU5vPsqrbVuUREC+6S5HvS9hl?=
- =?us-ascii?Q?iptMJrga713bVE4FTM/Ho6Y4nfa05pDdiYYDP9dF/fCpyq7ykxApZkcub6gu?=
- =?us-ascii?Q?CuQThJ+ibjcfoIhimwNyYctgfZUb8xuuvczzW5XzJbEFyyB12yAWrm1ZAXUi?=
- =?us-ascii?Q?fVPY70OoAJCfP1tmq7UzZpUQ7xCnRy4dtDufVAh03suwp2I8J1Vay62m+KwR?=
- =?us-ascii?Q?LVag3gPjrs+K95/aHd7R8EUXtXwBlmEkchK1ryV7H6RvGMVhuxT2yT4Lzpwi?=
-X-MS-Exchange-AntiSpam-MessageData-1: 4Y1jwAqlsf+EzLaF/5mOkzLRF4s+srzX2fM=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20ef2a51-0002-4d3a-873f-08da10c53683
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8703.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2022 14:14:03.8728
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xm2r/VkhmotrEIFSpiNCWkIRekmFU6SngINHLrvcTuvvaAj+JvPaIN1j2g9CfYMthhzy405zb7TqN1ETFniDOg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB4418
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <338d0623-1161-c958-101f-dc7d8ef12f99@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+On Mon, Mar 28, 2022 at 12:28:31PM +0200, Christian König wrote:
+> Hi Ville & Daniel,
+> 
+> Am 25.03.22 um 16:28 schrieb Christian König:
+> > Am 25.03.22 um 16:25 schrieb Ville Syrjälä:
+> > > On Fri, Mar 11, 2022 at 12:02:43PM +0100, Christian König wrote:
+> > > > Add a general purpose helper to deep dive into
+> > > > dma_fence_chain/dma_fence_array
+> > > > structures and iterate over all the fences in them.
+> > > > 
+> > > > This is useful when we need to flatten out all fences in those
+> > > > structures.
+> > > > 
+> > > > Signed-off-by: Christian König <christian.koenig@amd.com>
+> > > One of the dma-buf patches took down Intel CI. Looks like every
+> > > machine oopses in some sync_file thing now:
+> > > <1>[  260.470008] BUG: kernel NULL pointer dereference, address:
+> > > 0000000000000010
+> > > <1>[  260.470020] #PF: supervisor read access in kernel mode
+> > > <1>[  260.470025] #PF: error_code(0x0000) - not-present page
+> > > <6>[  260.470030] PGD 0 P4D 0
+> > > <4>[  260.470035] Oops: 0000 [#1] PREEMPT SMP NOPTI
+> > > <4>[  260.470040] CPU: 0 PID: 5306 Comm: core_hotunplug Not tainted
+> > > 5.17.0-CI-CI_DRM_11405+ #1
+> > > <4>[  260.470049] Hardware name: Intel Corporation Jasper Lake
+> > > Client Platform/Jasperlake DDR4 SODIMM RVP, BIOS
+> > > JSLSFWI1.R00.2385.D02.2010160831 10/16/2020
+> > > <4>[  260.470058] RIP: 0010:dma_fence_array_first+0x19/0x20
+> 
+> I've looked into this and the root cause seems to be that the new code
+> doesn't handle dma_fence_arrays with zero elements.
+> 
+> That is rather easy to fix, but a dma_fence_array with zero number of
+> elements is most likely a bug because under the wrong circumstances it can
+> create a dma_fence instance which will never signal.
+> 
+> I've send out a patch on Frinday ([PATCH] dma-buf: WIP dma_fence_array_first
+> fix) which avoids the crash and prints a warning if anybody tries to create
+> a dma_fence_array with zero length.
+> 
+> Can you test this?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 49d1e43f4a9d..be517babe68e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13932,6 +13932,15 @@ S:	Supported
- F:	Documentation/devicetree/bindings/net/nfc/nxp,nci.yaml
- F:	drivers/nfc/nxp-nci
- 
-+NXP i.MX 8MP DW100 V4L2 DRIVER
-+M:	Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/media/nxp,dw100.yaml
-+F:	Documentation/userspace-api/media/drivers/dw100.rst
-+F:	drivers/media/platform/nxp/dw100
-+F:	include/uapi/linux/dw100.h
-+
- NXP i.MX 8QXP/8QM JPEG V4L2 DRIVER
- M:	Mirela Rabulea <mirela.rabulea@nxp.com>
- R:	NXP Linux Team <linux-imx@nxp.com>
+It's in drm-tip now (in the fixup branch) so drm-tip results should have
+the result soonish:
+
+https://intel-gfx-ci.01.org/tree/drm-tip/index.html?
+
+Cheers, Daniel
 -- 
-2.35.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
