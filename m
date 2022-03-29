@@ -2,75 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 832294EB5AE
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 00:13:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A34B4EB5B5
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 00:14:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236587AbiC2WOB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Mar 2022 18:14:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60378 "EHLO
+        id S235847AbiC2WQX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Mar 2022 18:16:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236456AbiC2WNw (ORCPT
+        with ESMTP id S233550AbiC2WQW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Mar 2022 18:13:52 -0400
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BB3F186FA6
-        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 15:12:09 -0700 (PDT)
-Received: by mail-io1-f72.google.com with SMTP id z10-20020a056602080a00b00645b9fdc630so13276061iow.5
-        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 15:12:09 -0700 (PDT)
+        Tue, 29 Mar 2022 18:16:22 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F8E7186FA6;
+        Tue, 29 Mar 2022 15:14:35 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id e16so32640361lfc.13;
+        Tue, 29 Mar 2022 15:14:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6bUho4h3zzyg8mrHSXNWvfp6RptsEnl8G83mOpfY+8A=;
+        b=bh7oMU8UPCqwbBrPRO6PPukc9f8hIRc+lb/bA8WWrXnuXulYF2BEAQFo14jUSUDx5s
+         v/eUHNA5ayGfb5BqoNdiNDRyXPrC1kpH0/sYRj+1xjYsWuZRqw59J5mjFIRxTaeQILoI
+         ocRVQEiF/frLG4RsG1ZpC51jWy3KK0satvkTzAMdkhAk01zHUUHXsKBI4N5zaQ63yagx
+         +pP7SOPZ0AqLBbyBtQl7RM93hlDECYrq3hkLFEgYZ9s2pbU0vyGqNmK3JOP4ApjsQobO
+         0VR9mde15FL1GZzs7GBEGpVvlUuPCqk8bBPtHlv5+7ul4Ehb5d0eFzkheJVgvZ+O2OSz
+         jAUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=OOoVa+V/irW/x+0wA9yzjLGHzahFLKZsDL8MQwHOdOk=;
-        b=4xVEzoF7Ig1tl3bzh0HBiHksDCVLs5TInTrpdZo1GmJU7XjYQ7Y+EHjWEd1pxPRiBx
-         J51oikQL6a1SbOM8DTvPVLOPbYhb5/MDu2RrftnZNFmEvohuumAfREF8p4J6DFG2w21d
-         4oKH0qgokCyY2G2bcHdKRlc2jcOGGDvvGJDq7RFKOsZRyW/D+tKfkkNwPlCy0uUPm002
-         JWOcbt4lIhnhR9b7Gc3grGX/6iUc1dTuTHw/8z/eOyDPnAoedNfONGqBexAqOvtQLrQV
-         2D0ZjzTCamISdUtCkMYN0acww51XoJRRTKxsSw8Yxd/aSuP6m4gAtHrBCxG9ealF1MU+
-         TMIw==
-X-Gm-Message-State: AOAM533b6drRfJxIZZwiTliJKHEtQ87jPJ0CQMBYKRVblj5J0gLIeq9o
-        n1n+vh79DdAFxTXgYLrnk5yGAW5R+C5aGPEISDyi7nzCHhov
-X-Google-Smtp-Source: ABdhPJw3pahBeObtq8ZwZuFbJHHaAzDqVoMW2fRmLcGfMwRzoQkSN2/0Mynl0syuHLCkZzBNOgbVxEEbxorg8AC0mn61Oh8R+l2M
-MIME-Version: 1.0
-X-Received: by 2002:a05:6638:2053:b0:31a:4907:ff65 with SMTP id
- t19-20020a056638205300b0031a4907ff65mr16979897jaj.224.1648591928519; Tue, 29
- Mar 2022 15:12:08 -0700 (PDT)
-Date:   Tue, 29 Mar 2022 15:12:08 -0700
-In-Reply-To: <419a9bb8-cb68-8add-e7be-275a48b2126d@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000476f2c05db62b851@google.com>
-Subject: Re: [syzbot] general protection fault in dma_fence_array_first
-From:   syzbot <syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com>
-To:     christian.koenig@amd.com, daniel.vetter@ffwll.ch,
-        dri-devel@lists.freedesktop.org, gustavo@padovan.org,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6bUho4h3zzyg8mrHSXNWvfp6RptsEnl8G83mOpfY+8A=;
+        b=5VULLdid1e7dQopbvgYWWmnxPSWFXBmTuTUgVG1Nk9WKwlwhc5nHmKtc5jyHOneEHw
+         PSk04F6VZRSYsTmUDBlPcjdXWLgJa5XjsTkS/Hx2VO26qi7asHVvzDXc0iB1rcMJHGiS
+         ldhYnDcGlFM1BWm9jUysRCrQC1FEW4MIc1iktTb+C14z5UMX9xS8d6Ozso81x2p+mZZf
+         yKA7WlvTGxvH8vzhdFHzyL/HPhyJEbpW2zRXgOhBCNbOt2X69TWIyYzDiQ0IH55s2zue
+         SzBGtHRvClKOx4a+pA7r3urs0HnWk78riLzr78lNgQA8h/AYB9Z+CynFO8fJuyhmW3uo
+         SQ5Q==
+X-Gm-Message-State: AOAM532HaH2PJEoLNu7zHj+4jtyOKBaQimOuBM7mCtnnxeFSRXa+1mE/
+        Qa4FXACaCevvkcMh+Phv3IM=
+X-Google-Smtp-Source: ABdhPJw/Cx1HFbKNuVfKF/lbkCI8c5zDX6pAuLqHOq2y9eMru5aTEj+d6/wIaOiUwpZ/NAFJvnki7A==
+X-Received: by 2002:a05:6512:13a1:b0:448:887e:da38 with SMTP id p33-20020a05651213a100b00448887eda38mr4661334lfa.298.1648592073440;
+        Tue, 29 Mar 2022 15:14:33 -0700 (PDT)
+Received: from localhost.localdomain ([94.103.225.225])
+        by smtp.gmail.com with ESMTPSA id h16-20020ac24db0000000b0044aace47e83sm427397lfe.185.2022.03.29.15.14.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Mar 2022 15:14:33 -0700 (PDT)
+From:   Pavel Skripkin <paskripkin@gmail.com>
+To:     sumit.semwal@linaro.org, gustavo@padovan.org,
+        christian.koenig@amd.com, daniel.vetter@ffwll.ch
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, paskripkin@gmail.com,
-        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        Pavel Skripkin <paskripkin@gmail.com>,
+        syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com
+Subject: [PATCH next] dma-buf/sync-file: do not allow zero size allocations
+Date:   Wed, 30 Mar 2022 01:14:25 +0300
+Message-Id: <20220329221425.22691-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+syzbot reported GPF in dma_fence_array_first(), which is caused by
+dereferencing ZERO_PTR in dma-buf internals.
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+ZERO_PTR was generated in sync_file_merge(). This functuion tries to
+reduce allocation size, but does not check if it reducing to 0.
+
+Fix reported bug by validating `index` value before passing it to
+krealloc_array().
+
+Fail log:
+
+general protection fault, probably for non-canonical address 0xdffffc0000000002: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000010-0x0000000000000017]
+CPU: 1 PID: 3595 Comm: syz-executor814 Not tainted 5.17.0-next-20220328-syzkaller #0
+...
+RIP: 0010:dma_fence_array_first+0x78/0xb0 drivers/dma-buf/dma-fence-array.c:234
+...
+Call Trace:
+ <TASK>
+ __dma_fence_unwrap_array include/linux/dma-fence-unwrap.h:42 [inline]
+ dma_fence_unwrap_first include/linux/dma-fence-unwrap.h:57 [inline]
+ sync_file_ioctl_fence_info drivers/dma-buf/sync_file.c:414 [inline]
+ sync_file_ioctl+0x248/0x22c0 drivers/dma-buf/sync_file.c:477
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:870 [inline]
+
+There was same problem with initial kcalloc() allocation in same
+function, so it's fixed as well.
 
 Reported-and-tested-by: syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com
+Fixes: 519f490db07e ("dma-buf/sync-file: fix warning about fence containers")
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
+ drivers/dma-buf/sync_file.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Tested on:
+diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+index b8dea4ec123b..aa744f017008 100644
+--- a/drivers/dma-buf/sync_file.c
++++ b/drivers/dma-buf/sync_file.c
+@@ -212,7 +212,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
+ 	dma_fence_unwrap_for_each(b_fence, &b_iter, b->fence)
+ 		++num_fences;
+ 
+-	if (num_fences > INT_MAX)
++	if (num_fences > INT_MAX || !num_fences)
+ 		goto err_free_sync_file;
+ 
+ 	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
+@@ -264,7 +264,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
+ 	if (index == 0)
+ 		add_fence(fences, &index, dma_fence_get_stub());
+ 
+-	if (num_fences > index) {
++	if (index && num_fences > index) {
+ 		struct dma_fence **tmp;
+ 
+ 		/* Keep going even when reducing the size failed */
+-- 
+2.35.1
 
-commit:         c2528a0c Add linux-next specific files for 20220329
-git tree:       linux-next
-kernel config:  https://syzkaller.appspot.com/x/.config?x=88d1370cc1f241e6
-dashboard link: https://syzkaller.appspot.com/bug?extid=5c943fe38e86d615cac2
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=128372e7700000
-
-Note: testing is done by a robot and is best-effort only.
