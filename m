@@ -2,132 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDAB84EB583
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 00:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 832294EB5AE
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 00:13:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235643AbiC2WEZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Mar 2022 18:04:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50942 "EHLO
+        id S236587AbiC2WOB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Mar 2022 18:14:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235595AbiC2WEY (ORCPT
+        with ESMTP id S236456AbiC2WNw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Mar 2022 18:04:24 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35075175385;
-        Tue, 29 Mar 2022 15:02:40 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id 17so25256578ljw.8;
-        Tue, 29 Mar 2022 15:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to;
-        bh=GFh+hu29pLGd1yFJqG3TD5ib8w39W4JQGiYky9bmdEA=;
-        b=Uul80CmlA5J9+LprVKWbEBNT+SmpX7fuHJuj2ZcNq5lQoGbXiK7l08X9mWZUnyQ9xj
-         JGG6phzP2JIgAVM7Ck+/uPDofSFZS9DiEe+vTdfqlpktGqi5ac7BkNwpDuVFGoxB1j/L
-         kiTUpYuWVv1NpO5CD/u3+wXPH+VkKXOxXU0EKfbfEIs9OIrNH5DeSfkqq0ywl+G16oUs
-         EjjTffPfQWSLwPTUxIsp9apeOAkSzbzkNz+6u6mon973oumaMEcdCiHqApsz0Veblhsd
-         qGyeBpLbqSDPrXgY78vgDjWeIZHmYGtPl54GxQn+x5B1VeLWM6M7Ui77iW8/TQ/Q1xEu
-         yH0g==
+        Tue, 29 Mar 2022 18:13:52 -0400
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BB3F186FA6
+        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 15:12:09 -0700 (PDT)
+Received: by mail-io1-f72.google.com with SMTP id z10-20020a056602080a00b00645b9fdc630so13276061iow.5
+        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 15:12:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to;
-        bh=GFh+hu29pLGd1yFJqG3TD5ib8w39W4JQGiYky9bmdEA=;
-        b=QTZ6asthYglorU/F7oLyGZ9cRfytm8GAX3IHw7yrVzMqOxEqabJWlUB/DrqZf+55cB
-         QG8oF3V0zdD4RPNqsqLxcL7kOGq5twy52DkMybyz3dS3/aSd3Wy/0ypqXR/LvYistaek
-         YyNw84d+tTaGxVe1KlxwITGinYOXkLA8WZJobVD3Vio5vg/vRA92N9W0UTpcvHxerMqP
-         ++JumkdHJzTrsdjghuFnxFq/SB+o3m4+5SWzGGDz0WuUFoFmax8D3BAqUPqR9he43bxi
-         YK90bp+3DICwZpI/AhA0jSqVd/1RCuSXyjImnQlDGVm/mQAsHBESjJIPNlJeg/LbS3nt
-         uhSQ==
-X-Gm-Message-State: AOAM531QncgtY/96RR74Nej+3w5U9y7r1yjRLT2lbIJdS6ui1C/I5YCd
-        HYF1CNxoE3cjS9lkKDP3nbo=
-X-Google-Smtp-Source: ABdhPJwoHVOneGk1MKkV++hihnKGasRhaKJqXGRhP23iN10zifJJPhye88xL0pFF5DtY6cv59xPRXg==
-X-Received: by 2002:a2e:b7c1:0:b0:249:7a91:bba1 with SMTP id p1-20020a2eb7c1000000b002497a91bba1mr4503477ljo.276.1648591358215;
-        Tue, 29 Mar 2022 15:02:38 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.225.225])
-        by smtp.gmail.com with ESMTPSA id i2-20020a196d02000000b004488dae6d45sm2114104lfc.52.2022.03.29.15.02.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Mar 2022 15:02:37 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="------------787Zf0iirh0AwihTJK1ygKXK"
-Message-ID: <419a9bb8-cb68-8add-e7be-275a48b2126d@gmail.com>
-Date:   Wed, 30 Mar 2022 01:02:36 +0300
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=OOoVa+V/irW/x+0wA9yzjLGHzahFLKZsDL8MQwHOdOk=;
+        b=4xVEzoF7Ig1tl3bzh0HBiHksDCVLs5TInTrpdZo1GmJU7XjYQ7Y+EHjWEd1pxPRiBx
+         J51oikQL6a1SbOM8DTvPVLOPbYhb5/MDu2RrftnZNFmEvohuumAfREF8p4J6DFG2w21d
+         4oKH0qgokCyY2G2bcHdKRlc2jcOGGDvvGJDq7RFKOsZRyW/D+tKfkkNwPlCy0uUPm002
+         JWOcbt4lIhnhR9b7Gc3grGX/6iUc1dTuTHw/8z/eOyDPnAoedNfONGqBexAqOvtQLrQV
+         2D0ZjzTCamISdUtCkMYN0acww51XoJRRTKxsSw8Yxd/aSuP6m4gAtHrBCxG9ealF1MU+
+         TMIw==
+X-Gm-Message-State: AOAM533b6drRfJxIZZwiTliJKHEtQ87jPJ0CQMBYKRVblj5J0gLIeq9o
+        n1n+vh79DdAFxTXgYLrnk5yGAW5R+C5aGPEISDyi7nzCHhov
+X-Google-Smtp-Source: ABdhPJw3pahBeObtq8ZwZuFbJHHaAzDqVoMW2fRmLcGfMwRzoQkSN2/0Mynl0syuHLCkZzBNOgbVxEEbxorg8AC0mn61Oh8R+l2M
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
+X-Received: by 2002:a05:6638:2053:b0:31a:4907:ff65 with SMTP id
+ t19-20020a056638205300b0031a4907ff65mr16979897jaj.224.1648591928519; Tue, 29
+ Mar 2022 15:12:08 -0700 (PDT)
+Date:   Tue, 29 Mar 2022 15:12:08 -0700
+In-Reply-To: <419a9bb8-cb68-8add-e7be-275a48b2126d@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000476f2c05db62b851@google.com>
 Subject: Re: [syzbot] general protection fault in dma_fence_array_first
-Content-Language: en-US
-To:     syzbot <syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com>,
-        christian.koenig@amd.com, daniel.vetter@ffwll.ch,
+From:   syzbot <syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com>
+To:     christian.koenig@amd.com, daniel.vetter@ffwll.ch,
         dri-devel@lists.freedesktop.org, gustavo@padovan.org,
         linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com
-References: <0000000000008eedfe05db620952@google.com>
-From:   Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <0000000000008eedfe05db620952@google.com>
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        linux-media@vger.kernel.org, paskripkin@gmail.com,
+        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------787Zf0iirh0AwihTJK1ygKXK
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hello,
 
-On 3/30/22 00:23, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    8515d05bf6bc Add linux-next specific files for 20220328
-> git tree:       linux-next
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1694e21b700000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=530c68bef4e2b8a8
-> dashboard link: https://syzkaller.appspot.com/bug?extid=5c943fe38e86d615cac2
-> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1467313b700000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=121b7cb9700000
-> 
-> The issue was bisected to:
-> 
-> commit 519f490db07e1a539490612f376487f61e48e39c
-> Author: Christian König <christian.koenig@amd.com>
-> Date:   Fri Mar 11 09:32:26 2022 +0000
-> 
->      dma-buf/sync-file: fix warning about fence containers
-> 
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-There is ZERO_PTR dereference caused by passing 0 to krealloc_array(). 
-Code should not try to reduce allocated memory area if index is equal to 0
+Reported-and-tested-by: syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com
 
-#syz test:
-git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+Tested on:
 
+commit:         c2528a0c Add linux-next specific files for 20220329
+git tree:       linux-next
+kernel config:  https://syzkaller.appspot.com/x/.config?x=88d1370cc1f241e6
+dashboard link: https://syzkaller.appspot.com/bug?extid=5c943fe38e86d615cac2
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=128372e7700000
 
-
-
-With regards,
-Pavel Skripkin
---------------787Zf0iirh0AwihTJK1ygKXK
-Content-Type: text/plain; charset=UTF-8; name="ph"
-Content-Disposition: attachment; filename="ph"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9zeW5jX2ZpbGUuYyBiL2RyaXZlcnMvZG1h
-LWJ1Zi9zeW5jX2ZpbGUuYwppbmRleCBiOGRlYTRlYzEyM2IuLjYwY2I0MjY2ZTc3ZiAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9kbWEtYnVmL3N5bmNfZmlsZS5jCisrKyBiL2RyaXZlcnMvZG1h
-LWJ1Zi9zeW5jX2ZpbGUuYwpAQCAtMjY0LDcgKzI2NCw3IEBAIHN0YXRpYyBzdHJ1Y3Qgc3lu
-Y19maWxlICpzeW5jX2ZpbGVfbWVyZ2UoY29uc3QgY2hhciAqbmFtZSwgc3RydWN0IHN5bmNf
-ZmlsZSAqYSwKIAlpZiAoaW5kZXggPT0gMCkKIAkJYWRkX2ZlbmNlKGZlbmNlcywgJmluZGV4
-LCBkbWFfZmVuY2VfZ2V0X3N0dWIoKSk7CiAKLQlpZiAobnVtX2ZlbmNlcyA+IGluZGV4KSB7
-CisJaWYgKGluZGV4ICYmIG51bV9mZW5jZXMgPiBpbmRleCkgewogCQlzdHJ1Y3QgZG1hX2Zl
-bmNlICoqdG1wOwogCiAJCS8qIEtlZXAgZ29pbmcgZXZlbiB3aGVuIHJlZHVjaW5nIHRoZSBz
-aXplIGZhaWxlZCAqLwo=
-
---------------787Zf0iirh0AwihTJK1ygKXK--
+Note: testing is done by a robot and is best-effort only.
