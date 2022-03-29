@@ -2,187 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 022504EAD31
-	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 14:31:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C06394EAE03
+	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 14:57:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236337AbiC2Mcl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Mar 2022 08:32:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47028 "EHLO
+        id S237017AbiC2M7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Mar 2022 08:59:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236325AbiC2Mci (ORCPT
+        with ESMTP id S237006AbiC2M7F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Mar 2022 08:32:38 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 035B65F4DA
-        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 05:30:53 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id bg10so34806535ejb.4
-        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 05:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=nRQGNy0JNeG8yPE1QXXWKqsK/KgT2iVgd9NOSAmnpao=;
-        b=rghn0NZ7veo+c7F9TgovwmfTphDZN1nzJMzcXj5lds+VNPPlWVx4s9Km9UFuESnj9C
-         0j6zPwG/Xf6D92JpGQDO2SsY514Cc3dispUkIKCGzRnO4C9HS7T9TWQ6L1NWItI9HoVR
-         Wk/smMInsq69ioZO8yNZDu546rixqBUH1Q7RKjgyI+USlKpBx73H+Jxrz2inmb2EkToU
-         H2vf7Sa/pckmLcWFoAxiMBDzr7UgHBsB2Q8hra4/Kl5ny0G8cLhgWaE+yEkyTutDGHt1
-         d/7ehdh+gvbKH2tMg6SF+fI/PRBhqZLpgBB/Oz9YxV+MxEClGvdSUz2pl20OT0F+Mpvd
-         d2oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=nRQGNy0JNeG8yPE1QXXWKqsK/KgT2iVgd9NOSAmnpao=;
-        b=RkNFu2pyT3o47KuSE6Tfuym6xSfvIoE6aykkB/eSk5/k2/rwPFzQsNS9vlQP/GmqS7
-         Y5Zkdlf2xVVXMZhBexyn9gmhm2rjF/fxTtNMx9XNJ3D/S3cXYQXJuRxSxkZiC0oVPk6H
-         Bypra8MSyqmBExp0r10+RnNLekViUlFFd4gKc7BkAvCkobfDwnnSpRG17lwtpVDR1qcF
-         hlFh6cTjjhNyo0LO6EeLBEz7Dmiy71i9x9SB6RoZPsJISRMyAVdinzQ8ZXgG+nxXcfgq
-         D8XOcdjM9AkcY6zjWTT+dm2tJJOTIpoXDcdPsoaWetWpkb8b3DHowhkJ/ha76l1OEkPe
-         uVKg==
-X-Gm-Message-State: AOAM533ixcNY/jHD/oLdzxTjo0DHFdA6SEPPGui8ZgQ3UGNunmXY5bVg
-        4dVtIhL5YOgL2gCvk1feNNDhQ5OIbup+fLrwgjQusg==
-X-Google-Smtp-Source: ABdhPJyPZNX8y3gOGfSZgg3AGAll74j9kjPNXJs0DTpnrEh1/wBVEgROdTkgglF1+DGDwH7nabIubcnQbpp8LiNpfow=
-X-Received: by 2002:a17:907:d2a:b0:6e0:963c:97d9 with SMTP id
- gn42-20020a1709070d2a00b006e0963c97d9mr28430774ejc.736.1648557051475; Tue, 29
- Mar 2022 05:30:51 -0700 (PDT)
+        Tue, 29 Mar 2022 08:59:05 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99DB05FE8;
+        Tue, 29 Mar 2022 05:57:21 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a02:3030:a:f397:f6bc:b726:2678:839f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: sebastianfricke)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F171B1F43E4E;
+        Tue, 29 Mar 2022 13:57:19 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1648558640;
+        bh=0/eM8y7CC28hyL7CRIcXsWD2R4OYiUOL/fNRodhqJEQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AcqzpMWSs7g/OISZ/TKhj/P2VsZkUeTelNjdt1JT7rWcJVLP8Blkwf7FzRBNtzmsE
+         5fGvbAnj0CdVbCMWQHMhtmh0NF0VYpzPCoSsc+NsBSePcYsaEpE0L8JtE59cT3iyuX
+         bLILpVJ45lMgU0s+SJSBLFhlPOAJ7UZFRB1JSYoSUfQjDGfNEu0/FvZxqBEDbNWa0K
+         X8eDKgAdNZcF5YNCGMmCgH3NauLPlf37jLRT8atqouJkiFGfTIuGOsdQ6UeeAWGfns
+         drej2dwKonaUE+rOUEtPSdJY8m0vrZ+NDzpBJyrJL3mq75Bhy9FMh+aaTigoTMofpT
+         ltnFtXXogvIAw==
+Date:   Tue, 29 Mar 2022 14:57:16 +0200
+From:   Sebastian Fricke <sebastian.fricke@collabora.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 05/24] media: h264: Store all fields into the
+ unordered list
+Message-ID: <20220329125716.qsuu24x5y4ezk2ob@basti-XPS-13-9310>
+References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
+ <20220328195936.82552-6-nicolas.dufresne@collabora.com>
 MIME-Version: 1.0
-References: <20220326165909.506926-1-benni@stuerz.xyz> <20220326165909.506926-9-benni@stuerz.xyz>
-In-Reply-To: <20220326165909.506926-9-benni@stuerz.xyz>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Tue, 29 Mar 2022 14:30:40 +0200
-Message-ID: <CAMRc=Md5qTnP1ZYak4f3hyqmaOR6jT_KL=rNr5cwAOcZ22yXfg@mail.gmail.com>
-Subject: Re: [PATCH 09/22] gpio-winbond: Use C99 initializers
-To:     =?UTF-8?Q?Benjamin_St=C3=BCrz?= <benni@stuerz.xyz>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Russell King <linux@armlinux.org.uk>, linux@simtec.co.uk,
-        Krzysztof Kozlowski <krzk@kernel.org>, alim.akhtar@samsung.com,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        Borislav Petkov <bp@alien8.de>, dave.hansen@linux.intel.com,
-        hpa@zytor.com, robert.moore@intel.com,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, lenb@kernel.org,
-        3chas3@gmail.com, laforge@gnumonks.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        mike.marciniszyn@cornelisnetworks.com,
-        dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca,
-        pali@kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        isdn@linux-pingi.de,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        fbarrat@linux.ibm.com, ajd@linux.ibm.com,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, nico@fluxnic.net,
-        loic.poulain@linaro.org, kvalo@kernel.org, pkshih@realtek.com,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-samsung-soc@vger.kernel.org, linux-ia64@vger.kernel.org,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        devel@acpica.org, linux-atm-general@lists.sourceforge.net,
-        netdev <netdev@vger.kernel.org>, linux-edac@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-rdma@vger.kernel.org,
-        Linux Input <linux-input@vger.kernel.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        wcn36xx@lists.infradead.org, linux-wireless@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220328195936.82552-6-nicolas.dufresne@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Mar 26, 2022 at 6:00 PM Benjamin St=C3=BCrz <benni@stuerz.xyz> wrot=
-e:
->
-> This replaces comments with C99's designated
-> initializers because the kernel supports them now.
->
-> Signed-off-by: Benjamin St=C3=BCrz <benni@stuerz.xyz>
-> ---
->  drivers/gpio/gpio-winbond.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpio/gpio-winbond.c b/drivers/gpio/gpio-winbond.c
-> index 7f8f5b02e31d..0b637fdb407c 100644
-> --- a/drivers/gpio/gpio-winbond.c
-> +++ b/drivers/gpio/gpio-winbond.c
-> @@ -249,7 +249,7 @@ struct winbond_gpio_info {
->  };
->
->  static const struct winbond_gpio_info winbond_gpio_infos[6] =3D {
-> -       { /* 0 */
-> +       [0] =3D {
->                 .dev =3D WB_SIO_DEV_GPIO12,
->                 .enablereg =3D WB_SIO_GPIO12_REG_ENABLE,
->                 .enablebit =3D WB_SIO_GPIO12_ENABLE_1,
-> @@ -266,7 +266,7 @@ static const struct winbond_gpio_info winbond_gpio_in=
-fos[6] =3D {
->                         .warnonly =3D true
->                 }
->         },
-> -       { /* 1 */
-> +       [1] =3D {
->                 .dev =3D WB_SIO_DEV_GPIO12,
->                 .enablereg =3D WB_SIO_GPIO12_REG_ENABLE,
->                 .enablebit =3D WB_SIO_GPIO12_ENABLE_2,
-> @@ -277,7 +277,7 @@ static const struct winbond_gpio_info winbond_gpio_in=
-fos[6] =3D {
->                 .datareg =3D WB_SIO_GPIO12_REG_DATA2
->                 /* special conflict handling so doesn't use conflict data=
- */
->         },
-> -       { /* 2 */
-> +       [2] =3D {
->                 .dev =3D WB_SIO_DEV_GPIO34,
->                 .enablereg =3D WB_SIO_GPIO34_REG_ENABLE,
->                 .enablebit =3D WB_SIO_GPIO34_ENABLE_3,
-> @@ -294,7 +294,7 @@ static const struct winbond_gpio_info winbond_gpio_in=
-fos[6] =3D {
->                         .warnonly =3D true
->                 }
->         },
-> -       { /* 3 */
-> +       [3] =3D {
->                 .dev =3D WB_SIO_DEV_GPIO34,
->                 .enablereg =3D WB_SIO_GPIO34_REG_ENABLE,
->                 .enablebit =3D WB_SIO_GPIO34_ENABLE_4,
-> @@ -311,7 +311,7 @@ static const struct winbond_gpio_info winbond_gpio_in=
-fos[6] =3D {
->                         .warnonly =3D true
->                 }
->         },
-> -       { /* 4 */
-> +       [4] =3D {
->                 .dev =3D WB_SIO_DEV_WDGPIO56,
->                 .enablereg =3D WB_SIO_WDGPIO56_REG_ENABLE,
->                 .enablebit =3D WB_SIO_WDGPIO56_ENABLE_5,
-> @@ -328,7 +328,7 @@ static const struct winbond_gpio_info winbond_gpio_in=
-fos[6] =3D {
->                         .warnonly =3D true
->                 }
->         },
-> -       { /* 5 */
-> +       [5] =3D {
->                 .dev =3D WB_SIO_DEV_WDGPIO56,
->                 .enablereg =3D WB_SIO_WDGPIO56_REG_ENABLE,
->                 .enablebit =3D WB_SIO_WDGPIO56_ENABLE_6,
-> --
-> 2.35.1
->
+Hey Nicolas,
 
-Acked-by: Bartosz Golaszewski <brgl@bgdev.pl>
+On 28.03.2022 15:59, Nicolas Dufresne wrote:
+>When the current picture is a field, store each field into the
+>unordered_list. Doing this required preserving the top and bottom field
+>poc.
+
+I would slightly reword this to highlight that we talk about the
+reference list and to improve the grammatic of the second sentence:
+
+"""
+If the current image is a field, each field is stored in the unordered
+reference list, preserving the original picture order count of the
+top and bottom fields.
+"""
+
+>
+>Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+
+>---
+> drivers/media/v4l2-core/v4l2-h264.c | 65 +++++++++++++++++++++--------
+> include/media/v4l2-h264.h           |  6 ++-
+> 2 files changed, 51 insertions(+), 20 deletions(-)
+>
+>diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
+>index 4c6bfb057bda..d5698c981973 100644
+>--- a/drivers/media/v4l2-core/v4l2-h264.c
+>+++ b/drivers/media/v4l2-core/v4l2-h264.c
+>@@ -47,8 +47,6 @@ v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
+> 	}
+>
+> 	for (i = 0; i < V4L2_H264_NUM_DPB_ENTRIES; i++) {
+>-		u32 pic_order_count;
+>-
+> 		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+> 			continue;
+>
+>@@ -59,8 +57,6 @@ v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
+> 		/*
+> 		 * Handle frame_num wraparound as described in section
+> 		 * '8.2.4.1 Decoding process for picture numbers' of the spec.
+>-		 * TODO: This logic will have to be adjusted when we start
+>-		 * supporting interlaced content.
+
+Ah, I see here you remove the TODO comment disregard my comment from
+patch 3 please.
+
+Greetings,
+Sebastian
+
+> 		 * For long term reference, frame_num is set to
+> 		 * long_term_frame_idx which requires no wrapping.
+> 		 */
+>@@ -70,17 +66,33 @@ v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
+> 		else
+> 			b->refs[i].frame_num = dpb[i].frame_num;
+>
+>-		if (dpb[i].fields == V4L2_H264_FRAME_REF)
+>-			pic_order_count = min(dpb[i].top_field_order_cnt,
+>-					      dpb[i].bottom_field_order_cnt);
+>-		else if (dpb[i].fields & V4L2_H264_BOTTOM_FIELD_REF)
+>-			pic_order_count = dpb[i].bottom_field_order_cnt;
+>-		else
+>-			pic_order_count = dpb[i].top_field_order_cnt;
+>+		b->refs[i].top_field_order_cnt = dpb[i].top_field_order_cnt;
+>+		b->refs[i].bottom_field_order_cnt = dpb[i].bottom_field_order_cnt;
+>+
+>+		if (b->cur_pic_fields == V4L2_H264_FRAME_REF) {
+>+			u8 fields = V4L2_H264_FRAME_REF;
+>+
+>+			b->unordered_reflist[b->num_valid].index = i;
+>+			b->unordered_reflist[b->num_valid].fields = fields;
+
+>+			b->num_valid++;
+>+			continue;
+>+		}
+>+
+>+		if (dpb[i].fields & V4L2_H264_TOP_FIELD_REF) {
+>+			u8 fields = V4L2_H264_TOP_FIELD_REF;
+>+
+>+			b->unordered_reflist[b->num_valid].index = i;
+>+			b->unordered_reflist[b->num_valid].fields = fields;
+>+			b->num_valid++;
+>+		}
+>
+>-		b->refs[i].pic_order_count = pic_order_count;
+>-		b->unordered_reflist[b->num_valid].index = i;
+>-		b->num_valid++;
+>+		if (dpb[i].fields & V4L2_H264_BOTTOM_FIELD_REF) {
+>+			u8 fields = V4L2_H264_BOTTOM_FIELD_REF;
+>+
+>+			b->unordered_reflist[b->num_valid].index = i;
+>+			b->unordered_reflist[b->num_valid].fields = fields;
+>+			b->num_valid++;
+>+		}
+> 	}
+>
+> 	for (i = b->num_valid; i < ARRAY_SIZE(b->unordered_reflist); i++)
+>@@ -88,6 +100,23 @@ v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
+> }
+> EXPORT_SYMBOL_GPL(v4l2_h264_init_reflist_builder);
+>
+>+static s32 v4l2_h264_get_poc(const struct v4l2_h264_reflist_builder *b,
+>+			     const struct v4l2_h264_reference *ref)
+>+{
+>+	switch (ref->fields) {
+>+	case V4L2_H264_FRAME_REF:
+>+		return min(b->refs[ref->index].top_field_order_cnt,
+>+				b->refs[ref->index].bottom_field_order_cnt);
+>+	case V4L2_H264_TOP_FIELD_REF:
+>+		return b->refs[ref->index].top_field_order_cnt;
+>+	case V4L2_H264_BOTTOM_FIELD_REF:
+>+		return b->refs[ref->index].bottom_field_order_cnt;
+>+	}
+>+
+>+	/* not reached */
+>+	return 0;
+>+}
+>+
+> static int v4l2_h264_p_ref_list_cmp(const void *ptra, const void *ptrb,
+> 				    const void *data)
+> {
+>@@ -150,8 +179,8 @@ static int v4l2_h264_b0_ref_list_cmp(const void *ptra, const void *ptrb,
+> 		       builder->refs[idxb].pic_num ?
+> 		       -1 : 1;
+>
+>-	poca = builder->refs[idxa].pic_order_count;
+>-	pocb = builder->refs[idxb].pic_order_count;
+>+	poca = v4l2_h264_get_poc(builder, ptra);
+>+	pocb = v4l2_h264_get_poc(builder, ptrb);
+>
+> 	/*
+> 	 * Short term pics with POC < cur POC first in POC descending order
+>@@ -195,8 +224,8 @@ static int v4l2_h264_b1_ref_list_cmp(const void *ptra, const void *ptrb,
+> 		       builder->refs[idxb].pic_num ?
+> 		       -1 : 1;
+>
+>-	poca = builder->refs[idxa].pic_order_count;
+>-	pocb = builder->refs[idxb].pic_order_count;
+>+	poca = v4l2_h264_get_poc(builder, ptra);
+>+	pocb = v4l2_h264_get_poc(builder, ptrb);
+>
+> 	/*
+> 	 * Short term pics with POC > cur POC first in POC ascending order
+>diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
+>index e165a54c68fa..4cef717b3f18 100644
+>--- a/include/media/v4l2-h264.h
+>+++ b/include/media/v4l2-h264.h
+>@@ -15,7 +15,8 @@
+> /**
+>  * struct v4l2_h264_reflist_builder - Reference list builder object
+>  *
+>- * @refs.pic_order_count: reference picture order count
+>+ * @refs.top_field_order_cnt: top field order count
+>+ * @refs.bottom_field_order_cnt: bottom field order count
+>  * @refs.frame_num: reference frame number
+>  * @refs.pic_num: reference picture number
+>  * @refs.longterm: set to true for a long term reference
+>@@ -32,7 +33,8 @@
+>  */
+> struct v4l2_h264_reflist_builder {
+> 	struct {
+>-		s32 pic_order_count;
+>+		s32 top_field_order_cnt;
+>+		s32 bottom_field_order_cnt;
+> 		int frame_num;
+> 		u32 pic_num;
+> 		u16 longterm : 1;
+>-- 
+>2.34.1
+>
