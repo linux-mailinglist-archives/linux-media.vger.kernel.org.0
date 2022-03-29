@@ -2,101 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B79D64EB014
-	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 17:17:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 378844EB01E
+	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 17:21:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238416AbiC2PSt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Mar 2022 11:18:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40088 "EHLO
+        id S238447AbiC2PX3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Mar 2022 11:23:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238412AbiC2PSs (ORCPT
+        with ESMTP id S232090AbiC2PX3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Mar 2022 11:18:48 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C3C524CEEF;
-        Tue, 29 Mar 2022 08:17:05 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a02:3030:a:f397:f6bc:b726:2678:839f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 29 Mar 2022 11:23:29 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48CA37CB02;
+        Tue, 29 Mar 2022 08:21:45 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 725F61F440E4;
-        Tue, 29 Mar 2022 16:17:04 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1648567024;
-        bh=LlSCtClpCQ+4yHQfFaHiVQc1oJ1WM6l4guj4ciQuaEg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QZwlbdCEWJBNkfxfxIorTwE5Zxg7xoUpw9KLGnG4pMrphr0j3rJM/aKTa/8tIRhxD
-         e/caKpg6IoA703T5soDthiQI9EsDkD2JoOmC+vZZovPyFKyENyRctovz6qponrWPux
-         QuYjlxUyT3zNX2rPY3XKtgTAT5Zo/aHOi/+xR0qP81wi0mN126Z+cATNI3fborJ9g8
-         VmaC9j4LAMGBrrGUs51uTeIqNSWLx9azGUMjf4PcplB2qdR69ea4FsDrC/1UqTG+b7
-         ajp4qhhEfA29lBZPuYnVy74EqTMGmKOWs7op/g0HSheHjbr9bl9O55FSziZcGI6KGH
-         dsfzqeTixEIkg==
-Date:   Tue, 29 Mar 2022 17:17:01 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 4FBEE1FD0A;
+        Tue, 29 Mar 2022 15:21:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1648567304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=n/czKHIPapnBxpdu79ODwmVGjcsUIWEmGzncRJ5TN4Q=;
+        b=lbxalIk0hgBTc9ZrvdtVK14x3u1oqMDVbsoiIWRU/HZAKUtFdn9xuq+x4VdQSqRv2NIzra
+        6u7dg24T8Ka4DRgQdxJkMClNHbD8rd8VMmEUcF8AeBfKYtvlHup2tBTYs1n4gYuW4kxpnl
+        lnJuwJXKKePEEilmmgnC19er+O83O34=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 755B913AB1;
+        Tue, 29 Mar 2022 15:21:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id hsZZGwckQ2LkcwAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Tue, 29 Mar 2022 15:21:43 +0000
+Date:   Tue, 29 Mar 2022 17:21:42 +0200
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 13/24] media: rkvdec: h264: Fix reference frame_num
- wrap for second field
-Message-ID: <20220329151701.nt3fem5cd2nwmerp@basti-XPS-13-9310>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-14-nicolas.dufresne@collabora.com>
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>, kaleshsingh@google.com,
+        Kenny.Ho@amd.com, skhan@linuxfoundation.org,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [RFC v4 5/8] dmabuf: Add gpu cgroup charge transfer function
+Message-ID: <20220329152142.GA15794@blackbody.suse.cz>
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-6-tjmercier@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220328195936.82552-14-nicolas.dufresne@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220328035951.1817417-6-tjmercier@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Nicolas,
+Hi.
 
-On 28.03.2022 15:59, Nicolas Dufresne wrote:
->From: Jonas Karlman <jonas@kwiboo.se>
->
->When decoding the second field in a complementary field pair the second
->field is sharing the same frame_num with the first field.
->
->Currently the frame_num for the first field is wrapped when it matches the
->field being decoded, this cause issues to decode the second field in a
->complementary field pair.
->
->Fix this by using inclusive comparison, less than or equal.
->
->Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+On Mon, Mar 28, 2022 at 03:59:44AM +0000, "T.J. Mercier" <tjmercier@google.com> wrote:
+> From: Hridya Valsaraju <hridya@google.com>
+> 
+> The dma_buf_charge_transfer function provides a way for processes to
 
-Greetings,
-Sebastian
+(s/dma_bug_charge_transfer/dma_bug_transfer_charge/)
 
->---
-> drivers/staging/media/rkvdec/rkvdec-h264.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
->index dff89732ddd0..842d8cd80e90 100644
->--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
->+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
->@@ -752,7 +752,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
-> 			continue;
->
-> 		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
->-		    dpb[i].frame_num < dec_params->frame_num) {
->+		    dpb[i].frame_num <= dec_params->frame_num) {
-> 			p[i] = dpb[i].frame_num;
-> 			continue;
-> 		}
->-- 
->2.34.1
->
+> transfer charge of a buffer to a different process. This is essential
+> for the cases where a central allocator process does allocations for
+> various subsystems, hands over the fd to the client who requested the
+> memory and drops all references to the allocated memory.
+
+I understood from [1] some buffers are backed by regular RAM. How are
+these charges going to be transferred (if so)?
+
+
+Thanks,
+Michal
+
+[1]
+https://lore.kernel.org/r/CABdmKX2NSAKMC6rReMYfo2SSVNxEXcS466hk3qF6YFt-j-+_NQ@mail.gmail.com
