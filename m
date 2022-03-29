@@ -2,126 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BA454EB40A
-	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 21:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94E624EB472
+	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 22:09:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240582AbiC2TXW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Mar 2022 15:23:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44844 "EHLO
+        id S229769AbiC2UKr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Mar 2022 16:10:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234102AbiC2TXW (ORCPT
+        with ESMTP id S229472AbiC2UKq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Mar 2022 15:23:22 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538F63AA61;
-        Tue, 29 Mar 2022 12:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1648581688;
-        bh=YKGLLajiWM4+txgQG1y+xnhwR4uQqHF1m5v9e2rrGqk=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=QUVZCtTi/gNNs/GgNEt/jk/KE0h+JdBVQgMpHNVt6lO9nMEO39UG0HY2SCMsgsZ1h
-         j7JGm8T5MNgSYlRZO0BMQU7xzmO1PHrF1jzX7lqNOk8cpKYK/HCEG6zibcXXze47Iy
-         CpRIlqACpmfyrCYdxDWQ6vMpqA15JPArzKNy20oE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [91.65.110.57] ([91.65.110.57]) by web-mail.gmx.net
- (3c-app-gmx-bs54.server.lan [172.19.170.138]) (via HTTP); Tue, 29 Mar 2022
- 21:21:28 +0200
+        Tue, 29 Mar 2022 16:10:46 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECE6E62D2;
+        Tue, 29 Mar 2022 13:09:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648584543; x=1680120543;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jJBFAHQdu8LK3MnfBlyd4ynLCpZPwxsuj3ERMXvrSf4=;
+  b=hEAEFeepfv2P9VPz1L21QzHrsUdbaFWR4jcJNruqBw1KBHjXqljSK0/l
+   XEmtVYSVJ+B1VzyOzQCbhbgQMCQjg6GWJJ0SPWXJL57py+dfgexlmUxx/
+   TGxGDVqROpqtIOLMGL3p7N0yC8eTY/QfP6ffokeVJUuDtU8KdNhlA8tmJ
+   +yTrV9wKjiCkktecKCVvNMLnkCIUZ3hvkjcgXLx5N5XcSoI8kq8iImUHL
+   6WcnQYDuZmvZUv3IvBi111kGs0zYrvM4WAPklgj+rRGuBy2YK9vnZ6aF1
+   2YeBeoxk509+ShJs6dn7kXRHiVZzqO6rUj/SMdtybiQi4lI9NW9MJapTr
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="345798713"
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="345798713"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 13:08:16 -0700
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="694848177"
+Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 13:08:15 -0700
+Date:   Tue, 29 Mar 2022 13:10:21 -0700
+From:   Alison Schofield <alison.schofield@intel.com>
+To:     Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+Cc:     outreachy@lists.linux.dev, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media:av7110:av7110_av.c remove blank line
+Message-ID: <20220329201021.GA1171096@alison-desk>
+References: <20220329190133.6243-1-eng.alaamohamedsoliman.am@gmail.com>
 MIME-Version: 1.0
-Message-ID: <trinity-2ca61ae4-4f05-454d-94fd-d41e1afbec2f-1648581688394@3c-app-gmx-bs54>
-From:   Robert Schlabbach <robert_s@gmx.net>
-To:     Thorsten Leemhuis <regressions@leemhuis.info>
-Cc:     Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: Bug 215726 - si2157.c: mention name of the missing firmware
- file
-Content-Type: text/plain; charset=UTF-8
-Date:   Tue, 29 Mar 2022 21:21:28 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info>
-References: <5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info>
-Content-Transfer-Encoding: quoted-printable
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:YGuQiANBFW6fdT74J1oXl5Bso1V2fH9bq3wlNnu62Wz/O35rDADmOSmTMSVhKLgKRXh8Y
- MriX/2c7Aw//PJZ0otIvRWk+calDWtJi5mLfNrz+Hw4jvGOissaSrJqhZXyEI937ScYbmjj2MRBf
- 1x12AUnDHIicomCHMcfYrdPlBuR4IQDjAkE5qNO0NnyOGUpsp5i3Pw1iluJ6jJZnpjunuwBMPCb2
- iB3M3YTaiuRZ0zYd6l8N0ZB3laPCHOFukq6pcOf4peVDWLnIwOuEgtRw28WdPBSZ7yCWTcyue1cS
- 94=
-X-UI-Out-Filterresults: notjunk:1;V03:K0:x3xM+rGwV/0=:vdC65pZCywfZCJuMc1x/C8
- hRz3bF/RWRD4q5hxTLtZvN3wbMUH+IqT+wGCIMCmQEONaSmiqXctofPtXBz3Z7XfeSBbaG4xK
- lnP+wAVTHeDuWRJFy5DQEDVsygm5yNQTF1nzUy1iMZPr2rIATMubC0loGkejNbvY8cv0ePGt4
- MuV4ozYrAaS0DYhXSxXfzmHn2nhLzNUDqSW5IDHGV2JCCSuUmAjUwvDx4Lk+EtLBlVO/9VMxy
- SmuJcVEXqOkVNg0YniIYfp9gKYyh6ZZWm//yBGrSuTT0XDXE93k+R4pfgLjROy63RjQnOPeyd
- mj0e2dSYJNnB+mKnXFiqqaePqnJ9KZtQmeU6+xN4TS1SbhOALrz9IlXfcrvnHuGZz3sPexY1s
- Qe3ZxTIOvtV/9SOfUzNOpP3/UzNSdr3tpdM79jl1icVp9rwwvXjt1BBxy3fuEzqLug6tE1ywB
- 1ENvKl0a3/IcgKZgUCXWDgAi3Lnh14psR9NsMqBLmwlTtBNAfsmitlCQ7fMDKES60qpsGlJkX
- zjgwUxX7SPhZNRPZsFPwRGAxd8ydLtYh9FpbatV+zNxbB4T4nkXurtC8D9Mkw4lWVmHyl6BlR
- AB7UOxIvpxD5OvoGTmp2kEdGyVcEImR15ONf5peg0urmV1+UdmTG9OBFLnu+0XcSVxsklEk2G
- ap/RylD3yMqc+0VhUCB/EIcXD5JccXavhnPGPl0f23u1Eme7scMTmO9h27ZjIU6pKKWBIpZel
- dUEHkzxbQQzVT5X9RmUaU18m2HVHCktIUnR774QgoxfawMr/Hoao1M8tC2h9BGl7eSYLJlYr3
- eJUVjFW
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLY,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220329190133.6243-1-eng.alaamohamedsoliman.am@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thorsten,
+On Tue, Mar 29, 2022 at 09:01:33PM +0200, Alaa Mohamed wrote:
+> according to checkpatch.pl results
+> "CHECK: Please don't use multiple blank lines"
+> after lines 73 and 78 ,I removed the blank lines
+> 
+> Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+> ---
+>  drivers/staging/media/av7110/av7110_av.c | 2 --
 
-the patch linked in the bugzilla ticket:
+Hi Alaa,
 
-https://lore=2Ekernel=2Eorg/linux-media/6f84b7f4-3ede-ae55-e99b-a9d4108c80=
-e2@gmail=2Ecom/
+We are not taking cleanup patches in drivers/staging/media.
+It's documented in here https://kernelnewbies.org/Outreachyfirstpatch
+and I will repost the restriction on this list as the discussion
+occurred a few days before the contribution period began.
 
-should indeed fix the issue=2E The error was that the rom_id and required
-fields were swapped in the table, so the non-zero rom_id was taken as a
-"true" required boolean value, thus incorrectly evaluating that the
-chip requires a firmware file to operate when in fact it does not=2E
+If you look at the git history on this file, you'll see it is
+on it's way out of the kernel, not on it's way in!
 
-I have tested the patch and found it worked for me=2E But I do not know
-how to push this further along:
+Please look at my feedback to Rebecca and Sevinj recent checkpatch
+cleanups as guidance for your next (non-media) cleanup patch.
 
-https://patchwork=2Elinuxtv=2Eorg/project/linux-media/patch/6f84b7f4-3ede-=
-ae55-e99b-a9d4108c80e2@gmail=2Ecom/
+Thanks!
+Alison
 
-Best Regards,
--Robert Schlabbach
 
-=C2=A0
 
-Gesendet:=C2=A0Dienstag, 29=2E M=C3=A4rz 2022 um 10:33 Uhr
-Von:=C2=A0"Thorsten Leemhuis" <regressions@leemhuis=2Einfo>
-An:=C2=A0"Antti Palosaari" <crope@iki=2Efi>, "Mauro Carvalho Chehab" <mche=
-hab+huawei@kernel=2Eorg>, "Robert Schlabbach" <robert_s@gmx=2Enet>
-Cc:=C2=A0"regressions@lists=2Elinux=2Edev" <regressions@lists=2Elinux=2Ede=
-v>, az0123456@gmx=2Ede, "Linux Media Mailing List" <linux-media@vger=2Ekern=
-el=2Eorg>, "Linux Kernel Mailing List" <linux-kernel@vger=2Ekernel=2Eorg>
-Betreff:=C2=A0Bug 215726 - si2157=2Ec: mention name of the missing firmwar=
-e file
-Hi, this is your Linux kernel regression tracker=2E
 
-I noticed a regression report in bugzilla=2Ekernel=2Eorg that afaics nobod=
-y
-acted upon since it was reported about a week ago, that's why I decided
-to forward it to the lists and all people that seemed to be relevant
-here=2E To quote from https://bugzilla=2Ekernel=2Eorg/show_bug=2Ecgi?id=3D=
-215726 :
 
-> I get the following error messages when trying to use si2157=2Eko in lin=
-ux 5=2E17:
-> si2157 13-0060: found a 'Silicon Labs Si2157-A30 ROM 0x50'
-> si2157 13-0060: Can't continue without a firmware
-> I did work in linux 5=2E16=2E16 without a firmware file=2E Unfortunately=
- the driver does not tell me the name of the missing firmware file=2E
-
-Could somebody take a look into this? Or was this discussed somewhere
-else already? Or even fixed?
-
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
+> index 91f4866c7e59..1544f120e8b1 100644
+> --- a/drivers/staging/media/av7110/av7110_av.c
+> +++ b/drivers/staging/media/av7110/av7110_av.c
+> @@ -70,12 +70,10 @@
+>  #define PIECE_RATE	 0x40
+>  #define SEAM_SPLICE	 0x20
+>  
+> -
+>  static void p_to_t(u8 const *buf, long int length, u16 pid,
+>  		   u8 *counter, struct dvb_demux_feed *feed);
+>  static int write_ts_to_decoder(struct av7110 *av7110, int type, const u8 *buf, size_t len);
+>  
+> -
+>  int av7110_record_cb(struct dvb_filter_pes2ts *p2t, u8 *buf, size_t len)
+>  {
+>  	struct dvb_demux_feed *dvbdmxfeed = (struct dvb_demux_feed *) p2t->priv;
+> -- 
+> 2.35.1
+> 
+> 
