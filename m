@@ -2,96 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D5C64EA84A
-	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 09:07:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E2614EA85E
+	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 09:14:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233287AbiC2HIt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Mar 2022 03:08:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42352 "EHLO
+        id S232184AbiC2HQM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Mar 2022 03:16:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233249AbiC2HIr (ORCPT
+        with ESMTP id S231810AbiC2HQK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Mar 2022 03:08:47 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7FFD23D743
-        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 00:07:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648537625; x=1680073625;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=hJCPwH7SOlcNlxTVq5wQ0kZ37jUz1wZR7OY+KI6Gqrg=;
-  b=f5QPE3DfvqAIgWqpXMOGehqd12r/y4lJ/C1PmBq7jL6H2yqSqNYIjRSd
-   APVvP5gkUugkJLYbq1Hc5h6/+iWpM20wPo3o/HgMsSbnUn9A5bh4tvhSG
-   bNziP5kHA9RnM1ZAj5mKck3mdgc7y7wudStaKDPsYK+7loPaNvYI0IE6a
-   ePIn+2aS3wZlSl+WeJ6FDRGa5iZwRpQxFBg5tKAJs5VekCXlTnypMHSEI
-   0XwTVP2QJ71uVrF7ILRVg55EFDDnH4XB4BJT3yzDVK3Sil1FmS1r9pmG7
-   0WnotfPeQzdXKfsPPwILB4iCAeLYcG4ikJhVvvpLHlCv0HQXOr5BLVrML
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="241333269"
-X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; 
-   d="scan'208";a="241333269"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 00:07:05 -0700
-X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; 
-   d="scan'208";a="652722563"
-Received: from ettammin-mobl1.ger.corp.intel.com (HELO [10.249.254.86]) ([10.249.254.86])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 00:07:03 -0700
-Message-ID: <3d46abe4-5113-e1b8-56be-19ac678d62f2@linux.intel.com>
-Date:   Tue, 29 Mar 2022 09:07:00 +0200
+        Tue, 29 Mar 2022 03:16:10 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1331643D;
+        Tue, 29 Mar 2022 00:14:26 -0700 (PDT)
+X-UUID: bab05eca53e8443eb46a1ca4b387a162-20220329
+X-UUID: bab05eca53e8443eb46a1ca4b387a162-20220329
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+        (envelope-from <ping-lei.lin@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 106659811; Tue, 29 Mar 2022 15:14:18 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 29 Mar 2022 15:14:17 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 29 Mar 2022 15:14:17 +0800
+From:   James_Lin <Ping-lei.Lin@mediatek.com>
+To:     <linux-kernel@vger.kernel.org>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Ricardo Ribalda" <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ming Qian <ming.qian@nxp.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Sherlock.Chang@mediatek.com>, <TM.Wu@mediatek.com>,
+        James_Lin <Ping-lei.Lin@mediatek.com>
+Subject: [PATCH] Signed-off-by: James_Lin <Ping-lei.Lin@mediatek.com>
+Date:   Tue, 29 Mar 2022 15:14:07 +0800
+Message-ID: <20220329071407.17703-1-Ping-lei.Lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+Description: Add H265, cause some camera use it instead of hevc
+Signed-off-by: James_Lin <Ping-lei.Lin@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf/sync-file: fix logic error in
- new fence merge code
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        ville.syrjala@linux.intel.com, daniel@ffwll.ch
-Cc:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220329070001.134180-1-christian.koenig@amd.com>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= 
-        <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20220329070001.134180-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For the series,
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index dda0f0aa78b8..ebb807c33e57 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -154,6 +154,11 @@ static struct uvc_format_desc uvc_fmts[] = {
+ 		.guid		= UVC_GUID_FORMAT_H264,
+ 		.fcc		= V4L2_PIX_FMT_H264,
+ 	},
++	{
++		.name		= "H.265",
++		.guid		= UVC_GUID_FORMAT_H265,
++		.fcc		= V4L2_PIX_FMT_H265,
++	},
+ 	{
+ 		.name		= "Greyscale 8 L/R (Y8I)",
+ 		.guid		= UVC_GUID_FORMAT_Y8I,
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 143230b3275b..41f4d8c33f2a 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -139,6 +139,9 @@
+ #define UVC_GUID_FORMAT_H264 \
+ 	{ 'H',  '2',  '6',  '4', 0x00, 0x00, 0x10, 0x00, \
+ 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
++#define UVC_GUID_FORMAT_H265 \
++	{ 'H',  '2',  '6',  '5', 0x00, 0x00, 0x10, 0x00, \
++	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+ #define UVC_GUID_FORMAT_Y8I \
+ 	{ 'Y',  '8',  'I',  ' ', 0x00, 0x00, 0x10, 0x00, \
+ 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 96e307fe3aab..aeaeb29307a4 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1402,6 +1402,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 		case V4L2_PIX_FMT_JPEG:		descr = "JFIF JPEG"; break;
+ 		case V4L2_PIX_FMT_DV:		descr = "1394"; break;
+ 		case V4L2_PIX_FMT_MPEG:		descr = "MPEG-1/2/4"; break;
++		case V4L2_PIX_FMT_H265:		descr = "H.265"; break;
+ 		case V4L2_PIX_FMT_H264:		descr = "H.264"; break;
+ 		case V4L2_PIX_FMT_H264_NO_SC:	descr = "H.264 (No Start Codes)"; break;
+ 		case V4L2_PIX_FMT_H264_MVC:	descr = "H.264 MVC"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 3768a0a80830..636e4236bfb8 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -691,6 +691,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_JPEG     v4l2_fourcc('J', 'P', 'E', 'G') /* JFIF JPEG     */
+ #define V4L2_PIX_FMT_DV       v4l2_fourcc('d', 'v', 's', 'd') /* 1394          */
+ #define V4L2_PIX_FMT_MPEG     v4l2_fourcc('M', 'P', 'E', 'G') /* MPEG-1/2/4 Multiplexed */
++#define V4L2_PIX_FMT_H265     v4l2_fourcc('H', '2', '6', '5') /* H265 with start codes */
+ #define V4L2_PIX_FMT_H264     v4l2_fourcc('H', '2', '6', '4') /* H264 with start codes */
+ #define V4L2_PIX_FMT_H264_NO_SC v4l2_fourcc('A', 'V', 'C', '1') /* H264 without start codes */
+ #define V4L2_PIX_FMT_H264_MVC v4l2_fourcc('M', '2', '6', '4') /* H264 MVC */
+-- 
+2.18.0
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-
-On 3/29/22 09:00, Christian König wrote:
-> When the array is empty because everything is signaled we can't use
-> add_fence() to add something because that would filter the signaled
-> fence again.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Fixes: 519f490db07e ("dma-buf/sync-file: fix warning about fence containers")
-> ---
->   drivers/dma-buf/sync_file.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index b8dea4ec123b..514d213261df 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -262,7 +262,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
->   	}
->   
->   	if (index == 0)
-> -		add_fence(fences, &index, dma_fence_get_stub());
-> +		fences[index++] = dma_fence_get_stub();
->   
->   	if (num_fences > index) {
->   		struct dma_fence **tmp;
