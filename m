@@ -2,76 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FC604EB55A
-	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 23:34:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDAB84EB583
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 00:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234654AbiC2Vft (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Mar 2022 17:35:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58202 "EHLO
+        id S235643AbiC2WEZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Mar 2022 18:04:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234545AbiC2Vfo (ORCPT
+        with ESMTP id S235595AbiC2WEY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Mar 2022 17:35:44 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69211114DF1;
-        Tue, 29 Mar 2022 14:34:00 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id w7so32550334lfd.6;
-        Tue, 29 Mar 2022 14:34:00 -0700 (PDT)
+        Tue, 29 Mar 2022 18:04:24 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35075175385;
+        Tue, 29 Mar 2022 15:02:40 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id 17so25256578ljw.8;
+        Tue, 29 Mar 2022 15:02:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=phALv9mY0wITJH6lJS6EVyuXuWVc0bzsLfvwtVve004=;
-        b=E1sNVQUgcCs1YlYBuXLH9oWXstFhkuBfb996QIHwQijCyxUljxyVeCWzy8R3i0vRmk
-         QuPSyqF1xU+p8XqZG7qIB+ooUtyAySCobuC83AdhgLDv1C6OffZ5JRAcHl8h9Yamg1ti
-         NoShiuABosOiFa2MfhkBIXahRdOfVn/whImZwvyaeTrUngcZMj6MPXsnRmi2AxXaP8If
-         SvyxqAMhkTOWQTWCg5pNQvgpz/U7wHhM9LmpOxYcvM5b+mrxucR63zLP/cwYRmrC/r6M
-         CRPq9Ra0XQBtTPbrr+l7MF/KyxnmlmzkBhGohe3flNkrF/tyjvZHOKH1Dy/RqKWa1Q0t
-         snTQ==
+         :references:from:in-reply-to;
+        bh=GFh+hu29pLGd1yFJqG3TD5ib8w39W4JQGiYky9bmdEA=;
+        b=Uul80CmlA5J9+LprVKWbEBNT+SmpX7fuHJuj2ZcNq5lQoGbXiK7l08X9mWZUnyQ9xj
+         JGG6phzP2JIgAVM7Ck+/uPDofSFZS9DiEe+vTdfqlpktGqi5ac7BkNwpDuVFGoxB1j/L
+         kiTUpYuWVv1NpO5CD/u3+wXPH+VkKXOxXU0EKfbfEIs9OIrNH5DeSfkqq0ywl+G16oUs
+         EjjTffPfQWSLwPTUxIsp9apeOAkSzbzkNz+6u6mon973oumaMEcdCiHqApsz0Veblhsd
+         qGyeBpLbqSDPrXgY78vgDjWeIZHmYGtPl54GxQn+x5B1VeLWM6M7Ui77iW8/TQ/Q1xEu
+         yH0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=phALv9mY0wITJH6lJS6EVyuXuWVc0bzsLfvwtVve004=;
-        b=w5kk1qu1bS0rdWaRtAX+li9+slS44aNmFVdjGbvnNwE7PNL0hrFYdnc/nWYivgloqZ
-         D80wEDIxmRcawHYRGwnukxEiZafesNBqvYnS+mX8HKLgdg/mSqFiCzAjJlfpF7BgR1eg
-         540Dh7prHyHSm6gDx5NiuXhEHIRfYo+gUxmFEyozedqbO4kGR6h49OTgzuLR5tLdBSQH
-         4DDidpeAisyn7b+XyNqCNkWy4k20TaExt9s7RaqTa6Y5SUtYD3keoCgztQIRhpRU3q7W
-         fmJiLwihfsE5oJDMvGVrrVgrlLPnHA3RjRy2gUcfA9G7ekX3ioftE9cjYNSEWDA7SEVf
-         xv/g==
-X-Gm-Message-State: AOAM532oANFEAFuqr1YQg3m1Z/wbYSDGIdKNYyQ3lbcoM5cbcjSS0RrA
-        1yXRHy958rWmgOqW/j8PBao=
-X-Google-Smtp-Source: ABdhPJygl7RpwWEJA7JHCK5Gy8tSqC5GhaXKLrCdbJbTw3pohtg4V8j6NJPgcz2XJeyLop4nodEL4A==
-X-Received: by 2002:a05:6512:13a9:b0:448:9dd3:b84 with SMTP id p41-20020a05651213a900b004489dd30b84mr4470218lfa.556.1648589638575;
-        Tue, 29 Mar 2022 14:33:58 -0700 (PDT)
-Received: from [192.168.1.2] (235.132.246.94.ip4.artcom.pl. [94.246.132.235])
-        by smtp.googlemail.com with ESMTPSA id b14-20020a19670e000000b0044a3adf07d3sm2117198lfc.64.2022.03.29.14.33.57
+         :content-language:to:references:from:in-reply-to;
+        bh=GFh+hu29pLGd1yFJqG3TD5ib8w39W4JQGiYky9bmdEA=;
+        b=QTZ6asthYglorU/F7oLyGZ9cRfytm8GAX3IHw7yrVzMqOxEqabJWlUB/DrqZf+55cB
+         QG8oF3V0zdD4RPNqsqLxcL7kOGq5twy52DkMybyz3dS3/aSd3Wy/0ypqXR/LvYistaek
+         YyNw84d+tTaGxVe1KlxwITGinYOXkLA8WZJobVD3Vio5vg/vRA92N9W0UTpcvHxerMqP
+         ++JumkdHJzTrsdjghuFnxFq/SB+o3m4+5SWzGGDz0WuUFoFmax8D3BAqUPqR9he43bxi
+         YK90bp+3DICwZpI/AhA0jSqVd/1RCuSXyjImnQlDGVm/mQAsHBESjJIPNlJeg/LbS3nt
+         uhSQ==
+X-Gm-Message-State: AOAM531QncgtY/96RR74Nej+3w5U9y7r1yjRLT2lbIJdS6ui1C/I5YCd
+        HYF1CNxoE3cjS9lkKDP3nbo=
+X-Google-Smtp-Source: ABdhPJwoHVOneGk1MKkV++hihnKGasRhaKJqXGRhP23iN10zifJJPhye88xL0pFF5DtY6cv59xPRXg==
+X-Received: by 2002:a2e:b7c1:0:b0:249:7a91:bba1 with SMTP id p1-20020a2eb7c1000000b002497a91bba1mr4503477ljo.276.1648591358215;
+        Tue, 29 Mar 2022 15:02:38 -0700 (PDT)
+Received: from [192.168.1.11] ([94.103.225.225])
+        by smtp.gmail.com with ESMTPSA id i2-20020a196d02000000b004488dae6d45sm2114104lfc.52.2022.03.29.15.02.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Mar 2022 14:33:58 -0700 (PDT)
-Message-ID: <57df6bed-3b74-df63-0c5c-7218aef8534b@gmail.com>
-Date:   Tue, 29 Mar 2022 23:33:04 +0200
+        Tue, 29 Mar 2022 15:02:37 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="------------787Zf0iirh0AwihTJK1ygKXK"
+Message-ID: <419a9bb8-cb68-8add-e7be-275a48b2126d@gmail.com>
+Date:   Wed, 30 Mar 2022 01:02:36 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: Bug 215726 - si2157.c: mention name of the missing firmware file
-Content-Language: pl-PL
-To:     Thorsten Leemhuis <regressions@leemhuis.info>,
-        Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Robert Schlabbach <robert_s@gmx.net>
-Cc:     "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        az0123456@gmx.de,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info>
-From:   Piotr Chmura <chmooreck@gmail.com>
-In-Reply-To: <5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLY,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+Subject: Re: [syzbot] general protection fault in dma_fence_array_first
+Content-Language: en-US
+To:     syzbot <syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com>,
+        christian.koenig@amd.com, daniel.vetter@ffwll.ch,
+        dri-devel@lists.freedesktop.org, gustavo@padovan.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
+References: <0000000000008eedfe05db620952@google.com>
+From:   Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <0000000000008eedfe05db620952@google.com>
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,44 +75,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It's supposed to be fixed by:
-https://lore.kernel.org/linux-media/trinity-6009a608-b0ff-4e1a-9b91-ba4a97f10324-1648057812747@3c-app-gmx-bs71/T/#t
+This is a multi-part message in MIME format.
+--------------787Zf0iirh0AwihTJK1ygKXK
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Test it please.
+On 3/30/22 00:23, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    8515d05bf6bc Add linux-next specific files for 20220328
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=1694e21b700000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=530c68bef4e2b8a8
+> dashboard link: https://syzkaller.appspot.com/bug?extid=5c943fe38e86d615cac2
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1467313b700000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=121b7cb9700000
+> 
+> The issue was bisected to:
+> 
+> commit 519f490db07e1a539490612f376487f61e48e39c
+> Author: Christian König <christian.koenig@amd.com>
+> Date:   Fri Mar 11 09:32:26 2022 +0000
+> 
+>      dma-buf/sync-file: fix warning about fence containers
+> 
 
-Best regards,
-Piotr Chmura
+There is ZERO_PTR dereference caused by passing 0 to krealloc_array(). 
+Code should not try to reduce allocated memory area if index is equal to 0
 
-W dniu 29.03.2022 o 10:33, Thorsten Leemhuis pisze:
-> Hi, this is your Linux kernel regression tracker.
->
-> I noticed a regression report in bugzilla.kernel.org that afaics nobody
-> acted upon since it was reported about a week ago, that's why I decided
-> to forward it to the lists and all people that seemed to be relevant
-> here. To quote from https://bugzilla.kernel.org/show_bug.cgi?id=215726 :
->
->> I get the following error messages when trying to use si2157.ko in linux 5.17:
->> si2157 13-0060: found a 'Silicon Labs Si2157-A30 ROM 0x50'
->> si2157 13-0060: Can't continue without a firmware
->> I did work in linux 5.16.16 without a firmware file. Unfortunately the driver does not tell me the name of the missing firmware file.
-> Could somebody take a look into this? Or was this discussed somewhere
-> else already? Or even fixed?
->
-> Anyway, to get this tracked:
->
-> #regzbot introduced: v5.16..v5.17
-> #regzbot from: az0123456@gmx.de <az0123456@gmx.de>
-> #regzbot title: media: si2157.c: mention name of the missing firmware file
-> #regzbot link: https://bugzilla.kernel.org/show_bug.cgi?id=215726
->
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->
-> P.S.: As the Linux kernel's regression tracker I'm getting a lot of
-> reports on my table. I can only look briefly into most of them and lack
-> knowledge about most of the areas they concern. I thus unfortunately
-> will sometimes get things wrong or miss something important. I hope
-> that's not the case here; if you think it is, don't hesitate to tell me
-> in a public reply, it's in everyone's interest to set the public record
-> straight.
->
+#syz test:
+git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 
+
+
+
+With regards,
+Pavel Skripkin
+--------------787Zf0iirh0AwihTJK1ygKXK
+Content-Type: text/plain; charset=UTF-8; name="ph"
+Content-Disposition: attachment; filename="ph"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9zeW5jX2ZpbGUuYyBiL2RyaXZlcnMvZG1h
+LWJ1Zi9zeW5jX2ZpbGUuYwppbmRleCBiOGRlYTRlYzEyM2IuLjYwY2I0MjY2ZTc3ZiAxMDA2
+NDQKLS0tIGEvZHJpdmVycy9kbWEtYnVmL3N5bmNfZmlsZS5jCisrKyBiL2RyaXZlcnMvZG1h
+LWJ1Zi9zeW5jX2ZpbGUuYwpAQCAtMjY0LDcgKzI2NCw3IEBAIHN0YXRpYyBzdHJ1Y3Qgc3lu
+Y19maWxlICpzeW5jX2ZpbGVfbWVyZ2UoY29uc3QgY2hhciAqbmFtZSwgc3RydWN0IHN5bmNf
+ZmlsZSAqYSwKIAlpZiAoaW5kZXggPT0gMCkKIAkJYWRkX2ZlbmNlKGZlbmNlcywgJmluZGV4
+LCBkbWFfZmVuY2VfZ2V0X3N0dWIoKSk7CiAKLQlpZiAobnVtX2ZlbmNlcyA+IGluZGV4KSB7
+CisJaWYgKGluZGV4ICYmIG51bV9mZW5jZXMgPiBpbmRleCkgewogCQlzdHJ1Y3QgZG1hX2Zl
+bmNlICoqdG1wOwogCiAJCS8qIEtlZXAgZ29pbmcgZXZlbiB3aGVuIHJlZHVjaW5nIHRoZSBz
+aXplIGZhaWxlZCAqLwo=
+
+--------------787Zf0iirh0AwihTJK1ygKXK--
