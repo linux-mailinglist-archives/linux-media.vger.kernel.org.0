@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E2FD4EA840
-	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 09:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D966D4EA83E
+	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 09:00:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233249AbiC2HBx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Mar 2022 03:01:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45216 "EHLO
+        id S232591AbiC2HBt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Mar 2022 03:01:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230505AbiC2HBs (ORCPT
+        with ESMTP id S231715AbiC2HBs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 29 Mar 2022 03:01:48 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A1BA329A7
-        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 00:00:05 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id c62so19552886edf.5
-        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 00:00:05 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6471332ECF
+        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 00:00:06 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id u26so19531415eda.12
+        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 00:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=m7nYYw9QbO9lD8x13zqrVQagOe2TVYJPaNjC3VlVpmg=;
-        b=oVVVbZAR3MY5o2TmQnqB7eeOwx96uFW5NEkAXRefmX4Uff6MftBOHgTmGpAVRXOS+v
-         L6UP/uT7RPa1+SNNqPTfInEV8RmSDIEQC62rICCbUdny5Mr3su6Kifi/CUJoCF1NhqDU
-         eckFYmhXvqknkono3r/AVr3r2IBqyGbaqJ9f7tt+dm5ydKqgxJ5C4kLg4ZVs5swTD0l+
-         rc0bi77SC0G+ubbt3wbvLxOO+XzBRzgvkS/cl6nuXzfufOKcN5eUUHkktLpVclgMHwnl
-         t/fnQSUxcXtmv5cjGc88ADdzOPFhqgzmZqGH3GiN5jiAfCRflOQXbuncxjCsfhusxbiO
-         ZbHQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dfQADiC3SkhSpWiX7t32pPZIKom+fqM6C8ez0L8fdtk=;
+        b=hXRlg+OY/KFL9cqLeqJvoC2sGQvHE5xTtCNjtPDKgWLr65aOTHptN3wyod8Pz0b8Lu
+         mQtXgAnyqoAhvOkUpJeneZSu561r8ex/Jhzr1128NlTiUnUXRJ96C1mmo4c7MJxKI4Vl
+         2wLcdh/q80uZYq/ZdDCs3yD3Ga096jU0L0FTB3iLTEKYEcPISZASbLUHSjyjw/EOYrMn
+         2uq7wg9SqtRSvB5Eiy1yumrFrCGTYV9kqxTx6bvZ1cLXYpK+2AtaplXjpUo/ahDEgO0o
+         bsx7sNU/6oThzEcNxULMyK/OfftSuk6DmLHEnevG6oCTf31AdKb5TEeD53y0+m34MVZM
+         Ek5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=m7nYYw9QbO9lD8x13zqrVQagOe2TVYJPaNjC3VlVpmg=;
-        b=Nx4n4QOahC2TNxY2Gv66FfgsnYX82RZ/IrjWiwXg89Mrt97lVDMpcScry3VimOkQRv
-         MtnI+zNmt1qvpDIOVb+16PU2H0G3VXyWTkW+FBBQNrZ1qCZwySj5uN1uWAWai74KxyRw
-         qUHCqyA0wxg9kHVug52oiqZyNeVarNkoxpq71j95kkqnsWIJwG519GsHRcj2IfYqyDBG
-         yOkOETtQvKtG0ijIKztjPWxdFhWsIqtg5r+Bx27ybcOiZ2pDnpGUXI58s2ylJJ9Fljyb
-         Twn01IISdqJKmPWaP6d17+9Ug1GZMoCqxPAZ/GEIarUWvaCHtPm25FLXI+jGtktMQp8t
-         T3oQ==
-X-Gm-Message-State: AOAM531vsH6PdUeZsZxawRmFXw9E0Jx8GRYPoYibSFsanSENNObMdsNI
-        3/sRkqphEMCOhjXYN1KGn+hGdIJpr3Q=
-X-Google-Smtp-Source: ABdhPJwGoMU0Av/z3ii/A11iC+7ue7IwhIP52CrYOTJ7GqwhFFeYIZfyq9d8SzNMbBtauOSBP3Ah+A==
-X-Received: by 2002:a50:8707:0:b0:41a:68df:1a6e with SMTP id i7-20020a508707000000b0041a68df1a6emr2640201edb.31.1648537203881;
-        Tue, 29 Mar 2022 00:00:03 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dfQADiC3SkhSpWiX7t32pPZIKom+fqM6C8ez0L8fdtk=;
+        b=ziFzShHWyd79NPAyXU1lBipL29WUmtEV4UGyvOkfPVYwkEVFzKmGfWLMlqzRRnU9lI
+         24zHivQTsDs/F/SyJLSr/MvCeZ2SAcS2pKo/gQoxNvBKFAQnMnthicgsu8sjLOmE7rRT
+         8hiYBDyKI48f/N3ROUapSs+iGOK1wSNvVUl4V4gGtN+4RkkMyK4smumI2b3G5s4gDpqh
+         ArcT+A9v86w1SuNg9BBAu+sl0ss0t5hWhYWYZ9WhWrJnvhu/OhFrsy6BgJ3MjU128iWU
+         hwrHkTgvhPoinLa0XMfQC5cZfaxfmyCuxQtIBnOX980X/UXtNWka8eRffl4EX+CANPU+
+         hKyw==
+X-Gm-Message-State: AOAM532s2NXBAJN9bFtkSEd4z/yx0drcwZFOTBmYLD/C8n9NwWYi7xIO
+        rQZEm/EMqbeQIOVkUBvcfbszg6b28D0=
+X-Google-Smtp-Source: ABdhPJxZys/k7C91gqwRakOcXoRfj8Dei6X9emGlvQ/rA5KyjiSrAjYJmv9BnrJjzK1G+BTm/kZSDw==
+X-Received: by 2002:a50:eb8b:0:b0:419:a11c:8676 with SMTP id y11-20020a50eb8b000000b00419a11c8676mr2589983edr.267.1648537205019;
+        Tue, 29 Mar 2022 00:00:05 -0700 (PDT)
 Received: from able.fritz.box (p5b0eab60.dip0.t-ipconnect.de. [91.14.171.96])
-        by smtp.gmail.com with ESMTPSA id gv9-20020a170906f10900b006d7128b2e6fsm6593250ejb.162.2022.03.29.00.00.02
+        by smtp.gmail.com with ESMTPSA id gv9-20020a170906f10900b006d7128b2e6fsm6593250ejb.162.2022.03.29.00.00.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 00:00:03 -0700 (PDT)
+        Tue, 29 Mar 2022 00:00:04 -0700 (PDT)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
         <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
@@ -55,10 +55,12 @@ To:     intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         ville.syrjala@linux.intel.com, daniel@ffwll.ch
 Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH 1/2] dma-buf/sync-file: fix logic error in new fence merge code
-Date:   Tue, 29 Mar 2022 09:00:00 +0200
-Message-Id: <20220329070001.134180-1-christian.koenig@amd.com>
+Subject: [PATCH 2/2] dma-buf: handle empty dma_fence_arrays gracefully
+Date:   Tue, 29 Mar 2022 09:00:01 +0200
+Message-Id: <20220329070001.134180-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220329070001.134180-1-christian.koenig@amd.com>
+References: <20220329070001.134180-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -72,29 +74,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the array is empty because everything is signaled we can't use
-add_fence() to add something because that would filter the signaled
-fence again.
+A bug inside the new sync-file merge code created empty dma_fence_array instances.
+
+Warn about that and handle those without crashing.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Fixes: 519f490db07e ("dma-buf/sync-file: fix warning about fence containers")
 ---
- drivers/dma-buf/sync_file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma-buf/dma-fence-array.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-index b8dea4ec123b..514d213261df 100644
---- a/drivers/dma-buf/sync_file.c
-+++ b/drivers/dma-buf/sync_file.c
-@@ -262,7 +262,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
- 	}
+diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+index 52b85d292383..5c8a7084577b 100644
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -159,6 +159,8 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
+ 	struct dma_fence_array *array;
+ 	size_t size = sizeof(*array);
  
- 	if (index == 0)
--		add_fence(fences, &index, dma_fence_get_stub());
-+		fences[index++] = dma_fence_get_stub();
++	WARN_ON(!num_fences || !fences);
++
+ 	/* Allocate the callback structures behind the array. */
+ 	size += num_fences * sizeof(struct dma_fence_array_cb);
+ 	array = kzalloc(size, GFP_KERNEL);
+@@ -231,6 +233,9 @@ struct dma_fence *dma_fence_array_first(struct dma_fence *head)
+ 	if (!array)
+ 		return head;
  
- 	if (num_fences > index) {
- 		struct dma_fence **tmp;
++	if (!array->num_fences)
++		return NULL;
++
+ 	return array->fences[0];
+ }
+ EXPORT_SYMBOL(dma_fence_array_first);
 -- 
 2.25.1
 
