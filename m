@@ -2,101 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B85D4EB0DB
-	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 17:40:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7C724EB244
+	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 18:50:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238920AbiC2PlW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Mar 2022 11:41:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47118 "EHLO
+        id S239939AbiC2QwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Mar 2022 12:52:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234581AbiC2PlV (ORCPT
+        with ESMTP id S239932AbiC2QwU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Mar 2022 11:41:21 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E70C11DD31;
-        Tue, 29 Mar 2022 08:39:38 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a02:3030:a:f397:f6bc:b726:2678:839f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 998CA1F44125;
-        Tue, 29 Mar 2022 16:39:36 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1648568376;
-        bh=RmMYegltDNam5mXaZuwSibKGEKbYr+OvryeCrWUQldI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UX1M4W77IDWQE4xDV2ibg1R5STraO8nHmsbBMjWiMmMrFz9kTSduuOp04EA3bc6X8
-         ErS+VODG0CrL9iVnIcs3VYgBHd878GxiiegO229PcRp8mt4IbCtV+DWBS2g2rUvGxQ
-         A5Jw4EzM+PUhzNuXG90Y93f1XHbp0L/AXnsliak2SwYl09LEjZ8HN4F4UUd4b6MSXl
-         3IYlMDhAtkENZ4PxzsTo6Z930rCaKqQFed5ILPJoNy8hNCYCi9CUeMXzUeVIGb9AhI
-         PTfDl3dt8NNAK2CVl18fR0AoDu6OoqwHdDpeWACoyvMxZNucIci6U9XFaiK4w2mJgm
-         wqm6UMb84FCJg==
-Date:   Tue, 29 Mar 2022 17:39:33 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tue, 29 Mar 2022 12:52:20 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44CC1D6E;
+        Tue, 29 Mar 2022 09:50:37 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id jx9so18055992pjb.5;
+        Tue, 29 Mar 2022 09:50:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oo4DwVPmc4Xc8mHsSOZJPPM1+kxb1H+BME8RduWXyEc=;
+        b=fon/v7xEg/MG9yKo0ZhFyVDd8Pi8tu6+Ushj4CQ5i5ZK7JvGdhYA+9e/SNRbZmP9Sv
+         pCKmTk3lb6hjAAWbXCrUihV4aR6Osupca5LKufEEjFzjS5dKaHLe0jNplTFUZ36iHnVk
+         sTubKidTh4TFkPcklY8dTxB8YzPtwQKC9XMO0UBR3PrCLB/DdkbgqeffVh5WeCzY1Kz3
+         JiapQ7p+VMjbsVZb1XgQylMCEerXzU91lVY69si8AUutSOzJsBTatSYV6g7QbeGrvQUa
+         oPrdqMZejb1WJMC3kUMFa0DQeBm3jfo1vJfKQPQsi7YcylRvBDYfhLYmZlW2miVTOKKE
+         o0Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=oo4DwVPmc4Xc8mHsSOZJPPM1+kxb1H+BME8RduWXyEc=;
+        b=of4CBxGLiYVg4mpUN7JvzLc5RxuPon3AaxLPNTbxrY92cW9iV0KuU9QaTNpNvnp84s
+         Eed/MFTnP/bbvTNnEOAr5AO5JjMGS7iZ/HXolNVhRUbRIsi85iHnbvPuEXe7LycMwc1h
+         VPdnm82OVAbBx1i7PC6jKMwOWzN6qUIJYGwJXQN8tkx354ruhOEVujFzV/s8LNQcVu19
+         3VE2hGxd6eA5Ya60CguEq80HmBPArjLeEjMRcdmkx/CQa5uTHyPGFtAeRk595ctOUNLd
+         8zfZI55J1gYiFWPKfrcBXpP767DIkRdQyG0w/8eTUpTenpn4TTf38jV1aNixNCNV8uLC
+         HknA==
+X-Gm-Message-State: AOAM5328TIf4HR7HrGJfg69rLyfSYhBGozBVQ+RDWO/2EHu/cGK+BvHe
+        BBmskWlAy/FZcEUIp9mrV8Q=
+X-Google-Smtp-Source: ABdhPJwK34gym8LY0bVce8JYqwr3XDALjGLRfStGWGhzeJS7utaFiUFkwfefNjUZnxfhL3wq68o19Q==
+X-Received: by 2002:a17:903:246:b0:153:87f0:a93e with SMTP id j6-20020a170903024600b0015387f0a93emr31382772plh.171.1648572636435;
+        Tue, 29 Mar 2022 09:50:36 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:7749])
+        by smtp.gmail.com with ESMTPSA id b25-20020a637159000000b00381fda49d15sm17968864pgn.39.2022.03.29.09.50.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Mar 2022 09:50:35 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Tue, 29 Mar 2022 06:50:34 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     "T.J. Mercier" <tjmercier@google.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 16/24] media: rkvdec: Ensure decoded resolution fit
- coded resolution
-Message-ID: <20220329153933.nrbqhayyivqskrcf@basti-XPS-13-9310>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-17-nicolas.dufresne@collabora.com>
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [RFC v4 4/8] dmabuf: heaps: export system_heap buffers with GPU
+ cgroup charging
+Message-ID: <YkM42vdq3mdIP9Zl@slm.duckdns.org>
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-5-tjmercier@google.com>
+ <YkHH/0Use7F30UUE@phenom.ffwll.local>
+ <CABdmKX01p6g_iHsB6dd4Wwh=8iLdYiUqdY6_yyA5ax2YNHt6tQ@mail.gmail.com>
+ <YkLGbL5Z3HVCyVkK@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220328195936.82552-17-nicolas.dufresne@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <YkLGbL5Z3HVCyVkK@phenom.ffwll.local>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Nicolas,
+On Tue, Mar 29, 2022 at 10:42:20AM +0200, Daniel Vetter wrote:
+> Hm I just realized ... are the names in the groups abi? If yes then I
+> think we need to fix this before we merge anything.
 
-On 28.03.2022 15:59, Nicolas Dufresne wrote:
->From: Jonas Karlman <jonas@kwiboo.se>
->
->Ensure decoded CAPTURE buffer resolution is larger or equal to the coded
->OPTUPT buffer resolution.
+Yes.
 
-s/OPTUPT/OUTPUT/
+Thanks.
 
->
->Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-
->---
-> drivers/staging/media/rkvdec/rkvdec.c | 2 ++
-> 1 file changed, 2 insertions(+)
->
->diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
->index 05824f1997f7..22c0382c579e 100644
->--- a/drivers/staging/media/rkvdec/rkvdec.c
->+++ b/drivers/staging/media/rkvdec/rkvdec.c
->@@ -269,6 +269,8 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
-> 		pix_mp->pixelformat = coded_desc->decoded_fmts[0];
->
-> 	/* Always apply the frmsize constraint of the coded end. */
-
-s/frmsize/framesize/
-s/constraint/constraints/
-s/coded end/coded format/
-
-Greetings,
-Sebastian
-
->+	pix_mp->width = max(pix_mp->width, ctx->coded_fmt.fmt.pix_mp.width);
->+	pix_mp->height = max(pix_mp->height, ctx->coded_fmt.fmt.pix_mp.height);
-> 	v4l2_apply_frmsize_constraints(&pix_mp->width,
-> 				       &pix_mp->height,
-> 				       &coded_desc->frmsize);
->-- 
->2.34.1
->
+-- 
+tejun
