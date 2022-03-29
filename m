@@ -2,187 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BE6F4EAE91
-	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 15:34:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A05F04EAE9F
+	for <lists+linux-media@lfdr.de>; Tue, 29 Mar 2022 15:38:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237364AbiC2Ng3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Mar 2022 09:36:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42440 "EHLO
+        id S236043AbiC2NkY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Mar 2022 09:40:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237361AbiC2Ng1 (ORCPT
+        with ESMTP id S235710AbiC2NkY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Mar 2022 09:36:27 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C87EC24F1C;
-        Tue, 29 Mar 2022 06:34:44 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a02:3030:a:f397:f6bc:b726:2678:839f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 7287A1F43E8A;
-        Tue, 29 Mar 2022 14:34:43 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1648560883;
-        bh=mw2lnNcKQgzkmIX92vMYzPG0ozHkEL7vt1dPMHbwDBk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Z+UVVCYaAPDIuQO43XpFCDQB5et0nfUsweNkYyuvNPr69YNOhavC9TQQS5woGC5Pe
-         Cx3IWQmKyGaRsihIvWXwhxrfuN79va9vfMFIsFqzEyiQhdwbpMGmjRw5NRQ9k3zMUF
-         jC0mkKkpLwaUsXp4agzcN5UD6snCplE8xSoARnCAd2bfBRsyymsmcKeOTfA/qYfkq/
-         XYbiJ6l6PT3NvSbJFOz0Mj4pmlKBjOvztKOrmIQh5D2p6HucLEoPIuExSMxw2lgUX+
-         gHzGDSqVUtNTC6EpT5e+pgr8JgW4flNOSUwLWrOUTRHEcQsIm4ndQ6miNE9EPPs12f
-         lIe7isnLs1GXQ==
-Date:   Tue, 29 Mar 2022 15:34:39 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 07/24] media: h264: Sort p/b reflist using frame_num
-Message-ID: <20220329133439.qt6bze35bppx3mne@basti-XPS-13-9310>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-8-nicolas.dufresne@collabora.com>
+        Tue, 29 Mar 2022 09:40:24 -0400
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E7821CFE4
+        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 06:38:39 -0700 (PDT)
+Received: by mail-qk1-x732.google.com with SMTP id g8so14023424qke.2
+        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 06:38:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=Ol3Hp+YMfuySWgvy8mFMxAXv90sbOTJsuyiieSGKpH0=;
+        b=uWtiNW8FCMmk0oKEj1lpvSj6VTxqSChA1CLjNhZgh4nNFksWEZJP3UhpiHRorzgYVS
+         GDKURNQ2RSYUcE1e/4lLkzfcxqdQRRan2aowWp6Rn9zo897pbtFCxhAKAqyxn7ci8e4T
+         AQhxJRFOLpBmd8WEdBUcGa6sJSWhPBQCcpHWmGTFlZYVstybbVayYQaMMh5GDO/AmjJq
+         EGAihYlBDg3YTxi6gETdllsFzYUw8a60NGW1+hFpj7gD7EUaZIQd4FwP1xl8pGBWXXGF
+         EsGq4yPW6ImAeQGFBiAV95QkDeQI8YZ7EZMTdnAJ7W8llq7qSib0w/U+dWwIFy9Sb295
+         H9OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=Ol3Hp+YMfuySWgvy8mFMxAXv90sbOTJsuyiieSGKpH0=;
+        b=EgLxzBBkw61wQpB0Wmbmob2AvEVHA3NfVyRttPrZtYnQkTSkpgWIlK/uULwI+HUfPS
+         28vdSxBBuYLlkeHvRY2QKRW2XWNnq4M9fS2aNKsZbJjwdBHWRYRfw+sfzgGjEdhD3t6J
+         /8H1ritgI4ttiwToA6EVTbpDSg1lP5CTbWXzE3SetT4jn3wLoSisivPmK0fh76fYC1Xs
+         mPjP59qqb9MKgj+4Tt/CAn8nsIYMnQVuwk/ZmNgv/T/77Unq4CSqlmcBlJy9RH6xrhtZ
+         t9FxUotgmognPwjqUOtMI731BdeZXcR2TRgKacvGbBlq57RxRSTzDCADO2aOn6fcHWWX
+         oR2A==
+X-Gm-Message-State: AOAM532DM7HKoeJq7PzlnUebqNBMBsn6RYy7lcLQOulIA9wYpi9HjHlq
+        6NZakEwmV64u9UHMBdRMwMCjIg==
+X-Google-Smtp-Source: ABdhPJx2ys3r6Td+fhKB2RWe9KMZbIu2iD6bmzq/KiPUzkPdG2Oc2JFJ7L6ZgRrS826lRxgALCpzxw==
+X-Received: by 2002:a05:620a:4311:b0:67e:8a0f:4cd5 with SMTP id u17-20020a05620a431100b0067e8a0f4cd5mr20367074qko.363.1648561118001;
+        Tue, 29 Mar 2022 06:38:38 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id g1-20020ae9e101000000b0067d4bfffc57sm9168660qkm.117.2022.03.29.06.38.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Mar 2022 06:38:37 -0700 (PDT)
+Message-ID: <cb6a47f29c8ff3b6259d8f4b25da6a2d8b57bfba.camel@ndufresne.ca>
+Subject: Re: [PATCH] staging: media: hantro: Fix typos
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:HANTRO VPU CODEC DRIVER" 
+        <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        open list <linux-kernel@vger.kernel.org>
+Date:   Tue, 29 Mar 2022 09:38:36 -0400
+In-Reply-To: <20220326183603.66797-1-sebastian.fricke@collabora.com>
+References: <20220326183603.66797-1-sebastian.fricke@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220328195936.82552-8-nicolas.dufresne@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Nicolas,
+Thanks Sebastian.
 
-On 28.03.2022 15:59, Nicolas Dufresne wrote:
->In the reference list builder, frame_num referers to FrameNumWrap
+Le samedi 26 mars 2022 =C3=A0 19:36 +0100, Sebastian Fricke a =C3=A9crit=C2=
+=A0:
+> Fix typos in comments within the Hantro driver.
+>=20
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 
-s/referers/refers/
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
->in the spec, which is the same as the pic_num for frame decoding.
->The same applied for long_tern_pic_num and long_ter_frame_idx.
+> ---
+>  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
+>  drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/=
+staging/media/hantro/hantro_g2_hevc_dec.c
+> index c524af41baf5..c0645e335fc9 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> @@ -406,7 +406,7 @@ static int set_ref(struct hantro_ctx *ctx)
+> =20
+>  	set_ref_pic_list(ctx);
+> =20
+> -	/* We will only keep the references picture that are still used */
+> +	/* We will only keep the reference pictures that are still used */
+>  	ctx->hevc_dec.ref_bufs_used =3D 0;
+> =20
+>  	/* Set up addresses of DPB buffers */
+> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging=
+/media/hantro/hantro_hevc.c
+> index b49a41d7ae91..9c351f7fe6bd 100644
+> --- a/drivers/staging/media/hantro/hantro_hevc.c
+> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+> @@ -59,7 +59,7 @@ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *c=
+tx,
+>  	struct hantro_hevc_dec_hw_ctx *hevc_dec =3D &ctx->hevc_dec;
+>  	int i;
+> =20
+> -	/* Find the reference buffer in already know ones */
+> +	/* Find the reference buffer in already known ones */
+>  	for (i =3D 0;  i < NUM_REF_PICTURES; i++) {
+>  		if (hevc_dec->ref_bufs_poc[i] =3D=3D poc) {
+>  			hevc_dec->ref_bufs_used |=3D 1 << i;
 
-s/same applied/same applies/
-s/long_ter_frame_idx/long_term_frame_idx/
-
->
->Sort all type of references by frame_num so the sort can be reused
-
-s/frame_num so the sort/frame_num, so the order/
-
->for field reflist were the sorting is done using frame_num instead.
-
-s/field/the field/
-s/reflist were the sorting is done using frame_num instead/
-   reflist, which is sorted by the frame_num instead/
-
->In short, pic_num is never actually used for building reference
->lists.
->
->Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-
->---
-> drivers/media/v4l2-core/v4l2-h264.c | 22 ++++++++++++----------
-> include/media/v4l2-h264.h           |  2 --
-> 2 files changed, 12 insertions(+), 12 deletions(-)
->
->diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
->index c9e18fd51d78..c3fad382882d 100644
->--- a/drivers/media/v4l2-core/v4l2-h264.c
->+++ b/drivers/media/v4l2-core/v4l2-h264.c
->@@ -50,7 +50,6 @@ v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
-> 		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> 			continue;
->
->-		b->refs[i].pic_num = dpb[i].pic_num;
-> 		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
-> 			b->refs[i].longterm = true;
->
->@@ -139,15 +138,18 @@ static int v4l2_h264_p_ref_list_cmp(const void *ptra, const void *ptrb,
-> 	}
->
-> 	/*
->-	 * Short term pics in descending pic num order, long term ones in
->-	 * ascending order.
->+	 * For frames, short term pics are in descending pic num order and long
->+	 * term ones in ascending order. For field this is the same direction
-
-s/For field this is the same direction/For fields the same direction is used/
-
->+	 * but with frame_num (wrapped). As for frame the pic_num and frame_num
->+	 * are the same (see formula (8-28) and (8-29)) use the frame_num and share
-
-s/As for frame the pic_num and frame_num are the same/
-   The fields pic_num and frame_num are the same for frames/
-
->+	 * this funciton between frame and field reflist.
-
-s/funciton/function/
-
-Greetings,
-Sebastian
-
-> 	 */
-> 	if (!builder->refs[idxa].longterm)
-> 		return builder->refs[idxb].frame_num <
-> 		       builder->refs[idxa].frame_num ?
-> 		       -1 : 1;
->
->-	return builder->refs[idxa].pic_num < builder->refs[idxb].pic_num ?
->+	return builder->refs[idxa].frame_num < builder->refs[idxb].frame_num ?
-> 	       -1 : 1;
-> }
->
->@@ -173,10 +175,10 @@ static int v4l2_h264_b0_ref_list_cmp(const void *ptra, const void *ptrb,
-> 			return 1;
-> 	}
->
->-	/* Long term pics in ascending pic num order. */
->+	/* Long term pics in ascending frame num order. */
-> 	if (builder->refs[idxa].longterm)
->-		return builder->refs[idxa].pic_num <
->-		       builder->refs[idxb].pic_num ?
->+		return builder->refs[idxa].frame_num <
->+		       builder->refs[idxb].frame_num ?
-> 		       -1 : 1;
->
-> 	poca = v4l2_h264_get_poc(builder, ptra);
->@@ -218,10 +220,10 @@ static int v4l2_h264_b1_ref_list_cmp(const void *ptra, const void *ptrb,
-> 			return 1;
-> 	}
->
->-	/* Long term pics in ascending pic num order. */
->+	/* Long term pics in ascending frame num order. */
-> 	if (builder->refs[idxa].longterm)
->-		return builder->refs[idxa].pic_num <
->-		       builder->refs[idxb].pic_num ?
->+		return builder->refs[idxa].frame_num <
->+		       builder->refs[idxb].frame_num ?
-> 		       -1 : 1;
->
-> 	poca = v4l2_h264_get_poc(builder, ptra);
->diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
->index 4cef717b3f18..0d9eaa956123 100644
->--- a/include/media/v4l2-h264.h
->+++ b/include/media/v4l2-h264.h
->@@ -18,7 +18,6 @@
->  * @refs.top_field_order_cnt: top field order count
->  * @refs.bottom_field_order_cnt: bottom field order count
->  * @refs.frame_num: reference frame number
->- * @refs.pic_num: reference picture number
->  * @refs.longterm: set to true for a long term reference
->  * @refs: array of references
->  * @cur_pic_order_count: picture order count of the frame being decoded
->@@ -36,7 +35,6 @@ struct v4l2_h264_reflist_builder {
-> 		s32 top_field_order_cnt;
-> 		s32 bottom_field_order_cnt;
-> 		int frame_num;
->-		u32 pic_num;
-> 		u16 longterm : 1;
-> 	} refs[V4L2_H264_NUM_DPB_ENTRIES];
->
->-- 
->2.34.1
->
