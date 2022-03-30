@@ -2,141 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1457D4EBC3A
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 09:59:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1118F4EBCEF
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 10:49:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243974AbiC3IBF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 04:01:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55946 "EHLO
+        id S244444AbiC3Iuo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 04:50:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239731AbiC3IBE (ORCPT
+        with ESMTP id S233517AbiC3Ium (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 04:01:04 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F78201BA;
-        Wed, 30 Mar 2022 00:59:18 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a02:3030:d:7e3f:91e1:4be5:4001:fd80])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1F7C31F443D2;
-        Wed, 30 Mar 2022 08:59:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1648627157;
-        bh=h3tnoZejbOLZjyN2atSaobYGn8o799H2KiEzYAFUa98=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hcrLXVqpL/wTu+500y0aqOOpvuc4BCADPVrYxLySFJsZ2Jr5zJeMc6SZi8MJG5Eql
-         8EImGRlYtfL7z2Q6Se/E+tthQ8yYdJiPEynqsTdEnkXU2oOt5APJAldERtFqfWoo5o
-         dpk6hIZtJfyRXBitCTgkr7KYTuQ97FCu/QwRJ9bnpsu2NVP9nHUZrafiz5UT5GLH3A
-         Kf3SPwrQx/FjQm+1d2BKt7z8sHCAOC6s1m+j8mNZIBDTyJytj5s2gPD/B0Y97dVzbI
-         rJP9wMYd6KjG7wCai96RwEJu8goepdIHgGnmWuZusOVFSAz8Radw7OOIP5Awdd0/Ro
-         cL/SmHo9GVmVA==
-Date:   Wed, 30 Mar 2022 09:59:13 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 22/24] media: hantro: h264: Make dpb entry management
- more robust
-Message-ID: <20220330075913.wfl3prsyw5fvsv4t@basti-XPS-13-9310>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-23-nicolas.dufresne@collabora.com>
+        Wed, 30 Mar 2022 04:50:42 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A311AD96;
+        Wed, 30 Mar 2022 01:48:56 -0700 (PDT)
+X-UUID: db21df7b8ee4436aa0f8cf8fdcccebee-20220330
+X-UUID: db21df7b8ee4436aa0f8cf8fdcccebee-20220330
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1103062164; Wed, 30 Mar 2022 16:48:50 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 30 Mar 2022 16:48:49 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 30 Mar 2022 16:48:47 +0800
+Message-ID: <8e87e98a0b261dcdca9beb41bd1cd5030a4690ab.camel@mediatek.com>
+Subject: Re: [PATCH v3, 03/10] dt-bindings: media: mtk-vcodec: Adds encoder
+ cores dt-bindings for mt8195
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>,
+        <angelogioacchino.delregno@collabora.com>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        "Maoguang Meng" <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        "Fritz Koenig" <frkoenig@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date:   Wed, 30 Mar 2022 16:48:47 +0800
+In-Reply-To: <YkMFGbgYq5DhLjt8@robh.at.kernel.org>
+References: <20220317082230.23622-1-irui.wang@mediatek.com>
+         <20220317082230.23622-4-irui.wang@mediatek.com>
+         <Yj4s0zcHxz3U3wlc@robh.at.kernel.org>
+         <ab2b24eeb51048227ad7b2ac659617a7da5b2e45.camel@mediatek.com>
+         <YkG8ka1xY2k+HWi1@robh.at.kernel.org>
+         <e41e909f85e3891edb6b66d7d5a810af103113c8.camel@mediatek.com>
+         <YkMFGbgYq5DhLjt8@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220328195936.82552-23-nicolas.dufresne@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Nicolas,
+Dear Rob,
 
-On 28.03.2022 15:59, Nicolas Dufresne wrote:
->From: Jonas Karlman <jonas@kwiboo.se>
->
->The driver maintains stable slot location for reference pictures. This
+A sample encoder hardware block diagram attached.
+On Tue, 2022-03-29 at 08:09 -0500, Rob Herring wrote:
+> On Tue, Mar 29, 2022 at 09:26:37AM +0800, Irui Wang wrote:
+> > Dear Rob,
+> > 
+> > Many thanks for your attention.
+> > 
+> > On Mon, 2022-03-28 at 08:48 -0500, Rob Herring wrote:
+> > > On Sat, Mar 26, 2022 at 10:00:55AM +0800, Irui Wang wrote:
+> > > > Dear Rob,
+> > > > 
+> > > > Thanks for your review and comments.
+> > > > 
+> > > > On Fri, 2022-03-25 at 15:57 -0500, Rob Herring wrote:
+> > > > > On Thu, Mar 17, 2022 at 04:22:23PM +0800, Irui Wang wrote:
+> > > > > > Adds encoder cores dt-bindings for mt8195.
+> 
+> [...]
+> 
+> > > > > > +      mediatek,core-id:
+> > > > > > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > > > > > +        description: |
+> > > > > > +          Current encoder core id.
+> > > > > 
+> > > > > What is this for and what does its value correspond to in the
+> > > > > h/w.
+> > > > > We 
+> > > > > generally don't do made up indices in DT.
+> > > > 
+> > > > It's for encoder core id, core@1a020000 must be core-0, 
+> > > > core@1b020000
+> > > > must be core-1, we add this property in each child node, so we
+> > > > can 
+> > > > get core-id in drivers. If it can't ref "uint32" types yaml,
+> > > > would 
+> > > > you mind giving some more suggestions ?
+> > > 
+> > > I still don't understand why it is needed. What is 'core-0'?
+> > > 
+> > > Is there some functional difference between the cores? If so,
+> > > describe 
+> > > that difference.
+> > > 
+> > > Rob
+> > 
+> > They are two different pieces of hardware, it's our encoder
+> > hardware
+> > design. There are two encoder hardware cores inside MT8195, named
+> > core0
+> > and core1(we can rename it, but core id should be declared),
+> > for core0, its module base address is 0x1A02_0000, uses IOMMU
+> > "vdo0_iommu" and power domain "POWER_DOMAIN_VENC",
+> > for core1, its module base address is 0x1B02_0000, uses IOMMU
+> > "vpp_iommu" and power domain "POWER_DOMAIN_VENC_CORE1".
+> > So the two encoder cores have their own base, IRQ, clock, power,
+> > etc.
+> > Each core can encode independently, moreover, they can work
+> > together
+> > for higher performance. 
+> > We will describe more details in YAML about it if it's OK for you.
+> 
+> All the resources you list are in the child nodes, so you don't need
+> 0 
+> and 1 numbering for those. 
+> 
+> Looking at the driver patches, the only thing I see distinguishing 
+> core numbers is this:
+> 
+> "frame#0 uses core#0, frame#1 uses core#1, frame#2 uses core#0...,
+> 
+> Lock the device and enable the clock by used core, for sequence
+> header encoding, it always uses core#0."
+> 
+> Is this a requirement in the h/w or just what the driver picked?
+> IOW, 
+> could frame#0 use core#1?
+No, it's a requirement in the h/w, driver trigger core start encoding
+is in order.
+About the encoder hardware block diagram, please check below:
+--------------------------------------------------------------
+Input Buffer: 0     1     2     3     4     5     6
+              |     |     |     |     |     |     |
+              v     |     v     |     v     |     v
+          +-------+ | +-------+ | +-------+ | +-------+
+          | core0 | | | core0 | | | core0 | | | core0 |
+          +-------+ | +-------+ | +-------+ | +-------+
+              |     |     |     |     |     |     |
+              |     v     |     v     |     v     |
+              | +-------+ | +-------+ | +-------+ |
+              | | core1 | | | core1 | | | core1 | |
+              | +-------+ | +-------+ | +-------+ |
+              |     |     |     |     |     |     |
+              v     v     v     v     v     v     v    <parent>
+--------------------------------------------------------------
+                        core || index                  <child>
+                             \/
+       +-----------------------------------------------+
+       |                  core0/core1                  |
+       |          enable/disable power/clk/irq         |
+       +-----------------------------------------------+
+--------------------------------------------------------------
+As above , there are parent and child devices, child mean each venc
+core, the child device controls the information of each core
+independent which inlcude power/clk/irq.
+When start encoding, input buffer 0 will be encoded by core0, and input
+buffer 1 can be encoded by core1 even if buffer 0 has not been encoded
+done yet, after buffer 0 encoded done, buffer 2 will be encoded by
+core0, and buffer 1 encoded done by core1. These two encoder cores will
+encode each input in this overlapping manner.
 
-s/slot location/slot locations/
+We need manage each child device in parent device by core-id property.
+And we also need record current encoding input buffer, encode done
+output buffers and which one core is in used through core-id, because
+the two cores are encoding at the same time under one parent driver.
+> 
+> Rob
 
->change makes the code more robust by using the reference_ts as key and
->by marking all entries invalid right from the start.
->
->Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->---
-> drivers/staging/media/hantro/hantro_h264.c | 10 ++++------
-> 1 file changed, 4 insertions(+), 6 deletions(-)
->
->diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
->index 228629fb3cdf..7377fc26f780 100644
->--- a/drivers/staging/media/hantro/hantro_h264.c
->+++ b/drivers/staging/media/hantro/hantro_h264.c
->@@ -258,8 +258,7 @@ static void prepare_table(struct hantro_ctx *ctx)
-> static bool dpb_entry_match(const struct v4l2_h264_dpb_entry *a,
-> 			    const struct v4l2_h264_dpb_entry *b)
-> {
->-	return a->top_field_order_cnt == b->top_field_order_cnt &&
->-	       a->bottom_field_order_cnt == b->bottom_field_order_cnt;
->+	return a->reference_ts == b->reference_ts;
-> }
->
-> static void update_dpb(struct hantro_ctx *ctx)
->@@ -273,13 +272,13 @@ static void update_dpb(struct hantro_ctx *ctx)
->
-> 	/* Disable all entries by default. */
-> 	for (i = 0; i < ARRAY_SIZE(ctx->h264_dec.dpb); i++)
->-		ctx->h264_dec.dpb[i].flags &= ~V4L2_H264_DPB_ENTRY_FLAG_ACTIVE;
->+		ctx->h264_dec.dpb[i].flags = 0;
+Thanks
+Best Regards
 
-Ehm ... we just remove all flags? Can't this have any unwanted side
-effects like removing a flag that we actually wanted to keep?
-(Like long term or the field flags?)
-If we just want to set the DPB entry inactive, then removing the ACTIVE
-flag seems like the correct approach to me.
-If we want to get rid of the VALID flag as well, then we could just do:
-		ctx->h264_dec.dpb[i].flags &=
-       ~(V4L2_H264_DPB_ENTRY_FLAG_ACTIVE | V4L2_H264_DPB_ENTRY_FLAG_VALID);
-
-In case we really want to reset all flags, I'd say adjust the comment
-above it:
-```
-- 	/* Disable all entries by default. */
-+ 	/* Reset the flags for all entries by default. */
-```
-
-Greetings,
-Sebastian
-
->
-> 	/* Try to match new DPB entries with existing ones by their POCs. */
-> 	for (i = 0; i < ARRAY_SIZE(dec_param->dpb); i++) {
-> 		const struct v4l2_h264_dpb_entry *ndpb = &dec_param->dpb[i];
->
->-		if (!(ndpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
->+		if (!(ndpb->flags & V4L2_H264_DPB_ENTRY_FLAG_VALID))
-> 			continue;
->
-> 		/*
->@@ -290,8 +289,7 @@ static void update_dpb(struct hantro_ctx *ctx)
-> 			struct v4l2_h264_dpb_entry *cdpb;
->
-> 			cdpb = &ctx->h264_dec.dpb[j];
->-			if (cdpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE ||
->-			    !dpb_entry_match(cdpb, ndpb))
->+			if (!dpb_entry_match(cdpb, ndpb))
-> 				continue;
->
-> 			*cdpb = *ndpb;
->-- 
->2.34.1
->
