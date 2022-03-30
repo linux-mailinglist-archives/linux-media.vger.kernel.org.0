@@ -2,44 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D9E74EC018
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 13:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6D974EC00F
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 13:47:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343819AbiC3Lss (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 07:48:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57744 "EHLO
+        id S1343818AbiC3LtC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 07:49:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343783AbiC3Lsn (ORCPT
+        with ESMTP id S1343793AbiC3Lst (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 07:48:43 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A154D25DAAF;
-        Wed, 30 Mar 2022 04:46:57 -0700 (PDT)
+        Wed, 30 Mar 2022 07:48:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96A3725F644;
+        Wed, 30 Mar 2022 04:47:02 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 62EF7B81ACC;
-        Wed, 30 Mar 2022 11:46:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77209C3411B;
-        Wed, 30 Mar 2022 11:46:54 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 15163615F5;
+        Wed, 30 Mar 2022 11:47:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3808C340F3;
+        Wed, 30 Mar 2022 11:47:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648640815;
-        bh=SCgcK3ystEM4p5FUpeXZzCOdyVTPsuyCpDS+LaZ2TR0=;
+        s=k20201202; t=1648640821;
+        bh=ADEi5SU0fkm1OasEUzfXS5XLxdWFJrLpnS+LEgj9ZRA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pntRx0ZeElGMfSNF4Yd1qRqISRN6bKWlFnDmMDjy4opXCAQi1FnYfEi/+Q/hDIpGt
-         ViuOtaXDqKm+E8Bxgqj7wW9Ztr9N3795+8Rmf2tJH25b+1TmOwygjW1Ln/F/0Mz8vO
-         tmSetsyOfXeSt8XJEG6E2kBw3+IsXxoA/IKaadsiFBTTxzDmPouEg4EVj6ipcgTiaa
-         4qxqVAetVUJwBw5nZ8wvDWfPX3vYosRJbFkPplr5WqyVauPVsALLRMo+KYNIIU9E1D
-         lezJSMy7Cf9hqKmBeDGDj3NY3jb93tm3HtgQn6KvnnaGLuvtwQqf6IMdzpZ9KYbxB1
-         tuSlMSUDWhwMA==
+        b=g+8w/egYmPWHHkBstXLYBVkHVrXPJt8Qz36Kdf3xuuGTzTsk3LQYentmIB0Nu0tcW
+         xq3s8Lzb7xNIU2k4N6wGKXy6AtMIC+esYZNhjtOjMfIJljhhi6A7Ldr8QEd4WG2O9I
+         i7NixVrc1XOCI0krmtBXB2tRhzx5HMdVjIL5TiAdgVvw7xEl8TIrOGHZ/taDpR3nah
+         DRWkYz88ewYH99ZV7K2vHxq9HPRDGRjwoHsTYi5WFb/SkAuzTVHWczRq8sPK9a4zKO
+         USmAp9ImBXpxhF2ZbMbWtCIbbVtGyRX67mhjE/Xl4yhBsw7gS7RP6Rm6SD7uv3+qIi
+         rsAkJX/YA44Dg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Peiwei Hu <jlu.hpw@foxmail.com>, Sean Young <sean@mess.org>,
+Cc:     Mirela Rabulea <mirela.rabulea@oss.nxp.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 05/66] media: ir_toy: free before error exiting
-Date:   Wed, 30 Mar 2022 07:45:44 -0400
-Message-Id: <20220330114646.1669334-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 09/66] media: imx-jpeg: Prevent decoding NV12M jpegs into single-planar buffers
+Date:   Wed, 30 Mar 2022 07:45:48 -0400
+Message-Id: <20220330114646.1669334-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220330114646.1669334-1-sashal@kernel.org>
 References: <20220330114646.1669334-1-sashal@kernel.org>
@@ -57,33 +58,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Peiwei Hu <jlu.hpw@foxmail.com>
+From: Mirela Rabulea <mirela.rabulea@oss.nxp.com>
 
-[ Upstream commit 52cdb013036391d9d87aba5b4fc49cdfc6ea4b23 ]
+[ Upstream commit 417591a766b3c040c346044541ff949c0b2bb7b2 ]
 
-Fix leak in error path.
+If the application queues an NV12M jpeg as output buffer, but then
+queues a single planar capture buffer, the kernel will crash with
+"Unable to handle kernel NULL pointer dereference" in mxc_jpeg_addrs,
+prevent this by finishing the job with error.
 
-Signed-off-by: Peiwei Hu <jlu.hpw@foxmail.com>
-Signed-off-by: Sean Young <sean@mess.org>
+Signed-off-by: Mirela Rabulea <mirela.rabulea@oss.nxp.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/rc/ir_toy.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/imx-jpeg/mxc-jpeg.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/rc/ir_toy.c b/drivers/media/rc/ir_toy.c
-index 7e98e7e3aace..196806709259 100644
---- a/drivers/media/rc/ir_toy.c
-+++ b/drivers/media/rc/ir_toy.c
-@@ -458,7 +458,7 @@ static int irtoy_probe(struct usb_interface *intf,
- 	err = usb_submit_urb(irtoy->urb_in, GFP_KERNEL);
- 	if (err != 0) {
- 		dev_err(irtoy->dev, "fail to submit in urb: %d\n", err);
--		return err;
-+		goto free_rcdev;
- 	}
+diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
+index 4ca96cf9def7..b249c1bbfac8 100644
+--- a/drivers/media/platform/imx-jpeg/mxc-jpeg.c
++++ b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
+@@ -947,6 +947,12 @@ static void mxc_jpeg_device_run(void *priv)
+ 	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
  
- 	err = irtoy_setup(irtoy);
+ 	jpeg_src_buf = vb2_to_mxc_buf(&src_buf->vb2_buf);
++	if (q_data_cap->fmt->colplanes != dst_buf->vb2_buf.num_planes) {
++		dev_err(dev, "Capture format %s has %d planes, but capture buffer has %d planes\n",
++			q_data_cap->fmt->name, q_data_cap->fmt->colplanes,
++			dst_buf->vb2_buf.num_planes);
++		jpeg_src_buf->jpeg_parse_error = true;
++	}
+ 	if (jpeg_src_buf->jpeg_parse_error) {
+ 		jpeg->slot_data[ctx->slot].used = false;
+ 		v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
 -- 
 2.34.1
 
