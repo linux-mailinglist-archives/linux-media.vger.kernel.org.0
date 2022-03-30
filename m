@@ -2,119 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B7F14ECE64
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 23:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A63C24ED049
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 01:43:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351183AbiC3VCH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 17:02:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47720 "EHLO
+        id S242747AbiC3XpL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 19:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344477AbiC3VCF (ORCPT
+        with ESMTP id S1351836AbiC3XpK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 17:02:05 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 303EB28E07;
-        Wed, 30 Mar 2022 14:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648674019; x=1680210019;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8FC2FPhKtM0mTtO05j8fjDdgfsYLuSdSZPWEuv5HJBk=;
-  b=G+p8rObvSJ/MT8DTmBGGNeA6XJ0SnBnB1uHGC/pN/siDQMKDYobBZMPm
-   pqgG505RlDRsuYdiWIVIDYiCataao4dXWxGX9WoqaoNDPgHGJmfvEXj4X
-   mOQz0KGxItlt3w64sw1b8aOrMqjVIpf5AQqOcsn85VYD7PBs+3I3lGbSN
-   RRBSGZrtY1vE2ebkOgiczAHywOhzfhxCyKQVXZqLc4vGKY/TzLH6wLEud
-   DpJUuApi8+QB9WJG/quWodMG6GW+teC7Dp9gq7RDQr+ACspeLRMeZm5bc
-   IRzs3znUnMOnjl5mvup1F5P8GMm9NmpZwm8HTkkB6ZEhxiaCxYvMND9W7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259618385"
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; 
-   d="scan'208";a="259618385"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 14:00:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; 
-   d="scan'208";a="503460985"
-Received: from lkp-server02.sh.intel.com (HELO 56431612eabd) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 30 Mar 2022 14:00:15 -0700
-Received: from kbuild by 56431612eabd with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nZfQN-0000V2-4A;
-        Wed, 30 Mar 2022 21:00:15 +0000
-Date:   Thu, 31 Mar 2022 04:59:23 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h:35:6:
- warning: no previous prototype for function
- 'fimc_isp_video_device_unregister'
-Message-ID: <202203310447.czIadBgz-lkp@intel.com>
+        Wed, 30 Mar 2022 19:45:10 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44303110F
+        for <linux-media@vger.kernel.org>; Wed, 30 Mar 2022 16:43:22 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id bg10so44604459ejb.4
+        for <linux-media@vger.kernel.org>; Wed, 30 Mar 2022 16:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=iREdRJSlGkex49OSzIjV0KsFYd3jZkgqeIW8XLnqJVg=;
+        b=v3+DvT6MCRwfRE2AsrD6YG1zSiTxbEnxL6aEqZFU/4zqeuCy5A6lE4iTeY+xbiG8I5
+         x5sI51qPvKIaTNBzbsgmeiUriNZA6Kn1CbUpdVh6K0ARyes4hEwCSxnpaTpGQo8CsY8I
+         68ayLJPCkYZ1TBvBlm8Jy3i/0yq4T7lOHGm4oaGQB57zlbrm14e6zjQ30W4QWlJ1na8B
+         yluIPxS3F2ANatES130GX7cIUfWGFbkaMSpvwt/xt4mBXmWxaWn0vCtU6Y9ontlzRgGK
+         MnvGuNkZ8A4FkSalHvCMKXkPXM6NSnLvgCAUZybrfmU2m0axLV54Da5AyNWnee/FFq0D
+         RkmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=iREdRJSlGkex49OSzIjV0KsFYd3jZkgqeIW8XLnqJVg=;
+        b=6ZIxVSD/aBVRCX4Tos34F4DlI1daAE/5WpwUJoHi0u5Rv0sFxyzB5uL2xfSC/9zwgm
+         2KP0BkZgWkcFla9aF7V/i1s8wphtr1jkmdzX6WtwQ3KpSeZaqznCUh5bxwRY4ouOcJRr
+         56m98Okz3DropJmyDTQ/aXg5niyY5deAlmQVYmAxvKul8iHkSnv16tnh/J5MwVHk4hI4
+         g9VrTR8D98FLXGRwhDr0xRreXDmBiWSZDinuPgK+Hj8Cc3zkIDxpzaVEi2vhkKoztXX9
+         lPV/BaV0Ms/isxC9ttRFxECbUdbJYMya3CJueO2Q/CqmbCdIidOSpmc4Fn4z1wUcabTL
+         UzIg==
+X-Gm-Message-State: AOAM5322Jto5JhkkZNocwmPymnnrUppiF1USKZH2tTKWRprmhZYE7Q/E
+        JV5tA7eusZZEuJ+sWc3auEW/+vRfXRhntkqEF35gsQ6q0PiBzQ==
+X-Google-Smtp-Source: ABdhPJxy8IQdc1GvtVhMWnjfsuJqWeXYQSzpSc7eTZXkFj106tgToJ42geM6ymErC4zrL4G/l3YiOH/g+QiNb7AA6bE=
+X-Received: by 2002:a17:907:168a:b0:6da:9177:9fdd with SMTP id
+ hc10-20020a170907168a00b006da91779fddmr2232289ejc.757.1648683800778; Wed, 30
+ Mar 2022 16:43:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
+ <20220328195936.82552-23-nicolas.dufresne@collabora.com> <20220330075913.wfl3prsyw5fvsv4t@basti-XPS-13-9310>
+ <4740735d92c0dac3708aa922b3d73db7a61fbdda.camel@collabora.com>
+In-Reply-To: <4740735d92c0dac3708aa922b3d73db7a61fbdda.camel@collabora.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Wed, 30 Mar 2022 20:43:08 -0300
+Message-ID: <CAAEAJfCH+m7mzU2EHkyxdKiNs7p=qfSfnvDzS+hLOftFE=n9CA@mail.gmail.com>
+Subject: Re: [PATCH v1 22/24] media: hantro: h264: Make dpb entry management
+ more robust
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Collabora Kernel ML <kernel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d888c83fcec75194a8a48ccd283953bdba7b2550
-commit: 238c84f71120f41c45301359902a912a19370f3d media: platform: rename exynos4-is/ to samsung/exynos4-is/
-date:   13 days ago
-config: riscv-randconfig-r003-20220330 (https://download.01.org/0day-ci/archive/20220331/202203310447.czIadBgz-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d9501cf49ce02937099350d08f20c4af86f3d)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=238c84f71120f41c45301359902a912a19370f3d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 238c84f71120f41c45301359902a912a19370f3d
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/media/
+On Wed, Mar 30, 2022 at 12:16 PM Nicolas Dufresne
+<nicolas.dufresne@collabora.com> wrote:
+>
+> Le mercredi 30 mars 2022 =C3=A0 09:59 +0200, Sebastian Fricke a =C3=A9cri=
+t :
+> > Hey Nicolas,
+> >
+> > On 28.03.2022 15:59, Nicolas Dufresne wrote:
+> > > From: Jonas Karlman <jonas@kwiboo.se>
+> > >
+> > > The driver maintains stable slot location for reference pictures. Thi=
+s
+> >
+> > s/slot location/slot locations/
+> >
+> > > change makes the code more robust by using the reference_ts as key an=
+d
+> > > by marking all entries invalid right from the start.
+> > >
+> > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > > ---
+> > > drivers/staging/media/hantro/hantro_h264.c | 10 ++++------
+> > > 1 file changed, 4 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/sta=
+ging/media/hantro/hantro_h264.c
+> > > index 228629fb3cdf..7377fc26f780 100644
+> > > --- a/drivers/staging/media/hantro/hantro_h264.c
+> > > +++ b/drivers/staging/media/hantro/hantro_h264.c
+> > > @@ -258,8 +258,7 @@ static void prepare_table(struct hantro_ctx *ctx)
+> > > static bool dpb_entry_match(const struct v4l2_h264_dpb_entry *a,
+> > >                         const struct v4l2_h264_dpb_entry *b)
+> > > {
+> > > -   return a->top_field_order_cnt =3D=3D b->top_field_order_cnt &&
+> > > -          a->bottom_field_order_cnt =3D=3D b->bottom_field_order_cnt=
+;
+> > > +   return a->reference_ts =3D=3D b->reference_ts;
+> > > }
+> > >
+> > > static void update_dpb(struct hantro_ctx *ctx)
+> > > @@ -273,13 +272,13 @@ static void update_dpb(struct hantro_ctx *ctx)
+> > >
+> > >     /* Disable all entries by default. */
+> > >     for (i =3D 0; i < ARRAY_SIZE(ctx->h264_dec.dpb); i++)
+> > > -           ctx->h264_dec.dpb[i].flags &=3D ~V4L2_H264_DPB_ENTRY_FLAG=
+_ACTIVE;
+> > > +           ctx->h264_dec.dpb[i].flags =3D 0;
+> >
+> > Ehm ... we just remove all flags? Can't this have any unwanted side
+> > effects like removing a flag that we actually wanted to keep?
+> > (Like long term or the field flags?)
+>
+> This is a local copy of the dpb, the DPB is fully passed for every decode=
+. So
+> these flags will be fully restored lower when we copy the found entry. In=
+ fact,
+> holding a state here would not represent well the userland intention and =
+can
+> have negative side effect on the decoding. Flags are not immutable betwee=
+n
+> decode and can change. This simplify the code, and make things less error=
+ prone.
+> This part of the code is already a bit complex, no need for an extra laye=
+r.
+>
+> > If we just want to set the DPB entry inactive, then removing the ACTIVE
+> > flag seems like the correct approach to me.
+> > If we want to get rid of the VALID flag as well, then we could just do:
+> >               ctx->h264_dec.dpb[i].flags &=3D
+> >        ~(V4L2_H264_DPB_ENTRY_FLAG_ACTIVE | V4L2_H264_DPB_ENTRY_FLAG_VAL=
+ID);
+> >
+> > In case we really want to reset all flags, I'd say adjust the comment
+> > above it:
+> > ```
+> > -     /* Disable all entries by default. */
+> > +     /* Reset the flags for all entries by default. */
+> > ```
+>
+> This reads the same to me, but I can do that yes. understand that VALID m=
+eans
+> the reference exist and the TS should point to some existing past referen=
+ce
+> (unless there was some decode error, which the userland may not be aware =
+yet as
+> this is asynchronous). While ACTIVE means that it is used as a reference.=
+ FFMPEG
+> is known not to filter inactive references. ACTIVE is just a flag without=
+ bunch
+> of other flags that can change for every decode. So none of this make sen=
+se
+> between 2 decodes.
+>
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Please leave the comment as-is, 'Disable all entries' is readable.
 
-All warnings (new ones prefixed by >>):
+As much as I'd love to have very clear comments everywhere,
+we have to accept that only people with insight on codec details
+are expected to make sense of driver details :-)
 
-   In file included from drivers/media/platform/samsung/exynos4-is/fimc-isp.c:25:
->> drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h:35:6: warning: no previous prototype for function 'fimc_isp_video_device_unregister' [-Wmissing-prototypes]
-   void fimc_isp_video_device_unregister(struct fimc_isp *isp,
-        ^
-   drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h:35:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void fimc_isp_video_device_unregister(struct fimc_isp *isp,
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/fimc_isp_video_device_unregister +35 drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h
-
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  34  
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20 @35  void fimc_isp_video_device_unregister(struct fimc_isp *isp,
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  36  				enum v4l2_buf_type type)
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  37  {
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  38  }
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  39  #endif /* !CONFIG_VIDEO_EXYNOS4_ISP_DMA_CAPTURE */
-34947b8aebe3f2 drivers/media/platform/exynos4-is/fimc-isp-video.h Sylwester Nawrocki 2013-12-20  40  
-
-:::::: The code at line 35 was first introduced by commit
-:::::: 34947b8aebe3f2d4eceb65fceafa92bf8dc97d96 [media] exynos4-is: Add the FIMC-IS ISP capture DMA driver
-
-:::::: TO: Sylwester Nawrocki <s.nawrocki@samsung.com>
-:::::: CC: Mauro Carvalho Chehab <m.chehab@samsung.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Thanks,
+Ezequiel
