@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 163A14EC0DC
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 13:55:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E34B94EC1AF
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 13:57:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245193AbiC3L4b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 07:56:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57774 "EHLO
+        id S1344448AbiC3Lz7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 07:55:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345346AbiC3LyY (ORCPT
+        with ESMTP id S1345340AbiC3LyX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 07:54:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E99F327854F;
+        Wed, 30 Mar 2022 07:54:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E90DD275CB1;
         Wed, 30 Mar 2022 04:50:58 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DEACD615E7;
-        Wed, 30 Mar 2022 11:50:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C82BC36AE2;
-        Wed, 30 Mar 2022 11:50:38 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BE7CA61671;
+        Wed, 30 Mar 2022 11:50:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7906AC36AE2;
+        Wed, 30 Mar 2022 11:50:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648641039;
-        bh=8XMINSXaSbfKJrYh9dECjJqF0AVdv8TqKHJzrJ7r5kw=;
+        s=k20201202; t=1648641057;
+        bh=CphQbbV0n6/aEe+zcIVsjiSJeqm4aIXll6oPKqDuX9c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PyBqfF1C9Dpu622PqMVt2O6Vc2rNCHC5nZ/zlCkg3G+bnRuLZziyDIDv6SvcQQ8hC
-         0SpeydRrpciaAWMoJL7Bh+4JSfw5dyeg7fM4f7CBpPUgyLRRXyxFWyKqC/I3AsKSfK
-         GFZl6LKb28teOdZx3ULdTIuRMxjYIpYB636THL1ULGeBp2K3arWDT+N4HVRIJ2BN1+
-         8A9fN13NHtgx/8v6kabSJl2avPABIT7X2Qa8fvpEzB98NwdPCTupuYAibY5LM5ztl2
-         Ri38xnSoI5MAG/Aa5kf362l/bhSPMVDm3OSccVWdbN9yYsu/Rh/hcoOHwy2vvQLq/1
-         q0G4tEO7guaVA==
+        b=ORSuHUlrm5ccbUE7dlG+wAJgTYoGaG2n8WXzntlbXbayHNUN/4gpF8uay7tHi4iO/
+         f2jk6EOBqpnnbytyFJj4sBarseFOqadiVzWY5EqSsuqwkXrUKpnYCU8LPuD/2RxxHu
+         uzkeg5pqOkB+VJn0VgFhWyv8ZGQKqS1oYO6AGKhOp2GONw5U8R1R6/EE60DDSiMKlv
+         NTWoNOK3app+yfA5MlnYsb0ry+3fErZsY5JpR1Ht06kIGl/nQz5DcbbKCOBOajF8Tu
+         HvIYuTw8XoGZ6MSBEZyD50MpTis0FSBvR/dWkJEI/grR3fCsDYd4dvC+vfZvwQ/FOk
+         0lAGpLUNClMEg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Tsuchiya Yuto <kitakar@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org
-Subject: [PATCH AUTOSEL 5.15 21/50] media: atomisp: fix dummy_ptr check to avoid duplicate active_bo
-Date:   Wed, 30 Mar 2022 07:49:35 -0400
-Message-Id: <20220330115005.1671090-21-sashal@kernel.org>
+Cc:     Ming Qian <ming.qian@nxp.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 34/50] media: imx-jpeg: fix a bug of accessing array out of bounds
+Date:   Wed, 30 Mar 2022 07:49:48 -0400
+Message-Id: <20220330115005.1671090-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220330115005.1671090-1-sashal@kernel.org>
 References: <20220330115005.1671090-1-sashal@kernel.org>
@@ -58,114 +58,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tsuchiya Yuto <kitakar@gmail.com>
+From: Ming Qian <ming.qian@nxp.com>
 
-[ Upstream commit 127efdbc51fe6064336c0452ce9c910b3e107cf0 ]
+[ Upstream commit 97558d170a1236280407e8d29a7d095d2c2ed554 ]
 
-The dummy_ptr check in hmm_init() [1] results in the following
-"hmm_init Failed to create sysfs" error exactly once every
-two times on atomisp reload by rmmod/insmod (although atomisp module
-loads and works fine regardless of this error):
+When error occurs in parsing jpeg, the slot isn't acquired yet, it may
+be the default value MXC_MAX_SLOTS.
+If the driver access the slot using the incorrect slot number, it will
+access array out of bounds.
+The result is the driver will change num_domains, which follows
+slot_data in struct mxc_jpeg_dev.
+Then the driver won't detach the pm domain at rmmod, which will lead to
+kernel panic when trying to insmod again.
 
-	[  140.230662] sysfs: cannot create duplicate filename '/devices/pci0000:00/0000:00:03.0/active_bo'
-	[  140.230668] CPU: 1 PID: 2502 Comm: insmod Tainted: G         C OE     5.15.0-rc4-1-surface-mainline #1 b8acf6eb64994414b2e20bad312a7a2c45f748f9
-	[  140.230675] Hardware name: OEMB OEMB/OEMB, BIOS 1.51116.238 03/09/2015
-	[  140.230678] Call Trace:
-	[  140.230687]  dump_stack_lvl+0x46/0x5a
-	[  140.230702]  sysfs_warn_dup.cold+0x17/0x24
-	[  140.230710]  sysfs_add_file_mode_ns+0x160/0x170
-	[  140.230717]  internal_create_group+0x126/0x390
-	[  140.230723]  hmm_init+0x5c/0x70 [atomisp 7a6a680bf400629363d2a6f58fd10e7299678b99]
-	[  140.230811]  atomisp_pci_probe.cold+0x1136/0x148e [atomisp 7a6a680bf400629363d2a6f58fd10e7299678b99]
-	[  140.230875]  local_pci_probe+0x45/0x80
-	[  140.230882]  ? pci_match_device+0xd7/0x130
-	[  140.230887]  pci_device_probe+0xfa/0x1b0
-	[  140.230892]  really_probe+0x1f5/0x3f0
-	[  140.230899]  __driver_probe_device+0xfe/0x180
-	[  140.230903]  driver_probe_device+0x1e/0x90
-	[  140.230908]  __driver_attach+0xc0/0x1c0
-	[  140.230912]  ? __device_attach_driver+0xe0/0xe0
-	[  140.230915]  ? __device_attach_driver+0xe0/0xe0
-	[  140.230919]  bus_for_each_dev+0x89/0xd0
-	[  140.230924]  bus_add_driver+0x12b/0x1e0
-	[  140.230929]  driver_register+0x8f/0xe0
-	[  140.230933]  ? 0xffffffffc153f000
-	[  140.230937]  do_one_initcall+0x57/0x220
-	[  140.230945]  do_init_module+0x5c/0x260
-	[  140.230952]  load_module+0x24bd/0x26a0
-	[  140.230962]  ? __do_sys_finit_module+0xae/0x110
-	[  140.230966]  __do_sys_finit_module+0xae/0x110
-	[  140.230972]  do_syscall_64+0x5c/0x80
-	[  140.230979]  ? syscall_exit_to_user_mode+0x23/0x40
-	[  140.230983]  ? do_syscall_64+0x69/0x80
-	[  140.230988]  ? exc_page_fault+0x72/0x170
-	[  140.230991]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-	[  140.230997] RIP: 0033:0x7f7fd5d8718d
-	[  140.231003] Code: b4 0c 00 0f 05 eb a9 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d b3 6c 0c 00 f7 d8 64 89 01 48
-	[  140.231006] RSP: 002b:00007ffefc25f0e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
-	[  140.231012] RAX: ffffffffffffffda RBX: 000055ac3edcd7f0 RCX: 00007f7fd5d8718d
-	[  140.231015] RDX: 0000000000000000 RSI: 000055ac3d723270 RDI: 0000000000000003
-	[  140.231017] RBP: 0000000000000000 R08: 0000000000000000 R09: 00007f7fd5e52380
-	[  140.231019] R10: 0000000000000003 R11: 0000000000000246 R12: 000055ac3d723270
-	[  140.231021] R13: 0000000000000000 R14: 000055ac3edd06e0 R15: 0000000000000000
-	[  140.231038] atomisp-isp2 0000:00:03.0: hmm_init Failed to create sysfs
-
-The problem is that dummy_ptr == 0 is a valid value. So, change the logic
-which checks if dummy_ptr was allocated.
-
-At this point, atomisp now gives WARN_ON() in hmm_free() [2] on atomisp
-reload by rmmod/insmod. Again, the check is wrong there.
-
-So, change both checks for mmgr_EXCEPTION, which is the error value when
-HMM allocation fails, and initialize dummy_ptr with such value.
-
-[1] added on commit
-    d9ab83953fa7 ("media: atomisp: don't cause a warn if probe failed")
-[2] added on commit
-    b83cc378dfc4 ("atomisp: clean up the hmm init/cleanup indirections")
-
-Link: https://lore.kernel.org/linux-media/20211017162337.44860-3-kitakar@gmail.com
-
-Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
-Co-developed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/atomisp/pci/hmm/hmm.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/media/platform/imx-jpeg/mxc-jpeg.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index 6a5ee4607089..c1cda16f2dc0 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -39,7 +39,7 @@
- struct hmm_bo_device bo_device;
- struct hmm_pool	dynamic_pool;
- struct hmm_pool	reserved_pool;
--static ia_css_ptr dummy_ptr;
-+static ia_css_ptr dummy_ptr = mmgr_EXCEPTION;
- static bool hmm_initialized;
- struct _hmm_mem_stat hmm_mem_stat;
- 
-@@ -209,7 +209,7 @@ int hmm_init(void)
- 
- void hmm_cleanup(void)
- {
--	if (!dummy_ptr)
-+	if (dummy_ptr == mmgr_EXCEPTION)
- 		return;
- 	sysfs_remove_group(&atomisp_dev->kobj, atomisp_attribute_group);
- 
-@@ -288,7 +288,8 @@ void hmm_free(ia_css_ptr virt)
- 
- 	dev_dbg(atomisp_dev, "%s: free 0x%08x\n", __func__, virt);
- 
--	WARN_ON(!virt);
-+	if (WARN_ON(virt == mmgr_EXCEPTION))
-+		return;
- 
- 	bo = hmm_bo_device_search_start(&bo_device, (unsigned int)virt);
- 
+diff --git a/drivers/media/platform/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
+index 637d73f5f4a2..37905547466b 100644
+--- a/drivers/media/platform/imx-jpeg/mxc-jpeg.c
++++ b/drivers/media/platform/imx-jpeg/mxc-jpeg.c
+@@ -932,7 +932,6 @@ static void mxc_jpeg_device_run(void *priv)
+ 		jpeg_src_buf->jpeg_parse_error = true;
+ 	}
+ 	if (jpeg_src_buf->jpeg_parse_error) {
+-		jpeg->slot_data[ctx->slot].used = false;
+ 		v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+ 		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+ 		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
 -- 
 2.34.1
 
