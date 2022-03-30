@@ -2,54 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B2154EBF31
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 12:50:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD1044EBF8A
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 13:05:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245575AbiC3Kw2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 06:52:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44350 "EHLO
+        id S1343506AbiC3LHg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 07:07:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245567AbiC3Kw0 (ORCPT
+        with ESMTP id S1343490AbiC3LHf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 06:52:26 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DF5136320;
-        Wed, 30 Mar 2022 03:50:42 -0700 (PDT)
-Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 719CE59D;
-        Wed, 30 Mar 2022 12:50:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1648637439;
-        bh=AKINsQNNEHyPQ0zEyaooSfWvaeG9TlXPko12sWdzLgM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=AxU5nMJRaM5E7X35ks8ZJOfUWDpJNFAuajCO7zA5YB1w9RxwbHGByoFfTCvZxj26J
-         rtnP8cGizBbLyQbedCQ5hDQSDtK4MASRNJjk210Khy9njGOSHgWXxZscnzoy45iY7a
-         5roIr32ZMTWPTrgRkASDLKrR9GpxSn7mJhusEKnA=
-Message-ID: <61fdb731-1ebb-941c-4bd7-7da8c31c8e74@ideasonboard.com>
-Date:   Wed, 30 Mar 2022 13:50:35 +0300
+        Wed, 30 Mar 2022 07:07:35 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6809E08B;
+        Wed, 30 Mar 2022 04:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648638349; x=1680174349;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MYCryOcIAiX8RK8QwL575BHmStD3LWKxFVsGNh49MH4=;
+  b=WS/r60a7PcZTSJ+PkTPqkf4D6IoyZsbahk25nJ4VaiaApd7GLGJqNkhe
+   aqv3w9YhphpLPpLek58Eb15nNMTPLlKmjFNIABbIsuQnKLy6vhCDcGdz3
+   BtWKVKbOxSz+e56LvWnR0ry/iWhvaJ9FtbDBONAxrhjd816cgL52tCNut
+   fcI5Qzt0Z87kYiZ5Ia9C4llDQ/CalhrvJay3/pklv3JYBIQHjwFjBgcIb
+   w7+fGHmNH33TvnyvpW/7NXT0+0FTBh2y0a7x4PBPzqZND7pGCtmGwMwBP
+   ljZEwjgQosjw+mOLZkY6izP2X2dEfKal9AVhihbRv0T5IIxNFhgo7VKvJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="345952115"
+X-IronPort-AV: E=Sophos;i="5.90,222,1643702400"; 
+   d="scan'208";a="345952115"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 04:05:49 -0700
+X-IronPort-AV: E=Sophos;i="5.90,222,1643702400"; 
+   d="scan'208";a="719933391"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 04:05:47 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 97C3F20365;
+        Wed, 30 Mar 2022 14:05:45 +0300 (EEST)
+Date:   Wed, 30 Mar 2022 14:05:45 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hangyu Hua <hbh25y@gmail.com>, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: mc: delete redundant code in
+ __media_device_unregister_entity
+Message-ID: <YkQ5ic2b/gaF8cF+@paasikivi.fi.intel.com>
+References: <20220324102752.47077-1-hbh25y@gmail.com>
+ <Yjx2Xm7JmS+E8d7M@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] media: staging: atomisp: rework reading the id and
- revision values
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tom Rix <trix@redhat.com>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, nathan@kernel.org,
-        ndesaulniers@google.com, hverkuil-cisco@xs4all.nl, vrzh@vrzh.net,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-References: <20220326191853.2914552-1-trix@redhat.com>
- <YkN0w5NxLcBFes1b@paasikivi.fi.intel.com>
- <2ab474d8-ee4e-44b5-ab3c-38b72135a27f@redhat.com>
- <YkQx6jk5V2/f5mye@paasikivi.fi.intel.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <YkQx6jk5V2/f5mye@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yjx2Xm7JmS+E8d7M@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,20 +64,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/03/2022 13:33, Sakari Ailus wrote:
-> Hi Tom,
+On Thu, Mar 24, 2022 at 03:47:10PM +0200, Laurent Pinchart wrote:
+> Hi Hangyu,
 > 
-> On Tue, Mar 29, 2022 at 04:21:20PM -0700, Tom Rix wrote:
->> I'll do a resend.
->>
->> I use git send-mail, sooo not sure what went wrong.
+> Thank you for the patch.
 > 
-> The resent patch also has the same Content-type. I looked a bit further and
-> it seems that this is very probably added by our mail system somehow: it's
-> not present on the patch I received through a different route. Weird.
+> On Thu, Mar 24, 2022 at 06:27:52PM +0800, Hangyu Hua wrote:
+> > media_gobj_destroy has already set graph_obj.mdev to NULL. There is no need to
+> > set it again.
+> > 
+> > Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> > ---
+> >  drivers/media/mc/mc-device.c | 1 -
+> >  1 file changed, 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+> > index cf5e459b1d96..7727c619043e 100644
+> > --- a/drivers/media/mc/mc-device.c
+> > +++ b/drivers/media/mc/mc-device.c
+> > @@ -605,7 +605,6 @@ static void __media_device_unregister_entity(struct media_entity *entity)
+> >  
+> >  	/* invoke entity_notify callbacks to handle entity removal?? */
+> >  
+> > -	entity->graph_obj.mdev = NULL;
 
-Well... For me, the original patch in this thread was text/plain. But 
-the [RESEND PATCH] was application/octet-stream, and Thunderbird shows 
-it as empty body with an unnamed attachment.
+Removed the extra newline above, too. Applied.
 
-  Tomi
+Please run scripts/checkpatch.pl on the patches, too.
+
+> >  }
+> >  
+> >  /**
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+
+-- 
+Sakari Ailus
