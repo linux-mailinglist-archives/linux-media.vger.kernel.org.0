@@ -2,73 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE96C4ECC45
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 20:29:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 121754ECC9C
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 20:46:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243680AbiC3SbF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 14:31:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33232 "EHLO
+        id S1350383AbiC3SsU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 14:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351162AbiC3S23 (ORCPT
+        with ESMTP id S1350069AbiC3SsC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 14:28:29 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 400E051324;
-        Wed, 30 Mar 2022 11:24:56 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id d5so37300192lfj.9;
-        Wed, 30 Mar 2022 11:24:56 -0700 (PDT)
+        Wed, 30 Mar 2022 14:48:02 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C7922DE;
+        Wed, 30 Mar 2022 11:46:15 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id h7so37420520lfl.2;
+        Wed, 30 Mar 2022 11:46:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=AdJ8ve3qHqvvd1c/19/c++F2nvBXXpoJRywWLK1c6GA=;
-        b=VzF/bjKqvvZH4+Vs+UicO3gdz9nsJEXm+dcg6UGPbVU/yoLYmVm1YueOWKdDhZNgix
-         FY/hHbfESYn9c5fsPZWbC3dGHSEHNdwzq2Na4EsfiTXsSN3f9AEGxQ7WX6R9UspJpGIg
-         GjAPpxb4luejAubvpVp9DqPmBzV/k+Uifz+4m6bxdYb3PW5nh+qg64xIFbJpwXxDGbma
-         qoDOQnqngwklcxTK5GIuOH1jbuWUIQruO6S704/oPf42LwNUqsE0xxqSPXlF1vvPC2Cb
-         1wypDNZE3Rt183RhPwh9ASNC2gk7NFZ98o916r+4FtmsWO03lLUfD25XLuDJcZGZ57IA
-         e1hQ==
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=VsweRR9Bm1elugFuLjB+sHVW+IhoGa/6l3x6FlcUvOw=;
+        b=B32lQ5FlBZfygIdUdw0TYad6RyBN8VI3SfsZjYHT9E6jPq3HNr+2wwMZvWnoo6p1hI
+         sIg/VxZR2RZEl9yH1qJd7JloeBErlrRzvtj98akVrwPyZVQWXay/Pe1dYB0YJngDQKFm
+         ov7kNJbaoX/hs7RMBJa8ZNJcGCLIqGE1xwkes7zJghrSxIVbvPVEDlzXqPsQ7Eiqc6X2
+         7trm1JnCQIL/DH7yiTnU0dNGeBzS/q7xEc0QWfUJ5vMRFnRpgRFnAilgye3ilugCTpG/
+         Nz4KSC5nzDPHTCFyUNuUObr5j+KUPJHwZ1l0PvWGKj6hL4fGVP4B8cPWNhA9/wo6Ewc7
+         rVQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+         :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=AdJ8ve3qHqvvd1c/19/c++F2nvBXXpoJRywWLK1c6GA=;
-        b=AS3iCBpo1t50ULSUoJ4aFWT46T8QUpMLtKKUktcDt/FDFS5C8yFodA2EKrQig82O1l
-         PRz4mzXncFcwswnM1/3yINIuAaYA2epTMPZKShTUm33choXdzhjqTDiKq6A6hQFPcREa
-         ce3/WXEw5t/PvXn71IN63kwBfjgXOKWM53q97LGEPM5WWtdUda0v3vll4OM+E8m/pjvc
-         K9285uqB/NbJf0OQau7NehpWlq56c3ilrR2hzOJyGy4AHnXGvqXAkF6lcfK5rGsz9sYu
-         8rV3JD8d9j1N0jmnGZPQgB4eYygiuO+upb8IoiyDtflaxY6jYE9wimwca+Z5sl3VFwiq
-         N65Q==
-X-Gm-Message-State: AOAM533GZHCJCzxUQcble9//3h6f4EWgYRQgHSU6Pso1tp+/jxF6W4We
-        CfrOYlBOyr8XdjxiRgagbGw=
-X-Google-Smtp-Source: ABdhPJy/021JKKynej47Sox209kOnGV7+kHTY+Ir+6FxgM4yrCyy/XHL3xiVimSA0AHiJ0FmcxKMmw==
-X-Received: by 2002:a19:4f5d:0:b0:44a:2905:84ea with SMTP id a29-20020a194f5d000000b0044a290584eamr7774216lfk.120.1648664694266;
-        Wed, 30 Mar 2022 11:24:54 -0700 (PDT)
+        bh=VsweRR9Bm1elugFuLjB+sHVW+IhoGa/6l3x6FlcUvOw=;
+        b=mskhFB7s7/Hm3BnTlOSD0kk0w1++A0LG0PHg6or1KgO+QD0tf0Ff6FhXF4Sb72pcKH
+         II0P69N2TEF2vfLnLu9yRW/RGnMJSI6XDHDGFTyS8Nf4XTYkmomc7oXKtFcPNHEbnb/j
+         LemSDJNuDn5tKUOwJielq8wiwOB9fr/6IbPr+EOAiDUhfGoAvOSPKdKLEqDAsca+MPQg
+         iNdZcUnokOcKEeglfU48RNbbLVDFwhaa9ahSmygj+x5ScegZ7QClZxTjghz4LSxhhKoU
+         l1oG1XSCSIhVSOekqZ3AGlDxxI6HCY1Az5k7GvbTfhqftoXbl39Yb2OxJUJQooc1KdiC
+         ZTwA==
+X-Gm-Message-State: AOAM533E8+35jxjau/rxCeOhKGU8E1Y+67VN+AqE5hHA8e5fhuga7tTA
+        TJwU/ZkW3LHf2JVuk/5itfk=
+X-Google-Smtp-Source: ABdhPJxNOffv3wHbgOEwwqgQ7jn38JCaYiHhqAWPbcL9zTBjblqOl5truR1ByGuh3tMSD6h4o3Id2A==
+X-Received: by 2002:a05:6512:b11:b0:44a:2ead:daf2 with SMTP id w17-20020a0565120b1100b0044a2eaddaf2mr7881574lfu.642.1648665973113;
+        Wed, 30 Mar 2022 11:46:13 -0700 (PDT)
 Received: from [192.168.1.11] ([46.235.67.247])
-        by smtp.gmail.com with ESMTPSA id o3-20020a198c03000000b00448b7b1780csm2410866lfd.63.2022.03.30.11.24.51
+        by smtp.gmail.com with ESMTPSA id s10-20020a19ad4a000000b0044826a25a2esm2410533lfd.292.2022.03.30.11.46.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Mar 2022 11:24:53 -0700 (PDT)
-Message-ID: <ecf7ccdd-0d6f-9407-6778-ae7f0a6bf538@gmail.com>
-Date:   Wed, 30 Mar 2022 21:24:48 +0300
+        Wed, 30 Mar 2022 11:46:12 -0700 (PDT)
+Message-ID: <bb97600c-c865-10ab-fdb9-861c5423ddb0@gmail.com>
+Date:   Wed, 30 Mar 2022 21:46:11 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [Linaro-mm-sig] [PATCH next] dma-buf/sync-file: do not allow zero
- size allocations
+Subject: Re: [syzbot] KASAN: use-after-free Read in em28xx_init_extension (2)
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        sumit.semwal@linaro.org, gustavo@padovan.org,
-        christian.koenig@amd.com, daniel.vetter@ffwll.ch
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com
-References: <20220329221425.22691-1-paskripkin@gmail.com>
- <8af3d213-6cb7-a021-c198-e1bd37c47e7c@gmail.com>
+To:     syzbot <syzbot+99d6c66dbbc484f50e1c@syzkaller.appspotmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+References: <000000000000453f3d05db72fc7e@google.com>
 From:   Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <8af3d213-6cb7-a021-c198-e1bd37c47e7c@gmail.com>
+In-Reply-To: <000000000000453f3d05db72fc7e@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -79,44 +74,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christian,
-
-On 3/30/22 10:09, Christian König wrote:
-> That problem is already fixed with patch 21d139d73f77 dma-buf/sync-file:
-> fix logic error in new fence merge code.
+On 3/30/22 20:36, syzbot wrote:
+> Hello,
 > 
-> Am 30.03.22 um 00:14 schrieb Pavel Skripkin:
->> syzbot reported GPF in dma_fence_array_first(), which is caused by
->> dereferencing ZERO_PTR in dma-buf internals.
->>
->> ZERO_PTR was generated in sync_file_merge(). This functuion tries to
->> reduce allocation size, but does not check if it reducing to 0.
+> syzbot found the following issue on:
 > 
-> This is actually perfectly ok. The code above should have prevented the
-> size to become 0.
+> HEAD commit:    52d543b5497c Merge tag 'for-linus-5.17-1' of https://githu..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=17b804fb700000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=7094767cefc58fb9
+> dashboard link: https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=161c4739700000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16432d51700000
 > 
-> Regards,
-> Christian.
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+99d6c66dbbc484f50e1c@syzkaller.appspotmail.com
+> 
+> em28xx 5-1:0.130: Config register raw data: 0xfffffffb
+> em28xx 5-1:0.130: AC97 chip type couldn't be determined
+> em28xx 5-1:0.130: No AC97 audio processor
+> ==================================================================
+> BUG: KASAN: use-after-free in __list_add_valid+0x93/0xa0 lib/list_debug.c:26
+> Read of size 8 at addr ffff888027458250 by task kworker/1:1/40
 > 
 
-Thanks for your reply! I see that 21d139d73f77 fixes GPF in 
-dma_fence_array_first(), but what about this part:
 
->>   
->> -	if (num_fences > INT_MAX)
->> +	if (num_fences > INT_MAX || !num_fences)
->>   		goto err_free_sync_file;
->>   
->>   	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
->> @@ -264,7 +264,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
->>   	if (index == 0)
+Just want to warn anyone looking into this bug.
 
-If num_fences is equal to zero then fences dereference will cause an 
-oops. Or this one is also fixed in your tree?
+I came up with the fix, that passed syzbot testing and patch has been in 
+Linus' tree for couple of months: see commit 2c98b8a3458d ("media: 
+em28xx: add missing em28xx_close_extension").
+
+After some time Maximilian sent a report about kernel hung bug caused by 
+my fix [1]. Just random hung caused by wrong reference counting 
+somewhere. No idea how to reproduce it locally or how to fix it.
+
+I had to revert my fix, of course. That's why this bug appeared one more 
+time.
+
+So, if you are going to send a fix, please, check that it does not have 
+same problem as mine.
+
+Thanks
 
 
-Thanks!
-
+[1] 
+https://lore.kernel.org/all/6a72a37b-e972-187d-0322-16336e12bdc5@elbmurf.de/ 
 
 
 
