@@ -2,209 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 906114EBB7E
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 09:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BF544EBB92
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 09:15:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243648AbiC3HMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 03:12:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60216 "EHLO
+        id S240849AbiC3HRj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 03:17:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233747AbiC3HMR (ORCPT
+        with ESMTP id S231192AbiC3HRh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 03:12:17 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B16DC1017DF;
-        Wed, 30 Mar 2022 00:10:31 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a02:3030:d:7e3f:91e1:4be5:4001:fd80])
+        Wed, 30 Mar 2022 03:17:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D42618B7A7;
+        Wed, 30 Mar 2022 00:15:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5C4D41F4393C;
-        Wed, 30 Mar 2022 08:10:30 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1648624230;
-        bh=Ky14EMhLs84Jm426CqymN8f+VXlw/yhjhgyFuJMtXJY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bzXlUh00yEYU8wd0Fa2fSi6DNHm+PmbZkl5f3xI/8xqCu7zzqJvGO8dfLkSvS48Fb
-         Uwf/ieTRLCJVwDe8lbyOdp1NNpGfqkZ3wORV5EygTmoW5n8HCAngZwbEoPQ1mXctzP
-         /Z3QmivNgnE5S6fml5qxX+6WcCbV9FImKpuaYadjbgWCu7e3xvDkDoqazIijNsn20C
-         CSBcu0XamQ7zECoRJyTsLoA93ZtzLIYlvjS2VXosRlPKFDVjvLTpNKuYYN5pMrkdIh
-         6LJhQslq3kfnl7k64YBS9vPEURRlpI5R99ndGOx2g/Oo9Ri/tbLNthuL2uvEhJn91n
-         xg0t91PK8UeKg==
-Date:   Wed, 30 Mar 2022 09:10:27 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 19/24] media: rkvdec-h264: Add field decoding support
-Message-ID: <20220330071027.kp6ryruntpysmjau@basti-XPS-13-9310>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-20-nicolas.dufresne@collabora.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EBB1A6171F;
+        Wed, 30 Mar 2022 07:15:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1D63C340EC;
+        Wed, 30 Mar 2022 07:15:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648624552;
+        bh=SxJh/AU3dTlFq/zM5QD7GIB+GWItILWaKTz5mqVE33E=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=kNb6eJZy/3lzNQnBPMn0WD8RnHj5MHG+qqMcAaoolEDIuD9GxaK3ywuvQwnz2tCzj
+         UOFRRW6x6V1F3xwchKo0jLS5Ohyz7Ver/Lq+mHtz2LK8vJwmiobykuHQt+g+kZz9kN
+         XQRlYQL9CR/1RuSIzkrq0+POBWzXwaQ7OJ9A0Vk9jNDhMrt6C3Fg6Or9Ev3djDaojn
+         VLwrGkefz7VFyeg1d3JBwEoMUtiyMdRKCjfN7V20zS8XZzg+tGUp5k+OPm3UgsO2Fl
+         2sMhYCLJ5b1S6wHlcGruxuArohBWZse5m7HJp+6VluoJ4odLC47ZZrXsgNmdFovLP7
+         Bge1FAoL7XPjg==
+Message-ID: <fff59e1d-2f1c-ed96-4bf8-5744b75d1998@kernel.org>
+Date:   Wed, 30 Mar 2022 09:15:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220328195936.82552-20-nicolas.dufresne@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 2/2] dt-bindings: Convert Dongwoon dw9807-vcm bindings
+ to json-schema
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, robh@kernel.org
+References: <20220329212654.587451-1-sakari.ailus@linux.intel.com>
+ <20220329212654.587451-3-sakari.ailus@linux.intel.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20220329212654.587451-3-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Nicolas,
+On 29/03/2022 23:26, Sakari Ailus wrote:
+> Convert the old text based dw9807-vcm chip DT bindings to json-schema.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  .../media/i2c/dongwoon,dw9807-vcm.txt         |  9 ----
+>  .../media/i2c/dongwoon,dw9807-vcm.yaml        | 43 +++++++++++++++++++
+>  2 files changed, 43 insertions(+), 9 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.txt b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.txt
+> deleted file mode 100644
+> index c4701f1eaaf63..0000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.txt
+> +++ /dev/null
+> @@ -1,9 +0,0 @@
+> -Dongwoon Anatech DW9807 voice coil lens driver
+> -
+> -DW9807 is a 10-bit DAC with current sink capability. It is intended for
+> -controlling voice coil lenses.
+> -
+> -Mandatory properties:
+> -
+> -- compatible: "dongwoon,dw9807-vcm"
+> -- reg: I2C slave address
+> diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.yaml b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.yaml
+> new file mode 100644
+> index 0000000000000..0cf153ed547fe
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9807-vcm.yaml
+> @@ -0,0 +1,43 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (C) 2018, 2021 Intel Corporation
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/dongwoon,dw9807-vcm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Dongwoon Anatech DW9807 voice coil lens driver
+> +
+> +maintainers:
+> +  - Sakari Ailus <sakari.ailus@linux.intel.com>
+> +
+> +description: |
+> +  DW9807 is a 10-bit DAC with current sink capability. It is intended for
+> +  controlling voice coil lenses.
+> +
+> +properties:
+> +
+> +  compatible:
+> +    const: "dongwoon,dw9807-vcm"
 
-On 28.03.2022 15:59, Nicolas Dufresne wrote:
->This makes use of the new feature in the reference builder to program
->up to 32 references when doing field decoding. It also signals the
->parity (top of bottom) of the field to the hardware.
+Nothing changed here about new lines and quotes.
 
-s/top of bottom/top or bottom/
-
->
->Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-
-Greetings,
-Sebastian
-
->---
-> drivers/staging/media/rkvdec/rkvdec-h264.c | 48 ++++++++++------------
-> 1 file changed, 21 insertions(+), 27 deletions(-)
->
->diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
->index ec52b195bbd7..891c48bf6a51 100644
->--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
->+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
->@@ -97,13 +97,10 @@ struct rkvdec_h264_priv_tbl {
-> 	u8 err_info[RKV_ERROR_INFO_SIZE];
-> };
->
->-#define RKVDEC_H264_DPB_SIZE 16
->-
-> struct rkvdec_h264_reflists {
-> 	struct v4l2_h264_reference p[V4L2_H264_REF_LIST_LEN];
-> 	struct v4l2_h264_reference b0[V4L2_H264_REF_LIST_LEN];
-> 	struct v4l2_h264_reference b1[V4L2_H264_REF_LIST_LEN];
->-	u8 num_valid;
-> };
->
-> struct rkvdec_h264_run {
->@@ -738,23 +735,26 @@ static void lookup_ref_buf_idx(struct rkvdec_ctx *ctx,
-> 		struct vb2_queue *cap_q = &m2m_ctx->cap_q_ctx.q;
-> 		int buf_idx = -1;
->
->-		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
->+		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE) {
-> 			buf_idx = vb2_find_timestamp(cap_q,
-> 						     dpb[i].reference_ts, 0);
->+			if (buf_idx < 0)
->+				pr_debug("No buffer for reference_ts %llu",
->+					 dpb[i].reference_ts);
->+		}
->
-> 		run->ref_buf_idx[i] = buf_idx;
-> 	}
-> }
->
-> static void assemble_hw_rps(struct rkvdec_ctx *ctx,
->+			    struct v4l2_h264_reflist_builder *builder,
-> 			    struct rkvdec_h264_run *run)
-> {
-> 	const struct v4l2_ctrl_h264_decode_params *dec_params = run->decode_params;
-> 	const struct v4l2_h264_dpb_entry *dpb = dec_params->dpb;
-> 	struct rkvdec_h264_ctx *h264_ctx = ctx->priv;
->-	const struct v4l2_ctrl_h264_sps *sps = run->sps;
-> 	struct rkvdec_h264_priv_tbl *priv_tbl = h264_ctx->priv_tbl.cpu;
->-	u32 max_frame_num = 1 << (sps->log2_max_frame_num_minus4 + 4);
->
-> 	u32 *hw_rps = priv_tbl->rps;
-> 	u32 i, j;
->@@ -772,37 +772,36 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
-> 		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> 			continue;
->
->-		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
->-		    dpb[i].frame_num <= dec_params->frame_num) {
->-			p[i] = dpb[i].frame_num;
->-			continue;
->-		}
->-
->-		p[i] = dpb[i].frame_num - max_frame_num;
->+		p[i] = builder->refs[i].frame_num;
-> 	}
->
-> 	for (j = 0; j < RKVDEC_NUM_REFLIST; j++) {
->-		for (i = 0; i < h264_ctx->reflists.num_valid; i++) {
->-			u8 dpb_valid = run->ref_buf_idx[i] >= 0;
->-			u8 idx = 0;
->+		for (i = 0; i < builder->num_valid; i++) {
->+			struct v4l2_h264_reference *ref;
->+			u8 dpb_valid;
->+			u8 bottom;
->
-> 			switch (j) {
-> 			case 0:
->-				idx = h264_ctx->reflists.p[i].index;
->+				ref = &h264_ctx->reflists.p[i];
-> 				break;
-> 			case 1:
->-				idx = h264_ctx->reflists.b0[i].index;
->+				ref = &h264_ctx->reflists.b0[i];
-> 				break;
-> 			case 2:
->-				idx = h264_ctx->reflists.b1[i].index;
->+				ref = &h264_ctx->reflists.b1[i];
-> 				break;
-> 			}
->
->-			if (idx >= ARRAY_SIZE(dec_params->dpb))
->+			if (WARN_ON(ref->index >= ARRAY_SIZE(dec_params->dpb)))
-> 				continue;
->
->+			dpb_valid = run->ref_buf_idx[ref->index] >= 0;
->+			bottom = ref->fields == V4L2_H264_BOTTOM_FIELD_REF;
->+
-> 			set_ps_field(hw_rps, DPB_INFO(i, j),
->-				     idx | dpb_valid << 4);
->+				     ref->index | dpb_valid << 4);
->+			set_ps_field(hw_rps, BOTTOM_FLAG(i, j), bottom);
-> 		}
-> 	}
-> }
->@@ -990,10 +989,6 @@ static void config_registers(struct rkvdec_ctx *ctx,
-> 				       rkvdec->regs + RKVDEC_REG_H264_BASE_REFER15);
-> 	}
->
->-	/*
->-	 * Since support frame mode only
->-	 * top_field_order_cnt is the same as bottom_field_order_cnt
->-	 */
-> 	reg = RKVDEC_CUR_POC(dec_params->top_field_order_cnt);
-> 	writel_relaxed(reg, rkvdec->regs + RKVDEC_REG_CUR_POC0);
->
->@@ -1109,7 +1104,6 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
-> 	/* Build the P/B{0,1} ref lists. */
-> 	v4l2_h264_init_reflist_builder(&reflist_builder, run.decode_params,
-> 				       run.sps, run.decode_params->dpb);
->-	h264_ctx->reflists.num_valid = reflist_builder.num_valid;
-> 	v4l2_h264_build_p_ref_list(&reflist_builder, h264_ctx->reflists.p);
-> 	v4l2_h264_build_b_ref_lists(&reflist_builder, h264_ctx->reflists.b0,
-> 				    h264_ctx->reflists.b1);
->@@ -1117,7 +1111,7 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
-> 	assemble_hw_scaling_list(ctx, &run);
-> 	assemble_hw_pps(ctx, &run);
-> 	lookup_ref_buf_idx(ctx, &run);
->-	assemble_hw_rps(ctx, &run);
->+	assemble_hw_rps(ctx, &reflist_builder, &run);
-> 	config_registers(ctx, &run);
->
-> 	rkvdec_run_postamble(ctx, &run.base);
->-- 
->2.34.1
->
+Best regards,
+Krzysztof
