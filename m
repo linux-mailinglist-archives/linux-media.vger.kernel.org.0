@@ -2,174 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7E744ECCA0
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 20:47:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB2774ECCBA
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 20:52:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348876AbiC3StW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 14:49:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34680 "EHLO
+        id S1350377AbiC3Sya (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 14:54:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350219AbiC3StP (ORCPT
+        with ESMTP id S1350409AbiC3SyU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 14:49:15 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B834246;
-        Wed, 30 Mar 2022 11:47:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648666049; x=1680202049;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fR98BAS9xxFmuyNkbXQwJSd+XKma8MKivJ5ZtEcuCN4=;
-  b=ivxwl2hSAclmeyO5u0vsCxkjGLW2sBUBxXqa1cL/ZgAbbGGRYNLpv2LY
-   KYuLz2UqjTyhRs5rseU7P8Xdpynhn0oreAKcN9vmLzOlAb4OjwPGH/h1O
-   9Ni7T/u2FGZlmrFENudYLQw9tNwZzbT+9sbb/C+oHqQnGSG94Lo2eJCsX
-   2vCaJ4vbGVU0+YWPBskjQMXYWFYiCOG3OOfwK6lk8IfG0qyT1WfLpKAu3
-   hMlv5Uc9WNxXjb+rK9r1zJsXbqKw1Cp2DtNWqavCT5dCoChAhPlwnj1Sh
-   WZEKDWLispg9dWyEmjIKVbzmwuZrlpWvFfd2t/QxGU5gu8TPXuT8LAjQ9
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259802776"
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; 
-   d="scan'208";a="259802776"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 11:47:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; 
-   d="scan'208";a="554770868"
-Received: from lkp-server02.sh.intel.com (HELO 56431612eabd) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Mar 2022 11:47:27 -0700
-Received: from kbuild by 56431612eabd with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nZdLq-0000K2-S9;
-        Wed, 30 Mar 2022 18:47:26 +0000
-Date:   Thu, 31 Mar 2022 02:46:44 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: drivers/media/platform/intel/pxa_camera.c:2449:34: warning: unused
- variable 'pxa_camera_of_match'
-Message-ID: <202203310219.HvAOIHBC-lkp@intel.com>
+        Wed, 30 Mar 2022 14:54:20 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 617225BD27;
+        Wed, 30 Mar 2022 11:52:33 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id h1so25558518edj.1;
+        Wed, 30 Mar 2022 11:52:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=CTWrzljSwLfZ0l2PhXMaWGZIdhNeoDOQRnqzHnIspbk=;
+        b=JLCUEHQmAu4IFA3Pp0pbMtWaA5zMmoL+kw15OpNzaAzO8UE4DGw0x6yHFtvG6u/yGB
+         czJ6FnppkuGExQg2MsjtV/bauz5Y5saZG8yP/EBjfcige3kiaLZ9JDT6ppmno5PaPGPG
+         Z2WMjM9A1on4O2PWumA2uSuSZWN0+6X3qZl0NjPpq8KQajpYfLM9IQmP9zL2pLCwnRU1
+         NQll0TTUbLacZ68FCz4gHF8gDW1ZFhbe6m3jUUmb+aIctO/qKcrPexJOKkfIPKvuwJsf
+         R+qeQbL2eFJKqpsYWI9JHeA8JtbG/y4RQHlf4SVpmg+1LqU3HjLPOnQvGp1Elsydiz2Z
+         f3Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=CTWrzljSwLfZ0l2PhXMaWGZIdhNeoDOQRnqzHnIspbk=;
+        b=cZm/L7f9C9N/WAHjMpZyvUrqSxdUDTtsCJexXv6R+mf0+GUkC0Q17SPisvo2gEkGwH
+         XXGZcOdSXMdn810gHbI0/JcKvhme81x55rdbI3cKooGjIikYdPKTO2L1l15lR03hV2Zj
+         fE2PXRCNPGHsZUlaG7jxbE64JJqIYoEiD4enM81VLa524ZN9uU8l2yoqFF4ToA6sSr7u
+         hXVsJAQ9Wovjx6Dx/GKh6hKJn8uRf5h9iGjsE9vUFp+u5AQZEvZIYFYP0eI06awhC4zD
+         xIfvSnSwqhG1MCdcy2b/7CZecsnJ/UdfYzl/xg7RVeIXWIHvYYDCit29tmMJ0c0nj49e
+         0qsA==
+X-Gm-Message-State: AOAM533QMvky90ZKsgip5CtQuBa1PcJ2QxPZVaOHayh8h3HXYsDby4Su
+        MLLto71FsQrk7PGsyyp4oelPYCSKuDckb8xH/zI=
+X-Google-Smtp-Source: ABdhPJytxAuQdsBpDd/i3vdjOy1nf0HrltailaW23kgs4zAMNZy9pY7RJ8JsGFEsiiYYszczMXa4Yy9ZR6wG8bfquHI=
+X-Received: by 2002:aa7:c64c:0:b0:418:ecf7:afaa with SMTP id
+ z12-20020aa7c64c000000b00418ecf7afaamr12680127edr.38.1648666351722; Wed, 30
+ Mar 2022 11:52:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com> <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com>
+In-Reply-To: <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 30 Mar 2022 13:52:20 -0500
+Message-ID: <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
+Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com,
+        Chen-Yu Tsai <wens@csie.org>,
+        "jernej.skrabec" <jernej.skrabec@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev, kernel <kernel@collabora.com>,
+        knaerzche@gmail.com, jc@kynesim.co.uk
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Wed, Mar 30, 2022 at 2:53 AM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+>
+> Le 28/02/2022 =C3=A0 15:08, Benjamin Gaignard a =C3=A9crit :
+> > This series aims to make HEVC uapi stable and usable for hardware
+> > decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+> > and 2 out of the tree drivers (rkvdec and RPI).
+> >
+> > After the remarks done on version 2, I have completely reworked to patc=
+hes
+> > split so changelogs are meaningless. I have also drop "RFC" from the
+> > titles.
+> >
+> > Version 4:
+> > - Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_par=
+ams
+> > - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+> > - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+> > - Fix space/tab issue in kernel-doc
+> > - Add patch to change data_bit_offset definition
+> > - Fix hantro-media SPDX license
+> > - put controls under stateless section in v4l2-ctrls-defs.c
+> >
+> > At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>
+> Dear reviewers,
+>
+> This series is waiting for your feedback,
 
-First bad commit (maybe != root cause):
+I tried several times with the suggested repos for both the kernel and
+g-streamer without success getting Fluster to pass any tests on the
+imx8mq.  I can try again but I likely won't get to it until this
+weekend.  If I can get it working, I'll test both the 8mq and 8mm.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d888c83fcec75194a8a48ccd283953bdba7b2550
-commit: 95495f2aa9d8df1a7697bab24118544d3568f41d media: platform: place Intel drivers on a separate dir
-date:   2 weeks ago
-config: s390-randconfig-r036-20220330 (https://download.01.org/0day-ci/archive/20220331/202203310219.HvAOIHBC-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d9501cf49ce02937099350d08f20c4af86f3d)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=95495f2aa9d8df1a7697bab24118544d3568f41d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 95495f2aa9d8df1a7697bab24118544d3568f41d
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/media/platform/intel/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/media/platform/intel/pxa_camera.c:12:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/media/platform/intel/pxa_camera.c:12:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/media/platform/intel/pxa_camera.c:12:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/media/platform/intel/pxa_camera.c:2449:34: warning: unused variable 'pxa_camera_of_match' [-Wunused-const-variable]
-   static const struct of_device_id pxa_camera_of_match[] = {
-                                    ^
-   13 warnings generated.
-
-
-vim +/pxa_camera_of_match +2449 drivers/media/platform/intel/pxa_camera.c
-
-7254026cedd42d drivers/media/video/pxa_camera.c               Guennadi Liakhovetski 2011-06-29  2448  
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29 @2449  static const struct of_device_id pxa_camera_of_match[] = {
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2450  	{ .compatible = "marvell,pxa270-qci", },
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2451  	{},
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2452  };
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2453  MODULE_DEVICE_TABLE(of, pxa_camera_of_match);
-e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2454  
-
-:::::: The code at line 2449 was first introduced by commit
-:::::: e9a1d94fa85542d4f3046ac82d234a3c8349c948 [media] media: pxa_camera device-tree support
-
-:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
-:::::: CC: Mauro Carvalho Chehab <m.chehab@samsung.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+adam
+>
+> Thanks,
+> Benjamin
+>
+> >
+> > Benjamin
+> >
+> >
+> > Benjamin Gaignard (12):
+> >    media: uapi: HEVC: Add missing fields in HEVC controls
+> >    media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+> >      prefix
+> >    media: uapi: HEVC: Add document uAPI structure
+> >    media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+> >      dynamic array
+> >    media: uapi: Move parsed HEVC pixel format out of staging
+> >    media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+> >    media: uapi: Move the HEVC stateless control type out of staging
+> >    media: controls: Log HEVC stateless control in .std_log
+> >    media: uapi: Create a dedicated header for Hantro control
+> >    media: uapi: HEVC: fix padding in v4l2 control structures
+> >    media: uapi: Change data_bit_offset definition
+> >    media: uapi: move HEVC stateless controls out of staging
+> >
+> > Hans Verkuil (3):
+> >    videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+> >    v4l2-ctrls: add support for dynamically allocated arrays.
+> >    vivid: add dynamic array test control
+> >
+> >   .../userspace-api/media/drivers/hantro.rst    |   5 -
+> >   .../media/v4l/ext-ctrls-codec-stateless.rst   | 833 +++++++++++++++++=
++
+> >   .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
+> >   .../media/v4l/pixfmt-compressed.rst           |   7 +-
+> >   .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+> >   .../media/v4l/vidioc-queryctrl.rst            |   8 +
+> >   .../media/videodev2.h.rst.exceptions          |   5 +
+> >   .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+> >   drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+> >   drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+> >   drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
+> >   drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+> >   drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+> >   drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+> >   drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+> >   drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+> >   .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+> >   .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
+> >   include/media/hevc-ctrls.h                    | 250 ------
+> >   include/media/v4l2-ctrls.h                    |  48 +-
+> >   include/uapi/linux/hantro-media.h             |  19 +
+> >   include/uapi/linux/v4l2-controls.h            | 439 +++++++++
+> >   include/uapi/linux/videodev2.h                |  13 +
+> >   23 files changed, 1697 insertions(+), 1170 deletions(-)
+> >   delete mode 100644 include/media/hevc-ctrls.h
+> >   create mode 100644 include/uapi/linux/hantro-media.h
+> >
