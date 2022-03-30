@@ -2,114 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0DCA4ECC25
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 20:28:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE96C4ECC45
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 20:29:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350618AbiC3S05 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 14:26:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37554 "EHLO
+        id S243680AbiC3SbF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 14:31:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350081AbiC3S0d (ORCPT
+        with ESMTP id S1351162AbiC3S23 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 14:26:33 -0400
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D67FC4A3C0
-        for <linux-media@vger.kernel.org>; Wed, 30 Mar 2022 11:23:49 -0700 (PDT)
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-dacc470e03so22908889fac.5
-        for <linux-media@vger.kernel.org>; Wed, 30 Mar 2022 11:23:49 -0700 (PDT)
+        Wed, 30 Mar 2022 14:28:29 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 400E051324;
+        Wed, 30 Mar 2022 11:24:56 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id d5so37300192lfj.9;
+        Wed, 30 Mar 2022 11:24:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=6PnxJaVdYHTfEoSreao3ANO+XeqxY/p/4dxKSObIH1I=;
-        b=U1oUia1Thamt6Z7oWm6PGNKOk9RXK6Jv76DGrI1cLcYRcY5/d1Tt5qepQRdZm6lsyq
-         RBa/xpJM28ShOu5ibphzafHjPKptRC4OMeOVco0xYKihrCNFhnaGQOBDSvUdgHWgE3gf
-         cWTbx+dPO2nv/wujOZrrbxfJpePUzp7QZ1RCloUPxJhGXTvBKUziPieC1LSkK8oSaB+t
-         E85QJNBGnQK8HE8wei7Zq5jQSpeI5JY8kzofCGcJSUHLIHQXWsBy6ta+brl9WPLZzyWA
-         2jPBZlOFyxLxFI8awBJCcZtcLmSyu35IRMr8cJ72zb2pokIUUqe6EUB9pKUwVKwbq4my
-         ou5A==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=AdJ8ve3qHqvvd1c/19/c++F2nvBXXpoJRywWLK1c6GA=;
+        b=VzF/bjKqvvZH4+Vs+UicO3gdz9nsJEXm+dcg6UGPbVU/yoLYmVm1YueOWKdDhZNgix
+         FY/hHbfESYn9c5fsPZWbC3dGHSEHNdwzq2Na4EsfiTXsSN3f9AEGxQ7WX6R9UspJpGIg
+         GjAPpxb4luejAubvpVp9DqPmBzV/k+Uifz+4m6bxdYb3PW5nh+qg64xIFbJpwXxDGbma
+         qoDOQnqngwklcxTK5GIuOH1jbuWUIQruO6S704/oPf42LwNUqsE0xxqSPXlF1vvPC2Cb
+         1wypDNZE3Rt183RhPwh9ASNC2gk7NFZ98o916r+4FtmsWO03lLUfD25XLuDJcZGZ57IA
+         e1hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=6PnxJaVdYHTfEoSreao3ANO+XeqxY/p/4dxKSObIH1I=;
-        b=w+itVTn/adiPz/safu8mGMcn6aKOwN9SbWrzUfRM4su1rDLLnGVpjjePdWeMOeyJ9W
-         5ygb1Br0hwEqP94YlN9dB6Ml8z1WqJnXTnGgBGamF8lbFutrnYAxtnhT5r2DLmeFhG6I
-         ozTTat23+fKQlSRnDieXSBw+m+f7zRJ1cJdTabLtFl6A0Hng/h+q91mdY39veMSsXG+0
-         bKIjpb/+5quW4Ahjh6e4eJN9bb23OCQa+ddAp0zZSBlkGmXs0rrahqaF2zaoDnKtnO2Y
-         VrHw3vWuftpkX6ZF8ZLWWMfhZY1ylwBjuzEaK1qnktPgxecYVFMmSpGGcVWCV5dccAO3
-         9Lhw==
-X-Gm-Message-State: AOAM530e8t6NWqgCCOJX1doNZqounBCBQwATo1Xq7+XXzt1VJI5Wuyhf
-        H1rOCjkqdK2lX+EPaEz2lYu9+XHsWc5oJr2ulgHhhF18cNHk
-X-Google-Smtp-Source: ABdhPJzkTl+tJbylc9dRvis6ZhULbTl7j4ynIkLgm4b/Lu4YSrf6PCWjehKBvofPJCmWKHUKJGD0xbE01MjL0VC50Jo=
-X-Received: by 2002:a17:90b:3143:b0:1c7:5cee:3948 with SMTP id
- ip3-20020a17090b314300b001c75cee3948mr852445pjb.140.1648664618224; Wed, 30
- Mar 2022 11:23:38 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=AdJ8ve3qHqvvd1c/19/c++F2nvBXXpoJRywWLK1c6GA=;
+        b=AS3iCBpo1t50ULSUoJ4aFWT46T8QUpMLtKKUktcDt/FDFS5C8yFodA2EKrQig82O1l
+         PRz4mzXncFcwswnM1/3yINIuAaYA2epTMPZKShTUm33choXdzhjqTDiKq6A6hQFPcREa
+         ce3/WXEw5t/PvXn71IN63kwBfjgXOKWM53q97LGEPM5WWtdUda0v3vll4OM+E8m/pjvc
+         K9285uqB/NbJf0OQau7NehpWlq56c3ilrR2hzOJyGy4AHnXGvqXAkF6lcfK5rGsz9sYu
+         8rV3JD8d9j1N0jmnGZPQgB4eYygiuO+upb8IoiyDtflaxY6jYE9wimwca+Z5sl3VFwiq
+         N65Q==
+X-Gm-Message-State: AOAM533GZHCJCzxUQcble9//3h6f4EWgYRQgHSU6Pso1tp+/jxF6W4We
+        CfrOYlBOyr8XdjxiRgagbGw=
+X-Google-Smtp-Source: ABdhPJy/021JKKynej47Sox209kOnGV7+kHTY+Ir+6FxgM4yrCyy/XHL3xiVimSA0AHiJ0FmcxKMmw==
+X-Received: by 2002:a19:4f5d:0:b0:44a:2905:84ea with SMTP id a29-20020a194f5d000000b0044a290584eamr7774216lfk.120.1648664694266;
+        Wed, 30 Mar 2022 11:24:54 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.247])
+        by smtp.gmail.com with ESMTPSA id o3-20020a198c03000000b00448b7b1780csm2410866lfd.63.2022.03.30.11.24.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Mar 2022 11:24:53 -0700 (PDT)
+Message-ID: <ecf7ccdd-0d6f-9407-6778-ae7f0a6bf538@gmail.com>
+Date:   Wed, 30 Mar 2022 21:24:48 +0300
 MIME-Version: 1.0
-Reply-To: isabellasayouba0@gmail.com
-Sender: 040stherchurch@gmail.com
-Received: by 2002:a05:6a20:691d:b0:76:6cf5:d552 with HTTP; Wed, 30 Mar 2022
- 11:23:37 -0700 (PDT)
-From:   Mrs Isabella Sayouba <isabellasayouba0@gmail.com>
-Date:   Wed, 30 Mar 2022 18:23:37 +0000
-X-Google-Sender-Auth: _Xe1kByDkvq-Dn04BagO7gok_qM
-Message-ID: <CAAzQq761QVaWKiKernxpKjqNCK+6V9mRKHBnOcqF8rXJO9Y+aA@mail.gmail.com>
-Subject: =?UTF-8?B?44GC44GE44GV44Gk44CC?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_99,BAYES_999,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [Linaro-mm-sig] [PATCH next] dma-buf/sync-file: do not allow zero
+ size allocations
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        sumit.semwal@linaro.org, gustavo@padovan.org,
+        christian.koenig@amd.com, daniel.vetter@ffwll.ch
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com
+References: <20220329221425.22691-1-paskripkin@gmail.com>
+ <8af3d213-6cb7-a021-c198-e1bd37c47e7c@gmail.com>
+From:   Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <8af3d213-6cb7-a021-c198-e1bd37c47e7c@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-44GC44GE44GV44Gk44CCDQoNCua2meOCkua1geOBl+OBquOBjOOCieOBk+OBruODoeODvOODq+OC
-kuabuOOBhOOBpuOBhOOBvuOBmeOAguengeOBruebruOBq+OBr+Wkp+OBjeOBquaCsuOBl+OBv+OB
-jOOBguOCiuOBvuOBmeOAguengeOBruWQjeWJjeOBr+OCpOOCtuODmeODqeODu+OCteODqOOCpuOD
-kOOBleOCk+OBp+OBmeOAguODgeODpeODi+OCuOOCouWHuui6q+OBp+OAgeODluODq+OCreODiuOD
-leOCoeOCveOBrueXhemZouOBi+OCiemAo+e1oeOCkuWPluOCiuOBvuOBmeOAguengeOBr+OBguOB
-quOBn+OBq+W/g+OCkumWi+OBhOOBpuaEn+WLleOBl+OBn+OBruOBp+OAgeOBguOBquOBn+OBq+ip
-seOBmeS7peWkluOBq+mBuOaKnuiCouOBr+OBguOCiuOBvuOBm+OCk+OAguengeOBr+OAgTIwMTHl
-ubTjgavkuqHjgY/jgarjgovliY3jgavjg5bjg6vjgq3jg4rjg5XjgqHjgr3jga7jg4Hjg6Xjg4vj
-grjjgqLlpKfkvb/jgag55bm06ZaT5YON44GE44Gm44GE44GfU2F5b3ViYQ0KQnJvd27msI/jgajn
-tZDlqZrjgZfjgb7jgZfjgZ/jgILlrZDkvpvjgarjgZfjgacxMeW5tOmWk+e1kOWpmuOBl+OBn+OA
-gg0KDQrlvbzjga/jgZ/jgaPjgZ815pel6ZaT57aa44GE44Gf55+t44GE55eF5rCX44Gu5b6M44Gn
-5q2744Gr44G+44GX44Gf44CC5b2844Gu5q275b6M44CB56eB44Gv5YaN5ama44GX44Gq44GE44GT
-44Go44Gr5rG644KB44G+44GX44Gf44CC5Lqh44GP44Gq44Gj44Gf5aSr44GM55Sf44GN44Gm44GE
-44Gf44Go44GN44CB5b2844Gv57eP6aGNODUw5LiH44OJ44Or44KS6aCQ44GR44G+44GX44Gf44CC
-DQrvvIg4MDDkuIc1MDAw44OJ44Or77yJ6KW/44Ki44OV44Oq44Kr44Gu44OW44Or44Kt44OK44OV
-44Kh44K944Gu6aaW6YO944Ov44Ks44OJ44Kl44Kw44O844Gu6YqA6KGM44Gn44CC54++5Zyo44CB
-44GT44Gu44GK6YeR44Gv44G+44Gg6YqA6KGM44Gr44GC44KK44G+44GZ44CC5b2844Gv44GT44Gu
-44GK6YeR44KS44OW44Or44Kt44OK44OV44Kh44K944Gu6Ymx5qWt44GL44KJ44Gu6YeR44Gu6Ly4
-5Ye644Gr5Yip55So44Gn44GN44KL44KI44GG44Gr44GX44G+44GX44Gf44CCDQoNCuacgOi/keOA
-geengeOBruWMu+iAheOBr+engeOBjOeZjOOBqOiEs+WNkuS4reOBruWVj+mhjOOBruOBn+OCgeOB
-qzfjg7bmnIjplpPjga/ntprjgYvjgarjgYTjgaDjgo3jgYbjgajnp4HjgavoqIDjgYTjgb7jgZfj
-gZ/jgILnp4HjgpLmnIDjgoLmgqnjgb7jgZvjgabjgYTjgovjga7jga/ohLPljZLkuK3jga7nl4Xm
-sJfjgafjgZnjgILnp4Hjga7nirbmhYvjgpLnn6XjgaPjgZ/jga7jgafjgIHnp4Hjga/jgZPjga7j
-gYrph5HjgpLjgYLjgarjgZ/jgavmuKHjgZfjgabjgIHmgbXjgb7jgozjgarjgYTkurrjgIXjga7k
-uJboqbHjgpLjgZnjgovjgZPjgajjgavjgZfjgb7jgZfjgZ/jgILjgYLjgarjgZ/jga/jgZPjga7j
-gYrph5HjgpLnp4HjgYzjgZPjgZPjgafmjIfnpLrjgZnjgovmlrnms5XjgafliKnnlKjjgZnjgovj
-gafjgZfjgofjgYbjgILnp4Hjga/jgYLjgarjgZ/jgavjgYLjgarjgZ/jga7lgIvkurrnmoTjgark
-vb/nlKjjga7jgZ/jgoHjgavnt4/jgYrph5Hjga4zMOODkeODvOOCu+ODs+ODiOOCkuWPluOBo+OB
-puassuOBl+OBhOOBp+OBmeOAguOBiumHkeOBrjcw77yF44Gv56eB44Gu5ZCN5YmN44Gn5a2k5YWQ
-6Zmi44KS5bu644Gm44CB6YCa44KK44Gu6LKn44GX44GE5Lq644CF44KS5Yqp44GR44KL44Gf44KB
-44Gr5L2/44GG44Gn44GX44KH44GG44CC56eB44Gv5a2k5YWQ44Go44GX44Gm6IKy44Gh44G+44GX
-44Gf44GM44CB56We44Gu5a6244KS57at5oyB44GZ44KL44Gf44KB44Gg44GR44Gr44CB5a625peP
-44Gr44Gv6Kqw44KC44GE44G+44Gb44KT44CC44GT44Gu55eF5rCX44GM56eB44KS44Go44Gm44KC
-6Ium44GX44KB44Gf44Gu44Gn44CB56We44GM56eB44Gu572q44KS6LWm44GX44CB5qW95ZyS44Gn
-56eB44Gu6a2C44KS5Y+X44GR5YWl44KM44KL44KI44GG44Gr44GT44KM44KS44GX44Gm44GE44KL
-44Gu44Gn44GZ44CCDQoNCui/lOS/oeOCkuWPl+OBkeWPluOCiuasoeesrOOAgeODluODq+OCreOD
-iuODleOCoeOCveOBrumKgOihjOOBrumAo+e1oeWFiOOCkuOBiuefpeOCieOBm+OBl+OBvuOBmeOA
-guOBvuOBn+OAgemKgOihjOOBruePvuWcqOOBruWPl+WPluS6uuOBp+OBguOCi+OBk+OBqOOCkuio
-vOaYjuOBmeOCi+aoqemZkOabuOOCkueZuuihjOOBmeOCi+OCiOOBhumKgOihjOmVt+OBq+aMh+ek
-uuOBl+OBvuOBmeOAguengeOBjOOBk+OBk+OBp+i/sOOBueOBn+OCiOOBhuOBq+OBguOBquOBn+OB
-jOOBneOCjOOBq+W/nOOBmOOBpuihjOWLleOBmeOCi+OBk+OBqOOCkuengeOBq+S/neiovOOBl+OB
-puOBj+OBoOOBleOBhOOAgg0KDQrjgqTjgrbjg5njg6njg7vjgrXjg6jjgqbjg5DlpKvkurrjgYvj
-gonjgIINCg==
+Hi Christian,
+
+On 3/30/22 10:09, Christian König wrote:
+> That problem is already fixed with patch 21d139d73f77 dma-buf/sync-file:
+> fix logic error in new fence merge code.
+> 
+> Am 30.03.22 um 00:14 schrieb Pavel Skripkin:
+>> syzbot reported GPF in dma_fence_array_first(), which is caused by
+>> dereferencing ZERO_PTR in dma-buf internals.
+>>
+>> ZERO_PTR was generated in sync_file_merge(). This functuion tries to
+>> reduce allocation size, but does not check if it reducing to 0.
+> 
+> This is actually perfectly ok. The code above should have prevented the
+> size to become 0.
+> 
+> Regards,
+> Christian.
+> 
+
+Thanks for your reply! I see that 21d139d73f77 fixes GPF in 
+dma_fence_array_first(), but what about this part:
+
+>>   
+>> -	if (num_fences > INT_MAX)
+>> +	if (num_fences > INT_MAX || !num_fences)
+>>   		goto err_free_sync_file;
+>>   
+>>   	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
+>> @@ -264,7 +264,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
+>>   	if (index == 0)
+
+If num_fences is equal to zero then fences dereference will cause an 
+oops. Or this one is also fixed in your tree?
+
+
+Thanks!
+
+
+
+
+With regards,
+Pavel Skripkin
