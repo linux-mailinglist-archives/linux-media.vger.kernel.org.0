@@ -2,48 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D89944EC06F
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 13:49:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 068A74EC0A0
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 13:50:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343983AbiC3LvG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 07:51:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34644 "EHLO
+        id S1344121AbiC3Lv7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 07:51:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343995AbiC3LuX (ORCPT
+        with ESMTP id S1344106AbiC3Lvm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 07:50:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F14926F219;
-        Wed, 30 Mar 2022 04:47:45 -0700 (PDT)
+        Wed, 30 Mar 2022 07:51:42 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E4AE2706F5;
+        Wed, 30 Mar 2022 04:48:03 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E52D615F5;
-        Wed, 30 Mar 2022 11:47:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70AC6C340EE;
-        Wed, 30 Mar 2022 11:47:43 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AE16DB81ACC;
+        Wed, 30 Mar 2022 11:48:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92F17C340EE;
+        Wed, 30 Mar 2022 11:48:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648640864;
-        bh=BS9+xBaILP2NTve/YGTy5aoxWamiPKm3xneZ2z7LGuc=;
+        s=k20201202; t=1648640881;
+        bh=qyc5E1VsAiEkog/l7n77XDh8NAl9OUtNeFvCzuC5lPg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qCYiQPvGs+UvgQVykbhDjipWjjG2jpExfwZe3ZyR40sQREWdVReDSHIQmeObEk/WB
-         nJOZXLES/r+XJCKT4Dp8rfODO3iK89FJRD3fZ42idCuxoDsAtwBTz1Gc0gFuXtavRo
-         s+nWfRngG5N7DeOjlkLR9eG8qKWL21VidULcRDWs9kOR2Bd6xO82ovba8w05F0bJr2
-         3p7duSwfauXVN1hlwJwl/cDTqenEketzW35nhlYC6Z9Zvj4jA9x+0o4qkcZv7moftn
-         SSqxcslQ41tH+6IJiz/UT1UAylGQ+gbxQ2xqra9u/qwsRriApxKjMabfJkfDxzXIQp
-         z8fmepQZXpl9w==
+        b=WCSHWQnw1k3pNblFWAjgbzubF64tr5DQV3+oHrR1Gy+9cf+LiIh2n4o9lWuh3SL/+
+         XVoPiHoCLS/x9VOcVLsnAOmCWbI21w3T3SqJYOoQdafDDNcvrKu5Q2NdZ8+s4hTT9I
+         x6Xq1z+cpEcJ9rJFzcFQa531qlJPcLd8fQauC5Qm8bOYwhod149hOKX9GYviqs1lI2
+         3nj47XCXCpOIlo08j6yEsH6vA2JLCqo1zGM0KOtt1hMwPEGIOzSvSmRGqIK6YgQ1q9
+         dgb95Ac0GltEG1NbTTPXfKK/RKTUt/ERXVG1BepHoL8McJef3vlvyUCTppIPtEUtUE
+         1Rh5NOMcOfj5g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Daniel=20Gonz=C3=A1lez=20Cabanelas?= <dgcbueu@gmail.com>,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 38/66] media: cx88-mpeg: clear interrupt status register before streaming video
-Date:   Wed, 30 Mar 2022 07:46:17 -0400
-Message-Id: <20220330114646.1669334-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 48/66] media: i2c: ov5648: Fix lockdep error
+Date:   Wed, 30 Mar 2022 07:46:27 -0400
+Message-Id: <20220330114646.1669334-48-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220330114646.1669334-1-sashal@kernel.org>
 References: <20220330114646.1669334-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -57,41 +58,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Daniel González Cabanelas <dgcbueu@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 56cb61f70e547e1b0cdfe6ff5a1f1ce6242e6d96 ]
+[ Upstream commit d4cb5d3c4cee28aa89b02bc33d930a6cf75e7f79 ]
 
-Some cx88 video cards may have transport stream status interrupts set
-to 1 from cold start, causing errors like this:
+ov5648_state_init() calls ov5648_state_mipi_configure() which uses
+__v4l2_ctrl_s_ctrl[_int64](). This means that sensor->mutex (which
+is also sensor->ctrls.handler.lock) must be locked before calling
+ov5648_state_init().
 
-  cx88xx: cx88_print_irqbits: core:irq mpeg  [0x100000] ts_err?*
-  cx8802: cx8802_mpeg_irq: mpeg:general errors: 0x00100000
+ov5648_state_mipi_configure() is also used in other places where
+the lock is already held so it cannot be changed itself.
 
-According to CX2388x datasheet, the interrupt status register should be
-cleared before enabling IRQs to stream video.
+Note this is based on an identical (tested) fix for the ov8865 driver,
+this has only been compile-tested.
 
-Fix it by clearing the Transport Stream Interrupt Status register.
-
-Signed-off-by: Daniel González Cabanelas <dgcbueu@gmail.com>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/cx88/cx88-mpeg.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/i2c/ov5648.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/pci/cx88/cx88-mpeg.c b/drivers/media/pci/cx88/cx88-mpeg.c
-index 680e1e3fe89b..2c1d5137ac47 100644
---- a/drivers/media/pci/cx88/cx88-mpeg.c
-+++ b/drivers/media/pci/cx88/cx88-mpeg.c
-@@ -162,6 +162,9 @@ int cx8802_start_dma(struct cx8802_dev    *dev,
- 	cx_write(MO_TS_GPCNTRL, GP_COUNT_CONTROL_RESET);
- 	q->count = 0;
+diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
+index 947d437ed0ef..01e22c535267 100644
+--- a/drivers/media/i2c/ov5648.c
++++ b/drivers/media/i2c/ov5648.c
+@@ -1778,8 +1778,14 @@ static int ov5648_state_configure(struct ov5648_sensor *sensor,
  
-+	/* clear interrupt status register */
-+	cx_write(MO_TS_INTSTAT,  0x1f1111);
+ static int ov5648_state_init(struct ov5648_sensor *sensor)
+ {
+-	return ov5648_state_configure(sensor, &ov5648_modes[0],
+-				      ov5648_mbus_codes[0]);
++	int ret;
 +
- 	/* enable irqs */
- 	dprintk(1, "setting the interrupt mask\n");
- 	cx_set(MO_PCI_INTMSK, core->pci_irqmask | PCI_INT_TSINT);
++	mutex_lock(&sensor->mutex);
++	ret = ov5648_state_configure(sensor, &ov5648_modes[0],
++				     ov5648_mbus_codes[0]);
++	mutex_unlock(&sensor->mutex);
++
++	return ret;
+ }
+ 
+ /* Sensor Base */
 -- 
 2.34.1
 
