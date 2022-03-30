@@ -2,199 +2,322 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1118F4EBCEF
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 10:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75EF34EBD25
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 11:04:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244444AbiC3Iuo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 04:50:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60496 "EHLO
+        id S244555AbiC3JFk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 05:05:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233517AbiC3Ium (ORCPT
+        with ESMTP id S242502AbiC3JFj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 04:50:42 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A311AD96;
-        Wed, 30 Mar 2022 01:48:56 -0700 (PDT)
-X-UUID: db21df7b8ee4436aa0f8cf8fdcccebee-20220330
-X-UUID: db21df7b8ee4436aa0f8cf8fdcccebee-20220330
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1103062164; Wed, 30 Mar 2022 16:48:50 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 30 Mar 2022 16:48:49 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 30 Mar 2022 16:48:47 +0800
-Message-ID: <8e87e98a0b261dcdca9beb41bd1cd5030a4690ab.camel@mediatek.com>
-Subject: Re: [PATCH v3, 03/10] dt-bindings: media: mtk-vcodec: Adds encoder
- cores dt-bindings for mt8195
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>,
-        <angelogioacchino.delregno@collabora.com>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        "Maoguang Meng" <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        "Fritz Koenig" <frkoenig@chromium.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Wed, 30 Mar 2022 16:48:47 +0800
-In-Reply-To: <YkMFGbgYq5DhLjt8@robh.at.kernel.org>
-References: <20220317082230.23622-1-irui.wang@mediatek.com>
-         <20220317082230.23622-4-irui.wang@mediatek.com>
-         <Yj4s0zcHxz3U3wlc@robh.at.kernel.org>
-         <ab2b24eeb51048227ad7b2ac659617a7da5b2e45.camel@mediatek.com>
-         <YkG8ka1xY2k+HWi1@robh.at.kernel.org>
-         <e41e909f85e3891edb6b66d7d5a810af103113c8.camel@mediatek.com>
-         <YkMFGbgYq5DhLjt8@robh.at.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Wed, 30 Mar 2022 05:05:39 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5B7BB6;
+        Wed, 30 Mar 2022 02:03:51 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a02:3030:d:7e3f:91e1:4be5:4001:fd80])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: sebastianfricke)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9E6271F43F72;
+        Wed, 30 Mar 2022 10:03:49 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1648631029;
+        bh=thl7w5H/Mz6OVUPKz9FOv3R7KrVbcm5LF6AXzXqidsw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nHyESjBbe18iqD6nzkiIOwqByEB/lHoMy4TlCriirvL38orqA+XYP1XFaNMqTQm/r
+         bUxdvI8tum0PgAJwAWuBJi8Ojvt2sGFZN/J8yiJW/yzyFD6vjekKTGfRCZrcFsHb61
+         eki4GaJoYxiePqLm23e8dG0bhCVFKAejNQCfJDbHXmOjdaj7KpoMzgiiTGs0p7Sq0s
+         jACbjADR2x1lN48KppP6ru2RL67KJuMWwxtx0oF459xzc9wPIc1H/cspypHTS2jwSp
+         JGyq7p3+tPxh5s3dCXB4xcizdiNJNMIkrmgNigEapOoJMzp+bQVNKSkoIUJWK/8gsI
+         MDYOkeNt9QDUQ==
+Date:   Wed, 30 Mar 2022 11:03:45 +0200
+From:   Sebastian Fricke <sebastian.fricke@collabora.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 23/24] media: hantro: Add H.264 field decoding support
+Message-ID: <20220330090345.pxx54emtalz6vgqt@basti-XPS-13-9310>
+References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
+ <20220328195936.82552-24-nicolas.dufresne@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220328195936.82552-24-nicolas.dufresne@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Rob,
+Hey Nicolas,
 
-A sample encoder hardware block diagram attached.
-On Tue, 2022-03-29 at 08:09 -0500, Rob Herring wrote:
-> On Tue, Mar 29, 2022 at 09:26:37AM +0800, Irui Wang wrote:
-> > Dear Rob,
-> > 
-> > Many thanks for your attention.
-> > 
-> > On Mon, 2022-03-28 at 08:48 -0500, Rob Herring wrote:
-> > > On Sat, Mar 26, 2022 at 10:00:55AM +0800, Irui Wang wrote:
-> > > > Dear Rob,
-> > > > 
-> > > > Thanks for your review and comments.
-> > > > 
-> > > > On Fri, 2022-03-25 at 15:57 -0500, Rob Herring wrote:
-> > > > > On Thu, Mar 17, 2022 at 04:22:23PM +0800, Irui Wang wrote:
-> > > > > > Adds encoder cores dt-bindings for mt8195.
-> 
-> [...]
-> 
-> > > > > > +      mediatek,core-id:
-> > > > > > +        $ref: /schemas/types.yaml#/definitions/uint32
-> > > > > > +        description: |
-> > > > > > +          Current encoder core id.
-> > > > > 
-> > > > > What is this for and what does its value correspond to in the
-> > > > > h/w.
-> > > > > We 
-> > > > > generally don't do made up indices in DT.
-> > > > 
-> > > > It's for encoder core id, core@1a020000 must be core-0, 
-> > > > core@1b020000
-> > > > must be core-1, we add this property in each child node, so we
-> > > > can 
-> > > > get core-id in drivers. If it can't ref "uint32" types yaml,
-> > > > would 
-> > > > you mind giving some more suggestions ?
-> > > 
-> > > I still don't understand why it is needed. What is 'core-0'?
-> > > 
-> > > Is there some functional difference between the cores? If so,
-> > > describe 
-> > > that difference.
-> > > 
-> > > Rob
-> > 
-> > They are two different pieces of hardware, it's our encoder
-> > hardware
-> > design. There are two encoder hardware cores inside MT8195, named
-> > core0
-> > and core1(we can rename it, but core id should be declared),
-> > for core0, its module base address is 0x1A02_0000, uses IOMMU
-> > "vdo0_iommu" and power domain "POWER_DOMAIN_VENC",
-> > for core1, its module base address is 0x1B02_0000, uses IOMMU
-> > "vpp_iommu" and power domain "POWER_DOMAIN_VENC_CORE1".
-> > So the two encoder cores have their own base, IRQ, clock, power,
-> > etc.
-> > Each core can encode independently, moreover, they can work
-> > together
-> > for higher performance. 
-> > We will describe more details in YAML about it if it's OK for you.
-> 
-> All the resources you list are in the child nodes, so you don't need
-> 0 
-> and 1 numbering for those. 
-> 
-> Looking at the driver patches, the only thing I see distinguishing 
-> core numbers is this:
-> 
-> "frame#0 uses core#0, frame#1 uses core#1, frame#2 uses core#0...,
-> 
-> Lock the device and enable the clock by used core, for sequence
-> header encoding, it always uses core#0."
-> 
-> Is this a requirement in the h/w or just what the driver picked?
-> IOW, 
-> could frame#0 use core#1?
-No, it's a requirement in the h/w, driver trigger core start encoding
-is in order.
-About the encoder hardware block diagram, please check below:
---------------------------------------------------------------
-Input Buffer: 0     1     2     3     4     5     6
-              |     |     |     |     |     |     |
-              v     |     v     |     v     |     v
-          +-------+ | +-------+ | +-------+ | +-------+
-          | core0 | | | core0 | | | core0 | | | core0 |
-          +-------+ | +-------+ | +-------+ | +-------+
-              |     |     |     |     |     |     |
-              |     v     |     v     |     v     |
-              | +-------+ | +-------+ | +-------+ |
-              | | core1 | | | core1 | | | core1 | |
-              | +-------+ | +-------+ | +-------+ |
-              |     |     |     |     |     |     |
-              v     v     v     v     v     v     v    <parent>
---------------------------------------------------------------
-                        core || index                  <child>
-                             \/
-       +-----------------------------------------------+
-       |                  core0/core1                  |
-       |          enable/disable power/clk/irq         |
-       +-----------------------------------------------+
---------------------------------------------------------------
-As above , there are parent and child devices, child mean each venc
-core, the child device controls the information of each core
-independent which inlcude power/clk/irq.
-When start encoding, input buffer 0 will be encoded by core0, and input
-buffer 1 can be encoded by core1 even if buffer 0 has not been encoded
-done yet, after buffer 0 encoded done, buffer 2 will be encoded by
-core0, and buffer 1 encoded done by core1. These two encoder cores will
-encode each input in this overlapping manner.
+On 28.03.2022 15:59, Nicolas Dufresne wrote:
+>This adds the required code to support field decoding. While most of
+>the code is derived from Rockchip and VSI reference code, the
+>reduction of the reference list to 16 entries has been found by
 
-We need manage each child device in parent device by core-id property.
-And we also need record current encoding input buffer, encode done
-output buffers and which one core is in used through core-id, because
-the two cores are encoding at the same time under one parent driver.
-> 
-> Rob
+s/has been/was/
 
-Thanks
-Best Regards
+>trial and errors. The list consist of all the references with the
 
+s/consist/consists/
+
+>opposite field parity.
+>
+>The strategy being to deduplicate the reference picture that points
+
+s/strategy being to/strategy is to/
+
+>to the same storage (same index). The choice of opposite parity has
+>been made to keep the other field or a field pair to be kept in the
+
+Do you mean?
+
+s/keep the other field or a field pair to be kept/
+   keep the other field of a field pair/
+
+>list. This method may not be robust if a field was lost.
+>
+>Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>---
+> drivers/staging/media/hantro/hantro_h264.c | 107 ++++++++++++++++++---
+> drivers/staging/media/hantro/hantro_hw.h   |   1 +
+> 2 files changed, 94 insertions(+), 14 deletions(-)
+>
+>diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+>index 7377fc26f780..f6fc939aa726 100644
+>--- a/drivers/staging/media/hantro/hantro_h264.c
+>+++ b/drivers/staging/media/hantro/hantro_h264.c
+>@@ -22,6 +22,11 @@
+> #define POC_BUFFER_SIZE			34
+> #define SCALING_LIST_SIZE		(6 * 16 + 2 * 64)
+>
+>+/* For valid and long term reference marking, index are reversed, so bit 31
+
+s/index/indeces/
+
+>+ * indicates the status of the picture 0.
+>+ */
+>+#define REF_BIT(i)			BIT(32 - 1 - (i))
+>+
+> /* Data structure describing auxiliary buffer format. */
+> struct hantro_h264_dec_priv_tbl {
+> 	u32 cabac_table[CABAC_INIT_BUFFER_SIZE];
+>@@ -227,6 +232,7 @@ static void prepare_table(struct hantro_ctx *ctx)
+> {
+> 	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
+> 	const struct v4l2_ctrl_h264_decode_params *dec_param = ctrls->decode;
+>+	const struct v4l2_ctrl_h264_sps *sps = ctrls->sps;
+> 	struct hantro_h264_dec_priv_tbl *tbl = ctx->h264_dec.priv.cpu;
+> 	const struct v4l2_h264_dpb_entry *dpb = ctx->h264_dec.dpb;
+> 	u32 dpb_longterm = 0;
+>@@ -237,20 +243,45 @@ static void prepare_table(struct hantro_ctx *ctx)
+> 		tbl->poc[i * 2] = dpb[i].top_field_order_cnt;
+> 		tbl->poc[i * 2 + 1] = dpb[i].bottom_field_order_cnt;
+>
+>+		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_VALID))
+>+			continue;
+>+
+> 		/*
+> 		 * Set up bit maps of valid and long term DPBs.
+>-		 * NOTE: The bits are reversed, i.e. MSb is DPB 0.
+>+		 * NOTE: The bits are reversed, i.e. MSb is DPB 0. For frame
+>+		 * decoding, bit 31 to 15 are used, while for field decoding,
+
+s/bit 31/bits 31/
+
+>+		 * all bits are used, with bit 31 being a top field, 30 a bottom
+>+		 * field and so on.
+> 		 */
+>-		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+>-			dpb_valid |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
+>-		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+>-			dpb_longterm |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
+>+		if (dec_param->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC) {
+>+			if (dpb[i].fields & V4L2_H264_TOP_FIELD_REF)
+>+				dpb_valid |= REF_BIT(i * 2);
+>+
+>+			if (dpb[i].fields & V4L2_H264_BOTTOM_FIELD_REF)
+>+				dpb_valid |= REF_BIT(i * 2 + 1);
+>+
+>+			if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM) {
+>+				dpb_longterm |= REF_BIT(i * 2);
+>+				dpb_longterm |= REF_BIT(i * 2 + 1);
+>+			}
+>+		} else {
+>+			dpb_valid |= REF_BIT(i);
+>+
+>+			if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+>+				dpb_longterm |= REF_BIT(i);
+>+		}
+>+	}
+>+	ctx->h264_dec.dpb_valid = dpb_valid;
+>+	ctx->h264_dec.dpb_longterm = dpb_longterm;
+>+
+>+	if ((dec_param->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC) ||
+>+	    !(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)) {
+>+		tbl->poc[32] = ctx->h264_dec.cur_poc;
+>+		tbl->poc[33] = 0;
+>+	} else {
+>+		tbl->poc[32] = dec_param->top_field_order_cnt;
+>+		tbl->poc[33] = dec_param->bottom_field_order_cnt;
+> 	}
+>-	ctx->h264_dec.dpb_valid = dpb_valid << 16;
+>-	ctx->h264_dec.dpb_longterm = dpb_longterm << 16;
+>-
+>-	tbl->poc[32] = dec_param->top_field_order_cnt;
+>-	tbl->poc[33] = dec_param->bottom_field_order_cnt;
+>
+> 	assemble_scaling_list(ctx);
+> }
+>@@ -326,6 +357,8 @@ dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
+> {
+> 	struct v4l2_h264_dpb_entry *dpb = ctx->h264_dec.dpb;
+> 	dma_addr_t dma_addr = 0;
+>+	s32 cur_poc = ctx->h264_dec.cur_poc;
+>+	u32 flags;
+>
+> 	if (dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+> 		dma_addr = hantro_get_ref(ctx, dpb[dpb_idx].reference_ts);
+>@@ -343,7 +376,12 @@ dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
+> 		dma_addr = hantro_get_dec_buf_addr(ctx, buf);
+> 	}
+>
+>-	return dma_addr;
+>+	flags = dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD ? 0x2 : 0;
+
+>+	flags |= abs(dpb[dpb_idx].top_field_order_cnt - cur_poc) <
+>+		 abs(dpb[dpb_idx].bottom_field_order_cnt - cur_poc) ?
+>+		 0x1 : 0;
+
+You use the magic values `0x1` & `0x2` here, can you replace those with
+macros?
+
+It looks 0x2 indicates that we have a field and 0x1 indicates the
+distance of the current picture to the bottom field is greater than
+the distance of the current picture to the top field. (inidicating that
+the order is correct?)
+
+So maybe:
+```
+#define HANTRO_H264_FIELD_DMA_ADDR              0x1
+#define HANTRO_H264_CORRECT_FIELD_ORDER         0x2
+```
+
+
+>+
+>+	return dma_addr | flags;
+> }
+>
+> u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
+>@@ -355,6 +393,34 @@ u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
+> 	return dpb->frame_num;
+> }
+>
+>+static void deduplicate_reflist(struct v4l2_h264_reflist_builder *b,
+>+				struct v4l2_h264_reference *reflist)
+
+Can you add a comment describing why we need to deduplicate the
+reference list? And maybe also why we get duplications in the first
+place? Why must we limit the size to 16?
+This would increase the readability of the code a lot.
+
+>+{
+>+	int write_idx = 0;
+>+	int i;
+>+
+>+	if (b->cur_pic_fields == V4L2_H264_FRAME_REF) {
+>+		write_idx = b->num_valid;
+>+		goto done;
+>+	}
+>+
+>+	for (i = 0; i < b->num_valid; i++) {
+>+		if (!(b->cur_pic_fields == reflist[i].fields)) {
+>+			reflist[write_idx++] = reflist[i];
+>+			continue;
+>+		}
+>+	}
+>+
+>+done:
+>+	/* Should not happen unless we have a bug in the reflist builder. */
+>+	if (WARN_ON(write_idx > 16))
+>+		write_idx = 16;
+>+
+>+	/* Clear the remaining, some streams fails otherwise */
+
+s/the remaining/the remaining entries/
+s/fails/fail/
+
+>+	for (; write_idx < 16; write_idx++)
+>+		reflist[write_idx].index = 15;
+>+}
+>+
+> int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
+> {
+> 	struct hantro_h264_dec_hw_ctx *h264_ctx = &ctx->h264_dec;
+>@@ -386,15 +452,28 @@ int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
+> 	/* Update the DPB with new refs. */
+> 	update_dpb(ctx);
+>
+>-	/* Prepare data in memory. */
+>-	prepare_table(ctx);
+>-
+> 	/* Build the P/B{0,1} ref lists. */
+> 	v4l2_h264_init_reflist_builder(&reflist_builder, ctrls->decode,
+> 				       ctrls->sps, ctx->h264_dec.dpb);
+>+	h264_ctx->cur_poc = reflist_builder.cur_pic_order_count;
+>+
+>+	/* Prepare data in memory. */
+>+	prepare_table(ctx);
+>+
+> 	v4l2_h264_build_p_ref_list(&reflist_builder, h264_ctx->reflists.p);
+> 	v4l2_h264_build_b_ref_lists(&reflist_builder, h264_ctx->reflists.b0,
+> 				    h264_ctx->reflists.b1);
+>+
+>+	/* Reduce ref lists to at most 16 entries, Hantro hardware will deduce
+>+	 * the actual picture lists in field through the dpb_valid,
+
+s/in field/in a field/
+
+>+	 * dpb_longterm bitmap along with the current frame parity.
+
+s/bitmap/bitmaps/
+
+Greetings,
+Sebastian
+
+>+	 */
+>+	if (reflist_builder.cur_pic_fields != V4L2_H264_FRAME_REF) {
+>+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.p);
+>+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.b0);
+>+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.b1);
+>+	}
+>+
+> 	return 0;
+> }
+>
+>diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+>index 292aaaabaf24..fd869369fb97 100644
+>--- a/drivers/staging/media/hantro/hantro_hw.h
+>+++ b/drivers/staging/media/hantro/hantro_hw.h
+>@@ -91,6 +91,7 @@ struct hantro_h264_dec_hw_ctx {
+> 	struct hantro_h264_dec_ctrls ctrls;
+> 	u32 dpb_longterm;
+> 	u32 dpb_valid;
+>+	s32 cur_poc;
+> };
+>
+> /**
+>-- 
+>2.34.1
+>
