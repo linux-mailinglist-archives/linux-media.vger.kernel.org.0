@@ -2,84 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C631C4EB805
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 03:57:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B74054EB9C8
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 06:54:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241744AbiC3B6l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Mar 2022 21:58:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58332 "EHLO
+        id S242656AbiC3Ezs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 00:55:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233672AbiC3B6k (ORCPT
+        with ESMTP id S236198AbiC3Ezs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Mar 2022 21:58:40 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A41260E4;
-        Tue, 29 Mar 2022 18:56:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=ggJNGMpkihFhJWyUJhQRWh604kRYGl5zlZQIzdqWw8w=; b=l93siP1gZgio7hGsz9Q/dEhPq1
-        x/zLngcp77PgAqflGyDLWSjWS9JqqC2s0dFXcA1mJqoOxA9qFQQPcmvJaGEiwOVffryN+jlUFLb00
-        suHXUjD4+nva25aF+tg1jT3kXURWO9ZSy0X/1SoRSnuXjoK8hhUSYGV5WI4B0Rs561yCqXINnq84y
-        pzBHqcUNowQZhx8V1+0gmQX+oINmR2gtV1juodFyMHhpY7q3NkqynPWs3eLyzh5X3bXJGIBBTgdxW
-        hA++MHNve4hU3YbkaLIif5UKMnk4gm9DCGiaarHb9ldZmCqtSDWCLzWDnTvf+L3+6gPaqezwRkO+L
-        rnInJ0Xw==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nZNZt-00Dw29-Sz; Wed, 30 Mar 2022 01:56:54 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Marek Vasut <marex@denx.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH -next] media: isl7998x: select V4L2_FWNODE to fix build error
-Date:   Tue, 29 Mar 2022 18:56:52 -0700
-Message-Id: <20220330015652.5420-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Wed, 30 Mar 2022 00:55:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA0C13F0C
+        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 21:54:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 62C8FB81AD6
+        for <linux-media@vger.kernel.org>; Wed, 30 Mar 2022 04:54:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D37CEC340EC
+        for <linux-media@vger.kernel.org>; Wed, 30 Mar 2022 04:53:59 +0000 (UTC)
+Date:   Wed, 30 Mar 2022 06:53:57 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220330045359.D37CEC340EC@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix build error when VIDEO_ISL7998X=y and V4L2_FWNODE=m
-by selecting V4L2_FWNODE.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-microblaze-linux-ld: drivers/media/i2c/isl7998x.o: in function `isl7998x_probe':
-(.text+0x8f4): undefined reference to `v4l2_fwnode_endpoint_parse'
+Results of the daily build of media_tree:
 
-Fixes: 51ef2be546e2 ("media: i2c: isl7998x: Add driver for Intersil ISL7998x")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Michael Tretter <m.tretter@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
----
- drivers/media/i2c/Kconfig |    1 +
- 1 file changed, 1 insertion(+)
+date:			Wed Mar 30 05:00:12 CEST 2022
+media-tree git hash:	ba2c670ae84bad705ec023bfa7a48f7f8eab5e16
+media_build git hash:	47e6d5a60b5da94db0118fa795dd0fcba646a0c7
+v4l-utils git hash:	52b4b9f26e1f4ee606a4885c117c088d681887fe
+edid-decode git hash:	cb74358c289650322d91af60cb48a9d984509fd2
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7843-g5397282c-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 4b73e0f50a123901c96ab376be40a340da0b4439
+host hardware:		x86_64
+host os:		5.16.0-1-amd64
 
---- linux-next-20220329.orig/drivers/media/i2c/Kconfig
-+++ linux-next-20220329/drivers/media/i2c/Kconfig
-@@ -1177,6 +1177,7 @@ config VIDEO_ISL7998X
- 	depends on OF_GPIO
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_FWNODE
- 	help
- 	  Support for Intersil ISL7998x analog to MIPI-CSI2 or
- 	  BT.656 decoder.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.273-i686: OK
+linux-4.14.273-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.236-i686: OK
+linux-4.19.236-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16.1-i686: OK
+linux-5.16.1-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
