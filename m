@@ -2,116 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E16774EBB57
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 08:59:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46FA74EBB7C
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 09:09:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243592AbiC3HBG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 03:01:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57858 "EHLO
+        id S243654AbiC3HLG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 03:11:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243658AbiC3HAz (ORCPT
+        with ESMTP id S243645AbiC3HLC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 03:00:55 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8701DE098D;
-        Tue, 29 Mar 2022 23:59:06 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a02:3030:d:7e3f:91e1:4be5:4001:fd80])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Wed, 30 Mar 2022 03:11:02 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8B03149275;
+        Wed, 30 Mar 2022 00:09:17 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:878d:2faa:2c0:e971] (unknown [IPv6:2a01:e0a:120:3210:878d:2faa:2c0:e971])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AB0641F4425E;
-        Wed, 30 Mar 2022 07:59:04 +0100 (BST)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 34EBE1F4393C;
+        Wed, 30 Mar 2022 08:09:14 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1648623544;
-        bh=OO5IhJqrvpl7EnmyLBkThDfuejEHt3zMXYjy+fGmxIY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hXKi0icpx0gFfmKs73t4gHpVsW/kLu6dbAK3CPpSGaI7pepzLhSOt/p9ZKm+8pnCd
-         4m2wmpmbN9zqnAOlbxNn61LDIdPo2q7Gs0D2mUoI8bRlfN1VVECbfZ9kAPHppmu/W5
-         UPbaJCSaZ3CPUWUnxTUZi0S3KJIN8xY4aWgeMuiXo0Fg1k+42IAJc54Z5gkOjAY2i7
-         IAzbRMl0NfBqYdz1eiu7I34Ay1WwM0QHrXpQH9MN5/3uxHBAvCkI4qJmZtTIbG3+Ks
-         HwyCRSka8rjUhhfPqVWsPxsYPf5Ea0JiEVTvVclqqVtXXwKCk/gl2APbGHgCqqRGE/
-         ZwEtfEhF18/sA==
-Date:   Wed, 30 Mar 2022 08:59:01 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 18/24] media: rkvdec: h264: Fix bit depth wrap in pps
- packet
-Message-ID: <20220330065901.q6vodbqpes5hqr4y@basti-XPS-13-9310>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-19-nicolas.dufresne@collabora.com>
+        s=mail; t=1648624154;
+        bh=/auqYgE6atGKx1zfpIcEhqQjKbm1Uw144zMxSSF/g/o=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=iPGClli/3o3NAp53WWmMTF3RjhB2nByGxFdd/5ztxrBrj3veqCFJDkEkSurnUXg7K
+         N0jLbpI/Ce4RL1LCFVWSP8p9EUI9X56DVB80xXwLZZItZ6dmLqBRIkKgRV4deRjNB8
+         FV5xoGK2XrKidUvTDI/yTlKK32X08Fls9d1+CFZNVDzYcZURuXGkSiUOP1k+mJr+1G
+         Qzm5qpU3cLeRhwEKDXbVN9/K62RH74UhObs87uMqOuXsQZp/sVm62OT4pdi3dDem6t
+         E3ttd5emyUDrHNyLflrEdronwdm67m94UT/1bXQuChMyRWYDlNsaHFDngRfooxYe4f
+         TngR6V2WXHMBA==
+Message-ID: <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com>
+Date:   Wed, 30 Mar 2022 09:09:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220328195936.82552-19-nicolas.dufresne@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
+Content-Language: en-US
+To:     mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, jonas@kwiboo.se, nicolas@ndufresne.ca
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Nicolas,
 
-On 28.03.2022 15:59, Nicolas Dufresne wrote:
->From: Jonas Karlman <jonas@kwiboo.se>
+Le 28/02/2022 à 15:08, Benjamin Gaignard a écrit :
+> This series aims to make HEVC uapi stable and usable for hardware
+> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+> and 2 out of the tree drivers (rkvdec and RPI).
 >
->The luma and chroma bit depth fields in the pps packet is 3 bits wide.
+> After the remarks done on version 2, I have completely reworked to patches
+> split so changelogs are meaningless. I have also drop "RFC" from the
+> titles.
+>
+> Version 4:
+> - Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
+> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+> - Fix space/tab issue in kernel-doc
+> - Add patch to change data_bit_offset definition
+> - Fix hantro-media SPDX license
+> - put controls under stateless section in v4l2-ctrls-defs.c
+>
+> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
 
-s/is 3 bits wide/are 3 bits wide/
+Dear reviewers,
 
->8 is wrongly added to the bit depth value written to these 3-bit fields.
+This series is waiting for your feedback,
 
-s/bit depth value/bit depth values/
-
-(as we talk about multiple different values)
-
->Because only the 3 LSB is written the hardware is configured correctly.
-
-s/Because only the 3 LSB is written the hardware is configured correctly./
-   Because only the three least significant bits are written, the hardware will be configured correctly./
-
-(original sentence is very hard to read, the sentence could also mean
-something like this:
-'Because only the three least significant bits, that are written to the hardware, are configured correctly.')
+Thanks,
+Benjamin
 
 >
->Correct this by not adding 8 to the luma and chroma bit depth value.
+> Benjamin
 >
->Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-
-Greetings,
-Sebastian
-
->---
-> drivers/staging/media/rkvdec/rkvdec-h264.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
 >
->diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
->index 847b8957dad3..ec52b195bbd7 100644
->--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
->+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
->@@ -662,8 +662,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
-> 	WRITE_PPS(0xff, PROFILE_IDC);
-> 	WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
-> 	WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
->-	WRITE_PPS(sps->bit_depth_luma_minus8 + 8, BIT_DEPTH_LUMA);
->-	WRITE_PPS(sps->bit_depth_chroma_minus8 + 8, BIT_DEPTH_CHROMA);
->+	WRITE_PPS(sps->bit_depth_luma_minus8, BIT_DEPTH_LUMA);
->+	WRITE_PPS(sps->bit_depth_chroma_minus8, BIT_DEPTH_CHROMA);
-> 	WRITE_PPS(0, QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
-> 	WRITE_PPS(sps->log2_max_frame_num_minus4, LOG2_MAX_FRAME_NUM_MINUS4);
-> 	WRITE_PPS(sps->max_num_ref_frames, MAX_NUM_REF_FRAMES);
->-- 
->2.34.1
+> Benjamin Gaignard (12):
+>    media: uapi: HEVC: Add missing fields in HEVC controls
+>    media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>      prefix
+>    media: uapi: HEVC: Add document uAPI structure
+>    media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+>      dynamic array
+>    media: uapi: Move parsed HEVC pixel format out of staging
+>    media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+>    media: uapi: Move the HEVC stateless control type out of staging
+>    media: controls: Log HEVC stateless control in .std_log
+>    media: uapi: Create a dedicated header for Hantro control
+>    media: uapi: HEVC: fix padding in v4l2 control structures
+>    media: uapi: Change data_bit_offset definition
+>    media: uapi: move HEVC stateless controls out of staging
+>
+> Hans Verkuil (3):
+>    videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>    v4l2-ctrls: add support for dynamically allocated arrays.
+>    vivid: add dynamic array test control
+>
+>   .../userspace-api/media/drivers/hantro.rst    |   5 -
+>   .../media/v4l/ext-ctrls-codec-stateless.rst   | 833 ++++++++++++++++++
+>   .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
+>   .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>   .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>   .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>   .../media/videodev2.h.rst.exceptions          |   5 +
+>   .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>   drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+>   drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+>   drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
+>   drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>   drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>   drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>   drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>   drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>   .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
+>   include/media/hevc-ctrls.h                    | 250 ------
+>   include/media/v4l2-ctrls.h                    |  48 +-
+>   include/uapi/linux/hantro-media.h             |  19 +
+>   include/uapi/linux/v4l2-controls.h            | 439 +++++++++
+>   include/uapi/linux/videodev2.h                |  13 +
+>   23 files changed, 1697 insertions(+), 1170 deletions(-)
+>   delete mode 100644 include/media/hevc-ctrls.h
+>   create mode 100644 include/uapi/linux/hantro-media.h
 >
