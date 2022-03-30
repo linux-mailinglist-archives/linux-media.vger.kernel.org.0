@@ -2,99 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E9244EBA3E
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 07:33:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F9174EBB15
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 08:49:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243005AbiC3Ffd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 01:35:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36412 "EHLO
+        id S242971AbiC3Gu1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 02:50:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235840AbiC3Ff3 (ORCPT
+        with ESMTP id S243309AbiC3GuM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 01:35:29 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9377721D7D4
-        for <linux-media@vger.kernel.org>; Tue, 29 Mar 2022 22:33:42 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Wed, 30 Mar 2022 02:50:12 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 131268A30C;
+        Tue, 29 Mar 2022 23:48:25 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a02:3030:d:7e3f:91e1:4be5:4001:fd80])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 24C9021100;
-        Wed, 30 Mar 2022 08:33:40 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1648618420;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=J9c9ivVyjLnjqz1CA+Py6RyKFtWNoX8nbqlVD4cLkcg=;
-        b=qxGL7pZW2txY636cY2J/JENLnlg1TMLJdmafzy1D2HFonl7Rk37oW7sbYLwcT68Mo252jq
-        39DoFhmFaKE28iNTYByqDulBk58jSTmdvUraMprKNOGkJxt3Ct8GVXNzZbDRCECj7A7iLe
-        lUHwnSE1n0ssT0PPAO/s4aURwTHWd4U=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C1A83634C90;
-        Wed, 30 Mar 2022 08:33:39 +0300 (EEST)
-Date:   Wed, 30 Mar 2022 08:33:39 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        krzysztof.kozlowski@canonical.com,
-        jeanmichel.hautbois@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com, paul.kocialkowski@bootlin.com,
-        paul.elder@ideasonboard.com,
+        (Authenticated sender: sebastianfricke)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 380F81F4436E;
+        Wed, 30 Mar 2022 07:48:22 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1648622903;
+        bh=NV0u/ujs6yEEQh0kTYEkObgi+i8FUlA9532q4bfxkjs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RCxKIpchhx7t8R+goxSJEZGr6eq5EwaRlfaJbWNfsFAYukxWuwXZVDPGAIdmOCwy1
+         dt86+UwNNdNmgKc4Zh+eCCH7lKn2FgQuYS4piadVmMiGDfSIMpr/KfQvO5FTTcKNKh
+         TutLt6dqdEoCqpAocRI3D16VVytdKjjbPOYPI5x+nCgmK6fVr+y462STLcp23lHyFR
+         89bNiRUNwNyDa8l9wnx1G4CH/TDPdB1pQM9N3SCueR76ZLLr158ZRQPbgQhyecg+re
+         w8f8XXZ5BPXYfZmUOCULy0aXBdJYidiyd/sV/lAJla8+4iGuQIx9Cph79aHi3ELxj8
+         IuYF/AHFLjxBw==
+Date:   Wed, 30 Mar 2022 08:48:19 +0200
+From:   Sebastian Fricke <sebastian.fricke@collabora.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v3 7/8] media: i2c: ov5670: Implement init_cfg
-Message-ID: <YkPrs/LTfDO61TTa@valkosipuli.retiisi.eu>
-References: <20220329090133.338073-1-jacopo@jmondi.org>
- <20220329090133.338073-8-jacopo@jmondi.org>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 17/24] media: rkvdec: h264: Validate and use pic width
+ and height in mbs
+Message-ID: <20220330064819.42q5uouydvl5yqfg@basti-XPS-13-9310>
+References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
+ <20220328195936.82552-18-nicolas.dufresne@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220329090133.338073-8-jacopo@jmondi.org>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1648618420; a=rsa-sha256; cv=none;
-        b=NEQmTqmpaGH1ZFaHwhts6Ls7cIXu+X5SofsgzfdJ7dpxPd04NZnewS6grlvQAzlCVdCXhe
-        PmWrhJ2mGL91e1+aK6BD0Xl6kuw8ObLVXBy/pe+Jf1B4Eo1zZgzk5O+IuRmgc53fSJjA4V
-        K/mYLbO4PP/Rd3PfcdNQlYAEo3xUZxU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1648618420;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=J9c9ivVyjLnjqz1CA+Py6RyKFtWNoX8nbqlVD4cLkcg=;
-        b=qwvhZTNAeRDS1+nqcoAbPoVtTYzG3WCNcE914ZOu1ZMgtbmm8OaLex82H6Jxz3TitEqjtW
-        rdICdMXYESafjhzYW7ugCvKECOu9i2gtyjhHGLJvzVW9f3r1fas5H6R/wniXkeEuEjCfgh
-        9veYZ1XT617UwgTWmYd9OAWWYb2E+7E=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20220328195936.82552-18-nicolas.dufresne@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hey Nicolas,
 
-On Tue, Mar 29, 2022 at 11:01:32AM +0200, Jacopo Mondi wrote:
-> Implement the .init_cfg() pad operation and initialize the default
-> format.
-> 
-> With .init_cfg() pad operation implemented the deprecated .open()
-> internal operation can now be dropped.
+On 28.03.2022 15:59, Nicolas Dufresne wrote:
+>From: Jonas Karlman <jonas@kwiboo.se>
+>
+>The width and height in mbs is currently configured based on OUTPUT buffer
+>resolution, this works for frame pictures but can cause issues for field
+>pictures.
 
-Nice patch.
+How about:
 
-Could you add here the configured size was used as the try size instead
-previously?
+"""
+The width and height measured in macroblocks (mbs) is currently
+configured based on the resolution of the OUTPUT buffer, this works for
+frame pictures but can cause issues for field pictures..
+"""
 
--- 
-Sakari Ailus
+(I think it improves readability to explain at least once what mbs means
+to anyone not aware)
+
+>
+>When frame_mbs_only_flag is 0 the height in mbs should be height of
+>the field instead of height of frame.
+>
+>Validate pic_width_in_mbs_minus1 and pic_height_in_map_units_minus1
+>against OUTPUT buffer resolution and use these values to configure HW.
+
+s/OUTPUT buffer resolution/the resolution of the OUTPUT buffer/
+
+>
+>Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+
+Greetings,
+Sebastian
+>---
+> drivers/staging/media/rkvdec/rkvdec-h264.c |  4 ++--
+> drivers/staging/media/rkvdec/rkvdec.c      | 10 ++++++++++
+> 2 files changed, 12 insertions(+), 2 deletions(-)
+>
+>diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>index db1e762baee5..847b8957dad3 100644
+>--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+>+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>@@ -672,8 +672,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+> 		  LOG2_MAX_PIC_ORDER_CNT_LSB_MINUS4);
+> 	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_ZERO),
+> 		  DELTA_PIC_ORDER_ALWAYS_ZERO_FLAG);
+>-	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.width, 16), PIC_WIDTH_IN_MBS);
+>-	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.height, 16), PIC_HEIGHT_IN_MBS);
+>+	WRITE_PPS(sps->pic_width_in_mbs_minus1 + 1, PIC_WIDTH_IN_MBS);
+>+	WRITE_PPS(sps->pic_height_in_map_units_minus1 + 1, PIC_HEIGHT_IN_MBS);
+> 	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY),
+> 		  FRAME_MBS_ONLY_FLAG);
+> 	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD),
+>diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+>index 22c0382c579e..67539f4bf382 100644
+>--- a/drivers/staging/media/rkvdec/rkvdec.c
+>+++ b/drivers/staging/media/rkvdec/rkvdec.c
+>@@ -29,8 +29,11 @@
+>
+> static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+> {
+>+	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+>+
+> 	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+> 		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+>+		unsigned int width, height;
+> 		/*
+> 		 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
+> 		 * but it's currently broken in the driver.
+>@@ -45,6 +48,13 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+> 		if (sps->bit_depth_luma_minus8 != 0)
+> 			/* Only 8-bit is supported */
+> 			return -EINVAL;
+>+
+>+		width = (sps->pic_width_in_mbs_minus1 + 1) * 16;
+>+		height = (sps->pic_height_in_map_units_minus1 + 1) * 16;
+>+
+>+		if (width > ctx->coded_fmt.fmt.pix_mp.width ||
+>+		    height > ctx->coded_fmt.fmt.pix_mp.height)
+>+			return -EINVAL;
+> 	}
+> 	return 0;
+> }
+>-- 
+>2.34.1
+>
