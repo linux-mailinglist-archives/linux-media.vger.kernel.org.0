@@ -2,146 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE6074EC83B
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 17:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 884354EC8BE
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 17:49:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348196AbiC3P3x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 11:29:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56694 "EHLO
+        id S1348397AbiC3Put (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 11:50:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241839AbiC3P3w (ORCPT
+        with ESMTP id S1348355AbiC3Pus (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 11:29:52 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BA991DEA86;
-        Wed, 30 Mar 2022 08:28:07 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 0F1B61F45096
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1648654086;
-        bh=XqP59wNQgL49UoC/qJA6H4F54qe+92UN4Pm6NzrUT+Y=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=d4ZVJbLKFH8ofeoSJ7TaFRhX6JNUT7dGadFrW94uBDCcShCX53CjdxIm4zSZEGaRU
-         P9rh6Slo86It4EDl3n7U8/mSQlMqc2mdw+eVuoDZ2TciPFCzHMzp5V4nAfGhI3J0oa
-         ij0QR+GFV3qNvRFmUtCNMtHJOYBtb5D/4kHhbKywN5d8K12NCGPYi60O19yEE+M03V
-         5XDrwpL5qHtJcfC6C4wZ5AV+7veBl9oxjiaKgnUqWCRH6q6fVDgv4t7e/mdzVcnLHd
-         12rZNSGduPN8qGwp8bK14UsPNaFvGdgWt//pZESLlqezrSUIL6u1UcHbmu9VZTqRnR
-         slNt9zFRegxXQ==
-Message-ID: <835323cf7278da60998c3cf7a1e3fca08a3e14d6.camel@collabora.com>
-Subject: Re: [PATCH v1 24/24] media: rkvdec-h264: Don't hardcode SPS/PPS
- parameters
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com, Alex Bee <knaerzche@gmail.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date:   Wed, 30 Mar 2022 11:27:51 -0400
-In-Reply-To: <20220329072216.gqzcp6lowpfrweb7@basti-XPS-13-9310>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
-         <20220328195936.82552-25-nicolas.dufresne@collabora.com>
-         <20220329072216.gqzcp6lowpfrweb7@basti-XPS-13-9310>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+        Wed, 30 Mar 2022 11:50:48 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B286A33EAC;
+        Wed, 30 Mar 2022 08:49:00 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id g24so28242413lja.7;
+        Wed, 30 Mar 2022 08:48:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=dq8xdoLIR4aRi6FkMb+20PWNHqW1rgCenoTdxXhapeQ=;
+        b=iEUFe0ObPg8qK8j1JvE8RRHyMghNpiQQxXbwvFtCunM0DqR7JYxOXqAOFS1X8FIvbv
+         Q0jwBAhjoA+FCfJRj/ifJ6BIzHZ5UKMGa5lStV8/Zlix0V2PFNBYjg2ne7WOoN5gp7pR
+         zW54GurfJQHFF3EeUxPZaHLDciSPnu7ij6ScQ2e7MSDo1eHy5ZYxLMnhZk3+NHmNirmq
+         l4Aa3/++C8AC6ykYazwoLvj//FQqUoBJmaC/STCqoAeYw7rXRXOg0MO49PZAPbxM0bff
+         kUnbDar1asklrk1T3evqldCGliH96rQ105mc2qE4KOaRpWY9I5BsWY6miPMwsqPfLgvt
+         DIlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=dq8xdoLIR4aRi6FkMb+20PWNHqW1rgCenoTdxXhapeQ=;
+        b=RmiRzmoCQ4jOrNSX1R/BWE9vsg078XaGlyp4FA5UJNBx34OflGbqrgv+VsNDlDXNZg
+         KttzKwRTHU/3k8DdlfVGLfxsS4498wz2cWIyexMsVboOLh7GBRvyzia90wcEzs+vMdZ7
+         FBVU4hSnkThLNsDGfT1lzVr7gv2Lkg8Yw023wzNZP10O2UUWbke+1nmnHDT51QmsxSfD
+         Nb++GeWFFgOaRWG0pL9zzp4s1AXlf80MFHCOoewr705z3TKcXQ8NFiBl6HWeE4aLoAlf
+         cXOJwxrEhoEgro9+Jy2q0ijlqfRPiOnYLD5HMuzoOPY9gMDojx7xEFJZeL0m2fA8DCVE
+         yYGg==
+X-Gm-Message-State: AOAM531Wr01gm87+GzcCPNw4C/Tjpi/LvBzkUNiTUzuLoXSnLthhHnN8
+        I/GhzV5Dd/VSF9+4R0zVQyM=
+X-Google-Smtp-Source: ABdhPJyUOGgz9ZqjEOkltDEfzpulzR5+n7lOLWprzDlNwq2ielugYc/3nwzAT2zYEJY6zDunh4PM6Q==
+X-Received: by 2002:a05:651c:204:b0:249:832a:12b with SMTP id y4-20020a05651c020400b00249832a012bmr7201978ljn.473.1648655332642;
+        Wed, 30 Mar 2022 08:48:52 -0700 (PDT)
+Received: from [192.168.1.2] (235.132.246.94.ip4.artcom.pl. [94.246.132.235])
+        by smtp.googlemail.com with ESMTPSA id w22-20020a2e9996000000b00249824260f8sm2413038lji.25.2022.03.30.08.48.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Mar 2022 08:48:52 -0700 (PDT)
+Message-ID: <ae3864ac-b4f0-01a6-b3ed-75fa53ab3b95@gmail.com>
+Date:   Wed, 30 Mar 2022 17:47:55 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: Bug 215726 - si2157.c: mention name of the missing firmware file
+Content-Language: pl-PL
+To:     Thorsten Leemhuis <regressions@leemhuis.info>,
+        Robert Schlabbach <robert_s@gmx.net>
+Cc:     Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info>
+ <trinity-2ca61ae4-4f05-454d-94fd-d41e1afbec2f-1648581688394@3c-app-gmx-bs54>
+ <1fc02de2-890e-e8e8-0ab6-aba62a333de5@leemhuis.info>
+ <2ce6dc15-51a8-e59c-26ab-4380cdca6209@gmail.com>
+ <703ad976-a504-eded-41b6-cd4f9f74e8df@leemhuis.info>
+From:   Piotr Chmura <chmooreck@gmail.com>
+In-Reply-To: <703ad976-a504-eded-41b6-cd4f9f74e8df@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLY,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 29 mars 2022 =C3=A0 09:22 +0200, Sebastian Fricke a =C3=A9crit=C2=
-=A0:
-> Hey Nicolas,
->=20
-> The patch series doesn't seem to apply on the latest media tree master
-> branch. Looking at your tree I can see that you have commit: ba2c670a
-> "media: nxp: Restrict VIDEO_IMX_MIPI_CSIS to ARCH_MXC or COMPILE_TEST
-> Laurent Pinchart authored 1 week ago "
->=20
-> But the current head of the media tree is: 71e6d0608e4d
-> "media: platform: Remove unnecessary print function dev_err()
-> Yang Li authored 13 days ago"
->=20
-> On 28.03.2022 15:59, Nicolas Dufresne wrote:
-> > From: Alex Bee <knaerzche@gmail.com>
-> >=20
-> > Some SPS/PPS parameters are currently hardcoded in the driver
-> > even though so do exist in the uapi which is stable by now.
->=20
-> s/even though so/even though they/
-> >=20
-> > Use them instead of hardcoding them.
-> >=20
-> > Conformance tests have shown there is no difference, but it might
-> > increase decoder performance.
->=20
-> I think it would be great if we could add some performance metrics to
-> the commit description to have a metric that following patches could
-> compare themselves with.
+W dniu 30.03.2022 o 12:44, Thorsten Leemhuis pisze:
+> On 30.03.22 12:35, Piotr Chmura wrote:
+>> W dniu 30.03.2022 o 11:55, Thorsten Leemhuis pisze:
+>>> On 29.03.22 21:21, Robert Schlabbach wrote:
+>>>> the patch linked in the bugzilla ticket:
+>>>> https://lore.kernel.org/linux-media/6f84b7f4-3ede-ae55-e99b-a9d4108c80e2@gmail.com/
+>>>>
+>>>> should indeed fix the issue.
+>>> Ahh, the comment mentioning it was added shortly after I sent my mail.
+>>> #regzbot monitor:
+>>> https://lore.kernel.org/linux-media/6f84b7f4-3ede-ae55-e99b-a9d4108c80e2@gmail.com/
+>>>
+>>>
+>>> Adding Piotr, the patches' author to the CC, who also replied.
+>>>
+>>> BTW: that patch is afaics missing a Fixes tag specifying the culprit and
+>>> a `Cc: stable@vger.kernel.org # 5.17.x` tag to make sure it's quickly
+>>> backported to the stable tree, as among others explained here:
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/handling-regressions.rst
+>>>
+>> Sorry for my inconvenience.
+> Don't worry, everything fine. In a case like...
+>
+>> I just fixed my device and wanted to share
+>> solution with the "world". I'm not familiar with all kernel development
+>> convention (yet).
+> ...this someone else should point such details out to the submitter
+> and/or add these tags when applying the patch.
+>
+> @Robert: Do you know which commit causes this regression and could tell
+> us for a proper Fixes: tag?
+Fixes: 1c35ba3bf97213538b82067acc0f23f18e652226
 
-Alex, can you extend on this one? I'm not sure how this can impact performa=
-nce,
-so I doubt any mitric will be significant. Can I just drop that part of the
-comment ?
->=20
-> Greetings,
-> Sebastian
->=20
-> >=20
-> > Signed-off-by: Alex Bee <knaerzche@gmail.com>
-> > ---
-> > drivers/staging/media/rkvdec/rkvdec-h264.c | 13 +++++++------
-> > 1 file changed, 7 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/stagi=
-ng/media/rkvdec/rkvdec-h264.c
-> > index 891c48bf6a51..91f65d78e453 100644
-> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > @@ -655,13 +655,14 @@ static void assemble_hw_pps(struct rkvdec_ctx *ct=
-x,
-> >=20
-> > #define WRITE_PPS(value, field) set_ps_field(hw_ps->info, field, value)
-> > 	/* write sps */
-> > -	WRITE_PPS(0xf, SEQ_PARAMETER_SET_ID);
-> > -	WRITE_PPS(0xff, PROFILE_IDC);
-> > -	WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
-> > +	WRITE_PPS(sps->seq_parameter_set_id, SEQ_PARAMETER_SET_ID);
-> > +	WRITE_PPS(sps->profile_idc, PROFILE_IDC);
-> > +	WRITE_PPS((sps->constraint_set_flags & 1 << 3) ? 1 : 0, CONSTRAINT_SE=
-T3_FLAG);
-> > 	WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
-> > 	WRITE_PPS(sps->bit_depth_luma_minus8, BIT_DEPTH_LUMA);
-> > 	WRITE_PPS(sps->bit_depth_chroma_minus8, BIT_DEPTH_CHROMA);
-> > -	WRITE_PPS(0, QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
-> > +	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM=
-_BYPASS),
-> > +		  QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
-> > 	WRITE_PPS(sps->log2_max_frame_num_minus4, LOG2_MAX_FRAME_NUM_MINUS4);
-> > 	WRITE_PPS(sps->max_num_ref_frames, MAX_NUM_REF_FRAMES);
-> > 	WRITE_PPS(sps->pic_order_cnt_type, PIC_ORDER_CNT_TYPE);
-> > @@ -679,8 +680,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
-> > 		  DIRECT_8X8_INFERENCE_FLAG);
-> >=20
-> > 	/* write pps */
-> > -	WRITE_PPS(0xff, PIC_PARAMETER_SET_ID);
-> > -	WRITE_PPS(0x1f, PPS_SEQ_PARAMETER_SET_ID);
-> > +	WRITE_PPS(pps->pic_parameter_set_id, PIC_PARAMETER_SET_ID);
-> > +	WRITE_PPS(pps->seq_parameter_set_id, PPS_SEQ_PARAMETER_SET_ID);
-> > 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE),
-> > 		  ENTROPY_CODING_MODE_FLAG);
-> > 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN=
-_FRAME_PRESENT),
-> > --=20
-> > 2.34.1
-> >=20
+Cheers,
+Piotr Chmura
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+>
+> P.S.: As the Linux kernel's regression tracker I'm getting a lot of
+> reports on my table. I can only look briefly into most of them and lack
+> knowledge about most of the areas they concern. I thus unfortunately
+> will sometimes get things wrong or miss something important. I hope
+> that's not the case here; if you think it is, don't hesitate to tell me
+> in a public reply, it's in everyone's interest to set the public record
+> straight.
+>
+>
+>>>> The error was that the rom_id and required
+>>>> fields were swapped in the table, so the non-zero rom_id was taken as a
+>>>> "true" required boolean value, thus incorrectly evaluating that the
+>>>> chip requires a firmware file to operate when in fact it does not.
+>>>> I have tested the patch and found it worked for me. But I do not know
+>>>> how to push this further along:
+>>>> https://patchwork.linuxtv.org/project/linux-media/patch/6f84b7f4-3ede-ae55-e99b-a9d4108c80e2@gmail.com/
+>>>>
+>>> Mauro, what's up here? The patch fixes a regression and thus afaics
+>>> should quickly find its way towards mainline to get it into the stable
+>>> tree, as explained in the (bran new) document linked above.
+>>>
+>>> Ciao, Thorsten
+>>>
+>>>> Gesendet: Dienstag, 29. März 2022 um 10:33 Uhr
+>>>> Von: "Thorsten Leemhuis" <regressions@leemhuis.info>
+>>>> An: "Antti Palosaari" <crope@iki.fi>, "Mauro Carvalho Chehab"
+>>>> <mchehab+huawei@kernel.org>, "Robert Schlabbach" <robert_s@gmx.net>
+>>>> Cc: "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+>>>> az0123456@gmx.de, "Linux Media Mailing List"
+>>>> <linux-media@vger.kernel.org>, "Linux Kernel Mailing List"
+>>>> <linux-kernel@vger.kernel.org>
+>>>> Betreff: Bug 215726 - si2157.c: mention name of the missing firmware
+>>>> file
+>>>> Hi, this is your Linux kernel regression tracker.
+>>>>
+>>>> I noticed a regression report in bugzilla.kernel.org that afaics nobody
+>>>> acted upon since it was reported about a week ago, that's why I decided
+>>>> to forward it to the lists and all people that seemed to be relevant
+>>>> here. To quote from https://bugzilla.kernel.org/show_bug.cgi?id=215726 :
+>>>>
+>>>>> I get the following error messages when trying to use si2157.ko in
+>>>>> linux 5.17:
+>>>>> si2157 13-0060: found a 'Silicon Labs Si2157-A30 ROM 0x50'
+>>>>> si2157 13-0060: Can't continue without a firmware
+>>>>> I did work in linux 5.16.16 without a firmware file. Unfortunately
+>>>>> the driver does not tell me the name of the missing firmware file.
+>>>> Could somebody take a look into this? Or was this discussed somewhere
+>>>> else already? Or even fixed?
+>>>>
+>>>>
+>>
 
