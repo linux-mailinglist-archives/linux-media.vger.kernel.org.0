@@ -2,139 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 011154EBF1A
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 12:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B2154EBF31
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 12:50:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245554AbiC3Kqe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 06:46:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50354 "EHLO
+        id S245575AbiC3Kw2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 06:52:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245552AbiC3Kqc (ORCPT
+        with ESMTP id S245567AbiC3Kw0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 06:46:32 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84EBCDFCE;
-        Wed, 30 Mar 2022 03:44:46 -0700 (PDT)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1nZVoi-00031c-II; Wed, 30 Mar 2022 12:44:44 +0200
-Message-ID: <703ad976-a504-eded-41b6-cd4f9f74e8df@leemhuis.info>
-Date:   Wed, 30 Mar 2022 12:44:44 +0200
+        Wed, 30 Mar 2022 06:52:26 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DF5136320;
+        Wed, 30 Mar 2022 03:50:42 -0700 (PDT)
+Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 719CE59D;
+        Wed, 30 Mar 2022 12:50:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1648637439;
+        bh=AKINsQNNEHyPQ0zEyaooSfWvaeG9TlXPko12sWdzLgM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=AxU5nMJRaM5E7X35ks8ZJOfUWDpJNFAuajCO7zA5YB1w9RxwbHGByoFfTCvZxj26J
+         rtnP8cGizBbLyQbedCQ5hDQSDtK4MASRNJjk210Khy9njGOSHgWXxZscnzoy45iY7a
+         5roIr32ZMTWPTrgRkASDLKrR9GpxSn7mJhusEKnA=
+Message-ID: <61fdb731-1ebb-941c-4bd7-7da8c31c8e74@ideasonboard.com>
+Date:   Wed, 30 Mar 2022 13:50:35 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: Bug 215726 - si2157.c: mention name of the missing firmware file
+Subject: Re: [PATCH] media: staging: atomisp: rework reading the id and
+ revision values
 Content-Language: en-US
-To:     Piotr Chmura <chmooreck@gmail.com>,
-        Robert Schlabbach <robert_s@gmx.net>
-Cc:     Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info>
- <trinity-2ca61ae4-4f05-454d-94fd-d41e1afbec2f-1648581688394@3c-app-gmx-bs54>
- <1fc02de2-890e-e8e8-0ab6-aba62a333de5@leemhuis.info>
- <2ce6dc15-51a8-e59c-26ab-4380cdca6209@gmail.com>
-From:   Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <2ce6dc15-51a8-e59c-26ab-4380cdca6209@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1648637086;9e57a89c;
-X-HE-SMSGID: 1nZVoi-00031c-II
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tom Rix <trix@redhat.com>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, nathan@kernel.org,
+        ndesaulniers@google.com, hverkuil-cisco@xs4all.nl, vrzh@vrzh.net,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20220326191853.2914552-1-trix@redhat.com>
+ <YkN0w5NxLcBFes1b@paasikivi.fi.intel.com>
+ <2ab474d8-ee4e-44b5-ab3c-38b72135a27f@redhat.com>
+ <YkQx6jk5V2/f5mye@paasikivi.fi.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <YkQx6jk5V2/f5mye@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30.03.22 12:35, Piotr Chmura wrote:
+On 30/03/2022 13:33, Sakari Ailus wrote:
+> Hi Tom,
 > 
-> W dniu 30.03.2022 o 11:55, Thorsten Leemhuis pisze:
->> On 29.03.22 21:21, Robert Schlabbach wrote:
->>> the patch linked in the bugzilla ticket:
->>> https://lore.kernel.org/linux-media/6f84b7f4-3ede-ae55-e99b-a9d4108c80e2@gmail.com/
->>>
->>> should indeed fix the issue.
->> Ahh, the comment mentioning it was added shortly after I sent my mail.
->> #regzbot monitor:
->> https://lore.kernel.org/linux-media/6f84b7f4-3ede-ae55-e99b-a9d4108c80e2@gmail.com/
+> On Tue, Mar 29, 2022 at 04:21:20PM -0700, Tom Rix wrote:
+>> I'll do a resend.
 >>
->>
->> Adding Piotr, the patches' author to the CC, who also replied.
->>
->> BTW: that patch is afaics missing a Fixes tag specifying the culprit and
->> a `Cc: stable@vger.kernel.org # 5.17.x` tag to make sure it's quickly
->> backported to the stable tree, as among others explained here:
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/handling-regressions.rst
->>
-> Sorry for my inconvenience.
-
-Don't worry, everything fine. In a case like...
-
-> I just fixed my device and wanted to share
-> solution with the "world". I'm not familiar with all kernel development
-> convention (yet).
-
-...this someone else should point such details out to the submitter
-and/or add these tags when applying the patch.
-
-@Robert: Do you know which commit causes this regression and could tell
-us for a proper Fixes: tag?
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-
-P.S.: As the Linux kernel's regression tracker I'm getting a lot of
-reports on my table. I can only look briefly into most of them and lack
-knowledge about most of the areas they concern. I thus unfortunately
-will sometimes get things wrong or miss something important. I hope
-that's not the case here; if you think it is, don't hesitate to tell me
-in a public reply, it's in everyone's interest to set the public record
-straight.
-
-
->>> The error was that the rom_id and required
->>> fields were swapped in the table, so the non-zero rom_id was taken as a
->>> "true" required boolean value, thus incorrectly evaluating that the
->>> chip requires a firmware file to operate when in fact it does not.
->>> I have tested the patch and found it worked for me. But I do not know
->>> how to push this further along:
->>> https://patchwork.linuxtv.org/project/linux-media/patch/6f84b7f4-3ede-ae55-e99b-a9d4108c80e2@gmail.com/
->>>
->> Mauro, what's up here? The patch fixes a regression and thus afaics
->> should quickly find its way towards mainline to get it into the stable
->> tree, as explained in the (bran new) document linked above.
->>
->> Ciao, Thorsten
->>
->>> Gesendet: Dienstag, 29. März 2022 um 10:33 Uhr
->>> Von: "Thorsten Leemhuis" <regressions@leemhuis.info>
->>> An: "Antti Palosaari" <crope@iki.fi>, "Mauro Carvalho Chehab"
->>> <mchehab+huawei@kernel.org>, "Robert Schlabbach" <robert_s@gmx.net>
->>> Cc: "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
->>> az0123456@gmx.de, "Linux Media Mailing List"
->>> <linux-media@vger.kernel.org>, "Linux Kernel Mailing List"
->>> <linux-kernel@vger.kernel.org>
->>> Betreff: Bug 215726 - si2157.c: mention name of the missing firmware
->>> file
->>> Hi, this is your Linux kernel regression tracker.
->>>
->>> I noticed a regression report in bugzilla.kernel.org that afaics nobody
->>> acted upon since it was reported about a week ago, that's why I decided
->>> to forward it to the lists and all people that seemed to be relevant
->>> here. To quote from https://bugzilla.kernel.org/show_bug.cgi?id=215726 :
->>>
->>>> I get the following error messages when trying to use si2157.ko in
->>>> linux 5.17:
->>>> si2157 13-0060: found a 'Silicon Labs Si2157-A30 ROM 0x50'
->>>> si2157 13-0060: Can't continue without a firmware
->>>> I did work in linux 5.16.16 without a firmware file. Unfortunately
->>>> the driver does not tell me the name of the missing firmware file.
->>> Could somebody take a look into this? Or was this discussed somewhere
->>> else already? Or even fixed?
->>>
->>>
+>> I use git send-mail, sooo not sure what went wrong.
 > 
-> 
+> The resent patch also has the same Content-type. I looked a bit further and
+> it seems that this is very probably added by our mail system somehow: it's
+> not present on the patch I received through a different route. Weird.
+
+Well... For me, the original patch in this thread was text/plain. But 
+the [RESEND PATCH] was application/octet-stream, and Thunderbird shows 
+it as empty body with an unnamed attachment.
+
+  Tomi
