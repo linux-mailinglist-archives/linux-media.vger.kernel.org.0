@@ -2,195 +2,357 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C222B4EC806
-	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 17:17:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 040D54EC831
+	for <lists+linux-media@lfdr.de>; Wed, 30 Mar 2022 17:26:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245310AbiC3PTc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Mar 2022 11:19:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42628 "EHLO
+        id S1346876AbiC3P2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Mar 2022 11:28:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241721AbiC3PTa (ORCPT
+        with ESMTP id S1348186AbiC3P1v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Mar 2022 11:19:30 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 608A9154042;
-        Wed, 30 Mar 2022 08:17:43 -0700 (PDT)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22UFBBHw030420;
-        Wed, 30 Mar 2022 15:17:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=NYyCP9hrMbIu0sT6ONJVcHCGMX7eveT4zAp0w286baw=;
- b=XC1vf9sz0xsD0/yYSmjoBk077G142Lsa+kC1oZdDuoW6gPz5ACIt+9xJ1bQltt7IIw6N
- uFc9fMYAU/gOW2nRFMF8vcOdR8ITz/kcDk5FTDQ5nLje6BMOEL53+mE2uuqccd0iTqG/
- tAJGAHDIpFhp7rRlZqEqN6C9CNtiGZowb4JTgKMsrHjOf091fhll9U6mzz/5lUuMgMC+
- HMaWqUhKXyq4gW3f0jkIBIthyMDiuB/lbYG2dVGBUpgeXc3r3fQg1lKal1Xk5gC7yFMx
- cZSsdQ9/FBRtOFbzxMUwe8RyE50HL5iRMidyyEC6F9HW1RsNbR8BMYQ4D57iI6z/x0GV 5w== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3f1se0hu7w-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 30 Mar 2022 15:17:24 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 22UFAY8V023376;
-        Wed, 30 Mar 2022 15:17:23 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2176.outbound.protection.outlook.com [104.47.59.176])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3f1s948wx6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 30 Mar 2022 15:17:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GHNijRMeVt0bziBumIdn6UPr3ByxMjkZrTWeVU9OebDmlt6tqFICb+D2ruwG1JcLweb262o4qQW3nqfx1+pIoq3ZBz5NQ3UY8o9GA/6inmNSNNLs9LzUHWXTYZYt1TSr1I3/fskkWCxuHMT7abyfrdEZ3uvarZ/Pj1wd5IEU0y65qfG/sa/0Jub2kmdXu5E0f0dYdVgzAIRe/VAudP0xzIFVMQFWbRjM9dx5xFPjitI4TkF7DVGb14fSbQCP35UIqV0XrIl4vnTNFWrdZz5CH0GocMhLMuU+PvRMT+Fb2awnByI9Wg4rna1JKtfyYElJ2ma723FxLdGdhBXJKA7wog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NYyCP9hrMbIu0sT6ONJVcHCGMX7eveT4zAp0w286baw=;
- b=kc+V46RTWeuy5tbwMCbwP+a36dP0Z3ZC13U+JizYCLJ9tNG6sbQxPTGYdQhm0Qz/eoGKKPheimU/Hi2D+M4PxttTbC6luPxL79m5s1vAvhGiacu2kMFpVPwZqiqqbiZsP4gxjDf0899RP++Bn15pwrX1BG1x1g0PoRNxqupyRHeV077KFaDGuDXdbjh/BdplePxZuuyvkhYgk88vIhiFjB50E1El6n4H2TQMBwC4Hw5i7NHAUhDIHfKwJvt6eq7VUEwloX4GcWAWo1LSwzTWUIDgpyEjww/xh/xLXC4AnPQjUaGndFoSSzUr9S1o+r/e/Xj4R07gSoM5AvjKf1cDjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NYyCP9hrMbIu0sT6ONJVcHCGMX7eveT4zAp0w286baw=;
- b=ILMITcVVqVjgp1uhwr14Qh9eqN8j8BlRTA++CcSWr3vqRr8gyukNXKpxOe3R1skiq2IIpsi0lW2qby1riqXNLKEJYZNl8j8eImDCscYUc7dNs4FX7ynTlZivH2FwCoTpQWO+l4+0uSSozuG75cCX9yrOlSVt2UnNM0Z86vnhfsI=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BLAPR10MB4929.namprd10.prod.outlook.com
- (2603:10b6:208:324::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.17; Wed, 30 Mar
- 2022 15:17:21 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d4e7:ee60:f060:e20c]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d4e7:ee60:f060:e20c%7]) with mapi id 15.20.5081.025; Wed, 30 Mar 2022
- 15:17:21 +0000
-Date:   Wed, 30 Mar 2022 18:16:58 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+        Wed, 30 Mar 2022 11:27:51 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1401A9CB8;
+        Wed, 30 Mar 2022 08:26:05 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id D0C5C1F422A5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1648653964;
+        bh=BG8siRAN82v+w8F/ZIVjguEaZ9A/MnFMwINvZvy6sDw=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=hR3Bzqvbqrhf5B/MPfTULES4Qqe6nLiJdtWkNlmolsaCaOdSgnraPfFFE5RSHhDb/
+         9AyZJNx80mvOysTf8IAomlcegAU7ypLiIQsfDnMrqM6JwpNPCy+SIxMICZ6Uz5GgZX
+         5SYPaBeKLkRZ+sfFYXL0PBOu2pacUhNTL7TphrjzLS1uTSuZwboJAbOhrkmHp1HjKc
+         DPzwpfwGIjMG3UON8ktdyx8P58Owby9DEha/qMHvNHsPg+AdyzSZjNqJmPtyPmPHFu
+         ZGnv1zsqrYf2FVjfVwv1Yg67JtIZbWulOKTdM67xI4Gd+mmEEvzZospY50BEmPI7Lr
+         GYXB0cAug7uuA==
+Message-ID: <5ccf5e2924ff9609ee37a4eed73705380e8cce94.camel@collabora.com>
+Subject: Re: [PATCH v1 23/24] media: hantro: Add H.264 field decoding support
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>
 Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 19/24] media: rkvdec-h264: Add field decoding support
-Message-ID: <20220330151658.GV12805@kadam>
+        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date:   Wed, 30 Mar 2022 11:25:53 -0400
+In-Reply-To: <20220330090345.pxx54emtalz6vgqt@basti-XPS-13-9310>
 References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-20-nicolas.dufresne@collabora.com>
- <20220329081321.GV3293@kadam>
- <f7e5b577bc48ba16befbed47ac96c363ce861f48.camel@collabora.com>
- <20220330051541.GE3293@kadam>
- <ed16a4dcfb0859a284675ddad46ab536008a15c5.camel@collabora.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ed16a4dcfb0859a284675ddad46ab536008a15c5.camel@collabora.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0055.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::11)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+         <20220328195936.82552-24-nicolas.dufresne@collabora.com>
+         <20220330090345.pxx54emtalz6vgqt@basti-XPS-13-9310>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 27cd11d1-cc21-4479-07b1-08da1260627e
-X-MS-TrafficTypeDiagnostic: BLAPR10MB4929:EE_
-X-Microsoft-Antispam-PRVS: <BLAPR10MB4929B88EBC7BE2E8F97FC5328E1F9@BLAPR10MB4929.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QUSCBVJaaghzFdK0hn5ngYurotyiSkPU7xc3CTBKMFerah+c/31VATjRblHY3aEEyuaxSmY8ed34+xZ5wO64+vMk84Xar2ACaIh6+9frGMA1cln1eXkDAlHC7BnjsBWKdWxmVUqxHyLtcODwXKkaZVi6X+bR5CMSbMjOEchby8dR897dWe0GAV5vFNInXZ4SkwY7y3CKQ3y3SfoU2sC9YegYCmdi69jXbXebqBDtp2q/57xOSx+DkJQx3aTiHNvu2s3BsPiWYotLJIMXjlPI0lv2Sh9gBaD4N3Zh/vOmJuyUjBpps/8j9M8W8nH3keyw63Hw/qQQ6Zwkr1kld/Ba6m2S87KJKb580dbGh/5xhmxkJg/MtvS81RZZ8IVK6bHJU3LqTipot+GSKiJJa0xXFlDbhnxEF7uHzHLZ5uKI9bi+wtO1ub8w5LplO8QA2qWvJC4/P3gtBwvG2F9nOGAP4kqYbB8nwk96xtOWTmmSIVrRCKPWUIB7K8M867H92wHeiLGHTOr6Y0uyaY45658UypzrGaAaEkXdfOfa4ei8H8s100tBP9pWKxyYF/hacXjlhuoohrWA7S9dszHFscFV4VRlYxcFWJHVCOZ/AS7M7ZhYbXMP7e5It7AnIakFkNTg8uqBdDpxkhTWV9mW7NuHh61OKlntX8jjT8Fgm79cFNTShNs9t3kPWuyS2Mrr7UQlqhl+u5+maM1+RBs0hEcKig==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(54906003)(83380400001)(52116002)(6666004)(86362001)(9686003)(66476007)(4326008)(8676002)(6916009)(6512007)(66946007)(33656002)(6486002)(6506007)(316002)(2906002)(66556008)(508600001)(38350700002)(33716001)(8936002)(26005)(38100700002)(186003)(1076003)(44832011)(5660300002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EyE8DHhamLULGLJ3AIYeByHgUbqBqdU3cBhA5C/2Bb0KTgnYALUus9jTT0Ev?=
- =?us-ascii?Q?jk8nXGbBjnI85z8rLEZq9j3CRSfVJvVQY6uAYhZBxYIXS6v6nl2CXzYWsflC?=
- =?us-ascii?Q?pI9c3pkwBpMmtqYY3TCNGGjTmY7eaz4Mt2zsmce+FglsSwVnW1x/gvP4eCrk?=
- =?us-ascii?Q?iKsUv/uph+GGfwRDczddu0EVFCE+pqrJBRLis4ExYRfY2A9mRfwolIENByoy?=
- =?us-ascii?Q?zCcNRnzG54SuH9lqWU/peo2dgchNh6LtLP2UGruRNgkepUxUqGr4zBW1taKX?=
- =?us-ascii?Q?ogDolOGS35PKFNnVwwb722IPJFibwgE8GWtqFJa9fY4yodk9WvqE7kK6ZW1c?=
- =?us-ascii?Q?GVWN33KSf7rY0fck39Mh7HaGKsUHLU90TLvC1kXm5kxUFaCqMQNnPhDiyqwX?=
- =?us-ascii?Q?LEBcZ8LC0nFv8N0OIPkbCS5EOB4xq9tnAuUs0SGiLpGtdP88Fl1lgXJJPMxE?=
- =?us-ascii?Q?4GswgAk/8rBVR2VDsGQ2LrtuGb89dDroyfQ/GAaB8EAaTjo16fmS+ajPCGKW?=
- =?us-ascii?Q?UcrIszR+7RP/YBgQ8XvLTZFF93XAzXfVVHAurfAKZgZrfrOKuqGVK26IkG4O?=
- =?us-ascii?Q?kofzPjhjvyCTrP7G4OipF7TTv/sSrVisiRLRJ+VbCK2jyAkvZhi5ApZlNk/V?=
- =?us-ascii?Q?WUEaVvpTBt5bDOGhzN6QdzS49+uqM5BLdDWVghtHiFp6pzDdzb4CsS/O4E1K?=
- =?us-ascii?Q?ddCJOMWvFzTRJoItv9IiGmkKAxKTATqPA0iB4JqJY7PWjRecmhjtiBHQGYul?=
- =?us-ascii?Q?BWNJqp4rNDgmnIZvLs5fuQyivHZsH4YDB/YuUYi9W3F6ea6c0idduL3xJw0J?=
- =?us-ascii?Q?e8Xv2qpGh4RnpTVGQXoz5vXR1Darwblh84t8+2PV2QNm6TJKMC2YT7TdHhE/?=
- =?us-ascii?Q?crCzyvinHz1bhoJykwIA/vTpUXCGuLZtNqdFiw8JW3lZ1jawJnajf3X/QQi5?=
- =?us-ascii?Q?fgRfNrWM9YywZ/GU2CcLxJiDSqyxZKDjJ8/g49OJn/gez7Pirx2BKT2E0U52?=
- =?us-ascii?Q?U+rWPmiFa5drvrdPEK4cSxxGRljiT4SLp+Mb43RRJUjds873N0JoD54uRCjf?=
- =?us-ascii?Q?jd66HcAuPAyCSKNVH6VKk18piBK9hTaA5XmrwbrcM4d9r2NUHcfVqDP9zcXi?=
- =?us-ascii?Q?SkNSbCz9IgjecYsUjdCCZB1UD6QjpXA0P9KP/289dWTnrAqjOh4Ogw6nscxt?=
- =?us-ascii?Q?jzXRBS+n6m7r0FSD//p0tUJcL2oOYkg3WGJNNQpNmsqfRXJD+GnqqdikV/GC?=
- =?us-ascii?Q?8sgxCIS4K+O4VWnbUdoWBSFeMFttSxTzBFUp5Rv8OokqzOdlPb/1tEBn6qtu?=
- =?us-ascii?Q?viiThXnsMugWt5LVDuv/t2xy7bQl7N9y4NJvprHn2TCQvHzIHH345ZQ1EC8l?=
- =?us-ascii?Q?fbtsi2V5o3kaPY81HVHaCe1up4IEsYa1oYY76sPHY7evKT1jr94Cr5ZFLBkL?=
- =?us-ascii?Q?fjIy5kqMMV58LhDEYkYMmmrzQlT5mLWGoIbIhpiMRBuNrgVPDBMUM8gdl876?=
- =?us-ascii?Q?F10OAXCsJlo8d7SPSc0HU+RjEs0/HvIN1KYVQzgv/JAQUe/MHKnDqRwJYHnB?=
- =?us-ascii?Q?C0e3BCYmct0rNa/rZuVfy8IQlnoTD1cx8+WjufDbOhxog/OwTOKWD2+LsQki?=
- =?us-ascii?Q?HlB/TB98Wc+WoafrDKXoMa0PxOwFhY6Q5YYUoOaA7BjXl2VBqZjSOotwRVso?=
- =?us-ascii?Q?SgjHA9qNwpeUZJK9eNmgdMVhN7CSHxYdUUWNWMPCUNehMN2JgmgdQU3Kh4Zg?=
- =?us-ascii?Q?iNZyDzTyOMNzOXxH84URWYdqnKSi+hc=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27cd11d1-cc21-4479-07b1-08da1260627e
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2022 15:17:20.8683
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pFqzBsx4qC0pBzKB/nKG8wsc4kDt7e38k/DcLwPO6X3rcncXHjLMxKtg6ReHX1M6vaCFqZDEn3rDsx7BqjiSXJSBEVX0ODEWTd8uTrvk/sk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4929
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
- definitions=2022-03-30_04:2022-03-29,2022-03-30 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
- phishscore=0 suspectscore=0 malwarescore=0 adultscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203300074
-X-Proofpoint-ORIG-GUID: hYXx7mVGYadNCypMiSheSf7aBFutJapN
-X-Proofpoint-GUID: hYXx7mVGYadNCypMiSheSf7aBFutJapN
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Yeah.  I'm aboslutely fine with whatever you do.  Some of the questions
-you're asking occurred to me too but I don't have the answers.
+Le mercredi 30 mars 2022 =C3=A0 11:03 +0200, Sebastian Fricke a =C3=A9crit=
+=C2=A0:
+> Hey Nicolas,
+>=20
+> On 28.03.2022 15:59, Nicolas Dufresne wrote:
+> > This adds the required code to support field decoding. While most of
+> > the code is derived from Rockchip and VSI reference code, the
+> > reduction of the reference list to 16 entries has been found by
+>=20
+> s/has been/was/
+>=20
+> > trial and errors. The list consist of all the references with the
+>=20
+> s/consist/consists/
+>=20
+> > opposite field parity.
+> >=20
+> > The strategy being to deduplicate the reference picture that points
+>=20
+> s/strategy being to/strategy is to/
+>=20
+> > to the same storage (same index). The choice of opposite parity has
+> > been made to keep the other field or a field pair to be kept in the
+>=20
+> Do you mean?
+>=20
+> s/keep the other field or a field pair to be kept/
+>    keep the other field of a field pair/
+>=20
+> > list. This method may not be robust if a field was lost.
+> >=20
+> > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > ---
+> > drivers/staging/media/hantro/hantro_h264.c | 107 ++++++++++++++++++---
+> > drivers/staging/media/hantro/hantro_hw.h   |   1 +
+> > 2 files changed, 94 insertions(+), 14 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/stagi=
+ng/media/hantro/hantro_h264.c
+> > index 7377fc26f780..f6fc939aa726 100644
+> > --- a/drivers/staging/media/hantro/hantro_h264.c
+> > +++ b/drivers/staging/media/hantro/hantro_h264.c
+> > @@ -22,6 +22,11 @@
+> > #define POC_BUFFER_SIZE			34
+> > #define SCALING_LIST_SIZE		(6 * 16 + 2 * 64)
+> >=20
+> > +/* For valid and long term reference marking, index are reversed, so b=
+it 31
+>=20
+> s/index/indeces/
+>=20
+> > + * indicates the status of the picture 0.
+> > + */
+> > +#define REF_BIT(i)			BIT(32 - 1 - (i))
+> > +
+> > /* Data structure describing auxiliary buffer format. */
+> > struct hantro_h264_dec_priv_tbl {
+> > 	u32 cabac_table[CABAC_INIT_BUFFER_SIZE];
+> > @@ -227,6 +232,7 @@ static void prepare_table(struct hantro_ctx *ctx)
+> > {
+> > 	const struct hantro_h264_dec_ctrls *ctrls =3D &ctx->h264_dec.ctrls;
+> > 	const struct v4l2_ctrl_h264_decode_params *dec_param =3D ctrls->decode=
+;
+> > +	const struct v4l2_ctrl_h264_sps *sps =3D ctrls->sps;
+> > 	struct hantro_h264_dec_priv_tbl *tbl =3D ctx->h264_dec.priv.cpu;
+> > 	const struct v4l2_h264_dpb_entry *dpb =3D ctx->h264_dec.dpb;
+> > 	u32 dpb_longterm =3D 0;
+> > @@ -237,20 +243,45 @@ static void prepare_table(struct hantro_ctx *ctx)
+> > 		tbl->poc[i * 2] =3D dpb[i].top_field_order_cnt;
+> > 		tbl->poc[i * 2 + 1] =3D dpb[i].bottom_field_order_cnt;
+> >=20
+> > +		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_VALID))
+> > +			continue;
+> > +
+> > 		/*
+> > 		 * Set up bit maps of valid and long term DPBs.
+> > -		 * NOTE: The bits are reversed, i.e. MSb is DPB 0.
+> > +		 * NOTE: The bits are reversed, i.e. MSb is DPB 0. For frame
+> > +		 * decoding, bit 31 to 15 are used, while for field decoding,
+>=20
+> s/bit 31/bits 31/
+>=20
+> > +		 * all bits are used, with bit 31 being a top field, 30 a bottom
+> > +		 * field and so on.
+> > 		 */
+> > -		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+> > -			dpb_valid |=3D BIT(HANTRO_H264_DPB_SIZE - 1 - i);
+> > -		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+> > -			dpb_longterm |=3D BIT(HANTRO_H264_DPB_SIZE - 1 - i);
+> > +		if (dec_param->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC) {
+> > +			if (dpb[i].fields & V4L2_H264_TOP_FIELD_REF)
+> > +				dpb_valid |=3D REF_BIT(i * 2);
+> > +
+> > +			if (dpb[i].fields & V4L2_H264_BOTTOM_FIELD_REF)
+> > +				dpb_valid |=3D REF_BIT(i * 2 + 1);
+> > +
+> > +			if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM) {
+> > +				dpb_longterm |=3D REF_BIT(i * 2);
+> > +				dpb_longterm |=3D REF_BIT(i * 2 + 1);
+> > +			}
+> > +		} else {
+> > +			dpb_valid |=3D REF_BIT(i);
+> > +
+> > +			if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+> > +				dpb_longterm |=3D REF_BIT(i);
+> > +		}
+> > +	}
+> > +	ctx->h264_dec.dpb_valid =3D dpb_valid;
+> > +	ctx->h264_dec.dpb_longterm =3D dpb_longterm;
+> > +
+> > +	if ((dec_param->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC) ||
+> > +	    !(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)) {
+> > +		tbl->poc[32] =3D ctx->h264_dec.cur_poc;
+> > +		tbl->poc[33] =3D 0;
+> > +	} else {
+> > +		tbl->poc[32] =3D dec_param->top_field_order_cnt;
+> > +		tbl->poc[33] =3D dec_param->bottom_field_order_cnt;
+> > 	}
+> > -	ctx->h264_dec.dpb_valid =3D dpb_valid << 16;
+> > -	ctx->h264_dec.dpb_longterm =3D dpb_longterm << 16;
+> > -
+> > -	tbl->poc[32] =3D dec_param->top_field_order_cnt;
+> > -	tbl->poc[33] =3D dec_param->bottom_field_order_cnt;
+> >=20
+> > 	assemble_scaling_list(ctx);
+> > }
+> > @@ -326,6 +357,8 @@ dma_addr_t hantro_h264_get_ref_buf(struct hantro_ct=
+x *ctx,
+> > {
+> > 	struct v4l2_h264_dpb_entry *dpb =3D ctx->h264_dec.dpb;
+> > 	dma_addr_t dma_addr =3D 0;
+> > +	s32 cur_poc =3D ctx->h264_dec.cur_poc;
+> > +	u32 flags;
+> >=20
+> > 	if (dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+> > 		dma_addr =3D hantro_get_ref(ctx, dpb[dpb_idx].reference_ts);
+> > @@ -343,7 +376,12 @@ dma_addr_t hantro_h264_get_ref_buf(struct hantro_c=
+tx *ctx,
+> > 		dma_addr =3D hantro_get_dec_buf_addr(ctx, buf);
+> > 	}
+> >=20
+> > -	return dma_addr;
+> > +	flags =3D dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD ? 0x2 :=
+ 0;
+>=20
+> > +	flags |=3D abs(dpb[dpb_idx].top_field_order_cnt - cur_poc) <
+> > +		 abs(dpb[dpb_idx].bottom_field_order_cnt - cur_poc) ?
+> > +		 0x1 : 0;
+>=20
+> You use the magic values `0x1` & `0x2` here, can you replace those with
+> macros?
+>=20
+> It looks 0x2 indicates that we have a field and 0x1 indicates the
+> distance of the current picture to the bottom field is greater than
+> the distance of the current picture to the top field. (inidicating that
+> the order is correct?)
+>=20
+> So maybe:
+> ```
+> #define HANTRO_H264_FIELD_DMA_ADDR              0x1
+> #define HANTRO_H264_CORRECT_FIELD_ORDER         0x2
+> ```
 
-> > > > > +		for (i = 0; i < builder->num_valid; i++) {
-> > > > > +			struct v4l2_h264_reference *ref;
-> > > > > +			u8 dpb_valid;
-> > > > > +			u8 bottom;
-> > > > 
-> > > > These would be better as type bool.
-> > > 
-> > > I never used a bool for bit operations before, but I guess that can work, thanks
-> > > for the suggestion. As this deviates from the original code, I suppose I should
-> > > make this a separate patch ?
-> > 
-> > I just saw the name and wondered why it was a u8.  bool does make more
-> > sense and works fine for the bitwise stuff.  But I don't really care at
-> > all.
-> 
-> I'll do that in v2, in same patch, looks minor enough. I think if using bool
-> could guaranty that only 1 or 0 is  possible, it would be even better, but don't
-> think C works like this.
+Will do, I need to check again in the ref code for the appropriate wording =
+for
+the meaning of these bits. I don't like much FIELD_DMA_ADDR, as its not an
+address, or an offset to an address. Here the address must be aligned, whic=
+h
+results in these bits always being 0, so they reuse it to pass per-referenc=
+e
+information.
 
-I'm not sure I understand.  If you assign "bool x = <any non-zero>;"
-then x is set to true.  Do you want a static checker warning for if
-<any non-zero> can be something other than one or zero?  The problem is
-that people sometimes deliberately do stuff like "bool x = var & 0xf0;".
-Smatch will complain if you assign a negative value to x.
+>=20
+>=20
+> > +
+> > +	return dma_addr | flags;
+> > }
+> >=20
+> > u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_id=
+x)
+> > @@ -355,6 +393,34 @@ u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx=
+, unsigned int dpb_idx)
+> > 	return dpb->frame_num;
+> > }
+> >=20
+> > +static void deduplicate_reflist(struct v4l2_h264_reflist_builder *b,
+> > +				struct v4l2_h264_reference *reflist)
+>=20
+> Can you add a comment describing why we need to deduplicate the
+> reference list? And maybe also why we get duplications in the first
+> place? Why must we limit the size to 16?
+> This would increase the readability of the code a lot.
 
-test.c:8 test() warn: assigning (-3) to unsigned variable 'x'
+For readers that did understand the H.264 specification, that a field refli=
+st
+has 32 entry should be obvious. That hantro uses 16 entry only is an
+undocumented trickery, I'll write something to the best of my knowledge, bu=
+t
+this has been reversed, so don't expect the highest rationale. I will thoug=
+h
+document here what I say in the commit, e.g. why this method might not be
+robust, so someone can give it a try and make it more robust in the future.
 
-It's supposed to print a warning if you used it to save error codes like:
-
-	x = some_kernel_function();
-
-But it does not.  :/  Something to investigate.
-
-regards,
-dan carpenter
+>=20
+> > +{
+> > +	int write_idx =3D 0;
+> > +	int i;
+> > +
+> > +	if (b->cur_pic_fields =3D=3D V4L2_H264_FRAME_REF) {
+> > +		write_idx =3D b->num_valid;
+> > +		goto done;
+> > +	}
+> > +
+> > +	for (i =3D 0; i < b->num_valid; i++) {
+> > +		if (!(b->cur_pic_fields =3D=3D reflist[i].fields)) {
+> > +			reflist[write_idx++] =3D reflist[i];
+> > +			continue;
+> > +		}
+> > +	}
+> > +
+> > +done:
+> > +	/* Should not happen unless we have a bug in the reflist builder. */
+> > +	if (WARN_ON(write_idx > 16))
+> > +		write_idx =3D 16;
+> > +
+> > +	/* Clear the remaining, some streams fails otherwise */
+>=20
+> s/the remaining/the remaining entries/
+> s/fails/fail/
+>=20
+> > +	for (; write_idx < 16; write_idx++)
+> > +		reflist[write_idx].index =3D 15;
+> > +}
+> > +
+> > int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
+> > {
+> > 	struct hantro_h264_dec_hw_ctx *h264_ctx =3D &ctx->h264_dec;
+> > @@ -386,15 +452,28 @@ int hantro_h264_dec_prepare_run(struct hantro_ctx=
+ *ctx)
+> > 	/* Update the DPB with new refs. */
+> > 	update_dpb(ctx);
+> >=20
+> > -	/* Prepare data in memory. */
+> > -	prepare_table(ctx);
+> > -
+> > 	/* Build the P/B{0,1} ref lists. */
+> > 	v4l2_h264_init_reflist_builder(&reflist_builder, ctrls->decode,
+> > 				       ctrls->sps, ctx->h264_dec.dpb);
+> > +	h264_ctx->cur_poc =3D reflist_builder.cur_pic_order_count;
+> > +
+> > +	/* Prepare data in memory. */
+> > +	prepare_table(ctx);
+> > +
+> > 	v4l2_h264_build_p_ref_list(&reflist_builder, h264_ctx->reflists.p);
+> > 	v4l2_h264_build_b_ref_lists(&reflist_builder, h264_ctx->reflists.b0,
+> > 				    h264_ctx->reflists.b1);
+> > +
+> > +	/* Reduce ref lists to at most 16 entries, Hantro hardware will deduc=
+e
+> > +	 * the actual picture lists in field through the dpb_valid,
+>=20
+> s/in field/in a field/
+>=20
+> > +	 * dpb_longterm bitmap along with the current frame parity.
+>=20
+> s/bitmap/bitmaps/
+>=20
+> Greetings,
+> Sebastian
+>=20
+> > +	 */
+> > +	if (reflist_builder.cur_pic_fields !=3D V4L2_H264_FRAME_REF) {
+> > +		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.p);
+> > +		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.b0);
+> > +		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.b1);
+> > +	}
+> > +
+> > 	return 0;
+> > }
+> >=20
+> > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging=
+/media/hantro/hantro_hw.h
+> > index 292aaaabaf24..fd869369fb97 100644
+> > --- a/drivers/staging/media/hantro/hantro_hw.h
+> > +++ b/drivers/staging/media/hantro/hantro_hw.h
+> > @@ -91,6 +91,7 @@ struct hantro_h264_dec_hw_ctx {
+> > 	struct hantro_h264_dec_ctrls ctrls;
+> > 	u32 dpb_longterm;
+> > 	u32 dpb_valid;
+> > +	s32 cur_poc;
+> > };
+> >=20
+> > /**
+> > --=20
+> > 2.34.1
+> >=20
 
