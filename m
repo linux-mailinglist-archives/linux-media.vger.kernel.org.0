@@ -2,128 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B05A4EDAB4
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 15:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D00DA4EDE11
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 17:57:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236938AbiCaNmS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 09:42:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55720 "EHLO
+        id S234270AbiCaP6o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 11:58:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233074AbiCaNmR (ORCPT
+        with ESMTP id S233278AbiCaP6o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 09:42:17 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 328321BD997;
-        Thu, 31 Mar 2022 06:40:30 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id E26221F468C7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1648734029;
-        bh=JMI9DF713E6Bedui+fXfewEWfQB3MYjowcqT1ROwzdk=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=IbswILxvo7LGIbjTS6A4Z+mCEy/8t0Es14/FObmIQ6gNSGCv74NdFU7OEtIanJIwk
-         camY8wbfbpR6kRV8QHHlpAoBGxXfkbhMZGWzv9fWzfR+HCXuSc4Vt1ISlFcqgFk4TV
-         xSX6vQI1PQo+TR/BjD1Fu8vGapdIRi3iJQhaRHvfTZAlAjkO5Vc0YlnNC+geZJMB09
-         lMiDqcC5/iLHH9C25CTekZjlVTFf+HMCLEu5k+HJ2AUem9+8lxCc8XEQeUoYc/mEV8
-         gS4t2aAMSN5ONp+v4KqzLp5EutpwgLW6IKmv94L/GYmfW3DlcNiMp31RSy3I5aui7o
-         o/hvSz1iZPf8Q==
-Message-ID: <ce1cbeab5e4a8a8338f2567f05af3226305410c7.camel@collabora.com>
-Subject: Re: [PATCH v1 19/24] media: rkvdec-h264: Add field decoding support
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Date:   Thu, 31 Mar 2022 09:40:18 -0400
-In-Reply-To: <20220330151658.GV12805@kadam>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
-         <20220328195936.82552-20-nicolas.dufresne@collabora.com>
-         <20220329081321.GV3293@kadam>
-         <f7e5b577bc48ba16befbed47ac96c363ce861f48.camel@collabora.com>
-         <20220330051541.GE3293@kadam>
-         <ed16a4dcfb0859a284675ddad46ab536008a15c5.camel@collabora.com>
-         <20220330151658.GV12805@kadam>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+        Thu, 31 Mar 2022 11:58:44 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A77A51F0837;
+        Thu, 31 Mar 2022 08:56:55 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id 17so350469ljw.8;
+        Thu, 31 Mar 2022 08:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=KxvZgz6hL7VJSgBkUh68HmLUc6RrDFibKDprz5pS9ck=;
+        b=XmgzZVBW/FQUUWM2JyAFM5UgAwSSkAaAFRZ23B29xwV3qEosExNQ9XFdUueqgRmceV
+         mYagYUESyK8stPscP97WnWXl9FhkpHIIgO2rpRDd4eEaDhpAY99XRHJqP8JqQl7Bu2P/
+         /CEPqo7gVlJehBHWq1WO9MVVhU3wYr3dGJ5CLkSfUc9mWG3pvJEnEDAKDnF90KNNYwQ7
+         0HejRLZGYDuNiEdOdWq427V2DmOvqXmc3Pp+PjA2pD229xmQITOZlHhucn1K6+Gy7vMS
+         Unw2/keqtK/QwnFHjeU68i8KRyLyQ06GJ2sTNdYWcC3zcbOy6gFA86g1DWLKzFWWdwCe
+         3KGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:from:subject:content-transfer-encoding;
+        bh=KxvZgz6hL7VJSgBkUh68HmLUc6RrDFibKDprz5pS9ck=;
+        b=D7leKF2xF6HTcu1FyQ5wO/F4h7C8iSSOsM+hqVHITM6ACN+L45S545SMpwNyZl72u2
+         ERor84qEiqM4xSfPaXCkymSruinVPP0Y8RxGFrw3jp1qlbCmF/+K69KLrmQH2ufDNMuk
+         tg3x8Z8xaa9kSEv/97JwwvjGlLHzFLycSsmDXwIGwDoH88A+rTqX48ztmfuaBP8ggSMC
+         57HQRTTGmXdXsDK3GBMha6xzD4T7Rt8iSveILWKMeu+u8jTg9s8BRDLoWMPPXeQysbRO
+         BgWwguAdPJ0ZJgAkPa8UWTeD0HAhu6ZGCVeor1HNXjAaLZCuY2IE6UpLmwRZlAb4bPw3
+         4b1g==
+X-Gm-Message-State: AOAM532dp9hk1DlMV4yEAgRlsPql9XlWFKimd4AsNrq+26qr3efuDoUv
+        5GO4BuzoYnHBi7CWBAG3fUQ=
+X-Google-Smtp-Source: ABdhPJxiQKBkYN+HEsqJ45zmL5AhTq/ELypDRrWwMspKq8v1XmnxdyMNAp7obKvq+eIDx+R1K+y16g==
+X-Received: by 2002:a2e:a602:0:b0:249:93f8:b0f0 with SMTP id v2-20020a2ea602000000b0024993f8b0f0mr10865404ljp.10.1648742209343;
+        Thu, 31 Mar 2022 08:56:49 -0700 (PDT)
+Received: from [192.168.1.2] (235.132.246.94.ip4.artcom.pl. [94.246.132.235])
+        by smtp.googlemail.com with ESMTPSA id u12-20020a056512128c00b00446499f855dsm2705605lfs.78.2022.03.31.08.56.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Mar 2022 08:56:48 -0700 (PDT)
+Message-ID: <c4bcaff8-fbad-969e-ad47-e2c487ac02a1@gmail.com>
+Date:   Thu, 31 Mar 2022 17:55:50 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+To:     Thorsten Leemhuis <regressions@leemhuis.info>
+Cc:     Robert Schlabbach <robert_s@gmx.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        LMML <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Antti Palosaari <crope@iki.fi>
+From:   Piotr Chmura <chmooreck@gmail.com>
+Subject: [PATCH v3] si2157: unknown chip version Si2147-A30 ROM 0x50
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 30 mars 2022 =C3=A0 18:16 +0300, Dan Carpenter a =C3=A9crit=C2=
-=A0:
-> Yeah.  I'm aboslutely fine with whatever you do.  Some of the questions
-> you're asking occurred to me too but I don't have the answers.
->=20
-> > > > > > +		for (i =3D 0; i < builder->num_valid; i++) {
-> > > > > > +			struct v4l2_h264_reference *ref;
-> > > > > > +			u8 dpb_valid;
-> > > > > > +			u8 bottom;
-> > > > >=20
-> > > > > These would be better as type bool.
-> > > >=20
-> > > > I never used a bool for bit operations before, but I guess that can=
- work, thanks
-> > > > for the suggestion. As this deviates from the original code, I supp=
-ose I should
-> > > > make this a separate patch ?
-> > >=20
-> > > I just saw the name and wondered why it was a u8.  bool does make mor=
-e
-> > > sense and works fine for the bitwise stuff.  But I don't really care =
-at
-> > > all.
-> >=20
-> > I'll do that in v2, in same patch, looks minor enough. I think if using=
- bool
-> > could guaranty that only 1 or 0 is  possible, it would be even better, =
-but don't
-> > think C works like this.
->=20
-> I'm not sure I understand.  If you assign "bool x =3D <any non-zero>;"
-> then x is set to true.  Do you want a static checker warning for if
-> <any non-zero> can be something other than one or zero?  The problem is
-> that people sometimes deliberately do stuff like "bool x =3D var & 0xf0;"=
-.
-> Smatch will complain if you assign a negative value to x.
->=20
-> test.c:8 test() warn: assigning (-3) to unsigned variable 'x'
->=20
-> It's supposed to print a warning if you used it to save error codes like:
->=20
-> 	x =3D some_kernel_function();
->=20
-> But it does not.  :/  Something to investigate.
+Fix firmware file names assignment in si2157 tuner, allow for running 
+devices without firmware files needed.
 
-That would be an amazing catch, you might have seen a lot of:
 
-  x =3D !!(var & 0xf0)
+It's regression in kernel 5.17.0, worked fine in 5.16 series.
 
-For branches, it does no matter, but if you use x it like this dpb_valid
-variable is used, not having 0 or 1 can lead to very surprising results. In=
- the
-end its used like this
+device: 07ca:1871 AVerMedia Technologies, Inc. TD310 DVB-T/T2/C dongle
+modprobe gives error: unknown chip version Si2147-A30 ROM 0x50
+Device initialization is interrupted.
 
-  set_reg(reg0, val | (x << N))
+caused by:
+1. table si2157_tuners has swapped fields rom_id and required vs struct 
+si2157_tuner_info.
+2. both firmware file names can be null for devices with required == 
+false - device uses build-in firmware in this case
 
-So using bool type can hint the analyzer that 0 or 1 was likely expected, w=
-hile
-currently an u8 would be ambiguous and lead to false positive if we were to
-warn.
+Fix:
+1. Rearrange fields in table si2157_tuners
+2. Allow both firmware file names be NULL for devices defined with 
+required == false
 
->=20
-> regards,
-> dan carpenter
->=20
+
+Fixes: 1c35ba3bf972 ("media: si2157: use a different namespace for 
+firmware")
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=215726
+Link: 
+https://lore.kernel.org/lkml/5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info/ 
+
+Cc: stable@vger.kernel.org # 5.17.x
+Signed-off-by: Piotr Chmura <chmooreck@gmail.com>
+Tested-by: Robert Schlabbach <robert_s@gmx.net>
+
+---
+
+--- a/drivers/media/tuners/si2157.c    2022-03-20 21:14:17.000000000 +0100
++++ b/drivers/media/tuners/si2157.c    2022-03-22 23:48:05.604408331 +0100
+@@ -77,16 +77,16 @@ err_mutex_unlock:
+  }
+
+  static const struct si2157_tuner_info si2157_tuners[] = {
+-    { SI2141, false, 0x60, SI2141_60_FIRMWARE, SI2141_A10_FIRMWARE },
+-    { SI2141, false, 0x61, SI2141_61_FIRMWARE, SI2141_A10_FIRMWARE },
+-    { SI2146, false, 0x11, SI2146_11_FIRMWARE, NULL },
+-    { SI2147, false, 0x50, SI2147_50_FIRMWARE, NULL },
+-    { SI2148, true,  0x32, SI2148_32_FIRMWARE, SI2158_A20_FIRMWARE },
+-    { SI2148, true,  0x33, SI2148_33_FIRMWARE, SI2158_A20_FIRMWARE },
+-    { SI2157, false, 0x50, SI2157_50_FIRMWARE, SI2157_A30_FIRMWARE },
+-    { SI2158, false, 0x50, SI2158_50_FIRMWARE, SI2158_A20_FIRMWARE },
+-    { SI2158, false, 0x51, SI2158_51_FIRMWARE, SI2158_A20_FIRMWARE },
+-    { SI2177, false, 0x50, SI2177_50_FIRMWARE, SI2157_A30_FIRMWARE },
++    { SI2141, 0x60, false, SI2141_60_FIRMWARE, SI2141_A10_FIRMWARE },
++    { SI2141, 0x61, false, SI2141_61_FIRMWARE, SI2141_A10_FIRMWARE },
++    { SI2146, 0x11, false, SI2146_11_FIRMWARE, NULL },
++    { SI2147, 0x50, false, SI2147_50_FIRMWARE, NULL },
++    { SI2148, 0x32, true,  SI2148_32_FIRMWARE, SI2158_A20_FIRMWARE },
++    { SI2148, 0x33, true,  SI2148_33_FIRMWARE, SI2158_A20_FIRMWARE },
++    { SI2157, 0x50, false, SI2157_50_FIRMWARE, SI2157_A30_FIRMWARE },
++    { SI2158, 0x50, false, SI2158_50_FIRMWARE, SI2158_A20_FIRMWARE },
++    { SI2158, 0x51, false, SI2158_51_FIRMWARE, SI2158_A20_FIRMWARE },
++    { SI2177, 0x50, false, SI2177_50_FIRMWARE, SI2157_A30_FIRMWARE },
+  };
+
+  static int si2157_load_firmware(struct dvb_frontend *fe,
+@@ -178,7 +178,7 @@ static int si2157_find_and_load_firmware
+          }
+      }
+
+-    if (!fw_name && !fw_alt_name) {
++    if (required && !fw_name && !fw_alt_name) {
+          dev_err(&client->dev,
+              "unknown chip version Si21%d-%c%c%c ROM 0x%02x\n",
+              part_id, cmd.args[1], cmd.args[3], cmd.args[4], rom_id);
 
