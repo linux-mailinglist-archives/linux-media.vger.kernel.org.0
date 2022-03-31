@@ -2,203 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 788764EE2DD
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 22:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 151574EE2E1
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 22:48:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241516AbiCaUsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 16:48:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46596 "EHLO
+        id S241521AbiCaUt4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 16:49:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234435AbiCaUsq (ORCPT
+        with ESMTP id S234435AbiCaUtz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 16:48:46 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F5F71EC995
-        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:46:58 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id d7so1384794wrb.7
-        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:46:58 -0700 (PDT)
+        Thu, 31 Mar 2022 16:49:55 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21B8F1EC61E
+        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:48:07 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id m21so567752qtw.8
+        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:48:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=73gZfDQCpt0fGibx8D9nibrJ22anLyD9WN0vPioCp4E=;
-        b=DeCbI3OH9ybm6WxJDbG8bQTyh5D+c4ZsbKHkZH8MsgiPBzMnwykeckin0GiRi99hB0
-         RIF7qMNosyn5vmUsTEQKeU1KwPnG9JoNsX/fA/pT9qiwzMN2CEjauEIozPKLdYbQwjnx
-         hji+pqGLIsUxkIEudt0ibfnERd95vJhcrSROE=
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=3sKDeBT0Bybpz0Cwpb0hpKqxHi3J/peqolQfUVYmQ+A=;
+        b=hU52InW/YEHpPqnwM0BOrRTaDS0GWqdS0Qxm1+YxtdSqZ62Cvp6J8Wa6VW3vtzzQLE
+         OqoihkSGii4UeWenrhZqk+3/ignl8uB0HYNcuLFiZIVilTzRNAmp3/6eSLYPQI42TOaP
+         eSyB3eB4jwyDjdZBxFx01YIT5KEVLTN9bJTmi5NF3b8fuslAXn4Oz/v9ptcWniukaG4o
+         rCkSEdBS3y3pw7n0rxogms8il/hyaQYESJ06sbFU3qOAo1dJuiKDaMC0A73HmCbZ2zSy
+         x0L2svgfuQSUyAWwIbmsWZW7jb4eYePsVERoDDe2QhaAcvCLHrmwX4hbLzsL8y6ZvFcq
+         LeLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=73gZfDQCpt0fGibx8D9nibrJ22anLyD9WN0vPioCp4E=;
-        b=Jf0wp/W4/pnr7H35kGUQJipcjJkk6GUHoQTmpEm4wzyP/pHsk8wUz57+4b0k2+GUlj
-         ti8ZqQQKcIZdjOdD9z1rBkV1w3oTfsxh/gZGYOahwqclEExXuCPJg/FJ5Urafhyticpg
-         mOQSdAbUY+j/Lx4ql136y5EuVcWoQCBbBu9a8uXzH4UAgxqtbCEOJzAaggeoqxD21eIj
-         XWHjqqS8TWqQpwbF2x5FKV1j41HCWpq7FZfC6ugkIEFHv/JWzzpo3HWgKPwRa7xCEpoQ
-         1lsS43ZPBahIesHhVK3ZDT6Wxv/apfEGQ4gtZDpIb3aSSiPUXCyHmibJJ819zULpXMci
-         1Dpw==
-X-Gm-Message-State: AOAM5314aIn6TcVqxc+6YWbVGeYFEewjZM3Zk8iajwUQmPT5Zh2IgeHf
-        DGL4rY4znVzQyVIpgE8uOZvC2w==
-X-Google-Smtp-Source: ABdhPJw1JV5Bt9fNkfp9+VZBfvscGth4m22To84I6sYPoVisrLeUWTzWFoizVcX4ctk+HLSKby7Oiw==
-X-Received: by 2002:adf:e642:0:b0:203:d992:b8a3 with SMTP id b2-20020adfe642000000b00203d992b8a3mr5261866wrn.17.1648759617204;
-        Thu, 31 Mar 2022 13:46:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id b15-20020a05600018af00b002057c72d45fsm480319wri.77.2022.03.31.13.46.56
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=3sKDeBT0Bybpz0Cwpb0hpKqxHi3J/peqolQfUVYmQ+A=;
+        b=KXaR/jooSgSW/2rvj8KLpIbfhM4PSe+bKgMqK3aXsXqMR0MYnmLSH4MCL9EXbCehfx
+         sEtxlm+5DBNeDsO+t5anJVmxBene+wTeTna4ZuK8Yka9b52tXkey39KWk6+7rMMX+IMQ
+         Sz85O11e00us2dIuyJlTw/smYfcMFKqwg+1jS9owEXUevE3pl/MzJ3hzOjz8fEgbky+D
+         6V1T5/AzL+8qkMuicnnAPkjNgx3U/JE8e1JDlnkN/2iP79FMIHyZfUuOAE315IeaDToO
+         5mc0RzQbf91scHB/XGiA5pHIU0BLEDDO40R88A5muI7xti8+CfsHeQoYZZTAr8zRJusS
+         Tibg==
+X-Gm-Message-State: AOAM532WhOKKYYiv/Vbx9smYJF0OCgKmMbBtvHhxkA+k1D/jzuG1NEF5
+        0Dul/zH6DuMPCCZdrTXoIwXXBQ==
+X-Google-Smtp-Source: ABdhPJyCAQjeol4XLsD3HSDNkSTrQJJcEUQFkY5CC10RGVl8vJRMiYpPlRRNrSYxf3PDnPuKtdG97Q==
+X-Received: by 2002:a05:622a:d5:b0:2e1:df97:b37e with SMTP id p21-20020a05622a00d500b002e1df97b37emr5964126qtw.333.1648759686118;
+        Thu, 31 Mar 2022 13:48:06 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id j1-20020a05620a410100b0067ec5ecac66sm306731qko.19.2022.03.31.13.48.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 13:46:56 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
+        Thu, 31 Mar 2022 13:48:05 -0700 (PDT)
+Message-ID: <fbfe4572296a133492310f13e3f41db56218fc17.camel@ndufresne.ca>
+Subject: Re: [PATCH v8, 00/15] media: mtk-vcodec: support for M8192 decoder
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 2/4] drm/gem: Delete gem array fencing helpers
-Date:   Thu, 31 Mar 2022 22:46:49 +0200
-Message-Id: <20220331204651.2699107-3-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220331204651.2699107-1-daniel.vetter@ffwll.ch>
-References: <20220331204651.2699107-1-daniel.vetter@ffwll.ch>
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Date:   Thu, 31 Mar 2022 16:48:04 -0400
+In-Reply-To: <20220331024801.29229-1-yunfei.dong@mediatek.com>
+References: <20220331024801.29229-1-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Integrated into the scheduler now and all users converted over.
+Hi Yunfei,
 
-v2: Rebased over changes from König.
+thanks for the update, I should be testing this really soon.
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/gpu/drm/drm_gem.c | 80 ---------------------------------------
- include/drm/drm_gem.h     |  5 ---
- 2 files changed, 85 deletions(-)
+Le jeudi 31 mars 2022 =C3=A0 10:47 +0800, Yunfei Dong a =C3=A9crit=C2=A0:
+> This series adds support for mt8192 h264/vp8/vp9 decoder drivers. Firstly=
+, refactor
+> power/clock/interrupt interfaces for mt8192 is lat and core architecture.
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 56fb87885146..133dfae06fab 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1273,83 +1273,3 @@ drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
- 	ww_acquire_fini(acquire_ctx);
- }
- EXPORT_SYMBOL(drm_gem_unlock_reservations);
--
--/**
-- * drm_gem_fence_array_add - Adds the fence to an array of fences to be
-- * waited on, deduplicating fences from the same context.
-- *
-- * @fence_array: array of dma_fence * for the job to block on.
-- * @fence: the dma_fence to add to the list of dependencies.
-- *
-- * This functions consumes the reference for @fence both on success and error
-- * cases.
-- *
-- * Returns:
-- * 0 on success, or an error on failing to expand the array.
-- */
--int drm_gem_fence_array_add(struct xarray *fence_array,
--			    struct dma_fence *fence)
--{
--	struct dma_fence *entry;
--	unsigned long index;
--	u32 id = 0;
--	int ret;
--
--	if (!fence)
--		return 0;
--
--	/* Deduplicate if we already depend on a fence from the same context.
--	 * This lets the size of the array of deps scale with the number of
--	 * engines involved, rather than the number of BOs.
--	 */
--	xa_for_each(fence_array, index, entry) {
--		if (entry->context != fence->context)
--			continue;
--
--		if (dma_fence_is_later(fence, entry)) {
--			dma_fence_put(entry);
--			xa_store(fence_array, index, fence, GFP_KERNEL);
--		} else {
--			dma_fence_put(fence);
--		}
--		return 0;
--	}
--
--	ret = xa_alloc(fence_array, &id, fence, xa_limit_32b, GFP_KERNEL);
--	if (ret != 0)
--		dma_fence_put(fence);
--
--	return ret;
--}
--EXPORT_SYMBOL(drm_gem_fence_array_add);
--
--/**
-- * drm_gem_fence_array_add_implicit - Adds the implicit dependencies tracked
-- * in the GEM object's reservation object to an array of dma_fences for use in
-- * scheduling a rendering job.
-- *
-- * This should be called after drm_gem_lock_reservations() on your array of
-- * GEM objects used in the job but before updating the reservations with your
-- * own fences.
-- *
-- * @fence_array: array of dma_fence * for the job to block on.
-- * @obj: the gem object to add new dependencies from.
-- * @write: whether the job might write the object (so we need to depend on
-- * shared fences in the reservation object).
-- */
--int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
--				     struct drm_gem_object *obj,
--				     bool write)
--{
--	struct dma_resv_iter cursor;
--	struct dma_fence *fence;
--	int ret = 0;
--
--	dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
--		ret = drm_gem_fence_array_add(fence_array, fence);
--		if (ret)
--			break;
--	}
--	return ret;
--}
--EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index e2941cee14b6..9d7c61a122dc 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -407,11 +407,6 @@ int drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
- 			      struct ww_acquire_ctx *acquire_ctx);
- void drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
- 				 struct ww_acquire_ctx *acquire_ctx);
--int drm_gem_fence_array_add(struct xarray *fence_array,
--			    struct dma_fence *fence);
--int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
--				     struct drm_gem_object *obj,
--				     bool write);
- int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
- 			    u32 handle, u64 *offset);
- 
--- 
-2.34.1
+Similarly to MT8173 and MT8183,=C2=A0a shared* firmware is needed for this =
+CODEC to
+work (scp.img). I looked into linux-firmware[1] it has not been added for m=
+t8192
+yet. As your patches are getting close to be ready, it would be important t=
+o
+look into this so the patchset does not get blocked due to that.
+
+best regards,
+Nicolas
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware=
+.git/tree/mediatek
+* Shared at least between MDP3 and MTK VCODEC from my knowledge
+
+>=20
+> Secondly, add new functions to get frame buffer size and resolution accor=
+ding
+> to decoder capability from scp side. Then add callback function to get/pu=
+t
+> capture buffer in order to enable lat and core decoder in parallel, need =
+to
+> adjust GStreamer at the same time.=20
+>=20
+> Then add to support MT21C compressed mode and fix v4l2-compliance fail.
+>=20
+> Next, extract H264 request api driver to let mt8183 and mt8192 use the sa=
+me
+> code, and adds mt8192 frame based h264 driver for stateless decoder.
+>=20
+> Lastly, add vp8 and vp9 stateless decoder drivers.
+>=20
+> Patches 1 refactor power/clock/interrupt interface.
+> Patches 2~4 get frame buffer size and resolution according to decoder cap=
+ability.
+> Patches 5 set capture queue bytesused.
+> Patches 6 adjust GStreamer.
+> Patch 7~11 add to support MT21C compressed mode and fix v4l2-compliance f=
+ail.
+> patch 12 record capture queue format type.
+> Patch 13~14 extract h264 driver and add mt8192 frame based driver for h26=
+4 decoder.
+> Patch 15~16 add vp8 and vp9 stateless decoder drivers.
+> Patch 17 prevent kernel crash when rmmod mtk-vcodec-dec.ko
+> ---
+> changes compared with v6:
+> - adjust GStreamer, separate src buffer done with v4l2_ctrl_request_compl=
+ete for patch 6.
+> - remove v4l2_m2m_set_dst_buffered.
+> - add new patch to set each plane bytesused in buf prepare for patch 5.
+> - using upstream interface to update vp9 prob tables for patch 16.
+> - fix maintainer comments.
+> - test the driver with chrome VD and GStreamer(H264/VP9/VP8/AV1).
+> changes compared with v6:
+> - rebase to the latest media stage and fix conficts
+> - fix memcpy to memcpy_fromio or memcpy_toio
+> - fix h264 crash when test field bitstream
+> changes compared with v5:
+> - fix vp9 comments for patch 15
+> - fix vp8 comments for patch 14.
+> - fix comments for patch 12.
+> - fix build errors.
+> changes compared with v4:
+> - fix checkpatch.pl fail.
+> - fix kernel-doc fail.
+> - rebase to the latest media codec driver.
+> changes compared with v3:
+> - remove enum mtk_chip for patch 2.
+> - add vp8 stateless decoder drivers for patch 14.
+> - add vp9 stateless decoder drivers for patch 15.
+> changes compared with v2:
+> - add new patch 11 to record capture queue format type.
+> - separate patch 4 according to tzung-bi's suggestion.
+> - re-write commit message for patch 5 according to tzung-bi's suggestion.
+> changes compared with v1:
+> - rewrite commit message for patch 12.
+> - rewrite cover-letter message.
+> ---
+> Yunfei Dong (17):
+>   media: mediatek: vcodec: Add vdec enable/disable hardware helpers
+>   media: mediatek: vcodec: Using firmware type to separate different
+>     firmware architecture
+>   media: mediatek: vcodec: get capture queue buffer size from scp
+>   media: mediatek: vcodec: Read max resolution from dec_capability
+>   media: mediatek: vcodec: set each plane bytesused in buf prepare
+>   media: mediatek: vcodec: Refactor get and put capture buffer flow
+>   media: mediatek: vcodec: Refactor supported vdec formats and
+>     framesizes
+>   media: mediatek: vcodec: Getting supported decoder format types
+>   media: mediatek: vcodec: Add format to support MT21C
+>   media: mediatek: vcodec: disable vp8 4K capability
+>   media: mediatek: vcodec: Fix v4l2-compliance fail
+>   media: mediatek: vcodec: record capture queue format type
+>   media: mediatek: vcodec: Extract H264 common code
+>   media: mediatek: vcodec: support stateless H.264 decoding for mt8192
+>   media: mediatek: vcodec: support stateless VP8 decoding
+>   media: mediatek: vcodec: support stateless VP9 decoding
+>   media: mediatek: vcodec: prevent kernel crash when rmmod
+>     mtk-vcodec-dec.ko
+>=20
+>  .../media/platform/mediatek/vcodec/Makefile   |    4 +
+>  .../platform/mediatek/vcodec/mtk_vcodec_dec.c |   62 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |    8 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_pm.c       |  166 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_pm.h       |    6 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_stateful.c |   19 +-
+>  .../vcodec/mtk_vcodec_dec_stateless.c         |  257 +-
+>  .../platform/mediatek/vcodec/mtk_vcodec_drv.h |   41 +-
+>  .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |    5 -
+>  .../platform/mediatek/vcodec/mtk_vcodec_fw.c  |    6 +
+>  .../platform/mediatek/vcodec/mtk_vcodec_fw.h  |    1 +
+>  .../vcodec/vdec/vdec_h264_req_common.c        |  310 +++
+>  .../vcodec/vdec/vdec_h264_req_common.h        |  272 +++
+>  .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  438 +---
+>  .../vcodec/vdec/vdec_h264_req_multi_if.c      |  619 +++++
+>  .../mediatek/vcodec/vdec/vdec_vp8_req_if.c    |  437 ++++
+>  .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 2072 +++++++++++++++++
+>  .../platform/mediatek/vcodec/vdec_drv_if.c    |   37 +-
+>  .../platform/mediatek/vcodec/vdec_drv_if.h    |    3 +
+>  .../platform/mediatek/vcodec/vdec_ipi_msg.h   |   36 +
+>  .../platform/mediatek/vcodec/vdec_msg_queue.c |    2 +
+>  .../platform/mediatek/vcodec/vdec_msg_queue.h |    2 +
+>  .../platform/mediatek/vcodec/vdec_vpu_if.c    |   53 +-
+>  .../platform/mediatek/vcodec/vdec_vpu_if.h    |   15 +
+>  .../platform/mediatek/vcodec/venc_vpu_if.c    |    2 +-
+>  include/linux/remoteproc/mtk_scp.h            |    2 +
+>  26 files changed, 4274 insertions(+), 601 deletions(-)
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264=
+_req_common.c
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264=
+_req_common.h
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264=
+_req_multi_if.c
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_=
+req_if.c
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_=
+req_lat_if.c
+>=20
 
