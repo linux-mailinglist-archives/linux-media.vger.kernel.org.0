@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F48C4EE1F3
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 21:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEECA4EE23B
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 22:02:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241066AbiCaTko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 15:40:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45782 "EHLO
+        id S240788AbiCaUEB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 16:04:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241062AbiCaTkV (ORCPT
+        with ESMTP id S234861AbiCaUEA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 15:40:21 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B579241A06;
-        Thu, 31 Mar 2022 12:38:14 -0700 (PDT)
+        Thu, 31 Mar 2022 16:04:00 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0EA72325F8;
+        Thu, 31 Mar 2022 13:02:11 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: nicolas)
-        with ESMTPSA id B7BB71F47268
+        with ESMTPSA id 2B2571F4724B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1648755493;
-        bh=QXCqhwGgS71Plij0LYpMswWc72NGt82a9mKy6xwpDRk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=f3tdOpbrfmBJM9E1eieNv3lSTG8VF2jict14/WplVjzSJWPvrdt1WljxliR/iwYJN
-         gouvm328JQH/r5kJA06kVD4ZZuWct+FNxxAQVshBE4W9lhnd1nTQxwmQs5nlmDzXO/
-         yILZ0nAmysFMKoG3LgfSI3fYs84oTRdx1IfrnSafmC1hKX+J0fTesRCckW2C9UelpW
-         555/F3ldoPVZHM3cZxnibOaUc3pxF1USjL8EXbh77casUQ67cVyWEbXaIosgPN+CQg
-         70notWdfPUeDqt0ROnEIBqGBaCvI6gG+7btIN6l/vMRPDIWd2i+/rmBeiKIeun25Qw
-         CqjzRYpRU9f3w==
+        s=mail; t=1648756930;
+        bh=f7M8fiQpp7G7dSyGbvK8ZUz4HWa9F/akMkcG6p9grY8=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=bVZSwdnscpsw+wN3YRwuZOo84ywB7CcBcS6TJMmU/Tf8v2YT8bFSBwzTxdWib/Bhr
+         eoBF8rTzT43SmDfnsMIApeb7z+KRnl+c9us7Yc3plsLAI4l4nkeKpdRi6bzbIfTFqA
+         f3lRhTRWah01g/I7IcEJ1id8//jIGEYGgzJJQLjma3YRIGj212I5ZoZs1NUbTSRipq
+         z71uIHRFI/B9g+azaoTo9EPM2b73WbE/bJWIk8+NXtuPe49jecWJQwbcM2NXtsgCeq
+         l5wRB4v12PFIC2JBZV+z/Xd3V80WJIE2GF+D1sOCmLXpSFAlHhmRDCDlVXr54NE8Yk
+         DWUF0vo3+lDzw==
+Message-ID: <16d0c5c4178b9c91f843e57472e1f0212d7364e5.camel@collabora.com>
+Subject: [PATCH v2 00/23] H.264 Field Decoding Support for Frame-based
+ Decoders
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 23/23] media: hantro: Add H.264 field decoding support
-Date:   Thu, 31 Mar 2022 15:37:25 -0400
-Message-Id: <20220331193726.289559-24-nicolas.dufresne@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kernel@collabora.com,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Thu, 31 Mar 2022 16:02:01 -0400
+In-Reply-To: <20220331193726.289559-2-nicolas.dufresne@collabora.com>
 References: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
+         <20220331193726.289559-2-nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
@@ -54,206 +54,142 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds the required code to support field decoding. While most of
-the code is derived from Rockchip and VSI reference code, the
-reduction of the reference list to 16 entries was found by
-trial and errors. The list consists of all the references with the
-opposite field parity.
+(re-sending as the cover letter didn't make it for me)
 
-The strategy is to deduplicate the reference picture that points
-to the same storage (same index). The choice of opposite parity has
-been made to keep the other field of the current field pair in the
-list. This method may not be robust if a field was lost.
+Until now, only Cedrus (a slice base decoder) supported interlaced
+decoding.  In order to support field decoding in our frame-based decoder,
+the v4l2-h264 library needed adaptation to produce the appropriate
+reference lists.
 
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
- drivers/staging/media/hantro/hantro_h264.c | 107 ++++++++++++++++++---
- drivers/staging/media/hantro/hantro_hw.h   |   1 +
- 2 files changed, 94 insertions(+), 14 deletions(-)
+This patch extends the v4l2-h264 library to produce the larger references
+list needed to represent fields separately. Hantro, MTK-VCODEC and RKVDEC
+drivers have been adapted to accommodate the larger lists. Though, only
+Hantro and RKVDEC actually have HW support for field decoding. So only
+these two have been updated to make use of the larger lists. All this work
+has been done using the H.264 specification, LibreELEC downstream kernel
+patches, Rockchip MPP reference software and Hantro reference software.
 
-diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
-index 7377fc26f780..f6fc939aa726 100644
---- a/drivers/staging/media/hantro/hantro_h264.c
-+++ b/drivers/staging/media/hantro/hantro_h264.c
-@@ -22,6 +22,11 @@
- #define POC_BUFFER_SIZE			34
- #define SCALING_LIST_SIZE		(6 * 16 + 2 * 64)
- 
-+/* For valid and long term reference marking, index are reversed, so bit 31
-+ * indicates the status of the picture 0.
-+ */
-+#define REF_BIT(i)			BIT(32 - 1 - (i))
-+
- /* Data structure describing auxiliary buffer format. */
- struct hantro_h264_dec_priv_tbl {
- 	u32 cabac_table[CABAC_INIT_BUFFER_SIZE];
-@@ -227,6 +232,7 @@ static void prepare_table(struct hantro_ctx *ctx)
+For reviewers, the following is the map of all commit. Patches that could
+be merge independently of this serie are marked as independent. Note that
+the test results do depend on the generic fixes.
+
+01    : Documentation fix (independent)
+02-03 : Improving some generic traces (independent)
+04    : Minor v4l2-h264 fix (independent)
+05-11 : v4l2-h264 field decoding support
+12-15 : rkvdec h.264 generic fixes (independent)
+16-19 : rkvdec h.264 field decoding support
+20-23 : hantro h.264 field decoding support
+
+All this work have been tested using GStreamer mainline implementation
+but also with FFMPEG LibreELEC fork using the testing tool fluster
+running through the ITU-T H.264 (2016-02) AVCv2 set of bitstream. Before
+this patch, the scores were:
+
+Hantro:
+  FFMPEG:   88/135
+  GSteamer: 90/135
+RKVDEC:
+  FFMPEG:   73/135
+  GSteamer: 77/135
+
+And after these changes:
+
+Hantro:
+  FFMPEG:   118/135
+  GSteamer: 129/135
+RKVDEC:
+  FFMPEG:   118/135
+  GSteamer: 129/135
+
+Note that a bug in FFMPEG / LibreELEC fork was noticed and fixed with the
+following change:
+
+diff --git a/libavcodec/v4l2_request_h264.c b/libavcodec/v4l2_request_h264.=
+c
+index 88da8f0a2d..394bae0550 100644
+--- a/libavcodec/v4l2_request_h264.c
++++ b/libavcodec/v4l2_request_h264.c
+@@ -66,7 +66,7 @@ static void fill_dpb_entry(struct v4l2_h264_dpb_entry *en=
+try,
+const H264Picture
  {
- 	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
- 	const struct v4l2_ctrl_h264_decode_params *dec_param = ctrls->decode;
-+	const struct v4l2_ctrl_h264_sps *sps = ctrls->sps;
- 	struct hantro_h264_dec_priv_tbl *tbl = ctx->h264_dec.priv.cpu;
- 	const struct v4l2_h264_dpb_entry *dpb = ctx->h264_dec.dpb;
- 	u32 dpb_longterm = 0;
-@@ -237,20 +243,45 @@ static void prepare_table(struct hantro_ctx *ctx)
- 		tbl->poc[i * 2] = dpb[i].top_field_order_cnt;
- 		tbl->poc[i * 2 + 1] = dpb[i].bottom_field_order_cnt;
- 
-+		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_VALID))
-+			continue;
-+
- 		/*
- 		 * Set up bit maps of valid and long term DPBs.
--		 * NOTE: The bits are reversed, i.e. MSb is DPB 0.
-+		 * NOTE: The bits are reversed, i.e. MSb is DPB 0. For frame
-+		 * decoding, bit 31 to 15 are used, while for field decoding,
-+		 * all bits are used, with bit 31 being a top field, 30 a bottom
-+		 * field and so on.
- 		 */
--		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
--			dpb_valid |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
--		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
--			dpb_longterm |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
-+		if (dec_param->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC) {
-+			if (dpb[i].fields & V4L2_H264_TOP_FIELD_REF)
-+				dpb_valid |= REF_BIT(i * 2);
-+
-+			if (dpb[i].fields & V4L2_H264_BOTTOM_FIELD_REF)
-+				dpb_valid |= REF_BIT(i * 2 + 1);
-+
-+			if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM) {
-+				dpb_longterm |= REF_BIT(i * 2);
-+				dpb_longterm |= REF_BIT(i * 2 + 1);
-+			}
-+		} else {
-+			dpb_valid |= REF_BIT(i);
-+
-+			if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
-+				dpb_longterm |= REF_BIT(i);
-+		}
-+	}
-+	ctx->h264_dec.dpb_valid = dpb_valid;
-+	ctx->h264_dec.dpb_longterm = dpb_longterm;
-+
-+	if ((dec_param->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC) ||
-+	    !(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)) {
-+		tbl->poc[32] = ctx->h264_dec.cur_poc;
-+		tbl->poc[33] = 0;
-+	} else {
-+		tbl->poc[32] = dec_param->top_field_order_cnt;
-+		tbl->poc[33] = dec_param->bottom_field_order_cnt;
- 	}
--	ctx->h264_dec.dpb_valid = dpb_valid << 16;
--	ctx->h264_dec.dpb_longterm = dpb_longterm << 16;
--
--	tbl->poc[32] = dec_param->top_field_order_cnt;
--	tbl->poc[33] = dec_param->bottom_field_order_cnt;
- 
- 	assemble_scaling_list(ctx);
- }
-@@ -326,6 +357,8 @@ dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
- {
- 	struct v4l2_h264_dpb_entry *dpb = ctx->h264_dec.dpb;
- 	dma_addr_t dma_addr = 0;
-+	s32 cur_poc = ctx->h264_dec.cur_poc;
-+	u32 flags;
- 
- 	if (dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
- 		dma_addr = hantro_get_ref(ctx, dpb[dpb_idx].reference_ts);
-@@ -343,7 +376,12 @@ dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
- 		dma_addr = hantro_get_dec_buf_addr(ctx, buf);
- 	}
- 
--	return dma_addr;
-+	flags = dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD ? 0x2 : 0;
-+	flags |= abs(dpb[dpb_idx].top_field_order_cnt - cur_poc) <
-+		 abs(dpb[dpb_idx].bottom_field_order_cnt - cur_poc) ?
-+		 0x1 : 0;
-+
-+	return dma_addr | flags;
- }
- 
- u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
-@@ -355,6 +393,34 @@ u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
- 	return dpb->frame_num;
- }
- 
-+static void deduplicate_reflist(struct v4l2_h264_reflist_builder *b,
-+				struct v4l2_h264_reference *reflist)
-+{
-+	int write_idx = 0;
-+	int i;
-+
-+	if (b->cur_pic_fields == V4L2_H264_FRAME_REF) {
-+		write_idx = b->num_valid;
-+		goto done;
-+	}
-+
-+	for (i = 0; i < b->num_valid; i++) {
-+		if (!(b->cur_pic_fields == reflist[i].fields)) {
-+			reflist[write_idx++] = reflist[i];
-+			continue;
-+		}
-+	}
-+
-+done:
-+	/* Should not happen unless we have a bug in the reflist builder. */
-+	if (WARN_ON(write_idx > 16))
-+		write_idx = 16;
-+
-+	/* Clear the remaining, some streams fails otherwise */
-+	for (; write_idx < 16; write_idx++)
-+		reflist[write_idx].index = 15;
-+}
-+
- int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
- {
- 	struct hantro_h264_dec_hw_ctx *h264_ctx = &ctx->h264_dec;
-@@ -386,15 +452,28 @@ int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
- 	/* Update the DPB with new refs. */
- 	update_dpb(ctx);
- 
--	/* Prepare data in memory. */
--	prepare_table(ctx);
--
- 	/* Build the P/B{0,1} ref lists. */
- 	v4l2_h264_init_reflist_builder(&reflist_builder, ctrls->decode,
- 				       ctrls->sps, ctx->h264_dec.dpb);
-+	h264_ctx->cur_poc = reflist_builder.cur_pic_order_count;
-+
-+	/* Prepare data in memory. */
-+	prepare_table(ctx);
-+
- 	v4l2_h264_build_p_ref_list(&reflist_builder, h264_ctx->reflists.p);
- 	v4l2_h264_build_b_ref_lists(&reflist_builder, h264_ctx->reflists.b0,
- 				    h264_ctx->reflists.b1);
-+
-+	/* Reduce ref lists to at most 16 entries, Hantro hardware will deduce
-+	 * the actual picture lists in field through the dpb_valid,
-+	 * dpb_longterm bitmap along with the current frame parity.
-+	 */
-+	if (reflist_builder.cur_pic_fields != V4L2_H264_FRAME_REF) {
-+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.p);
-+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.b0);
-+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.b1);
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 292aaaabaf24..fd869369fb97 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -91,6 +91,7 @@ struct hantro_h264_dec_hw_ctx {
- 	struct hantro_h264_dec_ctrls ctrls;
- 	u32 dpb_longterm;
- 	u32 dpb_valid;
-+	s32 cur_poc;
- };
- 
- /**
--- 
+     entry->reference_ts =3D ff_v4l2_request_get_capture_timestamp(pic->f);
+     entry->pic_num =3D pic->pic_id;
+-    entry->frame_num =3D pic->frame_num;
++    entry->frame_num =3D pic->long_ref ? pic->pic_id : pic->frame_num;
+     entry->fields =3D pic->reference & V4L2_H264_FRAME_REF;
+     entry->flags =3D V4L2_H264_DPB_ENTRY_FLAG_VALID;
+     if (entry->fields)
+
+Some useful links:
+
+Detailed Hantro Results:     https://gitlab.freedesktop.org/-/snippets/5189
+Detailed RKVDEC Results:     https://gitlab.freedesktop.org/-/snippets/5253
+ITU-T H.264 (2016-02) AVCv2:
+https://www.itu.int/net/itu-t/sigdb/spevideo/VideoForm-s.aspx?val=3D1020026=
+41
+Fluster:                     https://github.com/fluendo/fluster
+GStreamer:                   https://gitlab.freedesktop.org/gstreamer/gstre=
+amer/
+FFMPEG Fork:               =20
+https://github.com/jernejsk/FFmpeg/tree/v4l2-request-hwaccel-4.4
+Rockchip MPP:                https://github.com/rockchip-linux/mpp
+
+Changes in v2:
+- Applied most of Sebastian's suggestion in comments and commit messages.
+- Use a bool for dpb_valid and dpb_bottom in rkvdec
+- Dropped one wrong typo fix (media: v4l2-mem2mem: Fix typo in trace messag=
+e)
+- Dropped Alex fix (media: rkvdec-h264: Don't hardcode SPS/PPS parameters
+  + I will carry this one later, it seems cosmetic
+
+Jonas Karlman (5):
+  media: rkvdec: h264: Fix bit depth wrap in pps packet
+  media: rkvdec: h264: Validate and use pic width and height in mbs
+  media: rkvdec: h264: Fix reference frame_num wrap for second field
+  media: rkvdec: Ensure decoded resolution fit coded resolution
+  media: hantro: h264: Make dpb entry management more robust
+
+Nicolas Dufresne (17):
+  media: doc: Document dual use of H.264 pic_num/frame_num
+  media: v4l2-mem2mem: Trace on implicit un-hold
+  media: h264: Avoid wrapping long_term_frame_idx
+  media: h264: Use v4l2_h264_reference for reflist
+  media: h264: Increase reference lists size to 32
+  media: h264: Store current picture fields
+  media: h264: Store all fields into the unordered list
+  media: v4l2: Trace calculated p/b0/b1 initial reflist
+  media: h264: Sort p/b reflist using frame_num
+  media: v4l2: Reorder field reflist
+  media: rkvdec: Stop overclocking the decoder
+  media: rkvdec: h264: Fix dpb_valid implementation
+  media: rkvdec: Enable capture buffer holding for H264
+  media: rkvdec-h264: Add field decoding support
+  media: hantro: Enable HOLD_CAPTURE_BUF for H.264
+  media: hantro: Stop using H.264 parameter pic_num
+  media: hantro: Add H.264 field decoding support
+
+Sebastian Fricke (1):
+  media: videobuf2-v4l2: Warn on holding buffers without support
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   |  10 +-
+ .../media/common/videobuf2/videobuf2-v4l2.c   |   7 +-
+ .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  17 +-
+ drivers/media/v4l2-core/v4l2-h264.c           | 261 ++++++++++++++----
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |   1 +
+ .../staging/media/hantro/hantro_g1_h264_dec.c |  38 +--
+ drivers/staging/media/hantro/hantro_h264.c    | 119 ++++++--
+ drivers/staging/media/hantro/hantro_hw.h      |   7 +-
+ drivers/staging/media/hantro/hantro_v4l2.c    |  25 ++
+ .../media/hantro/rockchip_vpu2_hw_h264_dec.c  |  98 +++----
+ drivers/staging/media/rkvdec/rkvdec-h264.c    |  91 +++---
+ drivers/staging/media/rkvdec/rkvdec.c         |  22 +-
+ drivers/staging/media/rkvdec/rkvdec.h         |   1 +
+ include/media/v4l2-h264.h                     |  31 ++-
+ 14 files changed, 520 insertions(+), 208 deletions(-)
+
+--
 2.34.1
+
 
