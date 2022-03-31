@@ -2,241 +2,390 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 151574EE2E1
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 22:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B7944EE33C
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 23:19:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241521AbiCaUt4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 16:49:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50716 "EHLO
+        id S241722AbiCaVVa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 17:21:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234435AbiCaUtz (ORCPT
+        with ESMTP id S233592AbiCaVV3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 16:49:55 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21B8F1EC61E
-        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:48:07 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id m21so567752qtw.8
-        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=3sKDeBT0Bybpz0Cwpb0hpKqxHi3J/peqolQfUVYmQ+A=;
-        b=hU52InW/YEHpPqnwM0BOrRTaDS0GWqdS0Qxm1+YxtdSqZ62Cvp6J8Wa6VW3vtzzQLE
-         OqoihkSGii4UeWenrhZqk+3/ignl8uB0HYNcuLFiZIVilTzRNAmp3/6eSLYPQI42TOaP
-         eSyB3eB4jwyDjdZBxFx01YIT5KEVLTN9bJTmi5NF3b8fuslAXn4Oz/v9ptcWniukaG4o
-         rCkSEdBS3y3pw7n0rxogms8il/hyaQYESJ06sbFU3qOAo1dJuiKDaMC0A73HmCbZ2zSy
-         x0L2svgfuQSUyAWwIbmsWZW7jb4eYePsVERoDDe2QhaAcvCLHrmwX4hbLzsL8y6ZvFcq
-         LeLg==
+        Thu, 31 Mar 2022 17:21:29 -0400
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50C4415280C;
+        Thu, 31 Mar 2022 14:19:41 -0700 (PDT)
+Received: by mail-ot1-f45.google.com with SMTP id z9-20020a05683020c900b005b22bf41872so749557otq.13;
+        Thu, 31 Mar 2022 14:19:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=3sKDeBT0Bybpz0Cwpb0hpKqxHi3J/peqolQfUVYmQ+A=;
-        b=KXaR/jooSgSW/2rvj8KLpIbfhM4PSe+bKgMqK3aXsXqMR0MYnmLSH4MCL9EXbCehfx
-         sEtxlm+5DBNeDsO+t5anJVmxBene+wTeTna4ZuK8Yka9b52tXkey39KWk6+7rMMX+IMQ
-         Sz85O11e00us2dIuyJlTw/smYfcMFKqwg+1jS9owEXUevE3pl/MzJ3hzOjz8fEgbky+D
-         6V1T5/AzL+8qkMuicnnAPkjNgx3U/JE8e1JDlnkN/2iP79FMIHyZfUuOAE315IeaDToO
-         5mc0RzQbf91scHB/XGiA5pHIU0BLEDDO40R88A5muI7xti8+CfsHeQoYZZTAr8zRJusS
-         Tibg==
-X-Gm-Message-State: AOAM532WhOKKYYiv/Vbx9smYJF0OCgKmMbBtvHhxkA+k1D/jzuG1NEF5
-        0Dul/zH6DuMPCCZdrTXoIwXXBQ==
-X-Google-Smtp-Source: ABdhPJyCAQjeol4XLsD3HSDNkSTrQJJcEUQFkY5CC10RGVl8vJRMiYpPlRRNrSYxf3PDnPuKtdG97Q==
-X-Received: by 2002:a05:622a:d5:b0:2e1:df97:b37e with SMTP id p21-20020a05622a00d500b002e1df97b37emr5964126qtw.333.1648759686118;
-        Thu, 31 Mar 2022 13:48:06 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id j1-20020a05620a410100b0067ec5ecac66sm306731qko.19.2022.03.31.13.48.04
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Fm9j31QnqpewsYtYm5Zm4wpxz1kydRGT8NHr0rzkZyA=;
+        b=MbggHcuyUeMNmANmZY2JmfujBIz9ndaZ0Q8BtKy3NMtiCR+PJVQtZ+G5xDL0j/Px8H
+         63KCvz2+cdFHgGJ72zxvT7hXq7IZCiiOKhJkNaAMesMStGhzprdDg+Qxr7ND7tZoPsJH
+         pgyXQaUkbOa9O1hawYObxaLliZPrsmNq7GOe0t2VLG4P/wxR4fNgItkRDcJp+LfjdY7e
+         reYb9Y8TJ28OcltDeX8feyqY3DsMz1rfRka9WM6eXiyhOSnXnSqQF6bk/kXojuNjN0V7
+         B+3gzjDFGc9RFHI/iFbpaVo3h7wM0ITTMoNVWA6gCaiDgUeUD5UMRwlFwcPemU+h1Mb5
+         e6Gw==
+X-Gm-Message-State: AOAM532kHVAF0CEAudrLRBjfPAXR7/Zx3P3aeHlq6bR4eZkfoWd/+L++
+        hE1Cw2IoHjG2isdHXMLlxg==
+X-Google-Smtp-Source: ABdhPJw397a5OlH1Ki1AhiF2YtXSsu6dIfoUVKBLabv0jHczHCK4LuX47bWk2u/CovcpFMxoDFhDMg==
+X-Received: by 2002:a9d:69:0:b0:5c9:3456:f02f with SMTP id 96-20020a9d0069000000b005c93456f02fmr6544088ota.25.1648761580467;
+        Thu, 31 Mar 2022 14:19:40 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id h83-20020aca3a56000000b002ece47dce52sm248016oia.26.2022.03.31.14.19.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 13:48:05 -0700 (PDT)
-Message-ID: <fbfe4572296a133492310f13e3f41db56218fc17.camel@ndufresne.ca>
-Subject: Re: [PATCH v8, 00/15] media: mtk-vcodec: support for M8192 decoder
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
+        Thu, 31 Mar 2022 14:19:40 -0700 (PDT)
+Received: (nullmailer pid 1517924 invoked by uid 1000);
+        Thu, 31 Mar 2022 21:19:38 -0000
+Date:   Thu, 31 Mar 2022 16:19:38 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Moudy Ho <moudy.ho@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
+        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
-        linux-mediatek@lists.infradead.org,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        menghui.lin@mediatek.com, sj.huang@mediatek.com,
+        allen-kh.cheng@mediatek.com, randy.wu@mediatek.com,
+        jason-jh.lin@mediatek.com, roy-cw.yeh@mediatek.com,
+        river.cheng@mediatek.com, srv_heupstream@mediatek.com,
         Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Thu, 31 Mar 2022 16:48:04 -0400
-In-Reply-To: <20220331024801.29229-1-yunfei.dong@mediatek.com>
-References: <20220331024801.29229-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+Subject: Re: [PATCH v12 1/3] dt-binding: mt8183: add Mediatek MDP3 dt-bindings
+Message-ID: <YkYa6vyucOrwPNcX@robh.at.kernel.org>
+References: <20220317145605.25782-1-moudy.ho@mediatek.com>
+ <20220317145605.25782-2-moudy.ho@mediatek.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220317145605.25782-2-moudy.ho@mediatek.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
+On Thu, Mar 17, 2022 at 10:56:03PM +0800, Moudy Ho wrote:
+> This patch adds DT binding documents for Media Data Path 3 (MDP3)
+> a unit in multimedia system combined with several components and
+> used for scaling and color format convert.
+> 
+> It can create multiple paths with different functions by assigning
+> different components, a simple diagram is as follows:
+> 
+>   +------------+          +------------+
+>   |    RDMA    |          |   ISP[*1]  |
+>   +---+--+--+--+          +-----+--+---+
+>       A  B  C                   2  1
+>       v  v  v                   v  v
+>       |  |  |                   |  |
+>       |  |  +---------+         |  |
+>       |  |            |         |  |
+>       |  +-------+    |         |  |
+>       |          |    |         |  |
+>       |  +-------+----+---------+  |
+>       |  |       |    |            |
+>       |  |       |    +---------+  |
+>       v  v       |              |  |
+>       A  2       |              |  |
+>     ********     |              |  |
+>   **        **   |              |  |
+>  *   PQ[*2]   *  |              |  |
+>   **        **   |              |  |
+>     ********     |              |  |
+>       |  |       |              |  |
+>       v  v       |              v  v
+>       A  2       |              C  1
+>   +---+--+---+   |        +-----+--+--+
+>   |    RSZ   |   |        |    RSZ    |
+>   +---+------+   |        +-----+--+--+
+>       D          |              3  4
+>       v          |              v  v
+>       |          |              |  |
+>       |  +-------+              |  |
+>       |  |                      |  |
+>       |  |  +-------------------+  |
+>       |  |  |                      |
+>       v  v  v                      v
+>       D  B  3                      4
+>   +---+--+--+--+         +---------+--+
+>   |    WROT    |         |    WDMA    |
+>   +------------+         +------------+
 
-thanks for the update, I should be testing this really soon.
+Sure seems like you should be using the OF graph binding to describe 
+these connections unless all the sub-blocks and their connections are 
+fixed across different SoCs.
 
-Le jeudi 31 mars 2022 =C3=A0 10:47 +0800, Yunfei Dong a =C3=A9crit=C2=A0:
-> This series adds support for mt8192 h264/vp8/vp9 decoder drivers. Firstly=
-, refactor
-> power/clock/interrupt interfaces for mt8192 is lat and core architecture.
-
-Similarly to MT8173 and MT8183,=C2=A0a shared* firmware is needed for this =
-CODEC to
-work (scp.img). I looked into linux-firmware[1] it has not been added for m=
-t8192
-yet. As your patches are getting close to be ready, it would be important t=
-o
-look into this so the patchset does not get blocked due to that.
-
-best regards,
-Nicolas
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware=
-.git/tree/mediatek
-* Shared at least between MDP3 and MTK VCODEC from my knowledge
-
->=20
-> Secondly, add new functions to get frame buffer size and resolution accor=
-ding
-> to decoder capability from scp side. Then add callback function to get/pu=
-t
-> capture buffer in order to enable lat and core decoder in parallel, need =
-to
-> adjust GStreamer at the same time.=20
->=20
-> Then add to support MT21C compressed mode and fix v4l2-compliance fail.
->=20
-> Next, extract H264 request api driver to let mt8183 and mt8192 use the sa=
-me
-> code, and adds mt8192 frame based h264 driver for stateless decoder.
->=20
-> Lastly, add vp8 and vp9 stateless decoder drivers.
->=20
-> Patches 1 refactor power/clock/interrupt interface.
-> Patches 2~4 get frame buffer size and resolution according to decoder cap=
-ability.
-> Patches 5 set capture queue bytesused.
-> Patches 6 adjust GStreamer.
-> Patch 7~11 add to support MT21C compressed mode and fix v4l2-compliance f=
-ail.
-> patch 12 record capture queue format type.
-> Patch 13~14 extract h264 driver and add mt8192 frame based driver for h26=
-4 decoder.
-> Patch 15~16 add vp8 and vp9 stateless decoder drivers.
-> Patch 17 prevent kernel crash when rmmod mtk-vcodec-dec.ko
+> 
+> [*1] Direct-link path for camera input
+> [*2] A series of picture quality adjustment
+>      engines, composed of AAL, CCORR, TDSHP
+>      and COLOR
+> 
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > ---
-> changes compared with v6:
-> - adjust GStreamer, separate src buffer done with v4l2_ctrl_request_compl=
-ete for patch 6.
-> - remove v4l2_m2m_set_dst_buffered.
-> - add new patch to set each plane bytesused in buf prepare for patch 5.
-> - using upstream interface to update vp9 prob tables for patch 16.
-> - fix maintainer comments.
-> - test the driver with chrome VD and GStreamer(H264/VP9/VP8/AV1).
-> changes compared with v6:
-> - rebase to the latest media stage and fix conficts
-> - fix memcpy to memcpy_fromio or memcpy_toio
-> - fix h264 crash when test field bitstream
-> changes compared with v5:
-> - fix vp9 comments for patch 15
-> - fix vp8 comments for patch 14.
-> - fix comments for patch 12.
-> - fix build errors.
-> changes compared with v4:
-> - fix checkpatch.pl fail.
-> - fix kernel-doc fail.
-> - rebase to the latest media codec driver.
-> changes compared with v3:
-> - remove enum mtk_chip for patch 2.
-> - add vp8 stateless decoder drivers for patch 14.
-> - add vp9 stateless decoder drivers for patch 15.
-> changes compared with v2:
-> - add new patch 11 to record capture queue format type.
-> - separate patch 4 according to tzung-bi's suggestion.
-> - re-write commit message for patch 5 according to tzung-bi's suggestion.
-> changes compared with v1:
-> - rewrite commit message for patch 12.
-> - rewrite cover-letter message.
-> ---
-> Yunfei Dong (17):
->   media: mediatek: vcodec: Add vdec enable/disable hardware helpers
->   media: mediatek: vcodec: Using firmware type to separate different
->     firmware architecture
->   media: mediatek: vcodec: get capture queue buffer size from scp
->   media: mediatek: vcodec: Read max resolution from dec_capability
->   media: mediatek: vcodec: set each plane bytesused in buf prepare
->   media: mediatek: vcodec: Refactor get and put capture buffer flow
->   media: mediatek: vcodec: Refactor supported vdec formats and
->     framesizes
->   media: mediatek: vcodec: Getting supported decoder format types
->   media: mediatek: vcodec: Add format to support MT21C
->   media: mediatek: vcodec: disable vp8 4K capability
->   media: mediatek: vcodec: Fix v4l2-compliance fail
->   media: mediatek: vcodec: record capture queue format type
->   media: mediatek: vcodec: Extract H264 common code
->   media: mediatek: vcodec: support stateless H.264 decoding for mt8192
->   media: mediatek: vcodec: support stateless VP8 decoding
->   media: mediatek: vcodec: support stateless VP9 decoding
->   media: mediatek: vcodec: prevent kernel crash when rmmod
->     mtk-vcodec-dec.ko
->=20
->  .../media/platform/mediatek/vcodec/Makefile   |    4 +
->  .../platform/mediatek/vcodec/mtk_vcodec_dec.c |   62 +-
->  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |    8 +-
->  .../mediatek/vcodec/mtk_vcodec_dec_pm.c       |  166 +-
->  .../mediatek/vcodec/mtk_vcodec_dec_pm.h       |    6 +-
->  .../mediatek/vcodec/mtk_vcodec_dec_stateful.c |   19 +-
->  .../vcodec/mtk_vcodec_dec_stateless.c         |  257 +-
->  .../platform/mediatek/vcodec/mtk_vcodec_drv.h |   41 +-
->  .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |    5 -
->  .../platform/mediatek/vcodec/mtk_vcodec_fw.c  |    6 +
->  .../platform/mediatek/vcodec/mtk_vcodec_fw.h  |    1 +
->  .../vcodec/vdec/vdec_h264_req_common.c        |  310 +++
->  .../vcodec/vdec/vdec_h264_req_common.h        |  272 +++
->  .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  438 +---
->  .../vcodec/vdec/vdec_h264_req_multi_if.c      |  619 +++++
->  .../mediatek/vcodec/vdec/vdec_vp8_req_if.c    |  437 ++++
->  .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 2072 +++++++++++++++++
->  .../platform/mediatek/vcodec/vdec_drv_if.c    |   37 +-
->  .../platform/mediatek/vcodec/vdec_drv_if.h    |    3 +
->  .../platform/mediatek/vcodec/vdec_ipi_msg.h   |   36 +
->  .../platform/mediatek/vcodec/vdec_msg_queue.c |    2 +
->  .../platform/mediatek/vcodec/vdec_msg_queue.h |    2 +
->  .../platform/mediatek/vcodec/vdec_vpu_if.c    |   53 +-
->  .../platform/mediatek/vcodec/vdec_vpu_if.h    |   15 +
->  .../platform/mediatek/vcodec/venc_vpu_if.c    |    2 +-
->  include/linux/remoteproc/mtk_scp.h            |    2 +
->  26 files changed, 4274 insertions(+), 601 deletions(-)
->  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264=
-_req_common.c
->  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264=
-_req_common.h
->  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264=
-_req_multi_if.c
->  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_=
-req_if.c
->  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_=
-req_lat_if.c
->=20
+>  .../bindings/media/mediatek,mdp3-rdma.yaml    | 214 ++++++++++++++++++
+>  .../bindings/media/mediatek,mdp3-rsz.yaml     |  54 +++++
+>  .../bindings/media/mediatek,mdp3-wrot.yaml    |  57 +++++
+>  .../bindings/soc/mediatek/mediatek,ccorr.yaml |  47 ++++
+>  .../bindings/soc/mediatek/mediatek,wdma.yaml  |  58 +++++
+>  5 files changed, 430 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+>  create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
+>  create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> new file mode 100644
+> index 000000000000..3bf59c3f521f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> @@ -0,0 +1,214 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek Read Direct Memory Access
+> +
+> +maintainers:
+> +  - Matthias Brugger <matthias.bgg@gmail.com>
+> +
+> +description: |
+> +  Mediatek Read Direct Memory Access(RDMA) component used to do read DMA.
+> +  It contains one line buffer to store the sufficient pixel data, and
+> +  must be siblings to the central MMSYS_CONFIG node.
+> +  For a description of the MMSYS_CONFIG binding, see
+> +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> +  for details.
+> +  The 1st RDMA is also used to be a controller node in Media Data Path 3(MDP3)
+> +  that containing MMSYS, MUTEX, GCE and SCP settings.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          # MDP3 controller node
+> +          - const: mediatek,mt8183-mdp3
+> +          - const: mediatek,mt8183-mdp3-rdma
 
+This does not make sense as a compatible entry. The first string should 
+be more specific than the 2nd string. The controller node is a different 
+instance of the RDMA block or some s/w designation? Looks like the 
+latter to me...
+
+
+> +      - items:
+> +          # normal RDMA conponent
+> +          - const: mediatek,mt8183-mdp3-rdma
+> +
+> +  mediatek,scp:
+> +    description: |
+> +      The node of system control processor (SCP), using
+> +      the remoteproc & rpmsg framework.
+> +    $ref: '/schemas/types.yaml#/definitions/phandle'
+> +    maxItems: 1
+> +
+> +  mediatek,mdp3-comps:
+> +    description: |
+> +      MDP subsystem which has direct-link from Image Signal Processor(ISP).
+> +      When using the camera, the DMA of ISP PASS (DIP) module will directly
+> +      trigger MDP3 without other control (such as V4L2 M2M) to create
+> +      corresponding HW path.
+> +      The MDP3 controller must set up a series of registers at the beginning of
+> +      path creation which covering MMSYS, IMGSYS, and MDP3's components,
+> +      so that data flow can pass through MDP3.
+> +      The entire path is briefly described as follows
+> +      ISP --+
+> +            |
+> +            +-> DIP --+
+> +      ................|..............................................
+> +      (MDP3)          +->IMGI -+-> DL1 ->  RSZ -+-> PATH1 -> WROT
+> +                               |            ^   |
+> +                               |            |   |
+> +                               +-> DL2 -----+   +-> PATH2 -> WDMA
+> +                               |
+> +                               +---------------------------> EXTO
+> +    $ref: '/schemas/types.yaml#/definitions/string-array'
+> +    items:
+> +      enum:
+> +        # MDP direct-link input path selection, create a
+> +        # component for path connectedness of HW pipe control
+> +        - mediatek,mt8183-mdp3-dl1
+> +        - mediatek,mt8183-mdp3-dl2
+> +        # MDP direct-link output path selection, create a
+> +        # component for path connectedness of HW pipe control
+> +        - mediatek,mt8183-mdp3-path1
+> +        - mediatek,mt8183-mdp3-path2
+> +        # Input DMA of ISP PASS2 (DIP) module for raw image input
+> +        - mediatek,mt8183-mdp3-imgi
+> +        # Output DMA of ISP PASS2 (DIP) module for YUV image output
+> +        - mediatek,mt8183-mdp3-exto
+> +
+> +  reg:
+> +    items:
+> +      - description: basic RDMA HW address
+> +      - description: MDP direct-link 1st and 2nd input
+> +      - description: MDP direct-link 1st output
+> +      - description: MDP direct-link 2nd output
+> +      - description: ISP input and output
+> +
+> +  mediatek,gce-client-reg:
+> +    $ref: '/schemas/types.yaml#/definitions/phandle-array'
+> +    minItems: 1
+> +    items:
+> +      - description: GCE client for RDMA
+> +      - description: GCE client for dl1 and dl2
+> +      - description: GCE client for path1
+> +      - description: GCE client for path2
+> +      - description: GCE client for imgi and exto
+> +    description: |
+> +      The register of client driver can be configured by gce with
+> +      4 arguments defined in this property, such as phandle of gce, subsys id,
+> +      register offset and size. Each GCE subsys id is mapping to a client
+> +      defined in the header include/dt-bindings/gce/<chip>-gce.h.
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: RDMA clock
+> +      - description: RSZ clock
+> +      - description: direck-link TX clock in MDP side
+> +      - description: direck-link RX clock in MDP side
+> +      - description: direck-link TX clock in ISP side
+> +      - description: direck-link RX clock in ISP side
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  mediatek,mmsys:
+> +    description: The node of mux(multiplexer) controller for HW connections.
+> +    $ref: '/schemas/types.yaml#/definitions/phandle'
+> +
+> +  mediatek,mm-mutex:
+> +    description: |
+> +      Mediatek mutex, namely MUTEX, is used to send the triggers signals called
+> +      Start Of Frame(SOF) / End Of Frame(EOF) to each sub-modules on the data path.
+> +      In some SoC, such as mt2701, MUTEX could be a hardware mutex which protects
+> +      the shadow register.
+> +    $ref: '/schemas/types.yaml#/definitions/phandle'
+> +
+> +  mediatek,mailbox-gce:
+> +    description: |
+> +      The node of global command engine (GCE), used to read/write
+> +      registers with critical time limitation.
+> +    $ref: '/schemas/types.yaml#/definitions/phandle'
+> +
+> +  mboxes:
+> +    items:
+> +      - description: used for 1st data pipe from RDMA
+> +      - description: used for 2nd data pipe from RDMA
+> +      - description: used for 3rd data pipe from Direct-Link
+> +      - description: used for 4th data pipe from Direct-Link
+> +
+> +  gce-subsys:
+
+Vendor prefix needed.
+
+> +    description: |
+> +      sub-system id corresponding to the global command engine (GCE)
+> +      register address.
+> +    $ref: '/schemas/types.yaml#/definitions/phandle-array'
+> +
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: mediatek,mt8183-mdp3
+> +
+> +then:
+> +  required:
+> +    - mediatek,scp
+> +    - mediatek,mmsys
+> +    - mediatek,mm-mutex
+> +    - mediatek,mailbox-gce
+
+Note that if there's only 1 instance of these blocks, you can just find 
+them by compatible and don't need a property.
+
+> +    - mboxes
+> +    - gce-subsys
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - mediatek,gce-client-reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8183-clk.h>
+> +    #include <dt-bindings/gce/mt8183-gce.h>
+> +    #include <dt-bindings/power/mt8183-power.h>
+> +    #include <dt-bindings/memory/mt8183-larb-port.h>
+> +
+> +    mdp3_rdma0: mdp3_rdma0@14001000 {
+> +      compatible = "mediatek,mt8183-mdp3",
+> +                   "mediatek,mt8183-mdp3-rdma";
+> +      mediatek,scp = <&scp>;
+> +      mediatek,mdp3-comps = "mediatek,mt8183-mdp3-dl1",
+> +                            "mediatek,mt8183-mdp3-dl2",
+> +                            "mediatek,mt8183-mdp3-path1",
+> +                            "mediatek,mt8183-mdp3-path2",
+> +                            "mediatek,mt8183-mdp3-imgi",
+> +                            "mediatek,mt8183-mdp3-exto";
+> +      reg = <0x14001000 0x1000>,
+> +            <0x14000000 0x1000>,
+> +            <0x14005000 0x1000>,
+> +            <0x14006000 0x1000>,
+> +            <0x15020000 0x1000>;
+> +      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x1000 0x1000>,
+> +                                <&gce SUBSYS_1400XXXX 0 0x1000>,
+> +                                <&gce SUBSYS_1400XXXX 0x5000 0x1000>,
+> +                                <&gce SUBSYS_1400XXXX 0x6000 0x1000>,
+> +                                <&gce SUBSYS_1502XXXX 0 0x1000>;
+> +      power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+> +      clocks = <&mmsys CLK_MM_MDP_RDMA0>,
+> +               <&mmsys CLK_MM_MDP_RSZ1>,
+> +               <&mmsys CLK_MM_MDP_DL_TXCK>,
+> +               <&mmsys CLK_MM_MDP_DL_RX>,
+> +               <&mmsys CLK_MM_IPU_DL_TXCK>,
+> +               <&mmsys CLK_MM_IPU_DL_RX>;
+> +      iommus = <&iommu>;
+> +      mediatek,mmsys = <&mmsys>;
+> +      mediatek,mm-mutex = <&mutex>;
+> +      mediatek,mailbox-gce = <&gce>;
+> +      mboxes = <&gce 20 CMDQ_THR_PRIO_LOWEST>,
+> +               <&gce 21 CMDQ_THR_PRIO_LOWEST>,
+> +               <&gce 22 CMDQ_THR_PRIO_LOWEST>,
+> +               <&gce 23 CMDQ_THR_PRIO_LOWEST>;
+> +      gce-subsys = <&gce 0x14000000 SUBSYS_1400XXXX>,
+> +                   <&gce 0x14010000 SUBSYS_1401XXXX>,
+> +                   <&gce 0x14020000 SUBSYS_1402XXXX>,
+> +                   <&gce 0x15020000 SUBSYS_1502XXXX>;
+> +    };
