@@ -2,71 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 964144EE274
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 22:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A61E4EE280
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 22:19:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234913AbiCaUR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 16:17:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51608 "EHLO
+        id S241342AbiCaUVI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 16:21:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233288AbiCaUR0 (ORCPT
+        with ESMTP id S230495AbiCaUVH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 16:17:26 -0400
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAFC8208278
-        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:15:37 -0700 (PDT)
-Received: by mail-oi1-x22f.google.com with SMTP id q129so705926oif.4
-        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:15:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=6O6TQE9gY/RCGoA8Lj72Kezh8AhkaXWoFpitVHtqqC0=;
-        b=mXBaYXFodB5BNYtQLsAi85UeIgUz+rJ8jR+IjiFZ7xdlENE8KMHvCXLuuZLNbwMwx2
-         woFVXRWjONwaTsuJqBRZbtbssVAObJzulRjY/OOqYy5RVGQRFUuoj6VMHtyCP+iLwZVH
-         AXRy5kqcp/yQ8DrLEinN4/hL3JYxoLGiDeQ62TnzGrMe9RPKG8OTEfDdW+L+ACVrzuZC
-         hCHP05rd5gQYTbLk7gzcg0t/pR1vNhlgDDfZhEBo1gk03ccs7VWJCITWMFe8GHrJaGhB
-         vWi9ZMT9l5ycdy5Co2CJd8cPoiy8xAQmIdtlDAd+PzlDjajTJC0+zPiAfeEF03DmSMFZ
-         w+qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6O6TQE9gY/RCGoA8Lj72Kezh8AhkaXWoFpitVHtqqC0=;
-        b=TcQgct0Se61WC4gnyxLYBJKqxc6vXL/eIcljhU4Aq3COItrX6rCkSijEoilgzAObR6
-         xKMOfFufN91yVpmU3AdfLJcqX6JHOjkr3pqTA1dkF+sJ29fKZqhNoMnEgyUFJBMFPc45
-         SqS0C9jMNFdjstqpoako8kbc9I4OEIo10XWbAqxgFQdy5HlthCNUfOPYAeR50ptGItZ8
-         r1LrhZTLldXj7Gdsge41weY4kES/CkwCWViUhuXXbl8wC3lBSz3eSwvXitb2vCGgIvu6
-         wyObqzlIKUyz9aPRQkyduSdzchTcCkcUHki5q8zJvlLIXclCaqgoXBOw7QnEifQUJdss
-         3klw==
-X-Gm-Message-State: AOAM530ejc3Kk9gfdsX9LO5jDubMaGiKOQ7wHKR3TB96YbSia2MBABOr
-        eax25sGzBI5eKFDDENkiXiQgCw==
-X-Google-Smtp-Source: ABdhPJz0dHz0S0Kxb6XfpeUoORZA029B4Og25ME2y94yefm5MksonaTie6pvHqTlUxRYIXLjV2cN7g==
-X-Received: by 2002:a05:6808:ec5:b0:2f7:4019:53be with SMTP id q5-20020a0568080ec500b002f7401953bemr3370230oiv.176.1648757737012;
-        Thu, 31 Mar 2022 13:15:37 -0700 (PDT)
-Received: from eze-laptop ([190.194.87.200])
-        by smtp.gmail.com with ESMTPSA id z10-20020a0568301daa00b005ce0f36dd81sm252391oti.12.2022.03.31.13.15.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 13:15:36 -0700 (PDT)
-Date:   Thu, 31 Mar 2022 17:15:31 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Chen-Yu Tsai <wenst@chromium.org>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: hantro: Empty encoder capture buffers by default
-Message-ID: <YkYL45bEwjS/1+Rs@eze-laptop>
-References: <20220331084907.628349-1-wenst@chromium.org>
+        Thu, 31 Mar 2022 16:21:07 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 872FE151D1E;
+        Thu, 31 Mar 2022 13:19:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648757959; x=1680293959;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MXUSK1PVwUNaWyUiYVc58/+ip8yg9wyFZf8YT5pVNzw=;
+  b=ZVMuL7JugyH3W6DRi6QIDVXBlLjzG6PGCxxNZYW/ooTWa73d73Ul202/
+   yJlaUit7aSYs4q4FR6MxMlHMe1XH5Pz5pBAprKCdGQ9/O4uYJS3SlMiqu
+   lw2zfm60pWS/FBkq5fdoFKTs9g2kYl9YSRTXphLaGD+XvCo0D4BoSsqoV
+   e9Iub+gipXgmAf4ombir6HaweA95oLeVIVpNNZnxzUYfD/sVfDNW8XdhL
+   PQghSVM9o2yCHswnS4P8X0uetQFoX2pvF7Edz2dT6OvUoantrjhWcLlPM
+   NdwpQjKpqnKDpuAtGHXhY01xfUIx9g8ehiFr5kmuYSnI22jHxzid8HnZM
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259659874"
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; 
+   d="scan'208";a="259659874"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2022 13:19:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; 
+   d="scan'208";a="655055449"
+Received: from lkp-server02.sh.intel.com (HELO 3231c491b0e2) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 31 Mar 2022 13:19:17 -0700
+Received: from kbuild by 3231c491b0e2 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1na1GG-0000cw-L0;
+        Thu, 31 Mar 2022 20:19:16 +0000
+Date:   Fri, 1 Apr 2022 04:18:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: imx-mipi-csis.c:undefined reference to `v4l2_async_nf_init'
+Message-ID: <202204010422.J1IKoQX0-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220331084907.628349-1-wenst@chromium.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,52 +63,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 04:49:06PM +0800, Chen-Yu Tsai wrote:
-> The payload size for encoder capture buffers is set by the driver upon
-> finishing encoding each frame, based on the encoded length returned from
-> hardware, and whatever header and padding length used. Setting a
-> non-zero default serves no real purpose, and also causes issues if the
-> capture buffer is returned to userspace unused, confusing the
-> application.
-> 
-> Instead, always set the payload size to 0 for encoder capture buffers
-> when preparing them.
-> 
-> Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-> Fixes: 082aaecff35f ("media: hantro: Fix .buf_prepare")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   787af64d05cd528aac9ad16752d11bb1c6061bb9
+commit: 63fe3d27b226fe01746bace4d1f1f2164406140d media: platform/*/Kconfig: make manufacturer menus more uniform
+date:   2 weeks ago
+config: arm64-randconfig-r035-20220331 (https://download.01.org/0day-ci/archive/20220401/202204010422.J1IKoQX0-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=63fe3d27b226fe01746bace4d1f1f2164406140d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 63fe3d27b226fe01746bace4d1f1f2164406140d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-> ---
-> 
-> This was previously incorrectly squashed into my Hantro encoder cmd
-> patch [1].
-> 
-> [1] https://lore.kernel.org/linux-media/20220301042225.1540019-1-wenst@chromium.org/
-> 
->  drivers/staging/media/hantro/hantro_v4l2.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> index 67148ba346f5..261beb0c40f6 100644
-> --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> @@ -733,8 +733,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
->  	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
->  	 * it to buffer length).
->  	 */
-> -	if (V4L2_TYPE_IS_CAPTURE(vq->type))
-> -		vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
-> +	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
-> +		if (ctx->is_encoder)
-> +			vb2_set_plane_payload(vb, 0, 0);
-> +		else
-> +			vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
-> +	}
->  
->  	return 0;
->  }
-> -- 
-> 2.35.1.1021.g381101b075-goog
-> 
+All errors (new ones prefixed by >>):
+
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: Entry trampoline text too big
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_calculate_params':
+   imx-mipi-csis.c:(.text+0x2fc): undefined reference to `v4l2_get_link_freq'
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_async_register':
+>> imx-mipi-csis.c:(.text+0x474): undefined reference to `v4l2_async_nf_init'
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x49c): undefined reference to `v4l2_fwnode_endpoint_parse'
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x548): undefined reference to `__v4l2_async_nf_add_fwnode_remote'
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x57c): undefined reference to `v4l2_async_subdev_nf_register'
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x58c): undefined reference to `v4l2_async_register_subdev'
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_notify_bound':
+   imx-mipi-csis.c:(.text+0x5f8): undefined reference to `v4l2_create_fwnode_links_to_pad'
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_probe':
+   imx-mipi-csis.c:(.text+0x10fc): undefined reference to `v4l2_subdev_init'
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x11bc): undefined reference to `v4l2_async_nf_unregister'
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x11c4): undefined reference to `v4l2_async_nf_cleanup'
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x11cc): undefined reference to `v4l2_async_unregister_subdev'
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_set_fmt':
+   imx-mipi-csis.c:(.text+0x13c8): undefined reference to `v4l_bound_align_image'
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_s_stream':
+>> imx-mipi-csis.c:(.text+0x154c): undefined reference to `v4l2_subdev_call_wrappers'
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `v4l2_subdev_call_wrappers' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   imx-mipi-csis.c:(.text+0x154c): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x1550): undefined reference to `v4l2_subdev_call_wrappers'
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x16b4): undefined reference to `v4l2_subdev_call_wrappers'
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `v4l2_subdev_call_wrappers' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   imx-mipi-csis.c:(.text+0x16b4): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x16b8): undefined reference to `v4l2_subdev_call_wrappers'
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x1760): undefined reference to `v4l2_subdev_call_wrappers'
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `v4l2_subdev_call_wrappers' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   imx-mipi-csis.c:(.text+0x1760): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:imx-mipi-csis.c:(.text+0x1764): more undefined references to `v4l2_subdev_call_wrappers' follow
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `v4l2_subdev_call_wrappers' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_s_stream':
+   imx-mipi-csis.c:(.text+0x17c4): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_remove':
+   imx-mipi-csis.c:(.text+0x1904): undefined reference to `v4l2_async_nf_unregister'
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x190c): undefined reference to `v4l2_async_nf_cleanup'
+   aarch64-linux-ld: imx-mipi-csis.c:(.text+0x1914): undefined reference to `v4l2_async_unregister_subdev'
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:(.rodata+0x4c0): undefined reference to `v4l2_subdev_link_validate'
+   aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:(.rodata+0x4c8): undefined reference to `v4l2_subdev_get_fwnode_pad_1_to_1'
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
