@@ -2,293 +2,357 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A27C4EE283
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 22:19:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 870BC4EE2D7
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 22:47:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241334AbiCaUUm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 16:20:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33614 "EHLO
+        id S241514AbiCaUsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 16:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240466AbiCaUUk (ORCPT
+        with ESMTP id S233946AbiCaUsq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 16:20:40 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E9A2C6ED6
-        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:18:49 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id k25-20020a056830151900b005b25d8588dbso681608otp.4
-        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:18:49 -0700 (PDT)
+        Thu, 31 Mar 2022 16:48:46 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B77221EC61E
+        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:46:57 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id h23so1386155wrb.8
+        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 13:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wQjAfS7fQNP+0bjIIqmCMq8qsMvCY7R1nHBvhnmQNXI=;
-        b=j10MlezzUpC9JiuA1DYXfc0p9tDkTlUyllrS2JSrfg+4az2Fea/Pxd3qOyo3vhFJAf
-         sqTdXREuXvgAbMvHpqFgquPi4HC8CUWBpNp8qbTF6IbqDAm5vmnHhv89ecdqJx6oT7tH
-         Bgn6QkG2lvJhZD6fOulEkF9TvlEIEx65uZJBmWP+D432fiawAc5E2i2zMsJr8DGZCCSj
-         pxKArQyeFNkWcww1cZBcpb+vo4J13O3Oth9qR0YD9JzDNOHHXmCo+1JU75Z+Kj8m+wCQ
-         fFcKsE82F2K2QllygTYgs0Fgb0NjwkiAYEc7z58T3fNWI2LIlajmTS45yKqpBMtYrrAa
-         TFPw==
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ixXrgYXyusCqS9U7IffPsFFQ/azMDwZfu0gvUTK9Bx0=;
+        b=QnJnNv95ZO7oppiV7mf7cWBNhQPhLj6ppQvu9mwgtoPXURTWikvR4y3I1gC0H/Py0F
+         lpx5A7OCCeaG653XU0ysnIJwsP77NYUTYKSnItkZd8SrATJh2eSmIx8AqWjf5ziLMEpM
+         eTfPtuig1Z4Imxj4wH4LEls2YzSiY8KwjeV10=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wQjAfS7fQNP+0bjIIqmCMq8qsMvCY7R1nHBvhnmQNXI=;
-        b=WPf6BLMFwbQnlPEeQgiMdVulwOYbj8PrZGOARD5fqeZLGyQd+YUoHhz1cg90ah9Cyn
-         fEapN2eGqxphrI+P+MTp842CJXj9YtRdHjgSlK82BQOTjdbJQiCrbMF3aZ7Inwl4UXrV
-         XICgizvlt7CmwBeSzcCfK4U7eQu5tT4apA2dtFzHHQxaU+5DJme8UWmkHRh5oxBoUqhv
-         uHpk5MRnGmcsb35vSD2ohqiVrN1Dq1gnlu2/Kg0p0d6P+M9D9KpQL2XvdzLU7LAhHut2
-         je/yFJK8SOj+k/ZfrE4mlLoSj/CHVSoTMKPlSY8TCRBFrLA8zPcWQfCmsts5rOFLSK0k
-         xtNg==
-X-Gm-Message-State: AOAM530LZs5eFrjzauaG3++bQDSs5ceyneOk/qNqc3OCqhpu0Y2Tyc3S
-        d9IxBraVTUp8t7krDJp1aySPVOAdqQEj0g==
-X-Google-Smtp-Source: ABdhPJyqCR7D5/odh4ouFQT5iXg7jswTv5MMl65YGWcRHy65MBuAgKtCob4+S4ePPn9YL9WlX0TwmQ==
-X-Received: by 2002:a05:6830:1dea:b0:5b2:3db5:1494 with SMTP id b10-20020a0568301dea00b005b23db51494mr6277005otj.169.1648757928806;
-        Thu, 31 Mar 2022 13:18:48 -0700 (PDT)
-Received: from eze-laptop ([190.194.87.200])
-        by smtp.gmail.com with ESMTPSA id x18-20020a056830245200b005ce01c28c77sm270635otr.1.2022.03.31.13.18.45
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ixXrgYXyusCqS9U7IffPsFFQ/azMDwZfu0gvUTK9Bx0=;
+        b=VVz3C8SxlL6bo5CWGCd7xsZYaK2rYABvpjGEbC+RkaUek8GfPHqW4aNFrC9u1fQVUR
+         KKXuuIq15ByWh/uT+pRzVOBOaRXUUjZpbnYPXKKDlxsERr9DgOXuO7qtVdcVHaP73/lw
+         VZDwDkfa9T6EwjJnrQ9OCHvS05z8s1Nx3rnmBOXWm0BOEPjuG1VmK6VSVWzSre4E/KWK
+         UxccYX5QAwlTLDmW0bDaGM1KWoSIGd6X6ojotp42M65HfrzpGtGVzmI84p+FytnpiIq7
+         4DFMGP12Fdcx1QdD0VWu8pTamvzkOfnSKcsZltCv/nSDjKgYBn3tUH4KkLOXTd2Ok114
+         OIaA==
+X-Gm-Message-State: AOAM530fc3ToPYjx8YgkgnZWYuCu6lQLHGWpRRPpN8cfcKSS8VWHOqPs
+        TKCh4n1vpYaNQcwmax9u48ukLQ==
+X-Google-Smtp-Source: ABdhPJzZpl1E22G/H9ru/QE6PMGHcGQcJUz17wpVlgljQDc4aYfieokSI5ERicjqGCZvhshDqMHavA==
+X-Received: by 2002:a5d:59a2:0:b0:204:20d9:a5b9 with SMTP id p2-20020a5d59a2000000b0020420d9a5b9mr5117078wrr.560.1648759616332;
+        Thu, 31 Mar 2022 13:46:56 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id b15-20020a05600018af00b002057c72d45fsm480319wri.77.2022.03.31.13.46.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 13:18:48 -0700 (PDT)
-Date:   Thu, 31 Mar 2022 17:18:43 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Chen-Yu Tsai <wenst@chromium.org>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] media: hantro: Implement support for encoder commands
-Message-ID: <YkYMo3cU2lqeDBu1@eze-laptop>
-References: <20220331091628.641915-1-wenst@chromium.org>
+        Thu, 31 Mar 2022 13:46:55 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        etnaviv@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 1/4] drm/etnaviv: Use scheduler dependency handling
+Date:   Thu, 31 Mar 2022 22:46:48 +0200
+Message-Id: <20220331204651.2699107-2-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220331204651.2699107-1-daniel.vetter@ffwll.ch>
+References: <20220331204651.2699107-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220331091628.641915-1-wenst@chromium.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 05:16:28PM +0800, Chen-Yu Tsai wrote:
-> The V4L2 stateful encoder uAPI specification requires that drivers
-> support the ENCODER_CMD ioctl to allow draining of buffers. This
-> however was not implemented, and causes issues for some userspace
-> applications.
-> 
-> Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
-> This is entirely based on existing code found in the vicodec test
-> driver.
-> 
-> Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+We need to pull the drm_sched_job_init much earlier, but that's very
+minor surgery.
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+v2: Actually fix up cleanup paths by calling drm_sched_job_init, which
+I wanted to to in the previous round (and did, for all other drivers).
+Spotted by Lucas.
 
-I believe Nicolas tested the patch before the splitting,
-so this is probably Tested-by as well.
+v3: Rebase over renamed functions to add dependencies.
 
-Thanks!
-Ezequiel
+v4: Rebase over patches from Christian.
 
-> ---
-> 
-> This version was tested on RK3399 on mainline with fluster and gstreamer.
-> Fluster test scores for VP8 decoding remain the same. Gstreamer jpeg
-> encoding works without stalling or outputing extra frames.
-> 
-> For stress testing, fluster by itself already runs six jobs concurrently.
-> At the same time, I also spawn a half-dozen gstreamer encoding jobs:
-> 
->     gst-launch-1.0 videotestsrc num-buffers=2000 ! v4l2jpegenc ! fakesink
-> 
-> It was also backported onto ChromeOS 5.10, and tested on kevin.
-> 
-> Everything seems to work ok, without anything stalling.
-> 
-> Changes since v3:
-> - Split out unrelated change into separate patch [1]
-> - Dropped invalid .has_stopped check after v4l2_m2m_ioctl_encoder_cmd()
->   was called. Issue raised by Ezequiel.
-> - Dropped reviewed-by from Benjamin due to code changes
-> 
-> [1] https://lore.kernel.org/linux-media/20220331084907.628349-1-wenst@chromium.org/
-> 
-> Changes since v2:
-> - Dropped RFC tag
-> - Added Reviewed-by from Benjamin
-> - Replace direct access to vb->planes[i].bytesused with
->   vb2_set_plane_payload()
-> 
-> Changes since v1:
-> - Correctly handle last buffers that are empty
-> - Correctly handle last buffers that just got queued
-> - Disable (TRY_)ENCODER_CMD ioctls for hantro decoder
-> 
-> This is based on linux-next-20220208, and was tested on RK3399 with
-> Gstreamer running the JPEG encoder. It was also tested on ChromeOS
-> 5.10 on Kevin with the video encoder used in ChromeOS ARC, which
-> requires this. For ChromeOS, both encoder and decoder tests were run
-> to check for regressions.
-> 
-> Everything really works OK now, but since I'm not very familiar with
-> the mem2mem framework, I might be missing something, causing resource
-> leaks. Hence this patch is labeled RFC.
-> 
-> Last, I suppose we could also add support for (TRY_)DECODER_CMD now?
-> 
->  drivers/staging/media/hantro/hantro_drv.c  | 17 ++++++-
->  drivers/staging/media/hantro/hantro_v4l2.c | 59 ++++++++++++++++++++++
->  2 files changed, 74 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index dc768884cb79..bd7d11032c94 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
->  	return hantro_get_dec_buf_addr(ctx, buf);
->  }
->  
-> +static const struct v4l2_event hantro_eos_event = {
-> +	.type = V4L2_EVENT_EOS
-> +};
-> +
->  static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
->  				    struct hantro_ctx *ctx,
->  				    enum vb2_buffer_state result)
-> @@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
->  	src->sequence = ctx->sequence_out++;
->  	dst->sequence = ctx->sequence_cap++;
->  
-> +	if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
-> +		dst->flags |= V4L2_BUF_FLAG_LAST;
-> +		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-> +		v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
-> +	}
-> +
->  	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
->  					 result);
->  }
-> @@ -809,10 +819,13 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
->  	snprintf(vfd->name, sizeof(vfd->name), "%s-%s", match->compatible,
->  		 funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER ? "enc" : "dec");
->  
-> -	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER)
-> +	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
->  		vpu->encoder = func;
-> -	else
-> +	} else {
->  		vpu->decoder = func;
-> +		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
-> +		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
-> +	}
->  
->  	video_set_drvdata(vfd, vpu);
->  
-> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> index 261beb0c40f6..71a6279750bf 100644
-> --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> @@ -628,6 +628,38 @@ static int vidioc_s_selection(struct file *file, void *priv,
->  	return 0;
->  }
->  
-> +static const struct v4l2_event hantro_eos_event = {
-> +	.type = V4L2_EVENT_EOS
-> +};
-> +
-> +static int vidioc_encoder_cmd(struct file *file, void *priv,
-> +			      struct v4l2_encoder_cmd *ec)
-> +{
-> +	struct hantro_ctx *ctx = fh_to_ctx(priv);
-> +	int ret;
-> +
-> +	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
-> +	    !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
-> +		return 0;
-> +
-> +	ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (ec->cmd == V4L2_ENC_CMD_STOP &&
-> +	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-> +		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-> +
-> +	if (ec->cmd == V4L2_ENC_CMD_START)
-> +		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
-> +
-> +	return 0;
-> +}
-> +
->  const struct v4l2_ioctl_ops hantro_ioctl_ops = {
->  	.vidioc_querycap = vidioc_querycap,
->  	.vidioc_enum_framesizes = vidioc_enum_framesizes,
-> @@ -657,6 +689,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
->  
->  	.vidioc_g_selection = vidioc_g_selection,
->  	.vidioc_s_selection = vidioc_s_selection,
-> +
-> +	.vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
-> +	.vidioc_encoder_cmd = vidioc_encoder_cmd,
->  };
->  
->  static int
-> @@ -748,6 +783,22 @@ static void hantro_buf_queue(struct vb2_buffer *vb)
->  	struct hantro_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
->  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->  
-> +	if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
-> +	    vb2_is_streaming(vb->vb2_queue) &&
-> +	    v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
-> +		unsigned int i;
-> +
-> +		for (i = 0; i < vb->num_planes; i++)
-> +			vb2_set_plane_payload(vb, i, 0);
-> +
-> +		vbuf->field = V4L2_FIELD_NONE;
-> +		vbuf->sequence = ctx->sequence_cap++;
-> +
-> +		v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, vbuf);
-> +		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-> +		return;
-> +	}
-> +
->  	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
->  }
->  
-> @@ -763,6 +814,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
->  	struct hantro_ctx *ctx = vb2_get_drv_priv(q);
->  	int ret = 0;
->  
-> +	v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
-> +
->  	if (V4L2_TYPE_IS_OUTPUT(q->type))
->  		ctx->sequence_out = 0;
->  	else
-> @@ -835,6 +888,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
->  		hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
->  	else
->  		hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
-> +
-> +	v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
-> +
-> +	if (V4L2_TYPE_IS_OUTPUT(q->type) &&
-> +	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-> +		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
->  }
->  
->  static void hantro_buf_request_complete(struct vb2_buffer *vb)
-> -- 
-> 2.35.1.1021.g381101b075-goog
-> 
+v5: More rebasing over work from Christian.
+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: etnaviv@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  4 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 51 +++++++++++--------
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c      | 53 +-------------------
+ drivers/gpu/drm/etnaviv/etnaviv_sched.h      |  3 +-
+ 4 files changed, 35 insertions(+), 76 deletions(-)
+
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+index 8983a0ef383e..63688e6e4580 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+@@ -80,8 +80,6 @@ struct etnaviv_gem_submit_bo {
+ 	u64 va;
+ 	struct etnaviv_gem_object *obj;
+ 	struct etnaviv_vram_mapping *mapping;
+-	unsigned int nr_fences;
+-	struct dma_fence **fences;
+ };
+ 
+ /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
+@@ -94,7 +92,7 @@ struct etnaviv_gem_submit {
+ 	struct etnaviv_file_private *ctx;
+ 	struct etnaviv_gpu *gpu;
+ 	struct etnaviv_iommu_context *mmu_context, *prev_mmu_context;
+-	struct dma_fence *out_fence, *in_fence;
++	struct dma_fence *out_fence;
+ 	int out_fence_id;
+ 	struct list_head node; /* GPU active submit list */
+ 	struct etnaviv_cmdbuf cmdbuf;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 592cbb38609a..5f502c49aec2 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -188,9 +188,9 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+ 		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
+ 			continue;
+ 
+-		ret = dma_resv_get_fences(robj,
+-					  bo->flags & ETNA_SUBMIT_BO_WRITE,
+-					  &bo->nr_fences, &bo->fences);
++		ret = drm_sched_job_add_implicit_dependencies(&submit->sched_job,
++							      &bo->obj->base,
++							      bo->flags & ETNA_SUBMIT_BO_WRITE);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -398,8 +398,6 @@ static void submit_cleanup(struct kref *kref)
+ 
+ 	wake_up_all(&submit->gpu->fence_event);
+ 
+-	if (submit->in_fence)
+-		dma_fence_put(submit->in_fence);
+ 	if (submit->out_fence) {
+ 		/* first remove from IDR, so fence can not be found anymore */
+ 		mutex_lock(&submit->gpu->fence_lock);
+@@ -530,58 +528,69 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &submit->cmdbuf,
+ 				  ALIGN(args->stream_size, 8) + 8);
+ 	if (ret)
+-		goto err_submit_objects;
++		goto err_submit_put;
+ 
+ 	submit->ctx = file->driver_priv;
+ 	submit->mmu_context = etnaviv_iommu_context_get(submit->ctx->mmu);
+ 	submit->exec_state = args->exec_state;
+ 	submit->flags = args->flags;
+ 
++	ret = drm_sched_job_init(&submit->sched_job,
++				 &ctx->sched_entity[args->pipe],
++				 submit->ctx);
++	if (ret)
++		goto err_submit_put;
++
+ 	ret = submit_lookup_objects(submit, file, bos, args->nr_bos);
+ 	if (ret)
+-		goto err_submit_objects;
++		goto err_submit_job;
+ 
+ 	if ((priv->mmu_global->version != ETNAVIV_IOMMU_V2) &&
+ 	    !etnaviv_cmd_validate_one(gpu, stream, args->stream_size / 4,
+ 				      relocs, args->nr_relocs)) {
+ 		ret = -EINVAL;
+-		goto err_submit_objects;
++		goto err_submit_job;
+ 	}
+ 
+ 	if (args->flags & ETNA_SUBMIT_FENCE_FD_IN) {
+-		submit->in_fence = sync_file_get_fence(args->fence_fd);
+-		if (!submit->in_fence) {
++		struct dma_fence *in_fence = sync_file_get_fence(args->fence_fd);
++		if (!in_fence) {
+ 			ret = -EINVAL;
+-			goto err_submit_objects;
++			goto err_submit_job;
+ 		}
++
++		ret = drm_sched_job_add_dependency(&submit->sched_job,
++						   in_fence);
++		if (ret)
++			goto err_submit_job;
+ 	}
+ 
+ 	ret = submit_pin_objects(submit);
+ 	if (ret)
+-		goto err_submit_objects;
++		goto err_submit_job;
+ 
+ 	ret = submit_reloc(submit, stream, args->stream_size / 4,
+ 			   relocs, args->nr_relocs);
+ 	if (ret)
+-		goto err_submit_objects;
++		goto err_submit_job;
+ 
+ 	ret = submit_perfmon_validate(submit, args->exec_state, pmrs);
+ 	if (ret)
+-		goto err_submit_objects;
++		goto err_submit_job;
+ 
+ 	memcpy(submit->cmdbuf.vaddr, stream, args->stream_size);
+ 
+ 	ret = submit_lock_objects(submit, &ticket);
+ 	if (ret)
+-		goto err_submit_objects;
++		goto err_submit_job;
+ 
+ 	ret = submit_fence_sync(submit);
+ 	if (ret)
+-		goto err_submit_objects;
++		goto err_submit_job;
+ 
+-	ret = etnaviv_sched_push_job(&ctx->sched_entity[args->pipe], submit);
++	ret = etnaviv_sched_push_job(submit);
+ 	if (ret)
+-		goto err_submit_objects;
++		goto err_submit_job;
+ 
+ 	submit_attach_object_fences(submit);
+ 
+@@ -595,7 +604,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		sync_file = sync_file_create(submit->out_fence);
+ 		if (!sync_file) {
+ 			ret = -ENOMEM;
+-			goto err_submit_objects;
++			goto err_submit_job;
+ 		}
+ 		fd_install(out_fence_fd, sync_file->file);
+ 	}
+@@ -603,7 +612,9 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	args->fence_fd = out_fence_fd;
+ 	args->fence = submit->out_fence_id;
+ 
+-err_submit_objects:
++err_submit_job:
++	drm_sched_job_cleanup(&submit->sched_job);
++err_submit_put:
+ 	etnaviv_submit_put(submit);
+ 
+ err_submit_ww_acquire:
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index a8452ce10e3a..72e2553fbc98 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -17,48 +17,6 @@ module_param_named(job_hang_limit, etnaviv_job_hang_limit, int , 0444);
+ static int etnaviv_hw_jobs_limit = 4;
+ module_param_named(hw_job_limit, etnaviv_hw_jobs_limit, int , 0444);
+ 
+-static struct dma_fence *
+-etnaviv_sched_dependency(struct drm_sched_job *sched_job,
+-			 struct drm_sched_entity *entity)
+-{
+-	struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
+-	struct dma_fence *fence;
+-	int i;
+-
+-	if (unlikely(submit->in_fence)) {
+-		fence = submit->in_fence;
+-		submit->in_fence = NULL;
+-
+-		if (!dma_fence_is_signaled(fence))
+-			return fence;
+-
+-		dma_fence_put(fence);
+-	}
+-
+-	for (i = 0; i < submit->nr_bos; i++) {
+-		struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
+-		int j;
+-
+-		for (j = 0; j < bo->nr_fences; j++) {
+-			if (!bo->fences[j])
+-				continue;
+-
+-			fence = bo->fences[j];
+-			bo->fences[j] = NULL;
+-
+-			if (!dma_fence_is_signaled(fence))
+-				return fence;
+-
+-			dma_fence_put(fence);
+-		}
+-		kfree(bo->fences);
+-		bo->nr_fences = 0;
+-		bo->fences = NULL;
+-	}
+-
+-	return NULL;
+-}
+-
+ static struct dma_fence *etnaviv_sched_run_job(struct drm_sched_job *sched_job)
+ {
+ 	struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
+@@ -132,29 +90,22 @@ static void etnaviv_sched_free_job(struct drm_sched_job *sched_job)
+ }
+ 
+ static const struct drm_sched_backend_ops etnaviv_sched_ops = {
+-	.dependency = etnaviv_sched_dependency,
+ 	.run_job = etnaviv_sched_run_job,
+ 	.timedout_job = etnaviv_sched_timedout_job,
+ 	.free_job = etnaviv_sched_free_job,
+ };
+ 
+-int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+-			   struct etnaviv_gem_submit *submit)
++int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
+ {
+ 	int ret = 0;
+ 
+ 	/*
+ 	 * Hold the fence lock across the whole operation to avoid jobs being
+ 	 * pushed out of order with regard to their sched fence seqnos as
+-	 * allocated in drm_sched_job_init.
++	 * allocated in drm_sched_job_arm.
+ 	 */
+ 	mutex_lock(&submit->gpu->fence_lock);
+ 
+-	ret = drm_sched_job_init(&submit->sched_job, sched_entity,
+-				 submit->ctx);
+-	if (ret)
+-		goto out_unlock;
+-
+ 	drm_sched_job_arm(&submit->sched_job);
+ 
+ 	submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.h b/drivers/gpu/drm/etnaviv/etnaviv_sched.h
+index c0a6796e22c9..baebfa069afc 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.h
+@@ -18,7 +18,6 @@ struct etnaviv_gem_submit *to_etnaviv_submit(struct drm_sched_job *sched_job)
+ 
+ int etnaviv_sched_init(struct etnaviv_gpu *gpu);
+ void etnaviv_sched_fini(struct etnaviv_gpu *gpu);
+-int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+-			   struct etnaviv_gem_submit *submit);
++int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit);
+ 
+ #endif /* __ETNAVIV_SCHED_H__ */
+-- 
+2.34.1
+
