@@ -2,148 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D00DA4EDE11
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 17:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BB8F4EDE75
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 18:13:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234270AbiCaP6o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 11:58:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46948 "EHLO
+        id S239370AbiCaQPA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 12:15:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233278AbiCaP6o (ORCPT
+        with ESMTP id S236486AbiCaQPA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 11:58:44 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A77A51F0837;
-        Thu, 31 Mar 2022 08:56:55 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id 17so350469ljw.8;
-        Thu, 31 Mar 2022 08:56:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=KxvZgz6hL7VJSgBkUh68HmLUc6RrDFibKDprz5pS9ck=;
-        b=XmgzZVBW/FQUUWM2JyAFM5UgAwSSkAaAFRZ23B29xwV3qEosExNQ9XFdUueqgRmceV
-         mYagYUESyK8stPscP97WnWXl9FhkpHIIgO2rpRDd4eEaDhpAY99XRHJqP8JqQl7Bu2P/
-         /CEPqo7gVlJehBHWq1WO9MVVhU3wYr3dGJ5CLkSfUc9mWG3pvJEnEDAKDnF90KNNYwQ7
-         0HejRLZGYDuNiEdOdWq427V2DmOvqXmc3Pp+PjA2pD229xmQITOZlHhucn1K6+Gy7vMS
-         Unw2/keqtK/QwnFHjeU68i8KRyLyQ06GJ2sTNdYWcC3zcbOy6gFA86g1DWLKzFWWdwCe
-         3KGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:from:subject:content-transfer-encoding;
-        bh=KxvZgz6hL7VJSgBkUh68HmLUc6RrDFibKDprz5pS9ck=;
-        b=D7leKF2xF6HTcu1FyQ5wO/F4h7C8iSSOsM+hqVHITM6ACN+L45S545SMpwNyZl72u2
-         ERor84qEiqM4xSfPaXCkymSruinVPP0Y8RxGFrw3jp1qlbCmF/+K69KLrmQH2ufDNMuk
-         tg3x8Z8xaa9kSEv/97JwwvjGlLHzFLycSsmDXwIGwDoH88A+rTqX48ztmfuaBP8ggSMC
-         57HQRTTGmXdXsDK3GBMha6xzD4T7Rt8iSveILWKMeu+u8jTg9s8BRDLoWMPPXeQysbRO
-         BgWwguAdPJ0ZJgAkPa8UWTeD0HAhu6ZGCVeor1HNXjAaLZCuY2IE6UpLmwRZlAb4bPw3
-         4b1g==
-X-Gm-Message-State: AOAM532dp9hk1DlMV4yEAgRlsPql9XlWFKimd4AsNrq+26qr3efuDoUv
-        5GO4BuzoYnHBi7CWBAG3fUQ=
-X-Google-Smtp-Source: ABdhPJxiQKBkYN+HEsqJ45zmL5AhTq/ELypDRrWwMspKq8v1XmnxdyMNAp7obKvq+eIDx+R1K+y16g==
-X-Received: by 2002:a2e:a602:0:b0:249:93f8:b0f0 with SMTP id v2-20020a2ea602000000b0024993f8b0f0mr10865404ljp.10.1648742209343;
-        Thu, 31 Mar 2022 08:56:49 -0700 (PDT)
-Received: from [192.168.1.2] (235.132.246.94.ip4.artcom.pl. [94.246.132.235])
-        by smtp.googlemail.com with ESMTPSA id u12-20020a056512128c00b00446499f855dsm2705605lfs.78.2022.03.31.08.56.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Mar 2022 08:56:48 -0700 (PDT)
-Message-ID: <c4bcaff8-fbad-969e-ad47-e2c487ac02a1@gmail.com>
-Date:   Thu, 31 Mar 2022 17:55:50 +0200
+        Thu, 31 Mar 2022 12:15:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A311D59D8
+        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 09:13:11 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1730486;
+        Thu, 31 Mar 2022 18:13:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1648743189;
+        bh=yHGS2hURqkIUrkESX/THMVwzW6jkoB0dHOSQJK3VlEg=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=RX1PcgcTmdXJviJwtdl0WqW1ajNSwKZoa2e+KC0EeKQLh6pjXHGvaEXnB9GPWNzPy
+         65AGAa84cgSenfmPOatzicYmO6z4ans71rluHd+9VcYJQ8S+RgGnUaWK1bqQ8JdKFN
+         EyKA7pEka7rtzp6tr8KnorHttUfpsMUhO+LIuqtg=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-To:     Thorsten Leemhuis <regressions@leemhuis.info>
-Cc:     Robert Schlabbach <robert_s@gmx.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        LMML <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Antti Palosaari <crope@iki.fi>
-From:   Piotr Chmura <chmooreck@gmail.com>
-Subject: [PATCH v3] si2157: unknown chip version Si2147-A30 ROM 0x50
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220330155811.1185758-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20220330155811.1185758-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH] media: rcar-vin: Remove stray blank line
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Niklas =?utf-8?q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Niklas =?utf-8?q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-media@vger.kernel.org
+Date:   Thu, 31 Mar 2022 17:13:07 +0100
+Message-ID: <164874318760.15275.14084679065887620011@Monstersaurus>
+User-Agent: alot/0.10
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix firmware file names assignment in si2157 tuner, allow for running 
-devices without firmware files needed.
+Quoting Niklas S=C3=B6derlund (2022-03-30 16:58:11)
+> Remove a stray blank line between function definition and body.
+>=20
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
 
+Given how controversial this change is, I'm not sure this is necessary,
+but this patch has made it's way into my inbox :-) - so before I archive
+it away:
 
-It's regression in kernel 5.17.0, worked fine in 5.16 series.
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-device: 07ca:1871 AVerMedia Technologies, Inc. TD310 DVB-T/T2/C dongle
-modprobe gives error: unknown chip version Si2147-A30 ROM 0x50
-Device initialization is interrupted.
-
-caused by:
-1. table si2157_tuners has swapped fields rom_id and required vs struct 
-si2157_tuner_info.
-2. both firmware file names can be null for devices with required == 
-false - device uses build-in firmware in this case
-
-Fix:
-1. Rearrange fields in table si2157_tuners
-2. Allow both firmware file names be NULL for devices defined with 
-required == false
-
-
-Fixes: 1c35ba3bf972 ("media: si2157: use a different namespace for 
-firmware")
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=215726
-Link: 
-https://lore.kernel.org/lkml/5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info/ 
-
-Cc: stable@vger.kernel.org # 5.17.x
-Signed-off-by: Piotr Chmura <chmooreck@gmail.com>
-Tested-by: Robert Schlabbach <robert_s@gmx.net>
-
----
-
---- a/drivers/media/tuners/si2157.c    2022-03-20 21:14:17.000000000 +0100
-+++ b/drivers/media/tuners/si2157.c    2022-03-22 23:48:05.604408331 +0100
-@@ -77,16 +77,16 @@ err_mutex_unlock:
-  }
-
-  static const struct si2157_tuner_info si2157_tuners[] = {
--    { SI2141, false, 0x60, SI2141_60_FIRMWARE, SI2141_A10_FIRMWARE },
--    { SI2141, false, 0x61, SI2141_61_FIRMWARE, SI2141_A10_FIRMWARE },
--    { SI2146, false, 0x11, SI2146_11_FIRMWARE, NULL },
--    { SI2147, false, 0x50, SI2147_50_FIRMWARE, NULL },
--    { SI2148, true,  0x32, SI2148_32_FIRMWARE, SI2158_A20_FIRMWARE },
--    { SI2148, true,  0x33, SI2148_33_FIRMWARE, SI2158_A20_FIRMWARE },
--    { SI2157, false, 0x50, SI2157_50_FIRMWARE, SI2157_A30_FIRMWARE },
--    { SI2158, false, 0x50, SI2158_50_FIRMWARE, SI2158_A20_FIRMWARE },
--    { SI2158, false, 0x51, SI2158_51_FIRMWARE, SI2158_A20_FIRMWARE },
--    { SI2177, false, 0x50, SI2177_50_FIRMWARE, SI2157_A30_FIRMWARE },
-+    { SI2141, 0x60, false, SI2141_60_FIRMWARE, SI2141_A10_FIRMWARE },
-+    { SI2141, 0x61, false, SI2141_61_FIRMWARE, SI2141_A10_FIRMWARE },
-+    { SI2146, 0x11, false, SI2146_11_FIRMWARE, NULL },
-+    { SI2147, 0x50, false, SI2147_50_FIRMWARE, NULL },
-+    { SI2148, 0x32, true,  SI2148_32_FIRMWARE, SI2158_A20_FIRMWARE },
-+    { SI2148, 0x33, true,  SI2148_33_FIRMWARE, SI2158_A20_FIRMWARE },
-+    { SI2157, 0x50, false, SI2157_50_FIRMWARE, SI2157_A30_FIRMWARE },
-+    { SI2158, 0x50, false, SI2158_50_FIRMWARE, SI2158_A20_FIRMWARE },
-+    { SI2158, 0x51, false, SI2158_51_FIRMWARE, SI2158_A20_FIRMWARE },
-+    { SI2177, 0x50, false, SI2177_50_FIRMWARE, SI2157_A30_FIRMWARE },
-  };
-
-  static int si2157_load_firmware(struct dvb_frontend *fe,
-@@ -178,7 +178,7 @@ static int si2157_find_and_load_firmware
-          }
-      }
-
--    if (!fw_name && !fw_alt_name) {
-+    if (required && !fw_name && !fw_alt_name) {
-          dev_err(&client->dev,
-              "unknown chip version Si21%d-%c%c%c ROM 0x%02x\n",
-              part_id, cmd.args[1], cmd.args[3], cmd.args[4], rom_id);
-
+> ---
+>  drivers/media/platform/renesas/rcar-vin/rcar-core.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/driver=
+s/media/platform/renesas/rcar-vin/rcar-core.c
+> index 64cb05b3907c28e5..4f36e9df7effeb2b 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> @@ -891,7 +891,6 @@ static const struct media_device_ops rvin_csi2_media_=
+ops =3D {
+> =20
+>  static int rvin_csi2_create_link(struct rvin_group *group, unsigned int =
+id,
+>                                  const struct rvin_group_route *route)
+> -
+>  {
+>         struct media_entity *source =3D &group->remotes[route->csi].subde=
+v->entity;
+>         struct media_entity *sink =3D &group->vin[id]->vdev.entity;
+> --=20
+> 2.35.1
+>
