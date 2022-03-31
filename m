@@ -2,61 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98BDB4ED80D
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 12:57:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A6C54ED887
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 13:32:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234815AbiCaK7E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 06:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59490 "EHLO
+        id S235163AbiCaLeC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 07:34:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232609AbiCaK7D (ORCPT
+        with ESMTP id S235158AbiCaLeB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 06:59:03 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F37204CA4;
-        Thu, 31 Mar 2022 03:57:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648724236; x=1680260236;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SbehAzlBBXz+AFnSKsbQMvq9BKwOruT5uhQ/m/2u8RY=;
-  b=IxQW2km+iLHo8GVqiMUjvW+GrpEN7hBidMuF+roqQH3O6Ma1a4FvXFlv
-   BYHAfih9gbvrHIlHYEy/EykZLAvwf1CEdy+pyPM/UECSN6tQiB4zM8u3b
-   pOg6zp4CWL+os6F7W6KlgTacgy21bfpPfG+gzzo18OhjdvKkE/otY28+q
-   TbBtAi6fu/7OV1LAKqnd/SQD5Za9BZsn+yCJS4yRE3J8HIhJGFOZ/fzyQ
-   KN3e2N5tC6huvaxhb/JZzSZ3iYoj9e3+0SgRSgjIUwbnkPSGaImqIbUGD
-   hPCQIcpVV2ztciMWzqhtZYnypnqNsslyHv9M33EEBhCLS6HsMJlYzPZj9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="240387264"
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; 
-   d="scan'208";a="240387264"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2022 03:57:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; 
-   d="scan'208";a="522292189"
-Received: from lkp-server02.sh.intel.com (HELO 3231c491b0e2) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 31 Mar 2022 03:57:14 -0700
-Received: from kbuild by 3231c491b0e2 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nZsUL-0000BY-L9;
-        Thu, 31 Mar 2022 10:57:13 +0000
-Date:   Thu, 31 Mar 2022 18:57:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: ERROR: modpost: "v4l2_subdev_link_validate"
- [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-Message-ID: <202203311819.dOW5i29D-lkp@intel.com>
+        Thu, 31 Mar 2022 07:34:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED3BE182DAE;
+        Thu, 31 Mar 2022 04:32:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 875ED615DB;
+        Thu, 31 Mar 2022 11:32:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D67C340F3;
+        Thu, 31 Mar 2022 11:32:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1648726331;
+        bh=t0lC1RQIMJQ9wmY9jq+yTfW7RjoXXGVpdb/3uZ0FJ0Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fNHj4AGDpAZrOi7HiVrnjfUu7pjzWkaPko+JNLbcKZCq1IcQNPbnZI3QbEQF8yvRD
+         Rvk9BPTAwt7es2EjGzdbFqgtTVi8dudTKL5PzhagULHwH7Fd7NF7hUGYl/TkAaJfQP
+         HfvLROs/ZB3GYsvWt/+ImhAkzMugwhVX4fBop67k=
+Date:   Thu, 31 Mar 2022 13:32:07 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Nas Chung <nas.chung@chipsnmedia.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        open list <linux-kernel@vger.kernel.org>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+        "kernel@collabora.com" <kernel@collabora.com>,
+        "dafna3@gmail.com" <dafna3@gmail.com>,
+        "bob.beckett@collabora.com" <bob.beckett@collabora.com>,
+        "kiril.bicevski@collabora.com" <kiril.bicevski@collabora.com>,
+        "lafley.kim" <lafley.kim@chipsnmedia.com>,
+        Scott Woo <scott.woo@chipsnmedia.com>,
+        "olivier.crete@collabora.com" <olivier.crete@collabora.com>,
+        "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "daniel@0x0f.com" <daniel@0x0f.com>
+Subject: Re: [PATCH v6 4/6] staging: media: wave5: Add TODO file
+Message-ID: <YkWRN4ac0ivRn4aB@kroah.com>
+References: <SL2P216MB12463DE2E1E100E2498A5C33FBE19@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+ <SL2P216MB1246D7900A0B9620F1E1A038FBE19@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+In-Reply-To: <SL2P216MB1246D7900A0B9620F1E1A038FBE19@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,46 +68,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   787af64d05cd528aac9ad16752d11bb1c6061bb9
-commit: 63fe3d27b226fe01746bace4d1f1f2164406140d media: platform/*/Kconfig: make manufacturer menus more uniform
-date:   13 days ago
-config: arm-buildonly-randconfig-r003-20220331 (https://download.01.org/0day-ci/archive/20220331/202203311819.dOW5i29D-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=63fe3d27b226fe01746bace4d1f1f2164406140d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 63fe3d27b226fe01746bace4d1f1f2164406140d
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash
+On Thu, Mar 31, 2022 at 09:55:10AM +0000, Nas Chung wrote:
+> From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> 
+> Add a TODO file listing all that is need for destaging.
+> 
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/staging/media/wave5/TODO | 64 ++++++++++++++++++++++++++++++++
+>  1 file changed, 64 insertions(+)
+>  create mode 100644 drivers/staging/media/wave5/TODO
+> 
+> diff --git a/drivers/staging/media/wave5/TODO b/drivers/staging/media/wave5/TODO
+> new file mode 100644
+> index 000000000000..425ed42a234c
+> --- /dev/null
+> +++ b/drivers/staging/media/wave5/TODO
+> @@ -0,0 +1,64 @@
+> +* Test on real silicon once available
+> +
+> +  This driver has so far been tested on pre-silicon FPGA and on the beta BeagleV
+> +  board which uses the StarFive JH7100 beta SoC.
+> +
+> +  Testing on FPGA shows it working fine, though the FPGA uses polled interrupts
+> +  and copied buffers between the host and it's on board RAM.
+> +
+> +  Testing on BeagleV shows buffer corruption that is currently attributed to a
+> +  known silicon issue in the SoC that makes the cache coherent interconnect not
+> +  so coherent.
+> +  This can likely be solved when the riscv non-coherent dma support lands and
+> +  provide optional v4l2 non-contiguous allocator, though it remains to be seen
+> +  whether support non-coherent use cases will be useful in real world hw.
+> +
+> +  Until we can test and resolve any issues on final silicon (due 2H 2021)
+> +  this driver should remain in staging.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Then why not just wait?  Why merge this now?  What is the benifit of us
+taking this code at this point in time for hardware that is no one has
+as it is not even created?
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+thanks,
 
->> ERROR: modpost: "v4l2_subdev_link_validate" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_subdev_get_fwnode_pad_1_to_1" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_async_unregister_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_async_nf_cleanup" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_async_nf_unregister" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_async_register_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_async_subdev_nf_register" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "__v4l2_async_nf_add_fwnode_remote" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_fwnode_endpoint_parse" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
->> ERROR: modpost: "v4l2_async_nf_init" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
-WARNING: modpost: suppressed 5 unresolved symbol warnings because there were too many)
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on MEDIA_SUPPORT && VIDEO_DEV && MEDIA_CONTROLLER
-   Selected by
-   - VIDEO_IMX_MIPI_CSIS && MEDIA_SUPPORT && MEDIA_PLATFORM_SUPPORT && MEDIA_PLATFORM_DRIVERS
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+greg k-h
