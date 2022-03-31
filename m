@@ -2,183 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F09484ED415
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 08:46:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B4044ED435
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 08:53:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230421AbiCaGsF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 02:48:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54822 "EHLO
+        id S231493AbiCaGzj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 02:55:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231396AbiCaGr7 (ORCPT
+        with ESMTP id S231468AbiCaGzg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 02:47:59 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D718512BFA1;
-        Wed, 30 Mar 2022 23:46:11 -0700 (PDT)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1nZoZN-0001DN-DM; Thu, 31 Mar 2022 08:46:09 +0200
-Message-ID: <1e2d2e77-1b86-31ca-965b-c7678788877b@leemhuis.info>
-Date:   Thu, 31 Mar 2022 08:46:06 +0200
+        Thu, 31 Mar 2022 02:55:36 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DBE5AE56;
+        Wed, 30 Mar 2022 23:53:47 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:c046:6cb6:bfc8:5abf] (unknown [IPv6:2a01:e0a:120:3210:c046:6cb6:bfc8:5abf])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 697B71F4610C;
+        Thu, 31 Mar 2022 07:53:45 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1648709625;
+        bh=t+0Lm+Go/L8vF6CWp7crc3lbSx8o7G4g8w3PB0z8Pe0=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Y0sd/XjXA+BGeu2AdBG4rEYWnO+ctuvbmB1QRs2k32mknaAWm7zGqiST5vHyzAJQs
+         kZPJaCD6w5xFwCLlpLoZlwz95KvZMhlXAYCpBnagTOiHE594/MZmcAyKab1DTh0Ior
+         jbWFTWXWZTEjhuM6IUeg0AZQCufipXqEP7kb39cW8z0DM78DOVJKURD0eZF3qWESTy
+         zM0/VpqWDwWbbOGab87OhTa2P5Th2rBZHvPzl1uiLU1d5hF10eddKFvFG2Y4eaWAiQ
+         TTrK9B3F9RjzhwZqPIqXCG0MVhTICTSewP5Xu1QSA7k2Z+lqrgXjPYdyDQtPcsh/bI
+         pdMzPjM5TOI3Q==
+Message-ID: <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com>
+Date:   Thu, 31 Mar 2022 08:53:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: Bug 215726 - si2157.c: mention name of the missing firmware file
+Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
 Content-Language: en-US
-To:     Piotr Chmura <chmooreck@gmail.com>,
-        Robert Schlabbach <robert_s@gmx.net>
-Cc:     Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com,
+        Chen-Yu Tsai <wens@csie.org>,
+        "jernej.skrabec" <jernej.skrabec@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media <linux-media@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-References: <5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info>
- <trinity-2ca61ae4-4f05-454d-94fd-d41e1afbec2f-1648581688394@3c-app-gmx-bs54>
- <1fc02de2-890e-e8e8-0ab6-aba62a333de5@leemhuis.info>
- <2ce6dc15-51a8-e59c-26ab-4380cdca6209@gmail.com>
- <703ad976-a504-eded-41b6-cd4f9f74e8df@leemhuis.info>
- <ae3864ac-b4f0-01a6-b3ed-75fa53ab3b95@gmail.com>
-From:   Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <ae3864ac-b4f0-01a6-b3ed-75fa53ab3b95@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev, kernel <kernel@collabora.com>,
+        knaerzche@gmail.com, jc@kynesim.co.uk
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+ <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com>
+ <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1648709171;72a1937c;
-X-HE-SMSGID: 1nZoZN-0001DN-DM
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30.03.22 17:47, Piotr Chmura wrote:
-> W dniu 30.03.2022 o 12:44, Thorsten Leemhuis pisze:
->> On 30.03.22 12:35, Piotr Chmura wrote:
->>> W dniu 30.03.2022 o 11:55, Thorsten Leemhuis pisze:
->>>> On 29.03.22 21:21, Robert Schlabbach wrote:
->>>>> the patch linked in the bugzilla ticket:
->>>>> https://lore.kernel.org/linux-media/6f84b7f4-3ede-ae55-e99b-a9d4108c80e2@gmail.com/
->>>>>
->>>>>
->>>>> should indeed fix the issue.
->>>> Ahh, the comment mentioning it was added shortly after I sent my mail.
->>>> #regzbot monitor:
->>>> https://lore.kernel.org/linux-media/6f84b7f4-3ede-ae55-e99b-a9d4108c80e2@gmail.com/
->>>>
->>>>
->>>>
->>>> Adding Piotr, the patches' author to the CC, who also replied.
->>>>
->>>> BTW: that patch is afaics missing a Fixes tag specifying the culprit
->>>> and
->>>> a `Cc: stable@vger.kernel.org # 5.17.x` tag to make sure it's quickly
->>>> backported to the stable tree, as among others explained here:
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/handling-regressions.rst
->>>>
->>>>
->>> Sorry for my inconvenience.
->> Don't worry, everything fine. In a case like...
+
+Le 30/03/2022 à 20:52, Adam Ford a écrit :
+> On Wed, Mar 30, 2022 at 2:53 AM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
 >>
->>> I just fixed my device and wanted to share
->>> solution with the "world". I'm not familiar with all kernel development
->>> convention (yet).
->> ...this someone else should point such details out to the submitter
->> and/or add these tags when applying the patch.
->>
->> @Robert: Do you know which commit causes this regression and could tell
->> us for a proper Fixes: tag?
-> Fixes: 1c35ba3bf97213538b82067acc0f23f18e652226
-
-Just FYI, proper fixes tag usage is described here:
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-
-Hence in this case it should look like this:
-
-Fixes: 1c35ba3bf972 ("media: si2157: use a different namespace for
-firmware")
-
-At this point it likely would be good to submit a v2 of the patch with
-that Fixes tag, the Tested-by tag from Robert, the CC for stable
-backports, and Link: tags linking to all known reports about this
-problem (also described in above document), e.g. like this:
-
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=215726
-Link:
-https://lore.kernel.org/lkml/5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info/
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-
-P.S.: As the Linux kernel's regression tracker I'm getting a lot of
-reports on my table. I can only look briefly into most of them and lack
-knowledge about most of the areas they concern. I thus unfortunately
-will sometimes get things wrong or miss something important. I hope
-that's not the case here; if you think it is, don't hesitate to tell me
-in a public reply, it's in everyone's interest to set the public record
-straight.
-
-#regzbot introduced: 1c35ba3bf972
-
-> Cheers,
-> Piotr Chmura
->> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->>
->> P.S.: As the Linux kernel's regression tracker I'm getting a lot of
->> reports on my table. I can only look briefly into most of them and lack
->> knowledge about most of the areas they concern. I thus unfortunately
->> will sometimes get things wrong or miss something important. I hope
->> that's not the case here; if you think it is, don't hesitate to tell me
->> in a public reply, it's in everyone's interest to set the public record
->> straight.
->>
->>
->>>>> The error was that the rom_id and required
->>>>> fields were swapped in the table, so the non-zero rom_id was taken
->>>>> as a
->>>>> "true" required boolean value, thus incorrectly evaluating that the
->>>>> chip requires a firmware file to operate when in fact it does not.
->>>>> I have tested the patch and found it worked for me. But I do not know
->>>>> how to push this further along:
->>>>> https://patchwork.linuxtv.org/project/linux-media/patch/6f84b7f4-3ede-ae55-e99b-a9d4108c80e2@gmail.com/
->>>>>
->>>>>
->>>> Mauro, what's up here? The patch fixes a regression and thus afaics
->>>> should quickly find its way towards mainline to get it into the stable
->>>> tree, as explained in the (bran new) document linked above.
->>>>
->>>> Ciao, Thorsten
->>>>
->>>>> Gesendet: Dienstag, 29. März 2022 um 10:33 Uhr
->>>>> Von: "Thorsten Leemhuis" <regressions@leemhuis.info>
->>>>> An: "Antti Palosaari" <crope@iki.fi>, "Mauro Carvalho Chehab"
->>>>> <mchehab+huawei@kernel.org>, "Robert Schlabbach" <robert_s@gmx.net>
->>>>> Cc: "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
->>>>> az0123456@gmx.de, "Linux Media Mailing List"
->>>>> <linux-media@vger.kernel.org>, "Linux Kernel Mailing List"
->>>>> <linux-kernel@vger.kernel.org>
->>>>> Betreff: Bug 215726 - si2157.c: mention name of the missing firmware
->>>>> file
->>>>> Hi, this is your Linux kernel regression tracker.
->>>>>
->>>>> I noticed a regression report in bugzilla.kernel.org that afaics
->>>>> nobody
->>>>> acted upon since it was reported about a week ago, that's why I
->>>>> decided
->>>>> to forward it to the lists and all people that seemed to be relevant
->>>>> here. To quote from
->>>>> https://bugzilla.kernel.org/show_bug.cgi?id=215726 :
->>>>>
->>>>>> I get the following error messages when trying to use si2157.ko in
->>>>>> linux 5.17:
->>>>>> si2157 13-0060: found a 'Silicon Labs Si2157-A30 ROM 0x50'
->>>>>> si2157 13-0060: Can't continue without a firmware
->>>>>> I did work in linux 5.16.16 without a firmware file. Unfortunately
->>>>>> the driver does not tell me the name of the missing firmware file.
->>>>> Could somebody take a look into this? Or was this discussed somewhere
->>>>> else already? Or even fixed?
->>>>>
->>>>>
+>> Le 28/02/2022 à 15:08, Benjamin Gaignard a écrit :
+>>> This series aims to make HEVC uapi stable and usable for hardware
+>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>>> and 2 out of the tree drivers (rkvdec and RPI).
 >>>
-> 
-> 
+>>> After the remarks done on version 2, I have completely reworked to patches
+>>> split so changelogs are meaningless. I have also drop "RFC" from the
+>>> titles.
+>>>
+>>> Version 4:
+>>> - Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
+>>> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+>>> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+>>> - Fix space/tab issue in kernel-doc
+>>> - Add patch to change data_bit_offset definition
+>>> - Fix hantro-media SPDX license
+>>> - put controls under stateless section in v4l2-ctrls-defs.c
+>>>
+>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>> Dear reviewers,
+>>
+>> This series is waiting for your feedback,
+> I tried several times with the suggested repos for both the kernel and
+> g-streamer without success getting Fluster to pass any tests on the
+> imx8mq.  I can try again but I likely won't get to it until this
+> weekend.  If I can get it working, I'll test both the 8mq and 8mm.
+
+Thanks a lot for that.
+
+Benjamin
+
+>
+> adam
+>> Thanks,
+>> Benjamin
+>>
+>>> Benjamin
+>>>
+>>>
+>>> Benjamin Gaignard (12):
+>>>     media: uapi: HEVC: Add missing fields in HEVC controls
+>>>     media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>>>       prefix
+>>>     media: uapi: HEVC: Add document uAPI structure
+>>>     media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+>>>       dynamic array
+>>>     media: uapi: Move parsed HEVC pixel format out of staging
+>>>     media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+>>>     media: uapi: Move the HEVC stateless control type out of staging
+>>>     media: controls: Log HEVC stateless control in .std_log
+>>>     media: uapi: Create a dedicated header for Hantro control
+>>>     media: uapi: HEVC: fix padding in v4l2 control structures
+>>>     media: uapi: Change data_bit_offset definition
+>>>     media: uapi: move HEVC stateless controls out of staging
+>>>
+>>> Hans Verkuil (3):
+>>>     videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>>>     v4l2-ctrls: add support for dynamically allocated arrays.
+>>>     vivid: add dynamic array test control
+>>>
+>>>    .../userspace-api/media/drivers/hantro.rst    |   5 -
+>>>    .../media/v4l/ext-ctrls-codec-stateless.rst   | 833 ++++++++++++++++++
+>>>    .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
+>>>    .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>>>    .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>>>    .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>>>    .../media/videodev2.h.rst.exceptions          |   5 +
+>>>    .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>>>    drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+>>>    drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
+>>>    drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>>>    drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>>>    drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>>>    drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>>>    drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>>>    .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
+>>>    include/media/hevc-ctrls.h                    | 250 ------
+>>>    include/media/v4l2-ctrls.h                    |  48 +-
+>>>    include/uapi/linux/hantro-media.h             |  19 +
+>>>    include/uapi/linux/v4l2-controls.h            | 439 +++++++++
+>>>    include/uapi/linux/videodev2.h                |  13 +
+>>>    23 files changed, 1697 insertions(+), 1170 deletions(-)
+>>>    delete mode 100644 include/media/hevc-ctrls.h
+>>>    create mode 100644 include/uapi/linux/hantro-media.h
+>>>
