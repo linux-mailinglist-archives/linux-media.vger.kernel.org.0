@@ -2,204 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ED314ED7CF
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 12:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98BDB4ED80D
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 12:57:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234169AbiCaKf0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 06:35:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55622 "EHLO
+        id S234815AbiCaK7E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 06:59:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234624AbiCaKfX (ORCPT
+        with ESMTP id S232609AbiCaK7D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 06:35:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C9B5F4DA
-        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 03:33:33 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A144A486;
-        Thu, 31 Mar 2022 12:33:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1648722809;
-        bh=mDSAPlurM/GQZyOx50EqV3KgYI5OgiNMyO02fhZthgk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ste3bZXIh6IVo5ezkeG3wguPWpbBiyVdEse6TkxCrOAsxi5csTC6WYlWqI9kz203c
-         deVDXAdY4xcE0ZjUaE44OL9cSEGVJCAbCuOdmR0AW69Aw4bcG2MXBoRRZbZle5Gu2L
-         4gXygM1Jy9TTK9d0aJKqzySFv5Amf4zjgOC5qUB0=
-Date:   Thu, 31 Mar 2022 13:33:27 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        krzysztof.kozlowski@canonical.com,
-        jeanmichel.hautbois@ideasonboard.com,
-        paul.kocialkowski@bootlin.com, paul.elder@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v3 6/8] media: i2c: ov5670: Add runtime_pm operations
-Message-ID: <YkWDd17CaGuQCmw/@pendragon.ideasonboard.com>
-References: <20220329090133.338073-1-jacopo@jmondi.org>
- <20220329090133.338073-7-jacopo@jmondi.org>
- <YkV9kf6UQ5kxZwbe@valkosipuli.retiisi.eu>
+        Thu, 31 Mar 2022 06:59:03 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F37204CA4;
+        Thu, 31 Mar 2022 03:57:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648724236; x=1680260236;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SbehAzlBBXz+AFnSKsbQMvq9BKwOruT5uhQ/m/2u8RY=;
+  b=IxQW2km+iLHo8GVqiMUjvW+GrpEN7hBidMuF+roqQH3O6Ma1a4FvXFlv
+   BYHAfih9gbvrHIlHYEy/EykZLAvwf1CEdy+pyPM/UECSN6tQiB4zM8u3b
+   pOg6zp4CWL+os6F7W6KlgTacgy21bfpPfG+gzzo18OhjdvKkE/otY28+q
+   TbBtAi6fu/7OV1LAKqnd/SQD5Za9BZsn+yCJS4yRE3J8HIhJGFOZ/fzyQ
+   KN3e2N5tC6huvaxhb/JZzSZ3iYoj9e3+0SgRSgjIUwbnkPSGaImqIbUGD
+   hPCQIcpVV2ztciMWzqhtZYnypnqNsslyHv9M33EEBhCLS6HsMJlYzPZj9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="240387264"
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; 
+   d="scan'208";a="240387264"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2022 03:57:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; 
+   d="scan'208";a="522292189"
+Received: from lkp-server02.sh.intel.com (HELO 3231c491b0e2) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 31 Mar 2022 03:57:14 -0700
+Received: from kbuild by 3231c491b0e2 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nZsUL-0000BY-L9;
+        Thu, 31 Mar 2022 10:57:13 +0000
+Date:   Thu, 31 Mar 2022 18:57:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: ERROR: modpost: "v4l2_subdev_link_validate"
+ [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+Message-ID: <202203311819.dOW5i29D-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YkV9kf6UQ5kxZwbe@valkosipuli.retiisi.eu>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   787af64d05cd528aac9ad16752d11bb1c6061bb9
+commit: 63fe3d27b226fe01746bace4d1f1f2164406140d media: platform/*/Kconfig: make manufacturer menus more uniform
+date:   13 days ago
+config: arm-buildonly-randconfig-r003-20220331 (https://download.01.org/0day-ci/archive/20220331/202203311819.dOW5i29D-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=63fe3d27b226fe01746bace4d1f1f2164406140d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 63fe3d27b226fe01746bace4d1f1f2164406140d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash
 
-On Thu, Mar 31, 2022 at 01:08:17PM +0300, Sakari Ailus wrote:
-> On Tue, Mar 29, 2022 at 11:01:31AM +0200, Jacopo Mondi wrote:
-> > Implement the power up and power down routines and install them as
-> > runtime_pm handler for runtime_suspend and runtime_resume operations.
-> > 
-> > Rework the runtime_pm enablement and the chip power handling during
-> > probe, as calling pm_runtime_idle() in a driver that registers no
-> > idle callback is a nop.
-> > 
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  drivers/media/i2c/ov5670.c | 58 ++++++++++++++++++++++++++++++++++----
-> >  1 file changed, 52 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-> > index 9e69b4008917..b63b07d8ca2f 100644
-> > --- a/drivers/media/i2c/ov5670.c
-> > +++ b/drivers/media/i2c/ov5670.c
-> > @@ -4,6 +4,7 @@
-> >  #include <linux/acpi.h>
-> >  #include <linux/clk.h>
-> >  #include <linux/gpio/consumer.h>
-> > +#include <linux/delay.h>
-> >  #include <linux/i2c.h>
-> >  #include <linux/mod_devicetable.h>
-> >  #include <linux/module.h>
-> > @@ -2424,6 +2425,39 @@ static int ov5670_set_stream(struct v4l2_subdev *sd, int enable)
-> >  	return ret;
-> >  }
-> >  
-> > +static int __maybe_unused ov5670_runtime_resume(struct device *dev)
-> > +{
-> > +	struct i2c_client *client = to_i2c_client(dev);
-> > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > +	struct ov5670 *ov5670 = to_ov5670(sd);
-> > +	int ret;
-> > +
-> > +	ret = regulator_bulk_enable(OV5670_NUM_SUPPLIES, ov5670->supplies);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	gpiod_set_value_cansleep(ov5670->pwdn_gpio, 0);
-> > +	gpiod_set_value_cansleep(ov5670->reset_gpio, 0);
-> > +
-> > +	/* 8192 * 2 clock pulses before the first SCCB transaction. */
-> > +	usleep_range(1000, 1500);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int __maybe_unused ov5670_runtime_suspend(struct device *dev)
-> > +{
-> > +	struct i2c_client *client = to_i2c_client(dev);
-> > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > +	struct ov5670 *ov5670 = to_ov5670(sd);
-> > +
-> > +	gpiod_set_value_cansleep(ov5670->reset_gpio, 1);
-> > +	gpiod_set_value_cansleep(ov5670->pwdn_gpio, 1);
-> > +	regulator_bulk_disable(OV5670_NUM_SUPPLIES, ov5670->supplies);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int __maybe_unused ov5670_suspend(struct device *dev)
-> >  {
-> >  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > @@ -2564,14 +2598,25 @@ static int ov5670_probe(struct i2c_client *client)
-> >  		goto error_print;
-> >  	}
-> >  
-> > +	pm_runtime_enable(&client->dev);
-> > +
-> >  	full_power = acpi_dev_state_d0(&client->dev);
-> >  	if (full_power) {
-> > +		ret = pm_runtime_resume_and_get(&client->dev);
-> 
-> This will power the device on, but only on OF systems.
-> 
-> Could you instead power the device on on OF systems explicitly? That's what
-> other drivers do, too. The changes would be probably more simple to
-> implement, too.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Can we fix ACPI to do something more sane instead ? :-) I don't want to
-see those complicated patterns replicated in all drivers.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-> > +		if (ret) {
-> > +			err_msg = "Failed to power on";
-> > +			goto error_print;
-> > +		}
-> > +
-> >  		/* Check module identity */
-> >  		ret = ov5670_identify_module(ov5670);
-> >  		if (ret) {
-> >  			err_msg = "ov5670_identify_module() error";
-> > -			goto error_print;
-> > +			goto error_power_off;
-> >  		}
-> > +
-> > +		/* Set the device's state to active if it's in D0 state. */
-> > +		pm_runtime_set_active(&client->dev);
-> >  	}
-> >  
-> >  	mutex_init(&ov5670->mutex);
-> > @@ -2608,11 +2653,7 @@ static int ov5670_probe(struct i2c_client *client)
-> >  
-> >  	ov5670->streaming = false;
-> >  
-> > -	/* Set the device's state to active if it's in D0 state. */
-> > -	if (full_power)
-> > -		pm_runtime_set_active(&client->dev);
-> > -	pm_runtime_enable(&client->dev);
-> > -	pm_runtime_idle(&client->dev);
-> > +	pm_runtime_suspend(&client->dev);
-> >  
-> >  	return 0;
-> >  
-> > @@ -2625,6 +2666,9 @@ static int ov5670_probe(struct i2c_client *client)
-> >  error_mutex_destroy:
-> >  	mutex_destroy(&ov5670->mutex);
-> >  
-> > +error_power_off:
-> > +	pm_runtime_put(&client->dev);
-> > +
-> >  error_print:
-> >  	dev_err(&client->dev, "%s: %s %d\n", __func__, err_msg, ret);
-> >  
-> > @@ -2641,6 +2685,7 @@ static int ov5670_remove(struct i2c_client *client)
-> >  	v4l2_ctrl_handler_free(sd->ctrl_handler);
-> >  	mutex_destroy(&ov5670->mutex);
-> >  
-> > +	pm_runtime_put(&client->dev);
-> >  	pm_runtime_disable(&client->dev);
-> >  
-> >  	return 0;
-> > @@ -2648,6 +2693,7 @@ static int ov5670_remove(struct i2c_client *client)
-> >  
-> >  static const struct dev_pm_ops ov5670_pm_ops = {
-> >  	SET_SYSTEM_SLEEP_PM_OPS(ov5670_suspend, ov5670_resume)
-> > +	SET_RUNTIME_PM_OPS(ov5670_runtime_suspend, ov5670_runtime_resume, NULL)
-> >  };
-> >  
-> >  #ifdef CONFIG_ACPI
+>> ERROR: modpost: "v4l2_subdev_link_validate" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+>> ERROR: modpost: "v4l2_subdev_get_fwnode_pad_1_to_1" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+>> ERROR: modpost: "v4l2_async_unregister_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+>> ERROR: modpost: "v4l2_async_nf_cleanup" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+>> ERROR: modpost: "v4l2_async_nf_unregister" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+>> ERROR: modpost: "v4l2_async_register_subdev" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+>> ERROR: modpost: "v4l2_async_subdev_nf_register" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+>> ERROR: modpost: "__v4l2_async_nf_add_fwnode_remote" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+>> ERROR: modpost: "v4l2_fwnode_endpoint_parse" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+>> ERROR: modpost: "v4l2_async_nf_init" [drivers/media/platform/nxp/imx-mipi-csis.ko] undefined!
+WARNING: modpost: suppressed 5 unresolved symbol warnings because there were too many)
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+   Depends on MEDIA_SUPPORT && VIDEO_DEV && MEDIA_CONTROLLER
+   Selected by
+   - VIDEO_IMX_MIPI_CSIS && MEDIA_SUPPORT && MEDIA_PLATFORM_SUPPORT && MEDIA_PLATFORM_DRIVERS
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://01.org/lkp
