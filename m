@@ -2,165 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F5464ED31A
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 06:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DADF4ED3DD
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 08:23:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229472AbiCaEyV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 00:54:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52694 "EHLO
+        id S230470AbiCaGZY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 02:25:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229499AbiCaEyT (ORCPT
+        with ESMTP id S230463AbiCaGZX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 00:54:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7B20DBB
-        for <linux-media@vger.kernel.org>; Wed, 30 Mar 2022 21:52:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 719DD614C5
-        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 04:52:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86891C340ED
-        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 04:52:31 +0000 (UTC)
-Date:   Thu, 31 Mar 2022 06:52:29 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220331045231.86891C340ED@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 31 Mar 2022 02:25:23 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 676D31EC9AB;
+        Wed, 30 Mar 2022 23:23:35 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id qa43so45873049ejc.12;
+        Wed, 30 Mar 2022 23:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=w5BXLzExPvLy27DAJ3ZamzJyzqTGo81JxFpaPVP/VLA=;
+        b=olJo5YdOtfqTBQM9Ub3iNkh8oeIA86UqihpWIbCdVSf2biR8yB7EzT3Td1z6nidWJl
+         hXbVwamwSal2W0CcQVDh8JHBHRDUU7cHYk4yX2/2JI9dLA7MfY95oe03qAGgTjF5H783
+         LLQ2VH/g9H9OPMOGog4thFk3jzupi0V2On9pTBSKgDXK+P9tHSIMfSKbiKI3T5iFi5XT
+         U3vyA7lQoBnpsbW+cPWChWWwHVMD5+9MgEBqJ6mZI0p1GBuadVl1qaDG8M6spVZH48gw
+         GTvKV+t+yMt0x8QwdmRvP4U1WaDBAsnwGQCpdIs6VBlGHwcCCbw0KKo2AbKsx0nm8mQ1
+         Tk6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=w5BXLzExPvLy27DAJ3ZamzJyzqTGo81JxFpaPVP/VLA=;
+        b=Eg8VaiFceIrD1Y6w8Fd92sYu7izgEynYm0BkfEODlxW8MhbZjovrJsXZvU4H2zvkl2
+         WifQeaw5XSdkXyYz4BE0A0yIMJqWjaRX6FbNvHJYp8thEsO02ZfF0f4l+KTjgk9eZNLF
+         OmTVGlpiFM/8T3f4btZ2pp7n4gsk0Sa+j0ttnys8Bz05nhmKt5QPrL4k9WgKuYWv6dC9
+         0uzIcsA0goi7OtJba8V4ELgwsbNYz1HquFO00Op9lxIUm6BHS+tkgTQNlUfukyst5LX6
+         bl74E/y8UO87kvSB5exUHelU96EYKARiAM3ovFITOGe5WNUyKkVqqr6o0u6hwfyIcI29
+         FI+w==
+X-Gm-Message-State: AOAM530AC4Q+wwYv3KJt8lB9RWltBVVrMoXS26qwC9F6aGImvtQW2Wnf
+        37eSxzh3tz+E8lX2wqoG7mc=
+X-Google-Smtp-Source: ABdhPJxO80/M/f7BqS/olgn8Kzmn3xXrn20lQSM53d9a1FvcAf1W9tQ77sqsf7hkTpHjWEUDxo1xCA==
+X-Received: by 2002:a17:907:1614:b0:6df:678a:a7d5 with SMTP id hb20-20020a170907161400b006df678aa7d5mr3507506ejc.719.1648707814453;
+        Wed, 30 Mar 2022 23:23:34 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0eab60.dip0.t-ipconnect.de. [91.14.171.96])
+        by smtp.gmail.com with ESMTPSA id hp11-20020a1709073e0b00b006dfd53a0e39sm9004473ejc.135.2022.03.30.23.23.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Mar 2022 23:23:33 -0700 (PDT)
+Message-ID: <2d1f9ba9-ea2a-e41c-eae6-0ba348cdf202@gmail.com>
+Date:   Thu, 31 Mar 2022 08:23:32 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [Linaro-mm-sig] [PATCH next] dma-buf/sync-file: do not allow zero
+ size allocations
+Content-Language: en-US
+To:     Pavel Skripkin <paskripkin@gmail.com>, sumit.semwal@linaro.org,
+        gustavo@padovan.org, christian.koenig@amd.com,
+        daniel.vetter@ffwll.ch
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com
+References: <20220329221425.22691-1-paskripkin@gmail.com>
+ <8af3d213-6cb7-a021-c198-e1bd37c47e7c@gmail.com>
+ <ecf7ccdd-0d6f-9407-6778-ae7f0a6bf538@gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <ecf7ccdd-0d6f-9407-6778-ae7f0a6bf538@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
 
-date:			Thu Mar 31 05:00:12 CEST 2022
-media-tree git hash:	ba2c670ae84bad705ec023bfa7a48f7f8eab5e16
-media_build git hash:	47e6d5a60b5da94db0118fa795dd0fcba646a0c7
-v4l-utils git hash:	52b4b9f26e1f4ee606a4885c117c088d681887fe
-edid-decode git hash:	85e8c9c70167030c1367493e0c2f15a903acf21f
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7843-g5397282c-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 4b73e0f50a123901c96ab376be40a340da0b4439
-host hardware:		x86_64
-host os:		5.16.0-1-amd64
+Am 30.03.22 um 20:24 schrieb Pavel Skripkin:
+> Hi Christian,
+>
+> On 3/30/22 10:09, Christian König wrote:
+>> That problem is already fixed with patch 21d139d73f77 dma-buf/sync-file:
+>> fix logic error in new fence merge code.
+>>
+>> Am 30.03.22 um 00:14 schrieb Pavel Skripkin:
+>>> syzbot reported GPF in dma_fence_array_first(), which is caused by
+>>> dereferencing ZERO_PTR in dma-buf internals.
+>>>
+>>> ZERO_PTR was generated in sync_file_merge(). This functuion tries to
+>>> reduce allocation size, but does not check if it reducing to 0.
+>>
+>> This is actually perfectly ok. The code above should have prevented the
+>> size to become 0.
+>>
+>> Regards,
+>> Christian.
+>>
+>
+> Thanks for your reply! I see that 21d139d73f77 fixes GPF in 
+> dma_fence_array_first(), but what about this part:
+>
+>>>   -    if (num_fences > INT_MAX)
+>>> +    if (num_fences > INT_MAX || !num_fences)
+>>>           goto err_free_sync_file;
+>>>         fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
+>>> @@ -264,7 +264,7 @@ static struct sync_file *sync_file_merge(const 
+>>> char *name, struct sync_file *a,
+>>>       if (index == 0)
+>
+> If num_fences is equal to zero then fences dereference will cause an 
+> oops. Or this one is also fixed in your tree?
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.308-i686: OK
-linux-4.9.308-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.273-i686: OK
-linux-4.14.273-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.236-i686: OK
-linux-4.19.236-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.144-i686: OK
-linux-5.4.144-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.62-i686: OK
-linux-5.10.62-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.13.14-i686: OK
-linux-5.13.14-x86_64: OK
-linux-5.14.1-i686: OK
-linux-5.14.1-x86_64: OK
-linux-5.15.1-i686: OK
-linux-5.15.1-x86_64: OK
-linux-5.16.1-i686: OK
-linux-5.16.1-x86_64: OK
-linux-5.17.1-i686: OK
-linux-5.17.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-kerneldoc: OK
+Well it is illegal for sync_file->fence to be NULL or we would run into 
+NULL pointer dereference much more often, so num_fences can't be zero 
+here either.
 
-Detailed results are available here:
+Regards,
+Christian.
 
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
+>
+>
+> Thanks!
+>
+>
+>
+>
+> With regards,
+> Pavel Skripkin
 
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
