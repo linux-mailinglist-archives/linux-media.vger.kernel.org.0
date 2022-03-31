@@ -2,287 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70D934ED524
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 10:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74F8F4ED62B
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 10:49:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232508AbiCaIFo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 04:05:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59924 "EHLO
+        id S233262AbiCaIvH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 04:51:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232138AbiCaIFl (ORCPT
+        with ESMTP id S233242AbiCaIvD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 04:05:41 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E37F5FE1;
-        Thu, 31 Mar 2022 01:03:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648713833; x=1680249833;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hsAJrheBoayi+K8mxNtCKJECO7Ufn3EWs6stfrLZWoE=;
-  b=HtuxN5EuQyeyKtO1j/OyIFzyVqqyysfZhEehVYp1KD9fGDAAVyxgxLgh
-   hy1CmJXmdVYenbdOjmxhwoV7Z3X7rLSIuAiApbZrrP+6P3mbINRK4aVIG
-   27wM/29uzDMCsVfYwfyrBj/seZEmKzlk8wn5sUYYkdPy2tURIMl4wCo0H
-   xLPWTuC00VUfoNZ3vJ2IErUE2q12o7cIkR/FwWs5dP2B0X2tSgoMpp+1E
-   pe1MVQMXKz/tbWTYvAW9BT6UcaV/ElITB5+lR2GyTVpkcghKFq+KlTKJX
-   1h+xOVQXS0TcXODrvUwaA6gAEd5C09PXgPjix3YZ6pb8xmXUUAr60JtqG
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259462311"
-X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; 
-   d="scan'208";a="259462311"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2022 01:03:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; 
-   d="scan'208";a="520319736"
-Received: from lkp-server02.sh.intel.com (HELO 3231c491b0e2) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 31 Mar 2022 01:03:45 -0700
-Received: from kbuild by 3231c491b0e2 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nZpmS-00004g-Pi;
-        Thu, 31 Mar 2022 08:03:44 +0000
-Date:   Thu, 31 Mar 2022 16:02:59 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Thu, 31 Mar 2022 04:51:03 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75395344C5
+        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 01:49:14 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id j8so12595014pll.11
+        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 01:49:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W056jK4JO9Wem+3qlNSvwaayL2PwMR77g5EtZS2gUYw=;
+        b=WmCBHXFFuScgmmMGMP/VH609AxnAySmVJWaJZ62cOndAUFjHiwuhvCMbqdzYxL0PqJ
+         O8RwQn+EO5U1GQpLfh2uEeY3psnAoZeQKIzE53AC53docGkPbTd37tJD5jjYxV5T0jcV
+         17l9p2c+I1LPqJo4fyJQjnK3ZbZE0HKbzk748=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W056jK4JO9Wem+3qlNSvwaayL2PwMR77g5EtZS2gUYw=;
+        b=zecQVzPeie/nzaGdAP9V+LJk5jcpkamUy0Y/JiO0QFBRZc/BqH7VXHjzrEC03n5Bb0
+         IocWLcy7cA3KzkOUwK+wc0yi8kDXLSw79i3NH9+U1HObKYPyn34J54JwNnqAuNYzBCXb
+         cEBn5hydH4xkojOui5l6tbkSEIDjE7WpbzwMjK+HzUdVowk537ta3l6xXPyX4uspjrkT
+         gXZLA3sPkM21DDNFYhslYlZbyeuYrlw6uqPQSHziFu/vLc3t8ys8fgFPe1sEl0DC6wCy
+         B4CQWME1bGKqzLb4aq/Pgi7I8kEoAWPyV61Crs09hM7pOtDAhgo50mjOhyuNFd82ks6w
+         MZ1Q==
+X-Gm-Message-State: AOAM532E3memJyqGPuE4uoiXrMJbVNP19R3cx6urqAJdMKIe8wQKIgDu
+        GOXeL6LNh+d6ftxxfnh6g85l/A==
+X-Google-Smtp-Source: ABdhPJyIyUj9Alp436tInM7YNihHEEDUYPNgqt+AGVoPl3O5jctUXjLSQUMXrAN+OoCit0uHawL0gQ==
+X-Received: by 2002:a17:902:ea03:b0:154:4af3:bb5e with SMTP id s3-20020a170902ea0300b001544af3bb5emr4124775plg.95.1648716553888;
+        Thu, 31 Mar 2022 01:49:13 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:deb3:b2d3:c33d:e877])
+        by smtp.gmail.com with ESMTPSA id mw10-20020a17090b4d0a00b001c7cc82daabsm10408026pjb.1.2022.03.31.01.49.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 01:49:13 -0700 (PDT)
+From:   Chen-Yu Tsai <wenst@chromium.org>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Irui Wang <irui.wang@mediatek.com>,
-        George Sun <george.sun@mediatek.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-kernel@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Steve Cho <stevecho@chromium.org>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v8, 16/17] media: mediatek: vcodec: support stateless VP9
- decoding
-Message-ID: <202203311506.19PAVLDA-lkp@intel.com>
-References: <20220331024801.29229-17-yunfei.dong@mediatek.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: hantro: Empty encoder capture buffers by default
+Date:   Thu, 31 Mar 2022 16:49:06 +0800
+Message-Id: <20220331084907.628349-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220331024801.29229-17-yunfei.dong@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
+The payload size for encoder capture buffers is set by the driver upon
+finishing encoding each frame, based on the encoded length returned from
+hardware, and whatever header and padding length used. Setting a
+non-zero default serves no real purpose, and also causes issues if the
+capture buffer is returned to userspace unused, confusing the
+application.
 
-Thank you for the patch! Yet something to improve:
+Instead, always set the payload size to 0 for encoder capture buffers
+when preparing them.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master next-20220331]
-[cannot apply to remoteproc/rproc-next linux/master v5.17]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+Fixes: 082aaecff35f ("media: hantro: Fix .buf_prepare")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunfei-Dong/media-mediatek-vcodec-Add-vdec-enable-disable-hardware-helpers/20220331-114806
-base:   git://linuxtv.org/media_tree.git master
-config: parisc-buildonly-randconfig-r002-20220331 (https://download.01.org/0day-ci/archive/20220331/202203311506.19PAVLDA-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7b396103061b487d6e9bc84be29de59e7eccc4c6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yunfei-Dong/media-mediatek-vcodec-Add-vdec-enable-disable-hardware-helpers/20220331-114806
-        git checkout 7b396103061b487d6e9bc84be29de59e7eccc4c6
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=parisc SHELL=/bin/bash drivers/media/platform/mediatek/vcodec/
+This was previously incorrectly squashed into my Hantro encoder cmd
+patch [1].
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+[1] https://lore.kernel.org/linux-media/20220301042225.1540019-1-wenst@chromium.org/
 
-All error/warnings (new ones prefixed by >>):
+ drivers/staging/media/hantro/hantro_v4l2.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c: In function 'vdec_vp9_slice_map_counts_eob_coef':
->> drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1235:69: error: assignment to 'u32 (*)[3]' {aka 'unsigned int (*)[3]'} from incompatible pointer type 'u32 (*)[4]' {aka 'unsigned int (*)[4]'} [-Werror=incompatible-pointer-types]
-    1235 |                                 counts_helper->coeff[i][j][k][l][m] =
-         |                                                                     ^
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1242:69: error: assignment to 'u32 (*)[3]' {aka 'unsigned int (*)[3]'} from incompatible pointer type 'u32 (*)[4]' {aka 'unsigned int (*)[4]'} [-Werror=incompatible-pointer-types]
-    1242 |                                 counts_helper->coeff[i][j][k][l][m] =
-         |                                                                     ^
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c: In function 'vdec_vp9_slice_counts_map_helper':
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1257:25: warning: unused variable 'm' [-Wunused-variable]
-    1257 |         int i, j, k, l, m;
-         |                         ^
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1257:22: warning: unused variable 'l' [-Wunused-variable]
-    1257 |         int i, j, k, l, m;
-         |                      ^
-   In file included from include/linux/kernel.h:29,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:7:
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c: In function 'vdec_vp9_slice_lat_decode':
->> include/linux/kern_levels.h:5:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:418:25: note: in definition of macro 'printk_index_wrap'
-     418 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:132:17: note: in expansion of macro 'printk'
-     132 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/linux/printk.h:576:9: note: in expansion of macro 'no_printk'
-     576 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:576:19: note: in expansion of macro 'KERN_DEBUG'
-     576 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h:45:9: note: in expansion of macro 'pr_debug'
-      45 |         pr_debug("[MTK_VCODEC][%d]: " fmt "\n",                 \
-         |         ^~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1981:9: note: in expansion of macro 'mtk_vcodec_debug'
-    1981 |         mtk_vcodec_debug(instance, "lat dma 1 0x%llx 0x%llx\n",
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 6 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:418:25: note: in definition of macro 'printk_index_wrap'
-     418 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:132:17: note: in expansion of macro 'printk'
-     132 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/linux/printk.h:576:9: note: in expansion of macro 'no_printk'
-     576 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:576:19: note: in expansion of macro 'KERN_DEBUG'
-     576 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h:45:9: note: in expansion of macro 'pr_debug'
-      45 |         pr_debug("[MTK_VCODEC][%d]: " fmt "\n",                 \
-         |         ^~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1981:9: note: in expansion of macro 'mtk_vcodec_debug'
-    1981 |         mtk_vcodec_debug(instance, "lat dma 1 0x%llx 0x%llx\n",
-         |         ^~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c: In function 'vdec_vp9_slice_core_decode':
->> include/linux/kern_levels.h:5:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:418:25: note: in definition of macro 'printk_index_wrap'
-     418 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:132:17: note: in expansion of macro 'printk'
-     132 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/linux/printk.h:576:9: note: in expansion of macro 'no_printk'
-     576 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:576:19: note: in expansion of macro 'KERN_DEBUG'
-     576 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h:45:9: note: in expansion of macro 'pr_debug'
-      45 |         pr_debug("[MTK_VCODEC][%d]: " fmt "\n",                 \
-         |         ^~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:2050:9: note: in expansion of macro 'mtk_vcodec_debug'
-    2050 |         mtk_vcodec_debug(instance, "core dma_addr_end 0x%llx\n", pfc->vsi.trans.dma_addr_end);
-         |         ^~~~~~~~~~~~~~~~
-   At top level:
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:534:26: warning: 'vdec_vp9_slice_mv_fp_tree' defined but not used [-Wunused-const-variable=]
-     534 | static const signed char vdec_vp9_slice_mv_fp_tree[6] = {
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:529:26: warning: 'vdec_vp9_slice_mv_class0_tree' defined but not used [-Wunused-const-variable=]
-     529 | static const signed char vdec_vp9_slice_mv_class0_tree[2] = {
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:523:26: warning: 'vdec_vp9_slice_mv_class_tree' defined but not used [-Wunused-const-variable=]
-     523 | static const signed char vdec_vp9_slice_mv_class_tree[20] = {
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:518:26: warning: 'vdec_vp9_slice_mv_joint_tree' defined but not used [-Wunused-const-variable=]
-     518 | static const signed char vdec_vp9_slice_mv_joint_tree[6] = {
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:513:26: warning: 'vdec_vp9_slice_switchable_interp_tree' defined but not used [-Wunused-const-variable=]
-     513 | static const signed char vdec_vp9_slice_switchable_interp_tree[4] = {
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:508:26: warning: 'vdec_vp9_slice_partition_tree' defined but not used [-Wunused-const-variable=]
-     508 | static const signed char vdec_vp9_slice_partition_tree[6] = {
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:503:26: warning: 'vdec_vp9_slice_intra_mode_tree' defined but not used [-Wunused-const-variable=]
-     503 | static const signed char vdec_vp9_slice_intra_mode_tree[18] = {
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:498:26: warning: 'vdec_vp9_slice_inter_mode_tree' defined but not used [-Wunused-const-variable=]
-     498 | static const signed char vdec_vp9_slice_inter_mode_tree[6] = {
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +1235 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-
-  1217	
-  1218	static
-  1219	void vdec_vp9_slice_map_counts_eob_coef(unsigned int i, unsigned int j, unsigned int k,
-  1220						struct vdec_vp9_slice_frame_counts *counts,
-  1221						struct v4l2_vp9_frame_symbol_counts *counts_helper)
-  1222	{
-  1223		u32 l, m;
-  1224	
-  1225		/*
-  1226		 * helper eo -> mtk eo
-  1227		 * helpre e1 -> mtk c3
-  1228		 * helper c0 -> c0
-  1229		 * helper c1 -> c1
-  1230		 * helper c2 -> c2
-  1231		 */
-  1232		for (l = 0; l < 6; l++) {
-  1233			for (m = 0; m < VP9_BAND_6(l); m++) {
-  1234				if (l == 0) {
-> 1235					counts_helper->coeff[i][j][k][l][m] =
-  1236						&counts->coef_probs[i][j][k].band_0[m];
-  1237					counts_helper->eob[i][j][k][l][m][0] =
-  1238						&counts->eob_branch[i][j][k].band_0[m];
-  1239					counts_helper->eob[i][j][k][l][m][1] =
-  1240						&counts->coef_probs[i][j][k].band_0[m][3];
-  1241				} else {
-  1242					counts_helper->coeff[i][j][k][l][m] =
-  1243						&counts->coef_probs[i][j][k].band_1_5[l - 1][m];
-  1244					counts_helper->eob[i][j][k][l][m][0] =
-  1245						&counts->eob_branch[i][j][k].band_1_5[l - 1][m];
-  1246					counts_helper->eob[i][j][k][l][m][1] =
-  1247						&counts->coef_probs[i][j][k].band_1_5[l - 1][m][3];
-  1248				}
-  1249			}
-  1250		}
-  1251	}
-  1252	
-
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index 67148ba346f5..261beb0c40f6 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -733,8 +733,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
+ 	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
+ 	 * it to buffer length).
+ 	 */
+-	if (V4L2_TYPE_IS_CAPTURE(vq->type))
+-		vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
++	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
++		if (ctx->is_encoder)
++			vb2_set_plane_payload(vb, 0, 0);
++		else
++			vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
++	}
+ 
+ 	return 0;
+ }
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1.1021.g381101b075-goog
+
