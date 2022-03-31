@@ -2,37 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A6C54ED887
-	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 13:32:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39F864ED8A8
+	for <lists+linux-media@lfdr.de>; Thu, 31 Mar 2022 13:42:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235163AbiCaLeC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 07:34:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40506 "EHLO
+        id S235132AbiCaLok (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 07:44:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235158AbiCaLeB (ORCPT
+        with ESMTP id S232698AbiCaLoj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 07:34:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED3BE182DAE;
-        Thu, 31 Mar 2022 04:32:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 875ED615DB;
-        Thu, 31 Mar 2022 11:32:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D67C340F3;
-        Thu, 31 Mar 2022 11:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1648726331;
-        bh=t0lC1RQIMJQ9wmY9jq+yTfW7RjoXXGVpdb/3uZ0FJ0Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fNHj4AGDpAZrOi7HiVrnjfUu7pjzWkaPko+JNLbcKZCq1IcQNPbnZI3QbEQF8yvRD
-         Rvk9BPTAwt7es2EjGzdbFqgtTVi8dudTKL5PzhagULHwH7Fd7NF7hUGYl/TkAaJfQP
-         HfvLROs/ZB3GYsvWt/+ImhAkzMugwhVX4fBop67k=
-Date:   Thu, 31 Mar 2022 13:32:07 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Nas Chung <nas.chung@chipsnmedia.com>
-Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Thu, 31 Mar 2022 07:44:39 -0400
+Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 710D5176D16
+        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 04:42:52 -0700 (PDT)
+Received: by mail-vk1-xa2c.google.com with SMTP id l184so13226315vkh.0
+        for <linux-media@vger.kernel.org>; Thu, 31 Mar 2022 04:42:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=0x0f.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Q9JAIiZystlqDHnsIruZg9DSbtqMdv6zP+X46BkhVvM=;
+        b=ZkIJZGn9StXLui9Lz1TFK/CDvkJEw1tedIW+BqRnzG74AmNZmaUwWVg/FPy/pI6DOy
+         dlPvO+6izAhJ2TmROCN3utIeKaJcbUOwbhXo/TwrV/DWW8qV5v02dSUEEH9jOBa5x+YA
+         rxiWx3hx89lnL9/G8SxPnH7hBPwZUXQl7JyJg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Q9JAIiZystlqDHnsIruZg9DSbtqMdv6zP+X46BkhVvM=;
+        b=fGVlbPisCKA+TovIlo66p1FaiBSXvVWkDc6MXCnkjga4Vp0ZzSNb8TXm9x3ZOgW0lK
+         dsWuQAcraPZg0xfrqkZsmm6SStBAFhMPNwABMMhiMHyhDY5BmmD4icSwsdeXQoZHcztW
+         IbKWLt500gAmmR233ut7WAlMxuqWjDgESpJNrpFlrZ5UolqUl86xutvEGUAT7wEfGGY/
+         u25azF8JAn6x8ODAG+zCbV+iWfn+faTdcqxzsxqoqdJ4BRIAWB5b0ijDGYO/5HxAX+OY
+         RH/R6Trth9vKEDoeLhejutz1tfucK9FU3yMQ/PagtfAnbD9AG0etrNaEHTeVo4kyjSSz
+         7Bqg==
+X-Gm-Message-State: AOAM530T8E9lhRs3lJj/mmRs+IFFj9vp/rFaeZzDhlAdM0BD46TcBF6m
+        tHsjSPhHYXfxOTWcGw3rbZN8603n+PPsS+qpDdbItg==
+X-Google-Smtp-Source: ABdhPJyHv+JRYWR+69lE+O9Ro6H6M/++dU9nRCMqSlPZKVrx7IFNDSy2/ShFmYiSYt6MZSObYhloGA4u+csov29YbY8=
+X-Received: by 2002:a05:6122:9a6:b0:33f:f23e:bdee with SMTP id
+ g38-20020a05612209a600b0033ff23ebdeemr1995153vkd.6.1648726971209; Thu, 31 Mar
+ 2022 04:42:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <SL2P216MB12463DE2E1E100E2498A5C33FBE19@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+ <SL2P216MB1246D7900A0B9620F1E1A038FBE19@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+ <YkWRN4ac0ivRn4aB@kroah.com>
+In-Reply-To: <YkWRN4ac0ivRn4aB@kroah.com>
+From:   Daniel Palmer <daniel@0x0f.com>
+Date:   Thu, 31 Mar 2022 20:42:40 +0900
+Message-ID: <CAFr9PXm3Mvr0guGoPDKmashMhFG6OQMvXHxwX-SD5ZHPi_sw4g@mail.gmail.com>
+Subject: Re: [PATCH v6 4/6] staging: media: wave5: Add TODO file
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Nas Chung <nas.chung@chipsnmedia.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
@@ -48,18 +69,10 @@ Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         Scott Woo <scott.woo@chipsnmedia.com>,
         "olivier.crete@collabora.com" <olivier.crete@collabora.com>,
         "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "daniel@0x0f.com" <daniel@0x0f.com>
-Subject: Re: [PATCH v6 4/6] staging: media: wave5: Add TODO file
-Message-ID: <YkWRN4ac0ivRn4aB@kroah.com>
-References: <SL2P216MB12463DE2E1E100E2498A5C33FBE19@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
- <SL2P216MB1246D7900A0B9620F1E1A038FBE19@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SL2P216MB1246D7900A0B9620F1E1A038FBE19@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -68,46 +81,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 09:55:10AM +0000, Nas Chung wrote:
-> From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> 
-> Add a TODO file listing all that is need for destaging.
-> 
-> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/wave5/TODO | 64 ++++++++++++++++++++++++++++++++
->  1 file changed, 64 insertions(+)
->  create mode 100644 drivers/staging/media/wave5/TODO
-> 
-> diff --git a/drivers/staging/media/wave5/TODO b/drivers/staging/media/wave5/TODO
-> new file mode 100644
-> index 000000000000..425ed42a234c
-> --- /dev/null
-> +++ b/drivers/staging/media/wave5/TODO
-> @@ -0,0 +1,64 @@
-> +* Test on real silicon once available
-> +
-> +  This driver has so far been tested on pre-silicon FPGA and on the beta BeagleV
-> +  board which uses the StarFive JH7100 beta SoC.
-> +
-> +  Testing on FPGA shows it working fine, though the FPGA uses polled interrupts
-> +  and copied buffers between the host and it's on board RAM.
-> +
-> +  Testing on BeagleV shows buffer corruption that is currently attributed to a
-> +  known silicon issue in the SoC that makes the cache coherent interconnect not
-> +  so coherent.
-> +  This can likely be solved when the riscv non-coherent dma support lands and
-> +  provide optional v4l2 non-contiguous allocator, though it remains to be seen
-> +  whether support non-coherent use cases will be useful in real world hw.
-> +
-> +  Until we can test and resolve any issues on final silicon (due 2H 2021)
-> +  this driver should remain in staging.
+Hi Greg,
 
-Then why not just wait?  Why merge this now?  What is the benifit of us
-taking this code at this point in time for hardware that is no one has
-as it is not even created?
+On Thu, 31 Mar 2022 at 20:32, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> > +  Until we can test and resolve any issues on final silicon (due 2H 2021)
+> > +  this driver should remain in staging.
+>
+> Then why not just wait?  Why merge this now?  What is the benifit of us
+> taking this code at this point in time for hardware that is no one has
+> as it is not even created?
 
-thanks,
+FWIW there is an SoC that is supported (if console from initramfs on
+uart counts..) in mainline, Sigmastar ssd202d, that has this IP so it
+exists in the wild.
+I have tried to get this driver running on it and it did something but
+didn't get far enough to actually decode video.
 
-greg k-h
+Cheers,
+
+Daniel
