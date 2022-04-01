@@ -2,109 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB3484EE487
-	for <lists+linux-media@lfdr.de>; Fri,  1 Apr 2022 01:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AA904EE668
+	for <lists+linux-media@lfdr.de>; Fri,  1 Apr 2022 05:04:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241782AbiCaXNU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Mar 2022 19:13:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40802 "EHLO
+        id S244337AbiDADGQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Mar 2022 23:06:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231195AbiCaXNT (ORCPT
+        with ESMTP id S237809AbiDADGP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Mar 2022 19:13:19 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1883137036;
-        Thu, 31 Mar 2022 16:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=fTxX/p6obBvky64mbR0nB0OSZcvPaFGTN5Hld5X7N3E=; b=tjF3qIn/A6M6sd1qqEqQNCi2fq
-        8ztknsYYzhK12PH7wagGPhbiB5MZnL+k94atU3VKS7NJFiRwsYiNVTHSK1vWw5Q0FrvLUsdHnXKGM
-        lWjHR2GoNqgpIDrHdtCNysraQHsSbSILq1BCD2ZLOJ1yQyjOQC+NTLWlCmLa4+BUP7D3nVAgyxQoU
-        /p9zJ6/kg7kwnpnCEr/nTV5m1owfTqnvvo7VzMpfPyEshLs8YB8ZnpMJi0H2FQh0OhrFi3XEasCvB
-        yBt8LHiE7VMBSpCMJmAgBadSsTj0+yHlxulc+kWUyAo2i9AfC0T8h4toYNZRdVbCeg7dceKSfO4Qb
-        PlxWqRFg==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1na3wv-003vWN-Ay; Thu, 31 Mar 2022 23:11:29 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thu, 31 Mar 2022 23:06:15 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41D5C19143A;
+        Thu, 31 Mar 2022 20:04:25 -0700 (PDT)
+X-UUID: 6ba7922911bf4a20be9470591153566f-20220401
+X-UUID: 6ba7922911bf4a20be9470591153566f-20220401
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 619558491; Fri, 01 Apr 2022 11:04:20 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 1 Apr 2022 11:04:18 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 1 Apr 2022 11:04:08 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v2] media: nxp: imx-mips-csis depends on VIDEO_DEV
-Date:   Thu, 31 Mar 2022 16:11:28 -0700
-Message-Id: <20220331231128.22015-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.34.1
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH] media: mediatek: vcodec: fix v4l2 compliance decoder cmd test fail
+Date:   Fri, 1 Apr 2022 11:04:06 +0800
+Message-ID: <20220401030406.6437-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-imx-mipi-csis uses interfaces that are made available by VIDEO_DEV,
-so the driver should depend on VIDEO_DEV to eliminate build errors.
+Will return -EINVAL using standard framework api when test stateless
+decoder with cmd VIDIOC_(TRY)DECODER_CMD.
 
-Fixes these build errors:
+Using another return value to adjust v4l2 compliance test for user
+driver(GStreamer/Chrome) won't use decode cmd.
 
-aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_calculate_params':
-imx-mipi-csis.c:(.text+0x2ec): undefined reference to `v4l2_get_link_freq'
-aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_async_register':
-imx-mipi-csis.c:(.text+0x464): undefined reference to `v4l2_async_nf_init'
-aarch64-linux-ld: imx-mipi-csis.c:(.text+0x48c): undefined reference to `v4l2_fwnode_endpoint_parse'
-aarch64-linux-ld: imx-mipi-csis.c:(.text+0x538): undefined reference to `__v4l2_async_nf_add_fwnode_remote'
-aarch64-linux-ld: imx-mipi-csis.c:(.text+0x56c): undefined reference to `v4l2_async_subdev_nf_register'
-aarch64-linux-ld: imx-mipi-csis.c:(.text+0x57c): undefined reference to `v4l2_async_register_subdev'
-aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_notify_bound':
-imx-mipi-csis.c:(.text+0x5e0): undefined reference to `v4l2_create_fwnode_links_to_pad'
-aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_probe':
-imx-mipi-csis.c:(.text+0x1088): undefined reference to `v4l2_subdev_init'
-aarch64-linux-ld: imx-mipi-csis.c:(.text+0x1148): undefined reference to `v4l2_async_nf_unregister'
-aarch64-linux-ld: imx-mipi-csis.c:(.text+0x1150): undefined reference to `v4l2_async_nf_cleanup'
-aarch64-linux-ld: imx-mipi-csis.c:(.text+0x1158): undefined reference to `v4l2_async_unregister_subdev'
-aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_set_fmt':
-imx-mipi-csis.c:(.text+0x1348): undefined reference to `v4l_bound_align_image'
-aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_s_stream':
-imx-mipi-csis.c:(.text+0x14bc): undefined reference to `v4l2_subdev_call_wrappers'
-aarch64-linux-ld: imx-mipi-csis.c:(.text+0x14c0): undefined reference to `v4l2_subdev_call_wrappers'
-aarch64-linux-ld: imx-mipi-csis.c:(.text+0x1624): undefined reference to `v4l2_subdev_call_wrappers'
-aarch64-linux-ld: imx-mipi-csis.c:(.text+0x1628): undefined reference to `v4l2_subdev_call_wrappers'
-aarch64-linux-ld: imx-mipi-csis.c:(.text+0x16d0): undefined reference to `v4l2_subdev_call_wrappers'
-aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:imx-mipi-csis.c:(.text+0x16d4): more undefined references to `v4l2_subdev_call_wrappers' follow
-aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_remove':
-aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:(.rodata+0x4b8): undefined reference to `v4l2_subdev_get_fwnode_pad_1_to_1'
-aarch64-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:(.rodata+0x4c8): undefined reference to `v4l2_subdev_link_validate'
-
-Fixes: 46fb99951fe2 ("media: platform: place NXP drivers on a separate dir")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-media@vger.kernel.org
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 ---
-v2: fix copy-pasta Subject: line problem
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
- drivers/media/platform/nxp/Kconfig |    1 +
- 1 file changed, 1 insertion(+)
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+index 3859e4c651c6..69b0e797d342 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+@@ -51,8 +51,7 @@ static int vidioc_try_decoder_cmd(struct file *file, void *priv,
+ 
+ 	/* Use M2M stateless helper if relevant */
+ 	if (ctx->dev->vdec_pdata->uses_stateless_api)
+-		return v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv,
+-								cmd);
++		return -ENOTTY;
+ 	else
+ 		return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
+ }
+-- 
+2.25.1
 
---- linux-next-20220331.orig/drivers/media/platform/nxp/Kconfig
-+++ linux-next-20220331/drivers/media/platform/nxp/Kconfig
-@@ -7,6 +7,7 @@ comment "NXP media platform drivers"
- config VIDEO_IMX_MIPI_CSIS
- 	tristate "NXP MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
- 	depends on ARCH_MXC || COMPILE_TEST
-+	depends on VIDEO_DEV
- 	select MEDIA_CONTROLLER
- 	select V4L2_FWNODE
- 	select VIDEO_V4L2_SUBDEV_API
