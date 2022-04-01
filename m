@@ -2,122 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BA884EF8E5
-	for <lists+linux-media@lfdr.de>; Fri,  1 Apr 2022 19:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 927B14EFA0D
+	for <lists+linux-media@lfdr.de>; Fri,  1 Apr 2022 20:42:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349969AbiDAR0e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Apr 2022 13:26:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33462 "EHLO
+        id S1351375AbiDASnp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Apr 2022 14:43:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349947AbiDAR0c (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Apr 2022 13:26:32 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250331D2070
-        for <linux-media@vger.kernel.org>; Fri,  1 Apr 2022 10:24:42 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id yy13so7296684ejb.2
-        for <linux-media@vger.kernel.org>; Fri, 01 Apr 2022 10:24:42 -0700 (PDT)
+        with ESMTP id S1351338AbiDASnl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Apr 2022 14:43:41 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3ACA216A4C
+        for <linux-media@vger.kernel.org>; Fri,  1 Apr 2022 11:41:50 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id k23so4181841ejd.3
+        for <linux-media@vger.kernel.org>; Fri, 01 Apr 2022 11:41:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xWq0Bx0LmZDm5Y8w65sfJx2cyjtA0fBP46ee9Dab/58=;
-        b=j/YGux/o+fdqdyDLwRmwRwmlBTZpZiXgkjdsgKhLSEiVumFYY1jH3R/mPf1YYpf/hp
-         PvJ2rdIuKUiAjpYhbMXM6066bu2+lmI7v6SqAdvlYJYaAsQBqUGAjCgzXI6uuQbgMwyG
-         NH2rcmnudgDUUnlqwyBvhd5PWE9JmWt57T0ZE=
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=DLtOWenxXCw5vQfabcGIJp+Je2gVQjc6VzKW0XdhyiQ=;
+        b=h+rLLWbMQ/iHnS5/pj19fhLvsaEM9Wtdy1qxj2U1tvLPMxqJCjQosFe2F24w4FuEik
+         zSrjnDN8RVUqsGTehE0RLFU9iAnAgsZLy6+HaVFpgiQgyaH0bi2nNoUnW/PN++7erDWp
+         RX2laVeByhssITiwvlf5JqxR9o7iIybqO73rq6iDBg0II0FI27oeey/L41eoch8FqdX9
+         HSLjysJJ9QsP1Keic9p/q3hcmxjndegS2Td9/sQ/qsgWCFS7CVf9el3ursRzkfzAihRs
+         Haf70E3SoFpNKPytMrE2H1AsOY13tYTorkjDKu54Gzzinf56UPzglOwHHVZBMjHJCiR4
+         t3yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xWq0Bx0LmZDm5Y8w65sfJx2cyjtA0fBP46ee9Dab/58=;
-        b=o7U3abS3thAicX+e0HzHq3a9KaWaDDYPmMhnCWhocYXx305nb52X3LUWUSGPqDaaKw
-         n5eHOTrln5Zqg7JW0XFJreuIhom7PORMbn2HyorZeFwrOWySURfQbGCuRk4xnCaYGI28
-         Pd/xYAlufQ6Q+WTaJeRsAmQ73aRgvCYaeS8U5WqRz7ktGhCT6YHyrkVwlbYowrvN2k9D
-         oWfAKlB8c7vdFVP7QfYazZa5uvQWv0uFUwi52KfBJs8129CKdt/QP2ZLJPg4A6ADa/iS
-         D2vcG4w3prBulCHoqdScNxj3YHiW4iVJ82AlY73VuiBUTsFnOWAn3ZfjsHt3V/oifcON
-         GIqg==
-X-Gm-Message-State: AOAM533J65TuJXMIQ1/X0rRE8drGexkkzP/JEntr44zWVf/YA+mpvus7
-        S7/9dAPMrxlyZ3I7YMKrWhibZw==
-X-Google-Smtp-Source: ABdhPJyyFztYNNuqM4TEc43tO1QzdDwFobKPY9KqlGoAGUMMiOJmd9L+/q+DxaZaQ6rovKhI0YfQvA==
-X-Received: by 2002:a17:906:7056:b0:6d6:dd99:f2a4 with SMTP id r22-20020a170906705600b006d6dd99f2a4mr713879ejj.43.1648833880632;
-        Fri, 01 Apr 2022 10:24:40 -0700 (PDT)
-Received: from alco.lan (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id m25-20020a170906161900b006d43be5b95fsm1230475ejd.118.2022.04.01.10.24.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 10:24:40 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH 2/2] media: uvc: Undup use uvv-endpoint_max_bpi code
-Date:   Fri,  1 Apr 2022 19:24:37 +0200
-Message-Id: <20220401172437.625645-2-ribalda@chromium.org>
-X-Mailer: git-send-email 2.35.1.1094.g7c7d902a7c-goog
-In-Reply-To: <20220401172437.625645-1-ribalda@chromium.org>
-References: <20220401172437.625645-1-ribalda@chromium.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=DLtOWenxXCw5vQfabcGIJp+Je2gVQjc6VzKW0XdhyiQ=;
+        b=uYJeothY4X69Y7dRDyzxC+UTAppSfc+z/UWBWgstuMUA5Cvz/WISVdfTybIzQZMu3L
+         VyItdkb8FN+pS8EpBmHTmrH8z/S5D4bwqJJfVDjEEIBrlKpErGEtLGhVn3dF+3qvbqmc
+         2uoyC8lkLuflVCyhoTnaIpZ6oHRN+IFi1aWgBG9J0+h6r7o9l3IFj13AYVnPqzI+pcAa
+         S5pVI6U7bND+zgbCtNZjFCuoWIf8FORgxvGkAPz6CbMYoDQZ8ou3e7Ntqkr7IagVyxyi
+         Jw5OULezXiGRULbL/eXkKaUFbNswxigp0srfvqepkLqqKDJOmLzgluqtR8KTeYDVUnVc
+         ow2g==
+X-Gm-Message-State: AOAM533+lR8rCtMP8HZmTk5heNccjFCav8FSePeLbOGWMSOFjM7ug19E
+        G7HEJD/OKT1ZQUZNbU0uByjJGJB2KaFxdeYlOWk28g==
+X-Google-Smtp-Source: ABdhPJwrYPj1kC3SIVIUHr/U2Akla60gayN+BoFrbJkPw1P4im/SamWlkUSDfJabqc8psCgCaTuKJc519X3Csg6+YUY=
+X-Received: by 2002:a17:907:3eaa:b0:6df:b058:96a with SMTP id
+ hs42-20020a1709073eaa00b006dfb058096amr1028056ejc.368.1648838508127; Fri, 01
+ Apr 2022 11:41:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-6-tjmercier@google.com> <20220329152142.GA15794@blackbody.suse.cz>
+In-Reply-To: <20220329152142.GA15794@blackbody.suse.cz>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Fri, 1 Apr 2022 11:41:36 -0700
+Message-ID: <CABdmKX2874NdYCBzpKLnqWhZQDkC2wKz4ZL_aFNqrec6iAutpQ@mail.gmail.com>
+Subject: Re: [RFC v4 5/8] dmabuf: Add gpu cgroup charge transfer function
+To:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace manual decoding of psize in uvc_parse_streaming(), with the code
-from uvc_endpoint_max_bpi(). It also handles usb3 devices.
+On Tue, Mar 29, 2022 at 8:21 AM Michal Koutn=C3=BD <mkoutny@suse.com> wrote=
+:
+>
+> Hi.
+>
+> On Mon, Mar 28, 2022 at 03:59:44AM +0000, "T.J. Mercier" <tjmercier@googl=
+e.com> wrote:
+> > From: Hridya Valsaraju <hridya@google.com>
+> >
+> > The dma_buf_charge_transfer function provides a way for processes to
+>
+> (s/dma_bug_charge_transfer/dma_bug_transfer_charge/)
+>
+Doh! Thanks.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_driver.c | 4 +---
- drivers/media/usb/uvc/uvc_video.c  | 3 +--
- drivers/media/usb/uvc/uvcvideo.h   | 1 +
- 3 files changed, 3 insertions(+), 5 deletions(-)
+> > transfer charge of a buffer to a different process. This is essential
+> > for the cases where a central allocator process does allocations for
+> > various subsystems, hands over the fd to the client who requested the
+> > memory and drops all references to the allocated memory.
+>
+> I understood from [1] some buffers are backed by regular RAM. How are
+> these charges going to be transferred (if so)?
+>
+This link doesn't work for me, but I think you're referring to the
+discussion about your "RAM_backed_buffers" comment from March 23rd. I
+wanted to do a simple test to confirm my own understanding here, but
+that got delayed due to some problems on my end. Anyway the test I did
+goes like this: enable memcg and gpu cgoups tracking and run a process
+that allocates 100MiB of dmabufs. Observe memcg and gpu accounting
+values before and after the allocation.
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index dda0f0aa78b8..977566aa2c89 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -1009,9 +1009,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
- 				streaming->header.bEndpointAddress);
- 		if (ep == NULL)
- 			continue;
--
--		psize = le16_to_cpu(ep->desc.wMaxPacketSize);
--		psize = (psize & 0x07ff) * (1 + ((psize >> 11) & 3));
-+		psize = uvc_endpoint_max_bpi(dev->udev, ep);
- 		if (psize > streaming->maxpsize)
- 			streaming->maxpsize = psize;
- 	}
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index a2dcfeaaac1b..9dc0a5dba158 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -1756,8 +1756,7 @@ static void uvc_video_stop_transfer(struct uvc_streaming *stream,
- /*
-  * Compute the maximum number of bytes per interval for an endpoint.
-  */
--static unsigned int uvc_endpoint_max_bpi(struct usb_device *dev,
--					 struct usb_host_endpoint *ep)
-+u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoint *ep)
- {
- 	u16 psize;
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 143230b3275b..28eb337a6cfb 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -911,6 +911,7 @@ void uvc_simplify_fraction(u32 *numerator, u32 *denominator,
- u32 uvc_fraction_to_interval(u32 numerator, u32 denominator);
- struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
- 					    u8 epaddr);
-+u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoint *ep);
- 
- /* Quirks support */
- void uvc_video_decode_isight(struct uvc_urb *uvc_urb,
--- 
-2.35.1.1094.g7c7d902a7c-goog
+Before
+# cat memory.current gpu.memory.current
+14909440
+system 0
 
+<Test program does the allocation of 100MiB of dmabufs>
+
+After
+# cat memory.current gpu.memory.current
+48025600
+system 104857600
+
+So the memcg value increases by about 30 MiB while the gpu values
+increases by 100 MiB. This is with kmem enabled, and the /proc/maps
+file for this process indicates that the majority of that 30 MiB is
+kernel memory. I think this result shows that neither the kernel nor
+process memory overlap with the gpu cgroup tracking of these
+allocations. So despite the fact that these buffers are in main
+memory, they are allocated in a way that does not result in memcg
+attribution. (It looks to me like __GFP_ACCOUNT is not set for these.)
+
+>
+> Thanks,
+> Michal
+>
+> [1]
+> https://lore.kernel.org/r/CABdmKX2NSAKMC6rReMYfo2SSVNxEXcS466hk3qF6YFt-j-=
++_NQ@mail.gmail.com
