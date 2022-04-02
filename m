@@ -2,133 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60E9A4F047E
-	for <lists+linux-media@lfdr.de>; Sat,  2 Apr 2022 17:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C72044F04D5
+	for <lists+linux-media@lfdr.de>; Sat,  2 Apr 2022 18:22:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239164AbiDBPnr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Apr 2022 11:43:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42880 "EHLO
+        id S1345189AbiDBQYb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Apr 2022 12:24:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236710AbiDBPnq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Apr 2022 11:43:46 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 800EB14DFDF;
-        Sat,  2 Apr 2022 08:41:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648914114; x=1680450114;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XQmDJiTlLNfhWiTkfL125Khdv5hFj6Xq/8G/UCpojLw=;
-  b=lcN7vQh1h3zAOLOA3+oh+PjlJavR8QU98xbOrWSttS3jdLp/ZVVRkfKn
-   dGPpQ7A/MHTU6Mh9OFOP95AAXvNYfiDuhU+z4yBo1YXcKqL44aSzHs+Vr
-   uGrAhlQ6BH4W1jYpbNEtilJTPozcnDs5+9sK6ZWCFsM8RSPm1uZd6/Es+
-   7ppf8I3r1ik9Nf3B7sLGI3D138plmDORI9u/5wXU3rF6wBPCrgYGimDEK
-   HWcz3Qp67CPQU5BAwptEJU32r8y+rrLNHWTLytceSrFLDieFs2L+hMiHC
-   cWk+5KZjpR0pCffEW0oWcZSDHkTW/fvbJII3TIpzEuekjI11z/2lWh15c
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10305"; a="240896378"
-X-IronPort-AV: E=Sophos;i="5.90,230,1643702400"; 
-   d="scan'208";a="240896378"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2022 08:41:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,230,1643702400"; 
-   d="scan'208";a="656476882"
-Received: from lkp-server02.sh.intel.com (HELO a44fdfb70b94) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 02 Apr 2022 08:41:52 -0700
-Received: from kbuild by a44fdfb70b94 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nafst-0000ED-8n;
-        Sat, 02 Apr 2022 15:41:51 +0000
-Date:   Sat, 2 Apr 2022 23:41:34 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Neil Armstrong <narmstrong@baylibre.com>
-Subject: nios2-linux-ld: imx-mipi-csis.c:undefined reference to
- `v4l2_async_nf_cleanup'
-Message-ID: <202204022330.h5GGZlNk-lkp@intel.com>
+        with ESMTP id S1347243AbiDBQY3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Apr 2022 12:24:29 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2604B14147A;
+        Sat,  2 Apr 2022 09:22:37 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id o10so11785884ejd.1;
+        Sat, 02 Apr 2022 09:22:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=TpBrMR6oS9V/SbBfjNMiP6m12bFbq6KIwbF80S3aCJ8=;
+        b=EXY019FWntu4G5GGHBNtLLD7ID8nqNnP3oZHC3jJJYj0jeJDsHI7IISoRyxt2NDufZ
+         ofKbd0Ec76vqsHRUmteFxJEcReHngOldz6uJkP/W4b3V6XF9mOinDtTmBKYhcRXKe+8y
+         j+esHv+6RygnvzjCa9T4rd+pqjEQuQXVt2dcdl041YdSzfy/bDOwT/GcKBZqpjYeVyJR
+         yDvzebrlk7vUhKek7iA+oVH+ty/kR8DcIZSfTLHTNDESHQD/xchBrTywgiDR9HOhVJA1
+         RDKrxOBqnlnPigW/Jgqd6eW1uwQ5/Knqrb7AFpb8mYphHCnC2gMzKEcpNOR8HSRPdnJw
+         MGhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=TpBrMR6oS9V/SbBfjNMiP6m12bFbq6KIwbF80S3aCJ8=;
+        b=zcwzbQDVUiqpY8MNuycHkpUsoYsS08ixJv+NM3DoSjEbz5OdxM4cUyUTLiWqUlo0ow
+         YyPoBh1fjFPKh7tJkJrj4n9jyJVWJJiIKTxUzo2/twZ66aUNv6UBbxQ15n+FoNYj4VmD
+         Zs0CMSBXj4fF2R0m8bTwTtAtpClrMAxHmO7th5nTewFFZUX2CIjMXHXIHVhshu6xvm0O
+         nIMF8ifzOyLYTdKAf7OvPclgH4BTICUlLVdGb15SyKeBamNgsZhvgbxMsATG4GvAadgY
+         auPS6isApimPrHB571WGFPLNVGsHO9VBbnkZ18g1EhE+q/kuNmZcJuT+VSWCYU4Fllzp
+         N0bg==
+X-Gm-Message-State: AOAM5307oNk5gVfJL6+Yvy1BmuKZmXF6HUOIA17FdpWtrqFVRk68br4T
+        JleEUTuh4gX4+XGzytXTIUB8ffpoeWR3BZ9aYTE=
+X-Google-Smtp-Source: ABdhPJz/6K9Rl99P1P1n3MsOF+mfJYbq/9WGuUQJuwA0GZlt2Hp7WEI55rPdAUk8tGkS1MUES4129we4bdovHByX0iM=
+X-Received: by 2002:a17:907:7704:b0:6cf:48ac:b4a8 with SMTP id
+ kw4-20020a170907770400b006cf48acb4a8mr4196371ejc.305.1648916555350; Sat, 02
+ Apr 2022 09:22:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+ <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com> <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
+ <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com> <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
+In-Reply-To: <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Sat, 2 Apr 2022 11:22:23 -0500
+Message-ID: <CAHCN7xLy2381AFLWhLxk5YuRV7C=OwLX=XPXONX8sbkg-SqMjA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com,
+        Chen-Yu Tsai <wens@csie.org>,
+        "jernej.skrabec" <jernej.skrabec@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev, kernel <kernel@collabora.com>,
+        knaerzche@gmail.com, jc@kynesim.co.uk
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   88e6c0207623874922712e162e25d9dafd39661e
-commit: 9958d30f38b96fb763a10d44d18ddad39127d5f4 media: Kconfig: cleanup VIDEO_DEV dependencies
-date:   2 weeks ago
-config: nios2-randconfig-r033-20220401 (https://download.01.org/0day-ci/archive/20220402/202204022330.h5GGZlNk-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9958d30f38b96fb763a10d44d18ddad39127d5f4
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9958d30f38b96fb763a10d44d18ddad39127d5f4
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
+On Fri, Apr 1, 2022 at 8:18 AM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+>
+> Le 31/03/2022 =C3=A0 08:53, Benjamin Gaignard a =C3=A9crit :
+> >
+> > Le 30/03/2022 =C3=A0 20:52, Adam Ford a =C3=A9crit :
+> >> On Wed, Mar 30, 2022 at 2:53 AM Benjamin Gaignard
+> >> <benjamin.gaignard@collabora.com> wrote:
+> >>>
+> >>> Le 28/02/2022 =C3=A0 15:08, Benjamin Gaignard a =C3=A9crit :
+> >>>> This series aims to make HEVC uapi stable and usable for hardware
+> >>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro=
+)
+> >>>> and 2 out of the tree drivers (rkvdec and RPI).
+> >>>>
+> >>>> After the remarks done on version 2, I have completely reworked to
+> >>>> patches
+> >>>> split so changelogs are meaningless. I have also drop "RFC" from the
+> >>>> titles.
+> >>>>
+> >>>> Version 4:
+> >>>> - Add num_entry_point_offsets field in  struct
+> >>>> v4l2_ctrl_hevc_slice_params
+> >>>> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+> >>>> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+> >>>> - Fix space/tab issue in kernel-doc
+> >>>> - Add patch to change data_bit_offset definition
+> >>>> - Fix hantro-media SPDX license
+> >>>> - put controls under stateless section in v4l2-ctrls-defs.c
+> >>>>
+> >>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+> >>> Dear reviewers,
+> >>>
+> >>> This series is waiting for your feedback,
+> >> I tried several times with the suggested repos for both the kernel and
+> >> g-streamer without success getting Fluster to pass any tests on the
+> >> imx8mq.  I can try again but I likely won't get to it until this
+> >> weekend.  If I can get it working, I'll test both the 8mq and 8mm.
+> >
+> > Thanks a lot for that.
+> >
+> > Benjamin
+>
+> Adam,
+>
+> You may need to check if h265parse and v4l2slh265dec are available on you=
+r board.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+I ran gst-inspect to see what showed up with 265 in the name.
 
-All errors (new ones prefixed by >>):
+# gst-inspect-1.0 |grep 265
+libav:  avdec_h265: libav HEVC (High Efficiency Video Coding) decoder
+rtp:  rtph265depay: RTP H265 depayloader
+rtp:  rtph265pay: RTP H265 payloader
+typefindfunctions: video/x-h265: h265, x265, 265
+v4l2codecs:  v4l2slh265dec: V4L2 Stateless H.265 Video Decoder
+videoparsersbad:  h265parse: H.265 parser
 
-   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_notify_bound':
-   imx-mipi-csis.c:(.text+0x374): undefined reference to `v4l2_create_fwnode_links_to_pad'
-   imx-mipi-csis.c:(.text+0x374): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_create_fwnode_links_to_pad'
-   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_s_stream':
-   imx-mipi-csis.c:(.text+0x56c): undefined reference to `v4l2_subdev_call_wrappers'
-   nios2-linux-ld: imx-mipi-csis.c:(.text+0x570): undefined reference to `v4l2_subdev_call_wrappers'
-   nios2-linux-ld: imx-mipi-csis.c:(.text+0x5a4): undefined reference to `v4l2_subdev_call_wrappers'
-   nios2-linux-ld: imx-mipi-csis.c:(.text+0x5a8): undefined reference to `v4l2_subdev_call_wrappers'
-   nios2-linux-ld: imx-mipi-csis.c:(.text+0x60c): undefined reference to `v4l2_get_link_freq'
-   imx-mipi-csis.c:(.text+0x60c): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_get_link_freq'
-   nios2-linux-ld: imx-mipi-csis.c:(.text+0x6e4): undefined reference to `v4l2_subdev_call_wrappers'
-   nios2-linux-ld: imx-mipi-csis.c:(.text+0x6e8): undefined reference to `v4l2_subdev_call_wrappers'
-   nios2-linux-ld: imx-mipi-csis.c:(.text+0x788): undefined reference to `v4l2_subdev_call_wrappers'
-   nios2-linux-ld: imx-mipi-csis.c:(.text+0x78c): undefined reference to `v4l2_subdev_call_wrappers'
-   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_remove':
-   imx-mipi-csis.c:(.text+0x874): undefined reference to `v4l2_async_nf_unregister'
-   imx-mipi-csis.c:(.text+0x874): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_async_nf_unregister'
->> nios2-linux-ld: imx-mipi-csis.c:(.text+0x87c): undefined reference to `v4l2_async_nf_cleanup'
-   imx-mipi-csis.c:(.text+0x87c): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_async_nf_cleanup'
->> nios2-linux-ld: imx-mipi-csis.c:(.text+0x884): undefined reference to `v4l2_async_unregister_subdev'
-   imx-mipi-csis.c:(.text+0x884): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_async_unregister_subdev'
-   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_probe':
-   imx-mipi-csis.c:(.text+0xcc0): undefined reference to `v4l2_subdev_init'
-   imx-mipi-csis.c:(.text+0xcc0): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_subdev_init'
->> nios2-linux-ld: imx-mipi-csis.c:(.text+0xd9c): undefined reference to `v4l2_async_nf_init'
-   imx-mipi-csis.c:(.text+0xd9c): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_async_nf_init'
->> nios2-linux-ld: imx-mipi-csis.c:(.text+0xdd0): undefined reference to `v4l2_fwnode_endpoint_parse'
-   imx-mipi-csis.c:(.text+0xdd0): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_fwnode_endpoint_parse'
->> nios2-linux-ld: imx-mipi-csis.c:(.text+0xe40): undefined reference to `__v4l2_async_nf_add_fwnode_remote'
-   imx-mipi-csis.c:(.text+0xe40): relocation truncated to fit: R_NIOS2_CALL26 against `__v4l2_async_nf_add_fwnode_remote'
->> nios2-linux-ld: imx-mipi-csis.c:(.text+0xe70): undefined reference to `v4l2_async_subdev_nf_register'
-   imx-mipi-csis.c:(.text+0xe70): relocation truncated to fit: R_NIOS2_CALL26 against `v4l2_async_subdev_nf_register'
->> nios2-linux-ld: imx-mipi-csis.c:(.text+0xe80): undefined reference to `v4l2_async_register_subdev'
-   imx-mipi-csis.c:(.text+0xe80): additional relocation overflows omitted from the output
->> nios2-linux-ld: imx-mipi-csis.c:(.text+0xf94): undefined reference to `v4l2_async_nf_unregister'
-   nios2-linux-ld: imx-mipi-csis.c:(.text+0xf9c): undefined reference to `v4l2_async_nf_cleanup'
-   nios2-linux-ld: imx-mipi-csis.c:(.text+0xfa4): undefined reference to `v4l2_async_unregister_subdev'
-   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_set_fmt':
-   imx-mipi-csis.c:(.text+0x146c): undefined reference to `v4l_bound_align_image'
-   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:(.rodata+0x348): undefined reference to `v4l2_subdev_get_fwnode_pad_1_to_1'
-   nios2-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:(.rodata+0x350): undefined reference to `v4l2_subdev_link_validate'
+It appears I have both h265parse and v4l2slh265dec.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+>
+> fluster check if v4l2slh265dec is working fine with this command line:
+>
+> gst-launch-1.0 appsrc num-buffers=3D0 ! h265parse ! v4l2slh265dec ! fakes=
+ink
+>
+> so if one of them is missing it won't work.
+
+gst-launch-1.0 appsrc num-buffers=3D0 ! h265parse ! v4l2slh265dec ! fakesin=
+k
+Setting pipeline to PAUSED ...
+0:00:00.098389938   526 0xaaaaf9d86ac0 ERROR     v4l2codecs-decoder
+gstv4l2decoder.c:725:gst_v4l2_decoder_get_controls:<v4l2decoder2>
+VIDIOC_G_EXT_CTRLS failed: Invalid argument
+ERROR: from element
+/GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0: Driver did not
+report framing and start code method.
+Additional debug info:
+../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codech265dec.c(155):
+gst_v4l2_codec_h265_dec_open ():
+/GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0:
+gst_v4l2_decoder_get_controls() failed: Invalid argument
+ERROR: pipeline doesn't want to preroll.
+ERROR: from element
+/GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0: Could not
+initialize supporting library.
+Additional debug info:
+../subprojects/gst-plugins-base/gst-libs/gst/video/gstvideodecoder.c(2909):
+gst_video_decoder_change_state ():
+/GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0:
+Failed to open decoder
+ERROR: pipeline doesn't want to preroll.
+Failed to set pipeline to PAUSED.
+Setting pipeline to NULL ...
+Freeing pipeline ...
+
+Does this mean I have a wrong version of the kernel and/or incomplete patch=
+es?
+
+adam
+>
+> Regards,
+> Benjamin
+>
+> >
+> >>
+> >> adam
+> >>> Thanks,
+> >>> Benjamin
+> >>>
+> >>>> Benjamin
+> >>>>
+> >>>>
+> >>>> Benjamin Gaignard (12):
+> >>>>     media: uapi: HEVC: Add missing fields in HEVC controls
+> >>>>     media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+> >>>>       prefix
+> >>>>     media: uapi: HEVC: Add document uAPI structure
+> >>>>     media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS
+> >>>> as a
+> >>>>       dynamic array
+> >>>>     media: uapi: Move parsed HEVC pixel format out of staging
+> >>>>     media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+> >>>> control
+> >>>>     media: uapi: Move the HEVC stateless control type out of staging
+> >>>>     media: controls: Log HEVC stateless control in .std_log
+> >>>>     media: uapi: Create a dedicated header for Hantro control
+> >>>>     media: uapi: HEVC: fix padding in v4l2 control structures
+> >>>>     media: uapi: Change data_bit_offset definition
+> >>>>     media: uapi: move HEVC stateless controls out of staging
+> >>>>
+> >>>> Hans Verkuil (3):
+> >>>>     videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+> >>>>     v4l2-ctrls: add support for dynamically allocated arrays.
+> >>>>     vivid: add dynamic array test control
+> >>>>
+> >>>>    .../userspace-api/media/drivers/hantro.rst    |   5 -
+> >>>>    .../media/v4l/ext-ctrls-codec-stateless.rst   | 833
+> >>>> ++++++++++++++++++
+> >>>>    .../media/v4l/ext-ctrls-codec.rst             | 780
+> >>>> ----------------
+> >>>>    .../media/v4l/pixfmt-compressed.rst           |   7 +-
+> >>>>    .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+> >>>>    .../media/v4l/vidioc-queryctrl.rst            |   8 +
+> >>>>    .../media/videodev2.h.rst.exceptions          |   5 +
+> >>>>    .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+> >>>>    drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+> >>>>    drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+> >>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
+> >>>>    drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+> >>>>    drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+> >>>>    drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+> >>>>    drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+> >>>>    drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+> >>>>    .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+> >>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
+> >>>>    include/media/hevc-ctrls.h                    | 250 ------
+> >>>>    include/media/v4l2-ctrls.h                    |  48 +-
+> >>>>    include/uapi/linux/hantro-media.h             |  19 +
+> >>>>    include/uapi/linux/v4l2-controls.h            | 439 +++++++++
+> >>>>    include/uapi/linux/videodev2.h                |  13 +
+> >>>>    23 files changed, 1697 insertions(+), 1170 deletions(-)
+> >>>>    delete mode 100644 include/media/hevc-ctrls.h
+> >>>>    create mode 100644 include/uapi/linux/hantro-media.h
+> >>>>
