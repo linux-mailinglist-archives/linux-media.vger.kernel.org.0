@@ -2,115 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 297704F0103
-	for <lists+linux-media@lfdr.de>; Sat,  2 Apr 2022 13:25:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E7224F0109
+	for <lists+linux-media@lfdr.de>; Sat,  2 Apr 2022 13:27:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343826AbiDBLWh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Apr 2022 07:22:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52994 "EHLO
+        id S242860AbiDBL2n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Apr 2022 07:28:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232127AbiDBLWg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Apr 2022 07:22:36 -0400
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DBBAE6141
-        for <linux-media@vger.kernel.org>; Sat,  2 Apr 2022 04:20:45 -0700 (PDT)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-dacc470e03so5400248fac.5
-        for <linux-media@vger.kernel.org>; Sat, 02 Apr 2022 04:20:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=g3P8pgW5TKXbnqnv/dYdIwK49jDG9AWiv4cnKL0b/84=;
-        b=3IE1inTso+FzIQVXK7Y9dK0Ix8Ksu/yX4a6Bo3R6+h3Oz4bS41gmAHst8gIZAnCs9V
-         ztPE75tgtHnjEUf7I7IV4ASYWNqnQCalUWt8eCC0Na3v5LBLh/AwsMMQ5725Wh7UD6Ol
-         k5wM4oN3zPsgdIJqjpryqh67qivaQZonDwJ9WVH2UQvsZYKa1NkiRvDBkQQ6J/y8VwdA
-         /NcanNMJA5ziIsoEbELz7/RWaSywTwDYo0YnQ6ZPVmRfiE8X7lw1eIHBapMkvGCuGqaJ
-         MYWzem1Gmd8NocSNrvilDjzxNaFTrcZ44gY1oWZWiEQV0ZXkj3NBUbcWeTj4AoQGrOjK
-         3AIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=g3P8pgW5TKXbnqnv/dYdIwK49jDG9AWiv4cnKL0b/84=;
-        b=GL4QRCr41nZl5yzY3ALM3lcV6HUMMurartr032ZPtwC11j/QnRIT4GhkJYCgzWqpqt
-         3nihwLK/jTBrTbFbWFSWkfxZf84C9kTB2C6l2Su5jyKNMuLQV98SHC+d+DS3q/3usQ+c
-         n0clYkhCR8XP5Iwp9IppCvu0c4UWQBxb/e7DtiqYim2kWLL/GPwv/717ZodFqFLnTm/m
-         fOzT9vwMZZB6LaFLH69/FfzeWE8qNy2iM/jl3Bp9KO3BlVJ/FCzIirF/bP8xEILddVEX
-         v/kpW1oAy+tD9wMuVVUi9BNKfkWxECQGl6+cGIWIw+d/FIz+4eYFnRAKBL2yz9kEIAsu
-         5BKw==
-X-Gm-Message-State: AOAM531wruxXTXC69/Ll1Yn4GgJe+d6VkkiSPTe8Dtr5cabVMIah/cOa
-        y56yW4kP5AWcY5GFo3FSHr+d3g==
-X-Google-Smtp-Source: ABdhPJxCr1Ebsw6Ng0vvQY9LbiN+5OUdrveilhdOqONM4pZTFHY9+L4rYhdcebNyNwKww5Ugy6MFVA==
-X-Received: by 2002:a05:6871:810:b0:de:68ff:e846 with SMTP id q16-20020a056871081000b000de68ffe846mr7134650oap.58.1648898444505;
-        Sat, 02 Apr 2022 04:20:44 -0700 (PDT)
-Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
-        by smtp.gmail.com with ESMTPSA id m23-20020a4add17000000b0032489ab619esm2005500oou.45.2022.04.02.04.20.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 04:20:43 -0700 (PDT)
-Date:   Sat, 2 Apr 2022 08:20:38 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 14/23] media: rkvdec: h264: Fix bit depth wrap in pps
- packet
-Message-ID: <YkgxhgqOAw26/3EG@eze-laptop>
-References: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
- <20220331193726.289559-15-nicolas.dufresne@collabora.com>
+        with ESMTP id S1344286AbiDBL2l (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Apr 2022 07:28:41 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70C9F1A6E56;
+        Sat,  2 Apr 2022 04:26:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648898809; x=1680434809;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BRnv69DO2+dbPWklauQlsMw88d2pUSSJu9MmnqEjmKc=;
+  b=MlYQx2yCu1YYJVUst9JExZv/iLuYcvY6001a3vC6MMelCugGhuBDIlD4
+   /dVjqvuQweRzmkY6Acp+U/t/Cm3jTfpKO/0ReDgcd5b6+vgb+BBO3PWaH
+   KzV2/TUILeak3cCiETVMPzBTuKyylWYDhNLSJz2sj4c0dL3cnkQBY6Inw
+   EnmWFSgp6pa78gntLDK4E8R+kq9OYTrNOJiK5GcWbHIyhwWGc1UFBg3uD
+   PCjnxFxls3f5uCfgpOzv+Uc0bevxXmCWdpcH4Sd+giWtW98NVh8cdC453
+   oXwc1igxh4+mqtEoNEAaZHRmYklGUs8c1E4vSpw/qJJ+ITZofamrwGsBI
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10304"; a="242438433"
+X-IronPort-AV: E=Sophos;i="5.90,229,1643702400"; 
+   d="scan'208";a="242438433"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2022 04:26:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,229,1643702400"; 
+   d="scan'208";a="568187259"
+Received: from lkp-server02.sh.intel.com (HELO a44fdfb70b94) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 02 Apr 2022 04:26:47 -0700
+Received: from kbuild by a44fdfb70b94 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nabu2-000057-CL;
+        Sat, 02 Apr 2022 11:26:46 +0000
+Date:   Sat, 2 Apr 2022 19:26:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:undefined
+ reference to `v4l2_subdev_link_validate'
+Message-ID: <202204021936.aWjDwNSD-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220331193726.289559-15-nicolas.dufresne@collabora.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 03:37:16PM -0400, Nicolas Dufresne wrote:
-> From: Jonas Karlman <jonas@kwiboo.se>
-> 
-> The luma and chroma bit depth fields in the pps packet are 3 bits wide.
-> 8 is wrongly added to the bit depth values written to these 3 bit fields.
-> Because only the 3 LSB are written, the hardware was configured
-> correctly.
-> 
-> Correct this by not adding 8 to the luma and chroma bit depth value.
-> 
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   88e6c0207623874922712e162e25d9dafd39661e
+commit: 63fe3d27b226fe01746bace4d1f1f2164406140d media: platform/*/Kconfig: make manufacturer menus more uniform
+date:   2 weeks ago
+config: csky-randconfig-r006-20220401 (https://download.01.org/0day-ci/archive/20220402/202204021936.aWjDwNSD-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=63fe3d27b226fe01746bace4d1f1f2164406140d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 63fe3d27b226fe01746bace4d1f1f2164406140d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=csky SHELL=/bin/bash
 
-Fixes: cd33c830448ba ("media: rkvdec: Add the rkvdec driver")
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Thanks!
+All errors (new ones prefixed by >>):
 
-> ---
->  drivers/staging/media/rkvdec/rkvdec-h264.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> index bcde37d72244..8d44a884a52e 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> @@ -662,8 +662,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
->  	WRITE_PPS(0xff, PROFILE_IDC);
->  	WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
->  	WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
-> -	WRITE_PPS(sps->bit_depth_luma_minus8 + 8, BIT_DEPTH_LUMA);
-> -	WRITE_PPS(sps->bit_depth_chroma_minus8 + 8, BIT_DEPTH_CHROMA);
-> +	WRITE_PPS(sps->bit_depth_luma_minus8, BIT_DEPTH_LUMA);
-> +	WRITE_PPS(sps->bit_depth_chroma_minus8, BIT_DEPTH_CHROMA);
->  	WRITE_PPS(0, QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
->  	WRITE_PPS(sps->log2_max_frame_num_minus4, LOG2_MAX_FRAME_NUM_MINUS4);
->  	WRITE_PPS(sps->max_num_ref_frames, MAX_NUM_REF_FRAMES);
-> -- 
-> 2.34.1
-> 
+   csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_calculate_params':
+   imx-mipi-csis.c:(.text+0x4fe): undefined reference to `v4l2_get_link_freq'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x648): undefined reference to `v4l2_get_link_freq'
+   csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_async_register':
+   imx-mipi-csis.c:(.text+0x750): undefined reference to `v4l2_async_nf_init'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x78c): undefined reference to `v4l2_fwnode_endpoint_parse'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x88e): undefined reference to `__v4l2_async_nf_add_fwnode_remote'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x8b8): undefined reference to `v4l2_async_nf_init'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x8c8): undefined reference to `v4l2_fwnode_endpoint_parse'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x900): undefined reference to `__v4l2_async_nf_add_fwnode_remote'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x928): undefined reference to `v4l2_async_subdev_nf_register'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x948): undefined reference to `v4l2_async_register_subdev'
+   csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_notify_bound':
+   imx-mipi-csis.c:(.text+0x97c): undefined reference to `v4l2_create_fwnode_links_to_pad'
+   csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_dump_regs_open':
+   imx-mipi-csis.c:(.text+0x9b0): undefined reference to `v4l2_async_subdev_nf_register'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x9b4): undefined reference to `v4l2_async_register_subdev'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x9bc): undefined reference to `v4l2_create_fwnode_links_to_pad'
+   csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_set_fmt':
+   imx-mipi-csis.c:(.text+0xf80): undefined reference to `v4l_bound_align_image'
+   csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_enum_mbus_code':
+   imx-mipi-csis.c:(.text+0x10c4): undefined reference to `v4l_bound_align_image'
+   csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_probe':
+   imx-mipi-csis.c:(.text+0x1484): undefined reference to `v4l2_subdev_init'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x154c): undefined reference to `v4l2_subdev_init'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x166c): undefined reference to `v4l2_async_nf_unregister'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x1676): undefined reference to `v4l2_async_nf_cleanup'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x1680): undefined reference to `v4l2_async_unregister_subdev'
+   csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_stop_stream':
+   imx-mipi-csis.c:(.text+0x1720): undefined reference to `v4l2_async_nf_unregister'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x1724): undefined reference to `v4l2_async_nf_cleanup'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x1728): undefined reference to `v4l2_async_unregister_subdev'
+   csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_s_stream':
+   imx-mipi-csis.c:(.text+0x18b4): undefined reference to `v4l2_subdev_call_wrappers'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x19f8): undefined reference to `v4l2_subdev_call_wrappers'
+   csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o: in function `mipi_csis_remove':
+   imx-mipi-csis.c:(.text+0x1b14): undefined reference to `v4l2_async_nf_unregister'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x1b1e): undefined reference to `v4l2_async_nf_cleanup'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x1b28): undefined reference to `v4l2_async_unregister_subdev'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x1b7c): undefined reference to `v4l2_subdev_call_wrappers'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x1b9c): undefined reference to `v4l2_async_nf_unregister'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x1ba0): undefined reference to `v4l2_async_nf_cleanup'
+   csky-linux-ld: imx-mipi-csis.c:(.text+0x1ba4): undefined reference to `v4l2_async_unregister_subdev'
+   csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:(.rodata+0x36c): undefined reference to `v4l2_subdev_get_fwnode_pad_1_to_1'
+>> csky-linux-ld: drivers/media/platform/nxp/imx-mipi-csis.o:(.rodata+0x374): undefined reference to `v4l2_subdev_link_validate'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+   Depends on MEDIA_SUPPORT && VIDEO_DEV && MEDIA_CONTROLLER
+   Selected by
+   - VIDEO_IMX_MIPI_CSIS && MEDIA_SUPPORT && MEDIA_PLATFORM_SUPPORT && MEDIA_PLATFORM_DRIVERS
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
