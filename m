@@ -2,131 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F14AE4F0126
-	for <lists+linux-media@lfdr.de>; Sat,  2 Apr 2022 13:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DC1C4F0136
+	for <lists+linux-media@lfdr.de>; Sat,  2 Apr 2022 13:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354691AbiDBLhc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Apr 2022 07:37:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43916 "EHLO
+        id S241338AbiDBLly (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Apr 2022 07:41:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231430AbiDBLhc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Apr 2022 07:37:32 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C6B2B84F
-        for <linux-media@vger.kernel.org>; Sat,  2 Apr 2022 04:35:40 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id q189so5278944oia.9
-        for <linux-media@vger.kernel.org>; Sat, 02 Apr 2022 04:35:40 -0700 (PDT)
+        with ESMTP id S240921AbiDBLlx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Apr 2022 07:41:53 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54F6D8CDA8
+        for <linux-media@vger.kernel.org>; Sat,  2 Apr 2022 04:39:58 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id h16so3185326wmd.0
+        for <linux-media@vger.kernel.org>; Sat, 02 Apr 2022 04:39:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tVmxAeV6jn1gWoncdeIJ5il6g0CdD+Hlq/EJxdUklqE=;
-        b=LX19uD64aLiDbq3sb546SA4HLqf42Hkj/oUycVdKLmFoJECd+hM13ExfTEaEPnp2PL
-         2KZsm7KZk4HZb4V+xwi5sbfA3JGGZAX/D+5SNk5btOtJHf6uT2RR2ULjb9KlhkpTm7F1
-         XmYasU+20jlkyQ0EDlHndJu7lWkehb+9JOLlXJR+9yBBR/4B/DXXKmS+W3m9YHlsMfu8
-         HgFtjrjGD7qNUTQvhYOFhghbbKH1dmjzRDvPikJLUswtPre+XZwrflCzE+GrbkHD0fQQ
-         7uG76GGsFNZqmVKV/uVkn7FJqv/mI5i/aCUVRxso0YK5hffxgs/0UvtsF7kncaawG2GU
-         INQQ==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=awaGy3AgEjkVWY5viWVsdcdecgWlX4P5wwqKYqVk47A=;
+        b=OCcipaDDf9yd6e+SAB1jG2Pu61JoysxDu7Xh5IkBfEfV05Id7giu2MWVGfJbIVxAS1
+         Th2jEi6XkBu2cMKGD4NsXCEKll//buTp90ViuTWQz2PwHFxNXRnDs/fbiZRJx8H2El1a
+         bnI/bcRXXX+qnUIpXHuQkuqHi4a92Afi1tt5Q4NaWcdG8fPkjWX9+tMImm4tOgk9rEfJ
+         1PPmJDDVxDUCB4m++M4Wjqdk3FmQNoDIwG+hBcjX5HwMwm8bqdDMVFbKBqXN1wDxhAco
+         zrl7Ye1RcfFnVg1LYOosi4oSQK536Tzr6AwePFy50YA0V10RNJ2lsGlU0TzaTGDPdh4M
+         kAVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tVmxAeV6jn1gWoncdeIJ5il6g0CdD+Hlq/EJxdUklqE=;
-        b=2067e9ZcYwc5ynm8TLMtoFzPvLSuPpsPlFnzWl/FNDCrItaZh1pmjmrmfGQ5/oBsg3
-         9IjhSBJpuZiGbFIULMwLuYxfQs9MSVKP57RU9ao8KRE1evVftS53V4FICQmDT6MeBfjL
-         wgrV451PL55G2b3uQ0SrW0EPOKpXt8Rw8/lMerS693pkxSwW8EGOIwsbvIR5WDiw0Hsg
-         /xjXYWmt/es+S1Az8uvv1Xs6YZrehoKItlxRD1nkRr7/CWWOZlZUUHUUhaOGnLfvkGI+
-         i4Jlyo+BfTfYQKEF73MlH0dDUsYK084Aab4vHHyWa2OH4ry35KZKkRLO02ZyZKnewDco
-         KSmw==
-X-Gm-Message-State: AOAM530J2lXmryOTx5msq4meZwLbABg9uygB2PD40/rujfOTzZKgDVxt
-        oVTjkY45hJriAofhqR3cLNT5Fw==
-X-Google-Smtp-Source: ABdhPJwxMUnytlHFsdF6Bum7FoSq6ZYIQ0IJaVahiou9heXHf6ka4kyt7XPFCWoOXG6HgpUNyhO1og==
-X-Received: by 2002:a05:6808:120e:b0:2f8:6db8:afa0 with SMTP id a14-20020a056808120e00b002f86db8afa0mr6338394oil.283.1648899339624;
-        Sat, 02 Apr 2022 04:35:39 -0700 (PDT)
-Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
-        by smtp.gmail.com with ESMTPSA id b188-20020aca34c5000000b002da579c994dsm1998072oia.31.2022.04.02.04.35.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 04:35:39 -0700 (PDT)
-Date:   Sat, 2 Apr 2022 08:35:33 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@collabora.com,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 17/23] media: rkvdec: Enable capture buffer holding
- for H264
-Message-ID: <Ykg1BfGyI7ummQL8@eze-laptop>
-References: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
- <20220331193726.289559-18-nicolas.dufresne@collabora.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=awaGy3AgEjkVWY5viWVsdcdecgWlX4P5wwqKYqVk47A=;
+        b=C7VPDIGpyfzlFDA2sWH4+ZnQ7r3/aq2nSMOaKIV8VkTAoilskjDjTzYsBpWt8cZM1h
+         /Uc8RAp5IvaArUPF7jyx9LdB0A6I4MIr2BBALo+oZcyE785hy5JvsJbKt4494bcH0nPG
+         wMVoQWpcRZP/QhSnl4WZsS5y83DmmOr+BBPrvQxug1sLubiotrPKTJfSIRJHqSYEIlnp
+         htpnUt9oVdhkTKRtjGRcCsaRxHSl+6m14YvFd1rs9Y7/5MsTd5kuMYJMHlQN2tyI4Grm
+         hS5ObMkOpnFnBSwkrGcH645Ub00aRTo4TxJj/LdW/0POJq+uFhPn2lpe+WDwb1kbHDLL
+         hpaQ==
+X-Gm-Message-State: AOAM532LuQmi42eGY0Zo3zlCkGWEGGFK7AkAAQiFISmDddSbrYVZaLOd
+        rwZy39cOdx9DSOai1U+xkQGCXw==
+X-Google-Smtp-Source: ABdhPJxgPwxQ3TFzbEw3GEzSFdVxepamnd3EAiTRzIuDXOYZeDHeEn98CWlqmTuyc43WWvkuoedIEw==
+X-Received: by 2002:a7b:cd01:0:b0:38c:9142:2006 with SMTP id f1-20020a7bcd01000000b0038c91422006mr12362990wmj.4.1648899596890;
+        Sat, 02 Apr 2022 04:39:56 -0700 (PDT)
+Received: from [192.168.0.171] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
+        by smtp.gmail.com with ESMTPSA id o9-20020a1c4d09000000b0038ca75056e2sm16692104wmh.45.2022.04.02.04.39.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Apr 2022 04:39:56 -0700 (PDT)
+Message-ID: <6d1353c4-7ecc-c65f-73c0-5f856b72d25e@linaro.org>
+Date:   Sat, 2 Apr 2022 13:39:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220331193726.289559-18-nicolas.dufresne@collabora.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] dt-bindings: Fix 'enum' lists with duplicate entries
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        - <patches@opensource.cirrus.com>, linux-media@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-gpio@vger.kernel.org,
+        linux-pm@vger.kernel.org
+References: <20220401141247.2993925-1-robh@kernel.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220401141247.2993925-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 03:37:19PM -0400, Nicolas Dufresne wrote:
-> In order to support interlaced video decoding, the driver must
-> allow holding the capture buffer so that the second field can
-> be decoded into it.
+On 01/04/2022 16:12, Rob Herring wrote:
+> There's no reason to list the same value twice in an 'enum'. Fix all the
+> occurrences in the tree. A meta-schema change will catch future ones.
 > 
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-
-IMO, this patch (and the similar one for Hantro) should come
-after interlaced support is added.
-
-Thanks,
-Ezequiel
-
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Tony Lindgren <tony@atomide.com>
+> Cc: Yunfei Dong <yunfei.dong@mediatek.com>
+> Cc: - <patches@opensource.cirrus.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-gpio@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/staging/media/rkvdec/rkvdec.c | 4 ++++
->  drivers/staging/media/rkvdec/rkvdec.h | 1 +
->  2 files changed, 5 insertions(+)
+> There's also one other occurrence in snps,dwmac.yaml I didn't fix as 
+> there's a patch[1] for it which prompted this patch.
 > 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 1b805710e195..b6376eaa92d7 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -148,6 +148,7 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
->  		.ops = &rkvdec_h264_fmt_ops,
->  		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_vp9_decoded_fmts),
->  		.decoded_fmts = rkvdec_h264_vp9_decoded_fmts,
-> +		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
->  	},
->  	{
->  		.fourcc = V4L2_PIX_FMT_VP9_FRAME,
-> @@ -404,6 +405,9 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
->  	cap_fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
->  	cap_fmt->fmt.pix_mp.quantization = f->fmt.pix_mp.quantization;
->  
-> +	/* Enable format specific queue features */
-> +	vq->subsystem_flags |= desc->subsystem_flags;
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-> index 2f4ea1786b93..e37f1a015fa0 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.h
-> +++ b/drivers/staging/media/rkvdec/rkvdec.h
-> @@ -81,6 +81,7 @@ struct rkvdec_coded_fmt_desc {
->  	const struct rkvdec_coded_fmt_ops *ops;
->  	unsigned int num_decoded_fmts;
->  	const u32 *decoded_fmts;
-> +	u32 subsystem_flags;
->  };
->  
->  struct rkvdec_dev {
-> -- 
-> 2.34.1
+> Rob
 > 
+> [1] https://lore.kernel.org/r/20220401030847epcms1p8cf7a8e1d8cd7d325dacf30f78da36328@epcms1p8
+> 
+>  .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml        |  1 -
+>  Documentation/devicetree/bindings/bus/ti-sysc.yaml    |  1 -
+>  .../bindings/media/mediatek,vcodec-encoder.yaml       |  1 -
+>  .../devicetree/bindings/pinctrl/cirrus,madera.yaml    | 11 +++++------
+>  .../devicetree/bindings/power/supply/bq2415x.yaml     |  1 -
+>  5 files changed, 5 insertions(+), 10 deletions(-)
+> 
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof
