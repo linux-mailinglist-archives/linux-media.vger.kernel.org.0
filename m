@@ -2,126 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DC1C4F0136
-	for <lists+linux-media@lfdr.de>; Sat,  2 Apr 2022 13:41:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2393C4F013A
+	for <lists+linux-media@lfdr.de>; Sat,  2 Apr 2022 13:43:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241338AbiDBLly (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Apr 2022 07:41:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59742 "EHLO
+        id S242238AbiDBLpP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Apr 2022 07:45:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240921AbiDBLlx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Apr 2022 07:41:53 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54F6D8CDA8
-        for <linux-media@vger.kernel.org>; Sat,  2 Apr 2022 04:39:58 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id h16so3185326wmd.0
-        for <linux-media@vger.kernel.org>; Sat, 02 Apr 2022 04:39:58 -0700 (PDT)
+        with ESMTP id S236262AbiDBLpN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Apr 2022 07:45:13 -0400
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D699FF46
+        for <linux-media@vger.kernel.org>; Sat,  2 Apr 2022 04:43:21 -0700 (PDT)
+Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-df22f50e0cso5451755fac.3
+        for <linux-media@vger.kernel.org>; Sat, 02 Apr 2022 04:43:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=awaGy3AgEjkVWY5viWVsdcdecgWlX4P5wwqKYqVk47A=;
-        b=OCcipaDDf9yd6e+SAB1jG2Pu61JoysxDu7Xh5IkBfEfV05Id7giu2MWVGfJbIVxAS1
-         Th2jEi6XkBu2cMKGD4NsXCEKll//buTp90ViuTWQz2PwHFxNXRnDs/fbiZRJx8H2El1a
-         bnI/bcRXXX+qnUIpXHuQkuqHi4a92Afi1tt5Q4NaWcdG8fPkjWX9+tMImm4tOgk9rEfJ
-         1PPmJDDVxDUCB4m++M4Wjqdk3FmQNoDIwG+hBcjX5HwMwm8bqdDMVFbKBqXN1wDxhAco
-         zrl7Ye1RcfFnVg1LYOosi4oSQK536Tzr6AwePFy50YA0V10RNJ2lsGlU0TzaTGDPdh4M
-         kAVw==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zDeq4rONH6kZy4OqueUxodt8EaZ1bHVdVMLdkgTUfr8=;
+        b=Ls5gHOoVh5s5wiPi5i/cUv0HvC3mJV5kdwdu4dAvNkMthRySFcAO6BHM978/wcb/bu
+         G1aUsCSl/3zNQHVllcUAOePpT+qve9CpbiGD+igkMU8BRqA/hKgqL1B6B3lF5deDRsH5
+         OQ1JaJBIFiN4TKG1FkM6UYk2UzaBcGZ0/qkBz9e5tWG85sdDpoXE9ZMp14FXQdswfw+h
+         eNXeQtIBEL8V+35NLpVgcN+n38dkAmFN76Yrs4mAT7EeUNfsGZgQfvLMSxUicVlrCULx
+         TUv1ulwWOW1NBMhCmOBy4NVNXJ8I6KUqzdRhEE9iksP62yMbK76Ejl5i/qCChwu5cawy
+         LAiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=awaGy3AgEjkVWY5viWVsdcdecgWlX4P5wwqKYqVk47A=;
-        b=C7VPDIGpyfzlFDA2sWH4+ZnQ7r3/aq2nSMOaKIV8VkTAoilskjDjTzYsBpWt8cZM1h
-         /Uc8RAp5IvaArUPF7jyx9LdB0A6I4MIr2BBALo+oZcyE785hy5JvsJbKt4494bcH0nPG
-         wMVoQWpcRZP/QhSnl4WZsS5y83DmmOr+BBPrvQxug1sLubiotrPKTJfSIRJHqSYEIlnp
-         htpnUt9oVdhkTKRtjGRcCsaRxHSl+6m14YvFd1rs9Y7/5MsTd5kuMYJMHlQN2tyI4Grm
-         hS5ObMkOpnFnBSwkrGcH645Ub00aRTo4TxJj/LdW/0POJq+uFhPn2lpe+WDwb1kbHDLL
-         hpaQ==
-X-Gm-Message-State: AOAM532LuQmi42eGY0Zo3zlCkGWEGGFK7AkAAQiFISmDddSbrYVZaLOd
-        rwZy39cOdx9DSOai1U+xkQGCXw==
-X-Google-Smtp-Source: ABdhPJxgPwxQ3TFzbEw3GEzSFdVxepamnd3EAiTRzIuDXOYZeDHeEn98CWlqmTuyc43WWvkuoedIEw==
-X-Received: by 2002:a7b:cd01:0:b0:38c:9142:2006 with SMTP id f1-20020a7bcd01000000b0038c91422006mr12362990wmj.4.1648899596890;
-        Sat, 02 Apr 2022 04:39:56 -0700 (PDT)
-Received: from [192.168.0.171] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
-        by smtp.gmail.com with ESMTPSA id o9-20020a1c4d09000000b0038ca75056e2sm16692104wmh.45.2022.04.02.04.39.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Apr 2022 04:39:56 -0700 (PDT)
-Message-ID: <6d1353c4-7ecc-c65f-73c0-5f856b72d25e@linaro.org>
-Date:   Sat, 2 Apr 2022 13:39:55 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zDeq4rONH6kZy4OqueUxodt8EaZ1bHVdVMLdkgTUfr8=;
+        b=XNQjD8kwA5XR55Ql9lmhe9I+wHLLtW+6P/MA0vAmJrVXo2TU+Vay/ARoeTks93pctt
+         PtAjgFrJWxmB/xadZkyhkKD9cE8fS+2/72b1BQO3KBZdBO/ayuRTXLiqYXGmm18aQ+Rm
+         068FbcLBJxV2oi2+zmlcxDREdRKaFwKoGj6K3ZB829eiRkjdfUQTavjggTLLkEiZhCIQ
+         A1xXOzGODH8W197LUuyiI+k8CA4TWS8qQ8O4iwqDrJ3BZ/Qpw+WV/LTY1v5ILmPqX8FB
+         hElh3ftepHZzCfaKpfEzaXtzDZlq6P72gSMQkpKw2F5bLYLbqorDi448i8JcS+YxfFzF
+         xQPg==
+X-Gm-Message-State: AOAM530+1+xRa0Uw2HKBDfbZYWSSF8pmCxMZ57HrM+jXl6CwcBrpyia6
+        lhT+Ep0KH/5JpCgApgb3Y6g0mpaM16K4VA==
+X-Google-Smtp-Source: ABdhPJxaZ/qczgDDjSpriwmuWcnUbHkLyZrQksNr95+5LT4xljPnVv4S6uS0T++J3zvESLvryniwMQ==
+X-Received: by 2002:a05:6870:b686:b0:dc:a9f4:90a2 with SMTP id cy6-20020a056870b68600b000dca9f490a2mr6980875oab.243.1648899801224;
+        Sat, 02 Apr 2022 04:43:21 -0700 (PDT)
+Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
+        by smtp.gmail.com with ESMTPSA id g6-20020a056870a24600b000da0df8b3cesm2043700oai.20.2022.04.02.04.43.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Apr 2022 04:43:20 -0700 (PDT)
+Date:   Sat, 2 Apr 2022 08:43:16 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] media: platform: imx-mipi-csis: Add dependency on
+ VIDEO_DEV
+Message-ID: <Ykg21DbuHMRvJrcK@eze-laptop>
+References: <20220331123151.1953-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] dt-bindings: Fix 'enum' lists with duplicate entries
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        - <patches@opensource.cirrus.com>, linux-media@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-gpio@vger.kernel.org,
-        linux-pm@vger.kernel.org
-References: <20220401141247.2993925-1-robh@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220401141247.2993925-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220331123151.1953-1-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/04/2022 16:12, Rob Herring wrote:
-> There's no reason to list the same value twice in an 'enum'. Fix all the
-> occurrences in the tree. A meta-schema change will catch future ones.
+Hi Laurent,
+
+On Thu, Mar 31, 2022 at 03:31:51PM +0300, Laurent Pinchart wrote:
+> The imx-mipi-csis driver (VIDEO_IMX_MIPI_CSIS) lost its dependency on
+> VIDEO_DEV in commit 63fe3d27b226 ("media: platform/*/Kconfig: make
+> manufacturer menus more uniform"). This causes build failures with
+> configurations that don't have VIDEO_DEV set. Fix it by restoring the
+> dependency.
 > 
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Tony Lindgren <tony@atomide.com>
-> Cc: Yunfei Dong <yunfei.dong@mediatek.com>
-> Cc: - <patches@opensource.cirrus.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Fixes: 63fe3d27b226 ("media: platform/*/Kconfig: make manufacturer menus more uniform")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+Thanks,
+Ezequiel
+
 > ---
-> There's also one other occurrence in snps,dwmac.yaml I didn't fix as 
-> there's a patch[1] for it which prompted this patch.
+> Mauro, this fixes a regression in Linus' master branch, and is thus a
+> candidate fix for v5.18.
+> ---
+>  drivers/media/platform/nxp/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Rob
+> diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
+> index 28f2bafc14d2..5afa373e534f 100644
+> --- a/drivers/media/platform/nxp/Kconfig
+> +++ b/drivers/media/platform/nxp/Kconfig
+> @@ -7,6 +7,7 @@ comment "NXP media platform drivers"
+>  config VIDEO_IMX_MIPI_CSIS
+>  	tristate "NXP MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
+>  	depends on ARCH_MXC || COMPILE_TEST
+> +	depends on VIDEO_DEV
+>  	select MEDIA_CONTROLLER
+>  	select V4L2_FWNODE
+>  	select VIDEO_V4L2_SUBDEV_API
 > 
-> [1] https://lore.kernel.org/r/20220401030847epcms1p8cf7a8e1d8cd7d325dacf30f78da36328@epcms1p8
+> base-commit: 787af64d05cd528aac9ad16752d11bb1c6061bb9
+> -- 
+> Regards,
 > 
->  .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml        |  1 -
->  Documentation/devicetree/bindings/bus/ti-sysc.yaml    |  1 -
->  .../bindings/media/mediatek,vcodec-encoder.yaml       |  1 -
->  .../devicetree/bindings/pinctrl/cirrus,madera.yaml    | 11 +++++------
->  .../devicetree/bindings/power/supply/bq2415x.yaml     |  1 -
->  5 files changed, 5 insertions(+), 10 deletions(-)
+> Laurent Pinchart
 > 
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
-Best regards,
-Krzysztof
