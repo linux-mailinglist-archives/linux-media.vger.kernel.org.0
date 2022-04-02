@@ -2,53 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDC814F063D
-	for <lists+linux-media@lfdr.de>; Sat,  2 Apr 2022 22:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C37914F0696
+	for <lists+linux-media@lfdr.de>; Sun,  3 Apr 2022 00:30:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352341AbiDBUs7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Apr 2022 16:48:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38402 "EHLO
+        id S229562AbiDBWcE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Apr 2022 18:32:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236254AbiDBUs6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Apr 2022 16:48:58 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB83A8C7C2;
-        Sat,  2 Apr 2022 13:47:06 -0700 (PDT)
+        with ESMTP id S229540AbiDBWcD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Apr 2022 18:32:03 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFBBF102;
+        Sat,  2 Apr 2022 15:30:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648932426; x=1680468426;
+  t=1648938609; x=1680474609;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g37OhN95hQDsEq5tM7Z8xgfEwHCJ4ewxpSG/HutWnaE=;
-  b=gz5n1+BHtwmKZa62cVUT3gbEFw23Kc7RtZcQGnqBJzWXlj+PMMznqD05
-   mhGd9/7YFAypC5pdoe+BQr4Cjc23tID+2/rrTGng3Al18PSQ3MG+PBawI
-   T3BKJgA8Qwgo8Va1BUU0WnQR+tNUOqWvtOg6U2SyiRCP7SI4Hlz3U/oE/
-   7ZMK309nCXXlYPw9/pJi4Q8m47d6qCrz/RawRPfzGpxegIuORiL31P6NJ
-   bR7Qi71YrZ3GROmk5QDzpkcGbTkmnwcoDfGsQPd9/KltBCCmFmIP1ORBA
-   70ppyYXsR15cy7Z3TRTaWpjU9hgs5yfBCmeBsqVrg5ng0CcACz696JE1h
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10305"; a="240924370"
+  bh=wSti71aWkOb2v8VteWSnKapOKuwvs3NnbTj6GfMJf68=;
+  b=YVz85yYx9AWQ5wORbJGjVm5F9/ig+zFVdPSRAJFct/M7vYn+AAU6WFE+
+   vd2zamMOsoP2HMdxuatnrO785CgyIIzGWGTZq8ou6Wj1eLqkNCYCHT4SQ
+   nQJWqMX2k6t6kDeBhUE3HalpjFcN6qNdewDhzPD3x/wlS6XqYRT35wi2D
+   aFNfv8Oh3AYXMM+HneqTSUMvb+pN1GZz/rlXXr9a2PJd8f/WWyLez+za+
+   o9AXGf97PfCyCQ97KnvkGYpEQ81SJTa5yqtoP1XNn4iX7AzcBklRITs5m
+   09e0dl8GeFlSXgkxHYI5EqiHjA84/OZ5Du1dZvzVW670M0My+Q5h8fyGv
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10305"; a="259169271"
 X-IronPort-AV: E=Sophos;i="5.90,231,1643702400"; 
-   d="scan'208";a="240924370"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2022 13:47:06 -0700
+   d="scan'208";a="259169271"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2022 15:30:09 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,231,1643702400"; 
-   d="scan'208";a="548206722"
+   d="scan'208";a="721256778"
 Received: from lkp-server02.sh.intel.com (HELO a44fdfb70b94) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 02 Apr 2022 13:47:04 -0700
+  by orsmga005.jf.intel.com with ESMTP; 02 Apr 2022 15:30:07 -0700
 Received: from kbuild by a44fdfb70b94 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1nakeF-0000PD-NW;
-        Sat, 02 Apr 2022 20:47:03 +0000
-Date:   Sun, 3 Apr 2022 04:46:44 +0800
+        id 1namFy-0000U3-F0;
+        Sat, 02 Apr 2022 22:30:06 +0000
+Date:   Sun, 3 Apr 2022 06:29:37 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: drivers/media/platform/renesas/rcar_jpu.c:77:9: warning: 'RST' macro
- redefined
-Message-ID: <202204030453.ISJ7wI3L-lkp@intel.com>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_parse.c:15:9:
+ warning: 'RST' macro redefined
+Message-ID: <202204030631.cIrcwimr-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -64,30 +63,30 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6f34f8c3d6178527d4c02aa3a53c370cc70cb91e
-commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 media: platform: place Renesas drivers on a separate dir
-date:   3 weeks ago
-config: mips-randconfig-r001-20220403 (https://download.01.org/0day-ci/archive/20220403/202204030453.ISJ7wI3L-lkp@intel.com/config)
+head:   be2d3ecedd9911fbfd7e55cc9ceac5f8b79ae4cf
+commit: 2023a99811110aebba9eee4aa09ef7bd21a8a249 media: platform: rename mediatek/mtk-jpeg/ to mediatek/jpeg/
+date:   2 weeks ago
+config: mips-randconfig-r001-20220403 (https://download.01.org/0day-ci/archive/20220403/202204030631.cIrcwimr-lkp@intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c4a1b07d0979e7ff20d7d541af666d822d66b566)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install mips cross compiling tool for clang build
         # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2023a99811110aebba9eee4aa09ef7bd21a8a249
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        git checkout 2023a99811110aebba9eee4aa09ef7bd21a8a249
         # save the config file to linux build tree
         mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/media/platform/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/media/platform/mediatek/jpeg/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/renesas/rcar_jpu.c:77:9: warning: 'RST' macro redefined [-Wmacro-redefined]
+>> drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_parse.c:15:9: warning: 'RST' macro redefined [-Wmacro-redefined]
    #define RST     0xd0
            ^
    arch/mips/include/asm/mach-rc32434/rb.h:13:9: note: previous definition is here
@@ -96,28 +95,21 @@ All warnings (new ones prefixed by >>):
    1 warning generated.
 
 
-vim +/RST +77 drivers/media/platform/renesas/rcar_jpu.c
+vim +/RST +15 drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_parse.c
 
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  73  
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  74  /* JPEG markers */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  75  #define TEM	0x01
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  76  #define SOF0	0xc0
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22 @77  #define RST	0xd0
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  78  #define SOI	0xd8
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  79  #define EOI	0xd9
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  80  #define DHP	0xde
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  81  #define DHT	0xc4
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  82  #define COM	0xfe
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  83  #define DQT	0xdb
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  84  #define DRI	0xdd
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  85  #define APP0	0xe0
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22  86  
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c Rick Chang 2016-12-14  12  
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c Rick Chang 2016-12-14  13  #define TEM	0x01
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c Rick Chang 2016-12-14  14  #define SOF0	0xc0
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c Rick Chang 2016-12-14 @15  #define RST	0xd0
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c Rick Chang 2016-12-14  16  #define SOI	0xd8
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c Rick Chang 2016-12-14  17  #define EOI	0xd9
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c Rick Chang 2016-12-14  18  
 
-:::::: The code at line 77 was first introduced by commit
-:::::: 2c42cdbaec56a9565a2717b450506150c9c55103 [media] V4L2: platform: Add Renesas R-Car JPEG codec driver
+:::::: The code at line 15 was first introduced by commit
+:::::: b2f0d2724ba477d326e9d654d4db1c93e98f8b93 [media] vcodec: mediatek: Add Mediatek JPEG Decoder Driver
 
-:::::: TO: Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+:::::: TO: Rick Chang <rick.chang@mediatek.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 
 -- 
 0-DAY CI Kernel Test Service
