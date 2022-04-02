@@ -2,107 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84A974EFC27
-	for <lists+linux-media@lfdr.de>; Fri,  1 Apr 2022 23:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DC614EFEBC
+	for <lists+linux-media@lfdr.de>; Sat,  2 Apr 2022 06:53:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351525AbiDAVdK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Apr 2022 17:33:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37720 "EHLO
+        id S236134AbiDBEzk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Apr 2022 00:55:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235288AbiDAVdI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Apr 2022 17:33:08 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 311DC264F6E;
-        Fri,  1 Apr 2022 14:31:18 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id a30so5473715ljq.13;
-        Fri, 01 Apr 2022 14:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=X0JK5ihT1MOGfyrbF7/pj0RowTruIVoP8e8CBBTi+S4=;
-        b=C3Kf9Jm7U1BjEQwktj6mm0YSGdJta5gC611qurF0ij+1RP2Nw6zIG8ZqJlQeUPFlSR
-         4raoXNZ0GZM2xMqM+JWbTCIJOOITuhrDYmCMsyuA540wopq7D/I4dCPHjnz1L1AuC+Ed
-         fSVIkEpV+m5VcxY6+rZb96Oyp9TyTWfOOH/32rIrgph10FCwftAH2n/JjYxdXaSqv5ba
-         wRchlZZNVv2YkBrwuydSSuEW/BcDn/BkHwRj6Yqk05OS3Qo9R1p28mK9m/JTNJzoCu6N
-         I86TdUsZRQ6dD0J6GYUoSB0mZ5zPDkz8CE1W6SIxIVouoS9AipGBIMPgO+P9wu86uIro
-         jhKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=X0JK5ihT1MOGfyrbF7/pj0RowTruIVoP8e8CBBTi+S4=;
-        b=d+fiXOo2RE3K9dZMme4ExGrkwNOWy2/VGjPBZUPTCoeTHeKCuD+q43/6KJCEkmozbQ
-         QuYhTkcvRLCImyfDAdkde4WMrvwUcAPC4bhHfqvS4oKxdTc3pm64mvXVWlhKrfIoQOe9
-         CzBCW1mBDYuZ0+E9drVty2W2BTW1tSC5fqE4XL7INPh4uMHRkgeAoZeV1Ey7WWdl+Sm9
-         4tE3j5WMAToGz3et/Hq8wh8FoL6VJeZ/OITdxVeRFP64peynSxyD8gkKLBvk7zRnJ/aq
-         G/+WXPTQlLAN7VltypWVl1VOowbFPgYsAWZsDHWzf5n5WwT6nnMDyDm9SqTJfldqT6yn
-         j4cA==
-X-Gm-Message-State: AOAM531ysiwQGCbdA0YqP560hXETGj0UOzxZ1BybmEecazqIRa+mRKgi
-        CXLaKvxlbMSgO+FZvDzY9KaM9MSwV64=
-X-Google-Smtp-Source: ABdhPJwbmAj/TNXsyVzHxHQSIygbytu2JvhBQgA5HutAlambTIknHU9BwVfiI2XSNvpyitKPuCrnDw==
-X-Received: by 2002:a2e:a80e:0:b0:248:5819:b94a with SMTP id l14-20020a2ea80e000000b002485819b94amr14660509ljq.141.1648848676369;
-        Fri, 01 Apr 2022 14:31:16 -0700 (PDT)
-Received: from localhost.localdomain ([46.235.67.247])
-        by smtp.gmail.com with ESMTPSA id m8-20020a194348000000b0044a2ce63ef4sm349523lfj.10.2022.04.01.14.31.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 14:31:15 -0700 (PDT)
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     sumit.semwal@linaro.org, gustavo@padovan.org,
-        christian.koenig@amd.com, daniel.vetter@ffwll.ch
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH next v2] dma-buf/sync-file: do not allow zero size allocation
-Date:   Sat,  2 Apr 2022 00:31:14 +0300
-Message-Id: <20220401213114.11956-1-paskripkin@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <2d1f9ba9-ea2a-e41c-eae6-0ba348cdf202@gmail.com>
-References: <2d1f9ba9-ea2a-e41c-eae6-0ba348cdf202@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S232593AbiDBEzf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Apr 2022 00:55:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD975FC5
+        for <linux-media@vger.kernel.org>; Fri,  1 Apr 2022 21:53:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1DF0B60A21
+        for <linux-media@vger.kernel.org>; Sat,  2 Apr 2022 04:53:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2439AC340EC
+        for <linux-media@vger.kernel.org>; Sat,  2 Apr 2022 04:53:41 +0000 (UTC)
+Date:   Sat, 02 Apr 2022 06:53:40 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220402045342.2439AC340EC@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-num_fences is user-controlled value and it can be equal to 0. Code
-should not pass 0 to kcalloc(), since it will cause kcalloc() to return
-ZERO_PTR. ZERO_PTR will pass `!fences` check and kernel will panic
-because of dereferencing ZERO_PTR in add_fence()
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Fix it by validating num_fences and bail out early if it is equal to 0
+Results of the daily build of media_tree:
 
-Fixes: 519f490db07e ("dma-buf/sync-file: fix warning about fence containers")
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
+date:			Sat Apr  2 05:00:14 CEST 2022
+media-tree git hash:	dce49defa8f1d204a0bf44a254419ff7be9ddc16
+media_build git hash:	47e6d5a60b5da94db0118fa795dd0fcba646a0c7
+v4l-utils git hash:	52b4b9f26e1f4ee606a4885c117c088d681887fe
+edid-decode git hash:	85e8c9c70167030c1367493e0c2f15a903acf21f
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7843-g5397282c-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 4b73e0f50a123901c96ab376be40a340da0b4439
+host hardware:		x86_64
+host os:		5.16.0-1-amd64
 
-Changes since v1:
-	- Dropped already merged part
-	- Removed syzkaller's tag
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.273-i686: OK
+linux-4.14.273-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.236-i686: OK
+linux-4.19.236-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.144-i686: OK
+linux-5.4.144-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.62-i686: OK
+linux-5.10.62-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.13.14-i686: OK
+linux-5.13.14-x86_64: OK
+linux-5.14.1-i686: OK
+linux-5.14.1-x86_64: OK
+linux-5.15.1-i686: OK
+linux-5.15.1-x86_64: OK
+linux-5.16.1-i686: OK
+linux-5.16.1-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
 
----
- drivers/dma-buf/sync_file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Detailed results are available here:
 
-diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-index b8dea4ec123b..024f22193e0c 100644
---- a/drivers/dma-buf/sync_file.c
-+++ b/drivers/dma-buf/sync_file.c
-@@ -212,7 +212,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
- 	dma_fence_unwrap_for_each(b_fence, &b_iter, b->fence)
- 		++num_fences;
- 
--	if (num_fences > INT_MAX)
-+	if (num_fences > INT_MAX || !num_fences)
- 		goto err_free_sync_file;
- 
- 	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
--- 
-2.35.1
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
 
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
