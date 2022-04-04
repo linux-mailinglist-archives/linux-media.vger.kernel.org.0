@@ -2,110 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A3114F1421
-	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 13:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A55174F15A5
+	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 15:16:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232912AbiDDL4a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Apr 2022 07:56:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36298 "EHLO
+        id S1350339AbiDDNSE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Apr 2022 09:18:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230159AbiDDL41 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 07:56:27 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3BB255A4
-        for <linux-media@vger.kernel.org>; Mon,  4 Apr 2022 04:54:31 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id n6so5296786ejc.13
-        for <linux-media@vger.kernel.org>; Mon, 04 Apr 2022 04:54:30 -0700 (PDT)
+        with ESMTP id S1350206AbiDDNRs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 09:17:48 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 028B03CA78
+        for <linux-media@vger.kernel.org>; Mon,  4 Apr 2022 06:15:52 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id k2so3799472edj.9
+        for <linux-media@vger.kernel.org>; Mon, 04 Apr 2022 06:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=7xs1Q8qlIPRjoqt2EPejT10ykTPGTWoej6GDOdjftEY=;
-        b=Lp1l/HSQmbzRnei5xgfdkCyu3mVXwQ8/CS5x3v7B/0vg7Zkvkmsnzn1z3G0jCbKVYm
-         9INx//4VOs7XB0at/IzrJr8QeSSTSW6fGFcNEYdOZA4pBqyRlaM2eG93h2AJ7YbSfD5c
-         ZJLAqO2ZPXkKPLPZ8icBD2TX2PltyafXPdTJWhUCDh65gMNg0/JWtoN9XsLtyoEMF8hk
-         O6vcY6tkMdg2Scd1wWgzBaKbtHS5vfXuMmTd/Qgw2Ieuk6wxh0uuqtQUMu097NIt5E+n
-         XOozyNOccYxz0SXnZxP7mDetQBKBs0WRY8ZgYRyV2dP8TF2/Av1QrFJ/55cHN90orL4e
-         wMwg==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=e61u/Rj10PyAVoeSur3oRsXcVJaSV8AdUmE92CJGoKQ=;
+        b=HKBE8gVWICPF7qNRCEmA43fR0NRltdik4eQVwFrxJxBprutGVsO+fM5N9XyArxcPEy
+         PuBEUQyeEfncKFJwUQe+0GIx2gI6vB3ZSXMfAIrA+2fBDc7QHHCb7PA0UKC2ws/Bkyc/
+         1spnSjrrdDpvpBJGXhuokkVOWNlt5tDyN237k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=7xs1Q8qlIPRjoqt2EPejT10ykTPGTWoej6GDOdjftEY=;
-        b=DPX3+T2vEm6e3cZxJVIMy7+G/WlDD+UOQ0mu/c0Gdmtt1kaIm0caAexTuZqyAIdXLc
-         BIc/Pb0F357gNDnE6H/U7A1FNQWzbaBQwVLC22AaLbibWTyrWfhWCjweDOTaZTG6Mt3p
-         QEdY8CPuCGHNFF0vncXvBBYuvRKluDKkhoLFLsGHawJSQesBuyxK3JJQ3R7JGFRJkHRb
-         udRJyOE2l+utNu3B/tcLho1VL6L4ykqdMvvyi255yWDdqZGiu965KEiu17z3zNtWgzbI
-         oejTH5eITXnKivZGSVw0y89cAKhyOtDMPZFpA0W8kCXuTCvomuZa+C2/Hvjv9WPpazyl
-         CUgQ==
-X-Gm-Message-State: AOAM531UPf2j7cVHa6uQkMv+7ktnnqLPDWJ19AvRedarT5OKoNjuzwAS
-        FpLAzdaaUmIz3KkTd6a62IqvsmFSBzE130dd5V0=
-X-Google-Smtp-Source: ABdhPJz4Rd33NE0KeAtVDQWKlCjRlXEUOWAh9rU0WhnEEojMs23c5NPEXlprzkySLDAe/L0BP0zhRewUeS2LP+T3A4w=
-X-Received: by 2002:a17:907:c24:b0:6e1:4943:9950 with SMTP id
- ga36-20020a1709070c2400b006e149439950mr10549259ejc.559.1649073269601; Mon, 04
- Apr 2022 04:54:29 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=e61u/Rj10PyAVoeSur3oRsXcVJaSV8AdUmE92CJGoKQ=;
+        b=CdA1nB6/8iyLvP22pHQSAjBRc9mP7Skmpx09Iu14A5+EiSHJ48SQubcyN5a9E1Z8Eg
+         2a7sccVO3qfb+GH9r+VEc0sT/Ek1zp5cT/ANmlNLQPjiuwPX1Jl+aY3U9LcbmEdZlpKa
+         CDJJKA09cGmX44elb+8MPqnAUe5UERTY3yYRgak8aCAP8G7JcTTlhHBayNfG4a5nkKOt
+         XRiap2jCHk8k1vZ0Rdx3YVq7v7gWaRtCq+138FYSzlkxbu1OM5Tp3gNI7kR1evFzNRsj
+         3Jfiixr3CPKNqfmLPASI047VnKXD09N92ZeTFi5o99SGV/Whg7zQrDpKE8136Ly+8aTu
+         Fezw==
+X-Gm-Message-State: AOAM531swAsqJ18gXFZDbAygjB5UfyMG+dBgHd6aa/pLJirdW963RfHj
+        3qI/5F2gyDfH9IzP50zOb0Nq0A==
+X-Google-Smtp-Source: ABdhPJwetqXSOPzrs5uLpbEKMUuPL/AWkbxb9URzD/9fEBDPmvIgfQeHiIK5eM9V3hD1COpE/EBqLw==
+X-Received: by 2002:a05:6402:3693:b0:41c:dd5a:e8ca with SMTP id ej19-20020a056402369300b0041cdd5ae8camr662958edb.225.1649078150565;
+        Mon, 04 Apr 2022 06:15:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id b12-20020a170906038c00b006e4e48969d2sm3665065eja.88.2022.04.04.06.15.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Apr 2022 06:15:50 -0700 (PDT)
+Date:   Mon, 4 Apr 2022 15:15:48 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 2/4] drm/gem: Delete gem array fencing helpers
+Message-ID: <YkrvhG/ODfshvX+y@phenom.ffwll.local>
+References: <20220331204651.2699107-1-daniel.vetter@ffwll.ch>
+ <20220331204651.2699107-3-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Received: by 2002:a17:907:7e99:0:0:0:0 with HTTP; Mon, 4 Apr 2022 04:54:28
- -0700 (PDT)
-Reply-To: belindasteenkamp14@gmail.com
-From:   BELINDA STEENKAMP <tiffanysmithforreal17@gmail.com>
-Date:   Mon, 4 Apr 2022 13:54:28 +0200
-Message-ID: <CAJSMfVYgZBQpJ6tkg4Tg1GSNmJW2nDJKnxAVV8s7OdJLFcW3MQ@mail.gmail.com>
-Subject: Easter Promotion!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:62f listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5009]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [belindasteenkamp14[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [tiffanysmithforreal17[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [tiffanysmithforreal17[at]gmail.com]
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.8 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220331204651.2699107-3-daniel.vetter@ffwll.ch>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---=20
-PROMOTION WITH 2% INTEREST RATE
+On Thu, Mar 31, 2022 at 10:46:49PM +0200, Daniel Vetter wrote:
+> Integrated into the scheduler now and all users converted over.
+> 
+> v2: Rebased over changes from König.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
 
-  We offer Loans ranging from (R10,000.00 =E2=80=93 R5,000,000.00). Loan
-duration is from 1 to 20 years (Maximum) No collateral, No ITC CHECK
-and Blacklisted, Under debt review, No pay slip, Low credit, Self
-employed and Business owners are welcome.
+Anyone up for an ack for this one here?
 
-CONTACT:
-Belinda Steenkamp (Mrs)
-Senior Loan Consultant,
-Call only ... { +27671850879 }
-Whatsapp only... ( +27677352072
-Email: { belindasteenkamp14@gmail.com }
+Thanks, Daniel
+
+> ---
+>  drivers/gpu/drm/drm_gem.c | 80 ---------------------------------------
+>  include/drm/drm_gem.h     |  5 ---
+>  2 files changed, 85 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 56fb87885146..133dfae06fab 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -1273,83 +1273,3 @@ drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
+>  	ww_acquire_fini(acquire_ctx);
+>  }
+>  EXPORT_SYMBOL(drm_gem_unlock_reservations);
+> -
+> -/**
+> - * drm_gem_fence_array_add - Adds the fence to an array of fences to be
+> - * waited on, deduplicating fences from the same context.
+> - *
+> - * @fence_array: array of dma_fence * for the job to block on.
+> - * @fence: the dma_fence to add to the list of dependencies.
+> - *
+> - * This functions consumes the reference for @fence both on success and error
+> - * cases.
+> - *
+> - * Returns:
+> - * 0 on success, or an error on failing to expand the array.
+> - */
+> -int drm_gem_fence_array_add(struct xarray *fence_array,
+> -			    struct dma_fence *fence)
+> -{
+> -	struct dma_fence *entry;
+> -	unsigned long index;
+> -	u32 id = 0;
+> -	int ret;
+> -
+> -	if (!fence)
+> -		return 0;
+> -
+> -	/* Deduplicate if we already depend on a fence from the same context.
+> -	 * This lets the size of the array of deps scale with the number of
+> -	 * engines involved, rather than the number of BOs.
+> -	 */
+> -	xa_for_each(fence_array, index, entry) {
+> -		if (entry->context != fence->context)
+> -			continue;
+> -
+> -		if (dma_fence_is_later(fence, entry)) {
+> -			dma_fence_put(entry);
+> -			xa_store(fence_array, index, fence, GFP_KERNEL);
+> -		} else {
+> -			dma_fence_put(fence);
+> -		}
+> -		return 0;
+> -	}
+> -
+> -	ret = xa_alloc(fence_array, &id, fence, xa_limit_32b, GFP_KERNEL);
+> -	if (ret != 0)
+> -		dma_fence_put(fence);
+> -
+> -	return ret;
+> -}
+> -EXPORT_SYMBOL(drm_gem_fence_array_add);
+> -
+> -/**
+> - * drm_gem_fence_array_add_implicit - Adds the implicit dependencies tracked
+> - * in the GEM object's reservation object to an array of dma_fences for use in
+> - * scheduling a rendering job.
+> - *
+> - * This should be called after drm_gem_lock_reservations() on your array of
+> - * GEM objects used in the job but before updating the reservations with your
+> - * own fences.
+> - *
+> - * @fence_array: array of dma_fence * for the job to block on.
+> - * @obj: the gem object to add new dependencies from.
+> - * @write: whether the job might write the object (so we need to depend on
+> - * shared fences in the reservation object).
+> - */
+> -int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+> -				     struct drm_gem_object *obj,
+> -				     bool write)
+> -{
+> -	struct dma_resv_iter cursor;
+> -	struct dma_fence *fence;
+> -	int ret = 0;
+> -
+> -	dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
+> -		ret = drm_gem_fence_array_add(fence_array, fence);
+> -		if (ret)
+> -			break;
+> -	}
+> -	return ret;
+> -}
+> -EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index e2941cee14b6..9d7c61a122dc 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -407,11 +407,6 @@ int drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
+>  			      struct ww_acquire_ctx *acquire_ctx);
+>  void drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
+>  				 struct ww_acquire_ctx *acquire_ctx);
+> -int drm_gem_fence_array_add(struct xarray *fence_array,
+> -			    struct dma_fence *fence);
+> -int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+> -				     struct drm_gem_object *obj,
+> -				     bool write);
+>  int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+>  			    u32 handle, u64 *offset);
+>  
+> -- 
+> 2.34.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
