@@ -2,158 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 820B34F0A8F
-	for <lists+linux-media@lfdr.de>; Sun,  3 Apr 2022 17:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 534CF4F0D25
+	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 02:04:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359144AbiDCPRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 Apr 2022 11:17:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50686 "EHLO
+        id S1354379AbiDDAGd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 Apr 2022 20:06:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238204AbiDCPRY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Apr 2022 11:17:24 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2047.outbound.protection.outlook.com [40.107.236.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D00041C92E;
-        Sun,  3 Apr 2022 08:15:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iWWpRvy+pd6tiSn8KXiut6L11Jgor9GikbztYJi2bG+ymX+hs3xlCO26uR0PnqPhBQ6yIrCeWenbyN7AX2L8f21VBbDOdgNU6pUnxJ0K5wHLDrTnnvCuZ/cbLS6I/wBoSwcovOB61XOCExL+TIhYoqNACLEb+n8HAAmUnm9vR5rCf5AnfMiJlEbb6kXBr5l74sU91/lP/2GEhEUZ6Yqv67Fp/joVTLb0YaJnjRSj1kYNJtBfvWcqkpLtED5OFSMevvdjPXVm35wNSZsWeTrklEXsiLADPJrb4YVw7cOFKo8JZkoC9EQv7ASchvQS6qGqgUwngwaZT/21gZ7GNRLKgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oSHBkU+uipFvU/YNZ7T67PZG/MNDrA0gnLuDOpLr0zk=;
- b=VvwHEdhqNSidHl6I28imPpoAhKoPDq3o3/ETz1B4DaxPsocEFJxz9aKJF8SAZJQDLQtcptGmNUSxnBmWk6k0BpXscssyNyfMrl7aqOMDBNaCq+OzHv4SGrl18fAuvjJs19vXsWYCrwfGOcLUrR3OsGaG8Xu8hvLwYDoDsdGUisa/irPDByJ3lqnpm8LR6CQ9jb1HijJOf31dxpdWr0gJs5mGtnPJtRvOuRhJUPArio0tTtZ+I9Al6Lme1e3X6BDBK08OmERNEf0ODPKUR/Q9XfpVVsRz6ptA8Qp3+OISDbGE3v81j94Cjjz25HWlr+/x+MDk15ZOyKYNMEDLLDtOQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oSHBkU+uipFvU/YNZ7T67PZG/MNDrA0gnLuDOpLr0zk=;
- b=OtFa17s/j4aopFVYn/wf9mCMxUm1Mn+qtTnQno1EcDD+3ynnzD7PON/TDCgrh6URkId/2mgkaG1qd632LiGofa0KjLDvjiwPU5A0+hiZXGqrM0CUmLdtwTDgNksR3sMhdsOkAcODrEqKGtQ0vIzRLGVpunaXakocc1jnGsMouEA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM4PR12MB5167.namprd12.prod.outlook.com (2603:10b6:5:396::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Sun, 3 Apr
- 2022 15:15:28 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::404f:1fc8:9f4c:f185]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::404f:1fc8:9f4c:f185%6]) with mapi id 15.20.5123.031; Sun, 3 Apr 2022
- 15:15:28 +0000
-Message-ID: <f2291f9b-4480-9dea-7d8e-e9eb1ba6a1a2@amd.com>
-Date:   Sun, 3 Apr 2022 17:15:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] drivers/dma-buf: dma-buf.c: fix a typo
-Content-Language: en-US
-To:     Sui Jingfeng <15330273260@189.cn>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20220402134413.1705246-1-15330273260@189.cn>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220402134413.1705246-1-15330273260@189.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6P192CA0024.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:209:83::37) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        with ESMTP id S229715AbiDDAGc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Apr 2022 20:06:32 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23B0C2CC8C
+        for <linux-media@vger.kernel.org>; Sun,  3 Apr 2022 17:04:35 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id ot30so6719318ejb.12
+        for <linux-media@vger.kernel.org>; Sun, 03 Apr 2022 17:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=YlBtLMwXDp/2aSzEQXf/0+zL7sSyqtfpT0RHI0yBN90=;
+        b=P4r/SoegNEr9VInkvurtF58MXhKjhQiVDqJpUu4jIYfBoM7fRxXVKY3XimQ8p1+Ht6
+         QBOFuh3Er8IF7Ud0cd5Xph7UWZWsfPQR5uHHwn5n0I3Yc0at8BiFSTRkaaC4oufeami/
+         5VT7CdnmzoYGC85b5eY4nGaPTbdnq/ly8bzjtQJQz4A5cxqfFEueUWK9t39IyI6VgB57
+         vs+NUn8s7BKAKtSom9Kxi3C8wAdXSgJEu4I09ncRbzTdHG0lWlPK1o5iTjjwEV/764Ja
+         RzMgmb4UMNgQF6Phj26OB1pum/i0O66B04Qdx+Y9Cx8bXB5LrJM5c3+a29wVh+J11wlo
+         c4JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=YlBtLMwXDp/2aSzEQXf/0+zL7sSyqtfpT0RHI0yBN90=;
+        b=j74k2xOXeJzdraPMMLVlmL9FItSOsmSQyriYIMmwVCfY92HTIvqa9ZIhAHClkJTXz3
+         U2S9rndgRacsApRVgMi+Amstk3ilQoa9tO5IEg4+/fp+XsnmkaFKUCatum/llen+rvsF
+         PYPOKc8kwakOegPeDHsbHLeEPFrGBvOakmgEguqPKmd6Rng6TUIBxMIhO0bixOmvqodh
+         IRld5xj3CdARJkML0Gf8w7w81kqw54FQ2c67Z7bgYBPqSwYJxwtXSymuLiAyZpi/W3/h
+         Mhw4Wn4Bktcs2kgrVqWm/P7E77RXvIs+SthI1SSkSJ94qbMLkK9Ki1IER4Gg4Fu7kxWQ
+         M+ug==
+X-Gm-Message-State: AOAM531L8jFMgqTMMcZ7BUCX9tUraocXd2+Ib49NUqR7eQ2HSis9+Oka
+        v9QwyFTiLt7p+7+d4N0swprnqSSftQ03TimzXq9UDg==
+X-Google-Smtp-Source: ABdhPJzV+fEMQ3b/d/a51/OGIg4GPl4a5ZojCGV9lwpP+gO59cT8hdkP5KKDh0yB0UMK8Iu+Tweu2xuIv/PiG9bs28M=
+X-Received: by 2002:a17:906:4785:b0:6df:6784:a7f8 with SMTP id
+ cw5-20020a170906478500b006df6784a7f8mr9035751ejc.301.1649030673654; Sun, 03
+ Apr 2022 17:04:33 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 782a4b00-43b1-4ed9-62ad-08da1584c80b
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5167:EE_
-X-Microsoft-Antispam-PRVS: <DM4PR12MB51676750369DBC538C17994E83E29@DM4PR12MB5167.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u/00uTfLd44j621a0foBuLSNuA2UR29LSe7sX0xbHquSKrwJG+OixvdTOOjw3K44NF168XgxgCm3yzGxsredv+T6E93M8K/dQRFcQLyYqBUHXQwQ7L1US5Er5jxJFj003YhCDS8oJ19YOZz3jofAYbi2djsIzqc3S4hYvEZrReSozaAUWr+xA9roBzvv+kiyWrSqwUu0a6n03kHTqxkXgsCR0gnCj72c2HZo5CqV1OQDHBdp6qHhuj0ixR7wiOpbNeWufuv9UsZ19FD5KhTDtMRzy2ZYiDZ9Lm/Bkuzziz3hWoFz/l3Io/dSAldFHn0G3ulgWzD67yQKxzLUkVm4fkle64Ws8qBe7bdlUeKYgRYa3ydeTsfpA9km0Z2G4biFD3YeI5NMSb1h2jYcmIKF/79Biv0xIpYXi5d/snzdnhmXnZq0p7LsnLrV/95fTXANNKESUV+eDhPxKvRI2Sv9a3CRyBsKHehjXTTAvz1je1aQXVCq1x0IawWIhgDnm7ovaZ7Z5j0tpDH928eI8IcdODWe3AjITZMHjgcnVDYU4UNSpbPTkYBsCBxrasQGG4IxDm1eS8K0LIBigBnS8/Y//BoncXxguX9GiATNLAz4eEOO0DxfnGt2oD1iEUv95AxdY6R6QNsITza5koFgTLjLtP6L5UWCFLDqDFIhMpfBpENAvDbRs1QPKHD8Dlo69A/3SaDC+K1TElGicHQKJp+KdmL138FW1M/izLGc6qlK5Fw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6506007)(2906002)(316002)(110136005)(6666004)(31686004)(36756003)(8676002)(4326008)(66946007)(6512007)(66556008)(66476007)(83380400001)(5660300002)(66574015)(2616005)(38100700002)(4744005)(6486002)(86362001)(186003)(508600001)(8936002)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QmdTa2w3YUZxanAwd29CVFd1WUZ0UVVCME0wa3VMb0tLZ1ErNHBvOWN1R0la?=
- =?utf-8?B?SkQ5RTBTZ05JSjBYcEFydFU1UkdORWRUNW5BYVllN3IyK3FKSmhkNmh6T2I1?=
- =?utf-8?B?R1F1NkJNV1JrenI0ekcyN3c3MXZaRHRMK2dtbGo4L3hwSkgwZGR0MFJOUUJo?=
- =?utf-8?B?RkxGdHE0QkdyWGUzbzRTcDJZemFuall1R1RFU1VvcVhPOThZbTd2VnFVUmlJ?=
- =?utf-8?B?RmNXTVBiTk9sQk5MRTFKMjhPd2pCOWZMTU5ROHo3Yk9TdFZ5L0RyeW4zVnFP?=
- =?utf-8?B?TjU1ekk0MklPOSt6eUZTbW0zVFEvK1FldmhncjRUbzh4N0M0UHhCc3o3dk9s?=
- =?utf-8?B?NGNISXowNGlUYmlVNWJNYnNYc216WGJ6bTd5L1dDcDRhUVZHcUhhRTVob0Nk?=
- =?utf-8?B?cWh0MXNGdGx0bGxOSzFYSnBwL2g5eGhkUDJRRU9VWjJFejFxelZtaWNvVnAz?=
- =?utf-8?B?RWkrcmFqYjBKenUxNmVUTW42eU5iOENXSTVHRy9pMHh2STcyL0VvUFRvcXhK?=
- =?utf-8?B?M2xKUUVzMkZVOEQyWW5vVENTWUlUQUJKUWRIMjU3eXVYaFhFWFRHWXhrT0Fm?=
- =?utf-8?B?QkVWNGRqSWJaeEtVOFFMUDROSzdPSTA3SUxFRjMyUGwxQ1RuMTduS1BZaW9N?=
- =?utf-8?B?LzBsN0hsVnNkdTdxZ2tUSytPZTMwaUYvZUFPNUxnZzIycWpRbXVMR0gyQ3Bl?=
- =?utf-8?B?cUg1RkJWamh4NDZJUStPb29BNGQ5ZmJtMnA0Zml1NjdYdnF1WkI4ZnVPMWVR?=
- =?utf-8?B?TzBjNHR1OGtRR0ZzN2V4bnZBK1F0YmJYZ1Q4cHNRNzZLYTBYeldwS1dXb3NX?=
- =?utf-8?B?L1hNNTZSZmg4U1NMUTZqamEwOTFmSXk1VFYwTVFqdGNTblVBK1FSNEppL0lS?=
- =?utf-8?B?SkhPREhnbGFLZ1ZtdkE1WHdHbVk3WTl2MjQyZWMxMXIyelhEc0d4b1N6bmpw?=
- =?utf-8?B?Ni9MUUxHeTFqM0kzdDVETFlpSm96MDdVaDhrK3FieDAzMUI3SjUrVzUxK2Jv?=
- =?utf-8?B?OVk3RllBLzNDcGk5TFdtanFoVUorOXQ4VHgvYVJWY0tMRVM0VU9mNXgzc3dV?=
- =?utf-8?B?eWRpbnVQRU51NUtUYXMwS2VQMFF2SVhIRmF3WVdIMTNxMEgvYjJpSlRqQUdO?=
- =?utf-8?B?OGNHTzBxaXNULy8wZjZ0RkJEWVE5Vmx1T0cxVUZZK0Z3dW5GaVBodWwxN1Fq?=
- =?utf-8?B?MEI3dXZwQ2lkejlyWXhMdElJNzNLaDQzSEU0R1IxS0Q0K0xYeUozOE1QcHV6?=
- =?utf-8?B?czNCSDNNN3c5d3FucGJkR29LemRYdWJwbndxTHRkT2J4ZVZ1UVhqRnFrck45?=
- =?utf-8?B?T2tnUE41UGJqRUV4UXBhdVd1VEVoakxSN0ZQOThSTGZxRkVuRE9KWW93NlRp?=
- =?utf-8?B?UWM0YWYxY2cvbW1vdWc1Q0I4WDEyZnpIT2JIZ1psSFNoVEtCZ0NsRFFlWXVt?=
- =?utf-8?B?dEFORkI1MnJ0TWMzdDEwdGdta1RpS0plRzhaZ3dYSG9zc1hnMHJNYzh3TUVz?=
- =?utf-8?B?U3Y2RHVaVi9mTEVVSjYwZDlCY3ptWThSZ0RPM2NVL0l1bDg2YkhQdUpWMmhC?=
- =?utf-8?B?TmEwVkZZQnRhRU11THlaK0xza3VRRWRCcXVpRjZPamtmRmtDc1FJUFhJRjN3?=
- =?utf-8?B?QXlodmZtQmFiMVVjTkJCRHhNQlNjTFg1SmZFY0F1cmFZbkpvcVNsUmlxWWM2?=
- =?utf-8?B?TytUYmY5MzVQalcwclZUSktaYXJvRjNZRXpPYjlMdzZGdWlhNWUzU0ZLQ0Iw?=
- =?utf-8?B?L08zdmdCY21mMjFnSkdKMk1SczVNVU9zMlpPTUdLd21jTnVuSGZ1SWhTZXBp?=
- =?utf-8?B?Qlo0bEV1RmZ6VHViNWtDS01ocHZVYmlxK0FNSEE0Mi9jSHhaWGdmSWYxTjBq?=
- =?utf-8?B?Ujl6Z1UraHFWMWhCTzZHcEJyam40UFE5UmVqckVoRVc3bkcya3U1VVdyZ0Vo?=
- =?utf-8?B?djdpcXBnM3FWRHpLNkpISnFlSG5PM0FVdXRldTcwVmpIZXFUeXBwc2toSjFh?=
- =?utf-8?B?TzhwSG8vOFIxdGhkV2R2SU45dnZhUjlmcWJWcjdZVUppaHRlT0JFVGlJOW1t?=
- =?utf-8?B?SmNrdXVXYkx6d2JpTE1aeEZrcHYxbDE0WVlEVVhiMmJYdEJNRi9mb3BubG9t?=
- =?utf-8?B?U3RLbXc3TlIrYUVxZWp6RVFSQWVMOFAwM0h1emFCeXBMTkpDdEx6M01Jalcv?=
- =?utf-8?B?ZXdYL0ZBRkg1Rk1TOXlRWXFEUUlTamtJZytSUkRFNU1KOWVId1E3UmJnS0RU?=
- =?utf-8?B?ekNRNG05VDV6ZlE0WmJsa3IvQzNwa0w5ZHBoVEN6amdWVU90elBFdFV5S20x?=
- =?utf-8?B?bmNrcWhGa0svSUVQSmpjaW5OUHM4cHBKbU44NlZtaXd0QWtqdFhzeEpKd2U2?=
- =?utf-8?Q?ETRG7eUR/cukp3cGfoOI3WWXO8ZMd4Gcsl/hw/PfrdrTt?=
-X-MS-Exchange-AntiSpam-MessageData-1: 6Cd97T9pC5U3+Q==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 782a4b00-43b1-4ed9-62ad-08da1584c80b
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2022 15:15:27.8651
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MFVLHzn54XknI6ySA6eI+cQKeY9EmW0jneWQ2/7mF3nlLizlmku+20FqUaOkaBwQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5167
-X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+ <20220227144926.3006585-3-jernej.skrabec@gmail.com> <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
+In-Reply-To: <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Sun, 3 Apr 2022 21:04:22 -0300
+Message-ID: <CAAEAJfCA1ef5+KZHU4ZTJvuqdCAEUkvpDY9HTy1fp3M+0QxqPg@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/8] media: Add P010 format
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 02.04.22 um 15:44 schrieb Sui Jingfeng:
-> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+Hi Nicolas, Benjamin,
 
-Reviewed-by: Christian König <christian.koenig@amd.com> and pushed to 
-drm-misc-next.
-
-Thanks,
-Christian.
-
-> ---
->   drivers/dma-buf/dma-buf.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Feb 28, 2022 at 9:48 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
 >
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index df23239b04fc..775d3afb4169 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -443,7 +443,7 @@ static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
->    *    as a file descriptor by calling dma_buf_fd().
->    *
->    * 2. Userspace passes this file-descriptors to all drivers it wants this buffer
-> - *    to share with: First the filedescriptor is converted to a &dma_buf using
-> + *    to share with: First the file descriptor is converted to a &dma_buf using
->    *    dma_buf_get(). Then the buffer is attached to the device using
->    *    dma_buf_attach().
->    *
+> Le dimanche 27 f=C3=A9vrier 2022 =C3=A0 15:49 +0100, Jernej Skrabec a =C3=
+=A9crit :
+> > Add P010 format, which is commonly used for 10-bit videos.
+>
+> There is a much more complete patch that was sent previously (with docume=
+ntation
+> and all):
+>
+> https://patchwork.kernel.org/project/linux-rockchip/patch/20210618131526.=
+566762-5-benjamin.gaignard@collabora.com/
+>
 
+I believe "media: Add P010 video format" should be good to go, I think
+we could merge it.
+
+I can't find it on my gmail inbox, for some reason.. can you guys
+please repost it,
+and/or reply to with a gently ping for Hans (and please Cc me on this mail)=
+ ?
+
+Thanks!
+Ezequiel
