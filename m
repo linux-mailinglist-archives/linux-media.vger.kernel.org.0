@@ -2,73 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 534CF4F0D25
-	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 02:04:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF2CE4F0D2F
+	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 02:16:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354379AbiDDAGd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 Apr 2022 20:06:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48254 "EHLO
+        id S1376759AbiDDAS2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 Apr 2022 20:18:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbiDDAGc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Apr 2022 20:06:32 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23B0C2CC8C
-        for <linux-media@vger.kernel.org>; Sun,  3 Apr 2022 17:04:35 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id ot30so6719318ejb.12
-        for <linux-media@vger.kernel.org>; Sun, 03 Apr 2022 17:04:35 -0700 (PDT)
+        with ESMTP id S240577AbiDDAS0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Apr 2022 20:18:26 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C4F635ABA
+        for <linux-media@vger.kernel.org>; Sun,  3 Apr 2022 17:16:31 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id v75so8611052oie.1
+        for <linux-media@vger.kernel.org>; Sun, 03 Apr 2022 17:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=YlBtLMwXDp/2aSzEQXf/0+zL7sSyqtfpT0RHI0yBN90=;
-        b=P4r/SoegNEr9VInkvurtF58MXhKjhQiVDqJpUu4jIYfBoM7fRxXVKY3XimQ8p1+Ht6
-         QBOFuh3Er8IF7Ud0cd5Xph7UWZWsfPQR5uHHwn5n0I3Yc0at8BiFSTRkaaC4oufeami/
-         5VT7CdnmzoYGC85b5eY4nGaPTbdnq/ly8bzjtQJQz4A5cxqfFEueUWK9t39IyI6VgB57
-         vs+NUn8s7BKAKtSom9Kxi3C8wAdXSgJEu4I09ncRbzTdHG0lWlPK1o5iTjjwEV/764Ja
-         RzMgmb4UMNgQF6Phj26OB1pum/i0O66B04Qdx+Y9Cx8bXB5LrJM5c3+a29wVh+J11wlo
-         c4JA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=sDeGF+MYx4+61NVMd2dbBEp/m5RR7DyRrVH6YT77uYY=;
+        b=8FpXIGs0demQMcF9wi+HglWWgziC9NDgvpiniQ4bKSgMVGNPvEIhbaNVe74GaFGxXz
+         AzyXQDBrUgmXW0I7c+4PfPkGrlZt14dFiHByNfcaB5ZHtigjt2351EUvpfQhpwl2iYvs
+         YK/kRH6XyM9r+5wuPcSLZZ3a7pvZrRdqbWv9JaDTBTwzmY2qvN8XAd1SYKigWClPx/mi
+         o0GH09HKV1TDyt1I4Wfd/T2epQmjiQflvLNwzTq4XBU1pVLsweaxLNT6cb+DiinVMIPt
+         d2QE3iccjlYOyKjWB3x++6ZajTyu1+SbJZ3sRLxyPCDkNCEE39FgMCGRSdzTeP/mqoIp
+         MPrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=YlBtLMwXDp/2aSzEQXf/0+zL7sSyqtfpT0RHI0yBN90=;
-        b=j74k2xOXeJzdraPMMLVlmL9FItSOsmSQyriYIMmwVCfY92HTIvqa9ZIhAHClkJTXz3
-         U2S9rndgRacsApRVgMi+Amstk3ilQoa9tO5IEg4+/fp+XsnmkaFKUCatum/llen+rvsF
-         PYPOKc8kwakOegPeDHsbHLeEPFrGBvOakmgEguqPKmd6Rng6TUIBxMIhO0bixOmvqodh
-         IRld5xj3CdARJkML0Gf8w7w81kqw54FQ2c67Z7bgYBPqSwYJxwtXSymuLiAyZpi/W3/h
-         Mhw4Wn4Bktcs2kgrVqWm/P7E77RXvIs+SthI1SSkSJ94qbMLkK9Ki1IER4Gg4Fu7kxWQ
-         M+ug==
-X-Gm-Message-State: AOAM531L8jFMgqTMMcZ7BUCX9tUraocXd2+Ib49NUqR7eQ2HSis9+Oka
-        v9QwyFTiLt7p+7+d4N0swprnqSSftQ03TimzXq9UDg==
-X-Google-Smtp-Source: ABdhPJzV+fEMQ3b/d/a51/OGIg4GPl4a5ZojCGV9lwpP+gO59cT8hdkP5KKDh0yB0UMK8Iu+Tweu2xuIv/PiG9bs28M=
-X-Received: by 2002:a17:906:4785:b0:6df:6784:a7f8 with SMTP id
- cw5-20020a170906478500b006df6784a7f8mr9035751ejc.301.1649030673654; Sun, 03
- Apr 2022 17:04:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
- <20220227144926.3006585-3-jernej.skrabec@gmail.com> <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
-In-Reply-To: <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=sDeGF+MYx4+61NVMd2dbBEp/m5RR7DyRrVH6YT77uYY=;
+        b=jCGWZWcZibUQDXKXienUH8HYBpZo9rdhM+O4FKbjemhQs3iRcr2/GMgQDry7iNVNQi
+         6vtp24QOriKBktVBI+xMCxlgp3U+A0tDYBjycaXz0L87pe0pMDA45HAC2KzNfMfbAG4b
+         gFwRFq3bbwKFilu047wQdWLB+GdaTy9pnMYhtkTd21p3q82PmHgOTQQ6BH10MMg8deKb
+         dn5KU6CJhvGbzdUUiWBawe72PJnp35RhZNRtCkh1ACATD7PGY92mzLqKFysCEjqROp+A
+         ZoXSVqGnEQ8k2hlFpNlK2vVoOCPq+VxKQUcL8Y3AhLzS/JkbQvvwFs8f8x1TM2KRRjjZ
+         6zOg==
+X-Gm-Message-State: AOAM530sq22Ld5BgCoCkfJgSUX+mHoTWP9atxHoUE9l+alqCyLoGYlCE
+        J87s5c/a9szUG8ZIxNCdqDkRug==
+X-Google-Smtp-Source: ABdhPJxihSPqr2QYA2oL/jcuxEUYVVKdwk8aKwxld6QbdGF7LeA3ST+QQ7UwApuCRdUE/4mhD9DORQ==
+X-Received: by 2002:a05:6808:1207:b0:2da:7087:8685 with SMTP id a7-20020a056808120700b002da70878685mr9251992oil.167.1649031390668;
+        Sun, 03 Apr 2022 17:16:30 -0700 (PDT)
+Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
+        by smtp.gmail.com with ESMTPSA id w22-20020acaad16000000b002d9c98e551bsm3647786oie.36.2022.04.03.17.16.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Apr 2022 17:16:30 -0700 (PDT)
+Date:   Sun, 3 Apr 2022 21:16:23 -0300
 From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Sun, 3 Apr 2022 21:04:22 -0300
-Message-ID: <CAAEAJfCA1ef5+KZHU4ZTJvuqdCAEUkvpDY9HTy1fp3M+0QxqPg@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/8] media: Add P010 format
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org, nicolas@ndufresne.ca,
+        hverkuil-cisco@xs4all.nl, gregkh@linuxfoundation.org,
+        wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH 4/8] media: hantro: postproc: Fix buffer size
+ calculation
+Message-ID: <Yko41wsU2r7ScL1c@eze-laptop>
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+ <20220227144926.3006585-5-jernej.skrabec@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220227144926.3006585-5-jernej.skrabec@gmail.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -78,30 +74,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas, Benjamin,
+Hi Jernej,
 
-On Mon, Feb 28, 2022 at 9:48 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
-te:
->
-> Le dimanche 27 f=C3=A9vrier 2022 =C3=A0 15:49 +0100, Jernej Skrabec a =C3=
-=A9crit :
-> > Add P010 format, which is commonly used for 10-bit videos.
->
-> There is a much more complete patch that was sent previously (with docume=
-ntation
-> and all):
->
-> https://patchwork.kernel.org/project/linux-rockchip/patch/20210618131526.=
-566762-5-benjamin.gaignard@collabora.com/
->
+On Sun, Feb 27, 2022 at 03:49:22PM +0100, Jernej Skrabec wrote:
+> When allocating aux buffers for postprocessing, it's assumed that base
+> buffer size is the same as that of output. Coincidentally, that's true
+> most of the time, but not always. 10-bit source also needs aux buffer
+> size which is appropriate for 10-bit native format, even if the output
+> format is 8-bit. Similarly, mv sizes and other extra buffer size also
+> depends on source width/height, not destination.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  .../staging/media/hantro/hantro_postproc.c    | 24 +++++++++++++------
+>  drivers/staging/media/hantro/hantro_v4l2.c    |  2 +-
+>  drivers/staging/media/hantro/hantro_v4l2.h    |  2 ++
+>  3 files changed, 20 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
+> index 248abe5423f0..1a76628d5754 100644
+> --- a/drivers/staging/media/hantro/hantro_postproc.c
+> +++ b/drivers/staging/media/hantro/hantro_postproc.c
+> @@ -12,6 +12,7 @@
+>  #include "hantro_hw.h"
+>  #include "hantro_g1_regs.h"
+>  #include "hantro_g2_regs.h"
+> +#include "hantro_v4l2.h"
+>  
+>  #define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
+>  { \
+> @@ -137,18 +138,27 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+>  	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+>  	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
+>  	unsigned int num_buffers = cap_queue->num_buffers;
+> +	struct v4l2_pix_format_mplane pix_mp;
+> +	const struct hantro_fmt *fmt;
+>  	unsigned int i, buf_size;
+>  
+> -	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage;
+> +	/* this should always pick native format */
+> +	fmt = hantro_get_default_fmt(ctx, false);
+> +	if (!fmt)
+> +		return -EINVAL;
+> +	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
+> +			    ctx->src_fmt.height);
+> +
+> +	buf_size = pix_mp.plane_fmt[0].sizeimage;
 
-I believe "media: Add P010 video format" should be good to go, I think
-we could merge it.
+Took me a while to see that the main change is taking buf_size
+from pix_mp, which now takes into account the bit-depth :)
 
-I can't find it on my gmail inbox, for some reason.. can you guys
-please repost it,
-and/or reply to with a gently ping for Hans (and please Cc me on this mail)=
- ?
+To me this makes sense.
 
-Thanks!
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+Thanks,
 Ezequiel
