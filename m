@@ -2,109 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 199E04F1A62
-	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 23:16:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E8FB4F1A78
+	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 23:16:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378931AbiDDVS0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Apr 2022 17:18:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36578 "EHLO
+        id S1378966AbiDDVSb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Apr 2022 17:18:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379391AbiDDRES (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 13:04:18 -0400
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2687140A22;
-        Mon,  4 Apr 2022 10:02:22 -0700 (PDT)
-Received: by mail-oi1-f176.google.com with SMTP id q129so10701409oif.4;
-        Mon, 04 Apr 2022 10:02:22 -0700 (PDT)
+        with ESMTP id S1379594AbiDDRn6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 13:43:58 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A183131DE7;
+        Mon,  4 Apr 2022 10:41:59 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id c23so8798407plo.0;
+        Mon, 04 Apr 2022 10:41:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=cN+cryxrTnBG0VJoafZ3s+TyTmI2BuJ8Y3SjnOF9NwE=;
+        b=q3aN/qFotQnWnl+DjEG8MO6ne2oneqFucG+YMqB8k3tZY4ziHRZjt9uG5kk2ucPSyJ
+         B3t4mekt0LtHaY6B2DxdS9ITSE1r5EeeAd/rhW1xKoa1wo3vU4K2S8P61apUpP5h4bNm
+         Ie0A7GhmrIV13SapWYC+pBHHxcMfzG1xl5pi5A5mA6QQacPLxq32GEg+r615aQjVj0cM
+         ScAvsigcU1WuLyjMICOCbYf7dvvMMcfNL5CZ9k+EEuJADXpZ4eKJcbWnBjSBr+bT6AiL
+         7lCs1XU5CcdliX4j+yjAr9C7RGzTsxJzZ3oMolqcxQoEMANHXQ/CG9u/lINvdUreaUZ7
+         6UmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=KnM/3DeRUkghGL3B228lv8tjJAJo66tZo/nzV6jVUL8=;
-        b=woe382QyJMhl9DaVmJVTx67a5NzPogC7+6pfXXLFKQcIQwagapfi0LCRzNCsJ8hVVn
-         rp8m5FJ7/vohg747dNQ0s8hxMe0f4APnpVxpZm73WxCrkrv5rZBhmx4jJKF+36b1h9bP
-         +m663ZgDm09R3bt0QW212tlvzQRFx7IaPaRBUM6c4+qTnw+/Cj8AkLTJi5b+0v4tNvZR
-         dyXGiX4KmQcWUJrbFeXr4JSD99f6LvU/s9zbfc7Rb54iyWvDCoh7DLylB6SG+UpSsDDo
-         aJJkP+im1EoyySgsxVHYln/G2vLUMfk9ESKJ/a8P+6xshBN5n3j8a408TfoAE8q7g1sm
-         yIvA==
-X-Gm-Message-State: AOAM533mlrFkfObwvFKtL7oG0x1y9RrBF/+E0llbgMl9/IKK+EV8wxzf
-        uuhKkr8u2qqvd7Tm9OzM0tac9U28xg==
-X-Google-Smtp-Source: ABdhPJwjAxbJ3KU0l9+VXRjxGhhRZm4agoSKxhMj4f9qcCrMs2dDJ+nBsX6ziJpkXNEm3ZrMKCAzUA==
-X-Received: by 2002:a05:6808:2008:b0:2da:5b12:83ff with SMTP id q8-20020a056808200800b002da5b1283ffmr47508oiw.216.1649091740535;
-        Mon, 04 Apr 2022 10:02:20 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id t3-20020a05680800c300b002f935a7daa9sm4403437oic.19.2022.04.04.10.02.19
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=cN+cryxrTnBG0VJoafZ3s+TyTmI2BuJ8Y3SjnOF9NwE=;
+        b=QdVh3ys8cFAljnWrNfGGglggY5h1xoDIxaOprUekNAFGSNWkd6hSUvVM2lSzQcTXzo
+         ahncuo08SmmAfa2LteG7sS5i+51QOknbxQXhCAryc9aGkQ9WPNR1l4zXIeZpxc/0nafY
+         cknp3egJa1ftVFGL088yX84jzZhfoZY4BzeKFHV4HsR0ujkejp8QEKHPQJzPA8AFzm6c
+         69Gkt36moJekCV3JI9dwtqHkNZBAUyJwe99fE9YZlFZMeb0SozM/X1qr6EsV/9UOVBe6
+         cTOKzRl0VVIjrfyIkjqtVNbuhWRRUaAA8jyH4xw+vB10ApqreQGm/n3OdPOHGAbzKXL0
+         LeSQ==
+X-Gm-Message-State: AOAM532bwbgJBJ9f3YDXP6a6SnOuMp9cnaUq1TZQfZljuozQOEtMXLhT
+        8LfFnn8KvNEN0iVtD3fStpU=
+X-Google-Smtp-Source: ABdhPJzKUk4qJcY2Yl04uIk073pVWVy0TAgu29TjkZGtqRzd2GqD3mnxPAiabi9k3biaI+nz18T1DA==
+X-Received: by 2002:a17:903:110c:b0:14d:8859:5c8 with SMTP id n12-20020a170903110c00b0014d885905c8mr1112876plh.156.1649094118990;
+        Mon, 04 Apr 2022 10:41:58 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:baee])
+        by smtp.gmail.com with ESMTPSA id v17-20020a63b951000000b0038644f62aeesm10984699pgo.68.2022.04.04.10.41.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 10:02:19 -0700 (PDT)
-Received: (nullmailer pid 1527750 invoked by uid 1000);
-        Mon, 04 Apr 2022 17:02:19 -0000
-Date:   Mon, 4 Apr 2022 12:02:19 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Tony Lindgren <tony@atomide.com>, linux-pm@vger.kernel.org,
-        linux-gpio@vger.kernel.org, - <patches@opensource.cirrus.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        alsa-devel@alsa-project.org,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        linux-media@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Fix 'enum' lists with duplicate entries
-Message-ID: <Ykskm27aWyHMGk5v@robh.at.kernel.org>
-References: <20220401141247.2993925-1-robh@kernel.org>
+        Mon, 04 Apr 2022 10:41:58 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Mon, 4 Apr 2022 07:41:56 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [RFC v4 2/8] cgroup: gpu: Add a cgroup controller for allocator
+ attribution of GPU memory
+Message-ID: <Ykst5K/cI+DUVc94@slm.duckdns.org>
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-3-tjmercier@google.com>
+ <YkM6/57mVxoNfSvm@slm.duckdns.org>
+ <CABdmKX2Gxg35k7QiL2Vn4zWhmQ4UnM-Z8cnOXR0fwBWyJnZ+Ng@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220401141247.2993925-1-robh@kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CABdmKX2Gxg35k7QiL2Vn4zWhmQ4UnM-Z8cnOXR0fwBWyJnZ+Ng@mail.gmail.com>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 01 Apr 2022 09:12:47 -0500, Rob Herring wrote:
-> There's no reason to list the same value twice in an 'enum'. Fix all the
-> occurrences in the tree. A meta-schema change will catch future ones.
-> 
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Tony Lindgren <tony@atomide.com>
-> Cc: Yunfei Dong <yunfei.dong@mediatek.com>
-> Cc: - <patches@opensource.cirrus.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> There's also one other occurrence in snps,dwmac.yaml I didn't fix as
-> there's a patch[1] for it which prompted this patch.
-> 
-> Rob
-> 
-> [1] https://lore.kernel.org/r/20220401030847epcms1p8cf7a8e1d8cd7d325dacf30f78da36328@epcms1p8
-> 
->  .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml        |  1 -
->  Documentation/devicetree/bindings/bus/ti-sysc.yaml    |  1 -
->  .../bindings/media/mediatek,vcodec-encoder.yaml       |  1 -
->  .../devicetree/bindings/pinctrl/cirrus,madera.yaml    | 11 +++++------
->  .../devicetree/bindings/power/supply/bq2415x.yaml     |  1 -
->  5 files changed, 5 insertions(+), 10 deletions(-)
-> 
+Hello,
 
-Applied, thanks!
+On Wed, Mar 30, 2022 at 01:56:09PM -0700, T.J. Mercier wrote:
+> The use case we have for accounting the total (separate from the
+> individual devices) is to include the value as part of bugreports, for
+> understanding the system-wide amount of dmabuf allocations. I'm not
+> aware of an existing need to limit the total. Admittedly this is just
+> the sum over the devices, but we currently maintain out of tree code
+> to do this sort of thing today. [1]
+
+So, drop this part?
+
+Thanks.
+
+-- 
+tejun
