@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FD0D4F1A82
-	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 23:16:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DEE14F1A71
+	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 23:16:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379009AbiDDVSd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Apr 2022 17:18:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46478 "EHLO
+        id S1378938AbiDDVS3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Apr 2022 17:18:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379151AbiDDQhs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 12:37:48 -0400
+        with ESMTP id S1379157AbiDDQhv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 12:37:51 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5253F15A3C
-        for <linux-media@vger.kernel.org>; Mon,  4 Apr 2022 09:35:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACAF01A803
+        for <linux-media@vger.kernel.org>; Mon,  4 Apr 2022 09:35:54 -0700 (PDT)
 Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1nbPgE-0004CX-Ml; Mon, 04 Apr 2022 18:35:50 +0200
+        id 1nbPgG-0004CX-Vg; Mon, 04 Apr 2022 18:35:53 +0200
 From:   Philipp Zabel <p.zabel@pengutronix.de>
 To:     linux-media@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de
-Subject: [PATCH 4/7] media: coda: disable stateful encoder ioctls for jpeg encoder
-Date:   Mon,  4 Apr 2022 18:35:30 +0200
-Message-Id: <20220404163533.707508-4-p.zabel@pengutronix.de>
+Subject: [PATCH 5/7] media: coda: fix default JPEG colorimetry
+Date:   Mon,  4 Apr 2022 18:35:31 +0200
+Message-Id: <20220404163533.707508-5-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220404163533.707508-1-p.zabel@pengutronix.de>
 References: <20220404163533.707508-1-p.zabel@pengutronix.de>
@@ -42,36 +42,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use v4l2_disable_ioctl() to disable the stateful encoder ioctls
-VIDIOC_ENUM_FRAMEINTERVALS, VIDIOC_G_PARM, and VIDIOC_S_PARM for
-the jpeg encoder device, to fix this v4l2-compliance test failure:
+Set default colorspace to SRGB for JPEG encoder and decoder devices,
+to fix the following v4l2-compliance test failure:
 
-		fail: v4l2-test-formats.cpp(68): node->is_m2m && !(node->codec_mask & STATEFUL_ENCODER)
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: FAIL
-		fail: v4l2-test-formats.cpp(1363): node->is_m2m && !is_stateful_enc
-	test VIDIOC_G/S_PARM: FAIL
+	test VIDIOC_TRY_FMT: OK
+		fail: v4l2-test-formats.cpp(818): fmt_raw.g_colorspace() != V4L2_COLORSPACE_SRGB
+
+Also explicitly set transfer function, YCbCr encoding and quantization
+range, as required by v4l2-compliance for the JPEG encoded side.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/media/platform/chips-media/coda-common.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../media/platform/chips-media/coda-common.c  | 36 +++++++++++++------
+ 1 file changed, 25 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
-index c60473b18b6b..4a7346ed771e 100644
+index 4a7346ed771e..c068c16d1eb4 100644
 --- a/drivers/media/platform/chips-media/coda-common.c
 +++ b/drivers/media/platform/chips-media/coda-common.c
-@@ -2882,6 +2882,11 @@ static int coda_register_device(struct coda_dev *dev, int i)
- 	if (dev->devtype->vdevs[i]->type == CODA_INST_ENCODER) {
- 		v4l2_disable_ioctl(vfd, VIDIOC_DECODER_CMD);
- 		v4l2_disable_ioctl(vfd, VIDIOC_TRY_DECODER_CMD);
-+		if (dev->devtype->vdevs[i]->dst_formats[0] == V4L2_PIX_FMT_JPEG) {
-+			v4l2_disable_ioctl(vfd, VIDIOC_ENUM_FRAMEINTERVALS);
-+			v4l2_disable_ioctl(vfd, VIDIOC_G_PARM);
-+			v4l2_disable_ioctl(vfd, VIDIOC_S_PARM);
-+		}
- 	} else {
- 		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
- 		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+@@ -732,13 +732,22 @@ static int coda_try_fmt_vid_cap(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
+-static void coda_set_default_colorspace(struct v4l2_pix_format *fmt)
++static void coda_set_default_colorspace(struct coda_ctx *ctx,
++					struct v4l2_pix_format *fmt)
+ {
+ 	enum v4l2_colorspace colorspace;
+ 
+-	if (fmt->pixelformat == V4L2_PIX_FMT_JPEG)
+-		colorspace = V4L2_COLORSPACE_JPEG;
+-	else if (fmt->width <= 720 && fmt->height <= 576)
++	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG ||
++	    ctx->cvd->dst_formats[0] == V4L2_PIX_FMT_JPEG ||
++	    fmt->pixelformat == V4L2_PIX_FMT_JPEG) {
++		fmt->colorspace = V4L2_COLORSPACE_SRGB;
++		fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
++		fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
++		fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
++		return;
++	}
++
++	if (fmt->width <= 720 && fmt->height <= 576)
+ 		colorspace = V4L2_COLORSPACE_SMPTE170M;
+ 	else
+ 		colorspace = V4L2_COLORSPACE_REC709;
+@@ -763,7 +772,7 @@ static int coda_try_fmt_vid_out(struct file *file, void *priv,
+ 		return ret;
+ 
+ 	if (f->fmt.pix.colorspace == V4L2_COLORSPACE_DEFAULT)
+-		coda_set_default_colorspace(&f->fmt.pix);
++		coda_set_default_colorspace(ctx, &f->fmt.pix);
+ 
+ 	q_data_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+ 	codec = coda_find_codec(dev, f->fmt.pix.pixelformat, q_data_dst->fourcc);
+@@ -1640,13 +1649,18 @@ static void set_default_params(struct coda_ctx *ctx)
+ 	csize = coda_estimate_sizeimage(ctx, usize, max_w, max_h);
+ 
+ 	ctx->params.codec_mode = ctx->codec->mode;
+-	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG)
+-		ctx->colorspace = V4L2_COLORSPACE_JPEG;
+-	else
++	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG ||
++	    ctx->cvd->dst_formats[0] == V4L2_PIX_FMT_JPEG) {
++		ctx->colorspace = V4L2_COLORSPACE_SRGB;
++		ctx->xfer_func = V4L2_XFER_FUNC_SRGB;
++		ctx->ycbcr_enc = V4L2_YCBCR_ENC_601;
++		ctx->quantization = V4L2_QUANTIZATION_FULL_RANGE;
++	} else {
+ 		ctx->colorspace = V4L2_COLORSPACE_REC709;
+-	ctx->xfer_func = V4L2_XFER_FUNC_DEFAULT;
+-	ctx->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+-	ctx->quantization = V4L2_QUANTIZATION_DEFAULT;
++		ctx->xfer_func = V4L2_XFER_FUNC_DEFAULT;
++		ctx->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
++		ctx->quantization = V4L2_QUANTIZATION_DEFAULT;
++	}
+ 	ctx->params.framerate = 30;
+ 
+ 	/* Default formats for output and input queues */
 -- 
 2.30.2
 
