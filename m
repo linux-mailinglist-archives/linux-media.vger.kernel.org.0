@@ -2,278 +2,257 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 326F04F15F0
-	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 15:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79D854F16C4
+	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 16:08:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233478AbiDDNdN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Apr 2022 09:33:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43468 "EHLO
+        id S1376505AbiDDOK1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Apr 2022 10:10:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355307AbiDDNdF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 09:33:05 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2045.outbound.protection.outlook.com [40.107.93.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00A8620F62
-        for <linux-media@vger.kernel.org>; Mon,  4 Apr 2022 06:31:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RbphBmr3pWrmSlVUk2B2O7BvZOOyS1g4sZMPmgtVF0BlF7KGeiuExzlzJR5cImXRHj+ONJX6s1WqtQlttIpP971T3I52EDKnPKwJP1z0m6eLSoWdxQTYWAI2GRw3QVEItTyjdeeUvwKpp31ESQCjHynrZoUe/8FnPFkuBVVCL8U6/ObbAtrmNiYoEOoDkRRxMUhpx8hppWDkBQeI93dVPEbQ9McZi4xpckJlxXJtIBLlQJ7XzeaOjFda44i/BLXKY7WDZkQ7c0hrB57l8yYOrhmqULdz92E18Zx0OHaSd5+lRF60HEiI4UV6VSh3pfVhxYzSm5SchIt3NA1JhLUs2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qwgN7zsZHbwpmmt6AS8PPy93KBkNvCYo46p/sMaMY7k=;
- b=CHiNcXcpCkw4VS+oQWPFlU9fSwpYXc82W0vaUrT03A9zDzHTFB7fRzMcs2ZUqaKPEQTscDj17cnnbRAx0mK669xc/Je42WTNnE8/kI1BC1rd4wOl+Q2w68ZJuXANd4J39J7OruEiDRhJVoXXj6xqOPo6hgAxafKGeV5y3RhzQjV5pGo9Z0CkRFWiTO59zqkd9Ycx+04LLcuVAqnDOKSt7Dum+PW0XF5h9bP6Zvcm5KX/aumuG5rDcbbMt+yZYwT2ZCk4aUMDd5JMNZkbLJlF4JoX9NL4n6qjBAuLNU9vk3ANd6ryymiAqJY2KvqsNHfpZoSrdUkxptPwXIMD4cGG3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qwgN7zsZHbwpmmt6AS8PPy93KBkNvCYo46p/sMaMY7k=;
- b=VPdxDWwGpJd1OJb6Y7iXBggDRRTyI2zA1WjROb+HDs1w1saqC/OPgonLuJpC+/GQiCRWrdc5YO5+vcSf4XHI09O2KTty6CNZO2dpfAfH4vpt3OzU65FyfKL6FNvCUEs+2BAC/dsCcmsyeH4ek25QT88lX6qaaSX0z6xVMDSBj2c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BY5PR12MB4179.namprd12.prod.outlook.com (2603:10b6:a03:211::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Mon, 4 Apr
- 2022 13:31:06 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::404f:1fc8:9f4c:f185]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::404f:1fc8:9f4c:f185%6]) with mapi id 15.20.5123.031; Mon, 4 Apr 2022
- 13:31:06 +0000
-Message-ID: <724cb481-74cd-6611-df9c-12581e089acb@amd.com>
-Date:   Mon, 4 Apr 2022 15:30:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 2/4] drm/gem: Delete gem array fencing helpers
-Content-Language: en-US
-To:     Daniel Vetter <daniel@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20220331204651.2699107-1-daniel.vetter@ffwll.ch>
- <20220331204651.2699107-3-daniel.vetter@ffwll.ch>
- <YkrvhG/ODfshvX+y@phenom.ffwll.local>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <YkrvhG/ODfshvX+y@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR06CA0284.eurprd06.prod.outlook.com
- (2603:10a6:20b:45a::27) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        with ESMTP id S241862AbiDDOK0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 10:10:26 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1FDA186;
+        Mon,  4 Apr 2022 07:08:29 -0700 (PDT)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:52e1:bbc1:ca8:7fa9])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1AB751F44E48;
+        Mon,  4 Apr 2022 15:08:28 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1649081308;
+        bh=aNWJUHS5QEs9ea/zLSsrqqFtmxqVRUi9CSX9U08ggpA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HRvH7pYmojBV8uTx36H6x1JVPqPr3RT3fc7znvDBrqTL+oTk+A/3f0/wkoS5yfCaO
+         U++ZHmsbwbfzKKE+9426GMpMbudonC1AdALpoTHrbRMfo5lpK6JRhUGLT/H/MQmJ79
+         FYaO+SlLY6LSvGK7MEUtEnKpOPcIeZC3s0n9pTz0m/1IfdCnUnPiWBC1JAfBE7gIEI
+         CMyXpRF/5z6VbGH2ulq6RsTn6J1AiYIQEezavHFb0asYgw20sAdNYjefDEetif0Wv0
+         e30XCQ1qQyGi6pqHe8wgEMwOby1bTEGJTviQUG2cGjy1l5vYuyOis/c5rMfEU+W25j
+         YI8A5/RErqSyg==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH] media: hantro: Use post processor scaling capacities
+Date:   Mon,  4 Apr 2022 16:08:19 +0200
+Message-Id: <20220404140819.733931-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 431c36ed-b8f9-463d-3061-08da163f5f08
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4179:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB41797151294D085EE762F63E83E59@BY5PR12MB4179.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AusgN+DX/bXctcZHWwa9kyeoeq7n+qGb3qPon2xzC0FMTk81uTE38JNYmO2gZczDz6eQEDW4l5vWzsBQpXBwN+Px0CgfV+pk/Oy99bY4e/n1ZMSZ4gjt+RwyMaUCZRb/lvgMIXO+00ff1lv4Y1plZPvYJdm3M9R6J9PAhk/eNPeI7XKDl/EO8qULA5igqFWmMWZuxWXwcseOqlCrsbXouD4PmGP0xGuQ15MId02EJUzlxaHvCz0XC699b4WOdH/cgMA3KcG60uJRW9DXrabvPSP0LYVrDsWvTsVz4c1khD3dxA8XoEwVGoF66rFaKm8C+srwOioQrfk2E6XvGFmemkzLcLMdX0Hn698A6jZNQObvYthCNouxHESd1cVi1OiHfyu2BRHX2dmtqHxHeB6sSNqBZndf+Jv6cvz3p7TUNTUxDF5MULk6S6tqoTYWdAUYn2GiQ4xiP9PtpX/Qn04t06G/WX4T+P8JLeRwar6t+bc7+wFh+y//fs+juiiXWcsSSrCIDZKbS2NNq4gSI0CGZOKiFQr3Smr5GQvptKZA4V+GeH1Iat7tqK/qvPILUwfEJ7GiAQJc/PbHl36w42MWEqZmNRngK2aoToX+zrjNJ/TT66QUop1xRSroBAOZEgB5k1g2r81xqLFcawLHi6KXWbce/fOWgAg8ysvKjojCBK1UPB8ajYn+BugEgFJLmqtpdIpPYYcaqMO0UYBp5qqnnxdsvG/9IqEN1ti32IRST8QVtkCEvq81OLnEYqs+Tvbk
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8676002)(36756003)(38100700002)(4326008)(66556008)(66946007)(66476007)(2616005)(26005)(66574015)(186003)(6512007)(31686004)(83380400001)(86362001)(110136005)(8936002)(6506007)(6666004)(508600001)(5660300002)(7416002)(2906002)(31696002)(54906003)(6486002)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?elJMRWlPVVpkRVcxV2c3OTM3WTJiWlBnM0pNMndJT0Y3KzdLOHRuaWVrRUxR?=
- =?utf-8?B?ckdqdTJFLzFJZ2RuOS93NjdwTm03TW1OdkVVV3AyWmphYW1RZXRheWtGM1lu?=
- =?utf-8?B?eFdKTXNSR2k0TFdPdjRTSC9UcmlwTHdpRGRXR2JqQVkrbVZ1cGpxcHplTnMz?=
- =?utf-8?B?c1VENEQwTjJPT1hDeGRxWjU0a3FxWVhDSlpGcnhCcHFyZG13VXRhMU11aUNa?=
- =?utf-8?B?WGJLa205RTN5K2tvT0ppM2lGSW1Dc0NMc2FiWDR1RU4zVzUwbkVkeTN3bHVw?=
- =?utf-8?B?bGt0YjZiUDlCMStnRTlYTldoZThWdlJ4QkQ1SDRQdytiMXd4RzlCcUlyVUxw?=
- =?utf-8?B?Y0tsaTV1VjVKTVVsL1BCU3RxUDdFd2RXcTVvRzFsbGtWL3pBNmNEWmhNekZF?=
- =?utf-8?B?eDRjRkJOb0c3QktSQVJob01lZEltdVJvb2liL3lQUm5SK0MzZnArcFdEVkxr?=
- =?utf-8?B?a3Y2WGpKR1lwYlhlRlNGd1psODFhN0FzWTRMYy9WaFE3TUVFc1RXMWVIZGlX?=
- =?utf-8?B?THAxYm1YVVY3OTRrNUh2ZVJYLy9DQ1BWYXlJeWtTOTQvTXBLN1E2Uzl4eFFR?=
- =?utf-8?B?OFUybmRKVkRXdm0xa0NwMnQzb2pjbis1VzVEdTY0ZlJmRzZ2V1lhSkpTOHU3?=
- =?utf-8?B?ekFWc2ZoMVFpRlNmV0dKMTNoREtPMzV6TEJEcHdxQUhQVEc3MW5rK3V2aGZo?=
- =?utf-8?B?NzhKNHZiOTBvclhHTmVJUjByZWFTbTU1Y201QkgxUUVzakIvZzVxSVZ2U2tG?=
- =?utf-8?B?cGtvNFFHK01HRTBxM3Fqa3RWcWtFR08wanV3VXpSV2pNNG5QQU9yM0pnak81?=
- =?utf-8?B?eVNIM09KT3FYWU53L2lUWTRkSmIvazVyNk1yWUdTMUhNNXM4bWlUZW5aZWdp?=
- =?utf-8?B?cVdDYW9FOThlS0lwMFExTUNHc09YRUs4WG9pd1kzNHhYcDRzQ3VyVGNJU2o4?=
- =?utf-8?B?ZkJzUVpBTDR4RE1zMDFuanViQTlpNEJLa3JwRi9kM3lXc0duNjNrT3dGVW03?=
- =?utf-8?B?UHpIY3NyVFMrOFFITlFaWEMvRTRDN29RR3JCZmZYWjVuY1U4Nk5lc05aSjBp?=
- =?utf-8?B?ZTAvUkhvVmZVT1lqYTRKZ3ZlZEFrbzYyTXRtaCtoMTNIdUwxazFsTkREVzBh?=
- =?utf-8?B?c2poeTRtWWdXck1DdDk5SjVyd3RQWDNKSTlxck9lYjZEZVhBZ3NuZC9NTGVv?=
- =?utf-8?B?OUppSW9aNmVhS25vTjdWNHNmLzhwZjl5Sk1nSTJhZTYyUkdTVjV6MWRkbVRK?=
- =?utf-8?B?TTRsNFExZWphUEtBckwrZkJjSDY2RTFEUHNVMktSeW9MSFZ4MjdpSTUvTlFN?=
- =?utf-8?B?d0VzSENaUTIvMzVuZWluUWhJYWdvbFJqN01pK2ZsR2xhU0JsQ25QZWE0MWVW?=
- =?utf-8?B?ejlXait6Yzdwa2dzOU52REFXTjFhcEsxaURmT3dFbm9sS1ZadWtwVDlKZk1o?=
- =?utf-8?B?V0xIN0VLdXBKTWVTaU9ucC81Z0tzc0JvNDN6TTVBRU4zSkpNYmxTSVlmaWZP?=
- =?utf-8?B?bDJQdWZJQVB5aEFNVTh0bEp3SXNUM055b1lLYjdoTTU4M0g4MXN3b1MxdlNE?=
- =?utf-8?B?WTF3UkZoa0tWUEVaTTJkSVo0WTZOalF3ejdjOUVoSnNQMDlCZmtoeEdRNGZ4?=
- =?utf-8?B?azVTSGppQlMxendMZzdsVjZZWnZ4eE8rUUZUQWJSQkYwSDg1Q1JUbStiSERT?=
- =?utf-8?B?K0QyYTVtVWJKR09UVWhqZWhHKzBjeDZmTXlvRkVpaDQwUUkxU0hRbjQ2WjRv?=
- =?utf-8?B?ZVh5M0ZPdStSS3c5NHNQekZqWlRsSnhXTE9YdE5veW4wdXJCMCtPNDMvTVdK?=
- =?utf-8?B?SXBFVFZ0K0ZXcVFoak1wNE8wTzlxY1YrdFY1OXByL0hXNWQwWUU4M3lwWnlQ?=
- =?utf-8?B?cWJlam4yU0Q0SHNXTEI2TDkrb25NbjBoM3pWaTVaSWZ2N3FRMDVCYjRHN3lw?=
- =?utf-8?B?aXZWQk00dGhMTUtWQ0lDQ0FvZlB6WEVWQWVjWGk0NE1RdWFqUGxCV0Rzc05J?=
- =?utf-8?B?UzA2bk91c24rZzFDc2JjVHRybEt2R3Bab1FsdmxzWUw2VWNNamhpZHl4b1NR?=
- =?utf-8?B?MlVFTTJlbThScTF0NlJYSVovaFNFb0dXRWZ4Y0hxd0ZvbkxVNHZkb3FYeWpu?=
- =?utf-8?B?M3dWbU5uZTFFaXJOYkU5ODVxUGxtSnZKYzlhanRJdEkxRzdZRFFjVWcwYXhs?=
- =?utf-8?B?MndiK2lQRUlMUkt2OU4zbEp3ZC9lK3F4MnJiaFFnSUw5Um00YzN1V3NlUEZh?=
- =?utf-8?B?R1hnOW1TR0UzUEVkWXpxQXQydDBGZm02bVJ5Nk5BUkIxbUQxejROeFNhWXM2?=
- =?utf-8?B?YnJLeU5UNFFUYnFXdGxEREwrbnZ4NXlLTkttREdsS002Z2syZ3hFdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 431c36ed-b8f9-463d-3061-08da163f5f08
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2022 13:31:06.1812
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2+0dIbVOvlTDUzv1RT1HpgZIPhqHUI0Mo6rboyZMR0MMqQfbAuA+Nk0Up4bv5D/b
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4179
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 04.04.22 um 15:15 schrieb Daniel Vetter:
-> On Thu, Mar 31, 2022 at 10:46:49PM +0200, Daniel Vetter wrote:
->> Integrated into the scheduler now and all users converted over.
->>
->> v2: Rebased over changes from König.
->>
->> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: David Airlie <airlied@linux.ie>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->> Cc: "Christian König" <christian.koenig@amd.com>
->> Cc: linux-media@vger.kernel.org
->> Cc: linaro-mm-sig@lists.linaro.org
-> Anyone up for an ack for this one here?
+Hantro G2 post processor is able to down scale decoded frames
+by 2, 4, or 8 factor.
+Add enum_framesizes() ops to postproc_ops structure to enumerate the
+possible output sizes for a given input resolution.
+For G2 post-processor use fsize->index (from 0 to 3) has power of 2
+diviser. As describe in v4l2 documentation return -EINVAL when scaling
+down isn't possible.
 
-Acked-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+Fluster score with this patch is 77/147 like before.
 
-Please land that ASAP so that I can rebase on top.
+ drivers/staging/media/hantro/hantro.h         |  2 +
+ drivers/staging/media/hantro/hantro_g2_regs.h |  6 +++
+ drivers/staging/media/hantro/hantro_hw.h      |  8 ++-
+ .../staging/media/hantro/hantro_postproc.c    | 53 ++++++++++++++++++-
+ drivers/staging/media/hantro/hantro_v4l2.c    | 15 +++---
+ 5 files changed, 72 insertions(+), 12 deletions(-)
 
-Thanks,
-Christian.
-
->
-> Thanks, Daniel
->
->> ---
->>   drivers/gpu/drm/drm_gem.c | 80 ---------------------------------------
->>   include/drm/drm_gem.h     |  5 ---
->>   2 files changed, 85 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->> index 56fb87885146..133dfae06fab 100644
->> --- a/drivers/gpu/drm/drm_gem.c
->> +++ b/drivers/gpu/drm/drm_gem.c
->> @@ -1273,83 +1273,3 @@ drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
->>   	ww_acquire_fini(acquire_ctx);
->>   }
->>   EXPORT_SYMBOL(drm_gem_unlock_reservations);
->> -
->> -/**
->> - * drm_gem_fence_array_add - Adds the fence to an array of fences to be
->> - * waited on, deduplicating fences from the same context.
->> - *
->> - * @fence_array: array of dma_fence * for the job to block on.
->> - * @fence: the dma_fence to add to the list of dependencies.
->> - *
->> - * This functions consumes the reference for @fence both on success and error
->> - * cases.
->> - *
->> - * Returns:
->> - * 0 on success, or an error on failing to expand the array.
->> - */
->> -int drm_gem_fence_array_add(struct xarray *fence_array,
->> -			    struct dma_fence *fence)
->> -{
->> -	struct dma_fence *entry;
->> -	unsigned long index;
->> -	u32 id = 0;
->> -	int ret;
->> -
->> -	if (!fence)
->> -		return 0;
->> -
->> -	/* Deduplicate if we already depend on a fence from the same context.
->> -	 * This lets the size of the array of deps scale with the number of
->> -	 * engines involved, rather than the number of BOs.
->> -	 */
->> -	xa_for_each(fence_array, index, entry) {
->> -		if (entry->context != fence->context)
->> -			continue;
->> -
->> -		if (dma_fence_is_later(fence, entry)) {
->> -			dma_fence_put(entry);
->> -			xa_store(fence_array, index, fence, GFP_KERNEL);
->> -		} else {
->> -			dma_fence_put(fence);
->> -		}
->> -		return 0;
->> -	}
->> -
->> -	ret = xa_alloc(fence_array, &id, fence, xa_limit_32b, GFP_KERNEL);
->> -	if (ret != 0)
->> -		dma_fence_put(fence);
->> -
->> -	return ret;
->> -}
->> -EXPORT_SYMBOL(drm_gem_fence_array_add);
->> -
->> -/**
->> - * drm_gem_fence_array_add_implicit - Adds the implicit dependencies tracked
->> - * in the GEM object's reservation object to an array of dma_fences for use in
->> - * scheduling a rendering job.
->> - *
->> - * This should be called after drm_gem_lock_reservations() on your array of
->> - * GEM objects used in the job but before updating the reservations with your
->> - * own fences.
->> - *
->> - * @fence_array: array of dma_fence * for the job to block on.
->> - * @obj: the gem object to add new dependencies from.
->> - * @write: whether the job might write the object (so we need to depend on
->> - * shared fences in the reservation object).
->> - */
->> -int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
->> -				     struct drm_gem_object *obj,
->> -				     bool write)
->> -{
->> -	struct dma_resv_iter cursor;
->> -	struct dma_fence *fence;
->> -	int ret = 0;
->> -
->> -	dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
->> -		ret = drm_gem_fence_array_add(fence_array, fence);
->> -		if (ret)
->> -			break;
->> -	}
->> -	return ret;
->> -}
->> -EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
->> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->> index e2941cee14b6..9d7c61a122dc 100644
->> --- a/include/drm/drm_gem.h
->> +++ b/include/drm/drm_gem.h
->> @@ -407,11 +407,6 @@ int drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
->>   			      struct ww_acquire_ctx *acquire_ctx);
->>   void drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
->>   				 struct ww_acquire_ctx *acquire_ctx);
->> -int drm_gem_fence_array_add(struct xarray *fence_array,
->> -			    struct dma_fence *fence);
->> -int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
->> -				     struct drm_gem_object *obj,
->> -				     bool write);
->>   int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
->>   			    u32 handle, u64 *offset);
->>   
->> -- 
->> 2.34.1
->>
+diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+index 357f83b86809..26308bb29adc 100644
+--- a/drivers/staging/media/hantro/hantro.h
++++ b/drivers/staging/media/hantro/hantro.h
+@@ -475,5 +475,7 @@ void hantro_postproc_disable(struct hantro_ctx *ctx);
+ void hantro_postproc_enable(struct hantro_ctx *ctx);
+ void hantro_postproc_free(struct hantro_ctx *ctx);
+ int hantro_postproc_alloc(struct hantro_ctx *ctx);
++int hanto_postproc_enum_framesizes(struct hantro_ctx *ctx,
++				   struct v4l2_frmsizeenum *fsize);
+ 
+ #endif /* HANTRO_H_ */
+diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
+index b7c6f9877b9d..877d663a8181 100644
+--- a/drivers/staging/media/hantro/hantro_g2_regs.h
++++ b/drivers/staging/media/hantro/hantro_g2_regs.h
+@@ -290,6 +290,10 @@
+ #define g2_buswidth		G2_DEC_REG(58, 8,  0x7)
+ #define g2_max_burst		G2_DEC_REG(58, 0,  0xff)
+ 
++#define g2_down_scale_e		G2_DEC_REG(184, 7, 0x1)
++#define g2_down_scale_y		G2_DEC_REG(184, 2, 0x3)
++#define g2_down_scale_x		G2_DEC_REG(184, 0, 0x3)
++
+ #define G2_REG_CONFIG				G2_SWREG(58)
+ #define G2_REG_CONFIG_DEC_CLK_GATE_E		BIT(16)
+ #define G2_REG_CONFIG_DEC_CLK_GATE_IDLE_E	BIT(17)
+@@ -312,6 +316,8 @@
+ #define G2_TILE_FILTER_ADDR		(G2_SWREG(179))
+ #define G2_TILE_SAO_ADDR		(G2_SWREG(181))
+ #define G2_TILE_BSD_ADDR		(G2_SWREG(183))
++#define G2_DS_DST			(G2_SWREG(186))
++#define G2_DS_DST_CHR			(G2_SWREG(188))
+ 
+ #define g2_strm_buffer_len	G2_DEC_REG(258, 0, 0xffffffff)
+ #define g2_strm_start_offset	G2_DEC_REG(259, 0, 0xffffffff)
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index ed018e293ba0..09f17a3ceb95 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -245,12 +245,16 @@ struct hantro_postproc_ctx {
+ /**
+  * struct hantro_postproc_ops - post-processor operations
+  *
+- * @enable:	Enable the post-processor block. Optional.
+- * @disable:	Disable the post-processor block. Optional.
++ * @enable:		Enable the post-processor block. Optional.
++ * @disable:		Disable the post-processor block. Optional.
++ * @enum_framesizes:	Enumerate possible scaled output formats.
++ *			Returns zero if OK, a negative value in error cases.
++ *			Optional.
+  */
+ struct hantro_postproc_ops {
+ 	void (*enable)(struct hantro_ctx *ctx);
+ 	void (*disable)(struct hantro_ctx *ctx);
++	int (*enum_framesizes)(struct hantro_ctx *ctx, struct v4l2_frmsizeenum *fsize);
+ };
+ 
+ /**
+diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
+index 248abe5423f0..ab168c1c0d28 100644
+--- a/drivers/staging/media/hantro/hantro_postproc.c
++++ b/drivers/staging/media/hantro/hantro_postproc.c
+@@ -100,21 +100,58 @@ static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
+ 	HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
+ }
+ 
++static int down_scale_factor(struct hantro_ctx *ctx)
++{
++	if (ctx->src_fmt.width == ctx->dst_fmt.width)
++		return 0;
++
++	return DIV_ROUND_CLOSEST(ctx->src_fmt.width, ctx->dst_fmt.width);
++}
++
+ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct vb2_v4l2_buffer *dst_buf;
+ 	size_t chroma_offset = ctx->dst_fmt.width * ctx->dst_fmt.height;
++	int down_scale = down_scale_factor(ctx);
+ 	dma_addr_t dst_dma;
+ 
+ 	dst_buf = hantro_get_dst_buf(ctx);
+ 	dst_dma = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+ 
+-	hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
+-	hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + chroma_offset);
++	if (down_scale) {
++		hantro_reg_write(vpu, &g2_down_scale_e, 1);
++		hantro_reg_write(vpu, &g2_down_scale_y, down_scale >> 2);
++		hantro_reg_write(vpu, &g2_down_scale_x, down_scale >> 2);
++		hantro_write_addr(vpu, G2_DS_DST, dst_dma);
++		hantro_write_addr(vpu, G2_DS_DST_CHR, dst_dma + (chroma_offset >> down_scale));
++	} else {
++		hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
++		hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + chroma_offset);
++	}
+ 	hantro_reg_write(vpu, &g2_out_rs_e, 1);
+ }
+ 
++static int hantro_postproc_g2_enum_framesizes(struct hantro_ctx *ctx,
++					      struct v4l2_frmsizeenum *fsize)
++{
++	/**
++	 * G2 scaler can scale down by 0, 2, 4 or 8
++	 * use fsize->index has power of 2 diviser
++	 **/
++	if (fsize->index > 3)
++		return -EINVAL;
++
++	if (!ctx->src_fmt.width || !ctx->src_fmt.height)
++		return -EINVAL;
++
++	fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
++	fsize->discrete.width = ctx->src_fmt.width >> fsize->index;
++	fsize->discrete.height = ctx->src_fmt.height >> fsize->index;
++
++	return 0;
++}
++
+ void hantro_postproc_free(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+@@ -197,6 +234,17 @@ void hantro_postproc_enable(struct hantro_ctx *ctx)
+ 		vpu->variant->postproc_ops->enable(ctx);
+ }
+ 
++int hanto_postproc_enum_framesizes(struct hantro_ctx *ctx,
++				   struct v4l2_frmsizeenum *fsize)
++{
++	struct hantro_dev *vpu = ctx->dev;
++
++	if (vpu->variant->postproc_ops && vpu->variant->postproc_ops->enum_framesizes)
++		return vpu->variant->postproc_ops->enum_framesizes(ctx, fsize);
++
++	return -EINVAL;
++}
++
+ const struct hantro_postproc_ops hantro_g1_postproc_ops = {
+ 	.enable = hantro_postproc_g1_enable,
+ 	.disable = hantro_postproc_g1_disable,
+@@ -205,4 +253,5 @@ const struct hantro_postproc_ops hantro_g1_postproc_ops = {
+ const struct hantro_postproc_ops hantro_g2_postproc_ops = {
+ 	.enable = hantro_postproc_g2_enable,
+ 	.disable = hantro_postproc_g2_disable,
++	.enum_framesizes = hantro_postproc_g2_enum_framesizes,
+ };
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index 67148ba346f5..8314a2efd4c8 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -116,12 +116,6 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
+ 	struct hantro_ctx *ctx = fh_to_ctx(priv);
+ 	const struct hantro_fmt *fmt;
+ 
+-	if (fsize->index != 0) {
+-		vpu_debug(0, "invalid frame size index (expected 0, got %d)\n",
+-			  fsize->index);
+-		return -EINVAL;
+-	}
+-
+ 	fmt = hantro_find_format(ctx, fsize->pixel_format);
+ 	if (!fmt) {
+ 		vpu_debug(0, "unsupported bitstream format (%08x)\n",
+@@ -129,9 +123,14 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
+ 		return -EINVAL;
+ 	}
+ 
+-	/* This only makes sense for coded formats */
+-	if (fmt->codec_mode == HANTRO_MODE_NONE)
++	/* For non-coded formats check if postprocessing scaling is possible */
++	if (fmt->codec_mode == HANTRO_MODE_NONE && hantro_needs_postproc(ctx, fmt)) {
++		return hanto_postproc_enum_framesizes(ctx, fsize);
++	} else if (fsize->index != 0) {
++		vpu_debug(0, "invalid frame size index (expected 0, got %d)\n",
++			  fsize->index);
+ 		return -EINVAL;
++	}
+ 
+ 	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
+ 	fsize->stepwise = fmt->frmsize;
+-- 
+2.32.0
 
