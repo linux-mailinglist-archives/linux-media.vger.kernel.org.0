@@ -2,126 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF7824F12FB
-	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 12:19:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A3114F1421
+	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 13:54:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357114AbiDDKUW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Apr 2022 06:20:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38136 "EHLO
+        id S232912AbiDDL4a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Apr 2022 07:56:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357109AbiDDKUR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 06:20:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9C2D3C717
-        for <linux-media@vger.kernel.org>; Mon,  4 Apr 2022 03:18:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 77FED614E5
-        for <linux-media@vger.kernel.org>; Mon,  4 Apr 2022 10:18:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5135DC340EE;
-        Mon,  4 Apr 2022 10:18:20 +0000 (UTC)
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv4 7/7] cec: add optional adap_configured callback
-Date:   Mon,  4 Apr 2022 12:18:11 +0200
-Message-Id: <20220404101811.3359944-8-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220404101811.3359944-1-hverkuil-cisco@xs4all.nl>
-References: <20220404101811.3359944-1-hverkuil-cisco@xs4all.nl>
+        with ESMTP id S230159AbiDDL41 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 07:56:27 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F3BB255A4
+        for <linux-media@vger.kernel.org>; Mon,  4 Apr 2022 04:54:31 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id n6so5296786ejc.13
+        for <linux-media@vger.kernel.org>; Mon, 04 Apr 2022 04:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=7xs1Q8qlIPRjoqt2EPejT10ykTPGTWoej6GDOdjftEY=;
+        b=Lp1l/HSQmbzRnei5xgfdkCyu3mVXwQ8/CS5x3v7B/0vg7Zkvkmsnzn1z3G0jCbKVYm
+         9INx//4VOs7XB0at/IzrJr8QeSSTSW6fGFcNEYdOZA4pBqyRlaM2eG93h2AJ7YbSfD5c
+         ZJLAqO2ZPXkKPLPZ8icBD2TX2PltyafXPdTJWhUCDh65gMNg0/JWtoN9XsLtyoEMF8hk
+         O6vcY6tkMdg2Scd1wWgzBaKbtHS5vfXuMmTd/Qgw2Ieuk6wxh0uuqtQUMu097NIt5E+n
+         XOozyNOccYxz0SXnZxP7mDetQBKBs0WRY8ZgYRyV2dP8TF2/Av1QrFJ/55cHN90orL4e
+         wMwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=7xs1Q8qlIPRjoqt2EPejT10ykTPGTWoej6GDOdjftEY=;
+        b=DPX3+T2vEm6e3cZxJVIMy7+G/WlDD+UOQ0mu/c0Gdmtt1kaIm0caAexTuZqyAIdXLc
+         BIc/Pb0F357gNDnE6H/U7A1FNQWzbaBQwVLC22AaLbibWTyrWfhWCjweDOTaZTG6Mt3p
+         QEdY8CPuCGHNFF0vncXvBBYuvRKluDKkhoLFLsGHawJSQesBuyxK3JJQ3R7JGFRJkHRb
+         udRJyOE2l+utNu3B/tcLho1VL6L4ykqdMvvyi255yWDdqZGiu965KEiu17z3zNtWgzbI
+         oejTH5eITXnKivZGSVw0y89cAKhyOtDMPZFpA0W8kCXuTCvomuZa+C2/Hvjv9WPpazyl
+         CUgQ==
+X-Gm-Message-State: AOAM531UPf2j7cVHa6uQkMv+7ktnnqLPDWJ19AvRedarT5OKoNjuzwAS
+        FpLAzdaaUmIz3KkTd6a62IqvsmFSBzE130dd5V0=
+X-Google-Smtp-Source: ABdhPJz4Rd33NE0KeAtVDQWKlCjRlXEUOWAh9rU0WhnEEojMs23c5NPEXlprzkySLDAe/L0BP0zhRewUeS2LP+T3A4w=
+X-Received: by 2002:a17:907:c24:b0:6e1:4943:9950 with SMTP id
+ ga36-20020a1709070c2400b006e149439950mr10549259ejc.559.1649073269601; Mon, 04
+ Apr 2022 04:54:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a17:907:7e99:0:0:0:0 with HTTP; Mon, 4 Apr 2022 04:54:28
+ -0700 (PDT)
+Reply-To: belindasteenkamp14@gmail.com
+From:   BELINDA STEENKAMP <tiffanysmithforreal17@gmail.com>
+Date:   Mon, 4 Apr 2022 13:54:28 +0200
+Message-ID: <CAJSMfVYgZBQpJ6tkg4Tg1GSNmJW2nDJKnxAVV8s7OdJLFcW3MQ@mail.gmail.com>
+Subject: Easter Promotion!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:62f listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5009]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [belindasteenkamp14[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [tiffanysmithforreal17[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [tiffanysmithforreal17[at]gmail.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.8 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This new optional callback is called when the adapter is fully configured
-or fully unconfigured. Some drivers may have to take action when this
-happens.
+--=20
+PROMOTION WITH 2% INTEREST RATE
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- Documentation/driver-api/media/cec-core.rst | 13 ++++++++++++-
- drivers/media/cec/core/cec-adap.c           |  2 ++
- include/media/cec.h                         |  1 +
- 3 files changed, 15 insertions(+), 1 deletion(-)
+  We offer Loans ranging from (R10,000.00 =E2=80=93 R5,000,000.00). Loan
+duration is from 1 to 20 years (Maximum) No collateral, No ITC CHECK
+and Blacklisted, Under debt review, No pay slip, Low credit, Self
+employed and Business owners are welcome.
 
-diff --git a/Documentation/driver-api/media/cec-core.rst b/Documentation/driver-api/media/cec-core.rst
-index c6194ee81c41..ae0d20798edc 100644
---- a/Documentation/driver-api/media/cec-core.rst
-+++ b/Documentation/driver-api/media/cec-core.rst
-@@ -109,6 +109,7 @@ your driver:
- 		int (*adap_monitor_all_enable)(struct cec_adapter *adap, bool enable);
- 		int (*adap_monitor_pin_enable)(struct cec_adapter *adap, bool enable);
- 		int (*adap_log_addr)(struct cec_adapter *adap, u8 logical_addr);
-+		void (*adap_configured)(struct cec_adapter *adap, bool configured);
- 		int (*adap_transmit)(struct cec_adapter *adap, u8 attempts,
- 				      u32 signal_free_time, struct cec_msg *msg);
- 		void (*adap_status)(struct cec_adapter *adap, struct seq_file *file);
-@@ -117,7 +118,7 @@ your driver:
- 		/* Error injection callbacks */
- 		...
- 
--		/* High-level callbacks */
-+		/* High-level callback */
- 		...
- 	};
- 
-@@ -178,6 +179,16 @@ can receive directed messages to that address.
- Note that adap_log_addr must return 0 if logical_addr is CEC_LOG_ADDR_INVALID.
- 
- 
-+Called when the adapter is fully configured or unconfigured::
-+
-+	void (*adap_configured)(struct cec_adapter *adap, bool configured);
-+
-+If configured == true, then the adapter is fully configured, i.e. all logical
-+addresses have been successfully claimed. If configured == false, then the
-+adapter is unconfigured. If the driver has to take specific actions after
-+(un)configuration, then that can be done through this optional callback.
-+
-+
- To transmit a new message::
- 
- 	int (*adap_transmit)(struct cec_adapter *adap, u8 attempts,
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index 2425cb4c6a9a..e789aec7455c 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -1336,6 +1336,7 @@ static void cec_adap_unconfigure(struct cec_adapter *adap)
- 	cec_flush(adap);
- 	wake_up_interruptible(&adap->kthread_waitq);
- 	cec_post_state_event(adap);
-+	call_void_op(adap, adap_configured, false);
- }
- 
- /*
-@@ -1517,6 +1518,7 @@ static int cec_config_thread_func(void *arg)
- 	adap->kthread_config = NULL;
- 	complete(&adap->config_completion);
- 	mutex_unlock(&adap->lock);
-+	call_void_op(adap, adap_configured, true);
- 	return 0;
- 
- unconfigure:
-diff --git a/include/media/cec.h b/include/media/cec.h
-index 80340c9eb0f2..6f13b0222aa3 100644
---- a/include/media/cec.h
-+++ b/include/media/cec.h
-@@ -118,6 +118,7 @@ struct cec_adap_ops {
- 	int (*adap_monitor_all_enable)(struct cec_adapter *adap, bool enable);
- 	int (*adap_monitor_pin_enable)(struct cec_adapter *adap, bool enable);
- 	int (*adap_log_addr)(struct cec_adapter *adap, u8 logical_addr);
-+	void (*adap_configured)(struct cec_adapter *adap, bool configured);
- 	int (*adap_transmit)(struct cec_adapter *adap, u8 attempts,
- 			     u32 signal_free_time, struct cec_msg *msg);
- 	void (*adap_status)(struct cec_adapter *adap, struct seq_file *file);
--- 
-2.34.1
-
+CONTACT:
+Belinda Steenkamp (Mrs)
+Senior Loan Consultant,
+Call only ... { +27671850879 }
+Whatsapp only... ( +27677352072
+Email: { belindasteenkamp14@gmail.com }
