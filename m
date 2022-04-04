@@ -2,213 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 958004F10D7
-	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 10:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 944704F1194
+	for <lists+linux-media@lfdr.de>; Mon,  4 Apr 2022 11:01:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347166AbiDDI1J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Apr 2022 04:27:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34784 "EHLO
+        id S1347213AbiDDJDX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Apr 2022 05:03:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242397AbiDDI1H (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 04:27:07 -0400
-X-Greylist: delayed 531 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 04 Apr 2022 01:25:11 PDT
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [IPv6:2a02:1800:120:4::f00:10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EAF725C5F
-        for <linux-media@vger.kernel.org>; Mon,  4 Apr 2022 01:25:10 -0700 (PDT)
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by cantor.telenet-ops.be (Postfix) with ESMTPS id 4KX3Wj51NZz4wwy6
-        for <linux-media@vger.kernel.org>; Mon,  4 Apr 2022 10:16:17 +0200 (CEST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:6d4d:d9ec:3c70:7c2c])
-        by baptiste.telenet-ops.be with bizsmtp
-        id EYG82700R40M8zK01YG8cT; Mon, 04 Apr 2022 10:16:17 +0200
-Received: from geert (helo=localhost)
-        by ramsan.of.borg with local-esmtp (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1nbHse-0089Aj-Eu; Mon, 04 Apr 2022 10:16:08 +0200
-Date:   Mon, 4 Apr 2022 10:16:08 +0200 (CEST)
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-X-X-Sender: geert@ramsan.of.borg
-To:     linux-kernel@vger.kernel.org
-cc:     linux-m68k@lists.linux-m68k.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-        Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
-        linux-rdma@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-xfs@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-s390@vger.kernel.org
-Subject: Re: Build regressions/improvements in v5.18-rc1
-In-Reply-To: <20220404074734.1092959-1-geert@linux-m68k.org>
-Message-ID: <alpine.DEB.2.22.394.2204041006230.1941618@ramsan.of.borg>
-References: <CAHk-=wg6FWL1xjVyHx7DdjD2dHZETA5_=FqqW17Z19X-WTfWSg@mail.gmail.com> <20220404074734.1092959-1-geert@linux-m68k.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S1347940AbiDDJDW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Apr 2022 05:03:22 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 846E42AE21;
+        Mon,  4 Apr 2022 02:01:26 -0700 (PDT)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:52e1:bbc1:ca8:7fa9])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E276F1F459EE;
+        Mon,  4 Apr 2022 10:01:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1649062885;
+        bh=eQtNSGmGa1pYpJmMUFL5G2DikWxM7q2G3a/sHXYemxc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WZIs6MwWroWsHpqJigxYLbozMdK2SMgLjTSqduxV2REGxMJzM/u+DD2LsCVMaXvIo
+         PoBlZLPKn7FnGBU4BVEwci0Q8N7o4OuZkx3WLMxjRhn4lihdTPu6flA0K4W634HTn+
+         o8jiRimu6tvGJqcYFc7yUsV97mJIT/IOw4/tCMLJcb8/1t/hV+Bah32ArGSIt7Xl/0
+         bd+rB6vUSC9kw4iM2+12dUYIN9vdpm6v0jRpQB8zU9KLWOmWn+/ZsxToj95TJflLMR
+         2ceVUmrMKwLnFJL99Qgs/FkBXFdA0TNtiQvRQsH/k6S5GHNlaWTsZHi0T5dzECNndt
+         XJTpXYt/W7xiw==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     mchehab@kernel.org, hverkuil@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jernej.skrabec@gmail.com, p.zabel@pengutronix.de,
+        nicolas@ndufresne.ca, kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH] media: Add P010 video format
+Date:   Mon,  4 Apr 2022 11:01:16 +0200
+Message-Id: <20220404090116.353034-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 4 Apr 2022, Geert Uytterhoeven wrote:
-> Below is the list of build error/warning regressions/improvements in
-> v5.18-rc1[1] compared to v5.17[2].
->
-> Summarized:
->  - build errors: +36/-15
->  - build warnings: +5/-38
->
-> Happy fixing! ;-)
->
-> Thanks to the linux-next team for providing the build service.
->
-> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/3123109284176b1532874591f7c81f3837bbdc17/ (all 96 configs)
-> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/f443e374ae131c168a065ea1748feac6b2e76613/ (all 96 configs)
->
->
-> *** ERRORS ***
->
-> 36 error regressions:
->  + /kisskb/src/arch/m68k/include/asm/bitops.h: error: array subscript 2 is above array bounds of 'long unsigned int[1]' [-Werror=array-bounds]:  => 329:20
+P010 is a YUV format with 10-bits per pixel with interleaved UV.
 
-m68k-gcc8/m68k-allmodconfig (assumed gcc8 bug)
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+Note that P010 is already known in GStreamer, only the mapping with
+v4l2 pixel format is missing.
 
->  + /kisskb/src/arch/parisc/kernel/vdso32/restart_syscall.S: Error: .cfi_endproc without corresponding .cfi_startproc:  => 32
->  + /kisskb/src/arch/parisc/kernel/vdso32/restart_syscall.S: Error: bad or irreducible absolute expression:  => 16
->  + /kisskb/src/arch/parisc/kernel/vdso32/restart_syscall.S: Error: junk at end of line, first unrecognized character is `:':  => 16
->  + /kisskb/src/arch/parisc/kernel/vdso32/restart_syscall.S: Error: no such instruction: `be 0x100(%sr2,%r0)':  => 29
->  + /kisskb/src/arch/parisc/kernel/vdso32/restart_syscall.S: Error: no such instruction: `ldi 0,%r20':  => 30
->  + /kisskb/src/arch/parisc/kernel/vdso32/restart_syscall.S: Error: no such instruction: `ldw 0(%sp),%r31':  => 26
->  + /kisskb/src/arch/parisc/kernel/vdso32/sigtramp.S: Error: no such instruction: `ble 0x100(%sr2,%r0)':  => 51, 46
->  + /kisskb/src/arch/parisc/kernel/vdso32/sigtramp.S: Error: no such instruction: `ldi 0,%r25':  => 44
->  + /kisskb/src/arch/parisc/kernel/vdso32/sigtramp.S: Error: no such instruction: `ldi 1,%r25':  => 49
->  + /kisskb/src/arch/parisc/kernel/vdso32/sigtramp.S: Error: no such instruction: `ldi 173,%r20':  => 45, 50
->  + /kisskb/src/arch/parisc/kernel/vdso32/sigtramp.S: Error: unknown pseudo-op: `.callinfo':  => 40
->  + /kisskb/src/arch/parisc/kernel/vdso32/sigtramp.S: Error: unknown pseudo-op: `.entry':  => 41
->  + /kisskb/src/arch/parisc/kernel/vdso32/sigtramp.S: Error: unknown pseudo-op: `.exit':  => 54
->  + /kisskb/src/arch/parisc/kernel/vdso32/sigtramp.S: Error: unknown pseudo-op: `.proc':  => 39
->  + /kisskb/src/arch/parisc/kernel/vdso32/sigtramp.S: Error: unknown pseudo-op: `.procend':  => 55
->  + /kisskb/src/arch/parisc/kernel/vdso32/sigtramp.S: Error: unknown pseudo-op: `.stringz':  => 76
+This patch has been acked in this series but never merged:
+https://patchwork.kernel.org/project/linux-rockchip/patch/20210618131526.566762-5-benjamin.gaignard@collabora.com/
+After rebased it on v5.18-rc1, resend in standalone mode.
 
-parisc64-gcc8/generic-64bit_defconfig
-parisc-gcc8/generic-32bit_defconfig
-parisc-gcc8/parisc-allmodconfig
-parisc-gcc8/parisc-allnoconfig
+ .../media/v4l/pixfmt-yuv-planar.rst           | 76 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-common.c         |  1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+ include/uapi/linux/videodev2.h                |  1 +
+ 4 files changed, 79 insertions(+)
 
->  + /kisskb/src/arch/sparc/kernel/irq_32.c: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]:  => 262:14, 261:46, 259:14, 258:14, 263:14
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+index 8dff5906639b..6d65c8ac44f0 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+@@ -102,6 +102,13 @@ All components are stored with the same number of bits per component.
+       - 64x32 tiles
+ 
+         Horizontal Z order
++    * - V4L2_PIX_FMT_P010
++      - 'P010'
++      - 16
++      - 4:2:0
++      - Cb, Cr
++      - No
++      - Linear
+     * - V4L2_PIX_FMT_NV12MT_16X16
+       - 'VM12'
+       - 8
+@@ -171,6 +178,7 @@ horizontally.
+ .. _V4L2-PIX-FMT-NV21:
+ .. _V4L2-PIX-FMT-NV12M:
+ .. _V4L2-PIX-FMT-NV21M:
++.. _V4L2-PIX-FMT-P010:
+ 
+ NV12, NV21, NV12M and NV21M
+ ---------------------------
+@@ -519,6 +527,74 @@ number of lines as the luma plane.
+       - Cb\ :sub:`33`
+       - Cr\ :sub:`33`
+ 
++.. _V4L2_PIX_FMT_P010:
++
++P010
++----
++
++The number of bytes in one luminance row must be divisible by 16,
++which means there will be padded 0 in the right edge when necessary.
++
++.. raw:: latex
++
++    \begingroup
++    \small
++    \setlength{\tabcolsep}{2pt}
++
++.. tabularcolumns:: |p{2.6cm}|p{0.70cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
++
++.. flat-table:: P010 16 Bits per component
++    :header-rows:  2
++    :stub-columns: 0
++
++    * - Identifier
++      - Code
++      - :cspan:`7` Byte 0 in memory
++
++      - :cspan:`7` Byte 1
++    * -
++      -
++      - 7
++      - 6
++      - 5
++      - 4
++      - 3
++      - 2
++      - 1
++      - 0
++
++      - 7
++      - 6
++      - 5
++      - 4
++      - 3
++      - 2
++      - 1
++      - 0
++    * - ``V4L2_PIX_FMT_P010``
++      - 'P010'
++
++      - Y\ :sub:`9`
++      - Y\ :sub:`8`
++      - Y\ :sub:`7`
++      - Y\ :sub:`6`
++      - Y\ :sub:`5`
++      - Y\ :sub:`4`
++      - Y\ :sub:`3`
++      - Y\ :sub:`2`
++
++      - Y\ :sub:`1`
++      - Y\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++
++.. raw:: latex
++
++    \endgroup
+ 
+ Fully Planar YUV Formats
+ ========================
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index df34b2a283bc..1e38ad8906a2 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -266,6 +266,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+ 		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
++		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+ 
+ 		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
+ 		{ .format = V4L2_PIX_FMT_YVU410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 96e307fe3aab..e14d7e1a038e 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1301,6 +1301,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
+ 	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
+ 	case V4L2_PIX_FMT_NV42:		descr = "Y/CrCb 4:4:4"; break;
++	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CrCb 4:2:0"; break;
+ 	case V4L2_PIX_FMT_NV12_4L4:	descr = "Y/CbCr 4:2:0 (4x4 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_16L16:	descr = "Y/CbCr 4:2:0 (16x16 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_32L32:   descr = "Y/CbCr 4:2:0 (32x32 Linear)"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 4c09969e7112..2e451c454db3 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -601,6 +601,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
+ #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
+ #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
++#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 15  Y/CbCr 4:2:0 10-bit per pixel*/
+ 
+ /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
+ #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
+-- 
+2.32.0
 
-sparc64-gcc11/sparc-allmodconfig
-
->  + /kisskb/src/drivers/gpu/drm/r128/r128_cce.c: error: case label does not reduce to an integer constant:  => 417:2, 418:2
-
-arm64-gcc5.4/arm64-allmodconfig
-mipsel/mips-allmodconfig
-powerpc-gcc5/powerpc-allmodconfig
-powerpc-gcc5/powerpc-allyesconfig
-powerpc-gcc5/ppc32_allmodconfig
-powerpc-gcc5/ppc64_book3e_allmodconfig
-powerpc-gcc5/ppc64le_allmodconfig
-
->  + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'X86_VENDOR_AMD' undeclared (first use in this function):  => 149:37
->  + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'struct cpuinfo_um' has no member named 'x86_vendor':  => 149:22
->  + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: control reaches end of non-void function [-Werror=return-type]:  => 150:1
->  + /kisskb/src/drivers/infiniband/sw/rdmavt/qp.c: error: 'struct cpuinfo_um' has no member named 'x86_cache_size':  => 88:22
->  + /kisskb/src/drivers/infiniband/sw/rdmavt/qp.c: error: control reaches end of non-void function [-Werror=return-type]:  => 89:1
->  + /kisskb/src/drivers/infiniband/sw/rdmavt/qp.c: error: implicit declaration of function '__copy_user_nocache' [-Werror=implicit-function-declaration]:  => 100:2
-
-um-x86_64/um-allmodconfig
-um-x86_64/um-allyesconfig
-
->  + /kisskb/src/drivers/media/platform/nxp/imx-pxp.h: error: initializer element is not constant:  => 582:38
-
-arm64-gcc5.4/arm64-allmodconfig
-powerpc-gcc5/powerpc-allmodconfig
-
->  + /kisskb/src/drivers/misc/habanalabs/common/memory.c: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]:  => 153:49, 153:7
-
-mipsel/mips-allmodconfig
-mips-gcc8/mips-allmodconfig
-sparc64/sparc-allmodconfig
-xtensa-gcc11/xtensa-allmodconfig
-
->  + /kisskb/src/drivers/net/ethernet/broadcom/bnx2x/bnx2x_main.c: error: case label does not reduce to an integer constant:  => 4917:4
->  + /kisskb/src/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c: error: case label does not reduce to an integer constant:  => 3798:2, 3809:2
-
-arm64-gcc5.4/arm64-allmodconfig
-powerpc-gcc5/powerpc-allmodconfig
-powerpc-gcc5/ppc64_book3e_allmodconfig
-
->  + /kisskb/src/drivers/scsi/aacraid/commsup.c: error: case label does not reduce to an integer constant:  => 1983:2
-
-arm64-gcc5.4/arm64-allmodconfig
-powerpc-gcc5/powerpc-allmodconfig
-powerpc-gcc5/ppc64_book3e_allmodconfig
-powerpc-gcc5/ppc64le_allmodconfig
-
->  + /kisskb/src/drivers/tty/serial/mpc52xx_uart.c: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]:  => 1004:12, 1005:12, 1006:14, 970:12, 968:16, 971:14, 969:12, 1002:16, 1003:16, 967:16
-
-powerpc-gcc5/ppc32_allmodconfig
-
->  + /kisskb/src/drivers/usb/typec/tcpm/tcpm.c: error: case label does not reduce to an integer constant:  => 4724:3
-
-arm64-gcc5.4/arm64-allmodconfig
-powerpc-gcc5/powerpc-allmodconfig
-powerpc-gcc5/ppc64_book3e_allmodconfig
-
->  + /kisskb/src/fs/xfs/xfs_buf.h: error: initializer element is not constant:  => 46:23
->  + /kisskb/src/sound/usb/midi.c: error: case label does not reduce to an integer constant:  => 1389:2
-
-arm64-gcc5.4/arm64-allmodconfig
-mipsel/mips-allmodconfig
-powerpc-gcc5/powerpc-allmodconfig
-powerpc-gcc5/powerpc-allyesconfig
-powerpc-gcc5/ppc32_allmodconfig
-powerpc-gcc5/ppc64_book3e_allmodconfig
-powerpc-gcc5/ppc64le_allmodconfig
-
->  + /kisskb/src/include/linux/compiler_types.h: error: call to '__compiletime_assert_402' declared with attribute error: FIELD_PREP: mask is not constant:  => 352:38
->  + /kisskb/src/include/linux/compiler_types.h: error: call to '__compiletime_assert_404' declared with attribute error: FIELD_PREP: mask is not constant:  => 352:38
-
-powerpc-gcc5/powerpc-allmodconfig
-
-
-> *** WARNINGS ***
->
-> 5 warning regressions:
->  + /kisskb/src/arch/m68k/include/asm/string.h: warning: '__builtin_memset' offset [0, 11] is out of the bounds [0, 0] [-Warray-bounds]:  => 68:25
-
-m68k-gcc11/sun3_defconfig
-
->  + /kisskb/src/arch/s390/kernel/machine_kexec.c: warning: 'memcpy' offset [0, 511] is out of the bounds [0, 0] [-Warray-bounds]:  => 57:9
-
-s390x-gcc11/s390-defconfig
-
->  + /kisskb/src/drivers/net/ethernet/i825xx/sun3_82586.c: warning: array subscript 1 is above array bounds of 'volatile struct transmit_cmd_struct *[1]' [-Warray-bounds]:  => 989:108, 989:122
-
-m68k-gcc11/sun3_defconfig
-m68k-gcc8/sun3_defconfig
-
->  + /kisskb/src/drivers/scsi/mpt3sas/mpt3sas_base.c: warning: array subscript 'Mpi2SasIOUnitPage1_t {aka struct _MPI2_CONFIG_PAGE_SASIOUNIT_1}[0]' is partly outside array bounds of 'unsigned char[20]' [-Warray-bounds]:  => 5400:40, 5403:43, 5396:40
-
-powerpc-gcc11/skiroot_defconfig
-
->  + modpost: WARNING: modpost: EXPORT symbol "_mcount" [vmlinux] version generation failed, symbol will not be versioned.:  => N/A
-
-sparc64-gcc11/sparc64-defconfig
-sparc64/sparc64-defconfig
-
-Gr{oetje,eeting}s,
-
- 						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
