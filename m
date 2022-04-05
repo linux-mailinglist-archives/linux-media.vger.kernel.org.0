@@ -2,132 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D7514F3E15
-	for <lists+linux-media@lfdr.de>; Tue,  5 Apr 2022 22:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D45BD4F3F95
+	for <lists+linux-media@lfdr.de>; Tue,  5 Apr 2022 23:04:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238101AbiDENxd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Apr 2022 09:53:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36722 "EHLO
+        id S235130AbiDENxL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Apr 2022 09:53:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384317AbiDEM1U (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 08:27:20 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE8DA99
-        for <linux-media@vger.kernel.org>; Tue,  5 Apr 2022 04:38:13 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id f18so9483129edc.5
-        for <linux-media@vger.kernel.org>; Tue, 05 Apr 2022 04:38:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=6JLpVcxofI6oB2gdwY+slL4oSMNj7C+1tF77lvvNOuY=;
-        b=IEuB3qg6Z4b4CSzr0a1/gMyvwj6CyUEQxTDm9y/dbw/ecuH8TRakvtaYROS84gV/7x
-         fS2pPba7duPKICWesPTYJKg58hHdOY7Rh/iz8S91SjP7BcRCxPiFGL7512GwG6ix0L2K
-         vhg1t2JOY7n3pG1Sjs7kLNHXS0i1OQd7zPLpjWRFJUm2ygHgsGu/A+HGuKogi40Sz7ci
-         G2YrEU4UwtrFEMlppqyCPr2la9c3B9G1Lm90Uh42NW8cUJ+tfBXLEv2jl0oQE7SjOjGg
-         8jgadj0Ln6IunmP7TpRcHsreTGW5zjTr0KSAHain1N90P94NGF+Z7al3cs5Vv2pQSBEe
-         ov4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=6JLpVcxofI6oB2gdwY+slL4oSMNj7C+1tF77lvvNOuY=;
-        b=Sp9ty5NXLY6SEzro8yZznkQh+EOjwXpIdCk73yLt8BM/flvq3U7AjvHEimWU6L3+C8
-         p+PQZwi4KgPm4Kx35hpFtArUGGE0Rj0wL8k6SJa6YzyRifjvpO3UXOH9S7HZEIpY5klv
-         cRKl8Md1Vn8DOVLafnl53GSZxDjYynDyrbojUawhogCIwHHQH/KcuMNcl2+7vrgPNHNp
-         it570/m6XEgcSPCjqbUwA2i3oSJlWOLntJBe7AtY+tNA2smMmEdAou0wuqR15Xivlzhb
-         gDPDFoDWJNOHXRaHC9BpvN7si5bGVazQ+Iet82jkaR4EIUsddVkYjXNfAZ42ZLIafF0Y
-         8DvA==
-X-Gm-Message-State: AOAM533NMM9WbHbhDxZmh32+YWHQa8AvCn/Q8myJ1DqM0g4HHxN+bMyd
-        1WAPijuG1++nxowJ9lwIa5Y1CicEW1GfarF2RxDIHpGM4zU=
-X-Google-Smtp-Source: ABdhPJyYa65ieZLpENjeCWFh+CV/SZgHg8buAM1K//ARtELPlmczqToPzBuKhzcg2ezt2lD/UvQxEOl7PZjErdwzGXg=
-X-Received: by 2002:aa7:c307:0:b0:41c:d381:d60e with SMTP id
- l7-20020aa7c307000000b0041cd381d60emr3131453edq.184.1649158692135; Tue, 05
- Apr 2022 04:38:12 -0700 (PDT)
+        with ESMTP id S1377013AbiDENMq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 09:12:46 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFF7D120D9D;
+        Tue,  5 Apr 2022 05:12:48 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 2FE681F745;
+        Tue,  5 Apr 2022 12:12:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1649160767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YGolTQlWegdqsJgfgfOCgFdotBM/n5qIvgfFfvEjxd0=;
+        b=BK6a6qL8o7p/MJgbNqqctnSF5bmv5BGKuuqBTv2USITbTpPoKI1f15ogW871KoTo/RdheN
+        2ofE8y9/q59bmAhdL1seIYTAGQd263xP4FVoKwCcc/FYdRc3tUwqP3pmlISrihOeY4NF+U
+        B5AcViJAx3CYaDGctEIJbO7LJzMoxwU=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AA5C913A04;
+        Tue,  5 Apr 2022 12:12:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id s8TPKD4yTGIlCAAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Tue, 05 Apr 2022 12:12:46 +0000
+Date:   Tue, 5 Apr 2022 14:12:45 +0200
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [RFC v4 5/8] dmabuf: Add gpu cgroup charge transfer function
+Message-ID: <20220405121245.GA30368@blackbody.suse.cz>
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-6-tjmercier@google.com>
+ <20220329152142.GA15794@blackbody.suse.cz>
+ <CABdmKX2874NdYCBzpKLnqWhZQDkC2wKz4ZL_aFNqrec6iAutpQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAPY8ntA06L1Xsph79sv9t7MiDSNeSO2vADevuXZdXQdhWpSmow@mail.gmail.com>
-In-Reply-To: <CAPY8ntA06L1Xsph79sv9t7MiDSNeSO2vADevuXZdXQdhWpSmow@mail.gmail.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 5 Apr 2022 12:37:56 +0100
-Message-ID: <CAPY8ntD6GZJ0oCDe1fQ8Pf+X+nY3nB0RcrAX-JxTiO0QiTUVPg@mail.gmail.com>
-Subject: Re: Using the Selection API with image sensors for arbitrary cropping
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        libcamera devel <libcamera-devel@lists.libcamera.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABdmKX2874NdYCBzpKLnqWhZQDkC2wKz4ZL_aFNqrec6iAutpQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 17 Mar 2022 at 17:47, Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> Hi All
->
-> I'm trying to tally the selection API documentation for image sensors
-> with implementing it in practice, specifically over arbitrary cropping
-> on the sensor.
->
-> I've had a downstream PR for IMX219 that adds support for the
-> selection API to allow arbitrary cropping and selection of binning
-> mode [1].
->
-> The docs for "Writing camera sensor drivers" [2] lists the two options
-> as either freely configurable via multiple subdevices, or register
-> based. It doesn't apparently cover just cropping (there is no scaler
-> on IMX219), but there is the IMX274 driver that implements setting the
-> sensor cropping via the selection API [3].
->
-> The current IMX219 register-based modes are
-> - 3280x2464 up to 15fps
-> - 1920x1080 up to 30fps as a crop of the 3280x2464 mode
-> - 1640x1232 up to 40fps, 2x2 binned
-> - 640x480 up to 200fps, "special" 2x2 binning and cropped.
->
-> The main issue is that implementing the selection API reduces the
-> number of modes that can be selected directly via set_fmt to the base
-> 3280x2464 and 1640x1232. Surely that constitutes a regression as use
-> cases that did work now don't, and therefore it is not acceptable.
-> 3280x2464 can't run at 30fps, therefore we can't easily get a 1080p30
-> source without additional knowledge of modes and crop settings.
->
-> So how should the selection API be implemented without introducing regressions?
-> Is it permitted to enumerate the extra modes as before and have them
-> update the crop rectangle? The docs [4] say not:
-> "Drivers shall set the active crop rectangle to the default when the
-> driver is first loaded, but not later."
-> which leaves a bit of a quandry.
->
-> If we do drop the existing modes it just pushes the problem of which
-> modes to select onto the client. Most likely you end up with an
-> extended sensor specific helper in libcamera with a list of modes and
-> the framerates that each can achieve, pretty much identical to the
-> list of modes in the kernel at present.
-> Any other clients are forced to jump through similar hoops (unlikely
-> to happen), or we rename it to Video 4 Libcamera 2 ;-)
->
-> Making that shift also means that selecting the special binning mode
-> has to be done via some other heuristics. AIUI it's optimised for high
-> frame rates so that's possible (but not nice).
->
-> Guidance sought please.
+On Fri, Apr 01, 2022 at 11:41:36AM -0700, "T.J. Mercier" <tjmercier@google.com> wrote:
+> This link doesn't work for me, but I think you're referring to the
+> discussion about your "RAM_backed_buffers" comment from March 23rd.
 
-A gentle ping on this.
+(Oops, it's a non-public message. But yes, you guessed it right ;-))
 
-At present I'm going to ignore the spec and allow setting the format
-to update the crop. That way we retain the modes and avoid regression,
-but allow those who wish to set an arbitrary selection to do so.
+> Anyway the test I did goes like this: enable memcg and gpu cgoups
+> tracking and run a process that allocates 100MiB of dmabufs. Observe
+> memcg and gpu accounting values before and after the allocation.
 
-  Dave
+Thanks for this measurement/dem/demoo.
 
-> Thanks
->   Dave
->
-> [1] https://github.com/raspberrypi/linux/pull/4935
-> [2] https://www.kernel.org/doc/html/latest/driver-api/media/camera-sensor.html#frame-size
-> [3] https://github.com/torvalds/linux/blob/master/drivers/media/i2c/imx274.c
-> [4] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/selection-api-configuration.html#configuration-of-video-capture
+> Before
+> # cat memory.current gpu.memory.current
+> 14909440
+> system 0
+> 
+> <Test program does the allocation of 100MiB of dmabufs>
+> 
+> After
+> # cat memory.current gpu.memory.current
+> 48025600
+> system 104857600
+> 
+> So the memcg value increases by about 30 MiB while the gpu values
+> increases by 100 MiB.
+
+> This is with kmem enabled, and the /proc/maps
+> file for this process indicates that the majority of that 30 MiB is
+> kernel memory.
+
+> I think this result shows that neither the kernel nor process memory
+> overlap with the gpu cgroup tracking of these allocations.
+
+It depends how the semantics of the 'system' entry is defined, no?
+As I grasped from other thread, the 'total' is going to be removed, so
+'system' represents exclusively device memory?
+
+
+> So despite the fact that these buffers are in main memory, they are
+> allocated in a way that does not result in memcg attribution. (It
+> looks to me like __GFP_ACCOUNT is not set for these.)
+
+(I thought you knew what dmabufs your program used :-p)
+
+So, the goal is to do the tracking and migrations only via the gpu cg
+layer, regardless how memcg charges it (or not).
+
+(I have no opinion on that, I'm just summing it so that we're on the
+same page.)
+
+Michal
