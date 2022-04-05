@@ -2,83 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 853DD4F4AC1
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:51:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41D5A4F4AE9
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:52:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1449961AbiDEWva (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Apr 2022 18:51:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51118 "EHLO
+        id S1573700AbiDEWws (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Apr 2022 18:52:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1443790AbiDEPkS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 11:40:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9872E81673
-        for <linux-media@vger.kernel.org>; Tue,  5 Apr 2022 06:59:39 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 31E675D;
-        Tue,  5 Apr 2022 15:59:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1649167178;
-        bh=l6QBS7/8jM1BDEY9waat8n2aV1Pc3uDSWuEJOBFUKDc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YW+hEJS7ukP2v7rU57TdLO6sDpxG7f8rPRk8wIt8F+1dUg7V+l57fKHCV/RrylkVp
-         JOQsINtyOFrJEX3QiJN//fk4n6TI9VV2RVVymotAcAUu5EvgpclJ+ACBlfTe7jUROP
-         ZlkjEE0IyFb8B9hgyhEDKWVeMERClaoMT2rmjbFE=
-Date:   Tue, 5 Apr 2022 16:59:35 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Massimo B." <massimo.b@gmx.net>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Quanta Computer Inc. Astro HD Cam, not initializing
-Message-ID: <YkxLR4Xqsxzu0hh2@pendragon.ideasonboard.com>
-References: <1e3fff6f44830e910261bfb7629247cd89bf615a.camel@gmx.net>
- <YkGMSaAyUVNWMOsq@pendragon.ideasonboard.com>
- <771493a1110cacd87c42e66eea84c962be789532.camel@gmx.net>
+        with ESMTP id S1443841AbiDEPkW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 11:40:22 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32DDF10E549;
+        Tue,  5 Apr 2022 07:00:39 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id t21so13460182oie.11;
+        Tue, 05 Apr 2022 07:00:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HFMQgSR3Z2986CsvnsaxYCQAxCwwsfFViVfXTurYbuM=;
+        b=c1d6GMnUCpuBiRYFYUMeSmkzMXbgvzFsmhNTEx5ALxlYDIIgEnDIC3KEYkk6w/FhpB
+         TqVO5CZYMwkItnXKm6jAm5gJKI+LlTivA+RxswnPYXL/iqNzg6845SVJ73UQ688A8jcs
+         oSrVMzCdB4Nn2/yrnVEoi3VY8cA3XL6SuQ81cLQRPYsQJBBqBjdVW+w5MGnrlaR75kCV
+         1IdwIAJxCk/DkKh/Hhse2iBWJmL6f3VX2hw2m1so0+gyIuPgNsdSsoGKWgwDithk/bCU
+         yQPKhif0qham54k/tTgXOhPtbKbz9MSqGWkUqmBHfi3GkMM3kMBPSPEPoURcYK/qg7Lv
+         +dDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HFMQgSR3Z2986CsvnsaxYCQAxCwwsfFViVfXTurYbuM=;
+        b=iGEAU/bcSb8f4htHiqicAPlAF4GziMejaZpi9/QWfId/jnv+Dt0IqvQgcIg6rjxN45
+         LvoF2tvRbnKEw2/Rm71gkq2R0sXn5TvtuZt/HxKR7zgUpT+60Ww5FEoE+MAmnASOIYGH
+         p/vv24o/X5BYLH6Xp56IlJzwhTwlq/b3yvwcn3gTWdCSkVKvhOnfYPgpVlenD1DFwGck
+         KOlJ+rCmchHmg3ZPQQZNMHqMS6WSxfA3hw0+AWoCJA7zJKWbYsX+oZfvG0fyRhYD227K
+         lAZ3RniQkcFxD75F9MHAu+zrOm0q6GbofoyaIxoFPlv1LmlJDvy3caem2f5O9LKGlPgG
+         Vq5g==
+X-Gm-Message-State: AOAM532ZmYoX1NwpPYMDmR3DTrRsyMCz+mgUwURqfm28C9dTLqA3Gtmr
+        n8XuJg0Y8SfCCKiiJKA3wlc=
+X-Google-Smtp-Source: ABdhPJyx+UrnCCCC/dq6VupZvYiQblLTfNZtdfBOgNWTKrCgoNVnGNSrcKZIjfn8KOCE1dlioTnWEw==
+X-Received: by 2002:a05:6808:c:b0:2ef:8913:354 with SMTP id u12-20020a056808000c00b002ef89130354mr1429138oic.201.1649167238532;
+        Tue, 05 Apr 2022 07:00:38 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:485:4b69:99d5:2af:ddde:2ce0])
+        by smtp.gmail.com with ESMTPSA id c3-20020a056808138300b002f76b9a9ef6sm5537029oiw.10.2022.04.05.07.00.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Apr 2022 07:00:37 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     nicolas.dufresne@collabora.com, kernel@iktek.de,
+        p.zabel@pengutronix.de, linux-media@vger.kernel.org,
+        stable@vger.kernel.org, Ezequiel Garcia <ezequiel@collabora.com>,
+        Fabio Estevam <festevam@denx.de>
+Subject: [PATCH v4 1/2] media: coda: Fix reported H264 profile
+Date:   Tue,  5 Apr 2022 10:59:56 -0300
+Message-Id: <20220405135957.3580343-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <771493a1110cacd87c42e66eea84c962be789532.camel@gmx.net>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 05, 2022 at 12:40:21PM +0200, Massimo B. wrote:
-> On Mon, 2022-03-28 at 13:34 +0300, Laurent Pinchart wrote:
-> 
-> > Could you send the output of `lsusb -v -d 0408:2090` (if possible
-> > running as root) ?
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-[snip]
- 
-> > The audio interface causes issues, it seems it crashed the webcam
-> > firmware. Could you try blacklisting the snd-usb-audio module and see if
-> > video then works ?
-> 
-> Yes, that makes the video part work again.
+The CODA960 manual states that ASO/FMO features of baseline are not
+supported, so for this reason this driver should only report
+constrained baseline support.
 
-So this confirms it's a USB audio issue. It may be possible to work
-around it in the snd-usb-audio driver, but that's beyond my area of
-expertise. You may want to contact the alsa-devel mailing list.
+This fixes negotiation issue with constrained baseline content
+on GStreamer 1.17.1.
 
-> However it is not sufficient anymore to just disable the audio via udev rule:
-> 
-> ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="0408", ATTRS{idProduct}=="2090", ATTR{bInterfaceClass}=="01", ATTR{authorized}="0"
-> 
-> Some while ago this was working to have the video part usable.
+ASO/FMO features are unsupported for the encoder and untested for the
+decoder because there is currently no userspace support. Neither GStreamer
+parsers nor FFMPEG parsers support ASO/FMO.
 
-I'd be surprised if it wasn't possible to achieve a similar result with
-a recent version of udev, but the way to do so may have changed. I
-haven't tried it personally, so maybe contacting the udev developers for
-support could help ?
+Cc: stable@vger.kernel.org
+Fixes: 42a68012e67c2 ("media: coda: add read-only h.264 decoder profile/level controls")
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Tested-by: Pascal Speck <kernel@iktek.de>
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+Changes since v3:
+- Rebased against linux-next and took the coda->chips-media rename
+in consideration.
 
-> Blacklisting snd_usb_audio works, but I need that module to have at least
-> another usb microphone doing the audio part.
+ drivers/media/platform/chips-media/coda-common.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
+index a57822b05070..53b2dd1b268c 100644
+--- a/drivers/media/platform/chips-media/coda-common.c
++++ b/drivers/media/platform/chips-media/coda-common.c
+@@ -2344,8 +2344,8 @@ static void coda_encode_ctrls(struct coda_ctx *ctx)
+ 		V4L2_CID_MPEG_VIDEO_H264_CHROMA_QP_INDEX_OFFSET, -12, 12, 1, 0);
+ 	v4l2_ctrl_new_std_menu(&ctx->ctrls, &coda_ctrl_ops,
+ 		V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+-		V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE, 0x0,
+-		V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE);
++		V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE, 0x0,
++		V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE);
+ 	if (ctx->dev->devtype->product == CODA_HX4 ||
+ 	    ctx->dev->devtype->product == CODA_7541) {
+ 		v4l2_ctrl_new_std_menu(&ctx->ctrls, &coda_ctrl_ops,
+@@ -2426,7 +2426,7 @@ static void coda_decode_ctrls(struct coda_ctx *ctx)
+ 	ctx->h264_profile_ctrl = v4l2_ctrl_new_std_menu(&ctx->ctrls,
+ 		&coda_ctrl_ops, V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+ 		V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+-		~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
++		~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE) |
+ 		  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
+ 		  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH)),
+ 		V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
