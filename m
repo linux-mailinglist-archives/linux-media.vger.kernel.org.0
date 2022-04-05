@@ -2,105 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F3C94F4B1D
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:53:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 561C04F4A99
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:45:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1573886AbiDEWxk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Apr 2022 18:53:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60236 "EHLO
+        id S235049AbiDEWtv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Apr 2022 18:49:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1445342AbiDEPmv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 11:42:51 -0400
-Received: from ssl.serverraum.org (ssl.serverraum.org [176.9.125.105])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 705A717E05;
-        Tue,  5 Apr 2022 07:08:33 -0700 (PDT)
-Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ssl.serverraum.org (Postfix) with ESMTPSA id E473822247;
-        Tue,  5 Apr 2022 16:08:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
-        t=1649167711;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+6+1BpQJhWpIwzeox1bohwEoCNti4GjMewSwLvafwXw=;
-        b=FjoEbM8+1cMTX7ixD4Mw3f9fWtrhCqWB0k1AAf2hdMX7f6oCWMT1wXPAY4BKHa7SJ2Uefh
-        nRiJDlkMvxeECN0Hz+B+LZR9gyrz/dw/HfgISScMlZbgJrgFBhpSvJfVcPMr+lyrzY+sRR
-        5CsvQ+iUunnCwjuq9CnFA29BcFB2G4c=
+        with ESMTP id S1446291AbiDEPo0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 11:44:26 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FE3225D4
+        for <linux-media@vger.kernel.org>; Tue,  5 Apr 2022 07:13:36 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id i15so4168871qvh.0
+        for <linux-media@vger.kernel.org>; Tue, 05 Apr 2022 07:13:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=nDG3RXvuao+esWgoe/QBqcrUrhfucrvjlO0xEEd514E=;
+        b=w5QgW25OlfgzhlOSob2UeQVOWWTsLhgL6RaROKiWlBO5UVvTeday+s+tAlYt52SWt+
+         52VlbZlCCfQ7P7Rk/y5Nhh0C4LOjyr0eLrbnvgI/JjmQtQfosidRjuvziJD+SPL9j72i
+         cFYPgfHUJpReEoJotaFcBrrtZwPbm2zaTO81gvvNYSaow5/2qrOidhylSBedS6gb7Yq7
+         knndMJaFJbEpjKogTrvG4b3uKOjnvi/+0C6jISEDg+sg+09dnG5jJVnO1VLHJ6xqrrsU
+         uxvzziKA1h0NJWF6/b5C5Arg7XiOO1f5nSopharhRo+mcGJk6pMrYqTtYe/ZePehZmus
+         4u9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=nDG3RXvuao+esWgoe/QBqcrUrhfucrvjlO0xEEd514E=;
+        b=bvisCr2FPIUC2VVAOmbhkCatYpDX2S22RZaS9Hj3iX+j2lUUcOq9Wj/v1VKKwgE06Z
+         NorI9o2V7MSCvI0aolKsK2PSaIx3RMGqM5tZBws73VzL5tZsYzl/M4rBtGLrEFSmi8eC
+         uKuLWBT5r/0yoVASZr/29xn7Wx48/vgBknSmUx+2zgV9n9oMX1HlvgbOKzCMxnAw5BJ2
+         b0SdNbD0IXztPZ32guNaeCu1ONdgp86fN4C9Q8Vq7+qO5fsZt6JiG0VYEa0ElQAtU9oN
+         mkFT8ZxO/Wnh5BzB6DgJAQ8eNlBqD2Ud8yiHSu5Mtuuf8uulNiFDEzQrUazFzDeCpLWI
+         70Jg==
+X-Gm-Message-State: AOAM532JA+dl0rCqLuDprtx74EoHUiNT7aJg75eAcwUOiWR+bUWrBqL5
+        9L0l/nNYGV0M+UZI0U+rMdiQaSAITSijbkXc
+X-Google-Smtp-Source: ABdhPJyB6XDNiAgkyvmumI+vLOtbfa1HDPDLHwVpT15mNk8lKqdx04AOsACBi+PVHTVwTEyjoyCVxw==
+X-Received: by 2002:a05:6214:5185:b0:443:a821:31fc with SMTP id kl5-20020a056214518500b00443a82131fcmr3051707qvb.129.1649168015668;
+        Tue, 05 Apr 2022 07:13:35 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id t19-20020ac85893000000b002e1afa26591sm11903132qta.52.2022.04.05.07.13.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Apr 2022 07:13:35 -0700 (PDT)
+Message-ID: <6c010a7ccf7af30bb711091179d7d2e7492bd085.camel@ndufresne.ca>
+Subject: Re: [PATCH 3/7] media: coda: disable encoder ioctls for decoder
+ devices
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de
+Date:   Tue, 05 Apr 2022 10:13:34 -0400
+In-Reply-To: <20220404163533.707508-3-p.zabel@pengutronix.de>
+References: <20220404163533.707508-1-p.zabel@pengutronix.de>
+         <20220404163533.707508-3-p.zabel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Tue, 05 Apr 2022 16:08:30 +0200
-From:   Michael Walle <michael@walle.cc>
-To:     Codrin.Ciubotariu@microchip.com
-Cc:     Nicolas.Ferre@microchip.com, alexandre.belloni@bootlin.com,
-        Claudiu.Beznea@microchip.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, linux-i2c@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
-Subject: Re: [PATCH] i2c: at91: use dma safe buffers
-In-Reply-To: <74494dda-e0cd-aa73-7e58-e4359c1ba292@microchip.com>
-References: <20220303161724.3324948-1-michael@walle.cc>
- <46e1be55-9377-75b7-634d-9eadbebc98d7@microchip.com>
- <bc32f1107786ebcbfb4952e1a6142304@walle.cc>
- <360914ee-594c-86bc-2436-aa863a67953a@microchip.com>
- <27f124c9adaf8a4fbdfb7a38456c4a2e@walle.cc>
- <74494dda-e0cd-aa73-7e58-e4359c1ba292@microchip.com>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <9e715ed06a28165446e29483cca7e3d0@walle.cc>
-X-Sender: michael@walle.cc
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 2022-04-05 15:58, schrieb Codrin.Ciubotariu@microchip.com:
-> On 05.04.2022 14:09, Michael Walle wrote:
->> Am 2022-04-05 12:02, schrieb Codrin.Ciubotariu@microchip.com:
->>> On 05.04.2022 12:38, Michael Walle wrote:
->>>> Am 2022-04-05 11:23, schrieb Codrin.Ciubotariu@microchip.com:
->>>>>> +       if (dev->use_dma) {
->>>>>> +               dma_buf = i2c_get_dma_safe_msg_buf(m_start, 1);
->>>>> 
->>>>> If you want, you could just dev->buf = i2c_get_dma_safe...
->>>> 
->>>> But where is the error handling in that case? dev->buf will
->>>> be NULL, which is eventually passed to dma_map_single().
->>>> 
->>>> Also, I need the dma_buf for the i2c_put_dma_safe_msg_buf()
->>>> call anyway, because dev->buf will be modified during
->>>> processing.
->>> 
->>> You still:
->>>       if (!dev->buf) {
->>>               ret = -ENOMEM;
->>>               goto out;
->>>       }
->>> 
->>> So, at91_do_twi_transfer()/dma_map_single() will not be called.
->> 
->> Ahh, I misunderstood you. Yes, but as I said, I need the dma_buf
->> temporary variable anyway, because dev->buf is modified, eg. see
->> at91_twi_read_data_dma_callback().
-> at91_twi_read_data_dma_callback() is called as callback if
-> dma_async_issue_pending(dma->chan_rx) is called.
-> dma_async_issue_pending(dma->chan_rx) is called on
-> at91_twi_read_data_dma(), which is called in at91_do_twi_transfer(),
-> which we decided above to skip in case of error.
+Le lundi 04 avril 2022 =C3=A0 18:35 +0200, Philipp Zabel a =C3=A9crit=C2=A0=
+:
+> Use v4l2_disable_ioctl() to disable the encoder ioctls
+> VIDIOC_ENUM_FRAMESIZES, VIDIOC_ENUM_FRAMEINTERVALS, VIDIOC_G_PARM, and
+> VIDIOC_S_PARM, to fix this v4l2-compliance test failure:
+>=20
+> 		fail: v4l2-test-formats.cpp(1363): node->is_m2m && !is_stateful_enc
+> 	test VIDIOC_G/S_PARM: FAIL
 
-It is not about errors, you need the exact same pointer you
-got from i2c_get_dma_safe_msg_buf() to be passed to
-i2c_put_dma_safe_msg_buf(). And because (in some cases, it
-isn't really obvious) the dev->buf will be advanced a few
-bytes, I cannot pass dev->buf to i2c_put_dma_safe_msg_buf().
+nit: Perhaps this comment can be improved. VIDIOC_ENUM_FRAMESIZES (even tho=
+ugh
+it could arguably be nicer to implement it for decoders) was returning ENOT=
+TY
+already, so I think its unlikely it was causing a test failures. For other =
+it
+G/S_PARM that looks logical, we usually don't use these for decoding unless=
+ the
+decoders can report the rate from the VUI or something, though this is not =
+yet
+specified.
 
--michael
+For the change itself, which looks all right.
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+>=20
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> ---
+>  drivers/media/platform/chips-media/coda-common.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/m=
+edia/platform/chips-media/coda-common.c
+> index dc75133b0ead..c60473b18b6b 100644
+> --- a/drivers/media/platform/chips-media/coda-common.c
+> +++ b/drivers/media/platform/chips-media/coda-common.c
+> @@ -1269,9 +1269,6 @@ static int coda_enum_framesizes(struct file *file, =
+void *fh,
+>  	struct coda_q_data *q_data_dst;
+>  	const struct coda_codec *codec;
+> =20
+> -	if (ctx->inst_type !=3D CODA_INST_ENCODER)
+> -		return -ENOTTY;
+> -
+>  	if (fsize->index)
+>  		return -EINVAL;
+> =20
+> @@ -2888,6 +2885,10 @@ static int coda_register_device(struct coda_dev *d=
+ev, int i)
+>  	} else {
+>  		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
+>  		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+> +		v4l2_disable_ioctl(vfd, VIDIOC_ENUM_FRAMESIZES);
+> +		v4l2_disable_ioctl(vfd, VIDIOC_ENUM_FRAMEINTERVALS);
+> +		v4l2_disable_ioctl(vfd, VIDIOC_G_PARM);
+> +		v4l2_disable_ioctl(vfd, VIDIOC_S_PARM);
+>  	}
+> =20
+>  	ret =3D video_register_device(vfd, VFL_TYPE_VIDEO, 0);
+
