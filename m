@@ -2,166 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31EE84F2237
-	for <lists+linux-media@lfdr.de>; Tue,  5 Apr 2022 06:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76D354F238B
+	for <lists+linux-media@lfdr.de>; Tue,  5 Apr 2022 08:46:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbiDEEs6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Apr 2022 00:48:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58128 "EHLO
+        id S230470AbiDEGsW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Apr 2022 02:48:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229731AbiDEEst (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 00:48:49 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92E556C913
-        for <linux-media@vger.kernel.org>; Mon,  4 Apr 2022 21:44:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 48B04B80DA1
-        for <linux-media@vger.kernel.org>; Tue,  5 Apr 2022 04:44:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5C42C340EE
-        for <linux-media@vger.kernel.org>; Tue,  5 Apr 2022 04:44:48 +0000 (UTC)
-Date:   Tue, 05 Apr 2022 06:44:46 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-Message-Id: <20220405044448.A5C42C340EE@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229961AbiDEGsT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 02:48:19 -0400
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D9A57175;
+        Mon,  4 Apr 2022 23:46:20 -0700 (PDT)
+Received: by mail-qt1-f181.google.com with SMTP id v2so9708009qtc.5;
+        Mon, 04 Apr 2022 23:46:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UuWjfy1DmKGBwxecHn9QW28Mp8RGeP8Fe6idp3HhRGs=;
+        b=XM48JdQlRjpvDo6pAnEfInZQ02JydMyJSRb+hGGXieNxNU8mZ3kXD/gEu0mZV++O2k
+         BqS6NEIoz2gsS8qU754qXmlGGdecWLhxBKTy8nQHlXUP7/An4b0tCe6BQQkN8HUGP3mg
+         CZ/Aro8sSU0utf0rAYn2baDlmL3oNG88I8GpFzbPK/CacovKR6jKzxmPjLaSSRenV6Ph
+         BvXPV8XItBJUMXSpzEcjVzhTBf3m5fL8OHSPHARPfMlGu7keGZVa8qfRRKOu3BXJNv2O
+         2xdRgdMmflZWYsTNNuF3/AlnRJKOjBKcZ+veIgQodE67F/b2u0SX2U4pATdnsUqAv6g5
+         WrqA==
+X-Gm-Message-State: AOAM532nBU/gi9XQjDN33cMYjxk2EBLOmHtK3YNCKQilvc6FC+iT8SSA
+        ZP4ihtDGGD79/PMkzdXb+luSSoATM5GxDA==
+X-Google-Smtp-Source: ABdhPJwkZT+cT8EcW9YAwiSyF8z2cWBBKHK+j5v06cUcI/z3ZQE/vjvuRTuaahHCBiEU5I/o9Rlyjg==
+X-Received: by 2002:ac8:5c84:0:b0:2e1:eede:8b1b with SMTP id r4-20020ac85c84000000b002e1eede8b1bmr1709809qta.228.1649141179007;
+        Mon, 04 Apr 2022 23:46:19 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id q8-20020a05622a04c800b002e06d7c1eabsm10360081qtx.16.2022.04.04.23.46.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Apr 2022 23:46:18 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id g9so21718806ybf.1;
+        Mon, 04 Apr 2022 23:46:18 -0700 (PDT)
+X-Received: by 2002:a25:45:0:b0:633:96e2:2179 with SMTP id 66-20020a250045000000b0063396e22179mr1490905yba.393.1649141178137;
+ Mon, 04 Apr 2022 23:46:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAHk-=wg6FWL1xjVyHx7DdjD2dHZETA5_=FqqW17Z19X-WTfWSg@mail.gmail.com>
+ <20220404074734.1092959-1-geert@linux-m68k.org> <alpine.DEB.2.22.394.2204041006230.1941618@ramsan.of.borg>
+ <874k38u20c.fsf@tynnyri.adurom.net>
+In-Reply-To: <874k38u20c.fsf@tynnyri.adurom.net>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 5 Apr 2022 08:46:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV_-3TOHYehUsHeqwHjQtzN1Ot886K7vwPr4P-4u8eehw@mail.gmail.com>
+Message-ID: <CAMuHMdV_-3TOHYehUsHeqwHjQtzN1Ot886K7vwPr4P-4u8eehw@mail.gmail.com>
+Subject: Re: Build regressions/improvements in v5.18-rc1
+To:     Kalle Valo <kvalo@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+        Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        linux-um <linux-um@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        scsi <linux-scsi@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        linux-xfs@vger.kernel.org,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        linux-s390 <linux-s390@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Kalle,
 
-Results of the daily build of media_tree:
+On Mon, Apr 4, 2022 at 8:39 PM Kalle Valo <kvalo@kernel.org> wrote:
+> Geert Uytterhoeven <geert@linux-m68k.org> writes:
+> >> /kisskb/src/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c:
+> >> error: case label does not reduce to an integer constant: => 3798:2,
+> >> 3809:2
+> >
+> > arm64-gcc5.4/arm64-allmodconfig
+> > powerpc-gcc5/powerpc-allmodconfig
+> > powerpc-gcc5/ppc64_book3e_allmodconfig
+>
+> After v5.17 there were two commits to brcmfmac/sdio.c:
+>
+> $ git log --oneline v5.17.. drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
+> ed26edf7bfd9 brcmfmac: Add BCM43454/6 support
+> 6d766d8cb505 brcmfmac: pcie: Declare missing firmware files in pcie.c
+>
+> I can't see how either of them could cause this warning. Could something
+> else cause this or am I missing something?
 
-date:			Tue Apr  5 05:00:13 CEST 2022
-media-tree git hash:	2afc1933fbc688f4ffbbdfc85126ac9b68c7e0b6
-media_build git hash:	47e6d5a60b5da94db0118fa795dd0fcba646a0c7
-v4l-utils git hash:	52b4b9f26e1f4ee606a4885c117c088d681887fe
-edid-decode git hash:	85e8c9c70167030c1367493e0c2f15a903acf21f
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7843-g5397282c-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 4b73e0f50a123901c96ab376be40a340da0b4439
-host hardware:		x86_64
-host os:		5.16.0-1-amd64
+Doh, I should not have reduced the CC list in the xfs subthread...
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: ERRORS
-linux-4.4.283-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.308-i686: ERRORS
-linux-4.9.308-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.273-i686: ERRORS
-linux-4.14.273-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.236-i686: ERRORS
-linux-4.19.236-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.144-i686: ERRORS
-linux-5.4.144-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.18-i686: ERRORS
-linux-5.8.18-x86_64: ERRORS
-linux-5.9.16-i686: ERRORS
-linux-5.9.16-x86_64: ERRORS
-linux-5.10.62-i686: ERRORS
-linux-5.10.62-x86_64: ERRORS
-linux-5.11.22-i686: ERRORS
-linux-5.11.22-x86_64: ERRORS
-linux-5.12.19-i686: ERRORS
-linux-5.12.19-x86_64: ERRORS
-linux-5.13.14-i686: ERRORS
-linux-5.13.14-x86_64: ERRORS
-linux-5.14.1-i686: ERRORS
-linux-5.14.1-x86_64: ERRORS
-linux-5.15.1-i686: ERRORS
-linux-5.15.1-x86_64: ERRORS
-linux-5.16.1-i686: ERRORS
-linux-5.16.1-x86_64: ERRORS
-linux-5.17.1-i686: ERRORS
-linux-5.17.1-x86_64: ERRORS
-linux-5.18-rc1-i686: OK
-linux-5.18-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-kerneldoc: OK
+The builds above are all gcc-5 builds, so they are affected by the same
+issue as XFS: unsigned constants that don't fit in int are lacking a
+"U" suffix.
 
-Detailed results are available here:
+I assume Arnd's patch for
+drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
+fixes this?
+https://lore.kernel.org/all/CAK8P3a0wRiS03imdXk2WbGONkSSczEGdE-ue5ubF6UyyDE9dQg@mail.gmail.com
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+Gr{oetje,eeting}s,
 
-Detailed regression test results are available here:
+                        Geert
 
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
