@@ -2,229 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C00BF4F4B03
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:53:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 576B44F4B18
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:53:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1573804AbiDEWxR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Apr 2022 18:53:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45136 "EHLO
+        id S1573881AbiDEWxh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Apr 2022 18:53:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1457236AbiDEQC6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 12:02:58 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4343513D0A
-        for <linux-media@vger.kernel.org>; Tue,  5 Apr 2022 08:34:43 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id d7so3461627edn.11
-        for <linux-media@vger.kernel.org>; Tue, 05 Apr 2022 08:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=a1xJ6jFPkFxQuvHAGPReiLsquMYU3s3ZKHuSgQSN2JI=;
-        b=yCS5jpe9VjM9C+zh8VBKOmizln04kAtaeouTe7pAMtjRZrAsxmkgvcwGiMGfaxwyS4
-         kw1rejBx6SrcJNllN4RSW73Vtr8GHYX+dZXOznMHs64ypDbqAvv83cGXTzTyhIDMSPR4
-         06XGaPkjtIXljr7u7xRJUxDhwZWo7Rb8V62qaT7radA5uDvQILA//MWgaU8xJIIrWB4l
-         lnYVVbnbiA/cbGcskrhmlDGUre5mfuSWPrlt/p9x6XUKP6vSE6VHRMMBhXddXdMyrq6u
-         sbDpCh7Y+eCVlvhQn8y6w/C2epmbcOfA8cT6Nb2yzLtxWWW72tLEWGUtA5gfVNhGGniy
-         WjeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=a1xJ6jFPkFxQuvHAGPReiLsquMYU3s3ZKHuSgQSN2JI=;
-        b=A8eoqCBWFFl6JpZenN2Fz4FxsHi+zm++M2H7i/0drIfvn7/Pn2lVHv8Ovl52EgIuc9
-         DlAzjqz/CmNA8Dz6nFvKnyueEmxslrXZXZ13NLgxSh4OGN0uQmtbu9f28Nmj6G8nUOhL
-         OerULboUZ1ol2FOxSRMo6bweg4CHoUAAgyro9/rrt5ByS14QYriIgpbQkAC6wpJOuhjC
-         jPzTwcb9fH+ov7GgmWCA0GB2RzmVFX6CIEISTFvYt2ksIR5A2k7JMrywIu1Yvs7tAH3C
-         5P/6Ma3SXQLnOYhAOVyOjD8mfzVLu/7mBkCv0R+N5yWzrXPQLh9+CaWYaE+0OFXWBjtx
-         94DQ==
-X-Gm-Message-State: AOAM531zgvbdlE436y4cK/vKrZ94mT1vdLB/ciM3pkpTFH/nBFTdj0AF
-        ZXbGk3lKvZX72ChJUArXM68I5eXcekhCdlNIdHkCTA==
-X-Google-Smtp-Source: ABdhPJzw4YwchmSZLuoyl5Jwvu1T8kRfHZDvBRGJl2eE8vJuOb0LnTTOzWkxc9myV9hSldolnwOUHnDWJByG+ntYhWQ=
-X-Received: by 2002:aa7:c789:0:b0:413:605d:8d17 with SMTP id
- n9-20020aa7c789000000b00413605d8d17mr4224378eds.100.1649172881727; Tue, 05
- Apr 2022 08:34:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
- <20220331193726.289559-14-nicolas.dufresne@collabora.com> <YkgwmwTMa83RysKB@eze-laptop>
- <92001085580ac1005596b34f79f1dadcc4b3f3c9.camel@collabora.com>
-In-Reply-To: <92001085580ac1005596b34f79f1dadcc4b3f3c9.camel@collabora.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Tue, 5 Apr 2022 12:34:30 -0300
-Message-ID: <CAAEAJfA_+ZAcjHUN7Ydi0b=XB0=kFMaaPQC=h_44CNHq9rBsmQ@mail.gmail.com>
-Subject: Re: [PATCH v2 13/23] media: rkvdec: h264: Fix dpb_valid implementation
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+        with ESMTP id S1457450AbiDEQDP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 12:03:15 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 809B129C85;
+        Tue,  5 Apr 2022 08:45:07 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id 6D8A91F45363
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1649173505;
+        bh=JztdWyn4zziH9ZCDywtAj0401GGJ+F6Gh6lAOrlJVn0=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=F/JTFnrOUX5ld+nCQAlSFBiWbidM6sjYzQfKABxhezmsugaSjKXbZTYa3mJI2NO7Z
+         prUuuq4CLDhuxZMRAt/1DdlXXdMbQzQoD8UBDr2nmOinv8OiXT6pA7wwewyZnawB+I
+         bdseOHQ1aS6Frr4iZN9RIgvG9SZFSGGh3vqJQEMuKS+Sad21/PBn5eOh+G8l1nQGHB
+         Kni9YQ1tC8iiDpl2EO1zIXNNQEQ5u400SXnZpSX9bFi2gpKBS+ObKFjvY+8X3aXN92
+         zvYQmwOEfYwpsDEjXJJrRfiYGQXodXKolpKhN0USNA5NvvFePqzP/dCVwLRSUKrBH2
+         E5NIhLqCk1BJw==
+Message-ID: <67742466181fef8ca42d8f5ad2815a46367f5fa7.camel@collabora.com>
+Subject: Re: [PATCH v2 15/23] media: rkvdec: h264: Validate and use pic
+ width and height in mbs
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Collabora Kernel ML <kernel@collabora.com>,
+        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
         Sebastian Fricke <sebastian.fricke@collabora.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date:   Tue, 05 Apr 2022 11:44:54 -0400
+In-Reply-To: <Ykg0Qw24PuGCnbLT@eze-laptop>
+References: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
+         <20220331193726.289559-16-nicolas.dufresne@collabora.com>
+         <Ykg0Qw24PuGCnbLT@eze-laptop>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 5, 2022 at 12:11 PM Nicolas Dufresne
-<nicolas.dufresne@collabora.com> wrote:
->
-> Le samedi 02 avril 2022 =C3=A0 08:16 -0300, Ezequiel Garcia a =C3=A9crit =
-:
-> > On Thu, Mar 31, 2022 at 03:37:15PM -0400, Nicolas Dufresne wrote:
-> > > The ref builder only provided references that are marked as valid in =
-the
-> > > dpb. Thus the current implementation of dpb_valid would always set th=
-e
-> > > flag to 1. This is not representing missing frames (this is called
-> > > 'non-existing' pictures in the spec). In some context, these non-exis=
-ting
-> > > pictures still need to occupy a slot in the reference list according =
+Le samedi 02 avril 2022 =C3=A0 08:32 -0300, Ezequiel Garcia a =C3=A9crit=C2=
+=A0:
+> Hi Nicolas,
+>=20
+> On Thu, Mar 31, 2022 at 03:37:17PM -0400, Nicolas Dufresne wrote:
+> > From: Jonas Karlman <jonas@kwiboo.se>
+> >=20
+> > The width and height in macroblocks is currently configured based on OU=
+TPUT
+> > buffer resolution, this works for frame pictures but can cause issues f=
+or
+> > field pictures.
+> >=20
+> > When frame_mbs_only_flag is 0 the height in mbs should be height of
+> > the field instead of height of frame.
+> >=20
+> > Validate pic_width_in_mbs_minus1 and pic_height_in_map_units_minus1
+> > against OUTPUT buffer resolution and use these values to configure HW.
+> >=20
+> > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> > ---
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c |  4 ++--
+> >  drivers/staging/media/rkvdec/rkvdec.c      | 10 ++++++++++
+> >  2 files changed, 12 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/stagi=
+ng/media/rkvdec/rkvdec-h264.c
+> > index 8d44a884a52e..a42cf19bcc6d 100644
+> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > @@ -672,8 +672,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+> >  		  LOG2_MAX_PIC_ORDER_CNT_LSB_MINUS4);
+> >  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_Z=
+ERO),
+> >  		  DELTA_PIC_ORDER_ALWAYS_ZERO_FLAG);
+> > -	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.width, 16), PIC_WIDT=
+H_IN_MBS);
+> > -	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.height, 16), PIC_HEI=
+GHT_IN_MBS);
+>=20
+> Please add a comment so we don't forget why we use the bitstream
+> fields here.
+
+And perhaps I should clarify that only the height will vary. It remains nic=
+e if
+we can decode smaller images into larger image/format, that will be needed =
 to
-> > > the spec.
-> > >
-> >
-> > Good catch! OOC, did you find this because it was failing a test vector=
-?
->
-> The effect is complex, so I could not correlate to specific tests. Also, =
-what I
-> wanted to fix isn't covered by the ITU conformance, its mostly resiliance
-> requirement. But this should remove some of the IOMMU fault on broken str=
-eams
-> and make it less likely to use references that don't exists or aren't set=
- what
-> we expect. After this change, the driver was getting more stable, and res=
-ults
-> was also more reproducible (specially in parallel decode case, which I us=
-e to
-> speed up testing).
->
+handle the sub-layers in SVC (these are not to be displayed, so we don't ca=
+re
+much about the output stride and all). So that is also an improvement.
 
-Thanks for the details. This sounds like something that could
-be added to the commit description itself.
-
-> >
-> > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > > Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> >
-> > Fixes: cd33c830448ba ("media: rkvdec: Add the rkvdec driver")
-> > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
->
-> Thanks for the review.
->
-
-No problem :)
-
-> >
-> > Thanks,
-> > Ezequiel
-> >
-> > > ---
-> > >  drivers/staging/media/rkvdec/rkvdec-h264.c | 33 ++++++++++++++++----=
---
-> > >  1 file changed, 24 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/sta=
-ging/media/rkvdec/rkvdec-h264.c
-> > > index dff89732ddd0..bcde37d72244 100644
-> > > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > > @@ -112,6 +112,7 @@ struct rkvdec_h264_run {
-> > >     const struct v4l2_ctrl_h264_sps *sps;
-> > >     const struct v4l2_ctrl_h264_pps *pps;
-> > >     const struct v4l2_ctrl_h264_scaling_matrix *scaling_matrix;
-> > > +   int ref_buf_idx[V4L2_H264_NUM_DPB_ENTRIES];
-> > >  };
-> > >
-> > >  struct rkvdec_h264_ctx {
-> > > @@ -725,6 +726,26 @@ static void assemble_hw_pps(struct rkvdec_ctx *c=
-tx,
-> > >     }
-> > >  }
-> > >
-> > > +static void lookup_ref_buf_idx(struct rkvdec_ctx *ctx,
-> > > +                          struct rkvdec_h264_run *run)
-> > > +{
-> > > +   const struct v4l2_ctrl_h264_decode_params *dec_params =3D run->de=
-code_params;
-> > > +   u32 i;
-> > > +
-> > > +   for (i =3D 0; i < ARRAY_SIZE(dec_params->dpb); i++) {
-> > > +           struct v4l2_m2m_ctx *m2m_ctx =3D ctx->fh.m2m_ctx;
-> > > +           const struct v4l2_h264_dpb_entry *dpb =3D run->decode_par=
-ams->dpb;
-> > > +           struct vb2_queue *cap_q =3D &m2m_ctx->cap_q_ctx.q;
-> > > +           int buf_idx =3D -1;
-> > > +
-> > > +           if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
-> > > +                   buf_idx =3D vb2_find_timestamp(cap_q,
-> > > +                                                dpb[i].reference_ts,=
- 0);
-> > > +
-> > > +           run->ref_buf_idx[i] =3D buf_idx;
-> > > +   }
-> > > +}
-> > > +
-> > >  static void assemble_hw_rps(struct rkvdec_ctx *ctx,
-> > >                         struct rkvdec_h264_run *run)
-> > >  {
-> > > @@ -762,7 +783,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ct=
-x,
-> > >
-> > >     for (j =3D 0; j < RKVDEC_NUM_REFLIST; j++) {
-> > >             for (i =3D 0; i < h264_ctx->reflists.num_valid; i++) {
-> > > -                   u8 dpb_valid =3D 0;
-> > > +                   bool dpb_valid =3D run->ref_buf_idx[i] >=3D 0;
-> > >                     u8 idx =3D 0;
-> > >
-> > >                     switch (j) {
-> > > @@ -779,8 +800,6 @@ static void assemble_hw_rps(struct rkvdec_ctx *ct=
-x,
-> > >
-> > >                     if (idx >=3D ARRAY_SIZE(dec_params->dpb))
-> > >                             continue;
-> > > -                   dpb_valid =3D !!(dpb[idx].flags &
-> > > -                                  V4L2_H264_DPB_ENTRY_FLAG_ACTIVE);
-> > >
-> > >                     set_ps_field(hw_rps, DPB_INFO(i, j),
-> > >                                  idx | dpb_valid << 4);
-> > > @@ -859,13 +878,8 @@ get_ref_buf(struct rkvdec_ctx *ctx, struct rkvde=
-c_h264_run *run,
-> > >         unsigned int dpb_idx)
-> > >  {
-> > >     struct v4l2_m2m_ctx *m2m_ctx =3D ctx->fh.m2m_ctx;
-> > > -   const struct v4l2_h264_dpb_entry *dpb =3D run->decode_params->dpb=
+>=20
+> > +	WRITE_PPS(sps->pic_width_in_mbs_minus1 + 1, PIC_WIDTH_IN_MBS);
+> > +	WRITE_PPS(sps->pic_height_in_map_units_minus1 + 1, PIC_HEIGHT_IN_MBS)=
 ;
-> > >     struct vb2_queue *cap_q =3D &m2m_ctx->cap_q_ctx.q;
-> > > -   int buf_idx =3D -1;
-> > > -
-> > > -   if (dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
-> > > -           buf_idx =3D vb2_find_timestamp(cap_q,
-> > > -                                        dpb[dpb_idx].reference_ts, 0=
-);
-> > > +   int buf_idx =3D run->ref_buf_idx[dpb_idx];
-> > >
-> > >     /*
-> > >      * If a DPB entry is unused or invalid, address of current destin=
-ation
-> > > @@ -1102,6 +1116,7 @@ static int rkvdec_h264_run(struct rkvdec_ctx *c=
-tx)
-> > >
-> > >     assemble_hw_scaling_list(ctx, &run);
-> > >     assemble_hw_pps(ctx, &run);
-> > > +   lookup_ref_buf_idx(ctx, &run);
-> > >     assemble_hw_rps(ctx, &run);
-> > >     config_registers(ctx, &run);
-> > >
-> > > --
-> > > 2.34.1
-> > >
->
+> >  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY),
+> >  		  FRAME_MBS_ONLY_FLAG);
+> >  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)=
+,
+> > diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/me=
+dia/rkvdec/rkvdec.c
+> > index 2df8cf4883e2..1b805710e195 100644
+> > --- a/drivers/staging/media/rkvdec/rkvdec.c
+> > +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> > @@ -29,8 +29,11 @@
+> > =20
+> >  static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+> >  {
+> > +	struct rkvdec_ctx *ctx =3D container_of(ctrl->handler, struct rkvdec_=
+ctx, ctrl_hdl);
+> > +
+> >  	if (ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SPS) {
+> >  		const struct v4l2_ctrl_h264_sps *sps =3D ctrl->p_new.p_h264_sps;
+> > +		unsigned int width, height;
+> >  		/*
+> >  		 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
+> >  		 * but it's currently broken in the driver.
+> > @@ -45,6 +48,13 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+> >  		if (sps->bit_depth_luma_minus8 !=3D 0)
+> >  			/* Only 8-bit is supported */
+> >  			return -EINVAL;
+> > +
+> > +		width =3D (sps->pic_width_in_mbs_minus1 + 1) * 16;
+> > +		height =3D (sps->pic_height_in_map_units_minus1 + 1) * 16;
+> > +
+>=20
+> Let's please add a comment here, clarifying it's legal to check
+> the coded format (OUTPUT queue format) at .try_ctrl time,
+> because the stateless decoder specification [1] mandates
+> S_FMT on the OUTPUT queue, before passing the SPS/PPS controls.
+
+Indeed, though I come to see some flaw in the validation. First, the height
+formula shall be base on formula 7-18 from the spec:
+
+  FrameHeightInMbs =3D ( 2 =E2=88=92 frame_mbs_only_flag ) * PicHeightInMap=
+Units
+
+So would be
+
++		height =3D (sps->pic_height_in_map_units_minus1 + 1) * 16;
++		if (sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY)
++			height *=3D 2;
+
+As this driver do interleaved interlaced buffer, not alternate. Finally, we
+should validate this again at STREAMON, since userland may have simply omit=
+ted
+to set the SPS at all. I'll try to improve this and drop the review tag to
+ensure this get fully reviewed again.
+
+>=20
+> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-st=
+ateless-decoder.html
+>=20
+> > +		if (width > ctx->coded_fmt.fmt.pix_mp.width ||
+> > +		    height > ctx->coded_fmt.fmt.pix_mp.height)
+>=20
+> Can you add a debug message or error message?
+> These silent errors tend to get super hard to track.
+>=20
+> With these changes:
+>=20
+> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+>=20
+> Thanks,
+> Ezequiel
+
