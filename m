@@ -2,67 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FDC84F4AC7
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DC264F4AF2
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:52:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1451632AbiDEWvq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Apr 2022 18:51:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45848 "EHLO
+        id S1573749AbiDEWxC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Apr 2022 18:53:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1447674AbiDEPq6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 11:46:58 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009231575AE
-        for <linux-media@vger.kernel.org>; Tue,  5 Apr 2022 07:22:42 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id t19so11239267qtc.4
-        for <linux-media@vger.kernel.org>; Tue, 05 Apr 2022 07:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=40wcBMnT3Zuwa9qeFHwHL0p773Ckz490/I76zY5Os7g=;
-        b=d4wjE9gBxnyRgyJ9PYiF9SkcNvUC3nKhgnxdtXRpEeDeKlx3mtwbhuFEn/xadyDb7u
-         o9b6a8sYTuBPWpJfwR6u9oumZEh8+aKqmvwimk4UoLzEd8vU0F4We84UDS0LVjqJ0ZWn
-         ChziUQ/RnOSC274WDrdor46YLwocAlZNctLBhF/tOrEE/QrpDkzE3MPjJ7hYD/Qkurf6
-         0mbk3kRYJaJxShFzD2nlSXTVqZtqnTGfpERkI3oPBI0BNG+2US9keX+z9BrkZr+cw0f9
-         RqWCgYEsf6N2E5xigigNQe+1x9l3f+JnREvt+jNtXhjo53j+UOSmG9J2awOgaH5q5M8j
-         xiFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=40wcBMnT3Zuwa9qeFHwHL0p773Ckz490/I76zY5Os7g=;
-        b=j2yGE/eZ07J3lxa42UWFhCV0Z3cBeq1YPIyz3Ouq+M9ck7yuz4YmAQu503USuAb7Z+
-         YVftIXE8MMqr7NLjsX4c8M7KzNNnLh6F1RPMZQJLyh4DHjvyd83Rxq9yZfl5JBRhaa4D
-         1qZ/cR1v/eWdK6rWA7L3QHTEhcYvWQBt0W+BHykEp5zHMCm47I8w3DLhtD23Un1DkwJm
-         gcB0LmQEblnbvCgMgFTQxDSxlrxvX76uPQWKYOA73UNVKh3V+Tg8KuTw/U61lWNqEGLx
-         ceUZEOPXcisCCUmc8cmeVzU89nduADcZD4j9qT9Z3TdCZz3y2bVHPm2YffB1SWq7TGET
-         U7fQ==
-X-Gm-Message-State: AOAM533+xWFVfz2Cp8GWt2ugGh7VVlSdIdu9/YF82WwWIq/B8fS2a/WP
-        6Zmd/JHE/pU9owwi+8vXvCv3lA==
-X-Google-Smtp-Source: ABdhPJwubFIP48DOJ4cRnUYhUldIpAnvGC/35FeBSO8Ker3/X++2oD1DSL+X/WHFgAyQBMRvTYy44g==
-X-Received: by 2002:ac8:5c90:0:b0:2e2:15c0:a5f3 with SMTP id r16-20020ac85c90000000b002e215c0a5f3mr3175655qta.332.1649168561786;
-        Tue, 05 Apr 2022 07:22:41 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id s16-20020ac85cd0000000b002e1ed82f1e5sm11876589qta.75.2022.04.05.07.22.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 07:22:41 -0700 (PDT)
-Message-ID: <bda20ff01f8aa7898416810743dac300f997e9c0.camel@ndufresne.ca>
-Subject: Re: [PATCH 7/7] media: coda: enable capture S_PARM for stateful
- encoder
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de
-Date:   Tue, 05 Apr 2022 10:22:40 -0400
-In-Reply-To: <20220404163533.707508-7-p.zabel@pengutronix.de>
-References: <20220404163533.707508-1-p.zabel@pengutronix.de>
-         <20220404163533.707508-7-p.zabel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+        with ESMTP id S1448568AbiDEPs0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 11:48:26 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 799353EF0B
+        for <linux-media@vger.kernel.org>; Tue,  5 Apr 2022 07:30:25 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nbkCL-004fUo-36; Tue, 05 Apr 2022 14:30:21 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1nbkCI-006iSt-Ui; Tue, 05 Apr 2022 14:30:18 +0000
+Date:   Tue, 5 Apr 2022 14:30:18 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        mchehab@linuxtv.org
+Message-ID: <1214765103.0.1649169018341@builder.linuxtv.org>
+In-Reply-To: <1276497222.0.1649107102997@builder.linuxtv.org>
+References: <1276497222.0.1649107102997@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media_stage_clang #443
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media_stage_clang
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,45 +47,125 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 04 avril 2022 =C3=A0 18:35 +0200, Philipp Zabel a =C3=A9crit=C2=A0=
-:
-> Allow to call S_PARM with type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT,
-> to fix the following v4l2-compliance test failure:
->=20
-> 		fail: v4l2-test-formats.cpp(1413): got error 22 when setting parms for =
-buftype 1
-> 	test VIDIOC_G/S_PARM: FAIL
+See <https://builder.linuxtv.org/job/media_stage_clang/443/display/redirect?page=changes>
 
-That one may be missing something though. As you don't implement performanc=
-e
-target, you need to override the value somehow with the value you wrote int=
-o the
-bitstream no ? Otherwise we just ignore what userland sets silently ? I mig=
-ht
-not have got exactly how this case is supposed to be handled. Looking for
-feedback on what is proper behaviour for drivers that do not implement
-performance targets (resource reservation).
+Changes:
 
->=20
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
->  drivers/media/platform/chips-media/coda-common.c | 3 ---
->  1 file changed, 3 deletions(-)
->=20
-> diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/m=
-edia/platform/chips-media/coda-common.c
-> index 33fcd8c7d72b..cd9ff2fa4147 100644
-> --- a/drivers/media/platform/chips-media/coda-common.c
-> +++ b/drivers/media/platform/chips-media/coda-common.c
-> @@ -1421,9 +1421,6 @@ static int coda_s_parm(struct file *file, void *fh,=
- struct v4l2_streamparm *a)
->  	struct coda_ctx *ctx =3D fh_to_ctx(fh);
->  	struct v4l2_fract *tpf;
-> =20
-> -	if (a->type !=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
-> -		return -EINVAL;
-> -
->  	a->parm.output.capability =3D V4L2_CAP_TIMEPERFRAME;
->  	tpf =3D &a->parm.output.timeperframe;
->  	coda_approximate_timeperframe(tpf);
+[Mauro Carvalho Chehab] media: platform: imx-mipi-csis: Add dependency on VIDEO_DEV
 
+
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media_stage_clang/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media_stage_clang/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_stage.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_stage.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_stage.git +refs/heads/*:refs/remotes/origin/* # timeout=30
+Seen branch in repository origin/master
+Seen 1 remote branch
+ > git show-ref --tags -d # timeout=10
+Checking out Revision 535f49a9e1f99d0bacb5d492a9dd193c3affbfc0 (origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 535f49a9e1f99d0bacb5d492a9dd193c3affbfc0 # timeout=10
+Commit message: "media: platform: imx-mipi-csis: Add dependency on VIDEO_DEV"
+ > git rev-list --no-walk 2afc1933fbc688f4ffbbdfc85126ac9b68c7e0b6 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 535f49a9e1f99d0bacb5d492a9dd193c3affbfc0^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_stage.git'
+[GitCheckoutListener] Found previous build 'media_stage_clang #442' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '2afc193'
+[GitCheckoutListener] -> Using head commit '535f49a' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@5c43b660'
+[GitCheckoutListener] -> Recorded one new commit
+[media_stage_clang] $ /bin/sh -xe /tmp/jenkins6551069634320450419.sh
++ export CCACHE_DIR=/var/lib/jenkins/.ccache
++ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
++ make W=1 CC=clang-12 HOSTCC=clang-12 allyesconfig
+#
+# configuration written to .config
+#
++ ./scripts/config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS -d CHECK_SIGNATURE
++ make W=1 CC=clang-12 HOSTCC=clang-12 init
+  SYNC    include/config/auto.conf.cmd
+  DESCEND objtool
+  CALL    scripts/atomic/check-atomics.sh
+  CALL    scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
+  CC      init/do_mounts.o
+In file included from init/do_mounts.c:22:
+In file included from ./include/linux/nfs_fs.h:31:
+In file included from ./include/linux/sunrpc/auth.h:13:
+In file included from ./include/linux/sunrpc/sched.h:19:
+./include/linux/sunrpc/xdr.h:734:10: error: result of comparison of constant 4611686018427387903 with expression of type '__u32' (aka 'unsigned int') is always false [-Werror,-Wtautological-constant-out-of-range-compare]
+        if (len > SIZE_MAX / sizeof(*p))
+            ~~~ ^ ~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+make[1]: *** [scripts/Makefile.build:288: init/do_mounts.o] Error 1
+make: *** [Makefile:1834: init] Error 2
+Build step 'Execute shell' marked build as failure
+Not sending mail to unregistered user torvalds@linux-foundation.org
+Not sending mail to unregistered user corbet@lwn.net
+Not sending mail to unregistered user willy@infradead.org
+Not sending mail to unregistered user bleung@chromium.org
+Not sending mail to unregistered user mst@redhat.com
+Not sending mail to unregistered user tiwai@suse.de
+Not sending mail to unregistered user alexandre.belloni@bootlin.com
+Not sending mail to unregistered user linkinjeon@kernel.org
+Not sending mail to unregistered user pabeni@redhat.com
+Not sending mail to unregistered user kuba@kernel.org
+Not sending mail to unregistered user lee.jones@linaro.org
+Not sending mail to unregistered user hch@lst.de
+Not sending mail to unregistered user agruenba@redhat.com
+Not sending mail to unregistered user tsbogend@alpha.franken.de
+Not sending mail to unregistered user pablo@netfilter.org
+Not sending mail to unregistered user bhelgaas@google.com
+Not sending mail to unregistered user keescook@chromium.org
+Not sending mail to unregistered user palmer@rivosinc.com
+Not sending mail to unregistered user airlied@redhat.com
+Not sending mail to unregistered user boris.ostrovsky@oracle.com
+Not sending mail to unregistered user herbert@gondor.apana.org.au
+Not sending mail to unregistered user rmk+kernel@armlinux.org.uk
+Not sending mail to unregistered user robh@kernel.org
+Not sending mail to unregistered user mcgrof@kernel.org
+Not sending mail to unregistered user dmitry.torokhov@gmail.com
+Not sending mail to unregistered user dan.j.williams@intel.com
+Not sending mail to unregistered user mkl@pengutronix.de
+Not sending mail to unregistered user bp@suse.de
+Not sending mail to unregistered user masahiroy@kernel.org
+Not sending mail to unregistered user snitzer@redhat.com
+Not sending mail to unregistered user pbonzini@redhat.com
+Not sending mail to unregistered user Jason@zx2c4.com
+Not sending mail to unregistered user axboe@kernel.dk
+Not sending mail to unregistered user jani.nikula@intel.com
+Not sending mail to unregistered user wim@linux-watchdog.org
+Not sending mail to unregistered user ast@kernel.org
+Not sending mail to unregistered user broonie@kernel.org
+Not sending mail to unregistered user fw@strlen.de
+Not sending mail to unregistered user trond.myklebust@hammerspace.com
+Not sending mail to unregistered user daniel.thompson@linaro.org
+Not sending mail to unregistered user mingo@kernel.org
+Not sending mail to unregistered user tglx@linutronix.de
+Not sending mail to unregistered user arnd@arndb.de
+Not sending mail to unregistered user rafael.j.wysocki@intel.com
+Not sending mail to unregistered user stfrench@microsoft.com
+Not sending mail to unregistered user bcain@codeaurora.org
+Not sending mail to unregistered user acme@redhat.com
+Not sending mail to unregistered user djwong@kernel.org
+Not sending mail to unregistered user linus.walleij@linaro.org
+Not sending mail to unregistered user gor@linux.ibm.com
+Not sending mail to unregistered user deller@gmx.de
+Not sending mail to unregistered user brgl@bgdev.pl
+Not sending mail to unregistered user ebiederm@xmission.com
+Not sending mail to unregistered user rostedt@goodmis.org
+Not sending mail to unregistered user pmladek@suse.com
+Not sending mail to unregistered user sboyd@kernel.org
+Not sending mail to unregistered user davem@davemloft.net
