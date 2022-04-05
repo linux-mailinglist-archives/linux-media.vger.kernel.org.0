@@ -2,65 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7C4F4F4B25
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D8034F4AA9
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:50:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1573933AbiDEWxt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Apr 2022 18:53:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60960 "EHLO
+        id S1351925AbiDEWuW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Apr 2022 18:50:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1573147AbiDESCB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 14:02:01 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAC68EBB9D;
-        Tue,  5 Apr 2022 11:00:01 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id w4so20488284wrg.12;
-        Tue, 05 Apr 2022 11:00:01 -0700 (PDT)
+        with ESMTP id S1573280AbiDESml (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 14:42:41 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBD8820BE2;
+        Tue,  5 Apr 2022 11:40:42 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id k23so25103945ejd.3;
+        Tue, 05 Apr 2022 11:40:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ps9sabn/FLiol/hOAkHVK8/MzrVBlohNvXit/I8IEYc=;
-        b=R44RXszOTrCfg9a6xQntX7eXLlcenLZQ79iHWwZfWh9PijVC/UjlQitBO/Yt/Wq/W5
-         dTA4dRF74W0DLZK0MUpa6PxqZxtBFxQmoUyDUjy0e4JVi5WXu/xU+Y1Hzb7op13pN/t1
-         Vco1rVX5eqUYMewLGvFa+zlth4/k7DCJ+ThdQOvI7x0KHIQ5FaPPk/UWHJC1orymLQX4
-         7XSCpRaubPqT0f6R2D/NEp8qzZ0wueIQDW44oLsn/B677uMWwY0PSYg/po63Ac2Z5RkA
-         BLP8vayDRRtqY/sys3mO8EU3v1ruGqddsM+LoJibpZoG4yzJujdjCt1+X2uICb0xzSeQ
-         swXw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=vbMPbp7aUefqeHa6gEgmXUlWTRHZ3oMWVTDKwmVUOh8=;
+        b=KJEMIj4e7Nkf5NRQSkeGOdWSQ/71GPeTAtj19TfSQfaw192KiobZULMM0yawIDtQ+1
+         kRjZ1hHKMIFz5w9uzoszb/2UfxMFLVuhv1pcx3l2FbrdwFg0o9IdUwBssH6gMmasF+sC
+         tAYmb4Zc+PawW5CU655i1OQPBPDNcC4ClfHWIMZ2+DO3B8slsGym7/pz3iqIyZLr1GZ5
+         MLbeRvJiT+5mT7bKd/c/7BGNhUV9FRT6Rbo4IITF2Ehl994/2iaeC7VBC13O0Owz00Gp
+         EuxD4peu6TSeWZYYpDmgXNCmVOuyQzE+ikHq9qi/Eo1WQKNiWby277cISSVlNRAYEi5t
+         uS3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ps9sabn/FLiol/hOAkHVK8/MzrVBlohNvXit/I8IEYc=;
-        b=1OAgLFHfQ6LCXk2se/Fx8MowrtwgUHu+r+8eR2bLNVxhV+7Px0ZkBgV4mI2BgYS1fv
-         fvSgyS/DOxllkVRBNVLsdP8WXXUr7ft9TAP7cdjtXgTrGaVvlm4w/uqFe7T5gMniWA6t
-         E/YQpMxKW6zc6ZS2IKk+hWJkh/QgdhSTPjKPPTJPDp1mTXnB36ozXtTf98+b3qPqM/n2
-         Aw79UVnTh5pd1SIJLktRXcHTwMNfb4QjC/9r/Hf4w7N/KZ76Z9cBc/CRXO9gCi+Uihb2
-         GNJclavOv2Hnq9pQkZTyqYdhiIxVlObnD+54t+giQqode3fLTzlRcIsB5UM2RqpzXN4E
-         uKUg==
-X-Gm-Message-State: AOAM5309NQ0h/oYmjB2wHLcF0dNCP5wx751JG6Go4dd0zCEnSYTzlfUw
-        6dD+nUQeQhhOU1Z4hraB/PQ=
-X-Google-Smtp-Source: ABdhPJzPk+TK/I+NTaHUbvTpHCArFr87ss2K8cjZe77v1loJE5zgGUwLw+jFL7OH+UyTRqfqB5ZSBw==
-X-Received: by 2002:a5d:5608:0:b0:206:11c2:b65d with SMTP id l8-20020a5d5608000000b0020611c2b65dmr3663036wrv.215.1649181600255;
-        Tue, 05 Apr 2022 11:00:00 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id k9-20020adfb349000000b00206101fc58fsm6898756wrd.110.2022.04.05.10.59.59
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=vbMPbp7aUefqeHa6gEgmXUlWTRHZ3oMWVTDKwmVUOh8=;
+        b=uZesIecNDcIzvRGNc4Ut8tOwqMxFct/6xP//ptwnYFa9EEGNauwgslks77sTiOJ2S0
+         OLngnbl8ZNnsKMcJ1cAyGmCLGGkiThM0paJLWlfAcKTmsubhfFuvzWcON0ANGO4R5m8x
+         lgrFuPPD//BeWY4RaEoS1Dbj2AeI0J2Ocv1Tcw9K34VG+CaxVJpNQl7MNV2Px749cZJ+
+         +vBfmknG+LxviOrurta+GpJbCuAieX95zTnasK32TXt53FzqpTyw0MdSFubmPil/wPkG
+         AiSrLE6QPfYbPlEfRkr6q1N0mkHC+gsD4eOchf9JA3tQ6DaSFcZA8qX9LsUtwlYhnKbO
+         RrvA==
+X-Gm-Message-State: AOAM530XDR3afXN9stxLruiZg5NTvNzsVNVtlEpiHeO5n4nPdRRKUwGO
+        uH1zvvcUzJ6ZlW2+yu+X4j0=
+X-Google-Smtp-Source: ABdhPJyyOku7BguihhRDVr/2uQVz3QRhlNTGjiETo2Ny1XHm1wtZufdXrCu7Vy7i491eGogKd7Bkqg==
+X-Received: by 2002:a17:907:6e14:b0:6e7:f589:b7b4 with SMTP id sd20-20020a1709076e1400b006e7f589b7b4mr4991013ejc.222.1649184040612;
+        Tue, 05 Apr 2022 11:40:40 -0700 (PDT)
+Received: from jernej-laptop.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id dm11-20020a170907948b00b006cf488e72e3sm5795532ejc.25.2022.04.05.11.40.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 10:59:59 -0700 (PDT)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: platform: samsung: remove redundant assignment to variable m
-Date:   Tue,  5 Apr 2022 18:59:59 +0100
-Message-Id: <20220405175959.223443-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Tue, 05 Apr 2022 11:40:40 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     mchehab@kernel.org, nicolas@ndufresne.ca, hverkuil-cisco@xs4all.nl,
+        gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
+Date:   Tue, 05 Apr 2022 20:40:38 +0200
+Message-ID: <4386971.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <b6987a9a-56af-f63f-b60a-37df141d6e89@collabora.com>
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com> <b6987a9a-56af-f63f-b60a-37df141d6e89@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -71,27 +73,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The variable m is being assigned a value that is never read, it
-is being re-assigned in both paths of the following if-statement.
-The assignment is redundant and can be removed.
+Hi Benjamin!
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c | 1 -
- 1 file changed, 1 deletion(-)
+Dne torek, 05. april 2022 ob 18:07:41 CEST je Benjamin Gaignard napisal(a):
+> Le 27/02/2022 =E0 15:49, Jernej Skrabec a =E9crit :
+> > First two patches add 10-bit formats to UAPI, third extends filtering
+> > mechanism, fourth fixes incorrect assumption, fifth moves register
+> > configuration code to proper place, sixth and seventh enable 10-bit
+> > VP9 decoding on Allwinner H6 and last increases core frequency on
+> > Allwinner H6.
+> >=20
+> > I'm sending this as RFC to get some comments:
+> > 1. format definitions - are fourcc's ok? are comments/descriptions ok?
+> > 2. is extended filtering mechanism ok?
+> >=20
+> > I would also like if these patches are tested on some more HW.
+> > Additionally, can someone test tiled P010?
+> >=20
+> > Please take a look.
+>=20
+> Hi Jernej,
+>=20
+> I have create a branch to test this series with VP9 and HEVC:
+> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/10bit_=
+imx
+> 8m Feel free to pick what I may need in it.
+>=20
+> That doesn't improve fluster scores, I think more dev are still needed in
+> GST before getting something fully functional.
+> Anyway I able to select P010 pixel format if the input is a 10bit bitstre=
+am.
 
-diff --git a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c
-index 01b47b3df1e7..33e6e85dfd78 100644
---- a/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c
-+++ b/drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c
-@@ -52,7 +52,6 @@ void s5p_jpeg_proc_mode(void __iomem *regs, unsigned long mode)
- {
- 	unsigned long reg, m;
- 
--	m = S5P_PROC_MODE_DECOMPR;
- 	if (mode == S5P_JPEG_ENCODE)
- 		m = S5P_PROC_MODE_COMPR;
- 	else
--- 
-2.35.1
+What kind of improvements do you expect? Actually, this series is designed =
+to=20
+change nothing for platforms, where 10-bit format is not added into the lis=
+t=20
+of supported formats. I think reasons are quite obvious. First, not every=20
+device may support 10-bit output. Second, as you might already figured it o=
+ut,=20
+registers in this series are set only for legacy cores. I have no idea, wha=
+t=20
+needs to be done for newer ones, since I don't have them. Anyway, I tested=
+=20
+this with fluster and only one additional test passes, because it is the on=
+ly=20
+one for 10-bit YUV420.
+
+Best regards,
+Jernej
+
 
