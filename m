@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DF7B4F4AAE
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:50:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FDC84F4AC7
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 02:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442709AbiDEWuo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Apr 2022 18:50:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35996 "EHLO
+        id S1451632AbiDEWvq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Apr 2022 18:51:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1446785AbiDEPpI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 11:45:08 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 822D953A42
-        for <linux-media@vger.kernel.org>; Tue,  5 Apr 2022 07:19:04 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id b17so10091569qvf.12
-        for <linux-media@vger.kernel.org>; Tue, 05 Apr 2022 07:19:04 -0700 (PDT)
+        with ESMTP id S1447674AbiDEPq6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Apr 2022 11:46:58 -0400
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009231575AE
+        for <linux-media@vger.kernel.org>; Tue,  5 Apr 2022 07:22:42 -0700 (PDT)
+Received: by mail-qt1-x829.google.com with SMTP id t19so11239267qtc.4
+        for <linux-media@vger.kernel.org>; Tue, 05 Apr 2022 07:22:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :content-transfer-encoding:user-agent:mime-version;
-        bh=IYw6PvhS470ji2ZJWGOV8lAMJMGjw7GPIcjbBWZJGMc=;
-        b=LY4abgrEU9/LYixYTQAGvypN4V3Gh1UWJpHqh4/vZdQvf1RILMXOzXjWH5i/qkvOZ3
-         U25A1xPffy2nDp+RhTpBEgCkqStoIy6Ez0rDmGvjUZVXsoQ/ImdX07y0/to9uPjOigip
-         weZpM+cPQlT5pDU45zjaQX8fkEporpqZrg2skz+Ex3T+eVl0jb0PT7f1Fsbql9I1zY8L
-         F9+Qtvbm7jYOrlFJDx7iFwTrwcjDCeMAGo9IKekyq8tAQusaRDG3loT1IuJBS1KY8ip7
-         gtJqeesRN36WKmlJumrnHBjQ+EtAcr06jacFKwljigZnuFaedez389t3nEjeRoRPqOf5
-         jm9w==
+        bh=40wcBMnT3Zuwa9qeFHwHL0p773Ckz490/I76zY5Os7g=;
+        b=d4wjE9gBxnyRgyJ9PYiF9SkcNvUC3nKhgnxdtXRpEeDeKlx3mtwbhuFEn/xadyDb7u
+         o9b6a8sYTuBPWpJfwR6u9oumZEh8+aKqmvwimk4UoLzEd8vU0F4We84UDS0LVjqJ0ZWn
+         ChziUQ/RnOSC274WDrdor46YLwocAlZNctLBhF/tOrEE/QrpDkzE3MPjJ7hYD/Qkurf6
+         0mbk3kRYJaJxShFzD2nlSXTVqZtqnTGfpERkI3oPBI0BNG+2US9keX+z9BrkZr+cw0f9
+         RqWCgYEsf6N2E5xigigNQe+1x9l3f+JnREvt+jNtXhjo53j+UOSmG9J2awOgaH5q5M8j
+         xiFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:content-transfer-encoding:user-agent:mime-version;
-        bh=IYw6PvhS470ji2ZJWGOV8lAMJMGjw7GPIcjbBWZJGMc=;
-        b=e6V92lVAb9TfOJvBcC+mR2nP3+MEwe+vN+NlvUOUy/M8t0xG0T9b3Y5T41Pf2cUWFa
-         pBRwdYtYHNzoPPoVF8GKoYIwHqd6mCISmvdUw0WcLyQFBBuKjRArgFPRCKWBiixc20Nu
-         48Jrgfd1h3Bra+93aU1ozQAEBLqWN422nHXd7WRadff9C/wWeYIzoBB6PoFHAOlvH4Qi
-         yH6SKy8Qen/EU33patJ1ntwJXM5dNPCIybhn3U7ZvC9gLImpzxFSIfi0Ercg1AGiijPj
-         02L40TazDZLrIn7GpYidFFwn0XI/TeXKzcchYaetBAypNjalKtTVwi+y3d6EJ6dIbrho
-         h/2w==
-X-Gm-Message-State: AOAM530XQ+UrP++aUHlYtPzmjMaPOMpxzR4dZGwTtYGkib309p8YcqLy
-        4cJwUWFX2iSE+1DaeWX9HDxhEgn18tqgkl04
-X-Google-Smtp-Source: ABdhPJzJhYmVy5MKHf+DUH/QkVjIn+bq7fAhulzjWjgpPaWaGP3Tw9A1Upac9cCAUPpYiqCbp68xyA==
-X-Received: by 2002:a05:6214:260d:b0:441:51c4:e311 with SMTP id gu13-20020a056214260d00b0044151c4e311mr2858321qvb.111.1649168343359;
-        Tue, 05 Apr 2022 07:19:03 -0700 (PDT)
+        bh=40wcBMnT3Zuwa9qeFHwHL0p773Ckz490/I76zY5Os7g=;
+        b=j2yGE/eZ07J3lxa42UWFhCV0Z3cBeq1YPIyz3Ouq+M9ck7yuz4YmAQu503USuAb7Z+
+         YVftIXE8MMqr7NLjsX4c8M7KzNNnLh6F1RPMZQJLyh4DHjvyd83Rxq9yZfl5JBRhaa4D
+         1qZ/cR1v/eWdK6rWA7L3QHTEhcYvWQBt0W+BHykEp5zHMCm47I8w3DLhtD23Un1DkwJm
+         gcB0LmQEblnbvCgMgFTQxDSxlrxvX76uPQWKYOA73UNVKh3V+Tg8KuTw/U61lWNqEGLx
+         ceUZEOPXcisCCUmc8cmeVzU89nduADcZD4j9qT9Z3TdCZz3y2bVHPm2YffB1SWq7TGET
+         U7fQ==
+X-Gm-Message-State: AOAM533+xWFVfz2Cp8GWt2ugGh7VVlSdIdu9/YF82WwWIq/B8fS2a/WP
+        6Zmd/JHE/pU9owwi+8vXvCv3lA==
+X-Google-Smtp-Source: ABdhPJwubFIP48DOJ4cRnUYhUldIpAnvGC/35FeBSO8Ker3/X++2oD1DSL+X/WHFgAyQBMRvTYy44g==
+X-Received: by 2002:ac8:5c90:0:b0:2e2:15c0:a5f3 with SMTP id r16-20020ac85c90000000b002e215c0a5f3mr3175655qta.332.1649168561786;
+        Tue, 05 Apr 2022 07:22:41 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id j8-20020a05622a038800b002e236535929sm10975883qtx.32.2022.04.05.07.19.02
+        by smtp.gmail.com with ESMTPSA id s16-20020ac85cd0000000b002e1ed82f1e5sm11876589qta.75.2022.04.05.07.22.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 07:19:02 -0700 (PDT)
-Message-ID: <6e080d0e687f1721f20c5985a12e96a71dda1bc3.camel@ndufresne.ca>
-Subject: Re: [PATCH 6/7] media: coda: enable capture G_PARM for stateful
+        Tue, 05 Apr 2022 07:22:41 -0700 (PDT)
+Message-ID: <bda20ff01f8aa7898416810743dac300f997e9c0.camel@ndufresne.ca>
+Subject: Re: [PATCH 7/7] media: coda: enable capture S_PARM for stateful
  encoder
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
 To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de
-Date:   Tue, 05 Apr 2022 10:19:01 -0400
-In-Reply-To: <20220404163533.707508-6-p.zabel@pengutronix.de>
+Date:   Tue, 05 Apr 2022 10:22:40 -0400
+In-Reply-To: <20220404163533.707508-7-p.zabel@pengutronix.de>
 References: <20220404163533.707508-1-p.zabel@pengutronix.de>
-         <20220404163533.707508-6-p.zabel@pengutronix.de>
+         <20220404163533.707508-7-p.zabel@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
@@ -72,19 +72,22 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Le lundi 04 avril 2022 =C3=A0 18:35 +0200, Philipp Zabel a =C3=A9crit=C2=A0=
 :
-> Allow to call G_PARM with type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE,
+> Allow to call S_PARM with type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT,
 > to fix the following v4l2-compliance test failure:
 >=20
-> 		fail: v4l2-test-formats.cpp(1344): ret && node->has_frmintervals
+> 		fail: v4l2-test-formats.cpp(1413): got error 22 when setting parms for =
+buftype 1
 > 	test VIDIOC_G/S_PARM: FAIL
 
-So basically the rate written in the bitstream (if any) will be the same as=
- the
-target real-time rate, which matches my reading of the new spec as what def=
-ault
-behaviour we should have.
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+That one may be missing something though. As you don't implement performanc=
+e
+target, you need to override the value somehow with the value you wrote int=
+o the
+bitstream no ? Otherwise we just ignore what userland sets silently ? I mig=
+ht
+not have got exactly how this case is supposed to be handled. Looking for
+feedback on what is proper behaviour for drivers that do not implement
+performance targets (resource reservation).
 
 >=20
 > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
@@ -94,10 +97,10 @@ Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 >=20
 > diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/m=
 edia/platform/chips-media/coda-common.c
-> index c068c16d1eb4..33fcd8c7d72b 100644
+> index 33fcd8c7d72b..cd9ff2fa4147 100644
 > --- a/drivers/media/platform/chips-media/coda-common.c
 > +++ b/drivers/media/platform/chips-media/coda-common.c
-> @@ -1341,9 +1341,6 @@ static int coda_g_parm(struct file *file, void *fh,=
+> @@ -1421,9 +1421,6 @@ static int coda_s_parm(struct file *file, void *fh,=
  struct v4l2_streamparm *a)
 >  	struct coda_ctx *ctx =3D fh_to_ctx(fh);
 >  	struct v4l2_fract *tpf;
@@ -107,5 +110,5 @@ edia/platform/chips-media/coda-common.c
 > -
 >  	a->parm.output.capability =3D V4L2_CAP_TIMEPERFRAME;
 >  	tpf =3D &a->parm.output.timeperframe;
->  	tpf->denominator =3D ctx->params.framerate & CODA_FRATE_RES_MASK;
+>  	coda_approximate_timeperframe(tpf);
 
