@@ -2,111 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59C9E4F65FA
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 18:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5249C4F65F7
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 18:52:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238151AbiDFQvH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Apr 2022 12:51:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58894 "EHLO
+        id S238129AbiDFQqZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Apr 2022 12:46:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238207AbiDFQur (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 12:50:47 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1940832E945
-        for <linux-media@vger.kernel.org>; Wed,  6 Apr 2022 07:59:05 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nc77e-0001Ut-Ts; Wed, 06 Apr 2022 16:59:02 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nc77f-001R0l-Cl; Wed, 06 Apr 2022 16:59:01 +0200
-Received: from pza by lupine with local (Exim 4.94.2)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1nc77d-000A86-3L; Wed, 06 Apr 2022 16:59:01 +0200
-Message-ID: <219003f3341412cc6241d8c6e73309a74836678d.camel@pengutronix.de>
-Subject: Re: [PATCH v4 2/2] media: coda: Add more H264 levels for CODA960
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Fabio Estevam <festevam@gmail.com>, hverkuil-cisco@xs4all.nl
-Cc:     nicolas.dufresne@collabora.com, kernel@iktek.de,
-        linux-media@vger.kernel.org, stable@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Fabio Estevam <festevam@denx.de>
-Date:   Wed, 06 Apr 2022 16:59:01 +0200
-In-Reply-To: <20220405135957.3580343-2-festevam@gmail.com>
-References: <20220405135957.3580343-1-festevam@gmail.com>
-         <20220405135957.3580343-2-festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.38.3-1 
+        with ESMTP id S238190AbiDFQp6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 12:45:58 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2042.outbound.protection.outlook.com [40.107.236.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4E85289B4;
+        Wed,  6 Apr 2022 08:00:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h6+eWbQlzyFNzRY5N41o1R0BmtnuuhYxVHHvzEfY/mhn6l2rtCvxYY1jXlZcqs7DyFIiOFgWjpnIW34nMn5Rqqy9PIjT/l0DaYBhAsTwPnnuhEDasjjdNOG2LrKwlPJcZVQg2e/4G5OsFY1xHHssIAUA1yIJPB203W8S6WEoiecLzRKMMUDhLV+NEiJyqzrSoNTdo4v8/OnZTIEGKLGd1TzqKvmXMjzjoqGvDuMopjOPykaqaGQ2IvpLRrNb11HTO6lDMQ1Y01iTNeobw/vQXwIJ4uSaBP1gjPadY8U9rwUFNlllM8UQt0AM9igDuM1YxzJ+u5+Rr0ZUoSf+bkurYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lYfyHWl8msvTgBq384XAajfUDILCRKxZhNRLLPIYmsc=;
+ b=BbmVg4icF8qKoOkGDA4N3bnIV69ZPBCotQ1INxdaIxgHAHu5i/qyBbdC4/KQgy35F/SbiF3CTwqs5mJc7cH1DPXELUgEUm172yuhohgEPREEz6fbZC8jICRFOiQZ5+2u4oldOPfVizE3lXZcmHxqU8s7UQc4UlZV1Xzy2zg09ul9mS9CWvWSP4PJtkz6zTUbyEiRD0jd0saMGrRyFTv1SPKPU461/EStw1r1c6av3NwsCIqPhsW4FhfppzpGTTC5pOvOVHig139PGygfyKofzgSQJ8HtvlRZA96UVKq6XSZ2NtpAV4kkEDFK8wrRujWMVCxe2k8tcYwIZAfLcE6IfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lYfyHWl8msvTgBq384XAajfUDILCRKxZhNRLLPIYmsc=;
+ b=V63dq/czM9zvMgT7HAQMVl08gi6ueeL3GilBmOk2Il5gNRb4or+rcB7SDdtvov4I9zkrchH5/6RJHFNZpaaEhngtc3D0ecPI6C4rLb9YYs8j4ge9AT46tnMqulll1nw4BVhu/lea7T6xqH8a2jDj8YFzXc1eIJObnLm4wSUnwcItp0SVWDnY30WFSkkKz49GFtvrIQraOwassNKdpztEWs1FPuTP0MtnO0Z3oB/cJfpegI88HRNyfgC/mhj1XMFLN+ICjzcYMYraO2O3NT4QNqT8Rp950uUQv6VYvfRuSN5H0e+B2XV2cFCQ/pDVWN4Kl3F35S31zYEXemD72Dks2w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
+ DM5PR1201MB0268.namprd12.prod.outlook.com (2603:10b6:4:54::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5123.31; Wed, 6 Apr 2022 15:00:29 +0000
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::10ef:dc56:bb21:76f6]) by CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::10ef:dc56:bb21:76f6%4]) with mapi id 15.20.5123.031; Wed, 6 Apr 2022
+ 15:00:29 +0000
+Message-ID: <3bda8b92-6209-1292-88e1-75b8e055c3fa@nvidia.com>
+Date:   Wed, 6 Apr 2022 16:00:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 7/8] ARM: tegra_defconfig: Update CONFIG_TEGRA_VDE
+ option
+Content-Language: en-US
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220220204623.30107-1-digetx@gmail.com>
+ <20220220204623.30107-8-digetx@gmail.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+In-Reply-To: <20220220204623.30107-8-digetx@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0082.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:190::15) To CO6PR12MB5444.namprd12.prod.outlook.com
+ (2603:10b6:5:35e::8)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0dee59e8-ab20-4292-c3d6-08da17de30c6
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB0268:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB0268D1D9C9EDD0A17313FA5CD9E79@DM5PR1201MB0268.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uGgjL8yquNqdIlEO0PXTen7OF1h7gdwis4VY+SWKP92f8OVcmIeXsG+A+UhLthfwUMzCNYHBj6DURE6tHUdDJMa7OWJkKpLovY+/WETKcG/ETh1pabpeorGoM+swlUpAvQ0TTsCLP17yaBM/NJog6lIJ6PeR1xjQXfmFdSZWzXK28hiaw4YDchsRdMtJFEQsPUVDGre8KkNhAnEjba/udMGuHSILF1Y9LRu32yiap0SAB1fKd/fgM5h6ytnXIlWsHahADRZjH9iZIb6yz9ZmEmQVxqjWAEVYipjQ4WZWwgiZU0XNT3quNuxxtcicpDJkUGI7XaAPGK5G7cLDvBPTw23irUZ9UK+r3e1eHlWwV3YIfBkDFf38ob66q8GbZFqyiuUU6Lj4tgLwupYDFr/eg2MrETqiIkjew5xeNWnu0ju9fHlJedYUyslJ4JCifOcXpqgoK88Tw4TAsune9iouuuR29hz9exIEbz6oPRnnwiHgrSt3/wZU608pU/4fyif8fxyqEXatEL4vBcOxNrq79efh+pWpZ5z7svflvxUCX91dHVTdximraEkLRsXLZlNt9afVXO8JHMmUUqNvmCV89Q6zxLXcOZc5i5rTv9651bnf4YD+yf+blZSufV1Lxp7XrV0+bs3x6exh+aam88G2GffCRpG5yn1IJOCMhi4NekOUaMj9l2VViwB5VsYb/F/T60Y+bPalDEAjHRyhufE6PQ+33R7cW+/+eLoT/wW70NYHUjRyZIkZSajkCV44z97e
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8936002)(31686004)(86362001)(316002)(6512007)(186003)(36756003)(26005)(31696002)(83380400001)(110136005)(6486002)(5660300002)(2616005)(8676002)(53546011)(4326008)(7416002)(4744005)(508600001)(66476007)(15650500001)(2906002)(66946007)(38100700002)(6506007)(66556008)(6666004)(55236004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V3QwQ3BSOWRDSDFjTFJrbEJnKzB4RlI0ZFNwL1QrNlNvSG90M2ZnWWhwOUtE?=
+ =?utf-8?B?emJaRnFKUm44NXFtaTNWMkRvSmVSVWJpZ21NR0JTRFZIOVBpdzJCTDQySlRi?=
+ =?utf-8?B?QzVMdWZVbUpqa1ozOVg1VGs1VUIzSVIrcVJ3ZHMrMytsRmVyOVY1NlpuWE5L?=
+ =?utf-8?B?YUgyaGRmaWF1VkFBSTNiZFR2QXpjUWoyZ0I5dGpjbWhwVzB4UW9jT2dCeFRV?=
+ =?utf-8?B?Wm9sVEN5NGpSWWxqWUtjT1hJNVFZWXhMeG5DcmJOY3NKcFhhcmFrcGVkeTAy?=
+ =?utf-8?B?YWUyUGl4ZmxaWjdCUXVCVmpsSGs1b1pGZlFwR2REOGVHajRsbThwSytXYTQ1?=
+ =?utf-8?B?ZTFTdFV5QVc3bkFEMDFzSzh0MTBRQllCUGJ2aVNsMFhORWkxV0w0V0NYUFpJ?=
+ =?utf-8?B?bXhQTjYyaEg5dUNWbEl6emJOenlFZkJ1YTR3N2g1WmJRRzBFMDFyUGFjNTI0?=
+ =?utf-8?B?WVJEOGIrVi9OWnFzejJWUUloS1BJQUMvdnpoQTVqR0VkOEZJcHdRdk1SZ3Vm?=
+ =?utf-8?B?cjVmMXRFOW1YT2YyQnRhcng1MlFuZGljMzFzQ2lNQU1jd0hWSlNRR09jRzVJ?=
+ =?utf-8?B?STM5czJiUFdaejRqVXRlUFdabEc3Y0tOcmJTbUgvcmNqTUNYK2RBQWk1Vy95?=
+ =?utf-8?B?SEVKa3I5RkJoZUlValNsL0xESklXbkJGcGE5NXNGTXBhbitySk91RTFYUFVi?=
+ =?utf-8?B?ZHVSaHZDSS9taWhITTZsZ2pIcXlnM1NqTExPQWMzdHk3S2tkVmNHSDBaNDdD?=
+ =?utf-8?B?cCtheTNQNUpNWms5Nlp0VXRJV0hMdDBQclRxYk5ZM2FYNXpGaGlKQmZ1dWFT?=
+ =?utf-8?B?N3FjUDR5OVpJWlRXZW1kei9Bb0tRSE5oUFpDV2lFVUptRkVDZmxCQTBhc1JU?=
+ =?utf-8?B?cDFPSi9heFYwV2hpN2dtYlRpZjVUaHM3WWZXMlovc0RBbWZnUVhkNkZXMFo1?=
+ =?utf-8?B?YzEvTWZFOE5nV0RnQ3pRVENCVWpQazNPZjBSbVMyTlNKRHZmL09rWVl4RE9o?=
+ =?utf-8?B?czBCdnZ4L3IxZjVIc1B3TDJVcEw1QnpIZ2JNYStLQjB3ZmJJbUVQd3dpUFZx?=
+ =?utf-8?B?MUk3cEZJYXR3Z29LdVRyVHdNTnAyME14VVVmdkwxYm81RkM1UVBxS0duSWp2?=
+ =?utf-8?B?azJPN243ME85Y1FPRnNWWUU4dThWakRYOFpJSDE1ays0L2doTjNtb3FnWEpM?=
+ =?utf-8?B?eC9PRW0vaGJQVFN1RUxtTGx5czZLOFlTSWYyMVhRTnd0TmdXYUJKSEpza1FX?=
+ =?utf-8?B?YjJ0QzZCS0RmV3BDdUQvTFdSdWVjeE1iK3pVWk9NYit6VXg0aXFhbnJodFk1?=
+ =?utf-8?B?MDMzeWpwYnhxdUdBOHkzTGFrUFlqQmFDbHRnWHpheFFpNk9zSUdlbDdYMkx6?=
+ =?utf-8?B?cmtDZzZnenVqK2prWmJlN1VWaGFINDZvK2Jha1lPMW9xSGpkdFA3K2w1RERG?=
+ =?utf-8?B?UGwwUVc4SUhmeUUzelhSWnEwNGR3aUUrVmlOWjQxeEhOa0VEU1hnNXZsQ2FN?=
+ =?utf-8?B?T2V6dFkyQkhVd25DSld2MDBPYmkrUE41NDdTeUdjUFY3bS8xZFIyVTNGcUZl?=
+ =?utf-8?B?alF1Wko5L1dtalRWNGRudVl3RlhCY09VK1lBbCtnK0w4eGFZSGlobC84VlNk?=
+ =?utf-8?B?Ri84dHNoYjI5YlVoMklsby9zWTBibE81NDBCaHJtMDNvRFpwd2NCMXhkVU1D?=
+ =?utf-8?B?UmpvcEpZeXo5M2JxYmFCOUE1TjJjWHk4dXlvVG4wZnVEam9XaU1nYjhveVNO?=
+ =?utf-8?B?L3IramxWVkltbkRRU21aWmljT1dNeTR4bnVXMXU1TGNtcU55MnFDWHN0bGdh?=
+ =?utf-8?B?MFBIQ3ZYN1VyM0o3T2JpeFNRTnlaYmtWUE1vNEVXUXZnU3BUM2hFVDNJNkoz?=
+ =?utf-8?B?aHdyN0QybzBrU1VteFZOa0ltMXJycXRYUDZuK0Rxd1I5WmtRYVlmc2MwWTVl?=
+ =?utf-8?B?UXVvVjliaEpPM3dtUUJlVERyVzZKcXcwZ2ZtcmJNRmQvOUJETlE5cCtRQUtw?=
+ =?utf-8?B?U0hLeEhGdkZaSnV5WWZTVnR3U3FvNTZobFVaOTgvek9nWUZzNlpSdXlib3Ux?=
+ =?utf-8?B?RCtTaEpHVUtxcFM5bHJ3VTF4K2srL3YrTVVUNVNxZ3pOWVZyNmN4bXNEcXFr?=
+ =?utf-8?B?TlN0ZGRUNXpZdkRUMUNVWFZsdG9nNDc3TXdQb3FEM1J2UVBsZjBvS2tjMUN3?=
+ =?utf-8?B?cEExeHV5dU52TmpYczV5Vk1UNDBsMUw2MzNvZFg5ZkpIMCtCVWQ2QXU1bzAy?=
+ =?utf-8?B?WVR0THowbFF4QzlXUkl3dkd4aUtNc1l0NmZBUTZ1NGJGekNKZE5kazcxVEFR?=
+ =?utf-8?B?ak9yZDkwangrdkkzWWJJWVoxVDF1Z09NTTlVWDFreW05M1FLaG1pRkdNblRL?=
+ =?utf-8?Q?IGmBnAAi/TVuNFk0=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0dee59e8-ab20-4292-c3d6-08da17de30c6
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 15:00:29.7201
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7P6CxxywlHKYi0Td4IaStYuxpTfXEEY2xZtPWqx+QETgHFdwlzcJQK66R4ZEeC5BXADpSgI+VNqnX1W5mJiXxg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0268
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        NICE_REPLY_A,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgRmFiaW8sCgpPbiBEaSwgMjAyMi0wNC0wNSBhdCAxMDo1OSAtMDMwMCwgRmFiaW8gRXN0ZXZh
-bSB3cm90ZToKPiBGcm9tOiBOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1ZnJlc25lQGNvbGxh
-Ym9yYS5jb20+Cj4gCj4gVGhpcyBhZGQgSDI2NCBsZXZlbCA0LjEsIDQuMiBhbmQgNS4wIHRvIHRo
-ZSBsaXN0IG9mIHN1cHBvcnRlZAo+IGZvcm1hdHMuCj4gV2hpbGUgdGhlIGhhcmR3YXJlIGRvZXMg
-bm90IGZ1bGx5IHN1cHBvcnQgdGhlc2UgbGV2ZWxzLCBpdCBkbyBzdXBwb3J0Cj4gbW9zdCBvZiB0
-aGVtLiBUaGUgY29uc3RyYWludHMgb24gZnJhbWUgc2l6ZSBhbmQgcGl4ZWwgZm9ybWF0cyBhbHJl
-YWR5Cj4gY292ZXIgdGhlIGxpbWl0YXRpb24uCj4gCj4gVGhpcyBmaXhlcyBuZWdvdGlhdGlvbiBv
-ZiBsZXZlbCBvbiBHU3RyZWFtZXIgMS4xNy4xLgo+IAo+IENjOiBzdGFibGVAdmdlci5rZXJuZWwu
-b3JnCj4gRml4ZXM6IDQyYTY4MDEyZTY3YzIgKCJtZWRpYTogY29kYTogYWRkIHJlYWQtb25seSBo
-LjI2NCBkZWNvZGVyCj4gcHJvZmlsZS9sZXZlbCBjb250cm9scyIpCj4gU2lnbmVkLW9mZi1ieTog
-Tmljb2xhcyBEdWZyZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPgo+IFNpZ25l
-ZC1vZmYtYnk6IEV6ZXF1aWVsIEdhcmNpYSA8ZXplcXVpZWxAY29sbGFib3JhLmNvbT4KPiBUZXN0
-ZWQtYnk6IFBhc2NhbCBTcGVjayA8a2VybmVsQGlrdGVrLmRlPgo+IFNpZ25lZC1vZmYtYnk6IEZh
-YmlvIEVzdGV2YW0gPGZlc3RldmFtQGRlbnguZGU+Cj4gUmV2aWV3ZWQtYnk6IFBoaWxpcHAgWmFi
-ZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+Cj4gLS0tCj4gQ2hhbmdlcyBzaW5jZSB2MzoKPiAt
-IFJlYmFzZWQgYWdhaW5zdCBsaW51eC1uZXh0IGFuZCB0b29rIHRoZSBjb2RhLT5jaGlwcy1tZWRp
-YSByZW5hbWUKPiBpbiBjb25zaWRlcmF0aW9uLgo+IC0gQWRkZWQgUGhpbGlwcCdzIFJldmlld2Vk
-LWJ5IHRhZy4KCkkgdGhpbmsgeW91IHJlYmFzZWQgdGhlIHdyb25nIHZlcnNpb24gb2YgdGhpcyBw
-YXRjaC4KCj4gwqBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL2NoaXBzLW1lZGlhL2NvZGEtY29tbW9u
-LmMgfCA3ICsrKysrLS0KPiDCoDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDIgZGVs
-ZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY2hpcHMt
-bWVkaWEvY29kYS1jb21tb24uYwo+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9jaGlwcy1tZWRp
-YS9jb2RhLWNvbW1vbi5jCj4gaW5kZXggNTNiMmRkMWIyNjhjLi5mMTIzNGFkMjRmNjUgMTAwNjQ0
-Cj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9jaGlwcy1tZWRpYS9jb2RhLWNvbW1vbi5j
-Cj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9jaGlwcy1tZWRpYS9jb2RhLWNvbW1vbi5j
-Cj4gQEAgLTIzNjQsNyArMjM2NCwxMCBAQCBzdGF0aWMgdm9pZCBjb2RhX2VuY29kZV9jdHJscyhz
-dHJ1Y3QgY29kYV9jdHgKPiAqY3R4KQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgICgxIDw8IFY0TDJfTVBFR19WSURFT19IMjY0X0xFVkVMXzNfMCkg
-fAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICgx
-IDw8IFY0TDJfTVBFR19WSURFT19IMjY0X0xFVkVMXzNfMSkgfAo+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICgxIDw8IFY0TDJfTVBFR19WSURFT19I
-MjY0X0xFVkVMXzNfMikgfAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgKDEgPDwgVjRMMl9NUEVHX1ZJREVPX0gyNjRfTEVWRUxfNF8wKSksCj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoMSA8PCBWNEwy
-X01QRUdfVklERU9fSDI2NF9MRVZFTF80XzApIHwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICgxIDw8IFY0TDJfTVBFR19WSURFT19IMjY0X0xFVkVM
-XzRfMSkgfAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgKDEgPDwgVjRMMl9NUEVHX1ZJREVPX0gyNjRfTEVWRUxfNF8yKSB8Cj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoMSA8PCBWNEwyX01QRUdfVklE
-RU9fSDI2NF9MRVZFTF81XzApKSwKCkkgYXNrZWQgdG8gcmVtb3ZlIHRoZSA1LjAgbGV2ZWwgYW5k
-IHRvIGluY3JlYXNlIHRoZSBtYXggbGV2ZWwgdG8gNC4yLAp5b3UgYWxyZWFkeSBmaXhlZCB0aGlz
-IGluIHYzLgoKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBWNEwyX01QRUdfVklERU9fSDI2NF9MRVZFTF80XzApOwo+IMKgwqDCoMKgwqDCoMKgwqB9Cj4g
-wqDCoMKgwqDCoMKgwqDCoHY0bDJfY3RybF9uZXdfc3RkKCZjdHgtPmN0cmxzLCAmY29kYV9jdHJs
-X29wcywKPiBAQCAtMjQzNyw3ICsyNDQwLDcgQEAgc3RhdGljIHZvaWQgY29kYV9kZWNvZGVfY3Ry
-bHMoc3RydWN0IGNvZGFfY3R4Cj4gKmN0eCkKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGN0eC0+
-ZGV2LT5kZXZ0eXBlLT5wcm9kdWN0ID09IENPREFfNzU0MSkKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoG1heCA9IFY0TDJfTVBFR19WSURFT19IMjY0X0xFVkVMXzRfMDsKPiDCoMKg
-wqDCoMKgwqDCoMKgZWxzZSBpZiAoY3R4LT5kZXYtPmRldnR5cGUtPnByb2R1Y3QgPT0gQ09EQV85
-NjApCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoG1heCA9IFY0TDJfTVBFR19WSURF
-T19IMjY0X0xFVkVMXzRfMTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbWF4ID0g
-VjRMMl9NUEVHX1ZJREVPX0gyNjRfTEVWRUxfNV8wOwoKU2FtZSBhcyBhYm92ZSwgdGhlcmUgaXMg
-bm8gd2F5IHRvIHN1cHBvcnQgbGV2ZWwgNS4wIGZyYW1lIHNpemUKcmVxdWlyZW1lbnRzLgoKcmVn
-YXJkcwpQaGlsaXBwCg==
 
+On 20/02/2022 20:46, Dmitry Osipenko wrote:
+> The CONFIG_TEGRA_VDE has been deprecated and replaced with the new V4L
+> options after de-staging of the tegra-vde driver. Update the config entry.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>   arch/arm/configs/tegra_defconfig | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
+> index e7385c10a30b..0a39033a5c6f 100644
+> --- a/arch/arm/configs/tegra_defconfig
+> +++ b/arch/arm/configs/tegra_defconfig
+> @@ -298,7 +298,8 @@ CONFIG_SERIO_NVEC_PS2=y
+>   CONFIG_NVEC_POWER=y
+>   CONFIG_NVEC_PAZ00=y
+>   CONFIG_STAGING_MEDIA=y
+> -CONFIG_TEGRA_VDE=y
+> +CONFIG_V4L_MEM2MEM_DRIVERS=y
+> +CONFIG_VIDEO_TEGRA_VDE=y
+>   CONFIG_CHROME_PLATFORMS=y
+>   CONFIG_CROS_EC=y
+>   CONFIG_CROS_EC_I2C=m
+
+
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+
+Jon
+
+-- 
+nvpublic
