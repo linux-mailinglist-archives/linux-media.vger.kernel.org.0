@@ -2,186 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CF6C4F6A9C
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 21:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD16C4F6A2A
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 21:42:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233084AbiDFT4g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Apr 2022 15:56:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38438 "EHLO
+        id S229954AbiDFTo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Apr 2022 15:44:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233324AbiDFTz7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 15:55:59 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 510241560A7
-        for <linux-media@vger.kernel.org>; Wed,  6 Apr 2022 10:50:05 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id c4so5718343qtx.1
-        for <linux-media@vger.kernel.org>; Wed, 06 Apr 2022 10:50:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=nbgYNk5Esw76+oSTzku5Iq0RBseYj50R251OC+s1Zko=;
-        b=oE77XjhZJdBZs73vBmWDSWOcpU+0g2TAF7dqKJsm0FrsMjk1RH5VR1BlQ5zyc+Ew0E
-         YAyZ7/3GSXX52HLi4w0ZLcWVx8WEfp2H70UxOLZhb4x9Tw8uCMDrbM5d5FHn6SM8+gwO
-         oJK9Mz7nWH9ol3Rrrfkwe3OikbspOO3ypvUVHlstZXQHmen/ZBRY15meUrtAA7c3OsiH
-         QTmrE/4Q7sxCk3fFXjAd0HZnALSONcplj2n9nhPVNVpiCO2IvqkTQM6QBRqJh5D4ZlDw
-         eJ5RkVM+Vz9/V7oOKSfMoNmKqTRPPtOn7EnIojoHf3XYwhNUGCPXlmEsvVhrbnUTWod8
-         nu/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=nbgYNk5Esw76+oSTzku5Iq0RBseYj50R251OC+s1Zko=;
-        b=pmmC8fa3i2Pb3yweXkAmZPBNBBnaBF1nH6ehFdbUegs8ugEH151B4UZrX0tsVp8SKQ
-         b6VEL/dJ9LRbH3Tera2I5ZTF27kPk6BsOi3Yl2p6N0PqK5IPPjOZZALX2OqWpIQ59F4S
-         FulQgdiyFxNjmxqHypgtCjKTqYjSxJokWG/15J3i5GDbB/r7QcuZFcaFrDPPfKhWS1iC
-         mkFYQCCW474nCgk/ju41FGeRY9Icgcbs1dwUQ1ioBUrf2K4DB2yaL3oNSMZK4Md0Y/Pr
-         oaPul3ox3blGS780OsMBj0VEGMlpBxGdv4O4lFJ95XYqWdP5KFZ1lmUtLwyuNRCk4/2o
-         J/yA==
-X-Gm-Message-State: AOAM532cXQItW0k1zy0TkqWQoD8UMwTemsyg1F1xne5MUDEzOJ46ItPB
-        N7kZp4NpKPwkFOhFzTInp6vXwg==
-X-Google-Smtp-Source: ABdhPJylSRQCASHDcc/QNJp7o7BwkgXxThlNUItggDkKtsHMdcE9vZQxW5pxT61gwxRLUSzl83zB0g==
-X-Received: by 2002:ac8:5a8f:0:b0:2e1:df21:d86f with SMTP id c15-20020ac85a8f000000b002e1df21d86fmr8769717qtc.450.1649267404445;
-        Wed, 06 Apr 2022 10:50:04 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id 78-20020a370551000000b0067e3a58c090sm10057930qkf.82.2022.04.06.10.50.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 10:50:04 -0700 (PDT)
-Message-ID: <fd9917c2bdb41f361a1ecac2dfa8d85473c9f0f2.camel@ndufresne.ca>
-Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Date:   Wed, 06 Apr 2022 13:50:02 -0400
-In-Reply-To: <2820101.e9J7NaK4W3@jernej-laptop>
-References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
-         <4386971.LvFx2qVVIh@jernej-laptop>
-         <bf938b83-2b57-95b3-4bcb-f967bbb46413@collabora.com>
-         <2820101.e9J7NaK4W3@jernej-laptop>
+        with ESMTP id S231992AbiDFTng (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 15:43:36 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E93DE156086;
+        Wed,  6 Apr 2022 10:58:23 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id 187121F45822
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1649267902;
+        bh=L6qng+F82oavfDa6788iqCCq/nZ4DDudHD6oBSS4ZsU=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=ToMdnMOajCHGEsuTDq2o7irGVZ/vonCu8rKAo9Cl7YKcX5zG+YLzs283SlHbCODto
+         SvsFtpNgtXUn9yXXpOuo7RLiBBfG5Z9IaGauAV63nQI0UzJksGgEO+RofqjEpkD+1r
+         G85f67ACEFpyYBQcM49XTiyzQjF0z7PjiLw2fdR+sG/+TVsQ5JelVAJ2wqNkVZy6sO
+         pb8nAU9BAz+GDjm8lewRSn+hphoBWSsGtGP/202jzhha496yxJ999aNnnAgN4r9fvh
+         dMhRNLu1nptPL2TD4eYI8nVPAYT5zkyCwzuIkTn1dv6Sq2hWKVyn1WwIp8a2AEZBL5
+         orNXEQmAXctuA==
+Message-ID: <71c796610c3c9e1c8a117045c3764e40681a680a.camel@collabora.com>
+Subject: Re: [PATCH v3 00/24] H.264 Field Decoding Support for Frame-based
+ Decoders
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     kernel@collabora.com, linux-kernel@vger.kernel.org,
+        linux-media <linux-media@vger.kernel.org>
+Date:   Wed, 06 Apr 2022 13:58:11 -0400
+In-Reply-To: <20220405204426.259074-1-nicolas.dufresne@collabora.com>
+References: <20220405204426.259074-1-nicolas.dufresne@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 06 avril 2022 =C3=A0 19:21 +0200, Jernej =C5=A0krabec a =C3=A9c=
-rit=C2=A0:
-> Dne sreda, 06. april 2022 ob 08:54:07 CEST je Benjamin Gaignard napisal(a=
-):
-> > Le 05/04/2022 =C3=A0 20:40, Jernej =C5=A0krabec a =C3=A9crit :
-> > > Hi Benjamin!
-> > >=20
-> > > Dne torek, 05. april 2022 ob 18:07:41 CEST je Benjamin Gaignard=20
-> napisal(a):
-> > > > Le 27/02/2022 =C3=A0 15:49, Jernej Skrabec a =C3=A9crit :
-> > > > > First two patches add 10-bit formats to UAPI, third extends filte=
-ring
-> > > > > mechanism, fourth fixes incorrect assumption, fifth moves registe=
-r
-> > > > > configuration code to proper place, sixth and seventh enable 10-b=
-it
-> > > > > VP9 decoding on Allwinner H6 and last increases core frequency on
-> > > > > Allwinner H6.
-> > > > >=20
-> > > > > I'm sending this as RFC to get some comments:
-> > > > > 1. format definitions - are fourcc's ok? are comments/description=
-s ok?
-> > > > > 2. is extended filtering mechanism ok?
-> > > > >=20
-> > > > > I would also like if these patches are tested on some more HW.
-> > > > > Additionally, can someone test tiled P010?
-> > > > >=20
-> > > > > Please take a look.
-> > > >=20
-> > > > Hi Jernej,
-> > > >=20
-> > > > I have create a branch to test this series with VP9 and HEVC:
-> > > > https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/=
-10bit_
-> > > > imx 8m Feel free to pick what I may need in it.
-> > > >=20
-> > > > That doesn't improve fluster scores, I think more dev are still nee=
-ded in
-> > > > GST before getting something fully functional.
-> > > > Anyway I able to select P010 pixel format if the input is a 10bit
-> > > > bitstream.>=20
-> > > What kind of improvements do you expect? Actually, this series is des=
-igned
-> > > to change nothing for platforms, where 10-bit format is not added int=
-o
-> > > the list of supported formats. I think reasons are quite obvious. Fir=
-st,
-> > > not every device may support 10-bit output. Second, as you might alre=
-ady
-> > > figured it out, registers in this series are set only for legacy core=
-s. I
-> > > have no idea, what needs to be done for newer ones, since I don't hav=
-e
-> > > them. Anyway, I tested this with fluster and only one additional test
-> > > passes, because it is the only one for 10-bit YUV420.
-> >=20
-> > In this series you will find that I have added the registers for the ne=
-w
-> > cores, fix hevc to be able to use 10-bit, and enable that in IMX8M.
+Hello everyone,
+
+its not clear if that cover made it this time, though it will now. Adding a
+comment below ...
+
+Le mardi 05 avril 2022 =C3=A0 16:44 -0400, Nicolas Dufresne a =C3=A9crit=C2=
+=A0:
+> Until now, only Cedrus (a slice base decoder) supported interlaced
+> decoding.  In order to support field decoding in our frame-based decoder,
+> the v4l2-h264 library needed adaptation to produce the appropriate
+> reference lists.
 >=20
-> Your changes seems reasonable, but at this point I wouldn't bother with=
-=20
-> fluster. Instead, try to test with one specific bitstream or even a sampl=
-e video=20
-> file. I just tested with one random 10-bit VP9 video that I found when wo=
-rking=20
-> on this series. That way you avoid any corner cases which sometimes plaqu=
-e=20
-> fluster testing (reference bitstreams smaller than min. supported size).=
-=20
-> Anyway, re-check vendor lib if there is any other place to adjust somethi=
-ng=20
-> for 10-bit.
+> This patch extends the v4l2-h264 library to produce the larger references
+> list needed to represent fields separately. Hantro, MTK-VCODEC and RKVDEC
+> drivers have been adapted to accommodate the larger lists. Though, only
+> Hantro and RKVDEC actually have HW support for field decoding. So only
+> these two have been updated to make use of the larger lists. All this wor=
+k
+> has been done using the H.264 specification, LibreELEC downstream kernel
+> patches, Rockchip MPP reference software and Hantro reference software.
+>=20
+> For reviewers, the following is the map of all commit. Patches that could
+> be merge independently of this serie are marked as independent. Note that
+> the test results do depend on the generic fixes.
+>=20
+> 01    : Documentation fix (independent)
+> 02-03 : Improving some generic traces (independent)
+> 04    : Minor v4l2-h264 fix (independent)
+> 05-11 : v4l2-h264 field decoding support
+> 12-16 : rkvdec h.264 generic fixes (independent)
+> 17-20 : rkvdec h.264 field decoding support
+> 21-24 : hantro h.264 field decoding support
+>=20
+> All this work have been tested using GStreamer mainline implementation
+> but also with FFMPEG LibreELEC fork using the testing tool fluster
+> running through the ITU-T H.264 (2016-02) AVCv2 set of bitstream. Before
+> this patch, the scores were:
+>=20
+> Hantro:
+>   FFMPEG:   88/135
+>   GSteamer: 90/135
+> RKVDEC:
+>   FFMPEG:   73/135
+>   GSteamer: 77/135
+>=20
+> And after these changes:
+>=20
+> Hantro:
+>   FFMPEG:   118/135
+>   GSteamer: 129/135
 
-Just so we don't forget, there is a handful of 10bit tests that Daniel Alme=
-ida
-omitted when he added tests to fluster (though only 1 is 420). I will try a=
-nd
-fix that later on. There is otherwise 5G worth of 10bit tests available. In
-fluster we decided to go for the same subset libvpx uses, otherwise no one =
-would
-ever want to download these tests.
+I have also tested on IMX8MQ now, same results. This exercise the
+hantro_g1_h264.c code.
 
-https://storage.googleapis.com/downloads.webmproject.org/vp9/decoder-test-s=
-treams/Profile_2_10bit.
+> RKVDEC:
+>   FFMPEG:   118/135
+>   GSteamer: 129/135
+>=20
+> Note that a bug in FFMPEG / LibreELEC fork was noticed and fixed with the
+> following change:
+>=20
+> diff --git a/libavcodec/v4l2_request_h264.c b/libavcodec/v4l2_request_h26=
+4.c
+> index 88da8f0a2d..394bae0550 100644
+> --- a/libavcodec/v4l2_request_h264.c
+> +++ b/libavcodec/v4l2_request_h264.c
+> @@ -66,7 +66,7 @@ static void fill_dpb_entry(struct v4l2_h264_dpb_entry *=
+entry, const H264Picture
+>  {
+>      entry->reference_ts =3D ff_v4l2_request_get_capture_timestamp(pic->f=
+);
+>      entry->pic_num =3D pic->pic_id;
+> -    entry->frame_num =3D pic->frame_num;
+> +    entry->frame_num =3D pic->long_ref ? pic->pic_id : pic->frame_num;
+>      entry->fields =3D pic->reference & V4L2_H264_FRAME_REF;
+>      entry->flags =3D V4L2_H264_DPB_ENTRY_FLAG_VALID;
+>      if (entry->fields)
+>=20
+> Some useful links:
+>=20
+> Detailed Hantro Results:     https://gitlab.freedesktop.org/-/snippets/51=
+89
+> Detailed RKVDEC Results:     https://gitlab.freedesktop.org/-/snippets/52=
+53
+> ITU-T H.264 (2016-02) AVCv2: https://www.itu.int/net/itu-t/sigdb/spevideo=
+/VideoForm-s.aspx?val=3D102002641
+> Fluster:                     https://github.com/fluendo/fluster
+> GStreamer:                   https://gitlab.freedesktop.org/gstreamer/gst=
+reamer/
+> FFMPEG Fork:                 https://github.com/jernejsk/FFmpeg/tree/v4l2=
+-request-hwaccel-4.4
+> Rockchip MPP:                https://github.com/rockchip-linux/mpp
+>=20
+> Changes in v3:
+> - Improved debug message on timestamp miss-match
+> - Moved H264 SPS validation into rkvdec-h264
+> - Added more comments around H264 SPS validation
+> - Also validate at streamon (rkvdec start())
+> - Applied more Review-by and Fixes tag
+> - Fixed Signed-off-by chain in Jonas patch
+>=20
+> Changes in v2:
+> - Applied most of Sebastian's suggestion in comments and commit messages.
+> - Use a bool for dpb_valid and dpb_bottom in rkvdec
+> - Dropped one wrong typo fix (media: v4l2-mem2mem: Fix typo in trace mess=
+age)
+> - Dropped Alex fix (media: rkvdec-h264: Don't hardcode SPS/PPS parameters
+>   + I will carry this one later, it seems cosmetic
+>=20
+> Jonas Karlman (5):
+>   media: rkvdec: h264: Fix bit depth wrap in pps packet
+>   media: rkvdec: h264: Validate and use pic width and height in mbs
+>   media: rkvdec: h264: Fix reference frame_num wrap for second field
+>   media: rkvdec: Ensure decoded resolution fit coded resolution
+>   media: hantro: h264: Make dpb entry management more robust
+>=20
+> Nicolas Dufresne (18):
+>   media: doc: Document dual use of H.264 pic_num/frame_num
+>   media: v4l2-mem2mem: Trace on implicit un-hold
+>   media: h264: Avoid wrapping long_term_frame_idx
+>   media: h264: Use v4l2_h264_reference for reflist
+>   media: h264: Increase reference lists size to 32
+>   media: h264: Store current picture fields
+>   media: h264: Store all fields into the unordered list
+>   media: v4l2: Trace calculated p/b0/b1 initial reflist
+>   media: h264: Sort p/b reflist using frame_num
+>   media: v4l2: Reorder field reflist
+>   media: rkvdec: Stop overclocking the decoder
+>   media: rkvdec: h264: Fix dpb_valid implementation
+>   media: rkvdec: Move H264 SPS validation in rkvdec-h264
+>   media: rkvdec-h264: Add field decoding support
+>   media: rkvdec: Enable capture buffer holding for H264
+>   media: hantro: Stop using H.264 parameter pic_num
+>   media: hantro: Add H.264 field decoding support
+>   media: hantro: Enable HOLD_CAPTURE_BUF for H.264
+>=20
+> Sebastian Fricke (1):
+>   media: videobuf2-v4l2: Warn on holding buffers without support
+>=20
+>  .../media/v4l/ext-ctrls-codec-stateless.rst   |  10 +-
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |   7 +-
+>  .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  17 +-
+>  drivers/media/v4l2-core/v4l2-h264.c           | 261 ++++++++++++++----
+>  drivers/media/v4l2-core/v4l2-mem2mem.c        |   1 +
+>  .../staging/media/hantro/hantro_g1_h264_dec.c |  38 +--
+>  drivers/staging/media/hantro/hantro_h264.c    | 119 ++++++--
+>  drivers/staging/media/hantro/hantro_hw.h      |   7 +-
+>  drivers/staging/media/hantro/hantro_v4l2.c    |  25 ++
+>  .../media/hantro/rockchip_vpu2_hw_h264_dec.c  |  98 +++----
+>  drivers/staging/media/rkvdec/rkvdec-h264.c    | 154 ++++++++---
+>  drivers/staging/media/rkvdec/rkvdec.c         |  35 +--
+>  drivers/staging/media/rkvdec/rkvdec.h         |   2 +
+>  include/media/v4l2-h264.h                     |  31 ++-
+>  14 files changed, 580 insertions(+), 225 deletions(-)
+>=20
+> --=20
+> 2.34.1
+>=20
+>=20
 
-About the "min supported", G2 VP9 scores is 157/303 here (in comparision rk=
-vdec
-is 225, and MTK VCODEC 275). At this failure level this has no longer anyth=
-ing
-to do with the size of the render. There is likely couple of bugs hidden in=
- the
-driver for the corner cases tested by the suite. Also, to illustrate that t=
-he
-size isn't the only variable in the failures, we have a vp90-2-02-size-
-64x34.webm that pass (the driver pretends that 64x64 is the minimum). I did=
-n't
-look at G2 output very closely, but on RKVDEC, in similar failures we have
-perfect keyframe, and a single corrupted tile on the following decode. My b=
-elief
-is that there is bugs in the drivers to be found and fixed. In absence of v=
-endor
-support, or working reference it will be difficult / near impossible to fix=
-, but
-I'm documenting this so we stop thinking this is just "not supported".
-
-cheers,
-Nicolas
