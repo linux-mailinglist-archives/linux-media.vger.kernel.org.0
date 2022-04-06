@@ -2,98 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C6104F6607
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 18:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB1754F6AA1
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 21:55:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238063AbiDFQqE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Apr 2022 12:46:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46532 "EHLO
+        id S232634AbiDFT53 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Apr 2022 15:57:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238128AbiDFQp5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 12:45:57 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2261921CC40
-        for <linux-media@vger.kernel.org>; Wed,  6 Apr 2022 08:01:43 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nc7AE-0064t9-71; Wed, 06 Apr 2022 15:01:42 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nc7AB-008RmX-Nq; Wed, 06 Apr 2022 15:01:39 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.19] cec: various fixes and enhancements (#82257)
-Date:   Wed,  6 Apr 2022 15:01:39 +0000
-Message-Id: <20220406150139.2013371-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <3f54b8d2-9c26-1775-0cc9-688a677776eb@xs4all.nl>
-References: 
+        with ESMTP id S232120AbiDFT4e (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 15:56:34 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89FCD286D3;
+        Wed,  6 Apr 2022 10:21:03 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id x20so3438133edi.12;
+        Wed, 06 Apr 2022 10:21:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5y49F6FFIHNJFXwX0mwDpkqnylVMigszjtIkPhpuii8=;
+        b=P8w9ucNqgOCkMD9cfh5/9Sy+LhNLNVxHGvjSiEWpTv/tYtCA4FCvREBL+YIGfXOxzY
+         4SFHJnrbfJLEM8r6ouWRoqIEuHMY/CooGAHqfac4DSpWWicNAOIw8wuck+DtxI37wVEw
+         BaJkkUmrdPoPinQOCn9/dQ4ZdbtiaZbOPVMMW4fTbxC0P53Ew4F6UEFCYiMRd8Juy96/
+         d2qwJV6kmc3YTcVNty4BQmYiVVh7Q1wyGOweD4ZFrWSYLXTrGwyGUk4zhQ+7BNL4IYRj
+         lT8R10BtopHMNIqAfK2+tmZSRpknsj+6osDd/bevh9ecLeWegNHM33fqaX/lzQEo0Mud
+         NMig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5y49F6FFIHNJFXwX0mwDpkqnylVMigszjtIkPhpuii8=;
+        b=4MekjI0XASgJhrtV887RfITn8Xm5PaNedgkSisDX2gdTtY+coSpEj4p8edLxIbEhuD
+         f+Gt4Nz1KBZHr4Y73cM0fNFJnjiloj1YWgiQFKUGzRFpXWGECKCSAtPiXys3cjvtCgQt
+         y9bwSHYqkX5Fomx9C2IWi4OPJmmCv6EZFWJkOKS6eyQrV0uT09V2lWnm04ERrVMm8xn7
+         Pm4kV7lRAETW/VO62Hq4CLR2v+s5mLVq0EqJqrBiwXPA8SuUH6eAuLZ6Kqcswh8Y6tFT
+         2mWWM5L0nx8Pavbu0F+txk0SGDtiiS4e6rq26J79rlG0MS1FKnKEYXzdPPgXjRmL46jo
+         NDXg==
+X-Gm-Message-State: AOAM5315m9FA9fobNj7MU1g5r1NVZy2WtGc4NobKnFoZWMyCmQeOZbOA
+        hdPzUY1yXN9Rla9WXlzhL9OVJcQ/9mClkg==
+X-Google-Smtp-Source: ABdhPJw7SwZmk8KMDZN9kawMnoJ2pOLoCUSGiI/T+DYa+t+vvAVLi5zMiKJaRx9H4xaslCQrGhPLEA==
+X-Received: by 2002:a50:da8b:0:b0:415:a122:d7ad with SMTP id q11-20020a50da8b000000b00415a122d7admr9951784edj.123.1649265661983;
+        Wed, 06 Apr 2022 10:21:01 -0700 (PDT)
+Received: from jernej-laptop.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id dd6-20020a1709069b8600b006df08710d00sm6947802ejc.85.2022.04.06.10.21.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Apr 2022 10:21:01 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     mchehab@kernel.org, nicolas@ndufresne.ca, hverkuil-cisco@xs4all.nl,
+        gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
+Date:   Wed, 06 Apr 2022 19:21:00 +0200
+Message-ID: <2820101.e9J7NaK4W3@jernej-laptop>
+In-Reply-To: <bf938b83-2b57-95b3-4bcb-f967bbb46413@collabora.com>
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com> <4386971.LvFx2qVVIh@jernej-laptop> <bf938b83-2b57-95b3-4bcb-f967bbb46413@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Dne sreda, 06. april 2022 ob 08:54:07 CEST je Benjamin Gaignard napisal(a):
+> Le 05/04/2022 =C3=A0 20:40, Jernej =C5=A0krabec a =C3=A9crit :
+> > Hi Benjamin!
+> >=20
+> > Dne torek, 05. april 2022 ob 18:07:41 CEST je Benjamin Gaignard=20
+napisal(a):
+> >> Le 27/02/2022 =C3=A0 15:49, Jernej Skrabec a =C3=A9crit :
+> >>> First two patches add 10-bit formats to UAPI, third extends filtering
+> >>> mechanism, fourth fixes incorrect assumption, fifth moves register
+> >>> configuration code to proper place, sixth and seventh enable 10-bit
+> >>> VP9 decoding on Allwinner H6 and last increases core frequency on
+> >>> Allwinner H6.
+> >>>=20
+> >>> I'm sending this as RFC to get some comments:
+> >>> 1. format definitions - are fourcc's ok? are comments/descriptions ok?
+> >>> 2. is extended filtering mechanism ok?
+> >>>=20
+> >>> I would also like if these patches are tested on some more HW.
+> >>> Additionally, can someone test tiled P010?
+> >>>=20
+> >>> Please take a look.
+> >>=20
+> >> Hi Jernej,
+> >>=20
+> >> I have create a branch to test this series with VP9 and HEVC:
+> >> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/10b=
+it_
+> >> imx 8m Feel free to pick what I may need in it.
+> >>=20
+> >> That doesn't improve fluster scores, I think more dev are still needed=
+ in
+> >> GST before getting something fully functional.
+> >> Anyway I able to select P010 pixel format if the input is a 10bit
+> >> bitstream.>=20
+> > What kind of improvements do you expect? Actually, this series is desig=
+ned
+> > to change nothing for platforms, where 10-bit format is not added into
+> > the list of supported formats. I think reasons are quite obvious. First,
+> > not every device may support 10-bit output. Second, as you might already
+> > figured it out, registers in this series are set only for legacy cores.=
+ I
+> > have no idea, what needs to be done for newer ones, since I don't have
+> > them. Anyway, I tested this with fluster and only one additional test
+> > passes, because it is the only one for 10-bit YUV420.
+>=20
+> In this series you will find that I have added the registers for the new
+> cores, fix hevc to be able to use 10-bit, and enable that in IMX8M.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/3f54b8d2-9c26-1775-0cc9-688a677776eb@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/197361/
-Build time: 00:24:12
-Link: https://lore.kernel.org/linux-media/3f54b8d2-9c26-1775-0cc9-688a677776eb@xs4all.nl
+Your changes seems reasonable, but at this point I wouldn't bother with=20
+fluster. Instead, try to test with one specific bitstream or even a sample =
+video=20
+file. I just tested with one random 10-bit VP9 video that I found when work=
+ing=20
+on this series. That way you avoid any corner cases which sometimes plaque=
+=20
+fluster testing (reference bitstreams smaller than min. supported size).=20
+Anyway, re-check vendor lib if there is any other place to adjust something=
+=20
+for 10-bit.
 
-gpg: Signature made Wed 06 Apr 2022 10:52:37 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Can't check signature: No public key
+Best regards,
+Jernej
 
-Summary: got 2/7 patches with issues, being 1 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-cec-call-enable_adap-on-s_log_addrs.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1983 vivid_create_instance() parse error: turning off implications after 60 seconds
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2900 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-patches/0005-cec-use-call_op-and-check-for-unregistered.patch:
-
-   checkpatch.pl:
-	$ cat patches/0005-cec-use-call_op-and-check-for-unregistered.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:173: CHECK: Macro argument reuse 'pin' - possible side-effects?
-	-:173: CHECK: Macro argument 'pin' may be better as '(pin)' to avoid precedence issues
-	-:173: CHECK: Macro argument reuse 'op' - possible side-effects?
-	-:173: CHECK: Macro argument 'op' may be better as '(op)' to avoid precedence issues
-	-:177: CHECK: Macro argument reuse 'pin' - possible side-effects?
-	-:177: CHECK: Macro argument 'pin' may be better as '(pin)' to avoid precedence issues
-	-:177: CHECK: Macro argument reuse 'op' - possible side-effects?
-	-:177: CHECK: Macro argument 'op' may be better as '(op)' to avoid precedence issues
-	-:290: CHECK: Macro argument reuse 'adap' - possible side-effects?
-	-:290: CHECK: Macro argument 'adap' may be better as '(adap)' to avoid precedence issues
-	-:290: CHECK: Macro argument reuse 'op' - possible side-effects?
-	-:290: CHECK: Macro argument 'op' may be better as '(op)' to avoid precedence issues
-	-:294: CHECK: Macro argument reuse 'adap' - possible side-effects?
-	-:294: CHECK: Macro argument 'adap' may be better as '(adap)' to avoid precedence issues
-	-:294: CHECK: Macro argument reuse 'op' - possible side-effects?
-	-:294: CHECK: Macro argument 'op' may be better as '(op)' to avoid precedence issues
+>=20
+> Regards,
+> Benjamin
+>=20
+> > Best regards,
+> > Jernej
 
 
-Error #512 when building PDF docs
+
 
