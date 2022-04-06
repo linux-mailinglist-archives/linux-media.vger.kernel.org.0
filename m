@@ -2,147 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB1754F6AA1
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 21:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CF6C4F6A9C
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 21:54:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232634AbiDFT53 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Apr 2022 15:57:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57028 "EHLO
+        id S233084AbiDFT4g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Apr 2022 15:56:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232120AbiDFT4e (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 15:56:34 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89FCD286D3;
-        Wed,  6 Apr 2022 10:21:03 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id x20so3438133edi.12;
-        Wed, 06 Apr 2022 10:21:03 -0700 (PDT)
+        with ESMTP id S233324AbiDFTz7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 15:55:59 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 510241560A7
+        for <linux-media@vger.kernel.org>; Wed,  6 Apr 2022 10:50:05 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id c4so5718343qtx.1
+        for <linux-media@vger.kernel.org>; Wed, 06 Apr 2022 10:50:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=5y49F6FFIHNJFXwX0mwDpkqnylVMigszjtIkPhpuii8=;
-        b=P8w9ucNqgOCkMD9cfh5/9Sy+LhNLNVxHGvjSiEWpTv/tYtCA4FCvREBL+YIGfXOxzY
-         4SFHJnrbfJLEM8r6ouWRoqIEuHMY/CooGAHqfac4DSpWWicNAOIw8wuck+DtxI37wVEw
-         BaJkkUmrdPoPinQOCn9/dQ4ZdbtiaZbOPVMMW4fTbxC0P53Ew4F6UEFCYiMRd8Juy96/
-         d2qwJV6kmc3YTcVNty4BQmYiVVh7Q1wyGOweD4ZFrWSYLXTrGwyGUk4zhQ+7BNL4IYRj
-         lT8R10BtopHMNIqAfK2+tmZSRpknsj+6osDd/bevh9ecLeWegNHM33fqaX/lzQEo0Mud
-         NMig==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=nbgYNk5Esw76+oSTzku5Iq0RBseYj50R251OC+s1Zko=;
+        b=oE77XjhZJdBZs73vBmWDSWOcpU+0g2TAF7dqKJsm0FrsMjk1RH5VR1BlQ5zyc+Ew0E
+         YAyZ7/3GSXX52HLi4w0ZLcWVx8WEfp2H70UxOLZhb4x9Tw8uCMDrbM5d5FHn6SM8+gwO
+         oJK9Mz7nWH9ol3Rrrfkwe3OikbspOO3ypvUVHlstZXQHmen/ZBRY15meUrtAA7c3OsiH
+         QTmrE/4Q7sxCk3fFXjAd0HZnALSONcplj2n9nhPVNVpiCO2IvqkTQM6QBRqJh5D4ZlDw
+         eJ5RkVM+Vz9/V7oOKSfMoNmKqTRPPtOn7EnIojoHf3XYwhNUGCPXlmEsvVhrbnUTWod8
+         nu/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5y49F6FFIHNJFXwX0mwDpkqnylVMigszjtIkPhpuii8=;
-        b=4MekjI0XASgJhrtV887RfITn8Xm5PaNedgkSisDX2gdTtY+coSpEj4p8edLxIbEhuD
-         f+Gt4Nz1KBZHr4Y73cM0fNFJnjiloj1YWgiQFKUGzRFpXWGECKCSAtPiXys3cjvtCgQt
-         y9bwSHYqkX5Fomx9C2IWi4OPJmmCv6EZFWJkOKS6eyQrV0uT09V2lWnm04ERrVMm8xn7
-         Pm4kV7lRAETW/VO62Hq4CLR2v+s5mLVq0EqJqrBiwXPA8SuUH6eAuLZ6Kqcswh8Y6tFT
-         2mWWM5L0nx8Pavbu0F+txk0SGDtiiS4e6rq26J79rlG0MS1FKnKEYXzdPPgXjRmL46jo
-         NDXg==
-X-Gm-Message-State: AOAM5315m9FA9fobNj7MU1g5r1NVZy2WtGc4NobKnFoZWMyCmQeOZbOA
-        hdPzUY1yXN9Rla9WXlzhL9OVJcQ/9mClkg==
-X-Google-Smtp-Source: ABdhPJw7SwZmk8KMDZN9kawMnoJ2pOLoCUSGiI/T+DYa+t+vvAVLi5zMiKJaRx9H4xaslCQrGhPLEA==
-X-Received: by 2002:a50:da8b:0:b0:415:a122:d7ad with SMTP id q11-20020a50da8b000000b00415a122d7admr9951784edj.123.1649265661983;
-        Wed, 06 Apr 2022 10:21:01 -0700 (PDT)
-Received: from jernej-laptop.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id dd6-20020a1709069b8600b006df08710d00sm6947802ejc.85.2022.04.06.10.21.00
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=nbgYNk5Esw76+oSTzku5Iq0RBseYj50R251OC+s1Zko=;
+        b=pmmC8fa3i2Pb3yweXkAmZPBNBBnaBF1nH6ehFdbUegs8ugEH151B4UZrX0tsVp8SKQ
+         b6VEL/dJ9LRbH3Tera2I5ZTF27kPk6BsOi3Yl2p6N0PqK5IPPjOZZALX2OqWpIQ59F4S
+         FulQgdiyFxNjmxqHypgtCjKTqYjSxJokWG/15J3i5GDbB/r7QcuZFcaFrDPPfKhWS1iC
+         mkFYQCCW474nCgk/ju41FGeRY9Icgcbs1dwUQ1ioBUrf2K4DB2yaL3oNSMZK4Md0Y/Pr
+         oaPul3ox3blGS780OsMBj0VEGMlpBxGdv4O4lFJ95XYqWdP5KFZ1lmUtLwyuNRCk4/2o
+         J/yA==
+X-Gm-Message-State: AOAM532cXQItW0k1zy0TkqWQoD8UMwTemsyg1F1xne5MUDEzOJ46ItPB
+        N7kZp4NpKPwkFOhFzTInp6vXwg==
+X-Google-Smtp-Source: ABdhPJylSRQCASHDcc/QNJp7o7BwkgXxThlNUItggDkKtsHMdcE9vZQxW5pxT61gwxRLUSzl83zB0g==
+X-Received: by 2002:ac8:5a8f:0:b0:2e1:df21:d86f with SMTP id c15-20020ac85a8f000000b002e1df21d86fmr8769717qtc.450.1649267404445;
+        Wed, 06 Apr 2022 10:50:04 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id 78-20020a370551000000b0067e3a58c090sm10057930qkf.82.2022.04.06.10.50.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 10:21:01 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        Wed, 06 Apr 2022 10:50:04 -0700 (PDT)
+Message-ID: <fd9917c2bdb41f361a1ecac2dfa8d85473c9f0f2.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, nicolas@ndufresne.ca, hverkuil-cisco@xs4all.nl,
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
-Date:   Wed, 06 Apr 2022 19:21:00 +0200
-Message-ID: <2820101.e9J7NaK4W3@jernej-laptop>
-In-Reply-To: <bf938b83-2b57-95b3-4bcb-f967bbb46413@collabora.com>
-References: <20220227144926.3006585-1-jernej.skrabec@gmail.com> <4386971.LvFx2qVVIh@jernej-laptop> <bf938b83-2b57-95b3-4bcb-f967bbb46413@collabora.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Date:   Wed, 06 Apr 2022 13:50:02 -0400
+In-Reply-To: <2820101.e9J7NaK4W3@jernej-laptop>
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+         <4386971.LvFx2qVVIh@jernej-laptop>
+         <bf938b83-2b57-95b3-4bcb-f967bbb46413@collabora.com>
+         <2820101.e9J7NaK4W3@jernej-laptop>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne sreda, 06. april 2022 ob 08:54:07 CEST je Benjamin Gaignard napisal(a):
-> Le 05/04/2022 =C3=A0 20:40, Jernej =C5=A0krabec a =C3=A9crit :
-> > Hi Benjamin!
+Le mercredi 06 avril 2022 =C3=A0 19:21 +0200, Jernej =C5=A0krabec a =C3=A9c=
+rit=C2=A0:
+> Dne sreda, 06. april 2022 ob 08:54:07 CEST je Benjamin Gaignard napisal(a=
+):
+> > Le 05/04/2022 =C3=A0 20:40, Jernej =C5=A0krabec a =C3=A9crit :
+> > > Hi Benjamin!
+> > >=20
+> > > Dne torek, 05. april 2022 ob 18:07:41 CEST je Benjamin Gaignard=20
+> napisal(a):
+> > > > Le 27/02/2022 =C3=A0 15:49, Jernej Skrabec a =C3=A9crit :
+> > > > > First two patches add 10-bit formats to UAPI, third extends filte=
+ring
+> > > > > mechanism, fourth fixes incorrect assumption, fifth moves registe=
+r
+> > > > > configuration code to proper place, sixth and seventh enable 10-b=
+it
+> > > > > VP9 decoding on Allwinner H6 and last increases core frequency on
+> > > > > Allwinner H6.
+> > > > >=20
+> > > > > I'm sending this as RFC to get some comments:
+> > > > > 1. format definitions - are fourcc's ok? are comments/description=
+s ok?
+> > > > > 2. is extended filtering mechanism ok?
+> > > > >=20
+> > > > > I would also like if these patches are tested on some more HW.
+> > > > > Additionally, can someone test tiled P010?
+> > > > >=20
+> > > > > Please take a look.
+> > > >=20
+> > > > Hi Jernej,
+> > > >=20
+> > > > I have create a branch to test this series with VP9 and HEVC:
+> > > > https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/=
+10bit_
+> > > > imx 8m Feel free to pick what I may need in it.
+> > > >=20
+> > > > That doesn't improve fluster scores, I think more dev are still nee=
+ded in
+> > > > GST before getting something fully functional.
+> > > > Anyway I able to select P010 pixel format if the input is a 10bit
+> > > > bitstream.>=20
+> > > What kind of improvements do you expect? Actually, this series is des=
+igned
+> > > to change nothing for platforms, where 10-bit format is not added int=
+o
+> > > the list of supported formats. I think reasons are quite obvious. Fir=
+st,
+> > > not every device may support 10-bit output. Second, as you might alre=
+ady
+> > > figured it out, registers in this series are set only for legacy core=
+s. I
+> > > have no idea, what needs to be done for newer ones, since I don't hav=
+e
+> > > them. Anyway, I tested this with fluster and only one additional test
+> > > passes, because it is the only one for 10-bit YUV420.
 > >=20
-> > Dne torek, 05. april 2022 ob 18:07:41 CEST je Benjamin Gaignard=20
-napisal(a):
-> >> Le 27/02/2022 =C3=A0 15:49, Jernej Skrabec a =C3=A9crit :
-> >>> First two patches add 10-bit formats to UAPI, third extends filtering
-> >>> mechanism, fourth fixes incorrect assumption, fifth moves register
-> >>> configuration code to proper place, sixth and seventh enable 10-bit
-> >>> VP9 decoding on Allwinner H6 and last increases core frequency on
-> >>> Allwinner H6.
-> >>>=20
-> >>> I'm sending this as RFC to get some comments:
-> >>> 1. format definitions - are fourcc's ok? are comments/descriptions ok?
-> >>> 2. is extended filtering mechanism ok?
-> >>>=20
-> >>> I would also like if these patches are tested on some more HW.
-> >>> Additionally, can someone test tiled P010?
-> >>>=20
-> >>> Please take a look.
-> >>=20
-> >> Hi Jernej,
-> >>=20
-> >> I have create a branch to test this series with VP9 and HEVC:
-> >> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/10b=
-it_
-> >> imx 8m Feel free to pick what I may need in it.
-> >>=20
-> >> That doesn't improve fluster scores, I think more dev are still needed=
- in
-> >> GST before getting something fully functional.
-> >> Anyway I able to select P010 pixel format if the input is a 10bit
-> >> bitstream.>=20
-> > What kind of improvements do you expect? Actually, this series is desig=
-ned
-> > to change nothing for platforms, where 10-bit format is not added into
-> > the list of supported formats. I think reasons are quite obvious. First,
-> > not every device may support 10-bit output. Second, as you might already
-> > figured it out, registers in this series are set only for legacy cores.=
- I
-> > have no idea, what needs to be done for newer ones, since I don't have
-> > them. Anyway, I tested this with fluster and only one additional test
-> > passes, because it is the only one for 10-bit YUV420.
+> > In this series you will find that I have added the registers for the ne=
+w
+> > cores, fix hevc to be able to use 10-bit, and enable that in IMX8M.
 >=20
-> In this series you will find that I have added the registers for the new
-> cores, fix hevc to be able to use 10-bit, and enable that in IMX8M.
-
-Your changes seems reasonable, but at this point I wouldn't bother with=20
-fluster. Instead, try to test with one specific bitstream or even a sample =
-video=20
-file. I just tested with one random 10-bit VP9 video that I found when work=
-ing=20
-on this series. That way you avoid any corner cases which sometimes plaque=
+> Your changes seems reasonable, but at this point I wouldn't bother with=
 =20
-fluster testing (reference bitstreams smaller than min. supported size).=20
-Anyway, re-check vendor lib if there is any other place to adjust something=
+> fluster. Instead, try to test with one specific bitstream or even a sampl=
+e video=20
+> file. I just tested with one random 10-bit VP9 video that I found when wo=
+rking=20
+> on this series. That way you avoid any corner cases which sometimes plaqu=
+e=20
+> fluster testing (reference bitstreams smaller than min. supported size).=
 =20
-for 10-bit.
+> Anyway, re-check vendor lib if there is any other place to adjust somethi=
+ng=20
+> for 10-bit.
 
-Best regards,
-Jernej
+Just so we don't forget, there is a handful of 10bit tests that Daniel Alme=
+ida
+omitted when he added tests to fluster (though only 1 is 420). I will try a=
+nd
+fix that later on. There is otherwise 5G worth of 10bit tests available. In
+fluster we decided to go for the same subset libvpx uses, otherwise no one =
+would
+ever want to download these tests.
 
->=20
-> Regards,
-> Benjamin
->=20
-> > Best regards,
-> > Jernej
+https://storage.googleapis.com/downloads.webmproject.org/vp9/decoder-test-s=
+treams/Profile_2_10bit.
 
+About the "min supported", G2 VP9 scores is 157/303 here (in comparision rk=
+vdec
+is 225, and MTK VCODEC 275). At this failure level this has no longer anyth=
+ing
+to do with the size of the render. There is likely couple of bugs hidden in=
+ the
+driver for the corner cases tested by the suite. Also, to illustrate that t=
+he
+size isn't the only variable in the failures, we have a vp90-2-02-size-
+64x34.webm that pass (the driver pretends that 64x64 is the minimum). I did=
+n't
+look at G2 output very closely, but on RKVDEC, in similar failures we have
+perfect keyframe, and a single corrupted tile on the following decode. My b=
+elief
+is that there is bugs in the drivers to be found and fixed. In absence of v=
+endor
+support, or working reference it will be difficult / near impossible to fix=
+, but
+I'm documenting this so we stop thinking this is just "not supported".
 
-
-
+cheers,
+Nicolas
