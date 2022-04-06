@@ -2,80 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC3D14F6CA4
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 23:27:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 148AB4F6CB4
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 23:29:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235193AbiDFV3p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Apr 2022 17:29:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33310 "EHLO
+        id S234027AbiDFVbr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Apr 2022 17:31:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236559AbiDFV2T (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 17:28:19 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD9251DA45;
-        Wed,  6 Apr 2022 13:25:46 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id r13so6637377ejd.5;
-        Wed, 06 Apr 2022 13:25:46 -0700 (PDT)
+        with ESMTP id S231406AbiDFVbV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 17:31:21 -0400
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4984F286A6C
+        for <linux-media@vger.kernel.org>; Wed,  6 Apr 2022 13:36:26 -0700 (PDT)
+Received: by mail-qv1-xf2a.google.com with SMTP id cs16so3233276qvb.8
+        for <linux-media@vger.kernel.org>; Wed, 06 Apr 2022 13:36:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=truPn0s8Vvvmxvp+PkFZjk0sa6dM7vsj42Uw5AHqoas=;
-        b=Ayxsy5fHNuTj9Hl92WgEWuKxiRx4jKxEUMRLg+y4Dp+Ea9K0wNNMbAfNY/k4WnB5fr
-         M6sCwfb8fyIm7d1GleY9GbjSOkkg2i2kR4d/i1/HWsqikTP07y1jghXAP7EYtzfLpjzd
-         2flM0TAWxxRme5r8+6NYQj4pbrbG9hvt7nHqMFDoQPqIgaHMwdWzekmfNnBn8Zi0zH95
-         ApjjDNXaomSSm0gryVQrhymcmAbGsol1fM/BwHcLlmdlfBQaPN1OCsYCxfED0UL5LTeS
-         gnjJrd6+dd0lTgysdhUXQADmDWB9NSPhVQ458NdDHgqtbO+nx+Jeiu84Zv69BrCxVnJJ
-         nTkQ==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=iVD51S2fZB/T43/yzpgAein+LxkO4Y3OqFseZyJMNZY=;
+        b=wIJ8NfE+AUWtM7lH+STs2g9OB2TaiQtjIGgsEZBrh+stbAhC7caz0JwPUkoIZGBlrs
+         LB1DrPwrXYi0rIY7X35P/zoqWV7fHvjo7aRUMs4TyMz6S/vFUghNVJsR3/tEqYaWbeIS
+         SpSzxsCOvUNm/1PF0AI/mVEvKzQZuddwJpTN/xCCPEwtKXsE8pXWY9SDXnRGt7hd+v5d
+         7aVh+a6lRIdvCCaTyTO3bvNDQa8edsj39IO4UFF22UDLrQkDlAZSf+4U3HgEfZo+IVo2
+         A/ZuTqF9mp4LAlL/TjngKMj4c7waWzoSFDpDwXInm8b9twE/3nTPedXH8SU6BjtHTO0m
+         X7tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=truPn0s8Vvvmxvp+PkFZjk0sa6dM7vsj42Uw5AHqoas=;
-        b=7YJDHBCcDtHqDhXNAT0XbxLKi4qgzeF5zXvCRPGizLlPZY6QZ+mSyj615MlE8USIJk
-         iaBy5QBkdzC6vysHZKBkVr7JONz6OXYYx8zf5Kq/beVIo6W3e0g+1GoslPfbD30E/qAb
-         H2DJMkqm4LeYEMXSCieFL4aWGN8j00vOhS9Bok+nNe4X9UohSGsLtyrhlWPCJuxXQXlg
-         VJJcNcglvMqhb/OgBC86z4YLyTAd1MFOssLTewFd/bxbEt7HkaJDZ60cBmk8b4mRUcG0
-         mE/K027UnY24GNhnO6tbHaSXERA6tNkw6SgoeaYnOmui5b2SQaz25VdenWBv/zHXjiPP
-         C4DA==
-X-Gm-Message-State: AOAM533qcX3qB0Bi0MT+euyRgM23S8GRwPh9hV9/9pxF++KB/Sz9MdAa
-        ueoiXzCY9GEazn6pvVJ/W2NFNDMm99vokfyVHH0=
-X-Google-Smtp-Source: ABdhPJznmIeMm7VUIZ7xQcowM7cqVayQQZEEyeJnhfomosgir4daqnye36bBN8Q7knoAikzY/CvM0z7d9RDeA2TrW5c=
-X-Received: by 2002:a17:907:7b9d:b0:6df:fb8f:fe82 with SMTP id
- ne29-20020a1709077b9d00b006dffb8ffe82mr10014393ejc.652.1649276745204; Wed, 06
- Apr 2022 13:25:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220405135957.3580343-1-festevam@gmail.com> <20220405135957.3580343-2-festevam@gmail.com>
- <219003f3341412cc6241d8c6e73309a74836678d.camel@pengutronix.de>
-In-Reply-To: <219003f3341412cc6241d8c6e73309a74836678d.camel@pengutronix.de>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Wed, 6 Apr 2022 17:25:32 -0300
-Message-ID: <CAOMZO5BmRjHzrxK-+=mH503aeUxDJrrNHzckCNd1xt1zw-Pjnw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] media: coda: Add more H264 levels for CODA960
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        kernel@iktek.de, linux-media <linux-media@vger.kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Fabio Estevam <festevam@denx.de>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=iVD51S2fZB/T43/yzpgAein+LxkO4Y3OqFseZyJMNZY=;
+        b=7PQpoA2fYMHYV2+M8K/cPDSvrBkAt7Xb2yeIsyHEibQ9CqU55jsGAJgZNfjAM719nL
+         oUYooHSUE8y046gGezWeUn/EUpXBOWxDskojhM0K+m4GE4Cur+Xpof3YL0wdpNujB+pe
+         yfZEgKWdC4pJVQGsYgddLC9k4O6/OrxC5UEOt+wwh549ZvZeU5+qgjYaq+KQXgMcDshO
+         QG1WXqDblTY9xe6z9A6pWQqcIhngQA4IakOgRUAlM7+DJDYeuuScWQUP00yA3AKzd/WU
+         hP7EWjKyG62d7tQvTtPb+36HYRSfiRogAe3CswPp1rF2HYGnmsd/RYBaO+05IprYRBRc
+         Z0Ug==
+X-Gm-Message-State: AOAM530bwA4IUxOXqz6xqDRrpEzpsLleZhqPnGY79iTT/oH1Osuhe/Ao
+        kWAyfRO6KjowjtLhdnSj7H4jQg==
+X-Google-Smtp-Source: ABdhPJyoTFpHdhAeiRuppAcSOH9NzY3ELjSpzTBbQkgV2JktrDoVuHlUfQFgR+UzclY5mKXxVmknUQ==
+X-Received: by 2002:a05:6214:508a:b0:440:f824:3d55 with SMTP id kk10-20020a056214508a00b00440f8243d55mr9112081qvb.26.1649277385279;
+        Wed, 06 Apr 2022 13:36:25 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id e15-20020a05622a110f00b002e1ed105652sm12804883qty.2.2022.04.06.13.36.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Apr 2022 13:36:24 -0700 (PDT)
+Message-ID: <ace60e1553ca73997f454ccea12c4540cddd3dc8.camel@ndufresne.ca>
+Subject: Re: [PATCH v4 14/15] media: uapi: Change data_bit_offset definition
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, jonas@kwiboo.se
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk
+Date:   Wed, 06 Apr 2022 16:36:17 -0400
+In-Reply-To: <20220228140838.622021-15-benjamin.gaignard@collabora.com>
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+         <20220228140838.622021-15-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
+Le lundi 28 f=C3=A9vrier 2022 =C3=A0 15:08 +0100, Benjamin Gaignard a =C3=
+=A9crit=C2=A0:
+> 'F.7.3.6.1 General slice segment header syntax' section of HEVC
+> specification describes that a slice header always end byte aligned,
+> therefore we only need to provide the data offset in byte.
+>=20
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++--
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
+>  include/media/hevc-ctrls.h                                | 4 ++--
+>  3 files changed, 5 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
+Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 1aa2a7399e76..c8602c1e706e 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2986,8 +2986,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>        - ``bit_size``
+>        - Size (in bits) of the current slice data.
+>      * - __u32
+> -      - ``data_bit_offset``
+> -      - Offset (in bits) to the video data in the current slice data.
+> +      - ``data_byte_offset``
+> +      - Offset (in bytes) to the video data in the current slice data.
+>      * - __u32
+>        - ``num_entry_point_offsets``
+>        - Specifies the number of entry point offset syntax elements in th=
+e slice header.
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h265.c
+> index 8ab2d9c6f048..3e43b7cc2f57 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -405,7 +405,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+>  	/* Initialize bitstream access. */
+>  	cedrus_write(dev, VE_DEC_H265_TRIGGER, VE_DEC_H265_TRIGGER_INIT_SWDEC);
+> =20
+> -	cedrus_h265_skip_bits(dev, slice_params->data_bit_offset);
+> +	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset / 8);
 
-On Wed, Apr 6, 2022 at 11:59 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+Did you mean the following instead ?
 
-> I think you rebased the wrong version of this patch.
++	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8);
 
-Oops, good catch!
+> =20
+>  	/* Bitstream parameters. */
+> =20
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index c50205083573..51bdf38ea0c3 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -296,7 +296,7 @@ struct v4l2_hevc_pred_weight_table {
+>   * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+>   *
+>   * @bit_size: size (in bits) of the current slice data
+> - * @data_bit_offset: offset (in bits) to the video data in the current s=
+lice data
+> + * @data_byte_offset: offset (in bytes) to the video data in the current=
+ slice data
+>   * @num_entry_point_offsets: specifies the number of entry point offset =
+syntax
+>   *			     elements in the slice header.
+>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+> @@ -340,7 +340,7 @@ struct v4l2_hevc_pred_weight_table {
+>   */
+>  struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	bit_size;
+> -	__u32	data_bit_offset;
+> +	__u32	data_byte_offset;
+>  	__u32	num_entry_point_offsets;
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>  	__u8	nal_unit_type;
 
-I have sent v5 with the correct one, thanks.
