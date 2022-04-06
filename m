@@ -2,122 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3FA04F6C9A
-	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 23:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77F7B4F6CA6
+	for <lists+linux-media@lfdr.de>; Wed,  6 Apr 2022 23:27:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235634AbiDFV0L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Apr 2022 17:26:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43918 "EHLO
+        id S235795AbiDFV3r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Apr 2022 17:29:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235823AbiDFVZq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 17:25:46 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A256B26E1
-        for <linux-media@vger.kernel.org>; Wed,  6 Apr 2022 13:22:38 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id p15so6590283ejc.7
-        for <linux-media@vger.kernel.org>; Wed, 06 Apr 2022 13:22:38 -0700 (PDT)
+        with ESMTP id S234369AbiDFV1W (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Apr 2022 17:27:22 -0400
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 299B733CC5B;
+        Wed,  6 Apr 2022 13:23:59 -0700 (PDT)
+Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-d39f741ba0so4145329fac.13;
+        Wed, 06 Apr 2022 13:23:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=YWIJLXiksS0VQuBG7+M96cyEaIHAtHP1yEeT6FSDVss=;
-        b=eGr2KNoJev3o+7PUlkl/icPgBXus4or9iph30kRO0RlOpzieR/mJ+fg2qhm4/C95/9
-         Ff+RcLhj/Yu39wFVQyeMJlC4BAhtG1fklhyUKR2XebizMWewgnJ+6Dbu9TG01O8gWGEI
-         +z8+WbnJRKA1SIMV2xD6kZQ0kwxfeU/bJoAvfU2vGX6AcAPH5kPSeJ4rLL6Nkg322iDR
-         q/r8te8TdvpiDi3iCrek1q1m9t5ZDyVQeFvuvtvQM0R9sVIJAOPCui6/KEUfywOZBRt0
-         oxQ0xpiVnfZ3YRwYkmQyvu2PJi1ex/9CDXlG8RZKXuY02SeiWJs1Q9quyO06otaKPEa/
-         Udlw==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NFwRpN+axU2fGIRhuO/Nuug9sEEFRFzukZI+AiuZOds=;
+        b=WhXgnCGPoRqJbX85ZWbjJuYGLaztt+bQldNU+pncfTNdX8JwNuyHXVlmTEfw2iaffE
+         CQujLbbD0oPcJCwd1sJsorDeojA+fjwzl2uvooV07R1PjkD1Pu518HgyksWMQvLhOMuV
+         s3wTDCKOUyBewzigkeNexPPew0lD5T8myF9GwrMH4/1UGuMA/QsFh7NYSUC/Y3RSGjA9
+         TV+gmLR2K2nXXzXOz/rQC4LRf8YyPDd1dkFDJvvBidXjzxuhO3hfbn2OHScHwwF/5WX2
+         eKuYXPyOTAx0GMIj3OutdBs2U+lVusm65ciCmhxerHCbddqj3V+1Gc7j7LbPsuGI9gOS
+         sWkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=YWIJLXiksS0VQuBG7+M96cyEaIHAtHP1yEeT6FSDVss=;
-        b=X0gHqeBda0ggh9DftG1Y5bqresKzqIEEt2aA6Rgq8vXk4I35+gln5htp0Bg9UW74B5
-         csHDXXAK7w86bjZBuCIoAQAG8nELqaIow4uas56jip4GTeyFYBKLEe3MubsBJjKcW24L
-         4Blye1TzboylCmMCWHhxUhsEwAjJsGdJ8827j5WYGUFo9dGzmjAhB1FFMrjh0KqGZPJ7
-         NZqExvoLiGWWJxTq2slQBH5KyFSl2FNBG3Hw47mvNSMFAEtQpfHXy5AxsPKSrxshu7Zg
-         2LTPnRYNZtA+sqeSmMV+olrdY+d60PXsH6eJ4kaqtleDdNahv3lxW43K9QowC671wRXT
-         wbQg==
-X-Gm-Message-State: AOAM530GyeLkEVAEbQ1PfCEiVteEHGBK3xfzeJKZSxZq66i9j3AydBEz
-        TY8ZdjPlCc+5iEVIFzXKUhx/8Q==
-X-Google-Smtp-Source: ABdhPJwqFsV1Ew0Jt6UrdnI9S2NRhGLNSLS3IFoqLFvHb+dEkGDyquWATm6TiXZLoQgcbqhgLh/WoA==
-X-Received: by 2002:a17:907:1c9a:b0:6df:bfc3:c9f3 with SMTP id nb26-20020a1709071c9a00b006dfbfc3c9f3mr10367726ejc.679.1649276557243;
-        Wed, 06 Apr 2022 13:22:37 -0700 (PDT)
-Received: from [192.168.1.9] (hst-221-122.medicom.bg. [84.238.221.122])
-        by smtp.googlemail.com with ESMTPSA id q22-20020a170906771600b006cf8a37ebf5sm6971214ejm.103.2022.04.06.13.22.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Apr 2022 13:22:36 -0700 (PDT)
-Message-ID: <3987e143-59c6-f5dc-77a5-f58043e84de3@linaro.org>
-Date:   Wed, 6 Apr 2022 23:22:35 +0300
+        bh=NFwRpN+axU2fGIRhuO/Nuug9sEEFRFzukZI+AiuZOds=;
+        b=rG+e11fs8WeYzEJJ9rgstivTcwwqXQu54o8lvu1hS8haHtRVc5FvJwTtqfTmQHV9TZ
+         9JFmiNfm74CGNR44jAwGDvGSu/LWI7VnVBsoxDtBtDzLdNMdv5fgMjXa992AsyLPbJho
+         hw26yJ2KnTLVF09yMWSYGcDEqF8SqPmz9ME8iJMcdLDFSFZwAS5O8rmqYJ5+XV6MyNia
+         mWZP/MagN94F6bxyTnIz10hs9SWUFPlEKzcDKsEOyKdvoPNHtLx0K8d5O0grH+ZHxLwZ
+         SjKdALTsyPZTP43sHfsmf3REExFhusONOWGmer6k7W9QoLQUuDgykITtH7Vs+bAcWo5B
+         a+1A==
+X-Gm-Message-State: AOAM530rImJ9DDp8VuMTDkqoOFn3Zkwowxw2cMWK/ejxxCN5XjNO2XxQ
+        4icicT1lo2pOFDEhZs5TJng=
+X-Google-Smtp-Source: ABdhPJyxZ/OEKdgOgCma1s+cWeIQMp/yodeOiisndZILS7EP9ws5PnYdbc+6B0ZM7xM6kCKfNGXa/g==
+X-Received: by 2002:a05:6870:9693:b0:de:e86c:8808 with SMTP id o19-20020a056870969300b000dee86c8808mr4753561oaq.278.1649276638206;
+        Wed, 06 Apr 2022 13:23:58 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:485:4b69:d779:c3b1:bb03:19d1])
+        by smtp.gmail.com with ESMTPSA id r23-20020a056830237700b005b2610517c8sm7497894oth.56.2022.04.06.13.23.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Apr 2022 13:23:57 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     nicolas.dufresne@collabora.com, kernel@iktek.de,
+        p.zabel@pengutronix.de, linux-media@vger.kernel.org,
+        stable@vger.kernel.org, Ezequiel Garcia <ezequiel@collabora.com>,
+        Fabio Estevam <festevam@denx.de>
+Subject: [PATCH v5 1/2] media: coda: Fix reported H264 profile
+Date:   Wed,  6 Apr 2022 17:23:42 -0300
+Message-Id: <20220406202343.139638-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 0/2] Introduce Intra-refresh type control
-Content-Language: en-US
-To:     quic_dikshita@quicinc.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     linux-arm-msm@vger.kernel.org, ezequiel@collabora.com,
-        stanimir.varbanov@linaro.org, quic_vgarodia@quicinc.com,
-        quic_majja@quicinc.com, quic_jdas@quicinc.com
-References: <1647252574-30451-1-git-send-email-quic_dikshita@quicinc.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-In-Reply-To: <1647252574-30451-1-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dikshita,
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-I cannot find new version of this patchset with Han's comments addressed?
+The CODA960 manual states that ASO/FMO features of baseline are not
+supported, so for this reason this driver should only report
+constrained baseline support.
 
-On 3/14/22 12:09, quic_dikshita@quicinc.com wrote:
-> From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> 
-> Hi,
-> 
-> This series add a new intra-refresh type control for encoders.
-> this can be used to specify which intra refresh to be enabled, random, cyclic or none.
-> 
-> Change since v0:
->  Dropped INTRA_REFRESH_TYPE_NONE as it was not needed.
->  Intra refresh period value as zero will disable the intra  refresh.
-> 
-> Change since v1:
->  Updated the control name for better undestanding.
->  Also updated the documentation accordingly.
-> 
-> Change since v2:
->  Updated the venus driver implementation as well to use the  correct control name. Missed in v2.
-> 
-> Change since v3:
->  Addressed comments from Hans in v4l2 patch.
->  Enabled the support for cyclic intra refresh in venus driver.
-> 
-> Thanks,
-> Dikshita
-> 
-> Dikshita Agarwal (2):
->   media: v4l2-ctrls: Add intra-refresh type control
->   venus: venc: Add support for intra-refresh mode
-> 
->  .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 22 ++++++++++++++++++++++
->  drivers/media/platform/qcom/venus/core.h           |  1 +
->  drivers/media/platform/qcom/venus/venc.c           |  6 +++++-
->  drivers/media/platform/qcom/venus/venc_ctrls.c     | 10 ++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  9 +++++++++
->  include/uapi/linux/v4l2-controls.h                 |  5 +++++
->  6 files changed, 52 insertions(+), 1 deletion(-)
-> 
+This fixes negotiation issue with constrained baseline content
+on GStreamer 1.17.1.
 
+ASO/FMO features are unsupported for the encoder and untested for the
+decoder because there is currently no userspace support. Neither GStreamer
+parsers nor FFMPEG parsers support ASO/FMO.
+
+Cc: stable@vger.kernel.org
+Fixes: 42a68012e67c2 ("media: coda: add read-only h.264 decoder profile/level controls")
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Tested-by: Pascal Speck <kernel@iktek.de>
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+Changes since v4:
+- None
+
+ drivers/media/platform/chips-media/coda-common.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
+index a57822b05070..53b2dd1b268c 100644
+--- a/drivers/media/platform/chips-media/coda-common.c
++++ b/drivers/media/platform/chips-media/coda-common.c
+@@ -2344,8 +2344,8 @@ static void coda_encode_ctrls(struct coda_ctx *ctx)
+ 		V4L2_CID_MPEG_VIDEO_H264_CHROMA_QP_INDEX_OFFSET, -12, 12, 1, 0);
+ 	v4l2_ctrl_new_std_menu(&ctx->ctrls, &coda_ctrl_ops,
+ 		V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+-		V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE, 0x0,
+-		V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE);
++		V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE, 0x0,
++		V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE);
+ 	if (ctx->dev->devtype->product == CODA_HX4 ||
+ 	    ctx->dev->devtype->product == CODA_7541) {
+ 		v4l2_ctrl_new_std_menu(&ctx->ctrls, &coda_ctrl_ops,
+@@ -2426,7 +2426,7 @@ static void coda_decode_ctrls(struct coda_ctx *ctx)
+ 	ctx->h264_profile_ctrl = v4l2_ctrl_new_std_menu(&ctx->ctrls,
+ 		&coda_ctrl_ops, V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+ 		V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+-		~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
++		~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE) |
+ 		  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
+ 		  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH)),
+ 		V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
 -- 
-regards,
-Stan
+2.25.1
+
