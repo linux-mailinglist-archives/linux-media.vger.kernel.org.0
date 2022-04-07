@@ -2,34 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46A504F7777
-	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 09:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B5E54F77E7
+	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 09:42:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234746AbiDGHbG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Apr 2022 03:31:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52730 "EHLO
+        id S242044AbiDGHot (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Apr 2022 03:44:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238258AbiDGHbF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 03:31:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D047521B
-        for <linux-media@vger.kernel.org>; Thu,  7 Apr 2022 00:29:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 20C0861DF8
-        for <linux-media@vger.kernel.org>; Thu,  7 Apr 2022 07:29:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFB2FC385A0;
-        Thu,  7 Apr 2022 07:29:02 +0000 (UTC)
-Message-ID: <b67e2b78-e637-918f-7f90-1426ec1fadcc@xs4all.nl>
-Date:   Thu, 7 Apr 2022 09:29:01 +0200
+        with ESMTP id S242041AbiDGHom (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 03:44:42 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96EA618B30F
+        for <linux-media@vger.kernel.org>; Thu,  7 Apr 2022 00:42:42 -0700 (PDT)
+Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B32A8499;
+        Thu,  7 Apr 2022 09:42:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1649317360;
+        bh=lpSgMpNOg6ruxjEvyD996AzSm6OMf61Ew/qp0QyAm78=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=Jtjqw6t9Bd7K9K4xJda05eKKsytMao21jxRcZ622lNalB1XyH+6+CHFQ9Yn2xWimV
+         nKaCdyP74RlcAPVz6SJeXJK02rJ8EU6vmuhU7MqcHYBU6CAtIm9/7CSF7M/6IpxjC1
+         HrQThATCherB6yMDxJdCKz88KN10Elm96RpR/sGI=
+Message-ID: <c4ff4f64-b948-97e8-da42-83fb05ef2688@ideasonboard.com>
+Date:   Thu, 7 Apr 2022 10:42:36 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v6 7/8] media: subdev: add v4l2_subdev_get_fmt() helper
- function
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v6 8/8] media: Documentation: add documentation about
+ subdev state
 Content-Language: en-US
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -37,16 +40,15 @@ To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Pratyush Yadav <p.yadav@ti.com>
 References: <20220324080030.216716-1-tomi.valkeinen@ideasonboard.com>
- <20220324080030.216716-8-tomi.valkeinen@ideasonboard.com>
- <691afa22-09b2-1e07-a7fe-0c50cdf950a4@xs4all.nl>
- <7a27ab34-7c74-232d-2ae6-9812d6813739@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <7a27ab34-7c74-232d-2ae6-9812d6813739@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.5 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+ <20220324080030.216716-9-tomi.valkeinen@ideasonboard.com>
+ <275d0222-b690-0d99-4ef5-72ecb070a2cd@xs4all.nl>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <275d0222-b690-0d99-4ef5-72ecb070a2cd@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,105 +56,95 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/04/2022 09:23, Tomi Valkeinen wrote:
-> On 06/04/2022 16:51, Hans Verkuil wrote:
+On 06/04/2022 17:01, Hans Verkuil wrote:
+> 
+> 
+> On 24/03/2022 09:00, Tomi Valkeinen wrote:
+>> Add documentation about centrally managed subdev state.
 >>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> ---
+>>   .../driver-api/media/v4l2-subdev.rst          | 75 +++++++++++++++++++
+>>   1 file changed, 75 insertions(+)
 >>
->> On 24/03/2022 09:00, Tomi Valkeinen wrote:
->>> Add v4l2_subdev_get_fmt() helper function which implements
->>> v4l2_subdev_pad_ops.get_fmt using active state. Subdev drivers that
->>> support active state and do not need to do anything special in their
->>> get_fmt op can use this helper directly for v4l2_subdev_pad_ops.get_fmt.
->>>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> ---
->>>   drivers/media/v4l2-core/v4l2-subdev.c | 18 ++++++++++++++++++
->>>   include/media/v4l2-subdev.h           | 17 +++++++++++++++++
->>>   2 files changed, 35 insertions(+)
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->>> index d8d1c9ef4dc4..cbc5ebff0656 100644
->>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->>> @@ -1029,6 +1029,24 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
->>>   }
->>>   EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
->>>   +int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
->>> +            struct v4l2_subdev_format *format)
->>> +{
->>> +    struct v4l2_mbus_framefmt *fmt;
->>> +
->>> +    if (format->pad >= sd->entity.num_pads)
->>> +        return -EINVAL;
->>> +
->>> +    fmt = v4l2_subdev_get_try_format(sd, state, format->pad);
->>
->> Let's use the new v4l2_subdev_get_pad_format helper here.
+>> diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+>> index 08ea2673b19e..7fa950b1bff0 100644
+>> --- a/Documentation/driver-api/media/v4l2-subdev.rst
+>> +++ b/Documentation/driver-api/media/v4l2-subdev.rst
+>> @@ -518,6 +518,81 @@ The :c:func:`v4l2_i2c_new_subdev` function will call
+>>   :c:type:`i2c_board_info` structure using the ``client_type`` and the
+>>   ``addr`` to fill it.
+>>   
+>> +Centrally managed subdev active state
+>> +-------------------------------------
+>> +
+>> +Traditionally V4L2 subdev drivers maintained internal state for the active
+>> +device configuration. This is often implemented as e.g. an array of struct
+>> +v4l2_mbus_framefmt, one entry for each pad, and similarly for crop and compose
+>> +rectangles.
+>> +
+>> +In addition to the active configuration, each subdev file handle has an array of
+>> +struct v4l2_subdev_pad_config, managed by the V4L2 core, which contains the try
+>> +configuration.
+>> +
+>> +To simplify the subdev drivers the V4L2 subdev API now optionally supports a
+>> +centrally managed active configuration represented by
+>> +:c:type:`v4l2_subdev_state`. One instance of state, which contains the active
+>> +device configuration, is stored in the sub-device itself as part of
+>> +the :c:type:`v4l2_subdev` structure, while the core associates a try state to
+>> +each open file handle, to store the try configuration related to that file
+>> +handle.
+>> +
+>> +Sub-device drivers can opt-in and use state to manage their active configuration
+>> +by initializing the subdevice state with a call to v4l2_subdev_init_finalize()
+>> +before registering the sub-device. They must also call v4l2_subdev_cleanup()
+>> +to release all the allocated resources before unregistering the sub-device.
+>> +The core automatically allocates and initializes a state for each open file
+>> +handle to store the try configurations and frees it when closing the file
+>> +handle.
+>> +
+>> +V4L2 sub-device operations that use both the :ref:`ACTIVE and TRY formats
+>> +<v4l2-subdev-format-whence>` receive the correct state to operate on through
+>> +the 'state' parameter. The state must be locked and unlocked by the
+>> +caller by calling :c:func:`v4l2_subdev_lock_state()` and
+>> +:c:func:`v4l2_subdev_unlock_state()`. The caller can do so by calling the subdev
+>> +operation through the :c:func:`v4l2_subdev_call_state_active()` macro.
+>> +
+>> +Operations that do not receive a state parameter implicitly operate on the
+>> +subdevice active state, which drivers can exclusively access by
+>> +calling :c:func:`v4l2_subdev_lock_and_get_active_state()`. The sub-device active
+>> +state must equally be released by calling :c:func:`v4l2_subdev_unlock_state()`.
+>> +
+>> +Drivers must never manually access the state stored in the :c:type:`v4l2_subdev`
+>> +or in the file handle without going through the designated helpers.
+>> +
+>> +While the V4L2 core passes the correct try or active state to the
+>> +subdevice operations, some existing device drivers pass a NULL state
+>> +when calling operations with :c:func:`v4l2_subdev_call()`. This legacy
+>> +construct causes issues with subdevice drivers that let the V4L2 core
+>> +manage the active state, as they expect to receive the appropriate state
+>> +as a parameter. To help the conversion of subdevice drivers to a managed
+>> +active state without having to convert all callers at the same time, the
+>> +:c:func:`v4l2_subdev_lock_and_return_state()` helper function can be
 > 
-> Right.
+> This is an old name, right? It's no longer called v4l2_subdev_lock_and_return_state.
+> Note that the commit log of patch 4 also refers to this old name.
 > 
->>> +    if (!fmt)
->>> +        return -EINVAL;
->>> +
->>> +    format->format = *fmt;
->>> +
->>> +    return 0;
->>> +}
->>> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
->>> +
->>>   #endif /* CONFIG_MEDIA_CONTROLLER */
->>>     void v4l2_subdev_init(struct v4l2_subdev *sd, const struct v4l2_subdev_ops *ops)
->>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->>> index 700ce376b22c..491bdbb1670c 100644
->>> --- a/include/media/v4l2-subdev.h
->>> +++ b/include/media/v4l2-subdev.h
->>> @@ -1300,6 +1300,23 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
->>>       return sd->active_state;
->>>   }
->>>   +/**
->>> + * v4l2_subdev_get_fmt() - Fill format based on state
->>> + * @sd: subdevice
->>> + * @state: subdevice state
->>> + * @format: pointer to &struct v4l2_subdev_format
->>> + *
->>> + * Fill @format->format field based on the information in the @format struct.
->>> + *
->>> + * This function can be used by the subdev drivers which support active state to
->>> + * implement v4l2_subdev_pad_ops.get_fmt if the subdev driver does not need to
->>> + * do anything special in their get_fmt op.
->>> + *
->>> + * Returns 0 on success, error value otherwise.
->>> + */
->>> +int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
->>> +            struct v4l2_subdev_format *format);
->>
->> My main concern here is the function name: perhaps a prefix like
->> v4l2_subdev_pad_op_get_fmt (or perhaps just _op_ without 'pad') makes
->> it easier to see that this is a pad op helper.
-> 
-> The function can and will be used also in other places. E.g. driver's set_fmt may use it to allow only setting the sink pad:
-> 
-> if (format->pad == MY_SOURCE_PAD)
->     return v4l2_subdev_get_fmt(sd, state, format);
-> 
-> That's perhaps the only other use for the function, as it takes struct v4l2_subdev_format as a parameter, and I think usually that struct is only used with the set_fmt/get_fmt pad ops.
-> 
-> So, I guess "v4l2_subdev_pad_op_get_fmt" is suitable even in the example use case above. Then again, we do have other similar helper funcs without any extra prefixes, e.g. media_entity_operations:
-> 
->     .get_fwnode_pad = v4l2_subdev_get_fwnode_pad_1_to_1,
->     .link_validate = v4l2_subdev_link_validate,
->     .has_route = v4l2_subdev_has_route
+> Actually, isn't this now replaced by the subdev op wrappers? (I might be wrong,
+> I don't have much time to review this patch).
 
-I personally think those should be renamed as well. But it is no big deal either.
+That's correct, good catch. I have removed the parts about the drivers 
+having to use v4l2_subdev_lock_and_get_active_state, and instead mention 
+the additional call wrappers that automate this:
 
-If a helper is specifically meant to be used as an op function, then it should
-be reflected in the name IMHO. If it can be used elsewhere as well, then it
-becomes a gray area. In this particular case I am fine either way.
+> To help the
+> conversion of subdevice drivers to a managed active state without having to
+> convert all callers at the same time, an additional wrapper layer has been
+> added to v4l2_subdev_call(), which handles the NULL case by getting and locking
+> the callee's active state with :c:func:`v4l2_subdev_lock_and_get_active_state()`,
+> and unlocking the state after the call.
 
-Regards,
-
-	Hans
-
-> 
->  Tomi
-
+  Tomi
