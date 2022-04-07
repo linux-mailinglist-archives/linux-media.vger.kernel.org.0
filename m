@@ -2,298 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF74F4F7F5E
-	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 14:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42B314F802D
+	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 15:08:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245372AbiDGMoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Apr 2022 08:44:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37960 "EHLO
+        id S1343572AbiDGNKo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Apr 2022 09:10:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245369AbiDGMoa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 08:44:30 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1CF38BF33;
-        Thu,  7 Apr 2022 05:42:29 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 237App9x000574;
-        Thu, 7 Apr 2022 14:42:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=xEj07bnKbmA4CDhusd7BmrO3eMvYcqE8ELVHnIo7L0Q=;
- b=2T0p5swQZkTcYb7/egmsKIhNRz4hsykUNBIYaVQdKIRiR/dpwktRVjSstflCvRQiDtmP
- qYwq45Aqf5xgyU9VrsfLQs1NGodkgvIb5AjKqWeO8aVseSGwKhjbxuUZsTSMoPEb7CtX
- xqv4FtF5yEf+8PP17HtezKi21LaPpQ69+bwdFBOiSCO5lfeB1PXDmBxYCx7nSVWt+lKY
- x6gdmAFAgl/k7VlHw02sY2ckru2faI+3Bb/K30YiUNDg85+IRnCji3dgAj8/6qKsvHoU
- XVV+Q63UIH+Fa77cK8FnNuI0YrY9wr4LdMJ4JKC654oYAep7MdfstL1/Wri6K16KvW0n LA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f9wr7gyuw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 07 Apr 2022 14:42:02 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 86AE410002A;
-        Thu,  7 Apr 2022 14:41:59 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3132921B50F;
-        Thu,  7 Apr 2022 14:41:59 +0200 (CEST)
-Received: from [10.48.0.142] (10.75.127.44) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Thu, 7 Apr
- 2022 14:41:58 +0200
-Message-ID: <6824a158-9837-c61d-cbf9-c8a2ca46110e@foss.st.com>
-Date:   Thu, 7 Apr 2022 14:41:58 +0200
+        with ESMTP id S1343564AbiDGNKn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 09:10:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 669C125CBAE
+        for <linux-media@vger.kernel.org>; Thu,  7 Apr 2022 06:08:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1649336922;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PYiG2jwpKviTbC79FBF6SS2JRtmy5ygo1J5oP0vh2gA=;
+        b=MAR6r5axZ9YHQVLb+Nm2FBNWKq1GCCUzSzxVu4kwtAoHY0ABIiZlR8m16MaXVkrYXpL/84
+        I4S3cFFHmij10ppfwuSo/8YxJ3E52vf89iRqlCqI03qdnM+Lmi4KLqZH3g8GJyJFFKgPx1
+        xRKdY5T3NYM7QiEaAKMo3UYx63SXA9U=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-260-997_BAMEMzGKISoSqrixhg-1; Thu, 07 Apr 2022 09:08:40 -0400
+X-MC-Unique: 997_BAMEMzGKISoSqrixhg-1
+Received: by mail-wm1-f70.google.com with SMTP id n21-20020a05600c4f9500b0038e3b0aa367so3155022wmq.1
+        for <linux-media@vger.kernel.org>; Thu, 07 Apr 2022 06:08:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=PYiG2jwpKviTbC79FBF6SS2JRtmy5ygo1J5oP0vh2gA=;
+        b=FumdyXZ2dfT8+oGpwMP1mbCj8fUcSVhkYD3ojsW9gRiN8QI7bXRv9dnMJ2DJ+dbfU5
+         htD37RChzvjFl16l0WBSwM/VHVtlstfapkN3E+h2HCqewowrP+4FilU6QSh32zyp1Dti
+         ELC9SwZBXJlITlzUwiAvRPrXSGTGyjxSCdh2h4DL4vY2ZbG8e5DONuGl1mMx+Nb+XIwL
+         BBRcbK00wJVkGmFayMW0AQ8sW/u++JgTIZGFhNg0BWnpw2DnweKGRjD+W5NU91ZWaj5V
+         KG2wBWI61Y9a1b0MkMZxPJVPtQF22nS5+IhgVRs8wnFRgAZGzJq+lex9iB/MsngaHUMW
+         ujWw==
+X-Gm-Message-State: AOAM531H/epqmLnei2c3HOFXeUb5my6yQJpHuIZuPgW1snMOtFJ2I+1b
+        aIL4MfcmRVIAu3xEa+fumgCQgd1iknVLEW+HU1Vv6/atHztmIQqtk6n7GAjOSAyMpangqzbBnNw
+        C2zq21+u2IplCPwycJgB72ao=
+X-Received: by 2002:adf:b60a:0:b0:206:4ba:395c with SMTP id f10-20020adfb60a000000b0020604ba395cmr10724764wre.447.1649336919223;
+        Thu, 07 Apr 2022 06:08:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwusfCJViMsUP5Xtwk6CXg/MU53VnwwpUv0/qc7h8bleBl1fGekB+z/417y+QDwXAGl1LwU0w==
+X-Received: by 2002:adf:b60a:0:b0:206:4ba:395c with SMTP id f10-20020adfb60a000000b0020604ba395cmr10724750wre.447.1649336919002;
+        Thu, 07 Apr 2022 06:08:39 -0700 (PDT)
+Received: from [192.168.1.102] ([92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id e3-20020a056000120300b002061837b5b4sm8531890wrx.85.2022.04.07.06.08.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Apr 2022 06:08:38 -0700 (PDT)
+Message-ID: <29677a4e-42dc-d35e-f487-f8b344678bee@redhat.com>
+Date:   Thu, 7 Apr 2022 15:08:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v2 3/3] ARM: dts: Use new media bus type macros
+Subject: Re: [PATCH 02/15] dma-buf: specify usage while adding fences to
+ dma_resv obj v7
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>
-References: <20220306173905.22990-1-laurent.pinchart@ideasonboard.com>
- <20220306173905.22990-4-laurent.pinchart@ideasonboard.com>
-From:   Alexandre TORGUE <alexandre.torgue@foss.st.com>
-In-Reply-To: <20220306173905.22990-4-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-07_01,2022-04-07_01,2022-02-23_01
-X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        intel-gfx@lists.freedesktop.org
+Cc:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20220407085946.744568-1-christian.koenig@amd.com>
+ <20220407085946.744568-3-christian.koenig@amd.com>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220407085946.744568-3-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hello Christian,
 
-On 3/6/22 18:39, Laurent Pinchart wrote:
-> Now that a header exists with macros for the media interface bus-type
-> values, replace hardcoding numerical constants with the corresponding
-> macros in the DT sources.
+On 4/7/22 10:59, Christian König wrote:
+> Instead of distingting between shared and exclusive fences specify
+> the fence usage while adding fences.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->   arch/arm/boot/dts/imx6ul-14x14-evk.dtsi               |  4 +++-
->   arch/arm/boot/dts/omap3-n900.dts                      |  5 +++--
->   arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts       | 11 +++++++----
->   .../dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi     |  4 +++-
->   .../dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi     |  4 +++-
->   arch/arm/boot/dts/stm32429i-eval.dts                  |  3 ++-
->   arch/arm/boot/dts/stm32mp157c-ev1.dts                 |  3 ++-
->   7 files changed, 23 insertions(+), 11 deletions(-)
+> Rework all drivers to use this interface instead and deprecate the old one.
 > 
 
-sorry for this late answer. Is it possible to split ARM DT patches by 
-vendor ?
+This patch broke compilation for the vc4 DRM driver. I've this patch locally
+which seems to work but I don't know enough about the fence API to know if
+is correct.
 
-Thanks
-Alex
+If you think is the proper fix then I can post it as a patch.
 
+From 3e96db4827ef69b38927476659cbb4469a0246e6 Mon Sep 17 00:00:00 2001
+From: Javier Martinez Canillas <javierm@redhat.com>
+Date: Thu, 7 Apr 2022 14:54:07 +0200
+Subject: [PATCH] drm/vc4: Use newer fence API to fix build error
 
-> diff --git a/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi b/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi
-> index a3fde3316c73..89234bbd02f4 100644
-> --- a/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi
-> +++ b/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi
-> @@ -2,6 +2,8 @@
->   //
->   // Copyright (C) 2015 Freescale Semiconductor, Inc.
->   
-> +#include <dt-bindings/media/video-interfaces.h>
-> +
->   / {
->   	chosen {
->   		stdout-path = &uart1;
-> @@ -170,7 +172,7 @@ &csi {
->   	port {
->   		parallel_from_ov5640: endpoint {
->   			remote-endpoint = <&ov5640_to_parallel>;
-> -			bus-type = <5>; /* Parallel bus */
-> +			bus-type = <MEDIA_BUS_TYPE_BT601>;
->   		};
->   	};
->   };
-> diff --git a/arch/arm/boot/dts/omap3-n900.dts b/arch/arm/boot/dts/omap3-n900.dts
-> index d40c3d2c4914..9cad9d6a83e2 100644
-> --- a/arch/arm/boot/dts/omap3-n900.dts
-> +++ b/arch/arm/boot/dts/omap3-n900.dts
-> @@ -9,6 +9,7 @@
->   #include "omap34xx.dtsi"
->   #include <dt-bindings/input/input.h>
->   #include <dt-bindings/leds/common.h>
-> +#include <dt-bindings/media/video-interfaces.h>
->   
->   /*
->    * Default secure signed bootloader (Nokia X-Loader) does not enable L3 firewall
-> @@ -194,7 +195,7 @@ port@1 {
->   
->   			csi_isp: endpoint {
->   				remote-endpoint = <&csi_cam1>;
-> -				bus-type = <3>; /* CCP2 */
-> +				bus-type = <MEDIA_BUS_TYPE_CCP2>;
->   				clock-lanes = <1>;
->   				data-lanes = <0>;
->   				lane-polarity = <0 0>;
-> @@ -835,7 +836,7 @@ cam1: camera@3e {
->   
->   		port {
->   			csi_cam1: endpoint {
-> -				bus-type = <3>; /* CCP2 */
-> +				bus-type = <MEDIA_BUS_TYPE_CCP2>;
->   				strobe = <1>;
->   				clock-inv = <0>;
->   				crc = <1>;
-> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> index 3c8a7c8b1fdd..1043603fc4a5 100644
-> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-> @@ -7,6 +7,9 @@
->    */
->   
->   /dts-v1/;
-> +
-> +#include <dt-bindings/media/video-interfaces.h>
-> +
->   #include "r8a7742-iwg21d-q7.dts"
->   
->   / {
-> @@ -242,7 +245,7 @@ port {
->   		vin0ep: endpoint {
->   			remote-endpoint = <&cam0ep>;
->   			bus-width = <8>;
-> -			bus-type = <6>;
-> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
->   		};
->   	};
->   };
-> @@ -273,7 +276,7 @@ port {
->   		vin1ep: endpoint {
->   			remote-endpoint = <&cam1ep>;
->   			bus-width = <8>;
-> -			bus-type = <6>;
-> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
->   		};
->   	};
->   };
-> @@ -305,7 +308,7 @@ vin2ep: endpoint {
->   			remote-endpoint = <&cam2ep>;
->   			bus-width = <8>;
->   			data-shift = <8>;
-> -			bus-type = <6>;
-> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
->   		};
->   	};
->   };
-> @@ -335,7 +338,7 @@ port {
->   		vin3ep: endpoint {
->   			remote-endpoint = <&cam3ep>;
->   			bus-width = <8>;
-> -			bus-type = <6>;
-> +			bus-type = <MEDIA_BUS_TYPE_BT656>;
->   		};
->   	};
->   };
-> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> index 40cef0b1d1e6..c73160df619d 100644
-> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-> @@ -7,6 +7,8 @@
->    * Copyright (C) 2020 Renesas Electronics Corp.
->    */
->   
-> +#include <dt-bindings/media/video-interfaces.h>
-> +
->   #define CAM_ENABLED	1
->   
->   &CAM_PARENT_I2C {
-> @@ -26,7 +28,7 @@ port {
->   			CAM_EP: endpoint {
->   				bus-width = <8>;
->   				data-shift = <2>;
-> -				bus-type = <6>;
-> +				bus-type = <MEDIA_BUS_TYPE_BT656>;
->   				pclk-sample = <1>;
->   				remote-endpoint = <&VIN_EP>;
->   			};
-> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
-> index f5e77f024251..a7f5cfec64b8 100644
-> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
-> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
-> @@ -7,6 +7,8 @@
->    * Copyright (C) 2020 Renesas Electronics Corp.
->    */
->   
-> +#include <dt-bindings/media/video-interfaces.h>
-> +
->   #define CAM_ENABLED	1
->   
->   &CAM_PARENT_I2C {
-> @@ -21,7 +23,7 @@ ov7725@21 {
->   		port {
->   			CAM_EP: endpoint {
->   				bus-width = <8>;
-> -				bus-type = <6>;
-> +				bus-type = <MEDIA_BUS_TYPE_BT656>;
->   				remote-endpoint = <&VIN_EP>;
->   			};
->   		};
-> diff --git a/arch/arm/boot/dts/stm32429i-eval.dts b/arch/arm/boot/dts/stm32429i-eval.dts
-> index cb46326a8c75..ecb10613d962 100644
-> --- a/arch/arm/boot/dts/stm32429i-eval.dts
-> +++ b/arch/arm/boot/dts/stm32429i-eval.dts
-> @@ -50,6 +50,7 @@
->   #include "stm32f429-pinctrl.dtsi"
->   #include <dt-bindings/input/input.h>
->   #include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/media/video-interfaces.h>
->   
->   / {
->   	model = "STMicroelectronics STM32429i-EVAL board";
-> @@ -186,7 +187,7 @@ &dcmi {
->   	port {
->   		dcmi_0: endpoint {
->   			remote-endpoint = <&ov2640_0>;
-> -			bus-type = <5>;
-> +			bus-type = <MEDIA_BUS_TYPE_BT601>;
->   			bus-width = <8>;
->   			hsync-active = <0>;
->   			vsync-active = <0>;
-> diff --git a/arch/arm/boot/dts/stm32mp157c-ev1.dts b/arch/arm/boot/dts/stm32mp157c-ev1.dts
-> index e222d2d2cb44..24f59f3b15dc 100644
-> --- a/arch/arm/boot/dts/stm32mp157c-ev1.dts
-> +++ b/arch/arm/boot/dts/stm32mp157c-ev1.dts
-> @@ -8,6 +8,7 @@
->   #include "stm32mp157c-ed1.dts"
->   #include <dt-bindings/gpio/gpio.h>
->   #include <dt-bindings/input/input.h>
-> +#include <dt-bindings/media/video-interfaces.h>
->   
->   / {
->   	model = "STMicroelectronics STM32MP157C eval daughter on eval mother";
-> @@ -90,7 +91,7 @@ &dcmi {
->   	port {
->   		dcmi_0: endpoint {
->   			remote-endpoint = <&ov5640_0>;
-> -			bus-type = <5>;
-> +			bus-type = <MEDIA_BUS_TYPE_BT601>;
->   			bus-width = <8>;
->   			hsync-active = <0>;
->   			vsync-active = <0>;
+The commit 73511edf8b19 ("dma-buf: specify usage while adding fences to
+dma_resv obj v7") ported all the DRM drivers to use the newer fence API
+that specifies the usage with the enum dma_resv_usage rather than doing
+an explicit shared / exclusive distinction.
+
+But the commit didn't do it properly in two callers of the vc4 driver,
+leading to build errors.
+
+Fixes: 73511edf8b19 ("dma-buf: specify usage while adding fences to dma_resv obj v7")
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/gpu/drm/vc4/vc4_gem.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+index 38550317e025..9eaf304fc20d 100644
+--- a/drivers/gpu/drm/vc4/vc4_gem.c
++++ b/drivers/gpu/drm/vc4/vc4_gem.c
+@@ -546,7 +546,8 @@ vc4_update_bo_seqnos(struct vc4_exec_info *exec, uint64_t seqno)
+ 		bo = to_vc4_bo(&exec->bo[i]->base);
+ 		bo->seqno = seqno;
+ 
+-		dma_resv_add_fence(bo->base.base.resv, exec->fence);
++		dma_resv_add_fence(bo->base.base.resv, exec->fence,
++				   DMA_RESV_USAGE_READ);
+ 	}
+ 
+ 	list_for_each_entry(bo, &exec->unref_list, unref_head) {
+@@ -557,7 +558,8 @@ vc4_update_bo_seqnos(struct vc4_exec_info *exec, uint64_t seqno)
+ 		bo = to_vc4_bo(&exec->rcl_write_bo[i]->base);
+ 		bo->write_seqno = seqno;
+ 
+-		dma_resv_add_excl_fence(bo->base.base.resv, exec->fence);
++		dma_resv_add_fence(bo->base.base.resv, exec->fence,
++				   DMA_RESV_USAGE_WRITE);
+ 	}
+ }
+ 
+-- 
+2.35.1
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
