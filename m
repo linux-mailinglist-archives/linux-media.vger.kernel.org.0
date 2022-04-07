@@ -2,84 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E78534F804E
-	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 15:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DCCC4F8056
+	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 15:18:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237128AbiDGNS6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Apr 2022 09:18:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48400 "EHLO
+        id S1343623AbiDGNT5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Apr 2022 09:19:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230482AbiDGNS5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 09:18:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3D70B1C2A0C
-        for <linux-media@vger.kernel.org>; Thu,  7 Apr 2022 06:16:53 -0700 (PDT)
+        with ESMTP id S1343630AbiDGNTy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 09:19:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1577B25DA97
+        for <linux-media@vger.kernel.org>; Thu,  7 Apr 2022 06:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1649337412;
+        s=mimecast20190719; t=1649337473;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=vbRblRxq/SE2km/rkmjkdSJvts57gYuZ3JZvtprFnTs=;
-        b=EgH0WdLqZCJ6UQnvEwLUSU7YKr4zUWq2cnKNit5ghhI5tVeTWJvrZIzWjwX1MVJ0EStlz/
-        BgAgdsxlepfTCPGBwG1gY63mMXE0Co4cepTBDWo7uOoN7lgzcRqrYRNhmnlFi/C9GifhKE
-        SA1Giz8n75iRCVa80UdowboMy8FTIHk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=8Xg006do2juJkqTWAxGfwqxVTFvDtf8Ouv8ifluSAu0=;
+        b=GXz3RdQi6O2Rf4KRNuP0qwtKUKoqvW0o0w30DH9tttGzfko1zVn8V1XlpJxrUWAFrJoKZE
+        7TuYpK/Lx4BUAfRgpr2m7J73qYBhUw89SuQIVd/x9ZWhKWKYX9Hjm+1tIZFB/Yb+NRXOB1
+        9DlFJoqw7f6Apvn3svF0wDDNemUEXpE=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-8NYf4yZoP_eXPfYJvYftmg-1; Thu, 07 Apr 2022 09:16:51 -0400
-X-MC-Unique: 8NYf4yZoP_eXPfYJvYftmg-1
-Received: by mail-wm1-f72.google.com with SMTP id m35-20020a05600c3b2300b0038c90ef2dceso4564533wms.4
-        for <linux-media@vger.kernel.org>; Thu, 07 Apr 2022 06:16:51 -0700 (PDT)
+ us-mta-14-Ti2SOTSCNneybkWIZKMfgA-1; Thu, 07 Apr 2022 09:17:51 -0400
+X-MC-Unique: Ti2SOTSCNneybkWIZKMfgA-1
+Received: by mail-lj1-f200.google.com with SMTP id a24-20020a2e7f18000000b0024b1ff3b41dso2136586ljd.14
+        for <linux-media@vger.kernel.org>; Thu, 07 Apr 2022 06:17:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=vbRblRxq/SE2km/rkmjkdSJvts57gYuZ3JZvtprFnTs=;
-        b=12wN0ifHlG3yncg5N/CQuq+24E4BPqB8NprblIdmYZwLgyZN+FMYG4sNrWT2VA5bNR
-         qR000tbmwnbKwqnFZdsW/HqerJxnm1EftF2rsN3hPuwiHB/GinW1p5l74D18ORG1LsiE
-         BMbQlRgnrHzPPdMkEDMz0M0xHIAJh8ea1joPvAIw5h0nrp++07j9GQOiQQkQRS3TJ74n
-         FMKwm47dJ//2L66lrBEjnI6h7GwzDYD4tt5f3lXFS0LEoJzYW961mXVIysxFdjoEb0gc
-         RpOhMWDN0w/HhBp2HzmUF7dAEt2ZBY13NWU0mvOWjMoK81GTFlC2kn368vsJCNcPmtqn
-         mBYg==
-X-Gm-Message-State: AOAM532Xt3MkfSsgjnVpX+Xvt6HC7GXzi25d4YenLE1+bSRK00T2kIhE
-        3eU/h+ny0qnleRqSljYYfcHJyiLWLfFFJXzspa2BwQC3aevOfMp3mBU6upQD4kqPPe7yqjeoN1I
-        5RYZQ2zpi1iCYWsw+H7SXzTw=
-X-Received: by 2002:a05:600c:590:b0:38c:804e:4197 with SMTP id o16-20020a05600c059000b0038c804e4197mr12313545wmd.22.1649337410262;
-        Thu, 07 Apr 2022 06:16:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqkG5lfR25b85G/v8443+CqBWY7ukzbb2XsMCNk9TeIagKJa+MIeW8P/wBh5/pVz1uMvC5wQ==
-X-Received: by 2002:a05:600c:590:b0:38c:804e:4197 with SMTP id o16-20020a05600c059000b0038c804e4197mr12313529wmd.22.1649337410062;
-        Thu, 07 Apr 2022 06:16:50 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id v5-20020adfe4c5000000b001edc1e5053esm16607003wrm.82.2022.04.07.06.16.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Apr 2022 06:16:49 -0700 (PDT)
-Message-ID: <aa949d43-5c88-377c-9f93-1886f934bbca@redhat.com>
-Date:   Thu, 7 Apr 2022 15:16:48 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8Xg006do2juJkqTWAxGfwqxVTFvDtf8Ouv8ifluSAu0=;
+        b=GMt/0Yk7C2Xa4iRfWGQmmPJYEl+8z3KNhTjby8DyevZq8+t6XYpU0iOQ/JuKwCNIm9
+         EMdNc1gTr5nszdMGlZHrNnP8V0FkTRi6JGZgUX4dw4VrwQnrBFv4etnMpvhocW5jHQoL
+         R+4NX9GThSgPaup39ZzbUuoLMQ4DUuXwx81/A8qk73SGyHSNb+kOgjiH7+j0bbrhvoZy
+         60fSxGrB2GZTenANU4BlGtuErd6SSLMMBfdnNuAiL59Oak/as9MHj6tDlr+qmven8Nvm
+         CzScZrhquIVKj02NpO0DqYjxayhzq1TBdmHDWn3eskGdHZwSN8LqAD7SSl8FmV40YJSQ
+         POPw==
+X-Gm-Message-State: AOAM531/pg8Pruznnk8tZCcekhbwWa1tTTTXOyHoofa8Rja53kNP8m/p
+        iuDesbiODttX1xx8iYOVXRMfLa+QrM9gsYwkiyqEihsjpIQapDeDkEu89/cGBA8jxwPGng5Xgp7
+        T47ZzJFcJOqUrGfpIfop/4aAKXz2x0VGuH+k6xPA=
+X-Received: by 2002:a2e:9ad7:0:b0:24b:fa3:6a8d with SMTP id p23-20020a2e9ad7000000b0024b0fa36a8dmr8750731ljj.363.1649337470353;
+        Thu, 07 Apr 2022 06:17:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzOH3NMQzvLRuhgYGmMuiioeRpPbM3obm6q7/YkChssQxnH4v5W6zhC8c8fZS+DA2TNFh36USctJCoGkt+xtXA=
+X-Received: by 2002:a2e:9ad7:0:b0:24b:fa3:6a8d with SMTP id
+ p23-20020a2e9ad7000000b0024b0fa36a8dmr8750702ljj.363.1649337469936; Thu, 07
+ Apr 2022 06:17:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 02/15] dma-buf: specify usage while adding fences to
- dma_resv obj v7
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        intel-gfx@lists.freedesktop.org
-References: <20220407085946.744568-1-christian.koenig@amd.com>
- <20220407085946.744568-3-christian.koenig@amd.com>
- <29677a4e-42dc-d35e-f487-f8b344678bee@redhat.com>
- <79648b84-e7d0-4c38-d8f1-cc569238ee7e@amd.com>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <79648b84-e7d0-4c38-d8f1-cc569238ee7e@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+References: <20220407105724.308930-1-hpa@redhat.com> <20220407115133.GL3293@kadam>
+In-Reply-To: <20220407115133.GL3293@kadam>
+From:   Kate Hsuan <hpa@redhat.com>
+Date:   Thu, 7 Apr 2022 21:17:38 +0800
+Message-ID: <CAEth8oG_GAuammtSqKzyj+Vq6ZsQJJOEeFhgxYhxXHViDYvkow@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: ipu3: Fix AWB x_start position when
+ rightmost stripe is used
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Hans De Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,53 +79,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/7/22 15:13, Christian König wrote:
-> Am 07.04.22 um 15:08 schrieb Javier Martinez Canillas:
->> Hello Christian,
->>
->> On 4/7/22 10:59, Christian König wrote:
->>> Instead of distingting between shared and exclusive fences specify
->>> the fence usage while adding fences.
->>>
->>> Rework all drivers to use this interface instead and deprecate the old one.
->>>
->> This patch broke compilation for the vc4 DRM driver.
-> 
-> My apologies for that. I've tried really hard to catch all cases, but 
-> looks like I missed some.
-> 
+Hi Dan,
 
-No worries, I know that's not easy to get all callers when doing these
-subsystem wide changes.
+On Thu, Apr 7, 2022 at 7:52 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> On Thu, Apr 07, 2022 at 06:57:24PM +0800, Kate Hsuan wrote:
+> > A not calibrated x_start setting would result in an incorrect AWB location
+> > configuration on a sensor when only the rightmost stripe is used. x_start
+> > should be calibrated by subtracting the stripe offset to set the coordinate
+> > to the correct position on the second stripe.
+> >
 
->> I've this patch locally
->> which seems to work but I don't know enough about the fence API to know if
->> is correct.
->>
->> If you think is the proper fix then I can post it as a patch.
-> 
-> Yes, that patch looks absolutely correct to me.
+>
+> I wish the commit description said more about what the bug looks like to
+> the user.  This is the front facing camera, right?  Is part of the video
+> blank or what's the deal?
+
+This is IPU3 image processor. I tried to fix the configuration issues
+on stripe 1 coordinate settings.
+
+>
+> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> > ---
+> > Correct the patch. The correction should be awb, not awb_fr.
+>
+> I tried to review the original patch and it was impossible.  I saw
+> you're from an @redhat.com email address so I decided it must be right.
+>
+> I kind of get that you need to be a domain expert to review these
+> patches but this function is such a mess...
+
+Sorry for the misunderstanding in my comments.
+Since I made some mistakes on my v1 patch, so I had corrected this
+part and quickly sent the v2 patch. You are welcome to pinpoint the
+errors for my v2 patch. I could fix them.
+
+Thank you.
+
+>
+> regards,
+> dan carpenter
 >
 
-Thanks for looking at it.
- 
-> Feel free to add an Reviewed-by: Christian König 
-> <christian.koenig@amd.com> and CC me so that I can push it to 
-> drm-misc-next ASAP.
-> 
 
-I can also do it after posting (just to get a proper Link: tag with dim)
-
-Already have another set that wanted to push but found this issue after
-doing a build test before pushing.
-
-> Thanks,
-> Christian.
-> 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+BR,
+Kate
 
