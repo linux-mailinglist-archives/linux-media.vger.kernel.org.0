@@ -2,64 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC28B4F7B63
-	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 11:16:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8218A4F7B71
+	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 11:19:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243709AbiDGJRv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Apr 2022 05:17:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56298 "EHLO
+        id S235051AbiDGJVh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Apr 2022 05:21:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243797AbiDGJRl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 05:17:41 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048755A595
-        for <linux-media@vger.kernel.org>; Thu,  7 Apr 2022 02:15:39 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id q26so5629218edc.7
-        for <linux-media@vger.kernel.org>; Thu, 07 Apr 2022 02:15:38 -0700 (PDT)
+        with ESMTP id S231387AbiDGJVf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 05:21:35 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355981DB7F0
+        for <linux-media@vger.kernel.org>; Thu,  7 Apr 2022 02:19:36 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id i27so9503812ejd.9
+        for <linux-media@vger.kernel.org>; Thu, 07 Apr 2022 02:19:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=wOZr49sb/Ny9apGippa8fdUG/E6tcaVDX+ivqlNiEoY=;
-        b=OUJdfm0Skg/SevIzmzikdz6fZur6D0CXVIcupP3mXL+yxFUOW0AUukZZ3mPDZIAqz6
-         oOojssy3IAFP3UuvZOjSFUnfyfVG+F2Ur+jroH3JX/9Xuqbcy6tNPI9BF6qzAls8Pyes
-         O5Tz5E9oaCFqu9ZnbxNI31yVF2KMClPL1HDtg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=wOZr49sb/Ny9apGippa8fdUG/E6tcaVDX+ivqlNiEoY=;
-        b=gZjGrYz0IuY6tb+4jRsdqMDIXin1sdGHPnHgOio2lPwXN1lGHgAnq5TXxT74pI5js5
-         WCILpUV7HEIbIR7Ed6ht0CWJnh77SOX+0jk++saw5oHFaGgfYjXNv2YLOAoeUTD2P48B
-         voW+/dMn1BY7o38/C+/ezuDtQYN5yheXFZTCkTieFyDzXp50Ocb4tyErkAglnVBJO65a
-         Uc+lqSQYcMriAviQ/Z7yyfDE9LFZvL2rnGHrKTYCN7HyqpbRLeRe/hBoHrEirfc/ZkJX
-         Ns3rLV/pNiHVrv6ovNZC/Hc9Q4SOzD7Dg4qiWwfYuAcRC6CX3EssuzT3npdrZnAehFBy
-         UIzg==
-X-Gm-Message-State: AOAM531MOlnPxTdmaoQDKkDsXGUX7eqPKqO9GEja94CJo1EX3zTjMkLK
-        EJz34fuzbdRzs+V/cwQjxXYrmA==
-X-Google-Smtp-Source: ABdhPJzmpKY3RGEMTeuwi1iMVD/SXnxu3nIwPkgnTiZcLFENqdqDVYQLLrvfFPDqAev7Uq5qFJsuMA==
-X-Received: by 2002:a05:6402:5186:b0:419:651e:5137 with SMTP id q6-20020a056402518600b00419651e5137mr13192197edd.335.1649322937637;
-        Thu, 07 Apr 2022 02:15:37 -0700 (PDT)
+        bh=tl9nBOnLqqP1/acS+yYHjDz2pgRvrY9cqBHbFKj8Fnc=;
+        b=CBDEbkCCAkqWcu7rwSRxHuzvDQzAI6q2gOWepIQXIDBbJj5cPNZbu6U8yOAL3lfJYR
+         xhKFp5hUopFdDtyiwJfVkQdRMsq1huLcJV7GkTRXOLg8M8+oumKCgOrVEZHJFOeZaqug
+         QaS7Fun7MTS/4JRgL7uvADTsO+5Y9rvnLTgKw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=tl9nBOnLqqP1/acS+yYHjDz2pgRvrY9cqBHbFKj8Fnc=;
+        b=XyiwIaKQJIV68ti86YKMHABQkeX+oC3bw0o7DzPOjrL4yQgZ0zS56IF2OWhi0zmCIY
+         e09wf//J1vMfLQtjDvt2d12MPXlbZh8TkB8F3Bpa8z6QfhnTWEOwkFmeI1dmLWkkRFzt
+         Nlne2uk7SVT8+DIC/q2xGcMO+IG2a0zEHtR8W41NJ1DZhWlLRGZLBhjwQcgbjNSv87gu
+         JlSo8CWufeARfMN1A11R8qbo/3hqvqqho1G+3hnSjjQicbHcShaYBSMaR7qP3TVb/wuJ
+         GvebLB5CM2z763uV10XAqKYAEFvlD9sAZZ7gbHKcF8decs+LqMXkDVhzmkiFfGjAOEx3
+         R57Q==
+X-Gm-Message-State: AOAM532oX0Ka1WWStLmlz/r35qQhtpPVanmHqRx/jhsIO5NHnShaM2/s
+        dIHABydubVjwJGOLK16NI2mPtg==
+X-Google-Smtp-Source: ABdhPJzUgJqDlmh4A5Ht8QOIfc1rzltJqxuNxKdfx/yt4VDI386e+Hs+rpvAXO7SRwNbW/OkTGfw7g==
+X-Received: by 2002:a17:907:6e16:b0:6e4:de0d:d93 with SMTP id sd22-20020a1709076e1600b006e4de0d0d93mr12253676ejc.29.1649323174807;
+        Thu, 07 Apr 2022 02:19:34 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id i14-20020a50cfce000000b0041cbaba8743sm7069038edk.56.2022.04.07.02.15.36
+        by smtp.gmail.com with ESMTPSA id r19-20020a17090638d300b006d6e4fc047bsm7585498ejd.11.2022.04.07.02.19.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 02:15:37 -0700 (PDT)
-Date:   Thu, 7 Apr 2022 11:15:35 +0200
+        Thu, 07 Apr 2022 02:19:34 -0700 (PDT)
+Date:   Thu, 7 Apr 2022 11:19:32 +0200
 From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Christian =?iso-8859-1?Q?K=F6nig?= 
         <ckoenig.leichtzumerken@gmail.com>
 Cc:     daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        intel-gfx@lists.freedesktop.org
-Subject: Re: DMA-resv usage
-Message-ID: <Yk6rt7Vpm038eGMZ@phenom.ffwll.local>
+        intel-gfx@lists.freedesktop.org,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Waiman Long <longman@redhat.com>,
+        Boqun Feng <boqun.feng@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 15/15] seqlock: drop seqcount_ww_mutex_t
+Message-ID: <Yk6spNv/zSCB2ewe@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+        linux-kernel@vger.kernel.org
 References: <20220407085946.744568-1-christian.koenig@amd.com>
+ <20220407085946.744568-16-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220407085946.744568-1-christian.koenig@amd.com>
+In-Reply-To: <20220407085946.744568-16-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -71,17 +86,82 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 07, 2022 at 10:59:31AM +0200, Christian König wrote:
-> Hi Daniel,
+On Thu, Apr 07, 2022 at 10:59:46AM +0200, Christian König wrote:
+> Daniel pointed out that this series removes the last user of
+> seqcount_ww_mutex_t, so let's drop this.
 > 
-> only patch #2 had some significant changes. The rest ist pretty much the
-> same except for the dropped exynos change and the added cleanup for the
-> seqlock.
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Waiman Long <longman@redhat.com>
+> Cc: Boqun Feng <boqun.feng@gmail.com>
+> Cc: linux-kernel@vger.kernel.org
 
-Reviewed that patch, I plan to do a full review of the docs and hopefully
-also a bit of all the various users once it's all landed.
+Yeah I don't think we'll ever need this again, ww_mutex aren't common and
+the ww_mutex+seqlock thing wasn't the brighest idea.
+
+Peter/Ingo, assuming you agree, can you ack this for merging through
+drm-misc, or want to pick this up later on when the last user disappeared
+in Linus' tree?
 
 Cheers, Daniel
+
+> ---
+>  include/linux/seqlock.h | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
+> index 37ded6b8fee6..3926e9027947 100644
+> --- a/include/linux/seqlock.h
+> +++ b/include/linux/seqlock.h
+> @@ -17,7 +17,6 @@
+>  #include <linux/kcsan-checks.h>
+>  #include <linux/lockdep.h>
+>  #include <linux/mutex.h>
+> -#include <linux/ww_mutex.h>
+>  #include <linux/preempt.h>
+>  #include <linux/spinlock.h>
+>  
+> @@ -164,7 +163,7 @@ static inline void seqcount_lockdep_reader_access(const seqcount_t *s)
+>   * static initializer or init function. This enables lockdep to validate
+>   * that the write side critical section is properly serialized.
+>   *
+> - * LOCKNAME:	raw_spinlock, spinlock, rwlock, mutex, or ww_mutex.
+> + * LOCKNAME:	raw_spinlock, spinlock, rwlock or mutex
+>   */
+>  
+>  /*
+> @@ -184,7 +183,6 @@ static inline void seqcount_lockdep_reader_access(const seqcount_t *s)
+>  #define seqcount_spinlock_init(s, lock)		seqcount_LOCKNAME_init(s, lock, spinlock)
+>  #define seqcount_rwlock_init(s, lock)		seqcount_LOCKNAME_init(s, lock, rwlock)
+>  #define seqcount_mutex_init(s, lock)		seqcount_LOCKNAME_init(s, lock, mutex)
+> -#define seqcount_ww_mutex_init(s, lock)		seqcount_LOCKNAME_init(s, lock, ww_mutex)
+>  
+>  /*
+>   * SEQCOUNT_LOCKNAME()	- Instantiate seqcount_LOCKNAME_t and helpers
+> @@ -277,7 +275,6 @@ SEQCOUNT_LOCKNAME(raw_spinlock, raw_spinlock_t,  false,    s->lock,        raw_s
+>  SEQCOUNT_LOCKNAME(spinlock,     spinlock_t,      __SEQ_RT, s->lock,        spin,     spin_lock(s->lock))
+>  SEQCOUNT_LOCKNAME(rwlock,       rwlock_t,        __SEQ_RT, s->lock,        read,     read_lock(s->lock))
+>  SEQCOUNT_LOCKNAME(mutex,        struct mutex,    true,     s->lock,        mutex,    mutex_lock(s->lock))
+> -SEQCOUNT_LOCKNAME(ww_mutex,     struct ww_mutex, true,     &s->lock->base, ww_mutex, ww_mutex_lock(s->lock, NULL))
+>  
+>  /*
+>   * SEQCNT_LOCKNAME_ZERO - static initializer for seqcount_LOCKNAME_t
+> @@ -304,8 +301,7 @@ SEQCOUNT_LOCKNAME(ww_mutex,     struct ww_mutex, true,     &s->lock->base, ww_mu
+>  	__seqprop_case((s),	raw_spinlock,	prop),			\
+>  	__seqprop_case((s),	spinlock,	prop),			\
+>  	__seqprop_case((s),	rwlock,		prop),			\
+> -	__seqprop_case((s),	mutex,		prop),			\
+> -	__seqprop_case((s),	ww_mutex,	prop))
+> +	__seqprop_case((s),	mutex,		prop))
+>  
+>  #define seqprop_ptr(s)			__seqprop(s, ptr)
+>  #define seqprop_sequence(s)		__seqprop(s, sequence)
+> -- 
+> 2.25.1
+> 
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
