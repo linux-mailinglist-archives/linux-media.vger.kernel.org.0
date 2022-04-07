@@ -2,103 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41AB94F7549
-	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 07:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 674F34F75F3
+	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 08:26:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240847AbiDGFYj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Apr 2022 01:24:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43374 "EHLO
+        id S241072AbiDGG2N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Apr 2022 02:28:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237688AbiDGFYf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 01:24:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A360119250
-        for <linux-media@vger.kernel.org>; Wed,  6 Apr 2022 22:22:35 -0700 (PDT)
-Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43FB0499;
-        Thu,  7 Apr 2022 07:22:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1649308952;
-        bh=lm/82HxnVmCNwXVBuAC6hsJxDHCU91WqEz8pMnWVOaA=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=utwN4zqIPxiNnNIk5pM4K+PNe9+AHJoK3yEbdz1uJB42lKgDWSIYIeox1kGu1lEzp
-         SVbGMPh8rXKKL2Jyh/i4QarLjw5SrToTrj8EBlUttNNq0ShTkf+d09M8ToYtdYnOum
-         6z7S2ySk3t6uJUh956dB0nTWVESrSLVYTgzDJPUk=
-Message-ID: <8790d418-a00d-8c7b-6798-4c0dc6f42087@ideasonboard.com>
-Date:   Thu, 7 Apr 2022 08:22:29 +0300
+        with ESMTP id S241069AbiDGG2K (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 02:28:10 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DDDB13D35
+        for <linux-media@vger.kernel.org>; Wed,  6 Apr 2022 23:26:11 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id ch16-20020a17090af41000b001ca867ef52bso5809486pjb.0
+        for <linux-media@vger.kernel.org>; Wed, 06 Apr 2022 23:26:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2y2aQMw6DXdFbBwFQmMPUtwUXg1CM/Sg7zthtTD89zA=;
+        b=lrvmjc/ocqMvjxrVJn1iejNplqOh5eckqd+xgWiTCAOnb0K8atrukXt+XTwwFL9Q0O
+         9iz8okmw/j4wcw0dfT4LRPyLmAve1XMTdn3Mh36DJZ1uPftiyh8a5Y4jEm9OBVK9Hfbg
+         5IbyVmP0eMOvuzxorbKSZ8K83s0nPskuaMnEupwp3H4EhXgQb0XV0/AWrfNAyntaEneg
+         X+C43ufbMzkzIO0720Gv9EqGYqtMco+EyKDCCSZgpbMfTNFh8eLlvODAhSRCA2l2S2LO
+         Jz/IG7qNb5oToQajAeRVGsyoeLsl3hTfibbKmQDoixIh9L5mehBlhXxCj4HFSDEpFgao
+         EK1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2y2aQMw6DXdFbBwFQmMPUtwUXg1CM/Sg7zthtTD89zA=;
+        b=21hO/PfPnCErcaUG9zWkI6e0zBq9pa8XJO5I4Cvf/rjGQZPkFc/GfO3aUPosW+9cEL
+         0R8ps1t3lPxItF8qrTPOaABQDoOhFHSsiRW3n+sJzOCVIs42MDG0TNH4gkuuMW83tsUs
+         9anCrRydSn4Ijnk44FJqzps3Ynard91cJ8eLVCA05E/8P3oTJ5FHPchkkqe76ei6QFqp
+         fIIol1tnu5k65jDaUAQxAjkWghPSAlW11vTyR+Q0aWJuTq71tU7gZ59PGOVSgGk8aLpy
+         J8wC8/C6KKt5ji5S1Bf25Txyk879Vh0i2K5gfyH1qMqCiWVPsgUfrIidD9jrn45B2Jjj
+         Eo1Q==
+X-Gm-Message-State: AOAM5331RS5tBTpty4m19A5DBQMYx+hpbMR2pfmO0znE9/QkjzuF2UQx
+        yN+WXkRwIKk/Gj2FiHTp1kImYb99y4k=
+X-Google-Smtp-Source: ABdhPJzlMFF+J3U3yPrw9eRc2I/NwuBY1wJuZscLVDg1s5PgNvou6r4lau7EVhkEmfDJrpyim/c/+A==
+X-Received: by 2002:a17:902:d64a:b0:156:5b17:415 with SMTP id y10-20020a170902d64a00b001565b170415mr12917723plh.118.1649312771037;
+        Wed, 06 Apr 2022 23:26:11 -0700 (PDT)
+Received: from localhost.localdomain ([61.79.190.16])
+        by smtp.gmail.com with ESMTPSA id m18-20020a056a00081200b004faeae3a291sm21508053pfk.26.2022.04.06.23.26.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Apr 2022 23:26:10 -0700 (PDT)
+From:   Kwang Son <dev.kwang.son@gmail.com>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org
+Subject: [PATCH] media: docs: Fix vimc default pipeline graph
+Date:   Thu,  7 Apr 2022 15:26:07 +0900
+Message-Id: <20220407062607.27564-1-dev.kwang.son@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v6 3/8] media: subdev: add v4l2_subdev_get_pad_* helpers
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pratyush Yadav <p.yadav@ti.com>
-References: <20220324080030.216716-1-tomi.valkeinen@ideasonboard.com>
- <20220324080030.216716-4-tomi.valkeinen@ideasonboard.com>
- <b3276db7-05fc-a79e-3fd7-10d25feb5bc6@xs4all.nl>
- <e4bb1a30-67ba-30b1-63fb-52b0724b9612@xs4all.nl>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <e4bb1a30-67ba-30b1-63fb-52b0724b9612@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/04/2022 16:52, Hans Verkuil wrote:
-> 
-> 
-> On 06/04/2022 15:36, Hans Verkuil wrote:
->>
->>
->> On 24/03/2022 09:00, Tomi Valkeinen wrote:
->>> The subdev state is now used for both try and active cases. We should
->>> rename v4l2_subdev_get_try_* helpers to v4l2_subdev_get_pad_*, but due
->>> to the size of that change lets add temporary wrapper helpers which can
->>> be used in drivers that support active state.
->>>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>
->> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>
->>> ---
->>>   include/media/v4l2-subdev.h | 10 ++++++++++
->>>   1 file changed, 10 insertions(+)
->>>
->>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->>> index 1bbe4383966c..b9587a265b32 100644
->>> --- a/include/media/v4l2-subdev.h
->>> +++ b/include/media/v4l2-subdev.h
->>> @@ -1042,6 +1042,16 @@ v4l2_subdev_get_try_compose(struct v4l2_subdev *sd,
->>>   	return &state->pads[pad].try_compose;
->>>   }
->>>   
->>> +/* Temprary helpers until v4l2_subdev_get_try_* functions have been renamed */
->>> +#define v4l2_subdev_get_pad_format(sd, state, pad) \
->>> +	v4l2_subdev_get_try_format(sd, state, pad)
->>> +
->>> +#define v4l2_subdev_get_pad_crop(sd, state, pad) \
->>> +	v4l2_subdev_get_try_crop(sd, state, pad)
->>> +
->>> +#define v4l2_subdev_get_pad_compose(sd, state, pad) \
->>> +	v4l2_subdev_get_try_compose(sd, state, pad)
-> 
-> Actually, wouldn't it be better to rename the try helpers and
-> add #defines for the old names?
-> 
-> I think I prefer that.
+RGB/YUV Input is sensor type and it should be sub-dev node.
+To generate this dot graph
 
-Yes, that's a good idea.
+sudo modprobe vimc
+media-ctl --print-dot
 
-  Tomi
+Signed-off-by: Kwang Son <dev.kwang.son@gmail.com>
+---
+ Documentation/admin-guide/media/vimc.dot | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/admin-guide/media/vimc.dot b/Documentation/admin-guide/media/vimc.dot
+index 57863a13fa39..8e829c164626 100644
+--- a/Documentation/admin-guide/media/vimc.dot
++++ b/Documentation/admin-guide/media/vimc.dot
+@@ -9,14 +9,14 @@ digraph board {
+ 	n00000003:port0 -> n00000008:port0 [style=bold]
+ 	n00000003:port0 -> n0000000f [style=bold]
+ 	n00000005 [label="{{<port0> 0} | Debayer A\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+-	n00000005:port1 -> n00000017:port0
++	n00000005:port1 -> n00000015:port0
+ 	n00000008 [label="{{<port0> 0} | Debayer B\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+-	n00000008:port1 -> n00000017:port0 [style=dashed]
++	n00000008:port1 -> n00000015:port0 [style=dashed]
+ 	n0000000b [label="Raw Capture 0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+ 	n0000000f [label="Raw Capture 1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+-	n00000013 [label="RGB/YUV Input\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+-	n00000013 -> n00000017:port0 [style=dashed]
+-	n00000017 [label="{{<port0> 0} | Scaler\n/dev/v4l-subdev4 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+-	n00000017:port1 -> n0000001a [style=bold]
+-	n0000001a [label="RGB/YUV Capture\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
++	n00000013 [label="{{} | RGB/YUV Input\n/dev/v4l-subdev4 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
++	n00000013:port0 -> n00000015:port0 [style=dashed]
++	n00000015 [label="{{<port0> 0} | Scaler\n/dev/v4l-subdev5 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++	n00000015:port1 -> n00000018 [style=bold]
++	n00000018 [label="RGB/YUV Capture\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+ }
+-- 
+2.25.1
+
