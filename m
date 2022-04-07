@@ -2,127 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DCCC4F8056
-	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 15:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B2E04F805B
+	for <lists+linux-media@lfdr.de>; Thu,  7 Apr 2022 15:20:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343623AbiDGNT5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Apr 2022 09:19:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51592 "EHLO
+        id S239184AbiDGNWL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Apr 2022 09:22:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343630AbiDGNTy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 09:19:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1577B25DA97
-        for <linux-media@vger.kernel.org>; Thu,  7 Apr 2022 06:17:54 -0700 (PDT)
+        with ESMTP id S231495AbiDGNWI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 09:22:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 786E33055B
+        for <linux-media@vger.kernel.org>; Thu,  7 Apr 2022 06:20:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1649337473;
+        s=mimecast20190719; t=1649337607;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8Xg006do2juJkqTWAxGfwqxVTFvDtf8Ouv8ifluSAu0=;
-        b=GXz3RdQi6O2Rf4KRNuP0qwtKUKoqvW0o0w30DH9tttGzfko1zVn8V1XlpJxrUWAFrJoKZE
-        7TuYpK/Lx4BUAfRgpr2m7J73qYBhUw89SuQIVd/x9ZWhKWKYX9Hjm+1tIZFB/Yb+NRXOB1
-        9DlFJoqw7f6Apvn3svF0wDDNemUEXpE=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding;
+        bh=qwnyzBHU2ps0lg/u42dFlsQayDte7IETW+1w7Wx0wc0=;
+        b=T45evgTkbJh4KqKuHEUTVjVD1QQtL8X9lZlcXMPhkUxOI9ueih9WAyHEP1zHaoLn6hnoZr
+        YQUEJDsPD49FVL/iv9mw1sZn8u9KvwNRiv85PoIAtHjTrqj2/djD6dRiZmL8JO0Gbsf9m8
+        5XWonHfEnqbXWjZ00StBEvy1GaJAJIg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-14-Ti2SOTSCNneybkWIZKMfgA-1; Thu, 07 Apr 2022 09:17:51 -0400
-X-MC-Unique: Ti2SOTSCNneybkWIZKMfgA-1
-Received: by mail-lj1-f200.google.com with SMTP id a24-20020a2e7f18000000b0024b1ff3b41dso2136586ljd.14
-        for <linux-media@vger.kernel.org>; Thu, 07 Apr 2022 06:17:51 -0700 (PDT)
+ us-mta-439-I4PURUUuOyOOIbKY6UL0lQ-1; Thu, 07 Apr 2022 09:20:06 -0400
+X-MC-Unique: I4PURUUuOyOOIbKY6UL0lQ-1
+Received: by mail-wr1-f70.google.com with SMTP id k3-20020adfb343000000b0020605c1e785so1259323wrd.18
+        for <linux-media@vger.kernel.org>; Thu, 07 Apr 2022 06:20:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8Xg006do2juJkqTWAxGfwqxVTFvDtf8Ouv8ifluSAu0=;
-        b=GMt/0Yk7C2Xa4iRfWGQmmPJYEl+8z3KNhTjby8DyevZq8+t6XYpU0iOQ/JuKwCNIm9
-         EMdNc1gTr5nszdMGlZHrNnP8V0FkTRi6JGZgUX4dw4VrwQnrBFv4etnMpvhocW5jHQoL
-         R+4NX9GThSgPaup39ZzbUuoLMQ4DUuXwx81/A8qk73SGyHSNb+kOgjiH7+j0bbrhvoZy
-         60fSxGrB2GZTenANU4BlGtuErd6SSLMMBfdnNuAiL59Oak/as9MHj6tDlr+qmven8Nvm
-         CzScZrhquIVKj02NpO0DqYjxayhzq1TBdmHDWn3eskGdHZwSN8LqAD7SSl8FmV40YJSQ
-         POPw==
-X-Gm-Message-State: AOAM531/pg8Pruznnk8tZCcekhbwWa1tTTTXOyHoofa8Rja53kNP8m/p
-        iuDesbiODttX1xx8iYOVXRMfLa+QrM9gsYwkiyqEihsjpIQapDeDkEu89/cGBA8jxwPGng5Xgp7
-        T47ZzJFcJOqUrGfpIfop/4aAKXz2x0VGuH+k6xPA=
-X-Received: by 2002:a2e:9ad7:0:b0:24b:fa3:6a8d with SMTP id p23-20020a2e9ad7000000b0024b0fa36a8dmr8750731ljj.363.1649337470353;
-        Thu, 07 Apr 2022 06:17:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOH3NMQzvLRuhgYGmMuiioeRpPbM3obm6q7/YkChssQxnH4v5W6zhC8c8fZS+DA2TNFh36USctJCoGkt+xtXA=
-X-Received: by 2002:a2e:9ad7:0:b0:24b:fa3:6a8d with SMTP id
- p23-20020a2e9ad7000000b0024b0fa36a8dmr8750702ljj.363.1649337469936; Thu, 07
- Apr 2022 06:17:49 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qwnyzBHU2ps0lg/u42dFlsQayDte7IETW+1w7Wx0wc0=;
+        b=604sYNrXuAZnGr9GeiSfTJWM23njZ8gT1rCpBwIiJwbDjAQZJ7DDX0F/jbKykQkK/2
+         IbwVVPfdQtiTaNsdTUnKmTm3i38zAuq3JVVxXgyXw2BOwNX++v7tVyGsflOqcrAViiY9
+         zKQCuG342u7wiHtHpy0Fgb85snirY2jSZMqDxOO0qNUWn4Z6Fl7zmpdrO9uFqZJ1xsT7
+         gyqJ4aU2TYp9AS2y/KZemIUFdMC8hxfzK15j7c4Ixov8gq080WgyV/IurfFO4ePsjCkl
+         oKrhqtAXSdaWNpq4f/bnz2x6pZ/UfIC4/6DQp54C8ojSKRFL3McEjkvzun3RXbu2TGHx
+         G6Hw==
+X-Gm-Message-State: AOAM533WXXqu0lbrxmfwR9KeNeBFOI3DO2OtGTVBpU2yHVDyemR8Y5OA
+        raFp4yX1AHrE8dRhgV1w0SZLKx9zS4tIbVuyMZmOIiln0dR0MwU/evmMF00tA5gf/B+CqNR+RRD
+        nYj40li/5uuvGBLZedn8lO5U=
+X-Received: by 2002:a05:600c:3c9b:b0:38e:4c59:68b9 with SMTP id bg27-20020a05600c3c9b00b0038e4c5968b9mr12255505wmb.105.1649337605344;
+        Thu, 07 Apr 2022 06:20:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQBSQ6JsGQGmUQrZuo6fJZqwQPCpOMvTNMJmEk0YVL6Z/cfLYxjjpt866oxCfauhP9AWslsA==
+X-Received: by 2002:a05:600c:3c9b:b0:38e:4c59:68b9 with SMTP id bg27-20020a05600c3c9b00b0038e4c5968b9mr12255486wmb.105.1649337605105;
+        Thu, 07 Apr 2022 06:20:05 -0700 (PDT)
+Received: from minerva.home ([92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id f184-20020a1c38c1000000b0038e7d6825f4sm7678670wma.43.2022.04.07.06.20.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Apr 2022 06:20:04 -0700 (PDT)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>, Emma Anholt <emma@anholt.net>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH] drm/vc4: Use newer fence API properly to fix build errors
+Date:   Thu,  7 Apr 2022 15:19:50 +0200
+Message-Id: <20220407131950.915091-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220407105724.308930-1-hpa@redhat.com> <20220407115133.GL3293@kadam>
-In-Reply-To: <20220407115133.GL3293@kadam>
-From:   Kate Hsuan <hpa@redhat.com>
-Date:   Thu, 7 Apr 2022 21:17:38 +0800
-Message-ID: <CAEth8oG_GAuammtSqKzyj+Vq6ZsQJJOEeFhgxYhxXHViDYvkow@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: media: ipu3: Fix AWB x_start position when
- rightmost stripe is used
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Hans De Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+The commit 73511edf8b19 ("dma-buf: specify usage while adding fences to
+dma_resv obj v7") ported all the DRM drivers to use the newer fence API
+that specifies the usage with the enum dma_resv_usage rather than doing
+an explicit shared / exclusive distinction.
 
-On Thu, Apr 7, 2022 at 7:52 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Thu, Apr 07, 2022 at 06:57:24PM +0800, Kate Hsuan wrote:
-> > A not calibrated x_start setting would result in an incorrect AWB location
-> > configuration on a sensor when only the rightmost stripe is used. x_start
-> > should be calibrated by subtracting the stripe offset to set the coordinate
-> > to the correct position on the second stripe.
-> >
+But the commit didn't do it properly in two callers of the vc4 driver,
+leading to build errors.
 
->
-> I wish the commit description said more about what the bug looks like to
-> the user.  This is the front facing camera, right?  Is part of the video
-> blank or what's the deal?
+Fixes: 73511edf8b19 ("dma-buf: specify usage while adding fences to dma_resv obj v7")
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+---
 
-This is IPU3 image processor. I tried to fix the configuration issues
-on stripe 1 coordinate settings.
+ drivers/gpu/drm/vc4/vc4_gem.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
->
-> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> > ---
-> > Correct the patch. The correction should be awb, not awb_fr.
->
-> I tried to review the original patch and it was impossible.  I saw
-> you're from an @redhat.com email address so I decided it must be right.
->
-> I kind of get that you need to be a domain expert to review these
-> patches but this function is such a mess...
-
-Sorry for the misunderstanding in my comments.
-Since I made some mistakes on my v1 patch, so I had corrected this
-part and quickly sent the v2 patch. You are welcome to pinpoint the
-errors for my v2 patch. I could fix them.
-
-Thank you.
-
->
-> regards,
-> dan carpenter
->
-
-
+diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+index 38550317e025..9eaf304fc20d 100644
+--- a/drivers/gpu/drm/vc4/vc4_gem.c
++++ b/drivers/gpu/drm/vc4/vc4_gem.c
+@@ -546,7 +546,8 @@ vc4_update_bo_seqnos(struct vc4_exec_info *exec, uint64_t seqno)
+ 		bo = to_vc4_bo(&exec->bo[i]->base);
+ 		bo->seqno = seqno;
+ 
+-		dma_resv_add_fence(bo->base.base.resv, exec->fence);
++		dma_resv_add_fence(bo->base.base.resv, exec->fence,
++				   DMA_RESV_USAGE_READ);
+ 	}
+ 
+ 	list_for_each_entry(bo, &exec->unref_list, unref_head) {
+@@ -557,7 +558,8 @@ vc4_update_bo_seqnos(struct vc4_exec_info *exec, uint64_t seqno)
+ 		bo = to_vc4_bo(&exec->rcl_write_bo[i]->base);
+ 		bo->write_seqno = seqno;
+ 
+-		dma_resv_add_excl_fence(bo->base.base.resv, exec->fence);
++		dma_resv_add_fence(bo->base.base.resv, exec->fence,
++				   DMA_RESV_USAGE_WRITE);
+ 	}
+ }
+ 
 -- 
-BR,
-Kate
+2.35.1
 
