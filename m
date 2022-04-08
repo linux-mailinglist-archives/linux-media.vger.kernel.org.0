@@ -2,247 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFFE44F8949
-	for <lists+linux-media@lfdr.de>; Fri,  8 Apr 2022 00:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 011694F8CD4
+	for <lists+linux-media@lfdr.de>; Fri,  8 Apr 2022 05:27:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbiDGVKi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Apr 2022 17:10:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43686 "EHLO
+        id S233696AbiDHCUf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Apr 2022 22:20:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230504AbiDGVKg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 17:10:36 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21E0D17E35D;
-        Thu,  7 Apr 2022 14:08:35 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id D95B61F4684B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1649365713;
-        bh=+Q9tzF5zrewPPQUetcYP2NwCnZ0F1sUYBWrvcIXKjdI=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ZYqA6jwNGkRb407zynQi+lH+uUBljFjQ9q4URjZir+aA1kGgsH/0jQzVvRQTW2sEv
-         SUPx4yUIQJNWgou8H4IpgO4velWdf77zxiX+pW4GYqjOC4hkG+V/lE59XVZ30H6GyO
-         6TP183Nyhgl3hURtGfu8gv6iiPUYX/CHiwE9lR6mzqB0LXBXzyy+D8ENortk7PCSP/
-         zCsyCzAW4XGfrJS7mBpX1ty6EiGxokY3f90ZDuX7TdUE2hK0g9k3qIxaoe177fUdT5
-         mqRiZF/R6qv9jnOY21wYRNGl2y0H5xt5U90vkKsgwNKLe3DBzpNIyWuC4Sh0Oyq5Cr
-         DOMl2yH0mxD0w==
-Message-ID: <3297d1a4804b20d5d8d32013e5776109fa10c96f.camel@collabora.com>
-Subject: Re: [PATCH v5 06/17] media: uapi: HEVC: Change pic_order_cnt
- definition in v4l2_hevc_dpb_entry
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        sebastian.fricke@collabora.com
-Date:   Thu, 07 Apr 2022 17:08:22 -0400
-In-Reply-To: <b137de92ea0a6ecc3aa8ff39f6a1fc96b071b3e4.camel@collabora.com>
-References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
-         <20220407152940.738159-7-benjamin.gaignard@collabora.com>
-         <b137de92ea0a6ecc3aa8ff39f6a1fc96b071b3e4.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+        with ESMTP id S229799AbiDHCUc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 22:20:32 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 670D9278C5F;
+        Thu,  7 Apr 2022 19:18:29 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id o5-20020a17090ad20500b001ca8a1dc47aso10653865pju.1;
+        Thu, 07 Apr 2022 19:18:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=3zm5T0QfPFPheBJgjOFA6sW0BzyI//acXdPCPSvGRVw=;
+        b=DqmhEpp/qGAb8x3ijWw7YndcBoes2nQUnvyuEhq/9gs4LSTKgI6ibRCcUxCNzgSu23
+         8UGcwr3+Zo3k2PWBnG/wZJD9aFQ3ACQG/HhIhegoyzpeHkGcoHpABaV4q8DdZ47GuYv7
+         CjO6qIm+SmnikDPOYkSdvcaZf90i9fgclUrtDXuRRw2+gnf2oVSQPu+ryds1cdE4jlc6
+         PPN9JoVCp0LFZCx3feFGNSnsxClU76rWGx0PawnhfQSpI++ogsbA9C9aPki+Ivnqsswu
+         +AHZqq8zFfQICnZQmMelH6iGG539lBhYMy6PjqLveGUw89PYSXMo08BXst/9pRqG2eUN
+         7AsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=3zm5T0QfPFPheBJgjOFA6sW0BzyI//acXdPCPSvGRVw=;
+        b=zzzrIJZ3Az17HtC5eAQyA+puLWBLjDpmXV2qaSx4HzxHdG1W3ZHfmxKhWW3De+ac0A
+         X863P3Gjk7Ae8aSwj3mXakPcvviutzYrncmg73E24K2c2mgSVVdz05BNLqaHpk79pwx9
+         l2tY+iantuPnQvqHuDd/0A7utxn1AsqhGdoA6WGuKqesy1i6ZfkwzAcMBmAQHG98w0wr
+         Cucz5ZpQ5DXddlDXth59Jc43g6aRU2obevQdtRFsaeK9rwcj272mR56VBfzS51IeRHvf
+         5CO5SV5stR4rlk18Srb2/Ae49PN8LhBoaHwIFoZ2lkzDwKd/zQSJjrqUvbPJ12+oL8aM
+         i/UA==
+X-Gm-Message-State: AOAM532sKXHHT1xeUmwqzV/vFMk+zfBODu111auRUqTJo4gsyFVSmG1q
+        aIdCeUn7XmUHd4i47067UmQ=
+X-Google-Smtp-Source: ABdhPJwZkfBTl8jo+XOzjU6/+PMtkzZCAaMiKnENeZrNagp1UniVk3PZKxkSLhjBVV4vm2LFYXLJkA==
+X-Received: by 2002:a17:902:f70c:b0:14e:f1a4:d894 with SMTP id h12-20020a170902f70c00b0014ef1a4d894mr17495220plo.65.1649384308932;
+        Thu, 07 Apr 2022 19:18:28 -0700 (PDT)
+Received: from [10.11.37.162] ([103.84.139.54])
+        by smtp.gmail.com with ESMTPSA id pg14-20020a17090b1e0e00b001c75634df70sm9938774pjb.31.2022.04.07.19.18.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Apr 2022 19:18:28 -0700 (PDT)
+Message-ID: <693c7823-9edb-f821-1573-3bb01948253f@gmail.com>
+Date:   Fri, 8 Apr 2022 10:18:24 +0800
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] media: rga: fix possible memory leak in rga_probe
+Content-Language: en-US
+To:     jacob-chen@iotwrt.com, ezequiel@vanguardiasur.com.ar,
+        mchehab@kernel.org, heiko@sntech.de
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20220324083724.42654-1-hbh25y@gmail.com>
+From:   Hangyu Hua <hbh25y@gmail.com>
+In-Reply-To: <20220324083724.42654-1-hbh25y@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 07 avril 2022 =C3=A0 16:51 -0400, Nicolas Dufresne a =C3=A9crit=C2=
-=A0:
-> Le jeudi 07 avril 2022 =C3=A0 17:29 +0200, Benjamin Gaignard a =C3=A9crit=
-=C2=A0:
-> > HEVC specifications say that:
-> > "PicOrderCntVal is derived as follows:
-> > PicOrderCntVal =3D PicOrderCntMsb + slice_pic_order_cnt_lsb
-> > The value of PicOrderCntVal shall be in the range of =E2=88=92231 to 23=
-1 =E2=88=92 1, inclusive."
->=20
-> Did you mean 2^31 ?
->=20
-> >=20
-> > To match with these definitions change __u16 pic_order_cnt[2]
-> > into __s32 pic_order_cnt_val.
-> >=20
-> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > ---
-> > version 5:
-> > - change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val
-> >  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 4 ++--
-> >  drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
-> >  drivers/staging/media/hantro/hantro_hw.h          | 4 ++--
-> >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 4 ++--
-> >  include/media/hevc-ctrls.h                        | 2 +-
-> >  5 files changed, 8 insertions(+), 8 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/driver=
-s/staging/media/hantro/hantro_g2_hevc_dec.c
-> > index c524af41baf5..6f3c774aa3d9 100644
-> > --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> > +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> > @@ -386,7 +386,7 @@ static int set_ref(struct hantro_ctx *ctx)
-> >  	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
-> >  	 */
-> >  	for (i =3D 0; i < decode_params->num_active_dpb_entries && i < ARRAY_=
-SIZE(cur_poc); i++) {
-> > -		char poc_diff =3D decode_params->pic_order_cnt_val - dpb[i].pic_orde=
-r_cnt[0];
-> > +		char poc_diff =3D decode_params->pic_order_cnt_val - dpb[i].pic_orde=
-r_cnt_val;
-> > =20
-> >  		hantro_reg_write(vpu, &cur_poc[i], poc_diff);
-> >  	}
-> > @@ -413,7 +413,7 @@ static int set_ref(struct hantro_ctx *ctx)
-> >  	dpb_longterm_e =3D 0;
-> >  	for (i =3D 0; i < decode_params->num_active_dpb_entries &&
-> >  	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
-> > -		luma_addr =3D hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
-> > +		luma_addr =3D hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val)=
-;
-> >  		if (!luma_addr)
-> >  			return -ENOMEM;
-> > =20
-> > diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/stagi=
-ng/media/hantro/hantro_hevc.c
-> > index b6ec86d03d91..fadd40768579 100644
-> > --- a/drivers/staging/media/hantro/hantro_hevc.c
-> > +++ b/drivers/staging/media/hantro/hantro_hevc.c
-> > @@ -54,7 +54,7 @@ static void hantro_hevc_ref_init(struct hantro_ctx *c=
-tx)
-> >  }
-> > =20
-> >  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
-> > -				   int poc)
-> > +				   s32 poc)
-> >  {
-> >  	struct hantro_hevc_dec_hw_ctx *hevc_dec =3D &ctx->hevc_dec;
-> >  	int i;
-> > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging=
-/media/hantro/hantro_hw.h
-> > index ed018e293ba0..a648c529662b 100644
-> > --- a/drivers/staging/media/hantro/hantro_hw.h
-> > +++ b/drivers/staging/media/hantro/hantro_hw.h
-> > @@ -131,7 +131,7 @@ struct hantro_hevc_dec_hw_ctx {
-> >  	struct hantro_aux_buf tile_bsd;
-> >  	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
-> >  	struct hantro_aux_buf scaling_lists;
-> > -	int ref_bufs_poc[NUM_REF_PICTURES];
-> > +	s32 ref_bufs_poc[NUM_REF_PICTURES];
->=20
-> Was this strictly needed ? Isn't int always same as s32 ?
->=20
-> >  	u32 ref_bufs_used;
-> >  	struct hantro_hevc_dec_ctrls ctrls;
-> >  	unsigned int num_tile_cols_allocated;
-> > @@ -337,7 +337,7 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
-> >  void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
-> >  int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
-> >  int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
-> > -dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
-> > +dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
-> >  int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_=
-t addr);
-> >  void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
-> >  size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps)=
-;
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers=
-/staging/media/sunxi/cedrus/cedrus_h265.c
-> > index 44f385be9f6c..d04521ffd920 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > @@ -143,8 +143,8 @@ static void cedrus_h265_frame_info_write_dpb(struct=
- cedrus_ctx *ctx,
-> >  	for (i =3D 0; i < num_active_dpb_entries; i++) {
-> >  		int buffer_index =3D vb2_find_timestamp(vq, dpb[i].timestamp, 0);
-> >  		u32 pic_order_cnt[2] =3D {
-> > -			dpb[i].pic_order_cnt[0],
-> > -			dpb[i].pic_order_cnt[1]
-> > +			dpb[i].pic_order_cnt_val & 0xffff,
-> > +			(dpb[i].pic_order_cnt_val >> 16) & 0xffff
->=20
-> This is confusing, it gives the impression that pic_order_cnt_val contain=
-s TOP
-> and BOTTOM field pic_order_cnt, which isn't the case. This is just the fu=
-ll pic
-> order count value for this reference.
->=20
-> This is confusing me, most HEVC decoder don't really know about fields. T=
-hey
-> will instead happily produce half height frames, and we should support th=
-is in
-> the form of ALTERNATE or SEQ interlacing output.
->=20
-> While it seems like Allwinner HW maybe support interleaved output, there =
-I would
-> not find any userland that would implement this, hence proving that it wo=
-rks.
-> Overall, interlaced HEVC (a very niche use case) should be studied, and w=
-e
-> should ensure that alternate/seq interlacing is possible, since a lot of =
-HW will
-> only offer this.
+Gentle ping.
 
-I looked a bit more at the reverse-engineering data for that chip, and what
-should happen is that the pic_order_cnt_val should be set into pic_order_cn=
-t[0].
-The code handling this later on does:
-
-	struct cedrus_h265_sram_frame_info frame_info =3D {
-		.top_pic_order_cnt =3D cpu_to_le32(pic_order_cnt[0]),
-		.bottom_pic_order_cnt =3D cpu_to_le32(field_pic ?
-						    pic_order_cnt[1] :
-						    pic_order_cnt[0]),
-
-Now, the pic_oder_cnt[1] is the other field. Things is that the two field w=
-on't
-endup in the same frame buffer magically. In fact we'll need some tinkering=
- on
-how this could possibly be supported. In GStreamer we only have the DXVA ba=
-sed
-decoder that supports field decoding, and each field endups in their own su=
-rface
-(our buffers). This looks more natural for Hantro here at least. Though per=
-haps
-there exist stride trick to interleave them, but then we need special care =
-for
-the extra buffers. I think we need to think through what we want to offer h=
-ere,
-anything from SEQ or interleaved buffer will require some more thinking, wh=
-ile
-alternate interlacing would be rather simple (handle by userland mostly) an=
-d
-will be more portable. Even Cedrus should be usable in that mode by ignorin=
-g its
-interleaving capability.=20
-
->=20
-> >  		};
-> > =20
-> >  		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
-> > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> > index b3540167df9e..2812778b41f4 100644
-> > --- a/include/media/hevc-ctrls.h
-> > +++ b/include/media/hevc-ctrls.h
-> > @@ -138,7 +138,7 @@ struct v4l2_hevc_dpb_entry {
-> >  	__u64	timestamp;
-> >  	__u8	flags;
-> >  	__u8	field_pic;
-> > -	__u16	pic_order_cnt[2];
-> > +	__s32	pic_order_cnt_val;
-> >  	__u8	padding[2];
-> >  };
-> > =20
->=20
-
+On 2022/3/24 16:37, Hangyu Hua wrote:
+> rga->m2m_dev needs to be freed when rga_probe fails.
+> 
+> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+> ---
+>   drivers/media/platform/rockchip/rga/rga.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+> index 4de5e8d2b261..c2ce4fdcdb7f 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.c
+> +++ b/drivers/media/platform/rockchip/rga/rga.c
+> @@ -865,7 +865,7 @@ static int rga_probe(struct platform_device *pdev)
+>   
+>   	ret = pm_runtime_resume_and_get(rga->dev);
+>   	if (ret < 0)
+> -		goto rel_vdev;
+> +		goto rel_m2m;
+>   
+>   	rga->version.major = (rga_read(rga, RGA_VERSION_INFO) >> 24) & 0xFF;
+>   	rga->version.minor = (rga_read(rga, RGA_VERSION_INFO) >> 20) & 0x0F;
+> @@ -881,7 +881,7 @@ static int rga_probe(struct platform_device *pdev)
+>   					   DMA_ATTR_WRITE_COMBINE);
+>   	if (!rga->cmdbuf_virt) {
+>   		ret = -ENOMEM;
+> -		goto rel_vdev;
+> +		goto rel_m2m;
+>   	}
+>   
+>   	rga->src_mmu_pages =
+> @@ -918,6 +918,8 @@ static int rga_probe(struct platform_device *pdev)
+>   free_dma:
+>   	dma_free_attrs(rga->dev, RGA_CMDBUF_SIZE, rga->cmdbuf_virt,
+>   		       rga->cmdbuf_phy, DMA_ATTR_WRITE_COMBINE);
+> +rel_m2m:
+> +	v4l2_m2m_release(rga->m2m_dev);
+>   rel_vdev:
+>   	video_device_release(vfd);
+>   unreg_v4l2_dev:
