@@ -2,98 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EE0A4F9F4B
-	for <lists+linux-media@lfdr.de>; Fri,  8 Apr 2022 23:44:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AB8B4F9F9E
+	for <lists+linux-media@lfdr.de>; Sat,  9 Apr 2022 00:31:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234456AbiDHVqH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Apr 2022 17:46:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42998 "EHLO
+        id S238375AbiDHWdl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Apr 2022 18:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232842AbiDHVqG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Apr 2022 17:46:06 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE0F9B6448
-        for <linux-media@vger.kernel.org>; Fri,  8 Apr 2022 14:44:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649454240; x=1680990240;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Pjq25C9eg6tmA6P/DdSQAF13FJ0sCKoVAUZRUL+PQnI=;
-  b=NYJjcyAoLPBtb2vI1d/8ne+ymd93I55ec++29KanzSdovEIbnW7mZVnT
-   nuO4oNosrkvaGPBFJxF72JI+RZMB8x47Cte3Pp7Y5Y89NbG9LFe+o5pq9
-   K6x2VlvKn5w/ILcr2jAf3wikDymc4nfu+t88OyCB6ioKy9KOFupYA28Dk
-   uQktgFrmbK1/axif/l/CMpgEOTm6EkK8KiPsfDI9rhzy4oeeJs1Iykzne
-   Se5g7KnKjYiRMeHqo7iyk9oSYQBTicZELkXwykbrjo9ASfa+wrKITT+R3
-   CTDLl/hJ5XLfXuJBgPXTxFkggAgrsMfkULxdVFuIhobQbGrII5/i7LZWn
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10311"; a="324851668"
-X-IronPort-AV: E=Sophos;i="5.90,246,1643702400"; 
-   d="scan'208";a="324851668"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP; 08 Apr 2022 14:44:00 -0700
-X-IronPort-AV: E=Sophos;i="5.90,246,1643702400"; 
-   d="scan'208";a="643048093"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 14:43:59 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 5CA292030F;
-        Sat,  9 Apr 2022 00:43:57 +0300 (EEST)
-Date:   Sat, 9 Apr 2022 00:43:57 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [sailus-media-tree:master 28/30]
- drivers/media/v4l2-core/v4l2-subdev.c:342:1: error: implicit declaration of
- function 'v4l2_subdev_lock_and_get_active_state' is invalid in C99
-Message-ID: <YlCsnbp3oftzLyfz@paasikivi.fi.intel.com>
-References: <202204090350.ZbhpomcE-lkp@intel.com>
+        with ESMTP id S234528AbiDHWdk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Apr 2022 18:33:40 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 269971B7B0;
+        Fri,  8 Apr 2022 15:31:36 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id l26so19974713ejx.1;
+        Fri, 08 Apr 2022 15:31:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MIEuyIQOzr7GBajh+n+UsyE5Wi+bFa0QsRrOoLXPvQs=;
+        b=oHP7fYwJCiexaqI8I+it/ifNdESNBhEUa2a5EkkGsFvbgoDOGdrPlE92AvQHwRpIDd
+         /2zBlS69RK/2kPbk2Z1sP2bWuSWKvAozNmBOfX2WC0UxKS12GpP+PTgWuSNmznBMVCgh
+         BTcggNlDq4v3L46zaP5NHvj7lpIIc7+FtoLFHX0+hfpcXogu6CwiWqwje49BvnLpMw49
+         mrFS7+KNGpdlw6+9eibEvPSalKElKm5HsN1HkC8TVP1/E0kk7d0sc7fjwN0gWKvIiCIz
+         cE7ktDUlnYWlsC9Bq54WCoZ/tskD+JFwd0njFZzQvQYrwD+R6pTKWEXHZX9SoloMJQMU
+         i7TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MIEuyIQOzr7GBajh+n+UsyE5Wi+bFa0QsRrOoLXPvQs=;
+        b=LDJzUa/OHTSmlXrZZwvXs5qMjD9ypeRSuxgRMmm8bo7nDRZKxPuBtCXnUy6Ksa6I4E
+         UJr4UGox6hgk5gEYSeT0JZxAMdxDDCQw5WqRhdV6yhRSXAFIfzOmDjGgPG0qvbeIwvzC
+         Ef/Mm+MuD/l9uIhF4Y+Gni8+u3r75DcC4s+WJ8DCBNSQV80QyyUz289k+b9iYFNss78V
+         JbYVoCfOpmKKq7DA0C8l8JP1CGNMdn+17GGY11aNJ0p46jyqkA0+UKfVSzMIfZ1mSQAV
+         jCMfa2hpt6WuFxSCLbTtOy9BsqsfFA+51+pFfgR++41F8e9PT8r3j6pQ0RkPriJeIwBX
+         f9ug==
+X-Gm-Message-State: AOAM530IJclH4wpjuzPdfmR/OOvkNYJefKQCYolM5pu+KhEcp0DfPVDN
+        5XQrGXkJ1MBTNcaa8ENyqqM=
+X-Google-Smtp-Source: ABdhPJwZHXUsf05CmofYgOWQixJUrHdRv1lrpE/Q183lJUyfC1JgwjV4k3etYG6TKy/yNZO0btD4Sw==
+X-Received: by 2002:a17:907:7f8d:b0:6da:b3d6:a427 with SMTP id qk13-20020a1709077f8d00b006dab3d6a427mr19782384ejc.509.1649457094569;
+        Fri, 08 Apr 2022 15:31:34 -0700 (PDT)
+Received: from localhost.localdomain (host-87-4-4-217.retail.telecomitalia.it. [87.4.4.217])
+        by smtp.gmail.com with ESMTPSA id m14-20020a056402510e00b0041d0c0942adsm2277425edd.52.2022.04.08.15.31.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Apr 2022 15:31:33 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Martiros Shakhzadyan <vrzh@vrzh.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: media: atomisp: Convert kmap() to kmap_local_page()
+Date:   Sat,  9 Apr 2022 00:31:29 +0200
+Message-Id: <20220408223129.3844-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202204090350.ZbhpomcE-lkp@intel.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi,
+The use of kmap() is being deprecated in favor of kmap_local_page() where
+it is feasible. With kmap_local_page(), the mapping is per thread, CPU
+local and not globally visible.
 
-On Sat, Apr 09, 2022 at 04:09:35AM +0800, kernel test robot wrote:
-> tree:   git://linuxtv.org/sailus/media_tree.git master
-> head:   bd1d801f302289ddbf86ff6c38fcc91aef8e7609
-> commit: 3f1a6a471c6a8b5ba772cb82538ad03fa0255e7c [28/30] media: subdev: add locking wrappers to subdev op wrappers
-> config: arm-randconfig-r022-20220408 (https://download.01.org/0day-ci/archive/20220409/202204090350.ZbhpomcE-lkp@intel.com/config)
-> compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c29a51b3a257908aebc01cd7c4655665db317d66)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm cross compiling tool for clang build
->         # apt-get install binutils-arm-linux-gnueabi
->         git remote add sailus-media-tree git://linuxtv.org/sailus/media_tree.git
->         git fetch --no-tags sailus-media-tree master
->         git checkout 3f1a6a471c6a8b5ba772cb82538ad03fa0255e7c
->         # save the config file to linux build tree
->         mkdir build_dir
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/media/v4l2-core/
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All error/warnings (new ones prefixed by >>):
-> 
-> >> drivers/media/v4l2-core/v4l2-subdev.c:342:1: error: implicit declaration of function 'v4l2_subdev_lock_and_get_active_state' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
->    DEFINE_STATE_WRAPPER(get_fmt, struct v4l2_subdev_format);
->    ^
->    drivers/media/v4l2-core/v4l2-subdev.c:335:12: note: expanded from macro 'DEFINE_STATE_WRAPPER'
->                            state = v4l2_subdev_lock_and_get_active_state(sd); \
+load_and_flush_by_kmap() is a function where the use of kmap_local_page()
+in place of kmap() is correctly suited.
 
-I guess this happens if MC is disabled? Maybe something else, too?
+Convert load_and_flush_by_kmap() from kmap() to kmap_local_page().
 
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/hmm/hmm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+index c1cda16f2dc0..6394385b6637 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+@@ -350,7 +350,7 @@ static int load_and_flush_by_kmap(ia_css_ptr virt, void *data,
+ 		idx = (virt - bo->start) >> PAGE_SHIFT;
+ 		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
+ 
+-		src = (char *)kmap(bo->page_obj[idx].page) + offset;
++		src = (char *)kmap_local_page(bo->page_obj[idx].page) + offset;
+ 
+ 		if ((bytes + offset) >= PAGE_SIZE) {
+ 			len = PAGE_SIZE - offset;
+@@ -369,7 +369,7 @@ static int load_and_flush_by_kmap(ia_css_ptr virt, void *data,
+ 
+ 		clflush_cache_range(src, len);
+ 
+-		kunmap(bo->page_obj[idx].page);
++		kunmap_local(src);
+ 	}
+ 
+ 	return 0;
 -- 
-Sakari Ailus
+2.34.1
+
