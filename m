@@ -2,73 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADC914F979F
-	for <lists+linux-media@lfdr.de>; Fri,  8 Apr 2022 16:06:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6F584F9A21
+	for <lists+linux-media@lfdr.de>; Fri,  8 Apr 2022 18:08:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbiDHOI2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Apr 2022 10:08:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43114 "EHLO
+        id S237917AbiDHQK4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Apr 2022 12:10:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbiDHOI2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Apr 2022 10:08:28 -0400
-Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD08E1A61F0
-        for <linux-media@vger.kernel.org>; Fri,  8 Apr 2022 07:06:24 -0700 (PDT)
-Received: by mail-ua1-x944.google.com with SMTP id k9so4631066uad.2
-        for <linux-media@vger.kernel.org>; Fri, 08 Apr 2022 07:06:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=ncGkx3QlLteGsfro1VhAQTDlmYtGaGfhNsSr7F0QSx0=;
-        b=BXPtqTFbuDuQIT9rz6jaH70q4aODqsIOBkyDn1nMaPuP7/7FsWxBEdbAsiwTPavELi
-         plJhnoN5kWJQNSCRHK76GwmCUYx9hLZDHWQmBNyMGcQGFU4ZBg+0mxV4CB+VbcqprDhH
-         7GJaBfpdLWk1zFFjjn2PhO0HjEoOapuskbPsA3VN5IOyv5InhXnNXd5ljGeR/1q2nk5+
-         po0a+QzqG6Fh+J4YRE6uCRadNu2ip+tNq3qq67CWef4vEebzYz4JzKbTSc8+kYess5oC
-         6wRTVM6GeIt/iy5ODiPL8A9JCw5ctdkH5GRPSiLHFFE5//p9SmSoBVz5HrfXyha+dbZh
-         VB3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=ncGkx3QlLteGsfro1VhAQTDlmYtGaGfhNsSr7F0QSx0=;
-        b=h1ybtFQvz5AYeEjH7TAUmJljn8wW7tLORqkLiT7JJxnDZN77CoK+DRhzSZco4xNa3W
-         dRm/zYHBZhApzrENGjQoQyH3+wD9SLGVXCueMbFNy94mtrfJKgoafLLpdX5KInSBeN6C
-         6Z4GtpZ7SpBarcwcj64+3RpFMg5V/CIzl0OheAvEAgdIwMp8NkhlZJCwDhUiDCMiymUV
-         Zclz3C6uhyRiWIDa3WZfuoygS6RN0Id4R2GnXiWRa9CLdXAc/daFGrGJvTIcJ6zp9AxT
-         9vRsl89t6Z6tZ3IeV+xW0CvVaImZyuPA+DD0fN0JeQvnIPiBw+sGKqbQ4QC/A9CY7yPo
-         bkaw==
-X-Gm-Message-State: AOAM5337LQv7r6K7jcmHqfLOfPkJ40BGuz6TwN/Ip/xa5Aj7lvxSloAo
-        aTKoC9nyHWDAmS0XRh2aajyaj4SOxtNgmKxCJGk=
-X-Google-Smtp-Source: ABdhPJxVs+kNPaSwZJwlJzF6OilM+/Z3sTH5ilAO9kU6CZOovJKU0Udp4oqB4ZIOxDwduKlNW3euDj7WiMQ5MxgAb1M=
-X-Received: by 2002:ab0:29cf:0:b0:35c:7820:8fc9 with SMTP id
- i15-20020ab029cf000000b0035c78208fc9mr5714323uaq.89.1649426783590; Fri, 08
- Apr 2022 07:06:23 -0700 (PDT)
+        with ESMTP id S235287AbiDHQKz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Apr 2022 12:10:55 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 036803568C3
+        for <linux-media@vger.kernel.org>; Fri,  8 Apr 2022 09:08:49 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5E5711C000A;
+        Fri,  8 Apr 2022 16:08:43 +0000 (UTC)
+Date:   Fri, 8 Apr 2022 18:08:42 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hugues FRUCHET - FOSS <hugues.fruchet@foss.st.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        hverkuil-cisco@xs4all.nl, mirela.rabulea@nxp.com,
+        xavier.roumegue@oss.nxp.com, tomi.valkeinen@ideasonboard.com,
+        hugues.fruchet@st.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        aford173@gmail.com, festevam@gmail.com,
+        Eugen.Hristev@microchip.com, jbrunet@baylibre.com,
+        paul.elder@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 20/27] media: ov5640: Limit frame_interval to DVP mode
+ only
+Message-ID: <20220408160842.dzmexynrwgcn4o2q@uno.localdomain>
+References: <20220224094313.233347-1-jacopo@jmondi.org>
+ <20220224094313.233347-21-jacopo@jmondi.org>
+ <586cf4f0-0579-4b7b-df3b-fd0c6d117e8e@foss.st.com>
 MIME-Version: 1.0
-Received: by 2002:a59:c06b:0:b0:29e:7e20:6ab8 with HTTP; Fri, 8 Apr 2022
- 07:06:23 -0700 (PDT)
-Reply-To: mrs.acostafahad@gmail.com
-From:   "MISS. ACOSTAFAHAD" <daniel.ekpe98@gmail.com>
-Date:   Fri, 8 Apr 2022 07:06:23 -0700
-Message-ID: <CALqvnvnrv=UkuO6_5sma1w4ZTX1RtUAcUtTukdCWnzKae1XqqQ@mail.gmail.com>
-Subject: Hello my friend
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_40,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <586cf4f0-0579-4b7b-df3b-fd0c6d117e8e@foss.st.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Dear!!!
+Hi Hugues,
+   thanks very much for testing
 
-Please get back to me soon, i have some information for you.
+On Thu, Apr 07, 2022 at 06:25:25PM +0200, Hugues FRUCHET - FOSS wrote:
+> Hi Jacopo,
+>
+> On 2/24/22 10:43 AM, Jacopo Mondi wrote:
+> > In MIPI mode the frame rate control is performed by adjusting the
+> > frame blankings and the s_frame_interval function is not used anymore.
+> >
+> > Only check for the per-mode supported frame rate in DVP mode and do not
+> > restrict MIPI mode.
+> >
+> > Disallow enum/s/g_frame_interval if the chip is used in MIPI mode.
+>
+> This is breaking userspace which set framerate through media-ctl:
+> media-ctl -d /dev/media0 --set-v4l2 "'ov5640
+> 1-003c':0[fmt:JPEG_1X8/640x480@1/15 field:none]"
+> because of unsupported framerate, all the rest is ignored (resolution and
+> format).
+>
+> I can understand use of vblank to tune framerate but I would expect that
+> compatibility with frame interval setting is kept, it's far more simple for
+> an application to set the frame interval versus finding the right vblank to
+> apply (not straightforward...)
 
-best regard,
+I understand it might seem easier to state what FPS you want instead
+of going through calculations, but I think the frame_interval ioctls
+are actually mis-leading and should be discouraged for sensor drivers
+(and consequentially for userspace).
 
-Miss.Acosta Fahad.
+frame_interval encourages driver developers to fix on a usually limited
+set of supported modes, which limits the actual sensor capabilities to
+a few pre-defined modes.
+
+Drivers that support frame rate handling through frame_interval
+usually do not expose configurable blankings, which has a direct
+impact on the maximum achievable exposure time and should be in
+control of userspace.
+
+That said, I think it's maintainer's call to decide when moving to a
+different API is considered a user-space breakage or not :)
+
+>
+> On my side I have reverted this patch and added support of both, see patch
+> proposal in reply to [PATCH v5 16/27] media: ov5640: Add VBLANK control.
+>
+>
+> >
+> > While at it re-indent one function which whose parameters were wrongly
+> > aligned.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >   drivers/media/i2c/ov5640.c | 18 ++++++++++++++++--
+> >   1 file changed, 16 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> > index baf368a39e0f..6b955163eb4d 100644
+> > --- a/drivers/media/i2c/ov5640.c
+> > +++ b/drivers/media/i2c/ov5640.c
+> > @@ -2005,9 +2005,14 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
+> >   	     (mode->width != width || mode->height != height)))
+> >   		return NULL;
+> > -	/* Check to see if the current mode exceeds the max frame rate */
+> > +	/*
+> > +	 * Check to see if the current mode exceeds the max frame rate.
+> > +	 * Only DVP mode uses the frame rate set by s_frame_interval, MIPI
+> > +	 * mode controls framerate by setting blankings.
+> > +	 */
+> >   	timings = &mode->dvp_timings;
+> > -	if (ov5640_framerates[fr] > ov5640_framerates[timings->max_fps])
+> > +	if (!ov5640_is_csi2(sensor) &&
+> > +	    ov5640_framerates[fr] > ov5640_framerates[timings->max_fps])
+> >   		return NULL;
+> >   	return mode;
+> > @@ -3439,6 +3444,9 @@ static int ov5640_enum_frame_interval(
+> >   	struct v4l2_fract tpf;
+> >   	int ret;
+> > +	if (ov5640_is_csi2(sensor))
+> > +		return -EINVAL;
+> > +
+> >   	if (fie->pad != 0)
+> >   		return -EINVAL;
+> >   	if (fie->index >= OV5640_NUM_FRAMERATES)
+> > @@ -3461,6 +3469,9 @@ static int ov5640_g_frame_interval(struct v4l2_subdev *sd,
+> >   {
+> >   	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> > +	if (ov5640_is_csi2(sensor))
+> > +		return -EINVAL;
+> > +
+> >   	mutex_lock(&sensor->lock);
+> >   	fi->interval = sensor->frame_interval;
+> >   	mutex_unlock(&sensor->lock);
+> > @@ -3475,6 +3486,9 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
+> >   	const struct ov5640_mode_info *mode;
+> >   	int frame_rate, ret = 0;
+> > +	if (ov5640_is_csi2(sensor))
+> > +		return -EINVAL;
+> > +
+> >   	if (fi->pad != 0)
+> >   		return -EINVAL;
+> >
