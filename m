@@ -2,116 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 011694F8CD4
-	for <lists+linux-media@lfdr.de>; Fri,  8 Apr 2022 05:27:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E6BA4F8C5B
+	for <lists+linux-media@lfdr.de>; Fri,  8 Apr 2022 05:27:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233696AbiDHCUf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Apr 2022 22:20:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60048 "EHLO
+        id S233861AbiDHDJW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Apr 2022 23:09:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229799AbiDHCUc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 22:20:32 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 670D9278C5F;
-        Thu,  7 Apr 2022 19:18:29 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id o5-20020a17090ad20500b001ca8a1dc47aso10653865pju.1;
-        Thu, 07 Apr 2022 19:18:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=3zm5T0QfPFPheBJgjOFA6sW0BzyI//acXdPCPSvGRVw=;
-        b=DqmhEpp/qGAb8x3ijWw7YndcBoes2nQUnvyuEhq/9gs4LSTKgI6ibRCcUxCNzgSu23
-         8UGcwr3+Zo3k2PWBnG/wZJD9aFQ3ACQG/HhIhegoyzpeHkGcoHpABaV4q8DdZ47GuYv7
-         CjO6qIm+SmnikDPOYkSdvcaZf90i9fgclUrtDXuRRw2+gnf2oVSQPu+ryds1cdE4jlc6
-         PPN9JoVCp0LFZCx3feFGNSnsxClU76rWGx0PawnhfQSpI++ogsbA9C9aPki+Ivnqsswu
-         +AHZqq8zFfQICnZQmMelH6iGG539lBhYMy6PjqLveGUw89PYSXMo08BXst/9pRqG2eUN
-         7AsA==
+        with ESMTP id S233835AbiDHDJV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Apr 2022 23:09:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 97EF516F6DC
+        for <linux-media@vger.kernel.org>; Thu,  7 Apr 2022 20:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1649387237;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0mJcdW33+4gW1LiIaHWfczE7pJzHwlPUBk+4IAUF7M4=;
+        b=gqHpKxRwq6UtNddJ06/44SwEKfh0B+TVU6300XcPF6W4i9kkbzRN9OfHQWkJUEIXwX6Em+
+        74gOqgpeBzYcqr72TX+5yqpRC2XinL9ckQ3h+7kgnKLDf49xT0TyhyweDA9jrtbno9gMnN
+        jMrpi01htjSbTqHETgn+MHsOGDdw2c0=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-184-0UmnE4h6MnmnMhww1NkqBg-1; Thu, 07 Apr 2022 23:07:16 -0400
+X-MC-Unique: 0UmnE4h6MnmnMhww1NkqBg-1
+Received: by mail-lf1-f72.google.com with SMTP id d12-20020a05651233cc00b0044ad60fe93dso2589295lfg.11
+        for <linux-media@vger.kernel.org>; Thu, 07 Apr 2022 20:07:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=3zm5T0QfPFPheBJgjOFA6sW0BzyI//acXdPCPSvGRVw=;
-        b=zzzrIJZ3Az17HtC5eAQyA+puLWBLjDpmXV2qaSx4HzxHdG1W3ZHfmxKhWW3De+ac0A
-         X863P3Gjk7Ae8aSwj3mXakPcvviutzYrncmg73E24K2c2mgSVVdz05BNLqaHpk79pwx9
-         l2tY+iantuPnQvqHuDd/0A7utxn1AsqhGdoA6WGuKqesy1i6ZfkwzAcMBmAQHG98w0wr
-         Cucz5ZpQ5DXddlDXth59Jc43g6aRU2obevQdtRFsaeK9rwcj272mR56VBfzS51IeRHvf
-         5CO5SV5stR4rlk18Srb2/Ae49PN8LhBoaHwIFoZ2lkzDwKd/zQSJjrqUvbPJ12+oL8aM
-         i/UA==
-X-Gm-Message-State: AOAM532sKXHHT1xeUmwqzV/vFMk+zfBODu111auRUqTJo4gsyFVSmG1q
-        aIdCeUn7XmUHd4i47067UmQ=
-X-Google-Smtp-Source: ABdhPJwZkfBTl8jo+XOzjU6/+PMtkzZCAaMiKnENeZrNagp1UniVk3PZKxkSLhjBVV4vm2LFYXLJkA==
-X-Received: by 2002:a17:902:f70c:b0:14e:f1a4:d894 with SMTP id h12-20020a170902f70c00b0014ef1a4d894mr17495220plo.65.1649384308932;
-        Thu, 07 Apr 2022 19:18:28 -0700 (PDT)
-Received: from [10.11.37.162] ([103.84.139.54])
-        by smtp.gmail.com with ESMTPSA id pg14-20020a17090b1e0e00b001c75634df70sm9938774pjb.31.2022.04.07.19.18.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Apr 2022 19:18:28 -0700 (PDT)
-Message-ID: <693c7823-9edb-f821-1573-3bb01948253f@gmail.com>
-Date:   Fri, 8 Apr 2022 10:18:24 +0800
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0mJcdW33+4gW1LiIaHWfczE7pJzHwlPUBk+4IAUF7M4=;
+        b=xAGeMbZXbN8Gd/a36Oa2ij/bLybcR2Ehtgp62DR4alQ82CjMGLsYgg101RnwdEbs7v
+         3Gs7mU5u3dWQqPe5dmeRqp36LQXfP34YVqaoWGE0FXSzSliPZvWxY8dEcTXRoXA5Zvc6
+         KI1mavkViWv2DibMisv/hiXYVzNbLRniAPOHeWXoG1R1xXj+guzcVttD0tSnpgtwQt8C
+         Uv+4shuMr4lOT8ibwu4N1AJXbho2Py/adQW9wHIiYe3jez6CjAUYC5/hEfkp8WdA/o6b
+         rl0ufuxT7i5PYxUKCmYM6jsjsdk2UhPlgDyi9KfhdTA2yKnt++fy3mJ2kfmX9aFhbnpk
+         FSxg==
+X-Gm-Message-State: AOAM533vg2i96CN+xXdn5P/o8COOj+ImsrVPY1w/d3sUXQBMv2KqnVFQ
+        XB+09us8EhYbOEqCr/30FEwE6IFXIY/7sbPu7Wf1FPyOv0nWNsLYsFe1dyyyv18cwgOvugJCecx
+        OtcOd76qA/m6dgX/zDfPT1Fk4HzRLZgvrilzkQrw=
+X-Received: by 2002:a05:6512:2586:b0:464:f75d:cfa with SMTP id bf6-20020a056512258600b00464f75d0cfamr3611247lfb.238.1649387234430;
+        Thu, 07 Apr 2022 20:07:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgWwR3JIJz3D/8EgFkxuxkKo6iHijAl6dM7d1piH5tYY9YCkT5VihT277zbKJtx38DQE/DkghzZddgd4OX378=
+X-Received: by 2002:a05:6512:2586:b0:464:f75d:cfa with SMTP id
+ bf6-20020a056512258600b00464f75d0cfamr3611224lfb.238.1649387234117; Thu, 07
+ Apr 2022 20:07:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] media: rga: fix possible memory leak in rga_probe
-Content-Language: en-US
-To:     jacob-chen@iotwrt.com, ezequiel@vanguardiasur.com.ar,
-        mchehab@kernel.org, heiko@sntech.de
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220324083724.42654-1-hbh25y@gmail.com>
-From:   Hangyu Hua <hbh25y@gmail.com>
-In-Reply-To: <20220324083724.42654-1-hbh25y@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220407105724.308930-1-hpa@redhat.com> <20220407115133.GL3293@kadam>
+ <CAEth8oG_GAuammtSqKzyj+Vq6ZsQJJOEeFhgxYhxXHViDYvkow@mail.gmail.com> <20220407132609.GN3293@kadam>
+In-Reply-To: <20220407132609.GN3293@kadam>
+From:   Kate Hsuan <hpa@redhat.com>
+Date:   Fri, 8 Apr 2022 11:07:03 +0800
+Message-ID: <CAEth8oHqqipXNR6QPgm_YNGPVBSZLm3EEg0k0M9tivFCwE5_2Q@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: ipu3: Fix AWB x_start position when
+ rightmost stripe is used
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Hans De Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Gentle ping.
+Hi Dan,
 
-On 2022/3/24 16:37, Hangyu Hua wrote:
-> rga->m2m_dev needs to be freed when rga_probe fails.
-> 
-> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
-> ---
->   drivers/media/platform/rockchip/rga/rga.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-> index 4de5e8d2b261..c2ce4fdcdb7f 100644
-> --- a/drivers/media/platform/rockchip/rga/rga.c
-> +++ b/drivers/media/platform/rockchip/rga/rga.c
-> @@ -865,7 +865,7 @@ static int rga_probe(struct platform_device *pdev)
->   
->   	ret = pm_runtime_resume_and_get(rga->dev);
->   	if (ret < 0)
-> -		goto rel_vdev;
-> +		goto rel_m2m;
->   
->   	rga->version.major = (rga_read(rga, RGA_VERSION_INFO) >> 24) & 0xFF;
->   	rga->version.minor = (rga_read(rga, RGA_VERSION_INFO) >> 20) & 0x0F;
-> @@ -881,7 +881,7 @@ static int rga_probe(struct platform_device *pdev)
->   					   DMA_ATTR_WRITE_COMBINE);
->   	if (!rga->cmdbuf_virt) {
->   		ret = -ENOMEM;
-> -		goto rel_vdev;
-> +		goto rel_m2m;
->   	}
->   
->   	rga->src_mmu_pages =
-> @@ -918,6 +918,8 @@ static int rga_probe(struct platform_device *pdev)
->   free_dma:
->   	dma_free_attrs(rga->dev, RGA_CMDBUF_SIZE, rga->cmdbuf_virt,
->   		       rga->cmdbuf_phy, DMA_ATTR_WRITE_COMBINE);
-> +rel_m2m:
-> +	v4l2_m2m_release(rga->m2m_dev);
->   rel_vdev:
->   	video_device_release(vfd);
->   unreg_v4l2_dev:
+On Thu, Apr 7, 2022 at 9:27 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> On Thu, Apr 07, 2022 at 09:17:38PM +0800, Kate Hsuan wrote:
+> > Hi Dan,
+> >
+> > On Thu, Apr 7, 2022 at 7:52 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> > >
+> > > On Thu, Apr 07, 2022 at 06:57:24PM +0800, Kate Hsuan wrote:
+> > > > A not calibrated x_start setting would result in an incorrect AWB location
+> > > > configuration on a sensor when only the rightmost stripe is used. x_start
+> > > > should be calibrated by subtracting the stripe offset to set the coordinate
+> > > > to the correct position on the second stripe.
+> > > >
+> >
+> > >
+> > > I wish the commit description said more about what the bug looks like to
+> > > the user.  This is the front facing camera, right?  Is part of the video
+> > > blank or what's the deal?
+> >
+> > This is IPU3 image processor. I tried to fix the configuration issues
+> > on stripe 1 coordinate settings.
+> >
+>
+> So in terms of users, if you configure it in a certain way then it
+> crashes?  What happens in terms of what the ordinary user sees?
+>
+
+It will not crash. Currently, application, such as libcamara only uses
+stripe 0 to estimate 3A (AE AWB AF). The grid coordinate can be used
+to determine the area on a sensor where we use this area to determine
+the 3A status. If we start to move the grid and it crosses the stripe
+1 offset. The grid will be at the rightmost edge of the sensor. The
+user may only feel the location of AF, AWB, AE of the image is not the
+user's expectation.
+
+I'll update them in the v3 patch.
+
+> regards,
+> dan carpenter
+>
+
+
+-- 
+BR,
+Kate
+
