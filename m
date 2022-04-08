@@ -2,135 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34CDF4F9543
-	for <lists+linux-media@lfdr.de>; Fri,  8 Apr 2022 14:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B89B4F96C8
+	for <lists+linux-media@lfdr.de>; Fri,  8 Apr 2022 15:35:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235544AbiDHMGD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Apr 2022 08:06:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44336 "EHLO
+        id S236298AbiDHNhi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Apr 2022 09:37:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235497AbiDHMFz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Apr 2022 08:05:55 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B59D2FFB53;
-        Fri,  8 Apr 2022 05:03:21 -0700 (PDT)
-X-UUID: ddfd92ebdddb45b5858bc125837b6dd1-20220408
-X-UUID: ddfd92ebdddb45b5858bc125837b6dd1-20220408
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 148416000; Fri, 08 Apr 2022 20:03:17 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 8 Apr 2022 20:03:15 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 8 Apr
- 2022 20:03:14 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 8 Apr 2022 20:03:13 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v9, 17/17] media: mediatek: vcodec: prevent kernel crash when rmmod mtk-vcodec-dec.ko
-Date:   Fri, 8 Apr 2022 20:02:40 +0800
-Message-ID: <20220408120240.29571-18-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220408120240.29571-1-yunfei.dong@mediatek.com>
-References: <20220408120240.29571-1-yunfei.dong@mediatek.com>
+        with ESMTP id S232120AbiDHNhg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Apr 2022 09:37:36 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06992F429D
+        for <linux-media@vger.kernel.org>; Fri,  8 Apr 2022 06:35:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649424930; x=1680960930;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8Jay/Ui0EC7xFbtFJoKbamhHuLeaHZ70pEoabfxqMVQ=;
+  b=BZtdh0g8txUDjS1lOWfNu7lcp+zZnGF8nc2OkMKa1FxJ12i7ET08wcl6
+   +MOnr69s/hcbL2RM09sh0PvB6IaflF40bmxrELcAYjVImOyzFMRHXxPoy
+   ojV9BZUe1oveGs69X86SMqYK5jEtR57r19hfdm6x/OM7/dkw3GDAAzaof
+   mLTfJsARkD70G8ptrviS0jO8CU8+cPySBelhKIWhUytvSoBxkNb5vBuaV
+   vg68Anw7L4ZQJC0yAS/Z+0i2bPDxoWX6qEflsxaojffLZninlqxtP/rMJ
+   mXrbSLazqmKFXH1EQbdiAd/WCal7ZrvGOXSudvAj68WW6VtqiVDkheeyH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="249122496"
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
+   d="scan'208";a="249122496"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 06:35:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
+   d="scan'208";a="571490352"
+Received: from lkp-server02.sh.intel.com (HELO 7e80bc2a00a0) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 08 Apr 2022 06:35:26 -0700
+Received: from kbuild by 7e80bc2a00a0 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1ncolp-0000J5-QP;
+        Fri, 08 Apr 2022 13:35:25 +0000
+Date:   Fri, 08 Apr 2022 21:35:14 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        dri-devel@lists.freedesktop.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:pending-fixes] BUILD REGRESSION
+ 02f3bd309a78c84c8e12ff44a3fd4de16d1180c3
+Message-ID: <62503a12.elUurkADGOBGC+Ma%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the driver support subdev mode, the parameter "dev->pm.dev" will be
-NULL in mtk_vcodec_dec_remove. Kernel will crash when try to rmmod
-mtk-vcodec-dec.ko.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
+branch HEAD: 02f3bd309a78c84c8e12ff44a3fd4de16d1180c3  Merge branch 'for-linux-next-fixes' of git://anongit.freedesktop.org/drm/drm-misc
 
-[ 4380.702726] pc : do_raw_spin_trylock+0x4/0x80
-[ 4380.707075] lr : _raw_spin_lock_irq+0x90/0x14c
-[ 4380.711509] sp : ffff80000819bc10
-[ 4380.714811] x29: ffff80000819bc10 x28: ffff3600c03e4000 x27: 0000000000000000
-[ 4380.721934] x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
-[ 4380.729057] x23: ffff3600c0f34930 x22: ffffd5e923549000 x21: 0000000000000220
-[ 4380.736179] x20: 0000000000000208 x19: ffffd5e9213e8ebc x18: 0000000000000020
-[ 4380.743298] x17: 0000002000000000 x16: ffffd5e9213e8e90 x15: 696c346f65646976
-[ 4380.750420] x14: 0000000000000000 x13: 0000000000000001 x12: 0000000000000040
-[ 4380.757542] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
-[ 4380.764664] x8 : 0000000000000000 x7 : ffff3600c7273ae8 x6 : ffffd5e9213e8ebc
-[ 4380.771786] x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-[ 4380.778908] x2 : 0000000000000000 x1 : ffff3600c03e4000 x0 : 0000000000000208
-[ 4380.786031] Call trace:
-[ 4380.788465]  do_raw_spin_trylock+0x4/0x80
-[ 4380.792462]  __pm_runtime_disable+0x2c/0x1b0
-[ 4380.796723]  mtk_vcodec_dec_remove+0x5c/0xa0 [mtk_vcodec_dec]
-[ 4380.802466]  platform_remove+0x2c/0x60
-[ 4380.806204]  __device_release_driver+0x194/0x250
-[ 4380.810810]  driver_detach+0xc8/0x15c
-[ 4380.814462]  bus_remove_driver+0x5c/0xb0
-[ 4380.818375]  driver_unregister+0x34/0x64
-[ 4380.822288]  platform_driver_unregister+0x18/0x24
-[ 4380.826979]  mtk_vcodec_dec_driver_exit+0x1c/0x888 [mtk_vcodec_dec]
-[ 4380.833240]  __arm64_sys_delete_module+0x190/0x224
-[ 4380.838020]  invoke_syscall+0x48/0x114
-[ 4380.841760]  el0_svc_common.constprop.0+0x60/0x11c
-[ 4380.846540]  do_el0_svc+0x28/0x90
-[ 4380.849844]  el0_svc+0x4c/0x100
-[ 4380.852975]  el0t_64_sync_handler+0xec/0xf0
-[ 4380.857148]  el0t_64_sync+0x190/0x194
-[ 4380.860801] Code: 94431515 17ffffca d503201f d503245f (b9400004)
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+drivers/dma-buf/st-dma-fence-unwrap.c:261:1: internal compiler error: Segmentation fault
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-index a84df6596aaa..5da4572c5b14 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-@@ -482,7 +482,8 @@ static int mtk_vcodec_dec_remove(struct platform_device *pdev)
- 		video_unregister_device(dev->vfd_dec);
- 
- 	v4l2_device_unregister(&dev->v4l2_dev);
--	pm_runtime_disable(dev->pm.dev);
-+	if (!dev->vdec_pdata->is_subdev_supported)
-+		pm_runtime_disable(dev->pm.dev);
- 	mtk_vcodec_fw_release(dev->fw_handler);
- 	return 0;
- }
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+`-- riscv-randconfig-r042-20220406
+    `-- drivers-dma-buf-st-dma-fence-unwrap.c:internal-compiler-error:Segmentation-fault
+
+elapsed time: 726m
+
+configs tested: 105
+configs skipped: 3
+
+gcc tested configs:
+arm                              allyesconfig
+arm                                 defconfig
+arm64                               defconfig
+arm                              allmodconfig
+arm64                            allyesconfig
+parisc                           allyesconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+arm                      integrator_defconfig
+powerpc                     taishan_defconfig
+sh                          polaris_defconfig
+sh                        dreamcast_defconfig
+openrisc                    or1ksim_defconfig
+sh                     sh7710voipgw_defconfig
+arm                          gemini_defconfig
+x86_64                           alldefconfig
+ia64                        generic_defconfig
+xtensa                           alldefconfig
+sh                          sdk7780_defconfig
+x86_64                        randconfig-c001
+i386                          randconfig-c001
+arm                  randconfig-c002-20220408
+ia64                             allmodconfig
+ia64                             allyesconfig
+ia64                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+alpha                               defconfig
+csky                                defconfig
+arc                                 defconfig
+s390                                defconfig
+s390                             allmodconfig
+parisc                              defconfig
+parisc64                            defconfig
+s390                             allyesconfig
+sparc                               defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+arc                  randconfig-r043-20220408
+riscv                randconfig-r042-20220408
+s390                 randconfig-r044-20220408
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                                  kexec
+x86_64                          rhel-8.3-func
+x86_64                               rhel-8.3
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+
+clang tested configs:
+powerpc                     mpc512x_defconfig
+powerpc                   microwatt_defconfig
+powerpc                    socrates_defconfig
+arm                          pcm027_defconfig
+riscv                             allnoconfig
+arm                          collie_defconfig
+powerpc                     powernv_defconfig
+mips                           rs90_defconfig
+arm                                 defconfig
+arm                         socfpga_defconfig
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+hexagon              randconfig-r045-20220408
+hexagon              randconfig-r041-20220408
+
 -- 
-2.18.0
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
