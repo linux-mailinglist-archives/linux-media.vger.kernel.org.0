@@ -2,74 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87B314F9C0C
-	for <lists+linux-media@lfdr.de>; Fri,  8 Apr 2022 19:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41AAC4F9D52
+	for <lists+linux-media@lfdr.de>; Fri,  8 Apr 2022 20:53:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238333AbiDHRz5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Apr 2022 13:55:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46700 "EHLO
+        id S238365AbiDHSzl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Apr 2022 14:55:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238395AbiDHRzz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Apr 2022 13:55:55 -0400
-Received: from smtp.hosts.co.uk (smtp.hosts.co.uk [85.233.160.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B58D747B;
-        Fri,  8 Apr 2022 10:53:48 -0700 (PDT)
-Received: from [78.32.143.231] (helo=devbox3.arkver.dev)
-        by smtp.hosts.co.uk with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim)
-        (envelope-from <ian.dev@arkver.com>)
-        id 1ncsnq-000CRH-BA;
-        Fri, 08 Apr 2022 18:53:46 +0100
-From:   Ian Jamison <ian.dev@arkver.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Ian Arkver <ian.arkver.dev@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: media-entity.h: Fix documentation for media_create_intf_link
-Date:   Fri,  8 Apr 2022 18:53:45 +0100
-Message-Id: <21f190a8bb9ddaa43949b4455983bd66b4e11798.1649440397.git.ian.dev@arkver.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S230098AbiDHSzj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Apr 2022 14:55:39 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A343B9396;
+        Fri,  8 Apr 2022 11:53:34 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id 4BC421F473B1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1649444012;
+        bh=r1uTA7u5ZuBHwJEYWmnZvWNMO0Xo6FFVj0EubH+YtL8=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=EJS6kkAybGAyLEkOzvKZh2fHTuNEdkEE+Ex+3qrvSsAZhQ97MVT27SOT+RkuBLMUX
+         znygWl9zx1gXJbSdl5xK/rU+TJ/xbcP+hAg7lq2v6UucrPUJfYVUJ0R5llQcz93WC8
+         T3zPcxkuvtXod9cWJ6SmV4a7DGlg3mywiIxuAaJ5YwlUUVxYvbmm0NDtPg2FEeKAdt
+         Mie+pssSYeft3zi7Bb26OBcaX0BNxV1U13dyROoqPeiEwLXnpuW4abIxkatu/T4/L7
+         285bmIhO01AeomMxQFI3bG9F4cjVY29kBwdwmJsiWgHa8DRh7DXlcmgfVcm0+Y5kmF
+         LLchSBfC5EMSg==
+Message-ID: <3179e400d52704d11dd150bf4270dab4c1064cad.camel@collabora.com>
+Subject: Re: [PATCH v5 09/17] media: uapi: HEVC: Define
+ V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a dynamic array
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, hverkuil@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, samuel@sholland.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        sebastian.fricke@collabora.com
+Date:   Fri, 08 Apr 2022 14:53:20 -0400
+In-Reply-To: <20220407152940.738159-10-benjamin.gaignard@collabora.com>
+References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
+         <20220407152940.738159-10-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The documentation comment was inserted between the return type
-and the function name. Reunite the lines.
+Le jeudi 07 avril 2022 =C3=A0 17:29 +0200, Benjamin Gaignard a =C3=A9crit=
+=C2=A0:
+> Make explicit that V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control is
+> a dynamic array control type.
+> Some drivers may be able to receive multiple slices in one control
+> to improve decoding performance.
+>=20
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
+>  include/media/hevc-ctrls.h                                | 3 +++
+>  2 files changed, 5 insertions(+)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
+Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 7fcc6c2bac4c..1aaf3b84b584 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2964,6 +2964,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      These bitstream parameters are defined according to :ref:`hevc`.
+>      They are described in section 7.4.7 "General slice segment header
+>      semantics" of the specification.
+> +    This control is a dynamically sized 1-dimensional array,
+> +    V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+> =20
+>  .. c:type:: v4l2_ctrl_hevc_slice_params
+> =20
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index 96a9b71d1def..28049e1a8a07 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -314,6 +314,9 @@ struct v4l2_hevc_pred_weight_table {
+>  /**
+>   * v4l2_ctrl_hevc_slice_params - HEVC slice parameters
+>   *
+> + * This control is a dynamically sized 1-dimensional array,
+> + * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+> + *
 
-Signed-off-by: Ian Jamison <ian.dev@arkver.com>
-Fixes: db7ee32aa185 ("[media] media-device.h: Improve documentation and update it")
----
- include/media/media-entity.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm not sure about this comment, but I'm sure you forgot:
 
-diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index 742918962d46..9bc9a55df71e 100644
---- a/include/media/media-entity.h
-+++ b/include/media/media-entity.h
-@@ -1030,7 +1030,6 @@ __must_check media_devnode_create(struct media_device *mdev,
-  * removed.
-  */
- void media_devnode_remove(struct media_intf_devnode *devnode);
--struct media_link *
- 
- /**
-  * media_create_intf_link() - creates a link between an entity and an interface
-@@ -1061,6 +1060,7 @@ struct media_link *
-  *    the interface and media_device_register_entity() should be called for the
-  *    interface that will be part of the link.
-  */
-+struct media_link *
- __must_check media_create_intf_link(struct media_entity *entity,
- 				    struct media_interface *intf,
- 				    u32 flags);
--- 
-2.35.1
+
+--- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+@@ -1505,6 +1505,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
+v4l2_ctrl_type *type,
+                break;
+        case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:
+                *type =3D V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
++               *flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+                break;
+        case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:
+                *type =3D V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
+
+Also, in AV1 we have V4L2_AV1_MAX_TILE_COUNT, which can be used in cfg.dims=
+,
+something the driver will actually set. We could have
+
+#define V4L2_HEVC_MAX_TILE_COUNT 600
+
+And drives can set:
+
+   .dims =3D { V4L2_HEVC_MAX_TILE_COUNT },
+
+In the control config.
+
+>   * @bit_size: size (in bits) of the current slice data
+>   * @data_bit_offset: offset (in bits) to the video data in the current s=
+lice data
+>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
 
