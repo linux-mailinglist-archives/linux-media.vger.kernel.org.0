@@ -2,114 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AB8B4F9F9E
-	for <lists+linux-media@lfdr.de>; Sat,  9 Apr 2022 00:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E0514FA1F1
+	for <lists+linux-media@lfdr.de>; Sat,  9 Apr 2022 05:24:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238375AbiDHWdl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Apr 2022 18:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47464 "EHLO
+        id S235420AbiDIDYD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Apr 2022 23:24:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234528AbiDHWdk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Apr 2022 18:33:40 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 269971B7B0;
-        Fri,  8 Apr 2022 15:31:36 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id l26so19974713ejx.1;
-        Fri, 08 Apr 2022 15:31:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MIEuyIQOzr7GBajh+n+UsyE5Wi+bFa0QsRrOoLXPvQs=;
-        b=oHP7fYwJCiexaqI8I+it/ifNdESNBhEUa2a5EkkGsFvbgoDOGdrPlE92AvQHwRpIDd
-         /2zBlS69RK/2kPbk2Z1sP2bWuSWKvAozNmBOfX2WC0UxKS12GpP+PTgWuSNmznBMVCgh
-         BTcggNlDq4v3L46zaP5NHvj7lpIIc7+FtoLFHX0+hfpcXogu6CwiWqwje49BvnLpMw49
-         mrFS7+KNGpdlw6+9eibEvPSalKElKm5HsN1HkC8TVP1/E0kk7d0sc7fjwN0gWKvIiCIz
-         cE7ktDUlnYWlsC9Bq54WCoZ/tskD+JFwd0njFZzQvQYrwD+R6pTKWEXHZX9SoloMJQMU
-         i7TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MIEuyIQOzr7GBajh+n+UsyE5Wi+bFa0QsRrOoLXPvQs=;
-        b=LDJzUa/OHTSmlXrZZwvXs5qMjD9ypeRSuxgRMmm8bo7nDRZKxPuBtCXnUy6Ksa6I4E
-         UJr4UGox6hgk5gEYSeT0JZxAMdxDDCQw5WqRhdV6yhRSXAFIfzOmDjGgPG0qvbeIwvzC
-         Ef/Mm+MuD/l9uIhF4Y+Gni8+u3r75DcC4s+WJ8DCBNSQV80QyyUz289k+b9iYFNss78V
-         JbYVoCfOpmKKq7DA0C8l8JP1CGNMdn+17GGY11aNJ0p46jyqkA0+UKfVSzMIfZ1mSQAV
-         jCMfa2hpt6WuFxSCLbTtOy9BsqsfFA+51+pFfgR++41F8e9PT8r3j6pQ0RkPriJeIwBX
-         f9ug==
-X-Gm-Message-State: AOAM530IJclH4wpjuzPdfmR/OOvkNYJefKQCYolM5pu+KhEcp0DfPVDN
-        5XQrGXkJ1MBTNcaa8ENyqqM=
-X-Google-Smtp-Source: ABdhPJwZHXUsf05CmofYgOWQixJUrHdRv1lrpE/Q183lJUyfC1JgwjV4k3etYG6TKy/yNZO0btD4Sw==
-X-Received: by 2002:a17:907:7f8d:b0:6da:b3d6:a427 with SMTP id qk13-20020a1709077f8d00b006dab3d6a427mr19782384ejc.509.1649457094569;
-        Fri, 08 Apr 2022 15:31:34 -0700 (PDT)
-Received: from localhost.localdomain (host-87-4-4-217.retail.telecomitalia.it. [87.4.4.217])
-        by smtp.gmail.com with ESMTPSA id m14-20020a056402510e00b0041d0c0942adsm2277425edd.52.2022.04.08.15.31.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 15:31:33 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Martiros Shakhzadyan <vrzh@vrzh.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: media: atomisp: Convert kmap() to kmap_local_page()
-Date:   Sat,  9 Apr 2022 00:31:29 +0200
-Message-Id: <20220408223129.3844-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S231588AbiDIDYC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Apr 2022 23:24:02 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC48375C19
+        for <linux-media@vger.kernel.org>; Fri,  8 Apr 2022 20:21:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 71354B82DFF
+        for <linux-media@vger.kernel.org>; Sat,  9 Apr 2022 03:21:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C46EEC385A4
+        for <linux-media@vger.kernel.org>; Sat,  9 Apr 2022 03:21:52 +0000 (UTC)
+Date:   Sat, 09 Apr 2022 05:21:50 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+Message-Id: <20220409032152.C46EEC385A4@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The use of kmap() is being deprecated in favor of kmap_local_page() where
-it is feasible. With kmap_local_page(), the mapping is per thread, CPU
-local and not globally visible.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-load_and_flush_by_kmap() is a function where the use of kmap_local_page()
-in place of kmap() is correctly suited.
+Results of the daily build of media_tree:
 
-Convert load_and_flush_by_kmap() from kmap() to kmap_local_page().
+date:			Sat Apr  9 05:00:11 CEST 2022
+media-tree git hash:	535f49a9e1f99d0bacb5d492a9dd193c3affbfc0
+media_build git hash:	4e29721804ea4e824c776101214389642dccad98
+v4l-utils git hash:	6de743337007df7ed8161919d747bc0a397a60c5
+edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7885-gb67c6ed1-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
+host hardware:		x86_64
+host os:		5.16.0-1-amd64
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/media/atomisp/pci/hmm/hmm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.275-i686: OK
+linux-4.14.275-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.237-i686: OK
+linux-4.19.237-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.109-i686: OK
+linux-5.10.109-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.14.21-i686: OK
+linux-5.14.21-x86_64: OK
+linux-5.15.32-i686: OK
+linux-5.15.32-x86_64: OK
+linux-5.16.9-i686: OK
+linux-5.16.9-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+linux-5.18-rc1-i686: OK
+linux-5.18-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 1876, Succeeded: 1876, Failed: 0, Warnings: 0
+virtme-32: ERRORS
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index c1cda16f2dc0..6394385b6637 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -350,7 +350,7 @@ static int load_and_flush_by_kmap(ia_css_ptr virt, void *data,
- 		idx = (virt - bo->start) >> PAGE_SHIFT;
- 		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
- 
--		src = (char *)kmap(bo->page_obj[idx].page) + offset;
-+		src = (char *)kmap_local_page(bo->page_obj[idx].page) + offset;
- 
- 		if ((bytes + offset) >= PAGE_SIZE) {
- 			len = PAGE_SIZE - offset;
-@@ -369,7 +369,7 @@ static int load_and_flush_by_kmap(ia_css_ptr virt, void *data,
- 
- 		clflush_cache_range(src, len);
- 
--		kunmap(bo->page_obj[idx].page);
-+		kunmap_local(src);
- 	}
- 
- 	return 0;
--- 
-2.34.1
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
