@@ -2,85 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38B864FA52C
-	for <lists+linux-media@lfdr.de>; Sat,  9 Apr 2022 07:33:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CEC64FA7CB
+	for <lists+linux-media@lfdr.de>; Sat,  9 Apr 2022 14:54:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239400AbiDIFfL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Apr 2022 01:35:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37046 "EHLO
+        id S239734AbiDIM4G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Apr 2022 08:56:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235759AbiDIFfK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Apr 2022 01:35:10 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBBB823BCA;
-        Fri,  8 Apr 2022 22:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649482384; x=1681018384;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VI8FWE1dGcaXVLEWOk5YvZUOuYotXV+G+WRr6XZpzas=;
-  b=LQYgY1GCaAtiJXvYMqs2E2lNQwDEQD0kushrEHXx7Td762gFummbPubq
-   /Y//+lVusPAEfeZffvbID6aNYAhKQUiXLp0fJ2A7o0MmhUwWUfo/M1QPl
-   2WZt1ifp5Yttvzq9RQizTGndUyGDDQv7ZqM2ivUMwUo9pnXSSXtZ8A+0h
-   SCprHb8Z2nZDEz8qqjeRmVbdtrA8+H/eox4i7BC8XutggGAOFca3PS0bl
-   aPFbXM+tsELjlTrUVVXW2on6EYtRYzHyafzIasX4NaQDtLhUoChJFmRYD
-   QFh9X9xMVYTFYr7LZwASq9G6oknhp71lxMYF+2J1vlES4Hs6qsqw6ULB/
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10311"; a="260607102"
-X-IronPort-AV: E=Sophos;i="5.90,247,1643702400"; 
-   d="scan'208";a="260607102"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 22:33:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,247,1643702400"; 
-   d="scan'208";a="852420338"
-Received: from lkp-server02.sh.intel.com (HELO 7e80bc2a00a0) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 08 Apr 2022 22:32:57 -0700
-Received: from kbuild by 7e80bc2a00a0 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nd3iS-0000uY-Mr;
-        Sat, 09 Apr 2022 05:32:56 +0000
-Date:   Sat, 9 Apr 2022 13:32:28 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Irui Wang <irui.wang@mediatek.com>,
-        George Sun <george.sun@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
-        devicetree@vger.kernel.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-kernel@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v9, 16/17] media: mediatek: vcodec: support stateless VP9
- decoding
-Message-ID: <202204091319.iO0pMmRf-lkp@intel.com>
-References: <20220408120240.29571-17-yunfei.dong@mediatek.com>
+        with ESMTP id S229641AbiDIM4D (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Apr 2022 08:56:03 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B0EE11C3D;
+        Sat,  9 Apr 2022 05:53:55 -0700 (PDT)
+Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1ndAbB-0004qw-9A; Sat, 09 Apr 2022 14:53:53 +0200
+Message-ID: <f2fc5822-56fb-26e8-00f3-71d2e359cf80@leemhuis.info>
+Date:   Sat, 9 Apr 2022 14:53:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220408120240.29571-17-yunfei.dong@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3] si2157: unknown chip version Si2147-A30 ROM 0x50
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Robert Schlabbach <robert_s@gmx.net>,
+        LMML <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Antti Palosaari <crope@iki.fi>,
+        Piotr Chmura <chmooreck@gmail.com>
+References: <c4bcaff8-fbad-969e-ad47-e2c487ac02a1@gmail.com>
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <c4bcaff8-fbad-969e-ad47-e2c487ac02a1@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1649508836;f84f5e71;
+X-HE-SMSGID: 1ndAbB-0004qw-9A
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,112 +46,107 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
+Hi, this is your Linux kernel regression tracker. Top-posting for once,
+to make this easily accessible to everyone.
 
-Thank you for the patch! Perhaps something to improve:
+Mauro, what's the hold-up here? Below patch is fixing a regression
+caused by one of your patches. Why haven't you applied this or provided
+feedback to Piotr what needs to be improved? Or am I missing something
+and progress was made?
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on v5.18-rc1 next-20220408]
-[cannot apply to remoteproc/rproc-next drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+This really is overdue, the first version of this patch was already
+posted two and a half weeks ago. Reminder, the newly added document on
+handling regressions (
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/handling-regressions.rst#n132
+) for this case states this as rule of thumb: "Aim to fix regressions
+within one week ".
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunfei-Dong/media-mediatek-vcodec-Add-vdec-enable-disable-hardware-helpers/20220408-210244
-base:   git://linuxtv.org/media_tree.git master
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220409/202204091319.iO0pMmRf-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/251c7c77f6690881357df39867a32a03eb7db3b7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yunfei-Dong/media-mediatek-vcodec-Add-vdec-enable-disable-hardware-helpers/20220408-210244
-        git checkout 251c7c77f6690881357df39867a32a03eb7db3b7
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash drivers/media/
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:12:
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c: In function 'vdec_vp9_slice_lat_decode':
->> drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h:29:21: warning: format '%lx' expects argument of type 'long unsigned int', but argument 6 has type 'dma_addr_t' {aka 'long long unsigned int'} [-Wformat=]
-      29 | #define pr_fmt(fmt) "%s(),%d: " fmt, __func__, __LINE__
-         |                     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:134:29: note: in expansion of macro 'pr_fmt'
-     134 |                 func(&id, ##__VA_ARGS__);               \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:152:9: note: in expansion of macro '__dynamic_func_call'
-     152 |         __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:162:9: note: in expansion of macro '_dynamic_func_call'
-     162 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:570:9: note: in expansion of macro 'dynamic_pr_debug'
-     570 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h:45:9: note: in expansion of macro 'pr_debug'
-      45 |         pr_debug("[MTK_VCODEC][%d]: " fmt "\n",                 \
-         |         ^~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1938:9: note: in expansion of macro 'mtk_vcodec_debug'
-    1938 |         mtk_vcodec_debug(instance, "lat dma addr: 0x%lx 0x%lx\n",
-         |         ^~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h:29:21: warning: format '%lx' expects argument of type 'long unsigned int', but argument 7 has type 'dma_addr_t' {aka 'long long unsigned int'} [-Wformat=]
-      29 | #define pr_fmt(fmt) "%s(),%d: " fmt, __func__, __LINE__
-         |                     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:134:29: note: in expansion of macro 'pr_fmt'
-     134 |                 func(&id, ##__VA_ARGS__);               \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:152:9: note: in expansion of macro '__dynamic_func_call'
-     152 |         __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:162:9: note: in expansion of macro '_dynamic_func_call'
-     162 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:570:9: note: in expansion of macro 'dynamic_pr_debug'
-     570 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h:45:9: note: in expansion of macro 'pr_debug'
-      45 |         pr_debug("[MTK_VCODEC][%d]: " fmt "\n",                 \
-         |         ^~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1938:9: note: in expansion of macro 'mtk_vcodec_debug'
-    1938 |         mtk_vcodec_debug(instance, "lat dma addr: 0x%lx 0x%lx\n",
-         |         ^~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c: In function 'vdec_vp9_slice_core_decode':
->> drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h:29:21: warning: format '%lx' expects argument of type 'long unsigned int', but argument 6 has type 'dma_addr_t' {aka 'long long unsigned int'} [-Wformat=]
-      29 | #define pr_fmt(fmt) "%s(),%d: " fmt, __func__, __LINE__
-         |                     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:134:29: note: in expansion of macro 'pr_fmt'
-     134 |                 func(&id, ##__VA_ARGS__);               \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:152:9: note: in expansion of macro '__dynamic_func_call'
-     152 |         __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:162:9: note: in expansion of macro '_dynamic_func_call'
-     162 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:570:9: note: in expansion of macro 'dynamic_pr_debug'
-     570 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h:45:9: note: in expansion of macro 'pr_debug'
-      45 |         pr_debug("[MTK_VCODEC][%d]: " fmt "\n",                 \
-         |         ^~~~~~~~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:2007:9: note: in expansion of macro 'mtk_vcodec_debug'
-    2007 |         mtk_vcodec_debug(instance, "core dma_addr_end 0x%lx\n", pfc->vsi.trans.dma_addr_end);
-         |         ^~~~~~~~~~~~~~~~
+P.S.: As the Linux kernel's regression tracker I'm getting a lot of
+reports on my table. I can only look briefly into most of them and lack
+knowledge about most of the areas they concern. I thus unfortunately
+will sometimes get things wrong or miss something important. I hope
+that's not the case here; if you think it is, don't hesitate to tell me
+in a public reply, it's in everyone's interest to set the public record
+straight.
 
 
-vim +29 drivers/media/platform/mediatek/vcodec/vdec/../mtk_vcodec_util.h
+#regzbot poke
 
-4e855a6efa5470 drivers/media/platform/mtk-vcodec/mtk_vcodec_util.h Tiffany Lin      2016-05-03  27  
-71c789760ff9ba drivers/media/platform/mtk-vcodec/mtk_vcodec_util.h Dafna Hirschfeld 2021-11-17  28  #undef pr_fmt
-71c789760ff9ba drivers/media/platform/mtk-vcodec/mtk_vcodec_util.h Dafna Hirschfeld 2021-11-17 @29  #define pr_fmt(fmt) "%s(),%d: " fmt, __func__, __LINE__
-4e855a6efa5470 drivers/media/platform/mtk-vcodec/mtk_vcodec_util.h Tiffany Lin      2016-05-03  30  
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+On 31.03.22 17:55, Piotr Chmura wrote:
+> Fix firmware file names assignment in si2157 tuner, allow for running
+> devices without firmware files needed.
+> 
+> 
+> It's regression in kernel 5.17.0, worked fine in 5.16 series.
+> 
+> device: 07ca:1871 AVerMedia Technologies, Inc. TD310 DVB-T/T2/C dongle
+> modprobe gives error: unknown chip version Si2147-A30 ROM 0x50
+> Device initialization is interrupted.
+> 
+> caused by:
+> 1. table si2157_tuners has swapped fields rom_id and required vs struct
+> si2157_tuner_info.
+> 2. both firmware file names can be null for devices with required ==
+> false - device uses build-in firmware in this case
+> 
+> Fix:
+> 1. Rearrange fields in table si2157_tuners
+> 2. Allow both firmware file names be NULL for devices defined with
+> required == false
+> 
+> 
+> Fixes: 1c35ba3bf972 ("media: si2157: use a different namespace for
+> firmware")
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=215726
+> Link:
+> https://lore.kernel.org/lkml/5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info/
+> 
+> Cc: stable@vger.kernel.org # 5.17.x
+> Signed-off-by: Piotr Chmura <chmooreck@gmail.com>
+> Tested-by: Robert Schlabbach <robert_s@gmx.net>
+> 
+> ---
+> 
+> --- a/drivers/media/tuners/si2157.c    2022-03-20 21:14:17.000000000 +0100
+> +++ b/drivers/media/tuners/si2157.c    2022-03-22 23:48:05.604408331 +0100
+> @@ -77,16 +77,16 @@ err_mutex_unlock:
+>  }
+> 
+>  static const struct si2157_tuner_info si2157_tuners[] = {
+> -    { SI2141, false, 0x60, SI2141_60_FIRMWARE, SI2141_A10_FIRMWARE },
+> -    { SI2141, false, 0x61, SI2141_61_FIRMWARE, SI2141_A10_FIRMWARE },
+> -    { SI2146, false, 0x11, SI2146_11_FIRMWARE, NULL },
+> -    { SI2147, false, 0x50, SI2147_50_FIRMWARE, NULL },
+> -    { SI2148, true,  0x32, SI2148_32_FIRMWARE, SI2158_A20_FIRMWARE },
+> -    { SI2148, true,  0x33, SI2148_33_FIRMWARE, SI2158_A20_FIRMWARE },
+> -    { SI2157, false, 0x50, SI2157_50_FIRMWARE, SI2157_A30_FIRMWARE },
+> -    { SI2158, false, 0x50, SI2158_50_FIRMWARE, SI2158_A20_FIRMWARE },
+> -    { SI2158, false, 0x51, SI2158_51_FIRMWARE, SI2158_A20_FIRMWARE },
+> -    { SI2177, false, 0x50, SI2177_50_FIRMWARE, SI2157_A30_FIRMWARE },
+> +    { SI2141, 0x60, false, SI2141_60_FIRMWARE, SI2141_A10_FIRMWARE },
+> +    { SI2141, 0x61, false, SI2141_61_FIRMWARE, SI2141_A10_FIRMWARE },
+> +    { SI2146, 0x11, false, SI2146_11_FIRMWARE, NULL },
+> +    { SI2147, 0x50, false, SI2147_50_FIRMWARE, NULL },
+> +    { SI2148, 0x32, true,  SI2148_32_FIRMWARE, SI2158_A20_FIRMWARE },
+> +    { SI2148, 0x33, true,  SI2148_33_FIRMWARE, SI2158_A20_FIRMWARE },
+> +    { SI2157, 0x50, false, SI2157_50_FIRMWARE, SI2157_A30_FIRMWARE },
+> +    { SI2158, 0x50, false, SI2158_50_FIRMWARE, SI2158_A20_FIRMWARE },
+> +    { SI2158, 0x51, false, SI2158_51_FIRMWARE, SI2158_A20_FIRMWARE },
+> +    { SI2177, 0x50, false, SI2177_50_FIRMWARE, SI2157_A30_FIRMWARE },
+>  };
+> 
+>  static int si2157_load_firmware(struct dvb_frontend *fe,
+> @@ -178,7 +178,7 @@ static int si2157_find_and_load_firmware
+>          }
+>      }
+> 
+> -    if (!fw_name && !fw_alt_name) {
+> +    if (required && !fw_name && !fw_alt_name) {
+>          dev_err(&client->dev,
+>              "unknown chip version Si21%d-%c%c%c ROM 0x%02x\n",
+>              part_id, cmd.args[1], cmd.args[3], cmd.args[4], rom_id);
+> 
+
