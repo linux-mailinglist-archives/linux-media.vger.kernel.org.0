@@ -2,43 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CEC64FA7CB
-	for <lists+linux-media@lfdr.de>; Sat,  9 Apr 2022 14:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B27C4FA82D
+	for <lists+linux-media@lfdr.de>; Sat,  9 Apr 2022 15:21:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239734AbiDIM4G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Apr 2022 08:56:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34012 "EHLO
+        id S241830AbiDINXT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Apr 2022 09:23:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229641AbiDIM4D (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Apr 2022 08:56:03 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B0EE11C3D;
-        Sat,  9 Apr 2022 05:53:55 -0700 (PDT)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1ndAbB-0004qw-9A; Sat, 09 Apr 2022 14:53:53 +0200
-Message-ID: <f2fc5822-56fb-26e8-00f3-71d2e359cf80@leemhuis.info>
-Date:   Sat, 9 Apr 2022 14:53:52 +0200
+        with ESMTP id S241781AbiDINXS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Apr 2022 09:23:18 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 938F011C1D;
+        Sat,  9 Apr 2022 06:21:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649510470; x=1681046470;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vfC+nRqScmWArguoYMf/e1ASOBmxDV4xlBHdGwcPDiE=;
+  b=i08DAC8o8GBUOoKhGtcLNxJQe5PEcssKB3VuNCkuScbkRmqaiaAmXLRc
+   KGCjn49LOGezsBn6HT6y+uX/vU7Kr4sU9Xtvt3L9i9mn4tvEwM8OO4+Jz
+   hScWrgVGyEcRd563g8LA9pVFfVCLcq+0qU4KBoq1LgnXGKxekoAYGYWAp
+   HMMDRdmcdr0NOdswNhhoCYlOK4De1TPJ94sSUM8aZ4Y86R4dTumwdpg7t
+   IdCLiEye7MSMwfLWig38HlGtd8qOA+LQaKm1T9dQ4dIIJ/a8rGyiJSuyf
+   MoFFKr7zCF49w5in/O0wanabeodcsybq7m5bhHulRHWkKEZyEGQf9+bf2
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10311"; a="259398775"
+X-IronPort-AV: E=Sophos;i="5.90,247,1643702400"; 
+   d="scan'208";a="259398775"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2022 06:21:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,247,1643702400"; 
+   d="scan'208";a="622153364"
+Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 09 Apr 2022 06:21:04 -0700
+Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1ndB1T-00002H-Ef;
+        Sat, 09 Apr 2022 13:21:03 +0000
+Date:   Sat, 9 Apr 2022 21:19:59 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        Irui Wang <irui.wang@mediatek.com>,
+        George Sun <george.sun@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-kernel@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        linux-mediatek@lists.infradead.org,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v9, 16/17] media: mediatek: vcodec: support stateless VP9
+ decoding
+Message-ID: <202204092137.3RrpN4Hr-lkp@intel.com>
+References: <20220408120240.29571-17-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3] si2157: unknown chip version Si2147-A30 ROM 0x50
-Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Robert Schlabbach <robert_s@gmx.net>,
-        LMML <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Antti Palosaari <crope@iki.fi>,
-        Piotr Chmura <chmooreck@gmail.com>
-References: <c4bcaff8-fbad-969e-ad47-e2c487ac02a1@gmail.com>
-From:   Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <c4bcaff8-fbad-969e-ad47-e2c487ac02a1@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1649508836;f84f5e71;
-X-HE-SMSGID: 1ndAbB-0004qw-9A
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220408120240.29571-17-yunfei.dong@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,107 +88,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, this is your Linux kernel regression tracker. Top-posting for once,
-to make this easily accessible to everyone.
+Hi Yunfei,
 
-Mauro, what's the hold-up here? Below patch is fixing a regression
-caused by one of your patches. Why haven't you applied this or provided
-feedback to Piotr what needs to be improved? Or am I missing something
-and progress was made?
+Thank you for the patch! Yet something to improve:
 
-This really is overdue, the first version of this patch was already
-posted two and a half weeks ago. Reminder, the newly added document on
-handling regressions (
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/handling-regressions.rst#n132
-) for this case states this as rule of thumb: "Aim to fix regressions
-within one week ".
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on v5.18-rc1 next-20220408]
+[cannot apply to remoteproc/rproc-next drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunfei-Dong/media-mediatek-vcodec-Add-vdec-enable-disable-hardware-helpers/20220408-210244
+base:   git://linuxtv.org/media_tree.git master
+config: arm64-randconfig-r015-20220408 (https://download.01.org/0day-ci/archive/20220409/202204092137.3RrpN4Hr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/251c7c77f6690881357df39867a32a03eb7db3b7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yunfei-Dong/media-mediatek-vcodec-Add-vdec-enable-disable-hardware-helpers/20220408-210244
+        git checkout 251c7c77f6690881357df39867a32a03eb7db3b7
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash
 
-P.S.: As the Linux kernel's regression tracker I'm getting a lot of
-reports on my table. I can only look briefly into most of them and lack
-knowledge about most of the areas they concern. I thus unfortunately
-will sometimes get things wrong or miss something important. I hope
-that's not the case here; if you think it is, don't hesitate to tell me
-in a public reply, it's in everyone's interest to set the public record
-straight.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
+All errors (new ones prefixed by >>):
 
-#regzbot poke
+   aarch64-linux-ld: drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.o: in function `vdec_vp9_slice_update_prob.isra.0':
+>> vdec_vp9_req_lat_if.c:(.text+0x2654): undefined reference to `v4l2_vp9_adapt_noncoef_probs'
+   vdec_vp9_req_lat_if.c:(.text+0x2654): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `v4l2_vp9_adapt_noncoef_probs'
+>> aarch64-linux-ld: vdec_vp9_req_lat_if.c:(.text+0x26c0): undefined reference to `v4l2_vp9_adapt_coef_probs'
+   vdec_vp9_req_lat_if.c:(.text+0x26c0): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `v4l2_vp9_adapt_coef_probs'
+   aarch64-linux-ld: vdec_vp9_req_lat_if.c:(.text+0x26d8): undefined reference to `v4l2_vp9_adapt_coef_probs'
+   vdec_vp9_req_lat_if.c:(.text+0x26d8): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `v4l2_vp9_adapt_coef_probs'
+   aarch64-linux-ld: vdec_vp9_req_lat_if.c:(.text+0x26f0): undefined reference to `v4l2_vp9_adapt_coef_probs'
+   vdec_vp9_req_lat_if.c:(.text+0x26f0): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `v4l2_vp9_adapt_coef_probs'
 
-
-On 31.03.22 17:55, Piotr Chmura wrote:
-> Fix firmware file names assignment in si2157 tuner, allow for running
-> devices without firmware files needed.
-> 
-> 
-> It's regression in kernel 5.17.0, worked fine in 5.16 series.
-> 
-> device: 07ca:1871 AVerMedia Technologies, Inc. TD310 DVB-T/T2/C dongle
-> modprobe gives error: unknown chip version Si2147-A30 ROM 0x50
-> Device initialization is interrupted.
-> 
-> caused by:
-> 1. table si2157_tuners has swapped fields rom_id and required vs struct
-> si2157_tuner_info.
-> 2. both firmware file names can be null for devices with required ==
-> false - device uses build-in firmware in this case
-> 
-> Fix:
-> 1. Rearrange fields in table si2157_tuners
-> 2. Allow both firmware file names be NULL for devices defined with
-> required == false
-> 
-> 
-> Fixes: 1c35ba3bf972 ("media: si2157: use a different namespace for
-> firmware")
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=215726
-> Link:
-> https://lore.kernel.org/lkml/5f660108-8812-383c-83e4-29ee0558d623@leemhuis.info/
-> 
-> Cc: stable@vger.kernel.org # 5.17.x
-> Signed-off-by: Piotr Chmura <chmooreck@gmail.com>
-> Tested-by: Robert Schlabbach <robert_s@gmx.net>
-> 
-> ---
-> 
-> --- a/drivers/media/tuners/si2157.c    2022-03-20 21:14:17.000000000 +0100
-> +++ b/drivers/media/tuners/si2157.c    2022-03-22 23:48:05.604408331 +0100
-> @@ -77,16 +77,16 @@ err_mutex_unlock:
->  }
-> 
->  static const struct si2157_tuner_info si2157_tuners[] = {
-> -    { SI2141, false, 0x60, SI2141_60_FIRMWARE, SI2141_A10_FIRMWARE },
-> -    { SI2141, false, 0x61, SI2141_61_FIRMWARE, SI2141_A10_FIRMWARE },
-> -    { SI2146, false, 0x11, SI2146_11_FIRMWARE, NULL },
-> -    { SI2147, false, 0x50, SI2147_50_FIRMWARE, NULL },
-> -    { SI2148, true,  0x32, SI2148_32_FIRMWARE, SI2158_A20_FIRMWARE },
-> -    { SI2148, true,  0x33, SI2148_33_FIRMWARE, SI2158_A20_FIRMWARE },
-> -    { SI2157, false, 0x50, SI2157_50_FIRMWARE, SI2157_A30_FIRMWARE },
-> -    { SI2158, false, 0x50, SI2158_50_FIRMWARE, SI2158_A20_FIRMWARE },
-> -    { SI2158, false, 0x51, SI2158_51_FIRMWARE, SI2158_A20_FIRMWARE },
-> -    { SI2177, false, 0x50, SI2177_50_FIRMWARE, SI2157_A30_FIRMWARE },
-> +    { SI2141, 0x60, false, SI2141_60_FIRMWARE, SI2141_A10_FIRMWARE },
-> +    { SI2141, 0x61, false, SI2141_61_FIRMWARE, SI2141_A10_FIRMWARE },
-> +    { SI2146, 0x11, false, SI2146_11_FIRMWARE, NULL },
-> +    { SI2147, 0x50, false, SI2147_50_FIRMWARE, NULL },
-> +    { SI2148, 0x32, true,  SI2148_32_FIRMWARE, SI2158_A20_FIRMWARE },
-> +    { SI2148, 0x33, true,  SI2148_33_FIRMWARE, SI2158_A20_FIRMWARE },
-> +    { SI2157, 0x50, false, SI2157_50_FIRMWARE, SI2157_A30_FIRMWARE },
-> +    { SI2158, 0x50, false, SI2158_50_FIRMWARE, SI2158_A20_FIRMWARE },
-> +    { SI2158, 0x51, false, SI2158_51_FIRMWARE, SI2158_A20_FIRMWARE },
-> +    { SI2177, 0x50, false, SI2177_50_FIRMWARE, SI2157_A30_FIRMWARE },
->  };
-> 
->  static int si2157_load_firmware(struct dvb_frontend *fe,
-> @@ -178,7 +178,7 @@ static int si2157_find_and_load_firmware
->          }
->      }
-> 
-> -    if (!fw_name && !fw_alt_name) {
-> +    if (required && !fw_name && !fw_alt_name) {
->          dev_err(&client->dev,
->              "unknown chip version Si21%d-%c%c%c ROM 0x%02x\n",
->              part_id, cmd.args[1], cmd.args[3], cmd.args[4], rom_id);
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
