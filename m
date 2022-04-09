@@ -2,133 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B27C4FA82D
-	for <lists+linux-media@lfdr.de>; Sat,  9 Apr 2022 15:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A2304FA8EB
+	for <lists+linux-media@lfdr.de>; Sat,  9 Apr 2022 16:10:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241830AbiDINXT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Apr 2022 09:23:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56634 "EHLO
+        id S242324AbiDIOMG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Apr 2022 10:12:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241781AbiDINXS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Apr 2022 09:23:18 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 938F011C1D;
-        Sat,  9 Apr 2022 06:21:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649510470; x=1681046470;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vfC+nRqScmWArguoYMf/e1ASOBmxDV4xlBHdGwcPDiE=;
-  b=i08DAC8o8GBUOoKhGtcLNxJQe5PEcssKB3VuNCkuScbkRmqaiaAmXLRc
-   KGCjn49LOGezsBn6HT6y+uX/vU7Kr4sU9Xtvt3L9i9mn4tvEwM8OO4+Jz
-   hScWrgVGyEcRd563g8LA9pVFfVCLcq+0qU4KBoq1LgnXGKxekoAYGYWAp
-   HMMDRdmcdr0NOdswNhhoCYlOK4De1TPJ94sSUM8aZ4Y86R4dTumwdpg7t
-   IdCLiEye7MSMwfLWig38HlGtd8qOA+LQaKm1T9dQ4dIIJ/a8rGyiJSuyf
-   MoFFKr7zCF49w5in/O0wanabeodcsybq7m5bhHulRHWkKEZyEGQf9+bf2
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10311"; a="259398775"
-X-IronPort-AV: E=Sophos;i="5.90,247,1643702400"; 
-   d="scan'208";a="259398775"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2022 06:21:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,247,1643702400"; 
-   d="scan'208";a="622153364"
-Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Apr 2022 06:21:04 -0700
-Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1ndB1T-00002H-Ef;
-        Sat, 09 Apr 2022 13:21:03 +0000
-Date:   Sat, 9 Apr 2022 21:19:59 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Irui Wang <irui.wang@mediatek.com>,
-        George Sun <george.sun@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
-        devicetree@vger.kernel.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-kernel@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v9, 16/17] media: mediatek: vcodec: support stateless VP9
- decoding
-Message-ID: <202204092137.3RrpN4Hr-lkp@intel.com>
-References: <20220408120240.29571-17-yunfei.dong@mediatek.com>
+        with ESMTP id S232370AbiDIOME (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Apr 2022 10:12:04 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA9118D299;
+        Sat,  9 Apr 2022 07:09:57 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id h5so9278009pgc.7;
+        Sat, 09 Apr 2022 07:09:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ywLuhURZWup0XZ6PxVth2US3qHe3GrcEUeZbxf/aXSM=;
+        b=XPerBaaYc64nNazrcqt6orH0B/waCDinTWwvSwI6kw8hGXx1cXNQYzZhUn8Mpkd3p0
+         lzduX8cW5/jQ+tspZ+AyvGEM51AJnIwAjHGzMOZsY0PDwJfKokvDnZ9vqZwc98Q3Z4jr
+         +C+27rdo6xoDrGyEj2hyLdamOqp4UWM71XpfpHm+r0nxSthTc+iJwctRp0pVg/PULfAk
+         AJi82PFbcACkW8nblMH8palQbp8zYb+Hiu1uNsN1hUB8g9QVbb6fLrMVFOv1/ZdRtX7c
+         AS2bsT9mQWdZZA4cWYgkvorsCEAW0pWcdDxhO0v1HVYiLgxR56lO2S+TibG0Q7ipDbau
+         oT6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ywLuhURZWup0XZ6PxVth2US3qHe3GrcEUeZbxf/aXSM=;
+        b=mKZRO+41e+O2/5GhHQ8mofJDQ68Wb+mqGfXRMQVbWqrBFGG+RBsdC0L4TYMRiyLiEO
+         tNRDOLCzD5p518NNZMMKzftlIxzWY2Amz2p9NKzYeMYBvPnIZwYrZT2Zg0BFKvzZcts7
+         EqHiTVDJUisgpK0iDpLkj6I13t7l2KlLNELbGPirbIRe55aXnjn8gv+QI9k5H+7f0LYl
+         3KdNmDd2fQNo7zZLD7AFbmUVitPi6iK9J/GwpOwPzQxj752SvyXNs3934Aaf+tScZ1Dr
+         VLkTwlQ/8VjM1/eQk7N8ffQAA28oEcLvEiD21jHC5tXtwNBbb5HKScr/hHz993scbgBC
+         J6Kw==
+X-Gm-Message-State: AOAM532UiHcyGvgDzN0nwv8AAozC2C4s+mgwOmQYaGTdmud9kGQxi68Y
+        NIYhiVURrrmadpuk+bw0AjCZQaSbOL2zkLs=
+X-Google-Smtp-Source: ABdhPJy3TzY6qIU4BBZZaEhggmYBaZfm48TYSK3WF/HHnhQ3NwLUlV+V/xWqtEL0xALwsZBxkjZI2g==
+X-Received: by 2002:a05:6a00:2310:b0:4fa:7eb1:e855 with SMTP id h16-20020a056a00231000b004fa7eb1e855mr24608724pfh.14.1649513396257;
+        Sat, 09 Apr 2022 07:09:56 -0700 (PDT)
+Received: from localhost.localdomain ([144.202.91.207])
+        by smtp.gmail.com with ESMTPSA id y15-20020a17090a1f4f00b001c7ecaf9e13sm15339097pjy.35.2022.04.09.07.09.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Apr 2022 07:09:55 -0700 (PDT)
+From:   Zheyu Ma <zheyuma97@gmail.com>
+To:     sakari.ailus@linux.intel.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Zheyu Ma <zheyuma97@gmail.com>
+Subject: [PATCH] media: i2c: dw9714: Register a callback to disable the regulator
+Date:   Sat,  9 Apr 2022 22:09:39 +0800
+Message-Id: <20220409140939.2176161-1-zheyuma97@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220408120240.29571-17-yunfei.dong@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
+When the driver fails to probe, we will get the following splat:
 
-Thank you for the patch! Yet something to improve:
+[   59.305988] ------------[ cut here ]------------
+[   59.306417] WARNING: CPU: 2 PID: 395 at drivers/regulator/core.c:2257 _regulator_put+0x3ec/0x4e0
+[   59.310345] RIP: 0010:_regulator_put+0x3ec/0x4e0
+[   59.318362] Call Trace:
+[   59.318582]  <TASK>
+[   59.318765]  regulator_put+0x1f/0x30
+[   59.319058]  devres_release_group+0x319/0x3d0
+[   59.319420]  i2c_device_probe+0x766/0x940
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on v5.18-rc1 next-20220408]
-[cannot apply to remoteproc/rproc-next drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Fix this by adding a callback that will deal with the disabling when the
+driver fails to probe.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunfei-Dong/media-mediatek-vcodec-Add-vdec-enable-disable-hardware-helpers/20220408-210244
-base:   git://linuxtv.org/media_tree.git master
-config: arm64-randconfig-r015-20220408 (https://download.01.org/0day-ci/archive/20220409/202204092137.3RrpN4Hr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/251c7c77f6690881357df39867a32a03eb7db3b7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yunfei-Dong/media-mediatek-vcodec-Add-vdec-enable-disable-hardware-helpers/20220408-210244
-        git checkout 251c7c77f6690881357df39867a32a03eb7db3b7
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+---
+ drivers/media/i2c/dw9714.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   aarch64-linux-ld: drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.o: in function `vdec_vp9_slice_update_prob.isra.0':
->> vdec_vp9_req_lat_if.c:(.text+0x2654): undefined reference to `v4l2_vp9_adapt_noncoef_probs'
-   vdec_vp9_req_lat_if.c:(.text+0x2654): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `v4l2_vp9_adapt_noncoef_probs'
->> aarch64-linux-ld: vdec_vp9_req_lat_if.c:(.text+0x26c0): undefined reference to `v4l2_vp9_adapt_coef_probs'
-   vdec_vp9_req_lat_if.c:(.text+0x26c0): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `v4l2_vp9_adapt_coef_probs'
-   aarch64-linux-ld: vdec_vp9_req_lat_if.c:(.text+0x26d8): undefined reference to `v4l2_vp9_adapt_coef_probs'
-   vdec_vp9_req_lat_if.c:(.text+0x26d8): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `v4l2_vp9_adapt_coef_probs'
-   aarch64-linux-ld: vdec_vp9_req_lat_if.c:(.text+0x26f0): undefined reference to `v4l2_vp9_adapt_coef_probs'
-   vdec_vp9_req_lat_if.c:(.text+0x26f0): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `v4l2_vp9_adapt_coef_probs'
-
+diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
+index cd7008ad8f2f..eccd05fc50c7 100644
+--- a/drivers/media/i2c/dw9714.c
++++ b/drivers/media/i2c/dw9714.c
+@@ -137,6 +137,13 @@ static int dw9714_init_controls(struct dw9714_device *dev_vcm)
+ 	return hdl->error;
+ }
+ 
++static void dw9714_disable_regulator(void *arg)
++{
++	struct dw9714_device *dw9714_dev = arg;
++
++	regulator_disable(dw9714_dev->vcc);
++}
++
+ static int dw9714_probe(struct i2c_client *client)
+ {
+ 	struct dw9714_device *dw9714_dev;
+@@ -157,6 +164,10 @@ static int dw9714_probe(struct i2c_client *client)
+ 		return rval;
+ 	}
+ 
++	rval = devm_add_action_or_reset(&client->dev, dw9714_disable_regulator, dw9714_dev);
++	if (rval)
++		return rval;
++
+ 	v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
+ 	dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+ 				V4L2_SUBDEV_FL_HAS_EVENTS;
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
