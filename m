@@ -2,44 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C65E4FAE5D
-	for <lists+linux-media@lfdr.de>; Sun, 10 Apr 2022 17:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9E564FAE62
+	for <lists+linux-media@lfdr.de>; Sun, 10 Apr 2022 17:10:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240065AbiDJPKY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Apr 2022 11:10:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35906 "EHLO
+        id S240110AbiDJPNC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Apr 2022 11:13:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235249AbiDJPKX (ORCPT
+        with ESMTP id S232707AbiDJPNA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Apr 2022 11:10:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ECDE6210A
-        for <linux-media@vger.kernel.org>; Sun, 10 Apr 2022 08:08:12 -0700 (PDT)
+        Sun, 10 Apr 2022 11:13:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD29513E2A;
+        Sun, 10 Apr 2022 08:10:49 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC261482;
-        Sun, 10 Apr 2022 17:08:09 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62E4D482;
+        Sun, 10 Apr 2022 17:10:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1649603289;
-        bh=Q2q4QxELOi4YVANAFY802ARSSBviqYsKZCRJhrvtdM8=;
+        s=mail; t=1649603447;
+        bh=EKSMvEVT58fRaDQ4LBXr1wUTIvlA9+5BdMvHsDAnBD0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GIfu+bnqIWVOj4lTHyhraUuX1lSq0DmANr0UDDUdEpilOQmgE0wHdUuQvrF3kOo9W
-         xHvNs++eljtuX+dJOBOs4FERn0kALF+yZY2sEUmAAnteeUKVi/dpMhBZGtvgk1rwCw
-         jtHL+l5NnFt7iOFjrzlt7ZqmYC6hmVVHUKI38dzo=
-Date:   Sun, 10 Apr 2022 18:08:07 +0300
+        b=XZas+GC+obmTLs0yI6Py/zm7x3J4R2OibbPyVjU5b74Vwk+KxvPMxC5r0lfBa9DKc
+         bk4RuynoHGr7s2E22Rj8pfYG/nkdsqbw7P9hZDBIA8NNfnY9434Ppyyp1S063YJBck
+         ee9SnAZ6izOotUJtPCb8VSYFiwHIdaYlHaBaJzTk=
+Date:   Sun, 10 Apr 2022 18:10:45 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Subject: Re: [PATCH] media: v4l2-async: Use endpoints in
- __v4l2_async_nf_add_fwnode_remote()
-Message-ID: <YlLy1yXSjpNgP7Zh@pendragon.ideasonboard.com>
-References: <20220321145134.29820-1-laurent.pinchart@ideasonboard.com>
- <164953294830.22830.18350472818944012018@Monstersaurus>
+Cc:     Ian Jamison <ian.dev@arkver.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ian Arkver <ian.arkver.dev@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: media-entity.h: Fix documentation for
+ media_create_intf_link
+Message-ID: <YlLzdbHTaQu01HKJ@pendragon.ideasonboard.com>
+References: <21f190a8bb9ddaa43949b4455983bd66b4e11798.1649440397.git.ian.dev@arkver.com>
+ <164953234079.22830.17385702287665697579@Monstersaurus>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <164953294830.22830.18350472818944012018@Monstersaurus>
+In-Reply-To: <164953234079.22830.17385702287665697579@Monstersaurus>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -49,56 +51,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
-
-On Sat, Apr 09, 2022 at 08:35:48PM +0100, Kieran Bingham wrote:
-> Quoting Laurent Pinchart (2022-03-21 14:51:34)
-> > From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Sat, Apr 09, 2022 at 08:25:40PM +0100, Kieran Bingham wrote:
+> Quoting Ian Jamison (2022-04-08 18:53:45)
+> > The documentation comment was inserted between the return type
+> > and the function name. Reunite the lines.
 > > 
-> > Matching on device fwnode handles is deprecated in favour of endpoint
-> > fwnode handles. Switch the __v4l2_async_nf_add_fwnode_remote() function
-> > to use the latter. The match code handles backward compatibility by
-> > falling by to the device fwnode handle, so this shouldn't introduce any
+> > Signed-off-by: Ian Jamison <ian.dev@arkver.com>
+> > Fixes: db7ee32aa185 ("[media] media-device.h: Improve documentation and update it")
+> > ---
+> >  include/media/media-entity.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> > index 742918962d46..9bc9a55df71e 100644
+> > --- a/include/media/media-entity.h
+> > +++ b/include/media/media-entity.h
+> > @@ -1030,7 +1030,6 @@ __must_check media_devnode_create(struct media_device *mdev,
+> >   * removed.
+> >   */
+> >  void media_devnode_remove(struct media_intf_devnode *devnode);
+> > -struct media_link *
 > 
-> s/by/back/ ?
+> Eeep. I guess that was some sort of merge conflict resolution that
+> didn't quite get it right sometime.
+> 
+> But definitely a good fix.
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 Indeed.
 
-> It sounds like this helps move other devices towards endpoint matching
-> more generically too, but I expect there will still be more specifics to
-> handle in receiver drivers?
-> 
-> And indeed the whole point of the fallback case was to make them
-> compatible... so:
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> 
-> But I suspect this needs some testing on platforms that haven't yet
-> moved to endpoint matching.. ?
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The more testing the better :-)
-
-> > regression.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-async.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > index 0404267f1ae4..67d7f445d429 100644
-> > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > @@ -662,7 +662,7 @@ __v4l2_async_nf_add_fwnode_remote(struct v4l2_async_notifier *notif,
-> >         struct v4l2_async_subdev *asd;
-> >         struct fwnode_handle *remote;
-> >  
-> > -       remote = fwnode_graph_get_remote_port_parent(endpoint);
-> > +       remote = fwnode_graph_get_remote_endpoint(endpoint);
-> >         if (!remote)
-> >                 return ERR_PTR(-ENOTCONN);
-> >  
+> >  /**
+> >   * media_create_intf_link() - creates a link between an entity and an interface
+> > @@ -1061,6 +1060,7 @@ struct media_link *
+> >   *    the interface and media_device_register_entity() should be called for the
+> >   *    interface that will be part of the link.
+> >   */
+> > +struct media_link *
+> >  __must_check media_create_intf_link(struct media_entity *entity,
+> >                                     struct media_interface *intf,
+> >                                     u32 flags);
 
 -- 
 Regards,
