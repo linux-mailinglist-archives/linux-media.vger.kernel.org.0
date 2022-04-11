@@ -2,64 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 751C74FB15D
-	for <lists+linux-media@lfdr.de>; Mon, 11 Apr 2022 03:31:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 103464FB15F
+	for <lists+linux-media@lfdr.de>; Mon, 11 Apr 2022 03:31:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244233AbiDKBdv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S244226AbiDKBdv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Sun, 10 Apr 2022 21:33:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45692 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243254AbiDKBdt (ORCPT
+        with ESMTP id S244227AbiDKBdu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Apr 2022 21:33:49 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36A913EA88
-        for <linux-media@vger.kernel.org>; Sun, 10 Apr 2022 18:31:37 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id w4so20766811wrg.12
-        for <linux-media@vger.kernel.org>; Sun, 10 Apr 2022 18:31:37 -0700 (PDT)
+        Sun, 10 Apr 2022 21:33:50 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2392B3EA9D
+        for <linux-media@vger.kernel.org>; Sun, 10 Apr 2022 18:31:38 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id r13so20804875wrr.9
+        for <linux-media@vger.kernel.org>; Sun, 10 Apr 2022 18:31:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=k3gcIDeCZ4FNN7UJi4DooXXT3wAgGZnORf6hg3bDQ7g=;
-        b=Nh7jCsuTVNWjS2uWjY3zMHBdnEq3JQRfiXdVez/H02JTH4fA06ICUOGZLNmd3TxsY5
-         A4cI4ZqMnVF+b/oAUDWofHNxmNyfUunb2JdPtcSe/Gw166qboftQujmO3P7A76liRxYb
-         cP8xu3eL/Y+6r00osZdc6E18lqD6MJGRSezcrr0/GS+dJe1VFPMTJdWINutXFfl+py3e
-         PMY97wOR6huyIZyJnJQQRSUhRKWfRWgE2Ilu5Jfibi/dM45I415nF+/PCYjHqJcfXGmX
-         cHI0Z1+S6Wcpj974sjqP5Ay+I9DXvEgcyGSq7pO+1V4sEQqPNr7mu0MtdOCWMh3Y/v25
-         HvIQ==
+        bh=N+Sd3XQqKZuKjlUjPG3x4ncDDe97DiTcIqhqg+djNQQ=;
+        b=AWN2Hrv4psLo6G9lENTC2PigdvnCG4+GGNTd9d2xN2xrtdCNJu7yCw8oHPjqxuLKGH
+         aWVSBsSrLmelnVnFMltar6ec4486c/lpxJYLLIn9gI9c9r9c6nTTz6/e2hdwHGJ16Ag7
+         4PjPX3w3pO9mlNkORMfOTuGDpOyiL78yGqAalrZmp9mXG/J3SRd0VQA5QQZ4K8GazAQX
+         aAGXJ50VJx5eyWFwK4VOyumWeZ0yvYtG6s5x7xpxvZcazjpiea6qRvCppLpwT5H58iBr
+         gbw6ZU0H+0mvXRmheQYtPsTsx/I4/v3eGRcTK/2x1Ndw5JfHfybgGi5biQib0wxk0giz
+         Fttw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=k3gcIDeCZ4FNN7UJi4DooXXT3wAgGZnORf6hg3bDQ7g=;
-        b=YuSs/3uLVTaWp1dZhyMHK6rLw6U0hKocAliTECgBS11altmEtHejm6KhGPpL2zrRw4
-         ATdChT3sq03EpoMWQfCx6ZFZTc5vBSUCv34dAPmjbRQJECHeldA2BtzkRL974iI3oKAI
-         GRY8F8/uihCxyCa+FsnnfFBudErC/G7AeIyLTh6FG/cUMoGkt7bvfssKgAGBjolgoUkb
-         0Ohuw9Gtp5Lytby7gcGJuG6ScVjyrrQIxlvcjOSEf/ZQafQ03V4f7cluKdXx2LwLz6II
-         uGgo67wO0IF0TCtutc6u4WIfsEVC/7Qn2Q9FGFp9AmmM2wzWyrObqOeu1i0C+N6BrSRm
-         3dQQ==
-X-Gm-Message-State: AOAM533iklwq4GzaSv6muR3jTfyLIIvoaPuFPqYn+Fsdthxd3QtWJ7Gs
-        W3rC9jXTHT7+BhvbjjPjTGvTdg==
-X-Google-Smtp-Source: ABdhPJwIJIitRDIHSBPO8qsdreJXfABhtyIvkAog2qxJDQCyAUz7/K8lyjLcLN4MzX9ezIflq2NBjw==
-X-Received: by 2002:a5d:64ae:0:b0:207:8830:fa57 with SMTP id m14-20020a5d64ae000000b002078830fa57mr14580891wrp.272.1649640695684;
-        Sun, 10 Apr 2022 18:31:35 -0700 (PDT)
+        bh=N+Sd3XQqKZuKjlUjPG3x4ncDDe97DiTcIqhqg+djNQQ=;
+        b=NlZZtu5XxCxhhD0rIH/aVvhnPE09hJytEWlZpmGHQjO5AA7abcaj67vgM//mFlkPLw
+         2pIE/vok21eTySOg7gmnTcJzhGl/5FZYVxaNxoA0/4E3fhEWRG5u7DzuT8r/58WJnIT4
+         4wXUKRU/g0ij3eplmzXfEw0pT6BxwXBQjOQ1nYD0FLYgoGvgmhvIUp+48d1WsDZPR/A7
+         5Kr/NpIED3oaqC+2KVMePTfo9OtzcG1BCk87fL9bychg73mY3v4n5HGN6DWMmiJBrvND
+         jO19JJNMY4SCre/DrekHr78x/vqBiAybGiKw4SayULy5pXVcEYP/k9auRYJMA4YOEbLi
+         OdfQ==
+X-Gm-Message-State: AOAM5337n4Chz8usilX6iHV4o8nNRHyQPILUIWVMMjAj+NKoC6+ru2LC
+        EzFLpU0RE1umaoS7Uoepm7EYiA==
+X-Google-Smtp-Source: ABdhPJwdit9ufgaeV7A8lq0+RA/xIZAjjtZ8xW1wVja+YAFOecwW8dpobQ6RENdabY4Fg/iKwvdNvg==
+X-Received: by 2002:a05:6000:1d93:b0:205:e0af:e079 with SMTP id bk19-20020a0560001d9300b00205e0afe079mr22340416wrb.525.1649640696684;
+        Sun, 10 Apr 2022 18:31:36 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id w1-20020a5d6081000000b002061b616b83sm15862934wrt.39.2022.04.10.18.31.34
+        by smtp.gmail.com with ESMTPSA id w1-20020a5d6081000000b002061b616b83sm15862934wrt.39.2022.04.10.18.31.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Apr 2022 18:31:35 -0700 (PDT)
+        Sun, 10 Apr 2022 18:31:36 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
         mchehab@kernel.org, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org
 Cc:     robert.foss@linaro.org, hfink@snap.com, jgrahsl@snap.com,
         dmitry.baryshkov@linaro.org, vladimir.zapolskiy@linaro.org,
-        bryan.odonoghue@linaro.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 1/2] media: dt-bindings: imx412: Add regulator descriptions
-Date:   Mon, 11 Apr 2022 02:31:30 +0100
-Message-Id: <20220411013131.3553098-2-bryan.odonoghue@linaro.org>
+        bryan.odonoghue@linaro.org
+Subject: [PATCH v2 2/2] media: i2c: imx412: Add bulk regulator support
+Date:   Mon, 11 Apr 2022 02:31:31 +0100
+Message-Id: <20220411013131.3553098-3-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220411013131.3553098-1-bryan.odonoghue@linaro.org>
 References: <20220411013131.3553098-1-bryan.odonoghue@linaro.org>
@@ -67,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,39 +73,102 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The imx412 like many I2C camera sensors has three voltage rails which
-depending on platform may be necessary to switch power onto directly.
+Depending on the platform we may need to enable and disable three separate
+regulators for the imx412.
 
-Add in as optional rails so as not to break anything for existing users.
+- DOVDD
+Digital I/O power
 
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+- AVDD
+Analog power
+
+- DVDD
+Digital core power
+
+The addition of these regulators shouldn't affect existing users using
+fixed-on/firmware-controlled regulators.
+
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- .../devicetree/bindings/media/i2c/sony,imx412.yaml       | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/media/i2c/imx412.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
-index afcf70947f7e..26d1807d0bb6 100644
---- a/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
-@@ -32,6 +32,15 @@ properties:
-     description: Clock frequency 6MHz, 12MHz, 18MHz, 24MHz or 27MHz
-     maxItems: 1
+diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
+index be3f6ea55559..44b92718b6cf 100644
+--- a/drivers/media/i2c/imx412.c
++++ b/drivers/media/i2c/imx412.c
+@@ -11,6 +11,7 @@
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
++#include <linux/regulator/consumer.h>
  
-+  dovdd-supply:
-+    description: Interface power supply.
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-fwnode.h>
+@@ -101,6 +102,12 @@ struct imx412_mode {
+ 	struct imx412_reg_list reg_list;
+ };
+ 
++static const char * const imx412_supply_names[] = {
++	"dovdd",	/* Digital I/O power */
++	"avdd",		/* Analog power */
++	"dvdd",		/* Digital core power */
++};
 +
-+  avdd-supply:
-+    description: Analog power supply.
+ /**
+  * struct imx412 - imx412 sensor device structure
+  * @dev: Pointer to generic device
+@@ -128,6 +135,8 @@ struct imx412 {
+ 	struct media_pad pad;
+ 	struct gpio_desc *reset_gpio;
+ 	struct clk *inclk;
++	struct regulator_bulk_data supplies[ARRAY_SIZE(imx412_supply_names)];
++	int num_supplies;
+ 	struct v4l2_ctrl_handler ctrl_handler;
+ 	struct v4l2_ctrl *link_freq_ctrl;
+ 	struct v4l2_ctrl *pclk_ctrl;
+@@ -946,6 +955,17 @@ static int imx412_parse_hw_config(struct imx412 *imx412)
+ 		return -EINVAL;
+ 	}
+ 
++	/* Get optional DT defined regulators */
++	imx412->num_supplies = ARRAY_SIZE(imx412_supply_names);
++	for (i = 0; i < imx412->num_supplies; i++)
++		imx412->supplies[i].supply = imx412_supply_names[i];
 +
-+  dvdd-supply:
-+    description: Digital power supply.
++	ret = devm_regulator_bulk_get(imx412->dev,
++				      imx412->num_supplies,
++				      imx412->supplies);
++	if (ret)
++		return ret;
 +
-   reset-gpios:
-     description: Reference to the GPIO connected to the XCLR pin, if any.
-     maxItems: 1
+ 	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+ 	if (!ep)
+ 		return -ENXIO;
+@@ -1011,6 +1031,13 @@ static int imx412_power_on(struct device *dev)
+ 	struct imx412 *imx412 = to_imx412(sd);
+ 	int ret;
+ 
++	ret = regulator_bulk_enable(imx412->num_supplies,
++				    imx412->supplies);
++	if (ret < 0) {
++		dev_err(dev, "failed to enable regulators\n");
++		goto error_reset;
++	}
++
+ 	gpiod_set_value_cansleep(imx412->reset_gpio, 1);
+ 
+ 	ret = clk_prepare_enable(imx412->inclk);
+@@ -1044,6 +1071,9 @@ static int imx412_power_off(struct device *dev)
+ 
+ 	clk_disable_unprepare(imx412->inclk);
+ 
++	regulator_bulk_disable(imx412->num_supplies,
++			       imx412->supplies);
++
+ 	return 0;
+ }
+ 
 -- 
 2.35.1
 
