@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2058E4FC127
-	for <lists+linux-media@lfdr.de>; Mon, 11 Apr 2022 17:42:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54C864FC2AE
+	for <lists+linux-media@lfdr.de>; Mon, 11 Apr 2022 18:46:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347879AbiDKPpB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Apr 2022 11:45:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42972 "EHLO
+        id S1348607AbiDKQtL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Apr 2022 12:49:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346348AbiDKPo7 (ORCPT
+        with ESMTP id S237884AbiDKQtJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Apr 2022 11:44:59 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A68A3A72E
-        for <linux-media@vger.kernel.org>; Mon, 11 Apr 2022 08:42:43 -0700 (PDT)
+        Mon, 11 Apr 2022 12:49:09 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACD69393E2
+        for <linux-media@vger.kernel.org>; Mon, 11 Apr 2022 09:46:53 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 09728100013;
-        Mon, 11 Apr 2022 15:42:35 +0000 (UTC)
-Date:   Mon, 11 Apr 2022 17:42:33 +0200
+        by mail.gandi.net (Postfix) with ESMTPSA id DF3121BF206;
+        Mon, 11 Apr 2022 16:46:47 +0000 (UTC)
+Date:   Mon, 11 Apr 2022 18:46:46 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Hugues FRUCHET - FOSS <hugues.fruchet@foss.st.com>
 Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
@@ -31,15 +31,15 @@ Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         paul.elder@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 16/27] media: ov5640: Add VBLANK control
-Message-ID: <20220411154233.ibmxehvhvw6jcud5@uno.localdomain>
+Subject: Re: [PATCH v5 06/27] media: ov5640: Update pixel_rate and link_freq
+Message-ID: <20220411164646.q6ydhjwiud2tp3mq@uno.localdomain>
 References: <20220224094313.233347-1-jacopo@jmondi.org>
- <20220224094313.233347-17-jacopo@jmondi.org>
- <3b2e09d0-8524-3b3e-0ace-47fdbd36bec7@foss.st.com>
+ <20220224094313.233347-7-jacopo@jmondi.org>
+ <1d891351-3bb5-1c31-9303-1330f28a45ec@foss.st.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3b2e09d0-8524-3b3e-0ace-47fdbd36bec7@foss.st.com>
+In-Reply-To: <1d891351-3bb5-1c31-9303-1330f28a45ec@foss.st.com>
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
@@ -51,279 +51,252 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Hugues,
 
-On Thu, Apr 07, 2022 at 06:25:32PM +0200, Hugues FRUCHET - FOSS wrote:
+On Thu, Apr 07, 2022 at 06:25:57PM +0200, Hugues FRUCHET - FOSS wrote:
 > Hi Jacopo,
 >
-> Patch proposed below to support framerate change both with frame interval
-> setting and vblank control.
+> Issue with link frequency value reported, see below.
 >
-> On 2/24/22 10:43 AM, Jacopo Mondi wrote:
-> > Add the VBLANK control which allows to select the duration of the
-> > frame vertical blankings and allows to control the framerate.
+> On 2/24/22 10:42 AM, Jacopo Mondi wrote:
+> > After having set a new format re-calculate the pixel_rate and link_freq
+> > control values and update them when in MIPI mode.
 > >
-> > The VBLANK control also modifies the exposure time range, which cannot
-> > exceed the maximum frame length.
+> > Take into account the limitation of the link frequency having to be
+> > strictly smaller than 1GHz when computing the desired link_freq, and
+> > adjust the resulting pixel_rate acounting for the clock tree
+> > configuration.
 > >
 > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > > ---
-> >   drivers/media/i2c/ov5640.c | 52 ++++++++++++++++++++++++++++++++++++++
-> >   1 file changed, 52 insertions(+)
+> >   drivers/media/i2c/ov5640.c | 66 ++++++++++++++++++++++++++++++++++++--
+> >   1 file changed, 64 insertions(+), 2 deletions(-)
 > >
 > > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index 5419c7236348..665a8bcebf09 100644
+> > index f9763edf2422..791694bfed41 100644
 > > --- a/drivers/media/i2c/ov5640.c
 > > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -36,6 +36,10 @@
-> >   #define OV5640_PIXEL_ARRAY_WIDTH	2592
-> >   #define OV5640_PIXEL_ARRAY_HEIGHT	1944
-> > +/* FIXME: not documented. */
-> > +#define OV5640_MIN_VBLANK	24
-> > +#define OV5640_MAX_VTS		1968
->
-> Not enough to support 1024x768@15fps (vblank=2607):
-> +#define OV5640_MAX_VTS		3375 /* 1024x768@15fps, vblank=2607 */
-
-I guess this applies to all modes, as 1024x768 has the same htot and
-vtot as lower resolution modes (just an higher default frame rate as
-it proved to be more stable for high-freq capture in my testing).
-
-Indeed to slow FPS down either blankings are enlarged or the pixel
-rate is reduced. I reported in the cover letter that to increase the
-frame rate (for example VGA@60Hz) the pixel rate should be increased.
-
-As the pixel rate is a RO control, we should allow userspace to
-control LINK_FREQ, which is now registered as read-only to do so.
-
--------------- From cover letter ----------------------------------------
-
-To enable higher FPS the LINK_FREQ control should be made writable to increase
-the pixel rate (default for 640x480 is 48MHz)
-
-  640x480 YUYV 60 FPS (pixel_rate = 96 Mhz)
-
-        $ yavta -f YUYV -s 640x480 -c100 --skip 7 /dev/video0
-        ...
-        9 (1) [-] any 10 614400 B 57.098649 57.098667 59.995 fps ts mono/EoF
-        10 (2) [-] any 11 614400 B 57.115314 57.115332 60.006 fps ts mono/EoF
-
---------------------------------------------------------------------------
-
-To achive slower FPS, the pixel rate can be reduced. In example, to
-get 1024x768@15FPS let's reduce the pixel clock to 48Mhz in the driver
-(default is 96)
-
----------------------------------------------------------------------------
-
-        vblank = (10^6/15) * 48 / hblank - height)
-               = 919
-
-        # v4l2-ctl -d /dev/v4l-subdev4 -c 0x009e0901=919
-        # v4l2-ctl -l -d /dev/v4l-subdev4
-              ...
-              vertical_blanking 0x009e0901 (int)    : min=24 max=2895 step=1 default=520 value=919
-              ...
-              pixel_rate 0x009f0902 (int64)  : min=48000000 max=168000000 step=1 default=48000000 value=48000000 flags=read-only
-              ...
-
-        # yavta..
-        0 (0) [-] any 0 1572864 B 197.054072 197.054091 20.519 fps ts mono/EoF
-        1 (1) [-] any 1 1572864 B 197.120665 197.120683 15.017 fps ts mono/EoF
-        2 (2) [-] any 2 1572864 B 197.187260 197.187278 15.016 fps ts mono/EoF
-        3 (3) [-] any 3 1572864 B 197.253854 197.253873 15.016 fps ts mono/EoF
-        4 (0) [-] any 4 1572864 B 197.320449 197.320469 15.016 fps ts mono/EoF
-        5 (1) [-] any 5 1572864 B 197.387044 197.387068 15.016 fps ts mono/EoF
-        6 (2) [-] any 6 1572864 B 197.453636 197.453659 15.017 fps ts mono/EoF
-        7 (3) [-] any 7 1572864 B 197.520232 197.520257 15.016 fps ts mono/EoF
----------------------------------------------------------------------------
-
-Hence I think the real solution would be to make LINK_FREQ
-controllable by userspace to enlarge the number of achievable
-configurations. I thought it was safer to make LINK_FREQ writable on
-top, but can be fast-tracked if desired.
-
-Ofc enlarging VBLANK max is an option as well, unfortunately I haven't
-found documented anywhere what the max value is, and depending on the
-mode I've seen contradictory results.
-
-Thanks
-   j
-
->
->
-> > +
+> > @@ -31,6 +31,8 @@
 > >   #define OV5640_DEFAULT_SLAVE_ID 0x3c
-> >   #define OV5640_LINK_RATE_MAX		490000000U
-> > @@ -321,6 +325,7 @@ struct ov5640_ctrls {
-> >   	struct v4l2_ctrl *pixel_rate;
-> >   	struct v4l2_ctrl *link_freq;
-> >   	struct v4l2_ctrl *hblank;
-> > +	struct v4l2_ctrl *vblank;
-> >   	struct {
-> >   		struct v4l2_ctrl *auto_exp;
-> >   		struct v4l2_ctrl *exposure;
-> > @@ -2697,6 +2702,7 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
-> >   	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
-> >   	enum ov5640_pixel_rate_id pixel_rate_id = mode->pixel_rate;
-> >   	const struct ov5640_timings *timings;
-> > +	s32 exposure_val, exposure_max;
-> >   	unsigned int hblank;
-> >   	unsigned int i = 0;
-> >   	u32 pixel_rate;
-> > @@ -2755,6 +2761,19 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
-> >   	__v4l2_ctrl_modify_range(sensor->ctrls.hblank,
-> >   				 hblank, hblank, 1, hblank);
-> > +	__v4l2_ctrl_modify_range(sensor->ctrls.vblank, OV5640_MIN_VBLANK,
-> > +				 OV5640_MAX_VTS - mode->height, 1,
-> > +				 timings->vblank_def);
-> > +	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, timings->vblank_def);
+> > +#define OV5640_LINK_RATE_MAX		490000000U
 > > +
-> > +	exposure_max = timings->crop.height + timings->vblank_def - 4;
-> > +	exposure_val = clamp_t(s32, sensor->ctrls.exposure->val,
-> > +			       sensor->ctrls.exposure->minimum,
-> > +			       exposure_max);
-> > +	__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
-> > +				 sensor->ctrls.exposure->minimum,
-> > +				 exposure_max, 1, exposure_val);
-> > +
->
-> +	vblank = timings->vblank_def;
-> +
-> +	if (sensor->current_fr != timings->def_fps) {
-> +		/* Compute the blanking according to the required framerate */
-> +
-> +		int fie_num = sensor->frame_interval.numerator;
-> +		int fie_denom = sensor->frame_interval.denominator;
-> +
-> +		vblank = ((fie_num * pixel_rate / fie_denom) / timings->htot) -
-> +			 mode->height;
-> +	}
-> +
->  	__v4l2_ctrl_modify_range(sensor->ctrls.vblank, OV5640_MIN_VBLANK,
->  				 OV5640_MAX_VTS - mode->height, 1,
-> -				 timings->vblank_def);
-> -	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, timings->vblank_def);
-> +				 vblank);
-> +	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, vblank);
->
-> -	exposure_max = timings->crop.height + timings->vblank_def - 4;
-> +	exposure_max = timings->crop.height + vblank - 4;
->  	exposure_val = clamp_t(s32, sensor->ctrls.exposure->val,
->  			       sensor->ctrls.exposure->minimum,
->  			       exposure_max);
->
->
->
-> @@ -3606,8 +3636,7 @@ static int ov5640_s_frame_interval(struct v4l2_subdev
-> *sd,
->  		sensor->current_mode = mode;
->  		sensor->pending_mode_change = true;
->
-> -		__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
-> -					 ov5640_calc_pixel_rate(sensor));
-> +		ov5640_update_pixel_rate(sensor);
->  	}
->  out:
->  	mutex_unlock(&sensor->lock);
->
->
-> Added def_fps (default framerate) in order to known when using vblank_def
-> and when computing it from frame interval:
->
->
-> @@ -383,6 +383,8 @@ struct ov5640_timings {
->  	u32 vblank_def;
->  	/* DVP only; ignored in MIPI mode. */
->  	u32 max_fps;
-> +	/* CSI-2 only; default fps for default blanking */
-> +	u32 def_fps;
->  };
->
-> @@ -719,6 +722,7 @@ static const struct ov5640_mode_info
-> ov5640_mode_data[OV5640_NUM_MODES] = {
->  			},
->  			.htot		= 1600,
->  			.vblank_def	= 878,
-> +			.def_fps	= OV5640_30_FPS
-> [...]
-> @@ -1108,6 +1120,7 @@ static const struct ov5640_mode_info
-> ov5640_mode_data[OV5640_NUM_MODES] = {
->  			},
->  			.htot		= 2844,
->  			.vblank_def	= 24,
-> +			.def_fps	= OV5640_15_FPS
->  		},
->
->
+> >   #define OV5640_REG_SYS_RESET02		0x3002
+> >   #define OV5640_REG_SYS_CLOCK_ENABLE02	0x3006
+> >   #define OV5640_REG_SYS_CTRL0		0x3008
+> > @@ -2412,6 +2414,66 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
 > >   	return 0;
 > >   }
-> > @@ -3127,6 +3146,15 @@ static int ov5640_set_ctrl_vflip(struct ov5640_dev *sensor, int value)
-> >   			      (BIT(2) | BIT(1)) : 0);
-> >   }
-> > +static int ov5640_set_ctrl_vblank(struct ov5640_dev *sensor, int value)
+> > +static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
 > > +{
 > > +	const struct ov5640_mode_info *mode = sensor->current_mode;
+> > +	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
+> > +	enum ov5640_pixel_rate_id pixel_rate_id = mode->pixel_rate;
+> > +	unsigned int i = 0;
+> > +	u32 pixel_rate;
+> > +	s64 link_freq;
+> > +	u32 num_lanes;
+> > +	u32 bpp;
 > > +
-> > +	/* Update the VTOT timing register value. */
-> > +	return ov5640_write_reg16(sensor, OV5640_REG_TIMING_VTS,
-> > +				  mode->height + value);
-> > +}
+> > +	/*
+> > +	 * Update the pixel rate control value.
+> > +	 *
+> > +	 * For DVP mode, maintain the pixel rate calculation using fixed FPS.
+> > +	 */
+> > +	if (!ov5640_is_csi2(sensor)) {
+> > +		__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
+> > +					 ov5640_calc_pixel_rate(sensor));
 > > +
-> >   static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-> >   {
-> >   	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
-> > @@ -3157,10 +3185,25 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
-> >   {
-> >   	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
-> >   	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> > +	const struct ov5640_mode_info *mode = sensor->current_mode;
-> > +	const struct ov5640_timings *timings;
-> > +	unsigned int exp_max;
-> >   	int ret;
-> >   	/* v4l2_ctrl_lock() locks our own mutex */
-> > +	switch (ctrl->id) {
-> > +	case V4L2_CID_VBLANK:
-> > +		/* Update the exposure range to the newly programmed vblank. */
-> > +		timings = ov5640_timings(sensor, mode);
-> > +		exp_max = mode->height + ctrl->val - 4;
-> > +		__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
-> > +					 sensor->ctrls.exposure->minimum,
-> > +					 exp_max, sensor->ctrls.exposure->step,
-> > +					 timings->vblank_def);
-> > +		break;
+> > +		return 0;
 > > +	}
 > > +
-> >   	/*
-> >   	 * If the device is not powered up by the host driver do
-> >   	 * not apply any controls to H/W at this time. Instead
-> > @@ -3200,6 +3243,9 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
-> >   	case V4L2_CID_VFLIP:
-> >   		ret = ov5640_set_ctrl_vflip(sensor, ctrl->val);
-> >   		break;
-> > +	case V4L2_CID_VBLANK:
-> > +		ret = ov5640_set_ctrl_vblank(sensor, ctrl->val);
-> > +		break;
-> >   	default:
-> >   		ret = -EINVAL;
-> >   		break;
-> > @@ -3220,6 +3266,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
-> >   	struct ov5640_ctrls *ctrls = &sensor->ctrls;
-> >   	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
-> >   	const struct ov5640_timings *timings;
-> > +	unsigned int max_vblank;
-> >   	unsigned int hblank;
-> >   	int ret;
-> > @@ -3245,6 +3292,11 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
-> >   	ctrls->hblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HBLANK, hblank,
-> >   					  hblank, 1, hblank);
-> > +	max_vblank = OV5640_MAX_VTS - mode->height;
-> > +	ctrls->vblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VBLANK,
-> > +					  OV5640_MIN_VBLANK, max_vblank,
-> > +					  1, timings->vblank_def);
+> > +	/*
+> > +	 * The MIPI CSI-2 link frequency should comply with the CSI-2
+> > +	 * specification and be lower than 1GHz.
+> > +	 *
+> > +	 * Start from the suggested pixel_rate for the current mode and
+> > +	 * progressively slow it down if it exceeds 1GHz.
+> > +	 */
+> > +	num_lanes = sensor->ep.bus.mipi_csi2.num_data_lanes;
+> > +	bpp = ov5640_code_to_bpp(fmt->code);
+> > +	do {
+> > +		pixel_rate = ov5640_pixel_rates[pixel_rate_id];
+> > +		link_freq = pixel_rate * bpp / (2 * num_lanes);
+> > +	} while (link_freq >= 1000000000U &&
+> > +		 ++pixel_rate_id < OV5640_NUM_PIXEL_RATES);
 > > +
-> >   	/* Auto/manual white balance */
-> >   	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
-> >   					   V4L2_CID_AUTO_WHITE_BALANCE,
+> > +	/*
+> > +	 * Higher link rates require the clock tree to be programmed with
+> > +	 * 'mipi_div' = 1; this has the effect of halving the actual output
+> > +	 * pixel rate in the MIPI domain.
+> > +	 *
+> > +	 * Adjust the pixel rate control value to report it correctly to
+> > +	 * userspace.
+> > +	 */
+> > +	if (link_freq > OV5640_LINK_RATE_MAX)
+> > +		pixel_rate /= 2;
+>
+> Need to divide also the link_frequency (st-mipid02 bridge interfacing is
+> broken here). Patch proposal below:
+>
+> +	sensor->current_link_freq = link_freq;
+> +
+> +	 * Adjust the pixel rate & link frequency control value to report it
+> +	 * correctly to userspace.
+>  	 */
+> -	if (link_freq > OV5640_LINK_RATE_MAX)
+> +	if (link_freq > OV5640_LINK_RATE_MAX) {
+>  		pixel_rate /= 2;
+> +		link_freq /= 2;
+> +	}
+
+This has been my headache for a long time and I'm still not 100%
+convinced what I have here is the best solution, but at least works
+for more much modes than what it used to.
+
+Can I ask how did you get to the conclusion that link_rate should be
+halved ? Is your receiver driver complaining ? Have you sampled the
+actual link frequency ?
+
+I tried applying your patch and
+
+1) on imx8mp with mipi-csis receiver your patch breaks a few modes but
+   still works for most of them. The system seems unstable compared to
+   the original version, and sometimes I get hangs/segfauls for high
+   resolution modes. The receiver driver is the mipi-csis one [1]
+
+   [1] drivers/media/platform/imx/imx-mipi-csis.c
+
+2) on i.MX6 I spent quite some time debugging why high-res modes do
+   not work there with my series, and my understanding is that the i.MX6
+   CSI-2 receiver only supports a total bandwidth of 1Gbps/lane, which
+   the high res modes of the ov5640 sensor exceeds, having a clock rate
+   frequency of 672 MHz.  (Unrelated: the limitation of 1Gbps might be due
+   to the fact the i.MX6 receiver implements the v1.0 version of the
+   CSI-2 specs, but I found nowhere a confirmation that v1.0 is limited
+   to 1Gbps compared to the 1.5Gbps limit of v1.1).
+
+   If I apply your patch I can capture 1080p and full res, but the
+   images are crippled. The pixels are repeated multiple times in the final
+   image, I cannot tell if that's an issue on the receiver or due to the
+   link rate being actually faster than what reported with your change.
+
+Could you on how you got to halve the reported pixel rate ?
+
+Others have tested with other csi-2 receivers which sample link freq
+using v4l2_get_link_freq() as well, and they have not reported issues
+afaict.
+
+(Please note that using a link_freq that doesn't come from the control
+in ov5640_set_mipi_pclk() makes it harder to tune the pixel rate from
+userspace to accommodate more configurations, as I suggested we should
+do in reply to "[PATCH v5 16/27] media: ov5640: Add VBLANK control"
+but it might still be doable).
+
+Thanks a lot for testing!
+   j
+
+
+[2] That's what I have applied
+
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index faca36dc4187..910b58fb1e08 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -461,6 +461,7 @@ struct ov5640_dev {
+
+        bool pending_mode_change;
+        bool streaming;
++       s64 current_link_freq;
+ };
+
+ static inline struct ov5640_dev *to_ov5640_dev(struct v4l2_subdev *sd)
+@@ -1439,7 +1440,7 @@ static int ov5640_set_mipi_pclk(struct ov5640_dev *sensor)
+        int ret;
+
+        /* Use the link frequency computed at ov5640_update_pixel_rate() time. */
+-       link_freq = ov5640_csi2_link_freqs[sensor->ctrls.link_freq->cur.val];
++       link_freq = sensor->current_link_freq;
+
+        /*
+         * - mipi_div - Additional divider for the MIPI lane clock.
+@@ -2836,6 +2837,8 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
+        } while (link_freq >= 1000000000U &&
+                 ++pixel_rate_id < OV5640_NUM_PIXEL_RATES);
+
++       sensor->current_link_freq = link_freq;
++
+        /*
+         * Higher link rates require the clock tree to be programmed with
+         * 'mipi_div' = 1; this has the effect of halving the actual output
+@@ -2844,8 +2847,10 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
+         * Adjust the pixel rate control value to report it correctly to
+         * userspace.
+         */
+-       if (link_freq > OV5640_LINK_RATE_MAX)
++       if (link_freq > OV5640_LINK_RATE_MAX) {
+                pixel_rate /= 2;
++               link_freq /= 2;
++       }
+
+        for (i = 0; i < ARRAY_SIZE(ov5640_csi2_link_freqs); ++i) {
+                if (ov5640_csi2_link_freqs[i] == link_freq)
+@@ -3777,6 +3782,7 @@ static int ov5640_probe(struct i2c_client *client)
+        sensor->current_mode =
+                &ov5640_mode_data[OV5640_MODE_VGA_640_480];
+        sensor->last_mode = sensor->current_mode;
++       sensor->current_link_freq = OV5640_DEFAULT_LINK_FREQ;
+
+        sensor->ae_target = 52;
+
+
+
+
+>
+>
+> Doing so we cannot relay anymore on link_frequency control reading in
+> ov5640_set_mipi_pclk(), use current_link_freq variable instead
+>
+> @@ -1440,7 +1453,7 @@ static int ov5640_set_mipi_pclk(struct ov5640_dev
+> *sensor)
+>  	int ret;
+>
+>  	/* Use the link freq computed at ov5640_update_pixel_rate() time. */
+> -	link_freq = ov5640_csi2_link_freqs[sensor->ctrls.link_freq->cur.val];
+> +	link_freq = sensor->current_link_freq;
+>
+> @@ -3782,6 +3811,7 @@ static int ov5640_probe(struct i2c_client *client)
+>  	sensor->current_mode =
+>  		&ov5640_mode_data[OV5640_MODE_VGA_640_480];
+>  	sensor->last_mode = sensor->current_mode;
+> +	sensor->current_link_freq = OV5640_DEFAULT_LINK_FREQ;
+>
+>
+>
+>
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(ov5640_csi2_link_freqs); ++i) {
+> > +		if (ov5640_csi2_link_freqs[i] == link_freq)
+> > +			break;
+> > +	}
+> > +
+> > +	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate, pixel_rate);
+> > +	__v4l2_ctrl_s_ctrl(sensor->ctrls.link_freq, i);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >   static int ov5640_set_fmt(struct v4l2_subdev *sd,
+> >   			  struct v4l2_subdev_state *sd_state,
+> >   			  struct v4l2_subdev_format *format)
+> > @@ -2451,8 +2513,8 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+> >   	/* update format even if code is unchanged, resolution might change */
+> >   	sensor->fmt = *mbus_fmt;
+> > -	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
+> > -				 ov5640_calc_pixel_rate(sensor));
+> > +	ov5640_update_pixel_rate(sensor);
+> > +
+> >   out:
+> >   	mutex_unlock(&sensor->lock);
+> >   	return ret;
 > >
 >
 > Hugues.
