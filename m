@@ -2,101 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19A724FBBBA
-	for <lists+linux-media@lfdr.de>; Mon, 11 Apr 2022 14:07:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5CE14FBCBF
+	for <lists+linux-media@lfdr.de>; Mon, 11 Apr 2022 15:06:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244337AbiDKMKC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Apr 2022 08:10:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58642 "EHLO
+        id S1345599AbiDKNIu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Apr 2022 09:08:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238123AbiDKMKC (ORCPT
+        with ESMTP id S233939AbiDKNIs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Apr 2022 08:10:02 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26B8F3E5E2
-        for <linux-media@vger.kernel.org>; Mon, 11 Apr 2022 05:07:47 -0700 (PDT)
-X-UUID: 408acc89c24e4c0b93259427a3335b59-20220411
-X-UUID: 408acc89c24e4c0b93259427a3335b59-20220411
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 2066179283; Mon, 11 Apr 2022 20:07:42 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 11 Apr 2022 20:07:40 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 11 Apr 2022 20:07:40 +0800
-Message-ID: <2d6b3e21c473a17fa7c81162dd0c8337bfefe3ad.camel@mediatek.com>
-Subject: Re: pull request: linux-firmware: Create Mediatek MT8192 SCP
- firmware
-From:   "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
-To:     Josh Boyer <jwboyer@kernel.org>
-CC:     Linux Firmware <linux-firmware@kernel.org>,
-        linux-mediatek <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        <tinghan.shen@mediatek.com>, Irui Wang <irui.wang@mediatek.com>,
-        <srv_heupstream@mediatek.com>
-Date:   Mon, 11 Apr 2022 20:07:40 +0800
-In-Reply-To: <CA+5PVA5h0NsA5P+AUWrOOQ4gqu6oMqtDUf2HO=rV30iCyiiHTw@mail.gmail.com>
-References: <20220408062722.26813-1-yunfei.dong@mediatek.com>
-         <CA+5PVA5h0NsA5P+AUWrOOQ4gqu6oMqtDUf2HO=rV30iCyiiHTw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Mon, 11 Apr 2022 09:08:48 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFF552C11A;
+        Mon, 11 Apr 2022 06:06:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649682394; x=1681218394;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=G48YFPLPhxeYJHK7qa1GRWu7rsF5S8ysdDrLe+CJRjM=;
+  b=BKCRxreZ+VtuKj/bcQI0ZKeNpGCq+tKwv0Y21jo5Ony50O/0mMO9Eu7q
+   zLX9yzlRrjJBvS4udiXkUjWiJKAqc1bK6I1dZdeBK3NS6GHSquFX1xzlz
+   1IE61c+bvo5/xJapmfD0ewg+2/+WdWoVPHEv5OFFKHZy04SVbxc05Vr0t
+   K/azzWo+gjPwVMgm0l7piDDLsVZMLEIicNOsVW9fqwVa1ai5IwLmPGzCc
+   sB+JepWxFhvgTbNvvpw2WFlvzztMF1EGkmwdg3JbV5OG/4CbQKmXxWCEk
+   nW6rXQ11hPCri/1wPXPEnPMINpgk/ZTgsrWFCEoqLOWzCeUXdM9lA7cLB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="243994341"
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; 
+   d="scan'208";a="243994341"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 06:06:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; 
+   d="scan'208";a="589871491"
+Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 11 Apr 2022 06:06:08 -0700
+Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1ndtk7-0001rf-Tg;
+        Mon, 11 Apr 2022 13:06:07 +0000
+Date:   Mon, 11 Apr 2022 21:05:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: drivers/media/platform/marvell/mmp-driver.c:364:34: warning: unused
+ variable 'mmpcam_of_match'
+Message-ID: <202204112131.girigduB-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Josh,
+Hi Mauro,
 
-Thanks for your remind.
-On Mon, 2022-04-11 at 07:17 -0400, Josh Boyer wrote:
-> On Fri, Apr 8, 2022 at 2:27 AM Yunfei Dong <yunfei.dong@mediatek.com>
-> wrote:
-> > 
-> > The following changes since commit
-> > 681281e49fb6778831370e5d94e6e1d97f0752d6:
-> > 
-> >   amdgpu: update PSP 13.0.8 firmware (2022-03-18 07:35:54 -0400)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   https://github.com/yunfeidongmediatek/linux_fw_scp_8192 v1
-> > 
-> > for you to fetch changes up to
-> > 3ac2fc85bc7dfcebdb92b5b5808b0268cdfb772d:
-> > 
-> >   mediatek: Add mt8192 SCP firmware (2022-04-08 10:59:44 +0800)
-> > 
-> > ----------------------------------------------------------------
-> > Yunfei Dong (1):
-> >       mediatek: Add mt8192 SCP firmware
-> > 
-> >  mediatek/mt8192/scp.img | Bin 0 -> 309436 bytes
-> >  1 file changed, 0 insertions(+), 0 deletions(-)
-> >  create mode 100644 mediatek/mt8192/scp.img
-> 
-> This needs an entry added to the WHENCE file
-> 
-> [jwboyer@vader linux-firmware]$ ./check_whence.py
-> E: mediatek/mt8192/scp.img not listed in WHENCE
-> 
-> Can you fix this and let me know when it's ready to pull?
-> 
-> josh
-Fix it in the latest v1 branch.
+First bad commit (maybe != root cause):
 
-Best Regards,
-Yunfei Dong
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
+commit: dc7bbea90075b57772e9a28043061bf71d96f06f media: platform: rename marvell-ccic/ to marvell/
+date:   3 weeks ago
+config: hexagon-randconfig-r012-20220411 (https://download.01.org/0day-ci/archive/20220411/202204112131.girigduB-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c6e83f560f06cdfe8aa47b248d8bdc58f947274b)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dc7bbea90075b57772e9a28043061bf71d96f06f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout dc7bbea90075b57772e9a28043061bf71d96f06f
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/marvell/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/platform/marvell/mmp-driver.c:364:34: warning: unused variable 'mmpcam_of_match' [-Wunused-const-variable]
+   static const struct of_device_id mmpcam_of_match[] = {
+                                    ^
+   1 warning generated.
 
 
+vim +/mmpcam_of_match +364 drivers/media/platform/marvell/mmp-driver.c
+
+bb0a896e3d5083 drivers/media/video/marvell-ccic/mmp-driver.c    Jonathan Corbet 2011-12-30  363  
+83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28 @364  static const struct of_device_id mmpcam_of_match[] = {
+83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28  365  	{ .compatible = "marvell,mmp2-ccic", },
+83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28  366  	{},
+83c40e6611ec1e drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-05-28  367  };
+08aac0e32fe44b drivers/media/platform/marvell-ccic/mmp-driver.c Lubomir Rintel  2019-07-22  368  MODULE_DEVICE_TABLE(of, mmpcam_of_match);
+67a8dbbc4e04cd drivers/media/video/marvell-ccic/mmp-driver.c    Jonathan Corbet 2011-06-11  369  
+
+:::::: The code at line 364 was first introduced by commit
+:::::: 83c40e6611ec1e548ece34f6940f516333abc16a media: marvell-ccic/mmp: add devicetree support
+
+:::::: TO: Lubomir Rintel <lkundrak@v3.sk>
+:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
