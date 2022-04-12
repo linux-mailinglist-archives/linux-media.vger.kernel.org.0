@@ -2,107 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E18B4FCEFC
-	for <lists+linux-media@lfdr.de>; Tue, 12 Apr 2022 07:31:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FA944FCF6C
+	for <lists+linux-media@lfdr.de>; Tue, 12 Apr 2022 08:23:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346527AbiDLFdo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Apr 2022 01:33:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45770 "EHLO
+        id S233916AbiDLGZj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Apr 2022 02:25:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229668AbiDLFdn (ORCPT
+        with ESMTP id S229607AbiDLGZg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Apr 2022 01:33:43 -0400
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E5B034B81
-        for <linux-media@vger.kernel.org>; Mon, 11 Apr 2022 22:31:26 -0700 (PDT)
-Received: by mail-qv1-xf29.google.com with SMTP id e22so15328640qvf.9
-        for <linux-media@vger.kernel.org>; Mon, 11 Apr 2022 22:31:26 -0700 (PDT)
+        Tue, 12 Apr 2022 02:25:36 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4534C35840
+        for <linux-media@vger.kernel.org>; Mon, 11 Apr 2022 23:23:20 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id h16-20020a056902009000b00628a70584b2so13910844ybs.6
+        for <linux-media@vger.kernel.org>; Mon, 11 Apr 2022 23:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HKPKauJ9wYgyDYofZbLBEn/Qd7t5fvEoaSfVOvhmeqA=;
-        b=dBxwJBnTvqgxkRm//V+pVp11vnAmr6FFqtgtR8wOF43Ghbt/MYJfFM/lP1mFLRQ2Ae
-         NCD/4HJ2WEuq/55JWWVzMDszzPwZ3DbFds7P7vkHZVNnbKdW46IW9RNQO8K3xYm2i48q
-         +ZYNuOnOCXJBYTE+cLTsuk/VBJ8Z5ilz8rPeI=
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=s4m1xk5Bht67wVvW1hCCtUmVFFAMLAOpFVnaG3v3Vww=;
+        b=SZwg/HtD0m3TMwO/hz3TwQF1O2PSpscDxpT2ibvzQyR2AWwbmLXcxzUek6FKpDD0MZ
+         Rp9QQVV96taKaMeE1iFDj2MTYntepyB1m/fms82p908NTUn7OKkEv2XiVweEwLKwxCTn
+         XouyWWihTgZeaiuv/cLCUAXF6Gf+ryGbllPMISAzHyf+Q2IzWdr09wGrpRvb5qhMTojT
+         s2iuWolXQAAGzTEGiX+NTr3Aez/MyrsXPwQguA5I2URwQYt8AQP3LC+OclwyKqooY/LV
+         Dc7mRv/qb904COmE5GakHyE2zMcu1OEw8yrI6CH5ieZ+fhEGdIUwMpR7kBeRkWNFbzh2
+         M82g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HKPKauJ9wYgyDYofZbLBEn/Qd7t5fvEoaSfVOvhmeqA=;
-        b=5RZevOzvMP/UZcX3ikNBDgDDwp2w5liThm/jJxtJVgjsTpwUDlDRWjI610nXedDJQ7
-         Vhc/qE5cpGhYSpYvMW6zTdSZTO+lz4dz6XFuCP5SIFD6vSERczu87zEy4K7E1Yukf7g0
-         CRH/wZmL6c+rZghuFLUSBQcxPz0H5oWr/Z9hjmC4hKhupdofLF5c6ygCpFcKVNCEjT2x
-         UUHorj5oODmp+uXf6avjlOiAhlFagdq3dNzz8uCMzVzNTNIeYZ/1a8J8FxFPNLmZbAO8
-         c1cbYz7Y5Hocj1QnuJJ7l5kIbxCsjuMMv3n6wY3XfNw0c+Rz3f/e2XBzwjL7yw7yc/tZ
-         gwSA==
-X-Gm-Message-State: AOAM532qErkKs9ALIkcybsnjnkDno3ozl+dsAICE1UXUrChqJhuRs85E
-        7XgbAb95evOBEEkSU/bAZMf1Z+hq2o0KBe5t
-X-Google-Smtp-Source: ABdhPJxrS0xj5ii044bhb1YoqFrNcBB6nf/ltlB6pithpJ7WyVpHsr3MEBRneRrR18vt+cRwxqreBQ==
-X-Received: by 2002:ad4:5742:0:b0:441:57c3:2090 with SMTP id q2-20020ad45742000000b0044157c32090mr2258527qvx.93.1649741485331;
-        Mon, 11 Apr 2022 22:31:25 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id d140-20020a376892000000b0069bdd40d852sm7633528qkc.75.2022.04.11.22.31.22
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Apr 2022 22:31:22 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id q19so224110ybd.6
-        for <linux-media@vger.kernel.org>; Mon, 11 Apr 2022 22:31:22 -0700 (PDT)
-X-Received: by 2002:a25:2e4f:0:b0:641:3aac:bef0 with SMTP id
- b15-20020a252e4f000000b006413aacbef0mr7964073ybn.493.1649741481759; Mon, 11
- Apr 2022 22:31:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220302220304.1327896-1-djrscally@gmail.com> <664edc45-d624-4cdd-57b4-e38f48493e29@gmail.com>
- <YjpJ6vFs1nZSsKN0@paasikivi.fi.intel.com>
-In-Reply-To: <YjpJ6vFs1nZSsKN0@paasikivi.fi.intel.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 12 Apr 2022 14:31:09 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AhwFT6QPzBHOXn_32BGU2iprO9rwyGRTsS=psgojRAAQ@mail.gmail.com>
-Message-ID: <CAAFQd5AhwFT6QPzBHOXn_32BGU2iprO9rwyGRTsS=psgojRAAQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] Introduce ancillary links
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=s4m1xk5Bht67wVvW1hCCtUmVFFAMLAOpFVnaG3v3Vww=;
+        b=rp2HDfPvVhnXMPPGxuBpnvRV3Pt5S/YOKhqbvX6QvnsKGTYZnHzeY2USzd/MDdl7VX
+         oy3Ni9ds82z90EyuJ/5jxcuVBHSoXg1ATm2o0ry38E4u3GMgtAwas3Ml6cHoDtDyUgPW
+         OpKCW20gMRNA3IwLOIYFofagMXVhf128Nf+eIpHldOEJSdjzk1UqkEkTCN48Gyuwi+pW
+         V56xTrthk1FdkNxCKWkdzSEAD2q/Vhz6knShwGEGjvb5gENRtk+KSyfEbPLOKBB4RnVZ
+         2vMZI5X+pFc9vh5nZkfhryQ0oPr8k3Zv593v+eAw82tHf1eSzCnI2Zerw7d/7xzs5N8G
+         UDuQ==
+X-Gm-Message-State: AOAM532C4caP3Y8eAnERCO0EAqFRHHoVYZcjvnpqEaQq80F4orIxbOq1
+        V3KsaiOCRM2XNEQ6NXM6sFoXJCuZDvU=
+X-Google-Smtp-Source: ABdhPJyp/w62jkPdpm/517VxQ8Zc1zZa0l7c7hPiY2ZPsbMtc6Mx8C7/UzPcgjioJhsOEbGH7v5620krrq4=
+X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:fd37:717b:edcd:5c02])
+ (user=yunkec job=sendgmr) by 2002:a81:4e15:0:b0:2ec:2d70:35c with SMTP id
+ c21-20020a814e15000000b002ec2d70035cmr6750584ywb.246.1649744599474; Mon, 11
+ Apr 2022 23:23:19 -0700 (PDT)
+Date:   Tue, 12 Apr 2022 15:23:13 +0900
+Message-Id: <20220412062313.1645762-1-yunkec@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.1178.g4f1659d476-goog
+Subject: [PATCH] media: entity: skip non-data link when removing reverse links
+From:   Yunke Cao <yunkec@google.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Daniel Scally <djrscally@gmail.com>, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org,
-        laurent.pinchart@ideasonboard.com, hanlinchen@chromium.org,
-        hdegoede@redhat.com, kieran.bingham@ideasonboard.com,
-        hpa@redhat.com
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        linux-media@vger.kernel.org, Yunke Cao <yunkec@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+The original implementation removes reverse links for any input link and
+assumes the presense of sink/source.
+It fails when the link is a not a data link.
+media_entity_remove_links when there's an ancillary link can also fail.
 
-On Wed, Mar 23, 2022 at 7:13 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Daniel,
->
-> On Tue, Mar 22, 2022 at 10:08:07PM +0000, Daniel Scally wrote:
-> > Hello everyone
-> >
-> >
-> > Any more comments on this series?
->
-> I hope people are happy with them. They've been out for review for quite
-> some time.
->
-> The patches are in my tree waiting for having rc1 in master.
+We only need to remove reverse links for a data link.
 
-Thanks for picking this series. Do you think you could add your tree
-to linux-next, so we could easily test changes that you pick?
+Signed-off-by: Yunke Cao <yunkec@google.com>
+---
+ drivers/media/mc/mc-entity.c | 34 +++++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
 
-Best regards,
-Tomasz
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 1ff60d411ea9..11f5207f73aa 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -597,26 +597,30 @@ static void __media_entity_remove_link(struct media_entity *entity,
+ 	struct media_link *rlink, *tmp;
+ 	struct media_entity *remote;
+ 
+-	if (link->source->entity == entity)
+-		remote = link->sink->entity;
+-	else
+-		remote = link->source->entity;
++	/* Remove the reverse links for a data link. */
++	if ((link->flags & MEDIA_LNK_FL_LINK_TYPE) == MEDIA_LNK_FL_DATA_LINK) {
++		if (link->source->entity == entity)
++			remote = link->sink->entity;
++		else
++			remote = link->source->entity;
+ 
+-	list_for_each_entry_safe(rlink, tmp, &remote->links, list) {
+-		if (rlink != link->reverse)
+-			continue;
++		list_for_each_entry_safe(rlink, tmp, &remote->links, list) {
++			if (rlink != link->reverse)
++				continue;
+ 
+-		if (link->source->entity == entity)
+-			remote->num_backlinks--;
++			if (link->source->entity == entity)
++				remote->num_backlinks--;
+ 
+-		/* Remove the remote link */
+-		list_del(&rlink->list);
+-		media_gobj_destroy(&rlink->graph_obj);
+-		kfree(rlink);
++			/* Remove the remote link */
++			list_del(&rlink->list);
++			media_gobj_destroy(&rlink->graph_obj);
++			kfree(rlink);
+ 
+-		if (--remote->num_links == 0)
+-			break;
++			if (--remote->num_links == 0)
++				break;
++		}
+ 	}
++
+ 	list_del(&link->list);
+ 	media_gobj_destroy(&link->graph_obj);
+ 	kfree(link);
+-- 
+2.35.1.1178.g4f1659d476-goog
 
->
-> --
-> Kind regards,
->
-> Sakari Ailus
