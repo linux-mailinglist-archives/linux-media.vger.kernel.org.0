@@ -2,185 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C1254FF11E
-	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 09:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E63244FF3EF
+	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 11:42:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233629AbiDMIAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Apr 2022 04:00:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52572 "EHLO
+        id S233931AbiDMJog (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Apr 2022 05:44:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233622AbiDMIAG (ORCPT
+        with ESMTP id S234605AbiDMJoe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Apr 2022 04:00:06 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02D3F4D9C8;
-        Wed, 13 Apr 2022 00:57:44 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id D10231F44E9A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1649836663;
-        bh=mzWuX58y4C68CcEn/a3a+EywObIenobNezPNhsxckgU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kmXqsesSLvWFXzGLTRqiWYSvGN5LlWNAB2FD23E8+ZrbGAW+o2zP1LzJNsSBPxhjg
-         nZD50ua/mXxtL5FVp3MUxGXDKntSSHgUHVzv+8hZN9VsiSkBuW+aLxP3HcN7+qrpsp
-         ZA4/7d8gH9NrJ4NCZsIMElGupIRW+KNTFSxc6sD4dSLglT75G1iWWAb/WDPiw/unGt
-         Ptq5TZN3NIP95ftv0KTiPn+ZlxAYI1yBuNReJsIH39gIkOEQzmacvZq8/RGRGIZWUs
-         YQ4tBIFxaakTc1bVA8nSmLlZFdlos8RfWTvoDvMg4WYfAXtZe7G1FEb2t+VnQa5OsO
-         XD08QtZM8nlfg==
-Message-ID: <1d9a6259-b1f6-5c4f-7e91-0529b77b6a44@collabora.com>
-Date:   Wed, 13 Apr 2022 09:57:39 +0200
+        Wed, 13 Apr 2022 05:44:34 -0400
+Received: from mail.growthmindset24.pl (mail.growthmindset24.pl [212.237.36.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8DD0554AA
+        for <linux-media@vger.kernel.org>; Wed, 13 Apr 2022 02:42:10 -0700 (PDT)
+Received: by mail.growthmindset24.pl (Postfix, from userid 1001)
+        id E985587BFA; Tue, 12 Apr 2022 08:56:04 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=growthmindset24.pl;
+        s=mail; t=1649750164;
+        bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
+        h=Date:From:To:Subject:From;
+        b=hi7Rne7DmcGXzIiafIMqO2qAM7V1IE2NITvT+r4kXGOkm7eo5x0ZEuWwZnisfAyZx
+         NkIBruWYBXo/RfjUnEvMvyZlcHBa8/sNjAA0AyjdWoQ+8AQ5Fu6eZd+Rk3rUefG9bR
+         t2vmcuYM0aNIc3nj3QCvIKn/vBopkLdtYALaLXXqGPXteCxSR4Wib+6j98L685beQO
+         ayrZAvdAMnn3ZTPcW9L9NX37TBR7olKWGcI16n70zj21znSwe0OIrrmihgYFoyo6iO
+         vlHOs5yn/RTUoarModqtmVhSWy9IzRfrz4RPb7/20NnoWm82iyZAVj6jALs51e07fh
+         gMdmDn+rz8REA==
+Received: by mail.growthmindset24.pl for <linux-media@vger.kernel.org>; Tue, 12 Apr 2022 07:56:00 GMT
+Message-ID: <20220412073001-0.1.2w.d7se.0.ppoakpelsa@growthmindset24.pl>
+Date:   Tue, 12 Apr 2022 07:56:00 GMT
+From:   =?UTF-8?Q? "Przemys=C5=82aw_Wr=C3=B3blewski" ?= 
+        <przemyslaw.wroblewski@growthmindset24.pl>
+To:     <linux-media@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.growthmindset24.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v8, 00/15] media: mtk-vcodec: support for M8192 decoder
-Content-Language: en-US
-To:     "allen-kh.cheng" <allen-kh.cheng@mediatek.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20220331024801.29229-1-yunfei.dong@mediatek.com>
- <fbfe4572296a133492310f13e3f41db56218fc17.camel@ndufresne.ca>
- <0f385e6e2d0687c3e6de12a576d1617af9504cee.camel@mediatek.com>
- <c5dc9f759054418082849233639f727e39329550.camel@ndufresne.ca>
- <cdcaf769ee162658e3bbb0c30bb8c4cbb168c6d6.camel@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <cdcaf769ee162658e3bbb0c30bb8c4cbb168c6d6.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 13/04/22 09:03, allen-kh.cheng ha scritto:
-> Hi Nicolas,
-> 
-> On Tue, 2022-04-12 at 10:48 -0400, Nicolas Dufresne wrote:
->> Le lundi 11 avril 2022 à 11:41 +0800, yunfei.dong@mediatek.com a
->> écrit :
->>> Hi Nicolas,
->>>
->>> On Thu, 2022-03-31 at 16:48 -0400, Nicolas Dufresne wrote:
->>>> Hi Yunfei,
->>>>
->>>> thanks for the update, I should be testing this really soon.
->>>>
->>>> Le jeudi 31 mars 2022 à 10:47 +0800, Yunfei Dong a écrit :
->>>>> This series adds support for mt8192 h264/vp8/vp9 decoder
->>>>> drivers.
->>>>> Firstly, refactor
->>>>> power/clock/interrupt interfaces for mt8192 is lat and core
->>>>> architecture.
->>>>
->>>> Similarly to MT8173 and MT8183, a shared* firmware is needed for
->>>> this
->>>> CODEC to
->>>> work (scp.img). I looked into linux-firmware[1] it has not been
->>>> added
->>>> for mt8192
->>>> yet. As your patches are getting close to be ready, it would be
->>>> important to
->>>> look into this so the patchset does not get blocked due to that.
->>>>
->>>> best regards,
->>>> Nicolas
->>>>
->>>> [1]
->>>>
-> https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mediatek__;!!CTRNKA9wMg0ARbw!zy4N6JDroSXtumXXa7MuxAgYAPAink8uyW-978vpWct8S3vOjBqXirFE8uTEHopHCovbSl0FNP9LPgWCEBrZfMIcvQ$
->>>>   
->>>> * Shared at least between MDP3 and MTK VCODEC from my knowledge
->>>>
->>>
->>> Thanks for your remind.
->>>
->>> I have already sent mt8192 scp.img to github.
->>>
->>>
-> https://urldefense.com/v3/__https://github.com/yunfeidongmediatek/linux_fw_scp_8192/commit/3ac2fc85bc7dfcebdb92b5b5808b0268cdfb772d__;!!CTRNKA9wMg0ARbw!zy4N6JDroSXtumXXa7MuxAgYAPAink8uyW-978vpWct8S3vOjBqXirFE8uTEHopHCovbSl0FNP9LPgWCEBpf9F_nWA$
->>>   
->>>
->>> Waiting for to be merged.
->>
->> On boards I have, the firmware is loaded from /lib/firmware/scp.img,
->> but with
->> this submission it will be in lib/firmware/mediatek/mt8192/scp.img .
->> I haven't
->> found anything around:
->>
->>   drivers/remoteproc/mtk_scp.c:812:       char *fw_name = "scp.img";
->>
->> That would use the platform path. This seems like a problem to me,
->> the
->> upstreaming of the firmware isn't being aligned with the were the
->> firmware is
->> picked by the upstream driver. Correct me if I got this wrong, but
->> I'd really
->> like to clarify this.
->>
->> Nicolas
->>
-> 
-> I am not sure why it's accepted the fw path of scp is
-> /lib/firmware/scp.img in mt8173/8183 but we upload scp.ing in
-> /lib/firmware/mediatek/mt8173(mt8183)/scp.img to
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mediatek
-> 
-> Currently, the scp driver will load firmware in /lib/firmware/scp.img.
-> that means there is only one firmware for a specific platform.
-> I think we can send a PATCH to make firmware name of scp being more
-> flexible.
-> 
-> Maybe get firmware name from dts. e.g.,
-> &scp {
-> 	status = "okay";
-> 	firmware-name = "mediatek/mt81xx/scp.img";
-> };
-> 
-> Do you think it feasible?
-> If you have any concerns, please let us know.
-> 
-> Thanks,
-> Allen
-> 
+Dzie=C5=84 dobry,
 
-Hello Allen,
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-what you proposed is exactly what has been done for other platforms because of
-both per-device firmware differences (different signatures) and per-SoC (different
-firmware entirely), found on TI K3, iMX DSP, Qualcomm MSS/DSP remoteproc and
-others.
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-Of course this is an accepted way to resolve this situation: please go on!
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
-Cheers,
-Angelo
 
+Pozdrawiam,
+Przemys=C5=82aw Wr=C3=B3blewski
