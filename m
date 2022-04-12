@@ -2,88 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EC8F4FE280
-	for <lists+linux-media@lfdr.de>; Tue, 12 Apr 2022 15:30:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D59634FE348
+	for <lists+linux-media@lfdr.de>; Tue, 12 Apr 2022 15:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356164AbiDLNZe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Apr 2022 09:25:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59914 "EHLO
+        id S1356610AbiDLN6T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Apr 2022 09:58:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356037AbiDLNY5 (ORCPT
+        with ESMTP id S1356540AbiDLN6C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Apr 2022 09:24:57 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BF4D3C4A9;
-        Tue, 12 Apr 2022 06:15:34 -0700 (PDT)
+        Tue, 12 Apr 2022 09:58:02 -0400
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA10DF51;
+        Tue, 12 Apr 2022 06:55:44 -0700 (PDT)
+Received: by mail-io1-xd35.google.com with SMTP id h63so22296868iof.12;
+        Tue, 12 Apr 2022 06:55:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1649769334; x=1681305334;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=Q7iWkEWIdBwMq/H4dYnh9ITsKreitgfNDb9VSXaQlow=;
-  b=jtZRV8iHyNOlgV62DiohSsfe5aNnLJCCqSwgXJbBSeMmSCXPecB2g24e
-   LfYIQ8JC47RFkDkOXtjn3bSGGal/av59Zu3EQImKnT5zEX1Qois7E5TWt
-   Do0WBIMBJAADkpZn/hjz+ucJjKM02DScr5PTS5Gdi85O7QdP76MoawcgF
-   8=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 12 Apr 2022 06:15:34 -0700
-X-QCInternal: smtphost
-Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
-  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2022 06:15:33 -0700
-Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 12 Apr 2022 06:15:31 -0700
-From:   Vikash Garodia <quic_vgarodia@quicinc.com>
-To:     <linux-media@vger.kernel.org>, <stanimir.varbanov@linaro.org>
-CC:     <linux-kernel@vger.kernel.org>, <quic_vgarodia@quicinc.com>
-Subject: [PATCH v2 2/2] media: venus: vdec: ensure venus is powered on during stream off
-Date:   Tue, 12 Apr 2022 18:45:11 +0530
-Message-ID: <1649769311-22622-3-git-send-email-quic_vgarodia@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1649769311-22622-1-git-send-email-quic_vgarodia@quicinc.com>
-References: <1649769311-22622-1-git-send-email-quic_vgarodia@quicinc.com>
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jwpCHe1y3f5jd2jJ6ba48FfXPVfZO1qP0h+WFGmWlYs=;
+        b=GRWy8rY14x4DS5KcUrvlEbtUahmMrOddIUCgMxLLLjcWdZLRiQdcQLF3nJr0zmroA/
+         Kg21CqQA6Y8joh0woVe/6t1MXlEMsfYI4V2fndyv23BFcUUQHTX8dTjOIWRRREwSIIEg
+         NhAiddMUiPNWgtDB4Vz9Ngoruyu16GfkvSnbmwc8R8651vhB+VdOQfNZu0FHfu+ZsfpO
+         3Qz+sX6mtAHB+xYM8IZUeUY2TPwX4XCtjhRoSjI6OSkp7cZhzJuF5zqzW1+pHJfum4su
+         mvWM0DOrwge4A34ORWWqgfsdpPABAb215lTNrLGyhBe7zDd+JpdWu5Nt+Aq40AGGSTac
+         IMwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jwpCHe1y3f5jd2jJ6ba48FfXPVfZO1qP0h+WFGmWlYs=;
+        b=Yt7S64uHoL0NrH+1g+WMAJ4DGYdcPjwz9Gkv+IPHRzzXJMAqr9XulJq0gEePL8Dmc9
+         BG91CU4BaWWzR294lExIIyvlTdYar5U7NMzYQCTEszY7UR5kl8gkwhSe4bfdyAd1ZYS8
+         upRYfyXLdjqGZmGeP1E2oGI4IPv8j8NQQ17nCbJuyVPJfm9SR7fXefMmVt4hhsduxmnn
+         RqPggdgjqjJi+YvcfgALj/Kb3bBbVX4s8fPrd7eJ1FwvEcmbughN9/MVwI/A6oROFhpv
+         DLEQs6c6ABpQ6nvaf3xpiNNNA4Ur307C+Fwof9rkqvXLGDgIOIqHS4cM99JWca8KcAvn
+         bnfA==
+X-Gm-Message-State: AOAM532vvHV7fb2efeEVjZ9CKiuzXRAjnIkNi0fgD64PcFV9XCIQwpwP
+        eDhbHaOXozzeTekpDzMsGQFAePtBgMJy2g==
+X-Google-Smtp-Source: ABdhPJxYAw6lmJpHj1wip7CkchFGObOuhQXhTO884v/kjKp274piptwfYW9uR25fe4w6umH8lnRZHw==
+X-Received: by 2002:a05:6638:260f:b0:323:ae28:a0ec with SMTP id m15-20020a056638260f00b00323ae28a0ecmr17687022jat.278.1649771743827;
+        Tue, 12 Apr 2022 06:55:43 -0700 (PDT)
+Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:2611:a7ae:f1c9:5ec2])
+        by smtp.gmail.com with ESMTPSA id n12-20020a92dd0c000000b002cac22690b6sm2280748ilm.0.2022.04.12.06.55.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Apr 2022 06:55:43 -0700 (PDT)
+From:   Adam Ford <aford173@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     prabhakar.mahadev-lad.rj@bp.renesas.com, tharvey@gateworks.com,
+        cstevens@beaconembedded.com, aford@beaconembedded.com,
+        laurent.pinchart@ideasonboard.com, Adam Ford <aford173@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] media: i2c: imx219: Enable variable xclk and 4-lane
+Date:   Tue, 12 Apr 2022 08:55:29 -0500
+Message-Id: <20220412135534.2796158-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Video decoder driver auto-suspends the hardware if there is no
-exchange of command or response for certain amount of time.
-In auto suspended state, it becomes mandatory to power on the
-hardware before requesting it to process a command. The fix
-ensures the hardware is powered on during stop streaming.
+The driver currently only supports a 2-lane camera, a fixed external 
+clock (XCLK) at 24MHz, a fixed Pixel Rate of 182.4MHz, and a fixed
+link rate of 456MHz.  There are a bunch of hard-codec values in a 
+table of operating modes which expect the above to be true.
 
-Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/vdec.c | 2 ++
- 1 file changed, 2 insertions(+)
+According to the datasheet, the driver is capable of operating in 
+either 4-lane with a pixel rate of 280.8MHz and Linux frequency
+of 702MHz or 2-lane configured as stated above.  The XCLK can be 
+anywhere from 6MHz - 27MHz instead of being fixed at 24MHz.
 
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 91da3f5..4ac1132 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -1200,6 +1200,8 @@ static void vdec_stop_streaming(struct vb2_queue *q)
- 	struct venus_inst *inst = vb2_get_drv_priv(q);
- 	int ret = -EINVAL;
- 
-+	vdec_pm_get_put(inst);
-+
- 	mutex_lock(&inst->lock);
- 
- 	if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+Split up the hard-coded values into smaller helper functions that
+dynamically set the registers of the camera based on the XCLK and
+desired number of lanes.
+
+This series was tested on a Beacon RZ/G2M streaming video at 640x480
+to an LCD with fbdevsink
+
+media-ctl --links "'rcar_csi2 feaa0000.csi2':1->'VIN0 output':0[1]" -d /dev/media1
+media-ctl --set-v4l2 "'imx219 2-0010':0[fmt:SRGGB8_1X8/640x480 field:none]" -d /dev/media1
+yavta -w '0x009f0905 2048' /dev/v4l-subdev12
+gst-launch-1.0 v4l2src device=/dev/video7 ! video/x-bayer,width=640,height=480,format=rggb ! queue ! bayer2rgb ! fbdevsink
+
+Due to hardware limitations, the XCLK is still 24MHz, so anyone
+willing to test this series with a different XCLK would be appreciated.
+
+Due to the video format, streaming video at larger resolution was
+not feasible, however individual frames captured at 1920x1080 were
+successful.
+
+Adam Ford (4):
+  media: i2c: imx219: Split common registers from mode tables
+  media: i2c: imx219: Support four-lane operation
+  media: i2c: imx219: Enable variable XCLK
+  media: i2c: imx219: Create DPHY helper function
+
+ drivers/media/i2c/imx219.c | 340 +++++++++++++++++++++++--------------
+ 1 file changed, 213 insertions(+), 127 deletions(-)
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.34.1
 
