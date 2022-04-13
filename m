@@ -2,123 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF7B24FF679
-	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 14:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49C9C4FF686
+	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 14:13:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235411AbiDMMMA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Apr 2022 08:12:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57002 "EHLO
+        id S231438AbiDMMQH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Apr 2022 08:16:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232790AbiDMML7 (ORCPT
+        with ESMTP id S230219AbiDMMQG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Apr 2022 08:11:59 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED197366B8;
-        Wed, 13 Apr 2022 05:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649851778; x=1681387778;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Hhyexus128Xv2t+3slwqPm0xae7+oA0Gbb2vq1OyZlg=;
-  b=VuEhqLLaBM60NkYdaPUCxuX2N1zeA5xSVN33x+W1eoyi7gmpQiQNd1aA
-   A0L1foTx5Zegn3QKhwFsGSKzCH9oyPzLb9UbRwIWlTYHLQxiWt/oQqjCC
-   790ZIfdqRCF8WrWM0Y0FNiO/zTfFE2xKp+JSVQlxfX2LhcWXGLAvX/qPQ
-   9n03SayN0cGUBqhJOB+64F689fo2F48CCQ1yg1wuiW1uTUBXvDIdMqjhU
-   fYlHlYjkfllhzbSLFh1ZQakLpY1ziqP/LVFfRCrdHYk+5cwA9BKugW0n2
-   ZWLD0kJXJti78I/XyFw+iUHDeb2mv1nyiCVmklokq8cs9ETBn7sydgzHG
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="261495220"
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
-   d="scan'208";a="261495220"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 05:09:38 -0700
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
-   d="scan'208";a="559725422"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 05:09:37 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 28F1F20316;
-        Wed, 13 Apr 2022 15:09:35 +0300 (EEST)
-Date:   Wed, 13 Apr 2022 15:09:35 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Zheyu Ma <zheyuma97@gmail.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: dw9714: Register a callback to disable the
- regulator
-Message-ID: <Yla9f03/j9sEB2Rc@paasikivi.fi.intel.com>
-References: <20220409140939.2176161-1-zheyuma97@gmail.com>
+        Wed, 13 Apr 2022 08:16:06 -0400
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87BB95D66F
+        for <linux-media@vger.kernel.org>; Wed, 13 Apr 2022 05:13:45 -0700 (PDT)
+Received: by mail-qt1-x829.google.com with SMTP id y23so904425qtv.4
+        for <linux-media@vger.kernel.org>; Wed, 13 Apr 2022 05:13:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Kp4CiG2ZMb/mxQvCPLYMxZXTm+fWHlLJFHe+brGapoI=;
+        b=ZiBDOzwY3CLHaKfrca3XbuBkFzjww/rNvggdUeqfqnZC5h4VfDgTdEYmlwoyWBoH/i
+         6kLsk1VwA2t37datVTcdQm2CJkNnvMxX8v+ueDr4QHvFtVJKiCABs/K6+vQKKekDRtXE
+         ajQe6ogPZSFR/utDB0zI7oOXhoZwSSC4UrsfU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Kp4CiG2ZMb/mxQvCPLYMxZXTm+fWHlLJFHe+brGapoI=;
+        b=62sdZR5UoMU47jc42pP7Qjtj+Rt4qdghCTHf0R3D2NdQWpMIq0TNiRVGfgQIp9bDgK
+         qgH54RqqzXt5OhJ5vOQlXmEpWMETS1ASstAKel9/1teniG4MJrh56UAO+G5EVewK8zed
+         WqIKMM7EpmzBJcbSPIl6GAXW4xCXio2Syg3keU12jg8UzOAgi5I6wbxHbYMunhBUHZyq
+         y3uATeHGbAiMR72F1aVihoGkvwNNb0mDWTXnI5MiG2mMYmK2Jz7RgHwbFCQ5joxt3uLH
+         wPWsvqYLAfq32ixX3roQBL1vhXhnDPAhfnaz8TMT8U4/wQuOo6rtIkygmsA2e+YJDqdp
+         HQgQ==
+X-Gm-Message-State: AOAM532/Dcd3/KCONXmy+N64uT+4DupF2yQCQP5c3b0atykqFiMTbP3s
+        GlmwtNBG7j6Q6fZydEA88vQd0XUC/H0G/Q==
+X-Google-Smtp-Source: ABdhPJz+6qbj6xP9A0lC5jqOkrAnv8NdEXcTaguWV+o8T4BzYO2Z12tnNWQpZBuN9y3G+ZCZEu2PHw==
+X-Received: by 2002:ac8:7142:0:b0:2ed:10b9:239c with SMTP id h2-20020ac87142000000b002ed10b9239cmr6724864qtp.225.1649852024014;
+        Wed, 13 Apr 2022 05:13:44 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id d11-20020a37680b000000b0069ab73d9981sm10319178qkc.38.2022.04.13.05.13.41
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Apr 2022 05:13:42 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id j2so3426605ybu.0
+        for <linux-media@vger.kernel.org>; Wed, 13 Apr 2022 05:13:41 -0700 (PDT)
+X-Received: by 2002:a25:8b03:0:b0:628:8cff:ed6c with SMTP id
+ i3-20020a258b03000000b006288cffed6cmr30546796ybl.513.1649852021323; Wed, 13
+ Apr 2022 05:13:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220409140939.2176161-1-zheyuma97@gmail.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <1634278119-32158-1-git-send-email-bingbu.cao@intel.com>
+ <CAAFQd5Aykfdj-HPzsQOyQpbGBRhtTsoRm78XgpuGkFUx1joTMA@mail.gmail.com> <42bab3b2-ae4b-01a6-e2ef-58b44827a917@linux.intel.com>
+In-Reply-To: <42bab3b2-ae4b-01a6-e2ef-58b44827a917@linux.intel.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 13 Apr 2022 21:13:30 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Dv6FfxLNGuwe9=GzHDQoBYQ7bdBVOYXoK8Rvtc_go39g@mail.gmail.com>
+Message-ID: <CAAFQd5Dv6FfxLNGuwe9=GzHDQoBYQ7bdBVOYXoK8Rvtc_go39g@mail.gmail.com>
+Subject: Re: [PATCH] media: dw9768: activate runtime PM and turn off device
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc:     Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+        sakari.ailus@linux.intel.com, dongchun.zhu@mediatek.com,
+        tian.shu.qiu@intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Zheyu,
+On Wed, Apr 13, 2022 at 8:38 PM Bingbu Cao <bingbu.cao@linux.intel.com> wrote:
+>
+>
+> On 11/5/21 2:54 PM, Tomasz Figa wrote:
+> > On Fri, Oct 15, 2021 at 3:12 PM Bingbu Cao <bingbu.cao@intel.com> wrote:
+> >>
+> >> When dw9768 working with ACPI systems, the dw9768 was turned
+> >> by i2c-core during probe, driver need activate the PM runtime
+> >> and ask runtime PM to turn off the device.
+> >>
+> >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> >> ---
+> >>  drivers/media/i2c/dw9768.c | 6 ++++++
+> >>  1 file changed, 6 insertions(+)
+> >>
+> >> diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
+> >> index c086580efac7..65c6acf3ced9 100644
+> >> --- a/drivers/media/i2c/dw9768.c
+> >> +++ b/drivers/media/i2c/dw9768.c
+> >> @@ -469,6 +469,11 @@ static int dw9768_probe(struct i2c_client *client)
+> >>
+> >>         dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
+> >>
+> >> +       /*
+> >> +        * Device is already turned on by i2c-core with ACPI domain PM.
+> >> +        * Attempt to turn off the device to satisfy the privacy LED concerns.
+> >> +        */
+> >> +       pm_runtime_set_active(dev);
+> >
+> > This driver is used by non-ACPI systems as well. This change will make
+> > the PM core not call the runtime_resume() callback provided by the
+> > driver and the power would never be turned on on such systems.
+>
+> Tomasz,
+>
+> Why the runtime_set_active() and runtime_idle() break the runtime
+> PM on non-ACPI systems? Did it cause the PM runtime enable failure or
+> incorrect PM usage count?
 
-Thanks for the patch.
+Neither. It tells the runtime PM subsystem that the device was
+manually brought into the active state, but the driver doesn't power
+on the voltage regulators. Then there are 2 paths to failure:
 
-On Sat, Apr 09, 2022 at 10:09:39PM +0800, Zheyu Ma wrote:
-> When the driver fails to probe, we will get the following splat:
-> 
-> [   59.305988] ------------[ cut here ]------------
-> [   59.306417] WARNING: CPU: 2 PID: 395 at drivers/regulator/core.c:2257 _regulator_put+0x3ec/0x4e0
-> [   59.310345] RIP: 0010:_regulator_put+0x3ec/0x4e0
-> [   59.318362] Call Trace:
-> [   59.318582]  <TASK>
-> [   59.318765]  regulator_put+0x1f/0x30
-> [   59.319058]  devres_release_group+0x319/0x3d0
-> [   59.319420]  i2c_device_probe+0x766/0x940
-> 
-> Fix this by adding a callback that will deal with the disabling when the
-> driver fails to probe.
-> 
-> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-> ---
->  drivers/media/i2c/dw9714.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
-> index cd7008ad8f2f..eccd05fc50c7 100644
-> --- a/drivers/media/i2c/dw9714.c
-> +++ b/drivers/media/i2c/dw9714.c
-> @@ -137,6 +137,13 @@ static int dw9714_init_controls(struct dw9714_device *dev_vcm)
->  	return hdl->error;
->  }
->  
-> +static void dw9714_disable_regulator(void *arg)
-> +{
-> +	struct dw9714_device *dw9714_dev = arg;
-> +
-> +	regulator_disable(dw9714_dev->vcc);
-> +}
-> +
->  static int dw9714_probe(struct i2c_client *client)
->  {
->  	struct dw9714_device *dw9714_dev;
-> @@ -157,6 +164,10 @@ static int dw9714_probe(struct i2c_client *client)
->  		return rval;
->  	}
->  
-> +	rval = devm_add_action_or_reset(&client->dev, dw9714_disable_regulator, dw9714_dev);
-> +	if (rval)
-> +		return rval;
-> +
->  	v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
->  	dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
->  				V4L2_SUBDEV_FL_HAS_EVENTS;
+1) pm_runtime_idle() triggers a runtime PM suspend and driver callback
+tries to power off the already powered off regulators, leading to a
+negative regulator usage count.
 
-Could you instead disable the regulator in error handling in the probe
-function?
+OR
 
--- 
-Sakari Ailus
+2) userspace opens the device, runtime PM resume doesn't happen
+(because the device is still active) and then a communication failure
+would happen because the chip is not powered on.
+
+Best regards,
+Tomasz
+
+>
+> >
+> > Wasn't the intention of Sakari's ACPI patches to allow bypassing the
+> > ACPI domain power on at boot up and eliminate the need for this
+> > change?
+> >
+> > Best regards,
+> > Tomasz
+> >
+> >>
+> >>         pm_runtime_enable(dev);
+> >>         if (!pm_runtime_enabled(dev)) {
+> >>                 ret = dw9768_runtime_resume(dev);
+> >> @@ -483,6 +488,7 @@ static int dw9768_probe(struct i2c_client *client)
+> >>                 dev_err(dev, "failed to register V4L2 subdev: %d", ret);
+> >>                 goto err_power_off;
+> >>         }
+> >> +       pm_runtime_idle(dev);
+> >>
+> >>         return 0;
+> >>
+> >> --
+> >> 2.7.4
+> >>
+>
+> --
+> Best regards,
+> Bingbu Cao
