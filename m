@@ -2,52 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A21DF4FEEB0
-	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 07:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C1254FF11E
+	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 09:57:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232628AbiDMFr3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Apr 2022 01:47:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49182 "EHLO
+        id S233629AbiDMIAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Apr 2022 04:00:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232584AbiDMFrQ (ORCPT
+        with ESMTP id S233622AbiDMIAG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Apr 2022 01:47:16 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ED0224591;
-        Tue, 12 Apr 2022 22:44:44 -0700 (PDT)
-X-UUID: 7f570b11644f46179f58f5b890772c35-20220413
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4,REQID:5b207847-8f80-4971-a077-2bb5c2bc1d0a,OB:10,L
-        OB:10,IP:0,URL:8,TC:0,Content:-20,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham
-        ,ACTION:release,TS:83
-X-CID-INFO: VERSION:1.1.4,REQID:5b207847-8f80-4971-a077-2bb5c2bc1d0a,OB:10,LOB
-        :10,IP:0,URL:8,TC:0,Content:-20,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D
-        ,ACTION:quarantine,TS:83
-X-CID-META: VersionHash:faefae9,CLOUDID:a3833878-0afa-4dca-bdec-ca54c998425a,C
-        OID:f47502fb5ea1,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:0,EDM:-3,Fi
-        le:nil,QS:0,BEC:nil
-X-UUID: 7f570b11644f46179f58f5b890772c35-20220413
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1656199588; Wed, 13 Apr 2022 13:44:37 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Wed, 13 Apr 2022 13:44:36 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 13 Apr
- 2022 13:44:35 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 13 Apr 2022 13:44:33 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
+        Wed, 13 Apr 2022 04:00:06 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02D3F4D9C8;
+        Wed, 13 Apr 2022 00:57:44 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id D10231F44E9A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1649836663;
+        bh=mzWuX58y4C68CcEn/a3a+EywObIenobNezPNhsxckgU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=kmXqsesSLvWFXzGLTRqiWYSvGN5LlWNAB2FD23E8+ZrbGAW+o2zP1LzJNsSBPxhjg
+         nZD50ua/mXxtL5FVp3MUxGXDKntSSHgUHVzv+8hZN9VsiSkBuW+aLxP3HcN7+qrpsp
+         ZA4/7d8gH9NrJ4NCZsIMElGupIRW+KNTFSxc6sD4dSLglT75G1iWWAb/WDPiw/unGt
+         Ptq5TZN3NIP95ftv0KTiPn+ZlxAYI1yBuNReJsIH39gIkOEQzmacvZq8/RGRGIZWUs
+         YQ4tBIFxaakTc1bVA8nSmLlZFdlos8RfWTvoDvMg4WYfAXtZe7G1FEb2t+VnQa5OsO
+         XD08QtZM8nlfg==
+Message-ID: <1d9a6259-b1f6-5c4f-7e91-0529b77b6a44@collabora.com>
+Date:   Wed, 13 Apr 2022 09:57:39 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v8, 00/15] media: mtk-vcodec: support for M8192 decoder
+Content-Language: en-US
+To:     "allen-kh.cheng" <allen-kh.cheng@mediatek.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
+        "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -55,336 +47,140 @@ To:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Rob Herring <robh+dt@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Tomasz Figa <tfiga@google.com>
-CC:     George Sun <george.sun@mediatek.com>,
+Cc:     George Sun <george.sun@mediatek.com>,
         Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
         Hsin-Yi Wang <hsinyi@chromium.org>,
         Fritz Koenig <frkoenig@chromium.org>,
         Daniel Vetter <daniel@ffwll.ch>,
         dri-devel <dri-devel@lists.freedesktop.org>,
         Irui Wang <irui.wang@mediatek.com>,
-        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH] media: mediatek: vcodec: add vp9 decoder driver for mt8186
-Date:   Wed, 13 Apr 2022 13:44:31 +0800
-Message-ID: <20220413054431.29917-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-MTK:  N
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,MAY_BE_FORGED,
-        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY
-        autolearn=no autolearn_force=no version=3.4.6
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20220331024801.29229-1-yunfei.dong@mediatek.com>
+ <fbfe4572296a133492310f13e3f41db56218fc17.camel@ndufresne.ca>
+ <0f385e6e2d0687c3e6de12a576d1617af9504cee.camel@mediatek.com>
+ <c5dc9f759054418082849233639f727e39329550.camel@ndufresne.ca>
+ <cdcaf769ee162658e3bbb0c30bb8c4cbb168c6d6.camel@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <cdcaf769ee162658e3bbb0c30bb8c4cbb168c6d6.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yunfei Dong <yunfei.dong@mediatek.corp-partner.google.com>
+Il 13/04/22 09:03, allen-kh.cheng ha scritto:
+> Hi Nicolas,
+> 
+> On Tue, 2022-04-12 at 10:48 -0400, Nicolas Dufresne wrote:
+>> Le lundi 11 avril 2022 à 11:41 +0800, yunfei.dong@mediatek.com a
+>> écrit :
+>>> Hi Nicolas,
+>>>
+>>> On Thu, 2022-03-31 at 16:48 -0400, Nicolas Dufresne wrote:
+>>>> Hi Yunfei,
+>>>>
+>>>> thanks for the update, I should be testing this really soon.
+>>>>
+>>>> Le jeudi 31 mars 2022 à 10:47 +0800, Yunfei Dong a écrit :
+>>>>> This series adds support for mt8192 h264/vp8/vp9 decoder
+>>>>> drivers.
+>>>>> Firstly, refactor
+>>>>> power/clock/interrupt interfaces for mt8192 is lat and core
+>>>>> architecture.
+>>>>
+>>>> Similarly to MT8173 and MT8183, a shared* firmware is needed for
+>>>> this
+>>>> CODEC to
+>>>> work (scp.img). I looked into linux-firmware[1] it has not been
+>>>> added
+>>>> for mt8192
+>>>> yet. As your patches are getting close to be ready, it would be
+>>>> important to
+>>>> look into this so the patchset does not get blocked due to that.
+>>>>
+>>>> best regards,
+>>>> Nicolas
+>>>>
+>>>> [1]
+>>>>
+> https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mediatek__;!!CTRNKA9wMg0ARbw!zy4N6JDroSXtumXXa7MuxAgYAPAink8uyW-978vpWct8S3vOjBqXirFE8uTEHopHCovbSl0FNP9LPgWCEBrZfMIcvQ$
+>>>>   
+>>>> * Shared at least between MDP3 and MTK VCODEC from my knowledge
+>>>>
+>>>
+>>> Thanks for your remind.
+>>>
+>>> I have already sent mt8192 scp.img to github.
+>>>
+>>>
+> https://urldefense.com/v3/__https://github.com/yunfeidongmediatek/linux_fw_scp_8192/commit/3ac2fc85bc7dfcebdb92b5b5808b0268cdfb772d__;!!CTRNKA9wMg0ARbw!zy4N6JDroSXtumXXa7MuxAgYAPAink8uyW-978vpWct8S3vOjBqXirFE8uTEHopHCovbSl0FNP9LPgWCEBpf9F_nWA$
+>>>   
+>>>
+>>> Waiting for to be merged.
+>>
+>> On boards I have, the firmware is loaded from /lib/firmware/scp.img,
+>> but with
+>> this submission it will be in lib/firmware/mediatek/mt8192/scp.img .
+>> I haven't
+>> found anything around:
+>>
+>>   drivers/remoteproc/mtk_scp.c:812:       char *fw_name = "scp.img";
+>>
+>> That would use the platform path. This seems like a problem to me,
+>> the
+>> upstreaming of the firmware isn't being aligned with the were the
+>> firmware is
+>> picked by the upstream driver. Correct me if I got this wrong, but
+>> I'd really
+>> like to clarify this.
+>>
+>> Nicolas
+>>
+> 
+> I am not sure why it's accepted the fw path of scp is
+> /lib/firmware/scp.img in mt8173/8183 but we upload scp.ing in
+> /lib/firmware/mediatek/mt8173(mt8183)/scp.img to
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mediatek
+> 
+> Currently, the scp driver will load firmware in /lib/firmware/scp.img.
+> that means there is only one firmware for a specific platform.
+> I think we can send a PATCH to make firmware name of scp being more
+> flexible.
+> 
+> Maybe get firmware name from dts. e.g.,
+> &scp {
+> 	status = "okay";
+> 	firmware-name = "mediatek/mt81xx/scp.img";
+> };
+> 
+> Do you think it feasible?
+> If you have any concerns, please let us know.
+> 
+> Thanks,
+> Allen
+> 
 
-Add vp9 single core decode driver to support mt8186.
+Hello Allen,
 
-Signed-off-by: Mingjia Zhang <mingjia.zhang@mediatek.com>
-Signed-off-by: Xiaoyong Lu <xiaoyong.lu@mediatek.com>
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
-This patch depends on "support mt8195 decoder"[1]
+what you proposed is exactly what has been done for other platforms because of
+both per-device firmware differences (different signatures) and per-SoC (different
+firmware entirely), found on TI K3, iMX DSP, Qualcomm MSS/DSP remoteproc and
+others.
 
-[1] https://patchwork.kernel.org/project/linux-mediatek/cover/20220413035410.29568-1-yunfei.dong@mediatek.com/
----
- .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 197 +++++++++++++++++-
- .../platform/mediatek/vcodec/vdec_drv_if.c    |   2 +-
- 2 files changed, 195 insertions(+), 4 deletions(-)
+Of course this is an accepted way to resolve this situation: please go on!
 
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-index 4b20d6e09809..8373b7ea3d44 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-@@ -439,6 +439,8 @@ struct vdec_vp9_slice_ref {
-  * @init_vsi:		vsi used for initialized VP9 instance
-  * @vsi:		vsi used for decoding/flush ...
-  * @core_vsi:		vsi used for Core stage
-+ *
-+ * @sc_pfc:		per frame context single core
-  * @counts_map:	used map to counts_helper
-  * @counts_helper:	counts table according to newest kernel spec
-  */
-@@ -487,6 +489,7 @@ struct vdec_vp9_slice_instance {
- 	};
- 	struct vdec_vp9_slice_vsi *core_vsi;
- 
-+	struct vdec_vp9_slice_pfc sc_pfc;
- 	struct vdec_vp9_slice_counts_map counts_map;
- 	struct v4l2_vp9_frame_symbol_counts counts_helper;
- };
-@@ -692,6 +695,25 @@ static int vdec_vp9_slice_tile_offset(int idx, int mi_num, int tile_log2)
- 	return offset < mi_num ? offset : mi_num;
- }
- 
-+static
-+int vdec_vp9_slice_setup_single_from_src_to_dst(struct vdec_vp9_slice_instance *instance)
-+{
-+	struct vb2_v4l2_buffer *src;
-+	struct vb2_v4l2_buffer *dst;
-+
-+	src = v4l2_m2m_next_src_buf(instance->ctx->m2m_ctx);
-+	if (!src)
-+		return -EINVAL;
-+
-+	dst = v4l2_m2m_next_dst_buf(instance->ctx->m2m_ctx);
-+	if (!dst)
-+		return -EINVAL;
-+
-+	v4l2_m2m_buf_copy_metadata(src, dst, true);
-+
-+	return 0;
-+}
-+
- static int vdec_vp9_slice_setup_lat_from_src_buf(struct vdec_vp9_slice_instance *instance,
- 						 struct vdec_lat_buf *lat_buf)
- {
-@@ -1568,6 +1590,33 @@ static int vdec_vp9_slice_update_prob(struct vdec_vp9_slice_instance *instance,
- 	return 0;
- }
- 
-+static int vdec_vp9_slice_update_single(struct vdec_vp9_slice_instance *instance,
-+				        struct vdec_vp9_slice_pfc *pfc)
-+{
-+	struct vdec_vp9_slice_vsi *vsi;
-+
-+	vsi = &pfc->vsi;
-+	memcpy(&pfc->state[0], &vsi->state, sizeof(vsi->state));
-+
-+	mtk_vcodec_debug(instance, "Frame %u Y_CRC %08x %08x %08x %08x\n",
-+			 pfc->seq,
-+			 vsi->state.crc[0], vsi->state.crc[1],
-+			 vsi->state.crc[2], vsi->state.crc[3]);
-+	mtk_vcodec_debug(instance, "Frame %u C_CRC %08x %08x %08x %08x\n",
-+			 pfc->seq,
-+			 vsi->state.crc[4], vsi->state.crc[5],
-+			 vsi->state.crc[6], vsi->state.crc[7]);
-+
-+	vdec_vp9_slice_update_prob(instance, vsi);
-+
-+	instance->width = vsi->frame.uh.frame_width;
-+	instance->height = vsi->frame.uh.frame_height;
-+	instance->frame_type = vsi->frame.uh.frame_type;
-+	instance->show_frame = vsi->frame.uh.show_frame;
-+
-+	return 0;
-+}
-+
- static int vdec_vp9_slice_update_lat(struct vdec_vp9_slice_instance *instance,
- 				     struct vdec_lat_buf *lat_buf,
- 				     struct vdec_vp9_slice_pfc *pfc)
-@@ -1691,6 +1740,40 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
- 	return 0;
- }
- 
-+static void vdec_vp9_slice_setup_single_buffer(struct vdec_vp9_slice_instance *instance,
-+					       struct vdec_vp9_slice_pfc *pfc,
-+					       struct vdec_vp9_slice_vsi *vsi,
-+					       struct mtk_vcodec_mem *bs,
-+					       struct vdec_fb *fb)
-+{
-+	int i;
-+
-+	vsi->bs.buf.dma_addr = bs->dma_addr;
-+	vsi->bs.buf.size = bs->size;
-+	vsi->bs.frame.dma_addr = bs->dma_addr;
-+	vsi->bs.frame.size = bs->size;
-+
-+	for (i = 0; i < 2; i++) {
-+		vsi->mv[i].dma_addr = instance->mv[i].dma_addr;
-+		vsi->mv[i].size = instance->mv[i].size;
-+	}
-+	for (i = 0; i < 2; i++) {
-+		vsi->seg[i].dma_addr = instance->seg[i].dma_addr;
-+		vsi->seg[i].size = instance->seg[i].size;
-+	}
-+	vsi->tile.dma_addr = instance->tile.dma_addr;
-+	vsi->tile.size = instance->tile.size;
-+	vsi->prob.dma_addr = instance->prob.dma_addr;
-+	vsi->prob.size = instance->prob.size;
-+	vsi->counts.dma_addr = instance->counts.dma_addr;
-+	vsi->counts.size = instance->counts.size;
-+
-+	vsi->row_info.buf = 0;
-+	vsi->row_info.size = 0;
-+
-+	vdec_vp9_slice_setup_core_buffer(instance, pfc, vsi, fb, NULL);
-+}
-+
- static int vdec_vp9_slice_setup_core(struct vdec_vp9_slice_instance *instance,
- 				     struct vdec_fb *fb,
- 				     struct vdec_lat_buf *lat_buf,
-@@ -1717,6 +1800,43 @@ static int vdec_vp9_slice_setup_core(struct vdec_vp9_slice_instance *instance,
- 	return ret;
- }
- 
-+static int vdec_vp9_slice_setup_single(struct vdec_vp9_slice_instance *instance,
-+				       struct mtk_vcodec_mem *bs,
-+				       struct vdec_fb *fb,
-+				       struct vdec_vp9_slice_pfc *pfc)
-+{
-+	struct vdec_vp9_slice_vsi *vsi = &pfc->vsi;
-+	int ret;
-+
-+	ret = vdec_vp9_slice_setup_single_from_src_to_dst(instance);
-+	if (ret)
-+		goto err;
-+
-+	ret = vdec_vp9_slice_setup_pfc(instance, pfc);
-+	if (ret)
-+		goto err;
-+
-+	ret = vdec_vp9_slice_alloc_working_buffer(instance, vsi);
-+	if (ret)
-+		goto err;
-+
-+	vdec_vp9_slice_setup_single_buffer(instance, pfc, vsi, bs, fb);
-+	vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[0]);
-+
-+	ret = vdec_vp9_slice_setup_prob_buffer(instance, vsi);
-+	if (ret)
-+		goto err;
-+
-+	ret = vdec_vp9_slice_setup_tile_buffer(instance, vsi, bs);
-+	if (ret)
-+		goto err;
-+
-+	return 0;
-+
-+err:
-+	return ret;
-+}
-+
- static int vdec_vp9_slice_update_core(struct vdec_vp9_slice_instance *instance,
- 				      struct vdec_lat_buf *lat_buf,
- 				      struct vdec_vp9_slice_pfc *pfc)
-@@ -1814,8 +1934,8 @@ static int vdec_vp9_slice_flush(void *h_vdec, struct mtk_vcodec_mem *bs,
- 	struct vdec_vp9_slice_instance *instance = h_vdec;
- 
- 	mtk_vcodec_debug(instance, "flush ...\n");
--
--	vdec_msg_queue_wait_lat_buf_full(&instance->ctx->msg_queue);
-+	if (instance->ctx->dev->vdec_pdata->hw_arch != MTK_VDEC_PURE_SINGLE_CORE)
-+		vdec_msg_queue_wait_lat_buf_full(&instance->ctx->msg_queue);
- 	return vpu_dec_reset(&instance->vpu);
- }
- 
-@@ -1868,6 +1988,63 @@ static int vdec_vp9_slice_get_param(void *h_vdec, enum vdec_get_param_type type,
- 	return 0;
- }
- 
-+static int vdec_vp9_slice_single_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
-+				        struct vdec_fb *fb, bool *res_chg)
-+{
-+	struct vdec_vp9_slice_instance *instance = h_vdec;
-+	struct vdec_vp9_slice_pfc *pfc = &(instance->sc_pfc);
-+	struct vdec_vp9_slice_vsi *vsi;
-+	struct mtk_vcodec_ctx *ctx;
-+	int ret;
-+
-+	if (!instance || !instance->ctx)
-+		return -EINVAL;
-+	ctx = instance->ctx;
-+
-+	/* bs NULL means flush decoder */
-+	if (!bs)
-+		return vdec_vp9_slice_flush(h_vdec, bs, fb, res_chg);
-+
-+	fb = ctx->dev->vdec_pdata->get_cap_buffer(ctx);
-+	if (!fb)
-+		return -EBUSY;
-+
-+	vsi = &pfc->vsi;
-+
-+	ret = vdec_vp9_slice_setup_single(instance, bs, fb, pfc);
-+	if (ret) {
-+		mtk_vcodec_err(instance, "Failed to setup VP9 single ret %d\n", ret);
-+		return ret;
-+	}
-+	vdec_vp9_slice_vsi_to_remote(vsi, instance->vsi);
-+
-+	ret = vpu_dec_start(&instance->vpu, 0, 0);
-+	if (ret) {
-+		mtk_vcodec_err(instance, "Failed to dec VP9 ret %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mtk_vcodec_wait_for_done_ctx(ctx,	MTK_INST_IRQ_RECEIVED,
-+					   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
-+	/* update remote vsi if decode timeout */
-+	if (ret) {
-+		mtk_vcodec_err(instance, "VP9 decode timeout %d\n", ret);
-+		writel(1, &instance->vsi->state.timeout);
-+	}
-+
-+	vpu_dec_end(&instance->vpu);
-+
-+	vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
-+	ret = vdec_vp9_slice_update_single(instance, pfc);
-+	if (ret) {
-+		mtk_vcodec_err(instance, "VP9 decode error: %d\n", ret);
-+		return ret;
-+	}
-+
-+	instance->ctx->decoded_frame_cnt++;
-+	return 0;
-+}
-+
- static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 				     struct vdec_fb *fb, bool *res_chg)
- {
-@@ -1947,6 +2124,20 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 	return 0;
- }
- 
-+static int vdec_vp9_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
-+				 struct vdec_fb *fb, bool *res_chg)
-+{
-+	struct vdec_vp9_slice_instance *instance = h_vdec;
-+	int ret;
-+
-+	if (instance->ctx->dev->vdec_pdata->hw_arch == MTK_VDEC_PURE_SINGLE_CORE)
-+		ret = vdec_vp9_slice_single_decode(h_vdec, bs, fb, res_chg);
-+	else
-+		ret = vdec_vp9_slice_lat_decode(h_vdec, bs, fb, res_chg);
-+
-+	return ret;
-+}
-+
- static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- {
- 	struct vdec_vp9_slice_instance *instance;
-@@ -2025,7 +2216,7 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 
- const struct vdec_common_if vdec_vp9_slice_lat_if = {
- 	.init		= vdec_vp9_slice_init,
--	.decode		= vdec_vp9_slice_lat_decode,
-+	.decode		= vdec_vp9_slice_decode,
- 	.get_param	= vdec_vp9_slice_get_param,
- 	.deinit		= vdec_vp9_slice_deinit,
- };
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c b/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
-index 27b4b35039cf..f3807f03d880 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
-@@ -47,7 +47,7 @@ int vdec_if_init(struct mtk_vcodec_ctx *ctx, unsigned int fourcc)
- 		break;
- 	case V4L2_PIX_FMT_VP9_FRAME:
- 		ctx->dec_if = &vdec_vp9_slice_lat_if;
--		ctx->hw_id = MTK_VDEC_LAT0;
-+		ctx->hw_id = IS_VDEC_LAT_ARCH(hw_arch) ? MTK_VDEC_LAT0 : MTK_VDEC_CORE;
- 		break;
- 	default:
- 		return -EINVAL;
--- 
-2.18.0
+Cheers,
+Angelo
 
