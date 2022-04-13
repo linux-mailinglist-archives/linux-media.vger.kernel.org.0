@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20E344FF1D6
-	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 10:27:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EF5B4FF1DD
+	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 10:28:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231335AbiDMI3o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Apr 2022 04:29:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54812 "EHLO
+        id S233775AbiDMIae (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Apr 2022 04:30:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229958AbiDMI3n (ORCPT
+        with ESMTP id S229668AbiDMIae (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Apr 2022 04:29:43 -0400
+        Wed, 13 Apr 2022 04:30:34 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84859344DE;
-        Wed, 13 Apr 2022 01:27:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3363F344F9;
+        Wed, 13 Apr 2022 01:28:14 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: kholk11)
-        with ESMTPSA id A44341F44F0E
+        with ESMTPSA id 6696A1F44F0E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1649838441;
-        bh=1AfnyPhY9aZhl5MD9PjUjLmG1rmk6J0oAYjA4S+AzeE=;
+        s=mail; t=1649838493;
+        bh=4Vsn1aejkGeE8Y8/vxFrCuw1ZIGPg0ZCck+uLh9HLCE=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=F3QNXS64YUZpcdCUUIACB3y05+PSICtvWt5z3iXD+vnZ61arDN1ZoTHsaPMJf7WhC
-         Enlp0rde9tmn/BTIf3m6Wz10iWUZyGW9Kd+ncw8o0cNS/azixzp7kxg7/2E0TWkQJ5
-         3sJV7qO5bRbPXqG1G3Z378kJqCWk1wjoIpuFo4GeKFRMPtEL6/Ue+0PgaH2AHgc2u0
-         8MQcpAFB+xpYYm/yNZwyII6HxIFXtRoXpvqNTOCukooSqxlrHKbBUw4D6oRYkHtqwt
-         7vSVAIORhb2r0LjG0zPU0pfgOvf877M7pY4OIjY6Cuj/awBPtySiKEEQEEllU2B9EO
-         N+I4LehjFqd/w==
-Message-ID: <0193f6b6-0019-3080-2615-02225eb4bf3b@collabora.com>
-Date:   Wed, 13 Apr 2022 10:27:17 +0200
+        b=ETExv/OWpWWJ0YGn0PuMmlTHavSLhE5Q/BNJFC6Zh3E0TssffX6/DK0TAPz3ugrpc
+         m6bsEAfN4KeCFByoQoH2peSDhnhVEMolAA0cgSqGbLd1P2gMzFO7+Cvl04zjBJAi6n
+         NsHNy1mMvcMm1qXFCDHgwn+wrq1VZ2pFhzu+UFNMkKq32HQoISHJ238HIozt2PCbkX
+         HZJXWjaMNsfTmRPuXlIhq+GkcKa86kxGdjrpfCRzKfWAolOc7J6kRXt93ZBw/8DUcV
+         Zvmtz6o3ZE6tkZH2WBHRFXFxnSCdTkjshm2DO+LN2FvWgc/hVLYtdjwX2fUkCWbSGN
+         OJDLQTradvQHA==
+Message-ID: <08985897-d732-366d-fddb-5c622b732726@collabora.com>
+Date:   Wed, 13 Apr 2022 10:28:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v14 1/6] soc: mediatek: mutex: add common interface to
- accommodate multiple modules operationg MUTEX
+Subject: Re: [PATCH v14 2/6] soc: mediatek: mutex: add 8183 MUTEX MOD settings
+ for MDP
 Content-Language: en-US
 To:     Moudy Ho <moudy.ho@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -60,10 +60,10 @@ Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
         srv_heupstream@mediatek.com,
         Project_Global_Chrome_Upstream_Group@mediatek.com
 References: <20220411072403.24016-1-moudy.ho@mediatek.com>
- <20220411072403.24016-2-moudy.ho@mediatek.com>
+ <20220411072403.24016-3-moudy.ho@mediatek.com>
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220411072403.24016-2-moudy.ho@mediatek.com>
+In-Reply-To: <20220411072403.24016-3-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -77,136 +77,11 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Il 11/04/22 09:23, Moudy Ho ha scritto:
-> In order to allow multiple modules to operate MUTEX hardware through
-> a common interfrace, a flexible index "mtk_mutex_table_index" needs to
-> be added to replace original component ID so that like DDP and MDP
-> can add their own MUTEX table settings independently.
-> 
-> In addition, 4 generic interface "mtk_mutex_set_mod", "mtk_mutex_set_sof",
-> "mtk_mutex_clear_mod" and "mtk_mutex_clear_sof" have been added, which is
-> expected to replace the "mtk_mutex_add_comp" and "mtk_mutex_remove_comp"
-> pair originally dedicated to DDP in the future.
+> For the purpose of module independence, related settings should be moved
+> from MDP to the corresponding driver.
+> This patch adds 8183 MUTEX MOD settings for MDP.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> Change-Id: I6a2ab74fccf36248165ce4a6b268d82a1177afc9
-> ---
->   drivers/soc/mediatek/mtk-mutex.c       | 89 ++++++++++++++++++++++++++
->   include/linux/soc/mediatek/mtk-mutex.h | 21 ++++++
->   2 files changed, 110 insertions(+)
-> 
-> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-> index aaf8fc1abb43..48a04dce50d5 100644
-> --- a/drivers/soc/mediatek/mtk-mutex.c
-> +++ b/drivers/soc/mediatek/mtk-mutex.c
-> @@ -156,6 +156,8 @@ struct mtk_mutex_data {
->   	const unsigned int *mutex_sof;
->   	const unsigned int mutex_mod_reg;
->   	const unsigned int mutex_sof_reg;
-> +	const unsigned int *mutex_table_mod;
-> +	const unsigned int *mutex_table_sof;
->   	const bool no_clk;
->   };
->   
-> @@ -445,6 +447,54 @@ void mtk_mutex_add_comp(struct mtk_mutex *mutex,
->   }
->   EXPORT_SYMBOL_GPL(mtk_mutex_add_comp);
->   
 
-Hello Moudy,
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Some critical things, and one cleanup.
-
-First of all, the commit title is very long, and it also contains a typo.
-I would go for something like
-"soc: mediatek: mutex: Add common interface for modules setting".
-
-Also, please remove your internal "Change-Id" tag, this is meaningless on
-upstream, hence not applicable here.
-
-Now for the cleanup: I have an idea to make this a bit shorter (and please
-feel free to change function names with something more appropriate, if needed):
-
-static int mtk_mutex_write_mod(struct mtk_mutex *mutex,
-				enum mtk_mutex_table_index idx,
-				bool clear)
-{
-
-
-> +{
-> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-> +						 mutex[mutex->id]);
-> +	unsigned int reg;
-> +	unsigned int offset;
-> +
-> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> +
-> +	if (idx < MUTEX_TABLE_IDX_MDP_RDMA0 ||
-> +	    idx >= MUTEX_TABLE_IDX_MAX) {
-> +		dev_err(mtx->dev, "Not supported MOD table index : %d", idx);
-> +		return;
-
-		return -EINVAL;
-
-> +	}
-> +
-> +	offset = DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg,
-> +				    mutex->id);
-> +
-> +	reg = readl_relaxed(mtx->regs + offset);
-
-if (clear)
-	reg &= ~BIT(mtx->data->mutex_table_mod[idx])
-else
-	reg |= BIT(mtx->data->mutex_table_mod[idx])
-
-> +	reg |= 1 << mtx->data->mutex_table_mod[idx];
-> +	writel_relaxed(reg, mtx->regs + offset);
-> +}
-
-int mtk_mutex_set_mod(struct mtk_mutex *mutex,
-		      enum mtk_mutex_table_index idx)
-{
-	return mtk_mutex_write_mod(mutex, idx, false);
-}
-
-int mtk_mutex_clear_mod(struct mtk_mutex *mutex,
-			enum mtk_mutex_table_index idx)
-{
-	return mtk_mutex_clear_mod(mutex, idx, true);
-}
-
-> +EXPORT_SYMBOL_GPL(mtk_mutex_set_mod);
-> +
-> +void mtk_mutex_set_sof(struct mtk_mutex *mutex,
-> +		       enum mtk_mutex_table_index idx)
-> +{
-> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-> +						 mutex[mutex->id]);
-> +	unsigned int sof_id;
-> +
-> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> +
-> +	if (idx < MUTEX_TABLE_IDX_MDP_RDMA0 ||
-> +	    idx >= MUTEX_TABLE_IDX_MAX) {
-> +		dev_err(mtx->dev, "Not supported SOF table index : %d", idx);
-> +		return;
-> +	}
-> +
-> +	sof_id = mtx->data->mutex_table_sof[idx];
-
-... same changes here, except we'd have something like
-
-if (clear)
-	val = MUTEX_SOF_SINGLE_MODE;
-else
-	val = mtx->data->mutex_sof[sof_id];
-
-	writel_relaxed(val, ...etc)
-
-but feel free to give me valid reasons to not use this approach.
-
-In any case, the code looks ok to me.
-
-
-Regards,
-Angelo
