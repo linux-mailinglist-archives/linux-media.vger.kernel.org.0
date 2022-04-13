@@ -2,70 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D0534FFDEE
-	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 20:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34C8D500121
+	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 23:24:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236358AbiDMSjD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Apr 2022 14:39:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55224 "EHLO
+        id S239152AbiDMVYu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Apr 2022 17:24:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232479AbiDMSjC (ORCPT
+        with ESMTP id S239038AbiDMVYj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Apr 2022 14:39:02 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FC7250B1A;
-        Wed, 13 Apr 2022 11:36:41 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id p15so5732307ejc.7;
-        Wed, 13 Apr 2022 11:36:41 -0700 (PDT)
+        Wed, 13 Apr 2022 17:24:39 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8B4B66C97;
+        Wed, 13 Apr 2022 14:22:16 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id k23so6509134ejd.3;
+        Wed, 13 Apr 2022 14:22:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=J1PlCMZX7SWSpw/ifVTUvcRQYJHb8jUnJb9fn2d8Sok=;
-        b=RgKwgNMRmVs/kO4s0aASXYevSF867Y1oXXKamgIFswYelSRwOmgv5eyt+QdGQa9tI/
-         8w6t3tDI2haEbhbrjpVu+quFlOryMoEkDNTzA5xnOj3QU/pU3aE24k1QV91/h7xayU/f
-         fe8vY4vbTlv4wiPhDWOA8x3vA5cE3RER6ybyearp6qlni029skORswFAVhkgyMHnIFDG
-         3blqF2tPBdCXtxJqf973GeXkCPJEJu4NjY7nOI+l33iL8d+Y55qO0ktq9hGPVju0lzTp
-         w/74kBC+ShcSyuljlZ3MG46KpYrfJy1i8/Gwg7lSaF/SwLU3Hrq1qWEUrlCev1c2zYtp
-         o2tw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LbnAeJu+mSJrOhK0YF2KczoT41D0h8PfC3LbVNUGzpE=;
+        b=aa+5LyswOpxqjG7WzCPpOCdbgp/WuK2qXlP817DNGTK6jUIufD5TzDs9RA2MsJln1+
+         0Z1lvg7BMweewUwAduqBkG49jSLyPlzD9kj6T816ZVKoAnlVMrxCNvd1oSKsRfYUHfeC
+         AQsxsu7H8tANDPU42PgNsaHyv0dQGPMzFr2rFPJNsIpQokqz7+ZAAES2h93mssw7W6ZE
+         TPP6rEOtrkHPw2Rd/mPb6YYuQcnObWMqeIiACyaUxjwN6YacZTnf18qAheRAd40FK+7V
+         z57zj7n4iKeNu1CYELHZbw3k3tknVlfG8nZPMdsu7QPoa8r3NJEYjs2enKa4Y5gEhUld
+         WTLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=J1PlCMZX7SWSpw/ifVTUvcRQYJHb8jUnJb9fn2d8Sok=;
-        b=kgTh3m8CVOyXX36GoBzPrcguoK+xUsF5MSYJuVWHfj4zQbpmsNw7uOn6iHDUsCZHa6
-         iSXxO3B5ImUfVA5VAVcjOpK5jAnt/ZkDpo2cDHvROLy6v2VrV7oQ/qoRPyxv8rw5x3qc
-         SxwsY44rKudPlp3wfhsJv8V+I85NqEbENitEsAhFct5zmb+0GQgpgPQosO6zibvIQ9JQ
-         duXsX83KC8EvYMzE0Ip1M2jt4BJs/xPZL7ThmW2IEtSIbqRoe9xMw0w1tUtP/oAQCwd/
-         GAYN8jXY+1cDt1X9u24K1jEOjbkvePa1EeKTdzzfZqv5/gm4irgmTqwUYKpb4n4t8xux
-         6Ldw==
-X-Gm-Message-State: AOAM530xwjiTHbQBK3NUWsqH39CgVHTYMOg6I4usfZOblYBdtshms1Qr
-        Vmeyn97WSuifJsrVWe8gvxvIcu/JLNgceC5UPfSjluct
-X-Google-Smtp-Source: ABdhPJyrF2Llbu8dDK87n061FBPyXJV9I1rpC9peCTkToZ8AjI+EhMFFMsFkYLpzd63/ttZmkNW5dfkAAymj//f5kpw=
-X-Received: by 2002:a17:906:2646:b0:6d5:d889:c92b with SMTP id
- i6-20020a170906264600b006d5d889c92bmr41339455ejc.696.1649874999587; Wed, 13
- Apr 2022 11:36:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220412110155.21427-1-ming.qian@nxp.com>
-In-Reply-To: <20220412110155.21427-1-ming.qian@nxp.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Wed, 13 Apr 2022 15:36:28 -0300
-Message-ID: <CAOMZO5DmvVJuBU-PzrJ+ru1C3sJPtHshmtxmcAZPTu-p56SAKg@mail.gmail.com>
-Subject: Re: [PATCH v2] media: amphion: fix decoder's interlaced field
-To:     Ming Qian <ming.qian@nxp.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LbnAeJu+mSJrOhK0YF2KczoT41D0h8PfC3LbVNUGzpE=;
+        b=Z8aqcu3AN0d8YUTmutzq+4cuRIa171af1EFZUk3ct6EKW678CcsW5l4+2KHcQHpwOd
+         /K5ASkKrIIp9Z1Z6Dz4BHRxdymmxqMVfeUi+hkTDlfzAZE2XfP5En7JXTPOwQaiSC/jA
+         s051T439PUfNLADi/OoRKVg+0jWHrhD/TjdAgPHTBoIL6MSdvvq/kDdq/O9LXcxNGshd
+         2b3eQMC/7z06/DtNYAQF/Z7NVedwe4+nO0wITT3LN4tNO3a47Hvd5R3Q/IqdAXI7K48g
+         8igmX2E/gK/ThWTrRto2MBSLV44n5XMouT66sfvJ6CyKS4Zuu2UXbgQW3svHwPn21+Uj
+         qH8g==
+X-Gm-Message-State: AOAM533JgvLFtbWNQRdJVGvZLHs9rZsWXnmOvR4gfkh1irqnFMZa3bMG
+        +QwMCbTdwCxky8zrjB++AUQ=
+X-Google-Smtp-Source: ABdhPJxvooD4u6SAjw+4A4hPyn40ux/U5r40VIzqQDjzdLtvQHLsWPGxk146dW4t8vuSsZKQFmNgbQ==
+X-Received: by 2002:a17:907:3f0f:b0:6e8:3b05:cc6 with SMTP id hq15-20020a1709073f0f00b006e83b050cc6mr30886644ejc.91.1649884935461;
+        Wed, 13 Apr 2022 14:22:15 -0700 (PDT)
+Received: from localhost.localdomain (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
+        by smtp.gmail.com with ESMTPSA id k22-20020a508ad6000000b00420bd71e06bsm30883edk.79.2022.04.13.14.22.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Apr 2022 14:22:14 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Martiros Shakhzadyan <vrzh@vrzh.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+        outreachy@lists.linux.dev
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_set()
+Date:   Wed, 13 Apr 2022 23:22:10 +0200
+Message-Id: <20220413212210.18494-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -76,15 +76,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ming,
+The use of kmap() is being deprecated in favor of kmap_local_page()
+where it is feasible. In file pci/hmm/hmm.c, function hmm_set() calls
+kmap() / kunmap() where kmap_local_page() can instead do the mapping.
 
-On Tue, Apr 12, 2022 at 8:02 AM Ming Qian <ming.qian@nxp.com> wrote:
->
-> For interlaced frame, the amphion vpu will store the
-> two fields sequential into one buffer, top-bottom order
-> so the field should be set to V4L2_FIELD_SEQ_TB.
-> fix the previous bug that set it to V4L2_FIELD_SEQ_BT wrongly.
->
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+With kmap_local_page(), the mapping is per thread, CPU local and not
+globally visible. Therefore, hmm_set()() is a function where the use
+of kmap_local_page() in place of kmap() is correctly suited.
 
-Missing Fixes tag?
+Convert the calls of kmap() / kunmap() to kmap_local_page() /
+kunmap_local().
+
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/hmm/hmm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+index 6394385b6637..46ac082cd3f1 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+@@ -563,7 +563,7 @@ int hmm_set(ia_css_ptr virt, int c, unsigned int bytes)
+ 		idx = (virt - bo->start) >> PAGE_SHIFT;
+ 		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
+ 
+-		des = (char *)kmap(bo->page_obj[idx].page) + offset;
++		des = (char *)kmap_local_page(bo->page_obj[idx].page) + offset;
+ 
+ 		if ((bytes + offset) >= PAGE_SIZE) {
+ 			len = PAGE_SIZE - offset;
+@@ -579,7 +579,7 @@ int hmm_set(ia_css_ptr virt, int c, unsigned int bytes)
+ 
+ 		clflush_cache_range(des, len);
+ 
+-		kunmap(bo->page_obj[idx].page);
++		kunmap_local(des);
+ 	}
+ 
+ 	return 0;
+-- 
+2.34.1
+
