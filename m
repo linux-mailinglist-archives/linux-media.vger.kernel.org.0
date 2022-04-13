@@ -2,211 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 999474FF68E
-	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 14:18:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 244C54FF7AC
+	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 15:32:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230219AbiDMMUW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Apr 2022 08:20:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51114 "EHLO
+        id S233808AbiDMNer (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Apr 2022 09:34:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbiDMMUV (ORCPT
+        with ESMTP id S233587AbiDMNep (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Apr 2022 08:20:21 -0400
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A289153E17
-        for <linux-media@vger.kernel.org>; Wed, 13 Apr 2022 05:18:00 -0700 (PDT)
-Received: by mail-qv1-xf2f.google.com with SMTP id c1so1438769qvl.3
-        for <linux-media@vger.kernel.org>; Wed, 13 Apr 2022 05:18:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hBdifcQai3U58rCONkXE+YbU/erTelK7W41s7JxZlqQ=;
-        b=fssrSvaubFxsBgmNWafnM5uJ+Qp8/DFqfuhvyi+SGXbrM73mBmpY5XrWiYWdmf9R8U
-         f8XNuxo/9cVn2EUAU6+tRSxYbZAeja09JCTy0UZf09GKUGYK1ErKMe0R365/UuE9FwxV
-         VF/IC8tTYrJJAPecyqHbA+NHCpzA9i84KRiQc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hBdifcQai3U58rCONkXE+YbU/erTelK7W41s7JxZlqQ=;
-        b=7OsxMLJizjEKVf+/YHT2W9cjdNgsSuzQdCuZHWn3lNVYMiNcl+ToR5CYsshpxPuDQb
-         VbYam6C7GuSY2GqYiHJbrjpRBtoC89FyGuSdYKjif2fxmX5040xEt1WxTGAIUDeaNqSq
-         p35zdOEXoEx4mwcgVBqy3HOzHThCwbZ4Crd2Ig0+lXsscWzyc27qrU2K+xxF3E2qHYcS
-         3YDRYjHxTPBnD48hz3PUwOUScmKrk1y3yjGWB6HFplNPOx12FU5Ocnr+Gha8TgQwLaVg
-         RqC7V3srPzAZLfa+hD4lOH4yU1I51HS/YNJ+9rmrET95+e0//UgvBHnllzpydIjTguQ4
-         H/9Q==
-X-Gm-Message-State: AOAM532yEKEsXXGDzwfiHK9gaIeYLTdxD4ryFGFnerxVelVPv4SWbSgG
-        tF6TRQ9T1fiao0Hx/1bJVRtw9/vleTfBMg==
-X-Google-Smtp-Source: ABdhPJw6pHVnU49sAVfUYtqikE1JoiHM3CcKRYskYnWO2jZJhTjSz4w3CdbNd84/naJ/Z9HfIBtXgA==
-X-Received: by 2002:a05:6214:76a:b0:443:6326:8a90 with SMTP id f10-20020a056214076a00b0044363268a90mr7719135qvz.107.1649852279472;
-        Wed, 13 Apr 2022 05:17:59 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id b13-20020ac85bcd000000b002e06856b04fsm29970549qtb.51.2022.04.13.05.17.58
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Apr 2022 05:17:58 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id x200so3295662ybe.13
-        for <linux-media@vger.kernel.org>; Wed, 13 Apr 2022 05:17:58 -0700 (PDT)
-X-Received: by 2002:a05:6902:104:b0:628:bc80:748f with SMTP id
- o4-20020a056902010400b00628bc80748fmr31484256ybh.575.1649852278160; Wed, 13
- Apr 2022 05:17:58 -0700 (PDT)
+        Wed, 13 Apr 2022 09:34:45 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A903153A48
+        for <linux-media@vger.kernel.org>; Wed, 13 Apr 2022 06:32:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649856744; x=1681392744;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FX2PBFI7OvsVgR+UCJ4ISAf/jLYZYXI6xy7eUbHOjRQ=;
+  b=CUYj3gC1iTnorM4DZ9CvzR6PiidSP/VHwocwknwZUL5Ipni7BVzb+vbE
+   5HuPsZs3mPzL63QJs7N6jQ4VeBiCYRhl6BslkXsvTIMvUrB9drgH91rAO
+   X3IwHRCx9ADE58d3woJxXcKBCmVi0GDSo1TjQF3aMemgN4qbI+r4wREac
+   PrqYI8rZHfE2Nq0GruF+vm39icllx2iH3q9Z+XfWW7GQtEUf1WQVXjD2Q
+   gFI+9NTCGtcyH9VbYHf718NtTb5s2tL7MDAOr/VcyrWjuMGFHdVYx6Ql7
+   envFTBbvU0ahje9SiQFekj3aORjvLKL5gJkIKywTi/Zadh6fMsBPvVnl0
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="262841785"
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
+   d="scan'208";a="262841785"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 06:32:15 -0700
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
+   d="scan'208";a="590751896"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 06:32:14 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id D273B2030F;
+        Wed, 13 Apr 2022 16:32:11 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1ned7T-002byc-T7; Wed, 13 Apr 2022 16:33:15 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     tfiga@chromium.org, bingbu.cao@intel.com
+Subject: [PATCH 1/1] Revert "media: dw9768: activate runtime PM and turn off device"
+Date:   Wed, 13 Apr 2022 16:33:15 +0300
+Message-Id: <20220413133315.622593-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <1634278119-32158-1-git-send-email-bingbu.cao@intel.com>
- <CAAFQd5Aykfdj-HPzsQOyQpbGBRhtTsoRm78XgpuGkFUx1joTMA@mail.gmail.com>
- <DM8PR11MB565395F554C6D1C4978EBC2A998E9@DM8PR11MB5653.namprd11.prod.outlook.com>
- <CAAFQd5B9hZNn4UuB8h0RLUwSxwTFGC219LFe8jGE1jDd+EfosA@mail.gmail.com>
- <CAAFQd5B_LTXa=ECg0wRzGLqGJaiz3HrY_C9BJgByj4QFTJzu-Q@mail.gmail.com>
- <64cf6ebd-03d4-3cc2-5eed-bc723eb3214a@linux.intel.com> <CAAFQd5DnBTKKeY1Mr6np2Q6BUo=-RcZHHJ+GsSK-BDAtYLJ1Gg@mail.gmail.com>
- <Yla2owgZ9sSBazDF@paasikivi.fi.intel.com>
-In-Reply-To: <Yla2owgZ9sSBazDF@paasikivi.fi.intel.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 13 Apr 2022 21:17:47 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DZGPWmZgRYjdwzk7Mm3OAviDrH24NyWxEredcgA2TMTQ@mail.gmail.com>
-Message-ID: <CAAFQd5DZGPWmZgRYjdwzk7Mm3OAviDrH24NyWxEredcgA2TMTQ@mail.gmail.com>
-Subject: Re: [PATCH] media: dw9768: activate runtime PM and turn off device
-To:     "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-Cc:     Bingbu Cao <bingbu.cao@linux.intel.com>,
-        "Cao, Bingbu" <bingbu.cao@intel.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 13, 2022 at 8:40 PM sakari.ailus@linux.intel.com
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Tomasz, Bingbu,
->
-> On Tue, Apr 12, 2022 at 08:15:08PM +0900, Tomasz Figa wrote:
-> > On Tue, Apr 12, 2022 at 8:05 PM Bingbu Cao <bingbu.cao@linux.intel.com> wrote:
-> > >
-> > >
-> > >
-> > > On 4/12/22 5:39 PM, Tomasz Figa wrote:
-> > > > On Tue, Nov 16, 2021 at 1:57 PM Tomasz Figa <tfiga@chromium.org> wrote:
-> > > >>
-> > > >> On Fri, Nov 5, 2021 at 9:52 PM Cao, Bingbu <bingbu.cao@intel.com> wrote:
-> > > >>>
-> > > >>>> -----Original Message-----
-> > > >>>> From: Tomasz Figa <tfiga@chromium.org>
-> > > >>>> Sent: Friday, November 5, 2021 2:55 PM
-> > > >>>> To: Cao, Bingbu <bingbu.cao@intel.com>
-> > > >>>> Cc: linux-media@vger.kernel.org; sakari.ailus@linux.intel.com;
-> > > >>>> dongchun.zhu@mediatek.com; Qiu, Tian Shu <tian.shu.qiu@intel.com>;
-> > > >>>> bingbu.cao@linux.intel.com
-> > > >>>> Subject: Re: [PATCH] media: dw9768: activate runtime PM and turn off
-> > > >>>> device
-> > > >>>>
-> > > >>>> On Fri, Oct 15, 2021 at 3:12 PM Bingbu Cao <bingbu.cao@intel.com> wrote:
-> > > >>>>>
-> > > >>>>> When dw9768 working with ACPI systems, the dw9768 was turned by
-> > > >>>>> i2c-core during probe, driver need activate the PM runtime and ask
-> > > >>>>> runtime PM to turn off the device.
-> > > >>>>>
-> > > >>>>> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> > > >>>>> ---
-> > > >>>>>  drivers/media/i2c/dw9768.c | 6 ++++++
-> > > >>>>>  1 file changed, 6 insertions(+)
-> > > >>>>>
-> > > >>>>> diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
-> > > >>>>> index c086580efac7..65c6acf3ced9 100644
-> > > >>>>> --- a/drivers/media/i2c/dw9768.c
-> > > >>>>> +++ b/drivers/media/i2c/dw9768.c
-> > > >>>>> @@ -469,6 +469,11 @@ static int dw9768_probe(struct i2c_client
-> > > >>>>> *client)
-> > > >>>>>
-> > > >>>>>         dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
-> > > >>>>>
-> > > >>>>> +       /*
-> > > >>>>> +        * Device is already turned on by i2c-core with ACPI domain PM.
-> > > >>>>> +        * Attempt to turn off the device to satisfy the privacy LED
-> > > >>>> concerns.
-> > > >>>>> +        */
-> > > >>>>> +       pm_runtime_set_active(dev);
-> > > >>>>
-> > > >>>> This driver is used by non-ACPI systems as well. This change will make
-> > > >>>> the PM core not call the runtime_resume() callback provided by the
-> > > >>>> driver and the power would never be turned on on such systems.
-> > > >>>>
-> > > >>>
-> > > >>>> Wasn't the intention of Sakari's ACPI patches to allow bypassing the
-> > > >>>> ACPI domain power on at boot up and eliminate the need for this change?
-> > > >>>
-> > > >>> Tomasz, thanks for your review.
-> > > >>>
-> > > >>> The comment here is invalid, it should not be strongly related to the privacy
-> > > >>> LED concern. Anyway, the device should be turned off on ACPI and non-ACPI
-> > > >>> systems even without Sakari's changes.
-> > > >>>
-> > > >>> I am wondering how the driver work with PM core on non-ACPI system.
-> > > >>>
-> > > >>
-> > > >> On non-ACPI systems it's the driver which handles the power sequencing
-> > > >> of the chip so the regulators wouldn't be implicitly enabled by the
-> > > >> subsystem before (unless they're shared with some other device and the
-> > > >> corresponding driver enabled them).
-> > > >
-> > > > It looks like this patch made into Linus' tree and broke the driver on
-> > > > ARM devices. Could we please revert it?
-> > >
-> > > If revert the patch, the device will not work on ACPI system, is there some
-> > > other solution? Have no details about the failure on ARM device.
-> > >
-> >
-> > I believe it worked on ACPI systems, just runtime PM wasn't suspending
-> > the device.
-> >
-> > That said, if my comment above was addressed instead of being ignored,
-> > this regression wouldn't have happened. The problem is described in my
-> > previous messages, please get back to them and address the issue I
-> > pointed out.
->
-> First of all, thanks for catching this.
->
-> What I believe happened was that the patch was merged to my tree before you
-> commented on it and then I missed the related follow-up discussion.
->
-> Looking at the patch itself, it seems fine as such but there's a problem
-> with the driver to begin with: the device isn't powered on in probe on DT
-> systems but still its runtime suspend callback is called through
-> pm_runtime_idle().
->
-> Normally calling the RT suspend callback is what we want, but in this case
-> disabling a regulator that wasn't enabled is a problem.
->
-> There also seems to be a problem in error handling... and the driver does
-> not support probing while powered off on ACPI. Oh well.
->
-> Let's revert the patch now but it seems there's something to fix
-> afterwards.
+This reverts commit c09d776eaa060534a1663e3b89d842db3e1d9076.
 
-Thanks Sakari.
+Revert the commit as it breaks runtime PM support on OF based systems.
+More fixes to the driver are needed.
 
-One of possible ways to fix this would be to always turn on the
-regulators in the probe, although it would result in the privacy LED
-blinking issue on our ARM systems.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/i2c/dw9768.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-I wonder if we're missing something in how the ACPI runtime PM works
-on Linux. It sounds strange to me that the driver needs to be aware of
-the ACPI internals and know that the default boot-up state is powered
-on. Maybe there is another function that we could call instead of
-pm_runtime_set_active()+pm_runtime_idle() that would only shut down
-the PM domain, while leaving the device itself alone?
+diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
+index 65c6acf3ced9a..c086580efac78 100644
+--- a/drivers/media/i2c/dw9768.c
++++ b/drivers/media/i2c/dw9768.c
+@@ -469,11 +469,6 @@ static int dw9768_probe(struct i2c_client *client)
+ 
+ 	dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
+ 
+-	/*
+-	 * Device is already turned on by i2c-core with ACPI domain PM.
+-	 * Attempt to turn off the device to satisfy the privacy LED concerns.
+-	 */
+-	pm_runtime_set_active(dev);
+ 	pm_runtime_enable(dev);
+ 	if (!pm_runtime_enabled(dev)) {
+ 		ret = dw9768_runtime_resume(dev);
+@@ -488,7 +483,6 @@ static int dw9768_probe(struct i2c_client *client)
+ 		dev_err(dev, "failed to register V4L2 subdev: %d", ret);
+ 		goto err_power_off;
+ 	}
+-	pm_runtime_idle(dev);
+ 
+ 	return 0;
+ 
+-- 
+2.30.2
 
-Best regards,
-Tomasz
-
->
-> --
-> Regards,
->
-> Sakari Ailus
