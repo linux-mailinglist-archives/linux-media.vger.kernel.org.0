@@ -2,176 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 811F54FF24F
-	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 10:41:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51DE94FF3F8
+	for <lists+linux-media@lfdr.de>; Wed, 13 Apr 2022 11:44:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbiDMIoE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Apr 2022 04:44:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36346 "EHLO
+        id S234657AbiDMJqE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Apr 2022 05:46:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232810AbiDMIoA (ORCPT
+        with ESMTP id S229634AbiDMJqD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Apr 2022 04:44:00 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED69E4A3CC;
-        Wed, 13 Apr 2022 01:41:39 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 11E7A1F44B82
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1649839298;
-        bh=VsMFErl3fUbkDNBlhEDMtj7UhHKnA4rACzxxHNzfR78=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=cQZJI2NNJoEH98QbZdpA+szsNPyPCK+1jHsBugIIHcC62oajQU3IIw9NZt6a7e/+f
-         ePLipA+Q3P3XFtCacGvu8z/oWU2SDiE2VTBp7MAtyaVduZgcumYwCs4MB2MK1/solf
-         VrTvBIm3b8Nu3Go2kLV82hgUVmp4I2ag5xnb5iPJO38D/TgHCzZSGwXYeVic75Rjtk
-         pSXyW/0ktVhsjJpHpyCz6T0I6bD11mw6VqeA2cxcY4gnMDPNl0Jj30jNxgoFUDccuU
-         +WRlMMeY8axwd8TYRH+aPXYDuK12r6E/rUaF6jOF8aqfiByz3n7c4ZBw83Ft48AchM
-         1djzws6N1zZoA==
-Message-ID: <858afddd-c008-8a6c-c3c1-e1883e710c5e@collabora.com>
-Date:   Wed, 13 Apr 2022 10:41:34 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v14 6/6] soc: mediatek: mutex: add functions that operate
- registers by CMDQ
-Content-Language: en-US
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
-        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        allen-kh.cheng@mediatek.com, xiandong.wang@mediatek.com,
-        randy.wu@mediatek.com, jason-jh.lin@mediatek.com,
-        roy-cw.yeh@mediatek.com, river.cheng@mediatek.com,
-        srv_heupstream@mediatek.com,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20220411072403.24016-1-moudy.ho@mediatek.com>
- <20220411072403.24016-7-moudy.ho@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220411072403.24016-7-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+        Wed, 13 Apr 2022 05:46:03 -0400
+Received: from mo-csw.securemx.jp (mo-csw1115.securemx.jp [210.130.202.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D73955755;
+        Wed, 13 Apr 2022 02:43:42 -0700 (PDT)
+Received: by mo-csw.securemx.jp (mx-mo-csw1115) id 23D9hM8m029340; Wed, 13 Apr 2022 18:43:22 +0900
+X-Iguazu-Qid: 2wHHcjJI23W94K8XRp
+X-Iguazu-QSIG: v=2; s=0; t=1649843001; q=2wHHcjJI23W94K8XRp; m=7GmIC7vHKUkgQ9s4B63XWJryMl2VZPBa/PaV4pvEob8=
+Received: from imx2-a.toshiba.co.jp (imx2-a.toshiba.co.jp [106.186.93.35])
+        by relay.securemx.jp (mx-mr1111) id 23D9hLZA011011
+        (version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+        Wed, 13 Apr 2022 18:43:21 +0900
+X-SA-MID: 35962689
+From:   Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, yuji2.ishikawa@toshiba.co.jp
+Subject: [PATCH 0/3] Visconti: Add Toshiba Visconti Video Input Interface driver
+Date:   Wed, 13 Apr 2022 18:41:58 +0900
+X-TSB-HOP2: ON
+Message-Id: <20220413094203.25714-1-yuji2.ishikawa@toshiba.co.jp>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 11/04/22 09:24, Moudy Ho ha scritto:
-> Due to HW limitations, MDP3 is necessary to enable MUTEX in each frame
-> for SOF triggering and cooperate with CMDQ control to reduce the amount
-> of interrupts generated(also, reduce frame latency).
-> 
-> In response to the above situation, a new interface
-> "mtk_mutex_enable_by_cmdq" has been added to achieve the purpose.
-> 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
->   drivers/soc/mediatek/mtk-mutex.c       | 42 +++++++++++++++++++++++++-
->   include/linux/soc/mediatek/mtk-mutex.h |  2 ++
->   2 files changed, 43 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-> index fc9ba2749946..1811beaf399d 100644
-> --- a/drivers/soc/mediatek/mtk-mutex.c
-> +++ b/drivers/soc/mediatek/mtk-mutex.c
-> @@ -7,10 +7,12 @@
->   #include <linux/iopoll.h>
->   #include <linux/module.h>
->   #include <linux/of_device.h>
-> +#include <linux/of_address.h>
->   #include <linux/platform_device.h>
->   #include <linux/regmap.h>
->   #include <linux/soc/mediatek/mtk-mmsys.h>
->   #include <linux/soc/mediatek/mtk-mutex.h>
-> +#include <linux/soc/mediatek/mtk-cmdq.h>
->   
->   #define MT2701_MUTEX0_MOD0			0x2c
->   #define MT2701_MUTEX0_SOF0			0x30
-> @@ -176,6 +178,9 @@ struct mtk_mutex_ctx {
->   	void __iomem			*regs;
->   	struct mtk_mutex		mutex[10];
->   	const struct mtk_mutex_data	*data;
-> +	phys_addr_t			addr;
-> +	struct cmdq_client_reg		cmdq_reg;
-> +	bool				has_gce_client_reg;
->   };
->   
->   static const unsigned int mt2701_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-> @@ -618,6 +623,28 @@ void mtk_mutex_enable(struct mtk_mutex *mutex)
->   }
->   EXPORT_SYMBOL_GPL(mtk_mutex_enable);
->   
-> +void mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
-> +{
-> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
-> +	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
-> +						 mutex[mutex->id]);
-> +	struct cmdq_pkt *cmdq_pkt = (struct cmdq_pkt *)pkt;
-> +
-> +	WARN_ON(&mtx->mutex[mutex->id] != mutex);
-> +
-> +	if (!mtx->has_gce_client_reg) {
-> +		dev_dbg(mtx->dev, "mediatek,gce-client-reg hasn't been set in dts");
-> +		return;
+This series is the Video Input Interface driver for Toshiba's ARM SoC, Visconti[0].
+This provides DT binding documentation, device driver, MAINTAINER fiels.
 
-Is this really supposed to happen?
+Best regards,
+Yuji
 
-Reiterating: when the gce-client-reg is not set, this function should either never
-be called from the principle, or it should actually fail.
-If a driver relies on mtk_mutex_enable_by_cmdq() and does *not* fall back to
-register write from cpu, then no change will occur at all, leading to a random
-breakage with no apparent reason.
+[0]: https://toshiba.semicon-storage.com/ap-en/semiconductor/product/image-recognition-processors-visconti.html
 
-This means that - for safety - this function should return -EINVAL when it gets
-called while no gce client reg is declared.
-Of course, this would also mean that the dev_dbg() should be a dev_err(), and
-that efforts should be done to avoid triggering this error by adding fallbacks
-in the drivers that will call this.
+Yuji Ishikawa (5):
+  dt-bindings: media: platform: visconti: Add Toshiba Visconti Video
+    Input Interface bindings
+  media: platform: visconti: Add Toshiba Visconti Video Input Interface
+    driver headers
+  media: platform: visconti: Add Toshiba Visconti Video Input Interface
+    driver body
+  media: platform: visconti: Add Toshiba VIIF image signal processor
+    driver
+  MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
 
-Another option would be to keep this function void, keep the print a dev_dbg(),
-but automatically fallback to mtk_mutex_enable(), so that here:
+ .../bindings/media/toshiba,visconti-viif.yaml |  103 +
+ MAINTAINERS                                   |    2 +
+ drivers/media/platform/Kconfig                |    2 +
+ drivers/media/platform/Makefile               |    4 +
+ drivers/media/platform/visconti/Kconfig       |    9 +
+ drivers/media/platform/visconti/Makefile      |    9 +
+ drivers/media/platform/visconti/hwd_viif.c    | 2233 ++++++++++
+ drivers/media/platform/visconti/hwd_viif.h    | 1776 ++++++++
+ .../media/platform/visconti/hwd_viif_csi2rx.c |  767 ++++
+ .../platform/visconti/hwd_viif_internal.h     |  361 ++
+ .../media/platform/visconti/hwd_viif_l1isp.c  | 3769 +++++++++++++++++
+ .../media/platform/visconti/hwd_viif_reg.h    | 2802 ++++++++++++
+ drivers/media/platform/visconti/viif.c        | 2384 +++++++++++
+ drivers/media/platform/visconti/viif.h        |  134 +
+ include/uapi/linux/visconti_viif.h            | 1683 ++++++++
+ 15 files changed, 16038 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+ create mode 100644 drivers/media/platform/visconti/Kconfig
+ create mode 100644 drivers/media/platform/visconti/Makefile
+ create mode 100644 drivers/media/platform/visconti/hwd_viif.c
+ create mode 100644 drivers/media/platform/visconti/hwd_viif.h
+ create mode 100644 drivers/media/platform/visconti/hwd_viif_csi2rx.c
+ create mode 100644 drivers/media/platform/visconti/hwd_viif_internal.h
+ create mode 100644 drivers/media/platform/visconti/hwd_viif_l1isp.c
+ create mode 100644 drivers/media/platform/visconti/hwd_viif_reg.h
+ create mode 100644 drivers/media/platform/visconti/viif.c
+ create mode 100644 drivers/media/platform/visconti/viif.h
+ create mode 100644 include/uapi/linux/visconti_viif.h
 
-if (!mtx->has_gce_client_reg) {
-	dev_dbg(mtx->dev,
-		"No GCE client register found: falling back to cpu write.\n");
-	mtk_mutex_enable(mutex);
-	return;
-}
-
-...you're free to choose whichever of the two options, but this has to be fixed
-to remove this fragility.
-
-> +	}
-> +
-> +	cmdq_pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys,
-> +		       mtx->addr + DISP_REG_MUTEX_EN(mutex->id), 1);
-> +#else
-> +	dev_err(mtx->dev, "Not support for enable MUTEX by CMDQ");
-
-...obviously, if mtk_cmdq not reachable, instead of simply letting drivers break,
-you should, also here, fall back to the less performant and very suboptimal (for
-the specific case of mdp3 and some others) mtk_mutex_enable().
+-- 
+2.17.1
 
 
-Thanks,
-Angelo
