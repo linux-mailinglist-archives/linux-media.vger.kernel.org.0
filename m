@@ -2,45 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE64D5001DD
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 00:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C738650022B
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 00:56:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237045AbiDMW03 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Apr 2022 18:26:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43880 "EHLO
+        id S238752AbiDMW6H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Apr 2022 18:58:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236741AbiDMW02 (ORCPT
+        with ESMTP id S238744AbiDMW6F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Apr 2022 18:26:28 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B72C20F75;
-        Wed, 13 Apr 2022 15:24:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649888645; x=1681424645;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lQvTZgp3nYD8xLl9vXBiy5U1JTi15pjSvf2S1fGEa24=;
-  b=JoykGhWm/siIjUA6C5Qj9T96jslV85f6DjqWrcTlA/KRuSqauOuwXHxK
-   X4BoFDWtVDg4axsP3cV8Iw2Qf2sY/k1QowG/5CWGwYIX7WOTZnVtd7xKR
-   KuDFjgv4oq2eg+pR4Su+m2VIjVDHfvGW9RHmxi/RazoBZBYX3PShk9aWt
-   /QPHJOZRLpjav/+idVg6mlvhl4Sm/rmq/CgnPB0aUI/a11jwVQX5fGYhc
-   fzQwMTZ+HnD2wTqWr6NO67G+IM1iaijVxB8XKpTRNkc8lQ/CsWvwltNps
-   frPaWhg2M+k5+9MPQLejxokXOyiEfI+fHA5DiNaE/D1z5gd67aZ7S3vQD
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="244676278"
-X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
-   d="scan'208";a="244676278"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 15:24:04 -0700
-X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
-   d="scan'208";a="623854294"
-Received: from sdoyen-mobl1.amr.corp.intel.com (HELO localhost) ([10.213.179.195])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 15:24:04 -0700
-Date:   Wed, 13 Apr 2022 15:24:04 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Wed, 13 Apr 2022 18:58:05 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4202C58E7B;
+        Wed, 13 Apr 2022 15:55:41 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id z99so4210632ede.5;
+        Wed, 13 Apr 2022 15:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dyvjfLWBF83ldDk4yCXAC9aBU6w05cT1GCfa/ITsV5M=;
+        b=GjAUZCsq0IIScVS5wpaNnTUGNYz/WuHRVFd6BTprSefXbiclMpphZ0PhN5kV6LbNDI
+         e8vvBo2rYCY/sWrOpBAfTQrweOIm10DKQ3FSrHKa4IZUt1HE2PJNcw4IqFnmc+hUlcbn
+         LGv5jlv9pMKQu+giZ7qc2yfQBGKv/56qHblvcm82VJ5cQtU8wUT5iRda/IpsgEIC7Omf
+         XDSyVq5MHmhOB6I/e31vLizL+mvVTwIKy93HbDMi8YFyD9J/xpfLsVIfrCiM8y3qs930
+         Rslk+o0wWO40dKhtbZC9LxjiWu29lRIQOSg8DHJwDgnnuVYFOG1LJuXZbbDad86kYAOR
+         bVhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dyvjfLWBF83ldDk4yCXAC9aBU6w05cT1GCfa/ITsV5M=;
+        b=aUcGGKNIG9V7LeoyjgFQCxJHiAkNER1obnhwd15W/rONUwjyBOGr7aV6IpCUABX//+
+         lGthh/E4Lqagf60ppfjARe0Z1jFHiFHTUFggO6RdmvFPppMX4qZ4SYftdXtKV04RYk/9
+         8qSpQPklpwE8GT3T8xP6um4MKBL98n4ar26vCfW9o5nOrvLV8R7jD2uruSF25dZL8iAR
+         BIhUuCNdu577LxugK9OQj9UDDch3m26znoCRtfzkEc++ET9+0WfIxtV1RCfdTAZSd6nQ
+         8La6FK0SNhVQJWSZRFrIjr9Xvu7XnowqTrd+q4HnVa0Dz8JQOCIcTbzfBL/Zv5G3s/Er
+         5p3A==
+X-Gm-Message-State: AOAM53380zp8x3xUaUD6uKYboOXA4rWPm78XAvoCPnFVkaEPCYaJ1B7q
+        u7Ky5wdADN2T00pX7OODsQ4=
+X-Google-Smtp-Source: ABdhPJwUF1oJQj2/lXqKcrWMbBCNj86N9kaBYLDVYEjlque7ZruiFwrT8oH+sfxef6CI03oAKpYTwg==
+X-Received: by 2002:a05:6402:d0e:b0:413:3d99:f2d6 with SMTP id eb14-20020a0564020d0e00b004133d99f2d6mr1056662edb.189.1649890539778;
+        Wed, 13 Apr 2022 15:55:39 -0700 (PDT)
+Received: from localhost.localdomain (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
+        by smtp.gmail.com with ESMTPSA id do8-20020a170906c10800b006dfe4d1edc6sm78329ejc.61.2022.04.13.15.55.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Apr 2022 15:55:38 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -48,67 +57,86 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Martiros Shakhzadyan <vrzh@vrzh.net>,
         Hans de Goede <hdegoede@redhat.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in
- hmm_set()
-Message-ID: <YldNhErgt53RqYp7@iweiny-desk3>
-References: <20220413212210.18494-1-fmdefrancesco@gmail.com>
+        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+        outreachy@lists.linux.dev
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
+Date:   Thu, 14 Apr 2022 00:55:31 +0200
+Message-Id: <20220413225531.9425-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220413212210.18494-1-fmdefrancesco@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 13, 2022 at 11:22:10PM +0200, Fabio M. De Francesco wrote:
-> The use of kmap() is being deprecated in favor of kmap_local_page()
-> where it is feasible. In file pci/hmm/hmm.c, function hmm_set() calls
-> kmap() / kunmap() where kmap_local_page() can instead do the mapping.
-> 
-> With kmap_local_page(), the mapping is per thread, CPU local and not
-> globally visible. Therefore, hmm_set()() is a function where the use
-> of kmap_local_page() in place of kmap() is correctly suited.
-> 
-> Convert the calls of kmap() / kunmap() to kmap_local_page() /
-> kunmap_local().
-> 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+The use of kmap() is being deprecated in favor of kmap_local_page()
+where it is feasible. The same is true for kmap_atomic().
 
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+In file pci/hmm/hmm.c, function hmm_store() test if we are in atomic
+context and, if so, it calls kmap_atomic(), if not, it calls kmap().
 
-> ---
->  drivers/staging/media/atomisp/pci/hmm/hmm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-> index 6394385b6637..46ac082cd3f1 100644
-> --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-> @@ -563,7 +563,7 @@ int hmm_set(ia_css_ptr virt, int c, unsigned int bytes)
->  		idx = (virt - bo->start) >> PAGE_SHIFT;
->  		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
->  
-> -		des = (char *)kmap(bo->page_obj[idx].page) + offset;
-> +		des = (char *)kmap_local_page(bo->page_obj[idx].page) + offset;
->  
->  		if ((bytes + offset) >= PAGE_SIZE) {
->  			len = PAGE_SIZE - offset;
-> @@ -579,7 +579,7 @@ int hmm_set(ia_css_ptr virt, int c, unsigned int bytes)
->  
->  		clflush_cache_range(des, len);
->  
-> -		kunmap(bo->page_obj[idx].page);
-> +		kunmap_local(des);
->  	}
->  
->  	return 0;
-> -- 
-> 2.34.1
-> 
+First of all, in_atomic() shouldn't be used in drivers. This macro
+cannot always detect atomic context; in particular, it cannot know
+about held spinlocks in non-preemptible kernels.
+
+Notwithstanding what it is said above, this code doesn't need to care
+whether or not it is executing in atomic context. It can simply use
+kmap_local_page() / kunmap_local() that can instead do the mapping /
+unmapping regardless of the context.
+
+With kmap_local_page(), the mapping is per thread, CPU local and not
+globally visible. Therefore, hmm_store()() is a function where the use
+of kmap_local_page() in place of both kmap() and kmap_atomic() is
+correctly suited.
+
+Convert the calls of kmap() / kunmap() and kmap_atomic() /
+kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
+unnecessary tests which test if the code is in atomic context.
+
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/hmm/hmm.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+index 46ac082cd3f1..54188197c3dc 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+@@ -482,10 +482,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
+ 		idx = (virt - bo->start) >> PAGE_SHIFT;
+ 		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
+ 
+-		if (in_atomic())
+-			des = (char *)kmap_atomic(bo->page_obj[idx].page);
+-		else
+-			des = (char *)kmap(bo->page_obj[idx].page);
++		des = (char *)kmap_local_page(bo->page_obj[idx].page);
+ 
+ 		if (!des) {
+ 			dev_err(atomisp_dev,
+@@ -512,14 +509,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
+ 
+ 		clflush_cache_range(des, len);
+ 
+-		if (in_atomic())
+-			/*
+-			 * Note: kunmap_atomic requires return addr from
+-			 * kmap_atomic, not the page. See linux/highmem.h
+-			 */
+-			kunmap_atomic(des - offset);
+-		else
+-			kunmap(bo->page_obj[idx].page);
++		kunmap_local(des);
+ 	}
+ 
+ 	return 0;
+-- 
+2.34.1
+
