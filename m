@@ -2,64 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B31A500948
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 11:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6420500969
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 11:12:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240584AbiDNJJJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 05:09:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40902 "EHLO
+        id S238752AbiDNJPH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 05:15:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236690AbiDNJJI (ORCPT
+        with ESMTP id S234205AbiDNJPH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 05:09:08 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C29086C49E;
-        Thu, 14 Apr 2022 02:06:43 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:aefc:13d9:b947:5c76] (unknown [IPv6:2a01:e0a:120:3210:aefc:13d9:b947:5c76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id BB3791F401D3;
-        Thu, 14 Apr 2022 10:06:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1649927202;
-        bh=xSwiJdR9H1GkemybcSFzfO6oTRwZpO+ePP5cbEY0jU8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=oI3izQUAkCdzA4+jKP3zVRxx8Ms2GpghQckdh3wBPjZePBIjooW2Axvd+6OMX/hxv
-         PG2nQOjeNb1x5YnrqEcTe8K9Lj3w16evi5kqjloRixZydS7HTMVDRGl1qdKBSCSWkz
-         FizamigRFsSabugHYebGV+/uU4rnzpxLP4I/Muf2kgx6NgOXhWTC2b87FeWtu7mC2n
-         lKsSPF2EVF6nDE2Fu5ZIrhna4Pn3j/webgFXJoXTXXiAReSijghjgNSYRaEDShBMlQ
-         GWcggqYZjmtSTUIwim6zCJuJnE9Kt/b0W+9UUjcmGHNmpUoUgG5sbXmrqGFvXMaZnK
-         jXklgjCMndujg==
-Message-ID: <8c13a489-323b-79cf-2bb0-920e5a4e99e0@collabora.com>
-Date:   Thu, 14 Apr 2022 11:06:39 +0200
+        Thu, 14 Apr 2022 05:15:07 -0400
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17A116E543;
+        Thu, 14 Apr 2022 02:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=wABewbZJt0mhh8IOk7ztCzKFnpM0lq0f8UJxdgJwrqg=;
+  b=qXdcSY7Smws8LvBXxXr86/upbr7Gej5IBpqpPxjsH2+WInpl15o/qcem
+   2esXvn8E5dynhns9xwodiGfUdjKacQRCnu+KgmHhvcgTgyN03Uog0OW2a
+   pGPU2b9TVD1oLi9V39zfDHa6EYa0XgFq2Qd4Av22MO+ghLOVL0RsvzZsc
+   Q=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,259,1643670000"; 
+   d="scan'208";a="31661822"
+Received: from 203.107.68.85.rev.sfr.net (HELO hadrien) ([85.68.107.203])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 11:12:40 +0200
+Date:   Thu, 14 Apr 2022 11:12:39 +0200 (CEST)
+From:   Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+cc:     Ira Weiny <ira.weiny@intel.com>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Alison Schofield <alison.schofield@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Martiros Shakhzadyan <vrzh@vrzh.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in
+ hmm_store()
+In-Reply-To: <4180675.ejJDZkT8p0@leap>
+Message-ID: <alpine.DEB.2.22.394.2204141111250.3023@hadrien>
+References: <20220413225531.9425-1-fmdefrancesco@gmail.com> <Yld+wpMe1C51bKU3@iweiny-desk3> <alpine.DEB.2.22.394.2204140902030.3023@hadrien> <4180675.ejJDZkT8p0@leap>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 09/17] media: uapi: HEVC: Define
- V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a dynamic array
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        sebastian.fricke@collabora.com
-References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
- <20220407152940.738159-10-benjamin.gaignard@collabora.com>
- <3179e400d52704d11dd150bf4270dab4c1064cad.camel@collabora.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <3179e400d52704d11dd150bf4270dab4c1064cad.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -67,72 +64,99 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-Le 08/04/2022 à 20:53, Nicolas Dufresne a écrit :
-> Le jeudi 07 avril 2022 à 17:29 +0200, Benjamin Gaignard a écrit :
->> Make explicit that V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control is
->> a dynamic array control type.
->> Some drivers may be able to receive multiple slices in one control
->> to improve decoding performance.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
->>   include/media/hevc-ctrls.h                                | 3 +++
->>   2 files changed, 5 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index 7fcc6c2bac4c..1aaf3b84b584 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -2964,6 +2964,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>       These bitstream parameters are defined according to :ref:`hevc`.
->>       They are described in section 7.4.7 "General slice segment header
->>       semantics" of the specification.
->> +    This control is a dynamically sized 1-dimensional array,
->> +    V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
->>   
->>   .. c:type:: v4l2_ctrl_hevc_slice_params
->>   
->> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->> index 96a9b71d1def..28049e1a8a07 100644
->> --- a/include/media/hevc-ctrls.h
->> +++ b/include/media/hevc-ctrls.h
->> @@ -314,6 +314,9 @@ struct v4l2_hevc_pred_weight_table {
->>   /**
->>    * v4l2_ctrl_hevc_slice_params - HEVC slice parameters
->>    *
->> + * This control is a dynamically sized 1-dimensional array,
->> + * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
->> + *
-> I'm not sure about this comment, but I'm sure you forgot:
->
->
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1505,6 +1505,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
-> v4l2_ctrl_type *type,
->                  break;
->          case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:
->                  *type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
-> +               *flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
->                  break;
->          case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:
->                  *type = V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
->
-> Also, in AV1 we have V4L2_AV1_MAX_TILE_COUNT, which can be used in cfg.dims,
-> something the driver will actually set. We could have
->
-> #define V4L2_HEVC_MAX_TILE_COUNT 600
->
-> And drives can set:
->
->     .dims = { V4L2_HEVC_MAX_TILE_COUNT },
->
-> In the control config.
 
-Ok that will be in v6
+On Thu, 14 Apr 2022, Fabio M. De Francesco wrote:
+
+> On gioved? 14 aprile 2022 09:03:40 CEST Julia Lawall wrote:
+> >
+> > On Wed, 13 Apr 2022, Ira Weiny wrote:
+> >
+> > > On Wed, Apr 13, 2022 at 05:44:54PM -0700, Alison Schofield wrote:
+> > > > On Thu, Apr 14, 2022 at 12:55:31AM +0200, Fabio M. De Francesco
+> wrote:
+> > > > > The use of kmap() is being deprecated in favor of kmap_local_page()
+> > > > > where it is feasible. The same is true for kmap_atomic().
+> > > > >
+> > > > > In file pci/hmm/hmm.c, function hmm_store() test if we are in
+> atomic
+> > > > > context and, if so, it calls kmap_atomic(), if not, it calls
+> kmap().
+> > > > >
+> > > > > First of all, in_atomic() shouldn't be used in drivers. This macro
+> > > > > cannot always detect atomic context; in particular, it cannot know
+> > > > > about held spinlocks in non-preemptible kernels.
+> > > > >
+> > > > > Notwithstanding what it is said above, this code doesn't need to
+> care
+> > > > > whether or not it is executing in atomic context. It can simply use
+> > > > > kmap_local_page() / kunmap_local() that can instead do the mapping
+> /
+> > > > > unmapping regardless of the context.
+> > > > >
+> > > > > With kmap_local_page(), the mapping is per thread, CPU local and
+> not
+> > > > > globally visible. Therefore, hmm_store()() is a function where the
+> use
+> > > > > of kmap_local_page() in place of both kmap() and kmap_atomic() is
+> > > > > correctly suited.
+> > > > >
+> > > > > Convert the calls of kmap() / kunmap() and kmap_atomic() /
+> > > > > kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
+> > > > > unnecessary tests which test if the code is in atomic context.
+> > > > >
+> > > >
+> > > > Not specifically about this patch, but more generally about all
+> > > > such conversions - is there a 'proof' that shows this just works
+> > >
+> > > Just code inspection.  Most of them that I have done have been compile
+> tested
+> > > only.  Part of the key is that des is a local variable and is not
+> aliased by
+> > > anything outside this function.
+> >
+> > Typically, the concern about being in atomic context has to do with
+> > whether GFP_KERNEL or GFP_ATOMIC should be used, ie whether allocation
+> > can sleep.
+>
+> I'd add that the concern about being in atomic context has mainly to do
+> with calling whatever function that may sleep.
+>
+> Some time ago I analyzed a calls chain which, under spinlocks and with
+> IRQ's disabled, led to console_lock() which is annotated with
+> might_sleep(). It took about 8000 ms to recover when executing in a 4 CPU /
+> 8 SMT System. Linus T. suggested to make this work asynchronous (commit
+> 1ee33b1ca2b8 ("tty: n_hdlc: make n_hdlc_tty_wakeup() asynchronous")).
+>
+> > It doesn't have to do with whether some data can be shared.
+>
+> Yes, FWIW I agree with you.
+>
+> > Is that the concern here?
+>
+> The concern here is about the locality of the pointer variable to which the
+> struct page has been mapped to. In atomic context we are not allowed to
+> kmap() (this is why in the code we had that in_atomic() test), instead we
+> can kmap_local_page() or kmap_atomic(). The latter is strongly discouraged
+> in favor of the former.
+
+I have the impression that you are first agreeing with me and then
+contradicting me :).  Is your point that in general a concern about atomic
+context has to do with whether sleeping is allowed, but that the concern
+is something else here?  I'm not familiar with these kmap functions.
+
+thanks,
+julia
+
 
 >
->>    * @bit_size: size (in bits) of the current slice data
->>    * @data_bit_offset: offset (in bits) to the video data in the current slice data
->>    * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+> Furthermore, Alison was asking if we can prove that these kinds of
+> conversions can actually work when we have not the hardware for testing. As
+> Ira wrote, code inspection is sufficient to prove it.
+>
+> Thanks,
+>
+> Fabio M. De Francesco
+>
+>
+>
+>
