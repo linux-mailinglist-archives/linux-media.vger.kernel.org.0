@@ -2,63 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8CC250045C
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 04:35:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2AEC50046F
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 04:51:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239070AbiDNCiS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Apr 2022 22:38:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56966 "EHLO
+        id S239587AbiDNCxs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Apr 2022 22:53:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbiDNCiR (ORCPT
+        with ESMTP id S236394AbiDNCxr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Apr 2022 22:38:17 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 897AF1F63E;
-        Wed, 13 Apr 2022 19:35:54 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id n18so3549967plg.5;
-        Wed, 13 Apr 2022 19:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=banPxa9mjLz4QtsVZqr7bQ+Z1tRTpMcXp2eR4D900HQ=;
-        b=IiUKzDWM52iO3GcXKasA41gw4qGcs3Qraiu/Fn1dkvUPCtvPMZO9zGarb8HmUQFBN5
-         oaq05TvWx5a0sDOgjZzGIGZumxQIxriXuZEz2RqQwp0xwGZGoXaOwuBlPCUWT8JKmfVx
-         iYkNzpheF2/u3lfnvFoe2haeGsIHQeJI2ZRO96i+crqh7xM6V1cKzjqJDz24h0JM8NZq
-         chBZUMEfL+8t8B1Ua0ZQdnw9fRiqbBNCdfvk/YuNOHW1UgwdeN41C5HXTZndoTBnogJL
-         XEpTbe5nJt5k2sNJ0dzyBxB1h4VkKD7cimZamCGj3+7fN26aosDGZWwq7cNiEcYXPEKR
-         CVBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=banPxa9mjLz4QtsVZqr7bQ+Z1tRTpMcXp2eR4D900HQ=;
-        b=QnhkIGJtyKDhbqgBH+ORFSfnsNzp2Ov6xpAy3jlZt6hlDsAwogw7MPQZY574ntzYgl
-         VGE7xFLCp3Pd69XMrdtAULZtu6YjtiBLdnDgoNPnszodPXhuwYuymfBRc/oYKPBX5822
-         R6qCxBSTpop1ko0T+YMW9NDRFQPNSWcTppRXLprqyJb3so7BsApGrEEduR2k35qFvgj9
-         FGkcRKZraz95DHkpHQcygGVV2izpUZaVMiduDI/WZ5iwuey4ydXLlDSGb0mH9NaGRolh
-         Zps8GdB+oyJF37boe6eCJeZnKISkVOE69Y/+iswKBzLL5iyH1LvV63FbJuHs55FYo8oC
-         /xxw==
-X-Gm-Message-State: AOAM5322mzE4ImXyQwVaAi32iZIsoXzIEpRBvEIa2A4q6f+/p/qLj3a0
-        SrLWvTFqYmm3HxsUR0V8bW+mEgrMa45u2nMU2w==
-X-Google-Smtp-Source: ABdhPJwTNLMWTa4frWD8F/W1HLZUen2VPTunozndbetzvl6lm/UdmRAGgwMfqaFO7TB+Fsa7mGPFWhfsL6wPIvvBgSg=
-X-Received: by 2002:a17:902:a404:b0:14b:1100:aebc with SMTP id
- p4-20020a170902a40400b0014b1100aebcmr46084837plq.133.1649903754047; Wed, 13
- Apr 2022 19:35:54 -0700 (PDT)
+        Wed, 13 Apr 2022 22:53:47 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A9012086
+        for <linux-media@vger.kernel.org>; Wed, 13 Apr 2022 19:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649904684; x=1681440684;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=WZAC2T1bGyi1MuhaaxLLqyCEfX6lxK6AHlIyotffp1I=;
+  b=bvufVRh6c3d+RR7ezvigWsFxhQsz1LHPYZHqAfxCWxwC6lm4a0ZwCkeK
+   J+3DrgdseOyxhH3dAhrf/EhCqE6BZAnhc+z9E0ni/j1T0R8U43Kh0zDYi
+   MZwd39Y61n4irn6BMJu2V7/w7G3yA7JFel9Oe5rshYBoSaojs6+Tx7LnZ
+   KALzgpW1rP1xKQN48n2TjD0fNoDssUtkBVL7vgpY9HAVwpEn/xYq8XnNC
+   K9Hho/ZfMJcXtPmyK/H0IFsXZ5FqdvDanZUn9G9pQUOBxgU8a/AE6EBAb
+   o9Qaq2RGQIpIkaq3qD03Cc2sVbccGRsVDHOPCCeuAiSONE96eu8hiBbjJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="250119199"
+X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
+   d="scan'208";a="250119199"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 19:51:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
+   d="scan'208";a="655816260"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.188]) ([10.238.232.188])
+  by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2022 19:51:22 -0700
+Subject: Re: [PATCH 1/1] Revert "media: dw9768: activate runtime PM and turn
+ off device"
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     tfiga@chromium.org, bingbu.cao@intel.com
+References: <20220413133315.622593-1-sakari.ailus@linux.intel.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <b35686ce-02d1-d435-3b94-956cdf2d25fc@linux.intel.com>
+Date:   Thu, 14 Apr 2022 10:51:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20220409140939.2176161-1-zheyuma97@gmail.com> <Yla9f03/j9sEB2Rc@paasikivi.fi.intel.com>
-In-Reply-To: <Yla9f03/j9sEB2Rc@paasikivi.fi.intel.com>
-From:   Zheyu Ma <zheyuma97@gmail.com>
-Date:   Thu, 14 Apr 2022 10:35:42 +0800
-Message-ID: <CAMhUBj=-TWjKFiGf_sE9umW3CtTiazqKPd5XabLhzTk6RiErag@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: dw9714: Register a callback to disable the regulator
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+In-Reply-To: <20220413133315.622593-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,66 +64,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 13, 2022 at 8:09 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Zheyu,
->
-> Thanks for the patch.
->
-> On Sat, Apr 09, 2022 at 10:09:39PM +0800, Zheyu Ma wrote:
-> > When the driver fails to probe, we will get the following splat:
-> >
-> > [   59.305988] ------------[ cut here ]------------
-> > [   59.306417] WARNING: CPU: 2 PID: 395 at drivers/regulator/core.c:2257 _regulator_put+0x3ec/0x4e0
-> > [   59.310345] RIP: 0010:_regulator_put+0x3ec/0x4e0
-> > [   59.318362] Call Trace:
-> > [   59.318582]  <TASK>
-> > [   59.318765]  regulator_put+0x1f/0x30
-> > [   59.319058]  devres_release_group+0x319/0x3d0
-> > [   59.319420]  i2c_device_probe+0x766/0x940
-> >
-> > Fix this by adding a callback that will deal with the disabling when the
-> > driver fails to probe.
-> >
-> > Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-> > ---
-> >  drivers/media/i2c/dw9714.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
-> > index cd7008ad8f2f..eccd05fc50c7 100644
-> > --- a/drivers/media/i2c/dw9714.c
-> > +++ b/drivers/media/i2c/dw9714.c
-> > @@ -137,6 +137,13 @@ static int dw9714_init_controls(struct dw9714_device *dev_vcm)
-> >       return hdl->error;
-> >  }
-> >
-> > +static void dw9714_disable_regulator(void *arg)
-> > +{
-> > +     struct dw9714_device *dw9714_dev = arg;
-> > +
-> > +     regulator_disable(dw9714_dev->vcc);
-> > +}
-> > +
-> >  static int dw9714_probe(struct i2c_client *client)
-> >  {
-> >       struct dw9714_device *dw9714_dev;
-> > @@ -157,6 +164,10 @@ static int dw9714_probe(struct i2c_client *client)
-> >               return rval;
-> >       }
-> >
-> > +     rval = devm_add_action_or_reset(&client->dev, dw9714_disable_regulator, dw9714_dev);
-> > +     if (rval)
-> > +             return rval;
-> > +
-> >       v4l2_i2c_subdev_init(&dw9714_dev->sd, client, &dw9714_ops);
-> >       dw9714_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> >                               V4L2_SUBDEV_FL_HAS_EVENTS;
->
-> Could you instead disable the regulator in error handling in the probe
-> function?
+Sakari, 
 
-OK, I will send a v2 patch.
+Thanks.
 
-Zheyu Ma
+Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+
+On 4/13/22 9:33 PM, Sakari Ailus wrote:
+> This reverts commit c09d776eaa060534a1663e3b89d842db3e1d9076.
+> 
+> Revert the commit as it breaks runtime PM support on OF based systems.
+> More fixes to the driver are needed.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/dw9768.c | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
+> index 65c6acf3ced9a..c086580efac78 100644
+> --- a/drivers/media/i2c/dw9768.c
+> +++ b/drivers/media/i2c/dw9768.c
+> @@ -469,11 +469,6 @@ static int dw9768_probe(struct i2c_client *client)
+>  
+>  	dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
+>  
+> -	/*
+> -	 * Device is already turned on by i2c-core with ACPI domain PM.
+> -	 * Attempt to turn off the device to satisfy the privacy LED concerns.
+> -	 */
+> -	pm_runtime_set_active(dev);
+>  	pm_runtime_enable(dev);
+>  	if (!pm_runtime_enabled(dev)) {
+>  		ret = dw9768_runtime_resume(dev);
+> @@ -488,7 +483,6 @@ static int dw9768_probe(struct i2c_client *client)
+>  		dev_err(dev, "failed to register V4L2 subdev: %d", ret);
+>  		goto err_power_off;
+>  	}
+> -	pm_runtime_idle(dev);
+>  
+>  	return 0;
+>  
+> 
+
+-- 
+Best regards,
+Bingbu Cao
