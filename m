@@ -2,161 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 231B7501894
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 18:28:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ACD2501AB6
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 20:02:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234131AbiDNQWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 12:22:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39874 "EHLO
+        id S1344324AbiDNSE4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 14:04:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347078AbiDNQJw (ORCPT
+        with ESMTP id S229555AbiDNSEz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 12:09:52 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 467B11066F8;
-        Thu, 14 Apr 2022 08:51:08 -0700 (PDT)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:aefc:13d9:b947:5c76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 68C011F47BB1;
-        Thu, 14 Apr 2022 16:51:06 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1649951466;
-        bh=0MdOcwSw6al69IA+FsMeVjUYxtwt5yjgyejYGRWyDoo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=IDdHmQZi+s+WqBuPzdQn1KevORA6zg93AhFiALrwcMFF4ZDBI8Fa7Kgo2lQqe1PpE
-         jSyAPFrfpSci05WVuvHv6yxOEcn9GKLIg/6QzZU9pJ6jMo4/al3SuS3cL65ENpUHyB
-         zXoh0uulcsqUssQeLoEqFER1a3fm4iSIWLA9LiCyUMkxw+csgDSZ4H09+RSYEsw8zP
-         IElE2rTldKR2yhNVsKYCRoa8I2ulE+hBI7BBezwxgo4el+MTPIcCbK6KeRKClAgzvl
-         XDRvgfrdDCPk0qIJO8ZYtG+5iNDaeC15+74YIiqzPLRm1F7Fm+4VQCKHwOs4z4uyyJ
-         oxc52d3BvIwdw==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        jon@nanocrew.net, aford173@gmail.com, kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH] media: hantro: HEVC: Fix output frame chroma offset
-Date:   Thu, 14 Apr 2022 17:50:59 +0200
-Message-Id: <20220414155059.1172593-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
+        Thu, 14 Apr 2022 14:04:55 -0400
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC26085974;
+        Thu, 14 Apr 2022 11:02:29 -0700 (PDT)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-dacc470e03so6032894fac.5;
+        Thu, 14 Apr 2022 11:02:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9kQY7KYrORAXRdj8BS7CtbvQFtLXKlCapss2LUGGejI=;
+        b=c8PYoXzbecyFSTn4hc9onZzN6TAVpvknh/77qbaTtRdVZV0/2AjHBKudu75x9iAf7Q
+         JkEm2f513e8Zq9oSfCMJu07c6YC4XHqRv67cGA0/EvyXfBNVwH5T/1riA1S04zOrgU0E
+         07zP/0KUO8wVS6bNhu1wLwIXAtwyvTBcxyXzz2UI9RUUDM5a/Nfel3X1QfARxfgZ9yWA
+         3XcYxmoH5Yye4P5jsKa/ENb5g6PEYBnex0cryVfvZSXkBGXR0vmhBcErbZl4vFY0QFu1
+         pfsMUnNe9TTElVj2X8v1dytjf4EcybN6CCCWgv00M0oIQ4QS3Zyzy7+Ih4ycLUzXPDs3
+         dZbg==
+X-Gm-Message-State: AOAM533rkZcWzuqcflzn/kGItqBSp3pON5n05xL1svkg4t2BFqmKfONs
+        GiYZbGj7EG82RHSN6vpxvA==
+X-Google-Smtp-Source: ABdhPJxg/IzXLr9/pK68rl/yhXiL0WZz7ZwJQGzyFx0L13S4P88U4n2DfT3AFMuvduEA0czJc4UQrw==
+X-Received: by 2002:a05:6870:c892:b0:de:5f75:d8 with SMTP id er18-20020a056870c89200b000de5f7500d8mr2133742oab.133.1649959349136;
+        Thu, 14 Apr 2022 11:02:29 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id e22-20020a056870239600b000e2f0c69849sm940449oap.11.2022.04.14.11.02.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 11:02:28 -0700 (PDT)
+Received: (nullmailer pid 2320842 invoked by uid 1000);
+        Thu, 14 Apr 2022 18:02:27 -0000
+Date:   Thu, 14 Apr 2022 13:02:27 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        linux-media@vger.kernel.org,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-hwmon@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Agathe Porte <agathe.porte@nokia.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-spi@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH] dt-bindings: Fix array constraints on scalar properties
+Message-ID: <Ylhhs2hgbQg8Ugeb@robh.at.kernel.org>
+References: <20220413140121.3132837-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220413140121.3132837-1-robh@kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hantro decoder doesn't take care of the requested and aligned size
-of the capture buffer.
-Stop using the bitstream width/height and use capture frame size
-stored in the context to get the correct values.
+On Wed, 13 Apr 2022 09:01:21 -0500, Rob Herring wrote:
+> Scalar properties shouldn't have array constraints (minItems, maxItems,
+> items). These constraints can simply be dropped with any constraints under
+> 'items' moved up a level.
+> 
+> Cc: Agathe Porte <agathe.porte@nokia.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jean Delvare <jdelvare@suse.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Olivier Moysan <olivier.moysan@foss.st.com>
+> Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Lars-Peter Clausen <lars@metafoo.de>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+> Cc: Yunfei Dong <yunfei.dong@mediatek.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: linux-hwmon@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-remoteproc@vger.kernel.org
+> Cc: linux-spi@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/hwmon/ti,tmp464.yaml       | 5 ++---
+>  .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml      | 4 +---
+>  Documentation/devicetree/bindings/media/coda.yaml            | 1 -
+>  .../devicetree/bindings/media/mediatek,vcodec-decoder.yaml   | 2 --
+>  .../devicetree/bindings/media/mediatek,vcodec-encoder.yaml   | 2 --
+>  .../bindings/media/mediatek,vcodec-subdev-decoder.yaml       | 1 -
+>  .../devicetree/bindings/remoteproc/qcom,sc7280-wpss-pil.yaml | 4 +---
+>  Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml  | 2 --
+>  8 files changed, 4 insertions(+), 17 deletions(-)
+> 
 
-hantro_hevc_chroma_offset() and hantro_hevc_motion_vectors_offset()
-are only used in hantro_g2_hevc_dec.c so take the opportunity
-to move them here.
-
-fluster HEVC score goes up from 77 to 85 successful tests (over 147)
-with this patch.
-
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- .../staging/media/hantro/hantro_g2_hevc_dec.c | 19 ++++++++++++++++---
- drivers/staging/media/hantro/hantro_hevc.c    | 17 -----------------
- drivers/staging/media/hantro/hantro_hw.h      |  2 --
- 3 files changed, 16 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index c524af41baf5..6deb31b7b993 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -8,6 +8,20 @@
- #include "hantro_hw.h"
- #include "hantro_g2_regs.h"
- 
-+#define G2_ALIGN	16
-+
-+static size_t hantro_hevc_chroma_offset(struct hantro_ctx *ctx)
-+{
-+	return ctx->dst_fmt.width * ctx->dst_fmt.height;
-+}
-+
-+static size_t hantro_hevc_motion_vectors_offset(struct hantro_ctx *ctx)
-+{
-+	size_t cr_offset = hantro_hevc_chroma_offset(ctx);
-+
-+	return ALIGN((cr_offset * 3) / 2, G2_ALIGN);
-+}
-+
- static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
-@@ -335,7 +349,6 @@ static void set_ref_pic_list(struct hantro_ctx *ctx)
- static int set_ref(struct hantro_ctx *ctx)
- {
- 	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
--	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
- 	const struct v4l2_ctrl_hevc_pps *pps = ctrls->pps;
- 	const struct v4l2_ctrl_hevc_decode_params *decode_params = ctrls->decode_params;
- 	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
-@@ -343,8 +356,8 @@ static int set_ref(struct hantro_ctx *ctx)
- 	struct hantro_dev *vpu = ctx->dev;
- 	struct vb2_v4l2_buffer *vb2_dst;
- 	struct hantro_decoded_buffer *dst;
--	size_t cr_offset = hantro_hevc_chroma_offset(sps);
--	size_t mv_offset = hantro_hevc_motion_vectors_offset(sps);
-+	size_t cr_offset = hantro_hevc_chroma_offset(ctx);
-+	size_t mv_offset = hantro_hevc_motion_vectors_offset(ctx);
- 	u32 max_ref_frames;
- 	u16 dpb_longterm_e;
- 	static const struct hantro_reg cur_poc[] = {
-diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-index b49a41d7ae91..5d446b599219 100644
---- a/drivers/staging/media/hantro/hantro_hevc.c
-+++ b/drivers/staging/media/hantro/hantro_hevc.c
-@@ -27,23 +27,6 @@
- 
- #define UNUSED_REF	-1
- 
--#define G2_ALIGN		16
--
--size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps)
--{
--	int bytes_per_pixel = sps->bit_depth_luma_minus8 == 0 ? 1 : 2;
--
--	return sps->pic_width_in_luma_samples *
--	       sps->pic_height_in_luma_samples * bytes_per_pixel;
--}
--
--size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps)
--{
--	size_t cr_offset = hantro_hevc_chroma_offset(sps);
--
--	return ALIGN((cr_offset * 3) / 2, G2_ALIGN);
--}
--
- static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
- {
- 	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index ed018e293ba0..8fc6c9ab63f0 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -340,8 +340,6 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
- dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
- int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
- void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
--size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
--size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps);
- 
- static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
- {
--- 
-2.32.0
-
+Applied, thanks!
