@@ -2,62 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83C785007B5
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 10:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C0E550082F
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 10:22:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239070AbiDNIEk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 04:04:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54948 "EHLO
+        id S237689AbiDNIZI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 04:25:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229911AbiDNIEj (ORCPT
+        with ESMTP id S230029AbiDNIZH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 04:04:39 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693CE4BB97;
-        Thu, 14 Apr 2022 01:02:14 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:aefc:13d9:b947:5c76] (unknown [IPv6:2a01:e0a:120:3210:aefc:13d9:b947:5c76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        Thu, 14 Apr 2022 04:25:07 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C5435DA0C
+        for <linux-media@vger.kernel.org>; Thu, 14 Apr 2022 01:22:41 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3BEE71F4769C;
-        Thu, 14 Apr 2022 09:02:12 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1649923332;
-        bh=RFbpJ1I3WcLfiaLAFsi5mngxuqlpAEWsg+scuunDdh0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=h8EFezQvks1gbQPoLnNC7+mQWwxiIL7tgJAYg1wM4DO6W3p04jUnqdzJHFuP+2Eok
-         HBMA0Hrhu/0zDNIhPqpZHVxSXgsI19s+v5Dr94Pnmcy5fd5cqL0J2tq9arjY8o5MN8
-         1zvdytWoIzP6jfGapogPmuJr8PCtUWUL+zUpISopHYK3HXtnrXGufbdHKk0iFNxoJl
-         QjZxU0Wi1fANKP8G2MVXrqcZANK8NQBD+vVXHPrggQgpphrjJdUKyt1nYV3PcHgWen
-         D2Lz5+8e5L0mM/eAUmux1YRVefz473o6bgfemDRqlY+nTDEKEoiN7stgTC/cAyw/dJ
-         2HMUq7UZmE29A==
-Message-ID: <7a32fd89-a90f-d921-1f0b-e0eaeb9db71e@collabora.com>
-Date:   Thu, 14 Apr 2022 10:02:09 +0200
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 07E191B002EF;
+        Thu, 14 Apr 2022 11:22:40 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1649924560;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=EYkKCNJTlijY39vvp5OIY+Ckmri6Ev74aKWsd1JHd/s=;
+        b=e+TfM2wal2N7qhp3PDhUDxeGg0o+fXMRmR0beBy4JOjors5QTXR88FLPCjZoxJ+9+wZ+5w
+        /tCrBM5TAUikVPkgq196aH5/S0gLYZci9xLwNNJfphHlZfRi0DIjJJt00udKKHvJGdB6Q3
+        YKkvnbkTdmhGmJhnpxgS6dXHMraUHn0CEBWcUXsdSWhcLiCbvprZXNT0X5tKYSHSPd2MA6
+        AiaECi/UOcVyyT7y1iRwElUVTsMbOLNdthCJY8s9WAyeKiJ+pJcfqmrIgrDPjF2IQpyEoq
+        UAS9YNY43QTcrpSe6PTPGamAHepyTjFUW9N4Xhclpt7nEgVoJlWR2mFHA9AbPg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 97609634C91;
+        Thu, 14 Apr 2022 11:22:39 +0300 (EEST)
+Date:   Thu, 14 Apr 2022 11:22:39 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: ov7640: Use ARRAY_SIZE instead of manual checking
+Message-ID: <YlfZz+j/KSl1joHT@valkosipuli.retiisi.eu>
+References: <20220317144714.47442-1-mosescb.dev@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 06/17] media: uapi: HEVC: Change pic_order_cnt
- definition in v4l2_hevc_dpb_entry
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        sebastian.fricke@collabora.com
-References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
- <20220407152940.738159-7-benjamin.gaignard@collabora.com>
- <34f586efdd6401b509cf11fba75039d5494c4eff.camel@collabora.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <34f586efdd6401b509cf11fba75039d5494c4eff.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220317144714.47442-1-mosescb.dev@gmail.com>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1649924560; a=rsa-sha256;
+        cv=none;
+        b=ZxGzYidSEx+F6jCtlIQ7jNuENqk9rJUjkASVBXmtKz3e982+bNFp+yMlQ6BxIFTsvCT3+x
+        IjhW/IrECXUHF9aDjOwLP6yuC1/MPGiADGGLZ+kjVxaEIkngYP7Sf2O4PYwhSFlbtLWrER
+        6etULUE1maFR8fYf8IADt9hFc8zW1f2CqSYSE7H6Lfqo7sAAhTnf3iH1h1R+MNSuCJEOo8
+        BU5ERtoUGbTFyJdhhyIv1xp0Z+K58FGVH188vdi/its34H3b28vL6ITVCZDADKz/Qwgn8/
+        FY+r4GB0WubSLchRXNMGEIejL0o8JGsE01E2PG5o/bHBLaE9ZbU6BddIsOrj4w==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1649924560;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=EYkKCNJTlijY39vvp5OIY+Ckmri6Ev74aKWsd1JHd/s=;
+        b=Rq3z61ikFNeZ7rbL/vX2GFOe0Pb0wXm/dQTg7uZ2cb5oRZQ0A5IHMxgnT0cFPyEeDAEWvc
+        /WUPsLo4fOJJqE3h7aHlQctq0Ly/FMVP5+21H2rkBmz3NaZMnU9cqEm0ZPhrwY1FT8m0Mn
+        NUkGSb/bJq7zTn8Bf99m3QwdBrZh2JtvAKDgG4Ex2JBAf/p9sReVjsiS75hYID9EpD+W9h
+        C5Fe1sJAmRVBHg2arMxhEU1eDkpvOtIneNyBTqjixsWPX+eps53IGxRtW7rXwDQ9I38RMw
+        /WP7nyGcLVhY3UUiGPPgznh1V+saLBX2U/76tzNCUGNpkGSzjlbiVHlH/fEcVg==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -66,118 +82,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Moses,
 
-Le 08/04/2022 à 18:33, Nicolas Dufresne a écrit :
-> Le jeudi 07 avril 2022 à 17:29 +0200, Benjamin Gaignard a écrit :
->> HEVC specifications say that:
->> "PicOrderCntVal is derived as follows:
->> PicOrderCntVal = PicOrderCntMsb + slice_pic_order_cnt_lsb
->> The value of PicOrderCntVal shall be in the range of −231 to 231 − 1, inclusive."
->>
->> To match with these definitions change __u16 pic_order_cnt[2]
->> into __s32 pic_order_cnt_val.
-> You forgot to update the slice_params->slice_pic_order_count.
+On Thu, Mar 17, 2022 at 03:47:14PM +0100, Moses Christopher Bollavarapu wrote:
+> Currently, the driver ends the reg-val list with a 0xFF as a check to stop
+> the loop. Instead an array of reg-vals can be used to avoid this check,
+> by using the ARRAY_SIZE(arr) macro to obtain the length of the array and
+> iterate over it.
+> 
+> Signed-off-by: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
+> ---
+>  drivers/media/i2c/ov7640.c | 33 +++++++++++++++++++--------------
+>  1 file changed, 19 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov7640.c b/drivers/media/i2c/ov7640.c
+> index 010803d58ce8..977cd2d8ad33 100644
+> --- a/drivers/media/i2c/ov7640.c
+> +++ b/drivers/media/i2c/ov7640.c
+> @@ -13,23 +13,28 @@
+>  MODULE_DESCRIPTION("OmniVision ov7640 sensor driver");
+>  MODULE_LICENSE("GPL v2");
+>  
+> -static const u8 initial_registers[] = {
+> -	0x12, 0x80,
+> -	0x12, 0x54,
+> -	0x14, 0x24,
+> -	0x15, 0x01,
+> -	0x28, 0x20,
+> -	0x75, 0x82,
+> -	0xFF, 0xFF, /* Terminator (reg 0xFF is unused) */
+> +struct reg_val {
+> +	u8 reg;
+> +	u8 val;
+>  };
+>  
+> -static int write_regs(struct i2c_client *client, const u8 *regs)
+> -{
+> -	int i;
+> +static const struct reg_val regval_init[] = {
+> +	{0x12, 0x80},
+> +	{0x12, 0x54},
+> +	{0x14, 0x24},
+> +	{0x15, 0x01},
+> +	{0x28, 0x20},
+> +	{0x75, 0x82},
+> +};
+>  
+> -	for (i = 0; regs[i] != 0xFF; i += 2)
+> -		if (i2c_smbus_write_byte_data(client, regs[i], regs[i + 1]) < 0)
+> +static int write_regs(struct i2c_client *client,
+> +		const struct reg_val *rv, int len)
 
-Thanks it will be in v6
+Please align to opening parenthesis on the next time. Somehow checkpatch.pl
+doesn't seem to complain about this. I.e.
 
-Benjamin
+... func(arg1, ...,
+	 arg2);
 
->
-> Nicolas
->
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->> version 5:
->> - change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val
->>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 4 ++--
->>   drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
->>   drivers/staging/media/hantro/hantro_hw.h          | 4 ++--
->>   drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 4 ++--
->>   include/media/hevc-ctrls.h                        | 2 +-
->>   5 files changed, 8 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> index c524af41baf5..6f3c774aa3d9 100644
->> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> @@ -386,7 +386,7 @@ static int set_ref(struct hantro_ctx *ctx)
->>   	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
->>   	 */
->>   	for (i = 0; i < decode_params->num_active_dpb_entries && i < ARRAY_SIZE(cur_poc); i++) {
->> -		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt[0];
->> +		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt_val;
->>   
->>   		hantro_reg_write(vpu, &cur_poc[i], poc_diff);
->>   	}
->> @@ -413,7 +413,7 @@ static int set_ref(struct hantro_ctx *ctx)
->>   	dpb_longterm_e = 0;
->>   	for (i = 0; i < decode_params->num_active_dpb_entries &&
->>   	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
->> -		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
->> +		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val);
->>   		if (!luma_addr)
->>   			return -ENOMEM;
->>   
->> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
->> index b6ec86d03d91..fadd40768579 100644
->> --- a/drivers/staging/media/hantro/hantro_hevc.c
->> +++ b/drivers/staging/media/hantro/hantro_hevc.c
->> @@ -54,7 +54,7 @@ static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
->>   }
->>   
->>   dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
->> -				   int poc)
->> +				   s32 poc)
->>   {
->>   	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
->>   	int i;
->> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
->> index ed018e293ba0..a648c529662b 100644
->> --- a/drivers/staging/media/hantro/hantro_hw.h
->> +++ b/drivers/staging/media/hantro/hantro_hw.h
->> @@ -131,7 +131,7 @@ struct hantro_hevc_dec_hw_ctx {
->>   	struct hantro_aux_buf tile_bsd;
->>   	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
->>   	struct hantro_aux_buf scaling_lists;
->> -	int ref_bufs_poc[NUM_REF_PICTURES];
->> +	s32 ref_bufs_poc[NUM_REF_PICTURES];
->>   	u32 ref_bufs_used;
->>   	struct hantro_hevc_dec_ctrls ctrls;
->>   	unsigned int num_tile_cols_allocated;
->> @@ -337,7 +337,7 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
->>   void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
->>   int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
->>   int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
->> -dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
->> +dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
->>   int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
->>   void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
->>   size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
->> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->> index 44f385be9f6c..d04521ffd920 100644
->> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->> @@ -143,8 +143,8 @@ static void cedrus_h265_frame_info_write_dpb(struct cedrus_ctx *ctx,
->>   	for (i = 0; i < num_active_dpb_entries; i++) {
->>   		int buffer_index = vb2_find_timestamp(vq, dpb[i].timestamp, 0);
->>   		u32 pic_order_cnt[2] = {
->> -			dpb[i].pic_order_cnt[0],
->> -			dpb[i].pic_order_cnt[1]
->> +			dpb[i].pic_order_cnt_val & 0xffff,
->> +			(dpb[i].pic_order_cnt_val >> 16) & 0xffff
->>   		};
->>   
->>   		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
->> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->> index b3540167df9e..2812778b41f4 100644
->> --- a/include/media/hevc-ctrls.h
->> +++ b/include/media/hevc-ctrls.h
->> @@ -138,7 +138,7 @@ struct v4l2_hevc_dpb_entry {
->>   	__u64	timestamp;
->>   	__u8	flags;
->>   	__u8	field_pic;
->> -	__u16	pic_order_cnt[2];
->> +	__s32	pic_order_cnt_val;
->>   	__u8	padding[2];
->>   };
->>   
+Applied.
+
+> +{
+> +	while (--len >= 0) {
+> +		if (i2c_smbus_write_byte_data(client, rv->reg, rv->val) < 0)
+>  			return -1;
+> +		rv++;
+> +	}
+>  	return 0;
+>  }
+>  
+> @@ -56,7 +61,7 @@ static int ov7640_probe(struct i2c_client *client,
+>  	v4l_info(client, "chip found @ 0x%02x (%s)\n",
+>  			client->addr << 1, client->adapter->name);
+>  
+> -	if (write_regs(client, initial_registers) < 0) {
+> +	if (write_regs(client, regval_init, ARRAY_SIZE(regval_init)) < 0) {
+>  		v4l_err(client, "error initializing OV7640\n");
+>  		return -ENODEV;
+>  	}
+
+-- 
+Regards,
+
+Sakari Ailus
