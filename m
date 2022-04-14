@@ -2,63 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9591500A02
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 11:37:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A81AA500A11
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 11:41:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241336AbiDNJjx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 05:39:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36298 "EHLO
+        id S240029AbiDNJnu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 05:43:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229759AbiDNJjr (ORCPT
+        with ESMTP id S231321AbiDNJnu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 05:39:47 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C8B6F4B7
-        for <linux-media@vger.kernel.org>; Thu, 14 Apr 2022 02:37:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649929043; x=1681465043;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iGqtdRrgtrv3Dju25ovTu73j9qcewFOrxCrVHCo37jk=;
-  b=f+vuDRba6GTGfaHobF3c35Ey/NJt77Y6a6sXGXb5EFp5udq2kWKJW9+D
-   3UV/1HYXuU51eg9H2IozxTcX5lSTqbI4Cdion9kB92tmoRf6Jm9EYD0Jr
-   VLhj1wFWoTNxzSUhRuVi+2dBL6gqrgIwSnrMWsgZUVBTLom2GQ3XojKZI
-   iVDTJCojdybb0rlnqwunZ09ycwwaqPYXW5yTi70lJAZmCqDYQMVsxBD/i
-   XHtoPAy2RX3BKja6EOpCKZrjr+Zx8fc9Bu0n68CPu1TOl1/62Uu2QOHEo
-   HRsBhC8f30iki7V7mP9eY+EwhSTWYcywx9J2opeQrgIFly6dmGFruNaQT
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="262644560"
-X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; 
-   d="scan'208";a="262644560"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 02:37:23 -0700
-X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; 
-   d="scan'208";a="725296779"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 02:37:22 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 022982030F;
-        Thu, 14 Apr 2022 12:37:20 +0300 (EEST)
-Date:   Thu, 14 Apr 2022 12:37:19 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Yunke Cao <yunkec@google.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: entity: skip non-data link when removing reverse
- links
-Message-ID: <YlfrTxuX5/onWwh0@paasikivi.fi.intel.com>
-References: <20220412062313.1645762-1-yunkec@google.com>
- <Yle8zUUjbVW392Gc@paasikivi.fi.intel.com>
- <CANqU6Fd1ixjcTTLG5gfFmkXfd9znvBwmxrni3c4yX-0mP=mS2g@mail.gmail.com>
+        Thu, 14 Apr 2022 05:43:50 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F79818349;
+        Thu, 14 Apr 2022 02:41:26 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id bv19so8955503ejb.6;
+        Thu, 14 Apr 2022 02:41:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=UuOwDORBiD0z41Seqm9aBtjGmDsw1F+gRxiqyKbH2nI=;
+        b=OBGE3V9bp47DU5rd4Eq2DJhu1lFQdRlhlsn6/6VyI8H1yJagdbsz50SMeJgiQ5JRJG
+         ALM+dxzQPso8u855jkyqw6A2/J+3wx//ATplFkqxy6yypYhf8TkONTW7qlm+zYZDLgUt
+         vRNzPFR07vpJ1pEO4pfX8GnlDP4JKSAL7v/d0a25CwB5t4dNotFQ2qdyHyAsEFO+Df3r
+         P2yvJtXBY7YWSyymSzyTQ3TeIT5XGVCpp6Na/2IAB5zoycjLc66dVyFqIcReRq6e2uaf
+         +YMK2pBJ/LJ2dcUOVEV96b/o9xB8A0Tyob6oe3VpofJHqKNBREHSqXZ59X1Xti+rerkn
+         D3lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=UuOwDORBiD0z41Seqm9aBtjGmDsw1F+gRxiqyKbH2nI=;
+        b=TP3ZyZ1WFA2xJptLkUyke7gkHS1LmCNeXphLCa7FCMUiwCmmPPVpSMueEU5MfyHRJ3
+         SKnkaBngduN5XWf2PLjFQJKUow1JzgU0ZL7W31iXuFpa4UEh8r4mWM2FIqnD+RAJAmxW
+         fRpofCGebb6cVUp6FscEk1qRELzuZ0i6hrkuDxjkiSlXuEAaE88OWf4vSniQenuJIcgU
+         W/gwFAQSRkXKXOmqCQQJykWPRbAyQ6XgJ3u3UkQVMcwd9lSKx8lk4MUVuC91pg+Yj0RW
+         rL6dh/RHbmY/mBUVwaoztM3Ab70IRlYu8+wDhkelI/8GTfyxCFFZZ0nsBbCOtWV/Bk2p
+         iGLg==
+X-Gm-Message-State: AOAM532/ljQPIUoOpI6LLWvGBVqIAHGMEmoQZTWag91NhvnTDkqa9EJQ
+        tV68entK+y87eWB/up+rOzA=
+X-Google-Smtp-Source: ABdhPJx+1Tz4/yVuXTwUZGZ/Dok/CFO13SwpvvKqswiflJbKV1nw9ZFx1wBOSOxAQ8h8KTehIkuOTg==
+X-Received: by 2002:a17:907:2d91:b0:6e8:abf6:c368 with SMTP id gt17-20020a1709072d9100b006e8abf6c368mr1703256ejc.124.1649929284659;
+        Thu, 14 Apr 2022 02:41:24 -0700 (PDT)
+Received: from leap.localnet (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
+        by smtp.gmail.com with ESMTPSA id ay17-20020a170906d29100b006e88f246fdbsm454878ejb.152.2022.04.14.02.41.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 02:41:23 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Julia Lawall <julia.lawall@inria.fr>
+Cc:     Ira Weiny <ira.weiny@intel.com>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Alison Schofield <alison.schofield@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Martiros Shakhzadyan <vrzh@vrzh.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
+Date:   Thu, 14 Apr 2022 11:41:21 +0200
+Message-ID: <2066056.OBFZWjSADL@leap>
+In-Reply-To: <alpine.DEB.2.22.394.2204141111250.3023@hadrien>
+References: <20220413225531.9425-1-fmdefrancesco@gmail.com> <4180675.ejJDZkT8p0@leap> <alpine.DEB.2.22.394.2204141111250.3023@hadrien>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANqU6Fd1ixjcTTLG5gfFmkXfd9znvBwmxrni3c4yX-0mP=mS2g@mail.gmail.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="US-ASCII"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,50 +80,139 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunke,
-
-On Thu, Apr 14, 2022 at 03:44:47PM +0900, Yunke Cao wrote:
-> On Thu, Apr 14, 2022 at 3:19 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Yunke,
-> >
-> > Thanks for the patch.
-> >
-> > On Tue, Apr 12, 2022 at 03:23:13PM +0900, Yunke Cao wrote:
-> > > The original implementation removes reverse links for any input link and
-> > > assumes the presense of sink/source.
-> > > It fails when the link is a not a data link.
-> > > media_entity_remove_links when there's an ancillary link can also fail.
-> >
-> > The function's return type is void. Are there other adverse effects from
-> > this? Looking at the function, it would seem like that the reverse link
-> > simply isn't found in this case, and so not removed.
-> >
-> The function dereferences without any check link->source and link->sink
-> ("link->source->entity == entity" etc.), which is in union.
-> Ancillary links populate gobj0/gobj1 instead of source/sink.
-> Calling this function on ancillary links can cause crashes.
-
-Indeed. The struct definition isn't too pretty either. And this only works
-with interface links as they're not included in the links list...
-
+On gioved? 14 aprile 2022 11:12:39 CEST Julia Lawall wrote:
+> 
+> On Thu, 14 Apr 2022, Fabio M. De Francesco wrote:
+> 
+> > On gioved? 14 aprile 2022 09:03:40 CEST Julia Lawall wrote:
 > > >
-> > > We only need to remove reverse links for a data link.
+> > > On Wed, 13 Apr 2022, Ira Weiny wrote:
+> > >
+> > > > On Wed, Apr 13, 2022 at 05:44:54PM -0700, Alison Schofield wrote:
+> > > > > On Thu, Apr 14, 2022 at 12:55:31AM +0200, Fabio M. De Francesco
+> > wrote:
+> > > > > > The use of kmap() is being deprecated in favor of 
+kmap_local_page()
+> > > > > > where it is feasible. The same is true for kmap_atomic().
+> > > > > >
+> > > > > > In file pci/hmm/hmm.c, function hmm_store() test if we are in
+> > atomic
+> > > > > > context and, if so, it calls kmap_atomic(), if not, it calls
+> > kmap().
+> > > > > >
+> > > > > > First of all, in_atomic() shouldn't be used in drivers. This 
+macro
+> > > > > > cannot always detect atomic context; in particular, it cannot 
+know
+> > > > > > about held spinlocks in non-preemptible kernels.
+> > > > > >
+> > > > > > Notwithstanding what it is said above, this code doesn't need 
+to
+> > care
+> > > > > > whether or not it is executing in atomic context. It can simply 
+use
+> > > > > > kmap_local_page() / kunmap_local() that can instead do the 
+mapping
+> > /
+> > > > > > unmapping regardless of the context.
+> > > > > >
+> > > > > > With kmap_local_page(), the mapping is per thread, CPU local 
+and
+> > not
+> > > > > > globally visible. Therefore, hmm_store()() is a function where 
+the
+> > use
+> > > > > > of kmap_local_page() in place of both kmap() and kmap_atomic() 
+is
+> > > > > > correctly suited.
+> > > > > >
+> > > > > > Convert the calls of kmap() / kunmap() and kmap_atomic() /
+> > > > > > kunmap_atomic() to kmap_local_page() / kunmap_local() and drop 
+the
+> > > > > > unnecessary tests which test if the code is in atomic context.
+> > > > > >
+> > > > >
+> > > > > Not specifically about this patch, but more generally about all
+> > > > > such conversions - is there a 'proof' that shows this just works
+> > > >
+> > > > Just code inspection.  Most of them that I have done have been 
+compile
+> > tested
+> > > > only.  Part of the key is that des is a local variable and is not
+> > aliased by
+> > > > anything outside this function.
+> > >
+> > > Typically, the concern about being in atomic context has to do with
+> > > whether GFP_KERNEL or GFP_ATOMIC should be used, ie whether 
+allocation
+> > > can sleep.
 > >
-> > Ideally this would not be based on the link flags as it's not a very robust
-> > way to test whather a backlink needs to be removed.
+> > I'd add that the concern about being in atomic context has mainly to do
+> > with calling whatever function that may sleep.
 > >
-> I was mainly trying to make sure link->source and link->sink are
-> populated by checking the link type.
-> Currently, only data links need to run this part of the code to remove
-> reverse links so I feel this is
-> the easiest way. Let me know if there's any better alternative.
+> > Some time ago I analyzed a calls chain which, under spinlocks and with
+> > IRQ's disabled, led to console_lock() which is annotated with
+> > might_sleep(). It took about 8000 ms to recover when executing in a 4 
+CPU /
+> > 8 SMT System. Linus T. suggested to make this work asynchronous (commit
+> > 1ee33b1ca2b8 ("tty: n_hdlc: make n_hdlc_tty_wakeup() asynchronous")).
+> >
+> > > It doesn't have to do with whether some data can be shared.
+> >
+> > Yes, FWIW I agree with you.
+> >
+> > > Is that the concern here?
+> >
+> > The concern here is about the locality of the pointer variable to which 
+the
+> > struct page has been mapped to. In atomic context we are not allowed to
+> > kmap() (this is why in the code we had that in_atomic() test), instead 
+we
+> > can kmap_local_page() or kmap_atomic(). The latter is strongly 
+discouraged
+> > in favor of the former.
+> 
+> I have the impression that you are first agreeing with me and then
+> contradicting me :).  Is your point that in general a concern about 
+atomic
+> context has to do with whether sleeping is allowed, but that the concern
+> is something else here?  I'm not familiar with these kmap functions.
 
-I think we should get this in now. The code seems to be in a dire need for
-cleanup still.
+Yes the concern is something else here (sorry for my poor English). It was 
+not my intention to contradict you :) 
 
--- 
-Regards,
+The concern for "locality" here is that if the variable is shared between 
+different functions there are cases where we cannot use kmap_local_page().
+For example, those mappings with kmap_local_page() are per thread and CPU 
+local.
 
-Sakari Ailus
+I think that the best means to convey what I want to express is pointing to 
+my patch to Documentation/vm/highmem.rst:
+
+https://lore.kernel.org/lkml/20220412124003.10736-1-fmdefrancesco@gmail.com/
+
+I hope that this can help to understand why we care of "locality" in this 
+specific case where we use kmap_local_page().
+
+Again, sorry for not being clear.
+
+Thanks,
+
+Fabio M. De Francesco
+
+> thanks,
+> julia
+> 
+> 
+> >
+> > Furthermore, Alison was asking if we can prove that these kinds of
+> > conversions can actually work when we have not the hardware for 
+testing. As
+> > Ira wrote, code inspection is sufficient to prove it.
+> >
+> > Thanks,
+> >
+> > Fabio M. De Francesco
+
+
+
