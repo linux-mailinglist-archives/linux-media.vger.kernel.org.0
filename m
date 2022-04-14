@@ -2,242 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8641650091E
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 11:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A2A1500921
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 11:02:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241431AbiDNJEb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 05:04:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54252 "EHLO
+        id S241442AbiDNJEc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 05:04:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241797AbiDNJDm (ORCPT
+        with ESMTP id S241861AbiDNJEK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 05:03:42 -0400
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com (mail-eopbgr00065.outbound.protection.outlook.com [40.107.0.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 093E827FE3;
-        Thu, 14 Apr 2022 02:01:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ay3MvD3WxQbcabzkWpmAhVrzV9MuSuW8rFepHNfuVpowsbsjEOWgS+ntR1P/HGUxN4ruUAHPJZD+f4CJRn3adDvyaXIB5fvAdgpraZoKd1AHAwZ4WFoiwIvkNZOsWYDN94MUYMy6NCDG2mVDh4nKCdFHB8V9qfANlqAQs6MaM05/sqrD2ieAs0xExroPg/xMwMXUZfx8iQ9qGWYdBZlrDvce3RP+U62SIaVxYRucGvLuVYXGhzDvrqnUVQkRUA9VLCaAlrvfthZx+nwldtt5IJCKunjErIvqYuWfX/o6aFS8rhG/joDpG4RPJB4oSN42wL5Wjir6bJ6L8jVMF7IerA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ip04xNVrv+sidpa8RKsKWVqM2Fn1Czr/5ybq24opo0I=;
- b=OtTAaHXJypdZ0q8VtQcM4O2ra8v+gGPfs5BZb55CVWPsLkjZdYP6UYaUoXwRWhVfdu7/v9I55Kk5sFSeDv5kXh9tzl2jGXW2o6E/o4z8ZegzjN6qgcfUIZgHuR9Kqv3cuqW2w40tlqDG+Iivbw6ezzLdHFEoCtl7O/Qjp4BS0QDnuYLwhEhVHByWoYXdGoBzQfRRfiWEQve4c+al6dTEFoEf3LwOkt0Q2AEKtn2075AoDeb4qLdL2rwaXWUk/l7SftZNU1phm0Esx9MrPsQ+a/qExucXOAKEvKjhYmbh0xT877ZnUgtPxGkTbKKXIEpZ/e8AsJUVUtydctnIju3QpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ip04xNVrv+sidpa8RKsKWVqM2Fn1Czr/5ybq24opo0I=;
- b=MCOhrECSjHc2kPFFaDXe0g+zqgVSgIsSPtVF8NU9YQ3h75GPphBBDc6zJdxNYxG4QEHfKA7PYrZ9CTe0l8Zl7TgXBmYim6GFhsm1cxso0ZVcX2g+L6OzHNHLFCttqzLONeaMJZpdmMdWmKPUGwv/usboIlOW2Et0x7h0z6oXwxI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by PAXPR04MB8800.eurprd04.prod.outlook.com (2603:10a6:102:20f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Thu, 14 Apr
- 2022 09:01:15 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::d8b5:5914:5189:ffa5]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::d8b5:5914:5189:ffa5%6]) with mapi id 15.20.5164.020; Thu, 14 Apr 2022
- 09:01:15 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, shawnguo@kernel.org
-Cc:     hverkuil-cisco@xs4all.nl, robh+dt@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        linux-imx@nxp.com, aisheng.dong@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 2/2] media: amphion: encoder copy timestamp from output to capture
-Date:   Thu, 14 Apr 2022 17:00:30 +0800
-Message-Id: <483845f7b902ebb29c791ce251e09eb93fed97ff.1649753693.git.ming.qian@nxp.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1649753692.git.ming.qian@nxp.com>
-References: <cover.1649753692.git.ming.qian@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2P153CA0011.APCP153.PROD.OUTLOOK.COM (2603:1096::21) To
- AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+        Thu, 14 Apr 2022 05:04:10 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEE0C6C1C8;
+        Thu, 14 Apr 2022 02:01:43 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 6FFA92008B;
+        Thu, 14 Apr 2022 12:01:40 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1649926900;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=idRDYG7j6wMRNuATuHnpnG/Sptc3vRd5VhKEifdUNE8=;
+        b=K1bYOElJEWrhJFbeyb8fkrqCwDE89asINkQQv7j0Gt4ay/uGCFox1lKJJVWZFp0LmOlEbm
+        /m4lnlYDGMLwq1ykalnEYW/O3UqBRqUwGntHcDsTgDRQsz6bhPywIVhsLtpAeKW/RNbvhq
+        TVfngc2eqSApuBzqw+s+Q2QWXv6RBvk=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 9EE5F634C91;
+        Thu, 14 Apr 2022 12:01:38 +0300 (EEST)
+Date:   Thu, 14 Apr 2022 12:01:38 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, robert.foss@linaro.org, hfink@snap.com,
+        jgrahsl@snap.com, dmitry.baryshkov@linaro.org,
+        vladimir.zapolskiy@linaro.org
+Subject: Re: [PATCH v2 2/2] media: i2c: imx412: Add bulk regulator support
+Message-ID: <Ylfi8ra54GCl6qd+@valkosipuli.retiisi.eu>
+References: <20220411013131.3553098-1-bryan.odonoghue@linaro.org>
+ <20220411013131.3553098-3-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3a57da67-2b2e-45d4-e06c-08da1df554cf
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8800:EE_
-X-Microsoft-Antispam-PRVS: <PAXPR04MB8800CD94DB42EBFF49E21F10E7EF9@PAXPR04MB8800.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7hgU49Ws/vdQRVyTbtlLecrhoNb8O8fVeiqRgYx7NRhaBhDlStdnbJyulTTlV3qBDhorRKNsZteKzyzfKcb+VM0H652+oaag9kuO0pAUtPq5GIg9TdFc2J6R7JD8yjYfr680rdL20H5myDlYvuS2ANOZRK8BN4X6WVnbpjzPwslNHdD/7X0pYnet5zcmGGpGKoyV3PPoafDu01Luz6jW1o4avpBC8vkX7r36YdK7IEuFSed8/rT0kmrouPmd6/56T3shPU0ie5LqSkhJI4KlLX0kRpaXGIjx3JGhz4NnZM21+xbDAruS6Ca9JnB+7OEBnjddDDbr/hOGtuZ8iDnI9ml+0EYJKrn+TYEHWkHzdR1UH2tzfWp/B+HuX2JHmj0zz7pSF5wwi088hrUzQSn+Vhd1tAipstZb58UlyEiIvqdR38dxf6WN53EyHhaFA4fGrSzieyYeDSOiA23X4Oc8X3xTQYddaShkf1W9GXG9foNXF+Esj4O83BRCXhbea/cQKsCQ7ubdUmNUO6Q04wfs5ySNMNi3KqvjmiCK99JIFmc8cIpCZBbOyTNotdfxDnOu8CwjJa6OCXyN02jTBRlDwsPy2lFvzrZblqbk2xK21H+Lv+yFEytfKXB4rXhkk8dED27iGuoB4RKzU7uSQ2PyQNdXF0/gudmk42cpQ+A9ay7B5HVfbqbZFkkMdI3VjkFhKzgS60hwD/Me9V1p2SjdTA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66476007)(36756003)(86362001)(8676002)(4326008)(38350700002)(508600001)(5660300002)(66556008)(2906002)(8936002)(316002)(66946007)(38100700002)(6486002)(7416002)(2616005)(186003)(26005)(44832011)(6666004)(52116002)(6506007)(6512007)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JEokU32dVcvgPCfiPXP6+REm88LHhDwuxGPLd5VygiGHq1m0jRXYQjVe/RcB?=
- =?us-ascii?Q?LLgwl/KIzzdCAWzLvOjrUAj2UHs7iG4vrB/2HrBTAZC5u61u6JtX4aKCkbRL?=
- =?us-ascii?Q?RIs8LhbxX/0Ac+gdYDnLqMUEVjom4SYNRJYWEa0s5GebLVxH/93sK5NwHxoV?=
- =?us-ascii?Q?wr0d70KUTGNKuvWMVzB3KyigZUqw3QdLtUSN3jhZlvuq0ZcF+2zBhxxpjxle?=
- =?us-ascii?Q?+eVcvY4qdkAieE9bFL91kMlL/oWzuuAzdHdzHO8iYOMKfSAXIKQ9EnHRK3Ct?=
- =?us-ascii?Q?tTsuTkh5hzJ1xUwbT2DlGEwW3zE/Zzd4rDI3XfSHoz9hSn4mmlnPJC4A+c0u?=
- =?us-ascii?Q?q3FOnYENXV/lwTUAKsce6aDFJncwa+B1a0zuJOZyC8Imi1rphY8m1gzH73pm?=
- =?us-ascii?Q?1l88vdlG5ZJXpOjSdOTbBNWRLpPgl9oh+K8T9rw1kwzOrh68TpOh5Pfjznm3?=
- =?us-ascii?Q?g1Sau8A2JJbPdFF3gb7ZfyQVsNJZrUB6PB70RLgg2ZBZOqVcyW5FvNZFbp8e?=
- =?us-ascii?Q?8zEQXwfMvVG2ECRI43YSM/svkWD+BjshqEpVQenTuPGSZjJ0gNGBrmmuLfMv?=
- =?us-ascii?Q?2cmGDWvH4F9HuiK9NNdZ5ODXz9vsPbep4X7y0dl9PpJomPPXnfmILlIVzQYn?=
- =?us-ascii?Q?wa+0sc5Dij2lnBUSHGa+vhEMjxQgRrlzCP9lCTsC8GhqLwHa7aGCkvUe1tv5?=
- =?us-ascii?Q?inAveiL6YhhAco5h358GKb6qdrcdJJL803wXBTE5S/cYA7ioCCBuCeSM6CDt?=
- =?us-ascii?Q?HECSIpd9QbdWVlAKbTM2v1Vm8+RQ3v2licbHf+Aypc3bzV9L+8BlrkGTiwNo?=
- =?us-ascii?Q?hvjmwtoVq8alOzrb9nJm1f9uucT9XQm4Q5ZRJZmgfgr38xRpS6Z5Qe5melPT?=
- =?us-ascii?Q?QZqmb+e+bSFDROO5swGDLJ+AhN9X3t9MkIvu1SdU/LLAsEwrTOYPPw2ZsFK0?=
- =?us-ascii?Q?cti86NPZn/nYFDXWAqzGKrP3OX0tRf/PiDxOe1PRCmoQ/SGhs0dHYByyHjqC?=
- =?us-ascii?Q?kAcoCFt6QHMgKbM8srQ7HRSPX0G6d8IaWqlnnuoJY1Jcgsvf/0SgTfHeRjLe?=
- =?us-ascii?Q?TJUpEDYNlIxmLpK0Uwqn7Z9PFc+AlJembaRQ1SkPRJGcwJtfHW/VirP+txtx?=
- =?us-ascii?Q?ERqFQ5lD4uXdLRvfAsucR8Tp3eDHJGmsXk94ZqDFllYpc4PU8I9bAElhg6NU?=
- =?us-ascii?Q?O6M8ia46RsIuaiQx3BhkJoHK+69aCr26lXemjP3I1xp8PnqNovCGFjx2t/XF?=
- =?us-ascii?Q?Z2hxEJAyrOa54hzwJHWMHi16SRjEl2R7PjWe3bVs4UdtujwB8xE2Q7ZqT26z?=
- =?us-ascii?Q?jC/VjazD/z6yqfkQbSs7yZVEE4e6FJpNVVLgFL6ovJtIv6YAmB6f4K08Auop?=
- =?us-ascii?Q?WJUqdc9nPQyUOSEOqo05E4sTQc7Ts4HWJ+buzKa7U87Ph7cXZGFvTv15t/DD?=
- =?us-ascii?Q?KKMKy+w4x7imgDgZMp8Fxr5yWrECP5YMJ0nE5e+fDDhEqumz2ckNvAQaQYnV?=
- =?us-ascii?Q?AeF5SP9OSoWLYfKegYb1iHSDFlSENVuLc03/a8+YvXS+oxep/YFvIoHbwE+T?=
- =?us-ascii?Q?bieAJXVnOrcK68y2AfO6QDQsdKDy23G96eHbG2jk3pjrRJKlFf7BdJBF2efO?=
- =?us-ascii?Q?D/TJrmij9SHx3EHpEgu75MwQabXO86ma366tikAIVorelshurGIzYIpwczpE?=
- =?us-ascii?Q?OdXabmFpGLJ2aJXUjzkcOe9/drCU4uBNOZZXNhI2sIx6QwUEJRadFIJKEyQj?=
- =?us-ascii?Q?GLtwYiJUJg=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a57da67-2b2e-45d4-e06c-08da1df554cf
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2022 09:01:15.5480
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xNr7FsRU7GD1G3ETwbQIF+K1bOtgcpQSAs1FvG4wO4WPmhKqDi1UzSatzZhasxl2KJG/jL2rtLUBxY5ms1s7sw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8800
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220411013131.3553098-3-bryan.odonoghue@linaro.org>
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1649926900;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=idRDYG7j6wMRNuATuHnpnG/Sptc3vRd5VhKEifdUNE8=;
+        b=ryabw/Evbw1WAgFaXt3/1vrAtjJwHdHDg2bEW6OPC8Npzqx2T4ZVSQExmFvka87fw1JHsU
+        cEsZrRhHmFUrllT9mRlO0bbuC1IhQ1oz9IDCEHmX93wp6JH/ughhNsETUvflD44+taYseX
+        ze+IYdTFD7kWWsjB3aVKqnqhnf4iRAc=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1649926900; a=rsa-sha256; cv=none;
+        b=oImgpLbkxD35k7rqA0YvTY5qmocwKrsx7+SIohR2OBD3glHOufihG+Mm0/lK3AWqwHRGCS
+        tSK/1aSxVqC9O9ipJQmK+RIlVd94SbL2s67Uuxo+tlm9TjJS/arDkApWEXSHJuohwMSZka
+        3M4c1ojV33mPm0WoRws02YAJ2UH4P4U=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-copy the timestamp using the helper function
-V4L2_BUF_FLAG_TIMESTAMP_COPY
+Hi Bryan,
 
-To implement this, driver will keep the output buffer until it's
-encoded, in previous, driver will return the output buffer immediately
-after firmware return it
+Thanks for the patch.
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
----
- drivers/media/platform/amphion/venc.c | 47 +++++++++------------------
- 1 file changed, 16 insertions(+), 31 deletions(-)
+On Mon, Apr 11, 2022 at 02:31:31AM +0100, Bryan O'Donoghue wrote:
+> Depending on the platform we may need to enable and disable three separate
+> regulators for the imx412.
+> 
+> - DOVDD
+> Digital I/O power
+> 
+> - AVDD
+> Analog power
+> 
+> - DVDD
+> Digital core power
+> 
+> The addition of these regulators shouldn't affect existing users using
+> fixed-on/firmware-controlled regulators.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  drivers/media/i2c/imx412.c | 30 ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
+> index be3f6ea55559..44b92718b6cf 100644
+> --- a/drivers/media/i2c/imx412.c
+> +++ b/drivers/media/i2c/imx412.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/i2c.h>
+>  #include <linux/module.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/regulator/consumer.h>
+>  
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-fwnode.h>
+> @@ -101,6 +102,12 @@ struct imx412_mode {
+>  	struct imx412_reg_list reg_list;
+>  };
+>  
+> +static const char * const imx412_supply_names[] = {
+> +	"dovdd",	/* Digital I/O power */
+> +	"avdd",		/* Analog power */
+> +	"dvdd",		/* Digital core power */
+> +};
+> +
+>  /**
+>   * struct imx412 - imx412 sensor device structure
+>   * @dev: Pointer to generic device
+> @@ -128,6 +135,8 @@ struct imx412 {
+>  	struct media_pad pad;
+>  	struct gpio_desc *reset_gpio;
+>  	struct clk *inclk;
+> +	struct regulator_bulk_data supplies[ARRAY_SIZE(imx412_supply_names)];
+> +	int num_supplies;
 
-diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
-index d33c2748e4b7..06c873fd0031 100644
---- a/drivers/media/platform/amphion/venc.c
-+++ b/drivers/media/platform/amphion/venc.c
-@@ -33,6 +33,8 @@
- #define VENC_CAPTURE_ENABLE	BIT(1)
- #define VENC_ENABLE_MASK	(VENC_OUTPUT_ENABLE | VENC_CAPTURE_ENABLE)
- #define VENC_MAX_BUF_CNT	8
-+#define VENC_MIN_BUFFER_OUT	6
-+#define VENC_MIN_BUFFER_CAP	6
- 
- struct venc_t {
- 	struct vpu_encode_params params;
-@@ -423,7 +425,7 @@ static int venc_drain(struct vpu_inst *inst)
- 	if (inst->state != VPU_CODEC_STATE_DRAIN)
- 		return 0;
- 
--	if (v4l2_m2m_num_src_bufs_ready(inst->fh.m2m_ctx))
-+	if (!vpu_is_source_empty(inst))
- 		return 0;
- 
- 	if (!venc->input_ready)
-@@ -775,10 +777,20 @@ static int venc_get_one_encoded_frame(struct vpu_inst *inst,
- 				      struct vb2_v4l2_buffer *vbuf)
- {
- 	struct venc_t *venc = inst->priv;
-+	struct vb2_v4l2_buffer *src_buf;
- 
- 	if (!vbuf)
- 		return -EAGAIN;
- 
-+	src_buf = vpu_find_buf_by_sequence(inst, inst->out_format.type, frame->info.frame_id);
-+	if (src_buf) {
-+		v4l2_m2m_buf_copy_metadata(src_buf, vbuf, true);
-+		vpu_set_buffer_state(src_buf, VPU_BUF_STATE_IDLE);
-+		v4l2_m2m_src_buf_remove_by_buf(inst->fh.m2m_ctx, src_buf);
-+		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
-+	} else {
-+		vbuf->vb2_buf.timestamp = frame->info.timestamp;
-+	}
- 	if (!venc_get_enable(inst->priv, vbuf->vb2_buf.type)) {
- 		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
- 		return 0;
-@@ -800,11 +812,10 @@ static int venc_get_one_encoded_frame(struct vpu_inst *inst,
- 	}
- 	vb2_set_plane_payload(&vbuf->vb2_buf, 0, frame->bytesused);
- 	vbuf->sequence = frame->info.frame_id;
--	vbuf->vb2_buf.timestamp = frame->info.timestamp;
- 	vbuf->field = inst->cap_format.field;
- 	vbuf->flags |= frame->info.pic_type;
- 	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_IDLE);
--	dev_dbg(inst->dev, "[%d][OUTPUT TS]%32lld\n", inst->id, frame->info.timestamp);
-+	dev_dbg(inst->dev, "[%d][OUTPUT TS]%32lld\n", inst->id, vbuf->vb2_buf.timestamp);
- 	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
- 	venc->ready_count++;
- 
-@@ -860,33 +871,6 @@ static int venc_frame_encoded(struct vpu_inst *inst, void *arg)
- 	return ret;
- }
- 
--static void venc_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
--{
--	struct vb2_v4l2_buffer *vbuf;
--
--	if (!inst->fh.m2m_ctx)
--		return;
--
--	vpu_inst_lock(inst);
--	if (!venc_get_enable(inst->priv, frame->type))
--		goto exit;
--	vbuf = vpu_find_buf_by_sequence(inst, frame->type, frame->sequence);
--	if (!vbuf) {
--		dev_err(inst->dev, "[%d] can't find buf: type %d, sequence %d\n",
--			inst->id, frame->type, frame->sequence);
--		goto exit;
--	}
--
--	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_IDLE);
--	if (V4L2_TYPE_IS_OUTPUT(frame->type))
--		v4l2_m2m_src_buf_remove_by_buf(inst->fh.m2m_ctx, vbuf);
--	else
--		v4l2_m2m_dst_buf_remove_by_buf(inst->fh.m2m_ctx, vbuf);
--	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
--exit:
--	vpu_inst_unlock(inst);
--}
--
- static void venc_set_last_buffer_dequeued(struct vpu_inst *inst)
- {
- 	struct venc_t *venc = inst->priv;
-@@ -1252,7 +1236,6 @@ static struct vpu_inst_ops venc_inst_ops = {
- 	.check_ready = venc_check_ready,
- 	.input_done = venc_input_done,
- 	.get_one_frame = venc_frame_encoded,
--	.buf_done = venc_buf_done,
- 	.stop_done = venc_stop_done,
- 	.event_notify = venc_event_notify,
- 	.release = venc_release,
-@@ -1333,6 +1316,8 @@ static int venc_open(struct file *file)
- 	if (ret)
- 		return ret;
- 
-+	inst->min_buffer_out = VENC_MIN_BUFFER_OUT;
-+	inst->min_buffer_cap = VENC_MIN_BUFFER_CAP;
- 	venc_init(file);
- 
- 	return 0;
+unsigned int
+
+>  	struct v4l2_ctrl_handler ctrl_handler;
+>  	struct v4l2_ctrl *link_freq_ctrl;
+>  	struct v4l2_ctrl *pclk_ctrl;
+> @@ -946,6 +955,17 @@ static int imx412_parse_hw_config(struct imx412 *imx412)
+>  		return -EINVAL;
+>  	}
+>  
+> +	/* Get optional DT defined regulators */
+> +	imx412->num_supplies = ARRAY_SIZE(imx412_supply_names);
+> +	for (i = 0; i < imx412->num_supplies; i++)
+> +		imx412->supplies[i].supply = imx412_supply_names[i];
+> +
+> +	ret = devm_regulator_bulk_get(imx412->dev,
+> +				      imx412->num_supplies,
+
+Fits on previous line.
+
+> +				      imx412->supplies);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+>  	if (!ep)
+>  		return -ENXIO;
+> @@ -1011,6 +1031,13 @@ static int imx412_power_on(struct device *dev)
+>  	struct imx412 *imx412 = to_imx412(sd);
+>  	int ret;
+>  
+> +	ret = regulator_bulk_enable(imx412->num_supplies,
+> +				    imx412->supplies);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to enable regulators\n");
+> +		goto error_reset;
+
+You can return here, without touching the GPIO.
+
+> +	}
+> +
+>  	gpiod_set_value_cansleep(imx412->reset_gpio, 1);
+>  
+>  	ret = clk_prepare_enable(imx412->inclk);
+
+Please do disable the regulators if clk_prepare_enable() fails.
+
+> @@ -1044,6 +1071,9 @@ static int imx412_power_off(struct device *dev)
+>  
+>  	clk_disable_unprepare(imx412->inclk);
+>  
+> +	regulator_bulk_disable(imx412->num_supplies,
+> +			       imx412->supplies);
+> +
+>  	return 0;
+>  }
+>  
+
 -- 
-2.35.1
+Kind regards,
 
+Sakari Ailus
