@@ -2,213 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2766F5006C3
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 09:15:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83C785007B5
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 10:02:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240302AbiDNHR5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 03:17:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42548 "EHLO
+        id S239070AbiDNIEk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 04:04:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231537AbiDNHRy (ORCPT
+        with ESMTP id S229911AbiDNIEj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 03:17:54 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2094.outbound.protection.outlook.com [40.107.113.94])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFDEE2CCBF;
-        Thu, 14 Apr 2022 00:15:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FcKV97s2hSHWWUq3gPDoF8nmz7rLxnvCNj9GhFCS9TNdp16xzA+Hc5A2BxGdBYLJyiqiOMK13iudo8gt9iw2WJ9EZfYzMPrvk9Xu5AtOF7qTlqZ41cLMcoT4YtgUfJltpmK67n420NZMaxajHilsdHtPYuafttNMdC6xGUOP80pWs6M/AfJt5U9F7mGAIyI4m3IWhGbOsw/CpVbOwDnfDtzPMC51Ngrh8YY/KLIDKlsYK1nfXuwzTgDxrJ11cxUX661mF7Jl2ObFQtQQNIUvOqQSgUYH7YlBaMZxSSN/+9sao5W8NgG8o4LDty0YXxm4bYjkCiadPPd5gVwIBdPqOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QBMZI4wIzXPC+4ZY+Fb/bcy9K0I3x0Mb3IaDc5s9JT0=;
- b=Xwfd2m5HbCaDY/QX5MEXQwaKGDiUuPIZEBaFC9jkIDgZBd2mIOwLe6eTT21E7MLbm8znF2ChzJlw3Z9azeJsccOVOKuMR8gqdagmQ2bwIJNgTCDQjMg9V50xSwD2ZsPSw8zETroronlF6zPWzQLr9BElM0AqN9ue9mKeTWd7aTpECJTQ1ndS5+ybjs2lmSTZcEdfdhhRtnjwKYMq7fUmdxCLa7jHvaewSwEPDZg+GowxIW+CLsi1z2mgwdjqD7M0sRIm42oUtaGylzH50jkQhYBn0b7hV/lcnP4VAYTsfBmj9ErA4d+E5CF4fV35jo6aSxdPlqwePrNxZo+eb7dLKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QBMZI4wIzXPC+4ZY+Fb/bcy9K0I3x0Mb3IaDc5s9JT0=;
- b=C4XH+fxfTubH2g2drOqT8zEN5wRF1AnMDORv+dL2NA5pxebQr1L/IXcxf2cZc0Zv/Av6pjaJVTCQu+9mRm6n8BvHs1YAgUkebNFrycPVWtXZC6c16X9j0Mq3wUDJsR/qAgMocWz7WdYakTuXjv0F7aGMKbY/9F921KD/tIewENM=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB6544.jpnprd01.prod.outlook.com (2603:1096:400:98::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.18; Thu, 14 Apr
- 2022 07:15:28 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b129:a6f3:c39e:98db]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b129:a6f3:c39e:98db%4]) with mapi id 15.20.5144.030; Thu, 14 Apr 2022
- 07:15:28 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v6 0/3] Add support for RZ/G2L VSPD
-Thread-Topic: [PATCH v6 0/3] Add support for RZ/G2L VSPD
-Thread-Index: AQHYOSzOWkSeyC0UaEqXiLOqs5Yt9azvK/Wg
-Date:   Thu, 14 Apr 2022 07:15:28 +0000
-Message-ID: <OS0PR01MB5922E8D86A13066800323DF186EF9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220316115551.29222-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220316115551.29222-1-biju.das.jz@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2ed07fae-a08f-4fda-8499-08da1de68de6
-x-ms-traffictypediagnostic: TYCPR01MB6544:EE_
-x-microsoft-antispam-prvs: <TYCPR01MB6544F68199471ACE6F8590E986EF9@TYCPR01MB6544.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EdBeZh/BMXoNvU7DaVBYkNHdyl9vl4/ZcAnKVGF3W32DsWetjTYEdMZykRJmh2gtoBbQPHCyLaQxMT+KgnliNgushzHQAgOYHqkowuWLoGDYNa8/SJaOzcsWd5VoVIbjdov+HsGfxU1GEHy/VVW7umaWp/SkVCg8FXKefR6t9DPq7pegkef8TlCOV1fOS+i82cpBOdFPfCAVSSObhgQ1Vjrtpclu0EqtFfKHKfRKgY56hZm1yWDkZA+7mSSM3SJcZf123tOQWSFwz8Bz+ZeR/LkfwOoR2UMhZg5JIFBFrd5VNP1wKjskzGjR3VOjl1quZKhabOiT7dCN8Al93bfM+1J8FixeChrmBebUWU3FvMjgvp4ajNvMIPiatDcjJgjWpX8pMh00g+wJ35JzMpdZRvJhAypRAv8E2vsGYxPzegHNcs2oAFGhIBZZ5I5Jj7vOu2tJOIrxVe4LmRZoQzGlHTZc08gFVeGo+fBH7jBe4IYkjVVwo42u79TZglds6ExMHjzuVIBSI78PSLOpnmx3U91rRuyxDcK667NwKSBW73vlTinfUI8O/VjRp1M76aTIHI1pAwFgXIuw/0AFbUwG04jaAFF7qw2apORSxrIupwvFSRW3g2ykJyEF1OOvlo8z6QEBgsnXaZ8W5vpyqQPv1GRzHgVK+PkVhWSihL8m33rYOvHyuj6lJwSLXGUQ25Gfm82G5vVBHADq+D40j+QT5w==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(33656002)(54906003)(55016003)(110136005)(83380400001)(2906002)(38070700005)(76116006)(8936002)(66446008)(38100700002)(6506007)(9686003)(7696005)(86362001)(316002)(5660300002)(26005)(122000001)(186003)(508600001)(71200400001)(66946007)(66556008)(66476007)(64756008)(52536014)(107886003)(4326008)(8676002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?awBGOAEElv0y13wL1W3yeOdUiAW2HN0LGX/QKpl5Afqy8gZ3VayKKLDQAAJB?=
- =?us-ascii?Q?TgF3LCALQtqgYp9V0J4w1Dy6Ar+xWMScuHdOv2ccs7R+/VhvZjQY7QKaTCza?=
- =?us-ascii?Q?kzNPJhpIsJ1Y2DbZCxM9DRUFOjfqoI5/XxgNa+e7Ad471jQEOZe73fMT57rq?=
- =?us-ascii?Q?FCpRzvuqGtq3tiSQF435qxS0kqNk5qZ52W6awug3XTz9XZtKkBZlcKoUIW6U?=
- =?us-ascii?Q?N8SqShMT7/lL8ryxt508dtczi2LqJ9taabe5O7VzBaYi7ihcrWjayrUy1PoZ?=
- =?us-ascii?Q?MFmL/mFXvW7TPu5W98FAvqZpy513CMTefCaKvtUYDLNc2+zNzKEMNH1tWstu?=
- =?us-ascii?Q?JMOdhW+CmQXCxBk2jhUNNH09RijweaaI3jPfOd5IQg/xot/8cVyHAypI5wzS?=
- =?us-ascii?Q?OZuzFcWRf5wBEzDVj5G0TZdTsmLUctn0c9ylX7vFwEv+74zt07eiFB7+BVby?=
- =?us-ascii?Q?W0/xZG/ILFTZnSPor0/djGvwv1X/7qyTai5e7y4mFlPljrGur9k19IpyWF/w?=
- =?us-ascii?Q?A4tS7v6ks7qgsuc+qPqxQWiqmfFAxccQwPxlnPU+v0UAUnJpAp8nGFEblaJp?=
- =?us-ascii?Q?dUGj3yvU+1V4yZ58FRDVWmEWu42FHgkAt+fRPd2pBCo9VPX8cBtZ3zcs3Xz1?=
- =?us-ascii?Q?kJwK/UGOWLhq0HbTbN1yefARPKdvjR5aZFpZ70kLboqPvc+Uaz9HexbhBI2U?=
- =?us-ascii?Q?UVcNKUeycJ90fOCkfR2mNE5HKIWSSxcfwNbn9AV6feVufAo+pfIHAKaxHHF4?=
- =?us-ascii?Q?oBtXTIgInTXPtX23tAU/6BtHagxMBQL/g6BS88aNXT5JNN2MOkmSPg2aRzvg?=
- =?us-ascii?Q?q9bi6BNQhQQR1o5pdDFlSiw8lWVEGHj9q5QG805wEu+TOLcR8S99Q5nSATku?=
- =?us-ascii?Q?fBBX2kPHRaZQBb1ONBjgupGHXNNnW5CNB+rMiB6hO2UOXXhr7MVAgeI/P5+4?=
- =?us-ascii?Q?kIb5jh7yKTjQraEo3/8BYt9UpZadr1f8jeHAJchPw97X+YiEDHirBu8ZvBaO?=
- =?us-ascii?Q?gZVnm6gk7rOO5JIO5QchNO3LlLwiQiVkqMogP7ceqFr6FhmZ5A0qxNKk0/QB?=
- =?us-ascii?Q?R+oI1UyZb59OlD3Tahb8TliWpMBjyY9sx2i1UIS5mFaic5spzaheRM4iWY9N?=
- =?us-ascii?Q?yxaoKanGxw5r0VxAON+50DITIa71fLJnbzPFRrDdi+2Zh+3Er7E/RPnsgN4n?=
- =?us-ascii?Q?NhL3/tR+r4i9uUMf9HOT7mCtD24eXilGY+EwIie1FLpsnRWXm51ahm4algRG?=
- =?us-ascii?Q?arsJgMJfJG/Mpc6AN44dywSGWInAAbBjbhUMiyfLANky/lZvKatwYiwdQckF?=
- =?us-ascii?Q?ttRddPiS8Ho+P915laIN6AHEV8Tonc6911Z60KODcT0lDKbDTtbTqKt+XAX+?=
- =?us-ascii?Q?a95pZ74frhoHuh6Z04nX08bcw31Ci1I3q69nyDR5HxgAhDqF8CRpW/uJbXmz?=
- =?us-ascii?Q?/zXqMSRIHLvriX/oNlufnz2DgyyYUq/nrCVm/aNLjeGagkXMuwifDqLKiZiX?=
- =?us-ascii?Q?eAjQcffEj8sDUQa/YBVlSWMauGkekxBaPzA9a80rBrAbDFuZlx3lAEDIvlUS?=
- =?us-ascii?Q?eoRiMC57C8CKYyyaEuK4iZlFxsdKwiYYo5UeN+ArQw+gWFLjTO8jjCxDME8S?=
- =?us-ascii?Q?m0c7Mm/g5qG9V8Yk87a9cm5nKzwNZhP66fLvwxmXSmYWRQrt65w2M+9txutZ?=
- =?us-ascii?Q?JxsJ40RjjeXy/JvfirPI5zQ6xw0s0YhxPp0AAtALh4G4uyfSHVrm0FsCMgWQ?=
- =?us-ascii?Q?TrUUbGewv/P+qP+dRRBHTzEa2W4Um8k=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 14 Apr 2022 04:04:39 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693CE4BB97;
+        Thu, 14 Apr 2022 01:02:14 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:aefc:13d9:b947:5c76] (unknown [IPv6:2a01:e0a:120:3210:aefc:13d9:b947:5c76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3BEE71F4769C;
+        Thu, 14 Apr 2022 09:02:12 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1649923332;
+        bh=RFbpJ1I3WcLfiaLAFsi5mngxuqlpAEWsg+scuunDdh0=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=h8EFezQvks1gbQPoLnNC7+mQWwxiIL7tgJAYg1wM4DO6W3p04jUnqdzJHFuP+2Eok
+         HBMA0Hrhu/0zDNIhPqpZHVxSXgsI19s+v5Dr94Pnmcy5fd5cqL0J2tq9arjY8o5MN8
+         1zvdytWoIzP6jfGapogPmuJr8PCtUWUL+zUpISopHYK3HXtnrXGufbdHKk0iFNxoJl
+         QjZxU0Wi1fANKP8G2MVXrqcZANK8NQBD+vVXHPrggQgpphrjJdUKyt1nYV3PcHgWen
+         D2Lz5+8e5L0mM/eAUmux1YRVefz473o6bgfemDRqlY+nTDEKEoiN7stgTC/cAyw/dJ
+         2HMUq7UZmE29A==
+Message-ID: <7a32fd89-a90f-d921-1f0b-e0eaeb9db71e@collabora.com>
+Date:   Thu, 14 Apr 2022 10:02:09 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ed07fae-a08f-4fda-8499-08da1de68de6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2022 07:15:28.5943
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dnZRQhJtZb0ea0yTPXVycHNFhhUQfaV855a/PTU1+HpyDFrOjfQ6bQurYiEpLq70+3y06OrbV8koNHTRWqNcnLPlBR9eroPjKZX1hiQDzWU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6544
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 06/17] media: uapi: HEVC: Change pic_order_cnt
+ definition in v4l2_hevc_dpb_entry
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        mchehab@kernel.org, hverkuil@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, samuel@sholland.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        sebastian.fricke@collabora.com
+References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
+ <20220407152940.738159-7-benjamin.gaignard@collabora.com>
+ <34f586efdd6401b509cf11fba75039d5494c4eff.camel@collabora.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <34f586efdd6401b509cf11fba75039d5494c4eff.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
 
-Gentle ping. Are we happy with this patch set?
-Please let me know.
+Le 08/04/2022 à 18:33, Nicolas Dufresne a écrit :
+> Le jeudi 07 avril 2022 à 17:29 +0200, Benjamin Gaignard a écrit :
+>> HEVC specifications say that:
+>> "PicOrderCntVal is derived as follows:
+>> PicOrderCntVal = PicOrderCntMsb + slice_pic_order_cnt_lsb
+>> The value of PicOrderCntVal shall be in the range of −231 to 231 − 1, inclusive."
+>>
+>> To match with these definitions change __u16 pic_order_cnt[2]
+>> into __s32 pic_order_cnt_val.
+> You forgot to update the slice_params->slice_pic_order_count.
 
-Cheers,
-Biju
+Thanks it will be in v6
 
-> Subject: [PATCH v6 0/3] Add support for RZ/G2L VSPD
->=20
-> The RZ/G2L VSPD provides a single VSPD instance. It has the following sub
-> modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
->=20
-> The VSPD block on RZ/G2L does not have a version register, so added a new
-> compatible string "renesas,rzg2l-vsp2" with a data pointer containing the
-> info structure. Also the reset line is shared with the DU module.
->=20
-> v5->v6:
->  * Rebased to media_staging and updated commit header
->  * Removed LCDC reference clock description from bindings
->  * Changed the clock name from du.0->aclk from bindings
->  * Added Rb tag from Laurent for reset patch
->  * Added forward declaration for struct reset_control
->  * Updated vsp1_device_get() with changes suggested by Laurent
->  * Updated error message for reset_control_get form ctrl->control.
->  * Removed the extra tab from rzg2l_vsp2_device_info
->  * Changed the function vsp1_lookup->vsp1_lookup_info and
->    all info match related code moved here.
->  * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
->    distinguish HW & SW IP_VSP_Version.
->  * Used 0x80 for RZG2L VSPD model and SoC identification
->  * Updated Switch() for LIF0 buffer attribute handling.
-> v4->v5:
->  * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
->  * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
->    for SoC identification for RZ/G2L SoC's.
-> v3->v4:
->  * Restored error check for pm_runtime_resume_and_get and calls
->    assert() in case of failure.
->  * Added Rb tag from Geert
->  * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
-> SoC's
-> v2->v3:
->  * Added Rb tags from Krzysztof and Philipp
->  * If reset_control_deassert() failed, return ret directly.
->  * Fixed version comparison in vsp1_lookup()
-> v1->v2:
->  * Used reference counted reset handle to perform deassert/assert
->  * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
->  * Added standalone device info for rzg2l-vsp2.
->  * Added vsp1_lookup helper function.
->  * Updated comments for LIF0 buffer attribute register
->  * Used last ID for rzg2l-vsp2.
-> RFC->v1:
->  * Added reset support as separate patch
->  * Moved rstc just after the bus_master field in struct vsp1_device
->  * Used data pointer containing info structure to retrieve version
-> information
->  * Updated commit description
->  * Changed compatible from vsp2-r9a07g044->vsp2-rzg2l
->  * Defined the clocks
->  * Clock max Items is based on SoC Compatible string
->=20
-> RFC:
->  *
->=20
-> Biju Das (3):
->   media: dt-bindings: media: renesas,vsp1: Document RZ/{G2L,V2L} VSPD
->     bindings
->   media: renesas: vsp1: Add support to deassert/assert reset line
->   media: renesas: vsp1: Add support for RZ/G2L VSPD
->=20
->  .../bindings/media/renesas,vsp1.yaml          | 52 +++++++++----
->  drivers/media/platform/renesas/vsp1/vsp1.h    |  2 +
->  .../media/platform/renesas/vsp1/vsp1_drv.c    | 75 +++++++++++++++----
->  .../media/platform/renesas/vsp1/vsp1_lif.c    | 18 +++--
->  .../media/platform/renesas/vsp1/vsp1_regs.h   |  8 ++
->  5 files changed, 121 insertions(+), 34 deletions(-)
->=20
-> --
-> 2.17.1
+Benjamin
 
+>
+> Nicolas
+>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>> version 5:
+>> - change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val
+>>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 4 ++--
+>>   drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
+>>   drivers/staging/media/hantro/hantro_hw.h          | 4 ++--
+>>   drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 4 ++--
+>>   include/media/hevc-ctrls.h                        | 2 +-
+>>   5 files changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> index c524af41baf5..6f3c774aa3d9 100644
+>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> @@ -386,7 +386,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>>   	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
+>>   	 */
+>>   	for (i = 0; i < decode_params->num_active_dpb_entries && i < ARRAY_SIZE(cur_poc); i++) {
+>> -		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt[0];
+>> +		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt_val;
+>>   
+>>   		hantro_reg_write(vpu, &cur_poc[i], poc_diff);
+>>   	}
+>> @@ -413,7 +413,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>>   	dpb_longterm_e = 0;
+>>   	for (i = 0; i < decode_params->num_active_dpb_entries &&
+>>   	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
+>> -		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
+>> +		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val);
+>>   		if (!luma_addr)
+>>   			return -ENOMEM;
+>>   
+>> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+>> index b6ec86d03d91..fadd40768579 100644
+>> --- a/drivers/staging/media/hantro/hantro_hevc.c
+>> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+>> @@ -54,7 +54,7 @@ static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
+>>   }
+>>   
+>>   dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
+>> -				   int poc)
+>> +				   s32 poc)
+>>   {
+>>   	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+>>   	int i;
+>> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+>> index ed018e293ba0..a648c529662b 100644
+>> --- a/drivers/staging/media/hantro/hantro_hw.h
+>> +++ b/drivers/staging/media/hantro/hantro_hw.h
+>> @@ -131,7 +131,7 @@ struct hantro_hevc_dec_hw_ctx {
+>>   	struct hantro_aux_buf tile_bsd;
+>>   	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
+>>   	struct hantro_aux_buf scaling_lists;
+>> -	int ref_bufs_poc[NUM_REF_PICTURES];
+>> +	s32 ref_bufs_poc[NUM_REF_PICTURES];
+>>   	u32 ref_bufs_used;
+>>   	struct hantro_hevc_dec_ctrls ctrls;
+>>   	unsigned int num_tile_cols_allocated;
+>> @@ -337,7 +337,7 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+>>   void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+>>   int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+>>   int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+>> -dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+>> +dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
+>>   int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+>>   void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+>>   size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> index 44f385be9f6c..d04521ffd920 100644
+>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> @@ -143,8 +143,8 @@ static void cedrus_h265_frame_info_write_dpb(struct cedrus_ctx *ctx,
+>>   	for (i = 0; i < num_active_dpb_entries; i++) {
+>>   		int buffer_index = vb2_find_timestamp(vq, dpb[i].timestamp, 0);
+>>   		u32 pic_order_cnt[2] = {
+>> -			dpb[i].pic_order_cnt[0],
+>> -			dpb[i].pic_order_cnt[1]
+>> +			dpb[i].pic_order_cnt_val & 0xffff,
+>> +			(dpb[i].pic_order_cnt_val >> 16) & 0xffff
+>>   		};
+>>   
+>>   		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
+>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>> index b3540167df9e..2812778b41f4 100644
+>> --- a/include/media/hevc-ctrls.h
+>> +++ b/include/media/hevc-ctrls.h
+>> @@ -138,7 +138,7 @@ struct v4l2_hevc_dpb_entry {
+>>   	__u64	timestamp;
+>>   	__u8	flags;
+>>   	__u8	field_pic;
+>> -	__u16	pic_order_cnt[2];
+>> +	__s32	pic_order_cnt_val;
+>>   	__u8	padding[2];
+>>   };
+>>   
