@@ -2,158 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B52A5016AF
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 17:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98C9E5016B3
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 17:50:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242349AbiDNPJw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 11:09:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52356 "EHLO
+        id S243409AbiDNPKa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 11:10:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351308AbiDNOav (ORCPT
+        with ESMTP id S1353053AbiDNOfC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 10:30:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FFBB91376;
-        Thu, 14 Apr 2022 07:20:18 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (153.162-64-87.adsl-dyn.isp.belgacom.be [87.64.162.153])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 99ED6494;
-        Thu, 14 Apr 2022 16:20:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1649946015;
-        bh=xxUyYOR4Zi1vV+LnaRqNcvhcTxxAI9TQX/+/nk5J+Z4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HB0a3jXmrsFIkuhC/OenB2eDh4dyJH1UTrcY0U6VRuEYsNV01lfoBap4wiwL9wP9P
-         dx/KZ951GOGnewI2useVM5KphPdljiQTmWRURSjqbUHjL9h2M4AyTgshwwOV0TRcHb
-         nVHXC5F41T5GsL7IFzRgl0PNlJWNjzFRv56JNPH4=
-Date:   Thu, 14 Apr 2022 17:20:14 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Michael Rodin <mrodin@de.adit-jv.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        LUU HOAI <hoai.luu.ub@renesas.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] media: v4l: vsp1: Fix offset calculation for plane
- cropping
-Message-ID: <YlgtnlL8Loehk2cA@pendragon.ideasonboard.com>
-References: <20220228120058.9755-1-laurent.pinchart+renesas@ideasonboard.com>
- <20220302110012.GB11173@vmlxhi-121.adit-jv.com>
+        Thu, 14 Apr 2022 10:35:02 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 61536CF4A7;
+        Thu, 14 Apr 2022 07:26:13 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.90,259,1643641200"; 
+   d="scan'208";a="116894216"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 14 Apr 2022 23:26:12 +0900
+Received: from localhost.localdomain (unknown [10.226.92.190])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5BE2D42B069E;
+        Thu, 14 Apr 2022 23:26:08 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v7 0/3] Add support for RZ/G2L VSPD
+Date:   Thu, 14 Apr 2022 15:26:02 +0100
+Message-Id: <20220414142605.26235-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220302110012.GB11173@vmlxhi-121.adit-jv.com>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+The RZ/G2L VSPD provides a single VSPD instance. It has the following
+sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
 
-Your previous mail slipped through the cracks, sorry about that.
+The VSPD block on RZ/G2L does not have a version register, so added a
+new compatible string "renesas,rzg2l-vsp2" with a data pointer containing
+the info structure. Also the reset line is shared with the DU module.
 
-On Wed, Mar 02, 2022 at 12:00:12PM +0100, Michael Rodin wrote:
-> Hi Laurent,
-> 
-> thank you for your work!
-> 
-> On Mon, Feb 28, 2022 at 02:00:58PM +0200, Laurent Pinchart wrote:
-> > From: Michael Rodin <mrodin@de.adit-jv.com>
-> > 
-> > The vertical subsampling factor is currently not considered in the
-> > offset calculation for plane cropping done in rpf_configure_partition.
-> > This causes a distortion (shift of the color plane) when formats with
-> > the vsub factor larger than 1 are used (e.g. NV12, see
-> > vsp1_video_formats in vsp1_pipe.c). This commit considers vsub factor
-> > for all planes except plane 0 (luminance).
-> > 
-> > Fixes: e5ad37b64de9 ("[media] v4l: vsp1: Add cropping support")
-> > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> > Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
-> > 
-> > Drop generalization of the offset calculation to reduce the binary size.
-> 
-> Dropping generalization which I have done in my initial patch [1] is ok as
-> long as this will not cause any troubles. I am not aware of any case where
-> bytesperline and bpp could be different between the chroma planes, so
-> probably it's fine.
-> 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/vsp1/vsp1_rpf.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/vsp1/vsp1_rpf.c b/drivers/media/platform/vsp1/vsp1_rpf.c
-> > index 85587c1b6a37..75083cb234fe 100644
-> > --- a/drivers/media/platform/vsp1/vsp1_rpf.c
-> > +++ b/drivers/media/platform/vsp1/vsp1_rpf.c
-> > @@ -291,11 +291,11 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
-> >  		     + crop.left * fmtinfo->bpp[0] / 8;
-> >  
-> >  	if (format->num_planes > 1) {
-> > +		unsigned int bpl = format->plane_fmt[1].bytesperline;
-> >  		unsigned int offset;
-> >  
-> > -		offset = crop.top * format->plane_fmt[1].bytesperline
-> > -		       + crop.left / fmtinfo->hsub
-> > -		       * fmtinfo->bpp[1] / 8;
-> > +		offset = crop.top / fmtinfo->vsub * bpl
-> > +		       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
-> 
-> Probably it makes sense to do the division after all multiplications are
-> done in order to avoid rounding errors? Consider the case when left = 3,
-> hsub = 2, bpp = 32. Then we would get for the second part of the offset:
->   3 / 2 * 32 / 8 = 1 * 32 / 8 = 4
-> and if we do division as the last operation:
->   (3 * 32) / (8 * 2) = 96 / 16 = 6
+v6->v7:
+ * Added Rb tag from Kieran for patch#3
+ * Added a quirk to handle LIF0 buffer attribute related
+   changes for V3M and G2L.
+ * Removed the macro for VSP HW version
+v5->v6:
+ * Rebased to media_staging and updated commit header
+ * Removed LCDC reference clock description from bindings
+ * Changed the clock name from du.0->aclk from bindings
+ * Added Rb tag from Laurent for reset patch
+ * Added forward declaration for struct reset_control
+ * Updated vsp1_device_get() with changes suggested by Laurent
+ * Updated error message for reset_control_get form ctrl->control.
+ * Removed the extra tab from rzg2l_vsp2_device_info
+ * Changed the function vsp1_lookup->vsp1_lookup_info and
+   all info match related code moved here.
+ * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
+   distinguish HW & SW IP_VSP_Version.
+ * Used 0x80 for RZG2L VSPD model and SoC identification
+ * Updated Switch() for LIF0 buffer attribute handling.
+v4->v5:
+ * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
+ * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
+   for SoC identification for RZ/G2L SoC's.
+v3->v4:
+ * Restored error check for pm_runtime_resume_and_get and calls
+   assert() in case of failure.
+ * Added Rb tag from Geert
+ * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M SoC's
+v2->v3:
+ * Added Rb tags from Krzysztof and Philipp
+ * If reset_control_deassert() failed, return ret directly.
+ * Fixed version comparison in vsp1_lookup()
+v1->v2:
+ * Used reference counted reset handle to perform deassert/assert
+ * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
+ * Added standalone device info for rzg2l-vsp2.
+ * Added vsp1_lookup helper function.
+ * Updated comments for LIF0 buffer attribute register
+ * Used last ID for rzg2l-vsp2.
+RFC->v1:
+ * Added reset support as separate patch
+ * Moved rstc just after the bus_master field in struct vsp1_device
+ * Used data pointer containing info structure to retrieve version information
+ * Updated commit description
+ * Changed compatible from vsp2-r9a07g044->vsp2-rzg2l
+ * Defined the clocks
+ * Clock max Items is based on SoC Compatible string
 
-This was actually done on purpose :-) If the horizontal subsampling
-factor is equal to 2, for instance for the NV12 chroma plane, the
-horizontal offset must effectively be a multiple of 2. Otherwise you'll
-swap the Cr and Cb components.
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-20-biju.das.jz@bp.renesas.com/
 
-Taking your above example with a NV12 format (left=3, hsub=2, but
-bpp=16), with the rounding in this patch,
+Biju Das (3):
+  media: dt-bindings: media: renesas,vsp1: Document RZ/{G2L,V2L} VSPD
+    bindings
+  media: renesas: vsp1: Add support to deassert/assert reset line
+  media: renesas: vsp1: Add support for RZ/G2L VSPD
 
-	offset = crop.top / fmtinfo->vsub * bpl
-	       + crop.left / fmtinfo->hsub * fmtinfo->bpp[1] / 8;
-	       = [vertical offset]
-	       + 3 / 2 * 16 / 8;
-	       = [vertical offset]
-	       + 2;
-
-Byte: 0  1  2  3  4  5
-      Cr Cb Cr Cb Cr Cb ...
-            ^
-            offset
-
-With your rounding proposal,
-
-	offset = crop.top / fmtinfo->vsub * bpl
-	       + (crop.left * fmtinfo->bpp[1]) / (fmtinfo->hsub * 8);
-	       = [vertical offset]
-	       + (3 * 16) / (2 * 8);
-	       = [vertical offset]
-	       + 3;
-
-Byte: 0  1  2  3  4  5
-      Cr Cb Cr Cb Cr Cb ...
-               ^
-               offset
-
-> The first part of the offset can probably also cause the same rounding
-> issue.
-> 
-> >  		mem.addr[1] += offset;
-> >  		mem.addr[2] += offset;
-> >  	}
-> > 
-> 
-> [1] https://lore.kernel.org/all/1637679566-76975-1-git-send-email-mrodin@de.adit-jv.com/T/
+ .../bindings/media/renesas,vsp1.yaml          | 52 +++++++++---
+ drivers/media/platform/renesas/vsp1/vsp1.h    |  5 ++
+ .../media/platform/renesas/vsp1/vsp1_drv.c    | 83 +++++++++++++++----
+ .../media/platform/renesas/vsp1/vsp1_lif.c    | 13 +--
+ .../media/platform/renesas/vsp1/vsp1_lif.h    |  1 +
+ .../media/platform/renesas/vsp1/vsp1_regs.h   |  7 ++
+ 6 files changed, 126 insertions(+), 35 deletions(-)
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
