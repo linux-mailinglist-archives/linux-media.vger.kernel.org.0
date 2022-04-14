@@ -2,111 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2AEC50046F
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 04:51:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AB1B5004F6
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 06:14:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239587AbiDNCxs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Apr 2022 22:53:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36266 "EHLO
+        id S239804AbiDNEQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 00:16:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236394AbiDNCxr (ORCPT
+        with ESMTP id S229485AbiDNEQq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Apr 2022 22:53:47 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A9012086
-        for <linux-media@vger.kernel.org>; Wed, 13 Apr 2022 19:51:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649904684; x=1681440684;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=WZAC2T1bGyi1MuhaaxLLqyCEfX6lxK6AHlIyotffp1I=;
-  b=bvufVRh6c3d+RR7ezvigWsFxhQsz1LHPYZHqAfxCWxwC6lm4a0ZwCkeK
-   J+3DrgdseOyxhH3dAhrf/EhCqE6BZAnhc+z9E0ni/j1T0R8U43Kh0zDYi
-   MZwd39Y61n4irn6BMJu2V7/w7G3yA7JFel9Oe5rshYBoSaojs6+Tx7LnZ
-   KALzgpW1rP1xKQN48n2TjD0fNoDssUtkBVL7vgpY9HAVwpEn/xYq8XnNC
-   K9Hho/ZfMJcXtPmyK/H0IFsXZ5FqdvDanZUn9G9pQUOBxgU8a/AE6EBAb
-   o9Qaq2RGQIpIkaq3qD03Cc2sVbccGRsVDHOPCCeuAiSONE96eu8hiBbjJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="250119199"
-X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
-   d="scan'208";a="250119199"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 19:51:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
-   d="scan'208";a="655816260"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.188]) ([10.238.232.188])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2022 19:51:22 -0700
-Subject: Re: [PATCH 1/1] Revert "media: dw9768: activate runtime PM and turn
- off device"
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     tfiga@chromium.org, bingbu.cao@intel.com
-References: <20220413133315.622593-1-sakari.ailus@linux.intel.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <b35686ce-02d1-d435-3b94-956cdf2d25fc@linux.intel.com>
-Date:   Thu, 14 Apr 2022 10:51:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20220413133315.622593-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 14 Apr 2022 00:16:46 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 187922BE6;
+        Wed, 13 Apr 2022 21:14:23 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id t12so3684316pll.7;
+        Wed, 13 Apr 2022 21:14:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=7xvsh8FIV4X8qjBnU3ZR0V0Ttcm32tPDVRGj1HnLnug=;
+        b=E89ALyx87bCQ8IpKubE9AeNsXRZ411XlezFM4W5fiDZKVZ4w4pykmFUkDGWacK2hbJ
+         Xq0fQp3dXMp0yoiQBlxPqfRkzaxLQeV+Ihw4ElMBlvyw3jQgivk9935i9kBYZTjOQx8q
+         6+5w5iQBPoQkMKgU7ym3cLgcE/dASwNCo1E0wZKlztx7qDR6LQLkRngej9VkreaJKqCJ
+         wyI6DB5wcr7KI9G2LRrfuO9ATQ8ST6dp8en/cNZJ9oYnWcAjNgKBtPLZOi6mph8b/srs
+         EDqr9G0FYqshl/eoYPD3IeVqZiC15Iy3GIROwmIakH0E4qnyWYfDz4Q47p9YfLxGmwmc
+         pa1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=7xvsh8FIV4X8qjBnU3ZR0V0Ttcm32tPDVRGj1HnLnug=;
+        b=X9rwOOi8U8XuaFWEZ5Tf8f/qAMpZluEBNQV8qxP3aLEZSkwUblX222+i7PMQOm7WC2
+         GEK1uPmxFI9FKGgq7U6iZE5i1R21U2bHREnw/fhlX3r1Q+kULqmxiEma49OTGf3kXVax
+         I7DVQR+LknR7hTOxD07uMuZzR2ydJOfJZMto+0v7KywC+JA25Vi9XAfsnZxvJMhZKOSk
+         NvSbUnCqUK69zqwbiCKbKIoifCDRrgYHw545YNVmzMZhUvaDrXbeMhAQLahN9aohQGDd
+         ftWIbBuFousY/GXDy/J+UflIqs2lCqsf8Z6kzj3CXOpYpJLavxZ7vkC8rexP5pzoTwgl
+         s9iQ==
+X-Gm-Message-State: AOAM531CJHWBeukjK+qrwq9KiAPej+9NkZerxoBjhgcc8A+2qmzjR/7t
+        0ZfeD1r++oX5ZRPMNfL8njw=
+X-Google-Smtp-Source: ABdhPJz9lB+Xbap0e7ZK9fszXctV0rAupUZ11RrUE/bqj22npChrIdnC8J5gS1Z9Gvxkg4ljoreZjg==
+X-Received: by 2002:a17:90a:4e04:b0:1cb:a26f:70c2 with SMTP id n4-20020a17090a4e0400b001cba26f70c2mr1652843pjh.130.1649909662581;
+        Wed, 13 Apr 2022 21:14:22 -0700 (PDT)
+Received: from localhost.localdomain ([119.3.119.18])
+        by smtp.googlemail.com with ESMTPSA id y13-20020a17090a154d00b001cb5f0b55cfsm562729pja.1.2022.04.13.21.14.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Apr 2022 21:14:22 -0700 (PDT)
+From:   Xiaomeng Tong <xiam0nd.tong@gmail.com>
+To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+        kitakar@gmail.com, alinesantanacordeiro@gmail.com,
+        laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Xiaomeng Tong <xiam0nd.tong@gmail.com>, stable@vger.kernel.org
+Subject: [RESEND][PATCH] pci: atomisp_cmd: fix three missing checks on list iterator
+Date:   Thu, 14 Apr 2022 12:14:15 +0800
+Message-Id: <20220414041415.3342-1-xiam0nd.tong@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sakari, 
+The three bugs are here:
+	__func__, s3a_buf->s3a_data->exp_id);
+	__func__, md_buf->metadata->exp_id);
+	__func__, dis_buf->dis_data->exp_id);
 
-Thanks.
+The list iterator 's3a_buf/md_buf/dis_buf' will point to a bogus
+position containing HEAD if the list is empty or no element is found.
+This case must be checked before any use of the iterator, otherwise
+it will lead to a invalid memory access.
 
-Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+To fix this bug, add an check. Use a new variable '*_iter' as the
+list iterator, while use the old variable '*_buf' as a dedicated
+pointer to point to the found element.
 
-On 4/13/22 9:33 PM, Sakari Ailus wrote:
-> This reverts commit c09d776eaa060534a1663e3b89d842db3e1d9076.
-> 
-> Revert the commit as it breaks runtime PM support on OF based systems.
-> More fixes to the driver are needed.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/dw9768.c | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
-> index 65c6acf3ced9a..c086580efac78 100644
-> --- a/drivers/media/i2c/dw9768.c
-> +++ b/drivers/media/i2c/dw9768.c
-> @@ -469,11 +469,6 @@ static int dw9768_probe(struct i2c_client *client)
->  
->  	dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
->  
-> -	/*
-> -	 * Device is already turned on by i2c-core with ACPI domain PM.
-> -	 * Attempt to turn off the device to satisfy the privacy LED concerns.
-> -	 */
-> -	pm_runtime_set_active(dev);
->  	pm_runtime_enable(dev);
->  	if (!pm_runtime_enabled(dev)) {
->  		ret = dw9768_runtime_resume(dev);
-> @@ -488,7 +483,6 @@ static int dw9768_probe(struct i2c_client *client)
->  		dev_err(dev, "failed to register V4L2 subdev: %d", ret);
->  		goto err_power_off;
->  	}
-> -	pm_runtime_idle(dev);
->  
->  	return 0;
->  
-> 
+Cc: stable@vger.kernel.org
+Fixes: ad85094b293e4 ("Revert "media: staging: atomisp: Remove driver"")
+Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+---
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 57 ++++++++++++-------
+ 1 file changed, 36 insertions(+), 21 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 97d5a528969b..0da0b69a4637 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -901,9 +901,9 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 	int err;
+ 	unsigned long irqflags;
+ 	struct ia_css_frame *frame = NULL;
+-	struct atomisp_s3a_buf *s3a_buf = NULL, *_s3a_buf_tmp;
+-	struct atomisp_dis_buf *dis_buf = NULL, *_dis_buf_tmp;
+-	struct atomisp_metadata_buf *md_buf = NULL, *_md_buf_tmp;
++	struct atomisp_s3a_buf *s3a_buf = NULL, *_s3a_buf_tmp, *s3a_iter;
++	struct atomisp_dis_buf *dis_buf = NULL, *_dis_buf_tmp, *dis_iter;
++	struct atomisp_metadata_buf *md_buf = NULL, *_md_buf_tmp, *md_iter;
+ 	enum atomisp_metadata_type md_type;
+ 	struct atomisp_device *isp = asd->isp;
+ 	struct v4l2_control ctrl;
+@@ -942,60 +942,75 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 
+ 	switch (buf_type) {
+ 	case IA_CSS_BUFFER_TYPE_3A_STATISTICS:
+-		list_for_each_entry_safe(s3a_buf, _s3a_buf_tmp,
++		list_for_each_entry_safe(s3a_iter, _s3a_buf_tmp,
+ 					 &asd->s3a_stats_in_css, list) {
+-			if (s3a_buf->s3a_data ==
++			if (s3a_iter->s3a_data ==
+ 			    buffer.css_buffer.data.stats_3a) {
+-				list_del_init(&s3a_buf->list);
+-				list_add_tail(&s3a_buf->list,
++				list_del_init(&s3a_iter->list);
++				list_add_tail(&s3a_iter->list,
+ 					      &asd->s3a_stats_ready);
++				s3a_buf = s3a_iter;
+ 				break;
+ 			}
+ 		}
+ 
+ 		asd->s3a_bufs_in_css[css_pipe_id]--;
+ 		atomisp_3a_stats_ready_event(asd, buffer.css_buffer.exp_id);
+-		dev_dbg(isp->dev, "%s: s3a stat with exp_id %d is ready\n",
+-			__func__, s3a_buf->s3a_data->exp_id);
++		if (s3a_buf)
++			dev_dbg(isp->dev, "%s: s3a stat with exp_id %d is ready\n",
++				__func__, s3a_buf->s3a_data->exp_id);
++		else
++			dev_dbg(isp->dev, "%s: s3a stat is ready with no exp_id found\n",
++				__func__);
+ 		break;
+ 	case IA_CSS_BUFFER_TYPE_METADATA:
+ 		if (error)
+ 			break;
+ 
+ 		md_type = atomisp_get_metadata_type(asd, css_pipe_id);
+-		list_for_each_entry_safe(md_buf, _md_buf_tmp,
++		list_for_each_entry_safe(md_iter, _md_buf_tmp,
+ 					 &asd->metadata_in_css[md_type], list) {
+-			if (md_buf->metadata ==
++			if (md_iter->metadata ==
+ 			    buffer.css_buffer.data.metadata) {
+-				list_del_init(&md_buf->list);
+-				list_add_tail(&md_buf->list,
++				list_del_init(&md_iter->list);
++				list_add_tail(&md_iter->list,
+ 					      &asd->metadata_ready[md_type]);
++				md_buf = md_iter;
+ 				break;
+ 			}
+ 		}
+ 		asd->metadata_bufs_in_css[stream_id][css_pipe_id]--;
+ 		atomisp_metadata_ready_event(asd, md_type);
+-		dev_dbg(isp->dev, "%s: metadata with exp_id %d is ready\n",
+-			__func__, md_buf->metadata->exp_id);
++		if (md_buf)
++			dev_dbg(isp->dev, "%s: metadata with exp_id %d is ready\n",
++				__func__, md_buf->metadata->exp_id);
++		else
++			dev_dbg(isp->dev, "%s: metadata is ready with no exp_id found\n",
++				__func__);
+ 		break;
+ 	case IA_CSS_BUFFER_TYPE_DIS_STATISTICS:
+-		list_for_each_entry_safe(dis_buf, _dis_buf_tmp,
++		list_for_each_entry_safe(dis_iter, _dis_buf_tmp,
+ 					 &asd->dis_stats_in_css, list) {
+-			if (dis_buf->dis_data ==
++			if (dis_iter->dis_data ==
+ 			    buffer.css_buffer.data.stats_dvs) {
+ 				spin_lock_irqsave(&asd->dis_stats_lock,
+ 						  irqflags);
+-				list_del_init(&dis_buf->list);
+-				list_add(&dis_buf->list, &asd->dis_stats);
++				list_del_init(&dis_iter->list);
++				list_add(&dis_iter->list, &asd->dis_stats);
+ 				asd->params.dis_proj_data_valid = true;
+ 				spin_unlock_irqrestore(&asd->dis_stats_lock,
+ 						       irqflags);
++				dis_buf = dis_iter;
+ 				break;
+ 			}
+ 		}
+ 		asd->dis_bufs_in_css--;
+-		dev_dbg(isp->dev, "%s: dis stat with exp_id %d is ready\n",
+-			__func__, dis_buf->dis_data->exp_id);
++		if (dis_buf)
++			dev_dbg(isp->dev, "%s: dis stat with exp_id %d is ready\n",
++				__func__, dis_buf->dis_data->exp_id);
++		else
++			dev_dbg(isp->dev, "%s: dis stat is ready with no exp_id found\n",
++				__func__);
+ 		break;
+ 	case IA_CSS_BUFFER_TYPE_VF_OUTPUT_FRAME:
+ 	case IA_CSS_BUFFER_TYPE_SEC_VF_OUTPUT_FRAME:
 -- 
-Best regards,
-Bingbu Cao
+2.17.1
+
