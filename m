@@ -2,33 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20261500542
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 06:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FDFE50058C
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 07:41:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237022AbiDNExA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 00:53:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40314 "EHLO
+        id S239910AbiDNFnc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 01:43:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235277AbiDNEwv (ORCPT
+        with ESMTP id S239889AbiDNFnb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 00:52:51 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7D5B165BD
-        for <linux-media@vger.kernel.org>; Wed, 13 Apr 2022 21:50:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 50842B8271E
-        for <linux-media@vger.kernel.org>; Thu, 14 Apr 2022 04:50:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC12AC385A5
-        for <linux-media@vger.kernel.org>; Thu, 14 Apr 2022 04:50:24 +0000 (UTC)
-Date:   Thu, 14 Apr 2022 06:50:22 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220414045024.AC12AC385A5@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        Thu, 14 Apr 2022 01:43:31 -0400
+Received: from mo-csw.securemx.jp (mo-csw1514.securemx.jp [210.130.202.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D968C4832C;
+        Wed, 13 Apr 2022 22:41:04 -0700 (PDT)
+Received: by mo-csw.securemx.jp (mx-mo-csw1514) id 23E5em7f017194; Thu, 14 Apr 2022 14:40:48 +0900
+X-Iguazu-Qid: 34trQigfs9xr9iyGU3
+X-Iguazu-QSIG: v=2; s=0; t=1649914848; q=34trQigfs9xr9iyGU3; m=6QxjmZsiG7UTivQvdF5fG5AwRycPM6hwoOZ4mSv5Jsg=
+Received: from imx12-a.toshiba.co.jp (imx12-a.toshiba.co.jp [61.202.160.135])
+        by relay.securemx.jp (mx-mr1512) id 23E5emnt009582
+        (version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+        Thu, 14 Apr 2022 14:40:48 +0900
+X-SA-MID: 2385299
+From:   Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, yuji2.ishikawa@toshiba.co.jp
+Subject: [PATCH v2 0/5] Visconti: Add Toshiba Visconti Video Input Interface driver
+Date:   Thu, 14 Apr 2022 14:35:23 +0900
+X-TSB-HOP2: ON
+Message-Id: <20220414053528.31460-1-yuji2.ishikawa@toshiba.co.jp>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -36,129 +42,79 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+This series is the Video Input Interface driver for Toshiba's ARM SoC, Visconti[0].
+This provides DT binding documentation, device driver, MAINTAINER fiels.
 
-Results of the daily build of media_tree:
+Best regards,
+Yuji
 
-date:			Thu Apr 14 05:00:11 CEST 2022
-media-tree git hash:	535f49a9e1f99d0bacb5d492a9dd193c3affbfc0
-media_build git hash:	4e29721804ea4e824c776101214389642dccad98
-v4l-utils git hash:	6de743337007df7ed8161919d747bc0a397a60c5
-edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7885-gb67c6ed1-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
-host hardware:		x86_64
-host os:		5.16.0-6-amd64
+[0]: https://toshiba.semicon-storage.com/ap-en/semiconductor/product/image-recognition-processors-visconti.html
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.308-i686: OK
-linux-4.9.308-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.275-i686: OK
-linux-4.14.275-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.237-i686: OK
-linux-4.19.237-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.109-i686: OK
-linux-5.10.109-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.14.21-i686: OK
-linux-5.14.21-x86_64: OK
-linux-5.15.32-i686: OK
-linux-5.15.32-x86_64: OK
-linux-5.16.9-i686: OK
-linux-5.16.9-x86_64: OK
-linux-5.17.1-i686: OK
-linux-5.17.1-x86_64: OK
-linux-5.18-rc1-i686: OK
-linux-5.18-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-kerneldoc: OK
 
-Detailed results are available here:
+  dt-bindings: media: platform: visconti: Add Toshiba Visconti Video Input Interface bindings
+    v1 -> v2:
+      - No update
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+  media: platform: visconti: Add Toshiba Visconti Video Input Interface driver headers
+    v1 -> v2:
+      - moved driver headers to an individual patch
 
-Detailed regression test results are available here:
+  media: platform: visconti: Add Toshiba Visconti Video Input Interface driver body
+    v1 -> v2:
+      - moved driver sources to an individual patch
+   
+  media: platform: visconti: Add Toshiba VIIF image signal processor driver
+    v1 -> v2:
+      - moved image signal processor driver to an individual patch
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+  MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
+    v1 -> v2:
+      - No update
 
-Full logs are available here:
+Change in V2:
+  - moved files into individual patches to decrease patch size
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+Yuji Ishikawa (5):
+  dt-bindings: media: platform: visconti: Add Toshiba Visconti Video
+    Input Interface bindings
+  media: platform: visconti: Add Toshiba Visconti Video Input Interface
+    driver headers
+  media: platform: visconti: Add Toshiba Visconti Video Input Interface
+    driver body
+  media: platform: visconti: Add Toshiba VIIF image signal processor
+    driver
+  MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
 
-The Media Infrastructure API from this daily build is here:
+ .../bindings/media/toshiba,visconti-viif.yaml |  103 +
+ MAINTAINERS                                   |    2 +
+ drivers/media/platform/Kconfig                |    2 +
+ drivers/media/platform/Makefile               |    4 +
+ drivers/media/platform/visconti/Kconfig       |    9 +
+ drivers/media/platform/visconti/Makefile      |    9 +
+ drivers/media/platform/visconti/hwd_viif.c    | 2233 ++++++++++
+ drivers/media/platform/visconti/hwd_viif.h    | 1776 ++++++++
+ .../media/platform/visconti/hwd_viif_csi2rx.c |  767 ++++
+ .../platform/visconti/hwd_viif_internal.h     |  361 ++
+ .../media/platform/visconti/hwd_viif_l1isp.c  | 3769 +++++++++++++++++
+ .../media/platform/visconti/hwd_viif_reg.h    | 2802 ++++++++++++
+ drivers/media/platform/visconti/viif.c        | 2384 +++++++++++
+ drivers/media/platform/visconti/viif.h        |  134 +
+ include/uapi/linux/visconti_viif.h            | 1683 ++++++++
+ 15 files changed, 16038 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+ create mode 100644 drivers/media/platform/visconti/Kconfig
+ create mode 100644 drivers/media/platform/visconti/Makefile
+ create mode 100644 drivers/media/platform/visconti/hwd_viif.c
+ create mode 100644 drivers/media/platform/visconti/hwd_viif.h
+ create mode 100644 drivers/media/platform/visconti/hwd_viif_csi2rx.c
+ create mode 100644 drivers/media/platform/visconti/hwd_viif_internal.h
+ create mode 100644 drivers/media/platform/visconti/hwd_viif_l1isp.c
+ create mode 100644 drivers/media/platform/visconti/hwd_viif_reg.h
+ create mode 100644 drivers/media/platform/visconti/viif.c
+ create mode 100644 drivers/media/platform/visconti/viif.h
+ create mode 100644 include/uapi/linux/visconti_viif.h
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+2.17.1
+
+
