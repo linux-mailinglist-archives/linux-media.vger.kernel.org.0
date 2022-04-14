@@ -2,158 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 235FB5017DF
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 18:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 231B7501894
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 18:28:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244972AbiDNPv2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 11:51:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38500 "EHLO
+        id S234131AbiDNQWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 12:22:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244989AbiDNPMS (ORCPT
+        with ESMTP id S1347078AbiDNQJw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 11:12:18 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 361FD3150E
-        for <linux-media@vger.kernel.org>; Thu, 14 Apr 2022 07:50:54 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id c190-20020a1c35c7000000b0038e37907b5bso6158918wma.0
-        for <linux-media@vger.kernel.org>; Thu, 14 Apr 2022 07:50:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=cZ3aHVlUj3iUGX1+8ClxabIToG3L/PJxb5i6AoGECzY=;
-        b=jzCrq+HHIQAMur0UEdHCLZdMkeXJr5ngNo2bUIPiku5w5qSPssMznza3im9bcES6Jg
-         QPlRYbAul0tbmQC2moYECovJEYQ7M4NkGBNZNjeBFSzorjZR6YUxFNjSOCcLikjDXxmc
-         RwelAgFHqN6McOpN3DedTcjjSW1rWCn8beB4lJqCMJC+bUgQ4H8p6d4CfDStVDBoCbSv
-         9yx+uB9v3Qo30wdcaVmOLk4YN4PAthz6E+kEaGNDMVZQZ8b8CiIILzpXf/fV68oZtGCj
-         p51ZjJdo87PV836yUYlJlTG1J1gn3deLD/6V0bO8n/SnhI1R+ib1WIXNKIdc/LO4iS9t
-         ltfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=cZ3aHVlUj3iUGX1+8ClxabIToG3L/PJxb5i6AoGECzY=;
-        b=vQLPtDt1Ykwp6mpe9fydMb0Ay4T+333ZUz48PooZunXmAQFT6oVcK0IQ5yJJC57em1
-         AHeYIo3QHwIpRPXev//f9Eil4SbUgT4YLGpJReXe99R4bD4s6xMqAFVVUJmySwD/4+QO
-         5g3sq4w5VAsdTDvw0eX2D5WcCG+sc26QNwojD89sAS8vHlDkJmruoZHN1Cbbf5cyTlTS
-         LpCPS6sHuA61I8qjtFACpQ+sWZIH4qLEcUuB1symu3EOh3WmAjbeujW/If6CzK9wJPay
-         7GdC3qZ3tHe8OiFgKtzJCvAuLuLBiD5AzWV9BlEJzOsbBa3SBkibCEscagulC+gRA5oR
-         ySog==
-X-Gm-Message-State: AOAM531q739anjDgAHK3Mpg5H+l7NiaKWIeYlniDkR3usdlC1JxMewpq
-        ioOLX8YebfRBtdnsZ8kNvuTbfg==
-X-Google-Smtp-Source: ABdhPJziOKWY9nmO8ESf6veV+n/R+2Hdz1fmp2GJQjE77cwbmqCE2dg9ewy3NlZhulhKh1N2Riglbg==
-X-Received: by 2002:a05:600c:a47:b0:37c:965:2b6f with SMTP id c7-20020a05600c0a4700b0037c09652b6fmr3475836wmq.31.1649947852836;
-        Thu, 14 Apr 2022 07:50:52 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id p3-20020adfaa03000000b00207a1db96cfsm2031418wrd.71.2022.04.14.07.50.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 07:50:52 -0700 (PDT)
-Message-ID: <784b5caf-1e1a-e57c-126e-4b28bc6ff7f8@linaro.org>
-Date:   Thu, 14 Apr 2022 15:50:50 +0100
+        Thu, 14 Apr 2022 12:09:52 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 467B11066F8;
+        Thu, 14 Apr 2022 08:51:08 -0700 (PDT)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:aefc:13d9:b947:5c76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 68C011F47BB1;
+        Thu, 14 Apr 2022 16:51:06 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1649951466;
+        bh=0MdOcwSw6al69IA+FsMeVjUYxtwt5yjgyejYGRWyDoo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IDdHmQZi+s+WqBuPzdQn1KevORA6zg93AhFiALrwcMFF4ZDBI8Fa7Kgo2lQqe1PpE
+         jSyAPFrfpSci05WVuvHv6yxOEcn9GKLIg/6QzZU9pJ6jMo4/al3SuS3cL65ENpUHyB
+         zXoh0uulcsqUssQeLoEqFER1a3fm4iSIWLA9LiCyUMkxw+csgDSZ4H09+RSYEsw8zP
+         IElE2rTldKR2yhNVsKYCRoa8I2ulE+hBI7BBezwxgo4el+MTPIcCbK6KeRKClAgzvl
+         XDRvgfrdDCPk0qIJO8ZYtG+5iNDaeC15+74YIiqzPLRm1F7Fm+4VQCKHwOs4z4uyyJ
+         oxc52d3BvIwdw==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        jon@nanocrew.net, aford173@gmail.com, kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH] media: hantro: HEVC: Fix output frame chroma offset
+Date:   Thu, 14 Apr 2022 17:50:59 +0200
+Message-Id: <20220414155059.1172593-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 2/2] media: i2c: imx412: Add bulk regulator support
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, robert.foss@linaro.org, hfink@snap.com,
-        jgrahsl@snap.com, dmitry.baryshkov@linaro.org,
-        vladimir.zapolskiy@linaro.org
-References: <20220414124505.1329295-1-bryan.odonoghue@linaro.org>
- <20220414124505.1329295-3-bryan.odonoghue@linaro.org>
- <Ylga7FVsbK6znD/+@valkosipuli.retiisi.eu>
- <39cae749-67ef-13d7-2648-01c6e9603887@linaro.org>
- <Ylgn8u5Au0EqUkLj@valkosipuli.retiisi.eu>
- <831e3857-9ee7-c760-ef2e-3b235b57b907@linaro.org>
- <YlgssKI+WVeRTda6@valkosipuli.retiisi.eu>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <YlgssKI+WVeRTda6@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/04/2022 15:16, Sakari Ailus wrote:
-> On Thu, Apr 14, 2022 at 03:04:10PM +0100, Bryan O'Donoghue wrote:
->> On 14/04/2022 14:56, Sakari Ailus wrote:
->>> On Thu, Apr 14, 2022 at 02:44:00PM +0100, Bryan O'Donoghue wrote:
->>>> On 14/04/2022 14:00, Sakari Ailus wrote:
->>>>>>     	ret = clk_prepare_enable(imx412->inclk);
->>>>>>     	if (ret) {
->>>>>> +		regulator_bulk_disable(imx412->num_supplies,
->>>>>> +				       imx412->supplies);
->>>>> As the function already has an error handling section using labels, this
->>>>> should go there as well.
->>>>>
->>>> Are you asking to move regulator_bulk_disable() to error_reset ?
->>>
->>> No. You'll need another label.
->>>
->>
->> Hmm.
->>
->> I think another label is not required, have a look at V4.
-> 
-> Ah, yes, indeed. There's just a single location where this will be needed.
-> 
-> On another note, gpiod_set_value_cansleep() seems to enable reset in
-> resume and disable it in suspend. I.e. the polarity is wrong.
-> 
+Hantro decoder doesn't take care of the requested and aligned size
+of the capture buffer.
+Stop using the bitstream width/height and use capture frame size
+stored in the context to get the correct values.
 
-Agreed, the polarity looks wrong - in my DTS right now I have 
-ACTIVE_HIGH for the relevant GPIO.
+hantro_hevc_chroma_offset() and hantro_hevc_motion_vectors_offset()
+are only used in hantro_g2_hevc_dec.c so take the opportunity
+to move them here.
 
-For example if I do this
+fluster HEVC score goes up from 77 to 85 successful tests (over 147)
+with this patch.
 
-@@ -1363,7 +1363,7 @@ camera@1a {
-                 compatible = "sony,imx412";
-                 reg = <0x1a>;
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 19 ++++++++++++++++---
+ drivers/staging/media/hantro/hantro_hevc.c    | 17 -----------------
+ drivers/staging/media/hantro/hantro_hw.h      |  2 --
+ 3 files changed, 16 insertions(+), 22 deletions(-)
 
--               reset-gpios = <&tlmm 78 GPIO_ACTIVE_HIGH>;
-+               reset-gpios = <&tlmm 78 GPIO_ACTIVE_LOW>;
-                 pinctrl-names = "default", "suspend";
-                 pinctrl-0 = <&cam2_default>;
-                 pinctrl-1 = <&cam2_suspend>;
-diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
-index a9cdf4694d58..1442b416f5aa 100644
---- a/drivers/media/i2c/imx412.c
-+++ b/drivers/media/i2c/imx412.c
-@@ -1036,7 +1036,7 @@ static int imx412_power_on(struct device *dev)
-                 return ret;
-         }
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index c524af41baf5..6deb31b7b993 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -8,6 +8,20 @@
+ #include "hantro_hw.h"
+ #include "hantro_g2_regs.h"
+ 
++#define G2_ALIGN	16
++
++static size_t hantro_hevc_chroma_offset(struct hantro_ctx *ctx)
++{
++	return ctx->dst_fmt.width * ctx->dst_fmt.height;
++}
++
++static size_t hantro_hevc_motion_vectors_offset(struct hantro_ctx *ctx)
++{
++	size_t cr_offset = hantro_hevc_chroma_offset(ctx);
++
++	return ALIGN((cr_offset * 3) / 2, G2_ALIGN);
++}
++
+ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+@@ -335,7 +349,6 @@ static void set_ref_pic_list(struct hantro_ctx *ctx)
+ static int set_ref(struct hantro_ctx *ctx)
+ {
+ 	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+-	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+ 	const struct v4l2_ctrl_hevc_pps *pps = ctrls->pps;
+ 	const struct v4l2_ctrl_hevc_decode_params *decode_params = ctrls->decode_params;
+ 	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
+@@ -343,8 +356,8 @@ static int set_ref(struct hantro_ctx *ctx)
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct vb2_v4l2_buffer *vb2_dst;
+ 	struct hantro_decoded_buffer *dst;
+-	size_t cr_offset = hantro_hevc_chroma_offset(sps);
+-	size_t mv_offset = hantro_hevc_motion_vectors_offset(sps);
++	size_t cr_offset = hantro_hevc_chroma_offset(ctx);
++	size_t mv_offset = hantro_hevc_motion_vectors_offset(ctx);
+ 	u32 max_ref_frames;
+ 	u16 dpb_longterm_e;
+ 	static const struct hantro_reg cur_poc[] = {
+diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+index b49a41d7ae91..5d446b599219 100644
+--- a/drivers/staging/media/hantro/hantro_hevc.c
++++ b/drivers/staging/media/hantro/hantro_hevc.c
+@@ -27,23 +27,6 @@
+ 
+ #define UNUSED_REF	-1
+ 
+-#define G2_ALIGN		16
+-
+-size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps)
+-{
+-	int bytes_per_pixel = sps->bit_depth_luma_minus8 == 0 ? 1 : 2;
+-
+-	return sps->pic_width_in_luma_samples *
+-	       sps->pic_height_in_luma_samples * bytes_per_pixel;
+-}
+-
+-size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps)
+-{
+-	size_t cr_offset = hantro_hevc_chroma_offset(sps);
+-
+-	return ALIGN((cr_offset * 3) / 2, G2_ALIGN);
+-}
+-
+ static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index ed018e293ba0..8fc6c9ab63f0 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -340,8 +340,6 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+ int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+ void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+-size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+-size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps);
+ 
+ static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
+ {
+-- 
+2.32.0
 
--       gpiod_set_value_cansleep(imx412->reset_gpio, 1);
-+       gpiod_set_value_cansleep(imx412->reset_gpio, 0);
-
-         ret = clk_prepare_enable(imx412->inclk);
-         if (ret) {
-@@ -1049,7 +1049,7 @@ static int imx412_power_on(struct device *dev)
-         return 0;
-
-  error_reset:
--       gpiod_set_value_cansleep(imx412->reset_gpio, 0);
-+       gpiod_set_value_cansleep(imx412->reset_gpio, 1);
-         regulator_bulk_disable(imx412->num_supplies, imx412->supplies);
-
-         return ret;
-@@ -1068,7 +1068,7 @@ static int imx412_power_off(struct device *dev)
-
-         clk_disable_unprepare(imx412->inclk);
-
--       gpiod_set_value_cansleep(imx412->reset_gpio, 0);
-+       gpiod_set_value_cansleep(imx412->reset_gpio, 1);
-
-Seems like changing the logic would negatively affect the Intel people. 
-Might have to churn ACPI to change that logic..
-
-Easier probably to leave as is and define as ACTIVE_HIGH in DTS
