@@ -2,175 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 376535009DD
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 11:30:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9591500A02
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 11:37:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238708AbiDNJcp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 05:32:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59184 "EHLO
+        id S241336AbiDNJjx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 05:39:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241836AbiDNJci (ORCPT
+        with ESMTP id S229759AbiDNJjr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 05:32:38 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C55166E574;
-        Thu, 14 Apr 2022 02:30:13 -0700 (PDT)
+        Thu, 14 Apr 2022 05:39:47 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C8B6F4B7
+        for <linux-media@vger.kernel.org>; Thu, 14 Apr 2022 02:37:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649928614; x=1681464614;
+  t=1649929043; x=1681465043;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=8s3rGSjMBycltpqxd2saKbu43OqpVO3Ts473nGWm8cM=;
-  b=mAG8YU1R7UZ7V5uevTNvVCDgIztTghQllr8KoZilVqZkSXn5riQ1NMgU
-   TYvxpnFxX4NIx4J8S7DhhzasqSoOBNKZZuNn8xxQU7T1NBmDjxbZ4YbwV
-   nwRoyTRyvCwV4TIKqmW5oymEZvvJTMXpGfbQ3z7y6kaKLGFVsUcY7U7WF
-   GQH4uhVqLmWmKEnIaQ5WkEQslqjd6ulOa2r6yRpyM2rdYrfLk4aTmOh5i
-   mvzpYqYc1Xhao0JG5OgYRZx6wC6LE6oieJDSc3jfVckn9s3+yXkrd048r
-   i18yrTtZy1BWkAcnuOwBNyJaTiN1MSDt7oysrNYTkfC8yVb87vb41QBRo
+   mime-version:in-reply-to;
+  bh=iGqtdRrgtrv3Dju25ovTu73j9qcewFOrxCrVHCo37jk=;
+  b=f+vuDRba6GTGfaHobF3c35Ey/NJt77Y6a6sXGXb5EFp5udq2kWKJW9+D
+   3UV/1HYXuU51eg9H2IozxTcX5lSTqbI4Cdion9kB92tmoRf6Jm9EYD0Jr
+   VLhj1wFWoTNxzSUhRuVi+2dBL6gqrgIwSnrMWsgZUVBTLom2GQ3XojKZI
+   iVDTJCojdybb0rlnqwunZ09ycwwaqPYXW5yTi70lJAZmCqDYQMVsxBD/i
+   XHtoPAy2RX3BKja6EOpCKZrjr+Zx8fc9Bu0n68CPu1TOl1/62Uu2QOHEo
+   HRsBhC8f30iki7V7mP9eY+EwhSTWYcywx9J2opeQrgIFly6dmGFruNaQT
    g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="262335328"
+X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="262644560"
 X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; 
-   d="scan'208";a="262335328"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 02:30:05 -0700
+   d="scan'208";a="262644560"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 02:37:23 -0700
 X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; 
-   d="scan'208";a="560112789"
+   d="scan'208";a="725296779"
 Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 02:29:59 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 02:37:22 -0700
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id C33EB2030F;
-        Thu, 14 Apr 2022 12:29:57 +0300 (EEST)
-Date:   Thu, 14 Apr 2022 12:29:57 +0300
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 022982030F;
+        Thu, 14 Apr 2022 12:37:20 +0300 (EEST)
+Date:   Thu, 14 Apr 2022 12:37:19 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Martina Krasteva <martinax.krasteva@intel.com>,
-        Shawn Tu <shawnx.tu@intel.com>, Arec Kao <arec.kao@intel.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jimmy Su <jimmy.su@intel.com>,
-        Martin Kepplinger <martink@posteo.de>,
+To:     Yunke Cao <yunkec@google.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
         Daniel Scally <djrscally@gmail.com>,
-        Jacopo Mondi <jmondi@jmondi.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media@vger.kernel.org, rafael@kernel.org,
-        linux-acpi@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
-        tfiga@chromium.org, bingbu.cao@intel.com,
-        andriy.shevchenko@intel.com
-Subject: Re: [PATCH v2] media: ov5640: Use runtime PM
-Message-ID: <YlfplRQYDYhFvc5U@paasikivi.fi.intel.com>
-References: <YitLit9LC2zlOfdh@paasikivi.fi.intel.com>
- <YitMt7hVA2okuQ8x@pendragon.ideasonboard.com>
- <YitPaq2yYnrKsq4f@paasikivi.fi.intel.com>
- <Yi3rQGmeXQD70Tkh@pendragon.ideasonboard.com>
- <Yi3z2nR8j+ee4E4m@paasikivi.fi.intel.com>
- <Yi38zOHsh68FrrKK@pendragon.ideasonboard.com>
- <Yi+e/IK+eVpKit/F@paasikivi.fi.intel.com>
- <Yi+gEVB0FuOcY5qn@pendragon.ideasonboard.com>
- <Yi+vdvMeXqb/BvKo@paasikivi.fi.intel.com>
- <YkMDfvuhAvsrjbON@pendragon.ideasonboard.com>
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: entity: skip non-data link when removing reverse
+ links
+Message-ID: <YlfrTxuX5/onWwh0@paasikivi.fi.intel.com>
+References: <20220412062313.1645762-1-yunkec@google.com>
+ <Yle8zUUjbVW392Gc@paasikivi.fi.intel.com>
+ <CANqU6Fd1ixjcTTLG5gfFmkXfd9znvBwmxrni3c4yX-0mP=mS2g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YkMDfvuhAvsrjbON@pendragon.ideasonboard.com>
+In-Reply-To: <CANqU6Fd1ixjcTTLG5gfFmkXfd9znvBwmxrni3c4yX-0mP=mS2g@mail.gmail.com>
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Yunke,
 
-On Tue, Mar 29, 2022 at 04:02:54PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Mon, Mar 14, 2022 at 11:11:18PM +0200, Sakari Ailus wrote:
-> > On Mon, Mar 14, 2022 at 10:05:37PM +0200, Laurent Pinchart wrote:
-> > ...
-> > > > > Yes, after reading the version register (or doing any other harware
-> > > > > access). Actually the full code would be
-> > > > > 
-> > > > > 
-> > > > >  	pm_runtime_enable(dev);
-> > > > >  	pm_runtime_resume_and_get(dev);
-> > > > > 
-> > > > > 	/* Hardware access */
-> > > > > 
-> > > > > 	pm_runtime_set_autosuspend_delay(dev, 1000);
-> > > > > 	pm_runtime_use_autosuspend(dev);
-> > > > > 	pm_runtime_put_autosuspend(dev);
-> > > > > 
-> > > > > (plus error handling).
-> > > > > 
-> > > > > If the probe function doesn't need to access the hardware, then
-> > > > > the above becomes
-> > > > > 
-> > > > > 	pm_runtime_enable(dev);
-> > > > > 	pm_runtime_set_autosuspend_delay(dev, 1000);
-> > > > > 	pm_runtime_use_autosuspend(dev);
-> > > > > 
-> > > > > instead of having to power up the device just in case !PM.
-> > > > > 
-> > > > > > Also the latter only works on DT-based systems so it's not an option for
-> > > > > > most of the drivers.
-> 
-> Does the former work on ACPI systems ?
+On Thu, Apr 14, 2022 at 03:44:47PM +0900, Yunke Cao wrote:
+> On Thu, Apr 14, 2022 at 3:19 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Yunke,
+> >
+> > Thanks for the patch.
+> >
+> > On Tue, Apr 12, 2022 at 03:23:13PM +0900, Yunke Cao wrote:
+> > > The original implementation removes reverse links for any input link and
+> > > assumes the presense of sink/source.
+> > > It fails when the link is a not a data link.
+> > > media_entity_remove_links when there's an ancillary link can also fail.
+> >
+> > The function's return type is void. Are there other adverse effects from
+> > this? Looking at the function, it would seem like that the reverse link
+> > simply isn't found in this case, and so not removed.
+> >
+> The function dereferences without any check link->source and link->sink
+> ("link->source->entity == entity" etc.), which is in union.
+> Ancillary links populate gobj0/gobj1 instead of source/sink.
+> Calling this function on ancillary links can cause crashes.
 
-Yes (i.e. the one that was above the quoted text).
+Indeed. The struct definition isn't too pretty either. And this only works
+with interface links as they're not included in the links list...
 
-> 
-> > > > > How so, what's wrong with the above for ACPI-based system ?
-> > > > 
-> > > > I²C devices are already powered on for probe on ACPI based systems.
-> > > 
-> > > Not through RPM I suppose ?
-> > 
-> > Runtime PM isn't involved, this takes place in the ACPI framework (via
-> > dev_pm_domain_attach() called in i2c_device_probe()).
-> 
-> How can we fix this ? It may have made sense a long time ago, but it's
-> making RPM handling way too difficult in I2C drivers now. We need
-> something better instead of continuing to rely on cargo-cult for probe
-> functions. Most drivers are broken.
+> > >
+> > > We only need to remove reverse links for a data link.
+> >
+> > Ideally this would not be based on the link flags as it's not a very robust
+> > way to test whather a backlink needs to be removed.
+> >
+> I was mainly trying to make sure link->source and link->sink are
+> populated by checking the link type.
+> Currently, only data links need to run this part of the code to remove
+> reverse links so I feel this is
+> the easiest way. Let me know if there's any better alternative.
 
-Some could be broken, there's no question of that. A lot of drivers support
-either ACPI or DT, too, so not _that_ many need to work with both. Albeit
-that number is probably increasing constantly for the same devices are used
-on both.
-
-Then there are drivers that prefer not powering on the device in probe (see
-<URL:https://lore.kernel.org/linux-acpi/20210210230800.30291-2-sakari.ailus@linux.intel.com/T/>),
-it gets complicated to support all the combinatios of DT/ACPI (with or
-without the flag / property for waiving powering device on for probe) and
-CONFIG_PM enabled/disabled.
-
-What I think could be done to add a flag for drivers that handle power on
-their own, or perhaps rather change how I2C_DRV_ACPI_WAIVE_D0_PROBE flag
-works. Right now it expects a property on the device but that check could
-be moved to existing drivers using the flag. Not many drivers are currently
-using the flag. I think this would simplify driver implementation as both
-firmware interfaces would work the same way in this respect.
-
-You'd have to change one driver at a time, and people should be encouraged
-to write new drivers with that flag. Or add the flag to all existing
-drivers and not accept new ones with it.
-
-These devices I think are all I²C but my understanding is that such
-differences exist elsewhere in the kernel, too. If they are to be
-addressed, it would probably be best to have a unified approach towards it.
-
-Added a few more people and lists to cc.
+I think we should get this in now. The code seems to be in a dire need for
+cleanup still.
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
