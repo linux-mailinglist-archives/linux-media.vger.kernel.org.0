@@ -2,112 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA9F75011F7
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 17:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 503A85016B2
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 17:50:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345299AbiDNOZa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 10:25:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37842 "EHLO
+        id S243479AbiDNPKW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 11:10:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349516AbiDNOUi (ORCPT
+        with ESMTP id S1350857AbiDNO26 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 10:20:38 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ED9BAD122
-        for <linux-media@vger.kernel.org>; Thu, 14 Apr 2022 07:11:17 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 123-20020a1c1981000000b0038b3616a71aso3273934wmz.4
-        for <linux-media@vger.kernel.org>; Thu, 14 Apr 2022 07:11:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=NKRjPFX70UM8TZNpn8iZS1kfwp9XLb9AeM/cK2mUY9U=;
-        b=I7WikvWAw3oS5rES5M1dNhKfx75twkTmikhEd0gM2KcQp5ebbO9Y2krr/Gi2OvsStt
-         CVodcggyN9IqR7i8aE/oU16aCSYp0BIxIZ22TrnyaDCpOg4oGQMdkz1aVf5IZ8rZHNq6
-         Z2t4zLd1EC2LPRMn2B1khEmuTVDxig0AFOGDdXW4xrL6ttMRov4BJ3260T6yk3+7aw4T
-         IhfQGAKHpgXlB0x9ZBF2n4/bG+vi2I4CmkuCCbmBol84JElNtL98K8+eELNrhuEswkWY
-         9Kv0PTNZww8UmC14hAtcRGHWowzWJuUMuGIuQpjaJAwuilZwrC8IPrjK+0LJmsj0uB9n
-         MtTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=NKRjPFX70UM8TZNpn8iZS1kfwp9XLb9AeM/cK2mUY9U=;
-        b=QNwixtwWBlmEVzfhz081FqiYqBXn4XBO8yyAIDkxrSqkEIzJ4QYYYrAfxPr+t62WJY
-         1zidZymz5OqP8ggGlqw152jaELDobnSMmgdBBvEidhOf+1wGRbA6bb1If3QnAKdcfDl0
-         8G8jh3lSxmKTacwxIq9Pn7k6teUpPcb8lLX1M8oHq7byN0mksKygKYzGVpWRAcDZ5o15
-         nEa7SlR0a/tUNKsY+h+q7c23sWlKraucKYGWcItKqY0fsCk4uzKg7AbclJ+457PQAG/0
-         6I2jJF/BXcbxmHcXL6ESVU3JGL5DkKt9gBoBZ6i3am0PrJCax+ml+43gYkjwzf0EvieQ
-         IPkQ==
-X-Gm-Message-State: AOAM533GcDjCG9lOkMN2QOURnWG2EIHFJb/LdVyZEtyOJvYVj0l8Dvrj
-        7dIjsOkzkW65Wc303B5qrETQ3g==
-X-Google-Smtp-Source: ABdhPJyh1MZ4EnUx3AErvjNR/jzfyg97hPOp+Q427BVcbV355sTO/1PGUqELxA+DtPe7X52gCunsMQ==
-X-Received: by 2002:a05:600c:3ac7:b0:38b:f9c6:27b8 with SMTP id d7-20020a05600c3ac700b0038bf9c627b8mr3320031wms.75.1649945475719;
-        Thu, 14 Apr 2022 07:11:15 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id 61-20020adf8043000000b00205e1d92a41sm1934551wrk.74.2022.04.14.07.11.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 07:11:15 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     sakari.ailus@iki.fi, paul.j.murphy@intel.com,
-        daniele.alessandrelli@intel.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     robert.foss@linaro.org, hfink@snap.com, jgrahsl@snap.com,
-        dmitry.baryshkov@linaro.org, vladimir.zapolskiy@linaro.org,
-        bryan.odonoghue@linaro.org
-Subject: [PATCH v4 3/3] media: i2c: imx412: Fix power_off ordering
-Date:   Thu, 14 Apr 2022 15:11:08 +0100
-Message-Id: <20220414141108.1365476-4-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220414141108.1365476-1-bryan.odonoghue@linaro.org>
-References: <20220414141108.1365476-1-bryan.odonoghue@linaro.org>
+        Thu, 14 Apr 2022 10:28:58 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E2F2D3727;
+        Thu, 14 Apr 2022 07:16:19 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 24DD41B00120;
+        Thu, 14 Apr 2022 17:16:17 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1649945777;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pvulFv7jAgH4apEjrCvylHe5kRcBA3as2o6GU9uqPn4=;
+        b=a2f9PdJHszxEb3VuwK3r4xY1QNcLx4NsfqPLfTofNbX2OLqO/PEYfegU1AmzS66gSfr/uw
+        BTxhbDq/NnlO12WikoYy2aCY46eeAPtMAtT+YGoysucdkDzKMiNQLzL7o4auL3ZQnwz3kv
+        ZGgFKgUxY2QDs7sUphwDE+k8zA1H/1WnL6xYkMZkEjiDrp8qdsd1Y+hXrYmSC4xAmM+5nU
+        z4i0kVFr6SmJfNMHMh8vYiW05aM9IMhwo3SDN/LcXWFisUX4KKcJ4QmsNIdrdCi0lL7RAo
+        Boa35DkenTX9hAg7T14UPQ6Yp7H2BeGlTC14riGabM3DkMYXXANLCDcnC9cRNQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A5599634C91;
+        Thu, 14 Apr 2022 17:16:16 +0300 (EEST)
+Date:   Thu, 14 Apr 2022 17:16:16 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, robert.foss@linaro.org, hfink@snap.com,
+        jgrahsl@snap.com, dmitry.baryshkov@linaro.org,
+        vladimir.zapolskiy@linaro.org
+Subject: Re: [PATCH v3 2/2] media: i2c: imx412: Add bulk regulator support
+Message-ID: <YlgssKI+WVeRTda6@valkosipuli.retiisi.eu>
+References: <20220414124505.1329295-1-bryan.odonoghue@linaro.org>
+ <20220414124505.1329295-3-bryan.odonoghue@linaro.org>
+ <Ylga7FVsbK6znD/+@valkosipuli.retiisi.eu>
+ <39cae749-67ef-13d7-2648-01c6e9603887@linaro.org>
+ <Ylgn8u5Au0EqUkLj@valkosipuli.retiisi.eu>
+ <831e3857-9ee7-c760-ef2e-3b235b57b907@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <831e3857-9ee7-c760-ef2e-3b235b57b907@linaro.org>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1649945777; a=rsa-sha256;
+        cv=none;
+        b=QCKPxYhwMDFvENaQq1z+w/MSTvf461HGlsdiPQEorRW9EVC6RN3n8pXCFFq86aXMVl69+P
+        CMlvVfUjnC1TCW2u2hq4anJpzc3bDG9KvoEi4wrad8gW/V+AZYbJUPIrBlCYWxJGrAqfdy
+        2xZ3sqV47tousYJotMq0fvl66FdxOc4NQooTeu9BiH42VTUykgtR/jgF6S0cHFc0VX1rA3
+        EUFFuKVw5vpiP5xwcFO6AXbhM3pNJz9P9MaOPtVdmmDdlfx6KYm5d1S5KrOKXEwFoG0KNI
+        KAL2UEHMvu8kN6x6A7JZR8YUk+R9oBzMCFB0XUFoXc6LW1Ma3eGAxaPiE/L7hg==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1649945777;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pvulFv7jAgH4apEjrCvylHe5kRcBA3as2o6GU9uqPn4=;
+        b=aLc/vPeElKL6lL5HeCEPGzKKI6PEi4/FFxqGtB1tTlUjWfpvxzZ4E2BKxBu9x5jRtm6N9b
+        qDxTQ/tDfNzX+b/bXPhPcBfh+z8bfvYbj5G6QXuUlFhtx2O6uoGplKDzM3yt0kQRng10iP
+        2S/32mWZTMI30SG4gHOEwEpdBdK34YWusjzU5GIQTpHUsDWoE+HCOwuO4CYhUjNatf1jca
+        8zkWUu1Xx+I2jSSj3KSo9UVC+SwbARCgipTHwAKJo2+ax2BBn8N6v/SnPAL1UL1e3AGFta
+        El6iRsA5i4ysI1oBfCaD4DtgxJb38yHSYMBVfZEPFiWhZmyHoWcWvrLZfmbiBA==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The enable path does
-- regulator
-- gpio
-- clock
+On Thu, Apr 14, 2022 at 03:04:10PM +0100, Bryan O'Donoghue wrote:
+> On 14/04/2022 14:56, Sakari Ailus wrote:
+> > On Thu, Apr 14, 2022 at 02:44:00PM +0100, Bryan O'Donoghue wrote:
+> > > On 14/04/2022 14:00, Sakari Ailus wrote:
+> > > > >    	ret = clk_prepare_enable(imx412->inclk);
+> > > > >    	if (ret) {
+> > > > > +		regulator_bulk_disable(imx412->num_supplies,
+> > > > > +				       imx412->supplies);
+> > > > As the function already has an error handling section using labels, this
+> > > > should go there as well.
+> > > > 
+> > > Are you asking to move regulator_bulk_disable() to error_reset ?
+> > 
+> > No. You'll need another label.
+> > 
+> 
+> Hmm.
+> 
+> I think another label is not required, have a look at V4.
 
-The disable path does
-- gpio
-- clock
-- regulator
+Ah, yes, indeed. There's just a single location where this will be needed.
 
-Fix the order on the power-off path so that power-off and power-on have the
-same ordering for regulator, clock and gpio.
+On another note, gpiod_set_value_cansleep() seems to enable reset in
+resume and disable it in suspend. I.e. the polarity is wrong.
 
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/i2c/imx412.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
-index 6d0746d6c634..a9cdf4694d58 100644
---- a/drivers/media/i2c/imx412.c
-+++ b/drivers/media/i2c/imx412.c
-@@ -1066,10 +1066,10 @@ static int imx412_power_off(struct device *dev)
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct imx412 *imx412 = to_imx412(sd);
- 
--	gpiod_set_value_cansleep(imx412->reset_gpio, 0);
--
- 	clk_disable_unprepare(imx412->inclk);
- 
-+	gpiod_set_value_cansleep(imx412->reset_gpio, 0);
-+
- 	regulator_bulk_disable(imx412->num_supplies, imx412->supplies);
- 
- 	return 0;
 -- 
-2.35.1
-
+Sakari Ailus
