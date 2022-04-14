@@ -2,285 +2,823 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE5F4500ABB
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 12:05:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B110500AEB
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 12:18:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241081AbiDNKHH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 06:07:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59324 "EHLO
+        id S236294AbiDNKUW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 06:20:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241519AbiDNKG7 (ORCPT
+        with ESMTP id S237372AbiDNKUT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 06:06:59 -0400
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70071.outbound.protection.outlook.com [40.107.7.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F5CB27B22;
-        Thu, 14 Apr 2022 03:04:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=THIDvlPr4wlyCtLm+u0y/GQq2Y/tLmP4mWkxP6yvHio8njqsBqvTWRaKnduo+/M6WfnJU2h1wElcp60P7cF4A+nuY7P6NN2yK85bOzSoqHJPbVzFrGDIdfyrSNYlkB4rU44V5oWpMM4y6UV0f1Pc5tIimZrGCXLDpRKG7HUYriN9fixOBZiS+taahg1Arkm7X6RuumLFWYUFhVhsMVpastAFpkMriairhy+uvTh++ilnWLIXSm7ZV9H8TQiHAgF+l+PAsueh2riF45y6cLEob83OMCoe1jo6Wk9dWadM1RMnWkUxfKzv5da7bLHJoRR0PaX7Z9pg4634dEQltQEIaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DtTtkr4MDfPGWotpootAeU9zeZsJ5jSAmg+QSgCF8IA=;
- b=Oh4ltRvo+1OouN6QMcZu+uhMCev+3cqVzx4xyrvs/bJ2ak89JD9ZRPdCuXBeLUxcyD9g4EoeRiNxy3+QFuc+EHJCKhWwyI4z+dzVpT3+DVusf+eeTEwv7PcTn5DlUsInvgUqL9HvkIAtDvON1zcxF9p33iPUNVLyS014QYAZ7NLJ/Z/TXhEiv4CxEajWQ6opn4u+v2EfGxLUNMI6cOrVHaPWSov1UA4tlcQIM4LLfiohMBaX0tJWDYRjE8Q/gWTJe5BYp63Hf7QFkJ+bZzDoyZR3KRe1o91BgAhrnpHyzKvjj3XmOdutzGJBFT6uZDRJ7T+TOmUrxwe9f/CY7FBRtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DtTtkr4MDfPGWotpootAeU9zeZsJ5jSAmg+QSgCF8IA=;
- b=KQ+xhxbkeJ7Irpfbgh/XT4Tj0A6naiIacrHp8rL//wQ86/zXHQJYlyXI5dDl+Ta/XBwXk6MAd1y7Qzt8HnQuJGjOulPcSwlCPaQCusCEtQb1wzC8A2fjoQZcz5+U//06eocD/dGP+G5C5IrZfAsegxXzMd8FHO0WROGJXw+5TXw=
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by DB6PR0401MB2280.eurprd04.prod.outlook.com (2603:10a6:4:48::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.18; Thu, 14 Apr
- 2022 10:04:31 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::d8b5:5914:5189:ffa5]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::d8b5:5914:5189:ffa5%6]) with mapi id 15.20.5164.020; Thu, 14 Apr 2022
- 10:04:31 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
-CC:     "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [PATCH] media: imx-jpeg: Encoder support to set jpeg quality
-Thread-Topic: [PATCH] media: imx-jpeg: Encoder support to set jpeg quality
-Thread-Index: AQHYSZs84ah/y7+Re0OOpIqCG7EFQazvNJcAgAAAtCA=
-Date:   Thu, 14 Apr 2022 10:04:31 +0000
-Message-ID: <AM6PR04MB63412692BEAA7D9A81071368E7EF9@AM6PR04MB6341.eurprd04.prod.outlook.com>
-References: <20220406094623.7887-1-ming.qian@nxp.com>
- <80bcabe7-5761-7244-c6ea-1b5893395170@oss.nxp.com>
-In-Reply-To: <80bcabe7-5761-7244-c6ea-1b5893395170@oss.nxp.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7c83f8ef-27b4-42cf-25b8-08da1dfe2b4c
-x-ms-traffictypediagnostic: DB6PR0401MB2280:EE_
-x-microsoft-antispam-prvs: <DB6PR0401MB228067DD2911760879839DD0E7EF9@DB6PR0401MB2280.eurprd04.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Ak3EQoYjh305/PevG/niw0hbvZIx7rrvEWo6X47FSPl55CP1igbbOFCDgZDYNidns4inlH7SwxOjMJ6BRDH6Dm9UCBe3tjDi+UxwGT3FVRHl/qY/JfWjCopMODPL/YRqy2er4vZNBIE311ZLmQtXXBK6hj2cW5wmC0v3+49eWE8n93bAlPH+i1m+GT9eAI1lIPsb++JtfOeHeWnuq2Zn+ZXmlfVizK9+Qekqqvzft9W0ZCYJ/UaHlagCVVBoV4iSqtyTeL/IuUbcSZMZsztcZ8R8pdVQDQCKgtLTrgHDH3UjDQ39vupJiEqEZ2JYk1VYxsWCbHOQuqmNZxA77eNsTTz7Dc96NAq1BA2BIXYc2MqYCGdKmhUZc5c04kcf3xCp52Em2Z0pddrggX/Wo8xqSoBT1SoDzFiMx1xER4ypnVjCAqwZh4pG2FGP6cqJ2oQ/MQtTwh4ygdUv+0uhB2I14BcXVrc5HgeTYzsuO6QJoWOPn+uKUagKAvg4hc6o5JyZIb5N6av2PJdsp5MiPFgcHlSN+w1CZfMk49MEMPr1MN6s+b1c8w7bvxojPUD/sTdAfXOs9hDTvTBlluuQn4NahQjGmZs0Qxh9rUg26TM0J9Tit7iv242dB9wp4Tcskn73jHgZpY4A5LHf67Psv8AsoblDTeFuZDUc17V7LYFy1ummniCVWXJUzlaOUhxgtpYhWGFqfhmQTF+SXDl5i4CWhg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(110136005)(86362001)(53546011)(6506007)(7696005)(316002)(54906003)(83380400001)(66556008)(38070700005)(5660300002)(66476007)(66446008)(7416002)(8676002)(8936002)(66946007)(9686003)(186003)(71200400001)(26005)(4326008)(52536014)(44832011)(64756008)(76116006)(122000001)(38100700002)(33656002)(55016003)(2906002)(508600001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SU1pUG0xZ3AzRmh0dFF2UnQzeHpoZStYV29FMVMzZmwyMjNHTkVwNms0QzNl?=
- =?utf-8?B?dFBPeklrTVpDb3BZWURZUDl5dWNkRlJvc012dERoQkRINys2UTc3aU4rK2xI?=
- =?utf-8?B?aGJ5RjR1ZzBKeXAza05lQm1BNU1ITEx6Zm9hNnliUnpZWVR6a3EraHdxMzQ5?=
- =?utf-8?B?T3NXTVc0RVczYUM1RnltM21XZTBqRkJ0WTUvVnVoKzZKK1JaU0VleUJZS1Mv?=
- =?utf-8?B?U1czaFRZRkFiU3pXb2J2V2d5MkZhY2x0SzlOaVBaWnZ0Qlg1R1kvUllhNzJO?=
- =?utf-8?B?UkZKY0FEc3RleWN1QmthOTF2UkdrUStyUU8yMzlvMkZvQkpUVjZlK3lrWEhT?=
- =?utf-8?B?NW5nTXUwbm9BRlFHMmZKekNyVTN4ZmVBYm9FNHhvNkZpU3JjRm1yalF3N0Ri?=
- =?utf-8?B?YUpGQUZMTEw5SHQvM3RWSU1XTWJXV1FRZVJUQXBoY2xVM0xPNXNNVVNVTmJs?=
- =?utf-8?B?SjZYZ00vaERKcEphVnhDNzFKeDVNaEVwY0NhOGJCL1BFRlJFVllFZUhZMTMv?=
- =?utf-8?B?RXdXdDI3bzFIU3JPVitBQU1Kam5GTU44WTlRcXJrYmlkL1ltUllZSTVuVHI2?=
- =?utf-8?B?VTNGWlZNNXRGNG9BMS9ESTh5Qk9za1F2dWx4dDIzV1dNdHl4T21LVUMxSGhP?=
- =?utf-8?B?QlladTdFdGdPOGV3SkV5b1lZRmdyalBhNzBDT3pPTzVsRnNmZll5WjVHR05Y?=
- =?utf-8?B?N3hpSkxTU0hoZlcyeU1yZktlOGhjaTdQa0IzenVYNXFEcmdlSU9RZ0tJb1Ra?=
- =?utf-8?B?Y2JyNkpjSnYxL2hZa0s3U2pmcHNLRyt1ZzZXV1hMM3Z5bFoxdHI2eUx2dHBr?=
- =?utf-8?B?YnZHQmFjeFc4Ull5TmM2ai9YWnFsdzRWRFNhV3RkODYxVzFESWZDZ1E3eHdT?=
- =?utf-8?B?K2hoRjJXOVpWeENwTHhaUnRib2lQYWJDS1h5a0xuSHhjUDZxd0M1RUlHOUJk?=
- =?utf-8?B?b2szQUFaRXpvNDdibTB2VTJLTCs4dDcyTW0xYW9RNncyREtoK1pZdFg2MTVN?=
- =?utf-8?B?bGxwOGZEZmJqcE84SGI1SFJHZWEvLytUeGVlNlMrUTBxZjQwTjhFNHZkWTZD?=
- =?utf-8?B?K0g3Z2srWHUzaW0vVS8wOEFvTCsyTVd4T29wbGJGRXVlVzNSbGc5Rnh6SXE1?=
- =?utf-8?B?djBpSU13VHRrcFgxcXY4ZzFrSFZRcS8zeUZMWnd6d2hnc05ETHdvcnpCUDNw?=
- =?utf-8?B?OG5MWG1Wc3UrVi93ZjZlU2FPZXZNOFZuY1NJZUl5T3hXTVowZzZWakY1Zmgy?=
- =?utf-8?B?ZTZNcUtGalVhZGJzOXZVcVgxeVlRMm44QXF1RTFmY0MweW9NcmVWdU5EV3Bl?=
- =?utf-8?B?NXlFZFBabUU0eHl3UDh0NGNmUHZSQWxQZkpoSHpQNVdiNXdFalpLUzhxNE9F?=
- =?utf-8?B?QjRNYjZIT2ZSZXlWck42aDBteXpLNlEwMXA1ZHkzZEcwNHlyZE51VWdKZjBK?=
- =?utf-8?B?aUh5S3pScVc3QjBWK29TTEp2ek9ONlJ0WFl3akoweEF3RitsUFlxWHAyVXdk?=
- =?utf-8?B?VkJXRFNGZnJtMjV3VjU0elZrd1h6azdqZ2FKUmV0alpIRE1ERjlwcklKYjlj?=
- =?utf-8?B?V3l6Y2hKMHF4K1BCbnVPdnhqYVJkZDNwS0V1azZsaHl3SEVWMGRHdTd3TCtl?=
- =?utf-8?B?NVdmVVJKTXVhalJrM1EvT0szaVRlUXltY1ZvaHk0LzZ4alU3N2JrR0x0SFRE?=
- =?utf-8?B?a0ljK1FoUFpXVzB0M29iQmpIZmhiNy9GZ2JNTmpzdUR1SDBxcHBFZzYvNnhJ?=
- =?utf-8?B?d214R0Mvb04yL2pYbkdUUnZWSWlvZWwxMjZTV1lFY1NwYVpiS1Z1QUtJY2Jk?=
- =?utf-8?B?SHRwVis4dHdleFZaV3RveUUyU2U3cUZsNGFEVDAyenBob1hqTm1Dc203ZE5B?=
- =?utf-8?B?UGJXdU4wUi84NVFvSzRNeTJWUGNRRVFYOUk1L1RPem9lVHlaa2QwSDljbHRI?=
- =?utf-8?B?a3Nkc0tpMkM2bC96UGp0Mk5vMFdxY3dKRk1HUEVpa05hazFCQmg3NkRabEJJ?=
- =?utf-8?B?cThHZXkvZXFReGU5RjdZQUhtMkc1c0VncXVNZVUvNU5wYmY3VzNHcjRIeU5K?=
- =?utf-8?B?NjM4RUJNQTh1RDU4QUJTU1lwZTBvZFc2bTJJU1VaNmZOT05ZQmptRVZCVHYz?=
- =?utf-8?B?a3FkOS9vWWxqRWlwN3ZXcS81RFJkNVBCSlFJZkZyQWphVGttaUh2Z0tmcDMr?=
- =?utf-8?B?YkNWMG9uNWY5RE5zQkZXbUlrMzlpTERUWk5UVm1UMDhIYWVtcW9BanpJQ2Zr?=
- =?utf-8?B?SGNBejgyMzg1UnJIWTViaSt4WkUvT0JiVFdqbDVKM3Z3dXdXVU9sdlMwVjBO?=
- =?utf-8?B?OUwvVkxHbVViaUMvbWd2OWRUSW5qaEJDZFNLdUhScFl3eWNXTUhaZz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 14 Apr 2022 06:20:19 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00F2F73067
+        for <linux-media@vger.kernel.org>; Thu, 14 Apr 2022 03:17:52 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1newXu-000Emi-Pk; Thu, 14 Apr 2022 10:17:51 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1newXs-000XNZ-8R; Thu, 14 Apr 2022 10:17:48 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for 5.19] V4L2 patches (#82431)
+Date:   Thu, 14 Apr 2022 10:17:48 +0000
+Message-Id: <20220414101748.128263-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <Yle+VQoHTl2iTQbf@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c83f8ef-27b4-42cf-25b8-08da1dfe2b4c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2022 10:04:31.0249
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1WQ/hFzMI7npqAPix1yqeey5p4gsKxIRPW0DCBhW/04snjpqYgo/NvYJ59ldRRHsKXOIBdLGENq6DAHHNo4zuA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0401MB2280
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-PiBGcm9tOiBNaXJlbGEgUmFidWxlYSAoT1NTKQ0KPiBTZW50OiBUaHVyc2RheSwgQXByaWwgMTQs
-IDIwMjIgNTo0MiBQTQ0KPiBUbzogTWluZyBRaWFuIDxtaW5nLnFpYW5AbnhwLmNvbT47IG1jaGVo
-YWJAa2VybmVsLm9yZzsNCj4gc2hhd25ndW9Aa2VybmVsLm9yZzsgcy5oYXVlckBwZW5ndXRyb25p
-eC5kZQ0KPiBDYzogaHZlcmt1aWwtY2lzY29AeHM0YWxsLm5sOyBrZXJuZWxAcGVuZ3V0cm9uaXgu
-ZGU7IGZlc3RldmFtQGdtYWlsLmNvbTsNCj4gZGwtbGludXgtaW14IDxsaW51eC1pbXhAbnhwLmNv
-bT47IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsNCj4gbGludXgta2VybmVsQHZnZXIua2Vy
-bmVsLm9yZzsgZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7DQo+IGxpbnV4LWFybS1rZXJuZWxA
-bGlzdHMuaW5mcmFkZWFkLm9yZw0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBtZWRpYTogaW14LWpw
-ZWc6IEVuY29kZXIgc3VwcG9ydCB0byBzZXQganBlZyBxdWFsaXR5DQo+IA0KPiBIaSBNaW5nLA0K
-PiANCj4gT24gMDYuMDQuMjAyMiAxMjo0NiwgTWluZyBRaWFuIHdyb3RlOg0KPiA+IEltcGxlbWVu
-dCBWNEwyX0NJRF9KUEVHX0NPTVBSRVNTSU9OX1FVQUxJVFkgdG8gc2V0IGpwZWcgcXVhbGl0eQ0K
-PiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogTWluZyBRaWFuIDxtaW5nLnFpYW5AbnhwLmNvbT4NCj4g
-PiAtLS0NCj4gPiAgIC4uLi9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14LWpwZWcvbXhjLWpwZWctaHcu
-YyB8IDExICsrLS0NCj4gPiAgIC4uLi9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14LWpwZWcvbXhjLWpw
-ZWctaHcuaCB8ICAxICsNCj4gPiAgIC4uLi9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14LWpwZWcvbXhj
-LWpwZWcuYyAgICB8IDUwDQo+ICsrKysrKysrKysrKysrKysrKysNCj4gPiAgIC4uLi9tZWRpYS9w
-bGF0Zm9ybS9ueHAvaW14LWpwZWcvbXhjLWpwZWcuaCAgICB8ICAyICsNCj4gPiAgIDQgZmlsZXMg
-Y2hhbmdlZCwgNjEgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXgtanBlZy9teGMtanBlZy1ody5j
-DQo+ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXgtanBlZy9teGMtanBlZy1ody5j
-DQo+ID4gaW5kZXggMjljNjA0YjFiMTc5Li5jNDgyMjI4MjYyYTMgMTAwNjQ0DQo+ID4gLS0tIGEv
-ZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14LWpwZWcvbXhjLWpwZWctaHcuYw0KPiA+ICsr
-KyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbnhwL2lteC1qcGVnL214Yy1qcGVnLWh3LmMNCj4g
-PiBAQCAtMTAwLDkgKzEwMCw2IEBAIHZvaWQgbXhjX2pwZWdfZW5jX21vZGVfY29uZihzdHJ1Y3Qg
-ZGV2aWNlICpkZXYsDQo+ID4gdm9pZCBfX2lvbWVtICpyZWcpDQo+ID4NCj4gPiAgIAkvKiBhbGwg
-bWFya2VycyBhbmQgc2VnbWVudHMgKi8NCj4gPiAgIAl3cml0ZWwoMHgzZmYsIHJlZyArIENBU1Rf
-Q0ZHX01PREUpOw0KPiA+IC0NCj4gPiAtCS8qIHF1YWxpdHkgZmFjdG9yICovDQo+ID4gLQl3cml0
-ZWwoMHg0YiwgcmVnICsgQ0FTVF9RVUFMSVRZKTsNCj4gPiAgIH0NCj4gPg0KPiA+ICAgdm9pZCBt
-eGNfanBlZ19lbmNfbW9kZV9nbyhzdHJ1Y3QgZGV2aWNlICpkZXYsIHZvaWQgX19pb21lbSAqcmVn
-KSBAQA0KPiA+IC0xMTQsNiArMTExLDE0IEBAIHZvaWQgbXhjX2pwZWdfZW5jX21vZGVfZ28oc3Ry
-dWN0IGRldmljZSAqZGV2LCB2b2lkDQo+IF9faW9tZW0gKnJlZykNCj4gPiAgIAl3cml0ZWwoMHgx
-NDAsIHJlZyArIENBU1RfTU9ERSk7DQo+ID4gICB9DQo+ID4NCj4gPiArdm9pZCBteGNfanBlZ19l
-bmNfc2V0X3F1YWxpdHkoc3RydWN0IGRldmljZSAqZGV2LCB2b2lkIF9faW9tZW0gKnJlZywNCj4g
-PiArdTggcXVhbGl0eSkgew0KPiA+ICsJZGV2X2RiZyhkZXYsICJDQVNUIEVuY29kZXIgUXVhbGl0
-eSAlZC4uLlxuIiwgcXVhbGl0eSk7DQo+ID4gKw0KPiA+ICsJLyogcXVhbGl0eSBmYWN0b3IgKi8N
-Cj4gPiArCXdyaXRlbChxdWFsaXR5LCByZWcgKyBDQVNUX1FVQUxJVFkpOyB9DQo+ID4gKw0KPiA+
-ICAgdm9pZCBteGNfanBlZ19kZWNfbW9kZV9nbyhzdHJ1Y3QgZGV2aWNlICpkZXYsIHZvaWQgX19p
-b21lbSAqcmVnKQ0KPiA+ICAgew0KPiA+ICAgCWRldl9kYmcoZGV2LCAiQ0FTVCBEZWNvZGVyIEdP
-Li4uXG4iKTsgZGlmZiAtLWdpdA0KPiA+IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14
-LWpwZWcvbXhjLWpwZWctaHcuaA0KPiA+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14
-LWpwZWcvbXhjLWpwZWctaHcuaA0KPiA+IGluZGV4IGFlNzBkM2EwZGMyNC4uMzU2ZTQwMTQwOTg3
-IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbnhwL2lteC1qcGVnL214
-Yy1qcGVnLWh3LmgNCj4gPiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXgtanBl
-Zy9teGMtanBlZy1ody5oDQo+ID4gQEAgLTExOSw2ICsxMTksNyBAQCBpbnQgbXhjX2pwZWdfZW5h
-YmxlKHZvaWQgX19pb21lbSAqcmVnKTsNCj4gPiAgIHZvaWQgd2FpdF9mcm1kb25lKHN0cnVjdCBk
-ZXZpY2UgKmRldiwgdm9pZCBfX2lvbWVtICpyZWcpOw0KPiA+ICAgdm9pZCBteGNfanBlZ19lbmNf
-bW9kZV9jb25mKHN0cnVjdCBkZXZpY2UgKmRldiwgdm9pZCBfX2lvbWVtICpyZWcpOw0KPiA+ICAg
-dm9pZCBteGNfanBlZ19lbmNfbW9kZV9nbyhzdHJ1Y3QgZGV2aWNlICpkZXYsIHZvaWQgX19pb21l
-bSAqcmVnKTsNCj4gPiArdm9pZCBteGNfanBlZ19lbmNfc2V0X3F1YWxpdHkoc3RydWN0IGRldmlj
-ZSAqZGV2LCB2b2lkIF9faW9tZW0gKnJlZywNCj4gPiArdTggcXVhbGl0eSk7DQo+ID4gICB2b2lk
-IG14Y19qcGVnX2RlY19tb2RlX2dvKHN0cnVjdCBkZXZpY2UgKmRldiwgdm9pZCBfX2lvbWVtICpy
-ZWcpOw0KPiA+ICAgaW50IG14Y19qcGVnX2dldF9zbG90KHZvaWQgX19pb21lbSAqcmVnKTsNCj4g
-PiAgIHUzMiBteGNfanBlZ19nZXRfb2Zmc2V0KHZvaWQgX19pb21lbSAqcmVnLCBpbnQgc2xvdCk7
-IGRpZmYgLS1naXQNCj4gPiBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbnhwL2lteC1qcGVnL214
-Yy1qcGVnLmMNCj4gPiBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbnhwL2lteC1qcGVnL214Yy1q
-cGVnLmMNCj4gPiBpbmRleCAwYzNhMWVmYmVhZTcuLmNjYzI2MzcyZTE3OCAxMDA2NDQNCj4gPiAt
-LS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXgtanBlZy9teGMtanBlZy5jDQo+ID4g
-KysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14LWpwZWcvbXhjLWpwZWcuYw0KPiA+
-IEBAIC02MjQsNiArNjI0LDcgQEAgc3RhdGljIGlycXJldHVybl90IG14Y19qcGVnX2RlY19pcnEo
-aW50IGlycSwgdm9pZA0KPiAqcHJpdikNCj4gPiAgIAkgICAgY3R4LT5lbmNfc3RhdGUgPT0gTVhD
-X0pQRUdfRU5DX0NPTkYpIHsNCj4gPiAgIAkJY3R4LT5lbmNfc3RhdGUgPSBNWENfSlBFR19FTkNP
-RElORzsNCj4gPiAgIAkJZGV2X2RiZyhkZXYsICJFbmNvZGVyIGNvbmZpZyBmaW5pc2hlZC4gU3Rh
-cnQgZW5jb2RpbmcuLi5cbiIpOw0KPiA+ICsJCW14Y19qcGVnX2VuY19zZXRfcXVhbGl0eShkZXYs
-IHJlZywgY3R4LT5qcGVnX3F1YWxpdHkpOw0KPiANCj4gSSB0aGluayB0aGUgc2V0dGluZyBvZiB0
-aGUgcXVhbGl0eSBzaG91bGQgYmUgbW92ZWQgaW4gZGV2aWNlX3J1biwgdG8ga2VlcCB0aGUNCj4g
-aW50ZXJydXB0IGhhbmRsZXIgbGVhbiwgSSBjaGVja2VkIGl0IHdvcmtzIGZpbmUgYWZ0ZXI6DQo+
-IGRldl9kYmcoZGV2LCAiRW5jb2RlciBjb25maWcgZmluaXNoZWQuIFN0YXJ0IGVuY29kaW5nLi4u
-XG4iKTsNCj4gDQoNCkNvbnNpZGVyaW5nIHRoZSBtdWx0aS1zbG90IHNpdHVhdGlvbiwgdGhlIHF1
-YWxpdHkgcmVnaXN0ZXIgaXMgYSBnbG9iYWwgcmVnaXN0ZXIgZm9yIGFsbCBzbG90cy4NClNvIHRv
-IGF2b2lkIGFjY2VzcyBpdCBpbiB0aGUgc2FtZSB0aW1lIGJ5IGRpZmZlcmVudCBzbG90cy4gSXQn
-cyBzYWZlIHRvIHNldCBhZnRlciBjb25maWd1cmUgZG9uZSBidXQgYmVmb3JlIGVuY29kZS4NCkFu
-ZCB3ZSBvbmx5IHN1cHBvcnQgeWV0LCBidXQgSSB0aGluayB3ZSB3aWxsIHN1cHBvcnQgbXVsdGkg
-c2xvdHMgYWZ0ZXIgd2UgZml4IHNvbWUgaXNzdWVzLg0KDQoNCj4gPiAgIAkJbXhjX2pwZWdfZW5j
-X21vZGVfZ28oZGV2LCByZWcpOw0KPiA+ICAgCQlnb3RvIGpvYl91bmxvY2s7DQo+ID4gICAJfQ0K
-PiA+IEBAIC0xNTYzLDYgKzE1NjQsNDQgQEAgc3RhdGljIHZvaWQgbXhjX2pwZWdfc2V0X2RlZmF1
-bHRfcGFyYW1zKHN0cnVjdA0KPiBteGNfanBlZ19jdHggKmN0eCkNCj4gPiAgIAl9DQo+ID4gICB9
-DQo+ID4NCj4gPiArc3RhdGljIGludCBteGNfanBlZ19zX2N0cmwoc3RydWN0IHY0bDJfY3RybCAq
-Y3RybCkgew0KPiA+ICsJc3RydWN0IG14Y19qcGVnX2N0eCAqY3R4ID0NCj4gPiArCQljb250YWlu
-ZXJfb2YoY3RybC0+aGFuZGxlciwgc3RydWN0IG14Y19qcGVnX2N0eCwgY3RybF9oYW5kbGVyKTsN
-Cj4gPiArDQo+ID4gKwlzd2l0Y2ggKGN0cmwtPmlkKSB7DQo+ID4gKwljYXNlIFY0TDJfQ0lEX0pQ
-RUdfQ09NUFJFU1NJT05fUVVBTElUWToNCj4gDQo+IExvb2tzIGxpa2UgdGhpcyBpcyBhbGxvd2Vk
-IGZvciBkZWNvZGVyLCB3aGljaCBpcyBub3Qgb2ssIG1heWJlIHJldHVybiAtRUlOVkFMDQo+IGZv
-ciBkZWNvZGVyLg0KPiANCg0KVGhpcyBjb250cm9sIGlzIGNyZWF0ZWQgZm9yIGVuY29kZXIgb25s
-eSwgc28gZGVjb2RlciBoYXMgbm8gY2hhbmNlIHRvIGV4ZWN1dGUgaGVyZQ0KDQo+ID4gKwkJY3R4
-LT5qcGVnX3F1YWxpdHkgPSBjdHJsLT52YWw7DQo+ID4gKwkJYnJlYWs7DQo+ID4gKwlkZWZhdWx0
-Og0KPiA+ICsJCWRldl9lcnIoY3R4LT5teGNfanBlZy0+ZGV2LCAiSW52YWxpZCBjb250cm9sLCBp
-ZCA9ICVkLCB2YWwgPSAlZFxuIiwNCj4gPiArCQkJY3RybC0+aWQsIGN0cmwtPnZhbCk7DQo+ID4g
-KwkJcmV0dXJuIC1FSU5WQUw7DQo+ID4gKwl9DQo+ID4gKw0KPiA+ICsJcmV0dXJuIDA7DQo+ID4g
-K30NCj4gPiArDQo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgdjRsMl9jdHJsX29wcyBteGNfanBl
-Z19jdHJsX29wcyA9IHsNCj4gPiArCS5zX2N0cmwgPSBteGNfanBlZ19zX2N0cmwsDQo+ID4gK307
-DQo+ID4gKw0KPiA+ICtzdGF0aWMgdm9pZCBteGNfanBlZ19lbmNvZGVfY3RybHMoc3RydWN0IG14
-Y19qcGVnX2N0eCAqY3R4KSB7DQo+ID4gKwl2NGwyX2N0cmxfbmV3X3N0ZCgmY3R4LT5jdHJsX2hh
-bmRsZXIsICZteGNfanBlZ19jdHJsX29wcywNCj4gPiArCQkJICBWNEwyX0NJRF9KUEVHX0NPTVBS
-RVNTSU9OX1FVQUxJVFksIDEsIDEwMCwgMSwgNzUpOw0KPiANCj4gVGhlIHY0bDJfY3RybF9uZXdf
-c3RkIG1heSByZXR1cm4gYW4gZXJyb3IsIHdoaWNoIGlzIG5vdCBjaGVja2VkIGhlcmUgKE5VTEwg
-aXMNCj4gcmV0dXJuZWQgYW5kIEBoZGwtPmVycm9yIGlzIHNldC4uLiksIHBsZWFzZSBmaXguDQo+
-IA0KDQpBbG1vc3Qgbm8gZHJpdmVyIGNoZWNrIHRoZSByZXR1cm4gdmFsdWUgb2YgdjRsMl9jdHJs
-X25ld19zdGQuIGV4Y2VwdCBzb21lIGRyaXZlciB3YW50IHRvIGNoYW5nZSBzb21lIHByb3BlcnR5
-IG9mIHRoZSBjcmVhdGVkIGN0cmwuDQpBbmQgaWYgaXQgcmV0dXJuIE5VTEwsIGl0IHdvbid0IGJy
-aW5nIHNvbWUgc2VyaW91cyBwcm9ibGVtcywganVzdCBub3Qgc3VwcG9ydCB0aGlzIGNvbnRyb2wN
-Cg0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IG14Y19qcGVnX2N0cmxzX3NldHVwKHN0
-cnVjdCBteGNfanBlZ19jdHggKmN0eCkgew0KPiA+ICsJdjRsMl9jdHJsX2hhbmRsZXJfaW5pdCgm
-Y3R4LT5jdHJsX2hhbmRsZXIsIDIpOw0KPiANCj4gY3RybF9oYW5kbGVyIGhhcyBhIGxvY2sgbWVt
-YmVyLCB3aGljaCBjb3VsZCBiZSBzZXR1cCBoZXJlLg0KPiANCg0KVGhlIGxvY2sgd2lsbCBiZSBz
-ZXQgaW4gdjRsMl9jdHJsX2hhbmRsZXJfaW5pdDoNCm11dGV4X2luaXQoJmhkbC0+X2xvY2spOw0K
-aGRsLT5sb2NrID0gJmhkbC0+X2xvY2s7DQoNCj4gPiArDQo+ID4gKwlpZiAoY3R4LT5teGNfanBl
-Zy0+bW9kZSA9PSBNWENfSlBFR19FTkNPREUpDQo+ID4gKwkJbXhjX2pwZWdfZW5jb2RlX2N0cmxz
-KGN0eCk7DQo+ID4gKw0KPiA+ICsJcmV0dXJuIHY0bDJfY3RybF9oYW5kbGVyX3NldHVwKCZjdHgt
-PmN0cmxfaGFuZGxlcik7DQo+ID4gK30NCj4gPiArDQo+ID4gICBzdGF0aWMgaW50IG14Y19qcGVn
-X29wZW4oc3RydWN0IGZpbGUgKmZpbGUpDQo+ID4gICB7DQo+ID4gICAJc3RydWN0IG14Y19qcGVn
-X2RldiAqbXhjX2pwZWcgPSB2aWRlb19kcnZkYXRhKGZpbGUpOyBAQCAtMTU5NCw2DQo+ID4gKzE2
-MzMsMTIgQEAgc3RhdGljIGludCBteGNfanBlZ19vcGVuKHN0cnVjdCBmaWxlICpmaWxlKQ0KPiA+
-ICAgCQlnb3RvIGVycm9yOw0KPiA+ICAgCX0NCj4gPg0KPiA+ICsJcmV0ID0gbXhjX2pwZWdfY3Ry
-bHNfc2V0dXAoY3R4KTsNCj4gPiArCWlmIChyZXQpIHsNCj4gPiArCQlkZXZfZXJyKGN0eC0+bXhj
-X2pwZWctPmRldiwgImZhaWxlZCB0byBzZXR1cCBteGMganBlZyBjb250cm9sc1xuIik7DQo+ID4g
-KwkJZ290byBlcnJfY3RybHNfc2V0dXA7DQo+ID4gKwl9DQo+ID4gKwljdHgtPmZoLmN0cmxfaGFu
-ZGxlciA9ICZjdHgtPmN0cmxfaGFuZGxlcjsNCj4gPiAgIAlteGNfanBlZ19zZXRfZGVmYXVsdF9w
-YXJhbXMoY3R4KTsNCj4gPiAgIAljdHgtPnNsb3QgPSBNWENfTUFYX1NMT1RTOyAvKiBzbG90IG5v
-dCBhbGxvY2F0ZWQgeWV0ICovDQo+ID4NCj4gPiBAQCAtMTYwNSw2ICsxNjUwLDggQEAgc3RhdGlj
-IGludCBteGNfanBlZ19vcGVuKHN0cnVjdCBmaWxlICpmaWxlKQ0KPiA+DQo+ID4gICAJcmV0dXJu
-IDA7DQo+ID4NCj4gPiArZXJyX2N0cmxzX3NldHVwOg0KPiA+ICsJdjRsMl9tMm1fY3R4X3JlbGVh
-c2UoY3R4LT5maC5tMm1fY3R4KTsNCj4gPiAgIGVycm9yOg0KPiA+ICAgCXY0bDJfZmhfZGVsKCZj
-dHgtPmZoKTsNCj4gPiAgIAl2NGwyX2ZoX2V4aXQoJmN0eC0+ZmgpOw0KPiA+IEBAIC0xOTYyLDYg
-KzIwMDksOCBAQCBzdGF0aWMgaW50IG14Y19qcGVnX3N1YnNjcmliZV9ldmVudChzdHJ1Y3QNCj4g
-djRsMl9maCAqZmgsDQo+ID4gICAJCXJldHVybiB2NGwyX2V2ZW50X3N1YnNjcmliZShmaCwgc3Vi
-LCAwLCBOVUxMKTsNCj4gPiAgIAljYXNlIFY0TDJfRVZFTlRfU09VUkNFX0NIQU5HRToNCj4gPiAg
-IAkJcmV0dXJuIHY0bDJfc3JjX2NoYW5nZV9ldmVudF9zdWJzY3JpYmUoZmgsIHN1Yik7DQo+ID4g
-KwljYXNlIFY0TDJfRVZFTlRfQ1RSTDoNCj4gPiArCQlyZXR1cm4gdjRsMl9jdHJsX3N1YnNjcmli
-ZV9ldmVudChmaCwgc3ViKTsNCj4gPiAgIAlkZWZhdWx0Og0KPiA+ICAgCQlyZXR1cm4gLUVJTlZB
-TDsNCj4gPiAgIAl9DQo+ID4gQEAgLTIwMzUsNiArMjA4NCw3IEBAIHN0YXRpYyBpbnQgbXhjX2pw
-ZWdfcmVsZWFzZShzdHJ1Y3QgZmlsZSAqZmlsZSkNCj4gPiAgIAllbHNlDQo+ID4gICAJCWRldl9k
-YmcoZGV2LCAiUmVsZWFzZSBKUEVHIGVuY29kZXIgaW5zdGFuY2Ugb24gc2xvdCAlZC4iLA0KPiA+
-ICAgCQkJY3R4LT5zbG90KTsNCj4gPiArCXY0bDJfY3RybF9oYW5kbGVyX2ZyZWUoJmN0eC0+Y3Ry
-bF9oYW5kbGVyKTsNCj4gPiAgIAl2NGwyX20ybV9jdHhfcmVsZWFzZShjdHgtPmZoLm0ybV9jdHgp
-Ow0KPiA+ICAgCXY0bDJfZmhfZGVsKCZjdHgtPmZoKTsNCj4gPiAgIAl2NGwyX2ZoX2V4aXQoJmN0
-eC0+ZmgpOw0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXgt
-anBlZy9teGMtanBlZy5oDQo+ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXgtanBl
-Zy9teGMtanBlZy5oDQo+ID4gaW5kZXggOWFlNTZlNmUwZmJlLi45YzlkYTMyYjIxMjUgMTAwNjQ0
-DQo+ID4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14LWpwZWcvbXhjLWpwZWcu
-aA0KPiA+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbnhwL2lteC1qcGVnL214Yy1qcGVn
-LmgNCj4gPiBAQCAtOTYsNiArOTYsOCBAQCBzdHJ1Y3QgbXhjX2pwZWdfY3R4IHsNCj4gPiAgIAl1
-bnNpZ25lZCBpbnQJCQlzbG90Ow0KPiA+ICAgCXVuc2lnbmVkIGludAkJCXNvdXJjZV9jaGFuZ2U7
-DQo+ID4gICAJYm9vbAkJCQloZWFkZXJfcGFyc2VkOw0KPiA+ICsJc3RydWN0IHY0bDJfY3RybF9o
-YW5kbGVyCWN0cmxfaGFuZGxlcjsNCj4gPiArCXU4CQkJCWpwZWdfcXVhbGl0eTsNCj4gPiAgIH07
-DQo+ID4NCj4gPiAgIHN0cnVjdCBteGNfanBlZ19zbG90X2RhdGEgew0K
+From: builder@linuxtv.org
+
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/Yle+VQoHTl2iTQbf@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/199562/
+Build time: 00:45:29
+Link: https://lore.kernel.org/linux-media/Yle+VQoHTl2iTQbf@valkosipuli.retiisi.eu
+
+gpg: Signature made Thu 14 Apr 2022 06:21:19 AM UTC
+gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: F0D0 377A 0D4F 25A7 9238  EFE5 6D40 361B 6E28 C193
+
+Summary: got 28/33 patches with issues, being 28 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-imx-imx-mipi-csis-Add-support-for-JPEG_1X8.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0003-media-media.h-Add-new-media-link-type.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0005-media-entity-Add-support-for-ancillary-links.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0009-mc-Remove-redundant-documentation.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0010-mc-media_device_init-initialises-a-media_device-not-.patch:
+
+    allyesconfig: return code #0:
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0011-mc-Provide-a-helper-for-setting-bus_info-field.patch:
+
+    allyesconfig: return code #0:
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2869 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+   checkpatch.pl:
+	$ cat patches/0011-mc-Provide-a-helper-for-setting-bus_info-field.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:49: CHECK: Please don't use multiple blank lines
+
+patches/0012-mc-Set-bus_info-in-media_device_init.patch:
+
+    allyesconfig: return code #0:
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2888 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
+patches/0013-v4l-ioctl-Set-bus_info-in-v4l_querycap.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0014-media-i2c-max9286-fix-kernel-oops-when-removing-modu.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0014-media-i2c-max9286-fix-kernel-oops-when-removing-modu.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:21: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0015-staging-media-ipu3-Fix-AF-x_start-position-when-righ.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0016-staging-media-ipu3-imgu-Request-specific-firmware-bi.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0017-media-v4l2-async-Use-endpoints-in-__v4l2_async_nf_ad.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0018-media-staging-intel-ipu3-Reset-imgu_video_device-seq.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0019-media-staging-intel-ipu3-Cleanup-dummy-buffers-via-h.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0020-media-isl7998x-select-V4L2_FWNODE-to-fix-build-error.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0020-media-isl7998x-select-V4L2_FWNODE-to-fix-build-error.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0021-media-mc-delete-redundant-code-in-__media_device_unr.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0022-media-i2c-ov5645-Fix-media-bus-format.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2.c:375:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2.o] Error 1
+	make[5]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c:767:19: error: unused variable ‘solo_dev’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/solo6x10/solo6x10-v4l2-enc.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/solo6x10] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0023-media-v4l2-subdev-fix-endif-comments.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0024-media-v4l2-subdev-drop-extra-ifdef.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0025-media-subdev-rename-subdev-state-alloc-free.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0026-media-subdev-add-active-state-to-struct-v4l2_subdev.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2868 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0027-media-subdev-rename-v4l2_subdev_get_pad_-helpers.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0028-media-subdev-pass-also-the-active-state-to-subdevs-f.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0029-media-subdev-add-subdev-state-locking.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2874 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0029-media-subdev-add-subdev-state-locking.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:286: CHECK: struct mutex definition without comment
+	-:304: CHECK: struct mutex definition without comment
+	-:455: CHECK: Macro argument reuse 'sd' - possible side-effects?
+
+patches/0030-media-subdev-add-locking-wrappers-to-subdev-op-wrapp.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0030-media-subdev-add-locking-wrappers-to-subdev-op-wrapp.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:46: CHECK: Macro argument 'arg_type' may be better as '(arg_type)' to avoid precedence issues
+	-:49: CHECK: spaces preferred around that '*' (ctx:WxV)
+	-:63: CHECK: Macro argument 'arg_type' may be better as '(arg_type)' to avoid precedence issues
+	-:66: CHECK: spaces preferred around that '*' (ctx:WxV)
+
+patches/0031-media-subdev-add-v4l2_subdev_get_fmt-helper-function.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:658 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 654)
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1981 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2889 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0032-media-Documentation-add-documentation-about-subdev-s.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2625 dvb_register() parse error: turning off implications after 60 seconds
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+patches/0033-Revert-media-dw9768-activate-runtime-PM-and-turn-off.patch:
+
+    allyesconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+    allmodconfig: return code #512:
+	../drivers/media/pci/sta2x11/sta2x11_vip.c:404:22: error: unused variable ‘vip’ [-Werror=unused-variable]
+	cc1: all warnings being treated as errors
+	make[5]: *** [../scripts/Makefile.build:288: drivers/media/pci/sta2x11/sta2x11_vip.o] Error 1
+	make[4]: *** [../scripts/Makefile.build:550: drivers/media/pci/sta2x11] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:550: drivers/media/pci] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:550: drivers/media] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1834: drivers] Error 2
+	make: *** [Makefile:219: __sub-make] Error 2
+
+
+Error #512 when building PDF docs
+
