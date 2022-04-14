@@ -2,172 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFCD1501C88
-	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 22:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 418C8501DD5
+	for <lists+linux-media@lfdr.de>; Thu, 14 Apr 2022 23:59:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346216AbiDNUU6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Apr 2022 16:20:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33622 "EHLO
+        id S242876AbiDNWB3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Apr 2022 18:01:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240555AbiDNUU5 (ORCPT
+        with ESMTP id S241976AbiDNWB2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Apr 2022 16:20:57 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A381EB0A0;
-        Thu, 14 Apr 2022 13:18:31 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id t25so10990163lfg.7;
-        Thu, 14 Apr 2022 13:18:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to;
-        bh=vAtFfIdWA18bC09EVBAApspnA64cYo7p/tMAJvgKnUM=;
-        b=jGGPE0wdZ1zZtd3wfVhoeC+8E/uvooW1X5lpFWMIvu5xZ83JrTZfEdWI0e2+jMAeWy
-         JktXrApu6IG9kveScIQiy13HtyejvFiEcQMP6p7x4ouMGGJlMhC22mAY9BkRSfPKWOQZ
-         u7opuOj7YyMeVMwtKuhWNrL6MDXdLCeLmm9gbQvjF7EFiy9VTJnKWpOO1j3J2CfMhK8v
-         ASfPq6uvZ32BzTsz/tzXdI6qmHhsS1uTnrSlsUX0sM4LwuMocQLV6xGYTsaOJjYsDNWs
-         P9sK3NQFJdNiithgM2IJ6YoITyIBqza/BY0R2mVVnnzenQ7awYLLoB0shygpeLpoOhei
-         U5ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to;
-        bh=vAtFfIdWA18bC09EVBAApspnA64cYo7p/tMAJvgKnUM=;
-        b=CdPDAnrj2zkHKu8vd05vatI0yIyL8+z6x0aZkFeK/WY11TztouI0k5utqA+FMOby4m
-         uQ3RnHdhnCFIfqZwc434QwfBDZ0zXTjUzqRBqX/VDTa3PwA2QFYbWZehTyrrnIi+uhKK
-         D+y22F9uzqtkLBZtbpm99gFQoZI9Q8bdI4UX+Zsbk9LpL5bInNSOzl/kqwmcWfiaNuWz
-         avkBHt5Duj74e42PQ2QDFOPOLB8wfNfzY8Gc6RAR/27m7bWwAzyu1WFTe+EM8IQCTgX6
-         yIMOr7dq5x6a17Pglk/ixDooHTmtCg1Ln23GFq4PbcbBtsh8mMoyTmcaLakoIXiJ9wkZ
-         jiaA==
-X-Gm-Message-State: AOAM532M+UH0itar/Ktdl+PKU7fI+63T32JI/2AK9J4UpJvJZgw8wyxr
-        GRLOBf66PueT5YQ6e7bGQB9SvBrhhwFXAQ==
-X-Google-Smtp-Source: ABdhPJwHnvGoFaCU3O8l3Es1MtMxAtYKO3qrz10KulIC0gs4cGbmUUbZo3kqKlppL4kCepIaBwgceQ==
-X-Received: by 2002:a05:6512:2622:b0:448:27b9:5299 with SMTP id bt34-20020a056512262200b0044827b95299mr2844032lfb.86.1649967509660;
-        Thu, 14 Apr 2022 13:18:29 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.225.17])
-        by smtp.gmail.com with ESMTPSA id f4-20020a056512322400b0046bc4f9445bsm98921lfe.112.2022.04.14.13.18.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 13:18:29 -0700 (PDT)
-Message-ID: <9ff91977-a6b5-90f9-3502-58ac641e1307@gmail.com>
-Date:   Thu, 14 Apr 2022 23:18:28 +0300
+        Thu, 14 Apr 2022 18:01:28 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 788D18CCEE;
+        Thu, 14 Apr 2022 14:59:02 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 170F420045;
+        Fri, 15 Apr 2022 00:59:00 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1649973540;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5hifFW0DYRLP6QBZQ9XcpeIgOAJncYgFqZASZgCVWkE=;
+        b=BGJFpjwpfLPHdl8iCMgYTO5SnhrXTS1wwZKt3ZlR1JyWxhQ+E7Qe059DUG5zolm92IlL8o
+        XKR2JI2nvPQcWntqhxXlKWcfvgd9C6rdhO6+EhN48bHSpwRwvfARz/36O0j264eBu4MAGd
+        i9Nv6Gbg3QHGLcdlyaz9sPEmRecmJyA=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2D53F634C91;
+        Fri, 15 Apr 2022 00:58:59 +0300 (EEST)
+Date:   Fri, 15 Apr 2022 00:58:58 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, robert.foss@linaro.org, hfink@snap.com,
+        jgrahsl@snap.com, dmitry.baryshkov@linaro.org,
+        vladimir.zapolskiy@linaro.org
+Subject: Re: [PATCH v3 2/2] media: i2c: imx412: Add bulk regulator support
+Message-ID: <YliZIqg201pDH1aH@valkosipuli.retiisi.eu>
+References: <20220414124505.1329295-1-bryan.odonoghue@linaro.org>
+ <20220414124505.1329295-3-bryan.odonoghue@linaro.org>
+ <Ylga7FVsbK6znD/+@valkosipuli.retiisi.eu>
+ <39cae749-67ef-13d7-2648-01c6e9603887@linaro.org>
+ <Ylgn8u5Au0EqUkLj@valkosipuli.retiisi.eu>
+ <831e3857-9ee7-c760-ef2e-3b235b57b907@linaro.org>
+ <YlgssKI+WVeRTda6@valkosipuli.retiisi.eu>
+ <784b5caf-1e1a-e57c-126e-4b28bc6ff7f8@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [syzbot] UBSAN: array-index-out-of-bounds in pvr2_i2c_core_init
-Content-Language: en-US
-To:     syzbot <syzbot+1a247e36149ffd709a9b@syzkaller.appspotmail.com>,
-        isely@pobox.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
-References: <000000000000b48bc305dca2efcd@google.com>
-From:   Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <000000000000b48bc305dca2efcd@google.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------BJJnBnlb0Luoubk32YGs5Edl"
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <784b5caf-1e1a-e57c-126e-4b28bc6ff7f8@linaro.org>
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1649973540;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5hifFW0DYRLP6QBZQ9XcpeIgOAJncYgFqZASZgCVWkE=;
+        b=T06yiq8Cu3w7/Qx7hKeOdbQpdlsN4muDLvnVj0LdVDWsYIxK7GZ/w6tADKXlu2AruBvrZu
+        cJ4mUUmK7AA1+BJudzMEwVx0Gud7FSrzThpaHlHaAG3pw2kV5qOg4oq0gJ0SSSqkBWOsFj
+        Cs6f2emAuZlCcmGKBLTRmfLcGyXXUAU=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1649973540; a=rsa-sha256; cv=none;
+        b=I0CbLKyJ0OgL1feMpV5Vc/c2jKtSstmqoldmOrpKK8qk8ARTA9I1tqvVPAgE5+nEknPl5o
+        lGDihDCED8ysP4w4Rl85jAIzU5QsjSR4Apxzhlp1+uLliS1nLTpZ+lRahZVmeEnhmkS4fW
+        HNV75qncFsON0aoisKzizkQE4TBbvUU=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------BJJnBnlb0Luoubk32YGs5Edl
-Content-Type: multipart/mixed; boundary="------------GTsCy2LE4ruD00I7JXigx5KK";
- protected-headers="v1"
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: syzbot <syzbot+1a247e36149ffd709a9b@syzkaller.appspotmail.com>,
- isely@pobox.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Message-ID: <9ff91977-a6b5-90f9-3502-58ac641e1307@gmail.com>
-Subject: Re: [syzbot] UBSAN: array-index-out-of-bounds in pvr2_i2c_core_init
-References: <000000000000b48bc305dca2efcd@google.com>
-In-Reply-To: <000000000000b48bc305dca2efcd@google.com>
+Hi Bryan,
 
---------------GTsCy2LE4ruD00I7JXigx5KK
-Content-Type: multipart/mixed; boundary="------------dLsDU9BLcGSMhKdGClvI2Mb0"
+On Thu, Apr 14, 2022 at 03:50:50PM +0100, Bryan O'Donoghue wrote:
+> On 14/04/2022 15:16, Sakari Ailus wrote:
+> > On Thu, Apr 14, 2022 at 03:04:10PM +0100, Bryan O'Donoghue wrote:
+> > > On 14/04/2022 14:56, Sakari Ailus wrote:
+> > > > On Thu, Apr 14, 2022 at 02:44:00PM +0100, Bryan O'Donoghue wrote:
+> > > > > On 14/04/2022 14:00, Sakari Ailus wrote:
+> > > > > > >     	ret = clk_prepare_enable(imx412->inclk);
+> > > > > > >     	if (ret) {
+> > > > > > > +		regulator_bulk_disable(imx412->num_supplies,
+> > > > > > > +				       imx412->supplies);
+> > > > > > As the function already has an error handling section using labels, this
+> > > > > > should go there as well.
+> > > > > > 
+> > > > > Are you asking to move regulator_bulk_disable() to error_reset ?
+> > > > 
+> > > > No. You'll need another label.
+> > > > 
+> > > 
+> > > Hmm.
+> > > 
+> > > I think another label is not required, have a look at V4.
+> > 
+> > Ah, yes, indeed. There's just a single location where this will be needed.
+> > 
+> > On another note, gpiod_set_value_cansleep() seems to enable reset in
+> > resume and disable it in suspend. I.e. the polarity is wrong.
+> > 
+> 
+> Agreed, the polarity looks wrong - in my DTS right now I have ACTIVE_HIGH
+> for the relevant GPIO.
+> 
+> For example if I do this
+> 
+> @@ -1363,7 +1363,7 @@ camera@1a {
+>                 compatible = "sony,imx412";
+>                 reg = <0x1a>;
+> 
+> -               reset-gpios = <&tlmm 78 GPIO_ACTIVE_HIGH>;
+> +               reset-gpios = <&tlmm 78 GPIO_ACTIVE_LOW>;
+>                 pinctrl-names = "default", "suspend";
+>                 pinctrl-0 = <&cam2_default>;
+>                 pinctrl-1 = <&cam2_suspend>;
+> diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
+> index a9cdf4694d58..1442b416f5aa 100644
+> --- a/drivers/media/i2c/imx412.c
+> +++ b/drivers/media/i2c/imx412.c
+> @@ -1036,7 +1036,7 @@ static int imx412_power_on(struct device *dev)
+>                 return ret;
+>         }
+> 
+> -       gpiod_set_value_cansleep(imx412->reset_gpio, 1);
+> +       gpiod_set_value_cansleep(imx412->reset_gpio, 0);
+> 
+>         ret = clk_prepare_enable(imx412->inclk);
+>         if (ret) {
+> @@ -1049,7 +1049,7 @@ static int imx412_power_on(struct device *dev)
+>         return 0;
+> 
+>  error_reset:
+> -       gpiod_set_value_cansleep(imx412->reset_gpio, 0);
+> +       gpiod_set_value_cansleep(imx412->reset_gpio, 1);
+>         regulator_bulk_disable(imx412->num_supplies, imx412->supplies);
+> 
+>         return ret;
+> @@ -1068,7 +1068,7 @@ static int imx412_power_off(struct device *dev)
+> 
+>         clk_disable_unprepare(imx412->inclk);
+> 
+> -       gpiod_set_value_cansleep(imx412->reset_gpio, 0);
+> +       gpiod_set_value_cansleep(imx412->reset_gpio, 1);
+> 
+> Seems like changing the logic would negatively affect the Intel people.
+> Might have to churn ACPI to change that logic..
+> 
+> Easier probably to leave as is and define as ACTIVE_HIGH in DTS
 
---------------dLsDU9BLcGSMhKdGClvI2Mb0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+It's still wrong and should be fixed. It seems there are no boards in the
+DT source in the kernel using this sensor. These changes seem fine to me.
 
-T24gNC8xNC8yMiAyMzoxNCwgc3l6Ym90IHdyb3RlOg0KPiBIZWxsbywNCj4gDQo+IHN5emJv
-dCBoYXMgdGVzdGVkIHRoZSBwcm9wb3NlZCBwYXRjaCBidXQgdGhlIHJlcHJvZHVjZXIgaXMg
-c3RpbGwgdHJpZ2dlcmluZyBhbiBpc3N1ZToNCj4gV0FSTklORyBpbiBwdnIyX2hkd19jcmVh
-dGUNCj4gDQo+IHB2cnVzYjI6IEhhcmR3YXJlIGRlc2NyaXB0aW9uOiBPbkFpciBVU0IyIEh5
-YnJpZCBVU0IgdHVuZXINCj4gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0t
-DQo+IFdBUk5JTkc6IENQVTogMSBQSUQ6IDM2MDcgYXQga2VybmVsL3dvcmtxdWV1ZS5jOjMw
-NjYgX19mbHVzaF93b3JrKzB4OTI2LzB4YjEwIGtlcm5lbC93b3JrcXVldWUuYzozMDY2DQo+
-IE1vZHVsZXMgbGlua2VkIGluOg0KPiBDUFU6IDEgUElEOiAzNjA3IENvbW06IGt3b3JrZXIv
-MTo0IE5vdCB0YWludGVkIDUuMTguMC1yYzItc3l6a2FsbGVyLTAwMTg3LWcxMTVhY2JiNTY5
-NzgtZGlydHkgIzANCj4gSGFyZHdhcmUgbmFtZTogR29vZ2xlIEdvb2dsZSBDb21wdXRlIEVu
-Z2luZS9Hb29nbGUgQ29tcHV0ZSBFbmdpbmUsIEJJT1MgR29vZ2xlIDAxLzAxLzIwMTENCj4g
-V29ya3F1ZXVlOiB1c2JfaHViX3dxIGh1Yl9ldmVudA0KPiBSSVA6IDAwMTA6X19mbHVzaF93
-b3JrKzB4OTI2LzB4YjEwIGtlcm5lbC93b3JrcXVldWUuYzozMDY2DQo+IENvZGU6IGZmIDQx
-IDg5IGM0IDg5IDhkIDg4IGZlIGZmIGZmIGU4IGQ1IDJiIDc3IDAwIDQ4IDBmIGJhIDJiIDAz
-IGU5IDZhIGZhIGZmIGZmIGU4IGM2IDhmIDJiIDAwIDBmIDBiIGU5IDVhIGZjIGZmIGZmIGU4
-IGJhIDhmIDJiIDAwIDwwZj4gMGIgNDUgMzEgZjYgZTkgNGIgZmMgZmYgZmYgZTggZWIgMjgg
-NzcgMDAgZTkgM2EgZmIgZmYgZmYgZTggYTENCj4gUlNQOiAwMDE4OmZmZmZjOTAwMDNkMWVl
-MDAgRUZMQUdTOiAwMDAxMDI5Mw0KPiANCg0KTm90IGJhZCBndWVzcy4NCg0KTW92aW5nIHdv
-cmsgaW5pdGlhbGl6YXRpb24gdXBwZXIsIHNpbmNlIHJld3JpdGluZyBlcnJvciBoYW5kbGlu
-ZyBpcyBib3JpbmcNCg0KDQojc3l6IHRlc3Q6DQpnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIv
-c2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0IG1hc3Rlcg0KDQoNCg0K
-DQpXaXRoIHJlZ2FyZHMsDQpQYXZlbCBTa3JpcGtpbg0K
---------------dLsDU9BLcGSMhKdGClvI2Mb0
-Content-Type: text/plain; charset=UTF-8; name="ph"
-Content-Disposition: attachment; filename="ph"
-Content-Transfer-Encoding: base64
+I'm not really worried about ACPI: it's unlikely the GPIO is even declared
+for the sensor, and instead is controlled in AML. There can of course be
+bugs in ACPI tables, too...
 
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvdXNiL3B2cnVzYjIvcHZydXNiMi1oZHcuYyBi
-L2RyaXZlcnMvbWVkaWEvdXNiL3B2cnVzYjIvcHZydXNiMi1oZHcuYwppbmRleCBjZDdiMTE4
-ZDU5MjkuLmYzYTM4ZjEwNjIxMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9tZWRpYS91c2IvcHZy
-dXNiMi9wdnJ1c2IyLWhkdy5jCisrKyBiL2RyaXZlcnMvbWVkaWEvdXNiL3B2cnVzYjIvcHZy
-dXNiMi1oZHcuYwpAQCAtMjU2OSw2ICsyNTY5LDExIEBAIHN0cnVjdCBwdnIyX2hkdyAqcHZy
-Ml9oZHdfY3JlYXRlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmLAogCX0gd2hpbGUgKDAp
-OwogCW11dGV4X3VubG9jaygmcHZyMl91bml0X210eCk7CiAKKwlJTklUX1dPUksoJmhkdy0+
-d29ya3BvbGwscHZyMl9oZHdfd29ya2VyX3BvbGwpOworCisJaWYgKGhkdy0+dW5pdF9udW1i
-ZXIgPT0gLTEpCisJCWdvdG8gZmFpbDsKKwogCWNudDEgPSAwOwogCWNudDIgPSBzY25wcmlu
-dGYoaGR3LT5uYW1lK2NudDEsc2l6ZW9mKGhkdy0+bmFtZSktY250MSwicHZydXNiMiIpOwog
-CWNudDEgKz0gY250MjsKQEAgLTI1ODAsOCArMjU4NSw2IEBAIHN0cnVjdCBwdnIyX2hkdyAq
-cHZyMl9oZHdfY3JlYXRlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmLAogCWlmIChjbnQx
-ID49IHNpemVvZihoZHctPm5hbWUpKSBjbnQxID0gc2l6ZW9mKGhkdy0+bmFtZSktMTsKIAlo
-ZHctPm5hbWVbY250MV0gPSAwOwogCi0JSU5JVF9XT1JLKCZoZHctPndvcmtwb2xsLHB2cjJf
-aGR3X3dvcmtlcl9wb2xsKTsKLQogCXB2cjJfdHJhY2UoUFZSMl9UUkFDRV9JTklULCJEcml2
-ZXIgdW5pdCBudW1iZXIgaXMgJWQsIG5hbWUgaXMgJXMiLAogCQkgICBoZHctPnVuaXRfbnVt
-YmVyLGhkdy0+bmFtZSk7CiAKQEAgLTI2MDAsNyArMjYwMyw3IEBAIHN0cnVjdCBwdnIyX2hk
-dyAqcHZyMl9oZHdfY3JlYXRlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmLAogCW11dGV4
-X2luaXQoJmhkdy0+YmlnX2xvY2tfbXV0ZXgpOwogCiAJcmV0dXJuIGhkdzsKLSBmYWlsOgor
-ZmFpbDoKIAlpZiAoaGR3KSB7CiAJCWRlbF90aW1lcl9zeW5jKCZoZHctPnF1aWVzY2VudF90
-aW1lcik7CiAJCWRlbF90aW1lcl9zeW5jKCZoZHctPmRlY29kZXJfc3RhYmlsaXphdGlvbl90
-aW1lcik7Cg==
-
---------------dLsDU9BLcGSMhKdGClvI2Mb0--
-
---------------GTsCy2LE4ruD00I7JXigx5KK--
-
---------------BJJnBnlb0Luoubk32YGs5Edl
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmJYgZQFAwAAAAAACgkQbk1w61LbBA07
-ThAAmJ8oaoF0cgoy4FYQkiitKsy+MA12VLu7nkNU6a0WuS4A6pBRYfcROTGsFAwJVQByF/wXOUd9
-0nsgN0BJElulc8RC9X9IkEQqkA/jODsUrlVRAT/EaAN1u2d5mfZlKZNxwD1HYCjhsCUrkz+hy69U
-GDpBDVlxCyFGSNnd3KFemf50DIoNUGwL0ewJa1vrT5g+cFechU7544v3o5xa5MpZwu8YOgN2DPl1
-mK6G4wv15SHAHMkVgY1+HMOph4cWfUEBp9EYCCIfTXUBbAskBwZkjl8rWOWy6uCWKoZmMOecMC4D
-DUPCdWf1MIER5zOvFIBFdLzwsQf2E8Sscz8YmOYoGHFHxgqkPcaOE8BVnefD9Xq8/Aw9R6o67Hye
-eDer3K5TBdg1rpZ+KUNAtChSN6crzMPCU7ncOhcHB4YX1IjkUuIX1vSTOD37QqseztD+vkTfgST1
-OdzW2NrX3HrLTgrNbS05TM5ACGyn2OttXDq9xHysFbWjyIS9B8N6AIifSyB5R1Cj9k9et6Teuemn
-pASlvDPoTElw1qv6dYIkAhmch5DCA98coJKf2YAX8PCX3Q3x9ANGmF2wDDRzDN6JL1At5xFTcITx
-XwVeVwNFtq4JtuYSj4rl4XjMEn/wjgIiB9Z7sgTZ8o9lBCnHpQfa4eJvZ+XTPgSKf0gpLA/77Ep6
-qHM=
-=crIi
------END PGP SIGNATURE-----
-
---------------BJJnBnlb0Luoubk32YGs5Edl--
+-- 
+Sakari Ailus
