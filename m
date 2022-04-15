@@ -2,180 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A653750294C
-	for <lists+linux-media@lfdr.de>; Fri, 15 Apr 2022 14:01:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B844502C08
+	for <lists+linux-media@lfdr.de>; Fri, 15 Apr 2022 16:37:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351076AbiDOMDX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Apr 2022 08:03:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33930 "EHLO
+        id S1354589AbiDOOkG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Apr 2022 10:40:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353084AbiDOMDO (ORCPT
+        with ESMTP id S1349869AbiDOOkD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Apr 2022 08:03:14 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFEC66AA74
-        for <linux-media@vger.kernel.org>; Fri, 15 Apr 2022 05:00:03 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id m14so10431116wrb.6
-        for <linux-media@vger.kernel.org>; Fri, 15 Apr 2022 05:00:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=d1y641nRGtjN50xjMNw5/o57jqZADQ8uigdFPEkJTyU=;
-        b=gymdzLmCMoEPCVTZMbYMa+Yc3PkIVZg2v+9QxYPYaBgIWr2uhGjeotsMXVo0ja1kWu
-         kjwdhjc7tFhfE5IpC9Rtw3rLNRqz86f0GSdLXvhXjJ5d7QgnPLNBEv1OvqyPezFr5SPJ
-         9EWNFSi6uyHmdxaloiVggwcF3mM/Ta/ikHNiemO45TC8FGCs2/lJyLgJrSQTgvbhjfsK
-         IQQwgbfo2dXFnDbs/M2x7bf140VtGAUSToqcRrvWRC2FE+M0xhFNjt6uYyTTIuBQcOYD
-         aaNNwTVuwLfcLO9K/n2OD+nvI7plEc/6pcvQxK0gFTPKgegJH8ZqNDr5ygvVM4PL/BC+
-         xSSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=d1y641nRGtjN50xjMNw5/o57jqZADQ8uigdFPEkJTyU=;
-        b=wO+t8UC64uI1VTz4JKajVtT0lyykTd9lDBd4G5Ias1WnUZCyyEDL2QRXglcdb+Eh6O
-         4MxKtn7KP8YU/oHPWqxRedUBXLXJh50dunbKieB7Hd8VPnIyuE+ZC9ByUxbKbYfJXMkb
-         BEAAM/pbOQ1HQuOoJKuqDiT/jDBcs1nypVwjx/AewV7KaZrpsHWyb8YZfd3/b97olS/b
-         g2jKbZ+mcXLehLm6pV7fJVyP5nwdzjoUxS1O2KV3AHUTLn4DIgZucdnDuQIc2SgLPmW6
-         t86/xFTT3BLmQLLVVOw/mBwoHZeT5Hfq92JkWpNQkmlC8fnQqNjZ39byCntXIvuCqk3O
-         UHMw==
-X-Gm-Message-State: AOAM530fg44s1sh3c1kj1BD144f3fyJEpn/87eI8m9kU12F2dGZMbIWL
-        iYIIPdiVoJIC8LUXj+OESpvkbA==
-X-Google-Smtp-Source: ABdhPJyH6Ovh1R3/6pCX22brV+JOSgbCvt1cq88CdvUGW7aioz3V9VJIJO98IwqosBm8jbVa4CEe3w==
-X-Received: by 2002:adf:f54a:0:b0:207:a746:e7 with SMTP id j10-20020adff54a000000b00207a74600e7mr5650813wrp.82.1650024002354;
-        Fri, 15 Apr 2022 05:00:02 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id bg8-20020a05600c3c8800b0038e4c5967besm5328568wmb.3.2022.04.15.05.00.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Apr 2022 05:00:01 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     sakari.ailus@iki.fi, jacopo@jmondi.org, paul.j.murphy@intel.com,
-        daniele.alessandrelli@intel.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     robert.foss@linaro.org, hfink@snap.com, jgrahsl@snap.com,
-        dmitry.baryshkov@linaro.org, vladimir.zapolskiy@linaro.org,
-        bryan.odonoghue@linaro.org
-Subject: [PATCH v5 4/4] media: i2c: imx412: Add bulk regulator support
-Date:   Fri, 15 Apr 2022 12:59:54 +0100
-Message-Id: <20220415115954.1649217-5-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220415115954.1649217-1-bryan.odonoghue@linaro.org>
-References: <20220415115954.1649217-1-bryan.odonoghue@linaro.org>
+        Fri, 15 Apr 2022 10:40:03 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D99148303
+        for <linux-media@vger.kernel.org>; Fri, 15 Apr 2022 07:37:35 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (85-76-5-129-nat.elisa-mobile.fi [85.76.5.129])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D3EC325B;
+        Fri, 15 Apr 2022 16:37:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1650033453;
+        bh=CJ0DFKRwn3AXqvApfsYWD/PArs4I3zRapd0um8/Tlto=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iIlSqfFj416VJ6UG20a4PujQyrORo557MoMYRGL7q8C65jQ0bluuO+nMuGZC2UlIc
+         5TfpzKKWY6DQe1hEFm/7W/NBwq7NhlJL8jveu2kgbCR1xSP8XokF17bhLRpq7so2OS
+         387TmVgQrSA8XfmpceFaMDSg+GDxYll6S+v4VqoE=
+Date:   Fri, 15 Apr 2022 17:37:20 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Cc:     linux-media@vger.kernel.org, alain.volmat@foss.st.com,
+        hugues.fruchet@foss.st.com, sylvain.petinot@foss.st.com,
+        dave.stevenson@raspberrypi.com, sakari.ailus@linux.intel.com,
+        kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v2 2/5] media: v4l: ctrls: Add a control for temperature
+Message-ID: <YlmDIHNQub7eqskK@pendragon.ideasonboard.com>
+References: <20220415111845.27130-1-benjamin.mugnier@foss.st.com>
+ <20220415111845.27130-3-benjamin.mugnier@foss.st.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220415111845.27130-3-benjamin.mugnier@foss.st.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Depending on the platform we may need to enable and disable three separate
-regulators for the imx412.
+Hi Benjamin,
 
-- DOVDD
-Digital I/O power
+Thank you for the patch.
 
-- AVDD
-Analog power
+On Fri, Apr 15, 2022 at 01:18:42PM +0200, Benjamin Mugnier wrote:
+> Add V4L2_CID_TEMPERATURE control to get temperature from sensor in
+> celsius as a volatile and read-only control, and its documentation.
+> Useful to monitor thermals from v4l controls for sensors that support
+> this.
+> 
+> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> ---
+>  Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst | 3 +++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c                  | 4 ++++
+>  include/uapi/linux/v4l2-controls.h                         | 2 ++
+>  3 files changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> index 4c5061aa9cd4..26fa21f5c45a 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> @@ -661,3 +661,6 @@ enum v4l2_scene_mode -
+>  .. [#f1]
+>     This control may be changed to a menu control in the future, if more
+>     options are required.
+> +
+> +``V4L2_CID_TEMPERATURE (integer)``
+> +    The temperature of the sensor in celsius. This is a read-only control.
 
-- DVDD
-Digital core power
+I've seen sensors where the temperature sensor has a 1/10th degree
+precision. Should we standardize on that ? Anything more precise is
+likely overkill.
 
-The addition of these regulators shouldn't affect existing users using
-fixed-on/firmware-controlled regulators.
+There are also sensors with multiple temperature sensors. If there are
+too many of them I suppose the temperature would be reported in embedded
+data, but perhaps not always. How can we prepare for this ?
 
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/i2c/imx412.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+There are also a few details that I think should be documented. Is the
+temperature always read on-demand when reading the control, or updated
+periodically ? I would assume most drivers would implement the former,
+which means no control notification events will be generated. This
+should be documented. Furthermore, do drivers need to support reading
+the temperature when the sensor isn't streaming ? If not, when should a
+control read ioctl return, the last value, or an error ?
 
-diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
-index 84279a680873..1795a6180d60 100644
---- a/drivers/media/i2c/imx412.c
-+++ b/drivers/media/i2c/imx412.c
-@@ -11,6 +11,7 @@
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- 
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-fwnode.h>
-@@ -101,6 +102,12 @@ struct imx412_mode {
- 	struct imx412_reg_list reg_list;
- };
- 
-+static const char * const imx412_supply_names[] = {
-+	"dovdd",	/* Digital I/O power */
-+	"avdd",		/* Analog power */
-+	"dvdd",		/* Digital core power */
-+};
-+
- /**
-  * struct imx412 - imx412 sensor device structure
-  * @dev: Pointer to generic device
-@@ -128,6 +135,7 @@ struct imx412 {
- 	struct media_pad pad;
- 	struct gpio_desc *reset_gpio;
- 	struct clk *inclk;
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(imx412_supply_names)];
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	struct v4l2_ctrl *link_freq_ctrl;
- 	struct v4l2_ctrl *pclk_ctrl;
-@@ -946,6 +954,16 @@ static int imx412_parse_hw_config(struct imx412 *imx412)
- 		return -EINVAL;
- 	}
- 
-+	/* Get optional DT defined regulators */
-+	for (i = 0; i < ARRAY_SIZE(imx412_supply_names); i++)
-+		imx412->supplies[i].supply = imx412_supply_names[i];
-+
-+	ret = devm_regulator_bulk_get(imx412->dev,
-+				      ARRAY_SIZE(imx412_supply_names),
-+				      imx412->supplies);
-+	if (ret)
-+		return ret;
-+
- 	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
- 	if (!ep)
- 		return -ENXIO;
-@@ -1011,6 +1029,13 @@ static int imx412_power_on(struct device *dev)
- 	struct imx412 *imx412 = to_imx412(sd);
- 	int ret;
- 
-+	ret = regulator_bulk_enable(ARRAY_SIZE(imx412_supply_names),
-+				    imx412->supplies);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable regulators\n");
-+		return ret;
-+	}
-+
- 	gpiod_set_value_cansleep(imx412->reset_gpio, 0);
- 
- 	ret = clk_prepare_enable(imx412->inclk);
-@@ -1025,6 +1050,8 @@ static int imx412_power_on(struct device *dev)
- 
- error_reset:
- 	gpiod_set_value_cansleep(imx412->reset_gpio, 1);
-+	regulator_bulk_disable(ARRAY_SIZE(imx412_supply_names),
-+			       imx412->supplies);
- 
- 	return ret;
- }
-@@ -1044,6 +1071,9 @@ static int imx412_power_off(struct device *dev)
- 
- 	gpiod_set_value_cansleep(imx412->reset_gpio, 1);
- 
-+	regulator_bulk_disable(ARRAY_SIZE(imx412_supply_names),
-+			       imx412->supplies);
-+
- 	return 0;
- }
- 
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index 54ca4e6b820b..45ad3edd59e0 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1042,6 +1042,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
+>  	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
+>  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
+> +	case V4L2_CID_TEMPERATURE:		return "Temperature in °C";
+>  
+>  	/* FM Radio Modulator controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> @@ -1597,6 +1598,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_RF_TUNER_PLL_LOCK:
+>  		*flags |= V4L2_CTRL_FLAG_VOLATILE;
+>  		break;
+> +	case V4L2_CID_TEMPERATURE:
+> +		*flags |= V4L2_CTRL_FLAG_READ_ONLY |
+> +			  V4L2_CTRL_FLAG_VOLATILE;
+>  	}
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_fill);
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index bb40129446d4..705b4043c2de 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1008,6 +1008,8 @@ enum v4l2_auto_focus_range {
+>  
+>  #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
+>  
+> +#define V4L2_CID_TEMPERATURE			(V4L2_CID_CAMERA_CLASS_BASE+36)
+> +
+>  /* FM Modulator class control IDs */
+>  
+>  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+
 -- 
-2.35.1
+Regards,
 
+Laurent Pinchart
