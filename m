@@ -2,68 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A32325037E3
-	for <lists+linux-media@lfdr.de>; Sat, 16 Apr 2022 21:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 971A750459F
+	for <lists+linux-media@lfdr.de>; Sun, 17 Apr 2022 00:17:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232770AbiDPTMF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 Apr 2022 15:12:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58274 "EHLO
+        id S229655AbiDPWUP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 Apr 2022 18:20:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230293AbiDPTME (ORCPT
+        with ESMTP id S229450AbiDPWUO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 Apr 2022 15:12:04 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 286303CA6A;
-        Sat, 16 Apr 2022 12:09:31 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id y20so459507eju.7;
-        Sat, 16 Apr 2022 12:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Wc5pFB9cFV9X8b0ifj+g9eVrc/4oE6DJhMyg+0grg+A=;
-        b=g6SviAzwXAp09tyT7R2XRj717VnDS6GwDtEcvKbhHtciTAYMqsQMA11jPSRytxv9XW
-         VFUNpY7EV8Y5oPQJ9ZEoGLCrgx1HKdushCUIVTi1NtwrIybOWklDz4kcdjRsSZskXWLw
-         zh1eEM9Ek3muGqX4M+Qk9UWBUD9QHNjpYj6b/i9o4VnZimj1LcebyvcDJ73l9LEG7ZxU
-         SCw0yjEdDv5IlHMOo3a4dG2ZUOsIMVRkGOJQIn8KPp7vF8MJPb5nqrTvke/VHHa5NCsG
-         2ppWyRQLDnz02tFJevSmSmYFvT/8WXGOQTEYLJNzXD70ecglJ1TRe9jwMuIf9DSxpXva
-         vaRQ==
+        Sat, 16 Apr 2022 18:20:14 -0400
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B2E9E6D;
+        Sat, 16 Apr 2022 15:17:41 -0700 (PDT)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-e5bdd14b59so1531796fac.11;
+        Sat, 16 Apr 2022 15:17:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Wc5pFB9cFV9X8b0ifj+g9eVrc/4oE6DJhMyg+0grg+A=;
-        b=wC7NZB8v289th7qJZdEn8FX/4rPCDBYW5DlPK6T/ATWPwqXbRjAl6moNtYwODeUQUw
-         57MxB/vVwMPer+KOA7RdrEp8lPy0ml+4JY/Z+Q4LKF+yQFg/CYmhdPuny7ay3x8KgQj0
-         r/IJwEBtZzW0ff1HrnJnEyDMqid333AN/2lhmygjpivjIlNnhiDgFPP5q8WQAbBoFG+g
-         i2eLgda/iYfKBV/3q8OupiDaj7HlyUp081IimIM3zXgCALAyisydeJrESdG1BrOkV+d2
-         UCa9TxctsnHyus0lm5LF8h9ZSS4tyFo+XSt7aE5KpufPWykTT6Adk54QJY0dkh5MEHAo
-         WkaA==
-X-Gm-Message-State: AOAM532fwohF6pW8BiJLIYtpZcor6zZRrvOjITpeBBsFwjH3TggYFQ3P
-        G6TQK1/9x6GAHRmtqUJqtL8B1V0V9oqXe3/RgJA=
-X-Google-Smtp-Source: ABdhPJy0dXUnDlNqpFSRWbTmBQ7n5zYVtmmJh0Ee6Th3tr80ERDWMczGFfIgI95tpj9HKKbOvbuOv7n6qhOInUV9gaw=
-X-Received: by 2002:a17:907:2d0f:b0:6e8:b710:a68 with SMTP id
- gs15-20020a1709072d0f00b006e8b7100a68mr3471849ejc.510.1650136169569; Sat, 16
- Apr 2022 12:09:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220225155622.585621-1-ahamedhusni73@gmail.com> <20220320163618.41054-1-ahamedhusni73@gmail.com>
-In-Reply-To: <20220320163618.41054-1-ahamedhusni73@gmail.com>
-From:   Ahamed Husni <ahamedhusni73@gmail.com>
-Date:   Sun, 17 Apr 2022 00:39:18 +0530
-Message-ID: <CAFjpAKqT1eP4vXDPuTG50aBJPuosWTN3qddrURgp3zFS8pCz0A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] media: av7110: fix switch indentation
-To:     mchehab@kernel.org, Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=7dPcFs565C9c1WFXikvbzN8qlHn8qJL0dUAk+7Q/+p0=;
+        b=TLa8UZ+sDlYr2yJBFVXvUBIghsB7i2bPqTGG1iR/sCGk4iZ2FkeCD+NfOv2EHeIJqZ
+         iQy25dTUbdizs7rTfsbnWCg1MqeR+MtYE1KQGh8NqsRFP4hb3+g/H7IyaKbdVUok6B74
+         vAA2IRQiCSSaY4ISdvhU0M48IK2EV6sRyT4KuZcGU+T9f/+XdjC5pTDoC+RiIQoO0KhX
+         iBKoBHkU5dZHStc1GcaOQkYKlY1tjaHcsAD/su3T49L3smtpEa10rRpfwnG1rkAqM5Xo
+         6KhPQ8bZw7/ayxE7eLA7RDpcw90s9AJa+lN8CgTNeG92Zp070zEi5nFCA2NS91k1mAaC
+         8fUw==
+X-Gm-Message-State: AOAM533j8tJmKmRHusEarV5p/Uj79+/Jtcf0fcX7fZfawBgc4wYjKxm6
+        Ozx//qzQPv2PJvI6Wdrl1w==
+X-Google-Smtp-Source: ABdhPJzcOBOFLYRBnjRkFKYm36bRA1+9aCycXC6AAhf5bxP7oOLONMn2t+h7bqsghdRFSNm7zPU0jg==
+X-Received: by 2002:a05:6871:58c:b0:e3:25e9:6792 with SMTP id u12-20020a056871058c00b000e325e96792mr3791936oan.147.1650147460477;
+        Sat, 16 Apr 2022 15:17:40 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id os2-20020a0568707d0200b000e42ef7cff2sm2727982oab.43.2022.04.16.15.17.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Apr 2022 15:17:40 -0700 (PDT)
+Received: (nullmailer pid 3544946 invoked by uid 1000);
+        Sat, 16 Apr 2022 22:17:39 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        Maxime Ripard <mripard@kernel.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+In-Reply-To: <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com> <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add Allwinner A31 ISP bindings documentation
+Date:   Sat, 16 Apr 2022 17:17:39 -0500
+Message-Id: <1650147459.143664.3544945.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Ping :)
+On Fri, 15 Apr 2022 17:37:05 +0200, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A31 Image
+> Signal Processor (ISP).
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> 
+
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml:73:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml:75:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+
+dtschema/dtc warnings/errors:
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
