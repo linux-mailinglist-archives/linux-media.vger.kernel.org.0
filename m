@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3573E503491
-	for <lists+linux-media@lfdr.de>; Sat, 16 Apr 2022 08:54:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEE47503495
+	for <lists+linux-media@lfdr.de>; Sat, 16 Apr 2022 08:58:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbiDPG5P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 Apr 2022 02:57:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52534 "EHLO
+        id S229873AbiDPHAc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 Apr 2022 03:00:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiDPG5O (ORCPT
+        with ESMTP id S229445AbiDPHAa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 Apr 2022 02:57:14 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6FCECFE;
-        Fri, 15 Apr 2022 23:54:41 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id p189so5987668wmp.3;
-        Fri, 15 Apr 2022 23:54:41 -0700 (PDT)
+        Sat, 16 Apr 2022 03:00:30 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3288F4D268;
+        Fri, 15 Apr 2022 23:57:59 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id ay11-20020a05600c1e0b00b0038eb92fa965so8835993wmb.4;
+        Fri, 15 Apr 2022 23:57:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3npAyY8rPKuk01RaNVhM66JpVvQwy4LZnWG1HHtuULM=;
-        b=l+qq+pUkbiKZujFSSt+Ncg5HZStZ4JJmMmqMrH171roijPFpIPtetbfeBuiKuTZd4W
-         ARA24OygzRc/gt0jA23RHZS2kchudqXAsuO3j0yD+BW2BVT+kzFatKk6b+XUQlRsMQRd
-         +3X0Cnu7KD6DhxmT4ayAHbxk+5GOsvpv67LH2Qm6r84PtwgGItRkXNscyZO6VReqKajG
-         SZZfr7ELqwCYS4ff47QKi+48FW90pkAGtNRaYgDo5TvYzN+oOOgQtTznTVE/p8UYjDEP
-         ZIcXGFtJ0VN4rZUWicLdpKjdpKR37q/AioPyqRkvZdZHisEs6Pw42QzGiOEjzsNjmix9
-         wt3w==
+        bh=17zTEE8XFfFm+/ScXpzV4xIgy2dAstkdBPVwcZZY8rQ=;
+        b=bwBNhFrQSrmvc1CtKbZ4sqWEuSbDshJHlQMQLnYIya2Pa6hBoPjlcvZXjhD16Te5/M
+         VYvkeS8B53NtEDZGScwOS2LmZSVGv0XBChFMUdlNthg8RdtOgS8JG89eKomSaJsp7tz5
+         P8LtIuYX7iIJIVgdjdF4C7y4cCT/ha1vI6j7ch4blTL1X8okXedJKXLFyToPH8TtWfSb
+         13pQxwAtJZP9M4a0K4boas/+yILr8jWIhRAA3fxQSZ2dpWoZGnmiuk5v24rPok0w4D6p
+         aGipaoPK1V/YFRNMZ7t+DWgkW4xpXN6PyazbugdjdYn2gNgxmOXCg4jnxhV/CVzRQus4
+         Z9yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3npAyY8rPKuk01RaNVhM66JpVvQwy4LZnWG1HHtuULM=;
-        b=A9ir8YqHvTLs+I0ReX1gepliDkF4o2C6Zac++oFzOWqc65mz2o6dVbTKAmCzeKND4X
-         r5BYSEDfi0l91o0iAutStncFdA3H7V3kvBb3EeEYCtVoeZjvDKhYOWazptGGdvHPVEc+
-         ybEjyBcW9swlpwWBxl0OUqTc4mx3GoL3XSq1i3a02f/1wvHbFBA1HcxuMkrj3x2xaIJs
-         wb4JawcBjkXLNGrWUatJqyAnFOtqdCycKR9Qgftm3Jopxj3jjSfL7gFQUyiyHIdqNZbY
-         mxzc5fQeY1t9y21ai3AZxdd8wOb8h/euwmcJ4m9LQFTyzuYbrJhOmLZudehUUP4+nasN
-         4Cig==
-X-Gm-Message-State: AOAM531qcPHJmvuXu23epvLZNC4JDCejPCKLFaT7L4ZWT+ta+G7YGrM3
-        hD6Pbe4rQ7OYxq9NAYzE8PhdADoi9Xc=
-X-Google-Smtp-Source: ABdhPJyfvl/EftwSDRU3mfUDJs6u5VlxlNIWRQDkNLOBnlWw7xuLg1zlplaXkWy2SaiiNPwp21NyNg==
-X-Received: by 2002:a05:600c:3b25:b0:38e:c5f9:8f01 with SMTP id m37-20020a05600c3b2500b0038ec5f98f01mr6231429wms.175.1650092080368;
-        Fri, 15 Apr 2022 23:54:40 -0700 (PDT)
+        bh=17zTEE8XFfFm+/ScXpzV4xIgy2dAstkdBPVwcZZY8rQ=;
+        b=ALKR4xceT4b63L0l1h6mmOEHfpiy+lnosSV9z5fbvz64ZvelOpayYc/qvwouuQ63LH
+         MutW1bdC1ZMNFktWp7oEXmlpbs0RjAgaVh4dMUHw3o+rC/9fbZMBPwCRLhcBQJOHN7ee
+         DZp1tqVn3P7A1SE9O3jFcH7mvssA+JPcxqdNWqMhZCg4Zg5xLubBF8oQX7ChxEtLyM+v
+         EArbSp9OJntLvAyZ0dfLfJ3OgfkFNUj/jw1yCP7CN0jasZndve2nTrLS7E8WbYd+0swt
+         R4EWrfW10WtKI+Uu4NiGhQXOcyy55691IAuubwgA2UEsetT4d7lkKCVtFjCSGLf6q5C/
+         xLzg==
+X-Gm-Message-State: AOAM533kksL7xZaER8bjJ7XDlG7jzw4WQn/tFdFZFTqHitr8M9AdYSnm
+        anZCBKM4n/bolkUOFDXq0Mg=
+X-Google-Smtp-Source: ABdhPJwWvH+6ikfkTS5jdiE4pjuOGynlgRgn79e7LCayb9QYNxXGZHAF5dWXj3uDfBRVkZEdzyBgww==
+X-Received: by 2002:a1c:f315:0:b0:381:1f6d:6ca6 with SMTP id q21-20020a1cf315000000b003811f6d6ca6mr6235188wmq.25.1650092277720;
+        Fri, 15 Apr 2022 23:57:57 -0700 (PDT)
 Received: from localhost.localdomain ([141.72.243.13])
-        by smtp.gmail.com with ESMTPSA id f189-20020a1c38c6000000b0038ff83b9792sm6091294wma.43.2022.04.15.23.54.39
+        by smtp.gmail.com with ESMTPSA id o11-20020a05600002cb00b0020a88c4ecb5sm579350wry.3.2022.04.15.23.57.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Apr 2022 23:54:39 -0700 (PDT)
+        Fri, 15 Apr 2022 23:57:57 -0700 (PDT)
 From:   Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-Subject: [PATCH] media: i2c: tw9903: Use ARRAY_SIZE instead of manual checking
-Date:   Sat, 16 Apr 2022 08:53:58 +0200
-Message-Id: <20220416065358.56537-1-mosescb.dev@gmail.com>
+Subject: [PATCH] media: i2c: tw9906: Use ARRAY_SIZE instead of manual checking
+Date:   Sat, 16 Apr 2022 08:56:54 +0200
+Message-Id: <20220416065654.56712-1-mosescb.dev@gmail.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,18 +69,18 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 this driver currently uses a terminator(0x00, 0x00) to end the list
-of reg-vals instead, a struct array with ARRAY_SIZE macro can be used
-to obtain the length of the array.
+of reg-vals, instead a struct array with ARRAY_SIZE macro from
+linux/kernel.h can be used to obtain the length of the array.
 
 Signed-off-by: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
 ---
- drivers/media/i2c/tw9903.c | 150 ++++++++++++++++++++-----------------
- 1 file changed, 80 insertions(+), 70 deletions(-)
+ drivers/media/i2c/tw9906.c | 110 ++++++++++++++++++++-----------------
+ 1 file changed, 60 insertions(+), 50 deletions(-)
 
-diff --git a/drivers/media/i2c/tw9903.c b/drivers/media/i2c/tw9903.c
-index f8e3ab4909d8..b8f8240d20c1 100644
---- a/drivers/media/i2c/tw9903.c
-+++ b/drivers/media/i2c/tw9903.c
+diff --git a/drivers/media/i2c/tw9906.c b/drivers/media/i2c/tw9906.c
+index c528eb01fed0..318f87ae63f2 100644
+--- a/drivers/media/i2c/tw9906.c
++++ b/drivers/media/i2c/tw9906.c
 @@ -6,6 +6,7 @@
  #include <linux/module.h>
  #include <linux/init.h>
@@ -88,60 +88,40 @@ index f8e3ab4909d8..b8f8240d20c1 100644
 +#include <linux/kernel.h>
  #include <linux/videodev2.h>
  #include <linux/ioctl.h>
- #include <media/v4l2-device.h>
-@@ -35,56 +36,60 @@ static inline struct tw9903 *to_state(struct v4l2_subdev *sd)
- 	return container_of(sd, struct tw9903, sd);
+ #include <linux/slab.h>
+@@ -26,36 +27,40 @@ static inline struct tw9906 *to_state(struct v4l2_subdev *sd)
+ 	return container_of(sd, struct tw9906, sd);
  }
  
 -static const u8 initial_registers[] = {
--	0x02, 0x44, /* input 1, composite */
--	0x03, 0x92, /* correct digital format */
--	0x04, 0x00,
--	0x05, 0x80, /* or 0x00 for PAL */
--	0x06, 0x40, /* second internal current reference */
+-	0x02, 0x40, /* input 0, composite */
+-	0x03, 0xa2, /* correct digital format */
+-	0x05, 0x81, /* or 0x01 for PAL */
 -	0x07, 0x02, /* window */
 -	0x08, 0x14, /* window */
 -	0x09, 0xf0, /* window */
--	0x0a, 0x81, /* window */
+-	0x0a, 0x10, /* window */
 -	0x0b, 0xd0, /* window */
--	0x0c, 0x8c,
 -	0x0d, 0x00, /* scaling */
 -	0x0e, 0x11, /* scaling */
 -	0x0f, 0x00, /* scaling */
 -	0x10, 0x00, /* brightness */
 -	0x11, 0x60, /* contrast */
--	0x12, 0x01, /* sharpness */
--	0x13, 0x7f, /* U gain */
--	0x14, 0x5a, /* V gain */
+-	0x12, 0x11, /* sharpness */
+-	0x13, 0x7e, /* U gain */
+-	0x14, 0x7e, /* V gain */
 -	0x15, 0x00, /* hue */
--	0x16, 0xc3, /* sharpness */
--	0x18, 0x00,
--	0x19, 0x58, /* vbi */
--	0x1a, 0x80,
--	0x1c, 0x0f, /* video norm */
--	0x1d, 0x7f, /* video norm */
--	0x20, 0xa0, /* clamping gain (working 0x50) */
--	0x21, 0x22,
--	0x22, 0xf0,
--	0x23, 0xfe,
--	0x24, 0x3c,
--	0x25, 0x38,
--	0x26, 0x44,
--	0x27, 0x20,
--	0x28, 0x00,
--	0x29, 0x15,
--	0x2a, 0xa0,
--	0x2b, 0x44,
--	0x2c, 0x37,
--	0x2d, 0x00,
--	0x2e, 0xa5, /* burst PLL control (working: a9) */
--	0x2f, 0xe0, /* 0xea is blue test frame -- 0xe0 for normal */
--	0x31, 0x00,
--	0x33, 0x22,
--	0x34, 0x11,
--	0x35, 0x35,
--	0x3b, 0x05,
--	0x06, 0xc0, /* reset device */
+-	0x19, 0x57, /* vbi */
+-	0x1a, 0x0f,
+-	0x1b, 0x40,
+-	0x29, 0x03,
+-	0x55, 0x00,
+-	0x6b, 0x26,
+-	0x6c, 0x36,
+-	0x6d, 0xf0,
+-	0x6e, 0x41,
+-	0x6f, 0x13,
+-	0xad, 0x70,
 -	0x00, 0x00, /* Terminator (reg 0x00 is read-only) */
 +struct reg_val {
 +	u8 reg;
@@ -149,58 +129,38 @@ index f8e3ab4909d8..b8f8240d20c1 100644
 +};
 +
 +static const struct reg_val init_regs[] = {
-+	{0x02, 0x44}, /* input 1, composite */
-+	{0x03, 0x92}, /* correct digital format */
-+	{0x04, 0x00},
-+	{0x05, 0x80}, /* or 0x00 for PAL */
-+	{0x06, 0x40}, /* second internal current reference */
++	{0x02, 0x40}, /* input 0, composite */
++	{0x03, 0xa2}, /* correct digital format */
++	{0x05, 0x81}, /* or 0x01 for PAL */
 +	{0x07, 0x02}, /* window */
 +	{0x08, 0x14}, /* window */
 +	{0x09, 0xf0}, /* window */
-+	{0x0a, 0x81}, /* window */
++	{0x0a, 0x10}, /* window */
 +	{0x0b, 0xd0}, /* window */
-+	{0x0c, 0x8c},
 +	{0x0d, 0x00}, /* scaling */
 +	{0x0e, 0x11}, /* scaling */
 +	{0x0f, 0x00}, /* scaling */
 +	{0x10, 0x00}, /* brightness */
 +	{0x11, 0x60}, /* contrast */
-+	{0x12, 0x01}, /* sharpness */
-+	{0x13, 0x7f}, /* U gain */
-+	{0x14, 0x5a}, /* V gain */
++	{0x12, 0x11}, /* sharpness */
++	{0x13, 0x7e}, /* U gain */
++	{0x14, 0x7e}, /* V gain */
 +	{0x15, 0x00}, /* hue */
-+	{0x16, 0xc3}, /* sharpness */
-+	{0x18, 0x00},
-+	{0x19, 0x58}, /* vbi */
-+	{0x1a, 0x80},
-+	{0x1c, 0x0f}, /* video norm */
-+	{0x1d, 0x7f}, /* video norm */
-+	{0x20, 0xa0}, /* clamping gain (working 0x50) */
-+	{0x21, 0x22},
-+	{0x22, 0xf0},
-+	{0x23, 0xfe},
-+	{0x24, 0x3c},
-+	{0x25, 0x38},
-+	{0x26, 0x44},
-+	{0x27, 0x20},
-+	{0x28, 0x00},
-+	{0x29, 0x15},
-+	{0x2a, 0xa0},
-+	{0x2b, 0x44},
-+	{0x2c, 0x37},
-+	{0x2d, 0x00},
-+	{0x2e, 0xa5}, /* burst PLL control (working: a9) */
-+	{0x2f, 0xe0}, /* 0xea is blue test frame -- 0xe0 for normal */
-+	{0x31, 0x00},
-+	{0x33, 0x22},
-+	{0x34, 0x11},
-+	{0x35, 0x35},
-+	{0x3b, 0x05},
-+	{0x06, 0xc0}, /* reset device */
++	{0x19, 0x57}, /* vbi */
++	{0x1a, 0x0f},
++	{0x1b, 0x40},
++	{0x29, 0x03},
++	{0x55, 0x00},
++	{0x6b, 0x26},
++	{0x6c, 0x36},
++	{0x6d, 0xf0},
++	{0x6e, 0x41},
++	{0x6f, 0x13},
++	{0xad, 0x70},
  };
  
  static int write_reg(struct v4l2_subdev *sd, u8 reg, u8 value)
-@@ -94,13 +99,14 @@ static int write_reg(struct v4l2_subdev *sd, u8 reg, u8 value)
+@@ -65,13 +70,14 @@ static int write_reg(struct v4l2_subdev *sd, u8 reg, u8 value)
  	return i2c_smbus_write_byte_data(client, reg, value);
  }
  
@@ -220,12 +180,12 @@ index f8e3ab4909d8..b8f8240d20c1 100644
  	return 0;
  }
  
-@@ -115,24 +121,28 @@ static int tw9903_s_std(struct v4l2_subdev *sd, v4l2_std_id norm)
+@@ -86,24 +92,28 @@ static int tw9906_s_std(struct v4l2_subdev *sd, v4l2_std_id norm)
  {
- 	struct tw9903 *dec = to_state(sd);
+ 	struct tw9906 *dec = to_state(sd);
  	bool is_60hz = norm & V4L2_STD_525_60;
 -	static const u8 config_60hz[] = {
--		0x05, 0x80,
+-		0x05, 0x81,
 -		0x07, 0x02,
 -		0x08, 0x14,
 -		0x09, 0xf0,
@@ -233,19 +193,19 @@ index f8e3ab4909d8..b8f8240d20c1 100644
 +	int ret;
 +
 +	static const struct reg_val config_60hz[] = {
-+		{0x05, 0x80},
++		{0x05, 0x81},
 +		{0x07, 0x02},
 +		{0x08, 0x14},
 +		{0x09, 0xf0},
  	};
 -	static const u8 config_50hz[] = {
--		0x05, 0x00,
+-		0x05, 0x01,
 -		0x07, 0x12,
 -		0x08, 0x18,
 -		0x09, 0x20,
 -		0,    0,
 +	static const struct reg_val config_50hz[] = {
-+		{0x05, 0x00},
++		{0x05, 0x01},
 +		{0x07, 0x12},
 +		{0x08, 0x18},
 +		{0x09, 0x20},
@@ -262,14 +222,14 @@ index f8e3ab4909d8..b8f8240d20c1 100644
 +	return ret;
  }
  
- 
-@@ -227,7 +237,7 @@ static int tw9903_probe(struct i2c_client *client,
- 	/* Initialize tw9903 */
+ static int tw9906_s_ctrl(struct v4l2_ctrl *ctrl)
+@@ -195,7 +205,7 @@ static int tw9906_probe(struct i2c_client *client,
+ 	/* Initialize tw9906 */
  	dec->norm = V4L2_STD_NTSC;
  
 -	if (write_regs(sd, initial_registers) < 0) {
 +	if (write_regs(sd, init_regs, ARRAY_SIZE(init_regs)) < 0) {
- 		v4l2_err(client, "error initializing TW9903\n");
+ 		v4l2_err(client, "error initializing TW9906\n");
  		return -EINVAL;
  	}
 -- 
