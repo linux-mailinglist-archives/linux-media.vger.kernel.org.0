@@ -2,97 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0845504E19
-	for <lists+linux-media@lfdr.de>; Mon, 18 Apr 2022 11:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BC2E504E30
+	for <lists+linux-media@lfdr.de>; Mon, 18 Apr 2022 11:07:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237362AbiDRJE7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Apr 2022 05:04:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59990 "EHLO
+        id S232950AbiDRJKO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Apr 2022 05:10:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237351AbiDRJE6 (ORCPT
+        with ESMTP id S231382AbiDRJKN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Apr 2022 05:04:58 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BC3F13D13;
-        Mon, 18 Apr 2022 02:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650272540; x=1681808540;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2jdWEdOPV9FfJIsbXus10b/k80baSt0ouNesijcKIPg=;
-  b=DQ4EZN88jSyrQG7bJwQ+U/dqLG96ZpxQANr0MM4xDmSPzTv4K2kxvjox
-   tcM0wf0V9yI52B3971AZsaR2WVX75Ss9DrTBr7vasgOivW5sy9pJkNc5p
-   YEu0GdMlIUSMpYQHXClqtS4givymUYWCsrJUgokhBC4GygpXxPs9MxlX6
-   pjgnJ11h4kyIWUlQY1q5a6tjXKjUk+7EYYwJeOvytOOj3Wd6PcBueGLni
-   5+qaRQLE/e4d7jlMk17k66lMh8o/Bl3RzmAcyKzMx2olDWuMlLtJEd1oS
-   rYnPc1zLks9CzU7mMG/K8idn/A/FFJETFeRMdRFS08csrlrXGDjuU/6ns
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10320"; a="288570713"
-X-IronPort-AV: E=Sophos;i="5.90,269,1643702400"; 
-   d="scan'208";a="288570713"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2022 02:02:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,269,1643702400"; 
-   d="scan'208";a="657185625"
-Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Apr 2022 02:02:19 -0700
-Received: from kbuild by 3abc53900bec with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1ngNH0-0004Uu-Jn;
-        Mon, 18 Apr 2022 09:02:18 +0000
-Date:   Mon, 18 Apr 2022 17:01:40 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Mon, 18 Apr 2022 05:10:13 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 155816472;
+        Mon, 18 Apr 2022 02:07:33 -0700 (PDT)
+X-UUID: 1f199b7dbfda49249de0c3a925becb73-20220418
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4,REQID:8a168a53-d47d-4dbf-bd84-1b844faa3477,OB:0,LO
+        B:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham,A
+        CTION:release,TS:100
+X-CID-INFO: VERSION:1.1.4,REQID:8a168a53-d47d-4dbf-bd84-1b844faa3477,OB:0,LOB:
+        10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D,A
+        CTION:quarantine,TS:100
+X-CID-META: VersionHash:faefae9,CLOUDID:549b3cef-06b0-4305-bfbf-554bfc9d151a,C
+        OID:92f24a434910,Recheck:0,SF:12|15|28|16|19|48,TC:nil,Content:1,EDM:-3,Fi
+        le:nil,QS:0,BEC:nil
+X-UUID: 1f199b7dbfda49249de0c3a925becb73-20220418
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <ping-lei.lin@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 854381594; Mon, 18 Apr 2022 17:07:31 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 18 Apr 2022 17:07:30 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 18 Apr 2022 17:07:29 +0800
+From:   James_Lin <Ping-lei.Lin@mediatek.com>
+To:     <linux-kernel@vger.kernel.org>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: drivers/media/v4l2-core/v4l2-ctrls-request.o: warning: objtool:
- v4l2_ctrl_request_complete()+0xace: stack state mismatch: reg1[14]=-2-32
- reg2[14]=-1+0
-Message-ID: <202204181650.mPKQyrSo-lkp@intel.com>
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <ping-lei.lin@mediatek.com>,
+        <sherlock.chang@mediatek.com>, <lecopzer.chen@mediatek.com>,
+        <max.yan@mediatek.com>, <tm.wu@mediatek.com>,
+        James_Lin <Ping-lei.Lin@mediatek.com>
+Subject: [PATCH v3] media: usb: uvc: Add UVC_GUID_FORMAT_H265
+Date:   Mon, 18 Apr 2022 17:06:52 +0800
+Message-ID: <20220418090652.3156-1-Ping-lei.Lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+This patch aims to add UVC_GUID_FORMAT_H265
+High Efficiency Video Coding (HEVC), also known as H.265 and MPEG-H Part 2.
+They describe the same video encoding method.
+So for handling their behavior is the same.
+However, when external camera device describes this encoding method, 
+some use hevc, some use h265.
+There is no uniform specification to describe this encoding method.
+So if an external camera device use h265 to describe this encoding method,
+driver will not recognize it.
+Therefore, this patch is to enable driver to read HEVC/H265 
+and convert it to V4L2_PIX_FMT_HEVC.
 
-FYI, the error/warning still remains.
+Signed-off-by: James_Lin <Ping-lei.Lin@mediatek.com>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 5 +++++
+ drivers/media/usb/uvc/uvcvideo.h   | 3 +++
+ 2 files changed, 8 insertions(+)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b2d229d4ddb17db541098b83524d901257e93845
-commit: 71c689dc2e732d4cb190aaf0edea73116b1611bd media: v4l2-ctrls: split up into four source files
-date:   11 months ago
-config: x86_64-randconfig-s022-20220418 (https://download.01.org/0day-ci/archive/20220418/202204181650.mPKQyrSo-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=71c689dc2e732d4cb190aaf0edea73116b1611bd
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 71c689dc2e732d4cb190aaf0edea73116b1611bd
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/v4l2-core/v4l2-ctrls-request.o: warning: objtool: v4l2_ctrl_request_complete()+0xace: stack state mismatch: reg1[14]=-2-32 reg2[14]=-1+0
-
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index dda0f0aa78b8..e437e9f95890 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -154,6 +154,11 @@ static struct uvc_format_desc uvc_fmts[] = {
+ 		.guid		= UVC_GUID_FORMAT_H264,
+ 		.fcc		= V4L2_PIX_FMT_H264,
+ 	},
++	{
++		.name		= "H.265",
++		.guid		= UVC_GUID_FORMAT_H265,
++		.fcc		= V4L2_PIX_FMT_HEVC,
++	},
+ 	{
+ 		.name		= "Greyscale 8 L/R (Y8I)",
+ 		.guid		= UVC_GUID_FORMAT_Y8I,
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 143230b3275b..41f4d8c33f2a 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -139,6 +139,9 @@
+ #define UVC_GUID_FORMAT_H264 \
+ 	{ 'H',  '2',  '6',  '4', 0x00, 0x00, 0x10, 0x00, \
+ 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
++#define UVC_GUID_FORMAT_H265 \
++	{ 'H',  '2',  '6',  '5', 0x00, 0x00, 0x10, 0x00, \
++	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+ #define UVC_GUID_FORMAT_Y8I \
+ 	{ 'Y',  '8',  'I',  ' ', 0x00, 0x00, 0x10, 0x00, \
+ 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.18.0
+
