@@ -2,154 +2,410 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F1B0506B59
-	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 13:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7CD7506C1C
+	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 14:17:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351861AbiDSLtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Apr 2022 07:49:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39850 "EHLO
+        id S1352122AbiDSMSv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Apr 2022 08:18:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351845AbiDSLtL (ORCPT
+        with ESMTP id S241389AbiDSMSu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Apr 2022 07:49:11 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CE3A33E8D
-        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 04:46:29 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id i3-20020a056830010300b00605468119c3so5230083otp.11
-        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 04:46:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zr+VGX0mhBp9NZinaclK39Iaheyjh+GcxufQM98q2T4=;
-        b=TaPVENVs6UeX/0wd28BijzB9+2vH3hkykLfAx6Z+TianLJL/RErxbAX9zvCD+siM/Z
-         uLqmKaIs6I21/BZuoX5aH54xHpMduMGKHjQmyllRJaUuuBA2culEnlxqKuir7uxiFapV
-         3KrFAo/2ggciJwo9Etg/qeEu5hsSc4fTqlm8c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zr+VGX0mhBp9NZinaclK39Iaheyjh+GcxufQM98q2T4=;
-        b=2k6VTDOwZWYnc3Z/D/UUxU8yj2qkPiUjvB1NnBe2BBPxbrJsOUHVNblNWzKgqXUyTl
-         XO2ANdk5sRzOno2avs0Mj/Xlu57P/9ToocMntETz7E1rneKFJQIEpVPhZY9hkpmN0xr6
-         2hK7Nu5AU7EIIdOc2w1y5c/zcAtF6GrTElfpX6efFsxYoccGN2xa6PcMxXD3m2UF0ObK
-         MVO+ggMNDx8AuXaTKMhDLU8Zwj3Jq39C1xMjmSUUucFsUtCnsypnk/QU1R2Mu1teP1fD
-         lVfabGZhfCp59ejpgOR+ZwGyW+7o3Sx15u7SXA743g5qOfO3d6Kz8VbH23XwQQMGjwaH
-         CWbA==
-X-Gm-Message-State: AOAM530rkUAXiYPFs1dkDft6V0lebhuLnNXAYQbK3S5JWTX6CZREHjtT
-        2/oiWgZllHxU5gVUcmeFVPYf9UV1xUL1Gw==
-X-Google-Smtp-Source: ABdhPJx92ShHuU9h0GL3RZgMVTUDZB1ZRlMmtow5udaPijaSd7Vdf44ExSB+s+twpvXURPoi7L+d3w==
-X-Received: by 2002:a9d:1b68:0:b0:5c9:5da1:3752 with SMTP id l95-20020a9d1b68000000b005c95da13752mr5512789otl.354.1650368788179;
-        Tue, 19 Apr 2022 04:46:28 -0700 (PDT)
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com. [209.85.161.42])
-        by smtp.gmail.com with ESMTPSA id x26-20020a056830115a00b0060551592a0asm1199356otq.80.2022.04.19.04.46.26
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Apr 2022 04:46:27 -0700 (PDT)
-Received: by mail-oo1-f42.google.com with SMTP id i8-20020a4a6f48000000b00324ada4b9d9so2986308oof.11
-        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 04:46:26 -0700 (PDT)
-X-Received: by 2002:a4a:8081:0:b0:33a:52ed:3b3b with SMTP id
- z1-20020a4a8081000000b0033a52ed3b3bmr1777631oof.26.1650368786395; Tue, 19 Apr
- 2022 04:46:26 -0700 (PDT)
+        Tue, 19 Apr 2022 08:18:50 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B2C2251C
+        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 05:16:07 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6D1225B;
+        Tue, 19 Apr 2022 14:16:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1650370565;
+        bh=e0VJB9a5QSSsi2NfT13t6fdxFeR5iMaUHc6WXTwlJnM=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=a4bqnUvXkj4Yul7YKT428yU35YqW+pofuw6kksIgm9Jnj3Wfsa04+MdLiyBptlOKN
+         uv32BpyJnk/uFsv8CzSLMin8PDBJWij0Jj7D1eocdDHnkt6MwbrHCCEiMjUGb8e3LT
+         NpZY8WdlQ81u/p33PyAUKdnZCchcTSYyWlTfBSGg=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220418090652.3156-1-Ping-lei.Lin@mediatek.com>
-In-Reply-To: <20220418090652.3156-1-Ping-lei.Lin@mediatek.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 19 Apr 2022 13:46:15 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvLb785H7qyAzSfTSBRpO2eM-oJFF5SgVHXdL1O-GusLA@mail.gmail.com>
-Message-ID: <CANiDSCvLb785H7qyAzSfTSBRpO2eM-oJFF5SgVHXdL1O-GusLA@mail.gmail.com>
-Subject: Re: [PATCH v3] media: usb: uvc: Add UVC_GUID_FORMAT_H265
-To:     James_Lin <Ping-lei.Lin@mediatek.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220415023855.2568366-2-yunkec@google.com>
+References: <20220415023855.2568366-1-yunkec@google.com> <20220415023855.2568366-2-yunkec@google.com>
+Subject: Re: [PATCH v1 1/2] media: vimc: add ancillary lens
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, sherlock.chang@mediatek.com,
-        lecopzer.chen@mediatek.com, max.yan@mediatek.com,
-        tm.wu@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Daniel Scally <djrscally@gmail.com>,
+        linux-media@vger.kernel.org, Yunke Cao <yunkec@google.com>
+To:     Yunke Cao <yunkec@google.com>
+Date:   Tue, 19 Apr 2022 13:16:03 +0100
+Message-ID: <165037056336.2548121.16870543641391713634@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi James
+Hi Yunke,
 
-Thanks for your patch
+This is a very interesting development!
 
-On Mon, 18 Apr 2022 at 11:07, James_Lin <Ping-lei.Lin@mediatek.com> wrote:
->
-> This patch aims to add UVC_GUID_FORMAT_H265
-> High Efficiency Video Coding (HEVC), also known as H.265 and MPEG-H Part 2.
-> They describe the same video encoding method.
-> So for handling their behavior is the same.
-> However, when external camera device describes this encoding method,
-> some use hevc, some use h265.
-> There is no uniform specification to describe this encoding method.
-> So if an external camera device use h265 to describe this encoding method,
-> driver will not recognize it.
-> Therefore, this patch is to enable driver to read HEVC/H265
-> and convert it to V4L2_PIX_FMT_HEVC.
->
-> Signed-off-by: James_Lin <Ping-lei.Lin@mediatek.com>
-
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-
+Quoting Yunke Cao (2022-04-15 03:38:54)
+> Add a basic version of vimc lens.
+> Link lens with sensors using ancillary links.
+>=20
+> Signed-off-by: Yunke Cao <yunkec@google.com>
 > ---
->  drivers/media/usb/uvc/uvc_driver.c | 5 +++++
->  drivers/media/usb/uvc/uvcvideo.h   | 3 +++
->  2 files changed, 8 insertions(+)
->
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index dda0f0aa78b8..e437e9f95890 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -154,6 +154,11 @@ static struct uvc_format_desc uvc_fmts[] = {
->                 .guid           = UVC_GUID_FORMAT_H264,
->                 .fcc            = V4L2_PIX_FMT_H264,
+>  drivers/media/test-drivers/vimc/Makefile      |   2 +-
+>  drivers/media/test-drivers/vimc/vimc-common.h |   1 +
+>  drivers/media/test-drivers/vimc/vimc-core.c   |  86 +++++++++++----
+>  drivers/media/test-drivers/vimc/vimc-lens.c   | 102 ++++++++++++++++++
+>  4 files changed, 170 insertions(+), 21 deletions(-)
+>  create mode 100644 drivers/media/test-drivers/vimc/vimc-lens.c
+>=20
+> diff --git a/drivers/media/test-drivers/vimc/Makefile b/drivers/media/tes=
+t-drivers/vimc/Makefile
+> index a53b2b532e9f..9b9631562473 100644
+> --- a/drivers/media/test-drivers/vimc/Makefile
+> +++ b/drivers/media/test-drivers/vimc/Makefile
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  vimc-y :=3D vimc-core.o vimc-common.o vimc-streamer.o vimc-capture.o \
+> -               vimc-debayer.o vimc-scaler.o vimc-sensor.o
+> +               vimc-debayer.o vimc-scaler.o vimc-sensor.o vimc-lens.o
+> =20
+>  obj-$(CONFIG_VIDEO_VIMC) +=3D vimc.o
+> =20
+> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/medi=
+a/test-drivers/vimc/vimc-common.h
+> index ba1930772589..37f6b687ce10 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-common.h
+> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
+> @@ -171,6 +171,7 @@ extern struct vimc_ent_type vimc_sen_type;
+>  extern struct vimc_ent_type vimc_deb_type;
+>  extern struct vimc_ent_type vimc_sca_type;
+>  extern struct vimc_ent_type vimc_cap_type;
+> +extern struct vimc_ent_type vimc_len_type;
+
+Aha, I see 'len' is short for 'lens'... I think that confused me below.
+
+I wonder if these should be longer. 'len' makes me think of 'length' too
+much, and 'lens' is only one char longer. But I guess this is
+established in this driver already so it would need a patch to change
+vimc_{deb,sca,cap}_type before calling it lens.
+
+
+>  /**
+>   * vimc_pix_map_by_index - get vimc_pix_map struct by its index
+> diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/=
+test-drivers/vimc/vimc-core.c
+> index 06edf9d4d92c..166323406c6b 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-core.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-core.c
+> @@ -24,7 +24,7 @@ MODULE_PARM_DESC(allocator, " memory allocator selectio=
+n, default is 0.\n"
+> =20
+>  #define VIMC_MDEV_MODEL_NAME "VIMC MDEV"
+> =20
+> -#define VIMC_ENT_LINK(src, srcpad, sink, sinkpad, link_flags) {        \
+> +#define VIMC_DATA_LINK(src, srcpad, sink, sinkpad, link_flags) {       \
+>         .src_ent =3D src,                                         \
+>         .src_pad =3D srcpad,                                      \
+>         .sink_ent =3D sink,                                       \
+> @@ -32,8 +32,13 @@ MODULE_PARM_DESC(allocator, " memory allocator selecti=
+on, default is 0.\n"
+>         .flags =3D link_flags,                                    \
+>  }
+> =20
+> -/* Structure which describes links between entities */
+> -struct vimc_ent_link {
+> +#define VIMC_ANCILLARY_LINK(primary, ancillary) {      \
+> +       .primary_ent =3D primary,                 \
+> +       .ancillary_ent =3D ancillary              \
+> +}
+> +
+> +/* Structure which describes data links between entities */
+> +struct vimc_data_link {
+>         unsigned int src_ent;
+>         u16 src_pad;
+>         unsigned int sink_ent;
+> @@ -41,12 +46,20 @@ struct vimc_ent_link {
+>         u32 flags;
+>  };
+> =20
+> +/* Structure which describes ancillary links between entities */
+> +struct vimc_ancillary_link {
+> +       unsigned int primary_ent;
+> +       unsigned int ancillary_ent;
+> +};
+> +
+>  /* Structure which describes the whole topology */
+>  struct vimc_pipeline_config {
+>         const struct vimc_ent_config *ents;
+>         size_t num_ents;
+> -       const struct vimc_ent_link *links;
+> -       size_t num_links;
+> +       const struct vimc_data_link *data_links;
+> +       size_t num_data_links;
+> +       const struct vimc_ancillary_link *ancillary_links;
+> +       size_t num_ancillary_links;
+>  };
+> =20
+>  /* ---------------------------------------------------------------------=
+-----
+> @@ -91,32 +104,49 @@ static struct vimc_ent_config ent_config[] =3D {
+>                 .name =3D "RGB/YUV Capture",
+>                 .type =3D &vimc_cap_type
 >         },
-
-Maybe I would add a comment here saying that some cameras represent
-hevc as h265.
-
 > +       {
-> +               .name           = "H.265",
-> +               .guid           = UVC_GUID_FORMAT_H265,
-> +               .fcc            = V4L2_PIX_FMT_HEVC,
+> +               .name =3D "Lens A",
+> +               .type =3D &vimc_len_type
 > +       },
->         {
->                 .name           = "Greyscale 8 L/R (Y8I)",
->                 .guid           = UVC_GUID_FORMAT_Y8I,
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 143230b3275b..41f4d8c33f2a 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -139,6 +139,9 @@
->  #define UVC_GUID_FORMAT_H264 \
->         { 'H',  '2',  '6',  '4', 0x00, 0x00, 0x10, 0x00, \
->          0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-> +#define UVC_GUID_FORMAT_H265 \
-> +       { 'H',  '2',  '6',  '5', 0x00, 0x00, 0x10, 0x00, \
-> +        0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
->  #define UVC_GUID_FORMAT_Y8I \
->         { 'Y',  '8',  'I',  ' ', 0x00, 0x00, 0x10, 0x00, \
->          0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-> --
-> 2.18.0
+> +       {
+> +               .name =3D "Lens B",
+> +               .type =3D &vimc_len_type
+> +       },
+>  };
+> =20
+> -static const struct vimc_ent_link ent_links[] =3D {
+> +static const struct vimc_data_link data_links[] =3D {
+>         /* Link: Sensor A (Pad 0)->(Pad 0) Debayer A */
+> -       VIMC_ENT_LINK(0, 0, 2, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMM=
+UTABLE),
+> +       VIMC_DATA_LINK(0, 0, 2, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IM=
+MUTABLE),
+>         /* Link: Sensor A (Pad 0)->(Pad 0) Raw Capture 0 */
+> -       VIMC_ENT_LINK(0, 0, 4, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMM=
+UTABLE),
+> +       VIMC_DATA_LINK(0, 0, 4, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IM=
+MUTABLE),
+>         /* Link: Sensor B (Pad 0)->(Pad 0) Debayer B */
+> -       VIMC_ENT_LINK(1, 0, 3, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMM=
+UTABLE),
+> +       VIMC_DATA_LINK(1, 0, 3, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IM=
+MUTABLE),
+>         /* Link: Sensor B (Pad 0)->(Pad 0) Raw Capture 1 */
+> -       VIMC_ENT_LINK(1, 0, 5, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMM=
+UTABLE),
+> +       VIMC_DATA_LINK(1, 0, 5, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IM=
+MUTABLE),
+>         /* Link: Debayer A (Pad 1)->(Pad 0) Scaler */
+> -       VIMC_ENT_LINK(2, 1, 7, 0, MEDIA_LNK_FL_ENABLED),
+> +       VIMC_DATA_LINK(2, 1, 7, 0, MEDIA_LNK_FL_ENABLED),
+>         /* Link: Debayer B (Pad 1)->(Pad 0) Scaler */
+> -       VIMC_ENT_LINK(3, 1, 7, 0, 0),
+> +       VIMC_DATA_LINK(3, 1, 7, 0, 0),
+>         /* Link: RGB/YUV Input (Pad 0)->(Pad 0) Scaler */
+> -       VIMC_ENT_LINK(6, 0, 7, 0, 0),
+> +       VIMC_DATA_LINK(6, 0, 7, 0, 0),
+>         /* Link: Scaler (Pad 1)->(Pad 0) RGB/YUV Capture */
+> -       VIMC_ENT_LINK(7, 1, 8, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMM=
+UTABLE),
+> +       VIMC_DATA_LINK(7, 1, 8, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IM=
+MUTABLE),
+> +};
+> +
+> +static const struct vimc_ancillary_link ancillary_links[] =3D {
+> +       /* Link: Sensor A -> Lens A */
+> +       VIMC_ANCILLARY_LINK(0, 9),
+> +       /* Link: Sensor B -> Lens B */
+> +       VIMC_ANCILLARY_LINK(1, 10),
+>  };
+
+There's a lot of magic indexes here (not a fault of your patch) - I
+would probably restructure this to have the indexes named in an enum.
+
+But - I don't think that is required for your patch - just something I
+think should be done for VIMC to make this clearer and less likely to
+get an incorrect index one day.
+
+ =20
+>  static struct vimc_pipeline_config pipe_cfg =3D {
+> -       .ents           =3D ent_config,
+> -       .num_ents       =3D ARRAY_SIZE(ent_config),
+> -       .links          =3D ent_links,
+> -       .num_links      =3D ARRAY_SIZE(ent_links)
+> +       .ents                =3D ent_config,
+> +       .num_ents            =3D ARRAY_SIZE(ent_config),
+> +       .data_links          =3D data_links,
+> +       .num_data_links      =3D ARRAY_SIZE(data_links),
+> +       .ancillary_links     =3D ancillary_links,
+> +       .num_ancillary_links =3D ARRAY_SIZE(ancillary_links),
+>  };
+> =20
+>  /* ---------------------------------------------------------------------=
+----- */
+> @@ -135,8 +165,8 @@ static int vimc_create_links(struct vimc_device *vimc)
+>         int ret;
+> =20
+>         /* Initialize the links between entities */
+> -       for (i =3D 0; i < vimc->pipe_cfg->num_links; i++) {
+> -               const struct vimc_ent_link *link =3D &vimc->pipe_cfg->lin=
+ks[i];
+> +       for (i =3D 0; i < vimc->pipe_cfg->num_data_links; i++) {
+> +               const struct vimc_data_link *link =3D &vimc->pipe_cfg->da=
+ta_links[i];
+> =20
+>                 struct vimc_ent_device *ved_src =3D
+>                         vimc->ent_devs[link->src_ent];
+> @@ -150,6 +180,22 @@ static int vimc_create_links(struct vimc_device *vim=
+c)
+>                         goto err_rm_links;
+>         }
+> =20
+> +       for (i =3D 0; i < vimc->pipe_cfg->num_ancillary_links; i++) {
+> +               const struct vimc_ancillary_link *link =3D &vimc->pipe_cf=
+g->ancillary_links[i];
+> +
+> +               struct vimc_ent_device *ved_primary =3D
+> +                       vimc->ent_devs[link->primary_ent];
+> +               struct vimc_ent_device *ved_ancillary =3D
+> +                       vimc->ent_devs[link->ancillary_ent];
+> +               struct media_link *ret_link =3D
+> +                       media_create_ancillary_link(ved_primary->ent, ved=
+_ancillary->ent);
+> +
+> +               if (IS_ERR(ret_link)) {
+> +                       ret =3D PTR_ERR(link);
+> +                       goto err_rm_links;
+> +               }
+> +       }
+> +
+>         return 0;
+> =20
+>  err_rm_links:
+> diff --git a/drivers/media/test-drivers/vimc/vimc-lens.c b/drivers/media/=
+test-drivers/vimc/vimc-lens.c
+> new file mode 100644
+> index 000000000000..dfe824d3addb
+> --- /dev/null
+> +++ b/drivers/media/test-drivers/vimc/vimc-lens.c
+> @@ -0,0 +1,102 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * vimc-lens.c Virtual Media Controller Driver
+> + * Copyright (C) 2022 Google, Inc
+> + * Author: yunkec@google.com (Yunke Cao)
+> + */
+> +
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-subdev.h>
+> +
+> +#include "vimc-common.h"
+> +
+> +#define VIMC_LEN_MAX_FOCUS_POS 1023
+> +#define VIMC_LEN_MAX_FOCUS_STEP        1
+> +
+> +struct vimc_len_device {
+> +       struct vimc_ent_device ved;
+> +       struct v4l2_subdev sd;
+> +       struct v4l2_ctrl_handler hdl;
+> +       u32 focus_absolute;
+
+I'm not 100% certain we need to actually store this, as I think having
+the control itself is enough - but I think it's good to keep this here.
+
+I wonder if we might have some filter on the value sometime for
+retrieval so we can emulate the physical movement delays  ... but I'm
+getting ahead of myself there, and this is fine as is.
+
+I can't actually see any particular issues with this as it stands, and
+my comments so far are really only about separate developments or
+patches on top of this - so I am already tempted to offer:
+
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+
+> +};
+> +
+> +static const struct v4l2_subdev_core_ops vimc_len_core_ops =3D {
+> +       .log_status =3D v4l2_ctrl_subdev_log_status,
+
+Oh nice so that already logs the current control settings.
+
+> +       .subscribe_event =3D v4l2_ctrl_subdev_subscribe_event,
+> +       .unsubscribe_event =3D v4l2_event_subdev_unsubscribe,
+> +};
+> +
+> +static const struct v4l2_subdev_ops vimc_len_ops =3D {
+> +       .core =3D &vimc_len_core_ops
+> +};
+> +
+> +static int vimc_len_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +       struct vimc_len_device *vlen =3D
+> +               container_of(ctrl->handler, struct vimc_len_device, hdl);
+> +       if (ctrl->id =3D=3D V4L2_CID_FOCUS_ABSOLUTE) {
+> +               vlen->focus_absolute =3D ctrl->val;
+> +               return 0;
+> +       }
+> +       return -EINVAL;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops vimc_len_ctrl_ops =3D {
+> +       .s_ctrl =3D vimc_len_s_ctrl,
+> +};
+> +
+> +static struct vimc_ent_device *vimc_len_add(struct vimc_device *vimc,
+> +                                           const char *vcfg_name)
+> +{
+> +       struct v4l2_device *v4l2_dev =3D &vimc->v4l2_dev;
+> +       struct vimc_len_device *vlen;
+> +       int ret;
+> +
+> +       /* Allocate the vlen struct */
+> +       vlen =3D kzalloc(sizeof(*vlen), GFP_KERNEL);
+> +       if (!vlen)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       v4l2_ctrl_handler_init(&vlen->hdl, 1);
+> +
+> +       v4l2_ctrl_new_std(&vlen->hdl, &vimc_len_ctrl_ops,
+> +                         V4L2_CID_FOCUS_ABSOLUTE, 0,
+> +                         VIMC_LEN_MAX_FOCUS_POS, VIMC_LEN_MAX_FOCUS_STEP=
+, 0);
+> +       vlen->sd.ctrl_handler =3D &vlen->hdl;
+> +       if (vlen->hdl.error) {
+> +               ret =3D vlen->hdl.error;
+> +               goto err_free_vlen;
+> +       }
+> +       vlen->ved.dev =3D vimc->mdev.dev;
+> +
+> +       ret =3D vimc_ent_sd_register(&vlen->ved, &vlen->sd, v4l2_dev,
+> +                                  vcfg_name, MEDIA_ENT_F_LENS, 0,
+> +                                  NULL, &vimc_len_ops);
+> +       if (ret)
+> +               goto err_free_hdl;
+> +
+> +       return &vlen->ved;
+> +
+> +err_free_hdl:
+> +       v4l2_ctrl_handler_free(&vlen->hdl);
+> +err_free_vlen:
+> +       kfree(vlen);
+> +
+> +       return ERR_PTR(ret);
+> +}
+> +
+> +static void vimc_len_release(struct vimc_ent_device *ved)
+> +{
+> +       struct vimc_len_device *vlen =3D
+> +               container_of(ved, struct vimc_len_device, ved);
+> +
+> +       v4l2_ctrl_handler_free(&vlen->hdl);
+> +       media_entity_cleanup(vlen->ved.ent);
+> +       kfree(vlen);
+> +}
+> +
+> +struct vimc_ent_type vimc_len_type =3D {
+> +       .add =3D vimc_len_add,
+> +       .release =3D vimc_len_release
+> +};
+> --=20
+> 2.36.0.rc0.470.gd361397f0d-goog
 >
-
-
--- 
-Ricardo Ribalda
