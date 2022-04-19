@@ -2,163 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5183A50638F
-	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 06:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 711CE5063B7
+	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 07:07:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348501AbiDSEzK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Apr 2022 00:55:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48816 "EHLO
+        id S1346540AbiDSFKE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Apr 2022 01:10:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346148AbiDSEyz (ORCPT
+        with ESMTP id S238277AbiDSFKC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Apr 2022 00:54:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D20E65EA
-        for <linux-media@vger.kernel.org>; Mon, 18 Apr 2022 21:49:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C2428611B5
-        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 04:49:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9CCDC385A5
-        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 04:49:51 +0000 (UTC)
-Date:   Tue, 19 Apr 2022 06:49:49 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220419044951.E9CCDC385A5@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 19 Apr 2022 01:10:02 -0400
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 366DB20190;
+        Mon, 18 Apr 2022 22:07:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1650344841; x=1681880841;
+  h=from:to:cc:subject:date:message-id;
+  bh=GdTiCrZbPfX19PSnyI6txSuLTMmt+h3YnRZA1pn6xpo=;
+  b=s+XWdRNYeSSFV8ErztHPsulc9O2/QtTo8ggu3Rk2MlcLNJFjxNblXl5+
+   q1WGCLw7otFFU+o2VrdCMEwCDQpo6JL/5W+TwVMDmwJOZwhHgsbIQ/G34
+   yFcBQQJ9pfaBVxjlhbPWerUIsx6OLaCLSjyxdSfmQohGnVqyWsxsyEcZ1
+   0=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 18 Apr 2022 22:07:21 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 18 Apr 2022 22:07:19 -0700
+X-QCInternal: smtphost
+Received: from hu-dikshita-hyd.qualcomm.com (HELO hu-sgudaval-hyd.qualcomm.com) ([10.213.110.13])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 19 Apr 2022 10:37:03 +0530
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
+        id 7F22F434D; Tue, 19 Apr 2022 10:37:02 +0530 (+0530)
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl
+Cc:     linux-arm-msm@vger.kernel.org, ezequiel@collabora.com,
+        stanimir.varbanov@linaro.org, quic_vgarodia@quicinc.com,
+        quic_majja@quicinc.com, quic_jdas@quicinc.com,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH v5 0/2] Introduce Intra-refresh type control
+Date:   Tue, 19 Apr 2022 10:36:41 +0530
+Message-Id: <1650344803-6884-1-git-send-email-quic_dikshita@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi,
 
-Results of the daily build of media_tree:
+This series add a new intra-refresh type control for encoders.
+this can be used to specify which intra refresh to be enabled, random, cyclic or none.
 
-date:			Tue Apr 19 05:00:14 CEST 2022
-media-tree git hash:	3d59142ad94cf60b94b3dc94c19fdafa23aec8b1
-media_build git hash:	4e29721804ea4e824c776101214389642dccad98
-v4l-utils git hash:	6de743337007df7ed8161919d747bc0a397a60c5
-edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7885-gb67c6ed1-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
-host hardware:		x86_64
-host os:		5.16.0-6-amd64
+Change since v0:
+ Dropped INTRA_REFRESH_TYPE_NONE as it was not needed.
+ Intra refresh period value as zero will disable the intra  refresh.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-davinci: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.308-i686: OK
-linux-4.9.308-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.275-i686: OK
-linux-4.14.275-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.237-i686: OK
-linux-4.19.237-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.109-i686: OK
-linux-5.10.109-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.14.21-i686: OK
-linux-5.14.21-x86_64: OK
-linux-5.15.32-i686: OK
-linux-5.15.32-x86_64: OK
-linux-5.16.9-i686: OK
-linux-5.16.9-x86_64: OK
-linux-5.17.1-i686: OK
-linux-5.17.1-x86_64: OK
-linux-5.18-rc1-i686: OK
-linux-5.18-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-kerneldoc: OK
+Change since v1:
+ Updated the control name for better undestanding.
+ Also updated the documentation accordingly.
 
-Detailed results are available here:
+Change since v2:
+ Updated the venus driver implementation as well to use the  correct control name. Missed in v2.
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+Change since v3:
+ Addressed comments from Hans in v4l2 patch.
+ Enabled the support for cyclic intra refresh in venus driver.
 
-Detailed regression test results are available here:
+Change since v4:
+ fixed typos in v4l2 patch.
+ fix mask value in venus driver patch (Hans).
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+Thanks,
+Dikshita
 
-Full logs are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+Dikshita Agarwal (2):
+  media: v4l2-ctrls: Add intra-refresh type control
+  venus: venc: Add support for intra-refresh mode
 
-The Media Infrastructure API from this daily build is here:
+ .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 22 ++++++++++++++++++++++
+ drivers/media/platform/qcom/venus/core.h           |  1 +
+ drivers/media/platform/qcom/venus/venc.c           |  6 +++++-
+ drivers/media/platform/qcom/venus/venc_ctrls.c     |  8 ++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  9 +++++++++
+ include/uapi/linux/v4l2-controls.h                 |  5 +++++
+ 6 files changed, 50 insertions(+), 1 deletion(-)
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+2.7.4
+
