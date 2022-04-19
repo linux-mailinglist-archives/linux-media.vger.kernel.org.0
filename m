@@ -2,102 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE338507AE5
-	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 22:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58B38507AE6
+	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 22:25:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355187AbiDSUYB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Apr 2022 16:24:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46282 "EHLO
+        id S1350654AbiDSU2X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Apr 2022 16:28:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354068AbiDSUX6 (ORCPT
+        with ESMTP id S242939AbiDSU2W (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Apr 2022 16:23:58 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5E23286CA;
-        Tue, 19 Apr 2022 13:21:14 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id t1so23958791wra.4;
-        Tue, 19 Apr 2022 13:21:14 -0700 (PDT)
+        Tue, 19 Apr 2022 16:28:22 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DA74344FE
+        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 13:25:38 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id e21so23952402wrc.8
+        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 13:25:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=KuUgvlE4fmeiilILKG1ZLlvrT1f2Vl+nDCg070wtPPg=;
-        b=e7JughPR4wMB3RJe6fqu/lzWsw6B7hEBwHd8NxXPclDSYtwrgro6K+QnKtJgSSdW3J
-         Mr3+MqBCCIn3xGByGzsIJk9vfIJVmi+E+7ap5eK0HEcnRSvp1Q9zhijODxrfTAZNsgGB
-         xO04RX+xgEK7xKV8yyGrdQQcMcRd0ttkx22VTZEC0THa7OOiw1ywZgQLr8t2x9bb7Vmf
-         LZJvZ6ZmJVzOTBJ+TY64en8ojJ3atfgrlzEV0/aUMjmJ6JhqcbhZYlDB6RAPlZ0AU23J
-         3PZqWnSnfL1PHqd5v66rnKC59964jH+59oqPbh5PNyRfFqO+6npawKF8zAGh05mlsMQn
-         vhRg==
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=pcOIqjfOGD4mtjARe3uelHp7io5D0VG5aulAy4XSsSE=;
+        b=jk+At37pWha++fG0bOqH1cehAjORXIhVilgOsoOr4DiVQEWJ7Q1GvtuRDol2+RaZww
+         H24QRMFi5eiF6gBlVvMX0xRXf1qscpTti5kE3R9ggMkFo+z7BTAEcsLsYKCf6u9DcFys
+         6GQw06yQkdCIjp0S0rQvzHqpqd2hSbyH5g4NmZNlLwMCrIpwCOoIpGOJkelLcUThmx4H
+         RDHgbQQdvJXmSNjQTQ7je/fywIObGcoZae1EGm2CXGnkuucfydAoGV7JjrOlVOOqCrzI
+         gmiCVnCeRxUE3D9IXYlMvfkhlWNi0YBgAsv8qkSGFAcuE42MWwvDULcyCeagD9zbG1JS
+         hIxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KuUgvlE4fmeiilILKG1ZLlvrT1f2Vl+nDCg070wtPPg=;
-        b=bpum+bCaZdhr/+LUxRcTHdlquS83tqBvPgoQsww9KuGT0Sp8qzYV9Fh6x7okWIXLda
-         LU8x2qYodatI3ixOIuHcWOrWDZrfXGfHEwpnPVRf/EwGk4wKnJgcXaVWOk1uCw2dK8d6
-         cvhcvs0zD34HReRjvURmlRKyGlOr6W0Rt2+MAZusrCrBBR0f7jdhxS4FRPdQAwojgXzm
-         rSTrafZa/z6czB6zg8hIJ3BEXUPCwEpDgF2sRAst3uca0KKQbd6E6dZ4ip9TuoBmdPZy
-         smNV3ID8ZsJiS67cST2r7+zT3+8S8nFKC1F7+4yE0cZjVe5cJNxDbYUJbsQdQbJPUNgP
-         s3Pw==
-X-Gm-Message-State: AOAM532bsMyL/sRIf37ruH+KEmQ/oyFuEjhFv4+dlqa7ZmWZr0OfKqJ/
-        dTGXHl5sS0rQObiloJFWNLhNNQCnpgQ=
-X-Google-Smtp-Source: ABdhPJyrQuLDn1Jn7QM5XCw/RXqBWMTbpcRjH4K7vsPjpbVj6MgZT7J7LZQYUvotmPbX1SdGtP5nJQ==
-X-Received: by 2002:adf:8162:0:b0:207:99d3:6c0b with SMTP id 89-20020adf8162000000b0020799d36c0bmr13032294wrm.429.1650399673289;
-        Tue, 19 Apr 2022 13:21:13 -0700 (PDT)
-Received: from localhost.localdomain ([141.72.243.13])
-        by smtp.gmail.com with ESMTPSA id b11-20020a5d45cb000000b0020a810f7726sm9959168wrs.5.2022.04.19.13.21.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Apr 2022 13:21:12 -0700 (PDT)
-From:   Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-To:     matt.ranostay@konsulko.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-Subject: [PATCH 3/3] media: i2c: video-i2c: Use GENMASK for masking bits
-Date:   Tue, 19 Apr 2022 22:20:51 +0200
-Message-Id: <20220419202051.44013-4-mosescb.dev@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220419202051.44013-1-mosescb.dev@gmail.com>
-References: <20220419202051.44013-1-mosescb.dev@gmail.com>
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=pcOIqjfOGD4mtjARe3uelHp7io5D0VG5aulAy4XSsSE=;
+        b=bXIDCX9Z1FUAA9LfZ/TK1T9AM3UVATwChLHKymefvghIFoIXVNW0u4C/dWQ08KSXmv
+         Z40RnA8xzynlK44mrwmtD3NE8eEzibJ0FMhiN3Xgb2OznAM6l3y0N6XD8ss6g5W+orsn
+         bQLAegQTmOycKT0OeBKf2IK4E4SMC9mR0Ow4TqAB5zBEYQNkptIV39rYwFJ4GiABUBk/
+         8l07Uz0cgPfUVpw+FMGhGIuDImXu2cEEtDluWJ7Wy8Exrf3w5cTIKu3RHvyxzK8vsoK8
+         mPIvX58+rPALg5HWrjgQdXJXt5+mP6n8VT8I8Y2SHJqa326DiROlA/MSmuIP2QVv9qV8
+         Ysrw==
+X-Gm-Message-State: AOAM531hnNeYQuQPUYCrSg54gJSRrK6MWgpSOmUHCDlWLcurMlHX1sYA
+        5lyhy4VHkoPhjt7P+DPg0/4ofrv5sIqqoHd2cZE=
+X-Google-Smtp-Source: ABdhPJygUGbsmMxwnnpq+a8Nu0zn5exh49TfDNpQphRFfVaqpgsFVn1cxlgftswXyTqfV/17nmK0JAn2gPg8LEvLpV4=
+X-Received: by 2002:a5d:4d91:0:b0:207:ac32:cffb with SMTP id
+ b17-20020a5d4d91000000b00207ac32cffbmr13083676wru.644.1650399936791; Tue, 19
+ Apr 2022 13:25:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Reply-To: mr.a.manga99@gmail.com
+Sender: arnettdavid1991@gmail.com
+Received: by 2002:a5d:4304:0:0:0:0:0 with HTTP; Tue, 19 Apr 2022 13:25:36
+ -0700 (PDT)
+From:   "Mr. Amos Manga" <mr.a.manga99@gmail.com>
+Date:   Tue, 19 Apr 2022 13:25:36 -0700
+X-Google-Sender-Auth: s8sQu229s9ZS7TV6lMLuaeoKmd8
+Message-ID: <CAPpYQm=32YU-xYJDONfPQ+j3weQDAsHf-DXiGEOh7jbFxcoqtw@mail.gmail.com>
+Subject: STRICTLY AND CONFIDENTIAL:
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORM_FRAUD_5,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,
+        HK_NAME_FM_MR_MRS,LOTS_OF_MONEY,MONEY_FORM_SHORT,MONEY_FRAUD_5,
+        MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        SUBJ_ALL_CAPS,T_FILL_THIS_FORM_SHORT,T_MONEY_PERCENT,
+        T_SCC_BODY_TEXT_LINE,T_US_DOLLARS_3,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:432 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5755]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mr.a.manga99[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [arnettdavid1991[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [mr.a.manga99[at]gmail.com]
+        *  0.0 T_US_DOLLARS_3 BODY: Mentions millions of $ ($NN,NNN,NNN.NN)
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  1.5 HK_NAME_FM_MR_MRS No description available.
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
+        *  0.0 T_FILL_THIS_FORM_SHORT Fill in a short form with personal
+        *      information
+        *  0.0 MONEY_FORM_SHORT Lots of money if you fill out a short form
+        *  2.1 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+        *  0.1 MONEY_FRAUD_5 Lots of money and many fraud phrases
+        *  0.0 FORM_FRAUD_5 Fill a form and many fraud phrases
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace 0x0380 with GENMASK(9, 7) to obtain 0b0000_0011_1000_0000
+Good day,
 
-Signed-off-by: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
----
- drivers/media/i2c/video-i2c.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I know this means of communication may not be morally right to you as
+a person but I also have had a great thought about it and I have come
+to conclusion which I am about to share with you.
 
-diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-index 1d5f48329cb2..e08e3579c0a1 100644
---- a/drivers/media/i2c/video-i2c.c
-+++ b/drivers/media/i2c/video-i2c.c
-@@ -9,6 +9,7 @@
-  * - Melexis MLX90640 Thermal Cameras
-  */
- 
-+#include <linux/bits.h>
- #include <linux/delay.h>
- #include <linux/freezer.h>
- #include <linux/hwmon.h>
-@@ -62,7 +63,7 @@
- 
- /* Control register */
- #define MLX90640_REG_CTL1		0x800d
--#define MLX90640_REG_CTL1_MASK		0x0380
-+#define MLX90640_REG_CTL1_MASK		GENMASK(9, 7)
- #define MLX90640_REG_CTL1_MASK_SHIFT	7
- 
- struct video_i2c_chip;
--- 
-2.30.2
+INTRODUCTION: I am a banker; I hope you will cooperate with me as a
+partner in a project of transferring an abandoned fund of late
+customer of the bank worth $18,000,000 (Eighteen Million Dollars
+only).
 
+This will be disbursed or shared between the both of us in these
+percentages, 55% for me and 45% for you. Contact me immediately if
+that is alright for you so that we can enter into an agreement before
+we start processing for the transfer of the funds. If you are
+satisfied with this proposal, please provide the below details for the
+Mutual Confidentiality Agreement
+
+1. Full Name and Address
+
+2. Occupation and Country of Origin
+
+3. Telephone Number
+
+I wait for your response so that we can commence on this transaction
+as soon as possible.
+
+Regards,
+
+Mr.Amos Manga.
