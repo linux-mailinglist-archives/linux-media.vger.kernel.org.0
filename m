@@ -2,190 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12CBA5077F8
-	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 20:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B7CF50790D
+	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 20:42:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357173AbiDSS0F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Apr 2022 14:26:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36772 "EHLO
+        id S1357346AbiDSSe7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Apr 2022 14:34:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356748AbiDSSYg (ORCPT
+        with ESMTP id S1358389AbiDSSeU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Apr 2022 14:24:36 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 368D447AE3;
-        Tue, 19 Apr 2022 11:18:24 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.90,273,1643641200"; 
-   d="scan'208";a="118471414"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 20 Apr 2022 03:18:23 +0900
-Received: from localhost.localdomain (unknown [10.226.92.15])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 75A8040031CE;
-        Wed, 20 Apr 2022 03:18:20 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v8 5/5] media: renesas: vsp1: Add support for RZ/G2L VSPD
-Date:   Tue, 19 Apr 2022 19:17:57 +0100
-Message-Id: <20220419181757.63346-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220419181757.63346-1-biju.das.jz@bp.renesas.com>
-References: <20220419181757.63346-1-biju.das.jz@bp.renesas.com>
+        Tue, 19 Apr 2022 14:34:20 -0400
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E60EF201A7
+        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 11:24:57 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id bb21so3994725qtb.3
+        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 11:24:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=jS+kIlXH/70eT1R81qpkqcCD5ZAK5BfPs6hlKfvCYrI=;
+        b=WZQOnRaAQa9/0X2gy5EM2fDpixus4lKOUsdvCVafdod2wr5lX7VmE8YfFrNEFvvcHB
+         Lm9KWksXZuQ1TCCyWgBnCmJQAp9zkIhumgLuorvsBouh4q8nMic57dNrKFyswQrg02yq
+         +gRJ4GY5LkYNH4kzH7dikmLLdDD9NXSFV5+QscmyBRtwQlued/9ThzJaJQGkCGh9JRnH
+         MxtnTbKH7XcykzgarYKLP0w5/lQwvARwNtbpv0zuVLdJPmKrTwphHDMdMbltqgEkgZ/j
+         ttODKW4f0JViNWeX3tYTKTMh+3+ldSxQWCSbAxWLzp7KEEl26aUD0Vw+OTUfUElzGnCl
+         B1Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=jS+kIlXH/70eT1R81qpkqcCD5ZAK5BfPs6hlKfvCYrI=;
+        b=VfLqRUn0kAxlFdRgVZ9S5D+6tvyAQ6sK/IAfU9oqvZgqs8PuX12mloJH2lv2FY8Jds
+         TKRSHCPZMm2tBJ2pLjwrJClirQGfExaSqw5GHL7A0OwsFdz/Uzyzpawc1LuvughtooW5
+         ZK6kMSS91RLA2Uaw0m/93UuMLzRBTOkM1o3GiaZwbbgc5P8f9GPVBnQuDZvQdRi5+69J
+         c3AyGmlk4iC1Nf/gTIbeJvHypqzPJE/xX1vwXhFRogkXc27huk5kbDuXgRGUIFal3d2W
+         wlNJXbJJ3FprI9W1va8xNPaN/ziMwXmemccZlSRrI54Wrgheps6Napzoq6I8yyKicYxL
+         knYA==
+X-Gm-Message-State: AOAM5317aFsk1pUHSycYocdBeMvTr/TbgWbfFgXkDVdwQrxSlXOH1cEp
+        A/NcQm10X26Ps/eCe9QJsdMs+A==
+X-Google-Smtp-Source: ABdhPJyxNAznH1CwYsjr41pjF5q5WMOXEv0N8BdD0CfTqH/fJgsPmKtu42tMLik7EOyspm561hV0cw==
+X-Received: by 2002:ac8:594f:0:b0:2f2:228:e585 with SMTP id 15-20020ac8594f000000b002f20228e585mr6281548qtz.325.1650392696850;
+        Tue, 19 Apr 2022 11:24:56 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
+        by smtp.gmail.com with ESMTPSA id j188-20020a3755c5000000b0067d1c76a09fsm410209qkb.74.2022.04.19.11.24.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Apr 2022 11:24:56 -0700 (PDT)
+Message-ID: <d4c868d5ef05f338bdc2237d9b9304077d268c8b.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 2/5] media: v4l: ctrls: Add a control for temperature
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        linux-media@vger.kernel.org
+Cc:     alain.volmat@foss.st.com, hugues.fruchet@foss.st.com,
+        sylvain.petinot@foss.st.com, dave.stevenson@raspberrypi.com,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        kieran.bingham@ideasonboard.com, linux-hwmon@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 19 Apr 2022 14:24:55 -0400
+In-Reply-To: <20220415111845.27130-3-benjamin.mugnier@foss.st.com>
+References: <20220415111845.27130-1-benjamin.mugnier@foss.st.com>
+         <20220415111845.27130-3-benjamin.mugnier@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The RZ/G2L VSPD provides a single VSPD instance. It has the following
-sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+Hi,
 
-The VSPD block on RZ/G2L does not have a version register, so added a
-new compatible string "renesas,r9a07g044-vsp2" with a data pointer
-containingthe info structure. Also the reset line is shared with the
-DU module.
+adding linux-hwmon in CC for a wider feedback.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-v7->v8:
- * Split the patch for adding s/w version, feature bit and RZ/G2L support
- * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
- * Added .soc for RZ/G2L
- * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
-v6->v7:
- * Added Rb tag from Kieran
- * Added a quirk to handle LIF0 buffer attribute related
-   changes for V3M and G2L.
- * Removed the macro for VSP HW version
-v5->v6:
- * Rebased to media_staging and updated commit header
- * Removed the extra tab from rzg2l_vsp2_device_info
- * Changed the function vsp1_lookup->vsp1_lookup_info and
-   all info match related code moved here.
- * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
-   distinguish HW & SW IP_VSP_Version.
- * Used 0x80 for RZG2L VSPD model and SoC identification
- * Updated Switch() for LIF0 buffer attribute handling.
-v4->v5:
- * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
- * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
-   for RZ/G2L SoC's.
-v3->v4:
- * Added Rb tag from Geert
- * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
-v2->v3:
- * Fixed version comparison in vsp1_lookup()
-v1->v2:
- * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
- * Added standalone device info for rzg2l-vsp2.
- * Added vsp1_lookup helper function.
- * Updated comments for LIF0 buffer attribute register
- * Used last ID for rzg2l-vsp2.
-RFC->v1:
- * Used data pointer containing info structure to retrieve version information
-RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
----
- drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 13 +++++++++++++
- drivers/media/platform/renesas/vsp1/vsp1_lif.c  |  9 +++++----
- drivers/media/platform/renesas/vsp1/vsp1_regs.h |  4 ++++
- 3 files changed, 22 insertions(+), 4 deletions(-)
+Le vendredi 15 avril 2022 =C3=A0 13:18 +0200, Benjamin Mugnier a =C3=A9crit=
+=C2=A0:
+> Add V4L2_CID_TEMPERATURE control to get temperature from sensor in
+> celsius as a volatile and read-only control, and its documentation.
+> Useful to monitor thermals from v4l controls for sensors that support
+> this.
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index 181f2ed8604b..2a5122e0bc52 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -824,6 +824,18 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 	},
- };
- 
-+static const struct vsp1_device_info rzg2l_vsp2_device_info = {
-+	.version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-+	.model = "VSP2-D",
-+	.soc = VI6_IP_VERSION_SOC_RZG2L,
-+	.gen = 3,
-+	.features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL
-+		  | VSP1_HAS_NON_ZERO_LBA,
-+	.lif_count = 1,
-+	.rpf_count = 2,
-+	.wpf_count = 1,
-+};
-+
- static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
- {
- 	const struct vsp1_device_info *info;
-@@ -978,6 +990,7 @@ static int vsp1_remove(struct platform_device *pdev)
- static const struct of_device_id vsp1_of_match[] = {
- 	{ .compatible = "renesas,vsp1" },
- 	{ .compatible = "renesas,vsp2" },
-+	{ .compatible = "renesas,r9a07g044-vsp2", .data = &rzg2l_vsp2_device_info },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, vsp1_of_match);
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-index 9adb892edcdc..186a5730e1e3 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-@@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 
- 	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
- 	case VI6_IP_VERSION_MODEL_VSPD_V3:
-+	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
- 		hbth = 0;
- 		obth = 1500;
- 		lbth = 0;
-@@ -130,10 +131,10 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 			VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
- 
- 	/*
--	 * On R-Car V3M the LIF0 buffer attribute register has to be set to a
--	 * non-default value to guarantee proper operation (otherwise artifacts
--	 * may appear on the output). The value required by the manual is not
--	 * explained but is likely a buffer size or threshold.
-+	 * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
-+	 * set to a non-default value to guarantee proper operation (otherwise
-+	 * artifacts may appear on the output). The value required by the
-+	 * manual is not explained but is likely a buffer size or threshold.
- 	 */
- 	if (vsp1_feature(entity->vsp1, VSP1_HAS_NON_ZERO_LBA))
- 		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-index 4286d13eca32..599db4a20b7f 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-@@ -767,6 +767,8 @@
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
- #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-+/* RZ/G2L SoC's have no version register, So use 0x80 as the model version */
-+#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
- 
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
-@@ -780,6 +782,8 @@
- #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
-+/* RZ/G2L SoC have no version register, So use 0x80 for SoC Identification */
-+#define VI6_IP_VERSION_SOC_RZG2L	(0x80 << 0)
- 
- #define VI6_IP_VERSION_VSP_SW		(0xfffe << 16) /* SW VSP version */
- 
--- 
-2.25.1
+Any justification to expose a temperature sensor outside of the dedicated k=
+ernel
+API hwmon ? I know if may makes it harder to use, as the sensor isn't bound=
+ to
+the camera driver, and also the sensor may not work if the camera is not
+streaming. But in the end, the API in hwmon does not look that complex, and=
+ is
+perhaps more precise ?
+
+All in all, I think we need a strong justification to implement a custom
+thermometer interface, something described here and documented with care to
+prevent abuse. I would also see opinion from folks outside of the linux-med=
+ia,
+hence why I have CCed hwmon mailing list.
+
+regards,
+Nicolas
+
+>=20
+> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> ---
+>  Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst | 3 +++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c                  | 4 ++++
+>  include/uapi/linux/v4l2-controls.h                         | 2 ++
+>  3 files changed, 9 insertions(+)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b=
+/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> index 4c5061aa9cd4..26fa21f5c45a 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> @@ -661,3 +661,6 @@ enum v4l2_scene_mode -
+>  .. [#f1]
+>     This control may be changed to a menu control in the future, if more
+>     options are required.
+> +
+> +``V4L2_CID_TEMPERATURE (integer)``
+> +    The temperature of the sensor in celsius. This is a read-only contro=
+l.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4=
+l2-core/v4l2-ctrls-defs.c
+> index 54ca4e6b820b..45ad3edd59e0 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1042,6 +1042,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
+>  	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
+>  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
+> +	case V4L2_CID_TEMPERATURE:		return "Temperature in =C2=B0C";
+> =20
+>  	/* FM Radio Modulator controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> @@ -1597,6 +1598,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum=
+ v4l2_ctrl_type *type,
+>  	case V4L2_CID_RF_TUNER_PLL_LOCK:
+>  		*flags |=3D V4L2_CTRL_FLAG_VOLATILE;
+>  		break;
+> +	case V4L2_CID_TEMPERATURE:
+> +		*flags |=3D V4L2_CTRL_FLAG_READ_ONLY |
+> +			  V4L2_CTRL_FLAG_VOLATILE;
+>  	}
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_fill);
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
+-controls.h
+> index bb40129446d4..705b4043c2de 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1008,6 +1008,8 @@ enum v4l2_auto_focus_range {
+> =20
+>  #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
+> =20
+> +#define V4L2_CID_TEMPERATURE			(V4L2_CID_CAMERA_CLASS_BASE+36)
+> +
+>  /* FM Modulator class control IDs */
+> =20
+>  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
 
