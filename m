@@ -2,238 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E13125066EB
-	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 10:30:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E7DE506726
+	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 10:49:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350005AbiDSIcn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Apr 2022 04:32:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60412 "EHLO
+        id S1350129AbiDSIv2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Apr 2022 04:51:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245659AbiDSIc3 (ORCPT
+        with ESMTP id S235794AbiDSIv1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Apr 2022 04:32:29 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A36D52DA8D;
-        Tue, 19 Apr 2022 01:29:45 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (85-76-101-166-nat.elisa-mobile.fi [85.76.101.166])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A16E6305;
-        Tue, 19 Apr 2022 10:29:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1650356982;
-        bh=grUzb/1hkBTCZySunV8a8ldWofTVRuYtPbiP44C1hd4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bICzM93xYnNCNI+NfCiMB24AO4ET892MH4EmPpDQg9mRo5lXGHCISUNrZDNPfMdqP
-         YP8Rq2Td/2fvcxU/rYab80t4BtGNN36XWsnzH9kBjZhDUhdpXi0O6uX3T3ydmkmIBy
-         oaoO7ez+klfVjmtUw7GmuiT61tbVfDVOGVEs0SEw=
-Date:   Tue, 19 Apr 2022 11:29:39 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: Re: [PATCH v7 1/3] media: dt-bindings: media: renesas,vsp1: Document
- RZ/{G2L,V2L} VSPD bindings To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Message-ID: <Yl5y80gOfKW33gNn@pendragon.ideasonboard.com>
-References: <20220414142605.26235-1-biju.das.jz@bp.renesas.com>
- <20220414142605.26235-2-biju.das.jz@bp.renesas.com>
- <Ylk6dp6TiuwbJqkn@pendragon.ideasonboard.com>
- <OS0PR01MB5922A9C796546784737639B386F39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Tue, 19 Apr 2022 04:51:27 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F419022B1A;
+        Tue, 19 Apr 2022 01:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650358125; x=1681894125;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kegNEX0ChIhmD7NdNa7wFO+eFscT2RC4rHC8Bs7PAC8=;
+  b=hOB8MDCnFNXImQDSO6NikhXT0U4ge+Qt7PZrmyRUt1ClpUqX2fGRE44g
+   pqoiGoKfBQm32ss8/0SyyjK/6+xEhykEPMZn0q7QlnOoLJRzl43fnkbPI
+   ERVI77zlsbFjPn++Sat6d7Ryjb+y5zlZ09X1gT2TD+2aaPiCFr3jh/Xs3
+   1soC2aZ44bRqAOeEtDVc6cb1NqVleZU9BjvfOO+z/S8O8pZZDztow99y7
+   AryE56l27yCwl2feC67D5KNveYlMirZU9MeYklat/0rhXKBrfYkd06aU+
+   pzvxuCDxOxdaPF2818SIOKKTtpJE2ri3rrfM5DXrVu7q/PmQkCSZlAvgS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10321"; a="326613554"
+X-IronPort-AV: E=Sophos;i="5.90,272,1643702400"; 
+   d="scan'208";a="326613554"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2022 01:48:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,272,1643702400"; 
+   d="scan'208";a="530037373"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 19 Apr 2022 01:48:42 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1ngjXO-0005Z6-6W;
+        Tue, 19 Apr 2022 08:48:42 +0000
+Date:   Tue, 19 Apr 2022 16:48:07 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: drivers/media/platform/intel/pxa_camera.c:2449:34: warning: unused
+ variable 'pxa_camera_of_match'
+Message-ID: <202204191631.zjUg442L-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <OS0PR01MB5922A9C796546784737639B386F39@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
+Hi Mauro,
 
-On Mon, Apr 18, 2022 at 07:34:19PM +0000, Biju Das wrote:
-> > Subject: Re: [PATCH v7 1/3] media: dt-bindings: media: renesas,vsp1:
-> > Document RZ/{G2L,V2L} VSPD bindings 
-> > 
-> > Hi Biju,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Thu, Apr 14, 2022 at 03:26:03PM +0100, Biju Das wrote:
-> > > Document VSPD found in RZ/G2L and RZ/V2L family SoC's. VSPD block is
-> > > similar to VSP2-D found on R-Car SoC's, but it does not have a version
-> > > register and it has 3 clocks compared to 1 clock on vsp1 and vsp2.
-> > >
-> > > This patch introduces a new compatible 'renesas,rzg2l-vsp2' to handle
-> > > these differences.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> > > ---
-> > > v6->v7:
-> > >  * No change
-> > > v5->v6:
-> > >  * Removed LCDC reference clock description
-> > >  * Changed the clock name from du.0->aclk
-> > > v4->v5:
-> > >  * No change
-> > > v3->v4:
-> > >  * No change
-> > > v2->v3:
-> > >  * Added Rb tag from Krzysztof.
-> > > v1->v2:
-> > >  * Changed compatible from vsp2-rzg2l->rzg2l-vsp2
-> > > RFC->v1:
-> > >  * Updated commit description
-> > >  * Changed compatible from vsp2-r9a07g044->vsp2-rzg2l
-> > >  * Defined the clocks
-> > >  * Clock max Items is based on SoC Compatible string
-> > > RFC:
-> > >  *
-> > 
-> > > ---
-> > >  .../bindings/media/renesas,vsp1.yaml          | 52 ++++++++++++++-----
-> > >  1 file changed, 39 insertions(+), 13 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > > b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > > index 990e9c1dbc43..a236b266fa4b 100644
-> > > --- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > > @@ -19,6 +19,7 @@ properties:
-> > >      enum:
-> > >        - renesas,vsp1 # R-Car Gen2 and RZ/G1
-> > >        - renesas,vsp2 # R-Car Gen3 and RZ/G2
-> > > +      - renesas,rzg2l-vsp2 # RZ/G2L and RZ/V2L
-> > >
-> > >    reg:
-> > >      maxItems: 1
-> > > @@ -26,8 +27,8 @@ properties:
-> > >    interrupts:
-> > >      maxItems: 1
-> > >
-> > > -  clocks:
-> > > -    maxItems: 1
-> > > +  clocks: true
-> > > +  clock-names: true
-> > 
-> > clock-names shouldn't be true here, as it should only be set on rzg2l-vsp2.
-> > I think you can actually drop both clocks and clock-names here.
-> 
-> If I drop clocks, then I get below dt_binding_check error
-> 
-> biju@biju-VirtualBox:~/rzg2l-linux$ make ARCH=arm64 DT_CHECKER_FLAGS=-m DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/renesas,vsp1.yaml CROSS_COMPILE=~/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu- dt_binding_check -j8
->   LINT    Documentation/devicetree/bindings
->   DTEX    Documentation/devicetree/bindings/media/renesas,vsp1.example.dts
->   CHKDT   Documentation/devicetree/bindings/processed-schema.json
->   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
->   DTC     Documentation/devicetree/bindings/media/renesas,vsp1.example.dtb
->   CHECK   Documentation/devicetree/bindings/media/renesas,vsp1.example.dtb
-> /home/biju/rzg2l-linux/Documentation/devicetree/bindings/media/renesas,vsp1.example.dtb: vsp@fe928000: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	From schema: /home/biju/rzg2l-linux/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> /home/biju/rzg2l-linux/Documentation/devicetree/bindings/media/renesas,vsp1.example.dtb: vsp@fe920000: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	From schema: /home/biju/rzg2l-linux/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> 
-> If I drop clock-names, I get dtbs-check error for RZ/G2{L,LC},
-> 
-> make ARCH=arm64 DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/renesas,vsp1.yaml CROSS_COMPILE=~/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu- dtbs_check -j8
-> 
-> /home/biju/rzg2l-linux/arch/arm64/boot/dts/renesas/r9a07g044c2-smarc.dtb: vsp@10870000: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	From schema: /home/biju/rzg2l-linux/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> /home/biju/rzg2l-linux/arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dtb: vsp@10870000: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	From schema: /home/biju/rzg2l-linux/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> 
-> So looks like both are required.
+First bad commit (maybe != root cause):
 
-Indeed, we would need to switch from additionalProperties to
-unevaluatedProperties then, and that's not allowed for schemas without a
-$ref.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b2d229d4ddb17db541098b83524d901257e93845
+commit: 95495f2aa9d8df1a7697bab24118544d3568f41d media: platform: place Intel drivers on a separate dir
+date:   5 weeks ago
+config: mips-randconfig-r025-20220419 (https://download.01.org/0day-ci/archive/20220419/202204191631.zjUg442L-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c1c49a356162b22554088d269f7689bdb044a9f1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=95495f2aa9d8df1a7697bab24118544d3568f41d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 95495f2aa9d8df1a7697bab24118544d3568f41d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/media/platform/intel/ lib/lz4/
 
-> Please correct me, If I am missing anything here.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Let's keep both properties here, but then ... (see below)
+All warnings (new ones prefixed by >>):
 
-> > With this addressed,
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > >
-> > >    power-domains:
-> > >      maxItems: 1
-> > > @@ -50,17 +51,42 @@ required:
-> > >
-> > >  additionalProperties: false
-> > >
-> > > -if:
-> > > -  properties:
-> > > -    compatible:
-> > > -      items:
-> > > -        - const: renesas,vsp1
-> > > -then:
-> > > -  properties:
-> > > -    renesas,fcp: false
-> > > -else:
-> > > -  required:
-> > > -    - renesas,fcp
-> > > +allOf:
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            const: renesas,vsp1
-> > > +    then:
-> > > +      properties:
-> > > +        renesas,fcp: false
-> > > +    else:
-> > > +      required:
-> > > +        - renesas,fcp
-> > > +
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            const: renesas,rzg2l-vsp2
-> > > +    then:
-> > > +      properties:
-> > > +        clocks:
-> > > +          items:
-> > > +            - description: Main clock
-> > > +            - description: Register access clock
-> > > +            - description: Video clock
-> > > +        clock-names:
-> > > +          items:
-> > > +            - const: aclk
-> > > +            - const: pclk
-> > > +            - const: vclk
-> > > +      required:
-> > > +        - clock-names
-> > > +    else:
-> > > +      properties:
-> > > +        clocks:
-> > > +          maxItems: 1
+>> drivers/media/platform/intel/pxa_camera.c:2449:34: warning: unused variable 'pxa_camera_of_match' [-Wunused-const-variable]
+   static const struct of_device_id pxa_camera_of_match[] = {
+                                    ^
+   1 warning generated.
 
-... you will need
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SSB_EMBEDDED
+   Depends on SSB && SSB_DRIVER_MIPS && SSB_PCICORE_HOSTMODE
+   Selected by
+   - BCM47XX_SSB && BCM47XX
 
-        clock-names: false
 
-here.
+vim +/pxa_camera_of_match +2449 drivers/media/platform/intel/pxa_camera.c
 
-> > >
-> > >  examples:
-> > >    # R8A7790 (R-Car H2) VSP1-S
+7254026cedd42d drivers/media/video/pxa_camera.c               Guennadi Liakhovetski 2011-06-29  2448  
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29 @2449  static const struct of_device_id pxa_camera_of_match[] = {
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2450  	{ .compatible = "marvell,pxa270-qci", },
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2451  	{},
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2452  };
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2453  MODULE_DEVICE_TABLE(of, pxa_camera_of_match);
+e9a1d94fa85542 drivers/media/platform/soc_camera/pxa_camera.c Robert Jarzmik        2014-06-29  2454  
+
+:::::: The code at line 2449 was first introduced by commit
+:::::: e9a1d94fa85542d4f3046ac82d234a3c8349c948 [media] media: pxa_camera device-tree support
+
+:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
+:::::: CC: Mauro Carvalho Chehab <m.chehab@samsung.com>
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://01.org/lkp
