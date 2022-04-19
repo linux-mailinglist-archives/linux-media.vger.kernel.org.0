@@ -2,118 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7791A5061BF
-	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 03:38:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5183A50638F
+	for <lists+linux-media@lfdr.de>; Tue, 19 Apr 2022 06:52:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245620AbiDSBlA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Apr 2022 21:41:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48040 "EHLO
+        id S1348501AbiDSEzK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Apr 2022 00:55:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243639AbiDSBk6 (ORCPT
+        with ESMTP id S1346148AbiDSEyz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Apr 2022 21:40:58 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A44C2317D;
-        Mon, 18 Apr 2022 18:38:17 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id c1so12463401qkf.13;
-        Mon, 18 Apr 2022 18:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=K+wycLbtOGXfx3rrJ8YJAcjSMtOkWcA7L4SAeEXTlpk=;
-        b=KuHwDA8ZkRKEWblQ0FoA9kY8ZMJKY/Tyfsk1CHA3Y5cMY7z0WM64lb+55tASiqvSDc
-         C2M8Z31xHCidij1WbgEo3ClbIPCkkPj8waHFaS1EdCU78mL/C8Xg1hfBOazNdCJF5eKQ
-         qNQxqR0pLOUbxtuw3z7LtkOzG0vrmX6PLvuLp6rkBYNuWuYs/bgJAfsHXGwCrgEUbNgV
-         TRPt8on0LUafnwEQ7YN7UT/5mcrTw/rdkxQI8wwWXvy/N9d4aKo4h3Ja+vEDQ8Lsd78u
-         9tVU7tkXberW0tv9bL99VSW6wlsbCmMc0beg9gth7dkmT7560rKThghxpBdm0EbQTsL6
-         rGWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=K+wycLbtOGXfx3rrJ8YJAcjSMtOkWcA7L4SAeEXTlpk=;
-        b=GczMJlWh30hNJFjzotQYaat2vvXXd3dQxoCC+yRz5q11hoiBGMwEOybLv2YWlVYBJP
-         TB4e15GlMRwDeQuHQjBnK2pYWhuQLRhZmUhcFaN/sWyyh0Kk/yqGtP8VVgrO6y+vS7Q4
-         t92ijovEiA3Wx8Ih+6j6Q3Xm3vVAG3e/myncOQzlGh/YDWQ1S1UElGzYWD1Mq7V+jtQF
-         cXoEC2W71r3MW5Z+iRIGn48WdGfjekTrEeHQ8nwl6IL8RdS2lOZkO0M39/CL17hje66M
-         p5bgArs42oT5KWcpn8Lxqvu2hLbrZZL7WZhJ+q4MaxnhTWpirna0De/hYI+/CtA8NwQE
-         GJow==
-X-Gm-Message-State: AOAM532WspcBHTo0irZsJQRAwJ6UlEy23H0i2snjMG3NnEsyAZcu6e8G
-        oPC5DvaX0aJgarJNBdDX8IA=
-X-Google-Smtp-Source: ABdhPJx1J+AjddBh73DZ2JT0UHDYN70XKTlC1pvcUhbKxwhfHiatwNYFN8O2a9prNZDLiqVhR+wMBQ==
-X-Received: by 2002:a37:aad5:0:b0:69e:a0ba:ffa3 with SMTP id t204-20020a37aad5000000b0069ea0baffa3mr4295285qke.317.1650332296428;
-        Mon, 18 Apr 2022 18:38:16 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id 12-20020a37080c000000b0069ea5b5e1d2sm1904157qki.83.2022.04.18.18.38.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 18:38:16 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: lv.ruyi@zte.com.cn
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lv Ruyi <lv.ruyi@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH] media: amphion: fix error check return value of debugfs_create_file()
-Date:   Tue, 19 Apr 2022 01:38:09 +0000
-Message-Id: <20220419013809.2561635-1-lv.ruyi@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 19 Apr 2022 00:54:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D20E65EA
+        for <linux-media@vger.kernel.org>; Mon, 18 Apr 2022 21:49:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C2428611B5
+        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 04:49:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9CCDC385A5
+        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 04:49:51 +0000 (UTC)
+Date:   Tue, 19 Apr 2022 06:49:49 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220419044951.E9CCDC385A5@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Lv Ruyi <lv.ruyi@zte.com.cn>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-If an error occurs, debugfs_create_file() will return ERR_PTR(-ERROR),
-so use IS_ERR() to check it.
+Results of the daily build of media_tree:
 
-Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
----
- drivers/media/platform/amphion/vpu_dbg.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+date:			Tue Apr 19 05:00:14 CEST 2022
+media-tree git hash:	3d59142ad94cf60b94b3dc94c19fdafa23aec8b1
+media_build git hash:	4e29721804ea4e824c776101214389642dccad98
+v4l-utils git hash:	6de743337007df7ed8161919d747bc0a397a60c5
+edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7885-gb67c6ed1-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
+host hardware:		x86_64
+host os:		5.16.0-6-amd64
 
-diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
-index 376196bea178..5cef1fd41a74 100644
---- a/drivers/media/platform/amphion/vpu_dbg.c
-+++ b/drivers/media/platform/amphion/vpu_dbg.c
-@@ -413,7 +413,7 @@ int vpu_inst_create_dbgfs_file(struct vpu_inst *inst)
- 					    vpu->debugfs,
- 					    inst,
- 					    &vpu_dbg_inst_fops);
--	if (!inst->debugfs) {
-+	if (IS_ERR(inst->debugfs)) {
- 		dev_err(inst->dev, "vpu create debugfs %s fail\n", name);
- 		return -EINVAL;
- 	}
-@@ -451,7 +451,7 @@ int vpu_core_create_dbgfs_file(struct vpu_core *core)
- 						    vpu->debugfs,
- 						    core,
- 						    &vpu_dbg_core_fops);
--		if (!core->debugfs) {
-+		if (IS_ERR(core->debugfs)) {
- 			dev_err(core->dev, "vpu create debugfs %s fail\n", name);
- 			return -EINVAL;
- 		}
-@@ -463,7 +463,7 @@ int vpu_core_create_dbgfs_file(struct vpu_core *core)
- 							  vpu->debugfs,
- 							  core,
- 							  &vpu_dbg_fwlog_fops);
--		if (!core->debugfs_fwlog) {
-+		if (IS_ERR(core->debugfs_fwlog)) {
- 			dev_err(core->dev, "vpu create debugfs %s fail\n", name);
- 			return -EINVAL;
- 		}
--- 
-2.25.1
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-davinci: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.275-i686: OK
+linux-4.14.275-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.237-i686: OK
+linux-4.19.237-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.109-i686: OK
+linux-5.10.109-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.14.21-i686: OK
+linux-5.14.21-x86_64: OK
+linux-5.15.32-i686: OK
+linux-5.15.32-x86_64: OK
+linux-5.16.9-i686: OK
+linux-5.16.9-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+linux-5.18-rc1-i686: OK
+linux-5.18-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
 
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
