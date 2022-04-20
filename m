@@ -2,64 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B3445088B2
+	by mail.lfdr.de (Postfix) with ESMTP id 202455088B1
 	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 15:02:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378748AbiDTNET (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Apr 2022 09:04:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42926 "EHLO
+        id S1378745AbiDTNE2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Apr 2022 09:04:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378747AbiDTNEL (ORCPT
+        with ESMTP id S1378741AbiDTNE1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Apr 2022 09:04:11 -0400
+        Wed, 20 Apr 2022 09:04:27 -0400
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B0B13EB8
-        for <linux-media@vger.kernel.org>; Wed, 20 Apr 2022 06:01:22 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23KAITJh017328;
-        Wed, 20 Apr 2022 15:01:17 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2718B3A719;
+        Wed, 20 Apr 2022 06:01:39 -0700 (PDT)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23KC7CDN009613;
+        Wed, 20 Apr 2022 15:01:20 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : subject : to
  : cc : references : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=selector1;
- bh=6qWHDUyjcPtco30+iyGTnnCm7LqZbrmttP6sDQ4N6O8=;
- b=sBbPD7lhT9YvaprjFLZG+/pqOgbejhwHfYG6ynwdnWwY+4+u4vEiEH5xHB7NNvxlGG7t
- X64/xeEeN9uT1DwYo1QXa4Trf/Ubkwcql+vpH6FyMJPDPS4Adzi+imAPeoBsUZkGuGGR
- QVlL1NSLWxExYn9FDv1XQ6l9t4hLuFyuDD+aAbV3yU23QlX1hTzFc7HN6FvGgh47wJRW
- kvZ1ndvZf6K8p8PrORdpvXGBXM8yBCMIwrVWfsu3vr2QzhsLqgDSYysQL/WwfcvsDasM
- /Q6UCMVyJcWvadbFClyboKU4TzWAjYFNVXba3AYjwD+f+iVa/b8GZuGc0JYGr7HU0gds lw== 
+ bh=yWe/3heny43KuV7czgDZS3xembVK4Ho5GtmprWV6jUM=;
+ b=G2zSJmSnET8xomlcvhD5SrHQoYPiUzsYh5/g3z4hV8aJ7vUVRhsnhnXdwEouVB2oIuWL
+ XtDb/ny2t5UP63hk7FbllKaDq1MLIyeknixPhHgYRzFAm2z40Er101jrLHmouxvlVSaI
+ QzOBfSz4FcD3YguNmsh454Uc77xuqrbCUzACJedFKfykuMEXYAjU6eFOW82uTfbSDtCP
+ 5px55ngJI5TaRZOl6x6y+7aJCA8qnM6JVSc1lt33Y5yvmuisVokPlbPkRu8sw8jtGQB1
+ 2ZIldMCJctiZYpJ6T36FTU3EPatXaJyWk5PzIuFsHLaOP6jvT+d3DdSpOUhNRKoGNofc CA== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ffpqdw9f8-1
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ffpqgw2b7-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 20 Apr 2022 15:01:17 +0200
+        Wed, 20 Apr 2022 15:01:20 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BCE55100034;
-        Wed, 20 Apr 2022 15:01:16 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6F8C5100034;
+        Wed, 20 Apr 2022 15:01:19 +0200 (CEST)
 Received: from Webmail-eu.st.com (sfhdag2node1.st.com [10.75.127.4])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B6F6420FC96;
-        Wed, 20 Apr 2022 15:01:16 +0200 (CEST)
-Received: from [10.0.2.15] (10.75.127.48) by SFHDAG2NODE1.st.com (10.75.127.4)
- with Microsoft SMTP Server (TLS) id 15.0.1497.26; Wed, 20 Apr 2022 15:01:16
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 68AC020FC96;
+        Wed, 20 Apr 2022 15:01:19 +0200 (CEST)
+Received: from [10.0.2.15] (10.75.127.49) by SFHDAG2NODE1.st.com (10.75.127.4)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.26; Wed, 20 Apr 2022 15:01:18
  +0200
 From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 Subject: Re: [PATCH v2 2/5] media: v4l: ctrls: Add a control for temperature
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     <linux-media@vger.kernel.org>, <alain.volmat@foss.st.com>,
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        <linux-media@vger.kernel.org>, <alain.volmat@foss.st.com>,
         <hugues.fruchet@foss.st.com>, <sylvain.petinot@foss.st.com>,
         <dave.stevenson@raspberrypi.com>, <sakari.ailus@linux.intel.com>,
-        <kieran.bingham@ideasonboard.com>
+        <kieran.bingham@ideasonboard.com>, <linux-hwmon@vger.kernel.org>,
+        Ricardo Ribalda <ribalda@chromium.org>
 References: <20220415111845.27130-1-benjamin.mugnier@foss.st.com>
  <20220415111845.27130-3-benjamin.mugnier@foss.st.com>
- <YlmDIHNQub7eqskK@pendragon.ideasonboard.com>
-Message-ID: <e9089441-6fea-d589-e930-28816405e485@foss.st.com>
-Date:   Wed, 20 Apr 2022 15:01:16 +0200
+ <d4c868d5ef05f338bdc2237d9b9304077d268c8b.camel@ndufresne.ca>
+ <3a4fad80-b16a-3780-a0f7-41dd6c80689e@roeck-us.net>
+ <Yl8jF1KLzP6YO6t+@pendragon.ideasonboard.com>
+ <1c700e5b-5bf2-f0eb-78f3-12290fd88234@roeck-us.net>
+Message-ID: <dec71c79-3141-8dcf-6d37-8495f4b7c7e9@foss.st.com>
+Date:   Wed, 20 Apr 2022 15:01:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YlmDIHNQub7eqskK@pendragon.ideasonboard.com>
+In-Reply-To: <1c700e5b-5bf2-f0eb-78f3-12290fd88234@roeck-us.net>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.48]
+X-Originating-IP: [10.75.127.49]
 X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE1.st.com
  (10.75.127.4)
 X-Proofpoint-Virus-Version: vendor=baseguard
@@ -74,97 +80,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi everyone,
 
-Thank you for your review.
+Just some little comments for my use case. Hope that helps.
 
-On 15/04/2022 16:37, Laurent Pinchart wrote:
-> Hi Benjamin,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Apr 15, 2022 at 01:18:42PM +0200, Benjamin Mugnier wrote:
->> Add V4L2_CID_TEMPERATURE control to get temperature from sensor in
->> celsius as a volatile and read-only control, and its documentation.
->> Useful to monitor thermals from v4l controls for sensors that support
->> this.
+On 20/04/2022 00:04, Guenter Roeck wrote:
+> On 4/19/22 14:01, Laurent Pinchart wrote:
+>> On Tue, Apr 19, 2022 at 12:28:06PM -0700, Guenter Roeck wrote:
+>>> On 4/19/22 11:24, Nicolas Dufresne wrote:
+>>>> Hi,
+>>>>
+>>>> adding linux-hwmon in CC for a wider feedback.
+>>>>
+>>>> Le vendredi 15 avril 2022 à 13:18 +0200, Benjamin Mugnier a écrit :
+>>>>> Add V4L2_CID_TEMPERATURE control to get temperature from sensor in
+>>>>> celsius as a volatile and read-only control, and its documentation.
+>>>>> Useful to monitor thermals from v4l controls for sensors that support
+>>>>> this.
+>>>>
+>>>> Any justification to expose a temperature sensor outside of the dedicated kernel
+>>>> API hwmon ? I know if may makes it harder to use, as the sensor isn't bound to
+>>>> the camera driver, and also the sensor may not work if the camera is not
+>>>> streaming. But in the end, the API in hwmon does not look that complex, and is
+>>>> perhaps more precise ?
+
+This sensor is able to read the temperature even if not streaming.
+
+>>>>
+>>>> All in all, I think we need a strong justification to implement a custom
+>>>> thermometer interface, something described here and documented with care to
+>>>> prevent abuse. I would also see opinion from folks outside of the linux-media,
+>>>> hence why I have CCed hwmon mailing list.
+>>>
+>>> All I can say is that this seems to be odd and a bit outside the scope of
+>>> v4l2. I would have expected the vgxy61 driver to register a hwmon device
+>>> instead.
 >>
->> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
->> ---
->>  Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst | 3 +++
->>  drivers/media/v4l2-core/v4l2-ctrls-defs.c                  | 4 ++++
->>  include/uapi/linux/v4l2-controls.h                         | 2 ++
->>  3 files changed, 9 insertions(+)
+>> I don't have a definitive opinion yet, but as Nicolas raised the issue
+>> by pushing towards hwmon, I'll offer counter-arguments for the sake of
+>> it :-)
 >>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
->> index 4c5061aa9cd4..26fa21f5c45a 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
->> @@ -661,3 +661,6 @@ enum v4l2_scene_mode -
->>  .. [#f1]
->>     This control may be changed to a menu control in the future, if more
->>     options are required.
->> +
->> +``V4L2_CID_TEMPERATURE (integer)``
->> +    The temperature of the sensor in celsius. This is a read-only control.
+>> The temperature sensor in the imaging sensor is used to measure the die
+>> temperature, in order to tune the noise and spectral response model of
+>> the imaging sensor. It's thus not a generic-purpose temperature sensor.
+>> If the feature were to be exposed through hwmon, userspace would need to
+>> associate an hwmon device to the imaging sensor V4L2 subdev (we have a
+>> way to do so through the MC API, it doesn't support hwmon at this point,
+>> but I suppose it could be added). There are also various constraints
+>> that tie the temperature reading to the imaging side, it could be that
+>> the temperature would only be readable while capturing frames. That's
+>> probably possible to handle too but returning an error from the
+>> temperature read.
+>>
+>> Code-wise, both the driver and userspace would be more complex, for very
+>> little practical gain (I don't dispute a theorical gain).
+>>
 > 
-> I've seen sensors where the temperature sensor has a 1/10th degree
-> precision. Should we standardize on that ? Anything more precise is
-> likely overkill.
+> All I can say is - not my subsystem, not my call to make. If you say this
+> is special and is better handled in V4L2, I'll take you by your word.
 > 
-
-This sensor also has a 1/10th degree precision, here I only display the integer part. Ok to standardize on that.
-
-> There are also sensors with multiple temperature sensors. If there are
-> too many of them I suppose the temperature would be reported in embedded
-> data, but perhaps not always. How can we prepare for this ?
-> 
-> There are also a few details that I think should be documented. Is the
-> temperature always read on-demand when reading the control, or updated
-> periodically ? I would assume most drivers would implement the former,
-> which means no control notification events will be generated. This
-> should be documented. Furthermore, do drivers need to support reading
-> the temperature when the sensor isn't streaming ? If not, when should a
-> control read ioctl return, the last value, or an error ?
+> Guenter
 > 
 
-From what I see read on demand seems sufficient.
-This sensor supports reading the temperature read even if not streaming. I don't know for other sensors.
-See my comments on driver implementation on 5/5 for more.
+I'll happily implement whatever conclusion we make here.
 
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> index 54ca4e6b820b..45ad3edd59e0 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> @@ -1042,6 +1042,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>  	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
->>  	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
->>  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
->> +	case V4L2_CID_TEMPERATURE:		return "Temperature in °C";
->>  
->>  	/* FM Radio Modulator controls */
->>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
->> @@ -1597,6 +1598,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>  	case V4L2_CID_RF_TUNER_PLL_LOCK:
->>  		*flags |= V4L2_CTRL_FLAG_VOLATILE;
->>  		break;
->> +	case V4L2_CID_TEMPERATURE:
->> +		*flags |= V4L2_CTRL_FLAG_READ_ONLY |
->> +			  V4L2_CTRL_FLAG_VOLATILE;
->>  	}
->>  }
->>  EXPORT_SYMBOL(v4l2_ctrl_fill);
->> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
->> index bb40129446d4..705b4043c2de 100644
->> --- a/include/uapi/linux/v4l2-controls.h
->> +++ b/include/uapi/linux/v4l2-controls.h
->> @@ -1008,6 +1008,8 @@ enum v4l2_auto_focus_range {
->>  
->>  #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
->>  
->> +#define V4L2_CID_TEMPERATURE			(V4L2_CID_CAMERA_CLASS_BASE+36)
->> +
->>  /* FM Modulator class control IDs */
->>  
->>  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
-> 
+I could also drop this control for the first iteration of the driver, and come back later once a consensus is reached.
+
+Benjamin
