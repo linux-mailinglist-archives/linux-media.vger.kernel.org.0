@@ -2,110 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 933D650854D
-	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 11:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 717545085B1
+	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 12:20:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377399AbiDTKBH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Apr 2022 06:01:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60932 "EHLO
+        id S1377598AbiDTKX1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Apr 2022 06:23:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377392AbiDTKBF (ORCPT
+        with ESMTP id S1377530AbiDTKX0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Apr 2022 06:01:05 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BB283BFB0;
-        Wed, 20 Apr 2022 02:58:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650448700; x=1681984700;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=trrHFL7bIpVdCRcSGzbp0komwu6+rthAc9Zo3KrMj/o=;
-  b=gPESC9sYS3wxXfnN8l1ZBVG8l87LX1ZAEK4H2e0jC8DmtgDyJ/uGE27q
-   M0v5/6hxVE+Jas+s7Ymmv4Ub5Edc3s19hhRgom2b4tsIkoCEN+7SjkfHn
-   DmIAI3/5Nigl4bjmOMBMNoDAB/SvML3cahGogMvikSOyWYr/odtECiIK1
-   5dZ2iXCYHGM5/SuuKfXBL5wmY2vS/U9mELmC8Yp3H+jcoRNGTtGphl2gG
-   iD20ia/2wSywSNebzHSIYGWyFz9eLGwl/7Kl31jUSkbhIFXPz9ynA+Mpn
-   Dly0fsxE5PXxcNcWzNvAvcNItzjX0Ir4UZziOheaOrXRc9NScrYAycm9Q
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="262846702"
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; 
-   d="scan'208";a="262846702"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2022 02:58:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; 
-   d="scan'208";a="562049243"
-Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Apr 2022 02:58:17 -0700
-Received: from kbuild by 3abc53900bec with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nh76G-0006qx-IU;
-        Wed, 20 Apr 2022 09:58:16 +0000
-Date:   Wed, 20 Apr 2022 17:57:43 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Cai Huoqing <cai.huoqing@linux.dev>
-Cc:     kbuild-all@lists.01.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 2/2] drm/nvdla: Add driver support for NVDLA
-Message-ID: <202204201710.5Gcg1PUu-lkp@intel.com>
-References: <20220419135908.39606-3-cai.huoqing@linux.dev>
+        Wed, 20 Apr 2022 06:23:26 -0400
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB3D20F5B;
+        Wed, 20 Apr 2022 03:20:41 -0700 (PDT)
+Received: by mail-qv1-f54.google.com with SMTP id i14so953635qvk.13;
+        Wed, 20 Apr 2022 03:20:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=f0NnpsPLCg2iui7O5h5I1HyO+jn7EEmNeJX5s7EqFIs=;
+        b=sAHcdY6CaHJ8xnV/2s+53fWRlJldgRb+8jpk2qwevj7Vj1wDOYVHVbMpU5ePVGnraF
+         h5nDiGqbwqkcZwXj1vykjvt1EsZ62aM/M3S5g7buVkHzlcVYILBCDr0KdM5Y46s8qow/
+         I9zf2Qw95x0dA/Q1DYimF9AISueJnCSqKLay7RnhqALoZzfhNJZ1EH8jWILK1hBKF1jp
+         E7y5C5PBeISqOnGfFpTfRpUM7zHLxHVdQMnWXL11/SAjZa2U0cF7f4kpW+LGaXk3Z1+c
+         wKrcEwYPmA3vEkpHKYi+u9TXUfxd8f7Iqpp+OrRAzzQuBHSyk9t6xlrQfr8zISEr4ZaW
+         xAlA==
+X-Gm-Message-State: AOAM530fkvXAwDCGR4eBj2TCBxhQEh+XQNSEz+EIq1DBgov23FJGRx1A
+        4OXZScT8CHQLyLGZCcgOuqOQ+ZeUBDbmCA==
+X-Google-Smtp-Source: ABdhPJx7gHeDrhgkH7LU2C53/lj/J+nJhh8Mpcas+Oi2HKyrOG25SR5cs66Wqim/49BE1y3dHfTrAg==
+X-Received: by 2002:a05:6214:3006:b0:444:2fa9:9849 with SMTP id ke6-20020a056214300600b004442fa99849mr14871653qvb.101.1650450039989;
+        Wed, 20 Apr 2022 03:20:39 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id w3-20020a376203000000b0069e9a4568f9sm1325949qkb.125.2022.04.20.03.20.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Apr 2022 03:20:39 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-2ef4a241cc5so12900337b3.2;
+        Wed, 20 Apr 2022 03:20:39 -0700 (PDT)
+X-Received: by 2002:a81:6ccb:0:b0:2f1:68f1:d90e with SMTP id
+ h194-20020a816ccb000000b002f168f1d90emr17834467ywc.62.1650450039480; Wed, 20
+ Apr 2022 03:20:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220419135908.39606-3-cai.huoqing@linux.dev>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220419181757.63346-1-biju.das.jz@bp.renesas.com> <20220419181757.63346-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220419181757.63346-2-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 20 Apr 2022 12:20:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXAgJf89ZS_SnF0UMU9tUhROqDxP5N_mAeNj9N6oQBAUw@mail.gmail.com>
+Message-ID: <CAMuHMdXAgJf89ZS_SnF0UMU9tUhROqDxP5N_mAeNj9N6oQBAUw@mail.gmail.com>
+Subject: Re: [PATCH v8 1/5] media: dt-bindings: media: renesas,vsp1: Document
+ RZ/G2L VSPD bindings
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Cai,
+Hi Biju,
 
-I love your patch! Yet something to improve:
+On Tue, Apr 19, 2022 at 8:18 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Document VSPD found in RZ/G2L SoC. VSPD block is similar to VSP2-D
+> found on R-Car SoC's, but it does not have a version register and
+> it has 3 clocks compared to 1 clock on vsp1 and vsp2.
+>
+> This patch introduces a new compatible 'renesas,r9a07g044-vsp2' to
+> handle these differences.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> v7->v8:
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-intel/for-linux-next drm-tip/drm-tip linus/master v5.18-rc3 next-20220419]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Thanks for the update!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cai-Huoqing/drm-nvdla-Add-driver-support-for-NVDLA/20220419-220255
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20220420/202204201710.5Gcg1PUu-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7539e5487eb7d0c6f13c03bba596e51a2238106d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Cai-Huoqing/drm-nvdla-Add-driver-support-for-NVDLA/20220419-220255
-        git checkout 7539e5487eb7d0c6f13c03bba596e51a2238106d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/
+>  * Added Clock-names to false for Non RZ/G2L SoC's
+>  * Replaced compatble 'renesas,rzg2l-vsp2'->'renesas,r9a07g044-vsp2'
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Don't you want to keep "renesas,rzg2l-vsp2" as a fallback...
 
-All errors (new ones prefixed by >>):
+> --- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+> @@ -17,6 +17,7 @@ description:
+>  properties:
+>    compatible:
+>      enum:
+> +      - renesas,r9a07g044-vsp2 # RZ/G2L
+>        - renesas,vsp1 # R-Car Gen2 and RZ/G1
+>        - renesas,vsp2 # R-Car Gen3 and RZ/G2
+>
 
->> make[5]: *** No rule to make target 'drivers/gpu/drm/nvdla/nvdla_engine_data.o', needed by 'drivers/gpu/drm/nvdla/nvdla-drm.o'.
->> make[5]: *** No rule to make target 'drivers/gpu/drm/nvdla/nvdla_engine_debug.o', needed by 'drivers/gpu/drm/nvdla/nvdla-drm.o'.
-   make[5]: Target '__build' not remade because of errors.
+> @@ -50,17 +51,43 @@ required:
+>
+>  additionalProperties: false
+>
+> -if:
+> -  properties:
+> -    compatible:
+> -      items:
+> -        - const: renesas,vsp1
+> -then:
+> -  properties:
+> -    renesas,fcp: false
+> -else:
+> -  required:
+> -    - renesas,fcp
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,vsp1
+> +    then:
+> +      properties:
+> +        renesas,fcp: false
+> +    else:
+> +      required:
+> +        - renesas,fcp
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a07g044-vsp2
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+... so you can check for  "renesas,rzg2l-vsp2" here (and in the driver),
+and don't have to update this check (and the driver) when adding support
+for RZ/V2L later?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
