@@ -2,169 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E31A508C30
-	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 17:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CDD4508C67
+	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 17:48:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380247AbiDTPfp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Apr 2022 11:35:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37062 "EHLO
+        id S1380309AbiDTPvS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Apr 2022 11:51:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234264AbiDTPfo (ORCPT
+        with ESMTP id S1349122AbiDTPvP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Apr 2022 11:35:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B383EBB4;
-        Wed, 20 Apr 2022 08:32:57 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E95F25B;
-        Wed, 20 Apr 2022 17:32:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1650468774;
-        bh=jlpngKO/FI3bADlKQVTGDZ8LcMNXa7Y656X0iNkw2O8=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=FK4Nvn1+u6TCKmSvdTRwKoT2vxn+7YZUdx51yNKSN0HeLtZtJQdzKPNB6QmsmOcKu
-         8Q5WOqIvjEjTLnQrhp9JCNqvBG/bnHkcQ0lMV7oG1/Gsg6XnzGo5UaXlSPGPg9XUjA
-         of06fEEOe7juqdNNTTjrLMEHX9VvWmqQoO8MIuEs=
-Content-Type: text/plain; charset="utf-8"
+        Wed, 20 Apr 2022 11:51:15 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 121FE403E0
+        for <linux-media@vger.kernel.org>; Wed, 20 Apr 2022 08:48:29 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id g18so4379757ejc.10
+        for <linux-media@vger.kernel.org>; Wed, 20 Apr 2022 08:48:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EDaBjgoWxFTWirrlbcYbeEIQIWNFwqY0LoRi2+oih64=;
+        b=UhwepQj7kYXuJ+AHwbtkVuefu7olyuv+7vtIiJHg47s7dlQ+f5NrNVKMCjCdS2EZ8g
+         o+NpaT6SNbgH9KeO0+M3lD8qmTvjnDV+sn/URh57CrANMgPnqRSFJahk1xFnP17LAby9
+         NiIGpvJ3kOgZTQ9tol+1EQ6/Jyw4ETc7VvkUOMMeVtMjl75qQXD1GcGqXlMy3wskaNz/
+         N8RQXMVLRxPws9Yqg3ihbRbLs0tGBMTbSfQR1t7UVnVl04gyLMdqD/iGzObWHOvmgo1y
+         hD18jfxdQCDh5q5Qa1JuzQcggaNKKztGtbMR0q1o19nuJ1h1Oh5zB1vWzPMTYytTPdJF
+         7dMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EDaBjgoWxFTWirrlbcYbeEIQIWNFwqY0LoRi2+oih64=;
+        b=kBaBt1e3tP34fGf0ZezVUZOCNmvphKJrqa5LCtFMWd9sic0ICPbmEwO+rLzVk6IAX6
+         F1soEoXWruStAtanwP5ZEFQp8GpM6MBm7EuWEmrS3MKm957DIm1dN9c0T7ZWXa+6NECU
+         7IWe0A3HVzjavcn1rWHxQAVMR5q69buw2eujCmLuwtnllw/lNMrGOCEh0XqZXFUfXF6U
+         ADQKKBaxLwiQi+kIpP7TNhO3O8cA5DGFsYkfymDrgSVPaU+OhMVZbZiVasLx0XHC4KOz
+         pDQdh/B9rGaadRg+utj6hbzGOjrr5EjfhrRvC9Qq2+7vp0gtL6KMoslf7jCdnHZvmMQm
+         QbWw==
+X-Gm-Message-State: AOAM533W3zD2Sq6vXfwKGwyiMXEpTqxcyqq6bn7BizVRc6gLMZLQh+mI
+        8gcdyz1OndQl9jThuV7UeERFUuxSBY+Rwp2M
+X-Google-Smtp-Source: ABdhPJyPU5Yzwpgtg+mu9vYMLTSg2N0cZwhvl+qRVgIe1N9jSzsCQYDvOFwbYmJkIqwhJI1+VX8k3A==
+X-Received: by 2002:a17:907:6d94:b0:6e8:c309:9923 with SMTP id sb20-20020a1709076d9400b006e8c3099923mr18710414ejc.101.1650469707350;
+        Wed, 20 Apr 2022 08:48:27 -0700 (PDT)
+Received: from localhost.localdomain (hst-221-97.medicom.bg. [84.238.221.97])
+        by smtp.gmail.com with ESMTPSA id g11-20020a1709061e0b00b006eff90d9c18sm970685ejj.92.2022.04.20.08.48.25
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Apr 2022 08:48:26 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.19] Venus updates
+Date:   Wed, 20 Apr 2022 18:48:14 +0300
+Message-Id: <20220420154814.146560-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <OS0PR01MB592245415D71BF56713201C886F59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220419181757.63346-1-biju.das.jz@bp.renesas.com> <20220419181757.63346-2-biju.das.jz@bp.renesas.com> <CAMuHMdXAgJf89ZS_SnF0UMU9tUhROqDxP5N_mAeNj9N6oQBAUw@mail.gmail.com> <OS0PR01MB592245415D71BF56713201C886F59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Subject: RE: [PATCH v8 1/5] media: dt-bindings: media: renesas,vsp1: Document RZ/G2L VSPD bindings
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>, open list:
-        OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, ;
-Illegal-Object: Syntax error in Cc: address found on vger.kernel.org:
-        Cc:     ;
-                        ^-missing semicolon to end mail group, extraneous tokens in mailbox, missing end of mailbox
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 20 Apr 2022 16:32:51 +0100
-Message-ID: <165046877192.2845844.13545707310221592534@Monstersaurus>
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Biju Das (2022-04-20 11:52:17)
-> Hi Geert,
->=20
-> Thanks for the feedback.
->=20
-> > Subject: Re: [PATCH v8 1/5] media: dt-bindings: media: renesas,vsp1:
-> > Document RZ/G2L VSPD bindings
-> >=20
-> > Hi Biju,
-> >=20
-> > On Tue, Apr 19, 2022 at 8:18 PM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > Document VSPD found in RZ/G2L SoC. VSPD block is similar to VSP2-D
-> > > found on R-Car SoC's, but it does not have a version register and it
-> > > has 3 clocks compared to 1 clock on vsp1 and vsp2.
-> > >
-> > > This patch introduces a new compatible 'renesas,r9a07g044-vsp2' to
-> > > handle these differences.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > > v7->v8:
-> >=20
-> > Thanks for the update!
-> >=20
-> > >  * Added Clock-names to false for Non RZ/G2L SoC's
-> > >  * Replaced compatble 'renesas,rzg2l-vsp2'->'renesas,r9a07g044-vsp2'
-> >=20
-> > Don't you want to keep "renesas,rzg2l-vsp2" as a fallback...
->=20
-> As we have .soc field in info structure. I am Planning to add separate SW=
- SoC version for RZ/V2L, as 0x81.
->=20
-> Model version for RZ/G2L alike SoC's will be same, but SoC version will b=
-e different for RZ/G2L, RZ/V2L and RZ/G2UL.
->=20
-> >=20
-> > > --- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> > > @@ -17,6 +17,7 @@ description:
-> > >  properties:
-> > >    compatible:
-> > >      enum:
-> > > +      - renesas,r9a07g044-vsp2 # RZ/G2L
-> > >        - renesas,vsp1 # R-Car Gen2 and RZ/G1
-> > >        - renesas,vsp2 # R-Car Gen3 and RZ/G2
-> > >
-> >=20
-> > > @@ -50,17 +51,43 @@ required:
-> > >
-> > >  additionalProperties: false
-> > >
-> > > -if:
-> > > -  properties:
-> > > -    compatible:
-> > > -      items:
-> > > -        - const: renesas,vsp1
-> > > -then:
-> > > -  properties:
-> > > -    renesas,fcp: false
-> > > -else:
-> > > -  required:
-> > > -    - renesas,fcp
-> > > +allOf:
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            const: renesas,vsp1
-> > > +    then:
-> > > +      properties:
-> > > +        renesas,fcp: false
-> > > +    else:
-> > > +      required:
-> > > +        - renesas,fcp
-> > > +
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            const: renesas,r9a07g044-vsp2
-> >=20
-> > ... so you can check for  "renesas,rzg2l-vsp2" here (and in the driver),
-> > and don't have to update this check (and the driver) when adding support
-> > for RZ/V2L later?
->=20
-> As we introduced .soc field in device_info and plan to add separate S/W S=
-oC version for V2L,
-> fallback is not relevant anymore.
->=20
-> Kieran/Geert/Laurent, Please correct me, if my understanding is wrong?
+Hi Mauro,
 
-I think so, With a version register we can detect at runtime what
-hardware we're on - and thus the generic comaptible match is
-appropriate. But on these targets - if we can't detect the hardware I
-think there's no generic option and it needs to be explicit in the DT.
+This time the updates include.
 
---
-Kieran
+ * Adds new QCOM compressed custom pixel formats and related changes
+   in v4l2 and Venus driver.
+ * Adds intra-refresh type v4l2 control and support in Venus driver.
+ * Few fixes.
 
-> Regards,
-> Biju
->
+Please pull.
+
+regards,
+Stan
+
+The following changes since commit 3d59142ad94cf60b94b3dc94c19fdafa23aec8b1:
+
+  media: dvb-usb: dib0700_devices: use an enum for the device number (2022-04-18 07:36:44 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.19
+
+for you to fetch changes up to d7a7d26cde9ab49cb2265ca74f5372acedad8565:
+
+  venus: venc: Add support for intra-refresh type (2022-04-20 17:58:00 +0300)
+
+----------------------------------------------------------------
+Venus updates for v5.19
+
+----------------------------------------------------------------
+Dikshita Agarwal (2):
+      media: v4l2-ctrls: Add intra-refresh type control
+      venus: venc: Add support for intra-refresh type
+
+Luca Weiss (2):
+      media: venus: hfi: Add error message for timeout error
+      media: venus: hfi: avoid null dereference in deinit
+
+Stanimir Varbanov (6):
+      v4l: Add Qualcomm custom compressed pixel formats
+      venus: helpers: Add helper to check supported pixel formats
+      venus: Add a handling of QC08C compressed format
+      venus: hfi_platform: Correct supported compressed format
+      venus: Add a handling of QC10C compressed format
+      venus: vdec: Use output resolution on reconfigure
+
+Vikash Garodia (2):
+      media: venus: do not queue internal buffers from previous sequence
+      media: venus: vdec: ensure venus is powered on during stream off
+
+ .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 22 ++++++
+ .../userspace-api/media/v4l/pixfmt-reserved.rst    | 19 +++++
+ drivers/media/platform/qcom/venus/core.h           |  1 +
+ drivers/media/platform/qcom/venus/helpers.c        | 85 ++++++++++++++--------
+ drivers/media/platform/qcom/venus/helpers.h        |  1 +
+ drivers/media/platform/qcom/venus/hfi.c            |  3 +
+ .../media/platform/qcom/venus/hfi_platform_v4.c    |  4 +-
+ .../media/platform/qcom/venus/hfi_platform_v6.c    |  4 +-
+ drivers/media/platform/qcom/venus/hfi_venus.c      |  4 +-
+ drivers/media/platform/qcom/venus/vdec.c           | 37 ++++++++--
+ drivers/media/platform/qcom/venus/venc.c           |  6 +-
+ drivers/media/platform/qcom/venus/venc_ctrls.c     |  8 ++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  9 +++
+ drivers/media/v4l2-core/v4l2-ioctl.c               |  2 +
+ include/uapi/linux/v4l2-controls.h                 |  5 ++
+ include/uapi/linux/videodev2.h                     |  2 +
+ 16 files changed, 170 insertions(+), 42 deletions(-)
