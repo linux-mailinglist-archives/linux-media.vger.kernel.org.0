@@ -2,119 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 360D450806D
-	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 07:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82584508139
+	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 08:32:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349743AbiDTFOk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Apr 2022 01:14:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47868 "EHLO
+        id S1348107AbiDTGes (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Apr 2022 02:34:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232351AbiDTFOj (ORCPT
+        with ESMTP id S241754AbiDTGer (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Apr 2022 01:14:39 -0400
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C850333E1A
-        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 22:11:52 -0700 (PDT)
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20220420051151epoutp0429bf2b101821032f8b8d30ab505606be~ngrcGChqc2207722077epoutp04H
-        for <linux-media@vger.kernel.org>; Wed, 20 Apr 2022 05:11:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20220420051151epoutp0429bf2b101821032f8b8d30ab505606be~ngrcGChqc2207722077epoutp04H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1650431511;
-        bh=AkboBTl1T63+/eHjjq5Ukj4jzXHO3ubdVjK2Hd3G60A=;
-        h=Subject:Reply-To:From:To:CC:Date:References:From;
-        b=SRkykIInRaBzKF+W4e5YkRsRakS+uRSJOeol4FUnIpRgaohW9KXpusJDds/h5ReOG
-         iYbSzswZ5dXfbu76RkZ8ZdnrybST2fI7N6CQ87z6BUBg1+x/BzlJG4sh76p/qrcHG8
-         RcQvTrJSJKW7pqpKZbGrN7sbxB1Ioj700QqKfoL4=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
-        20220420051150epcas1p3f3323a57633a7d22e6e3fd07984d16ad~ngrbwoLRx0406904069epcas1p3G;
-        Wed, 20 Apr 2022 05:11:50 +0000 (GMT)
-Received: from epsmges1p4.samsung.com (unknown [182.195.38.234]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4KjpgT44GFz4x9Q1; Wed, 20 Apr
-        2022 05:11:49 +0000 (GMT)
-X-AuditID: b6c32a38-001ff700000049ed-50-625f9615806b
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
-        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
-        89.6B.18925.5169F526; Wed, 20 Apr 2022 14:11:49 +0900 (KST)
-Mime-Version: 1.0
-Subject: [PATCH] media: exynos4-is: Fix compile warning
-Reply-To: k.son@samsung.com
-Sender: Kwanghoon Son <k.son@samsung.com>
-From:   Kwanghoon Son <k.son@samsung.com>
-To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Wed, 20 Apr 2022 02:34:47 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B11D12ABB
+        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 23:32:02 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id l7so1462949ejn.2
+        for <linux-media@vger.kernel.org>; Tue, 19 Apr 2022 23:32:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=LUo/eeAJ/KUosDrWNZbH2eTvpC6cpi+HWWKICkjYZ+Y=;
+        b=kzmAdT6AgQ1XVTIxdir03Gf7eNwiBGfM1dIRA8vMQ++0YJUWg3XoIGWbXZMNVKrlhE
+         NMlafvk8lBd8nJgfhdnYaJCwdAyp1p5rVy8rsN9zhx73+0R5F6Tuca4v3MOcj8SpDzBu
+         23ED1bnswghirk9YvAYL5hb7Gq+cTpIUf8qFfRRwEBJM1CqOKQqmLnHAnyx8KvDdkkwJ
+         IAirPcjRswQN9zGXniO9xDSZ0yyo9BzdKOFkzMmCf00+qZUMGfaSpLgx7ahUbclRmAln
+         wtnHPmIhMxx5DNvKeReufQTaO4jpbUktOIMXPENwMy3zCH/wB//Tmbgz5EOrmRrMWNX8
+         TtfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=LUo/eeAJ/KUosDrWNZbH2eTvpC6cpi+HWWKICkjYZ+Y=;
+        b=YrBYpbrFoN0U5Otj9A/v66qaZC/CefEgqxkUTba89jo7glNIo1SAIoADpciKamUztk
+         TzwoiW9gpldQAbVKCVLqxZ8YkUOPlrvS0A9dQGS5ylr1YIzKA4zRV1NEi9WtrLzeHW4U
+         aSRUwJe4vuYHcvWObSLRJnvafkCe/SXW30POrfolW+bO5CAv5krrgxt9zAV09muR2RW/
+         STjWR7jYwp6rXQEE7Z+opX7lYXsvBeH7GvlfIKNzBP7ayvel82HCteHNaw8j3sEQS2Zy
+         A/bFMjg1etzRu7tfPF1w1UBeg2o6OkTqVGWiGncIz0qyFV+HNfX5hvBimTH76aWDSlD+
+         hkBQ==
+X-Gm-Message-State: AOAM532JPvRFg7KllGrCSdx9vJ5UOEva2bTYOLWkvcLh3SjIC4Mc0CpW
+        6EW2cJfDu57H6uT/AnWBO4Sjkg==
+X-Google-Smtp-Source: ABdhPJx5uQ9psKnjm3spxetT2uiUOfrJ63bQJwRinosS64hxC+75MHzSEglvneI5vtSnyzTLI4Njng==
+X-Received: by 2002:a17:906:34d5:b0:6ef:af55:702 with SMTP id h21-20020a17090634d500b006efaf550702mr11929181ejb.430.1650436320981;
+        Tue, 19 Apr 2022 23:32:00 -0700 (PDT)
+Received: from [192.168.0.222] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id o14-20020a170906774e00b006d5b915f27dsm6381067ejn.169.2022.04.19.23.31.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Apr 2022 23:32:00 -0700 (PDT)
+Message-ID: <a1fe968f-a8dd-e149-1149-85380e60e8f4@linaro.org>
+Date:   Wed, 20 Apr 2022 08:31:59 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] media: exynos4-is: Fix compile warning
+Content-Language: en-US
+To:     k.son@samsung.com, Sylwester Nawrocki <s.nawrocki@samsung.com>,
         "mchehab@kernel.org" <mchehab@kernel.org>,
-        "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
         ALIM AKHTAR <alim.akhtar@samsung.com>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         "linux-samsung-soc@vger.kernel.org" 
         <linux-samsung-soc@vger.kernel.org>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20220420051149epcms1p469ac91524037074586d368fe901e0964@epcms1p4>
-Date:   Wed, 20 Apr 2022 14:11:49 +0900
-X-CMS-MailID: 20220420051149epcms1p469ac91524037074586d368fe901e0964
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrLKsWRmVeSWpSXmKPExsWy7bCmga7otPgkg74tshYP5m1js9j7eiu7
-        Rc+GrawWM87vY7JYtukPk8XhN+2sDmwem1Z1snncubaHzaNvyypGj8+b5AJYorJtMlITU1KL
-        FFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4CWKymUJeaUAoUCEouL
-        lfTtbIryS0tSFTLyi0tslVILUnIKTAv0ihNzi0vz0vXyUkusDA0MjEyBChOyMxrfPWEs2MZe
-        seDRfbYGxuNsXYycHBICJhJdN44ygthCAjsYJS4cN+li5ODgFRCU+LtDGCQsLGAuMfHSEXaQ
-        sJCAtMSHi7ogprCApsTzDkeQCjYBdYklbWuBKrg4RAROMErcWTeZBcRhFuhilLg/YzkrxCpe
-        iRntT1kgbGmJ7cu3MkLYohI3V79lh7HfH5sPFReRaL13lhnCFpR48HM3VFxKovXMdiYIO1ti
-        5oyVUPESif17JjKDHCchoC9xbJs0SJhXwFdi5eZesDEsAqoSU8+ehzrBReLaweNgrcwC8hLb
-        384Ba2UG+mv9Ln2IEkWJnb/nQpXwSbz72gP3yY55T5ggNslL3Ooshzn+zNOP0HD1kHg0ezU7
-        JFwDJdYtP8s8gVF+FiJoZyHZOwth7wJG5lWMYqkFxbnpqcWGBSbwyEzOz93ECE53WhY7GOe+
-        /aB3iJGJg/EQowQHs5IIb8+S6CQh3pTEyqrUovz4otKc1OJDjKZAH09klhJNzgcm3LySeEMT
-        SwMTMyNjEwtDM0Mlcd7eqacThQTSE0tSs1NTC1KLYPqYODilGpgUF8ccWDN72ze3cx43Znwp
-        17s26w5HY75o57xnc/e7GpW37HO2rbjNyJoe/yfH6KHJdeXLdw3mSgnw7DBNEKtsd34y4+UC
-        hqX7vyR7VXjfs1juc2K/NDv3LvFZ8X5tLhd495vaxzSYMMq55WaaBfqoz0tfuKrqceKb+1qZ
-        Ot8Zg3vmV3q4cN2Zmp43R213w/rPnZfXbvL3PP3H9t02cUvvN/uqGaqtN/w+8+CSyxlP94nH
-        m+LFCqczXKmYLsYUL7pO/K/gcxu+Dx4ND+YYxjAt/ZdVszlQ9EGAbsh6wdoXJddWPwrpm+Y3
-        8Y6u0KywNzXG1wsK4169eums+266leMK9279SZx9js9PpV0LeKHEUpyRaKjFXFScCAA2e/R/
-        AAQAAA==
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220420045732epcms1p7bdaf82873a4328153b456ee4e3a5660a
 References: <CGME20220420045732epcms1p7bdaf82873a4328153b456ee4e3a5660a@epcms1p4>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+ <20220420051149epcms1p469ac91524037074586d368fe901e0964@epcms1p4>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220420051149epcms1p469ac91524037074586d368fe901e0964@epcms1p4>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-declare 'static' to fix warning message from
-https://lore.kernel.org/linux-media/202204192315.ZHbOex51-lkp@intel.com/T/#u
+Hi,
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Kwang Son <k.son@samsung.com>
----
- drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You sent three almost the same patches, so how can we know which one to
+choose? Please use versioning of the patches (git help format-patch).
 
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h b/drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h
-index edcb3a5e3cb9..2dd4ddbc748a 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h
-@@ -32,7 +32,7 @@ static inline int fimc_isp_video_device_register(struct fimc_isp *isp,
- 	return 0;
- }
- 
--void fimc_isp_video_device_unregister(struct fimc_isp *isp,
-+static inline void fimc_isp_video_device_unregister(struct fimc_isp *isp,
- 				enum v4l2_buf_type type)
- {
- }
--- 
-2.20.1
+On 20/04/2022 07:11, Kwanghoon Son wrote:
+> declare 'static' to fix warning message from
+> https://lore.kernel.org/linux-media/202204192315.ZHbOex51-lkp@intel.com/T/#u
+
+No external references, instead quote trimmed warning message (only the
+relevant part).
+
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Kwang Son <k.son@samsung.com>
+
+Name used here does not match name used for commit, so please fix your
+setup.
+
+
+Best regards,
+Krzysztof
