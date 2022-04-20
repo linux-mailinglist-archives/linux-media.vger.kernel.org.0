@@ -2,67 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DC3B508693
-	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 13:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44251508695
+	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 13:07:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377881AbiDTLJo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Apr 2022 07:09:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47216 "EHLO
+        id S1377897AbiDTLJz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Apr 2022 07:09:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347173AbiDTLJn (ORCPT
+        with ESMTP id S1377895AbiDTLJz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Apr 2022 07:09:43 -0400
+        Wed, 20 Apr 2022 07:09:55 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2F7E828E01
-        for <linux-media@vger.kernel.org>; Wed, 20 Apr 2022 04:06:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A752A28E01
+        for <linux-media@vger.kernel.org>; Wed, 20 Apr 2022 04:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1650452816;
+        s=mimecast20190719; t=1650452828;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=nAoKseYG0ZFXZ4TIIvPqFWraz/lYMRREh5HCpMpt4SA=;
-        b=Da2jmX2GOFjOwzsQlyquc1OxhNKXyHyz3OPUXP/Oy2lyC41HALtzaXxMxNo7s6FFUrc3Rf
-        33LL+24+onHMeHiwgZ2VpcGUn5c3cG2meNW+VwozMA7v58KoxMDxCE5bcXcJ6ZvilF4Zbp
-        WE2s805cpfpoIb9bO4GS2II1/GvvbN4=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=UwOF3HOL5RSWCpIsMDkzBg+WBg3G3TFS0qjQ6oEuYGo=;
+        b=V5KjpUwrrFUtna1aR9oGlipgpUews6pVZtX73SsBXR5FyQl9ndVuUaItDDoQNC14Cto9SG
+        Cj8KSZmFc9PHl6dTNitZ48LTNy1EU9PnRdHMcs+diYaVDXBq2/4DSXirS8Rk4Tv0/RUUHr
+        VIvJhvow01eRHIepjZDziTTfCkNILfc=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-244-aVtb8F1_NOewhrbz7h0Iyg-1; Wed, 20 Apr 2022 07:06:55 -0400
-X-MC-Unique: aVtb8F1_NOewhrbz7h0Iyg-1
-Received: by mail-ej1-f72.google.com with SMTP id nb10-20020a1709071c8a00b006e8f89863ceso783614ejc.18
-        for <linux-media@vger.kernel.org>; Wed, 20 Apr 2022 04:06:55 -0700 (PDT)
+ us-mta-606-1m17nwlQMnmdWNvo7kgvng-1; Wed, 20 Apr 2022 07:07:07 -0400
+X-MC-Unique: 1m17nwlQMnmdWNvo7kgvng-1
+Received: by mail-ed1-f72.google.com with SMTP id t9-20020aa7d4c9000000b0041ff2e578dcso963787edr.16
+        for <linux-media@vger.kernel.org>; Wed, 20 Apr 2022 04:07:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=nAoKseYG0ZFXZ4TIIvPqFWraz/lYMRREh5HCpMpt4SA=;
-        b=V7UlDlW49n0MCaw37gHjUxovQfk1pAvCMSgky/L5R6mY0cdzh2kse5nCKZ57lwaNch
-         j/eiBeaPAQ1Cy1cQ/924ixLcKbkJ0m/8U8SbfuP2pOR712HxNQiM8kxvMZ8nxNCoat/f
-         1PTJEaC0R/v4irIiHoMa8WGJpc8GvO9yI6TM0RHGfnL0/BtEdoGFqgGuznNllGhRHvRe
-         BQjK2riYZd/9W3UBoVZ7tnVT8ftuqFdPgguKfuXsnM+Io9rkxGwUD7PFscca9N2St0nX
-         QJyjGsqa0C8Cu7Iy2TJvAOqnudXmDiurf9fEK4bGHQUai8RP4XxpIghjj0o1drByXuP7
-         mK0A==
-X-Gm-Message-State: AOAM530uJBnSvfEr2gO4fPct5K8mueU+mSgQUuTICXhjuZca0Yonhqi7
-        UW/fjDFOADhinh7INDJf6zj7y/zCTBMoeLhJn3xStIpvf1YZdBugtErXrp7qXLFAjeYuRxm46yR
-        Ait0BWyX5yplhRe29/YeZkRU=
-X-Received: by 2002:aa7:d553:0:b0:416:4dfc:126d with SMTP id u19-20020aa7d553000000b004164dfc126dmr22214666edr.213.1650452813007;
-        Wed, 20 Apr 2022 04:06:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4lQnFeV1UHw8eIKZeNMMfyCfsjkXPEdIsO3tYie3sWTmFFwMJD3/SNL1PcBjG6qYKpen0OQ==
-X-Received: by 2002:aa7:d553:0:b0:416:4dfc:126d with SMTP id u19-20020aa7d553000000b004164dfc126dmr22214651edr.213.1650452812873;
-        Wed, 20 Apr 2022 04:06:52 -0700 (PDT)
+        bh=UwOF3HOL5RSWCpIsMDkzBg+WBg3G3TFS0qjQ6oEuYGo=;
+        b=EJVcMZo4KUSGmAtlRAnntISpbJ/tlwm7dmNBbHx01UdxRcp735rA3+tfWbXwRSWJ9I
+         kBsygvmuMv0LVriYCw8bc/LEqoNrgXpdnrvAw2NXE3tQoG+nIRxGauNc4mlPMMLvi6OX
+         7WMw+mR0i9ZWY1Qso7Hg9vZDLB3PPNREpnJN4UoPol8Ugpwh8IHb7BE4SQJmAU/w8z2Q
+         zv5CzpGpKCKCS4dTSS29/I/z+9bDtkhNObF8QL/efJMuls3Pcuv1Lt29h/CinLtpRGo8
+         KINX38Hd2aQB88wEBqSSEvsh6zGPdmlYS0kterHTwfeMsrpCZn4XjLDDdMv0wUX8Etgc
+         uUqA==
+X-Gm-Message-State: AOAM533irWja/l8lkJgxAhIHdbDJWMhAjqBv6vTjmIXrTs8v3zRFlaO1
+        iWrKgp12MWfYKjiuXqAV4NOV/N17RcqMZbKrwCNy1DIUVMpk8Qfo9BD+eH4PLnWGzg8zZlPaJRj
+        dwkeuivg9Szt85NtNOI5ZdxI=
+X-Received: by 2002:a05:6402:608:b0:41e:ce5:f02d with SMTP id n8-20020a056402060800b0041e0ce5f02dmr22940026edv.104.1650452826546;
+        Wed, 20 Apr 2022 04:07:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyKbC85ZGMPknAiJCsVTUPZVUdQiALgx50L9YEQctGci04sT/7JOLUTRhYvUOLdSGyH3zdyLg==
+X-Received: by 2002:a05:6402:608:b0:41e:ce5:f02d with SMTP id n8-20020a056402060800b0041e0ce5f02dmr22940009edv.104.1650452826359;
+        Wed, 20 Apr 2022 04:07:06 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id yy18-20020a170906dc1200b006d6e5c75029sm6477872ejb.187.2022.04.20.04.06.51
+        by smtp.gmail.com with ESMTPSA id cw23-20020a056402229700b00421c1574f01sm9117548edb.9.2022.04.20.04.07.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Apr 2022 04:06:52 -0700 (PDT)
-Message-ID: <b0aed731-b56f-4378-b50e-fc0cbccbdb84@redhat.com>
-Date:   Wed, 20 Apr 2022 13:06:51 +0200
+        Wed, 20 Apr 2022 04:07:05 -0700 (PDT)
+Message-ID: <0b04ad1a-e442-1728-ef2c-bab386a4c64c@redhat.com>
+Date:   Wed, 20 Apr 2022 13:07:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] staging: media: atomisp: Convert kmap() to
- kmap_local_page()
+Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in
+ hmm_set()
 Content-Language: en-US
 To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -72,16 +72,17 @@ To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
         Tsuchiya Yuto <kitakar@gmail.com>,
         Martiros Shakhzadyan <vrzh@vrzh.net>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
-References: <20220408223129.3844-1-fmdefrancesco@gmail.com>
+        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+        outreachy@lists.linux.dev
+References: <20220413212210.18494-1-fmdefrancesco@gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220408223129.3844-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20220413212210.18494-1-fmdefrancesco@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -90,17 +91,20 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On 4/9/22 00:31, Fabio M. De Francesco wrote:
-> The use of kmap() is being deprecated in favor of kmap_local_page() where
-> it is feasible. With kmap_local_page(), the mapping is per thread, CPU
-> local and not globally visible.
+On 4/13/22 23:22, Fabio M. De Francesco wrote:
+> The use of kmap() is being deprecated in favor of kmap_local_page()
+> where it is feasible. In file pci/hmm/hmm.c, function hmm_set() calls
+> kmap() / kunmap() where kmap_local_page() can instead do the mapping.
 > 
-> load_and_flush_by_kmap() is a function where the use of kmap_local_page()
-> in place of kmap() is correctly suited.
+> With kmap_local_page(), the mapping is per thread, CPU local and not
+> globally visible. Therefore, hmm_set()() is a function where the use
+> of kmap_local_page() in place of kmap() is correctly suited.
 > 
-> Convert load_and_flush_by_kmap() from kmap() to kmap_local_page().
+> Convert the calls of kmap() / kunmap() to kmap_local_page() /
+> kunmap_local().
 > 
 > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+
 
 I've successfully tested this on both the front and back cams
 of a chuwi hi8 tablet:
@@ -118,24 +122,24 @@ Hans
 >  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-> index c1cda16f2dc0..6394385b6637 100644
+> index 6394385b6637..46ac082cd3f1 100644
 > --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
 > +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-> @@ -350,7 +350,7 @@ static int load_and_flush_by_kmap(ia_css_ptr virt, void *data,
+> @@ -563,7 +563,7 @@ int hmm_set(ia_css_ptr virt, int c, unsigned int bytes)
 >  		idx = (virt - bo->start) >> PAGE_SHIFT;
 >  		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
 >  
-> -		src = (char *)kmap(bo->page_obj[idx].page) + offset;
-> +		src = (char *)kmap_local_page(bo->page_obj[idx].page) + offset;
+> -		des = (char *)kmap(bo->page_obj[idx].page) + offset;
+> +		des = (char *)kmap_local_page(bo->page_obj[idx].page) + offset;
 >  
 >  		if ((bytes + offset) >= PAGE_SIZE) {
 >  			len = PAGE_SIZE - offset;
-> @@ -369,7 +369,7 @@ static int load_and_flush_by_kmap(ia_css_ptr virt, void *data,
+> @@ -579,7 +579,7 @@ int hmm_set(ia_css_ptr virt, int c, unsigned int bytes)
 >  
->  		clflush_cache_range(src, len);
+>  		clflush_cache_range(des, len);
 >  
 > -		kunmap(bo->page_obj[idx].page);
-> +		kunmap_local(src);
+> +		kunmap_local(des);
 >  	}
 >  
 >  	return 0;
