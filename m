@@ -2,113 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 221A4508142
-	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 08:36:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99F5E508249
+	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 09:35:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348107AbiDTGjf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Apr 2022 02:39:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33538 "EHLO
+        id S1359837AbiDTHhx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Apr 2022 03:37:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235577AbiDTGjd (ORCPT
+        with ESMTP id S1376277AbiDTHhk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Apr 2022 02:39:33 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A11C8167C3;
-        Tue, 19 Apr 2022 23:36:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=JBXsl+mIATRCufdITmGTK7ymrd2L37dxDsu//jC6hbo=; b=1ugSkmXxYniz3j3eOGVH62DtMn
-        ID7m2g6IITyaYw6VLRbde7ww6RM6JW7W5QHgyxFQP95RMQFzaNv/kGLl2nxWEDjlwjxP2YQuPy74J
-        6IyY5SuNqUi7nZrYGUv+MuZWzw1vOEA1+Iiw+Vbp8X3KmKm1O3yEV8GlXiS2aQQxRug+pCPu0XkAz
-        1VghU01vBl1TL/VrZAkbwSoaMYDrS9IA+dmNXEm3D0BA4kWp5zVzMDO5pTkt1xZMwmBAqj77ZV48d
-        OlVB6ZuinUm9Rj00Hd/2snHZ9efjMB30v/MAEtN9wroEK7wsRXC/MH/juGJ2rXFD8Ygm6ZYIbzh0z
-        3ogvOZxA==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nh3xF-007a6R-CB; Wed, 20 Apr 2022 06:36:45 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
+        Wed, 20 Apr 2022 03:37:40 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 707A4FFF;
+        Wed, 20 Apr 2022 00:34:53 -0700 (PDT)
+X-UUID: c57dc06fb9b848048db847afd4aff9dd-20220420
+X-UUID: c57dc06fb9b848048db847afd4aff9dd-20220420
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1009755596; Wed, 20 Apr 2022 15:34:44 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Wed, 20 Apr 2022 15:34:43 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 20 Apr 2022 15:34:42 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH] media: make RADIO_ADAPTERS tristate
-Date:   Tue, 19 Apr 2022 23:36:44 -0700
-Message-Id: <20220420063644.17758-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.34.1
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <allen-kh.cheng@mediatek.com>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH] dt-bindings: media: mtk-vcodec: Adds encoder power domain property
+Date:   Wed, 20 Apr 2022 15:34:39 +0800
+Message-ID: <20220420073440.31649-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        RDNS_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix build errors when RADIO_TEA575X=y, VIDEO_BT848=m, and VIDEO_DEV=m.
+Adds encoder power domain property
 
-The build errors occur due to [in drivers/media/Makefile]:
-obj-$(CONFIG_VIDEO_DEV) += radio/
-so the (would be) builtin tea575x.o is not being built.
-
-This is also due to drivers/media/radio/Kconfig declaring a bool
-Kconfig symbol (RADIO_ADAPTERS) that depends on a tristate (VIDEO_DEV),
-so when VIDEO_DEV=m, RADIO_ADAPTERS becomes =y, and then the drivers
-that depend on RADIO_ADPATERS can be configured as builtin (=y) or
-as loadable modules (=m).
-
-Fix this by converting RADIO_ADAPTERS to a tristate symbol instead
-of a bool symbol.
-
-Fixes these build errors:
-
-ERROR: modpost: "snd_tea575x_hw_init" [drivers/media/pci/bt8xx/bttv.ko] undefined!
-ERROR: modpost: "snd_tea575x_set_freq" [drivers/media/pci/bt8xx/bttv.ko] undefined!
-ERROR: modpost: "snd_tea575x_s_hw_freq_seek" [drivers/media/pci/bt8xx/bttv.ko] undefined!
-ERROR: modpost: "snd_tea575x_enum_freq_bands" [drivers/media/pci/bt8xx/bttv.ko] undefined!
-ERROR: modpost: "snd_tea575x_g_tuner" [drivers/media/pci/bt8xx/bttv.ko] undefined!
-
-Fixes: 9958d30f38b9 ("media: Kconfig: cleanup VIDEO_DEV dependencies")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Link: lore.kernel.org/r/202204191711.IKJJFjgU-lkp@intel.com
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo@jmondi.org>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: linux-media@vger.kernel.org
+Signed-off-by: Irui Wang <irui.wang@mediatek.com>
 ---
-Just for fun I tested a change to drivers/media/Makefile:
+ .../devicetree/bindings/media/mediatek,vcodec-encoder.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
--obj-y += common/ platform/ pci/ usb/ mmc/ firewire/ spi/ test-drivers/
--obj-$(CONFIG_VIDEO_DEV) += radio/
-+obj-y += common/ platform/ pci/ usb/ mmc/ firewire/ spi/ test-drivers/ radio/
-
-but that leaves a slew of other build errors (undefined symbols).
-
- drivers/media/radio/Kconfig |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
---- a/drivers/media/radio/Kconfig
-+++ b/drivers/media/radio/Kconfig
-@@ -4,10 +4,10 @@
- #
+diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+index deb5b657a2d5..3c069c965992 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+@@ -41,6 +41,9 @@ properties:
  
- menuconfig RADIO_ADAPTERS
--	bool "Radio Adapters"
-+	tristate "Radio Adapters"
- 	depends on VIDEO_DEV
- 	depends on MEDIA_RADIO_SUPPORT
--	default y
-+	default VIDEO_DEV
- 	help
- 	  Say Y here to enable selecting AM/FM radio adapters.
+   assigned-clock-parents: true
  
++  power-domains:
++    maxItems: 1
++
+   iommus:
+     minItems: 1
+     maxItems: 32
+@@ -72,6 +75,7 @@ required:
+   - iommus
+   - assigned-clocks
+   - assigned-clock-parents
++  - power-domains
+ 
+ allOf:
+   - if:
+@@ -132,6 +136,7 @@ examples:
+     #include <dt-bindings/clock/mt8173-clk.h>
+     #include <dt-bindings/memory/mt8173-larb-port.h>
+     #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/power/mt8173-power.h>
+ 
+     vcodec_enc_avc: vcodec@18002000 {
+       compatible = "mediatek,mt8173-vcodec-enc";
+@@ -153,6 +158,7 @@ examples:
+       clock-names = "venc_sel";
+       assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>;
+       assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL>;
++      power-domains = <&scpsys MT8173_POWER_DOMAIN_VENC>;
+     };
+ 
+     vcodec_enc_vp8: vcodec@19002000 {
+@@ -173,4 +179,5 @@ examples:
+       clock-names = "venc_lt_sel";
+       assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
+       assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL_370P5>;
++      power-domains = <&scpsys MT8173_POWER_DOMAIN_VENC_LT>;
+     };
+-- 
+2.18.0
+
