@@ -2,345 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C6EE5082F2
-	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 09:55:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E7DC5082EC
+	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 09:55:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356820AbiDTH5D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Apr 2022 03:57:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52342 "EHLO
+        id S241466AbiDTH5a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Apr 2022 03:57:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348806AbiDTH5B (ORCPT
+        with ESMTP id S1376579AbiDTH52 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Apr 2022 03:57:01 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA3C63C490;
-        Wed, 20 Apr 2022 00:54:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650441255; x=1681977255;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/cXH9mhL+Kc+JfnZMdiLurkemiqzhu8RI4LasdVuTxk=;
-  b=V/kxdcz+grfL340Lm8b3vZO3CaqCUEOQe4H8M7zCoN2j+IS1CvvgMDku
-   jg9MrN8X6ZGqMMYlwgGcxay7v2qOWoSpeYguzMpTEiBrE1lS7DkEYaId3
-   Sc11LElfZxzMH7UjhSJpUorQ1VEKZ2svp0GPgVHJfab8kdBDp98ij7bAT
-   z3XvgEvFEu9P5XJbtn3fEKjWP3udXqEBfsrb5/21PGpwvcFBtSOBelVI2
-   PVQ/hVcXQ1J4I6CGxfrfbjfPRBY4GuIdPfwzLcunH7bUdOTM7Rps3iazL
-   J6j9dVyQIF3xPoy81GrK00VFZsgGq2VbVahLETciRPf6V+uc4MRtGCwef
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="251274579"
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; 
-   d="scan'208";a="251274579"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2022 00:54:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; 
-   d="scan'208";a="804962470"
-Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 20 Apr 2022 00:54:12 -0700
-Received: from kbuild by 3abc53900bec with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1nh5AB-0006jg-9D;
-        Wed, 20 Apr 2022 07:54:11 +0000
-Date:   Wed, 20 Apr 2022 15:53:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Cai Huoqing <cai.huoqing@linux.dev>
-Cc:     kbuild-all@lists.01.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 2/2] drm/nvdla: Add driver support for NVDLA
-Message-ID: <202204201512.pp20MXT5-lkp@intel.com>
-References: <20220419135908.39606-3-cai.huoqing@linux.dev>
+        Wed, 20 Apr 2022 03:57:28 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 235B23BBDC;
+        Wed, 20 Apr 2022 00:54:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2C243B81D71;
+        Wed, 20 Apr 2022 07:54:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93EE4C385A9;
+        Wed, 20 Apr 2022 07:54:37 +0000 (UTC)
+Message-ID: <2732e2ad-03bb-b30a-c649-08898419185b@xs4all.nl>
+Date:   Wed, 20 Apr 2022 09:54:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220419135908.39606-3-cai.huoqing@linux.dev>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 0/5] Visconti: Add Toshiba Visconti Video Input
+ Interface driver
+Content-Language: en-US
+To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+References: <20220414053528.31460-1-yuji2.ishikawa@toshiba.co.jp>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220414053528.31460-1-yuji2.ishikawa@toshiba.co.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Cai,
+Hi Yuji,
 
-I love your patch! Yet something to improve:
+On 14/04/2022 07:35, Yuji Ishikawa wrote:
+> This series is the Video Input Interface driver for Toshiba's ARM SoC, Visconti[0].
+> This provides DT binding documentation, device driver, MAINTAINER fiels.
+> 
+> Best regards,
+> Yuji
+> 
+> [0]: https://toshiba.semicon-storage.com/ap-en/semiconductor/product/image-recognition-processors-visconti.html
+> 
+> 
+>   dt-bindings: media: platform: visconti: Add Toshiba Visconti Video Input Interface bindings
+>     v1 -> v2:
+>       - No update
+> 
+>   media: platform: visconti: Add Toshiba Visconti Video Input Interface driver headers
+>     v1 -> v2:
+>       - moved driver headers to an individual patch
+> 
+>   media: platform: visconti: Add Toshiba Visconti Video Input Interface driver body
+>     v1 -> v2:
+>       - moved driver sources to an individual patch
+>    
+>   media: platform: visconti: Add Toshiba VIIF image signal processor driver
+>     v1 -> v2:
+>       - moved image signal processor driver to an individual patch
+> 
+>   MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
+>     v1 -> v2:
+>       - No update
+> 
+> Change in V2:
+>   - moved files into individual patches to decrease patch size
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-intel/for-linux-next drm-tip/drm-tip linus/master v5.18-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Thank you for your patch series.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cai-Huoqing/drm-nvdla-Add-driver-support-for-NVDLA/20220419-220255
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: h8300-randconfig-r014-20220420 (https://download.01.org/0day-ci/archive/20220420/202204201512.pp20MXT5-lkp@intel.com/config)
-compiler: h8300-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7539e5487eb7d0c6f13c03bba596e51a2238106d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Cai-Huoqing/drm-nvdla-Add-driver-support-for-NVDLA/20220419-220255
-        git checkout 7539e5487eb7d0c6f13c03bba596e51a2238106d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross W=1 O=build_dir ARCH=h8300 SHELL=/bin/bash drivers/gpu/
+However, there are quite a few things that need more work. I'll make some
+high level guidelines here, and go into a bit more detail in some of the
+patches.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+First of all, run your patches through 'scripts/checkpatch.pl --strict' and
+fix the many warnings, errors and checks. Use common sense, sometimes a
+check or warning isn't actually valid, but the vast majority of what
+checkpatch spits out appears reasonable.
 
-All error/warnings (new ones prefixed by >>):
+Another thing I noticed is code like this:
 
->> make[5]: *** No rule to make target 'drivers/gpu/drm/nvdla/nvdla_engine_data.o', needed by 'drivers/gpu/drm/nvdla/built-in.a'.
->> make[5]: *** No rule to make target 'drivers/gpu/drm/nvdla/nvdla_engine_debug.o', needed by 'drivers/gpu/drm/nvdla/built-in.a'.
-   make[5]: Target '__build' not remade because of errors.
---
->> drivers/gpu/drm/nvdla/nvdla_drm.c:45:9: warning: no previous prototype for 'dla_get_time_us' [-Wmissing-prototypes]
-      45 | int64_t dla_get_time_us(void)
-         |         ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/nvdla/nvdla_drm.c: In function 'nvdla_engine_isr':
->> drivers/gpu/drm/nvdla/nvdla_drm.c:75:18: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
-      75 |         uint32_t mask;
-         |                  ^~~~
---
-   drivers/gpu/drm/nvdla/nvdla_gem.c: In function 'nvdla_fill_task_desc':
->> drivers/gpu/drm/nvdla/nvdla_gem.c:39:17: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      39 |                 (void __user *)local_task->address_list,
-         |                 ^
---
-   drivers/gpu/drm/nvdla/nvdla_scheduler.c: In function 'dla_op_completion':
->> drivers/gpu/drm/nvdla/nvdla_scheduler.c:513:26: warning: variable 'task' set but not used [-Wunused-but-set-variable]
-     513 |         struct dla_task *task;
-         |                          ^~~~
---
->> drivers/gpu/drm/nvdla/nvdla_scheduler.c:363: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Dequeue next operation of same type from list of operations
-   drivers/gpu/drm/nvdla/nvdla_scheduler.c:505: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Handle operation completion notification
-   drivers/gpu/drm/nvdla/nvdla_scheduler.c:610: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Read network configuration from DRAM, network descriptor address
-   drivers/gpu/drm/nvdla/nvdla_scheduler.c:920: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Execute task selected by task scheduler
---
-   drivers/gpu/drm/nvdla/nvdla_bdma.c: In function 'dla_bdma_dump_config':
->> drivers/gpu/drm/nvdla/nvdla_bdma.c:157:39: warning: variable 'bdma_surface' set but not used [-Wunused-but-set-variable]
-     157 |         struct dla_bdma_surface_desc *bdma_surface;
-         |                                       ^~~~~~~~~~~~
->> drivers/gpu/drm/nvdla/nvdla_bdma.c:156:34: warning: variable 'bdma_op' set but not used [-Wunused-but-set-variable]
-     156 |         struct dla_bdma_op_desc *bdma_op;
-         |                                  ^~~~~~~
---
-   drivers/gpu/drm/nvdla/nvdla_conv.c: In function 'dla_conv_dump_config':
->> drivers/gpu/drm/nvdla/nvdla_conv.c:666:39: warning: variable 'conv_surface' set but not used [-Wunused-but-set-variable]
-     666 |         struct dla_conv_surface_desc *conv_surface;
-         |                                       ^~~~~~~~~~~~
->> drivers/gpu/drm/nvdla/nvdla_conv.c:665:34: warning: variable 'conv_op' set but not used [-Wunused-but-set-variable]
-     665 |         struct dla_conv_op_desc *conv_op;
-         |                                  ^~~~~~~
---
->> drivers/gpu/drm/nvdla/nvdla_engine.c:67: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Get DMA data cube address
-   drivers/gpu/drm/nvdla/nvdla_engine.c:88: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Read input buffer address
---
->> drivers/gpu/drm/nvdla/nvdla_bdma.c:56: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Program BDMA slot for transfer
---
-   drivers/gpu/drm/nvdla/nvdla_sdp.c: In function 'processor_sdp_program':
->> drivers/gpu/drm/nvdla/nvdla_sdp.c:190:18: warning: variable 'atom_size' set but not used [-Wunused-but-set-variable]
-     190 |         uint32_t atom_size;
-         |                  ^~~~~~~~~
-   drivers/gpu/drm/nvdla/nvdla_sdp.c: In function 'dla_sdp_dump_config':
->> drivers/gpu/drm/nvdla/nvdla_sdp.c:708:38: warning: variable 'sdp_surface' set but not used [-Wunused-but-set-variable]
-     708 |         struct dla_sdp_surface_desc *sdp_surface;
-         |                                      ^~~~~~~~~~~
->> drivers/gpu/drm/nvdla/nvdla_sdp.c:707:33: warning: variable 'sdp_op' set but not used [-Wunused-but-set-variable]
-     707 |         struct dla_sdp_op_desc *sdp_op;
-         |                                 ^~~~~~
-   At top level:
-   drivers/gpu/drm/nvdla/nvdla_sdp.c:118:22: warning: 'map_perf_nan_inf' defined but not used [-Wunused-const-variable=]
-     118 | static const uint8_t map_perf_nan_inf[] = {
-         |                      ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/nvdla/nvdla_sdp.c:113:22: warning: 'map_perf_sat' defined but not used [-Wunused-const-variable=]
-     113 | static const uint8_t map_perf_sat[] = {
-         |                      ^~~~~~~~~~~~
-   drivers/gpu/drm/nvdla/nvdla_sdp.c:108:22: warning: 'map_perf_lut' defined but not used [-Wunused-const-variable=]
-     108 | static const uint8_t map_perf_lut[] = {
-         |                      ^~~~~~~~~~~~
-   drivers/gpu/drm/nvdla/nvdla_sdp.c:103:22: warning: 'map_perf_dma' defined but not used [-Wunused-const-variable=]
-     103 | static const uint8_t map_perf_dma[] = {
-         |                      ^~~~~~~~~~~~
---
-   drivers/gpu/drm/nvdla/nvdla_cdp.c: In function 'dla_cdp_dump_config':
->> drivers/gpu/drm/nvdla/nvdla_cdp.c:280:38: warning: variable 'cdp_surface' set but not used [-Wunused-but-set-variable]
-     280 |         struct dla_cdp_surface_desc *cdp_surface;
-         |                                      ^~~~~~~~~~~
->> drivers/gpu/drm/nvdla/nvdla_cdp.c:279:33: warning: variable 'cdp_op' set but not used [-Wunused-but-set-variable]
-     279 |         struct dla_cdp_op_desc *cdp_op;
-         |                                 ^~~~~~
-   At top level:
-   drivers/gpu/drm/nvdla/nvdla_cdp.c:28:22: warning: 'map_perf_lut' defined but not used [-Wunused-const-variable=]
-      28 | static const uint8_t map_perf_lut[] = {
-         |                      ^~~~~~~~~~~~
-   drivers/gpu/drm/nvdla/nvdla_cdp.c:23:22: warning: 'map_perf_dma' defined but not used [-Wunused-const-variable=]
-      23 | static const uint8_t map_perf_dma[] = {
-         |                      ^~~~~~~~~~~~
-..
++		if (param->r_cr_in_offset > HWD_VIIF_CSC_MAX_OFFSET)
++			return -EINVAL;
++
++		if (param->g_y_in_offset > HWD_VIIF_CSC_MAX_OFFSET)
++			return -EINVAL;
++
++		if (param->b_cb_in_offset > HWD_VIIF_CSC_MAX_OFFSET)
++			return -EINVAL;
++
++		if (param->r_cr_out_offset > HWD_VIIF_CSC_MAX_OFFSET)
++			return -EINVAL;
++
++		if (param->g_y_out_offset > HWD_VIIF_CSC_MAX_OFFSET)
++			return -EINVAL;
++
++		if (param->b_cb_out_offset > HWD_VIIF_CSC_MAX_OFFSET)
++			return -EINVAL;
 
+This can easily be combined into a single if:
 
-vim +/dla_get_time_us +45 drivers/gpu/drm/nvdla/nvdla_drm.c
+		if (param->r_cr_in_offset > HWD_VIIF_CSC_MAX_OFFSET ||
+		    param->g_y_in_offset > HWD_VIIF_CSC_MAX_OFFSET ||
+		    param->b_cb_in_offset > HWD_VIIF_CSC_MAX_OFFSET ||
+		    param->r_cr_out_offset > HWD_VIIF_CSC_MAX_OFFSET ||
+		    param->g_y_out_offset > HWD_VIIF_CSC_MAX_OFFSET ||
+		    param->b_cb_out_offset > HWD_VIIF_CSC_MAX_OFFSET)
+			return -EINVAL;
 
-    44	
-  > 45	int64_t dla_get_time_us(void)
-    46	{
-    47		return ktime_get_ns() / NSEC_PER_USEC;
-    48	}
-    49	
-    50	void dla_reg_write(void *driver_context, uint32_t addr, uint32_t reg)
-    51	{
-    52		struct nvdla_device *nvdla_dev =
-    53				(struct nvdla_device *)driver_context;
-    54	
-    55		if (!nvdla_dev)
-    56			return;
-    57	
-    58		writel(reg, nvdla_dev->base + addr);
-    59	}
-    60	
-    61	uint32_t dla_reg_read(void *driver_context, uint32_t addr)
-    62	{
-    63		struct nvdla_device *nvdla_dev =
-    64				(struct nvdla_device *)driver_context;
-    65	
-    66		if (!nvdla_dev)
-    67			return 0;
-    68	
-    69		return readl(nvdla_dev->base + addr);
-    70	}
-    71	
-    72	static irqreturn_t nvdla_engine_isr(int32_t irq, void *data)
-    73	{
-    74		unsigned long flags;
-  > 75		uint32_t mask;
-    76		uint32_t reg;
-    77		struct dla_processor *processor = NULL;
-    78		struct dla_processor_group *group;
-    79		struct dla_engine *engine;
-    80		struct nvdla_device *nvdla_dev = (struct nvdla_device *)data;
-    81	
-    82		if (!nvdla_dev)
-    83			return IRQ_NONE;
-    84	
-    85		engine = nvdla_dev->engine_context;
-    86		spin_lock_irqsave(&nvdla_dev->nvdla_lock, flags);
-    87	
-    88		mask = glb_reg_read(engine, S_INTR_MASK);
-    89		reg = glb_reg_read(engine, S_INTR_STATUS);
-    90	
-    91		if (reg & MASK(GLB_S_INTR_STATUS_0, CACC_DONE_STATUS0)) {
-    92			processor = &engine->processors[DLA_OP_CONV];
-    93			group = &processor->groups[0];
-    94			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-    95		}
-    96		if (reg & MASK(GLB_S_INTR_STATUS_0, CACC_DONE_STATUS1)) {
-    97			processor = &engine->processors[DLA_OP_CONV];
-    98			group = &processor->groups[1];
-    99			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-   100		}
-   101		if (reg & MASK(GLB_S_INTR_STATUS_0, SDP_DONE_STATUS0)) {
-   102			processor = &engine->processors[DLA_OP_SDP];
-   103			group = &processor->groups[0];
-   104			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-   105		}
-   106		if (reg & MASK(GLB_S_INTR_STATUS_0, SDP_DONE_STATUS1)) {
-   107			processor = &engine->processors[DLA_OP_SDP];
-   108			group = &processor->groups[1];
-   109			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-   110		}
-   111		if (reg & MASK(GLB_S_INTR_STATUS_0, CDP_DONE_STATUS0)) {
-   112			processor = &engine->processors[DLA_OP_CDP];
-   113			group = &processor->groups[0];
-   114			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-   115		}
-   116		if (reg & MASK(GLB_S_INTR_STATUS_0, CDP_DONE_STATUS1)) {
-   117			processor = &engine->processors[DLA_OP_CDP];
-   118			group = &processor->groups[1];
-   119			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-   120		}
-   121		if (reg & MASK(GLB_S_INTR_STATUS_0, RUBIK_DONE_STATUS0)) {
-   122			processor = &engine->processors[DLA_OP_RUBIK];
-   123			group = &processor->groups[0];
-   124			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-   125		}
-   126		if (reg & MASK(GLB_S_INTR_STATUS_0, RUBIK_DONE_STATUS1)) {
-   127			processor = &engine->processors[DLA_OP_RUBIK];
-   128			group = &processor->groups[1];
-   129			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-   130		}
-   131		if (reg & MASK(GLB_S_INTR_STATUS_0, PDP_DONE_STATUS0)) {
-   132			processor = &engine->processors[DLA_OP_PDP];
-   133			group = &processor->groups[0];
-   134			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-   135		}
-   136		if (reg & MASK(GLB_S_INTR_STATUS_0, PDP_DONE_STATUS1)) {
-   137			processor = &engine->processors[DLA_OP_PDP];
-   138			group = &processor->groups[1];
-   139			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-   140		}
-   141		if (reg & MASK(GLB_S_INTR_STATUS_0, BDMA_DONE_STATUS0)) {
-   142			processor = &engine->processors[DLA_OP_BDMA];
-   143			group = &processor->groups[0];
-   144			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-   145		}
-   146		if (reg & MASK(GLB_S_INTR_STATUS_0, BDMA_DONE_STATUS1)) {
-   147			processor = &engine->processors[DLA_OP_BDMA];
-   148			group = &processor->groups[1];
-   149			group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-   150		}
-   151		if (reg & MASK(GLB_S_INTR_STATUS_0, CDMA_DAT_DONE_STATUS0)) {
-   152			processor = &engine->processors[DLA_OP_CONV];
-   153			group = &processor->groups[0];
-   154			group->events |= (1 << DLA_EVENT_CDMA_DT_DONE);
-   155		}
-   156		if (reg & MASK(GLB_S_INTR_STATUS_0, CDMA_DAT_DONE_STATUS1)) {
-   157			processor = &engine->processors[DLA_OP_CONV];
-   158			group = &processor->groups[1];
-   159			group->events |= (1 << DLA_EVENT_CDMA_DT_DONE);
-   160		}
-   161		if (reg & MASK(GLB_S_INTR_STATUS_0, CDMA_WT_DONE_STATUS0)) {
-   162			processor = &engine->processors[DLA_OP_CONV];
-   163			group = &processor->groups[0];
-   164			group->events |= (1 << DLA_EVENT_CDMA_WT_DONE);
-   165		}
-   166		if (reg & MASK(GLB_S_INTR_STATUS_0, CDMA_WT_DONE_STATUS1)) {
-   167			processor = &engine->processors[DLA_OP_CONV];
-   168			group = &processor->groups[1];
-   169			group->events |= (1 << DLA_EVENT_CDMA_WT_DONE);
-   170		}
-   171	
-   172		glb_reg_write(engine, S_INTR_STATUS, reg);
-   173		mask = glb_reg_read(engine, S_INTR_MASK);
-   174		reg = glb_reg_read(engine, S_INTR_STATUS);
-   175	
-   176		complete(&nvdla_dev->event_notifier);
-   177		spin_unlock_irqrestore(&nvdla_dev->nvdla_lock, flags);
-   178	
-   179		return IRQ_HANDLED;
-   180	}
-   181	
+Easier to read and a lot shorter.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Another thing to avoid is mixing lower and upper case in function names.
+A lot of functions have this prefix: 'hwd_VIIF_'. Just change that to
+'hwd_viif_': that's much easier on the eyes.
+
+I also see a fair amount of code that is indented very far to the right.
+Often due to constructs like this:
+
+	if (test) {
+		// lots of code
+	}
+	return ret;
+
+Which can be changed to:
+
+	if (!test)
+		return ret;
+	// lots of code
+	return ret;
+
+The same can also happen in a for/while loop where you can just 'continue'
+instead of 'return'.
+
+This makes the code easier to read and review.
+
+It doesn't look like this driver uses the media controller API. This is
+probably something you want to look into, esp. in combination with libcamera
+support (https://libcamera.org/). I've added Laurent to this, since he's
+the expert on this.
+
+Regards,
+
+	Hans
+
+> 
+> Yuji Ishikawa (5):
+>   dt-bindings: media: platform: visconti: Add Toshiba Visconti Video
+>     Input Interface bindings
+>   media: platform: visconti: Add Toshiba Visconti Video Input Interface
+>     driver headers
+>   media: platform: visconti: Add Toshiba Visconti Video Input Interface
+>     driver body
+>   media: platform: visconti: Add Toshiba VIIF image signal processor
+>     driver
+>   MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
+> 
+>  .../bindings/media/toshiba,visconti-viif.yaml |  103 +
+>  MAINTAINERS                                   |    2 +
+>  drivers/media/platform/Kconfig                |    2 +
+>  drivers/media/platform/Makefile               |    4 +
+>  drivers/media/platform/visconti/Kconfig       |    9 +
+>  drivers/media/platform/visconti/Makefile      |    9 +
+>  drivers/media/platform/visconti/hwd_viif.c    | 2233 ++++++++++
+>  drivers/media/platform/visconti/hwd_viif.h    | 1776 ++++++++
+>  .../media/platform/visconti/hwd_viif_csi2rx.c |  767 ++++
+>  .../platform/visconti/hwd_viif_internal.h     |  361 ++
+>  .../media/platform/visconti/hwd_viif_l1isp.c  | 3769 +++++++++++++++++
+>  .../media/platform/visconti/hwd_viif_reg.h    | 2802 ++++++++++++
+>  drivers/media/platform/visconti/viif.c        | 2384 +++++++++++
+>  drivers/media/platform/visconti/viif.h        |  134 +
+>  include/uapi/linux/visconti_viif.h            | 1683 ++++++++
+>  15 files changed, 16038 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+>  create mode 100644 drivers/media/platform/visconti/Kconfig
+>  create mode 100644 drivers/media/platform/visconti/Makefile
+>  create mode 100644 drivers/media/platform/visconti/hwd_viif.c
+>  create mode 100644 drivers/media/platform/visconti/hwd_viif.h
+>  create mode 100644 drivers/media/platform/visconti/hwd_viif_csi2rx.c
+>  create mode 100644 drivers/media/platform/visconti/hwd_viif_internal.h
+>  create mode 100644 drivers/media/platform/visconti/hwd_viif_l1isp.c
+>  create mode 100644 drivers/media/platform/visconti/hwd_viif_reg.h
+>  create mode 100644 drivers/media/platform/visconti/viif.c
+>  create mode 100644 drivers/media/platform/visconti/viif.h
+>  create mode 100644 include/uapi/linux/visconti_viif.h
+> 
+
