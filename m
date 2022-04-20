@@ -2,85 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5581C5082F5
-	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 09:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ABA4508305
+	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 09:57:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376579AbiDTH57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Apr 2022 03:57:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53914 "EHLO
+        id S1376574AbiDTH7V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Apr 2022 03:59:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376576AbiDTH55 (ORCPT
+        with ESMTP id S1376567AbiDTH7T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Apr 2022 03:57:57 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50DE026FA
-        for <linux-media@vger.kernel.org>; Wed, 20 Apr 2022 00:55:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650441312; x=1681977312;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WAPqXkrsUGPDb8IL8qK6eSoYio0dg73/vgFPIwZt4hc=;
-  b=ausvjBukFFWZSfMh005BoBLGkQumcVCQD6AXCJNaiLpzCxK5xd/wIp7o
-   OFF9dOO69dQre8gGBJ7A/wKy5yHg5DkMQcRZRQBMzyDlfBKKapD0LmsGa
-   4nIe163pcEci3Zig6ZT9Pizfun3uUzY4LqHXuTBSZdnMUyK1Zam+HQq/r
-   1ddVLwoYrT+Lb6vYcAhyt8eJpXHsBS8nf1h+NyR72dkR94kWzN/W5gXPC
-   xNrBCJWCge+hoAmJrX6kZmAqAlCE53JxlwNijeLL1S1iqmWqu0Bsc2LlO
-   XlH0rWpDJPGrMPOB1m52Ch9mEsrLCeYD9gnoC4wch+7ETZUFYSexEg/xA
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="324408578"
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; 
-   d="scan'208";a="324408578"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2022 00:55:11 -0700
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; 
-   d="scan'208";a="576471821"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2022 00:55:10 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 717092016F;
-        Wed, 20 Apr 2022 10:55:08 +0300 (EEST)
-Date:   Wed, 20 Apr 2022 10:55:08 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/1] staging: media: ipu3-imgu: Request specific firmware
- binary
-Message-ID: <Yl+8XAD3WS0LKIEc@paasikivi.fi.intel.com>
-References: <20220413103739.622349-1-sakari.ailus@linux.intel.com>
- <Yl8e8Pw3rfJ+lhDZ@pendragon.ideasonboard.com>
+        Wed, 20 Apr 2022 03:59:19 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C19F2668;
+        Wed, 20 Apr 2022 00:56:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CF8ADB81D57;
+        Wed, 20 Apr 2022 07:56:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 730F5C385A1;
+        Wed, 20 Apr 2022 07:56:30 +0000 (UTC)
+Message-ID: <c3d0d176-252b-5823-0c34-f1bfc7c4978c@xs4all.nl>
+Date:   Wed, 20 Apr 2022 09:56:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yl8e8Pw3rfJ+lhDZ@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 1/5] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti Video Input Interface bindings
+Content-Language: en-US
+To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+References: <20220414053528.31460-1-yuji2.ishikawa@toshiba.co.jp>
+ <20220414053528.31460-2-yuji2.ishikawa@toshiba.co.jp>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220414053528.31460-2-yuji2.ishikawa@toshiba.co.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 19, 2022 at 11:43:28PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
+On 14/04/2022 07:35, Yuji Ishikawa wrote:
+> Adds the Device Tree binding documentation that allows to describe
+> the Video Input Interface found in Toshiba Visconti SoCs.
 > 
-> Thank you for the patch.
+> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> ---
+>  .../bindings/media/toshiba,visconti-viif.yaml | 103 ++++++++++++++++++
+>  1 file changed, 103 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
 > 
-> On Wed, Apr 13, 2022 at 01:37:39PM +0300, Sakari Ailus wrote:
-> > Primarily request a specific revision of the IPU3 firmware that the driver
-> > is known to work with,
-> > irci_irci_ecr-master_20161208_0213_20170112_1500.bin. Some distros only
-> > ship this while others provide a symlink called ipu3-fw.bin, which the
-> > driver only requested previously.
-> 
-> Are there distros that ship ipu3-fw.bin but not
-> irci_irci_ecr-master_20161208_0213_20170112_1500.bin ? If not, w could
-> avoid the fallback to IMGU_FW_NAME.
+> diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+> new file mode 100644
 
-At least some systems will break if I remove the old name altogether. Some
-instructions (for MS Surface AFAIR) only include the shorter symlink name.
+You need to CC this series to devicetree@vger.kernel.org so that the device tree reviewers
+can take a look at this.
 
--- 
-Sakari Ailus
+Regards,
+
+	Hans
+
+> index 000000000..848ea5019
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+> @@ -0,0 +1,103 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/toshiba,visconti-viif.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Toshiba Visconti5 SoC Video Input Interface Device Tree Bindings
+> +
+> +maintainers:
+> +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> +
+> +description: |
+> +  Toshiba Visconti5 SoC Video Input Interface (VIIF) receives MIPI CSI2 video stream,
+> +  processes the stream with embedded image signal processor (L1ISP, L2ISP), then stores pictures to main memory.
+> +
+> +properties:
+> +  compatible:
+> +    const: toshiba,visconti-viif
+> +
+> +  reg:
+> +    items:
+> +      - description: registers for capture control
+> +      - description: registers for CSI2 receiver control
+> +
+> +  interrupts:
+> +    items:
+> +      - description: Sync Interrupt
+> +      - description: Status (Error) Interrupt
+> +      - description: CSI2 Receiver Interrupt
+> +      - description: L1ISP Interrupt
+> +
+> +  index:
+> +    enum: [0, 1]
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    unevaluatedProperties: false
+> +    description: Input port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            description: VIIF supports 2 or 4 data lines
+> +            items:
+> +              minItems: 1
+> +              maxItems: 4
+> +              items:
+> +                - const: 1
+> +                - const: 2
+> +                - const: 3
+> +                - const: 4
+> +          clock-lanes:
+> +            description: VIIF supports 1 clock line
+> +            const: 0
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        viif0: viif@1c000000 {
+> +            compatible = "toshiba,visconti-viif";
+> +            reg = <0 0x1c000000 0 0x6000>,
+> +                  <0 0x1c008000 0 0x400>;
+> +            interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
+> +            index = <0>;
+> +            status = "disabled";
+> +
+> +            port {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                csi_in0: endpoint {
+> +                    remote-endpoint = <&imx219_out0>;
+> +                    bus-type = <4>;
+> +                    data-lanes = <1 2>;
+> +                    clock-lanes = <0>;
+> +                    clock-noncontinuous;
+> +                    link-frequencies = /bits/ 64 <456000000>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+
