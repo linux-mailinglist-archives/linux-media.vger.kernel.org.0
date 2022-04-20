@@ -2,134 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CDD4508C67
-	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 17:48:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98BEB508D15
+	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 18:20:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380309AbiDTPvS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Apr 2022 11:51:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57868 "EHLO
+        id S1380497AbiDTQWp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Apr 2022 12:22:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349122AbiDTPvP (ORCPT
+        with ESMTP id S1380510AbiDTQWm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Apr 2022 11:51:15 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 121FE403E0
-        for <linux-media@vger.kernel.org>; Wed, 20 Apr 2022 08:48:29 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id g18so4379757ejc.10
-        for <linux-media@vger.kernel.org>; Wed, 20 Apr 2022 08:48:28 -0700 (PDT)
+        Wed, 20 Apr 2022 12:22:42 -0400
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32213387A8;
+        Wed, 20 Apr 2022 09:19:56 -0700 (PDT)
+Received: by mail-ot1-x32b.google.com with SMTP id l9-20020a056830268900b006054381dd35so1421271otu.4;
+        Wed, 20 Apr 2022 09:19:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EDaBjgoWxFTWirrlbcYbeEIQIWNFwqY0LoRi2+oih64=;
-        b=UhwepQj7kYXuJ+AHwbtkVuefu7olyuv+7vtIiJHg47s7dlQ+f5NrNVKMCjCdS2EZ8g
-         o+NpaT6SNbgH9KeO0+M3lD8qmTvjnDV+sn/URh57CrANMgPnqRSFJahk1xFnP17LAby9
-         NiIGpvJ3kOgZTQ9tol+1EQ6/Jyw4ETc7VvkUOMMeVtMjl75qQXD1GcGqXlMy3wskaNz/
-         N8RQXMVLRxPws9Yqg3ihbRbLs0tGBMTbSfQR1t7UVnVl04gyLMdqD/iGzObWHOvmgo1y
-         hD18jfxdQCDh5q5Qa1JuzQcggaNKKztGtbMR0q1o19nuJ1h1Oh5zB1vWzPMTYytTPdJF
-         7dMw==
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:content-language:to
+         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+        bh=BcREumxihady40kAsqXjtYOYhBYxsHR0/lhVa2XISrI=;
+        b=Fall6bVNmUjak3/c9cNqoP0Ds+o17tFk78uG2u9+e+N7i5hwjGhKvi3LD1u+kbIVps
+         O7o3QYhlkyRFiWhWVoB7Eh284hQ/lONEmeEayNUJrcV++2XJMp9WxhBLfMCr/KEVDQZL
+         sehAgQzMTII74ZHVTJZ5njja/TwebgN9mibynewvKPBjRvhNtNBc66GEAO8WHKHKsEs4
+         g/TjB1klkqXxnQA3/KGs2cCmc3T96tArH9xNYK50MSDbmZQbYA8zIDcrMvizBLOcxmu7
+         n+Ten2YOaan5xqjAXU4ZGTJUAcpCmT93qLc8YvNc+E7zrDCBthJW95WVm1uERT1b17lW
+         3Csg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to
          :content-transfer-encoding;
-        bh=EDaBjgoWxFTWirrlbcYbeEIQIWNFwqY0LoRi2+oih64=;
-        b=kBaBt1e3tP34fGf0ZezVUZOCNmvphKJrqa5LCtFMWd9sic0ICPbmEwO+rLzVk6IAX6
-         F1soEoXWruStAtanwP5ZEFQp8GpM6MBm7EuWEmrS3MKm957DIm1dN9c0T7ZWXa+6NECU
-         7IWe0A3HVzjavcn1rWHxQAVMR5q69buw2eujCmLuwtnllw/lNMrGOCEh0XqZXFUfXF6U
-         ADQKKBaxLwiQi+kIpP7TNhO3O8cA5DGFsYkfymDrgSVPaU+OhMVZbZiVasLx0XHC4KOz
-         pDQdh/B9rGaadRg+utj6hbzGOjrr5EjfhrRvC9Qq2+7vp0gtL6KMoslf7jCdnHZvmMQm
-         QbWw==
-X-Gm-Message-State: AOAM533W3zD2Sq6vXfwKGwyiMXEpTqxcyqq6bn7BizVRc6gLMZLQh+mI
-        8gcdyz1OndQl9jThuV7UeERFUuxSBY+Rwp2M
-X-Google-Smtp-Source: ABdhPJyPU5Yzwpgtg+mu9vYMLTSg2N0cZwhvl+qRVgIe1N9jSzsCQYDvOFwbYmJkIqwhJI1+VX8k3A==
-X-Received: by 2002:a17:907:6d94:b0:6e8:c309:9923 with SMTP id sb20-20020a1709076d9400b006e8c3099923mr18710414ejc.101.1650469707350;
-        Wed, 20 Apr 2022 08:48:27 -0700 (PDT)
-Received: from localhost.localdomain (hst-221-97.medicom.bg. [84.238.221.97])
-        by smtp.gmail.com with ESMTPSA id g11-20020a1709061e0b00b006eff90d9c18sm970685ejj.92.2022.04.20.08.48.25
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 08:48:26 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.19] Venus updates
-Date:   Wed, 20 Apr 2022 18:48:14 +0300
-Message-Id: <20220420154814.146560-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        bh=BcREumxihady40kAsqXjtYOYhBYxsHR0/lhVa2XISrI=;
+        b=Lp87sRQIDWqnvjs+spRTjVlKfgjGOBJPP0LdHDp2nRLGDJVmA6IK4kwct55QK3scsc
+         qq+A7Qn9IbkVYbw/O3s+8fhiHwX/uNGCh45B9Dc6U54dBtI3Qv+RXJAdh97ZQEZCwT2H
+         vDKhNWXpFSZVxDKvf5Tb3sd9qo23nxlLjwXOO16KR9GPiSG4KvmcgM5TrkdC1tM45ff6
+         JUvefR8t0zPISxGI3mZn2bgAq8k6l0stkyyY0iJX/rOSDWDkYqBrHS/o84755Zw4helc
+         kcA4VTa74nhp7HDN18dx39vsxn9Pmpqvck+MzEj3jiiSIl6dnyh0whMvqAAYxFsev91X
+         QO6w==
+X-Gm-Message-State: AOAM533IGpQqW/LJfl7hdAq/ReyeVYu0xMq00QPkS29xLIffM6Eb3QNM
+        Vo/35Sh0mtWTgAweHYw0mXY=
+X-Google-Smtp-Source: ABdhPJxVm6wBBiE1m0EVm4wdnJN/qMH3N+ahoOhWU3U68EX210f8sRmon/EJSPiuHhCUdEG4XtPBoA==
+X-Received: by 2002:a9d:734a:0:b0:605:4d25:2e67 with SMTP id l10-20020a9d734a000000b006054d252e67mr5462918otk.258.1650471595579;
+        Wed, 20 Apr 2022 09:19:55 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id z2-20020a05683020c200b00604cd00f91esm5694700otq.44.2022.04.20.09.19.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Apr 2022 09:19:55 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <57bb64db-9273-0e52-cf6d-0c7ff172ddde@roeck-us.net>
+Date:   Wed, 20 Apr 2022 09:19:53 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media@vger.kernel.org, alain.volmat@foss.st.com,
+        hugues.fruchet@foss.st.com, sylvain.petinot@foss.st.com,
+        dave.stevenson@raspberrypi.com, sakari.ailus@linux.intel.com,
+        kieran.bingham@ideasonboard.com, linux-hwmon@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>
+References: <20220415111845.27130-1-benjamin.mugnier@foss.st.com>
+ <20220415111845.27130-3-benjamin.mugnier@foss.st.com>
+ <d4c868d5ef05f338bdc2237d9b9304077d268c8b.camel@ndufresne.ca>
+ <3a4fad80-b16a-3780-a0f7-41dd6c80689e@roeck-us.net>
+ <Yl8jF1KLzP6YO6t+@pendragon.ideasonboard.com>
+ <1c700e5b-5bf2-f0eb-78f3-12290fd88234@roeck-us.net>
+ <dec71c79-3141-8dcf-6d37-8495f4b7c7e9@foss.st.com>
+ <YmAI3QVSPMq3mR7E@pendragon.ideasonboard.com>
+ <76789333-bb0b-fcc2-6ba9-ab01c9aab62a@roeck-us.net>
+ <YmAXd5F2Rm/VDIb5@pendragon.ideasonboard.com>
+ <8b8aa915-d08c-9cc6-fc01-2f062a79b078@foss.st.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 2/5] media: v4l: ctrls: Add a control for temperature
+In-Reply-To: <8b8aa915-d08c-9cc6-fc01-2f062a79b078@foss.st.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On 4/20/22 08:19, Benjamin Mugnier wrote:
+[ ... ]
+>>
+>> It's the two most common use cases for imaging sensor temperature
+>> measurements that I know of. My question to Benjamin is if he has the
+>> same and/or other use cases.
+>>
+> 
+> Just like you said in a previous mail. This temperature sensor can be used to implement a retroactive loop from the host according to its value, such as noise correction for instance.
+> We don't have anything in the Linux user space that implements this yet, this was in anticipation.
+> So dropping it is fine, I will come back to it if need be ;)
 
-This time the updates include.
+When you implement this in userspace, you might want to consider situations
+where the temperature is _not_ reported via media controls (which might
+at least in theory happen if the temperature sensor is not part of the
+v4l device), or for existing drivers with hwmon support
+(drivers/media/i2c/video-i2c.c comes into mind).
 
- * Adds new QCOM compressed custom pixel formats and related changes
-   in v4l2 and Venus driver.
- * Adds intra-refresh type v4l2 control and support in Venus driver.
- * Few fixes.
-
-Please pull.
-
-regards,
-Stan
-
-The following changes since commit 3d59142ad94cf60b94b3dc94c19fdafa23aec8b1:
-
-  media: dvb-usb: dib0700_devices: use an enum for the device number (2022-04-18 07:36:44 +0200)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.19
-
-for you to fetch changes up to d7a7d26cde9ab49cb2265ca74f5372acedad8565:
-
-  venus: venc: Add support for intra-refresh type (2022-04-20 17:58:00 +0300)
-
-----------------------------------------------------------------
-Venus updates for v5.19
-
-----------------------------------------------------------------
-Dikshita Agarwal (2):
-      media: v4l2-ctrls: Add intra-refresh type control
-      venus: venc: Add support for intra-refresh type
-
-Luca Weiss (2):
-      media: venus: hfi: Add error message for timeout error
-      media: venus: hfi: avoid null dereference in deinit
-
-Stanimir Varbanov (6):
-      v4l: Add Qualcomm custom compressed pixel formats
-      venus: helpers: Add helper to check supported pixel formats
-      venus: Add a handling of QC08C compressed format
-      venus: hfi_platform: Correct supported compressed format
-      venus: Add a handling of QC10C compressed format
-      venus: vdec: Use output resolution on reconfigure
-
-Vikash Garodia (2):
-      media: venus: do not queue internal buffers from previous sequence
-      media: venus: vdec: ensure venus is powered on during stream off
-
- .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 22 ++++++
- .../userspace-api/media/v4l/pixfmt-reserved.rst    | 19 +++++
- drivers/media/platform/qcom/venus/core.h           |  1 +
- drivers/media/platform/qcom/venus/helpers.c        | 85 ++++++++++++++--------
- drivers/media/platform/qcom/venus/helpers.h        |  1 +
- drivers/media/platform/qcom/venus/hfi.c            |  3 +
- .../media/platform/qcom/venus/hfi_platform_v4.c    |  4 +-
- .../media/platform/qcom/venus/hfi_platform_v6.c    |  4 +-
- drivers/media/platform/qcom/venus/hfi_venus.c      |  4 +-
- drivers/media/platform/qcom/venus/vdec.c           | 37 ++++++++--
- drivers/media/platform/qcom/venus/venc.c           |  6 +-
- drivers/media/platform/qcom/venus/venc_ctrls.c     |  8 ++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  9 +++
- drivers/media/v4l2-core/v4l2-ioctl.c               |  2 +
- include/uapi/linux/v4l2-controls.h                 |  5 ++
- include/uapi/linux/videodev2.h                     |  2 +
- 16 files changed, 170 insertions(+), 42 deletions(-)
+Guenter
