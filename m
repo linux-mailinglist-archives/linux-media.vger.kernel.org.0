@@ -2,483 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE193508336
-	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 10:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D954508413
+	for <lists+linux-media@lfdr.de>; Wed, 20 Apr 2022 10:52:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376626AbiDTITH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Apr 2022 04:19:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41920 "EHLO
+        id S1376950AbiDTIzK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Apr 2022 04:55:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346267AbiDTITG (ORCPT
+        with ESMTP id S242324AbiDTIzJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Apr 2022 04:19:06 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0402D1EECD;
-        Wed, 20 Apr 2022 01:16:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 85293B81D77;
-        Wed, 20 Apr 2022 08:16:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D16AC385A1;
-        Wed, 20 Apr 2022 08:16:15 +0000 (UTC)
-Message-ID: <e45a78c9-ee72-dee1-9b1f-b73c3c572e19@xs4all.nl>
-Date:   Wed, 20 Apr 2022 10:16:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/5] media: platform: visconti: Add Toshiba Visconti
- Video Input Interface driver headers
-Content-Language: en-US
-To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+        Wed, 20 Apr 2022 04:55:09 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD66D1CFD5;
+        Wed, 20 Apr 2022 01:52:23 -0700 (PDT)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23K7ACFL019753;
+        Wed, 20 Apr 2022 08:52:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=YypRJW55ppKOErIRLAWMRLwL+yG3v8mao/xq+bzIp3I=;
+ b=eeWiLeH0qIkzpfe5ncKCb+uSi2mF4QfngncXUd/3LHiJ1f/Anb2b5jrxIJR0ECp3PHdb
+ cQEIAiqZETOL077czzFrUfFgoe5PVECVyTDKBiVp46dY/wOI4RXcvISi2Hy9Q71teuIm
+ gzjYbc0godDB33JSycwftDtNwrnIi8EJHpW05I7BpYT3mFxvTOhZMZx2rxDAIFayzpIS
+ Ds1IXwu6tSm6ycKdZ9kJzAz/BVY29FK/heAXYSG6MrUNKuQ4wlhwSdatXo9qj0pAr1s3
+ 6QBhNDHsjlcbD5/Ndv8MpdCsjrYOehwEXYBdgUiOZEfpZbygH7hl6gyFl8LdGAZOMeuQ gA== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3ffmd18fw1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 20 Apr 2022 08:52:02 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 23K8mtEL004188;
+        Wed, 20 Apr 2022 08:52:01 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2170.outbound.protection.outlook.com [104.47.58.170])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3ffm899yg9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 20 Apr 2022 08:52:00 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JZrpHaroPdj4Ao2T0qWEVSbHNi/YZE0keLxGTAwWAnyovbwVojA8uCeOb5X1SkazzR7KzwR9GcAfvddNvFEzSAvCg4N9gXJVb/RaxjsprjDYLDJ/FSleNZhTR9tgk13o/F1q8tS11s+RSPFpg9qDEbfHZnkMKfUMrhuJhkrK6x+w5Mr+mFS2c2c6I7YXHek8yhObTF15Eb9PFz1K82H8akNkQc62ndKspXO0bxdOT+Zor9r2lZK8fqhmOrVIsyiU8BzUMSGLA7v7/pvwKKQierW4b8T8Nx1z2xkBqwakQULZsl7yORGQzuVL798CrEi4mwmIvtsJJqWWr8ph+Pplsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YypRJW55ppKOErIRLAWMRLwL+yG3v8mao/xq+bzIp3I=;
+ b=JeAXPMD5HizVH9wgDbNZOOaZg3jrFDiyGabawHKnnuBovh0FCN8KYh2sD4hWJ9K5yD0Ldy5E7V4GLfQcGJ+BkZkobyd4aCfRE2aibCpc0SavzA9SYz/IXeF/rcLyKOOfq9KxBgKXwdmgYGjuw8jIvg/AX5Y8Z4YqLX0p8Lb/B7d8LoMmxLniY8aNHV6fx4qUTX0WmpjTME3fPmmpJMCmepuxPwHxJM1Ua+dKSeQFYt1khoKh+/rLN5QTUo6gePX21MtElJQ8Q2E0UdJL15fHBX5OSiJnfO7qRtI1J6fMKFves4unVTb6mFyUEYpp2Ew4Dw0QPgKQT6+QWzMRO0EAwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YypRJW55ppKOErIRLAWMRLwL+yG3v8mao/xq+bzIp3I=;
+ b=b3H47ls03YN/cC4HxETCcIjPp33RIefLQdPW0BTirvIiBiyxeBjRSfMbxUuvhx4X92kxzH9YACGnzQPTstAtbEViufNW6vXmziPYcuMvusyMn0KMVbAusaIuGQiZWc4aeJfjClPaJSwtQ5a87LEikbtIJAPrcW+yUFrt6i1DcfA=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by BN0PR10MB5304.namprd10.prod.outlook.com
+ (2603:10b6:408:129::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.13; Wed, 20 Apr
+ 2022 08:51:59 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5164.025; Wed, 20 Apr 2022
+ 08:51:59 +0000
+Date:   Wed, 20 Apr 2022 11:51:33 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <20220414053528.31460-1-yuji2.ishikawa@toshiba.co.jp>
- <20220414053528.31460-3-yuji2.ishikawa@toshiba.co.jp>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220414053528.31460-3-yuji2.ishikawa@toshiba.co.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
+ ISP
+Message-ID: <20220420085132.GC2951@kadam>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
+ <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
+ <20220420074249.GB2951@kadam>
+ <Yl+7UrQFyLvfKRdG@aptenodytes>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yl+7UrQFyLvfKRdG@aptenodytes>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0061.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::19)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6ec3273e-afb0-4e42-4116-08da22ab078d
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5304:EE_
+X-Microsoft-Antispam-PRVS: <BN0PR10MB53048E3A7DC4D139B76B8A8B8EF59@BN0PR10MB5304.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZItD6vfsP6gfM3RPESNo72ALv8dBXTWa8tBTJFvM0V3Qz7pqcSn+tP+SW9JxRQkG5fFctQI5hWFWqK904A+xyk6HBCrjkkqFR9yEKLsnV/zuDlSPDaQmmsytHdGzGyw9mLhDyJ+AStzCfWPGOZquPo0eX4CMo3n92lNngzBg7PWOJMWafr5EL+vVvH5ICnXljF36Cmk1dyuSCqhZMHPDR/fMWkinxK4z9KKBLbosMxwptMAMAWQzOg1YPeiM2zCHM8g9oSYuQpszf9k6KlJg4WqRKxbIirYm+k08w/ntr/ys/3M01KPEAru1YdafcZ24IDCVR75H6ZaUvR8x6xOp2Q7fMmNY5rTaRuA3ltUMZ6p3tSM7M5ErGYOnyaXS0BZC7DH60T0ptR7Gtcbaag/yoYSTZWqULWQFkuMT6PyRUM1YM+fJ2HuIRF8SwWmwPAF2EJkxHP2RuXbhL+4VaLL1yIhkLp+F+JxiPPExLYeOXVXy6Kia92AxlaoBUNJ7jrHa8stzGWxdzvhQa/ZznSAX+Gw5gGCE3KRUvxrbWr4d+PuVCZu2cVmWyt4XepiSsJM6tQqRxFj5iYvAk/jZtSAtJG1FIebSTtOVxwMzNwOBHxk+3rrMzqfdVN3uQGQnu+q5TrI8xpQEmSX8HRQ6Nsvon5Oj3Uu9jWlOTJkZki2UFZwCgkbi/AIJLrooY18O1z0j
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(2906002)(7416002)(44832011)(5660300002)(33716001)(8936002)(4326008)(38100700002)(38350700002)(8676002)(83380400001)(66556008)(6506007)(6512007)(508600001)(6486002)(66946007)(54906003)(6916009)(316002)(1076003)(186003)(9686003)(52116002)(66476007)(86362001)(33656002)(6666004)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Ubfp+RMlr1V4j5Umi4zZkSfOjReqsd/oTeGX0ESFCb5HrS1DxDjfwyF4Uhg1?=
+ =?us-ascii?Q?OQ+6NWw04PDcUIZC5I+Sf782j857+Y5+SAAmKHROx1yIt3Q92JPgGw1Z0mtc?=
+ =?us-ascii?Q?Sf8dCiZ4ia6BE2qeC+jsVPpVY/3T2CBr6xmtLZFPODMc733lDXNfvj6qxBiQ?=
+ =?us-ascii?Q?RxajMtfb65koTZcSr3zZWechk0tClefwi4PuCUu6qrfqGRcQZqu8DfOkNOl4?=
+ =?us-ascii?Q?y8lC5Zl1FONFJAUKsqRtMdL1TSc4hjyLXvdKnICeXBQ5/ia7tnqm4ka5QFQe?=
+ =?us-ascii?Q?aJ19lzWekak379HdXL5xm4rj8v1sjVN/WsACvVFIlk7c2PlfhkaOI4caWR4n?=
+ =?us-ascii?Q?qC5XNTOysTxZ4dUcuX1/nZC9hiLaDQ9pTpaiKfHoRvds2jEdx+UbQ4McBJqh?=
+ =?us-ascii?Q?BuqaHWMH+Au0MEE+hZmZ5OS/eKjpZBlYFHlimFWokitl7Mp2PaQ20EWTwd6b?=
+ =?us-ascii?Q?zfNy2JzBOlcmBlMDMTfMf/QXKj3nT4lVJKpUFumirDRcSQ8IWG+xjR+7apXI?=
+ =?us-ascii?Q?QCXg/as4gz/nfH8eMwPlBBWmfsMyIgLPwpMKP+uCDtY/AqjUM+gphzQ1shS4?=
+ =?us-ascii?Q?VTv4UHwt2g5u8yUa3WzWxonfMkmKin6+NzVsUh6j/Z8TRYwFKF8v11W9f7Dv?=
+ =?us-ascii?Q?mmbEbzlsPT02iVSgCDWd0LSLF1l2TsO5VSwA7wJzRAc9LZRKJYHpnPqH3uaH?=
+ =?us-ascii?Q?mkeqmGHP2uCZ1mBiu4157J5U6Rp8qmpjo7u6tRfzl6b8/c6v5eVcDUkrBZg9?=
+ =?us-ascii?Q?Tq4/LGjC22wfXukIpyREOHkkzwt4QQJrnEwbGfVL0vX4ARCgMQhBpGM0OcOm?=
+ =?us-ascii?Q?znqj7Cjr5+DewzhbludNZWRw/sWaD0W3TSYYv9GbZZwYbUCrLnX/VYt+c0Oy?=
+ =?us-ascii?Q?dnWhdZiWYmrqWwDGyqDmLF8MmY6qlkV9b1xfM9ARIJTtf0vRvWh9Yg01RD1b?=
+ =?us-ascii?Q?oCEIe1E/IJ+wH6erId8eBO+9bks+LQnagv1G5lGkwnm69zBoRxFi/mrnRpm7?=
+ =?us-ascii?Q?LZ9Otyhpb5bPsfzw0F85RW1gaaLOfIACklFXRGwf5m0h+damYoYxejLux2QL?=
+ =?us-ascii?Q?zSyAXpkyl8lv4IpHWHvhhN8ChYlpuOBRP/v2NgUvpwx5vqyr3gSQXKB1QxFY?=
+ =?us-ascii?Q?r6P91dAsXHXYUW9574yB/3EwNhFBZmOj4/wbCEmFNaWQlfVugw1/tf0tcafs?=
+ =?us-ascii?Q?RYIBb47bNikxYdbGHG/tk7z7kvHEcUElwBHbgPlCIynnbllJsLO5CvT89Dew?=
+ =?us-ascii?Q?Ro5GCCWDotSReGNbcRbu2hcOS4q2WGHY+JCG1Y41H9x1nYt+aqjB+63dHPVJ?=
+ =?us-ascii?Q?lxu7dwYYRtDRlZymYOtT43GiI3hwAmnRp2EYQImqizm5R5um9cTp866ee4G6?=
+ =?us-ascii?Q?+taRhDbq6TczeywcauQd1MZtRbBnBeOWOboZyB8PnJxYkzkygWYEiSWeHxJ7?=
+ =?us-ascii?Q?MLJ0rgcHtpDx9G4vVteChrBL4IyVXUD3fPpHhFCWhkXuMUaEZnZNa/wLbG4m?=
+ =?us-ascii?Q?oLmEgscpTExEf5Xx5eR04peWVBAnEhOhOIEXGslgf1QRDD1GKHb3mz5l76oE?=
+ =?us-ascii?Q?48KUN10RAYJOQAF6KNd7+OpI6bhQCAUDC93BwmTjT8SQtsNtTwm+aPZefMP7?=
+ =?us-ascii?Q?+5Xa5w01gNsyqkqO1ODt/5zLQbKDhaomU4npYxOI+s8dhJ+P9lwAmEBR8ef6?=
+ =?us-ascii?Q?tc8eaQ7318XYpqg3T6x5qLmbVY7m5GiSPityvPttblGyk6TqN0zhp4UnkFq2?=
+ =?us-ascii?Q?U4AHK0a48jXg2os6pfe5qEcjpNLHOKQ=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ec3273e-afb0-4e42-4116-08da22ab078d
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2022 08:51:58.9202
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XeVK/ekpZDOqzVW7psLxsuHg/cV43IsT5n0Ev4F3gzfgzYjH9u3liDj4qMAbTr+PK2Apys5nMvxFBngnU8FVcrpE2bMMAX46fdOrjZIjjoo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5304
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.858
+ definitions=2022-04-20_02:2022-04-15,2022-04-20 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0
+ suspectscore=0 mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204200055
+X-Proofpoint-ORIG-GUID: TenOhgY4qaV68-UcNo-EUTj5v9tFsHMa
+X-Proofpoint-GUID: TenOhgY4qaV68-UcNo-EUTj5v9tFsHMa
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/04/2022 07:35, Yuji Ishikawa wrote:
-> Add support to Video Input Interface on Toshiba Visconti Video Input Interface driver.
-> The Video Input Interface includes CSI2 receiver, frame grabber and image signal processor.
-> Headers in this commit provide definitions of data-structure and hardware registers.
+On Wed, Apr 20, 2022 at 09:50:42AM +0200, Paul Kocialkowski wrote:
+> Hi Dan,
 > 
-> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> ---
-> v1 -> v2:
->   - moved driver headers to this patch; to decrease patch size
-> ---
->  drivers/media/platform/visconti/hwd_viif.h    |  834 +++++
->  .../platform/visconti/hwd_viif_internal.h     |  361 +++
->  .../media/platform/visconti/hwd_viif_reg.h    | 2802 +++++++++++++++++
->  drivers/media/platform/visconti/viif.h        |  134 +
->  include/uapi/linux/visconti_viif.h            |  356 +++
->  5 files changed, 4487 insertions(+)
->  create mode 100644 drivers/media/platform/visconti/hwd_viif.h
->  create mode 100644 drivers/media/platform/visconti/hwd_viif_internal.h
->  create mode 100644 drivers/media/platform/visconti/hwd_viif_reg.h
->  create mode 100644 drivers/media/platform/visconti/viif.h
->  create mode 100644 include/uapi/linux/visconti_viif.h
+> On Wed 20 Apr 22, 10:42, Dan Carpenter wrote:
+> > I ran Smatch on this patch.
+> 
+> Thanks for doing this!
+> 
+> > On Fri, Apr 15, 2022 at 05:37:07PM +0200, Paul Kocialkowski wrote:
+> > > +void sun6i_isp_capture_configure(struct sun6i_isp_device *isp_dev)
+> > > +{
+> > > +	unsigned int width, height;
+> > > +	unsigned int stride_luma, stride_chroma = 0;
+> > > +	unsigned int stride_luma_div4, stride_chroma_div4;
+> > > +	const struct sun6i_isp_capture_format *format;
+> > > +	const struct v4l2_format_info *info;
+> > > +	u32 pixelformat;
+> > > +
+> > > +	sun6i_isp_capture_dimensions(isp_dev, &width, &height);
+> > > +	sun6i_isp_capture_format(isp_dev, &pixelformat);
+> > > +
+> > > +	format = sun6i_isp_capture_format_find(pixelformat);
+> > > +	if (WARN_ON(!format))
+> > > +		return;
+> > > +
+> > > +	sun6i_isp_load_write(isp_dev, SUN6I_ISP_MCH_SIZE_CFG_REG,
+> > > +			     SUN6I_ISP_MCH_SIZE_CFG_WIDTH(width) |
+> > > +			     SUN6I_ISP_MCH_SIZE_CFG_HEIGHT(height));
+> > > +
+> > > +	info = v4l2_format_info(pixelformat);
+> > > +	if (WARN_ON(!info))
+> > > +		return;
+> > > +
+> > > +	stride_luma = width * info->bpp[0];
+> > > +	stride_luma_div4 = DIV_ROUND_UP(stride_luma, 4);
+> > > +
+> > > +	if (info->comp_planes > 1) {
+> > > +		stride_chroma = width * info->bpp[1] / info->hdiv;
+> > > +		stride_chroma_div4 = DIV_ROUND_UP(stride_chroma, 4);
+> > 
+> > stride_chroma_div4 is not intialized on the else path.
+> 
+> One could say it's not an issue to put an uninitialized value in this situation
+> since the hardware won't be taking it into account but I'll initialize the value
+> early in the next iteration.
+> 
 
-<snip>
+My understanding is that it will trigger a KASAN warning at run time.
 
-> diff --git a/include/uapi/linux/visconti_viif.h b/include/uapi/linux/visconti_viif.h
-> new file mode 100644
-> index 000000000..a235b4d7c
-> --- /dev/null
-> +++ b/include/uapi/linux/visconti_viif.h
-> @@ -0,0 +1,356 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +/* Toshiba Visconti Video Capture Support
-> + *
-> + * (C) Copyright 2022 TOSHIBA CORPORATION
-> + * (C) Copyright 2022 Toshiba Electronic Devices & Storage Corporation
-> + */
-> +
-> +#ifndef __UAPI_VISCONTI_VIIF_H_
-> +#define __UAPI_VISCONTI_VIIF_H_
-> +
-> +#include <linux/types.h>
-> +#include <linux/videodev2.h>
-> +
-> +/* Private IPCTLs */
-
-Typo: IPCTLs -> IOCTLs
-
-> +#define VIDIOC_VIIF_MAIN_SET_RAWPACK_MODE                                      \
-> +	_IOW('V', BASE_VIDIOC_PRIVATE + 1, uint32_t)
-> +#define VIDIOC_VIIF_L2_SET_UNDIST                                              \
-> +	_IOW('V', BASE_VIDIOC_PRIVATE + 21, struct viif_l2_undist_config)
-> +#define VIDIOC_VIIF_L2_SET_ROI                                                 \
-> +	_IOW('V', BASE_VIDIOC_PRIVATE + 22, struct viif_l2_roi_config)
-> +#define VIDIOC_VIIF_L2_SET_GAMMA                                               \
-> +	_IOW('V', BASE_VIDIOC_PRIVATE + 23, struct viif_l2_gamma_config)
-> +#define VIDIOC_VIIF_L2_SET_CROP                                                \
-> +	_IOW('V', BASE_VIDIOC_PRIVATE + 24, struct viif_l2_crop_config)
-> +#define VIDIOC_VIIF_CSI2RX_SET_MBUS_FMT                                        \
-> +	_IOW('V', BASE_VIDIOC_PRIVATE + 25, uint32_t)
-> +#define VIDIOC_VIIF_CSI2RX_GET_CALIBRATION_STATUS                              \
-> +	_IOR('V', BASE_VIDIOC_PRIVATE + 26,                                    \
-> +	     struct viif_csi2rx_dphy_calibration_status)
-> +#define VIDIOC_VIIF_CSI2RX_GET_ERR_STATUS                                      \
-> +	_IOR('V', BASE_VIDIOC_PRIVATE + 27, struct viif_csi2rx_err_status)
-> +#define VIDIOC_VIIF_ISP_GET_LAST_CAPTURE_STATUS                                \
-> +	_IOR('V', BASE_VIDIOC_PRIVATE + 28, struct viif_isp_capture_status)
-
-We really don't want to introduce private ioctls in a public API. It's hard to
-maintain, and you would need very good reasons to go this route.
-
-A better choice is either using compound controls, as is used by stateless codecs:
-
-https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/ext-ctrls-codec-stateless.html
-
-or streaming metadata, as is done by the rkisp1 driver:
-
-https://linuxtv.org/downloads/v4l-dvb-apis-new/admin-guide/rkisp1.html
-
-In both cases you have to make sure that the data layout is the same regardless
-of whether you run on a 32 bit or 64 bit OS. I.e. if the kernel is 64 bit (arm64)
-but the application is compiled for 32 bit, then you don't want to have to
-convert between the two layouts. The pahole utility is very helpful for checking
-this.
-
-Actually, the same issue is present when using private ioctls.
-
-> +
-> +/* Enable/Disable flag */
-> +#define VIIF_DISABLE (0U)
-> +#define VIIF_ENABLE  (1U)
-> +
-> +/**
-> + * enum viif_rawpack_mode - RAW pack mode for ioctl(VIDIOC_VIIF_MAIN_SET_RAWPACK_MODE)
-> + *
-> + * @VIIF_RAWPACK_DISABLE: RAW pack disable
-> + * @VIIF_RAWPACK_MSBFIRST: RAW pack enable (MSB First)
-> + * @VIIF_RAWPACK_LSBFIRST: RAW pack enable (LSB First)
-> + */
-> +enum viif_rawpack_mode {
-> +	VIIF_RAWPACK_DISABLE = 0,
-> +	VIIF_RAWPACK_MSBFIRST = 2,
-> +	VIIF_RAWPACK_LSBFIRST = 3,
-> +};
-> +
-> +/* L2ISP undistortion mode */
-> +enum viif_l2_undist_mode {
-> +	VIIF_L2_UNDIST_POLY = 0, /* polynomial mode */
-> +	VIIF_L2_UNDIST_GRID = 1, /* grid table mode */
-> +	VIIF_L2_UNDIST_POLY_TO_GRID = 2, /* polynomial, then grid table mode */
-> +	VIIF_L2_UNDIST_GRID_TO_POLY = 3, /* grid table, then polynomial mode */
-> +};
-> +
-> +/**
-> + * struct viif_l2_undist - L2ISP UNDIST parameters
-> + * for &struct viif_l2_undist_config
-> + * @through_mode: 1:enable or 0:disable through mode of undistortion
-> + * @roi_mode: :ref:`L2ISP undistortion mode <L2ISP_undistortion_mode>`
-> + * @sensor_crop_ofs_h: Horizontal start position of sensor crop area[pixel]
-> + *                     [-4296..4296], accuracy: 1/2
-> + * @sensor_crop_ofs_v: Vertical start position of sensor crop area[line]
-> + *                     [-2360..2360], accuracy: 1/2
-> + * @norm_scale: Normalization coefficient for distance from center
-> + *              [0..1677721], accuracy: 1/33554432
-> + * @valid_r_norm2_poly: Setting target area for polynomial correction
-> + *                      [0..0x3FFFFFF], accuracy: 1/33554432
-> + * @valid_r_norm2_grid: Setting target area for grid table correction
-> + *                      [0..0x3FFFFFF], accuracy: 1/33554432
-> + * @roi_write_area_delta: Error adjustment value of forward function and
-> + *                        inverse function for pixel position calculation
-> + *                        [0..0x7FF], accuracy: 1/1024
-> + * @poly_write_g_coef: 10th-order polynomial coefficient for G write pixel position calculation
-> + *                     [-2147352576..2147352576], accuracy: 1/131072
-> + * @poly_read_b_coef: 10th-order polynomial coefficient for B read pixel position calculation
-> + *                    [-2147352576..2147352576], accuracy: 1/131072
-> + * @poly_read_g_coef: 10th-order polynomial coefficient for G read pixel position calculation
-> + *                    [-2147352576..2147352576], accuracy: 1/131072
-> + * @poly_read_r_coef: 10th-order polynomial coefficient for R read pixel position calculation
-> + *                    [-2147352576..2147352576], accuracy: 1/131072
-> + * @grid_node_num_h: Number of horizontal grids [16..64]
-> + * @grid_node_num_v: Number of vertical grids [16..64]
-> + * @grid_patch_hsize_inv: Inverse pixel size between horizontal grids
-> + *                        [0..0x7FFFFF], accuracy: 1/8388608
-> + * @grid_patch_vsize_inv: Inverse pixel size between vertical grids
-> + *                        [0..0x7FFFFF], accuracy: 1/8388608
-> + */
-> +struct viif_l2_undist {
-> +	uint32_t through_mode;
-> +	uint32_t roi_mode;
-> +	int32_t sensor_crop_ofs_h;
-> +	int32_t sensor_crop_ofs_v;
-> +	uint32_t norm_scale;
-> +	uint32_t valid_r_norm2_poly;
-> +	uint32_t valid_r_norm2_grid;
-> +	uint32_t roi_write_area_delta;
-> +	int32_t poly_write_g_coef[11];
-> +	int32_t poly_read_b_coef[11];
-> +	int32_t poly_read_g_coef[11];
-> +	int32_t poly_read_r_coef[11];
-> +	uint32_t grid_node_num_h;
-> +	uint32_t grid_node_num_v;
-> +	uint32_t grid_patch_hsize_inv;
-> +	uint32_t grid_patch_vsize_inv;
-> +};
-> +/**
-> + * struct viif_l2_undist_config - L2ISP UNDIST parameters
-> + * for :ref:`VIDIOC_VIIF_L2_SET_UNDIST`
-> + * @param: &struct viif_l2_undist
-> + * @write_g: Write for G Grid table address.
-> + *           Table is not transferred if a NULL pointer is set
-> + * @read_b: Read for B Grid table address.
-> + *          Table is not transferred if a NULL pointer is set
-> + * @read_g: Read for G Grid table address.
-> + *          Table is not transferred if a NULL pointer is set
-> + * @read_r: Read for R Grid table address.
-> + *          Table is not transferred if a NULL pointer is set
-> + * @size: Table size [byte]. Range: [1024..8192] or 0.
-> + *        Should be set to "grid_node_num_h * grid_node_num_v * 4".
-> + *        Refer to &struct viif_l2_undist.
-> + *        Should set 0 in case NULL is set for all tables.
-> + *        Should set size other than 0 in case If other is set in more than one table.
-> + *
-> + * Application should make sure that the table data is based on HW specification
-> + * since this driver does not check the contents of specified grid table.
-> + */
-> +struct viif_l2_undist_config {
-> +	struct viif_l2_undist param;
-> +	uint32_t *write_g;
-> +	uint32_t *read_b;
-> +	uint32_t *read_g;
-> +	uint32_t *read_r;
-
-Pointers in a public API are possibly but it really complicates the code.
-
-When using controls this can be done by placing these tables in separate
-controls using the upcoming 'Dynamic Array' support.
-
-Patches adding support for that are part of this series:
-
-https://lore.kernel.org/linux-media/20220407152940.738159-1-benjamin.gaignard@collabora.com/T/#t
-
-> +	uint32_t size;
-> +};
-> +
-> +/**
-> + * struct viif_l2_roi_config - L2ISP ROI parameters
-> + * for :ref:`VIDIOC_VIIF_L2_SET_ROI`
-> + * @roi_scale: Scale value for each ROI [32768..131072], accuracy: 1/65536
-> + * @roi_scale_inv: Inverse scale value for each ROI [32768..131072], accuracy: 1/65536
-> + * @corrected_wo_scale_hsize: Corrected image width for each ROI [pixel] [128..8190]
-> + * @corrected_wo_scale_vsize: Corrected image height for each ROI [line] [128..4094]
-> + * @corrected_hsize: Corrected and scaled image width for each ROI [pixel] [128..8190]
-> + * @corrected_vsize: Corrected and scaled image height for each ROI [line] [128..4094]
-> + */
-> +struct viif_l2_roi_config {
-> +	uint32_t roi_scale;
-> +	uint32_t roi_scale_inv;
-> +	uint32_t corrected_wo_scale_hsize;
-> +	uint32_t corrected_wo_scale_vsize;
-> +	uint32_t corrected_hsize;
-> +	uint32_t corrected_vsize;
-> +};
-> +
-> +/** enum viif_gamma_mode - Gamma correction mode
-> + *
-> + * @VIIF_GAMMA_COMPRESSED: compressed table mode
-> + * @VIIF_GAMMA_LINEAR: liner table mode
-
-liner -> linear
-
-> + */
-> +enum viif_gamma_mode {
-> +	VIIF_GAMMA_COMPRESSED = 0,
-> +	VIIF_GAMMA_LINEAR = 1,
-> +};
-> +
-> +/**
-> + * struct viif_l2_gamma_config - L2ISP gamma correction parameters
-> + * for :ref:`VIDIOC_VIIF_L2_SET_GAMMA`
-> + * @enable: 1:Enable, 0:Disable settings of L2ISP gamma correction control
-> + * @vsplit: Line switching position of first table and second table [line] [0..4094].
-> + *          Should set 0 in case 0 is set to @enable
-> + * @mode: :ref:`Gamma correction mode <Gamma_correction_mode>`.
-> + *        Should set VIIF_GAMMA_COMPRESSED in case 0 is set to @enable
-> + * @table: Table address.
-> + *         Gamma table is not transferred if a NULL pointer is set to table.
-> + *         The size of each table is fixed to 512 bytes.
-> + *         [0]: G/Y(1st table), [1]: G/Y(2nd table), [2]: B/U(1st table)
-> + *         [3]: B/U(2nd table), [4]: R/V(1st table), [5]: R/V(2nd table)
-> + */
-> +struct viif_l2_gamma_config {
-> +	uint32_t enable;
-> +	uint32_t vsplit;
-> +	uint32_t mode;
-> +	uint16_t *table[6];
-> +};
-> +
-> +/**
-> + * struct viif_l2_crop_config - L2ISP Cropping parameters
-> + * for :ref:`VIDIOC_VIIF_L2_SET_CROP`
-> + * @x: X coordinate position
-> + *     (with the upper left corner of the image as the origin)[pixel] [0..8062]
-> + * @y: Y coordinate position
-> + *     (with the upper left corner of the image as the origin)[Line] [0..3966]
-> + * @w: Image width[pixel] [128..8190]
-> + * @h: Image height[pixel] [128..4094]
-> + */
-> +struct viif_l2_crop_config {
-> +	uint32_t x;
-> +	uint32_t y;
-> +	uint32_t w;
-> +	uint32_t h;
-> +};
-> +
-> +/**
-> + * enum viif_csi2_cal_status - CSI2RX calibration status
-> + *
-> + * @VIIF_CSI2_CAL_NOT_DONE: Calibration not complete
-> + * @VIIF_CSI2_CAL_SUCCESS: Calibration success
-> + * @VIIF_CSI2_CAL_FAIL: Calibration failed
-> + */
-> +enum viif_csi2_cal_status {
-> +	VIIF_CSI2_CAL_NOT_DONE = 0,
-> +	VIIF_CSI2_CAL_SUCCESS = 1,
-> +	VIIF_CSI2_CAL_FAIL = 2,
-> +};
-> +
-> +/**
-> + * struct viif_csi2rx_dphy_calibration_status - CSI2-RX D-PHY Calibration
-> + * information for :ref:`VIDIOC_VIIF_CSI2RX_GET_CALIBRATION_STATUS`
-> + * @term_cal_with_rext: Result of termination calibration with rext
-> + * @clock_lane_offset_cal: Result of offset calibration of clock lane
-> + * @data_lane0_offset_cal: Result of offset calibration of data lane0
-> + * @data_lane1_offset_cal: Result of offset calibration of data lane1
-> + * @data_lane2_offset_cal: Result of offset calibration of data lane2
-> + * @data_lane3_offset_cal: Result of offset calibration of data lane3
-> + * @data_lane0_ddl_tuning_cal: Result of digital delay line tuning calibration of data lane0
-> + * @data_lane1_ddl_tuning_cal: Result of digital delay line tuning calibration of data lane1
-> + * @data_lane2_ddl_tuning_cal: Result of digital delay line tuning calibration of data lane2
-> + * @data_lane3_ddl_tuning_cal: Result of digital delay line tuning calibration of data lane3
-> + *
-> + * Refer to :ref:`CSI2-RX calibration status <CSI2RX_calibration_status>`
-> + * for the definitions of each member
-> + */
-> +struct viif_csi2rx_dphy_calibration_status {
-> +	uint32_t term_cal_with_rext;
-> +	uint32_t clock_lane_offset_cal;
-> +	uint32_t data_lane0_offset_cal;
-> +	uint32_t data_lane1_offset_cal;
-> +	uint32_t data_lane2_offset_cal;
-> +	uint32_t data_lane3_offset_cal;
-> +	uint32_t data_lane0_ddl_tuning_cal;
-> +	uint32_t data_lane1_ddl_tuning_cal;
-> +	uint32_t data_lane2_ddl_tuning_cal;
-> +	uint32_t data_lane3_ddl_tuning_cal;
-> +};
-> +
-> +/**
-> + * struct viif_csi2rx_err_status - CSI2RX Error status parameters
-> + * for :ref:`VIDIOC_VIIF_CSI2RX_GET_ERR_STATUS`
-> + * @err_phy_fatal: D-PHY FATAL error.
-> + *                 bit[3]: Start of transmission error on DATA Lane3.
-> + *                 bit[2]: Start of transmission error on DATA Lane2.
-> + *                 bit[1]: Start of transmission error on DATA Lane1.
-> + *                 bit[0]: Start of transmission error on DATA Lane0.
-> + * @err_pkt_fatal: Packet FATAL error.
-> + *                 bit[16]: Header ECC contains 2 errors, unrecoverable.
-> + *                 bit[3]: Checksum error detected on virtual channel 3.
-> + *                 bit[2]: Checksum error detected on virtual channel 2.
-> + *                 bit[1]: Checksum error detected on virtual channel 1.
-> + *                 bit[0]: Checksum error detected on virtual channel 0.
-> + * @err_frame_fatal: Frame FATAL error.
-> + *                   bit[19]: Last received Frame, in virtual channel 3, has at least one CRC error.
-> + *                   bit[18]: Last received Frame, in virtual channel 2, has at least one CRC error.
-> + *                   bit[17]: Last received Frame, in virtual channel 1, has at least one CRC error.
-> + *                   bit[16]: Last received Frame, in virtual channel 0, has at least one CRC error.
-> + *                   bit[11]: Incorrect Frame Sequence detected in virtual channel 3.
-> + *                   bit[10]: Incorrect Frame Sequence detected in virtual channel 2.
-> + *                   bit[9]: Incorrect Frame Sequence detected in virtual channel 1.
-> + *                   bit[8]: Incorrect Frame Sequence detected in virtual channel 0.
-> + *                   bit[3]: Error matching Frame Start with Frame End for virtual channel 3.
-> + *                   bit[2]: Error matching Frame Start with Frame End for virtual channel 2.
-> + *                   bit[1]: Error matching Frame Start with Frame End for virtual channel 1.
-> + *                   bit[0]: Error matching Frame Start with Frame End for virtual channel 0.
-> + * @err_phy: D-PHY error.
-> + *           bit[19]: Escape Entry Error on Data Lane 3.
-> + *           bit[18]: Escape Entry Error on Data Lane 2.
-> + *           bit[17]: Escape Entry Error on Data Lane 1.
-> + *           bit[16]: Escape Entry Error on Data Lane 0.
-> + *           bit[3]: Start of Transmission Error on Data Lane 3 (synchronization can still be achieved).
-> + *           bit[2]: Start of Transmission Error on Data Lane 2 (synchronization can still be achieved).
-> + *           bit[1]: Start of Transmission Error on Data Lane 1 (synchronization can still be achieved).
-> + *           bit[0]: Start of Transmission Error on Data Lane 0 (synchronization can still be achieved).
-> + * @err_pkt: Packet error.
-> + *           bit[19]: Header Error detected and corrected on virtual channel 3.
-> + *           bit[18]: Header Error detected and corrected on virtual channel 2.
-> + *           bit[17]: Header Error detected and corrected on virtual channel 1.
-> + *           bit[16]: Header Error detected and corrected on virtual channel 0.
-> + *           bit[3]: Unrecognized or unimplemented data type detected in virtual channel 3.
-> + *           bit[2]: Unrecognized or unimplemented data type detected in virtual channel 2.
-> + *           bit[1]: Unrecognized or unimplemented data type detected in virtual channel 1.
-> + *           bit[0]: Unrecognized or unimplemented data type detected in virtual channel 0.
-> + * @err_line: Line error.
-> + *            bit[23]: Error in the sequence of lines for vc7 and dt7.
-> + *            bit[22]: Error in the sequence of lines for vc6 and dt6.
-> + *            bit[21]: Error in the sequence of lines for vc5 and dt5.
-> + *            bit[20]: Error in the sequence of lines for vc4 and dt4.
-> + *            bit[19]: Error in the sequence of lines for vc3 and dt3.
-> + *            bit[18]: Error in the sequence of lines for vc2 and dt2.
-> + *            bit[17]: Error in the sequence of lines for vc1 and dt1.
-> + *            bit[16]: Error in the sequence of lines for vc0 and dt0.
-> + *            bit[7]: Error matching Line Start with Line End for vc7 and dt7.
-> + *            bit[6]: Error matching Line Start with Line End for vc6 and dt6.
-> + *            bit[5]: Error matching Line Start with Line End for vc5 and dt5.
-> + *            bit[4]: Error matching Line Start with Line End for vc4 and dt4.
-> + *            bit[3]: Error matching Line Start with Line End for vc3 and dt3.
-> + *            bit[2]: Error matching Line Start with Line End for vc2 and dt2.
-> + *            bit[1]: Error matching Line Start with Line End for vc1 and dt1.
-> + *            bit[0]: Error matching Line Start with Line End for vc0 and dt0.
-> + */
-> +struct viif_csi2rx_err_status {
-> +	uint32_t err_phy_fatal;
-> +	uint32_t err_pkt_fatal;
-> +	uint32_t err_frame_fatal;
-> +	uint32_t err_phy;
-> +	uint32_t err_pkt;
-> +	uint32_t err_line;
-> +};
-> +
-> +/**
-> + * struct viif_l1_info - L1ISP AWB information
-> + * for &struct viif_isp_capture_status
-> + * @awb_ave_u: U average value of AWB adjustment [pixel]
-> + * @awb_ave_v: V average value of AWB adjustment [pixel]
-> + * @awb_accumulated_pixel: Accumulated pixel count of AWB adjustment
-> + * @awb_gain_r: R gain used in the next frame of AWB adjustment
-> + * @awb_gain_g: G gain used in the next frame of AWB adjustment
-> + * @awb_gain_b: B gain used in the next frame of AWB adjustment
-> + * @awb_status_u: U convergence state of AWB adjustment
-> + *                (true: converged, false: not-converged)
-> + * @awb_status_v: V convergence state of AWB adjustment
-> + *                (true: converged, false: not-converged)
-> + */
-> +struct viif_l1_info {
-> +	uint32_t awb_ave_u;
-> +	uint32_t awb_ave_v;
-> +	uint32_t awb_accumulated_pixel;
-> +	uint32_t awb_gain_r;
-> +	uint32_t awb_gain_g;
-> +	uint32_t awb_gain_b;
-> +	bool awb_status_u;
-> +	bool awb_status_v;
-
-bool is not allowed in a userspace API. Use __u32 or something like that instead.
-
-Regards,
-
-	Hans
-
-> +};
-> +/**
-> + * struct viif_isp_capture_status - L1ISP capture information
-> + * for :ref:`VIDIOC_VIIF_ISP_GET_LAST_CAPTURE_STATUS`
-> + * @l1_info: L1ISP AWB information. Refer to &struct viif_l1_info
-> + */
-> +struct viif_isp_capture_status {
-> +	struct viif_l1_info l1_info;
-> +};
-> +
-> +#endif /* __UAPI_VISCONTI_VIIF_H_ */
+regards,
+dan carpenter
 
