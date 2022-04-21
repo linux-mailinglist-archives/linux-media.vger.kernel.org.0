@@ -2,41 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A431509C9A
-	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 11:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 922E3509D15
+	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 12:04:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387874AbiDUJsB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 05:48:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50776 "EHLO
+        id S240727AbiDUKFT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Apr 2022 06:05:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387839AbiDUJrn (ORCPT
+        with ESMTP id S1388037AbiDUKFR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Apr 2022 05:47:43 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8D98381
-        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 02:44:53 -0700 (PDT)
+        Thu, 21 Apr 2022 06:05:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 516A2275EE
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 03:02:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 90707B823A6
-        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 09:44:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51D99C385A9;
-        Thu, 21 Apr 2022 09:44:50 +0000 (UTC)
-Message-ID: <3b1ace8f-a425-6a61-cb97-39e93100e75c@xs4all.nl>
-Date:   Thu, 21 Apr 2022 11:44:48 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C889861924
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 10:02:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F827C385A1;
+        Thu, 21 Apr 2022 10:02:26 +0000 (UTC)
+Message-ID: <0f5d9c16-860b-015f-8028-234d2fb96959@xs4all.nl>
+Date:   Thu, 21 Apr 2022 12:02:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 1/7] media: coda: set output buffer bytesused to appease
- v4l2-compliance
+Subject: Re: [PATCH 5/7] media: coda: fix default JPEG colorimetry
 Content-Language: en-US
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de
 References: <20220404163533.707508-1-p.zabel@pengutronix.de>
+ <20220404163533.707508-5-p.zabel@pengutronix.de>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220404163533.707508-1-p.zabel@pengutronix.de>
+In-Reply-To: <20220404163533.707508-5-p.zabel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-9.8 required=5.0 tests=BAYES_00,
@@ -48,46 +46,95 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Philipp,
+
 On 04/04/2022 18:35, Philipp Zabel wrote:
-> The V4L2 specification states:
+> Set default colorspace to SRGB for JPEG encoder and decoder devices,
+> to fix the following v4l2-compliance test failure:
 > 
->  "If the application sets this to 0 for an output stream, then bytesused
->   will be set to the size of the buffer (see the length field of this
->   struct) by the driver."
+> 	test VIDIOC_TRY_FMT: OK
+> 		fail: v4l2-test-formats.cpp(818): fmt_raw.g_colorspace() != V4L2_COLORSPACE_SRGB
 > 
-> Since we set allow_zero_bytesused, we have to handle this ourselves.
+> Also explicitly set transfer function, YCbCr encoding and quantization
+> range, as required by v4l2-compliance for the JPEG encoded side.
+
+I'm not quite sure if this patch addresses the correct issue.
+
 > 
 > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 > ---
->  drivers/media/platform/chips-media/coda-bit.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  .../media/platform/chips-media/coda-common.c  | 36 +++++++++++++------
+>  1 file changed, 25 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/media/platform/chips-media/coda-bit.c b/drivers/media/platform/chips-media/coda-bit.c
-> index c484c008ab02..705a179ea8f0 100644
-> --- a/drivers/media/platform/chips-media/coda-bit.c
-> +++ b/drivers/media/platform/chips-media/coda-bit.c
-> @@ -381,6 +381,9 @@ void coda_fill_bitstream(struct coda_ctx *ctx, struct list_head *buffer_list)
->  		/* Dump empty buffers */
->  		if (!vb2_get_plane_payload(&src_buf->vb2_buf, 0)) {
->  			src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-> +			vb2_set_plane_payload(&src_buf->vb2_buf, 0,
-> +					      vb2_plane_size(&src_buf->vb2_buf,
-> +							     0));
+> diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
+> index 4a7346ed771e..c068c16d1eb4 100644
+> --- a/drivers/media/platform/chips-media/coda-common.c
+> +++ b/drivers/media/platform/chips-media/coda-common.c
+> @@ -732,13 +732,22 @@ static int coda_try_fmt_vid_cap(struct file *file, void *priv,
+>  	return 0;
+>  }
+>  
+> -static void coda_set_default_colorspace(struct v4l2_pix_format *fmt)
+> +static void coda_set_default_colorspace(struct coda_ctx *ctx,
+> +					struct v4l2_pix_format *fmt)
+>  {
+>  	enum v4l2_colorspace colorspace;
+>  
+> -	if (fmt->pixelformat == V4L2_PIX_FMT_JPEG)
+> -		colorspace = V4L2_COLORSPACE_JPEG;
 
-Would it be possible to stop using allow_zero_bytesused altogether?
+It's perfectly fine to keep this, the problem occurs with the raw image side
+(capture for the decoder, output for the encoder).
 
-Are there still applications that rely on zero-sized output buffers to stop the
-decoder?
+There the colorspace must be SRGB, the xfer_func may be 0 or SRGB, and the
+ycbcr_enc is 0 (if not a YUV pixelformat) or ENC_601 (if it is a YUV format).
+Actually, if the hardware can convert from other YUV encodings such as 709,
+then other YUV encodings are valid, but I assume that's not the case.
 
-I'm not actually sure that I want this in the driver, perhaps v4l2-compliance
-can be modified to turn a fail into a warn if the driver is the coda driver.
+> -	else if (fmt->width <= 720 && fmt->height <= 576)
+> +	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG ||
+> +	    ctx->cvd->dst_formats[0] == V4L2_PIX_FMT_JPEG ||
+> +	    fmt->pixelformat == V4L2_PIX_FMT_JPEG) {
+> +		fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> +		fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
+> +		fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
+> +		fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> +		return;
+> +	}
+> +
+> +	if (fmt->width <= 720 && fmt->height <= 576)
+>  		colorspace = V4L2_COLORSPACE_SMPTE170M;
+>  	else
+>  		colorspace = V4L2_COLORSPACE_REC709;
+> @@ -763,7 +772,7 @@ static int coda_try_fmt_vid_out(struct file *file, void *priv,
+>  		return ret;
+>  
+>  	if (f->fmt.pix.colorspace == V4L2_COLORSPACE_DEFAULT)
+> -		coda_set_default_colorspace(&f->fmt.pix);
+> +		coda_set_default_colorspace(ctx, &f->fmt.pix);
+>  
+>  	q_data_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+>  	codec = coda_find_codec(dev, f->fmt.pix.pixelformat, q_data_dst->fourcc);
+> @@ -1640,13 +1649,18 @@ static void set_default_params(struct coda_ctx *ctx)
+>  	csize = coda_estimate_sizeimage(ctx, usize, max_w, max_h);
+>  
+>  	ctx->params.codec_mode = ctx->codec->mode;
+> -	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG)
+> -		ctx->colorspace = V4L2_COLORSPACE_JPEG;
+> -	else
+> +	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG ||
+> +	    ctx->cvd->dst_formats[0] == V4L2_PIX_FMT_JPEG) {
+> +		ctx->colorspace = V4L2_COLORSPACE_SRGB;
+> +		ctx->xfer_func = V4L2_XFER_FUNC_SRGB;
+> +		ctx->ycbcr_enc = V4L2_YCBCR_ENC_601;
+> +		ctx->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> +	} else {
+>  		ctx->colorspace = V4L2_COLORSPACE_REC709;
 
-Patching the driver is hiding the fact that the coda driver does something
-non-standard for legacy reasons. It doesn't make sense either to change
-bytesused to the buffer size since there really is nothing in the buffer.
+My guess is that the raw format colorspace is set to REC709, which is definitely
+wrong for a JPEG codec. For a JPEG codec that must be set to SRGB.
 
-v4l2-compliance already has checks for two drivers, search for is_vivid and
-is_uvcvideo.
+I suspect that's the real bug here.
 
 I'm skipping this patch for now.
 
@@ -95,7 +142,14 @@ Regards,
 
 	Hans
 
->  			v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
->  			continue;
->  		}
+> -	ctx->xfer_func = V4L2_XFER_FUNC_DEFAULT;
+> -	ctx->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+> -	ctx->quantization = V4L2_QUANTIZATION_DEFAULT;
+> +		ctx->xfer_func = V4L2_XFER_FUNC_DEFAULT;
+> +		ctx->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+> +		ctx->quantization = V4L2_QUANTIZATION_DEFAULT;
+> +	}
+>  	ctx->params.framerate = 30;
+>  
+>  	/* Default formats for output and input queues */
 
