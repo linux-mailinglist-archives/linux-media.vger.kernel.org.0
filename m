@@ -2,122 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6567509E3C
-	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 13:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09663509E3F
+	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 13:07:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1388673AbiDULF6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 07:05:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43546 "EHLO
+        id S1388672AbiDULJz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Apr 2022 07:09:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1388672AbiDULF6 (ORCPT
+        with ESMTP id S232010AbiDULJx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Apr 2022 07:05:58 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9D502CE05;
-        Thu, 21 Apr 2022 04:03:06 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 073BB1F4471A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1650538985;
-        bh=sy+rLNXQIKyW8TFbG6ILeSEG7iS/CKP/Coz25Rxsaxo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=cGnzw226WVcrPOtDKpi7ieE4O90YrxM6i8OqPW0jVQeClyXNKGrSfT2+6s7PXpOkO
-         4e110iF67BFrPXaLvasAQviKky1wjbwLJi5+XqpeSz/pipobHg0LrwZ2IMShaY8CGI
-         2LkBzX4cprcTZJM58VI5QGU7ZvPNggePY7zYW/Blb8IMMXqB0Q580JrSS8sd6XZm/r
-         toneZW/LvOIrWOtWs0/doztF+TBek/o9cYpoFtaGnTGL81u+6bjWbzahPNwdXd0RAa
-         uZ0UI7lKvqD0Mi09vujcwzbXtL5wls9wS6AXo8nIokQqXHhyYnR4FvtVh4oFvFFdKt
-         JTjBaQnnGbIOw==
-Message-ID: <7658c8e4-596b-abfc-9255-854c16f920a7@collabora.com>
-Date:   Thu, 21 Apr 2022 13:03:02 +0200
+        Thu, 21 Apr 2022 07:09:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 858C7E48
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 04:07:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0DC0161B03
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 11:07:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0E7BC385A1;
+        Thu, 21 Apr 2022 11:07:01 +0000 (UTC)
+Message-ID: <7baae67d-e5e0-1f6f-d915-4ef5ca5fffd3@xs4all.nl>
+Date:   Thu, 21 Apr 2022 13:06:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] media: platform: mtk-mdp: Fix mdp_ipi_comm structure
- alignment
+Subject: Re: [PATCH 5/7] media: coda: fix default JPEG colorimetry
 Content-Language: en-US
-To:     minghsiu.tsai@mediatek.com
-Cc:     houlong.wei@mediatek.com, andrew-ct.chen@mediatek.com,
-        mchehab@kernel.org, matthias.bgg@gmail.com, hans.verkuil@cisco.com,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com, acourbot@chromium.org, irui.wang@mediatek.com
-References: <20220307155653.460910-1-angelogioacchino.delregno@collabora.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220307155653.460910-1-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de
+References: <20220404163533.707508-1-p.zabel@pengutronix.de>
+ <20220404163533.707508-5-p.zabel@pengutronix.de>
+ <0f5d9c16-860b-015f-8028-234d2fb96959@xs4all.nl>
+ <4ddc131113b41bf8427d0b316b70335578971ff4.camel@pengutronix.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <4ddc131113b41bf8427d0b316b70335578971ff4.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-9.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 07/03/22 16:56, AngeloGioacchino Del Regno ha scritto:
-> The mdp_ipi_comm structure defines a command that is either
-> PROCESS (start processing) or DEINIT (destroy instance); we
-> are using this one to send PROCESS or DEINIT commands from Linux
-> to an MDP instance through a VPU write but, while the first wants
-> us to stay 4-bytes aligned, the VPU instead requires an 8-bytes
-> data alignment.
+On 21/04/2022 12:38, Philipp Zabel wrote:
+> On Do, 2022-04-21 at 12:02 +0200, Hans Verkuil wrote:
+>> Hi Philipp,
+>>
+>> On 04/04/2022 18:35, Philipp Zabel wrote:
+>>> Set default colorspace to SRGB for JPEG encoder and decoder devices,
+>>> to fix the following v4l2-compliance test failure:
+>>>
+>>> 	test VIDIOC_TRY_FMT: OK
+>>> 		fail: v4l2-test-formats.cpp(818): fmt_raw.g_colorspace() != V4L2_COLORSPACE_SRGB
+>>>
+>>> Also explicitly set transfer function, YCbCr encoding and quantization
+>>> range, as required by v4l2-compliance for the JPEG encoded side.
+>>
+>> I'm not quite sure if this patch addresses the correct issue.
+>>
+>>>
+>>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+>>> ---
+>>>  .../media/platform/chips-media/coda-common.c  | 36 +++++++++++++------
+>>>  1 file changed, 25 insertions(+), 11 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
+>>> index 4a7346ed771e..c068c16d1eb4 100644
+>>> --- a/drivers/media/platform/chips-media/coda-common.c
+>>> +++ b/drivers/media/platform/chips-media/coda-common.c
+>>> @@ -732,13 +732,22 @@ static int coda_try_fmt_vid_cap(struct file *file, void *priv,
+>>>  	return 0;
+>>>  }
+>>>  
+>>>
+>>>
+>>>
+>>> -static void coda_set_default_colorspace(struct v4l2_pix_format *fmt)
+>>> +static void coda_set_default_colorspace(struct coda_ctx *ctx,
+>>> +					struct v4l2_pix_format *fmt)
+>>>  {
+>>>  	enum v4l2_colorspace colorspace;
+>>>  
+>>>
+>>>
+>>>
+>>> -	if (fmt->pixelformat == V4L2_PIX_FMT_JPEG)
+>>> -		colorspace = V4L2_COLORSPACE_JPEG;
+>>
+>> It's perfectly fine to keep this, the problem occurs with the raw image side
+>> (capture for the decoder, output for the encoder).
+>>
+>> There the colorspace must be SRGB, the xfer_func may be 0 or SRGB, and the
+>> ycbcr_enc is 0 (if not a YUV pixelformat) or ENC_601 (if it is a YUV format).
+>> Actually, if the hardware can convert from other YUV encodings such as 709,
+>> then other YUV encodings are valid, but I assume that's not the case.
 > 
-> Keeping in mind that these commands are executed immediately
-> after sending them (hence not chained with others before the
-> VPU/MDP "actually" start executing), it is fine to simply add
-> a padding of 4 bytes to this structure: this keeps the same
-> performance as before, as we're still stack-allocating it,
-> while avoiding hackery inside of mtk-vpu to ensure alignment
-> bringing a definitely bigger performance impact.
-> 
-> Fixes: c8eb2d7e8202 ("[media] media: Add Mediatek MDP Driver")
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> So the driver has to support different colorspace on output and capture
+> queues?
 
-Hello,
-is there any issue with this patch?
+Correct. Note that it is OK to replace COLORSPACE_JPEG by explicit colorspace,
+xfer_func, ycbcr_enc and quantization values, but in reality (almost?) all drivers
+use COLORSPACE_JPEG, and that won't go away. Keeping it will certainly reduce
+the patch size.
 
 Regards,
-Angelo
 
-> ---
-> 
-> This patch has been tested on Acer Chromebook R 13 (MT8173 Elm) on Debian Sid.
-> 
-> This is an alternative solution to the mtk-vpu approach, found here:
-> https://lore.kernel.org/all/20210920170408.1561-1-dafna.hirschfeld@collabora.com
-> 
->   drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h b/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h
-> index 2cb8cecb3077..b810c96695c8 100644
-> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h
-> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h
-> @@ -40,12 +40,14 @@ struct mdp_ipi_init {
->    * @ipi_id        : IPI_MDP
->    * @ap_inst       : AP mtk_mdp_vpu address
->    * @vpu_inst_addr : VPU MDP instance address
-> + * @padding       : Alignment padding
->    */
->   struct mdp_ipi_comm {
->   	uint32_t msg_id;
->   	uint32_t ipi_id;
->   	uint64_t ap_inst;
->   	uint32_t vpu_inst_addr;
-> +	uint32_t padding;
->   };
->   
->   /**
+	Hans
 
+> 
+>>> -	else if (fmt->width <= 720 && fmt->height <= 576)
+>>> +	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG ||
+>>> +	    ctx->cvd->dst_formats[0] == V4L2_PIX_FMT_JPEG ||
+>>> +	    fmt->pixelformat == V4L2_PIX_FMT_JPEG) {
+>>> +		fmt->colorspace = V4L2_COLORSPACE_SRGB;
+>>> +		fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
+>>> +		fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
+>>> +		fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>>> +		return;
+>>> +	}
+>>> +
+>>> +	if (fmt->width <= 720 && fmt->height <= 576)
+>>>  		colorspace = V4L2_COLORSPACE_SMPTE170M;
+>>>  	else
+>>>  		colorspace = V4L2_COLORSPACE_REC709;
+>>> @@ -763,7 +772,7 @@ static int coda_try_fmt_vid_out(struct file *file, void *priv,
+>>>  		return ret;
+>>>  
+>>>
+>>>
+>>>
+>>>  	if (f->fmt.pix.colorspace == V4L2_COLORSPACE_DEFAULT)
+>>> -		coda_set_default_colorspace(&f->fmt.pix);
+>>> +		coda_set_default_colorspace(ctx, &f->fmt.pix);
+>>>  
+>>>
+>>>
+>>>
+>>>  	q_data_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+>>>  	codec = coda_find_codec(dev, f->fmt.pix.pixelformat, q_data_dst->fourcc);
+>>> @@ -1640,13 +1649,18 @@ static void set_default_params(struct coda_ctx *ctx)
+>>>  	csize = coda_estimate_sizeimage(ctx, usize, max_w, max_h);
+>>>  
+>>>
+>>>
+>>>
+>>>  	ctx->params.codec_mode = ctx->codec->mode;
+>>> -	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG)
+>>> -		ctx->colorspace = V4L2_COLORSPACE_JPEG;
+>>> -	else
+>>> +	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG ||
+>>> +	    ctx->cvd->dst_formats[0] == V4L2_PIX_FMT_JPEG) {
+>>> +		ctx->colorspace = V4L2_COLORSPACE_SRGB;
+>>> +		ctx->xfer_func = V4L2_XFER_FUNC_SRGB;
+>>> +		ctx->ycbcr_enc = V4L2_YCBCR_ENC_601;
+>>> +		ctx->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>>> +	} else {
+>>>  		ctx->colorspace = V4L2_COLORSPACE_REC709;
+>>
+>> My guess is that the raw format colorspace is set to REC709, which is definitely
+>> wrong for a JPEG codec. For a JPEG codec that must be set to SRGB.
+>>
+>> I suspect that's the real bug here.
+>>
+>> I'm skipping this patch for now.
+> 
+> Thank you, I think at least for the decoder the issue was that the
+> driver defaulted to V4L2_COLORSPACE_JPEG, but since ctx->colorspace is
+> used for both sides, that would also be used as colorspace for the raw
+> image side. For the encoder it looks like you are right.
+> 
+> I'll double check.
+> 
+> regards
+> Philipp
 
--- 
-AngeloGioacchino Del Regno
-Software Engineer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales, no. 5513718
