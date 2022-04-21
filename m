@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5DDE50AC8D
-	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 01:53:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3A9550AC90
+	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 01:55:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1391606AbiDUXzl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 19:55:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52050 "EHLO
+        id S1442135AbiDUX6C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Apr 2022 19:58:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442893AbiDUXzj (ORCPT
+        with ESMTP id S1442932AbiDUX5r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Apr 2022 19:55:39 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB20349CAE
-        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 16:52:36 -0700 (PDT)
+        Thu, 21 Apr 2022 19:57:47 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E12B1AD
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 16:54:52 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 191B3492;
-        Fri, 22 Apr 2022 01:52:35 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 723414A8;
+        Fri, 22 Apr 2022 01:54:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1650585155;
-        bh=A80CMtN7r4EJ8sMiWkI9ubcBVY3QhUnplU2Adt6uAoA=;
+        s=mail; t=1650585290;
+        bh=EV0qfFaQOjlrycvahMTkqdz2kEWtYByK0x1Tle0CX+U=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L52dKQ7FFri68wRsHYf5uywXM+rb8agv6vJTWtFC0Gywip9ZnoRvB3KmpHA3b9AbU
-         3OkrCVWMaG8E3G3d+lYqJPWAcAm04XKwUD/sSWHzpXg3PK94ojw/gAUNzptDRdoh4+
-         /Dcb+yEy+HYjXcdYOs1I0BwnI1L5vVmhIS/vyFKg=
-Date:   Fri, 22 Apr 2022 02:52:35 +0300
+        b=kMiOFS1wl5JqP0kotraDSSG5nrLN1W0/ESxLTF+JJ7C0hw6b9OxNe95yGn7KkVQBa
+         il2kuemk/NqHGPulDyzO0RBrRBGHdDeb6GOt3cRxiar4rjbCInxmlaTSz0YSBzeb+8
+         EYMRZm7E5x+hqu3wV4OsXFFaQBtUBEBP7rnKRMTY=
+Date:   Fri, 22 Apr 2022 02:54:50 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
@@ -34,15 +34,14 @@ Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>
-Subject: Re: [PATCH 4/6] media: ti: cal: use CSI-2 frame number for seq number
-Message-ID: <YmHuQ6bmBgDgt5ke@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 5/6] media: ti: cal: combine wdma irq handling
+Message-ID: <YmHuypmwdzs9/pcH@pendragon.ideasonboard.com>
 References: <20220421143449.552312-1-tomi.valkeinen@ideasonboard.com>
- <20220421143449.552312-5-tomi.valkeinen@ideasonboard.com>
+ <20220421143449.552312-6-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220421143449.552312-5-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20220421143449.552312-6-tomi.valkeinen@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -56,189 +55,117 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Thu, Apr 21, 2022 at 05:34:47PM +0300, Tomi Valkeinen wrote:
-> The userspace needs a way to match received metadata buffers to pixel
-> data buffers. The obvious way to do this is to use the CSI-2 frame
-> number, as both the metadata and the pixel data have the same frame
-> number as they come from the same frame.
+On Thu, Apr 21, 2022 at 05:34:48PM +0300, Tomi Valkeinen wrote:
+> Instead of handling the WDMA START and END interrupts separately, we
+> need to handle both at the same time to better manage the inherent race
+> conditions related to CAL interrupts.
 > 
-> However, we don't have means to convey the frame number to userspace. We
-> do have the 'sequence' field, which with a few tricks can be used for
-> this purpose.
+> Change the code so that we have a single function,
+> cal_irq_handle_wdma(), which gets two booleans, start and end, as
+> parameters, which allows us to manage the race conditions in the
+> following patch.
 > 
-> To achieve this, track the frame number for each virtual channel and
-> increase the sequence for each virtual channel by frame-number -
-> previous-frame-number, also taking into account the eventual wrap of the
-> CSI-2 frame number.
-> 
-> This way we get a monotonically increasing sequence number which is
-> common to all streams using the same virtual channel.
-
-I'd agree in principle, if it wasn't for the fact that sensors are not
-required to produce a frame number :-S
-
-Quoting CSI-2 v1.01.00:
-
-For FS and FE synchronization packets the Short Packet Data Field shall
-contain a 16-bit frame number. This frame number shall be the same for
-the FS and FE synchronization packets corresponding to a given frame.
-
-The 16-bit frame number, when used, shall be non-zero to distinguish it
-from the use-case where frame number is inoperative and remains set to
-zero.
-
-The behavior of the 16-bit frame number shall be as one of the following
-
-- Frame number is always zero – frame number is inoperative.
-
-- Frame number increments by 1 for every FS packet with the same Virtual
-  Channel and is periodically reset to one e.g. 1, 2, 1, 2, 1, 2, 1, 2
-  or 1, 2, 3, 4, 1, 2, 3, 4
-
-The frame number must be a non-zero value.
-
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  drivers/media/platform/ti/cal/cal-camerarx.c |  1 +
->  drivers/media/platform/ti/cal/cal.c          | 57 +++++++++++++++++++-
->  drivers/media/platform/ti/cal/cal.h          |  7 ++-
->  3 files changed, 62 insertions(+), 3 deletions(-)
+>  drivers/media/platform/ti/cal/cal.c | 59 ++++++++++++-----------------
+>  1 file changed, 25 insertions(+), 34 deletions(-)
 > 
-> diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
-> index 34b8542133b6..96adbf7d8b65 100644
-> --- a/drivers/media/platform/ti/cal/cal-camerarx.c
-> +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
-> @@ -844,6 +844,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
->  	phy->cal = cal;
->  	phy->instance = instance;
->  
-> +	spin_lock_init(&phy->vc_lock);
->  	mutex_init(&phy->mutex);
->  
->  	phy->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
 > diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
-> index 4a4a6c5983f7..783ce5a8cd79 100644
+> index 783ce5a8cd79..e4355f266c58 100644
 > --- a/drivers/media/platform/ti/cal/cal.c
 > +++ b/drivers/media/platform/ti/cal/cal.c
-> @@ -496,7 +496,22 @@ void cal_ctx_unprepare(struct cal_ctx *ctx)
+> @@ -668,22 +668,33 @@ static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
+>  	}
+>  }
 >  
->  void cal_ctx_start(struct cal_ctx *ctx)
->  {
-> -	ctx->sequence = 0;
-> +	struct cal_camerarx *phy = ctx->phy;
-> +
-> +	/*
-> +	 * Reset the frame number & sequence number, but only if the
-> +	 * virtual channel is not already in use.
-> +	 */
-> +
-> +	spin_lock(&phy->vc_lock);
-> +
-> +	if (phy->vc_enable_count[ctx->vc]++ == 0) {
-> +		phy->vc_frame_number[ctx->vc] = 0;
-> +		phy->vc_sequence[ctx->vc] = 0;
-> +	}
-> +
-> +	spin_unlock(&phy->vc_lock);
-> +
->  	ctx->dma.state = CAL_DMA_RUNNING;
->  
->  	/* Configure the CSI-2, pixel processing and write DMA contexts. */
-> @@ -516,8 +531,15 @@ void cal_ctx_start(struct cal_ctx *ctx)
->  
->  void cal_ctx_stop(struct cal_ctx *ctx)
->  {
-> +	struct cal_camerarx *phy = ctx->phy;
->  	long timeout;
->  
-> +	WARN_ON(phy->vc_enable_count[ctx->vc] == 0);
-> +
-> +	spin_lock(&phy->vc_lock);
-> +	phy->vc_enable_count[ctx->vc]--;
-> +	spin_unlock(&phy->vc_lock);
-> +
->  	/*
->  	 * Request DMA stop and wait until it completes. If completion times
->  	 * out, forcefully disable the DMA.
-> @@ -554,6 +576,34 @@ void cal_ctx_stop(struct cal_ctx *ctx)
->   * ------------------------------------------------------------------
->   */
->  
-> +/*
-> + * Track a sequence number for each virtual channel, which is shared by
-> + * all contexts using the same virtual channel. This is done using the
-> + * CSI-2 frame number as a base.
-> + */
-> +static void cal_update_seq_number(struct cal_ctx *ctx)
+> +static void cal_irq_handle_wdma(struct cal_ctx *ctx, bool start, bool end)
 > +{
-> +	struct cal_dev *cal = ctx->cal;
-> +	struct cal_camerarx *phy = ctx->phy;
-> +	u16 prev_frame_num, frame_num;
-> +	u8 vc = ctx->vc;
+> +	if (end)
+> +		cal_irq_wdma_end(ctx);
 > +
-> +	frame_num =
-> +		cal_read(cal, CAL_CSI2_STATUS(phy->instance, ctx->csi2_ctx)) &
-> +		0xffff;
-> +
-> +	if (phy->vc_frame_number[vc] != frame_num) {
-> +		prev_frame_num = phy->vc_frame_number[vc];
-> +
-> +		if (prev_frame_num >= frame_num)
-> +			phy->vc_sequence[vc] += 1;
-> +		else
-> +			phy->vc_sequence[vc] += frame_num - prev_frame_num;
-> +
-> +		phy->vc_frame_number[vc] = frame_num;
-> +	}
+> +	if (start)
+> +		cal_irq_wdma_start(ctx);
 > +}
 > +
->  static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
+>  static irqreturn_t cal_irq(int irq_cal, void *data)
 >  {
->  	spin_lock(&ctx->dma.lock);
-> @@ -584,6 +634,8 @@ static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
+>  	struct cal_dev *cal = data;
+> -	u32 status;
+> -
+> -	status = cal_read(cal, CAL_HL_IRQSTATUS(0));
+> -	if (status) {
+> -		unsigned int i;
+> +	u32 status[3];
+> +	unsigned int i;
+>  
+> -		cal_write(cal, CAL_HL_IRQSTATUS(0), status);
+> +	for (i = 0; i < 3; ++i) {
+> +		status[i] = cal_read(cal, CAL_HL_IRQSTATUS(i));
+> +		if (status[i])
+> +			cal_write(cal, CAL_HL_IRQSTATUS(i), status[i]);
+> +	}
+>  
+> -		if (status & CAL_HL_IRQ_OCPO_ERR_MASK)
+> +	if (status[0]) {
+> +		if (status[0] & CAL_HL_IRQ_OCPO_ERR_MASK)
+>  			dev_err_ratelimited(cal->dev, "OCPO ERROR\n");
+>  
+>  		for (i = 0; i < cal->data->num_csi2_phy; ++i) {
+> -			if (status & CAL_HL_IRQ_CIO_MASK(i)) {
+> +			if (status[0] & CAL_HL_IRQ_CIO_MASK(i)) {
+>  				u32 cio_stat = cal_read(cal,
+>  							CAL_CSI2_COMPLEXIO_IRQSTATUS(i));
+>  
+> @@ -694,7 +705,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
+>  					  cio_stat);
+>  			}
+>  
+> -			if (status & CAL_HL_IRQ_VC_MASK(i)) {
+> +			if (status[0] & CAL_HL_IRQ_VC_MASK(i)) {
+>  				u32 vc_stat = cal_read(cal, CAL_CSI2_VC_IRQSTATUS(i));
+>  
+>  				dev_err_ratelimited(cal->dev,
+> @@ -706,32 +717,12 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
+>  		}
 >  	}
 >  
->  	spin_unlock(&ctx->dma.lock);
-> +
-> +	cal_update_seq_number(ctx);
->  }
+> -	/* Check which DMA just finished */
+> -	status = cal_read(cal, CAL_HL_IRQSTATUS(1));
+> -	if (status) {
+> -		unsigned int i;
+> -
+> -		/* Clear Interrupt status */
+> -		cal_write(cal, CAL_HL_IRQSTATUS(1), status);
+> -
+> -		for (i = 0; i < cal->num_contexts; ++i) {
+> -			if (status & CAL_HL_IRQ_WDMA_END_MASK(i))
+> -				cal_irq_wdma_end(cal->ctx[i]);
+> -		}
+> -	}
+> -
+> -	/* Check which DMA just started */
+> -	status = cal_read(cal, CAL_HL_IRQSTATUS(2));
+> -	if (status) {
+> -		unsigned int i;
+> -
+> -		/* Clear Interrupt status */
+> -		cal_write(cal, CAL_HL_IRQSTATUS(2), status);
+> +	for (i = 0; i < cal->num_contexts; ++i) {
+> +		bool end = !!(status[1] & CAL_HL_IRQ_WDMA_END_MASK(i));
+> +		bool start = !!(status[2] & CAL_HL_IRQ_WDMA_START_MASK(i));
 >  
->  static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
-> @@ -610,7 +662,8 @@ static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
->  	if (buf) {
->  		buf->vb.vb2_buf.timestamp = ktime_get_ns();
->  		buf->vb.field = ctx->v_fmt.fmt.pix.field;
-> -		buf->vb.sequence = ctx->sequence++;
-> +		buf->vb.sequence = ctx->phy->vc_sequence[ctx->vc];
-> +
->  		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+> -		for (i = 0; i < cal->num_contexts; ++i) {
+> -			if (status & CAL_HL_IRQ_WDMA_START_MASK(i))
+> -				cal_irq_wdma_start(cal->ctx[i]);
+> -		}
+> +		if (start || end)
+> +			cal_irq_handle_wdma(cal->ctx[i], start, end);
 >  	}
->  }
-> diff --git a/drivers/media/platform/ti/cal/cal.h b/drivers/media/platform/ti/cal/cal.h
-> index 527e22d022f3..dfb628cd3bdd 100644
-> --- a/drivers/media/platform/ti/cal/cal.h
-> +++ b/drivers/media/platform/ti/cal/cal.h
-> @@ -180,6 +180,12 @@ struct cal_camerarx {
->  	struct media_pad	pads[CAL_CAMERARX_NUM_PADS];
->  	struct v4l2_mbus_framefmt	formats[CAL_CAMERARX_NUM_PADS];
 >  
-> +	/* protects the vc_* fields below */
-> +	spinlock_t		vc_lock;
-> +	u8			vc_enable_count[4];
-> +	u16			vc_frame_number[4];
-> +	u32			vc_sequence[4];
-> +
->  	/*
->  	 * Lock for camerarx ops. Protects:
->  	 * - formats
-> @@ -242,7 +248,6 @@ struct cal_ctx {
->  	const struct cal_format_info	**active_fmt;
->  	unsigned int		num_active_fmt;
->  
-> -	unsigned int		sequence;
->  	struct vb2_queue	vb_vidq;
->  	u8			dma_ctx;
->  	u8			cport;
+>  	return IRQ_HANDLED;
 
 -- 
 Regards,
