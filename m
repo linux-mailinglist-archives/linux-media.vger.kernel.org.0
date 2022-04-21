@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EC7E50A282
-	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 16:31:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3001950A27F
+	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 16:31:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1389293AbiDUOdN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 10:33:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36878 "EHLO
+        id S1388983AbiDUOdM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Apr 2022 10:33:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1389503AbiDUOcc (ORCPT
+        with ESMTP id S1389504AbiDUOcc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 21 Apr 2022 10:32:32 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0B5403F8
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E323F403FA
         for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 07:29:37 -0700 (PDT)
 Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BF76501;
-        Thu, 21 Apr 2022 16:29:32 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 78421596;
+        Thu, 21 Apr 2022 16:29:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1650551373;
-        bh=yA2Tz0nLoqGWfk6Llss6oy1f/zOKDDTOFHM3Rm8CEmc=;
+        s=mail; t=1650551374;
+        bh=0YgJ0Dy/guc+kcySl2jTm7J2iS+DhFP4Odk7aUHj0jg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EMZDPeuuPjSJr1IUPBr3lJNs73nn6Bl4o3EylzRYwPOQuaowNblzaGB3I5ABhPJBj
-         56rUwtQ4Opj3MlbzOLlGeTeFdwBQkujMjMeSgfJq0+bIqNowJFrS3K9I4CQjM88nOA
-         R1lzTLollogilzrm2HZ00gnPJZawv/+00iGOZqHk=
+        b=B7SDQ8Ck1IwIE8czOUevfjC3802eCFPUKPH7EJ6xmQnvegmxCB28ePTdng0uzxE8T
+         jZuLUKPudZnj9s/uphbJZEM1rmfD9YCyTmhacVEH8s6yTNKii459dKBC/XYoh/M9S0
+         kYUmRwS9RiOf6l8lpHztc9KbmBt3Ekcnljrh6G7E=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -34,14 +34,13 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>, satish.nagireddy@getcruise.com
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 2/3] media: Add CSI-2 bus configuration to frame descriptors
-Date:   Thu, 21 Apr 2022 17:29:05 +0300
-Message-Id: <20220421142906.527918-3-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 3/3] media: ti: cal: use frame desc to get vc and dt
+Date:   Thu, 21 Apr 2022 17:29:06 +0300
+Message-Id: <20220421142906.527918-4-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220421142906.527918-1-tomi.valkeinen@ideasonboard.com>
 References: <20220421142906.527918-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
@@ -52,60 +51,148 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+Use get_frame_desc() to get the frame desc from the connected source,
+and use the provided virtual channel and datatype instead of hardcoded
+ones.
 
-Add CSI-2 bus specific configuration to the frame descriptors. This allows
-obtaining the virtual channel and data type information for each stream
-the transmitter is sending.
+get_frame_desc() can contain multiple streams, but as we don't support
+multiple streams yet, we will just always use the first stream.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+If the source doesn't support get_frame_desc(), fall back to the
+previous method of always capturing virtual channel 0 and any datatype.
+
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- include/media/v4l2-subdev.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/media/platform/ti/cal/cal-camerarx.c | 27 ++++++++++
+ drivers/media/platform/ti/cal/cal.c          | 52 +++++++++++++++++++-
+ drivers/media/platform/ti/cal/cal.h          |  2 +
+ 3 files changed, 79 insertions(+), 2 deletions(-)
 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 16d6559f81ed..e6b24bbdd6b6 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -312,6 +312,17 @@ struct v4l2_subdev_audio_ops {
- 	int (*s_stream)(struct v4l2_subdev *sd, int enable);
- };
+diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
+index 6b43a1525b45..e69fed117fea 100644
+--- a/drivers/media/platform/ti/cal/cal-camerarx.c
++++ b/drivers/media/platform/ti/cal/cal-camerarx.c
+@@ -583,6 +583,33 @@ static int cal_camerarx_parse_dt(struct cal_camerarx *phy)
+ 	return ret;
+ }
  
-+/**
-+ * struct v4l2_mbus_frame_desc_entry_csi2
-+ *
-+ * @vc: CSI-2 virtual channel
-+ * @dt: CSI-2 data type ID
-+ */
-+struct v4l2_mbus_frame_desc_entry_csi2 {
-+	u8 vc;
-+	u8 dt;
-+};
++int cal_camerarx_get_remote_frame_desc(struct cal_camerarx *phy,
++				       struct v4l2_mbus_frame_desc *desc)
++{
++	struct media_pad *pad;
++	int ret;
 +
- /**
-  * enum v4l2_mbus_frame_desc_flags - media bus frame description flags
-  *
-@@ -335,11 +346,16 @@ enum v4l2_mbus_frame_desc_flags {
-  *		%FRAME_DESC_FL_BLOB is not set.
-  * @length:	number of octets per frame, valid if @flags
-  *		%V4L2_MBUS_FRAME_DESC_FL_LEN_MAX is set.
-+ * @bus:	Bus-specific frame descriptor parameters
-+ * @bus.csi2:	CSI-2-specific bus configuration
-  */
- struct v4l2_mbus_frame_desc_entry {
- 	enum v4l2_mbus_frame_desc_flags flags;
- 	u32 pixelcode;
- 	u32 length;
-+	union {
-+		struct v4l2_mbus_frame_desc_entry_csi2 csi2;
-+	} bus;
- };
++	if (!phy->source)
++		return -EPIPE;
++
++	pad = media_entity_remote_pad(&phy->pads[CAL_CAMERARX_PAD_SINK]);
++	if (!pad)
++		return -EPIPE;
++
++	ret = v4l2_subdev_call(phy->source, pad, get_frame_desc, pad->index,
++			       desc);
++	if (ret)
++		return ret;
++
++	if (desc->type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
++		dev_err(phy->cal->dev,
++			"Frame descriptor does not describe CSI-2 link");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ /* ------------------------------------------------------------------
+  *	V4L2 Subdev Operations
+  * ------------------------------------------------------------------
+diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
+index 4a4a6c5983f7..a93f98ee76bb 100644
+--- a/drivers/media/platform/ti/cal/cal.c
++++ b/drivers/media/platform/ti/cal/cal.c
+@@ -469,10 +469,60 @@ static bool cal_ctx_wr_dma_stopped(struct cal_ctx *ctx)
+ 	return stopped;
+ }
  
- #define V4L2_FRAME_DESC_ENTRY_MAX	4
++static int
++cal_get_remote_frame_desc_entry(struct cal_camerarx *phy,
++				struct v4l2_mbus_frame_desc_entry *entry)
++{
++	struct v4l2_mbus_frame_desc fd;
++	int ret;
++
++	ret = cal_camerarx_get_remote_frame_desc(phy, &fd);
++	if (ret) {
++		if (ret != -ENOIOCTLCMD)
++			dev_err(phy->cal->dev,
++				"Failed to get remote frame desc: %d\n", ret);
++		return ret;
++	}
++
++	if (fd.num_entries == 0) {
++		dev_err(phy->cal->dev,
++			"No streams found in the remote frame descriptor\n");
++
++		return -ENODEV;
++	}
++
++	if (fd.num_entries != 1) {
++		dev_err(phy->cal->dev,
++			"Multiple streams not supported in remote frame descriptor\n");
++
++		return -ENODEV;
++	}
++
++	*entry = fd.entry[0];
++
++	return 0;
++}
++
+ int cal_ctx_prepare(struct cal_ctx *ctx)
+ {
++	struct v4l2_mbus_frame_desc_entry entry;
+ 	int ret;
+ 
++	ret = cal_get_remote_frame_desc_entry(ctx->phy, &entry);
++
++	if (ret == -ENOIOCTLCMD) {
++		ctx->vc = 0;
++		ctx->datatype = CAL_CSI2_CTX_DT_ANY;
++	} else if (!ret) {
++		ctx_dbg(2, ctx, "Framedesc: len %u, vc %u, dt %#x\n",
++			entry.length, entry.bus.csi2.vc, entry.bus.csi2.dt);
++
++		ctx->vc = entry.bus.csi2.vc;
++		ctx->datatype = entry.bus.csi2.dt;
++	} else {
++		return ret;
++	}
++
+ 	ctx->use_pix_proc = !ctx->fmtinfo->meta;
+ 
+ 	if (ctx->use_pix_proc) {
+@@ -936,8 +986,6 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
+ 	ctx->dma_ctx = inst;
+ 	ctx->csi2_ctx = inst;
+ 	ctx->cport = inst;
+-	ctx->vc = 0;
+-	ctx->datatype = CAL_CSI2_CTX_DT_ANY;
+ 
+ 	ret = cal_ctx_v4l2_init(ctx);
+ 	if (ret)
+diff --git a/drivers/media/platform/ti/cal/cal.h b/drivers/media/platform/ti/cal/cal.h
+index 527e22d022f3..61409ddced98 100644
+--- a/drivers/media/platform/ti/cal/cal.h
++++ b/drivers/media/platform/ti/cal/cal.h
+@@ -323,6 +323,8 @@ const struct cal_format_info *cal_format_by_code(u32 code);
+ 
+ void cal_quickdump_regs(struct cal_dev *cal);
+ 
++int cal_camerarx_get_remote_frame_desc(struct cal_camerarx *phy,
++				       struct v4l2_mbus_frame_desc *desc);
+ void cal_camerarx_disable(struct cal_camerarx *phy);
+ void cal_camerarx_i913_errata(struct cal_camerarx *phy);
+ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
 -- 
 2.25.1
 
