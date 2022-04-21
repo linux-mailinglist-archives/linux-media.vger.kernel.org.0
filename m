@@ -2,44 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E88E509DB2
-	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 12:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB965509DC5
+	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 12:38:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238291AbiDUKdK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 06:33:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55690 "EHLO
+        id S1388462AbiDUKkx convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 21 Apr 2022 06:40:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235786AbiDUKdJ (ORCPT
+        with ESMTP id S1388461AbiDUKkw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Apr 2022 06:33:09 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B145237CE
-        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 03:30:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 25A3AB823E5
-        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 10:30:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28C11C385A5;
-        Thu, 21 Apr 2022 10:30:16 +0000 (UTC)
-Message-ID: <bf945836-a7fb-a67f-1f89-e5cc85fec808@xs4all.nl>
-Date:   Thu, 21 Apr 2022 12:30:15 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 6/7] media: coda: enable capture G_PARM for stateful
- encoder
-Content-Language: en-US
-To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+        Thu, 21 Apr 2022 06:40:52 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21B6225C7E
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 03:38:03 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1nhUCH-0000Qa-Hh; Thu, 21 Apr 2022 12:38:01 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1nhUCI-004LGj-5H; Thu, 21 Apr 2022 12:38:00 +0200
+Received: from pza by lupine with local (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1nhUCG-0007Jo-6i; Thu, 21 Apr 2022 12:38:00 +0200
+Message-ID: <4ddc131113b41bf8427d0b316b70335578971ff4.camel@pengutronix.de>
+Subject: Re: [PATCH 5/7] media: coda: fix default JPEG colorimetry
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de
+Date:   Thu, 21 Apr 2022 12:38:00 +0200
+In-Reply-To: <0f5d9c16-860b-015f-8028-234d2fb96959@xs4all.nl>
 References: <20220404163533.707508-1-p.zabel@pengutronix.de>
- <20220404163533.707508-6-p.zabel@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220404163533.707508-6-p.zabel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-9.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+         <20220404163533.707508-5-p.zabel@pengutronix.de>
+         <0f5d9c16-860b-015f-8028-234d2fb96959@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.38.3-1 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,71 +53,123 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
-
-On 04/04/2022 18:35, Philipp Zabel wrote:
-> Allow to call G_PARM with type == V4L2_BUF_TYPE_VIDEO_CAPTURE,
-> to fix the following v4l2-compliance test failure:
+On Do, 2022-04-21 at 12:02 +0200, Hans Verkuil wrote:
+> Hi Philipp,
 > 
-> 		fail: v4l2-test-formats.cpp(1344): ret && node->has_frmintervals
-> 	test VIDIOC_G/S_PARM: FAIL
+> On 04/04/2022 18:35, Philipp Zabel wrote:
+> > Set default colorspace to SRGB for JPEG encoder and decoder devices,
+> > to fix the following v4l2-compliance test failure:
+> > 
+> > 	test VIDIOC_TRY_FMT: OK
+> > 		fail: v4l2-test-formats.cpp(818): fmt_raw.g_colorspace() != V4L2_COLORSPACE_SRGB
+> > 
+> > Also explicitly set transfer function, YCbCr encoding and quantization
+> > range, as required by v4l2-compliance for the JPEG encoded side.
 > 
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
->  drivers/media/platform/chips-media/coda-common.c | 3 ---
->  1 file changed, 3 deletions(-)
+> I'm not quite sure if this patch addresses the correct issue.
 > 
-> diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
-> index c068c16d1eb4..33fcd8c7d72b 100644
-> --- a/drivers/media/platform/chips-media/coda-common.c
-> +++ b/drivers/media/platform/chips-media/coda-common.c
-> @@ -1341,9 +1341,6 @@ static int coda_g_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
->  	struct coda_ctx *ctx = fh_to_ctx(fh);
->  	struct v4l2_fract *tpf;
->  
-> -	if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
-> -		return -EINVAL;
-> -
->  	a->parm.output.capability = V4L2_CAP_TIMEPERFRAME;
->  	tpf = &a->parm.output.timeperframe;
->  	tpf->denominator = ctx->params.framerate & CODA_FRATE_RES_MASK;
+> > 
+> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > ---
+> >  .../media/platform/chips-media/coda-common.c  | 36 +++++++++++++------
+> >  1 file changed, 25 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
+> > index 4a7346ed771e..c068c16d1eb4 100644
+> > --- a/drivers/media/platform/chips-media/coda-common.c
+> > +++ b/drivers/media/platform/chips-media/coda-common.c
+> > @@ -732,13 +732,22 @@ static int coda_try_fmt_vid_cap(struct file *file, void *priv,
+> >  	return 0;
+> >  }
+> >  
+> > 
+> > 
+> > 
+> > -static void coda_set_default_colorspace(struct v4l2_pix_format *fmt)
+> > +static void coda_set_default_colorspace(struct coda_ctx *ctx,
+> > +					struct v4l2_pix_format *fmt)
+> >  {
+> >  	enum v4l2_colorspace colorspace;
+> >  
+> > 
+> > 
+> > 
+> > -	if (fmt->pixelformat == V4L2_PIX_FMT_JPEG)
+> > -		colorspace = V4L2_COLORSPACE_JPEG;
+> 
+> It's perfectly fine to keep this, the problem occurs with the raw image side
+> (capture for the decoder, output for the encoder).
+> 
+> There the colorspace must be SRGB, the xfer_func may be 0 or SRGB, and the
+> ycbcr_enc is 0 (if not a YUV pixelformat) or ENC_601 (if it is a YUV format).
+> Actually, if the hardware can convert from other YUV encodings such as 709,
+> then other YUV encodings are valid, but I assume that's not the case.
 
-I think this is actually a v4l2-compliance bug, not a driver bug.
+So the driver has to support different colorspace on output and capture
+queues?
 
-G/S_PARM doesn't make sense for the capture queue of a stateful encoder, unless
-V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL is set to reserve HW resources.
+> > -	else if (fmt->width <= 720 && fmt->height <= 576)
+> > +	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG ||
+> > +	    ctx->cvd->dst_formats[0] == V4L2_PIX_FMT_JPEG ||
+> > +	    fmt->pixelformat == V4L2_PIX_FMT_JPEG) {
+> > +		fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> > +		fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
+> > +		fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
+> > +		fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > +		return;
+> > +	}
+> > +
+> > +	if (fmt->width <= 720 && fmt->height <= 576)
+> >  		colorspace = V4L2_COLORSPACE_SMPTE170M;
+> >  	else
+> >  		colorspace = V4L2_COLORSPACE_REC709;
+> > @@ -763,7 +772,7 @@ static int coda_try_fmt_vid_out(struct file *file, void *priv,
+> >  		return ret;
+> >  
+> > 
+> > 
+> > 
+> >  	if (f->fmt.pix.colorspace == V4L2_COLORSPACE_DEFAULT)
+> > -		coda_set_default_colorspace(&f->fmt.pix);
+> > +		coda_set_default_colorspace(ctx, &f->fmt.pix);
+> >  
+> > 
+> > 
+> > 
+> >  	q_data_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> >  	codec = coda_find_codec(dev, f->fmt.pix.pixelformat, q_data_dst->fourcc);
+> > @@ -1640,13 +1649,18 @@ static void set_default_params(struct coda_ctx *ctx)
+> >  	csize = coda_estimate_sizeimage(ctx, usize, max_w, max_h);
+> >  
+> > 
+> > 
+> > 
+> >  	ctx->params.codec_mode = ctx->codec->mode;
+> > -	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG)
+> > -		ctx->colorspace = V4L2_COLORSPACE_JPEG;
+> > -	else
+> > +	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG ||
+> > +	    ctx->cvd->dst_formats[0] == V4L2_PIX_FMT_JPEG) {
+> > +		ctx->colorspace = V4L2_COLORSPACE_SRGB;
+> > +		ctx->xfer_func = V4L2_XFER_FUNC_SRGB;
+> > +		ctx->ycbcr_enc = V4L2_YCBCR_ENC_601;
+> > +		ctx->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > +	} else {
+> >  		ctx->colorspace = V4L2_COLORSPACE_REC709;
+> 
+> My guess is that the raw format colorspace is set to REC709, which is definitely
+> wrong for a JPEG codec. For a JPEG codec that must be set to SRGB.
+> 
+> I suspect that's the real bug here.
+> 
+> I'm skipping this patch for now.
 
-See https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/vidioc-enum-fmt.html#fmtdesc-flags
+Thank you, I think at least for the decoder the issue was that the
+driver defaulted to V4L2_COLORSPACE_JPEG, but since ctx->colorspace is
+used for both sides, that would also be used as colorspace for the raw
+image side. For the encoder it looks like you are right.
 
-That flags isn't used, so v4l2-compliance shouldn't complain.
+I'll double check.
 
-Try this v4l2-compliance patch to see if it resolved the fails for this patch
-and the next patch (7/7).
-
-v4l2-compliance patch:
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
-index 3761b1fa..269a3832 100644
---- a/utils/v4l2-compliance/v4l2-test-formats.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
-@@ -1341,8 +1341,16 @@ static int testParmType(struct node *node, unsigned type)
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
- 		if (node->g_caps() & buftype2cap[type]) {
--			fail_on_test(ret && node->has_frmintervals);
--			fail_on_test(ret && node->has_enc_cap_frame_interval);
-+			if (is_stateful_enc) {
-+				if (V4L2_TYPE_IS_OUTPUT(type))
-+					fail_on_test(ret && node->has_frmintervals);
-+				else if (node->has_enc_cap_frame_interval)
-+					fail_on_test(ret);
-+				else
-+					fail_on_test(!ret);
-+			} else {
-+				fail_on_test(ret && node->has_frmintervals);
-+			}
- 		}
- 		break;
- 	default:
+regards
+Philipp
