@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A97D9509B55
-	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 10:57:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFED8509B9F
+	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 11:08:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387034AbiDUJAS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 05:00:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38784 "EHLO
+        id S1387270AbiDUJJx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Apr 2022 05:09:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240936AbiDUJAR (ORCPT
+        with ESMTP id S1387266AbiDUJJw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Apr 2022 05:00:17 -0400
+        Thu, 21 Apr 2022 05:09:52 -0400
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C3820F63;
-        Thu, 21 Apr 2022 01:57:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34F8A13F80;
+        Thu, 21 Apr 2022 02:07:03 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id E0FDD21115;
-        Thu, 21 Apr 2022 08:57:27 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id CBC07210DC;
+        Thu, 21 Apr 2022 09:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1650531447; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1650532021; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=DQMRNyatEv4p5zjM9nOpXv5bZbFECSBRChsvwSeN8TY=;
-        b=KC387zdqv9GlxNilFfiJ5WGcPRWh+SqtFGuRBcJCykmwIX4r9SmlkPirVNPmzMK9McxUsQ
-        EmBW6J/lKZK8JTwZ5tex9lWdUlynNKSC98oPDWeUukIkR4Phs/17hUdS759/iIsdiqH532
-        cMZGMHdAfnIBNsJQ8bN62U5lK//dAPs=
+        bh=OS/VR6GfiJTG1H0XoC9LyXhebkbunusT7zHO9RtN9+I=;
+        b=rLh0CVu1uCteslNToqZszYYDKk+ShASvH6rvGUUHGR7Id2C4xyuOcX/Fy/5489qC3I10HZ
+        4gqZkWcAXoLgqZx6lG9inHgidJAZZLbLz33QdOJxA8SpzQGh+JCsuTP3Lc9W+2B4CpIkqn
+        vxntCvTajZ+AB0BwKheP46IPwCpqU0M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1650531447;
+        s=susede2_ed25519; t=1650532021;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=DQMRNyatEv4p5zjM9nOpXv5bZbFECSBRChsvwSeN8TY=;
-        b=tWqnZ9HCUUWa5pUrAySTs91wkXeoT9bfCM31bQLCVMcFGcPpwLrZPm/9hqiASuf9KONPsh
-        oW4EdK5+Bjo+pPDg==
+        bh=OS/VR6GfiJTG1H0XoC9LyXhebkbunusT7zHO9RtN9+I=;
+        b=WSTVJK4hXe0Ok1qNJO3hGZ2dZ6AeFTe85w9kOm21TMs6SJJEQvY1kDqDgvdRrgu6Dqnlxz
+        PCcC6LYmCCQfJOBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AC07713446;
-        Thu, 21 Apr 2022 08:57:27 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 93E6113446;
+        Thu, 21 Apr 2022 09:07:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id ycvaKHccYWJLNwAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 21 Apr 2022 08:57:27 +0000
-Message-ID: <408884e9-f462-b0e4-9ddc-88111d13c84d@suse.de>
-Date:   Thu, 21 Apr 2022 10:57:27 +0200
+        id JNIfI7UeYWKFOwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 21 Apr 2022 09:07:01 +0000
+Message-ID: <ab2d7181-b125-e6fc-fc48-427c0d94ade9@suse.de>
+Date:   Thu, 21 Apr 2022 11:07:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
@@ -71,7 +71,7 @@ From:   Thomas Zimmermann <tzimmermann@suse.de>
 In-Reply-To: <b34fa2a5-58b4-6270-2d19-2ad591e3e250@amd.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------7VdpEByIe2aE28cDYy6CuHaZ"
+ boundary="------------N2T6yIUS8Dcm4LrvKJgazcgZ"
 X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -82,8 +82,8 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------7VdpEByIe2aE28cDYy6CuHaZ
-Content-Type: multipart/mixed; boundary="------------XPvcyx2WwfroujAdNHDrBaAE";
+--------------N2T6yIUS8Dcm4LrvKJgazcgZ
+Content-Type: multipart/mixed; boundary="------------MW6Apu97NdqqZiSyxMK7yKiV";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
@@ -93,7 +93,7 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Message-ID: <408884e9-f462-b0e4-9ddc-88111d13c84d@suse.de>
+Message-ID: <ab2d7181-b125-e6fc-fc48-427c0d94ade9@suse.de>
 Subject: Re: [PATCH 2/2] drm/nvdla: Add driver support for NVDLA
 References: <20220419135908.39606-1-cai.huoqing@linux.dev>
  <20220419135908.39606-3-cai.huoqing@linux.dev>
@@ -101,29 +101,30 @@ References: <20220419135908.39606-1-cai.huoqing@linux.dev>
  <b34fa2a5-58b4-6270-2d19-2ad591e3e250@amd.com>
 In-Reply-To: <b34fa2a5-58b4-6270-2d19-2ad591e3e250@amd.com>
 
---------------XPvcyx2WwfroujAdNHDrBaAE
+--------------MW6Apu97NdqqZiSyxMK7yKiV
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-SGkNCg0KQW0gMjEuMDQuMjIgdW0gMTA6MzQgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBBbSAyMS4wNC4yMiB1bSAxMDozMCBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOg0KPj4g
-KFJlc2VuZGluZywgYXMgc29tZSBNTHMgZGlkbid0IGxpa2UgdGhlIHNpemUgb2YgdGhlIG9y
-aWduaW5hbCBtYWlsLikNCj4+DQo+PiBIaSwNCj4+DQo+PiB0aGFua3MgZm9yIHlvdXIgc3Vi
-bWlzc2lvbi4gU29tZSBnZW5lcmFsIGNvbW1lbnRzOg0KPj4NCj4+IMKgICogc29tZSBmdW5j
-dGlvbnMgYXJlIHByZWZpeGVkIHdpdGggZGxhXywgb3RoZXJzIHVzZSBudmRsYV8uIEl0IHNl
-ZW1zIA0KPj4gYXJiaXRyYXJ5IHRvIG1lLiBQbGVhc2UgdXNlIG52ZGxhXyBjb25zaXN0ZW50
-bHkgdGhyb3VnaG91dCB0aGUgc291cmNlIA0KPj4gY29kZS4NCj4+DQo+PiDCoCAqIEZvciBy
-ZXBvcnRpbmcgZXJyb3JzLCBwbGVhc2UgdXNlIGRybV9lcnIoKSwgZHJtX3dhcm4oKSwgZXRj
-LiBJIA0KPj4gc3VnZ2VzdCB0byByZWFycmFuZ2UgdGhlIGVycm9yIG1lc3NhZ2VzIHRvIG5v
-dCBiZSBsb2NhdGVkIGluIHRoZSANCj4+IGlubmVybW9zdCBmdW5jdGlvbnMuDQo+IA0KPiBJ
-ZiB5b3UgcGxhbiB0byBoYXZlIG11bHRpcGxlIGluc3RhbmNlcyBvZiB0aGUgZHJpdmVyIGxv
-YWRlZCBhdCB0aGUgc2FtZSANCj4gdGltZSwgdXNpbmcgZHJtX2Rldl9lcnIoKSwgZHJtX2Rl
-dl93YXJuKCkgZXRjLi4gd291bGQgYmUgZXZlbiBiZXR0ZXIuDQoNCkkgdGhpbmsgdGhhdCdz
-IHdoYXQgSSBtZWFuLiBUaGFua3MgZm9yIHBvaW50aW5nIHRoaXMgb3V0Lg0KDQpCZXN0IHJl
-Z2FyZHMNClRob21hcw0KDQo+IA0KPiBCVFc6IEknbSBzdGlsbCBhYnNvbHV0ZWx5IG5vdCBr
-ZWVuIHRvIGVuZm9yY2luZyBkcm1fKiBsb2cgZnVuY3Rpb25zLiBTbyANCj4gaWYgeW91IHBy
-ZWZlciB0byBzdGljayB3aXRoIHByX2VycigpIGFuZCBkZXZfZXJyKCkgd2UgY291bGQgZGlz
-Y3VzcyB0aGF0IA0KPiBvbmNlIG1vcmUuDQo+IA0KPiBSZWdhcmRzLA0KPiBDaHJpc3RpYW4u
+DQoNCkFtIDIxLjA0LjIyIHVtIDEwOjM0IHNjaHJpZWIgQ2hyaXN0aWFuIEvDtm5pZzoNCj4g
+QW0gMjEuMDQuMjIgdW0gMTA6MzAgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoNCj4+IChS
+ZXNlbmRpbmcsIGFzIHNvbWUgTUxzIGRpZG4ndCBsaWtlIHRoZSBzaXplIG9mIHRoZSBvcmln
+bmluYWwgbWFpbC4pDQo+Pg0KPj4gSGksDQo+Pg0KPj4gdGhhbmtzIGZvciB5b3VyIHN1Ym1p
+c3Npb24uIFNvbWUgZ2VuZXJhbCBjb21tZW50czoNCj4+DQo+PiDCoCAqIHNvbWUgZnVuY3Rp
+b25zIGFyZSBwcmVmaXhlZCB3aXRoIGRsYV8sIG90aGVycyB1c2UgbnZkbGFfLiBJdCBzZWVt
+cyANCj4+IGFyYml0cmFyeSB0byBtZS4gUGxlYXNlIHVzZSBudmRsYV8gY29uc2lzdGVudGx5
+IHRocm91Z2hvdXQgdGhlIHNvdXJjZSANCj4+IGNvZGUuDQo+Pg0KPj4gwqAgKiBGb3IgcmVw
+b3J0aW5nIGVycm9ycywgcGxlYXNlIHVzZSBkcm1fZXJyKCksIGRybV93YXJuKCksIGV0Yy4g
+SSANCj4+IHN1Z2dlc3QgdG8gcmVhcnJhbmdlIHRoZSBlcnJvciBtZXNzYWdlcyB0byBub3Qg
+YmUgbG9jYXRlZCBpbiB0aGUgDQo+PiBpbm5lcm1vc3QgZnVuY3Rpb25zLg0KPiANCj4gSWYg
+eW91IHBsYW4gdG8gaGF2ZSBtdWx0aXBsZSBpbnN0YW5jZXMgb2YgdGhlIGRyaXZlciBsb2Fk
+ZWQgYXQgdGhlIHNhbWUgDQo+IHRpbWUsIHVzaW5nIGRybV9kZXZfZXJyKCksIGRybV9kZXZf
+d2FybigpIGV0Yy4uIHdvdWxkIGJlIGV2ZW4gYmV0dGVyLg0KPiANCj4gQlRXOiBJJ20gc3Rp
+bGwgYWJzb2x1dGVseSBub3Qga2VlbiB0byBlbmZvcmNpbmcgZHJtXyogbG9nIGZ1bmN0aW9u
+cy4gU28gDQo+IGlmIHlvdSBwcmVmZXIgdG8gc3RpY2sgd2l0aCBwcl9lcnIoKSBhbmQgZGV2
+X2VycigpIHdlIGNvdWxkIGRpc2N1c3MgdGhhdCANCj4gb25jZSBtb3JlLg0KDQpJIG9mdGVu
+IGRvICdkbWVzZyB8IGdyZXAgZHJtJyB0byBxdWlja2x5IGxvb2sgZm9yIGVycm9ycy4gTm90
+IHVzaW5nIGRybSANCmxvZ2dpbmcgaGVscGVycyBtYWtlcyB0aGlzIGxlc3MgdXNlZnVsLg0K
+DQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBSZWdhcmRzLA0KPiBDaHJpc3RpYW4u
 DQo+IA0KPj4NCj4+IMKgICogQ291bGQgeW91IHBsZWFzZSBzcGxpdCB0aGlzIHBhdGNoIGlu
 dG8gc21hbGxlciBwaWVjZXM/IEl0IA0KPj4gY3VycmVudGx5IGhpdHMgc2l6ZSBsaW1pdHMg
 b2Ygc29tZSBtYWlsaW5nIGxpc3RzLiBNYXliZSBhZGQgdGhlIA0KPj4gcmVnaXN0ZXIgY29u
@@ -135,27 +136,27 @@ ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
 dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
 ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
---------------XPvcyx2WwfroujAdNHDrBaAE--
+--------------MW6Apu97NdqqZiSyxMK7yKiV--
 
---------------7VdpEByIe2aE28cDYy6CuHaZ
+--------------N2T6yIUS8Dcm4LrvKJgazcgZ
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJhHHcFAwAAAAAACgkQlh/E3EQov+B0
-mRAAiRGFh/gAJekCs+VxLcmXZNglTHZJ2AWjklMzvQxZCbI9//kfToODwIAGhE9sO7f+Kf6tJd+G
-BovBHr0HEsf1cLz0AhPg/DL+d3TZV2tS+jHBFdIt9Qm5LChTA4ARQRGQ3ESt2wnYkVZgJVip7qLH
-xj0kXLNXDnGbKFFZlZm5b0Lc3yj4ZFAKrULw5yH6oHPlmJI+10pQz3NPBr6QSHhC4fmmZF9oSdVc
-SIrthIYg3A5fJ4hOI9L6DU0vmSL1pPhM4ptmp0FB7cLQ/nGQu9aCn/xgMZAn1zA3HguQ+lvE+4TO
-rTNivNVLLZn/KcpKQDEt0NF62uqBREM6eivNQAb05BIb0WP9ikjPieXYmNBzY7OdpQ+Dx/E05Cbj
-OQ/niafHZm01OJWOEhRu2V6ZwbqIE5KegC0sqYnIXnOE6snDYUsvEPtAm4gxGgM0jpEdVHMk1JHW
-6TNP89f/lxV4poaF1vDPhELPxQXSGLKhY36vwvSIM/Bk28pA+sqZAhneO2JMqEG+UZClWPN0M3g0
-CE4kt5+UPb0iSlePtPnIM+vkwtmNWcGbj4OkCFEtfsgThxnK7+ojrTcfjiProKrId7ftvybD77O4
-lCw5z5c2qzwHLpQT+3vjRTvBWWTNC3aYcFS2fyFfDRGiMFbsVRtWUkflyrRtWlruz+g+rbWeAtNt
-4xM=
-=XF9H
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJhHrUFAwAAAAAACgkQlh/E3EQov+A9
+EA/+M1CDH5IqOym52dk60W3n2FvRPzLvtn0OR5TOR8WauG2VLkPvFiZnPBKSXdGaQOzGiO0sO13/
+OZTb+AWD7o3o1ZMHYxUVO4XC//41efhqkB5NIa2nKV9hePmLRLdjeqDHUSPjXVoafD/vrn++gCaV
+hbaLk+wmWQb6GFoBde1p8n+vcqg5YNNLRs8gftSWq4dmTUD7XnCfQ2KOuIlmBynJ9RNd9NOrRTBz
+O1FxSwSQ38pT1D4dtpytjqm3txc0mS5VbYMZvp9laams/rsDEcCCmk8evCX3nq4HGCFUOHYA35w0
+xHws+GTN9ImvKKbApdhyvYYKSmqQRcEfGPHxDQsvn2yyKE/aVjyPeDgz589XbaH9RfvfHL8NumUy
+s4Hia6oW1xf+pR8z1NLy1t/Bl0xn5iydAPhm/9VFfD7MqTokiwhZaFriMcpp5l9r5EUGlW2gxpzR
+HeSibmwWzbdh4/YB3Xv8MZhVXbURU/YHw+XwHIXyJsMjQnPP43QCvtxtrhrnOSTSYMDFlCPsbFM8
+f8B+tQdjTbON9Cev0dA07I5dKIkRWKWuh3N04C+THNTAL8zesnWDq8Sz2zeVJYSO4UXoM+s51CLX
+CYwwnFpnYq+ayYetpSIkbDy2gT5yfm6kqJgpXFH+GWCofwWn7f5y9BGXD/dx/DNAq6nHH3QelsPi
+kUM=
+=jsEe
 -----END PGP SIGNATURE-----
 
---------------7VdpEByIe2aE28cDYy6CuHaZ--
+--------------N2T6yIUS8Dcm4LrvKJgazcgZ--
