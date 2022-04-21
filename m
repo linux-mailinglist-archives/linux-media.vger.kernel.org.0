@@ -2,105 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4B7F509F1F
-	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 13:56:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BD78509FAF
+	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 14:30:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382332AbiDUL7P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 07:59:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42884 "EHLO
+        id S1384622AbiDUMdC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Apr 2022 08:33:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241197AbiDUL7O (ORCPT
+        with ESMTP id S1384600AbiDUMdB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Apr 2022 07:59:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C589B2E690;
-        Thu, 21 Apr 2022 04:56:23 -0700 (PDT)
+        Thu, 21 Apr 2022 08:33:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B627A1A82F
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 05:30:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F7D061BBD;
-        Thu, 21 Apr 2022 11:56:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41798C385A5;
-        Thu, 21 Apr 2022 11:56:21 +0000 (UTC)
-Message-ID: <291b141f-9f58-54c6-0005-fec0a9335dba@xs4all.nl>
-Date:   Thu, 21 Apr 2022 13:56:19 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C50A617EA
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 12:30:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C47D3C385A7;
+        Thu, 21 Apr 2022 12:30:09 +0000 (UTC)
+Message-ID: <b67231da-dcec-f785-02af-da3d5e917127@xs4all.nl>
+Date:   Thu, 21 Apr 2022 14:30:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] media: amphion: fix error check return value of
- debugfs_create_file()
 Content-Language: en-US
-To:     cgel.zte@gmail.com, mchehab@kernel.org
-Cc:     ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lv Ruyi <lv.ruyi@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
-References: <20220419013809.2561635-1-lv.ruyi@zte.com.cn>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220419013809.2561635-1-lv.ruyi@zte.com.cn>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Ming Qian <ming.qian@nxp.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.19] Various fixes/enhancements
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-9.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/04/2022 03:38, cgel.zte@gmail.com wrote:
-> From: Lv Ruyi <lv.ruyi@zte.com.cn>
-> 
-> If an error occurs, debugfs_create_file() will return ERR_PTR(-ERROR),
-> so use IS_ERR() to check it.
+The following changes since commit 3d59142ad94cf60b94b3dc94c19fdafa23aec8b1:
 
-Actually, errors should never be checked for debugfs. See e.g. commit
-1d8f95c497053839be326bd97eb3128e3b3312cb which removed unnecessary checks
-in drivers/media/radio/radio-si476x.c.
+  media: dvb-usb: dib0700_devices: use an enum for the device number (2022-04-18 07:36:44 +0200)
 
-Can you make a v2 that removes all the debugfs checks from this driver?
+are available in the Git repository at:
 
-Regards,
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.19c
 
-	Hans
+for you to fetch changes up to 45673acf786798081b438c57b208ffc1f8391638:
 
-> 
-> Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
-> ---
->  drivers/media/platform/amphion/vpu_dbg.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
-> index 376196bea178..5cef1fd41a74 100644
-> --- a/drivers/media/platform/amphion/vpu_dbg.c
-> +++ b/drivers/media/platform/amphion/vpu_dbg.c
-> @@ -413,7 +413,7 @@ int vpu_inst_create_dbgfs_file(struct vpu_inst *inst)
->  					    vpu->debugfs,
->  					    inst,
->  					    &vpu_dbg_inst_fops);
-> -	if (!inst->debugfs) {
-> +	if (IS_ERR(inst->debugfs)) {
->  		dev_err(inst->dev, "vpu create debugfs %s fail\n", name);
->  		return -EINVAL;
->  	}
-> @@ -451,7 +451,7 @@ int vpu_core_create_dbgfs_file(struct vpu_core *core)
->  						    vpu->debugfs,
->  						    core,
->  						    &vpu_dbg_core_fops);
-> -		if (!core->debugfs) {
-> +		if (IS_ERR(core->debugfs)) {
->  			dev_err(core->dev, "vpu create debugfs %s fail\n", name);
->  			return -EINVAL;
->  		}
-> @@ -463,7 +463,7 @@ int vpu_core_create_dbgfs_file(struct vpu_core *core)
->  							  vpu->debugfs,
->  							  core,
->  							  &vpu_dbg_fwlog_fops);
-> -		if (!core->debugfs_fwlog) {
-> +		if (IS_ERR(core->debugfs_fwlog)) {
->  			dev_err(core->dev, "vpu create debugfs %s fail\n", name);
->  			return -EINVAL;
->  		}
+  media: hantro: Empty encoder capture buffers by default (2022-04-21 13:58:56 +0200)
 
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Chen-Yu Tsai (2):
+      media: hantro: Implement support for encoder commands
+      media: hantro: Empty encoder capture buffers by default
+
+Colin Ian King (1):
+      media: platform: samsung: remove redundant assignment to variable m
+
+Kwang Son (1):
+      media: docs: Fix vimc default pipeline graph
+
+Ming Qian (4):
+      media: imx-jpeg: Add pm-sleep support for imx-jpeg
+      media: imx-jpeg: Correct the pixel format of rgb
+      media: imx-jpeg: don't change byteused of queued buffer
+      media: amphion: fix decoder's interlaced field
+
+Nicolas Dufresne (2):
+      media: coda: Fix reported H264 profile
+      media: coda: Add more H264 levels for CODA960
+
+Philipp Zabel (9):
+      media: coda: disable encoder cmd ioctl on decoder and vice versa
+      media: coda: disable encoder ioctls for decoder devices
+      media: coda: disable stateful encoder ioctls for jpeg encoder
+      media: coda: assert bitstream mutex is locked in coda_fill_bitstream
+      media: coda: consolidate job_finish calls on decoder prepare_run failure
+      media: coda: add JPEG downscale support
+      media: coda: jpeg: set buffer error flag when header parsing fails
+      media: coda: jpeg: improve header parse error message
+      media: coda: jpeg: start streaming without valid header
+
+Piotr Oniszczuk (2):
+      media: hantro: Add support for Hantro G1 on RK356x
+      dt-bindings: media: rockchip-vpu: Add RK3568 compatible
+
+Wan Jiabing (1):
+      media: saa7134: simplify if-if to if-else
+
+Yan Lei (1):
+      media: v4l2: fix uninitialized value tuner_status(CWE-457)
+
+Zheyu Ma (2):
+      media: pci: cx23885: Fix the error handling in cx23885_initdev()
+      media: cx25821: Fix the warning when removing the module
+
+ Documentation/admin-guide/media/vimc.dot                  |  14 ++++----
+ Documentation/devicetree/bindings/media/rockchip-vpu.yaml |   1 +
+ drivers/media/pci/cx23885/cx23885-core.c                  |   6 ++--
+ drivers/media/pci/cx25821/cx25821-core.c                  |   2 +-
+ drivers/media/pci/saa7134/saa7134-video.c                 |   3 +-
+ drivers/media/platform/amphion/vdec.c                     |   2 +-
+ drivers/media/platform/chips-media/coda-bit.c             |   4 +--
+ drivers/media/platform/chips-media/coda-common.c          | 118 +++++++++++++++++++++++++++++++++----------------------------
+ drivers/media/platform/chips-media/coda-jpeg.c            |  24 +++++++------
+ drivers/media/platform/chips-media/coda.h                 |   7 ++++
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h         |   4 +--
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c            |  60 +++++++++++++++++++++----------
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h            |   2 +-
+ drivers/media/platform/samsung/s5p-jpeg/jpeg-hw-s5p.c     |   1 -
+ drivers/media/v4l2-core/tuner-core.c                      |   4 +--
+ drivers/staging/media/hantro/hantro_drv.c                 |  18 ++++++++--
+ drivers/staging/media/hantro/hantro_hw.h                  |   1 +
+ drivers/staging/media/hantro/hantro_v4l2.c                |  67 +++++++++++++++++++++++++++++++++--
+ drivers/staging/media/hantro/rockchip_vpu_hw.c            |  14 ++++++++
+ 19 files changed, 241 insertions(+), 111 deletions(-)
