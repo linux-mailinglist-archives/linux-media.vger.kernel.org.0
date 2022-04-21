@@ -2,181 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09663509E3F
-	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 13:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82EAE509E57
+	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 13:13:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1388672AbiDULJz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 07:09:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48466 "EHLO
+        id S1388745AbiDULQT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Apr 2022 07:16:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232010AbiDULJx (ORCPT
+        with ESMTP id S1388755AbiDULQR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Apr 2022 07:09:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 858C7E48
-        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 04:07:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0DC0161B03
-        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 11:07:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0E7BC385A1;
-        Thu, 21 Apr 2022 11:07:01 +0000 (UTC)
-Message-ID: <7baae67d-e5e0-1f6f-d915-4ef5ca5fffd3@xs4all.nl>
-Date:   Thu, 21 Apr 2022 13:06:59 +0200
+        Thu, 21 Apr 2022 07:16:17 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6B5B2E9E6
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 04:13:24 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id g18so9260280ejc.10
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 04:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SUZ3fmbbA3bW+6zlBXPCxl05NBgb1lVxlBnVpWEBW8Y=;
+        b=165sJL8oUoSSjr0w3OKtQLsIzRyJtxgQO7Ej8MD0RONhhe+wZvJoWARDnarA4pE5mW
+         dxDv0NfSmc6XUShEeeSHLi/lcyDpEbgzRQp3UJESdvpkp+HXkemP7mJMWFAADnC6BmiH
+         1yMwmIVTl6zGW5nXLjhvh2ESkuxc6FbbP/+VFTb+EBxfBtso8BTnBMTq4m1nXMvn1/EB
+         o35K8aowKfLNe5bAqe7tJ/jO8DpoApgR5pkX/lTugxb46tgc9moGS69SYERptJgDTRbV
+         Rsi+E8ivE2xlMFgN4vAUEenD8Gp+Kur8tqosOY3liV1O4YkrTvO2+fb8i5qB8uvNFYqO
+         0tZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SUZ3fmbbA3bW+6zlBXPCxl05NBgb1lVxlBnVpWEBW8Y=;
+        b=Si6W0qiB1pYDtl6x9qzZQxMbFx0I3qA+2SXUArT8QncwTeDtUyXqcHyEM3ZUU0UR5k
+         sNvug7umMCc1IwekCwy25B/T0ZW6qeYWEDkw/G3vt12Mz4mWySeZs24wNI477139XGQw
+         K90c2yl5MnQbd63KhG41n/QQZZdCTOdbU6OPc1nuEEwc/BbhJCNLK4zfhferGL5DmU9q
+         /zY+KuEB1LrtoLjHZzGG05hBAEWqEqM8bG2Xx+huQYdhOu58sqJOwxkilLlYMthsaB4y
+         3V2RnjyKq+KAr9w7z6S0rjy1BYy0O6b07Uyi6PdZMo7sVzsBq8WCmEdCbI3aAGvrfoKT
+         n+9w==
+X-Gm-Message-State: AOAM5311deznbMYSHS/pt0YRifJEHVRASiinkd0MV7wE1wACl8glFlfo
+        oOP1DNl/I9RK0OlPKXrt07khBDA69ohGoA0SQA8sSA==
+X-Google-Smtp-Source: ABdhPJwYj4HYIF7yTu7IcNHJEvCknc1WCtKnvOQbaKxO1PFNL7fkQ1E6VSwYW8S5yMxMaQ5lM86zEwR0ovbipUvw0xo=
+X-Received: by 2002:a17:907:2a53:b0:6ce:e4fe:3f92 with SMTP id
+ fe19-20020a1709072a5300b006cee4fe3f92mr22534469ejc.389.1650539603270; Thu, 21
+ Apr 2022 04:13:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 5/7] media: coda: fix default JPEG colorimetry
-Content-Language: en-US
-To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de
-References: <20220404163533.707508-1-p.zabel@pengutronix.de>
- <20220404163533.707508-5-p.zabel@pengutronix.de>
- <0f5d9c16-860b-015f-8028-234d2fb96959@xs4all.nl>
- <4ddc131113b41bf8427d0b316b70335578971ff4.camel@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <4ddc131113b41bf8427d0b316b70335578971ff4.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220214212955.1178947-1-piotr.oniszczuk@gmail.com>
+ <20220214212955.1178947-3-piotr.oniszczuk@gmail.com> <YjcgflUuQlFbVM/1@eze-laptop>
+In-Reply-To: <YjcgflUuQlFbVM/1@eze-laptop>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Thu, 21 Apr 2022 08:13:11 -0300
+Message-ID: <CAAEAJfAh60QB4JvtR8WfsykRit7RqE=XZ290u8jBOQ-7y7+P7g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] dt-bindings: media: rockchip-vpu: Add RK3568 compatible
+To:     Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <Linux-rockchip@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/04/2022 12:38, Philipp Zabel wrote:
-> On Do, 2022-04-21 at 12:02 +0200, Hans Verkuil wrote:
->> Hi Philipp,
->>
->> On 04/04/2022 18:35, Philipp Zabel wrote:
->>> Set default colorspace to SRGB for JPEG encoder and decoder devices,
->>> to fix the following v4l2-compliance test failure:
->>>
->>> 	test VIDIOC_TRY_FMT: OK
->>> 		fail: v4l2-test-formats.cpp(818): fmt_raw.g_colorspace() != V4L2_COLORSPACE_SRGB
->>>
->>> Also explicitly set transfer function, YCbCr encoding and quantization
->>> range, as required by v4l2-compliance for the JPEG encoded side.
->>
->> I'm not quite sure if this patch addresses the correct issue.
->>
->>>
->>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
->>> ---
->>>  .../media/platform/chips-media/coda-common.c  | 36 +++++++++++++------
->>>  1 file changed, 25 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/chips-media/coda-common.c b/drivers/media/platform/chips-media/coda-common.c
->>> index 4a7346ed771e..c068c16d1eb4 100644
->>> --- a/drivers/media/platform/chips-media/coda-common.c
->>> +++ b/drivers/media/platform/chips-media/coda-common.c
->>> @@ -732,13 +732,22 @@ static int coda_try_fmt_vid_cap(struct file *file, void *priv,
->>>  	return 0;
->>>  }
->>>  
->>>
->>>
->>>
->>> -static void coda_set_default_colorspace(struct v4l2_pix_format *fmt)
->>> +static void coda_set_default_colorspace(struct coda_ctx *ctx,
->>> +					struct v4l2_pix_format *fmt)
->>>  {
->>>  	enum v4l2_colorspace colorspace;
->>>  
->>>
->>>
->>>
->>> -	if (fmt->pixelformat == V4L2_PIX_FMT_JPEG)
->>> -		colorspace = V4L2_COLORSPACE_JPEG;
->>
->> It's perfectly fine to keep this, the problem occurs with the raw image side
->> (capture for the decoder, output for the encoder).
->>
->> There the colorspace must be SRGB, the xfer_func may be 0 or SRGB, and the
->> ycbcr_enc is 0 (if not a YUV pixelformat) or ENC_601 (if it is a YUV format).
->> Actually, if the hardware can convert from other YUV encodings such as 709,
->> then other YUV encodings are valid, but I assume that's not the case.
-> 
-> So the driver has to support different colorspace on output and capture
-> queues?
+Hi Hans,
 
-Correct. Note that it is OK to replace COLORSPACE_JPEG by explicit colorspace,
-xfer_func, ycbcr_enc and quantization values, but in reality (almost?) all drivers
-use COLORSPACE_JPEG, and that won't go away. Keeping it will certainly reduce
-the patch size.
+On Sun, Mar 20, 2022 at 9:39 AM Ezequiel Garcia
+<ezequiel@vanguardiasur.com.ar> wrote:
+>
+> Hi Piotr,
+>
+> On Mon, Feb 14, 2022 at 10:29:55PM +0100, Piotr Oniszczuk wrote:
+> > From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+> >
+> > RK356x has Hantro G1 video decoder capable to decode MPEG2/H.264/VP8
+> > video formats.
+> >
+> > This patch adds RK3568 compatible in rockchip-vpu dt-bindings.
+> >
+> > Tested on [1] with FFmpeg v4l2_request code taken from [2]
+> > with MPEG2, H.642 and VP8 samples with results [3].
+> >
+> > [1] https://github.com/warpme/minimyth2
+> > [2] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
+> > [3] https://github.com/warpme/minimyth2/blob/master/video-test-summary.txt
+> >
+> > Signed-off-by: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+>
+> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+>
+> This dt-binding change looks trivial, so I guess it's fine
+> taking it directly via the media tree?
+>
 
-Regards,
+I believe this series is ready for you to review.
 
-	Hans
+Thanks!
+Ezequiel
 
-> 
->>> -	else if (fmt->width <= 720 && fmt->height <= 576)
->>> +	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG ||
->>> +	    ctx->cvd->dst_formats[0] == V4L2_PIX_FMT_JPEG ||
->>> +	    fmt->pixelformat == V4L2_PIX_FMT_JPEG) {
->>> +		fmt->colorspace = V4L2_COLORSPACE_SRGB;
->>> +		fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
->>> +		fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
->>> +		fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
->>> +		return;
->>> +	}
->>> +
->>> +	if (fmt->width <= 720 && fmt->height <= 576)
->>>  		colorspace = V4L2_COLORSPACE_SMPTE170M;
->>>  	else
->>>  		colorspace = V4L2_COLORSPACE_REC709;
->>> @@ -763,7 +772,7 @@ static int coda_try_fmt_vid_out(struct file *file, void *priv,
->>>  		return ret;
->>>  
->>>
->>>
->>>
->>>  	if (f->fmt.pix.colorspace == V4L2_COLORSPACE_DEFAULT)
->>> -		coda_set_default_colorspace(&f->fmt.pix);
->>> +		coda_set_default_colorspace(ctx, &f->fmt.pix);
->>>  
->>>
->>>
->>>
->>>  	q_data_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
->>>  	codec = coda_find_codec(dev, f->fmt.pix.pixelformat, q_data_dst->fourcc);
->>> @@ -1640,13 +1649,18 @@ static void set_default_params(struct coda_ctx *ctx)
->>>  	csize = coda_estimate_sizeimage(ctx, usize, max_w, max_h);
->>>  
->>>
->>>
->>>
->>>  	ctx->params.codec_mode = ctx->codec->mode;
->>> -	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG)
->>> -		ctx->colorspace = V4L2_COLORSPACE_JPEG;
->>> -	else
->>> +	if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_JPEG ||
->>> +	    ctx->cvd->dst_formats[0] == V4L2_PIX_FMT_JPEG) {
->>> +		ctx->colorspace = V4L2_COLORSPACE_SRGB;
->>> +		ctx->xfer_func = V4L2_XFER_FUNC_SRGB;
->>> +		ctx->ycbcr_enc = V4L2_YCBCR_ENC_601;
->>> +		ctx->quantization = V4L2_QUANTIZATION_FULL_RANGE;
->>> +	} else {
->>>  		ctx->colorspace = V4L2_COLORSPACE_REC709;
->>
->> My guess is that the raw format colorspace is set to REC709, which is definitely
->> wrong for a JPEG codec. For a JPEG codec that must be set to SRGB.
->>
->> I suspect that's the real bug here.
->>
->> I'm skipping this patch for now.
-> 
-> Thank you, I think at least for the decoder the issue was that the
-> driver defaulted to V4L2_COLORSPACE_JPEG, but since ctx->colorspace is
-> used for both sides, that would also be used as colorspace for the raw
-> image side. For the encoder it looks like you are right.
-> 
-> I'll double check.
-> 
-> regards
-> Philipp
-
+> Thanks,
+> Ezequiel
+>
+> > ---
+> >  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> > index bacb60a34989..6cc4d3e5a61d 100644
+> > --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> > +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> > @@ -23,6 +23,7 @@ properties:
+> >            - rockchip,rk3328-vpu
+> >            - rockchip,rk3399-vpu
+> >            - rockchip,px30-vpu
+> > +          - rockchip,rk3568-vpu
+> >        - items:
+> >            - const: rockchip,rk3188-vpu
+> >            - const: rockchip,rk3066-vpu
+> > --
+> > 2.29.2
+> >
