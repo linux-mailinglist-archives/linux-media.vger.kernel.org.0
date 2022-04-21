@@ -2,229 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AF94509C4D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 11:33:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18ACE509C5C
+	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 11:33:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387623AbiDUJ26 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 05:28:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38436 "EHLO
+        id S1387648AbiDUJbH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Apr 2022 05:31:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231185AbiDUJ25 (ORCPT
+        with ESMTP id S1387641AbiDUJbD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Apr 2022 05:28:57 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51A2A275D6;
-        Thu, 21 Apr 2022 02:26:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0A92EB8239E;
-        Thu, 21 Apr 2022 09:26:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 190B4C385A5;
-        Thu, 21 Apr 2022 09:25:59 +0000 (UTC)
-Message-ID: <9565c089-03a7-0936-fd20-ae40644300fb@xs4all.nl>
-Date:   Thu, 21 Apr 2022 11:25:57 +0200
+        Thu, 21 Apr 2022 05:31:03 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B09D27FEB;
+        Thu, 21 Apr 2022 02:28:11 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 66BAD1F452EB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1650533289;
+        bh=ptoZj0zFpkieEBVYbfFm80mk/GACzh8P4FCP7u5kt4I=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=fa955ng5ILBujIu9QV+HvXfpVRPDu1cS/wFEB1NxzivoDE4BnbdHuV7SkHwQDJ1Uu
+         a7IgttMNFlHVWXZ4qKCPNi2ux5Ib0L71DkrkBZvV2I4hQXc/NofCZjGP8UNkW9Alpa
+         d2G11zp5LiU5Gb8S5k6MqUDGqQTVeN/q+3ijkbHnSKyTEdvp6T2dM790UIRIBT5X5i
+         OcsYbvK4EAAgEOli0MGB2Td9o/R0gCMt+WbutSscykrcjSbcdemQKMqvI0Qev765rq
+         TrBrqcL9Zw61lH6ybvft+/VBQTuxqPANg76Qyb7u/wmZHHpvNj5KowdDCPp1KrkMLr
+         rtKWppH6lf42Q==
+Message-ID: <e7ce1509-4680-6f3a-8e60-76b361e0ed33@collabora.com>
+Date:   Thu, 21 Apr 2022 11:28:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] media: Add P010 video format
+Subject: Re: [PATCH v13 1/3] dt-binding: mt8183: add Mediatek MDP3 dt-bindings
 Content-Language: en-US
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, ezequiel@vanguardiasur.com.ar
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jernej.skrabec@gmail.com, p.zabel@pengutronix.de,
-        nicolas@ndufresne.ca, kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20220404090116.353034-1-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220404090116.353034-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+To:     "moudy.ho" <moudy.ho@mediatek.com>, Rob Herring <robh@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
+        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        allen-kh.cheng@mediatek.com, xiandong.wang@mediatek.com,
+        randy.wu@mediatek.com, jason-jh.lin@mediatek.com,
+        roy-cw.yeh@mediatek.com, river.cheng@mediatek.com,
+        srv_heupstream@mediatek.com,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20220418022213.23826-1-moudy.ho@mediatek.com>
+ <20220418022213.23826-2-moudy.ho@mediatek.com>
+ <YmAyrzjtWGrk5pNn@robh.at.kernel.org>
+ <b78fd7595fe66e774e3a707884ed9828964cbde8.camel@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <b78fd7595fe66e774e3a707884ed9828964cbde8.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-9.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
-
-On 04/04/2022 11:01, Benjamin Gaignard wrote:
-> P010 is a YUV format with 10-bits per pixel with interleaved UV.
+Il 21/04/22 04:46, moudy.ho ha scritto:
+> On Wed, 2022-04-20 at 11:19 -0500, Rob Herring wrote:
+>> On Mon, Apr 18, 2022 at 10:22:11AM +0800, Moudy Ho wrote:
+>>> This patch adds DT binding documents for Media Data Path 3 (MDP3)
+>>> a unit in multimedia system combined with several components and
+>>> used for scaling and color format convert.
+>>>
+>>> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+>>> ---
+>>>   .../bindings/media/mediatek,mdp3-rdma.yaml    | 166
+>>> ++++++++++++++++++
+>>>   .../bindings/media/mediatek,mdp3-rsz.yaml     |  54 ++++++
+>>>   .../bindings/media/mediatek,mdp3-wrot.yaml    |  57 ++++++
+>>>   .../bindings/soc/mediatek/mediatek,ccorr.yaml |  47 +++++
+>>>   .../bindings/soc/mediatek/mediatek,wdma.yaml  |  58 ++++++
+>>>   5 files changed, 382 insertions(+)
+>>>   create mode 100644
+>>> Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+>>>   create mode 100644
+>>> Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+>>>   create mode 100644
+>>> Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+>>>   create mode 100644
+>>> Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
+>>>   create mode 100644
+>>> Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
+>>> rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
+>>> rdma.yaml
+>>> new file mode 100644
+>>> index 000000000000..45b7c075ebf5
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-
+>>> rdma.yaml
+>>> @@ -0,0 +1,166 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id:
+>>> https://urldefense.com/v3/__http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml*__;Iw!!CTRNKA9wMg0ARbw!3LSlozK4Ddsy4vjMI70PtpvvS39MTVvDGVME_eBDGj7hhW-DSZsoGdwR90ItVI6F$
+>>>   
+>>> +$schema:
+>>> https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!3LSlozK4Ddsy4vjMI70PtpvvS39MTVvDGVME_eBDGj7hhW-DSZsoGdwR96lcJIFE$
+>>>   
+>>> +
+>>> +title: Mediatek Read Direct Memory Access
+>>> +
+>>> +maintainers:
+>>> +  - Matthias Brugger <matthias.bgg@gmail.com>
+>>> +
+>>> +description: |
+>>> +  Mediatek Read Direct Memory Access(RDMA) component used to do
+>>> read DMA.
+>>> +  It contains one line buffer to store the sufficient pixel data,
+>>> and
+>>> +  must be siblings to the central MMSYS_CONFIG node.
+>>> +  For a description of the MMSYS_CONFIG binding, see
+>>> +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya
+>>> ml
+>>> +  for details.
+>>> +  The 1st RDMA is also used to be a controller node in Media Data
+>>> Path 3(MDP3)
+>>> +  that containing MMSYS, MUTEX, GCE and SCP settings.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    items:
+>>> +      # MDP3 controller node
+>>> +      - const: mediatek,mt8183-mdp3
+>>> +      - const: mediatek,mt8183-mdp3-rdma
+>>
+>> This *still* makes no sense. I'm not looking at this further.
+>>
+>> Rob
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
-> Note that P010 is already known in GStreamer, only the mapping with
-> v4l2 pixel format is missing.
+> Hi Rob,
 > 
-> This patch has been acked in this series but never merged:
-> https://patchwork.kernel.org/project/linux-rockchip/patch/20210618131526.566762-5-benjamin.gaignard@collabora.com/
-> After rebased it on v5.18-rc1, resend in standalone mode.
+> Apologize for the misunderstanding with your comments in version 12, I
+> will recheck and delete the SW related information.
 > 
->  .../media/v4l/pixfmt-yuv-planar.rst           | 76 +++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-common.c         |  1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->  include/uapi/linux/videodev2.h                |  1 +
->  4 files changed, 79 insertions(+)
+> Thanks,
+> Moudy
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> index 8dff5906639b..6d65c8ac44f0 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> @@ -102,6 +102,13 @@ All components are stored with the same number of bits per component.
->        - 64x32 tiles
->  
->          Horizontal Z order
-> +    * - V4L2_PIX_FMT_P010
-> +      - 'P010'
-> +      - 16
-> +      - 4:2:0
-> +      - Cb, Cr
-> +      - No
-> +      - Linear
 
-This entry should go after V4L2_PIX_FMT_NV12MT_16X16...
+Hello Moudy,
+As an afterthought, I think that a commit title like
 
->      * - V4L2_PIX_FMT_NV12MT_16X16
->        - 'VM12'
->        - 8
+dt-bindings: mediatek: Add bindings for MediaTek MDP3 components
 
-...and the V4L2_PIX_FMT_NV12MT_16X16 entry should be fixed: it says 4:2:2 for the Subsampling
-column, but that should be 4:2:0.
-
-> @@ -171,6 +178,7 @@ horizontally.
->  .. _V4L2-PIX-FMT-NV21:
->  .. _V4L2-PIX-FMT-NV12M:
->  .. _V4L2-PIX-FMT-NV21M:
-> +.. _V4L2-PIX-FMT-P010:
->  
->  NV12, NV21, NV12M and NV21M
->  ---------------------------
-> @@ -519,6 +527,74 @@ number of lines as the luma plane.
->        - Cb\ :sub:`33`
->        - Cr\ :sub:`33`
->  
-> +.. _V4L2_PIX_FMT_P010:
-> +
-> +P010
-> +----
-> +
-> +The number of bytes in one luminance row must be divisible by 16,
-
-Um, isn't that something that the driver enforces in the bytesperline field
-of struct v4l2_pix_format? I don't think this should be a limitation of the
-format.
-
-> +which means there will be padded 0 in the right edge when necessary.
-> +
-> +.. raw:: latex
-> +
-> +    \begingroup
-> +    \small
-> +    \setlength{\tabcolsep}{2pt}
-> +
-> +.. tabularcolumns:: |p{2.6cm}|p{0.70cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
-> +
-> +.. flat-table:: P010 16 Bits per component
-> +    :header-rows:  2
-> +    :stub-columns: 0
-> +
-> +    * - Identifier
-> +      - Code
-> +      - :cspan:`7` Byte 0 in memory
-> +
-> +      - :cspan:`7` Byte 1
-> +    * -
-> +      -
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +    * - ``V4L2_PIX_FMT_P010``
-> +      - 'P010'
-> +
-> +      - Y\ :sub:`9`
-> +      - Y\ :sub:`8`
-> +      - Y\ :sub:`7`
-> +      - Y\ :sub:`6`
-> +      - Y\ :sub:`5`
-> +      - Y\ :sub:`4`
-> +      - Y\ :sub:`3`
-> +      - Y\ :sub:`2`
-> +
-> +      - Y\ :sub:`1`
-> +      - Y\ :sub:`0`
-> +      - 0
-> +      - 0
-> +      - 0
-> +      - 0
-> +      - 0
-> +      - 0
-
-This just shows the Y component, but not the CbCr components. I would expect to see
-something similar to the 'Sample 4x4 NV12M Image' table in section 2.7.1.2.1.1.
+would be explaining what you're doing in a more concise manner.
 
 Regards,
-
-	Hans
-
-> +
-> +.. raw:: latex
-> +
-> +    \endgroup
->  
->  Fully Planar YUV Formats
->  ========================
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index df34b2a283bc..1e38ad8906a2 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -266,6 +266,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
->  		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
->  		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
->  		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> +		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
->  
->  		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
->  		{ .format = V4L2_PIX_FMT_YVU410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 96e307fe3aab..e14d7e1a038e 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1301,6 +1301,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
->  	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
->  	case V4L2_PIX_FMT_NV42:		descr = "Y/CrCb 4:4:4"; break;
-> +	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CrCb 4:2:0"; break;
->  	case V4L2_PIX_FMT_NV12_4L4:	descr = "Y/CbCr 4:2:0 (4x4 Linear)"; break;
->  	case V4L2_PIX_FMT_NV12_16L16:	descr = "Y/CbCr 4:2:0 (16x16 Linear)"; break;
->  	case V4L2_PIX_FMT_NV12_32L32:   descr = "Y/CbCr 4:2:0 (32x32 Linear)"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 4c09969e7112..2e451c454db3 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -601,6 +601,7 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
->  #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
->  #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
-> +#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 15  Y/CbCr 4:2:0 10-bit per pixel*/
->  
->  /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
->  #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
-
+Angelo
