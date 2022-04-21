@@ -2,117 +2,375 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E409F50A800
-	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 20:21:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B72C550A821
+	for <lists+linux-media@lfdr.de>; Thu, 21 Apr 2022 20:28:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1391204AbiDUSYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 14:24:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45894 "EHLO
+        id S1391361AbiDUSbh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Apr 2022 14:31:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377142AbiDUSYL (ORCPT
+        with ESMTP id S1387815AbiDUSbg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Apr 2022 14:24:11 -0400
-Received: from bee.birch.relay.mailchannels.net (bee.birch.relay.mailchannels.net [23.83.209.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8993A46B18
-        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 11:21:20 -0700 (PDT)
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-        by relay.mailchannels.net (Postfix) with ESMTP id 6C3EF561317;
-        Thu, 21 Apr 2022 18:14:02 +0000 (UTC)
-Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
-        (Authenticated sender: dreamhost)
-        by relay.mailchannels.net (Postfix) with ESMTPA id 6E86D560672;
-        Thu, 21 Apr 2022 18:14:01 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650564841; a=rsa-sha256;
-        cv=none;
-        b=Ez4QihA5rm042mrgYA9iZQY6WEr1TG6hw2FpZEDLx2CRG9i4vFfjD8ai9jkqEsYmXpArIp
-        AJawpqvnqFGcBtV4tR8D/aIt3Yr60Rswnv4VI8yiZc2LFZt3TtRfzBQ7JABEaXovnibAVP
-        ezpOGPtNwdyOfe0Jl80AgBZListKC4Lgo6IDwlE+F5zd0X02eKXMU2rK8s13alHxStEIx9
-        NEo44TEv7ZaLIqIOPr0v8m2sjUg/wRbYFQsptFeDBnKecWf3JtQi/P14ZqrTgSp4jAQacC
-        j98JdE3c5hc/9Hh7WcCQ9RDAJ56mzDKlSavWiq0sidPLeTsAdgHRRCxOWkumHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-        s=arc-2022; t=1650564841;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references:dkim-signature;
-        bh=FNhNt0OO8+NlPGDHgZLKBtaMEMHbXxrGKn/UfnYWjbo=;
-        b=UlmKO3r6kQ2aPtuRa2qMHKykV//8YOpXW5vMCnvXAo2x2g34f6sFnKwmXMwlhXUxXnNPAo
-        L8TZqfkjppYnR3BYBxqjbGZYdWqUl4KdcgqJGvBfoy5Kwg77FonNcArpYNpMpU+JFSRIV7
-        WMtUr6ljlWCYn6YMLXJNszCWNRbpnKlYkf6yxFTeZM/6m93a7iBKhmEG2QEJex2B+D7jOO
-        aF35xis4osP/x7wWFdDZDM+VaGkf5VikVxmzS32JIEWYn6SNBu8Q4HBGtX99ar3LyWmkGD
-        KjELWfeuMa+GgqW8dllzSfHAFjE2sM+MFDF1x9Uktr4PG5iLsQINsh7f3g4CsA==
-ARC-Authentication-Results: i=1;
-        rspamd-58ff8d7479-bqpr8;
-        auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MailChannels-Auth-Id: dreamhost
-X-Tart-Squirrel: 6a3894f104bb04fb_1650564841794_2734342223
-X-MC-Loop-Signature: 1650564841793:3729074847
-X-MC-Ingress-Time: 1650564841793
-Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-        by 100.101.255.132 (trex/6.7.1);
-        Thu, 21 Apr 2022 18:14:01 +0000
-Received: from fedora (unknown [69.12.38.97])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ian@linux.cowan.aero)
-        by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4KklzX40Ylz1MB;
-        Thu, 21 Apr 2022 11:14:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
-        s=dreamhost; t=1650564841;
-        bh=FNhNt0OO8+NlPGDHgZLKBtaMEMHbXxrGKn/UfnYWjbo=;
-        h=Date:From:To:Cc:Subject:Content-Type;
-        b=uhlbfgNtmqOvZeIykCpsviK5vksbHjQBFSb2wBWlyy1sq5sXheWTEZ0yxp8RSkacI
-         g8h6MGUBG3mYi5GydVPiQaRPQdFBCoetlSAgOH5dNm2WnF+kY4iYIJfbvh747W5s/g
-         jARCkVcMy8Sh4EBW5DOtPsezu5lUAfq98TRhVxZkFkPqN31PcyQ03fh+Q3kinpEn9A
-         l3dO88C84fIwJDE6bVaCPh3ovBmg+YW41koA9hHwn0J++Cnb0yzCkgusHI/cI810kL
-         utT83jEuDyqZGbU/CcNRdrNkOkprVIDrY4RivcdZzhZOmHyWcl8+pN9SR3z+Nfsmcd
-         Czjfyv7JVZDBw==
-Date:   Thu, 21 Apr 2022 14:13:58 -0400
-From:   Ian Cowan <ian@linux.cowan.aero>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     clabbe@baylibre.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, mjpeg-users@lists.sourceforge.net,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: staging: zoran: refactor printk debugging function
-Message-ID: <YmGe5vM+ictu+7ve@fedora>
-References: <20220421002316.873109-1-ian@linux.cowan.aero>
- <20220421142153.GA2462@kadam>
- <YmF2mM+Lqv/HOgFl@fedora>
- <20220421155203.GB2462@kadam>
+        Thu, 21 Apr 2022 14:31:36 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69143DFAE
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 11:28:45 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id q19so5334422pgm.6
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 11:28:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=Sqioiy8FTVIwwfgTrHoYKbgJrbPNKg5lpVy2JdR4EHU=;
+        b=gX6IxUwKDSgUOrXLTiECcpA3Rp48wGxfgveQhWleNt2G3dILaJc7TVhv8vFGVxEaVi
+         wfheNUizycAF5wCMRaBvqgTP3V27a1ohLtxvHpRlhbQDLXoE4BT1zxOmVKVhlvggvxD8
+         xBKKCYXGGarCUjyHuEo39d2CON29e1o3eIsp/F33Pk8UOvQlPrrVxrJ19w7FqJzHsyBq
+         aA6F2c+bBR9zHjvgNNjT4A6mNFBu2jia5hbCy32kvSIkc+As4VWEhQemAqWBBVdBNled
+         r8iHp9BpG8kcfHIzDk1y0ELM0+HKHZvTjASj9vKr6JrzOXK14OHdpvwzUTP3LOun+0sy
+         4ijg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Sqioiy8FTVIwwfgTrHoYKbgJrbPNKg5lpVy2JdR4EHU=;
+        b=OQx6rcGdh2BLH02cXkZlSQBJ88ZP5j4nkhJoIhaoelfE/T1YAa2yWiMJ+bo572xXqV
+         LIvSw9arGa6ljymbOGcOIKm6rrrXIrW+vwWQabsnK68sez4s98S6YeegKiq//0Gb7YqI
+         Fwwh4R9iW/CbAl4hK5PVPaePqq/mBZkL0MMUJrjudh2T/XoZRoUY97sqdtJVCEDyWI91
+         fkmhgmzeuO6g8/Nms4w4tvqvPhXssWGjIfvX50iQ+jlwfZV+lHYQ56/P0ujO27s8MpTW
+         JgBwfD9a9Rx6HVsvJdHX9tbBlfe/0hThtekcNanekz5s2BcHkKjup9oMAOJw+k+gAvlc
+         VV5g==
+X-Gm-Message-State: AOAM530NkBYViNZ3F/P/HrqXiq9R424P0aQpnbx55bfUac/L6wbNDOg4
+        MqNzqLg5lG6ohLJUcFZkNhCsCQ==
+X-Google-Smtp-Source: ABdhPJxepqVRb/L/wsoSRAnZEmxspQCHxD1CdYluXSymWq1W4Cyc26xyjzczEUvd8gXIIPzMw4rFqA==
+X-Received: by 2002:a05:6a00:b87:b0:50a:5ff2:bb2d with SMTP id g7-20020a056a000b8700b0050a5ff2bb2dmr944441pfj.68.1650565724550;
+        Thu, 21 Apr 2022 11:28:44 -0700 (PDT)
+Received: from google.com (201.59.83.34.bc.googleusercontent.com. [34.83.59.201])
+        by smtp.gmail.com with ESMTPSA id fv9-20020a17090b0e8900b001cd4989febcsm3506238pjb.8.2022.04.21.11.28.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Apr 2022 11:28:44 -0700 (PDT)
+Date:   Thu, 21 Apr 2022 18:28:40 +0000
+From:   Carlos Llamas <cmllamas@google.com>
+To:     "T.J. Mercier" <tjmercier@google.com>
+Cc:     daniel@ffwll.ch, tj@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        jstultz@google.com, kaleshsingh@google.com, Kenny.Ho@amd.com,
+        mkoutny@suse.com, skhan@linuxfoundation.org,
+        kernel-team@android.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [RFC v5 5/6] binder: Add flags to relinquish ownership of fds
+Message-ID: <YmGiNh0DDIcwcnVl@google.com>
+References: <20220420235228.2767816-1-tjmercier@google.com>
+ <20220420235228.2767816-6-tjmercier@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220421155203.GB2462@kadam>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220420235228.2767816-6-tjmercier@google.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 21, 2022 at 06:52:04PM +0300, Dan Carpenter wrote:
-> On Thu, Apr 21, 2022 at 11:22:00AM -0400, Ian Cowan wrote:
-> > 
-> > For using the dev_dbg() macro, do you define this in the header file
-> > (i.e. for this it would be videocodec.h), or where should this be
-> > included from?
+On Wed, Apr 20, 2022 at 11:52:23PM +0000, T.J. Mercier wrote:
+> From: Hridya Valsaraju <hridya@google.com>
 > 
-> dev_dbg() is defined in include/linux/dev_printk.h.  Look around at how
-> it's used.  pr_debug() might be an option, but I don't know if we will
-> accept that, we prefer dev_dbg().
+> This patch introduces flags BINDER_FD_FLAG_SENDER_NO_NEED, and
+> BINDER_FDA_FLAG_SENDER_NO_NEED that a process sending an individual
+> fd or fd array to another process over binder IPC can set to relinquish
+> ownership of the fds being sent for memory accounting purposes. If the
+> flag is found to be set during the fd or fd array translation and the
+> fd is for a DMA-BUF, the buffer is uncharged from the sender's cgroup
+> and charged to the receiving process's cgroup instead.
 > 
-> regards,
-> dan carpenter
+> It is up to the sending process to ensure that it closes the fds
+> regardless of whether the transfer failed or succeeded.
+> 
+> Most graphics shared memory allocations in Android are done by the
+> graphics allocator HAL process. On requests from clients, the HAL process
+> allocates memory and sends the fds to the clients over binder IPC.
+> The graphics allocator HAL will not retain any references to the
+> buffers. When the HAL sets *_FLAG_SENDER_NO_NEED for fd arrays holding
+> DMA-BUF fds, or individual fd objects, the gpu cgroup controller will
+> be able to correctly charge the buffers to the client processes instead
+> of the graphics allocator HAL.
+> 
+> Since this is a new feature exposed to userspace, the kernel and userspace
+> must be compatible for the accounting to work for transfers. In all cases
+> the allocation and transport of DMA buffers via binder will succeed, but
+> only when both the kernel supports, and userspace depends on this feature
+> will the transfer accounting work. The possible scenarios are detailed
+> below:
+
+New binder driver features which require userspace coordination can be
+"advertised" by the kernel via binderfs. You can see an example of how
+oneway_spam_detection is exposed in commit fc470abf54b2 ("binderfs: add
+support for feature files"). This is just an option to consider if it
+makes things easier in userspace. Although it seems that for the second
+scenario (old kernel + new userpsace) the flags would just be ignored.
+
+> 
+> 1. new kernel + old userspace
+> The kernel supports the feature but userspace does not use it. The old
+> userspace won't mount the new cgroup controller, accounting is not
+> performed, charge is not transferred.
+> 
+> 2. old kernel + new userspace
+> The new cgroup controller is not supported by the kernel, accounting is
+> not performed, charge is not transferred.
+> 
+> 3. old kernel + old userspace
+> Same as #2
+> 
+> 4. new kernel + new userspace
+> Cgroup is mounted, feature is supported and used.
+> 
+> Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> 
+> ---
+> v5 changes
+> Support both binder_fd_array_object and binder_fd_object. This is
+> necessary because new versions of Android will use binder_fd_object
+> instead of binder_fd_array_object, and we need to support both.
+> 
+> Use the new, simpler dma_buf_transfer_charge API.
+> 
+> v3 changes
+> Remove android from title per Todd Kjos.
+> 
+> Use more common dual author commit message format per John Stultz.
+> 
+> Include details on behavior for all combinations of kernel/userspace
+> versions in changelog (thanks Suren Baghdasaryan) per Greg Kroah-Hartman.
+> 
+> v2 changes
+> Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
+> heap to a single dma-buf function for all heaps per Daniel Vetter and
+> Christian König.
+> ---
+>  drivers/android/binder.c            | 27 +++++++++++++++++++++++----
+>  drivers/dma-buf/dma-buf.c           |  4 ++--
+>  include/linux/dma-buf.h             |  2 +-
+>  include/uapi/linux/android/binder.h | 23 +++++++++++++++++++----
+>  4 files changed, 45 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+> index 8351c5638880..b07d50fe1c80 100644
+> --- a/drivers/android/binder.c
+> +++ b/drivers/android/binder.c
+> @@ -42,6 +42,7 @@
+>  
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+> +#include <linux/dma-buf.h>
+>  #include <linux/fdtable.h>
+>  #include <linux/file.h>
+>  #include <linux/freezer.h>
+> @@ -2170,7 +2171,7 @@ static int binder_translate_handle(struct flat_binder_object *fp,
+>  	return ret;
+>  }
+>  
+> -static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+> +static int binder_translate_fd(u32 fd, binder_size_t fd_offset, __u32 flags,
+>  			       struct binder_transaction *t,
+>  			       struct binder_thread *thread,
+>  			       struct binder_transaction *in_reply_to)
+> @@ -2208,6 +2209,23 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+>  		goto err_security;
+>  	}
+>  
+> +	if (IS_ENABLED(CONFIG_CGROUP_GPU) && (flags & BINDER_FD_FLAG_SENDER_NO_NEED)) {
+> +		if (is_dma_buf_file(file)) {
+> +			struct dma_buf *dmabuf = file->private_data;
+> +
+> +			ret = dma_buf_transfer_charge(dmabuf, target_proc->tsk);
+> +			if (ret)
+> +				pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d\n",
+> +					proc->pid, thread->pid, target_proc->pid);
+
+If we fail to transfer the charge, it seems we continue with the fixup
+allocation and then propagate the error. Shouldn't the translation be
+aborted at this point instead? Or is this supposed to be handled?
+
+> +		} else {
+
+nit: negating is_dma_buf_file() check eliminates the "else" here.
+
+> +			binder_user_error(
+> +				"%d:%d got transaction with SENDER_NO_NEED for non-dmabuf fd, %d\n",
+> +				proc->pid, thread->pid, fd);
+> +			ret = -EINVAL;
+> +			goto err_noneed;
+> +		}
+> +	}
+> +
+>  	/*
+>  	 * Add fixup record for this transaction. The allocation
+>  	 * of the fd in the target needs to be done from a
+> @@ -2226,6 +2244,7 @@ static int binder_translate_fd(u32 fd, binder_size_t fd_offset,
+>  	return ret;
+>  
+>  err_alloc:
+> +err_noneed:
+>  err_security:
+>  	fput(file);
+>  err_fget:
+> @@ -2528,7 +2547,7 @@ static int binder_translate_fd_array(struct list_head *pf_head,
+>  
+>  		ret = copy_from_user(&fd, sender_ufda_base + sender_uoffset, sizeof(fd));
+>  		if (!ret)
+> -			ret = binder_translate_fd(fd, offset, t, thread,
+> +			ret = binder_translate_fd(fd, offset, fda->flags, t, thread,
+>  						  in_reply_to);
+>  		if (ret)
+>  			return ret > 0 ? -EINVAL : ret;
+> @@ -3179,8 +3198,8 @@ static void binder_transaction(struct binder_proc *proc,
+>  			struct binder_fd_object *fp = to_binder_fd_object(hdr);
+>  			binder_size_t fd_offset = object_offset +
+>  				(uintptr_t)&fp->fd - (uintptr_t)fp;
+> -			int ret = binder_translate_fd(fp->fd, fd_offset, t,
+> -						      thread, in_reply_to);
+> +			int ret = binder_translate_fd(fp->fd, fd_offset, fp->flags,
+> +						      t, thread, in_reply_to);
+>  
+>  			fp->pad_binder = 0;
+>  			if (ret < 0 ||
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index f3fb844925e2..36ed6cd4ddcc 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -31,7 +31,6 @@
+>  
+>  #include "dma-buf-sysfs-stats.h"
+>  
+> -static inline int is_dma_buf_file(struct file *);
+>  
+>  struct dma_buf_list {
+>  	struct list_head head;
+> @@ -400,10 +399,11 @@ static const struct file_operations dma_buf_fops = {
+>  /*
+>   * is_dma_buf_file - Check if struct file* is associated with dma_buf
+>   */
+> -static inline int is_dma_buf_file(struct file *file)
+> +int is_dma_buf_file(struct file *file)
+>  {
+>  	return file->f_op == &dma_buf_fops;
+>  }
+> +EXPORT_SYMBOL_NS_GPL(is_dma_buf_file, DMA_BUF);
+>  
+>  static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
+>  {
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 438ad8577b76..2b9812758fee 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -614,7 +614,7 @@ dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
+>  {
+>  	return !!attach->importer_ops;
+>  }
+> -
+> +int is_dma_buf_file(struct file *file);
+>  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+>  					  struct device *dev);
+>  struct dma_buf_attachment *
+> diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/android/binder.h
+> index 11157fae8a8e..b263cbb603ea 100644
+> --- a/include/uapi/linux/android/binder.h
+> +++ b/include/uapi/linux/android/binder.h
+> @@ -91,14 +91,14 @@ struct flat_binder_object {
+>  /**
+>   * struct binder_fd_object - describes a filedescriptor to be fixed up.
+>   * @hdr:	common header structure
+> - * @pad_flags:	padding to remain compatible with old userspace code
+
+Does this mean we no longer need to keep the compatibility with the "old
+userspace code"? Maybe these old flags are all less than 0x2000?
+
+> + * @flags:	One or more BINDER_FD_FLAG_* flags
+>   * @pad_binder:	padding to remain compatible with old userspace code
+>   * @fd:		file descriptor
+>   * @cookie:	opaque data, used by user-space
+>   */
+>  struct binder_fd_object {
+>  	struct binder_object_header	hdr;
+> -	__u32				pad_flags;
+> +	__u32				flags;
+>  	union {
+>  		binder_uintptr_t	pad_binder;
+>  		__u32			fd;
+> @@ -107,6 +107,17 @@ struct binder_fd_object {
+>  	binder_uintptr_t		cookie;
+>  };
+>  
+> +enum {
+> +	/**
+> +	 * @BINDER_FD_FLAG_SENDER_NO_NEED
+> +	 *
+> +	 * When set, the sender of a binder_fd_object wishes to relinquish ownership of the fd for
+> +	 * memory accounting purposes. If the fd is for a DMA-BUF, the buffer is uncharged from the
+> +	 * sender's cgroup and charged to the receiving process's cgroup instead.
+> +	 */
+> +	BINDER_FD_FLAG_SENDER_NO_NEED = 0x2000,
+
+SENDER_NO_NEED wasn't straight-forward for me. Perhaps RELINQUISH or
+XFER_{OWNER|CHARGE|CGROUP} could be some other options to consider.
+
+> +};
+> +
+>  /* struct binder_buffer_object - object describing a userspace buffer
+>   * @hdr:		common header structure
+>   * @flags:		one or more BINDER_BUFFER_* flags
+> @@ -141,7 +152,7 @@ enum {
+>  
+>  /* struct binder_fd_array_object - object describing an array of fds in a buffer
+>   * @hdr:		common header structure
+> - * @pad:		padding to ensure correct alignment
+> + * flags:		One or more BINDER_FDA_FLAG_* flags
+>   * @num_fds:		number of file descriptors in the buffer
+>   * @parent:		index in offset array to buffer holding the fd array
+>   * @parent_offset:	start offset of fd array in the buffer
+> @@ -162,12 +173,16 @@ enum {
+>   */
+>  struct binder_fd_array_object {
+>  	struct binder_object_header	hdr;
+> -	__u32				pad;
+> +	__u32				flags;
+>  	binder_size_t			num_fds;
+>  	binder_size_t			parent;
+>  	binder_size_t			parent_offset;
+>  };
+>  
+> +enum {
+> +	BINDER_FDA_FLAG_SENDER_NO_NEED = BINDER_FD_FLAG_SENDER_NO_NEED,
+> +};
+> +
+>  /*
+>   * On 64-bit platforms where user code may run in 32-bits the driver must
+>   * translate the buffer (and local binder) addresses appropriately.
+> -- 
+> 2.36.0.rc0.470.gd361397f0d-goog
 > 
 
-Okay, I will make these few changes and resubmit.
+Other than included minor comments:
 
----
-Ian Cowan
+Reviewed-by: Carlos Llamas <cmllamas@google.com>
+
+--
+Carlos Llamas
