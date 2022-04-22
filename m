@@ -2,142 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3508250BBD4
-	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 17:40:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9317050BD31
+	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 18:34:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1449505AbiDVPn2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Apr 2022 11:43:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47150 "EHLO
+        id S1449746AbiDVQg4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Apr 2022 12:36:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234254AbiDVPnY (ORCPT
+        with ESMTP id S1448919AbiDVQgz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Apr 2022 11:43:24 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C6E9583A3;
-        Fri, 22 Apr 2022 08:40:30 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id v64-20020a1cac43000000b0038cfd1b3a6dso8201982wme.5;
-        Fri, 22 Apr 2022 08:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ES0l6S93mE+Wb+3kqpTJgwQ5QqgD39UykyyH0mPFa1A=;
-        b=eAJDeSA5ES65uo2n7FwOPrhjMXpb1/30wYGIYDKU1AzFS1Oqvazunp1Lgruo6FULJd
-         N1IB7K2+Ifwa9kYQkwb3cmGFVMpYNerQIo6Xf5XWsYkCezu38OlPmhnwNMBTL/W5oCn2
-         L75ox71Pu3LZ/UYtIbm1TWt+gVsRU+MzQneRGct7i/4SWy81zHrPejYrVdeI/YMaPpPx
-         HmXn74qleRfqwuZZ2MVnbuefcR2uqjqw5yZFHI09alDi/A25qW1nE0me6ZBWB4tJciqf
-         3h4tTceozSY5WFT6wJ/px99wf0HGPFeQ2Mvngrekpv9MRQunqTkTNZxTeL/FkV9IMbNe
-         XHyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ES0l6S93mE+Wb+3kqpTJgwQ5QqgD39UykyyH0mPFa1A=;
-        b=i16dVesuOrpmaFQGvUc54Z+kr6riITFAKIMhsXtUq38VPU/jiAnuC0p67lmfmH+hTT
-         nZ/OSly2xI/+AQLDyd7eO0kCd5BOPgTZv6wclepII+e++qfufcSG9kQXxuPALirEKSh+
-         hcLc0i5rtYMIZcLJ0eW/oyJthe+LsTT6mC72cbPF1+kAEhnLqQ7duSGNhw0ALNxHXbqj
-         V4IjG+wxwSy2Ccpic2K/ZmA/r1wcOJD+spsPuMINFIjJvN8OVYCseT25venDPjtcIi2w
-         45MqVLegkUVZOzGBlyGf3GWIcOIOL5NkgfotNoUVRe+fih+xMi4qFB7s2WSV1nDJx3Q2
-         a8OQ==
-X-Gm-Message-State: AOAM532mA27PQIWb6T2ZmUB/6SJSICViHi3x98X/ztaPLlCZX82t0VDe
-        LJeaACx1ozfa4i7c7cixY0g=
-X-Google-Smtp-Source: ABdhPJyTYQRjuZT+Ec8SM434CWQGeFUn2UkQ3zQWg/RiYa7Z+9pAMLI2nF/jZpTCnEOzRThwH++fmg==
-X-Received: by 2002:a05:600c:1e1e:b0:38e:baaa:aae0 with SMTP id ay30-20020a05600c1e1e00b0038ebaaaaae0mr4563460wmb.157.1650642029069;
-        Fri, 22 Apr 2022 08:40:29 -0700 (PDT)
-Received: from [192.168.1.145] ([207.188.167.132])
-        by smtp.gmail.com with ESMTPSA id y11-20020a056000168b00b0020a919422ccsm2434199wrd.109.2022.04.22.08.40.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Apr 2022 08:40:28 -0700 (PDT)
-Message-ID: <9a766c52-f085-0ce4-5072-5a602e533740@gmail.com>
-Date:   Fri, 22 Apr 2022 17:40:27 +0200
+        Fri, 22 Apr 2022 12:36:55 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C515F25A;
+        Fri, 22 Apr 2022 09:34:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0B20BB831B1;
+        Fri, 22 Apr 2022 16:33:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C0C6C385A0;
+        Fri, 22 Apr 2022 16:33:56 +0000 (UTC)
+Message-ID: <ca8b1403-ca58-a4b4-d2e2-1c682b5f0adb@xs4all.nl>
+Date:   Fri, 22 Apr 2022 18:33:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 0/3] Fixes for Mediatek dt-bindings
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 09/24] media: v4l2: Trace calculated p/b0/b1 initial
+ reflist
 Content-Language: en-US
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        "N?colas F. R. A. Prado" <nfraprado@collabora.com>
-Cc:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tinghan Shen <tinghan.shen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, linux-usb@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-References: <20220225225854.81038-1-nfraprado@collabora.com>
- <20220404152256.mkksr4oqjt65ytlf@notapiano> <YmLGyIOStJJAGSJG@builder.lan>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <YmLGyIOStJJAGSJG@builder.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kernel@collabora.com, linux-kernel@vger.kernel.org,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org
+References: <20220405204426.259074-1-nicolas.dufresne@collabora.com>
+ <20220405204426.259074-10-nicolas.dufresne@collabora.com>
+ <d7451087-45f1-9691-2289-999eb16ca8a0@xs4all.nl>
+ <04819e457ee0135e5d0b337dccfaba69b2d46610.camel@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <04819e457ee0135e5d0b337dccfaba69b2d46610.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 22/04/2022 17:16, Bjorn Andersson wrote:
-> On Mon 04 Apr 10:22 CDT 2022, N?colas F. R. A. Prado wrote:
-> 
->> Hi Matthias,
+On 22/04/2022 16:58, Nicolas Dufresne wrote:
+> Le vendredi 22 avril 2022 à 09:26 +0200, Hans Verkuil a écrit :
+>> On 05/04/2022 22:44, Nicolas Dufresne wrote:
+>>> Add debug print statements to print the content of P & B reference
+>>> lists, to verify that the ordering of the generated reference lists is
+>>> correct. This is especially important for the field decoding mode,
+>>> where sorting is more complex.
+>>>
+>>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>>> Tested-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>>> Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>>> ---
+>>>  drivers/media/v4l2-core/v4l2-h264.c | 86 +++++++++++++++++++++++++++++
+>>>  1 file changed, 86 insertions(+)
+>>>
+>>> diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
+>>> index 38d8dbda0045..bcf9b7774560 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-h264.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-h264.c
+>>> @@ -241,6 +241,87 @@ static int v4l2_h264_b1_ref_list_cmp(const void *ptra, const void *ptrb,
+>>>  	return poca < pocb ? -1 : 1;
+>>>  }
+>>>  
+>>> +static char ref_type_to_char (u8 ref_type)
 >>
->> Maybe you could pick this series through your tree? It addresses some dtc
->> warnings that are introduced with the new nodes in mt8192.dtsi that you just
->> picked up on your v5.18-next/dts64 branch.
+>> Spurious space before (.
 >>
+>> Odd that checkpatch didn't catch that.
+>>
+>>> +{
+>>> +	switch (ref_type) {
+>>> +	case V4L2_H264_FRAME_REF:
+>>> +		return 'f';
+>>> +	case V4L2_H264_TOP_FIELD_REF:
+>>> +		return 't';
+>>> +	case V4L2_H264_BOTTOM_FIELD_REF:
+>>> +		return 'b';
+>>> +	}
+>>> +
+>>> +	return '?';
+>>> +}
+>>> +
+>>> +static const char *format_ref_list_p(const struct v4l2_h264_reflist_builder *builder,
+>>> +				     struct v4l2_h264_reference *reflist,
+>>> +				     char *out_str, const int len)
+>>> +{
+>>> +	int n = 0, i;
+>>> +
+>>> +	n += snprintf(out_str + n, len - n, "|");
+>>> +
+>>> +	for (i = 0; i < builder->num_valid; i++) {
+>>> +		/* this is pic_num for frame and frame_num (wrapped) for field,
+>>> +		 * but for frame pic_num is equal to frame_num (wrapped).
+>>> +		 */
+>>> +		int frame_num = builder->refs[reflist[i].index].frame_num;
+>>> +		bool longterm = builder->refs[reflist[i].index].longterm;
+>>> +
+>>> +		n += scnprintf(out_str + n, len - n, "%i%c%c|",
+>>> +			       frame_num, longterm ? 'l' : 's',
+>>> +			       ref_type_to_char (reflist[i].fields));
+>>> +	}
+>>> +
+>>> +	return out_str;
+>>> +}
+>>> +
+>>> +static void print_ref_list_p(const struct v4l2_h264_reflist_builder *builder,
+>>> +			     struct v4l2_h264_reference *reflist)
+>>> +{
+>>> +	char buf[1024];
+>>> +
+>>> +	pr_debug("ref_pic_list_p (cur_poc %u%c) %s\n",
+>>> +		 builder->cur_pic_order_count,
+>>> +		 ref_type_to_char(builder->cur_pic_fields),
+>>> +		 format_ref_list_p(builder, reflist, buf, sizeof(buf)));
+>>> +}
+>>> +
+>>> +static const char *format_ref_list_b(const struct v4l2_h264_reflist_builder *builder,
+>>> +				     struct v4l2_h264_reference *reflist,
+>>> +				     char *out_str, const int len)
+>>> +{
+>>> +	int n = 0, i;
+>>> +
+>>> +	n += snprintf(out_str + n, len - n, "|");
+>>> +
+>>> +	for (i = 0; i < builder->num_valid; i++) {
+>>> +		int frame_num = builder->refs[reflist[i].index].frame_num;
+>>> +		u32 poc = v4l2_h264_get_poc(builder, reflist + i);
+>>> +		bool longterm = builder->refs[reflist[i].index].longterm;
+>>> +
+>>> +		n += scnprintf(out_str + n, len - n, "%i%c%c|",
+>>> +			       longterm ? frame_num : poc,
+>>> +			       longterm ? 'l' : 's',
+>>> +			       ref_type_to_char(reflist[i].fields));
+>>> +	}
+>>> +
+>>> +	return out_str;
+>>> +}
+>>> +
+>>> +static void print_ref_list_b(const struct v4l2_h264_reflist_builder *builder,
+>>> +			     struct v4l2_h264_reference *reflist, u8 list_num)
+>>> +{
+>>> +	char buf[1024];
+>>
+>> I really don't like placing 1024 bytes on the stack. Can you find another way
+>> of doing this? Perhaps using pr_cont or writing each format_ref_list item
+>> on a separate line.
 > 
-> I don't see a reply from Matthias, so I've picked up this (the
-> remoteproc) fix in our tree.
+> Thanks, I was strongly discourage of using pr_cont (which was my first
+> approach). Rationales are well covered on LKLM and in the pr_cont documentation,
+> so I won't say more then its not visually thread safe.
 > 
+> I would like to decline the second proposition, as having the lists spread out
+> on up to 32 lines will make the trace very hard to use. What I may suggest, as I
+> would really prefer keeping this trace useful, is to use an allocation instead.
+> The performance does not matter, and I explicitly call this function inside the
+> pr_debug call so it can be compiled out.
 
-That's totally fine. I'm reluctant to take random dt-binding patches as it can 
-provoke merge conflicts when there are other patches on the same binding taken 
-by the driver maintainer. Normally I leave it to the driver maintainer to take 
-such kind of patches.
+Allocation is probably best here.
 
 Regards,
-Matthias
 
-> Thanks,
-> Bjorn
+	Hans
+
 > 
->> Thanks,
->> Nícolas
+> My last resort otherwise would be to use 32 %s formaters, and pass each of the
+> possible 32 entry (or empty string "") manually.
+> 
+> let me know what you believe is acceptable for you,
+> Nicolas
+> 
 >>
->> On Fri, Feb 25, 2022 at 05:58:51PM -0500, Nícolas F. R. A. Prado wrote:
->>>
->>> This series has some fixes for Mediatek dt-bindings. It solves some
->>> warnings printed by dtbs_check, both for already merged Devicetrees, as
->>> well as some that would be introduced by the changes to mt8192.dtsi in
->>> [1].
->>>
->>> [1] https://lore.kernel.org/all/20220218091633.9368-1-allen-kh.cheng@mediatek.com/
->>>
->>>
->>> Nícolas F. R. A. Prado (3):
->>>    dt-bindings: remoteproc: mediatek: Add interrupts property to mtk,scp
->>>    dt-bindings: usb: mtk-xhci: Allow wakeup interrupt-names to be
->>>      optional
->>>    media: dt-bindings: mtk-vcodec-encoder: Add power-domains property
->>>
->>>   .../devicetree/bindings/media/mediatek,vcodec-encoder.yaml     | 3 +++
->>>   Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml      | 3 +++
->>>   Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml   | 1 +
->>>   3 files changed, 7 insertions(+)
->>>
->>> -- 
->>> 2.35.1
+>> Regards,
+>>
+>> 	Hans
+>>
+>>> +
+>>> +	pr_debug("ref_pic_list_b%u (cur_poc %u%c) %s",
+>>> +		 list_num, builder->cur_pic_order_count,
+>>> +		 ref_type_to_char (builder->cur_pic_fields),
+>>> +		 format_ref_list_b(builder, reflist, buf, sizeof(buf)));
+>>> +}
+>>> +
+>>>  /**
+>>>   * v4l2_h264_build_p_ref_list() - Build the P reference list
+>>>   *
+>>> @@ -261,6 +342,8 @@ v4l2_h264_build_p_ref_list(const struct v4l2_h264_reflist_builder *builder,
+>>>  	       sizeof(builder->unordered_reflist[0]) * builder->num_valid);
+>>>  	sort_r(reflist, builder->num_valid, sizeof(*reflist),
+>>>  	       v4l2_h264_p_ref_list_cmp, NULL, builder);
+>>> +
+>>> +	print_ref_list_p(builder, reflist);
+>>>  }
+>>>  EXPORT_SYMBOL_GPL(v4l2_h264_build_p_ref_list);
+>>>  
+>>> @@ -296,6 +379,9 @@ v4l2_h264_build_b_ref_lists(const struct v4l2_h264_reflist_builder *builder,
+>>>  	if (builder->num_valid > 1 &&
+>>>  	    !memcmp(b1_reflist, b0_reflist, builder->num_valid))
+>>>  		swap(b1_reflist[0], b1_reflist[1]);
+>>> +
+>>> +	print_ref_list_b(builder, b0_reflist, 0);
+>>> +	print_ref_list_b(builder, b1_reflist, 1);
+>>>  }
+>>>  EXPORT_SYMBOL_GPL(v4l2_h264_build_b_ref_lists);
+>>>  
+>>
+> 
+
