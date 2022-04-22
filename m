@@ -2,220 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9317050BD31
-	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 18:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98E9C50BD45
+	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 18:40:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1449746AbiDVQg4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Apr 2022 12:36:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37904 "EHLO
+        id S1449781AbiDVQnu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Apr 2022 12:43:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1448919AbiDVQgz (ORCPT
+        with ESMTP id S1449763AbiDVQns (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Apr 2022 12:36:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C515F25A;
-        Fri, 22 Apr 2022 09:34:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0B20BB831B1;
-        Fri, 22 Apr 2022 16:33:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C0C6C385A0;
-        Fri, 22 Apr 2022 16:33:56 +0000 (UTC)
-Message-ID: <ca8b1403-ca58-a4b4-d2e2-1c682b5f0adb@xs4all.nl>
-Date:   Fri, 22 Apr 2022 18:33:54 +0200
+        Fri, 22 Apr 2022 12:43:48 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BD125EDF2
+        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 09:40:54 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id r13so17470520ejd.5
+        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 09:40:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CoGqA9rNsKJzYU/Obb8AAvf20gVKLeXNXFwl6nZ00rM=;
+        b=puSEmprmz1nabSt+ml3920aGPKkUVGoZm9P1z5qEs6WOb5oaEqNdPuB+XnBF/+pdaO
+         BVteA6H2VgQlmb0Vq/J/n/1XVZvrvGQjt3mVj7lbZ/55jU+YzyVz0YPnKdWjffXAa8Sz
+         MZZheTPjT0XiMePlwtP5H2lntWYI8T7f3sghXXsJd3g7Ti463gREa1RRPDULw3YuULJU
+         V2eu6FowolcgcwIpjbYp+q6SYrrPz3TtrfOdT2/aZwIAQaPxpVJyN7CzTxgTka8GC3Wa
+         WXEDYA8EWuQGKrc2twCsC4WwQ7w8TiQWt2zr4dmLhdutg4v2XDEey0Wxj5JTGpSZAciX
+         TulA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CoGqA9rNsKJzYU/Obb8AAvf20gVKLeXNXFwl6nZ00rM=;
+        b=H+MXcu7DzjPTVd07dqPYilYGRIXOkP02iKIHW69zKoCPtfFsjLxTQLmFzF7v1buDT6
+         TS7lupjLO0JhfBVbnriqffuscDBnA+XK0CrEUaowNMYoS3C4gy0Uky1+mZJKvsFNzhTJ
+         hMLzLTnLkBwNgzrRfIyTDoOV5ll/OQIqbDq0ceq5Oao/p0GmVBaNWYCYEFRGBZ6c6OBB
+         wsymSXkdSeZ2qVXumqd92DhUf+7UG+Z6MVwHNI4SF0ZGKLyf/MzXb+VuyOtMWNqm5FP0
+         EWrQah8eDtF84BgGhJYwdrgDYzsJ/MUSSG8jNSIkxG0sx1oHWpHc4QSmE35xStH6qinI
+         SXDA==
+X-Gm-Message-State: AOAM531Wk1hiGRsG5RzoGBSJhTU2HdM00YT/Ex3xFZByHMxEJSwBXpS3
+        WZh9jmkxUpwAYsDmDxeeliSqNAuwXFvZq/KJr8YOqQ==
+X-Google-Smtp-Source: ABdhPJzoLmBU5Xg3Lxmb7MT8CNOOwTwJf10BbLeuL2aNNlpJcThtRrea/0k1l5jXVtMthl5n+035wmUrG4QqfMQQfso=
+X-Received: by 2002:a17:907:60c9:b0:6f3:47fb:df26 with SMTP id
+ hv9-20020a17090760c900b006f347fbdf26mr3107234ejc.159.1650645652344; Fri, 22
+ Apr 2022 09:40:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 09/24] media: v4l2: Trace calculated p/b0/b1 initial
- reflist
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kernel@collabora.com, linux-kernel@vger.kernel.org,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        linux-media@vger.kernel.org
-References: <20220405204426.259074-1-nicolas.dufresne@collabora.com>
- <20220405204426.259074-10-nicolas.dufresne@collabora.com>
- <d7451087-45f1-9691-2289-999eb16ca8a0@xs4all.nl>
- <04819e457ee0135e5d0b337dccfaba69b2d46610.camel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <04819e457ee0135e5d0b337dccfaba69b2d46610.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220420235228.2767816-1-tjmercier@google.com> <YmLBTBd+5RHzr9MK@kroah.com>
+In-Reply-To: <YmLBTBd+5RHzr9MK@kroah.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Fri, 22 Apr 2022 09:40:41 -0700
+Message-ID: <CABdmKX2X6VqK4rw90+OtSOF+aFZELefuzd=YOY3+cqiOqqYALQ@mail.gmail.com>
+Subject: Re: [RFC v5 0/6] Proposal for a GPU cgroup controller
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, Tejun Heo <tj@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Shuah Khan <shuah@kernel.org>,
+        John Stultz <jstultz@google.com>,
+        Carlos Llamas <cmllamas@google.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kernel-team@android.com, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/04/2022 16:58, Nicolas Dufresne wrote:
-> Le vendredi 22 avril 2022 à 09:26 +0200, Hans Verkuil a écrit :
->> On 05/04/2022 22:44, Nicolas Dufresne wrote:
->>> Add debug print statements to print the content of P & B reference
->>> lists, to verify that the ordering of the generated reference lists is
->>> correct. This is especially important for the field decoding mode,
->>> where sorting is more complex.
->>>
->>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>> Tested-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->>> Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->>> ---
->>>  drivers/media/v4l2-core/v4l2-h264.c | 86 +++++++++++++++++++++++++++++
->>>  1 file changed, 86 insertions(+)
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
->>> index 38d8dbda0045..bcf9b7774560 100644
->>> --- a/drivers/media/v4l2-core/v4l2-h264.c
->>> +++ b/drivers/media/v4l2-core/v4l2-h264.c
->>> @@ -241,6 +241,87 @@ static int v4l2_h264_b1_ref_list_cmp(const void *ptra, const void *ptrb,
->>>  	return poca < pocb ? -1 : 1;
->>>  }
->>>  
->>> +static char ref_type_to_char (u8 ref_type)
->>
->> Spurious space before (.
->>
->> Odd that checkpatch didn't catch that.
->>
->>> +{
->>> +	switch (ref_type) {
->>> +	case V4L2_H264_FRAME_REF:
->>> +		return 'f';
->>> +	case V4L2_H264_TOP_FIELD_REF:
->>> +		return 't';
->>> +	case V4L2_H264_BOTTOM_FIELD_REF:
->>> +		return 'b';
->>> +	}
->>> +
->>> +	return '?';
->>> +}
->>> +
->>> +static const char *format_ref_list_p(const struct v4l2_h264_reflist_builder *builder,
->>> +				     struct v4l2_h264_reference *reflist,
->>> +				     char *out_str, const int len)
->>> +{
->>> +	int n = 0, i;
->>> +
->>> +	n += snprintf(out_str + n, len - n, "|");
->>> +
->>> +	for (i = 0; i < builder->num_valid; i++) {
->>> +		/* this is pic_num for frame and frame_num (wrapped) for field,
->>> +		 * but for frame pic_num is equal to frame_num (wrapped).
->>> +		 */
->>> +		int frame_num = builder->refs[reflist[i].index].frame_num;
->>> +		bool longterm = builder->refs[reflist[i].index].longterm;
->>> +
->>> +		n += scnprintf(out_str + n, len - n, "%i%c%c|",
->>> +			       frame_num, longterm ? 'l' : 's',
->>> +			       ref_type_to_char (reflist[i].fields));
->>> +	}
->>> +
->>> +	return out_str;
->>> +}
->>> +
->>> +static void print_ref_list_p(const struct v4l2_h264_reflist_builder *builder,
->>> +			     struct v4l2_h264_reference *reflist)
->>> +{
->>> +	char buf[1024];
->>> +
->>> +	pr_debug("ref_pic_list_p (cur_poc %u%c) %s\n",
->>> +		 builder->cur_pic_order_count,
->>> +		 ref_type_to_char(builder->cur_pic_fields),
->>> +		 format_ref_list_p(builder, reflist, buf, sizeof(buf)));
->>> +}
->>> +
->>> +static const char *format_ref_list_b(const struct v4l2_h264_reflist_builder *builder,
->>> +				     struct v4l2_h264_reference *reflist,
->>> +				     char *out_str, const int len)
->>> +{
->>> +	int n = 0, i;
->>> +
->>> +	n += snprintf(out_str + n, len - n, "|");
->>> +
->>> +	for (i = 0; i < builder->num_valid; i++) {
->>> +		int frame_num = builder->refs[reflist[i].index].frame_num;
->>> +		u32 poc = v4l2_h264_get_poc(builder, reflist + i);
->>> +		bool longterm = builder->refs[reflist[i].index].longterm;
->>> +
->>> +		n += scnprintf(out_str + n, len - n, "%i%c%c|",
->>> +			       longterm ? frame_num : poc,
->>> +			       longterm ? 'l' : 's',
->>> +			       ref_type_to_char(reflist[i].fields));
->>> +	}
->>> +
->>> +	return out_str;
->>> +}
->>> +
->>> +static void print_ref_list_b(const struct v4l2_h264_reflist_builder *builder,
->>> +			     struct v4l2_h264_reference *reflist, u8 list_num)
->>> +{
->>> +	char buf[1024];
->>
->> I really don't like placing 1024 bytes on the stack. Can you find another way
->> of doing this? Perhaps using pr_cont or writing each format_ref_list item
->> on a separate line.
-> 
-> Thanks, I was strongly discourage of using pr_cont (which was my first
-> approach). Rationales are well covered on LKLM and in the pr_cont documentation,
-> so I won't say more then its not visually thread safe.
-> 
-> I would like to decline the second proposition, as having the lists spread out
-> on up to 32 lines will make the trace very hard to use. What I may suggest, as I
-> would really prefer keeping this trace useful, is to use an allocation instead.
-> The performance does not matter, and I explicitly call this function inside the
-> pr_debug call so it can be compiled out.
+On Fri, Apr 22, 2022 at 7:53 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Apr 20, 2022 at 11:52:18PM +0000, T.J. Mercier wrote:
+> > This patch series revisits the proposal for a GPU cgroup controller to
+> > track and limit memory allocations by various device/allocator
+> > subsystems. The patch series also contains a simple prototype to
+> > illustrate how Android intends to implement DMA-BUF allocator
+> > attribution using the GPU cgroup controller. The prototype does not
+> > include resource limit enforcements.
+> >
+> > Changelog:
+> > v5:
+> > Rebase on top of v5.18-rc3
+>
+> Why is a "RFC" series on v5?  I treat "RFC" as "not ready to be merged,
+> if people are interested, please look at it".  But v5 seems like you
+> think this is real.
+>
+> confused,
+>
+> greg k-h
 
-Allocation is probably best here.
-
-Regards,
-
-	Hans
-
-> 
-> My last resort otherwise would be to use 32 %s formaters, and pass each of the
-> possible 32 entry (or empty string "") manually.
-> 
-> let me know what you believe is acceptable for you,
-> Nicolas
-> 
->>
->> Regards,
->>
->> 	Hans
->>
->>> +
->>> +	pr_debug("ref_pic_list_b%u (cur_poc %u%c) %s",
->>> +		 list_num, builder->cur_pic_order_count,
->>> +		 ref_type_to_char (builder->cur_pic_fields),
->>> +		 format_ref_list_b(builder, reflist, buf, sizeof(buf)));
->>> +}
->>> +
->>>  /**
->>>   * v4l2_h264_build_p_ref_list() - Build the P reference list
->>>   *
->>> @@ -261,6 +342,8 @@ v4l2_h264_build_p_ref_list(const struct v4l2_h264_reflist_builder *builder,
->>>  	       sizeof(builder->unordered_reflist[0]) * builder->num_valid);
->>>  	sort_r(reflist, builder->num_valid, sizeof(*reflist),
->>>  	       v4l2_h264_p_ref_list_cmp, NULL, builder);
->>> +
->>> +	print_ref_list_p(builder, reflist);
->>>  }
->>>  EXPORT_SYMBOL_GPL(v4l2_h264_build_p_ref_list);
->>>  
->>> @@ -296,6 +379,9 @@ v4l2_h264_build_b_ref_lists(const struct v4l2_h264_reflist_builder *builder,
->>>  	if (builder->num_valid > 1 &&
->>>  	    !memcmp(b1_reflist, b0_reflist, builder->num_valid))
->>>  		swap(b1_reflist[0], b1_reflist[1]);
->>> +
->>> +	print_ref_list_b(builder, b0_reflist, 0);
->>> +	print_ref_list_b(builder, b1_reflist, 1);
->>>  }
->>>  EXPORT_SYMBOL_GPL(v4l2_h264_build_b_ref_lists);
->>>  
->>
-> 
-
+I'm sorry for the confusion. I'll change this to PATCH in future revisions.
