@@ -2,145 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D3B350BEFB
-	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 19:46:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1440F50C2E8
+	for <lists+linux-media@lfdr.de>; Sat, 23 Apr 2022 01:09:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232726AbiDVRtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Apr 2022 13:49:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56876 "EHLO
+        id S232635AbiDVWVe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Apr 2022 18:21:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232462AbiDVRsy (ORCPT
+        with ESMTP id S232680AbiDVWVO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Apr 2022 13:48:54 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B55B07A984
-        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 10:45:26 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id i3-20020a056830010300b00605468119c3so5948643otp.11
-        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 10:45:26 -0700 (PDT)
+        Fri, 22 Apr 2022 18:21:14 -0400
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29185332414
+        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 14:11:52 -0700 (PDT)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-d39f741ba0so9876335fac.13
+        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 14:11:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=rg2t3QjS7swC7CCiD53ULPLxJwbqove3OB++0DlUPOM=;
-        b=rnQZnBYynxzLCkaXTaGnxFQL4AnOzdgbt+/LyfgIxZnFmh2kLZYF489V/PStkDRRk3
-         ELRQRo2dmDDnWjViR5NBAGniSK4SV30vYUAREBVPT6rixhn6Z3ZxjCE/ypI+r3c/OLsA
-         itQ9wujwDjGfB1gINksmSU1Tlr2sG/OrryEuBTWr6eXsBIhtqzCUbmsidLdh8bRPOwof
-         XQpDV7bqra0eFhoTtXIxH4P8sIxHFHeIb3VM/lpdH5riMPJtJhIsjdxC4AArPIXk/6qu
-         PS4OyA8Cf62F9JoCLsK87DJnBamhrR2x9P0X6xsk+zwqA0MuLmLM0LbG6ENlECOzYXTf
-         whuw==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YXEQmyORymjIJA481AWfjyxSR/+yjKPJrRduKNDWB38=;
+        b=fDHVbxU6FCd8S7/Rd9DAgJl6zv1wEk/wkE2P29kDSpG0eS2842MvhsyfDA77cLjyxu
+         rgUONCkY1tpU0T8mvU0HFXjoVWRObw/LD5NUjAJ4u4sJt7Egw6NYekdvZvRivzkZpqrB
+         Nsp7GMpmXsSd4ZSqpaRihywZA4fcaGW+dcWpirBm3Ggoy8ddk1CCATiMIJFlhgShvUcv
+         JtPNPvBfoe2Wa/b8/z6Kps5fugdA0k3+YuZCrVpEjePANK3gBcYEm6eGos/Q5eLqNbA8
+         4B3cF27l//xe5EYv+DDquumBlQKyTpnnK+0KS+a2rwJTwLHrkliBvBGwq/TIHwgcrAXF
+         vhfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=rg2t3QjS7swC7CCiD53ULPLxJwbqove3OB++0DlUPOM=;
-        b=OArUoUMZAwh4pz8sNYGtuMWgrTBjTkfNoju3qebjf5hivTBRztdyO3xBbHksXOwuj6
-         cvbjxhqD0cPVWIt98dWiH+atf/NOmhy+AALJ5o/yZs7v4kwoPlVr/33ZlRgEjHNi1DxV
-         wYPgE25DrskMMBCUDKFjzG5cyXII32y010jXenseP9B9b9LyqEK8iHBqecrfY/QV0rkc
-         bF2Wv6PkjZt4x5ZOCUU7OajnBgQALkp3txUBeXDYi2IljIHoIFcTIlRr9V52lm6JHQg0
-         0mzFLPytCQzlSUNMUIuof4+hWRdbuet3whoheP4Im4XBA4hmcIAEkNx+h9rP6roXD8qL
-         AOqg==
-X-Gm-Message-State: AOAM531vjzkf4fWDcTCZ+Ix+eZiYAjsiFAzrg3JBDkeiy/E9rCMAWQZ7
-        AT2Ty0R/JdqSkKyN1WHxGufYCQ==
-X-Google-Smtp-Source: ABdhPJzrJ9MT6DuHvfnHQFUTPgYGuhuBV0Pg3wovOt7szDKz5NOAaGD5S8Ep8UHUxc+wv1y5bNPlxg==
-X-Received: by 2002:a05:6830:440a:b0:605:87ec:9b23 with SMTP id q10-20020a056830440a00b0060587ec9b23mr1505671otv.151.1650649388208;
-        Fri, 22 Apr 2022 10:43:08 -0700 (PDT)
-Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id z5-20020a4a8085000000b0033a2f400b17sm1033343oof.25.2022.04.22.10.43.04
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YXEQmyORymjIJA481AWfjyxSR/+yjKPJrRduKNDWB38=;
+        b=M+D/YSCE6hFSiFhK1JxzG3C6h3t+DAmrDR5sj7cpyL0pVjJexROUn2sCWg614cK9Br
+         zBZlubNsMrFRPwNNR03f7kZHKwm1wO3FdY+TYZG9dqbLL0UcxyY+Vy8JX3w7ZS/XowGi
+         cYgWwUDt9LR6AStUH1Pf13bZiKQgBLIWsG0tIQy1dm+PLJGowg8EPN5v7FXP5A8wvf8G
+         YSEb0RJKZ9/e6gvkdZH11XORYG33FXxyFjpSpBMU0U4ifA97f7pFoLTpqhZ0P70mwC/+
+         fFPNkXYYkr5BcdmyP8vBf3/NawIKJMN/6uw4c0oa+aAbCOpGMsK6QUF8CBBmSBtQmFTt
+         l9NA==
+X-Gm-Message-State: AOAM533ElLUGfMRnBU/ysTsov3zb9eJ4+QcAJn/m08c7w/STKc5Tfm3p
+        NXCPMotAh8/Ts2fgqOksJArjQS7AGFbJzA==
+X-Google-Smtp-Source: ABdhPJzRlEzyQu0VL3InNz2TR/v7wSyyPiNYw+w0rKyzhJ8b1LpuPKJHnwr2P1MkrJrQZ9b3A0AqEA==
+X-Received: by 2002:a05:6808:1491:b0:2f9:f091:77c2 with SMTP id e17-20020a056808149100b002f9f09177c2mr3109433oiw.18.1650655244929;
+        Fri, 22 Apr 2022 12:20:44 -0700 (PDT)
+Received: from ma-mailsvcp-relay-lapp03.apple.com ([191.179.115.9])
+        by smtp.gmail.com with ESMTPSA id x24-20020a4a9b98000000b0033a70525c35sm1128710ooj.30.2022.04.22.12.20.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Apr 2022 10:43:07 -0700 (PDT)
-Date:   Fri, 22 Apr 2022 14:43:01 -0300
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To:     Christopher Obbard <chris.obbard@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Johan Jonker <jbx6244@gmail.com>,
-        Alex Bee <knaerzche@gmail.com>,
-        Elaine Zhang <zhangqing@rock-chips.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH 3/3] arm64: dts: rockchip: Add vdec support for RK3328
-Message-ID: <YmLpJQwdcSPHgZag@eze-laptop>
-References: <20220422133803.989256-1-chris.obbard@collabora.com>
- <20220422133803.989256-4-chris.obbard@collabora.com>
+        Fri, 22 Apr 2022 12:20:44 -0700 (PDT)
+From:   Devendra Tewari <devendra.tewari@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Devendra Tewari <devendra.tewari@gmail.com>
+Subject: [PATCH] videodev2.h: apply packed attribute to union
+Date:   Fri, 22 Apr 2022 16:20:31 -0300
+Message-Id: <20220422192031.24895-1-devendra.tewari@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220422133803.989256-4-chris.obbard@collabora.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Apr 22, 2022 at 02:38:03PM +0100, Christopher Obbard wrote:
-> The RK3328 has an vdec device with dedicated iommu.
-> Describe the device and required power-domains in the
-> devicetree.
-> 
-> Signed-off-by: Christopher Obbard <chris.obbard@collabora.com>
+Fixes clang warning: field within 'v4l2_ext_control' is less than
+'v4l2_ext_control::(anonymous union
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Signed-off-by: Devendra Tewari <devendra.tewari@gmail.com>
+---
+ include/uapi/linux/videodev2.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
->  arch/arm64/boot/dts/rockchip/rk3328.dtsi | 25 +++++++++++++++++++++++-
->  1 file changed, 24 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3328.dtsi b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
-> index f8ef149fedad..390e1e4a8fc9 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3328.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
-> @@ -306,6 +306,10 @@ power-domain@RK3328_PD_HEVC {
->  			};
->  			power-domain@RK3328_PD_VIDEO {
->  				reg = <RK3328_PD_VIDEO>;
-> +				clocks = <&cru ACLK_RKVDEC>,
-> +					 <&cru HCLK_RKVDEC>,
-> +					 <&cru SCLK_VDEC_CABAC>,
-> +					 <&cru SCLK_VDEC_CORE>;
->  				#power-domain-cells = <0>;
->  			};
->  			power-domain@RK3328_PD_VPU {
-> @@ -660,6 +664,25 @@ vpu_mmu: iommu@ff350800 {
->  		power-domains = <&power RK3328_PD_VPU>;
->  	};
->  
-> +	vdec: video-codec@ff360000 {
-> +		compatible = "rockchip,rk3328-vdec", "rockchip,rk3399-vdec";
-> +		reg = <0x0 0xff360000 0x0 0x400>;
-> +		interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks = <&cru ACLK_RKVDEC>, <&cru HCLK_RKVDEC>,
-> +			 <&cru SCLK_VDEC_CABAC>, <&cru SCLK_VDEC_CORE>;
-> +		clock-names = "axi", "ahb", "cabac", "core";
-> +		assigned-clocks = <&cru ACLK_RKVDEC>, <&cru SCLK_VDEC_CABAC>,
-> +				  <&cru SCLK_VDEC_CORE>;
-> +		assigned-clock-rates = <400000000>, <400000000>, <300000000>;
-> +		resets = <&cru SRST_VDEC_A>, <&cru SRST_VDEC_H>,
-> +			 <&cru SRST_VDEC_CABAC>, <&cru SRST_VDEC_CORE>,
-> +			 <&cru SRST_VDEC_NIU_A>, <&cru SRST_VDEC_NIU_H>;
-> +		reset-names = "video_a", "video_h", "video_cabac", "video_core",
-> +			"niu_a", "niu_h";
-> +		iommus = <&vdec_mmu>;
-> +		power-domains = <&power RK3328_PD_VIDEO>;
-> +	};
-> +
->  	vdec_mmu: iommu@ff360480 {
->  		compatible = "rockchip,iommu";
->  		reg = <0x0 0xff360480 0x0 0x40>, <0x0 0xff3604c0 0x0 0x40>;
-> @@ -667,7 +690,7 @@ vdec_mmu: iommu@ff360480 {
->  		clocks = <&cru ACLK_RKVDEC>, <&cru HCLK_RKVDEC>;
->  		clock-names = "aclk", "iface";
->  		#iommu-cells = <0>;
-> -		status = "disabled";
-> +		power-domains = <&power RK3328_PD_VIDEO>;
->  	};
->  
->  	vop: vop@ff370000 {
-> -- 
-> 2.34.1
-> 
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 3768a0a80830..767c52c722cd 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1765,7 +1765,7 @@ struct v4l2_ext_control {
+ 		struct v4l2_ctrl_vp9_compressed_hdr __user *p_vp9_compressed_hdr_probs;
+ 		struct v4l2_ctrl_vp9_frame __user *p_vp9_frame;
+ 		void __user *ptr;
+-	};
++	} __attribute__ ((packed));
+ } __attribute__ ((packed));
+ 
+ struct v4l2_ext_controls {
+-- 
+2.25.1
+
