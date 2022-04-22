@@ -2,139 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 402D250AE3F
-	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 04:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E37CE50AF43
+	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 06:50:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1443553AbiDVCzb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 22:55:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46004 "EHLO
+        id S1386020AbiDVEwm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Apr 2022 00:52:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352185AbiDVCza (ORCPT
+        with ESMTP id S241924AbiDVEw0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Apr 2022 22:55:30 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58E964C789;
-        Thu, 21 Apr 2022 19:52:38 -0700 (PDT)
-X-UUID: ff2a2f2aeaba4611930dd65b8409cff7-20220422
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4,REQID:1116bf02-5ec1-46cb-a6cc-99048546d742,OB:0,LO
-        B:0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
-        ON:release,TS:8
-X-CID-META: VersionHash:faefae9,CLOUDID:823bb6ef-06b0-4305-bfbf-554bfc9d151a,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: ff2a2f2aeaba4611930dd65b8409cff7-20220422
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 649484769; Fri, 22 Apr 2022 10:52:30 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 22 Apr 2022 10:52:28 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 22 Apr
- 2022 10:52:28 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 22 Apr 2022 10:52:27 +0800
-Message-ID: <d77e445b764cab4085390c0dd09a69f9479aec05.camel@mediatek.com>
-Subject: Re: [PATCH] media: platform: mtk-mdp: Fix mdp_ipi_comm structure
- alignment
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        <minghsiu.tsai@mediatek.com>
-CC:     <houlong.wei@mediatek.com>, <andrew-ct.chen@mediatek.com>,
-        <mchehab@kernel.org>, <matthias.bgg@gmail.com>,
-        <hans.verkuil@cisco.com>, <linux-media@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <kernel@collabora.com>,
-        <acourbot@chromium.org>
-Date:   Fri, 22 Apr 2022 10:52:27 +0800
-In-Reply-To: <7658c8e4-596b-abfc-9255-854c16f920a7@collabora.com>
-References: <20220307155653.460910-1-angelogioacchino.delregno@collabora.com>
-         <7658c8e4-596b-abfc-9255-854c16f920a7@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+        Fri, 22 Apr 2022 00:52:26 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EF5B4B1E2
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 21:49:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2A843B82A43
+        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 04:49:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CEE7C385A4
+        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 04:49:29 +0000 (UTC)
+Date:   Fri, 22 Apr 2022 06:49:27 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20220422044929.9CEE7C385A4@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Angelo,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Thu, 2022-04-21 at 13:03 +0200, AngeloGioacchino Del Regno wrote:
-> Il 07/03/22 16:56, AngeloGioacchino Del Regno ha scritto:
-> > The mdp_ipi_comm structure defines a command that is either
-> > PROCESS (start processing) or DEINIT (destroy instance); we
-> > are using this one to send PROCESS or DEINIT commands from Linux
-> > to an MDP instance through a VPU write but, while the first wants
-> > us to stay 4-bytes aligned, the VPU instead requires an 8-bytes
-> > data alignment.
-> > 
-> > Keeping in mind that these commands are executed immediately
-> > after sending them (hence not chained with others before the
-> > VPU/MDP "actually" start executing), it is fine to simply add
-> > a padding of 4 bytes to this structure: this keeps the same
-> > performance as before, as we're still stack-allocating it,
-> > while avoiding hackery inside of mtk-vpu to ensure alignment
-> > bringing a definitely bigger performance impact.
-> > 
-> > Fixes: c8eb2d7e8202 ("[media] media: Add Mediatek MDP Driver")
-> > Signed-off-by: AngeloGioacchino Del Regno <
-> > angelogioacchino.delregno@collabora.com>
-> 
-> Hello,
-> is there any issue with this patch?
-> 
-> Regards,
-> Angelo
-> 
-> > ---
-> > 
-> > This patch has been tested on Acer Chromebook R 13 (MT8173 Elm) on
-> > Debian Sid.
-> > 
-> > This is an alternative solution to the mtk-vpu approach, found
-> > here:
-> > 
-https://lore.kernel.org/all/20210920170408.1561-1-dafna.hirschfeld@collabora.com
-> > 
-> >   drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h
-> > b/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h
-> > index 2cb8cecb3077..b810c96695c8 100644
-> > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h
-> > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h
-> > @@ -40,12 +40,14 @@ struct mdp_ipi_init {
-> >    * @ipi_id        : IPI_MDP
-> >    * @ap_inst       : AP mtk_mdp_vpu address
-> >    * @vpu_inst_addr : VPU MDP instance address
-> > + * @padding       : Alignment padding
-> >    */
-> >   struct mdp_ipi_comm {
-> >   	uint32_t msg_id;
-> >   	uint32_t ipi_id;
-> >   	uint64_t ap_inst;
-> >   	uint32_t vpu_inst_addr;
-> > +	uint32_t padding;
-> >   };
-> >   
-> >   /**
-The struct definition should be keep align between Kernel and
-User(sizeof(kernel) == sizeof(md32)), for backward compatible, the new
-"padding" variable can't be accessed by Kernel and md32, just for
-alignment padding in kernel side.
+Results of the daily build of media_tree:
 
-Reviewed-by: Irui Wang <irui.wang@mediatek.com>
-> 
+date:			Fri Apr 22 05:00:11 CEST 2022
+media-tree git hash:	3d59142ad94cf60b94b3dc94c19fdafa23aec8b1
+media_build git hash:	4e29721804ea4e824c776101214389642dccad98
+v4l-utils git hash:	6de743337007df7ed8161919d747bc0a397a60c5
+edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-7890-gffb7aeea-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
+host hardware:		x86_64
+host os:		5.16.0-6-amd64
 
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm-multi: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-4.4.283-i686: OK
+linux-4.4.283-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.308-i686: OK
+linux-4.9.308-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.275-i686: OK
+linux-4.14.275-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.237-i686: OK
+linux-4.19.237-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.18-i686: OK
+linux-5.8.18-x86_64: OK
+linux-5.9.16-i686: OK
+linux-5.9.16-x86_64: OK
+linux-5.10.109-i686: OK
+linux-5.10.109-x86_64: OK
+linux-5.11.22-i686: OK
+linux-5.11.22-x86_64: OK
+linux-5.12.19-i686: OK
+linux-5.12.19-x86_64: OK
+linux-5.14.21-i686: OK
+linux-5.14.21-x86_64: OK
+linux-5.15.32-i686: OK
+linux-5.15.32-x86_64: OK
+linux-5.16.9-i686: OK
+linux-5.16.9-x86_64: OK
+linux-5.17.1-i686: OK
+linux-5.17.1-x86_64: OK
+linux-5.18-rc1-i686: OK
+linux-5.18-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
+sparse: OK
+smatch: WARNINGS
+kerneldoc: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
