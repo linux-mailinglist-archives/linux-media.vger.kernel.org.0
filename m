@@ -2,126 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5357450ADA5
-	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 04:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 402D250AE3F
+	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 04:55:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1443296AbiDVCPv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Apr 2022 22:15:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55976 "EHLO
+        id S1443553AbiDVCzb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Apr 2022 22:55:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233263AbiDVCPu (ORCPT
+        with ESMTP id S1352185AbiDVCza (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Apr 2022 22:15:50 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7DCF4B1C0;
-        Thu, 21 Apr 2022 19:12:58 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id d14so4635790qtw.5;
-        Thu, 21 Apr 2022 19:12:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Nm+mwceUxcKf/fZ1vVM8wv5jCau21BJLiGeCoTMm/Gk=;
-        b=qdAGwVf7vPb+pu5ZRN/hGrqoktVvGuCfK4ZouJOkeu0qaRNunRm2B60t+w3LLHTc1U
-         Yb3u3gaZ+3gqwzKDP8/dtHxyjeqxj5BmE77X8isv2rukBTogkKrpjMxH8cJwRxMLnI2k
-         XK4LUFC2yb87bGmEsIQBeMAC04WG3lrlGYQptQstHIzqSOPp4I3RB691Ays5ccpo7xVx
-         RpErQlumgDh2mAKQ/tsxZCeVr4PlRvNc+/n3Kr92sgnwIQcvGGz97nAZmRt+p4x7D9aB
-         QQeSavZ0wUq0Evo3eLkTHii/dQvx1O/bf3jUFKPvzFfzgjbxtwhUDSRCdRRWjKBJlWz1
-         o2yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Nm+mwceUxcKf/fZ1vVM8wv5jCau21BJLiGeCoTMm/Gk=;
-        b=RHk+hK1Fb6YMMCcpaQ0Hm6idldvAb9wOtdGH1BblQIQs9/wCo6UdsnOgymluSZHHTw
-         53i+ja8+fbgYsvuONi52rjDiplu9wm8DN7bs3t4g17Irbo9dCZRVmRNvzCL5NUpItFcS
-         hfOLwlOa2YOD4VHM0MmybLsc8e2p4d3YunR2I3fn/grNo32FDET51VP8ahyAwfZyYN30
-         G/MBfHVHp9w8qR8xRbSTUL1+z3+sDy+zgmQdR0LNYKRl1NAtNVTZRPbeOLd9mqPq0S8a
-         30X72J3e0jzWDxVkS82D+Ng+EB1dKzbgPiVgtzvW9NKUP/7xiqCs18OJ2AOVsJ3MKugm
-         9RFw==
-X-Gm-Message-State: AOAM530LU2G1RgnanhZ3XsKmXgO93jNW+04gY1mTOhlAW5G/Zd6nQxcY
-        rm7kFA1/gFTG6aEIqLaPjco=
-X-Google-Smtp-Source: ABdhPJxojN7D2vVmc8j3S5pj/VvsuFm2OYk8PC6gVi9pubbqqkuPKYNYUtrYtazOWPHVY8cYEdTQTQ==
-X-Received: by 2002:a05:622a:144e:b0:2f3:4da8:6a77 with SMTP id v14-20020a05622a144e00b002f34da86a77mr1686232qtx.574.1650593578153;
-        Thu, 21 Apr 2022 19:12:58 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id 67-20020a370b46000000b0069ed3db4b8bsm330814qkl.89.2022.04.21.19.12.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 19:12:57 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: lv.ruyi@zte.com.cn
-To:     hverkuil-cisco@xs4all.nl
-Cc:     cgel.zte@gmail.com, eagle.zhou@nxp.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        lv.ruyi@zte.com.cn, mchehab@kernel.org, ming.qian@nxp.com,
-        shijie.qin@nxp.com, Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH v2] media: amphion: no need to check return value of debugfs_create functions
-Date:   Fri, 22 Apr 2022 02:12:46 +0000
-Message-Id: <20220422021246.2731824-1-lv.ruyi@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        Thu, 21 Apr 2022 22:55:30 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58E964C789;
+        Thu, 21 Apr 2022 19:52:38 -0700 (PDT)
+X-UUID: ff2a2f2aeaba4611930dd65b8409cff7-20220422
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4,REQID:1116bf02-5ec1-46cb-a6cc-99048546d742,OB:0,LO
+        B:0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+        ON:release,TS:8
+X-CID-META: VersionHash:faefae9,CLOUDID:823bb6ef-06b0-4305-bfbf-554bfc9d151a,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: ff2a2f2aeaba4611930dd65b8409cff7-20220422
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 649484769; Fri, 22 Apr 2022 10:52:30 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 22 Apr 2022 10:52:28 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 22 Apr
+ 2022 10:52:28 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 22 Apr 2022 10:52:27 +0800
+Message-ID: <d77e445b764cab4085390c0dd09a69f9479aec05.camel@mediatek.com>
+Subject: Re: [PATCH] media: platform: mtk-mdp: Fix mdp_ipi_comm structure
+ alignment
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        <minghsiu.tsai@mediatek.com>
+CC:     <houlong.wei@mediatek.com>, <andrew-ct.chen@mediatek.com>,
+        <mchehab@kernel.org>, <matthias.bgg@gmail.com>,
+        <hans.verkuil@cisco.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kernel@collabora.com>,
+        <acourbot@chromium.org>
+Date:   Fri, 22 Apr 2022 10:52:27 +0800
+In-Reply-To: <7658c8e4-596b-abfc-9255-854c16f920a7@collabora.com>
+References: <20220307155653.460910-1-angelogioacchino.delregno@collabora.com>
+         <7658c8e4-596b-abfc-9255-854c16f920a7@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Lv Ruyi <lv.ruyi@zte.com.cn>
+Dear Angelo,
 
-When calling debugfs functions, there is no need to ever check the
-return value. The function can work or not, but the code logic should
-never do something different based on this.
+On Thu, 2022-04-21 at 13:03 +0200, AngeloGioacchino Del Regno wrote:
+> Il 07/03/22 16:56, AngeloGioacchino Del Regno ha scritto:
+> > The mdp_ipi_comm structure defines a command that is either
+> > PROCESS (start processing) or DEINIT (destroy instance); we
+> > are using this one to send PROCESS or DEINIT commands from Linux
+> > to an MDP instance through a VPU write but, while the first wants
+> > us to stay 4-bytes aligned, the VPU instead requires an 8-bytes
+> > data alignment.
+> > 
+> > Keeping in mind that these commands are executed immediately
+> > after sending them (hence not chained with others before the
+> > VPU/MDP "actually" start executing), it is fine to simply add
+> > a padding of 4 bytes to this structure: this keeps the same
+> > performance as before, as we're still stack-allocating it,
+> > while avoiding hackery inside of mtk-vpu to ensure alignment
+> > bringing a definitely bigger performance impact.
+> > 
+> > Fixes: c8eb2d7e8202 ("[media] media: Add Mediatek MDP Driver")
+> > Signed-off-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> 
+> Hello,
+> is there any issue with this patch?
+> 
+> Regards,
+> Angelo
+> 
+> > ---
+> > 
+> > This patch has been tested on Acer Chromebook R 13 (MT8173 Elm) on
+> > Debian Sid.
+> > 
+> > This is an alternative solution to the mtk-vpu approach, found
+> > here:
+> > 
+https://lore.kernel.org/all/20210920170408.1561-1-dafna.hirschfeld@collabora.com
+> > 
+> >   drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h | 2 ++
+> >   1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h
+> > b/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h
+> > index 2cb8cecb3077..b810c96695c8 100644
+> > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h
+> > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_ipi.h
+> > @@ -40,12 +40,14 @@ struct mdp_ipi_init {
+> >    * @ipi_id        : IPI_MDP
+> >    * @ap_inst       : AP mtk_mdp_vpu address
+> >    * @vpu_inst_addr : VPU MDP instance address
+> > + * @padding       : Alignment padding
+> >    */
+> >   struct mdp_ipi_comm {
+> >   	uint32_t msg_id;
+> >   	uint32_t ipi_id;
+> >   	uint64_t ap_inst;
+> >   	uint32_t vpu_inst_addr;
+> > +	uint32_t padding;
+> >   };
+> >   
+> >   /**
+The struct definition should be keep align between Kernel and
+User(sizeof(kernel) == sizeof(md32)), for backward compatible, the new
+"padding" variable can't be accessed by Kernel and md32, just for
+alignment padding in kernel side.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
----
-v2: remove all the debugfs checks
----
- drivers/media/platform/amphion/vpu_dbg.c | 12 ------------
- 1 file changed, 12 deletions(-)
-
-diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
-index 376196bea178..da62bd718fb8 100644
---- a/drivers/media/platform/amphion/vpu_dbg.c
-+++ b/drivers/media/platform/amphion/vpu_dbg.c
-@@ -413,10 +413,6 @@ int vpu_inst_create_dbgfs_file(struct vpu_inst *inst)
- 					    vpu->debugfs,
- 					    inst,
- 					    &vpu_dbg_inst_fops);
--	if (!inst->debugfs) {
--		dev_err(inst->dev, "vpu create debugfs %s fail\n", name);
--		return -EINVAL;
--	}
- 
- 	return 0;
- }
-@@ -451,10 +447,6 @@ int vpu_core_create_dbgfs_file(struct vpu_core *core)
- 						    vpu->debugfs,
- 						    core,
- 						    &vpu_dbg_core_fops);
--		if (!core->debugfs) {
--			dev_err(core->dev, "vpu create debugfs %s fail\n", name);
--			return -EINVAL;
--		}
- 	}
- 	if (!core->debugfs_fwlog) {
- 		scnprintf(name, sizeof(name), "fwlog.%d", core->id);
-@@ -463,10 +455,6 @@ int vpu_core_create_dbgfs_file(struct vpu_core *core)
- 							  vpu->debugfs,
- 							  core,
- 							  &vpu_dbg_fwlog_fops);
--		if (!core->debugfs_fwlog) {
--			dev_err(core->dev, "vpu create debugfs %s fail\n", name);
--			return -EINVAL;
--		}
- 	}
- 
- 	return 0;
--- 
-2.25.1
+Reviewed-by: Irui Wang <irui.wang@mediatek.com>
+> 
 
