@@ -2,101 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3EA650B0AC
-	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 08:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 109F850B0C1
+	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 08:42:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1444418AbiDVGet (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Apr 2022 02:34:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41198 "EHLO
+        id S1444286AbiDVGou (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Apr 2022 02:44:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349067AbiDVGes (ORCPT
+        with ESMTP id S1386580AbiDVGou (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Apr 2022 02:34:48 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0779B50B2A;
-        Thu, 21 Apr 2022 23:31:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8488DB82936;
-        Fri, 22 Apr 2022 06:31:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CDA1C385A0;
-        Fri, 22 Apr 2022 06:31:52 +0000 (UTC)
-Message-ID: <59750798-300a-9b90-f257-3a97bcd4bfb5@xs4all.nl>
-Date:   Fri, 22 Apr 2022 08:31:50 +0200
+        Fri, 22 Apr 2022 02:44:50 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E57B50B2F
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 23:41:56 -0700 (PDT)
+Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC1152F7;
+        Fri, 22 Apr 2022 08:41:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1650609714;
+        bh=k+xoq4aY6J7AshJJHqqNs7XTw3fz9Z6YP1JPY17U5Ok=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ph/G5yNU+tPaCIQ5X92O/rDtjcP8eXNEucqHuH04nDD6yGwK5lnPUpnK1ZgEnuQGQ
+         DZoWD9u2t9WIOme8fPzRG1+DxzZM0zWzZS4B7DSs+QrEDeRC0+V4xtpcCf5JR1oJd3
+         heHYWZoY+LthDpKM9JEFBTgB2t/ARQVSoP+1z8/k=
+Message-ID: <7a43e054-5e9d-2858-929b-874b7c6a0c86@ideasonboard.com>
+Date:   Fri, 22 Apr 2022 09:41:51 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v3 01/24] media: doc: Document dual use of H.264
- pic_num/frame_num
+Subject: Re: [PATCH 4/6] media: ti: cal: use CSI-2 frame number for seq number
 Content-Language: en-US
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kernel@collabora.com, linux-kernel@vger.kernel.org,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        linux-media@vger.kernel.org
-References: <20220405204426.259074-1-nicolas.dufresne@collabora.com>
- <20220405204426.259074-2-nicolas.dufresne@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220405204426.259074-2-nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>
+References: <20220421143449.552312-1-tomi.valkeinen@ideasonboard.com>
+ <20220421143449.552312-5-tomi.valkeinen@ideasonboard.com>
+ <YmHuQ6bmBgDgt5ke@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <YmHuQ6bmBgDgt5ke@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-9.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/04/2022 22:44, Nicolas Dufresne wrote:
-> These two fields need documentation as they have dual meaning. It is also
-> confusing since pic_num is a derived value from frame_num, so this should
-> help application developers. If we ever need to make a V2 of this API, I
-> would suggest to remove pic_num entirely.
+On 22/04/2022 02:52, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> ---
->  .../media/v4l/ext-ctrls-codec-stateless.rst            | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+> Thank you for the patch.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> index 6541e4c32b26..49f89b702068 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> @@ -649,10 +649,16 @@ Stateless Codec Control ID
->          :c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
->      * - __u32
->        - ``pic_num``
-> -      -
-> +      - For short term references, this should match the derived value PicNum
+> On Thu, Apr 21, 2022 at 05:34:47PM +0300, Tomi Valkeinen wrote:
+>> The userspace needs a way to match received metadata buffers to pixel
+>> data buffers. The obvious way to do this is to use the CSI-2 frame
+>> number, as both the metadata and the pixel data have the same frame
+>> number as they come from the same frame.
+>>
+>> However, we don't have means to convey the frame number to userspace. We
+>> do have the 'sequence' field, which with a few tricks can be used for
+>> this purpose.
+>>
+>> To achieve this, track the frame number for each virtual channel and
+>> increase the sequence for each virtual channel by frame-number -
+>> previous-frame-number, also taking into account the eventual wrap of the
+>> CSI-2 frame number.
+>>
+>> This way we get a monotonically increasing sequence number which is
+>> common to all streams using the same virtual channel.
+> 
+> I'd agree in principle, if it wasn't for the fact that sensors are not
+> required to produce a frame number :-S
 
-shouldn't 'should' be 'must'? Same elsewhere below.
+In that case the CAL hardware will increment the register every frame. 
+ From CAL doc:
 
-> +	(8-28) and for long term references it should match the derived value
-> +	LongTermPicNum (8-29). Note that pic_num is the same as FrameNumWrap
-> +	for frame decoding.
+Frame number.
+Matches the frame number sent by the camera when the
+camera transmits it.
+Otherwise, incremented by one on every FS short packet
+for this context.
+Reset when the context is enabled.
 
-I think this last sentence is a bit confusing. How about:
+I'll add a note about that to the desc.
 
-"When decoding frames (as opposed to fields) pic_num is the same as FrameNumWrap."
-
->      * - __u16
->        - ``frame_num``
-> -      -
-> +      - For short term references, this should match the frame_num value from
-> +	the slice header syntax (the driver will wrap the value if neeeded). For
-
-neeeded -> needed
-
-> +	long term references, this should be set to the value of
-> +	long_term_frame_idx described in the dec_ref_pic_marking() syntax.
->      * - __u8
->        - ``fields``
->        - Specifies how the DPB entry is referenced. See :ref:`Reference Fields <h264_ref_fields>`
-
-Regards,
-
-	Hans
+  Tomi
