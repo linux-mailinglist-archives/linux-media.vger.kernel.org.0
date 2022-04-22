@@ -2,163 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E37CE50AF43
-	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 06:50:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21BF250AF6E
+	for <lists+linux-media@lfdr.de>; Fri, 22 Apr 2022 07:11:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386020AbiDVEwm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Apr 2022 00:52:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41060 "EHLO
+        id S1444122AbiDVFNf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Apr 2022 01:13:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241924AbiDVEw0 (ORCPT
+        with ESMTP id S1386384AbiDVFNd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Apr 2022 00:52:26 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EF5B4B1E2
-        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 21:49:32 -0700 (PDT)
+        Fri, 22 Apr 2022 01:13:33 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2AC34B84E
+        for <linux-media@vger.kernel.org>; Thu, 21 Apr 2022 22:10:41 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2A843B82A43
-        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 04:49:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CEE7C385A4
-        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 04:49:29 +0000 (UTC)
-Date:   Fri, 22 Apr 2022 06:49:27 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220422044929.9CEE7C385A4@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        by ams.source.kernel.org (Postfix) with ESMTPS id 77C77B82A73
+        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 05:10:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF4D8C385A0;
+        Fri, 22 Apr 2022 05:10:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1650604239;
+        bh=smjUvc4uRg4xhlUXc3p/Lm4IGHpy+jmRl0IetThwUbg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=T9WDC/ShXMFmHld2O1ExU8pkUltO8/Pt6GePZWh6W8UJqEFIs1m4N3RSm+6NmMAzm
+         4PWRbZ3gyxOsSpZRI57hFyC+tq9xNI8GFro0ArneJtxs6LutYYsG9qxC5FMVvd34kD
+         GxFc4VAlFk/LyY2cxwyOmLmwBZUZerv2GEz2IQJs=
+Date:   Fri, 22 Apr 2022 07:10:34 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Ian Cowan <ian@linux.cowan.aero>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>, clabbe@baylibre.com,
+        mchehab@kernel.org, mjpeg-users@lists.sourceforge.net,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] media: staging: zoran: refactor printk debugging function
+Message-ID: <YmI4yh88pYVvVE/X@kroah.com>
+References: <20220421002316.873109-1-ian@linux.cowan.aero>
+ <20220421142153.GA2462@kadam>
+ <YmF2mM+Lqv/HOgFl@fedora>
+ <20220421155203.GB2462@kadam>
+ <YmH3IZhUrvEzZlZU@fedora>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YmH3IZhUrvEzZlZU@fedora>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Thu, Apr 21, 2022 at 08:30:25PM -0400, Ian Cowan wrote:
+> On Thu, Apr 21, 2022 at 06:52:04PM +0300, Dan Carpenter wrote:
+> > On Thu, Apr 21, 2022 at 11:22:00AM -0400, Ian Cowan wrote:
+> > > 
+> > > For using the dev_dbg() macro, do you define this in the header file
+> > > (i.e. for this it would be videocodec.h), or where should this be
+> > > included from?
+> > 
+> > dev_dbg() is defined in include/linux/dev_printk.h.  Look around at how
+> > it's used.  pr_debug() might be an option, but I don't know if we will
+> > accept that, we prefer dev_dbg().
+> > 
+> > regards,
+> > dan carpenter
+> > 
+> 
+> I'm about to submit the modified patch, but I went and looked and we
+> cannot use dev_dbg() because these specific drivers do not have any
+> association with a device struct.
 
-Results of the daily build of media_tree:
+Then please fix that issue, as there is a real struct device that they
+are using somewhere.  That is the correct solution as drivers should
+never use pr_* calls directly.
 
-date:			Fri Apr 22 05:00:11 CEST 2022
-media-tree git hash:	3d59142ad94cf60b94b3dc94c19fdafa23aec8b1
-media_build git hash:	4e29721804ea4e824c776101214389642dccad98
-v4l-utils git hash:	6de743337007df7ed8161919d747bc0a397a60c5
-edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7890-gffb7aeea-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
-host hardware:		x86_64
-host os:		5.16.0-6-amd64
+thanks,
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm-multi: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.308-i686: OK
-linux-4.9.308-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.275-i686: OK
-linux-4.14.275-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.237-i686: OK
-linux-4.19.237-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.109-i686: OK
-linux-5.10.109-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.14.21-i686: OK
-linux-5.14.21-x86_64: OK
-linux-5.15.32-i686: OK
-linux-5.15.32-x86_64: OK
-linux-5.16.9-i686: OK
-linux-5.16.9-x86_64: OK
-linux-5.17.1-i686: OK
-linux-5.17.1-x86_64: OK
-linux-5.18-rc1-i686: OK
-linux-5.18-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-kerneldoc: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+greg k-h
