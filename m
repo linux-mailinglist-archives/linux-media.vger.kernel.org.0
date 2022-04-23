@@ -2,143 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2AAA50C7D9
-	for <lists+linux-media@lfdr.de>; Sat, 23 Apr 2022 08:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6C3F50C80A
+	for <lists+linux-media@lfdr.de>; Sat, 23 Apr 2022 09:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233385AbiDWGwu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Apr 2022 02:52:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42356 "EHLO
+        id S233978AbiDWHhO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Apr 2022 03:37:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbiDWGwt (ORCPT
+        with ESMTP id S232732AbiDWHhN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Apr 2022 02:52:49 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90DC97F202;
-        Fri, 22 Apr 2022 23:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650696592; x=1682232592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/TgZTP8Sb4P0FH9slFXu/lphspGv+TGMH48WzenOT9M=;
-  b=CgLv0cNokeVuUc3sPD/1E8DHwcNLhxdF2M9XMrt7IVRTWO2dfb+Nmmjz
-   jv/wumVJ8SHweS0qUGLrlzCcGONGTySvXdvDCr+4pH4ynzSsJg1sX1tNy
-   hURvwnyHX+hWdV+kSr3hBpixlKTLx4x6trrvW6X8fGImBI0RpXoCkclHf
-   O/UyiiRBtVzEPhyq5eO2jAaergFn3ylNyLITwvwsqDe5p95V4AWScoLuz
-   xS1HAcxD0X2BRt6ufjIfONpMeLLW1WyXwYLC191hiRcxQMR3aIOgsXJY4
-   nRdeOJu90R44M0s8Zmqd4wrIF0m5mMik3oD/Klqy69EBMztsRv249KDyv
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="327776409"
-X-IronPort-AV: E=Sophos;i="5.90,284,1643702400"; 
-   d="scan'208";a="327776409"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 23:49:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,283,1643702400"; 
-   d="scan'208";a="627297258"
-Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 22 Apr 2022 23:49:48 -0700
-Received: from kbuild by 3abc53900bec with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1ni9aW-000B6g-75;
-        Sat, 23 Apr 2022 06:49:48 +0000
-Date:   Sat, 23 Apr 2022 14:49:23 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Miles Chen <miles.chen@mediatek.com>,
-        Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sat, 23 Apr 2022 03:37:13 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D9C1BA83C;
+        Sat, 23 Apr 2022 00:34:11 -0700 (PDT)
+X-UUID: 6c746fe8ae0041f5b0486d4f43f5c0f3-20220423
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4,REQID:6ba8b50a-d57b-4671-88b6-a30d4e8ea215,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:-20,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,A
+        CTION:release,TS:25
+X-CID-INFO: VERSION:1.1.4,REQID:6ba8b50a-d57b-4671-88b6-a30d4e8ea215,OB:0,LOB:
+        0,IP:0,URL:0,TC:0,Content:-20,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+        ION:release,TS:25
+X-CID-META: VersionHash:faefae9,CLOUDID:4b93aef0-da02-41b4-b6df-58f4ccd36682,C
+        OID:IGNORED,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:0,EDM:-3,File:ni
+        l,QS:0,BEC:nil
+X-UUID: 6c746fe8ae0041f5b0486d4f43f5c0f3-20220423
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1222477034; Sat, 23 Apr 2022 15:34:05 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Sat, 23 Apr 2022 15:34:04 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 23 Apr 2022 15:34:02 +0800
+Message-ID: <ad60061db14c9f08e6b1aed3389d3744d8a12be0.camel@mediatek.com>
+Subject: Re: [PATCH] media: mediatek: vcodec: Fix v4l2 compliance decoder
+ cmd test fail
+From:   "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
         AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-media@vger.kernel.org, Miles Chen <miles.chen@mediatek.com>,
-        iommu@lists.linux-foundation.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iommu/mediatek: fix NULL pointer dereference when
- printing dev_name
-Message-ID: <202204231446.IYKdZ674-lkp@intel.com>
-References: <20220422223549.4173-1-miles.chen@mediatek.com>
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        "Fritz Koenig" <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date:   Sat, 23 Apr 2022 15:34:02 +0800
+In-Reply-To: <678a06f5-0519-dab3-35ac-5915b47d422e@xs4all.nl>
+References: <20220406012048.5970-1-yunfei.dong@mediatek.com>
+         <678a06f5-0519-dab3-35ac-5915b47d422e@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220422223549.4173-1-miles.chen@mediatek.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,MAY_BE_FORGED,
+        SPF_HELO_NONE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Miles,
+Hi Hans,
 
-Thank you for the patch! Perhaps something to improve:
+Thanks for your suggestion, I will resend patch v4 according to your
+suggestion.
 
-[auto build test WARNING on joro-iommu/next]
-[also build test WARNING on v5.18-rc3 next-20220422]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Best Regards,
+Yunfei Dong
+On Thu, 2022-04-21 at 12:47 +0200, Hans Verkuil wrote:
+> On 06/04/2022 03:20, Yunfei Dong wrote:
+> > Will return -EINVAL using standard framework api when test
+> > stateless
+> > decoder with cmd VIDIOC_(TRY)DECODER_CMD.
+> > 
+> > Using another return value to adjust v4l2 compliance test for user
+> > driver(GStreamer/Chrome) won't use decoder cmd.
+> > 
+> > Fixes: 8cdc3794b2e3 ("media: mtk-vcodec: vdec: support stateless
+> > API")
+> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > ---
+> > changes compared with v2:
+> > - add reviewed-by tag
+> > changes compared with v1:
+> > - add Fixes: tag
+> > ---
+> >  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> > 
+> > diff --git
+> > a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> > b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> > index 3859e4c651c6..69b0e797d342 100644
+> > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> > @@ -51,8 +51,7 @@ static int vidioc_try_decoder_cmd(struct file
+> > *file, void *priv,
+> >  
+> >  	/* Use M2M stateless helper if relevant */
+> >  	if (ctx->dev->vdec_pdata->uses_stateless_api)
+> > -		return v4l2_m2m_ioctl_stateless_try_decoder_cmd(file,
+> > priv,
+> > -								cmd);
+> > +		return -ENOTTY;
+> >  	else
+> >  		return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
+> >  }
+> 
+> So in other words, if the stateless api is used, then
+> (TRY_)DECODER_CMD
+> is not implemented. And that's because this driver doesn't set the
+> V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF capability as that's not
+> needed.
+> And so there is no need for (TRY_)DECODER_CMD to be implemented.
+> 
+> If that's the case, then it is much better to just disable these two
+> ioctls with v4l2_disable_ioctl() if the stateless API is used.
+> 
+> And just drop the uses_stateless_api checks in both
+> vidioc_try_decoder_cmd
+> and vidioc_decoder_cmd. This patch only changed
+> vidioc_try_decoder_cmd,
+> but of course vidioc_decoder_cmd needs to be modified as well.
+> 
+> Regards,
+> 
+> 	Hans
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Miles-Chen/iommu-mediatek-fix-NULL-pointer-dereference-when-printing-dev_name/20220423-070605
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
-config: hexagon-randconfig-r041-20220422 (https://download.01.org/0day-ci/archive/20220423/202204231446.IYKdZ674-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5bd87350a5ae429baf8f373cb226a57b62f87280)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/85771767e503ca60069fe4e6ec2ddb80c7f9bafa
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Miles-Chen/iommu-mediatek-fix-NULL-pointer-dereference-when-printing-dev_name/20220423-070605
-        git checkout 85771767e503ca60069fe4e6ec2ddb80c7f9bafa
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/iommu/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/iommu/mtk_iommu.c:605:6: warning: variable 'larbdev' is uninitialized when used here [-Wuninitialized]
-           if (larbdev) {
-               ^~~~~~~
-   drivers/iommu/mtk_iommu.c:597:24: note: initialize the variable 'larbdev' to silence this warning
-           struct device *larbdev;
-                                 ^
-                                  = NULL
-   1 warning generated.
-
-
-vim +/larbdev +605 drivers/iommu/mtk_iommu.c
-
-   592	
-   593	static void mtk_iommu_release_device(struct device *dev)
-   594	{
-   595		struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-   596		struct mtk_iommu_data *data;
-   597		struct device *larbdev;
-   598		unsigned int larbid;
-   599	
-   600		if (!fwspec || fwspec->ops != &mtk_iommu_ops)
-   601			return;
-   602	
-   603		data = dev_iommu_priv_get(dev);
-   604		larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
- > 605		if (larbdev) {
-   606			larbdev = data->larb_imu[larbid].dev;
-   607			device_link_remove(dev, larbdev);
-   608		}
-   609	
-   610		iommu_fwspec_free(dev);
-   611	}
-   612	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
