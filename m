@@ -2,187 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C699950C5D2
-	for <lists+linux-media@lfdr.de>; Sat, 23 Apr 2022 02:52:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF95750C789
+	for <lists+linux-media@lfdr.de>; Sat, 23 Apr 2022 07:18:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230324AbiDWAzU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Apr 2022 20:55:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43486 "EHLO
+        id S233160AbiDWFU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Apr 2022 01:20:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229927AbiDWAzT (ORCPT
+        with ESMTP id S229945AbiDWFU4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Apr 2022 20:55:19 -0400
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com (mail-eopbgr20082.outbound.protection.outlook.com [40.107.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B00D1527B8;
-        Fri, 22 Apr 2022 17:52:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dJFjL5xUJjn+6ODWjsK9KJ0fme1lgH+NE1uY21IIykXPDR64bxUfkwHaYdUnGJQvB0GpOTTartzR8q2//qdKh+aw0OQF8EVyEFqBFigzT/Gkf/Couia+Kx2TBLfGTf9u5dzFfH8ekGCX5l3p3rvrjJvpsfL58jQmBrLAaJiE0Ogrjw1AeK1nvEdUTbUfHT2dk31U8ZDEOwMMSOwy952Jp4BsBP7FdNXm4mq55WPqRfoY6amr40p1jm4vqmVsB1lgLUvV6/oi7THfg6JGBQZKTEWDhUb+TIyIai2epLJYeUuessvJpAl1SHrRUxj2R4JDJC6F0LhWKKLUUk3b3Yw8sA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eooCWOIQxi/Y5sdRiTOG7bnECERJnRSGRUfvnDU7tys=;
- b=W1VACCPcQf8e77l10/UMYTBIBLk+S5WJOrVFBgX69Il1Jq/n8RSVgYHXVwGBB6i9x7bivTra5g/bo0SpXDDWQ7BnVVirMTl7lSLM3VP/y/iOiHc1TrALmQqk73wy7thd3ouvhmchC0mZaLwe9KIBm1+Do2sa6yOdcRCUurMr4SnVB1YmTvU6pMFOcjMgCqrrgvtt0Dyq0g9xJB8NWdZ7GAg9Dum9nbLrLO7UDNUzycQm1kWUU8kCIhjM+aE7xE+FiFGrhQM5KySBHLsd1iYepwG4RAdjxZ7U2gFWVGrhKD4pExI3U3M0Sdl+Ueiukc5h3THVPUJ6dk189dZuSPcy9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector2-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eooCWOIQxi/Y5sdRiTOG7bnECERJnRSGRUfvnDU7tys=;
- b=Q0ysQt2emclC6cg4QaWYEV1K4F3IgdfIqd1VsLrOexNWoZk8VXpo3ymsgupIvuZM8ZUcGKcKdW0c8qG+swUYQt+Sct+p49RcwoMG2L+bexEoOJ5Lf4+mxl3o9dRvZ9Z3iAvRw7rqQ0BzexXeZwfw9oGEf+153J0q10aDLbWYkwE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
- by VI1PR04MB6957.eurprd04.prod.outlook.com (2603:10a6:803:135::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.17; Sat, 23 Apr
- 2022 00:52:20 +0000
-Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::255c:3e75:6c8a:54c5]) by AS4PR04MB9244.eurprd04.prod.outlook.com
- ([fe80::255c:3e75:6c8a:54c5%9]) with mapi id 15.20.5186.014; Sat, 23 Apr 2022
- 00:52:20 +0000
-Message-ID: <d6ac234f-c21b-b583-f375-1e7cbdd89adf@oss.nxp.com>
-Date:   Sat, 23 Apr 2022 03:52:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] media: imx-jpeg: Add pm-sleep support for imx-jpeg
-Content-Language: en-US
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de
-Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20220406094703.8229-1-ming.qian@nxp.com>
-From:   "mirela.rabulea@oss.nxp.com" <mirela.rabulea@oss.nxp.com>
-In-Reply-To: <20220406094703.8229-1-ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR07CA0285.eurprd07.prod.outlook.com
- (2603:10a6:800:130::13) To AS4PR04MB9244.eurprd04.prod.outlook.com
- (2603:10a6:20b:4e3::9)
+        Sat, 23 Apr 2022 01:20:56 -0400
+Received: from bee.birch.relay.mailchannels.net (bee.birch.relay.mailchannels.net [23.83.209.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFB078D6B1
+        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 22:17:58 -0700 (PDT)
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+        by relay.mailchannels.net (Postfix) with ESMTP id F0F1B80161E;
+        Sat, 23 Apr 2022 05:17:57 +0000 (UTC)
+Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
+        (Authenticated sender: dreamhost)
+        by relay.mailchannels.net (Postfix) with ESMTPA id 67C9B8014FB;
+        Sat, 23 Apr 2022 05:17:57 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650691077; a=rsa-sha256;
+        cv=none;
+        b=XWY/q9enU7eu2PjU2cTX22W3WeHCxFHD3KkGZov9CLDcKZh4KO4VWqVv+rVD1CuRZf2NrP
+        fx2+xcz0jNP9DeavIe0kt1WdswW0SCuxv73VKBlKbBh/r7WXU7LJDJ6qqf3agJVmHn7p0K
+        UBSchDxfxEQWmQ4iRR5JMYKMBrPGw8AxHOdjioK43pMywHbUAMN/VQYdsIPmpWEgCLGcuj
+        9OsoRbuLeEwf9MeLYyHqTP++vTB4n0HfFgSlm8xlYoxTCLsgtrAUFX3vmipaxOMWyAevND
+        Y+wuzKXF1eA0qMkkNosabnXfGr48tTyvgeb7ed0leNgaXxOpNm7HW12VSdTaEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+        s=arc-2022; t=1650691077;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:dkim-signature;
+        bh=O2YpLxCZX0gFzvrzeHxWNDZ4KHtQ9BZwLgJu+fxKaVc=;
+        b=7D4D08XKd+rTDsamAse+Xp5jYH5/qUzR/HELEvVE9V+yQzWgRYt3sSAlUEG3Ivcnu0A5z1
+        iIcsMWk7SjLWh7rbHGqJZdq1+JuLgYEoduaWXgXn+6nv543hfjc3MnX9HbLwSEFLkgM6hJ
+        wD2w7Y/JE1bBChrtBA33wZllem6hG1Hx1nBEYRoOVVr10kpva44LIL4gkDT7yfFbN6TtF3
+        gcEp4ExWhrMMVN6ebJYS95vQF0DoINIOh5x/3QmtBZk6ywKWvX384UZ+vxIRZZ9N2P/zZW
+        0GF2o+zGhdWupFZQdiz6D741uGxpIftRPAze/+nm43XvOPX846S4qdRCoV+k8Q==
+ARC-Authentication-Results: i=1;
+        rspamd-67b64f579b-chnfp;
+        auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Abiding-Tasty: 578c31796007b5b1_1650691077720_3305558993
+X-MC-Loop-Signature: 1650691077720:1014664239
+X-MC-Ingress-Time: 1650691077719
+Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+        by 100.120.38.149 (trex/6.7.1);
+        Sat, 23 Apr 2022 05:17:57 +0000
+Received: from localhost.localdomain (unknown [69.12.38.97])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ian@linux.cowan.aero)
+        by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4Klfg82dGGz1L0;
+        Fri, 22 Apr 2022 22:17:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+        s=dreamhost; t=1650691077;
+        bh=O2YpLxCZX0gFzvrzeHxWNDZ4KHtQ9BZwLgJu+fxKaVc=;
+        h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+        b=XaBXrL0qtIETBlBIGnO4x+jXFn86bKpPQLwQL77nz+jc6k/p4JwNhjMFuV5U2EOPb
+         nIUPQirbj036iCguQ2kwOuaNz4fTzi9GY5z4Xg8WKdQf9dLhqTOHdhFCsQN4zAxLT9
+         M8ChCdtrXpGA5XSf5YgolpoE19MZiu7AedamotG8885kO8h3qxdPiTddPP83gh5nXr
+         yVAnmgNeXjKmAq9VPqqLA9kxODVT83OUqI73dKeIPprK2SRc2euUiYxYgjZ4U46Jll
+         PMjPBasFv7NQlUEg7Q60DCgkuhghSkfQXyYlNAWQEoscUB1bweWMm50e/NQ/xNsD4R
+         VopJtLlKqsfBQ==
+From:   Ian Cowan <ian@linux.cowan.aero>
+To:     clabbe@baylibre.com
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        dan.carpenter@oracle.com, mjpeg-users@lists.sourceforge.net,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        ian@linux.cowan.aero
+Subject: [PATCH 1/4] staging: media: zoran: add zrdev_dbg() macros
+Date:   Sat, 23 Apr 2022 01:17:45 -0400
+Message-Id: <20220423051745.292683-1-ian@linux.cowan.aero>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ed9a94a3-fb5d-429c-60d3-08da24c38520
-X-MS-TrafficTypeDiagnostic: VI1PR04MB6957:EE_
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB6957AAC0FEF0F75FC451E783CEF69@VI1PR04MB6957.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ABoXWxnkhzmIeGzmOVAn/6U700SQlD49EBdZxRplAm7ndJFJ94H1qmJifAQbmUjlBC1owNverfkCsGXdcg/gbFIYZJzssPbP2PKpeMWr21AnoT45hTffNpcOMk+MK0rd/ZN7EfP7kWfLDE3LDFBOl/vA/+sKP5hkW1lUpUIEJBNrIIrAeBUvdrqGAU6CymvQkV28S94dVQg6IyoshKWgz3GA1NIajoJKwYbptK+qXdeLHfjICf8b2d6RCck3HzqYAFXy/4w/SZxKpOoznwnyv4q/sg55jUu8Zt8eJb7V+O1TNCDoLu0IHr2S7m2eZ3UPwxdZ7ZeI5OIHQIU/9a3GLBwJIShUIUUlk81tN3unXKUHyzbHsdROK7AexXknqfnQG83C98veG/+1s10SUGKJFUA34biZzyoM0JsOTQsOSptkxCXahSsJKxB7WUcoUv1EVmbmsQKso7CkrNFHS9w+OjujYhWo+IaJesWY/dubPmeMDNdcUi6bGdbd1CRApWNbW819uxP4G3N7vlm/JG2jmTgWmqn77OeTS9fjZH657qp8Pwpac/jY4HfTsPApUp6BAvfRo6Gxju4mqCK+HyASolmwbg9bbcxL61RwTCX7y8gskSEkf/YMsC4ilvtvKvN41C82yUp6SgXsZBr6wrt2FUoZ5SyGRVvjffsrU8PZ7t7CAGby61pfnaCwYbRiIMr0wJMI7GKhWkI1zUPl+OYjYsIGZL0BeW902FRHjY3V52tXRbY2MoswgkUDJjLbY3VW/opFbZsI0Ib17t6jo+3hrg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(83380400001)(8936002)(66476007)(52116002)(6666004)(53546011)(86362001)(31696002)(4326008)(8676002)(26005)(6512007)(6506007)(6486002)(66946007)(7416002)(66556008)(31686004)(5660300002)(508600001)(186003)(2906002)(316002)(38100700002)(38350700002)(2616005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2pNdDBQcHp1cVE3OGpMbVN6bTdiSXgxaEs1WTBaYmtFTDlmOFNOMkc2OWhR?=
- =?utf-8?B?bHFyQ08vaGVudW5NNjdNNHRzSHJsN254czFqQjlIMWw4bFFSYkk5VlZGQVRG?=
- =?utf-8?B?dzcydmg0a2duTjhWcENwMjBpQmZJMHZVZktjZzJGckd0MlN3b0hLMHpEVnFR?=
- =?utf-8?B?ZzkvdE9EK1A0dE4vVlBqMy9vbGtiWDBqc3VhempGZ0RrcTdHdWJjVmozWHdY?=
- =?utf-8?B?UURqZkYzWDhHM3ptWUJJOVMrZmFCUS9PeTNqNkRJYjA4YUtzOXpEN05BRk9I?=
- =?utf-8?B?Ti9GSkdTQStCVmxObERiK2VhbkVhSElwQVVxbmg4YXdCT1JJR1BBRGNTSE1E?=
- =?utf-8?B?eHphcXpSemY3S3FDMEFQRDZLQk82ZjY3anFVUElRcVBVMXFKU0dldkRPOHMz?=
- =?utf-8?B?ekttT3dJaCtUUUZIcjZOOHU2MTNIdW1jUWZWYWtqZm95VFhKV1lDa1FqczA5?=
- =?utf-8?B?a05kUDZhWEJDUVJRRGRUZmNPWERiWnZmMmhGQVRESHBKcytENm8vSFZidEsv?=
- =?utf-8?B?Mm5keXBOaVc0S1c5MFRCU2F6UjJ0NStGSVVpTlBJZFFlQ2hzVm8vaEROclNi?=
- =?utf-8?B?MEZacStZV2M0K1ozSDRuOSt3NDlRSi8xVE9UbjN4Q1doZy9sRWtWMGtYM0tK?=
- =?utf-8?B?ZUFSOWQ2ZWZ4WEkzbndDdkRXL291NU5kM25hTDlRTENORHQ2Z1BtcDAvQjFB?=
- =?utf-8?B?VE1lbExSODZWbzZsbmgyTXRCcEJrZUVIZG5Jb05UUmlBbXcwcEpPU3U0dDVP?=
- =?utf-8?B?SHd3dGdUV0xpUUZPNzlGSWlzUEdJSnEzRktPR3lBSVppdzRnNDI3TFdEaDFE?=
- =?utf-8?B?Rnl0QmxsdVNtNWs1K0QxUlgySUFpbG8yVXVSUjQxeTlxeTg5S1FuQ2x5bXY2?=
- =?utf-8?B?RTcxeTk3WGdlR3lIdlhlSHd6cXhsQjBUd3g4NTVxZ2xvVmY4M1hSQkRubTc3?=
- =?utf-8?B?MUI1MDQ2M2x2ZElGek9MSHEwWlQ3VGJISXpHdjN0YmVJK3d4SGtVWmlmdGhj?=
- =?utf-8?B?a25XTGFaUEdhWmp5R1NXL1pkVElNZStjbDN6b05pUzZSRmJjbERqdHU5NVFp?=
- =?utf-8?B?Q2R2d2hFMVNvTTVjbEV1NVczRCt6TXZkZmF3NEdwd2hRSjlONm1jUWU2aWZM?=
- =?utf-8?B?VXB3T1puWnloQ2VJQTZVbXJkdzd5d3E5MU5uVWRxcUdRdVhobWxEeGZRTFJm?=
- =?utf-8?B?WGJCUlltOEpiVlRiVURLb3JhTFhUY1ZickdYL0lZS2JLUTdjZTRadFRDNzU1?=
- =?utf-8?B?SFZDa010OG0xZURkKytEb0lFWFFsbWJzY0V3YWlRTkliMWkvSG1wSERBS3BQ?=
- =?utf-8?B?Sm9hcS9wM29hQ3MxaFp3NDhoaVl0aU5weEYwWTlGUWlBSHdBd1NUampoUS9l?=
- =?utf-8?B?c0F4UE5XKzdGNjBSclJSQ1REbytwWXpHNjZENXlxWStmcEExZXZQbEpBMFVm?=
- =?utf-8?B?WnNKUEhqa3dDQjVEbzFNZjRuaXVrd09LaFBkV2NpcnFVQmV5Y0pENU1telV6?=
- =?utf-8?B?N3NZM0FDc29EZUxLc3llVS9OTXVuSjJrSlR5MWQvRUNuSTZwVHgyaGUwN2M0?=
- =?utf-8?B?WmNsMncwS01zd1RSRTdkWkxtVDkvMjR1Q1pPWDJqR0dMbFdxMy9zMkdDcTRY?=
- =?utf-8?B?OTZISlpBSlJLWXNENjRUSUxNOTF3MHFuTWYvd0pGTmlJd0VtMUJvMHdLN3lz?=
- =?utf-8?B?TjRpKzlYUEgrZ2FFeTQvSlJuU29ZOXNQUFFQdzFRMXJvenVYaTFtSGJlTFda?=
- =?utf-8?B?QUZCUGI5R1MyNlRBS1VuUTNHZ1hXTzRrazBlaTNiVHdGMThNWmlaZG9TMGZW?=
- =?utf-8?B?eTZZWWtxRGdCdllqNEFHaVp2cHoxTTJ3SEFmcTZPWnAvTCtmcFNZUnNlWlF3?=
- =?utf-8?B?Zm9qUmRMdGtQeHZ1dVdmRHJoYTFsKzN4em9walhQaU9VSWRnRkdDdmZ5cTIz?=
- =?utf-8?B?VDA3bTFzNzY3OGhqZlcxY0h4Sm5tbVFZYTdIeitKaGdXYkcwRHJVU3FOZTFq?=
- =?utf-8?B?dzNvbGlGTGIya2RlRkhuQlJ2d2JRMVEzNWJ0ZFFwRTJiWUVsalRxcm43M3Bp?=
- =?utf-8?B?VXZtMmtKK0VnUHN4TXRhT2tDc1QvL0hrdkNGMkJqcm1aSmkvQjdybEVxbWtT?=
- =?utf-8?B?ckZnU1VHY0cwYU9pTTBsTExrcGxrN0Z5Sm94ZFVhUitZais0YkpiSU02ek13?=
- =?utf-8?B?OWFqc0tXWUlvTDMwMEVaRk1kbGpuM3kzcDNVbjB3ZWJDalpyUXNyUWcrTWNR?=
- =?utf-8?B?NS9nV0M2cTBJV0Q5RnJPYkFNSE1SVWVORzVqbEZFaklVVk5JSU5Ia1lDWHIy?=
- =?utf-8?B?ZjFkdFVnYmNsOXZMNzJxUVZONytzbmlXektIOHorbDROYjRXWDFWUEk5MFVC?=
- =?utf-8?Q?4ixySPCOANocEsIY=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed9a94a3-fb5d-429c-60d3-08da24c38520
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2022 00:52:20.0028
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EAqrv3PKPF/dRLaOxYuW4WF7M+nkcLP5UbkRxLIVfD55RAesaTu0Uz1tOW4zj74tLNfY4YKTcJXxxMRnijCb+Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6957
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This adds the zrdev_dbg() (pointing to dev_dbg()), zrdev_err() (pointing
+to dev_err()), and zrdev_info() (pointing to dev_info()) macros to the
+zoran drivers. These are the preferred method for debugging and this
+will allow to extract the device from the zoran struct to make the call.
 
+Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+---
+ drivers/staging/media/zoran/zoran.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-On 06.04.2022 12:47, Ming Qian wrote:
-> Wait finishing jpeg job before system sleep,
-> otherwise the encoding/decoding can't be resumed after suspend.
-> 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
+index 654c95fa5aba..42b86356c022 100644
+--- a/drivers/staging/media/zoran/zoran.h
++++ b/drivers/staging/media/zoran/zoran.h
+@@ -19,6 +19,7 @@
+ #define _BUZ_H_
+ 
+ #include <linux/debugfs.h>
++#include <linux/dev_printk.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/videobuf2-core.h>
+@@ -301,6 +302,18 @@ static inline struct zoran *to_zoran(struct v4l2_device *v4l2_dev)
+ 
+ #endif
+ 
++/**
++ * Debugging macros
++ */
++#define zrdev_dbg(zr, format, args...) \
++	dev_dbg(&zr->video_dev->dev, format, ##args) \
++
++#define zrdev_err(zr, format, args...) \
++	dev_err(&zr->video_dev->dev, format, ##args) \
++
++#define zrdev_info(zr, format, args...) \
++	dev_info(&zr->video_dev->dev, format, ##args) \
++
+ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq, int dir);
+ void zoran_queue_exit(struct zoran *zr);
+ int zr_set_buf(struct zoran *zr);
+-- 
+2.35.1
 
-Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-
-> ---
->   .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 24 +++++++++++++++++++
->   1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> index ccc26372e178..3df51d866011 100644
-> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> @@ -2356,9 +2356,33 @@ static int mxc_jpeg_runtime_suspend(struct device *dev)
->   }
->   #endif
->   
-> +#ifdef CONFIG_PM_SLEEP
-> +static int mxc_jpeg_suspend(struct device *dev)
-> +{
-> +	struct mxc_jpeg_dev *jpeg = dev_get_drvdata(dev);
-> +
-> +	v4l2_m2m_suspend(jpeg->m2m_dev);
-> +	return pm_runtime_force_suspend(dev);
-> +}
-> +
-> +static int mxc_jpeg_resume(struct device *dev)
-> +{
-> +	struct mxc_jpeg_dev *jpeg = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = pm_runtime_force_resume(dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	v4l2_m2m_resume(jpeg->m2m_dev);
-> +	return ret;
-> +}
-> +#endif
-> +
->   static const struct dev_pm_ops	mxc_jpeg_pm_ops = {
->   	SET_RUNTIME_PM_OPS(mxc_jpeg_runtime_suspend,
->   			   mxc_jpeg_runtime_resume, NULL)
-> +	SET_SYSTEM_SLEEP_PM_OPS(mxc_jpeg_suspend, mxc_jpeg_resume)
->   };
->   
->   static int mxc_jpeg_remove(struct platform_device *pdev)
