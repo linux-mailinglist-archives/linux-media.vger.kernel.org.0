@@ -2,55 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2D1450C7B5
-	for <lists+linux-media@lfdr.de>; Sat, 23 Apr 2022 07:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2AAA50C7D9
+	for <lists+linux-media@lfdr.de>; Sat, 23 Apr 2022 08:50:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233468AbiDWFye (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Apr 2022 01:54:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51728 "EHLO
+        id S233385AbiDWGwu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Apr 2022 02:52:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231492AbiDWFyd (ORCPT
+        with ESMTP id S229565AbiDWGwt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Apr 2022 01:54:33 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8942912AC9
-        for <linux-media@vger.kernel.org>; Fri, 22 Apr 2022 22:51:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 36014CE2DB2
-        for <linux-media@vger.kernel.org>; Sat, 23 Apr 2022 05:51:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D009C385A5;
-        Sat, 23 Apr 2022 05:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1650693092;
-        bh=5TfSzoM0+C34kFA270DcwrDwiICarNl9PErqjvsvgTo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U89bcblhhca3nsvoaUke0u7d+3p0CiHD/UB3cZssf5WCzDou/ql9fPVJa83D0hFoD
-         qu/IfndpWM8t7fcUzTlixos3bHPGKS4xEdiX2CkhIbCEoup8prGtUy7K43D5Pyaq5U
-         wy0E5VQEV2yFpmX8GkqTJTmnKhRZ4nfH06s45e6A=
-Date:   Sat, 23 Apr 2022 07:51:27 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ian Cowan <ian@linux.cowan.aero>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>, clabbe@baylibre.com,
-        mchehab@kernel.org, mjpeg-users@lists.sourceforge.net,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: staging: zoran: refactor printk debugging function
-Message-ID: <YmOT357wfr3/DqzD@kroah.com>
-References: <20220421002316.873109-1-ian@linux.cowan.aero>
- <20220421142153.GA2462@kadam>
- <YmF2mM+Lqv/HOgFl@fedora>
- <20220421155203.GB2462@kadam>
- <YmH3IZhUrvEzZlZU@fedora>
- <YmI4yh88pYVvVE/X@kroah.com>
- <YmONU1yZ9FATroR9@fedora>
+        Sat, 23 Apr 2022 02:52:49 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90DC97F202;
+        Fri, 22 Apr 2022 23:49:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650696592; x=1682232592;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/TgZTP8Sb4P0FH9slFXu/lphspGv+TGMH48WzenOT9M=;
+  b=CgLv0cNokeVuUc3sPD/1E8DHwcNLhxdF2M9XMrt7IVRTWO2dfb+Nmmjz
+   jv/wumVJ8SHweS0qUGLrlzCcGONGTySvXdvDCr+4pH4ynzSsJg1sX1tNy
+   hURvwnyHX+hWdV+kSr3hBpixlKTLx4x6trrvW6X8fGImBI0RpXoCkclHf
+   O/UyiiRBtVzEPhyq5eO2jAaergFn3ylNyLITwvwsqDe5p95V4AWScoLuz
+   xS1HAcxD0X2BRt6ufjIfONpMeLLW1WyXwYLC191hiRcxQMR3aIOgsXJY4
+   nRdeOJu90R44M0s8Zmqd4wrIF0m5mMik3oD/Klqy69EBMztsRv249KDyv
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="327776409"
+X-IronPort-AV: E=Sophos;i="5.90,284,1643702400"; 
+   d="scan'208";a="327776409"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 23:49:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,283,1643702400"; 
+   d="scan'208";a="627297258"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 22 Apr 2022 23:49:48 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1ni9aW-000B6g-75;
+        Sat, 23 Apr 2022 06:49:48 +0000
+Date:   Sat, 23 Apr 2022 14:49:23 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Miles Chen <miles.chen@mediatek.com>,
+        Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-media@vger.kernel.org, Miles Chen <miles.chen@mediatek.com>,
+        iommu@lists.linux-foundation.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iommu/mediatek: fix NULL pointer dereference when
+ printing dev_name
+Message-ID: <202204231446.IYKdZ674-lkp@intel.com>
+References: <20220422223549.4173-1-miles.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YmONU1yZ9FATroR9@fedora>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+In-Reply-To: <20220422223549.4173-1-miles.chen@mediatek.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,43 +75,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Apr 23, 2022 at 01:23:31AM -0400, Ian Cowan wrote:
-> On Fri, Apr 22, 2022 at 07:10:34AM +0200, Greg KH wrote:
-> > On Thu, Apr 21, 2022 at 08:30:25PM -0400, Ian Cowan wrote:
-> > > On Thu, Apr 21, 2022 at 06:52:04PM +0300, Dan Carpenter wrote:
-> > > > On Thu, Apr 21, 2022 at 11:22:00AM -0400, Ian Cowan wrote:
-> > > > > 
-> > > > > For using the dev_dbg() macro, do you define this in the header file
-> > > > > (i.e. for this it would be videocodec.h), or where should this be
-> > > > > included from?
-> > > > 
-> > > > dev_dbg() is defined in include/linux/dev_printk.h.  Look around at how
-> > > > it's used.  pr_debug() might be an option, but I don't know if we will
-> > > > accept that, we prefer dev_dbg().
-> > > > 
-> > > > regards,
-> > > > dan carpenter
-> > > > 
-> > > 
-> > > I'm about to submit the modified patch, but I went and looked and we
-> > > cannot use dev_dbg() because these specific drivers do not have any
-> > > association with a device struct.
-> > 
-> > Then please fix that issue, as there is a real struct device that they
-> > are using somewhere.  That is the correct solution as drivers should
-> > never use pr_* calls directly.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
-> 
-> I just resubmitted and this time used dev_dbg() (I split the resubmitted
-> patch into 4 parts that will work if they are applied in order). There
-> were a few places that pr_debug() had to be used (or it can be changed
-> back to dprintk()) because they are cleanup functions and do not have
-> any devices available at the cleanup. If there is a better way to handle
-> that, I will go back and make a modification to that. Other than those 3
-> spots, dev_dbg() is being used.
+Hi Miles,
 
-Looks good, nice work!
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on joro-iommu/next]
+[also build test WARNING on v5.18-rc3 next-20220422]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Miles-Chen/iommu-mediatek-fix-NULL-pointer-dereference-when-printing-dev_name/20220423-070605
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
+config: hexagon-randconfig-r041-20220422 (https://download.01.org/0day-ci/archive/20220423/202204231446.IYKdZ674-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5bd87350a5ae429baf8f373cb226a57b62f87280)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/85771767e503ca60069fe4e6ec2ddb80c7f9bafa
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Miles-Chen/iommu-mediatek-fix-NULL-pointer-dereference-when-printing-dev_name/20220423-070605
+        git checkout 85771767e503ca60069fe4e6ec2ddb80c7f9bafa
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/iommu/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/iommu/mtk_iommu.c:605:6: warning: variable 'larbdev' is uninitialized when used here [-Wuninitialized]
+           if (larbdev) {
+               ^~~~~~~
+   drivers/iommu/mtk_iommu.c:597:24: note: initialize the variable 'larbdev' to silence this warning
+           struct device *larbdev;
+                                 ^
+                                  = NULL
+   1 warning generated.
+
+
+vim +/larbdev +605 drivers/iommu/mtk_iommu.c
+
+   592	
+   593	static void mtk_iommu_release_device(struct device *dev)
+   594	{
+   595		struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+   596		struct mtk_iommu_data *data;
+   597		struct device *larbdev;
+   598		unsigned int larbid;
+   599	
+   600		if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+   601			return;
+   602	
+   603		data = dev_iommu_priv_get(dev);
+   604		larbid = MTK_M4U_TO_LARB(fwspec->ids[0]);
+ > 605		if (larbdev) {
+   606			larbdev = data->larb_imu[larbid].dev;
+   607			device_link_remove(dev, larbdev);
+   608		}
+   609	
+   610		iommu_fwspec_free(dev);
+   611	}
+   612	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
