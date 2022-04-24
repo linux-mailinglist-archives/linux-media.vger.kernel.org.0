@@ -2,38 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3DAB50D5DB
+	by mail.lfdr.de (Postfix) with ESMTP id 5C19C50D5DA
 	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 00:45:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239841AbiDXWsR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Apr 2022 18:48:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59428 "EHLO
+        id S239848AbiDXWsV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Apr 2022 18:48:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239805AbiDXWsQ (ORCPT
+        with ESMTP id S239805AbiDXWsU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Apr 2022 18:48:16 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03CA811179
-        for <linux-media@vger.kernel.org>; Sun, 24 Apr 2022 15:45:15 -0700 (PDT)
+        Sun, 24 Apr 2022 18:48:20 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B8255FEB;
+        Sun, 24 Apr 2022 15:45:17 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B0D9822
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 00:45:13 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1242824;
+        Mon, 25 Apr 2022 00:45:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1650840313;
-        bh=rZiyukLm5tkcAvnL8wCm/4mKw8yXARS3JgX86848ZUo=;
-        h=Date:From:To:Subject:From;
-        b=Dglixcxt+oeMPrGyzZTT1bJnq1oH+0/bBtmaCB5ZemHClfuuY7zEJUI2JfZ2ZKdhD
-         JZNjDdGGOhHArOuQyLBJgOhjDW+lDwlKmPY8MqHJ3Wfc/B5eZdG8VKezqLHWXr2a7k
-         z+jsK+IKT6UN+A2/prG90Xj7qIeeUgGuS/N5Ggjc=
-Date:   Mon, 25 Apr 2022 01:45:12 +0300
+        s=mail; t=1650840316;
+        bh=QuNx9M5h0yWH2ZiR8750JVdiuGmZkxKvi94dD/ugCaY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LBPYJd7yjellY+h6G6ncXNqbymTdi1MKZ8AOLeYGA1HzG9W7wPS+1nWRLFC3FQzoL
+         vB3gKBMxtw3GH/8JesaIKfEUoZsKFw62gN+EdB6pu1rVAlBHz/PdTE65ElN3o/kKJx
+         9hQhO6xJg8fTtK/FwwxFJO6S+cYBBsGKvBcuC+rY=
+Date:   Mon, 25 Apr 2022 01:45:15 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.19] uvcvideo fixes and improvements
-Message-ID: <YmXS+Fx9meoZv5W8@pendragon.ideasonboard.com>
+To:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2] docs: media: uvcvideo: Use linux-media mailing list
+Message-ID: <YmXS+2co6XGEDIDm@pendragon.ideasonboard.com>
+References: <20220315221007.1045878-1-j.neuschaefer@gmx.net>
+ <YjEQz1GhLV0Kf3mO@pendragon.ideasonboard.com>
+ <YjESZwTHRuD4pBkY@latitude>
+ <YjEVzF1NMWJZ1MQw@pendragon.ideasonboard.com>
+ <YlrhavU2K3neXNEy@latitude>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YlrhavU2K3neXNEy@latitude>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
@@ -43,49 +52,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Jonathan,
 
-The following changes since commit d0c19bed8cd3d005739c0a6374118c553564ef10:
+On Sat, Apr 16, 2022 at 05:31:54PM +0200, Jonathan Neuschäfer wrote:
+> On Wed, Mar 16, 2022 at 12:40:12AM +0200, Laurent Pinchart wrote:
+> > On Tue, Mar 15, 2022 at 11:25:43PM +0100, Jonathan Neuschäfer wrote:
+> > > On Wed, Mar 16, 2022 at 12:18:55AM +0200, Laurent Pinchart wrote:
+> > > > On Tue, Mar 15, 2022 at 11:10:06PM +0100, Jonathan Neuschäfer wrote:
+> > > > > As discussed with other developers, the linux-uvc-devel mailing list is
+> > > > > not very useful anymore, and it's better to send people to the general
+> > > > > linux-media mailing list.
+> > > > > 
+> > > > > Replace/remove the old mailing list address in uvcvideo.rst and
+> > > > > MAINTAINERS.
+> > > > > 
+> > > > > Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+> > > > > ---
+> > > > > 
+> > > > > v2:
+> > > > > - Changed mailing list to linux-media@vger.kernel.org instead
+> > > > > 
+> > > > > v1:
+> > > > > - https://lore.kernel.org/lkml/20220312203323.626657-1-j.neuschaefer@gmx.net/
+> > > > > ---
+> > > > >  Documentation/userspace-api/media/drivers/uvcvideo.rst | 2 +-
+> > > > >  MAINTAINERS                                            | 1 -
+> > > > 
+> > > > This looks good, but I think we should also add the following:
+> > > > 
+> > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > > index 5f394d4efc21..6c6a82af07ce 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > > @@ -2443,7 +2443,7 @@ static int uvc_probe(struct usb_interface *intf,
+> > > >  			 "Forcing device quirks to 0x%x by module parameter for testing purpose.\n",
+> > > >  			 dev->quirks);
+> > > >  		dev_info(&dev->udev->dev,
+> > > > -			 "Please report required quirks to the linux-uvc-devel mailing list.\n");
+> > > > +			 "Please report required quirks to the linux-media mailing list.\n");
+> > > >  	}
+> > > > 
+> > > >  	if (dev->info->uvc_version) {
+> > > > 
+> > > > If you're fine with that change, there's no need to resubmit, I can
+> > > > handle this locally.
+> > > > 
+> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > 
+> > > Ah, just before I saw your reply, I noticed this instance too, and sent
+> > > a separate patch for it.
+> > 
+> > I'd say great minds think alike if it wasn't presumptuous :-)
+> > 
+> > > I'll leave it up to you to handle it as you wish, I'm fine with it
+> > > either way.
+> > 
+> > I'll squash the two patches as they're closely related.
+> 
+> Ping — I don't see this patch in linux-next. Is there something I can do
+> to help?
 
-  media: platform: imx-mipi-csis: Remove unneeded 'default n' (2022-04-24 09:07:31 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/pinchartl/media.git tags/v4l2-next-20220425
-
-for you to fetch changes up to 68af2e2a7379027abd24c635e1e6c59376060d9a:
-
-  media: uvcvideo: Add UVC_GUID_FORMAT_H265 (2022-04-25 01:31:31 +0300)
-
-----------------------------------------------------------------
-uvcvideo fixes and improvements
-
-----------------------------------------------------------------
-Hangyu Hua (1):
-      media: uvcvideo: Fix bit overflow in uvc_probe_video
-
-James_Lin (1):
-      media: uvcvideo: Add UVC_GUID_FORMAT_H265
-
-Jonathan Neuschäfer (1):
-      docs: media: uvcvideo: Use linux-media mailing list
-
-Ricardo Ribalda (3):
-      media: uvcvideo: Fix memory leak if uvc_ctrl_add_mapping fails
-      media: uvcvideo: Simplify uvc_endpoint_max_bpi()
-      media: uvcvideo: Undup use uvc_endpoint_max_bpi() code
-
-Xiaomeng Tong (1):
-      media: uvcvideo: Fix missing check to determine if element is found in list
-
- .../userspace-api/media/drivers/uvcvideo.rst       |  2 +-
- MAINTAINERS                                        |  1 -
- drivers/media/usb/uvc/uvc_ctrl.c                   | 10 ++++++++
- drivers/media/usb/uvc/uvc_driver.c                 | 11 +++++----
- drivers/media/usb/uvc/uvc_v4l2.c                   | 28 ++++++++++++----------
- drivers/media/usb/uvc/uvc_video.c                  | 16 +++----------
- drivers/media/usb/uvc/uvcvideo.h                   |  4 ++++
- 7 files changed, 40 insertions(+), 32 deletions(-)
+I've just sent a pull request, the patch should make it to v5.19.
 
 -- 
 Regards,
