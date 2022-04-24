@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F2E750D05F
-	for <lists+linux-media@lfdr.de>; Sun, 24 Apr 2022 09:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFC9550D06B
+	for <lists+linux-media@lfdr.de>; Sun, 24 Apr 2022 10:12:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236428AbiDXIAq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Apr 2022 04:00:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48948 "EHLO
+        id S238630AbiDXIPs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Apr 2022 04:15:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232960AbiDXIAo (ORCPT
+        with ESMTP id S236121AbiDXIPq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Apr 2022 04:00:44 -0400
+        Sun, 24 Apr 2022 04:15:46 -0400
 Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 766775DA61
-        for <linux-media@vger.kernel.org>; Sun, 24 Apr 2022 00:57:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83DA919C74B
+        for <linux-media@vger.kernel.org>; Sun, 24 Apr 2022 01:12:46 -0700 (PDT)
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1niX7j-00FcEE-Eo; Sun, 24 Apr 2022 07:57:39 +0000
+        id 1niXMH-00Fe2W-3E; Sun, 24 Apr 2022 08:12:41 +0000
 Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.94.2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1niX7h-008aKJ-T4; Sun, 24 Apr 2022 07:57:37 +0000
-Date:   Sun, 24 Apr 2022 07:57:37 +0000 (UTC)
+        id 1niXME-008cHo-Ou; Sun, 24 Apr 2022 08:12:38 +0000
+Date:   Sun, 24 Apr 2022 08:12:38 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org,
         mchehab@linuxtv.org
-Message-ID: <818753886.2.1650787057347@builder.linuxtv.org>
-In-Reply-To: <416118082.1.1650786163695@builder.linuxtv.org>
-References: <416118082.1.1650786163695@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media_stage_clang #447
+Message-ID: <1195325907.3.1650787958217@builder.linuxtv.org>
+In-Reply-To: <818753886.2.1650787057347@builder.linuxtv.org>
+References: <818753886.2.1650787057347@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media_stage_clang #448
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -48,59 +48,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media_stage_clang/447/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/media_stage_clang/448/display/redirect?page=changes>
 
 Changes:
 
-[Mauro Carvalho Chehab] media: coda: disable encoder cmd ioctl on decoder and vice versa
+[Mauro Carvalho Chehab] media: imx: imx-mipi-csis: Rename csi_state to mipi_csis_device
 
-[Mauro Carvalho Chehab] media: coda: disable encoder ioctls for decoder devices
+[Mauro Carvalho Chehab] media: imx: imx-mipi-csis: Don't use .s_power()
 
-[Mauro Carvalho Chehab] media: coda: disable stateful encoder ioctls for jpeg encoder
+[Mauro Carvalho Chehab] media: imx: imx-mipi-csis: Drop unneeded system PM implementation
 
-[Mauro Carvalho Chehab] media: coda: assert bitstream mutex is locked in coda_fill_bitstream
+[Mauro Carvalho Chehab] media: imx: imx-mipi-csis: Don't stop streaming at runtime suspend time
 
-[Mauro Carvalho Chehab] media: coda: consolidate job_finish calls on decoder prepare_run failure
+[Mauro Carvalho Chehab] media: imx: imx-mipi-csis: Simplify runtime PM implementation
 
-[Mauro Carvalho Chehab] media: platform: samsung: remove redundant assignment to variable m
+[Mauro Carvalho Chehab] media: imx: imx-mipi-csis: Simplify mipi_csis_s_stream()
 
-[Mauro Carvalho Chehab] media: coda: add JPEG downscale support
+[Mauro Carvalho Chehab] media: imx: imx-mipi-csis: Drop powered flag
 
-[Mauro Carvalho Chehab] media: coda: jpeg: set buffer error flag when header parsing fails
+[Mauro Carvalho Chehab] media: imx: imx-mipi-csis: Protect mipi_csis_dump_regs()
 
-[Mauro Carvalho Chehab] media: coda: jpeg: improve header parse error message
+[Mauro Carvalho Chehab] media: imx: imx-mipi-csis: Fix active format initialization on source pad
 
-[Mauro Carvalho Chehab] media: coda: jpeg: start streaming without valid header
-
-[Mauro Carvalho Chehab] media: imx-jpeg: Add pm-sleep support for imx-jpeg
-
-[Mauro Carvalho Chehab] media: imx-jpeg: Correct the pixel format of rgb
-
-[Mauro Carvalho Chehab] media: coda: Fix reported H264 profile
-
-[Mauro Carvalho Chehab] media: coda: Add more H264 levels for CODA960
-
-[Mauro Carvalho Chehab] media: docs: Fix vimc default pipeline graph
-
-[Mauro Carvalho Chehab] media: v4l2: fix uninitialized value tuner_status(CWE-457)
-
-[Mauro Carvalho Chehab] media: pci: cx23885: Fix the error handling in cx23885_initdev()
-
-[Mauro Carvalho Chehab] media: cx25821: Fix the warning when removing the module
-
-[Mauro Carvalho Chehab] media: imx-jpeg: don't change byteused of queued buffer
-
-[Mauro Carvalho Chehab] media: saa7134: simplify if-if to if-else
-
-[Mauro Carvalho Chehab] media: amphion: fix decoder's interlaced field
-
-[Mauro Carvalho Chehab] media: hantro: Add support for Hantro G1 on RK356x
-
-[Mauro Carvalho Chehab] media: dt-bindings: media: rockchip-vpu: Add RK3568 compatible
-
-[Mauro Carvalho Chehab] media: hantro: Implement support for encoder commands
-
-[Mauro Carvalho Chehab] media: hantro: Empty encoder capture buffers by default
+[Mauro Carvalho Chehab] media: platform: imx-mipi-csis: Remove unneeded 'default n'
 
 
 ------------------------------------------
@@ -119,23 +89,23 @@ Fetching upstream changes from git://linuxtv.org/media_stage.git
 Seen branch in repository origin/master
 Seen 1 remote branch
  > git show-ref --tags -d # timeout=10
-Checking out Revision 309373a3571ef7175bd9da0c9b13476a718e8478 (origin/master)
+Checking out Revision d0c19bed8cd3d005739c0a6374118c553564ef10 (origin/master)
  > git config core.sparsecheckout # timeout=10
- > git checkout -f 309373a3571ef7175bd9da0c9b13476a718e8478 # timeout=10
-Commit message: "media: hantro: Empty encoder capture buffers by default"
- > git rev-list --no-walk fc503c8a3f12af7093da60f790e6830f8ca5b23d # timeout=10
+ > git checkout -f d0c19bed8cd3d005739c0a6374118c553564ef10 # timeout=10
+Commit message: "media: platform: imx-mipi-csis: Remove unneeded 'default n'"
+ > git rev-list --no-walk 309373a3571ef7175bd9da0c9b13476a718e8478 # timeout=10
 The recommended git tool is: NONE
 No credentials specified
- > git rev-parse 309373a3571ef7175bd9da0c9b13476a718e8478^{commit} # timeout=10
+ > git rev-parse d0c19bed8cd3d005739c0a6374118c553564ef10^{commit} # timeout=10
 The recommended git tool is: NONE
 No credentials specified
 [GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_stage.git'
-[GitCheckoutListener] Found previous build 'media_stage_clang #446' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since 'fc503c8'
-[GitCheckoutListener] -> Using head commit '309373a' as starting point
+[GitCheckoutListener] Found previous build 'media_stage_clang #447' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '309373a'
+[GitCheckoutListener] -> Using head commit 'd0c19be' as starting point
 [GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@426e254e'
-[GitCheckoutListener] -> Recorded 25 new commits
-[media_stage_clang] $ /bin/sh -xe /tmp/jenkins10371562293684328494.sh
+[GitCheckoutListener] -> Recorded 10 new commits
+[media_stage_clang] $ /bin/sh -xe /tmp/jenkins15413167098643325406.sh
 + export CCACHE_DIR=/var/lib/jenkins/.ccache
 + export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
 + make W=1 CC=clang-12 HOSTCC=clang-12 allyesconfig
