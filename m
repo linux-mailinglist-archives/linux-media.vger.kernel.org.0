@@ -2,110 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1297C50D5F8
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 01:43:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39C1250D683
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 03:22:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239916AbiDXXb5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Apr 2022 19:31:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50012 "EHLO
+        id S240106AbiDYBZh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Apr 2022 21:25:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233814AbiDXXb4 (ORCPT
+        with ESMTP id S233946AbiDYBZg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Apr 2022 19:31:56 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 187C16D3AA;
-        Sun, 24 Apr 2022 16:28:50 -0700 (PDT)
-X-UUID: 00ee9c86a97c4fefb6413aecf8b0bc94-20220425
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4,REQID:70be6383-2c7f-43e8-bd62-9674791f3e6c,OB:0,LO
-        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
-        ION:release,TS:45
-X-CID-INFO: VERSION:1.1.4,REQID:70be6383-2c7f-43e8-bd62-9674791f3e6c,OB:0,LOB:
-        0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
-        N:release,TS:45
-X-CID-META: VersionHash:faefae9,CLOUDID:e410efef-06b0-4305-bfbf-554bfc9d151a,C
-        OID:IGNORED,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:-5,EDM:-3,File:n
-        il,QS:0,BEC:nil
-X-UUID: 00ee9c86a97c4fefb6413aecf8b0bc94-20220425
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
-        (envelope-from <miles.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 2081701411; Mon, 25 Apr 2022 07:28:47 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 25 Apr 2022 07:28:45 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 25 Apr 2022 07:28:45 +0800
-From:   Miles Chen <miles.chen@mediatek.com>
-To:     <lkp@intel.com>
-CC:     <angelogioacchino.delregno@collabora.com>, <hverkuil@xs4all.nl>,
-        <iommu@lists.linux-foundation.org>, <joro@8bytes.org>,
-        <kbuild-all@lists.01.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <llvm@lists.linux.dev>,
-        <matthias.bgg@gmail.com>, <mchehab@kernel.org>,
-        <miles.chen@mediatek.com>, <will@kernel.org>,
-        <yong.wu@mediatek.com>
-Subject: Re: [PATCH] iommu/mediatek: fix NULL pointer dereference when printing dev_name
-Date:   Mon, 25 Apr 2022 07:28:45 +0800
-Message-ID: <20220424232845.25277-1-miles.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <202204231446.IYKdZ674-lkp@intel.com>
-References: <202204231446.IYKdZ674-lkp@intel.com>
+        Sun, 24 Apr 2022 21:25:36 -0400
+Received: from beige.elm.relay.mailchannels.net (beige.elm.relay.mailchannels.net [23.83.212.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C2AA0BCF
+        for <linux-media@vger.kernel.org>; Sun, 24 Apr 2022 18:22:33 -0700 (PDT)
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+        by relay.mailchannels.net (Postfix) with ESMTP id B8F762C0E13;
+        Mon, 25 Apr 2022 01:22:32 +0000 (UTC)
+Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
+        (Authenticated sender: dreamhost)
+        by relay.mailchannels.net (Postfix) with ESMTPA id 344262C0DB8;
+        Mon, 25 Apr 2022 01:22:32 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650849752; a=rsa-sha256;
+        cv=none;
+        b=66VIcvY+0RiHPxMYqUPuFXa07j1M2Ymdz52vTzn9op46zZuKAA3ksawjcScfJcpz12lO+M
+        X7DtZPaUawSIzSzkFrpnPtxCH8zXuFRv1C9mbcREsbFqOhjhpNB8KhtWEDKK2YAMWA7B3l
+        +4T/Fi9to7vM+lATIKKGUk2ZnQd3cANARF27SaOjEaYTIXZ8nJnLl2n3JcckmSYhmD/O5o
+        7a6V5kKoZq4JwImKRNcK5NZSrpci8wrQTNTKSuUfDYrpk4kWYx3U06Xzk2cgJGf2qfNVgF
+        Dv4El4/+KHI0RGNZEGP4UZ34LCqgJ9DhHIaCrVbtj4bnqYjUy5jOuk3xnYItYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+        s=arc-2022; t=1650849752;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references:dkim-signature;
+        bh=LczG6KC7ec7iQVuOVzkOxhwlnbxNGZx3FsulHyLm/sA=;
+        b=SB3B2V/xKf09r4Mdtzi3kMhd2YFwn7RVz2zsaI5Iza+gzQo+MNj+JnofPDF39Px0XeNfFS
+        RNfI5pS+9rnC18FuCIMgm/9J53tpRxhHRJEH8+0vvm3XHHnJKUShDkL5vg2KRmSThJrXho
+        qrCoIU2jylSzgX2aPUlH5M/qeEXVUbeVMwuer8DkyCaFMnSU1ZL+XU8l3oBCd3KwPgpwvx
+        uYHbQjaQ7X3+AdsgaqMk7PAcDBwzz/3GqJAfxkPUqQZQIjOkbOhwDOt21n0YcpSR55psxf
+        Y8k/n/OJgfR0qXrWVarLa4J6So6ZDJgSukOg4oY0c63efmeieKlEtLXSruMi2Q==
+ARC-Authentication-Results: i=1;
+        rspamd-67b64f579b-chnfp;
+        auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Wipe-Fumbling: 04752f086372584b_1650849752501_514037675
+X-MC-Loop-Signature: 1650849752501:3939715479
+X-MC-Ingress-Time: 1650849752501
+Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+        by 100.121.210.129 (trex/6.7.1);
+        Mon, 25 Apr 2022 01:22:32 +0000
+Received: from fedora (unknown [69.12.38.97])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ian@linux.cowan.aero)
+        by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4KmnLb2XS9znZ;
+        Sun, 24 Apr 2022 18:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+        s=dreamhost; t=1650849752;
+        bh=LczG6KC7ec7iQVuOVzkOxhwlnbxNGZx3FsulHyLm/sA=;
+        h=Date:From:To:Cc:Subject:Content-Type;
+        b=QxshtbqO9wbrPryZeG6n4plGKWrTfzYDABTQzZr71KQU424czDdw3Fb1+ee8LmopH
+         sa8p95zvUWrvMCktPAZP5Rc2eVfyy9GtqokKT7mHlkzRJVWSC4juCpLgMR6CgWFe2y
+         NK5Ul9JDVGuTfzCCqJwoJkZh+3uEBA73rAVxP4YaUESeptygDLMhbX6FE7y8lNWM0c
+         JXMDSkZT+LO/fkLmJUsVHIcs5fKDNd8B2/7VKU8rbwOEsIgIuay+MrtHxgnhyWoxbg
+         BYehjj0QVdRBGRlWor/eD6YjGK/KKv5Fv5MZHs5d9FRx61vYvV0eGFRZzOO5q1Bacb
+         bFyd3ytxLMYSQ==
+Date:   Sun, 24 Apr 2022 21:22:30 -0400
+From:   Ian Cowan <ian@linux.cowan.aero>
+To:     LABBE Corentin <clabbe@baylibre.com>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        dan.carpenter@oracle.com, mjpeg-users@lists.sourceforge.net,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/4] staging: media: zoran: add zrdev_dbg() macros
+Message-ID: <YmX31vg+lCx6rsKF@fedora>
+References: <20220423051745.292683-1-ian@linux.cowan.aero>
+ <YmWiQsrPj0uIpZ7w@Red>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,MAY_BE_FORGED,
-        SPF_HELO_NONE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY,URIBL_BLOCKED
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YmWiQsrPj0uIpZ7w@Red>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
->Hi Miles,
->
->Thank you for the patch! Perhaps something to improve:
->
->[auto build test WARNING on joro-iommu/next]
->[also build test WARNING on v5.18-rc3 next-20220422]
->[If your patch is applied to the wrong git tree, kindly drop us a note.
->And when submitting patch, we suggest to use '--base' as documented in
->https://git-scm.com/docs/git-format-patch]
->
->url:    https://github.com/intel-lab-lkp/linux/commits/Miles-Chen/iommu-mediatek-fix-NULL-pointer-dereference-when-printing-dev_name/20220423-070605
->base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
->config: hexagon-randconfig-r041-20220422 (https://download.01.org/0day-ci/archive/20220423/202204231446.IYKdZ674-lkp@intel.com/config)
->compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 5bd87350a5ae429baf8f373cb226a57b62f87280)
->reproduce (this is a W=1 build):
->        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->        chmod +x ~/bin/make.cross
->        # https://github.com/intel-lab-lkp/linux/commit/85771767e503ca60069fe4e6ec2ddb80c7f9bafa
->        git remote add linux-review https://github.com/intel-lab-lkp/linux
->        git fetch --no-tags linux-review Miles-Chen/iommu-mediatek-fix-NULL-pointer-dereference-when-printing-dev_name/20220423-070605
->        git checkout 85771767e503ca60069fe4e6ec2ddb80c7f9bafa
->        # save the config file
->        mkdir build_dir && cp config build_dir/.config
->        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/iommu/
->
->If you fix the issue, kindly add following tag as appropriate
->Reported-by: kernel test robot <lkp@intel.com>
->
->All warnings (new ones prefixed by >>):
->
->>> drivers/iommu/mtk_iommu.c:605:6: warning: variable 'larbdev' is uninitialized when used here [-Wuninitialized]
->           if (larbdev) {
->               ^~~~~~~
->   drivers/iommu/mtk_iommu.c:597:24: note: initialize the variable 'larbdev' to silence this warning
->           struct device *larbdev;
->                                 ^
->                                  = NULL
->   1 warning generated.
+On Sun, Apr 24, 2022 at 09:17:22PM +0200, LABBE Corentin wrote:
+> Hello
+> 
+> Thanks for your patchs, removing dprintk is a good idea.
+> Please use pci_xxx() instead of dev_xxx() to be consistent with the rest of the driver.
+> The comment title is misleading, zrdev_err is not about debugging. What about Logging macros ?
+> 
+> Regards
+> 
 
-Thanks for catching this, I will fix this in next version.
+I have made those modifications, and I will resubmit patches 1 and 2
+shortly. Those are the only patches that affected by this change; 3 and
+4 will not change.
 
-thanks,
-Miles
+Thanks,
+Ian
