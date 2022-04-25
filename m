@@ -2,184 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F72850E455
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 17:25:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CB9150E466
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 17:28:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242920AbiDYP1v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 11:27:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58366 "EHLO
+        id S242856AbiDYPbV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 11:31:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242889AbiDYP1m (ORCPT
+        with ESMTP id S242846AbiDYPbT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 11:27:42 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5B8FE0AF8;
-        Mon, 25 Apr 2022 08:24:37 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a02:3030:e:60d7:2277:ba57:a2c0:3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Mon, 25 Apr 2022 11:31:19 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C984510F383;
+        Mon, 25 Apr 2022 08:28:15 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:ad99:4ace:ca31:d49f] (unknown [IPv6:2a01:e0a:120:3210:ad99:4ace:ca31:d49f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F064C1F4133D;
-        Mon, 25 Apr 2022 16:24:35 +0100 (BST)
+        (Authenticated sender: benjamin.gaignard)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 44A8A1F43242;
+        Mon, 25 Apr 2022 16:28:14 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1650900276;
-        bh=BtjtvOnpAvYAPAeBJbzghlo4LmKVCPSB1JGlZrSgdRc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c9Ki3/029OjA4uG5se4/3sGjKyGEmBLxVyPPkgaXuPO5RNM9qDcMLKMoGXQG8B9La
-         RPcpFDCgGBo1iJByMFjpM4ehNhOJWQUT7gS78aXAzVzc/1Z4HYEqKR/EpTLxTOURbE
-         pTa44NF7Nl1SkcGiwR/VZiA71cjR82urKe6jlqKcsImzVG/EoD3WueH50gtnWdTyPC
-         YKAIOhe3+xNqdTU5D4rC8cOgbL3jpog6PO5br3YO95Ua/evG4A2gKxhZ84C4DjUs8r
-         I237o5YWCggpD54xHAXwAuybepAHjcJiLTheQe2PW7gV7oArh5rX50qGrUXXVL7Q9h
-         mCt9nwfc1799g==
-Date:   Mon, 25 Apr 2022 17:24:32 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v5 07/17] media: uapi: HEVC: Add SEI pic struct flags
-Message-ID: <20220425152432.d5bxnpo5wkhw3syt@basti-XPS-13-9310>
-References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
- <20220407152940.738159-8-benjamin.gaignard@collabora.com>
+        s=mail; t=1650900494;
+        bh=48BaXLY/uNsEmn7xLJgc/GuMlYBzj62kSh+QLbDxIcI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=emQ4pXse6Bh96pAzWV6F0oNzLQR57rq4ITLze0/0n5Dh6rkZBGdTP2h5GhYAvAcPL
+         N5GzxvxGBz2mzAhPklCRaI0fuVnjU1uS4m98nXfyD/2Q6tLVvhhiusR1TiHtx9Ckts
+         1hhmjBEqrjSwe/JYrEFYjT55PiLVSo0mco5Ic4oLUOVgEsOqN7ZVkLc5ZGGD+i0hb+
+         H8C7QFNMbk4LnhbVHDKmUB/1z9eoZRhm8iaV3Ek1zbYkeDNmBshQTwXXkvLOCTWc1c
+         OhbTRvt89M83DPlVTpZxccHue3AyIco7oxy6DX9I6Q/eJmkN3WGT3OaGsDEz2WXd3K
+         Hh48FCkis4JkQ==
+Message-ID: <d2e699a9-6c2d-ab87-f23f-4b42096d64be@collabora.com>
+Date:   Mon, 25 Apr 2022 17:28:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220407152940.738159-8-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] media: hantro: HEVC: unconditionnaly set
+ pps_{cb/cr}_qp_offset values
+Content-Language: en-US
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        jon@nanocrew.net, Adam Ford <aford173@gmail.com>,
+        Collabora Kernel ML <kernel@collabora.com>
+References: <20220425105346.324864-1-benjamin.gaignard@collabora.com>
+ <CAAEAJfA2K2-YOruDMUjHixaPa1wfTSwpb3K5A-y_i3H6BF7oKQ@mail.gmail.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAAEAJfA2K2-YOruDMUjHixaPa1wfTSwpb3K5A-y_i3H6BF7oKQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Benjamin,
 
-On 07.04.2022 17:29, Benjamin Gaignard wrote:
->The possible values for field_pic field in v4l2_hevc_dpb_entry
+Le 25/04/2022 à 14:12, Ezequiel Garcia a écrit :
+> On Mon, Apr 25, 2022 at 7:53 AM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>> Always set pps_cb_qp_offset and pps_cr_qp_offset values in Hantro/G2
+>> register whatever is V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT
+>> flag value.
+>> This fix a couple of tests in fluster.
+>>
+> Which tests?
 
-s/field_pic/the field_pic/
-s/v4l2_hevc_dpb_entry/the v4l2_hevc_dpb_entry/
+CAINIT_G_SHARP_3 test.
+Hantro proprietary stack (g2dec tool) does the same.
 
->structure are defined table D.2 in HEVC specification section D.3.3.
+Regards,
+Benjamin
 
-s/defined table/defined in the table/
-
-Greetings,
-Sebastian
-
->Add flags and documentation for each of them.
 >
->Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->---
-> .../media/v4l/ext-ctrls-codec.rst             | 54 +++++++++++++++++++
-> include/media/hevc-ctrls.h                    | 14 +++++
-> 2 files changed, 68 insertions(+)
+> Thanks,
+> Ezequiel
 >
->diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->index c679b17b4426..b44ea85c6f0e 100644
->--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->@@ -3193,6 +3193,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->     * - __u8
->       - ``field_pic``
->       - Whether the reference is a field picture or a frame.
->+        See :ref:`HEVC dpb field pic Flags <hevc_dpb_field_pic_flags>`
->     * - __u16
->       - ``pic_order_cnt[2]``
->       - The picture order count of the reference. Only the first element of the
->@@ -3206,6 +3207,59 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->
->     \normalsize
->
->+.. _hevc_dpb_field_pic_flags:
->+
->+``HEVC dpb field pic Flags``
->+
->+.. raw:: latex
->+
->+    \scriptsize
->+
->+.. flat-table::
->+    :header-rows:  0
->+    :stub-columns: 0
->+    :widths:       1 1 2
->+
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_FRAME``
->+      - 0
->+      - (progressive) Frame
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_TOP_FIELD``
->+      - 1
->+      - Top field
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_BOTTOM_FIELD``
->+      - 2
->+      - Bottom field
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_TOP_BOTTOM``
->+      - 3
->+      - Top field, bottom field, in that order
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_BOTTOM_TOP``
->+      - 4
->+      - Bottom field, top field, in that order
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_TOP_BOTTOM_TOP``
->+      - 5
->+      - Top field, bottom field, top field repeated, in that order
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_BOTTOM_TOP_BOTTOM``
->+      - 6
->+      - Bottom field, top field, bottom field repeated, in that order
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_FRAME_DOUBLING``
->+      - 7
->+      - Frame doubling
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_FRAME_TRIPLING``
->+      - 8
->+      - Frame tripling
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_TOP_PAIRED_PREVIOUS_BOTTOM``
->+      - 9
->+      - Top field paired with previous bottom field in output order
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_BOTTOM_PAIRED_PREVIOUS_TOP``
->+      - 10
->+      - Bottom field paired with previous top field in output order
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_TOP_PAIRED_NEXT_BOTTOM``
->+      - 11
->+      - Top field paired with next bottom field in output order
->+    * - ``V4L2_HEVC_SEI_PIC_STRUCT_BOTTOM_PAIRED_NEXT_TOP``
->+      - 12
->+      - Bottom field paired with next top field in output order
->+
-> .. c:type:: v4l2_hevc_pred_weight_table
->
-> .. raw:: latex
->diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->index 2812778b41f4..e76a23e22a35 100644
->--- a/include/media/hevc-ctrls.h
->+++ b/include/media/hevc-ctrls.h
->@@ -132,6 +132,20 @@ struct v4l2_ctrl_hevc_pps {
->
-> #define V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE	0x01
->
->+#define V4L2_HEVC_SEI_PIC_STRUCT_FRAME				0
->+#define V4L2_HEVC_SEI_PIC_STRUCT_TOP_FIELD			1
->+#define V4L2_HEVC_SEI_PIC_STRUCT_BOTTOM_FIELD			2
->+#define V4L2_HEVC_SEI_PIC_STRUCT_TOP_BOTTOM			3
->+#define V4L2_HEVC_SEI_PIC_STRUCT_BOTTOM_TOP			4
->+#define V4L2_HEVC_SEI_PIC_STRUCT_TOP_BOTTOM_TOP			5
->+#define V4L2_HEVC_SEI_PIC_STRUCT_BOTTOM_TOP_BOTTOM		6
->+#define V4L2_HEVC_SEI_PIC_STRUCT_FRAME_DOUBLING			7
->+#define V4L2_HEVC_SEI_PIC_STRUCT_FRAME_TRIPLING			8
->+#define V4L2_HEVC_SEI_PIC_STRUCT_TOP_PAIRED_PREVIOUS_BOTTOM	9
->+#define V4L2_HEVC_SEI_PIC_STRUCT_BOTTOM_PAIRED_PREVIOUS_TOP	10
->+#define V4L2_HEVC_SEI_PIC_STRUCT_TOP_PAIRED_NEXT_BOTTOM		11
->+#define V4L2_HEVC_SEI_PIC_STRUCT_BOTTOM_PAIRED_NEXT_TOP		12
->+
-> #define V4L2_HEVC_DPB_ENTRIES_NUM_MAX		16
->
-> struct v4l2_hevc_dpb_entry {
->-- 
->2.32.0
->
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 9 ++-------
+>>   1 file changed, 2 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> index 2c8eb0720db8..bb512389c1a5 100644
+>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> @@ -194,13 +194,8 @@ static void set_params(struct hantro_ctx *ctx)
+>>                  hantro_reg_write(vpu, &g2_max_cu_qpd_depth, 0);
+>>          }
+>>
+>> -       if (pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT) {
+>> -               hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
+>> -               hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+>> -       } else {
+>> -               hantro_reg_write(vpu, &g2_cb_qp_offset, 0);
+>> -               hantro_reg_write(vpu, &g2_cr_qp_offset, 0);
+>> -       }
+>> +       hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
+>> +       hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+>>
+>>          hantro_reg_write(vpu, &g2_filt_offset_beta, pps->pps_beta_offset_div2);
+>>          hantro_reg_write(vpu, &g2_filt_offset_tc, pps->pps_tc_offset_div2);
+>> --
+>> 2.32.0
+>>
