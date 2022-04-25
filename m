@@ -2,69 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD02350DFAE
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 14:08:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36B2150DFBC
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 14:12:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239642AbiDYMLk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 08:11:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46218 "EHLO
+        id S229637AbiDYMPl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 08:15:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239005AbiDYMLe (ORCPT
+        with ESMTP id S236535AbiDYMPj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 08:11:34 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 884725AEF4;
-        Mon, 25 Apr 2022 05:08:30 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id z19so4859204edx.9;
-        Mon, 25 Apr 2022 05:08:30 -0700 (PDT)
+        Mon, 25 Apr 2022 08:15:39 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5AB11A041
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 05:12:33 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id p18so12961528edr.7
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 05:12:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=c9RppN5aDTjXCcWCJ05N8v1cRlmedZ0/iK/cwkqMY7Q=;
-        b=K8VTHVCFjhdnXo6DLKplzZMQxuRWrIiQ9JCYhxordsBWfolL+JYV+kK6T0tgtmNOjv
-         pQe1Rlm3IFiIF8K07VP1EaJ/7muJTC/8hDFM5A3BbgjJDKPlZVx44G4OXuMJpHojhMzN
-         fr+kUU8Dy7HH8m/ndTdr7Pd2tzWMoOY1k4ZZx9Klb10dICE02ylOjgCSTBy0/JSnfEBm
-         TaS2x2wKkklIZs++4b1OnxoWCle8vNLFMfum+ezpoNiSJ/fWe80fMyfehHAHhL5it2/v
-         yINBCFCb7NCEHOXbvKdeTYO7kgM70UefeJSMUd93ZHy4usNzbVZxDMDp+H3g4LbSOJe1
-         l6/w==
+        bh=u8jWkC3uGhpIesYWEXYlUoa6QOg8WMwc/6eHbmnOET0=;
+        b=z8IQnKw/QCUVdEhGIPQl+8KO75rfqTMoiKMA3BB9sFazxr+viuAmkDtOFAjYYeqiOc
+         BICBVB5W2S7RFYNSYuiQ6npvOUj18cyj24dNXTVDLHF+Df1i3nrw0JfwTe3/UGJ4/wUE
+         Qca2+w5QoifM49TBcyBSRvgIievMdF2gdAJds31r60IivrAwNdzi3MI849ffzBimYtZG
+         vwDiY04IZruTc3NDSAl4XfavEBJ1vfBwMPdlEkYSVfnOVY15MH9gH0F7JHLbs43U8yMf
+         h/8JO4jyVbPJnAS414pRuAsGdZ9Da+iWc9gku4zBIfYqxQSrDaaccKm2crCoDnSsiUne
+         u/Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=c9RppN5aDTjXCcWCJ05N8v1cRlmedZ0/iK/cwkqMY7Q=;
-        b=GC0ixuxKG2qbsrTHmjL8LdCmde7D+2NfqLQcw0hFQnjqxkCfFOZNev5bu0gdQ2/gHQ
-         XFHyo3vyw+TAWKF3JF9ztPJkEPObMPrbAtkK8RQHC0aYu1taN09N8MPorhrq/1XiZFn+
-         BgylCcUm8T3ODup5ahvG+jz121zlnBP1gWzE2onLvxmm9qSMUhSnCR9Ittt2z7QO8GPg
-         mOQbf0E4v0tsv6n1YZonicI/0mOaCUF7zX5yHYJgLsSrpkK5NS4LRyagHRt2CmAGQb0z
-         nThY8f69/rNjJ/CXDc5h0syfA2A2Li9di8/VSbNgZjSfHKtKWBhsTAfndI7S/Xeryi5P
-         MNFA==
-X-Gm-Message-State: AOAM531XUrwAGeYAJhS4XEAHmi8TUDwz4gmHbk2VsaVeToCGqtEZV1AO
-        u114yIpOaf42ZAi5T+9ZafVsiWGX+QDv3mDHALrlAWlb
-X-Google-Smtp-Source: ABdhPJwwombBhtn/hditfmKV6ABUCDrdDlZARzVwJYcq1LzEyDPnJPRWmfMa+G0fNPCZHT/SivOWdsp4f6g/9QZGwPE=
-X-Received: by 2002:aa7:d543:0:b0:416:13eb:6fec with SMTP id
- u3-20020aa7d543000000b0041613eb6fecmr18946181edr.348.1650888508669; Mon, 25
- Apr 2022 05:08:28 -0700 (PDT)
+        bh=u8jWkC3uGhpIesYWEXYlUoa6QOg8WMwc/6eHbmnOET0=;
+        b=mRIJrIt833+s28F2mqHeQhCoZJdefnSqHyTb6fBugxrQbN+N47B577X2KTDkNZZD1k
+         1t9vN1EtAIkFZCay5fokkZE6DLZ4d0VABFHuL6sNtmMYRNY9AYYCLcWN8IUeXEwjFHww
+         FryRc6D1OnwFoJkKMAtmoSce4BHMeqnU/vXW2JfDI/cxnxBaWK06y6ru3WYRbnXlcA9S
+         FzEq+KtA3/k1F9wdJAhU6j7szxxEedRw3QCD+cJqtM0jmwvbaDjJRXiKOz5Zpdl28tQt
+         wMhW+aFoiW0N0GfvI7/l26vzuGlHh2CrQXF0REj/eM674ebN365Sy+NFC6qpk1Hnu51J
+         ELSA==
+X-Gm-Message-State: AOAM530DactFSHPOEHbjgbmJE/DRx43N0fyJllfP5YbS2LVO5hf6XyFo
+        K90UTNRvQhpHYKsjTrNhlDm8oK70WpAqY9baJi+PvA==
+X-Google-Smtp-Source: ABdhPJyaFAHnaHfcxF9oK2zzYsY2EtPh/uGq+12bC7Ho7eUw/yPfwKq2bJmWpg53blCYTMA1ROMhpC7iIBK74ygqh2U=
+X-Received: by 2002:aa7:c789:0:b0:413:605d:8d17 with SMTP id
+ n9-20020aa7c789000000b00413605d8d17mr18351707eds.100.1650888752051; Mon, 25
+ Apr 2022 05:12:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220412135534.2796158-1-aford173@gmail.com>
-In-Reply-To: <20220412135534.2796158-1-aford173@gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Mon, 25 Apr 2022 07:08:17 -0500
-Message-ID: <CAHCN7x+C9dkdMKsx4uQqRBQrJDpF9v3RDhpuOmwNRMx0hj63TQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] media: i2c: imx219: Enable variable xclk and 4-lane
-To:     linux-media <linux-media@vger.kernel.org>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        cstevens@beaconembedded.com,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+References: <20220425105346.324864-1-benjamin.gaignard@collabora.com>
+In-Reply-To: <20220425105346.324864-1-benjamin.gaignard@collabora.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Mon, 25 Apr 2022 09:12:20 -0300
+Message-ID: <CAAEAJfA2K2-YOruDMUjHixaPa1wfTSwpb3K5A-y_i3H6BF7oKQ@mail.gmail.com>
+Subject: Re: [PATCH] media: hantro: HEVC: unconditionnaly set
+ pps_{cb/cr}_qp_offset values
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        jon@nanocrew.net, Adam Ford <aford173@gmail.com>,
+        Collabora Kernel ML <kernel@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,49 +73,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 12, 2022 at 8:55 AM Adam Ford <aford173@gmail.com> wrote:
+On Mon, Apr 25, 2022 at 7:53 AM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
 >
-> The driver currently only supports a 2-lane camera, a fixed external
-> clock (XCLK) at 24MHz, a fixed Pixel Rate of 182.4MHz, and a fixed
-> link rate of 456MHz.  There are a bunch of hard-codec values in a
-> table of operating modes which expect the above to be true.
->
-> According to the datasheet, the driver is capable of operating in
-> either 4-lane with a pixel rate of 280.8MHz and Linux frequency
-> of 702MHz or 2-lane configured as stated above.  The XCLK can be
-> anywhere from 6MHz - 27MHz instead of being fixed at 24MHz.
->
-> Split up the hard-coded values into smaller helper functions that
-> dynamically set the registers of the camera based on the XCLK and
-> desired number of lanes.
->
-> This series was tested on a Beacon RZ/G2M streaming video at 640x480
-> to an LCD with fbdevsink
->
-> media-ctl --links "'rcar_csi2 feaa0000.csi2':1->'VIN0 output':0[1]" -d /dev/media1
-> media-ctl --set-v4l2 "'imx219 2-0010':0[fmt:SRGGB8_1X8/640x480 field:none]" -d /dev/media1
-> yavta -w '0x009f0905 2048' /dev/v4l-subdev12
-> gst-launch-1.0 v4l2src device=/dev/video7 ! video/x-bayer,width=640,height=480,format=rggb ! queue ! bayer2rgb ! fbdevsink
->
-> Due to hardware limitations, the XCLK is still 24MHz, so anyone
-> willing to test this series with a different XCLK would be appreciated.
->
-> Due to the video format, streaming video at larger resolution was
-> not feasible, however individual frames captured at 1920x1080 were
-> successful.
+> Always set pps_cb_qp_offset and pps_cr_qp_offset values in Hantro/G2
+> register whatever is V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT
+> flag value.
+> This fix a couple of tests in fluster.
 >
 
-Any comments from anyone on this series?
+Which tests?
 
-> Adam Ford (4):
->   media: i2c: imx219: Split common registers from mode tables
->   media: i2c: imx219: Support four-lane operation
->   media: i2c: imx219: Enable variable XCLK
->   media: i2c: imx219: Create DPHY helper function
+Thanks,
+Ezequiel
+
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
 >
->  drivers/media/i2c/imx219.c | 340 +++++++++++++++++++++++--------------
->  1 file changed, 213 insertions(+), 127 deletions(-)
+> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> index 2c8eb0720db8..bb512389c1a5 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> @@ -194,13 +194,8 @@ static void set_params(struct hantro_ctx *ctx)
+>                 hantro_reg_write(vpu, &g2_max_cu_qpd_depth, 0);
+>         }
 >
+> -       if (pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT) {
+> -               hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
+> -               hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+> -       } else {
+> -               hantro_reg_write(vpu, &g2_cb_qp_offset, 0);
+> -               hantro_reg_write(vpu, &g2_cr_qp_offset, 0);
+> -       }
+> +       hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
+> +       hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+>
+>         hantro_reg_write(vpu, &g2_filt_offset_beta, pps->pps_beta_offset_div2);
+>         hantro_reg_write(vpu, &g2_filt_offset_tc, pps->pps_tc_offset_div2);
 > --
-> 2.34.1
+> 2.32.0
 >
