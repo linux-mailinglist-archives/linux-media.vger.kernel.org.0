@@ -2,90 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39C1250D683
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 03:22:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AB8050D688
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 03:26:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240106AbiDYBZh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Apr 2022 21:25:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59756 "EHLO
+        id S240121AbiDYB3h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Apr 2022 21:29:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233946AbiDYBZg (ORCPT
+        with ESMTP id S233946AbiDYB3g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Apr 2022 21:25:36 -0400
+        Sun, 24 Apr 2022 21:29:36 -0400
 Received: from beige.elm.relay.mailchannels.net (beige.elm.relay.mailchannels.net [23.83.212.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C2AA0BCF
-        for <linux-media@vger.kernel.org>; Sun, 24 Apr 2022 18:22:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B23D117A;
+        Sun, 24 Apr 2022 18:26:34 -0700 (PDT)
 Received: from relay.mailchannels.net (localhost [127.0.0.1])
-        by relay.mailchannels.net (Postfix) with ESMTP id B8F762C0E13;
-        Mon, 25 Apr 2022 01:22:32 +0000 (UTC)
+        by relay.mailchannels.net (Postfix) with ESMTP id D5FC6801B70;
+        Mon, 25 Apr 2022 01:26:33 +0000 (UTC)
 Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
         (Authenticated sender: dreamhost)
-        by relay.mailchannels.net (Postfix) with ESMTPA id 344262C0DB8;
-        Mon, 25 Apr 2022 01:22:32 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650849752; a=rsa-sha256;
+        by relay.mailchannels.net (Postfix) with ESMTPA id 35B6A801A4A;
+        Mon, 25 Apr 2022 01:26:31 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650849991; a=rsa-sha256;
         cv=none;
-        b=66VIcvY+0RiHPxMYqUPuFXa07j1M2Ymdz52vTzn9op46zZuKAA3ksawjcScfJcpz12lO+M
-        X7DtZPaUawSIzSzkFrpnPtxCH8zXuFRv1C9mbcREsbFqOhjhpNB8KhtWEDKK2YAMWA7B3l
-        +4T/Fi9to7vM+lATIKKGUk2ZnQd3cANARF27SaOjEaYTIXZ8nJnLl2n3JcckmSYhmD/O5o
-        7a6V5kKoZq4JwImKRNcK5NZSrpci8wrQTNTKSuUfDYrpk4kWYx3U06Xzk2cgJGf2qfNVgF
-        Dv4El4/+KHI0RGNZEGP4UZ34LCqgJ9DhHIaCrVbtj4bnqYjUy5jOuk3xnYItYg==
+        b=iRRJFa1e/JA+9YzA3x+wb3FEMytBTLDQ+5EXv21unfUDQA25oxtUOo7dEo0gp6aFacLqvO
+        R7MDTX7x7BCrhOxRCK5YkY1wpcqsMWO44sod03NvgYXnUsvxX0Kb4hhV7dFqLQFjGaMtL2
+        uPYGHfo7ur8aJ4dveSWJoW5s0q1bkAwpuT92rKhplSKyxibKwaVflSYPgJrzIISi8+qEgF
+        n9v/U1dq4/HRU1hQ+36JAywcny6IH9Rqgn48y5UYKbO0SGm1cqJChAR2Hhi9O0FxHgusVs
+        IbpR1YMSOdeik2cDWx6xIu0yaw5pfyfFkfXc2GRjSW5miKjNXZ6WBk5TuwtxBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
  d=mailchannels.net;
-        s=arc-2022; t=1650849752;
+        s=arc-2022; t=1650849991;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references:dkim-signature;
-        bh=LczG6KC7ec7iQVuOVzkOxhwlnbxNGZx3FsulHyLm/sA=;
-        b=SB3B2V/xKf09r4Mdtzi3kMhd2YFwn7RVz2zsaI5Iza+gzQo+MNj+JnofPDF39Px0XeNfFS
-        RNfI5pS+9rnC18FuCIMgm/9J53tpRxhHRJEH8+0vvm3XHHnJKUShDkL5vg2KRmSThJrXho
-        qrCoIU2jylSzgX2aPUlH5M/qeEXVUbeVMwuer8DkyCaFMnSU1ZL+XU8l3oBCd3KwPgpwvx
-        uYHbQjaQ7X3+AdsgaqMk7PAcDBwzz/3GqJAfxkPUqQZQIjOkbOhwDOt21n0YcpSR55psxf
-        Y8k/n/OJgfR0qXrWVarLa4J6So6ZDJgSukOg4oY0c63efmeieKlEtLXSruMi2Q==
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:dkim-signature;
+        bh=03zhN+hBW8OaOUeJAmtwzMX7G3KCH/6OA0MvZT3k0A8=;
+        b=nuAgkgp7Pg+Z3fN13uwNt1MdqXTy+X3VGumLIHT7D88iSV0AiMgM7j56H6GvNBm1LEV3vS
+        b875xM//hAf4dW2acvVuJISV2AhehBuTllfX1r3DohJzsfN9IixRbMyJ+Ay4G/IIXctlE+
+        KhcGkNtaJwyvHbEu2QjUDWbQ3UZ+OB9Tah+xCuvMFU2Br1GrCotf+7x0GtCPHIiI2b/LeA
+        ieKKzNGR1V0P5LD3GKMSeIYsu7BaEx+LVRHtQrL0fRST6cK9+A0ESYlkkoe6MTqxNN95Hd
+        8y6zr0aghBdElbaP9yLrCCtlqKhAncRBj95Fw8cj+dc3tkSvPrJYlBc8Z23MZg==
 ARC-Authentication-Results: i=1;
         rspamd-67b64f579b-chnfp;
         auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
 X-MC-Relay: Neutral
 X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
 X-MailChannels-Auth-Id: dreamhost
-X-Wipe-Fumbling: 04752f086372584b_1650849752501_514037675
-X-MC-Loop-Signature: 1650849752501:3939715479
-X-MC-Ingress-Time: 1650849752501
+X-Daffy-Grain: 201401b6165c6f65_1650849993595_2915795923
+X-MC-Loop-Signature: 1650849993595:373555036
+X-MC-Ingress-Time: 1650849993595
 Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
  [64.90.62.162])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-        by 100.121.210.129 (trex/6.7.1);
-        Mon, 25 Apr 2022 01:22:32 +0000
-Received: from fedora (unknown [69.12.38.97])
+        by 100.112.55.255 (trex/6.7.1);
+        Mon, 25 Apr 2022 01:26:33 +0000
+Received: from localhost.localdomain (unknown [69.12.38.97])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: ian@linux.cowan.aero)
-        by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4KmnLb2XS9znZ;
-        Sun, 24 Apr 2022 18:22:31 -0700 (PDT)
+        by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4KmnRB1WCMznZ;
+        Sun, 24 Apr 2022 18:26:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
-        s=dreamhost; t=1650849752;
-        bh=LczG6KC7ec7iQVuOVzkOxhwlnbxNGZx3FsulHyLm/sA=;
-        h=Date:From:To:Cc:Subject:Content-Type;
-        b=QxshtbqO9wbrPryZeG6n4plGKWrTfzYDABTQzZr71KQU424czDdw3Fb1+ee8LmopH
-         sa8p95zvUWrvMCktPAZP5Rc2eVfyy9GtqokKT7mHlkzRJVWSC4juCpLgMR6CgWFe2y
-         NK5Ul9JDVGuTfzCCqJwoJkZh+3uEBA73rAVxP4YaUESeptygDLMhbX6FE7y8lNWM0c
-         JXMDSkZT+LO/fkLmJUsVHIcs5fKDNd8B2/7VKU8rbwOEsIgIuay+MrtHxgnhyWoxbg
-         BYehjj0QVdRBGRlWor/eD6YjGK/KKv5Fv5MZHs5d9FRx61vYvV0eGFRZzOO5q1Bacb
-         bFyd3ytxLMYSQ==
-Date:   Sun, 24 Apr 2022 21:22:30 -0400
+        s=dreamhost; t=1650849991;
+        bh=03zhN+hBW8OaOUeJAmtwzMX7G3KCH/6OA0MvZT3k0A8=;
+        h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+        b=vchpmPZdFA4Ks5K5zDB+4D5GE7YuOWIy/yeW8O6dmBFHGJvUvKo5E3aj0PUxtg9nq
+         hpzyyOkVqBdbdtj1T8ah7ZWokZKZ/SSEuh8mf6dQA70c0we0Bnh0RPS79yeyvC2vo8
+         x7Og8PNrPqWHttmHw7hmBnODVGYnNZmzcazk4dG7uH/Q03Fxv8zklmF+A5FMrS+1E/
+         gKuMA0deqXuHcz5YeyTGJOlGZ+t+ZTX54IE4row92B8WClQjrPO3F0e87DU8/afBB7
+         AXQcMum/2mia6ZJrxVBS2fSv9iUKcnAI9OUH4UjwD3VGTz8FPxsVtAHSZLg697EuN4
+         UrluQzBMa50zQ==
 From:   Ian Cowan <ian@linux.cowan.aero>
-To:     LABBE Corentin <clabbe@baylibre.com>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        dan.carpenter@oracle.com, mjpeg-users@lists.sourceforge.net,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/4] staging: media: zoran: add zrdev_dbg() macros
-Message-ID: <YmX31vg+lCx6rsKF@fedora>
-References: <20220423051745.292683-1-ian@linux.cowan.aero>
- <YmWiQsrPj0uIpZ7w@Red>
+To:     Corentin Labbe <clabbe@baylibre.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Ian Cowan <ian@linux.cowan.aero>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH 1/4] staging: media: zoran: add logging macros
+Date:   Sun, 24 Apr 2022 21:26:18 -0400
+Message-Id: <20220425012618.440474-1-ian@linux.cowan.aero>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YmWiQsrPj0uIpZ7w@Red>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -95,19 +95,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Apr 24, 2022 at 09:17:22PM +0200, LABBE Corentin wrote:
-> Hello
-> 
-> Thanks for your patchs, removing dprintk is a good idea.
-> Please use pci_xxx() instead of dev_xxx() to be consistent with the rest of the driver.
-> The comment title is misleading, zrdev_err is not about debugging. What about Logging macros ?
-> 
-> Regards
-> 
+This adds the zrdev_dbg() (pointing to pci_dbg()), zrdev_err() (pointing
+to pci_err()), and zrdev_info() (pointing to pci_info()) macros to the
+zoran drivers. These are the preferred method for debugging and this
+will allow to extract the device from the zoran struct to make the call.
 
-I have made those modifications, and I will resubmit patches 1 and 2
-shortly. Those are the only patches that affected by this change; 3 and
-4 will not change.
+Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+---
+ drivers/staging/media/zoran/zoran.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Thanks,
-Ian
+diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
+index 654c95fa5aba..4f7f71d8e93c 100644
+--- a/drivers/staging/media/zoran/zoran.h
++++ b/drivers/staging/media/zoran/zoran.h
+@@ -19,6 +19,7 @@
+ #define _BUZ_H_
+ 
+ #include <linux/debugfs.h>
++#include <linux/pci.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/videobuf2-core.h>
+@@ -301,6 +302,18 @@ static inline struct zoran *to_zoran(struct v4l2_device *v4l2_dev)
+ 
+ #endif
+ 
++/**
++ * Debugging macros
++ */
++#define zrdev_dbg(zr, format, args...) \
++	pci_dbg(zr->pci_dev, format, ##args) \
++
++#define zrdev_err(zr, format, args...) \
++	pci_err(zr->pci_dev, format, ##args) \
++
++#define zrdev_info(zr, format, args...) \
++	pci_info(zr->pci_dev, format, ##args) \
++
+ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq, int dir);
+ void zoran_queue_exit(struct zoran *zr);
+ int zr_set_buf(struct zoran *zr);
+-- 
+2.35.1
+
