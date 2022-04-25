@@ -2,37 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C24A150E888
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 20:45:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 946F650E891
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 20:48:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244533AbiDYSsb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 14:48:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41390 "EHLO
+        id S244680AbiDYSun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 14:50:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244517AbiDYSs1 (ORCPT
+        with ESMTP id S244621AbiDYSuY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 14:48:27 -0400
+        Mon, 25 Apr 2022 14:50:24 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 813DA25F5;
-        Mon, 25 Apr 2022 11:45:20 -0700 (PDT)
-Received: from obbardc-laptop.home (unknown [IPv6:2a00:23c7:6883:e501:cf51:f3a2:10b5:accf])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D15372E28;
+        Mon, 25 Apr 2022 11:47:04 -0700 (PDT)
+Received: from [IPV6:2a00:23c7:6883:e501:cf51:f3a2:10b5:accf] (unknown [IPv6:2a00:23c7:6883:e501:cf51:f3a2:10b5:accf])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: obbardc)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 00DDA1F4300E;
-        Mon, 25 Apr 2022 19:45:18 +0100 (BST)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 32C671F42FFF;
+        Mon, 25 Apr 2022 19:47:03 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1650912319;
-        bh=hSDAXRypJ/Z4HhJhylWfvqB1KkaymD9gTFsthsCapJw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TsXfhHhpeDrZ+m1pUkaCZLU7zwah3JdG9lNHFDdSodF3B7ViBCy/UWy0ETU0Aa+XM
-         78dtZ+rkh+3x10Lw4UkXJ9ADAmw7YUqv/gDgpYiU9t68PesD2PL4GaljMjG81kG6x+
-         mQ+MIBYEF0CTTvQj/ULkOL/NzToEIJcU9wZYNL4BNqape+gPMTzljHijClLOpfbDBV
-         IKJ2BsqK0xrwxU9pmY1/dLR+u/otjIXcFpZVwUu2WAkfIL1RYN82mfmrLnw6CnZBa7
-         SrxrcHdMLe9AFfuyRvVe73I3Mml2ek8Gw3vZQKvmz/Dg8CunrwjjSsYrKYRYhm/j6/
-         b8Od9akPbxCqQ==
-From:   Christopher Obbard <chris.obbard@collabora.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        s=mail; t=1650912423;
+        bh=GsF4PA6CVkBTkoQKSTNYtMWwQMXprSnuSY5mmmiZGNw=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ZklSte8+3eZnlheanzGcfBd50w0HqQ8uMGyPCyFe6IaAZ+1jzBncV7Xi8jBfEQN29
+         t6IS4bzHpBIiqexEVnFB24sGATNLmi/DiqqW9zYvot24zitqCkfQ2HbjPsYJofcn4O
+         /ZIGGoDbsq+SNeMJtw8T0U0PswczvI2qcsgNDO6z9ysjoMGJ+tSGQCv7RYef7Dxmvo
+         snY9qUtEtBRZsnC/aUQ2+9h53bj7TgAUQDhaZh1avmYADNWKhSBhx69U2GhOT9LjTD
+         6/M8ZERD6Q+fAfgmmIDeytbf+tLWzSFcbd5aUifiqhKCAd5/zOVr52qQkhYpjYlM1e
+         HBWzIDzAIOVOw==
+Message-ID: <7ac887aa-5949-0c2f-b510-d145ee50c32c@collabora.com>
+Date:   Mon, 25 Apr 2022 19:47:01 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/3] media: dt-bindings: media: rockchip-vdec: Add
+ RK3328 compatible
+Content-Language: en-GB
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -41,79 +49,56 @@ To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Elaine Zhang <zhangqing@rock-chips.com>
 Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com,
-        Christopher Obbard <chris.obbard@collabora.com>
-Subject: [PATCH v3 3/3] arm64: dts: rockchip: Add vdec support for RK3328
-Date:   Mon, 25 Apr 2022 19:45:10 +0100
-Message-Id: <20220425184510.1138446-4-chris.obbard@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220425184510.1138446-1-chris.obbard@collabora.com>
-References: <20220425184510.1138446-1-chris.obbard@collabora.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        linux-kernel@vger.kernel.org, kernel@collabora.com
+References: <20220425123215.1055251-1-chris.obbard@collabora.com>
+ <20220425123215.1055251-2-chris.obbard@collabora.com>
+ <2c347033-bd63-05a8-94fb-2eb467e63e76@linaro.org>
+From:   Christopher Obbard <chris.obbard@collabora.com>
+In-Reply-To: <2c347033-bd63-05a8-94fb-2eb467e63e76@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The RK3328 has an vdec device with dedicated iommu.
-Describe the vdec device, the required power-domains
-and enable the iommu in the devicetree.
 
-Signed-off-by: Christopher Obbard <chris.obbard@collabora.com>
----
- arch/arm64/boot/dts/rockchip/rk3328.dtsi | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+On 25/04/2022 19:07, Krzysztof Kozlowski wrote:
+> On 25/04/2022 14:32, Christopher Obbard wrote:
+>> Document the RK3328 compatible for rockchip-vdec.
+>>
+>> Signed-off-by: Christopher Obbard <chris.obbard@collabora.com>
+>> ---
+>>   Documentation/devicetree/bindings/media/rockchip,vdec.yaml | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+>> index 089f11d21b25..ce06835e8d61 100644
+>> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+>> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+>> @@ -20,6 +20,9 @@ properties:
+>>         - items:
+>>             - const: rockchip,rk3228-vdec
+>>             - const: rockchip,rk3399-vdec
+>> +      - items:
+>> +          - const: rockchip,rk3328-vdec
+>> +          - const: rockchip,rk3399-vdec
+> 
+> 
+> This should be rather an enum with rk3228, so:
+> - enum
+>     - rockchip,rk3228-vdec
+>     - rockchip,rk3328-vdec
+> - const: rockchip,rk3399-vdec
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3328.dtsi b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
-index f8ef149fedad..49ae15708a0b 100644
---- a/arch/arm64/boot/dts/rockchip/rk3328.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
-@@ -306,6 +306,10 @@ power-domain@RK3328_PD_HEVC {
- 			};
- 			power-domain@RK3328_PD_VIDEO {
- 				reg = <RK3328_PD_VIDEO>;
-+				clocks = <&cru ACLK_RKVDEC>,
-+					 <&cru HCLK_RKVDEC>,
-+					 <&cru SCLK_VDEC_CABAC>,
-+					 <&cru SCLK_VDEC_CORE>;
- 				#power-domain-cells = <0>;
- 			};
- 			power-domain@RK3328_PD_VPU {
-@@ -660,6 +664,20 @@ vpu_mmu: iommu@ff350800 {
- 		power-domains = <&power RK3328_PD_VPU>;
- 	};
- 
-+	vdec: video-codec@ff360000 {
-+		compatible = "rockchip,rk3328-vdec", "rockchip,rk3399-vdec";
-+		reg = <0x0 0xff360000 0x0 0x400>;
-+		interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cru ACLK_RKVDEC>, <&cru HCLK_RKVDEC>,
-+			 <&cru SCLK_VDEC_CABAC>, <&cru SCLK_VDEC_CORE>;
-+		clock-names = "axi", "ahb", "cabac", "core";
-+		assigned-clocks = <&cru ACLK_RKVDEC>, <&cru SCLK_VDEC_CABAC>,
-+				  <&cru SCLK_VDEC_CORE>;
-+		assigned-clock-rates = <400000000>, <400000000>, <300000000>;
-+		iommus = <&vdec_mmu>;
-+		power-domains = <&power RK3328_PD_VIDEO>;
-+	};
-+
- 	vdec_mmu: iommu@ff360480 {
- 		compatible = "rockchip,iommu";
- 		reg = <0x0 0xff360480 0x0 0x40>, <0x0 0xff3604c0 0x0 0x40>;
-@@ -667,7 +685,7 @@ vdec_mmu: iommu@ff360480 {
- 		clocks = <&cru ACLK_RKVDEC>, <&cru HCLK_RKVDEC>;
- 		clock-names = "aclk", "iface";
- 		#iommu-cells = <0>;
--		status = "disabled";
-+		power-domains = <&power RK3328_PD_VIDEO>;
- 	};
- 
- 	vop: vop@ff370000 {
--- 
-2.34.1
 
+Thanks for your patience with reviewing the series. I sent v3 which 
+should finally solve this now.
+
+Cheers!
+
+Chris
