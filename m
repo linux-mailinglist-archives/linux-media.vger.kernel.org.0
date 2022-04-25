@@ -2,114 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CB9150E466
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 17:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5189950E47E
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 17:34:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242856AbiDYPbV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 11:31:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42806 "EHLO
+        id S242954AbiDYPhw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 11:37:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242846AbiDYPbT (ORCPT
+        with ESMTP id S242920AbiDYPhp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 11:31:19 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C984510F383;
-        Mon, 25 Apr 2022 08:28:15 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:ad99:4ace:ca31:d49f] (unknown [IPv6:2a01:e0a:120:3210:ad99:4ace:ca31:d49f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 44A8A1F43242;
-        Mon, 25 Apr 2022 16:28:14 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1650900494;
-        bh=48BaXLY/uNsEmn7xLJgc/GuMlYBzj62kSh+QLbDxIcI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=emQ4pXse6Bh96pAzWV6F0oNzLQR57rq4ITLze0/0n5Dh6rkZBGdTP2h5GhYAvAcPL
-         N5GzxvxGBz2mzAhPklCRaI0fuVnjU1uS4m98nXfyD/2Q6tLVvhhiusR1TiHtx9Ckts
-         1hhmjBEqrjSwe/JYrEFYjT55PiLVSo0mco5Ic4oLUOVgEsOqN7ZVkLc5ZGGD+i0hb+
-         H8C7QFNMbk4LnhbVHDKmUB/1z9eoZRhm8iaV3Ek1zbYkeDNmBshQTwXXkvLOCTWc1c
-         OhbTRvt89M83DPlVTpZxccHue3AyIco7oxy6DX9I6Q/eJmkN3WGT3OaGsDEz2WXd3K
-         Hh48FCkis4JkQ==
-Message-ID: <d2e699a9-6c2d-ab87-f23f-4b42096d64be@collabora.com>
-Date:   Mon, 25 Apr 2022 17:28:12 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] media: hantro: HEVC: unconditionnaly set
- pps_{cb/cr}_qp_offset values
-Content-Language: en-US
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mon, 25 Apr 2022 11:37:45 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7782433A6
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 08:34:40 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1nj0jW-0001it-Ip; Mon, 25 Apr 2022 17:34:38 +0200
+Message-ID: <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
+Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2
+ VPU's with vpu-blk-ctrl
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>,
+        Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
+Cc:     aford@beaconembedded.com, cphealy@gmail.com,
+        kernel test robot <lkp@intel.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        jon@nanocrew.net, Adam Ford <aford173@gmail.com>,
-        Collabora Kernel ML <kernel@collabora.com>
-References: <20220425105346.324864-1-benjamin.gaignard@collabora.com>
- <CAAEAJfA2K2-YOruDMUjHixaPa1wfTSwpb3K5A-y_i3H6BF7oKQ@mail.gmail.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <CAAEAJfA2K2-YOruDMUjHixaPa1wfTSwpb3K5A-y_i3H6BF7oKQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Date:   Mon, 25 Apr 2022 17:34:34 +0200
+In-Reply-To: <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm>
+References: <20220125171129.472775-1-aford173@gmail.com>
+         <20220125171129.472775-8-aford173@gmail.com>
+         <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Martin,
 
-Le 25/04/2022 à 14:12, Ezequiel Garcia a écrit :
-> On Mon, Apr 25, 2022 at 7:53 AM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
->> Always set pps_cb_qp_offset and pps_cr_qp_offset values in Hantro/G2
->> register whatever is V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT
->> flag value.
->> This fix a couple of tests in fluster.
->>
-> Which tests?
+Am Montag, dem 25.04.2022 um 17:22 +0200 schrieb Martin Kepplinger:
+> Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
+> > With the Hantro G1 and G2 now setup to run independently, update
+> > the device tree to allow both to operate.  This requires the
+> > vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
+> > certain clock enabled to handle the gating of the G1 and G2
+> > fuses, the clock-parents and clock-rates for the various VPU's
+> > to be moved into the pgc_vpu because they cannot get re-parented
+> > once enabled, and the pgc_vpu is the highest in the chain.
+> > 
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> > 
+> > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > index 2df2510d0118..549b2440f55d 100644
+> > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
+> >                                         pgc_vpu: power-domain@6 {
+> >                                                 #power-domain-cells =
+> > <0>;
+> >                                                 reg =
+> > <IMX8M_POWER_DOMAIN_VPU>;
+> > -                                               clocks = <&clk
+> > IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > +                                               clocks = <&clk
+> > IMX8MQ_CLK_VPU_DEC_ROOT>,
+> > +                                                        <&clk
+> > IMX8MQ_CLK_VPU_G1_ROOT>,
+> > +                                                        <&clk
+> > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > +                                               assigned-clocks =
+> > <&clk IMX8MQ_CLK_VPU_G1>,
+> > +                                                                
+> > <&clk IMX8MQ_CLK_VPU_G2>,
+> > +                                                                
+> > <&clk IMX8MQ_CLK_VPU_BUS>,
+> > +                                                                
+> > <&clk IMX8MQ_VPU_PLL_BYPASS>;
+> > +                                               assigned-clock-
+> > parents = <&clk IMX8MQ_VPU_PLL_OUT>,
+> > +                                                                    
+> >     <&clk IMX8MQ_VPU_PLL_OUT>,
+> > +                                                                    
+> >     <&clk IMX8MQ_SYS1_PLL_800M>,
+> > +                                                                    
+> >     <&clk IMX8MQ_VPU_PLL>;
+> > +                                               assigned-clock-rates
+> > = <600000000>,
+> > +                                                                    
+> >   <600000000>,
+> > +                                                                    
+> >   <800000000>,
+> > +                                                                    
+> >   <0>;
+> >                                         };
+> >  
+> >                                         pgc_disp: power-domain@7 {
+> > @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
+> >                         status = "disabled";
+> >                 };
+> >  
+> > -               vpu: video-codec@38300000 {
+> > -                       compatible = "nxp,imx8mq-vpu";
+> > -                       reg = <0x38300000 0x10000>,
+> > -                             <0x38310000 0x10000>,
+> > -                             <0x38320000 0x10000>;
+> > -                       reg-names = "g1", "g2", "ctrl";
+> > -                       interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> > -                                    <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> > -                       interrupt-names = "g1", "g2";
+> > +               vpu_g1: video-codec@38300000 {
+> > +                       compatible = "nxp,imx8mq-vpu-g1";
+> > +                       reg = <0x38300000 0x10000>;
+> > +                       interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> > +                       clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
+> > +                       power-domains = <&vpu_blk_ctrl
+> > IMX8MQ_VPUBLK_PD_G1>;
+> > +               };
+> > +
+> > +               vpu_g2: video-codec@38310000 {
+> > +                       compatible = "nxp,imx8mq-vpu-g2";
+> > +                       reg = <0x38310000 0x10000>;
+> > +                       interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> > +                       clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> > +                       power-domains = <&vpu_blk_ctrl
+> > IMX8MQ_VPUBLK_PD_G2>;
+> > +               };
+> > +
+> > +               vpu_blk_ctrl: blk-ctrl@38320000 {
+> > +                       compatible = "fsl,imx8mq-vpu-blk-ctrl";
+> > +                       reg = <0x38320000 0x100>;
+> > +                       power-domains = <&pgc_vpu>, <&pgc_vpu>,
+> > <&pgc_vpu>;
+> > +                       power-domain-names = "bus", "g1", "g2";
+> >                         clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> > -                                <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+> > -                                <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > -                       clock-names = "g1", "g2", "bus";
+> > -                       assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
+> > -                                         <&clk IMX8MQ_CLK_VPU_G2>,
+> > -                                         <&clk IMX8MQ_CLK_VPU_BUS>,
+> > -                                         <&clk
+> > IMX8MQ_VPU_PLL_BYPASS>;
+> > -                       assigned-clock-parents = <&clk
+> > IMX8MQ_VPU_PLL_OUT>,
+> > -                                                <&clk
+> > IMX8MQ_VPU_PLL_OUT>,
+> > -                                                <&clk
+> > IMX8MQ_SYS1_PLL_800M>,
+> > -                                                <&clk
+> > IMX8MQ_VPU_PLL>;
+> > -                       assigned-clock-rates = <600000000>,
+> > <600000000>,
+> > -                                              <800000000>, <0>;
+> > -                       power-domains = <&pgc_vpu>;
+> > +                                <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> > +                       clock-names = "g1", "g2";
+> > +                       #power-domain-cells = <1>;
+> >                 };
+> >  
+> >                 pcie0: pcie@33800000 {
+> 
+> With this update, when testing suspend to ram on imx8mq, I get:
+> 
+> buck4: failed to disable: -ETIMEDOUT
+> 
+> where buck4 is power-supply of pgc_vpu. And thus the transition to
+> suspend (and resuming) fails.
+> 
+> Have you tested system suspend after the imx8m-blk-ctrl update on
+> imx8mq?
 
-CAINIT_G_SHARP_3 test.
-Hantro proprietary stack (g2dec tool) does the same.
+I haven't tested system suspend, don't know if anyone else did. However
+I guess that this is just uncovering a preexisting issue in the system
+suspend sequencing, which you would also hit if the video decoders were
+active at system suspend time.
+
+My guess is that the regulator disable fails, due to the power domains
+being disabled quite late in the suspend sequence, where i2c
+communication with the PMIC is no longer possible due to i2c being
+suspended already or something like that. Maybe you can dig in a bit on
+the actual sequence on your system and we can see how we can rework
+things to suspend the power domains at a time where communication with
+the PMIC is still possible?
 
 Regards,
-Benjamin
+Lucas
 
->
-> Thanks,
-> Ezequiel
->
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 9 ++-------
->>   1 file changed, 2 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> index 2c8eb0720db8..bb512389c1a5 100644
->> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> @@ -194,13 +194,8 @@ static void set_params(struct hantro_ctx *ctx)
->>                  hantro_reg_write(vpu, &g2_max_cu_qpd_depth, 0);
->>          }
->>
->> -       if (pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT) {
->> -               hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
->> -               hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
->> -       } else {
->> -               hantro_reg_write(vpu, &g2_cb_qp_offset, 0);
->> -               hantro_reg_write(vpu, &g2_cr_qp_offset, 0);
->> -       }
->> +       hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
->> +       hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
->>
->>          hantro_reg_write(vpu, &g2_filt_offset_beta, pps->pps_beta_offset_div2);
->>          hantro_reg_write(vpu, &g2_filt_offset_tc, pps->pps_tc_offset_div2);
->> --
->> 2.32.0
->>
