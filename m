@@ -2,216 +2,295 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CED150E564
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 18:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0289250E578
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 18:20:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243328AbiDYQUM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 12:20:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37228 "EHLO
+        id S243288AbiDYQXx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 12:23:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243332AbiDYQUK (ORCPT
+        with ESMTP id S235878AbiDYQXv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 12:20:10 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17D5B255AF;
-        Mon, 25 Apr 2022 09:17:05 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:ad99:4ace:ca31:d49f] (unknown [IPv6:2a01:e0a:120:3210:ad99:4ace:ca31:d49f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 08BEC1F43619;
-        Mon, 25 Apr 2022 17:17:03 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1650903423;
-        bh=ZpTwJbZZr/H9CBIUyh/kt4kicHgBjDQHTZ78dC5HfK8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=odGIJtNP+8Zz/7Wax6JrQlecZqRXdMDyXDjds01M8hauYBjD3EXyIaJavSWYYnMR2
-         iLWpZUaT4vvysowt5EAInE88aOX6O3vBt4E9aUbkbxjZT2E29WWHu7B55yBHeZFyyx
-         c0AOrlQ53vAfBTi9QPVml5IM+O5Oft5kf39mEANqqwJ5kHva5xIWH/ug6c+MhRUM/0
-         mSyBlIkYRXUVksE7PR6/JS8cxS2dP+i+QIoKHWtxHKlj1J/Ko+8tsoqEGid5ukCNx+
-         iDjCKFIbiIHMw8f7R2PWogez/UmGUn/Tvhjz69jqzrQe0TJ75/0fmgnNiqHwf0CeUH
-         GtwY59Xvr2RWg==
-Message-ID: <d1ba4e57-2f13-ab3b-f79a-dc812cd4c2bf@collabora.com>
-Date:   Mon, 25 Apr 2022 18:16:59 +0200
+        Mon, 25 Apr 2022 12:23:51 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 230F968304
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 09:20:47 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id p18so13902374edr.7
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 09:20:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9Fe6LxZHEqkixiJSvboLiKadG37amnsHY4Z+NTobank=;
+        b=PQ+pDUS7FMhEa365JDHWZHkT7SB9g8TLyESL1A3E6ssjzeZT12XEFoOS4S5PTnTfpZ
+         GixK5jYaNDEX+cN6BCQuKIr9szisyoX8YI0l9IHGjKBnECk6kf1p1SIytS2dKcRMw979
+         x/yqGkTt4xS10tQKMOIgfdRKBwIRAWlnBCvozTPgeCN0aTCOfeBd+J/msyRkMHpwJhMj
+         /K4XIdUyBgCzhvGwGYN7sm6SeyPXY8asTWf5qIbFcvRinuP/pS8uRt3bkBr+kFbnKxle
+         8PMsy6QaDcKQUQvpm+LsNxld6BtcSPNkmCl8jHNvyoOniBhjXcF/aA3dziVfILKOrPuo
+         y2lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9Fe6LxZHEqkixiJSvboLiKadG37amnsHY4Z+NTobank=;
+        b=hxh/ji9zTbiF5SZWWPvYje7ecrE2qzhjP9R8jjXjqKsKYh8JHb3yjOONlPJYYNef+G
+         2A+9es2rgUT1hHwJ+ZZ33ahhyxm/PKHY6x4BIPo+y+af6dBZmJKMfNX17W4DMIZV6u0w
+         6ZF86ED5JXIVIpVcdfmYhE7RGfuNOCzba1NBD0nN1j+1W6/EbFAGAFzCbU9hop2z5hK3
+         OTUs3Lov4OIZf1rvpbXMAo3sKm+w1ba/+3edFkAQzkyxVmanyFOPTrtWZvir9ToOICtZ
+         aGUk5Q+Jc/0pM8yMVTUFc/rHiPZps5UJ0syYq7pzRjKmeGQotQEe2EIRJR3PXNwr08DP
+         Vbsw==
+X-Gm-Message-State: AOAM531BbtKtwA55ThRNslAhY53NhG2O/pOP3AHeL7f2ONvzzbTlFTwk
+        3XG3GkwMIoOoaA4qnHLgt4RH+xs6vxIQI5OKee9zbw==
+X-Google-Smtp-Source: ABdhPJx2yDEdvEhFCkE9/UJ3OYVSrXf0wvM9TSGwgmJy7RjUSw0/Ac9QtaXkvwbeMtzu51EGMfh+faJw+mhpYs47DEk=
+X-Received: by 2002:aa7:dd45:0:b0:425:8cea:8c76 with SMTP id
+ o5-20020aa7dd45000000b004258cea8c76mr19617581edw.353.1650903645608; Mon, 25
+ Apr 2022 09:20:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 04/17] media: uapi: HEVC: Add missing fields in HEVC
- controls
-Content-Language: en-US
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
- <20220407152940.738159-5-benjamin.gaignard@collabora.com>
- <20220425135449.oapsrqqyq34s2ii3@basti-XPS-13-9310>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20220425135449.oapsrqqyq34s2ii3@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220412135534.2796158-1-aford173@gmail.com> <20220412135534.2796158-2-aford173@gmail.com>
+In-Reply-To: <20220412135534.2796158-2-aford173@gmail.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 25 Apr 2022 17:20:29 +0100
+Message-ID: <CAPY8ntCKxRMFX023BsM70bA0UbPApzOzLbg+2X0SU93_GABKiA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] media: i2c: imx219: Split common registers from mode tables
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        cstevens@beaconembedded.com, aford@beaconembedded.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Adam
 
-Le 25/04/2022 à 15:54, Sebastian Fricke a écrit :
-> On 07.04.2022 17:29, Benjamin Gaignard wrote:
->> Complete the HEVC controls with missing fields from H.265 
->> specifications.
->> Even if these fields aren't used by the current mainlined drivers
->> they will be need for (at least) rkvdec driver.
+On Tue, 12 Apr 2022 at 14:55, Adam Ford <aford173@gmail.com> wrote:
 >
-> s/be need/be required/
-> or
-> s/be need/be needed/
+> There are four modes, and each mode has a table of registers.
+> Some of the registers are common to all modes, so create new
+> tables for these common registers to reduce duplicate code.
 >
-> s/rkvdec/the rkvdec/
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> ---
+>  drivers/media/i2c/imx219.c | 103 ++++++++++++++-----------------------
+>  1 file changed, 39 insertions(+), 64 deletions(-)
 >
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->> .../media/v4l/ext-ctrls-codec.rst             | 19 +++++++++++++++++++
->> include/media/hevc-ctrls.h                    |  6 +++++-
->> 2 files changed, 24 insertions(+), 1 deletion(-)
->>
->> diff --git 
->> a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst 
->> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index 4cd7c541fc30..dbb08603217b 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -2661,6 +2661,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>     :stub-columns: 0
->>     :widths:       1 1 2
->>
->> +    * - __u8
->> +      - ``video_parameter_set_id``
->> +      - Specifies the value of the vps_video_parameter_set_id of the 
->> active VPS
->> +        as descibed in section "7.4.3.2.1 General sequence parameter 
->> set RBSP semantics"
->> +        of H.265 specifications.
->> +    * - __u8
->> +      - ``seq_parameter_set_id``
->> +      - Provides an identifier for the SPS for reference by other 
->> syntax elements
->> +        as descibed in section "7.4.3.2.1 General sequence parameter 
->> set RBSP semantics"
->> +        of H.265 specifications.
->>     * - __u16
->>       - ``pic_width_in_luma_samples``
->>       -
->> @@ -2800,6 +2810,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>     :stub-columns: 0
->>     :widths:       1 1 2
->>
->> +    * - __u8
->> +      - ``pic_parameter_set_id``
->> +      - Identifies the PPS for reference by other syntax elements.
->>     * - __u8
->>       - ``num_extra_slice_header_bits``
->>       -
->> @@ -3026,6 +3039,12 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>     * - __u8
->>       - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
->>       - The list of L1 reference elements as indices in the DPB.
->> +    * - __u16
->> +      - ``short_term_ref_pic_set_size``
->> +      - Specifies the size of short-term reference pictures set 
->> included in the SPS.
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index e10af3f74b38..b7cc36b16547 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -145,19 +145,36 @@ struct imx219_mode {
+>         struct imx219_reg_list reg_list;
+>  };
 >
-> s/size of/size of the/
->
-> Section 7.4.8 depicts that the st_ref_pic_set syntax
-> structure can be part of the SPS or the slice header.
->
-> I think we should mention that we talk about the size of the 
-> st_ref_pic_set
-> syntax structure from section 7.4.8 of the specification.
->> +    * - __u16
->> +      - ``long_term_ref_pic_set_size``
->> +      - Specifies the size of long-term reference pictures set 
->> include in the SPS.
->
-> s/size of/size of the/
->
-> Can we make this a bit more helpful? The specification doesn't contain
-> a similar structure to `st_ref_pic_set` for long term pictures. So, as a
-> programmer this leaves me guessing:
-> - Which syntax structure's size are we talking about?
-> - Does this correlate to any of the existing sections of the
-> specification?
-> Because in the end, I feel like this documentation should be able to
-> help a programmer to provide the correct data for the uABI.
+> -/*
+> - * Register sets lifted off the i2C interface from the Raspberry Pi firmware
+> - * driver.
+> - * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
+> - */
+> -static const struct imx219_reg mode_3280x2464_regs[] = {
+> -       {0x0100, 0x00},
+> +/* To Access Addresses 3000-5fff, send the following commands */
+> +static const struct imx219_reg mfg_specific_reg[] = {
+> +       {0x0100, 0x00}, /* Mode Select */
+>         {0x30eb, 0x0c},
+>         {0x30eb, 0x05},
+>         {0x300a, 0xff},
+>         {0x300b, 0xff},
+>         {0x30eb, 0x05},
+>         {0x30eb, 0x09},
+> +};
+> +
+> +static const struct imx219_reg pll_clk_table[] = {
+> +
+> +       {0x0301, 0x05}, /* VTPXCK_DIV */
+> +       {0x0303, 0x01}, /* VTSYSCK_DIV */
+> +       {0x0304, 0x03}, /* PREPLLCK_VT_DIV 0x03 = AUTO set */
+> +       {0x0305, 0x03}, /* PREPLLCK_OP_DIV 0x03 = AUTO set */
+> +       {0x0306, 0x00}, /* PLL_VT_MPY */
+> +       {0x0307, 0x39},
+> +       {0x030b, 0x01}, /* OP_SYS_CLK_DIV */
+> +       {0x030c, 0x00}, /* PLL_OP_MPY */
+> +       {0x030d, 0x72},
+> +};
 
-I will reword it like that:
+(I've come back to this patch last as my first reading was happy with it)
+Is there a good reason for making these two tables instead of one with
+comments as to what the registers are doing?
 
-   * - __u16
-     - ``short_term_ref_pic_set_size``
-     - Specifies the size, in bits, of the short-term reference pictures set, described as st_ref_pic_set()
-       in the specification, included in the slice header (section 7.3.6.1).
+As per my comment on patch 4, one table of registers setting these,
+the DPHY register, and registers
+    {0x455e, 0x00},
+    {0x471e, 0x4b},
+    {0x4767, 0x0f},
+    {0x4750, 0x14},
+    {0x4540, 0x00},
+    {0x47b4, 0x14},
+    {0x4713, 0x30},
+    {0x478b, 0x10},
+    {0x478f, 0x10},
+    {0x4793, 0x10},
+    {0x4797, 0x0e},
+    {0x479b, 0x0e},
+    {0x0162, 0x0d},
+    {0x0163, 0x78},
+would remove the duplication, reduce the code size, and be slightly
+more readable.
 
-  * - __u16
-    - ``long_term_ref_pic_set_size``
-    - Specifies the size, in bits, of the long-term reference pictures set include in the slice header.
-      It is the number of bits in the conditional block if( long_term_ref_pics_present_flag ) {...}
-      in section 7.3.6.1 of the specification.
+  Dave
 
-Benjamin
-
-
+> +/*
+> + * Register sets lifted off the i2C interface from the Raspberry Pi firmware
+> + * driver.
+> + * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
+> + */
+> +static const struct imx219_reg mode_3280x2464_regs[] = {
+>         {0x0114, 0x01},
+>         {0x0128, 0x00},
+>         {0x012a, 0x18},
+> @@ -178,15 +195,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
+>         {0x0171, 0x01},
+>         {0x0174, 0x00},
+>         {0x0175, 0x00},
+> -       {0x0301, 0x05},
+> -       {0x0303, 0x01},
+> -       {0x0304, 0x03},
+> -       {0x0305, 0x03},
+> -       {0x0306, 0x00},
+> -       {0x0307, 0x39},
+> -       {0x030b, 0x01},
+> -       {0x030c, 0x00},
+> -       {0x030d, 0x72},
+>         {0x0624, 0x0c},
+>         {0x0625, 0xd0},
+>         {0x0626, 0x09},
+> @@ -208,13 +216,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
+>  };
 >
-> Greetings,
-> Sebastian
+>  static const struct imx219_reg mode_1920_1080_regs[] = {
+> -       {0x0100, 0x00},
+> -       {0x30eb, 0x05},
+> -       {0x30eb, 0x0c},
+> -       {0x300a, 0xff},
+> -       {0x300b, 0xff},
+> -       {0x30eb, 0x05},
+> -       {0x30eb, 0x09},
+>         {0x0114, 0x01},
+>         {0x0128, 0x00},
+>         {0x012a, 0x18},
+> @@ -237,15 +238,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
+>         {0x0171, 0x01},
+>         {0x0174, 0x00},
+>         {0x0175, 0x00},
+> -       {0x0301, 0x05},
+> -       {0x0303, 0x01},
+> -       {0x0304, 0x03},
+> -       {0x0305, 0x03},
+> -       {0x0306, 0x00},
+> -       {0x0307, 0x39},
+> -       {0x030b, 0x01},
+> -       {0x030c, 0x00},
+> -       {0x030d, 0x72},
+>         {0x0624, 0x07},
+>         {0x0625, 0x80},
+>         {0x0626, 0x04},
+> @@ -265,13 +257,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
+>  };
 >
->>     * - __u8
->>       - ``padding``
->>       - Applications and drivers must set this to zero.
->> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->> index 01ccda48d8c5..a329e086a89a 100644
->> --- a/include/media/hevc-ctrls.h
->> +++ b/include/media/hevc-ctrls.h
->> @@ -58,6 +58,8 @@ enum v4l2_mpeg_video_hevc_start_code {
->> /* The controls are not stable at the moment and will likely be 
->> reworked. */
->> struct v4l2_ctrl_hevc_sps {
->>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
->> +    __u8    video_parameter_set_id;
->> +    __u8    seq_parameter_set_id;
->>     __u16    pic_width_in_luma_samples;
->>     __u16    pic_height_in_luma_samples;
->>     __u8    bit_depth_luma_minus8;
->> @@ -108,6 +110,7 @@ struct v4l2_ctrl_hevc_sps {
->>
->> struct v4l2_ctrl_hevc_pps {
->>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
->> +    __u8    pic_parameter_set_id;
->>     __u8    num_extra_slice_header_bits;
->>     __u8    num_ref_idx_l0_default_active_minus1;
->>     __u8    num_ref_idx_l1_default_active_minus1;
->> @@ -199,7 +202,8 @@ struct v4l2_ctrl_hevc_slice_params {
->>     __u32    slice_segment_addr;
->>     __u8    ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->>     __u8    ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->> -
->> +    __u16    short_term_ref_pic_set_size;
->> +    __u16    long_term_ref_pic_set_size;
->>     __u8    padding;
->>
->>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction 
->> parameter */
->> -- 
->> 2.32.0
->>
+>  static const struct imx219_reg mode_1640_1232_regs[] = {
+> -       {0x0100, 0x00},
+> -       {0x30eb, 0x0c},
+> -       {0x30eb, 0x05},
+> -       {0x300a, 0xff},
+> -       {0x300b, 0xff},
+> -       {0x30eb, 0x05},
+> -       {0x30eb, 0x09},
+>         {0x0114, 0x01},
+>         {0x0128, 0x00},
+>         {0x012a, 0x18},
+> @@ -292,15 +277,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
+>         {0x0171, 0x01},
+>         {0x0174, 0x01},
+>         {0x0175, 0x01},
+> -       {0x0301, 0x05},
+> -       {0x0303, 0x01},
+> -       {0x0304, 0x03},
+> -       {0x0305, 0x03},
+> -       {0x0306, 0x00},
+> -       {0x0307, 0x39},
+> -       {0x030b, 0x01},
+> -       {0x030c, 0x00},
+> -       {0x030d, 0x72},
+>         {0x0624, 0x06},
+>         {0x0625, 0x68},
+>         {0x0626, 0x04},
+> @@ -322,13 +298,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
+>  };
+>
+>  static const struct imx219_reg mode_640_480_regs[] = {
+> -       {0x0100, 0x00},
+> -       {0x30eb, 0x05},
+> -       {0x30eb, 0x0c},
+> -       {0x300a, 0xff},
+> -       {0x300b, 0xff},
+> -       {0x30eb, 0x05},
+> -       {0x30eb, 0x09},
+>         {0x0114, 0x01},
+>         {0x0128, 0x00},
+>         {0x012a, 0x18},
+> @@ -351,15 +320,6 @@ static const struct imx219_reg mode_640_480_regs[] = {
+>         {0x0171, 0x01},
+>         {0x0174, 0x03},
+>         {0x0175, 0x03},
+> -       {0x0301, 0x05},
+> -       {0x0303, 0x01},
+> -       {0x0304, 0x03},
+> -       {0x0305, 0x03},
+> -       {0x0306, 0x00},
+> -       {0x0307, 0x39},
+> -       {0x030b, 0x01},
+> -       {0x030c, 0x00},
+> -       {0x030d, 0x72},
+>         {0x0624, 0x06},
+>         {0x0625, 0x68},
+>         {0x0626, 0x04},
+> @@ -1041,6 +1001,13 @@ static int imx219_start_streaming(struct imx219 *imx219)
+>         if (ret < 0)
+>                 return ret;
+>
+> +       /* Send the Manufacturing Header common to all modes */
+> +       ret = imx219_write_regs(imx219, mfg_specific_reg, ARRAY_SIZE(mfg_specific_reg));
+> +       if (ret) {
+> +               dev_err(&client->dev, "%s failed to send mfg header\n", __func__);
+> +               goto err_rpm_put;
+> +       }
+> +
+>         /* Apply default values of current mode */
+>         reg_list = &imx219->mode->reg_list;
+>         ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
+> @@ -1056,6 +1023,14 @@ static int imx219_start_streaming(struct imx219 *imx219)
+>                 goto err_rpm_put;
+>         }
+>
+> +       /* Configure the PLL clocks */
+> +       ret = imx219_write_regs(imx219, pll_clk_table, ARRAY_SIZE(pll_clk_table));
+> +       if (ret) {
+> +               dev_err(&client->dev, "%s failed to sent PLL clocks\n", __func__);
+> +               goto err_rpm_put;
+> +       }
+> +
+> +
+>         /* Apply customized values from user */
+>         ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
+>         if (ret)
+> --
+> 2.34.1
+>
