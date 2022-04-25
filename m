@@ -2,152 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C487D50DA45
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 09:38:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8805150DA54
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 09:43:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239672AbiDYHlg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 03:41:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46424 "EHLO
+        id S240168AbiDYHqI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 03:46:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238286AbiDYHld (ORCPT
+        with ESMTP id S240193AbiDYHqG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 03:41:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA8C512AE3;
-        Mon, 25 Apr 2022 00:38:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 787F3612F4;
-        Mon, 25 Apr 2022 07:38:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AE90C385A4;
-        Mon, 25 Apr 2022 07:38:24 +0000 (UTC)
-Message-ID: <44c597b0-17f8-97cb-7922-7beff59c0b16@xs4all.nl>
-Date:   Mon, 25 Apr 2022 09:38:23 +0200
+        Mon, 25 Apr 2022 03:46:06 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB763BBD0
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 00:43:00 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:c150:c4b6:d197:3811])
+        by baptiste.telenet-ops.be with bizsmtp
+        id Nviw2700S3M22MD01vix4W; Mon, 25 Apr 2022 09:42:59 +0200
+Received: from geert (helo=localhost)
+        by ramsan.of.borg with local-esmtp (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1nitN2-0025Up-FP; Mon, 25 Apr 2022 09:42:56 +0200
+Date:   Mon, 25 Apr 2022 09:42:56 +0200 (CEST)
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+X-X-Sender: geert@ramsan.of.borg
+To:     linux-kernel@vger.kernel.org
+cc:     Song Liu <song@kernel.org>, Christoph Hellwig <hch@lst.de>,
+        Rik van Riel <riel@surriel.com>, sparclinux@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-media@vger.kernel.org
+Subject: Re: Build regressions/improvements in v5.18-rc4
+In-Reply-To: <20220425073220.3491038-1-geert@linux-m68k.org>
+Message-ID: <alpine.DEB.2.22.394.2204250939240.497673@ramsan.of.borg>
+References: <CAHk-=whmtHMzjaVUF9bS+7vE_rrRctcCTvsAeB8fuLYcyYLN-g@mail.gmail.com> <20220425073220.3491038-1-geert@linux-m68k.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 6/9] media: uapi: Add a control for DW100 driver
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>, mchehab@kernel.org,
-        stanimir.varbanov@linaro.org, tomi.valkeinen@ideasonboard.com,
-        robh+dt@kernel.org, nicolas@ndufresne.ca,
-        alexander.stein@ew.tq-group.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20220328141309.177611-1-xavier.roumegue@oss.nxp.com>
- <20220328141309.177611-7-xavier.roumegue@oss.nxp.com>
- <dba106ac-cee1-2493-13c7-ad9aef556a49@xs4all.nl>
- <YmZJhI291wruvjlt@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <YmZJhI291wruvjlt@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/04/2022 09:11, Laurent Pinchart wrote:
-> On Mon, Apr 25, 2022 at 08:57:07AM +0200, Hans Verkuil wrote:
->> On 28/03/2022 16:13, Xavier Roumegue wrote:
->>> The DW100 driver gets the dewarping mapping as a binary blob from the
->>> userspace application through a custom control.
->>> The blob format is hardware specific so create a dedicated control for
->>> this purpose.
->>>
->>> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
->>> ---
->>>  Documentation/userspace-api/media/drivers/dw100.rst | 12 ++++++++++++
->>>  include/uapi/linux/dw100.h                          | 11 +++++++++++
->>>  2 files changed, 23 insertions(+)
->>>  create mode 100644 include/uapi/linux/dw100.h
->>>
->>> diff --git a/Documentation/userspace-api/media/drivers/dw100.rst b/Documentation/userspace-api/media/drivers/dw100.rst
->>> index 4cd55c75628e..f6d684cadf26 100644
->>> --- a/Documentation/userspace-api/media/drivers/dw100.rst
->>> +++ b/Documentation/userspace-api/media/drivers/dw100.rst
->>> @@ -20,4 +20,16 @@ match the expected size inherited from the destination image resolution.
->>>  More details on the DW100 hardware operations can be found in
->>>  *chapter 13.15 DeWarp* of IMX8MP_ reference manuel.
->>>  
->>> +The Vivante DW100 m2m driver implements the following driver-specific control:
->>> +
->>> +``V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP (integer)``
->>
->> (integer) -> (__u32 array)
->>
->> But should this be a __u32 array at all? Wouldn't a __u16 array make more sense?
->>
->>> +    Specifies to DW100 driver its dewarping map (aka LUT) blob as described in
->>> +    *chapter 13.15.2.3 Dewarping Remap* of IMX8MP_ reference manual as an U32
->>> +    dynamic array. The image is divided into many small 16x16 blocks. If the
->>> +    width of the image is not divisible by 16, the size of the rightmost block
->>> +    is the remainder. 
->>
->> Isn't the same true for the height?
->>
->> The dewarping map only saves the vertex coordinates of the
->>> +    block. The dewarping grid map is comprised of vertex coordinates for x and y.
->>> +    Each x, y coordinate register uses 16 bits (UQ12.4) to record the coordinate
->>
->> As mentioned before, UQ12.4 is not necessarily a standard notation. 'unsigned 12.4
->> fixed point' is better, but you also need to specify exactly where the bits are
->> stored inside the __u16. I.e.: 'the integer part is stored in the 12 most significant
->> bits, and the fractional part is stored in the 4 least significant bits of the __u16.'
-> 
-> Isn't that implied ? I've never seen fixed-point numbers stored the
-> other way around.
+On Mon, 25 Apr 2022, Geert Uytterhoeven wrote:
+> JFYI, when comparing v5.18-rc4[1] to v5.18-rc3[3], the summaries are:
+>  - build errors: +6/-7
 
-True, perhaps that's overkill.
+   + /kisskb/src/drivers/media/platform/nxp/imx-pxp.h: error: initializer element is not constant:  => 582:38
 
-> 
-> Regarding the Q notation, while it was coined by TI, I think it's
-> widespread enough to be used here. I don't mind much though.
+powerpc-gcc5/powerpc-allmodconfig
 
-I had to look it up :-)
+Seen before, looks like one more large 32-bit constant with bit 31 set
+lacking the "U" suffix.
 
-That might say more about me, though...
+   + error: arch/sparc/kernel/head_32.o: relocation truncated to fit: R_SPARC_WDISP22 against `.init.text':  => (.head.text+0x5040), (.head.text+0x5100)
+   + error: arch/sparc/kernel/head_32.o: relocation truncated to fit: R_SPARC_WDISP22 against symbol `leon_smp_cpu_startup' defined in .text section in arch/sparc/kernel/trampoline_32.o:  => (.init.text+0xa4)
+   + error: arch/sparc/kernel/process_32.o: relocation truncated to fit: R_SPARC_WDISP22 against `.text':  => (.fixup+0xc), (.fixup+0x4)
+   + error: arch/sparc/kernel/signal_32.o: relocation truncated to fit: R_SPARC_WDISP22 against `.text':  => (.fixup+0x4), (.fixup+0x10), (.fixup+0x34), (.fixup+0x1c), (.fixup+0x28)
 
-I think the key phrase that is missing here is "fixed point".
+sparc64/sparc-allmodconfig
 
-Regards,
+   + error: page_alloc.c: undefined reference to `vmalloc_huge':  => .init.text+0x1458), .init.text+0x13de), .init.text+0x1466)
 
-	Hans
+sh4-gcc10/se7619_defconfig
+m68k-gcc8/m5272c3_defconfig
+m68k-gcc11/m5272c3_defconfig
 
-> 
->>> +    address, with the Y coordinate in the upper bits and X in the lower bits.
->>
->> And with a __u16 array this becomes: 'The array contains pairs of X, Y coordinates.'
->> Or something along those lines.
->>
->>> +
->>>  .. _IMX8MP: https://www.nxp.com/webapp/Download?colCode=IMX8MPRM
->>> diff --git a/include/uapi/linux/dw100.h b/include/uapi/linux/dw100.h
->>> new file mode 100644
->>> index 000000000000..7fdcf2bf42e5
->>> --- /dev/null
->>> +++ b/include/uapi/linux/dw100.h
->>> @@ -0,0 +1,11 @@
->>> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
->>> +/* Copyright 2022 NXP */
->>> +
->>> +#ifndef __UAPI_DW100_H__
->>> +#define __UAPI_DW100_H__
->>> +
->>> +#include <linux/v4l2-controls.h>
->>> +
->>
->> Add a comment referring to the Documentation/userspace-api/media/drivers/dw100.rst
->> documentation so users of this control know where to find the associated
->> documentation.
->>
->>> +#define V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP (V4L2_CID_USER_DW100_BASE + 1)
->>> +
->>> +#endif
-> 
+Anything with CONFIG_MMU=n, I guess.
+vmalloc_huge() is provided by mm/vmalloc.c, which is not compiled if
+CONFIG_MMU=n.
 
+> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/af2d861d4cd2a4da5137f795ee3509e6f944a25b/ (all 96 configs)
+> [3] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/b2d229d4ddb17db541098b83524d901257e93845/ (all 96 configs)
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
