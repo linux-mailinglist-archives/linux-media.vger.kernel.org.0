@@ -2,73 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1391C50E501
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 18:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5345A50E52E
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 18:07:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235796AbiDYQEd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 12:04:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60588 "EHLO
+        id S243161AbiDYQK3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 12:10:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243185AbiDYQE3 (ORCPT
+        with ESMTP id S239327AbiDYQK2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 12:04:29 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 66E9410FEE
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 09:01:24 -0700 (PDT)
-Received: (qmail 806562 invoked by uid 1000); 25 Apr 2022 12:01:23 -0400
-Date:   Mon, 25 Apr 2022 12:01:23 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Sean Young <sean@mess.org>
-Cc:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Jarod Wilson <jarod@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: possible deadlock in display_open
-Message-ID: <YmbF071fSKUff6R2@rowland.harvard.edu>
-References: <00000000000043b599058faf0145@google.com>
- <5a06c7f1-9a29-99e4-c700-fec3f09509d2@I-love.SAKURA.ne.jp>
- <YmZny7mzugFe0t+X@gofer.mess.org>
- <62dddbb9-3053-f284-f9db-3beda5e8e951@I-love.SAKURA.ne.jp>
- <YmaMY/XKBmEfl8i6@gofer.mess.org>
+        Mon, 25 Apr 2022 12:10:28 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94BA13D4A5
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 09:07:23 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id b24so18999578edu.10
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 09:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bXSnvoi7do4d0Cw+AqoAw/T18ZVUWnuc6GpNpfIH19c=;
+        b=BR68WEsUU9ruE04R4C4gbsu8wC2yAPqXm017Rao0x8cacuQmHe1eOgwJYKQH0jzmJ4
+         oSoRBzz29bJ22lqPwFCiuv9ainoLDkhAoTNF70iaDOAtzBhgznhbLlCNdb9Hrycbb9EL
+         4ujvLSOQApuUAw63cRM6u13KDYE7yArbn4czXZ3YuO9FgPuZibXY9I2/GQ4Mb/1fKmBi
+         TTFrbSSgUcVj1aNVfjRAHtZKI3FdxztPvsSAXKpAMZq688yfX6ERkW1zarAtgeHX58Zq
+         GxdRR3qL4JXJx3KJpxrzpGshXdOwjVLhpaMlcKYb76RCssgP6EmhJLx/s1Y6NJRpkhY5
+         T2Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bXSnvoi7do4d0Cw+AqoAw/T18ZVUWnuc6GpNpfIH19c=;
+        b=5VW6sBwPFirHWbE4uLWh6XBByZIJz8V+2jLR0FY8t+6AfvZ4zwLbNMHkI8ftgnLBlC
+         iBjLnnVM2bePBMZQh/4yi12pVOPkVSej+B5Ydee1Q8ZYM2Pw3/1+DI/eBHZqmy87454w
+         x+bXzF+WaSnAQAYZVyOh5jLf3pNeOKwCsNlVVFFBYZ+nv2mm2ubOpgJjj0dUSOZeZ6He
+         N3NQkg1JSdl7AlGVPfeuh087OqsLswcjyihkG39lGoOXqwXVdQ7SM2uzZjaRqA8nZKEe
+         HvUehCn1MtgUrHXRlLFllJH/GRX2u1f5JSIuBkbMHvU0/eraGj4icTGbOVRWejusHFDv
+         a9LQ==
+X-Gm-Message-State: AOAM5301qHKA4FisZel3TEFuWn4oxKgeJzEb0UsgxEcHtGpowflT1kst
+        s2NM1ULin1V8/W8wFMbvSag9n2hWLoeHHJ4vlOgpGg==
+X-Google-Smtp-Source: ABdhPJwhiteEqaKegPnzPkmDW2Lw00gDy5cmL0DM91noXMDgC0CtFdV2JeuzqnvNaPwoZFBMzqyNSDxSdoQXlgKtqmA=
+X-Received: by 2002:a50:d08b:0:b0:425:eb86:f36d with SMTP id
+ v11-20020a50d08b000000b00425eb86f36dmr5027784edd.235.1650902842151; Mon, 25
+ Apr 2022 09:07:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YmaMY/XKBmEfl8i6@gofer.mess.org>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+References: <20220412135534.2796158-1-aford173@gmail.com> <20220412135534.2796158-5-aford173@gmail.com>
+In-Reply-To: <20220412135534.2796158-5-aford173@gmail.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 25 Apr 2022 17:07:06 +0100
+Message-ID: <CAPY8ntD+HqQLeb=Z4du2X==22yBzkfqpGEjo_v6=W1zFU1F2Ow@mail.gmail.com>
+Subject: Re: [PATCH 4/4] media: i2c: imx219: Create DPHY helper function
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        cstevens@beaconembedded.com, aford@beaconembedded.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 25, 2022 at 12:56:19PM +0100, Sean Young wrote:
-> On Mon, Apr 25, 2022 at 08:14:12PM +0900, Tetsuo Handa wrote:
-> > On 2022/04/25 18:20, Sean Young wrote:
-> > > The problem is there are imon devices which have two usb interfaces, even
-> > > though it is one device. The probe and disconnect function of both usb
-> > > interfaces can run concurrently.
-> > > 
-> > > Of course, this depends on probe/disconnect functions being allowed to run
-> > > concurrently on different interfaces of the same usb device.
-> > 
-> > I don't have real hardware to confirm. If you have an imon device which has
-> > two usb interfaces, please try below debug printk() patch in order to see
-> > whether the caller is already holding locks for serialization.
-> 
-> I am afraid calling debug_show_held_locks() is not really going to tell us
-> this information. This should be figured out from understanding the usb
-> stack, not from seeing if the probe happens to be concurrent.
-> 
-> Just because the locks were not held, does not mean that the usb interface
-> initialization is not concurrent.
+Hi Adam
 
-The driver and USB cores guarantee that when an interface is probed, 
-both the interface and its USB device are locked.  Ditto for when the 
-disconnect callback gets run.  So concurrent probing/disconnection of 
-multiple interfaces on the same device is not possible.
+On Tue, 12 Apr 2022 at 14:55, Adam Ford <aford173@gmail.com> wrote:
+>
+> In the table of modes, each mode sets the DPHY to auto.
+> Create a helper function which does the same thing while
+> removing the entry for auto DPHY from ever mode entry.
 
-Alan Stern
+s/ever/every
+
+>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> ---
+>  drivers/media/i2c/imx219.c | 24 ++++++++++++++++++++----
+>  1 file changed, 20 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 08e7d0e72430..bb0bc1b8d91c 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -35,6 +35,10 @@
+>  #define IMX219_MODE_STANDBY            0x00
+>  #define IMX219_MODE_STREAMING          0x01
+>
+> +
+> +#define IMX219_REG_DPHY_CTRL           0x0128
+> +#define IMX219_DPHY_AUTO               0
+> +
+>  /* Chip ID */
+>  #define IMX219_REG_CHIP_ID             0x0000
+>  #define IMX219_CHIP_ID                 0x0219
+> @@ -183,7 +187,6 @@ static const struct imx219_reg pll_clk_table[] = {
+>   * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
+>   */
+>  static const struct imx219_reg mode_3280x2464_regs[] = {
+> -       {0x0128, 0x00},
+>         {0x012b, 0x00},
+>         {0x0164, 0x00},
+>         {0x0165, 0x00},
+> @@ -222,7 +225,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
+>  };
+>
+>  static const struct imx219_reg mode_1920_1080_regs[] = {
+> -       {0x0128, 0x00},
+>         {0x012b, 0x00},
+>         {0x0162, 0x0d},
+>         {0x0163, 0x78},
+> @@ -261,7 +263,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
+>  };
+>
+>  static const struct imx219_reg mode_1640_1232_regs[] = {
+> -       {0x0128, 0x00},
+>         {0x012b, 0x00},
+>         {0x0164, 0x00},
+>         {0x0165, 0x00},
+> @@ -300,7 +301,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
+>  };
+>
+>  static const struct imx219_reg mode_640_480_regs[] = {
+> -       {0x0128, 0x00},
+>         {0x012b, 0x00},
+>         {0x0162, 0x0d},
+>         {0x0163, 0x78},
+> @@ -999,6 +999,15 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+>         return -EINVAL;
+>  }
+>
+> +static int imx219_enable_dphy(struct imx219 *imx219, u8 mode)
+> +{
+> +       int ret;
+> +
+> +       ret = imx219_write_reg(imx219, IMX219_REG_DPHY_CTRL,
+> +                              IMX219_REG_VALUE_08BIT, mode);
+
+Is there a specific reason to extract this one register, but leave the block
+    {0x455e, 0x00},
+    {0x471e, 0x4b},
+    {0x4767, 0x0f},
+    {0x4750, 0x14},
+    {0x4540, 0x00},
+    {0x47b4, 0x14},
+    {0x4713, 0x30},
+    {0x478b, 0x10},
+    {0x478f, 0x10},
+    {0x4793, 0x10},
+    {0x4797, 0x0e},
+    {0x479b, 0x0e},
+    {0x0162, 0x0d},
+    {0x0163, 0x78},
+that appear to also be common to all modes.
+
+Other drivers break that lot out into a global registers array that is
+always sent, rather than individual register writes.
+Having this one register extra write as a new function is actually
+likely to increase the size of the module overall, instead of reducing
+it.
+
+  Dave
+
+> +       return ret;
+> +};
+> +
+>  static int imx219_configure_lanes(struct imx219 *imx219)
+>  {
+>         int ret;
+> @@ -1081,6 +1090,13 @@ static int imx219_start_streaming(struct imx219 *imx219)
+>                 goto err_rpm_put;
+>         }
+>
+> +       /* Setup DPHY */
+> +       ret = imx219_enable_dphy(imx219, IMX219_DPHY_AUTO);
+> +       if (ret) {
+> +               dev_err(&client->dev, "%s failed to configure dphy\n", __func__);
+> +               goto err_rpm_put;
+> +       }
+> +
+>         /* Configure clock based on reference clock frequency */
+>         imx219_set_exck_freq(imx219);
+>
+> --
+> 2.34.1
+>
