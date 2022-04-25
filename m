@@ -2,288 +2,226 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEEC950DE97
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 13:14:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF0A250DEA4
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 13:17:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233922AbiDYLRx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 07:17:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50750 "EHLO
+        id S240742AbiDYLUG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 07:20:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241761AbiDYLR0 (ORCPT
+        with ESMTP id S240501AbiDYLTn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 07:17:26 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDDB932041
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 04:14:17 -0700 (PDT)
-Received: from fsav111.sakura.ne.jp (fsav111.sakura.ne.jp [27.133.134.238])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 23PBEFwR033704;
-        Mon, 25 Apr 2022 20:14:15 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav111.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav111.sakura.ne.jp);
- Mon, 25 Apr 2022 20:14:15 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav111.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 23PBEEJp033677
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Mon, 25 Apr 2022 20:14:15 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <62dddbb9-3053-f284-f9db-3beda5e8e951@I-love.SAKURA.ne.jp>
-Date:   Mon, 25 Apr 2022 20:14:12 +0900
+        Mon, 25 Apr 2022 07:19:43 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2331EB1AA3
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 04:16:31 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id z99so17933916ede.5
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 04:16:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=qdBFcW6vJKmQAv/hLXoaaVjL7wbFyKf0aQGRcWl+ruQ=;
+        b=ljJGXa9x5cv7X6+Qge4jO9pP9mpyU5pHpEpmH84oJrW8E3HKvwwuLFhtf8XMMRAV1E
+         kT9JeRtQe4o+Dnk+EPLFTnTUIBp9niTh2iFVBOej8rJ/k5irCpdtM0c8Waf6vdXJbRBI
+         UuGOB2O1sVwlCZO8aAK5KgBb151V1SPunqe+Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=qdBFcW6vJKmQAv/hLXoaaVjL7wbFyKf0aQGRcWl+ruQ=;
+        b=QHqWwzO9zHroTr43gvJsLX5YW00UuC4c+XyC7rTntsjeTLVEx1ArOfy3SCPLUu8KUN
+         q2c/lgnQcocoIT/fDRzpIBDKcmNsusKUTVftt5BWIPfe/hb8DJOLkOO86owKwL4lPO8p
+         +7JzqlTPRJMFzHXb84QQAamLu0QjfRE6HU1+LD7RAzGaX/GaI+ucOA8elC0w/oZmKh/u
+         CX55K58TdyIGr2ghwofMb9A3Ju693rsPlNNFKJ0OFcvqTNfCNW7V7MfXzLGlWC/6yOCU
+         FU4M3edFpHOwwvneZVdEz7VnPdGzETgl5YAwvuBGAqufh1nzSXOBXmAy3XTltoZhNtzL
+         IqQA==
+X-Gm-Message-State: AOAM530LiRheLLq0Dr8ndxqMahliu9GI8qDpUTrpdLsjdAzT3FZR7Klj
+        ouvDs/XDkaQhBTA7VQI2q3XqS/wdNnuR+g==
+X-Google-Smtp-Source: ABdhPJx548B6KtJv7QCLqPliUAlOgs8jQgsJ2ux/8ROdf+Q+DX/Cu6of0RFn06YhIB6fmG4M4YE2lQ==
+X-Received: by 2002:aa7:cc02:0:b0:411:487e:36fe with SMTP id q2-20020aa7cc02000000b00411487e36femr18510088edt.338.1650885389546;
+        Mon, 25 Apr 2022 04:16:29 -0700 (PDT)
+Received: from gmail.com ([100.104.168.197])
+        by smtp.gmail.com with ESMTPSA id p7-20020a170906614700b006f396417dfcsm1033670ejl.225.2022.04.25.04.16.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Apr 2022 04:16:29 -0700 (PDT)
+Date:   Mon, 25 Apr 2022 13:16:12 +0200
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Tomasz Figa <tfiga@google.com>,
+        linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v4 16/21] media: rkisp1: debug: Move resizer register
+ dump to debugfs
+Message-ID: <YmaC/D4QTJvGb6MY@gmail.com>
+References: <20220421234240.1694-1-laurent.pinchart@ideasonboard.com>
+ <20220421234240.1694-17-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: possible deadlock in display_open
-Content-Language: en-US
-To:     Sean Young <sean@mess.org>
-Cc:     Jarod Wilson <jarod@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-References: <00000000000043b599058faf0145@google.com>
- <5a06c7f1-9a29-99e4-c700-fec3f09509d2@I-love.SAKURA.ne.jp>
- <YmZny7mzugFe0t+X@gofer.mess.org>
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <YmZny7mzugFe0t+X@gofer.mess.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220421234240.1694-17-laurent.pinchart@ideasonboard.com>
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2022/04/25 18:20, Sean Young wrote:
-> The problem is there are imon devices which have two usb interfaces, even
-> though it is one device. The probe and disconnect function of both usb
-> interfaces can run concurrently.
+Laurent Pinchart wrote:
+
+> The debugfs support already includes support to dump core and ISP
+> registers. Move the resizer register dump there too to make the
+> userspace interface consistent.
 > 
-> Of course, this depends on probe/disconnect functions being allowed to run
-> concurrently on different interfaces of the same usb device.
-
-I don't have real hardware to confirm. If you have an imon device which has
-two usb interfaces, please try below debug printk() patch in order to see
-whether the caller is already holding locks for serialization.
-
-------------------------------------------------------------
- drivers/media/rc/imon.c | 25 +++++--------------------
- 1 file changed, 5 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-index 54da6f60079b..a309c28e63d8 100644
---- a/drivers/media/rc/imon.c
-+++ b/drivers/media/rc/imon.c
-@@ -30,6 +30,7 @@
- #include <media/rc-core.h>
- 
- #include <linux/timer.h>
-+#include <linux/sched/debug.h>
- 
- #define MOD_AUTHOR	"Jarod Wilson <jarod@wilsonet.com>"
- #define MOD_DESC	"Driver for SoundGraph iMON MultiMedia IR/Display"
-@@ -439,9 +440,6 @@ static struct usb_driver imon_driver = {
- 	.id_table	= imon_usb_id_table,
- };
- 
--/* to prevent races between open() and disconnect(), probing, etc */
--static DEFINE_MUTEX(driver_lock);
--
- /* Module bookkeeping bits */
- MODULE_AUTHOR(MOD_AUTHOR);
- MODULE_DESCRIPTION(MOD_DESC);
-@@ -499,9 +497,6 @@ static int display_open(struct inode *inode, struct file *file)
- 	int subminor;
- 	int retval = 0;
- 
--	/* prevent races with disconnect */
--	mutex_lock(&driver_lock);
--
- 	subminor = iminor(inode);
- 	interface = usb_find_interface(&imon_driver, subminor);
- 	if (!interface) {
-@@ -534,7 +529,6 @@ static int display_open(struct inode *inode, struct file *file)
- 	mutex_unlock(&ictx->lock);
- 
- exit:
--	mutex_unlock(&driver_lock);
- 	return retval;
- }
- 
-@@ -2407,6 +2401,8 @@ static int imon_probe(struct usb_interface *interface,
- 	struct imon_context *first_if_ctx = NULL;
- 	u16 vendor, product;
- 
-+	dump_stack();
-+	debug_show_held_locks(current);
- 	usbdev     = usb_get_dev(interface_to_usbdev(interface));
- 	iface_desc = interface->cur_altsetting;
- 	ifnum      = iface_desc->desc.bInterfaceNumber;
-@@ -2416,9 +2412,6 @@ static int imon_probe(struct usb_interface *interface,
- 	dev_dbg(dev, "%s: found iMON device (%04x:%04x, intf%d)\n",
- 		__func__, vendor, product, ifnum);
- 
--	/* prevent races probing devices w/multiple interfaces */
--	mutex_lock(&driver_lock);
--
- 	first_if = usb_ifnum_to_if(usbdev, 0);
- 	if (!first_if) {
- 		ret = -ENODEV;
-@@ -2456,8 +2449,6 @@ static int imon_probe(struct usb_interface *interface,
- 	usb_set_intfdata(interface, ictx);
- 
- 	if (ifnum == 0) {
--		mutex_lock(&ictx->lock);
--
- 		if (product == 0xffdc && ictx->rf_device) {
- 			sysfs_err = sysfs_create_group(&interface->dev.kobj,
- 						       &imon_rf_attr_group);
-@@ -2468,21 +2459,17 @@ static int imon_probe(struct usb_interface *interface,
- 
- 		if (ictx->display_supported)
- 			imon_init_display(ictx, interface);
--
--		mutex_unlock(&ictx->lock);
- 	}
- 
- 	dev_info(dev, "iMON device (%04x:%04x, intf%d) on usb<%d:%d> initialized\n",
- 		 vendor, product, ifnum,
- 		 usbdev->bus->busnum, usbdev->devnum);
- 
--	mutex_unlock(&driver_lock);
- 	usb_put_dev(usbdev);
- 
- 	return 0;
- 
- fail:
--	mutex_unlock(&driver_lock);
- 	usb_put_dev(usbdev);
- 	dev_err(dev, "unable to register, err %d\n", ret);
- 
-@@ -2498,8 +2485,8 @@ static void imon_disconnect(struct usb_interface *interface)
- 	struct device *dev;
- 	int ifnum;
- 
--	/* prevent races with multi-interface device probing and display_open */
--	mutex_lock(&driver_lock);
-+	dump_stack();
-+	debug_show_held_locks(current);
- 
- 	ictx = usb_get_intfdata(interface);
- 	dev = ictx->dev;
-@@ -2545,8 +2532,6 @@ static void imon_disconnect(struct usb_interface *interface)
- 	if (!ictx->dev_present_intf0 && !ictx->dev_present_intf1)
- 		free_imon_context(ictx);
- 
--	mutex_unlock(&driver_lock);
--
- 	dev_dbg(dev, "%s: iMON device (intf%d) disconnected\n",
- 		__func__, ifnum);
- }
-------------------------------------------------------------
-
-Below is a result with syzkaller-generated reproducer. If an imon device
-which has two usb interfaces shares locks held, "prevent races with
-multi-interface device probing" part can be removed.
-
-------------------------------------------------------------
-[  193.854446][ T4177] usb 2-1: new high-speed USB device number 2 using dummy_hcd
-[  194.381949][ T4177] usb 2-1: config 0 interface 0 altsetting 0 endpoint 0x84 has an invalid bInterval 0, changing to 7
-[  194.389192][ T4177] usb 2-1: New USB device found, idVendor=15c2, idProduct=0039, bcdDevice=d2.65
-[  194.394772][ T4177] usb 2-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-[  194.415288][ T4177] usb 2-1: config 0 descriptor??
-[  194.458149][ T4177] CPU: 0 PID: 4177 Comm: kworker/0:3 Not tainted 5.18.0-rc4-dirty #772
-[  194.460825][ T4177] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-[  194.463534][ T4177] Workqueue: usb_hub_wq hub_event
-[  194.465133][ T4177] Call Trace:
-[  194.466158][ T4177]  <TASK>
-[  194.467087][ T4177]  dump_stack_lvl+0xcd/0x134
-[  194.468655][ T4177]  imon_probe+0x26/0x10da
-[  194.470109][ T4177]  ? _raw_spin_unlock_irqrestore+0x3d/0x70
-[  194.471973][ T4177]  ? __pm_runtime_set_status+0x29c/0x5d0
-[  194.473543][ T4177]  ? _raw_spin_unlock_irqrestore+0x3d/0x70
-[  194.475219][ T4177]  usb_probe_interface+0x19b/0x3e0
-[  194.476806][ T4177]  ? usb_match_dynamic_id+0xe0/0xe0
-[  194.478282][ T4177]  really_probe+0x138/0x4c0
-[  194.479511][ T4177]  __driver_probe_device+0x191/0x220
-[  194.481069][ T4177]  driver_probe_device+0x2a/0x120
-[  194.482622][ T4177]  __device_attach_driver+0x105/0x1a0
-[  194.484609][ T4177]  ? driver_allows_async_probing+0x90/0x90
-[  194.486344][ T4177]  bus_for_each_drv+0xba/0x100
-[  194.487985][ T4177]  __device_attach+0x130/0x290
-[  194.489305][ T4177]  bus_probe_device+0xdb/0xf0
-[  194.490604][ T4177]  device_add+0x635/0xdf0
-[  194.492076][ T4177]  ? __mutex_unlock_slowpath+0x37/0x280
-[  194.493649][ T4177]  usb_set_configuration+0x936/0xc20
-[  194.495389][ T4177]  usb_generic_driver_probe+0x8c/0xc0
-[  194.496883][ T4177]  usb_probe_device+0x6c/0x180
-[  194.498207][ T4177]  ? usb_driver_release_interface+0xc0/0xc0
-[  194.500193][ T4177]  really_probe+0x138/0x4c0
-[  194.501561][ T4177]  __driver_probe_device+0x191/0x220
-[  194.503154][ T4177]  driver_probe_device+0x2a/0x120
-[  194.504596][ T4177]  __device_attach_driver+0x105/0x1a0
-[  194.506200][ T4177]  ? driver_allows_async_probing+0x90/0x90
-[  194.507925][ T4177]  bus_for_each_drv+0xba/0x100
-[  194.509331][ T4177]  __device_attach+0x130/0x290
-[  194.510671][ T4177]  bus_probe_device+0xdb/0xf0
-[  194.512115][ T4177]  device_add+0x635/0xdf0
-[  194.513392][ T4177]  usb_new_device.cold+0x10f/0x58e
-[  194.514905][ T4177]  hub_event+0x15f9/0x2650
-[  194.516333][ T4177]  process_one_work+0x381/0x940
-[  194.517826][ T4177]  worker_thread+0x5b/0x5d0
-[  194.519247][ T4177]  ? process_one_work+0x940/0x940
-[  194.527532][ T4177]  kthread+0x135/0x170
-[  194.535432][ T4177]  ? kthread_complete_and_exit+0x30/0x30
-[  194.543576][ T4177]  ret_from_fork+0x1f/0x30
-[  194.551127][ T4177]  </TASK>
-[  194.558820][ T4177] 5 locks held by kworker/0:3/4177:
-[  194.566387][ T4177]  #0: ffff88800a0fed38 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x2b5/0x940
-[  194.575897][ T4177]  #1: ffffc90002fe3e70 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x2b5/0x940
-[  194.585166][ T4177]  #2: ffff888105129220 (&dev->mutex){....}-{3:3}, at: hub_event+0xc4/0x2650
-[  194.593581][ T4177]  #3: ffff88810cc40220 (&dev->mutex){....}-{3:3}, at: __device_attach+0x41/0x290
-[  194.603139][ T4177]  #4: ffff88810cc409a8 (&dev->mutex){....}-{3:3}, at: __device_attach+0x41/0x290
-[  194.618658][ T4177] input: iMON Panel, Knob and Mouse(15c2:0039) as /devices/platform/dummy_hcd.0/usb2/2-1/2-1:0.0/input/input6
-[  194.781071][ T4177] rc_core: IR keymap rc-imon-pad not found
-[  194.789123][ T4177] Registered IR keymap rc-empty
-[  194.796624][ T4177] imon 2-1:0.0: Looks like you're trying to use an IR protocol this device does not support
-[  194.806014][ T4177] imon 2-1:0.0: Unsupported IR protocol specified, overriding to iMON IR protocol
-[  194.965830][ T4177] rc rc0: iMON Remote (15c2:0039) as /devices/platform/dummy_hcd.0/usb2/2-1/2-1:0.0/rc/rc0
-[  194.998797][ T4177] input: iMON Remote (15c2:0039) as /devices/platform/dummy_hcd.0/usb2/2-1/2-1:0.0/rc/rc0/input7
-[  195.033215][ T4177] imon 2-1:0.0: iMON device (15c2:0039, intf0) on usb<2:2> initialized
-[  195.119182][ T3553] usb 2-1: USB disconnect, device number 2
-[  195.131624][    C0] imon 2-1:0.0: imon usb_rx_callback_intf0: status(-71): ignored
-[  195.157933][ T3553] CPU: 2 PID: 3553 Comm: kworker/2:3 Not tainted 5.18.0-rc4-dirty #772
-[  195.171455][ T3553] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-[  195.184454][ T3553] Workqueue: usb_hub_wq hub_event
-[  195.198577][ T3553] Call Trace:
-[  195.208174][ T3553]  <TASK>
-[  195.216716][ T3553]  dump_stack_lvl+0xcd/0x134
-[  195.225712][ T3553]  imon_disconnect+0x1c/0x271
-[  195.234653][ T3553]  usb_unbind_interface+0xe2/0x3e0
-[  195.243813][ T3553]  ? usb_unbind_device+0xc0/0xc0
-[  195.253236][ T3553]  device_remove+0x6d/0x80
-[  195.262130][ T3553]  device_release_driver_internal+0x275/0x300
-[  195.271507][ T3553]  bus_remove_device+0x12f/0x1d0
-[  195.281785][ T3553]  device_del+0x1e5/0x4e0
-[  195.290748][ T3553]  usb_disable_device+0x15f/0x310
-[  195.300276][ T3553]  usb_disconnect.cold+0xd8/0x2fd
-[  195.309417][ T3553]  ? __mutex_unlock_slowpath+0x37/0x280
-[  195.318605][ T3553]  hub_event+0x190b/0x2650
-[  195.327623][ T3553]  process_one_work+0x381/0x940
-[  195.336256][ T3553]  worker_thread+0x5b/0x5d0
-[  195.345289][ T3553]  ? process_one_work+0x940/0x940
-[  195.354733][ T3553]  kthread+0x135/0x170
-[  195.363529][ T3553]  ? kthread_complete_and_exit+0x30/0x30
-[  195.373531][ T3553]  ret_from_fork+0x1f/0x30
-[  195.382434][ T3553]  </TASK>
-[  195.397291][ T3553] 5 locks held by kworker/2:3/3553:
-[  195.408408][ T3553]  #0: ffff88800a0fed38 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x2b5/0x940
-[  195.417251][ T3553]  #1: ffffc90002963e70 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x2b5/0x940
-[  195.429307][ T3553]  #2: ffff888105129220 (&dev->mutex){....}-{3:3}, at: hub_event+0xc4/0x2650
-[  195.439282][ T3553]  #3: ffff88810cc40220 (&dev->mutex){....}-{3:3}, at: usb_disconnect+0x8e/0xa0
-[  195.450701][ T3553]  #4: ffff88810cc409a8 (&dev->mutex){....}-{3:3}, at: device_release_driver_internal+0x55/0x300
-------------------------------------------------------------
-
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> Changes since v3:
+> 
+> - Use RKISP1_MAINPATH and RKISP1_SELFPATH macros
+> - Call pm_runtime_get_if_in_use()
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-debug.c   | 57 +++++++++++++++++++
+>  .../platform/rockchip/rkisp1/rkisp1-resizer.c | 37 ------------
+>  2 files changed, 57 insertions(+), 37 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> index 63aa81553178..d6cfbfaba3cb 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> @@ -81,6 +81,57 @@ static int rkisp1_debug_dump_isp_regs_show(struct seq_file *m, void *p)
+>  }
+>  DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_isp_regs);
+>  
+> +#define RKISP1_DEBUG_RSZ_REG_DEC(name) { \
+> +	RKISP1_CIF_##name, RKISP1_CIF_##name##_SHD, #name, false \
+> +}
+> +
+> +#define RKISP1_DEBUG_RSZ_REG_HEX(name) { \
+> +	RKISP1_CIF_##name, RKISP1_CIF_##name##_SHD, #name, true \
+> +}
+> +
+> +static int rkisp1_debug_dump_rsz_regs_show(struct seq_file *m, void *p)
+> +{
+> +	static const struct {
+> +		u32 reg;
+> +		u32 shadow;
+> +		const char * const name;
+> +		bool hex;
+> +	} registers[] = {
+> +		RKISP1_DEBUG_RSZ_REG_HEX(RSZ_CTRL),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_SCALE_HY),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_SCALE_HCB),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_SCALE_HCR),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_SCALE_VY),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_SCALE_VC),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_PHASE_HY),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_PHASE_HC),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_PHASE_VY),
+> +		RKISP1_DEBUG_RSZ_REG_DEC(RSZ_PHASE_VC),
+> +		{ /* Sentinel */ },
+> +	};
+> +
+> +	struct rkisp1_resizer *rsz = m->private;
+> +	typeof(registers[0]) *reg;
+> +	u32 val, shd;
+> +	int ret;
+> +
+> +	ret = pm_runtime_get_if_in_use(rsz->rkisp1->dev);
+> +	if (ret <= 0)
+> +		return ret ? : -ENODATA;
+> +
+> +	for (reg = registers; reg->name; ++reg) {
+> +		val = rkisp1_read(rsz->rkisp1, rsz->regs_base + reg->reg);
+> +		shd = rkisp1_read(rsz->rkisp1, rsz->regs_base + reg->shadow);
+> +		seq_printf(m, reg->hex ? "%14s: 0x%08x/0x%08x\n" : "%14s: %u/%u\n",
+> +			   reg->name, val, shd);
+> +	}
+> +
+> +	pm_runtime_put(rsz->rkisp1->dev);
+> +
+> +	return 0;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_rsz_regs);
+> +
+>  #define RKISP1_DEBUG_DATA_COUNT_BINS	32
+>  #define RKISP1_DEBUG_DATA_COUNT_STEP	(4096 / RKISP1_DEBUG_DATA_COUNT_BINS)
+>  
+> @@ -168,6 +219,12 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>  			    &rkisp1_debug_dump_core_regs_fops);
+>  	debugfs_create_file("isp", 0444, regs_dir, rkisp1,
+>  			    &rkisp1_debug_dump_isp_regs_fops);
+> +	debugfs_create_file("mrsz", 0444, regs_dir,
+> +			    &rkisp1->resizer_devs[RKISP1_MAINPATH],
+> +			    &rkisp1_debug_dump_rsz_regs_fops);
+> +	debugfs_create_file("srsz", 0444, regs_dir,
+> +			    &rkisp1->resizer_devs[RKISP1_SELFPATH],
+> +			    &rkisp1_debug_dump_rsz_regs_fops);
+>  }
+>  
+>  void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> index ac1b357a2a3a..1c07985c810d 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> @@ -203,41 +203,6 @@ static void rkisp1_dcrop_config(struct rkisp1_resizer *rsz)
+>   * Resizer hw configs
+>   */
+>  
+> -static void rkisp1_rsz_dump_regs(struct rkisp1_resizer *rsz)
+> -{
+> -	dev_dbg(rsz->rkisp1->dev,
+> -		"RSZ_CTRL 0x%08x/0x%08x\n"
+> -		"RSZ_SCALE_HY %d/%d\n"
+> -		"RSZ_SCALE_HCB %d/%d\n"
+> -		"RSZ_SCALE_HCR %d/%d\n"
+> -		"RSZ_SCALE_VY %d/%d\n"
+> -		"RSZ_SCALE_VC %d/%d\n"
+> -		"RSZ_PHASE_HY %d/%d\n"
+> -		"RSZ_PHASE_HC %d/%d\n"
+> -		"RSZ_PHASE_VY %d/%d\n"
+> -		"RSZ_PHASE_VC %d/%d\n",
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_CTRL),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_CTRL_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HY),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HY_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HCB),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HCB_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HCR),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_HCR_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_VY),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_VY_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_VC),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_SCALE_VC_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_HY),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_HY_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_HC),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_HC_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_VY),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_VY_SHD),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_VC),
+> -		rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_PHASE_VC_SHD));
+> -}
+> -
+>  static void rkisp1_rsz_update_shadow(struct rkisp1_resizer *rsz,
+>  				     enum rkisp1_shadow_regs_when when)
+>  {
+> @@ -386,8 +351,6 @@ static void rkisp1_rsz_config(struct rkisp1_resizer *rsz,
+>  
+>  	/* set values in the hw */
+>  	rkisp1_rsz_config_regs(rsz, &sink_y, &sink_c, &src_y, &src_c, when);
+> -
+> -	rkisp1_rsz_dump_regs(rsz);
+>  }
+>  
+>  /* ----------------------------------------------------------------------------
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
+> 
