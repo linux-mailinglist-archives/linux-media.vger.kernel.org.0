@@ -2,97 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D6CB50E8BA
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 20:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94EFA50E8EB
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 20:56:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244634AbiDYSxk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 14:53:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35294 "EHLO
+        id S244709AbiDYS61 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 14:58:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244468AbiDYSxh (ORCPT
+        with ESMTP id S241056AbiDYS60 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 14:53:37 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A0A490CD3
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 11:50:33 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id l18so4785122ejc.7
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 11:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=I8OGAy692x2HlX0zDRT2WU4OQLJqBZjTeofFJMqhneQ=;
-        b=yJtZUQbKaP4+1vaymO4wTdai+PwZjfZGL0Qv/GR27elZWHbpeL6kCjftSG2f0FChs/
-         PL5SN243GPEnWSJ3LQTJXQZ146BTqccn2NGQL2nVfINMe4oWwerIYVRjDL6Qg1bnsdFs
-         V15im6vwngYNzIohkZBUJ7Cd1jhBPdxlX4MGD+5qqiDnAutR2PAfLdSFIIFBzzT+PE3D
-         Nip0LKHDnt2jITH47p6IeSNy7hXKUSimfnbs/tOfVlSqHn6ehA1AOaDUvcVX3eXNOxlj
-         w/sYwfMmoWjBqtijJlFIEx2Fa0CnQOMzea986Z/A0BczlPCVCzTWkaO7nTUFLKJIP6NG
-         Oijw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=I8OGAy692x2HlX0zDRT2WU4OQLJqBZjTeofFJMqhneQ=;
-        b=IRDZDjNRJRrjiNvvrNwriEHVhK46tsbV7vxhZazEIhapA1crsDvhL8HhlsUyzdvudV
-         RC+S55+upm6QcEhpcpLubyykOlJDkU+LMWr7QY65OoPTgM6pwB8ypbmifYk/e9sAUkCB
-         j9qMGS0WqM8zSR2y/0D+0sPmorxxyEhwj2UxEvDst34Doa4XxC7V2ihVdODeK+T7JT3l
-         jXSpcmQNPUxbU/Xnrbledra1jtTW1XRQTi73kZySbDF916BEARA5ZuJ7fXtrfBWfXW3+
-         MshN60sNI99E2c0n9741Q5CQMCSmbsikTSMnYKtr7En6duInrg/8a6A3Mub0RIshbftl
-         rtoQ==
-X-Gm-Message-State: AOAM530XVL7bThCoAatcT1M+HyIa/rslPA5fmnjagfqYJVMq9WlwNppS
-        IeZemFUV9j4vvrgss6BFK/hPfg==
-X-Google-Smtp-Source: ABdhPJwRiWolCCzfTOXvZ/aMVmJ7USEy6FBXDNaZxg/9Y1L8Bsf/Q7l9Ym1+l8z14ohrkIth/+dThQ==
-X-Received: by 2002:a17:907:72d5:b0:6ef:a49f:133a with SMTP id du21-20020a17090772d500b006efa49f133amr17969076ejc.420.1650912631700;
-        Mon, 25 Apr 2022 11:50:31 -0700 (PDT)
-Received: from [192.168.0.244] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id p24-20020a056402045800b0041614c8f79asm4937824edw.88.2022.04.25.11.50.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Apr 2022 11:50:31 -0700 (PDT)
-Message-ID: <4ab44d3b-8a10-e24d-7c60-f0073e6e89f5@linaro.org>
-Date:   Mon, 25 Apr 2022 20:50:30 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 1/3] media: dt-bindings: media: rockchip-vdec: Add
- RK3328 compatible
-Content-Language: en-US
-To:     Christopher Obbard <chris.obbard@collabora.com>,
+        Mon, 25 Apr 2022 14:58:26 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5722641E;
+        Mon, 25 Apr 2022 11:55:20 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id 328231F42FFC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1650912919;
+        bh=UeDlmqQj8a7ajqfg6WiA/qN0a19sf47WMImO06/MAHQ=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=bfRYX0DKAOr83SgdDu+dNiIGZNolkLDWunS2dPJPcoNGKDvOBzhMm9e5czLmV8KRW
+         EcAmqFXa16zRv57Ue0x/rPB/sPH1BJtCdNNf3oEeUcK/0jTfpMsrXMjquR+pVECaM7
+         H55o0X7+E8wwXqq3KNC/C08+cUSBPgNJbh4baJ/GdFh3bCdT53eQuYaYIY3J10EyTH
+         QdBiDm/xxABXYxKgd6wphCB1MvrEoGORZiGkgUGzmvBhvXwi56pPlx7CFisBa1lITs
+         wo6l1tmHjA/LSK/di44KHjdQLPIMsaoO2KrmTh8qS/KuKP8OfXLJLue1RKa3obJm3+
+         iBJqo/Lt647qw==
+Message-ID: <0780cc3ddd985f580a5513e5222cdde852e6aaab.camel@collabora.com>
+Subject: Re: [PATCH v3 17/24] media: rkvdec: h264: Fix reference frame_num
+ wrap for second field
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Johan Jonker <jbx6244@gmail.com>,
-        Elaine Zhang <zhangqing@rock-chips.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20220425184510.1138446-1-chris.obbard@collabora.com>
- <20220425184510.1138446-2-chris.obbard@collabora.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220425184510.1138446-2-chris.obbard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     kernel@collabora.com, linux-kernel@vger.kernel.org,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev
+Date:   Mon, 25 Apr 2022 14:55:04 -0400
+In-Reply-To: <8f6c8a5c-200d-fbbd-0b8a-966d94467aad@xs4all.nl>
+References: <20220405204426.259074-1-nicolas.dufresne@collabora.com>
+         <20220405204426.259074-18-nicolas.dufresne@collabora.com>
+         <8f6c8a5c-200d-fbbd-0b8a-966d94467aad@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/04/2022 20:45, Christopher Obbard wrote:
-> Document the RK3328 compatible for rockchip-vdec. The driver shares
-> the same base functionality as the RK3399 hardware so make sure that
-> the RK3399 compatible is also included in the device tree.
-> 
-> Signed-off-by: Christopher Obbard <chris.obbard@collabora.com>
+Le vendredi 22 avril 2022 =C3=A0 09:43 +0200, Hans Verkuil a =C3=A9crit=C2=
+=A0:
+> On 05/04/2022 22:44, Nicolas Dufresne wrote:
+> > From: Jonas Karlman <jonas@kwiboo.se>
+> >=20
+> > When decoding the second field in a complementary field pair the second
+> > field is sharing the same frame_num with the first field.
+> >=20
+> > Currently the frame_num for the first field is wrapped when it matches =
+the
+> > field being decoded, this cause issues to decode the second field in a
+>=20
+> cause issues to decode -> caused issues decoding
+>=20
+> > complementary field pair.
+> >=20
+> > Fix this by using inclusive comparison, less than or equal.
+>=20
+> I would change this last sentence to:
+>=20
+> 	Fix this by using inclusive comparison: 'less than or equal'.
+>=20
+> It makes it a bit easier to parse.
+>=20
+> >=20
+> > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> > ---
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/stagi=
+ng/media/rkvdec/rkvdec-h264.c
+> > index f081b476340f..60eaf06b6e25 100644
+> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > @@ -781,7 +781,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
+> >  			continue;
+> > =20
+> >  		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
+> > -		    dpb[i].frame_num < dec_params->frame_num) {
+> > +		    dpb[i].frame_num <=3D dec_params->frame_num) {
+>=20
+> I wonder if a comment should be added here, explaining the reason for '<=
+=3D'.
+>=20
+> It doesn't seem obvious to me. Up to you, though.
 
+I guess I could, the algo for wrapping in the spec is (formula 8-27):
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+    if( FrameNum > frame_num )
+        FrameNumWrap =3D FrameNum =E2=88=92 MaxFrameNum
+    else
+        FrameNumWrap =3D FrameNum
 
+Our implementation has the branch condition flip over, and the flipped vers=
+ion of that is:
 
-Best regards,
-Krzysztof
+    if( FrameNum <=3D frame_num )
+        FrameNumWrap =3D FrameNum
+    else
+        FrameNumWrap =3D FrameNum =E2=88=92 MaxFrameNum
+
+There is no deeper rationale since we simply follow the recipe described in=
+ the
+spec. This is done so that we can share that condition with that long term
+reference handling.
+
+>=20
+> >  			p[i] =3D dpb[i].frame_num;
+> >  			continue;
+> >  		}
+>=20
+> Regards,
+>=20
+> 	Hans
+
