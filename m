@@ -2,163 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B67150D87F
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 06:53:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00CCB50D8D5
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 07:29:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241087AbiDYEwT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 00:52:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33494 "EHLO
+        id S241277AbiDYFcp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 01:32:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236287AbiDYEwS (ORCPT
+        with ESMTP id S241268AbiDYFci (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 00:52:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807BFE01E
-        for <linux-media@vger.kernel.org>; Sun, 24 Apr 2022 21:49:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F86060CA0
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 04:49:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D136C385A4
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 04:49:12 +0000 (UTC)
-Date:   Mon, 25 Apr 2022 06:49:10 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20220425044912.9D136C385A4@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 25 Apr 2022 01:32:38 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EDD410A3
+        for <linux-media@vger.kernel.org>; Sun, 24 Apr 2022 22:29:34 -0700 (PDT)
+Received: from fsav120.sakura.ne.jp (fsav120.sakura.ne.jp [27.133.134.247])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 23P5TXtW098391;
+        Mon, 25 Apr 2022 14:29:33 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav120.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav120.sakura.ne.jp);
+ Mon, 25 Apr 2022 14:29:33 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav120.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 23P5TVwx098387
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Mon, 25 Apr 2022 14:29:33 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <5a06c7f1-9a29-99e4-c700-fec3f09509d2@I-love.SAKURA.ne.jp>
+Date:   Mon, 25 Apr 2022 14:29:26 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: possible deadlock in display_open
+Content-Language: en-US
+To:     Jarod Wilson <jarod@redhat.com>, Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <00000000000043b599058faf0145@google.com>
+Cc:     syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <00000000000043b599058faf0145@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Since usb_register_dev() from imon_init_display() from imon_probe() holds
+minor_rwsem while display_open() which holds driver_lock and ictx->lock is
+called with minor_rwsem held from usb_open(), holding driver_lock or
+ictx->lock when calling usb_register_dev() causes circular locking
+dependency problem.
 
-Results of the daily build of media_tree:
+Since usb_deregister_dev() from imon_disconnect() holds minor_rwsem while
+display_open() which holds driver_lock is called with minor_rwsem held,
+holding driver_lock when calling usb_deregister_dev() also causes circular
+locking dependency problem.
 
-date:			Mon Apr 25 05:00:13 CEST 2022
-media-tree git hash:	d0c19bed8cd3d005739c0a6374118c553564ef10
-media_build git hash:	4e29721804ea4e824c776101214389642dccad98
-v4l-utils git hash:	6de743337007df7ed8161919d747bc0a397a60c5
-edid-decode git hash:	8a8d673d738ce010ca32a179032e8f6c0bb5dfb4
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-7890-gffb7aeea-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d0fc820c1f699f668ebea38361aebe1a1241fdfc
-host hardware:		x86_64
-host os:		5.16.0-6-amd64
+But actually do we need to hold these locks?
+Could you explain possible race scenario if we do below?
 
-linux-git-sh: OK
-linux-git-arm-stm32: OK
-linux-git-arm-at91: OK
-linux-git-arm-pxa: OK
-linux-git-arm-davinci: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-4.4.283-i686: OK
-linux-4.4.283-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.308-i686: OK
-linux-4.9.308-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.275-i686: OK
-linux-4.14.275-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.237-i686: OK
-linux-4.19.237-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.18-i686: OK
-linux-5.8.18-x86_64: OK
-linux-5.9.16-i686: OK
-linux-5.9.16-x86_64: OK
-linux-5.10.109-i686: OK
-linux-5.10.109-x86_64: OK
-linux-5.11.22-i686: OK
-linux-5.11.22-x86_64: OK
-linux-5.12.19-i686: OK
-linux-5.12.19-x86_64: OK
-linux-5.14.21-i686: OK
-linux-5.14.21-x86_64: OK
-linux-5.15.32-i686: OK
-linux-5.15.32-x86_64: OK
-linux-5.16.9-i686: OK
-linux-5.16.9-x86_64: OK
-linux-5.17.1-i686: OK
-linux-5.17.1-x86_64: OK
-linux-5.18-rc1-i686: OK
-linux-5.18-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2989, Succeeded: 2989, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3100, Succeeded: 3100, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-kerneldoc: OK
+ drivers/media/rc/imon.c | 21 ---------------------
+ 1 file changed, 21 deletions(-)
 
-Detailed results are available here:
+diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+index 54da6f60079b..e0e893d96cf3 100644
+--- a/drivers/media/rc/imon.c
++++ b/drivers/media/rc/imon.c
+@@ -439,9 +439,6 @@ static struct usb_driver imon_driver = {
+ 	.id_table	= imon_usb_id_table,
+ };
+ 
+-/* to prevent races between open() and disconnect(), probing, etc */
+-static DEFINE_MUTEX(driver_lock);
+-
+ /* Module bookkeeping bits */
+ MODULE_AUTHOR(MOD_AUTHOR);
+ MODULE_DESCRIPTION(MOD_DESC);
+@@ -499,9 +496,6 @@ static int display_open(struct inode *inode, struct file *file)
+ 	int subminor;
+ 	int retval = 0;
+ 
+-	/* prevent races with disconnect */
+-	mutex_lock(&driver_lock);
+-
+ 	subminor = iminor(inode);
+ 	interface = usb_find_interface(&imon_driver, subminor);
+ 	if (!interface) {
+@@ -534,7 +528,6 @@ static int display_open(struct inode *inode, struct file *file)
+ 	mutex_unlock(&ictx->lock);
+ 
+ exit:
+-	mutex_unlock(&driver_lock);
+ 	return retval;
+ }
+ 
+@@ -2416,9 +2409,6 @@ static int imon_probe(struct usb_interface *interface,
+ 	dev_dbg(dev, "%s: found iMON device (%04x:%04x, intf%d)\n",
+ 		__func__, vendor, product, ifnum);
+ 
+-	/* prevent races probing devices w/multiple interfaces */
+-	mutex_lock(&driver_lock);
+-
+ 	first_if = usb_ifnum_to_if(usbdev, 0);
+ 	if (!first_if) {
+ 		ret = -ENODEV;
+@@ -2456,8 +2446,6 @@ static int imon_probe(struct usb_interface *interface,
+ 	usb_set_intfdata(interface, ictx);
+ 
+ 	if (ifnum == 0) {
+-		mutex_lock(&ictx->lock);
+-
+ 		if (product == 0xffdc && ictx->rf_device) {
+ 			sysfs_err = sysfs_create_group(&interface->dev.kobj,
+ 						       &imon_rf_attr_group);
+@@ -2468,21 +2456,17 @@ static int imon_probe(struct usb_interface *interface,
+ 
+ 		if (ictx->display_supported)
+ 			imon_init_display(ictx, interface);
+-
+-		mutex_unlock(&ictx->lock);
+ 	}
+ 
+ 	dev_info(dev, "iMON device (%04x:%04x, intf%d) on usb<%d:%d> initialized\n",
+ 		 vendor, product, ifnum,
+ 		 usbdev->bus->busnum, usbdev->devnum);
+ 
+-	mutex_unlock(&driver_lock);
+ 	usb_put_dev(usbdev);
+ 
+ 	return 0;
+ 
+ fail:
+-	mutex_unlock(&driver_lock);
+ 	usb_put_dev(usbdev);
+ 	dev_err(dev, "unable to register, err %d\n", ret);
+ 
+@@ -2498,9 +2482,6 @@ static void imon_disconnect(struct usb_interface *interface)
+ 	struct device *dev;
+ 	int ifnum;
+ 
+-	/* prevent races with multi-interface device probing and display_open */
+-	mutex_lock(&driver_lock);
+-
+ 	ictx = usb_get_intfdata(interface);
+ 	dev = ictx->dev;
+ 	ifnum = interface->cur_altsetting->desc.bInterfaceNumber;
+@@ -2545,8 +2526,6 @@ static void imon_disconnect(struct usb_interface *interface)
+ 	if (!ictx->dev_present_intf0 && !ictx->dev_present_intf1)
+ 		free_imon_context(ictx);
+ 
+-	mutex_unlock(&driver_lock);
+-
+ 	dev_dbg(dev, "%s: iMON device (intf%d) disconnected\n",
+ 		__func__, ifnum);
+ }
+-- 
+2.34.1
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+On 2019/08/09 22:18, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following crash on:
+> 
+> HEAD commit:    e96407b4 usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=13b29b26600000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
+> dashboard link: https://syzkaller.appspot.com/bug?extid=c558267ad910fc494497
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15427002600000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=111cb61c600000
+> 
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+c558267ad910fc494497@syzkaller.appspotmail.com
