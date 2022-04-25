@@ -2,180 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EC0350E42E
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 17:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B28950E44A
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 17:23:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242840AbiDYPUU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 11:20:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56942 "EHLO
+        id S242312AbiDYP0N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 11:26:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242873AbiDYPUP (ORCPT
+        with ESMTP id S233952AbiDYP0J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 11:20:15 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF996BABA4;
-        Mon, 25 Apr 2022 08:17:00 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a02:3030:e:60d7:2277:ba57:a2c0:3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 114AF1F431C4;
-        Mon, 25 Apr 2022 16:16:59 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1650899819;
-        bh=UmvIinIkuSWeMLIsxuIACv1w2HkCY+hYynbPsEzqCY8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VrWg80IjgoqHrYPMdAIK4XgC7ycga10CVgMzJSwUh6/MpAlc7ThUdiaTXJHmypMcs
-         b3HRPJfCvhSVl+Ys8lOD/D8kxYV6nooBiZrscn1TC1J5mH/gikDYaHruqMPoSbNLs1
-         sU2DBsc5RVJdSw/98MRJfCYvTqz3pXhtBXYHK4OZYg2bCbLHIgjfbbZFpmI7QCyyRI
-         aVr4eIz5CHYFfYtvLiMNZo4gBsPPv0g7lTA3VHV2Slc9fCwAZ5aq8foJxORMaIJ/yp
-         rF9kwHq4HYbOnABwHmNRLBNemitd8/rBqYhJfFH7HKdOyGNzJ7TXL7kTL7kAoE6DUC
-         Aktb2kdzr77WA==
-Date:   Mon, 25 Apr 2022 17:16:56 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v5 06/17] media: uapi: HEVC: Change pic_order_cnt
- definition in v4l2_hevc_dpb_entry
-Message-ID: <20220425151656.pphta4u6qa5kymoa@basti-XPS-13-9310>
-References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
- <20220407152940.738159-7-benjamin.gaignard@collabora.com>
+        Mon, 25 Apr 2022 11:26:09 -0400
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED5B3E1245;
+        Mon, 25 Apr 2022 08:23:04 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 88251DF69E;
+        Mon, 25 Apr 2022 08:22:34 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id ykxmL21nwvSi; Mon, 25 Apr 2022 08:22:33 -0700 (PDT)
+Message-ID: <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+        t=1650900153; bh=PoAhs4rC8s2VNE3r6xYLUglE7+vVgjEdcfrBZL7HIYw=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=TwWQx10+OrU5+LF4ic3BCkWUrj/bBD5KMY098Yi8iUApqrklehSe05vVv8EPRVqUb
+         RWUi3fVqmTLK9uO7dolTzkIjwbG6BY4TCw7U0y/nzutY6qdNqZ+LK+qS5xZnCEkJEL
+         AefHq+1F6sbK5QHuHFKO3j4SgtDT2hD6HNDFjIwUmdL29WqGUcKVF3OQtCIYWBxmKT
+         +q4h9vT0Eay/TRIzdS6xvcFgzoN3UNppXHLBC/YZnD7gH0dxOsXVS6bPM/L1UMG6Jx
+         yZonZuU3caMCSVPm+4QLnTH7SpYampk4ZgzpjFalBtPyZiB5K9+LtRJfKH/wtdDw9o
+         QJHtNAjnwXevA==
+Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2
+ VPU's with vpu-blk-ctrl
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
+Cc:     aford@beaconembedded.com, cphealy@gmail.com,
+        kernel test robot <lkp@intel.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Date:   Mon, 25 Apr 2022 17:22:24 +0200
+In-Reply-To: <20220125171129.472775-8-aford173@gmail.com>
+References: <20220125171129.472775-1-aford173@gmail.com>
+         <20220125171129.472775-8-aford173@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220407152940.738159-7-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Benjamin,
+Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
+> With the Hantro G1 and G2 now setup to run independently, update
+> the device tree to allow both to operate.  This requires the
+> vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
+> certain clock enabled to handle the gating of the G1 and G2
+> fuses, the clock-parents and clock-rates for the various VPU's
+> to be moved into the pgc_vpu because they cannot get re-parented
+> once enabled, and the pgc_vpu is the highest in the chain.
+> 
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> 
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> index 2df2510d0118..549b2440f55d 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
+>                                         pgc_vpu: power-domain@6 {
+>                                                 #power-domain-cells =
+> <0>;
+>                                                 reg =
+> <IMX8M_POWER_DOMAIN_VPU>;
+> -                                               clocks = <&clk
+> IMX8MQ_CLK_VPU_DEC_ROOT>;
+> +                                               clocks = <&clk
+> IMX8MQ_CLK_VPU_DEC_ROOT>,
+> +                                                        <&clk
+> IMX8MQ_CLK_VPU_G1_ROOT>,
+> +                                                        <&clk
+> IMX8MQ_CLK_VPU_G2_ROOT>;
+> +                                               assigned-clocks =
+> <&clk IMX8MQ_CLK_VPU_G1>,
+> +                                                                
+> <&clk IMX8MQ_CLK_VPU_G2>,
+> +                                                                
+> <&clk IMX8MQ_CLK_VPU_BUS>,
+> +                                                                
+> <&clk IMX8MQ_VPU_PLL_BYPASS>;
+> +                                               assigned-clock-
+> parents = <&clk IMX8MQ_VPU_PLL_OUT>,
+> +                                                                    
+>     <&clk IMX8MQ_VPU_PLL_OUT>,
+> +                                                                    
+>     <&clk IMX8MQ_SYS1_PLL_800M>,
+> +                                                                    
+>     <&clk IMX8MQ_VPU_PLL>;
+> +                                               assigned-clock-rates
+> = <600000000>,
+> +                                                                    
+>   <600000000>,
+> +                                                                    
+>   <800000000>,
+> +                                                                    
+>   <0>;
+>                                         };
+>  
+>                                         pgc_disp: power-domain@7 {
+> @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
+>                         status = "disabled";
+>                 };
+>  
+> -               vpu: video-codec@38300000 {
+> -                       compatible = "nxp,imx8mq-vpu";
+> -                       reg = <0x38300000 0x10000>,
+> -                             <0x38310000 0x10000>,
+> -                             <0x38320000 0x10000>;
+> -                       reg-names = "g1", "g2", "ctrl";
+> -                       interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> -                                    <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> -                       interrupt-names = "g1", "g2";
+> +               vpu_g1: video-codec@38300000 {
+> +                       compatible = "nxp,imx8mq-vpu-g1";
+> +                       reg = <0x38300000 0x10000>;
+> +                       interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
+> +                       power-domains = <&vpu_blk_ctrl
+> IMX8MQ_VPUBLK_PD_G1>;
+> +               };
+> +
+> +               vpu_g2: video-codec@38310000 {
+> +                       compatible = "nxp,imx8mq-vpu-g2";
+> +                       reg = <0x38310000 0x10000>;
+> +                       interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> +                       power-domains = <&vpu_blk_ctrl
+> IMX8MQ_VPUBLK_PD_G2>;
+> +               };
+> +
+> +               vpu_blk_ctrl: blk-ctrl@38320000 {
+> +                       compatible = "fsl,imx8mq-vpu-blk-ctrl";
+> +                       reg = <0x38320000 0x100>;
+> +                       power-domains = <&pgc_vpu>, <&pgc_vpu>,
+> <&pgc_vpu>;
+> +                       power-domain-names = "bus", "g1", "g2";
+>                         clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> -                                <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+> -                                <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+> -                       clock-names = "g1", "g2", "bus";
+> -                       assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
+> -                                         <&clk IMX8MQ_CLK_VPU_G2>,
+> -                                         <&clk IMX8MQ_CLK_VPU_BUS>,
+> -                                         <&clk
+> IMX8MQ_VPU_PLL_BYPASS>;
+> -                       assigned-clock-parents = <&clk
+> IMX8MQ_VPU_PLL_OUT>,
+> -                                                <&clk
+> IMX8MQ_VPU_PLL_OUT>,
+> -                                                <&clk
+> IMX8MQ_SYS1_PLL_800M>,
+> -                                                <&clk
+> IMX8MQ_VPU_PLL>;
+> -                       assigned-clock-rates = <600000000>,
+> <600000000>,
+> -                                              <800000000>, <0>;
+> -                       power-domains = <&pgc_vpu>;
+> +                                <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> +                       clock-names = "g1", "g2";
+> +                       #power-domain-cells = <1>;
+>                 };
+>  
+>                 pcie0: pcie@33800000 {
 
-On 07.04.2022 17:29, Benjamin Gaignard wrote:
->HEVC specifications say that:
+With this update, when testing suspend to ram on imx8mq, I get:
 
-s/HEVC specifications say that:/
-   The HEVC specification describes the following:/
+buck4: failed to disable: -ETIMEDOUT
 
-Greetings,
-Sebastian
+where buck4 is power-supply of pgc_vpu. And thus the transition to
+suspend (and resuming) fails.
 
->"PicOrderCntVal is derived as follows:
->PicOrderCntVal = PicOrderCntMsb + slice_pic_order_cnt_lsb
->The value of PicOrderCntVal shall be in the range of −231 to 231 − 1, inclusive."
->
->To match with these definitions change __u16 pic_order_cnt[2]
->into __s32 pic_order_cnt_val.
->
->Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->---
->version 5:
->- change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val
-> drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 4 ++--
-> drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
-> drivers/staging/media/hantro/hantro_hw.h          | 4 ++--
-> drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 4 ++--
-> include/media/hevc-ctrls.h                        | 2 +-
-> 5 files changed, 8 insertions(+), 8 deletions(-)
->
->diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->index c524af41baf5..6f3c774aa3d9 100644
->--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->@@ -386,7 +386,7 @@ static int set_ref(struct hantro_ctx *ctx)
-> 	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
-> 	 */
-> 	for (i = 0; i < decode_params->num_active_dpb_entries && i < ARRAY_SIZE(cur_poc); i++) {
->-		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt[0];
->+		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt_val;
->
-> 		hantro_reg_write(vpu, &cur_poc[i], poc_diff);
-> 	}
->@@ -413,7 +413,7 @@ static int set_ref(struct hantro_ctx *ctx)
-> 	dpb_longterm_e = 0;
-> 	for (i = 0; i < decode_params->num_active_dpb_entries &&
-> 	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
->-		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
->+		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val);
-> 		if (!luma_addr)
-> 			return -ENOMEM;
->
->diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
->index b6ec86d03d91..fadd40768579 100644
->--- a/drivers/staging/media/hantro/hantro_hevc.c
->+++ b/drivers/staging/media/hantro/hantro_hevc.c
->@@ -54,7 +54,7 @@ static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
-> }
->
-> dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
->-				   int poc)
->+				   s32 poc)
-> {
-> 	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
-> 	int i;
->diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
->index ed018e293ba0..a648c529662b 100644
->--- a/drivers/staging/media/hantro/hantro_hw.h
->+++ b/drivers/staging/media/hantro/hantro_hw.h
->@@ -131,7 +131,7 @@ struct hantro_hevc_dec_hw_ctx {
-> 	struct hantro_aux_buf tile_bsd;
-> 	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
-> 	struct hantro_aux_buf scaling_lists;
->-	int ref_bufs_poc[NUM_REF_PICTURES];
->+	s32 ref_bufs_poc[NUM_REF_PICTURES];
-> 	u32 ref_bufs_used;
-> 	struct hantro_hevc_dec_ctrls ctrls;
-> 	unsigned int num_tile_cols_allocated;
->@@ -337,7 +337,7 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
-> void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
-> int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
-> int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
->-dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
->+dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
-> int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
-> void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
-> size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
->diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->index 44f385be9f6c..d04521ffd920 100644
->--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->@@ -143,8 +143,8 @@ static void cedrus_h265_frame_info_write_dpb(struct cedrus_ctx *ctx,
-> 	for (i = 0; i < num_active_dpb_entries; i++) {
-> 		int buffer_index = vb2_find_timestamp(vq, dpb[i].timestamp, 0);
-> 		u32 pic_order_cnt[2] = {
->-			dpb[i].pic_order_cnt[0],
->-			dpb[i].pic_order_cnt[1]
->+			dpb[i].pic_order_cnt_val & 0xffff,
->+			(dpb[i].pic_order_cnt_val >> 16) & 0xffff
-> 		};
->
-> 		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
->diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->index b3540167df9e..2812778b41f4 100644
->--- a/include/media/hevc-ctrls.h
->+++ b/include/media/hevc-ctrls.h
->@@ -138,7 +138,7 @@ struct v4l2_hevc_dpb_entry {
-> 	__u64	timestamp;
-> 	__u8	flags;
-> 	__u8	field_pic;
->-	__u16	pic_order_cnt[2];
->+	__s32	pic_order_cnt_val;
-> 	__u8	padding[2];
-> };
->
->-- 
->2.32.0
->
+Have you tested system suspend after the imx8m-blk-ctrl update on
+imx8mq?
+
+thank you,
+
+                                 martin
+
