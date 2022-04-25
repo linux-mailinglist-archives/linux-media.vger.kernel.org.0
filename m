@@ -2,114 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CD2950E7C6
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 20:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 605B250E841
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 20:29:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244231AbiDYSKe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 14:10:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39642 "EHLO
+        id S244394AbiDYScO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 14:32:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238709AbiDYSKb (ORCPT
+        with ESMTP id S244280AbiDYScN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 14:10:31 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B3710772D
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 11:07:25 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id g23so12409140edy.13
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 11:07:25 -0700 (PDT)
+        Mon, 25 Apr 2022 14:32:13 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 147D11C934;
+        Mon, 25 Apr 2022 11:29:08 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id w16so10041738ejb.13;
+        Mon, 25 Apr 2022 11:29:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=O9XRVoAwaLqAz0VKvjdeTs+/WnNOyWkzSBKJjr1GgWI=;
-        b=KoaLI3WM6grOMDa/FBfYgJOEeXjsYzxUTObsQw6bUlLEy23Gf6/trLsbjs4thc5+om
-         +oRP1e9jWYmCno0y3RYw71REOH1VzySgtXbWYkfwyoSB+WY7Ow0JSEVGLl+Nk5JdmeIz
-         JVaDGhJVztFjgYH8uSq/Ol6LzmnrYjBP81l9D2loWzb0nCDaam5BfqCLB6Vjzez9+3s3
-         cAfL3MZBIHHvit45pXqWwVz1sq5EFA38dbnXLCvbqJno3yJE55Hgwr60XhF7wL6dR3FR
-         yrEeHORCoPqGl5xWPogNLGmRsUqh4gT7jkpMgtJPZcJbKfe4bMSvwXWLV60CTLXqBu2f
-         JDTA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=cnGqac5cphPPsi4AaO7yleP8x5MKmYW3cYfiBMddgYY=;
+        b=R6ssH73p6eSp/7J85Re0lJY2ynrIY41nEURYuXkx75RXn+j17ioAZ/UeNGD4Cdk/rB
+         VOWVBJdMReO623a+2NkqP8SJrDLmKMdxj9aDUz+aN5HQSSU2mBV/NoD8uXIpE3N3hJ8K
+         a/aZtBGnMJtyoVltYqihHwkoC4Ikv6TpZzCL3Gh6hAzuhrzAiAnmHqN/4HlyX0RNR5cy
+         pXYg64B3mX2SKNm5/1SKPJCNnOgkGXk7+xNnQfPOu1JD6e6yCRfZ8IOROkhQHKPFZ5iL
+         SJz/8jWbFKFwNyV/4qyHv06/UBn9hhkTDubgVgX8Hl+rMlEClYfHytzuEaPUqsXssLr0
+         nijA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=O9XRVoAwaLqAz0VKvjdeTs+/WnNOyWkzSBKJjr1GgWI=;
-        b=hUAPGKKnBJnSxRzwmtWEvivqj1cUcCYVd02le7CrBfx4mlJZu7QU9dAyof5usFfyuB
-         hY18Ar0WMCDKP77QXQpkkYsrG8hP4p1tnW+B9kmOT9/z3wKR5A6c/IIbupfC4l8oWnuP
-         /3AbrhAgHKA+vlJ4/ntU8kMScC8yqc6ZTdMNW2le5RgpxcjF/K9+4M2O47gZOvofDTBa
-         cwmk1szJK7PDEiQWCKnNC8ToHiK/Vsjlxt6RxMZDNedCy+wsujC2djJWAsTay0VM9Q3+
-         NZmdNXIOeN+ED3xGozkkDhUyr10xvozIWaXYTWxyfUAFdE7fAcNgWWYYYriZqpZOM910
-         C3qA==
-X-Gm-Message-State: AOAM530LZ3Vqws1F35MheMx0pmG/Y3SB+GcfglpX3fn3yheTEAyJMhRc
-        PNCzaDWgI3ZikCG4bHHkFCNokA==
-X-Google-Smtp-Source: ABdhPJwa+byKv5S02qlMuGalcgKB61+HRaH8VosHoz/v2tW0VkTTVPLO8+wiJ+jqDrfpL08r3LJcwg==
-X-Received: by 2002:a05:6402:4253:b0:423:e4e0:fdd8 with SMTP id g19-20020a056402425300b00423e4e0fdd8mr20208800edb.193.1650910044403;
-        Mon, 25 Apr 2022 11:07:24 -0700 (PDT)
-Received: from [192.168.0.244] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id d11-20020a1709067f0b00b006f395247b5esm1414114ejr.84.2022.04.25.11.07.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Apr 2022 11:07:23 -0700 (PDT)
-Message-ID: <2c347033-bd63-05a8-94fb-2eb467e63e76@linaro.org>
-Date:   Mon, 25 Apr 2022 20:07:22 +0200
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cnGqac5cphPPsi4AaO7yleP8x5MKmYW3cYfiBMddgYY=;
+        b=uZzsA2BsbOWH6fvvwkf15Q2kCCevR21SqX+azpw3FhyyMJv2sLZRnqESRA5SFse8ca
+         35pWJ7wBCoqbeSBCIpJPnBBD/Fg9vtp7GmBprb8c+x696WD6ww/jhchvrf5xO/nR828Z
+         a2xuDsl89g4Ry871BaI5yg9Pv3MGQRIsL1LkzglZNt4NUnatu1gwZ2SA+YDePSlfSslb
+         6NkSNOwPKba+Gvc41YY4QUpjDuyIYcW+GASWBRtIQywLjgOOgEZvrTgqFQzWe255jCTf
+         lLFzQzoSzOLRErpjDjc4IJTrrrssTk3I5ZJxObtOm4o9O7QYJaavcVbkPI8ciBaM5flB
+         C3HA==
+X-Gm-Message-State: AOAM5316DkpW9Ao+5UPSpbcz6E4pFGWQKGbN7Myy37i42ETVsQuRfRy2
+        rxp1MH1abibPIn5QmXeVPeo=
+X-Google-Smtp-Source: ABdhPJyxKYOtD1tDbGljJy2g+SFIK6ZxkIi3uWh1VZe8ukKU5XkDM9/cASplidcAlVSpbjPBnElzlw==
+X-Received: by 2002:a17:907:8b13:b0:6f3:9216:b73e with SMTP id sz19-20020a1709078b1300b006f39216b73emr7129028ejc.188.1650911346630;
+        Mon, 25 Apr 2022 11:29:06 -0700 (PDT)
+Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id o18-20020a1709064f9200b006e7f229b332sm3832867eju.36.2022.04.25.11.29.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Apr 2022 11:29:05 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Martiros Shakhzadyan <vrzh@vrzh.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+        outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
+Date:   Mon, 25 Apr 2022 20:29:03 +0200
+Message-ID: <2181693.iZASKD2KPV@leap>
+In-Reply-To: <20220413225531.9425-1-fmdefrancesco@gmail.com>
+References: <20220413225531.9425-1-fmdefrancesco@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 1/3] media: dt-bindings: media: rockchip-vdec: Add
- RK3328 compatible
-Content-Language: en-US
-To:     Christopher Obbard <chris.obbard@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Johan Jonker <jbx6244@gmail.com>,
-        Elaine Zhang <zhangqing@rock-chips.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20220425123215.1055251-1-chris.obbard@collabora.com>
- <20220425123215.1055251-2-chris.obbard@collabora.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220425123215.1055251-2-chris.obbard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/04/2022 14:32, Christopher Obbard wrote:
-> Document the RK3328 compatible for rockchip-vdec.
-> 
-> Signed-off-by: Christopher Obbard <chris.obbard@collabora.com>
+On gioved=C3=AC 14 aprile 2022 00:55:31 CEST Fabio M. De Francesco wrote:
+> The use of kmap() is being deprecated in favor of kmap_local_page()
+> where it is feasible. The same is true for kmap_atomic().
+>=20
+> In file pci/hmm/hmm.c, function hmm_store() test if we are in atomic
+> context and, if so, it calls kmap_atomic(), if not, it calls kmap().
+>=20
+> First of all, in_atomic() shouldn't be used in drivers. This macro
+> cannot always detect atomic context; in particular, it cannot know
+> about held spinlocks in non-preemptible kernels.
+>=20
+> Notwithstanding what it is said above, this code doesn't need to care
+> whether or not it is executing in atomic context. It can simply use
+> kmap_local_page() / kunmap_local() that can instead do the mapping /
+> unmapping regardless of the context.
+>=20
+> With kmap_local_page(), the mapping is per thread, CPU local and not
+> globally visible. Therefore, hmm_store()() is a function where the use
+> of kmap_local_page() in place of both kmap() and kmap_atomic() is
+> correctly suited.
+>=20
+> Convert the calls of kmap() / kunmap() and kmap_atomic() /
+> kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
+> unnecessary tests which test if the code is in atomic context.
+>=20
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 > ---
->  Documentation/devicetree/bindings/media/rockchip,vdec.yaml | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> index 089f11d21b25..ce06835e8d61 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> @@ -20,6 +20,9 @@ properties:
->        - items:
->            - const: rockchip,rk3228-vdec
->            - const: rockchip,rk3399-vdec
-> +      - items:
-> +          - const: rockchip,rk3328-vdec
-> +          - const: rockchip,rk3399-vdec
+>  drivers/staging/media/atomisp/pci/hmm/hmm.c | 14 ++------------
+>  1 file changed, 2 insertions(+), 12 deletions(-)
+
+Hi Mauro,
+
+I'm writing for just a gentle ping for this and two other staging/atomisp/=
+=20
+patches that still seem to be waiting to be applied.
+
+In the meantime I would like to remind you that Hans de Goede has=20
+successfully tested this patch and the other two on both the front and back=
+=20
+cams of a chuwi hi8 tablet.
+
+Please let me know if there is anything else that is required to be done in=
+=20
+order to accept the three patches.
+
+Thanks,
+
+=46abio M. De Francesco
 
 
-This should be rather an enum with rk3228, so:
-- enum
-   - rockchip,rk3228-vdec
-   - rockchip,rk3328-vdec
-- const: rockchip,rk3399-vdec
-
-Best regards,
-Krzysztof
