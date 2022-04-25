@@ -2,108 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D23950DB38
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 10:31:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 827F650DC5C
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 11:20:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235232AbiDYIeH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 04:34:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49648 "EHLO
+        id S232136AbiDYJX3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 05:23:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231496AbiDYId5 (ORCPT
+        with ESMTP id S236323AbiDYJXW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 04:33:57 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FA7D1D309
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 01:30:52 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id bv19so28145274ejb.6
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 01:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=gnEdxr9X8NJjJNHgkQBJ5Veaftqebxp4EvxRefbL6GM=;
-        b=X+Yg3/qKc5x6pHewyS523tJIwP98titiTvYPWJxIa+eCetW9DessPSWPBESUDBRbDY
-         1SJ+BKbQjcm+JyCNH+QfQ5GVD52KK6L5FOXikG626ut8mWopj0wN4w4tn4WTXV8k+QAM
-         Qe3K2J3jMB6wKuJPvX66DNSWoR+HXNL5BlFGU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=gnEdxr9X8NJjJNHgkQBJ5Veaftqebxp4EvxRefbL6GM=;
-        b=UlrmRWag2F/jrk8sNHDB7JENkY9kApQn8phOj6+aOM9N+K1jtVrzwx8ULtDAdhaoS/
-         VCl7rQ8FZZDMg0oeRMUzFeCaaifHzpvJcpkiDgLdCexJq8bZHOKBRy83dE5bqY/ZaCDA
-         cRKZYMyCGDuLmmRYb59G2mkwnGxo/X7izjrF0CSzg2wQUBYX3lxclbBScNZEOPyq70jL
-         MmVNSwEzXavUanoyaEkgrH6yF5dapXSOtVQyQ/c0c4iAppSI4tXi6exB7bDQsUFza3Bz
-         UVetul7KyWAvoWAHb5s3tL11eAcKMdseKimU8eDTszRw5htEQ/OzCqpJO9zBfTLAItxT
-         38bA==
-X-Gm-Message-State: AOAM532RRFBPjKo1XD2muagofkC5CkqsclQw3GorooHYjlrVgj9Lvskc
-        lxz04JYiHHLP13haVTKdWZy8nA==
-X-Google-Smtp-Source: ABdhPJxyYu+Z3n2rkMqDJY6jjyOmctct8egEfLGvmptcyIAdeUw3oQopaI1mgY+e2RfD4Wqg6GxFOg==
-X-Received: by 2002:a17:906:824a:b0:6f3:a07b:2568 with SMTP id f10-20020a170906824a00b006f3a07b2568mr1070812ejx.84.1650875450972;
-        Mon, 25 Apr 2022 01:30:50 -0700 (PDT)
-Received: from gmail.com ([100.104.168.197])
-        by smtp.gmail.com with ESMTPSA id jl7-20020a17090775c700b006f38e51ec81sm1230637ejc.129.2022.04.25.01.30.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Apr 2022 01:30:50 -0700 (PDT)
-Date:   Mon, 25 Apr 2022 10:30:33 +0200
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Tomasz Figa <tfiga@google.com>,
-        linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v4 21/21] media: rkisp1: Drop parentheses and fix
- indentation in rkisp1_probe()
-Message-ID: <YmZcKTa1oqRT1bMU@gmail.com>
-References: <20220421234240.1694-1-laurent.pinchart@ideasonboard.com>
- <20220421234240.1694-22-laurent.pinchart@ideasonboard.com>
+        Mon, 25 Apr 2022 05:23:22 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6223766B;
+        Mon, 25 Apr 2022 02:20:14 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 06FDC1002D8; Mon, 25 Apr 2022 10:20:11 +0100 (BST)
+Date:   Mon, 25 Apr 2022 10:20:11 +0100
+From:   Sean Young <sean@mess.org>
+To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     Jarod Wilson <jarod@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: possible deadlock in display_open
+Message-ID: <YmZny7mzugFe0t+X@gofer.mess.org>
+References: <00000000000043b599058faf0145@google.com>
+ <5a06c7f1-9a29-99e4-c700-fec3f09509d2@I-love.SAKURA.ne.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220421234240.1694-22-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a06c7f1-9a29-99e4-c700-fec3f09509d2@I-love.SAKURA.ne.jp>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Laurent Pinchart wrote:
+Hello,
 
-> Fix a small indentation issue to increase code readability, and drop
-> unneeded parentheses.
+On Mon, Apr 25, 2022 at 02:29:26PM +0900, Tetsuo Handa wrote:
+> Since usb_register_dev() from imon_init_display() from imon_probe() holds
+> minor_rwsem while display_open() which holds driver_lock and ictx->lock is
+> called with minor_rwsem held from usb_open(), holding driver_lock or
+> ictx->lock when calling usb_register_dev() causes circular locking
+> dependency problem.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Since usb_deregister_dev() from imon_disconnect() holds minor_rwsem while
+> display_open() which holds driver_lock is called with minor_rwsem held,
+> holding driver_lock when calling usb_deregister_dev() also causes circular
+> locking dependency problem.
 > 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> index c7ad1986e67b..97d569968285 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> @@ -486,9 +486,9 @@ static int rkisp1_probe(struct platform_device *pdev)
->  		return PTR_ERR(rkisp1->base_addr);
+> But actually do we need to hold these locks?
+> Could you explain possible race scenario if we do below?
+
+The problem is there are imon devices which have two usb interfaces, even
+though it is one device. The probe and disconnect function of both usb
+interfaces can run concurrently.
+
+If the imon_probe is running for interface 1, and the probe for interface 0
+has not completed yet, then the driver may erronously think the probe for
+interface 0 failed at `if (!first_if_ctx) {` on line 2442.
+
+Of course, this depends on probe/disconnect functions being allowed to run
+concurrently on different interfaces of the same usb device.
+
+This code is rather tricky, and I'm sure there must be a better way of
+dealing with multiple interfaces for a usb driver than what imon.c does.
+
+Thanks
+Sean
+
+> 
+>  drivers/media/rc/imon.c | 21 ---------------------
+>  1 file changed, 21 deletions(-)
+> 
+> diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+> index 54da6f60079b..e0e893d96cf3 100644
+> --- a/drivers/media/rc/imon.c
+> +++ b/drivers/media/rc/imon.c
+> @@ -439,9 +439,6 @@ static struct usb_driver imon_driver = {
+>  	.id_table	= imon_usb_id_table,
+>  };
 >  
->  	for (i = 0; i < match_data->isr_size; i++) {
-> -		irq = (match_data->isrs[i].name) ?
-> -				platform_get_irq_byname(pdev, match_data->isrs[i].name) :
-> -				platform_get_irq(pdev, i);
-> +		irq = match_data->isrs[i].name
-Shouldn't the question mark be in the previous line?, not complaining,
-just asking :)
-> +		    ? platform_get_irq_byname(pdev, match_data->isrs[i].name)
-> +		    : platform_get_irq(pdev, i);
->  		if (irq < 0)
->  			return irq;
+> -/* to prevent races between open() and disconnect(), probing, etc */
+> -static DEFINE_MUTEX(driver_lock);
+> -
+>  /* Module bookkeeping bits */
+>  MODULE_AUTHOR(MOD_AUTHOR);
+>  MODULE_DESCRIPTION(MOD_DESC);
+> @@ -499,9 +496,6 @@ static int display_open(struct inode *inode, struct file *file)
+>  	int subminor;
+>  	int retval = 0;
 >  
+> -	/* prevent races with disconnect */
+> -	mutex_lock(&driver_lock);
+> -
+>  	subminor = iminor(inode);
+>  	interface = usb_find_interface(&imon_driver, subminor);
+>  	if (!interface) {
+> @@ -534,7 +528,6 @@ static int display_open(struct inode *inode, struct file *file)
+>  	mutex_unlock(&ictx->lock);
+>  
+>  exit:
+> -	mutex_unlock(&driver_lock);
+>  	return retval;
+>  }
+>  
+> @@ -2416,9 +2409,6 @@ static int imon_probe(struct usb_interface *interface,
+>  	dev_dbg(dev, "%s: found iMON device (%04x:%04x, intf%d)\n",
+>  		__func__, vendor, product, ifnum);
+>  
+> -	/* prevent races probing devices w/multiple interfaces */
+> -	mutex_lock(&driver_lock);
+> -
+>  	first_if = usb_ifnum_to_if(usbdev, 0);
+>  	if (!first_if) {
+>  		ret = -ENODEV;
+> @@ -2456,8 +2446,6 @@ static int imon_probe(struct usb_interface *interface,
+>  	usb_set_intfdata(interface, ictx);
+>  
+>  	if (ifnum == 0) {
+> -		mutex_lock(&ictx->lock);
+> -
+>  		if (product == 0xffdc && ictx->rf_device) {
+>  			sysfs_err = sysfs_create_group(&interface->dev.kobj,
+>  						       &imon_rf_attr_group);
+> @@ -2468,21 +2456,17 @@ static int imon_probe(struct usb_interface *interface,
+>  
+>  		if (ictx->display_supported)
+>  			imon_init_display(ictx, interface);
+> -
+> -		mutex_unlock(&ictx->lock);
+>  	}
+>  
+>  	dev_info(dev, "iMON device (%04x:%04x, intf%d) on usb<%d:%d> initialized\n",
+>  		 vendor, product, ifnum,
+>  		 usbdev->bus->busnum, usbdev->devnum);
+>  
+> -	mutex_unlock(&driver_lock);
+>  	usb_put_dev(usbdev);
+>  
+>  	return 0;
+>  
+>  fail:
+> -	mutex_unlock(&driver_lock);
+>  	usb_put_dev(usbdev);
+>  	dev_err(dev, "unable to register, err %d\n", ret);
+>  
+> @@ -2498,9 +2482,6 @@ static void imon_disconnect(struct usb_interface *interface)
+>  	struct device *dev;
+>  	int ifnum;
+>  
+> -	/* prevent races with multi-interface device probing and display_open */
+> -	mutex_lock(&driver_lock);
+> -
+>  	ictx = usb_get_intfdata(interface);
+>  	dev = ictx->dev;
+>  	ifnum = interface->cur_altsetting->desc.bInterfaceNumber;
+> @@ -2545,8 +2526,6 @@ static void imon_disconnect(struct usb_interface *interface)
+>  	if (!ictx->dev_present_intf0 && !ictx->dev_present_intf1)
+>  		free_imon_context(ictx);
+>  
+> -	mutex_unlock(&driver_lock);
+> -
+>  	dev_dbg(dev, "%s: iMON device (intf%d) disconnected\n",
+>  		__func__, ifnum);
+>  }
 > -- 
-> Regards,
+> 2.34.1
 > 
-> Laurent Pinchart
-> 
-> 
+> On 2019/08/09 22:18, syzbot wrote:
+> > Hello,
+> > 
+> > syzbot found the following crash on:
+> > 
+> > HEAD commit:    e96407b4 usb-fuzzer: main usb gadget fuzzer driver
+> > git tree:       https://github.com/google/kasan.git usb-fuzzer
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=13b29b26600000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=c558267ad910fc494497
+> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15427002600000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=111cb61c600000
+> > 
+> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > Reported-by: syzbot+c558267ad910fc494497@syzkaller.appspotmail.com
