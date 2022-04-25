@@ -2,348 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B25B50D938
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 08:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE2A350D951
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 08:18:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231880AbiDYGNr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 02:13:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46692 "EHLO
+        id S235556AbiDYGVe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 02:21:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230164AbiDYGNp (ORCPT
+        with ESMTP id S234566AbiDYGVc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 02:13:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31F4439BB4
-        for <linux-media@vger.kernel.org>; Sun, 24 Apr 2022 23:10:40 -0700 (PDT)
-Received: from pyrite.rasen.tech (softbank114048062035.bbtec.net [114.48.62.35])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 072FD30B;
-        Mon, 25 Apr 2022 08:10:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1650867037;
-        bh=BRBc+H2XV2PAUtlr9oyYVP3bl0ncQ+o/EJ89JLOXQx8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=NFqOhX7CGIETqRM0SgKmtJw+GBRlUL40DzyJBE7p9aWAUKiFHPO/2rPkZ9HZQN6At
-         T1VJycNlyqZ0kf5rl35rm00jtDMKnjDLTIxGoAo2V19ejSU763fFIgPfazGu7U16Kq
-         u66eFLTcecdSYGMqvreD+vX/IBby6zsgyafGOQ1s=
-From:   Paul Elder <paul.elder@ideasonboard.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Martina Krasteva <martinax.krasteva@intel.com>,
-        Shawn Tu <shawnx.tu@intel.com>, Arec Kao <arec.kao@intel.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jimmy Su <jimmy.su@intel.com>,
-        Martin Kepplinger <martink@posteo.de>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v5] media: ov5640: Use runtime PM
-Date:   Mon, 25 Apr 2022 15:10:22 +0900
-Message-Id: <20220425061022.1569480-1-paul.elder@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
+        Mon, 25 Apr 2022 02:21:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06DF2ED46;
+        Sun, 24 Apr 2022 23:18:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5B1F66122C;
+        Mon, 25 Apr 2022 06:18:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D238CC385A4;
+        Mon, 25 Apr 2022 06:18:23 +0000 (UTC)
+Message-ID: <a0a59b93-50e6-4721-f5a9-c48c9721a8a4@xs4all.nl>
+Date:   Mon, 25 Apr 2022 08:18:21 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v4 4/9] media: Documentation: dw100: Add user
+ documentation for the DW100 driver
+Content-Language: en-US
+To:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>, mchehab@kernel.org,
+        stanimir.varbanov@linaro.org, laurent.pinchart@ideasonboard.com,
+        tomi.valkeinen@ideasonboard.com, robh+dt@kernel.org,
+        nicolas@ndufresne.ca, alexander.stein@ew.tq-group.com
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20220328141309.177611-1-xavier.roumegue@oss.nxp.com>
+ <20220328141309.177611-5-xavier.roumegue@oss.nxp.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220328141309.177611-5-xavier.roumegue@oss.nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Switch to using runtime PM for power management.
+On 28/03/2022 16:13, Xavier Roumegue wrote:
+> Add user documentation for the DW100 driver.
+> 
+> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+> ---
+>  .../userspace-api/media/drivers/dw100.rst     | 23 +++++++++++++++++++
+>  .../userspace-api/media/drivers/index.rst     |  1 +
+>  2 files changed, 24 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/drivers/dw100.rst
+> 
+> diff --git a/Documentation/userspace-api/media/drivers/dw100.rst b/Documentation/userspace-api/media/drivers/dw100.rst
+> new file mode 100644
+> index 000000000000..4cd55c75628e
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/drivers/dw100.rst
+> @@ -0,0 +1,23 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +DW100 dewarp driver
+> +===========================
+> +
+> +The Vivante DW100 Dewarp Processor IP core found on i.MX8MP SoC applies a
+> +programmable geometrical transformation on input image to correct distorsion
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+distorsion -> distortion
 
----
-Changes in v5:
-- fix compilation warning
+> +introduced by lenses.
+> +
+> +The transformation function is exposed by the hardware as a grid map with 16x16
+> +pixel macroblocks indexed using X, Y vertex coordinates. Each x, y coordinate
+> +register uses 16 bits to record the coordinate address in UQ12.4 fixed point
+> +format.
+> +
+> +The dewarping map can be set from application through a dedicated v4l2 control.
+> +If not set or invalid, the driver computes an identity map prior to start the
+> +processing engine. The map is evaluated as invalid if the array size does not
+> +match the expected size inherited from the destination image resolution.
+> +
+> +More details on the DW100 hardware operations can be found in
+> +*chapter 13.15 DeWarp* of IMX8MP_ reference manuel.
 
-Changes in v4:
-- replace pm_runtime_put* with pm_runtime_put_autosuspend
-- remove the manual initial call to ov5640_set_power()
+manuel -> manual
 
-Changes in v3:
-- Move v4l2_ctrl_handler_setup() from ov5640_sensor_resume to
-  ov5640_s_stream()
+> +
+> +.. _IMX8MP: https://www.nxp.com/webapp/Download?colCode=IMX8MPRM
+> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> index 12e3c512d718..8826777321b0 100644
+> --- a/Documentation/userspace-api/media/drivers/index.rst
+> +++ b/Documentation/userspace-api/media/drivers/index.rst
+> @@ -33,6 +33,7 @@ For more details see the file COPYING in the source distribution of Linux.
+>  
+>  	ccs
+>  	cx2341x-uapi
+> +	dw100
+>          hantro
+>  	imx-uapi
+>  	max2175
 
-Changes in v2:
-- replace manual tracking of power status with pm_runtime_get_if_in_use
-- power on the sensor before reading the checking the chip id
-- add dependency on PM to Kconfig
----
- drivers/media/i2c/Kconfig  |   1 +
- drivers/media/i2c/ov5640.c | 120 +++++++++++++++++++++----------------
- 2 files changed, 71 insertions(+), 50 deletions(-)
+Regards,
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index fae2baabb773..0bd53f8198f1 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -433,6 +433,7 @@ config VIDEO_OV5640
- 	tristate "OmniVision OV5640 sensor support"
- 	depends on OF
- 	depends on GPIOLIB && VIDEO_DEV && I2C
-+	depends on PM
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
- 	select V4L2_FWNODE
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index db5a19babe67..e8e53e954db0 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -15,6 +15,7 @@
- #include <linux/init.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-@@ -240,8 +241,6 @@ struct ov5640_dev {
- 	/* lock to protect all members below */
- 	struct mutex lock;
- 
--	int power_count;
--
- 	struct v4l2_mbus_framefmt fmt;
- 	bool pending_fmt_change;
- 
-@@ -2157,37 +2156,6 @@ static int ov5640_set_power(struct ov5640_dev *sensor, bool on)
- 
- /* --------------- Subdev Operations --------------- */
- 
--static int ov5640_s_power(struct v4l2_subdev *sd, int on)
--{
--	struct ov5640_dev *sensor = to_ov5640_dev(sd);
--	int ret = 0;
--
--	mutex_lock(&sensor->lock);
--
--	/*
--	 * If the power count is modified from 0 to != 0 or from != 0 to 0,
--	 * update the power state.
--	 */
--	if (sensor->power_count == !on) {
--		ret = ov5640_set_power(sensor, !!on);
--		if (ret)
--			goto out;
--	}
--
--	/* Update the power count. */
--	sensor->power_count += on ? 1 : -1;
--	WARN_ON(sensor->power_count < 0);
--out:
--	mutex_unlock(&sensor->lock);
--
--	if (on && !ret && sensor->power_count == 1) {
--		/* restore controls */
--		ret = v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
--	}
--
--	return ret;
--}
--
- static int ov5640_try_frame_interval(struct ov5640_dev *sensor,
- 				     struct v4l2_fract *fi,
- 				     u32 width, u32 height)
-@@ -2663,6 +2631,9 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 
- 	/* v4l2_ctrl_lock() locks our own mutex */
- 
-+	if (!pm_runtime_get_if_in_use(&sensor->i2c_client->dev))
-+		return 0;
-+
- 	switch (ctrl->id) {
- 	case V4L2_CID_AUTOGAIN:
- 		val = ov5640_get_gain(sensor);
-@@ -2678,6 +2649,8 @@ static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	}
- 
-+	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-+
- 	return 0;
- }
- 
-@@ -2692,9 +2665,9 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
- 	/*
- 	 * If the device is not powered up by the host driver do
- 	 * not apply any controls to H/W at this time. Instead
--	 * the controls will be restored right after power-up.
-+	 * the controls will be restored at start streaming time.
- 	 */
--	if (sensor->power_count == 0)
-+	if (!pm_runtime_get_if_in_use(&sensor->i2c_client->dev))
- 		return 0;
- 
- 	switch (ctrl->id) {
-@@ -2733,6 +2706,8 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	}
- 
-+	pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-+
- 	return ret;
- }
- 
-@@ -2945,6 +2920,18 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
- 	struct ov5640_dev *sensor = to_ov5640_dev(sd);
- 	int ret = 0;
- 
-+	if (enable) {
-+		ret = pm_runtime_resume_and_get(&sensor->i2c_client->dev);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
-+		if (ret) {
-+			pm_runtime_put(&sensor->i2c_client->dev);
-+			return ret;
-+		}
-+	}
-+
- 	mutex_lock(&sensor->lock);
- 
- 	if (sensor->streaming == !enable) {
-@@ -2969,13 +2956,17 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
- 		if (!ret)
- 			sensor->streaming = enable;
- 	}
-+
- out:
- 	mutex_unlock(&sensor->lock);
-+
-+	if (!enable || ret)
-+		pm_runtime_put_autosuspend(&sensor->i2c_client->dev);
-+
- 	return ret;
- }
- 
- static const struct v4l2_subdev_core_ops ov5640_core_ops = {
--	.s_power = ov5640_s_power,
- 	.log_status = v4l2_ctrl_subdev_log_status,
- 	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
- 	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-@@ -3019,26 +3010,20 @@ static int ov5640_check_chip_id(struct ov5640_dev *sensor)
- 	int ret = 0;
- 	u16 chip_id;
- 
--	ret = ov5640_set_power_on(sensor);
--	if (ret)
--		return ret;
--
- 	ret = ov5640_read_reg16(sensor, OV5640_REG_CHIP_ID, &chip_id);
- 	if (ret) {
- 		dev_err(&client->dev, "%s: failed to read chip identifier\n",
- 			__func__);
--		goto power_off;
-+		return ret;
- 	}
- 
- 	if (chip_id != 0x5640) {
- 		dev_err(&client->dev, "%s: wrong chip identifier, expected 0x5640, got 0x%x\n",
- 			__func__, chip_id);
--		ret = -ENXIO;
-+		return -ENXIO;
- 	}
- 
--power_off:
--	ov5640_set_power_off(sensor);
--	return ret;
-+	return 0;
- }
- 
- static int ov5640_probe(struct i2c_client *client)
-@@ -3158,21 +3143,31 @@ static int ov5640_probe(struct i2c_client *client)
- 
- 	mutex_init(&sensor->lock);
- 
--	ret = ov5640_check_chip_id(sensor);
-+	ret = ov5640_init_controls(sensor);
- 	if (ret)
- 		goto entity_cleanup;
- 
--	ret = ov5640_init_controls(sensor);
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
-+	pm_runtime_get(dev);
-+
-+	ret = ov5640_check_chip_id(sensor);
- 	if (ret)
--		goto entity_cleanup;
-+		goto err_pm_runtime;
- 
- 	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
- 	if (ret)
--		goto free_ctrls;
-+		goto err_pm_runtime;
-+
-+	pm_runtime_set_autosuspend_delay(dev, 1000);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_put_autosuspend(dev);
- 
- 	return 0;
- 
--free_ctrls:
-+err_pm_runtime:
-+	pm_runtime_disable(dev);
-+	pm_runtime_put_autosuspend(dev);
- 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
- entity_cleanup:
- 	media_entity_cleanup(&sensor->sd.entity);
-@@ -3184,6 +3179,10 @@ static int ov5640_remove(struct i2c_client *client)
- {
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-+	struct device *dev = &client->dev;
-+
-+	pm_runtime_disable(dev);
-+	pm_runtime_put_autosuspend(dev);
- 
- 	v4l2_async_unregister_subdev(&sensor->sd);
- 	media_entity_cleanup(&sensor->sd.entity);
-@@ -3193,6 +3192,26 @@ static int ov5640_remove(struct i2c_client *client)
- 	return 0;
- }
- 
-+static int __maybe_unused ov5640_sensor_suspend(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov5640_dev *ov5640 = to_ov5640_dev(sd);
-+
-+	return ov5640_set_power(ov5640, false);
-+}
-+
-+static int __maybe_unused ov5640_sensor_resume(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov5640_dev *ov5640 = to_ov5640_dev(sd);
-+
-+	return ov5640_set_power(ov5640, true);
-+}
-+
-+static const struct dev_pm_ops ov5640_pm_ops = {
-+	SET_RUNTIME_PM_OPS(ov5640_sensor_suspend, ov5640_sensor_resume, NULL)
-+};
-+
- static const struct i2c_device_id ov5640_id[] = {
- 	{"ov5640", 0},
- 	{},
-@@ -3209,6 +3228,7 @@ static struct i2c_driver ov5640_i2c_driver = {
- 	.driver = {
- 		.name  = "ov5640",
- 		.of_match_table	= ov5640_dt_ids,
-+		.pm = &ov5640_pm_ops,
- 	},
- 	.id_table = ov5640_id,
- 	.probe_new = ov5640_probe,
--- 
-2.30.2
-
+	Hans
