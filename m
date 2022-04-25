@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31C0F50E6DF
-	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 19:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBE3950E741
+	for <lists+linux-media@lfdr.de>; Mon, 25 Apr 2022 19:29:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243861AbiDYRVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 13:21:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47974 "EHLO
+        id S235761AbiDYRcF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 13:32:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243880AbiDYRVF (ORCPT
+        with ESMTP id S244035AbiDYRb7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 13:21:05 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A41227179
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 10:17:58 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id be20so10920536edb.12
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 10:17:58 -0700 (PDT)
+        Mon, 25 Apr 2022 13:31:59 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DDEE18B0B;
+        Mon, 25 Apr 2022 10:28:40 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id u15so30930100ejf.11;
+        Mon, 25 Apr 2022 10:28:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=gX2ZWb8LxEmg8Owput65gpyxR2lw6m8J6Sik1QnH9uQ=;
-        b=NcRr4ingWeUGSu1ZKplng7CZcPwJ37SB2gZf3J3srm47JUqal9uBlISJ17yZkOldn5
-         ESOGytFqM2IKb5/bYT+BUjYB2tLXsT2+tLZDQMvWM0PQV/ZcGOh8Jr8MT2RJFmfJ+ZpL
-         XPXZSWj9z1a02FlYMLHE3Fkdm9lSIFJ6uCMrcrlVgKuco+He09+rcqN2gwwEk4cVvTKY
-         QiRiQTp9eBsLtDMgDJHqwyURu4BGjSo+XGaMmlMJgCQtbLApGeV4BkM94y3vMslNTIwd
-         hCFpqyrDTCiY+4wbrjVRge29GoTZgts3F0NOoecy+ooCm/3WbFsx4HaGnD74bp6l4p+Z
-         +KHQ==
+        bh=oK0ezFxjsDQohkSOshmvpXLStP35S74J5IdQbdyQYMo=;
+        b=Ipdr3gojS9WuJPuZDUK6RpMD7bSSqP0t07BSua45YD3OhWTpKdJy69azstXRunucRh
+         cn6HNAzYR7tx9UCCc0QzmMX8mhR/pcmyQKvijdCRa3svPEuc70i6eO4lspWGLGjaqwyQ
+         FSlctTaX1VdSxEGMYAVz3pMSAQRrK1BqzRSFPaoo84Ayl+S00uOaTwgrl20oUnCtJ5Tk
+         xm0xWL2AMLPASSzLt8ak9V4yGb25vHmMzcqVJQ30V0zuEGsAeTU84m/M3KJloPsv0sPn
+         pEyAXvlDlXsyy/6cogmsYsRHhCEfLjioHlScFXY5UvdbCEECKktwqbg2xQDNeIrbSi2A
+         yjXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=gX2ZWb8LxEmg8Owput65gpyxR2lw6m8J6Sik1QnH9uQ=;
-        b=ILNMB+N2K4fWGJLXhdDEBxzx4a72li6PNa+/N9goiW7YdzuRPX6LcEWdfpcZMVtenL
-         nzzDtXpZGjJWVn1c6CYuEKu2ErB59tQbBNzq/lwPzZJo+cSKeSMf0qqTqMfWNai79/7H
-         yp1Xyc6KeyLHuIfdiPb4NFff3kBQteYvUuikiQoeDk4iJWFl9l86ybbKIcOuMLtYH/E2
-         CU85n9FZFL1YpgLVCzNZguGQ0nG69ekUPgUGhBMjdq6ejiSegHp4GYsQUxBu58ddVsMY
-         Eg3ZWJLHFLlH2RZhcuJMSq0DtnU1rL52SIfIqcYfIv7NGi9A/hUkRqd0sdddVt5L1Ng+
-         WhAQ==
-X-Gm-Message-State: AOAM530SXuEDv0o2HZT0p6AM2bAn8nPVhnWPJx3ACZthONCALduJutWN
-        F4nxQb86AInfTzpzAubqqpMjSsfTDyymbpNVzXRlwA==
-X-Google-Smtp-Source: ABdhPJxP3/tkzNqhW7/0VP/ox9oCJLWZP134CdSdEC3LqMnzwTw7RmNLUF5esfxs2UgdzQ2wWhN4aTQNyqXeV3taY4I=
-X-Received: by 2002:a05:6402:26c7:b0:423:e5d6:b6c6 with SMTP id
- x7-20020a05640226c700b00423e5d6b6c6mr20007275edd.61.1650907076801; Mon, 25
- Apr 2022 10:17:56 -0700 (PDT)
+        bh=oK0ezFxjsDQohkSOshmvpXLStP35S74J5IdQbdyQYMo=;
+        b=mvkCHFjHA5gxuEIxUjG4lI/6DHSUKXpPmHpUCkKOJlqHx6tRzYxIK9+AkMMhD9kTyx
+         zLgEFUxfZX1WHxeDPkTEMj6x+mbIwiRQiMVhKmmRa1/VaBUqP/qq6vZNzblUD+lg8JLl
+         K8lrkigL1fbTYqXBRx/RfVrHq2ECPqI9e82VWYs5YCMY37ra/h+zwGQVKREtQOmoXTU5
+         W3WMSPj1owkuYCGns+DJcuIA/BQgxnACPwx8aUl5XMTXMRCwzufXOWsVPvpvruvGT83l
+         U4W4TzlSovRExY5Ius9o6ZdNIoOzgJ1H8AURmF3jrmhqo529CM7vlmelNnjyuJdAfxp8
+         ahZQ==
+X-Gm-Message-State: AOAM531MYxnGnmE5F3q2NveRkx31LGxc1m4aCPEJ82R1+xuk0mlx2rl+
+        DrMu6cHOFgFjVpHhbVmAo32hztV725rNp4l9Lws=
+X-Google-Smtp-Source: ABdhPJwVk7LnqtviCJ13JHRHVWmGE/Lb5aSKGj2vgILM4TnGtJgt3nn1VoKTmhDnxt9g06dYraSvekxM0FhmTUVLElc=
+X-Received: by 2002:a17:907:62a9:b0:6da:7953:4df0 with SMTP id
+ nd41-20020a17090762a900b006da79534df0mr17581063ejc.316.1650907718621; Mon, 25
+ Apr 2022 10:28:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220412135534.2796158-1-aford173@gmail.com> <20220412135534.2796158-2-aford173@gmail.com>
- <CAPY8ntCKxRMFX023BsM70bA0UbPApzOzLbg+2X0SU93_GABKiA@mail.gmail.com> <CAHCN7xK_y6XhyksrPdcgCH24T0n46kJDNtvk2awoDCouWrDsMg@mail.gmail.com>
-In-Reply-To: <CAHCN7xK_y6XhyksrPdcgCH24T0n46kJDNtvk2awoDCouWrDsMg@mail.gmail.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 25 Apr 2022 18:17:40 +0100
-Message-ID: <CAPY8ntCbSdspgFLS2yXdgL07RAhMoPXerpfOYw7yb-TUo-apyw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: i2c: imx219: Split common registers from mode tables
-To:     Adam Ford <aford173@gmail.com>
+References: <20220412135534.2796158-1-aford173@gmail.com> <20220412135534.2796158-4-aford173@gmail.com>
+ <CAPY8ntCfL=ZPwPr_1N-m_J1FTq+V77-3fggY-joZCyyu-k_qvQ@mail.gmail.com> <CAPY8ntCuTt65-ELTV8_n+-7=n306p5+HmF3HcMd-8arCTVLezQ@mail.gmail.com>
+In-Reply-To: <CAPY8ntCuTt65-ELTV8_n+-7=n306p5+HmF3HcMd-8arCTVLezQ@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Mon, 25 Apr 2022 12:28:27 -0500
+Message-ID: <CAHCN7xLThYzFFsS1pgHztOTjKAvP8ka+pPAya4wf4aSfvCWWGg@mail.gmail.com>
+Subject: Re: [PATCH 3/4] media: i2c: imx219: Enable variable XCLK
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Tim Harvey <tharvey@gateworks.com>,
@@ -63,271 +63,243 @@ Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam
-
-On Mon, 25 Apr 2022 at 17:51, Adam Ford <aford173@gmail.com> wrote:
+On Mon, Apr 25, 2022 at 11:13 AM Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
 >
-> On Mon, Apr 25, 2022 at 11:20 AM Dave Stevenson
+> Hi again
+>
+> On Mon, 25 Apr 2022 at 16:58, Dave Stevenson
 > <dave.stevenson@raspberrypi.com> wrote:
 > >
 > > Hi Adam
 > >
+> > I have no way of testing with an alternate XCLK value, so I'm working
+> > based on the datasheet only.
+> >
 > > On Tue, 12 Apr 2022 at 14:55, Adam Ford <aford173@gmail.com> wrote:
 > > >
-> > > There are four modes, and each mode has a table of registers.
-> > > Some of the registers are common to all modes, so create new
-> > > tables for these common registers to reduce duplicate code.
+> > > The datasheet shows the external clock can be anything
+> > > from 6MHz to 27MHz, but EXCK, PREPLLCK_VT_DIV and
+> > > PREPLLCK_OP_DIV need to change based on the clock, so
+> > > create helper functions to set these registers based on
+> > > the rate of xclk.
+> > >
+> > > Move the validation of the clock rate into imx219_check_hwcfg
+> > > which means delaying the call to it until after xclk has been
+> > > determined.
 > > >
 > > > Signed-off-by: Adam Ford <aford173@gmail.com>
 > > > ---
-> > >  drivers/media/i2c/imx219.c | 103 ++++++++++++++-----------------------
-> > >  1 file changed, 39 insertions(+), 64 deletions(-)
+> > >  drivers/media/i2c/imx219.c | 79 ++++++++++++++++++++++++++++++--------
+> > >  1 file changed, 63 insertions(+), 16 deletions(-)
 > > >
 > > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > > index e10af3f74b38..b7cc36b16547 100644
+> > > index d13ce5c1ece6..08e7d0e72430 100644
 > > > --- a/drivers/media/i2c/imx219.c
 > > > +++ b/drivers/media/i2c/imx219.c
-> > > @@ -145,19 +145,36 @@ struct imx219_mode {
-> > >         struct imx219_reg_list reg_list;
-> > >  };
+> > > @@ -39,8 +39,12 @@
+> > >  #define IMX219_REG_CHIP_ID             0x0000
+> > >  #define IMX219_CHIP_ID                 0x0219
 > > >
-> > > -/*
-> > > - * Register sets lifted off the i2C interface from the Raspberry Pi firmware
-> > > - * driver.
-> > > - * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
-> > > - */
-> > > -static const struct imx219_reg mode_3280x2464_regs[] = {
-> > > -       {0x0100, 0x00},
-> > > +/* To Access Addresses 3000-5fff, send the following commands */
-> > > +static const struct imx219_reg mfg_specific_reg[] = {
-> > > +       {0x0100, 0x00}, /* Mode Select */
-> > >         {0x30eb, 0x0c},
-> > >         {0x30eb, 0x05},
-> > >         {0x300a, 0xff},
-> > >         {0x300b, 0xff},
-> > >         {0x30eb, 0x05},
-> > >         {0x30eb, 0x09},
-> > > +};
-> > > +
-> > > +static const struct imx219_reg pll_clk_table[] = {
-> > > +
-> > > +       {0x0301, 0x05}, /* VTPXCK_DIV */
-> > > +       {0x0303, 0x01}, /* VTSYSCK_DIV */
-> > > +       {0x0304, 0x03}, /* PREPLLCK_VT_DIV 0x03 = AUTO set */
-> > > +       {0x0305, 0x03}, /* PREPLLCK_OP_DIV 0x03 = AUTO set */
-> > > +       {0x0306, 0x00}, /* PLL_VT_MPY */
-> > > +       {0x0307, 0x39},
-> > > +       {0x030b, 0x01}, /* OP_SYS_CLK_DIV */
-> > > +       {0x030c, 0x00}, /* PLL_OP_MPY */
-> > > +       {0x030d, 0x72},
-> > > +};
-> >
-> > (I've come back to this patch last as my first reading was happy with it)
-> > Is there a good reason for making these two tables instead of one with
-> > comments as to what the registers are doing?
->
-> The pll_clk tables were written after the resolution settings before I
-> split them.  I was concerned about having all the common tables in one
-> place, because registers would be set in a different order than they
-> were originally.  I wasn't sure if the pll clock tables needed to be
-> set after the resolution or not.  It seemed possible to me that it
-> wouldn't necessarily know how to set the clocks without knowing the
-> desired resolution.  I can certainly merge them together and run some
-> tests to see if there are regressions.  If there are none, I can keep
-> them in a common block.
->
-> I can certainly add comments to indicate what's being done.  I had
-> thought about it.
-
-More often PLL settings are set before the resolution configuration.
-
-The initialisation sequence for imx219 was provided by Sony, but I
-note that the datasheet that Table 37 "Initialization sequence with
-XCLR" lists:
-- (1) to (3): Refer power up sequence timing diagram
-- (4) Set PLL parameters. Basic setting. Set Readout mode. Set MIPI parameters
-- (5) Start streaming with 0x0100 (mode_select = 1)
-So I really wouldn't be concerned about setting the PLL registers
-before the resolution. The PLL configuration is mode independent as
-the pixel rate and link frequency are effectively fixed.
-
-  Dave
-
-> >
-> > As per my comment on patch 4, one table of registers setting these,
-> > the DPHY register, and registers
-> >     {0x455e, 0x00},
-> >     {0x471e, 0x4b},
-> >     {0x4767, 0x0f},
-> >     {0x4750, 0x14},
-> >     {0x4540, 0x00},
-> >     {0x47b4, 0x14},
-> >     {0x4713, 0x30},
-> >     {0x478b, 0x10},
-> >     {0x478f, 0x10},
-> >     {0x4793, 0x10},
-> >     {0x4797, 0x0e},
-> >     {0x479b, 0x0e},
-> >     {0x0162, 0x0d},
-> >     {0x0163, 0x78},
-> > would remove the duplication, reduce the code size, and be slightly
-> > more readable.
-> >
-> >   Dave
-> >
-> > > +/*
-> > > + * Register sets lifted off the i2C interface from the Raspberry Pi firmware
-> > > + * driver.
-> > > + * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
-> > > + */
-> > > +static const struct imx219_reg mode_3280x2464_regs[] = {
-> > >         {0x0114, 0x01},
+> > > -/* External clock frequency is 24.0M */
+> > > -#define IMX219_XCLK_FREQ               24000000
+> > > +/* Default external clock frequency is 24.0M */
+> > > +#define IMX219_XCLK_MIN_FREQ           6000000
+> > > +#define IMX219_XCLK_MAX_FREQ           27000000
+> > > +#define IMX219_REG_EXCK                        0x012a
+> > > +#define IMX219_REG_PREPLLCK_VT_DIV     0x0304
+> > > +#define IMX219_REG_PREPLLCK_OP_DIV     0x0305
+> > >
+> > >  /* Pixel rate is fixed for all the modes */
+> > >  #define IMX219_PIXEL_RATE              182400000
+> > > @@ -166,8 +170,6 @@ static const struct imx219_reg pll_clk_table[] = {
+> > >
+> > >         {0x0301, 0x05}, /* VTPXCK_DIV */
+> > >         {0x0303, 0x01}, /* VTSYSCK_DIV */
+> > > -       {0x0304, 0x03}, /* PREPLLCK_VT_DIV 0x03 = AUTO set */
+> > > -       {0x0305, 0x03}, /* PREPLLCK_OP_DIV 0x03 = AUTO set */
+> > >         {0x0306, 0x00}, /* PLL_VT_MPY */
+> > >         {0x0307, 0x39},
+> > >         {0x030b, 0x01}, /* OP_SYS_CLK_DIV */
+> > > @@ -182,7 +184,6 @@ static const struct imx219_reg pll_clk_table[] = {
+> > >   */
+> > >  static const struct imx219_reg mode_3280x2464_regs[] = {
 > > >         {0x0128, 0x00},
-> > >         {0x012a, 0x18},
-> > > @@ -178,15 +195,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
-> > >         {0x0171, 0x01},
-> > >         {0x0174, 0x00},
-> > >         {0x0175, 0x00},
-> > > -       {0x0301, 0x05},
-> > > -       {0x0303, 0x01},
-> > > -       {0x0304, 0x03},
-> > > -       {0x0305, 0x03},
-> > > -       {0x0306, 0x00},
-> > > -       {0x0307, 0x39},
-> > > -       {0x030b, 0x01},
-> > > -       {0x030c, 0x00},
-> > > -       {0x030d, 0x72},
-> > >         {0x0624, 0x0c},
-> > >         {0x0625, 0xd0},
-> > >         {0x0626, 0x09},
-> > > @@ -208,13 +216,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
-> > >  };
+> > > -       {0x012a, 0x18},
+> > >         {0x012b, 0x00},
+> > >         {0x0164, 0x00},
+> > >         {0x0165, 0x00},
+> > > @@ -222,7 +223,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
 > > >
 > > >  static const struct imx219_reg mode_1920_1080_regs[] = {
-> > > -       {0x0100, 0x00},
-> > > -       {0x30eb, 0x05},
-> > > -       {0x30eb, 0x0c},
-> > > -       {0x300a, 0xff},
-> > > -       {0x300b, 0xff},
-> > > -       {0x30eb, 0x05},
-> > > -       {0x30eb, 0x09},
-> > >         {0x0114, 0x01},
 > > >         {0x0128, 0x00},
-> > >         {0x012a, 0x18},
-> > > @@ -237,15 +238,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
-> > >         {0x0171, 0x01},
-> > >         {0x0174, 0x00},
-> > >         {0x0175, 0x00},
-> > > -       {0x0301, 0x05},
-> > > -       {0x0303, 0x01},
-> > > -       {0x0304, 0x03},
-> > > -       {0x0305, 0x03},
-> > > -       {0x0306, 0x00},
-> > > -       {0x0307, 0x39},
-> > > -       {0x030b, 0x01},
-> > > -       {0x030c, 0x00},
-> > > -       {0x030d, 0x72},
-> > >         {0x0624, 0x07},
-> > >         {0x0625, 0x80},
-> > >         {0x0626, 0x04},
-> > > @@ -265,13 +257,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
-> > >  };
+> > > -       {0x012a, 0x18},
+> > >         {0x012b, 0x00},
+> > >         {0x0162, 0x0d},
+> > >         {0x0163, 0x78},
+> > > @@ -262,7 +262,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
 > > >
 > > >  static const struct imx219_reg mode_1640_1232_regs[] = {
-> > > -       {0x0100, 0x00},
-> > > -       {0x30eb, 0x0c},
-> > > -       {0x30eb, 0x05},
-> > > -       {0x300a, 0xff},
-> > > -       {0x300b, 0xff},
-> > > -       {0x30eb, 0x05},
-> > > -       {0x30eb, 0x09},
-> > >         {0x0114, 0x01},
 > > >         {0x0128, 0x00},
-> > >         {0x012a, 0x18},
-> > > @@ -292,15 +277,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
-> > >         {0x0171, 0x01},
-> > >         {0x0174, 0x01},
-> > >         {0x0175, 0x01},
-> > > -       {0x0301, 0x05},
-> > > -       {0x0303, 0x01},
-> > > -       {0x0304, 0x03},
-> > > -       {0x0305, 0x03},
-> > > -       {0x0306, 0x00},
-> > > -       {0x0307, 0x39},
-> > > -       {0x030b, 0x01},
-> > > -       {0x030c, 0x00},
-> > > -       {0x030d, 0x72},
-> > >         {0x0624, 0x06},
-> > >         {0x0625, 0x68},
-> > >         {0x0626, 0x04},
-> > > @@ -322,13 +298,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
-> > >  };
+> > > -       {0x012a, 0x18},
+> > >         {0x012b, 0x00},
+> > >         {0x0164, 0x00},
+> > >         {0x0165, 0x00},
+> > > @@ -302,7 +301,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
 > > >
 > > >  static const struct imx219_reg mode_640_480_regs[] = {
-> > > -       {0x0100, 0x00},
-> > > -       {0x30eb, 0x05},
-> > > -       {0x30eb, 0x0c},
-> > > -       {0x300a, 0xff},
-> > > -       {0x300b, 0xff},
-> > > -       {0x30eb, 0x05},
-> > > -       {0x30eb, 0x09},
-> > >         {0x0114, 0x01},
 > > >         {0x0128, 0x00},
-> > >         {0x012a, 0x18},
-> > > @@ -351,15 +320,6 @@ static const struct imx219_reg mode_640_480_regs[] = {
-> > >         {0x0171, 0x01},
-> > >         {0x0174, 0x03},
-> > >         {0x0175, 0x03},
-> > > -       {0x0301, 0x05},
-> > > -       {0x0303, 0x01},
-> > > -       {0x0304, 0x03},
-> > > -       {0x0305, 0x03},
-> > > -       {0x0306, 0x00},
-> > > -       {0x0307, 0x39},
-> > > -       {0x030b, 0x01},
-> > > -       {0x030c, 0x00},
-> > > -       {0x030d, 0x72},
-> > >         {0x0624, 0x06},
-> > >         {0x0625, 0x68},
-> > >         {0x0626, 0x04},
-> > > @@ -1041,6 +1001,13 @@ static int imx219_start_streaming(struct imx219 *imx219)
-> > >         if (ret < 0)
-> > >                 return ret;
+> > > -       {0x012a, 0x18},
+> > >         {0x012b, 0x00},
+> > >         {0x0162, 0x0d},
+> > >         {0x0163, 0x78},
+> > > @@ -1015,6 +1013,50 @@ static int imx219_configure_lanes(struct imx219 *imx219)
+> > >         return ret;
+> > >  };
 > > >
-> > > +       /* Send the Manufacturing Header common to all modes */
-> > > +       ret = imx219_write_regs(imx219, mfg_specific_reg, ARRAY_SIZE(mfg_specific_reg));
-> > > +       if (ret) {
-> > > +               dev_err(&client->dev, "%s failed to send mfg header\n", __func__);
-> > > +               goto err_rpm_put;
+> > > +static int imx219_set_exck_freq(struct imx219 *imx219)
+> > > +{
+> > > +       int ret;
+> > > +       /* The imx219 registers need MHz not Hz */
+> > > +       u8 clk = (u8) (imx219->xclk_freq/1000000U);
+> > > +
+> > > +       /* Set the clock frequency in MHz */
+> > > +       ret = imx219_write_reg(imx219, IMX219_REG_EXCK,
+> > > +                              IMX219_REG_VALUE_08BIT, clk);
+>
+> In reviewing your other patch I noticed that the EXCK register is
+> actually a 16 bit value. The integer part is in 0x012a, and the
+> fractional part (1/256) in 0x012b, which is currently initialised from
+> the mode tables.
+> Your division discards the fractional part totally, so if the
+> configured frequency was 19.2MHz, then it would be programmed
+> incorrectly.
+>
+> The value for register 0x012b needs to be computed and set here.
+
+That makes sense.
+I am understanding your comment about register 0x12b, would the
+example frequency of 19.2MHz translate to 51 for register 12b?
+
+Part of me thinks I should drop this patch because I have no real way
+to test it, and I don't like writing 'theoretical' code.
+
+adam
+>
+> > > +
+> > > +       /* Configure the PREPLLCK_VT_DIV and PREPLLCK_OP_DIV for automatic */
+> > > +       switch (clk) {
+> > > +       case 6 ... 11:
+> > > +               ret = imx219_write_reg(imx219, IMX219_REG_PREPLLCK_VT_DIV,
+> > > +                              IMX219_REG_VALUE_08BIT, 0x01);
+> > > +               if (ret)
+> > > +                       return ret;
+> > > +               ret = imx219_write_reg(imx219, IMX219_REG_PREPLLCK_OP_DIV,
+> > > +                              IMX219_REG_VALUE_08BIT, 0x01);
+> > > +               return ret;
+> > > +       case 12 ... 23:
+> > > +               ret = imx219_write_reg(imx219, IMX219_REG_PREPLLCK_VT_DIV,
+> > > +                              IMX219_REG_VALUE_08BIT, 0x02);
+> > > +               if (ret)
+> > > +                       return ret;
+> > > +
+> > > +               ret = imx219_write_reg(imx219, IMX219_REG_PREPLLCK_OP_DIV,
+> > > +                              IMX219_REG_VALUE_08BIT, 0x02);
+> > > +
+> > > +               return ret;
+> > > +       case 24 ... 27:
+> > > +               ret = imx219_write_reg(imx219, IMX219_REG_PREPLLCK_VT_DIV,
+> > > +                              IMX219_REG_VALUE_08BIT, 0x03);
+> > > +               if (ret)
+> > > +                       return ret;
+> > > +               ret = imx219_write_reg(imx219, IMX219_REG_PREPLLCK_OP_DIV,
+> > > +                              IMX219_REG_VALUE_08BIT, 0x03);
+> > > +               return ret;
+> > > +       default:
+> > > +               /* Should never get here */
+> > > +               return -EINVAL;
 > > > +       }
+> > > +}
+> > > +
+> > >  static int imx219_start_streaming(struct imx219 *imx219)
+> > >  {
+> > >         struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+> > > @@ -1039,6 +1081,9 @@ static int imx219_start_streaming(struct imx219 *imx219)
+> > >                 goto err_rpm_put;
+> > >         }
+> > >
+> > > +       /* Configure clock based on reference clock frequency */
+> > > +       imx219_set_exck_freq(imx219);
+> >
+> > You're not checking the return value from this function, so any I2C
+> > failures will be ignored.
+> >
 > > > +
 > > >         /* Apply default values of current mode */
 > > >         reg_list = &imx219->mode->reg_list;
 > > >         ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
-> > > @@ -1056,6 +1023,14 @@ static int imx219_start_streaming(struct imx219 *imx219)
-> > >                 goto err_rpm_put;
+> > > @@ -1428,6 +1473,13 @@ static int imx219_check_hwcfg(struct imx219 *imx219)
+> > >                 return -EINVAL;
 > > >         }
 > > >
-> > > +       /* Configure the PLL clocks */
-> > > +       ret = imx219_write_regs(imx219, pll_clk_table, ARRAY_SIZE(pll_clk_table));
-> > > +       if (ret) {
-> > > +               dev_err(&client->dev, "%s failed to sent PLL clocks\n", __func__);
-> > > +               goto err_rpm_put;
+> > > +       if ((imx219->xclk_freq < IMX219_XCLK_MIN_FREQ) ||
+> > > +            imx219->xclk_freq > IMX219_XCLK_MAX_FREQ) {
+> > > +               dev_err(&client->dev, "xclk frequency not supported: %d Hz\n",
+> >
+> > imx219->xclk_freq is unsigned, so %u
+> >
+> > > +                       imx219->xclk_freq);
+> > > +               return -EINVAL;
 > > > +       }
 > > > +
-> > > +
-> > >         /* Apply customized values from user */
-> > >         ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
+> > >         return 0;
+> > >  }
+> > >
+> > > @@ -1478,10 +1530,6 @@ static int imx219_probe(struct i2c_client *client)
 > > >         if (ret)
+> > >                 return ret;
+> > >
+> > > -       /* Check the hardware configuration in device tree */
+> > > -       if (imx219_check_hwcfg(imx219))
+> > > -               return -EINVAL;
+> > > -
+> > >         /* Get system clock (xclk) */
+> > >         imx219->xclk = devm_clk_get(dev, NULL);
+> > >         if (IS_ERR(imx219->xclk)) {
+> > > @@ -1490,11 +1538,10 @@ static int imx219_probe(struct i2c_client *client)
+> > >         }
+> > >
+> > >         imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> >
+> > My bug admittedly, but clk_get_rate returns an unsigned long, but
+> > imx219->xclk_freq is u32.
+> > Ideally imx219->xclk_freq should be unsigned long to match, and the
+> > dev_err I commented on earlier should be %lu.
+> >
+> > Cheers.
+> >   Dave
+> >
+> > > -       if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+> > > -               dev_err(dev, "xclk frequency not supported: %d Hz\n",
+> > > -                       imx219->xclk_freq);
+> > > +
+> > > +       /* Check the hardware configuration in device tree */
+> > > +       if (imx219_check_hwcfg(imx219))
+> > >                 return -EINVAL;
+> > > -       }
+> > >
+> > >         ret = imx219_get_regulators(imx219);
+> > >         if (ret) {
 > > > --
 > > > 2.34.1
 > > >
