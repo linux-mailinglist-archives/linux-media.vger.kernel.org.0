@@ -2,57 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CC3950F37F
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 10:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8E2C50F388
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 10:18:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344530AbiDZISY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 04:18:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59622 "EHLO
+        id S1344545AbiDZIV4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Apr 2022 04:21:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241511AbiDZISX (ORCPT
+        with ESMTP id S237842AbiDZIVz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 04:18:23 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2115E17060;
-        Tue, 26 Apr 2022 01:15:16 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a02:3030:3:7d2:2277:ba57:a2c0:3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id A0ADA1F43043;
-        Tue, 26 Apr 2022 09:15:14 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1650960914;
-        bh=WikNeAiMUuFevJFNxJ9ZvKK3TNnSjJXOJ0Tm9TNw6dw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nfUscDjbkgZ9S/6KekwrdIL3o6nzuly/WFrdCBENr4uWH8i+IRxUUe1ThlLm3jRzV
-         TXiom6WORSOf+tLUFA2p0XCr7A12RbXml5f8Yhb1NXkQDzJHzS+pqgLlR+hXjqgOuD
-         Eh2tVyU7WOl+xK/imJ4mLATjjKh/jB32FjiF8XX3L/qw44tSMsu497RLFihOd736MJ
-         98sX/HtyR879R4btw3lOpbqB0G57WWyxZmV98/qqD2rrrt/qLlQ0/E6n8cbYBst9wT
-         n23ZBU7HwjQoYnf4a+7La41DaCa9AviD3v/ajgGThUjjxUgx24zzq5hHJEaAv5JskQ
-         GfEEqHIjVnfRw==
-Date:   Tue, 26 Apr 2022 10:15:11 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, mripard@kernel.org,
-        paul.kocialkowski@bootlin.com, wens@csie.org,
-        jernej.skrabec@gmail.com, samuel@sholland.org,
-        nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v5 16/17] media: uapi: Change data_bit_offset definition
-Message-ID: <20220426081511.etk5blic75sygjny@basti-XPS-13-9310>
-References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
- <20220407152940.738159-17-benjamin.gaignard@collabora.com>
+        Tue, 26 Apr 2022 04:21:55 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2282337A8F
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 01:18:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650961129; x=1682497129;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=adz2Xj8kuV48kHS7KzL8P5eZQis0L/6fZkgXFulmLVE=;
+  b=GyeakDXCcNWBhiWJIrJIS+Xdxb9T4Zhifjyo+EaYAQ7xCS3yAoplqSMq
+   SkdmuNtZEcyQk4WgoQeM8d9PvrALEMcpvtgC5FkM3h6EMtHGUqHVYU1Ey
+   hBcrFMGZauiWj9sw7qWxeytRiTXnsul9NH0m/yZUj8OLDvbLGoTsZfcFD
+   MnzSZPOriwTFfoEYBuUoUQXIIx4vs9/rybZocpmUq6f6ITAWTDptJP1H9
+   B6IuyvlkdSO/GmjCVoiCpoqw+thiwA/QHOEaVl7hm7PQ5ilH3SubJvZVX
+   eItZWfQ8cH0tYuiOxiB65+yRLD2e2O8MGqucVJYLDKqtHsQrfpGS/gFys
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="290638370"
+X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; 
+   d="scan'208";a="290638370"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 01:18:48 -0700
+X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; 
+   d="scan'208";a="595647428"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 01:18:47 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 65CF5203C9;
+        Tue, 26 Apr 2022 11:18:45 +0300 (EEST)
+Date:   Tue, 26 Apr 2022 11:18:45 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: dw9714: Return zero in remove callback
+Message-ID: <Ymeq5Q4kVu1yoKFq@paasikivi.fi.intel.com>
+References: <20220331133132.296971-1-u.kleine-koenig@pengutronix.de>
+ <20220425191345.utl5jz5ajbzeqost@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220407152940.738159-17-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220425191345.utl5jz5ajbzeqost@pengutronix.de>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,82 +65,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07.04.2022 17:29, Benjamin Gaignard wrote:
->'F.7.3.6.1 General slice segment header syntax' section of HEVC
->specification describes that a slice header always end byte aligned,
+Hi Uwe,
 
-s/always end byte aligned/always aligns on the end-byte/
-or
-s/always end byte aligned/always aligns on the last byte/
-?
+On Mon, Apr 25, 2022 at 09:13:45PM +0200, Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Thu, Mar 31, 2022 at 03:31:32PM +0200, Uwe Kleine-König wrote:
+> > The only effect of returning an error code in an i2c remove callback is
+> > that the i2c core emits a generic warning and still removes the device.
+> > 
+> > So even if disabling the regulator fails it's sensible to further cleanup
+> > and then return zero to only emit a single error message.
+> > 
+> > This patch is a preparation for making i2c remove callbacks return void.
+> > 
+> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> > ---
+> >  drivers/media/i2c/dw9714.c | 1 -
+> >  1 file changed, 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
+> > index cd7008ad8f2f..982ed8afebf5 100644
+> > --- a/drivers/media/i2c/dw9714.c
+> > +++ b/drivers/media/i2c/dw9714.c
+> > @@ -201,7 +201,6 @@ static int dw9714_remove(struct i2c_client *client)
+> >  		if (ret) {
+> >  			dev_err(&client->dev,
+> >  				"Failed to disable vcc: %d\n", ret);
+> > -			return ret;
+> >  		}
+> >  	}
+> >  	pm_runtime_set_suspended(&client->dev);
+> 
+> Who cares for this driver and so for this patch?
 
->therefore we only need to provide the data offset in byte.
+I do.
 
-s/byte/bytes/
+The patch is in the media stage tree now (you should have received an
+e-mail about it) from where it eventually gets to the media tree.
 
-Greetings,
-Sebastian
+-- 
+Kind regards,
 
->
->Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->---
->version 5:
->- Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
-> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++--
-> drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
-> include/media/hevc-ctrls.h                                | 4 ++--
-> 3 files changed, 5 insertions(+), 5 deletions(-)
->
->diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->index a3b1a063deba..48b3f533bc17 100644
->--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->@@ -2986,8 +2986,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->       - ``bit_size``
->       - Size (in bits) of the current slice data.
->     * - __u32
->-      - ``data_bit_offset``
->-      - Offset (in bits) to the video data in the current slice data.
->+      - ``data_byte_offset``
->+      - Offset (in bytes) to the video data in the current slice data.
->     * - __u32
->       - ``num_entry_point_offsets``
->       - Specifies the number of entry point offset syntax elements in the slice header.
->diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->index d04521ffd920..4f31f2f3b745 100644
->--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->@@ -405,7 +405,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
-> 	/* Initialize bitstream access. */
-> 	cedrus_write(dev, VE_DEC_H265_TRIGGER, VE_DEC_H265_TRIGGER_INIT_SWDEC);
->
->-	cedrus_h265_skip_bits(dev, slice_params->data_bit_offset);
->+	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8);
->
-> 	/* Bitstream parameters. */
->
->diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->index e6cdd122726c..1834072c0a43 100644
->--- a/include/media/hevc-ctrls.h
->+++ b/include/media/hevc-ctrls.h
->@@ -310,7 +310,7 @@ struct v4l2_hevc_pred_weight_table {
->  * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
->  *
->  * @bit_size: size (in bits) of the current slice data
->- * @data_bit_offset: offset (in bits) to the video data in the current slice data
->+ * @data_byte_offset: offset (in bytes) to the video data in the current slice data
->  * @num_entry_point_offsets: specifies the number of entry point offset syntax
->  *			     elements in the slice header.
->  * @nal_unit_type: specifies the coding type of the slice (B, P or I)
->@@ -354,7 +354,7 @@ struct v4l2_hevc_pred_weight_table {
->  */
-> struct v4l2_ctrl_hevc_slice_params {
-> 	__u32	bit_size;
->-	__u32	data_bit_offset;
->+	__u32	data_byte_offset;
-> 	__u32	num_entry_point_offsets;
-> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
-> 	__u8	nal_unit_type;
->-- 
->2.32.0
->
+Sakari Ailus
