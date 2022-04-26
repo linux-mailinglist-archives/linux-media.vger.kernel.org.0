@@ -2,209 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 024DA50EC54
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 00:57:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 943C050EDDC
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 02:54:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234170AbiDYXBC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Apr 2022 19:01:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57126 "EHLO
+        id S234809AbiDZA52 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Apr 2022 20:57:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230397AbiDYXBB (ORCPT
+        with ESMTP id S230268AbiDZA51 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Apr 2022 19:01:01 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95D973A5F5
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 15:57:55 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nj7eO-001XKq-5u; Mon, 25 Apr 2022 22:57:48 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1nj7eM-00AVI0-EQ; Mon, 25 Apr 2022 22:57:46 +0000
-Date:   Mon, 25 Apr 2022 22:57:45 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        mchehab@linuxtv.org
-Message-ID: <1843219824.0.1650927465869@builder.linuxtv.org>
-In-Reply-To: <1195325907.3.1650787958217@builder.linuxtv.org>
-References: <1195325907.3.1650787958217@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media_stage_clang #449
+        Mon, 25 Apr 2022 20:57:27 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4140011F629
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 17:54:21 -0700 (PDT)
+Received: from fsav311.sakura.ne.jp (fsav311.sakura.ne.jp [153.120.85.142])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 23Q0sIQj032078;
+        Tue, 26 Apr 2022 09:54:18 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav311.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav311.sakura.ne.jp);
+ Tue, 26 Apr 2022 09:54:18 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav311.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 23Q0sI7Z032075
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Tue, 26 Apr 2022 09:54:18 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <349f3e34-41ed-f832-3b22-ae10c50e3868@I-love.SAKURA.ne.jp>
+Date:   Tue, 26 Apr 2022 09:54:18 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: [PATCH] media: imon: remove redundant serialization
+Content-Language: en-US
+To:     Sean Young <sean@mess.org>, Alan Stern <stern@rowland.harvard.edu>
+Cc:     Jarod Wilson <jarod@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <00000000000043b599058faf0145@google.com>
+ <5a06c7f1-9a29-99e4-c700-fec3f09509d2@I-love.SAKURA.ne.jp>
+ <YmZny7mzugFe0t+X@gofer.mess.org>
+ <62dddbb9-3053-f284-f9db-3beda5e8e951@I-love.SAKURA.ne.jp>
+ <YmaMY/XKBmEfl8i6@gofer.mess.org> <YmbF071fSKUff6R2@rowland.harvard.edu>
+ <YmbKiPna01aMQhJw@gofer.mess.org>
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <YmbKiPna01aMQhJw@gofer.mess.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media_stage_clang
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media_stage_clang/449/display/redirect?page=changes>
+Since usb_register_dev() from imon_init_display() from imon_probe() holds
+minor_rwsem while display_open() which holds driver_lock and ictx->lock is
+called with minor_rwsem held from usb_open(), holding driver_lock or
+ictx->lock when calling usb_register_dev() causes circular locking
+dependency problem.
 
-Changes:
+Since usb_deregister_dev() from imon_disconnect() holds minor_rwsem while
+display_open() which holds driver_lock is called with minor_rwsem held,
+holding driver_lock when calling usb_deregister_dev() also causes circular
+locking dependency problem.
 
-[Mauro Carvalho Chehab] media: ext-ctrls-codec.rst: fix indentation
+Sean Young explained that the problem is there are imon devices which have
+two usb interfaces, even though it is one device. The probe and disconnect
+function of both usb interfaces can run concurrently.
+
+Alan Stern responded that the driver and USB cores guarantee that when an
+interface is probed, both the interface and its USB device are locked.
+Ditto for when the disconnect callback gets run. So concurrent probing/
+disconnection of multiple interfaces on the same device is not possible.
+
+Therefore, simply remove redundant serialization.
+
+Link: https://syzkaller.appspot.com/bug?extid=c558267ad910fc494497
+Reported-by: syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: Sean Young <sean@mess.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+---
+This patch might be OK for solving circular locking dependency problem.
+But https://syzkaller.appspot.com/text?tag=CrashReport&x=1632f89f700000 says
+free_imon_context() from imon_disconnect() can call kfree(ictx) before
+display_close() is called, resulting in use-after-free problem. I guess that
+we need to defer free_imon_context() using refcount till display_close() is
+called. Fix as a separate patch or include into this patch?
+
+ drivers/media/rc/imon.c | 21 ---------------------
+ 1 file changed, 21 deletions(-)
+
+diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+index 54da6f60079b..e0e893d96cf3 100644
+--- a/drivers/media/rc/imon.c
++++ b/drivers/media/rc/imon.c
+@@ -439,9 +439,6 @@ static struct usb_driver imon_driver = {
+ 	.id_table	= imon_usb_id_table,
+ };
+ 
+-/* to prevent races between open() and disconnect(), probing, etc */
+-static DEFINE_MUTEX(driver_lock);
+-
+ /* Module bookkeeping bits */
+ MODULE_AUTHOR(MOD_AUTHOR);
+ MODULE_DESCRIPTION(MOD_DESC);
+@@ -499,9 +496,6 @@ static int display_open(struct inode *inode, struct file *file)
+ 	int subminor;
+ 	int retval = 0;
+ 
+-	/* prevent races with disconnect */
+-	mutex_lock(&driver_lock);
+-
+ 	subminor = iminor(inode);
+ 	interface = usb_find_interface(&imon_driver, subminor);
+ 	if (!interface) {
+@@ -534,7 +528,6 @@ static int display_open(struct inode *inode, struct file *file)
+ 	mutex_unlock(&ictx->lock);
+ 
+ exit:
+-	mutex_unlock(&driver_lock);
+ 	return retval;
+ }
+ 
+@@ -2416,9 +2409,6 @@ static int imon_probe(struct usb_interface *interface,
+ 	dev_dbg(dev, "%s: found iMON device (%04x:%04x, intf%d)\n",
+ 		__func__, vendor, product, ifnum);
+ 
+-	/* prevent races probing devices w/multiple interfaces */
+-	mutex_lock(&driver_lock);
+-
+ 	first_if = usb_ifnum_to_if(usbdev, 0);
+ 	if (!first_if) {
+ 		ret = -ENODEV;
+@@ -2456,8 +2446,6 @@ static int imon_probe(struct usb_interface *interface,
+ 	usb_set_intfdata(interface, ictx);
+ 
+ 	if (ifnum == 0) {
+-		mutex_lock(&ictx->lock);
+-
+ 		if (product == 0xffdc && ictx->rf_device) {
+ 			sysfs_err = sysfs_create_group(&interface->dev.kobj,
+ 						       &imon_rf_attr_group);
+@@ -2468,21 +2456,17 @@ static int imon_probe(struct usb_interface *interface,
+ 
+ 		if (ictx->display_supported)
+ 			imon_init_display(ictx, interface);
+-
+-		mutex_unlock(&ictx->lock);
+ 	}
+ 
+ 	dev_info(dev, "iMON device (%04x:%04x, intf%d) on usb<%d:%d> initialized\n",
+ 		 vendor, product, ifnum,
+ 		 usbdev->bus->busnum, usbdev->devnum);
+ 
+-	mutex_unlock(&driver_lock);
+ 	usb_put_dev(usbdev);
+ 
+ 	return 0;
+ 
+ fail:
+-	mutex_unlock(&driver_lock);
+ 	usb_put_dev(usbdev);
+ 	dev_err(dev, "unable to register, err %d\n", ret);
+ 
+@@ -2498,9 +2482,6 @@ static void imon_disconnect(struct usb_interface *interface)
+ 	struct device *dev;
+ 	int ifnum;
+ 
+-	/* prevent races with multi-interface device probing and display_open */
+-	mutex_lock(&driver_lock);
+-
+ 	ictx = usb_get_intfdata(interface);
+ 	dev = ictx->dev;
+ 	ifnum = interface->cur_altsetting->desc.bInterfaceNumber;
+@@ -2545,8 +2526,6 @@ static void imon_disconnect(struct usb_interface *interface)
+ 	if (!ictx->dev_present_intf0 && !ictx->dev_present_intf1)
+ 		free_imon_context(ictx);
+ 
+-	mutex_unlock(&driver_lock);
+-
+ 	dev_dbg(dev, "%s: iMON device (intf%d) disconnected\n",
+ 		__func__, ifnum);
+ }
+-- 
+2.34.1
 
 
-------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media_stage_clang/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media_stage_clang/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_stage.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_stage.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_stage.git +refs/heads/*:refs/remotes/origin/* # timeout=30
-Seen branch in repository origin/master
-Seen 1 remote branch
- > git show-ref --tags -d # timeout=10
-Checking out Revision 6c1c1eb8c87de221051b9198d40971640060842f (origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 6c1c1eb8c87de221051b9198d40971640060842f # timeout=10
-Commit message: "media: ext-ctrls-codec.rst: fix indentation"
- > git rev-list --no-walk d0c19bed8cd3d005739c0a6374118c553564ef10 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 6c1c1eb8c87de221051b9198d40971640060842f^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_stage.git'
-[GitCheckoutListener] Found previous build 'media_stage_clang #448' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since 'd0c19be'
-[GitCheckoutListener] -> Using head commit '6c1c1eb' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@4d6de16c'
-[GitCheckoutListener] -> Recorded one new commit
-[media_stage_clang] $ /bin/sh -xe /tmp/jenkins17573811865346241090.sh
-+ export CCACHE_DIR=/var/lib/jenkins/.ccache
-+ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
-+ make W=1 CC=clang-12 HOSTCC=clang-12 allyesconfig
-#
-# configuration written to .config
-#
-+ ./scripts/config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS -d CHECK_SIGNATURE
-+ make W=1 CC=clang-12 HOSTCC=clang-12 init
-  SYNC    include/config/auto.conf.cmd
-  DESCEND objtool
-  CALL    scripts/atomic/check-atomics.sh
-  CALL    scripts/checksyscalls.sh
-  CHK     include/generated/compile.h
-  CC      init/do_mounts.o
-In file included from init/do_mounts.c:22:
-In file included from ./include/linux/nfs_fs.h:31:
-In file included from ./include/linux/sunrpc/auth.h:13:
-In file included from ./include/linux/sunrpc/sched.h:19:
-./include/linux/sunrpc/xdr.h:734:10: error: result of comparison of constant 4611686018427387903 with expression of type '__u32' (aka 'unsigned int') is always false [-Werror,-Wtautological-constant-out-of-range-compare]
-        if (len > SIZE_MAX / sizeof(*p))
-            ~~~ ^ ~~~~~~~~~~~~~~~~~~~~~
-1 error generated.
-make[1]: *** [scripts/Makefile.build:288: init/do_mounts.o] Error 1
-make: *** [Makefile:1834: init] Error 2
-Build step 'Execute shell' marked build as failure
-Not sending mail to unregistered user masahiroy@kernel.org
-Not sending mail to unregistered user alexandre.belloni@bootlin.com
-Not sending mail to unregistered user damien.lemoal@wdc.com
-Not sending mail to unregistered user jgg@ziepe.ca
-Not sending mail to unregistered user wsa@the-dreams.de
-Not sending mail to unregistered user lee.jones@linaro.org
-Not sending mail to unregistered user bp@suse.de
-Not sending mail to unregistered user boris.ostrovsky@oracle.com
-Not sending mail to unregistered user ulf.hansson@linaro.org
-Not sending mail to unregistered user rafael.j.wysocki@intel.com
-Not sending mail to unregistered user bhelgaas@google.com
-Not sending mail to unregistered user Jason@zx2c4.com
-Not sending mail to unregistered user tzimmermann@suse.de
-Not sending mail to unregistered user jroedel@suse.de
-Not sending mail to unregistered user snitzer@redhat.com
-Not sending mail to unregistered user sre@kernel.org
-Not sending mail to unregistered user andriy.shevchenko@linux.intel.com
-Not sending mail to unregistered user tglx@linutronix.de
-Not sending mail to unregistered user anthony.l.nguyen@intel.com
-Not sending mail to unregistered user stfrench@microsoft.com
-Not sending mail to unregistered user rostedt@goodmis.org
-Not sending mail to unregistered user mcgrof@kernel.org
-Not sending mail to unregistered user dhowells@redhat.com
-Not sending mail to unregistered user wim@linux-watchdog.org
-Not sending mail to unregistered user pbonzini@redhat.com
-Not sending mail to unregistered user hca@linux.ibm.com
-Not sending mail to unregistered user gregkh@linuxfoundation.org
-Not sending mail to unregistered user skhan@linuxfoundation.org
-Not sending mail to unregistered user krzysztof.kozlowski@canonical.com
-Not sending mail to unregistered user daniel.thompson@linaro.org
-Not sending mail to unregistered user jani.nikula@intel.com
-Not sending mail to unregistered user brgl@bgdev.pl
-Not sending mail to unregistered user anup@brainfault.org
-Not sending mail to unregistered user herbert@gondor.apana.org.au
-Not sending mail to unregistered user arnd@arndb.de
-Not sending mail to unregistered user marex@denx.de
-Not sending mail to unregistered user joonas.lahtinen@linux.intel.com
-Not sending mail to unregistered user broonie@kernel.org
-Not sending mail to unregistered user daniel@iogearbox.net
-Not sending mail to unregistered user robdclark@chromium.org
-Not sending mail to unregistered user deller@gmx.de
-Not sending mail to unregistered user robh@kernel.org
-Not sending mail to unregistered user pabeni@redhat.com
-Not sending mail to unregistered user bcain@codeaurora.org
-Not sending mail to unregistered user djwong@kernel.org
-Not sending mail to unregistered user dmitry.torokhov@gmail.com
-Not sending mail to unregistered user wei.liu@kernel.org
-Not sending mail to unregistered user hch@lst.de
-Not sending mail to unregistered user hdegoede@redhat.com
-Not sending mail to unregistered user bleung@chromium.org
-Not sending mail to unregistered user chuck.lever@oracle.com
-Not sending mail to unregistered user kuba@kernel.org
-Not sending mail to unregistered user rmk+kernel@armlinux.org.uk
-Not sending mail to unregistered user corbet@lwn.net
-Not sending mail to unregistered user agruenba@redhat.com
-Not sending mail to unregistered user linus.walleij@linaro.org
-Not sending mail to unregistered user alexander.deucher@amd.com
-Not sending mail to unregistered user maz@kernel.org
-Not sending mail to unregistered user willy@infradead.org
-Not sending mail to unregistered user keescook@chromium.org
-Not sending mail to unregistered user tiwai@suse.de
-Not sending mail to unregistered user dsterba@suse.com
-Not sending mail to unregistered user maxime@cerno.tech
-Not sending mail to unregistered user fw@strlen.de
-Not sending mail to unregistered user sboyd@kernel.org
-Not sending mail to unregistered user linkinjeon@kernel.org
-Not sending mail to unregistered user p.zabel@pengutronix.de
-Not sending mail to unregistered user mingo@kernel.org
-Not sending mail to unregistered user pablo@netfilter.org
-Not sending mail to unregistered user will@kernel.org
-Not sending mail to unregistered user johannes.berg@intel.com
-Not sending mail to unregistered user trond.myklebust@hammerspace.com
-Not sending mail to unregistered user airlied@redhat.com
-Not sending mail to unregistered user kherbst@redhat.com
-Not sending mail to unregistered user palmer@rivosinc.com
-Not sending mail to unregistered user ebiederm@xmission.com
-Not sending mail to unregistered user acme@redhat.com
-Not sending mail to unregistered user mpe@ellerman.id.au
-Not sending mail to unregistered user christian.koenig@amd.com
-Not sending mail to unregistered user axboe@kernel.dk
-Not sending mail to unregistered user dan.j.williams@intel.com
-Not sending mail to unregistered user gor@linux.ibm.com
-Not sending mail to unregistered user pmladek@suse.com
-Not sending mail to unregistered user sudeep.holla@arm.com
-Not sending mail to unregistered user alex.williamson@redhat.com
-Not sending mail to unregistered user mst@redhat.com
-Not sending mail to unregistered user ast@kernel.org
-Not sending mail to unregistered user peterz@infradead.org
-Not sending mail to unregistered user torvalds@linux-foundation.org
-Not sending mail to unregistered user daniel.vetter@ffwll.ch
-Not sending mail to unregistered user martin.petersen@oracle.com
-Not sending mail to unregistered user kvalo@codeaurora.org
-Not sending mail to unregistered user mkl@pengutronix.de
-Not sending mail to unregistered user davem@davemloft.net
-Not sending mail to unregistered user tsbogend@alpha.franken.de
