@@ -2,72 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20F995104DF
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 19:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0D235108C2
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 21:14:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349096AbiDZRJH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 13:09:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59106 "EHLO
+        id S1351350AbiDZTSB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Apr 2022 15:18:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353652AbiDZRJF (ORCPT
+        with ESMTP id S1350998AbiDZTSA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 13:09:05 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EBE42FE5D
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 10:05:55 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id e23so2124810eda.11
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 10:05:55 -0700 (PDT)
+        Tue, 26 Apr 2022 15:18:00 -0400
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2763D19E3ED
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 12:14:52 -0700 (PDT)
+Received: by mail-oi1-x22e.google.com with SMTP id a10so21759879oif.9
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 12:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=1d6XYPEIOlSgqhPimpriycmvoOlXuKEavH90oQKFT58=;
-        b=BW1uW0cKB5fLPLvX4Kdp7TRxewBLJTBqUEO7YRLZ2czLoIbu7HWYs9GwFxNGd5PWog
-         l3FeJqKIKEoeGEOmiScWZEayoJ1n6zqFsIU17b4thJP1qaXiLIsSg6PZUO5NqqaYlsVt
-         4wp4ARfD5PsWrYHurhMKX04pnn6cWdHrXyr7pS9Y9Y7Lze4kEryph9xIrquynUGk/CUm
-         0nORrBtwl6s2hqegqs7SIMwoJzWoh566Tjn2TNbCwiY6dfj8WnskS3rQYkWTxVNrMS0Q
-         r322luV/HEd1sf9jEwszc3HkgqHATUFOLa+q2Z6h1KppJP5X/rOIyK0/gy8YUyqTiTbb
-         R/XA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mELlujlXAzqfLBLWJd7J46Ie557cyxQesxgCO7iDk5Q=;
+        b=n16rLTSSI7G1RTMN+WAi+49XfkFBLkTAYaPnCCypA18xW3LbKcgcEyCgTflOrEK9Jz
+         LMRR/au8bToW/RhJVovBY4qIgBvDzApjbzGdc6nM8FArgkgZngY0RxQb+ws1BBwON9RL
+         7DpMQWxdK5JmumxkvZA3jv2NNL+h5OXlOKCyNMYlonoybR577dM4qK7/oustcLckCpuP
+         WLFVaPOKZzgeZHT33EEgLkIYFPi3MhdnQ88Ow4t53MGHwmv/ifhGTYkRYS33FeFfllgC
+         M+ALEa162n0iv8Fn36e6P7Zg6Zk7GZESll2xdNMHnFiAkZXWJrkG2paxyZ+SGUFFZ6Qa
+         fu/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=1d6XYPEIOlSgqhPimpriycmvoOlXuKEavH90oQKFT58=;
-        b=e/ihNKjpV20LDw4m37LSZ+WeWqV0959G0G3ywbs7VYwJKzFDRwsHxWCezeasQ9yvsp
-         WVoFUL8hGrtYN3gPtxEI4C7qbfk+Q/rqYaXcvAf+ODlZVqAaq/xo+me4CEUCfJ5LUhwg
-         chtXv4MDKKUey8rTzh2C9IX36dAX4wOhGY2AiiAwAitsP45TMHFbqB41UJ9TxhnOWi8I
-         8JpcCgUwHD+9a8VsXzOYz0A0r1ahyLXZbRi4DIMDYoj/tDPHob1tixQAhnXk1fd4IUQg
-         O6cmg/Ax8L3zb+PQkQ7xpazPtpl/DtlEkYHH3EjKgxnwMx6qqu9OClQQoDNERVmk7pW3
-         Eekw==
-X-Gm-Message-State: AOAM532q/czTtvTriNpe+Hdkmps5+8ktm4t0tSYCrJY5a4G0wE+IsKJd
-        MI8Y7ZajELzjO+dX9qia8B8=
-X-Google-Smtp-Source: ABdhPJz3N30G7WL5/5A7bIeTHap9cpiax0UhXn4o2lF1gEfPodWNtRBEGhX+CYJ2psY7F8OcxVJ43A==
-X-Received: by 2002:aa7:c5c9:0:b0:425:ca31:4e35 with SMTP id h9-20020aa7c5c9000000b00425ca314e35mr20395140eds.315.1650992753740;
-        Tue, 26 Apr 2022 10:05:53 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1252:fb60:331b:81d1:1030:30f5? ([2a02:908:1252:fb60:331b:81d1:1030:30f5])
-        by smtp.gmail.com with ESMTPSA id m1-20020a170906234100b006ef83025804sm5318989eja.87.2022.04.26.10.05.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Apr 2022 10:05:52 -0700 (PDT)
-Message-ID: <cb734eb3-2b65-4384-6d3d-f74b38489681@gmail.com>
-Date:   Tue, 26 Apr 2022 19:05:50 +0200
+        bh=mELlujlXAzqfLBLWJd7J46Ie557cyxQesxgCO7iDk5Q=;
+        b=RNcmHYME9TrfeW62ztjB8rL9nycOWgCrmx+6ry4w7zAFWLcQY8A+kOvMsuqTbU7yBK
+         ZzsOKJJ7HXix987svSmQfGrcxwMwQMF9y0jjYFfkR4Rgb5TJ7CVlsd2AdU7VJGSNHhHd
+         ynw8wA2yBJtMSUYOlkPXSpRgUGN/HQRTtDtVtStlwmFz2gFWfJGWL+3JeclbzU/xI3To
+         VmYp5/snvlr3Xdj9YpX8SoNCV11xrMUowE5WvW/5jJfwVXuhLjoqiI3E0R+PnsuIz2Rg
+         1udlcQtJimiyMgNRtY9HJCIMY1Mj1Yzi5Z2+SW5dpmRTI0FIhaiDO8d7ZyXglUKsCGol
+         hm2A==
+X-Gm-Message-State: AOAM531c4qum7+3OfKTzFHQUNzUyDnQ19M68f3GIeEFg4kl3zZiP8fiL
+        h1xLTONfQCcOWooHwY4UJyHx+SnY2bs=
+X-Google-Smtp-Source: ABdhPJwlYiAeBjTSOySFo827tgIJcmJa7cseZKSX7n9xCQQIgIsC5V/xqSV/bmnvZikH+4lpAxcsOw==
+X-Received: by 2002:a05:6808:180f:b0:322:bb72:ed33 with SMTP id bh15-20020a056808180f00b00322bb72ed33mr15822103oib.36.1651000491451;
+        Tue, 26 Apr 2022 12:14:51 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:485:4b69:1bff:e925:51a3:1b22])
+        by smtp.gmail.com with ESMTPSA id o6-20020a4a84c6000000b0035e5906bcc4sm4129140oog.4.2022.04.26.12.14.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Apr 2022 12:14:50 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     mchehab@kernel.org, otavio@ossystems.com.br,
+        linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] media: i2c: adv7180: Add support for the test patterns
+Date:   Tue, 26 Apr 2022 16:14:41 -0300
+Message-Id: <20220426191441.2666653-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] dma-buf: remove trace_dma_fence_emit
-Content-Language: en-US
-To:     linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org
-Cc:     Chia-I Wu <olvaffe@gmail.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Rob Clark <robdclark@chromium.org>
-References: <20220426170044.29454-1-christian.koenig@amd.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220426170044.29454-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -76,91 +68,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a few more people on CC.
+ADV7180 has a built-in mechanism to generate some video patterns,
+which is very useful for debug/bring-up activities.
 
-Am 26.04.22 um 19:00 schrieb Christian König:
-> There was never any significant difference between trace_dma_fence_emit()
-> and trace_dma_fence_init() and the only place where it would made a
-> significant difference was never implemented.
->
-> So remove trace_dma_fence_emit() since we have an repeating issue that
-> people are trying to use it for visualization and are surprised that
-> it actually doesn't work for most drivers.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/dma-buf/dma-fence.c             | 1 -
->   drivers/gpu/drm/nouveau/nouveau_fence.c | 1 -
->   drivers/gpu/drm/qxl/qxl_release.c       | 1 -
->   drivers/gpu/drm/virtio/virtgpu_fence.c  | 2 --
->   include/trace/events/dma_fence.h        | 7 -------
->   5 files changed, 12 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 066400ed8841..d0d704f3edae 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -20,7 +20,6 @@
->   #define CREATE_TRACE_POINTS
->   #include <trace/events/dma_fence.h>
->   
-> -EXPORT_TRACEPOINT_SYMBOL(dma_fence_emit);
->   EXPORT_TRACEPOINT_SYMBOL(dma_fence_enable_signal);
->   EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
->   
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> index 7f01dcf81fab..abcac7db4347 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> @@ -224,7 +224,6 @@ nouveau_fence_emit(struct nouveau_fence *fence, struct nouveau_channel *chan)
->   			       &fctx->lock, fctx->context, ++fctx->sequence);
->   	kref_get(&fctx->fence_ref);
->   
-> -	trace_dma_fence_emit(&fence->base);
->   	ret = fctx->emit(fence);
->   	if (!ret) {
->   		dma_fence_get(&fence->base);
-> diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
-> index 368d26da0d6a..cb9f27771f32 100644
-> --- a/drivers/gpu/drm/qxl/qxl_release.c
-> +++ b/drivers/gpu/drm/qxl/qxl_release.c
-> @@ -424,7 +424,6 @@ void qxl_release_fence_buffer_objects(struct qxl_release *release)
->   	 */
->   	dma_fence_init(&release->base, &qxl_fence_ops, &qdev->release_lock,
->   		       release->id | 0xf0000000, release->base.seqno);
-> -	trace_dma_fence_emit(&release->base);
->   
->   	list_for_each_entry(entry, &release->bos, head) {
->   		bo = entry->bo;
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
-> index f28357dbde35..e8b6dec37977 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_fence.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
-> @@ -111,8 +111,6 @@ void virtio_gpu_fence_emit(struct virtio_gpu_device *vgdev,
->   	list_add_tail(&fence->node, &drv->fences);
->   	spin_unlock_irqrestore(&drv->lock, irq_flags);
->   
-> -	trace_dma_fence_emit(&fence->f);
-> -
->   	cmd_hdr->flags |= cpu_to_le32(VIRTIO_GPU_FLAG_FENCE);
->   	cmd_hdr->fence_id = cpu_to_le64(fence->fence_id);
->   
-> diff --git a/include/trace/events/dma_fence.h b/include/trace/events/dma_fence.h
-> index 3963e79ca7b4..eb744a6aca49 100644
-> --- a/include/trace/events/dma_fence.h
-> +++ b/include/trace/events/dma_fence.h
-> @@ -34,13 +34,6 @@ DECLARE_EVENT_CLASS(dma_fence,
->   		  __entry->seqno)
->   );
->   
-> -DEFINE_EVENT(dma_fence, dma_fence_emit,
-> -
-> -	TP_PROTO(struct dma_fence *fence),
-> -
-> -	TP_ARGS(fence)
-> -);
-> -
->   DEFINE_EVENT(dma_fence, dma_fence_init,
->   
->   	TP_PROTO(struct dma_fence *fence),
+Add support for it.
+
+The test_pattern parameter can be one of the following values:
+
+	0:	"Single color"
+	1:	"Color bars"
+	2:	"Luma ramp"
+	5:	"Boundary box"
+	6	"Disable"
+
+Tested on a imx6q board with an ADV7280.
+
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ drivers/media/i2c/adv7180.c | 42 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
+diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+index 4f5db195e66d..09e01ef99694 100644
+--- a/drivers/media/i2c/adv7180.c
++++ b/drivers/media/i2c/adv7180.c
+@@ -66,6 +66,9 @@
+ #define ADV7180_HUE_DEF		0
+ #define ADV7180_HUE_MAX		128
+ 
++#define ADV7180_REG_DEF_VALUE_Y	0x000c
++#define ADV7180_DEF_VAL_EN		0x1
++#define ADV7180_DEF_VAL_AUTO_EN	0x2
+ #define ADV7180_REG_CTRL		0x000e
+ #define ADV7180_CTRL_IRQ_SPACE		0x20
+ 
+@@ -549,6 +552,37 @@ static int adv7180_s_power(struct v4l2_subdev *sd, int on)
+ 	return ret;
+ }
+ 
++static const char * const test_pattern_menu[] = {
++	"Single color",
++	"Color bars",
++	"Luma ramp",
++	"reserved",
++	"reserved",
++	"Boundary box",
++	"Disable",
++};
++
++static int adv7180_test_pattern(struct adv7180_state *state, int value)
++{
++	unsigned int reg;
++
++	v4l_info(state->client, "Testing pattern: %s\n", test_pattern_menu[value]);
++	adv7180_write(state, ADV7180_REG_ANALOG_CLAMP_CTL, value);
++
++	if (value == ARRAY_SIZE(test_pattern_menu) - 1) {
++		reg = adv7180_read(state, ADV7180_REG_DEF_VALUE_Y);
++		reg &= ~ADV7180_DEF_VAL_EN;
++		adv7180_write(state, ADV7180_REG_DEF_VALUE_Y, reg);
++		return 0;
++	}
++
++	reg = adv7180_read(state, ADV7180_REG_DEF_VALUE_Y);
++	reg |= ADV7180_DEF_VAL_EN | ADV7180_DEF_VAL_AUTO_EN;
++	adv7180_write(state, ADV7180_REG_DEF_VALUE_Y, reg);
++
++	return 0;
++}
++
+ static int adv7180_s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct v4l2_subdev *sd = to_adv7180_sd(ctrl);
+@@ -592,6 +626,9 @@ static int adv7180_s_ctrl(struct v4l2_ctrl *ctrl)
+ 			adv7180_write(state, ADV7180_REG_FLCONTROL, 0x00);
+ 		}
+ 		break;
++	case V4L2_CID_TEST_PATTERN:
++		ret = adv7180_test_pattern(state, val);
++		break;
+ 	default:
+ 		ret = -EINVAL;
+ 	}
+@@ -632,6 +669,11 @@ static int adv7180_init_controls(struct adv7180_state *state)
+ 			  ADV7180_HUE_MAX, 1, ADV7180_HUE_DEF);
+ 	v4l2_ctrl_new_custom(&state->ctrl_hdl, &adv7180_ctrl_fast_switch, NULL);
+ 
++	v4l2_ctrl_new_std_menu_items(&state->ctrl_hdl, &adv7180_ctrl_ops,
++				      V4L2_CID_TEST_PATTERN,
++				      ARRAY_SIZE(test_pattern_menu) - 1,
++				      0, 0, test_pattern_menu);
++
+ 	state->sd.ctrl_handler = &state->ctrl_hdl;
+ 	if (state->ctrl_hdl.error) {
+ 		int err = state->ctrl_hdl.error;
+-- 
+2.25.1
 
