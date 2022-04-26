@@ -2,298 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 577EF50F4D2
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 10:37:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A822B50F82E
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 11:42:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345358AbiDZIkR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 04:40:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34966 "EHLO
+        id S244581AbiDZJG4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Apr 2022 05:06:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345484AbiDZIjK (ORCPT
+        with ESMTP id S1347828AbiDZJGO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 04:39:10 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2055.outbound.protection.outlook.com [40.107.94.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573A813C66F;
-        Tue, 26 Apr 2022 01:29:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YVKJrsaJ+WgThRoykibiKs0R9JJU8Uykdy85RxO/Ce86E8gB953giSTV7Q4S5oPXB9ntoTIdQM2s2I4j6yrxKk5KzMX+xbwE2DiZs0lHfN+wuHAMzNatNBnDit+iBcYgSGcWdfWFivLh1V4lkIagoqkvF6hbRNiXxblgVpEIyqQM4GIOopqsMaam1nACY5c4SLUfBnYJgsYIEblDifVW0wiWM2sM2RP2CG5X/adiBz2IZ/KOOfPZ/W3CrM4lp50hKopV9ZlPONL21YItT3cfqS6Ym3HWIZKN5v5/JzxiavN8QBCu94brRKTNQb63hXITIjpZ3GejLLQNZS8aSDGDqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jtiqOw6JFXZTKbH8oLzY6VoOX6PzE5yThI9dgF9+/Fw=;
- b=GxByBVLM7mRIhC9xGJY+qJXwtdQBK4hF4rCvWkwbyPm3FhWI3jVkKaWNUt2ceCM38tsVdNvATnmQQDwJm3QPw5E9VssUu5+vK8yw3sP6vZYSXC4Au64GddhXz2cY5zJ2dOhmJKzsu1tFIchpH1OSRBUVGzCKzIbgmEsLCgowwL2tut6Eff1tsIF/99Tol+HHf5niyTjACLYo5UEufWcwArnWc6y8sqbf6tiyUlY0NzNOA+uEeMpuq6a6/T5UdQT1BsS+aDwNMjQWhA+eV/tElXKMiesDL4yM7ON3OTWyEHZ8Go1eTLxks5gom8vFHFeIftCxjWBpQ5HLkheV4PADHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jtiqOw6JFXZTKbH8oLzY6VoOX6PzE5yThI9dgF9+/Fw=;
- b=0yTvZrPsCpbFo0WJUFxEmpGZlIJGkl17XYzO20gHiAIJS/3NDycZsAbbIiGBVVFXPHQtihTCGyqWtrCiXZgk2vSQmGxqaO+vqb7UEFK7TfDpp+eqw9vLwinpfRtN5gZaNcS4AkZLDiVPbpkPj2caoW9JnBgiGYXs9InsGgRhgXU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BY5PR12MB4819.namprd12.prod.outlook.com (2603:10b6:a03:1fd::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
- 2022 08:29:50 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8%5]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
- 08:29:50 +0000
-Message-ID: <ad3edfe7-8dbf-b6a1-f51f-53ea600439c9@amd.com>
-Date:   Tue, 26 Apr 2022 10:29:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 4/4] drm/nvdla/uapi: Add UAPI of NVDLA driver
-Content-Language: en-US
-To:     Cai Huoqing <cai.huoqing@linux.dev>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20220426060808.78225-1-cai.huoqing@linux.dev>
- <20220426060808.78225-5-cai.huoqing@linux.dev>
- <618a4f53-0998-1e6b-e32b-8bf2d3057cec@amd.com>
- <20220426082341.GA83596@chq-T47>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220426082341.GA83596@chq-T47>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR06CA0562.eurprd06.prod.outlook.com
- (2603:10a6:20b:485::32) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Tue, 26 Apr 2022 05:06:14 -0400
+X-Greylist: delayed 521 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 26 Apr 2022 01:46:08 PDT
+Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F37AF163D2F;
+        Tue, 26 Apr 2022 01:46:06 -0700 (PDT)
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 569F83C04C0;
+        Tue, 26 Apr 2022 10:37:23 +0200 (CEST)
+Received: from localhost.localdomain (10.72.94.34) by hi2exch02.adit-jv.com
+ (10.72.92.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Tue, 26 Apr
+ 2022 10:37:22 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Eugen Friedrich <efriedrich@de.adit-jv.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <rosca.eugeniu@gmail.com>
+Subject: [RFC] media: renesas: vsp1: Add VSPD underrun detection & tracing
+Date:   Tue, 26 Apr 2022 10:37:07 +0200
+Message-ID: <1650962227-14281-1-git-send-email-erosca@de.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ac33cb8e-dd95-43e1-595f-08da275eee38
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4819:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB48197AEAD13C6F031AAB8B7483FB9@BY5PR12MB4819.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aUfYoCZUxxCee0kCk68dahd7W2LLM5s7UdqpsneAAQ4oooLdO8bHJWkKc2+C7ywQFm781BmTKF4QKWpGGpNa1iaKFuaNhG1rHW0REbBzXCoQVoO/3JpTgUALIwmuD8EDbZ+zqr3n82x6vseoWw9lJxnasJtTFdqVHRwQ0l1GhKOsK9CXee8Mz72J83bJgCgch++IFnCFOA5LYm9UU1qM5/VckxR1IU7u85T33zOTCEpvBDBi9/EdHgu2oWNGr0K7H3SmnSkx2STtzp2kFcZbdx5gWq/xF1mtWsVWkXQsygoz4usHyDjzXb9B7JHjcZT7DmQlehlAXtAvfaaJMQWO2z+TOkPGSMlsrOTyPF+n+aR0t+9QBYpgHhNNjZj7YTwIDi5eCjCBT8JA15J7Z4b+kglk1s/DTCDoH9LWprAoPOu4LaSY7r1mQWVnL51p/YLmEN0sKli1BZxvvDWzcz2WPrVSVkfH22CHxWDtKRcfooW+wXHdNaMmKOfu01E6U26MZ4yyahcMZpqj8g+4bzwY8kYQZlOQD4CAf/acENBcSG35l5ajauKiAfd93YWcQIOvv3rq34izPClhbJKsSBg65ANht322h/SW6RsPk0jgE9zj7lyvDk77NKPfJVjKWyFO4691umcDOe/E73jI3x3hTkwfGdnky4uLNd6gXzOCQtPmvyI85FslpJrZfNxiEAISvPNhr/+orZkS+csHEZZAyy2ESiIk1lfP72JJiA2/8DtpQuPtiUwTe/uPLaJYiMeD3QvgbPb3Wr4rKkL/LZxlJzixUmT6wqze0SkvsWpL4OEvYKUeHQ/fDGMK8t12ZiDY9dnaaGaqiXKxSWxrOHE7Mw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38100700002)(26005)(86362001)(6512007)(6666004)(45080400002)(7416002)(31696002)(966005)(66556008)(6916009)(54906003)(316002)(8676002)(508600001)(66946007)(66476007)(2906002)(4326008)(5660300002)(6506007)(8936002)(6486002)(2616005)(66574015)(36756003)(186003)(83380400001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bktNUDNOYndGRWxwSzdiaXhWaFVaR3NIWmEzVzFvUUFPVXJpaXJONmx0UnZL?=
- =?utf-8?B?NnAzM3FNNW5ONmx2MnJVL0o5dmxLZklnT0dlbTRpS1RjNW44WkY5QzIvcEJy?=
- =?utf-8?B?MkVJNmZkWjFjZHQwN0hqSFBCNTY1WS9uU0dwTldKdVdjWVJkNndua1JOM1Y2?=
- =?utf-8?B?bml3WmhEdWlhdWhoY0RNTGdFMHhUYS80TFdpUTJidVNPcDJsaFhTYlMzdktB?=
- =?utf-8?B?K3piYk0yeGtvRjNxQjl1cy9mUWtFMnlFakVJMlhob1BpaFdTSEtNY1V6cy9x?=
- =?utf-8?B?TFNzVDlGZEJMbEZEYXArQzNjTnFRV0VxWFRBVlR2S3J4TVpSMDRhblVpY0hG?=
- =?utf-8?B?Z3JyaUZrN2FJam5ETXpaTjRaWEs4Z1Z6Uk1TUkN6ZmRCL2pPeTJkWWNkY0Zo?=
- =?utf-8?B?NEJGTXR1NVNJdEpVWlN2NDgrblJHMm1UeDJETGlyOEorNHNqdlNnVnRSQ3VS?=
- =?utf-8?B?Vzd1ZTRKVG5KZC9GU2lDeXozUXpWeVhjbG10azVYMHdjeHEzdUhGVlk2Y0gz?=
- =?utf-8?B?WlhOTlpjNDh3Mm1lWHpMN3p2T28zOVQ1eVpZWjJ5NFNFc09iY3lJcGk0NWZl?=
- =?utf-8?B?NnNibE9kaWg0Qkt6VlNNbHRxRXphS3FEMGNqV1luNWVYY3JkRmZza056dlJi?=
- =?utf-8?B?NGNKWjZERTNmdXhxcHg0dzRaUnJsbFRRcEVFTG5MV2h6MjhPMDlDbDMyVE5l?=
- =?utf-8?B?cUlaUVM5S1N5bzJiaTI3MW1lNll4RGtkRC90TlJBYm1LOUNUSFE3dDlSaURu?=
- =?utf-8?B?bm9GcDVpbUlQS3NpcVlCRGxDTW0wNHlJTW9XS3ZEM3dUYXYzSGlnWFMvWnlG?=
- =?utf-8?B?V3ZnczBUOUZKRFB3aG9QSUxzdTBKNHQwK0VzRHBGWWpUaGRaQlMvZDhOcnVB?=
- =?utf-8?B?eGdwSTNYL2FaNzNqQVhmK3FhSFl0OERuamdqVHlCR3NDWVA2WEdna1dDZHU3?=
- =?utf-8?B?THc5MUhEWDVhdEZBMkh2anY1Uk51aU4vb1lMZjR6RU5rV2V5d2Q1UmRucG9w?=
- =?utf-8?B?Tm5xTDJyaFdPSWlWbWxueXFEZzZFQmtYblZVWVlZWjVYT0U4eUNDSmVsVisy?=
- =?utf-8?B?QUw3YXVSdUFtY1RDZGxZZWhSS3pWbWlKUWZxN0JBTmJtYmd2OU1tUWh1UEk4?=
- =?utf-8?B?NEhKdHRKZ0NuYkRuU3Y5Y3B6bDh5cFRFeW1KMzZZOWY2TGFsc0ZMSHZ0ekV5?=
- =?utf-8?B?ckNLYVY3dXpBL3lNd2JkeWYwK01nYVBrUkpSTE5HZXJ2VlpvbEVYc2pITzVo?=
- =?utf-8?B?NEVOZjBrRWhpUTNrdW1zLy9DVmdSVnNjMHJTaTQ0NGxicWRGVi94aDRyN0d4?=
- =?utf-8?B?M2l0d0hUQmhLcE1vYnEyMkMrV092N2hYcUNuV1B5SlA2aUZNUWszSFBlbE8x?=
- =?utf-8?B?S2puZzFOaXBpcmU2czBBUWtyWXFzbXNTZ1ZxRld1YXFnV3oxbDFhbkl2cCtD?=
- =?utf-8?B?TmtRbnd5WDFnelNENVk5ZlFsUHdMZmh6YXZIMy9zTm5nRldXcnJ4dUFxMThI?=
- =?utf-8?B?TlFaSlNZOE9scnJnenRVeGhlcHIyaTFKcjIzTjh3SFNid2taVW9ZZ3J6QzN0?=
- =?utf-8?B?allEakY5STF3U2tKbURyeC9sdGw0MkhCekNvZWw5YlZIZVcwNlNrTEQrcWVn?=
- =?utf-8?B?R3hUK0JPRW5qU3BhbUpLdG45VW4yOHk1SExJREtkaHh0L3Z1ZWVrVk9Bc2pK?=
- =?utf-8?B?YUJjbmtHOVRjbUV1OW9rQXRrdWJWOHI3Z3NRbXJDNjZsQUdmRzB0U3IvNG5M?=
- =?utf-8?B?QTllcktIeW56TGF4RFdROXNzVXFDNVRTejNXL3ovb3ZBcVY1aUdPRkx1WkNl?=
- =?utf-8?B?ZTZYTHhvUXh4YXpXV0lyaUwzTnF1Lzh5bXZGYnFCaHZCSUZYbzhLTFBTTGtE?=
- =?utf-8?B?SVNZdCtOVGM2QU4xSk01dzVpV0QveFd3eFNuZjZFZ3FGbzFjcU1NZnE1Z3Ex?=
- =?utf-8?B?dUcxVU9nWGNqcDhVZVRxRUJtTmx4MGVWVytiSzFpcTRod1RTSkVRUjZVS3Ux?=
- =?utf-8?B?SXgwMXhMTVpNRGYyeG02OVkzMmZmbGc5U0dRNllNWWxwZTJLQzN5ZldqWVBP?=
- =?utf-8?B?NnJXSjlWN2Rockp5SDZJYkdrWU9ZanBidlNINGRFTW5uV0p2VlZRZ2hCVEI1?=
- =?utf-8?B?UzBLWENzSm1HRWtzREVqQVpVYzZIOGt2T29KbWV6bnJzbnJMNkRrRUcyOEha?=
- =?utf-8?B?MGdQSmZ5dWlycHNMWjdiQ1dKVS9iRktySGlVcld0YWVwaUk2YmJFbzNpc21Z?=
- =?utf-8?B?bHQ3TEdhVSt6NFhyV1hrVFU2ajA3MVJmSzNDS2xSeFIxM1pBMDZ1TDFxS2Y5?=
- =?utf-8?B?cVgrdXVxbngrRGE5VGM2T3RMSnE5MGRJYjVZZTNyTGZ6N2ExK05RZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac33cb8e-dd95-43e1-595f-08da275eee38
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 08:29:50.6081
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: isHieWhYHdKv0S+KUVj4HIsvmmolzPnlzFS8jnJH+358mPtm9jdZHvDXMjaoBlPh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4819
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.72.94.34]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 26.04.22 um 10:23 schrieb Cai Huoqing:
-> On 26 4月 22 08:31:05, Christian König wrote:
->> Am 26.04.22 um 08:08 schrieb Cai Huoqing:
->>> The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
->>> which is integrated into NVIDIA Jetson AGX Xavier,
->>> so add UAPI of this driver.
->>>
->>> Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
->>> ---
->>> v1->v2:
->>> *Rename nvdla_drm.[ch] to nvdla_drv.[ch] and rename nvdla_ioctl.h to nvdla_drm.h,
->>>    move it to uapi.
->>>    comments link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2F20bac605-97e6-e5cd-c4e4-83a8121645d8%40amd.com%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C0777513b15b34d20c30e08da275e235c%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637865582541002548%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=ziQSwKxqhevOLDxq%2FvgfinF8BG3hiAwmUxsH3ZzZF4E%3D&amp;reserved=0
->>>
->>>    include/uapi/drm/nvdla_drm.h | 99 ++++++++++++++++++++++++++++++++++++
->>>    1 file changed, 99 insertions(+)
->>>    create mode 100644 include/uapi/drm/nvdla_drm.h
->>>
->>> diff --git a/include/uapi/drm/nvdla_drm.h b/include/uapi/drm/nvdla_drm.h
->>> new file mode 100644
->>> index 000000000000..984635285525
->>> --- /dev/null
->>> +++ b/include/uapi/drm/nvdla_drm.h
->>> @@ -0,0 +1,99 @@
->>> +/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
->>> +/*
->>> + * Copyright (C) 2017-2018 NVIDIA CORPORATION.
->>> + * Copyright (C) 2022 Cai Huoqing
->>> + */
->>> +
->>> +#ifndef __LINUX_NVDLA_IOCTL_H
->>> +#define __LINUX_NVDLA_IOCTL_H
->>> +
->>> +#include <linux/ioctl.h>
->>> +#include <linux/types.h>
->>> +
->>> +#if !defined(__KERNEL__)
->>> +#define __user
->>> +#endif
->>> +
->>> +/**
->>> + * struct nvdla_mem_handle structure for memory handles
->>> + *
->>> + * @handle		handle to DMA buffer allocated in userspace
->>> + * @reserved		Reserved for padding
->>> + * @offset		offset in bytes from start address of buffer
->>> + *
->>> + */
->>> +struct nvdla_mem_handle {
->>> +	__u32 handle;
->>> +	__u32 reserved;
->>> +	__u64 offset;
->>> +};
->>> +
->>> +/**
->>> + * struct nvdla_ioctl_submit_task structure for single task information
->>> + *
->>> + * @num_addresses		total number of entries in address_list
->>> + * @reserved			Reserved for padding
->>> + * @address_list		pointer to array of struct nvdla_mem_handle
->>> + *
->>> + */
->>> +struct nvdla_ioctl_submit_task {
->>> +#define NVDLA_MAX_BUFFERS_PER_TASK (6144)
->>> +	__u32 num_addresses;
->>> +#define NVDLA_NO_TIMEOUT    (0xffffffff)
->>> +	__u32 timeout;
->> What format does that timeout value have?
->>
->> In general it is best practice to have absolute 64bit nanosecond timeouts
->> (to be used with ktime inside the kernel) so that restarting interrupted
->> IOCTLs works smooth.
->>
->>> +	__u64 address_list;
->> Maybe make the comments inline, cause I just wanted to write that you should
->> note that this is pointing to an nvdla_mem_handle array until I saw the
->> comment above.
->>
->>> +};
->>> +
->>> +/**
->>> + * struct nvdla_submit_args structure for task submit
->>> + *
->>> + * @tasks		pointer to array of struct nvdla_ioctl_submit_task
->>> + * @num_tasks		number of entries in tasks
->>> + * @flags		flags for task submit, no flags defined yet
->>> + * @version		version of task structure
->>> + *
->>> + */
->>> +struct nvdla_submit_args {
->>> +	__u64 tasks;
->>> +	__u16 num_tasks;
->>> +#define NVDLA_MAX_TASKS_PER_SUBMIT	24
->>> +#define NVDLA_SUBMIT_FLAGS_ATOMIC	(1 << 0)
->> Well that "no flags defined yet" from the comment above is probably outdated
->> :)
->>
->> A comment what this flag means would also be nice to have.
->>
->> Apart from all those nit picks that looks pretty solid to me. Just one core
->> functionality we usually have seems to be missing here: How is completion
->> signaling implemented?
-> Hi,thank for your reply.
->
-> Do you mean fence signal? In this driver, IOCTL_SUBMIT is a synchronous call
-> which do task submission & wait for done completion. This accerletor deal
-> with massive compute operator (Pooling, Conv...), that is different to
-> GPU. It's unnecessary to expose fence API to UMD for reducing such less time.
+A barely noticeable (especially if hardly reproducible) display flicker
+may not be the biggest concern in the development environment. However,
+an automotive OEM will not only notice it, but will also be haunted by
+its phenomenon/nature till it is understood in the greatest detail and
+ultimately eradicated, to avoid impairing user experience.
 
-You should probably add that as a comment somewhere here.
+Troubleshooting the above without the right tools becomes a nightmare.
 
-Thanks,
-Christian.
+Since VSPD underruns may indeed cause [1] display flicker, we believe
+that having a minimal/lightweight support for detecting and logging
+such events would be extremely beneficial. Obviously, this only applies
+to VSP2 modules having an interface to DU (i.e. not mem2mem).
 
->
-> Thanks,
-> Cai
->> Regards,
->> Christian.
->>
->>> +	__u16 flags;
->>> +	__u32 version;
->>> +};
->>> +
->>> +/**
->>> + * struct nvdla_gem_create_args for allocating DMA buffer through GEM
->>> + *
->>> + * @handle		handle updated by kernel after allocation
->>> + * @flags		implementation specific flags
->>> + * @size		size of buffer to allocate
->>> + */
->>> +struct nvdla_gem_create_args {
->>> +	__u32 handle;
->>> +	__u32 flags;
->>> +	__u64 size;
->>> +};
->>> +
->>> +/**
->>> + * struct nvdla_gem_map_offset_args for mapping DMA buffer
->>> + *
->>> + * @handle		handle of the buffer
->>> + * @reserved		reserved for padding
->>> + * @offset		offset updated by kernel after mapping
->>> + */
->>> +struct nvdla_gem_map_offset_args {
->>> +	__u32 handle;
->>> +	__u32 reserved;
->>> +	__u64 offset;
->>> +};
->>> +
->>> +#define DRM_NVDLA_SUBMIT		0x00
->>> +#define DRM_NVDLA_GEM_CREATE	0x01
->>> +#define DRM_NVDLA_GEM_MMAP		0x02
->>> +
->>> +#define DRM_IOCTL_NVDLA_SUBMIT DRM_IOWR(DRM_COMMAND_BASE + DRM_NVDLA_SUBMIT, struct nvdla_submit_args)
->>> +#define DRM_IOCTL_NVDLA_GEM_CREATE DRM_IOWR(DRM_COMMAND_BASE + DRM_NVDLA_GEM_CREATE, struct nvdla_gem_create_args)
->>> +#define DRM_IOCTL_NVDLA_GEM_MMAP DRM_IOWR(DRM_COMMAND_BASE + DRM_NVDLA_GEM_MMAP, struct nvdla_gem_map_offset_args)
->>> +
->>> +#endif
+This implementation is heavily inspired by Koji Matsuoka's work [2-3],
+but has been refactored to hopefully become production/mainline-friendly
+(the original feature is intended for the development environment only).
+
+[1] https://lore.kernel.org/linux-renesas-soc/20220421161259.GA2660@lxhi-065
+[2] https://github.com/renesas-rcar/linux-bsp/commit/3469001c3098
+    ("v4l: vsp1: Add underrun hung-up workaround")
+[3] https://github.com/renesas-rcar/linux-bsp/commit/12ea79975a10
+    ("v4l: vsp1: Add underrun debug messege option")
+
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+---
+
+NOTES:
+
+ - VSPD_MAX_NUM (4) is based on Table 32.4 in R-Car3 User's HW Manual.
+
+ - The 'vspd_underrun' array is not fully populated, since plenty of
+   SoCs have less than 4 VSPDs (3M/V3H 1 VSPD, H3N/D3/M3N/E3 2 VSPD).
+   However, it is arguably the necessary trade-off to avoid:
+    * unnecessarily complicated data structures
+    * unnecessarily complicated user interfaces
+    * kmemleak-prone dynamic allocation
+
+ - The /sys/module/vsp1/parameters/vspd_underrun interface is chosen
+   to avoid custom sysfs/debugfs interfaces (e.g. certain users may
+   disable debugfs to achieve smallest possible image size).
+
+   $ cat /sys/module/vsp1/parameters/vspd_underrun
+   0,0,0,0
+
+ - The 'vspd_underrun' module parameter is chosen as RO, to prevent
+   users tampering with it and reporting inaccurate values to the
+   developers/maintainers.
+
+   $ ls -al /sys/module/vsp1/parameters/vspd_underrun
+   -r--r--r-- 1 root root 4096 Apr 25 18:00 /sys/module/vsp1/parameters/vspd_underrun
+
+ - The actual order of the 'vspd_underrun' elements reflects the VSPD
+   order in 'renesas,vsps = <&vspdX 0>, <&vspdY 0>, <&vspdZ 0>';
+
+ - dev_warn_ratelimited is chosen to prevent any potential printk storms
+   (hence pollution of dmesg) from the interrupt context. If this does
+   not address the concerns fully, dev_warn_once() could be used with
+   guaranteed minimal impact (but also minimal logging unfortunately).
+
+ - 100 chars per line since v5.7 commit
+   bdc48fa11e46f8 ("checkpatch/coding-style: deprecate 80-column warning")
+
+ - Any comments hugely appreciated. If possible, I kindly ask for some
+   testing on R-Car Gen2 since I do not own any Gen2 boards.
+   Alternatively, the feature could be easily disabled for Gen2 VSPDs.
+---
+ drivers/media/platform/renesas/vsp1/vsp1.h    |  1 +
+ .../media/platform/renesas/vsp1/vsp1_drv.c    | 34 ++++++++++++++++++-
+ .../media/platform/renesas/vsp1/vsp1_regs.h   |  2 ++
+ .../media/platform/renesas/vsp1/vsp1_wpf.c    |  2 +-
+ 4 files changed, 37 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
+index 37cf33c7e6ca..df8154267e10 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1.h
+@@ -75,6 +75,7 @@ struct vsp1_device {
+ 	struct device *dev;
+ 	const struct vsp1_device_info *info;
+ 	u32 version;
++	int vspd_id;
+ 
+ 	void __iomem *mmio;
+ 	struct rcar_fcp_device *fcp;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+index 502c7d9d6890..0dba9c5437f8 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+@@ -38,13 +38,19 @@
+ #include "vsp1_uif.h"
+ #include "vsp1_video.h"
+ 
++#define VSPD_MAX_NUM	4
++
++static int vspd_underrun[VSPD_MAX_NUM];
++module_param_array(vspd_underrun, int, NULL, 0444);
++MODULE_PARM_DESC(vspd_underrun, "VSPD underrun counter");
++
+ /* -----------------------------------------------------------------------------
+  * Interrupt Handling
+  */
+ 
+ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+ {
+-	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE;
++	u32 mask = VI6_WPF_IRQ_STA_DFE | VI6_WPF_IRQ_STA_FRE | VI6_WPF_IRQ_STA_UND;
+ 	struct vsp1_device *vsp1 = data;
+ 	irqreturn_t ret = IRQ_NONE;
+ 	unsigned int i;
+@@ -63,6 +69,17 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
+ 			vsp1_pipeline_frame_end(wpf->entity.pipe);
+ 			ret = IRQ_HANDLED;
+ 		}
++
++		if (status & VI6_WPF_IRQ_STA_UND) {
++			int id = vsp1->vspd_id;
++
++			if (id >= 0 && id < VSPD_MAX_NUM) {
++				++vspd_underrun[id];
++				dev_warn_ratelimited(vsp1->dev, "Underrun %d at VSPD%d LIF%d\n",
++						     vspd_underrun[id], id, i);
++			}
++			ret = IRQ_HANDLED;
++		}
+ 	}
+ 
+ 	return ret;
+@@ -804,6 +821,7 @@ static int vsp1_probe(struct platform_device *pdev)
+ {
+ 	struct vsp1_device *vsp1;
+ 	struct device_node *fcp_node;
++	static int vspd_id;
+ 	unsigned int i;
+ 	int ret;
+ 	int irq;
+@@ -900,6 +918,20 @@ static int vsp1_probe(struct platform_device *pdev)
+ 		goto done;
+ 	}
+ 
++	switch (vsp1->version & VI6_IP_VERSION_MODEL_MASK) {
++	case VI6_IP_VERSION_MODEL_VSPD_GEN2:
++	case VI6_IP_VERSION_MODEL_VSPD_V2H:
++	case VI6_IP_VERSION_MODEL_VSPD_GEN3:
++	case VI6_IP_VERSION_MODEL_VSPD_V3:
++	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
++	case VI6_IP_VERSION_MODEL_VSPD_V3U:
++		vsp1->vspd_id = vspd_id++;
++		break;
++	default:
++		vsp1->vspd_id = -1;
++		break;
++	}
++
+ done:
+ 	if (ret) {
+ 		pm_runtime_disable(&pdev->dev);
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+index fae7286eb01e..632c43bb4cbd 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+@@ -32,10 +32,12 @@
+ #define VI6_STATUS_SYS_ACT(n)		BIT((n) + 8)
+ 
+ #define VI6_WPF_IRQ_ENB(n)		(0x0048 + (n) * 12)
++#define VI6_WPF_IRQ_ENB_UNDE		BIT(16)
+ #define VI6_WPF_IRQ_ENB_DFEE		BIT(1)
+ #define VI6_WPF_IRQ_ENB_FREE		BIT(0)
+ 
+ #define VI6_WPF_IRQ_STA(n)		(0x004c + (n) * 12)
++#define VI6_WPF_IRQ_STA_UND		BIT(16)
+ #define VI6_WPF_IRQ_STA_DFE		BIT(1)
+ #define VI6_WPF_IRQ_STA_FRE		BIT(0)
+ 
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+index 94e91d7bb56c..28f01f98fd6b 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+@@ -342,7 +342,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
+ 	/* Enable interrupts. */
+ 	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_STA(index), 0);
+ 	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index),
+-			   VI6_WPF_IRQ_ENB_DFEE);
++			   VI6_WPF_IRQ_ENB_DFEE | VI6_WPF_IRQ_ENB_UNDE);
+ 
+ 	/*
+ 	 * Configure writeback for display pipelines (the wpf writeback flag is
+-- 
+2.36.0
 
