@@ -2,125 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8C7750F079
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 07:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B05C50F07C
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 07:53:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233192AbiDZFzY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 01:55:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60774 "EHLO
+        id S235144AbiDZF4W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Apr 2022 01:56:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232297AbiDZFzX (ORCPT
+        with ESMTP id S235420AbiDZF4V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 01:55:23 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B21446C979
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 22:52:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 2A866CE19B7
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 05:52:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4126AC385A0;
-        Tue, 26 Apr 2022 05:52:12 +0000 (UTC)
-Message-ID: <63c20ead-6c83-64ab-3178-7629d5df5008@xs4all.nl>
-Date:   Tue, 26 Apr 2022 07:52:09 +0200
+        Tue, 26 Apr 2022 01:56:21 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 677EA6D4CA;
+        Mon, 25 Apr 2022 22:53:15 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id m20so13082604ejj.10;
+        Mon, 25 Apr 2022 22:53:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HreG5iqkoPQvq2wHeL0ySPRcF1pvIlKmELTDhNYq298=;
+        b=OUhk0zi0Bx0SiBNpcggwH5oBYYuQKX+buxKfMyKmlSff7jWuchQWUmtrMNyKj16ycS
+         nuB7144T9WM9z/uXI2NEaT8rCSEUtmknrUZYhZsj6mruCmtC0dBxxVZl6bmL4EGFLcXA
+         4uu9y+j+67uPKtrgEL9EFBWxXJUhMRxQ6ts2WZx4xRItHkv/TKkbmxGr2O6o5gV950ab
+         nW20PAiS9CYvW82DTr16HvRK/wHUDtdXwmgsqzCmwXLt9gTs1ABqaWgf/HgYZXK2PdeU
+         4cbwCFSKTFyq4pyucu2USDu5VGItbxeKzZkcogTYpuanV2MHAed1CFPqKylm7YoG0Yv2
+         GdFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HreG5iqkoPQvq2wHeL0ySPRcF1pvIlKmELTDhNYq298=;
+        b=suqK3iqHpzBXl7AgWb5rXejqJznvfkm4Efb0i2EnkdOP19a0F3yVezK1uAAPbN5oiE
+         LVShPh9PsjJGbwjZx9nMnUNGQOytWgu+jJA0TF8IReV5FmL/DockDBHGPSDUa4JEpTqE
+         m7m2KSwRheXovGheRWt6xLNpsMotXf2N8JAkdgH69s+AY8IppT9z5nkDvUr7CcpfYWZF
+         d99USdewJefxWFJ3DzkskY4orMvoElMTf2PKPC6NteD3bEBOnWQK0bXYy6CR1ZbF4pF/
+         TQzgEEfaFtyCyogKK71uVeHwdFMOaQTMENFYwlt/VjBs3jtnX4hFk98KMcd3ArcZrW5a
+         hiHQ==
+X-Gm-Message-State: AOAM5330cllFxcCeLOT1ifNG1g9l1kdPEp+i89Mv0XEgkLwTR1JELMck
+        IpuDf3jwq4FWhyuWwB/hIs3p04vVnAOB+oPoxSI=
+X-Google-Smtp-Source: ABdhPJxkClHqWWyqwQfoyzsXc4tqiMcXcMgJa1jL1Fo9fRkw2oX6EC8yaiYoQCvfDNaHA3WMzwmC6+9efT/ldNX1K3A=
+X-Received: by 2002:a17:907:d04:b0:6e8:8cbc:e86a with SMTP id
+ gn4-20020a1709070d0400b006e88cbce86amr20051293ejc.194.1650952393864; Mon, 25
+ Apr 2022 22:53:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/7] media: coda: set output buffer bytesused to appease
- v4l2-compliance
-Content-Language: en-US
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
+References: <20220422085408.634616-1-dzm91@hust.edu.cn> <YmV9heuEM+zpaE+x@pendragon.ideasonboard.com>
+In-Reply-To: <YmV9heuEM+zpaE+x@pendragon.ideasonboard.com>
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+Date:   Tue, 26 Apr 2022 13:52:47 +0800
+Message-ID: <CAD-N9QX-FDcd4EsBggOOVAevJmD8y+9VWxKpMVpWhMS+ebcyUA@mail.gmail.com>
+Subject: Re: [PATCH] media: ov7670: remove ov7670_power_off from ov7670_remove
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Dongliang Mu <dzm91@hust.edu.cn>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-media@vger.kernel.org,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de
-References: <20220404163533.707508-1-p.zabel@pengutronix.de>
- <3b1ace8f-a425-6a61-cb97-39e93100e75c@xs4all.nl>
- <2d160491ffdba0642e2bda6096524d10ad2b647d.camel@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <2d160491ffdba0642e2bda6096524d10ad2b647d.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,TVD_SUBJ_WIPE_DEBT
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/04/2022 12:24, Philipp Zabel wrote:
-> Hi Hans,
-> 
-> On Do, 2022-04-21 at 11:44 +0200, Hans Verkuil wrote:
->> On 04/04/2022 18:35, Philipp Zabel wrote:
->>> The V4L2 specification states:
->>>
->>>  "If the application sets this to 0 for an output stream, then bytesused
->>>   will be set to the size of the buffer (see the length field of this
->>>   struct) by the driver."
->>>
->>> Since we set allow_zero_bytesused, we have to handle this ourselves.
->>>
->>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
->>> ---
->>>  drivers/media/platform/chips-media/coda-bit.c | 3 +++
->>>  1 file changed, 3 insertions(+)
->>>
->>> diff --git a/drivers/media/platform/chips-media/coda-bit.c b/drivers/media/platform/chips-media/coda-bit.c
->>> index c484c008ab02..705a179ea8f0 100644
->>> --- a/drivers/media/platform/chips-media/coda-bit.c
->>> +++ b/drivers/media/platform/chips-media/coda-bit.c
->>> @@ -381,6 +381,9 @@ void coda_fill_bitstream(struct coda_ctx *ctx, struct list_head *buffer_list)
->>>  		/* Dump empty buffers */
->>>  		if (!vb2_get_plane_payload(&src_buf->vb2_buf, 0)) {
->>>  			src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
->>> +			vb2_set_plane_payload(&src_buf->vb2_buf, 0,
->>> +					      vb2_plane_size(&src_buf->vb2_buf,
->>> +							     0));
->>
->> Would it be possible to stop using allow_zero_bytesused altogether?
->>
->> Are there still applications that rely on zero-sized output buffers to stop the
->> decoder?
-> 
-> This was used by GStreamer 1.8. The code is still left in current
-> versions, but is never executed unless the decoder stop command fails:
-> 
-> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/main/subprojects/gst-plugins-good/sys/v4l2/gstv4l2videodec.c#L446-454
-> 
-> Whether there are still any applications using GStreamer 1.8 for V4L2
-> video decoding on devices that get kernel updates, I don't know.
-> 
->> I'm not actually sure that I want this in the driver, perhaps v4l2-compliance
->> can be modified to turn a fail into a warn if the driver is the coda driver.
-> 
-> Same for nxp/imx-jpeg, qcom/venus and samsung/s5p-mfc?
+On Mon, Apr 25, 2022 at 12:40 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Dongliang,
+>
+> Thank you for the patch.
+>
+> On Fri, Apr 22, 2022 at 04:54:05PM +0800, Dongliang Mu wrote:
+> > From: Dongliang Mu <mudongliangabcd@gmail.com>
+> >
+> > In ov7670_probe, it always invokes ov7670_power_off() no matter
+> > the execution is successful or failed. So we cannot invoke it
+> > agiain in ov7670_remove().
+> >
+> > Fix this by removing ov7670_power_off from ov7670_remove.
+> >
+> > Fixes: 030f9f682e66 ("media: ov7670: control clock along with power")
+>
+> ov7670_power_off() is a no-op if power is already off. What does this
+> fix ?
 
-Yes for venus and s5p, but why would imx-jpeg use this? It makes no sense
-for a jpeg codec. I think it should just be removed for imx-jpeg.
+Yes, this is true. I just thought this is redundant, so I remove
+ov7670_power_off from ov7670_remove
 
-IMHO, once a decoder supports the STOP command, it should no longer set
-allow_zero_bytesused to true. But that decision is up to you for the coda
-driver.
+If current code is fine, please ignore this patch.
 
-Regards,
-
-	Hans
-
-> 
->> Patching the driver is hiding the fact that the coda driver does something
->> non-standard for legacy reasons. It doesn't make sense either to change
->> bytesused to the buffer size since there really is nothing in the buffer.
->>
->> v4l2-compliance already has checks for two drivers, search for is_vivid and
->> is_uvcvideo.
-> 
-> Ok.
-> 
->> I'm skipping this patch for now.
-> 
-> regards
-> Philipp
-
+>
+> > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> > ---
+> >  drivers/media/i2c/ov7670.c | 1 -
+> >  1 file changed, 1 deletion(-)
+> >
+> > diff --git a/drivers/media/i2c/ov7670.c b/drivers/media/i2c/ov7670.c
+> > index 196746423116..1be2c0e5bdc1 100644
+> > --- a/drivers/media/i2c/ov7670.c
+> > +++ b/drivers/media/i2c/ov7670.c
+> > @@ -2017,7 +2017,6 @@ static int ov7670_remove(struct i2c_client *client)
+> >       v4l2_async_unregister_subdev(sd);
+> >       v4l2_ctrl_handler_free(&info->hdl);
+> >       media_entity_cleanup(&info->sd.entity);
+> > -     ov7670_power_off(sd);
+> >       return 0;
+> >  }
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
