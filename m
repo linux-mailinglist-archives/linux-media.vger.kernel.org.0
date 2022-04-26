@@ -2,267 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DAE350FB54
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 12:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD60D50FB73
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 12:51:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344905AbiDZKt3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 06:49:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42546 "EHLO
+        id S236394AbiDZKyT convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 26 Apr 2022 06:54:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349476AbiDZKsx (ORCPT
+        with ESMTP id S230488AbiDZKyR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 06:48:53 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B55ED5593
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 03:43:56 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1njIfg-0000CZ-LM; Tue, 26 Apr 2022 12:43:52 +0200
-Message-ID: <17c5ef22479cfea3f43dce1885f6613f1bef8064.camel@pengutronix.de>
-Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2
- VPU's with vpu-blk-ctrl
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>,
-        Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
-Cc:     aford@beaconembedded.com, cphealy@gmail.com,
-        kernel test robot <lkp@intel.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Date:   Tue, 26 Apr 2022 12:43:51 +0200
-In-Reply-To: <c11a58ecc5da2e206fc2b942980223a04a103f19.camel@puri.sm>
-References: <20220125171129.472775-1-aford173@gmail.com>
-         <20220125171129.472775-8-aford173@gmail.com>
-         <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm>
-         <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
-         <c11a58ecc5da2e206fc2b942980223a04a103f19.camel@puri.sm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        Tue, 26 Apr 2022 06:54:17 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48EE57DE0A;
+        Tue, 26 Apr 2022 03:51:10 -0700 (PDT)
+Received: from mail-wr1-f50.google.com ([209.85.221.50]) by
+ mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1Mq2za-1oDSfp2LEA-00nAzi; Tue, 26 Apr 2022 12:51:07 +0200
+Received: by mail-wr1-f50.google.com with SMTP id s21so10180213wrb.8;
+        Tue, 26 Apr 2022 03:51:07 -0700 (PDT)
+X-Gm-Message-State: AOAM530T8QT25UCgZSYY/Y2aXBOZ8NCFajEiUHhxct3hxFrnZMPYKM/6
+        dsdZaFSu/EIl+xTTFcHIViFmSLpXA5sfRRt/6dY=
+X-Google-Smtp-Source: ABdhPJwv3pFB8WncbOOxlmqz6E+LrLV4NkQu/Q5kzsoMl03tzrGAbxuUPuNyuSoi1V3F1hRSCNe/pbMUxDHw00bd99I=
+X-Received: by 2002:a5d:64a3:0:b0:20a:7931:5b84 with SMTP id
+ m3-20020a5d64a3000000b0020a79315b84mr18372018wrp.407.1650970267164; Tue, 26
+ Apr 2022 03:51:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220426060808.78225-1-cai.huoqing@linux.dev> <20220426060808.78225-5-cai.huoqing@linux.dev>
+ <618a4f53-0998-1e6b-e32b-8bf2d3057cec@amd.com>
+In-Reply-To: <618a4f53-0998-1e6b-e32b-8bf2d3057cec@amd.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 26 Apr 2022 12:50:50 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2w1t7Sk897u0ndD66Lwp5a4DuOqqQLN4yHSg=JmrpOHQ@mail.gmail.com>
+Message-ID: <CAK8P3a2w1t7Sk897u0ndD66Lwp5a4DuOqqQLN4yHSg=JmrpOHQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v2 4/4] drm/nvdla/uapi: Add UAPI of
+ NVDLA driver
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Cai Huoqing <cai.huoqing@linux.dev>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:F1aOHJMTWTP9+Ce3tVRQ0URCj8anZnnEPNCduDHWetCrI69M4+Q
+ /aqR7959J8Ty3AInm9ic1+3WPJWwprJwEcbAQ/ka4U6UPJevUz7BqzE3lt6vAANEPu/zZ1+
+ oQGVH0YgpLiDBofOUGeNaqaPHr00cC6uQjTK2wLDnBEaWmcxxCuKQ+zQxptjlToUBVD/ga1
+ tQ3aa/wEwSUPaqdhSXhVA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YPtrxqFtPlQ=:DezQpGGO/FpbKEbzxerP3n
+ +aY69poODMMiTe/knwXn3jECUpM4FV/9DstFxKQpOpfoxyLAqv5LDjf653h7FO47jW6G5G/tn
+ CGkDebY+fPUJMBHHKnywviLoA+1EyZsARMxK/5VicIqc4UznvupgdcVaSbjzcMAnEM9KBXQBz
+ qYTwGYhI4bH7WKhV7wT+8Vd9A1sP2n07kypJ2QEDN9ahqvlsYaalR9cxnAlLmMfLxmDo2HZ0h
+ 4elBK69wE+Vk92dCp1Dg54AjLOij0VHhIJEfjfKgxw4hYgagX4jFU2AXAZE7ZyCrNlvSjQsh8
+ wF6Gk0rUN8dc0Cnh914Xlf8XB0QK6Ig9U59dqsmhKMS0T6Xte2Nh/ELqD+bxjnTmS4MoHj6HZ
+ 3DSuC0ox2VheihuuQ0MTJ004yfZaUvRfoO5/j4Jid2a6P5XkTSvUWkc3AA7vUE+Vn1RJ2KZES
+ 0NRzdihrFywrhHPDLd+fxNRuhC16i4Ffv/ouLHZwylF4u59XRjVb7ww8nlSf1VFZc5n6tgTxi
+ 1OKA6S3x3CFqeDKp709JgGO8hja5EqRNhWJJnIzj/0JELuh1MINdvGteATHdRyMHsnf+9wtTk
+ OvoaokXZx7vUg7LW5IQhVmxCaaEor1FSrSERIOX7JStGIW3J2w3u/y/+2WtgNf4LL4zDWQfG6
+ k4ybBdRM1GrdApK/zOX5aLPjj0Ad2CMZclvq02x6D538K0+5pmO+tG+OKfo4MgBrC4H0=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, dem 26.04.2022 um 09:38 +0200 schrieb Martin Kepplinger:
-> Am Montag, dem 25.04.2022 um 17:34 +0200 schrieb Lucas Stach:
-> > Hi Martin,
-> > 
-> > Am Montag, dem 25.04.2022 um 17:22 +0200 schrieb Martin Kepplinger:
-> > > Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
-> > > > With the Hantro G1 and G2 now setup to run independently, update
-> > > > the device tree to allow both to operate.  This requires the
-> > > > vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
-> > > > certain clock enabled to handle the gating of the G1 and G2
-> > > > fuses, the clock-parents and clock-rates for the various VPU's
-> > > > to be moved into the pgc_vpu because they cannot get re-parented
-> > > > once enabled, and the pgc_vpu is the highest in the chain.
-> > > > 
-> > > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> > > > 
-> > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > index 2df2510d0118..549b2440f55d 100644
-> > > > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
-> > > >                                         pgc_vpu: power-domain@6 {
-> > > >                                                 #power-domain-
-> > > > cells =
-> > > > <0>;
-> > > >                                                 reg =
-> > > > <IMX8M_POWER_DOMAIN_VPU>;
-> > > > -                                               clocks = <&clk
-> > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
-> > > > +                                               clocks = <&clk
-> > > > IMX8MQ_CLK_VPU_DEC_ROOT>,
-> > > > +                                                        <&clk
-> > > > IMX8MQ_CLK_VPU_G1_ROOT>,
-> > > > +                                                        <&clk
-> > > > IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > +                                               assigned-clocks =
-> > > > <&clk IMX8MQ_CLK_VPU_G1>,
-> > > > +                                                                
-> > > > <&clk IMX8MQ_CLK_VPU_G2>,
-> > > > +                                                                
-> > > > <&clk IMX8MQ_CLK_VPU_BUS>,
-> > > > +                                                                
-> > > > <&clk IMX8MQ_VPU_PLL_BYPASS>;
-> > > > +                                               assigned-clock-
-> > > > parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-> > > > +                                                                
-> > > >     
-> > > >     <&clk IMX8MQ_VPU_PLL_OUT>,
-> > > > +                                                                
-> > > >     
-> > > >     <&clk IMX8MQ_SYS1_PLL_800M>,
-> > > > +                                                                
-> > > >     
-> > > >     <&clk IMX8MQ_VPU_PLL>;
-> > > > +                                               assigned-clock-
-> > > > rates
-> > > > = <600000000>,
-> > > > +                                                                
-> > > >     
-> > > >   <600000000>,
-> > > > +                                                                
-> > > >     
-> > > >   <800000000>,
-> > > > +                                                                
-> > > >     
-> > > >   <0>;
-> > > >                                         };
-> > > >  
-> > > >                                         pgc_disp: power-domain@7
-> > > > {
-> > > > @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
-> > > >                         status = "disabled";
-> > > >                 };
-> > > >  
-> > > > -               vpu: video-codec@38300000 {
-> > > > -                       compatible = "nxp,imx8mq-vpu";
-> > > > -                       reg = <0x38300000 0x10000>,
-> > > > -                             <0x38310000 0x10000>,
-> > > > -                             <0x38320000 0x10000>;
-> > > > -                       reg-names = "g1", "g2", "ctrl";
-> > > > -                       interrupts = <GIC_SPI 7
-> > > > IRQ_TYPE_LEVEL_HIGH>,
-> > > > -                                    <GIC_SPI 8
-> > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > -                       interrupt-names = "g1", "g2";
-> > > > +               vpu_g1: video-codec@38300000 {
-> > > > +                       compatible = "nxp,imx8mq-vpu-g1";
-> > > > +                       reg = <0x38300000 0x10000>;
-> > > > +                       interrupts = <GIC_SPI 7
-> > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > +                       clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
-> > > > +                       power-domains = <&vpu_blk_ctrl
-> > > > IMX8MQ_VPUBLK_PD_G1>;
-> > > > +               };
-> > > > +
-> > > > +               vpu_g2: video-codec@38310000 {
-> > > > +                       compatible = "nxp,imx8mq-vpu-g2";
-> > > > +                       reg = <0x38310000 0x10000>;
-> > > > +                       interrupts = <GIC_SPI 8
-> > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > +                       clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > +                       power-domains = <&vpu_blk_ctrl
-> > > > IMX8MQ_VPUBLK_PD_G2>;
-> > > > +               };
-> > > > +
-> > > > +               vpu_blk_ctrl: blk-ctrl@38320000 {
-> > > > +                       compatible = "fsl,imx8mq-vpu-blk-ctrl";
-> > > > +                       reg = <0x38320000 0x100>;
-> > > > +                       power-domains = <&pgc_vpu>, <&pgc_vpu>,
-> > > > <&pgc_vpu>;
-> > > > +                       power-domain-names = "bus", "g1", "g2";
-> > > >                         clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-> > > > -                                <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
-> > > > -                                <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-> > > > -                       clock-names = "g1", "g2", "bus";
-> > > > -                       assigned-clocks = <&clk
-> > > > IMX8MQ_CLK_VPU_G1>,
-> > > > -                                         <&clk
-> > > > IMX8MQ_CLK_VPU_G2>,
-> > > > -                                         <&clk
-> > > > IMX8MQ_CLK_VPU_BUS>,
-> > > > -                                         <&clk
-> > > > IMX8MQ_VPU_PLL_BYPASS>;
-> > > > -                       assigned-clock-parents = <&clk
-> > > > IMX8MQ_VPU_PLL_OUT>,
-> > > > -                                                <&clk
-> > > > IMX8MQ_VPU_PLL_OUT>,
-> > > > -                                                <&clk
-> > > > IMX8MQ_SYS1_PLL_800M>,
-> > > > -                                                <&clk
-> > > > IMX8MQ_VPU_PLL>;
-> > > > -                       assigned-clock-rates = <600000000>,
-> > > > <600000000>,
-> > > > -                                              <800000000>, <0>;
-> > > > -                       power-domains = <&pgc_vpu>;
-> > > > +                                <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > +                       clock-names = "g1", "g2";
-> > > > +                       #power-domain-cells = <1>;
-> > > >                 };
-> > > >  
-> > > >                 pcie0: pcie@33800000 {
-> > > 
-> > > With this update, when testing suspend to ram on imx8mq, I get:
-> > > 
-> > > buck4: failed to disable: -ETIMEDOUT
-> > > 
-> > > where buck4 is power-supply of pgc_vpu. And thus the transition to
-> > > suspend (and resuming) fails.
-> > > 
-> > > Have you tested system suspend after the imx8m-blk-ctrl update on
-> > > imx8mq?
-> > 
-> > I haven't tested system suspend, don't know if anyone else did.
-> > However
-> > I guess that this is just uncovering a preexisting issue in the
-> > system
-> > suspend sequencing, which you would also hit if the video decoders
-> > were
-> > active at system suspend time.
-> > 
-> > My guess is that the regulator disable fails, due to the power
-> > domains
-> > being disabled quite late in the suspend sequence, where i2c
-> > communication with the PMIC is no longer possible due to i2c being
-> > suspended already or something like that. Maybe you can dig in a bit
-> > on
-> > the actual sequence on your system and we can see how we can rework
-> > things to suspend the power domains at a time where communication
-> > with
-> > the PMIC is still possible?
-> 
-> What exactly would you like to see? Here's all gpcv2 regulators
-> disabling on suspend. (gpu (domain 5) is disabled by runtime pm often):
-> 
-> [   47.138700] imx-pgc imx-pgc-domain.5: disabling regulator
-> [   47.298071] Freezing user space processes ... (elapsed 0.008
-> seconds) done.
-> [   47.313432] OOM killer disabled.
-> [   47.316670] Freezing remaining freezable tasks ... (elapsed 2.221
-> seconds) done.
-> [   49.672052] imx8m-blk-ctrl 38320000.blk-ctrl: imx8m_blk_ctrl_suspend
-> start
-> [   49.704417] imx-pgc imx-pgc-domain.0: disabling regulator
-> [   49.711114] imx-pgc imx-pgc-domain.6: disabling regulator
-> [   49.819064] buck4: failed to disable: -ETIMEDOUT
-> 
-> The stack looks pretty much the same for all of them, from pm_suspend()
-> over genpd_suspend_noiry().
+On Tue, Apr 26, 2022 at 8:31 AM Christian König
+<christian.koenig@amd.com> wrote:
+> Am 26.04.22 um 08:08 schrieb Cai Huoqing:
+> > The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
+> > which is integrated into NVIDIA Jetson AGX Xavier,
+> > so add UAPI of this driver.
+> >
+> > Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
 
-So the GPU domain is already suspended before the system suspend,
-probably due to short runtime PM timeouts.
+I saw the reply but no the original mail, so I'll comment here.
 
-Can you please check at which point the i2c subsystem is suspended? I
-think we are already past that point when running the PM domain suspend
-from a _noirq callback. I'll take a look on how we can properly change
-this ordering.
+> > +
+> > +#if !defined(__KERNEL__)
+> > +#define __user
+> > +#endif
 
-Regards,
-Lucas
+This is done in the 'make headers_install' step, no need to define it
+separately.
 
+> > +#define NVDLA_NO_TIMEOUT    (0xffffffff)
+> > +     __u32 timeout;
+>
+> What format does that timeout value have?
+>
+> In general it is best practice to have absolute 64bit nanosecond
+> timeouts (to be used with ktime inside the kernel) so that restarting
+> interrupted IOCTLs works smooth.
+
+When using absolute values, one also needs to decide whether this should be
+realtime, monotonic or boottime and document the decision.
+
+
+> > + * struct nvdla_submit_args structure for task submit
+> > + *
+> > + * @tasks            pointer to array of struct nvdla_ioctl_submit_task
+> > + * @num_tasks                number of entries in tasks
+> > + * @flags            flags for task submit, no flags defined yet
+> > + * @version          version of task structure
+> > + *
+> > + */
+> > +struct nvdla_submit_args {
+> > +     __u64 tasks;
+> > +     __u16 num_tasks;
+> > +#define NVDLA_MAX_TASKS_PER_SUBMIT   24
+> > +#define NVDLA_SUBMIT_FLAGS_ATOMIC    (1 << 0)
+>
+> Well that "no flags defined yet" from the comment above is probably
+> outdated :)
+
+> > +     __u16 flags;
+> > +     __u32 version;
+> > +};
+
+Versioned interfaces are usually a bad idea. If you introduce an ioctl command,
+it should generally keep working. If you ever need to change the interface, just
+use a new command number for the new version.
+
+> > +/**
+> > + * struct nvdla_gem_create_args for allocating DMA buffer through GEM
+> > + *
+> > + * @handle           handle updated by kernel after allocation
+> > + * @flags            implementation specific flags
+> > + * @size             size of buffer to allocate
+> > + */
+> > +struct nvdla_gem_create_args {
+> > +     __u32 handle;
+> > +     __u32 flags;
+> > +     __u64 size;
+> > +};
+> > +
+> > +/**
+> > + * struct nvdla_gem_map_offset_args for mapping DMA buffer
+> > + *
+> > + * @handle           handle of the buffer
+> > + * @reserved         reserved for padding
+> > + * @offset           offset updated by kernel after mapping
+> > + */
+> > +struct nvdla_gem_map_offset_args {
+> > +     __u32 handle;
+> > +     __u32 reserved;
+> > +     __u64 offset;
+> > +};
+> > +
+> > +#define DRM_NVDLA_SUBMIT             0x00
+> > +#define DRM_NVDLA_GEM_CREATE 0x01
+> > +#define DRM_NVDLA_GEM_MMAP           0x02
+
+Is this an actual mmap() call, or something that needs to be done before the
+mmap()? Is the 'handle' a file descriptor or some internal number?
+
+      Arnd
