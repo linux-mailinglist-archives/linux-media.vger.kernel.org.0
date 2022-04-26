@@ -2,445 +2,382 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2F4150FD8A
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 14:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DE8A50FDD2
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 14:55:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244693AbiDZMtx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 08:49:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54286 "EHLO
+        id S1350255AbiDZM5o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Apr 2022 08:57:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245570AbiDZMtw (ORCPT
+        with ESMTP id S1350271AbiDZM4s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 08:49:52 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE77C17B381
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 05:46:43 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id y21so11135225wmi.2
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 05:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7BXUq0vj8KoqiCfdmoJA1YRh5B//+tg+SsjJvRIdEH4=;
-        b=iuDsd1y2jI5fQI29K4wTwdDcxoV4P6L6PB/puaNSFy8v84JYzCdxFMY9XlABMkhpbK
-         1OTW+FEn68QaOsemJ9OfdsPiNgstRQeAHTYsYPYiYcqucst8BFOQIMBcfQZpFTiVsmOt
-         t8vmR1PfDZHEnYfuehOnWe51yLtVhAIrdZtnP84JE1nu8QCauhigUvTGuobG9l6S8tLO
-         9P1YeSQszZFF6JfGBQ4uB5rgeJ/SR+Q876pfAIcp7Rq5XWoxjfhd5JpIlfcvWB2nMeDT
-         zNRybmlgWxoHJ08m9t2tSuoztXJszO7iK+cWHiAX4/iz72w3H7ERGxq1uT0NUNUiWlKN
-         2ZMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7BXUq0vj8KoqiCfdmoJA1YRh5B//+tg+SsjJvRIdEH4=;
-        b=AIl9x/dZOPeB+SHk3S9Rb1nTJNNQzwS9WcvP+EJ4/1YyXOHiKV4CZhNCNXG8tIb++k
-         5lgbVGiUvW+D+VTKIYQVIFQFtiA/AIdDZPFR5SM+frPDhXoKKA5Xcdc66VrOcGhNWVpS
-         vFay+S6pvOlPgeHV0Cn1Kcl6jhNA7gglC1V+Xh/ngETcKQyAsjqhwMuQ0SsE8JHh0Eqk
-         EUqWLwDevbdHWWqz5VKLIH1Jpg/hKP9qKGRw+j9Jm0KczAw+a/t5Wtt5IdYG42gFiT8f
-         B1qx/A51iiBF1SX4sd7mPH0AJm2ekphVma1nKsdpyU53CqZycjVQDz/HcqZwLgcZ8wcY
-         wmmA==
-X-Gm-Message-State: AOAM530B0rWv3F+11ZVIqgd5H9otSyOZJYQqkvENDPuroaPlSA/ApVru
-        szs8TtK0frplRfs72+c3Iq0=
-X-Google-Smtp-Source: ABdhPJwKn4CvOBZ/cyMB8CU835KLoTbqBbS3Z43xUVydAp2yc1vsY3UTn8RFvu/8rzTwiQvcOLmpvQ==
-X-Received: by 2002:a05:600c:2d93:b0:393:fbf7:5a58 with SMTP id i19-20020a05600c2d9300b00393fbf75a58mr894901wmg.101.1650977201897;
-        Tue, 26 Apr 2022 05:46:41 -0700 (PDT)
-Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
-        by smtp.gmail.com with ESMTPSA id s10-20020adf978a000000b0020ae0154f1esm3641025wrb.5.2022.04.26.05.46.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Apr 2022 05:46:41 -0700 (PDT)
-From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
-        <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To:     sumit.semwal@linaro.org, gustavo@padovan.org,
-        daniel.vetter@ffwll.ch
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH 3/3] dma-buf: generalize fence merging
-Date:   Tue, 26 Apr 2022 14:46:37 +0200
-Message-Id: <20220426124637.329764-3-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220426124637.329764-1-christian.koenig@amd.com>
-References: <20220426124637.329764-1-christian.koenig@amd.com>
+        Tue, 26 Apr 2022 08:56:48 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA8417CEBD
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 05:53:40 -0700 (PDT)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23QAAcOx009548;
+        Tue, 26 Apr 2022 14:53:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=FsDwWC0IVX/UD7V0WnxMZdgC4+rGDq5Yz39o6y71bvI=;
+ b=TK9mUezts2V0ItLBVHOYaTSaR+nAnuy2ZCN+II80JIckB0B14lO3n+vWtghKlQnDtwRY
+ 9c94QKOa/o0wreHhh8l5j0ybRpwR2qHD+UradoDfbY57Ts/pZtCL6aghcX++0urnISeV
+ rRWULreuNvUizjITXhcRqRff4CA1m+gIPznmnEyya2RK5Rx3+3P9fwI32vMuIgP/0GD1
+ Pj6wU3NwPe6Sp6UxH8FgWIstfJr0CNks/Y4xc+hC3NstOpTitQUB9Z02ErVpoYxuMd1Y
+ DJTqBiPjhb9JB2CSMs5zGe3IKCjYZXOntXZsxxBaqGvcKwCkqbEQq7RbX5KlztFmdDPG sw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3fm6vkfbsn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 26 Apr 2022 14:53:14 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id EF8BA10002A;
+        Tue, 26 Apr 2022 14:53:13 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E6311226FAC;
+        Tue, 26 Apr 2022 14:53:13 +0200 (CEST)
+Received: from [10.201.23.19] (10.75.127.50) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Tue, 26 Apr
+ 2022 14:53:13 +0200
+Subject: Re: [PATCH v5 16/27] media: ov5640: Add VBLANK control
+To:     Jacopo Mondi <jacopo@jmondi.org>
+CC:     Steve Longerbeam <slongerbeam@gmail.com>,
+        <laurent.pinchart@ideasonboard.com>, <sakari.ailus@iki.fi>,
+        <hverkuil-cisco@xs4all.nl>, <mirela.rabulea@nxp.com>,
+        <xavier.roumegue@oss.nxp.com>, <tomi.valkeinen@ideasonboard.com>,
+        <hugues.fruchet@st.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <aford173@gmail.com>, <festevam@gmail.com>,
+        <Eugen.Hristev@microchip.com>, <jbrunet@baylibre.com>,
+        <paul.elder@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>
+References: <20220224094313.233347-1-jacopo@jmondi.org>
+ <20220224094313.233347-17-jacopo@jmondi.org>
+ <3b2e09d0-8524-3b3e-0ace-47fdbd36bec7@foss.st.com>
+ <20220411154233.ibmxehvhvw6jcud5@uno.localdomain>
+From:   Hugues FRUCHET - FOSS <hugues.fruchet@foss.st.com>
+Message-ID: <bff75be4-e567-1310-21a3-659e1d2155fe@foss.st.com>
+Date:   Tue, 26 Apr 2022 14:53:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220411154233.ibmxehvhvw6jcud5@uno.localdomain>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.50]
+X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-26_02,2022-04-26_02,2022-02-23_01
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Introduce a dma_fence_merge() macro which allows to unwrap fences which
-potentially can be containers as well and then merge them back together
-into a flat dma_fence_array.
+Hi Jacopo,
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/dma-buf/dma-fence-unwrap.c    |  95 ++++++++++++++++++++
- drivers/dma-buf/st-dma-fence-unwrap.c |  47 ++++++++++
- drivers/dma-buf/sync_file.c           | 119 ++------------------------
- include/linux/dma-fence-unwrap.h      |  24 ++++++
- 4 files changed, 172 insertions(+), 113 deletions(-)
+On 4/11/22 5:42 PM, Jacopo Mondi wrote:
+> Hi Hugues,
+> 
+> On Thu, Apr 07, 2022 at 06:25:32PM +0200, Hugues FRUCHET - FOSS wrote:
+>> Hi Jacopo,
+>>
+>> Patch proposed below to support framerate change both with frame interval
+>> setting and vblank control.
+>>
+>> On 2/24/22 10:43 AM, Jacopo Mondi wrote:
+>>> Add the VBLANK control which allows to select the duration of the
+>>> frame vertical blankings and allows to control the framerate.
+>>>
+>>> The VBLANK control also modifies the exposure time range, which cannot
+>>> exceed the maximum frame length.
+>>>
+>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>> ---
+>>>    drivers/media/i2c/ov5640.c | 52 ++++++++++++++++++++++++++++++++++++++
+>>>    1 file changed, 52 insertions(+)
+>>>
+>>> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+>>> index 5419c7236348..665a8bcebf09 100644
+>>> --- a/drivers/media/i2c/ov5640.c
+>>> +++ b/drivers/media/i2c/ov5640.c
+>>> @@ -36,6 +36,10 @@
+>>>    #define OV5640_PIXEL_ARRAY_WIDTH	2592
+>>>    #define OV5640_PIXEL_ARRAY_HEIGHT	1944
+>>> +/* FIXME: not documented. */
+>>> +#define OV5640_MIN_VBLANK	24
+>>> +#define OV5640_MAX_VTS		1968
+>>
+>> Not enough to support 1024x768@15fps (vblank=2607):
+>> +#define OV5640_MAX_VTS		3375 /* 1024x768@15fps, vblank=2607 */
+> 
+> I guess this applies to all modes, as 1024x768 has the same htot and
+> vtot as lower resolution modes (just an higher default frame rate as
+> it proved to be more stable for high-freq capture in my testing).
+> 
+> Indeed to slow FPS down either blankings are enlarged or the pixel
+> rate is reduced. I reported in the cover letter that to increase the
+> frame rate (for example VGA@60Hz) the pixel rate should be increased.
+> 
+> As the pixel rate is a RO control, we should allow userspace to
+> control LINK_FREQ, which is now registered as read-only to do so.
+> 
+> -------------- From cover letter ----------------------------------------
+> 
+> To enable higher FPS the LINK_FREQ control should be made writable to increase
+> the pixel rate (default for 640x480 is 48MHz)
+> 
+>    640x480 YUYV 60 FPS (pixel_rate = 96 Mhz)
+> 
+>          $ yavta -f YUYV -s 640x480 -c100 --skip 7 /dev/video0
+>          ...
+>          9 (1) [-] any 10 614400 B 57.098649 57.098667 59.995 fps ts mono/EoF
+>          10 (2) [-] any 11 614400 B 57.115314 57.115332 60.006 fps ts mono/EoF
+> 
+> --------------------------------------------------------------------------
+> 
+> To achive slower FPS, the pixel rate can be reduced. In example, to
+> get 1024x768@15FPS let's reduce the pixel clock to 48Mhz in the driver
+> (default is 96)
+> 
+> ---------------------------------------------------------------------------
+> 
+>          vblank = (10^6/15) * 48 / hblank - height)
+>                 = 919
+> 
+>          # v4l2-ctl -d /dev/v4l-subdev4 -c 0x009e0901=919
+>          # v4l2-ctl -l -d /dev/v4l-subdev4
+>                ...
+>                vertical_blanking 0x009e0901 (int)    : min=24 max=2895 step=1 default=520 value=919
+>                ...
+>                pixel_rate 0x009f0902 (int64)  : min=48000000 max=168000000 step=1 default=48000000 value=48000000 flags=read-only
+>                ...
+> 
+>          # yavta..
+>          0 (0) [-] any 0 1572864 B 197.054072 197.054091 20.519 fps ts mono/EoF
+>          1 (1) [-] any 1 1572864 B 197.120665 197.120683 15.017 fps ts mono/EoF
+>          2 (2) [-] any 2 1572864 B 197.187260 197.187278 15.016 fps ts mono/EoF
+>          3 (3) [-] any 3 1572864 B 197.253854 197.253873 15.016 fps ts mono/EoF
+>          4 (0) [-] any 4 1572864 B 197.320449 197.320469 15.016 fps ts mono/EoF
+>          5 (1) [-] any 5 1572864 B 197.387044 197.387068 15.016 fps ts mono/EoF
+>          6 (2) [-] any 6 1572864 B 197.453636 197.453659 15.017 fps ts mono/EoF
+>          7 (3) [-] any 7 1572864 B 197.520232 197.520257 15.016 fps ts mono/EoF
+> ---------------------------------------------------------------------------
+> 
+> Hence I think the real solution would be to make LINK_FREQ
+> controllable by userspace to enlarge the number of achievable
+> configurations. I thought it was safer to make LINK_FREQ writable on
+> top, but can be fast-tracked if desired.
+> 
+> Ofc enlarging VBLANK max is an option as well, unfortunately I haven't
+> found documented anywhere what the max value is, and depending on the
+> mode I've seen contradictory results.
 
-diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
-index 711be125428c..c9becc74896d 100644
---- a/drivers/dma-buf/dma-fence-unwrap.c
-+++ b/drivers/dma-buf/dma-fence-unwrap.c
-@@ -11,6 +11,7 @@
- #include <linux/dma-fence-array.h>
- #include <linux/dma-fence-chain.h>
- #include <linux/dma-fence-unwrap.h>
-+#include <linux/slab.h>
- 
- /* Internal helper to start new array iteration, don't use directly */
- static struct dma_fence *
-@@ -57,3 +58,97 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor)
- 	return __dma_fence_unwrap_array(cursor);
- }
- EXPORT_SYMBOL_GPL(dma_fence_unwrap_next);
-+
-+/* Implementation for the dma_fence_merge() marco, don't use directly */
-+struct dma_fence *__dma_fence_merge(unsigned int num_fences,
-+				    struct dma_fence **fences,
-+				    struct dma_fence_unwrap *iter)
-+{
-+	struct dma_fence_array *result;
-+	struct dma_fence *tmp, **array;
-+	unsigned int i, count;
-+
-+	count = 0;
-+	for (i = 0; i < num_fences; ++i) {
-+		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i])
-+			if (!dma_fence_is_signaled(tmp))
-+				++count;
-+	}
-+
-+	if (count == 0)
-+		return dma_fence_get_stub();
-+
-+	if (count > INT_MAX)
-+		return NULL;
-+
-+	array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
-+	if (!array)
-+		return NULL;
-+
-+	/*
-+	 * We can't guarantee that inpute fences are ordered by context, but
-+	 * it is still quite likely when this function is used multiple times.
-+	 * So attempt to order the fences by context as we pass over them and
-+	 * merge fences with the same context.
-+	 */
-+	for (i = 0; i < num_fences; ++i)
-+		fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
-+
-+	count = 0;
-+	do {
-+		unsigned int sel;
-+
-+restart:
-+		tmp = NULL;
-+		for (i = 0; i < num_fences; ++i) {
-+			struct dma_fence *next = fences[i];
-+
-+			if (!next || dma_fence_is_signaled(next))
-+				continue;
-+
-+			if (!tmp || tmp->context > next->context) {
-+				tmp = next;
-+				sel = i;
-+
-+			} else if (tmp->context < next->context) {
-+				continue;
-+
-+			} else if (dma_fence_is_later(tmp, next)) {
-+				fences[i] = dma_fence_unwrap_next(&iter[i]);
-+				goto restart;
-+			} else {
-+				fences[sel] = dma_fence_unwrap_next(&iter[sel]);
-+				goto restart;
-+			}
-+		}
-+
-+		if (tmp) {
-+			array[count++] = dma_fence_get(tmp);
-+			fences[sel] = dma_fence_unwrap_next(&iter[sel]);
-+		}
-+	} while (tmp);
-+
-+	if (count == 0) {
-+		tmp = dma_fence_get_stub();
-+		goto return_tmp;
-+	}
-+
-+	if (count == 1) {
-+		tmp = array[0];
-+		goto return_tmp;
-+	}
-+
-+	result = dma_fence_array_create(count, array,
-+					dma_fence_context_alloc(1),
-+					1, false);
-+	if (!result) {
-+		tmp = NULL;
-+		goto return_tmp;
-+	}
-+	return &result->base;
-+
-+return_tmp:
-+	kfree(array);
-+	return tmp;
-+}
-+EXPORT_SYMBOL_GPL(__dma_fence_merge);
-diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
-index 59628add93f5..23ab134417ed 100644
---- a/drivers/dma-buf/st-dma-fence-unwrap.c
-+++ b/drivers/dma-buf/st-dma-fence-unwrap.c
-@@ -240,6 +240,52 @@ static int unwrap_chain_array(void *arg)
- 	return err;
- }
- 
-+static int unwrap_merge(void *arg)
-+{
-+	struct dma_fence *fence, *f1, *f2, *f3;
-+	struct dma_fence_unwrap iter;
-+	int err = 0;
-+
-+	f1 = mock_fence();
-+	if (!f1)
-+		return -ENOMEM;
-+
-+	f2 = mock_fence();
-+	if (!f2) {
-+		err = -ENOMEM;
-+		goto error_put_f1;
-+	}
-+
-+	f3 = dma_fence_merge(f1, f2);
-+	if (!f3) {
-+		err = -ENOMEM;
-+		goto error_put_f2;
-+	}
-+
-+	dma_fence_unwrap_for_each(fence, &iter, f3) {
-+		if (fence == f1) {
-+			f1 = NULL;
-+		} else if (fence == f2) {
-+			f2 = NULL;
-+		} else {
-+			pr_err("Unexpected fence!\n");
-+			err = -EINVAL;
-+		}
-+	}
-+
-+	if (f1 || f2) {
-+		pr_err("Not all fences seen!\n");
-+		err = -EINVAL;
-+	}
-+
-+	dma_fence_put(f3);
-+error_put_f2:
-+	dma_fence_put(f2);
-+error_put_f1:
-+	dma_fence_put(f1);
-+	return err;
-+}
-+
- int dma_fence_unwrap(void)
- {
- 	static const struct subtest tests[] = {
-@@ -247,6 +293,7 @@ int dma_fence_unwrap(void)
- 		SUBTEST(unwrap_array),
- 		SUBTEST(unwrap_chain),
- 		SUBTEST(unwrap_chain_array),
-+		SUBTEST(unwrap_merge),
- 	};
- 
- 	return subtests(tests, NULL);
-diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-index 0fe564539166..fe149d7e3ce2 100644
---- a/drivers/dma-buf/sync_file.c
-+++ b/drivers/dma-buf/sync_file.c
-@@ -146,50 +146,6 @@ char *sync_file_get_name(struct sync_file *sync_file, char *buf, int len)
- 	return buf;
- }
- 
--static int sync_file_set_fence(struct sync_file *sync_file,
--			       struct dma_fence **fences, int num_fences)
--{
--	struct dma_fence_array *array;
--
--	/*
--	 * The reference for the fences in the new sync_file and held
--	 * in add_fence() during the merge procedure, so for num_fences == 1
--	 * we already own a new reference to the fence. For num_fence > 1
--	 * we own the reference of the dma_fence_array creation.
--	 */
--
--	if (num_fences == 0) {
--		sync_file->fence = dma_fence_get_stub();
--		kfree(fences);
--
--	} else if (num_fences == 1) {
--		sync_file->fence = fences[0];
--		kfree(fences);
--
--	} else {
--		array = dma_fence_array_create(num_fences, fences,
--					       dma_fence_context_alloc(1),
--					       1, false);
--		if (!array)
--			return -ENOMEM;
--
--		sync_file->fence = &array->base;
--	}
--
--	return 0;
--}
--
--static void add_fence(struct dma_fence **fences,
--		      int *i, struct dma_fence *fence)
--{
--	fences[*i] = fence;
--
--	if (!dma_fence_is_signaled(fence)) {
--		dma_fence_get(fence);
--		(*i)++;
--	}
--}
--
- /**
-  * sync_file_merge() - merge two sync_files
-  * @name:	name of new fence
-@@ -203,84 +159,21 @@ static void add_fence(struct dma_fence **fences,
- static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
- 					 struct sync_file *b)
- {
--	struct dma_fence *a_fence, *b_fence, **fences;
--	struct dma_fence_unwrap a_iter, b_iter;
--	unsigned int index, num_fences;
- 	struct sync_file *sync_file;
-+	struct dma_fence *fence;
- 
- 	sync_file = sync_file_alloc();
- 	if (!sync_file)
- 		return NULL;
- 
--	num_fences = 0;
--	dma_fence_unwrap_for_each(a_fence, &a_iter, a->fence)
--		++num_fences;
--	dma_fence_unwrap_for_each(b_fence, &b_iter, b->fence)
--		++num_fences;
--
--	if (num_fences > INT_MAX)
--		goto err_free_sync_file;
--
--	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
--	if (!fences)
--		goto err_free_sync_file;
--
--	/*
--	 * We can't guarantee that fences in both a and b are ordered, but it is
--	 * still quite likely.
--	 *
--	 * So attempt to order the fences as we pass over them and merge fences
--	 * with the same context.
--	 */
--
--	index = 0;
--	for (a_fence = dma_fence_unwrap_first(a->fence, &a_iter),
--	     b_fence = dma_fence_unwrap_first(b->fence, &b_iter);
--	     a_fence || b_fence; ) {
--
--		if (!b_fence) {
--			add_fence(fences, &index, a_fence);
--			a_fence = dma_fence_unwrap_next(&a_iter);
--
--		} else if (!a_fence) {
--			add_fence(fences, &index, b_fence);
--			b_fence = dma_fence_unwrap_next(&b_iter);
--
--		} else if (a_fence->context < b_fence->context) {
--			add_fence(fences, &index, a_fence);
--			a_fence = dma_fence_unwrap_next(&a_iter);
--
--		} else if (b_fence->context < a_fence->context) {
--			add_fence(fences, &index, b_fence);
--			b_fence = dma_fence_unwrap_next(&b_iter);
--
--		} else if (__dma_fence_is_later(a_fence->seqno, b_fence->seqno,
--						a_fence->ops)) {
--			add_fence(fences, &index, a_fence);
--			a_fence = dma_fence_unwrap_next(&a_iter);
--			b_fence = dma_fence_unwrap_next(&b_iter);
--
--		} else {
--			add_fence(fences, &index, b_fence);
--			a_fence = dma_fence_unwrap_next(&a_iter);
--			b_fence = dma_fence_unwrap_next(&b_iter);
--		}
-+	fence = dma_fence_merge(a->fence, b->fence);
-+	if (!fence) {
-+		fput(sync_file->file);
-+		return NULL;
- 	}
--
--	if (sync_file_set_fence(sync_file, fences, index) < 0)
--		goto err_put_fences;
--
-+	sync_file->fence = fence;
- 	strlcpy(sync_file->user_name, name, sizeof(sync_file->user_name));
- 	return sync_file;
--
--err_put_fences:
--	while (index)
--		dma_fence_put(fences[--index]);
--	kfree(fences);
--
--err_free_sync_file:
--	fput(sync_file->file);
--	return NULL;
- }
- 
- static int sync_file_release(struct inode *inode, struct file *file)
-diff --git a/include/linux/dma-fence-unwrap.h b/include/linux/dma-fence-unwrap.h
-index e7c219da4ed7..7c0fab318301 100644
---- a/include/linux/dma-fence-unwrap.h
-+++ b/include/linux/dma-fence-unwrap.h
-@@ -48,4 +48,28 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor);
- 	for (fence = dma_fence_unwrap_first(head, cursor); fence;	\
- 	     fence = dma_fence_unwrap_next(cursor))
- 
-+struct dma_fence *__dma_fence_merge(unsigned int num_fences,
-+				    struct dma_fence **fences,
-+				    struct dma_fence_unwrap *cursors);
-+
-+/**
-+ * dma_fence_merge - unwrap and merge fences
-+ *
-+ * All fences given as parameters are unwrapped and merged back together as flat
-+ * dma_fence_array. Useful if multiple containers need to be merged together.
-+ *
-+ * Implemented as a macro to allocate the necessary arrays on the stack and
-+ * account the stack frame size to the caller.
-+ *
-+ * Returns NULL on memory allocation failure, a dma_fence object representing
-+ * all the given fences otherwise.
-+ */
-+#define dma_fence_merge(...)					\
-+	({							\
-+		struct dma_fence *__f[] = { __VA_ARGS__ };	\
-+		struct dma_fence_unwrap __c[ARRAY_SIZE(__f)];	\
-+								\
-+		__dma_fence_merge(ARRAY_SIZE(__f), __f, __c);	\
-+	})
-+
- #endif
--- 
-2.25.1
 
+My opinion is that we cannot continue this way increasing more and more 
+complexity on application side...
+As far as I have understood well, LINK_FREQ control has been introduced 
+in order that CSI receivers be informed of the frequency of link so 
+pixels sampling goes well, what is the point to expose such hardware 
+setting to application ?
+
+For this exact point of 15fps, driver can solve it itself by selecting a 
+lower link frequency if vblank is not in the admissible range.
+
+Another option is to continue to use frame interval control, and that 
+solve also the VGA@60fps.
+
+> 
+> Thanks
+>     j
+> 
+>>
+>>
+>>> +
+>>>    #define OV5640_DEFAULT_SLAVE_ID 0x3c
+>>>    #define OV5640_LINK_RATE_MAX		490000000U
+>>> @@ -321,6 +325,7 @@ struct ov5640_ctrls {
+>>>    	struct v4l2_ctrl *pixel_rate;
+>>>    	struct v4l2_ctrl *link_freq;
+>>>    	struct v4l2_ctrl *hblank;
+>>> +	struct v4l2_ctrl *vblank;
+>>>    	struct {
+>>>    		struct v4l2_ctrl *auto_exp;
+>>>    		struct v4l2_ctrl *exposure;
+>>> @@ -2697,6 +2702,7 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
+>>>    	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
+>>>    	enum ov5640_pixel_rate_id pixel_rate_id = mode->pixel_rate;
+>>>    	const struct ov5640_timings *timings;
+>>> +	s32 exposure_val, exposure_max;
+>>>    	unsigned int hblank;
+>>>    	unsigned int i = 0;
+>>>    	u32 pixel_rate;
+>>> @@ -2755,6 +2761,19 @@ static int ov5640_update_pixel_rate(struct ov5640_dev *sensor)
+>>>    	__v4l2_ctrl_modify_range(sensor->ctrls.hblank,
+>>>    				 hblank, hblank, 1, hblank);
+>>> +	__v4l2_ctrl_modify_range(sensor->ctrls.vblank, OV5640_MIN_VBLANK,
+>>> +				 OV5640_MAX_VTS - mode->height, 1,
+>>> +				 timings->vblank_def);
+>>> +	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, timings->vblank_def);
+>>> +
+>>> +	exposure_max = timings->crop.height + timings->vblank_def - 4;
+>>> +	exposure_val = clamp_t(s32, sensor->ctrls.exposure->val,
+>>> +			       sensor->ctrls.exposure->minimum,
+>>> +			       exposure_max);
+>>> +	__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
+>>> +				 sensor->ctrls.exposure->minimum,
+>>> +				 exposure_max, 1, exposure_val);
+>>> +
+>>
+>> +	vblank = timings->vblank_def;
+>> +
+>> +	if (sensor->current_fr != timings->def_fps) {
+>> +		/* Compute the blanking according to the required framerate */
+>> +
+>> +		int fie_num = sensor->frame_interval.numerator;
+>> +		int fie_denom = sensor->frame_interval.denominator;
+>> +
+>> +		vblank = ((fie_num * pixel_rate / fie_denom) / timings->htot) -
+>> +			 mode->height;
+>> +	}
+>> +
+>>   	__v4l2_ctrl_modify_range(sensor->ctrls.vblank, OV5640_MIN_VBLANK,
+>>   				 OV5640_MAX_VTS - mode->height, 1,
+>> -				 timings->vblank_def);
+>> -	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, timings->vblank_def);
+>> +				 vblank);
+>> +	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, vblank);
+>>
+>> -	exposure_max = timings->crop.height + timings->vblank_def - 4;
+>> +	exposure_max = timings->crop.height + vblank - 4;
+>>   	exposure_val = clamp_t(s32, sensor->ctrls.exposure->val,
+>>   			       sensor->ctrls.exposure->minimum,
+>>   			       exposure_max);
+>>
+>>
+>>
+>> @@ -3606,8 +3636,7 @@ static int ov5640_s_frame_interval(struct v4l2_subdev
+>> *sd,
+>>   		sensor->current_mode = mode;
+>>   		sensor->pending_mode_change = true;
+>>
+>> -		__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
+>> -					 ov5640_calc_pixel_rate(sensor));
+>> +		ov5640_update_pixel_rate(sensor);
+>>   	}
+>>   out:
+>>   	mutex_unlock(&sensor->lock);
+>>
+>>
+>> Added def_fps (default framerate) in order to known when using vblank_def
+>> and when computing it from frame interval:
+>>
+>>
+>> @@ -383,6 +383,8 @@ struct ov5640_timings {
+>>   	u32 vblank_def;
+>>   	/* DVP only; ignored in MIPI mode. */
+>>   	u32 max_fps;
+>> +	/* CSI-2 only; default fps for default blanking */
+>> +	u32 def_fps;
+>>   };
+>>
+>> @@ -719,6 +722,7 @@ static const struct ov5640_mode_info
+>> ov5640_mode_data[OV5640_NUM_MODES] = {
+>>   			},
+>>   			.htot		= 1600,
+>>   			.vblank_def	= 878,
+>> +			.def_fps	= OV5640_30_FPS
+>> [...]
+>> @@ -1108,6 +1120,7 @@ static const struct ov5640_mode_info
+>> ov5640_mode_data[OV5640_NUM_MODES] = {
+>>   			},
+>>   			.htot		= 2844,
+>>   			.vblank_def	= 24,
+>> +			.def_fps	= OV5640_15_FPS
+>>   		},
+>>
+>>
+>>>    	return 0;
+>>>    }
+>>> @@ -3127,6 +3146,15 @@ static int ov5640_set_ctrl_vflip(struct ov5640_dev *sensor, int value)
+>>>    			      (BIT(2) | BIT(1)) : 0);
+>>>    }
+>>> +static int ov5640_set_ctrl_vblank(struct ov5640_dev *sensor, int value)
+>>> +{
+>>> +	const struct ov5640_mode_info *mode = sensor->current_mode;
+>>> +
+>>> +	/* Update the VTOT timing register value. */
+>>> +	return ov5640_write_reg16(sensor, OV5640_REG_TIMING_VTS,
+>>> +				  mode->height + value);
+>>> +}
+>>> +
+>>>    static int ov5640_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+>>>    {
+>>>    	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+>>> @@ -3157,10 +3185,25 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>    {
+>>>    	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+>>>    	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+>>> +	const struct ov5640_mode_info *mode = sensor->current_mode;
+>>> +	const struct ov5640_timings *timings;
+>>> +	unsigned int exp_max;
+>>>    	int ret;
+>>>    	/* v4l2_ctrl_lock() locks our own mutex */
+>>> +	switch (ctrl->id) {
+>>> +	case V4L2_CID_VBLANK:
+>>> +		/* Update the exposure range to the newly programmed vblank. */
+>>> +		timings = ov5640_timings(sensor, mode);
+>>> +		exp_max = mode->height + ctrl->val - 4;
+>>> +		__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
+>>> +					 sensor->ctrls.exposure->minimum,
+>>> +					 exp_max, sensor->ctrls.exposure->step,
+>>> +					 timings->vblank_def);
+>>> +		break;
+>>> +	}
+>>> +
+>>>    	/*
+>>>    	 * If the device is not powered up by the host driver do
+>>>    	 * not apply any controls to H/W at this time. Instead
+>>> @@ -3200,6 +3243,9 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>    	case V4L2_CID_VFLIP:
+>>>    		ret = ov5640_set_ctrl_vflip(sensor, ctrl->val);
+>>>    		break;
+>>> +	case V4L2_CID_VBLANK:
+>>> +		ret = ov5640_set_ctrl_vblank(sensor, ctrl->val);
+>>> +		break;
+>>>    	default:
+>>>    		ret = -EINVAL;
+>>>    		break;
+>>> @@ -3220,6 +3266,7 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+>>>    	struct ov5640_ctrls *ctrls = &sensor->ctrls;
+>>>    	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
+>>>    	const struct ov5640_timings *timings;
+>>> +	unsigned int max_vblank;
+>>>    	unsigned int hblank;
+>>>    	int ret;
+>>> @@ -3245,6 +3292,11 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+>>>    	ctrls->hblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HBLANK, hblank,
+>>>    					  hblank, 1, hblank);
+>>> +	max_vblank = OV5640_MAX_VTS - mode->height;
+>>> +	ctrls->vblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VBLANK,
+>>> +					  OV5640_MIN_VBLANK, max_vblank,
+>>> +					  1, timings->vblank_def);
+>>> +
+>>>    	/* Auto/manual white balance */
+>>>    	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
+>>>    					   V4L2_CID_AUTO_WHITE_BALANCE,
+>>>
+>>
+>> Hugues.
+
+Best regards,
+
+Hugues.
