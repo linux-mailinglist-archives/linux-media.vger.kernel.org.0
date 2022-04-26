@@ -2,112 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A0C050FDFB
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 14:59:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9E7B50FE5A
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 15:09:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350441AbiDZNCP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 09:02:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48778 "EHLO
+        id S1350640AbiDZNMC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Apr 2022 09:12:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350446AbiDZNB5 (ORCPT
+        with ESMTP id S1350650AbiDZNL7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 09:01:57 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3379617F130;
-        Tue, 26 Apr 2022 05:58:47 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id DCF2E1F439A0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1650977922;
-        bh=OT93d1YFbCsPl7b/q8Q9Ng7KBwuAX7su/L0Pt2JnS6E=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cBZN0vuWa0CQYiFTtznCmJ69cnWWpBJjUsOTglusEeiqSVayUvm4THtei/qrnz+XU
-         sxKfjpwT+fa/HTO2lmpV7wL724s3r+9mMdahR1qJH2P8t1iXck7NuGbaxaJly5vKqm
-         +CnjtVkTT3iaegGldibqCE7Vq/khasZDDfEUwlJxfHfFV8bcR5uN90Z9I3HPpzsrwr
-         H5DMc5649WTvQ9vq9OrnHgzL20sr2Z3Y9i6F2AjFq/IVQ6dGlbdqjLCg5i3ua4vQp1
-         94j5HRwXA2ySzWD6Zqm1P5Cu2nEMfyBeoAfYWvwy7OQ8HM7PJJY/Mr1lI+iWwHPo40
-         nEC1lF3RULBxw==
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     nicolas@ndufresne.ca, linux-media@vger.kernel.org,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4 24/24] media: hantro: Enable HOLD_CAPTURE_BUF for H.264
-Date:   Tue, 26 Apr 2022 08:57:50 -0400
-Message-Id: <20220426125751.108293-25-nicolas.dufresne@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220426125751.108293-1-nicolas.dufresne@collabora.com>
-References: <20220426125751.108293-1-nicolas.dufresne@collabora.com>
+        Tue, 26 Apr 2022 09:11:59 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AEDD51E50
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 06:08:50 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id q185so12687486ljb.5
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 06:08:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=nIgHZXIaeZhf23re2WIWSl8FwNzY4XssmB5G+OP1fgY=;
+        b=Rp5M6DGffMumgwzkfOxSGjjr4ftDhLODR5a1+q5sbrDoKirJOLXuBQ71oayOURisMO
+         9Molv9WeL2gfac8WqaGpduQH6/7pR2Awbo44GWSqvV/tk4K9F8weG4VpvHx3pAej7BNF
+         HPsLeLucDBWWTffw5HaUQ6d+hbLv1YrsXfNgFQjlReZshnJhK+b55jz4gAES9FItZNOi
+         ymE+uxRgs1h7TzFLT3kZQoLIR5mQQlJk9p5lSj+3Yfbs/exThc/f68iWae4fMOA+yfl3
+         zGmd3Lvb8K9xbkqQ9nEiwqb4AGeMmEHL8FjHscFDPpE4nQwcz4BC7KcbbB39dik+ISmK
+         4QiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=nIgHZXIaeZhf23re2WIWSl8FwNzY4XssmB5G+OP1fgY=;
+        b=7tXKeVQD0bN+0Fpski9v4A9VXICQ5tgWyRL/D142nnizhIwuFISRJ0ED4+umCi7nym
+         SCTpaw9sHIoi9Eqn4ZQbdydj/MIPDYLbuZ9LbT7SmJApACB1QOtkZ/iFDjw1u4dzcGSL
+         2ebvAZ/A4TYMMPUnQRm8hi7K8N+ZKMK7iJVb6VGtQYUBPWSbfcQlnf/5ALqKYoSb7hDV
+         9M58ixSX3kBVUaUqwD9FdxasDn6S83b0R5mtewO65DaweqN6nFG1pLXaztXA2T6ty0dK
+         5sSjLmTuv5DnRpTozKlnGx/CpE2Nxk3koV98EzAhFUcBd+dLZCco9w+cOK9q2HtCsJbV
+         GIdA==
+X-Gm-Message-State: AOAM533Ae2KP6aaitozxzXjogyGj4WjBO8g9xYqfvETRTBuaMdIlNzp6
+        A3/oNJWXP+rY8B2xB6vLlmfoKhYLrfko+9LvQGU=
+X-Google-Smtp-Source: ABdhPJxJgeVKOFA/6frHypReElNZg7XGWMv45cKJWIMCxQMjsLYM6e2ktns33x2pek7Zln0pYRmYoOJAo4wHgFeZBcM=
+X-Received: by 2002:a2e:9c43:0:b0:24b:469:2bb6 with SMTP id
+ t3-20020a2e9c43000000b0024b04692bb6mr15136354ljj.248.1650978528342; Tue, 26
+ Apr 2022 06:08:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:aa6:cb41:0:b0:1be:7e9f:f9a6 with HTTP; Tue, 26 Apr 2022
+ 06:08:47 -0700 (PDT)
+Reply-To: usarmy.jameston1@gmail.com
+From:   Major James Walton <josephinmnyinge70@gmail.com>
+Date:   Tue, 26 Apr 2022 14:08:47 +0100
+Message-ID: <CAEH2Oon1-iK2-v5D9jvDrtSNmU1_Pm6ePrZ8FNs74Jpb3_goVA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:22e listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4070]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [josephinmnyinge70[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [usarmy.jameston1[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [josephinmnyinge70[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  3.6 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is needed to optimize field decoding. Each field will be
-decoded into the same capture buffer. To be able to queue multiple
-buffers, we need to be able to ask the driver to hold the capture
-buffer.
-
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
----
- drivers/staging/media/hantro/hantro_v4l2.c | 25 ++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
-diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index 67148ba346f5..50d636678ff3 100644
---- a/drivers/staging/media/hantro/hantro_v4l2.c
-+++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -409,6 +409,30 @@ hantro_update_requires_request(struct hantro_ctx *ctx, u32 fourcc)
- 	}
- }
- 
-+static void
-+hantro_update_requires_hold_capture_buf(struct hantro_ctx *ctx, u32 fourcc)
-+{
-+	struct vb2_queue *vq;
-+
-+	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-+			     V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-+
-+	switch (fourcc) {
-+	case V4L2_PIX_FMT_JPEG:
-+	case V4L2_PIX_FMT_MPEG2_SLICE:
-+	case V4L2_PIX_FMT_VP8_FRAME:
-+	case V4L2_PIX_FMT_HEVC_SLICE:
-+	case V4L2_PIX_FMT_VP9_FRAME:
-+		vq->subsystem_flags &= ~(VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF);
-+		break;
-+	case V4L2_PIX_FMT_H264_SLICE:
-+		vq->subsystem_flags |= VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
- static int hantro_set_fmt_out(struct hantro_ctx *ctx,
- 			      struct v4l2_pix_format_mplane *pix_mp)
- {
-@@ -472,6 +496,7 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
- 	ctx->dst_fmt.quantization = pix_mp->quantization;
- 
- 	hantro_update_requires_request(ctx, pix_mp->pixelformat);
-+	hantro_update_requires_hold_capture_buf(ctx, pix_mp->pixelformat);
- 
- 	vpu_debug(0, "OUTPUT codec mode: %d\n", ctx->vpu_src_fmt->codec_mode);
- 	vpu_debug(0, "fmt - w: %d, h: %d\n",
 -- 
-2.34.1
+I am Major James Walton,currently serving with the 3rd Brigade Support
+Battalion in Iraq.I have a proposal for you. Kindly reply for
+details.Reply to: usarmy.jameston1@gmail.com
 
+
+Regards,
+Major James Walton.
