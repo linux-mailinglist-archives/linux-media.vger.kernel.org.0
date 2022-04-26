@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFE3650F1A4
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 09:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86B0F50F1A6
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 09:03:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343603AbiDZHGL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 03:06:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48008 "EHLO
+        id S1343604AbiDZHGM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Apr 2022 03:06:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343599AbiDZHGJ (ORCPT
+        with ESMTP id S1343571AbiDZHGL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 03:06:09 -0400
+        Tue, 26 Apr 2022 03:06:11 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD2846D4C0
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 00:03:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DCB96D383
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 00:03:04 -0700 (PDT)
 Received: from deskari.lan (91-156-85-209.elisa-laajakaista.fi [91.156.85.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0CA34488;
-        Tue, 26 Apr 2022 09:02:59 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3533ABC;
+        Tue, 26 Apr 2022 09:03:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1650956580;
-        bh=d0qb1lierlzgT3LsSaW00Kief6m4DqTqBtxm4lid6lY=;
+        s=mail; t=1650956581;
+        bh=+TSQNMLpaVImlAZbUer/YlLQRnydhPMU50hoRDkuHqU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MplMkheQZ+qjbsL4xNyWqHFVTwq1M5cyAGyRZ2zkd3nSy+3uL8wcqhHDFV16ScWiw
-         B3PJACnJedJn5RzW+ozVHdpFcAZlODHID84H70XxbgUoRSHIHIwAgi6Wwv0RLvf1Vv
-         NskhV/x/gNG8DY6V781ubJl50ODHt0qAbQ/um+bY=
+        b=B0mXgU3G3cnJuFe1zMnvyouVOvmHNk83VdcOj7YMMWOkmpPqOe71IjQRSv42nLSR8
+         T32OrV49yFmhqcWDqOPQTuvOJ7ws62dVEs2IS4osx5dtZkUjLgYCAFT2X2zYqGx8g7
+         r/KFAvRzy8S0ZYYGR/HPY3kjnrJqUojtmAKHxnWM=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -34,9 +34,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Pratyush Yadav <p.yadav@ti.com>, satish.nagireddy@getcruise.com
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v2 1/3] media: Add bus type to frame descriptors
-Date:   Tue, 26 Apr 2022 10:02:38 +0300
-Message-Id: <20220426070240.68100-2-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v2 2/3] media: Add CSI-2 bus configuration to frame descriptors
+Date:   Tue, 26 Apr 2022 10:02:39 +0300
+Message-Id: <20220426070240.68100-3-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426070240.68100-1-tomi.valkeinen@ideasonboard.com>
 References: <20220426070240.68100-1-tomi.valkeinen@ideasonboard.com>
@@ -54,57 +54,58 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Add the media bus type to the frame descriptor. CSI-2 specific
-information will be added in next patch to the frame descriptor.
+Add CSI-2 bus specific configuration to the frame descriptors. This allows
+obtaining the virtual channel and data type information for each stream
+the transmitter is sending.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-- Make the bus type a named enum
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- include/media/v4l2-subdev.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ include/media/v4l2-subdev.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 6c153b33bb04..16d6559f81ed 100644
+index 16d6559f81ed..e6b24bbdd6b6 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -344,12 +344,32 @@ struct v4l2_mbus_frame_desc_entry {
- 
- #define V4L2_FRAME_DESC_ENTRY_MAX	4
+@@ -312,6 +312,17 @@ struct v4l2_subdev_audio_ops {
+ 	int (*s_stream)(struct v4l2_subdev *sd, int enable);
+ };
  
 +/**
-+ * enum v4l2_mbus_frame_desc_type - media bus frame description type
++ * struct v4l2_mbus_frame_desc_entry_csi2
 + *
-+ * @V4L2_MBUS_FRAME_DESC_TYPE_UNDEFINED:
-+ *	Undefined frame desc type. Drivers should not use this, it is
-+ *	for backwards compatibility.
-+ * @V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL:
-+ *	Parallel media bus.
-+ * @V4L2_MBUS_FRAME_DESC_TYPE_CSI2:
-+ *	CSI-2 media bus. Frame desc parameters must be set in
-+ *	&struct v4l2_mbus_frame_desc_entry->csi2.
++ * @vc: CSI-2 virtual channel
++ * @dt: CSI-2 data type ID
 + */
-+enum v4l2_mbus_frame_desc_type {
-+	V4L2_MBUS_FRAME_DESC_TYPE_UNDEFINED = 0,
-+	V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL,
-+	V4L2_MBUS_FRAME_DESC_TYPE_CSI2,
++struct v4l2_mbus_frame_desc_entry_csi2 {
++	u8 vc;
++	u8 dt;
 +};
 +
  /**
-  * struct v4l2_mbus_frame_desc - media bus data frame description
-+ * @type: type of the bus (enum v4l2_mbus_frame_desc_type)
-  * @entry: frame descriptors array
-  * @num_entries: number of entries in @entry array
+  * enum v4l2_mbus_frame_desc_flags - media bus frame description flags
+  *
+@@ -335,11 +346,16 @@ enum v4l2_mbus_frame_desc_flags {
+  *		%FRAME_DESC_FL_BLOB is not set.
+  * @length:	number of octets per frame, valid if @flags
+  *		%V4L2_MBUS_FRAME_DESC_FL_LEN_MAX is set.
++ * @bus:	Bus-specific frame descriptor parameters
++ * @bus.csi2:	CSI-2-specific bus configuration
   */
- struct v4l2_mbus_frame_desc {
-+	enum v4l2_mbus_frame_desc_type type;
- 	struct v4l2_mbus_frame_desc_entry entry[V4L2_FRAME_DESC_ENTRY_MAX];
- 	unsigned short num_entries;
+ struct v4l2_mbus_frame_desc_entry {
+ 	enum v4l2_mbus_frame_desc_flags flags;
+ 	u32 pixelcode;
+ 	u32 length;
++	union {
++		struct v4l2_mbus_frame_desc_entry_csi2 csi2;
++	} bus;
  };
+ 
+ #define V4L2_FRAME_DESC_ENTRY_MAX	4
 -- 
 2.34.1
 
