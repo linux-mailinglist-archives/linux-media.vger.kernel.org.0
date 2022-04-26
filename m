@@ -2,39 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DC1B50F0C0
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 08:11:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFDB850F0F6
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 08:30:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244909AbiDZGON (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 02:14:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56456 "EHLO
+        id S245212AbiDZGdc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Apr 2022 02:33:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244945AbiDZGOL (ORCPT
+        with ESMTP id S245182AbiDZGd0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 02:14:11 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F09D713CC4
-        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 23:11:03 -0700 (PDT)
+        Tue, 26 Apr 2022 02:33:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99A84140AD;
+        Mon, 25 Apr 2022 23:30:19 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D36CDB81C13
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 06:11:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05142C385A4;
-        Tue, 26 Apr 2022 06:10:59 +0000 (UTC)
-Message-ID: <ad66756b-6ed8-aff3-708f-94ff27f59c34@xs4all.nl>
-Date:   Tue, 26 Apr 2022 08:10:58 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 19B5F61356;
+        Tue, 26 Apr 2022 06:30:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B2A5C385A0;
+        Tue, 26 Apr 2022 06:30:15 +0000 (UTC)
+Message-ID: <075dc19b-d7f5-3939-f736-766ed0aaad84@xs4all.nl>
+Date:   Tue, 26 Apr 2022 08:30:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] v4l2-utils: read/write full frame from/to file for m2m
- non codec driver
+Subject: Re: [PATCH v7 0/6] staging: media: wave5: add wave5 codec driver
 Content-Language: en-US
-To:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org
-References: <20220321230048.372594-1-xavier.roumegue@oss.nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220321230048.372594-1-xavier.roumegue@oss.nxp.com>
+To:     Nas Chung <nas.chung@chipsnmedia.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+        open list <linux-kernel@vger.kernel.org>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "kernel@collabora.com" <kernel@collabora.com>,
+        "dafna3@gmail.com" <dafna3@gmail.com>,
+        "bob.beckett@collabora.com" <bob.beckett@collabora.com>,
+        "kiril.bicevski@collabora.com" <kiril.bicevski@collabora.com>,
+        "lafley.kim" <lafley.kim@chipsnmedia.com>,
+        Scott Woo <scott.woo@chipsnmedia.com>,
+        "olivier.crete@collabora.com" <olivier.crete@collabora.com>,
+        "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "daniel@0x0f.com" <daniel@0x0f.com>
+References: <SL2P216MB1246AED88587FF94698653D9FBF89@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <SL2P216MB1246AED88587FF94698653D9FBF89@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
@@ -46,107 +61,323 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/03/2022 00:00, Xavier Roumegue wrote:
-> In case of m2m operations with a non codec capable driver, the entire
-> frame should be read/written from/to the file while writing/reading the
-> output/capture buffer in case of crop/compose operations.
+Hi Nas,
+
+On 25/04/2022 12:16, Nas Chung wrote:
+> The wave5 codec is a stateful encoder/decoder.
+> It is found on the J721S2 SoC, JH7100 SoC, ssd202d SoC. Etc..
+> But current test report is based on J721S2 SoC.
 > 
-> fixes: d1b18e65fbdf (v4l2-ctl: Add support for crop and compose selection in streaming)
+> The driver currently supports V4L2_PIX_FMT_HEVC, V4L2_PIX_FMT_H264.
 > 
-> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-> ---
->  utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
+> This driver has so far been tested on J721S2 EVM board and pre-silicon FPGA.
 > 
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> index 7f6482d6..ae0fa127 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> @@ -89,6 +89,8 @@ enum codec_type {
->  	DECODER
->  };
->  
-> +static enum codec_type codec_type;
-> +
->  #define QUEUE_ERROR -1
->  #define QUEUE_STOPPED -2
->  
-> @@ -352,7 +354,7 @@ void streaming_usage()
->  	       	V4L_STREAM_PORT);
->  }
->  
-> -static enum codec_type get_codec_type(cv4l_fd &fd)
-> +static enum codec_type _get_codec_type(cv4l_fd &fd)
+> Testing on J721S2 EVM board shows it working fine both decoder and encoder.
+> The driver is successfully working with gstreamer v4l2 good-plugin without any modification.
+> 
+> Testing on FPGA also shows it working fine, though the FPGA uses polled interrupts and copied buffers between the host and it's on board RAM.
+> 
+> The wave5 driver will be updated to support various EXT_CTRL encoder interface.
 
-Why change the function name?
+Please note that for some unknown reason neither v6 nor v7 ever reached the
+linux-media mailinglist. Can you try to repost, this time just to the mailinglist
+and with a CC to me?
 
-I would just change the return type to void and have this
-function set codec_type.
+I have seen this problem before but it was never clear why linux-media would
+reject it. If you have an alternative email address you can email from, then
+you can try that as well.
 
-The behavior is then similar to get_cap_compose_rect/get_out_crop_rect.
+> 
+> v4l2-compliance tests from J721S2:
+> 
+> # v4l2-compliance -d0
+> v4l2-compliance SHA: not available, 64 bits
 
-Those two functions really should have a void return type as well since
-they always return 0. Bonus points for making that change in a separate
-patch.
+You must compile v4l2-compliance from the v4l-utils git repo. You can tell because
+the SHA will be shown. That way I can be certain you tested with the latest
+v4l2-compliance.
 
->  {
->  	cv4l_disable_trace dt(fd);
->  	struct v4l2_fmtdesc fmt_desc = {};
-> @@ -394,6 +396,11 @@ static enum codec_type get_codec_type(cv4l_fd &fd)
->  	return NOT_CODEC;
->  }
->  
-> +static void get_codec_type(cv4l_fd &fd)
-> +{
-> +    codec_type = _get_codec_type(fd);
-> +}
-> +
->  static int get_cap_compose_rect(cv4l_fd &fd)
->  {
->  	cv4l_disable_trace dt(fd);
-> @@ -1109,7 +1116,8 @@ restart:
->  		if (fmt.g_pixelformat() == V4L2_PIX_FMT_FWHT_STATELESS)
->  			res = read_fwht_frame(fmt, static_cast<unsigned char *>(buf), fin,
->  					      sz, expected_len, buf_len);
-> -		else if (support_out_crop && v4l2_fwht_find_pixfmt(fmt.g_pixelformat()))
-> +		else if (codec_type != NOT_CODEC && support_out_crop
-> +				&& v4l2_fwht_find_pixfmt(fmt.g_pixelformat()))
+> 
+> Compliance test for vpu-dec device /dev/video0:
+> 
+> Driver Info:
+>         Driver name      : vpu-dec
+>         Card type        : vpu-dec
+>         Bus info         : platform:vpu-dec
+>         Driver version   : 5.10.100
 
-Please move the && to the end of the previous line.
-
->  			res = read_write_padded_frame(fmt, static_cast<unsigned char *>(buf),
->  						      fin, sz, expected_len, buf_len, true);
->  		else
-> @@ -1369,7 +1377,8 @@ static void write_buffer_to_file(cv4l_fd &fd, cv4l_queue &q, cv4l_buffer &buf,
->  		}
->  		if (host_fd_to >= 0)
->  			sz = fwrite(comp_ptr[j] + offset, 1, used, fout);
-> -		else if (support_cap_compose && v4l2_fwht_find_pixfmt(fmt.g_pixelformat()))
-> +		else if (codec_type != NOT_CODEC && support_cap_compose
-> +				&& v4l2_fwht_find_pixfmt(fmt.g_pixelformat()))
-
-Ditto.
-
->  			read_write_padded_frame(fmt, static_cast<u8 *>(q.g_dataptr(buf.g_index(), j)) + offset,
->  						fout, sz, used, used, false);
->  		else
-> @@ -2262,7 +2271,6 @@ static void stateful_m2m(cv4l_fd &fd, cv4l_queue &in, cv4l_queue &out,
->  
->  	bool have_eos = subscribe_event(fd, V4L2_EVENT_EOS);
->  	bool is_encoder = false;
-> -	enum codec_type codec_type = get_codec_type(fd);
->  	bool ignore_count_skip = codec_type == ENCODER;
->  
->  	if (have_eos) {
-> @@ -2868,6 +2876,7 @@ void streaming_set(cv4l_fd &fd, cv4l_fd &out_fd, cv4l_fd &exp_fd)
->  
->  	get_cap_compose_rect(fd);
->  	get_out_crop_rect(fd);
-> +	get_codec_type(fd);
->  
->  	if (do_cap && do_out && out_fd.g_fd() < 0)
->  		streaming_set_m2m(fd, exp_fd);
+5.10 is really quite old, is it possible to test with a newer kernel?
 
 Regards,
 
 	Hans
+
+>         Capabilities     : 0x84204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>         Detected Stateful Decoder
+> 
+> Required ioctls:
+>         test VIDIOC_QUERYCAP: OK
+> 
+> Allow for multiple opens:
+>         test second /dev/video0 open: OK
+>         test VIDIOC_QUERYCAP: OK
+>         test VIDIOC_G/S_PRIORITY: OK
+>         test for unlimited opens: OK
+> 
+> Debug ioctls:
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>         test VIDIOC_QUERYCTRL: OK
+>         test VIDIOC_G/S_CTRL: OK
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 2 Private Controls: 1
+> 
+> Format ioctls:
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK
+>         test VIDIOC_TRY_FMT: OK
+>         test VIDIOC_S_FMT: OK
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK (Not Supported)
+>         test Composing: OK
+>         test Scaling: OK
+> 
+> Codec ioctls:
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK
+> 
+> Buffer ioctls:
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test VIDIOC_EXPBUF: OK
+>         test Requests: OK (Not Supported)
+> 
+> Total for vpu-dec device /dev/video0: 44, Succeeded: 44, Failed: 0, Warnings: 0
+> 
+> # v4l2-compliance -d1
+> v4l2-compliance SHA: not available, 64 bits
+> 
+> Compliance test for vpu-enc device /dev/video1:
+> 
+> Driver Info:
+>         Driver name      : vpu-enc
+>         Card type        : vpu-enc
+>         Bus info         : platform:vpu-enc
+>         Driver version   : 5.10.100
+>         Capabilities     : 0x84204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>         Detected Stateful Encoder
+> 
+> Required ioctls:
+>         test VIDIOC_QUERYCAP: OK
+> 
+> Allow for multiple opens:
+>         test second /dev/video1 open: OK
+>         test VIDIOC_QUERYCAP: OK
+>         test VIDIOC_G/S_PRIORITY: OK
+>         test for unlimited opens: OK
+> 
+> Debug ioctls:
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>         test VIDIOC_QUERYCTRL: OK
+>         test VIDIOC_G/S_CTRL: OK
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 15 Private Controls: 0
+> 
+> Format ioctls:
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>                 warn: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-formats.cpp(1320): S_PARM is supported for buftype 2, but not for ENUM_FRAMEINTERVALS
+>                 warn: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-formats.cpp(1320): S_PARM is supported for buftype 10, but not for ENUM_FRAMEINTERVALS
+>         test VIDIOC_G/S_PARM: OK
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK
+>         test VIDIOC_TRY_FMT: OK
+>         test VIDIOC_S_FMT: OK
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK
+>         test Composing: OK (Not Supported)
+>         test Scaling: OK
+> 
+> Codec ioctls:
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> 
+> Buffer ioctls:
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test VIDIOC_EXPBUF: OK
+>         test Requests: OK (Not Supported)
+> 
+> Total for vpu-enc device /dev/video1: 44, Succeeded: 44, Failed: 0, Warnings: 2
+> 
+> changes since v6:
+> 
+> * update TODO file
+> * get sram info from device tree
+> 
+> changes since v5:
+> 
+> * support NV12/NV21 pixelformat for encoder and decoder
+> * handle adnormal exit and EOS
+> 
+> changes since v4:
+> 
+> * refactor functions in wave5-hw and fix bug reported by Daniel Palmer
+> * rename functions and variables to better names
+> * change variable types such as replacing s32 with u32 and int with bool as appropriate
+> 
+> changes since v3:
+> 
+> * Fixing all issues commented by Dan Carpenter
+> * Change file names to have wave5- prefix
+> * In wave5_vpu_probe, enable the clocks before reading registers, as commented from Daniel Palmer
+> * Add more to the TODO list,
+> 
+> changes since v2:
+> 
+> Main fixes includes:
+> * change the yaml and dirver code to support up to 4 clks (instead of one)
+> * fix Kconfig format
+> * remove unneeded cast,
+> * change var types
+> * change var names, func names
+> * checkpatch fixes
+> 
+> changes since v1:
+> 
+> Fix chanes due to comments from Ezequiel and Dan Carpenter. Main fixes inclueds:
+> * move all files to one dir 'wave5'
+> * replace private error codes with standart error codes
+> * fix extra spaces
+> * various checkpatch fixes
+> * replace private 'DPRINTK' macro with standart 'dev_err/dbg ..'
+> * fix error handling
+> * add more possible fixes to the TODO file
+> 
+> 
+> Dafna Hirschfeld (1):
+>   staging: media: wave5: Add the vdi layer
+> 
+> Nas Chung (3):
+>   staging: media: wave5: Add vpuapi layer
+>   staging: media: wave5: Add the v4l2 layer
+>   staging: media: wave5: Add TODO file
+> 
+> Robert Beckett (2):
+>   dt-bindings: media: staging: wave5: add yaml devicetree bindings
+>   media: wave5: Add wave5 driver to maintainers file
+> 
+>  .../bindings/staging/media/cnm,wave.yaml      |   73 +
+>  MAINTAINERS                                   |    9 +
+>  drivers/staging/media/Kconfig                 |    2 +
+>  drivers/staging/media/Makefile                |    1 +
+>  drivers/staging/media/wave5/Kconfig           |   12 +
+>  drivers/staging/media/wave5/Makefile          |   10 +
+>  drivers/staging/media/wave5/TODO              |   34 +
+>  drivers/staging/media/wave5/wave5-hw.c        | 3405 +++++++++++++++++
+>  drivers/staging/media/wave5/wave5-regdefine.h |  655 ++++
+>  drivers/staging/media/wave5/wave5-vdi.c       |  260 ++
+>  drivers/staging/media/wave5/wave5-vdi.h       |   81 +
+>  drivers/staging/media/wave5/wave5-vpu-dec.c   | 1385 +++++++
+>  drivers/staging/media/wave5/wave5-vpu-enc.c   | 1532 ++++++++
+>  drivers/staging/media/wave5/wave5-vpu.c       |  381 ++
+>  drivers/staging/media/wave5/wave5-vpu.h       |   73 +
+>  drivers/staging/media/wave5/wave5-vpuapi.c    | 1049 +++++
+>  drivers/staging/media/wave5/wave5-vpuapi.h    | 1144 ++++++
+>  drivers/staging/media/wave5/wave5-vpuconfig.h |   91 +
+>  drivers/staging/media/wave5/wave5-vpuerror.h  |  455 +++
+>  drivers/staging/media/wave5/wave5.h           |   82 +
+>  20 files changed, 10734 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
+>  create mode 100644 drivers/staging/media/wave5/Kconfig
+>  create mode 100644 drivers/staging/media/wave5/Makefile
+>  create mode 100644 drivers/staging/media/wave5/TODO
+>  create mode 100644 drivers/staging/media/wave5/wave5-hw.c
+>  create mode 100644 drivers/staging/media/wave5/wave5-regdefine.h
+>  create mode 100644 drivers/staging/media/wave5/wave5-vdi.c
+>  create mode 100644 drivers/staging/media/wave5/wave5-vdi.h
+>  create mode 100644 drivers/staging/media/wave5/wave5-vpu-dec.c
+>  create mode 100644 drivers/staging/media/wave5/wave5-vpu-enc.c
+>  create mode 100644 drivers/staging/media/wave5/wave5-vpu.c
+>  create mode 100644 drivers/staging/media/wave5/wave5-vpu.h
+>  create mode 100644 drivers/staging/media/wave5/wave5-vpuapi.c
+>  create mode 100644 drivers/staging/media/wave5/wave5-vpuapi.h
+>  create mode 100644 drivers/staging/media/wave5/wave5-vpuconfig.h
+>  create mode 100644 drivers/staging/media/wave5/wave5-vpuerror.h
+>  create mode 100644 drivers/staging/media/wave5/wave5.h
+> 
+
