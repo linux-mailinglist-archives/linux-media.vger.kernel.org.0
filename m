@@ -2,382 +2,283 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFDB850F0F6
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 08:30:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8426550F104
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 08:31:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245212AbiDZGdc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 02:33:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37944 "EHLO
+        id S245321AbiDZGeY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Apr 2022 02:34:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245182AbiDZGd0 (ORCPT
+        with ESMTP id S245249AbiDZGeW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 02:33:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99A84140AD;
-        Mon, 25 Apr 2022 23:30:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 19B5F61356;
-        Tue, 26 Apr 2022 06:30:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B2A5C385A0;
-        Tue, 26 Apr 2022 06:30:15 +0000 (UTC)
-Message-ID: <075dc19b-d7f5-3939-f736-766ed0aaad84@xs4all.nl>
-Date:   Tue, 26 Apr 2022 08:30:13 +0200
-MIME-Version: 1.0
+        Tue, 26 Apr 2022 02:34:22 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2046.outbound.protection.outlook.com [40.107.243.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 888B3140A9;
+        Mon, 25 Apr 2022 23:31:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lXIANG8cuaYlzzIkGl+3PFUTa2V20dugYF0eMw34tyf+k7lFzEo/QUAQvNWzTFtqr8uvLzkhvGCeO8kHMN7Q33b1LvTxHOZ/1/FHdRto46ZDBpO1ixG16ikDWLxoPiIIpVLRn8rR2T24jf8j5joCcgSq1Fb6o5IAgCBO3dnTd7zG2SLFwWL++ARlxWZOqRo7rkPx0UJIrYVB5540Gi0I2+1Y7vi19vfbIX6sx6OOK6XcayvqROR5rRmXQqdvxay8Wyb7WlCyX/ak1gBy7QyLmqLRz+OPy9ayfzYVUIbgkacdZo0xW5XM/3ewMTsAMoRpBWFtiYVr7FVkD4FbrUe5Jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3e7nu1vdnqPv/BzdKIAu2XuDqngNYnHYfaPv3cAqkRA=;
+ b=W2OOvE3bo0ag+nJey+KQLvu0lcYkTjcE5Irew4AHHV+x/H8PMmnToCbwmryQI/c6dFKOhPd+CQMRVqBmhzRslQahi+0/R2NTIUbZXd40h/Fyok0F/3d7FdEsnqL1da6HbIbE5yNdbR3t02TZ+gf2JS/qsTj2tnW0DpkDAYrDLRkiuTF+ElQUSWk2QozqQUgigZo8gQs/JL2uQ3M5ZzdBvFUS5xl6twG5XZfEhF05LYH1GaCrSLyyXoqKr2Ya2etb97HQPYY6DEIPMY32UTLEqyl40GoVim8t2yx84sZ8B+Wxr0ZVCm8EGV9Hg1L2MfkcEMHn2BWr5Nh4KNLAqr6yGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3e7nu1vdnqPv/BzdKIAu2XuDqngNYnHYfaPv3cAqkRA=;
+ b=Kcw27ip+dqmxc+tVrY/meFixb9sHAkeQrDkyryD635MEV1SXlQ/DxUoSopNUxXNNBpMMOdX8pom9In7NQGVUWDiaT12jTSL4en9cQM3D4gx0/QXnbIEOLWCYekspY2M/7/MOXJWZtvK5apNBj26vhVzx64T3FY1y++rP2zSYXe4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CY5PR12MB6228.namprd12.prod.outlook.com (2603:10b6:930:20::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
+ 2022 06:31:13 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a5fb:7137:5e64:cf8]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a5fb:7137:5e64:cf8%5]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
+ 06:31:11 +0000
+Message-ID: <618a4f53-0998-1e6b-e32b-8bf2d3057cec@amd.com>
+Date:   Tue, 26 Apr 2022 08:31:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v7 0/6] staging: media: wave5: add wave5 codec driver
+Subject: Re: [PATCH v2 4/4] drm/nvdla/uapi: Add UAPI of NVDLA driver
 Content-Language: en-US
-To:     Nas Chung <nas.chung@chipsnmedia.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        open list <linux-kernel@vger.kernel.org>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "kernel@collabora.com" <kernel@collabora.com>,
-        "dafna3@gmail.com" <dafna3@gmail.com>,
-        "bob.beckett@collabora.com" <bob.beckett@collabora.com>,
-        "kiril.bicevski@collabora.com" <kiril.bicevski@collabora.com>,
-        "lafley.kim" <lafley.kim@chipsnmedia.com>,
-        Scott Woo <scott.woo@chipsnmedia.com>,
-        "olivier.crete@collabora.com" <olivier.crete@collabora.com>,
-        "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "daniel@0x0f.com" <daniel@0x0f.com>
-References: <SL2P216MB1246AED88587FF94698653D9FBF89@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <SL2P216MB1246AED88587FF94698653D9FBF89@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
+To:     Cai Huoqing <cai.huoqing@linux.dev>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20220426060808.78225-1-cai.huoqing@linux.dev>
+ <20220426060808.78225-5-cai.huoqing@linux.dev>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220426060808.78225-5-cai.huoqing@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-ClientProxiedBy: AM6PR0202CA0051.eurprd02.prod.outlook.com
+ (2603:10a6:20b:3a::28) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 309a2029-25c9-4411-e963-08da274e5b0a
+X-MS-TrafficTypeDiagnostic: CY5PR12MB6228:EE_
+X-Microsoft-Antispam-PRVS: <CY5PR12MB622825023296D669807AA70B83FB9@CY5PR12MB6228.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: I8NnVhCfUD06qX/mxSZzNWkB7c088dpK+5UoqpzP1zWQbG3W3qCyo7Lipoa93mp2GNWJRfXGPNlb4A0yqxkWJo216iKyR93MyhJOsF4jihAwwWRWxLNjB/1mF9Y+o/hlWaA610ugzNGRxY9ybX2kNhpcs3i+MJ48u/s3STNz9FbophocPrQL1etDuyMkamrc9C8xuX3NmmZ9rREfLwP+lkpapgp8+Uu3yDH0JqSf/A6xXDuQ5ld4OA1xJtTIe3D4WNtYKYI9G6YAZ5FLXW06K1f1k5+17Tu6IwRNquDAep1AT2/8KFfY2BN59ccw4klUOl7/n9VLp3QoXMzcXBcGsnrskM34U3HVJwXrpEsCdTxc5YVYkZnIkdWWhxxtcYvNKrR9YIyPoFzTojv71Fj/tVrzfDie+ZMqoqNMmrzu69vgRGVr5JLbHJMy3MZrlBTcO7r34dYBjElivDr8qPyBmz30kBV8J25PeMJ4REqFYpRcTyi2h/nC6PrgPqM1WwUsOfpBrMIzgrzs3aaG+xMUQHY+kzsrn9yHZmbErZKLp4XKnCmNnAOXOlf7DN5/LlVSD5+KWsoDWgNcl7wDhWkrPE18HGG15iMCH0L+zFvryJ7LMV7WjBON12gITH3n9tv9/NAyznqzLEmAAL8Z+JXPfTThoeUEXbtwgoWg2YU+Y/blcWmvuxHE1mglMDvakUpCg5e6NQZ4wVDbV/Wx4vTws6Nxn7INclYVMBJxl28kEL1TZNMQYSFbQpKY/36P+WFFd6BFF7ROBZ8GUkXJ9HNwYM/vYGE2gXfb5OPaRR/LgQdmVfF+iZL4uetfVvybB8SU
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2906002)(6506007)(966005)(5660300002)(8936002)(186003)(2616005)(36756003)(31686004)(7416002)(83380400001)(6512007)(26005)(4326008)(6666004)(6486002)(508600001)(316002)(54906003)(6916009)(66946007)(38100700002)(86362001)(8676002)(66556008)(66476007)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cm80dGVZendjeTM4TEZicnRGT0ovQWpOVXNqWFVrbG4wRmtHaFNFQndPNmJG?=
+ =?utf-8?B?dnc3aEVtY1FVSThJOHg1U1QrR2ZHc3R5ZDJaVWhiaVFyTXFxV1NCc0hwck15?=
+ =?utf-8?B?TDJ3amI5V0Z2L3ZzS0hXY3EvWlc4S1d2ZElFUUJ0WThDZldIb0oycFBScFFK?=
+ =?utf-8?B?Z0t6akk3L2I2YVcwQ0lsb0l6VWR3RlYvdHpGbjlTVkhIT05RY3c2WG9KdFRV?=
+ =?utf-8?B?VWRETmkxaTE2N0Y3RVkxWWl1MWZlZDZGQ3pTSUE2VWVuUVlJYXhibVhwT1p4?=
+ =?utf-8?B?T3lORTdVMk02VkZQNDhLazVWemRwbWJKT3FLYU5qbWVVZG1sbktiOTJhcW4x?=
+ =?utf-8?B?OXB3TWR3Y2RlVGlra0tjQi9ZL3lYRTAzWWR2WnEzL3I5c3FxZ3pmZkRJSnB2?=
+ =?utf-8?B?aVVXQVl3dlRhdzkvL05mZU9DQVdWZm84dDRQbVV5OFdtRGh3OGR0b2JaYVhT?=
+ =?utf-8?B?RHZrbFBTNnZ6RndBZEsrcXcyaTVOT2VKWU9MVEFkV1c0eDZhSUJqN1dvUld4?=
+ =?utf-8?B?UHlaNGNPV3ZhcVUrcjNEQUVWTGRKOFM3eG82NVFnSVJnMC8xK09sZG9KL2Vk?=
+ =?utf-8?B?a2FKWHVtdTFKdU5CYW1PVW00MVc5dzhvRnhRbU5PNTN5ZFhveUtZaVZnQmp3?=
+ =?utf-8?B?SElkaVFxbm5kMDdVaTVZVWJVRHdTTmROQThVWTgvaDBQTjJRNVNOR2RpbXY5?=
+ =?utf-8?B?V2E2TnpWb3VUY3FOMm1CM2xBWjN3TFpZZVNTTUZqTUpGSjVKUlFFTzRiQUt5?=
+ =?utf-8?B?dTBTQmlyRUd3TzlXZWkyVTVOcVRiNkdWTUd1Q1MxN1g4SlN4RlNSQk5hQlg3?=
+ =?utf-8?B?TUNJVnRrN0NvcEt5VHVQS1FpSDMweWdvZVREZFUrRVh6eGV1a01pbG9YM1E3?=
+ =?utf-8?B?VHRmVkExVit0R3R5YkV1K2tQVFp1dGhhaTBwOGVMYmNuRWZSc2JiU3pqOFFX?=
+ =?utf-8?B?NWdFeHU2TmUyTksxSDBKbnRWNVN2T2Z2L0k1aXdDeThVVlFpV2I4Yk1RRHc4?=
+ =?utf-8?B?NlE2MUkvTWV4blkybVVBVXJwd0hCSTc4QVdZb0tnc203MG52NkY2TmkrSkZI?=
+ =?utf-8?B?QWhpbWU4NnpuaVMwcWpFNGRKMU56VGUyUHRMVDZaZ3NMOUszRWtGWGl0QWFk?=
+ =?utf-8?B?eHpqSms5R0x5TUNtK01ESnJkZms5enphcG1SMnN0NVFTTUhreU4zd2xmQjUw?=
+ =?utf-8?B?YzNsUnZrcmpXMmhGOWJWM1pIc25FUFBnOFRBZ1VLdWZvd1pWR0hHNmJac1J2?=
+ =?utf-8?B?YVZkLzMrN2xsd0pnNm9CaGVrQkE5VUVtSHdkZkVnZXJKYUdlaUlmNmZTSksy?=
+ =?utf-8?B?VWU4VFVJTktCam9kdFROWWRCWlRuU1llS01adURWdXROL1FETEFSR0lmNUlQ?=
+ =?utf-8?B?ZG5QeDVNMnowZGVVd2pDZ0pPLzZEaXAzOGdLUkZRWEdYMWlpdmpxcWZXdDNN?=
+ =?utf-8?B?c29xcldwLzU5MzNHelAyNVJyQXJOT1cyektUeEl6bFhaRkI0RVJOakl5R0dO?=
+ =?utf-8?B?Wmd0N0w4MEc5Ulg5ZmtTUThIMnI5Z3BhcnVBODgvY1pieXF1Y1h3RkhycDJU?=
+ =?utf-8?B?V3NDTzFoMFBhSmVEeE5TcFpLUGlxbWN2KzhaZitqL2gvdUgrOWI1V05mWmtQ?=
+ =?utf-8?B?ZlVrY2xhMXVPMEhNbmV4SkxmVWVrdjB1V211Mng5OTVXTGVjREV5aGF3N1Jz?=
+ =?utf-8?B?cXppUU03NFdUdGNSbnFJM3lBWmZpeSt3M3Yvd0pKYmJvc0N4NEEweGN1L3hV?=
+ =?utf-8?B?L2xaU0xJTFZhYnArUWhBMm1ZOG41Qm1jazFSaGNwYitjY21wVThoNHZMQ0Qr?=
+ =?utf-8?B?NnkyQXdKN2FVYjBWUjlNRnE0TCt3V3A0NXRhMHNOeXNRWFVxWE45UmY0Vk9x?=
+ =?utf-8?B?WG1jTDFGRXpqd09sbTZOeG5VdzBjbjY2SHlrdlliZ25MOWRyVVRpZ2kvRDVm?=
+ =?utf-8?B?MXBXRG5hUkhuenhSVzdyTGhueVVOOHhnc1I1NU1VZWlqOWwxaUQ5a0xKcjBy?=
+ =?utf-8?B?WnhwZGxPQmxXUmZZZmF2RDVsb3VlRDU5eC90VmE2c0txRXRjeXdXa0IzemZD?=
+ =?utf-8?B?VUZ0SlJQTUZydE5UNStmSHJFdkFkMUpjVWtkYVhZcDRtanFoY2hjSktDdFlZ?=
+ =?utf-8?B?ZGdnbVlqSWo3elFnVXdsL3pKbWt4a1hyQ1l3N3ZSL2NsMnRTRWJUbmVzbmdm?=
+ =?utf-8?B?R3V1Q1V6WFptV0R6d21YNnFYbTZLcjBkbUpJMWlBcktIQ0wxL2lwQnBOTVlJ?=
+ =?utf-8?B?eG95YVluTnBrb2IrQU1TUllLckRLMzh6eTBKbVZkYmw3NWZSWkZUbEFMWjMv?=
+ =?utf-8?B?Z1R5MmZlQUJXNGhvaFpXT1MvYTVyaEwvbVhtS1Axb1cvcFE5cFlpdz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 309a2029-25c9-4411-e963-08da274e5b0a
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 06:31:11.8001
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZdB1P5gzufEXTTNQ4VnLHckotHkB5Oapu/nmyzWXv5Ek0oM94zC6kx9jEQSxr0/N
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6228
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nas,
+Am 26.04.22 um 08:08 schrieb Cai Huoqing:
+> The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
+> which is integrated into NVIDIA Jetson AGX Xavier,
+> so add UAPI of this driver.
+>
+> Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+> ---
+> v1->v2:
+> *Rename nvdla_drm.[ch] to nvdla_drv.[ch] and rename nvdla_ioctl.h to nvdla_drm.h,
+>   move it to uapi.
+>   comments link: https://lore.kernel.org/lkml/20bac605-97e6-e5cd-c4e4-83a8121645d8@amd.com/
+>
+>   include/uapi/drm/nvdla_drm.h | 99 ++++++++++++++++++++++++++++++++++++
+>   1 file changed, 99 insertions(+)
+>   create mode 100644 include/uapi/drm/nvdla_drm.h
+>
+> diff --git a/include/uapi/drm/nvdla_drm.h b/include/uapi/drm/nvdla_drm.h
+> new file mode 100644
+> index 000000000000..984635285525
+> --- /dev/null
+> +++ b/include/uapi/drm/nvdla_drm.h
+> @@ -0,0 +1,99 @@
+> +/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
+> +/*
+> + * Copyright (C) 2017-2018 NVIDIA CORPORATION.
+> + * Copyright (C) 2022 Cai Huoqing
+> + */
+> +
+> +#ifndef __LINUX_NVDLA_IOCTL_H
+> +#define __LINUX_NVDLA_IOCTL_H
+> +
+> +#include <linux/ioctl.h>
+> +#include <linux/types.h>
+> +
+> +#if !defined(__KERNEL__)
+> +#define __user
+> +#endif
+> +
+> +/**
+> + * struct nvdla_mem_handle structure for memory handles
+> + *
+> + * @handle		handle to DMA buffer allocated in userspace
+> + * @reserved		Reserved for padding
+> + * @offset		offset in bytes from start address of buffer
+> + *
+> + */
+> +struct nvdla_mem_handle {
+> +	__u32 handle;
+> +	__u32 reserved;
+> +	__u64 offset;
+> +};
+> +
+> +/**
+> + * struct nvdla_ioctl_submit_task structure for single task information
+> + *
+> + * @num_addresses		total number of entries in address_list
+> + * @reserved			Reserved for padding
+> + * @address_list		pointer to array of struct nvdla_mem_handle
+> + *
+> + */
+> +struct nvdla_ioctl_submit_task {
+> +#define NVDLA_MAX_BUFFERS_PER_TASK (6144)
+> +	__u32 num_addresses;
+> +#define NVDLA_NO_TIMEOUT    (0xffffffff)
+> +	__u32 timeout;
 
-On 25/04/2022 12:16, Nas Chung wrote:
-> The wave5 codec is a stateful encoder/decoder.
-> It is found on the J721S2 SoC, JH7100 SoC, ssd202d SoC. Etc..
-> But current test report is based on J721S2 SoC.
-> 
-> The driver currently supports V4L2_PIX_FMT_HEVC, V4L2_PIX_FMT_H264.
-> 
-> This driver has so far been tested on J721S2 EVM board and pre-silicon FPGA.
-> 
-> Testing on J721S2 EVM board shows it working fine both decoder and encoder.
-> The driver is successfully working with gstreamer v4l2 good-plugin without any modification.
-> 
-> Testing on FPGA also shows it working fine, though the FPGA uses polled interrupts and copied buffers between the host and it's on board RAM.
-> 
-> The wave5 driver will be updated to support various EXT_CTRL encoder interface.
+What format does that timeout value have?
 
-Please note that for some unknown reason neither v6 nor v7 ever reached the
-linux-media mailinglist. Can you try to repost, this time just to the mailinglist
-and with a CC to me?
+In general it is best practice to have absolute 64bit nanosecond 
+timeouts (to be used with ktime inside the kernel) so that restarting 
+interrupted IOCTLs works smooth.
 
-I have seen this problem before but it was never clear why linux-media would
-reject it. If you have an alternative email address you can email from, then
-you can try that as well.
+> +	__u64 address_list;
 
-> 
-> v4l2-compliance tests from J721S2:
-> 
-> # v4l2-compliance -d0
-> v4l2-compliance SHA: not available, 64 bits
+Maybe make the comments inline, cause I just wanted to write that you 
+should note that this is pointing to an nvdla_mem_handle array until I 
+saw the comment above.
 
-You must compile v4l2-compliance from the v4l-utils git repo. You can tell because
-the SHA will be shown. That way I can be certain you tested with the latest
-v4l2-compliance.
+> +};
+> +
+> +/**
+> + * struct nvdla_submit_args structure for task submit
+> + *
+> + * @tasks		pointer to array of struct nvdla_ioctl_submit_task
+> + * @num_tasks		number of entries in tasks
+> + * @flags		flags for task submit, no flags defined yet
+> + * @version		version of task structure
+> + *
+> + */
+> +struct nvdla_submit_args {
+> +	__u64 tasks;
+> +	__u16 num_tasks;
+> +#define NVDLA_MAX_TASKS_PER_SUBMIT	24
+> +#define NVDLA_SUBMIT_FLAGS_ATOMIC	(1 << 0)
 
-> 
-> Compliance test for vpu-dec device /dev/video0:
-> 
-> Driver Info:
->         Driver name      : vpu-dec
->         Card type        : vpu-dec
->         Bus info         : platform:vpu-dec
->         Driver version   : 5.10.100
+Well that "no flags defined yet" from the comment above is probably 
+outdated :)
 
-5.10 is really quite old, is it possible to test with a newer kernel?
+A comment what this flag means would also be nice to have.
+
+Apart from all those nit picks that looks pretty solid to me. Just one 
+core functionality we usually have seems to be missing here: How is 
+completion signaling implemented?
 
 Regards,
+Christian.
 
-	Hans
-
->         Capabilities     : 0x84204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->         Detected Stateful Decoder
-> 
-> Required ioctls:
->         test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video0 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->         test VIDIOC_QUERYCTRL: OK
->         test VIDIOC_G/S_CTRL: OK
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 2 Private Controls: 1
-> 
-> Format ioctls:
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->         test VIDIOC_G/S_PARM: OK (Not Supported)
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK (Not Supported)
->         test Composing: OK
->         test Scaling: OK
-> 
-> Codec ioctls:
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK
-> 
-> Buffer ioctls:
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK (Not Supported)
-> 
-> Total for vpu-dec device /dev/video0: 44, Succeeded: 44, Failed: 0, Warnings: 0
-> 
-> # v4l2-compliance -d1
-> v4l2-compliance SHA: not available, 64 bits
-> 
-> Compliance test for vpu-enc device /dev/video1:
-> 
-> Driver Info:
->         Driver name      : vpu-enc
->         Card type        : vpu-enc
->         Bus info         : platform:vpu-enc
->         Driver version   : 5.10.100
->         Capabilities     : 0x84204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->         Detected Stateful Encoder
-> 
-> Required ioctls:
->         test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video1 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->         test VIDIOC_QUERYCTRL: OK
->         test VIDIOC_G/S_CTRL: OK
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 15 Private Controls: 0
-> 
-> Format ioctls:
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->                 warn: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-formats.cpp(1320): S_PARM is supported for buftype 2, but not for ENUM_FRAMEINTERVALS
->                 warn: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-formats.cpp(1320): S_PARM is supported for buftype 10, but not for ENUM_FRAMEINTERVALS
->         test VIDIOC_G/S_PARM: OK
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK
->         test Composing: OK (Not Supported)
->         test Scaling: OK
-> 
-> Codec ioctls:
->         test VIDIOC_(TRY_)ENCODER_CMD: OK
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK (Not Supported)
-> 
-> Total for vpu-enc device /dev/video1: 44, Succeeded: 44, Failed: 0, Warnings: 2
-> 
-> changes since v6:
-> 
-> * update TODO file
-> * get sram info from device tree
-> 
-> changes since v5:
-> 
-> * support NV12/NV21 pixelformat for encoder and decoder
-> * handle adnormal exit and EOS
-> 
-> changes since v4:
-> 
-> * refactor functions in wave5-hw and fix bug reported by Daniel Palmer
-> * rename functions and variables to better names
-> * change variable types such as replacing s32 with u32 and int with bool as appropriate
-> 
-> changes since v3:
-> 
-> * Fixing all issues commented by Dan Carpenter
-> * Change file names to have wave5- prefix
-> * In wave5_vpu_probe, enable the clocks before reading registers, as commented from Daniel Palmer
-> * Add more to the TODO list,
-> 
-> changes since v2:
-> 
-> Main fixes includes:
-> * change the yaml and dirver code to support up to 4 clks (instead of one)
-> * fix Kconfig format
-> * remove unneeded cast,
-> * change var types
-> * change var names, func names
-> * checkpatch fixes
-> 
-> changes since v1:
-> 
-> Fix chanes due to comments from Ezequiel and Dan Carpenter. Main fixes inclueds:
-> * move all files to one dir 'wave5'
-> * replace private error codes with standart error codes
-> * fix extra spaces
-> * various checkpatch fixes
-> * replace private 'DPRINTK' macro with standart 'dev_err/dbg ..'
-> * fix error handling
-> * add more possible fixes to the TODO file
-> 
-> 
-> Dafna Hirschfeld (1):
->   staging: media: wave5: Add the vdi layer
-> 
-> Nas Chung (3):
->   staging: media: wave5: Add vpuapi layer
->   staging: media: wave5: Add the v4l2 layer
->   staging: media: wave5: Add TODO file
-> 
-> Robert Beckett (2):
->   dt-bindings: media: staging: wave5: add yaml devicetree bindings
->   media: wave5: Add wave5 driver to maintainers file
-> 
->  .../bindings/staging/media/cnm,wave.yaml      |   73 +
->  MAINTAINERS                                   |    9 +
->  drivers/staging/media/Kconfig                 |    2 +
->  drivers/staging/media/Makefile                |    1 +
->  drivers/staging/media/wave5/Kconfig           |   12 +
->  drivers/staging/media/wave5/Makefile          |   10 +
->  drivers/staging/media/wave5/TODO              |   34 +
->  drivers/staging/media/wave5/wave5-hw.c        | 3405 +++++++++++++++++
->  drivers/staging/media/wave5/wave5-regdefine.h |  655 ++++
->  drivers/staging/media/wave5/wave5-vdi.c       |  260 ++
->  drivers/staging/media/wave5/wave5-vdi.h       |   81 +
->  drivers/staging/media/wave5/wave5-vpu-dec.c   | 1385 +++++++
->  drivers/staging/media/wave5/wave5-vpu-enc.c   | 1532 ++++++++
->  drivers/staging/media/wave5/wave5-vpu.c       |  381 ++
->  drivers/staging/media/wave5/wave5-vpu.h       |   73 +
->  drivers/staging/media/wave5/wave5-vpuapi.c    | 1049 +++++
->  drivers/staging/media/wave5/wave5-vpuapi.h    | 1144 ++++++
->  drivers/staging/media/wave5/wave5-vpuconfig.h |   91 +
->  drivers/staging/media/wave5/wave5-vpuerror.h  |  455 +++
->  drivers/staging/media/wave5/wave5.h           |   82 +
->  20 files changed, 10734 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
->  create mode 100644 drivers/staging/media/wave5/Kconfig
->  create mode 100644 drivers/staging/media/wave5/Makefile
->  create mode 100644 drivers/staging/media/wave5/TODO
->  create mode 100644 drivers/staging/media/wave5/wave5-hw.c
->  create mode 100644 drivers/staging/media/wave5/wave5-regdefine.h
->  create mode 100644 drivers/staging/media/wave5/wave5-vdi.c
->  create mode 100644 drivers/staging/media/wave5/wave5-vdi.h
->  create mode 100644 drivers/staging/media/wave5/wave5-vpu-dec.c
->  create mode 100644 drivers/staging/media/wave5/wave5-vpu-enc.c
->  create mode 100644 drivers/staging/media/wave5/wave5-vpu.c
->  create mode 100644 drivers/staging/media/wave5/wave5-vpu.h
->  create mode 100644 drivers/staging/media/wave5/wave5-vpuapi.c
->  create mode 100644 drivers/staging/media/wave5/wave5-vpuapi.h
->  create mode 100644 drivers/staging/media/wave5/wave5-vpuconfig.h
->  create mode 100644 drivers/staging/media/wave5/wave5-vpuerror.h
->  create mode 100644 drivers/staging/media/wave5/wave5.h
-> 
+> +	__u16 flags;
+> +	__u32 version;
+> +};
+> +
+> +/**
+> + * struct nvdla_gem_create_args for allocating DMA buffer through GEM
+> + *
+> + * @handle		handle updated by kernel after allocation
+> + * @flags		implementation specific flags
+> + * @size		size of buffer to allocate
+> + */
+> +struct nvdla_gem_create_args {
+> +	__u32 handle;
+> +	__u32 flags;
+> +	__u64 size;
+> +};
+> +
+> +/**
+> + * struct nvdla_gem_map_offset_args for mapping DMA buffer
+> + *
+> + * @handle		handle of the buffer
+> + * @reserved		reserved for padding
+> + * @offset		offset updated by kernel after mapping
+> + */
+> +struct nvdla_gem_map_offset_args {
+> +	__u32 handle;
+> +	__u32 reserved;
+> +	__u64 offset;
+> +};
+> +
+> +#define DRM_NVDLA_SUBMIT		0x00
+> +#define DRM_NVDLA_GEM_CREATE	0x01
+> +#define DRM_NVDLA_GEM_MMAP		0x02
+> +
+> +#define DRM_IOCTL_NVDLA_SUBMIT DRM_IOWR(DRM_COMMAND_BASE + DRM_NVDLA_SUBMIT, struct nvdla_submit_args)
+> +#define DRM_IOCTL_NVDLA_GEM_CREATE DRM_IOWR(DRM_COMMAND_BASE + DRM_NVDLA_GEM_CREATE, struct nvdla_gem_create_args)
+> +#define DRM_IOCTL_NVDLA_GEM_MMAP DRM_IOWR(DRM_COMMAND_BASE + DRM_NVDLA_GEM_MMAP, struct nvdla_gem_map_offset_args)
+> +
+> +#endif
 
