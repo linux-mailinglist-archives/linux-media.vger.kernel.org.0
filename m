@@ -2,180 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C5D050F0B4
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 08:10:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DC1B50F0C0
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 08:11:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244861AbiDZGNV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 02:13:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53120 "EHLO
+        id S244909AbiDZGON (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Apr 2022 02:14:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244894AbiDZGNS (ORCPT
+        with ESMTP id S244945AbiDZGOL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 02:13:18 -0400
-Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 814869FE7;
-        Mon, 25 Apr 2022 23:10:10 -0700 (PDT)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1650953409;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=iitKyA2BmOSsGyxho5Xaj7J6p8svsGj9CM08D3cPrDw=;
-        b=pDf8Xdp8mG06STMNFr+MgjyhVeGDYweUdtAvMyJFG3qtkphI/3QCYOf1yYHU1uufXNfMd4
-        sSd1ieV0d25+A3tU2uxUri7/FSjZtTHwACxigDRKsQ7pyc3DMnMMwA7FW7XcJaPnGQnKfg
-        wJ0K3PRLYO7tnwMkNpYgxPs+9AR6RTI=
-From:   Cai Huoqing <cai.huoqing@linux.dev>
-To:     cai.huoqing@linux.dev
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v2 4/4] drm/nvdla/uapi: Add UAPI of NVDLA driver
-Date:   Tue, 26 Apr 2022 14:08:01 +0800
-Message-Id: <20220426060808.78225-5-cai.huoqing@linux.dev>
-In-Reply-To: <20220426060808.78225-1-cai.huoqing@linux.dev>
-References: <20220426060808.78225-1-cai.huoqing@linux.dev>
+        Tue, 26 Apr 2022 02:14:11 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F09D713CC4
+        for <linux-media@vger.kernel.org>; Mon, 25 Apr 2022 23:11:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D36CDB81C13
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 06:11:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05142C385A4;
+        Tue, 26 Apr 2022 06:10:59 +0000 (UTC)
+Message-ID: <ad66756b-6ed8-aff3-708f-94ff27f59c34@xs4all.nl>
+Date:   Tue, 26 Apr 2022 08:10:58 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,TO_EQ_FM_DIRECT_MX autolearn=no autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] v4l2-utils: read/write full frame from/to file for m2m
+ non codec driver
+Content-Language: en-US
+To:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org
+References: <20220321230048.372594-1-xavier.roumegue@oss.nxp.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220321230048.372594-1-xavier.roumegue@oss.nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
-which is integrated into NVIDIA Jetson AGX Xavier,
-so add UAPI of this driver.
+On 22/03/2022 00:00, Xavier Roumegue wrote:
+> In case of m2m operations with a non codec capable driver, the entire
+> frame should be read/written from/to the file while writing/reading the
+> output/capture buffer in case of crop/compose operations.
+> 
+> fixes: d1b18e65fbdf (v4l2-ctl: Add support for crop and compose selection in streaming)
+> 
+> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+> ---
+>  utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> index 7f6482d6..ae0fa127 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> @@ -89,6 +89,8 @@ enum codec_type {
+>  	DECODER
+>  };
+>  
+> +static enum codec_type codec_type;
+> +
+>  #define QUEUE_ERROR -1
+>  #define QUEUE_STOPPED -2
+>  
+> @@ -352,7 +354,7 @@ void streaming_usage()
+>  	       	V4L_STREAM_PORT);
+>  }
+>  
+> -static enum codec_type get_codec_type(cv4l_fd &fd)
+> +static enum codec_type _get_codec_type(cv4l_fd &fd)
 
-Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
----
-v1->v2:
-*Rename nvdla_drm.[ch] to nvdla_drv.[ch] and rename nvdla_ioctl.h to nvdla_drm.h,
- move it to uapi.
- comments link: https://lore.kernel.org/lkml/20bac605-97e6-e5cd-c4e4-83a8121645d8@amd.com/
+Why change the function name?
 
- include/uapi/drm/nvdla_drm.h | 99 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 99 insertions(+)
- create mode 100644 include/uapi/drm/nvdla_drm.h
+I would just change the return type to void and have this
+function set codec_type.
 
-diff --git a/include/uapi/drm/nvdla_drm.h b/include/uapi/drm/nvdla_drm.h
-new file mode 100644
-index 000000000000..984635285525
---- /dev/null
-+++ b/include/uapi/drm/nvdla_drm.h
-@@ -0,0 +1,99 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
-+/*
-+ * Copyright (C) 2017-2018 NVIDIA CORPORATION.
-+ * Copyright (C) 2022 Cai Huoqing
-+ */
-+
-+#ifndef __LINUX_NVDLA_IOCTL_H
-+#define __LINUX_NVDLA_IOCTL_H
-+
-+#include <linux/ioctl.h>
-+#include <linux/types.h>
-+
-+#if !defined(__KERNEL__)
-+#define __user
-+#endif
-+
-+/**
-+ * struct nvdla_mem_handle structure for memory handles
-+ *
-+ * @handle		handle to DMA buffer allocated in userspace
-+ * @reserved		Reserved for padding
-+ * @offset		offset in bytes from start address of buffer
-+ *
-+ */
-+struct nvdla_mem_handle {
-+	__u32 handle;
-+	__u32 reserved;
-+	__u64 offset;
-+};
-+
-+/**
-+ * struct nvdla_ioctl_submit_task structure for single task information
-+ *
-+ * @num_addresses		total number of entries in address_list
-+ * @reserved			Reserved for padding
-+ * @address_list		pointer to array of struct nvdla_mem_handle
-+ *
-+ */
-+struct nvdla_ioctl_submit_task {
-+#define NVDLA_MAX_BUFFERS_PER_TASK (6144)
-+	__u32 num_addresses;
-+#define NVDLA_NO_TIMEOUT    (0xffffffff)
-+	__u32 timeout;
-+	__u64 address_list;
-+};
-+
-+/**
-+ * struct nvdla_submit_args structure for task submit
-+ *
-+ * @tasks		pointer to array of struct nvdla_ioctl_submit_task
-+ * @num_tasks		number of entries in tasks
-+ * @flags		flags for task submit, no flags defined yet
-+ * @version		version of task structure
-+ *
-+ */
-+struct nvdla_submit_args {
-+	__u64 tasks;
-+	__u16 num_tasks;
-+#define NVDLA_MAX_TASKS_PER_SUBMIT	24
-+#define NVDLA_SUBMIT_FLAGS_ATOMIC	(1 << 0)
-+	__u16 flags;
-+	__u32 version;
-+};
-+
-+/**
-+ * struct nvdla_gem_create_args for allocating DMA buffer through GEM
-+ *
-+ * @handle		handle updated by kernel after allocation
-+ * @flags		implementation specific flags
-+ * @size		size of buffer to allocate
-+ */
-+struct nvdla_gem_create_args {
-+	__u32 handle;
-+	__u32 flags;
-+	__u64 size;
-+};
-+
-+/**
-+ * struct nvdla_gem_map_offset_args for mapping DMA buffer
-+ *
-+ * @handle		handle of the buffer
-+ * @reserved		reserved for padding
-+ * @offset		offset updated by kernel after mapping
-+ */
-+struct nvdla_gem_map_offset_args {
-+	__u32 handle;
-+	__u32 reserved;
-+	__u64 offset;
-+};
-+
-+#define DRM_NVDLA_SUBMIT		0x00
-+#define DRM_NVDLA_GEM_CREATE	0x01
-+#define DRM_NVDLA_GEM_MMAP		0x02
-+
-+#define DRM_IOCTL_NVDLA_SUBMIT DRM_IOWR(DRM_COMMAND_BASE + DRM_NVDLA_SUBMIT, struct nvdla_submit_args)
-+#define DRM_IOCTL_NVDLA_GEM_CREATE DRM_IOWR(DRM_COMMAND_BASE + DRM_NVDLA_GEM_CREATE, struct nvdla_gem_create_args)
-+#define DRM_IOCTL_NVDLA_GEM_MMAP DRM_IOWR(DRM_COMMAND_BASE + DRM_NVDLA_GEM_MMAP, struct nvdla_gem_map_offset_args)
-+
-+#endif
--- 
-2.25.1
+The behavior is then similar to get_cap_compose_rect/get_out_crop_rect.
 
+Those two functions really should have a void return type as well since
+they always return 0. Bonus points for making that change in a separate
+patch.
+
+>  {
+>  	cv4l_disable_trace dt(fd);
+>  	struct v4l2_fmtdesc fmt_desc = {};
+> @@ -394,6 +396,11 @@ static enum codec_type get_codec_type(cv4l_fd &fd)
+>  	return NOT_CODEC;
+>  }
+>  
+> +static void get_codec_type(cv4l_fd &fd)
+> +{
+> +    codec_type = _get_codec_type(fd);
+> +}
+> +
+>  static int get_cap_compose_rect(cv4l_fd &fd)
+>  {
+>  	cv4l_disable_trace dt(fd);
+> @@ -1109,7 +1116,8 @@ restart:
+>  		if (fmt.g_pixelformat() == V4L2_PIX_FMT_FWHT_STATELESS)
+>  			res = read_fwht_frame(fmt, static_cast<unsigned char *>(buf), fin,
+>  					      sz, expected_len, buf_len);
+> -		else if (support_out_crop && v4l2_fwht_find_pixfmt(fmt.g_pixelformat()))
+> +		else if (codec_type != NOT_CODEC && support_out_crop
+> +				&& v4l2_fwht_find_pixfmt(fmt.g_pixelformat()))
+
+Please move the && to the end of the previous line.
+
+>  			res = read_write_padded_frame(fmt, static_cast<unsigned char *>(buf),
+>  						      fin, sz, expected_len, buf_len, true);
+>  		else
+> @@ -1369,7 +1377,8 @@ static void write_buffer_to_file(cv4l_fd &fd, cv4l_queue &q, cv4l_buffer &buf,
+>  		}
+>  		if (host_fd_to >= 0)
+>  			sz = fwrite(comp_ptr[j] + offset, 1, used, fout);
+> -		else if (support_cap_compose && v4l2_fwht_find_pixfmt(fmt.g_pixelformat()))
+> +		else if (codec_type != NOT_CODEC && support_cap_compose
+> +				&& v4l2_fwht_find_pixfmt(fmt.g_pixelformat()))
+
+Ditto.
+
+>  			read_write_padded_frame(fmt, static_cast<u8 *>(q.g_dataptr(buf.g_index(), j)) + offset,
+>  						fout, sz, used, used, false);
+>  		else
+> @@ -2262,7 +2271,6 @@ static void stateful_m2m(cv4l_fd &fd, cv4l_queue &in, cv4l_queue &out,
+>  
+>  	bool have_eos = subscribe_event(fd, V4L2_EVENT_EOS);
+>  	bool is_encoder = false;
+> -	enum codec_type codec_type = get_codec_type(fd);
+>  	bool ignore_count_skip = codec_type == ENCODER;
+>  
+>  	if (have_eos) {
+> @@ -2868,6 +2876,7 @@ void streaming_set(cv4l_fd &fd, cv4l_fd &out_fd, cv4l_fd &exp_fd)
+>  
+>  	get_cap_compose_rect(fd);
+>  	get_out_crop_rect(fd);
+> +	get_codec_type(fd);
+>  
+>  	if (do_cap && do_out && out_fd.g_fd() < 0)
+>  		streaming_set_m2m(fd, exp_fd);
+
+Regards,
+
+	Hans
