@@ -2,196 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD95250F997
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 12:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE86C50F9B5
+	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 12:09:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348473AbiDZKHK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 06:07:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36252 "EHLO
+        id S1348416AbiDZKKO convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 26 Apr 2022 06:10:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244167AbiDZKGz (ORCPT
+        with ESMTP id S1349231AbiDZKJ7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 06:06:55 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBA41A61E5
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 02:28:59 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5731EFF80B;
-        Tue, 26 Apr 2022 09:28:56 +0000 (UTC)
-Date:   Tue, 26 Apr 2022 11:28:54 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Pratyush Yadav <p.yadav@ti.com>, satish.nagireddy@getcruise.com
-Subject: Re: [PATCH v2 3/3] media: ti: cal: use frame desc to get vc and dt
-Message-ID: <20220426092854.eo63txrmrkelhai4@uno.localdomain>
-References: <20220426070240.68100-1-tomi.valkeinen@ideasonboard.com>
- <20220426070240.68100-4-tomi.valkeinen@ideasonboard.com>
+        Tue, 26 Apr 2022 06:09:59 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 539461CD8F2
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 02:33:00 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1njHZ4-0005Yq-Lg; Tue, 26 Apr 2022 11:32:58 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1njHZ4-005JmZ-Rt; Tue, 26 Apr 2022 11:32:57 +0200
+Received: from pza by lupine with local (Exim 4.94.2)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1njHZ2-0004AD-Dh; Tue, 26 Apr 2022 11:32:56 +0200
+Message-ID: <5029cf076d4be8a7b3495722be2398a395245358.camel@pengutronix.de>
+Subject: Re: [PATCH 1/7] media: coda: set output buffer bytesused to appease
+ v4l2-compliance
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de
+Date:   Tue, 26 Apr 2022 11:32:56 +0200
+In-Reply-To: <63c20ead-6c83-64ab-3178-7629d5df5008@xs4all.nl>
+References: <20220404163533.707508-1-p.zabel@pengutronix.de>
+         <3b1ace8f-a425-6a61-cb97-39e93100e75c@xs4all.nl>
+         <2d160491ffdba0642e2bda6096524d10ad2b647d.camel@pengutronix.de>
+         <63c20ead-6c83-64ab-3178-7629d5df5008@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220426070240.68100-4-tomi.valkeinen@ideasonboard.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+On Di, 2022-04-26 at 07:52 +0200, Hans Verkuil wrote:
+[...]
+> > > Are there still applications that rely on zero-sized output buffers to stop the
+> > > decoder?
+> > 
+> > This was used by GStreamer 1.8. The code is still left in current
+> > versions, but is never executed unless the decoder stop command fails:
+> > 
+> > https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/main/subprojects/gst-plugins-good/sys/v4l2/gstv4l2videodec.c#L446-454
+> > 
+> > Whether there are still any applications using GStreamer 1.8 for V4L2
+> > video decoding on devices that get kernel updates, I don't know.
+> > 
+> > > I'm not actually sure that I want this in the driver, perhaps v4l2-compliance
+> > > can be modified to turn a fail into a warn if the driver is the coda driver.
+> > 
+> > Same for nxp/imx-jpeg, qcom/venus and samsung/s5p-mfc?
+> 
+> Yes for venus and s5p, but why would imx-jpeg use this?
+>
+> It makes no sense for a jpeg codec. I think it should just be removed for imx-jpeg.
+>
+> IMHO, once a decoder supports the STOP command, it should no longer set
+> allow_zero_bytesused to true. But that decision is up to you for the coda
+> driver.
 
-On Tue, Apr 26, 2022 at 10:02:40AM +0300, Tomi Valkeinen wrote:
-> Use get_frame_desc() to get the frame desc from the connected source,
-> and use the provided virtual channel and datatype instead of hardcoded
-> ones.
->
-> get_frame_desc() can contain multiple streams, but as we don't support
-> multiple streams yet, we will just always use the first stream.
->
-> If the source doesn't support get_frame_desc(), fall back to the
-> previous method of always capturing virtual channel 0 and any datatype.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Turns out there is no associated v4l2-compliance failure at all.
+I'd just drop this patch for now and keep the allow_zero_bytesused flag
+as-is.
 
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Thanks
-  j
-
-> ---
->  drivers/media/platform/ti/cal/cal-camerarx.c | 27 +++++++++++
->  drivers/media/platform/ti/cal/cal.c          | 49 +++++++++++++++++++-
->  drivers/media/platform/ti/cal/cal.h          |  2 +
->  3 files changed, 76 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
-> index 6b43a1525b45..e69fed117fea 100644
-> --- a/drivers/media/platform/ti/cal/cal-camerarx.c
-> +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
-> @@ -583,6 +583,33 @@ static int cal_camerarx_parse_dt(struct cal_camerarx *phy)
->  	return ret;
->  }
->
-> +int cal_camerarx_get_remote_frame_desc(struct cal_camerarx *phy,
-> +				       struct v4l2_mbus_frame_desc *desc)
-> +{
-> +	struct media_pad *pad;
-> +	int ret;
-> +
-> +	if (!phy->source)
-> +		return -EPIPE;
-> +
-> +	pad = media_entity_remote_pad(&phy->pads[CAL_CAMERARX_PAD_SINK]);
-> +	if (!pad)
-> +		return -EPIPE;
-> +
-> +	ret = v4l2_subdev_call(phy->source, pad, get_frame_desc, pad->index,
-> +			       desc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (desc->type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
-> +		dev_err(phy->cal->dev,
-> +			"Frame descriptor does not describe CSI-2 link");
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /* ------------------------------------------------------------------
->   *	V4L2 Subdev Operations
->   * ------------------------------------------------------------------
-> diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
-> index 4a4a6c5983f7..df66b8192349 100644
-> --- a/drivers/media/platform/ti/cal/cal.c
-> +++ b/drivers/media/platform/ti/cal/cal.c
-> @@ -469,10 +469,57 @@ static bool cal_ctx_wr_dma_stopped(struct cal_ctx *ctx)
->  	return stopped;
->  }
->
-> +static int
-> +cal_get_remote_frame_desc_entry(struct cal_camerarx *phy,
-> +				struct v4l2_mbus_frame_desc_entry *entry)
-> +{
-> +	struct v4l2_mbus_frame_desc fd;
-> +	int ret;
-> +
-> +	ret = cal_camerarx_get_remote_frame_desc(phy, &fd);
-> +	if (ret) {
-> +		if (ret != -ENOIOCTLCMD)
-> +			dev_err(phy->cal->dev,
-> +				"Failed to get remote frame desc: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	if (fd.num_entries == 0) {
-> +		dev_err(phy->cal->dev,
-> +			"No streams found in the remote frame descriptor\n");
-> +
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (fd.num_entries > 1)
-> +		dev_dbg(phy->cal->dev,
-> +			"Multiple streams not supported in remote frame descriptor, using the first one\n");
-> +
-> +	*entry = fd.entry[0];
-> +
-> +	return 0;
-> +}
-> +
->  int cal_ctx_prepare(struct cal_ctx *ctx)
->  {
-> +	struct v4l2_mbus_frame_desc_entry entry;
->  	int ret;
->
-> +	ret = cal_get_remote_frame_desc_entry(ctx->phy, &entry);
-> +
-> +	if (ret == -ENOIOCTLCMD) {
-> +		ctx->vc = 0;
-> +		ctx->datatype = CAL_CSI2_CTX_DT_ANY;
-> +	} else if (!ret) {
-> +		ctx_dbg(2, ctx, "Framedesc: len %u, vc %u, dt %#x\n",
-> +			entry.length, entry.bus.csi2.vc, entry.bus.csi2.dt);
-> +
-> +		ctx->vc = entry.bus.csi2.vc;
-> +		ctx->datatype = entry.bus.csi2.dt;
-> +	} else {
-> +		return ret;
-> +	}
-> +
->  	ctx->use_pix_proc = !ctx->fmtinfo->meta;
->
->  	if (ctx->use_pix_proc) {
-> @@ -936,8 +983,6 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
->  	ctx->dma_ctx = inst;
->  	ctx->csi2_ctx = inst;
->  	ctx->cport = inst;
-> -	ctx->vc = 0;
-> -	ctx->datatype = CAL_CSI2_CTX_DT_ANY;
->
->  	ret = cal_ctx_v4l2_init(ctx);
->  	if (ret)
-> diff --git a/drivers/media/platform/ti/cal/cal.h b/drivers/media/platform/ti/cal/cal.h
-> index 527e22d022f3..61409ddced98 100644
-> --- a/drivers/media/platform/ti/cal/cal.h
-> +++ b/drivers/media/platform/ti/cal/cal.h
-> @@ -323,6 +323,8 @@ const struct cal_format_info *cal_format_by_code(u32 code);
->
->  void cal_quickdump_regs(struct cal_dev *cal);
->
-> +int cal_camerarx_get_remote_frame_desc(struct cal_camerarx *phy,
-> +				       struct v4l2_mbus_frame_desc *desc);
->  void cal_camerarx_disable(struct cal_camerarx *phy);
->  void cal_camerarx_i913_errata(struct cal_camerarx *phy);
->  struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
-> --
-> 2.34.1
->
+regards
+Philipp
