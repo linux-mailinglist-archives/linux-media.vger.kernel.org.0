@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BA405122F7
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 21:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37BA2512300
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 21:43:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234526AbiD0ToK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 15:44:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50152 "EHLO
+        id S234623AbiD0Tqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 15:46:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235306AbiD0Tn4 (ORCPT
+        with ESMTP id S235060AbiD0TqU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 15:43:56 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F6144ECEC;
-        Wed, 27 Apr 2022 12:38:19 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id e23so3115029eda.11;
-        Wed, 27 Apr 2022 12:38:19 -0700 (PDT)
+        Wed, 27 Apr 2022 15:46:20 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E945925F3;
+        Wed, 27 Apr 2022 12:40:43 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id a21so3149835edb.1;
+        Wed, 27 Apr 2022 12:40:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hCum5bNhYi9+IQxe4PY50XCxjy3o4DC0Fuh+dehJ7+Y=;
-        b=VBJik5g8AFV/dNWkrBZafQjns54j0x12F4VUdilD5H71dLF7idgPBxQJWUlIrgjanv
-         Y2+lRpmUVfupTGVSDjK0M/xb0OYBqOR2/pAvowIALbkckDOZtxDOvKxAZgswa774Wln2
-         BmneOU7/CaP42D22iEjWNGXNO3eCAgnNtLuwol6aPIx+V91QBG2pH3CCJ+w8fow6yvcE
-         XcdYoOAyywJdgKE/yzDswZE/8W5axQzTuxb9UQTDgoX542p1QePG/FmiqADEwkdyvHMz
-         C2RpKh4W7123+jZwN9gFwVrGGiY3GKwNTn8ZiRAM/ZjRgpTf5WV73xaN433HgDmbNbgG
-         mIbw==
+        bh=Cf6DY0z5fWdN2FcWBrgkx/oCnyUhI8bOaMl8/d5zams=;
+        b=b20SaBAHJK45GUw0GjvX6yh0h5tOIe7UOx7AS4eSl1248VvPyb4yLIE1L5fFdBcmH8
+         NNYJ9ZcfBVm9HBjda1bpUgAplRnc/E26I3ohmK/ZJj8ltDM7BTOnXENIGp1URN8H/c3W
+         E+Skp3lUj+VnGP1o2GnPBqPT7KcNnwmzEOWFsE8B9HaclFebPXX/iDsryidnEN5Oz8JA
+         reN+We0/8DNRgkhwcp5S63Ah2HrSWpDqG5/C99ljaPslV6kqYGHnIcLVlhP9Cs9anMCh
+         JUwrQ+9vThdk1Po+3YzSH0K7DFnA3Inn0MCGlJ/wkiaqUB8X1HJIjF1jDpCGvnGqR4dm
+         bA8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hCum5bNhYi9+IQxe4PY50XCxjy3o4DC0Fuh+dehJ7+Y=;
-        b=ASpFnWkSA2WI1UiwMyn8y8IbbaeMwLXosiSn8TN+I5HIW0Kyoq5K0X21IlWnhLfnEe
-         UxvxalR248vbqeiH5gYw0aS3xgMpnGlCTsXa3VlT9Ezuck03Lj91C/zCrD9i+qJPgShT
-         6fGRwQNsy8A2VIlDUTu50xEyQ0cc64qWzrPzbKdejDKSSK3dQYJ7OQ4G53LOxMmbx+JU
-         XGLUF+SQILQqVoxg3U7DGPCHWXQq+fqjPOQLcxBrKQD6bCnPwM+m9loN8wTOR0bAhoVQ
-         uQVDcPNbWAdDcfk1vtto76UGnQ+shqSvi2lmYD5ulJO3MBPKHnmmDRO2WnFFk2GZ7ZDO
-         /kxw==
-X-Gm-Message-State: AOAM530FrJD+M6j/lNV+Ol9mnsGu5KT9VGVSPKMNqBZ/wV70YDxtFvvs
-        cOQqFL0m4jmhG03+NQSdicqoirTskiGsoQ==
-X-Google-Smtp-Source: ABdhPJyJXe0Qcf2siNZx1NPTseSHA6cbjBTLZ1B+Ru14MQx3/wAkrvCOCledm0fwE69ujzJ4h+F56Q==
-X-Received: by 2002:a50:a454:0:b0:425:e94b:2f1a with SMTP id v20-20020a50a454000000b00425e94b2f1amr17837938edb.330.1651088297951;
-        Wed, 27 Apr 2022 12:38:17 -0700 (PDT)
+        bh=Cf6DY0z5fWdN2FcWBrgkx/oCnyUhI8bOaMl8/d5zams=;
+        b=xH6JaJiJUxbHjgnJZqvmjNFSlrG40KabjKGY7O842K1kpKZIhEubHUCHdFdZBczUi5
+         LA2u/Ry7ZG0QmOS/GjkUnwx0eGM/sc/zxWWKvnFaPGTwKPe1BJMnkY4yie53bxpqRv44
+         FfVeoLck9eOYfTVyoC900bKgX1chXgFCM5owWOgFn7T0BazNyDXTxQcb395gYbqrNTzL
+         p1x/z174SXY+H/kohLHLWWPKHiwKhAzA1k4mPrWYGb820ihvlgEv68ZQX8huIPRJp9xl
+         57eK15IXTcrgFyjwdScH9lJBMCliaXdRyiPtSZrE47milgNg29Wt4x1uI+gTcT066g44
+         g3Yw==
+X-Gm-Message-State: AOAM533QAZKysricUeltdsTh/B8smZPWd6DC0PP8Xfemnqtul4+edevx
+        u33BXRlJigDRAH1NAi4zQBbI9p0KjvHzag==
+X-Google-Smtp-Source: ABdhPJzBV9Ifb66PflKPmXLKNT3tNSgVCyI+Tn2Y1+FXeq86/gyTtVGk5f1BwyB1N6dXa+lNS/zmTA==
+X-Received: by 2002:a05:6402:1cc1:b0:413:2cfb:b6ca with SMTP id ds1-20020a0564021cc100b004132cfbb6camr31200177edb.265.1651088442508;
+        Wed, 27 Apr 2022 12:40:42 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id r23-20020a056402019700b0042617ba637bsm83896edv.5.2022.04.27.12.38.16
+        by smtp.gmail.com with ESMTPSA id cy19-20020a0564021c9300b0042617ba6386sm90975edb.16.2022.04.27.12.40.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 12:38:17 -0700 (PDT)
+        Wed, 27 Apr 2022 12:40:42 -0700 (PDT)
 From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
@@ -60,11 +60,11 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 31/45] media: sun6i-csi: Introduce capture format structure, list and helper
-Date:   Wed, 27 Apr 2022 21:38:16 +0200
-Message-ID: <2109482.Icojqenx9y@jernej-laptop>
-In-Reply-To: <20220415152811.636419-32-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-32-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 32/45] media: sun6i-csi: Configure registers from format tables
+Date:   Wed, 27 Apr 2022 21:40:40 +0200
+Message-ID: <2366269.jE0xQCEvom@jernej-laptop>
+In-Reply-To: <20220415152811.636419-33-paul.kocialkowski@bootlin.com>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-33-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -78,10 +78,14 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 15. april 2022 ob 17:27:57 CEST je Paul Kocialkowski napisal(a):
-> Add a table that describes each pixel format and associated output
-> register configuration with necessary tweaks. It will be used later on
-> to configure the hardware.
+Dne petek, 15. april 2022 ob 17:27:58 CEST je Paul Kocialkowski napisal(a):
+> Switch over to using the static format table descriptions to configure
+> registers. Rework the hardware configuration helpers to leverage
+> information from the format structures and benefit from their logic.
+> Remove the previous dedicated helpers.
+> 
+> The intention is to make the interaction between the different formats
+> and the hardware side more visible and clear.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
