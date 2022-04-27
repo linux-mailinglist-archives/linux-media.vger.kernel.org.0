@@ -2,119 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F332511097
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 07:38:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6796A5110FF
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 08:16:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357890AbiD0FmC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 01:42:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47772 "EHLO
+        id S1358019AbiD0GTJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 02:19:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232148AbiD0FmB (ORCPT
+        with ESMTP id S229930AbiD0GTI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 01:42:01 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 080F514DE8F;
-        Tue, 26 Apr 2022 22:38:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BE456B824E6;
-        Wed, 27 Apr 2022 05:38:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A00C385A9;
-        Wed, 27 Apr 2022 05:38:47 +0000 (UTC)
-Message-ID: <8cab70e2-cd3f-da75-9e6a-1d63e33e6e24@xs4all.nl>
-Date:   Wed, 27 Apr 2022 07:38:45 +0200
+        Wed, 27 Apr 2022 02:19:08 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E5B4617C
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 23:15:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651040158; x=1682576158;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=+T7rlT0aP3C0obEOkPBkVBXeovKDYZK1WCmef0OymtQ=;
+  b=lXz/+V9GTID+XT6mI0jSbWtBCORdAFZ0yvrPmc/7SIBip/knfOvqelyG
+   cQHsMzcTM8ZeD0CjBFbfgfGhAQFcn81PLMzPyxi5tFUYmVzjCKwzIGLmg
+   kbiPN+HB5jwvTmMO6PN7GezWO38o9LRZ2gfR9chjd8ulybwa4Vsm04Ei4
+   QbhyA/E8qppZhTW7id2y7VQ+I7GNLgz1eGi5vvY/wrBXIoIy0EqwDIWk6
+   +9urXB2WM3LFicgI0hSPidvk+VDdhhFGxsS1Me3SG5YCSuc2UckchyAki
+   i3JKfYiGcXq+bJYFQGy+jRTGNTKP91GnK9XXDDP490Nkc3D91ysy89uuL
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="263418508"
+X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
+   d="scan'208";a="263418508"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 23:15:54 -0700
+X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
+   d="scan'208";a="680015451"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 23:15:53 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id C055B2017F;
+        Wed, 27 Apr 2022 09:15:50 +0300 (EEST)
+Date:   Wed, 27 Apr 2022 09:15:50 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: dw9714: Return zero in remove callback
+Message-ID: <YmjfluX8olzjWI1S@paasikivi.fi.intel.com>
+References: <20220331133132.296971-1-u.kleine-koenig@pengutronix.de>
+ <20220425191345.utl5jz5ajbzeqost@pengutronix.de>
+ <Ymeq5Q4kVu1yoKFq@paasikivi.fi.intel.com>
+ <20220426090255.nhguw7nd4asxrhab@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] media: stkwebcam: move stk_camera_read_reg() scratch
- buffer to struct stk_camera
-Content-Language: en-US
-To:     trix@redhat.com, mchehab@kernel.org, cai.huoqing@linux.dev,
-        paskripkin@gmail.com, xose.vazquez@gmail.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220312173049.1410977-1-trix@redhat.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220312173049.1410977-1-trix@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220426090255.nhguw7nd4asxrhab@pengutronix.de>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tom,
-
-On 12/03/2022 18:30, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
+On Tue, Apr 26, 2022 at 11:02:55AM +0200, Uwe Kleine-König wrote:
+> On Tue, Apr 26, 2022 at 11:18:45AM +0300, Sakari Ailus wrote:
+> > Hi Uwe,
+> > 
+> > On Mon, Apr 25, 2022 at 09:13:45PM +0200, Uwe Kleine-König wrote:
+> > > Hello,
+> > > 
+> > > On Thu, Mar 31, 2022 at 03:31:32PM +0200, Uwe Kleine-König wrote:
+> > > > The only effect of returning an error code in an i2c remove callback is
+> > > > that the i2c core emits a generic warning and still removes the device.
+> > > > 
+> > > > So even if disabling the regulator fails it's sensible to further cleanup
+> > > > and then return zero to only emit a single error message.
+> > > > 
+> > > > This patch is a preparation for making i2c remove callbacks return void.
+> > > > 
+> > > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> > > > ---
+> > > >  drivers/media/i2c/dw9714.c | 1 -
+> > > >  1 file changed, 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
+> > > > index cd7008ad8f2f..982ed8afebf5 100644
+> > > > --- a/drivers/media/i2c/dw9714.c
+> > > > +++ b/drivers/media/i2c/dw9714.c
+> > > > @@ -201,7 +201,6 @@ static int dw9714_remove(struct i2c_client *client)
+> > > >  		if (ret) {
+> > > >  			dev_err(&client->dev,
+> > > >  				"Failed to disable vcc: %d\n", ret);
+> > > > -			return ret;
+> > > >  		}
+> > > >  	}
+> > > >  	pm_runtime_set_suspended(&client->dev);
+> > > 
+> > > Who cares for this driver and so for this patch?
+> > 
+> > I do.
+> > 
+> > The patch is in the media stage tree now (you should have received an
+> > e-mail about it) from where it eventually gets to the media tree.
 > 
-> In stk_camera_read_reg() a single byte buffer is alloc-ed and
-> freed on every function call.  Since the size is known,
-> move the buffer to the struct stk_camera where it will be alloc-ed
-> and freed once.
+> Ah I did. I wasn't aware of it, because the mail doesn't have the
+> in-reply-to header set such that my MUA doesn't sort it to the patch
+> mail.
 
-I read the replies to this patch, but I am not certain if you still want
-this patch to be merged, or will make a v2. I have no problem applying this
-patch as-is, but I just want to have confirmation that there won't be a v2.
-
-Regards,
-
-	Hans
+The mail is not sent to the LMML, but the submitter (as others whose
+addresses can be found in git tags) and another list. This would still
+allow to connect the two. This is up to Mauro's scripts.
 
 > 
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/media/usb/stkwebcam/stk-webcam.c | 11 ++---------
->  drivers/media/usb/stkwebcam/stk-webcam.h |  2 ++
->  2 files changed, 4 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
-> index 5b822214ccc5c..787edb3d47c23 100644
-> --- a/drivers/media/usb/stkwebcam/stk-webcam.c
-> +++ b/drivers/media/usb/stkwebcam/stk-webcam.c
-> @@ -150,25 +150,18 @@ int stk_camera_write_reg(struct stk_camera *dev, u16 index, u8 value)
->  int stk_camera_read_reg(struct stk_camera *dev, u16 index, u8 *value)
->  {
->  	struct usb_device *udev = dev->udev;
-> -	unsigned char *buf;
->  	int ret;
->  
-> -	buf = kmalloc(sizeof(u8), GFP_KERNEL);
-> -	if (!buf)
-> -		return -ENOMEM;
-> -
->  	ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
->  			0x00,
->  			USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
->  			0x00,
->  			index,
-> -			buf,
-> +			&dev->read_reg_scratch,
->  			sizeof(u8),
->  			500);
->  	if (ret >= 0)
-> -		*value = *buf;
-> -
-> -	kfree(buf);
-> +		*value = dev->read_reg_scratch;
->  
->  	if (ret < 0)
->  		return ret;
-> diff --git a/drivers/media/usb/stkwebcam/stk-webcam.h b/drivers/media/usb/stkwebcam/stk-webcam.h
-> index 14519e5308b18..136decffe9ced 100644
-> --- a/drivers/media/usb/stkwebcam/stk-webcam.h
-> +++ b/drivers/media/usb/stkwebcam/stk-webcam.h
-> @@ -105,6 +105,8 @@ struct stk_camera {
->  	struct list_head sio_avail;
->  	struct list_head sio_full;
->  	unsigned sequence;
-> +
-> +	u8 read_reg_scratch;
->  };
->  
->  #define vdev_to_camera(d) container_of(d, struct stk_camera, vdev)
+> I saw this mail now. Let me note that it's intransparent for me how your
+> Sob line was added to the patch. The mail says the patch was queued,
+> does that mean it's about to be applied and will appear in next soon? Or
+> is it only queued to be looked at? (I assume the former.)
 
+The media submaintainer trees --- such as mine --- are not pulled to the
+media tree. Instead Mauro picks the patches to the media tree individually.
+
+My tree is here:
+
+<URL:https://git.linuxtv.org/sailus/media_tree.git/>
+
+-- 
+Sakari Ailus
