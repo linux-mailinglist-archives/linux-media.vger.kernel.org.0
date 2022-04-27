@@ -2,66 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F9B1510F8F
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 05:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D102A511031
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 06:31:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357313AbiD0Dex (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 23:34:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57966 "EHLO
+        id S1357700AbiD0Eeh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 00:34:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241363AbiD0Dev (ORCPT
+        with ESMTP id S236382AbiD0Eeg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 23:34:51 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 044183E5FD;
-        Tue, 26 Apr 2022 20:31:39 -0700 (PDT)
-X-UUID: 61da1a5d0516438bb599e74421a5e0f2-20220427
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4,REQID:00822b95-e747-4fa7-a0a4-34dcb58f2ebe,OB:0,LO
-        B:0,IP:0,URL:8,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
-        TION:release,TS:-12
-X-CID-META: VersionHash:faefae9,CLOUDID:50cd9cc6-85ee-4ac1-ac05-bd3f1e72e732,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: 61da1a5d0516438bb599e74421a5e0f2-20220427
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1514958782; Wed, 27 Apr 2022 11:31:34 +0800
-Received: from MTKMBS07N2.mediatek.inc (172.21.101.141) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Wed, 27 Apr 2022 11:31:33 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 27 Apr 2022 11:31:33 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 27 Apr 2022 11:31:32 +0800
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Irui Wang <irui.wang@mediatek.com>,
-        <allen-kh.cheng@mediatek.com>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v2] dt-bindings: media: mtk-vcodec: Adds encoder power domain property
-Date:   Wed, 27 Apr 2022 11:31:30 +0800
-Message-ID: <20220427033130.18497-1-irui.wang@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 27 Apr 2022 00:34:36 -0400
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B95CE1CB1E
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 21:31:26 -0700 (PDT)
+Received: by mail-qt1-x829.google.com with SMTP id hh4so374830qtb.10
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 21:31:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eDJ/TKi8MJj4cRz3lASeVWI34QxPexXoDljXobkQyGg=;
+        b=ZYSazkTWKQgXrTiBOPxNdhzCsnwoyOqM4V2N9vOQDG6HRKnC+gKK7I+aN0EPVfp3pH
+         j7jBmnk/fvOdyR4xI9ms8Ab++PWx5/p71SrZahPgOOdOaGA9EI7HhKnJxv5GkR/CpuZu
+         PX59oxiLlPIqvkE7FjDXFM6Z8ipB/iweREssM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eDJ/TKi8MJj4cRz3lASeVWI34QxPexXoDljXobkQyGg=;
+        b=0J0WUve3/+JMVaoV4S9s11FqC2mOSfSjJay9+rrgM2V6d7ghouvdpQyCeCrJXmlsZA
+         /RBmikGfmh3bA5+pxfitKsyH4WVnNczJyN0bfwLZrsT1UVreYPBhQIAp6HHRHeBB6abc
+         MB4SeGaAVXa1Kr5SgK8ayDXHlYdvWsZ4RsRAtdgCBh0WRdFCr0Nvg4ekRusTeuq3yUU2
+         jHpPEkYJLd29D4IbSIKZP4Z+tTCYbHFVOiRR6TmObc/xhX+3MmlLeJIBtEX4q16agYrl
+         Ov8+4fz7S6ocaFXSAMzVd5iu7E/kiL8STOaOPfxuYBtt5UiRV5p4nb8mikzYNOa3aqI3
+         /atA==
+X-Gm-Message-State: AOAM530s4QzBr7qTX21lDL/yh9vGibJo7WxbE6LxfVAIm3JITdl3+zqw
+        POSUOYlpbjRg3B1qVs6Khh/lv0T7ggViGA==
+X-Google-Smtp-Source: ABdhPJzcW4QCqHGYJXL8CgdBT2688xfw0j0semBwRvBBNhY15mPouJsrftPRFMsrnWbbCOctPRUjhw==
+X-Received: by 2002:a05:622a:13d1:b0:2f3:3c25:c741 with SMTP id p17-20020a05622a13d100b002f33c25c741mr17555199qtk.208.1651033885683;
+        Tue, 26 Apr 2022 21:31:25 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id f10-20020a05622a104a00b002f35726ccd8sm8907435qte.86.2022.04.26.21.31.23
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Apr 2022 21:31:24 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-2f7d19cac0bso5516017b3.13
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 21:31:23 -0700 (PDT)
+X-Received: by 2002:a0d:cb41:0:b0:2f7:d205:9c99 with SMTP id
+ n62-20020a0dcb41000000b002f7d2059c99mr17141871ywd.417.1651033882822; Tue, 26
+ Apr 2022 21:31:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+References: <20220426125751.108293-1-nicolas.dufresne@collabora.com> <20220426125751.108293-4-nicolas.dufresne@collabora.com>
+In-Reply-To: <20220426125751.108293-4-nicolas.dufresne@collabora.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 27 Apr 2022 13:31:11 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5C6qmxmn4y=cx5Mtb3p8vcTAFm6Jfc1vMAE8+x9iwhDZg@mail.gmail.com>
+Message-ID: <CAAFQd5C6qmxmn4y=cx5Mtb3p8vcTAFm6Jfc1vMAE8+x9iwhDZg@mail.gmail.com>
+Subject: Re: [PATCH v4 03/24] media: videobuf2-v4l2: Warn on holding buffers
+ without support
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     nicolas@ndufresne.ca,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,55 +80,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adds encoder power domain property.
+Hi Nicolas, Sebastian,
 
-Signed-off-by: Irui Wang <irui.wang@mediatek.com>
----
-changes compared with v1:
-- set "power-domains" as a non-required property
+On Tue, Apr 26, 2022 at 9:58 PM Nicolas Dufresne
+<nicolas.dufresne@collabora.com> wrote:
+>
+> From: Sebastian Fricke <sebastian.fricke@collabora.com>
+>
+> Using V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF flag without specifying the
+> subsystem flag VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF, results in
+> silently ignoring it.
+> Warn the user via a debug print when the flag is requested but ignored
+> by the videobuf2 framework.
+>
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-v4l2.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
 
-The 'make dtbs_check' warnings('mediatek,larb') can be fixed by patch:
-https://patchwork.kernel.org/project/linux-mediatek/list/?series=633993
----
- .../devicetree/bindings/media/mediatek,vcodec-encoder.yaml  | 6 ++++++
- 1 file changed, 6 insertions(+)
+Thanks for the patch. Please see my comments inline.
 
-diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
-index deb5b657a2d5..2d1e0c9bd6ee 100644
---- a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
-+++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
-@@ -41,6 +41,9 @@ properties:
- 
-   assigned-clock-parents: true
- 
-+  power-domains:
-+    maxItems: 1
-+
-   iommus:
-     minItems: 1
-     maxItems: 32
-@@ -132,6 +135,7 @@ examples:
-     #include <dt-bindings/clock/mt8173-clk.h>
-     #include <dt-bindings/memory/mt8173-larb-port.h>
-     #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/power/mt8173-power.h>
- 
-     vcodec_enc_avc: vcodec@18002000 {
-       compatible = "mediatek,mt8173-vcodec-enc";
-@@ -153,6 +157,7 @@ examples:
-       clock-names = "venc_sel";
-       assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>;
-       assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL>;
-+      power-domains = <&scpsys MT8173_POWER_DOMAIN_VENC>;
-     };
- 
-     vcodec_enc_vp8: vcodec@19002000 {
-@@ -173,4 +178,5 @@ examples:
-       clock-names = "venc_lt_sel";
-       assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
-       assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL_370P5>;
-+      power-domains = <&scpsys MT8173_POWER_DOMAIN_VENC_LT>;
-     };
--- 
-2.18.0
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 6edf4508c636..812c8d1962e0 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -329,8 +329,13 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
+>                  */
+>                 vbuf->flags &= ~V4L2_BUF_FLAG_TIMECODE;
+>                 vbuf->field = b->field;
+> -               if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF))
+> +               if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF)) {
+> +                       if (vbuf->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF)
+> +                               dprintk(q, 1,
+> +                                       "Request holding buffer (%d), unsupported on output queue\n",
+> +                                       b->index);
 
+I wonder if we shouldn't just fail such a QBUF operation. Otherwise
+the application would get unexpected behavior from the kernel.
+Although it might be too late to do it now if there are applications
+that rely on this implicit ignore...
+
+Best regards,
+Tomasz
