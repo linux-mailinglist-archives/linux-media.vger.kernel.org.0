@@ -2,140 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BEBC511251
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 09:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAD01511269
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 09:28:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358742AbiD0H2o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 03:28:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60994 "EHLO
+        id S1357620AbiD0HcD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 03:32:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236000AbiD0H2n (ORCPT
+        with ESMTP id S1348781AbiD0HcC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 03:28:43 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9FA41F97;
-        Wed, 27 Apr 2022 00:25:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D76EAB824AA;
-        Wed, 27 Apr 2022 07:25:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52FE7C385A7;
-        Wed, 27 Apr 2022 07:25:25 +0000 (UTC)
-Message-ID: <ecd9f658-09f2-783e-8cc0-34d4b0a8ed26@xs4all.nl>
-Date:   Wed, 27 Apr 2022 09:25:23 +0200
+        Wed, 27 Apr 2022 03:32:02 -0400
+Received: from mail.fixingbiz.pl (mail.fixingbiz.pl [217.61.22.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E137C75E48
+        for <linux-media@vger.kernel.org>; Wed, 27 Apr 2022 00:28:51 -0700 (PDT)
+Received: by mail.fixingbiz.pl (Postfix, from userid 1001)
+        id 81938A4F02; Wed, 27 Apr 2022 08:28:25 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fixingbiz.pl; s=mail;
+        t=1651044529; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
+        h=Date:From:To:Subject:From;
+        b=BIyiY0VBUKdIKFOHmiZx6Dl1SfptemQJwO57JUZv0rS5HMXdP4OiunrNIzMDd3S1d
+         VWlGjoO8aqD7XC3m87pVZOU1v4ViIZFLUnfEK9/Fg6wero11lZkW+tGfnEu7Cjy6tr
+         5Be8NIzWnstTw4sPoOEBaDNSKz8PUur5QLJuG/lBNR71CyYiZfov79zyUCS5Uzp8Wt
+         wPXSyo48q06Ra65fDEQMQrsak9cLObnBCVJl8cG1EAbpnmeK9k/e/e3KPPHqUoXAk/
+         GNsCHjDBmiHWo14IXjHetBKmTbpZTPwUOHaf+DW1xo1eC+aWfdljeVkaaP9PFYH58e
+         HGsTYekgszdHw==
+Received: by mail.fixingbiz.pl for <linux-media@vger.kernel.org>; Wed, 27 Apr 2022 07:28:09 GMT
+Message-ID: <20220427073002-0.1.22.ai8q.0.vfjoe8kr2p@fixingbiz.pl>
+Date:   Wed, 27 Apr 2022 07:28:09 GMT
+From:   =?UTF-8?Q? "Przemys=C5=82aw_Wr=C3=B3blewski" ?= 
+        <przemyslaw.wroblewski@fixingbiz.pl>
+To:     <linux-media@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.fixingbiz.pl
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [EXT] Re: [PATCH] media: amphion: ensure the buffer count is not
- less than min_buffer
-Content-Language: en-US
-To:     Ming Qian <ming.qian@nxp.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>
-Cc:     "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <20220322082859.9834-1-ming.qian@nxp.com>
- <3cdf47f5-ad38-44ca-1720-d70a96432045@xs4all.nl>
- <AM6PR04MB6341DAEF2FCC3CB48A7F7E19E7FA9@AM6PR04MB6341.eurprd04.prod.outlook.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <AM6PR04MB6341DAEF2FCC3CB48A7F7E19E7FA9@AM6PR04MB6341.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/04/2022 09:01, Ming Qian wrote:
->> From: Hans Verkuil [mailto:hverkuil-cisco@xs4all.nl]
->> Sent: Wednesday, April 27, 2022 2:38 PM
->> To: Ming Qian <ming.qian@nxp.com>; mchehab@kernel.org;
->> shawnguo@kernel.org
->> Cc: robh+dt@kernel.org; s.hauer@pengutronix.de; kernel@pengutronix.de;
->> festevam@gmail.com; dl-linux-imx <linux-imx@nxp.com>; Aisheng Dong
->> <aisheng.dong@nxp.com>; linux-media@vger.kernel.org;
->> linux-kernel@vger.kernel.org; linux-arm-kernel@lists.infradead.org
->> Subject: [EXT] Re: [PATCH] media: amphion: ensure the buffer count is not less
->> than min_buffer
->>
->> Caution: EXT Email
->>
->> Hi Ming Qian,
->>
->> On 22/03/2022 09:28, Ming Qian wrote:
->>> the output buffer count should >= min_buffer_out the capture buffer
->>> count should >= min_buffer_cap
->>>
->>> Signed-off-by: Ming Qian <ming.qian@nxp.com>
->>> ---
->>>  drivers/media/platform/amphion/vpu_v4l2.c | 4 ++++
->>>  1 file changed, 4 insertions(+)
->>>
->>> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c
->>> b/drivers/media/platform/amphion/vpu_v4l2.c
->>> index cbf3315605a9..72a0544f4da3 100644
->>> --- a/drivers/media/platform/amphion/vpu_v4l2.c
->>> +++ b/drivers/media/platform/amphion/vpu_v4l2.c
->>> @@ -355,6 +355,10 @@ static int vpu_vb2_queue_setup(struct vb2_queue
->> *vq,
->>>               return 0;
->>>       }
->>>
->>> +     if (V4L2_TYPE_IS_OUTPUT(vq->type))
->>> +             *buf_count = max_t(unsigned int, *buf_count,
->> inst->min_buffer_out);
->>> +     else
->>> +             *buf_count = max_t(unsigned int, *buf_count,
->>> + inst->min_buffer_cap);
->>
->> I noticed that min_buffer_out/cap is set to 2, but min_buffers_needed is set to
->> 1. Wouldn't it make more sense to set min_buffers_needed to
->> 2 as well?
->>
->> If you do that, then the vb2 core will already take care of ensuring that the
->> buf_count is adjusted.
->>
->> If you *do* have to do this manually, then you need to place the whole if-else
->> under 'if (!*num_planes) {', otherwise it will mess up the VIDIOC_CREATE_BUFS
->> ioctl. See the queue_setup in include/media/videobuf2-core.h documentation
->> for the sordid details.
->>
->> Regards,
->>
->>         Hans
->>
-> 
-> Hi Hans,
->     I want to make the vpu start when 1 frames is queued, so I set the min_buffers_needed to 1.
-> And the min_buffer_cap may be changed when a source change event is triggered. So in most case, it will be larger than 2.
+Dzie=C5=84 dobry,
 
-Ah, I only grepped for min_buffer_out, not _cap, so I missed that that one isn't constant.
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
->     I'll make a v2 patch that place the whole if-else under 'if (!*num_planes) {'
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-Great, thank you!
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
-	Hans
 
->     Thanks for your reminder
-> 
-> Ming
-> 
->>>       *plane_count = cur_fmt->num_planes;
->>>       for (i = 0; i < cur_fmt->num_planes; i++)
->>>               psize[i] = cur_fmt->sizeimage[i];
-> 
-
+Pozdrawiam,
+Przemys=C5=82aw Wr=C3=B3blewski
