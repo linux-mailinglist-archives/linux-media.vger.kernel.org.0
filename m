@@ -2,262 +2,268 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE3585111DF
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 09:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 180225111FB
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 09:06:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358506AbiD0HGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 03:06:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59972 "EHLO
+        id S1358553AbiD0HIj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 03:08:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237214AbiD0HG3 (ORCPT
+        with ESMTP id S1358541AbiD0HIg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 03:06:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1687252BF;
-        Wed, 27 Apr 2022 00:03:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A9135B82489;
-        Wed, 27 Apr 2022 07:03:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 372D9C385A9;
-        Wed, 27 Apr 2022 07:03:13 +0000 (UTC)
-Message-ID: <0979dccf-e9d0-f3bb-ac2c-e2b0ed5fd181@xs4all.nl>
-Date:   Wed, 27 Apr 2022 09:03:11 +0200
+        Wed, 27 Apr 2022 03:08:36 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB18213EBD;
+        Wed, 27 Apr 2022 00:05:25 -0700 (PDT)
+X-UUID: 897549ab54024492a192ac31c90fb72e-20220427
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4,REQID:7deaa0ac-30cf-4373-b973-d27d83b7f340,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
+        TION:release,TS:-20
+X-CID-META: VersionHash:faefae9,CLOUDID:6436a5c6-85ee-4ac1-ac05-bd3f1e72e732,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: 897549ab54024492a192ac31c90fb72e-20220427
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1704258262; Wed, 27 Apr 2022 15:05:17 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Wed, 27 Apr 2022 15:05:16 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 27 Apr 2022 15:05:15 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <tfiga@chromium.org>, <drinkcat@chromium.org>,
+        <pihsun@chromium.org>, <hsinyi@google.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        <allen-kh.cheng@mediatek.com>, <xiandong.wang@mediatek.com>,
+        <randy.wu@mediatek.com>, <moudy.ho@mediatek.com>,
+        <jason-jh.lin@mediatek.com>, <roy-cw.yeh@mediatek.com>,
+        <river.cheng@mediatek.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v14 0/3] media: mediatek: support mdp3 on mt8183 platform
+Date:   Wed, 27 Apr 2022 15:05:11 +0800
+Message-ID: <20220427070514.10355-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 5/5] media: imx-jpeg: Support dynamic resolution change
-Content-Language: en-US
-To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de,
-        mirela.rabulea@oss.nxp.com
-Cc:     kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <cover.1648023273.git.ming.qian@nxp.com>
- <93dd8b6a487a4f228984debb7a255d7ddde8f490.1648023273.git.ming.qian@nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <93dd8b6a487a4f228984debb7a255d7ddde8f490.1648023273.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/03/2022 10:05, Ming Qian wrote:
-> To support dynamic resolution change,
-> driver should meet the following conditions:
-> 1. the previous pictures are all decoded before source change event.
-> 2. prevent decoding new resolution pictures with incorrect capture
->    buffer, until user handle source change event and setup capture.
-> 3. report correct fmt and resolution during source change.
-> 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
->  .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 69 ++++++++++++++-----
->  .../media/platform/nxp/imx-jpeg/mxc-jpeg.h    |  2 +
->  2 files changed, 55 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> index 30289f2be3dd..0c3a1efbeae7 100644
-> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> @@ -933,13 +933,14 @@ static bool mxc_jpeg_source_change(struct mxc_jpeg_ctx *ctx,
->  {
->  	struct device *dev = ctx->mxc_jpeg->dev;
->  	struct mxc_jpeg_q_data *q_data_cap;
-> -	bool src_chg = false;
->  
->  	if (!jpeg_src_buf->fmt)
-> -		return src_chg;
-> +		return false;
->  
->  	q_data_cap = mxc_jpeg_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
-> -	if (q_data_cap->w != jpeg_src_buf->w || q_data_cap->h != jpeg_src_buf->h) {
-> +	if (q_data_cap->fmt != jpeg_src_buf->fmt ||
-> +	    q_data_cap->w != jpeg_src_buf->w ||
-> +	    q_data_cap->h != jpeg_src_buf->h) {
->  		dev_dbg(dev, "Detected jpeg res=(%dx%d)->(%dx%d), pixfmt=%c%c%c%c\n",
->  			q_data_cap->w, q_data_cap->h,
->  			jpeg_src_buf->w, jpeg_src_buf->h,
-> @@ -976,9 +977,16 @@ static bool mxc_jpeg_source_change(struct mxc_jpeg_ctx *ctx,
->  		mxc_jpeg_bytesperline(q_data_cap, jpeg_src_buf->fmt->precision);
->  		mxc_jpeg_sizeimage(q_data_cap);
->  		notify_src_chg(ctx);
-> -		src_chg = true;
-> +		ctx->source_change = 1;
->  	}
-> -	return src_chg;
-> +	return ctx->source_change ? true : false;
-> +}
-> +
-> +static int mxc_jpeg_job_ready(void *priv)
-> +{
-> +	struct mxc_jpeg_ctx *ctx = priv;
-> +
-> +	return ctx->source_change ? 0 : 1;
->  }
->  
->  static void mxc_jpeg_device_run(void *priv)
-> @@ -1028,6 +1036,13 @@ static void mxc_jpeg_device_run(void *priv)
->  
->  		return;
->  	}
-> +	if (ctx->mxc_jpeg->mode == MXC_JPEG_DECODE) {
-> +		if (ctx->source_change || mxc_jpeg_source_change(ctx, jpeg_src_buf)) {
-> +			spin_unlock_irqrestore(&ctx->mxc_jpeg->hw_lock, flags);
-> +			v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
-> +			return;
-> +		}
-> +	}
->  
->  	mxc_jpeg_enable(reg);
->  	mxc_jpeg_set_l_endian(reg, 1);
-> @@ -1074,6 +1089,7 @@ static void mxc_jpeg_set_last_buffer_dequeued(struct mxc_jpeg_ctx *ctx)
->  	q->last_buffer_dequeued = true;
->  	wake_up(&q->done_wq);
->  	ctx->stopped = 0;
-> +	ctx->header_parsed = false;
->  }
->  
->  static int mxc_jpeg_decoder_cmd(struct file *file, void *priv,
-> @@ -1167,6 +1183,8 @@ static int mxc_jpeg_start_streaming(struct vb2_queue *q, unsigned int count)
->  	struct mxc_jpeg_q_data *q_data = mxc_jpeg_get_q_data(ctx, q->type);
->  	int ret;
->  
-> +	if (ctx->mxc_jpeg->mode == MXC_JPEG_DECODE && V4L2_TYPE_IS_CAPTURE(q->type))
-> +		ctx->source_change = 0;
->  	dev_dbg(ctx->mxc_jpeg->dev, "Start streaming ctx=%p", ctx);
->  	q_data->sequence = 0;
->  
-> @@ -1345,16 +1363,15 @@ static int mxc_jpeg_parse(struct mxc_jpeg_ctx *ctx, struct vb2_buffer *vb)
->  		dev_warn(dev, "Invalid user resolution 0x0");
->  		dev_warn(dev, "Keeping resolution from JPEG: %dx%d",
->  			 header.frame.width, header.frame.height);
-> -		q_data_out->w = header.frame.width;
-> -		q_data_out->h = header.frame.height;
->  	} else if (header.frame.width != q_data_out->w ||
->  		   header.frame.height != q_data_out->h) {
->  		dev_err(dev,
->  			"Resolution mismatch: %dx%d (JPEG) versus %dx%d(user)",
->  			header.frame.width, header.frame.height,
->  			q_data_out->w, q_data_out->h);
-> -		return -EINVAL;
->  	}
-> +	q_data_out->w = header.frame.width;
-> +	q_data_out->h = header.frame.height;
->  	if (header.frame.width % 8 != 0 || header.frame.height % 8 != 0) {
->  		dev_err(dev, "JPEG width or height not multiple of 8: %dx%d\n",
->  			header.frame.width, header.frame.height);
-> @@ -1390,8 +1407,10 @@ static int mxc_jpeg_parse(struct mxc_jpeg_ctx *ctx, struct vb2_buffer *vb)
->  	jpeg_src_buf->fmt = mxc_jpeg_find_format(ctx, fourcc);
->  	jpeg_src_buf->w = header.frame.width;
->  	jpeg_src_buf->h = header.frame.height;
-> +	ctx->header_parsed = true;
->  
-> -	mxc_jpeg_source_change(ctx, jpeg_src_buf);
-> +	if (!v4l2_m2m_num_src_bufs_ready(ctx->fh.m2m_ctx))
-> +		mxc_jpeg_source_change(ctx, jpeg_src_buf);
->  
->  	return 0;
->  }
-> @@ -1468,6 +1487,7 @@ static void mxc_jpeg_buf_finish(struct vb2_buffer *vb)
->  	if (list_empty(&q->done_list)) {
->  		vbuf->flags |= V4L2_BUF_FLAG_LAST;
->  		ctx->stopped = 0;
-> +		ctx->header_parsed = false;
->  	}
->  }
->  
-> @@ -1613,26 +1633,42 @@ static int mxc_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
->  				     struct v4l2_fmtdesc *f)
->  {
->  	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-> +	struct mxc_jpeg_q_data *q_data = mxc_jpeg_get_q_data(ctx, f->type);
->  
-> -	if (ctx->mxc_jpeg->mode == MXC_JPEG_ENCODE)
-> +	if (ctx->mxc_jpeg->mode == MXC_JPEG_ENCODE) {
->  		return enum_fmt(mxc_formats, MXC_JPEG_NUM_FORMATS, f,
->  			MXC_JPEG_FMT_TYPE_ENC);
-> -	else
-> +	} else if (!ctx->header_parsed) {
->  		return enum_fmt(mxc_formats, MXC_JPEG_NUM_FORMATS, f,
->  			MXC_JPEG_FMT_TYPE_RAW);
-> +	} else {
-> +		/* For the decoder CAPTURE queue, only enumerate the raw formats
-> +		 * supported for the format currently active on OUTPUT
-> +		 * (more precisely what was propagated on capture queue
-> +		 * after jpeg parse on the output buffer)
-> +		 */
-> +		if (f->index)
-> +			return -EINVAL;
-> +		f->pixelformat = q_data->fmt->fourcc;
-> +		strscpy(f->description, q_data->fmt->name, sizeof(f->description));
+Change since v13:
+- Rebase on v5.18-rc4
+- Depend on:
+  [1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=636041
+- Remove advanced functionality about ISP settings for direct link cases.
+- Remove the software designation in the mt8183 dts and
+  revise corresponding bindings.
 
-Don't fill the description field in struct v4l2_fmtdesc. The core will fill
-this for you, ensuring consistent format description names.
+Change since v12:
+- Rebase on linux-next
+- Depend on:
+  [1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=630948
+- Remove messages related to routing information in MDP3, and leave the related
+  settings in MMSYS.
+- Remove unnecessary phandle and redundant property in RDMA dt-binding and
+  adjust the corresponding driver.
+- Revise MDP3 node name in dts. 
+- Removed unnecessary functions, mutex and work queue in MDP3 driver
+- Fixed format mapping error for V4L2_PIX_FMT_RGB565X
 
-I've seen this in enum_fmt() and in mxc_jpeg_enum_fmt_vid_cap(), so both
-functions should be adapted. This can be done in a new patch since it is
-unrelated to the changes of this patch series.
+Change since v11:
+- Rebase on linux-next tag:next-20220316
+- Depend on:
+  [1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=624281
+- Remove redundant hardware index in data-binding suggested by Rob Herring.
+- Referring to Rob Herring's suggestion to improve some descriptions in the
+  RDMA dt-binding
+- Move MDP3 file folder from "./drive/media/platform/mtk-mdp3" to
+  "./driver/media/platform/mediatek/mdp3"
+- Fixed the V4L2 and MDP color format mapping error in RGB565 which
+  checked by Benjamin Gaignard
 
-Just something I noticed :-)
+Change since v10:
+- The routing table needs to be discarded, and the calculation result
+  on the SCP side is used to write a suitable mux setting for
+  1 input port and 2 output ports.
+- Adjust dts parsing flow to remove redundant HW IDs.
+- Fix memory leak caused by no free path information in function "mdp_cmdq_send".
 
-Regards,
+Change since v9:
+- Keep only the MDP3 driver patches and split the remaining mmsys and
+  mutex patches into another mail.
+- Move mutex mod settings to corresponding driver and make relevant adjustments
+  for this in MDP3 driver.
+- Fix compile warning reported by kernel test robot.
 
-	Hans
+Change since v8:
+- Rebase on v5.16-rc2.
+- Refer to Angelo's suggestion, adjust the register writing format to increase
+  readability and significance.
+- Refer to Angelo's suggestion, adjust or reduce inappropriate debugging
+  messages.
+- Refer to Rob Herring's suggestion to correct the the binding file
+  to make it with the specification.
+- Fix compile warning reported by kernel test robot.
 
-> +		return 0;
-> +	}
->  }
->  
->  static int mxc_jpeg_enum_fmt_vid_out(struct file *file, void *priv,
->  				     struct v4l2_fmtdesc *f)
->  {
->  	struct mxc_jpeg_ctx *ctx = mxc_jpeg_fh_to_ctx(priv);
-> +	u32 type = ctx->mxc_jpeg->mode == MXC_JPEG_DECODE ?  MXC_JPEG_FMT_TYPE_ENC :
-> +							     MXC_JPEG_FMT_TYPE_RAW;
-> +	int ret;
->  
-> +	ret = enum_fmt(mxc_formats, MXC_JPEG_NUM_FORMATS, f, type);
-> +	if (ret)
-> +		return ret;
->  	if (ctx->mxc_jpeg->mode == MXC_JPEG_DECODE)
-> -		return enum_fmt(mxc_formats, MXC_JPEG_NUM_FORMATS, f,
-> -				MXC_JPEG_FMT_TYPE_ENC);
-> -	else
-> -		return enum_fmt(mxc_formats, MXC_JPEG_NUM_FORMATS, f,
-> -				MXC_JPEG_FMT_TYPE_RAW);
-> +		f->flags = V4L2_FMT_FLAG_DYN_RESOLUTION;
-> +	return 0;
->  }
->  
->  static int mxc_jpeg_try_fmt(struct v4l2_format *f, const struct mxc_jpeg_fmt *fmt,
-> @@ -2018,6 +2054,7 @@ static const struct v4l2_file_operations mxc_jpeg_fops = {
->  };
->  
->  static const struct v4l2_m2m_ops mxc_jpeg_m2m_ops = {
-> +	.job_ready      = mxc_jpeg_job_ready,
->  	.device_run	= mxc_jpeg_device_run,
->  };
->  
-> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
-> index 82b38cc2dfab..9ae56e6e0fbe 100644
-> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
-> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
-> @@ -94,6 +94,8 @@ struct mxc_jpeg_ctx {
->  	unsigned int			stopping;
->  	unsigned int			stopped;
->  	unsigned int			slot;
-> +	unsigned int			source_change;
-> +	bool				header_parsed;
->  };
->  
->  struct mxc_jpeg_slot_data {
+Change since v7:
+- Rebase on v5.15-rc6.
+- Revise several V4L2 M2M settings to pass v4l2-compliance test.
+- Integrate those same component dt-binding documents of DRM and MDP, and
+  move them under the MMSYS domain.
+- Split MMSYS and MUTEX into two different files according to
+  their functional properties.
+
+Changes since v6:
+- Refactor GCE event to corresponding node.
+- Fix dt_binding_check fail.
+- Fix compilation errors.
+
+Changes since v5:
+- Rebase on v5.14-rc6.
+- Move MMSYS/Mutex settings to corresponding driver.
+- Revise the software license description and copyright.
+- Remove unnecessary enum. or definitions.
+- Optimize platform/chip definition conditions.
+- Use general printing functions instead of MDP3 private ones.
+- Fix compile warning.
+
+Changes since v4:
+- Rebase on v5.13-rc1.
+- Remove the CMDQ flush flow to match the CMDQ API change.
+- Integrate four of MDP's direct-link subcomponents into MDP controller node
+  from syscon node to avoid illegal clock usage.
+- Rewrite dt-binding in a JSON compatible subset of YAML
+- Fix a bit of macro argument precedence.
+
+Changes since v3:
+- Rebase on v5.9-rc1.
+- modify code for review comment from Rob Herring, cancel multiple nodes using
+  same register base situation.
+- control IOMMU port through pm runtime get/put to DMA components' device.
+- SCP(VPU) driver revision.
+- stop queuing jobs(remove flush_workqueue()) after mdp_m2m_release().
+- add computation of plane address with data_offset.
+- fix scale ratio check issue.
+- add default v4l2_format setting.
+
+Changes since v2:
+- modify code for review comment from Tomasz Figa & Alexandre Courbot
+- review comment from Rob Herring will offer code revision in v4, due to
+  it's related to device node modification, will need to modify code
+  architecture
+
+Changes since v1:
+- modify code for CMDQ v3 API support
+- EC ipi cmd migration
+- fix compliance test fail item (m2m cmd with -f) due to there is two problem in runing all format(-f) cmd:
+1. out of memory before test complete
+        Due to capture buffer mmap (refcount + 1) after reqbuf but seems
+        no corresponding munmap called before device close.
+        There are total 12XX items(formats) in format test and each format
+        alloc 8 capture/output buffers.
+2. unceasingly captureBufs() (randomly)
+        Seems the break statement didn't catch the count == 0 situation:
+        In v4l2-test-buffers.cpp, function: captureBufs()
+                        ...
+                        count--;
+                        if (!node->is_m2m && !count)
+                                break;
+        Log is as attachment
+
+Hi,
+
+This patch is used to present Media Data Path 3 (MDP3)
+which provided scaling and color format conversion.
+support using GCE to write register in critical time limitation.
+support V4L2 m2m device control.
+
+Moudy Ho (3):
+  dt-binding: mediatek: add bindings for MediaTek MDP3 components
+  dts: arm64: mt8183: add Mediatek MDP3 nodes
+  media: platform: mtk-mdp3: add Mediatek MDP3 driver
+
+ .../bindings/media/mediatek,mdp3-rdma.yaml    |  82 ++
+ .../bindings/media/mediatek,mdp3-rsz.yaml     |  61 ++
+ .../bindings/media/mediatek,mdp3-wrot.yaml    |  66 ++
+ .../bindings/soc/mediatek/mediatek,ccorr.yaml |  54 +
+ .../bindings/soc/mediatek/mediatek,wdma.yaml  |  67 ++
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  79 +-
+ drivers/media/platform/mediatek/Kconfig       |   1 +
+ drivers/media/platform/mediatek/Makefile      |   1 +
+ drivers/media/platform/mediatek/mdp3/Kconfig  |  20 +
+ drivers/media/platform/mediatek/mdp3/Makefile |   6 +
+ .../platform/mediatek/mdp3/mdp_reg_ccorr.h    |  19 +
+ .../platform/mediatek/mdp3/mdp_reg_rdma.h     |  65 ++
+ .../platform/mediatek/mdp3/mdp_reg_rsz.h      |  39 +
+ .../platform/mediatek/mdp3/mdp_reg_wdma.h     |  47 +
+ .../platform/mediatek/mdp3/mdp_reg_wrot.h     |  55 +
+ .../platform/mediatek/mdp3/mtk-img-ipi.h      | 290 +++++
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 478 +++++++++
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.h    |  47 +
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 987 ++++++++++++++++++
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.h    | 185 ++++
+ .../platform/mediatek/mdp3/mtk-mdp3-core.c    | 378 +++++++
+ .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  95 ++
+ .../platform/mediatek/mdp3/mtk-mdp3-m2m.c     | 772 ++++++++++++++
+ .../platform/mediatek/mdp3/mtk-mdp3-m2m.h     |  48 +
+ .../platform/mediatek/mdp3/mtk-mdp3-regs.c    | 736 +++++++++++++
+ .../platform/mediatek/mdp3/mtk-mdp3-regs.h    | 370 +++++++
+ .../platform/mediatek/mdp3/mtk-mdp3-vpu.c     | 312 ++++++
+ .../platform/mediatek/mdp3/mtk-mdp3-vpu.h     |  78 ++
+ 28 files changed, 5437 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+ create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
+ create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
+ create mode 100644 drivers/media/platform/mediatek/mdp3/Kconfig
+ create mode 100644 drivers/media/platform/mediatek/mdp3/Makefile
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_ccorr.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_rdma.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_rsz.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_wdma.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_wrot.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-regs.c
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-regs.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.h
+
+-- 
+2.18.0
 
