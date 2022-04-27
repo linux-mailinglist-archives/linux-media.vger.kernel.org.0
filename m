@@ -2,124 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 350625123E5
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 22:28:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89AC3512427
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 22:54:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236204AbiD0UbZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 16:31:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60506 "EHLO
+        id S229555AbiD0U54 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 16:57:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236304AbiD0UbU (ORCPT
+        with ESMTP id S236920AbiD0U5y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 16:31:20 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD7A1B18B6;
-        Wed, 27 Apr 2022 13:28:07 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id r13so5648086ejd.5;
-        Wed, 27 Apr 2022 13:28:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=XvGmY2mQG936hGzg2VuapP2qnKpxxaFYjmRXixs6VIw=;
-        b=MzXqmOkEd24dbNwdLzRcxZTb2yAdP6lxjxolSFWkLK094wVT5610q89FwZ/ACmJWZz
-         JaZsD+iFtBu7Sd6EofSiptXIMuutK5FJMnSMgPchBU9BGddEjtH4AOh/Z4XN4wZ3NX6j
-         9nDsIiBBcII8jofTbK2AxsQNZEqufmuwgsddUp/Y9xx4sc3lrZZl0wgF/5at5HQGtbMD
-         0AD0ey2KzlA/t+OU6RpGmuHsmo9ixIkh6lpPGIRnzR485erVPeMxThYWyHMF+UKv4sbJ
-         sUmr9ycIMaf8KZr6Z3btAq0qF4LLK9owYVro7lHFGpXk2nOKHJY0+5zRHUYx3L5ve0dJ
-         u3rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XvGmY2mQG936hGzg2VuapP2qnKpxxaFYjmRXixs6VIw=;
-        b=hH/UKpS2Pr105BsHVkmQzs+MrjcgCl3FdZAfLov/rksRF/pZfeXLJPYxnbtFmsbMif
-         JorE5qFzoe3Rk4M8cnNkwnyfpVqw+Sl2Bnh8+06upmd0BByclDXcJrCDDEminfqpmYgO
-         /+fRTJ/sVEbO+8ZIbttT+/YLnXspdcwy+NwifV3NUwoCh4+lBdELLdI+8TEdAbLFLhyF
-         7jYhyjQNAJoYyII6Zx+3DXdJOzFxvuTrQ97GS5SLb6uhKquvVFtykhBdJAmAIoZubT5l
-         hX99aa2FA/9a+iXdxJVHzLwXNfObfEf6TF6jSDyTdgxEaN13avh90EVDZMa93nXtD6lF
-         MCZg==
-X-Gm-Message-State: AOAM53060V899XtmEIFwppkjU1Sq9fizFnOOprZDcYVWKJmQugNK597J
-        FMl66yeLnHdkBqALeasd/AcAjvrEauaVfQ==
-X-Google-Smtp-Source: ABdhPJynfDhtkkRIX5oDrXpoq2M/wKC5ZG0bQaQWExaqc1wCyweARLqXzr5tTgNf04q7vp1gnE2VVg==
-X-Received: by 2002:a17:907:7286:b0:6ef:f594:e063 with SMTP id dt6-20020a170907728600b006eff594e063mr28032902ejc.611.1651091284058;
-        Wed, 27 Apr 2022 13:28:04 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id c2-20020a170906924200b006f3d1141693sm1004812ejx.44.2022.04.27.13.28.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 13:28:03 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 6/8] MAINTAINERS: Add entry for the Allwinner A31 MIPI CSI-2 bridge driver
-Date:   Wed, 27 Apr 2022 22:28:02 +0200
-Message-ID: <3412158.V25eIC5XRa@jernej-laptop>
-In-Reply-To: <20220415152138.635525-7-paul.kocialkowski@bootlin.com>
-References: <20220415152138.635525-1-paul.kocialkowski@bootlin.com> <20220415152138.635525-7-paul.kocialkowski@bootlin.com>
+        Wed, 27 Apr 2022 16:57:54 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91F2888E4
+        for <linux-media@vger.kernel.org>; Wed, 27 Apr 2022 13:54:38 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 905DA1B00131;
+        Wed, 27 Apr 2022 23:54:36 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1651092876;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=csdTiyTlVnYGcGk091jMB7CS9qnhs3IxIkUF9aR0c8o=;
+        b=BYD5kTeGV2Qb4OLKxkCaFR94TjanU0u3pP8OCQ6wJ4WaiGUoMmiNH1cMPtF1vNsCVwbK+X
+        +MlN5lBT8y7MhZAtZOlXAvE1ApodEF4g2hxQnbIRqy031UPkHeGaaJvwzXG8LNC7OSKS8n
+        Y6MizggHiOo8KKSyiafooIlALEh3sEsj7hERzqqICQ3h9l/06G0MayLRmm2xuBeH2P2W68
+        t0BFEvT/TcmW4m2p7t8Fa1Vdgmv4PGL66Gnu2A69obWA6mhzpihymPRtOQHmS/doU2exTx
+        1ttH3vUO/eWfuV2FjKQUQsKrXHDI8BXZLcZHVpoiP5ZVYi9v58Er2LqFHqsfOw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 75DA0634C91;
+        Wed, 27 Apr 2022 23:54:30 +0300 (EEST)
+Date:   Wed, 27 Apr 2022 23:54:30 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Mike Pagano <mpagano@gentoo.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/1] media: i2c: ov2640: Depend on V4L2_FWNODE
+Message-ID: <YmmthjPAJIboBCbk@valkosipuli.retiisi.eu>
+References: <90ec589b-7361-03aa-dab1-54ccd4116207@gentoo.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <90ec589b-7361-03aa-dab1-54ccd4116207@gentoo.org>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1651092876; a=rsa-sha256;
+        cv=none;
+        b=BiR6ofqGAj3f9mpQW/49+ZQmJWeb+lwCO8cnMBh/KAROMR3Knu2ymCOeYE9Gw06HvZtVEd
+        GI+Q/Gp0Z+Njb0P0Fwuo0Jx25ykYR3kHhkOJWEfqiQRCDBqbH+7f9TBu2F5Ehm0jhge0Jy
+        ZdqDQu1jpIlEAvfQyR+0Q7rKb0/7y1nOKaYBJfGG33rVCVrat3+vf1FXDsFJgc6+JVlnfb
+        1XGqr3P0/d9NkTn21fpzIOVXmpFz3+Lk/TlyyoT+lCllVNbQoFbrWzBcOKVMFUsZyq0xe7
+        2T0mGZ7yYSwc1nJqIq5fqU25FQw8lSVXTOE0m4HAb6Uuqg3dbTTxbSSmmz3vSQ==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1651092876;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=csdTiyTlVnYGcGk091jMB7CS9qnhs3IxIkUF9aR0c8o=;
+        b=byEikFrvmRf+Zw1qRMdrOgKALy+gkymTS+CljYUJ/PtBdV1vK1j/TqTUOXGQQwkTQadpP9
+        ov4NygnAtNDJTLUti5FwxToARQZhegN5LKdsITUyo5tS1qZ0Xf2puu0CI3S64crCa6PaJd
+        QtnzluRSjZVkDzYMhm2gWBVFugqdSs5NDj29JhAp/fQMRn+ROWSzlzEmJESpQT/xBdXxs0
+        R9VLvDgcmdNbSsB7A3ffz7IyBojLINaJ9x0KmLRKBdWu9tNSxrQWste4IZ+kkAAjkhKok1
+        05DRg97ZJl1bm78xXsshhSFeS+sYdPxcPvXhZIjlL+MMIwdoTX3aw6jQ7k/7SA==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 15. april 2022 ob 17:21:36 CEST je Paul Kocialkowski napisal(a):
-> Add myself as maintainer of the Allwinner A31 MIPI CSI-2 bridge media
-> driver.
+Hi Mike,
+
+Thanks for the patch.
+
+On Wed, Apr 27, 2022 at 04:20:12PM -0400, Mike Pagano wrote:
+> Add V4L2_FWNODE as a dependency to match other drivers and prevent
+> failures when compile testing.
 > 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
+> Signed-off-by: Mike Pagano <mpagano@gentoo.org>
 > ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  drivers/media/i2c/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fd768d43e048..0c7a3c792837 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -761,6 +761,14 @@ T:	git git://linuxtv.org/media_tree.git
->  F:	Documentation/devicetree/bindings/media/allwinner,sun4i-a10-
-csi.yaml
->  F:	drivers/media/platform/sunxi/sun4i-csi/
-> 
-> +ALLWINNER A31 MIPI CSI-2 BRIDGE DRIVER
-> +M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-
-csi2.ya
-> ml +F:	drivers/media/platform/sunxi/sun6i-mipi-csi2/
-> +
->  ALLWINNER CPUFREQ DRIVER
->  M:	Yangtao Li <tiny.windzz@gmail.com>
->  L:	linux-pm@vger.kernel.org
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index fae2baabb773..6168c04d8b37 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -372,6 +372,7 @@ config VIDEO_OV13B10
+>  config VIDEO_OV2640
+>  	tristate "OmniVision OV2640 sensor support"
+>  	depends on VIDEO_DEV && I2C
+> +	select V4L2_FWNODE
 
+The driver doesn't use v4l2-fwnode but seems to depend on v4l2-async.
 
+Shouldn't this be V4L2_ASYNC instead?
 
+Could you also add this tag:
 
+Fixes: ff3cc65cadb5 ("media: v4l: async, fwnode: Improve module organisation")
+
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV2640 camera.
+
+-- 
+Kind regards,
+
+Sakari Ailus
