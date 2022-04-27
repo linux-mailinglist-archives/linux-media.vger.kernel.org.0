@@ -2,55 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4912E5116F2
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 14:45:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 455775117FB
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 14:47:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234591AbiD0MrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 08:47:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48764 "EHLO
+        id S234670AbiD0Mtz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 08:49:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234583AbiD0MrR (ORCPT
+        with ESMTP id S234583AbiD0Mtx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 08:47:17 -0400
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 460231FC0FE;
-        Wed, 27 Apr 2022 05:44:06 -0700 (PDT)
-Received: by mail-qv1-f44.google.com with SMTP id e17so927732qvj.11;
-        Wed, 27 Apr 2022 05:44:06 -0700 (PDT)
+        Wed, 27 Apr 2022 08:49:53 -0400
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38576262;
+        Wed, 27 Apr 2022 05:46:43 -0700 (PDT)
+Received: by mail-qk1-f174.google.com with SMTP id i2so1135874qke.12;
+        Wed, 27 Apr 2022 05:46:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1aIkrZLkxSOb+1aLOrPpk/IwAIHc80iuuJoQotmLqj8=;
-        b=fgtHwNRgfU0CHrG12Y9u/GLT8gMyxq3b7ZBF2Z0oLjkln/CWWvpXTZwdsNiMYUYCYJ
-         WOqiC6A7t38PKrOqV64cNWfRT2Hteu9Ja5EOMqiLrjqLXnUYBCknPDWwDvlcpD4RrzBR
-         WN2M3XavpJyIy2SimC2frFgKUOyAg6qCmg69t+H0sv1nhr0sC7JNmYTZ28GAQJhaJUvx
-         30RlQuTvqWSTVD7wwgaZIy/jLRbtJfL7gVAmWiYNJapnfDpmo7FoMYD2xUtRQU+UV09Z
-         YTw4l9vBO4+xCVgjzUivnINi6QuXCEws8NoZ+ZX3ClA0DJGR9odVr1rvfz3iwzeKByT3
-         850A==
-X-Gm-Message-State: AOAM532jEar8YMBqVWt/8U0Yq3KKYP73EDHKXssz5fjp00kC4mbEWYWd
-        VJxc+XtHw6EeIMvbQlY5QuWY0ptRqxUk+A==
-X-Google-Smtp-Source: ABdhPJx6i7wXbF8Bx9/MC8afjwn67VarQX6fDWMH8i78hvm2xPj5j1WzIY4VtLasbReeEigs8OxaKg==
-X-Received: by 2002:a05:6214:174:b0:456:3bb4:4b94 with SMTP id y20-20020a056214017400b004563bb44b94mr8948073qvs.87.1651063445085;
-        Wed, 27 Apr 2022 05:44:05 -0700 (PDT)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id c3-20020ac85a83000000b002f36b61b0d3sm4872635qtc.47.2022.04.27.05.44.04
+        bh=IFGnZv7frqpXTuKMalYO9Z5uZwjv041x51qY8b3NphI=;
+        b=RttUE8xBdn6tD6VntTpuimKWQnQhzRW8bdXEAvMrWJmFYqya46mJx1YHNWE7nW033b
+         l/u23iQxRjKNUSTIoA5KuUi6X1g+/IK5Noj5Ui4wAcHqTluUNCuE4P+OCRUBiaKOpkyr
+         HGKUwN+1vF+y+9IZ4gpzAL94pPQP40c0Dfxff023G+JAuD5rL06ctKNdFZe16beHvaQ2
+         GgyI/LNGde/ueNaxh/YxBBPQjqCR5xD1QXbE0S/AcNzhT6D0TQGDxPMw/T2nZicCXjGX
+         5FzTaCtLCEME2WFiGBpP0SNYLO928guK4v7AYKgDXD2PPosJ0HxJ3wpiI2ODKzGGzQNw
+         ZREg==
+X-Gm-Message-State: AOAM531CBPJtkmhrVw9OmLBsGXsf7jjyquChoqCXdNYOcOPnTUJsK7iq
+        +Jbgg8aIMkdoMUCOo8pKh7bpYZtQVbBxCA==
+X-Google-Smtp-Source: ABdhPJxoZktaHABy+Qy5rc/iXCz1UH9OXiveohQDGjE26LbAqj6pzZ9viRAqeVpEEvq9iLy3QBjn/Q==
+X-Received: by 2002:a05:620a:25d1:b0:47e:b90:bf6c with SMTP id y17-20020a05620a25d100b0047e0b90bf6cmr15660877qko.538.1651063602172;
+        Wed, 27 Apr 2022 05:46:42 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id j128-20020a37a086000000b0069f7c7d6517sm2110949qke.13.2022.04.27.05.46.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 05:44:04 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-2f7d621d1caso16814897b3.11;
-        Wed, 27 Apr 2022 05:44:04 -0700 (PDT)
-X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
- m3-20020a81c703000000b002d0cc6b3092mr26546307ywi.449.1651063444534; Wed, 27
- Apr 2022 05:44:04 -0700 (PDT)
+        Wed, 27 Apr 2022 05:46:41 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id y76so3181923ybe.1;
+        Wed, 27 Apr 2022 05:46:41 -0700 (PDT)
+X-Received: by 2002:a5b:24e:0:b0:63d:cba0:3d55 with SMTP id
+ g14-20020a5b024e000000b0063dcba03d55mr25002206ybp.613.1651063601487; Wed, 27
+ Apr 2022 05:46:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220419181757.63346-1-biju.das.jz@bp.renesas.com> <20220419181757.63346-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220419181757.63346-5-biju.das.jz@bp.renesas.com>
+References: <20220419181757.63346-1-biju.das.jz@bp.renesas.com> <20220419181757.63346-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220419181757.63346-6-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 Apr 2022 14:43:52 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVv6e+ydQGeEdtsy1g9u1OLY+ZO_7EKw8SU4HapXcfa+w@mail.gmail.com>
-Message-ID: <CAMuHMdVv6e+ydQGeEdtsy1g9u1OLY+ZO_7EKw8SU4HapXcfa+w@mail.gmail.com>
-Subject: Re: [PATCH v8 4/5] media: renesas: vsp1: Add VSP1_HAS_NON_ZERO_LBA
- feature bit
+Date:   Wed, 27 Apr 2022 14:46:30 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWnfZytmpMNSV4iNEAN+1ajkfE3f6=qoOM-kGbm3+rojA@mail.gmail.com>
+Message-ID: <CAMuHMdWnfZytmpMNSV4iNEAN+1ajkfE3f6=qoOM-kGbm3+rojA@mail.gmail.com>
+Subject: Re: [PATCH v8 5/5] media: renesas: vsp1: Add support for RZ/G2L VSPD
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -63,8 +62,8 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,68 +73,52 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi Biju,
 
 On Tue, Apr 19, 2022 at 8:18 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> As per HW manual V3M and RZ/G2L SoC's has non zero LIF buffer
-> attributes. So introduce a feature bit for handling the same.
+> The RZ/G2L VSPD provides a single VSPD instance. It has the following
+> sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
 >
-> This patch also add separate device info structure for V3M and V3H
-> SoC, as both these SoC's share the same model ID, but V3H does not
-> have VSP1_HAS_NON_ZERO_LBA feature bit.
+> The VSPD block on RZ/G2L does not have a version register, so added a
+> new compatible string "renesas,r9a07g044-vsp2" with a data pointer
+> containingthe info structure. Also the reset line is shared with the
+> DU module.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > ---
-> v8:
->  * New patch
+> v7->v8:
+>  * Split the patch for adding s/w version, feature bit and RZ/G2L support
+>  * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
+>  * Added .soc for RZ/G2L
+>  * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
 
-Thanks for your patch!
+Thanks for the update!
 
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> @@ -782,6 +782,7 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->         }, {
->                 .version = VI6_IP_VERSION_MODEL_VSPD_V3,
->                 .model = "VSP2-D",
-> +               .soc = VI6_IP_VERSION_SOC_V3H,
->                 .gen = 3,
->                 .features = VSP1_HAS_BRS | VSP1_HAS_BRU,
->                 .lif_count = 1,
-> @@ -789,6 +790,17 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->                 .uif_count = 1,
->                 .wpf_count = 1,
->                 .num_bru_inputs = 5,
-> +       }, {
-> +               .version = VI6_IP_VERSION_MODEL_VSPD_V3,
-> +               .model = "VSP2-D",
-> +               .soc = VI6_IP_VERSION_SOC_V3M,
-> +               .gen = 3,
-> +               .features = VSP1_HAS_BRS | VSP1_HAS_BRU | VSP1_HAS_NON_ZERO_LBA,
-> +               .lif_count = 1,
-> +               .rpf_count = 5,
-> +               .uif_count = 1,
-> +               .wpf_count = 1,
-> +               .num_bru_inputs = 5,
->         }, {
->                 .version = VI6_IP_VERSION_MODEL_VSPDL_GEN3,
->                 .model = "VSP2-DL",
-> @@ -832,8 +844,12 @@ static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
->         for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
->                 info = &vsp1_device_infos[i];
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+> @@ -767,6 +767,8 @@
+>  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3        (0x19 << 8)
+>  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3        (0x1a << 8)
+>  #define VI6_IP_VERSION_MODEL_VSPD_V3U  (0x1c << 8)
+> +/* RZ/G2L SoC's have no version register, So use 0x80 as the model version */
+
+RZ/G2L SoCs
+
+> +#define VI6_IP_VERSION_MODEL_VSPD_RZG2L        (0x80 << 8)
 >
-> -               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == info->version)
-> +               if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == info->version) {
-> +                       if (info->version == VI6_IP_VERSION_MODEL_VSPD_V3 &&
-> +                           ((vsp1->version & VI6_IP_VERSION_SOC_MASK) != info->soc))
+>  #define VI6_IP_VERSION_SOC_MASK                (0xff << 0)
+>  #define VI6_IP_VERSION_SOC_H2          (0x01 << 0)
+> @@ -780,6 +782,8 @@
+>  #define VI6_IP_VERSION_SOC_M3N         (0x04 << 0)
+>  #define VI6_IP_VERSION_SOC_E3          (0x04 << 0)
+>  #define VI6_IP_VERSION_SOC_V3U         (0x05 << 0)
+> +/* RZ/G2L SoC have no version register, So use 0x80 for SoC Identification */
 
-This check looks fragile to me.
-What about
+RZ/G2L SoCs
 
-    if (info->soc && (vsp1->version & VI6_IP_VERSION_SOC_MASK) != info->soc))
-
-?
-
-> +                               continue;
->                         break;
-> +               }
->         }
+> +#define VI6_IP_VERSION_SOC_RZG2L       (0x80 << 0)
+>
+>  #define VI6_IP_VERSION_VSP_SW          (0xfffe << 16) /* SW VSP version */
 
 Gr{oetje,eeting}s,
 
