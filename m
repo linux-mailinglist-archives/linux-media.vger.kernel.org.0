@@ -2,126 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D102A511031
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 06:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F332511097
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 07:38:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357700AbiD0Eeh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 00:34:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59160 "EHLO
+        id S1357890AbiD0FmC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 01:42:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236382AbiD0Eeg (ORCPT
+        with ESMTP id S232148AbiD0FmB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 00:34:36 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B95CE1CB1E
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 21:31:26 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id hh4so374830qtb.10
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 21:31:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eDJ/TKi8MJj4cRz3lASeVWI34QxPexXoDljXobkQyGg=;
-        b=ZYSazkTWKQgXrTiBOPxNdhzCsnwoyOqM4V2N9vOQDG6HRKnC+gKK7I+aN0EPVfp3pH
-         j7jBmnk/fvOdyR4xI9ms8Ab++PWx5/p71SrZahPgOOdOaGA9EI7HhKnJxv5GkR/CpuZu
-         PX59oxiLlPIqvkE7FjDXFM6Z8ipB/iweREssM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eDJ/TKi8MJj4cRz3lASeVWI34QxPexXoDljXobkQyGg=;
-        b=0J0WUve3/+JMVaoV4S9s11FqC2mOSfSjJay9+rrgM2V6d7ghouvdpQyCeCrJXmlsZA
-         /RBmikGfmh3bA5+pxfitKsyH4WVnNczJyN0bfwLZrsT1UVreYPBhQIAp6HHRHeBB6abc
-         MB4SeGaAVXa1Kr5SgK8ayDXHlYdvWsZ4RsRAtdgCBh0WRdFCr0Nvg4ekRusTeuq3yUU2
-         jHpPEkYJLd29D4IbSIKZP4Z+tTCYbHFVOiRR6TmObc/xhX+3MmlLeJIBtEX4q16agYrl
-         Ov8+4fz7S6ocaFXSAMzVd5iu7E/kiL8STOaOPfxuYBtt5UiRV5p4nb8mikzYNOa3aqI3
-         /atA==
-X-Gm-Message-State: AOAM530s4QzBr7qTX21lDL/yh9vGibJo7WxbE6LxfVAIm3JITdl3+zqw
-        POSUOYlpbjRg3B1qVs6Khh/lv0T7ggViGA==
-X-Google-Smtp-Source: ABdhPJzcW4QCqHGYJXL8CgdBT2688xfw0j0semBwRvBBNhY15mPouJsrftPRFMsrnWbbCOctPRUjhw==
-X-Received: by 2002:a05:622a:13d1:b0:2f3:3c25:c741 with SMTP id p17-20020a05622a13d100b002f33c25c741mr17555199qtk.208.1651033885683;
-        Tue, 26 Apr 2022 21:31:25 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id f10-20020a05622a104a00b002f35726ccd8sm8907435qte.86.2022.04.26.21.31.23
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Apr 2022 21:31:24 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-2f7d19cac0bso5516017b3.13
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 21:31:23 -0700 (PDT)
-X-Received: by 2002:a0d:cb41:0:b0:2f7:d205:9c99 with SMTP id
- n62-20020a0dcb41000000b002f7d2059c99mr17141871ywd.417.1651033882822; Tue, 26
- Apr 2022 21:31:22 -0700 (PDT)
+        Wed, 27 Apr 2022 01:42:01 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 080F514DE8F;
+        Tue, 26 Apr 2022 22:38:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BE456B824E6;
+        Wed, 27 Apr 2022 05:38:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A00C385A9;
+        Wed, 27 Apr 2022 05:38:47 +0000 (UTC)
+Message-ID: <8cab70e2-cd3f-da75-9e6a-1d63e33e6e24@xs4all.nl>
+Date:   Wed, 27 Apr 2022 07:38:45 +0200
 MIME-Version: 1.0
-References: <20220426125751.108293-1-nicolas.dufresne@collabora.com> <20220426125751.108293-4-nicolas.dufresne@collabora.com>
-In-Reply-To: <20220426125751.108293-4-nicolas.dufresne@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 27 Apr 2022 13:31:11 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5C6qmxmn4y=cx5Mtb3p8vcTAFm6Jfc1vMAE8+x9iwhDZg@mail.gmail.com>
-Message-ID: <CAAFQd5C6qmxmn4y=cx5Mtb3p8vcTAFm6Jfc1vMAE8+x9iwhDZg@mail.gmail.com>
-Subject: Re: [PATCH v4 03/24] media: videobuf2-v4l2: Warn on holding buffers
- without support
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     nicolas@ndufresne.ca,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        linux-media@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] media: stkwebcam: move stk_camera_read_reg() scratch
+ buffer to struct stk_camera
+Content-Language: en-US
+To:     trix@redhat.com, mchehab@kernel.org, cai.huoqing@linux.dev,
+        paskripkin@gmail.com, xose.vazquez@gmail.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220312173049.1410977-1-trix@redhat.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220312173049.1410977-1-trix@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas, Sebastian,
+Hi Tom,
 
-On Tue, Apr 26, 2022 at 9:58 PM Nicolas Dufresne
-<nicolas.dufresne@collabora.com> wrote:
->
-> From: Sebastian Fricke <sebastian.fricke@collabora.com>
->
-> Using V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF flag without specifying the
-> subsystem flag VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF, results in
-> silently ignoring it.
-> Warn the user via a debug print when the flag is requested but ignored
-> by the videobuf2 framework.
->
-> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+On 12/03/2022 18:30, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
+> 
+> In stk_camera_read_reg() a single byte buffer is alloc-ed and
+> freed on every function call.  Since the size is known,
+> move the buffer to the struct stk_camera where it will be alloc-ed
+> and freed once.
+
+I read the replies to this patch, but I am not certain if you still want
+this patch to be merged, or will make a v2. I have no problem applying this
+patch as-is, but I just want to have confirmation that there won't be a v2.
+
+Regards,
+
+	Hans
+
+> 
+> Signed-off-by: Tom Rix <trix@redhat.com>
 > ---
->  drivers/media/common/videobuf2/videobuf2-v4l2.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
+>  drivers/media/usb/stkwebcam/stk-webcam.c | 11 ++---------
+>  drivers/media/usb/stkwebcam/stk-webcam.h |  2 ++
+>  2 files changed, 4 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
+> index 5b822214ccc5c..787edb3d47c23 100644
+> --- a/drivers/media/usb/stkwebcam/stk-webcam.c
+> +++ b/drivers/media/usb/stkwebcam/stk-webcam.c
+> @@ -150,25 +150,18 @@ int stk_camera_write_reg(struct stk_camera *dev, u16 index, u8 value)
+>  int stk_camera_read_reg(struct stk_camera *dev, u16 index, u8 *value)
+>  {
+>  	struct usb_device *udev = dev->udev;
+> -	unsigned char *buf;
+>  	int ret;
+>  
+> -	buf = kmalloc(sizeof(u8), GFP_KERNEL);
+> -	if (!buf)
+> -		return -ENOMEM;
+> -
+>  	ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
+>  			0x00,
+>  			USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+>  			0x00,
+>  			index,
+> -			buf,
+> +			&dev->read_reg_scratch,
+>  			sizeof(u8),
+>  			500);
+>  	if (ret >= 0)
+> -		*value = *buf;
+> -
+> -	kfree(buf);
+> +		*value = dev->read_reg_scratch;
+>  
+>  	if (ret < 0)
+>  		return ret;
+> diff --git a/drivers/media/usb/stkwebcam/stk-webcam.h b/drivers/media/usb/stkwebcam/stk-webcam.h
+> index 14519e5308b18..136decffe9ced 100644
+> --- a/drivers/media/usb/stkwebcam/stk-webcam.h
+> +++ b/drivers/media/usb/stkwebcam/stk-webcam.h
+> @@ -105,6 +105,8 @@ struct stk_camera {
+>  	struct list_head sio_avail;
+>  	struct list_head sio_full;
+>  	unsigned sequence;
+> +
+> +	u8 read_reg_scratch;
+>  };
+>  
+>  #define vdev_to_camera(d) container_of(d, struct stk_camera, vdev)
 
-Thanks for the patch. Please see my comments inline.
-
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 6edf4508c636..812c8d1962e0 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -329,8 +329,13 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
->                  */
->                 vbuf->flags &= ~V4L2_BUF_FLAG_TIMECODE;
->                 vbuf->field = b->field;
-> -               if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF))
-> +               if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF)) {
-> +                       if (vbuf->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF)
-> +                               dprintk(q, 1,
-> +                                       "Request holding buffer (%d), unsupported on output queue\n",
-> +                                       b->index);
-
-I wonder if we shouldn't just fail such a QBUF operation. Otherwise
-the application would get unexpected behavior from the kernel.
-Although it might be too late to do it now if there are applications
-that rely on this implicit ignore...
-
-Best regards,
-Tomasz
