@@ -2,124 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CE2551164B
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 13:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFCFC511514
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 12:47:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231241AbiD0K6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 06:58:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32796 "EHLO
+        id S229777AbiD0Kob (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 06:44:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231255AbiD0K6v (ORCPT
+        with ESMTP id S229644AbiD0Ko3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 06:58:51 -0400
-Received: from de-smtp-delivery-102.mimecast.com (de-smtp-delivery-102.mimecast.com [194.104.111.102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8607C1E2711
-        for <linux-media@vger.kernel.org>; Wed, 27 Apr 2022 03:50:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=mimecast20200619;
-        t=1651056609;
+        Wed, 27 Apr 2022 06:44:29 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDBD528B76D
+        for <linux-media@vger.kernel.org>; Wed, 27 Apr 2022 03:25:26 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 476811B00120;
+        Wed, 27 Apr 2022 12:57:23 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1651053443;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=e5SioH9kFg+TUOjxJBDD486kqHi4eCH/OWKjykG4iW0=;
-        b=WzsHFCCS7vJH7HjGNw2iXwYYzZY4FI3Ep5+nVzsZy0yyPcdvMkOb/BZQ+0aHx3LvbS7Rq6
-        IQqOqmuMTRvtqjLryVwqC89SXhSm/EMKNP+VyYIbtt/bczTtYH28U0BtA2MM/TAYk7Wz0J
-        N1lb8rvMWyxkFlOkk1eEu37Ds9XZ0QE=
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05lp2171.outbound.protection.outlook.com [104.47.17.171]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- de-mta-20-1rjqxti4OFKak0l0eVeJ_Q-1; Wed, 27 Apr 2022 11:34:29 +0200
-X-MC-Unique: 1rjqxti4OFKak0l0eVeJ_Q-1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RMem+Zk2lNMm/p4CR+CqwGQud222RDur60IaisoKWsM3Bt3CjQ70QUr8/Xp6PNbuHqIpu0wubu6rOcu+cCZtieE+Vctid7a1WBiMif3l6DS8w8OABsw7ljqJCbnFrJ2PwmOPgceHBodLDurTnOQNwoCSC0OT9n2s2vXZN7coXKkNz6QhmOuf9Q5RqE4GS42bS8pFYWguPXWdF0c66rB9ll206tGXWM7eOwDw8PDty2bmEmn6C2mIDcvW7fRJFFOi3qZccAsn0u4hcVfv8/xy2h7PanDh77ZW9uaU9lTfhpFZdxdUvT5Qk4LC0jaBFXfn6E2VjROlnEb/VzW0EIhesg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z25+0OmV3Yra1Y4Rpl1/4oIjzYL7e7B2lbx9SQ9Pq8U=;
- b=hMEpS99AzMB4TBLYycA2HqH1r1UWCzcaJnrodR3la7XtsWkoVanQuVDkr/w+ncb5mLuuBirhEVya+ycXnw7+rmpAwSPjM6UtmfuxoTrcWAScylH20y14/eOvCH6G1EZnGS61W7BZecXVZ4pufyqf0dIsDA7dTsH5gGDugdJqo4HyceT/Xv+Hs5F2OwUvtln1mr7DiuNOPluR9HTzddGr/M6siP9/NS0M/l8jJYmrJkBMtVAR3Ej9n9urQKGolbW24Isvmt1+PrTOUVrRp80ULozolbDvnlawWICFq360l3d0ffZDYIOEgNRZ+EThc7zHPKnyeYqc/e6s2hqcT+ERXQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=suse.com;
-Received: from VI1PR0401MB2526.eurprd04.prod.outlook.com
- (2603:10a6:800:58::16) by AM0PR04MB6818.eurprd04.prod.outlook.com
- (2603:10a6:208:186::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.13; Wed, 27 Apr
- 2022 09:34:28 +0000
-Received: from VI1PR0401MB2526.eurprd04.prod.outlook.com
- ([fe80::8c82:19c5:ce96:491b]) by VI1PR0401MB2526.eurprd04.prod.outlook.com
- ([fe80::8c82:19c5:ce96:491b%4]) with mapi id 15.20.5186.021; Wed, 27 Apr 2022
- 09:34:27 +0000
-Message-ID: <ef931be9-51b0-6990-211b-b8450b395bf5@suse.com>
-Date:   Wed, 27 Apr 2022 11:34:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Content-Language: en-US
-To:     Alexey Khoroshilov <khoroshilov@ispras.ru>,
-        Yu Kuai <yukuai3@huawei.com>
-CC:     linux-media@vger.kernel.org
-From:   Oliver Neukum <oneukum@suse.com>
-Subject: possible clash between 8ea0f2ba0fa3f and 4affafd7bec7c both
- decrementing refcount
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: AM6PR10CA0096.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:209:8c::37) To VI1PR0401MB2526.eurprd04.prod.outlook.com
- (2603:10a6:800:58::16)
+         in-reply-to:in-reply-to:references:references;
+        bh=tgawboluo26f/XvecJ8vce6KYUKWyc0cis4y368vPWM=;
+        b=RL/A8+VfzMwq1XxQ9Glt5ZRdKBO/UaAbuIS1j9fl3cfeGIwTD/lfxaIs6CtnriDfz4jshm
+        3030hiOiw+R4oXObZ44E3d2zRxLvRHShFQM4Ca0XP9bjuyO12/k9rv7XIMCdQ0E97cksfA
+        WFX8m7BauMzfQ+KybAt01GrwHlSw2DuByGkys/9Aym6dr2Zd13FADyNkYXlkBADop+BvgH
+        x5Mrcg3eDfAAsB/xkfyXJTezDt2dviksivaAI0Tgf1Tqex4oD8J2nHizgpHxINc+oaWHUc
+        zrbOkMYl7IPXlguvQJHYcFscTOAyQNK/cN4dF/kyn9ZU9C8T01I8o5aqBlnepg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id D7DD5634C91;
+        Wed, 27 Apr 2022 12:57:16 +0300 (EEST)
+Date:   Wed, 27 Apr 2022 12:57:16 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        krzysztof.kozlowski@canonical.com,
+        jeanmichel.hautbois@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com, paul.kocialkowski@bootlin.com,
+        paul.elder@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:OMNIVISION OV5670 SENSOR DRIVER" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v3 6/8] media: i2c: ov5670: Add runtime_pm operations
+Message-ID: <YmkTfLMdtMQDBQFO@valkosipuli.retiisi.eu>
+References: <20220329090133.338073-1-jacopo@jmondi.org>
+ <20220329090133.338073-7-jacopo@jmondi.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e8031a6a-44d7-4d44-28a4-08da28311fb9
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6818:EE_
-X-Microsoft-Antispam-PRVS: <AM0PR04MB68187DEE469D737BC3974044C7FA9@AM0PR04MB6818.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WVuhzrcyJQrr17qEV9cauGufyVK+fhUz+1HDWBSgk5PjuxEylfWzIwyLzeNFOUsw9M4g+UQ110YOyvaOxGDTAcOSlto2kacl17XVWbQWV0XTeD2CcXKYzb5sgP8TwDdsa6ZwqBmXgjfFh6GD3vRSZGOpo1tkEuXqyE7h46GorAVVl8OhyonnFeuhotHPuTCIFz2WBaZZjUKoxV9QK7etxIcig11g/82HJWXcfgqOmn2xA96DMp03wWW+yHM2/1sSCAi947/4Sbmxp7mLPpUMSSiQBmbHTHG00WDTGCTwxbvHlRK4SHd4Z0jLLJ45gXbfkolHhSwml9x+xZXCFT1dXTAecYXtXtsLSL6+1cmcfdXfcmZY6naG7Goj3zs0IwXO0k4XhFVKpNt0X7VH325KgiTU3vq5/sB3/O5AoTvsigEAU41KsswKBr1U8EjlSAJk/6Fxy7fkmp0AfJQJr57vsGY2n2E73AgqYwnmDJ3J17XPF/JVYABUCyCuOMJ+4a1V/Qq6akU6a/Y9JVKvYqHnRrjDCrT/eDpb6ERvKOALojNz3wrjECuvc29NGqdOrMBYYGUbElgBO3hYseE89fxBT9ZxfSCTbSBom2z5TacfPP1yJUamTx3cyy75IdosIpnjfSE+1J25132vtFAjhFpspY74ume6dEFdGxRss4P/JjBHrjEl9FUZ1NlGWSk6h26+0QQJOL7mZoAA7hJpqQNrrA910614QT3ANJLdsl+sZ+4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0401MB2526.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(5660300002)(36756003)(66476007)(316002)(186003)(66946007)(66556008)(2906002)(4326008)(8676002)(8936002)(558084003)(31686004)(110136005)(2616005)(31696002)(86362001)(6486002)(508600001)(38100700002)(6512007)(6506007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1uoZxdXMppktjYSFQIR2kKonwkZQASG29hV1HW00GLSSj3PqrIt3vwubEKYq?=
- =?us-ascii?Q?Nf+mSCzaFD3bl0RFvjH9a2TmthHSc9Vsx0uZRu+SfgoMui3oG00ufoZCDzX5?=
- =?us-ascii?Q?+XcCiI+zIh3VMu/p4o83duAu5cV5vz74KjxXawugQOFR8j147ShHkoOPYyj5?=
- =?us-ascii?Q?EiDBqWovbXHyZcWkd9HYoAFSl7AbwEuRPEzicYAjugovgs/HcUltSh0zve/e?=
- =?us-ascii?Q?Y73520jIHWJzFyWJdLQfkfnohZ9dMQoNuHBPb/QicPvo553lyZwqiooAFfb2?=
- =?us-ascii?Q?5OMRbIjoJ640p6n9dSUGgrySUrLlNXR576aztCauGm7ih5maotUC6YdnFaKF?=
- =?us-ascii?Q?B6JkRNCjxVtJP9lHnPurV+UfpHFlvEaZw510r5DwO6p1a4WPfzDmt0k1cDm7?=
- =?us-ascii?Q?4xL+iDCWs7KK+DTN1Uyt1+Ui1A4hs7WtUbypHx/5JWf6WLScNTAI4UJF8W2F?=
- =?us-ascii?Q?dkaVG8pu2vdf7nMKBG8OVfoB83hOe51BSvVR2i/mdP97D+v+MeInpKor9AAT?=
- =?us-ascii?Q?mNq5FsdLZ6AsbnJ5AezrzBKFbh8ZeBipo5UjWy8oQGVthpGRLQ5XchHAjHUH?=
- =?us-ascii?Q?WH1hX2nc8eaFG3SCOpTXJqWE8Att0xILBBmjSsc8f5AYwMFikLycsVaxqPWo?=
- =?us-ascii?Q?i1+KwCJqYEKlFdWa1w+wnrxuw0RwEHR5LWa+CrDGRuv/xH4/bi/8edRElmKY?=
- =?us-ascii?Q?m4FkJBNKUAZ93cW8sIe0Hh3mGDe+/+STnUMSARrOky9qiLte2JYGn2kvKtp8?=
- =?us-ascii?Q?bGVJOGoM/H9qkXkkevrGKFTwQbNFmPNnEe9NcS5in4MBxGFqmyw/MuwCoMip?=
- =?us-ascii?Q?0oZBnucWX3yUxGoHPyk27lUOMhervzI4ZOpVt/JgDXsFpfz7WOnPl7sOwxrU?=
- =?us-ascii?Q?8/ms9sbPRdUYwN7uzIp7RSPLHdk48PVfYoOOyB+T8B9QUtICYdv7Whv1WqbO?=
- =?us-ascii?Q?uwwoLGkl5SPNRu7Y04yjrbvLUkMIoORC97x6z+EJbhQzwWfdZ5EqKzoUMJ1W?=
- =?us-ascii?Q?u4df0nJitMw0EYPj5SOt2fqmNd68i44nUow02F9tuJWY+IZb3iiza3+KtsMD?=
- =?us-ascii?Q?ImOKvwARcgveCWsZ767eAye8vcxkXSkhF5P8RVvS0UAO4pwg02dLf3Z6SBIp?=
- =?us-ascii?Q?+4UVT5oxj9ee/4B2OScamUuBVn9r+A1PXW75xNpg6YnMogWZp3hvU8tSFpdl?=
- =?us-ascii?Q?M7Gf9jjHwcbqtkHyrPZ/coHO82qU0bJ0mu4erxewScJUfBuSN8p8DYaohAOd?=
- =?us-ascii?Q?fDS7Umdgj4HO5nWxpgCAbiksgEcNEaoITb3GrcQWbJuL7vKSgwXb5tkRUkjF?=
- =?us-ascii?Q?tHbO9HmQ08E3FHPlWVcGydALcNm9cqW1dgsV8eSPfUQtWM8hYP4mcXtUjSP+?=
- =?us-ascii?Q?u6/6i8ey65bqUShnmfOIl4ec1X5mfLOwBQ0nfLHHy8aFXZkcP6EaPkw4o9tg?=
- =?us-ascii?Q?mFCfLJmBDg21dNZVV+mimSpUewLv7xPlpEC9bpqJLnrxHpj4wJAU7O9BcAlq?=
- =?us-ascii?Q?ryrABgTuC0ESGJOWxHlvdyGsZG+tI+heHCQ0L6iugbQDmNvwY9sBuNNd3M3G?=
- =?us-ascii?Q?eofJNZctAswmqTuAepUE1buJPsuAOWuGZAU4Ul/ZuhIAqWZpGORwnD0X/mF1?=
- =?us-ascii?Q?BiBECxuE81GUP/UlvK+UeHKkecjUaOJo5sKfW+sIzcUEDw2Ad52H5d9TWsPn?=
- =?us-ascii?Q?/uwTTGPPM8b36tTDOErfI8AyFpMKKnNR4Dtmf68aNwFqYxUG3WSBg0EQJkaA?=
- =?us-ascii?Q?SyAIgpSaL+jK+jhVUbDiZ1b0FTBtJaR99AKL4+XpcoSPNBPdbkHMudsIlHhL?=
-X-MS-Exchange-AntiSpam-MessageData-1: RJFgDExpV+yxpQ==
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8031a6a-44d7-4d44-28a4-08da28311fb9
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0401MB2526.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 09:34:27.8801
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DIA2rW55hVrCvMZgvWAVh6S9/SSYo8j1Hssy/nFcazBau20NOJ4QMdcf7iF+HSbx864nuSf9nKGGArnv2dwKgA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6818
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220329090133.338073-7-jacopo@jmondi.org>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1651053443; a=rsa-sha256;
+        cv=none;
+        b=fWRkxASj+CdwSrz8BrtszyN2Jdf8dLlAoomYjTj2RgINeRSJ717EATexp0+4bczuvZMKXP
+        hEygNu9Htb10UNNgs165PvH1yQnF+vP5iOfVa65ED/nk+SgvFAcxz+RJfodsfy9z2NEIqN
+        ZB3APxVJCd3LuMffYtRQ+j5RSC3ozovX+oj0boGP/8KTOy8jZrLfLqgcJrIFZxSWgwvNvG
+        JKCNbXiUUozErj74bq/7l/MtniZTexcxzEmFcEPw9Fl/eakHyz+zc5/pOety0GF8NdKohO
+        tkM/l7s9ue8AXuS0wdF8o2Jqd6vROcHHgksusjXYnQyMc0l/WqJ3Azlhs/jc6w==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1651053443;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tgawboluo26f/XvecJ8vce6KYUKWyc0cis4y368vPWM=;
+        b=FeCXJIyi00r2MRLoZP+LoYQSb8qMnrttkk/MXx2mw0XAv1hdsAUyah9CN/TUk+6x6Bixi3
+        +OQQ9FmyUUfepJeIi2mG/yoO8cC4kjS3GTQTlZ3IwwbAX7mUwc9fZfWQuTSoRLW54n00yT
+        cGFSCF/BsOgYCKpPJf09oaudFUSFi2y7WwQz23ebmPmmfyvhdu3mGmJ3CYZsEDSuag8cCa
+        RmBEjBBnUu8jftyqxQKpP74rNJZoF07dCe662ifkDvR7H3zo/K+guDfRkjqaWrP4aYlouX
+        2GBA8qacp/+ntFeWbImxrTgeO+20xjjL04Z7WZxQmEP7BPh4VSnKA9kr0yRtSg==
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -129,13 +88,150 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Jacopo,
 
-I was looking at those two patches and I cannot help myself,
-it looks to me like they are both fixing the same issue in two
-different ways.
-Could you clarify?
+On Tue, Mar 29, 2022 at 11:01:31AM +0200, Jacopo Mondi wrote:
+> Implement the power up and power down routines and install them as
+> runtime_pm handler for runtime_suspend and runtime_resume operations.
+> 
+> Rework the runtime_pm enablement and the chip power handling during
+> probe, as calling pm_runtime_idle() in a driver that registers no
+> idle callback is a nop.
 
-=C2=A0=C2=A0=C2=A0 Regards
-=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Oliver
+The suspend callback is called by rpm_idle() in the absence of the
+idle callback.
 
+> 
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  drivers/media/i2c/ov5670.c | 58 ++++++++++++++++++++++++++++++++++----
+>  1 file changed, 52 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
+> index 9e69b4008917..b63b07d8ca2f 100644
+> --- a/drivers/media/i2c/ov5670.c
+> +++ b/drivers/media/i2c/ov5670.c
+> @@ -4,6 +4,7 @@
+>  #include <linux/acpi.h>
+>  #include <linux/clk.h>
+>  #include <linux/gpio/consumer.h>
+> +#include <linux/delay.h>
+>  #include <linux/i2c.h>
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+> @@ -2424,6 +2425,39 @@ static int ov5670_set_stream(struct v4l2_subdev *sd, int enable)
+>  	return ret;
+>  }
+>  
+> +static int __maybe_unused ov5670_runtime_resume(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct ov5670 *ov5670 = to_ov5670(sd);
+> +	int ret;
+> +
+> +	ret = regulator_bulk_enable(OV5670_NUM_SUPPLIES, ov5670->supplies);
+> +	if (ret)
+> +		return ret;
+> +
+> +	gpiod_set_value_cansleep(ov5670->pwdn_gpio, 0);
+> +	gpiod_set_value_cansleep(ov5670->reset_gpio, 0);
+> +
+> +	/* 8192 * 2 clock pulses before the first SCCB transaction. */
+> +	usleep_range(1000, 1500);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused ov5670_runtime_suspend(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct ov5670 *ov5670 = to_ov5670(sd);
+> +
+> +	gpiod_set_value_cansleep(ov5670->reset_gpio, 1);
+> +	gpiod_set_value_cansleep(ov5670->pwdn_gpio, 1);
+> +	regulator_bulk_disable(OV5670_NUM_SUPPLIES, ov5670->supplies);
+> +
+> +	return 0;
+> +}
+> +
+>  static int __maybe_unused ov5670_suspend(struct device *dev)
+>  {
+>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> @@ -2564,14 +2598,25 @@ static int ov5670_probe(struct i2c_client *client)
+>  		goto error_print;
+>  	}
+>  
+> +	pm_runtime_enable(&client->dev);
+> +
+>  	full_power = acpi_dev_state_d0(&client->dev);
+>  	if (full_power) {
+> +		ret = pm_runtime_resume_and_get(&client->dev);
+
+Please see how e.g. the CCS driver does this (no need for autosuspend
+though). E.g. don't use runtime PM to power the sensor on in probe, or off
+in remove.
+
+> +		if (ret) {
+> +			err_msg = "Failed to power on";
+> +			goto error_print;
+> +		}
+> +
+>  		/* Check module identity */
+>  		ret = ov5670_identify_module(ov5670);
+>  		if (ret) {
+>  			err_msg = "ov5670_identify_module() error";
+> -			goto error_print;
+> +			goto error_power_off;
+>  		}
+> +
+> +		/* Set the device's state to active if it's in D0 state. */
+> +		pm_runtime_set_active(&client->dev);
+>  	}
+>  
+>  	mutex_init(&ov5670->mutex);
+> @@ -2608,11 +2653,7 @@ static int ov5670_probe(struct i2c_client *client)
+>  
+>  	ov5670->streaming = false;
+>  
+> -	/* Set the device's state to active if it's in D0 state. */
+> -	if (full_power)
+> -		pm_runtime_set_active(&client->dev);
+> -	pm_runtime_enable(&client->dev);
+> -	pm_runtime_idle(&client->dev);
+> +	pm_runtime_suspend(&client->dev);
+>  
+>  	return 0;
+>  
+> @@ -2625,6 +2666,9 @@ static int ov5670_probe(struct i2c_client *client)
+>  error_mutex_destroy:
+>  	mutex_destroy(&ov5670->mutex);
+>  
+> +error_power_off:
+> +	pm_runtime_put(&client->dev);
+> +
+>  error_print:
+>  	dev_err(&client->dev, "%s: %s %d\n", __func__, err_msg, ret);
+>  
+> @@ -2641,6 +2685,7 @@ static int ov5670_remove(struct i2c_client *client)
+>  	v4l2_ctrl_handler_free(sd->ctrl_handler);
+>  	mutex_destroy(&ov5670->mutex);
+>  
+> +	pm_runtime_put(&client->dev);
+>  	pm_runtime_disable(&client->dev);
+>  
+>  	return 0;
+> @@ -2648,6 +2693,7 @@ static int ov5670_remove(struct i2c_client *client)
+>  
+>  static const struct dev_pm_ops ov5670_pm_ops = {
+>  	SET_SYSTEM_SLEEP_PM_OPS(ov5670_suspend, ov5670_resume)
+> +	SET_RUNTIME_PM_OPS(ov5670_runtime_suspend, ov5670_runtime_resume, NULL)
+>  };
+>  
+>  #ifdef CONFIG_ACPI
+
+-- 
+Kind regards,
+
+Sakari Ailus
