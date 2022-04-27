@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33685512222
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 21:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9614251222E
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 21:09:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231713AbiD0TJU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 15:09:20 -0400
+        id S232805AbiD0TMh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 15:12:37 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233743AbiD0TJF (ORCPT
+        with ESMTP id S232790AbiD0TMY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 15:09:05 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53EAAB7F8;
-        Wed, 27 Apr 2022 11:57:44 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id z99so3016698ede.5;
-        Wed, 27 Apr 2022 11:57:44 -0700 (PDT)
+        Wed, 27 Apr 2022 15:12:24 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 909011113;
+        Wed, 27 Apr 2022 12:02:33 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id dk23so5240407ejb.8;
+        Wed, 27 Apr 2022 12:02:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lS8C6RafnPFCNmRPaomCz+ezzn4yOYEkgm2SdaKAMZI=;
-        b=ZDu7GDl464M/0nwcaEtfEEZs5Fxg1kNlagzEHgnRotBKlFvj+00B5hR/pf/bjcjuZS
-         q1zScpcN7dFJxVFDMKmX+tmpRSn7in8dC+R8lciLPrM1lexEE8awrKImCmC7EIS5fHMi
-         VzaOs8XTnATEvT4ZL7DH/O2vH4PjyD0t8dqYOEFQsBgPZ8sLXTIeeFm4+OKFnv18HpxC
-         KXsSAJY5j+7e5vsBGaDmv+Vk14oMoUCesWeky1KwjMkzg5iLEERO7C4smH49GU44jiYb
-         9EoVM+RL/K7XHB6JGJpC0TzPDTqyj2lgdsjTrntZWT9XU1cAtV9SLmysM6GG2/rDpkuB
-         kMew==
+        bh=nRsrSZUdccGt8LRLTvc1f3066sqUlL3H8wQB+8CbAZM=;
+        b=oI3+Pk0O84Q7xhxIXyeolKjcngLs7+jcTCJHTa0ksRxWgXNWFSMxJIA0UmAccbtqA7
+         F2VjRBWqGNDcNP6jbMzBuINw/oc5sK1/EZD9x1kC7GrfCVGrjq3GRqjGpC8SvSy2rbEM
+         dDpK7HnogLvq+qPCx7mybM5IaoBXavO9uXmytlp58AjkbukUaUMsjzCY4cPJMx8Fnxyl
+         8jKcrvHJ/Lo+rfLgfgv7+6WP0qIWBEypKOlvY0DPPkLtPtF0ccjRFRtm2/3B0vRmw21B
+         MF2BTA3bGpyVP6Zsh03jPM1HwD3XSDSJ+81lVtKJ8mQS/s4bILCpChYQd7migae76qFV
+         iDyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lS8C6RafnPFCNmRPaomCz+ezzn4yOYEkgm2SdaKAMZI=;
-        b=M1dkJnBlqjxAm1lSIaMx/3skVxsMsnkDdnb8HjRfcLxDxNmZhu1khQEeoP15oCxXiQ
-         kHK/78ZSeJRQOWGh9Yjqv1wufh/GrJdrNt1yRTnFEEJRpZx4iKBoQGmkfa6hS+GLXCMc
-         QcgGodppz8EG9tgx3Qlgkl18i2CMWHyU97ll54N7x1uOjsRTzVLpT/rye+wZELxOMuwq
-         AQEwQZcMDvIaW7Puv6eL61UGYpkzCffY17nyxPqFbgq+kVozDAXWhYx92uzj7+sbyIG1
-         7tNMIVrTNnO1977+u/c+dwbDWBgbiB8xBlTNDUPzi7hi9HqPpoRFQL/3ThH9vWK+KOAE
-         KHNA==
-X-Gm-Message-State: AOAM530eupVKKrZ8xEUOATLrcumRkk0rFDA4v+tMGWx8+pcfcdAfL3/n
-        uzGJ0iClrxsU+zcphT5k2hTCrZn5t6sVLQ==
-X-Google-Smtp-Source: ABdhPJxu/WwF4HrtuesVWTzeoHXa/tN782vJ4UvpmeYZHn3AjkOL/EKC8t2nbV85B9C2iugS5khM+A==
-X-Received: by 2002:a05:6402:27d0:b0:41a:68bf:ff26 with SMTP id c16-20020a05640227d000b0041a68bfff26mr32100632ede.102.1651085862897;
-        Wed, 27 Apr 2022 11:57:42 -0700 (PDT)
+        bh=nRsrSZUdccGt8LRLTvc1f3066sqUlL3H8wQB+8CbAZM=;
+        b=EwRdhMSuQUHIBBXTA7Rp2NoN8zau7L9Cyf+8Asgcd8RJLcBFSrq3GTaoAd/MN9oW5D
+         9pPRypW3sHtEqwulsIr4jcfNqsn/cjSLFA4fdwevYNVkIz8XTO8ewB3MsA/kFrOiTU4U
+         pAV5VvesIr4zl0CI/9N5HiUEf9nBX2r7VzoFRzoLbzmYvHQFU3XrT6PxpGBFVs5Fofcw
+         BfuzHDlgHvvGP1g8r1iJbJd6mKvdFWoANCfQgXc02dunr6LcX2fS2MhtbtzGOsI98chr
+         V6KkvPPHi55ZoxaeHWgllWDkRSVs5Yo0ZnffEyCz2izEr5mrqQEsQ+cnGfUb9jOFEWmC
+         eGdg==
+X-Gm-Message-State: AOAM530zrxdVtonZFMrzA46d/ONBmyJfjRb+gs9+eGI0ZxBggahqG1TZ
+        k1yceMKnU8oVUo+aIbrbvbBGN0RSSKA07Q==
+X-Google-Smtp-Source: ABdhPJy0Mjet+HjxsoEJgp/AwTr+A8CehTApQ33EoGLfYGLxo9jXmuRR5VCj1fk2EiLPzrIUAMNxYQ==
+X-Received: by 2002:a17:906:b50:b0:6f3:ce99:3c39 with SMTP id v16-20020a1709060b5000b006f3ce993c39mr3446298ejg.52.1651086152184;
+        Wed, 27 Apr 2022 12:02:32 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id e26-20020aa7d7da000000b0042617ba63ccsm29217eds.86.2022.04.27.11.57.41
+        by smtp.gmail.com with ESMTPSA id d11-20020a1709067f0b00b006f395247b5esm4652604ejr.84.2022.04.27.12.02.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 11:57:42 -0700 (PDT)
+        Wed, 27 Apr 2022 12:02:31 -0700 (PDT)
 From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
@@ -60,11 +60,11 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 20/45] media: sun6i-csi: Add dimensions and format helpers to capture
-Date:   Wed, 27 Apr 2022 20:57:41 +0200
-Message-ID: <8054890.T7Z3S40VBb@jernej-laptop>
-In-Reply-To: <20220415152811.636419-21-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-21-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 42/45] media: sun6i-csi: Request a shared interrupt
+Date:   Wed, 27 Apr 2022 21:02:30 +0200
+Message-ID: <2179026.iZASKD2KPV@jernej-laptop>
+In-Reply-To: <20220415152811.636419-43-paul.kocialkowski@bootlin.com>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-43-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -78,8 +78,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 15. april 2022 ob 17:27:46 CEST je Paul Kocialkowski napisal(a):
-> Define and export useful helpers to access dimensions and pixel format.
+Dne petek, 15. april 2022 ob 17:28:08 CEST je Paul Kocialkowski napisal(a):
+> Request our interrupt shared since it is typically shared with the isp
+> block. The interrupt routine looks good to go for shared irq.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
@@ -89,60 +90,26 @@ Best regards,
 Jernej
 
 > ---
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 19 +++++++++++++++++++
->  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |  5 +++++
->  2 files changed, 24 insertions(+)
+>  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c index
-> e227940cb66e..acbd0ea62fd5 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> @@ -25,6 +25,25 @@
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c index
+> 3963a88a2e0b..a88deb8ba1e7 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> @@ -264,8 +264,8 @@ static int sun6i_csi_resources_setup(struct
+> sun6i_csi_device *csi_dev, goto error_clock_rate_exclusive;
+>  	}
 > 
->  /* Helpers */
-> 
-> +void sun6i_csi_capture_dimensions(struct sun6i_csi_device *csi_dev,
-> +				  unsigned int *width, unsigned 
-int *height)
-> +{
-> +	if (width)
-> +		*width = csi_dev->capture.format.fmt.pix.width;
-> +	if (height)
-> +		*height = csi_dev->capture.format.fmt.pix.height;
-> +}
-> +
-> +void sun6i_csi_capture_format(struct sun6i_csi_device *csi_dev,
-> +			      u32 *pixelformat, u32 *field)
-> +{
-> +	if (pixelformat)
-> +		*pixelformat = csi_dev-
->capture.format.fmt.pix.pixelformat;
-> +
-> +	if (field)
-> +		*field = csi_dev->capture.format.fmt.pix.field;
-> +}
-> +
->  static struct v4l2_subdev *
->  sun6i_csi_capture_remote_subdev(struct sun6i_csi_capture *capture, u32
-> *pad) {
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h index
-> 7fa66a2af5ec..935f35b7049a 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> @@ -37,6 +37,11 @@ struct sun6i_csi_capture {
->  	u32				mbus_code;
->  };
-> 
-> +void sun6i_csi_capture_dimensions(struct sun6i_csi_device *csi_dev,
-> +				  unsigned int *width, unsigned 
-int *height);
-> +void sun6i_csi_capture_format(struct sun6i_csi_device *csi_dev,
-> +			      u32 *pixelformat, u32 *field);
-> +
->  void sun6i_csi_capture_sync(struct sun6i_csi_device *csi_dev);
->  void sun6i_csi_capture_frame_done(struct sun6i_csi_device *csi_dev);
+> -	ret = devm_request_irq(dev, irq, sun6i_csi_interrupt, 0, 
+SUN6I_CSI_NAME,
+> -			       csi_dev);
+> +	ret = devm_request_irq(dev, irq, sun6i_csi_interrupt, IRQF_SHARED,
+> +			       SUN6I_CSI_NAME, csi_dev);
+>  	if (ret) {
+>  		dev_err(dev, "failed to request interrupt\n");
+>  		goto error_clock_rate_exclusive;
 
 
 
