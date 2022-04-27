@@ -2,138 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ABBF5124F2
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 00:04:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2F6E51256F
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 00:45:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237951AbiD0WHL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 18:07:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53800 "EHLO
+        id S233222AbiD0Wsb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 18:48:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231234AbiD0WHK (ORCPT
+        with ESMTP id S233204AbiD0Ws3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 18:07:10 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8986481FEB;
-        Wed, 27 Apr 2022 15:03:56 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0610A45F;
-        Thu, 28 Apr 2022 00:03:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1651097034;
-        bh=/2tkMx+1RN0GSTl1faiHvAjcdpMNmPvcQAcYBkTllXA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lJrU6O/5fSkddcNprynLQjZ3gpSV9chMFj79K3E5GujWHefdPG4K8pmT9S3KUKaCY
-         3J/PtjQOYGLGfvG0h53X5V1UvPSJe87AXYZv+rdnsfOvuarzWxx8NisBcYJs5V45mg
-         dHT0mzFrt2Imso6UWs7WNGIYdKVDm28QkxM1Y+uo=
-Date:   Thu, 28 Apr 2022 01:03:52 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 0/4] Add Toshiba Visconti AFFINE image processing
- accelerator driver
-Message-ID: <Ymm9yOsIW4lTjckp@pendragon.ideasonboard.com>
-References: <20220427132345.27327-1-yuji2.ishikawa@toshiba.co.jp>
+        Wed, 27 Apr 2022 18:48:29 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41871BEBF;
+        Wed, 27 Apr 2022 15:45:14 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id y3so6093367ejo.12;
+        Wed, 27 Apr 2022 15:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ULuEHFX75GMwmo8k2GzRUntcH3yDcucdCP1qTc/I1I4=;
+        b=ml8uzSNJMVs1/c6qGisCf+ClB3pqZe7KZtcX9j50z3ZpwAqed+4ReF/LBsDS6MEa13
+         fcf1XXRgzmoNG60h+AX1FFwo1w3N5Tx84W0KYKYDSSlXYm07xf9MyW27uXcw47ArSttb
+         y5ZNDJXdKgUbVHtLIUGnhraNOoSizkDT6oyHxJX+vTNrze3tUJbsrpWdGv5SHa+rfhV/
+         HjrKmJlCwBbH1WMxtq8+MV4qOvHavNuK4UhqXC+SW5rIgSNenYyv/tofybFkaLG466bw
+         ogRBcnYhJHXDhZWM0nAClK0PTcjEZnd5XEPs5//E5udmm8/hj3ueTWnesQsv/zssDiFp
+         GLdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ULuEHFX75GMwmo8k2GzRUntcH3yDcucdCP1qTc/I1I4=;
+        b=thPNRPrwDdRLGc7U9/PMQUNue5wNyVLA9b6MpETf5DfzXMsOspSL1NJap976WpJqG0
+         ewkSvbgbslcL7vAZT32xUPbMl8FRj7n/67KF6GaA/GD9kM4qVSASTAotTkFl96CM2wCs
+         jpoKFeHYzLNJh/4qPk2S5uzRLCvIoJfJULROGKbiouYIC+p6BEE/rKdAX0qrYPPltugs
+         2o2YrpYD4bza9NGpc/dwTvzFQvcZqgj+QsBDYBIGsKZJlHCnG+5qaxLitzMBGrHAsPXT
+         r6jAwo/pSWAxjkeUDxZjGlCTIL2fpnMZTztpSw7usEFZaseP14qEfq3RXWtRWE8gFEJ2
+         OeHQ==
+X-Gm-Message-State: AOAM531zaL2+hFq24znZKUzlpy6chD9YuETDGG9zCN7B6kXU4Klz6kI9
+        kuxV5NzlD5O0FQmWpnb+WnM=
+X-Google-Smtp-Source: ABdhPJw/kmkRb4ECwQsyT2nZLTfzWQIwaBKXnJ04SiQk3nK6jZlCQaiwz131OR/BDU6OGu6woJ2hCg==
+X-Received: by 2002:a17:907:c06:b0:6e0:9149:8047 with SMTP id ga6-20020a1709070c0600b006e091498047mr27930716ejc.765.1651099513153;
+        Wed, 27 Apr 2022 15:45:13 -0700 (PDT)
+Received: from localhost.localdomain (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id t27-20020a1709063e5b00b006f3a94f5194sm3762594eji.77.2022.04.27.15.45.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Apr 2022 15:45:12 -0700 (PDT)
+From:   Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Liang Chen <cl@rock-chips.com>
+Cc:     Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH 0/3] Enable JPEG Encoder on RK3566/RK3568
+Date:   Thu, 28 Apr 2022 00:44:35 +0200
+Message-Id: <20220427224438.335327-1-frattaroli.nicolas@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220427132345.27327-1-yuji2.ishikawa@toshiba.co.jp>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yuji,
+Hello,
 
-Thank you for the patch. It's nice to see contributions from Toshiba in
-the image acceleration domain :-)
+the following series adds support for and enables the hardware JPEG
+encoder on the RK3566 and RK3568 line of SoCs by Rockchip.
 
-I'll start with a high-level question before diving into detailed
-review. Why is this implemented in drivers/soc/ with a custom userspace
-API, and not as a V4L2 memory-to-memory driver ?
+The JPEG encoder is its own little Hantro instance with seemingly just
+the encode functionality.
 
-On Wed, Apr 27, 2022 at 10:23:41PM +0900, Yuji Ishikawa wrote:
-> This series is the AFFINE image processing accelerator driver for Toshiba's ARM SoC, Visconti[0].
-> This provides DT binding documentation, device driver, MAINTAINER files.
-> 
-> The second patch "soc: visconti: Add Toshiba Visconti image processing accelerator common source"
-> is commonly used among acclerator drivers (affine, dnn, dspif, pyramid).
-> 
-> Best regards,
-> Yuji
-> 
-> [0]: https://toshiba.semicon-storage.com/ap-en/semiconductor/product/image-recognition-processors-visconti.html
->   
->   dt-bindings: soc: visconti: Add Toshiba Visconti AFFINE image
->     v1 -> v2:
->       - No update
-> 
->   soc: visconti: Add Toshiba Visconti image processing accelerator common source
->     v1 -> v2:
->       - apply checkpatch.pl --strict
->   
->   soc: visconti: Add Toshiba Visconti AFFINE image processing accelerator
->     v1 -> v2:
->       - apply checkpatch.pl --strict
->       - rename hwd_AFFINE_xxxx to hwd_affine_xxxx
-> 
->   MAINTAINERS: Add entries for Toshiba Visconti AFFINE image processing accelerator
->     v1 -> v2:
->       - No update
-> 
-> Change in V2:
->   - apply checkpatch.pl --strict
->   - rename hwd_AFFINE_xxxx to hwd_affine_xxxx
-> 
-> Yuji Ishikawa (4):
->   dt-bindings: soc: visconti: Add Toshiba Visconti AFFINE image
->     processing accelerator bindings
->   soc: visconti: Add Toshiba Visconti image processing accelerator
->     common source
->   soc: visconti: Add Toshiba Visconti AFFINE image processing
->     accelerator
->   MAINTAINERS: Add entries for Toshiba Visconti AFFINE image processing
->     accelerator
-> 
->  .../soc/visconti/toshiba,visconti-affine.yaml |  53 ++
->  MAINTAINERS                                   |   2 +
->  drivers/soc/Kconfig                           |   1 +
->  drivers/soc/Makefile                          |   1 +
->  drivers/soc/visconti/Kconfig                  |   7 +
->  drivers/soc/visconti/Makefile                 |   8 +
->  drivers/soc/visconti/affine/Makefile          |   6 +
->  drivers/soc/visconti/affine/affine.c          | 451 ++++++++++++++++++
->  drivers/soc/visconti/affine/hwd_affine.c      | 206 ++++++++
->  drivers/soc/visconti/affine/hwd_affine.h      |  83 ++++
->  drivers/soc/visconti/affine/hwd_affine_reg.h  |  45 ++
->  drivers/soc/visconti/ipa_common.c             |  55 +++
->  drivers/soc/visconti/ipa_common.h             |  18 +
->  drivers/soc/visconti/uapi/affine.h            |  87 ++++
->  drivers/soc/visconti/uapi/ipa.h               |  88 ++++
->  15 files changed, 1111 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/soc/visconti/toshiba,visconti-affine.yaml
->  create mode 100644 drivers/soc/visconti/Kconfig
->  create mode 100644 drivers/soc/visconti/Makefile
->  create mode 100644 drivers/soc/visconti/affine/Makefile
->  create mode 100644 drivers/soc/visconti/affine/affine.c
->  create mode 100644 drivers/soc/visconti/affine/hwd_affine.c
->  create mode 100644 drivers/soc/visconti/affine/hwd_affine.h
->  create mode 100644 drivers/soc/visconti/affine/hwd_affine_reg.h
->  create mode 100644 drivers/soc/visconti/ipa_common.c
->  create mode 100644 drivers/soc/visconti/ipa_common.h
->  create mode 100644 drivers/soc/visconti/uapi/affine.h
->  create mode 100644 drivers/soc/visconti/uapi/ipa.h
+The first patch modifies the bindings with a new compatible, and adds
+the ability to just have a vepu interrupt without a vdpu interrupt.
+
+The second patch makes the actual driver changes to support this variant.
+
+The third and final patch makes the necessary device tree changes for
+the rk356x device tree file to add both the node for the encoder and
+its MMU.
+
+The series has been tested on a PINE64 Quartz64 Model A with an RK3566
+SoC using GStreamer.
+
+Regards,
+Nicolas Frattaroli
+
+Nicolas Frattaroli (3):
+  dt-bindings: media: rockchip-vpu: Add RK3568 JPEG compatible
+  media: hantro: Add support for RK356x JPEG encoder
+  arm64: dts: rockchip: Add JPEG encoder node to rk356x
+
+ .../bindings/media/rockchip-vpu.yaml          |  2 +
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi      | 21 +++++++
+ drivers/staging/media/hantro/hantro_drv.c     |  1 +
+ drivers/staging/media/hantro/hantro_hw.h      |  1 +
+ .../staging/media/hantro/rockchip_vpu_hw.c    | 62 +++++++++++++++++++
+ 5 files changed, 87 insertions(+)
 
 -- 
-Regards,
+2.36.0
 
-Laurent Pinchart
