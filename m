@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5FB25122CC
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 21:32:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F4E05122D5
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 21:36:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232589AbiD0Tf0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 15:35:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58516 "EHLO
+        id S229507AbiD0Tjk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 15:39:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231200AbiD0Tf0 (ORCPT
+        with ESMTP id S234333AbiD0Tik (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 15:35:26 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6B60CE;
-        Wed, 27 Apr 2022 12:32:13 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id p4so3158454edx.0;
-        Wed, 27 Apr 2022 12:32:13 -0700 (PDT)
+        Wed, 27 Apr 2022 15:38:40 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD9ABF7E;
+        Wed, 27 Apr 2022 12:35:21 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id bv19so5402284ejb.6;
+        Wed, 27 Apr 2022 12:35:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JhnYrw0AR5Z7jkNOIRMJJDs+xZns0y5ZouI6A7Yq2m4=;
-        b=it+qMq+p7Ih5sV2oP8h90O+A66YmhvIlQ5DX8ZHmeUw3CUBBx//p0vDiJGey9z0uIh
-         bx6H014af/WfMFeUW/y49vhZWL+bAMkkDwbttSQAa5L4W+jZ2Ye5Yph9Nw+bvdm04F3M
-         LCuKkt5dXpk1/oEug5xk5qAVCXw18q4iCnv6UBp3Pe8OWXV35Q6TzSd+FFyGmcZgVDsy
-         vA6guExkKI5BaVDgivRgeO+tiyrCSgn0D5Cplnj/9TUeuqFaGzANrhiasI0H9NrOI/Fu
-         TPDoBoEQqAwkonqOkv8Nm2ndoIzYcxK43vaXzk0aQDttrNI1yFrNdHAuK4zAs/0E+mV2
-         HvCQ==
+        bh=c1hQv1E1lzP+Sj0MxqWdgoz4tkp5x1wNwVs+1dx8jM0=;
+        b=RRoWG8f5L6uXcSI3/ocbx5lXwInd3Uw2HgO902cpXxh8k6eIqtYZ1H2qzfNOgMzGNY
+         M//jirFdK05MSjzFtSWvgiTrBO9Pp8ApWEnI7isU/v7l9YiNDmsanevYXOCPL2N3cEdc
+         h7/XPEYMszWm3k7IUPn+QYhd+OPP/oz1MxbxOmCwtS1zV1j1Tr12Bf/uBJPZ/6OzWjVS
+         6yidGAddb2aZqZVXPUc+7rUmaQhbyQLQ7N6lGBTvUpMyiYtgJriS0rPxNWiWw3Up7ix9
+         J9ezYgSQ+7qumkOGg4qtkUobRpt1hD+b83FAvyKBhO16TV7JyNlCVyB/Fr2cksZ6dvb+
+         C36A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JhnYrw0AR5Z7jkNOIRMJJDs+xZns0y5ZouI6A7Yq2m4=;
-        b=OK1pieXOjYF09ohDGldxkEUw3V3SVBR2I0ZacvkkoSVjP/I2RW8MTcq2FsRITbsncA
-         TzPf/M8OanMccyJk5/mnk8aXHBDzqS2GTnDoxrX2C8vLAsf75/6e5OLWYzAj4VdG8YwO
-         +7YKVMjP9oPvyFBKE54ifwOU3lSbjOM0gc52D8sJBQry6ACPzqS/DKnXEi+lNCEHzy8Q
-         0QaVroJRypxmWBXegTiMObpdkU3t+F26RR+suKFVJwZglzqQgdh6A/jyc0CKXsLr9yvj
-         vqEPX4yhk8gxDu4j+hEBWlfXUUD+0/Ni8P5Y+5Q/SoI9KQVZYwkerr+SXlii2d+WyLW8
-         qU5g==
-X-Gm-Message-State: AOAM5328SchULwftg7HIzDX/iwizd47xlF48UQ8XhYAtilQkVH2FC2tp
-        jaXqPutB0RypPSv5FP6dAOwkNdLlNNkzHA==
-X-Google-Smtp-Source: ABdhPJxMYyDg9X/787fWvrzZZ7v36nyynk8yGgYPu7j2miTQJHngFnPm9HXf6WWh9F3WgCeAdKpCzg==
-X-Received: by 2002:a05:6402:51d2:b0:424:536:94dd with SMTP id r18-20020a05640251d200b00424053694ddmr32374846edd.191.1651087932349;
-        Wed, 27 Apr 2022 12:32:12 -0700 (PDT)
+        bh=c1hQv1E1lzP+Sj0MxqWdgoz4tkp5x1wNwVs+1dx8jM0=;
+        b=p4zVqe+nKBaSBuSWgByYnWTghJGEx/GGiy7Pjs6sG495MRcxJtKDoAkBNEeq6IDl+O
+         PyqggRopImhYbhc0jHveYJe7DSLQHpZWL/AdkYM/VGu2BXdn9HVPbTMHbRcrrNpZl/S5
+         lVf+pt6vfzVdQHHe4iTjmcZ4YAypUNleznF0S33HYa5JG9jvEtvKSU5Z1XAXjb4sGpkw
+         4I/lTxgDpFi8IC1uV4Tz3v93AW8fk84V0YIdPPyqWEMTohO4nb59by04ovwSvykOhLXZ
+         cM7xMHtlcWGrbUptEmNqopC+4epBNra5OyQv98Wk2jhcQjo/iWFAQjCJztGhBMQeoSIP
+         B3/Q==
+X-Gm-Message-State: AOAM531wFYbAJKuRevEqkvRZu/MPHOT2E6mJYFmy5BUunpCKnp99IVGc
+        u1AKEQEi5m+fryJ36UsiHX6OWF7o97QHrQ==
+X-Google-Smtp-Source: ABdhPJwmPv6ZiRZMHwiNbeHtGKvok44OrPhhhgp0FRSYfzHW1L1FPgGl2hcZV4pCOIfDB/2Rql/N1g==
+X-Received: by 2002:a17:906:4fcb:b0:6f3:b716:ee5d with SMTP id i11-20020a1709064fcb00b006f3b716ee5dmr8769572ejw.382.1651088120134;
+        Wed, 27 Apr 2022 12:35:20 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id s12-20020a1709062ecc00b006e8558c9a5csm7212048eji.94.2022.04.27.12.32.11
+        by smtp.gmail.com with ESMTPSA id d19-20020a170906c21300b006e7f0730353sm7196594ejz.101.2022.04.27.12.35.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 12:32:12 -0700 (PDT)
+        Wed, 27 Apr 2022 12:35:19 -0700 (PDT)
 From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
@@ -60,11 +60,11 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 28/45] media: sun6i-csi: Get mbus code from bridge instead of storing it
-Date:   Wed, 27 Apr 2022 21:32:10 +0200
-Message-ID: <2106792.Mh6RI2rZIc@jernej-laptop>
-In-Reply-To: <20220415152811.636419-29-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-29-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 29/45] media: sun6i-csi: Tidy capture configure code
+Date:   Wed, 27 Apr 2022 21:35:18 +0200
+Message-ID: <3605808.MHq7AAxBmi@jernej-laptop>
+In-Reply-To: <20220415152811.636419-30-paul.kocialkowski@bootlin.com>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-30-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -78,9 +78,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 15. april 2022 ob 17:27:54 CEST je Paul Kocialkowski napisal(a):
-> Another instance of removing a duplicated variable and using common
-> helpers instead.
+Dne petek, 15. april 2022 ob 17:27:55 CEST je Paul Kocialkowski napisal(a):
+> Some misc code cleanups and preparation for upcoming changes.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
@@ -90,94 +89,199 @@ Best regards,
 Jernej
 
 > ---
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c        | 18 +++++-------------
->  .../sunxi/sun6i-csi/sun6i_csi_capture.h        |  1 -
->  2 files changed, 5 insertions(+), 14 deletions(-)
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 105 ++++++++----------
+>  1 file changed, 46 insertions(+), 59 deletions(-)
 > 
 > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
 > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c index
-> c4e803a38851..e2070353f93f 100644
+> e2070353f93f..9488c7c26f13 100644
 > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
 > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> @@ -17,6 +17,7 @@
->  #include <media/videobuf2-v4l2.h>
+> @@ -353,133 +353,120 @@ static enum csi_input_seq get_csi_input_seq(struct
+> sun6i_csi_device *csi_dev, static void
+>  sun6i_csi_capture_configure_interface(struct sun6i_csi_device *csi_dev)
+>  {
+> +	struct device *dev = csi_dev->dev;
+> +	struct regmap *regmap = csi_dev->regmap;
+>  	struct v4l2_fwnode_endpoint *endpoint =
+>  		&csi_dev->bridge.source_parallel.endpoint;
+> +	unsigned char bus_width = endpoint->bus.parallel.bus_width;
+> +	unsigned int flags = endpoint->bus.parallel.flags;
+>  	u32 pixelformat, field;
+> -	unsigned char bus_width;
+> -	u32 flags;
+> -	u32 cfg = 0;
+> -	bool input_interlaced = false;
+> +	u32 value = SUN6I_CSI_IF_CFG_IF_CSI;
 > 
->  #include "sun6i_csi.h"
-> +#include "sun6i_csi_bridge.h"
->  #include "sun6i_csi_capture.h"
->  #include "sun6i_csi_reg.h"
+>  	sun6i_csi_capture_format(csi_dev, &pixelformat, &field);
 > 
-> @@ -455,20 +456,20 @@ sun6i_csi_capture_configure_interface(struct
-> sun6i_csi_device *csi_dev)
+>  	if (field == V4L2_FIELD_INTERLACED ||
+>  	    field == V4L2_FIELD_INTERLACED_TB ||
+>  	    field == V4L2_FIELD_INTERLACED_BT)
+> -		input_interlaced = true;
+> -
+> -	bus_width = endpoint->bus.parallel.bus_width;
+> -
+> -	if (input_interlaced)
+> -		cfg |= SUN6I_CSI_IF_CFG_SRC_TYPE_INTERLACED |
+> -		       SUN6I_CSI_IF_CFG_FIELD_DT_PCLK_SHIFT(1) |
+> -		       SUN6I_CSI_IF_CFG_FIELD_DT_FIELD_VSYNC;
+> +		value |= SUN6I_CSI_IF_CFG_SRC_TYPE_INTERLACED |
+> +			 SUN6I_CSI_IF_CFG_FIELD_DT_PCLK_SHIFT(1) |
+> +			 SUN6I_CSI_IF_CFG_FIELD_DT_FIELD_VSYNC;
+>  	else
+> -		cfg |= SUN6I_CSI_IF_CFG_SRC_TYPE_PROGRESSIVE;
+> +		value |= SUN6I_CSI_IF_CFG_SRC_TYPE_PROGRESSIVE;
+> 
+>  	switch (endpoint->bus_type) {
+>  	case V4L2_MBUS_PARALLEL:
+> -		cfg |= SUN6I_CSI_IF_CFG_IF_CSI;
+> -
+> -		flags = endpoint->bus.parallel.flags;
+> -
+>  		if (bus_width == 16)
+> -			cfg |= SUN6I_CSI_IF_CFG_IF_CSI_YUV_COMBINED;
+> +			value |= 
+SUN6I_CSI_IF_CFG_IF_CSI_YUV_COMBINED;
+>  		else
+> -			cfg |= SUN6I_CSI_IF_CFG_IF_CSI_YUV_RAW;
+> +			value |= SUN6I_CSI_IF_CFG_IF_CSI_YUV_RAW;
+> 
+>  		if (flags & V4L2_MBUS_FIELD_EVEN_LOW)
+> -			cfg |= SUN6I_CSI_IF_CFG_FIELD_NEGATIVE;
+> +			value |= SUN6I_CSI_IF_CFG_FIELD_NEGATIVE;
+>  		else
+> -			cfg |= SUN6I_CSI_IF_CFG_FIELD_POSITIVE;
+> +			value |= SUN6I_CSI_IF_CFG_FIELD_POSITIVE;
+> 
+>  		if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> -			cfg |= SUN6I_CSI_IF_CFG_VREF_POL_NEGATIVE;
+> +			value |= SUN6I_CSI_IF_CFG_VREF_POL_NEGATIVE;
+>  		else
+> -			cfg |= SUN6I_CSI_IF_CFG_VREF_POL_POSITIVE;
+> +			value |= SUN6I_CSI_IF_CFG_VREF_POL_POSITIVE;
+> 
+>  		if (flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
+> -			cfg |= SUN6I_CSI_IF_CFG_HREF_POL_NEGATIVE;
+> +			value |= SUN6I_CSI_IF_CFG_HREF_POL_NEGATIVE;
+>  		else
+> -			cfg |= SUN6I_CSI_IF_CFG_HREF_POL_POSITIVE;
+> +			value |= SUN6I_CSI_IF_CFG_HREF_POL_POSITIVE;
+> 
+>  		if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+> -			cfg |= SUN6I_CSI_IF_CFG_CLK_POL_RISING;
+> +			value |= SUN6I_CSI_IF_CFG_CLK_POL_RISING;
+>  		else
+> -			cfg |= SUN6I_CSI_IF_CFG_CLK_POL_FALLING;
+> +			value |= SUN6I_CSI_IF_CFG_CLK_POL_FALLING;
+>  		break;
+>  	case V4L2_MBUS_BT656:
+> -		cfg |= SUN6I_CSI_IF_CFG_IF_CSI;
+> -
+> -		flags = endpoint->bus.parallel.flags;
+> -
+>  		if (bus_width == 16)
+> -			cfg |= SUN6I_CSI_IF_CFG_IF_CSI_BT1120;
+> +			value |= SUN6I_CSI_IF_CFG_IF_CSI_BT1120;
+>  		else
+> -			cfg |= SUN6I_CSI_IF_CFG_IF_CSI_BT656;
+> +			value |= SUN6I_CSI_IF_CFG_IF_CSI_BT656;
+> 
+>  		if (flags & V4L2_MBUS_FIELD_EVEN_LOW)
+> -			cfg |= SUN6I_CSI_IF_CFG_FIELD_NEGATIVE;
+> +			value |= SUN6I_CSI_IF_CFG_FIELD_NEGATIVE;
+>  		else
+> -			cfg |= SUN6I_CSI_IF_CFG_FIELD_POSITIVE;
+> +			value |= SUN6I_CSI_IF_CFG_FIELD_POSITIVE;
+> 
+>  		if (flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+> -			cfg |= SUN6I_CSI_IF_CFG_CLK_POL_RISING;
+> +			value |= SUN6I_CSI_IF_CFG_CLK_POL_RISING;
+>  		else
+> -			cfg |= SUN6I_CSI_IF_CFG_CLK_POL_FALLING;
+> +			value |= SUN6I_CSI_IF_CFG_CLK_POL_FALLING;
+>  		break;
+>  	default:
+> -		dev_warn(csi_dev->dev, "Unsupported bus type: %d\n",
+> -			 endpoint->bus_type);
+> +		dev_warn(dev, "unsupported bus type: %d\n", endpoint-
+>bus_type);
+>  		break;
+>  	}
+> 
+>  	switch (bus_width) {
+>  	case 8:
+> -		cfg |= SUN6I_CSI_IF_CFG_DATA_WIDTH_8;
+> +	/* 16-bit YUV formats use a doubled width in 8-bit mode. */
+> +	case 16:
+> +		value |= SUN6I_CSI_IF_CFG_DATA_WIDTH_8;
+>  		break;
+>  	case 10:
+> -		cfg |= SUN6I_CSI_IF_CFG_DATA_WIDTH_10;
+> +		value |= SUN6I_CSI_IF_CFG_DATA_WIDTH_10;
+>  		break;
+>  	case 12:
+> -		cfg |= SUN6I_CSI_IF_CFG_DATA_WIDTH_12;
+> -		break;
+> -	case 16: /* No need to configure DATA_WIDTH for 16bit */
+> +		value |= SUN6I_CSI_IF_CFG_DATA_WIDTH_12;
+>  		break;
+>  	default:
+> -		dev_warn(csi_dev->dev, "Unsupported bus width: %u\n", 
+bus_width);
+> +		dev_warn(dev, "unsupported bus width: %u\n", bus_width);
+>  		break;
+>  	}
+> 
+> -	regmap_write(csi_dev->regmap, SUN6I_CSI_IF_CFG_REG, cfg);
+> +	regmap_write(regmap, SUN6I_CSI_IF_CFG_REG, value);
+>  }
 > 
 >  static void sun6i_csi_capture_configure_format(struct sun6i_csi_device
 > *csi_dev) {
-> -	struct sun6i_csi_capture *capture = &csi_dev->capture;
-> -	u32 pixelformat, field;
-> +	u32 mbus_code, pixelformat, field;
->  	u32 cfg = 0;
->  	u32 val;
+> +	struct regmap *regmap = csi_dev->regmap;
+>  	u32 mbus_code, pixelformat, field;
+> -	u32 cfg = 0;
+> -	u32 val;
+> +	u8 input_format, input_yuv_seq, output_format;
+> +	u32 value = 0;
 > 
 >  	sun6i_csi_capture_format(csi_dev, &pixelformat, &field);
-> +	sun6i_csi_bridge_format(csi_dev, &mbus_code, NULL);
+>  	sun6i_csi_bridge_format(csi_dev, &mbus_code, NULL);
 > 
-> -	val = get_csi_input_format(csi_dev, capture->mbus_code, 
+> -	val = get_csi_input_format(csi_dev, mbus_code, pixelformat);
+> -	cfg |= SUN6I_CSI_CH_CFG_INPUT_FMT(val);
+> -
+> -	val = get_csi_output_format(csi_dev, pixelformat, field);
+> -	cfg |= SUN6I_CSI_CH_CFG_OUTPUT_FMT(val);
+> +	input_format = get_csi_input_format(csi_dev, mbus_code, 
 pixelformat);
-> +	val = get_csi_input_format(csi_dev, mbus_code, pixelformat);
->  	cfg |= SUN6I_CSI_CH_CFG_INPUT_FMT(val);
+> +	input_yuv_seq = get_csi_input_seq(csi_dev, mbus_code, pixelformat);
+> +	output_format = get_csi_output_format(csi_dev, pixelformat, field);
 > 
->  	val = get_csi_output_format(csi_dev, pixelformat, field);
->  	cfg |= SUN6I_CSI_CH_CFG_OUTPUT_FMT(val);
-> 
-> -	val = get_csi_input_seq(csi_dev, capture->mbus_code, pixelformat);
-> +	val = get_csi_input_seq(csi_dev, mbus_code, pixelformat);
->  	cfg |= SUN6I_CSI_CH_CFG_INPUT_YUV_SEQ(val);
+> -	val = get_csi_input_seq(csi_dev, mbus_code, pixelformat);
+> -	cfg |= SUN6I_CSI_CH_CFG_INPUT_YUV_SEQ(val);
+> +	value |= SUN6I_CSI_CH_CFG_OUTPUT_FMT(output_format);
+> +	value |= SUN6I_CSI_CH_CFG_INPUT_FMT(input_format);
+> +	value |= SUN6I_CSI_CH_CFG_INPUT_YUV_SEQ(input_yuv_seq);
 > 
 >  	if (field == V4L2_FIELD_TOP)
-> @@ -739,11 +740,6 @@ static int sun6i_csi_capture_start_streaming(struct
-> vb2_queue *queue, if (ret < 0)
->  		goto error_state;
+> -		cfg |= SUN6I_CSI_CH_CFG_FIELD_SEL_FIELD0;
+> +		value |= SUN6I_CSI_CH_CFG_FIELD_SEL_FIELD0;
+>  	else if (field == V4L2_FIELD_BOTTOM)
+> -		cfg |= SUN6I_CSI_CH_CFG_FIELD_SEL_FIELD1;
+> +		value |= SUN6I_CSI_CH_CFG_FIELD_SEL_FIELD1;
+>  	else
+> -		cfg |= SUN6I_CSI_CH_CFG_FIELD_SEL_EITHER;
+> +		value |= SUN6I_CSI_CH_CFG_FIELD_SEL_EITHER;
 > 
-> -	if (capture->mbus_code == 0) {
-> -		ret = -EINVAL;
-> -		goto error_media_pipeline;
-> -	}
-> -
->  	subdev = sun6i_csi_capture_remote_subdev(capture, NULL);
->  	if (!subdev) {
->  		ret = -EINVAL;
-> @@ -1076,8 +1072,6 @@ static int sun6i_csi_capture_link_validate(struct
-> media_link *link) struct v4l2_subdev_format source_fmt;
->  	int ret;
-> 
-> -	capture->mbus_code = 0;
-> -
->  	if (!media_entity_remote_pad(link->sink->entity->pads)) {
->  		dev_info(csi_dev->dev, "capture node %s pad not 
-connected\n",
->  			 vdev->name);
-> @@ -1109,8 +1103,6 @@ static int sun6i_csi_capture_link_validate(struct
-> media_link *link) return -EPIPE;
->  	}
-> 
-> -	capture->mbus_code = source_fmt.format.code;
-> -
->  	return 0;
+> -	regmap_write(csi_dev->regmap, SUN6I_CSI_CH_CFG_REG, cfg);
+> +	regmap_write(regmap, SUN6I_CSI_CH_CFG_REG, value);
 >  }
 > 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h index
-> 02bdf45f7ca5..3b9759e1563d 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> @@ -39,7 +39,6 @@ struct sun6i_csi_capture {
->  	struct media_pad		pad;
-> 
->  	struct v4l2_format		format;
-> -	u32				mbus_code;
->  };
-> 
->  void sun6i_csi_capture_dimensions(struct sun6i_csi_device *csi_dev,
+>  static void sun6i_csi_capture_configure_window(struct sun6i_csi_device
+> *csi_dev)
 
 
 
