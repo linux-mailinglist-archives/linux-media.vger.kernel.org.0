@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 43CF5512183
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 20:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA7555121AB
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 20:51:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229873AbiD0SuX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 14:50:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49414 "EHLO
+        id S231285AbiD0SzC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 14:55:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231130AbiD0SuD (ORCPT
+        with ESMTP id S232184AbiD0SyA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 14:50:03 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D18913A2C0;
-        Wed, 27 Apr 2022 11:32:56 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id i27so5086982ejd.9;
-        Wed, 27 Apr 2022 11:32:56 -0700 (PDT)
+        Wed, 27 Apr 2022 14:54:00 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F12183DAD3E;
+        Wed, 27 Apr 2022 11:40:21 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id l7so5178210ejn.2;
+        Wed, 27 Apr 2022 11:40:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1ykLgsZ2QlE1M7OwXCk5WzQH9ZVlust3l+kbAqWy/V0=;
-        b=eazrrzFemQukZR+kzqWVGV9QkujKB62L2LH7gA7suk0eQH04G1Lb9QyMlUYPNi/M3Q
-         QWBpyViQOe+Rdi4oaKO7Rk1bOWXXMllDhtR3NokDZWndrD6OVerGMkTIPEYPEG2jQfzJ
-         qMKLMblIqHjVrOk93Hf+xh6WGnzCc6eyogEdf9W31QN0H7p/c6r+FcEOJQHp3EsDn8Sq
-         jM2spyG0FqYQDHRkR53co9d9ZTCFMvvQ1Hm8oF654+xl5CjpVSg5mBLxKglYvgyAQRRE
-         AQPV5em/r0rGvR7PXH6Id+Vs6YUKrIhGhU5W0KdnqKxt3nUoXCtMjc33Q3EJdev8MZt1
-         pulQ==
+        bh=uUiRj9ShaGcXVoRdp82isoIpzg+6vO7GGhdlgaIYleg=;
+        b=ovdIFcyYsKX0OmrCtG+rCtvekfXilVxP4wrdcpgZkNgDV0pwvS4pPXOFZbYmLz6XLM
+         pgj7SBIHzQLZlp6ArPaqLnGXvmGcTcPWAQRbGqsS5WAuTe/H1ok7nVLed9RNArKRXfAt
+         wILj8xuimsEPxs6FO1WXLvvnNarPvigxHwJKkPTQn5+6SdsZNTOilxACtTaYb/Ozx4b6
+         kKBvoWnN1AvOmeFl1nSh6IpoOs6eenP3OJzcrM3I4/6Swkb7/qS7BuDdMi0WURzTQ/AN
+         5AjXmn79EumMY4YgKUFP1cKrhj6KgGGeYnfEgRjF6T0N0ERK5kNsshw6ziIY0IpE6DkA
+         fLdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1ykLgsZ2QlE1M7OwXCk5WzQH9ZVlust3l+kbAqWy/V0=;
-        b=IUetGjAoisTdM7+a+VK/LjaS7lmF90/h6QfwxuC5+n3WH5smKI/bvSgrydeoFIpnlp
-         Mu2D2Q/LGuPfbwWJq90lcK2pz1KfQHQ5sZ0Vxrgcj3+WTi3VNbSdjd5BpJqVQKUCJbIo
-         yDTVzZY3IJmZzKREGAjeeioz+9LLBRU1/N1yKKG6cF0pPJ3f37DHuTaalqxVYAZi540l
-         V7nyMSL5/2F57wB8PLMoRQy7sm8L67F6RpnlbT8bqm78GWHQoVPxa10BcDziJSt0eIly
-         lRQOxRSXR1p78Yy988RU2bB73U7Y0PJW0YhOB4B66jpJ2rVIOfHmBY929WjO5/j6KhLL
-         tD0A==
-X-Gm-Message-State: AOAM531pk0fuElyu4a7HKj69GlV+2Fnya1sSogWDmLfFxl8x1jnplski
-        euQEPM38YEh84wgs14U2/mg/y8yJsUjsfw==
-X-Google-Smtp-Source: ABdhPJxVXR6+zaLC+fJtfU/oZaqR14NMUWhuS5XKtR5VqDK78U8hcwb8xay7XMkmuAvdo4EsASj1+Q==
-X-Received: by 2002:a17:906:4408:b0:6da:bec1:2808 with SMTP id x8-20020a170906440800b006dabec12808mr27582935ejo.543.1651084374856;
-        Wed, 27 Apr 2022 11:32:54 -0700 (PDT)
+        bh=uUiRj9ShaGcXVoRdp82isoIpzg+6vO7GGhdlgaIYleg=;
+        b=pEnojaIwpj4iad9fro9tPgyOoKj/yTKQrua8nVE3BVsUhhbslPrxj504/HYVFKcIxK
+         Q4mNao4ibe7fdDzGK8nwF7rGYQ2L2OuqVKJFStkfcBLOdTrB1SlsmjNCoCJ1IHvDM9F8
+         d/DyHk0N719djGPKlAMTczWsU5oqhuYBMU5noM9ZOFk8SUmf16q358Emd+CFHB4bH/7H
+         BqJFigKCLgiEVVixO+RG3q8tfeU6iOBv7sHyTwa77z6j0wCkwkOqfy7TdxbL6+rSj4Qg
+         6+gFp0VcnTvbNl98hpGTHSLkHDtq4GKmN/R3VY+Xv6ht4A2QAFSXZjRHJmp6hABuBn3i
+         8aYQ==
+X-Gm-Message-State: AOAM53309nHT2OKUa1N47IMm6LyxHIaT3Qz9trMjHCAIUwFK3okekVnz
+        LOCELXustXLKcODMawZXmyySe6WB6TwxQQ==
+X-Google-Smtp-Source: ABdhPJwRK7vAdKSdfZ4tlKvfNpSu+/S0SuSAbrR1yFRd62z9h3UhDj7Wo9IYoPztJOgWcvIyofl3qw==
+X-Received: by 2002:a17:907:1b05:b0:6f0:18d8:7be0 with SMTP id mp5-20020a1709071b0500b006f018d87be0mr27886541ejc.561.1651084820483;
+        Wed, 27 Apr 2022 11:40:20 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id c4-20020a170906170400b006e87c7b8ffasm7256447eje.32.2022.04.27.11.32.53
+        by smtp.gmail.com with ESMTPSA id l26-20020a1709062a9a00b006e7ee7ad20bsm7288205eje.149.2022.04.27.11.40.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 11:32:54 -0700 (PDT)
+        Wed, 27 Apr 2022 11:40:20 -0700 (PDT)
 From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
@@ -60,11 +60,11 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 07/45] media: sun6i-csi: Tidy up Kconfig
-Date:   Wed, 27 Apr 2022 20:32:52 +0200
-Message-ID: <5560019.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20220415152811.636419-8-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-8-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 11/45] media: sun6i-csi: Register the media device after creation
+Date:   Wed, 27 Apr 2022 20:40:18 +0200
+Message-ID: <2235027.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20220415152811.636419-12-paul.kocialkowski@bootlin.com>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-12-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -78,12 +78,16 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 15. april 2022 ob 17:27:33 CEST je Paul Kocialkowski napisal(a):
-> Update the option title and help, group related options together,
-> add dependency on VIDEO_DEV since the driver uses it and update the
-> description.
+Dne petek, 15. april 2022 ob 17:27:37 CEST je Paul Kocialkowski napisal(a):
+> There is no particular need to register the media device in the
+> subdev notify complete callback.
+> 
+> Register it in the v4l2 code instead where it's more in-context.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Ideally, error path could use new label, but since media_device_unregister() 
+check for if it was registered, this works too.
 
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
@@ -91,36 +95,46 @@ Best regards,
 Jernej
 
 > ---
->  drivers/media/platform/sunxi/sun6i-csi/Kconfig | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+>  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-> b/drivers/media/platform/sunxi/sun6i-csi/Kconfig index
-> 965fbd937841..fe50f9bb8fd1 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-> @@ -1,13 +1,15 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  config VIDEO_SUN6I_CSI
-> -	tristate "Allwinner V3s Camera Sensor Interface driver"
-> -	depends on V4L_PLATFORM_DRIVERS
-> -	depends on VIDEO_DEV && COMMON_CLK  && HAS_DMA && PM
-> +	tristate "Allwinner A31 Camera Sensor Interface (CSI) Driver"
-> +	depends on V4L_PLATFORM_DRIVERS && VIDEO_DEV
->  	depends on ARCH_SUNXI || COMPILE_TEST
-> +	depends on PM && COMMON_CLK && HAS_DMA
->  	select MEDIA_CONTROLLER
->  	select VIDEO_V4L2_SUBDEV_API
->  	select VIDEOBUF2_DMA_CONTIG
-> -	select REGMAP_MMIO
->  	select V4L2_FWNODE
-> +	select REGMAP_MMIO
->  	help
-> -	   Support for the Allwinner Camera Sensor Interface Controller on 
-V3s.
-> +	   Support for the Allwinner A31 Camera Sensor Interface (CSI)
-> +	   controller, also found on other platforms such as the A83T, H3,
-> +	   V3/V3s or A64.
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c index
+> 198275e09865..e59ee3e3f372 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> @@ -638,7 +638,7 @@ static int sun6i_subdev_notify_complete(struct
+> v4l2_async_notifier *notifier) if (ret < 0)
+>  		return ret;
+> 
+> -	return media_device_register(&v4l2->media_dev);
+> +	return 0;
+>  }
+> 
+>  static const struct v4l2_async_notifier_operations sun6i_csi_async_ops = {
+> @@ -687,6 +687,12 @@ static int sun6i_csi_v4l2_setup(struct sun6i_csi_device
+> *csi_dev)
+> 
+>  	media_device_init(media_dev);
+> 
+> +	ret = media_device_register(media_dev);
+> +	if (ret) {
+> +		dev_err(dev, "failed to register media device: %d\n", 
+ret);
+> +		goto error_media;
+> +	}
+> +
+>  	/* V4L2 Control Handler */
+> 
+>  	ret = v4l2_ctrl_handler_init(&v4l2->ctrl_handler, 0);
+> @@ -746,6 +752,7 @@ static int sun6i_csi_v4l2_setup(struct sun6i_csi_device
+> *csi_dev) v4l2_ctrl_handler_free(&v4l2->ctrl_handler);
+> 
+>  error_media:
+> +	media_device_unregister(media_dev);
+>  	media_device_cleanup(media_dev);
+> 
+>  	return ret;
 
 
 
