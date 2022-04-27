@@ -2,92 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AAD9511A8E
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 16:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90A5F511D8C
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 20:35:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238515AbiD0Oto (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 10:49:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42540 "EHLO
+        id S239273AbiD0PLo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 11:11:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238514AbiD0Oto (ORCPT
+        with ESMTP id S239133AbiD0PLn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 10:49:44 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88FBE38DA1;
-        Wed, 27 Apr 2022 07:46:30 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a02:3030:0:1e3e:2277:ba57:a2c0:4])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 58FD21F40898;
-        Wed, 27 Apr 2022 15:46:28 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1651070788;
-        bh=uPnBJqA7/3gJZoazRFRY0NtvrjeKFWjy3algIjYxiJ4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Kb/UkQ70CysqS726R9AKoHGmM2vrUsQj4301/n25YMFbnt8gVDogsJWgBYF0P4N+S
-         CtMFfmQJExEjX/w3NGl0Hk+PGJkIsit+NgRt5rKj5/GK19XRjMNpdnuI5UkuNml3m5
-         4CC33j4iQ/ONoUKoQL5rkSz+BaYb2B4p5DCqaDD35NAl3lEaL/LfD5FLmLEIluG5q+
-         vmpzVa6sfhojxQ55yQ6SpRnYAQNH40HC/oJspHik+EFWgywbsiSE+B4JTcUGoLlVTz
-         n5HOzibcc3Rtg/ceBDKRV8PX1Xc/RaW4hDJ88TrzK+nIoPqHCm6IcWM7Arsnk2d1Z5
-         kS4ILsXt1lGTw==
-Date:   Wed, 27 Apr 2022 16:46:24 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        jon@nanocrew.net, aford173@gmail.com, kernel@collabora.com
-Subject: Re: [PATCH] media: hantro: HEVC: Fix tile info buffer value
- computation
-Message-ID: <20220427144624.vtbdlczmykflccut@basti-XPS-13-9310>
-References: <20220427135517.381959-1-benjamin.gaignard@collabora.com>
+        Wed, 27 Apr 2022 11:11:43 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 398CC203F5B
+        for <linux-media@vger.kernel.org>; Wed, 27 Apr 2022 08:08:29 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id s4so1523964qkh.0
+        for <linux-media@vger.kernel.org>; Wed, 27 Apr 2022 08:08:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=BGXgRkm7KfAuxs/lpObycbS7QSUjU1DegZpjJv5xMRo=;
+        b=zQCZg/1gEuydchdqj6KgGuunQzzEztTpMwRrPhBiadpx9coH4AxqBO1HpODzdIHeVh
+         ZO7Svx7GUbRvl93GxQFyUkRwfSjo3I7TZ0RKbbUhR2DlLz5iEm9FkTkeOxnyG7+czP9x
+         vfrl9y0VK8vlKPZZi3FNtbDlGkwqinateCU8uXhRG0XNkl8wd6IH+vk4ZnehGkOWCctK
+         gpnG2qvACm3Tz5lSWnpg7gmhlIxxMQ1Ebc4FS/xxc0kRi/vVUGugtDxGL7eGZVkznZJI
+         WElUfnl3w5FOkimxquM6ZIQj8xIKQKcxxlSCJu0QL5CDLDxt+xZvfqGivWjfS/5v9rNJ
+         gYXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=BGXgRkm7KfAuxs/lpObycbS7QSUjU1DegZpjJv5xMRo=;
+        b=b6Y7DiOG1uU6PjIDqHOW8VpZFCFqHPJhgHRw+m8Ld+qAxTw4iyeVrWAC2X1nQV0d7n
+         l1Yw1uqcUS27jeulVoOT0Iw3zEOUmg/hkI1E7qtb+ltSLZnedLAJj+qUyYlbrPUAVv3I
+         ntpeu2XHrGWCCU5/YxJ/qnT926FSeuzN0BP8Zvej7sUO6dr5+duZv9liQac2edWfSBqS
+         /+n3dipmWsCDCn93k1qWEFMPtMtCUEdGewr9WiHYbTmO/nuLFxUGm4DjmjfgZ2z0ZINJ
+         bJhi30beXCLB0qnUyMSjYVHg1gTxmHOWgYHlRIFdRQU2pw6fSX4QT+oiXdOdIZqKA7QH
+         Z1dg==
+X-Gm-Message-State: AOAM531M1yO44enVV9QjWEcpzBAI8RMvpQTMNd5zaka5M1gXFo+6Z87J
+        lojmui+ILrp99864Y7FBILwK9g==
+X-Google-Smtp-Source: ABdhPJyz8xzV4hhv6gSPTzvzMZAdA3dvuWPN46Ns7zosNhqLq064CpZ10rj++94CM0mckZX+Q3aAOQ==
+X-Received: by 2002:a05:620a:4450:b0:69e:a2ca:e7d7 with SMTP id w16-20020a05620a445000b0069ea2cae7d7mr16860296qkp.178.1651072107898;
+        Wed, 27 Apr 2022 08:08:27 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id k20-20020a05622a03d400b002ec16d2694fsm10227421qtx.39.2022.04.27.08.08.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Apr 2022 08:08:27 -0700 (PDT)
+Message-ID: <a78920881b2ffaf1fba04bc9ebeda591ec0dfd87.camel@ndufresne.ca>
+Subject: Re: [PATCH v4 03/24] media: videobuf2-v4l2: Warn on holding buffers
+ without support
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-kernel@vger.kernel.org
+Date:   Wed, 27 Apr 2022 11:08:24 -0400
+In-Reply-To: <CAAFQd5C6qmxmn4y=cx5Mtb3p8vcTAFm6Jfc1vMAE8+x9iwhDZg@mail.gmail.com>
+References: <20220426125751.108293-1-nicolas.dufresne@collabora.com>
+         <20220426125751.108293-4-nicolas.dufresne@collabora.com>
+         <CAAFQd5C6qmxmn4y=cx5Mtb3p8vcTAFm6Jfc1vMAE8+x9iwhDZg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220427135517.381959-1-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Benjamin,
+Le mercredi 27 avril 2022 =C3=A0 13:31 +0900, Tomasz Figa a =C3=A9crit=C2=
+=A0:
+> Hi Nicolas, Sebastian,
+>=20
+> On Tue, Apr 26, 2022 at 9:58 PM Nicolas Dufresne
+> <nicolas.dufresne@collabora.com> wrote:
+> >=20
+> > From: Sebastian Fricke <sebastian.fricke@collabora.com>
+> >=20
+> > Using V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF flag without specifying the
+> > subsystem flag VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF, results in
+> > silently ignoring it.
+> > Warn the user via a debug print when the flag is requested but ignored
+> > by the videobuf2 framework.
+> >=20
+> > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> > ---
+> >  drivers/media/common/videobuf2/videobuf2-v4l2.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> >=20
+>=20
+> Thanks for the patch. Please see my comments inline.
+>=20
+> > diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/=
+media/common/videobuf2/videobuf2-v4l2.c
+> > index 6edf4508c636..812c8d1962e0 100644
+> > --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> > +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> > @@ -329,8 +329,13 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buf=
+fer *vb, struct v4l2_buffer *b
+> >                  */
+> >                 vbuf->flags &=3D ~V4L2_BUF_FLAG_TIMECODE;
+> >                 vbuf->field =3D b->field;
+> > -               if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOL=
+D_CAPTURE_BUF))
+> > +               if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOL=
+D_CAPTURE_BUF)) {
+> > +                       if (vbuf->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTUR=
+E_BUF)
+> > +                               dprintk(q, 1,
+> > +                                       "Request holding buffer (%d), u=
+nsupported on output queue\n",
+> > +                                       b->index);
+>=20
+> I wonder if we shouldn't just fail such a QBUF operation. Otherwise
+> the application would get unexpected behavior from the kernel.
+> Although it might be too late to do it now if there are applications
+> that rely on this implicit ignore...
 
-On 27.04.2022 15:55, Benjamin Gaignard wrote:
->Use pps->column_width_minus1[j] + 1 as value for the tile info buffer
->instead of pps->column_width_minus1[j + 1].
->The patch fix DBLK_E_VIXS_2, DBLK_F_VIXS_2, DBLK_G_VIXS_2,
+In the context of this patchset, the statu quo seems to be the logical thin=
+g to
+do. We can raise this up in a separate thread. The side effect is of course
+confusing for developers, but it is hard for me to tell if a hard failure m=
+ay
+break an existing software.
 
-s/fix/fixes/
+regards,
+Nicolas
 
-Greetings,
-Sebastian
+>=20
+> Best regards,
+> Tomasz
 
->SAO_B_MediaTek_5, TILES_A_Cisco_2 and TILES_B_Cisco_1 tests in fluster.
->
->Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->---
-> drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->index bb512389c1a5..ffeb2fbeefd2 100644
->--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->@@ -74,7 +74,7 @@ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
-> 					no_chroma = 1;
-> 				for (j = 0, tmp_w = 0; j < num_tile_cols - 1; j++) {
-> 					tmp_w += pps->column_width_minus1[j] + 1;
->-					*p++ = pps->column_width_minus1[j + 1];
->+					*p++ = pps->column_width_minus1[j] + 1;
-> 					*p++ = h;
-> 					if (i == 0 && h == 1 && ctb_size == 16)
-> 						no_chroma = 1;
->-- 
->2.32.0
->
