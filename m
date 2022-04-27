@@ -2,159 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C952510B7D
-	for <lists+linux-media@lfdr.de>; Tue, 26 Apr 2022 23:44:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A0D0510DCF
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 03:18:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355539AbiDZVsF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Apr 2022 17:48:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39628 "EHLO
+        id S1348478AbiD0BUr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Apr 2022 21:20:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233752AbiDZVsE (ORCPT
+        with ESMTP id S1344391AbiD0BUp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Apr 2022 17:48:04 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F77863BD4;
-        Tue, 26 Apr 2022 14:44:55 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF88030B;
-        Tue, 26 Apr 2022 23:44:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1651009494;
-        bh=RhvrIhNLWO946ehassDhyFnuzXpvyHWUxAtfQ5WEoqs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BEHUGc2JhUEYnYLUHbn5IkOzuwjjYrr/tNG44x1daI1Z0alGbA9/z2M6Xz7lIhcKI
-         47Z7Asw96+HL7zjUnTfd3wW33Tw48tUHBEEPY5/M/8C58mwXnbCYbL+i/TBbYqzOxa
-         NBiQtFC40pxI6zNdRF+QgDAJddQz1uFOjrGVG1lo=
-Date:   Wed, 27 Apr 2022 00:44:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
-        stanimir.varbanov@linaro.org, tomi.valkeinen@ideasonboard.com,
-        robh+dt@kernel.org, nicolas@ndufresne.ca,
-        alexander.stein@ew.tq-group.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 6/9] media: uapi: Add a control for DW100 driver
-Message-ID: <Ymhn1dwXgHVROm/H@pendragon.ideasonboard.com>
-References: <20220328141309.177611-1-xavier.roumegue@oss.nxp.com>
- <20220328141309.177611-7-xavier.roumegue@oss.nxp.com>
- <dba106ac-cee1-2493-13c7-ad9aef556a49@xs4all.nl>
- <b3fb75bc-301c-823a-4779-964bce95d051@oss.nxp.com>
+        Tue, 26 Apr 2022 21:20:45 -0400
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEF0E2E08C
+        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 18:17:31 -0700 (PDT)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20220427011725epoutp022c8f7af14b2b6da3a824a0575333d4c4~pm-wvPTxc1734417344epoutp02b
+        for <linux-media@vger.kernel.org>; Wed, 27 Apr 2022 01:17:25 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20220427011725epoutp022c8f7af14b2b6da3a824a0575333d4c4~pm-wvPTxc1734417344epoutp02b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1651022245;
+        bh=uzhbH2zy5cwN3mEIjX2YDGLDE6JC4X/Hl2T2HtN8AMc=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=QjAWxzz8wLkpz7vlodGMKo/guMAmCR055FjmEi/nAj0UtZwAkZbNVKO1YCCEFBD+N
+         ZhQSm73Mdo3LHNiUGfrs9mAThqHzxeC1X3HldXllj3tIh27lyAqKg1y+6zZ5OMZiy2
+         QJf3Aal2AQr4DwoYT4OnFXHOwDCrG29pd4b+1cHc=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+        20220427011725epcas1p3e9ea0948991e2f807117b41a37e095c5~pm-wX2YnY1319113191epcas1p3X;
+        Wed, 27 Apr 2022 01:17:25 +0000 (GMT)
+Received: from epsmges1p2.samsung.com (unknown [182.195.36.136]) by
+        epsnrtp4.localdomain (Postfix) with ESMTP id 4Kp17m3mXsz4x9QF; Wed, 27 Apr
+        2022 01:17:24 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+        epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        41.0C.09785.4A998626; Wed, 27 Apr 2022 10:17:24 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20220427011724epcas1p2478c9e7a74aabe87e5b621b9292be4bd~pm-vFGrQy1291412914epcas1p2Y;
+        Wed, 27 Apr 2022 01:17:24 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20220427011724epsmtrp2c4f45caaa4142f44aeee0c812dedd6f4~pm-vEaIOd2433424334epsmtrp2A;
+        Wed, 27 Apr 2022 01:17:24 +0000 (GMT)
+X-AuditID: b6c32a36-c87ff70000002639-8d-626899a452c9
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        DA.AD.08924.3A998626; Wed, 27 Apr 2022 10:17:23 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.113.112.149]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20220427011723epsmtip110e15a4f87994d5166a6637510cde225~pm-u07Sop2594925949epsmtip1Y;
+        Wed, 27 Apr 2022 01:17:23 +0000 (GMT)
+From:   Kwanghoon Son <k.son@samsung.com>
+To:     mchehab@kernel.org, s.nawrocki@samsung.com,
+        krzysztof.kozlowski@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        Kwanghoon Son <k.son@samsung.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH v2] media: exynos4-is: Fix compile warning
+Date:   Wed, 27 Apr 2022 10:16:45 +0900
+Message-Id: <20220427011645.30607-1-k.son@samsung.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b3fb75bc-301c-823a-4779-964bce95d051@oss.nxp.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPKsWRmVeSWpSXmKPExsWy7bCmru6SmRlJBjM/SFv0rrnKZLH39VZ2
+        i54NW1ktZpzfx2TxqvkRm8WyTX+YLA6/aWd1YPdYvOclk8emVZ1sHneu7WHz6NuyitHj8ya5
+        ANaobJuM1MSU1CKF1Lzk/JTMvHRbJe/geOd4UzMDQ11DSwtzJYW8xNxUWyUXnwBdt8wcoDOU
+        FMoSc0qBQgGJxcVK+nY2RfmlJakKGfnFJbZKqQUpOQWmBXrFibnFpXnpenmpJVaGBgZGpkCF
+        CdkZz6e0sxc0cVRsb3jC3sDYyt7FyMkhIWAiMWHWUiCbi0NIYAejxKb3b5ghnE+MEl/uzWEF
+        qRIS+AzkvHSH6bg9dSorRNEuRomd7VtZIJwvjBKrH+1hA6liE1CXWNK2FmyHiECARNfRW2Bj
+        mQW6GCVmt90CKxIWsJJo+L+dBcRmEVCV+HrzGBOIzStgJnHzE4QtISAvcb53HTtEXFDi5Mwn
+        YPXMQPHmrbPBhkoInGKXuLD4BQtEg4vE9/6NzBC2sMSr41ugPpWS+PxuLxuEnS1x9COMXSJx
+        fdYiVgjbWGL/0slAizmAFmhKrN+lDxFWlNj5ey4jxF4+iXdfe1hBSiQEeCU62oQgTHmJW53l
+        ENWiEmeefoQa7iFx8e8jZkggxkpM6z/FPIFRfhaSZ2YheWYWwt4FjMyrGMVSC4pz01OLDQuM
+        4JGanJ+7iRGcErXMdjBOevtB7xAjEwfjIUYJDmYlEd57ihlJQrwpiZVVqUX58UWlOanFhxhN
+        gcE7kVlKNDkfmJTzSuINTSwNTMyMjE0sDM0MlcR5V007nSgkkJ5YkpqdmlqQWgTTx8TBKdXA
+        tEH7R84bdqElmrpp1u8Fa5P3H9L8OK+Ad3HP/R2qmY2d/13MX8oveTZBI/35viVv04QNcp1U
+        ef90RW53Vr8e3ffLzjE3eK1lVfVGpXkXcuYWbl43c+quhlebk2MtvzAZXXm+7tXsZT+rakL8
+        48w37a3V+hSwXLMod767zrXmcPVpM39+nfTi5dmWi2xdlt1bwhQqlpf8MpA36Z6Ueltr1i3H
+        vujbCjrSixSW7rB+uOfL4ie5pYzsxkvOFS4tffD4pp80i4Lgomt10wQ2Bdppmoa6nv91xvx0
+        2Wsd+W8vWY9+cvsYoHDc5INFT/M0lfAnp7NOrdYNnBgX+9hxwwwv0wL/hYH/fn+XuKte/481
+        XYmlOCPRUIu5qDgRAJ3UBOASBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPLMWRmVeSWpSXmKPExsWy7bCSnO7imRlJBt3nrC1611xlstj7eiu7
+        Rc+GrawWM87vY7J41fyIzWLZpj9MFofftLM6sHss3vOSyWPTqk42jzvX9rB59G1ZxejxeZNc
+        AGsUl01Kak5mWWqRvl0CV8bzKe3sBU0cFdsbnrA3MLaydzFyckgImEjcnjqVtYuRi0NIYAej
+        RPuCTqiEqETH5UbGLkYOIFtY4vDhYoiaT4wSb/70sIDUsAmoSyxpWwtWLyIQJHFi8RZ2kCJm
+        gT5GiWkvZoAVCQtYSTT83w5mswioSny9eYwJxOYVMJO4+QnClhCQlzjfu44dIi4ocXLmE7B6
+        ZqB489bZzBMY+WYhSc1CklrAyLSKUTK1oDg3PbfYsMAoL7Vcrzgxt7g0L10vOT93EyM4TLW0
+        djDuWfVB7xAjEwfjIUYJDmYlEd57ihlJQrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJI
+        TyxJzU5NLUgtgskycXBKNTAx1WV+Ybn4yIxxfXYen+thq5NZIffO7/b98Oyh78VHC7Z0KeZr
+        6WybNbEqVc9hqYnTP98TUh3dHmb6xq5KN65sDn52q0XRq27/xG+v2VQ2nNgY+iHwOYNBodMd
+        w/MWBhrtnFVlJtZmPYtEL+SYbTMqkDuRW5mQIuefXJ3AWMuzUvOf+qx8gym30u4cFDrG8D3a
+        YoWmntsdd7fzBfGfHvutDZ7UIbSIN8r3kzSvQ07ruaBKzatqGRbfPlq4a4vJ6nWa6Eu/5fOY
+        VL1Y812KQMYmlTVmQT+/C977FtHmvufM/ylFPeXMLybFaznLlvyZUmJw5lTogvuO63+VaSdd
+        Cb0WNuXpnN0Xcgrryz55KLEUZyQaajEXFScCANYFRKrCAgAA
+X-CMS-MailID: 20220427011724epcas1p2478c9e7a74aabe87e5b621b9292be4bd
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220427011724epcas1p2478c9e7a74aabe87e5b621b9292be4bd
+References: <CGME20220427011724epcas1p2478c9e7a74aabe87e5b621b9292be4bd@epcas1p2.samsung.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xavier,
+Declare static on function 'fimc_isp_video_device_unregister'.
 
-On Tue, Apr 26, 2022 at 11:34:55PM +0200, Xavier Roumegue (OSS) wrote:
-> On 4/25/22 08:57, Hans Verkuil wrote:
-> > On 28/03/2022 16:13, Xavier Roumegue wrote:
-> >> The DW100 driver gets the dewarping mapping as a binary blob from the
-> >> userspace application through a custom control.
-> >> The blob format is hardware specific so create a dedicated control for
-> >> this purpose.
-> >>
-> >> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-> >> ---
-> >>   Documentation/userspace-api/media/drivers/dw100.rst | 12 ++++++++++++
-> >>   include/uapi/linux/dw100.h                          | 11 +++++++++++
-> >>   2 files changed, 23 insertions(+)
-> >>   create mode 100644 include/uapi/linux/dw100.h
-> >>
-> >> diff --git a/Documentation/userspace-api/media/drivers/dw100.rst b/Documentation/userspace-api/media/drivers/dw100.rst
-> >> index 4cd55c75628e..f6d684cadf26 100644
-> >> --- a/Documentation/userspace-api/media/drivers/dw100.rst
-> >> +++ b/Documentation/userspace-api/media/drivers/dw100.rst
-> >> @@ -20,4 +20,16 @@ match the expected size inherited from the destination image resolution.
-> >>   More details on the DW100 hardware operations can be found in
-> >>   *chapter 13.15 DeWarp* of IMX8MP_ reference manuel.
-> >>   
-> >> +The Vivante DW100 m2m driver implements the following driver-specific control:
-> >> +
-> >> +``V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP (integer)``
-> > 
-> > (integer) -> (__u32 array)
-> > 
-> > But should this be a __u32 array at all? Wouldn't a __u16 array make more sense?
->
-> This is indeed debatable. But the array is describing vertices positions 
-> on a 2D dimension space, and thus its size is always even.
-> More importantly, the array must follow the format imposed by the 
-> hardware which expects __u16 pairs packed in a __u32.
-> Lastly, the lut (map) register size unit is __u32.
-> 
-> Hence, IMHO, using __u32 might make more sense to highlight its hardware 
-> dependency.
+When VIDEO_EXYNOS4_ISP_DMA_CAPTURE=n, compiler warns about
+warning: no previous prototype for function [-Wmissing-prototypes]
 
-Agreed.
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Kwanghoon Son <k.son@samsung.com>
+---
+ drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-As mentioned in a reply to another patch, I think it would be useful to
-explain this a bit more clearly. Hans mentioned in the review of the
-driver itself that there was a bug as an image width of 16 bits results
-in a grid width of 2. I think that's correct (a width between 1 and 16
-pixels results in a single grid cell horizontally, and thus two
-vertices, on the left and right side of the cell), but it would benefit
-from an explanation. A small ascii art diagram could help.
-
-> >> +    Specifies to DW100 driver its dewarping map (aka LUT) blob as described in
-> >> +    *chapter 13.15.2.3 Dewarping Remap* of IMX8MP_ reference manual as an U32
-> >> +    dynamic array. The image is divided into many small 16x16 blocks. If the
-> >> +    width of the image is not divisible by 16, the size of the rightmost block
-> >> +    is the remainder.
-> > 
-> > Isn't the same true for the height?
-> 
-> Yes, will update accordingly.
->
-> > The dewarping map only saves the vertex coordinates of the
-> > 
-> >> +    block. The dewarping grid map is comprised of vertex coordinates for x and y.
-> >> +    Each x, y coordinate register uses 16 bits (UQ12.4) to record the coordinate
-> > 
-> > As mentioned before, UQ12.4 is not necessarily a standard notation. 'unsigned 12.4
-> > fixed point' is better, but you also need to specify exactly where the bits are
-> > stored inside the __u16. I.e.: 'the integer part is stored in the 12 most significant
-> > bits, and the fractional part is stored in the 4 least significant bits of the __u16.'
-> > 
-> >> +    address, with the Y coordinate in the upper bits and X in the lower bits.
-> > 
-> > And with a __u16 array this becomes: 'The array contains pairs of X, Y coordinates.'
-> > Or something along those lines.
-> > 
-> >> +
-> >>   .. _IMX8MP: https://www.nxp.com/webapp/Download?colCode=IMX8MPRM
-> >> diff --git a/include/uapi/linux/dw100.h b/include/uapi/linux/dw100.h
-> >> new file mode 100644
-> >> index 000000000000..7fdcf2bf42e5
-> >> --- /dev/null
-> >> +++ b/include/uapi/linux/dw100.h
-> >> @@ -0,0 +1,11 @@
-> >> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
-> >> +/* Copyright 2022 NXP */
-> >> +
-> >> +#ifndef __UAPI_DW100_H__
-> >> +#define __UAPI_DW100_H__
-> >> +
-> >> +#include <linux/v4l2-controls.h>
-> >> +
-> > 
-> > Add a comment referring to the Documentation/userspace-api/media/drivers/dw100.rst
-> > documentation so users of this control know where to find the associated
-> > documentation.
-> > 
-> >> +#define V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP (V4L2_CID_USER_DW100_BASE + 1)
-> >> +
-> >> +#endif
-
+diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h b/drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h
+index edcb3a5e3cb9..2dd4ddbc748a 100644
+--- a/drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h
++++ b/drivers/media/platform/samsung/exynos4-is/fimc-isp-video.h
+@@ -32,7 +32,7 @@ static inline int fimc_isp_video_device_register(struct fimc_isp *isp,
+ 	return 0;
+ }
+ 
+-void fimc_isp_video_device_unregister(struct fimc_isp *isp,
++static inline void fimc_isp_video_device_unregister(struct fimc_isp *isp,
+ 				enum v4l2_buf_type type)
+ {
+ }
 -- 
-Regards,
+2.20.1
 
-Laurent Pinchart
