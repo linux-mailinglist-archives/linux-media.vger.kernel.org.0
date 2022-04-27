@@ -2,161 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAAAA51131D
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 10:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1F24511339
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 10:06:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359218AbiD0ID3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 04:03:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55896 "EHLO
+        id S1359293AbiD0IJo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 04:09:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359203AbiD0ID1 (ORCPT
+        with ESMTP id S1359414AbiD0IJF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 04:03:27 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F99A13F91;
-        Wed, 27 Apr 2022 01:00:14 -0700 (PDT)
-X-UUID: e5a4726522b74573a51c0f3c7dcb237e-20220427
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4,REQID:53aad087-300b-419b-ba44-baeba704f0c7,OB:0,LO
-        B:0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
-        ON:release,TS:8
-X-CID-META: VersionHash:faefae9,CLOUDID:159aa7c6-85ee-4ac1-ac05-bd3f1e72e732,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: e5a4726522b74573a51c0f3c7dcb237e-20220427
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 206080323; Wed, 27 Apr 2022 16:00:09 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Wed, 27 Apr 2022 16:00:06 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 27 Apr
- 2022 16:00:06 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 27 Apr 2022 16:00:05 +0800
-Message-ID: <ec53cb218ab313cc6bd76660c9bd5c0ac46ad5d9.camel@mediatek.com>
-Subject: Re: [PATCH v2] dt-bindings: media: mtk-vcodec: Adds encoder power
- domain property
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        <allen-kh.cheng@mediatek.com>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Wed, 27 Apr 2022 16:00:05 +0800
-In-Reply-To: <98a01f46-7fb0-6201-c9db-14e15d7e30c4@xs4all.nl>
-References: <20220427033130.18497-1-irui.wang@mediatek.com>
-         <98a01f46-7fb0-6201-c9db-14e15d7e30c4@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Wed, 27 Apr 2022 04:09:05 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C2491E3F0;
+        Wed, 27 Apr 2022 01:05:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7D9CCB8252E;
+        Wed, 27 Apr 2022 08:05:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18AC4C385A7;
+        Wed, 27 Apr 2022 08:05:48 +0000 (UTC)
+Message-ID: <06c5c170-f39c-cd8e-4aa6-5fde56bfa09b@xs4all.nl>
+Date:   Wed, 27 Apr 2022 10:05:47 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] media: mtk-mdp: make mtk_mdp_comp_init static
+Content-Language: en-US
+To:     houlong wei <houlong.wei@mediatek.com>,
+        Eizan Miyamoto <eizan@chromium.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc:     "enric.balletbo@collabora.com" <enric.balletbo@collabora.com>,
+        "dafna.hirschfeld@collabora.com" <dafna.hirschfeld@collabora.com>,
+        =?UTF-8?B?QW5kcmV3LUNUIENoZW4gKOmZs+aZuui/qik=?= 
+        <Andrew-CT.Chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?B?TWluZ2hzaXUgVHNhaSAo6JSh5piO5L+uKQ==?= 
+        <Minghsiu.Tsai@mediatek.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>
+References: <20210811171512.1.I4a34d99ace27ad2fe55e22c90244d3bba2c29bab@changeid>
+ <484e199d23a09d79f121ea37eb9e7d95eabfd886.camel@mediatek.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <484e199d23a09d79f121ea37eb9e7d95eabfd886.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Hans,
+Hi all,
 
-On Wed, 2022-04-27 at 09:43 +0200, Hans Verkuil wrote:
-> Hi Irui,
-> 
-> I'm merging this patch from Nícolas F. R. A. Prado, which has already
-> been Acked by Rob:
-> 
-> 
-https://patchwork.linuxtv.org/project/linux-media/patch/20220225225854.81038-4-nfraprado@collabora.com/
-> 
-> If you still want the other changes you made in this patch merged,
-> then please make
-> a v3 on top of Nícolas' patch.
+Since the patch series this depends on hasn't been accepted (and using
+the components framework is highly controversial in the media subsystem
+anyway), I'm marking this (just as the patch series itself) as
+'Changes Requested' in the media patchwork. If you want to continue
+with this, then this patch should be folded into a v8.
 
-Thanks for your information and Nícolas' patch, we will check it and
-would send a v3 patch if needed.
+Regards,
 
-Thanks
-Best Regards.
+	Hans
+
+On 16/08/2021 06:26, houlong wei wrote:
+> On Wed, 2021-08-11 at 15:15 +0800, Eizan Miyamoto wrote:
+>> This function isn't and doesn't need to be used outside of
+>> mtk_mdp_comp.c
+>>
+>> This patch depends on and is a follow-up to
+>>
+> https://patchwork.kernel.org/project/linux-mediatek/list/?series=524929
+>>
+>> Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
+>> ---
 > 
-> Regards,
+> Reviewed-by: Houlong Wei <houlong.wei@mediatek.com>
 > 
-> 	Hans
-> 
-> On 27/04/2022 05:31, Irui Wang wrote:
-> > Adds encoder power domain property.
-> > 
-> > Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> > ---
-> > changes compared with v1:
-> > - set "power-domains" as a non-required property
-> > 
-> > The 'make dtbs_check' warnings('mediatek,larb') can be fixed by
-> > patch:
-> > 
-https://patchwork.kernel.org/project/linux-mediatek/list/?series=633993
-> > ---
-> >  .../devicetree/bindings/media/mediatek,vcodec-encoder.yaml  | 6
-> > ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/media/mediatek,vcodec-
-> > encoder.yaml
-> > b/Documentation/devicetree/bindings/media/mediatek,vcodec-
-> > encoder.yaml
-> > index deb5b657a2d5..2d1e0c9bd6ee 100644
-> > --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-
-> > encoder.yaml
-> > +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-
-> > encoder.yaml
-> > @@ -41,6 +41,9 @@ properties:
-> >  
-> >    assigned-clock-parents: true
-> >  
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> >    iommus:
-> >      minItems: 1
-> >      maxItems: 32
-> > @@ -132,6 +135,7 @@ examples:
-> >      #include <dt-bindings/clock/mt8173-clk.h>
-> >      #include <dt-bindings/memory/mt8173-larb-port.h>
-> >      #include <dt-bindings/interrupt-controller/irq.h>
-> > +    #include <dt-bindings/power/mt8173-power.h>
-> >  
-> >      vcodec_enc_avc: vcodec@18002000 {
-> >        compatible = "mediatek,mt8173-vcodec-enc";
-> > @@ -153,6 +157,7 @@ examples:
-> >        clock-names = "venc_sel";
-> >        assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>;
-> >        assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL>;
-> > +      power-domains = <&scpsys MT8173_POWER_DOMAIN_VENC>;
-> >      };
-> >  
-> >      vcodec_enc_vp8: vcodec@19002000 {
-> > @@ -173,4 +178,5 @@ examples:
-> >        clock-names = "venc_lt_sel";
-> >        assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
-> >        assigned-clock-parents = <&topckgen
-> > CLK_TOP_VCODECPLL_370P5>;
-> > +      power-domains = <&scpsys MT8173_POWER_DOMAIN_VENC_LT>;
-> >      };
-> 
-> 
+>>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 2 +-
+>>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.h | 2 --
+>>  2 files changed, 1 insertion(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+>> b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+>> index 9527649de98e..2cf8f1864f8c 100644
+>> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+>> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+>> @@ -234,7 +234,7 @@ static const struct component_ops
+>> mtk_mdp_component_ops = {
+>>  	.unbind = mtk_mdp_comp_unbind,
+>>  };
+>>  
+>> -int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev)
+>> +static int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct
+>> device *dev)
+>>  {
+>>  	struct device_node *larb_node;
+>>  	struct platform_device *larb_pdev;
+>> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+>> b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+>> index e3d6aef52869..aa6442cc8c1d 100644
+>> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+>> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+>> @@ -21,8 +21,6 @@ struct mtk_mdp_comp {
+>>  	struct device		*larb_dev;
+>>  };
+>>  
+>> -int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device
+>> *dev);
+>> -
+>>  int mtk_mdp_comp_power_on(struct mtk_mdp_comp *comp);
+>>  int mtk_mdp_comp_power_off(struct mtk_mdp_comp *comp);
+>>  
+>> -- 
+>> 2.32.0.605.g8dce9f2422-goog
+>>
 
