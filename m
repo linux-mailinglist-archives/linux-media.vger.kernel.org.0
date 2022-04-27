@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9835512336
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 22:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 750A35123B1
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 22:11:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235308AbiD0UEs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 16:04:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51066 "EHLO
+        id S236139AbiD0UOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 16:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235106AbiD0UEn (ORCPT
+        with ESMTP id S236962AbiD0UOA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 16:04:43 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 305F5B4F;
-        Wed, 27 Apr 2022 13:01:30 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id bv19so5521788ejb.6;
-        Wed, 27 Apr 2022 13:01:30 -0700 (PDT)
+        Wed, 27 Apr 2022 16:14:00 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E93EB8595E;
+        Wed, 27 Apr 2022 13:07:52 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id e23so3195301eda.11;
+        Wed, 27 Apr 2022 13:07:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=aLowST4nKAkGr9c3fHqSpsjf0Wm9DG/3Bvzsg405mP4=;
-        b=MG4f5rcNTMQf8BjT+/LacYXM0bt4cXS55yondFKDP25V8gs4yEsHXcgyWwR+jliuWe
-         eJll4Db9T1i52aZdoZIC3shF446867eVgacgMi4oD48JvDrZB0lSwMhoaVSqPNk4RzQB
-         jGIXOzBcUH5gnrZTVBGKIhIu5NERUEYaY+H7z/QQLQ3UhQoRfa/HGoJ5esB8EggsPCCT
-         YpuKsbNc/rXOTEFEeFkAKIRQbyMfcrlh5kKvSZBoKMM7FD78MF4PVUo+InCNaHrbDg7K
-         XvQ880yfuVwBQmMFu529yKCSLH39A63IBkIyoX/CYhNmWzbS/Uyy8P+4nt6ct28AQIof
-         keSA==
+        bh=zThgqL3mT8hxiS3UiF6CFV5UO8qR1fAU3lOSx4ZRa4U=;
+        b=VzQPtjPP6w9IcioQK5qHyL21ZDt/OYHqXeYEGBfOcParwj3oZvXHU0JiusvMj244Fl
+         upkYSFaQWuqtoHqfYsWBDYkDaDS8R+ctQ1eMQKJcQRQPJRML0Sjfg1SnNXjqT9Tl+LkB
+         zD/irUC/mGb8zZ9C8xwaL8VAyTJcOQyAH9DMJoBMeVZmoFfhJvGH6SkRglOsztBAKDsn
+         gMscJsEVSP47otuIcxkYShs11xo8r4g1KpP5FXckVHyWY49NIep+oushWvok9YJLv1r5
+         wKApvBrV9oeQOGBI6k6eNHh9OYgHlKBqe367yp89BuA5qUQtd78Wh10bVYqQTu7seKrU
+         LUBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aLowST4nKAkGr9c3fHqSpsjf0Wm9DG/3Bvzsg405mP4=;
-        b=MVanWrv649MH14INyvA9GRAkjXLxF/kLVSsdxdehFvcmA+0tQlb/IH7cMaF/Dfl6NH
-         x/sftUkDxYMe3GwMorbeon1rIZo+zsFyX1wGgD2g0NIJkm+zlarvbwBCzNCe0U1ouE3b
-         GYUTIv9IMIu7yOj5Ax21hMQYCAuDC/PU9IIZZAYPV/KW8oTGo0fDdTDYtLGJ0einzSqK
-         Bbtll5HcvUsqYhg8ehwARg55R1krTnaJ/s4mLHeTZWwSqUD8pgFEJsX1ltxXcB4nJn7N
-         8ntxhCtciIfhBzyqEIqVpmUhk+5Uw4xinbQjJwVAxXS/NfWovWL10op3KP4tuYykw5Tr
-         OJ3A==
-X-Gm-Message-State: AOAM532z62arhjrHszKbFBcA7aWqyjaVIVRbrKRjYhnOjY8ouFKhqXY2
-        Y9YewoW0IqbWxq6rYc5yPsKaNXMzX6hqeA==
-X-Google-Smtp-Source: ABdhPJxS4IZ0+iTjCGdsh1af2+eAD2UhX/BmO3fFmIZzxswqPED//m8AjF4IdzLfr7I4JgzHWJKYZw==
-X-Received: by 2002:a17:906:3ec1:b0:6e8:aae3:90de with SMTP id d1-20020a1709063ec100b006e8aae390demr28151878ejj.127.1651089688800;
-        Wed, 27 Apr 2022 13:01:28 -0700 (PDT)
+        bh=zThgqL3mT8hxiS3UiF6CFV5UO8qR1fAU3lOSx4ZRa4U=;
+        b=7vawqaHO25HJfKz4vq9zsgcug9c4o39bVLUvPbbM7oyYKz/QQHriJldpKMHnnD/mcq
+         pzB06i7PRkAC6sJHjLMByvAj4XBkbo/wCEqFey8jienKgAhNV9id/sw8RHloutTKpjHM
+         KLFJbg+DdsQaOhSO2pOZn8dT9r844GFjOqEOggHH35RVw2hcqMVcnGRWVgPJgd7kq8w2
+         E3E2s5ioDZTZtnXJZwTSpEofBRUk6fRXkGzVH0UiOyb2ohBjws4Hm9kwEdmukyLguAUY
+         WUdKOeqSdEphZ9E0DUUX1sObw5azyBkZzlbh7EiaFfIPQzxYSzv8WMJ+259gmBd7e870
+         XkXA==
+X-Gm-Message-State: AOAM5306rWp+nOQtwdMCbI/yoJ95E/kLxA70dYsmIHTtZpKIGJpfojkg
+        9+wyvYi5MGMgUrjoQmSSuczXHk+rJNux1w==
+X-Google-Smtp-Source: ABdhPJwasJfbMDLCq0WwkpHW1Zc9qH+2UmE2nB9BqPAJImgDHBOfLB6sXDGWLWb1kuuH4WmAVOX1hg==
+X-Received: by 2002:a50:d79a:0:b0:425:e577:c71a with SMTP id w26-20020a50d79a000000b00425e577c71amr18937203edi.188.1651090071555;
+        Wed, 27 Apr 2022 13:07:51 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id hb44-20020a170907162c00b006f3bd744275sm2794919ejc.181.2022.04.27.13.01.27
+        by smtp.gmail.com with ESMTPSA id h6-20020a17090634c600b006f3a3bcb69dsm3967986ejb.29.2022.04.27.13.07.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 13:01:28 -0700 (PDT)
+        Wed, 27 Apr 2022 13:07:51 -0700 (PDT)
 From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
@@ -60,11 +60,11 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 45/45] MAINTAINERS: Add myself as sun6i-csi maintainer and rename/move entry
-Date:   Wed, 27 Apr 2022 22:01:27 +0200
-Message-ID: <13001519.dW097sEU6C@jernej-laptop>
-In-Reply-To: <20220415152811.636419-46-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-46-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 43/45] media: sun6i-csi: Detect the availability of the ISP
+Date:   Wed, 27 Apr 2022 22:07:49 +0200
+Message-ID: <2029179.KlZ2vcFHjT@jernej-laptop>
+In-Reply-To: <20220415152811.636419-44-paul.kocialkowski@bootlin.com>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-44-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -78,63 +78,98 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 15. april 2022 ob 17:28:11 CEST je Paul Kocialkowski napisal(a):
-> Given the substantial rework of the driver that I carried out and the
-> knowledge acquired about the hardware along the way, make myself a
-> maintainer of the sun6i-csi driver.
-> 
-> Also rename and move the entry while at it since the driver is not
-> specific to the V3s.
+Dne petek, 15. april 2022 ob 17:28:09 CEST je Paul Kocialkowski napisal(a):
+> Add a helper to detect whether the ISP is available and connected
+> and store the indication in a driver-wide variable.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 33 +++++++++++++++++++
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  3 ++
+>  2 files changed, 36 insertions(+)
+> 
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c index
+> a88deb8ba1e7..f185cbd113c7 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> @@ -25,6 +25,35 @@
+>  #include "sun6i_csi_capture.h"
+>  #include "sun6i_csi_reg.h"
+> 
+> +/* ISP */
+> +
+> +static bool sun6i_csi_isp_detect(struct sun6i_csi_device *csi_dev)
+> +{
+> +	struct device *dev = csi_dev->dev;
+> +	struct fwnode_handle *handle = NULL;
+> +
+> +	/* ISP is not available if disabled in kernel config. */
+> +	if (!IS_ENABLED(CONFIG_VIDEO_SUN6I_ISP))
 
-Acked-by; Jernej Skrabec <jernej.skrabec@gmail.com>
+Where is this symbol defined?
 
 Best regards,
 Jernej
 
-> ---
->  MAINTAINERS | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0c7a3c792837..43f456982ecc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -761,6 +761,15 @@ T:	git git://linuxtv.org/media_tree.git
->  F:	Documentation/devicetree/bindings/media/allwinner,sun4i-a10-
-csi.yaml
->  F:	drivers/media/platform/sunxi/sun4i-csi/
-> 
-> +ALLWINNER A31 CSI DRIVER
-> +M:	Yong Deng <yong.deng@magewell.com>
-> +M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-
-csi.yaml
-> +F:	drivers/media/platform/sunxi/sun6i-csi/
+> +		return 0;
 > +
->  ALLWINNER A31 MIPI CSI-2 BRIDGE DRIVER
->  M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
->  L:	linux-media@vger.kernel.org
-> @@ -5232,14 +5241,6 @@ M:	Jaya Kumar <jayakumar.alsa@gmail.com>
->  S:	Maintained
->  F:	sound/pci/cs5535audio/
+> +	/*
+> +	 * ISP is not available if not connected via fwnode graph.
+> +	 * This weill also check that the remote parent node is available.
+> +	 */
+> +	handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
+> +						 
+SUN6I_CSI_PORT_ISP, 0,
+> +						 
+FWNODE_GRAPH_ENDPOINT_NEXT);
+> +	if (!handle)
+> +		return 0;
+> +
+> +	fwnode_handle_put(handle);
+> +
+> +	dev_info(dev, "ISP link is available\n");
+> +	csi_dev->isp_available = true;
+> +
+> +	return 0;
+> +}
+> +
+>  /* Media */
 > 
-> -CSI DRIVERS FOR ALLWINNER V3s
-> -M:	Yong Deng <yong.deng@magewell.com>
-> -L:	linux-media@vger.kernel.org
-> -S:	Maintained
-> -T:	git git://linuxtv.org/media_tree.git
-> -F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-
-csi.yaml
-> -F:	drivers/media/platform/sunxi/sun6i-csi/
-> -
->  CW1200 WLAN driver
->  M:	Solomon Peachy <pizza@shaftnet.org>
->  S:	Maintained
+>  static const struct media_device_ops sun6i_csi_media_ops = {
+> @@ -306,6 +335,10 @@ static int sun6i_csi_probe(struct platform_device
+> *platform_dev) if (ret)
+>  		return ret;
+> 
+> +	ret = sun6i_csi_isp_detect(csi_dev);
+> +	if (ret)
+> +		goto error_resources;
+> +
+>  	ret = sun6i_csi_v4l2_setup(csi_dev);
+>  	if (ret)
+>  		goto error_resources;
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h index
+> 6aa83dd11684..9b105c341047 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> @@ -22,6 +22,7 @@
+>  enum sun6i_csi_port {
+>  	SUN6I_CSI_PORT_PARALLEL		= 0,
+>  	SUN6I_CSI_PORT_MIPI_CSI2	= 1,
+> +	SUN6I_CSI_PORT_ISP		= 2,
+>  };
+> 
+>  struct sun6i_csi_buffer {
+> @@ -46,6 +47,8 @@ struct sun6i_csi_device {
+>  	struct clk			*clock_mod;
+>  	struct clk			*clock_ram;
+>  	struct reset_control		*reset;
+> +
+> +	bool				isp_available;
+>  };
+> 
+>  struct sun6i_csi_variant {
 
 
 
