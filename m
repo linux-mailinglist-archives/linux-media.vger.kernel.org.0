@@ -2,131 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6796A5110FF
-	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 08:16:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B933251114E
+	for <lists+linux-media@lfdr.de>; Wed, 27 Apr 2022 08:38:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358019AbiD0GTJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Apr 2022 02:19:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44704 "EHLO
+        id S1354068AbiD0GlX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Apr 2022 02:41:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbiD0GTI (ORCPT
+        with ESMTP id S229945AbiD0GlW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Apr 2022 02:19:08 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E5B4617C
-        for <linux-media@vger.kernel.org>; Tue, 26 Apr 2022 23:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651040158; x=1682576158;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=+T7rlT0aP3C0obEOkPBkVBXeovKDYZK1WCmef0OymtQ=;
-  b=lXz/+V9GTID+XT6mI0jSbWtBCORdAFZ0yvrPmc/7SIBip/knfOvqelyG
-   cQHsMzcTM8ZeD0CjBFbfgfGhAQFcn81PLMzPyxi5tFUYmVzjCKwzIGLmg
-   kbiPN+HB5jwvTmMO6PN7GezWO38o9LRZ2gfR9chjd8ulybwa4Vsm04Ei4
-   QbhyA/E8qppZhTW7id2y7VQ+I7GNLgz1eGi5vvY/wrBXIoIy0EqwDIWk6
-   +9urXB2WM3LFicgI0hSPidvk+VDdhhFGxsS1Me3SG5YCSuc2UckchyAki
-   i3JKfYiGcXq+bJYFQGy+jRTGNTKP91GnK9XXDDP490Nkc3D91ysy89uuL
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="263418508"
-X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
-   d="scan'208";a="263418508"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 23:15:54 -0700
-X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
-   d="scan'208";a="680015451"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 23:15:53 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id C055B2017F;
-        Wed, 27 Apr 2022 09:15:50 +0300 (EEST)
-Date:   Wed, 27 Apr 2022 09:15:50 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: dw9714: Return zero in remove callback
-Message-ID: <YmjfluX8olzjWI1S@paasikivi.fi.intel.com>
-References: <20220331133132.296971-1-u.kleine-koenig@pengutronix.de>
- <20220425191345.utl5jz5ajbzeqost@pengutronix.de>
- <Ymeq5Q4kVu1yoKFq@paasikivi.fi.intel.com>
- <20220426090255.nhguw7nd4asxrhab@pengutronix.de>
+        Wed, 27 Apr 2022 02:41:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D13CB10FF12;
+        Tue, 26 Apr 2022 23:38:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5C97E618F6;
+        Wed, 27 Apr 2022 06:38:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C6EC385A7;
+        Wed, 27 Apr 2022 06:38:08 +0000 (UTC)
+Message-ID: <3cdf47f5-ad38-44ca-1720-d70a96432045@xs4all.nl>
+Date:   Wed, 27 Apr 2022 08:38:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220426090255.nhguw7nd4asxrhab@pengutronix.de>
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] media: amphion: ensure the buffer count is not less than
+ min_buffer
+Content-Language: en-US
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        shawnguo@kernel.org
+Cc:     robh+dt@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, aisheng.dong@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20220322082859.9834-1-ming.qian@nxp.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220322082859.9834-1-ming.qian@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 11:02:55AM +0200, Uwe Kleine-König wrote:
-> On Tue, Apr 26, 2022 at 11:18:45AM +0300, Sakari Ailus wrote:
-> > Hi Uwe,
-> > 
-> > On Mon, Apr 25, 2022 at 09:13:45PM +0200, Uwe Kleine-König wrote:
-> > > Hello,
-> > > 
-> > > On Thu, Mar 31, 2022 at 03:31:32PM +0200, Uwe Kleine-König wrote:
-> > > > The only effect of returning an error code in an i2c remove callback is
-> > > > that the i2c core emits a generic warning and still removes the device.
-> > > > 
-> > > > So even if disabling the regulator fails it's sensible to further cleanup
-> > > > and then return zero to only emit a single error message.
-> > > > 
-> > > > This patch is a preparation for making i2c remove callbacks return void.
-> > > > 
-> > > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> > > > ---
-> > > >  drivers/media/i2c/dw9714.c | 1 -
-> > > >  1 file changed, 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
-> > > > index cd7008ad8f2f..982ed8afebf5 100644
-> > > > --- a/drivers/media/i2c/dw9714.c
-> > > > +++ b/drivers/media/i2c/dw9714.c
-> > > > @@ -201,7 +201,6 @@ static int dw9714_remove(struct i2c_client *client)
-> > > >  		if (ret) {
-> > > >  			dev_err(&client->dev,
-> > > >  				"Failed to disable vcc: %d\n", ret);
-> > > > -			return ret;
-> > > >  		}
-> > > >  	}
-> > > >  	pm_runtime_set_suspended(&client->dev);
-> > > 
-> > > Who cares for this driver and so for this patch?
-> > 
-> > I do.
-> > 
-> > The patch is in the media stage tree now (you should have received an
-> > e-mail about it) from where it eventually gets to the media tree.
+Hi Ming Qian,
+
+On 22/03/2022 09:28, Ming Qian wrote:
+> the output buffer count should >= min_buffer_out
+> the capture buffer count should >= min_buffer_cap
 > 
-> Ah I did. I wasn't aware of it, because the mail doesn't have the
-> in-reply-to header set such that my MUA doesn't sort it to the patch
-> mail.
-
-The mail is not sent to the LMML, but the submitter (as others whose
-addresses can be found in git tags) and another list. This would still
-allow to connect the two. This is up to Mauro's scripts.
-
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> ---
+>  drivers/media/platform/amphion/vpu_v4l2.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> I saw this mail now. Let me note that it's intransparent for me how your
-> Sob line was added to the patch. The mail says the patch was queued,
-> does that mean it's about to be applied and will appear in next soon? Or
-> is it only queued to be looked at? (I assume the former.)
+> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+> index cbf3315605a9..72a0544f4da3 100644
+> --- a/drivers/media/platform/amphion/vpu_v4l2.c
+> +++ b/drivers/media/platform/amphion/vpu_v4l2.c
+> @@ -355,6 +355,10 @@ static int vpu_vb2_queue_setup(struct vb2_queue *vq,
+>  		return 0;
+>  	}
+>  
+> +	if (V4L2_TYPE_IS_OUTPUT(vq->type))
+> +		*buf_count = max_t(unsigned int, *buf_count, inst->min_buffer_out);
+> +	else
+> +		*buf_count = max_t(unsigned int, *buf_count, inst->min_buffer_cap);
 
-The media submaintainer trees --- such as mine --- are not pulled to the
-media tree. Instead Mauro picks the patches to the media tree individually.
+I noticed that min_buffer_out/cap is set to 2, but min_buffers_needed
+is set to 1. Wouldn't it make more sense to set min_buffers_needed to
+2 as well?
 
-My tree is here:
+If you do that, then the vb2 core will already take care of ensuring that
+the buf_count is adjusted.
 
-<URL:https://git.linuxtv.org/sailus/media_tree.git/>
+If you *do* have to do this manually, then you need to place the whole
+if-else under 'if (!*num_planes) {', otherwise it will mess up the
+VIDIOC_CREATE_BUFS ioctl. See the queue_setup in include/media/videobuf2-core.h
+documentation for the sordid details.
 
--- 
-Sakari Ailus
+Regards,
+
+	Hans
+
+>  	*plane_count = cur_fmt->num_planes;
+>  	for (i = 0; i < cur_fmt->num_planes; i++)
+>  		psize[i] = cur_fmt->sizeimage[i];
+
