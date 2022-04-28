@@ -2,98 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5957512F10
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 10:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 405155130C5
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 12:05:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344170AbiD1I4d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 04:56:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44088 "EHLO
+        id S233631AbiD1KHW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 06:07:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236555AbiD1I4c (ORCPT
+        with ESMTP id S232025AbiD1KGw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 04:56:32 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE302E093
-        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 01:53:17 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1njztk-005B52-6l; Thu, 28 Apr 2022 08:53:16 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1njzth-00A9rB-Mg; Thu, 28 Apr 2022 08:53:13 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.19] More fixes/enhancements (#82791)
-Date:   Thu, 28 Apr 2022 08:53:13 +0000
-Message-Id: <20220428085313.2421123-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <db9b2a4f-7074-b609-2e1f-717932067f95@xs4all.nl>
-References: 
+        Thu, 28 Apr 2022 06:06:52 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7977F13EA4
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 02:55:03 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id bq30so7661687lfb.3
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 02:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=V0XeT7IXBftt0apFPjjxPnSRBK1X7ldQ9u0yIYHiPlU=;
+        b=YCg4LQSCCHVcvC/S2cQuookZz0GMC3S83n5ovXl/cTO4vUS871u/K85uaoRnHXZi5n
+         s8HCkmeTShWkJtH/RqXwANzdsUpcmgKpDfbzBqKiXU7uJ6y/1V3S9dxb8m8M+jiijopy
+         QA4yKCLxZguaqkZJ64WGbrnlJOHQkRyG8j9nUnVtKNMnMXpfRSznH0OX9F+VIoHEIv1n
+         ulAWX0gv39ng0xftKnC1sBNS+j1hQ5UpILJw+cEeg9Y66AOHRf+sOQpVKsLiXa64cyui
+         guTOM8XV+qM+BriDGY6F6KIbFr2f9PgoC9XHjHUfqp3QxuZ7owy9GFz3dzitjKq+QOKx
+         RE4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=V0XeT7IXBftt0apFPjjxPnSRBK1X7ldQ9u0yIYHiPlU=;
+        b=dTYKjIVOdEoaV9ET5dBT2edl2MQVC6bG/fFYPjzxSjk/wfHych0L3lOXF/uG8W0JNO
+         cgSFei7ZP+witgLkeVowoaOBJo9omIMA80npVS054TZP0dz//+DSga/lvsbdr15vI9o/
+         FgY+fI9xk1cEUh2zFeYm5ccNyJnwmFUeJ9ru3Ck3oA+hR5OPWKdWYDxMIJ7+dCFJzBOc
+         9AGLsYsOIJKaDRjlugVQHrGlV7jkVcexgeEUAZ7C8OTTO+JjuJQfZy8wWER4r6yueQKe
+         TeQ+bzB7j6echNBcB+Jk4QeYsirzas7bzdyvaKba23vSz+Q3yR8Byte2O9wjITCe8zzc
+         3d+A==
+X-Gm-Message-State: AOAM533Yl9RXdhyUQH9NK35snyu7/Km1/Tb5cWeFo2SkR05YygnWfV26
+        Z5guNZz20zhHzZTyVySVMYqxevGrtbRH3igMRe/kGQ==
+X-Google-Smtp-Source: ABdhPJy0ybox27E6e84jHMcEqHixOb1KpVI0stK6pmS/L2GkVDTmApxzKoDq6QSEYP6f0A9CtGwOMHzZsfN+e/ROgxI=
+X-Received: by 2002:a05:6512:110c:b0:472:3d96:bd24 with SMTP id
+ l12-20020a056512110c00b004723d96bd24mr678751lfg.389.1651139701661; Thu, 28
+ Apr 2022 02:55:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220428063924.3570409-1-songyuanzheng@huawei.com> <e4e5bd41-df5b-bb65-b92f-47122d1e7738@amd.com>
+In-Reply-To: <e4e5bd41-df5b-bb65-b92f-47122d1e7738@amd.com>
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Thu, 28 Apr 2022 15:24:49 +0530
+Message-ID: <CAO_48GG6vX35HTZNXz5Bqf341K9+6a5M63Jxb+nYSbpWDqMH=w@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: add the name field to the table header
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Yuanzheng Song <songyuanzheng@huawei.com>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Christian,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/db9b2a4f-7074-b609-2e1f-717932067f95@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/202934/
-Build time: 00:21:10
-Link: https://lore.kernel.org/linux-media/db9b2a4f-7074-b609-2e1f-717932067f95@xs4all.nl
+On Thu, 28 Apr 2022 at 13:33, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+>
+> Am 28.04.22 um 08:39 schrieb Yuanzheng Song:
+> > 'cat /sys/kernel/debug/dma_buf/bufinfo' will print the Dma-buf
+> > Objects' information when the CONFIG_DEBUG_FS=3Dy.
+> > However, the printed table header information does not contain
+> > the name field. So we need to add the name field to the table
+> > header and use the '<none>' to replace the empty buf_obj->name.
+> >
+> > Signed-off-by: Yuanzheng Song <songyuanzheng@huawei.com>
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> Sumit do you want to push this or should I go ahead?
 
-gpg: Signature made Thu 28 Apr 2022 08:16:39 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Can't check signature: No public key
+No worries, I can push it out.
 
-Summary: got 4/17 patches with issues, being 1 at build time, plus one error when buinding PDF document
+Thanks :)
+>
+> > ---
+> >   drivers/dma-buf/dma-buf.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 79795857be3e..a2f9a1815e38 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -1351,7 +1351,7 @@ static int dma_buf_debug_show(struct seq_file *s,=
+ void *unused)
+> >               return ret;
+> >
+> >       seq_puts(s, "\nDma-buf Objects:\n");
+> > -     seq_printf(s, "%-8s\t%-8s\t%-8s\t%-8s\texp_name\t%-8s\n",
+> > +     seq_printf(s, "%-8s\t%-8s\t%-8s\t%-8s\texp_name\t%-8s\tname\n",
+> >                  "size", "flags", "mode", "count", "ino");
+> >
+> >       list_for_each_entry(buf_obj, &db_list.head, list_node) {
+> > @@ -1368,7 +1368,7 @@ static int dma_buf_debug_show(struct seq_file *s,=
+ void *unused)
+> >                               file_count(buf_obj->file),
+> >                               buf_obj->exp_name,
+> >                               file_inode(buf_obj->file)->i_ino,
+> > -                             buf_obj->name ?: "");
+> > +                             buf_obj->name ?: "<none>");
+> >               spin_unlock(&buf_obj->name_lock);
+> >
+> >               dma_resv_describe(buf_obj->resv, s);
+>
 
-Error/warnings:
-
-patches/0001-media-pvrusb2-fix-array-index-out-of-bounds-in-pvr2_.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/qcom/venus/helpers.c: ../drivers/media/platform/qcom/venus/helpers.c:678 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 674)
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	SPARSE:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2894 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-
-   checkpatch.pl:
-	$ cat patches/0001-media-pvrusb2-fix-array-index-out-of-bounds-in-pvr2_.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:17: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0002-media-make-RADIO_ADAPTERS-tristate.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-media-make-RADIO_ADAPTERS-tristate.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:23: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0014-media-coda-fix-default-JPEG-colorimetry.patch:
-
-   checkpatch.pl:
-	$ cat patches/0014-media-coda-fix-default-JPEG-colorimetry.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-patches/0015-media-coda-limit-frame-interval-enumeration-to-suppo.patch:
-
-   checkpatch.pl:
-	$ cat patches/0015-media-coda-limit-frame-interval-enumeration-to-suppo.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-
-Error #512 when building PDF docs
-
+Best,
+Sumit.
