@@ -2,64 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 866AD5136E8
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 16:30:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 365655136F0
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 16:32:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348393AbiD1Odj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 10:33:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58864 "EHLO
+        id S1348407AbiD1OfO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 10:35:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbiD1Odh (ORCPT
+        with ESMTP id S1348411AbiD1OfM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 10:33:37 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 888852CE3F;
-        Thu, 28 Apr 2022 07:30:20 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id A8075C0003;
-        Thu, 28 Apr 2022 14:30:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1651156219;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2Glxz9IVdj5j7vTuvkmx5NfY8R84xnkUlqB5qF6D//Q=;
-        b=d4saSo0HxfntzYasdLoAwCnmifUjSPCX59t3p45uxJtbxaZMC2C4OLJFKzSeek2gTPsFYA
-        BmSnnwX9oumGzoZUWYycJ59yyBbMDegBHS6rNY/fD0tYiLUCetpkiMuhR4cqeU2zAQVjQz
-        zdo4Z2dKY2KLkmTuU+8oH9Nzmi+e3c+XcCnQU5V87ikQPvfsNj7noucT+6bj4Poah3REgW
-        6q7t+XDHKqg5EyNefxZs8zMPYRc7BxUoCaMSg6fh0Zv1OJUe1HQ048ZnVqdgV7w5lUWVtF
-        ihlUQIgmrs1HBN07dm5I5JQbw/4A30FJS/yWq09mKLWC9ljMKH20GNOVazS9PQ==
-Date:   Thu, 28 Apr 2022 16:30:11 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <Ymqk89e+mn/1kLLx@aptenodytes>
-References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
- <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
- <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
+        Thu, 28 Apr 2022 10:35:12 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62BD8AC050;
+        Thu, 28 Apr 2022 07:31:55 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id w4so7017253wrg.12;
+        Thu, 28 Apr 2022 07:31:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tD4ZnsNL95O06h7hL8VE5RqbrsySI03OuKEhpsr3NBY=;
+        b=T+0wHxCSRyNbX5rV4CtSy8rx/AxW9OuTOoR+B8TOkzQDkyBO00HtWPeIdS0i/QQoQY
+         fIOOa1kMzZHo6F3oa7uC6jQ0ftswxFXMMRDXjYRe/5G6cMR0cdzvurS6yCzzuL0zOW4R
+         sRUOm+yBXzHomPvNlmik9KNG0ss9dhB/FJMBT5eETe9swWXH1w/J0Bm4lpnK/htqZk1d
+         IbA8C5RxGwvzzexMidvpK3rtw5yXJ7m6JKRGGyGLO9hVS6TShXtrfwhOiPix+/RbkMY/
+         TjIMGw5wiW2CRSMf4WuzZgFSykB+1wyg8udCjw7tQIi8gi6Bet16IGF7lTYPsEkHmR6d
+         0NyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=tD4ZnsNL95O06h7hL8VE5RqbrsySI03OuKEhpsr3NBY=;
+        b=fUIS/7R/hTJ2qBcqv8CBL3FgtmDx8PVNF+KbNXDse1lHNiCOkE80WEIvQdpxM+tBx6
+         8vxSDeUQNXoOhMq2w5QGsEylpMqHlppT1EnSI8Vlblnrw+CERug0KVzMz/yPkLY3mg6+
+         d9hzDj3eV8ULPE13iWBWQG9HMC4sctcZMPMrF/uFxij8J21cW9nI6q6rWyCo7OQERd1j
+         ///kuYOOvsgqiiQAmfQsaQvCnHe33CKdbBBQPkPpCeB3pdlS/mm9hLS06wHG73CWy6ob
+         W+8HPT+TfYYpT8c9JTT6TNrpPazJDdDP69PZLHvG5Ehb3GrBe3q6l7mJmjzic6XQmb/t
+         DvwA==
+X-Gm-Message-State: AOAM531NIqpTamL7iBHafHuLtzRJrddOo9aaOgsTD3vu2MolXiV7TlEg
+        wCSkgHcqtl2aLc1trDAy1XA=
+X-Google-Smtp-Source: ABdhPJy94FFHTeKN1GK8czEcKl+i8gHZfXgzH0KKXwxLGWfDljbzaXXWHbYxQGcmuRPZvQYQIodsRw==
+X-Received: by 2002:a5d:42c8:0:b0:20a:d91f:87b5 with SMTP id t8-20020a5d42c8000000b0020ad91f87b5mr18368195wrr.301.1651156313725;
+        Thu, 28 Apr 2022 07:31:53 -0700 (PDT)
+Received: from orome ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id n16-20020a05600c3b9000b0039411b2e96fsm1581283wms.30.2022.04.28.07.31.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Apr 2022 07:31:52 -0700 (PDT)
+Date:   Thu, 28 Apr 2022 16:31:50 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Cai Huoqing <cai.huoqing@linux.dev>
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] drm/nvdla: Add register head file of NVDLA
+Message-ID: <YmqlVmYX3q74hMWT@orome>
+References: <20220426060808.78225-1-cai.huoqing@linux.dev>
+ <20220426060808.78225-4-cai.huoqing@linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="oDJ9GP/VwhMGHB5u"
+        protocol="application/pgp-signature"; boundary="xAWah0BCLTf7+aCW"
 Content-Disposition: inline
-In-Reply-To: <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220426060808.78225-4-cai.huoqing@linux.dev>
+User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -67,366 +78,120 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---oDJ9GP/VwhMGHB5u
-Content-Type: text/plain; charset=utf-8
+--xAWah0BCLTf7+aCW
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
-
-On Thu 28 Apr 22, 15:14, Sakari Ailus wrote:
-> Hi Paul,
+On Tue, Apr 26, 2022 at 02:08:00PM +0800, Cai Huoqing wrote:
+> The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
+> which is integrated into NVIDIA Jetson AGX Xavier,
+> so add register head file of this accelerator.
 >=20
-> Thanks for the set.
+> Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+> ---
+>  drivers/gpu/drm/nvdla/nvdla_reg.h | 6411 +++++++++++++++++++++++++++++
+>  1 file changed, 6411 insertions(+)
+>  create mode 100644 drivers/gpu/drm/nvdla/nvdla_reg.h
+
+You probably want to change the ordering of the patches a little because
+this new header file is already being used in patch 2. With the current
+ordering you'll break the build between patches 2 and 3. The same will
+likely happen with patch 4 because I'm assuming (haven't looked yet)
+that the UAPI structures are getting used in the driver code as well.
+
+Other than that, not much to say about this. One note perhaps, see
+below.
 >=20
-> A few comments below.
+> diff --git a/drivers/gpu/drm/nvdla/nvdla_reg.h b/drivers/gpu/drm/nvdla/nv=
+dla_reg.h
+> new file mode 100644
+> index 000000000000..5ca2897405bc
+> --- /dev/null
+> +++ b/drivers/gpu/drm/nvdla/nvdla_reg.h
+> @@ -0,0 +1,6411 @@
+> +/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
+> +/*
+> + * Copyright (C) 2017-2018 NVIDIA CORPORATION.
+> + * Copyright (C) 2022 Cai Huoqing
+> + */
+> +
+> +#ifndef __NVDLA_REG_H_
+> +#define __NVDLA_REG_H_
+> +
+> +// Register NVDLA_CFGROM_CFGROM_HW_VERSION_0
+> +#define NVDLA_CFGROM_CFGROM_HW_VERSION_0			_MK_ADDR_CONST(0x0)
+> +#define NVDLA_CFGROM_CFGROM_HW_VERSION_0_HW_VERSION_SHIFT			_MK_SHIFT_CO=
+NST(0)
+> +#define NVDLA_CFGROM_CFGROM_HW_VERSION_0_HW_VERSION_FIELD			_MK_FIELD_CO=
+NST(0xffffffff, NVDLA_CFGROM_CFGROM_HW_VERSION_0_HW_VERSION_SHIFT)
 
-Thanks a lot for your review!
+I know that people have in the past expressed reluctance about the way
+that these fields are defined. I personally don't like these very much
+because they are very redundant (e.g. that CFGROM_ is duplicated for no
+obvious reason). I also think those _MK_* macros are very difficult to
+understand because they can be found nowhere else in the Linux sources
+so people aren't used to the format. And in fact the Linux kernel has
+its own set of macros to define fields.
 
-[...]
+I also realize that this would probably be a pain to change. Let me see
+if I can find out how exactly those get generated, so perhaps there's a
+way to get them generated into a format that more closely matches the
+idioms used in Linux.
 
-> >  .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
->=20
-> This should be called TODO (without .txt).
+> +//
+> +// ADDRESS SPACES
+> +//
+> +
+> +#define BASE_ADDRESS_NVDLA_CFGROM	0x0
+> +#define BASE_ADDRESS_NVDLA_GLB	0x1000
+> +#define BASE_ADDRESS_NVDLA_MCIF	0x2000
+> +#define BASE_ADDRESS_NVDLA_CDMA	0x3000
+> +#define BASE_ADDRESS_NVDLA_CSC	0x4000
+> +#define BASE_ADDRESS_NVDLA_CMAC_A	0x5000
+> +#define BASE_ADDRESS_NVDLA_CMAC_B	0x6000
+> +#define BASE_ADDRESS_NVDLA_CACC	0x7000
+> +#define BASE_ADDRESS_NVDLA_SDP_RDMA	0x8000
+> +#define BASE_ADDRESS_NVDLA_SDP	0x9000
+> +#define BASE_ADDRESS_NVDLA_PDP_RDMA	0xa000
+> +#define BASE_ADDRESS_NVDLA_PDP	0xb000
+> +#define BASE_ADDRESS_NVDLA_CDP_RDMA	0xc000
+> +#define BASE_ADDRESS_NVDLA_CDP	0xd000
+> +#define BASE_ADDRESS_NVDLA_GEC	0xe000
+> +#define BASE_ADDRESS_NVDLA_CVIF	0xf000
+> +#define BASE_ADDRESS_NVDLA_BDMA	0x10000
+> +#define BASE_ADDRESS_NVDLA_RBK	0x11000
 
-Understood!
+I'm wondering if it might make sense to turn these into separate reg
+entries in the device tree, though it might not be worth it. The one
+concern I have is that these might change internally in a newer
+revision, which might then make it a pain to adapt the driver to the
+differing offsets.
 
-> I understand this is an online ISP. How do you schedule the video buffer
-> queues? Say, what happens if it's time to set up buffers for a frame and
-> there's a buffer queued in the parameter queue but not in the image data
-> queue? Or the other way around?
+That said, I'm not an expert on DLA, so I don't know how this has
+evolved in newer chip. I'll try to track down our local experts so that
+they can clarify a few things for us.
 
-The ISP works in a quite atypical way, with a DMA buffer that is used to
-hold upcoming parameters (including buffer addresses) and a bit in a "direc=
-t"
-register to schedule the update of the parameters at next vsync.
+Thierry
 
-The update (setting the bit) is triggered whenever new parameters are
-submitted via the params video device or whenever there's a capture buffer
-available in the capture video device.
-
-So you don't particularly need to have one parameter buffer matching a capt=
-ure
-buffer, the two can be updated independently. Of course, a capture buffer w=
-ill
-only be returned after another buffer becomes active.
-
-I hope this answers your concern!
-
-[...]
-
-> > +static int sun6i_isp_tables_setup(struct sun6i_isp_device *isp_dev)
-> > +{
-> > +	struct sun6i_isp_tables *tables =3D &isp_dev->tables;
-> > +	int ret;
-> > +
-> > +	/* Sizes are hardcoded for now but actually depend on the platform. */
->=20
-> Would it be cleaner to have them defined in a platform-specific way, e.g.
-> in a struct you obtain using device_get_match_data()?
-
-Absolutely! I didn't do it at this stage since only one platform is support=
-ed
-but we could just as well introduce a variant structure already for the tab=
-le
-sizes.
-
-> > +
-> > +	tables->load.size =3D 0x1000;
-> > +	ret =3D sun6i_isp_table_setup(isp_dev, &tables->load);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	tables->save.size =3D 0x1000;
-> > +	ret =3D sun6i_isp_table_setup(isp_dev, &tables->save);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	tables->lut.size =3D 0xe00;
-> > +	ret =3D sun6i_isp_table_setup(isp_dev, &tables->lut);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	tables->drc.size =3D 0x600;
-> > +	ret =3D sun6i_isp_table_setup(isp_dev, &tables->drc);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	tables->stats.size =3D 0x2100;
-> > +	ret =3D sun6i_isp_table_setup(isp_dev, &tables->stats);
->=20
-> You can return already here.
-
-Sure.
-
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void sun6i_isp_tables_cleanup(struct sun6i_isp_device *isp_dev)
-> > +{
-> > +	struct sun6i_isp_tables *tables =3D &isp_dev->tables;
-> > +
-> > +	sun6i_isp_table_cleanup(isp_dev, &tables->stats);
-> > +	sun6i_isp_table_cleanup(isp_dev, &tables->drc);
-> > +	sun6i_isp_table_cleanup(isp_dev, &tables->lut);
-> > +	sun6i_isp_table_cleanup(isp_dev, &tables->save);
-> > +	sun6i_isp_table_cleanup(isp_dev, &tables->load);
-> > +}
-> > +
-> > +/* Media */
-> > +
-> > +static const struct media_device_ops sun6i_isp_media_ops =3D {
-> > +	.link_notify =3D v4l2_pipeline_link_notify,
-> > +};
-> > +
-> > +/* V4L2 */
-> > +
-> > +static int sun6i_isp_v4l2_setup(struct sun6i_isp_device *isp_dev)
-> > +{
-> > +	struct sun6i_isp_v4l2 *v4l2 =3D &isp_dev->v4l2;
-> > +	struct v4l2_device *v4l2_dev =3D &v4l2->v4l2_dev;
-> > +	struct media_device *media_dev =3D &v4l2->media_dev;
-> > +	struct device *dev =3D isp_dev->dev;
-> > +	int ret;
-> > +
-> > +	/* Media Device */
-> > +
-> > +	strscpy(media_dev->model, SUN6I_ISP_DESCRIPTION,
-> > +		sizeof(media_dev->model));
-> > +	snprintf(media_dev->bus_info, sizeof(media_dev->bus_info),
-> > +		 "platform:%s", dev_name(dev));
->=20
-> This is no longer needed, see commit b0e38610f40a0f89e34939d2c7420590d67d=
-86a3
-
-Thanks!
-
-> > +	media_dev->ops =3D &sun6i_isp_media_ops;
-> > +	media_dev->hw_revision =3D 0;
-> > +	media_dev->dev =3D dev;
-> > +
-> > +	media_device_init(media_dev);
-> > +
-> > +	ret =3D media_device_register(media_dev);
-> > +	if (ret) {
-> > +		dev_err(dev, "failed to register media device\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	/* V4L2 Control Handler */
-> > +
-> > +	ret =3D v4l2_ctrl_handler_init(&v4l2->ctrl_handler, 0);
->=20
-> I suppose you intend to add controls later on?
-
-I might be wrong but I thought this was necessary to expose sensor controls
-registered by subdevs that end up attached to this v4l2 device.
-
-I doubt the drivers itself will expose controls otherwise.
-
-[...]
-
-> > +	isp_dev->clock_ram =3D devm_clk_get(dev, "ram");
-> > +	if (IS_ERR(isp_dev->clock_ram)) {
-> > +		dev_err(dev, "failed to acquire ram clock\n");
-> > +		return PTR_ERR(isp_dev->clock_ram);
-> > +	}
-> > +
-> > +	ret =3D clk_set_rate_exclusive(isp_dev->clock_mod, 297000000);
->=20
-> Is this also specific to the model?
-
-There is less certainty that another platform that will use this driver
-will need another rate, but I think it would look better to have it in the
-variant anyway.
-
-[...]
-
-> > +static int sun6i_isp_capture_open(struct file *file)
-> > +{
-> > +	struct sun6i_isp_device *isp_dev =3D video_drvdata(file);
-> > +	struct video_device *video_dev =3D &isp_dev->capture.video_dev;
-> > +	struct mutex *lock =3D &isp_dev->capture.lock;
-> > +	int ret;
-> > +
-> > +	if (mutex_lock_interruptible(lock))
-> > +		return -ERESTARTSYS;
-> > +
-> > +	ret =3D v4l2_pipeline_pm_get(&video_dev->entity);
->=20
-> Do you need this?
->=20
-> Drivers should primarily depend on runtime PM, this is only needed for
-> compatibility reasons. Instead I'd like to see sensor drivers being moved
-> to runtime PM.
-
-Yes it's still needed to support sensor drivers that don't use rpm yet.
-
-[...]
-
-> > +int sun6i_isp_capture_setup(struct sun6i_isp_device *isp_dev)
-> > +{
-> > +	struct sun6i_isp_capture *capture =3D &isp_dev->capture;
-> > +	struct sun6i_isp_capture_state *state =3D &capture->state;
-> > +	struct v4l2_device *v4l2_dev =3D &isp_dev->v4l2.v4l2_dev;
-> > +	struct v4l2_subdev *proc_subdev =3D &isp_dev->proc.subdev;
-> > +	struct video_device *video_dev =3D &capture->video_dev;
-> > +	struct vb2_queue *queue =3D &capture->queue;
-> > +	struct media_pad *pad =3D &capture->pad;
-> > +	struct v4l2_format *format =3D &capture->format;
-> > +	struct v4l2_pix_format *pix_format =3D &format->fmt.pix;
-> > +	int ret;
-> > +
-> > +	/* State */
-> > +
-> > +	INIT_LIST_HEAD(&state->queue);
-> > +	spin_lock_init(&state->lock);
-> > +
-> > +	/* Media Entity */
-> > +
-> > +	video_dev->entity.ops =3D &sun6i_isp_capture_entity_ops;
-> > +
-> > +	/* Media Pads */
-> > +
-> > +	pad->flags =3D MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_MUST_CONNECT;
-> > +
-> > +	ret =3D media_entity_pads_init(&video_dev->entity, 1, pad);
-> > +	if (ret)
-> > +		goto error_mutex;
->=20
-> return ret;
-
-Good catch, thanks!
-
-[...]
-
-> > +	ret =3D video_register_device(video_dev, VFL_TYPE_VIDEO, -1);
-> > +	if (ret) {
-> > +		v4l2_err(v4l2_dev, "failed to register video device: %d\n",
-> > +			 ret);
-> > +		goto error_media_entity;
-> > +	}
-> > +
-> > +	v4l2_info(v4l2_dev, "device %s registered as %s\n", video_dev->name,
-> > +		  video_device_node_name(video_dev));
->=20
-> This isn't really driver specific. I'd drop it.
-
-I agree but I see that many drivers are doing it and the information can
-actually be quite useful at times.
-
-> > +
-> > +	/* Media Pad Link */
-> > +
-> > +	ret =3D media_create_pad_link(&proc_subdev->entity,
-> > +				    SUN6I_ISP_PROC_PAD_SOURCE,
-> > +				    &video_dev->entity, 0,
-> > +				    MEDIA_LNK_FL_ENABLED |
-> > +				    MEDIA_LNK_FL_IMMUTABLE);
-> > +	if (ret < 0) {
-> > +		v4l2_err(v4l2_dev, "failed to create %s:%u -> %s:%u link\n",
-> > +			 proc_subdev->entity.name, SUN6I_ISP_PROC_PAD_SOURCE,
-> > +			 video_dev->entity.name, 0);
->=20
-> This error message printing would be better to be added to
-> media_create_pad_link().
-
-Yeah that makes sense.
-
-[...]
-
-> > +void sun6i_isp_params_configure(struct sun6i_isp_device *isp_dev)
-> > +{
-> > +	struct sun6i_isp_params_state *state =3D &isp_dev->params.state;
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(&state->lock, flags);
-> > +
-> > +	sun6i_isp_params_configure_base(isp_dev);
-> > +
-> > +	/* Default config is only applied at the very first stream start. */
-> > +	if (state->configured)
-> > +		goto complete;
-> > +
-> > +	 sun6i_isp_params_configure_modules(isp_dev,
->=20
-> Indentation. Doesn't checkpatch.pl complain?
-
-It doesn't, even with --strict, but that's definitely an issue there.
-
-[...]
-
-> > +static int sun6i_isp_params_querycap(struct file *file, void *private,
-> > +				     struct v4l2_capability *capability)
-> > +{
-> > +	struct sun6i_isp_device *isp_dev =3D video_drvdata(file);
-> > +	struct video_device *video_dev =3D &isp_dev->params.video_dev;
-> > +
-> > +	strscpy(capability->driver, SUN6I_ISP_NAME, sizeof(capability->driver=
-));
-> > +	strscpy(capability->card, video_dev->name, sizeof(capability->card));
-> > +	snprintf(capability->bus_info, sizeof(capability->bus_info),
-> > +		 "platform:%s", dev_name(isp_dev->dev));
->=20
-> This is no longer needed with commit
-> 2a792fd5cf669d379d82354a99998d9ae9ff7d14 .
-
-Thanks.
-
-[...]
-
-> > +static const struct v4l2_subdev_pad_ops sun6i_isp_proc_pad_ops =3D {
-> > +	.init_cfg	=3D sun6i_isp_proc_init_cfg,
-> > +	.enum_mbus_code	=3D sun6i_isp_proc_enum_mbus_code,
-> > +	.get_fmt	=3D sun6i_isp_proc_get_fmt,
-> > +	.set_fmt	=3D sun6i_isp_proc_set_fmt,
-> > +};
-> > +
-> > +const struct v4l2_subdev_ops sun6i_isp_proc_subdev_ops =3D {
->=20
-> This can be static, can't it?
-
-Oops, yes and it should be. Same applies to sun6i-csi-bridge actually.
-
-[...]
-
-> > +struct sun6i_isp_params_config_bdnf {
-> > +	__u8	in_dis_min; // 8
-> > +	__u8	in_dis_max; // 10
->=20
-> Are these default values or something else? Better documentation was in t=
-he
-> TODO.txt file already.
-
-Yes that's the default register values, but these comments are and overlook=
- on
-my side and should be removed.
-
-Thanks!
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---oDJ9GP/VwhMGHB5u
+--xAWah0BCLTf7+aCW
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJqpPMACgkQ3cLmz3+f
-v9HXvQgAn6cRhpKDno79TUNMn+J81Zq+1c5WzbdWbv19cDQ/IqRhnZuPZbKqtZ5I
-VKianyU2Waaf3F7EoCkfIunWmCUiZtOobpv0/05HIXuibtBM6PyQw8pYnW35llD8
-Uf0Cgfb+ogiyTbsTlw4mbtcPSjBqQp/B+cwyxyHDfDmDj9Djm9oXsb1b5agDnG0z
-NXOnNHqNNn1SDG+Q7/0C28EPwT5N8zaaMBK49ORUdA3E2GFwod0LhCGIMnFHGpjw
-MW5cpZKhRBgdGjkAbG7YVcrTW17C3Uzemqoe8zn/7g6p44TZNqruaQ7ZW7KY/8mW
-ZVyXC7w7lTrTnpmy1V1rrOBlHKwwFQ==
-=OasI
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJqpVMACgkQ3SOs138+
+s6GRSRAAuXAm9LihLpfQ1BQOnd52lgMlO8jTO5IqOlkdP3akExLaPCPBoEmc1JSR
+UMgKddQ86r4PsPF26Z6o/qzPUQL1OSG7TyDYVt10Vq7OYC0FvBfamHYVQE8RW5Yo
+zXMjvoWM/P0PPtFz2474Ngq4/AztVLSUHYCtDDKOM40YW1pedUWcOfbIqbutQpD+
+kQf2GOM9tWT1jRVBpS9coH6guSU4HJEFXZFDZ710OtUN1ay/ZSECOYGIjRj8lGeS
+XME2ppdv5t3JpA5rfgGuzUjQu0e5kB/JNJx/nVnsLlpEyWnNpXcPhSJFo7ZjBAGj
+0nHtosK9pLOKiWDg35QUjUTIF7klWc9+R8Sg8W6HqyNiGg/NRlC48tj/1HR/Zjqe
+ZLZa3nlEnuwaEIrnQImIkWGjWv3qaiHIC0bskYooN2dzhVZGnTXwYB58CuhoJSpo
+gcwu7MKMFRZB/Mu088vwaMt/MmYsLM4lvwu8tLC3JUH0x987jNiRKjCjyOG+OPOp
+0HyAOjCAmtWSEnP6rYbFeNF6JCBAS6POHV2T2pY0Q+I98dYRvRsNr+RkaDQ1S78J
+xSTYE2vG83jqxcB5aYBvQMdNxkGhOVtOSz5rhrcGjcw4volYhcqWdDgjBjk5Ftgc
+6RMp3F2ff71qyNjYc85qexHoksZdqIcwX6sENHTjjvd2IToNbuI=
+=vU1Q
 -----END PGP SIGNATURE-----
 
---oDJ9GP/VwhMGHB5u--
+--xAWah0BCLTf7+aCW--
