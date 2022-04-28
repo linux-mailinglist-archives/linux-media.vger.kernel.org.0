@@ -2,72 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F5BD513737
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 16:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8A56513820
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 17:19:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348536AbiD1Os1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 10:48:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46988 "EHLO
+        id S1348866AbiD1PVz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 11:21:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348468AbiD1Os0 (ORCPT
+        with ESMTP id S1349105AbiD1PVg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 10:48:26 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FE1325C7F;
-        Thu, 28 Apr 2022 07:45:11 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id b24so5790853edu.10;
-        Thu, 28 Apr 2022 07:45:10 -0700 (PDT)
+        Thu, 28 Apr 2022 11:21:36 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0C9AB1881;
+        Thu, 28 Apr 2022 08:18:18 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id 16so7103093lju.13;
+        Thu, 28 Apr 2022 08:18:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=lv2duw3IIeVX1b8IEr37Tr3lQPeyRB3nQsBT2DP1dxU=;
-        b=qgFg4NOb3DubEa66BxDu83qOkViXD7KCZyg+pLDgQA1HJaQFXV5LWQWioQp6cNcjda
-         O9eWcuAUZOYPpCmsFYDaA4pV1lDzVvBESNfhsPSYPr0pY4RztYjgRn6hilZsnosNt679
-         bzGN0BV1jQRqPIkwMM0xM0STqY5iqG+hpbW31NKdrFluk7uf4JLLjbVDYlJa/sg8uv5J
-         5bnBJXSFaz5lsundwDh5BY1P3VpWeHqmvXrT1+RZHdcuJfcPp/4H6Qe47w7kE0Lv89LU
-         qRii9RBpZ5HmdmHjJJUYSgCb56tHiFnsHxWIvRQe847HZ0p55tCUVTALiuxISgmgTDmK
-         844g==
+        bh=xaL2NofZYB+9Bgq1eH5i9jftiXuMCAuBLBje3aZA54o=;
+        b=RoW9YsObYUr3P/Zbhj3FURKbrhuIKe/mpnNNS9XOEbas4R2zBKebMvvFcv+7wGlL2B
+         8ATqKTYMbRIAudb4wiyTBnuGdVTFmLXLJf7YPFNEHhFbYUL/mEY1Yaahlbm3j2yqWv//
+         y26gE6cfpfhHOywZq6KaGFhkSRmLKwxeI9z0LSQcLtrVJAJurN+drS3cFk6W05F667fl
+         PI7htvT2cwr+XBaIX//q0Vb9U2JYSM/IJEaY6uRh5A9GGeMrLfkAsmzj98GDZPIIZhnr
+         sGSr4cyxV2CRsiEmBn5mQFur1M1pOdCjLBsPGw8WHk+XpMy/4oaw8ideAdjrEpN+g1Ej
+         g1pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=lv2duw3IIeVX1b8IEr37Tr3lQPeyRB3nQsBT2DP1dxU=;
-        b=jS7m/sssNyPC6/YNAp8G14Qi9LM5hjfW3KLPuZa7BXuFU2EKaV0B3VqJelHAeUAEgP
-         qYePVAaCH9o4xMDwZO3OysLe+JaUGqVWaU1cvbQLEoPoZ3LD8jp7Kvo8yj4tzf25rs+7
-         dZzU7xbx6SCGBUd1BpQxEqaEX4VUJdS4R26Fmtfugxl6F1b4bb2qHLFBmgyGM4CzhbE3
-         0arqK3/oioizzr2mHciHUeMPHz5KiCXDdjE80yN1M2/ZHVUHFlHYj+TxalJ9RL9siTGW
-         Jwgk4wx2hqUNgEByMhnbIIJnBrxy30AOLMgK94Mt9HAT4Y6KR3DJb3OI4KViWTKhg56o
-         TswA==
-X-Gm-Message-State: AOAM532c+tJRkLfKNq8x2ap22ukrlZpE6r2C2yp1hkazaUdQqGSsc1Vd
-        IFoqxZSp292JvCaknu3ZOZI=
-X-Google-Smtp-Source: ABdhPJyCqUCV6a5tWFtjWpg+trPw/EG8ROBgOGlmNeyMdjucftYi4OftoaNJp/LdaAe3xmMQLHO9+A==
-X-Received: by 2002:a05:6402:335:b0:425:e3e0:5a90 with SMTP id q21-20020a056402033500b00425e3e05a90mr23331731edw.14.1651157109414;
-        Thu, 28 Apr 2022 07:45:09 -0700 (PDT)
+        bh=xaL2NofZYB+9Bgq1eH5i9jftiXuMCAuBLBje3aZA54o=;
+        b=UOB1ZEUuT7pD71paTdu8pEaz9qseeYGDMz7Bn8C2b7duXv3qYmKaXkbKpIZvtTYbhV
+         01OKrRuSFrNI/XU9PdK//Vt4pCQ1ZB9ifPoASv1ky3Nl+XHS2Q+zWLm4dT3t0BbBz/wX
+         XsFhabSN5Zioj63rZm6Z25gNwcq9N77o2xaWGbVopaUcJztMPJqNK3iHJWOs8mwIY7GS
+         hsCIkaf96o1hN4MfJZ3C+dS8f+/IqqCUpfzCEeptY9iYiX8QSJUEL5qmKNerknoALZe+
+         rsWjRzl4tdKdMHt2BkCa2STlX8cfCICXmSBOJfp+zXSqEX0y1RVGJm1p9GLRkJYVPztU
+         ifDA==
+X-Gm-Message-State: AOAM5321JmRP62P3LLAkJb/b21tlWp7Js+TzFVMAxGJVmXTE8baeLLSn
+        2rayCIe3hEYKQwaAO85eFkQ=
+X-Google-Smtp-Source: ABdhPJyZzF0h6tC23/vwgnWj+1r/Yhq25iusz7FOjK81mdwRJVczfL3S+3Vl3+narigOyUwFvo61gA==
+X-Received: by 2002:a05:651c:160b:b0:24d:a0fa:26cc with SMTP id f11-20020a05651c160b00b0024da0fa26ccmr21840592ljq.150.1651159096783;
+        Thu, 28 Apr 2022 08:18:16 -0700 (PDT)
 Received: from orome ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id g15-20020a170906520f00b006cd07ba40absm51401ejm.160.2022.04.28.07.45.07
+        by smtp.gmail.com with ESMTPSA id l3-20020a194943000000b0046b928d2795sm26897lfj.67.2022.04.28.08.18.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 07:45:08 -0700 (PDT)
-Date:   Thu, 28 Apr 2022 16:45:06 +0200
+        Thu, 28 Apr 2022 08:18:15 -0700 (PDT)
+Date:   Thu, 28 Apr 2022 17:18:13 +0200
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Cai Huoqing <cai.huoqing@linux.dev>
-Cc:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
         linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] drm/nvdla/uapi: Add UAPI of NVDLA driver
-Message-ID: <YmqocpCdc7cuYJm7@orome>
+Subject: Re: [PATCH v2 2/4] drm/nvdla: Add driver support for NVDLA
+Message-ID: <YmqwNVoTZZFaIM9S@orome>
 References: <20220426060808.78225-1-cai.huoqing@linux.dev>
- <20220426060808.78225-5-cai.huoqing@linux.dev>
- <618a4f53-0998-1e6b-e32b-8bf2d3057cec@amd.com>
- <20220426082341.GA83596@chq-T47>
+ <20220426060808.78225-3-cai.huoqing@linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="QmawCEVHNWQ0o1ne"
+        protocol="application/pgp-signature"; boundary="NeDJSlHi0WXVr0SR"
 Content-Disposition: inline
-In-Reply-To: <20220426082341.GA83596@chq-T47>
+In-Reply-To: <20220426060808.78225-3-cai.huoqing@linux.dev>
 User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -80,164 +78,460 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---QmawCEVHNWQ0o1ne
-Content-Type: text/plain; charset=utf-8
+--NeDJSlHi0WXVr0SR
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 26, 2022 at 04:23:41PM +0800, Cai Huoqing wrote:
-> On 26 4=E6=9C=88 22 08:31:05, Christian K=C3=B6nig wrote:
-> > Am 26.04.22 um 08:08 schrieb Cai Huoqing:
-> > > The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
-> > > which is integrated into NVIDIA Jetson AGX Xavier,
-> > > so add UAPI of this driver.
-> > >=20
-> > > Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
-> > > ---
-> > > v1->v2:
-> > > *Rename nvdla_drm.[ch] to nvdla_drv.[ch] and rename nvdla_ioctl.h to =
-nvdla_drm.h,
-> > >   move it to uapi.
-> > >   comments link: https://lore.kernel.org/lkml/20bac605-97e6-e5cd-c4e4=
--83a8121645d8@amd.com/
-> > >=20
-> > >   include/uapi/drm/nvdla_drm.h | 99 +++++++++++++++++++++++++++++++++=
-+++
-> > >   1 file changed, 99 insertions(+)
-> > >   create mode 100644 include/uapi/drm/nvdla_drm.h
-> > >=20
-> > > diff --git a/include/uapi/drm/nvdla_drm.h b/include/uapi/drm/nvdla_dr=
-m.h
-> > > new file mode 100644
-> > > index 000000000000..984635285525
-> > > --- /dev/null
-> > > +++ b/include/uapi/drm/nvdla_drm.h
-> > > @@ -0,0 +1,99 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
-> > > +/*
-> > > + * Copyright (C) 2017-2018 NVIDIA CORPORATION.
-> > > + * Copyright (C) 2022 Cai Huoqing
-> > > + */
-> > > +
-> > > +#ifndef __LINUX_NVDLA_IOCTL_H
-> > > +#define __LINUX_NVDLA_IOCTL_H
-> > > +
-> > > +#include <linux/ioctl.h>
-> > > +#include <linux/types.h>
-> > > +
-> > > +#if !defined(__KERNEL__)
-> > > +#define __user
-> > > +#endif
-> > > +
-> > > +/**
-> > > + * struct nvdla_mem_handle structure for memory handles
-> > > + *
-> > > + * @handle		handle to DMA buffer allocated in userspace
-> > > + * @reserved		Reserved for padding
-> > > + * @offset		offset in bytes from start address of buffer
-> > > + *
-> > > + */
-> > > +struct nvdla_mem_handle {
-> > > +	__u32 handle;
-> > > +	__u32 reserved;
-> > > +	__u64 offset;
-> > > +};
-> > > +
-> > > +/**
-> > > + * struct nvdla_ioctl_submit_task structure for single task informat=
-ion
-> > > + *
-> > > + * @num_addresses		total number of entries in address_list
-> > > + * @reserved			Reserved for padding
-> > > + * @address_list		pointer to array of struct nvdla_mem_handle
-> > > + *
-> > > + */
-> > > +struct nvdla_ioctl_submit_task {
-> > > +#define NVDLA_MAX_BUFFERS_PER_TASK (6144)
-> > > +	__u32 num_addresses;
-> > > +#define NVDLA_NO_TIMEOUT    (0xffffffff)
-> > > +	__u32 timeout;
-> >=20
-> > What format does that timeout value have?
-> >=20
-> > In general it is best practice to have absolute 64bit nanosecond timeou=
-ts
-> > (to be used with ktime inside the kernel) so that restarting interrupted
-> > IOCTLs works smooth.
-> >=20
-> > > +	__u64 address_list;
-> >=20
-> > Maybe make the comments inline, cause I just wanted to write that you s=
-hould
-> > note that this is pointing to an nvdla_mem_handle array until I saw the
-> > comment above.
-> >=20
-> > > +};
-> > > +
-> > > +/**
-> > > + * struct nvdla_submit_args structure for task submit
-> > > + *
-> > > + * @tasks		pointer to array of struct nvdla_ioctl_submit_task
-> > > + * @num_tasks		number of entries in tasks
-> > > + * @flags		flags for task submit, no flags defined yet
-> > > + * @version		version of task structure
-> > > + *
-> > > + */
-> > > +struct nvdla_submit_args {
-> > > +	__u64 tasks;
-> > > +	__u16 num_tasks;
-> > > +#define NVDLA_MAX_TASKS_PER_SUBMIT	24
-> > > +#define NVDLA_SUBMIT_FLAGS_ATOMIC	(1 << 0)
-> >=20
-> > Well that "no flags defined yet" from the comment above is probably out=
-dated
-> > :)
-> >=20
-> > A comment what this flag means would also be nice to have.
-> >=20
-> > Apart from all those nit picks that looks pretty solid to me. Just one =
-core
-> > functionality we usually have seems to be missing here: How is completi=
-on
-> > signaling implemented?
-> Hi,thank for your reply.
->=20
-> Do you mean fence signal? In this driver, IOCTL_SUBMIT is a synchronous c=
-all
-> which do task submission & wait for done completion. This accerletor deal
-> with massive compute operator (Pooling, Conv...), that is different to
-> GPU. It's unnecessary to expose fence API to UMD for reducing such less t=
-ime.
+On Tue, Apr 26, 2022 at 02:07:59PM +0800, Cai Huoqing wrote:
+[...]
+> diff --git a/drivers/gpu/drm/nvdla/nvdla_drv.c b/drivers/gpu/drm/nvdla/nvdla_drv.c
 
-Are you saying that using fences won't be a big benefit because the DLA
-can't effectively process tasks from multiple sources in parallel? That
-is only part of where some sort of signalling would be useful. Another
-reason why it would be good to have is to make it easier to write user-
-space that can hand off a set of tasks to the DLA, then go off and do
-something else and get notified about the completion somehow. If not a
-full-blown fence API, then perhaps FD polling would be a simple
-mechanism to allow some degree of asynchronicity.
+I'll look at this from an architectural level and leave it to other
+experts to review the more technical things.
+
+[...]
+> +static struct nvdla_config nvdla_config_os_initial = {
+> +	.atom_size = 32,
+> +	.bdma_enable = true,
+> +	.rubik_enable = true,
+> +	.weight_compress_support = true,
+> +};
+> +
+> +static struct nvdla_config nvdla_config_small = {
+> +	//.atom_size = 8,
+> +	.atom_size = 32,  // nv_large config
+> +	.bdma_enable = false,
+> +	.rubik_enable = false,
+> +	.weight_compress_support = false,
+> +};
+> +
+[...]
+> +static union nvdla_operation_container operation_desc[NVDLA_OP_NUM][NVDLA_NUM_GROUPS];
+> +static union nvdla_surface_container surface_desc[NVDLA_OP_NUM][NVDLA_NUM_GROUPS];
+> +
+> +static struct nvdla_task_desc global_task;
+> +
+> +static struct nvdla_engine engine = {
+> +	.processors[NVDLA_OP_BDMA] = {
+> +		.name = "BDMA",
+> +		.op_type = NVDLA_OP_BDMA,
+> +		.program = nvdla_bdma_program,
+> +		.enable = nvdla_bdma_enable,
+> +		.set_producer = nvdla_bdma_set_producer,
+> +		.is_ready = nvdla_bdma_is_ready,
+> +		.dump_config = nvdla_bdma_dump_config,
+> +		.rdma_check = nvdla_bdma_rdma_check,
+> +		.consumer_ptr = 0,
+> +		.roi_index = 0,
+> +		.group_status = 0,
+> +		.rdma_status = 0,
+> +		.last_group = 1,
+> +		.groups[0] = {
+> +			.id = 0,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_BDMA][0],
+> +			.surface_desc = &surface_desc[NVDLA_OP_BDMA][0],
+> +		},
+> +		.groups[1] = {
+> +			.id = 1,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_BDMA][1],
+> +			.surface_desc = &surface_desc[NVDLA_OP_BDMA][1],
+> +		},
+> +	},
+> +	.processors[NVDLA_OP_CONV] = {
+> +		.name = "Convolution",
+> +		.op_type = NVDLA_OP_CONV,
+> +		.program = nvdla_conv_program,
+> +		.enable = nvdla_conv_enable,
+> +		.set_producer = nvdla_conv_set_producer,
+> +		.is_ready = nvdla_conv_is_ready,
+> +		.dump_config = nvdla_conv_dump_config,
+> +		.rdma_check = nvdla_conv_rdma_check,
+> +		.consumer_ptr = 0,
+> +		.roi_index = 0,
+> +		.group_status = 0,
+> +		.rdma_status = 0,
+> +		.last_group = 1,
+> +		.groups[0] = {
+> +			.id = 0,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_CONV][0],
+> +			.surface_desc = &surface_desc[NVDLA_OP_CONV][0],
+> +		},
+> +		.groups[1] = {
+> +			.id = 1,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_CONV][1],
+> +			.surface_desc = &surface_desc[NVDLA_OP_CONV][1],
+> +		},
+> +	},
+> +	.processors[NVDLA_OP_SDP] = {
+> +		.name = "SDP",
+> +		.op_type = NVDLA_OP_SDP,
+> +		.program = nvdla_sdp_program,
+> +		.enable = nvdla_sdp_enable,
+> +		.set_producer = nvdla_sdp_set_producer,
+> +		.is_ready = nvdla_sdp_is_ready,
+> +		.dump_config = nvdla_sdp_dump_config,
+> +		.rdma_check = nvdla_sdp_rdma_check,
+> +		.consumer_ptr = 0,
+> +		.roi_index = 0,
+> +		.group_status = 0,
+> +		.rdma_status = 0,
+> +		.last_group = 1,
+> +		.groups[0] = {
+> +			.id = 0,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_SDP][0],
+> +			.surface_desc = &surface_desc[NVDLA_OP_SDP][0],
+> +		},
+> +		.groups[1] = {
+> +			.id = 1,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_SDP][1],
+> +			.surface_desc = &surface_desc[NVDLA_OP_SDP][1],
+> +		},
+> +	},
+> +	.processors[NVDLA_OP_PDP] = {
+> +		.name = "PDP",
+> +		.op_type = NVDLA_OP_PDP,
+> +		.program = nvdla_pdp_program,
+> +		.enable = nvdla_pdp_enable,
+> +		.set_producer = nvdla_pdp_set_producer,
+> +		.is_ready = nvdla_pdp_is_ready,
+> +		.dump_config = nvdla_pdp_dump_config,
+> +		.rdma_check = nvdla_pdp_rdma_check,
+> +		.consumer_ptr = 0,
+> +		.roi_index = 0,
+> +		.group_status = 0,
+> +		.rdma_status = 0,
+> +		.last_group = 1,
+> +		.groups[0] = {
+> +			.id = 0,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_PDP][0],
+> +			.surface_desc = &surface_desc[NVDLA_OP_PDP][0],
+> +		},
+> +		.groups[1] = {
+> +			.id = 1,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_PDP][1],
+> +			.surface_desc = &surface_desc[NVDLA_OP_PDP][1],
+> +		},
+> +	},
+> +	.processors[NVDLA_OP_CDP] = {
+> +		.name = "CDP",
+> +		.op_type = NVDLA_OP_CDP,
+> +		.program = nvdla_cdp_program,
+> +		.enable = nvdla_cdp_enable,
+> +		.set_producer = nvdla_cdp_set_producer,
+> +		.is_ready = nvdla_cdp_is_ready,
+> +		.dump_config = nvdla_cdp_dump_config,
+> +		.rdma_check = nvdla_cdp_rdma_check,
+> +		.consumer_ptr = 0,
+> +		.roi_index = 0,
+> +		.group_status = 0,
+> +		.rdma_status = 0,
+> +		.last_group = 1,
+> +		.groups[0] = {
+> +			.id = 0,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_CDP][0],
+> +			.surface_desc = &surface_desc[NVDLA_OP_CDP][0],
+> +		},
+> +		.groups[1] = {
+> +			.id = 1,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_CDP][1],
+> +			.surface_desc = &surface_desc[NVDLA_OP_CDP][1],
+> +		},
+> +	},
+> +
+> +	.processors[NVDLA_OP_RUBIK] = {
+> +		.name = "RUBIK",
+> +		.op_type = NVDLA_OP_RUBIK,
+> +		.program = nvdla_rubik_program,
+> +		.enable = nvdla_rubik_enable,
+> +		.set_producer = nvdla_rubik_set_producer,
+> +		.is_ready = nvdla_rubik_is_ready,
+> +		.dump_config = nvdla_rubik_dump_config,
+> +		.rdma_check = nvdla_rubik_rdma_check,
+> +		.consumer_ptr = 0,
+> +		.roi_index = 0,
+> +		.group_status = 0,
+> +		.rdma_status = 0,
+> +		.last_group = 1,
+> +		.groups[0] = {
+> +			.id = 0,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_RUBIK][0],
+> +			.surface_desc = &surface_desc[NVDLA_OP_RUBIK][0],
+> +		},
+> +		.groups[1] = {
+> +			.id = 1,
+> +			.rdma_id = 0,
+> +			.active = 0,
+> +			.events = 0,
+> +			.roi_index = 0,
+> +			.is_rdma_needed = 0,
+> +			.lut_index = -1,
+> +			.operation_desc = &operation_desc[NVDLA_OP_RUBIK][1],
+> +			.surface_desc = &surface_desc[NVDLA_OP_RUBIK][1],
+> +		},
+> +	},
+> +
+> +};
+
+These global variables aren't going to work because Tegra234 (Tegra194's
+successor) has two instances of NVDLA. So this data needs to be
+allocated dynamically, per instance. It also seems to me like some of
+this data could be separated into read-only (i.e. const) and variable
+data. For instance none of the function pointers ever seem to change, so
+those could be refactored into an "ops" structure and then passed by
+pointer into the engines. That might also be useful if we need to make
+some of these implementations different on subsequent generations of the
+IP.
+
+> +/* driver probe and init */
+> +static const struct of_device_id nvdla_of_match[] = {
+> +	{
+> +		.compatible = "nvidia,nvdla_os_initial",
+> +		.data = &nvdla_config_os_initial,
+> +	},
+> +	{
+> +		.compatible = "nvidia,nvdla_2",
+> +		.data = &nvdla_config_small,
+> +	},
+> +	{ },
+> +};
+
+Looking at the definition of these configuration structures these seem
+to be software configuration variants rather than actually different
+hardware blocks. In fact, none of the above seem to be specific to any
+particular hardware version.
+
+I would expect these compatible strings to reflect the exact chip that
+they can be found in. I.e. for Tegra194 I would expect this to be just:
+
+	"nvidia,tegra194-dla"
+
+And then on Tegra234 it would become:
+
+	"nvidia,tegra234-dla"
+
+at which point the parameterization can happen based on that compatible
+string, if we need to.
+
+Also, and I think Peter Robinson already mentioned that, we'll need the
+device tree bindings for this as well as device tree changes that create
+this device on one of the platforms supported upstream so that we can
+test this.
+
+I think in your first version of these patches you had also made a
+reference to the userspace driver component that you've used to test
+this on. Can you include links to those in the cover letter of
+subsequent versions so that people know where to look?
+
+> +
+> +static int32_t nvdla_probe(struct platform_device *pdev)
+
+We generally don't use the sized types unless absolutely necessary. So
+this (and potentially other occurrences) should just switch to simple
+"int".
+
+> +{
+> +	int32_t err = 0;
+> +	struct resource *res;
+> +	struct nvdla_device *nvdla_dev;
+> +	struct device *dev = &pdev->dev;
+> +	const struct of_device_id *match;
+> +
+> +	if (!pdev->dev.of_node)
+> +		return -EINVAL;
+> +
+> +	match = of_match_device(nvdla_of_match, &pdev->dev);
+> +	if (!match) {
+> +		pr_err("Missing DT entry!\n");
+> +		return -EINVAL;
+> +	}
+
+There's usually no need for this check. If there was no device tree
+entry then the nvdla_probe() function wouldn't have been called.
+
+> +
+> +	nvdla_dev = devm_kzalloc(dev, sizeof(*nvdla_dev), GFP_KERNEL);
+> +	if (!nvdla_dev)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, nvdla_dev);
+> +	nvdla_dev->pdev = pdev;
+
+Do we really need the platform device later on? Typically access to the
+struct device (i.e. &pdev->dev) is enough.
+
+> +	nvdla_dev->config_data = (struct nvdla_config *)match->data;
+
+You can get this in a single call to of_device_get_match_data(), so you
+don't need the extra match local variable.
+
+> +
+> +	init_completion(&nvdla_dev->event_notifier);
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	nvdla_dev->base = devm_ioremap_resource(&pdev->dev, res);
+
+I think people prefer devm_platform_get_and_ioremap_resource() these
+days...
+
+> +	if (IS_ERR(nvdla_dev->base))
+> +		return PTR_ERR(nvdla_dev->base);
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+> +	if (!res) {
+> +		dev_err(&pdev->dev, "no irq resource\n");
+> +		return -EINVAL;
+> +	}
+> +	nvdla_dev->irq = res->start;
+
+You can use platform_get_irq() here, which makes this a bit simpler.
+
+> +
+> +	err = devm_request_irq(&pdev->dev, nvdla_dev->irq,
+> +				nvdla_engine_isr, 0,
+> +				dev_name(&pdev->dev), nvdla_dev);
+> +	if (err)
+> +		return err;
+> +
+> +	nvdla_dev->engine_context = &engine;
+> +	engine.task = &global_task;
+> +	engine.driver_context = (void *)nvdla_dev;
+
+Why the generic void *? Can't we just store a struct nvdla_device * as
+the driver context directly? Do we expect this type to vary?
+
+What I'm missing in this ->probe() function is references to the various
+clocks, resets and power gates that need to be controlled in order for
+this IP to work. The power gates are typically implemented using generic
+power domains, so you can safely ignore those, provided you at least
+have them in the device tree, but I think you'd need to at the very
+least grab the clocks and resets that this needs. This might work
+without them for a while because Tegra194 and later do some hidden magic
+with clocks and resets, but for any finer-grained control we'll need
+them (for instance, we will want to switch into a low-power state when
+no tasks are being processed).
 
 Thierry
 
---QmawCEVHNWQ0o1ne
+> +	engine.task->task_data = NULL;
+> +
+> +	nvdla_init_op_cache(&engine);
+> +	nvdla_clear_task(nvdla_dev->engine_context);
+> +
+> +	err = nvdla_drm_probe(nvdla_dev);
+> +	if (err)
+> +		dev_err(&pdev->dev, "failed to register drm device\n");
+> +
+> +	return err;
+> +}
+> +
+> +static int32_t __exit nvdla_remove(struct platform_device *pdev)
+> +{
+> +	struct nvdla_device *nvdla_dev = dev_get_drvdata(&pdev->dev);
+> +
+> +	nvdla_drm_remove(nvdla_dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver nvdla_driver = {
+> +	.probe = nvdla_probe,
+> +	.remove = __exit_p(nvdla_remove),
+> +	.driver = {
+> +		.owner = THIS_MODULE,
+> +		.name = "NVDLA",
+> +		.of_match_table = of_match_ptr(nvdla_of_match),
+> +	},
+> +};
+> +module_platform_driver(nvdla_driver);
+> +
+> +MODULE_LICENSE("Dual BSD/GPL");
+> +MODULE_DESCRIPTION("Nvidia Deep Learning Accelerator driver");
+> +MODULE_IMPORT_NS(DMA_BUF);
+
+--NeDJSlHi0WXVr0SR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJqqHIACgkQ3SOs138+
-s6EUfBAAlYT7jUBfxNlt8lC8nihq708469RyXAJ9W+7RKqXZJk0F1UHYyciqCvht
-A0jiVclvaTL3ZgTOoBNx3/m2gXsqJTMA95uaeN+c8hFA6sjPcCzY3lUNUEGk5R0b
-Pn2g+qn21nndHHAVC0cxCfuBMZc9JKJUur6xwyu57KIXp0sWFf7w9qFKoIZvSrMN
-uauK94A0W39TpEWxYmXNqGUS5qWdTS+a+qVIeGqpJV50INSstgbwDP4An31sKWYK
-mMmfsf3IGGMZjQL4Gt9rP75kEd8Iv2VQT8hk2pkvwtTqOe3Pj82vLLOwMjMtzfmN
-+J1VVtgU1R5Sg6CtS4NKz3/mXP8Ifrvfpl2Mjzh1QbmHBlCPJ0//Nu1kfww5dTQc
-LcfYLis44iVBWYUoe14hQf3382RwIG3hUSvCjDnwy5smzsskZStm2j5av+RO2NYm
-WxGTniqsmZSAn08e6v7Qs1DlQTs8/n91vqyEM8eiBw6UrGW2+SMv/5t3Kl+CP0v8
-hLtXRhKovg5YaJNx1HSCOumZP+lbAJd31tBrZs351R93h5VnVRPgyTNRvRSMNZZi
-p7LxFl1Ad/akm0f27cg2SER0L8r0ujgkELfpFoxLlBAL81PMnUxwoAUgYWvOlgi3
-dF7+ZokG7eP2vFoN9GBbA6B5DcijRzuPgLn0tlGvrSDBViULn0U=
-=DSCc
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJqsDIACgkQ3SOs138+
+s6HmWg/9EcAZlER/9uKoCOYwKDhSV9V88PE5ugVxHllVvnFIHalG0eUEV+lKQfeZ
+jPwVKwPqJn+URInhbH6QV/8gy4njXcGRT+dS1dx28yXAKEmIINfhKQm0x4jzKp1M
+YTMwzjLgU46ovizcia1Jn9LptiGkQvNUYHsxUrAP3tExTvO1+dunuzOmVn6S4h4i
+d0I9SqbUadCfKrEmlgwsf+d3cZdKK16Sx7BVtUFjGuMzStV1Sg8YuTBRtsKUgNd1
+O6lYTNQxSRGii9iP4TG7n46W2e3WDDKPgxNgKImcvTxarXFrLU7eCKxf6GCD6QuF
+OJwmoodBUXnUZaYV6AwQ1D56gWjZsPQF5iSD8mlOThpVkKQ+OtK1f2abo3bv8mUs
+UO0458/BJHLJjWmDDfdE9aaRHIBWghrxS0qCzC5wkqO7aPceCVeyLLh9bU/RgdxM
+ydJhpAER9L5OI35EByV+ETgQpH0Bm1GICJFggogJGdOrJq35YoNEijLVFBvYu4IE
+NWj8hqjLYqw+vn92nwpW6NwxZNvPS/I6SpZK6N7iSkBW5b2cebOPLwtz30FuaEll
+QgorOTNXPQPMd9xo3GOfJHXiO4l6CNAkCJWB8TxHSA7dAlEjdc8PDwD5KSjEXZRH
+Ra8MTRTEPRQxtKiLVsTy7Zib9Nke0C8qjksaz1iitCiLY+OIMho=
+=rzUK
 -----END PGP SIGNATURE-----
 
---QmawCEVHNWQ0o1ne--
+--NeDJSlHi0WXVr0SR--
