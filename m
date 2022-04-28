@@ -2,91 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD080512E31
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 10:25:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE61B512E32
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 10:25:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344061AbiD1I2V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 04:28:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35216 "EHLO
+        id S1344092AbiD1I2b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 04:28:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234174AbiD1I2U (ORCPT
+        with ESMTP id S1344080AbiD1I22 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 04:28:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A0FDDF3C;
-        Thu, 28 Apr 2022 01:25:06 -0700 (PDT)
+        Thu, 28 Apr 2022 04:28:28 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A636C96823
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 01:25:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B43CD61F96;
-        Thu, 28 Apr 2022 08:25:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6174FC385AF;
-        Thu, 28 Apr 2022 08:25:02 +0000 (UTC)
-Message-ID: <a7772b0c-a326-6ec3-31fc-d0c172264cf9@xs4all.nl>
-Date:   Thu, 28 Apr 2022 10:25:00 +0200
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1BD26B81BF0
+        for <linux-media@vger.kernel.org>; Thu, 28 Apr 2022 08:25:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DEDDC385AE;
+        Thu, 28 Apr 2022 08:25:08 +0000 (UTC)
+Message-ID: <db9b2a4f-7074-b609-2e1f-717932067f95@xs4all.nl>
+Date:   Thu, 28 Apr 2022 10:25:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v3 1/3] media: dt-bindings: media: rockchip-vdec: Add
- RK3328 compatible
 Content-Language: en-US
-To:     Christopher Obbard <chris.obbard@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Johan Jonker <jbx6244@gmail.com>,
-        Elaine Zhang <zhangqing@rock-chips.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com
-References: <20220425184510.1138446-1-chris.obbard@collabora.com>
- <20220425184510.1138446-2-chris.obbard@collabora.com>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Ming Qian <ming.qian@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220425184510.1138446-2-chris.obbard@collabora.com>
+Subject: [GIT PULL FOR v5.19] More fixes/enhancements
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/04/2022 20:45, Christopher Obbard wrote:
-> Document the RK3328 compatible for rockchip-vdec. The driver shares
-> the same base functionality as the RK3399 hardware so make sure that
-> the RK3399 compatible is also included in the device tree.
-> 
-> Signed-off-by: Christopher Obbard <chris.obbard@collabora.com>
+The following changes since commit 6c1c1eb8c87de221051b9198d40971640060842f:
 
-I'm merging this bindings change in the media subsystem, so the other two
-patches can be be merged for 5.19 by whoever maintains those dts files.
+  media: ext-ctrls-codec.rst: fix indentation (2022-04-25 23:55:02 +0100)
 
-Regards,
+are available in the Git repository at:
 
-	Hans
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.19e
 
-> ---
->  Documentation/devicetree/bindings/media/rockchip,vdec.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> index 089f11d21b25..3bcfb8e12333 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> @@ -18,7 +18,9 @@ properties:
->      oneOf:
->        - const: rockchip,rk3399-vdec
->        - items:
-> -          - const: rockchip,rk3228-vdec
-> +          - enum:
-> +              - rockchip,rk3228-vdec
-> +              - rockchip,rk3328-vdec
->            - const: rockchip,rk3399-vdec
->  
->    reg:
+for you to fetch changes up to e0b2d38621300d77bb2bc9e8fc36723e079f3f41:
 
+  media: amphion: ensure the buffer count is not less than min_buffer (2022-04-28 10:15:45 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Christopher Obbard (1):
+      media: dt-bindings: media: rockchip-vdec: Add RK3328 compatible
+
+Dorota Czaplejewicz (1):
+      Documentation/media: Remove incorrect statement
+
+Fabio Estevam (1):
+      media: platform: video-viu: Do not select it by default
+
+Lv Ruyi (1):
+      media: amphion: no need to check return value of debugfs_create functions
+
+Ming Qian (5):
+      media: amphion: decoder copy timestamp from output to capture
+      media: amphion: encoder copy timestamp from output to capture
+      media: amphion: handle picture skipped event
+      media: amphion: free ctrl handler if error is set and return error
+      media: amphion: ensure the buffer count is not less than min_buffer
+
+Pavel Skripkin (1):
+      media: pvrusb2: fix array-index-out-of-bounds in pvr2_i2c_core_init
+
+Philipp Zabel (2):
+      media: coda: fix default JPEG colorimetry
+      media: coda: limit frame interval enumeration to supported encoder frame sizes
+
+Randy Dunlap (1):
+      media: make RADIO_ADAPTERS tristate
+
+Tom Rix (1):
+      media: stkwebcam: move stk_camera_read_reg() scratch buffer to struct stk_camera
+
+Yang Yingliang (3):
+      dm355_ccdc: remove unnecessary check of res
+      dm644x_ccdc: remove unnecessary check of res
+      media: isif: remove unnecessary check of res
+
+ Documentation/devicetree/bindings/media/rockchip,vdec.yaml |  4 ++-
+ Documentation/userspace-api/media/v4l/vidioc-streamon.rst  |  3 +--
+ drivers/media/platform/amphion/vdec.c                      | 82 +++++++++++++++++++++++++------------------------------------
+ drivers/media/platform/amphion/venc.c                      | 53 +++++++++++++++++----------------------
+ drivers/media/platform/amphion/vpu_dbg.c                   | 12 ---------
+ drivers/media/platform/amphion/vpu_defs.h                  |  2 +-
+ drivers/media/platform/amphion/vpu_malone.c                |  4 ++-
+ drivers/media/platform/amphion/vpu_msgs.c                  |  8 ++++++
+ drivers/media/platform/amphion/vpu_v4l2.c                  | 60 ++++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/amphion/vpu_v4l2.h                  |  3 +++
+ drivers/media/platform/chips-media/coda-common.c           | 37 +++++++++++++++++++---------
+ drivers/media/platform/nxp/Kconfig                         |  1 -
+ drivers/media/platform/ti/davinci/dm355_ccdc.c             |  3 +--
+ drivers/media/platform/ti/davinci/dm644x_ccdc.c            |  3 +--
+ drivers/media/platform/ti/davinci/isif.c                   |  3 +--
+ drivers/media/radio/Kconfig                                |  4 +--
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c                    |  7 ++++--
+ drivers/media/usb/stkwebcam/stk-webcam.c                   | 11 ++-------
+ drivers/media/usb/stkwebcam/stk-webcam.h                   |  2 ++
+ 19 files changed, 173 insertions(+), 129 deletions(-)
