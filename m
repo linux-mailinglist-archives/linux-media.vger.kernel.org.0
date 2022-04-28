@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B244C512DD8
-	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 10:11:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25DEE512DE9
+	for <lists+linux-media@lfdr.de>; Thu, 28 Apr 2022 10:12:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234478AbiD1IO2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Apr 2022 04:14:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47758 "EHLO
+        id S1343822AbiD1IOw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Apr 2022 04:14:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233817AbiD1INp (ORCPT
+        with ESMTP id S244662AbiD1IOf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Apr 2022 04:13:45 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96E7FA0BE3;
-        Thu, 28 Apr 2022 01:09:40 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id p18so4585017edr.7;
-        Thu, 28 Apr 2022 01:09:40 -0700 (PDT)
+        Thu, 28 Apr 2022 04:14:35 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ACB520196;
+        Thu, 28 Apr 2022 01:11:21 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id p18so4589549edr.7;
+        Thu, 28 Apr 2022 01:11:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6jNeearvH+hhGDjLkKRhMtvv9bKx6EoH/x/e7DTa8KY=;
-        b=o56ujL31V7wnkN7VUd9hMJAvi4RE+WM7gseNBy/zWj3rLUkXCUQPYEz9oPUeqUUdKy
-         VhMAAOL7HzhILMEpRyn3EoXNBVUpONutknkQVIk2ZvqE68qZQO/EGedE+xpx7oyJlcAh
-         wnZBOqi8SjCB9pK1dnDZsspnaqhZnYIe10Fl7eMD8JQqLYGsmFDJRajprTllxjEjTl0v
-         rpQ58PfZQXK/y8efND2yLShSuFuIbVFJRNE7Iyb0jwlkova0ywmF1vfSNju8MQiYT1TT
-         byiLiHdCk1OkS0l1/V2fx+Jb/frp/dE8x3NJpTWDAzHztDB4HNABOkTYhTjcd0TArHU3
-         aY2w==
+        bh=QbyW2w5H9Ka2dhH/td4Wv+BKvF3xkANmkzFDgDmtue8=;
+        b=HQd0kA1m+C0QmxadGWI0aCnyBHVFA1iHFAk7jfMw/UasZhv5pwI0KjaJMVRZkCZJrN
+         3RJnGXNm690WuQIt8pfRrbTLKQ1Nms+m2XDpJ9LNekWnCm2K8Ui8JKrkDzneuxOGmTiX
+         QNn7/8dMRKWKcyqLeUTKIwgoM4yOr5HtUeyLv/HyxOQ/r5tPZemUURmEtvDGsd/zVffS
+         lvdQFqxKBjTVBj1/erDk9ys6Uz5S++FRcWrPetzXefU3bETPA57Z6WNmtlydmNewV0gF
+         wI7HlColpG+y6428UPuUPlM6j25PgnSdNT/44LXg/9cRXjQZK6rhAKz/qgOj+fhkb4Vl
+         d9UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6jNeearvH+hhGDjLkKRhMtvv9bKx6EoH/x/e7DTa8KY=;
-        b=HekmjPUlJB1uf5p9FGI2bP/8c8mmeorKb3NTvgCdqJUBRv/FVtPi2UfakchHnsDn3j
-         JoV7e3pC/FYpByTdcBIawi22R7v1T5nO4/5ZwtFypeX56q/2TCalZXX6F6mhM7QXUYyi
-         fvrgqGzyaNvH9RuFOxF2gZcgb5ETm64/Rli1QL73HXl45P7IG+vvwJxGifRNxAnnyTwM
-         cD2PjFR0C6JEjtcBHaxvhLrHOegLfAifBpBFD96hWG2zE733BEjUxZB0VERPAFkm5pFs
-         Twx1FVdbFylQb9shWyCYDu4XuVwLpWahPXIN6mU7gB4V1GZitC+i+kuxcl84gV+kqiPO
-         Y8hQ==
-X-Gm-Message-State: AOAM532pMEeLun/8NjJDoU51/drgV99OqP2GcfsFD3l6n8WDe1/DrJB7
-        lbeoMqQXp/orVLZU17ZRnKU=
-X-Google-Smtp-Source: ABdhPJztZ8+oV4qu6hJupS3cSC9OJkpEoajvHWbIk6ZrA7gAfI5DNOsmUdXa9+0qvACKdhuKUqf1SA==
-X-Received: by 2002:a05:6402:298b:b0:41d:675f:8b44 with SMTP id eq11-20020a056402298b00b0041d675f8b44mr34705939edb.377.1651133379069;
-        Thu, 28 Apr 2022 01:09:39 -0700 (PDT)
+        bh=QbyW2w5H9Ka2dhH/td4Wv+BKvF3xkANmkzFDgDmtue8=;
+        b=gJ/B3JC9Jh9qq3UkT1+hFOtwvvAOHro4KB5XsAtDAfVRefuMCMSN9beuPSveBOwl02
+         1wXyFvG+GuiBqttX2QUT24sLLWB1375ruGK9SALfvpAK4YX1g4auMon5LtVr8Yv5NMoF
+         PFr3bk07vdQEC7GTEgpKzWaI6/jiKiYiSQ5Iple/RgA70fmkUA5EdvM4a7VmTKFl6nUW
+         A6gEImQ+GSE0HoyxweMjwTYS9ssW+o3Q9GUuZhc3h3PIHxfP9xtkn02cbI63l8ussYvE
+         PRKv7lGMH4UcSLln1cIQNW5Qda+NatL9EuvbUI9UtkDtzI3dkYj2ejWWYhoxkJbii00n
+         1fRA==
+X-Gm-Message-State: AOAM530iSkLhYdBVcWXoLiDVU4goh0FX+kZqzhr3WT9OqulHTeal9foT
+        kgfE93E2tzEmy5723bJrNn9TFDM8f0oyHA==
+X-Google-Smtp-Source: ABdhPJwFw2pOZnyh9oRygVJ7qZsJlbB+WneoIlqrRr1h8lnQhxkv3D6qguqu3L0NrWtNcrca2PY/tQ==
+X-Received: by 2002:a05:6402:2995:b0:425:d3a1:28aa with SMTP id eq21-20020a056402299500b00425d3a128aamr27611771edb.247.1651133479617;
+        Thu, 28 Apr 2022 01:11:19 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id g2-20020a056402114200b0042617ba637fsm1130681edw.9.2022.04.28.01.09.38
+        by smtp.gmail.com with ESMTPSA id e26-20020aa7d7da000000b0042617ba63ccsm1106214eds.86.2022.04.28.01.11.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 01:09:38 -0700 (PDT)
+        Thu, 28 Apr 2022 01:11:19 -0700 (PDT)
 From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
@@ -59,11 +59,11 @@ Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 43/45] media: sun6i-csi: Detect the availability of the ISP
-Date:   Thu, 28 Apr 2022 10:09:37 +0200
-Message-ID: <5794263.alqRGMn8q6@jernej-laptop>
-In-Reply-To: <YmpIjPe8pw+yvGyL@aptenodytes>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <2029179.KlZ2vcFHjT@jernej-laptop> <YmpIjPe8pw+yvGyL@aptenodytes>
+Subject: Re: [PATCH v4 13/45] media: sun6i-csi: Introduce and use video helper functions
+Date:   Thu, 28 Apr 2022 10:11:18 +0200
+Message-ID: <1701259.X513TT2pbd@jernej-laptop>
+In-Reply-To: <YmpKlePweCAyeOT0@aptenodytes>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <13001485.uLZWGnKmhe@jernej-laptop> <YmpKlePweCAyeOT0@aptenodytes>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
@@ -77,144 +77,183 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne =C4=8Detrtek, 28. april 2022 ob 09:55:56 CEST je Paul Kocialkowski napi=
+Dne =C4=8Detrtek, 28. april 2022 ob 10:04:37 CEST je Paul Kocialkowski napi=
 sal(a):
 > Hi Jernej,
 >=20
-> Thanks a lot for all your reviews!
->=20
-> On Wed 27 Apr 22, 22:07, Jernej =C5=A0krabec wrote:
-> > Dne petek, 15. april 2022 ob 17:28:09 CEST je Paul Kocialkowski=20
+> On Wed 27 Apr 22, 20:50, Jernej =C5=A0krabec wrote:
+> > Dne petek, 15. april 2022 ob 17:27:39 CEST je Paul Kocialkowski=20
 napisal(a):
-> > > Add a helper to detect whether the ISP is available and connected
-> > > and store the indication in a driver-wide variable.
+> > > Introduce some helpers for buffer and general video configuration.
 > > >=20
 > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > > > ---
 > > >=20
-> > >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 33 +++++++++++++++++=
-++
-> > >  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  3 ++
-> > >  2 files changed, 36 insertions(+)
+> > >  .../platform/sunxi/sun6i-csi/sun6i_video.c    | 46 +++++++++++------=
+=2D-
+> > >  1 file changed, 28 insertions(+), 18 deletions(-)
 > > >=20
-> > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c index
-> > > a88deb8ba1e7..f185cbd113c7 100644
-> > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > @@ -25,6 +25,35 @@
+> > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c index
+> > > e6c85fcc65bb..e47eeb27dc4e 100644
+> > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> > > @@ -92,6 +92,29 @@ static bool sun6i_video_format_check(u32 format)
 > > >=20
-> > >  #include "sun6i_csi_capture.h"
-> > >  #include "sun6i_csi_reg.h"
+> > >  	return false;
+> > > =20
+> > >  }
 > > >=20
-> > > +/* ISP */
+> > > +/* Video */
 > > > +
-> > > +static bool sun6i_csi_isp_detect(struct sun6i_csi_device *csi_dev)
-> > > +{
-> > > +	struct device *dev =3D csi_dev->dev;
-> > > +	struct fwnode_handle *handle =3D NULL;
-> > > +
-> > > +	/* ISP is not available if disabled in kernel config. */
-> > > +	if (!IS_ENABLED(CONFIG_VIDEO_SUN6I_ISP))
+> > > +static void sun6i_video_buffer_configure(struct sun6i_csi_device
+> > > *csi_dev,
+> > > +					 struct=20
+sun6i_csi_buffer
 > >=20
-> > Where is this symbol defined?
+> > *csi_buffer)
+> >=20
+> > > +{
+> > > +	csi_buffer->queued_to_csi =3D true;
+> > > +	sun6i_csi_update_buf_addr(csi_dev, csi_buffer->dma_addr);
+> > > +}
+> > > +
+> > > +static void sun6i_video_configure(struct sun6i_csi_device *csi_dev)
+> > > +{
+> > > +	struct sun6i_video *video =3D &csi_dev->video;
+> > > +	struct sun6i_csi_config config =3D { 0 };
+> > > +
+> > > +	config.pixelformat =3D video->format.fmt.pix.pixelformat;
+> > > +	config.code =3D video->mbus_code;
+> > > +	config.field =3D video->format.fmt.pix.field;
+> > > +	config.width =3D video->format.fmt.pix.width;
+> > > +	config.height =3D video->format.fmt.pix.height;
+> > > +
+> > > +	sun6i_csi_update_config(csi_dev, &config);
+> > > +}
+> > > +
+> > >=20
+> > >  /* Queue */
+> > > =20
+> > >  static int sun6i_video_queue_setup(struct vb2_queue *queue,
+> > >=20
+> > > @@ -160,7 +183,6 @@ static int sun6i_video_start_streaming(struct
+> > > vb2_queue
+> > > *queue, struct video_device *video_dev =3D &video->video_dev;
+> > >=20
+> > >  	struct sun6i_csi_buffer *buf;
+> > >  	struct sun6i_csi_buffer *next_buf;
+> > >=20
+> > > -	struct sun6i_csi_config config;
+> > >=20
+> > >  	struct v4l2_subdev *subdev;
+> > >  	unsigned long flags;
+> > >  	int ret;
+> > >=20
+> > > @@ -182,22 +204,13 @@ static int sun6i_video_start_streaming(struct
+> > > vb2_queue *queue, goto error_media_pipeline;
+> > >=20
+> > >  	}
+> > >=20
+> > > -	config.pixelformat =3D video->format.fmt.pix.pixelformat;
+> > > -	config.code =3D video->mbus_code;
+> > > -	config.field =3D video->format.fmt.pix.field;
+> > > -	config.width =3D video->format.fmt.pix.width;
+> > > -	config.height =3D video->format.fmt.pix.height;
+> > > -
+> > > -	ret =3D sun6i_csi_update_config(csi_dev, &config);
+> > > -	if (ret < 0)
+> > > -		goto error_media_pipeline;
+> > > +	sun6i_video_configure(csi_dev);
+> >=20
+> > What happened to that error handling? New helper function ignores return
+> > value of sun6i_csi_update_config(). Why?
 >=20
-> That is defined through Kconfig's auto-generated header, from the associa=
-ted
-> option for the ISP driver. It is defined in the ISP support series so this
-> will effectively always be false for now.
+> Ah that's a good point, the error value is still being returned by
+> sun6i_csi_update_config so it should be kept around at this stage.
+>=20
+> Note that this is a transitional commit and sun6i_video_configure
+> (which gets renamed to sun6i_csi_capture_configure) is eventually
+> reworked to only configure registers (no checks) and returns void.
+>=20
+> If you think it's important to keep it in the meantime I can do that.
 
-Well, then, that driver should be merged before this patch. While I underst=
-and=20
-that it's likely that ISP driver with such name will eventually materialize=
- in=20
-kernel, I don't want to rely on things that are not set in stone, e.g. alre=
-ady=20
-merged.
+If it's only transitional, then it's fine.
+
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
 >=20
+> Paul
+>=20
 > > Best regards,
 > > Jernej
 > >=20
-> > > +		return 0;
-> > > +
-> > > +	/*
-> > > +	 * ISP is not available if not connected via fwnode graph.
-> > > +	 * This weill also check that the remote parent node is available.
-> > > +	 */
-> > > +	handle =3D fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
-> > > +
-> >=20
-> > SUN6I_CSI_PORT_ISP, 0,
-> >=20
-> > > +
-> >=20
-> > FWNODE_GRAPH_ENDPOINT_NEXT);
-> >=20
-> > > +	if (!handle)
-> > > +		return 0;
-> > > +
-> > > +	fwnode_handle_put(handle);
-> > > +
-> > > +	dev_info(dev, "ISP link is available\n");
-> > > +	csi_dev->isp_available =3D true;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > >=20
-> > >  /* Media */
-> > > =20
-> > >  static const struct media_device_ops sun6i_csi_media_ops =3D {
-> > >=20
-> > > @@ -306,6 +335,10 @@ static int sun6i_csi_probe(struct platform_device
-> > > *platform_dev) if (ret)
-> > >=20
-> > >  		return ret;
-> > >=20
-> > > +	ret =3D sun6i_csi_isp_detect(csi_dev);
-> > > +	if (ret)
-> > > +		goto error_resources;
-> > > +
-> > >=20
-> > >  	ret =3D sun6i_csi_v4l2_setup(csi_dev);
-> > >  	if (ret)
+> > >  	spin_lock_irqsave(&video->dma_queue_lock, flags);
 > > >  =09
-> > >  		goto error_resources;
+> > >  	buf =3D list_first_entry(&video->dma_queue,
+> > >  =09
+> > >  			       struct sun6i_csi_buffer, list);
 > > >=20
-> > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h index
-> > > 6aa83dd11684..9b105c341047 100644
-> > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> > > @@ -22,6 +22,7 @@
+> > > -	buf->queued_to_csi =3D true;
+> > > -	sun6i_csi_update_buf_addr(csi_dev, buf->dma_addr);
+> > > +	sun6i_video_buffer_configure(csi_dev, buf);
 > > >=20
-> > >  enum sun6i_csi_port {
-> > > =20
-> > >  	SUN6I_CSI_PORT_PARALLEL		=3D 0,
-> > >  	SUN6I_CSI_PORT_MIPI_CSI2	=3D 1,
+> > >  	sun6i_csi_set_stream(csi_dev, true);
 > > >=20
-> > > +	SUN6I_CSI_PORT_ISP		=3D 2,
+> > > @@ -219,8 +232,7 @@ static int sun6i_video_start_streaming(struct
+> > > vb2_queue
+> > > *queue, * would also drop frame when lacking of queued buffer.
 > > >=20
-> > >  };
-> > > =20
-> > >  struct sun6i_csi_buffer {
+> > >  	 */
+> > >  =09
+> > >  	next_buf =3D list_next_entry(buf, list);
 > > >=20
-> > > @@ -46,6 +47,8 @@ struct sun6i_csi_device {
+> > > -	next_buf->queued_to_csi =3D true;
+> > > -	sun6i_csi_update_buf_addr(csi_dev, next_buf->dma_addr);
+> > > +	sun6i_video_buffer_configure(csi_dev, next_buf);
 > > >=20
-> > >  	struct clk			*clock_mod;
-> > >  	struct clk			*clock_ram;
-> > >  	struct reset_control		*reset;
+> > >  	spin_unlock_irqrestore(&video->dma_queue_lock, flags);
 > > >=20
-> > > +
-> > > +	bool				isp_available;
+> > > @@ -294,8 +306,7 @@ void sun6i_video_frame_done(struct sun6i_csi_devi=
+ce
+> > > *csi_dev) * for next ISR call.
 > > >=20
-> > >  };
-> > > =20
-> > >  struct sun6i_csi_variant {
+> > >  	 */
+> > >  =09
+> > >  	if (!next_buf->queued_to_csi) {
+> > >=20
+> > > -		next_buf->queued_to_csi =3D true;
+> > > -		sun6i_csi_update_buf_addr(csi_dev, next_buf-
+>dma_addr);
+> > > +		sun6i_video_buffer_configure(csi_dev, next_buf);
+> > >=20
+> > >  		dev_dbg(csi_dev->dev, "Frame dropped!\n");
+> > >  		goto complete;
+> > >  =09
+> > >  	}
+> > >=20
+> > > @@ -309,8 +320,7 @@ void sun6i_video_frame_done(struct sun6i_csi_devi=
+ce
+> > > *csi_dev) /* Prepare buffer for next frame but one.  */
+> > >=20
+> > >  	if (!list_is_last(&next_buf->list, &video->dma_queue)) {
+> > >  =09
+> > >  		next_buf =3D list_next_entry(next_buf, list);
+> > >=20
+> > > -		next_buf->queued_to_csi =3D true;
+> > > -		sun6i_csi_update_buf_addr(csi_dev, next_buf-
+>dma_addr);
+> > > +		sun6i_video_buffer_configure(csi_dev, next_buf);
+> > >=20
+> > >  	} else {
+> > >  =09
+> > >  		dev_dbg(csi_dev->dev, "Next frame will be dropped!
+\n");
+> > >  =09
+> > >  	}
 
 
 
